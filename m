@@ -1,51 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA7C772C105
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 12:56:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 906F972C1A8
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 12:59:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7A5E10E202;
-	Mon, 12 Jun 2023 10:55:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9828C10E1FE;
+	Mon, 12 Jun 2023 10:59:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B9C910E202
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 10:55:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686567354; x=1718103354;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=vPX25U+bOk7yXavnZ3qphjnWbFs4s6FTkfkcZ8n2oww=;
- b=awNVAyzGwJLz/yyK769nu3YNAmB71PukFkzCIIX+3SYjJU9E0KHM1NER
- deACseu/jI56FYVufN3eTLv3E7R4CYiFUoCT5CGzcZiYDJ6mVsJQDiqE+
- aqto5dP6+HYnadLRYJrYKtqZz9qfvLDaRVx4AyDJJl+qOGN1GgIVDDwmU
- 8LLyrhvTLoCwumZy4q8YHpjeEuMlB//QFiKHfC77bmRN88Gx+tHxge9kT
- FUYNL9aI9ESJFbJBkifiANPl81pCtHFBAm2DkIZi26TUtOiiAiKuWlRl1
- sRrgmOTq9cNChzHdtgvt+KP7qe3nEujoAELfhl1BoUqZ8CJQ0rkruLev4 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="360490077"
-X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; d="scan'208";a="360490077"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2023 03:55:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="1041283245"
-X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; d="scan'208";a="1041283245"
-Received: from gdampc-mobl.ger.corp.intel.com (HELO kdrobnik-desk.toya.net.pl)
- ([10.213.11.114])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2023 03:55:52 -0700
-From: Karolina Stolarek <karolina.stolarek@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D1B510E00B
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 10:59:28 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 813D3626FA;
+ Mon, 12 Jun 2023 10:59:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB139C433EF;
+ Mon, 12 Jun 2023 10:59:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1686567566;
+ bh=mWQAjBTVluwLq1i8UXrQQXbI2izGzDkeYAflqyNMQnQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=CTE+p6zntc7vwvO0LKtbHN0PWCLyVs0OBPQyDequmoIUqKhEuEy+ARgzQcsFzrgLh
+ GOmUH9LpJULt/zjGfUi0jleN3tG7fh9/Z2q5c13cBvS+DKJUpfaaFXEA0zSg/l1zeB
+ d/bkvI39yP1dK7id929hzFjRYHGM0ooovo1ZYRKIU2ad75ckHnJAYHWdiZL/KC9cm8
+ oWOETXOBG2N0NfPoAtzv5MzzRWF3pIJPugEvgcgs9hxs9L1WYSmiG1Cj41AxB+gPbC
+ 9UxfNT/0CrrvJSTwq7kz0ZpTOW7GCE0iQDvheMEv+7kl/R6nzpWYw7CSuD32RES61a
+ WHLnqxxKJlRzw==
+From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH 3/3] drm/ttm/tests: Add tests for ttm_pool
-Date: Mon, 12 Jun 2023 12:55:27 +0200
-Message-Id: <042feb7cc902f7fd78daf131a691d4afc14d3d8c.1686563485.git.karolina.stolarek@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1686563485.git.karolina.stolarek@intel.com>
-References: <cover.1686563485.git.karolina.stolarek@intel.com>
+Subject: [PATCH 1/3] accel/habanalabs: Allow single timestamp registration
+ request at a time
+Date: Mon, 12 Jun 2023 13:59:19 +0300
+Message-Id: <20230612105921.3043768-1-ogabbay@kernel.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,507 +50,597 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>,
- Karolina Stolarek <karolina.stolarek@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, Shuah Khan <shuah@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: farah kassabri <fkassabri@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add KUnit tests that exercise page allocation using page pools
-and freeing pages, either by returning them to the pool or
-freeing them. Add a basic test for ttm_pool cleanup. Introduce
-helpers to create a dummy ttm_buffer_object.
+From: farah kassabri <fkassabri@habana.ai>
 
-Signed-off-by: Karolina Stolarek <karolina.stolarek@intel.com>
+Protect against concurrency of user requesting to register a timestamp
+offset (where the driver fills the timestamp when the command submission
+has finished executing) to a specific user interrupt ID. The
+protection is basically to allow only one timestamp registration
+request to be handled at a time.
+
+This is needed because the user can decide to re-use a timestamp
+offset (register an already registered offset, to a different
+interrupt ID). This means the request will cause the timestamp node to
+move from one interrupt list to another interrupt list. In such
+scenario, without proper protection, we could end up adding the same
+node twice to the interrupts wait lists.
+
+Signed-off-by: farah kassabri <fkassabri@habana.ai>
+Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
+Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/gpu/drm/ttm/tests/Makefile            |   1 +
- drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c |  27 ++
- drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h |   5 +
- drivers/gpu/drm/ttm/tests/ttm_pool_test.c     | 401 ++++++++++++++++++
- 4 files changed, 434 insertions(+)
- create mode 100644 drivers/gpu/drm/ttm/tests/ttm_pool_test.c
+ .../habanalabs/common/command_submission.c    | 318 +++++++++++-------
+ drivers/accel/habanalabs/common/context.c     |   3 +
+ drivers/accel/habanalabs/common/habanalabs.h  |  12 +-
+ drivers/accel/habanalabs/common/irq.c         |  17 +-
+ 4 files changed, 219 insertions(+), 131 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/tests/Makefile b/drivers/gpu/drm/ttm/tests/Makefile
-index 7917805f37af..ec87c4fc1ad5 100644
---- a/drivers/gpu/drm/ttm/tests/Makefile
-+++ b/drivers/gpu/drm/ttm/tests/Makefile
-@@ -2,4 +2,5 @@
+diff --git a/drivers/accel/habanalabs/common/command_submission.c b/drivers/accel/habanalabs/common/command_submission.c
+index c23829dab97a..02ac6d754fba 100644
+--- a/drivers/accel/habanalabs/common/command_submission.c
++++ b/drivers/accel/habanalabs/common/command_submission.c
+@@ -31,6 +31,25 @@ enum hl_cs_wait_status {
+ 	CS_WAIT_STATUS_GONE
+ };
  
- obj-$(CONFIG_DRM_TTM_KUNIT_TEST) += \
-         ttm_device_test.o \
-+        ttm_pool_test.o \
-         ttm_kunit_helpers.o
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-index d848c2372db9..f1b5df61e0bf 100644
---- a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-+++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-@@ -24,6 +24,33 @@ int ttm_kunit_helper_alloc_device(struct kunit *test,
- 	return err;
++/*
++ * Data used while handling wait/timestamp nodes.
++ * The purpose of this struct is to store the needed data for both operations
++ * in one variable instead of passing large number of arguments to functions.
++ */
++struct wait_interrupt_data {
++	struct hl_user_interrupt *interrupt;
++	struct hl_mmap_mem_buf *buf;
++	struct hl_mem_mgr *mmg;
++	struct hl_cb *cq_cb;
++	u64 ts_handle;
++	u64 ts_offset;
++	u64 cq_handle;
++	u64 cq_offset;
++	u64 target_value;
++	u64 intr_timeout_us;
++	unsigned long flags;
++};
++
+ static void job_wq_completion(struct work_struct *work);
+ static int _hl_cs_wait_ioctl(struct hl_device *hdev, struct hl_ctx *ctx, u64 timeout_us, u64 seq,
+ 				enum hl_cs_wait_status *status, s64 *timestamp);
+@@ -3197,133 +3216,181 @@ static int hl_cs_wait_ioctl(struct hl_fpriv *hpriv, void *data)
+ 	return 0;
  }
  
-+struct ttm_buffer_object *ttm_kunit_helper_ttm_bo_init(struct kunit *test,
-+						       size_t size)
-+{
-+	struct ttm_test_devices_priv *priv = test->priv;
-+	struct drm_gem_object *gem_obj;
-+	struct ttm_buffer_object *bo;
-+
-+	gem_obj = kunit_kzalloc(test, sizeof(*gem_obj), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, gem_obj);
-+
-+	drm_gem_private_object_init(priv->drm, gem_obj, size);
-+
-+	bo = kunit_kzalloc(test, sizeof(*bo), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, bo);
-+
-+	bo->sg = NULL;
-+	bo->base = *gem_obj;
-+
-+	return bo;
-+}
-+
-+void ttm_kunit_helper_ttm_bo_fini(struct ttm_buffer_object *bo)
-+{
-+	drm_gem_object_release(&bo->base);
-+	ttm_bo_put(bo);
-+}
-+
- int ttm_test_devices_init(struct kunit *test)
+-static int ts_buff_get_kernel_ts_record(struct hl_mmap_mem_buf *buf,
+-					struct hl_cb *cq_cb,
+-					u64 ts_offset, u64 cq_offset, u64 target_value,
+-					spinlock_t *wait_list_lock,
+-					struct hl_user_pending_interrupt **pend)
++static inline void set_record_cq_info(struct hl_user_pending_interrupt *record,
++					struct hl_cb *cq_cb, u32 cq_offset, u32 target_value)
  {
- 	struct ttm_test_devices_priv *priv;
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-index 69fb03b9c4d2..abb8279f18c7 100644
---- a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-+++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-@@ -7,6 +7,7 @@
- 
- #include <drm/drm_drv.h>
- #include <drm/ttm/ttm_device.h>
-+#include <drm/ttm/ttm_bo.h>
- 
- #include <drm/drm_kunit_helpers.h>
- #include <kunit/test.h>
-@@ -23,6 +24,10 @@ int ttm_kunit_helper_alloc_device(struct kunit *test,
- 				  bool use_dma_alloc,
- 				  bool use_dma32);
- 
-+struct ttm_buffer_object *ttm_kunit_helper_ttm_bo_init(struct kunit *test,
-+						       size_t size);
-+void ttm_kunit_helper_ttm_bo_fini(struct ttm_buffer_object *bo);
-+
- int ttm_test_devices_init(struct kunit *test);
- void ttm_test_devices_fini(struct kunit *test);
- 
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_pool_test.c b/drivers/gpu/drm/ttm/tests/ttm_pool_test.c
-new file mode 100644
-index 000000000000..c95d3df023f3
---- /dev/null
-+++ b/drivers/gpu/drm/ttm/tests/ttm_pool_test.c
-@@ -0,0 +1,401 @@
-+// SPDX-License-Identifier: GPL-2.0 AND MIT
-+/*
-+ * Copyright © 2023 Intel Corporation
-+ */
-+#include <linux/mm.h>
-+
-+#include <drm/ttm/ttm_tt.h>
-+#include <drm/ttm/ttm_pool.h>
-+
-+#include <ttm_kunit_helpers.h>
-+
-+struct ttm_pool_test_case {
-+	const char *description;
-+	unsigned int order;
-+	bool use_dma_alloc;
-+};
-+
-+static struct ttm_operation_ctx simple_ctx = {
-+	.interruptible = true,
-+	.no_wait_gpu = false,
-+};
-+
-+static struct ttm_tt *mock_ttm_tt_init(struct kunit *test,
-+				       uint32_t page_flags,
-+				       enum ttm_caching caching,
-+				       size_t size)
-+{
-+	struct ttm_tt *tt;
-+	struct ttm_buffer_object *bo;
-+	int err;
-+
-+	bo = ttm_kunit_helper_ttm_bo_init(test, size);
-+	KUNIT_ASSERT_NOT_NULL(test, bo);
-+
-+	tt = kunit_kzalloc(test, sizeof(*tt), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, tt);
-+
-+	err = ttm_tt_init(tt, bo, page_flags, caching, 0);
-+	KUNIT_ASSERT_EQ(test, err, 0);
-+
-+	/* We don't need this BO later, release it */
-+	ttm_kunit_helper_ttm_bo_fini(bo);
-+
-+	return tt;
+-	struct hl_ts_buff *ts_buff = buf->private;
+-	struct hl_user_pending_interrupt *requested_offset_record =
+-				(struct hl_user_pending_interrupt *)ts_buff->kernel_buff_address +
+-				ts_offset;
+-	struct hl_user_pending_interrupt *cb_last =
+-			(struct hl_user_pending_interrupt *)ts_buff->kernel_buff_address +
++	record->ts_reg_info.cq_cb = cq_cb;
++	record->cq_kernel_addr = (u64 *) cq_cb->kernel_address + cq_offset;
++	record->cq_target_value = target_value;
 +}
 +
-+static struct ttm_pool *ttm_pool_pre_populated(struct kunit *test,
-+					       size_t size,
-+					       enum ttm_caching caching)
++static int validate_and_get_ts_record(struct device *dev,
++					struct hl_ts_buff *ts_buff, u64 ts_offset,
++					struct hl_user_pending_interrupt **req_event_record)
 +{
-+	struct ttm_test_devices_priv *priv = test->priv;
-+	struct ttm_pool *pool;
-+	struct ttm_tt *tt;
-+	int err;
-+	unsigned long order = __fls(size / PAGE_SIZE);
++	struct hl_user_pending_interrupt *ts_cb_last;
 +
-+	tt = mock_ttm_tt_init(test, order, caching, size);
-+	KUNIT_ASSERT_NOT_NULL(test, tt);
++	*req_event_record = (struct hl_user_pending_interrupt *)ts_buff->kernel_buff_address +
++						ts_offset;
++	ts_cb_last = (struct hl_user_pending_interrupt *)ts_buff->kernel_buff_address +
+ 			(ts_buff->kernel_buff_size / sizeof(struct hl_user_pending_interrupt));
+-	unsigned long iter_counter = 0;
+-	u64 current_cq_counter;
+-	ktime_t timestamp;
+ 
+ 	/* Validate ts_offset not exceeding last max */
+-	if (requested_offset_record >= cb_last) {
+-		dev_err(buf->mmg->dev, "Ts offset exceeds max CB offset(0x%llx)\n",
+-								(u64)(uintptr_t)cb_last);
++	if (*req_event_record >= ts_cb_last) {
++		dev_err(dev, "Ts offset(%llu) exceeds max CB offset(0x%llx)\n",
++				ts_offset, (u64)(uintptr_t)ts_cb_last);
+ 		return -EINVAL;
+ 	}
+ 
+-	timestamp = ktime_get();
++	return 0;
++}
+ 
+-start_over:
+-	spin_lock(wait_list_lock);
++static int unregister_timestamp_node(struct hl_device *hdev, struct hl_ctx *ctx,
++			struct hl_mem_mgr *mmg, u64 ts_handle, u64 ts_offset,
++			struct hl_user_interrupt *interrupt)
++{
++	struct hl_user_pending_interrupt *req_event_record, *pend, *temp_pend;
++	struct hl_mmap_mem_buf *buff;
++	struct hl_ts_buff *ts_buff;
++	bool ts_rec_found = false;
++	int rc;
+ 
+-	/* Unregister only if we didn't reach the target value
+-	 * since in this case there will be no handling in irq context
+-	 * and then it's safe to delete the node out of the interrupt list
+-	 * then re-use it on other interrupt
+-	 */
+-	if (requested_offset_record->ts_reg_info.in_use) {
+-		current_cq_counter = *requested_offset_record->cq_kernel_addr;
+-		if (current_cq_counter < requested_offset_record->cq_target_value) {
+-			list_del(&requested_offset_record->wait_list_node);
+-			spin_unlock(wait_list_lock);
++	buff = hl_mmap_mem_buf_get(mmg, ts_handle);
++	if (!buff) {
++		dev_err(hdev->dev, "invalid TS buff handle!\n");
++		return -EINVAL;
++	}
+ 
+-			hl_mmap_mem_buf_put(requested_offset_record->ts_reg_info.buf);
+-			hl_cb_put(requested_offset_record->ts_reg_info.cq_cb);
++	ts_buff = buff->private;
+ 
+-			dev_dbg(buf->mmg->dev,
+-				"ts node removed from interrupt list now can re-use\n");
+-		} else {
+-			dev_dbg(buf->mmg->dev,
+-				"ts node in middle of irq handling\n");
+-
+-			/* irq thread handling in the middle give it time to finish */
+-			spin_unlock(wait_list_lock);
+-			usleep_range(100, 1000);
+-			if (++iter_counter == MAX_TS_ITER_NUM) {
+-				dev_err(buf->mmg->dev,
+-					"Timestamp offset processing reached timeout of %lld ms\n",
+-					ktime_ms_delta(ktime_get(), timestamp));
+-				return -EAGAIN;
+-			}
++	rc = validate_and_get_ts_record(hdev->dev, ts_buff, ts_offset, &req_event_record);
++	if (rc)
++		goto put_buf;
 +
-+	pool = kunit_kzalloc(test, sizeof(*pool), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, pool);
++	/*
++	 * Note: we don't use the ts in_use field here, but we rather scan the list
++	 * because we cannot rely on the user to keep the order of register/unregister calls
++	 * and since we might have races here all the time between the irq and register/unregister
++	 * calls so it safer to lock the list and scan it to find the node.
++	 * If the node found on the list we mark it as not in use and delete it from the list,
++	 * if it's not here then the node was handled already in the irq before we get into
++	 * this ioctl.
++	 */
++	spin_lock(&interrupt->wait_list_lock);
+ 
+-			goto start_over;
++	list_for_each_entry_safe(pend, temp_pend, &interrupt->wait_list_head, wait_list_node) {
++		if (pend == req_event_record) {
++			pend->ts_reg_info.in_use = false;
++			list_del(&pend->wait_list_node);
++			ts_rec_found = true;
++			break;
+ 		}
+-	} else {
+-		/* Fill up the new registration node info */
+-		requested_offset_record->ts_reg_info.buf = buf;
+-		requested_offset_record->ts_reg_info.cq_cb = cq_cb;
+-		requested_offset_record->ts_reg_info.timestamp_kernel_addr =
+-				(u64 *) ts_buff->user_buff_address + ts_offset;
+-		requested_offset_record->cq_kernel_addr =
+-				(u64 *) cq_cb->kernel_address + cq_offset;
+-		requested_offset_record->cq_target_value = target_value;
++	}
+ 
+-		spin_unlock(wait_list_lock);
++	spin_unlock(&interrupt->wait_list_lock);
 +
-+	ttm_pool_init(pool, priv->dev, true, false);
-+
-+	err = ttm_pool_alloc(pool, tt, &simple_ctx);
-+	KUNIT_ASSERT_EQ(test, err, 0);
-+
-+	ttm_pool_free(pool, tt);
-+	ttm_tt_fini(tt);
-+
-+	return pool;
++	/* Put refcounts that were taken when we registered the event */
++	if (ts_rec_found) {
++		hl_mmap_mem_buf_put(pend->ts_reg_info.buf);
++		hl_cb_put(pend->ts_reg_info.cq_cb);
+ 	}
+ 
+-	*pend = requested_offset_record;
++put_buf:
++	hl_mmap_mem_buf_put(buff);
+ 
+-	dev_dbg(buf->mmg->dev, "Found available node in TS kernel CB %p\n",
+-		requested_offset_record);
+-	return 0;
++	return rc;
 +}
 +
-+static const struct ttm_pool_test_case ttm_pool_basic_cases[] = {
-+	{
-+		.description = "One page",
-+		.order = 0,
-+	},
-+	{
-+		.description = "More than one page",
-+		.order = 2,
-+	},
-+	{
-+		.description = "Above the allocation limit",
-+		.order = MAX_ORDER + 1,
-+	},
-+	{
-+		.description = "One page, with coherent DMA mappings enabled",
-+		.order = 0,
-+		.use_dma_alloc = true,
-+	},
-+	{
-+		.description = "Above the allocation limit, with coherent DMA mappings enabled",
-+		.order = MAX_ORDER + 1,
-+		.use_dma_alloc = true,
-+	},
-+};
-+
-+static void ttm_pool_alloc_case_desc(const struct ttm_pool_test_case *t,
-+				     char *desc)
++static int ts_get_and_handle_kernel_record(struct hl_device *hdev, struct hl_ctx *ctx,
++					struct wait_interrupt_data *data,
++					struct hl_user_pending_interrupt **pend)
 +{
-+	strscpy(desc, t->description, KUNIT_PARAM_DESC_SIZE);
-+}
++	struct hl_user_pending_interrupt *req_offset_record;
++	struct hl_ts_buff *ts_buff = data->buf->private;
++	int rc;
 +
-+KUNIT_ARRAY_PARAM(ttm_pool_alloc_basic, ttm_pool_basic_cases,
-+		  ttm_pool_alloc_case_desc);
++	rc = validate_and_get_ts_record(data->buf->mmg->dev, ts_buff, data->ts_offset,
++									&req_offset_record);
++	if (rc)
++		return rc;
 +
-+static void ttm_pool_alloc_basic(struct kunit *test)
-+{
-+	struct ttm_test_devices_priv *priv = test->priv;
-+	const struct ttm_pool_test_case *params = test->param_value;
-+	struct ttm_tt *tt;
-+	struct ttm_pool *pool;
-+	struct page *fst_page, *last_page;
-+	int err;
-+	enum ttm_caching caching = ttm_uncached;
-+	unsigned int expected_num_pages = 1 << params->order;
-+	size_t size = expected_num_pages * PAGE_SIZE;
++	/* In case the node already registered, need to unregister first then re-use*/
++	if (req_offset_record->ts_reg_info.in_use) {
++		dev_dbg(data->buf->mmg->dev,
++				"Requested ts offset(%llx) is in use, unregister first\n",
++							data->ts_offset);
++		/*
++		 * Since interrupt here can be different than the one the node currently registered
++		 * on, and we don't wan't to lock two lists while we're doing unregister, so
++		 * unlock the new interrupt wait list here and acquire the lock again after you done
++		 */
++		spin_unlock_irqrestore(&data->interrupt->wait_list_lock, data->flags);
 +
-+	tt = mock_ttm_tt_init(test, 0, caching, size);
-+	KUNIT_ASSERT_NOT_NULL(test, tt);
-+
-+	pool = kunit_kzalloc(test, sizeof(*pool), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, pool);
-+
-+	ttm_pool_init(pool, priv->dev, params->use_dma_alloc, false);
-+
-+	err = ttm_pool_alloc(pool, tt, &simple_ctx);
-+	KUNIT_ASSERT_EQ(test, err, 0);
-+	KUNIT_ASSERT_EQ(test, tt->num_pages, expected_num_pages);
-+
-+	fst_page = tt->pages[0];
-+	last_page = tt->pages[tt->num_pages - 1];
-+
-+	if (params->order <= MAX_ORDER) {
-+		if (params->use_dma_alloc) {
-+			KUNIT_ASSERT_NOT_NULL(test, (void *)fst_page->private);
-+			KUNIT_ASSERT_NOT_NULL(test, (void *)last_page->private);
-+		} else {
-+			KUNIT_ASSERT_EQ(test, fst_page->private, params->order);
-+		}
-+	} else {
-+		if (params->use_dma_alloc) {
-+			KUNIT_ASSERT_NOT_NULL(test, (void *)fst_page->private);
-+			KUNIT_ASSERT_NULL(test, (void *)last_page->private);
-+		} else {
-+			/*
-+			 * We expect to alloc one big block, followed by
-+			 * order 0 blocks
-+			 */
-+			KUNIT_ASSERT_EQ(test, fst_page->private,
-+					min_t(unsigned int, MAX_ORDER,
-+					      params->order));
-+			KUNIT_ASSERT_EQ(test, last_page->private, 0);
-+		}
++		unregister_timestamp_node(hdev, ctx, data->mmg, data->ts_handle,
++				data->ts_offset, req_offset_record->ts_reg_info.interrupt);
++		spin_lock_irqsave(&data->interrupt->wait_list_lock, data->flags);
 +	}
 +
-+	ttm_pool_free(pool, tt);
-+	ttm_tt_fini(tt);
-+	ttm_pool_fini(pool);
-+}
++	/* Fill up the new registration node info and add it to the list */
++	req_offset_record->ts_reg_info.in_use = true;
++	req_offset_record->ts_reg_info.buf = data->buf;
++	req_offset_record->ts_reg_info.timestamp_kernel_addr =
++			(u64 *) ts_buff->user_buff_address + data->ts_offset;
++	req_offset_record->ts_reg_info.interrupt = data->interrupt;
++	set_record_cq_info(req_offset_record, data->cq_cb, data->cq_offset,
++						data->target_value);
 +
-+static void ttm_pool_alloc_basic_dma_addr(struct kunit *test)
-+{
-+	struct ttm_test_devices_priv *priv = test->priv;
-+	const struct ttm_pool_test_case *params = test->param_value;
-+	struct ttm_tt *tt;
-+	struct ttm_pool *pool;
-+	struct ttm_buffer_object *bo;
-+	dma_addr_t dma1, dma2;
-+	int err;
-+	enum ttm_caching caching = ttm_uncached;
-+	unsigned int expected_num_pages = 1 << params->order;
-+	size_t size = expected_num_pages * PAGE_SIZE;
++	*pend = req_offset_record;
 +
-+	tt = kunit_kzalloc(test, sizeof(*tt), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, tt);
++	return rc;
+ }
+ 
+ static int _hl_interrupt_wait_ioctl(struct hl_device *hdev, struct hl_ctx *ctx,
+-				struct hl_mem_mgr *cb_mmg, struct hl_mem_mgr *mmg,
+-				u64 timeout_us, u64 cq_counters_handle,	u64 cq_counters_offset,
+-				u64 target_value, struct hl_user_interrupt *interrupt,
+-				bool register_ts_record, u64 ts_handle, u64 ts_offset,
++				struct wait_interrupt_data *data,
++				bool register_ts_record,
+ 				u32 *status, u64 *timestamp)
+ {
+ 	struct hl_user_pending_interrupt *pend;
+-	struct hl_mmap_mem_buf *buf;
+-	struct hl_cb *cq_cb;
+ 	unsigned long timeout;
+ 	long completion_rc;
+ 	int rc = 0;
+ 
+-	timeout = hl_usecs64_to_jiffies(timeout_us);
++	timeout = hl_usecs64_to_jiffies(data->intr_timeout_us);
+ 
+ 	hl_ctx_get(ctx);
+ 
+-	cq_cb = hl_cb_get(cb_mmg, cq_counters_handle);
+-	if (!cq_cb) {
++	data->cq_cb = hl_cb_get(data->mmg, data->cq_handle);
++	if (!data->cq_cb) {
+ 		rc = -EINVAL;
+ 		goto put_ctx;
+ 	}
+ 
+ 	/* Validate the cq offset */
+-	if (((u64 *) cq_cb->kernel_address + cq_counters_offset) >=
+-			((u64 *) cq_cb->kernel_address + (cq_cb->size / sizeof(u64)))) {
++	if (((u64 *) data->cq_cb->kernel_address + data->cq_offset) >=
++			((u64 *) data->cq_cb->kernel_address + (data->cq_cb->size / sizeof(u64)))) {
+ 		rc = -EINVAL;
+ 		goto put_cq_cb;
+ 	}
+ 
+ 	if (register_ts_record) {
+-		dev_dbg(hdev->dev, "Timestamp registration: interrupt id: %u, ts offset: %llu, cq_offset: %llu\n",
+-					interrupt->interrupt_id, ts_offset, cq_counters_offset);
+-		buf = hl_mmap_mem_buf_get(mmg, ts_handle);
+-		if (!buf) {
++		dev_dbg(hdev->dev, "Timestamp registration: interrupt id: %u, handle: 0x%llx, ts offset: %llu, cq_offset: %llu\n",
++				data->interrupt->interrupt_id, data->ts_handle,
++				data->ts_offset, data->cq_offset);
 +
-+	bo = ttm_kunit_helper_ttm_bo_init(test, size);
-+	KUNIT_ASSERT_NOT_NULL(test, bo);
++		data->buf = hl_mmap_mem_buf_get(data->mmg, data->ts_handle);
++		if (!data->buf) {
+ 			rc = -EINVAL;
+ 			goto put_cq_cb;
+ 		}
+ 
++		spin_lock_irqsave(&data->interrupt->wait_list_lock, data->flags);
 +
-+	err = ttm_sg_tt_init(tt, bo, 0, caching);
-+	KUNIT_ASSERT_EQ(test, err, 0);
+ 		/* get ts buffer record */
+-		rc = ts_buff_get_kernel_ts_record(buf, cq_cb, ts_offset,
+-						cq_counters_offset, target_value,
+-						&interrupt->wait_list_lock, &pend);
+-		if (rc)
++		rc = ts_get_and_handle_kernel_record(hdev, ctx, data, &pend);
++		if (rc) {
++			spin_unlock_irqrestore(&data->interrupt->wait_list_lock, data->flags);
+ 			goto put_ts_buff;
++		}
+ 	} else {
+ 		pend = kzalloc(sizeof(*pend), GFP_KERNEL);
+ 		if (!pend) {
+@@ -3331,19 +3398,22 @@ static int _hl_interrupt_wait_ioctl(struct hl_device *hdev, struct hl_ctx *ctx,
+ 			goto put_cq_cb;
+ 		}
+ 		hl_fence_init(&pend->fence, ULONG_MAX);
+-		pend->cq_kernel_addr = (u64 *) cq_cb->kernel_address + cq_counters_offset;
+-		pend->cq_target_value = target_value;
++		pend->cq_kernel_addr = (u64 *) data->cq_cb->kernel_address + data->cq_offset;
++		pend->cq_target_value = data->target_value;
++		spin_lock_irqsave(&data->interrupt->wait_list_lock, data->flags);
+ 	}
+ 
+-	spin_lock(&interrupt->wait_list_lock);
+-
+ 	/* We check for completion value as interrupt could have been received
+-	 * before we added the node to the wait list
++	 * before we add the wait/timestamp node to the wait list.
+ 	 */
+-	if (*pend->cq_kernel_addr >= target_value) {
+-		if (register_ts_record)
+-			pend->ts_reg_info.in_use = 0;
+-		spin_unlock(&interrupt->wait_list_lock);
++	if (*pend->cq_kernel_addr >= data->target_value) {
++		spin_unlock_irqrestore(&data->interrupt->wait_list_lock, data->flags);
 +
-+	pool = kunit_kzalloc(test, sizeof(*pool), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, pool);
++		if (register_ts_record) {
++			dev_dbg(hdev->dev, "Target value already reached release ts record: pend: %p, offset: %llu, interrupt: %u\n",
++					pend, data->ts_offset, data->interrupt->interrupt_id);
++			pend->ts_reg_info.in_use = false;
++		}
+ 
+ 		*status = HL_WAIT_CS_STATUS_COMPLETED;
+ 
+@@ -3354,8 +3424,8 @@ static int _hl_interrupt_wait_ioctl(struct hl_device *hdev, struct hl_ctx *ctx,
+ 			pend->fence.timestamp = ktime_get();
+ 			goto set_timestamp;
+ 		}
+-	} else if (!timeout_us) {
+-		spin_unlock(&interrupt->wait_list_lock);
++	} else if (!data->intr_timeout_us) {
++		spin_unlock_irqrestore(&data->interrupt->wait_list_lock, data->flags);
+ 		*status = HL_WAIT_CS_STATUS_BUSY;
+ 		pend->fence.timestamp = ktime_get();
+ 		goto set_timestamp;
+@@ -3366,21 +3436,9 @@ static int _hl_interrupt_wait_ioctl(struct hl_device *hdev, struct hl_ctx *ctx,
+ 	 * Note that we cannot have sorted list by target value,
+ 	 * in order to shorten the list pass loop, since
+ 	 * same list could have nodes for different cq counter handle.
+-	 * Note:
+-	 * Mark ts buff offset as in use here in the spinlock protection area
+-	 * to avoid getting in the re-use section in ts_buff_get_kernel_ts_record
+-	 * before adding the node to the list. this scenario might happen when
+-	 * multiple threads are racing on same offset and one thread could
+-	 * set the ts buff in ts_buff_get_kernel_ts_record then the other thread
+-	 * takes over and get to ts_buff_get_kernel_ts_record and then we will try
+-	 * to re-use the same ts buff offset, and will try to delete a non existing
+-	 * node from the list.
+ 	 */
+-	if (register_ts_record)
+-		pend->ts_reg_info.in_use = 1;
+-
+-	list_add_tail(&pend->wait_list_node, &interrupt->wait_list_head);
+-	spin_unlock(&interrupt->wait_list_lock);
++	list_add_tail(&pend->wait_list_node, &data->interrupt->wait_list_head);
++	spin_unlock_irqrestore(&data->interrupt->wait_list_lock, data->flags);
+ 
+ 	if (register_ts_record) {
+ 		rc = *status = HL_WAIT_CS_STATUS_COMPLETED;
+@@ -3396,7 +3454,7 @@ static int _hl_interrupt_wait_ioctl(struct hl_device *hdev, struct hl_ctx *ctx,
+ 		if (completion_rc == -ERESTARTSYS) {
+ 			dev_err_ratelimited(hdev->dev,
+ 					"user process got signal while waiting for interrupt ID %d\n",
+-					interrupt->interrupt_id);
++					data->interrupt->interrupt_id);
+ 			rc = -EINTR;
+ 			*status = HL_WAIT_CS_STATUS_ABORTED;
+ 		} else {
+@@ -3424,23 +3482,23 @@ static int _hl_interrupt_wait_ioctl(struct hl_device *hdev, struct hl_ctx *ctx,
+ 	 * for ts record, the node will be deleted in the irq handler after
+ 	 * we reach the target value.
+ 	 */
+-	spin_lock(&interrupt->wait_list_lock);
++	spin_lock_irqsave(&data->interrupt->wait_list_lock, data->flags);
+ 	list_del(&pend->wait_list_node);
+-	spin_unlock(&interrupt->wait_list_lock);
++	spin_unlock_irqrestore(&data->interrupt->wait_list_lock, data->flags);
+ 
+ set_timestamp:
+ 	*timestamp = ktime_to_ns(pend->fence.timestamp);
+ 	kfree(pend);
+-	hl_cb_put(cq_cb);
++	hl_cb_put(data->cq_cb);
+ ts_registration_exit:
+ 	hl_ctx_put(ctx);
+ 
+ 	return rc;
+ 
+ put_ts_buff:
+-	hl_mmap_mem_buf_put(buf);
++	hl_mmap_mem_buf_put(data->buf);
+ put_cq_cb:
+-	hl_cb_put(cq_cb);
++	hl_cb_put(data->cq_cb);
+ put_ctx:
+ 	hl_ctx_put(ctx);
+ 
+@@ -3611,19 +3669,41 @@ static int hl_interrupt_wait_ioctl(struct hl_fpriv *hpriv, void *data)
+ 		return -EINVAL;
+ 	}
+ 
+-	if (args->in.flags & HL_WAIT_CS_FLAGS_INTERRUPT_KERNEL_CQ)
+-		rc = _hl_interrupt_wait_ioctl(hdev, hpriv->ctx, &hpriv->mem_mgr, &hpriv->mem_mgr,
+-				args->in.interrupt_timeout_us, args->in.cq_counters_handle,
+-				args->in.cq_counters_offset,
+-				args->in.target, interrupt,
++	/*
++	 * Allow only one registration at a time. this is needed in order to prevent issues
++	 * while handling the flow of re-use of the same offset.
++	 * Since the registration flow is protected only by the interrupt lock, re-use flow
++	 * might request to move ts node to another interrupt list, and in such case we're
++	 * not protected.
++	 */
++	if (args->in.flags & HL_WAIT_CS_FLAGS_REGISTER_INTERRUPT)
++		mutex_lock(&hpriv->ctx->ts_reg_lock);
 +
-+	ttm_pool_init(pool, priv->dev, true, false);
++	if (args->in.flags & HL_WAIT_CS_FLAGS_INTERRUPT_KERNEL_CQ) {
++		struct wait_interrupt_data wait_intr_data = {0};
 +
-+	err = ttm_pool_alloc(pool, tt, &simple_ctx);
-+	KUNIT_ASSERT_EQ(test, err, 0);
-+	KUNIT_ASSERT_EQ(test, tt->num_pages, expected_num_pages);
++		wait_intr_data.interrupt = interrupt;
++		wait_intr_data.mmg = &hpriv->mem_mgr;
++		wait_intr_data.cq_handle = args->in.cq_counters_handle;
++		wait_intr_data.cq_offset = args->in.cq_counters_offset;
++		wait_intr_data.ts_handle = args->in.timestamp_handle;
++		wait_intr_data.ts_offset = args->in.timestamp_offset;
++		wait_intr_data.target_value = args->in.target;
++		wait_intr_data.intr_timeout_us = args->in.interrupt_timeout_us;
 +
-+	dma1 = tt->dma_address[0];
-+	dma2 = tt->dma_address[tt->num_pages - 1];
++		rc = _hl_interrupt_wait_ioctl(hdev, hpriv->ctx, &wait_intr_data,
+ 				!!(args->in.flags & HL_WAIT_CS_FLAGS_REGISTER_INTERRUPT),
+-				args->in.timestamp_handle, args->in.timestamp_offset,
+ 				&status, &timestamp);
+-	else
++	} else {
+ 		rc = _hl_interrupt_wait_ioctl_user_addr(hdev, hpriv->ctx,
+ 				args->in.interrupt_timeout_us, args->in.addr,
+ 				args->in.target, interrupt, &status,
+ 				&timestamp);
++	}
 +
-+	KUNIT_ASSERT_NOT_NULL(test, (void *)dma1);
-+	KUNIT_ASSERT_NOT_NULL(test, (void *)dma2);
++	if (args->in.flags & HL_WAIT_CS_FLAGS_REGISTER_INTERRUPT)
++		mutex_unlock(&hpriv->ctx->ts_reg_lock);
 +
-+	ttm_pool_free(pool, tt);
-+	ttm_tt_fini(tt);
-+	ttm_pool_fini(pool);
-+}
+ 	if (rc)
+ 		return rc;
+ 
+diff --git a/drivers/accel/habanalabs/common/context.c b/drivers/accel/habanalabs/common/context.c
+index 0a53f7154739..b83141f58319 100644
+--- a/drivers/accel/habanalabs/common/context.c
++++ b/drivers/accel/habanalabs/common/context.c
+@@ -119,6 +119,7 @@ static void hl_ctx_fini(struct hl_ctx *ctx)
+ 		hl_vm_ctx_fini(ctx);
+ 		hl_asid_free(hdev, ctx->asid);
+ 		hl_encaps_sig_mgr_fini(hdev, &ctx->sig_mgr);
++		mutex_destroy(&ctx->ts_reg_lock);
+ 	} else {
+ 		dev_dbg(hdev->dev, "closing kernel context\n");
+ 		hdev->asic_funcs->ctx_fini(ctx);
+@@ -268,6 +269,8 @@ int hl_ctx_init(struct hl_device *hdev, struct hl_ctx *ctx, bool is_kernel_ctx)
+ 
+ 		hl_encaps_sig_mgr_init(&ctx->sig_mgr);
+ 
++		mutex_init(&ctx->ts_reg_lock);
 +
-+static void ttm_pool_alloc_order_caching_match(struct kunit *test)
-+{
-+	struct ttm_tt *tt;
-+	struct ttm_pool *pool;
-+	struct ttm_pool_type *pt;
-+	enum ttm_caching caching = ttm_uncached;
-+	unsigned int order = 0;
-+	size_t size = PAGE_SIZE;
-+	int err;
+ 		dev_dbg(hdev->dev, "create user context, comm=\"%s\", asid=%u\n",
+ 			get_task_comm(task_comm, current), ctx->asid);
+ 	}
+diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
+index d92ba2e30e31..43f59d36069c 100644
+--- a/drivers/accel/habanalabs/common/habanalabs.h
++++ b/drivers/accel/habanalabs/common/habanalabs.h
+@@ -1144,6 +1144,7 @@ struct timestamp_reg_work_obj {
+  * @buf: pointer to the timestamp buffer which include both user/kernel buffers.
+  *       relevant only when doing timestamps records registration.
+  * @cq_cb: pointer to CQ counter CB.
++ * @interrupt: interrupt that the node hanged on it's wait list.
+  * @timestamp_kernel_addr: timestamp handle address, where to set timestamp
+  *                         relevant only when doing timestamps records
+  *                         registration.
+@@ -1153,10 +1154,11 @@ struct timestamp_reg_work_obj {
+  *          allocating records dynamically.
+  */
+ struct timestamp_reg_info {
+-	struct hl_mmap_mem_buf	*buf;
+-	struct hl_cb		*cq_cb;
+-	u64			*timestamp_kernel_addr;
+-	u8			in_use;
++	struct hl_mmap_mem_buf		*buf;
++	struct hl_cb			*cq_cb;
++	struct hl_user_interrupt	*interrupt;
++	u64				*timestamp_kernel_addr;
++	bool				in_use;
+ };
+ 
+ /**
+@@ -1835,6 +1837,7 @@ struct hl_cs_outcome_store {
+  * @va_range: holds available virtual addresses for host and dram mappings.
+  * @mem_hash_lock: protects the mem_hash.
+  * @hw_block_list_lock: protects the HW block memory list.
++ * @ts_reg_lock: timestamp registration ioctls lock.
+  * @debugfs_list: node in debugfs list of contexts.
+  * @hw_block_mem_list: list of HW block virtual mapped addresses.
+  * @cs_counters: context command submission counters.
+@@ -1871,6 +1874,7 @@ struct hl_ctx {
+ 	struct hl_va_range		*va_range[HL_VA_RANGE_TYPE_MAX];
+ 	struct mutex			mem_hash_lock;
+ 	struct mutex			hw_block_list_lock;
++	struct mutex			ts_reg_lock;
+ 	struct list_head		debugfs_list;
+ 	struct list_head		hw_block_mem_list;
+ 	struct hl_cs_counters_atomic	cs_counters;
+diff --git a/drivers/accel/habanalabs/common/irq.c b/drivers/accel/habanalabs/common/irq.c
+index b1010d206c2e..10ac100bf9e2 100644
+--- a/drivers/accel/habanalabs/common/irq.c
++++ b/drivers/accel/habanalabs/common/irq.c
+@@ -233,7 +233,8 @@ static void hl_ts_free_objects(struct work_struct *work)
+  * list to a dedicated workqueue to do the actual put.
+  */
+ static int handle_registration_node(struct hl_device *hdev, struct hl_user_pending_interrupt *pend,
+-						struct list_head **free_list, ktime_t now)
++						struct list_head **free_list, ktime_t now,
++						u32 interrupt_id)
+ {
+ 	struct timestamp_reg_free_node *free_node;
+ 	u64 timestamp;
+@@ -255,14 +256,12 @@ static int handle_registration_node(struct hl_device *hdev, struct hl_user_pendi
+ 
+ 	*pend->ts_reg_info.timestamp_kernel_addr = timestamp;
+ 
+-	dev_dbg(hdev->dev, "Timestamp is set to ts cb address (%p), ts: 0x%llx\n",
+-			pend->ts_reg_info.timestamp_kernel_addr,
+-			*(u64 *)pend->ts_reg_info.timestamp_kernel_addr);
+-
+-	list_del(&pend->wait_list_node);
++	dev_dbg(hdev->dev, "Irq handle: Timestamp record (%p) ts cb address (%p), interrupt_id: %u\n",
++			pend, pend->ts_reg_info.timestamp_kernel_addr, interrupt_id);
+ 
+ 	/* Mark kernel CB node as free */
+-	pend->ts_reg_info.in_use = 0;
++	pend->ts_reg_info.in_use = false;
++	list_del(&pend->wait_list_node);
+ 
+ 	/* Putting the refcount for ts_buff and cq_cb objects will be handled
+ 	 * in workqueue context, just add job to free_list.
+@@ -296,13 +295,15 @@ static void handle_user_interrupt(struct hl_device *hdev, struct hl_user_interru
+ 		return;
+ 
+ 	spin_lock(&intr->wait_list_lock);
 +
-+	pool = ttm_pool_pre_populated(test, size, caching);
-+
-+	pt = &pool->caching[caching].orders[order];
-+	KUNIT_ASSERT_FALSE(test, list_empty(&pt->pages));
-+
-+	tt = mock_ttm_tt_init(test, 0, caching, size);
-+	KUNIT_ASSERT_NOT_NULL(test, tt);
-+
-+	err = ttm_pool_alloc(pool, tt, &simple_ctx);
-+	KUNIT_ASSERT_EQ(test, err, 0);
-+
-+	KUNIT_ASSERT_TRUE(test, list_empty(&pt->pages));
-+
-+	ttm_pool_free(pool, tt);
-+	ttm_tt_fini(tt);
-+	ttm_pool_fini(pool);
-+}
-+
-+static void ttm_pool_alloc_caching_mismatch(struct kunit *test)
-+{
-+	struct ttm_tt *tt;
-+	struct ttm_pool *pool;
-+	struct ttm_pool_type *pt_pool, *pt_tt;
-+	int err;
-+	enum ttm_caching tt_caching = ttm_uncached;
-+	enum ttm_caching pool_caching = ttm_cached;
-+	size_t size = PAGE_SIZE;
-+	unsigned int order = 0;
-+
-+	pool = ttm_pool_pre_populated(test, size, pool_caching);
-+
-+	pt_pool = &pool->caching[pool_caching].orders[order];
-+	pt_tt = &pool->caching[tt_caching].orders[order];
-+
-+	tt = mock_ttm_tt_init(test, 0, tt_caching, size);
-+	KUNIT_ASSERT_NOT_NULL(test, tt);
-+
-+	KUNIT_ASSERT_FALSE(test, list_empty(&pt_pool->pages));
-+	KUNIT_ASSERT_TRUE(test, list_empty(&pt_tt->pages));
-+
-+	err = ttm_pool_alloc(pool, tt, &simple_ctx);
-+	KUNIT_ASSERT_EQ(test, err, 0);
-+
-+	ttm_pool_free(pool, tt);
-+	ttm_tt_fini(tt);
-+
-+	KUNIT_ASSERT_FALSE(test, list_empty(&pt_pool->pages));
-+	KUNIT_ASSERT_FALSE(test, list_empty(&pt_tt->pages));
-+
-+	ttm_pool_fini(pool);
-+}
-+
-+static void ttm_pool_alloc_order_mismatch(struct kunit *test)
-+{
-+	struct ttm_tt *tt;
-+	struct ttm_pool *pool;
-+	struct ttm_pool_type *pt_pool, *pt_tt;
-+	int err;
-+	enum ttm_caching caching = ttm_uncached;
-+	unsigned int order = 2;
-+	size_t fst_size = (1 << order) * PAGE_SIZE;
-+	size_t snd_size = PAGE_SIZE;
-+
-+	pool = ttm_pool_pre_populated(test, fst_size, caching);
-+
-+	pt_pool = &pool->caching[caching].orders[order];
-+	pt_tt = &pool->caching[caching].orders[0];
-+
-+	tt = mock_ttm_tt_init(test, 0, caching, snd_size);
-+	KUNIT_ASSERT_NOT_NULL(test, tt);
-+
-+	KUNIT_ASSERT_FALSE(test, list_empty(&pt_pool->pages));
-+	KUNIT_ASSERT_TRUE(test, list_empty(&pt_tt->pages));
-+
-+	err = ttm_pool_alloc(pool, tt, &simple_ctx);
-+	KUNIT_ASSERT_EQ(test, err, 0);
-+
-+	ttm_pool_free(pool, tt);
-+	ttm_tt_fini(tt);
-+
-+	KUNIT_ASSERT_FALSE(test, list_empty(&pt_pool->pages));
-+	KUNIT_ASSERT_FALSE(test, list_empty(&pt_tt->pages));
-+
-+	ttm_pool_fini(pool);
-+}
-+
-+static void ttm_pool_free_dma_alloc(struct kunit *test)
-+{
-+	struct ttm_test_devices_priv *priv = test->priv;
-+	struct ttm_tt *tt;
-+	struct ttm_pool *pool;
-+	struct ttm_pool_type *pt;
-+	enum ttm_caching caching = ttm_uncached;
-+	unsigned int order = 2;
-+	size_t size = (1 << order) * PAGE_SIZE;
-+
-+	tt = mock_ttm_tt_init(test, 0, caching, size);
-+	KUNIT_ASSERT_NOT_NULL(test, tt);
-+
-+	pool = kunit_kzalloc(test, sizeof(*pool), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, pool);
-+
-+	ttm_pool_init(pool, priv->dev, true, false);
-+	ttm_pool_alloc(pool, tt, &simple_ctx);
-+
-+	pt = &pool->caching[caching].orders[order];
-+	KUNIT_ASSERT_TRUE(test, list_empty(&pt->pages));
-+
-+	ttm_pool_free(pool, tt);
-+	ttm_tt_fini(tt);
-+
-+	KUNIT_ASSERT_FALSE(test, list_empty(&pt->pages));
-+
-+	ttm_pool_fini(pool);
-+}
-+
-+static void ttm_pool_free_no_dma_alloc(struct kunit *test)
-+{
-+	struct ttm_test_devices_priv *priv = test->priv;
-+	struct ttm_tt *tt;
-+	struct ttm_pool *pool;
-+	struct ttm_pool_type *pt;
-+	enum ttm_caching caching = ttm_uncached;
-+	unsigned int order = 2;
-+	size_t size = (1 << order) * PAGE_SIZE;
-+
-+	tt = mock_ttm_tt_init(test, 0, caching, size);
-+	KUNIT_ASSERT_NOT_NULL(test, tt);
-+
-+	pool = kunit_kzalloc(test, sizeof(*pool), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, pool);
-+
-+	ttm_pool_init(pool, priv->dev, false, false);
-+	ttm_pool_alloc(pool, tt, &simple_ctx);
-+
-+	pt = &pool->caching[caching].orders[order];
-+	KUNIT_ASSERT_TRUE(test, list_is_singular(&pt->pages));
-+
-+	ttm_pool_free(pool, tt);
-+	ttm_tt_fini(tt);
-+
-+	KUNIT_ASSERT_TRUE(test, list_is_singular(&pt->pages));
-+
-+	ttm_pool_fini(pool);
-+}
-+
-+static void ttm_pool_fini_basic(struct kunit *test)
-+{
-+	struct ttm_pool *pool;
-+	struct ttm_pool_type *pt;
-+	enum ttm_caching caching = ttm_uncached;
-+	unsigned int order = 0;
-+	size_t size = PAGE_SIZE;
-+
-+	pool = ttm_pool_pre_populated(test, size, caching);
-+	pt = &pool->caching[caching].orders[order];
-+
-+	KUNIT_ASSERT_FALSE(test, list_empty(&pt->pages));
-+
-+	ttm_pool_fini(pool);
-+
-+	KUNIT_ASSERT_TRUE(test, list_empty(&pt->pages));
-+}
-+
-+static struct kunit_case ttm_pool_test_cases[] = {
-+	KUNIT_CASE_PARAM(ttm_pool_alloc_basic, ttm_pool_alloc_basic_gen_params),
-+	KUNIT_CASE_PARAM(ttm_pool_alloc_basic_dma_addr,
-+			 ttm_pool_alloc_basic_gen_params),
-+	KUNIT_CASE(ttm_pool_alloc_order_caching_match),
-+	KUNIT_CASE(ttm_pool_alloc_caching_mismatch),
-+	KUNIT_CASE(ttm_pool_alloc_order_mismatch),
-+	KUNIT_CASE(ttm_pool_free_dma_alloc),
-+	KUNIT_CASE(ttm_pool_free_no_dma_alloc),
-+	KUNIT_CASE(ttm_pool_fini_basic),
-+	{}
-+};
-+
-+static struct kunit_suite ttm_pool_test_suite = {
-+	.name = "ttm_pool",
-+	.init = ttm_test_devices_init,
-+	.exit = ttm_test_devices_fini,
-+	.test_cases = ttm_pool_test_cases,
-+};
-+
-+kunit_test_suites(&ttm_pool_test_suite);
-+
-+MODULE_LICENSE("GPL");
+ 	list_for_each_entry_safe(pend, temp_pend, &intr->wait_list_head, wait_list_node) {
+ 		if ((pend->cq_kernel_addr && *(pend->cq_kernel_addr) >= pend->cq_target_value) ||
+ 				!pend->cq_kernel_addr) {
+ 			if (pend->ts_reg_info.buf) {
+ 				if (!reg_node_handle_fail) {
+ 					rc = handle_registration_node(hdev, pend,
+-							&ts_reg_free_list_head, intr->timestamp);
++							&ts_reg_free_list_head, intr->timestamp,
++							intr->interrupt_id);
+ 					if (rc)
+ 						reg_node_handle_fail = true;
+ 				}
 -- 
-2.25.1
+2.40.1
 
