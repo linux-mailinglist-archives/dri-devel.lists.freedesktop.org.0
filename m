@@ -2,46 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E4A172C915
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 16:59:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60B4F72C919
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 16:59:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4BC810E2A0;
-	Mon, 12 Jun 2023 14:59:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9584610E0CB;
+	Mon, 12 Jun 2023 14:59:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6900910E0CB
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 14:59:08 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A9BD10E2A9
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 14:59:46 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 58A37660583E;
- Mon, 12 Jun 2023 15:59:05 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1686581945;
- bh=j6RQF1VwyZXGz9zdAJ7Bf1DQrbbnAU194jmzC/3zXyI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=OuUD3QYCzm2NW7kfdhkCiMpHQfLlkcJ7mCTeCJPNuGq7gN788UOtZBhFj4qS0awTu
- rJ9PBTbLH4vcDp4xtK5kITMaLw4lGqtwA/rjjHsX1x17t/58RLIRz9PWx354D6xGAT
- ubMHdOArkgdKXRZZ3F3NrhfBQojmBY8jq1HmVjjysjbpymkTRAwfjJflrkqsXvoJsG
- vjL59uyhscyuG9BfpGOuekNf2/HqJvomGb/izRllN8cZeXTMCh8GBaYNfQjrSbaFQZ
- +XQFmkKYW0pca+LgvCSdjejHHPGTyeHReK6sSTzC1cTDxVFuBdFGtQYDNQOrl2xFZf
- Nk6yKk+BoppWg==
-Date: Mon, 12 Jun 2023 16:59:02 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: [PATCH] drm/sched: Add native dependency support to drm_sched
-Message-ID: <20230612165902.437345c4@collabora.com>
-In-Reply-To: <5fcf04fa-1f45-30dd-1a37-cb0eba6d5f4a@amd.com>
-References: <7ced7c0a101cb2467c34b69d2b686c429f64d8c2.camel@imgtec.com>
- <5fcf04fa-1f45-30dd-1a37-cb0eba6d5f4a@amd.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id BE6252032C;
+ Mon, 12 Jun 2023 14:59:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1686581984; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=g0NEHiB2+gppGTQZNaSQTMkMYimyPagaOAaEeB4Kmck=;
+ b=ciVHjH06TmW0IGnDdIOeSsHOMkiiuUARzJVIpji1XIJU4NDtcChlR5wctf1tvGyRcLU7Cq
+ S0+OV2DwXyyqEwtTFNky4kqgSlwzkU5jk5y3c/GfhVzeHKAjYDzbiM5vQ1vloc8rpyqF/k
+ xPOqF/PDN1lbKdzS8GLuXf6CgYJunrE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1686581984;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=g0NEHiB2+gppGTQZNaSQTMkMYimyPagaOAaEeB4Kmck=;
+ b=cJI2BfiNi38ygWE4ucYoAlK01X+Te3+7JNWxgyX33kvrg4xXZ5vYqvzt4kftsOaWX6WYpj
+ cRvIhZYz3/hCmgCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9CDCE138EC;
+ Mon, 12 Jun 2023 14:59:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 58hBJeAyh2SBLgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 12 Jun 2023 14:59:44 +0000
+Message-ID: <0794cfd5-b36d-e0c4-d824-56beb1a6da07@suse.de>
+Date: Mon, 12 Jun 2023 16:59:43 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH 0/3] fbdev/hitfb: Various fixes
+Content-Language: en-US
+To: deller@gmx.de, David.Laight@ACULAB.COM
+References: <20230606104056.29553-1-tzimmermann@suse.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230606104056.29553-1-tzimmermann@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------HTGjxZ0QUQ7XEqqlJrN00Y2B"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,78 +69,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sarah Walker <Sarah.Walker@imgtec.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "luben.tuikov@amd.com" <luben.tuikov@amd.com>,
- Donald Robson <Donald.Robson@imgtec.com>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-sh@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------HTGjxZ0QUQ7XEqqlJrN00Y2B
+Content-Type: multipart/mixed; boundary="------------W9Bn0svwDci80RHzNR30zh1E";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: deller@gmx.de, David.Laight@ACULAB.COM
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-sh@vger.kernel.org
+Message-ID: <0794cfd5-b36d-e0c4-d824-56beb1a6da07@suse.de>
+Subject: Re: [PATCH 0/3] fbdev/hitfb: Various fixes
+References: <20230606104056.29553-1-tzimmermann@suse.de>
+In-Reply-To: <20230606104056.29553-1-tzimmermann@suse.de>
 
-On Mon, 12 Jun 2023 15:16:03 +0200
-Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+--------------W9Bn0svwDci80RHzNR30zh1E
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> Am 08.06.23 um 15:23 schrieb Donald Robson:
-> > This patch adds support for 'native' dependencies to DRM scheduler.  In
-> > drivers that use a firmware based scheduler there are performance gains
-> > to be had by allowing waits to happen in the firmware, as this reduces
-> > the latency between signalling and job submission. =20
->=20
-> Well, if I'm not completely mistaken this patch here is superfluous=20
-> since we already use that functionality.
->=20
-> This strongly sounds like the HW dependencies we have in amdgpu. See=20
-> AMDGPU_CHUNK_ID_SCHEDULED_DEPENDENCIES.
+SGVsZ2UsIGRvIHlvdSB0YWtlIHRoZXNlIHBhdGNoZXM/DQoNCkFtIDA2LjA2LjIzIHVtIDEy
+OjQwIHNjaHJpZWIgVGhvbWFzIFppbW1lcm1hbm46DQo+IEZpeCBhIG51bWJlciBvZiBtaW5v
+ciB3YXJuaW5ncyBpbiB0aGUgaGl0ZmIgZHJpdmVyLiBJIGRpc2NvdmVyZWQNCj4gdGhlbSB3
+aGlsZSB3b3JraW5nIG9uIGJiNDdmMjE4ZmQwMSAoImZiZGV2L2hpdGZiOiBDYXN0IEkvTyBv
+ZmZzZXQNCj4gdG8gYWRkcmVzcyIpLg0KPiANCj4gVGhvbWFzIFppbW1lcm1hbm4gKDMpOg0K
+PiAgICBmYmRldi9oaXRmYjogRGVjbGFyZSBoaXRmYl9ibGFuaygpIGFzIHN0YXRpYw0KPiAg
+ICBmYmRldi9oaXRmYjogRml4IGludGVnZXItdG8tcG9pbnRlciBjYXN0DQo+ICAgIGZiZGV2
+L2hpdGZiOiBVc2UgTlVMTCBmb3IgcG9pbnRlcnMNCj4gDQo+ICAgZHJpdmVycy92aWRlby9m
+YmRldi9oaXRmYi5jIHwgOCArKysrLS0tLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2Vy
+dGlvbnMoKyksIDQgZGVsZXRpb25zKC0pDQo+IA0KPiANCj4gYmFzZS1jb21taXQ6IDI5YzBm
+MzY5ZTE3YmEwYWJmMDhjNjVjYTA2NTQxN2FlYmFiMjA4YzYNCg0KLS0gDQpUaG9tYXMgWmlt
+bWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1
+dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVy
+ZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25h
+bGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
 
-I'll look at it in more details. Thanks for the pointer.
+--------------W9Bn0svwDci80RHzNR30zh1E--
 
->=20
-> Basically userspace can instead of giving a hard dependency to finish=20
-> something before the current submission starts also give a soft=20
-> dependency and only let the other submission be scheduled.
->=20
-> This way you can then wait for the firmware for certain operations of=20
-> the previous submission to complete by comparing memory or registers.
->=20
-> You don't necessarily need to give control over this to userspace, if=20
-> your kernel driver can determine a fw assisted wait by itself that=20
-> should also work fine.
+--------------HTGjxZ0QUQ7XEqqlJrN00Y2B
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-That's what we did initially. We had a separate 'native_deps' xarray in
-pvr_job that we were managing ourselves, and that worked fine, except
-for the kill_entity() stuff. If you don't wait for those
-'native-fences', you're potentially signaling the job finished fence
-earlier than it should.
+-----BEGIN PGP SIGNATURE-----
 
-Just to make sure we're on the same page, the native fences we
-have here are really dma_fences that can be waited upon FW side:
-they're not exposed to userspace, the GPU can't access the memory
-region containing the counter (it's visible to the FW VM only, and
-a kernel side CPU mapping), and we do make sure they signal in finite
-time thanks to the job timeout. Feels a bit different compared to
-USER_FENCEs most GPUs have nowadays, on which you don't have this
-isolation guarantee, and which, AFAIU, are currently used to do some
-advanced userspace driven scheduling between queues belonging to the
-same context. My understanding, after discussing it with Daniel a few
-weeks back, was that exposing USER_FENCEs as dma_fences was risky,
-especially if they're used to do inter-context synchronization,
-but the FW-visible-only ones were okay to expose as dma_fences. Maybe I
-misunderstood what he suggested.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSHMt8FAwAAAAAACgkQlh/E3EQov+Cf
+Rg/9EnYieBW7THpiPGH4s1+aoiS36nzGo/gH/mBTGAXkKTnheENZv/dtkM9wE+Ixi3nI0bJfFZz4
+qrXjx+dEcJJ8YbcMfxjDkr5rLNDuTb05vMieBq6P78pDD3Kl4T7s1sneEMCCLf1rpa7yaQ062iq0
+g8dZCL7E275E406A6KVtVEA80iZ1JK5YrpEgLqA2H7QxtN/07RC+d8cl8GTrgh9Yd3I/dI+7V+Dy
+ezv5Ou0Odax7E2TJzBZE28xBB60dW12a4UJEHk4FM/LpRuS61V6Jx5kmBGqzJzGFDvDPb3adWdiT
+UWuRrTecdK9j9/XPQRNXa+e65ugbhMX/5vEFMl9k6mcxoIU0ZYydpDTflSRcxekHQy37DxUSo546
+KhomKHcwWiDQPrOWpcFzy+vkj8RnpBn3l3+Pk63bFp8xvW3GR0RkRpHGPwicD7N7xEOlJedqWp/W
+oXZZr7HOeDx67RhWMsF4LrHwUIVgtaNu7nxSNKm/wAqu3ZlpBfXcCl6AdDj6iRW21liL6wxRObwn
+SEd7M4saz2UqSjp8WswTQybyQ9VwY63rHHgnNUGe2ogryj8utfJKPG14trPuX/G/tKa+nt24mtOj
+bd9hM2zqcGkL9COtZwRt1Hv7gwG4Y/5+Gc97ZSt76e9QTQ4kotF4lHCMfoVtZk4WEB95IavF89bX
+Ibk=
+=8e5w
+-----END PGP SIGNATURE-----
 
-I'm done with this digression, now back to the original topic: we can of
-course wait for all those native fences before calling
-drm_sched_enity_destroy(), but that's a bit weird to do some partial
-wait in the driver while the entity is still active (pretty sure that's
-racy anyway), and then delegate the rest to the core.
-
-If we decide we don't care about waiting for native fences when
-killing jobs in the kill_entity() path, because we assume drm_resv is
-covering us, that's fine, but then I don't really see why
-drm_sched_kill_entity() should wait at all, because this 'should wait,
-but maybe not for all your deps' behavior is quite confusing.
-
-Regards,
-
-Boris
+--------------HTGjxZ0QUQ7XEqqlJrN00Y2B--
