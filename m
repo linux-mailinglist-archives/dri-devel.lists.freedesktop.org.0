@@ -2,78 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C02B72DA8F
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 09:14:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC4FB72C572
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 15:06:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 478DE10E32F;
-	Tue, 13 Jun 2023 07:14:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABDE010E234;
+	Mon, 12 Jun 2023 13:06:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E84910E234
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 13:03:19 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 35CCUVEL030059; Mon, 12 Jun 2023 13:03:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=vwUQ1F8I7JI/UaeWgCAqXrFbc20JHeM5AvHArrbGZns=;
- b=G6ua1Gn9MbO7FPY+XSeGpjItS1FFYvAY0JwZYk1Uiz/KAgD+xkH4m7U8pwqrdL37oyex
- 7TZdggKYfXNzWeA2MDyCWykL95+zxUR89pNu4OGnk4jVnVK+nH9rjJUmj55OTHOcphJT
- dOPFqY/Pp8hRXz4zgbOqQA+oAHP4bjcttkDOmNrE+CAkfUCPh4AOsXe9E65w2LopWTTf
- YqQzadC33GUZF6tsXq37njVCMe6Hyj+hBeY5EmDlt29zKG27sdlJQyUZp/tlnTYuzxgd
- T+gQCi9Y69hRp7ndog5L4cG+9oKWIWmV6HgTHHHNlMgyS3PWvivDVnLdbP5NDyKh0Wd9 xQ== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r4hd8bcah-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Jun 2023 13:03:11 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35CD3ArR004276
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Jun 2023 13:03:10 GMT
-Received: from [10.50.37.200] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 12 Jun
- 2023 06:03:07 -0700
-Message-ID: <e3a867a8-284b-7250-b1b2-1956f533f6b0@quicinc.com>
-Date: Mon, 12 Jun 2023 18:33:04 +0530
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C79F10E234
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 13:06:00 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 40CE76603050;
+ Mon, 12 Jun 2023 14:05:57 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1686575157;
+ bh=yTm9vSIAV9r4Iz9vvYJ/ktlMoUFJjs1cP9rVcgT5xd0=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=KB9SsLlIY4HGDIerUbwx/RfDnCIjH53eO2CbzwiQBN7TnNe1b25YzWx8fNQNI5aQj
+ 7S9XGW7N5dibwTGufrjcUGjtpi0E/XJHx5DGpyPzZx4bFsm4RfNFT4AlcNUG7e++Np
+ WRz9OyGv+nWvDh9AcOq7lCr46aPg/VThon964qMFB4gv2mKF4XiF2ZPo1+qKjZooyJ
+ /c9VksQGIfCJj9UD0ckye3N8cl8x0nbc+OcDe4KxWDbz/davwzIFnQH3MVpCPiYc8M
+ Lf0mpRwTi6nm5fwGL7SwyDw3eYD/vpIsJsg+PIWuSxyp2nUgDGV4vKsXBhxK+M9m3+
+ U9zE/282N5whA==
+Date: Mon, 12 Jun 2023 15:05:53 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Donald Robson <Donald.Robson@imgtec.com>
+Subject: Re: [PATCH] drm/sched: Add native dependency support to drm_sched
+Message-ID: <20230612150553.66999e56@collabora.com>
+In-Reply-To: <7ced7c0a101cb2467c34b69d2b686c429f64d8c2.camel@imgtec.com>
+References: <7ced7c0a101cb2467c34b69d2b686c429f64d8c2.camel@imgtec.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] accel/qaic: Fix dereferencing freed memory
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>, "Sukrut
- Bellary" <sukrut.bellary@linux.com>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Oded Gabbay <ogabbay@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>
-References: <20230610021200.377452-1-sukrut.bellary@linux.com>
- <fc979a4e-c30a-2606-9eec-afbba4fdd774@amd.com>
-From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-In-Reply-To: <fc979a4e-c30a-2606-9eec-afbba4fdd774@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: SeHIjpfi9M7u3H3WwjT4NY5sa6NN1EoZ
-X-Proofpoint-GUID: SeHIjpfi9M7u3H3WwjT4NY5sa6NN1EoZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-12_06,2023-06-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- impostorscore=0 clxscore=1015 lowpriorityscore=0 priorityscore=1501
- phishscore=0 adultscore=0 bulkscore=0 mlxscore=0 spamscore=0
- suspectscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2305260000 definitions=main-2306120112
-X-Mailman-Approved-At: Tue, 13 Jun 2023 07:14:01 +0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,64 +53,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
+Cc: Sarah Walker <Sarah.Walker@imgtec.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "luben.tuikov@amd.com" <luben.tuikov@amd.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Donald,
 
+On Thu, 8 Jun 2023 13:23:26 +0000
+Donald Robson <Donald.Robson@imgtec.com> wrote:
 
-On 6/12/2023 4:52 PM, Christian König wrote:
-> 
-> 
-> Am 10.06.23 um 04:12 schrieb Sukrut Bellary:
->> smatch warning:
->>     drivers/accel/qaic/qaic_data.c:620 qaic_free_object() error:
->>         dereferencing freed memory 'obj->import_attach'
->>
->> obj->import_attach is detached and freed using dma_buf_detach().
->> But used after free to decrease the dmabuf ref count using
->> dma_buf_put().
->>
->> Fixes: ff13be830333 ("accel/qaic: Add datapath")
->> Signed-off-by: Sukrut Bellary <sukrut.bellary@linux.com>
->> ---
->>   drivers/accel/qaic/qaic_data.c | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/accel/qaic/qaic_data.c 
->> b/drivers/accel/qaic/qaic_data.c
->> index e42c1f9ffff8..7cba4d680ea8 100644
->> --- a/drivers/accel/qaic/qaic_data.c
->> +++ b/drivers/accel/qaic/qaic_data.c
->> @@ -613,11 +613,13 @@ static int qaic_gem_object_mmap(struct 
->> drm_gem_object *obj, struct vm_area_struc
->>   static void qaic_free_object(struct drm_gem_object *obj)
->>   {
->>       struct qaic_bo *bo = to_qaic_bo(obj);
->> +    struct dma_buf *dmabuf;
-> 
-> Maybe move that variable into the if.
-> 
->>       if (obj->import_attach) {
->>           /* DMABUF/PRIME Path */
->> +        dmabuf = obj->import_attach->dmabuf;
->>           dma_buf_detach(obj->import_attach->dmabuf, obj->import_attach);
->> -        dma_buf_put(obj->import_attach->dmabuf);
->> +        dma_buf_put(dmabuf);
-> 
-> I strongly assume you are not using the GEM prime helpers for this?
-> 
-> Christian.
+>  /**
+>   * drm_sched_job_arm - arm a scheduler job for execution
+>   * @job: scheduler job to arm
+> @@ -669,6 +755,7 @@ void drm_sched_job_arm(struct drm_sched_job *job)
+>  	job->s_priority = entity->rq - sched->sched_rq;
+>  	job->id = atomic64_inc_return(&sched->job_id_count);
+>  
+> +	drm_sched_sort_native_deps(job);
 
-Driver uses drm_gem_prime_fd_to_handle() helper function but it also 
-registers for ->gem_prime_import() which is internally called by 
-drm_gem_prime_fd_to_handle(). All the operations done in 
-gem_prime_import() are undone here.
+If we get [1] accepted, we no longer need to sort the array. We can
+just skip native dependencies as we iterate over the array in
+drm_sched_job_dependency() with something like:
 
-> 
->>       } else {
->>           /* Private buffer allocation path */
->>           qaic_free_sgt(bo->sgt);
-> 
+       f = xa_load(&job->dependencies, job->last_dependency);
+       while (f) {
+               struct drm_sched_fence *s_fence;
+               struct dma_fence *scheduled_fence;
+
+               job->last_dependency++;
+
+               /* Not a native dependency, return the fence directly. */
+               if (!job->sched->ops->dependency_is_native ||
+                   !job->sched->ops->dependency_is_native(f))
+                       return dma_fence_get(f);
+
+               /*
+                * If the native fence is a drm_sched_fence object, we
+                * ensure the job has been submitted so drm_sched_fence
+                * ::parent points to a valid dma_fence object.
+                */
+               s_fence = to_drm_sched_fence(f);
+               scheduled_fence = s_fence ?
+				 dma_fence_get_rcu(&s_fence->scheduled) :
+                                 NULL;
+
+               if (scheduled_fence)
+                       return scheduled_fence;
+
+               /* Otherwise we skip the native fence and check the next fence. */
+               f = xa_load(&job->dependencies, job->last_dependency);
+        }
+
+And, in the driver, when you get to submit the job, you can gather
+the native deps with a simple xa_for_each() loop:
+
+	xa_for_each(&job->dependencies, index, f) {
+		/* If the fence is not signaled, it must be a native fence,
+		 * because drm_sched_entity waited for all non-native ones.
+		 */
+		if (!dma_fence_is_signaled(f))
+			// DO SOMETHING
+	}
+
+>  	drm_sched_fence_init(job->s_fence, job->entity);
+>  }
+
+Regards,
+
+Boris
+
+[1]https://patchwork.freedesktop.org/patch/541956/
