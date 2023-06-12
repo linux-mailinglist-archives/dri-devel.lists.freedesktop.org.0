@@ -1,49 +1,124 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 824EB72C5B1
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 15:19:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B42B72C5BE
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 15:22:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99EC610E237;
-	Mon, 12 Jun 2023 13:19:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AAB610E23C;
+	Mon, 12 Jun 2023 13:22:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89E2610E237
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 13:19:18 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C779CCE6;
- Mon, 12 Jun 2023 15:18:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1686575928;
- bh=Bj+SpMG81sTj8aensnQvokjjL3Rwu9dHwfJTAZQIrBk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=unso4Umz7SnrFwQD6vncMYiN8Wghu0zrDkXYhTxYVqPsvHrha9zPuyquvf4leAAsY
- aP6tl5rSEy52aLPeBmoU19RN6n2unwxLxcfM7a45sx1ngyujr8w2ddKgM30gZBzw7E
- jipNHUxMxAAHkEqHwP9VbTz9Xv/hkHgz7DA7P+gA=
-Date: Mon, 12 Jun 2023 16:19:17 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Message-ID: <20230612131917.GD23921@pendragon.ideasonboard.com>
-References: <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230608103929.GO5058@pendragon.ideasonboard.com>
- <OS0PR01MB592259E6A7ACED4A0548DD228650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230608125019.GD26742@pendragon.ideasonboard.com>
- <OS0PR01MB5922ECEABE4D6FC385D184008650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB592265BFDF18F860E1EB4CFE8654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230612122353.GA22391@pendragon.ideasonboard.com>
- <OS0PR01MB5922D335D53C7B0FA021B3218654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230612125405.GA23921@pendragon.ideasonboard.com>
- <CAMuHMdV_xw-+_MakVeLVgv1nCW_GqKQ2hiEfb5J-p2WiSvWV_g@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02on20626.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e83::626])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4DFA10E23C
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 13:22:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PSOGLaIT1W07/QXcfByUgnGyr8dC7b4WHH+MVqNCSq3sP2EHjGI0Ix9QWiudycYHUeRhvopf+3qzM7seIqxM2Kk/3vWisBaG1GKSj7v51xzW1+jRjyF90+NF8Cg0ouHbIij3Eg6JEgu3hPNymUzZq2o3Wuns3H6gsJDpP04ojDaKuGftmjS+1B7CJSVa7ctGZvk3Ez7bkCof3Jk/k8YwybOYqpnxzfI9r5i7zuVZXTswjQsJV0S0UKd+sn2rd9eecb9hle+m1D1Pe6YaKSA/gyg5xpaY3Bpto7eFL6Vevw5/EpAr1rXFVFze5Eu4Gc6x33zZ3p801jVncQDiq1Jl3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=s5mge1eShA5IQnwzWxQFDZ+08BVbyNHBjCPhmUwEXEk=;
+ b=ByNIZbpZD0J43IGmhWvUBcF2YkjOUv9mukt+eXQaobAKjbNz/QIbMy+3xhFup3Vsi8N8jBHixK+8gsb2lt2llKdNfkeqHbVF46PQVEVeMnHSOpzS4R3dMNqfn44zcU5ZERBBhSppVOqnueHrPPUYth1PkrJDvD3f4XI8PISsIMO5D3Ci+HILP4dblYNjvXaKnbjuEVDLaBIrB0X46egdS6sPlZ/iIYipjmwRp+s5J0yNF+fz4BUwtqwMsMsAZa8J3vsHcVSzCsJuxa/z1BC2x274rjXTAkxqdSasozmFoiVlnj12gaC52512rJwL1mpkmg7S+gIiYmTf7jrltD4tJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=s5mge1eShA5IQnwzWxQFDZ+08BVbyNHBjCPhmUwEXEk=;
+ b=nSet+gvIGpLERmYxjQdEB6obqd0uSNgobY1wcCvpA3ZmG/3cZJ+Y4oSvAUbUMs1SJxF13FId6Jn6VIiUZcIUL20Cl8W+AEFW2mLYlQAMtJaNiLgpUPFUJoeqpaOLSD2Oou10XyuBa+zUOzvSmUV85XA5bQzSaR8H+ZpKDKPUYT4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BYAPR12MB3589.namprd12.prod.outlook.com (2603:10b6:a03:df::29)
+ by CH3PR12MB8306.namprd12.prod.outlook.com (2603:10b6:610:12c::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.44; Mon, 12 Jun
+ 2023 13:22:05 +0000
+Received: from BYAPR12MB3589.namprd12.prod.outlook.com
+ ([fe80::401e:2e7f:7c2b:6bff]) by BYAPR12MB3589.namprd12.prod.outlook.com
+ ([fe80::401e:2e7f:7c2b:6bff%4]) with mapi id 15.20.6455.024; Mon, 12 Jun 2023
+ 13:22:05 +0000
+Message-ID: <ff196b04-e8c5-52d9-852b-9a9cc7eecdd0@amd.com>
+Date: Mon, 12 Jun 2023 15:21:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] accel/qaic: Fix dereferencing freed memory
+Content-Language: en-US
+To: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
+ Sukrut Bellary <sukrut.bellary@linux.com>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, Oded Gabbay <ogabbay@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+References: <20230610021200.377452-1-sukrut.bellary@linux.com>
+ <fc979a4e-c30a-2606-9eec-afbba4fdd774@amd.com>
+ <e3a867a8-284b-7250-b1b2-1956f533f6b0@quicinc.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <e3a867a8-284b-7250-b1b2-1956f533f6b0@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdV_xw-+_MakVeLVgv1nCW_GqKQ2hiEfb5J-p2WiSvWV_g@mail.gmail.com>
+X-ClientProxiedBy: FR0P281CA0091.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a9::11) To BYAPR12MB3589.namprd12.prod.outlook.com
+ (2603:10b6:a03:df::29)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3589:EE_|CH3PR12MB8306:EE_
+X-MS-Office365-Filtering-Correlation-Id: 699f6d86-3e13-44a1-1c69-08db6b48040a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Co8flGdHn8XVC80FRFvZyQpBSzvvtP3YS+sjbsf02YD1JJ05Bfxs2QeoQfPE6c0NNrwiTJSDxzjCvfE2WuAdfVjuprX8MFFLQpcLEjlrK9XKlFB8HKxlVuvUSt6rPerA3ErGyXaDimJS5JtvJm9fJxLNgMX10B9y6mvS6NqBCmbjq4/y9Y5jyCSmF/ckrOaBuPK5xjlfBk3/6Mq/CCN9nLnbunot9PP3Cgyk0UjvaagHnLyMTN/JY7X002gBgVNt6N/Sr2lmEX5KueQK1NBQWDCxOX/hOwC2m1EhZhbrP/fmyaZx2lvIGeRlrg6cN++nPI3EAxdxWsdQ1sbqhiF0gRaV5bmPOyZ5PIhFJWUK1kX9x2J8KkaR5DTIpVj+QnzmYo227vNsrF6C3+9/zfos/ZGN0EFcmcV4DxLgTjbJE1saeomTtumLBOOMPeJfLJII5GMCPpBY8ie46m7hcT93BHlSWXVJ0tXmrtAyy6AwjhcXFhaNr6WmwuM7I4dqiyQtrfcLxVvyjI4kAqOQaoMs034EmqP8xsmNkzSgFEXWVxSzVGnw6wL4xRnbMe4Ewql4/S44KP+Jb1QsFBYnyNRsEDcGHuaVJoALq4H89BGvCjGOqLyT+ki4h1su6UOiNNMKBXgAMchYDPvUzTdort3fjA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3589.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(136003)(39860400002)(346002)(376002)(366004)(451199021)(6666004)(6486002)(478600001)(66574015)(6512007)(6506007)(53546011)(83380400001)(186003)(36756003)(38100700002)(31696002)(86362001)(2616005)(31686004)(5660300002)(8936002)(8676002)(316002)(41300700001)(2906002)(4326008)(66556008)(66476007)(66946007)(7416002)(110136005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZnQyK1l5Y2FkNG8ycmthZlRoWWtVTCtpelBvb1kvRVZDYlMxQVhNaWYrQ2Mr?=
+ =?utf-8?B?UUU0RUNNUjV0ZnRQbVF5dnlLNFhicWhubXo3VGdSaWltWk5GZVM2VzJZd0lu?=
+ =?utf-8?B?VVM3cTJobWFpekJxL1hKeEVSNHNsTmZNODhuZGpEeHNCbWpmbkY5dHcvWG13?=
+ =?utf-8?B?N1RRVnYyd25QMnZhMFVSUTljWmpzb1BXaENpYmF4dkp3QlRPOWhidkVqbElL?=
+ =?utf-8?B?UVhSYkVWNGRSdDJYOTI1dU02eUwxY1phdHJ5dTUzcDZwZ3ovUFIrWkd0bDBp?=
+ =?utf-8?B?akk4anlxcFZ1VThiT1RPVjkwLy9qRDdHVWFOVkozY2hBWmhPeHhENUFneXQ1?=
+ =?utf-8?B?S1M2eERVUjNWM0QzajRXYWFGa2hVUVJHa0FVUkhKNVN1UldVTlJlS0JxSWlo?=
+ =?utf-8?B?UDd2bENmc0RlMFBoMm1TWXdLRFlWZlRJb1FaWnVtNDZlM1ZaRzFuaXQ0ejlj?=
+ =?utf-8?B?cnpNSlVTWlJtK2dYNEF6NG1yVFVqaTNLa0lTdU9vOXduQm5VSkpYMHUxMlhw?=
+ =?utf-8?B?SHZGZ0RyYTdGS2lQQzV1YWZXejdyd2NHUW5sdkFDbWhFbGovaUN5MTYxMncv?=
+ =?utf-8?B?VEM2VnZmRGRIVUZ6U0hhZFVkTUdiYVpnb0tFVitneHRLUWRuL21JMGVrMVo5?=
+ =?utf-8?B?WWlOR0dMME5WMWNHR1hsMTVHZmZCQWZZdUJXT2xtMUtDRDFMcG04MSsvWDBB?=
+ =?utf-8?B?YS9vVS9XcDgwOW5oUXZOcit4OE9tUjk2Nk5BMDZzRkpyS2pKeVBkWTdzK3BE?=
+ =?utf-8?B?alhHTmp2bVdlelU0Q2YxR1hlVi91RERINmluN3N6VXRaYTZIM1o0cmhxYTlK?=
+ =?utf-8?B?UHc2aEM5bXBzcmtWY3JuMTBhdFJYbnhzZGVEZG1ad2RhaU5rUk5wdEs0cm93?=
+ =?utf-8?B?alNiYWgybDVpbW0xamg4QjZQcWVMa0NlZlJLUnZCbTVuL3Z2aStkNGlxSEtT?=
+ =?utf-8?B?YWxjblAwR0FINmMvaEp0ZVdnZXN2QjdtTHl0QkR6eU9KV2tmMGFObXJENkZ4?=
+ =?utf-8?B?ZGxIdUFjUXkyeHdHVms3dnZkN29EWWtBdHFKcWNvZFVRL2FiaGJlbkd0RGdp?=
+ =?utf-8?B?bW5PZFZVTGxDeWxxWTVnbjZBTnN1SFg2UER6WmtPZVlwNmtTRkpoRTZPUDN6?=
+ =?utf-8?B?RURBSS93NXhXNmtvY01renVZbmRiY2xVWnhjZU54RFRUWVYyNGdsQ0syV0Ns?=
+ =?utf-8?B?eFByU05Fc3lKN1l5Rmt6TEVJMVB6SlVpRlVxTWJla0NaaG5nd2JWL1B0WThF?=
+ =?utf-8?B?VEdxNVg3cUlNRU9kd0l6THk5MHQ5TFRXMkdneldOY01oNnNCcDNoMWJ0RGpI?=
+ =?utf-8?B?NmxWOVh3emVMWVNwcXMyMldXWndNRXkra0VVQ1hqb1AvQzgzRW9CMjRhckJG?=
+ =?utf-8?B?UFpicUpTL0V0QjhqVjREYSszM1lmWldTa3k1bm04cHpaTVlFK1hHaGtBcWhZ?=
+ =?utf-8?B?YUE5dmpXQWhzazNxRnVaTGhSZlNtN0YwNmFMcFJHeit1K1ozbUk4MndRU1FX?=
+ =?utf-8?B?Q0xtQmFjVFVick1LU0pKN2JhcklCTGp5U1BIUC91VjVUNWczT2srQlcrRG9N?=
+ =?utf-8?B?cVpFenhvTVdFSURNb0ovZ2haZXR5KzdTQ21mYkhCM2JzZjlMVDUyS0kwb2lQ?=
+ =?utf-8?B?ai9hdDZQZ3A2aEx2N3ZkM3M4blBqSjJ5cHhsR1BqbEJvbzFteXR6WVFOVTJ6?=
+ =?utf-8?B?SzZpME92YVdoaEtyNU9pVkx5NWNsZDNLQ1RETnVaR0VJL1o2UFFWVGRZR2xN?=
+ =?utf-8?B?Q0x0Tkw3aWlSckpHV1BXenRqTHA1SUplQldWQktYdHdUOWxvcXg4WE8rMDNp?=
+ =?utf-8?B?azM1SmtpL2tyZEkzZ3V1OGh5bEExalNucTBpSHZPbGdmbnZLYUdUR1lWcWtt?=
+ =?utf-8?B?MTNGMkhXYzhkSFVNMDgzMmY0RjZEMkE0VW0rbVEreGVoZC90dVFhR3FuMkIy?=
+ =?utf-8?B?eHdjNmdTaytHSnJuTU1OdnRNZGNWUTR0U1hFY2ZsSXM4ZytnVmh2V0FTOEU3?=
+ =?utf-8?B?UW5wRnN1WklqWjVUbUt2R3JmYkVqVXRtRE8zcTBOOGpISTdWWUlSSjVOL1NN?=
+ =?utf-8?B?ZExmS3dtbktuamJGbmgyYjRJQXozeDRBZG84WDNiMG9TOXNJSWxRaWt1c0Qy?=
+ =?utf-8?B?bkpIU3F2RFU5S1VtNDBGT1AxdTcxN0FoNy94QzBnMHEzUmRqWHE5OTZWUStD?=
+ =?utf-8?Q?rR9fX8K02smsVb4vHn+isorPfCyXzARQ0SyR98iDH8xv?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 699f6d86-3e13-44a1-1c69-08db6b48040a
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3589.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2023 13:22:05.6306 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /ItTkRIaOYHj/VASe/4SEn7/ZEvT4ssXgpTA8f4f739v9Pa2jrTnzDj7+JDhdSU9
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8306
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,129 +131,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Antonio Borneo <antonio.borneo@foss.st.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Trent Piepho <tpiepho@gmail.com>,
- Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Alessandro Zummo <a.zummo@towertech.it>,
- Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Rob Herring <robh+dt@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- Ahmad Fatoum <a.fatoum@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Wolfram Sang <wsa@kernel.org>,
- Mark Brown <broonie@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: linux-arm-msm@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Geert,
+Am 12.06.23 um 15:03 schrieb Pranjal Ramajor Asha Kanojiya:
+>
+>
+> On 6/12/2023 4:52 PM, Christian König wrote:
+>>
+>>
+>> Am 10.06.23 um 04:12 schrieb Sukrut Bellary:
+>>> smatch warning:
+>>>     drivers/accel/qaic/qaic_data.c:620 qaic_free_object() error:
+>>>         dereferencing freed memory 'obj->import_attach'
+>>>
+>>> obj->import_attach is detached and freed using dma_buf_detach().
+>>> But used after free to decrease the dmabuf ref count using
+>>> dma_buf_put().
+>>>
+>>> Fixes: ff13be830333 ("accel/qaic: Add datapath")
+>>> Signed-off-by: Sukrut Bellary <sukrut.bellary@linux.com>
+>>> ---
+>>>   drivers/accel/qaic/qaic_data.c | 4 +++-
+>>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/accel/qaic/qaic_data.c 
+>>> b/drivers/accel/qaic/qaic_data.c
+>>> index e42c1f9ffff8..7cba4d680ea8 100644
+>>> --- a/drivers/accel/qaic/qaic_data.c
+>>> +++ b/drivers/accel/qaic/qaic_data.c
+>>> @@ -613,11 +613,13 @@ static int qaic_gem_object_mmap(struct 
+>>> drm_gem_object *obj, struct vm_area_struc
+>>>   static void qaic_free_object(struct drm_gem_object *obj)
+>>>   {
+>>>       struct qaic_bo *bo = to_qaic_bo(obj);
+>>> +    struct dma_buf *dmabuf;
+>>
+>> Maybe move that variable into the if.
+>>
+>>>       if (obj->import_attach) {
+>>>           /* DMABUF/PRIME Path */
+>>> +        dmabuf = obj->import_attach->dmabuf;
+>>>           dma_buf_detach(obj->import_attach->dmabuf, 
+>>> obj->import_attach);
+>>> -        dma_buf_put(obj->import_attach->dmabuf);
+>>> +        dma_buf_put(dmabuf);
+>>
+>> I strongly assume you are not using the GEM prime helpers for this?
+>>
+>> Christian.
+>
+> Driver uses drm_gem_prime_fd_to_handle() helper function but it also 
+> registers for ->gem_prime_import() which is internally called by 
+> drm_gem_prime_fd_to_handle(). All the operations done in 
+> gem_prime_import() are undone here.
 
-On Mon, Jun 12, 2023 at 03:08:46PM +0200, Geert Uytterhoeven wrote:
-> On Mon, Jun 12, 2023 at 2:54 PM Laurent Pinchart wrote:
-> > On Mon, Jun 12, 2023 at 12:42:33PM +0000, Biju Das wrote:
-> > > > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-> > > > On Mon, Jun 12, 2023 at 09:53:02AM +0000, Biju Das wrote:
-> > > > > How do we proceed here between [1] and [2]?
-> > > > >
-> > > > > DT-Maintainers suggestion:
-> > > > > [1]
-> > > > > raa215300: pmic@12 {
-> > > > >   compatible = "renesas,raa215300";
-> > > > >   reg = <0x12>, <0x6f>;
-> > > > >   reg-names = "main", "rtc";
-> > > > >
-> > > > >   clocks = <&x2>;
-> > > > >   clock-names = "xin";
-> > > > >   /* Add Optional shared IRQ resource and share it to child and handle
-> > > > > it both in parent and child */ };
-> > > > >
-> > > > > Laurent/Wolfram suggestion to split it into two nodes and get rid of this patch:
-> > > > > [2]
-> > > > >   raa215300: pmic @12 {
-> > > > >           compatible = "renesas,raa215300";
-> > > > >           reg = <0x12>;
-> > > > >
-> > > > >           /* Add Optional shared IRQ */
-> > > > >           renesas,raa215300-rtc = <&rtc_raa215300>; /* Parse the handle and Enable RTC , if present.*/
-> > > > >   };
-> > > > >
-> > > > >   rtc_raa215300: rtc@6f {
-> > > > >           compatible = "renesas,raa215300-isl1208";
-> > > >
-> > > > Make this
-> > > >
-> > > >             compatible = "renesas,raa215300-isl1208", "isil,isl1208";
-> > > >
-> > > > >           reg = <0x6f>;
-> > > > >
-> > > > >           /* Add Optional shared IRQ */
-> > > > >           clocks = <&x2>;
-> > > > >           clock-names = "xin";
-> > > > >           renesas,raa215300-pmic = <&pmic>; /* Parse the handle to get PMIC
-> > > > > version to check Oscillator bit is inverted or not */
-> > > >
-> > > > This isn't nice. I would instead add a renesas,invert-xtoscb boolean
-> > > > property. If you don't want different DT sources for different revisions
-> > > > of the PMIC,
-> > >
-> > > I need to support all PMIC versions with same image, as PMIC is just a component on the
-> > > SoM module. So SoM's have different PMIC versions.
-> >
-> > I understand it's not convenient, so let's try to find a good solution.
-> >
-> > > > one option is to perform the auto-detection in the boot
-> > > > loader and update the DT dynamically there.
-> > >
-> > > Yes, this is an option. Bootloader updates "renesas,invert-xtoscb" property based
-> > > on PMIC version.
-> > >
-> > > Not sure, From binding perspective, Documenting "renesas,invert-xtoscb" is OK for
-> > > the relevant maintainers??
-> >
-> > It's fine with me at least :-) I think a property makes sense, as it
-> > describes the device. Updating the device tree in the boot loader based
-> > on auto-detection of features is also fairly common (to set the amount
-> > of DRAM for instance).
-> >
-> > What I'm not entirely sure about in this case is if a property would be
-> > the best option, or two different compatible strings. I'll let the
-> > appropriate maintainer recommend one of those two options. In either
-> > case, the boot loader would be responsible for updating the DT.
-> 
-> Indeed. DT binding best practices 101: do not use properties to
-> distinguish, use compatible values instead.
-> 
-> And don't use different compatible values if you can distinguish using
-> a version register.  Unfortunately the version register is part of the
-> main/first device (the PMIC), so the RTC cannot find out easily...
+Then why don't you use drm_prime_gem_destroy() which is the cleanup 
+helper for imports created by ->gem_prime_import() ?
 
-That's not very different from having IP cores whose integration is
-different between different SoC versions. We could easily add SoC match
-code in drivers and map the SoC version to integration data, but it's
-not a good practice. DT helps decoupling integration (and quirks) from
-drivers and allows getting rid of lots of cross-driver communication
-(which used to be handled through board files).
+That looks pretty much identical to what you do here manually.
 
-> So basically you have an i2c mfd.  The Linux mfd subsystem is tailored
-> for platform devices, so it's not a good match.  The closest we have
-> in i2c is the ancillary device...
-
-I think an MFD-type solution that's way too much trouble to handle the
-issue at hand. I recommend a DT property here.
-
--- 
 Regards,
+Christian.
 
-Laurent Pinchart
+>
+>>
+>>>       } else {
+>>>           /* Private buffer allocation path */
+>>>           qaic_free_sgt(bo->sgt);
+>>
+
