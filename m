@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4742972CDF3
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 20:25:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0A6372CE02
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Jun 2023 20:25:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ED0E10E2B8;
-	Mon, 12 Jun 2023 18:25:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C9CF10E2BA;
+	Mon, 12 Jun 2023 18:25:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E9CB10E2BC
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 18:25:32 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id
- 38308e7fff4ca-2b1a6a8e851so57240371fa.2
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 11:25:31 -0700 (PDT)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 799A010E2BD
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 18:25:37 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id
+ 2adb3069b0e04-4f620583bc2so5456118e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 11:25:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686594328; x=1689186328;
+ d=linaro.org; s=google; t=1686594335; x=1689186335;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=SRzyUIsK6pGxw41itI7qcW9AyOhEGSR+zGX4cSAWEUE=;
- b=P1ebaDZ0Utu/VtBVcEq4AwPmyzWiTMqd/oI2be4YyyHZ+2AA9cNaINLxwe2+97Htt+
- xwbWwOWRiPrvLZ3J0zhyYNMXvVMiJdF+v6WtdcyXdRnXPGZ98GqAcLcqcpJmO41OxqEo
- dhv7VhApeUAQVi4RVR5VzVfXBTFvRLmzR9rbhmcdxfAlOUgUTRO8ohqcDMYhjKx7+SlI
- oGZgAdf3P+/okYUfe8IojoWAn6dfH3NcaV4QTuXapFfv1r5yHkcbKZHS87vgqhJHTC6x
- amw2aUFCqyLEkwCc+30g0PJwqrMG6AKtOvRJufBdV7qqJn3n4/PVAl4RHh0GK7RbgN4H
- ifIQ==
+ bh=mmlZ3LfPcxfpnDiDYgpCM3PVTuzAQsiG4BBuQYBs540=;
+ b=xk7wZx06nIV5fczb9HNWO2lfpb+vzO93udN9wM3kfHOXMowEZOC80TUxYnveb/KalX
+ KoS3X3HpKoSmFVc9gzLMA/k9q2K7WoDj4mwBBn43OHGAj+fE+75Ig/K25hZmG2aGfa9Z
+ Ax8VqQ3owduub4dHAZdyDBv/m934BwEaiKCwDJWLzZlXHinqKYCWMMvWVCQEshIKBJzz
+ EC3HIb4HmQ0bHfwx4v7CxTXFDi2aDkSlc0TE4XxRUlJfMwZhComSJcHzW8a4A/2PJv0Z
+ E9gliyWrXUikwKXglXIJA0HPE04Itlz4gU+CGuqwrnpqWiBt5KpUGL+JYjb9kXcJNZBL
+ vvCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686594328; x=1689186328;
+ d=1e100.net; s=20221208; t=1686594335; x=1689186335;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=SRzyUIsK6pGxw41itI7qcW9AyOhEGSR+zGX4cSAWEUE=;
- b=VOx/yg4FnwUihndZHPF5evPk9X/YhBhyZw4mClOSuoNUBxmUbXxsnWIQA/SdAnWJsI
- 4tuR/1FLzm/O/sE83p3wMwj3raIQSkQX1ONLt2SVTXGJ61BSfxY+KxAVdHS2WXSES5pB
- zlhwiPmXv6sB0PUcHugXaLLmwUl5RzZY5i8cHD7cn7mzL4Jap64W15KCy+Deyhi/cA+I
- gFyIZOyiidFAUKwJlCQizBJXIn5QpvXM6IHIGl6MQ3L13PWtRKACUkdm4f0Q3nFlJJLf
- AvM5N+Bs3A5uefPvw5z3GyyKWnM+qGCyubuQKn/Q7at7XS5LzzEG1e1pRkNXZrTKndw/
- a/CQ==
-X-Gm-Message-State: AC+VfDwf5x+1asKjFmRIYf2ddPG3yxIuSSpvOMTTujZDSHecxX0s5tOc
- WzbuG51IxYih87H60pglFGu3AQ==
-X-Google-Smtp-Source: ACHHUZ7vMn7X3kb0tD+cRSlLHmzDPF8v+1lJz7x03jVDXdtf6kEG5bHgrV44bNAQA2AjJIr5UIvYSQ==
-X-Received: by 2002:a2e:95d5:0:b0:2b1:bf5d:4115 with SMTP id
- y21-20020a2e95d5000000b002b1bf5d4115mr3201417ljh.13.1686594328479; 
- Mon, 12 Jun 2023 11:25:28 -0700 (PDT)
+ bh=mmlZ3LfPcxfpnDiDYgpCM3PVTuzAQsiG4BBuQYBs540=;
+ b=gEninSsFGNv69hVWVP6K4V2nsaN4xcWIJD8q1RXQutBnceNUjGu3vFF0tkQJfymogp
+ bj/KIffhjC3sIYhuKc182NWqSrYs/mx31j/75B0oUTGNm9BHfiZ1DBiR4JNoDTAxIwaq
+ IjP8VeYZF5DCs4oWeUzHfi6621Lc+sKCc+wkrwOvNae10P+GoY46iTPYlPSZG/M4LyL5
+ 7uTr5y4NUnZHDQan94ZdNcVIaDVrgIKdgWCP8Ov+fyRqjErEKbN/cIASUFc4aa/Uextm
+ 2Dn0c7Wqtmb6L1C4GwTxtoGQ5HWSGJfpajQlLVIwAoFlb9yNUvbrGuVjdk2XAg+wb+wm
+ k4aw==
+X-Gm-Message-State: AC+VfDwqwHW+9PqHReVsHZ+quXSp2L6DppEAFflDs42hh3LA5CxVtY6V
+ EckGxL8AvcF4Kziv8mYosjnD5A==
+X-Google-Smtp-Source: ACHHUZ4XZxIQ/c4uNWvhPciEQKRbkt895So16/iuJ0rYLPeiNyMovPgByOeciUoH8a2eiCz7jqAs/w==
+X-Received: by 2002:a19:f207:0:b0:4f6:3677:54e with SMTP id
+ q7-20020a19f207000000b004f63677054emr4082354lfh.36.1686594335462; 
+ Mon, 12 Jun 2023 11:25:35 -0700 (PDT)
 Received: from eriador.lan (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a0db:1f00::8a5]) by smtp.gmail.com with ESMTPSA id
- v10-20020a2e960a000000b002adbe01cd69sm1875106ljh.9.2023.06.12.11.25.27
+ v16-20020ac25930000000b004f63dd1dab0sm1503396lfi.98.2023.06.12.11.25.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jun 2023 11:25:28 -0700 (PDT)
+ Mon, 12 Jun 2023 11:25:35 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH] drm/msm/adreno: make adreno_is_a690()'s argument const
-Date: Mon, 12 Jun 2023 21:25:27 +0300
-Message-Id: <20230612182527.3345786-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 1/2] drm/msm/dpu: do not enable color-management if DSPPs are
+ not available
+Date: Mon, 12 Jun 2023 21:25:33 +0300
+Message-Id: <20230612182534.3345805-1-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,37 +75,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+ Stephen Boyd <swboyd@chromium.org>, Yongqin Liu <yongqin.liu@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change adreno_is_a690() prototype to accept the const struct adreno_gpu
-pointer instead of a non-const one. This fixes the following warning:
+We can not support color management without DSPP blocks being provided
+in the HW catalog. Do not enable color management for CRTCs if num_dspps
+is 0.
 
-In file included from drivers/gpu/drm/msm/msm_drv.c:33:
-drivers/gpu/drm/msm/adreno/adreno_gpu.h: In function ‘adreno_is_a660_family’:
-drivers/gpu/drm/msm/adreno/adreno_gpu.h:303:54: warning: passing argument 1 of ‘adreno_is_a690’ discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
-  303 |         return adreno_is_a660(gpu) || adreno_is_a690(gpu) || adreno_is_7c3(gpu);
-
-Fixes: 1b90e8f8879c ("drm/msm/adreno: change adreno_is_* functions to accept const argument")
+Fixes: 4259ff7ae509 ("drm/msm/dpu: add support for pcc color block in dpu driver")
+Reported-by: Yongqin Liu <yongqin.liu@linaro.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/adreno/adreno_gpu.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-index 1283e5fe22d2..9a7626c7ac4d 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-@@ -284,7 +284,7 @@ static inline int adreno_is_a660(const struct adreno_gpu *gpu)
- 	return adreno_is_revn(gpu, 660);
- }
- 
--static inline int adreno_is_a690(struct adreno_gpu *gpu)
-+static inline int adreno_is_a690(const struct adreno_gpu *gpu)
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index 6e684a7b49a1..1edf2b6b0a26 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -1463,6 +1463,8 @@ static const struct drm_crtc_helper_funcs dpu_crtc_helper_funcs = {
+ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
+ 				struct drm_plane *cursor)
  {
- 	return gpu->revn == 690;
- };
++	struct msm_drm_private *priv = dev->dev_private;
++	struct dpu_kms *dpu_kms = to_dpu_kms(priv->kms);
+ 	struct drm_crtc *crtc = NULL;
+ 	struct dpu_crtc *dpu_crtc = NULL;
+ 	int i, ret;
+@@ -1494,7 +1496,8 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
+ 
+ 	drm_crtc_helper_add(crtc, &dpu_crtc_helper_funcs);
+ 
+-	drm_crtc_enable_color_mgmt(crtc, 0, true, 0);
++	if (dpu_kms->catalog->dspp_count)
++		drm_crtc_enable_color_mgmt(crtc, 0, true, 0);
+ 
+ 	/* save user friendly CRTC name for later */
+ 	snprintf(dpu_crtc->name, DPU_CRTC_NAME_SIZE, "crtc%u", crtc->base.id);
 -- 
 2.39.2
 
