@@ -1,63 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D68472D5AD
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 02:15:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F139B72D5DB
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 02:15:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 942E110E2E9;
-	Tue, 13 Jun 2023 00:14:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A25E10E2F6;
+	Tue, 13 Jun 2023 00:15:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE04510E2E7
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 00:14:57 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id
- 2adb3069b0e04-4f61b45ee0dso5920301e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 17:14:57 -0700 (PDT)
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69B9510E2E7
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 00:14:59 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id
+ 38308e7fff4ca-2b1a4250b07so60377281fa.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 17:14:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686615296; x=1689207296;
+ d=linaro.org; s=google; t=1686615297; x=1689207297;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZP34w5oIRqvaKFIMud9Fze1BGuRNbrGQBAHU90Q/vlI=;
- b=CeLd/JIcP/nEbsOWLow7H2oMl5LJa3wGQHH1WVkhmFz4uExwVpy/EQYefgJh2X1dbr
- GXVvq8fs3Ihr1BfA5MQswydrwtnmEKOUfUKIstJZzb0eWlKYbkPALqXclTI+pKZ0PVTH
- LQAr5DBbx/8nitpPgPvR0HuL/fB14KriE2T7HGNYO7hKxFwiddEy5hekwJ7XqxEDQbwx
- Zf9Gl/LTPSXHyQnvk02jDZ/zmndbaUl0WKZA/21Aiwz9CRbe/Id67vq885npS5SIOIdI
- RGnZzf6FiDVCE3urSeC6F09KlJvt0OlNClZr9HSrnIrgNkuxlXB1wSUmaySu9O8aYzC8
- 9GjA==
+ bh=oRVBObMQTmVt8I11EuaS6oqnf+s1jmU4aRKHB813oDU=;
+ b=bpWg8XE1/gAUsROPjoB4Z2wxh1A2p7kA1sC1IqRRkSJjOO4E7mUyqz0O8a79JApPH1
+ MjZzeyjWYD2o/FeKUBVfvMON9IuzwJR5uekFC5fLcTRtwSevsYRIxYdw0+DscloC7d7G
+ KxWI5W2zQ1lG+QYHogsZ4Jkw16pq9Nbkhnf1gamYXcbExGlCgfh1r1Yh8yO7H1qUbCHa
+ faDyIJL3k24+H7PTt/IvI2PBx1r43S75SFYKVkaSvMfbVOtPeIG1DUoDJqQ6HL+OLwDQ
+ 9zFqb+bs1OYnG6VnXb6MjNj2luC0u0csm+CnTN3DzAIiT5JeofYBB1p7B4sOfEIAbNuI
+ obsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686615296; x=1689207296;
+ d=1e100.net; s=20221208; t=1686615297; x=1689207297;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZP34w5oIRqvaKFIMud9Fze1BGuRNbrGQBAHU90Q/vlI=;
- b=XaEzqu1KdyGKBvSTG+Hujp5H0fCKCablzADc/0xGmlIdPpOAdtu0GvpR2q7zwxS9+T
- Lcnpk9TsoOhND+SFsCyKcLXLfBnQ62spxT9Ir82Yx1Qz+5EYO4kxsKmQ45SnQEu5A+i5
- ezrfSucQXeONSSDPuxGF4kHHASV25nZ3iJ3b4Zmnf1YNYYn8emE12yHzaSDZ7vUMcFKd
- u38ufgA99uxgQ31+DwCnmfhNgBpjrGh7pDLdB5uJAO9ICb6r1Hwb5SB/2U427DoeEMbV
- M8DOqb0rkao7qa0Zr7t73Xv91gces84pNAGly6E0Sc4gCR5Fd8ZsNZP4VPuC9vNIJiQg
- OVrQ==
-X-Gm-Message-State: AC+VfDyeEF9kGKWc6J0100B2/PveQwJLMbVoo0Np/QK7hpkGplVqGWmA
- NmbPX4/EsnVLQ6gE0YrnSsXe4A==
-X-Google-Smtp-Source: ACHHUZ7iV2/19EVnm78fubLXB6kqkAVAzyoxOc+gn/s4XsQZp7jJXOsZgPPVus02tu4AsdxaXsDEOw==
-X-Received: by 2002:a2e:964d:0:b0:2b1:c6e9:3e5c with SMTP id
- z13-20020a2e964d000000b002b1c6e93e5cmr3456318ljh.10.1686615296039; 
- Mon, 12 Jun 2023 17:14:56 -0700 (PDT)
+ bh=oRVBObMQTmVt8I11EuaS6oqnf+s1jmU4aRKHB813oDU=;
+ b=Wn9HI+6opOa+bNNZ36sIHO8J9MgDE0/bNVcsU2E8jMYPvN2xN/gu+u5ofGmuerwkba
+ 4Xf1BGoEuZntLQPaCCRWPx8cBle8eXB0QrEtCeBKT8o+z1lKR4tuMKLxIbbYG8iIVvPQ
+ 6FyqCe1NwoZRQHGt2PKJxCxB1R7hyHhAe/3eWpMDSlABZYhjoYLJUxMU/ptEHmLOawoi
+ 2+fm4Id3Bj300cwel86gioZBKhuSzCLz+jUfBRng7CGMLWOOBxXdpnMcRtUQ8I7aHwOK
+ Fa7sJdplS5yxQiIgFFUfSs1CSCa9jktAYG3RyaxJrkcTZgsD2e49wjMgD2FLkFUZODTY
+ UNGg==
+X-Gm-Message-State: AC+VfDzH+dQILRtooqPFB0xVbvPz45f13dgfyakQRKF5niCjrFoLG4/P
+ MV9krMSP5wH6mMlSlPJWhxg1fg==
+X-Google-Smtp-Source: ACHHUZ5S1o+nfIAuSc76e8Do7qlx4JQ+jEcijk1dfAi387lKbzyUdr4cMUVjAoI5z029DIo1oPzJRg==
+X-Received: by 2002:a2e:3c0c:0:b0:2af:25cf:92ae with SMTP id
+ j12-20020a2e3c0c000000b002af25cf92aemr4283700lja.22.1686615297217; 
+ Mon, 12 Jun 2023 17:14:57 -0700 (PDT)
 Received: from eriador.lan (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a0db:1f00::8a5]) by smtp.gmail.com with ESMTPSA id
- v10-20020a2e960a000000b002adbe01cd69sm1961999ljh.9.2023.06.12.17.14.55
+ v10-20020a2e960a000000b002adbe01cd69sm1961999ljh.9.2023.06.12.17.14.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jun 2023 17:14:55 -0700 (PDT)
+ Mon, 12 Jun 2023 17:14:56 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH v2 19/22] drm/msm/dpu: inline WB_BLK macros
-Date: Tue, 13 Jun 2023 03:14:50 +0300
-Message-Id: <20230613001453.3427024-2-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 20/22] drm/msm/dpu: inline INTF_BLK and INTF_BLK_DSI_TE
+ macros
+Date: Tue, 13 Jun 2023 03:14:51 +0300
+Message-Id: <20230613001453.3427024-3-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230613001004.3426676-1-dmitry.baryshkov@linaro.org>
 References: <20230613001004.3426676-1-dmitry.baryshkov@linaro.org>
@@ -87,111 +88,950 @@ and visible in the source files.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h | 14 ++++++++++++--
- .../drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h | 14 ++++++++++++--
- .../drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h | 14 ++++++++++++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 18 ------------------
- 4 files changed, 36 insertions(+), 24 deletions(-)
+ .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   |  52 ++++++--
+ .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    |  53 ++++++--
+ .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    |  55 ++++++--
+ .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   |  82 +++++++++---
+ .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |  55 ++++++--
+ .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |  28 +++-
+ .../msm/disp/dpu1/catalog/dpu_6_3_sm6115.h    |  15 ++-
+ .../msm/disp/dpu1/catalog/dpu_6_4_sm6350.h    |  28 +++-
+ .../msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h   |  15 ++-
+ .../msm/disp/dpu1/catalog/dpu_6_9_sm6375.h    |  15 ++-
+ .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    |  55 ++++++--
+ .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |  41 ++++--
+ .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  | 120 +++++++++++++-----
+ .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    |  55 ++++++--
+ .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |  55 ++++++--
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  30 -----
+ 16 files changed, 545 insertions(+), 209 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+index a71a6cd532c0..d78cedd35c01 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+@@ -243,18 +243,46 @@ static const struct dpu_dspp_cfg msm8998_dspp[] = {
+ };
+ 
+ static const struct dpu_intf_cfg msm8998_intf[] = {
+-	INTF_BLK("intf_0", INTF_0, 0x6a000, 0x280, INTF_DP, MSM_DP_CONTROLLER_0, 21, INTF_SDM845_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25)),
+-	INTF_BLK("intf_1", INTF_1, 0x6a800, 0x280, INTF_DSI, MSM_DSI_CONTROLLER_0, 21, INTF_SDM845_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27)),
+-	INTF_BLK("intf_2", INTF_2, 0x6b000, 0x280, INTF_DSI, MSM_DSI_CONTROLLER_1, 21, INTF_SDM845_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29)),
+-	INTF_BLK("intf_3", INTF_3, 0x6b800, 0x280, INTF_HDMI, 0, 21, INTF_SDM845_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31)),
++	{
++		.name = "intf_0", .id = INTF_0,
++		.base = 0x6a000, .len = 0x280,
++		.features = INTF_SDM845_MASK,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 21,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25),
++		.intr_tear_rd_ptr = -1,
++	}, {
++		.name = "intf_1", .id = INTF_1,
++		.base = 0x6a800, .len = 0x280,
++		.features = INTF_SDM845_MASK,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 21,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
++		.intr_tear_rd_ptr = -1,
++	}, {
++		.name = "intf_2", .id = INTF_2,
++		.base = 0x6b000, .len = 0x280,
++		.features = INTF_SDM845_MASK,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_1,
++		.prog_fetch_lines_worst_case = 21,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
++		.intr_tear_rd_ptr = -1,
++	}, {
++		.name = "intf_3", .id = INTF_3,
++		.base = 0x6b800, .len = 0x280,
++		.features = INTF_SDM845_MASK,
++		.type = INTF_HDMI,
++		.prog_fetch_lines_worst_case = 21,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31),
++		.intr_tear_rd_ptr = -1,
++	},
+ };
+ 
+ static const struct dpu_perf_cfg msm8998_perf_data = {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+index e1bdc0cc45cd..de26f469ebb1 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+@@ -257,18 +257,47 @@ static const struct dpu_dsc_cfg sdm845_dsc[] = {
+ };
+ 
+ static const struct dpu_intf_cfg sdm845_intf[] = {
+-	INTF_BLK("intf_0", INTF_0, 0x6a000, 0x280, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SDM845_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25)),
+-	INTF_BLK("intf_1", INTF_1, 0x6a800, 0x280, INTF_DSI, MSM_DSI_CONTROLLER_0, 24, INTF_SDM845_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27)),
+-	INTF_BLK("intf_2", INTF_2, 0x6b000, 0x280, INTF_DSI, MSM_DSI_CONTROLLER_1, 24, INTF_SDM845_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29)),
+-	INTF_BLK("intf_3", INTF_3, 0x6b800, 0x280, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SDM845_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31)),
++	{
++		.name = "intf_0", .id = INTF_0,
++		.base = 0x6a000, .len = 0x280,
++		.features = INTF_SDM845_MASK,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25),
++		.intr_tear_rd_ptr = -1,
++	}, {
++		.name = "intf_1", .id = INTF_1,
++		.base = 0x6a800, .len = 0x280,
++		.features = INTF_SDM845_MASK,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
++		.intr_tear_rd_ptr = -1,
++	}, {
++		.name = "intf_2", .id = INTF_2,
++		.base = 0x6b000, .len = 0x280,
++		.features = INTF_SDM845_MASK,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_1,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
++		.intr_tear_rd_ptr = -1,
++	}, {
++		.name = "intf_3", .id = INTF_3,
++		.base = 0x6b800, .len = 0x280,
++		.features = INTF_SDM845_MASK,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_1,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31),
++		.intr_tear_rd_ptr = -1,
++	},
+ };
+ 
+ static const struct dpu_perf_cfg sdm845_perf_data = {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+index 5f20272cd5aa..c8c702e4f045 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+@@ -306,20 +306,47 @@ static const struct dpu_dsc_cfg sm8150_dsc[] = {
+ };
+ 
+ static const struct dpu_intf_cfg sm8150_intf[] = {
+-	INTF_BLK("intf_0", INTF_0, 0x6a000, 0x280, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7180_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25)),
+-	INTF_BLK_DSI_TE("intf_1", INTF_1, 0x6a800, 0x2bc, INTF_DSI, MSM_DSI_CONTROLLER_0, 24, INTF_SC7180_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
+-			DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2)),
+-	INTF_BLK_DSI_TE("intf_2", INTF_2, 0x6b000, 0x2bc, INTF_DSI, MSM_DSI_CONTROLLER_1, 24, INTF_SC7180_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
+-			DPU_IRQ_IDX(MDP_INTF2_TEAR_INTR, 2)),
+-	INTF_BLK("intf_3", INTF_3, 0x6b800, 0x280, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7180_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31)),
++	{
++		.name = "intf_0", .id = INTF_0,
++		.base = 0x6a000, .len = 0x280,
++		.features = INTF_SC7180_MASK,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25),
++		.intr_tear_rd_ptr = -1,
++	}, {
++		.name = "intf_1", .id = INTF_1,
++		.base = 0x6a800, .len = 0x2bc,
++		.features = INTF_SC7180_MASK,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
++		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2),
++	}, {
++		.name = "intf_2", .id = INTF_2,
++		.base = 0x6b000, .len = 0x2bc,
++		.features = INTF_SC7180_MASK,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_1,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
++		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF2_TEAR_INTR, 2),
++	}, {
++		.name = "intf_3", .id = INTF_3,
++		.base = 0x6b800, .len = 0x280,
++		.features = INTF_SC7180_MASK,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_1,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31),
++		.intr_tear_rd_ptr = -1,
++	},
+ };
+ 
+ static const struct dpu_perf_cfg sm8150_perf_data = {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
+index 7439f0279a3c..11bf4cec0f95 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
+@@ -313,27 +313,69 @@ static const struct dpu_dsc_cfg sc8180x_dsc[] = {
+ };
+ 
+ static const struct dpu_intf_cfg sc8180x_intf[] = {
+-	INTF_BLK("intf_0", INTF_0, 0x6a000, 0x280, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7180_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25)),
+-	INTF_BLK_DSI_TE("intf_1", INTF_1, 0x6a800, 0x2bc, INTF_DSI, MSM_DSI_CONTROLLER_0, 24, INTF_SC7180_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
+-			DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2)),
+-	INTF_BLK_DSI_TE("intf_2", INTF_2, 0x6b000, 0x2bc, INTF_DSI, MSM_DSI_CONTROLLER_1, 24, INTF_SC7180_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
+-			DPU_IRQ_IDX(MDP_INTF2_TEAR_INTR, 2)),
++	{
++		.name = "intf_0", .id = INTF_0,
++		.base = 0x6a000, .len = 0x280,
++		.features = INTF_SC7180_MASK,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25),
++		.intr_tear_rd_ptr = -1,
++	}, {
++		.name = "intf_1", .id = INTF_1,
++		.base = 0x6a800, .len = 0x2bc,
++		.features = INTF_SC7180_MASK,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
++		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2),
++	}, {
++		.name = "intf_2", .id = INTF_2,
++		.base = 0x6b000, .len = 0x2bc,
++		.features = INTF_SC7180_MASK,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_1,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
++		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF2_TEAR_INTR, 2),
++	},
+ 	/* INTF_3 is for MST, wired to INTF_DP 0 and 1, use dummy index until this is supported */
+-	INTF_BLK("intf_3", INTF_3, 0x6b800, 0x280, INTF_DP, 999, 24, INTF_SC7180_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31)),
+-	INTF_BLK("intf_4", INTF_4, 0x6c000, 0x280, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7180_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 20),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 21)),
+-	INTF_BLK("intf_5", INTF_5, 0x6c800, 0x280, INTF_DP, MSM_DP_CONTROLLER_2, 24, INTF_SC7180_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 22),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 23)),
++	{
++		.name = "intf_3", .id = INTF_3,
++		.base = 0x6b800, .len = 0x280,
++		.features = INTF_SC7180_MASK,
++		.type = INTF_DP,
++		.controller_id = 999,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31),
++		.intr_tear_rd_ptr = -1,
++	}, {
++		.name = "intf_4", .id = INTF_4,
++		.base = 0x6c000, .len = 0x280,
++		.features = INTF_SC7180_MASK,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_1,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 20),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 21),
++		.intr_tear_rd_ptr = -1,
++	}, {
++		.name = "intf_5", .id = INTF_5,
++		.base = 0x6c800, .len = 0x280,
++		.features = INTF_SC7180_MASK,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_2,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 22),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 23),
++		.intr_tear_rd_ptr = -1,
++	},
+ };
+ 
+ static const struct dpu_perf_cfg sc8180x_perf_data = {
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
-index 787af2b2f957..60e71cbc5e27 100644
+index 60e71cbc5e27..bf35b5bf0cd1 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
 +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
-@@ -323,8 +323,18 @@ static const struct dpu_intf_cfg sm8250_intf[] = {
+@@ -306,20 +306,47 @@ static const struct dpu_dsc_cfg sm8250_dsc[] = {
+ };
+ 
+ static const struct dpu_intf_cfg sm8250_intf[] = {
+-	INTF_BLK("intf_0", INTF_0, 0x6a000, 0x280, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7180_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25)),
+-	INTF_BLK_DSI_TE("intf_1", INTF_1, 0x6a800, 0x2c0, INTF_DSI, MSM_DSI_CONTROLLER_0, 24, INTF_SC7180_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
+-			DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2)),
+-	INTF_BLK_DSI_TE("intf_2", INTF_2, 0x6b000, 0x2c0, INTF_DSI, MSM_DSI_CONTROLLER_1, 24, INTF_SC7180_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
+-			DPU_IRQ_IDX(MDP_INTF2_TEAR_INTR, 2)),
+-	INTF_BLK("intf_3", INTF_3, 0x6b800, 0x280, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7180_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31)),
++	{
++		.name = "intf_0", .id = INTF_0,
++		.base = 0x6a000, .len = 0x280,
++		.features = INTF_SC7180_MASK,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25),
++		.intr_tear_rd_ptr = -1,
++	}, {
++		.name = "intf_1", .id = INTF_1,
++		.base = 0x6a800, .len = 0x2c0,
++		.features = INTF_SC7180_MASK,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
++		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2),
++	}, {
++		.name = "intf_2", .id = INTF_2,
++		.base = 0x6b000, .len = 0x2c0,
++		.features = INTF_SC7180_MASK,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_1,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
++		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF2_TEAR_INTR, 2),
++	}, {
++		.name = "intf_3", .id = INTF_3,
++		.base = 0x6b800, .len = 0x280,
++		.features = INTF_SC7180_MASK,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_1,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31),
++		.intr_tear_rd_ptr = -1,
++	},
  };
  
  static const struct dpu_wb_cfg sm8250_wb[] = {
--	WB_BLK("wb_2", WB_2, 0x65000, WB_SM8250_MASK, DPU_CLK_CTRL_WB2, 6,
--			VBIF_RT, MDP_SSPP_TOP0_INTR, 4096, 4),
-+	{
-+		.name = "wb_2", .id = WB_2,
-+		.base = 0x65000, .len = 0x2c8,
-+		.features = WB_SM8250_MASK,
-+		.format_list = wb2_formats,
-+		.num_formats = ARRAY_SIZE(wb2_formats),
-+		.clk_ctrl = DPU_CLK_CTRL_WB2,
-+		.xin_id = 6,
-+		.vbif_idx = VBIF_RT,
-+		.maxlinewidth = 4096,
-+		.intr_wb_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 4),
-+	},
- };
- 
- static const struct dpu_perf_cfg sm8250_perf_data = {
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
-index d7d117e3af36..904c758a60df 100644
+index 904c758a60df..0f59e372cf3e 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
 +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
-@@ -148,8 +148,18 @@ static const struct dpu_intf_cfg sc7180_intf[] = {
+@@ -138,13 +138,27 @@ static const struct dpu_pingpong_cfg sc7180_pp[] = {
+ };
+ 
+ static const struct dpu_intf_cfg sc7180_intf[] = {
+-	INTF_BLK("intf_0", INTF_0, 0x6a000, 0x280, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7180_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25)),
+-	INTF_BLK_DSI_TE("intf_1", INTF_1, 0x6a800, 0x2c0, INTF_DSI, MSM_DSI_CONTROLLER_0, 24, INTF_SC7180_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
+-			DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2)),
++	{
++		.name = "intf_0", .id = INTF_0,
++		.base = 0x6a000, .len = 0x280,
++		.features = INTF_SC7180_MASK,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25),
++		.intr_tear_rd_ptr = -1,
++	}, {
++		.name = "intf_1", .id = INTF_1,
++		.base = 0x6a800, .len = 0x2c0,
++		.features = INTF_SC7180_MASK,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
++		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2),
++	},
  };
  
  static const struct dpu_wb_cfg sc7180_wb[] = {
--	WB_BLK("wb_2", WB_2, 0x65000, WB_SM8250_MASK, DPU_CLK_CTRL_WB2, 6,
--			VBIF_RT, MDP_SSPP_TOP0_INTR, 4096, 4),
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
+index 4236cd7317a1..f01eac27f405 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
+@@ -94,10 +94,17 @@ static const struct dpu_pingpong_cfg sm6115_pp[] = {
+ };
+ 
+ static const struct dpu_intf_cfg sm6115_intf[] = {
+-	INTF_BLK_DSI_TE("intf_1", INTF_1, 0x6a800, 0x2c0, INTF_DSI, MSM_DSI_CONTROLLER_0, 24, INTF_SC7180_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
+-			DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2)),
 +	{
-+		.name = "wb_2", .id = WB_2,
-+		.base = 0x65000, .len = 0x2c8,
-+		.features = WB_SM8250_MASK,
-+		.format_list = wb2_formats,
-+		.num_formats = ARRAY_SIZE(wb2_formats),
-+		.clk_ctrl = DPU_CLK_CTRL_WB2,
-+		.xin_id = 6,
-+		.vbif_idx = VBIF_RT,
-+		.maxlinewidth = 4096,
-+		.intr_wb_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 4),
++		.name = "intf_1", .id = INTF_1,
++		.base = 0x6a800, .len = 0x2c0,
++		.features = INTF_SC7180_MASK,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
++		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2),
 +	},
  };
  
- static const struct dpu_perf_cfg sc7180_perf_data = {
+ static const struct dpu_perf_cfg sm6115_perf_data = {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
+index d09ee048dab1..abce624e7d33 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
+@@ -155,13 +155,27 @@ static const struct dpu_dsc_cfg sm6350_dsc[] = {
+ };
+ 
+ static const struct dpu_intf_cfg sm6350_intf[] = {
+-	INTF_BLK("intf_0", INTF_0, 0x6a000, 0x280, INTF_DP, 0, 35, INTF_SC7180_MASK,
+-		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
+-		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25)),
+-	INTF_BLK_DSI_TE("intf_1", INTF_1, 0x6a800, 0x2c0, INTF_DSI, 0, 35, INTF_SC7180_MASK,
+-		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
+-		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
+-		DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2)),
++	{
++		.name = "intf_0", .id = INTF_0,
++		.base = 0x6a000, .len = 0x280,
++		.features = INTF_SC7180_MASK,
++		.type = INTF_DP,
++		.controller_id = 0,
++		.prog_fetch_lines_worst_case = 35,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25),
++		.intr_tear_rd_ptr = -1,
++	}, {
++		.name = "intf_1", .id = INTF_1,
++		.base = 0x6a800, .len = 0x2c0,
++		.features = INTF_SC7180_MASK,
++		.type = INTF_DSI,
++		.controller_id = 0,
++		.prog_fetch_lines_worst_case = 35,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
++		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2),
++	},
+ };
+ 
+ static const struct dpu_perf_cfg sm6350_perf_data = {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
+index c6bf487e131b..cb486bea6628 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
+@@ -91,10 +91,17 @@ static const struct dpu_pingpong_cfg qcm2290_pp[] = {
+ };
+ 
+ static const struct dpu_intf_cfg qcm2290_intf[] = {
+-	INTF_BLK_DSI_TE("intf_1", INTF_1, 0x6a800, 0x2c0, INTF_DSI, MSM_DSI_CONTROLLER_0, 24, INTF_SC7180_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
+-			DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2)),
++	{
++		.name = "intf_1", .id = INTF_1,
++		.base = 0x6a800, .len = 0x2c0,
++		.features = INTF_SC7180_MASK,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
++		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2),
++	},
+ };
+ 
+ static const struct dpu_perf_cfg qcm2290_perf_data = {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h
+index c5bf22d14d1b..6864ac4bb3ae 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h
+@@ -104,10 +104,17 @@ static const struct dpu_dsc_cfg sm6375_dsc[] = {
+ };
+ 
+ static const struct dpu_intf_cfg sm6375_intf[] = {
+-	INTF_BLK_DSI_TE("intf_1", INTF_1, 0x6a800, 0x2c0, INTF_DSI, 0, 24, INTF_SC7180_MASK,
+-		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
+-		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
+-		DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2)),
++	{
++		.name = "intf_1", .id = INTF_1,
++		.base = 0x6a800, .len = 0x2c0,
++		.features = INTF_SC7180_MASK,
++		.type = INTF_DSI,
++		.controller_id = 0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
++		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF1_TEAR_INTR, 2),
++	},
+ };
+ 
+ static const struct dpu_perf_cfg sm6375_perf_data = {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+index 108e35cbcd90..d5191a663ae1 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+@@ -313,20 +313,47 @@ static const struct dpu_dsc_cfg sm8350_dsc[] = {
+ };
+ 
+ static const struct dpu_intf_cfg sm8350_intf[] = {
+-	INTF_BLK("intf_0", INTF_0, 0x34000, 0x280, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25)),
+-	INTF_BLK_DSI_TE("intf_1", INTF_1, 0x35000, 0x2c4, INTF_DSI, MSM_DSI_CONTROLLER_0, 24, INTF_SC7280_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
+-			DPU_IRQ_IDX(MDP_INTF1_7xxx_TEAR_INTR, 2)),
+-	INTF_BLK_DSI_TE("intf_2", INTF_2, 0x36000, 0x2c4, INTF_DSI, MSM_DSI_CONTROLLER_1, 24, INTF_SC7280_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
+-			DPU_IRQ_IDX(MDP_INTF2_7xxx_TEAR_INTR, 2)),
+-	INTF_BLK("intf_3", INTF_3, 0x37000, 0x280, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31)),
++	{
++		.name = "intf_0", .id = INTF_0,
++		.base = 0x34000, .len = 0x280,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25),
++		.intr_tear_rd_ptr = -1,
++	}, {
++		.name = "intf_1", .id = INTF_1,
++		.base = 0x35000, .len = 0x2c4,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
++		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF1_7xxx_TEAR_INTR, 2),
++	}, {
++		.name = "intf_2", .id = INTF_2,
++		.base = 0x36000, .len = 0x2c4,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_1,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
++		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF2_7xxx_TEAR_INTR, 2),
++	}, {
++		.name = "intf_3", .id = INTF_3,
++		.base = 0x37000, .len = 0x280,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_1,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31),
++		.intr_tear_rd_ptr = -1,
++	},
+ };
+ 
+ static const struct dpu_perf_cfg sm8350_perf_data = {
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-index 16489d3f4276..fcccb9849563 100644
+index fcccb9849563..cddceb8d5705 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
 +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-@@ -166,8 +166,18 @@ static const struct dpu_pingpong_cfg sc7280_pp[] = {
+@@ -191,16 +191,37 @@ static const struct dpu_dsc_cfg sc7280_dsc[] = {
  };
  
- static const struct dpu_wb_cfg sc7280_wb[] = {
--	WB_BLK("wb_2", WB_2, 0x65000, WB_SM8250_MASK, DPU_CLK_CTRL_WB2, 6,
--			VBIF_RT, MDP_SSPP_TOP0_INTR, 4096, 4),
+ static const struct dpu_intf_cfg sc7280_intf[] = {
+-	INTF_BLK("intf_0", INTF_0, 0x34000, 0x280, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25)),
+-	INTF_BLK_DSI_TE("intf_1", INTF_1, 0x35000, 0x2c4, INTF_DSI, MSM_DSI_CONTROLLER_0, 24, INTF_SC7280_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
+-			DPU_IRQ_IDX(MDP_INTF1_7xxx_TEAR_INTR, 2)),
+-	INTF_BLK("intf_5", INTF_5, 0x39000, 0x280, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 22),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 23)),
 +	{
-+		.name = "wb_2", .id = WB_2,
-+		.base = 0x65000, .len = 0x2c8,
-+		.features = WB_SM8250_MASK,
-+		.format_list = wb2_formats,
-+		.num_formats = ARRAY_SIZE(wb2_formats),
-+		.clk_ctrl = DPU_CLK_CTRL_WB2,
-+		.xin_id = 6,
-+		.vbif_idx = VBIF_RT,
-+		.maxlinewidth = 4096,
-+		.intr_wb_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 4),
++		.name = "intf_0", .id = INTF_0,
++		.base = 0x34000, .len = 0x280,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25),
++		.intr_tear_rd_ptr = -1,
++	}, {
++		.name = "intf_1", .id = INTF_1,
++		.base = 0x35000, .len = 0x2c4,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
++		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF1_7xxx_TEAR_INTR, 2),
++	}, {
++		.name = "intf_5", .id = INTF_5,
++		.base = 0x39000, .len = 0x280,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_1,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 22),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 23),
++		.intr_tear_rd_ptr = -1,
 +	},
  };
  
- /* NOTE: sc7280 only has one DSC hard slice encoder */
+ static const struct dpu_perf_cfg sc7280_perf_data = {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+index 062b17dedec7..9f94cc6369dd 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+@@ -328,35 +328,97 @@ static const struct dpu_dsc_cfg sc8280xp_dsc[] = {
+ 
+ /* TODO: INTF 3, 8 and 7 are used for MST, marked as INTF_NONE for now */
+ static const struct dpu_intf_cfg sc8280xp_intf[] = {
+-	INTF_BLK("intf_0", INTF_0, 0x34000, 0x280, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25)),
+-	INTF_BLK_DSI_TE("intf_1", INTF_1, 0x35000, 0x300, INTF_DSI, MSM_DSI_CONTROLLER_0, 24, INTF_SC7280_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
+-			DPU_IRQ_IDX(MDP_INTF1_7xxx_TEAR_INTR, 2)),
+-	INTF_BLK_DSI_TE("intf_2", INTF_2, 0x36000, 0x300, INTF_DSI, MSM_DSI_CONTROLLER_1, 24, INTF_SC7280_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
+-			DPU_IRQ_IDX(MDP_INTF2_7xxx_TEAR_INTR, 2)),
+-	INTF_BLK("intf_3", INTF_3, 0x37000, 0x280, INTF_NONE, MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31)),
+-	INTF_BLK("intf_4", INTF_4, 0x38000, 0x280, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 20),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 21)),
+-	INTF_BLK("intf_5", INTF_5, 0x39000, 0x280, INTF_DP, MSM_DP_CONTROLLER_3, 24, INTF_SC7280_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 22),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 23)),
+-	INTF_BLK("intf_6", INTF_6, 0x3a000, 0x280, INTF_DP, MSM_DP_CONTROLLER_2, 24, INTF_SC7280_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 16),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 17)),
+-	INTF_BLK("intf_7", INTF_7, 0x3b000, 0x280, INTF_NONE, MSM_DP_CONTROLLER_2, 24, INTF_SC7280_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 18),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 19)),
+-	INTF_BLK("intf_8", INTF_8, 0x3c000, 0x280, INTF_NONE, MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 13)),
++	{
++		.name = "intf_0", .id = INTF_0,
++		.base = 0x34000, .len = 0x280,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25),
++		.intr_tear_rd_ptr = -1,
++	}, {
++		.name = "intf_1", .id = INTF_1,
++		.base = 0x35000, .len = 0x300,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
++		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF1_7xxx_TEAR_INTR, 2),
++	}, {
++		.name = "intf_2", .id = INTF_2,
++		.base = 0x36000, .len = 0x300,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_1,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
++		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF2_7xxx_TEAR_INTR, 2),
++	}, {
++		.name = "intf_3", .id = INTF_3,
++		.base = 0x37000, .len = 0x280,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_NONE,
++		.controller_id = MSM_DP_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31),
++		.intr_tear_rd_ptr = -1,
++	}, {
++		.name = "intf_4", .id = INTF_4,
++		.base = 0x38000, .len = 0x280,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_1,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 20),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 21),
++		.intr_tear_rd_ptr = -1,
++	}, {
++		.name = "intf_5", .id = INTF_5,
++		.base = 0x39000, .len = 0x280,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_3,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 22),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 23),
++		.intr_tear_rd_ptr = -1,
++	}, {
++		.name = "intf_6", .id = INTF_6,
++		.base = 0x3a000, .len = 0x280,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_2,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 16),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 17),
++		.intr_tear_rd_ptr = -1,
++	}, {
++		.name = "intf_7", .id = INTF_7,
++		.base = 0x3b000, .len = 0x280,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_NONE,
++		.controller_id = MSM_DP_CONTROLLER_2,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 18),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 19),
++		.intr_tear_rd_ptr = -1,
++	}, {
++		.name = "intf_8", .id = INTF_8,
++		.base = 0x3c000, .len = 0x280,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_NONE,
++		.controller_id = MSM_DP_CONTROLLER_1,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 13),
++		.intr_tear_rd_ptr = -1,
++	},
+ };
+ 
+ static const struct dpu_perf_cfg sc8280xp_perf_data = {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+index d92af1410c3e..517629c4a168 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+@@ -337,20 +337,47 @@ static const struct dpu_dsc_cfg sm8450_dsc[] = {
+ };
+ 
+ static const struct dpu_intf_cfg sm8450_intf[] = {
+-	INTF_BLK("intf_0", INTF_0, 0x34000, 0x280, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25)),
+-	INTF_BLK_DSI_TE("intf_1", INTF_1, 0x35000, 0x300, INTF_DSI, MSM_DSI_CONTROLLER_0, 24, INTF_SC7280_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
+-			DPU_IRQ_IDX(MDP_INTF1_7xxx_TEAR_INTR, 2)),
+-	INTF_BLK_DSI_TE("intf_2", INTF_2, 0x36000, 0x300, INTF_DSI, MSM_DSI_CONTROLLER_1, 24, INTF_SC7280_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
+-			DPU_IRQ_IDX(MDP_INTF2_7xxx_TEAR_INTR, 2)),
+-	INTF_BLK("intf_3", INTF_3, 0x37000, 0x280, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31)),
++	{
++		.name = "intf_0", .id = INTF_0,
++		.base = 0x34000, .len = 0x280,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25),
++		.intr_tear_rd_ptr = -1,
++	}, {
++		.name = "intf_1", .id = INTF_1,
++		.base = 0x35000, .len = 0x300,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
++		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF1_7xxx_TEAR_INTR, 2),
++	}, {
++		.name = "intf_2", .id = INTF_2,
++		.base = 0x36000, .len = 0x300,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_1,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
++		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF2_7xxx_TEAR_INTR, 2),
++	}, {
++		.name = "intf_3", .id = INTF_3,
++		.base = 0x37000, .len = 0x280,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_1,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31),
++		.intr_tear_rd_ptr = -1,
++	},
+ };
+ 
+ static const struct dpu_perf_cfg sm8450_perf_data = {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+index 32ffb9a9cfc7..ed1d1d4092e8 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+@@ -351,20 +351,47 @@ static const struct dpu_dsc_cfg sm8550_dsc[] = {
+ };
+ 
+ static const struct dpu_intf_cfg sm8550_intf[] = {
+-	INTF_BLK("intf_0", INTF_0, 0x34000, 0x280, INTF_DP, MSM_DP_CONTROLLER_0, 24, INTF_SC7280_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25)),
+-	INTF_BLK_DSI_TE("intf_1", INTF_1, 0x35000, 0x300, INTF_DSI, MSM_DSI_CONTROLLER_0, 24, INTF_SC7280_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
+-			DPU_IRQ_IDX(MDP_INTF1_7xxx_TEAR_INTR, 2)),
+-	INTF_BLK_DSI_TE("intf_2", INTF_2, 0x36000, 0x300, INTF_DSI, MSM_DSI_CONTROLLER_1, 24, INTF_SC7280_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
+-			DPU_IRQ_IDX(MDP_INTF2_7xxx_TEAR_INTR, 2)),
+-	INTF_BLK("intf_3", INTF_3, 0x37000, 0x280, INTF_DP, MSM_DP_CONTROLLER_1, 24, INTF_SC7280_MASK,
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
+-			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31)),
++	{
++		.name = "intf_0", .id = INTF_0,
++		.base = 0x34000, .len = 0x280,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 24),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 25),
++		.intr_tear_rd_ptr = -1,
++	}, {
++		.name = "intf_1", .id = INTF_1,
++		.base = 0x35000, .len = 0x300,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_0,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
++		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF1_7xxx_TEAR_INTR, 2),
++	}, {
++		.name = "intf_2", .id = INTF_2,
++		.base = 0x36000, .len = 0x300,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_DSI,
++		.controller_id = MSM_DSI_CONTROLLER_1,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 28),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 29),
++		.intr_tear_rd_ptr = DPU_IRQ_IDX(MDP_INTF2_7xxx_TEAR_INTR, 2),
++	}, {
++		.name = "intf_3", .id = INTF_3,
++		.base = 0x37000, .len = 0x280,
++		.features = INTF_SC7280_MASK,
++		.type = INTF_DP,
++		.controller_id = MSM_DP_CONTROLLER_1,
++		.prog_fetch_lines_worst_case = 24,
++		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
++		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 31),
++		.intr_tear_rd_ptr = -1,
++	},
+ };
+ 
+ static const struct dpu_perf_cfg sm8550_perf_data = {
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 3ea63ca358a4..d2bca1ec0e63 100644
+index d2bca1ec0e63..6acd34e61aca 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -493,24 +493,6 @@ static const struct dpu_dsc_sub_blks dsc_sblk_1 = {
- 	.intr_tear_rd_ptr = _tear_rd_ptr, \
- 	}
+@@ -463,36 +463,6 @@ static const struct dpu_dsc_sub_blks dsc_sblk_1 = {
+ 	.ctl = {.base = 0xF80, .len = 0x10},
+ };
  
 -/*************************************************************
-- * Writeback blocks config
+- * INTF sub blocks config
 - *************************************************************/
--#define WB_BLK(_name, _id, _base, _features, _clk_ctrl, \
--		__xin_id, vbif_id, _reg, _max_linewidth, _wb_done_bit) \
--	{ \
+-#define INTF_BLK(_name, _id, _base, _len, _type, _ctrl_id, _progfetch, _features, _underrun, _vsync) \
+-	{\
 -	.name = _name, .id = _id, \
--	.base = _base, .len = 0x2c8, \
+-	.base = _base, .len = _len, \
 -	.features = _features, \
--	.format_list = wb2_formats, \
--	.num_formats = ARRAY_SIZE(wb2_formats), \
--	.clk_ctrl = _clk_ctrl, \
--	.xin_id = __xin_id, \
--	.vbif_idx = vbif_id, \
--	.maxlinewidth = _max_linewidth, \
--	.intr_wb_done = DPU_IRQ_IDX(_reg, _wb_done_bit) \
+-	.type = _type, \
+-	.controller_id = _ctrl_id, \
+-	.prog_fetch_lines_worst_case = _progfetch, \
+-	.intr_underrun = _underrun, \
+-	.intr_vsync = _vsync, \
+-	.intr_tear_rd_ptr = -1, \
+-	}
+-
+-/* DSI Interface sub-block with TEAR registers (since DPU 5.0.0) */
+-#define INTF_BLK_DSI_TE(_name, _id, _base, _len, _type, _ctrl_id, _progfetch, _features, _underrun, _vsync, _tear_rd_ptr) \
+-	{\
+-	.name = _name, .id = _id, \
+-	.base = _base, .len = _len, \
+-	.features = _features, \
+-	.type = _type, \
+-	.controller_id = _ctrl_id, \
+-	.prog_fetch_lines_worst_case = _progfetch, \
+-	.intr_underrun = _underrun, \
+-	.intr_vsync = _vsync, \
+-	.intr_tear_rd_ptr = _tear_rd_ptr, \
 -	}
 -
  /*************************************************************
