@@ -1,65 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6015572E5D4
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 16:34:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45A4972E602
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 16:41:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37D4C10E265;
-	Tue, 13 Jun 2023 14:34:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E46C10E080;
+	Tue, 13 Jun 2023 14:41:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9311C10E265
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 14:34:47 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B2E736372D
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 14:34:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5FF4FC4AF6A
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 14:34:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686666885;
- bh=kPKcuE9T73nserQLF1ufjP+TrsOJdnlpAfTCqim9580=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Hnd9ZpOCowj8g9ED1xQLWF7RzCrntYQVh8bcoT+CZohmEm/Bg4c4n4VNO8DYElRdI
- meEBGPbHFvmH1jq7XYYAAgEQtpfVIdExsy7Ky3LbCuExLdzOhimIiUAbuA+hhqIGD1
- KsxyPhK1HbYZl7mFqn+S8dmrtviTZuYTpMWjuzqNygNE6rX744oqe06eoXMYuG6PUA
- hIm7eGjQNvcNOXHeNLsh203KecwVR8h1rUkYWY2ML+k1jUImqIwVgKx7mW329wlXuL
- 97bNVKrAdErj4Hln0wluBuRaFwSCXGKQCcZBj36p10cl7SJxvzwQxMo8DKMjREsvy/
- 52TF9SHrEij+g==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 4E2AAC4332E; Tue, 13 Jun 2023 14:34:45 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205089] amdgpu : drm:amdgpu_cs_ioctl : Failed to initialize
- parser -125
-Date: Tue, 13 Jun 2023 14:34:43 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: webda2l@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-205089-2300-QdefHHz3mq@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205089-2300@https.bugzilla.kernel.org/>
-References: <bug-205089-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 437BA10E080
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 14:41:52 +0000 (UTC)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 35DDY6Ul009653; Tue, 13 Jun 2023 16:41:46 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=QBzgnvZYhvVECTlLRUjYVkLIxxSdPPzsz4m+WBIMtA0=;
+ b=ALffOYbR7QhU+P2lgcTH5EB6/GVdjZuhII0dOcWGqr3VPnjrwevl+MoxPuomk1Amqqva
+ vBNz7QXDeDupwh9e4nW07kdU0eYjLkX9P+KUMH2PtLJyTFfivV7To+JKp4ZrV2qxB8d0
+ Wxm0+v6K70ew01w1NqsYa2rvj7Hw1Xuduh08Btv0Tbpyt6tvnvwbwv5jqggNHFim33uk
+ k1lvaDwCaVTbZFqqNcR2upxolZD/KXoUpiHSuFOhor/XLTm0Hfgb7cR0DE1CaUT0RpT/
+ YQmn7/2zEKy8ADtBlCY5tHHqa5ZL+/3fxqvOxZYyW9o6pdFB/jT9uriliSnu8Kvb9mOm RA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3r6sf30dn2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 13 Jun 2023 16:41:46 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id E3FFD100045;
+ Tue, 13 Jun 2023 16:41:45 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D4C882309E8;
+ Tue, 13 Jun 2023 16:41:45 +0200 (CEST)
+Received: from [10.48.1.204] (10.48.1.204) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Tue, 13 Jun
+ 2023 16:41:45 +0200
+Message-ID: <376dc16d-8896-0a47-b8dd-3f919c1e50bf@foss.st.com>
+Date: Tue, 13 Jun 2023 16:41:31 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v3 4/4] drm/stm: add an option to change FB bpp
+To: Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ <linux-kernel@vger.kernel.org>
+References: <20230609062050.2107143-1-dario.binacchi@amarulasolutions.com>
+ <20230609062050.2107143-5-dario.binacchi@amarulasolutions.com>
+Content-Language: en-US
+From: Philippe CORNU <philippe.cornu@foss.st.com>
+In-Reply-To: <20230609062050.2107143-5-dario.binacchi@amarulasolutions.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.48.1.204]
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-13_16,2023-06-12_02,2023-05-22_02
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,140 +73,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Amarula patchwork <linux-amarula@amarulasolutions.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ michael@amarulasolutions.com, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D205089
-
-webda2l@gmail.com changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |webda2l@gmail.com
-
---- Comment #53 from webda2l@gmail.com ---
-Just got the issue even if uptodate and on power :/
 
 
-```
-No LSB modules are available.
-Distributor ID: Ubuntu
-Description:    Ubuntu 22.04.2 LTS
-Release:        22.04
-Codename:       jammy
+On 6/9/23 08:20, Dario Binacchi wrote:
+> Boards that use the STM32F{4,7} series have limited amounts of RAM. The
+> added parameter allows users to size, within certain limits, the memory
+> footprint required by the framebuffer.
+> 
+> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+> 
+> ---
+> 
+> Changes in v3:
+> - drop [4/6] dt-bindings: display: simple: add Rocktech RK043FN48H
+>    Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next):
+>    https://cgit.freedesktop.org/drm/drm-misc/commit/?id=c42a37a27c777d63961dd634a30f7c887949491a
+> - drop [5/6] drm/panel: simple: add support for Rocktech RK043FN48H panel
+>    Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+>    https://cgit.freedesktop.org/drm/drm-misc/commit/?id=13cdd12a9f934158f4ec817cf048fcb4384aa9dc
+> 
+>   drivers/gpu/drm/stm/drv.c | 8 +++++++-
+>   1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
+> index 422220df7d8c..65be2b442a6a 100644
+> --- a/drivers/gpu/drm/stm/drv.c
+> +++ b/drivers/gpu/drm/stm/drv.c
+> @@ -30,6 +30,11 @@
+>   #define STM_MAX_FB_WIDTH	2048
+>   #define STM_MAX_FB_HEIGHT	2048 /* same as width to handle orientation */
+>   
+> +static uint stm_bpp = 16;
+> +
+> +MODULE_PARM_DESC(bpp, "bits-per-pixel (default: 16)");
+> +module_param_named(bpp, stm_bpp, uint, 0644);
+> +
+>   static const struct drm_mode_config_funcs drv_mode_config_funcs = {
+>   	.fb_create = drm_gem_fb_create,
+>   	.atomic_check = drm_atomic_helper_check,
+> @@ -93,6 +98,7 @@ static int drv_load(struct drm_device *ddev)
+>   	ddev->mode_config.min_height = 0;
+>   	ddev->mode_config.max_width = STM_MAX_FB_WIDTH;
+>   	ddev->mode_config.max_height = STM_MAX_FB_HEIGHT;
+> +	ddev->mode_config.preferred_depth = stm_bpp;
+>   	ddev->mode_config.funcs = &drv_mode_config_funcs;
+>   	ddev->mode_config.normalize_zpos = true;
+>   
+> @@ -203,7 +209,7 @@ static int stm_drm_platform_probe(struct platform_device *pdev)
+>   	if (ret)
+>   		goto err_put;
+>   
+> -	drm_fbdev_dma_setup(ddev, 16);
+> +	drm_fbdev_dma_setup(ddev, stm_bpp);
+>   
+>   	return 0;
+>   
 
+Acked-by: Philippe Cornu <philippe.cornu@foss.st.com>
+Many thanks,
+Philippe :-)
 
-
-5.19.0-43-generic
-
-
-
-H/W path          Device        Class       Description
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-                                system      Computer
-/0                              bus         Motherboard
-/0/0                            memory      15GiB System memory
-/0/1                            processor   AMD Ryzen 7 7735HS with Radeon
-Graphics
-/0/100                          bridge      Advanced Micro Devices, Inc. [A=
-MD]
-/0/100/0.2                      generic     Advanced Micro Devices, Inc. [A=
-MD]
-/0/100/2.2                      bridge      Advanced Micro Devices, Inc. [A=
-MD]
-/0/100/2.2/0      wlp1s0        network     MEDIATEK Corp.
-/0/100/2.4                      bridge      Advanced Micro Devices, Inc. [A=
-MD]
-/0/100/2.4/0      /dev/nvme0    storage     SAMSUNG MZVL21T0HCLR-00BL2
-/0/100/2.4/0/0    hwmon3        disk        NVMe disk
-/0/100/2.4/0/2    /dev/ng0n1    disk        NVMe disk
-/0/100/2.4/0/1    /dev/nvme0n1  disk        NVMe disk
-/0/100/3.1                      bridge      Advanced Micro Devices, Inc. [A=
-MD]
-/0/100/8.1                      bridge      Advanced Micro Devices, Inc. [A=
-MD]
-/0/100/8.1/0      /dev/fb0      display     Rembrandt
-/0/100/8.1/0.1    card0         multimedia  Advanced Micro Devices, Inc.
-[AMD/ATI]
-/0/100/8.1/0.1/0  input13       input       HD-Audio Generic HDMI/DP,pcm=3D3
-/0/100/8.1/0.1/1  input14       input       HD-Audio Generic HDMI/DP,pcm=3D7
-/0/100/8.1/0.2                  generic     VanGogh PSP/CCP
-/0/100/8.1/0.3                  bus         Advanced Micro Devices, Inc. [A=
-MD]
-/0/100/8.1/0.4                  bus         Advanced Micro Devices, Inc. [A=
-MD]
-/0/100/8.1/0.5                  multimedia  Raven/Raven2/FireFlight/Renoir
-Audio Processor
-/0/100/8.1/0.6    card1         multimedia  Family 17h (Models 10h-1fh) HD
-Audio Controller
-/0/100/8.1/0.6/0  input15       input       HD-Audio Generic Mic
-/0/100/8.1/0.6/1  input16       input       HD-Audio Generic Headphone
-/0/100/8.3                      bridge      Advanced Micro Devices, Inc. [A=
-MD]
-/0/100/8.3/0                    bus         Advanced Micro Devices, Inc. [A=
-MD]
-/0/100/8.3/0.3                  bus         Advanced Micro Devices, Inc. [A=
-MD]
-/0/100/8.3/0.4                  bus         Advanced Micro Devices, Inc. [A=
-MD]
-/0/100/8.3/0.5                  bus         Advanced Micro Devices, Inc. [A=
-MD]
-/0/100/14                       bus         FCH SMBus Controller
-/0/100/14.3                     bridge      FCH LPC Bridge
-/0/100/14.3/0                   system      PnP device PNP0c02
-/0/100/14.3/1                   system      PnP device PNP0b00
-/0/100/14.3/2                   generic     PnP device FUJ7401
-/0/100/14.3/3                   system      PnP device PNP0c02
-/0/100/14.3/4                   system      PnP device PNP0c01
-/0/100/14.3/5     input7        input       Ideapad extra buttons
-/0/101                          bridge      Advanced Micro Devices, Inc. [A=
-MD]
-/0/102                          bridge      Advanced Micro Devices, Inc. [A=
-MD]
-/0/103                          bridge      Advanced Micro Devices, Inc. [A=
-MD]
-/0/104                          bridge      Advanced Micro Devices, Inc. [A=
-MD]
-/0/105                          bridge      Advanced Micro Devices, Inc. [A=
-MD]
-/0/106                          bridge      Advanced Micro Devices, Inc. [A=
-MD]
-/0/107                          bridge      Advanced Micro Devices, Inc. [A=
-MD]
-/0/108                          bridge      Advanced Micro Devices, Inc. [A=
-MD]
-/0/109                          bridge      Advanced Micro Devices, Inc. [A=
-MD]
-/0/10a                          bridge      Advanced Micro Devices, Inc. [A=
-MD]
-/0/10b                          bridge      Advanced Micro Devices, Inc. [A=
-MD]
-/0/10c                          bridge      Advanced Micro Devices, Inc. [A=
-MD]
-/0/10d                          bridge      Advanced Micro Devices, Inc. [A=
-MD]
-/1                input0        input       Power Button
-/2                input1        input       Lid Switch
-/3                input10       input       ELAN0662:00 04F3:3293 Mouse
-/4                input12       input       ELAN0662:00 04F3:3293 Touchpad
-/5                input17       input       Basilisk X HyperSpeed Mouse
-/6                input18       input       Basilisk X HyperSpeed Consumer
-Control
-/7                input19       input       Basilisk X HyperSpeed System
-Control
-/8                input2        input       AT Translated Set 2 keyboard
-/9                input20       input       Basilisk X HyperSpeed
-/a                input21       input       Basilisk X HyperSpeed Keyboard
-/b                input3        input       Video Bus
-/c                input8        input       Integrated Camera: Integrated C
-/d                input9        input       Integrated Camera: Integrated I
-
-```
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
