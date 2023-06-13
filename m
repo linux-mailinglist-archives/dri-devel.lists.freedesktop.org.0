@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27C5472E6F3
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 17:20:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57F6C72E6E9
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 17:20:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 683DA10E3BC;
-	Tue, 13 Jun 2023 15:20:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65FC310E392;
+	Tue, 13 Jun 2023 15:20:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
  [185.132.180.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C59E410E3A9
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD86E10E39E
  for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 15:20:27 +0000 (UTC)
 Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
  by mx07-00376f01.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id
- 35D6A1bA019659; Tue, 13 Jun 2023 15:48:14 +0100
+ 35D6A1bC019659; Tue, 13 Jun 2023 15:48:15 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
  :content-transfer-encoding:content-type:mime-version; s=
- dk201812; bh=Y+2NoXH4ZmFNsGK7TGCbs2P+Ejh+hdt0wRdXvSgRhzQ=; b=gHz
- CJS1stUIxSmaNCW6t0Q5c6qO3w9Y2+WCHTXxnnHD3yz9lTwt5OL6Dk86onOeRMGQ
- HYcJMS0wkdOfYr9X4y5jWYZQ8KfIEhQW0dlP/9uurxqlSUPpZwmZy4UXD7dJpPDv
- dYvm7wh1KP7BFGjENeeV8GuaNENnW5/rYrOiDprIcGazuW9E2RkHMiqOYWue9Uj8
- lBjLSNqqdhEfe0JsMDGrfcMnk5iArZC1uTkddmRTUVQSdc78o9mzvyKrUQwegEXG
- iKi0i9ZprEG6gqGFnJGd+WOwZMJsa7EuOjA/ZyKrEdZxEWWfhSryxffld/N0a40a
- QcRhgfJkjdEA/ub6O7Q==
+ dk201812; bh=ccgwpb+/hQuK6EdsZjdPgyve7cgT4+CMEE9hqxjVtSA=; b=VJ2
+ DwuY11ZXBN3Zkjv5GFxeSGVU0Y2QULSUpKOYx9W87d+ViWsyaMEUU/naYnpdKUMF
+ xV5vunxrmVaaYY2YrVp/VDdQ2ulVYp8jf68Pw4lgaTVN0NtAsSs6or9p1XfxEHvi
+ SGHu1Xxzz3tgbsHsX6pa7F0YXKJtqQaKf4lnJdeA/+Z4gMQSI9cRl7XTzQQ17qke
+ A3Mg4ljsONMGwLAG+bk4JUFbM4TVDqhmp4aHnGMoJZ5B+NCtRjxOGl2juOhGzQrB
+ 58YMnV3Vl0USzwFqqA0sNcL81Jx6XlRJaYn1bwv43TCZqG1UwbpleTg6MZKDCEDx
+ 5gbJKpzrlappWuCyQwg==
 Received: from hhmail05.hh.imgtec.org ([217.156.249.195])
- by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 3r4vqbt0k7-1
+ by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 3r4vqbt0k7-3
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Tue, 13 Jun 2023 15:48:14 +0100 (BST)
+ Tue, 13 Jun 2023 15:48:15 +0100 (BST)
 Received: from HHMAIL05.hh.imgtec.org (10.100.10.120) by
  HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -40,20 +40,20 @@ Received: from GBR01-CWL-obe.outbound.protection.outlook.com (104.47.20.59) by
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23 via Frontend
  Transport; Tue, 13 Jun 2023 15:48:13 +0100
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=M9EOZ2+3dG9uATumt25QhlqWHuy3ac2ja19Gk3DmCWsOw177HmXMGt3J+dhXj4Kj4nsODyOaQ5fvZFXJ66wSYTs/tFmOcD+k3adS9Bh2y5HTsLr22yvamckAO+judYynTEnMNwBhGA+7rcwIVwb4Y+LkpKQaSbeeXAuBgx7PCONuKRovPL4ByHw6aTRVzYh0WOQJpNSfotSjK5K5VJyWuNKB0QKlHXIhopGax7wio3uqqVXlNfRzW5klDeDtxGLaE495OrIQP1CPsqYdXA5ISnrdr15Zl3oaMxstWbmCoK/8R6zdcnNfA6C6QiPYykYD5vd8LUnjIMSqqGAFjl2qJA==
+ b=iG1mRx2mQ+SIvOqXQ55am1SKZuFi0knevHIx3kPuhOvDoG0bYDgx1fUfccliP7W9RPtYq8WO61c8dNGhKyo/nVWzdnq7lZsZfT7wYzUCh+BLOyFyWMSAPolYTHIS61A8mwQHVN4FQ0gM0MLyVPmC6nA7zJgmFvZdU6ZGYjHKu+f7ZiBu1yrtCm5norWF3LWbErzkxR8QCTTpScxikgbRPxNcvHzYs9PP+51xsNWMizs23FQ2vWq1J6Tsf1W5T1so181mOoTu/+y2s/CkAtvzYlBQgZBsUxxrYT49hsoKuaaBkiSxwFzznjxcdQvFO6WS7MH/YQN3CAq5kxw7/qX14w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y+2NoXH4ZmFNsGK7TGCbs2P+Ejh+hdt0wRdXvSgRhzQ=;
- b=l0AoP+k4cNW8nDGSzuSb9H8Ks3fVD/2mCpomCAxdbD9m6su490w9SPp6f+8Fn0zH7cyF3fqOwcN5hh3qr2q6l7Gojt8MY6kFQM1OpyxRJvjfiy1/xbXqy9KKNnB7GqS6osYA93DYe7DB36nSPZhJO5JUzQQ7Ot3oxMuGfokf5IiWAIZtGc0j4QF+lxiIcOC0Eren6z+tjSYw70YO9T2XKgm9iqwneSJRJMxtv5qAGb8HRpmE7g7iAY/rBWzYEBp1VrlVaP04iL7vbawqE0JCppMiutbHz4bQ48c/WtwRTDU0VG4JxFcJYQ/BmN7TZdNR30WRzqxuYMbWMOaq3mEKNg==
+ bh=ccgwpb+/hQuK6EdsZjdPgyve7cgT4+CMEE9hqxjVtSA=;
+ b=baOE+K07ZQpHUQb95kjLRvFxtdQK+QtpXGfgEhwM+M+NB0b901rpSGxSPisDZK0Uk6R8M/uHAaDGJCRLwtrCSPZJNqVCv6z8cSn+kDLo5W//agYPdhHzkhOOBWlFoVqTjoDUrAC8MofZ4zvpD4ffFg0OcCgJA6dS8cQ/Xaq6dXjm47biYNlfOJT2neb5XzSUvEF0q35DgwP5BlMhPgcjxEmHKpZ9qENH5KQjG2zxz7SrOx33Ci9xp0buNTzp6iKkFkOsDqqlOexDEHgbR3ftn9JVN+uwsDbftBpaKtjl5wyeWVZoWw/qJY090KbpeTCv+h1NOS3DRQyaS8fBwdDfmw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
  dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Y+2NoXH4ZmFNsGK7TGCbs2P+Ejh+hdt0wRdXvSgRhzQ=;
- b=WPz5L0/41SpfJWqXOAwPmal7ox+Pw2XSkuE5OYHZ+TgPiPyAPkcaRkZg7/3hO5TDHmWckTxw1Sbb70TFtIYfZ8rphkUN/tkNov+Dw6X8wFnM2PHsfzbWdwG0WhRsgtCU5u/7a0HKdFKk6+pWiOVSrMa7zUckT90rM1605mVNkZ0=
+ bh=ccgwpb+/hQuK6EdsZjdPgyve7cgT4+CMEE9hqxjVtSA=;
+ b=jOXNUTZk6SiAekhWVvRbLhbZZg0JP9aVupzcHYlebzIiwYhkqP24xtQF213X1jyLM5wXP45Myh8ej5gYYobda7JnNaJWzEn+0PQNR4t7ABYXpSo+ZC9xOnA0uwuEq3pT71fkrhXfwD7pdzQjvWuPltcrHY62pkW0t16ir69Ane8=
 Received: from CWXP265MB4826.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:155::11)
  by LO3P265MB2282.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:100::8) with
  Microsoft SMTP Server (version=TLS1_2,
@@ -65,9 +65,10 @@ Received: from CWXP265MB4826.GBRP265.PROD.OUTLOOK.COM
  14:48:12 +0000
 From: Sarah Walker <sarah.walker@imgtec.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v3 01/17] sizes.h: Add entries between 32G and 64T
-Date: Tue, 13 Jun 2023 15:47:44 +0100
-Message-Id: <20230613144800.52657-2-sarah.walker@imgtec.com>
+Subject: [PATCH v3 02/17] dt-bindings: gpu: Add Imagination Technologies
+ PowerVR GPU
+Date: Tue, 13 Jun 2023 15:47:45 +0100
+Message-Id: <20230613144800.52657-3-sarah.walker@imgtec.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230613144800.52657-1-sarah.walker@imgtec.com>
 References: <20230613144800.52657-1-sarah.walker@imgtec.com>
@@ -79,57 +80,57 @@ X-ClientProxiedBy: LO4P123CA0375.GBRP123.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CWXP265MB4826:EE_|LO3P265MB2282:EE_
-X-MS-Office365-Filtering-Correlation-Id: dfee9536-c2d8-4bca-7337-08db6c1d3637
+X-MS-Office365-Filtering-Correlation-Id: 35f0f8de-45b3-4c25-7f32-08db6c1d3688
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bvgpd8U9W6n1hfmVqN9K0ZXdlP4V/TOKQbZFNH/CkIwWV9OtWo8i8FUWsIhIzuA+nln6RKPJaXqBoBUiBx7aNga2Kn0juqEmq3IiX5EXGjwo3wrNIckMTUM3gjdAcr6s96t6godAoRBkYh6/cTbHtSgWdFQ9jgq9+vAj710h5BQ8K/90IS5uqcj+bPUzX1leAgL2n6dDwtHofIINuE5HqC7ZDOb6WnFA6T4AeM0HtYQORP0CgM3G9NYOW7hFrSKZZPYnV6gwA3F4qZl2TmwGYJzUIx8erFLBAvvOq/uTCisR2xs0Y1pYRD1yaKGgFQ5IZrql60hUpMQHoz/2INIo6kUPt+MrP0JkvCGwDJa+dAPbX/YWji44qK6jP2V1sTIN737cKS2kbPVvaB98B+93b0zuyVEx9FqPsRM4Lfk44rslCJ10kVDhcy5PhJszM8Snmjfa9nseNI4heKS+8mKKY853Z3cICBMyMPi0S54/LSQfxW0szbAsQQT9xffDaXj3UUhOsG+f975HTXk172zajWlcR7rfjGSsmVnkYxcTHW6Vg+/J7CkpBoeZu167DrMewLstJrhBwm/oEMUxBmVS2h5Jz7fIwHRTD8XxPV/ng9QjP35HZ6CQI+NThaxR+VTp
+X-Microsoft-Antispam-Message-Info: 68ru6JfpgorgGeQ7oZ5tDfR26mDil63yy55eZhbfS14WyZBuFtX6c5d74OMOgurtVjIrIyuuRgSxHNB2nmgq5yxsbrI3C4ikMmthXKlFdBRr9Gm2QmMxl2ZFiznevKXIZ0WWncuqG4mC/Mxd3pacYk+rIE7rSfCOxQCfXmYpEPHwn/xyjIIXRkpgH1xaOn8PjIrFeEinT9K/PYni0rUtK5sCe6ueWt0E25/jmm//lIXjDW6hKEF6K2O8LYbRJiw24LkldOY9bMwY+iJ+5SRDvz8041xMF5kPBIuhMrFJiYXC6qzFN2SroL4Gh/iSj3+gcFilNz65Hoc2qog3VA7T/mFew4fsPTFz0Hq9S9fLQk43r1aH7IHVqJeavrlfJE9AxTEiPpDkNluiCLn2KaDlEpPETk99q/ykB2eWDrCv3eQ78OQLRPRsHqXz4YE/y0rKcGAG/RLJbU+52t+4/LBULYcGvw6yRQmBXPQcl+dknBAV+4yNvCK6wvOJ5xspZZhncOPw4QVT9wPUbZE/oEt/c1vIMIM3I8x91NQ8eBEdf/zJF6pyVa/5RuGVq/KctBSC5QqsAhoqZSrLo3czpfC0cIw1FxuEuT206cxZ8kAdnuE=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CWXP265MB4826.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230028)(396003)(366004)(136003)(376002)(346002)(39840400004)(451199021)(44832011)(4326008)(8936002)(316002)(7416002)(66946007)(6916009)(66476007)(41300700001)(186003)(2906002)(4744005)(66556008)(478600001)(8676002)(5660300002)(6666004)(52116002)(6486002)(107886003)(6512007)(1076003)(6506007)(26005)(36756003)(86362001)(2616005)(38350700002)(38100700002);
+ SFS:(13230028)(396003)(366004)(136003)(376002)(346002)(39840400004)(451199021)(44832011)(4326008)(8936002)(316002)(7416002)(66946007)(6916009)(66476007)(41300700001)(186003)(2906002)(66556008)(478600001)(8676002)(5660300002)(6666004)(966005)(52116002)(6486002)(6512007)(1076003)(6506007)(26005)(83380400001)(36756003)(86362001)(2616005)(38350700002)(38100700002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?tTls5AIn6fKpAOJDNKgu4IwbNboB+1h5w/qtpz5U77Lpgt4Z/kZcVJESpWE4?=
- =?us-ascii?Q?FzVgRQrJ0fqef9DNH/ZFKhfBXqhrusbJOm75VErZ+/rB+4LCQ5YF36s75mZU?=
- =?us-ascii?Q?Hb/DFhS1hflP2ON1BYvfeOobv6tb9SSae4G2BNVWmRIVMINAIg03sW9QF474?=
- =?us-ascii?Q?r5rCBQsit/8kcYG5vrg+260HZjtGTU+XOClS5BMfpDRY7ACsF/9rBhfIyJF8?=
- =?us-ascii?Q?w+1bp7+/KwnvdQOeiFOVkTX1PWIjoL9sPMvQeSthXVF8zYM+3tXOXlMYgAwQ?=
- =?us-ascii?Q?frq3+W+olf0my5BUV7Ef6mleQFhB8qgKgThyA/RX95gyVygpSwMTto85bMLb?=
- =?us-ascii?Q?/UGd53m6VFQEDKoNkQtTrtmyRBkad4CEMJedC6DV3xqW/KSaQZcy3ge3czOC?=
- =?us-ascii?Q?QocDuRiyghiG5JSK2u1NJ3b9SoSE1559w/iVMsX3yH/+0mtpNMlAwGzC6bYY?=
- =?us-ascii?Q?/dnJ/d91EA3n8IG68JE1BNTh86N5jG1AB9pN6NXq7tQp2iF9duYupDP9mYjF?=
- =?us-ascii?Q?Yeznk0AMaR+WeNORcRy5MwLFvvsL9dOnYwm5ESPrt8PbcFUDHkQjn/FHeR8/?=
- =?us-ascii?Q?7llWcUvnadoSBSmagVMTYyPaumKTZY7MEP7XYsfO8VuODyCcppDSTebwiXoN?=
- =?us-ascii?Q?0dIKEEmVkszOuTNDYeim3x/L+OhpMTDaO0qZDp1Az2XHyGLwYZBdCojkrTmd?=
- =?us-ascii?Q?YPvndj9YFRLjMGat6SU+TXqPK4fIt1LZHVrjMZdjVW5sM64y0pJcnlyLppmP?=
- =?us-ascii?Q?jr+XUgqejCXGNrRTZLTaIRTo0Q+K1/9ypgi4UEmSpWllvcFs8n0PYskLKfri?=
- =?us-ascii?Q?tMUopQHNbeR3V96FKRUCS5PPDao6Tkbrx6olo5XwMJl1E/2/EwpT/6nnYGGp?=
- =?us-ascii?Q?zJQT0rY2xiyD4sZlt/Q/Hn1qeQaTxMo7XByfIr+yUuTlq6gpG8Za/K5eh2A2?=
- =?us-ascii?Q?bNc2kTrL9fyg3b1qaMSXlqBNtLGv0rGSMn2oRJLi5CA9bSbsBuMmRUTGzT6p?=
- =?us-ascii?Q?FYMorercjuyKRG5A5ABBVb914hWHloON39eju2UoKnuO1wXKZa0Ct07ed880?=
- =?us-ascii?Q?kB2ibqjn0GWfLSw7vn2O+W5NTeOl3wLHN8DyJ8nYe3nhGwHjBKBqo+rC/vIR?=
- =?us-ascii?Q?8h2CjgKrgnZTM/jspV6IdGPr/2l38LvbdHiFWvgt3Vrz6z8U8uvr66nOBngU?=
- =?us-ascii?Q?9TL4lE698qFxg/wIVZv6NfRW0RTQSKbE8mzfifVt6+dvurBOoubjBqblHQGv?=
- =?us-ascii?Q?c6Kxw3cdEcMrV4nzFZX0Mkg0fJLT2uBNZHt64nBmNdhWmQgu4tQ0/rUkmjyF?=
- =?us-ascii?Q?3eGo3wzQ7ei3XUSgT+0wCuWjhG1Mk2VSlLkFoBmU7EMBk/Kb4rhTlYEsbwbR?=
- =?us-ascii?Q?8dR8ftFAl+IqkJh5pPz2NXrPVWAcnWiECAmlntRvaNhcHr+tRBgolOrePDWZ?=
- =?us-ascii?Q?4qbnn9t/66wNbhgnhDCfAJJRT4eH/2yvygpDrpGb4fr5S8JIP3JOLfkqpV91?=
- =?us-ascii?Q?b6XIorgDKtNjkiHFiuZm18yBOVhTz7DzacT1KlcgUWIw1oWMXnuXqJSZsTgh?=
- =?us-ascii?Q?arcute/Hn0Qf+QlS0nQDXw+lBLUbB/JNJVyW7O35zF1jUnAafZ5KJRy2RXKp?=
- =?us-ascii?Q?/A=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: dfee9536-c2d8-4bca-7337-08db6c1d3637
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qhIWLHKhhAp3KL2d+++L/F4g6jejr6v4cc9Bz1aeHfEWZ9fjJyrO0ecpAMzI?=
+ =?us-ascii?Q?gXCKiRlfB+CEibUtGR+SK3ZeoRh8S5hD+eI5iwCSog5ytJQgFYxu9TCf5kMy?=
+ =?us-ascii?Q?I++s4C6MVGyH/+xJ/Coep3l7ZQkPkJ2TZQg2nuDaPXumsgUlgqL86E2veUH1?=
+ =?us-ascii?Q?NtC7V4femBuxfUALas3WRmnuESp31pNiNwB6jvmmFVIQm78KnPy2HWWvO+X1?=
+ =?us-ascii?Q?o8B39OilFjFO7S1aSRPGAiRiaQof95aZmWDsvxFyEs/VMaNVdxysKw9nw4uk?=
+ =?us-ascii?Q?+GWdOII9fE3kRUyynu60UxH7/3uc/b/7nyQzQmpeQoHvV/lkDIr3WKSEfksT?=
+ =?us-ascii?Q?/MLbc/sHdge6ZPJeSlJJ58lZjKZT0dtOowu0FeGnJpTeqD4WazwK0FRlHeQ+?=
+ =?us-ascii?Q?ZK3rOWsMdZoI7s8so6S7dDn2+XcueB+tHhB6B+moEP3KSotLbRYQvaqocQhC?=
+ =?us-ascii?Q?yeIHdfgwHLLVVx847EqZxfGNuunbND9jPd6XbH2CaaiN0ynLNiR6SFO6x+7K?=
+ =?us-ascii?Q?6eXMobXMKg+CP6svGvkadoBrxNVEBZjoIKefCG5p34Fu6ajvwejcYlePMKol?=
+ =?us-ascii?Q?3m5t8oD3Umjb1czam4PipKG0lFnuEwWZ4YTqUIUP8YcCHfm0eL3/M7U9OlmE?=
+ =?us-ascii?Q?30W8aNgTJRwRcuDoq8mf4cMOHLo/Z0mfNwzjbLa0OogCYHVmLWmMJtC1fkol?=
+ =?us-ascii?Q?t8HSycZGNlrXJYb0//WI9zizKmbJdSyZvYuSSxkA6J0pA4PSxnlhk4YzHH2M?=
+ =?us-ascii?Q?sO26mi34sLIWReKmnbEeh2W+1P8mzQGJjAqyitkbSoWxxfHKiJ3AGEgA6QBN?=
+ =?us-ascii?Q?EUhDMjMhnYInbPb4OOs+DJIKlh2XBocqRI7SzTtQmwtSRUT9wige6HBHq1lb?=
+ =?us-ascii?Q?xL0xxwPP5wKVkiyH9enKT5X3DipoPNdAmSZBuvX8TTOTzv4GxXiVdH38Cw4/?=
+ =?us-ascii?Q?tIBuo4EozfxeBgH36T1TG6sLaJ/oLrRLnn6DTA4drPkuHlhiUGB3i/uJ3bGR?=
+ =?us-ascii?Q?ArcpIGUTKpbH5O6KDR5nFbcnRjE4t0K97j47Tb7a0UZNkOpBbnMGuaEkPK1T?=
+ =?us-ascii?Q?USmubcD9Yi0MzxDq1RbY74bXLkwhmsKmK2nfslfzNFITS+LvDOM+TftfPvpO?=
+ =?us-ascii?Q?Awbuni58B15nLcC0WAFfaHENg7dtNR9wy+gaEtcwZB3gMcBMmnhmKfRTcGsL?=
+ =?us-ascii?Q?E8Tfsi7ZkXdrFiBIW4aSyQZoxegqwpsuDGOj2cipUZhpfIX25GYd18pyUJ2Q?=
+ =?us-ascii?Q?afDq952u2ekg3+lUpIrnSPwjKQoPoLsiIrfGGdZNfoNE+qphxz6r0upR6NIO?=
+ =?us-ascii?Q?ZjvD2nWfKPqLbt3j5cZ++ejTryc5ur8d8JZIZoPrgMLwhEZHAzy3+eX5k4xN?=
+ =?us-ascii?Q?S0f9w5PmyD+SYUOdEoPoRRp/IMRFvLkwRJceSMENMhti9p6yLfRvUmar83q8?=
+ =?us-ascii?Q?7Yjgb8BcCWremDga5Yq5L0lsT0svojUessbm2WFwtGaWZ0LPNNqk7fr+fXp2?=
+ =?us-ascii?Q?ZjkR1pfGFgo9Q4ec36NtjK+QFuMQaxTRfBjcPchsuCrI1LpQixwBROIh9alb?=
+ =?us-ascii?Q?X2PxsXHBU6eW8bNJFdPvLLb+CX/WP5/gjad4pQFrKGLE+12SWo9PVI5P8U1t?=
+ =?us-ascii?Q?ng=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 35f0f8de-45b3-4c25-7f32-08db6c1d3688
 X-MS-Exchange-CrossTenant-AuthSource: CWXP265MB4826.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2023 14:48:12.3957 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2023 14:48:12.9061 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nAIXCmLD3ltOHpH0NtBGlxRnORiag+BZxjTa4Z8maarYUuzIJA2RyptWtOWSYQwPomz6Pj7g5apBCzkwOFHMmg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: jhf+GroG+kizhjEfyFPZlT09zYbPpxZD1pR5/APKZ+dgjpLoThvHmNTaxYARhTs+bEUIytDUZjlXSulPBH1NXA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO3P265MB2282
 X-OriginatorOrg: imgtec.com
 X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
-X-Proofpoint-ORIG-GUID: P8S6oPH70i3I1Nj3kY4sU1ccXiedYJV-
-X-Proofpoint-GUID: P8S6oPH70i3I1Nj3kY4sU1ccXiedYJV-
+X-Proofpoint-ORIG-GUID: KyevjITliykSYadnJc-xmOmSd9ssYt-B
+X-Proofpoint-GUID: KyevjITliykSYadnJc-xmOmSd9ssYt-B
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,41 +144,116 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: matthew.brost@intel.com, luben.tuikov@amd.com, sumit.semwal@linaro.org,
- Matt Coster <matt.coster@imgtec.com>, boris.brezillon@collabora.com,
- dakr@redhat.com, donald.robson@imgtec.com, christian.koenig@amd.com,
- faith.ekstrand@collabora.com
+ boris.brezillon@collabora.com, dakr@redhat.com, donald.robson@imgtec.com,
+ christian.koenig@amd.com, faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matt Coster <matt.coster@imgtec.com>
+Add the device tree binding documentation for the Series AXE GPU used in
+TI AM62 SoCs.
 
-Signed-off-by: Matt Coster <matt.coster@imgtec.com>
+Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
 ---
- include/linux/sizes.h | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ .../devicetree/bindings/gpu/img,powervr.yaml  | 71 +++++++++++++++++++
+ MAINTAINERS                                   |  7 ++
+ 2 files changed, 78 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/gpu/img,powervr.yaml
 
-diff --git a/include/linux/sizes.h b/include/linux/sizes.h
-index 84aa448d8bb3..c3a00b967d18 100644
---- a/include/linux/sizes.h
-+++ b/include/linux/sizes.h
-@@ -47,8 +47,17 @@
- #define SZ_8G				_AC(0x200000000, ULL)
- #define SZ_16G				_AC(0x400000000, ULL)
- #define SZ_32G				_AC(0x800000000, ULL)
-+#define SZ_64G				_AC(0x1000000000, ULL)
-+#define SZ_128G				_AC(0x2000000000, ULL)
-+#define SZ_256G				_AC(0x4000000000, ULL)
-+#define SZ_512G				_AC(0x8000000000, ULL)
+diff --git a/Documentation/devicetree/bindings/gpu/img,powervr.yaml b/Documentation/devicetree/bindings/gpu/img,powervr.yaml
+new file mode 100644
+index 000000000000..652343876d1c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/gpu/img,powervr.yaml
+@@ -0,0 +1,71 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (c) 2022 Imagination Technologies Ltd.
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/gpu/img,powervr.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Imagination Technologies PowerVR GPU
++
++maintainers:
++  - Sarah Walker <sarah.walker@imgtec.com>
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - ti,am62-gpu
++          - const: img,powervr-seriesaxe
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    minItems: 1
++    maxItems: 3
++
++  clock-names:
++    items:
++      - const: core
++      - const: mem
++      - const: sys
++    minItems: 1
++
++  interrupts:
++    items:
++      - description: GPU interrupt
++
++  interrupt-names:
++    items:
++      - const: gpu
++
++  power-domains:
++    maxItems: 1
++
++  power-supply: true
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - interrupts
++  - interrupt-names
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    gpu: gpu@fd00000 {
++        compatible = "ti,am62-gpu", "img,powervr-seriesaxe";
++        reg = <0x0fd00000 0x20000>;
++        power-domains = <&some_pds 187>;
++        clocks = <&k3_clks 187 0>;
++        clock-names = "core";
++        interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
++        interrupt-names = "gpu";
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b344e1318ac3..a41517843a10 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -10084,6 +10084,13 @@ IMGTEC IR DECODER DRIVER
+ S:	Orphan
+ F:	drivers/media/rc/img-ir/
  
- #define SZ_1T				_AC(0x10000000000, ULL)
-+#define SZ_2T				_AC(0x20000000000, ULL)
-+#define SZ_4T				_AC(0x40000000000, ULL)
-+#define SZ_8T				_AC(0x80000000000, ULL)
-+#define SZ_16T				_AC(0x100000000000, ULL)
-+#define SZ_32T				_AC(0x200000000000, ULL)
- #define SZ_64T				_AC(0x400000000000, ULL)
- 
- #endif /* __LINUX_SIZES_H__ */
++IMGTEC POWERVR DRM DRIVER
++M:	Frank Binns <frank.binns@imgtec.com>
++M:	Sarah Walker <sarah.walker@imgtec.com>
++M:	Donald Robson <donald.robson@imgtec.com>
++S:	Supported
++F:	Documentation/devicetree/bindings/gpu/img,powervr.yaml
++
+ IMON SOUNDGRAPH USB IR RECEIVER
+ M:	Sean Young <sean@mess.org>
+ L:	linux-media@vger.kernel.org
 -- 
 2.40.1
 
