@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9455472E08D
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 13:10:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 292CF72E09C
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 13:10:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3903010E380;
-	Tue, 13 Jun 2023 11:10:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07AD110E38F;
+	Tue, 13 Jun 2023 11:10:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7C0A10E36B
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 11:10:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1016910E372
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 11:10:07 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 619461FDA7;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B10071FDA3;
  Tue, 13 Jun 2023 11:10:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1686654605; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x+Pej+DjtuslhRkqSbqykfmY3R1IGvKyLMb1wCzPsnA=;
- b=DPCy6m3/VoljsI4nL85OtZJkvAEjkY7VIh384polvAzdZI0R/H09cLfHmiysnYAztjsd7Q
- 7Nu15mdsj95TGchL3ik5Il/vUYWQT83VTNjDA3Yy1BTOKxdO15IPDGwBSBwjyIo13XxjSC
- 5vCy8hCHueof/0WuJ0szfScdyOn/rpw=
+ bh=I1lXhCwwkTluotNxM94JUDxkMaSVza26KonrPaNCMCs=;
+ b=GMcTHgMFSY0lkdtn1OuBxN2h39OQkf3vKKkENDf+V+lv0LmjfUAFdoPLd7TKQ1fECZF3ga
+ EA2ID4NfY8BmqNZlVc42cYUptJ3l4VWIVTQbwEgFzJJvRB7K/f2MG7VDlayYhrV8RXTJTY
+ 3Cq5AZ3hxM+cAJRx1XGdbxkzxvmV1lg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1686654605;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x+Pej+DjtuslhRkqSbqykfmY3R1IGvKyLMb1wCzPsnA=;
- b=9z2qqSYJdYO4whOJ9l9oFrTLJwBXOJqfq4+4rtK6NiiIkNufrM06d5VbAmrFmjZ3tEjz5q
- JcuK6R3S2IrIDnAQ==
+ bh=I1lXhCwwkTluotNxM94JUDxkMaSVza26KonrPaNCMCs=;
+ b=pE5AqeVLpcdriEJL4QjDO0oXfyrjQPf9TigLjq6p7XgwzYRBj5j5907OWGmeAyDqYaPx4l
+ TnsLlLaeP1BGYxBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 15F0E13483;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6531B13A47;
  Tue, 13 Jun 2023 11:10:05 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id cOCCBI1OiGR8CQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id cAbbF41OiGR8CQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Tue, 13 Jun 2023 11:10:05 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, javierm@redhat.com, sam@ravnborg.org, deller@gmx.de,
  geert+renesas@glider.be, lee@kernel.org, daniel.thompson@linaro.org,
  jingoohan1@gmail.com, dan.carpenter@linaro.org, michael.j.ruhl@intel.com
-Subject: [PATCH v3 28/38] fbdev/sh7760fb: Use hardware device with dev_()
- output during probe
-Date: Tue, 13 Jun 2023 13:07:03 +0200
-Message-ID: <20230613110953.24176-29-tzimmermann@suse.de>
+Subject: [PATCH v3 29/38] fbdev/sm501fb: Output message with fb_err()
+Date: Tue, 13 Jun 2023 13:07:04 +0200
+Message-ID: <20230613110953.24176-30-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230613110953.24176-1-tzimmermann@suse.de>
 References: <20230613110953.24176-1-tzimmermann@suse.de>
@@ -77,45 +76,29 @@ Cc: linux-fbdev@vger.kernel.org, linux-sh@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Call output helpers in the probe function with the hardware device.
-The virtual fbdev device has not been initialized at that point. Also
-prepares fbdev for making struct fb_info.dev optional.
+Fix case were dev_err() is being called with struct fb_info.dev.
+Use fb_err() instead.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/video/fbdev/sh7760fb.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/video/fbdev/sm501fb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/sh7760fb.c b/drivers/video/fbdev/sh7760fb.c
-index 74543a1e30314..8566bcd664076 100644
---- a/drivers/video/fbdev/sh7760fb.c
-+++ b/drivers/video/fbdev/sh7760fb.c
-@@ -450,7 +450,7 @@ static int sh7760fb_probe(struct platform_device *pdev)
+diff --git a/drivers/video/fbdev/sm501fb.c b/drivers/video/fbdev/sm501fb.c
+index e0d29be1565bb..46951a0952741 100644
+--- a/drivers/video/fbdev/sm501fb.c
++++ b/drivers/video/fbdev/sm501fb.c
+@@ -1293,7 +1293,7 @@ static int sm501fb_sync(struct fb_info *info)
+ 		count--;
  
- 	par->pd = pdev->dev.platform_data;
- 	if (!par->pd) {
--		dev_dbg(info->dev, "no display setup data!\n");
-+		dev_dbg(&pdev->dev, "no display setup data!\n");
- 		ret = -ENODEV;
- 		goto out_fb;
+ 	if (count <= 0) {
+-		dev_err(info->dev, "Timeout waiting for 2d engine sync\n");
++		fb_err(info, "Timeout waiting for 2d engine sync\n");
+ 		return 1;
  	}
-@@ -519,13 +519,13 @@ static int sh7760fb_probe(struct platform_device *pdev)
- 
- 	ret = fb_alloc_cmap(&info->cmap, 256, 0);
- 	if (ret) {
--		dev_dbg(info->dev, "Unable to allocate cmap memory\n");
-+		dev_dbg(&pdev->dev, "Unable to allocate cmap memory\n");
- 		goto out_mem;
- 	}
- 
- 	ret = register_framebuffer(info);
- 	if (ret < 0) {
--		dev_dbg(info->dev, "cannot register fb!\n");
-+		dev_dbg(&pdev->dev, "cannot register fb!\n");
- 		goto out_cmap;
- 	}
- 	platform_set_drvdata(pdev, info);
+ 	return 0;
 -- 
 2.41.0
 
