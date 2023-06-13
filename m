@@ -2,58 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7D0672D53D
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 01:53:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 540E372D566
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 02:10:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2740910E2D7;
-	Mon, 12 Jun 2023 23:53:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1439010E2E1;
+	Tue, 13 Jun 2023 00:10:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
- [IPv6:2607:f8b0:4864:20::1035])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BA6410E2D7
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 23:53:23 +0000 (UTC)
-Received: by mail-pj1-x1035.google.com with SMTP id
- 98e67ed59e1d1-25c02bb57fbso728764a91.0
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 16:53:23 -0700 (PDT)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8E3610E2EF
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 00:10:08 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id
+ 2adb3069b0e04-4f658a17aa4so5034378e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Jun 2023 17:10:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1686614002; x=1689206002;
+ d=linaro.org; s=google; t=1686615006; x=1689207006;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ilCV1eavcppCZqSQlFFleTY0mmggm6H7OwYAhwT+pjE=;
- b=mvyGeYV5fJUviPeruRJWp/J2seLtopAZBeAkMlWKwi1+XvbXc+n449dyXKx2bGA8pS
- 1fhqEE0nbC9V3zmpX+1zE1UCd0f8gFaImEminvqGXeE8vXbKkkegJVS1KOybl9l/SxIS
- o1vOKr5IqFET4cgNF0DqXka9LjUqOvybRh/UE=
+ bh=3U48DhxE6jBvffVdT6/UwCqMtwTlpmQ4IYEd/FwXhNY=;
+ b=NWLUY+X0FcB+QizAYU7rBJvAaB2kbU8MKmNmOLWmqCJ32a70gTqJB9qVhTMqENuMTB
+ fBWT28m2QasBgtRtp5gF4+cYHdYs5uPvjo81dRTUXrsszkIVViLChwYqIG9I/sJsT0wj
+ 6KI9pro7F+mATSG+guiQArgaBJaADhGU4+kulvIS+Dc/0VUvkYQpy+OjnCKlAuej64Q0
+ I9yL8SK4Qbe9NmdVK2hK7nLzw6YSUVJnHigGUKx4ddbXRa5FRA9R8cq9nknodjNPDBEj
+ e9J/p+dZWKOelF7gR0zLvUX5NLqYUUmtYqKvRyhDBp2IpJxd+uXRDD5iDFS/bs20e+HB
+ JJZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686614002; x=1689206002;
+ d=1e100.net; s=20221208; t=1686615006; x=1689207006;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=ilCV1eavcppCZqSQlFFleTY0mmggm6H7OwYAhwT+pjE=;
- b=eJUTxpCA7y7oYW/y9KB1c657z5Dxd2zaujZt9YWRc0awIhU3zTrHgQROrUTwHqE/bT
- xgEQ1iP0ol38fbGYR1sBi9TxktlWq+6cknLP0h9I2ivLalN8Gqr5sKMnms6vayppARfT
- C7nFR9a9JgJq38rGLyKtwg9mypmlfsqMAm+108UX9ldzSL7PhQCopuiPw0iOncQaVOPh
- l1JYYENv0LyAwkZq6yaqD40XP3BO5EDuINhezukVnFp6JTJhNflXqKEHpSrdnNhwglKI
- YhcSSTLOjnQWaxkeCRBfKDHS1NgUgMen/8DtYjN/6kmd1K3xwEVbxaWxBC/6oPktqXgw
- XDuw==
-X-Gm-Message-State: AC+VfDyRoITQuUUrATMWZYKsxjeOlcc5z7D8YfUhejRZlJJQG42+B/IP
- RlG85yCHJw2SGKwfJ1bco22EdMwPuZYWVRz/Jjrgp/Yl
-X-Google-Smtp-Source: ACHHUZ7B0ZWzMzO6JgKgvWXIa24+k2wYnRIGMhA66aBGl7pZyjS/BUAFMsF9LgOTT+j6GtWDvcjm5Q==
-X-Received: by 2002:a17:90a:19c4:b0:255:6174:1588 with SMTP id
- 4-20020a17090a19c400b0025561741588mr9620969pjj.42.1686614002174; 
- Mon, 12 Jun 2023 16:53:22 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:9d:2:1995:7db0:daf3:2c2a])
- by smtp.gmail.com with ESMTPSA id
- bk17-20020a17090b081100b00256b9d26a2bsm9653465pjb.44.2023.06.12.16.53.20
+ bh=3U48DhxE6jBvffVdT6/UwCqMtwTlpmQ4IYEd/FwXhNY=;
+ b=IG4o+MaXDbcP/GYZc2OVYXdhJSzxtid/0l6Fele4ghYX/z61jZTdBaINA2ZoeGWsYw
+ IwAS/Sg2FApxLDyIgi8TeHbypeA3ynEVyOUoGAWT5lbzhWYHf5gJxNa0s4mOUEasIdfo
+ n01x7gOQsyqcRgipydVq+NRCmHeiVu4/rqMkTXqSEds0JeKpzkCC6AFyo9rQrfi+CQbV
+ cWuSclgPWpoKuMrEdEjzJtbQn7i18RTIKleR//5bz6fp3iLi/Qyld3kI7swj1y03OYSB
+ 6fPzDnkSZm+GwEdw6D5/YZuVbIQ0RUXGceuV/RDhYadr2uoXqL6a7ZZD1XYTVRuCR3YJ
+ h3Zg==
+X-Gm-Message-State: AC+VfDwEPZ3Q9JI3QSIavkr4pyVw66JtUbA0SR3nAn+fJw9jCUQz5mDh
+ tu0AbYsdXcIL6s7MNuukI4kSSg==
+X-Google-Smtp-Source: ACHHUZ5dvyR/4ylEyIG9bPyNHMs5XB37dBz8Ip0UCLQ6VNUJYoNZH8XgS/LaEfOJFvrOXFr8DPJkkQ==
+X-Received: by 2002:a19:5f5a:0:b0:4f6:2f97:7f8b with SMTP id
+ a26-20020a195f5a000000b004f62f977f8bmr5186243lfj.1.1686615005809; 
+ Mon, 12 Jun 2023 17:10:05 -0700 (PDT)
+Received: from eriador.lan (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
+ [2001:14ba:a0db:1f00::8a5]) by smtp.gmail.com with ESMTPSA id
+ c10-20020ac2530a000000b004f63eea01a7sm1581604lfh.192.2023.06.12.17.10.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jun 2023 16:53:21 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/bridge: ti-sn65dsi86: Fix auxiliary bus lifetime
-Date: Mon, 12 Jun 2023 16:53:03 -0700
-Message-ID: <20230612165302.1.I24b838a5b4151fb32bccd6f36397998ea2df9fbb@changeid>
-X-Mailer: git-send-email 2.41.0.162.gfafddb0af9-goog
+ Mon, 12 Jun 2023 17:10:04 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [PATCH v2 00/22]drm/msm/dpu: another catalog rework
+Date: Tue, 13 Jun 2023 03:09:39 +0300
+Message-Id: <20230613001004.3426676-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,111 +72,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Stephen Boyd <swboyd@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Memory for the "struct device" for any given device isn't supposed to
-be released until the device's release() is called. This is important
-because someone might be holding a kobject reference to the "struct
-device" and might try to access one of its members even after any
-other cleanup/uninitialization has happened.
+Having a macro with 10 arguments doesn't seem like a good idea. It makes
+it inherently harder to compare the actual structure values. Also this
+leads to adding macros covering varieties of the block.
 
-Code analysis of ti-sn65dsi86 shows that this isn't quite right. When
-the code was written, it was believed that we could rely on the fact
-that the child devices would all be freed before the parent devices
-and thus we didn't need to worry about a release() function. While I
-still believe that the parent's "struct device" is guaranteed to
-outlive the child's "struct device" (because the child holds a kobject
-reference to the parent), the parent's "devm" allocated memory is a
-different story. That appears to be freed much earlier.
+As it was previously discussed, inline all foo_BLK macros in order to
+ease performing changes to the catalog data.
 
-Let's make this better for ti-sn65dsi86 by allocating each auxiliary
-with kzalloc and then free that memory in the release().
+Major part of the conversion was performed using vim script found at
+[1]. Then some manual cleanups were applied, like dropping fields set to
+0.
 
-Fixes: bf73537f411b ("drm/bridge: ti-sn65dsi86: Break GPIO and MIPI-to-eDP bridge into sub-drivers")
-Suggested-by: Stephen Boyd <swboyd@chromium.org>
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
+Dependencies: [2].
 
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 34 +++++++++++++++++----------
- 1 file changed, 21 insertions(+), 13 deletions(-)
+Changes since v1:
+ - Rebased on top of msm-next
+ - Dropped dependency on interrupt rework
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 597ceb7024e0..db1461cc3170 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -170,10 +170,10 @@
-  * @pwm_refclk_freq: Cache for the reference clock input to the PWM.
-  */
- struct ti_sn65dsi86 {
--	struct auxiliary_device		bridge_aux;
--	struct auxiliary_device		gpio_aux;
--	struct auxiliary_device		aux_aux;
--	struct auxiliary_device		pwm_aux;
-+	struct auxiliary_device		*bridge_aux;
-+	struct auxiliary_device		*gpio_aux;
-+	struct auxiliary_device		*aux_aux;
-+	struct auxiliary_device		*pwm_aux;
- 
- 	struct device			*dev;
- 	struct regmap			*regmap;
-@@ -464,27 +464,32 @@ static void ti_sn65dsi86_delete_aux(void *data)
- 	auxiliary_device_delete(data);
- }
- 
--/*
-- * AUX bus docs say that a non-NULL release is mandatory, but it makes no
-- * sense for the model used here where all of the aux devices are allocated
-- * in the single shared structure. We'll use this noop as a workaround.
-- */
--static void ti_sn65dsi86_noop(struct device *dev) {}
-+static void ti_sn65dsi86_aux_device_release(struct device *dev)
-+{
-+	struct auxiliary_device *aux = container_of(dev, struct auxiliary_device, dev);
-+
-+	kfree(aux);
-+}
- 
- static int ti_sn65dsi86_add_aux_device(struct ti_sn65dsi86 *pdata,
--				       struct auxiliary_device *aux,
-+				       struct auxiliary_device **aux_out,
- 				       const char *name)
- {
- 	struct device *dev = pdata->dev;
-+	struct auxiliary_device *aux;
- 	int ret;
- 
-+	aux = kzalloc(sizeof(*aux), GFP_KERNEL);
-+
- 	aux->name = name;
- 	aux->dev.parent = dev;
--	aux->dev.release = ti_sn65dsi86_noop;
-+	aux->dev.release = ti_sn65dsi86_aux_device_release;
- 	device_set_of_node_from_dev(&aux->dev, dev);
- 	ret = auxiliary_device_init(aux);
--	if (ret)
-+	if (ret) {
-+		kfree(aux);
- 		return ret;
-+	}
- 	ret = devm_add_action_or_reset(dev, ti_sn65dsi86_uninit_aux, aux);
- 	if (ret)
- 		return ret;
-@@ -494,6 +499,9 @@ static int ti_sn65dsi86_add_aux_device(struct ti_sn65dsi86 *pdata,
- 		return ret;
- 	ret = devm_add_action_or_reset(dev, ti_sn65dsi86_delete_aux, aux);
- 
-+	if (!ret)
-+		*aux_out = aux;
-+
- 	return ret;
- }
- 
+[1] https://pastebin.ubuntu.com/p/26cdW5VpYB/
+[2] https://patchwork.freedesktop.org/patch/542142/?series=119220&rev=1
+
+Dmitry Baryshkov (22):
+  drm/msm/dpu: fix sc7280 and sc7180 PINGPONG done interrupts
+  drm/msm/dpu: correct MERGE_3D length
+  drm/msm/dpu: remove unused INTF_NONE interfaces
+  drm/msm: enumerate DSI interfaces
+  drm/msm/dpu: always use MSM_DP/DSI_CONTROLLER_n
+  drm/msm/dpu: simplify peer LM handling
+  drm/msm/dpu: drop dpu_mdss_cfg::mdp_count field
+  drm/msm/dpu: drop enum dpu_mdp and MDP_TOP value
+  drm/msm/dpu: expand .clk_ctrls definitions
+  drm/msm/dpu: drop zero features from dpu_mdp_cfg data
+  drm/msm/dpu: drop zero features from dpu_ctl_cfg data
+  drm/msm/dpu: correct indentation for CTL definitions
+  drm/msm/dpu: inline SSPP_BLK macros
+  drm/msm/dpu: inline DSPP_BLK macros
+  drm/msm/dpu: inline LM_BLK macros
+  drm/msm/dpu: inline DSC_BLK and DSC_BLK_1_2 macros
+  drm/msm/dpu: inline MERGE_3D_BLK macros
+  drm/msm/dpu: inline various PP_BLK_* macros
+  drm/msm/dpu: inline WB_BLK macros
+  drm/msm/dpu: inline INTF_BLK and INTF_BLK_DSI_TE macros
+  drm/msm/dpu: drop empty features mask MERGE_3D_SM8150_MASK
+  drm/msm/dpu: drop empty features mask INTF_SDM845_MASK
+
+ .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   | 329 ++++++++----
+ .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    | 348 +++++++++----
+ .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    | 411 ++++++++++-----
+ .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   | 448 +++++++++++-----
+ .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    | 430 +++++++++++-----
+ .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    | 180 +++++--
+ .../msm/disp/dpu1/catalog/dpu_6_3_sm6115.h    |  89 +++-
+ .../msm/disp/dpu1/catalog/dpu_6_4_sm6350.h    | 188 ++++---
+ .../msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h   |  89 +++-
+ .../msm/disp/dpu1/catalog/dpu_6_9_sm6375.h    |  96 ++--
+ .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    | 418 ++++++++++-----
+ .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    | 236 ++++++---
+ .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  | 484 +++++++++++++-----
+ .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    | 445 +++++++++++-----
+ .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    | 467 ++++++++++++-----
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 130 -----
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   5 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h   |   5 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c    |  34 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h    |   7 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        |  34 +-
+ drivers/gpu/drm/msm/msm_drv.h                 |   8 +-
+ 23 files changed, 3320 insertions(+), 1563 deletions(-)
+
 -- 
-2.41.0.162.gfafddb0af9-goog
+2.39.2
 
