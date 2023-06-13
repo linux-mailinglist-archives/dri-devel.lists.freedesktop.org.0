@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E61F772DD56
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 11:11:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 958D772DD58
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 11:11:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7E1610E046;
-	Tue, 13 Jun 2023 09:11:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B22710E084;
+	Tue, 13 Jun 2023 09:11:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E1A610E046
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 09:11:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D52E410E084
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 09:11:27 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6334763109;
- Tue, 13 Jun 2023 09:11:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CA14C433EF;
- Tue, 13 Jun 2023 09:11:02 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3545F630F4;
+ Tue, 13 Jun 2023 09:11:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45984C433D2;
+ Tue, 13 Jun 2023 09:11:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686647462;
- bh=3x1vQa4C2vZm/aLZjUrKsrmkj7ZCJR2uls+VZCZHrrc=;
+ s=k20201202; t=1686647486;
+ bh=NMjSzXNKLluKLHGJe1lvDUHDWx8rVkp+8Ry49RSqBsg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nni+VDRcxHMCmL7HaHuIamrAr+jGI5W845fK1XXI/usl+07uT8yr2iucRl71B9dC4
- 7CJ04vWx0JZLFRpnZcWiEZ3xhEk3NBJp1jaHE6VeRmf6E858SEuZfimyzYFPg8M0VR
- YfHMlGiyAnsEl2iAzOPKtvDS4ID1z37/dyiIYqkBB3DOEzfWDBsO+dEHCt3104Yei4
- OLANcqsGG52i2UODN0aexcZT9a2/2njvvuk4oqRAMmRRHvlQ3KC1jax5YTcdfPHCZf
- XDvnNJYHVFOV/uxVEUbKL/qDdfwOHY4NsCkwerXxM/t0aBvZV722SDTcm+yRNsTUJ9
- mMyWhc7CZHEQw==
-Date: Tue, 13 Jun 2023 11:10:59 +0200
+ b=Xlxj2Iw8Th0bn9oqhEpqydffv5ympRO/M0SWtCJ8+UMw89dP09pY/p6LWWwVmv/Ma
+ Ktf37wYvaPYoOm71JMFYEaHCXjUlKM//55lt/a8vkqm3oF1pQUQDRcS1wu+vZPzpWY
+ VL71mlZka/cDJyRIEtWOw6tfdppAy+egNvpIbl1JwUutF+2Fs3UA34CG+wxZiPYNun
+ gfCufdzCCs8QhkAaNoxC39QPTPFO+mhPobVaRH9JsZjLW/KvqhMR7z/c8zZsN7pw9/
+ /jqZ4PsD4QAkVFx50JpiTTM6gCFguCOQMOtsC3XcDc1yzHeXIEcwZsEpNlUpX1YZvy
+ BcbY0IIjOkwzw==
+Date: Tue, 13 Jun 2023 11:11:24 +0200
 From: Maxime Ripard <mripard@kernel.org>
 To: Sui Jingfeng <15330273260@189.cn>
 Subject: Re: [PATCH v14 0/2] drm: add kms driver for loongson display
  controller
-Message-ID: <hvfr6qkepf6l3ymqtp6vhlneeqihnli7g5v7nzd6rirwleffk6@4ernj6xng5rt>
+Message-ID: <zxnddcy34246wjs7zj2mdynqaets4oo7tqublnufi7yo5ssz7c@u3z76c5m775v>
 References: <20230520105718.325819-1-15330273260@189.cn>
  <d4e647d8-294c-abd7-40c6-37381796203d@loongson.cn>
  <a23d6mgl4fbfa4ucgjvwgw7l3somxo4tkhit7ygy55fldlum56@vm3tyjdsx24l>
- <d2f744b6-e4c9-d1b5-d4ca-470b801c670d@189.cn>
+ <555e160a-0c9d-9145-88f1-a0ecff62240a@189.cn>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="hpffyxdlrw7g4k3j"
+ protocol="application/pgp-signature"; boundary="svayteyeejfe2ndn"
 Content-Disposition: inline
-In-Reply-To: <d2f744b6-e4c9-d1b5-d4ca-470b801c670d@189.cn>
+In-Reply-To: <555e160a-0c9d-9145-88f1-a0ecff62240a@189.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,13 +68,12 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---hpffyxdlrw7g4k3j
+--svayteyeejfe2ndn
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 13, 2023 at 04:35:44PM +0800, Sui Jingfeng wrote:
-> Hi,
+On Tue, Jun 13, 2023 at 04:40:07PM +0800, Sui Jingfeng wrote:
 >=20
 > On 2023/6/13 16:30, Maxime Ripard wrote:
 > > Hi,
@@ -92,23 +91,26 @@ suse.de/
 > >=20
 > > So.. do that?
 >=20
-> Yes, that sound fine.
+> OK, I also want to merge this.
 >=20
-> But I can't do it myself, would you like to help?
+> If there are any other problems, We and other contributor will take the
+> responsibility to fixed it with a separate patch.
+>=20
+> It this OK?
 
-Why can't you do it yourself?
+Sure, that's pretty much how it works :)
 
 Maxime
 
---hpffyxdlrw7g4k3j
+--svayteyeejfe2ndn
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZIgyowAKCRDj7w1vZxhR
-xRRuAQCrBuuVG4szTbawSRwgsoNQPfbuzW5fwxdZkFu+rKLDCQD+J6ujT7XS4QIG
-mbiB7naiKmWDCd8R0jlmFZzJNw2kDgI=
-=nhdu
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZIgyvAAKCRDj7w1vZxhR
+xR1EAP921S7BWqvuVN6l9ckYu3AHlvFzuVpFxxP4kU1R8ng3hQEAtg1EkLHb7jdz
+WVeTn6c09kUK0jgN60fL+U+AzWdxKAs=
+=A6nC
 -----END PGP SIGNATURE-----
 
---hpffyxdlrw7g4k3j--
+--svayteyeejfe2ndn--
