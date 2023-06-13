@@ -2,123 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 673D972EC00
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 21:32:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A05F72EC07
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 21:34:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B624910E104;
-	Tue, 13 Jun 2023 19:31:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD10D10E3DD;
+	Tue, 13 Jun 2023 19:34:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com
- (mail-os0jpn01on2117.outbound.protection.outlook.com [40.107.113.117])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5222810E104
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 19:31:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g7oOddZADmii0AAN2Yzun3EE03ShXtIyQ+Gm6rSV1jkLsVBp/71t0cUOtWVfWSu/qR2YqZhH4Y2f2B1v8iJ44omq7M7Y86TRbkF7eBibgn6HMikkALtKKizhc/+GIMBLcVNuxvDkghhE2FlhcrbBgX3M9MStSfmSq8mPs0erU2GT+DQN0+f1X/BvSDdor6E5PvYfbxCmjk9owPL08ueML74USVLp16qKYRcp/P4wC5A341ZOF/kfWEtDpfvBJpKJyz/VhW38lHMkmAH6EdV+GBaiLVCOr6cv41axY3sh3tsOqBfKvnGVSfLAfSPVCeEHoyA4z+IjhTOC/Nj6g2idrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0VoPlEpsC0YDhCZRSbbrNb5kCWpCm4F4RXmsUOLtIA4=;
- b=YbB4Qk9j+ROXFIktYNkfbOhE3cozWlC/sPsyz6qZaiXCL4tdPpixY7Xprl4rSAp6MW/6H2W+ah/jTs39Kye4gfImgPLBqq9l0emRqJZum9j+OcwPz6dw0d9u/utG935zYncIMQt8F5vjivqNTvujXHH1xTSrHF6xlrGjneOxrMlss+z8fM9+sOZNM07fr7feFU9GSD3cPTj2bJfutmr3L+DRxBHbX/2rrb8NlYhqqlbzKw3KOelLOQoY1etmLAV4THJy7xVc5rE3v6vNttFB/RpfVXn0WB4Y0ZKBXWzWCMCUtDCha5ir1/1NXyUS+4IGMYYLzzoMSSdxCFCCMBDLCw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0VoPlEpsC0YDhCZRSbbrNb5kCWpCm4F4RXmsUOLtIA4=;
- b=ZWv4w5Arcz+b7keQi2o42JmJ3dZN+SE7o3xPQtf1aXqSkGgjGd1V6Cd+IWAbTKF+rylWoLa1wZm04jRotgg/OM0MOAwLpFli9uchrt//PhnKWm+vrv0AdiIn+0QfeH9MYh73Lk/aRFVFmwJGw11I1Wt9C7M+As/Xax7+MMPiKu8=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OS3PR01MB9607.jpnprd01.prod.outlook.com (2603:1096:604:1cc::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.37; Tue, 13 Jun
- 2023 19:31:48 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2%6]) with mapi id 15.20.6455.047; Tue, 13 Jun 2023
- 19:31:46 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Wolfram Sang <wsa@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, Mark Brown
- <broonie@kernel.org>
-Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Thread-Topic: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Thread-Index: AQHZjJbXGsyu+Gf1qUyolpKmZgFmTa9w75gAgAALD6CAAyijgIAAQNsAgAq9ooCAACGi4IABRk1QgABIHYCAAALdsIAAIbGAgAAAqmCABhKw0IAAMfIAgAADgjKAAAM7gIAAgX6AgACwEcCAAD30wIAAjmJQ
-Date: Tue, 13 Jun 2023 19:31:46 +0000
-Message-ID: <OS0PR01MB59220D794AED55A6B795C3EF8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230608103929.GO5058@pendragon.ideasonboard.com>
- <OS0PR01MB592259E6A7ACED4A0548DD228650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230608125019.GD26742@pendragon.ideasonboard.com>
- <OS0PR01MB5922ECEABE4D6FC385D184008650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB592265BFDF18F860E1EB4CFE8654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <ZIcRKl3PDy0+yZS9@ninjato>
- <CAMuHMdV_iwdP+K1us86OB4VtDDqA=P_vNeCP15kqRuXqcYr3hg@mail.gmail.com>
- <ZIcUEdctlgRsGxJ3@ninjato>
- <CAMuHMdVOkBeKOEW9PkWB3Tqwa6-rC3BQj=W9VAEgeZfgqvQmWQ@mail.gmail.com>
- <ZIeDcVcfxfcMx/BP@shikoro>
- <OS0PR01MB592220CCA081848A711D75328655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB592210CE54A9CF953980DFEE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB592210CE54A9CF953980DFEE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OS3PR01MB9607:EE_
-x-ms-office365-filtering-correlation-id: 5844b9aa-36c6-4132-9971-08db6c44d3b0
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: +A5o/FXDxNxLW0u/BLGloCaV3ASeWHs3zhk3PUe+lyiavfZxnbAgbdSnu8Yeh77zrc20UU7tE/hFhnYGaNvcOgu0IJy2dfxyEDVtgJL8vEBoMLri9IiWM4m2k7P6LfIvwMWxPHbXSOUy3jGZ1upSvr4DSzgbWDn7Hn4QP50kznDgux4JMMmb6eSV1erZa7PBOW/7Ksfv+SmDnvVXINwQVHvw32B1SJan0V6/8k1NDbgDVTwW8QTyk56jtZ90yYQKIKrZrPVWmSg7uY7incPJj63jkzSrAUvKifrBeQK/hJa3AqKRdUSiAE2WMLc2vLLkYpD5Eyh28S1i8cyzbWOe+cL3nF3pA5PeI9NrlVpXJi6tdnuxXV3geLVQSYOqyG2Qh0xWCeqBCXqkLJJUuQekxYKxZh7JLG4w2koF0lM0ZXNlECAE9AUaHzTZR5W6TSHje3ZKFbomZjXJ70OJ9Xj8gC4FQBXV5Q7ErcCwRy3aYB5f/7NpuZBesXf16EYFFP6cT2jGMBsn8nsddxIaKG9ZA2wKtDJPpTcOcxUVjNeYDvIRMtYXff0DIW1IXt5xdLIhVyi8hnshPkWLuEcO8xKaVMt5DVQdEmeVKZYkEbdWN7y3QqPGwrP7bVnfh9+6ciMF
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:OS0PR01MB5922.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(396003)(366004)(136003)(376002)(346002)(39860400002)(451199021)(2940100002)(186003)(6506007)(9686003)(41300700001)(38100700002)(316002)(7696005)(83380400001)(33656002)(478600001)(71200400001)(86362001)(54906003)(110136005)(2906002)(38070700005)(8676002)(52536014)(5660300002)(7416002)(8936002)(7406005)(122000001)(55016003)(66946007)(4326008)(66476007)(76116006)(66446008)(64756008)(66556008);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?P3y9uu2nKLWnZ6fwleXxoUamtnbTz5S7kr5YgoBU2msEliXmOeAQ+uQ9tz?=
- =?iso-8859-1?Q?E/2nv3yR4FzSajEyxfpy4os4dqgscLgmEugji8FYpDG4nCJa92I8u3QSh9?=
- =?iso-8859-1?Q?XdJVNi2PaNpVaP6v291UG7CjrlUQi3VHV/H5pDUdZpaDWmwRrTKmOoXJ9W?=
- =?iso-8859-1?Q?RFkblhQFPthvk42DbnjF9LGclkIEmsCtCCL9wa8gmDirVMxfZQtirzSPNL?=
- =?iso-8859-1?Q?apyrtsi2fdtjWvuOYXNV+uDNT9Xa89BaIUwbeoXrB6r3dNG48ZCuyyY5YF?=
- =?iso-8859-1?Q?zWqYIIZ9v7BI7grKQo4N8BW9MatmV38OapzcqffSr43Es0iiTAV1oUtn/C?=
- =?iso-8859-1?Q?59NI4sF+Oh23MywKLovMMoMpXjzHA1JC3HhmnK3sHahnDNiSc7Pjv0Oi59?=
- =?iso-8859-1?Q?hx0Z5ansnR8svWGdCRTKTIOSBgXOjdGkXFZ8L4aT2plwnHMIj64YeUSO/2?=
- =?iso-8859-1?Q?rkaBYMOTRLvUMRamNoegWf4PTc4z8RLEQPoVq7kSbarRTg/D/pqRR7jHaX?=
- =?iso-8859-1?Q?rQL9riQLT1Ow2+kS2fru+IA+ZzPE8EarkVRJexSxNp3qoIBa9xGCRIeAEX?=
- =?iso-8859-1?Q?CrJifHt6UyjdXK/kjNYvIQ3WHg7deRLH08nwnInaoFNcQCgM99JiDjZG78?=
- =?iso-8859-1?Q?QJni7MdidL5RwskGstVa3bDxSMDlVXadMfeqZYGfUUrPPHuVHSbE4I6Fxj?=
- =?iso-8859-1?Q?jbx06iXBA2qD2LMlziqS76XwLtHfIIXEpfPjRf7BjVWv6ZflxyMAAMt/ct?=
- =?iso-8859-1?Q?PsFl6mAOsVOCBHiRrgCqyGHnfBQzqKQSX8XcDH46u3WgvFn6Tp6PYhEu+o?=
- =?iso-8859-1?Q?Ez0Si4+U6xwE3TuN0oQYNuCOd8QzX+oRk3fFtb7IbiuEYO9Oyb52i0gRTN?=
- =?iso-8859-1?Q?aRs+DnnEUULAUaqeV/pwZrVaJVY/rA34F53CBZybvPpDybG6gd5DvlcjyD?=
- =?iso-8859-1?Q?RccMRsqTih0Ob1FOp+NBbZf9wmo+DTOPoFhg1RC6BRUspfAxOz5LoLOo7Q?=
- =?iso-8859-1?Q?aLVEXow5eLCzg82Gp6cHtwdBVNiZYuW14K/32GDr0DCqQenhoDGs1U6m8d?=
- =?iso-8859-1?Q?9lGdq7RJQqod5pJ01blO/bRCLLnWCJ8Emz3cqev2RlJWhlBZaCN3F353Vr?=
- =?iso-8859-1?Q?/wIIFtrF2tsGhrSkIsD25QrtM9i/28BVpAZuLprwloMQBTQmBasPHvmBKa?=
- =?iso-8859-1?Q?FrQiUZN7CtcKxQIBcAaqDUbaZBKr4k8N/WEYLDqQGhp6//v71E1F8EvrhU?=
- =?iso-8859-1?Q?zGJ5XArWp/MyWexzjfLHpNpa4nWurNX6QbvQrf4q+cIId2BLnZkZwTBHqW?=
- =?iso-8859-1?Q?RmqG6x2b6XdZU5eswWGa3/lLo470NtdziXp9UZyyuDkQvyfh+AWkluJJ4X?=
- =?iso-8859-1?Q?4pE3VHIkN/cAsLeMzdAxhc1IybMB7b9J+GjLgZ7UgraOogOMOpUGXcTr6o?=
- =?iso-8859-1?Q?xBZ5UgLtfsEoiJAhnFUYqA51ch9joWUlRb9v8ZU2/VF9oAIKSDnJYDg4uJ?=
- =?iso-8859-1?Q?1/RuyW1Yq7xn+hbD7PgXHroelPNINdYzHwCRrzBOySNLBoztiLdzxl/3uG?=
- =?iso-8859-1?Q?vZGaQ+t1Jj8LIOWbhN9lFtNRMvkilHOap36GYuW7JXJyCbWkCU1BieLSkN?=
- =?iso-8859-1?Q?cFp834Vqq8T+s=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC56710E3DD
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 19:34:17 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id
+ a640c23a62f3a-977e0fbd742so856027066b.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 12:34:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1686684854; x=1689276854;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yLMJYRBorT4BFeTxoWUQlILrVOQXKFEtzQp+4QGPj4s=;
+ b=ZAmodfsGtPSXQ87+KBHTeCFdj+vVJzeWud4mhOUi7DvWouuKUjDjGEl5aJcpqKcQMa
+ PhI2XCq14TmSFheHQeWQVOyI0MzG8PkQSgQPSRjEv6n1RCzsQCYPYPkjUFJRGGaWj/er
+ E0v98qxAokt8WZV29TXwqb4el9D+9L0YjaU/8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686684854; x=1689276854;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=yLMJYRBorT4BFeTxoWUQlILrVOQXKFEtzQp+4QGPj4s=;
+ b=XpiXjynW8cQXiy1kgU2NPyvcU4CJOQ+EN8/vmi8fqPtVScLfC8P8pqWeqmqrCu0U6d
+ LoHdWSEFO8yonvmlkS+jtJ4BuicdGHcYcKuE1646LTfHezO7QZygPysbRbNiuKKGXgI8
+ 5jSRfMCvSIXCGgSXXHMnTwYVojURSAEIfyW5FMbwRM4m5ZiBSEhHC9JoWQp3X9V1a8tx
+ 9UGtx3l4v3y5pwFC7OEKXYoI0AstORIXLtXydsAtHFyrVbk5xSJMZoGjA+DiOcsADUKn
+ RkxJv0tSx3Zh6mlSd/Y0drZ605A62K0IwMvS0yyddSb0L7GVtxBniCUN3mkWxccnQo+T
+ ElEQ==
+X-Gm-Message-State: AC+VfDwz3PQ5anpla+EAK2qBjisF2uEY7fLWScDCUtNIIJL/r0jxbAE/
+ cB6T6BzOKpGlJRpVPpcH1Hrr+P+Y7vozI7Otfl2l+xrX
+X-Google-Smtp-Source: ACHHUZ7Xocn+WDafx7ZRwZId7q2QXIIL4m/sWNS0CVBZhVLpBQe89XmhfWDy0ADhehMAi3oC47nsxw==
+X-Received: by 2002:a17:907:6e23:b0:970:e80:e29a with SMTP id
+ sd35-20020a1709076e2300b009700e80e29amr12506388ejc.68.1686684853886; 
+ Tue, 13 Jun 2023 12:34:13 -0700 (PDT)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com.
+ [209.85.208.42]) by smtp.gmail.com with ESMTPSA id
+ h21-20020a1709063c1500b00978937e9dcdsm6923218ejg.42.2023.06.13.12.34.12
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Jun 2023 12:34:13 -0700 (PDT)
+Received: by mail-ed1-f42.google.com with SMTP id
+ 4fb4d7f45d1cf-513ea2990b8so2984a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 12:34:12 -0700 (PDT)
+X-Received: by 2002:a50:bac8:0:b0:507:6632:bbbf with SMTP id
+ x66-20020a50bac8000000b005076632bbbfmr11406ede.6.1686684852516; Tue, 13 Jun
+ 2023 12:34:12 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5844b9aa-36c6-4132-9971-08db6c44d3b0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jun 2023 19:31:46.7958 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vjw9D8+CKYbPbtct/NPd8JUCrfMOJMwpxgoXanYONzMsdqWRFfWojNkDTyIP9mrfaZ56UGBOsNcRtoOPjG4Bno6jWOen/33L1FAyrfHOMns=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB9607
+References: <20230612220106.1884039-1-quic_bjorande@quicinc.com>
+ <c31ee9e4-1878-c0ae-70e6-42af5fd838c7@linaro.org>
+In-Reply-To: <c31ee9e4-1878-c0ae-70e6-42af5fd838c7@linaro.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 13 Jun 2023 12:33:59 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Whn3GDDMQiJGYbSK8LF-OO247m69Sqcf7dMw6HFthgqw@mail.gmail.com>
+Message-ID: <CAD=FV=Whn3GDDMQiJGYbSK8LF-OO247m69Sqcf7dMw6HFthgqw@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dp: Drop aux devices together with DP controller
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,112 +80,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Antonio Borneo <antonio.borneo@foss.st.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- =?iso-8859-1?Q?Marek_Beh=FAn?= <kabel@kernel.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Alessandro Zummo <a.zummo@towertech.it>,
- Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Rob Herring <robh+dt@kernel.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+Cc: freedreno@lists.freedesktop.org,
+ Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>,
+ Johan Hovold <johan+linaro@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Wolfram,
+Hi,
 
-> Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
->=20
-> Hi Wolfram,
->=20
-> Thanks for the feedback.
->=20
-> > Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device
-> > API
+On Mon, Jun 12, 2023 at 3:40=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On 13/06/2023 01:01, Bjorn Andersson wrote:
+> > Using devres to depopulate the aux bus made sure that upon a probe
+> > deferral the EDP panel device would be destroyed and recreated upon nex=
+t
+> > attempt.
 > >
-> > Hi Wolfram,
+> > But the struct device which the devres is tied to is the DPUs
+> > (drm_dev->dev), which may be happen after the DP controller is torn
+> > down.
 > >
-> > Thanks for the feedback.
+> > Indications of this can be seen in the commonly seen EDID-hexdump full
+> > of zeros in the log, or the occasional/rare KASAN fault where the
+> > panel's attempt to read the EDID information causes a use after free on
+> > DP resources.
 > >
-> > > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device
-> > > API
-> > >
-> > > Hi everyone,
-> > >
-> > > > Perhaps we should first think through what an ancillary device
-> > > > really is.  My understanding is that it is used to talk to
-> > > > secondary addresses of a multi-address I2C slave device.
-> > >
-> > > As I mentioned somewhere before, this is not the case. Ancillary
-> > > devices are when one *driver* handles more than one address.
-> > > Everything else has been handled differently in the past (for  all
-> > > the
-> > uses I am aware of).
-> > >
-> > > Yet, I have another idea which is so simple that I wonder if it
-> > > maybe has already been discussed so far?
-> > >
-> > > * have two regs in the bindings
-> >
-> > OK, it is inline with DT maintainers expectation as it is matching
-> > with real hw as single device node having two regs.
-> >
-> > > * use the second reg with i2c_new_client_device to instantiate the
-> > >   RTC sibling. 'struct i2c_board_info', which is one parameter, shoul=
-d
-> > >   have enough options to pass data, e.g it has a software_node.
-> >
-> > OK, I can see the below can be passed from PMIC to new client device.
-> >
-> > 	client->addr =3D info->addr;
-> >
-> > 	client->init_irq =3D info->irq;
-> >
-> > >
-> > > Should work or did I miss something here?
-> >
-> > I guess it will work. We instantiate appropriate device based On PMIC
-> > revision and slave address and IRQ resource passed through 'struct
-> > i2c_board_info'
-> >
-> > Will check this and update you.
->=20
-> info.irq =3D irq; -->Irq fine
-> info.addr =3D addr; -->slave address fine
-> size =3D strscpy(info.type, name, sizeof(info.type)); -->instantiation ba=
-sed
-> on PMIC version fine.
->=20
-> 1) How do we share clk details on instantiated device to find is it
-> connected to external crystal or external clock source? as we cannot pass
-> of_node between PMIC and "i2c_board_info" as it results in pinctrl
-> failure. info->platformdata and
-> Client->dev.platformdata to retrieve this info??
+> > It's tempting to move the devres to the DP controller's struct device,
+> > but the resources used by the device(s) on the aux bus are explicitly
+> > torn down in the error path.
+>
+> I hoped that proper usage of of_dp_aux_populate_bus(), with the callback
+> function being non-NULL would have solved at least this part. But it
+> seems I'll never see this patch.
 
-Or=20
+Agreed. This has been pending for > 1 year now with no significant
+progress. Abhinav: Is there anything that can be done about this? Not
+following up on agreed-to cleanups in a timely manner doesn't set a
+good precedent. Next time the Qualcomm display wants to land something
+and promises to land a followup people will be less likely to believe
+them...
 
-I2C instantiation based on actual oscillator bit value, ie, two i2c_device_=
-id's
-with one for setting oscillator bit and another for clearing oscillator bit
 
-PMIC driver parses the clock details. Based on firmware version and clock,=
-=20
-It instantiates either i2c_device_id with setting oscillator bit or
-clearing oscillator bit.
+> > The KASAN-reported use-after-free also
+> > remains, as the DP aux "module" explicitly frees its devres-allocated
+> > memory in this code path.
+> >
+> > As such, explicitly depopulate the aux bus in the error path, and in th=
+e
+> > component unbind path, to avoid these issues.
+> >
+> > Fixes: 2b57f726611e ("drm/msm/dp: fix aux-bus EP lifetime")
+> > Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
+>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Cheers,
-Biju
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
