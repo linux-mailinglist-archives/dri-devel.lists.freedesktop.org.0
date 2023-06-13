@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92EC772E0AD
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 13:10:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5727F72E0A1
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 13:10:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0810410E397;
-	Tue, 13 Jun 2023 11:10:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EE6F10E38C;
+	Tue, 13 Jun 2023 11:10:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2BEA10E373
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 11:10:02 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 141F910E37A
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 11:10:03 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8137A2240D;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C5F9C1FD9E;
  Tue, 13 Jun 2023 11:10:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1686654601; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SP5XPQ+B+tBgODPORD3Z9zsr7bRrI+Ip0rV0x56IK2w=;
- b=pTSICEX1c8Qsm19zd8eQCOJmYryvMjO4aaOSHlOwtXah5fzubr34ywOkPBk4udx7Cd8n99
- Qogm1Tg5gQANMUt14YBudjAK4+V0BX1XBy+bxA2fQQDpo10af0cqtvdgcZbgBS0ghOnZiJ
- JCTCiP5206NMjTAyMPMCilRo+t0oVgU=
+ bh=pRVEdK0qqrxfZ1WPdASb24zppir7QMxRATYQwzniLIw=;
+ b=G48Skz6IiEfIjDuhBzm3x8fAKscJD+q6Uc3kbkCjkYeGFVn2zHueRO51DGKJ+3RaC2w9gi
+ QZ3zRm5UiwME86d6uko7lw2fvY1BHdOiG6zLLkJTkonLwlMGF+7/f6UsbEiJul0DkYF319
+ cgTay0ntAN/WtcJcYJeumWQ+rYga17w=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1686654601;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SP5XPQ+B+tBgODPORD3Z9zsr7bRrI+Ip0rV0x56IK2w=;
- b=9Ocgsrqyr17hP8X9xHsC/t7ebR3q+Nbnf3ogJQ3SjTVVLWEjLKHtw3tY3i4JoL3nQy+/SE
- YEXpcN8c7ALLfPCQ==
+ bh=pRVEdK0qqrxfZ1WPdASb24zppir7QMxRATYQwzniLIw=;
+ b=ij1OplNTEHT7+l+qCaB0zdtGdRp1km6eoiy+FciawN0G21ZnehaPO/CQQWc/0c9HX+s3Lu
+ kuC1L0HUr/7H3hDg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3CF8A13483;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8266613A47;
  Tue, 13 Jun 2023 11:10:01 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id mAscDolOiGR8CQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id 6HAZH4lOiGR8CQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Tue, 13 Jun 2023 11:10:01 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, javierm@redhat.com, sam@ravnborg.org, deller@gmx.de,
  geert+renesas@glider.be, lee@kernel.org, daniel.thompson@linaro.org,
  jingoohan1@gmail.com, dan.carpenter@linaro.org, michael.j.ruhl@intel.com
-Subject: [PATCH v3 16/38] fbdev/mb862xxfb: Output messages with fb_dbg()
-Date: Tue, 13 Jun 2023 13:06:51 +0200
-Message-ID: <20230613110953.24176-17-tzimmermann@suse.de>
+Subject: [PATCH v3 17/38] fbdev/metronomefb: Use hardware device for dev_err()
+Date: Tue, 13 Jun 2023 13:06:52 +0200
+Message-ID: <20230613110953.24176-18-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230613110953.24176-1-tzimmermann@suse.de>
 References: <20230613110953.24176-1-tzimmermann@suse.de>
@@ -76,62 +76,34 @@ Cc: linux-fbdev@vger.kernel.org, linux-sh@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix cases were output helpers are called with struct fb_info.dev.
-Use fb_dbg() instead. Prepares fbdev for making struct fb_info.dev
-optional.
+Replace the use of the fbdev software device, stored in struct
+fb_info.dev, with the hardware device from struct fb_info.device
+in load_waveform(). The device is only used for printing errors
+with dev_err().
 
-v2:
-	* fix another reference to struct fb_info.dev (kernel test reobot)
-	* remove fb_err() from commit message
+This change aligns load_waveform() with the rest of the driver and
+prepares fbdev for making struct fb_info.dev optional.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/video/fbdev/mb862xx/mb862xxfbdrv.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/video/fbdev/metronomefb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-index b5c8fcab9940d..119c2a582ecbd 100644
---- a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-+++ b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-@@ -112,8 +112,7 @@ static int mb862xxfb_check_var(struct fb_var_screeninfo *var,
- {
- 	unsigned long tmp;
+diff --git a/drivers/video/fbdev/metronomefb.c b/drivers/video/fbdev/metronomefb.c
+index bac255c749e78..3e1daca76e114 100644
+--- a/drivers/video/fbdev/metronomefb.c
++++ b/drivers/video/fbdev/metronomefb.c
+@@ -181,7 +181,7 @@ static int load_waveform(u8 *mem, size_t size, int m, int t,
+ 	int mem_idx = 0;
+ 	struct waveform_hdr *wfm_hdr;
+ 	u8 *metromem = par->metromem_wfm;
+-	struct device *dev = par->info->dev;
++	struct device *dev = par->info->device;
  
--	if (fbi->dev)
--		dev_dbg(fbi->dev, "%s\n", __func__);
-+	fb_dbg(fbi, "%s\n", __func__);
- 
- 	/* check if these values fit into the registers */
- 	if (var->hsync_len > 255 || var->vsync_len > 255)
-@@ -290,7 +289,7 @@ static int mb862xxfb_blank(int mode, struct fb_info *fbi)
- 	struct mb862xxfb_par  *par = fbi->par;
- 	unsigned long reg;
- 
--	dev_dbg(fbi->dev, "blank mode=%d\n", mode);
-+	fb_dbg(fbi, "blank mode=%d\n", mode);
- 
- 	switch (mode) {
- 	case FB_BLANK_POWERDOWN:
-@@ -791,7 +790,7 @@ static void of_platform_mb862xx_remove(struct platform_device *ofdev)
- 	resource_size_t res_size = resource_size(par->res);
- 	unsigned long reg;
- 
--	dev_dbg(fbi->dev, "%s release\n", fbi->fix.id);
-+	fb_dbg(fbi, "%s release\n", fbi->fix.id);
- 
- 	/* display off */
- 	reg = inreg(disp, GC_DCM1);
-@@ -1138,7 +1137,7 @@ static void mb862xx_pci_remove(struct pci_dev *pdev)
- 	struct mb862xxfb_par *par = fbi->par;
- 	unsigned long reg;
- 
--	dev_dbg(fbi->dev, "%s release\n", fbi->fix.id);
-+	fb_dbg(fbi, "%s release\n", fbi->fix.id);
- 
- 	/* display off */
- 	reg = inreg(disp, GC_DCM1);
+ 	if (user_wfm_size)
+ 		epd_frame_table[par->dt].wfm_size = user_wfm_size;
 -- 
 2.41.0
 
