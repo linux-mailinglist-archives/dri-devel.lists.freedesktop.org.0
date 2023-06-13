@@ -2,64 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C409C72E00A
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 12:47:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F2F072E059
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 13:06:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24FF010E367;
-	Tue, 13 Jun 2023 10:47:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 930D510E369;
+	Tue, 13 Jun 2023 11:06:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 502E310E367
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 10:47:52 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 48AA72213E;
- Tue, 13 Jun 2023 10:47:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1686653269; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=c3fhYdVUr0tRLaaukczpen+StPe7TUnaAnjtsiCIZ2s=;
- b=tdqBaQl0pM7QXRNqnNkkV7fRdFCZ3I4rbdThW7TEZZdnmPFQb1oVlDr7EHK3gWtsdfD4e2
- MtKY75Qm/uLPgIZOgYTkJ2OlaQKhj4BNTdGA2Knvvgd72iKiazhq/IF1jKwgyk8PIRb7OB
- /3jSZLCvym/lzkd/r32KuLer7mbzDds=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1686653269;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=c3fhYdVUr0tRLaaukczpen+StPe7TUnaAnjtsiCIZ2s=;
- b=yyjG8vmaT01YVpsvIlIprlvIsyvd8WnCZbFEY0qVJByyZzlM558Aj+/peI35jk6oYhyrgf
- s4FlWVWmtCGS1kDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F0CE313483;
- Tue, 13 Jun 2023 10:47:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 7M8HOlRJiGTGfAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 13 Jun 2023 10:47:48 +0000
-Message-ID: <9a390f13-4ad3-cddc-64f7-8a1737965242@suse.de>
-Date: Tue, 13 Jun 2023 12:47:48 +0200
-MIME-Version: 1.0
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02on2084.outbound.protection.outlook.com [40.107.95.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 869C410E369
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 11:06:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YUmri13yqE613vmFt0vUhNQuIiWTZM8WliuK+EEEN6W2d57rDBjRON8AQXO2bevKlOqFBXhbdykRLERzK8DihPuy/ytIfkQF2CRHk3n7usgO6raaEWLzOIfBop1t3tT2myUDR0YRt2FAAqA2chV19l1FFVYdCw33wOm2955s6aJnXDdlVggTy/OH+YEGoDBeqeNujKZPDkURbQy7GomVkouoRKIqMvDT/gVBcCyBDT/QffqdzQx9jxSH8F2ACJNCP+Dpq5sPVZI6oqTTJKmQSkkhW0P1YlVMx98KUY9yXZUA5tPRkQ5yAQhzWBMS0GfzOInanHNILvI0JTCIIHyZZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OUcQ8aGMUjfRR2tnw5y2wQTGPTq4W2Jucj5G2OVujuI=;
+ b=SFvFmnhzpolkSp8mKV6Mn/GqKKLJFhHHajqOiM6OFqMBlYcYIzmStUmng9uVfDxgj5e013g0pcGzawsSkF40vK54tjj173ihdUGm1rnhWA3OhzhoSXv+U5/t6hbxPQDN7UnxtZk8QumKC0S7r+kLeMTLAVLXcCq5O4S0MTgxq09wR6AjuL1S+FFQWhcWEJZo4Cf+/cKLknWny7SN6Z+swbykYxovTcR0yCzEdWVJAfPFTtdjVtMGCNKCPzyEPN4lidWPzP/I9QO8xlXQJGa0IGtY1Xw6PoxTxxcHwHzQL/ndmFLyXhbvOXt3rFkjYVldnbgpc9Sey1x9ZaAzWgGqeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OUcQ8aGMUjfRR2tnw5y2wQTGPTq4W2Jucj5G2OVujuI=;
+ b=S8zpoi1b82pSXsE7g6tqXhASE37/QHlJ3SOnfB6NXmwTiMJY/jA/rBzQKEzwJzAQaYHMQ+mZyiGn5W+4nGOX7ojepq4OuqJ6d2+wxJX8QM1sbUZT5hWvehL4vBlWkvsYEhjbwpEfYLyd/IcI5PSdFiSNMfiVXb9nhGAEjEM5PBw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BYAPR12MB3589.namprd12.prod.outlook.com (2603:10b6:a03:df::29)
+ by DM4PR12MB8523.namprd12.prod.outlook.com (2603:10b6:8:18e::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.36; Tue, 13 Jun
+ 2023 11:06:14 +0000
+Received: from BYAPR12MB3589.namprd12.prod.outlook.com
+ ([fe80::401e:2e7f:7c2b:6bff]) by BYAPR12MB3589.namprd12.prod.outlook.com
+ ([fe80::401e:2e7f:7c2b:6bff%4]) with mapi id 15.20.6455.024; Tue, 13 Jun 2023
+ 11:06:13 +0000
+Message-ID: <7333ddbd-6444-a6d5-73b2-4d1648ec4cec@amd.com>
+Date: Tue, 13 Jun 2023 13:06:06 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v2 01/38] backlight/bd6107: Compare against struct
- fb_info.device
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm/sched: Call drm_sched_fence_set_parent() from
+ drm_sched_fence_scheduled()
 Content-Language: en-US
-To: Daniel Thompson <daniel.thompson@linaro.org>
-References: <20230612141352.29939-1-tzimmermann@suse.de>
- <20230612141352.29939-2-tzimmermann@suse.de>
- <20230613103730.GA169438@aspen.lan>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230613103730.GA169438@aspen.lan>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------Bih0PagUpBHQXHTR42b2H5ZP"
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org
+References: <20230613094424.2176746-1-boris.brezillon@collabora.com>
+ <20230613114611.11402411@collabora.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20230613114611.11402411@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0130.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:94::11) To BYAPR12MB3589.namprd12.prod.outlook.com
+ (2603:10b6:a03:df::29)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3589:EE_|DM4PR12MB8523:EE_
+X-MS-Office365-Filtering-Correlation-Id: 53b72230-842d-4a29-d94a-08db6bfe3333
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rh6ORfklCMz9vPAZkDOhnOhxHLzMMhzvtE4c0rMK5qe3umgjAATxT5oou4Tuk2j2JtMfcpEvf4kH3MEAM1ON/n0WXZeX5qXs0q7Mxp5bZeCGPeH6RAAeice0J//+yJ9ld5cd7NI7QV+n7hqD1IntPlzy065NJqa+BVF51NyCGEmGLmNvCtCDjQ/tWAcKP82J7QPHWdFGkrAnGWNQRigsbT9dgs1MGoe94gP+go9boBE6HORO3CRO7ENMRYUumS/ue0+SL98iJr3jnjDgn6tWfV4G83MQEGUVoXp3rnnCwHiZ1lZq8MN+KF1soVz33a5rUgcNioUMos+256qES2iROplGFRXjzo7ayesFpNLIUWMc6vNIIYjj5id+rQqvs4F6K1NBYmJ/yRDyfvQmw3QIMn/ye8kpPBhm2k+quQNmGqWi20Nn72XIdWlzXT8xG9+GaVd/GPRJNMFqJPLALCxvVI/24pI19Klx+4Lt69eYiDxO7seH9C4HyjUEphkwYJIQmWxPCdoOL/gzrZsVKTHpCq2cvi3fljdrsgpMQEfdSykVwIcpTWYOp7t5DMA9aALFkwIHqkAMB9tSJtxcTf37ap4WmBbjoQ94V2rNxxxM2EBsQpCPDk516YhkiZi8qlU989sBUdUBSdpw7d7nUX6Jyg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB3589.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(39860400002)(346002)(376002)(136003)(366004)(451199021)(66476007)(6506007)(66556008)(38100700002)(66946007)(4326008)(478600001)(6486002)(2616005)(6666004)(2906002)(6512007)(316002)(41300700001)(54906003)(36756003)(186003)(31696002)(8676002)(8936002)(86362001)(31686004)(5660300002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZmNBRU9HWmhxbnhBaTFEZEdKcjYzNG13b1dpKysyRTdOenhraFJnZFUvbk5S?=
+ =?utf-8?B?eEVXeFhkNXhZMTFVMWVPdTVNVFNrQm1sVXlhR1l4a094Z0Rabi9ZVEZCay9S?=
+ =?utf-8?B?NjhkZXBCZ3RHMzYvczNBc3c3VHFxN3RFQld1dldwTFg0bHo3U0E5WENwb3Zt?=
+ =?utf-8?B?QTlPNnczVlpnWmxxMjJVTllVWGRheFZER0ZiM3FtSDNpa0ZWNFJFTkRVazU5?=
+ =?utf-8?B?SEJ3b3JKWVBUNWRybU1TZUFuM1JtYnZPc3MzZGVBYlBvNFUxN2x1bzJ6L1g1?=
+ =?utf-8?B?YjNsNnhJenVybGdoTUh2YzJjZFdST3RkSUhzZzVZMys1ZUdPcWRqREtaS041?=
+ =?utf-8?B?T0JJZ0hVd1dKQmg4RS8vejVJSVhuVEFJU2RKVklUT0dDNnN1a29nQ0NVOW5h?=
+ =?utf-8?B?eUV4b0ZYNzErMEx1M1FLZFhwZlZrYWNLSjc3MlNnTUZHOEhVZlQzMnZPaGE0?=
+ =?utf-8?B?NVNoTVdpaUQzQlpQQVZzQThPSGtaMGp0WnYzSFRQUUpIbStaNjhmMFY2SXVH?=
+ =?utf-8?B?RE92Ylk2VlpBT3hMZ1RNTDhoZFpTYlpvQWtSaTZaaXp4Y2VodkFoeXdHY3Vt?=
+ =?utf-8?B?UmMyZGQyNytVS09Ycys2ZW5iVSsyYXYvczNHWXAvQlhTTXdEY3lzMjVTVlhR?=
+ =?utf-8?B?VzNrLzBUajJJT29LQ3ljd0ZLTHloZEh6RmNycFVJU2tLUVliYmN3MmJGNzZh?=
+ =?utf-8?B?VTBkVEFHQjJkQzFKWStKQ1JPdVBMaXZ5NmlJTVA4WWN3OW5LeFI3Z0VQUnZM?=
+ =?utf-8?B?empvQi8zMGhTRVk4WG5XdTFCSTR1NklUR200R3RQN0xXV0VGY0Y1NkxoVWVi?=
+ =?utf-8?B?OWJkVU9leDB4Qk9nY29sbmJqbGJ4dVNZUS9JMXpNRTBrZVQ5MTMrMTB4STB5?=
+ =?utf-8?B?OFNYbmhxc3EyNldoZG1WSVA1WDFIT3QwWlJlZ2VXZjRwY0FUYzlMQzFWY0ZU?=
+ =?utf-8?B?dkpBR21uQ095MHc0Nm1KOW5uaUp1bm0zZ2xGUmcrT3ZKOThRS3VkM0VLaGsr?=
+ =?utf-8?B?UDBjY0M2ajN3VnpEd0lXdm0wOStHQnZ3RGdPOUdNZWFSL1RGaGEyUnRzMjZH?=
+ =?utf-8?B?MXBtN1Jlald2Y2J5R2Q0TkZKcTQvZ1BYSnNNTm45L21EMUVpbFlxUE1zSEtk?=
+ =?utf-8?B?cnpaNUdKZzhsY3N0eDEvOVVkRGlpY0hUdFBzUUdvcGRDM3hGMENDZyt6bDIy?=
+ =?utf-8?B?emtQbzU1bHBNTXZRb05zNUh4WjR0Q0FWMEMwWUNuSU96S0h1bHNqdGpRajZw?=
+ =?utf-8?B?NlNFUnQ1emZvR1VqdGVoYTNJWXBzN0dnR0czM2dwQ1phTnczUVluZXVuY3dE?=
+ =?utf-8?B?RHhUQWt6d25zQW44VUI4WTJpRVFEcVltY0NIWUMrRzREckZsOUlqcXdjM0Rp?=
+ =?utf-8?B?cjcvMUNMc09vYm9aRC84ejhVVnFHT1pSalp3Z3ZGNFVTYU5lS2xVbzNydm9M?=
+ =?utf-8?B?UWF1cWNOUG90TzdhK0NjUUtXdTEzaDNUR1pIbllFQlJDMFZjY0JGU2toNjBP?=
+ =?utf-8?B?U2o0MGppRUlRazlVU1ZsUXQ1anFEb1M5Q01YUnovdDBWUjkvM2RZWkdXTTJP?=
+ =?utf-8?B?Mk4vdlVoMU11VjNvSmlHbVQ2bFJGQjJFTEd2VWVvbFZLWERvSk1TdVJXWDdR?=
+ =?utf-8?B?a29XRnpBR0tlQlpBMlJKMGxZb1ZDaVQ0RVdxdisyTFRITEJzZnpBNnJQQmtM?=
+ =?utf-8?B?MEZLdUhnL2xrczdteTh0SEErb0NRMGJpdWJ1dFoyTnFVTkF4b3BUZllYTFgr?=
+ =?utf-8?B?YmFKak82TmZTSmN2VkZ2NThzTngxaVFXVHJweW1TSUZ6cHFCVUhJZmxZRHlM?=
+ =?utf-8?B?TTc2amkvTVExRjBsNGJiczFoWE94QWQzdjlOeEJwYXJxZDFmekFQUCt6ME5R?=
+ =?utf-8?B?OTBmQ2Z3enV1TlN5QzNaZ3NmZndaWjJqYW5CUkdEYTdGam9rYTd2REtYR091?=
+ =?utf-8?B?SWNMWC9iYlNKcEMvZ2NTNjMvL01oU0hMalIzbDZtK1c0UnZuRXg5TDU3WlF6?=
+ =?utf-8?B?MEU1TzUvQU8rdzlTb25XMFNFT1o0eUl3MU9tTHIrTUc1WFM1NHBtQi8xL1Yw?=
+ =?utf-8?B?V3JaNzk0cTNsV3dKM0hkckp4eDVMZG5SZnR2czJqcDc1S3hmK2l4UVFaeC9a?=
+ =?utf-8?B?cEw3RW04ODRvd1Yzc3RTekp2bThDWVYwRjZFd1pndDlVNHBUbEgrY1lkenVL?=
+ =?utf-8?Q?bTtJhej+Flm9eQ1WJUJJmdUo8N0xYk+TQtVF62rsqnzf?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53b72230-842d-4a29-d94a-08db6bfe3333
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3589.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2023 11:06:13.0857 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4pGRsel6xowUcUMe0LoQWUZ/u/92L1Rbf/DQHTt066YBtbek+uDj8vvwrvMFMLgH
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB8523
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,98 +128,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- geert+renesas@glider.be, linux-sh@vger.kernel.org, jingoohan1@gmail.com,
- deller@gmx.de, lee@kernel.org, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- michael.j.ruhl@intel.com,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- stable@vger.kernel.org, linux-omap@vger.kernel.org, sam@ravnborg.org,
- dan.carpenter@linaro.org
+Cc: Sarah Walker <sarah.walker@imgtec.com>, Luben Tuikov <luben.tuikov@amd.com>,
+ Donald Robson <donald.robson@imgtec.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------Bih0PagUpBHQXHTR42b2H5ZP
-Content-Type: multipart/mixed; boundary="------------kN8YWHBXTOAX040efj8X6bTV";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Cc: daniel@ffwll.ch, javierm@redhat.com, sam@ravnborg.org, deller@gmx.de,
- geert+renesas@glider.be, lee@kernel.org, jingoohan1@gmail.com,
- dan.carpenter@linaro.org, michael.j.ruhl@intel.com,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-sh@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- stable@vger.kernel.org
-Message-ID: <9a390f13-4ad3-cddc-64f7-8a1737965242@suse.de>
-Subject: Re: [PATCH v2 01/38] backlight/bd6107: Compare against struct
- fb_info.device
-References: <20230612141352.29939-1-tzimmermann@suse.de>
- <20230612141352.29939-2-tzimmermann@suse.de>
- <20230613103730.GA169438@aspen.lan>
-In-Reply-To: <20230613103730.GA169438@aspen.lan>
+Am 13.06.23 um 11:46 schrieb Boris Brezillon:
+> On Tue, 13 Jun 2023 11:44:24 +0200
+> Boris Brezillon <boris.brezillon@collabora.com> wrote:
+>
+>> Drivers that can delegate waits to the firmware/GPU pass the scheduled
+>> fence to drm_sched_job_add_dependency(), and issue wait commands to
+>> the firmware/GPU at job submission time. For this to be possible, they
+>> need all their 'native' dependencies to have a valid parent since this
+>> is where the actual HW fence information are encoded.
+>>
+>> In drm_sched_main(), we currently call drm_sched_fence_set_parent()
+>> after drm_sched_fence_set_parent(), leaving a short period of time
+> after drm_sched_fence_scheduled(), ...
 
---------------kN8YWHBXTOAX040efj8X6bTV
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+I was just about to complain, but yeah sounds like the right idea to me.
 
-SGkNCg0KQW0gMTMuMDYuMjMgdW0gMTI6Mzcgc2NocmllYiBEYW5pZWwgVGhvbXBzb246DQo+
-IE9uIE1vbiwgSnVuIDEyLCAyMDIzIGF0IDA0OjA3OjM5UE0gKzAyMDAsIFRob21hcyBaaW1t
-ZXJtYW5uIHdyb3RlOg0KPj4gU3RydWN0IGJkNjEwN19wbGF0Zm9ybV9kYXRhIHJlZmVycyB0
-byBhIHBsYXRmb3JtIGRldmljZSB3aXRoaW4NCj4+IHRoZSBMaW51eCBkZXZpY2UgaGllcmFy
-Y2h5LiBUaGUgdGVzdCBpbiBiZDYxMDdfYmFja2xpZ2h0X2NoZWNrX2ZiKCkNCj4+IGNvbXBh
-cmVzIGl0IGFnYWluc3QgdGhlIGZiZGV2IGRldmljZSBpbiBzdHJ1Y3QgZmJfaW5mby5kZXYs
-IHdoaWNoDQo+PiBpcyBkaWZmZXJlbnQuIEZpeCB0aGUgdGVzdCBieSBjb21wYXJpbmcgdG8g
-c3RydWN0IGZiX2luZm8uZGV2aWNlLg0KPj4NCj4+IEZpeGVzIGEgYnVnIGluIHRoZSBiYWNr
-bGlnaHQgZHJpdmVyIGFuZCBwcmVwYXJlcyBmYmRldiBmb3IgbWFraW5nDQo+PiBzdHJ1Y3Qg
-ZmJfaW5mby5kZXYgb3B0aW9uYWwuDQo+Pg0KPj4gdjI6DQo+PiAJKiBtb3ZlIHJlbmFtZXMg
-aW50byBzZXBhcmF0ZSBwYXRjaCAoSmF2aWVyLCBTYW0sIE1pY2hhZWwpDQo+Pg0KPj4gRml4
-ZXM6IDY3YjQzZTU5MDQxNSAoImJhY2tsaWdodDogQWRkIFJPSE0gQkQ2MTA3IGJhY2tsaWdo
-dCBkcml2ZXIiKQ0KPj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
-ZXJtYW5uQHN1c2UuZGU+DQo+PiBDYzogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5j
-aGFydCtyZW5lc2FzQGlkZWFzb25ib2FyZC5jb20+DQo+PiBDYzogTGVlIEpvbmVzIDxsZWVA
-a2VybmVsLm9yZz4NCj4+IENjOiBEYW5pZWwgVGhvbXBzb24gPGRhbmllbC50aG9tcHNvbkBs
-aW5hcm8ub3JnPg0KPj4gQ2M6IEppbmdvbyBIYW4gPGppbmdvb2hhbjFAZ21haWwuY29tPg0K
-Pj4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcNCj4+IENjOiA8c3RhYmxl
-QHZnZXIua2VybmVsLm9yZz4gIyB2My4xMisNCj4+IFJldmlld2VkLWJ5OiBKYXZpZXIgTWFy
-dGluZXogQ2FuaWxsYXMgPGphdmllcm1AcmVkaGF0LmNvbT4NCj4gDQo+IFJldmlld2VkLWJ5
-OiBEYW5pZWwgVGhvbXBzb24gPGRhbmllbC50aG9tcHNvbkBsaW5hcm8ub3JnPg0KDQpUaGFu
-a3MgZm9yIGdvaW5nIHRocm91Z2ggdGhlIGJhY2tsaWdodCBwYXRjaGVzLg0KDQo+IA0KPiAN
-Cj4gRGFuaWVsLg0KPiANCj4gUFMgUGxlYXNlIGRvbid0IHRyZWF0IHRoaXMgYXMgYW4gQWNr
-ZWQtYnksIGlmIHlvdSB3YW50IHRvIGxhbmQgdGhpcw0KPiAgICAgcGF0Y2hzZXQgdmlhIGEg
-c2luZ2xlIHRyZWUgcGxlYXNlIGNvb3JkaW5hdGUgd2l0aCBMZWUgSm9uZXMhDQoNCkknZCBs
-aWtlIHRvIG1lcmdlIHRoZW0gdmlhIGRybS1taXNjLW5leHQgdG9nZXRoZXIgd2l0aCB0aGUg
-cmVzdCBvZiB0aGUgDQpwYXRjaHNldC4gSXQncyBub3QgRFJNLCBidXQgZmJkZXYgcGF0Y2hl
-cyBvZnRlbiBnbyB0aHJvdWdoIHRoYXQgdHJlZSANCnF1aXRlIG9mdGVuLg0KDQpCZXN0IHJl
-Z2FyZHMNClRob21hcw0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2
-ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZy
-YW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRv
-dGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpI
-UkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
+Just let me review the patch in more detail.
 
---------------kN8YWHBXTOAX040efj8X6bTV--
+Christian.
 
---------------Bih0PagUpBHQXHTR42b2H5ZP
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+>
+>> during which the job depending on this fence can be submitted.
+>>
+>> Since setting parent and signaling the fence are two things that are
+>> kinda related (you can't have a parent if the job hasn't been scheduled),
+>> it probably makes sense to pass the parent fence to
+>> drm_sched_fence_scheduled() and let it call drm_sched_fence_set_parent()
+>> before it signals the scheduled fence.
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSISVQFAwAAAAAACgkQlh/E3EQov+DI
-iQ/7BKHWYUoMmnyorQ8yHtBI1XVxUNzbBJ0OGTBT4b82riNpqOq9KfyBGnmOJcEey66W74EmBU5V
-L4vlnw9VTD4BVQsw/iwIArnUrpazJ+GmYABhFM6I3BR8ZUwY61HH8PX8NeMje/nG4Md9n7ugOyzt
-mQerA5bh9exoD7hytk3CuDeEwpVfk+AvMOovuUwuUsKXOcK+s6oQiRfGSd4q+DrKQbD04JGy1IBf
-3ZR9s0dSIuBzZFwhqr+fUcAuuhZSxq6Fpd5okO6mhDlX+G6eeKuFaeL4hg51TJQe2wPokqZjatnG
-8qG9wA5+0uBdaDW620DSVpyUdAZZAKs5DLmKsM80SyBseZSXddy7Zo3958kbbl7pfcP3j3hlJiUI
-fMXMUY6y9syT/DVUXRVjiYb5qX7tO4W+gi8gBSNkdC99c4JwvhWFiobs4Lru0iM4ePC3LNCnt7Ma
-QZ9jbQlvu16Ke+9EIoA0bIxL0181S+19JHBftQzBAgbmXnB7pGZa9UIng8t0tGaLXMClLxmXC+lD
-+ryZgyLhc76mKMxQWy2CbJyM6Aynyq0U0P5DLsMkOBGDmqpLg5nQw6VC0INkEKnzIBq0cRTFEwry
-UwPWiBj1XzooWK/LiDPxdXqHFeibjHLzSCyxrdASPCFlhiw1A7SZWwYwsaP8+pS3KeM80gZPBcKq
-cwE=
-=cAD4
------END PGP SIGNATURE-----
-
---------------Bih0PagUpBHQXHTR42b2H5ZP--
