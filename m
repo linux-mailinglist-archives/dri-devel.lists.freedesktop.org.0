@@ -2,82 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 904AA72E592
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 16:20:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6015572E5D4
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 16:34:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCE6E10E25F;
-	Tue, 13 Jun 2023 14:20:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37D4C10E265;
+	Tue, 13 Jun 2023 14:34:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BF3B10E25F
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 14:20:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1686666049;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cZEUY4eFrIiW2hJOSDRcVK2BXCKkst+J0Ig7f66lGys=;
- b=QrVA9CcEA+1n+uKHqPsnafyLOSX1jWhvrvdsh34JXlqLlyXdm2/g3zfF3/Lk6W3Sz6dGjV
- /HJexiVtPBqzOeTn8XklyfQbZzzeZKppan8WfT/owm4seEUd50uoI7Umo2RNmL+LOYfnRv
- q38TBQfQYx85BY9mXRez6USt9WIDTQU=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-463-O7pHRE3WMaCR1FIo9EwYAg-1; Tue, 13 Jun 2023 10:20:47 -0400
-X-MC-Unique: O7pHRE3WMaCR1FIo9EwYAg-1
-Received: by mail-ej1-f71.google.com with SMTP id
- a640c23a62f3a-977cb73efe8so606476666b.1
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 07:20:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686666044; x=1689258044;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=cZEUY4eFrIiW2hJOSDRcVK2BXCKkst+J0Ig7f66lGys=;
- b=NMXd4hm7Dj3Ns272yOYG9lxzKSJuxkoBMW/BpWHgfPcKZftUkEPz75KIuOYkwE0H9d
- b0msKjH6p/nxi/hd0bSOthB3xO0EEjS0dO7rSUdkqI3PMZvDK9KgWv0LVlX72pG+v99X
- ujDDm03TxwwxiNzrVkIOqobPmlCIe9XxwKXTsgY+MA8vI/W+frSI5d28JwTeFPKInpZO
- bGn3xNn2qHorH710C1Gag39gEK34wG4WMmufQWlrCe+n6Ewa+bmkeqG2iPNrgmm4vQAT
- 62s5XYpNHjrJFL33UZuwxDlwYYXgMFE8AWhdFFukvWeln31Rps1XrznlOmKT5uHtYwoQ
- /SdQ==
-X-Gm-Message-State: AC+VfDynnVKf4mzoxh6cu8nhgOcn3kb8H0RSxC1lMWRneYBfFNllYK/X
- yAoJxlXPtiFcA3sz8nvWw7y+LIAUq4InuFmOqeblmcbEISfLXU19dta9Syb+HLV5M5LL+ExUOch
- O2B86sB3zJqICT0jDNCATJPDZFtcy
-X-Received: by 2002:a17:907:809:b0:977:cbaf:bc56 with SMTP id
- wv9-20020a170907080900b00977cbafbc56mr13671264ejb.43.1686666044426; 
- Tue, 13 Jun 2023 07:20:44 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4ad5nom20kLaHoCm86c18wBjHdHRHf+yMBQw0AQn5oLgUB+K/pfcP4C4uj6QCUmqL4FWtcyQ==
-X-Received: by 2002:a17:907:809:b0:977:cbaf:bc56 with SMTP id
- wv9-20020a170907080900b00977cbafbc56mr13671233ejb.43.1686666044074; 
- Tue, 13 Jun 2023 07:20:44 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
- ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- e24-20020a170906081800b009786c8249d6sm6855650ejd.175.2023.06.13.07.20.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Jun 2023 07:20:43 -0700 (PDT)
-Message-ID: <67ffef18-fae4-cb84-ff75-c4eed92a8755@redhat.com>
-Date: Tue, 13 Jun 2023 16:20:41 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9311C10E265
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 14:34:47 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B2E736372D
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 14:34:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5FF4FC4AF6A
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 14:34:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1686666885;
+ bh=kPKcuE9T73nserQLF1ufjP+TrsOJdnlpAfTCqim9580=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=Hnd9ZpOCowj8g9ED1xQLWF7RzCrntYQVh8bcoT+CZohmEm/Bg4c4n4VNO8DYElRdI
+ meEBGPbHFvmH1jq7XYYAAgEQtpfVIdExsy7Ky3LbCuExLdzOhimIiUAbuA+hhqIGD1
+ KsxyPhK1HbYZl7mFqn+S8dmrtviTZuYTpMWjuzqNygNE6rX744oqe06eoXMYuG6PUA
+ hIm7eGjQNvcNOXHeNLsh203KecwVR8h1rUkYWY2ML+k1jUImqIwVgKx7mW329wlXuL
+ 97bNVKrAdErj4Hln0wluBuRaFwSCXGKQCcZBj36p10cl7SJxvzwQxMo8DKMjREsvy/
+ 52TF9SHrEij+g==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 4E2AAC4332E; Tue, 13 Jun 2023 14:34:45 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 205089] amdgpu : drm:amdgpu_cs_ioctl : Failed to initialize
+ parser -125
+Date: Tue, 13 Jun 2023 14:34:43 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: webda2l@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: CODE_FIX
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-205089-2300-QdefHHz3mq@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-205089-2300@https.bugzilla.kernel.org/>
+References: <bug-205089-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH drm-next v4 00/14] [RFC] DRM GPUVA Manager & Nouveau
- VM_BIND UAPI
-To: Donald Robson <Donald.Robson@imgtec.com>
-References: <20230606223130.6132-1-dakr@redhat.com>
- <f5723444623b41d58f93c3f0ab662e9b37105765.camel@imgtec.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <f5723444623b41d58f93c3f0ab662e9b37105765.camel@imgtec.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,81 +72,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "matthew.brost@intel.com" <matthew.brost@intel.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "corbet@lwn.net" <corbet@lwn.net>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- "ogabbay@kernel.org" <ogabbay@kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "willy@infradead.org" <willy@infradead.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "boris.brezillon@collabora.com" <boris.brezillon@collabora.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
- "Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "jason@jlekstrand.net" <jason@jlekstrand.net>,
- "bskeggs@redhat.com" <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Donald,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D205089
 
-On 6/9/23 13:56, Donald Robson wrote:
-> On Wed, 2023-06-07 at 00:31 +0200, Danilo Krummrich wrote:
->>
->> Christian König (1):
->>    drm: execution context for GEM buffers v4
->>
->> Danilo Krummrich (13):
->>    maple_tree: split up MA_STATE() macro
->>    drm: manager to keep track of GPUs VA mappings
-> 
-> I have tested the drm GPUVA manager as part of using it with our new
-> driver.  The link below shows use of the drm_gpuva_sm_[un]map()
-> functions.  I think this is based on the v3 patches, but I have also
-> tried it locally using v4 patches.  We will be submitting this
-> driver for review soon.
+webda2l@gmail.com changed:
 
-That's awesome - thank your for taking the effort!
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |webda2l@gmail.com
 
-> 
-> https://gitlab.freedesktop.org/sarah-walker-imgtec/powervr/-/blob/dev/v3/drivers/gpu/drm/imagination/pvr_vm.c
-> 
-> In a previous incarnation, I used the drm_gpuva_insert() and
-> drm_gpuva_remove() functions directly.  In some now abandoned work I
-> used the drm_gpuva_sm_[un]map_ops_create() route.
-> 
-> The only problem I encountered along the way was the maple tree init
-> issue already reported by Boris and fixed in v4.  One caveat - as
-> our driver is a work in progress our testing is limited to certain
-> Sascha Willem tests.
-> 
-> I did find it quite difficult to get the prealloc route with
-> drm_gpuva_sm_[un]map() working.  I'm not sure to what degree this
-> reflects me being a novice on matters DRM, but I did find myself
-> wishing for more direction, even with Boris's help.
+--- Comment #53 from webda2l@gmail.com ---
+Just got the issue even if uptodate and on power :/
 
-I'm definitely up improving the existing documentation. Anything in 
-particular you think should be described in more detail?
 
-- Danilo
+```
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu 22.04.2 LTS
+Release:        22.04
+Codename:       jammy
 
-> 
-> Tested-by: Donald Robson <donald.robson@imgtec.com>
-> 
->>    drm: debugfs: provide infrastructure to dump a DRM GPU VA space
->>    drm/nouveau: new VM_BIND uapi interfaces
->>    drm/nouveau: get vmm via nouveau_cli_vmm()
->>    drm/nouveau: bo: initialize GEM GPU VA interface
->>    drm/nouveau: move usercopy helpers to nouveau_drv.h
->>    drm/nouveau: fence: separate fence alloc and emit
->>    drm/nouveau: fence: fail to emit when fence context is killed
->>    drm/nouveau: chan: provide nouveau_channel_kill()
->>    drm/nouveau: nvkm/vmm: implement raw ops to manage uvmm
->>    drm/nouveau: implement new VM_BIND uAPI
->>    drm/nouveau: debugfs: implement DRM GPU VA debugfs
->>
 
+
+5.19.0-43-generic
+
+
+
+H/W path          Device        Class       Description
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+                                system      Computer
+/0                              bus         Motherboard
+/0/0                            memory      15GiB System memory
+/0/1                            processor   AMD Ryzen 7 7735HS with Radeon
+Graphics
+/0/100                          bridge      Advanced Micro Devices, Inc. [A=
+MD]
+/0/100/0.2                      generic     Advanced Micro Devices, Inc. [A=
+MD]
+/0/100/2.2                      bridge      Advanced Micro Devices, Inc. [A=
+MD]
+/0/100/2.2/0      wlp1s0        network     MEDIATEK Corp.
+/0/100/2.4                      bridge      Advanced Micro Devices, Inc. [A=
+MD]
+/0/100/2.4/0      /dev/nvme0    storage     SAMSUNG MZVL21T0HCLR-00BL2
+/0/100/2.4/0/0    hwmon3        disk        NVMe disk
+/0/100/2.4/0/2    /dev/ng0n1    disk        NVMe disk
+/0/100/2.4/0/1    /dev/nvme0n1  disk        NVMe disk
+/0/100/3.1                      bridge      Advanced Micro Devices, Inc. [A=
+MD]
+/0/100/8.1                      bridge      Advanced Micro Devices, Inc. [A=
+MD]
+/0/100/8.1/0      /dev/fb0      display     Rembrandt
+/0/100/8.1/0.1    card0         multimedia  Advanced Micro Devices, Inc.
+[AMD/ATI]
+/0/100/8.1/0.1/0  input13       input       HD-Audio Generic HDMI/DP,pcm=3D3
+/0/100/8.1/0.1/1  input14       input       HD-Audio Generic HDMI/DP,pcm=3D7
+/0/100/8.1/0.2                  generic     VanGogh PSP/CCP
+/0/100/8.1/0.3                  bus         Advanced Micro Devices, Inc. [A=
+MD]
+/0/100/8.1/0.4                  bus         Advanced Micro Devices, Inc. [A=
+MD]
+/0/100/8.1/0.5                  multimedia  Raven/Raven2/FireFlight/Renoir
+Audio Processor
+/0/100/8.1/0.6    card1         multimedia  Family 17h (Models 10h-1fh) HD
+Audio Controller
+/0/100/8.1/0.6/0  input15       input       HD-Audio Generic Mic
+/0/100/8.1/0.6/1  input16       input       HD-Audio Generic Headphone
+/0/100/8.3                      bridge      Advanced Micro Devices, Inc. [A=
+MD]
+/0/100/8.3/0                    bus         Advanced Micro Devices, Inc. [A=
+MD]
+/0/100/8.3/0.3                  bus         Advanced Micro Devices, Inc. [A=
+MD]
+/0/100/8.3/0.4                  bus         Advanced Micro Devices, Inc. [A=
+MD]
+/0/100/8.3/0.5                  bus         Advanced Micro Devices, Inc. [A=
+MD]
+/0/100/14                       bus         FCH SMBus Controller
+/0/100/14.3                     bridge      FCH LPC Bridge
+/0/100/14.3/0                   system      PnP device PNP0c02
+/0/100/14.3/1                   system      PnP device PNP0b00
+/0/100/14.3/2                   generic     PnP device FUJ7401
+/0/100/14.3/3                   system      PnP device PNP0c02
+/0/100/14.3/4                   system      PnP device PNP0c01
+/0/100/14.3/5     input7        input       Ideapad extra buttons
+/0/101                          bridge      Advanced Micro Devices, Inc. [A=
+MD]
+/0/102                          bridge      Advanced Micro Devices, Inc. [A=
+MD]
+/0/103                          bridge      Advanced Micro Devices, Inc. [A=
+MD]
+/0/104                          bridge      Advanced Micro Devices, Inc. [A=
+MD]
+/0/105                          bridge      Advanced Micro Devices, Inc. [A=
+MD]
+/0/106                          bridge      Advanced Micro Devices, Inc. [A=
+MD]
+/0/107                          bridge      Advanced Micro Devices, Inc. [A=
+MD]
+/0/108                          bridge      Advanced Micro Devices, Inc. [A=
+MD]
+/0/109                          bridge      Advanced Micro Devices, Inc. [A=
+MD]
+/0/10a                          bridge      Advanced Micro Devices, Inc. [A=
+MD]
+/0/10b                          bridge      Advanced Micro Devices, Inc. [A=
+MD]
+/0/10c                          bridge      Advanced Micro Devices, Inc. [A=
+MD]
+/0/10d                          bridge      Advanced Micro Devices, Inc. [A=
+MD]
+/1                input0        input       Power Button
+/2                input1        input       Lid Switch
+/3                input10       input       ELAN0662:00 04F3:3293 Mouse
+/4                input12       input       ELAN0662:00 04F3:3293 Touchpad
+/5                input17       input       Basilisk X HyperSpeed Mouse
+/6                input18       input       Basilisk X HyperSpeed Consumer
+Control
+/7                input19       input       Basilisk X HyperSpeed System
+Control
+/8                input2        input       AT Translated Set 2 keyboard
+/9                input20       input       Basilisk X HyperSpeed
+/a                input21       input       Basilisk X HyperSpeed Keyboard
+/b                input3        input       Video Bus
+/c                input8        input       Integrated Camera: Integrated C
+/d                input9        input       Integrated Camera: Integrated I
+
+```
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
