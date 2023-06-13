@@ -1,57 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0772972E8B5
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 18:42:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D73272E8E3
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 18:59:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A29AC10E0F2;
-	Tue, 13 Jun 2023 16:42:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E25F110E3D0;
+	Tue, 13 Jun 2023 16:59:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6DF5510E0F2;
- Tue, 13 Jun 2023 16:42:19 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8BxL_BpnIhkv7YEAA--.10151S3;
- Wed, 14 Jun 2023 00:42:17 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxReRpnIhkuXkZAA--.7653S3; 
- Wed, 14 Jun 2023 00:42:17 +0800 (CST)
-Message-ID: <b154bee4-9129-8f21-06d4-d86e3b5234f7@loongson.cn>
-Date: Wed, 14 Jun 2023 00:42:17 +0800
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 809EE10E3DF
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 16:59:10 +0000 (UTC)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 35DDYKjc010243; Tue, 13 Jun 2023 18:59:05 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=r0/BP0SDZNjkyzInU6CzpWLDgV0h4tEoifbUZlb3LzE=;
+ b=FBU9KIAkX28BTurj/w0o9lsSy8md2VqnSLhfF4+Zm8vUD+s/naTceoMmtgtRlvWUPych
+ uCL1L3uRaJz/KtjS1WER2XHePCgpsrPuW2f2j2bOWeU2VwgPRutre2726IIB9F51+c0R
+ KIN9fWQlpWhluS1UXrcLBQexazjpZArVSU2WV6mNrvmWFRfbO69FhEY71vibEi6tTVP3
+ BKwCDqFXabSM1748+StBeE2ejhJajeFw25rWk3uIaKRo1DLfxzl48jWLESYXF3Nbc8SO
+ ffRR9p81AxOzudCt+xI2DSUmqQ0fHnFZwXdcrqTgEi0KJKM2GlHQOtzUE1SPDGYZ+htU +A== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3r6sf31416-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 13 Jun 2023 18:59:05 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id EE70710002A;
+ Tue, 13 Jun 2023 18:59:04 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E38CA245504;
+ Tue, 13 Jun 2023 18:59:04 +0200 (CEST)
+Received: from [10.48.1.204] (10.48.1.204) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Tue, 13 Jun
+ 2023 18:59:04 +0200
+Message-ID: <4b5d8872-64bc-34b0-c329-71aea734022a@foss.st.com>
+Date: Tue, 13 Jun 2023 18:59:03 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: drm/etnaviv: disable MLCG and pulse eater on GPU reset
-To: Lucas Stach <l.stach@pengutronix.de>, etnaviv@lists.freedesktop.org
-References: <20230607125841.3518385-1-l.stach@pengutronix.de>
+Subject: Re: [PATCH v3 4/4] drm/stm: add an option to change FB bpp
 Content-Language: en-US
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <20230607125841.3518385-1-l.stach@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8CxReRpnIhkuXkZAA--.7653S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7WryDGF1fJFWfKr4rCrWkZrc_yoW8Zw1UpF
- Z3Ja4FyrW0vF12g3s7tFn8uF98Ww13ZF93CasrGF90vws8Zw10gF10kFW5XFZxXrnxAw42
- vF1vkryUC3W2k3cCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUvYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
- Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
- 8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AK
- xVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
- AYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
- 14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIx
- kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
- wI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F
- 4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jnUUUU
- UUUU=
+To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Michael Nazzareno
+ Trimarchi <michael@amarulasolutions.com>
+References: <20230609062050.2107143-1-dario.binacchi@amarulasolutions.com>
+ <20230609062050.2107143-5-dario.binacchi@amarulasolutions.com>
+ <376dc16d-8896-0a47-b8dd-3f919c1e50bf@foss.st.com>
+ <CAOf5uwmpAZeO=w-+cQNfy4VHS80NK-_HpDv5koZfTB8cRHOECQ@mail.gmail.com>
+ <0da03538-fac6-385d-d74f-f7657eca542b@foss.st.com>
+From: Philippe CORNU <philippe.cornu@foss.st.com>
+In-Reply-To: <0da03538-fac6-385d-d74f-f7657eca542b@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.48.1.204]
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-13_19,2023-06-12_02,2023-05-22_02
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,75 +76,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
- dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
- patchwork-lst@pengutronix.de
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Amarula patchwork <linux-amarula@amarulasolutions.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Lucas
 
 
-I love your patch, perhaps something to improve:
+On 6/13/23 17:26, Raphael Gallais-Pou wrote:
+> 
+> On 6/13/23 16:52, Michael Nazzareno Trimarchi wrote:
+>> Hi
+>>
+>> On Tue, Jun 13, 2023 at 4:41 PM Philippe CORNU
+>> <philippe.cornu@foss.st.com> wrote:
+>>>
+>>>
+>>> On 6/9/23 08:20, Dario Binacchi wrote:
+>>>> Boards that use the STM32F{4,7} series have limited amounts of RAM. The
+>>>> added parameter allows users to size, within certain limits, the memory
+>>>> footprint required by the framebuffer.
+>>>>
+>>>> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+>>>>
+>>>> ---
+>>>>
+>>>> Changes in v3:
+>>>> - drop [4/6] dt-bindings: display: simple: add Rocktech RK043FN48H
+>>>>     Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next):
+>>>>     https://cgit.freedesktop.org/drm/drm-misc/commit/?id=c42a37a27c777d63961dd634a30f7c887949491a
+>>>> - drop [5/6] drm/panel: simple: add support for Rocktech RK043FN48H panel
+>>>>     Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+>>>>     https://cgit.freedesktop.org/drm/drm-misc/commit/?id=13cdd12a9f934158f4ec817cf048fcb4384aa9dc
+>>>>
+>>>>    drivers/gpu/drm/stm/drv.c | 8 +++++++-
+>>>>    1 file changed, 7 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
+>>>> index 422220df7d8c..65be2b442a6a 100644
+>>>> --- a/drivers/gpu/drm/stm/drv.c
+>>>> +++ b/drivers/gpu/drm/stm/drv.c
+>>>> @@ -30,6 +30,11 @@
+>>>>    #define STM_MAX_FB_WIDTH    2048
+>>>>    #define STM_MAX_FB_HEIGHT   2048 /* same as width to handle orientation */
+>>>>
+>>>> +static uint stm_bpp = 16;
+>>>> +
+>>>> +MODULE_PARM_DESC(bpp, "bits-per-pixel (default: 16)");
+>>>> +module_param_named(bpp, stm_bpp, uint, 0644);
+>>>> +
+>>>>    static const struct drm_mode_config_funcs drv_mode_config_funcs = {
+>>>>        .fb_create = drm_gem_fb_create,
+>>>>        .atomic_check = drm_atomic_helper_check,
+>>>> @@ -93,6 +98,7 @@ static int drv_load(struct drm_device *ddev)
+>>>>        ddev->mode_config.min_height = 0;
+>>>>        ddev->mode_config.max_width = STM_MAX_FB_WIDTH;
+>>>>        ddev->mode_config.max_height = STM_MAX_FB_HEIGHT;
+>>>> +     ddev->mode_config.preferred_depth = stm_bpp;
+>>>>        ddev->mode_config.funcs = &drv_mode_config_funcs;
+>>>>        ddev->mode_config.normalize_zpos = true;
+>>>>
+>>>> @@ -203,7 +209,7 @@ static int stm_drm_platform_probe(struct platform_device *pdev)
+>>>>        if (ret)
+>>>>                goto err_put;
+>>>>
+>>>> -     drm_fbdev_dma_setup(ddev, 16);
+>>>> +     drm_fbdev_dma_setup(ddev, stm_bpp);
+>>>>
+>>>>        return 0;
+>>>>
+>>> Acked-by: Philippe Cornu <philippe.cornu@foss.st.com>
+>>> Many thanks,
+>>> Philippe :-)
+>>>
+>> According to the latest review on usb patchset: "Please do not add new
+>> module parameters, this is not the 1990's anymore.
+>> We have per-device settings everywhere, this makes that impossible.
+>> Just use a DT value, if it is wrong, then fix the DT value!  No need to
+>> have the kernel override it, that's not what DT files are for."
+> 
+> 
+> I actually am conflicted about this idea, but I still think that here the best
+> option would be to put a device-tree property.
+> 
+> In which context here the module parameters could be used ? I think a module
+> parameter would be quite troublesome for userspace applications in that case.
+> 
+> 
+> Raphaël
+> 
+>>
+>> I think it makes more sense to have dts parameters. Should maybe apply here too
+>>
+>> Michael
 
-The MLCG stand for "Module Level Clock Gating",
+Hi Raphaël & Michael,
 
-without reading the commit message, I guess there may have people don't 
-know its meaning.
+Many thanks for your comments.
 
-There are still more thing in this patch can only be understand relay on 
-guessing... :-)
+Dario's usage of this stm driver is STM32 MCUs (STM32F4 & F7...) where, 
+sometimes, old userland fbdev-based applications are used, and I imagine 
+it is maybe "easier" to use a module parameter (through the kernel 
+command line or whatever...) in these use cases (even if using dt is 
+always better and not that complex).
 
+Moreover, as I did not find any drm drivers with drm_fbdev_dma_setup() 
+using a dt property "as example" (but always hard-coded value), then I 
+decided to not block this proposal :)
 
-But drm/etnaviv drvier still works with this patch applied, so
+Thanks to your feedback, I am reconsidering my position. And sorry 
+Dario, hope you understand it will take more time for reviewing your patch.
 
+Does anyone have an opinion to share on this point?
 
-On 2023/6/7 20:58, Lucas Stach wrote:
-> Module level clock gating and the pulse eater might interfere with
-> the GPU reset, as they both have the potential to stop the clock
-> and thus reset propagation to parts of the GPU.
->
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
-
-
-Tested-by: Sui Jingfeng <suijingfeng@loongson.cn>
-
-
-> ---
-> I'm not aware of any cases where this would have been an issue, but
-> it is what the downstream driver does and fundametally seems like
-> the right thing to do.
-> ---
->   drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 13 ++++++++++++-
->   1 file changed, 12 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index de8c9894967c..41aab1aa330b 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -505,8 +505,19 @@ static int etnaviv_hw_reset(struct etnaviv_gpu *gpu)
->   	timeout = jiffies + msecs_to_jiffies(1000);
->   
->   	while (time_is_after_jiffies(timeout)) {
-> -		/* enable clock */
->   		unsigned int fscale = 1 << (6 - gpu->freq_scale);
-> +		u32 pulse_eater = 0x01590880;
-> +
-> +		/* disable clock gating */
-> +		gpu_write_power(gpu, VIVS_PM_POWER_CONTROLS, 0x0);
-> +
-> +		/* disable pulse eater */
-> +		pulse_eater |= BIT(17);
-> +		gpu_write_power(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
-> +		pulse_eater |= BIT(0);
-> +		gpu_write_power(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
-> +
-> +		/* enable clock */
->   		control = VIVS_HI_CLOCK_CONTROL_FSCALE_VAL(fscale);
->   		etnaviv_gpu_load_clock(gpu, control);
->   
-
--- 
-Jingfeng
+Many thanks,
+Philippe :-)
 
