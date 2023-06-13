@@ -1,68 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9112772DFCE
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 12:39:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C59872DFD6
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 12:40:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6C4110E35A;
-	Tue, 13 Jun 2023 10:39:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A122B10E35C;
+	Tue, 13 Jun 2023 10:40:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9CD010E35A
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 10:39:40 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id
- ffacd0b85a97d-30fa23e106bso2764990f8f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 03:39:40 -0700 (PDT)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5A5510E35C
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 10:40:22 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id
+ 2adb3069b0e04-4f6283d0d84so6522050e87.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 03:40:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686652779; x=1689244779;
+ d=linaro.org; s=google; t=1686652820; x=1689244820;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=L+0q/8B3X2O+bLieXF8c9g+8ohNwELNU1kRNH19cJQQ=;
- b=mp5t8BFsJLvB4B2RBPo6x6uNyPCi8jDPJJpT5/LpidCyzOQv4FCXKrMWr1ZoGeWb2S
- 1dBOQjE7wNbB2/NIq8xC5IgXRwNRGlVnZW3Z4RXFfWXN3WDAjIuuNAySekfhnk34w5wO
- NzDIjtTF8SXSuX25qLMn3huo8p/83/zQMv/5E4FEAXUWYyMCx8Mo+LAzcn9buVVIEf25
- xq6WyCppmw0R4kg6OL44jDGiDE0u+RRVrPQ0ZksXnqIcz16sfbXTylvjE97DH2Pg1vn+
- u4HS9GU54OKGBiesVcpBbKbzyQtzvsmO+sXxWBrgzd+eRZlTzu8i2amAs2BDVfmzc8Gh
- L22w==
+ bh=RdczPZ7i6NweZc4Vs1GEhNBw4P6SDuu4rOPlRce3Cp8=;
+ b=AUbPJ07Z1odDHtCnZ823RkphdvcZ3F/p41LyifJZBZRycWLx87uEthbAheLUd9d4fw
+ QvGkzgij5648YDEodj6ptRqC3+VUPZMSTPRxfifNBvFk5k/G8mO9kSrJUgsPUDjdDQf2
+ kTU3N5IYasoX9y19jal1hK3/EAY3Gdp4ouqToLfnrCAWts9kY7jbGAedRlMQMqFpKqCy
+ eb1lJENWNoO1+j3VwToC/V/8Akbn4QHdPdYSHoF7cFV/ajJMbhAiqrkPreFsPsLO2TV4
+ MDumvPKSRlKZUoPI2Otf7G3PXB8R+eOO8N757C70cMrALim/UT87sS73D5gj3sewQNnL
+ sDyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686652779; x=1689244779;
+ d=1e100.net; s=20221208; t=1686652820; x=1689244820;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=L+0q/8B3X2O+bLieXF8c9g+8ohNwELNU1kRNH19cJQQ=;
- b=kqdjzPIfURuZ+6VDiYO8KSpsPpGkzLjYYRsjs55jEQbzCDHeWy+vNCZUrsw0a5vOLU
- MgjhalvOhzjJuYo4h4ONpMCdqerm0a2KVaRcs2qagjI8KykXYM7GZlyXFyhgRhTN5MG/
- YPgB8aXTDARUPhpgcjpMt29QdSVIgwdjtWjcfIpKSQh5EXQK4BtebfbnKV0cb/bPx+JB
- LFbW31ky2O6IEdltMKEiYxDSduDYSFpg/r3et46u2Ea/T1D0m2S4gAIxPJz4UOaJs/e+
- 9yX+tz5IwONZ9v6jalLUKoLszV94TThHNL2rMvYh0T7/RGt5gZVo/cBZou3SwDTL+Lyy
- QEug==
-X-Gm-Message-State: AC+VfDzRXPzU0QrnAA2byLTMYDejkj8vluRi3XdT/esC0yaYQ3WJVqHm
- vd3W80AdVvJEukVFAybUtWfDNA==
-X-Google-Smtp-Source: ACHHUZ4QXHWcQ+EF1TxBMcwYsV+sIp0eKcDzBEmcY5jt8MfrsM/QF7URk3vwRqxNRqLqrU6BbwKwDg==
-X-Received: by 2002:a5d:508a:0:b0:30f:caf6:5bde with SMTP id
- a10-20020a5d508a000000b0030fcaf65bdemr1780025wrt.32.1686652779043; 
- Tue, 13 Jun 2023 03:39:39 -0700 (PDT)
+ bh=RdczPZ7i6NweZc4Vs1GEhNBw4P6SDuu4rOPlRce3Cp8=;
+ b=fN2FA9jWBYk0DHrE7rtVcn+CCHJmqPnc/yAidWArZpo1aZKMmvzQaKiRjK3hlhfrBG
+ Dp4TtIqANFZNIZ6EGjuzD6P5WKni3VlOsOJWXwwb8H6LIJmLb9ACAyF0UNWT/7bD4XLN
+ aBLqLMnUGQ+h59XFchqzJGGCTJu3T9YLrX/UlGNFt7f4pcVeuMH0/6E5J50n1myAskre
+ k5O7+GYXvUyq6f15cWPRAe9YHneSoTKLKU3dO1MW03CDFl8jc7D3XSWyfsttNvPfeP03
+ MrvSecg0ExiWjXTL862H4Qm1saJub753aX2wjVwQhW25hFMvuFmwsVoIOKXEnftPe4Mj
+ LzYg==
+X-Gm-Message-State: AC+VfDz0wWC5+nzoROX93wz0bxf1vA5SKWBV33ebLBVtZFxRHx0gqlDA
+ d3T5RxBC+bPp3cfybv0IMdxXww==
+X-Google-Smtp-Source: ACHHUZ4WVznCWcsmGLMHRuA7VS6Lfj4mur40fa3EhFHuVyQQIFEL0bzMUHobk+R5es5R/aHSdgmKUw==
+X-Received: by 2002:a19:6402:0:b0:4f6:2cd8:5ff4 with SMTP id
+ y2-20020a196402000000b004f62cd85ff4mr5562119lfb.2.1686652820609; 
+ Tue, 13 Jun 2023 03:40:20 -0700 (PDT)
 Received: from aspen.lan
  (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
  by smtp.gmail.com with ESMTPSA id
- h2-20020a5d5482000000b0030fbc96bdffsm7123579wrv.25.2023.06.13.03.39.38
+ m7-20020a056000008700b0030fa166d8a1sm12458137wrx.34.2023.06.13.03.40.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jun 2023 03:39:38 -0700 (PDT)
-Date: Tue, 13 Jun 2023 11:39:36 +0100
+ Tue, 13 Jun 2023 03:40:20 -0700 (PDT)
+Date: Tue, 13 Jun 2023 11:40:18 +0100
 From: Daniel Thompson <daniel.thompson@linaro.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 05/38] backlight/lv5207lp: Compare against struct
- fb_info.device
-Message-ID: <20230613103936.GE169438@aspen.lan>
+Subject: Re: [PATCH v2 06/38] backlight/lv5207lp: Rename struct
+ lv5207lp_platform_data.fbdev to 'dev'
+Message-ID: <20230613104018.GF169438@aspen.lan>
 References: <20230612141352.29939-1-tzimmermann@suse.de>
- <20230612141352.29939-6-tzimmermann@suse.de>
+ <20230612141352.29939-7-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230612141352.29939-6-tzimmermann@suse.de>
+In-Reply-To: <20230612141352.29939-7-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,30 +79,19 @@ Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
  Yoshinori Sato <ysato@users.sourceforge.jp>, geert+renesas@glider.be,
  linux-sh@vger.kernel.org, jingoohan1@gmail.com, deller@gmx.de, lee@kernel.org,
  javierm@redhat.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rich Felker <dalias@libc.org>,
- michael.j.ruhl@intel.com,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- stable@vger.kernel.org,
+ linux-kernel@vger.kernel.org, michael.j.ruhl@intel.com,
+ Rich Felker <dalias@libc.org>,
  John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
  linux-omap@vger.kernel.org, sam@ravnborg.org, dan.carpenter@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 12, 2023 at 04:07:43PM +0200, Thomas Zimmermann wrote:
-> Struct lv5207lp_platform_data refers to a platform device within
-> the Linux device hierarchy. The test in lv5207lp_backlight_check_fb()
-> compares it against the fbdev device in struct fb_info.dev, which
-> is different. Fix the test by comparing to struct fb_info.device.
+On Mon, Jun 12, 2023 at 04:07:44PM +0200, Thomas Zimmermann wrote:
+> Rename struct lv5207lp_platform_data.fbdev to 'dev', as it stores a
+> pointer to the Linux platform device; not the fbdev device. Makes
+> the code easier to understand.
 >
-> Fixes a bug in the backlight driver and prepares fbdev for making
-> struct fb_info.dev optional.
->
-> v2:
-> 	* move renames into separate patch (Javier, Sam, Michael)
->
-> Fixes: 82e5c40d88f9 ("backlight: Add Sanyo LV5207LP backlight driver")
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
 > Cc: Rich Felker <dalias@libc.org>
 > Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
@@ -110,8 +99,6 @@ On Mon, Jun 12, 2023 at 04:07:43PM +0200, Thomas Zimmermann wrote:
 > Cc: Daniel Thompson <daniel.thompson@linaro.org>
 > Cc: Jingoo Han <jingoohan1@gmail.com>
 > Cc: linux-sh@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v3.12+
 > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
