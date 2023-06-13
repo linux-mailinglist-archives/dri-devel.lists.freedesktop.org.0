@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7A4872DA82
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 09:12:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3733E72DA80
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 09:12:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D23510E32E;
-	Tue, 13 Jun 2023 07:12:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6115010E32C;
+	Tue, 13 Jun 2023 07:12:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
  [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6511D10E32E
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 07:12:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FBEA10E32C
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 07:12:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1686640372; x=1718176372;
+ t=1686640366; x=1718176366;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=YVXAjXjjBdiZ15FDtA1gEK4Qgld3EqNhdGvvetoHNks=;
- b=YQBARLnsa1a9Gx+dLroMjolfhKh17QqbQofOVsuNmDVzjgIxFjgmYScb
- GN6oycWQHvXbUt+ha5x36p5JIIx88NzgV7vqmtkVOVnFEqPT/qt3xeHeN
- 5whAOmiu0T0nxWUUfSMT3h8osDN3c4LXZKnDOpE13Qd9LFnx8dEkqCOIo
- xmbc+GrFoc/lC9AjIsZiF2+/pqq/0Y+f/6BxrL1c5R+l8phETCATKA8sc
- 4OwTY+mOL/MOm/nq5ITJSu+OhDcIU6sw//RC/61ozw+ljzxWPg+z5jCf/
- gupP6mO7N1dEZDsPFnwbURgvwTVw1suJcTvhvivdagD3Q8zCI5Z3kst8Y g==;
-X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; d="scan'208";a="218182246"
+ bh=/CEVsHh3cXtXVIDLUkkyiXlWx5YACPw7oC/4tgbf35c=;
+ b=gcYwkBQvyTf9i+/MBlrGRiw4OVQGxVpTsfAUODsCUrExr2oxS+TdJyCl
+ p18LbdVh/AF4j85JiGRkQcxYegcFfv4mOdqzGG8yQ0n6LFA49hI3cUDct
+ NSMuFth6dAGrcsGKP73ejFmwO+J2J1YGC+lwH6VzAOfwK2aOJtoDfbgg3
+ YpHqw83w/SrTAKMGleEbEUZ8vEgbc0uw+NTWKg7hc2VGgzwCPf4QBlpPQ
+ u1wW7ivo5N1bmnCMDHgefA3fOqwzNl7Hn9uNu6dEJ4+vzxCyxWiNmi86B
+ lTOnJOgOhDZtUeBx7RdnUwn4IaewyVxkhQC8r0woMcLTr2togxEwkmXHC A==;
+X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; d="scan'208";a="217553976"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256;
- 13 Jun 2023 00:05:45 -0700
+ by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256;
+ 13 Jun 2023 00:05:38 -0700
 Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 13 Jun 2023 00:05:29 -0700
+ 15.1.2507.21; Tue, 13 Jun 2023 00:05:38 -0700
 Received: from che-lt-i67131.microchip.com (10.10.115.15) by
  chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
- 15.1.2507.21 via Frontend Transport; Tue, 13 Jun 2023 00:05:20 -0700
+ 15.1.2507.21 via Frontend Transport; Tue, 13 Jun 2023 00:05:29 -0700
 From: Manikandan Muralidharan <manikandan.m@microchip.com>
 To: <lee@kernel.org>, <robh+dt@kernel.org>,
  <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
@@ -45,10 +45,9 @@ To: <lee@kernel.org>, <robh+dt@kernel.org>,
  <airlied@gmail.com>, <daniel@ffwll.ch>, <devicetree@vger.kernel.org>,
  <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
  <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 3/9] drm: atmel-hlcdc: add LCD controller layer definition for
- SAM9X7
-Date: Tue, 13 Jun 2023 12:34:20 +0530
-Message-ID: <20230613070426.467389-4-manikandan.m@microchip.com>
+Subject: [PATCH 4/9] drm: atmel-hlcdc: Define SAM9X7 XLCDC specific registers
+Date: Tue, 13 Jun 2023 12:34:21 +0530
+Message-ID: <20230613070426.467389-5-manikandan.m@microchip.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230613070426.467389-1-manikandan.m@microchip.com>
 References: <20230613070426.467389-1-manikandan.m@microchip.com>
@@ -70,137 +69,185 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Balakrishnan.S@microchip.com, Nayabbasha.Sayed@microchip.com,
  Balamanikandan.Gunasundar@microchip.com,
  Manikandan <manikandan.m@microchip.com>, Varshini.Rajendran@microchip.com,
- Dharma.B@microchip.com, Durai.ManickamKR@microchip.com,
+ Dharma.B@microchip.com, Durai Manickam KR <durai.manickamkr@microchip.com>,
  Hari.PrasathGE@microchip.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the LCD controller layer definition and descriptor structure for SAM9X7
-for the following layers,
-- Base Layer
-- Overlay1 Layer
-- Overlay2 Layer
-- High End Overlay
+From: Durai Manickam KR <durai.manickamkr@microchip.com>
 
+The register address of the XLCDC IP used in SAM9X7 are different from
+the previous HLCDC.Defining those address space with valid macros.
+
+Signed-off-by: Durai Manickam KR <durai.manickamkr@microchip.com>
+[manikandan.m@microchip.com: Remove unused macro definitions]
 Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
 ---
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 96 ++++++++++++++++++++
- 1 file changed, 96 insertions(+)
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h | 108 +++++++++++++++++++
+ include/linux/mfd/atmel-hlcdc.h              |  10 ++
+ 2 files changed, 118 insertions(+)
 
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-index fa0f9a93d50d..d7ad828e9e8c 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-@@ -462,6 +462,98 @@ static const struct atmel_hlcdc_dc_desc atmel_hlcdc_dc_sam9x60 = {
- 	.layers = atmel_hlcdc_sam9x60_layers,
- };
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h
+index 5b5c774e0edf..aed1742b3665 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h
+@@ -15,6 +15,7 @@
  
-+static const struct atmel_hlcdc_layer_desc atmel_xlcdc_sam9x7_layers[] = {
-+	{
-+		.name = "base",
-+		.formats = &atmel_hlcdc_plane_rgb_formats,
-+		.regs_offset = 0x60,
-+		.id = 0,
-+		.type = ATMEL_HLCDC_BASE_LAYER,
-+		.cfgs_offset = 0x1c,
-+		.layout = {
-+			.xstride = { 2 },
-+			.default_color = 3,
-+			.general_config = 4,
-+			.disc_pos = 5,
-+			.disc_size = 6,
-+		},
-+		.clut_offset = 0x700,
-+	},
-+	{
-+		.name = "overlay1",
-+		.formats = &atmel_hlcdc_plane_rgb_formats,
-+		.regs_offset = 0x160,
-+		.id = 1,
-+		.type = ATMEL_HLCDC_OVERLAY_LAYER,
-+		.cfgs_offset = 0x1c,
-+		.layout = {
-+			.pos = 2,
-+			.size = 3,
-+			.xstride = { 4 },
-+			.pstride = { 5 },
-+			.default_color = 6,
-+			.chroma_key = 7,
-+			.chroma_key_mask = 8,
-+			.general_config = 9,
-+		},
-+		.clut_offset = 0xb00,
-+	},
-+	{
-+		.name = "overlay2",
-+		.formats = &atmel_hlcdc_plane_rgb_formats,
-+		.regs_offset = 0x260,
-+		.id = 2,
-+		.type = ATMEL_HLCDC_OVERLAY_LAYER,
-+		.cfgs_offset = 0x1c,
-+		.layout = {
-+			.pos = 2,
-+			.size = 3,
-+			.xstride = { 4 },
-+			.pstride = { 5 },
-+			.default_color = 6,
-+			.chroma_key = 7,
-+			.chroma_key_mask = 8,
-+			.general_config = 9,
-+		},
-+		.clut_offset = 0xf00,
-+	},
-+	{
-+		.name = "high-end-overlay",
-+		.formats = &atmel_hlcdc_plane_rgb_and_yuv_formats,
-+		.regs_offset = 0x360,
-+		.id = 3,
-+		.type = ATMEL_HLCDC_OVERLAY_LAYER,
-+		.cfgs_offset = 0x30,
-+		.layout = {
-+			.pos = 2,
-+			.size = 3,
-+			.memsize = 4,
-+			.xstride = { 5, 7 },
-+			.pstride = { 6, 8 },
-+			.default_color = 9,
-+			.chroma_key = 10,
-+			.chroma_key_mask = 11,
-+			.general_config = 12,
-+			.csc = 16,
-+			.scaler_config = 23,
-+		},
-+		.clut_offset = 0x1300,
-+	},
-+};
+ #include <drm/drm_plane.h>
+ 
++/* LCD controller common registers */
+ #define ATMEL_HLCDC_LAYER_CHER			0x0
+ #define ATMEL_HLCDC_LAYER_CHDR			0x4
+ #define ATMEL_HLCDC_LAYER_CHSR			0x8
+@@ -128,6 +129,113 @@
+ 
+ #define ATMEL_HLCDC_MAX_LAYERS			6
+ 
++/* XLCDC controller specific registers */
++#define ATMEL_XLCDC_LAYER_ENR			0x10
++#define ATMEL_XLCDC_LAYER_EN			BIT(0)
 +
-+static const struct atmel_hlcdc_dc_desc atmel_xlcdc_dc_sam9x7 = {
-+	.min_width = 0,
-+	.min_height = 0,
-+	.max_width = 2048,
-+	.max_height = 2048,
-+	.max_spw = 0xff,
-+	.max_vpw = 0xff,
-+	.max_hpw = 0x3ff,
-+	.fixed_clksrc = true,
-+	.nlayers = ARRAY_SIZE(atmel_xlcdc_sam9x7_layers),
-+	.layers = atmel_xlcdc_sam9x7_layers,
-+};
++#define ATMEL_XLCDC_LAYER_IER			0x0
++#define ATMEL_XLCDC_LAYER_IDR			0x4
++#define ATMEL_XLCDC_LAYER_IMR			0x8
++#define ATMEL_XLCDC_LAYER_ISR			0xc
++#define ATMEL_XLCDC_LAYER_DONE_IRQ(p)		BIT(0 + (8 * (p)))
++#define ATMEL_XLCDC_LAYER_ERROR_IRQ(p)		BIT(1 + (8 * (p)))
++#define ATMEL_XLCDC_LAYER_OVR_IRQ(p)		BIT(2 + (8 * (p)))
 +
- static const struct of_device_id atmel_hlcdc_of_match[] = {
- 	{
- 		.compatible = "atmel,at91sam9n12-hlcdc",
-@@ -487,6 +579,10 @@ static const struct of_device_id atmel_hlcdc_of_match[] = {
- 		.compatible = "microchip,sam9x60-hlcdc",
- 		.data = &atmel_hlcdc_dc_sam9x60,
- 	},
-+	{
-+		.compatible = "microchip,sam9x7-xlcdc",
-+		.data = &atmel_xlcdc_dc_sam9x7,
-+	},
- 	{ /* sentinel */ },
- };
- MODULE_DEVICE_TABLE(of, atmel_hlcdc_of_match);
++#define ATMEL_XLCDC_LAYER_PLANE_ADDR(p)		(((p) * 0x4) + 0x18)
++
++#define ATMEL_XLCDC_LAYER_DMA_CFG		0
++#define ATMEL_XLCDC_LAYER_DMA_BLEN_MASK		GENMASK(6, 4)
++#define ATMEL_XLCDC_LAYER_DMA_BLEN_SINGLE	(0 << 4)
++#define ATMEL_XLCDC_LAYER_DMA_BLEN_INCR32	(4 << 4)
++#define ATMEL_XLCDC_LAYER_DMA_BLENCC_MASK	GENMASK(10, 8)
++#define ATMEL_XLCDC_LAYER_DMA_BLENCC_SINGLE	(0 << 8)
++#define ATMEL_XLCDC_LAYER_DMA_BLENCC_INCR4	(1 << 8)
++#define ATMEL_XLCDC_LAYER_DMA_BLENCC_INCR8	(2 << 8)
++#define ATMEL_XLCDC_LAYER_DMA_BLENCC_INCR16	(3 << 8)
++#define ATMEL_XLCDC_LAYER_DMA_BLENCC_INCR32	(4 << 8)
++
++#define ATMEL_XLCDC_GAM				BIT(2)
++
++#define ATMEL_XLCDC_LAYER_POS(x, y)		((x) | ((y) << 16))
++#define ATMEL_XLCDC_LAYER_SIZE(w, h)		(((w) - 1) | (((h) - 1) << 16))
++
++#define ATMEL_XLCDC_LAYER_DMA			BIT(0)
++#define ATMEL_XLCDC_LAYER_REP			BIT(1)
++#define ATMEL_XLCDC_LAYER_CRKEY			BIT(2)
++#define ATMEL_XLCDC_LAYER_DSTKEY		BIT(3)
++#define ATMEL_XLCDC_LAYER_DISCEN                BIT(4)
++#define ATMEL_XLCDC_LAYER_VIDPRI		BIT(5)
++#define ATMEL_XLCDC_LAYER_SFACTC_MASK		GENMASK(8, 6)
++#define ATMEL_XLCDC_LAYER_SFACTC_ONE		(0 << 6)
++#define ATMEL_XLCDC_LAYER_SFACTC_ZERO		(1 << 6)
++#define ATMEL_XLCDC_LAYER_SFACTC_A0		(2 << 6)
++#define ATMEL_XLCDC_LAYER_SFACTC_A0_MULT_AD	(3 << 6)
++#define ATMEL_XLCDC_LAYER_SFACTC_A0_MULT_AS	(4 << 6)
++#define ATMEL_XLCDC_LAYER_SFACTC_M_A0_MULT_AD	(5 << 6)
++#define ATMEL_XLCDC_LAYER_SFACTA_MASK		GENMASK(10, 9)
++#define ATMEL_XLCDC_LAYER_SFACTA_ZERO		(0 << 9)
++#define ATMEL_XLCDC_LAYER_SFACTA_ONE		(1 << 9)
++#define ATMEL_XLCDC_LAYER_SFACTA_A0		(2 << 9)
++#define ATMEL_XLCDC_LAYER_SFACTA_A1		(3 << 9)
++#define ATMEL_XLCDC_LAYER_DFACTC_MASK		GENMASK(13, 11)
++#define ATMEL_XLCDC_LAYER_DFACTC_ZERO		(0 << 11)
++#define ATMEL_XLCDC_LAYER_DFACTC_ONE		(1 << 11)
++#define ATMEL_XLCDC_LAYER_DFACTC_A0		(2 << 11)
++#define ATMEL_XLCDC_LAYER_DFACTC_A1		(3 << 11)
++#define ATMEL_XLCDC_LAYER_DFACTC_A0_MULT_AD	(4 << 11)
++#define ATMEL_XLCDC_LAYER_DFACTC_M_A0_MULT_AD	(5 << 11)
++#define ATMEL_XLCDC_LAYER_DFACTC_M_A0_MULT_AS	(6 << 11)
++#define ATMEL_XLCDC_LAYER_DFACTC_M_A0		(7 << 11)
++#define ATMEL_XLCDC_LAYER_DFACTA_MASK		GENMASK(15, 14)
++#define ATMEL_XLCDC_LAYER_DFACTA_ZERO		(0 << 14)
++#define ATMEL_XLCDC_LAYER_DFACTA_ONE		(1 << 14)
++#define ATMEL_XLCDC_LAYER_DFACTA_M_A0_MULT_AS	(2 << 14)
++#define ATMEL_XLCDC_LAYER_DFACTA_A1		(3 << 14)
++#define ATMEL_XLCDC_LAYER_A0_SHIFT		16
++#define ATMEL_XLCDC_LAYER_A0_MASK		\
++	GENMASK(23, ATMEL_XLCDC_LAYER_A0_SHIFT)
++#define ATMEL_XLCDC_LAYER_A0(x)			\
++	((x) << ATMEL_XLCDC_LAYER_A0_SHIFT)
++#define ATMEL_XLCDC_LAYER_A1_SHIFT		24
++#define ATMEL_XLCDC_LAYER_A1_MASK		\
++	GENMASK(31, ATMEL_XLCDC_LAYER_A1_SHIFT)
++#define ATMEL_XLCDC_LAYER_A1(x)			\
++	((x) << ATMEL_XLCDC_LAYER_A1_SHIFT)
++
++#define ATMEL_XLCDC_LAYER_DISC_POS(x, y)	((x) | ((y) << 16))
++#define ATMEL_XLCDC_LAYER_DISC_SIZE(w, h)	(((w) - 1) | (((h) - 1) << 16))
++
++#define ATMEL_XLCDC_LAYER_VSCALER_LUMA_ENABLE		BIT(0)
++#define ATMEL_XLCDC_LAYER_VSCALER_CHROMA_ENABLE		BIT(1)
++#define ATMEL_XLCDC_LAYER_HSCALER_LUMA_ENABLE		BIT(4)
++#define ATMEL_XLCDC_LAYER_HSCALER_CHROMA_ENABLE		BIT(5)
++
++#define ATMEL_XLCDC_LAYER_VXSYCFG_ZERO		(0 << 0)
++#define ATMEL_XLCDC_LAYER_VXSYCFG_ONE		(1 << 0)
++#define ATMEL_XLCDC_LAYER_VXSYCFG_TWO		(2 << 0)
++#define ATMEL_XLCDC_LAYER_VXSYCFG_THREE		(3 << 0)
++#define ATMEL_XLCDC_LAYER_VXSYTAP2_ENABLE	BIT(4)
++#define ATMEL_XLCDC_LAYER_VXSYBICU_ENABLE	BIT(5)
++#define ATMEL_XLCDC_LAYER_VXSCCFG_ZERO		(0 << 16)
++#define ATMEL_XLCDC_LAYER_VXSCCFG_ONE		(1 << 16)
++#define ATMEL_XLCDC_LAYER_VXSCCFG_TWO		(2 << 16)
++#define ATMEL_XLCDC_LAYER_VXSCCFG_THREE		(3 << 16)
++#define ATMEL_XLCDC_LAYER_VXSCTAP2_ENABLE	BIT(20)
++#define ATMEL_XLCDC_LAYER_VXSCBICU_ENABLE	BIT(21)
++
++#define ATMEL_XLCDC_LAYER_HXSYCFG_ZERO		(0 << 0)
++#define ATMEL_XLCDC_LAYER_HXSYCFG_ONE		(1 << 0)
++#define ATMEL_XLCDC_LAYER_HXSYCFG_TWO		(2 << 0)
++#define ATMEL_XLCDC_LAYER_HXSYCFG_THREE		(3 << 0)
++#define ATMEL_XLCDC_LAYER_HXSYTAP2_ENABLE	BIT(4)
++#define ATMEL_XLCDC_LAYER_HXSYBICU_ENABLE	BIT(5)
++#define ATMEL_XLCDC_LAYER_HXSCCFG_ZERO		(0 << 16)
++#define ATMEL_XLCDC_LAYER_HXSCCFG_ONE		(1 << 16)
++#define ATMEL_XLCDC_LAYER_HXSCCFG_TWO		(2 << 16)
++#define ATMEL_XLCDC_LAYER_HXSCCFG_THREE		(3 << 16)
++#define ATMEL_XLCDC_LAYER_HXSCTAP2_ENABLE	BIT(20)
++#define ATMEL_XLCDC_LAYER_HXSCBICU_ENABLE	BIT(21)
++
+ /**
+  * Atmel HLCDC Layer registers layout structure
+  *
+diff --git a/include/linux/mfd/atmel-hlcdc.h b/include/linux/mfd/atmel-hlcdc.h
+index a186119a49b5..80d675a03b39 100644
+--- a/include/linux/mfd/atmel-hlcdc.h
++++ b/include/linux/mfd/atmel-hlcdc.h
+@@ -22,6 +22,8 @@
+ #define ATMEL_HLCDC_DITHER		BIT(6)
+ #define ATMEL_HLCDC_DISPDLY		BIT(7)
+ #define ATMEL_HLCDC_MODE_MASK		GENMASK(9, 8)
++#define ATMEL_XLCDC_MODE_MASK		GENMASK(10, 8)
++#define ATMEL_XLCDC_DPI			BIT(11)
+ #define ATMEL_HLCDC_PP			BIT(10)
+ #define ATMEL_HLCDC_VSPSU		BIT(12)
+ #define ATMEL_HLCDC_VSPHO		BIT(13)
+@@ -34,6 +36,12 @@
+ #define ATMEL_HLCDC_IDR			0x30
+ #define ATMEL_HLCDC_IMR			0x34
+ #define ATMEL_HLCDC_ISR			0x38
++#define ATMEL_XLCDC_ATTRE		0x3c
++
++#define ATMEL_XLCDC_BASE_UPDATE		BIT(0)
++#define ATMEL_XLCDC_OVR1_UPDATE		BIT(1)
++#define ATMEL_XLCDC_OVR3_UPDATE		BIT(2)
++#define ATMEL_XLCDC_HEO_UPDATE		BIT(3)
+ 
+ #define ATMEL_HLCDC_CLKPOL		BIT(0)
+ #define ATMEL_HLCDC_CLKSEL		BIT(2)
+@@ -48,6 +56,8 @@
+ #define ATMEL_HLCDC_DISP		BIT(2)
+ #define ATMEL_HLCDC_PWM			BIT(3)
+ #define ATMEL_HLCDC_SIP			BIT(4)
++#define ATMEL_XLCDC_SD			BIT(5)
++#define ATMEL_XLCDC_CM			BIT(6)
+ 
+ #define ATMEL_HLCDC_SOF			BIT(0)
+ #define ATMEL_HLCDC_SYNCDIS		BIT(1)
 -- 
 2.25.1
 
