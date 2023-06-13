@@ -2,44 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44A4472E7C3
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 18:04:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEEA472E7ED
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 18:12:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2C3510E3C2;
-	Tue, 13 Jun 2023 16:04:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 094FD10E025;
+	Tue, 13 Jun 2023 16:11:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8271110E025;
- Tue, 13 Jun 2023 16:03:58 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5CAF663811;
- Tue, 13 Jun 2023 16:03:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6505EC4AF5C;
- Tue, 13 Jun 2023 16:03:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686672237;
- bh=hRs/09I3nVePGyq7+ZAJUlWdpGWIbMI1XEr6/Yow+u8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tVbpwH2fLHIWbej7jYshdnJlpjWYAHpIevTgNAUXsmMojFrbopyryR+rfDUL8xCv1
- /X96DIpLwGVYwA9TQPDXiz5IWgsOEPpoHu9Qb7yYylwZyRSU2GXXbqK4P6BSZ4uwv1
- qVGi9XqLxwx35wynCx2Qvsnm3jgctojsLBxG/O+7c8FnkGePCFlMH27pUGGAHjo9y9
- zR+HJHoMVB1dd4NOoHwvZ5E0EAvHUR9Fwf76b/ER8ZhpuSz8miIPlaMasDVR5sTZPI
- cWGnxa0BQnrC1BULZIN4vUjbBFGUN9oKFlTk6O0llidTzw5w5qgMWGpQuAAMI9UqxY
- 62P++rDdTFT+A==
-Date: Tue, 13 Jun 2023 09:07:20 -0700
-From: Bjorn Andersson <andersson@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH] drm/msm/dpu: Configure DP INTF/PHY selector
-Message-ID: <20230613160720.2a6ouut5qn3cewqd@ripper>
-References: <20230612221047.1886709-1-quic_bjorande@quicinc.com>
- <435dd068-fbf2-10cf-4f78-377e689abb2c@linaro.org>
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com
+ (mail-tycjpn01on2123.outbound.protection.outlook.com [40.107.114.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A75A10E025
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 16:11:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LF/UCO4e0btQCwRUlg56Zoe9QmKIj7MeFmtKNkWvinPkPXuJYOdIxU+zuisqz2XXVuF+jhm/m5dE17MB5yNnUGh7GCJnuXt6kKF+rpFl7ZPMvil+/KrX7yrAUFQS0OiByENYvGKAmry0oxo49jZc5iIk49zKkeOxBX/9yywdjp6155c/9HEVTjapqtBnguuBDpTkspBQwZcC3/qe8vSRZGVOR6wfs4S5gQUcQCV5OdJb4g3NEAbL/0DQhXmrex5F/aabG1iquULNYsREwCKEnV/5j4sm0EtebjUkIiRbur75umUyoLUDFCdpV5wzI9RXnZI6hYccM/tBswV3G48rrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hU/3xz0hdU7r8+Ja2ZTrTNv/WT7qy086yuDeGFdyY5g=;
+ b=UZFb0/UAjAL6iI7Bzz0Q7xIaZKgHSrm1I0fVkRDbBhbUV5BoLvknajlRlfHgQ2BD9OjOd/Q3Tgv1wEm70nASuBp0cDBlyfL68zwKUKCPzc5oi5WAanmJ3DhZXdWo3Lw61sqYJ5SXy7URpvt/z1j2J4OhqdGmhvBY7R79roFJXBFIhDdAYQwbkraCa//iN1XQkSQbh/Y7soJzOkVi0e1pcbRSg1TZvWu9xeopfhDmQuFUmajpgENw1kWfW7KT3NUl0ZPdi7F7RE8xliduHMJVV/HTMSvps4I13h3hj/xC0id3iM5hMFQ+kE1rym7RkF7sRZHaoFzPRQFoddjjK/yWCA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hU/3xz0hdU7r8+Ja2ZTrTNv/WT7qy086yuDeGFdyY5g=;
+ b=u+E0mYoqgUvX9zNWf8908DIE1p4Lt6O88AmIwG/lhFs3EfQ3q8CTMhAvtaQLjVtPc5KjtQzcz9h22kA3/nYwLw+ntwoI7AqzfuqakvQDo1PKmtQz6TEwucaEnNsSaoKU0/528m3JS6pSp+Vjx+MxmsUMcE4BCZXAphTFq065Kmc=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by OS3PR01MB9604.jpnprd01.prod.outlook.com (2603:1096:604:1ca::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.29; Tue, 13 Jun
+ 2023 16:11:49 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::bd0a:a38d:b4d2:5d2%6]) with mapi id 15.20.6455.047; Tue, 13 Jun 2023
+ 16:11:49 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+Thread-Topic: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+Thread-Index: AQHZjJbXGsyu+Gf1qUyolpKmZgFmTa9w75gAgAALD6CAAyijgIAAQNsAgAq9ooCAACGi4IABRk1QgABIHYCAAALdsIAAIbGAgAAAqmCABhKw0IAAMfIAgAADgjKAAAM7gIAAgX6AgACzT4CAABEtEIAAa5IAgAARedA=
+Date: Tue, 13 Jun 2023 16:11:49 +0000
+Message-ID: <OS0PR01MB59224D7C95B9B0037046FCF78655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230608103929.GO5058@pendragon.ideasonboard.com>
+ <OS0PR01MB592259E6A7ACED4A0548DD228650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230608125019.GD26742@pendragon.ideasonboard.com>
+ <OS0PR01MB5922ECEABE4D6FC385D184008650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB592265BFDF18F860E1EB4CFE8654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <ZIcRKl3PDy0+yZS9@ninjato>
+ <CAMuHMdV_iwdP+K1us86OB4VtDDqA=P_vNeCP15kqRuXqcYr3hg@mail.gmail.com>
+ <ZIcUEdctlgRsGxJ3@ninjato>
+ <CAMuHMdVOkBeKOEW9PkWB3Tqwa6-rC3BQj=W9VAEgeZfgqvQmWQ@mail.gmail.com>
+ <ZIeDcVcfxfcMx/BP@shikoro>
+ <CAMuHMdV_Ty=rkcMzsrnJ3YHZngRbyWvYjR_K9Zh7RiAJ4LbvKg@mail.gmail.com>
+ <OS0PR01MB59225195B4F2C771F302F7EE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAMuHMdUTAerddXG3zJVRZEAwcrR6V=NFeHwsKV9_tE+ccfw6_w@mail.gmail.com>
+In-Reply-To: <CAMuHMdUTAerddXG3zJVRZEAwcrR6V=NFeHwsKV9_tE+ccfw6_w@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OS3PR01MB9604:EE_
+x-ms-office365-filtering-correlation-id: d62d0369-00eb-49b5-2086-08db6c28e496
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 8ccUVkZda4ioPVlHgzaE0JeazodLpXlnTmDwigzO0kk850HAtkSZrjsPt0itTTb70ZZZWIrjtixU7l33Xd2DMhpCRXbrzTaIlOG5uI+OOVk2/UIRNOSZ1sW2pefd6QM4IaCWwUsqTk4inyMheZGhHN6/KiYgsUIHSm4vwXsY1BBPivi0g526AbFQYO9laDvFGDW/cyc410DEmGyBb+W1O0yZPhlyK4kg6+H+l3fMT4ptqw9pKs9oyu5o7JywloM9D3fcbVcTqg/VcfHtzpL4E1wHMW4vQwxwipUepo8asPYGRTD9uhnLveiMbD6PdG6kxnb3zg5daRXQeUD0DIZj2hk8YrP6wikkyx2Pg+giLL2FbLnke/zXpBbLXAERfx7ndbSnhda2FVl2x0ieQFlf2mGy0r0VScvOnuH9k7a1U/JC0PTY/4D9ZuX1jIZ3qothvFgo+phEauxIX3kNg/CLEAWaulJGqr0weO8M1kr7ynMalHmD4SxDh/WFklDwwzUwVqpXJ02HfnwPI73l9MPuV5bN2aFg2ZVd+l1yNf+8YtiP9tNHh/ZUyPgUYWoYnQ27R8C3Ly54ykNa1WFAnBs7mIQ2soMEDarshbSm2aQYF3EZY662EtlUcQ2VF1+FMIyU
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:OS0PR01MB5922.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(366004)(136003)(346002)(39860400002)(376002)(451199021)(2906002)(83380400001)(53546011)(478600001)(54906003)(186003)(8676002)(8936002)(55016003)(7696005)(33656002)(71200400001)(316002)(4326008)(6916009)(9686003)(66476007)(66556008)(66946007)(66446008)(76116006)(64756008)(38070700005)(52536014)(5660300002)(41300700001)(6506007)(38100700002)(7406005)(7416002)(122000001)(86362001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?b0JiSzBibHVqdDRpVFFBNDFoR2hvb2NNeE1vc3NTOFVTbUtqQWd4WWdWdVZI?=
+ =?utf-8?B?NnVTZjRjTDl6alNrSzc0SXo0aHFiOGFZdE9UalExb1B1MGM2RWVPVzc1RVRO?=
+ =?utf-8?B?UDdjWFhZb3QxRHZYbUt4WFpFWnZCdDdSTno4eXdpdk52Vjh1ekptTTZ2azF0?=
+ =?utf-8?B?L1hBTFI0TDYwdXJxUkRzQzRGdHJ2WFpsWmFSak85T1kvWUx1aTYyaWl0ZTFL?=
+ =?utf-8?B?RndRWkwzL05oSFp5dFdiS3RpV1FtRmV6N1Vuc0tPVXFGUXhhM0xFYWVNZzh6?=
+ =?utf-8?B?L212cEFCNW1SWXFLd2RjNEhKK1VIbGh4L1d5dVE5Rk1JbWtwN0NJTkZqQ3dr?=
+ =?utf-8?B?KzVFbktOTHNkdXFpbHlTSjEyOTlzbmF5SWlLSFNHMXNvWDg1UnRJOVlReTZE?=
+ =?utf-8?B?eWJsZkFNUGxDZk9lTjhtODFyUWpLTGM1Tlh3ZnpvS1hsLzczNEFJKzJlTzRh?=
+ =?utf-8?B?ZWJQQkxNTGhMS0V6M1ZNVUtxUmdwNjU1MlFhY0c1b2pzSEorS0xCdS9ZV2R3?=
+ =?utf-8?B?dGthQ1pUZDNJNWpWWEk5enRzYWZvRFFtcVZLbnJMUDZTT3RpR2hFdGQwaEdX?=
+ =?utf-8?B?NEh0VGNFakppNm0rUENaQ0U0QmZRRVJBYUxvd2ZNZU1jTnp6QmdrczZ3SE0y?=
+ =?utf-8?B?RmUxYkx5WHhwTWdHMXh2clVUTFlHSzdodGxJUXdubmZhOGM2ODNsQjUxTHlY?=
+ =?utf-8?B?eVBhUjBBMzd3VzBkaU90Q0RiS1VTUS83ektsRkVOUVpLeXdmZ1ljS284TEtj?=
+ =?utf-8?B?SzlLeWRNRm12MmxwVVRuaS9zdWNVQitkdGlRVDN3WHo1eXlJY2JscUgyTXE3?=
+ =?utf-8?B?MzhlUmxvTWV2Mk1qMkNoMjdJSkt5OUtxVHhZY20xOFF1YkNBNTY4V01lVFFC?=
+ =?utf-8?B?ek9ITnJ3M2tpY1kzZjZaR1cxb3JJSkVlaDVPNnZ4NFlzbXMzRWtLV3NQR2Yz?=
+ =?utf-8?B?emhKQkV3SFlkNVNTUjI0MENUbnVKN2JodEZkb1ZERkZRMFI1aVUvVXd3bEZi?=
+ =?utf-8?B?bnptRlkrWHEvaXdyRnpoRVkyU09lcHFFSmRVMDFHaWJ0MUxSVFBZY2dETjRu?=
+ =?utf-8?B?Um1tRldqQnhvdXUzNnUvUHlsWWQvWGxDY1FaaHg5VUJmdlFVaXAyaXRVcEFS?=
+ =?utf-8?B?Z2RqL3paWUZqZE9rcGt6YjhiUFhRUmNLdjJKQkxLMmpNb3FUSndFWkw5Y3hK?=
+ =?utf-8?B?N205Wi8zaU9zQXU3b2pWdlRRVmhLNEc2bDVET3RXc0R3VkJ1Z3dFOGlMckdM?=
+ =?utf-8?B?Zi9oalJ5MlJKNGxieDAzZGMzT3RhNjNhQnYxekwwWkJ4ekdIS2tTTzV2VkpV?=
+ =?utf-8?B?bW8rSTd2aGtQZHdGMlh3UWtLamhyMXFzZU00ZWlOc1UzdUcyR0VkSGc0cHY3?=
+ =?utf-8?B?b3VFNlRaaWtnWkVnTXVhQ1RONzN3eS9DcHVxbVZBZ2pIeUcwL1NTRGUwMXU4?=
+ =?utf-8?B?bzhhV1dzYlh2cnFGM3E1eDJIdjFzTlF3Zm5pM2tzWDJxRkMyWC8rM3E2WW00?=
+ =?utf-8?B?ZHE0eW9zNlM0cGRjcTB0TVo0VFpjQmg0cGcvckphVDhieDkwQU93OW1pdFkx?=
+ =?utf-8?B?UGs4bzlLbmNoenNTeHFLYW5WSjNkSGpYVWtFTUo3Uy9EUjVFeXJmck5URFg0?=
+ =?utf-8?B?a2NtK2tnZWg1N2pmdVNjQWovU01nbzVrOHZVN213UTE1NDYrdGtLM1V6Q2Zu?=
+ =?utf-8?B?M1RGeWZKMkhJQVF1VXhJM3ZWNmE5eEd1NElSNEs2Z29zamFhU2ZsNkpIMity?=
+ =?utf-8?B?aXM2eno5dWYySStFU0hCTWszb0lpUUl0WWxJdEVNR2UwWk16TzQ2WjVrVlk0?=
+ =?utf-8?B?WDNLcVMyYjNyVWU5RGg4dnhKNXJSU2VQWVVoaDRXc3k1NVRLalhPSFBTZFQ0?=
+ =?utf-8?B?UFF6aUtlZUVsZUcyZEk0eTU0YzlUaDh6enFDRnd6QlU5d0swNEVvQ3MydmpP?=
+ =?utf-8?B?MmlLQVgzc0J3SUVTQ1VaRDZSSG82ZnlRVXZraEs2TTFiMUJ2ZE1UQVVZeUlv?=
+ =?utf-8?B?eFZBTGJkSURac1dFM2liOTVmRGE4ZTRsK0dZVzNkWHFXSS9JME9ZVk5wZE5z?=
+ =?utf-8?B?QmFBRFdyMnZ2T2NYeGxPc2drM3hMUVVQK0RWSGxVZ3NrWXNxblZqQWo5U1Jp?=
+ =?utf-8?Q?GBRg=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <435dd068-fbf2-10cf-4f78-377e689abb2c@linaro.org>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d62d0369-00eb-49b5-2086-08db6c28e496
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jun 2023 16:11:49.2451 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: FhvM4M5jmkOTXOdzXSf7SuO972QBA/4WtZ3biYpU/15DDUzAinzDbO9ZwJcwGH7DigPtQlRizM4b279N3oMge1vp0GmpLM57wMIqSpee91E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB9604
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,204 +138,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bjorn Andersson <quic_bjorande@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
+Cc: Corey Minyard <cminyard@mvista.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Antonio Borneo <antonio.borneo@foss.st.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ =?utf-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ =?utf-8?B?VXdlIEtsZWluZS1Lw7ZuaWc=?= <u.kleine-koenig@pengutronix.de>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Alessandro Zummo <a.zummo@towertech.it>,
+ Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Rob Herring <robh+dt@kernel.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Wolfram Sang <wsa@kernel.org>,
+ Mark Brown <broonie@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 13, 2023 at 01:31:40AM +0300, Dmitry Baryshkov wrote:
-> On 13/06/2023 01:10, Bjorn Andersson wrote:
-> > From: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > 
-> > Some platforms provides a mechanism for configuring the mapping between
-> > (one or two) DisplayPort intfs and their PHYs.
-> > 
-> > In particular SC8180X provides this functionality, without a default
-> > configuration, resulting in no connection between its two external
-> > DisplayPort controllers and any PHYs.
-> > 
-> > The change implements the logic for optionally configuring which phy
-> > each of the intfs should be connected to, provides a new entry in the
-> > DPU catalog for specifying how many intfs to configure and marks the
-> > SC8180X DPU to program 2 entries.
-> > 
-> > For now the request is simply to program the mapping 1:1, any support
-> > for alternative mappings is left until the use case arrise.
-> > 
-> > Note that e.g. msm-4.14 unconditionally maps intf 0 to phy 0 on all
-> > rlatforms, so perhaps this is needed in order to get DisplayPort working
-> > on some other platforms as well.
-> > 
-> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
-> > ---
-> >   .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   |  1 +
-> >   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  2 ++
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c    | 23 +++++++++++++++++++
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h    |  8 +++++++
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h      |  1 +
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       | 10 ++++++++
-> >   6 files changed, 45 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-> > index 8ed2b263c5ea..9da952692a69 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-> > @@ -19,6 +19,7 @@ static const struct dpu_caps sc8180x_dpu_caps = {
-> >   	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
-> >   	.max_hdeci_exp = MAX_HORZ_DECIMATION,
-> >   	.max_vdeci_exp = MAX_VERT_DECIMATION,
-> > +	.num_dp_intf_sel = 2,
-> >   };
-> >   static const struct dpu_ubwc_cfg sc8180x_ubwc_cfg = {
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> > index ac4a9e73705c..4cb8d096d8ec 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> > @@ -357,6 +357,7 @@ struct dpu_rotation_cfg {
-> >    * @pixel_ram_size     size of latency hiding and de-tiling buffer in bytes
-> >    * @max_hdeci_exp      max horizontal decimation supported (max is 2^value)
-> >    * @max_vdeci_exp      max vertical decimation supported (max is 2^value)
-> > + * @num_dp_intf_sel    number of DP intfs to configure PHY selection for
-> >    */
-> >   struct dpu_caps {
-> >   	u32 max_mixer_width;
-> > @@ -371,6 +372,7 @@ struct dpu_caps {
-> >   	u32 pixel_ram_size;
-> >   	u32 max_hdeci_exp;
-> >   	u32 max_vdeci_exp;
-> > +	u32 num_dp_intf_sel;
-> >   };
-> >   /**
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
-> > index 963bdb5e0252..5afa99cb148c 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
-> > @@ -250,6 +250,27 @@ static void dpu_hw_intf_audio_select(struct dpu_hw_mdp *mdp)
-> >   	DPU_REG_WRITE(c, HDMI_DP_CORE_SELECT, 0x1);
-> >   }
-> > +static void dpu_hw_dp_phy_intf_sel(struct dpu_hw_mdp *mdp, unsigned int *phys,
-> > +				   unsigned int num_intfs)
-> > +{
-> > +	struct dpu_hw_blk_reg_map *c = &mdp->hw;
-> > +	unsigned int intf;
-> > +	u32 sel = 0;
-> > +
-> > +	if (!num_intfs)
-> > +		return;
-> > +
-> > +	for (intf = 0; intf < num_intfs; intf++) {
-> > +		/* Specify the PHY (1-indexed) for @intf */
-> > +		sel |= (phys[intf] + 1) << (intf * 3);
-> > +
-> > +		/* Specify the @intf (1-indexed) of targeted PHY */
-> > +		sel |= (intf + 1) << (6 + phys[intf] * 3);
-> 
-> From what I can see, phys[intf] is const. What about defining indexed masks
-> instead?
-> 
-
-intf is the loop variable. What am I missing?
-
-> > +	}
-> > +
-> > +	DPU_REG_WRITE(c, DP_PHY_INTF_SEL, sel);
-> > +}
-> > +
-> >   static void _setup_mdp_ops(struct dpu_hw_mdp_ops *ops,
-> >   		unsigned long cap)
-> >   {
-> > @@ -264,6 +285,8 @@ static void _setup_mdp_ops(struct dpu_hw_mdp_ops *ops,
-> >   	ops->get_safe_status = dpu_hw_get_safe_status;
-> > +	ops->dp_phy_intf_sel = dpu_hw_dp_phy_intf_sel;
-> 
-> Should this be gated for DPU < 4.0? Or 5.0?
-> 
-> > +
-> >   	if (cap & BIT(DPU_MDP_AUDIO_SELECT))
-> >   		ops->intf_audio_select = dpu_hw_intf_audio_select;
-> >   }
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
-> > index a1a9e44bed36..8446d74d59b0 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
-> > @@ -125,6 +125,14 @@ struct dpu_hw_mdp_ops {
-> >   	void (*get_safe_status)(struct dpu_hw_mdp *mdp,
-> >   			struct dpu_danger_safe_status *status);
-> > +	/**
-> > +	 * dp_phy_intf_sel - configure intf to phy mapping
-> > +	 * @mdp: mdp top context driver
-> > +	 * @phys: list of phys the @num_intfs intfs should be connected to
-> > +	 * @num_intfs: number of intfs to configure
-> > +	 */
-> > +	void (*dp_phy_intf_sel)(struct dpu_hw_mdp *mdp, unsigned int *phys,
-> > +			        unsigned int num_intfs);
-> >   	/**
-> >   	 * intf_audio_select - select the external interface for audio
-> >   	 * @mdp: mdp top context driver
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h
-> > index 5acd5683d25a..6d31bdc7269c 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h
-> > @@ -59,6 +59,7 @@
-> >   #define MDP_WD_TIMER_4_CTL2             0x444
-> >   #define MDP_WD_TIMER_4_LOAD_VALUE       0x448
-> >   #define DCE_SEL                         0x450
-> > +#define DP_PHY_INTF_SEL                 0x460
-> 
-> MDP_DP_PHY_INTF_SEL, if you don't mind.
-> 
-
-I don't mind.
-
-> >   #define MDP_PERIPH_TOP0			MDP_WD_TIMER_0_CTL
-> >   #define MDP_PERIPH_TOP0_END		CLK_CTRL3
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> > index aa8499de1b9f..5dbe5d164c01 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> > @@ -1011,6 +1011,14 @@ unsigned long dpu_kms_get_clk_rate(struct dpu_kms *dpu_kms, char *clock_name)
-> >   	return clk_get_rate(clk);
-> >   }
-> > +static void dpu_kms_dp_phy_intf_sel(struct dpu_kms *dpu_kms)
-> > +{
-> > +	const unsigned int num_intfs = dpu_kms->catalog->caps->num_dp_intf_sel;
-> > +	static unsigned int phy_map[] = {0, 1, 2};
-> 
-> Please move this to dp_phy_intf_sel() and make it const.
-> 
-
-There's a possible use case for passing a phy_map of {0, 2} or {2, 1} on
-SC8180X. While this is left to someone in the future to have that use
-case, as split dp_phy_intf_sel() would handle such variations.
-
-That said, per the layout of the DP_PHY_INTF_SEL, num_intfs can not be
-more than 2, so this list shouldn't have 3 elements.
-
-Regards,
-Bjorn
-
-> > +
-> > +	dpu_kms->hw_mdp->ops.dp_phy_intf_sel(dpu_kms->hw_mdp, phy_map, num_intfs);
-> > +}
-> > +
-> >   static int dpu_kms_hw_init(struct msm_kms *kms)
-> >   {
-> >   	struct dpu_kms *dpu_kms;
-> > @@ -1122,6 +1130,8 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
-> >   		goto perf_err;
-> >   	}
-> > +	dpu_kms_dp_phy_intf_sel(dpu_kms);
-> > +
-> >   	dpu_kms->hw_intr = dpu_hw_intr_init(dpu_kms->mmio, dpu_kms->catalog);
-> >   	if (IS_ERR_OR_NULL(dpu_kms->hw_intr)) {
-> >   		rc = PTR_ERR(dpu_kms->hw_intr);
-> 
-> -- 
-> With best wishes
-> Dmitry
-> 
+SGkgR2VlcnQsDQoNClRoYW5rcyBmb3IgdGhlIGZlZWRiYWNrLg0KDQo+IFN1YmplY3Q6IFJlOiBb
+UEFUQ0ggdjUgMDEvMTFdIGkyYzogRW5oYW5jZSBpMmNfbmV3X2FuY2lsbGFyeV9kZXZpY2UgQVBJ
+DQo+IA0KPiBIaSBCaWp1LA0KPiANCj4gT24gVHVlLCBKdW4gMTMsIDIwMjMgYXQgMTI6NDXigK9Q
+TSBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+DQo+IHdyb3RlOg0KPiA+ID4g
+U3ViamVjdDogUmU6IFtQQVRDSCB2NSAwMS8xMV0gaTJjOiBFbmhhbmNlIGkyY19uZXdfYW5jaWxs
+YXJ5X2RldmljZQ0KPiA+ID4gQVBJIE9uIE1vbiwgSnVuIDEyLCAyMDIzIGF0IDEwOjQz4oCvUE0g
+V29sZnJhbSBTYW5nIDx3c2FAa2VybmVsLm9yZz4NCj4gd3JvdGU6DQo+ID4gPiA+ID4gUGVyaGFw
+cyB3ZSBzaG91bGQgZmlyc3QgdGhpbmsgdGhyb3VnaCB3aGF0IGFuIGFuY2lsbGFyeSBkZXZpY2UN
+Cj4gPiA+ID4gPiByZWFsbHkgaXMuICBNeSB1bmRlcnN0YW5kaW5nIGlzIHRoYXQgaXQgaXMgdXNl
+ZCB0byB0YWxrIHRvDQo+ID4gPiA+ID4gc2Vjb25kYXJ5IGFkZHJlc3NlcyBvZiBhIG11bHRpLWFk
+ZHJlc3MgSTJDIHNsYXZlIGRldmljZS4NCj4gPiA+ID4NCj4gPiA+ID4gQXMgSSBtZW50aW9uZWQg
+c29tZXdoZXJlIGJlZm9yZSwgdGhpcyBpcyBub3QgdGhlIGNhc2UuIEFuY2lsbGFyeQ0KPiA+ID4g
+PiBkZXZpY2VzIGFyZSB3aGVuIG9uZSAqZHJpdmVyKiBoYW5kbGVzIG1vcmUgdGhhbiBvbmUgYWRk
+cmVzcy4NCj4gPiA+ID4gRXZlcnl0aGluZyBlbHNlIGhhcyBiZWVuIGhhbmRsZWQgZGlmZmVyZW50
+bHkgaW4gdGhlIHBhc3QgKGZvciAgYWxsDQo+ID4gPiA+IHRoZQ0KPiA+ID4gdXNlcyBJIGFtIGF3
+YXJlIG9mKS4NCj4gPiA+ID4NCj4gPiA+ID4gWWV0LCBJIGhhdmUgYW5vdGhlciBpZGVhIHdoaWNo
+IGlzIHNvIHNpbXBsZSB0aGF0IEkgd29uZGVyIGlmIGl0DQo+ID4gPiA+IG1heWJlIGhhcyBhbHJl
+YWR5IGJlZW4gZGlzY3Vzc2VkIHNvIGZhcj8NCj4gPiA+ID4NCj4gPiA+ID4gKiBoYXZlIHR3byBy
+ZWdzIGluIHRoZSBiaW5kaW5ncw0KPiA+ID4gPiAqIHVzZSB0aGUgc2Vjb25kIHJlZyB3aXRoIGky
+Y19uZXdfY2xpZW50X2RldmljZSB0byBpbnN0YW50aWF0ZSB0aGUNCj4gPiA+ID4gICBSVEMgc2li
+bGluZy4gJ3N0cnVjdCBpMmNfYm9hcmRfaW5mbycsIHdoaWNoIGlzIG9uZSBwYXJhbWV0ZXIsDQo+
+IHNob3VsZA0KPiA+ID4gPiAgIGhhdmUgZW5vdWdoIG9wdGlvbnMgdG8gcGFzcyBkYXRhLCBlLmcg
+aXQgaGFzIGEgc29mdHdhcmVfbm9kZS4NCj4gPiA+ID4NCj4gPiA+ID4gU2hvdWxkIHdvcmsgb3Ig
+ZGlkIEkgbWlzcyBzb21ldGhpbmcgaGVyZT8NCj4gPiA+DQo+ID4gPiBUaGF0IHNob3VsZCB3b3Jr
+LCBtb3N0bHkgKGkyY19uZXdfZHVtbXlfZGV2aWNlKCkgYWxzbyBjYWxscw0KPiA+ID4gaTJjX25l
+d19jbGllbnRfZGV2aWNlKCkpLiAgQW5kIGFzIGkyY19ib2FyZF9pbmZvIGhhcyBhbiBvZl9ub2Rl
+DQo+ID4gPiBtZW1iZXIgKHNvbWV0aGluZyBJIGhhZCBtaXNzZWQgYmVmb3JlISksIHRoZSBuZXcg
+STJDIGRldmljZSBjYW4NCj4gPiA+IGFjY2VzcyB0aGUgY2xvY2tzIGluIHRoZSBEVCBub2RlIHVz
+aW5nIHRoZSBzdGFuZGFyZCB3YXkuDQo+ID4NCj4gPiBMb29rcyBsaWtlLCBJIGNhbm5vdCBhc3Np
+Z24gb2Zfbm9kZSBtZW1iZXIgbGlrZSBiZWxvdyBhcyBpdCByZXN1bHRzIGluDQo+ID4gcGluY3Ry
+bCBmYWlsdXJlWzFdIGR1cmluZyBkZXZpY2UgYmluZC4NCj4gPg0KPiA+IGluZm8ub2Zfbm9kZSA9
+IGNsaWVudC0+ZGV2Lm9mX25vZGU7DQo+ID4NCj4gPiBbMV0NCj4gPiBwaW5jdHJsLXJ6ZzJsIDEx
+MDMwMDAwLnBpbmN0cmw6IHBpbiBQNDNfMCBhbHJlYWR5IHJlcXVlc3RlZCBieSAzLTAwMTI7DQo+
+ID4gY2Fubm90IGNsYWltIGZvciAzLTAwNmYgcGluY3RybC1yemcybCAxMTAzMDAwMC5waW5jdHJs
+OiBwaW4tMzQ0DQo+ID4gKDMtMDA2Zikgc3RhdHVzIC0yMiBwaW5jdHJsLXJ6ZzJsIDExMDMwMDAw
+LnBpbmN0cmw6IGNvdWxkIG5vdCByZXF1ZXN0DQo+ID4gcGluIDM0NCAoUDQzXzApIGZyb20gZ3Jv
+dXAgcG1pYyAgb24gZGV2aWNlIHBpbmN0cmwtcnpnMmwNCj4gPiByYWEyMTUzMDAgMy0wMDZmOiBF
+cnJvciBhcHBseWluZyBzZXR0aW5nLCByZXZlcnNlIHRoaW5ncyBiYWNrDQo+IA0KPiBXaGVyZSBk
+byB5b3UgaGF2ZSBhIHJlZmVyZW5jZSB0byBwaW4gUDQzXzAgaW4geW91ciBEVD8NCg0KVGhlIHJl
+ZmVyZW5jZSB0byBwaW4gUDQzXzAgaXMgYWRkZWQgaW4gdGhlIFBNSUMgbm9kZS4NCg0KSSBoYXZl
+IGRvbmUgbW9kaWZpY2F0aW9uIG9uIG15IGJvYXJkIHRvIHRlc3QgUE1JQyBJTlQjIG9uIFJaL0cy
+TCBTTUFSQyBFVksNCmJ5IHdpcmluZyBSODMgb24gU29NIG1vZHVsZSBhbmQgUE1PRDAgUElONy4N
+Cg0KPiBUaGUgbGFzdCB2ZXJzaW9ucyB5b3UgcG9zdGVkIGRpZCBub3QgaGF2ZSBhbnkgcGluY3Ry
+bCBwcm9wZXJ0aWVzPw0KDQpCeSBkZWZhdWx0LCBQTUlDX0lOVCMgaXMgbm90IHBvcHVsYXRlZCBS
+Wi9HMkwgU01BUkMgRVZLLCBzbyBJIGhhdmVuJ3QgYWRkZWQNClN1cHBvcnQgZm9yIFBNSUNfSU5U
+IyBmb3IgdGhlIHBhdGNoZXMgcG9zdGVkIHRpbGwgZGF0ZS4gDQoNClllc3RlcmRheSBJIGNoZWNr
+ZWQgd2l0aCBIVyBwZW9wbGUsIGlzIHRoZXJlIGEgd2F5IHRvIGVuYWJsZSBQTUlDX0lOVCMNCmFu
+ZCB0aGV5IHRvbGQgbWUgdG8gZG8gdGhlIGFib3ZlIEhXIG1vZGlmaWNhdGlvbi4NCg0KVG9kYXkg
+SSBmb3VuZCB0aGlzIGlzc3VlLCB3aXRoIHRoaXMgbW9kaWZpZWQgSFcgYW5kIFBNSUMgSU5UIyBl
+bmFibGVkIG9uIHRoZSBEVCwNCndoaWxlIGFzc2lnbmluZyBvZl9ub2RlIG9mIFBNSUMgd2l0aCBp
+bmZvLm9mX25vZGUuIEl0IGlzIGp1c3QgYSBjb2luY2lkZW5jZS4NCg0KQ2hlZXJzLA0KQmlqdQ0K
+DQo=
