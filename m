@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1B1972EA2C
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 19:45:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3086F72EA29
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 19:43:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAA6010E3CE;
-	Tue, 13 Jun 2023 17:45:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D12110E05E;
+	Tue, 13 Jun 2023 17:43:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 400 seconds by postgrey-1.36 at gabe;
- Tue, 13 Jun 2023 17:45:00 UTC
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C35AF10E3D1
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 17:45:00 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 35DHc9nx115778;
- Tue, 13 Jun 2023 12:38:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1686677889;
- bh=2xke3ZeB7Ra/uz63LLqEWUDdhS/KFli70R0sHHHQCRo=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=TbuPr4Nll7qxfFFMNdi92qvCAFy3WoJxwAxposCKesdOhIY3EAJShLRwtmfoCEOPW
- w2AtHKVGgL3sVHsVPm8+Eyxiv0ZbCrItNUM3Jf0VhR/dR6HijPHbzhEBjwTgd1AaTk
- KHA58+g7Zj3XO8LPGjFts46N2KkXpvHzMTQD3gpw=
-Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 35DHc9fT003279
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 13 Jun 2023 12:38:09 -0500
-Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 13
- Jun 2023 12:38:08 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 13 Jun 2023 12:38:08 -0500
-Received: from [10.250.37.94] (ileaxei01-snat.itg.ti.com [10.180.69.5])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 35DHc7xq004269;
- Tue, 13 Jun 2023 12:38:08 -0500
-Message-ID: <3f4dd2ca-cf7a-0d1d-e528-097e032c5899@ti.com>
-Date: Tue, 13 Jun 2023 12:38:07 -0500
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AF5F10E05E
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 17:43:10 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id
+ d9443c01a7336-1b3c578c602so18789575ad.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 10:43:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1686678189; x=1689270189;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=2jUoCxG9xEyss5YkrKWQZTjrjZPoix2ScNs1wDy7ckQ=;
+ b=TJ9C1fO3ROfAcUhRGtIuWr4j6lmqCoX8RNH7WRnQ9h/c1KvNMXrxti00F2jOkaXbTK
+ 7hN/obZ5zMroG/BKZY6ZY/L3+ekG8m+SH1A0mDGYu5N4xK4+tFIHCV523AiBTDocMVMc
+ Dl7Kr+G8YLN9cf5SVvKZ3Jg0+y6AjABT6/DlE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686678189; x=1689270189;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2jUoCxG9xEyss5YkrKWQZTjrjZPoix2ScNs1wDy7ckQ=;
+ b=Rz18lQmvdG3fECkb3SmKBznkZWZ5DdpGNO7meIWEcbpco0E26paj5QSUOGVrWWxHFk
+ FsZsRpQF2i9kGRPR47ZMvrY1QujCcynQh5WtSaKQHsmFJvSXALQT0LayNPNwuxopSPUL
+ lpwZwHwoZCjIm/i/Ir6mjhLFVBQlK6bhELfS37nDuIpEZQQxpbavlpxrTL1MJwca5cwu
+ Babr4/9dt9jPucsIWq8xO4AtiRvCkDgGAKTufX/QjH2YH6/wZNMbyVlryj6rWTjU6e6s
+ mJDTs3jQLWhswu/KRejd9dsGhb9dTXQAUdJ9jAsPrF/vSlrU5mWUIkWJz6Fs/AKVuVqw
+ tl9g==
+X-Gm-Message-State: AC+VfDyMQk+dP1mA0BvuLbEP07gS5x1LlEA++GJbLxPIY6COR58b8MBK
+ cgVYiMua5o2nReE/ECIW6N3nyXVArK17LOy+uUc=
+X-Google-Smtp-Source: ACHHUZ5cuGSH79jYNfr29fxsFdBVofJuEL60PzFqPBipscZEswGuAEiG5v1KWPCz5wF92uR3PE9jCw==
+X-Received: by 2002:a17:903:1d2:b0:1b3:f5c3:7682 with SMTP id
+ e18-20020a17090301d200b001b3f5c37682mr1534123plh.68.1686678189004; 
+ Tue, 13 Jun 2023 10:43:09 -0700 (PDT)
+Received: from gurchetansingh0.mtv.corp.google.com
+ ([2620:15c:a7:2:a28d:9190:55d9:f0c1])
+ by smtp.gmail.com with ESMTPSA id
+ ji18-20020a170903325200b001b20dc1b3c9sm6498899plb.200.2023.06.13.10.43.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Jun 2023 10:43:08 -0700 (PDT)
+From: Gurchetan Singh <gurchetansingh@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/virtio: conditionally allocate virtio_gpu_fence
+Date: Tue, 13 Jun 2023 10:43:06 -0700
+Message-Id: <20230613174306.1208-1-gurchetansingh@chromium.org>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v3 02/17] dt-bindings: gpu: Add Imagination Technologies
- PowerVR GPU
-Content-Language: en-US
-To: Sarah Walker <sarah.walker@imgtec.com>, <dri-devel@lists.freedesktop.org>
-References: <20230613144800.52657-1-sarah.walker@imgtec.com>
- <20230613144800.52657-3-sarah.walker@imgtec.com>
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <20230613144800.52657-3-sarah.walker@imgtec.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,123 +68,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, christian.koenig@amd.com, luben.tuikov@amd.com,
- dakr@redhat.com, donald.robson@imgtec.com, boris.brezillon@collabora.com,
- sumit.semwal@linaro.org, faith.ekstrand@collabora.com
+Cc: acourbot@chromium.org, kraxel@redhat.com, dmitry.osipenko@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/13/23 9:47 AM, Sarah Walker wrote:
-> Add the device tree binding documentation for the Series AXE GPU used in
-> TI AM62 SoCs.
-> 
-> Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
-> ---
->   .../devicetree/bindings/gpu/img,powervr.yaml  | 71 +++++++++++++++++++
->   MAINTAINERS                                   |  7 ++
->   2 files changed, 78 insertions(+)
->   create mode 100644 Documentation/devicetree/bindings/gpu/img,powervr.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/gpu/img,powervr.yaml b/Documentation/devicetree/bindings/gpu/img,powervr.yaml
-> new file mode 100644
-> index 000000000000..652343876d1c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/gpu/img,powervr.yaml
-> @@ -0,0 +1,71 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (c) 2022 Imagination Technologies Ltd.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/gpu/img,powervr.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Imagination Technologies PowerVR GPU
-> +
-> +maintainers:
-> +  - Sarah Walker <sarah.walker@imgtec.com>
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
+We don't want to create a fence for every command submission.  It's
+only necessary when userspace provides a waitable token for submission.
+This could be:
 
-oneOf shouldn't be needed, you can just do the enum followed by const.
+1) bo_handles, to be used with VIRTGPU_WAIT
+2) out_fence_fd, to be used with dma_fence apis
+3) a ring_idx provided with VIRTGPU_CONTEXT_PARAM_POLL_RINGS_MASK
+   + DRM event API
+4) syncobjs in the future
 
-> +      - items:
-> +          - enum:
-> +              - ti,am62-gpu
-> +          - const: img,powervr-seriesaxe
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    minItems: 1
-> +    maxItems: 3
-> +
-> +  clock-names:
-> +    items:
-> +      - const: core
-> +      - const: mem
-> +      - const: sys
-> +    minItems: 1
-> +
-> +  interrupts:
-> +    items:
-> +      - description: GPU interrupt
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: gpu
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  power-supply: true
+The use case for just submitting a command to the host, and expecting
+no response.  For example, gfxstream has GFXSTREAM_CONTEXT_PING that
+just wakes up the host side worker threads.  There's also
+CROSS_DOMAIN_CMD_SEND which just sends data to the Wayland server.
 
-Why do you need power-supply?
+This prevents the need to signal the automatically created
+virtio_gpu_fence.
 
-Andrew
+Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+---
+ drivers/gpu/drm/virtio/virtgpu_submit.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - interrupts
-> +  - interrupt-names
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    gpu: gpu@fd00000 {
-> +        compatible = "ti,am62-gpu", "img,powervr-seriesaxe";
-> +        reg = <0x0fd00000 0x20000>;
-> +        power-domains = <&some_pds 187>;
-> +        clocks = <&k3_clks 187 0>;
-> +        clock-names = "core";
-> +        interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
-> +        interrupt-names = "gpu";
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index b344e1318ac3..a41517843a10 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10084,6 +10084,13 @@ IMGTEC IR DECODER DRIVER
->   S:	Orphan
->   F:	drivers/media/rc/img-ir/
->   
-> +IMGTEC POWERVR DRM DRIVER
-> +M:	Frank Binns <frank.binns@imgtec.com>
-> +M:	Sarah Walker <sarah.walker@imgtec.com>
-> +M:	Donald Robson <donald.robson@imgtec.com>
-> +S:	Supported
-> +F:	Documentation/devicetree/bindings/gpu/img,powervr.yaml
-> +
->   IMON SOUNDGRAPH USB IR RECEIVER
->   M:	Sean Young <sean@mess.org>
->   L:	linux-media@vger.kernel.org
+diff --git a/drivers/gpu/drm/virtio/virtgpu_submit.c b/drivers/gpu/drm/virtio/virtgpu_submit.c
+index cf3c04b16a7a..add106c06ab2 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_submit.c
++++ b/drivers/gpu/drm/virtio/virtgpu_submit.c
+@@ -168,9 +168,13 @@ static int virtio_gpu_init_submit(struct virtio_gpu_submit *submit,
+ 
+ 	memset(submit, 0, sizeof(*submit));
+ 
+-	out_fence = virtio_gpu_fence_alloc(vgdev, fence_ctx, ring_idx);
+-	if (!out_fence)
+-		return -ENOMEM;
++	if ((exbuf->flags & VIRTGPU_EXECBUF_FENCE_FD_OUT) ||
++		((exbuf->flags & VIRTGPU_EXECBUF_RING_IDX) &&
++		(vfpriv->ring_idx_mask & BIT_ULL(ring_idx))) ||
++		exbuf->num_bo_handles)
++		out_fence = virtio_gpu_fence_alloc(vgdev, fence_ctx, ring_idx);
++	else
++		out_fence = NULL;
+ 
+ 	err = virtio_gpu_fence_event_create(dev, file, out_fence, ring_idx);
+ 	if (err) {
+-- 
+2.34.1
+
