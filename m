@@ -2,77 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFE8972EED9
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jun 2023 00:07:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75C1D72EF10
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jun 2023 00:19:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0B2510E3E6;
-	Tue, 13 Jun 2023 22:07:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9506510E3E8;
+	Tue, 13 Jun 2023 22:19:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E12010E3E4;
- Tue, 13 Jun 2023 22:07:52 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78EF510E3E4;
+ Tue, 13 Jun 2023 22:19:29 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 35DLkubC010576; Tue, 13 Jun 2023 22:07:47 GMT
+ 35DJoLxE017479; Tue, 13 Jun 2023 22:19:23 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=2IXvIDiOinmKKCbYzhytnmM6TtVvdMPcorP0JiasFvQ=;
- b=SXI8gNNMJxIJUybFSXVqFkm8Yoly43e6tA22HJgY2FxX0P49LvBv845TXhRjwmRrWp9e
- ZZ09jt5bJf9SY0uKfq8MJWUd01XAhfQkVE6TEb+Nv1hET4zrcouDbYqRGyEqpG557vMv
- qXGUKPPnsiuw8GRwdAYlZHRLT3dla6htbJ28Bu6ym0P8ISHNMYiv44saR+s4UaMS0eD7
- lCXnCWpHrf3xx8tfkkZeaoaBwAxZjqQd31woSci/LNiCtmY0aIs5KD8WCbtQmBCU0ViV
- y5Gy+6ZKW1viV9PRZseNwLj0fr5i9lOHpeEnUmjOjKR5Q6pHLNnPLF+LQ3QosJhV+j6b UQ== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=K0qNhIIXKK45Ts/N5IbalZI9W7UKiRSCw61qaqks+Nk=;
+ b=UpV4xpdowtGziZTyYi13w6OVRxVKR7wl02OP0S1Ud6qdnDs2e2yKzk6Oce4vTtvhABq5
+ K9piJOEpwUikhrkrTNQxGqcVCGjGoNlOfbNE9pGHMLU/OWzkxkYRfhOREVW4LqHBGnt3
+ noHLc4ybyZ94F9D2PjGt5DN6DotvHJyA7+s237RREXh3eB0Z1r0uadardSKr+RZ2asEH
+ aJc7xAQJ5I9bxOPawdRCSqwEJPBihXKHNzke2OjkJ76Op8QP8cep0fzGA2Fw0xSo4XFU
+ 08Um54pFQlvmIgyN7ikP4KoAUea3R3XP5AVWbh2jvsoxEzkhFYkHWVy70hvS7ZdYxGxD Mg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r6a8ytvpj-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r6q4r1fgk-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Jun 2023 22:07:47 +0000
+ Tue, 13 Jun 2023 22:19:23 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35DM7kj4003475
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35DMJBaW010330
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Jun 2023 22:07:46 GMT
-Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 13 Jun
- 2023 15:07:45 -0700
-Message-ID: <044da62f-42fc-e6d7-460a-44b9db336e7b@quicinc.com>
-Date: Tue, 13 Jun 2023 15:07:44 -0700
+ Tue, 13 Jun 2023 22:19:11 GMT
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Tue, 13 Jun 2023 15:19:10 -0700
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
+ <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
+ <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
+ <agross@kernel.org>, <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
+Subject: [PATCH v3 0/2] retrieve DSI DSC through priv-dsi[0]
+Date: Tue, 13 Jun 2023 15:19:00 -0700
+Message-ID: <1686694742-20862-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 04/22] drm/msm: enumerate DSI interfaces
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>
-References: <20230613001004.3426676-1-dmitry.baryshkov@linaro.org>
- <20230613001004.3426676-5-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230613001004.3426676-5-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: blq8z70FfMqABhw89_VL4P-lZlIe47un
-X-Proofpoint-ORIG-GUID: blq8z70FfMqABhw89_VL4P-lZlIe47un
+X-Proofpoint-GUID: C5bLhjiTzgaxPOO9kVp_kXOBYMopu24a
+X-Proofpoint-ORIG-GUID: C5bLhjiTzgaxPOO9kVp_kXOBYMopu24a
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
  definitions=2023-06-13_22,2023-06-12_02,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- phishscore=0 spamscore=0 malwarescore=0 impostorscore=0 mlxscore=0
- suspectscore=0 bulkscore=0 adultscore=0 priorityscore=1501 clxscore=1015
- mlxlogscore=577 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306130194
+ malwarescore=0 phishscore=0
+ spamscore=0 mlxscore=0 mlxlogscore=925 clxscore=1015 priorityscore=1501
+ adultscore=0 bulkscore=0 suspectscore=0 impostorscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
+ definitions=main-2306130196
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,18 +79,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+moving retrieving struct drm_dsc_cofnig from setup_display to
+atomic_enable() and delete struct drm_dsc_config from
+struct msm_display_info.
 
+Kuogee Hsieh (2):
+  drm/msm/dpu: retrieve DSI DSC struct through priv->dsi[0]
+  drm/msm/dpu: remove struct drm_dsc_config from struct msm_display_info
 
-On 6/12/2023 5:09 PM, Dmitry Baryshkov wrote:
-> Follow the DP example and define MSM_DSI_CONTROLLER_n enumeration.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 44 ++++++++++++++++++++---------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  2 --
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  2 --
+ 3 files changed, 30 insertions(+), 18 deletions(-)
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+-- 
+2.7.4
+
