@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2502172E1B2
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 13:32:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0D4872E1B6
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 13:32:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F224610E39A;
-	Tue, 13 Jun 2023 11:32:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DA2A10E38B;
+	Tue, 13 Jun 2023 11:32:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C93610E3A8
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 11:32:20 +0000 (UTC)
-X-UUID: f1415afa09dd11ee9cb5633481061a41-20230613
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06DD410E39A
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 11:32:21 +0000 (UTC)
+X-UUID: f194bf8809dd11ee9cb5633481061a41-20230613
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=zzOXej6qgVjq52c95JI1U56UI6xa79b7dQPBgboJkYc=; 
- b=SNmOA4ZK3i7+ueTrWswYKTBre5Mc9l8lQg3LoK/frcTr0SMNHVQhLVGL8btFExl/8Jd6deelGeMA1F7OD6oOtv5nVzZ/kt/mwk26521H97J3UfVi9iXLfsyzXS9XuyxDQOcO43YT6/jERud/eZSHX68hZQy7qK4W9UkIw5laAnY=;
+ bh=XDb+0GFMxz/sXtm3IPGYNeJgJFr3LAuUSWPlTfGOPgg=; 
+ b=m4M3H5QSEOUUrALAFUrAUuwiE/gZGcN+It+35U7YSE1OnPLaWf7PBRV4SHml1e5UhRdJHlb+K/5m3GxbJ7iJjy8uRViAP2mDNvXIjGMb7tnhWAH53Llnks8seLE8bjtgltaDvSvgJ70w/LYLxAN89ORSpGbUeV3h7jvDuGIOJ+M=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.26, REQID:fe647470-026e-44a4-89f8-75486cd32c8e, IP:0,
+X-CID-O-INFO: VERSION:1.1.26, REQID:d14f042d-24fa-4e43-8ee6-617db0a9c77a, IP:0,
  U
  RL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTION
  :release,TS:95
-X-CID-INFO: VERSION:1.1.26, REQID:fe647470-026e-44a4-89f8-75486cd32c8e, IP:0,
+X-CID-INFO: VERSION:1.1.26, REQID:d14f042d-24fa-4e43-8ee6-617db0a9c77a, IP:0,
  URL
  :0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTION
  :quarantine,TS:95
-X-CID-META: VersionHash:cb9a4e1, CLOUDID:3846ef6e-2f20-4998-991c-3b78627e4938,
+X-CID-META: VersionHash:cb9a4e1, CLOUDID:59757b3e-7aa7-41f3-a6bd-0433bee822f3,
  B
- ulkID:230613193216GUS7HOHQ,BulkQuantity:0,Recheck:0,SF:38|29|28|17|19|48,T
+ ulkID:23061319321686PZY25F,BulkQuantity:0,Recheck:0,SF:17|19|48|38|29|28,T
  C:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
  ,OSI:0,OSA:0,AV:0,LES:1,SPR:NO
 X-CID-BVR: 0,NGT
 X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_FAS, TF_CID_SPAM_FSD, TF_CID_SPAM_SNR,
- TF_CID_SPAM_SDM, TF_CID_SPAM_ASC
-X-UUID: f1415afa09dd11ee9cb5633481061a41-20230613
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+X-CID-FACTOR: TF_CID_SPAM_SNR, TF_CID_SPAM_SDM, TF_CID_SPAM_ASC,
+ TF_CID_SPAM_FAS, TF_CID_SPAM_FSD
+X-UUID: f194bf8809dd11ee9cb5633481061a41-20230613
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
  mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 547972673; Tue, 13 Jun 2023 19:32:13 +0800
+ with ESMTP id 2008942273; Tue, 13 Jun 2023 19:32:14 +0800
 Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1118.26; Tue, 13 Jun 2023 19:32:12 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
@@ -52,9 +52,9 @@ From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
  <angelogioacchino.delregno@collabora.com>, Alexandre Mergnat
  <amergnat@baylibre.com>
-Subject: [PATCH v2 2/4] drm/mediatek: Add cnt checking for coverity issue
-Date: Tue, 13 Jun 2023 19:32:08 +0800
-Message-ID: <20230613113210.24949-3-jason-jh.lin@mediatek.com>
+Subject: [PATCH v2 3/4] drm/mediatek: Add casting before assign
+Date: Tue, 13 Jun 2023 19:32:09 +0800
+Message-ID: <20230613113210.24949-4-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20230613113210.24949-1-jason-jh.lin@mediatek.com>
 References: <20230613113210.24949-1-jason-jh.lin@mediatek.com>
@@ -85,45 +85,86 @@ Cc: "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CERT-C Characters and Strings (CERT STR31-C)
-all_drm_priv[cnt] evaluates to an address that could be at negative
-offset of an array.
-
-In mtk_drm_get_all_drm_priv():
-Guarantee that storage for strings has sufficient space for character
-data and the null terminator.
-
-So change cnt to unsigned int and check its max value.
+1. Add casting before assign to avoid the unintentional integer
+   overflow or unintended sign extension.
+2. Add a int varriable for multiplier calculation instead of calculating
+   different types multiplier with dma_addr_t varriable directly.
 
 Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-Fixes: 1ef7ed48356c ("drm/mediatek: Modify mediatek-drm for mt8195 multi mmsys support")
+Fixes: 1a64a7aff8da ("drm/mediatek: Fix cursor plane no update")
 ---
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/mediatek/mtk_drm_gem.c   |  2 +-
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c | 22 +++++++++++++---------
+ 2 files changed, 14 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 6dcb4ba2466c..fc217e0acd45 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -354,7 +354,7 @@ static bool mtk_drm_get_all_drm_priv(struct device *dev)
- 	const struct of_device_id *of_id;
- 	struct device_node *node;
- 	struct device *drm_dev;
--	int cnt = 0;
-+	unsigned int cnt = 0;
- 	int i, j;
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_gem.c b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
+index a25b28d3ee90..0c7878bc0b37 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_gem.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
+@@ -121,7 +121,7 @@ int mtk_drm_gem_dumb_create(struct drm_file *file_priv, struct drm_device *dev,
+ 	int ret;
  
- 	for_each_child_of_node(phandle->parent, node) {
-@@ -375,6 +375,9 @@ static bool mtk_drm_get_all_drm_priv(struct device *dev)
- 		all_drm_priv[cnt] = dev_get_drvdata(drm_dev);
- 		if (all_drm_priv[cnt] && all_drm_priv[cnt]->mtk_drm_bound)
- 			cnt++;
-+
-+		if (cnt == MAX_CRTC)
-+			break;
+ 	args->pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
+-	args->size = args->pitch * args->height;
++	args->size = (__u64)args->pitch * args->height;
+ 
+ 	mtk_gem = mtk_drm_gem_create(dev, args->size, false);
+ 	if (IS_ERR(mtk_gem))
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+index 31f9420aff6f..1cd41454d545 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+@@ -145,6 +145,7 @@ static void mtk_plane_update_new_state(struct drm_plane_state *new_state,
+ 	dma_addr_t addr;
+ 	dma_addr_t hdr_addr = 0;
+ 	unsigned int hdr_pitch = 0;
++	int offset;
+ 
+ 	gem = fb->obj[0];
+ 	mtk_gem = to_mtk_gem_obj(gem);
+@@ -154,8 +155,10 @@ static void mtk_plane_update_new_state(struct drm_plane_state *new_state,
+ 	modifier = fb->modifier;
+ 
+ 	if (modifier == DRM_FORMAT_MOD_LINEAR) {
+-		addr += (new_state->src.x1 >> 16) * fb->format->cpp[0];
+-		addr += (new_state->src.y1 >> 16) * pitch;
++		offset = (new_state->src.x1 >> 16) * fb->format->cpp[0];
++		addr += offset;
++		offset = (new_state->src.y1 >> 16) * pitch;
++		addr += offset;
+ 	} else {
+ 		int width_in_blocks = ALIGN(fb->width, AFBC_DATA_BLOCK_WIDTH)
+ 				      / AFBC_DATA_BLOCK_WIDTH;
+@@ -163,21 +166,22 @@ static void mtk_plane_update_new_state(struct drm_plane_state *new_state,
+ 				       / AFBC_DATA_BLOCK_HEIGHT;
+ 		int x_offset_in_blocks = (new_state->src.x1 >> 16) / AFBC_DATA_BLOCK_WIDTH;
+ 		int y_offset_in_blocks = (new_state->src.y1 >> 16) / AFBC_DATA_BLOCK_HEIGHT;
+-		int hdr_size;
++		int hdr_size, hdr_offset;
+ 
+ 		hdr_pitch = width_in_blocks * AFBC_HEADER_BLOCK_SIZE;
+ 		pitch = width_in_blocks * AFBC_DATA_BLOCK_WIDTH *
+ 			AFBC_DATA_BLOCK_HEIGHT * fb->format->cpp[0];
+ 
+ 		hdr_size = ALIGN(hdr_pitch * height_in_blocks, AFBC_HEADER_ALIGNMENT);
++		hdr_offset = hdr_pitch * y_offset_in_blocks +
++			AFBC_HEADER_BLOCK_SIZE * x_offset_in_blocks;
++		hdr_addr = addr + hdr_offset;
+ 
+-		hdr_addr = addr + hdr_pitch * y_offset_in_blocks +
+-			   AFBC_HEADER_BLOCK_SIZE * x_offset_in_blocks;
+ 		/* The data plane is offset by 1 additional block. */
+-		addr = addr + hdr_size +
+-		       pitch * y_offset_in_blocks +
+-		       AFBC_DATA_BLOCK_WIDTH * AFBC_DATA_BLOCK_HEIGHT *
+-		       fb->format->cpp[0] * (x_offset_in_blocks + 1);
++		offset = pitch * y_offset_in_blocks +
++			 AFBC_DATA_BLOCK_WIDTH * AFBC_DATA_BLOCK_HEIGHT *
++			 fb->format->cpp[0] * (x_offset_in_blocks + 1);
++		addr = addr + hdr_size + offset;
  	}
  
- 	if (drm_priv->data->mmsys_dev_num == cnt) {
+ 	mtk_plane_state->pending.enable = true;
 -- 
 2.18.0
 
