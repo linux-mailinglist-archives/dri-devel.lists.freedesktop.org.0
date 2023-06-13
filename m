@@ -2,69 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EFFE72DC50
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 10:23:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AC5672DC52
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 10:23:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A431810E038;
-	Tue, 13 Jun 2023 08:23:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2954F10E060;
+	Tue, 13 Jun 2023 08:23:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B896110E027;
- Tue, 13 Jun 2023 08:23:28 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id
- 38308e7fff4ca-2b1bb2fc9c6so62077201fa.0; 
- Tue, 13 Jun 2023 01:23:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1686644605; x=1689236605;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=BbcRKoQDsk4I+9bZEFmzcVuFvx3N2xVD9dSU8lzzV4Y=;
- b=iER+IX/y2EDr9lsk0tRJjMUfEd+aInnl7maKSKTtAgVO2tOXHVG2tQep98eA+xoPnO
- 4vEnoIJBrwru6hL1bcAlsZT7cBetxRRm43pjhvEQjXGshWFqQkQPrQ6x4Bbv7VcZfgsB
- HMRTMZusUt2tmuFWvi5Rq0mBr5b2Ze0ijM3EPrRDuWEarUjOmt90+CwrleqicAiSuEO6
- pQHmXb1ku+cFcd23wVC4W4zFvOoYUEPMCb2epnV6arZunnsT1WQmmO5KNzVIniS3KfTp
- u+iDVYFXo2eggv/uMhGe73ShUcENQTW/YCl7S8AzOhWwQj6bFeQG1xLZoKX0WA78qXJV
- OZ6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686644605; x=1689236605;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BbcRKoQDsk4I+9bZEFmzcVuFvx3N2xVD9dSU8lzzV4Y=;
- b=NB6n9WuuG8POn9tGGW51KHJjU2f0XEFSrmSggXcJq6v34HY9WeYepp3kbu4zp7vZOc
- LOku+euRVgYr6BmN+jbRJz9PTAQ+wAlXpY9X4ZN6MQXF/qrScAnphhXMgCilINoMUDKZ
- nmaXaAOyw5Bnqohy0wXqJqmflcw6rQDmmwZyb4dcIneawR6ksXJdooNiBsAyVrKCLv5v
- SnpaNkUaf4CDekD1yrgt2c5E+6gIdiHvTwzhLPCZ7SY3CBzbtDG5ynDfrvZ2kGEs7NkK
- TE3MbWOhbnd1zDLAmqmVrnauz+fFNiuRTJydIGx9ZOCh8toYWr544zPxA2j+cCm6Qpp7
- Mrdg==
-X-Gm-Message-State: AC+VfDzSo7VhRcOaKdVSXaWtd19zcohmUmkFsQZZZPfAh7iBMcaOtLm4
- iu9zfT3tUdNRKwoX7V3BL2g=
-X-Google-Smtp-Source: ACHHUZ56z9TZ1qEAXVCpiVV4rbZqwHSQWx0h+Pl5gHmwk+Xs3XNCmtW0IPpWsyF8IJ36QKIUIuScKg==
-X-Received: by 2002:a2e:9c50:0:b0:2b1:eb30:668a with SMTP id
- t16-20020a2e9c50000000b002b1eb30668amr3586470ljj.36.1686644604482; 
- Tue, 13 Jun 2023 01:23:24 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- z23-20020a2e8e97000000b002b20b012d41sm2055046ljk.54.2023.06.13.01.23.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jun 2023 01:23:24 -0700 (PDT)
-Date: Tue, 13 Jun 2023 11:23:12 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Christopher Braga <quic_cbraga@quicinc.com>
-Subject: Re: [RFC] Plane color pipeline KMS uAPI
-Message-ID: <20230613112312.755ef58f@eldfell>
-In-Reply-To: <f9428dd3-09fb-74b7-7ba0-4710e8b43229@quicinc.com>
-References: <QMers3awXvNCQlyhWdTtsPwkp5ie9bze_hD5nAccFW7a_RXlWjYB7MoUW_8CKLT2bSQwIXVi5H6VULYIxCdgvryZoAoJnC5lZgyK1QWn488=@emersion.fr>
- <4341dac6-ada1-2a75-1c22-086d96408a85@quicinc.com>
- <84d5dad7-5e8e-ce92-d08e-4609970f6604@quicinc.com>
- <jerhZxCOWoQ2gv55pCK0JNVXMT_OY_j9KLewfG5me25cpqVzfOibpr4b9gZpjWPLQOaKWO2zD2KUI5mWge4mA74DmV1qmLB_LxsSRlKtvbk=@emersion.fr>
- <6f9598e5-09b4-738f-4d00-dfdaba1c91d0@quicinc.com>
- <20230612122135.40505458@eldfell>
- <f9428dd3-09fb-74b7-7ba0-4710e8b43229@quicinc.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.24; x86_64-pc-linux-gnu)
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2053.outbound.protection.outlook.com [40.107.100.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C08810E348;
+ Tue, 13 Jun 2023 08:23:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TrHMzJNQZOdJTcnKEac39Jdtv2qC3I5cfrP9sX0rPh6aia7aMiyuRskdu7ksoMd6dsxD9EESleU4vaoxXOq1CE1nakYXWhazDCHWSrMnKT7fUthkoUQLsoTRUDSh67xZAi3aPFHppqM7rbYbhSxkjxTG/ProKtuJXQmlkPra8fc5ZCzytixrJ5FfWPgzmcTnly+wEqHh2AY7Mbn9LHmF3cVVUwumBSNJvoJAIB582e3Bs8LnvesreQVgj43lWiZwXG3Xc8f6vy4tHbVDW8MSRKsxr4J+WIj2DMmaAKPZOZEkHpsZ66cDhablYa6LpZ/f21CGiXynBbmBUEQUpJNLsQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=00CW9F3SPOaV193iSs3A4BepiAiGZ8AX78XfVwCrwME=;
+ b=cyklU0oTgO3fk6xf7kTa42aHVm+9fBlQOL255wLAwvIfPslzoiuNKpViq9+rl1+fFrWX2CGY5dlLSX0EUpjylrQqbfdxjK2lXXKMU6PtClJ7yetoiYKrpEULP7PRfIvZMKdHqWnkeR8Yf23XS4HXmp8vGjtfdLayYCGvuLE1Cxuutxed2IDkrAyvuQUBfIRCF3Nza5JcS35Yt6vayBVnT4aaL6s/uD1mavuMpM4GZNeavzvbTqwB+FgZojCR9PgGeH4CSHy6h6lpgQHrI/jbRdMJqiW8eSquMJJogcmwKSziBjAwgC7qTtPYE6CCymQtvmH0H3AHChVMa4NJCAErtQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=00CW9F3SPOaV193iSs3A4BepiAiGZ8AX78XfVwCrwME=;
+ b=NcN5X2QSahxJqqQm+z265nZ/IvnF2Z2j+7ibUJ8dX2eJcAWjhKCimCC4v8EMS92xiMujIG53z2UYtI0K60AGs1I+X6PuDztwd6LpIzoKXnYvSboTps0xY1G9QrcKeNjqoHhCwRSuHlRbJpj2kOpURB3Xd5Z0GyMf9OBm8Hdnc4E=
+Received: from CO6PR12MB5489.namprd12.prod.outlook.com (2603:10b6:303:139::18)
+ by MN0PR12MB5905.namprd12.prod.outlook.com (2603:10b6:208:379::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.44; Tue, 13 Jun
+ 2023 08:23:29 +0000
+Received: from CO6PR12MB5489.namprd12.prod.outlook.com
+ ([fe80::caf0:704b:6692:9932]) by CO6PR12MB5489.namprd12.prod.outlook.com
+ ([fe80::caf0:704b:6692:9932%6]) with mapi id 15.20.6455.043; Tue, 13 Jun 2023
+ 08:23:28 +0000
+From: "Lin, Wayne" <Wayne.Lin@amd.com>
+To: Lyude Paul <lyude@redhat.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>
+Subject: RE: [PATCH v5] drm/dp_mst: Clear MSG_RDY flag before sending new
+ message
+Thread-Topic: [PATCH v5] drm/dp_mst: Clear MSG_RDY flag before sending new
+ message
+Thread-Index: AQHZmsAVqWuKoohyPU2pAb0k1OyUha+HxoGAgACj+2A=
+Date: Tue, 13 Jun 2023 08:23:28 +0000
+Message-ID: <CO6PR12MB548951F352BE067CC040EC5DFC55A@CO6PR12MB5489.namprd12.prod.outlook.com>
+References: <20230609104925.3736756-1-Wayne.Lin@amd.com>
+ <cf4bd446d5cbbd7021a44418f54c6f70958b9c4e.camel@redhat.com>
+In-Reply-To: <cf4bd446d5cbbd7021a44418f54c6f70958b9c4e.camel@redhat.com>
+Accept-Language: en-US, zh-TW
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ActionId=a21ed461-acaa-41f2-8a60-db2094544297;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ContentBits=0;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Enabled=true;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Method=Standard;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Name=General;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SetDate=2023-06-13T08:21:03Z;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CO6PR12MB5489:EE_|MN0PR12MB5905:EE_
+x-ms-office365-filtering-correlation-id: 03b29cbd-9675-4904-4f21-08db6be776fe
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: VVB9fCWbet2DjxyJdXVuC6lhtkH0tcCIu+th7sEX/DujpujepxwI7cSfictgFh8/imoH9VNQZZUtQPY/ETnnZoCZOz18aSbK0uIxqxKgqdHXTIflYGNvyVtKWT2uPlkbLUHL34cvFrdjVYq4s6HYIlXrZlG9rWTzszVPNSFEg60mFD6g5AG0lvbrc4bbwWdSddPDc2ZuderGURhLmDpnvYS6np7l6m4TKsWXV7+R7JxQbqE9Og3iC4a8ywFtVnZUL98Tk6uc+qV5c8VdcLV7FgIYT/TMO1RUwsCP3mvh3ksda/PN1QbSwkW6HcNYoPeiiGukO5Hi3xMu3tttlLs48qMOQQZi0EORCQxuBOO79nALj63KunPG8LNkBSGmG+BZFG9FS5hYQ8ZZ76ZdKkziVA4asY4vLe45cZYh+sLt74uzIEdo/Y3xLxLURv1RBtQ1EnOOADUxMQqCEl5RV5gpnVDWkSKxF84ung7eHvghWlRvkk1cnaJf/8Z0H164dcmXxACWTjOKMCb88rpXkn0yAPIBFuN6NUONU7y+7ogGh1e/6A28z6w7QACsyVlDoGgnJToMvmqEPZgzd5vm7G/RZoQ/h2BlP2PJ60mUDS1q697AZ/bhZnQXnVu/2+n0nIqp
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5489.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(136003)(346002)(39860400002)(366004)(376002)(396003)(451199021)(66556008)(66476007)(76116006)(66946007)(8936002)(8676002)(5660300002)(52536014)(66446008)(71200400001)(4326008)(64756008)(110136005)(478600001)(54906003)(316002)(41300700001)(7696005)(38100700002)(122000001)(55016003)(9686003)(55236004)(26005)(186003)(6506007)(38070700005)(83380400001)(86362001)(2906002)(53546011)(30864003)(33656002)(15650500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?OWpUU2VjNkNOOE1CbHlPbU5MeVdBbnFPUlllU1duS1hLcEtsTk1NT05YdmMw?=
+ =?utf-8?B?TlBTMzk1aXhFeVdPcTVWNUxUMlRsUTVlelYzWHZZT2tSczZheVF0aXVEdWg0?=
+ =?utf-8?B?amdKWjVxQ3hpbU8yOWlHN0l6Qkh6RUQ0R3oybW14VU1UbWJPdHBCMDlRYVR1?=
+ =?utf-8?B?OU9Dc3VadDMxOHJwMVBTYUFWQk5hY1h5WFR0VlJWZnVudEFBRVM1dVBzUVBB?=
+ =?utf-8?B?azlEbk8vRVR5RDV5NXF6SXFpUklEemdJc1I1bmRpcWFpbm4xaG1XZ1YrTEFm?=
+ =?utf-8?B?RlNpWkIzbjFZS0EyNzY2bjBweUM0YWtJTWMybTBJNjQrVk90SWVza0lJeGFu?=
+ =?utf-8?B?c0lwWVo0OG1sMHNhQlRzdHo2ZWd3NTd0OHN2VkYrYW1iUk84OVI2dE13M0lT?=
+ =?utf-8?B?clh2S0M3M0g1a2RjVE1iUDRWM0s4NmxsSE9LNjFhcysyeTRnMnNUaU02Z2x3?=
+ =?utf-8?B?QWlXTjBLVXA4Z2FDREt3TEtuWDEvUXZ3WjZUSlFwR1JlajlQUzhaMDByWEdW?=
+ =?utf-8?B?TWRTVzU1N0NTb0p4R2JPY3JPanZ5MksxcEo5Qk1WdENaRUZlK0VURmpiaTdN?=
+ =?utf-8?B?MGM3SFh1UVp3b0k5dllOaXMwdVkxZkRFOTkva2VIcExTSERPWit3WmNZRHRj?=
+ =?utf-8?B?K0JUM0FPbkVlb05JRk1YQlY1ZnJXbVJDNWlLQVd0eC9hV3E5ZXlJSUo0RWpY?=
+ =?utf-8?B?NzRYSVhPTEsyRlJPdU1zTVp5bERuZmdKeUQrSVEwd2EyeExzajRNMzVWbC9r?=
+ =?utf-8?B?bHdUbDVOLzYxd2toV2FYTjlZT003MGNQMnRVT2picUhvMjdjWWhDMFBETURH?=
+ =?utf-8?B?Q2dNT2VPT2xPQUNpalFEeVN5dXhNMHYwdG9mb0pHRCtJQVR0L2N3N3BxTTlo?=
+ =?utf-8?B?ZFdVR1NmSEd2ZHVXVTNOVVVlWjBtTGxLcit4VExtZ25SNHJuN2hxZThEdUFv?=
+ =?utf-8?B?ekEzMG9wWWdJd0UrdEVhbkwxRFJBWDg5b211QXBaQkh4SU5EQzdPUWFabThX?=
+ =?utf-8?B?LzNseGNDckkrdEtMRmNpWi9LQWFDc0hHSHVGenh4NEhGcUFFV0VGWGQyK094?=
+ =?utf-8?B?YXA4T0xKc1czZjgrVFRYSDh6aXNuNDlBQTBsL3dUUlFzSS9pMnh3MkExU0Iz?=
+ =?utf-8?B?cWpOWGZJbVNlSzNuaEM0Tyt1bGdEeFlyWTJsZ24waFk2NGN1S3oyc0FlZEZC?=
+ =?utf-8?B?MGh4SjgySXpESnEzZUIrcWlNVmlnUDZvcGxIR1d3bjQyeUg5T2tBZ0d1MmtE?=
+ =?utf-8?B?Q2pnVkpINEtpaUR2RGpMR1lBYnpqdk16YS9BUUJhS2FncUdjQU9uczN3Y0lj?=
+ =?utf-8?B?MkJyL0ZxOHNubGEwK08rNklVb0sxREVkYlREaEVuYVR4ajc4dWx1TWVCSEFU?=
+ =?utf-8?B?UFovY1p4eTNXVk9FWWdYZUNkTnVtWGVQSVp5L2hDZVJOZVNNWnE4bVpLV081?=
+ =?utf-8?B?a2F1NUtSYjdRb1NvOWdTY0o0OEl3K2w3VzlrRGwzVHB5cFhId2duTENqNUh1?=
+ =?utf-8?B?ZzFxUWk2WUpiQVBqMlhtbC9FRGpPcWFyTTk2TnVmYmg0dVdRQVJsdjhCWE1W?=
+ =?utf-8?B?d3pqVzhZRjVHcDY3N2hSRC9MQnlPbXpvU1NiTzZROFRIVUlLMnpZQnFDYjdQ?=
+ =?utf-8?B?LzVXclZ0dUVCQ3c4eWswUTVtNWpiak9QVXRuMzJOa0FaNDlkMXFQNm1pVjNy?=
+ =?utf-8?B?V3hid005K2c2cGRKZkxvMTVrdkN5TDZYdWx6ZWYrOW8yMHRaRk9La0daR250?=
+ =?utf-8?B?cFA4emo3SytWSXVJM2Y1SkhNTS9tQ213QXZWVDl1Sko0WitpWFVWTW52VUxD?=
+ =?utf-8?B?b2VxdzdTTS9XeU9wUTVlSm4xQmxnWm5mSEh4RXBRTjRKU3NnMUJySE9xcHlJ?=
+ =?utf-8?B?WWZMS3JkRExEWU5iK09PaXdHKzIwUldGbW9nTWJDWkVvZFY1SFF1LzhudHBt?=
+ =?utf-8?B?WVV1QWVmeVZTMWVXUHBwa3BBa1RoTTlWZ05SM0kvTWNYWjRlbURWWWdZdmlK?=
+ =?utf-8?B?VGJJVkZCeDRRYkRQRDEydU9NM1JCejlRbTZRcUFGTXhUV3pKS0xXOEZZQTM5?=
+ =?utf-8?B?VTFRYm5WdEdwVm9icHZlam8vMFBZUUc5alpvbWdxNjJVVitQN1hHaTVndnZM?=
+ =?utf-8?Q?203U=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/HyFd3EW=no0Ydi.=o1ilgE+";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5489.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 03b29cbd-9675-4904-4f21-08db6be776fe
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jun 2023 08:23:28.1032 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5yRgBs8C3m4+qMZJQ36/TizPsbNZ7ioRXdIamWX5rUNciJ/dpcAtrPBmkTZPYblsbTeWofVQzlwTKvu39XKl9g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5905
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,444 +136,254 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Aleix Pol <aleixpol@kde.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "xaver.hugl@gmail.com" <xaver.hugl@gmail.com>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <mdaenzer@redhat.com>,
- wayland-devel <wayland-devel@lists.freedesktop.org>,
- Melissa Wen <mwen@igalia.com>, Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@redhat.com>,
- Uma Shankar <uma.shankar@intel.com>,
- Victoria Brekenfeld <victoria@system76.com>,
- Sebastian Wick <sebastian.wick@redhat.com>, Joshua Ashton <joshua@froggi.es>
+Cc: "jani.nikula@intel.com" <jani.nikula@intel.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>, "Zuo, 
+ Jerry" <Jerry.Zuo@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/HyFd3EW=no0Ydi.=o1ilgE+
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, 12 Jun 2023 12:56:57 -0400
-Christopher Braga <quic_cbraga@quicinc.com> wrote:
-
-> On 6/12/2023 5:21 AM, Pekka Paalanen wrote:
-> > On Fri, 9 Jun 2023 19:11:25 -0400
-> > Christopher Braga <quic_cbraga@quicinc.com> wrote:
-> >  =20
-> >> On 6/9/2023 12:30 PM, Simon Ser wrote: =20
-> >>> Hi Christopher,
-> >>>
-> >>> On Friday, June 9th, 2023 at 17:52, Christopher Braga <quic_cbraga@qu=
-icinc.com> wrote:
-> >>>     =20
-> >>>>> The new COLOROP objects also expose a number of KMS properties. Eac=
-h has a
-> >>>>> type, a reference to the next COLOROP object in the linked list, an=
-d other
-> >>>>> type-specific properties. Here is an example for a 1D LUT operation:
-> >>>>>
-> >>>>>        Color operation 42
-> >>>>>        =E2=94=9C=E2=94=80 "type": enum {Bypass, 1D curve} =3D 1D cu=
-rve
-> >>>>>        =E2=94=9C=E2=94=80 "1d_curve_type": enum {LUT, sRGB, PQ, BT.=
-709, HLG, =E2=80=A6} =3D LUT =20
-> >>>> The options sRGB / PQ / BT.709 / HLG would select hard-coded 1D
-> >>>> curves? Will different hardware be allowed to expose a subset of the=
-se
-> >>>> enum values? =20
-> >>>
-> >>> Yes. Only hardcoded LUTs supported by the HW are exposed as enum entr=
-ies.
-> >>>     =20
-> >>>>>        =E2=94=9C=E2=94=80 "lut_size": immutable range =3D 4096
-> >>>>>        =E2=94=9C=E2=94=80 "lut_data": blob
-> >>>>>        =E2=94=94=E2=94=80 "next": immutable color operation ID =3D =
-43
-> >>>>>    =20
-> >>>> Some hardware has per channel 1D LUT values, while others use the sa=
-me
-> >>>> LUT for all channels.  We will definitely need to expose this in the
-> >>>> UAPI in some form. =20
-> >>>
-> >>> Hm, I was assuming per-channel 1D LUTs here, just like the existing G=
-AMMA_LUT/
-> >>> DEGAMMA_LUT properties work. If some hardware can't support that, it'=
-ll need
-> >>> to get exposed as another color operation block.
-> >>>     =20
-> >>>>> To configure this hardware block, user-space can fill a KMS blob wi=
-th
-> >>>>> 4096 u32
-> >>>>> entries, then set "lut_data" to the blob ID. Other color operation =
-types
-> >>>>> might
-> >>>>> have different properties.
-> >>>>>    =20
-> >>>> The bit-depth of the LUT is an important piece of information we sho=
-uld
-> >>>> include by default. Are we assuming that the DRM driver will always
-> >>>> reduce the input values to the resolution supported by the pipeline?
-> >>>> This could result in differences between the hardware behavior
-> >>>> and the shader behavior.
-> >>>>
-> >>>> Additionally, some pipelines are floating point while others are fix=
-ed.
-> >>>> How would user space know if it needs to pack 32 bit integer values =
-vs
-> >>>> 32 bit float values? =20
-> >>>
-> >>> Again, I'm deferring to the existing GAMMA_LUT/DEGAMMA_LUT. These use=
- a common
-> >>> definition of LUT blob (u16 elements) and it's up to the driver to co=
-nvert.
-> >>>
-> >>> Using a very precise format for the uAPI has the nice property of mak=
-ing the
-> >>> uAPI much simpler to use. User-space sends high precision data and it=
-'s up to
-> >>> drivers to map that to whatever the hardware accepts.
-> >>>    =20
-> >> Conversion from a larger uint type to a smaller type sounds low effort,
-> >> however if a block works in a floating point space things are going to
-> >> get messy really quickly. If the block operates in FP16 space and the
-> >> interface is 16 bits we are good, but going from 32 bits to FP16 (such
-> >> as in the matrix case or 3DLUT) is less than ideal. =20
-> >=20
-> > Hi Christopher,
-> >=20
-> > are you thinking of precision loss, or the overhead of conversion?
-> >=20
-> > Conversion from N-bit fixed point to N-bit floating-point is generally
-> > lossy, too, and the other direction as well.
-> >=20
-> > What exactly would be messy?
-> >  =20
-> Overheard of conversion is the primary concern here. Having to extract=20
-> and / or calculate the significand + exponent components in the kernel=20
-> is burdensome and imo a task better suited for user space. This also has=
-=20
-> to be done every blob set, meaning that if user space is re-using=20
-> pre-calculated blobs we would be repeating the same conversion=20
-> operations in kernel space unnecessarily.
-
-What is burdensome in that calculation? I don't think you would need to
-use any actual floating-point instructions. Logarithm for finding the
-exponent is about finding the highest bit set in an integer and
-everything is conveniently expressed in base-2. Finding significand is
-just masking the integer based on the exponent.
-
-Can you not cache the converted data, keyed by the DRM blob unique
-identity vs. the KMS property it is attached to?
-
-You can assume that userspace will not be re-creating DRM blobs without
-a reason to believe the contents have changed. If the same blob is set
-on the same property repeatedly, I would definitely not expect a driver
-to convert the data again. If a driver does that, it seems like it
-should be easy to avoid, though I'm no kernel dev. Even if the
-conversion was just a memcpy, I would still posit it needs to be
-avoided when the data has obviously not changed. Blobs are immutable.
-
-Userspace having to use hardware-specific number formats would probably
-not be well received.
-
-> I agree normalization of the value causing precision loss and rounding=20
-> we can't avoid.
->=20
-> We should also consider the fact that float pipelines have been known to=
-=20
-> use the scrgb definition for floating point values=20
-> (https://registry.khronos.org/EGL/extensions/EXT/EGL_EXT_gl_colorspace_sc=
-rgb_linear.txt).=20
-
-scRGB is as good a definition of color encoding as "floating-point" is
-for numbers. What I mean is that it carries very little usable meaning,
-and without further information it is practically boundless
-- infinite - in both color gamut and dynamic range. Just like any
-floating-point quantity.
-
-However, what we want from KMS color pipeline is zero implied or
-defined meaning. That means scRGB carries too much meaning, because the
-primaries are fixed and (1.0, 1.0, 1.0) should match sRGB/SDR white.
-
-Btw. if one brings in nit units, you assume a specific viewing
-environment which is rarely true in reality. I'll leave that rabbit
-hole for another time. I just want to mention that nit (cd/m=C2=B2) is a
-unit that is relative to the chosen viewing environment when your goal
-is a specific perception of brightness.
-
-> In cases like this where there may be a expected value range in the=20
-> pipeline, how to normalize a larger input becomes a little confusing. Ex=
-=20
-> - Does U32 MAX become FP16 MAX or value MAX (i.e 127).
-
-UAPI simply needs to specify the number encoding used in the UAPI, how
-bit patterns map to real numbers. Real numbers are then what the color
-pipeline operates on.
-
-However, intermediate value representation used between two KMS colorop
-blocks is never observable to userspace. All userspace needs to know is
-the usable value range and precision behaviour. I think that is best
-defined for the input and output of each block rather than what flows
-in between, because an optional (e.g. LUT) block when bypassed does not
-impose its limitations.
-
-What does 1.0 actually mean, that is left for userspace to use however
-it wishes. There are only pipeline boundary conditions to that: the
-input to a pipeline comes from a DRM FB, so it has a number encoding
-specified mostly by pixel format, and an arbitrary colorimetric
-encoding that only userspace knows. The output of the pipeline has to
-be standardised so that drivers can number-encode the pipeline output
-correctly to wire format on e.g. HDMI. Userspace alone is responsible
-for making sure the colorimetry matches what the sink expects.
-
-Individual KMS color pipeline colorop blocks need to define their own
-acceptable input and output ranges. E.g. a look-up table may assume
-that it's input is in [0.0, 1.0] and anything outside is clamped to
-that range. That poses restrictions on how userspace can use the block.
-
-> >> =20
-> >>> Exposing the actual hardware precision is something we've talked abou=
-t during
-> >>> the hackfest. It'll probably be useful to some extent, but will requi=
-re some
-> >>> discussion to figure out how to design the uAPI. Maybe a simple prope=
-rty is
-> >>> enough, maybe not (e.g. fully describing the precision of segmented L=
-UTs would
-> >>> probably be trickier).
-> >>>
-> >>> I'd rather keep things simple for the first pass, we can always add m=
-ore
-> >>> properties for bit depth etc later on.
-> >>>     =20
-> >> Indicating if a block operates on / with fixed vs float values is
-> >> significant enough that I think we should account for this in initial
-> >> design. It will have a affect on both the user space value packing +
-> >> expected value ranges in the hardware. =20
-> >=20
-> > What do you mean by "value packing"? Memory layout of the bits forming
-> > a value? Or possible exact values of a specific type? > =20
-> Both really. If the kernel is provided a U32 value, we need to know if=20
-> this is a U32 value, or a float packed into a U32 container. Likewise as=
-=20
-> mentioned with the scRGB above, float could even adjust the value range=20
-> expectations.
-
-Right. The UAPI will simply define that.
-
-> > I don't think fixed vs. float is the most important thing. Even fixed
-> > point formats can have different numbers of bits for whole numbers,
-> > which changes the usable value range and not only precision. Userspace
-> > at the very least needs to know the usable value range for the block's
-> > inputs, outputs, and parameters.
-> >=20
-> > When defining the precision for inputs, outputs and parameters, then
-> > fixed- vs. floating-point becomes meaningful in explaining what "N bits
-> > of precision" means.
-> >=20
-> > Then there is the question of variable precision that depends on the
-> > actual block input and parameter values, how to represent that. Worst
-> > case precision might be too pessimistic alone.
-> >  =20
-> Agreed. More information probably is needed to full define the interface=
-=20
-> expectations.
->=20
-> >>>>> Here is another example with a 3D LUT:
-> >>>>>
-> >>>>>        Color operation 42
-> >>>>>        =E2=94=9C=E2=94=80 "type": enum {Bypass, 3D LUT} =3D 3D LUT
-> >>>>>        =E2=94=9C=E2=94=80 "lut_size": immutable range =3D 33
-> >>>>>        =E2=94=9C=E2=94=80 "lut_data": blob
-> >>>>>        =E2=94=94=E2=94=80 "next": immutable color operation ID =3D =
-43
-> >>>>>    =20
-> >>>> We are going to need to expose the packing order here to avoid any
-> >>>> programming uncertainty. I don't think we can safely assume all hard=
-ware
-> >>>> is equivalent. =20
-> >>>
-> >>> The driver can easily change the layout of the matrix and do any conv=
-ersion
-> >>> necessary when programming the hardware. We do need to document what =
-layout is
-> >>> used in the uAPI for sure.
-> >>>     =20
-> >>>>> And one last example with a matrix:
-> >>>>>
-> >>>>>        Color operation 42
-> >>>>>        =E2=94=9C=E2=94=80 "type": enum {Bypass, Matrix} =3D Matrix
-> >>>>>        =E2=94=9C=E2=94=80 "matrix_data": blob
-> >>>>>        =E2=94=94=E2=94=80 "next": immutable color operation ID =3D =
-43
-> >>>>>    =20
-> >>>> It is unclear to me what the default sizing of this matrix is. Any
-> >>>> objections to exposing these details with an additional property? =20
-> >>>
-> >>> The existing CTM property uses 9 uint64 (S31.32) values. Is there a c=
-ase where
-> >>> that wouldn't be enough? =20
-> >>
-> >> Larger cases do exist, but as you mention this can be resolved with a
-> >> different type then. I don't have any issues with the default 'Matrix'
-> >> type being 9 entries. =20
-> >=20
-> > Please, tell us more. How big, and what are they used for?
-> >=20
-> > IIRC ICC has 3x3 matrix + offset vector. Do you have even more?
-> >=20
-> >  =20
-> Offset is one. Range adjustment 'vector' is another. But ultimately this=
-=20
-> proposal is flexible enough that this can probably just be another color=
-=20
-> block in the pipeline. No complaints from me here.
-
-What is a range adjustment vector? A vector of a multiplier per color
-channel? Does it include offset?
-
-Yes, sounds like just another block.
-
-> >>>     =20
-> >>>> Dithering logic exists in some pipelines. I think we need a plan to
-> >>>> expose that here as well. =20
-> >>>
-> >>> Hm, I'm not too familiar with dithering. Do you think it would make s=
-ense to
-> >>> expose as an additional colorop block? Do you think it would have more
-> >>> consequences on the design? =20
-> >=20
-> > I think it would be an additional block, and no other consequences, be
-> > it temporal and/or spatial dithering, as long as it does not look at
-> > neighbouring pixels to determine the output for current pixel.
-> >  =20
-> >>>
-> >>> I want to re-iterate that we don't need to ship all features from day=
- 1. We
-> >>> just need to come up with a uAPI design on which new features can be =
-built on.
-> >>>     =20
-> >>
-> >> Agreed. I don't think this will affect the proposed design so this can
-> >> be figured out once we have a DRM driver impl that declares this block.
-> >> =20
-> >>>>> [Simon note: an alternative would be to split the color pipeline in=
-to
-> >>>>> two, by
-> >>>>> having two plane properties ("color_pipeline_pre_scale" and
-> >>>>> "color_pipeline_post_scale") instead of a single one. This would be
-> >>>>> similar to
-> >>>>> the way we want to split pre-blending and post-blending. This could=
- be less
-> >>>>> expressive for drivers, there may be hardware where there are depen=
-dencies
-> >>>>> between the pre- and post-scaling pipeline?]
-> >>>>>    =20
-> >>>> As others have noted, breaking up the pipeline with immutable blocks
-> >>>> makes the most sense to me here. This way we don't have to predict a=
-head
-> >>>> of time every type of block that maybe affected by pipeline ordering.
-> >>>> Splitting the pipeline into two properties now means future
-> >>>> logical splits would require introduction of further plane propertie=
-s. =20
-> >>>
-> >>> Right, if there are more "breaking points", then we'll need immutable=
- blocks
-> >>> anyways.
-> >>>     =20
-> >>>>> Then, Alex from NVIDIA described how their hardware works. NVIDIA h=
-ardware
-> >>>>> contains some fixed-function blocks which convert from LMS to ICtCp=
- and
-> >>>>> cannot
-> >>>>> be disabled/bypassed. NVIDIA hardware has been designed for descrip=
-tive
-> >>>>> APIs
-> >>>>> where user-space provides a high-level description of the colorspace
-> >>>>> conversions it needs to perform, and this is at odds with our KMS u=
-API
-> >>>>> proposal. To address this issue, we suggest adding a special block =
-type
-> >>>>> which
-> >>>>> describes a fixed conversion from one colorspace to another and can=
-not be
-> >>>>> configured by user-space. Then user-space will need to accomodate i=
-ts
-> >>>>> pipeline
-> >>>>> for these special blocks. Such fixed hardware blocks need to be wel=
-l enough
-> >>>>> documented so that they can be implemented via shaders.
-> >>>>>    =20
-> >>>> A few questions here. What is the current plan for documenting the
-> >>>> mathematical model for each exposed block? Will each defined 'type' =
-enum
-> >>>> value be locked to a definition in the kernel documents? As an examp=
-le,
-> >>>> when we say '3D LUT' in this proposal does this mean the block will
-> >>>> expose a tri-linear interpolated 3D LUT interface? Is '1D Curve' a
-> >>>> direct in to out LUT mapping? =20
-> >>>
-> >>> I think we'll want to document these things, yes. We do want to give =
-_some_
-> >>> slack to drivers, so that they can e.g. implement the "1D LUT" coloro=
-p via
-> >>> hardware segmented LUTs with a different number of elements per LUT s=
-egment.
-> >>> But being mathematically precise (probably with formulae in the docs)=
- is
-> >>> definitely a goal, and absolutely necessary to implement a shader-bas=
-ed
-> >>> fallback. =20
-> >>
-> >> I agree some driver slack is necessary, however ideally this will be
-> >> locked down enough that from the compositor side they see "1D LUT" and
-> >> know exactly what to expect independent of the hardware. This way
-> >> regardless of if I am running on a NVIDIA / AMD / QCOM / etc... chip,
-> >> common color pipeline strategies can be used. Assuming a perfect world
-> >> where there is a workable overlap between chips of course. =20
-> >=20
-> > Yes, of course, at least for a start.
-> >=20
-> > However, the long term plan includes a shared userspace library with
-> > driver- and hardware-specific knowledge to use hardware- and
-> > driver-specific blocks. All blocks still need to be explicitly
-> > specified in the kernel UAPI documentation, the idea is that it should
-> > not be a problem for many vendors to have blocks no-one else does. The
-> > library would offer a much more generic API, and use snowflake blocks
-> > to their fullest. The library would also spit out OpenGL shaders and
-> > whatnot for the fallback.
-> >=20
-> > The future in the long term could be either way: evolving towards
-> > generic KMS UAPI blocks with no need for a userspace library
-> > abstraction, or evolving towards hardware-specific KMS UAPI blocks with
-> > a userspace library to abstract them like Mesa does for GPUs.
-> >  =20
-> Sounds good to me!
-
-Awesome!
-
-
-Thanks,
-pq
-
---Sig_/HyFd3EW=no0Ydi.=o1ilgE+
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmSIJ3AACgkQI1/ltBGq
-qqfg3hAAhxofYbFTed4LozflRbzPw/JbAVlSzNkqomusFDVeF0R42r42uaFRAkHY
-+yg/iIen3r/vYgupUK8aNWBV681OlR84Ir+DWzeJns1sLe+UE1A5wJB0H1y/URM9
-GpmCjBBcXEUNq7O2U9yin0qHbpb03JuPiOhXgtLX6rSExZ6Ki+jA81ayMrTxjcdL
-AVX72tTjzK2xrvhbuKIehprSL/iY6xYnNg7Eogacm68Fs0DwerJtVzwY5bfN0SN9
-PVAXtSrh+Wdk0lf5E9I26q5r6sQoSt9qNArS7wrvEmWrnqNQXUPVq8FKfA6Xd2vB
-xo09hPwMPS4In8OrEGdydEy/7MARgjNuNKNxh4u4v6kCPHgbsx5XZO9gxszXdUkW
-NLpW/h1BfhbWhr0XTgCtPSRNUsLfPqMCijP8nzn69u93WThcffnU6T5IuYtEhQNl
-ks7cNTvYDjpPHUSjzoP5F0xsCt+qJiWl4vurG1jLQj469I7AKCdHLBjQwXzOFRRq
-+OF+PDUsBtga4iHDTfiOqjm4lrThzZmmWi/nnEJhamKssnnDxUaQRDeWIlwM77Rd
-9IBb1AHexBvvAyGNMNAbBp5FdikWR1qd9Dz6fT72pgk0MbsKbmBL0rK/zxdartDB
-5NsWT5Lp6dQQ4i6fMO/RrjrdvqevkaSHcbhHbLXSXTpts0EVeY8=
-=U16q
------END PGP SIGNATURE-----
-
---Sig_/HyFd3EW=no0Ydi.=o1ilgE+--
+W0FNRCBPZmZpY2lhbCBVc2UgT25seSAtIEdlbmVyYWxdDQoNCk5vdGVkLiBUaGFua3MsIEx5dWRl
+IQ0KDQpSZWdhcmRzLA0KV2F5bmUgTGluDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
+Cj4gRnJvbTogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4NCj4gU2VudDogVHVlc2RheSwg
+SnVuZSAxMywgMjAyMyA2OjM0IEFNDQo+IFRvOiBMaW4sIFdheW5lIDxXYXluZS5MaW5AYW1kLmNv
+bT47IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7DQo+IGFtZC1nZnhAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnDQo+IENjOiB2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbTsgamFuaS5u
+aWt1bGFAaW50ZWwuY29tOyBpbXJlLmRlYWtAaW50ZWwuY29tOw0KPiBXZW50bGFuZCwgSGFycnkg
+PEhhcnJ5LldlbnRsYW5kQGFtZC5jb20+OyBadW8sIEplcnJ5DQo+IDxKZXJyeS5adW9AYW1kLmNv
+bT47IHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmcNCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2NV0gZHJt
+L2RwX21zdDogQ2xlYXIgTVNHX1JEWSBmbGFnIGJlZm9yZSBzZW5kaW5nIG5ldw0KPiBtZXNzYWdl
+DQo+DQo+IEZXSVc6IFNob3VsZCBoYXZlIGEgcmVzcG9uc2UgdG8gdGhpcyB2ZXJ5IHNvb24sIGZp
+Z3VyZWQgb3V0IHRoZSBjYXVzZSBvZiBteQ0KPiBNU1QgaXNzdWVzIHNvIEkgc2hvdWxkIGJlIGFi
+bGUgdG8gdGVzdCB0aGlzIHZlcnkgc29vbg0KPg0KPiBPbiBGcmksIDIwMjMtMDYtMDkgYXQgMTg6
+NDkgKzA4MDAsIFdheW5lIExpbiB3cm90ZToNCj4gPiBbV2h5XQ0KPiA+IFRoZSBzZXF1ZW5jZSBm
+b3IgY29sbGVjdGluZyBkb3duX3JlcGx5IGZyb20gc291cmNlIHBlcnNwZWN0aXZlIHNob3VsZA0K
+PiA+IGJlOg0KPiA+DQo+ID4gUmVxdWVzdF9uLT5yZXBlYXQgKGdldCBwYXJ0aWFsIHJlcGx5IG9m
+IFJlcXVlc3Rfbi0+Y2xlYXIgbWVzc2FnZSByZWFkeQ0KPiA+IGZsYWcgdG8gYWNrIERQUlggdGhh
+dCB0aGUgbWVzc2FnZSBpcyByZWNlaXZlZCkgdGlsbCBhbGwgcGFydGlhbA0KPiA+IHJlcGxpZXMg
+Zm9yIFJlcXVlc3RfbiBhcmUgcmVjZWl2ZWQtPm5ldyBSZXF1ZXN0X24rMS4NCj4gPg0KPiA+IE5v
+dyB0aGVyZSBpcyBjaGFuY2UgdGhhdCBkcm1fZHBfbXN0X2hwZF9pcnEoKSB3aWxsIGZpcmUgbmV3
+IGRvd24NCj4gPiByZXF1ZXN0IGluIHRoZSB0eCBxdWV1ZSB3aGVuIHRoZSBkb3duIHJlcGx5IGlz
+IGluY29tcGxldGUuIFNvdXJjZSBpcw0KPiA+IHJlc3RyaWN0ZWQgdG8gZ2VuZXJhdGUgaW50ZXJ2
+ZWxlYXZlZCBtZXNzYWdlIHRyYW5zYWN0aW9ucyBzbyB3ZSBzaG91bGQNCj4gPiBhdm9pZCBpdC4N
+Cj4gPg0KPiA+IEFsc28sIHdoaWxlIGFzc2VtYmxpbmcgcGFydGlhbCByZXBseSBwYWNrZXRzLCBy
+ZWFkaW5nIG91dCBEUENEDQo+ID4gRE9XTl9SRVAgU2lkZWJhbmQgTVNHIGJ1ZmZlciArIGNsZWFy
+aW5nIERPV05fUkVQX01TR19SRFkgZmxhZw0KPiBzaG91bGQNCj4gPiBiZSB3cmFwcGVkIHVwIGFz
+IGEgY29tcGxldGUgb3BlcmF0aW9uIGZvciByZWFkaW5nIG91dCBhIHJlcGx5IHBhY2tldC4NCj4g
+PiBLaWNraW5nIG9mZiBhIG5ldyByZXF1ZXN0IGJlZm9yZSBjbGVhcmluZyBET1dOX1JFUF9NU0df
+UkRZIGZsYWcgbWlnaHQNCj4gPiBiZSByaXNreS4gZS5nLiBJZiB0aGUgcmVwbHkgb2YgdGhlIG5l
+dyByZXF1ZXN0IGhhcyBvdmVyd3JpdHRlbiB0aGUNCj4gPiBEUFJYIERPV05fUkVQIFNpZGViYW5k
+IE1TRyBidWZmZXIgYmVmb3JlIHNvdXJjZSB3cml0aW5nIG9uZSB0byBjbGVhcg0KPiA+IERPV05f
+UkVQX01TR19SRFkgZmxhZywgc291cmNlIHRoZW4gdW5pbnRlbnRpb25hbGx5IGZsdXNoZXMgdGhl
+IHJlcGx5DQo+ID4gZm9yIHRoZSBuZXcgcmVxdWVzdC4gU2hvdWxkIGhhbmRsZSB0aGUgdXAgcmVx
+dWVzdCBpbiB0aGUgc2FtZSB3YXkuDQo+ID4NCj4gPiBbSG93XQ0KPiA+IFNlcGFyZXRlIGRybV9k
+cF9tc3RfaHBkX2lycSgpIGludG8gMiBzdGVwcy4gQWZ0ZXIgYWNraW5nIHRoZSBNU1QgSVJRDQo+
+ID4gZXZlbnQsIGRyaXZlciBjYWxscyBkcm1fZHBfbXN0X2hwZF9pcnFfc2VuZF9uZXdfcmVxdWVz
+dCgpIGFuZCBtaWdodA0KPiA+IHRyaWdnZXIgZHJtX2RwX21zdF9raWNrX3R4KCkgb25seSB3aGVu
+IHRoZXJlIGlzIG5vIG9uIGdvaW5nIG1lc3NhZ2UNCj4gPiB0cmFuc2FjdGlvbi4NCj4gPg0KPiA+
+IENoYW5nZXMgc2luY2UgdjE6DQo+ID4gKiBSZXdvcmtlZCBvbiByZXZpZXcgY29tbWVudHMgcmVj
+ZWl2ZWQNCj4gPiAtPiBBZGp1c3QgdGhlIGZpeCB0byBsZXQgZHJpdmVyIGV4cGxpY2l0bHkga2lj
+ayBvZmYgbmV3IGRvd24gcmVxdWVzdA0KPiA+IHdoZW4gbXN0IGlycSBldmVudCBpcyBoYW5kbGVk
+IGFuZCBhY2tlZA0KPiA+IC0+IEFkanVzdCB0aGUgY29tbWl0IG1lc3NhZ2UNCj4gPg0KPiA+IENo
+YW5nZXMgc2luY2UgdjI6DQo+ID4gKiBBZGp1c3QgdGhlIGNvbW1pdCBtZXNzYWdlDQo+ID4gKiBB
+ZGp1c3QgdGhlIG5hbWluZyBvZiB0aGUgZGl2aWRlZCAyIGZ1bmN0aW9ucyBhbmQgYWRkIGEgbmV3
+IGlucHV0DQo+ID4gICBwYXJhbWV0ZXIgImFjayIuDQo+ID4gKiBBZGp1c3QgY29kZSBmbG93IGFz
+IHBlciByZXZpZXcgY29tbWVudHMuDQo+ID4NCj4gPiBDaGFuZ2VzIHNpbmNlIHYzOg0KPiA+ICog
+VXBkYXRlIHRoZSBmdW5jdGlvbiBkZXNjcmlwdGlvbiBvZiBkcm1fZHBfbXN0X2hwZF9pcnFfaGFu
+ZGxlX2V2ZW50DQo+ID4NCj4gPiBDaGFuZ2VzIHNpbmNlIHY0Og0KPiA+ICogQ2hhbmdlIGFjayBv
+ZiBkcm1fZHBfbXN0X2hwZF9pcnFfaGFuZGxlX2V2ZW50KCkgdG8gYmUgYW4gYXJyYXkgYWxpZ24N
+Cj4gPiAgIHRoZSBzaXplIG9mIGVzaVtdDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBXYXluZSBM
+aW4gPFdheW5lLkxpbkBhbWQuY29tPg0KPiA+IENjOiBzdGFibGVAdmdlci5rZXJuZWwub3JnDQo+
+ID4gLS0tDQo+ID4gIC4uLi9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG0u
+YyB8IDMyICsrKysrLS0tLS0tDQo+ID4gZHJpdmVycy9ncHUvZHJtL2Rpc3BsYXkvZHJtX2RwX21z
+dF90b3BvbG9neS5jIHwgNTQNCj4gKysrKysrKysrKysrKysrKy0tLQ0KPiA+ICBkcml2ZXJzL2dw
+dS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMgICAgICAgfCAgNyArLS0NCj4gPiAgZHJpdmVy
+cy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcC5jICAgICAgIHwgMTIgKysrLS0NCj4gPiAg
+aW5jbHVkZS9kcm0vZGlzcGxheS9kcm1fZHBfbXN0X2hlbHBlci5oICAgICAgIHwgIDcgKystDQo+
+ID4gIDUgZmlsZXMgY2hhbmdlZCwgODEgaW5zZXJ0aW9ucygrKSwgMzEgZGVsZXRpb25zKC0pDQo+
+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9k
+bS9hbWRncHVfZG0uYw0KPiA+IGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9k
+bS9hbWRncHVfZG0uYw0KPiA+IGluZGV4IGQ1Y2VjMDNlYWE4ZC4uZWM2MjliNDAzN2U0IDEwMDY0
+NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1
+X2RtLmMNCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2Ft
+ZGdwdV9kbS5jDQo+ID4gQEAgLTMyNjMsNiArMzI2Myw3IEBAIHN0YXRpYyB2b2lkIGRtX2hhbmRs
+ZV9tc3Rfc2lkZWJhbmRfbXNnKHN0cnVjdA0KPiA+IGFtZGdwdV9kbV9jb25uZWN0b3IgKmFjb25u
+ZWN0b3IpDQo+ID4NCj4gPiAgICAgd2hpbGUgKGRyZXQgPT0gZHBjZF9ieXRlc190b19yZWFkICYm
+DQo+ID4gICAgICAgICAgICAgcHJvY2Vzc19jb3VudCA8IG1heF9wcm9jZXNzX2NvdW50KSB7DQo+
+ID4gKyAgICAgICAgICAgdTggYWNrW0RQX1BTUl9FUlJPUl9TVEFUVVMgLSBEUF9TSU5LX0NPVU5U
+X0VTSV0gPSB7fTsNCj4gPiAgICAgICAgICAgICB1OCByZXRyeTsNCj4gPiAgICAgICAgICAgICBk
+cmV0ID0gMDsNCj4gPg0KPiA+IEBAIC0zMjcxLDI4ICszMjcyLDI5IEBAIHN0YXRpYyB2b2lkDQo+
+IGRtX2hhbmRsZV9tc3Rfc2lkZWJhbmRfbXNnKHN0cnVjdCBhbWRncHVfZG1fY29ubmVjdG9yICph
+Y29ubmVjdG9yKQ0KPiA+ICAgICAgICAgICAgIERSTV9ERUJVR19EUklWRVIoIkVTSSAlMDJ4ICUw
+MnggJTAyeFxuIiwgZXNpWzBdLA0KPiBlc2lbMV0sIGVzaVsyXSk7DQo+ID4gICAgICAgICAgICAg
+LyogaGFuZGxlIEhQRCBzaG9ydCBwdWxzZSBpcnEgKi8NCj4gPiAgICAgICAgICAgICBpZiAoYWNv
+bm5lY3Rvci0+bXN0X21nci5tc3Rfc3RhdGUpDQo+ID4gLSAgICAgICAgICAgICAgICAgICBkcm1f
+ZHBfbXN0X2hwZF9pcnEoDQo+ID4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICZhY29ubmVj
+dG9yLT5tc3RfbWdyLA0KPiA+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICBlc2ksDQo+ID4g
+LSAgICAgICAgICAgICAgICAgICAgICAgICAgICZuZXdfaXJxX2hhbmRsZWQpOw0KPiA+ICsgICAg
+ICAgICAgICAgICAgICAgZHJtX2RwX21zdF9ocGRfaXJxX2hhbmRsZV9ldmVudCgmYWNvbm5lY3Rv
+ci0NCj4gPm1zdF9tZ3IsDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIGVzaSwNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgYWNrLA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAmbmV3X2lycV9oYW5kbGVkKTsNCj4gPg0KPiA+ICAg
+ICAgICAgICAgIGlmIChuZXdfaXJxX2hhbmRsZWQpIHsNCj4gPiAgICAgICAgICAgICAgICAgICAg
+IC8qIEFDSyBhdCBEUENEIHRvIG5vdGlmeSBkb3duIHN0cmVhbSAqLw0KPiA+IC0gICAgICAgICAg
+ICAgICAgICAgY29uc3QgaW50IGFja19kcGNkX2J5dGVzX3RvX3dyaXRlID0NCj4gPiAtICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgZHBjZF9ieXRlc190b19yZWFkIC0gMTsNCj4gPiAtDQo+ID4g
+ICAgICAgICAgICAgICAgICAgICBmb3IgKHJldHJ5ID0gMDsgcmV0cnkgPCAzOyByZXRyeSsrKSB7
+DQo+ID4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgIHU4IHdyZXQ7DQo+ID4gLQ0KPiA+IC0g
+ICAgICAgICAgICAgICAgICAgICAgICAgICB3cmV0ID0gZHJtX2RwX2RwY2Rfd3JpdGUoDQo+ID4g
+LSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgJmFjb25uZWN0b3ItPmRtX2RwX2F1
+eC5hdXgsDQo+ID4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZHBjZF9hZGRy
+ICsgMSwNCj4gPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAmZXNpWzFdLA0K
+PiA+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGFja19kcGNkX2J5dGVzX3Rv
+X3dyaXRlKTsNCj4gPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgaWYgKHdyZXQgPT0gYWNr
+X2RwY2RfYnl0ZXNfdG9fd3JpdGUpDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgIHNz
+aXplX3Qgd3JldDsNCj4gPiArDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgIHdyZXQg
+PSBkcm1fZHBfZHBjZF93cml0ZWIoJmFjb25uZWN0b3ItDQo+ID5kbV9kcF9hdXguYXV4LA0KPiA+
+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRw
+Y2RfYWRkciArIDEsDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgYWNrWzFdKTsNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAg
+aWYgKHdyZXQgPT0gMSkNCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBi
+cmVhazsNCj4gPiAgICAgICAgICAgICAgICAgICAgIH0NCj4gPg0KPiA+ICsgICAgICAgICAgICAg
+ICAgICAgaWYgKHJldHJ5ID09IDMpIHsNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAg
+RFJNX0VSUk9SKCJGYWlsZWQgdG8gYWNrIE1TVCBldmVudC5cbiIpOw0KPiA+ICsgICAgICAgICAg
+ICAgICAgICAgICAgICAgICByZXR1cm47DQo+ID4gKyAgICAgICAgICAgICAgICAgICB9DQo+ID4g
+Kw0KPiA+ICsNCj4gICAgICAgZHJtX2RwX21zdF9ocGRfaXJxX3NlbmRfbmV3X3JlcXVlc3QoJmFj
+b25uZWN0b3ItPm1zdF9tZ3IpOw0KPiA+ICAgICAgICAgICAgICAgICAgICAgLyogY2hlY2sgaWYg
+dGhlcmUgaXMgbmV3IGlycSB0byBiZSBoYW5kbGVkICovDQo+ID4gICAgICAgICAgICAgICAgICAg
+ICBkcmV0ID0gZHJtX2RwX2RwY2RfcmVhZCgNCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgJmFjb25uZWN0b3ItPmRtX2RwX2F1eC5hdXgsDQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9kaXNwbGF5L2RybV9kcF9tc3RfdG9wb2xvZ3kuYw0KPiA+IGIvZHJpdmVycy9ncHUv
+ZHJtL2Rpc3BsYXkvZHJtX2RwX21zdF90b3BvbG9neS5jDQo+ID4gaW5kZXggMzhkYWI3NmFlNjll
+Li40ODdkMDU3YTk1ODIgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2Rpc3BsYXkv
+ZHJtX2RwX21zdF90b3BvbG9neS5jDQo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2Rpc3BsYXkv
+ZHJtX2RwX21zdF90b3BvbG9neS5jDQo+ID4gQEAgLTQwNTMsMTcgKzQwNTMsMjggQEAgc3RhdGlj
+IGludCBkcm1fZHBfbXN0X2hhbmRsZV91cF9yZXEoc3RydWN0DQo+ID4gZHJtX2RwX21zdF90b3Bv
+bG9neV9tZ3IgKm1ncikgIH0NCj4gPg0KPiA+ICAvKioNCj4gPiAtICogZHJtX2RwX21zdF9ocGRf
+aXJxKCkgLSBNU1QgaG90cGx1ZyBJUlEgbm90aWZ5DQo+ID4gKyAqIGRybV9kcF9tc3RfaHBkX2ly
+cV9oYW5kbGVfZXZlbnQoKSAtIE1TVCBob3RwbHVnIElSUSBoYW5kbGUgTVNUDQo+ID4gKyBldmVu
+dA0KPiA+ICAgKiBAbWdyOiBtYW5hZ2VyIHRvIG5vdGlmeSBpcnEgZm9yLg0KPiA+ICAgKiBAZXNp
+OiA0IGJ5dGVzIGZyb20gU0lOS19DT1VOVF9FU0kNCj4gPiArICogQGFjazogNCBieXRlcyB1c2Vk
+IHRvIGFjayBldmVudHMgc3RhcnRpbmcgZnJvbSBTSU5LX0NPVU5UX0VTSQ0KPiA+ICAgKiBAaGFu
+ZGxlZDogd2hldGhlciB0aGUgaHBkIGludGVycnVwdCB3YXMgY29uc3VtZWQgb3Igbm90DQo+ID4g
+ICAqDQo+ID4gLSAqIFRoaXMgc2hvdWxkIGJlIGNhbGxlZCBmcm9tIHRoZSBkcml2ZXIgd2hlbiBp
+dCBkZXRlY3RzIGEgc2hvcnQgSVJRLA0KPiA+ICsgKiBUaGlzIHNob3VsZCBiZSBjYWxsZWQgZnJv
+bSB0aGUgZHJpdmVyIHdoZW4gaXQgZGV0ZWN0cyBhIEhQRCBJUlEsDQo+ID4gICAqIGFsb25nIHdp
+dGggdGhlIHZhbHVlIG9mIHRoZSBERVZJQ0VfU0VSVklDRV9JUlFfVkVDVE9SX0VTSTAuIFRoZQ0K
+PiA+IC0gKiB0b3BvbG9neSBtYW5hZ2VyIHdpbGwgcHJvY2VzcyB0aGUgc2lkZWJhbmQgbWVzc2Fn
+ZXMgcmVjZWl2ZWQgYXMgYQ0KPiA+IHJlc3VsdA0KPiA+IC0gKiBvZiB0aGlzLg0KPiA+ICsgKiB0
+b3BvbG9neSBtYW5hZ2VyIHdpbGwgcHJvY2VzcyB0aGUgc2lkZWJhbmQgbWVzc2FnZXMgcmVjZWl2
+ZWQNCj4gPiArICogYXMgaW5kaWNhdGVkIGluIHRoZSBERVZJQ0VfU0VSVklDRV9JUlFfVkVDVE9S
+X0VTSTAgYW5kIHNldCB0aGUNCj4gPiArICogY29ycmVzcG9uZGluZyBmbGFncyB0aGF0IERyaXZl
+ciBoYXMgdG8gYWNrIHRoZSBEUCByZWNlaXZlciBsYXRlci4NCj4gPiArICoNCj4gPiArICogTm90
+ZSB0aGF0IGRyaXZlciBzaGFsbCBhbHNvIGNhbGwNCj4gPiArICogZHJtX2RwX21zdF9ocGRfaXJx
+X3NlbmRfbmV3X3JlcXVlc3QoKSBpZiB0aGUgJ2hhbmRsZWQnIGlzIHNldA0KPiA+ICsgKiBhZnRl
+ciBjYWxsaW5nIHRoaXMgZnVuY3Rpb24sIHRvIHRyeSB0byBraWNrIG9mZiBhIG5ldyByZXF1ZXN0
+IGluDQo+ID4gKyAqIHRoZSBxdWV1ZSBpZiB0aGUgcHJldmlvdXMgbWVzc2FnZSB0cmFuc2FjdGlv
+biBpcyBjb21wbGV0ZWQuDQo+ID4gKyAqDQo+ID4gKyAqIFNlZSBhbHNvOg0KPiA+ICsgKiBkcm1f
+ZHBfbXN0X2hwZF9pcnFfc2VuZF9uZXdfcmVxdWVzdCgpDQo+ID4gICAqLw0KPiA+IC1pbnQgZHJt
+X2RwX21zdF9ocGRfaXJxKHN0cnVjdCBkcm1fZHBfbXN0X3RvcG9sb2d5X21nciAqbWdyLCB1OCAq
+ZXNpLA0KPiA+IGJvb2wgKmhhbmRsZWQpDQo+ID4gK2ludCBkcm1fZHBfbXN0X2hwZF9pcnFfaGFu
+ZGxlX2V2ZW50KHN0cnVjdCBkcm1fZHBfbXN0X3RvcG9sb2d5X21ncg0KPiAqbWdyLCBjb25zdCB1
+OCAqZXNpLA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdTggKmFjaywgYm9v
+bCAqaGFuZGxlZCkNCj4gPiAgew0KPiA+ICAgICBpbnQgcmV0ID0gMDsNCj4gPiAgICAgaW50IHNj
+Ow0KPiA+IEBAIC00MDc4LDE4ICs0MDg5LDQ3IEBAIGludCBkcm1fZHBfbXN0X2hwZF9pcnEoc3Ry
+dWN0DQo+IGRybV9kcF9tc3RfdG9wb2xvZ3lfbWdyICptZ3IsIHU4ICplc2ksIGJvb2wgKmhhbmRs
+DQo+ID4gICAgIGlmIChlc2lbMV0gJiBEUF9ET1dOX1JFUF9NU0dfUkRZKSB7DQo+ID4gICAgICAg
+ICAgICAgcmV0ID0gZHJtX2RwX21zdF9oYW5kbGVfZG93bl9yZXAobWdyKTsNCj4gPiAgICAgICAg
+ICAgICAqaGFuZGxlZCA9IHRydWU7DQo+ID4gKyAgICAgICAgICAgYWNrWzFdIHw9IERQX0RPV05f
+UkVQX01TR19SRFk7DQo+ID4gICAgIH0NCj4gPg0KPiA+ICAgICBpZiAoZXNpWzFdICYgRFBfVVBf
+UkVRX01TR19SRFkpIHsNCj4gPiAgICAgICAgICAgICByZXQgfD0gZHJtX2RwX21zdF9oYW5kbGVf
+dXBfcmVxKG1ncik7DQo+ID4gICAgICAgICAgICAgKmhhbmRsZWQgPSB0cnVlOw0KPiA+ICsgICAg
+ICAgICAgIGFja1sxXSB8PSBEUF9VUF9SRVFfTVNHX1JEWTsNCj4gPiAgICAgfQ0KPiA+DQo+ID4g
+LSAgIGRybV9kcF9tc3Rfa2lja190eChtZ3IpOw0KPiA+ICAgICByZXR1cm4gcmV0Ow0KPiA+ICB9
+DQo+ID4gLUVYUE9SVF9TWU1CT0woZHJtX2RwX21zdF9ocGRfaXJxKTsNCj4gPiArRVhQT1JUX1NZ
+TUJPTChkcm1fZHBfbXN0X2hwZF9pcnFfaGFuZGxlX2V2ZW50KTsNCj4gPg0KPiA+ICsvKioNCj4g
+PiArICogZHJtX2RwX21zdF9ocGRfaXJxX3NlbmRfbmV3X3JlcXVlc3QoKSAtIE1TVCBob3RwbHVn
+IElSUSBraWNrIG9mZg0KPiA+ICtuZXcgcmVxdWVzdA0KPiA+ICsgKiBAbWdyOiBtYW5hZ2VyIHRv
+IG5vdGlmeSBpcnEgZm9yLg0KPiA+ICsgKg0KPiA+ICsgKiBUaGlzIHNob3VsZCBiZSBjYWxsZWQg
+ZnJvbSB0aGUgZHJpdmVyIHdoZW4gbXN0IGlycSBldmVudCBpcw0KPiA+ICtoYW5kbGVkDQo+ID4g
+KyAqIGFuZCBhY2tlZC4gTm90ZSB0aGF0IG5ldyBkb3duIHJlcXVlc3Qgc2hvdWxkIG9ubHkgYmUg
+c2VudCB3aGVuDQo+ID4gKyAqIHByZXZpb3VzIG1lc3NhZ2UgdHJhbnNhY3Rpb24gaXMgY29tcGxl
+dGVkLiBTb3VyY2UgaXMgbm90IHN1cHBvc2VkDQo+ID4gK3RvIGdlbmVyYXRlDQo+ID4gKyAqIGlu
+dGVybGVhdmVkIG1lc3NhZ2UgdHJhbnNhY3Rpb25zLg0KPiA+ICsgKi8NCj4gPiArdm9pZCBkcm1f
+ZHBfbXN0X2hwZF9pcnFfc2VuZF9uZXdfcmVxdWVzdChzdHJ1Y3QNCj4gPiArZHJtX2RwX21zdF90
+b3BvbG9neV9tZ3IgKm1ncikgew0KPiA+ICsgICBzdHJ1Y3QgZHJtX2RwX3NpZGViYW5kX21zZ190
+eCAqdHhtc2c7DQo+ID4gKyAgIGJvb2wga2ljayA9IHRydWU7DQo+ID4gKw0KPiA+ICsgICBtdXRl
+eF9sb2NrKCZtZ3ItPnFsb2NrKTsNCj4gPiArICAgdHhtc2cgPSBsaXN0X2ZpcnN0X2VudHJ5X29y
+X251bGwoJm1nci0+dHhfbXNnX2Rvd25xLA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBzdHJ1Y3QgZHJtX2RwX3NpZGViYW5kX21zZ190eCwNCj4gbmV4dCk7DQo+ID4g
+KyAgIC8qIElmIGxhc3QgdHJhbnNhY3Rpb24gaXMgbm90IGNvbXBsZXRlZCB5ZXQqLw0KPiA+ICsg
+ICBpZiAoIXR4bXNnIHx8DQo+ID4gKyAgICAgICB0eG1zZy0+c3RhdGUgPT0gRFJNX0RQX1NJREVC
+QU5EX1RYX1NUQVJUX1NFTkQgfHwNCj4gPiArICAgICAgIHR4bXNnLT5zdGF0ZSA9PSBEUk1fRFBf
+U0lERUJBTkRfVFhfU0VOVCkNCj4gPiArICAgICAgICAgICBraWNrID0gZmFsc2U7DQo+ID4gKyAg
+IG11dGV4X3VubG9jaygmbWdyLT5xbG9jayk7DQo+ID4gKw0KPiA+ICsgICBpZiAoa2ljaykNCj4g
+PiArICAgICAgICAgICBkcm1fZHBfbXN0X2tpY2tfdHgobWdyKTsNCj4gPiArfQ0KPiA+ICtFWFBP
+UlRfU1lNQk9MKGRybV9kcF9tc3RfaHBkX2lycV9zZW5kX25ld19yZXF1ZXN0KTsNCj4gPiAgLyoq
+DQo+ID4gICAqIGRybV9kcF9tc3RfZGV0ZWN0X3BvcnQoKSAtIGdldCBjb25uZWN0aW9uIHN0YXR1
+cyBmb3IgYW4gTVNUIHBvcnQNCj4gPiAgICogQGNvbm5lY3RvcjogRFJNIGNvbm5lY3RvciBmb3Ig
+dGhpcyBwb3J0IGRpZmYgLS1naXQNCj4gPiBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkv
+aW50ZWxfZHAuYw0KPiA+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5j
+DQo+ID4gaW5kZXggNGJlYzhjZDc5NzlmLi5mNGEyZTcyYTVjMjAgMTAwNjQ0DQo+ID4gLS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jDQo+ID4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jDQo+ID4gQEAgLTQwNjIsOSArNDA2Miw3
+IEBAIGludGVsX2RwX21zdF9ocGRfaXJxKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHAsDQo+ID4g
+dTggKmVzaSwgdTggKmFjaykgIHsNCj4gPiAgICAgYm9vbCBoYW5kbGVkID0gZmFsc2U7DQo+ID4N
+Cj4gPiAtICAgZHJtX2RwX21zdF9ocGRfaXJxKCZpbnRlbF9kcC0+bXN0X21nciwgZXNpLCAmaGFu
+ZGxlZCk7DQo+ID4gLSAgIGlmIChoYW5kbGVkKQ0KPiA+IC0gICAgICAgICAgIGFja1sxXSB8PSBl
+c2lbMV0gJiAoRFBfRE9XTl9SRVBfTVNHX1JEWSB8DQo+IERQX1VQX1JFUV9NU0dfUkRZKTsNCj4g
+PiArICAgZHJtX2RwX21zdF9ocGRfaXJxX2hhbmRsZV9ldmVudCgmaW50ZWxfZHAtPm1zdF9tZ3Is
+IGVzaSwgYWNrLA0KPiA+ICsmaGFuZGxlZCk7DQo+ID4NCj4gPiAgICAgaWYgKGVzaVsxXSAmIERQ
+X0NQX0lSUSkgew0KPiA+ICAgICAgICAgICAgIGludGVsX2hkY3BfaGFuZGxlX2NwX2lycShpbnRl
+bF9kcC0+YXR0YWNoZWRfY29ubmVjdG9yKTsNCj4gPiBAQCAtNDEzOSw2ICs0MTM3LDkgQEAgaW50
+ZWxfZHBfY2hlY2tfbXN0X3N0YXR1cyhzdHJ1Y3QgaW50ZWxfZHANCj4gPiAqaW50ZWxfZHApDQo+
+ID4NCj4gPiAgICAgICAgICAgICBpZiAoIWludGVsX2RwX2Fja19zaW5rX2lycV9lc2koaW50ZWxf
+ZHAsIGFjaykpDQo+ID4gICAgICAgICAgICAgICAgICAgICBkcm1fZGJnX2ttcygmaTkxNS0+ZHJt
+LCAiRmFpbGVkIHRvIGFjayBFU0lcbiIpOw0KPiA+ICsNCj4gPiArICAgICAgICAgICBpZiAoYWNr
+WzFdICYgKERQX0RPV05fUkVQX01TR19SRFkgfA0KPiBEUF9VUF9SRVFfTVNHX1JEWSkpDQo+ID4g
+KyAgICAgICAgICAgICAgICAgICBkcm1fZHBfbXN0X2hwZF9pcnFfc2VuZF9uZXdfcmVxdWVzdCgm
+aW50ZWxfZHAtDQo+ID5tc3RfbWdyKTsNCj4gPiAgICAgfQ0KPiA+DQo+ID4gICAgIHJldHVybiBs
+aW5rX29rOw0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1
+MC9kaXNwLmMNCj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYw0K
+PiA+IGluZGV4IDliNjgyNGY2YjllNC4uNDJlMTY2NWJhMTFhIDEwMDY0NA0KPiA+IC0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYw0KPiA+ICsrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYw0KPiA+IEBAIC0xMzU5LDIyICsxMzU5LDI2
+IEBAIG52NTBfbXN0bV9zZXJ2aWNlKHN0cnVjdCBub3V2ZWF1X2RybQ0KPiAqZHJtLA0KPiA+ICAg
+ICB1OCBlc2lbOF0gPSB7fTsNCj4gPg0KPiA+ICAgICB3aGlsZSAoaGFuZGxlZCkgew0KPiA+ICsg
+ICAgICAgICAgIHU4IGFja1s4XSA9IHt9Ow0KPiA+ICsNCj4gPiAgICAgICAgICAgICByYyA9IGRy
+bV9kcF9kcGNkX3JlYWQoYXV4LCBEUF9TSU5LX0NPVU5UX0VTSSwgZXNpLCA4KTsNCj4gPiAgICAg
+ICAgICAgICBpZiAocmMgIT0gOCkgew0KPiA+ICAgICAgICAgICAgICAgICAgICAgcmV0ID0gZmFs
+c2U7DQo+ID4gICAgICAgICAgICAgICAgICAgICBicmVhazsNCj4gPiAgICAgICAgICAgICB9DQo+
+ID4NCj4gPiAtICAgICAgICAgICBkcm1fZHBfbXN0X2hwZF9pcnEoJm1zdG0tPm1nciwgZXNpLCAm
+aGFuZGxlZCk7DQo+ID4gKyAgICAgICAgICAgZHJtX2RwX21zdF9ocGRfaXJxX2hhbmRsZV9ldmVu
+dCgmbXN0bS0+bWdyLCBlc2ksIGFjaywNCj4gJmhhbmRsZWQpOw0KPiA+ICAgICAgICAgICAgIGlm
+ICghaGFuZGxlZCkNCj4gPiAgICAgICAgICAgICAgICAgICAgIGJyZWFrOw0KPiA+DQo+ID4gLSAg
+ICAgICAgICAgcmMgPSBkcm1fZHBfZHBjZF93cml0ZShhdXgsIERQX1NJTktfQ09VTlRfRVNJICsg
+MSwNCj4gJmVzaVsxXSwNCj4gPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDMp
+Ow0KPiA+IC0gICAgICAgICAgIGlmIChyYyAhPSAzKSB7DQo+ID4gKyAgICAgICAgICAgcmMgPSBk
+cm1fZHBfZHBjZF93cml0ZWIoYXV4LCBEUF9TSU5LX0NPVU5UX0VTSSArIDEsDQo+IGFja1sxXSk7
+DQo+ID4gKw0KPiA+ICsgICAgICAgICAgIGlmIChyYyAhPSAxKSB7DQo+ID4gICAgICAgICAgICAg
+ICAgICAgICByZXQgPSBmYWxzZTsNCj4gPiAgICAgICAgICAgICAgICAgICAgIGJyZWFrOw0KPiA+
+ICAgICAgICAgICAgIH0NCj4gPiArDQo+ID4gKyAgICAgICAgICAgZHJtX2RwX21zdF9ocGRfaXJx
+X3NlbmRfbmV3X3JlcXVlc3QoJm1zdG0tPm1ncik7DQo+ID4gICAgIH0NCj4gPg0KPiA+ICAgICBp
+ZiAoIXJldCkNCj4gPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZGlzcGxheS9kcm1fZHBfbXN0
+X2hlbHBlci5oDQo+ID4gYi9pbmNsdWRlL2RybS9kaXNwbGF5L2RybV9kcF9tc3RfaGVscGVyLmgN
+Cj4gPiBpbmRleCAzMmM3NjRmYjljYjUuLjQwZTg1NWM4NDA3YyAxMDA2NDQNCj4gPiAtLS0gYS9p
+bmNsdWRlL2RybS9kaXNwbGF5L2RybV9kcF9tc3RfaGVscGVyLmgNCj4gPiArKysgYi9pbmNsdWRl
+L2RybS9kaXNwbGF5L2RybV9kcF9tc3RfaGVscGVyLmgNCj4gPiBAQCAtODE1LDggKzgxNSwxMSBA
+QCB2b2lkIGRybV9kcF9tc3RfdG9wb2xvZ3lfbWdyX2Rlc3Ryb3koc3RydWN0DQo+ID4gZHJtX2Rw
+X21zdF90b3BvbG9neV9tZ3IgKm1ncik7ICBib29sIGRybV9kcF9yZWFkX21zdF9jYXAoc3RydWN0
+DQo+ID4gZHJtX2RwX2F1eCAqYXV4LCBjb25zdCB1OCBkcGNkW0RQX1JFQ0VJVkVSX0NBUF9TSVpF
+XSk7ICBpbnQNCj4gPiBkcm1fZHBfbXN0X3RvcG9sb2d5X21ncl9zZXRfbXN0KHN0cnVjdCBkcm1f
+ZHBfbXN0X3RvcG9sb2d5X21ncg0KPiAqbWdyLA0KPiA+IGJvb2wgbXN0X3N0YXRlKTsNCj4gPg0K
+PiA+IC1pbnQgZHJtX2RwX21zdF9ocGRfaXJxKHN0cnVjdCBkcm1fZHBfbXN0X3RvcG9sb2d5X21n
+ciAqbWdyLCB1OCAqZXNpLA0KPiA+IGJvb2wgKmhhbmRsZWQpOw0KPiA+IC0NCj4gPiAraW50IGRy
+bV9kcF9tc3RfaHBkX2lycV9oYW5kbGVfZXZlbnQoc3RydWN0IGRybV9kcF9tc3RfdG9wb2xvZ3lf
+bWdyDQo+ICptZ3IsDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjb25zdCB1
+OCAqZXNpLA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdTggKmFjaywNCj4g
+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGJvb2wgKmhhbmRsZWQpOw0KPiA+ICt2
+b2lkIGRybV9kcF9tc3RfaHBkX2lycV9zZW5kX25ld19yZXF1ZXN0KHN0cnVjdA0KPiA+ICtkcm1f
+ZHBfbXN0X3RvcG9sb2d5X21nciAqbWdyKTsNCj4gPg0KPiA+ICBpbnQNCj4gPiAgZHJtX2RwX21z
+dF9kZXRlY3RfcG9ydChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLA0KPg0KPiAtLQ0K
+PiBDaGVlcnMsDQo+ICBMeXVkZSBQYXVsIChzaGUvaGVyKQ0KPiAgU29mdHdhcmUgRW5naW5lZXIg
+YXQgUmVkIEhhdA0KDQo=
