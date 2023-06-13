@@ -1,54 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77C8C72E9C2
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 19:29:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1B1972EA2C
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 19:45:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74E5210E3CB;
-	Tue, 13 Jun 2023 17:29:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAA6010E3CE;
+	Tue, 13 Jun 2023 17:45:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.101])
- by gabe.freedesktop.org (Postfix) with ESMTP id A87EB10E3CB
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 17:29:33 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.31:52324.1070341810
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
- by 189.cn (HERMES) with SMTP id 3B4221001AF;
- Wed, 14 Jun 2023 01:29:27 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-75648544bd-xp9j7 with ESMTP id
- 1825973507f140c2a36a73e109c5300e for suijingfeng@loongson.cn; 
- Wed, 14 Jun 2023 01:29:29 CST
-X-Transaction-ID: 1825973507f140c2a36a73e109c5300e
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <793c4d53-2f45-3a0d-f16c-0607c9e5496a@189.cn>
-Date: Wed, 14 Jun 2023 01:29:26 +0800
+X-Greylist: delayed 400 seconds by postgrey-1.36 at gabe;
+ Tue, 13 Jun 2023 17:45:00 UTC
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C35AF10E3D1
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 17:45:00 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 35DHc9nx115778;
+ Tue, 13 Jun 2023 12:38:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1686677889;
+ bh=2xke3ZeB7Ra/uz63LLqEWUDdhS/KFli70R0sHHHQCRo=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=TbuPr4Nll7qxfFFMNdi92qvCAFy3WoJxwAxposCKesdOhIY3EAJShLRwtmfoCEOPW
+ w2AtHKVGgL3sVHsVPm8+Eyxiv0ZbCrItNUM3Jf0VhR/dR6HijPHbzhEBjwTgd1AaTk
+ KHA58+g7Zj3XO8LPGjFts46N2KkXpvHzMTQD3gpw=
+Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 35DHc9fT003279
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 13 Jun 2023 12:38:09 -0500
+Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 13
+ Jun 2023 12:38:08 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 13 Jun 2023 12:38:08 -0500
+Received: from [10.250.37.94] (ileaxei01-snat.itg.ti.com [10.180.69.5])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 35DHc7xq004269;
+ Tue, 13 Jun 2023 12:38:08 -0500
+Message-ID: <3f4dd2ca-cf7a-0d1d-e528-097e032c5899@ti.com>
+Date: Tue, 13 Jun 2023 12:38:07 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH v14 1/2] drm: add kms driver for loongson display
- controller
+Subject: Re: [PATCH v3 02/17] dt-bindings: gpu: Add Imagination Technologies
+ PowerVR GPU
 Content-Language: en-US
-To: Sui Jingfeng <suijingfeng@loongson.cn>, WANG Xuerui <kernel@xen0n.name>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Li Yi <liyi@loongson.cn>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian Koenig <christian.koenig@amd.com>,
- Emil Velikov <emil.l.velikov@gmail.com>
-References: <20230520105718.325819-1-15330273260@189.cn>
- <20230520105718.325819-2-15330273260@189.cn>
- <26fd78b9-c074-8341-c99c-4e3b38cd861a@xen0n.name>
- <14e56806-833b-c01b-ee74-8f16f48df2fc@loongson.cn>
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <14e56806-833b-c01b-ee74-8f16f48df2fc@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Sarah Walker <sarah.walker@imgtec.com>, <dri-devel@lists.freedesktop.org>
+References: <20230613144800.52657-1-sarah.walker@imgtec.com>
+ <20230613144800.52657-3-sarah.walker@imgtec.com>
+From: Andrew Davis <afd@ti.com>
+In-Reply-To: <20230613144800.52657-3-sarah.walker@imgtec.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,19 +67,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: loongson-kernel@lists.loongnix.cn,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Nathan Chancellor <nathan@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
- linaro-mm-sig@lists.linaro.org, Liu Peibao <liupeibao@loongson.cn>,
- linux-media@vger.kernel.org
+Cc: matthew.brost@intel.com, christian.koenig@amd.com, luben.tuikov@amd.com,
+ dakr@redhat.com, donald.robson@imgtec.com, boris.brezillon@collabora.com,
+ sumit.semwal@linaro.org, faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 6/13/23 9:47 AM, Sarah Walker wrote:
+> Add the device tree binding documentation for the Series AXE GPU used in
+> TI AM62 SoCs.
+> 
+> Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
+> ---
+>   .../devicetree/bindings/gpu/img,powervr.yaml  | 71 +++++++++++++++++++
+>   MAINTAINERS                                   |  7 ++
+>   2 files changed, 78 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/gpu/img,powervr.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/gpu/img,powervr.yaml b/Documentation/devicetree/bindings/gpu/img,powervr.yaml
+> new file mode 100644
+> index 000000000000..652343876d1c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/gpu/img,powervr.yaml
+> @@ -0,0 +1,71 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# Copyright (c) 2022 Imagination Technologies Ltd.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/gpu/img,powervr.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Imagination Technologies PowerVR GPU
+> +
+> +maintainers:
+> +  - Sarah Walker <sarah.walker@imgtec.com>
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
 
-On 2023/6/14 00:20, Sui Jingfeng wrote:
-> We will remote this workaround at next version.
+oneOf shouldn't be needed, you can just do the enum followed by const.
 
+> +      - items:
+> +          - enum:
+> +              - ti,am62-gpu
+> +          - const: img,powervr-seriesaxe
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 1
+> +    maxItems: 3
+> +
+> +  clock-names:
+> +    items:
+> +      - const: core
+> +      - const: mem
+> +      - const: sys
+> +    minItems: 1
+> +
+> +  interrupts:
+> +    items:
+> +      - description: GPU interrupt
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: gpu
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  power-supply: true
 
-remote -> remove
+Why do you need power-supply?
 
+Andrew
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +  - interrupt-names
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    gpu: gpu@fd00000 {
+> +        compatible = "ti,am62-gpu", "img,powervr-seriesaxe";
+> +        reg = <0x0fd00000 0x20000>;
+> +        power-domains = <&some_pds 187>;
+> +        clocks = <&k3_clks 187 0>;
+> +        clock-names = "core";
+> +        interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
+> +        interrupt-names = "gpu";
+> +    };
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b344e1318ac3..a41517843a10 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -10084,6 +10084,13 @@ IMGTEC IR DECODER DRIVER
+>   S:	Orphan
+>   F:	drivers/media/rc/img-ir/
+>   
+> +IMGTEC POWERVR DRM DRIVER
+> +M:	Frank Binns <frank.binns@imgtec.com>
+> +M:	Sarah Walker <sarah.walker@imgtec.com>
+> +M:	Donald Robson <donald.robson@imgtec.com>
+> +S:	Supported
+> +F:	Documentation/devicetree/bindings/gpu/img,powervr.yaml
+> +
+>   IMON SOUNDGRAPH USB IR RECEIVER
+>   M:	Sean Young <sean@mess.org>
+>   L:	linux-media@vger.kernel.org
