@@ -1,72 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06CCA72E663
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 16:57:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28B8272E648
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 16:52:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3336210E273;
-	Tue, 13 Jun 2023 14:57:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08FFD10E26B;
+	Tue, 13 Jun 2023 14:52:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com
- [209.85.128.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61B9D10E0B1
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 14:57:22 +0000 (UTC)
-Received: by mail-yw1-f177.google.com with SMTP id
- 00721157ae682-56ce88ee294so29648337b3.0
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 07:57:22 -0700 (PDT)
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A42BD10E26A
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 14:52:29 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id
+ 4fb4d7f45d1cf-5184abe9e86so2460956a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 07:52:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google; t=1686667947; x=1689259947;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RFhCpdPvurTrFPKgPmFt8+QcF+4GExHDsuu6/kU2tGo=;
+ b=rJfY6khakkCcjLrkOBOLEN5jvJ/ZWcfTP0mYmealr9tzzIOFitpHJgdODVW0JWXrUe
+ nvrT+NJQAqA23L3yJRes/kELb3Z4sXNXuA9Y1JZat6bvMXVKfA1OoLmSW3k7KCzT4V0q
+ hLZuXqRTJvhGxLMi2oAkyoXB2NUunjEVL3OAI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686668241; x=1689260241;
+ d=1e100.net; s=20221208; t=1686667947; x=1689259947;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=HCZylnYVESKbr03w+qaTawlaNs+/D1wETaN7cDLoL5w=;
- b=Ch+kQsyWkbLQ7dfw3vBN96mrnb3Ks48lBEY1QlRsAUqXeZmqRO+jYOWya1ECfWVrdg
- zG4Bi4VrdTksYyzVlgQH/6kzGslBtuieNioT7n67CJaSB3+JneBIhH58GVI6pWY689xs
- CBYfjvd2PNrshwPBx3QKkClOw3bWLGyjyEC3ntBvWi8hnfR+/AvH58n9gEjjuU3FiUKf
- bQpxJbkOQv+eZupg2ij0lEbN8kbil3RY0B+8ZNXvsRYwqW/jZxZXew1TODhH77lYmldJ
- 8NOF1oWuUuSDfKq/jaj+IE5q/HHZ1d0UqU3XYfqKGbOP4CvDUetDwZUNNOpPbEBefg5o
- 8sxg==
-X-Gm-Message-State: AC+VfDzsqS3UrDalcwd5S/aZzDVf1FXi9rUqSb6nJQ7Im8iRcZBurHXm
- w3FwlFfUkAizhZnoP8kP+0/tU7FHFmYST8Wk
-X-Google-Smtp-Source: ACHHUZ6cn4UGh4AAJ26fc0jX38Pyx0lkEfW9jFpB7B1+9FH24Jzz2rCZHdQPOr/+rDyGmpH5QKVTug==
-X-Received: by 2002:a0d:df95:0:b0:56d:332a:5a25 with SMTP id
- i143-20020a0ddf95000000b0056d332a5a25mr1976257ywe.5.1686668240839; 
- Tue, 13 Jun 2023 07:57:20 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com.
- [209.85.128.169]) by smtp.gmail.com with ESMTPSA id
- l20-20020a0de214000000b0056d443372f0sm887760ywe.119.2023.06.13.07.57.20
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Jun 2023 07:57:20 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-56ce372ac00so30864697b3.2
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 07:57:20 -0700 (PDT)
-X-Received: by 2002:a25:9f07:0:b0:bc3:cc17:6250 with SMTP id
- n7-20020a259f07000000b00bc3cc176250mr1355567ybq.1.1686667920065; Tue, 13 Jun
- 2023 07:52:00 -0700 (PDT)
+ bh=RFhCpdPvurTrFPKgPmFt8+QcF+4GExHDsuu6/kU2tGo=;
+ b=iYgyZPPB58FOEh8Y3BZBHkW4pTY3+ATt7QVioz9VieQexlW3iI9gCGHK/bMJo7lOWg
+ uoBPMV4G/GENacB2FvjiT73V/mQNEw2vWhEXHz1rI1rCsI8aljI64DgQMMU+NOpsxOXe
+ p05z0S/QDRMDJNCc1aUw730lQLXxQE/Apd9R/5lP5zC6NFi6sGiRYGMqiArKqtsjbUAt
+ jQzH5xdulNS6TPstagTGxmt4xWL3kD6+Gi5POSlxLafN7qlvGauAt4UU3hab7Av5vdJc
+ NuplnQxmOniKGQ91uOv9w0NcWpZroZ7KldQgcfabCHa/8DD60MjrTbqNO3Phc/q0LDRq
+ m/MA==
+X-Gm-Message-State: AC+VfDxKswNkohPlJKMw9V5ILSOvQtdDcIKO6XmcAFi2fIO2eyGjRMQ5
+ bi+fsAK3sOGpatHs0a0Iloc5tYmHDcGUQZS0bw6Xgg==
+X-Google-Smtp-Source: ACHHUZ58hojL5RiV0RaxLfiHLOIkvZMvcRGhgnaQ2b6hHAYY5+XTiYIhvar1ClxhS/9K8rpRZFSX4eHhuLQBl13DGtg=
+X-Received: by 2002:a17:906:da82:b0:979:7624:1f71 with SMTP id
+ xh2-20020a170906da8200b0097976241f71mr11633694ejb.26.1686667947447; Tue, 13
+ Jun 2023 07:52:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230608103929.GO5058@pendragon.ideasonboard.com>
- <OS0PR01MB592259E6A7ACED4A0548DD228650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230608125019.GD26742@pendragon.ideasonboard.com>
- <OS0PR01MB5922ECEABE4D6FC385D184008650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB592265BFDF18F860E1EB4CFE8654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <ZIcRKl3PDy0+yZS9@ninjato>
- <CAMuHMdV_iwdP+K1us86OB4VtDDqA=P_vNeCP15kqRuXqcYr3hg@mail.gmail.com>
- <ZIcUEdctlgRsGxJ3@ninjato>
- <CAMuHMdVOkBeKOEW9PkWB3Tqwa6-rC3BQj=W9VAEgeZfgqvQmWQ@mail.gmail.com>
- <ZIeDcVcfxfcMx/BP@shikoro>
- <CAMuHMdV_Ty=rkcMzsrnJ3YHZngRbyWvYjR_K9Zh7RiAJ4LbvKg@mail.gmail.com>
- <OS0PR01MB59225195B4F2C771F302F7EE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB59225195B4F2C771F302F7EE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 13 Jun 2023 16:51:44 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUTAerddXG3zJVRZEAwcrR6V=NFeHwsKV9_tE+ccfw6_w@mail.gmail.com>
-Message-ID: <CAMuHMdUTAerddXG3zJVRZEAwcrR6V=NFeHwsKV9_tE+ccfw6_w@mail.gmail.com>
-Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-To: Biju Das <biju.das.jz@bp.renesas.com>
+References: <20230609062050.2107143-1-dario.binacchi@amarulasolutions.com>
+ <20230609062050.2107143-5-dario.binacchi@amarulasolutions.com>
+ <376dc16d-8896-0a47-b8dd-3f919c1e50bf@foss.st.com>
+In-Reply-To: <376dc16d-8896-0a47-b8dd-3f919c1e50bf@foss.st.com>
+From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
+Date: Tue, 13 Jun 2023 16:52:16 +0200
+Message-ID: <CAOf5uwmpAZeO=w-+cQNfy4VHS80NK-_HpDv5koZfTB8cRHOECQ@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] drm/stm: add an option to change FB bpp
+To: Philippe CORNU <philippe.cornu@foss.st.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,99 +67,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Antonio Borneo <antonio.borneo@foss.st.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Alessandro Zummo <a.zummo@towertech.it>,
- Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Rob Herring <robh+dt@kernel.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Wolfram Sang <wsa@kernel.org>,
- Mark Brown <broonie@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Amarula patchwork <linux-amarula@amarulasolutions.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
+Hi
 
-On Tue, Jun 13, 2023 at 12:45=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.c=
-om> wrote:
-> > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-> > On Mon, Jun 12, 2023 at 10:43=E2=80=AFPM Wolfram Sang <wsa@kernel.org> =
-wrote:
-> > > > Perhaps we should first think through what an ancillary device
-> > > > really is.  My understanding is that it is used to talk to secondar=
-y
-> > > > addresses of a multi-address I2C slave device.
-> > >
-> > > As I mentioned somewhere before, this is not the case. Ancillary
-> > > devices are when one *driver* handles more than one address.
-> > > Everything else has been handled differently in the past (for  all th=
-e
-> > uses I am aware of).
-> > >
-> > > Yet, I have another idea which is so simple that I wonder if it maybe
-> > > has already been discussed so far?
-> > >
-> > > * have two regs in the bindings
-> > > * use the second reg with i2c_new_client_device to instantiate the
-> > >   RTC sibling. 'struct i2c_board_info', which is one parameter, shoul=
-d
-> > >   have enough options to pass data, e.g it has a software_node.
-> > >
-> > > Should work or did I miss something here?
+On Tue, Jun 13, 2023 at 4:41=E2=80=AFPM Philippe CORNU
+<philippe.cornu@foss.st.com> wrote:
+>
+>
+>
+> On 6/9/23 08:20, Dario Binacchi wrote:
+> > Boards that use the STM32F{4,7} series have limited amounts of RAM. The
+> > added parameter allows users to size, within certain limits, the memory
+> > footprint required by the framebuffer.
 > >
-> > That should work, mostly (i2c_new_dummy_device() also calls
-> > i2c_new_client_device()).  And as i2c_board_info has an of_node member
-> > (something I had missed before!), the new I2C device can access the clo=
-cks
-> > in the DT node using the standard way.
+> > Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+> >
+> > ---
+> >
+> > Changes in v3:
+> > - drop [4/6] dt-bindings: display: simple: add Rocktech RK043FN48H
+> >    Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm=
+-misc-next):
+> >    https://cgit.freedesktop.org/drm/drm-misc/commit/?id=3Dc42a37a27c777=
+d63961dd634a30f7c887949491a
+> > - drop [5/6] drm/panel: simple: add support for Rocktech RK043FN48H pan=
+el
+> >    Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm=
+-misc-next)
+> >    https://cgit.freedesktop.org/drm/drm-misc/commit/?id=3D13cdd12a9f934=
+158f4ec817cf048fcb4384aa9dc
+> >
+> >   drivers/gpu/drm/stm/drv.c | 8 +++++++-
+> >   1 file changed, 7 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
+> > index 422220df7d8c..65be2b442a6a 100644
+> > --- a/drivers/gpu/drm/stm/drv.c
+> > +++ b/drivers/gpu/drm/stm/drv.c
+> > @@ -30,6 +30,11 @@
+> >   #define STM_MAX_FB_WIDTH    2048
+> >   #define STM_MAX_FB_HEIGHT   2048 /* same as width to handle orientati=
+on */
+> >
+> > +static uint stm_bpp =3D 16;
+> > +
+> > +MODULE_PARM_DESC(bpp, "bits-per-pixel (default: 16)");
+> > +module_param_named(bpp, stm_bpp, uint, 0644);
+> > +
+> >   static const struct drm_mode_config_funcs drv_mode_config_funcs =3D {
+> >       .fb_create =3D drm_gem_fb_create,
+> >       .atomic_check =3D drm_atomic_helper_check,
+> > @@ -93,6 +98,7 @@ static int drv_load(struct drm_device *ddev)
+> >       ddev->mode_config.min_height =3D 0;
+> >       ddev->mode_config.max_width =3D STM_MAX_FB_WIDTH;
+> >       ddev->mode_config.max_height =3D STM_MAX_FB_HEIGHT;
+> > +     ddev->mode_config.preferred_depth =3D stm_bpp;
+> >       ddev->mode_config.funcs =3D &drv_mode_config_funcs;
+> >       ddev->mode_config.normalize_zpos =3D true;
+> >
+> > @@ -203,7 +209,7 @@ static int stm_drm_platform_probe(struct platform_d=
+evice *pdev)
+> >       if (ret)
+> >               goto err_put;
+> >
+> > -     drm_fbdev_dma_setup(ddev, 16);
+> > +     drm_fbdev_dma_setup(ddev, stm_bpp);
+> >
+> >       return 0;
+> >
 >
-> Looks like, I cannot assign of_node member like below as it results in pi=
-nctrl failure[1]
-> during device bind.
+> Acked-by: Philippe Cornu <philippe.cornu@foss.st.com>
+> Many thanks,
+> Philippe :-)
 >
-> info.of_node =3D client->dev.of_node;
->
-> [1]
-> pinctrl-rzg2l 11030000.pinctrl: pin P43_0 already requested by 3-0012; ca=
-nnot claim for 3-006f
-> pinctrl-rzg2l 11030000.pinctrl: pin-344 (3-006f) status -22
-> pinctrl-rzg2l 11030000.pinctrl: could not request pin 344 (P43_0) from gr=
-oup pmic  on device pinctrl-rzg2l
-> raa215300 3-006f: Error applying setting, reverse things back
 
-Where do you have a reference to pin P43_0 in your DT?
-The last versions you posted did not have any pinctrl properties?
+According to the latest review on usb patchset: "Please do not add new
+module parameters, this is not the 1990's anymore.
+We have per-device settings everywhere, this makes that impossible.
+Just use a DT value, if it is wrong, then fix the DT value!  No need to
+have the kernel override it, that's not what DT files are for."
 
-v6: https://lore.kernel.org/linux-renesas-soc/20230602142426.438375-5-biju.=
-das.jz@bp.renesas.com
-v5: https://lore.kernel.org/linux-renesas-soc/20230522101849.297499-12-biju=
-.das.jz@bp.renesas.com
+I think it makes more sense to have dts parameters. Should maybe apply here=
+ too
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Michael
