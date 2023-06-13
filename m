@@ -2,74 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD19C72EAB4
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 20:19:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D75D872EAC1
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Jun 2023 20:21:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01E9910E3D9;
-	Tue, 13 Jun 2023 18:19:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C115F10E3D8;
+	Tue, 13 Jun 2023 18:21:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A153C10E3D8
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 18:19:05 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id
- a640c23a62f3a-977d55ac17bso1029823766b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 11:19:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686680344; x=1689272344;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Si+/shvcqkKwITehsz3jlcMUh+hjsQ3DO0PDy+Kywt8=;
- b=EersYtXU6f0gNYm8ge0XLuS++K+5LXpzYjQ8c1p/Am+DEGDIfsoGeXhM+HnG7Z+Q1a
- OLGkaRUuReTRokMWoSfQTm0+cuDbM0jK2wy58LvfMXf6415/CDVrc0FxHnjpL3VUJ9CJ
- pmo8L0AjhzACJ9aUKZSTX4nH9eZIPaDk07niXhg+879+9DglHPcibGAQCfIKiPJ+VLj7
- pQ7rHDdvG+a2/+YEVU8vIKnsj14Q+w3TcVs3MqWQsKtYoL4YeOCGRseAWTyRci658bsr
- 1i2k0TzfB49uZ+PYQ3ITrfC3AEMFaPJ8fSh7Zd685KrIwPTTCmi5yC5PMk/JVb9mbQzJ
- X+lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686680344; x=1689272344;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Si+/shvcqkKwITehsz3jlcMUh+hjsQ3DO0PDy+Kywt8=;
- b=i1Y8chsNEXbEzQPvzFXLMxY3oqy5cO4VW4lluaw6xP0DSWGvPmWyZr/JgZcUScXbly
- 3J4WleFtnVAKT82jpJxRs2mR6yVUC51FfOiusiq7SBFnrjnoUGjQSI7z9OQnjEx+msbw
- uYs8YcpdjOfKW286Nn8Wa9q0uyGimF1focGPjQCNqxnn1Utdt2PGg5+CM3zlLR2vkBeU
- NjXh2f+zTM0qXsxqy4j2wETUTY/sxl7bdPbG0Qyd84R+AVGCiBlFrng5FZQBECp4QvQN
- 2toaLrZ7jAeTmPZ3WzfiLEqOXWbMlslnfhx2J6Sq2qZKehPwINGEPYmNGQ3+J/elY1q4
- ot3Q==
-X-Gm-Message-State: AC+VfDwhPSrhCAte5Gy22Il8Vzfrqj2lyJ+8BtDcal7kJupvDFnMzxx4
- xWBqa+goqVU0ZhaY+7ozJaXzbQ==
-X-Google-Smtp-Source: ACHHUZ4kVz0Z2WClJ/sNF3p1W8w4qbF9ieyg0usT2Tb34YdPcuyYzGAMkhmYVkR6qKHAKM2296Y8vA==
-X-Received: by 2002:a17:907:9449:b0:97d:ee82:920a with SMTP id
- dl9-20020a170907944900b0097dee82920amr10869194ejc.74.1686680343677; 
- Tue, 13 Jun 2023 11:19:03 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
- by smtp.gmail.com with ESMTPSA id
- jt5-20020a170906dfc500b0097462d8dc04sm6993158ejc.100.2023.06.13.11.19.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Jun 2023 11:19:03 -0700 (PDT)
-Message-ID: <44b6cbbf-1fbf-cf2c-a035-5a7c6dd504de@linaro.org>
-Date: Tue, 13 Jun 2023 20:19:01 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B2DE10E3D8
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Jun 2023 18:21:33 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B6FCA62EBD;
+ Tue, 13 Jun 2023 18:21:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A444BC433F0;
+ Tue, 13 Jun 2023 18:21:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1686680492;
+ bh=JbA/OIPZczrs6+hrFo3waVWa5we5btG8RcPcykOUAAE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FdR1amv9ArUBADECJrhV1TrtcpF7JIExxEbZjZVWWGBw95umvWUa4OKPe5tSXICx6
+ /VoV9VrkbVD51MFKSV71HOtePjpV1bNvrO4amZX+E6U0bTz1KDA9ca7rBK7QhOmisp
+ ZFzsc6BIK7SVahDUd4FIXJ4xE1FU+4LXZFj9jqrPn1KXE506lzdHN6yCN6wCZdwhFW
+ ygRTg7NIaPREKbelKUkC6b4BPV5SoDV8W3giMk+bVatF5OUHMCPsMrjhIncsaF6/K5
+ SX7+ACXEsAx3IY1SfvGrL1Bo+MGKB7nWdpWS8D0yPYRayv3uwpaXsqAqOvQNOe2tok
+ TisDqghK9DYSQ==
+Date: Tue, 13 Jun 2023 19:21:25 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 1/9] dt-bindings: mfd: Add bindings for SAM9X7 LCD
+ controller
+Message-ID: <20230613-slider-coherent-d508d67afc91@spud>
+References: <20230613070426.467389-1-manikandan.m@microchip.com>
+ <20230613070426.467389-2-manikandan.m@microchip.com>
+ <a0b059d1-df4d-10ce-fb7c-7acea0a20793@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v8 1/2] dt-bindings: display: ti, am65x-dss: Add am625 dss
- compatible
-Content-Language: en-US
-To: Aradhya Bhatia <a-bhatia1@ti.com>, Tomi Valkeinen <tomba@kernel.org>,
- Jyri Sarha <jyri.sarha@iki.fi>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-References: <20230608163734.2578-1-a-bhatia1@ti.com>
- <20230608163734.2578-2-a-bhatia1@ti.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230608163734.2578-2-a-bhatia1@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="iQJwmfp/Oz6KiCqX"
+Content-Disposition: inline
+In-Reply-To: <a0b059d1-df4d-10ce-fb7c-7acea0a20793@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,29 +56,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Jayesh Choudhary <j-choudhary@ti.com>, Rahul T R <r-ravikumar@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Vignesh Raghavendra <vigneshr@ti.com>
+Cc: alexandre.belloni@bootlin.com, Nayabbasha.Sayed@microchip.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Hari.PrasathGE@microchip.com, krzysztof.kozlowski+dt@linaro.org,
+ Varshini.Rajendran@microchip.com,
+ Manikandan Muralidharan <manikandan.m@microchip.com>, sam@ravnborg.org,
+ Balamanikandan.Gunasundar@microchip.com, lee@kernel.org,
+ Dharma.B@microchip.com, devicetree@vger.kernel.org, conor+dt@kernel.org,
+ robh+dt@kernel.org, Durai.ManickamKR@microchip.com,
+ linux-arm-kernel@lists.infradead.org, Balakrishnan.S@microchip.com,
+ bbrezillon@kernel.org, nicolas.ferre@microchip.com,
+ claudiu.beznea@microchip.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/06/2023 18:37, Aradhya Bhatia wrote:
-> The DSS controller on TI's AM625 SoC is an update from that on TI's
-> AM65X SoC. The former has an additional OLDI TX on its first video port
-> that helps output cloned video or WUXGA (1920x1200@60fps) resolution
-> video output over a dual-link mode to reduce the required OLDI clock
-> output.
-> 
-> The second video port is same from AM65x DSS and it outputs DPI video
-> data. It can support 2K resolutions @ 60fps, independently.
-> 
 
+--iQJwmfp/Oz6KiCqX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Tue, Jun 13, 2023 at 08:17:13PM +0200, Krzysztof Kozlowski wrote:
+> On 13/06/2023 09:04, Manikandan Muralidharan wrote:
+> > Add new compatible string for the XLCD controller on SAM9X7 SoC.
+> >=20
+> > Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
+> > ---
+> >  Documentation/devicetree/bindings/mfd/atmel-hlcdc.txt | 1 +
+> >  1 file changed, 1 insertion(+)
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/mfd/atmel-hlcdc.txt b/Do=
+cumentation/devicetree/bindings/mfd/atmel-hlcdc.txt
+> > index 5f8880cc757e..7c77b6bf4adb 100644
+> > --- a/Documentation/devicetree/bindings/mfd/atmel-hlcdc.txt
+> > +++ b/Documentation/devicetree/bindings/mfd/atmel-hlcdc.txt
+> > @@ -8,6 +8,7 @@ Required properties:
+> >     "atmel,sama5d3-hlcdc"
+> >     "atmel,sama5d4-hlcdc"
+> >     "microchip,sam9x60-hlcdc"
+> > +   "microchip,sam9x7-xlcdc"
+>=20
+> Google says sam9x7 is a series, not a SoC. Please add compatibles for
+> specific SoCs, not for series.
 
-Best regards,
-Krzysztof
+We had this one a few weeks ago, see
+https://lore.kernel.org/all/add5e49e-8416-ba9f-819a-da944938c05f@microchip.=
+com/
+and its parents. Outcome of that seemed to be that using "sam9x7" was fine.
 
+--iQJwmfp/Oz6KiCqX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZIizpQAKCRB4tDGHoIJi
+0taPAP9mfEFbmWZH97Xic24LzvzkZr/xL3arGzQUX+b5NcVxXwEA49L2IEZg8BGI
+oZKsWMxtmZW0Ilm5EKx0KsafXgngkQ8=
+=gUpc
+-----END PGP SIGNATURE-----
+
+--iQJwmfp/Oz6KiCqX--
