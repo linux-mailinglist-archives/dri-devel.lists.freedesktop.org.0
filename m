@@ -2,60 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88503730788
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jun 2023 20:43:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2477373084C
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jun 2023 21:35:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DB9E10E247;
-	Wed, 14 Jun 2023 18:43:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F17810E0AE;
+	Wed, 14 Jun 2023 19:35:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com
- [IPv6:2001:4860:4864:20::2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9634810E247;
- Wed, 14 Jun 2023 18:43:03 +0000 (UTC)
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-19f6211d4e1so5807599fac.1; 
- Wed, 14 Jun 2023 11:43:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1686768183; x=1689360183;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=l3DT7w8KdyCdakOATdo5Q+fmC471h9cpXnc15WSn1TQ=;
- b=PRNIu757TOCFYN2P38ws0PAclKTdROT0TvnbUFk5IYiqweJ2sbR4yJQUqNpsHLs4B/
- yp62mxMBzGF2hP+6YK8vrNk/vFVDH2+UE4XqMWqS+T8Z1fQpnJK7Efx23yZCajlaw/nS
- 8ybL16GZh68IxuZsOYKicx202fnG0/ctGYB5ukw3EJYLLTJSN5FHA5w4TN8LgcNggksP
- qfsMQayRK7pwm1m0Ws7bqEvwXUf/+9aCtsB3oqOlXIIttnI/YuUfdFrE182n7dxFjodW
- nQepnpKANTKm3SVzz61z1Up/M7pbLp7thKpYlRc7BzbbGyV50U/7Hm6xzYBsGgZqouix
- pVIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686768183; x=1689360183;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=l3DT7w8KdyCdakOATdo5Q+fmC471h9cpXnc15WSn1TQ=;
- b=Hod4At588fcDR3QgmTE8OyVzq26VLoAeOeUTQg1QCljzUFbcIiBvBPji45stUzbToo
- +rL0vaPfT91mc4GbKr62qLuAC0l+wcbatzmATJDv8KbsnadxnImhDuk2UNO/adMMkhPY
- jfHbjQar4zWOvtyo7N9qrY0rt3iRIIHW11H157NyIoQ1kjD5tSQmRbOsvudlCQd4g8Ge
- 8rasZ6zDPNpkszavGlCEdxjjvAXak3tTZmCxAO74zz2PQDm+7+3zQhHp9dF1TwZlbuAJ
- KbVr4EsSl5u/frp4rdnSRmDMR7BivfQxWQ9Zalj8oyeY8B8IFr+ewe+8stzDyMW47zs9
- 25ng==
-X-Gm-Message-State: AC+VfDzikNEFYa9DJsF8c0TUu8L9eKVZ6129giMfvZkGUMzn44eOmTAX
- XntcJGSDc+67pH50B3b1OEcHzPSYAfDWEZAe0uhWWxuiHv504Q==
-X-Google-Smtp-Source: ACHHUZ7WFmmZmMR6jZadMqgw5Xm2GaPZrf/FZiDbMValKS8g+fEkrvkIcgrUCIkPQny6GTvZSrcMMJT0srToI77cRjI=
-X-Received: by 2002:a05:6870:8544:b0:199:cae3:f966 with SMTP id
- w4-20020a056870854400b00199cae3f966mr10480158oaj.43.1686768182713; Wed, 14
- Jun 2023 11:43:02 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0461810E0AE;
+ Wed, 14 Jun 2023 19:35:14 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 35EJZBPI030174; Wed, 14 Jun 2023 19:35:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=9smSbFVYl82f+y/0KvPf4pXAb2iOQ5rRfgVv9UilEJE=;
+ b=CLH13HWekOApEclfAY8p0xRXDaBoT6ODvLz9tXy+jQav+iDsdPJOMBrtAEcaptsH9aVl
+ fBx8+EWky9Hhvvv0TGIceFcLUOkpdthVWbLJKyeNaxVGubR+Er1atcUSKkJgopZpSADt
+ ilaNvMnAdyWqxj9+oT2T2zugnKjv8z1CfAdggs+5MmxtewJdudKk1XKTEVXsJEKvX+OE
+ jlZwHtI4aDAbMvdXiRymmSFcyuBgJQTYZEMwBPRhiHzminkyBNws8Y+ambx8cImLAVzc
+ S9T4SO+PRhMCnf4itoRgXY9id2fsizSI8iKrRLs4wmzN75/6+7KPtJgpvETqhPaWzqby sA== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r6t0buj3e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 14 Jun 2023 19:35:11 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35EJZA04026364
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 14 Jun 2023 19:35:10 GMT
+Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 14 Jun
+ 2023 12:35:09 -0700
+Message-ID: <e23de804-060d-3278-5045-1ed03f0de80d@quicinc.com>
+Date: Wed, 14 Jun 2023 12:35:09 -0700
 MIME-Version: 1.0
-References: <20230607130223.3533464-1-l.stach@pengutronix.de>
- <20230607130223.3533464-4-l.stach@pengutronix.de>
-In-Reply-To: <20230607130223.3533464-4-l.stach@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Wed, 14 Jun 2023 20:42:51 +0200
-Message-ID: <CAH9NwWfrrFE=eRu5PZgfGz0YYXtpd4Eq+hFfocZop5v=0B+_5g@mail.gmail.com>
-Subject: Re: [PATCH 4/8] drm/etnaviv: make clock handling symetric between
- runtime resume and suspend
-To: Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 1/3] drm/msm/dpu: Add DPU_INTF_DATABUS_WIDEN feature flag
+ for DPU >= 5.0
+Content-Language: en-US
+To: Marijn Suijten <marijn.suijten@somainline.org>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>
+References: <20230525-add-widebus-support-v1-0-c7069f2efca1@quicinc.com>
+ <20230525-add-widebus-support-v1-1-c7069f2efca1@quicinc.com>
+ <wpjxrnhbcanbc5iatxnff25yrrdfrtmgb24sgwyo457dz2oyjz@e2docpcb6337>
+ <f4fb042c-1458-6077-3c49-8cc02638b27c@linaro.org>
+ <ycgei43x4kfmjk7g7gbeglehtiiinfbqmrjbdzcy56frxbtd2z@yk2f5kgrkbrt>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <ycgei43x4kfmjk7g7gbeglehtiiinfbqmrjbdzcy56frxbtd2z@yk2f5kgrkbrt>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: vFnl2QgVphnnQvaMF-iMauUzAS0VmAdy
+X-Proofpoint-ORIG-GUID: vFnl2QgVphnnQvaMF-iMauUzAS0VmAdy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-14_14,2023-06-14_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 bulkscore=0
+ priorityscore=1501 clxscore=1015 mlxlogscore=999 spamscore=0
+ lowpriorityscore=0 suspectscore=0 adultscore=0 impostorscore=0
+ phishscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2305260000 definitions=main-2306140172
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,76 +88,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, patchwork-lst@pengutronix.de,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lucas
->
-> Currently the clock is enabled in the runtime resume function, but are
-> disabled a level further down in the callstack in the suspend function.
-> Move the clock disable into the suspend function to make handling
-> symmetrical between resume and suspend.
->
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-
-Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
-
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index 54a1249c5bca..57cf77ed2fcf 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -1632,7 +1632,7 @@ int etnaviv_gpu_wait_idle(struct etnaviv_gpu *gpu, unsigned int timeout_ms)
->         } while (1);
->  }
->
-> -static int etnaviv_gpu_hw_suspend(struct etnaviv_gpu *gpu)
-> +static void etnaviv_gpu_hw_suspend(struct etnaviv_gpu *gpu)
->  {
->         if (gpu->initialized && gpu->fe_running) {
->                 /* Replace the last WAIT with END */
-> @@ -1651,8 +1651,6 @@ static int etnaviv_gpu_hw_suspend(struct etnaviv_gpu *gpu)
->         }
->
->         gpu->exec_state = -1;
-> -
-> -       return etnaviv_gpu_clk_disable(gpu);
->  }
->
->  static int etnaviv_gpu_hw_resume(struct etnaviv_gpu *gpu)
-> @@ -1789,6 +1787,7 @@ static void etnaviv_gpu_unbind(struct device *dev, struct device *master,
->                 pm_runtime_put_sync_suspend(gpu->dev);
->         } else {
->                 etnaviv_gpu_hw_suspend(gpu);
-> +               etnaviv_gpu_clk_disable(gpu);
->         }
->
->         if (gpu->mmu_context)
-> @@ -1922,7 +1921,9 @@ static int etnaviv_gpu_rpm_suspend(struct device *dev)
->                 return -EBUSY;
->         }
->
-> -       return etnaviv_gpu_hw_suspend(gpu);
-> +       etnaviv_gpu_hw_suspend(gpu);
-> +
-> +       return etnaviv_gpu_clk_disable(gpu);
->  }
->
->  static int etnaviv_gpu_rpm_resume(struct device *dev)
-> --
-> 2.39.2
->
 
 
---
-greets
---
-Christian Gmeiner, MSc
+On 6/14/2023 5:23 AM, Marijn Suijten wrote:
+> On 2023-06-14 15:01:59, Dmitry Baryshkov wrote:
+>> On 14/06/2023 14:42, Marijn Suijten wrote:
+>>> On 2023-06-13 18:57:11, Jessica Zhang wrote:
+>>>> DPU 5.x+ supports a databus widen mode that allows more data to be sent
+>>>> per pclk. Enable this feature flag on all relevant chipsets.
+>>>>
+>>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>>>> ---
+>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 3 ++-
+>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 2 ++
+>>>>    2 files changed, 4 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>>>> index 36ba3f58dcdf..0be7bf0bfc41 100644
+>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>>>> @@ -103,7 +103,8 @@
+>>>>    	(BIT(DPU_INTF_INPUT_CTRL) | \
+>>>>    	 BIT(DPU_INTF_TE) | \
+>>>>    	 BIT(DPU_INTF_STATUS_SUPPORTED) | \
+>>>> -	 BIT(DPU_DATA_HCTL_EN))
+>>>> +	 BIT(DPU_DATA_HCTL_EN) | \
+>>>> +	 BIT(DPU_INTF_DATABUS_WIDEN))
+>>>
+>>> This doesn't work.  DPU 5.0.0 is SM8150, which has DSI 6G 2.3.  In the
+>>> last patch for DSI you state and enable widebus for DSI 6G 2.5+ only,
+>>> meaning DPU and DSI are now desynced, and the output is completely
+>>> corrupted.
+> 
+> Tested this on SM8350 which actually has DSI 2.5, and it is also
+> corrupted with this series so something else on this series might be
+> broken.
+> 
+>>> Is the bound in dsi_host wrong, or do DPU and DSI need to communicate
+>>> when widebus will be enabled, based on DPU && DSI supporting it?
+>>
+>> I'd prefer to follow the second approach, as we did for DP. DPU asks the
+>> actual video output driver if widebus is to be enabled.
+> 
 
-https://christian-gmeiner.info/privacypolicy
+I was afraid of this. This series was made on an assumption that the DPU 
+version of widebus and DSI version of widebus would be compatible but 
+looks like already SM8150 is an outlier.
+
+Yes, I think we have to go with second approach.
+
+DPU queries DSI if it supports widebus and enables it.
+
+Thanks for your responses. We will post a v2.
+
+> Doesn't it seem very strange that DPU 5.x+ comes with a widebus feature,
+> but the DSI does not until two revisions later?  Or is this available on
+> every interface, but only for a different (probably DP) encoder block?
+> 
+
+Yes its strange.
+
+> - Marijn
