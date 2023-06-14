@@ -1,36 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92C56730B0B
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 00:58:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB5B2730B27
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 01:05:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73CCE10E478;
-	Wed, 14 Jun 2023 22:58:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BFE310E029;
+	Wed, 14 Jun 2023 23:05:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E26D210E478;
- Wed, 14 Jun 2023 22:58:01 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AE6F10E486
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 23:05:15 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 13AC13F804;
- Thu, 15 Jun 2023 00:57:57 +0200 (CEST)
-Date: Thu, 15 Jun 2023 00:57:55 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH 2/2] drm/msm/dsi: split dsi_ctrl_config() function
-Message-ID: <kkqjd5kmopmuhcnkksk2vzn3rwunbmzoq3yybnlw4eu4fjnmxo@seilko33i5ri>
-References: <20230614224402.296825-1-dmitry.baryshkov@linaro.org>
- <20230614224402.296825-2-dmitry.baryshkov@linaro.org>
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 1ACDF63C87;
+ Wed, 14 Jun 2023 23:05:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7579BC433C0;
+ Wed, 14 Jun 2023 23:05:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1686783913;
+ bh=GXEACpeKS/kEkNmq4/tnq2tJnmg2eDAniZKIVQk6qK0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=grXnTfH2TSmc0YqpkgCu872+dnaiD7wbpimI/wgh4HDbGeWQIMgnysgOpSeehf/Su
+ cuHJeLYqHClIWT14htEYM7lAX/TKSOJ7JGjfIicSvTOiUuuzxP1djeDbGJsb7KpK2e
+ oglM6TryxkdQtEpzM4emYPJXusBkWG/N32u5DHwMrmr58VlwKKavJEAx1GtzxXrQqJ
+ Vqt0Dm0jNy3eblyaGLLA15PBGK8ZeK0OepM7koBWJRT13Y/yeHp1eUd+3Jk26PodCE
+ NC5Arnjb8eFFnizmYOI9gfdT8wRHhLw3hbGg5Dezt/JqIDeEFaroLxJgm4zYDRXt/w
+ pKOBp6U80FRKQ==
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org
+Subject: [GIT PULL] mediatek drm next for 6.5
+Date: Wed, 14 Jun 2023 22:58:03 +0000
+Message-Id: <20230614225803.2547-1-chunkuang.hu@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230614224402.296825-2-dmitry.baryshkov@linaro.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,86 +52,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-06-15 01:44:02, Dmitry Baryshkov wrote:
-> It makes no sense to pass NULL parameters to dsi_ctrl_config() in the
-> disable case. Split dsi_ctrl_config() into enable and disable parts and
-> drop unused params.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Hi, Dave & Daniel:
 
-Indeed, it makes much more sense to split this out instead of faking a
-_configure(false) with a return right at the top and "bogus" pointers.
+This includes:
 
-Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+1. Add display binding document for MT6795
 
-> ---
->  drivers/gpu/drm/msm/dsi/dsi_host.c | 18 +++++++++---------
->  1 file changed, 9 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index eaee621aa6c8..3f6dfb4f9d5a 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -705,7 +705,12 @@ static inline enum dsi_cmd_dst_format dsi_get_cmd_fmt(
->  	}
->  }
->  
-> -static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool enable,
-> +static void dsi_ctrl_disable(struct msm_dsi_host *msm_host)
-> +{
-> +	dsi_write(msm_host, REG_DSI_CTRL, 0);
-> +}
-> +
-> +static void dsi_ctrl_enable(struct msm_dsi_host *msm_host,
->  			struct msm_dsi_phy_shared_timings *phy_shared_timings, struct msm_dsi_phy *phy)
->  {
->  	u32 flags = msm_host->mode_flags;
-> @@ -713,11 +718,6 @@ static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool enable,
->  	const struct msm_dsi_cfg_handler *cfg_hnd = msm_host->cfg_hnd;
->  	u32 data = 0, lane_ctrl = 0;
->  
-> -	if (!enable) {
-> -		dsi_write(msm_host, REG_DSI_CTRL, 0);
-> -		return;
-> -	}
-> -
->  	if (flags & MIPI_DSI_MODE_VIDEO) {
->  		if (flags & MIPI_DSI_MODE_VIDEO_HSE)
->  			data |= DSI_VID_CFG0_PULSE_MODE_HSA_HE;
-> @@ -802,7 +802,7 @@ static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool enable,
->  	if (!(flags & MIPI_DSI_CLOCK_NON_CONTINUOUS)) {
->  		lane_ctrl = dsi_read(msm_host, REG_DSI_LANE_CTRL);
->  
-> -		if (msm_dsi_phy_set_continuous_clock(phy, enable))
-> +		if (msm_dsi_phy_set_continuous_clock(phy, true))
->  			lane_ctrl &= ~DSI_LANE_CTRL_HS_REQ_SEL_PHY;
->  
->  		dsi_write(msm_host, REG_DSI_LANE_CTRL,
-> @@ -2358,7 +2358,7 @@ int msm_dsi_host_power_on(struct mipi_dsi_host *host,
->  
->  	dsi_timing_setup(msm_host, is_bonded_dsi);
->  	dsi_sw_reset(msm_host);
-> -	dsi_ctrl_config(msm_host, true, phy_shared_timings, phy);
-> +	dsi_ctrl_enable(msm_host, phy_shared_timings, phy);
->  
->  	if (msm_host->disp_en_gpio)
->  		gpiod_set_value(msm_host->disp_en_gpio, 1);
-> @@ -2390,7 +2390,7 @@ int msm_dsi_host_power_off(struct mipi_dsi_host *host)
->  		goto unlock_ret;
->  	}
->  
-> -	dsi_ctrl_config(msm_host, false, NULL, NULL);
-> +	dsi_ctrl_disable(msm_host);
->  
->  	if (msm_host->disp_en_gpio)
->  		gpiod_set_value(msm_host->disp_en_gpio, 0);
-> -- 
-> 2.39.2
-> 
+Regards,
+Chun-Kuang.
+
+The following changes since commit ac9a78681b921877518763ba0e89202254349d1b:
+
+  Linux 6.4-rc1 (2023-05-07 13:34:35 -0700)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git tags/mediatek-drm-next-6.5
+
+for you to fetch changes up to 4080a0e7b36b7bb103dc739779a338d412c78943:
+
+  dt-bindings: display: mediatek: od: Add compatible for MediaTek MT6795 (2023-06-12 16:18:22 +0000)
+
+----------------------------------------------------------------
+Mediatek DRM Next for Linux 6.5
+
+1. Add display binding document for MT6795
+
+----------------------------------------------------------------
+AngeloGioacchino Del Regno (12):
+      dt-bindings: display: mediatek: dpi: Add compatible for MediaTek MT6795
+      dt-bindings: display: mediatek: aal: Add compatible for MediaTek MT6795
+      dt-bindings: display: mediatek: dsi: Add compatible for MediaTek MT6795
+      dt-bindings: display: mediatek: ovl: Add compatible for MediaTek MT6795
+      dt-bindings: display: mediatek: rdma: Add compatible for MediaTek MT6795
+      dt-bindings: display: mediatek: wdma: Add compatible for MediaTek MT6795
+      dt-bindings: display: mediatek: color: Add compatible for MediaTek MT6795
+      dt-bindings: display: mediatek: gamma: Add compatible for MediaTek MT6795
+      dt-bindings: display: mediatek: merge: Add compatible for MediaTek MT6795
+      dt-bindings: display: mediatek: split: Add compatible for MediaTek MT6795
+      dt-bindings: display: mediatek: ufoe: Add compatible for MediaTek MT6795
+      dt-bindings: display: mediatek: od: Add compatible for MediaTek MT6795
+
+ .../bindings/display/mediatek/mediatek,aal.yaml    |  1 +
+ .../bindings/display/mediatek/mediatek,color.yaml  |  1 +
+ .../bindings/display/mediatek/mediatek,dpi.yaml    | 23 +++++++++++++---------
+ .../bindings/display/mediatek/mediatek,dsi.yaml    | 19 +++++++++++-------
+ .../bindings/display/mediatek/mediatek,gamma.yaml  |  4 ++++
+ .../bindings/display/mediatek/mediatek,merge.yaml  |  3 +++
+ .../bindings/display/mediatek/mediatek,od.yaml     |  3 +++
+ .../bindings/display/mediatek/mediatek,ovl.yaml    |  4 ++++
+ .../bindings/display/mediatek/mediatek,rdma.yaml   |  4 ++++
+ .../bindings/display/mediatek/mediatek,split.yaml  |  3 +++
+ .../bindings/display/mediatek/mediatek,ufoe.yaml   |  3 +++
+ .../bindings/display/mediatek/mediatek,wdma.yaml   |  3 +++
+ 12 files changed, 55 insertions(+), 16 deletions(-)
