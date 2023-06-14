@@ -1,54 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9A67730499
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jun 2023 18:09:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28A007304AF
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jun 2023 18:16:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0621010E150;
-	Wed, 14 Jun 2023 16:09:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D50510E464;
+	Wed, 14 Jun 2023 16:15:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 754 seconds by postgrey-1.36 at gabe;
- Wed, 14 Jun 2023 16:09:22 UTC
-Received: from zg8tmtu5ljg5lje1ms4xmtka.icoremail.net
- (zg8tmtu5ljg5lje1ms4xmtka.icoremail.net [159.89.151.119])
- by gabe.freedesktop.org (Postfix) with ESMTP id D4B2C10E149
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 16:09:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fudan.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
- Message-Id; bh=PYg4exQBCf0Je8WHLBe48nl04iEqaJLL7nCkKkES/44=; b=E
- OED1WVHLXOIrWnRZVvga9Xm+eDehC0D2lucFjFXZJJnP0aKRjHYLA9HRqf4rOfHt
- WR2vb89ByHoFaKLohzoV+7AOzwRTdxOhlakKehkmVbEWqnKOOhJsrhreMjBJwSHE
- GfbX/zyQOEMl6d7PfJH5Sm+GEmym84KiAmKhKfKwyM=
-Received: from ubuntu.localdomain (unknown [10.230.35.76])
- by app1 (Coremail) with SMTP id XAUFCgAnLu4p5olkFszsAA--.39737S2;
- Thu, 15 Jun 2023 00:09:14 +0800 (CST)
-From: Chenyuan Mi <cymi20@fudan.edu.cn>
-To: airlied@gmail.com
-Subject: [PATCH] drm/display/dp_mst: Fix missing check for return value of
- drm_atomic_get_mst_payload_state()
-Date: Wed, 14 Jun 2023 09:09:11 -0700
-Message-Id: <20230614160911.121716-1-cymi20@fudan.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: XAUFCgAnLu4p5olkFszsAA--.39737S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7XF47uFWrJF4DAry8Cr18AFb_yoWDuwbEgF
- 1kZr1fWrZIk39rt3Wjyr4Fg34Fk3W2vF48Wwn3tayYkr9rC345Zry8WFyDKr17WF12qFWq
- g3W3Cw1fZ3Z7GjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbTkFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
- Gr1UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r
- 4UJwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
- 0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr
- 1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IE
- rcIFxwACI402YVCY1x02628vn2kIc2xKxwCY02Avz4vE-syl42xK82IYc2Ij64vIr41l4I
- 8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AK
- xVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcV
- AFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8I
- cIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14
- v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUAkucUUUUU=
-X-CM-SenderInfo: isqsiiisuqikmt6i3vldqovvfxof0/
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CAEA10E141
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 16:15:53 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 35EFGRid006379; Wed, 14 Jun 2023 16:15:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=qcppdkim1;
+ bh=Cxu80qYLWBN6CGaM9a2GrYS5uFWXPH5qjpPWb0qWyWk=;
+ b=ComPqdflkC/tVcHLZshoOE+t0MDAkUSB+Nrh452o3CNQZq0+kTtKh1sQbRTNomQJGmQ/
+ 2RX/rs7l0AzlutwIdE8oAwjdOeQpACV0J3sTtKG9+aDtGcPoZOrMmpGaZiskMVFiau6K
+ 9llkGNjNhr0WoTl4DAhvS/Tv/R+Cy6/8VJf19jWfL2om5zWtkgh9dschObIvQcKEfMtS
+ 5KhFiJGq0hoVkZrCwxnScghXuDN+YkMTHSeHR25XpP4aHvCL0xLwslgZGEWwSOouU4r+
+ F6YyONm5POqxLNSs7TbPYrNCJpWyVxRLtmabhIjnizgVVUYDBc31jJYVhZjolpD65wKO qA== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r7fae89n8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 14 Jun 2023 16:15:47 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35EGFkIZ030883
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 14 Jun 2023 16:15:46 GMT
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Wed, 14 Jun 2023 09:15:45 -0700
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: <quic_carlv@quicinc.com>, <quic_pkanojiy@quicinc.com>,
+ <christian.koenig@amd.com>, <sukrut.bellary@linux.com>,
+ <sumit.semwal@linaro.org>
+Subject: [PATCH] accel/qaic: Call DRM helper function to destroy prime GEM
+Date: Wed, 14 Jun 2023 10:15:28 -0600
+Message-ID: <20230614161528.11710-1-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.40.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: _TxUpOz9a1M8vH5LZlHsuEqnI2pQAC2f
+X-Proofpoint-GUID: _TxUpOz9a1M8vH5LZlHsuEqnI2pQAC2f
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-14_11,2023-06-14_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 malwarescore=0
+ spamscore=0 priorityscore=1501 lowpriorityscore=0 bulkscore=0 adultscore=0
+ impostorscore=0 suspectscore=0 phishscore=0 mlxscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
+ definitions=main-2306140142
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,38 +80,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chenyuan Mi <cymi20@fudan.edu.cn>, jani.nikula@intel.com,
+Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ ogabbay@kernel.org, kernel-janitors@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Wayne.Lin@amd.com, alexander.deucher@amd.com
+ linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_atomic_get_mst_payload_state() function may
-return NULL, which may cause null pointer deference,
-and most other callsites of drm_atomic_get_mst_payload_state()
-do Null check. Add Null check for return value of
-drm_atomic_get_mst_payload_state().
+From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
 
-Found by our static analysis tool.
+smatch warning:
+	drivers/accel/qaic/qaic_data.c:620 qaic_free_object() error:
+		dereferencing freed memory 'obj->import_attach'
 
-Signed-off-by: Chenyuan Mi <cymi20@fudan.edu.cn>
+obj->import_attach is detached and freed using dma_buf_detach().
+But used after free to decrease the dmabuf ref count using
+dma_buf_put().
+
+drm_prime_gem_destroy() handles this issue and performs the proper clean
+up instead of open coding it in the driver.
+
+Fixes: ff13be830333 ("accel/qaic: Add datapath")
+Reported-by: Sukrut Bellary <sukrut.bellary@linux.com>
+Closes: https://lore.kernel.org/all/20230610021200.377452-1-sukrut.bellary@linux.com/
+Suggested-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 ---
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/accel/qaic/qaic_data.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index 38dab76ae69e..27f4bcf409ea 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -4434,6 +4434,8 @@ void drm_dp_mst_atomic_wait_for_dependencies(struct drm_atomic_state *state)
+diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
+index e42c1f9ffff8..e9a1cb779b30 100644
+--- a/drivers/accel/qaic/qaic_data.c
++++ b/drivers/accel/qaic/qaic_data.c
+@@ -23,6 +23,7 @@
+ #include <linux/wait.h>
+ #include <drm/drm_file.h>
+ #include <drm/drm_gem.h>
++#include <drm/drm_prime.h>
+ #include <drm/drm_print.h>
+ #include <uapi/drm/qaic_accel.h>
  
- 			new_payload = drm_atomic_get_mst_payload_state(new_mst_state,
- 								       old_payload->port);
-+			if (!new_payload)
-+				continue;
- 			new_payload->vc_start_slot = old_payload->vc_start_slot;
- 		}
- 	}
+@@ -616,8 +617,7 @@ static void qaic_free_object(struct drm_gem_object *obj)
+ 
+ 	if (obj->import_attach) {
+ 		/* DMABUF/PRIME Path */
+-		dma_buf_detach(obj->import_attach->dmabuf, obj->import_attach);
+-		dma_buf_put(obj->import_attach->dmabuf);
++		drm_prime_gem_destroy(obj, NULL);
+ 	} else {
+ 		/* Private buffer allocation path */
+ 		qaic_free_sgt(bo->sgt);
 -- 
-2.17.1
+2.40.1
 
