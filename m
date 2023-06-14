@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ED7872F8B8
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jun 2023 11:10:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CD6972F8C8
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jun 2023 11:13:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAC9610E18E;
-	Wed, 14 Jun 2023 09:10:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51AA488A3E;
+	Wed, 14 Jun 2023 09:13:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5162B10E434
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 09:10:09 +0000 (UTC)
-X-GND-Sasl: miquel.raynal@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1686733806;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WAO5PoZt2knoBaPqUHhj1MWZZ6nSInLED8yri3KtZlU=;
- b=dbO9elaRNuDZck4qiTEc3pGJCibUD8JclWSoc7sNAJymaXu4bKXWjqeflYagBks5OOEHZX
- 3a1D+82Dypr6PV+d0T5CbS99ulko1Pu6FX7mYCIcAkAmeaotiBRWUNx6L3fHlFTTHfzy3d
- 8RHn4031SlvyhG7J25Q9crNfdud4jwP6A1ow/6k14qObkDJEL4UU5s/7/lajqa34kNJe3r
- AJZWgo9+ASO+HEXUs+VP5eBcXrGfPEeHQnBBhwDGNQq59LVPCxE3sk0TUU7kZeneMm5e7f
- fEhB4Y93yo9sC4O9vjp9JIunrte2yHJrY0e09P7bSbrazwoa2EXrSOC/Pjzt3Q==
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id CD1FA1BF20C;
- Wed, 14 Jun 2023 09:10:02 +0000 (UTC)
-Date: Wed, 14 Jun 2023 11:10:01 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: liao jaime <jaimeliao.tw@gmail.com>
-Subject: Re: [PATCH v4] mtd: rawnand: macronix: OTP access for MX30LFxG18AC
-Message-ID: <20230614111001.6b0417d4@xps-13>
-In-Reply-To: <CAAQoYR=aU-tpFYhfKUae=2zbvpzmP3_d4PYp_252qxSsPcVbaQ@mail.gmail.com>
-References: <20230523101637.3009746-1-AVKrasnov@sberdevices.ru>
- <20230612185354.09b88e0d@xps-13>
- <CAAQoYR=aU-tpFYhfKUae=2zbvpzmP3_d4PYp_252qxSsPcVbaQ@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 80B1D895EE;
+ Wed, 14 Jun 2023 09:13:46 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8AxHuvIhIlk_A4FAA--.10723S3;
+ Wed, 14 Jun 2023 17:13:44 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8DxluTHhIlkSm0aAA--.9967S3; 
+ Wed, 14 Jun 2023 17:13:43 +0800 (CST)
+Message-ID: <881445a7-e711-5d68-6c7c-de6b014b586b@loongson.cn>
+Date: Wed, 14 Jun 2023 17:13:43 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v9 7/9] drm/etnaviv: Add support for the dma coherent
+ device
+To: Sui Jingfeng <15330273260@189.cn>, Lucas Stach <l.stach@pengutronix.de>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas <bhelgaas@google.com>
+References: <20230614024745.865129-1-15330273260@189.cn>
+ <20230614024745.865129-8-15330273260@189.cn>
+Content-Language: en-US
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <20230614024745.865129-8-15330273260@189.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8DxluTHhIlkSm0aAA--.9967S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW3Gw15tw45CF18JryfGF4fCrX_yoWfAF18pF
+ s7AFyYyrW0vFWj934xAF1rZFyagw1xWFWFk3srtwn093y5tF1Utr1jkFn8CrZ8Jr1fWr4a
+ qr1qyry3AF4UZrXCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUvIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v2
+ 6F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
+ 02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAF
+ wI0_Cr0_Gr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1c
+ AE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8C
+ rVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8Zw
+ CIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x02
+ 67AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr
+ 0_Gr1UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UE
+ YLkUUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,356 +68,254 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arseniy Krasnov <AVKrasnov@sberdevices.ru>,
- Vignesh Raghavendra <vigneshr@ti.com>, Richard Weinberger <richard@nod.at>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
- Boris Brezillon <boris.brezillon@collabora.com>, linux-mtd@lists.infradead.org,
- oxffffaa@gmail.com, kernel@sberdevices.ru,
- Mason Yang <masonccyang@mxic.com.tw>, linux-media@vger.kernel.org,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Jaime Liao <jaimeliao@mxic.com.tw>
+Cc: loongson-kernel@lists.loongnix.cn, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi liao,
+Hi,
 
-jaimeliao.tw@gmail.com wrote on Wed, 14 Jun 2023 17:06:16 +0800:
+On 2023/6/14 10:47, Sui Jingfeng wrote:
+> From: Sui Jingfeng <suijingfeng@loongson.cn>
+>
+> Loongson CPUs maintain cache coherency by hardware, which means that the
+> data in the CPU cache is identical to the data in main system memory. As
+> for the peripheral device, most of Loongson chips chose to define the
+> peripherals as DMA coherent by default, device drivers do not need to
+> maintain the coherency between a processor and an I/O device manually.
+>
+> There are exceptions, for LS2K1000 SoC, part of peripheral device can be
+> configured as DMA non-coherent. But there is no released version of such
+> firmware exist in the market. Peripherals of older LS2K1000 is also DMA
+> non-coherent, but they are nearly outdated. So, those are trivial cases.
+>
+> Nevertheless, kernel space still need to do the probe work, because vivante
+> GPU IP has been integrated into various platform. Hence, this patch add
+> runtime detection code to probe if a specific GPU is DMA coherent, If the
+> answer is yes, we are going to utilize such features. On Loongson platform,
+> When a buffer is accessed by both the GPU and the CPU, the driver should
+> prefer ETNA_BO_CACHED over ETNA_BO_WC.
+>
+> This patch also add a new parameter: etnaviv_param_gpu_coherent, which
+> allow userspace to know if such a feature is available. Because
+> write-combined BO is still preferred in some case, especially where don't
+> need CPU read, for example, uploading shader bin.
+>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> ---
+>   drivers/gpu/drm/etnaviv/etnaviv_drv.c       | 34 +++++++++++++++++++++
+>   drivers/gpu/drm/etnaviv/etnaviv_drv.h       |  6 ++++
+>   drivers/gpu/drm/etnaviv/etnaviv_gem.c       | 22 ++++++++++---
+>   drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |  7 ++++-
+>   drivers/gpu/drm/etnaviv/etnaviv_gpu.c       |  4 +++
+>   include/uapi/drm/etnaviv_drm.h              |  1 +
+>   6 files changed, 69 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> index 0a365e96d371..1c9386e5a1b0 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -5,7 +5,9 @@
+>   
+>   #include <linux/component.h>
+>   #include <linux/dma-mapping.h>
+> +#include <linux/dma-map-ops.h>
+>   #include <linux/module.h>
+> +#include <linux/of_address.h>
+>   #include <linux/of_platform.h>
+>   #include <linux/uaccess.h>
+>   
+> @@ -24,6 +26,34 @@
+>   #include "etnaviv_pci_drv.h"
+>   #include "etnaviv_perfmon.h"
+>   
+> +static struct device_node *etnaviv_of_first_available_node(void)
+> +{
+> +	struct device_node *core_node;
+> +
+> +	for_each_compatible_node(core_node, NULL, "vivante,gc") {
+> +		if (of_device_is_available(core_node))
+> +			return core_node;
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +static bool etnaviv_is_dma_coherent(struct device *dev)
+> +{
+> +	struct device_node *np;
+> +	bool coherent;
+> +
+> +	np = etnaviv_of_first_available_node();
+> +	if (np) {
+> +		coherent = of_dma_is_coherent(np);
+> +		of_node_put(np);
+> +	} else {
+> +		coherent = dev_is_dma_coherent(dev);
+> +	}
+> +
+> +	return coherent;
+> +}
+> +
+>   /*
+>    * etnaviv private data construction and destructions:
+>    */
+> @@ -52,6 +82,10 @@ etnaviv_alloc_private(struct device *dev, struct drm_device *drm)
+>   		return ERR_PTR(-ENOMEM);
+>   	}
+>   
+> +	priv->dma_coherent = etnaviv_is_dma_coherent(dev);
+> +
+> +	drm_info(drm, "%s is dma coherent\n", dev_name(dev));
+> +
 
-> Hi Miquel
->=20
->=20
-> >
-> > Hello,
-> >
-> > AVKrasnov@sberdevices.ru wrote on Tue, 23 May 2023 13:16:34 +0300:
-> > =20
-> > > This adds support for OTP area access on MX30LFxG18AC chip series. =20
-> >
-> > Jaime, any feedback on this? Will you test it?
-> >
-> > How are we supposed to test the OTP is locked? I see this is still an
-> > open point. =20
-> After checking with internal, sub feature parameter are volatile register.
->=20
-> It could be change after enter/exit OTP region or power cycle even OTP
->=20
-> region have been locked.
->=20
-> OTP operation mode still could be enter/exit and region is read only
-> after OTP in protect mode.
->=20
-> #program command could execute but no use after setting OTP region in
-> protect mode.
->=20
-> So that we can't check whether OTP region is locked via get feature.
->=20
-> And we don't have region for checking status of OTP locked.
+Here, we missing a if (priv->dma_coherent), sorry
 
-Ah, too bad. But thanks a lot for the explanation. Arseniy, can you
-please change your comment to explain that the bit is volatile and thus
-there is no way to check if an otp region is locked? I would return
-EOPNOTSUPP in this case and verify that the core cleanly handles the
-situation.
+```
 
-Thanks,
-Miqu=C3=A8l
+     if (priv->dma_coherent)
 
->=20
-> > =20
-> > >
-> > > Signed-off-by: Arseniy Krasnov <AVKrasnov@sberdevices.ru>
-> > > ---
-> > >   v1 -> v2:
-> > >   * Add slab.h include due to kernel test robot error.
-> > >   v2 -> v3:
-> > >   * Use 'uint64_t' as input argument for 'do_div()' instead
-> > >     of 'unsigned long' due to kernel test robot error.
-> > >   v3 -> v4:
-> > >   * Use 'dev_err()' instead of 'WARN()'.
-> > >   * Call 'match_string()' before checking 'supports_set_get_features'
-> > >     in 'macronix_nand_setup_otp().
-> > >   * Use 'u8' instead of 'uint8_t' as ./checkpatch.pl wants.
-> > >
-> > >  drivers/mtd/nand/raw/nand_macronix.c | 216 +++++++++++++++++++++++++=
-++
-> > >  1 file changed, 216 insertions(+)
-> > >
-> > > diff --git a/drivers/mtd/nand/raw/nand_macronix.c b/drivers/mtd/nand/=
-raw/nand_macronix.c
-> > > index 1472f925f386..be1ffa93bebb 100644
-> > > --- a/drivers/mtd/nand/raw/nand_macronix.c
-> > > +++ b/drivers/mtd/nand/raw/nand_macronix.c
-> > > @@ -6,6 +6,7 @@
-> > >   * Author: Boris Brezillon <boris.brezillon@free-electrons.com>
-> > >   */
-> > >
-> > > +#include <linux/slab.h>
-> > >  #include "linux/delay.h"
-> > >  #include "internals.h"
-> > >
-> > > @@ -31,6 +32,20 @@
-> > >
-> > >  #define MXIC_CMD_POWER_DOWN 0xB9
-> > >
-> > > +#define ONFI_FEATURE_ADDR_30LFXG18AC_OTP     0x90
-> > > +#define MACRONIX_30LFXG18AC_OTP_START_PAGE   0
-> > > +#define MACRONIX_30LFXG18AC_OTP_PAGES                30
-> > > +#define MACRONIX_30LFXG18AC_OTP_PAGE_SIZE    2112
-> > > +#define MACRONIX_30LFXG18AC_OTP_START_BYTE   \
-> > > +     (MACRONIX_30LFXG18AC_OTP_START_PAGE *   \
-> > > +      MACRONIX_30LFXG18AC_OTP_PAGE_SIZE)
-> > > +#define MACRONIX_30LFXG18AC_OTP_SIZE_BYTES   \
-> > > +     (MACRONIX_30LFXG18AC_OTP_PAGES *        \
-> > > +      MACRONIX_30LFXG18AC_OTP_PAGE_SIZE)
-> > > +
-> > > +#define MACRONIX_30LFXG18AC_OTP_EN           BIT(0)
-> > > +#define MACRONIX_30LFXG18AC_OTP_LOCKED               BIT(1)
-> > > +
-> > >  struct nand_onfi_vendor_macronix {
-> > >       u8 reserved;
-> > >       u8 reliability_func;
-> > > @@ -316,6 +331,206 @@ static void macronix_nand_deep_power_down_suppo=
-rt(struct nand_chip *chip)
-> > >       chip->ops.resume =3D mxic_nand_resume;
-> > >  }
-> > >
-> > > +static int macronix_30lfxg18ac_get_otp_info(struct mtd_info *mtd, si=
-ze_t len,
-> > > +                                         size_t *retlen,
-> > > +                                         struct otp_info *buf)
-> > > +{
-> > > +     if (len < sizeof(*buf))
-> > > +             return -EINVAL;
-> > > +
-> > > +     /* Don't know how to check that OTP is locked. */
-> > > +     buf->locked =3D 0;
-> > > +     buf->start =3D MACRONIX_30LFXG18AC_OTP_START_BYTE;
-> > > +     buf->length =3D MACRONIX_30LFXG18AC_OTP_SIZE_BYTES;
-> > > +
-> > > +     *retlen =3D sizeof(*buf);
-> > > +
-> > > +     return 0;
-> > > +}
-> > > +
-> > > +static int macronix_30lfxg18ac_otp_enable(struct nand_chip *nand)
-> > > +{
-> > > +     u8 feature_buf[ONFI_SUBFEATURE_PARAM_LEN] =3D { 0 };
-> > > +
-> > > +     feature_buf[0] =3D MACRONIX_30LFXG18AC_OTP_EN;
-> > > +     return nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
-> > > +                              feature_buf);
-> > > +}
-> > > +
-> > > +static int macronix_30lfxg18ac_otp_disable(struct nand_chip *nand)
-> > > +{
-> > > +     u8 feature_buf[ONFI_SUBFEATURE_PARAM_LEN] =3D { 0 };
-> > > +
-> > > +     return nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
-> > > +                              feature_buf);
-> > > +}
-> > > +
-> > > +static int __macronix_30lfxg18ac_rw_otp(struct mtd_info *mtd,
-> > > +                                     loff_t offs_in_flash,
-> > > +                                     size_t len, size_t *retlen,
-> > > +                                     u_char *buf, bool write)
-> > > +{
-> > > +     struct nand_chip *nand;
-> > > +     size_t bytes_handled;
-> > > +     off_t offs_in_page;
-> > > +     void *dma_buf;
-> > > +     u64 page;
-> > > +     int ret;
-> > > +
-> > > +     /* 'nand_prog/read_page_op()' may use 'buf' as DMA buffer,
-> > > +      * so allocate properly aligned memory for it. This is
-> > > +      * needed because cross page accesses may lead to unaligned
-> > > +      * buffer address for DMA.
-> > > +      */
-> > > +     dma_buf =3D kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERN=
-EL);
-> > > +     if (!dma_buf)
-> > > +             return -ENOMEM;
-> > > +
-> > > +     nand =3D mtd_to_nand(mtd);
-> > > +     nand_select_target(nand, 0);
-> > > +
-> > > +     ret =3D macronix_30lfxg18ac_otp_enable(nand);
-> > > +     if (ret)
-> > > +             goto out_otp;
-> > > +
-> > > +     page =3D offs_in_flash;
-> > > +     /* 'page' will be result of division. */
-> > > +     offs_in_page =3D do_div(page, MACRONIX_30LFXG18AC_OTP_PAGE_SIZE=
-);
-> > > +     bytes_handled =3D 0;
-> > > +
-> > > +     while (bytes_handled < len &&
-> > > +            page < MACRONIX_30LFXG18AC_OTP_PAGES) {
-> > > +             size_t bytes_to_handle;
-> > > +
-> > > +             bytes_to_handle =3D min_t(size_t, len - bytes_handled,
-> > > +                                     MACRONIX_30LFXG18AC_OTP_PAGE_SI=
-ZE -
-> > > +                                     offs_in_page);
-> > > +
-> > > +             if (write) {
-> > > +                     memcpy(dma_buf, &buf[bytes_handled], bytes_to_h=
-andle);
-> > > +                     ret =3D nand_prog_page_op(nand, page, offs_in_p=
-age,
-> > > +                                             dma_buf, bytes_to_handl=
-e);
-> > > +             } else {
-> > > +                     ret =3D nand_read_page_op(nand, page, offs_in_p=
-age,
-> > > +                                             dma_buf, bytes_to_handl=
-e);
-> > > +                     if (!ret)
-> > > +                             memcpy(&buf[bytes_handled], dma_buf,
-> > > +                                    bytes_to_handle);
-> > > +             }
-> > > +             if (ret)
-> > > +                     goto out_otp;
-> > > +
-> > > +             bytes_handled +=3D bytes_to_handle;
-> > > +             offs_in_page =3D 0;
-> > > +             page++;
-> > > +     }
-> > > +
-> > > +     *retlen =3D bytes_handled;
-> > > +
-> > > +out_otp:
-> > > +     if (ret)
-> > > +             dev_err(&mtd->dev, "failed to perform OTP IO: %i\n", re=
-t);
-> > > +
-> > > +     ret =3D macronix_30lfxg18ac_otp_disable(nand);
-> > > +     if (ret)
-> > > +             dev_err(&mtd->dev, "failed to leave OTP mode after %s\n=
-",
-> > > +                     write ? "write" : "read");
-> > > +
-> > > +     nand_deselect_target(nand);
-> > > +     kfree(dma_buf);
-> > > +
-> > > +     return ret;
-> > > +}
-> > > +
-> > > +static int macronix_30lfxg18ac_write_otp(struct mtd_info *mtd, loff_=
-t to,
-> > > +                                      size_t len, size_t *rlen,
-> > > +                                      const u_char *buf)
-> > > +{
-> > > +     return __macronix_30lfxg18ac_rw_otp(mtd, to, len, rlen, (u_char=
- *)buf,
-> > > +                                         true);
-> > > +}
-> > > +
-> > > +static int macronix_30lfxg18ac_read_otp(struct mtd_info *mtd, loff_t=
- from,
-> > > +                                     size_t len, size_t *rlen,
-> > > +                                     u_char *buf)
-> > > +{
-> > > +     return __macronix_30lfxg18ac_rw_otp(mtd, from, len, rlen, buf, =
-false);
-> > > +}
-> > > +
-> > > +static int macronix_30lfxg18ac_lock_otp(struct mtd_info *mtd, loff_t=
- from,
-> > > +                                     size_t len)
-> > > +{
-> > > +     u8 feature_buf[ONFI_SUBFEATURE_PARAM_LEN] =3D { 0 };
-> > > +     struct nand_chip *nand;
-> > > +     int ret;
-> > > +
-> > > +     if (from !=3D MACRONIX_30LFXG18AC_OTP_START_BYTE ||
-> > > +         len !=3D MACRONIX_30LFXG18AC_OTP_SIZE_BYTES)
-> > > +             return -EINVAL;
-> > > +
-> > > +     dev_dbg(&mtd->dev, "locking OTP\n");
-> > > +
-> > > +     nand =3D mtd_to_nand(mtd);
-> > > +     nand_select_target(nand, 0);
-> > > +
-> > > +     feature_buf[0] =3D MACRONIX_30LFXG18AC_OTP_EN |
-> > > +                      MACRONIX_30LFXG18AC_OTP_LOCKED;
-> > > +     ret =3D nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OT=
-P,
-> > > +                             feature_buf);
-> > > +     if (ret) {
-> > > +             dev_err(&mtd->dev,
-> > > +                     "failed to lock OTP (set features): %i\n", ret);
-> > > +             nand_deselect_target(nand);
-> > > +             return ret;
-> > > +     }
-> > > +
-> > > +     /* Do dummy page prog with zero address. */
-> > > +     feature_buf[0] =3D 0;
-> > > +     ret =3D nand_prog_page_op(nand, 0, 0, feature_buf, 1);
-> > > +     if (ret)
-> > > +             dev_err(&mtd->dev,
-> > > +                     "failed to lock OTP (page prog): %i\n", ret);
-> > > +
-> > > +     ret =3D macronix_30lfxg18ac_otp_disable(nand);
-> > > +     if (ret)
-> > > +             dev_err(&mtd->dev, "failed to leave OTP mode after lock=
-\n");
-> > > +
-> > > +     nand_deselect_target(nand);
-> > > +
-> > > +     return ret;
-> > > +}
-> > > +
-> > > +static void macronix_nand_setup_otp(struct nand_chip *chip)
-> > > +{
-> > > +     static const char * const supported_otp_models[] =3D {
-> > > +             "MX30LF1G18AC",
-> > > +             "MX30LF2G18AC",
-> > > +             "MX30LF4G18AC",
-> > > +     };
-> > > +     struct mtd_info *mtd;
-> > > +
-> > > +     if (match_string(supported_otp_models,
-> > > +                      ARRAY_SIZE(supported_otp_models),
-> > > +                      chip->parameters.model) < 0)
-> > > +             return;
-> > > +
-> > > +     if (!chip->parameters.supports_set_get_features)
-> > > +             return;
-> > > +
-> > > +     bitmap_set(chip->parameters.get_feature_list,
-> > > +                ONFI_FEATURE_ADDR_30LFXG18AC_OTP, 1);
-> > > +     bitmap_set(chip->parameters.set_feature_list,
-> > > +                ONFI_FEATURE_ADDR_30LFXG18AC_OTP, 1);
-> > > +
-> > > +     mtd =3D nand_to_mtd(chip);
-> > > +     mtd->_get_fact_prot_info =3D macronix_30lfxg18ac_get_otp_info;
-> > > +     mtd->_read_fact_prot_reg =3D macronix_30lfxg18ac_read_otp;
-> > > +     mtd->_get_user_prot_info =3D macronix_30lfxg18ac_get_otp_info;
-> > > +     mtd->_read_user_prot_reg =3D macronix_30lfxg18ac_read_otp;
-> > > +     mtd->_write_user_prot_reg =3D macronix_30lfxg18ac_write_otp;
-> > > +     mtd->_lock_user_prot_reg =3D macronix_30lfxg18ac_lock_otp;
-> > > +}
-> > > +
-> > >  static int macronix_nand_init(struct nand_chip *chip)
-> > >  {
-> > >       if (nand_is_slc(chip))
-> > > @@ -325,6 +540,7 @@ static int macronix_nand_init(struct nand_chip *c=
-hip)
-> > >       macronix_nand_onfi_init(chip);
-> > >       macronix_nand_block_protection_support(chip);
-> > >       macronix_nand_deep_power_down_support(chip);
-> > > +     macronix_nand_setup_otp(chip);
-> > >
-> > >       return 0;
-> > >  } =20
-> >
-> >
-> > Thanks,
-> > Miqu=C3=A8l =20
->=20
-> Thanks
-> Jaime
+            drm_info(drm, "%s is dma coherent\n", dev_name(dev));
 
+```
+
+>   	return priv;
+>   }
+>   
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> index 9cd72948cfad..644e5712c050 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> @@ -46,6 +46,12 @@ struct etnaviv_drm_private {
+>   	struct xarray active_contexts;
+>   	u32 next_context_id;
+>   
+> +	/*
+> +	 * If true, the GPU is capable of snooping cpu cache. Here, it
+> +	 * also means that cache coherency is enforced by the hardware.
+> +	 */
+> +	bool dma_coherent;
+> +
+>   	/* list of GEM objects: */
+>   	struct mutex gem_lock;
+>   	struct list_head gem_list;
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> index b5f73502e3dd..39bdc3774f2d 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+> @@ -343,6 +343,7 @@ void *etnaviv_gem_vmap(struct drm_gem_object *obj)
+>   static void *etnaviv_gem_vmap_impl(struct etnaviv_gem_object *obj)
+>   {
+>   	struct page **pages;
+> +	pgprot_t prot;
+>   
+>   	lockdep_assert_held(&obj->lock);
+>   
+> @@ -350,8 +351,19 @@ static void *etnaviv_gem_vmap_impl(struct etnaviv_gem_object *obj)
+>   	if (IS_ERR(pages))
+>   		return NULL;
+>   
+> -	return vmap(pages, obj->base.size >> PAGE_SHIFT,
+> -			VM_MAP, pgprot_writecombine(PAGE_KERNEL));
+> +	switch (obj->flags) {
+> +	case ETNA_BO_CACHED:
+> +		prot = PAGE_KERNEL;
+> +		break;
+> +	case ETNA_BO_UNCACHED:
+> +		prot = pgprot_noncached(PAGE_KERNEL);
+> +		break;
+> +	case ETNA_BO_WC:
+> +	default:
+> +		prot = pgprot_writecombine(PAGE_KERNEL);
+> +	}
+> +
+> +	return vmap(pages, obj->base.size >> PAGE_SHIFT, VM_MAP, prot);
+>   }
+>   
+>   static inline enum dma_data_direction etnaviv_op_to_dma_dir(u32 op)
+> @@ -369,6 +381,7 @@ int etnaviv_gem_cpu_prep(struct drm_gem_object *obj, u32 op,
+>   {
+>   	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
+>   	struct drm_device *dev = obj->dev;
+> +	struct etnaviv_drm_private *priv = dev->dev_private;
+>   	bool write = !!(op & ETNA_PREP_WRITE);
+>   	int ret;
+>   
+> @@ -395,7 +408,7 @@ int etnaviv_gem_cpu_prep(struct drm_gem_object *obj, u32 op,
+>   			return ret == 0 ? -ETIMEDOUT : ret;
+>   	}
+>   
+> -	if (etnaviv_obj->flags & ETNA_BO_CACHED) {
+> +	if (!priv->dma_coherent && etnaviv_obj->flags & ETNA_BO_CACHED) {
+>   		dma_sync_sgtable_for_cpu(dev->dev, etnaviv_obj->sgt,
+>   					 etnaviv_op_to_dma_dir(op));
+>   		etnaviv_obj->last_cpu_prep_op = op;
+> @@ -408,8 +421,9 @@ int etnaviv_gem_cpu_fini(struct drm_gem_object *obj)
+>   {
+>   	struct drm_device *dev = obj->dev;
+>   	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
+> +	struct etnaviv_drm_private *priv = dev->dev_private;
+>   
+> -	if (etnaviv_obj->flags & ETNA_BO_CACHED) {
+> +	if (!priv->dma_coherent && etnaviv_obj->flags & ETNA_BO_CACHED) {
+>   		/* fini without a prep is almost certainly a userspace error */
+>   		WARN_ON(etnaviv_obj->last_cpu_prep_op == 0);
+>   		dma_sync_sgtable_for_device(dev->dev, etnaviv_obj->sgt,
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> index 3524b5811682..754126992264 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> @@ -112,11 +112,16 @@ static const struct etnaviv_gem_ops etnaviv_gem_prime_ops = {
+>   struct drm_gem_object *etnaviv_gem_prime_import_sg_table(struct drm_device *dev,
+>   	struct dma_buf_attachment *attach, struct sg_table *sgt)
+>   {
+> +	struct etnaviv_drm_private *priv = dev->dev_private;
+>   	struct etnaviv_gem_object *etnaviv_obj;
+>   	size_t size = PAGE_ALIGN(attach->dmabuf->size);
+> +	u32 cache_flags = ETNA_BO_WC;
+>   	int ret, npages;
+>   
+> -	ret = etnaviv_gem_new_private(dev, size, ETNA_BO_WC,
+> +	if (priv->dma_coherent)
+> +		cache_flags = ETNA_BO_CACHED;
+> +
+> +	ret = etnaviv_gem_new_private(dev, size, cache_flags,
+>   				      &etnaviv_gem_prime_ops, &etnaviv_obj);
+>   	if (ret < 0)
+>   		return ERR_PTR(ret);
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index d6a21e97feb1..d99ac675ce8b 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -164,6 +164,10 @@ int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u32 param, u64 *value)
+>   		*value = gpu->identity.eco_id;
+>   		break;
+>   
+> +	case ETNAVIV_PARAM_GPU_COHERENT:
+> +		*value = priv->dma_coherent;
+> +		break;
+> +
+>   	default:
+>   		DBG("%s: invalid param: %u", dev_name(gpu->dev), param);
+>   		return -EINVAL;
+> diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_drm.h
+> index af024d90453d..76baf45d7158 100644
+> --- a/include/uapi/drm/etnaviv_drm.h
+> +++ b/include/uapi/drm/etnaviv_drm.h
+> @@ -77,6 +77,7 @@ struct drm_etnaviv_timespec {
+>   #define ETNAVIV_PARAM_GPU_PRODUCT_ID                0x1c
+>   #define ETNAVIV_PARAM_GPU_CUSTOMER_ID               0x1d
+>   #define ETNAVIV_PARAM_GPU_ECO_ID                    0x1e
+> +#define ETNAVIV_PARAM_GPU_COHERENT                  0x1f
+>   
+>   #define ETNA_MAX_PIPES 4
+>   
+
+-- 
+Jingfeng
 
