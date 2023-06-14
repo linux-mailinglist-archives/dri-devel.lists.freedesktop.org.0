@@ -1,52 +1,117 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BDC4730286
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jun 2023 16:58:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBE63730310
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jun 2023 17:11:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39F9B10E463;
-	Wed, 14 Jun 2023 14:58:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8E6710E465;
+	Wed, 14 Jun 2023 15:11:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 822FB10E462
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 14:58:14 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 646E363C7F;
- Wed, 14 Jun 2023 14:58:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4926DC433C8;
- Wed, 14 Jun 2023 14:58:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686754692;
- bh=M43zCogb2TgR3NGCTSmd6SWNuq1Py6JOKg+spF6oX8Y=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cNw9rSh1gHsTYWsp4q89nLmWouBaNxbCzQivzaKHJtgqwpcSsE+lgkPNWp8wKrMwZ
- IudoAXC9Au7NB/nUOijeSY6I6hCPfgrhlNa0hy6ElGi89Hqis4auvEQ83VPdSARdYE
- JgMIysObCWwdit8dOzvkIMn5tCv3DCVogL5BGymvyfOLCYPJPOwOBoZeR5nlXmpsX8
- 7uCQKipOWxka9Yjyfzr+aYrxNvRRK9Js57IT91VjpTsRpyvgcHF4L6GsdN8a9V/af5
- dobOZ8YPTsQJElaYOC0IMMm9he/TkXny5f8xnqU0vex4yyhTg9SniWg+ppfNnMkkaZ
- 0huW+Le0XZAXg==
-Date: Wed, 14 Jun 2023 15:58:05 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Nicolas Ferre <nicolas.ferre@microchip.com>
-Subject: Re: [PATCH 1/9] dt-bindings: mfd: Add bindings for SAM9X7 LCD
- controller
-Message-ID: <20230614-headset-ability-e4d90eeda5ed@spud>
-References: <20230613070426.467389-1-manikandan.m@microchip.com>
- <20230613070426.467389-2-manikandan.m@microchip.com>
- <a0b059d1-df4d-10ce-fb7c-7acea0a20793@linaro.org>
- <20230613-slider-coherent-d508d67afc91@spud>
- <423eef3c-54f0-5c88-9bc9-82c0198b6da6@microchip.com>
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2072.outbound.protection.outlook.com [40.107.243.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 829FA10E134;
+ Wed, 14 Jun 2023 15:11:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kIy30PzLIj6oRiTATJGFVa03hjjpAnt69RP1+ZL1YIR6EyrFAM/OeFWYJHoBnb+1UA9kFNyn/s77EZkNAqaAnyi0ejTRSE7+4PoiX+F3ET8R6mSfnZgUI/yBZDT1S3XWKDeH3O5htCqOQj2j09qBB9kBhxrJewcgxNCA51Fmv9gCeMOb6mLZFqPPX4ZwDhxtnIVUqEN5khHr0vpmUihNRjnu6/MfcOpIAV5ykCDb1PSIioM/Sq/YW2KJPou+IkpbAOMoc6i8FHavPsDPgzJv9jy91LZDxbSnjcWbBScr+HGoIvEcFYfmBxjvKge75CFQPmxz4IbXr/gEdgjwjyKXHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qVjII6GF+XBp87YXfiHzhMFgsWYA7XZ7MFMNowT7Iuo=;
+ b=FeDSS572wfHirMXCdI9bfNKMbZ04GrwQ5e3LXn6ZyyG6+4rkGaIswcPoMpQskgOIPG6yJEF4UQBZEppk3XncmVgNnGPewFvRhjeyvPcn0A6cv3a0OMjB7zT1eJfLRE8hxlSrjuO9Tl4Bn0gbJKRFRMYhAomEBTMQ/7sKbUHw7NXneAmht/Z/EYx80T9/lv7aEkbC3jcbf+j0o80Cn1+6MzwA/y4qsemYvKLpFPKSn/mEz0cDDH7oipjv6iLbdstrgHsY2+1nXn7MjHECeTa+GU/JACwkQ6nZTg0urV3g7yTm0v917OrMrf23YbXt5bl4gd/bhCWWjZB5Au4QRPT72g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qVjII6GF+XBp87YXfiHzhMFgsWYA7XZ7MFMNowT7Iuo=;
+ b=RSzOj42uoeVHS92++Y1SJT9BSz57hocjeyqyDIAFtyNB1VtAVs8LJVWpx0w/qB4G5ab3RyynkMHuFKSAaYovSdAi7XvCkr5u/ZvF/0Fm0EjsPVJYsz36V9UNPz7y3FO+oUu92f8qoF4e/vu9kuuyizr5wvhy4lpOO3Yvz6JlKHs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by BL3PR12MB6570.namprd12.prod.outlook.com (2603:10b6:208:38d::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.29; Wed, 14 Jun
+ 2023 15:11:33 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::2dc3:c1:e72d:55bc]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::2dc3:c1:e72d:55bc%7]) with mapi id 15.20.6477.028; Wed, 14 Jun 2023
+ 15:11:32 +0000
+Message-ID: <56f6f771-8ccc-ec91-e4dc-f4841bce38c5@amd.com>
+Date: Wed, 14 Jun 2023 11:11:30 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm/amdkfd: Switch over to memdup_user()
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+References: <20230614020432.44044-1-jiapeng.chong@linux.alibaba.com>
+Content-Language: en-US
+From: Felix Kuehling <felix.kuehling@amd.com>
+In-Reply-To: <20230614020432.44044-1-jiapeng.chong@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YQBPR01CA0128.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:1::28) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="vm86L/VjnDury6D6"
-Content-Disposition: inline
-In-Reply-To: <423eef3c-54f0-5c88-9bc9-82c0198b6da6@microchip.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|BL3PR12MB6570:EE_
+X-MS-Office365-Filtering-Correlation-Id: 15aee1a9-8f3c-4f66-1f9a-08db6ce9a34c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: S/o7n6yaXWSPSu6R8ckD0h7+1BcpRmcKPFstPSYemGA/M0WzOaU6kpYSFoRgOIVWfFrDSyS4dN0C9hNfWPbJ4PlzmHeYnXJWzFJvxfW2uJ7dC9kQKxe+x7f1aqcfIMUzRy+IvPRRiprTb3cKq/JMGECQ9uuwNy8I2P/OQUG+7x2NkQs5lBh4WvwySa2n/am7JFxSI9P2bJjgsZ1UFVtX6f8LwVvnNT7qKlPftI+G+kOjI5U4NY7wmcvw7z34l0aFSjKcVRAQryQEGL18zc87bC3tk+D4ckSsobLw7AtRvM7u0M0afU3skID0GEpKsG8I3a8tRtsyljwJnJDqy51EOUnM3JYg3T4Z6UxalhcG4EsuBYovqEQtzdky1C/dKqbPKaOaKoXiH+Oib9HklezHBDgi9SwGBMMfy9N96TIgrvd9qA3FfUMNtEzDt/aGaSzHXFuHzwuJX+U9fCItZXJDaRf18h1bZOPdMZ+wOINJ+WpsB3DRHR51gekHo+NNGfxw3QBbvnyXFDgCcXriKPB4XB+okvnpMgcSiV8zQq8jF+BtYM1RuXVcKBLy6/u0uHN3WjSTbqyjtMT04PJ7gvBWhgCwC2MU0RCtaK9YajQZ+MKXwmxde1RLqC3owRAsALgSM1r4K+l/wkIyo3U/C+XYOg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(366004)(376002)(346002)(396003)(39860400002)(136003)(451199021)(31686004)(31696002)(66556008)(66476007)(66946007)(966005)(316002)(6916009)(478600001)(4326008)(36756003)(86362001)(6512007)(6506007)(26005)(186003)(83380400001)(8676002)(5660300002)(44832011)(8936002)(6486002)(41300700001)(2616005)(2906002)(38100700002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SjJtZHp4OGpyajB0cC9oVElyMm55bXVycFJUbDRrSDR5OUIzemEwTlErUkVt?=
+ =?utf-8?B?RmYyUW5XUGRaeW1WUlNOcjREMDNMM2U0MmJMWWhqL1BLTkdGb2ZDSkJHblpy?=
+ =?utf-8?B?bTFqc0drVkV3c0xmSlBackhIRTUyTk9IWkZrcTh0RmdEK2JqTEpLanRNNnpj?=
+ =?utf-8?B?VkhZWTFXd1ozcGhqMkRJYTBVSG1UV2Q1VnA1WDFTSk9nOTJ0RVhjdEIrUnp4?=
+ =?utf-8?B?d0gza2VIR0FFM3I4OXZIaXQvNlBDZTJuQ0hSY1BaK29mc09QYVIrSzArd1cx?=
+ =?utf-8?B?SWI5N1NwMW5vZ1dlYnd6R0NNNzRSdzEvMktyNFU1SncyU1NibUsvNmNjcC82?=
+ =?utf-8?B?WDBVanBWZFlzNlhaR3BlM3ZNZnpKNGVRK2JoTmpTbStTZDFGcGN2ZUk4cWRn?=
+ =?utf-8?B?c3lRU1I3K0ZqUVA1aUU2Mzk2eTVwY3l0VzJGeDczUkdieWo2Mm01K2pHOWlp?=
+ =?utf-8?B?ckp3TldBWUN0emxmbkMrTTlLWlpENWhqb29HSUREWXRHRmZvKzgvZjJFSFM1?=
+ =?utf-8?B?c2ZlWHN3STcrdXdRK3pXdE5pSjFvRHVHL1FaZWVrYkthOTlPdVdhQS9LcFVu?=
+ =?utf-8?B?UVlmdzU4K2MraDREdkVCdEZJbWc5UUZQU0pFYVp1S2R5VFdUa1VoM0EzWkEz?=
+ =?utf-8?B?R2J2S1hUK2JrVHRzR1NOT2FXcWczdCtVNWxSMTZ1b2YyMDR1Zmc4M0lxNEkw?=
+ =?utf-8?B?SEhUWEt3SThoc25oZndhOUh2N3FWVE9NQlNFK29tTkV2V09jRlhjMlRWc2Ru?=
+ =?utf-8?B?dmhFKzRUVEZTU1lUTldiYUQrN3ZwR1VkVDZESlU5bm5xTjdwWHgzK3Q2cys1?=
+ =?utf-8?B?UksyZ2hiV1Z5VDhCOEt0RytuMlFoc0NjR20vQ2Q3SlJzSy8xNmFUb0JhYWV3?=
+ =?utf-8?B?bzlCTXVsZUE3MXBOM3Q3SkhNMmFkc0Njc3ptYmc1cC9ueCs4YW9SSk9lcVFU?=
+ =?utf-8?B?ZVJNV0pHOE9LcnFrUFdFdE8rdU1wZk1yMWhiYlZxL0ZxU2Zyd0FESEU1T2Jq?=
+ =?utf-8?B?Um5oRFRtdkFXamhqbzBZQWZYWEpSWWgxQ0lLNHpRMWtvSFFrNnp2RngzSFg0?=
+ =?utf-8?B?dUIxQnE0MlJ3eUwweW5uL0FCSk5WSkZpRzlvSTJTVnZXZnMwaWtLajdySlNV?=
+ =?utf-8?B?aWlSL3JqeDVJZ3RMOWQ4aEFtY2I1TWsvRHVCcGQrdUk4Z0Y2ZlRPLzNvUHNX?=
+ =?utf-8?B?RGhMV0FPYk4yaXkyYUMwMnhGcGl6V0xWNXUzcmFXVWdwcGhZc2FNUndNOExS?=
+ =?utf-8?B?THpMNUNIREp1WUxQay9SMzNWZEZwT2FCd1BKNm9BRHpGUWQ1cGc1ZEdiTitE?=
+ =?utf-8?B?MUtnSG9ERm5hS0ttV1RpcTRRVWVCRnVYQ0V6VGVVUEt3d3AvWHc5Ly9WdHpD?=
+ =?utf-8?B?STRMR1ZrN2FIRitkSFQza0ZvRlY1Ynp4Wk03TmZKSml0U3o5cktCblZ0WWRm?=
+ =?utf-8?B?WDlwRnYyWE9TU2dUNEQwb1dvL0ZEN0RCSzRoeFRPcDhZdjdjQ0Jtb0M2cGtm?=
+ =?utf-8?B?cXlCM3BsNmVic1dqbWl2SElPNmI1bUVuLytJN1pkVzgyeXlOWUUyb2t2dlJQ?=
+ =?utf-8?B?Sy80YklINUEvNjZidG9kTEJpTlFEMzkyM25ma0VSVWhQWUR1cGZWT3pKWUQv?=
+ =?utf-8?B?R0NvakMxczhaR3hqekY1MG9RMmZqSDZkTXE3SlRDVWhEU3NNVXdqZUJhYysz?=
+ =?utf-8?B?dG00RXBaYXBGbmMzcEFKRW9PL1F1SDZ3Sk52S3lyVXpVQzNUZnhJSTZ0Y3pJ?=
+ =?utf-8?B?eFpGdFRDUkNseFJxc2JsZ0hIL0F6QWJuM3dud05DZVhLNU9LWW9xRnh4RE1u?=
+ =?utf-8?B?WmRQZXY1Y1BmR3ZTVjlUcHpHc0tFRkJWVno4RGJocmhwSVpwUVNaTVF1WGlL?=
+ =?utf-8?B?NWx5VUFXM2N0QXZGcGZqemdtbnp5REZqamt1REEwU3lrdkJtUXBaZnJGWjVw?=
+ =?utf-8?B?cWN4OVBxS3lqdk0rZnBWclFyaUphc0tJTTk2cFdseVZ2eFVobWZNd0Z3QkEy?=
+ =?utf-8?B?VjF6c3lNb2lORVNVcHhseXowVEFmaExScnJLeFM2WnhNZXBWNWd3WEEyT3lK?=
+ =?utf-8?B?S2FEamQyZVduQ2lnRG1qa2VqM2R3eE5XWW9EcS9sVFhYMVlOMmRPTGlUZThh?=
+ =?utf-8?Q?AGrIa9xA+w+Eu3u9051Yvb6yk?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 15aee1a9-8f3c-4f66-1f9a-08db6ce9a34c
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2023 15:11:32.7136 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HrgoiO4WyQxhVorFeJyYJ5WqU4eQf84X3dG3bqXhg1jkNUECYVjnpA/wUHzHUHTagUHo3Ta/6XaKRIyRiweL2w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6570
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,80 +124,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexandre.belloni@bootlin.com, Nayabbasha.Sayed@microchip.com,
- dri-devel@lists.freedesktop.org, Hari.PrasathGE@microchip.com,
- krzysztof.kozlowski+dt@linaro.org, Varshini.Rajendran@microchip.com,
- Manikandan Muralidharan <manikandan.m@microchip.com>, sam@ravnborg.org,
- Balamanikandan.Gunasundar@microchip.com, lee@kernel.org,
- Dharma.B@microchip.com, devicetree@vger.kernel.org, conor+dt@kernel.org,
- robh+dt@kernel.org, Durai.ManickamKR@microchip.com,
- linux-arm-kernel@lists.infradead.org, Balakrishnan.S@microchip.com,
- bbrezillon@kernel.org, linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- claudiu.beznea@microchip.com
+Cc: Xinhui.Pan@amd.com, Abaci Robot <abaci@linux.alibaba.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---vm86L/VjnDury6D6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Am 2023-06-13 um 22:04 schrieb Jiapeng Chong:
+> Use memdup_user() rather than duplicating its implementation. This is a
+> little bit restricted to reduce false positives.
+>
+> ./drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c:2813:13-20: WARNING opportunity for memdup_user.
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=5523
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 
-On Wed, Jun 14, 2023 at 04:40:50PM +0200, Nicolas Ferre wrote:
-> On 13/06/2023 at 20:21, Conor Dooley wrote:
-> > On Tue, Jun 13, 2023 at 08:17:13PM +0200, Krzysztof Kozlowski wrote:
-> > > On 13/06/2023 09:04, Manikandan Muralidharan wrote:
-> > > > Add new compatible string for the XLCD controller on SAM9X7 SoC.
-> > > >=20
-> > > > Signed-off-by: Manikandan Muralidharan<manikandan.m@microchip.com>
-> > > > ---
-> > > >   Documentation/devicetree/bindings/mfd/atmel-hlcdc.txt | 1 +
-> > > >   1 file changed, 1 insertion(+)
-> > > >=20
-> > > > diff --git a/Documentation/devicetree/bindings/mfd/atmel-hlcdc.txt =
-b/Documentation/devicetree/bindings/mfd/atmel-hlcdc.txt
-> > > > index 5f8880cc757e..7c77b6bf4adb 100644
-> > > > --- a/Documentation/devicetree/bindings/mfd/atmel-hlcdc.txt
-> > > > +++ b/Documentation/devicetree/bindings/mfd/atmel-hlcdc.txt
-> > > > @@ -8,6 +8,7 @@ Required properties:
-> > > >      "atmel,sama5d3-hlcdc"
-> > > >      "atmel,sama5d4-hlcdc"
-> > > >      "microchip,sam9x60-hlcdc"
-> > > > +   "microchip,sam9x7-xlcdc"
-> > > Google says sam9x7 is a series, not a SoC. Please add compatibles for
-> > > specific SoCs, not for series.
-> > We had this one a few weeks ago, see
-> > https://lore.kernel.org/all/add5e49e-8416-ba9f-819a-da944938c05f@microc=
-hip.com/
-> > and its parents. Outcome of that seemed to be that using "sam9x7" was f=
-ine.
->=20
-> And it's where it begins to be funny, as the LCD is precisely one aspect
-> where we differentiate between sam9x75, sam9x72 and sam9x70...
+Kernel test robot is reporting a failure with this patch, looks like you 
+used PTR_ERR incorrectly. Please make sure your patch compiles without 
+warnings.
 
-Oh dear, just my luck...
+I see more opportunities to use memdup_user in kfd_chardev.c, 
+kfd_events.c, kfd_process_queue_manager.c and kfd_svm.c. Do you want to 
+fix those, too, while you're at it?
 
-> So please Manikandan sort this out if difference between these chips will=
- be
-> better handled with different compatibility string, in particular about /=
-/,
-> LVDS and MIPI-DSI variants!
+Thanks,
+   Felix
 
-Yeah, providing some information about what the differences actually are
-would be good, for the same of the actually-knowledgeable-about-displays
-folk in the audience (IOW, not me).
-Probably then the display/atmel/hlcdc-dc.txt binding needs an update too?
 
---vm86L/VjnDury6D6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZInVfQAKCRB4tDGHoIJi
-0t+QAP98ZK1V7j86/YMu7RoLTY1KeXiemdt0SzR3FdJiE/LX5wD8D7rmXmPM2Q2u
-I+1APY8ZTJDKVahjB3NLEdDAi3STkA4=
-=HLvp
------END PGP SIGNATURE-----
-
---vm86L/VjnDury6D6--
+> ---
+>   drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c | 9 +++------
+>   1 file changed, 3 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+> index d6b15493fffd..637962d4083c 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+> @@ -2810,12 +2810,9 @@ static uint32_t *get_queue_ids(uint32_t num_queues, uint32_t *usr_queue_id_array
+>   	if (!usr_queue_id_array)
+>   		return NULL;
+>   
+> -	queue_ids = kzalloc(array_size, GFP_KERNEL);
+> -	if (!queue_ids)
+> -		return ERR_PTR(-ENOMEM);
+> -
+> -	if (copy_from_user(queue_ids, usr_queue_id_array, array_size))
+> -		return ERR_PTR(-EFAULT);
+> +	queue_ids = memdup_user(usr_queue_id_array, array_size);
+> +	if (IS_ERR(queue_ids))
+> +		return PTR_ERR(queue_ids);
+>   
+>   	return queue_ids;
+>   }
