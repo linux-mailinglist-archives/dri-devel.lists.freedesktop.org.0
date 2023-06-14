@@ -2,73 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3481272F6B8
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jun 2023 09:49:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9814872F6D5
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jun 2023 09:50:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91AE510E0E8;
-	Wed, 14 Jun 2023 07:49:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBD7C10E41A;
+	Wed, 14 Jun 2023 07:50:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 543A710E0E8
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 07:49:35 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id
- 38308e7fff4ca-2b1afe57bdfso4652001fa.0
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 00:49:35 -0700 (PDT)
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F30D810E42B
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 07:50:10 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id
+ 4fb4d7f45d1cf-51878f8e541so1998377a12.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 00:50:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686728973; x=1689320973;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=27eyuKXLzSmxU9wIv8izarpbo1JvKOXSZvqxo5m+b6E=;
- b=k7VCtEuvdXGbXRk5tm0RLthsEKEjNKDNUg9gFhXpAhEyMFq3PBJfYBfczX+OoBEhzZ
- ydSI3Dq8EqUoW3zeQOL8l+gT6P08zgtyp7fXFrORwquAbS7V1m+r1gU9/iEvZ2BMb+XL
- G3bmJi0XuPYhI0MIaj9pQz/aMCvRmgxG0fhTABtNWOzOufk0H+p2g2X/P1Ra5tWj/FjE
- Mbzd9hLJk0uSEbYFu/hb+UqzdoQefvUawpoAITm7JtlTBlfM3OPyBOyH+NTst81zJR45
- OZW3gZc66a6gq/HFamdHB0vsEsSFJtoSBt+bHzPjSqaXX8fHzjt2mci26IXpOazaOlbz
- UXMA==
+ d=linaro.org; s=google; t=1686729009; x=1689321009;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=sru9jI8swiI5mQD6xpMUSIyIvcjQuQVuFa9Dm0VJBKk=;
+ b=yOj1QwtZviIzc3neOxEF4d7ffVpV4NbIjsxfbo9yS69Z4mopAHxa8MMV3Rq5s3WA/u
+ bh0Dz0saElTq2zBU0FnsybzGqtAmmZFJJGVaPv8DjILx1u73EEFs+GvP+PxjKXHT4VX3
+ QKxCTHt8pTEvdRdtiblk8yGXnajBHamOOOFHctL2ow9X7VHh8orN9NW5zqF/7aJ5Ytv6
+ XwM0OphMl6gT5w4E2zU9OcKeWH5o5x36NEMSfSjyHWArDIDINEyfqjSnfGP3h+R439x8
+ /ogCjl043aK7kSrW63t29sdCXApwhuk2VQv0tADzOLX8fd/FXRsSaSbrQZL2aHxo2lTl
+ Z5rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686728973; x=1689320973;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=27eyuKXLzSmxU9wIv8izarpbo1JvKOXSZvqxo5m+b6E=;
- b=X6zxWlgxOuorPsYhA+mnuxopjdHugMzl9kcf2YtA+xUsMU+RX9J4ZNte4w6LhZSbPl
- cCKuEJmd0ijxKQ4nG0vG6OanJL6buut4JhSIWakCCb92RKuJiLr8s187vYSyqJcGDRh4
- LsM0DPSd0Gptg/D1dHl1zoAKBEI7DdrmaaESvyzIyee37Qj6fJrrz8/ZnmpaEBEVXFJ5
- Kr+P0SmHTa0K8pKYxKzecAcsIy0QpPTzt/e9Xb//bjGivvRSaeY3Uje+o3Ujm5nPmDE5
- amDGQap7PGuaaJbILczm/5JcA4JPKvQ8OUzqIeiAehC5751rQj1OBp20p8vk7Bc0U7A5
- 5GMw==
-X-Gm-Message-State: AC+VfDzRKcWMI+F927CAZlcAc+TEkgE1x/M7CoDKTcMDDku1pFT72Nf3
- 48no9/3bKN90pqB8f9uwCeBVEA==
-X-Google-Smtp-Source: ACHHUZ4tX1Lru/h/k7uXYdfmiypu/83JXDIzBpvoNKDLfhESReO/fJd0wkNKt6JjhYVZuJXm0Wf8fg==
-X-Received: by 2002:a2e:83d6:0:b0:2af:8635:96a1 with SMTP id
- s22-20020a2e83d6000000b002af863596a1mr5395683ljh.33.1686728973188; 
- Wed, 14 Jun 2023 00:49:33 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- v2-20020a2e7a02000000b002a9eba29c39sm2430936ljc.91.2023.06.14.00.49.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Jun 2023 00:49:32 -0700 (PDT)
-Message-ID: <3a6cc492-6b54-2c70-402e-995c0b003c01@linaro.org>
-Date: Wed, 14 Jun 2023 10:49:31 +0300
+ d=1e100.net; s=20221208; t=1686729009; x=1689321009;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=sru9jI8swiI5mQD6xpMUSIyIvcjQuQVuFa9Dm0VJBKk=;
+ b=l/lfgxw0GZwflmSlY4OIzbsYCMgJi5oQ3pOFhbS3aj54CfOvoMakvygG4ybGiu0ZSL
+ /Tdcevu3pmUgtR7To/5mg49K4AbwYMgk5iWa2gsJ7LHMTgl2m1ecaabWxLP2jDMvN6RM
+ DCdBEXjQEGlu59KbmztF5uqC0AIY9hu8ukxmqGJW7FwyZlaHg488G2H2FKEDZz4zQNyu
+ 5E90ftxusIPfQNqobkfCXP3OgYVNtaTPiBrOI0MuQzbOCaZhf8RYxSRo9w3EAPz6QAeM
+ Cz8sfIiDc5KsebDyFZPIpcwVbHaNjQHQGyiriVuSWe9i3JSK5bqbqnJ7TOodF4tlo9HV
+ cIAA==
+X-Gm-Message-State: AC+VfDxJNx6VsyoBeSROXZXG3F4owYyzQxtPBKGrT3w4QENo+8KAYIta
+ Wba4NO5vaqvfco4SZxwDpLM1aX+HOc5kymAeYRuktw==
+X-Google-Smtp-Source: ACHHUZ7KPipBj0TX5KOt2MeLEl+x5dcPbU8f4JfnNXuUM1vyec01U3CUmNXeQiG0oup/RYKMHTBPlKHBprxqns59q08=
+X-Received: by 2002:aa7:d691:0:b0:514:9e26:1f51 with SMTP id
+ d17-20020aa7d691000000b005149e261f51mr8488936edr.24.1686729008860; Wed, 14
+ Jun 2023 00:50:08 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 3/3] drm/msm/dsi: Enable DATABUS_WIDEN for DSI command mode
-Content-Language: en-GB
-To: Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230525-add-widebus-support-v1-0-c7069f2efca1@quicinc.com>
- <20230525-add-widebus-support-v1-3-c7069f2efca1@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230525-add-widebus-support-v1-3-c7069f2efca1@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230612182534.3345805-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230612182534.3345805-1-dmitry.baryshkov@linaro.org>
+From: Sumit Semwal <sumit.semwal@linaro.org>
+Date: Wed, 14 Jun 2023 13:19:57 +0530
+Message-ID: <CAO_48GHQ7eu37rnPRz4eN2XsBUEznngz04EZcEPFu5w6ujkLGA@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH 1/2] drm/msm/dpu: do not enable
+ color-management if DSPPs are not available
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,106 +69,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Sean Paul <sean@poorly.run>, Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Yongqin Liu <yongqin.liu@linaro.org>,
+ linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/06/2023 04:57, Jessica Zhang wrote:
-> DSI 6G v2.5.x+ supports a data-bus widen mode that allows DSI to send
-> 48 bits of compressed data per pclk instead of 24.
-> 
-> For all chipsets that support this mode, enable it whenever DSC is
-> enabled as recommend by the hardware programming guide.
-> 
-> Only enable this for command mode as we are currently unable to validate
-> it for video mode.
-> 
-> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+On Mon, 12 Jun 2023 at 23:55, Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> We can not support color management without DSPP blocks being provided
+> in the HW catalog. Do not enable color management for CRTCs if num_dspps
+> is 0.
+>
+> Fixes: 4259ff7ae509 ("drm/msm/dpu: add support for pcc color block in dpu=
+ driver")
+> Reported-by: Yongqin Liu <yongqin.liu@linaro.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
-> 
-> Note: The dsi.xml.h changes were generated using the headergen2 script in
-> envytools [1], but the changes to the copyright and rules-ng-ng source file
-> paths were dropped.
-> 
-> [1] https://github.com/freedreno/envytools/
-> 
->   drivers/gpu/drm/msm/dsi/dsi.xml.h  |  1 +
->   drivers/gpu/drm/msm/dsi/dsi_host.c | 19 ++++++++++++++++++-
->   2 files changed, 19 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi.xml.h b/drivers/gpu/drm/msm/dsi/dsi.xml.h
-> index a4a154601114..2a7d980e12c3 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi.xml.h
-> +++ b/drivers/gpu/drm/msm/dsi/dsi.xml.h
-> @@ -664,6 +664,7 @@ static inline uint32_t DSI_CMD_MODE_MDP_CTRL2_INPUT_RGB_SWAP(enum dsi_rgb_swap v
->   	return ((val) << DSI_CMD_MODE_MDP_CTRL2_INPUT_RGB_SWAP__SHIFT) & DSI_CMD_MODE_MDP_CTRL2_INPUT_RGB_SWAP__MASK;
->   }
->   #define DSI_CMD_MODE_MDP_CTRL2_BURST_MODE			0x00010000
-> +#define DSI_CMD_MODE_MDP_CTRL2_DATABUS_WIDEN			0x00100000
-> 
->   #define REG_DSI_CMD_MODE_MDP_STREAM2_CTRL			0x000001b8
->   #define DSI_CMD_MODE_MDP_STREAM2_CTRL_DATA_TYPE__MASK		0x0000003f
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index 5d7b4409e4e9..1da5238e7105 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -927,6 +927,9 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
->   	u32 hdisplay = mode->hdisplay;
->   	u32 wc;
->   	int ret;
-> +	bool widebus_supported = msm_host->cfg_hnd->major == MSM_DSI_VER_MAJOR_6G &&
-> +			msm_host->cfg_hnd->minor >= MSM_DSI_6G_VER_MINOR_V2_5_0;
-> +
-> 
->   	DBG("");
-> 
-> @@ -973,8 +976,15 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
->   		 *
->   		 * hdisplay will be divided by 3 here to account for the fact
->   		 * that DPU sends 3 bytes per pclk cycle to DSI.
-> +		 *
-> +		 * If widebus is supported, set DATABUS_WIDEN register and divide hdisplay by 6
-> +		 * instead of 3
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 
-This is useless, it is already obvious from the code below. Instead 
-there should be something like "wide bus extends that to 6 bytes per 
-pclk cycle"
+Thanks for your patch, Dmitry. LGTM.
 
->   		 */
-> -		hdisplay = DIV_ROUND_UP(msm_dsc_get_bytes_per_line(msm_host->dsc), 3);
-> +		if (!(msm_host->mode_flags & MIPI_DSI_MODE_VIDEO) && widebus_supported)
-> +			hdisplay = DIV_ROUND_UP(msm_dsc_get_bytes_per_line(msm_host->dsc), 6);
-> +		else
-> +			hdisplay = DIV_ROUND_UP(msm_dsc_get_bytes_per_line(msm_host->dsc), 3);
-> +
->   		h_total += hdisplay;
->   		ha_end = ha_start + hdisplay;
->   	}
-> @@ -1027,6 +1037,13 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
->   		dsi_write(msm_host, REG_DSI_CMD_MDP_STREAM0_TOTAL,
->   			DSI_CMD_MDP_STREAM0_TOTAL_H_TOTAL(hdisplay) |
->   			DSI_CMD_MDP_STREAM0_TOTAL_V_TOTAL(mode->vdisplay));
-> +
-> +		if (msm_host->dsc && widebus_supported) {
-> +			u32 mdp_ctrl2 = dsi_read(msm_host, REG_DSI_CMD_MODE_MDP_CTRL2);
-> +
-> +			mdp_ctrl2 |= DSI_CMD_MODE_MDP_CTRL2_DATABUS_WIDEN;
-> +			dsi_write(msm_host, REG_DSI_CMD_MODE_MDP_CTRL2, mdp_ctrl2);
-
-Is widebus applicable only to the CMD mode, or video mode can employ it too?
-
-> +		}
->   	}
->   }
-> 
-> 
+Please feel free to add:
+Reviewed-by: Sumit Semwal <sumit.semwal@linaro.org>
+>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/m=
+sm/disp/dpu1/dpu_crtc.c
+> index 6e684a7b49a1..1edf2b6b0a26 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -1463,6 +1463,8 @@ static const struct drm_crtc_helper_funcs dpu_crtc_=
+helper_funcs =3D {
+>  struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane =
+*plane,
+>                                 struct drm_plane *cursor)
+>  {
+> +       struct msm_drm_private *priv =3D dev->dev_private;
+> +       struct dpu_kms *dpu_kms =3D to_dpu_kms(priv->kms);
+>         struct drm_crtc *crtc =3D NULL;
+>         struct dpu_crtc *dpu_crtc =3D NULL;
+>         int i, ret;
+> @@ -1494,7 +1496,8 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *d=
+ev, struct drm_plane *plane,
+>
+>         drm_crtc_helper_add(crtc, &dpu_crtc_helper_funcs);
+>
+> -       drm_crtc_enable_color_mgmt(crtc, 0, true, 0);
+> +       if (dpu_kms->catalog->dspp_count)
+> +               drm_crtc_enable_color_mgmt(crtc, 0, true, 0);
+>
+>         /* save user friendly CRTC name for later */
+>         snprintf(dpu_crtc->name, DPU_CRTC_NAME_SIZE, "crtc%u", crtc->base=
+.id);
 > --
-> 2.40.1
-> 
+> 2.39.2
+>
 
--- 
-With best wishes
-Dmitry
 
+--=20
+Thanks and regards,
+
+Sumit Semwal (he / him)
+Tech Lead - LCG, Vertical Technologies
+Linaro.org =E2=94=82 Open source software for ARM SoCs
