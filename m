@@ -2,65 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAA0872F91F
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jun 2023 11:28:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A835B72F98B
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jun 2023 11:43:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B06E210E275;
-	Wed, 14 Jun 2023 09:28:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C593210E23B;
+	Wed, 14 Jun 2023 09:43:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4D9F10E275
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 09:28:48 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it [5.144.164.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D6BF10E23B
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 09:43:33 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 1004C63F72
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 09:28:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 72E10C433CC
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 09:28:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686734927;
- bh=IPfgCCudi7WHDJKKvlEP/x2KkeU5nqwlyfau74tGRkU=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=lpkWJC2Dmry6jnNrB5X3XaWPJ+QcsJ24ae/EO6wGpWUkfVU0wG8JiQdVy7iq1r8DF
- KUzIuWYVtcswJ0vs5m/Qx44iyAYnglgaoAW7/w/cRqz5+t2Y4sqJIGrqBb3su1Lz/d
- qWRzwhlfYPmsjndxedve/PW4xRX5FAkYy/22OO6P7OqC6xfdrgq1pmtWcyYpFz/Tqc
- ZdpAXQYp3RFDh6uwML5jIPoPTCvN02nv+VbVBvqvgtddt0qtjvWaaolshGHQvEKwEv
- 0ZscqUmAFFGnTJ+EvYu9BaMZ8C49wdl9Mt8bCBt8D97PiOu2a1Urzwrf6LHdBH9sol
- WqPFzM894RGIw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 5F919C53BCD; Wed, 14 Jun 2023 09:28:47 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 217545] Serious regression on amdgpu
- (drm_display_helper/drm_dp_atomic_find_time_slots) with two DisplayPort
- connected via a HP G5 docking station
-Date: Wed, 14 Jun 2023 09:28:47 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: aros@gmx.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-217545-2300-4XAJRnuBZ6@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-217545-2300@https.bugzilla.kernel.org/>
-References: <bug-217545-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id AC2483F80E;
+ Wed, 14 Jun 2023 11:43:29 +0200 (CEST)
+Date: Wed, 14 Jun 2023 11:43:27 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: Re: [PATCH] drm/msm/dsi: Enable BURST_MODE for command mode for DSI
+ 6G v1.3+
+Message-ID: <o57lsyxwzz5ihqlzq4ewnlnevj36rrq44ohyaxm3htnxzmomxn@fuv2sa5frph3>
+References: <20230608-b4-add-burst-mode-v1-1-55dfbcfada55@quicinc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230608-b4-add-burst-mode-v1-1-55dfbcfada55@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,20 +42,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D217545
+On 2023-06-12 16:37:36, Jessica Zhang wrote:
+> During a frame transfer in command mode, there could be frequent
+> LP11 <-> HS transitions when multiple DCS commands are sent mid-frame or
+> if the DSI controller is running on slow clock and is throttled. To
+> minimize frame latency due to these transitions, it is recommended to
+> send the frame in a single burst.
+> 
+> This feature is supported for DSI 6G 1.3 and above, thus enable burst
+> mode if supported.
+> 
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/dsi/dsi_host.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index 744f2398a6d6..8254b06dca85 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -994,6 +994,11 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+>  		dsi_write(msm_host, REG_DSI_CMD_MDP_STREAM0_TOTAL,
+>  			DSI_CMD_MDP_STREAM0_TOTAL_H_TOTAL(hdisplay) |
+>  			DSI_CMD_MDP_STREAM0_TOTAL_V_TOTAL(mode->vdisplay));
+> +
+> +		if (msm_host->cfg_hnd->major == MSM_DSI_VER_MAJOR_6G &&
+> +				msm_host->cfg_hnd->minor >= MSM_DSI_6G_VER_MINOR_V1_3)
+> +			dsi_write(msm_host, REG_DSI_CMD_MODE_MDP_CTRL2,
+> +					DSI_CMD_MODE_MDP_CTRL2_BURST_MODE);
 
-Artem S. Tashkinov (aros@gmx.com) changed:
+This is not part of the timing setup, and a similar BURST_MODE flag is
+enabled for video-mode in dsi_ctrl_config() - should it be moved there?
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |ANSWERED
+(There is a dsi_sw_reset() in between the calls to dsi_timing_setup()
+ and dsi_ctrl_cfg())
 
---=20
-You may reply to this email to add a comment.
+Note that that function sets up the CMD_CFG0 and CMD_CFG1 register, with
+the former having a very similar layout to MDP_CTRL2... is there
+documentation outlining the difference?
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+- Marijn
+
+>  	}
+>  }
+>  
+> 
+> ---
+> base-commit: dd969f852ba4c66938c71889e826aa8e5300d2f2
+> change-id: 20230608-b4-add-burst-mode-a5bb144069fa
+> 
+> Best regards,
+> -- 
+> Jessica Zhang <quic_jesszhan@quicinc.com>
+> 
