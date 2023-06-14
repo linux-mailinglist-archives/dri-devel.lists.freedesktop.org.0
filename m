@@ -2,72 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B50357309D8
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jun 2023 23:31:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B419D7309EE
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jun 2023 23:41:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 985C110E46A;
-	Wed, 14 Jun 2023 21:31:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 360D910E46B;
+	Wed, 14 Jun 2023 21:41:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99F4E10E46A
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 21:31:34 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id
- 4fb4d7f45d1cf-519608ddbf7so1299638a12.2
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 14:31:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1686778291; x=1689370291;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oh5nWE0pGFkoodtEGgImAH9t2K0gwbTAJWDqrg/URHU=;
- b=dd8fvg9BJ0eWmK5VmMgDPl/iV8qfCkbQpLH7iLrpmKj/TtjSSwn+vV19aDzp5Xyn/y
- mVHN8wM8n4jXrZlXBprRk/e+hh75RxLu5CruzitcZSuh4oibemRm7bZvkQ10WOksMFip
- NgI7Cy60HHCl6TVaM/OZd3FdyLLvJhRiVUp4A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686778291; x=1689370291;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=oh5nWE0pGFkoodtEGgImAH9t2K0gwbTAJWDqrg/URHU=;
- b=Av2ha7798lIc6XDsHvyC4KDVlbpsa751w+WrATBE2NdPTyGn5NcgcjYm22lmyOxEtG
- qtfZuANHVy3u3Snj/H82MjMnRdpSwFWW7xg6SibJjo+RlhqMt/j+edGMsJKJalMkl1e8
- jTonB3Qlvamy7twenJppncj74+jDlzAScfBGP+vt5F9oQsAdulA9ofMIlC9iay6+AYLT
- y1V1fyZRztHj7ZIv1nqjMIj0e8YI+dXzm3oqtydSs2HA0Cq38fwThXV/rjgbnQbTFpeC
- Wegkmqn6VQ11+XjNXwHR3k6Dium2knkXX7npXY4BGK5NlVkjs12epbvStii/wHU/ig1s
- OgzA==
-X-Gm-Message-State: AC+VfDyk2K0uN4iGuFfb1uWCmnYlh3L6hYzNf4Zdhq1QcneACJvNDhrf
- Izn0IxbgsLUJ5WvoDrKKvOJJapnwp+Hnx3SB0izdVRh1
-X-Google-Smtp-Source: ACHHUZ6xfuxprTLXG+VrOi9JM2eVaX2UyNsOq+nsnMlywU74i78h0D80PFavTCgtGYdYARX33LhNbw==
-X-Received: by 2002:aa7:d703:0:b0:514:95e8:566c with SMTP id
- t3-20020aa7d703000000b0051495e8566cmr7802224edq.42.1686778290966; 
- Wed, 14 Jun 2023 14:31:30 -0700 (PDT)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com.
- [209.85.208.53]) by smtp.gmail.com with ESMTPSA id
- g16-20020aa7d1d0000000b0050bc4600d38sm8145721edp.79.2023.06.14.14.31.29
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Jun 2023 14:31:30 -0700 (PDT)
-Received: by mail-ed1-f53.google.com with SMTP id
- 4fb4d7f45d1cf-516500163b2so966a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 14:31:29 -0700 (PDT)
-X-Received: by 2002:a50:9e65:0:b0:51a:2012:5b34 with SMTP id
- z92-20020a509e65000000b0051a20125b34mr1137ede.4.1686778289380; Wed, 14 Jun
- 2023 14:31:29 -0700 (PDT)
+Received: from relay05.th.seeweb.it (relay05.th.seeweb.it [5.144.164.166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC58410E46B
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 21:41:46 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id D3EAF3F841;
+ Wed, 14 Jun 2023 23:41:42 +0200 (CEST)
+Date: Wed, 14 Jun 2023 23:41:41 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [Freedreno] [PATCH 1/3] drm/msm/dpu: Add DPU_INTF_DATABUS_WIDEN
+ feature flag for DPU >= 5.0
+Message-ID: <udz5ij7g74zgnnwqw2q65idzzmiszhnvfieerw7izikgvotnkp@5tboohkd4t6t>
+References: <20230525-add-widebus-support-v1-0-c7069f2efca1@quicinc.com>
+ <20230525-add-widebus-support-v1-1-c7069f2efca1@quicinc.com>
+ <wpjxrnhbcanbc5iatxnff25yrrdfrtmgb24sgwyo457dz2oyjz@e2docpcb6337>
+ <f4fb042c-1458-6077-3c49-8cc02638b27c@linaro.org>
+ <ycgei43x4kfmjk7g7gbeglehtiiinfbqmrjbdzcy56frxbtd2z@yk2f5kgrkbrt>
+ <e23de804-060d-3278-5045-1ed03f0de80d@quicinc.com>
+ <c5cfc132-effb-8269-ac5d-ed8c988d1a16@quicinc.com>
+ <08b6aaf4-6edd-4f41-5d98-11ffc27e766e@quicinc.com>
 MIME-Version: 1.0
-References: <20230612163256.1.I7b8f60b3fbfda068f9bf452d584dc934494bfbfa@changeid>
- <86ad3ffb-fbe2-9bed-751d-684994b71e9d@collabora.com>
-In-Reply-To: <86ad3ffb-fbe2-9bed-751d-684994b71e9d@collabora.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 14 Jun 2023 14:31:17 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XGN7NEFjtAAr+y_Vfth0MKL875B1+mqzmy3yAfteNxuQ@mail.gmail.com>
-Message-ID: <CAD=FV=XGN7NEFjtAAr+y_Vfth0MKL875B1+mqzmy3yAfteNxuQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: ps8640: Drop the ability of ps8640 to fetch
- the EDID
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <08b6aaf4-6edd-4f41-5d98-11ffc27e766e@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,130 +50,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Icenowy Zheng <uwu@icenowy.me>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, Pin-yen Lin <treapking@chromium.org>,
- linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- linux-arm-kernel@lists.infradead.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 2023-06-14 13:39:57, Abhinav Kumar wrote:
+> On 6/14/2023 12:54 PM, Abhinav Kumar wrote:
+> > On 6/14/2023 12:35 PM, Abhinav Kumar wrote:
+> >> On 6/14/2023 5:23 AM, Marijn Suijten wrote:
+> >>> On 2023-06-14 15:01:59, Dmitry Baryshkov wrote:
+> >>>> On 14/06/2023 14:42, Marijn Suijten wrote:
+> >>>>> On 2023-06-13 18:57:11, Jessica Zhang wrote:
+> >>>>>> DPU 5.x+ supports a databus widen mode that allows more data to be 
+> >>>>>> sent
+> >>>>>> per pclk. Enable this feature flag on all relevant chipsets.
+> >>>>>>
+> >>>>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> >>>>>> ---
+> >>>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 3 ++-
+> >>>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 2 ++
+> >>>>>>    2 files changed, 4 insertions(+), 1 deletion(-)
+> >>>>>>
+> >>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c 
+> >>>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> >>>>>> index 36ba3f58dcdf..0be7bf0bfc41 100644
+> >>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> >>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> >>>>>> @@ -103,7 +103,8 @@
+> >>>>>>        (BIT(DPU_INTF_INPUT_CTRL) | \
+> >>>>>>         BIT(DPU_INTF_TE) | \
+> >>>>>>         BIT(DPU_INTF_STATUS_SUPPORTED) | \
+> >>>>>> -     BIT(DPU_DATA_HCTL_EN))
+> >>>>>> +     BIT(DPU_DATA_HCTL_EN) | \
+> >>>>>> +     BIT(DPU_INTF_DATABUS_WIDEN))
+> >>>>>
+> >>>>> This doesn't work.  DPU 5.0.0 is SM8150, which has DSI 6G 2.3.  In the
+> >>>>> last patch for DSI you state and enable widebus for DSI 6G 2.5+ only,
+> >>>>> meaning DPU and DSI are now desynced, and the output is completely
+> >>>>> corrupted.
+> >>>
+> 
+> I looked at the internal docs and also this change. This change is 
+> incorrect because this will try to enable widebus for DPU >= 5.0 and DSI 
+>  >= 2.5
+> 
+> That was not the intended right condition as thats not what the docs say.
+> 
+> We should enable for DPU >= 7.0 and DSI >= 2.5
 
-On Wed, Jun 14, 2023 at 1:22=E2=80=AFAM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> Il 13/06/23 01:32, Douglas Anderson ha scritto:
-> > In order to read the EDID from an eDP panel, you not only need to
-> > power on the bridge chip itself but also the panel. In the ps8640
-> > driver, this was made to work by having the bridge chip manually power
-> > the panel on by calling pre_enable() on everything connectorward on
-> > the bridge chain. This worked OK, but...
-> >
-> > ...when trying to do the same thing on ti-sn65dsi86, feedback was that
-> > this wasn't a great idea. As a result, we designed the "DP AUX"
-> > bus. With the design we ended up with the panel driver itself was in
-> > charge of reading the EDID. The panel driver could power itself on and
-> > the bridge chip was able to power itself on because it implemented the
-> > DP AUX bus.
-> >
-> > Despite the fact that we came up with a new scheme, implemented in on
-> > ti-sn65dsi86, and even implemented it on parade-ps8640, we still kept
-> > the old code around. This was because the new scheme required a DT
-> > change. Previously the panel was a simple "platform_device" and in DT
-> > at the top level. With the new design the panel needs to be listed in
-> > DT under the DP controller node. The old code allowed us to properly
-> > fetch EDIDs with ps8640 with the old DTs.
-> >
-> > Unfortunately, the old code stopped working as of commit 102e80d1fa2c
-> > ("drm/bridge: ps8640: Use atomic variants of drm_bridge_funcs"). There
-> > are cases at bootup where connector->state->state is NULL and the
-> > kernel crashed at:
-> > * drm_atomic_bridge_chain_pre_enable
-> > * drm_atomic_get_old_bridge_state
-> > * drm_atomic_get_old_private_obj_state
-> >
-> > A bit of digging was done to see if there was an easy fix but there
-> > was nothing obvious. Instead, the only device using ps8640 the "old"
-> > way had its DT updated so that the panel was no longer a simple
-> > "platform_deice". See commit c2d94f72140a ("arm64: dts: mediatek:
-> > mt8173-elm: Move display to ps8640 auxiliary bus") and commit
-> > 113b5cc06f44 ("arm64: dts: mediatek: mt8173-elm: remove panel model
-> > number in DT").
-> >
-> > Let's delete the old, crashing code so nobody gets tempted to copy it
-> > or figure out how it works (since it doesn't).
-> >
-> > NOTE: from a device tree "purist" point of view, we're supposed to
-> > keep old device trees working and this patch is technically "against
-> > policy". Reasons I'm still proposing it anyway:
-> > 1. Officially, old mt8173-elm device trees worked via the "little
-> >     white lie" approach. The DT would list an arbitrary/representative
-> >     panel that would be used for power sequencing. The mode information
-> >     in the panel driver would then be ignored / overridden by the EDID
-> >     reading code in ps8640. I don't feel too terrible breaking DTs that
-> >     contained the wrong "compatible" string to begin with. NOTE that
-> >     any old device trees that _didn't_ lie about their compatible will
-> >     still work because the mode information will come from the
-> >     hardcoded panels in panel-edp.
-> > 2. The only users of the old code were Chromebooks and Chromebooks
-> >     don't bake their DTs into the BIOS (they are bundled with the
-> >     kernel). Thus we don't need to worry about breaking someone using
-> >     an old DT with a new kernel.
-> > 3. The old code was crashing anyway. If someone wants to fix the old
-> >     code instead of deleting it then they have my blessing, but without
-> >     a proper fix the old code isn't useful.
-> >
-> > I'll list this as "Fixing" the code that made the old code start
-> > failing. There's not lots of reason to bring this back any further
-> > than that.
->
-> Hoping to see removal of non-aux EDID reading code from all drivers that =
-can
-> support aux-bus is exactly why I moved Elm to the proper... aux-bus.. so.=
-..
->
-> Yes! Let's go!
->
-> >
-> > Fixes: 102e80d1fa2c ("drm/bridge: ps8640: Use atomic variants of drm_br=
-idge_funcs")
->
-> ...but this Fixes tag will cause this commit to be backported to kernel v=
-ersions
-> before my commit moving Elm to aux-bus, and break display on those.
->
-> I would suggest to either find a different Fixes tag, or don't add any, s=
-ince
-> technically this is a deprecation commit. We could imply that the old tec=
-hnique
-> is deprecated since kernel version X.Y and get away with it.
->
-> Otherwise, if you want it backported *anyway*, the safest way would be to=
- Cc it
-> to stable and explicitly say which versions should it be backported to.
+That makes more sense, DSI 2.5 is SM8350 which has DPU 7.0.
 
-The problem is that, as I understand it, as of commit 102e80d1fa2c
-("drm/bridge: ps8640: Use atomic variants of drm_bridge_funcs"),
-things are broken anyway and you'll get a crash at bootup. However, if
-you start at that commit and apply ${SUBJECT} patch, things actually
-end up being less broken. It won't crash anymore and on any boards
-that actually have the display that's specified in the DT compatible
-the screen should actually work. Thus even without your patch to move
-things over to the aux-bus it's still an improvement to take
-${SUBJECT} patch on any kernels that have that commit.
+> Is there any combination where this compatibility is broken? That would 
+> be the strange thing for me ( not DPU 5.0 and DSI 2.5 as that was incorrect)
 
-I don't have an 'elm' device easily accessible, but I can figure out
-how to get one if needed to confirm that's true. However, maybe it's
-easy for you or Pin-Yen to confirm.
+No clue if there are any interim SoCs...
 
-If my understanding is incorrect, I have no objection to removing the
-Fixes tag. I'd probably have to update the commit message a bunch too
-because that was part of my justification for landing the patch in the
-first place.
+> Part of this confusion is because of catalog macro re-use again.
+
+Somewhat agreed.  SC7180 is a DPU 6.2 SoC, and for this mask to be used
+across DPU 5.x and above it should have been renamed to SM8150 and as
+suggested by Dmitry, have DPU_5_x_` as suffix.
+
+As I've asked many times before, we should inline these masks (not just
+the macros) (disclaimer: haven't reviewed if Dmitry's series actually
+does so!).
+
+> This series is a good candidate and infact I think we should only do 
+> core_revision based check on DPU and DSI to avoid bringing the catalog 
+> mess into this.
+> 
+> >>> Tested this on SM8350 which actually has DSI 2.5, and it is also
+> >>> corrupted with this series so something else on this series might be
+> >>> broken.
+> >>>
+> > 
+> > Missed this response. That seems strange.
+
+No worries.  But don't forget to look at the comments on patch 2/3
+either.  Some of it is a continuation of pclk scaling factor for DSC
+which discussion seems to have ceased on.
+
+> > This series was tested on SM8350 HDK with a command mode panel.
+> > 
+> > We will fix the DPU-DSI handshake and post a v2 but your issue needs 
+> > investigation in parallel.
+> > 
+> > So another bug to track that would be great.
+
+Will see if I can set that up for you!
+
+> >>>>> Is the bound in dsi_host wrong, or do DPU and DSI need to communicate
+> >>>>> when widebus will be enabled, based on DPU && DSI supporting it?
+> >>>>
+> >>>> I'd prefer to follow the second approach, as we did for DP. DPU asks 
+> >>>> the
+> >>>> actual video output driver if widebus is to be enabled.
+> >>>
+> >>
+> >> I was afraid of this. This series was made on an assumption that the 
+> >> DPU version of widebus and DSI version of widebus would be compatible 
+> >> but looks like already SM8150 is an outlier.
+
+Fwiw SM8250 would have been an outlier as well :)
+
+> >> Yes, I think we have to go with second approach.
+> >>
+> >> DPU queries DSI if it supports widebus and enables it.
+> >>
+> >> Thanks for your responses. We will post a v2.
+
+No hurry, btw.  As alluded to above, let's also look at the comments on
+patch 2/3 and discuss how this affects pclk.
+
+> >>> Doesn't it seem very strange that DPU 5.x+ comes with a widebus feature,
+> >>> but the DSI does not until two revisions later?  Or is this available on
+> >>> every interface, but only for a different (probably DP) encoder block?
+> >>>
+> >>
+> >> Yes its strange.
+> >>
+> 
+> I have clarified this above. Its not strange but appeared strange 
+> because we were checking wrong conditions.
+
+Hehe :)
+
+- Marijn
