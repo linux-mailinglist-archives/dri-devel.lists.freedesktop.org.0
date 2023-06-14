@@ -2,52 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DD1E731130
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 09:47:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 959A873112C
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 09:46:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38C2010E48C;
-	Thu, 15 Jun 2023 07:46:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7990010E083;
+	Thu, 15 Jun 2023 07:46:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9F5810E454
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 12:33:03 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <lgo@pengutronix.de>)
- id 1q9Pg8-00017H-2H; Wed, 14 Jun 2023 14:32:48 +0200
-Received: from [2a0a:edc0:0:1101:1d::39] (helo=dude03.red.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <lgo@pengutronix.de>)
- id 1q9Pg6-007LpS-Qa; Wed, 14 Jun 2023 14:32:46 +0200
-Received: from lgo by dude03.red.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <lgo@pengutronix.de>)
- id 1q9Pg5-00HUJu-Vn; Wed, 14 Jun 2023 14:32:46 +0200
-From: =?UTF-8?q?Leonard=20G=C3=B6hrs?= <l.goehrs@pengutronix.de>
-To: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
- Alexandre TORGUE <alexandre.torgue@foss.st.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 3/8] dt-bindings: display: panel: mipi-dbi-spi: add
- spi-3wire property
-Date: Wed, 14 Jun 2023 14:32:17 +0200
-Message-Id: <20230614123222.4167460-4-l.goehrs@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230614123222.4167460-1-l.goehrs@pengutronix.de>
-References: <20230614123222.4167460-1-l.goehrs@pengutronix.de>
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
+ [IPv6:2607:f8b0:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D275310E12A;
+ Wed, 14 Jun 2023 12:36:06 +0000 (UTC)
+Received: by mail-pf1-x435.google.com with SMTP id
+ d2e1a72fcca58-6537d2a8c20so5259125b3a.2; 
+ Wed, 14 Jun 2023 05:36:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1686746165; x=1689338165;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=4e+Pwp+021TOiqEOI55JQb3RjMEOtcdSeHsod/nYw0o=;
+ b=V+SK9acdDTnYBrQKZHF8LeRsGMn16ZHTwKjr6/V6NkXCuBoLLzDUu2M0Nfa+OFigNK
+ V4mQFdEHDLPFNGAHcke1u4x7oi0gwn+8sSer3mbHXMTPH4KzJ9EHm7s6O7S8YuK2HChJ
+ /3Z/Ndb5PEZlD/1RlJPV63dLNOflrGTYfxFYmOhTgJ6/K7qwLvsbI1BmE0URxNHCVRXo
+ 9R2P0rV1z6rLJ6IfG7arZAz9VmdPMFRQ6xpVawkJQ1w+PTLcc2T9pMQa4lhz4V2yo/EW
+ +EQhBPpZFjsn/mbRUj0tN2+wlhbExNE2qB0PJFzysg1AAEeDMpDC6NSsKLyfXZ0iDzEN
+ VSnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686746165; x=1689338165;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4e+Pwp+021TOiqEOI55JQb3RjMEOtcdSeHsod/nYw0o=;
+ b=RiavSbgxVowel/jI1zKggqqF62sZMlzSTe2QrQCV67M5gcMB1Pz1gk0eOzgn98Yxlb
+ uDRiQ7tyWp2b+hETN98FnrZlKfdfevW0PvBhDjww8a4sJUSsp1v8a7SeNi+G4HDAWz0O
+ rAlQWaTHPkcmVHAwJ7hq+QMbuGhRlcNbq1L82CAXfw2dH1mMGZJAM7kD0JiasEV8yocZ
+ k9Dbq7uF5eoDspeTGGkjaEqweWFX4ReKeHP1y9Bk0v/CsSwCl3DKNv66PZ8Bj+u8Gp8I
+ Y7AqKIWnK33aYcorG+FVtx3oPj6+T//XHTezo+TfA1hqGe/NGxvo4BYH5cmVIG2WYzzN
+ Jm2g==
+X-Gm-Message-State: AC+VfDz6Z5nHcx+ZFvNshqLw7gqPLfLSWQMsZssH5qbymxmO+4ReoDCw
+ BiA6ZK4FLErO+P/mVFe5I7QbbT+AE5qdwonI
+X-Google-Smtp-Source: ACHHUZ4+dJFI8HJ6v4oIutm5MrkaLnh0wkcAaLETYhTmKqSAen1q8lTzmzcujbzgFoRsU+WyzbV+Tg==
+X-Received: by 2002:a05:6a00:2352:b0:665:bd58:c948 with SMTP id
+ j18-20020a056a00235200b00665bd58c948mr2301728pfj.8.1686746164598; 
+ Wed, 14 Jun 2023 05:36:04 -0700 (PDT)
+Received: from sumitra.com ([117.245.169.18]) by smtp.gmail.com with ESMTPSA id
+ j1-20020aa78001000000b00634dde2992bsm10250199pfi.132.2023.06.14.05.35.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 14 Jun 2023 05:36:04 -0700 (PDT)
+Date: Wed, 14 Jun 2023 05:35:56 -0700
+From: Sumitra Sharma <sumitraartsy@gmail.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/i915: Call page_address() on page acquired with
+ GFP_KERNEL flag
+Message-ID: <20230614123556.GA381200@sumitra.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: lgo@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-Mailman-Approved-At: Thu, 15 Jun 2023 07:46:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,40 +76,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- kernel@pengutronix.de, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Conor Dooley <conor.dooley@microchip.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- =?UTF-8?q?Leonard=20G=C3=B6hrs?= <l.goehrs@pengutronix.de>
+Cc: Deepak R Varma <drv@mailo.com>, Fabio <fmdefrancesco@gmail.com>,
+ Ira Weiny <ira.weiny@intel.com>, Sumitra Sharma <sumitraartsy@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some MIPI DBI panels support a three wire mode (clock, chip select,
-bidirectional data) that can be used to ask the panel if it is already set
-up by e.g. the bootloader and can thus skip the initialization.
-This enables a flicker-free boot.
+Pages allocated with GFP_KERNEL cannot come from Highmem.
+That is why there is no need to call kmap() on them.
 
-Signed-off-by: Leonard Göhrs <l.goehrs@pengutronix.de>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
+Therefore, don't call kmap() on the page coming from
+vma_res->bi.pages using for_each_sgt_page() in
+i915_vma_coredump_create().
+
+Use a plain page_address() to get the kernel address instead.
+
+Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
 ---
- .../devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml   | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/i915/i915_gpu_error.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
-index c07da1a9e6288..2f0238b770eba 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
-@@ -87,6 +87,8 @@ properties:
-       Logic level supply for interface signals (Vddi).
-       No need to set if this is the same as power-supply.
+diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
+index f020c0086fbc..6f51cb4fc55c 100644
+--- a/drivers/gpu/drm/i915/i915_gpu_error.c
++++ b/drivers/gpu/drm/i915/i915_gpu_error.c
+@@ -1164,9 +1164,8 @@ i915_vma_coredump_create(const struct intel_gt *gt,
  
-+  spi-3wire: true
-+
- required:
-   - compatible
-   - reg
+ 			drm_clflush_pages(&page, 1);
+ 
+-			s = kmap(page);
++			s = page_address(page);
+ 			ret = compress_page(compress, s, dst, false);
+-			kunmap(page);
+ 
+ 			drm_clflush_pages(&page, 1);
+ 
 -- 
-2.39.2
+2.25.1
 
