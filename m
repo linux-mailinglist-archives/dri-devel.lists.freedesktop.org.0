@@ -2,56 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D33FD730B9C
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 01:35:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4B73730BCD
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 01:55:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABC0E10E072;
-	Wed, 14 Jun 2023 23:34:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B39110E0E6;
+	Wed, 14 Jun 2023 23:55:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com
- [209.85.166.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7994D10E072
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 23:34:55 +0000 (UTC)
-Received: by mail-io1-f48.google.com with SMTP id
- ca18e2360f4ac-777a9d7efabso260799139f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 16:34:55 -0700 (PDT)
+Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com
+ [IPv6:2607:f8b0:4864:20::44a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76B3110E0E6
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 23:55:09 +0000 (UTC)
+Received: by mail-pf1-x44a.google.com with SMTP id
+ d2e1a72fcca58-6665d6c4ee3so782533b3a.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 16:55:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20221208; t=1686786908; x=1689378908;
+ h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=/Db8KxnSVPTgowcGe/Isx7RarF8FooosNlupn6FMqKw=;
+ b=68d1A1Tig/1eII5XPEXfOHqu8vpkYRpuCsx6V036uwEMnTYmARW+qtNlVFv2rP+VWC
+ uo3W/U8U+kL4Jub3FaVUEkCksUs4NZtX/RP/E97McWOR8Hn9ATAfO1iIoNMbi7FoQeXO
+ Oj+lL7ZfXaFg0Mxk72zcyhcrDagaT/KVbr1+/vtcVgKVtwHe/E12VdTqjsHZlSN+UH56
+ AChyg27Vj4/vL+rUQdhZvLfQ1xpQmGOLlYA+/WL/QWYoctM6tR2XkuEgY8hmPF9idUfP
+ M52HcGC1uy8xT1XxvHFK9K5h+BfR3cnWBw+DZBNt9qZECy7Me42syUKKxmefvPww3pHo
+ HcFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686785694; x=1689377694;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IUtSSGVFN/yztXgk7QCaXH/KHJwVxtAYPWqGRDI7ZjQ=;
- b=lByvNlCq5WowEQ+DMMd+aAwf3peRv+gko1ccQRlkJEwr19gaINQj6E0I67NNFXw1G+
- ubCqZEUZk8wcjaob5s6jK8f1Kil7nd8KHHzsQA5pO5Mzk1OgwUQyy8STQum1BSKsOGen
- u3cJXvWVJr5BA9+lFHmZ+YSPSHElq3nxBiTjs9s0RYIwWb2pyCzgp+g/E0/lGFB5qjpR
- CcLOAPggq/z2qMkCFPf/YOJGcX7Rndfmp/J8GdXGyQAenFRtnGu81vlZhaw9TgIZz85d
- Wtzez9/kGJFRKkJkTrRl7dexTx0lmXkZqQH48e6UlKZAbvepVUb/fbJ2J8G79B9SoUN/
- /zEg==
-X-Gm-Message-State: AC+VfDw1vuEnvULnhDk0Yr53wG4NiS7haQcn4JLtgvXbkCxRkFy0XdtY
- up+xySYjbWQrlbaA9cZDCg==
-X-Google-Smtp-Source: ACHHUZ6oXhegu7bEeIdTFjl2xc570z5mqCu0pw4FCI2MAW8eGDOpi2PDgUNBv3rpLuUD1XQFGvZAAg==
-X-Received: by 2002:a5e:df43:0:b0:777:8e86:7702 with SMTP id
- g3-20020a5edf43000000b007778e867702mr15365097ioq.16.1686785694195; 
- Wed, 14 Jun 2023 16:34:54 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
- by smtp.gmail.com with ESMTPSA id
- r23-20020a056638101700b0041cd626ea0csm5364731jab.147.2023.06.14.16.34.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jun 2023 16:34:53 -0700 (PDT)
-Received: (nullmailer pid 3202829 invoked by uid 1000);
- Wed, 14 Jun 2023 23:34:51 -0000
-Date: Wed, 14 Jun 2023 17:34:51 -0600
-From: Rob Herring <robh@kernel.org>
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH v2 1/2] of: module: Export of_device_uevent()
-Message-ID: <20230614233451.GA3201131-robh@kernel.org>
-References: <20230609155634.1495338-1-miquel.raynal@bootlin.com>
- <20230609155634.1495338-2-miquel.raynal@bootlin.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230609155634.1495338-2-miquel.raynal@bootlin.com>
+ d=1e100.net; s=20221208; t=1686786908; x=1689378908;
+ h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/Db8KxnSVPTgowcGe/Isx7RarF8FooosNlupn6FMqKw=;
+ b=J6nPmPwiatyAbENLdUHbbMi72+7m6K/57L93ngqcfjBto5A6iWuroCZqioUKCIuCYx
+ zAnXb1nmPKpbfJp6xrTap4GMU+Td7g1vDKeIJvdC9i6m38Pwuwx1HVbvgMZrR9SADI69
+ A7Qr2tgmNZ50T+8NPzSd79jgnc+FfEtu6ZBaBCMMALF/FaZqI9HrQwWrq0r5qyHUNshk
+ 1/KArRHFipiO5uLdkP86iaaaJBayZ65Yht+FllVbwhTKxKQPGgNEPzH3NmUBuvUWTfMZ
+ hmgjIUv/JMW6pIBKejHrS+MCMYfIoOvw38ac4vWgEv7zJhloggNcAQC63IjJgvEGEdEc
+ Mj4A==
+X-Gm-Message-State: AC+VfDxT4/S/+Y52EevHbOms5kkQZ40VsGbuKFdPwq+d9GgSxwhJGFZD
+ JJ59NnGb5HJ6Z6tk68iui/87cH1+cIo4yx8=
+X-Google-Smtp-Source: ACHHUZ4yAK39q4ouqLMpS+/Pahz2jLeOi1I3Slr+1pfwmFRaJ8eG44NErNa8BnzbvcHJLnhPEQ6oL68eBiUoG8I=
+X-Received: from pceballos.c.googlers.com
+ ([fda3:e722:ac3:cc00:24:72f4:c0a8:128c])
+ (user=pceballos job=sendgmr) by 2002:a05:6a00:1909:b0:64d:2cb0:c623 with SMTP
+ id y9-20020a056a00190900b0064d2cb0c623mr1109527pfi.4.1686786908572; Wed, 14
+ Jun 2023 16:55:08 -0700 (PDT)
+Date: Wed, 14 Jun 2023 23:54:52 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.41.0.162.gfafddb0af9-goog
+Message-ID: <20230614235452.3765265-1-pceballos@google.com>
+Subject: [PATCH v2] drm/i915/display/lspcon: Increase LSPCON mode settle
+ timeout
+From: Pablo Ceballos <pceballos@google.com>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,46 +67,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Pablo Ceballos <pceballos@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 09, 2023 at 05:56:33PM +0200, Miquel Raynal wrote:
-> The content of of_device_uevent() is currently hardcoded in a driver
-> that can be compiled as a module. Nothing prevents of_device_uevent() to
-> be exported to modules, most of the other helpers in of/device.c
-> actually are. The reason why this helper was not exported is because it
-> has been so far only useful in drivers/base, which is built-in anyway.
-> 
-> With the idea of getting rid of the hardcoded implementation of
-> of_device_uevent() in other places in the kernel, let's export it to GPL
-> modules (very much like its cousins in the same file).
-> 
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> ---
->  drivers/of/device.c | 1 +
->  1 file changed, 1 insertion(+)
+This is to eliminate all cases of "*ERROR* LSPCON mode hasn't settled",
+followed by link training errors. Intel engineers recommended increasing
+this timeout and that does resolve the issue.
 
-Assuming Thierry will pick this series up.
+On some CometLake-based device designs the Parade PS175 takes more than
+400ms to settle in PCON mode. 100 reboot trials on one device resulted
+in a median settle time of 440ms and a maximum of 444ms. Even after
+increasing the timeout to 500ms, 2% of devices still had this error. So
+this increases the timeout to 800ms.
 
-Acked-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Pablo Ceballos <pceballos@google.com>
+---
 
-> 
-> diff --git a/drivers/of/device.c b/drivers/of/device.c
-> index 0f00f1b80708..90131de6d75b 100644
-> --- a/drivers/of/device.c
-> +++ b/drivers/of/device.c
-> @@ -312,6 +312,7 @@ void of_device_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  	}
->  	mutex_unlock(&of_mutex);
->  }
-> +EXPORT_SYMBOL_GPL(of_device_uevent);
->  
->  int of_device_uevent_modalias(const struct device *dev, struct kobj_uevent_env *env)
->  {
-> -- 
-> 2.34.1
-> 
+Changelog since v1:
+- Added more details in the commit message
+
+ drivers/gpu/drm/i915/display/intel_lspcon.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_lspcon.c b/drivers/gpu/drm/i915/display/intel_lspcon.c
+index bb3b5355a0d9..d7299fdc43ad 100644
+--- a/drivers/gpu/drm/i915/display/intel_lspcon.c
++++ b/drivers/gpu/drm/i915/display/intel_lspcon.c
+@@ -167,7 +167,7 @@ static enum drm_lspcon_mode lspcon_wait_mode(struct intel_lspcon *lspcon,
+ 	drm_dbg_kms(&i915->drm, "Waiting for LSPCON mode %s to settle\n",
+ 		    lspcon_mode_name(mode));
+ 
+-	wait_for((current_mode = lspcon_get_current_mode(lspcon)) == mode, 400);
++	wait_for((current_mode = lspcon_get_current_mode(lspcon)) == mode, 800);
+ 	if (current_mode != mode)
+ 		drm_err(&i915->drm, "LSPCON mode hasn't settled\n");
+ 
+-- 
+2.41.0.162.gfafddb0af9-goog
+
