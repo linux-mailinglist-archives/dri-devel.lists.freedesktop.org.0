@@ -2,58 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB3F972FFAA
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jun 2023 15:13:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DB7B72FFEA
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jun 2023 15:22:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A98D410E458;
-	Wed, 14 Jun 2023 13:13:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4873110E45A;
+	Wed, 14 Jun 2023 13:22:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2AC910E458
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 13:12:59 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 0A1A72253C;
- Wed, 14 Jun 2023 13:12:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1686748378; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=NowBNHYm1j2pm0/04DLXGS/RJgQBaug3LwNNgtMoY80=;
- b=glTK7zrMsJmcWs0ZjCgJiDxyaUC+EE1DvQVdNqldwLb2FC1v/gCcRylZuGCKF1bjGi/YsU
- w0GWbXihHeQNXJyLmtxW9re1KO6+e3e8YRV5KzZx00/N9aH+Aw/GYLBtgWrfLilDdVaPfI
- iw1cUJXx7t9+i5oYw4L7/II5dWSw+cs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1686748378;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=NowBNHYm1j2pm0/04DLXGS/RJgQBaug3LwNNgtMoY80=;
- b=y+ch78RgGWXplwWjv3k6PnrNIeBC7aGodjEjYGXOYrCgUv3Ni5gya6YG1hBqnnXqr5J92R
- ObJrE1+IPZy95EAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CDF261357F;
- Wed, 14 Jun 2023 13:12:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Ev44Mdm8iWR9VAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 14 Jun 2023 13:12:57 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: sam@ravnborg.org,
-	deller@gmx.de,
-	ckoenig.leichtzumerken@gmail.com
-Subject: [PATCH] fbdev: Use /* */ comment in initializer macro
-Date: Wed, 14 Jun 2023 15:12:12 +0200
-Message-ID: <20230614131253.10208-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.41.0
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F85610E455;
+ Wed, 14 Jun 2023 13:22:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686748950; x=1718284950;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=krZlgUF812lZ1Msg1luNdv0RZ6yxrI7AK5Nw8giEATI=;
+ b=UDMs43fsWXq0FQ965v2WXm403z8zZhfMfZ/4iOO4qNlQ9oW5K77TcfBj
+ VikN3Scej99lDxoKk3wnYp8/2W3sRfU7GztTF+cVtsYGQIxLDnaWrA3TO
+ 4oVwLDS7ZbCGaGmclrIlbk4S0VE5kQh6c3rDT8ebglzHjyfUHgt1dnwSN
+ VZ6RYqLRYVoT/8bZAhJKsqo8W/er4ccJDlwPfSF4LnWuG8hyq5syS747/
+ ElAoSO95Ss1/Eu4RzvT3imBPUfys8O8msngQfmZIFUw2Sj3O8GxYoHRes
+ 7cOxXHMIM22i8EX7xwtKtXfIKwz7/FQeh+IjBtzL3XWvrXYvThltwWcDL A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="444977889"
+X-IronPort-AV: E=Sophos;i="6.00,242,1681196400"; d="scan'208";a="444977889"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2023 06:22:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="801899074"
+X-IronPort-AV: E=Sophos;i="6.00,242,1681196400"; d="scan'208";a="801899074"
+Received: from sobyrne-mobl1.ger.corp.intel.com (HELO [10.213.224.182])
+ ([10.213.224.182])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2023 06:22:25 -0700
+Message-ID: <bebd57fc-7135-dc97-701e-54cb9c2955c0@linux.intel.com>
+Date: Wed, 14 Jun 2023 14:22:23 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm/i915: Call page_address() on page acquired with
+ GFP_KERNEL flag
+Content-Language: en-US
+To: Sumitra Sharma <sumitraartsy@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20230614123556.GA381200@sumitra.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20230614123556.GA381200@sumitra.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,48 +68,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
+Cc: Deepak R Varma <drv@mailo.com>, Fabio <fmdefrancesco@gmail.com>,
+ Thomas Hellstrom <thomas.hellstrom@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use /* */ in initializer macro to avoid out-commenting the comma
-at the end of the line.
 
-Reported-by: Christian König <ckoenig.leichtzumerken@gmail.com>
-Closes: https://lore.kernel.org/dri-devel/20230530150253.22758-1-tzimmermann@suse.de/T/#m356cda2679c17d7a01f30ce2b5282cd9046ea6d4
-Fixes: f1061fa641b8 ("fbdev: Add initializer macros for struct fb_ops")
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Helge Deller <deller@gmx.de>
-Cc: linux-fbdev@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- include/linux/fb.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 14/06/2023 13:35, Sumitra Sharma wrote:
+> Pages allocated with GFP_KERNEL cannot come from Highmem.
+> That is why there is no need to call kmap() on them.
 
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index ce6823e157e6b..ce7d588edc3e6 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -552,7 +552,7 @@ extern ssize_t fb_io_write(struct fb_info *info, const char __user *buf,
- 	.fb_imageblit	= cfb_imageblit
- 
- #define __FB_DEFAULT_IO_OPS_MMAP \
--	.fb_mmap	= NULL // default implementation
-+	.fb_mmap	= NULL /* default implementation */
- 
- #define FB_DEFAULT_IO_OPS \
- 	__FB_DEFAULT_IO_OPS_RDWR, \
-@@ -585,7 +585,7 @@ extern ssize_t fb_sys_write(struct fb_info *info, const char __user *buf,
- 	.fb_imageblit	= sys_imageblit
- 
- #define __FB_DEFAULT_SYS_OPS_MMAP \
--	.fb_mmap	= NULL // default implementation
-+	.fb_mmap	= NULL /* default implementation */
- 
- #define FB_DEFAULT_SYS_OPS \
- 	__FB_DEFAULT_SYS_OPS_RDWR, \
--- 
-2.41.0
+Are you sure it is GFP_KERNEL backed and not tmpfs? I am not sure myself 
+so let me copy Matt and Thomas if they happen to know off hand.
 
+Regards,
+
+Tvrtko
+
+> Therefore, don't call kmap() on the page coming from
+> vma_res->bi.pages using for_each_sgt_page() in
+> i915_vma_coredump_create().
+> 
+> Use a plain page_address() to get the kernel address instead.
+> 
+> Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
+> ---
+>   drivers/gpu/drm/i915/i915_gpu_error.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
+> index f020c0086fbc..6f51cb4fc55c 100644
+> --- a/drivers/gpu/drm/i915/i915_gpu_error.c
+> +++ b/drivers/gpu/drm/i915/i915_gpu_error.c
+> @@ -1164,9 +1164,8 @@ i915_vma_coredump_create(const struct intel_gt *gt,
+>   
+>   			drm_clflush_pages(&page, 1);
+>   
+> -			s = kmap(page);
+> +			s = page_address(page);
+>   			ret = compress_page(compress, s, dst, false);
+> -			kunmap(page);
+>   
+>   			drm_clflush_pages(&page, 1);
+>   
