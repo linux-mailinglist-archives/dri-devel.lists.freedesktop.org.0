@@ -1,48 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFFD572F77A
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jun 2023 10:13:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E07E72F799
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jun 2023 10:17:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4B6510E416;
-	Wed, 14 Jun 2023 08:13:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA45010E113;
+	Wed, 14 Jun 2023 08:17:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B14A910E416
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 08:13:15 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 01DFC838;
- Wed, 14 Jun 2023 10:12:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1686730363;
- bh=EOB+XTys8buj3IJtQdqls61sGqyEJtwNJtRIoWEZ9uM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LYw1K6BAkpTabXiS+mthzurbmsN8oIJaQASbtfjFxsclKy+q78EuJ7fDjwCg54Kv5
- 8T8f8dXNtS5BiMOsjzeZim6/HS8l5/KAwWACDYrcpRAQ12X0Yqf7UznVXxUn8qDikc
- CSZ2uCgX0+H5ySWns17ifQQTvbRHQ9isBheOOy0g=
-Date: Wed, 14 Jun 2023 11:13:14 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Message-ID: <20230614081314.GD17519@pendragon.ideasonboard.com>
-References: <OS0PR01MB5922ECEABE4D6FC385D184008650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB592265BFDF18F860E1EB4CFE8654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <ZIcRKl3PDy0+yZS9@ninjato>
- <CAMuHMdV_iwdP+K1us86OB4VtDDqA=P_vNeCP15kqRuXqcYr3hg@mail.gmail.com>
- <ZIcUEdctlgRsGxJ3@ninjato>
- <CAMuHMdVOkBeKOEW9PkWB3Tqwa6-rC3BQj=W9VAEgeZfgqvQmWQ@mail.gmail.com>
- <ZIeDcVcfxfcMx/BP@shikoro>
- <OS0PR01MB592220CCA081848A711D75328655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB592210CE54A9CF953980DFEE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB59220D794AED55A6B795C3EF8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 617E910E113
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 08:17:35 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8Ax3eqdd4lkbAgFAA--.10696S3;
+ Wed, 14 Jun 2023 16:17:33 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8CxCOWbd4lk614aAA--.9610S3; 
+ Wed, 14 Jun 2023 16:17:31 +0800 (CST)
+Message-ID: <67c7f462-6564-0d54-9eda-0e97f66bee8b@loongson.cn>
+Date: Wed, 14 Jun 2023 16:17:31 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <OS0PR01MB59220D794AED55A6B795C3EF8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm/fbdev-generic: Remove a redundant assignment clause
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20230614013011.750598-1-suijingfeng@loongson.cn>
+ <b99747c5-8810-d2b6-80c7-dbc85fcefb8b@suse.de>
+Content-Language: en-US
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <b99747c5-8810-d2b6-80c7-dbc85fcefb8b@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8CxCOWbd4lk614aAA--.9610S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7uw17JFWDWr1UAFWUGFyxCrX_yoW8ZF15pF
+ Z5KFW5GryDKF4rGF4xJwnxJryUXanrJa4DKr18Aa4jyr4qyryI9FykZrn0gF15Jw4xGF4U
+ JrnI9F97uryxCrcCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUvFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v2
+ 6F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
+ 02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAF
+ wI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4
+ CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
+ 67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMI
+ IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E
+ 14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JV
+ WxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUcVc_
+ UUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,100 +68,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Antonio Borneo <antonio.borneo@foss.st.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Alessandro Zummo <a.zummo@towertech.it>,
- Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Mark Brown <broonie@kernel.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Wolfram Sang <wsa@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 13, 2023 at 07:31:46PM +0000, Biju Das wrote:
-> > Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-> > > Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-> > > > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-> > > >
-> > > > Hi everyone,
-> > > >
-> > > > > Perhaps we should first think through what an ancillary device
-> > > > > really is.  My understanding is that it is used to talk to
-> > > > > secondary addresses of a multi-address I2C slave device.
-> > > >
-> > > > As I mentioned somewhere before, this is not the case. Ancillary
-> > > > devices are when one *driver* handles more than one address.
-> > > > Everything else has been handled differently in the past (for  all
-> > > > the uses I am aware of).
-> > > >
-> > > > Yet, I have another idea which is so simple that I wonder if it
-> > > > maybe has already been discussed so far?
-> > > >
-> > > > * have two regs in the bindings
-> > >
-> > > OK, it is inline with DT maintainers expectation as it is matching
-> > > with real hw as single device node having two regs.
-> > >
-> > > > * use the second reg with i2c_new_client_device to instantiate the
-> > > >   RTC sibling. 'struct i2c_board_info', which is one parameter, should
-> > > >   have enough options to pass data, e.g it has a software_node.
-> > >
-> > > OK, I can see the below can be passed from PMIC to new client device.
-> > >
-> > > 	client->addr = info->addr;
-> > >
-> > > 	client->init_irq = info->irq;
-> > >
-> > > >
-> > > > Should work or did I miss something here?
-> > >
-> > > I guess it will work. We instantiate appropriate device based On PMIC
-> > > revision and slave address and IRQ resource passed through 'struct
-> > > i2c_board_info'
-> > >
-> > > Will check this and update you.
-> > 
-> > info.irq = irq; -->Irq fine
-> > info.addr = addr; -->slave address fine
-> > size = strscpy(info.type, name, sizeof(info.type)); -->instantiation based
-> > on PMIC version fine.
-> > 
-> > 1) How do we share clk details on instantiated device to find is it
-> > connected to external crystal or external clock source? as we cannot pass
-> > of_node between PMIC and "i2c_board_info" as it results in pinctrl
-> > failure. info->platformdata and
-> > Client->dev.platformdata to retrieve this info??
-> 
-> Or 
-> 
-> I2C instantiation based on actual oscillator bit value, ie, two i2c_device_id's
-> with one for setting oscillator bit and another for clearing oscillator bit
-> 
-> PMIC driver parses the clock details. Based on firmware version and clock, 
-> It instantiates either i2c_device_id with setting oscillator bit or
-> clearing oscillator bit.
+Hi,
 
-I don't like that hack. I still think that two DT nodes is the best
-option, I think you're trying hard to hack around a problem that is
-actually not a problem.
+On 2023/6/14 13:29, Thomas Zimmermann wrote:
+> Hi
+>
+> Am 14.06.23 um 03:30 schrieb Sui Jingfeng:
+>> The assignment "dst = map;" in the drm_fbdev_generic_damage_blit() 
+>> function
+>> is redundant because it has already been copied when the call to
+>> drm_client_buffer_vmap() is finished. Therefore, this patch saves a 
+>> useless
+>> copy. No functional change.
+>
+> Isn't that what we discussed here?
+>
+Yeah,
 
+Lucas say he would like to take a deeper look in later time.
+
+Then, two and half a mouths passed, it seem that no one send
+
+fix patch.
+
+I thinks this is an exercise for me, I resend this patch again.
+
+Any idea?
+
+> https://lore.kernel.org/dri-devel/20230325074636.136833-1-15330273260@189.cn/ 
+>
+>
+> Best regards
+> Thomas
+>
+>>
+>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>> ---
+>>   drivers/gpu/drm/drm_fbdev_generic.c | 5 ++---
+>>   1 file changed, 2 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_fbdev_generic.c 
+>> b/drivers/gpu/drm/drm_fbdev_generic.c
+>> index 98ae703848a0..aa6924e3a58c 100644
+>> --- a/drivers/gpu/drm/drm_fbdev_generic.c
+>> +++ b/drivers/gpu/drm/drm_fbdev_generic.c
+>> @@ -182,7 +182,7 @@ static int drm_fbdev_generic_damage_blit(struct 
+>> drm_fb_helper *fb_helper,
+>>                        struct drm_clip_rect *clip)
+>>   {
+>>       struct drm_client_buffer *buffer = fb_helper->buffer;
+>> -    struct iosys_map map, dst;
+>> +    struct iosys_map map;
+>>       int ret;
+>>         /*
+>> @@ -202,8 +202,7 @@ static int drm_fbdev_generic_damage_blit(struct 
+>> drm_fb_helper *fb_helper,
+>>       if (ret)
+>>           goto out;
+>>   -    dst = map;
+>> -    drm_fbdev_generic_damage_blit_real(fb_helper, clip, &dst);
+>> +    drm_fbdev_generic_damage_blit_real(fb_helper, clip, &map);
+>>         drm_client_buffer_vunmap(buffer);
+>
 -- 
-Regards,
+Jingfeng
 
-Laurent Pinchart
