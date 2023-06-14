@@ -1,48 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0244372F9D9
-	for <lists+dri-devel@lfdr.de>; Wed, 14 Jun 2023 11:54:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE8C672F9E4
+	for <lists+dri-devel@lfdr.de>; Wed, 14 Jun 2023 11:56:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DD8C10E432;
-	Wed, 14 Jun 2023 09:54:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 503CF10E434;
+	Wed, 14 Jun 2023 09:56:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3FA710E432
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 09:54:26 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6CF1875A;
- Wed, 14 Jun 2023 11:53:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1686736433;
- bh=jY0sTKHt7HU6uex/YdEGSJnTrZqVcVdf9mAvVYEw74Y=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Dxsn4+wXjL23UbeAgTZBTA9kIynsp3+NX2j2bjzcAGAmVm0JrrLJLjrjnzIJRKyS+
- GnymMHyDw4ZcNQEpSe1jgsIK1ipLqJp907r7irmXTNfGFJD3eCvb0eA4l/MOyx5y8C
- +Xu4Ci5sPwHaEQ/Lp/DGZqljH+3PVLvZXvTCT7wg=
-Date: Wed, 14 Jun 2023 12:54:24 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Message-ID: <20230614095424.GJ28480@pendragon.ideasonboard.com>
-References: <ZIcRKl3PDy0+yZS9@ninjato>
- <CAMuHMdV_iwdP+K1us86OB4VtDDqA=P_vNeCP15kqRuXqcYr3hg@mail.gmail.com>
- <ZIcUEdctlgRsGxJ3@ninjato>
- <CAMuHMdVOkBeKOEW9PkWB3Tqwa6-rC3BQj=W9VAEgeZfgqvQmWQ@mail.gmail.com>
- <ZIeDcVcfxfcMx/BP@shikoro>
- <OS0PR01MB592220CCA081848A711D75328655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB592210CE54A9CF953980DFEE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB59220D794AED55A6B795C3EF8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230614081314.GD17519@pendragon.ideasonboard.com>
- <OS0PR01MB59225C45554667D342454923865AA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it [5.144.164.167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 647D710E437
+ for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 09:56:38 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 655E63F2DD;
+ Wed, 14 Jun 2023 11:56:36 +0200 (CEST)
+Date: Wed, 14 Jun 2023 11:56:35 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: Re: [PATCH 3/3] drm/msm/dsi: Enable DATABUS_WIDEN for DSI command mode
+Message-ID: <ky7sgsaohak2pcdf6pbhedfyrwk4ea7y3ekfqlw7rn6cpk4rhe@rjuhb23n37oz>
+References: <20230525-add-widebus-support-v1-0-c7069f2efca1@quicinc.com>
+ <20230525-add-widebus-support-v1-3-c7069f2efca1@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <OS0PR01MB59225C45554667D342454923865AA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <20230525-add-widebus-support-v1-3-c7069f2efca1@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,138 +42,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Antonio Borneo <antonio.borneo@foss.st.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Alessandro Zummo <a.zummo@towertech.it>,
- Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Mark Brown <broonie@kernel.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Wolfram Sang <wsa@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 14, 2023 at 08:21:38AM +0000, Biju Das wrote:
-> Hi Laurent,
+On 2023-06-13 18:57:13, Jessica Zhang wrote:
+> DSI 6G v2.5.x+ supports a data-bus widen mode that allows DSI to send
+> 48 bits of compressed data per pclk instead of 24.
 > 
-> Thanks for the feedback.
+> For all chipsets that support this mode, enable it whenever DSC is
+> enabled as recommend by the hardware programming guide.
 > 
-> > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-> > 
-> > On Tue, Jun 13, 2023 at 07:31:46PM +0000, Biju Das wrote:
-> > > > Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device
-> > > > API
-> > > > > Subject: RE: [PATCH v5 01/11] i2c: Enhance
-> > > > > i2c_new_ancillary_device API
-> > > > > > Subject: Re: [PATCH v5 01/11] i2c: Enhance
-> > > > > > i2c_new_ancillary_device API
-> > > > > >
-> > > > > > Hi everyone,
-> > > > > >
-> > > > > > > Perhaps we should first think through what an ancillary device
-> > > > > > > really is.  My understanding is that it is used to talk to
-> > > > > > > secondary addresses of a multi-address I2C slave device.
-> > > > > >
-> > > > > > As I mentioned somewhere before, this is not the case. Ancillary
-> > > > > > devices are when one *driver* handles more than one address.
-> > > > > > Everything else has been handled differently in the past (for
-> > > > > > all the uses I am aware of).
-> > > > > >
-> > > > > > Yet, I have another idea which is so simple that I wonder if it
-> > > > > > maybe has already been discussed so far?
-> > > > > >
-> > > > > > * have two regs in the bindings
-> > > > >
-> > > > > OK, it is inline with DT maintainers expectation as it is matching
-> > > > > with real hw as single device node having two regs.
-> > > > >
-> > > > > > * use the second reg with i2c_new_client_device to instantiate the
-> > > > > >   RTC sibling. 'struct i2c_board_info', which is one parameter, should
-> > > > > >   have enough options to pass data, e.g it has a software_node.
-> > > > >
-> > > > > OK, I can see the below can be passed from PMIC to new client device.
-> > > > >
-> > > > > 	client->addr = info->addr;
-> > > > >
-> > > > > 	client->init_irq = info->irq;
-> > > > >
-> > > > > >
-> > > > > > Should work or did I miss something here?
-> > > > >
-> > > > > I guess it will work. We instantiate appropriate device based On
-> > > > > PMIC revision and slave address and IRQ resource passed through
-> > > > > 'struct i2c_board_info'
-> > > > >
-> > > > > Will check this and update you.
-> > > >
-> > > > info.irq = irq; -->Irq fine
-> > > > info.addr = addr; -->slave address fine size = strscpy(info.type,
-> > > > name, sizeof(info.type)); -->instantiation based on PMIC version
-> > > > fine.
-> > > >
-> > > > 1) How do we share clk details on instantiated device to find is it
-> > > > connected to external crystal or external clock source? as we cannot
-> > > > pass of_node between PMIC and "i2c_board_info" as it results in
-> > > > pinctrl failure. info->platformdata and
-> > > > Client->dev.platformdata to retrieve this info??
-> > >
-> > > Or
-> > >
-> > > I2C instantiation based on actual oscillator bit value, ie, two
-> > > i2c_device_id's with one for setting oscillator bit and another for
-> > > clearing oscillator bit
-> > >
-> > > PMIC driver parses the clock details. Based on firmware version and
-> > > clock, It instantiates either i2c_device_id with setting oscillator
-> > > bit or clearing oscillator bit.
-> > 
-> > I don't like that hack. I still think that two DT nodes is the best
-> > option, I think you're trying hard to hack around a problem that is
-> > actually not a problem.
+> Only enable this for command mode as we are currently unable to validate
+> it for video mode.
 > 
-> Why do you think it is a hack? I believe rather it is actual solution
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> ---
 > 
-> PMIC is a single device, with 2 regs, clocks, pinctrl and IRQ properties.
-> So it will be represented as single node with single compatible.
+> Note: The dsi.xml.h changes were generated using the headergen2 script in
+> envytools [1], but the changes to the copyright and rules-ng-ng source file
+> paths were dropped.
+> 
+> [1] https://github.com/freedreno/envytools/
 
-The chip is a single package that contains two independent devices. This
-is not different than bundling many IP cores in an SoC, we have one DT
-node per IP core, not a single DT node for the SoC. The fact that we're
-dealing with an external physical component here isn't relevant.
+More interesting would be a link to the Mesa MR upstreaming this
+bitfield to dsi.xml [2] (which I have not found on my own yet).
 
-> By instating a client device, we are sharing the relevant resources to
-> RTC device driver.
+[2]: https://gitlab.freedesktop.org/mesa/mesa/-/blame/main/src/freedreno/registers/dsi/dsi.xml
 
-By instantiating a client device, you create a second struct device,
-which is the kernel abstraction of a hardware device. This shows in my
-opinion that we're dealing with two devices here, hence my
-recommendation of using two DT nodes.
+>  drivers/gpu/drm/msm/dsi/dsi.xml.h  |  1 +
+>  drivers/gpu/drm/msm/dsi/dsi_host.c | 19 ++++++++++++++++++-
+>  2 files changed, 19 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi.xml.h b/drivers/gpu/drm/msm/dsi/dsi.xml.h
+> index a4a154601114..2a7d980e12c3 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi.xml.h
+> +++ b/drivers/gpu/drm/msm/dsi/dsi.xml.h
+> @@ -664,6 +664,7 @@ static inline uint32_t DSI_CMD_MODE_MDP_CTRL2_INPUT_RGB_SWAP(enum dsi_rgb_swap v
+>  	return ((val) << DSI_CMD_MODE_MDP_CTRL2_INPUT_RGB_SWAP__SHIFT) & DSI_CMD_MODE_MDP_CTRL2_INPUT_RGB_SWAP__MASK;
+>  }
+>  #define DSI_CMD_MODE_MDP_CTRL2_BURST_MODE			0x00010000
+> +#define DSI_CMD_MODE_MDP_CTRL2_DATABUS_WIDEN			0x00100000
+> 
+>  #define REG_DSI_CMD_MODE_MDP_STREAM2_CTRL			0x000001b8
+>  #define DSI_CMD_MODE_MDP_STREAM2_CTRL_DATA_TYPE__MASK		0x0000003f
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index 5d7b4409e4e9..1da5238e7105 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -927,6 +927,9 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+>  	u32 hdisplay = mode->hdisplay;
+>  	u32 wc;
+>  	int ret;
+> +	bool widebus_supported = msm_host->cfg_hnd->major == MSM_DSI_VER_MAJOR_6G &&
+> +			msm_host->cfg_hnd->minor >= MSM_DSI_6G_VER_MINOR_V2_5_0;
+> +
+> 
+>  	DBG("");
+> 
+> @@ -973,8 +976,15 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+>  		 *
+>  		 * hdisplay will be divided by 3 here to account for the fact
+>  		 * that DPU sends 3 bytes per pclk cycle to DSI.
+> +		 *
+> +		 * If widebus is supported, set DATABUS_WIDEN register and divide hdisplay by 6
+> +		 * instead of 3
 
-As you've noticed, with two devices and a single DT node, pinctrl
-complains. You can hack around that by moving the pinctrl configuration
-from the PMIC DT node to another DT node, and that's one first hack.
-Then, you'll need to have two different device IDs depending on the PMIC
-version to let the RTC driver set the oscillator bit correctly, and
-that's a second hack.
+So this should allow us to divide pclk by 2, or have much lower latency?
+Otherwise it'll tick enough times to transmit the data twice.
 
-A solution with two DT nodes models the hardware better and is cleaner.
+Note that I brought up the exact same concerns when you used the 3:1
+ratio from dsi_bpp / dsc_bpp in your pclk reduction patch (instad of the
+number of bits/bytes that DPU sends to DSI per pclk), but no-one has
+replied to my inquiry yet.
 
--- 
-Regards,
+>  		 */
+> -		hdisplay = DIV_ROUND_UP(msm_dsc_get_bytes_per_line(msm_host->dsc), 3);
+> +		if (!(msm_host->mode_flags & MIPI_DSI_MODE_VIDEO) && widebus_supported)
+> +			hdisplay = DIV_ROUND_UP(msm_dsc_get_bytes_per_line(msm_host->dsc), 6);
+> +		else
+> +			hdisplay = DIV_ROUND_UP(msm_dsc_get_bytes_per_line(msm_host->dsc), 3);
 
-Laurent Pinchart
+Nit: I wonder if this is more concise when written as:
+
+    u32 bytes_per_pclk;
+    ...
+    if (!video && widebus)
+        bytes_per_pclk = 6;
+    else
+        bytes_per_pclk = 3;
+
+    hdisplay = DIV_ROUND_UP(msm_dsc_get_bytes_per_line(msm_host->dsc),
+                            bytes_per_pclk);
+
+That is less duplication, **and** the value becomes self-documenting!
+
+> +
+>  		h_total += hdisplay;
+>  		ha_end = ha_start + hdisplay;
+>  	}
+> @@ -1027,6 +1037,13 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+>  		dsi_write(msm_host, REG_DSI_CMD_MDP_STREAM0_TOTAL,
+>  			DSI_CMD_MDP_STREAM0_TOTAL_H_TOTAL(hdisplay) |
+>  			DSI_CMD_MDP_STREAM0_TOTAL_V_TOTAL(mode->vdisplay));
+> +
+> +		if (msm_host->dsc && widebus_supported) {
+
+Can we also support widebus for uncompressed streams (sending 2 pixels
+of bpp=24 per pclk), and if so, is that something you want to add in the
+future (a comment would be nice)?
+
+> +			u32 mdp_ctrl2 = dsi_read(msm_host, REG_DSI_CMD_MODE_MDP_CTRL2);
+> +
+> +			mdp_ctrl2 |= DSI_CMD_MODE_MDP_CTRL2_DATABUS_WIDEN;
+> +			dsi_write(msm_host, REG_DSI_CMD_MODE_MDP_CTRL2, mdp_ctrl2);
+> +		}
+
+Same comment as on your BURST_MODE patch (which this'll conflict with):
+does this belong to the timing setup or is it better moved to
+dsi_ctrl_config?
+
+- Marijn
+
+>  	}
+>  }
+> 
+> 
+> --
+> 2.40.1
+> 
