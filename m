@@ -2,76 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF6847311C4
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 10:07:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2D6C7311C7
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 10:09:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B7F510E495;
-	Thu, 15 Jun 2023 08:07:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FF9A10E497;
+	Thu, 15 Jun 2023 08:09:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com
- [209.85.128.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B103A10E495
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 08:07:56 +0000 (UTC)
-Received: by mail-yw1-f180.google.com with SMTP id
- 00721157ae682-56d378b75f0so17605847b3.1
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 01:07:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686816475; x=1689408475;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=uwN7xkQsIMitCd4edPOUEfx3D1ulWw+mJLJ/cEru9Gs=;
- b=IwXNFuaVk9TXH1h8NrdLD1WBd3xyt4Pgp88wY7Z3xqo6SyE8wp4W3GcUZEOMDVuQSf
- 6ebkmeqcJvrHKPuLbcKfacTK9RVb30sccbvp4ZMXN53RDlIkOXq5JcroOBC292y/PIfE
- BDsKlUtf1Ds5QyETOdxQKHTv03pJhb6hcQA8LkDYctcqrOvrqTuS8F0j91msASGQcx9e
- SgQVrIkIP1mJW+eg2jUhieSxwfbZH7XsmhNtwUrgUhp4WL8gcgnD7MzwZWSeZdGvyGtw
- lqQ27ZFIjV8v2Tm3SWtMKBmJGFcf/I8qy5qslJJ5QajQ8AbgwPsFw2CGg9NItqbkbUpC
- +dpw==
-X-Gm-Message-State: AC+VfDzxOngI6N912y8VzpKznyN/xBtPZGkGNAB1vNzyfL7qfsTpOM8+
- OB6lb5kkg6OGUDURqolvjwfB+0WseRjp0g==
-X-Google-Smtp-Source: ACHHUZ4xRWvnvEHh93h9g7LV5FKtvAq25l3hC9yAmbhWyVO4rQ2g8xy3tsEOXhJlqgyPW1TOBzbZTA==
-X-Received: by 2002:a0d:e850:0:b0:565:a0c8:7e66 with SMTP id
- r77-20020a0de850000000b00565a0c87e66mr3898214ywe.0.1686816474963; 
- Thu, 15 Jun 2023 01:07:54 -0700 (PDT)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com.
- [209.85.219.180]) by smtp.gmail.com with ESMTPSA id
- j132-20020a81928a000000b0056d1de0a154sm234436ywg.37.2023.06.15.01.07.53
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Jun 2023 01:07:53 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id
- 3f1490d57ef6-bb2ffa1e235so1401428276.0
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 01:07:53 -0700 (PDT)
-X-Received: by 2002:a25:2805:0:b0:bca:9326:2f5e with SMTP id
- o5-20020a252805000000b00bca93262f5emr3925299ybo.39.1686816473432; Thu, 15 Jun
- 2023 01:07:53 -0700 (PDT)
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
+ [85.215.255.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9B5210E497
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 08:09:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1686816558; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=CM7X1acMlB9WU8dvRzsFaeuR+Zxu4lSplpwEgbSpugUa9RAg2qqohuAnJAoqe8ZAhF
+ 6pPANXYTQH9flPD4cWTmMgVPfXT83mP1DUIZgqMqTyGvYptaP5EMXyktTqJkUKwrHkog
+ K+D33JWQkJmx+bwHHWXgoDQ98IvEMkso2v0y3VpwchWop/OoT9ZzRbLwFGYdu02vTTGV
+ ywdG5X7y6IPwO3v6poPLO+NHEmdfpuHJKZPiGIrmpdkIl4fjaAh9jyyc06sfATA7XWTz
+ GtDXf/iMgnZBYUAFacExRV/40+NfkfiSGMUwL5R74oyBPy0TqAgrbFpSPPD4A5/Se6rF
+ SMvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1686816558;
+ s=strato-dkim-0002; d=strato.com;
+ h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+ From:Subject:Sender;
+ bh=fHWWafcLE6QbxDZMj4uI+BLupiwN2GnJnfQh/hNxH3w=;
+ b=EilZDXPgL9RnXrs4Q7bb79kSb+2Y9saXgDc5xqj6kXL0/7zFSLob8W7rcyJPmZCLbJ
+ KJ9CyeBMGPwN4WaydiABVLlViwq5cXGIdPn+su4Lw1wuI/diBmcx1dF6PLKtzLd86aut
+ ZGD5A2nLamYb56Pwmv2WjTGX255u6Oyu1QuRQKggUGDdgzdfxB08r8wVPyrsnFx1qBQ1
+ ipHmc2bYGUbhDCByXlA27mjFFS9hzKRKx3cuvuk9VRxMm+6chG/Up64Na14bOu+nteiP
+ mji12lqb8bzyZOZqdmtlrBy3xabd8hVduUgSYQOltkQXa87cKBJ5LCjn6Z5fKvbgzl0D
+ 6yzQ==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1686816558;
+ s=strato-dkim-0002; d=gerhold.net;
+ h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+ From:Subject:Sender;
+ bh=fHWWafcLE6QbxDZMj4uI+BLupiwN2GnJnfQh/hNxH3w=;
+ b=fYekLnWK/msIk09f0xVngrxb/OzQleVapVWg8qySgcFjEdgLF919n2Apkg3Upqa450
+ o/h2jP/g2cyoLffYtEllyfHjHhTmSI5RS9/7RUalT3wK9xxt2/hDKvSF8ddLzEw7aChx
+ CICeaH1+kkxzvKjmXk9DxDwtIUDFhCUocCLBWUS00/hi+vZr1T/UuRLAdzlpiMvntFzD
+ n9lyltZarnb2oZLE1mLKIoAY8lYsdqCVhD9RARrQF8X4dPUCreMQWh5Dnr5RRGvCLEI5
+ rGn0MQ5zkKIyGV+m02w5VcrAKo3PBUavQ1ifEQkasdblhLttKJVyHyMX+7CWRcCeYBU7
+ P+uQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1686816558;
+ s=strato-dkim-0003; d=gerhold.net;
+ h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+ From:Subject:Sender;
+ bh=fHWWafcLE6QbxDZMj4uI+BLupiwN2GnJnfQh/hNxH3w=;
+ b=8W/5Wst501Ovg8dERHZTLgFkDKd47TFrLgU6DVM53Ic/bnegN1+Mlaw9glGzNOUn2m
+ YV7Z6Evh/7EWHjGD8wCQ==
+X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQ/OcYgojyw4j34+u261EJF5OxJD4paA9J/h"
+Received: from gerhold.net by smtp.strato.de (RZmta 49.6.0 DYNA|AUTH)
+ with ESMTPSA id D0d0a8z5F89H1vN
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Thu, 15 Jun 2023 10:09:17 +0200 (CEST)
+Date: Thu, 15 Jun 2023 10:09:11 +0200
+From: Stephan Gerhold <stephan@gerhold.net>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] drm/panel: move some dsi commands from unprepare to
+ disable
+Message-ID: <ZIrHJwm2-ghSUHL0@gerhold.net>
+References: <20230613-panel-dsi-disable-v1-1-5e454e409fa8@linaro.org>
+ <ZIjayn8nVy-ejThH@gerhold.net>
+ <CACRpkdZ7a3aARMs3iBbBavF_0AkPOPs3fH8e6CrZYo7Ybr6m_A@mail.gmail.com>
+ <4f78b601-6e6e-2274-3174-87c62d7cfcd5@linaro.org>
 MIME-Version: 1.0
-References: <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230608103929.GO5058@pendragon.ideasonboard.com>
- <OS0PR01MB592259E6A7ACED4A0548DD228650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230608125019.GD26742@pendragon.ideasonboard.com>
- <OS0PR01MB5922ECEABE4D6FC385D184008650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB592265BFDF18F860E1EB4CFE8654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <ZIcRKl3PDy0+yZS9@ninjato>
- <CAMuHMdV_iwdP+K1us86OB4VtDDqA=P_vNeCP15kqRuXqcYr3hg@mail.gmail.com>
- <ZIcUEdctlgRsGxJ3@ninjato>
- <CAMuHMdVOkBeKOEW9PkWB3Tqwa6-rC3BQj=W9VAEgeZfgqvQmWQ@mail.gmail.com>
- <ZIeDcVcfxfcMx/BP@shikoro>
- <CAMuHMdV_Ty=rkcMzsrnJ3YHZngRbyWvYjR_K9Zh7RiAJ4LbvKg@mail.gmail.com>
- <OS0PR01MB59225195B4F2C771F302F7EE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdUTAerddXG3zJVRZEAwcrR6V=NFeHwsKV9_tE+ccfw6_w@mail.gmail.com>
- <OS0PR01MB59224D7C95B9B0037046FCF78655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdUhaSKiuVkmoYt1sm87emFZu7HSSCK-e95-Yy=g8Sgo4w@mail.gmail.com>
-In-Reply-To: <CAMuHMdUhaSKiuVkmoYt1sm87emFZu7HSSCK-e95-Yy=g8Sgo4w@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 15 Jun 2023 10:07:39 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX4QxmFJi3q61ByOFG38KgcGMxPQMeXyPA3r1D9098BMg@mail.gmail.com>
-Message-ID: <CAMuHMdX4QxmFJi3q61ByOFG38KgcGMxPQMeXyPA3r1D9098BMg@mail.gmail.com>
-Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4f78b601-6e6e-2274-3174-87c62d7cfcd5@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,141 +87,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Antonio Borneo <antonio.borneo@foss.st.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Alessandro Zummo <a.zummo@towertech.it>,
- Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Rob Herring <robh+dt@kernel.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Wolfram Sang <wsa@kernel.org>,
- Mark Brown <broonie@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+Cc: Caleb Connolly <caleb.connolly@linaro.org>, phone-devel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Joel Selvaraj <joelselvaraj.oss@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, ~postmarketos/upstreaming@lists.sr.ht,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Thierry Reding <treding@nvidia.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Ajay Kumar <ajaykumar.rs@samsung.com>, Joel Selvaraj <jo@jsfamily.in>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
+On Thu, Jun 15, 2023 at 09:49:27AM +0200, Neil Armstrong wrote:
+> On 14/06/2023 22:58, Linus Walleij wrote:
+> > On Tue, Jun 13, 2023 at 11:08 PM Stephan Gerhold <stephan@gerhold.net> wrote:
+> > 
+> > > I'm still quite confused about what exactly is supposed to be in
+> > > (un)prepare and what in enable/disable. I've seen some related
+> > > discussion every now and then but it's still quite inconsistent across
+> > > different panel drivers... Can someone clarify this?
+> > 
+> > It is somewhat clarified in commit 45527d435c5e39b6eec4aa0065a562e7cf05d503
+> > that added the callbacks:
+> > 
+> > Author: Ajay Kumar <ajaykumar.rs@samsung.com>
+> > Date:   Fri Jul 18 02:13:48 2014 +0530
+> > 
+> >      drm/panel: add .prepare() and .unprepare() functions
+> > 
+> >      Panels often require an initialization sequence that consists of three
+> >      steps: a) powering up the panel, b) starting transmission of video data
+> >      and c) enabling the panel (e.g. turn on backlight). This is usually
+> >      necessary to avoid visual glitches at the beginning of video data
+> >      transmission.
+> > 
+> >      Similarly, the shutdown sequence is typically done in three steps as
+> >      well: a) disable the panel (e.g. turn off backlight), b) cease video
+> >      data transmission and c) power down the panel.
+> > 
+> >      Currently drivers can only implement .enable() and .disable() functions,
+> >      which is not enough to implement the above sequences. This commit adds a
+> >      second pair of functions, .prepare() and .unprepare() to allow more
+> >      fine-grained control over when the above steps are performed.
+> > 
+> >      Signed-off-by: Ajay Kumar <ajaykumar.rs@samsung.com>
+> >      [treding: rewrite changelog, add kerneldoc]
+> >      Signed-off-by: Thierry Reding <treding@nvidia.com>
+> > 
+> > My interpretation is that .enable/.disable is for enabling/disabling
+> > backlight and well, make things show up on the display, and that
+> > happens quickly.
+> > 
+> > prepare/unprepare is for everything else setting up/tearing down
+> > the data transmission pipeline.
+> > 
+> > In the clock subsystem the enable/disable could be called in fastpath
+> > and prepare/unprepare only from slowpath so e.g an IRQ handler
+> > can gate a simple gated clock. This semantic seems to have nothing
+> > to do with the display semantic. :/
+> 
+> It had to do, .prepare is called when the DSI link is at LP11 state
+> before it has switched to the VIDEO mode, and .unprepare is the
+> reverse when VIDEO mode has been disabled and before the DSI link
+> is totally disabled.
+> 
+> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c#L938
+> 
+> then
+> 
+> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c#L855
+> 
+> but Doug has started changing this starting with MSM DSI driver, leading to
+> current panel drivers not working anymore with the current DSI init mode
+> and requires setting pre_enable_prev_first for only some DSI hosts
+> who switched out of set_mode().
+> 
 
-On Wed, Jun 14, 2023 at 9:53=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
-> On Tue, Jun 13, 2023 at 6:11=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.=
-com> wrote:
-> > > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device A=
-PI
-> > > On Tue, Jun 13, 2023 at 12:45=E2=80=AFPM Biju Das <biju.das.jz@bp.ren=
-esas.com>
-> > > wrote:
-> > > > > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_devi=
-ce
-> > > > > API On Mon, Jun 12, 2023 at 10:43=E2=80=AFPM Wolfram Sang <wsa@ke=
-rnel.org>
-> > > wrote:
-> > > > > > > Perhaps we should first think through what an ancillary devic=
-e
-> > > > > > > really is.  My understanding is that it is used to talk to
-> > > > > > > secondary addresses of a multi-address I2C slave device.
-> > > > > >
-> > > > > > As I mentioned somewhere before, this is not the case. Ancillar=
-y
-> > > > > > devices are when one *driver* handles more than one address.
-> > > > > > Everything else has been handled differently in the past (for  =
-all
-> > > > > > the
-> > > > > uses I am aware of).
-> > > > > >
-> > > > > > Yet, I have another idea which is so simple that I wonder if it
-> > > > > > maybe has already been discussed so far?
-> > > > > >
-> > > > > > * have two regs in the bindings
-> > > > > > * use the second reg with i2c_new_client_device to instantiate =
-the
-> > > > > >   RTC sibling. 'struct i2c_board_info', which is one parameter,
-> > > should
-> > > > > >   have enough options to pass data, e.g it has a software_node.
-> > > > > >
-> > > > > > Should work or did I miss something here?
-> > > > >
-> > > > > That should work, mostly (i2c_new_dummy_device() also calls
-> > > > > i2c_new_client_device()).  And as i2c_board_info has an of_node
-> > > > > member (something I had missed before!), the new I2C device can
-> > > > > access the clocks in the DT node using the standard way.
-> > > >
-> > > > Looks like, I cannot assign of_node member like below as it results=
- in
-> > > > pinctrl failure[1] during device bind.
-> > > >
-> > > > info.of_node =3D client->dev.of_node;
-> > > >
-> > > > [1]
-> > > > pinctrl-rzg2l 11030000.pinctrl: pin P43_0 already requested by 3-00=
-12;
-> > > > cannot claim for 3-006f pinctrl-rzg2l 11030000.pinctrl: pin-344
-> > > > (3-006f) status -22 pinctrl-rzg2l 11030000.pinctrl: could not reque=
-st
-> > > > pin 344 (P43_0) from group pmic  on device pinctrl-rzg2l
-> > > > raa215300 3-006f: Error applying setting, reverse things back
-> > >
-> > > Where do you have a reference to pin P43_0 in your DT?
-> >
-> > The reference to pin P43_0 is added in the PMIC node.
-> >
-> > I have done modification on my board to test PMIC INT# on RZ/G2L SMARC =
-EVK
-> > by wiring R83 on SoM module and PMOD0 PIN7.
-> >
-> > > The last versions you posted did not have any pinctrl properties?
-> >
-> > By default, PMIC_INT# is not populated RZ/G2L SMARC EVK, so I haven't a=
-dded
-> > Support for PMIC_INT# for the patches posted till date.
-> >
-> > Yesterday I checked with HW people, is there a way to enable PMIC_INT#
-> > and they told me to do the above HW modification.
-> >
-> > Today I found this issue, with this modified HW and PMIC INT# enabled o=
-n the DT,
-> > while assigning of_node of PMIC with info.of_node. It is just a coincid=
-ence.
->
-> IC.
->
-> So you now have two Linux devices pointing to the same DT node,
-> causing pinctrl issues...
+Hm, do I understand you correctly that setting
+bridge->pre_enable_prev_first / panel->prepare_prev_first should work as
+an alternative to $subject patch, at least for the MSM DSI driver? With
+it DSI commands should be possible to be sent in .unprepare()?
 
-So don't set info.of_node? ;-)
-
-Without of_node, devm_clk_get() and friends falls back to registered
-clkdevs. So you could call clk_register_clkdev() from within the
-PMIC driver, and can keep on using devm_clk_get_optional() in the
-ISL1208 driver.
-
-If that fails, there's also software_node.properties, or even the good
-old platform_data...
-
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Thanks,
+Stephan
