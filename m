@@ -2,48 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 144C173217B
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 23:19:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A285073217F
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 23:20:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37E1210E1A3;
-	Thu, 15 Jun 2023 21:19:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98D4A10E086;
+	Thu, 15 Jun 2023 21:20:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 29217 seconds by postgrey-1.36 at gabe;
- Thu, 15 Jun 2023 21:19:30 UTC
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
- [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 696FD10E1A3
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 21:19:30 +0000 (UTC)
-X-GND-Sasl: cyril@debamax.com
-X-GND-Sasl: cyril@debamax.com
-X-GND-Sasl: cyril@debamax.com
-X-GND-Sasl: cyril@debamax.com
-X-GND-Sasl: cyril@debamax.com
-X-GND-Sasl: cyril@debamax.com
-X-GND-Sasl: cyril@debamax.com
-X-GND-Sasl: cyril@debamax.com
-X-GND-Sasl: cyril@debamax.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 653F160009;
- Thu, 15 Jun 2023 21:19:25 +0000 (UTC)
-Date: Thu, 15 Jun 2023 23:19:24 +0200
-From: Cyril Brulebois <cyril@debamax.com>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 1/2] fbdev/offb: Update expected device name
-Message-ID: <20230615211924.cf2qs52cfaf7m3f7@debamax.com>
-Organization: DEBAMAX
-References: <20230412095509.2196162-1-cyril@debamax.com>
- <20230412095509.2196162-2-cyril@debamax.com>
- <ZDvrY7X9mpJ7WZ3z@eldamar.lan>
- <11b342dc-1a46-d1be-5fdd-c6eee661e15a@leemhuis.info>
- <fe3b90b0-b52f-9677-0245-a201975c3e0c@suse.de>
- <20230615132107.GA9196@kitsune.suse.cz>
- <20230615200901.GA1572644-robh@kernel.org>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47E9110E086;
+ Thu, 15 Jun 2023 21:20:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686864006; x=1718400006;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=rOKpsUZ4EhToXSsNTuRvop6y9p2vO9hsjtt5wsrYN9A=;
+ b=nrqvWEn/p2ytnhjzC1GxTcL7EpnPo20jn5aF3IXDjBEbJg2loIBSA6mo
+ MOFO69uswPIYCHGe0Huv7+vApJgs3mqrfyaxDvruZQfCYC68pOx/dBK13
+ hHnX5jMvpRxgGi5b+FLU3s0fU7qRb+pvYr6Oymz7Rh9Fogrt+2l60ADrb
+ PB9UQcfZG0XMZSiZoY8OfCqHvhG0luvvfA8As6KIBEX3zsanpA3sQHHel
+ tq1MMGKYir0SKwgbFQ7B9n+Jnah+WdtuG1bmzhHnx1dgOdIZmdp/Kz9gW
+ FE6DjShYw0OHx2t/iYlmiGcBUgoZfDVpwR0ODC3wHkXP9j5DZi6AjkOtI g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="387637007"
+X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; d="scan'208";a="387637007"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jun 2023 14:19:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="959353040"
+X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; d="scan'208";a="959353040"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by fmsmga006.fm.intel.com with ESMTP; 15 Jun 2023 14:19:42 -0700
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v1] drm/i915/gsc: Fix intel_gsc_uc_fw_proxy_init_done with
+ directed wakerefs
+Date: Thu, 15 Jun 2023 14:19:40 -0700
+Message-Id: <20230615211940.4061378-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="zpftdcurb5ffwnvh"
-Content-Disposition: inline
-In-Reply-To: <20230615200901.GA1572644-robh@kernel.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,103 +55,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Linux regressions mailing list <regressions@lists.linux.dev>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- stable@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Michal =?utf-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>,
- Salvatore Bonaccorso <carnil@debian.org>
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Alan Previn <alan.previn.teres.alexis@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+intel_gsc_uc_fw_proxy_init_done is used by a few code paths
+and usages. However, certain paths need a wakeref while others
+can't take a wakeref such as from the runtime_pm_resume callstack.
 
---zpftdcurb5ffwnvh
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add a param into this helper to allow callers to direct whether
+to take the wakeref or not. This resolves the following bug:
 
-Hi Rob,
+   INFO: task sh:2607 blocked for more than 61 seconds.
+   Not tainted 6.3.0-pxp-gsc-final-jun14+ #297
+   "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+   task:sh              state:D stack:13016 pid:2607  ppid:2602   flags:0x00004000
+   Call Trace:
+      <TASK>
+      __schedule+0x47b/0xe10
+      schedule+0x58/0xd0
+      rpm_resume+0x1cc/0x800
+      ? __pfx_autoremove_wake_function+0x10/0x10
+      __pm_runtime_resume+0x42/0x80
+      __intel_runtime_pm_get+0x19/0x80 [i915]
+      gsc_uc_get_fw_status+0x10/0x50 [i915]
+      intel_gsc_uc_fw_init_done+0x9/0x20 [i915]
+      intel_gsc_uc_load_start+0x5b/0x130 [i915]
+      __uc_resume+0xa5/0x280 [i915]
+      intel_runtime_resume+0xd4/0x250 [i915]
+      ? __pfx_pci_pm_runtime_resume+0x10/0x10
+   __rpm_callback+0x3c/0x160
 
-Rob Herring <robh@kernel.org> (2023-06-15):
-> On Thu, Jun 15, 2023 at 03:21:07PM +0200, Michal Such=C3=A1nek wrote:
-> > At the time this was proposed it was said that "of-display", is wrong,
-> > and that "of-display.0" must be used for the first device instead, and
-> > if something breaks an alias can be provided.
-> >=20
-> > So how does one provide an alias so that offb can find "of-display.0"
-> > as "of-display"?
->=20
-> I'm not aware of any way. There isn't because device names and paths are=
-=20
-> not considered ABI. There are mechanisms for getting stable class device=
-=20
-> indices (e.g. i2c0, mmcblk0, fb0, fb1, etc.) though not implemented for=
-=20
-> fbN (and please don't add it).=20
->=20
-> In any case, this should be an easy fix. Though if "linux,opened" or=20
-> "linux,boot-display" is not set, then you'd still get "of-display.0":
->=20
-> diff --git a/drivers/of/platform.c b/drivers/of/platform.c
-> index 78ae84187449..e46482cef9c7 100644
-> --- a/drivers/of/platform.c
-> +++ b/drivers/of/platform.c
-> @@ -553,7 +553,7 @@ static int __init of_platform_default_populate_init(v=
-oid)
->                         if (!of_get_property(node, "linux,opened", NULL) =
-||
->                             !of_get_property(node, "linux,boot-display", =
-NULL))
->                                 continue;
-> -                       dev =3D of_platform_device_create(node, "of-displ=
-ay.0", NULL);
-> +                       dev =3D of_platform_device_create(node, "of-displ=
-ay", NULL);
->                         of_node_put(node);
->                         if (WARN_ON(!dev))
->                                 return -ENOMEM;
+Fixes: 8c33c3755b75 ("drm/i915/gsc: take a wakeref for the proxy-init-completion check")
+Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
+---
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c  | 17 +++++++++++------
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h  |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c  |  2 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c |  2 +-
+ 4 files changed, 14 insertions(+), 9 deletions(-)
 
-I've just replaced my clueless workaround with this patch on top of the
-kernel found in Debian 12 (Bookworm), i.e. 6.1.27 at this point, and it
-indeed fixes the black screen problem in the installer's context.
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
+index 856de9af1e3a..ab1a456f833d 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
+@@ -22,27 +22,32 @@ static bool gsc_is_in_reset(struct intel_uncore *uncore)
+ 			HECI1_FWSTS1_CURRENT_STATE_RESET;
+ }
+ 
+-static u32 gsc_uc_get_fw_status(struct intel_uncore *uncore)
++static u32 gsc_uc_get_fw_status(struct intel_uncore *uncore, bool needs_wakeref)
+ {
+ 	intel_wakeref_t wakeref;
+ 	u32 fw_status = 0;
+ 
+-	with_intel_runtime_pm(uncore->rpm, wakeref)
+-		fw_status = intel_uncore_read(uncore, HECI_FWSTS(MTL_GSC_HECI1_BASE, 1));
++	if (needs_wakeref)
++		wakeref = intel_runtime_pm_get(uncore->rpm);
+ 
++	fw_status = intel_uncore_read(uncore, HECI_FWSTS(MTL_GSC_HECI1_BASE, 1));
++
++	if (needs_wakeref)
++		intel_runtime_pm_put(uncore->rpm, wakeref);
+ 	return fw_status;
+ }
+ 
+-bool intel_gsc_uc_fw_proxy_init_done(struct intel_gsc_uc *gsc)
++bool intel_gsc_uc_fw_proxy_init_done(struct intel_gsc_uc *gsc, bool needs_wakeref)
+ {
+ 	return REG_FIELD_GET(HECI1_FWSTS1_CURRENT_STATE,
+-			     gsc_uc_get_fw_status(gsc_uc_to_gt(gsc)->uncore)) ==
++			     gsc_uc_get_fw_status(gsc_uc_to_gt(gsc)->uncore,
++						  needs_wakeref)) ==
+ 	       HECI1_FWSTS1_PROXY_STATE_NORMAL;
+ }
+ 
+ bool intel_gsc_uc_fw_init_done(struct intel_gsc_uc *gsc)
+ {
+-	return gsc_uc_get_fw_status(gsc_uc_to_gt(gsc)->uncore) &
++	return gsc_uc_get_fw_status(gsc_uc_to_gt(gsc)->uncore, false) &
+ 	       HECI1_FWSTS1_INIT_COMPLETE;
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h
+index 8d7b9e4f1ffc..ad2167ce9137 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h
+@@ -15,6 +15,6 @@ struct intel_uncore;
+ int intel_gsc_fw_get_binary_info(struct intel_uc_fw *gsc_fw, const void *data, size_t size);
+ int intel_gsc_uc_fw_upload(struct intel_gsc_uc *gsc);
+ bool intel_gsc_uc_fw_init_done(struct intel_gsc_uc *gsc);
+-bool intel_gsc_uc_fw_proxy_init_done(struct intel_gsc_uc *gsc);
++bool intel_gsc_uc_fw_proxy_init_done(struct intel_gsc_uc *gsc, bool needs_wakeref);
+ 
+ #endif
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c
+index 85d90f0a15e3..75a3a0790ef3 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c
+@@ -72,7 +72,7 @@ static void gsc_work(struct work_struct *work)
+ 			 * complete the request handling cleanly, so we need to check the
+ 			 * status register to check if the proxy init was actually successful
+ 			 */
+-			if (intel_gsc_uc_fw_proxy_init_done(gsc)) {
++			if (intel_gsc_uc_fw_proxy_init_done(gsc, false)) {
+ 				drm_dbg(&gt->i915->drm, "GSC Proxy initialized\n");
+ 				intel_uc_fw_change_status(&gsc->fw, INTEL_UC_FIRMWARE_RUNNING);
+ 			} else {
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
+index f13890ec7db1..c7df47364013 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
+@@ -197,7 +197,7 @@ bool intel_pxp_gsccs_is_ready_for_sessions(struct intel_pxp *pxp)
+ 	 * are out of order) will suffice.
+ 	 */
+ 	if (intel_huc_is_authenticated(&pxp->ctrl_gt->uc.huc, INTEL_HUC_AUTH_BY_GSC) &&
+-	    intel_gsc_uc_fw_proxy_init_done(&pxp->ctrl_gt->uc.gsc))
++	    intel_gsc_uc_fw_proxy_init_done(&pxp->ctrl_gt->uc.gsc, true))
+ 		return true;
+ 
+ 	return false;
 
-I didn't run a full installation to check whether this kernel is also fine
-after rebooting into the installed system, but as far as I understood for
-the original bug report[1], it wasn't affected in the first place.
+base-commit: 134d180cacae82fadbc5ee32f86014cc290f5e0c
+-- 
+2.39.0
 
- 1. https://bugs.debian.org/1033058
-
-Will somebody else pick up the torch from here, and submit that for
-inclusion in master? Or should I re-submit the above patch on my own?
-
-I see my Debian colleagues have already pushed an updated v6.4-rc6 in
-experimental, so it should be rather easy to combine checking latest
-master with the distribution's packaging. Once that's done, I'm quite
-familiar with building an updated installer image on top of it=E2=80=A6
-
-
-Thanks,
---=20
-Cyril Brulebois -- Debian Consultant @ DEBAMAX -- https://debamax.com/
-
---zpftdcurb5ffwnvh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEHoutkuoaze1Qayc7lZpsmSeGm2EFAmSLgE4ACgkQlZpsmSeG
-m2HGdxAAjx/OIUvMJXqRQbNU18DH4aIs8GtXVP74rC39FpYhMiT25ZtEpk2fwGaL
-VaCspAGK1CqN5usg4hD1x8mN7zhROE6gd9fwd5a+wxhDsCWyF3BdpwKrlVpGTjFz
-3hCukzRW42ERph5rC93ffpP8xCmwHBMOl8wEXhhHcMoC92LIQt2W8YxK5dK6CdHD
-pVNDjluHpsRoOKg8ljJG2PpqSyrYv1gVyNrA2fdmR7cfgxCdHdwqyG0YqXKP5gBM
-V642y/YhM1Ds0LuCVtvZi6eU+lqXhEQIr/PFN+2gfvS6q768utWAuvPHHONuF+gU
-bzee336Skny9W6B2mUngreLm/JwXBuroaSDEcH1r0fKCOztSs7ii21psBfDp+6ji
-fhZfLja0Dm3JMmKrL0T6cF/a5q+ZbStutmiZZu9nQ31xHTs6jky89ZDbN5kWIoXT
-ahYfEwy4br3uLu0ddrWSnBsEzZFCBsZjaMuWOnAP1iIADEkxyGeG1HyAmG2Bm6u/
-CjpoyKfzt/lSL0wdbJEhhJv5r/sGndmznMfcflveIlAtoqwGef13O2phfanXdS9u
-4PkBkzt3IdBKM7rocmH+eo8SNBmaVnjq5tfRgiLfp4HKvv4QRzBPSippVn53CjKX
-NlH9CNA9MVJL3YZzJ+f9W1JHG/hz1zugKsKJQMCJXpz7VJ6Y6cI=
-=6dGw
------END PGP SIGNATURE-----
-
---zpftdcurb5ffwnvh--
