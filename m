@@ -1,92 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B607F731468
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 11:48:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A930773148F
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 11:53:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4188410E4AD;
-	Thu, 15 Jun 2023 09:48:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A32510E4B6;
+	Thu, 15 Jun 2023 09:53:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D253110E4AE
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 09:48:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1686822520;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tFas5ce2A1vgl/Pd1KLK4gSYDaGRoYeIBhP4kavIodY=;
- b=Rkva/9+cC8pNRv5Jh/EQ/fOlV15WLFgoiRfFrXsHvBX9gNFfG5nMHPar2DksxMtWek1nqL
- 5TXeAdxLvnO24Klk8Zfi3Mwx6rMRbRh5yBVA5lmI95bPpeBy8R2AwbsxGTAQQ/jzOnvKFI
- IXvmI5XgUeEAJa749YxWhwqo0BQg0H4=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-274-wHuaSFA2MEeNtNbpUQ1oEQ-1; Thu, 15 Jun 2023 05:48:38 -0400
-X-MC-Unique: wHuaSFA2MEeNtNbpUQ1oEQ-1
-Received: by mail-lf1-f69.google.com with SMTP id
- 2adb3069b0e04-4edbdd8268bso6536394e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 02:48:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686822517; x=1689414517;
- h=content-transfer-encoding:in-reply-to:subject:organization:from
- :references:cc:to:content-language:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=tFas5ce2A1vgl/Pd1KLK4gSYDaGRoYeIBhP4kavIodY=;
- b=L43tuIiCU+I5ibNNO5ZoBwhYidiyChcWucPY+Z2bGREXtJh41vrXJNn8IfQp0Bydlz
- UbfeHLWwMdYHb2dgt7lmTZkM9xgQ3X2C6xJ1u4wXcczR5UEVaurjMgVe2Qj9FYc0MPP7
- BEXXu35DHVg56JIJph7cM4R6hevVIf14xJIclBafXmCzlrpO1O2baz4xzIvlqwkOdOeh
- r+NJCa8W1gSjckOyNul9OjhF8IQ9ChNBEaXWwSIw+vvKk0HToY5IaLtV/8I68315r+U1
- khnMXSzTEAiXp/ubKATZ8bUCo6GpEi3ikmISU/XwcrafAzax/x3AzPwnEgAioMPmEICW
- CVAQ==
-X-Gm-Message-State: AC+VfDw5U1HOFk2LVazArISUd9QxMw92dBOtKXzaafhEeYlmNNgtRes5
- 6cRZzNug7xbeWTkLPcRZ4szGVzHG2A5uyBdKAFnYtOxf9Mo5lKqKwZc4r57gyS0Q+9peAliSCbA
- FUBd8f4vTObNqdCbB+fFnpDZBCy7f
-X-Received: by 2002:a19:f205:0:b0:4dd:ce0b:7692 with SMTP id
- q5-20020a19f205000000b004ddce0b7692mr9513517lfh.46.1686822517132; 
- Thu, 15 Jun 2023 02:48:37 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ46ndnLtQ+lzJHNZ0kHKuZExuBXAwZ8nLK7yynFFKnsFo1JVRKjQW7nWIYv41TgUUl1IrX0NA==
-X-Received: by 2002:a19:f205:0:b0:4dd:ce0b:7692 with SMTP id
- q5-20020a19f205000000b004ddce0b7692mr9513496lfh.46.1686822516710; 
- Thu, 15 Jun 2023 02:48:36 -0700 (PDT)
-Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7?
- ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
- by smtp.gmail.com with ESMTPSA id
- z15-20020a7bc7cf000000b003f6129d2e30sm20115269wmk.1.2023.06.15.02.48.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Jun 2023 02:48:36 -0700 (PDT)
-Message-ID: <015062b6-2d4a-7b91-8f64-1695f526f794@redhat.com>
-Date: Thu, 15 Jun 2023 11:48:34 +0200
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24AAE10E4B6
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 09:53:25 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1q9jfL-000108-UE; Thu, 15 Jun 2023 11:53:20 +0200
+Message-ID: <7bbad708041fffac5fcaf5c0ef2b0e53c29c682a.camel@pengutronix.de>
+Subject: Re: drm/etnaviv: slow down FE idle polling
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Sui Jingfeng <suijingfeng@loongson.cn>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>
+Date: Thu, 15 Jun 2023 11:53:18 +0200
+In-Reply-To: <b69671a6-4d4a-b1ee-784e-e21bd8f5558c@loongson.cn>
+References: <20230607125932.3518547-1-l.stach@pengutronix.de>
+ <8c36b8bc-5a0d-75f7-265c-b0191979165a@loongson.cn>
+ <d17de4ebfd08faa23238ece2ad0b737bf271498b.camel@pengutronix.de>
+ <36946504-45c3-f0bc-3e4a-9106d9f4a2dd@loongson.cn>
+ <CAH9NwWeB-MudNvuyuH1kUNiyWQTZ5Y4fuiB4uNKtutCKL3EZPg@mail.gmail.com>
+ <b69671a6-4d4a-b1ee-784e-e21bd8f5558c@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
- Mike Kravetz <mike.kravetz@oracle.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Hugh Dickins <hughd@google.com>
-References: <20230608204927.88711-1-mike.kravetz@oracle.com>
- <IA0PR11MB71851B64A5E7062E3BDD8D2FF854A@IA0PR11MB7185.namprd11.prod.outlook.com>
- <281caf4f-25da-3a73-554b-4fb252963035@redhat.com>
- <IA0PR11MB71852D6B27C83658670CBFBDF855A@IA0PR11MB7185.namprd11.prod.outlook.com>
- <676ee47d-8ca0-94c4-7454-46e9915ea36a@redhat.com>
- <IA0PR11MB71850D8A446FE1342B428EA1F85AA@IA0PR11MB7185.namprd11.prod.outlook.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH] udmabuf: revert 'Add support for mapping hugepages (v4)'
-In-Reply-To: <IA0PR11MB71850D8A446FE1342B428EA1F85AA@IA0PR11MB7185.namprd11.prod.outlook.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,54 +52,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Hocko, Michal" <mhocko@suse.com>,
- "jmarchan@redhat.com" <jmarchan@redhat.com>, "Kim,
- Dongwon" <dongwon.kim@intel.com>, "Chang, Junxiao" <junxiao.chang@intel.com>,
- "muchun.song@linux.dev" <muchun.song@linux.dev>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- James Houghton <jthoughton@google.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>
+Cc: kernel@pengutronix.de, patchwork-lst@pengutronix.de,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Am Donnerstag, dem 15.06.2023 um 17:37 +0800 schrieb Sui Jingfeng:
+> Hi,
+>=20
+[...]
+> > > > > > +
+> > > > > > +   /*
+> > > > > > +    * Choose number of wait cycles to target a ~30us (1/32768)=
+ max latency
+> > > > > > +    * until new work is picked up by the FE when it polls in t=
+he idle loop.
+> > > > > > +    */
+> > > > > > +   gpu->fe_waitcycles =3D min(gpu->base_rate_core >> (15 - gpu=
+->freq_scale),
+> > > > > > +                            0xffffUL);
+> > > > > This patch is NOT effective on our hardware GC1000 v5037 (ls7a100=
+0 +
+> > > > > ls3a5000).
+> > > > >=20
+> > > > > As the gpu->base_rate_core is 0,  so, in the end gpu->fe_waitcycl=
+es is
+> > > > > also zero.
+> > > > >=20
+> > > > Uh, that's a problem, as the patch will then have the opposite effe=
+ct
+> > > > on your platform by speeding up the idle loop. Thanks for catching
+> > > > this! I'll improve the patch to keep a reasonable amount of wait cy=
+cles
+> > > > in this case.
+> > > It's OK, no big problem as far as I can see. (it my platform's proble=
+m,
+> > > not your problem)
+> > >=20
+> > It will become a problem as it eats up the bandwidth that you want to
+> > spend for real graphic work.
+> >=20
+> > > Merge it is also OK, if we found something wrong we could fix it with=
+ a
+> > > another patch.
+> > >=20
+> > Hmm.. I think that the fix for this problem is more or less an extra
+> > if so I would love to see a proper fix
+> > before this patch gets merged.
 
->> Skimming over at shmem_read_mapping_page() users, I assume most of
->> them
->> use a VM_PFNMAP mapping (or don't mmap them at all), where we won't be
->> messing with the struct page at all.
->>
->> (That might even allow you to mmap hugetlb sub-pages, because the struct
->> page -- and mapcount -- will be ignored completely and not touched.)
-> Oh, are you suggesting that if we do vma->vm_flags |= VM_PFNMAP
-> in the mmap handler (mmap_udmabuf) and also do
-> vmf_insert_pfn(vma, vmf->address, page_to_pfn(page))
-> instead of
-> vmf->page = ubuf->pages[pgoff];
-> get_page(vmf->page);
-> 
-> in the vma fault handler (udmabuf_vm_fault), we can avoid most of the
-> pitfalls you have identified -- including with the usage of hugetlb subpages?
+Right, we don't merge known broken stuff. We are all humans and bugs
+and oversights happen, but we don't knowingly regress things.
 
-Yes, that's my thinking, but I have to do my homework first to see if 
-that would really work for hugetlb.
+>=20
+> It just no effect(at least I can't find).
+>=20
+> I have tried, The score of glmark2 does not change, not become better,=
+=20
+> not become worse.
 
-The thing is, I kind-of consider what udmabuf does a layer violation: we 
-have a filesystem (shmem/hugetlb) that should handle mappings to user 
-space. Yet, a driver decides to bypass that and simply map the pages 
-ordinarily to user space. (revealed by the fact that hugetlb does never 
-map sub-pages but udmabuf decides to do so)
+That's because it only affects your system when the GPU is idle but
+isn't in runtime PM yet. If you measure the DRAM bandwidth in that time
+window you'll see that the GPU now uses much more bandwidth, slowing
+down other workloads.
 
-In an ideal world everybody would simply mmap() the original memfd, but 
-thinking about offset+size configuration within the memfd that might not 
-always be desirable. As a workaround, we could mmap() only the PFNs, 
-leaving the struct page unaffected.
-
-I'll have to look closer into that.
-
--- 
-Cheers,
-
-David / dhildenb
+Regards,
+Lucas
 
