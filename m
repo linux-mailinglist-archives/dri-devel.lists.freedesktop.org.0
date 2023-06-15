@@ -2,42 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A97C7320F1
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 22:34:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B3237320C4
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 22:16:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E9F210E073;
-	Thu, 15 Jun 2023 20:34:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B92AA10E538;
+	Thu, 15 Jun 2023 20:16:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1133 seconds by postgrey-1.36 at gabe;
- Thu, 15 Jun 2023 20:34:37 UTC
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1EA010E073;
- Thu, 15 Jun 2023 20:34:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=6qVMM2snJT/z1+3q7iOllvvHpkI+bKo+0q0jsxvpBjg=; b=Q2dCQ3JGnKDklQMM57TVbFGdFB
- iDGe7FLLBCsANC19XWYQ2qW/dNzVqxNq5XPk92wix9OFK5mgAnfgy1+fWIFnkISpM/gOGTi+prEl1
- ceyIQ+XAblDZIvGCF+1NRxMwN36PI6oUI5ZhF761FfZRKc2aWY7XW2BARpsgWMsRGQX8ACRgD9Va8
- BNuZmSrnUVV4YqLAfYEGOhUTVSK/AgQzzblIWTISlsNkQTNYBgzoFtmNM3iShP16ZzhFXbGeQbViW
- uDoO6tR2eXpmKWfU9e0r/PR7TbvfT8gd/swGNbUHGJko93EmkO7jpEhdB8hZNvUHwYKXLo0vQo0+t
- IXJ7iVPg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1q9tNO-0082yB-UE; Thu, 15 Jun 2023 20:15:26 +0000
-Date: Thu, 15 Jun 2023 21:15:26 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v9 02/14] mm: move page zone helpers from mm.h to mmzone.h
-Message-ID: <ZItxXny9kRDq/ryf@casper.infradead.org>
-References: <20220715150521.18165-1-alex.sierra@amd.com>
- <20220715150521.18165-3-alex.sierra@amd.com> <ZItneGX+sqg7WApF@x1n>
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EEAB10E538
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 20:16:15 +0000 (UTC)
+Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id EED948474E;
+ Thu, 15 Jun 2023 22:16:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1686860172;
+ bh=QsyiD42cUO4JJqkFFnHbvOONkj3EFsLvbRKMIv4UTU0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=LbWzh7lBS2ai+zvG9XiZrWbqYKPcQ2sRVaJDE08TbPJNiVihFQN77cdJxmuEXxpGJ
+ G4adLDRBpBzgeZ3jdLQQNYjRzoPVL8YAxAqnbWzQDGNzg/im3y53+s5nrp4bPVBB6M
+ nzxBEQIAUuMGeR5rZ5F1gVu13J+GCoNm8Lm8RP9kVQpYZnTJSvlt3I+wXat74eSE0V
+ m7TDczg+wqnAUvg99Ql0yCSnzX/zW2av3n5MrTJ+aaCTTec1FKu1YxPbeAmx8zmTtV
+ 5TZSVTdBuftOaQKKTPKytwLbpBSpMQFt8/zA4o0YGMnmRx0/PDcaV8/rGIzkZhU3hE
+ nU2aQY/vTCfXw==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/panel: simple: Add Powertip PH800480T013 drm_display_mode
+ flags
+Date: Thu, 15 Jun 2023 22:16:02 +0200
+Message-Id: <20230615201602.565948-1-marex@denx.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZItneGX+sqg7WApF@x1n>
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,28 +52,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Sierra <alex.sierra@amd.com>, rcampbell@nvidia.com, david@redhat.com,
- Felix.Kuehling@amd.com, apopple@nvidia.com, amd-gfx@lists.freedesktop.org,
- linux-xfs@vger.kernel.org, linux-mm@kvack.org, jglisse@redhat.com,
- dri-devel@lists.freedesktop.org, jgg@nvidia.com, akpm@linux-foundation.org,
- linux-ext4@vger.kernel.org, hch@lst.de
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 15, 2023 at 03:33:12PM -0400, Peter Xu wrote:
-> My question is whether page_zonenum() is ready for taking all kinds of tail
-> pages?
-> 
-> Zone device tail pages all look fine, per memmap_init_zone_device().  The
-> question was other kinds of usual compound pages, like either thp or
-> hugetlb.  IIUC page->flags can be uninitialized for those tail pages.
+Add missing drm_display_mode DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC
+flags. Those are used by various bridges in the pipeline to correctly
+configure its sync signals polarity.
 
-I don't think that's true.  It's my understanding that page->flags is
-initialised for all pages in memmap at boot / hotplug / delayed-init
-time.  So you can check things like zone, node, etc on literally any
-page.  Contrariwise, those flags are not available in tail pages for
-use by the entity that has allocated a compound page / large folio.
+Fixes: d69de69f2be1 ("drm/panel: simple: Add Powertip PH800480T013 panel")
+Signed-off-by: Marek Vasut <marex@denx.de>
+---
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/panel/panel-simple.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Also, I don't believe zone device pages support compound allocation.
-I think they're always allocated as order-0.
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index b81b21901940b..a0f4302de130a 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -3202,6 +3202,7 @@ static const struct drm_display_mode powertip_ph800480t013_idf02_mode = {
+ 	.vsync_start = 480 + 49,
+ 	.vsync_end = 480 + 49 + 2,
+ 	.vtotal = 480 + 49 + 2 + 22,
++	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
+ };
+ 
+ static const struct panel_desc powertip_ph800480t013_idf02  = {
+-- 
+2.39.2
 
