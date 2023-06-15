@@ -1,37 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44CA9731BBB
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 16:47:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6F22731BC0
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 16:50:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27C7710E50B;
-	Thu, 15 Jun 2023 14:47:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31B0F10E503;
+	Thu, 15 Jun 2023 14:50:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5EEF10E503
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 14:47:50 +0000 (UTC)
-Date: Thu, 15 Jun 2023 14:47:33 +0000
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B8B410E503
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 14:50:26 +0000 (UTC)
+Date: Thu, 15 Jun 2023 14:50:08 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1686840466; x=1687099666;
- bh=FKAUli3o4hy8Ej3BV4NaF7G+I501rWlHmYecmIQngXI=;
+ s=protonmail; t=1686840624; x=1687099824;
+ bh=2oLSxhVwJyfjofPX6o77t+Pj6Q57Jdv4QACl2PymAo4=;
  h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
  Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
  Message-ID:BIMI-Selector;
- b=Ne9VCqfTgLOqKLU81j5rT0Xqk8XPEWCRUhpqAQCdKmg+zMnbq9BWS2Z4Ll4VMeild
- ncqJYPKMHgvKDqYhhNInMLdW2mgf4I18yN+L8lDkzAfLf2E2CoCDlT/txtR5CCeCRf
- Yx+8kcQeXph8qTd4Em4eKaZo4+rcTm/FS6nddH/kVTfs9kr3lOrVyX3pHtwzYFjuCp
- 2q3Lz4yzcbKAgtZggB3/a3YIk6sM950e0JtRCek9bDiyDIthszXnMJeojmaJkDORgR
- U/jTrirw+RQfUowOmBWGdHHNqHnptgDsqVqpD9/07NQVDBYg4NrMgY9oQuxUPV/CUM
- Xy2VZPzbq9AWg==
+ b=Al8CqUU4KtXVjYuTzC5CuhRrDKJVk07ewph5pUdevh7qPMQi8R0LAh5/GOcDgyUMK
+ Mmj0I8CC0veJMkWkT8icdq1B3yO/Al7z+mU82lD+vhwRclYhSXx/tozm1CmFGSDJZd
+ PpgGsYFnMK5GdMaqJBDyBLVL/UIZs8NkG8WVA7vh/TxtWtlcpM4ZvcioYAIYJjTya0
+ DEAS4oWwKif1NBozJiw1EnSmhTTmETQL7gTVYOjQJAIJwmrMo1pCUIBxUrxMJYx4D2
+ xu9iL/GkdalZrDHKscnoZi2R6wDS3PEEng9xL+5QeF9m0T0g6UGVf8YxDCBCJqjoa7
+ Ze2zzX9JofDqQ==
 To: Thomas Zimmermann <tzimmermann@suse.de>
 From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH 1/3] drm: Enable PRIME import/export for all drivers
-Message-ID: <-Zu2xcAP6KgnhQVsOLkYcnIH7KhL5Tancp7W66ZA-tToQbsE_4bbcB8oIGO1RIHhIDcGTXyAHX-aPuANlbN1FH50uAxXL1VlNFHwSXO2s_M=@emersion.fr>
-In-Reply-To: <20230615094206.4424-2-tzimmermann@suse.de>
+Subject: Re: [PATCH 0/3] drm: Allow PRIME 'self-import' for all drivers
+Message-ID: <O78vhvv6qtN2Fjh9tljnBnBeNwr-eASqyXaUG3e8cWPZ2MqoOSWR_D8S_ce2gqSvbLkJwX72tmc6ReUry0OTqJQWwhDcyrZrQP4hgg7iH30=@emersion.fr>
+In-Reply-To: <20230615094206.4424-1-tzimmermann@suse.de>
 References: <20230615094206.4424-1-tzimmermann@suse.de>
- <20230615094206.4424-2-tzimmermann@suse.de>
 Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -56,40 +55,27 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Thursday, June 15th, 2023 at 11:31, Thomas Zimmermann <tzimmermann@suse.=
 de> wrote:
 
-> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-> index 89e2706cac561..10af1899236a0 100644
-> --- a/include/drm/drm_drv.h
-> +++ b/include/drm/drm_drv.h
-> @@ -309,6 +309,9 @@ struct drm_driver {
->  =09 *
->  =09 * For an in-depth discussion see :ref:`PRIME buffer sharing
->  =09 * documentation <prime_buffer_sharing>`.
-> +=09 *
-> +=09 * TODO: Convert remaining drivers to drm_gem_prime_handle_to_fd()
-> +=09 *       and remove this callback.
->  =09 */
+> Set drm_gem_prime_handle_to_fd() and drm_gem_prime_fd_to_handle()
+> for all DRM drivers. Even drivers that do not support PRIME import
+> or export of dma-bufs can now import their own buffer objects. This
+> is required by some userspace, such as wlroots-based compositors, to
+> share buffers among processes.
+>=20
+> The only driver that does not use the drm_gem_prime_*() helpers is
+> vmwgfx. Once it has been converted, the callbacks in struct drm_driver
+> can be removed.
+>=20
+> Simon Ser implemented the feature for drivers based on GEM VRAM helpers
+> in [1]. This patchset generalizes the code for all drivers that do not
+> otherwise support PRIME. Tested by running sway with gma500 hardware.
 
-The docs right above still state: "Should be implemented with
-drm_gem_prime_handle_to_fd() for GEM based drivers". Maybe we can replace t=
-hat
-and state that leaving this NULL will use a default implementation?
+Very nice! Thanks a lot for doing this!
 
->  =09int (*prime_handle_to_fd)(struct drm_device *dev, struct drm_file *fi=
-le_priv,
->  =09=09=09=09uint32_t handle, uint32_t flags, int *prime_fd);
-> @@ -320,6 +323,9 @@ struct drm_driver {
->  =09 *
->  =09 * For an in-depth discussion see :ref:`PRIME buffer sharing
->  =09 * documentation <prime_buffer_sharing>`.
-> +=09 *
-> +=09 * TODO: Convert remaining drivers to drm_gem_prime_fd_to_handle()
-> +=09 *       and remove this callback.
->  =09 */
+Just one minor comment about docs. I think there are also some remaining
+references to drm_gem_prime_handle_to_fd() and drm_gem_prime_fd_to_handle()
+in the drm_prime.c overview. These become stale since this series unexports
+these functions.
 
-Ditto.
+With that fixed:
 
->  =09int (*prime_fd_to_handle)(struct drm_device *dev, struct drm_file *fi=
-le_priv,
->  =09=09=09=09int prime_fd, uint32_t *handle);
-> --
-> 2.41.0
+Reviewed-by: Simon Ser <contact@emersion.fr>
