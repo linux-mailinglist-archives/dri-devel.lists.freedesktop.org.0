@@ -1,72 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 472327321F3
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 23:54:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B14CC73224C
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 00:01:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78C9710E555;
-	Thu, 15 Jun 2023 21:53:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 468F010E554;
+	Thu, 15 Jun 2023 22:00:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B1D710E555
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 21:53:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1686866036;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bOZxGxVdW5/JwsyiF22jqxnsXY9NlvJg+f+VQk5+XCI=;
- b=W1mucEIfcoYejcVMEuQ5NLi4hRD6eWlLI6kbvTAHR+ypPCG/jd/db3PWZoK5FRsLUmHJRR
- a9n5yQ4ZbELq86dPuTK9AB/WlFSZL7Cjm4gbcVUNzTPaZiKo3WC0890/alSNkBnDoe6fxS
- nblGhKzw6j7C2AhAyXYGYJtVQUeXeiY=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-558-LjNLD5noPmOiwTcx8AcLfg-1; Thu, 15 Jun 2023 17:53:55 -0400
-X-MC-Unique: LjNLD5noPmOiwTcx8AcLfg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-30793c16c78so11867828f8f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 14:53:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686866034; x=1689458034;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bOZxGxVdW5/JwsyiF22jqxnsXY9NlvJg+f+VQk5+XCI=;
- b=f8thn2gZjniYevVTpc1l+XusjMC1bGdz7QqLa0FIY+J+E1oh1PWMqoHBagRd8vekyu
- V/bXNCbcLXjhbCXmyjgh47NOd+JF9LAsLFpux5cL4Q+CRmpKMdVYPs1TC1vS9cYrqGx7
- 8T8shNHM4Mech0DmjdoY5ku1fjlpe/DG/nl3YL5xFaa0IgC6IrcJyzWJ2voBmx+vXy/Y
- XyVHSBxzSGyGRS8KAj0liI7hUumVdLNLO15lok30GSM9LyU8hWZ60TU2n1e2TVatUp+o
- byl07hR75BIM4arfgvcvHF2c1Rft7ZwneT0zIFSrPSIrAcDSGUrUF1sDwIS6dRMcAM9X
- B4wA==
-X-Gm-Message-State: AC+VfDwLGf/F0sGpKqEFhy+SHoc/0og08JptUIsmgfnsQpzfYpycTaJX
- npYg0vvEdsKy/8qGvdnbMW0iww40M8f6acmYPNoyaX7BC0C+XWCFbM9UgZ6UeBNXyHpHZDfnu+T
- m6cWyw/ZbHiTSFFpELXZgkXJA8+Ol
-X-Received: by 2002:adf:f811:0:b0:311:17af:df96 with SMTP id
- s17-20020adff811000000b0031117afdf96mr61671wrp.44.1686866033973; 
- Thu, 15 Jun 2023 14:53:53 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5DAMQzIT9IO9837n5K6eskFWNzXBx+IXLRzoe261fgcZ2HwBQSypM+0c3tLU+kAyC1LECx4w==
-X-Received: by 2002:adf:f811:0:b0:311:17af:df96 with SMTP id
- s17-20020adff811000000b0031117afdf96mr61656wrp.44.1686866033652; 
- Thu, 15 Jun 2023 14:53:53 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- l20-20020a1c7914000000b003f709a7e46bsm253139wme.46.2023.06.15.14.53.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Jun 2023 14:53:53 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/5] drm/ssd130x: A few enhancements and cleanups
-In-Reply-To: <20230609170941.1150941-1-javierm@redhat.com>
-References: <20230609170941.1150941-1-javierm@redhat.com>
-Date: Thu, 15 Jun 2023 23:53:52 +0200
-Message-ID: <87mt10s87j.fsf@minerva.mail-host-address-is-not-set>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96D0F10E554
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 22:00:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686866456; x=1718402456;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=/DBKpHCZOe8HcbwIKY+6OcZWYK0x1Sli1ATyqhdAGec=;
+ b=S81kY3eRk79YcdqKcSDOsy7WokoOaPT79QTWsATgY3wUttO152d9vZFV
+ lmcP9G2yH12uw/aA9A0kDVP/QUfJFgLlCl0FsB2YId7eaLDVRHOE6tNrp
+ ateVzPM6u6aJECrTDX9WDZ3xc2nj/zp5mdTfBx5vQjHUBULpGoig1ujsn
+ hqDZkd6YqsA9l3P2vyDh/jcUJs17LkAzYNuxDTAv5vI8o9YRR9iLbc55e
+ +5IxwQWAkdZvLzy0jfE7J3phK68TsCbLOrQBRAOoXkF3RNf9YE4QcU9Al
+ UBF1Wyw+saL+lLWhJuH19LG2EnfVbkFz7ECWCIr3y7T1xD8/PAVlBAl9o Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="338669745"
+X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; d="scan'208";a="338669745"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jun 2023 15:00:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="825471887"
+X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; d="scan'208";a="825471887"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+ by fmsmga002.fm.intel.com with ESMTP; 15 Jun 2023 15:00:52 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1q9v1P-0000Qp-1P;
+ Thu, 15 Jun 2023 22:00:51 +0000
+Date: Fri, 16 Jun 2023 05:59:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arthur Grillo <arthurgrillo@riseup.net>,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3] drm/vkms: Add support to 1D gamma LUT
+Message-ID: <202306160524.qcbF0KNr-lkp@intel.com>
+References: <20230615200157.960630-1-arthurgrillo@riseup.net>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230615200157.960630-1-arthurgrillo@riseup.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,38 +60,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org
+Cc: hamohammed.sa@gmail.com, aleixpol@kde.org, pekka.paalanen@collabora.com,
+ rodrigosiqueiramelo@gmail.com, xaver.hugl@gmail.com, victoria@system76.com,
+ mwen@igalia.com, mairacanal@riseup.net, mdaenzer@redhat.com, jadahl@redhat.com,
+ Arthur Grillo <arthurgrillo@riseup.net>, oe-kbuild-all@lists.linux.dev,
+ sebastian.wick@redhat.com, andrealmeid@riseup.net, uma.shankar@intel.com,
+ joshua@froggi.es
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Javier Martinez Canillas <javierm@redhat.com> writes:
+Hi Arthur,
 
-> Hello,
->
-> While working on adding support for the SSD132X family of 4-bit grayscale
-> Solomon OLED panel controllers, I noticed a few things in the driver that
-> can be improved and make extending to support other chip families easier.
->
-> I've split the preparatory patches in this series and will post the actual
-> SSD132X support as a separate patch-set once this one is merged.
->
-> Best regards,
-> Javier
->
-> Changes in v2:
-> - List per controller default width/height values in DT schema (Maxime Ripard).
->
+kernel test robot noticed the following build warnings:
 
-Pushed to drm-misc (drm-misc-next). Thanks!
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.4-rc6 next-20230615]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Arthur-Grillo/drm-vkms-Add-support-to-1D-gamma-LUT/20230616-040349
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230615200157.960630-1-arthurgrillo%40riseup.net
+patch subject: [PATCH v3] drm/vkms: Add support to 1D gamma LUT
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230616/202306160524.qcbF0KNr-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add drm-misc git://anongit.freedesktop.org/drm/drm-misc
+        git fetch drm-misc drm-misc-next
+        git checkout drm-misc/drm-misc-next
+        b4 shazam https://lore.kernel.org/r/20230615200157.960630-1-arthurgrillo@riseup.net
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/gpu/
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306160524.qcbF0KNr-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/vkms/vkms_crtc.c: In function 'vkms_crtc_atomic_flush':
+>> drivers/gpu/drm/vkms/vkms_crtc.c:251:32: warning: variable 'gamma_lut' set but not used [-Wunused-but-set-variable]
+     251 |         struct vkms_color_lut *gamma_lut;
+         |                                ^~~~~~~~~
+
+
+vim +/gamma_lut +251 drivers/gpu/drm/vkms/vkms_crtc.c
+
+   246	
+   247	static void vkms_crtc_atomic_flush(struct drm_crtc *crtc,
+   248					   struct drm_atomic_state *state)
+   249	{
+   250		struct vkms_output *vkms_output = drm_crtc_to_vkms_output(crtc);
+ > 251		struct vkms_color_lut *gamma_lut;
+   252	
+   253		if (crtc->state->event) {
+   254			spin_lock(&crtc->dev->event_lock);
+   255	
+   256			if (drm_crtc_vblank_get(crtc) != 0)
+   257				drm_crtc_send_vblank_event(crtc, crtc->state->event);
+   258			else
+   259				drm_crtc_arm_vblank_event(crtc, crtc->state->event);
+   260	
+   261			spin_unlock(&crtc->dev->event_lock);
+   262	
+   263			crtc->state->event = NULL;
+   264		}
+   265	
+   266		vkms_output->composer_state = to_vkms_crtc_state(crtc->state);
+   267		gamma_lut = &vkms_output->composer_state->gamma_lut;
+   268	
+   269		spin_unlock_irq(&vkms_output->lock);
+   270	}
+   271	
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
