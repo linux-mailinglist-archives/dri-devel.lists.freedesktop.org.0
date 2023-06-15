@@ -2,61 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 810057320A1
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 22:09:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFFC37320AA
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 22:11:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FCAF10E532;
-	Thu, 15 Jun 2023 20:09:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5C2210E534;
+	Thu, 15 Jun 2023 20:11:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com
- [209.85.166.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EE6910E532
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 20:09:04 +0000 (UTC)
-Received: by mail-il1-f175.google.com with SMTP id
- e9e14a558f8ab-3408217cd66so12812195ab.0
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 13:09:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686859744; x=1689451744;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aTfjaS0IPEiXuHhWcjsCm7WS5mqkvAN6gaYW2Bcvzz4=;
- b=Knkc/3JZJcWYse5CyfwNgSCZZZmjBVhRSzMX8VmYB8woWqTB7ca8lZ/ZlTOZXbf3HZ
- 2jKoETbt40x2y1GYWdiuXZrvRp25+Ug0FD9IjYDukAm8mgHL4FDzDVEJcOxmc1gCHTNN
- MUuxD8K11Uf0OXlMQbMbSOE3V+6n9U+ziij0LtCTK/2U+HNs0BVw90U+BdHYlR27bkB3
- TL3dYp0YV3jSRdvnkX4B9YZf9qNr4AhfaA+/VR8mY4fqpICCuMiQMo7Yf+KYymXdWpwt
- HGeshD3hWDvMGJWOEZ7t0RTpn/hmju2Jb0z3IKX1DNfShj6Mripk7ZDAB1+vqZTnPAMf
- zQxA==
-X-Gm-Message-State: AC+VfDyYyk/0rMvTR9dyofplmt06isbNExaEty36wjwnFs7qLEP9wweY
- sr7W7bD2Rpt749GIgqDJfw==
-X-Google-Smtp-Source: ACHHUZ79LfJp9RkPNTpyZJ5OtyEoIgIYPICSHb+vRi8hTHwBhSpMqkvv/DethS+ipksLPiMZ71fxMQ==
-X-Received: by 2002:a92:d3c3:0:b0:340:6984:cc6f with SMTP id
- c3-20020a92d3c3000000b003406984cc6fmr478157ilh.3.1686859744059; 
- Thu, 15 Jun 2023 13:09:04 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
- by smtp.gmail.com with ESMTPSA id
- g24-20020a056638061800b004166c24e30dsm5685797jar.32.2023.06.15.13.09.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Jun 2023 13:09:03 -0700 (PDT)
-Received: (nullmailer pid 1586553 invoked by uid 1000);
- Thu, 15 Jun 2023 20:09:01 -0000
-Date: Thu, 15 Jun 2023 14:09:01 -0600
-From: Rob Herring <robh@kernel.org>
-To: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-Subject: Re: [PATCH 1/2] fbdev/offb: Update expected device name
-Message-ID: <20230615200901.GA1572644-robh@kernel.org>
-References: <20230412095509.2196162-1-cyril@debamax.com>
- <20230412095509.2196162-2-cyril@debamax.com>
- <ZDvrY7X9mpJ7WZ3z@eldamar.lan>
- <11b342dc-1a46-d1be-5fdd-c6eee661e15a@leemhuis.info>
- <fe3b90b0-b52f-9677-0245-a201975c3e0c@suse.de>
- <20230615132107.GA9196@kitsune.suse.cz>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1270710E534;
+ Thu, 15 Jun 2023 20:11:42 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 35FJu9tT031635; Thu, 15 Jun 2023 20:11:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=date : from : to :
+ cc : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=qcppdkim1; bh=kIRTN6UrVIS2yHQZ2vEzLvG3wl4ylStlzjDH/RNZQ8o=;
+ b=aujoH7/UAhnbayh8QlSM/7fj3tBYoBIEdZLoiZ5gNls1L2pdIx6I4UAesS81N1Mkq7/n
+ uDA5JXR5PZd0aC12tw4CPLM9tESbbrxpqZHyFjpoD3qcSzJctBIC75TR0a9lu9UAXvmf
+ ZKwGH8ot3IcHAzCwZ4bATi1wg2SLdwgNOv2T+wrqN+en0szHDBdZL81tqOJNBCTh5nF8
+ tbFWN8rmw4XBBFJyeHqdOnZqPvW2HjsZYl/UPU8QoqOKFekJO7uAODSfWqWDatDybRjs
+ c82+QbrvxhCJBhXN3ARwhM8Y3ogSbrxziy/iTXgkBlBSpg9GP8V+ULwIsZehJMljdo/3 AA== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r7p4qaj20-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 15 Jun 2023 20:11:34 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35FKBXLc002978
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 15 Jun 2023 20:11:33 GMT
+Received: from akhilpo-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.42; Thu, 15 Jun 2023 13:11:28 -0700
+Date: Fri, 16 Jun 2023 01:41:25 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH v8 07/18] drm/msm/a6xx: Add a helper for
+ software-resetting the GPU
+Message-ID: <rd4mte26n22xlgx5umerpgr66b4wfi7mdm6ovszafyinrg3q4c@g227oj3nh2vc>
+References: <20230223-topic-gmuwrapper-v8-0-69c68206609e@linaro.org>
+ <20230223-topic-gmuwrapper-v8-7-69c68206609e@linaro.org>
+ <jplt5g5xuphbnci73pdtaxd63fguxtgtp4c37kc7ehavzrjbau@kamshezxnvgy>
+ <001d7571-5e9f-4f60-f6d0-35806a3e51c5@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230615132107.GA9196@kitsune.suse.cz>
+In-Reply-To: <001d7571-5e9f-4f60-f6d0-35806a3e51c5@linaro.org>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: PiBZfZ9M9EfnFAoxAGTWvrdGWLXTpbNJ
+X-Proofpoint-ORIG-GUID: PiBZfZ9M9EfnFAoxAGTWvrdGWLXTpbNJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-15_15,2023-06-15_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ priorityscore=1501 adultscore=0 lowpriorityscore=0 impostorscore=0
+ bulkscore=0 suspectscore=0 malwarescore=0 mlxlogscore=999 phishscore=0
+ mlxscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306150173
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,62 +82,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Linux regressions mailing list <regressions@lists.linux.dev>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Cyril Brulebois <cyril@debamax.com>, stable@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Salvatore Bonaccorso <carnil@debian.org>
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 15, 2023 at 03:21:07PM +0200, Michal Suchánek wrote:
-> Hello,
+On Thu, Jun 15, 2023 at 12:34:06PM +0200, Konrad Dybcio wrote:
 > 
-> On Thu, Jun 15, 2023 at 03:06:28PM +0200, Thomas Zimmermann wrote:
-> > Hi
+> On 6.06.2023 19:18, Akhil P Oommen wrote:
+> > On Mon, May 29, 2023 at 03:52:26PM +0200, Konrad Dybcio wrote:
+> >>
+> >> Introduce a6xx_gpu_sw_reset() in preparation for adding GMU wrapper
+> >> GPUs and reuse it in a6xx_gmu_force_off().
+> >>
+> >> This helper, contrary to the original usage in GMU code paths, adds
+> >> a write memory barrier which together with the necessary delay should
+> >> ensure that the reset is never deasserted too quickly due to e.g. OoO
+> >> execution going crazy.
+> >>
+> >> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> >> ---
+> >>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c |  3 +--
+> >>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 11 +++++++++++
+> >>  drivers/gpu/drm/msm/adreno/a6xx_gpu.h |  1 +
+> >>  3 files changed, 13 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> >> index b86be123ecd0..5ba8cba69383 100644
+> >> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> >> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> >> @@ -899,8 +899,7 @@ static void a6xx_gmu_force_off(struct a6xx_gmu *gmu)
+> >>  	a6xx_bus_clear_pending_transactions(adreno_gpu, true);
+> >>  
+> >>  	/* Reset GPU core blocks */
+> >> -	gpu_write(gpu, REG_A6XX_RBBM_SW_RESET_CMD, 1);
+> >> -	udelay(100);
+> >> +	a6xx_gpu_sw_reset(gpu, true);
+> >>  }
+> >>  
+> >>  static void a6xx_gmu_set_initial_freq(struct msm_gpu *gpu, struct a6xx_gmu *gmu)
+> >> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> >> index e3ac3f045665..083ccb5bcb4e 100644
+> >> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> >> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> >> @@ -1634,6 +1634,17 @@ void a6xx_bus_clear_pending_transactions(struct adreno_gpu *adreno_gpu, bool gx_
+> >>  	gpu_write(gpu, REG_A6XX_GBIF_HALT, 0x0);
+> >>  }
+> >>  
+> >> +void a6xx_gpu_sw_reset(struct msm_gpu *gpu, bool assert)
+> >> +{
+> >> +	gpu_write(gpu, REG_A6XX_RBBM_SW_RESET_CMD, assert);
+> >> +	/* Add a barrier to avoid bad surprises */
+> > Can you please make this comment a bit more clear? Highlight that we
+> > should ensure the register is posted at hw before polling.
 > > 
-> > Am 15.06.23 um 15:03 schrieb Linux regression tracking (Thorsten Leemhuis):
-> > > On 16.04.23 14:34, Salvatore Bonaccorso wrote:
-> > > > 
-> > > > On Wed, Apr 12, 2023 at 11:55:08AM +0200, Cyril Brulebois wrote:
-> > > > > Since commit 241d2fb56a18 ("of: Make OF framebuffer device names unique"),
-> > > > > as spotted by Frédéric Bonnard, the historical "of-display" device is
-> > > > > gone: the updated logic creates "of-display.0" instead, then as many
-> > > > > "of-display.N" as required.
-> > > > > 
-> > > > > This means that offb no longer finds the expected device, which prevents
-> > > > > the Debian Installer from setting up its interface, at least on ppc64el.
-> > > > > 
-> > > > > It might be better to iterate on all possible nodes, but updating the
-> > > > > hardcoded device from "of-display" to "of-display.0" is confirmed to fix
-> > > > > the Debian Installer at the very least.
+> > I think this barrier is required only during assert.
+> Generally it should not be strictly required at all, but I'm thinking
+> that it'd be good to keep it in both cases, so that:
 > 
-> At the time this was proposed it was said that "of-display", is wrong,
-> and that "of-display.0" must be used for the first device instead, and
-> if something breaks an alias can be provided.
+> if (assert)
+> 	we don't keep writing things to the GPU if it's in reset
+> else
+> 	we don't start writing things to the GPU becomes it comes
+> 	out of reset
 > 
-> So how does one provide an alias so that offb can find "of-display.0" as
-> "of-display"?
+> Also, if you squint hard enough at the commit message, you'll notice
+> I intended for this so only be a wmb, but for some reason generalized
+> it.. Perhaps that's another thing I should fix!
+> for v9..
 
-I'm not aware of any way. There isn't because device names and paths are 
-not considered ABI. There are mechanisms for getting stable class device 
-indices (e.g. i2c0, mmcblk0, fb0, fb1, etc.) though not implemented for 
-fbN (and please don't add it). 
+wmb() doesn't provide any ordering guarantee with the delay loop.
+A common practice is to just read back the same register before
+the loop because a readl followed by delay() is guaranteed to be ordered.
 
-In any case, this should be an easy fix. Though if "linux,opened" or 
-"linux,boot-display" is not set, then you'd still get "of-display.0":
-
-diff --git a/drivers/of/platform.c b/drivers/of/platform.c
-index 78ae84187449..e46482cef9c7 100644
---- a/drivers/of/platform.c
-+++ b/drivers/of/platform.c
-@@ -553,7 +553,7 @@ static int __init of_platform_default_populate_init(void)
-                        if (!of_get_property(node, "linux,opened", NULL) ||
-                            !of_get_property(node, "linux,boot-display", NULL))
-                                continue;
--                       dev = of_platform_device_create(node, "of-display.0", NULL);
-+                       dev = of_platform_device_create(node, "of-display", NULL);
-                        of_node_put(node);
-                        if (WARN_ON(!dev))
-                                return -ENOMEM;
+-Akhil.
+> 
+> Konrad
+> > 
+> > -Akhil.
+> >> +	mb();
+> >> +
+> >> +	/* The reset line needs to be asserted for at least 100 us */
+> >> +	if (assert)
+> >> +		udelay(100);
+> >> +}
+> >> +
+> >>  static int a6xx_pm_resume(struct msm_gpu *gpu)
+> >>  {
+> >>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+> >> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> >> index 9580def06d45..aa70390ee1c6 100644
+> >> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> >> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> >> @@ -89,5 +89,6 @@ struct msm_gpu_state *a6xx_gpu_state_get(struct msm_gpu *gpu);
+> >>  int a6xx_gpu_state_put(struct msm_gpu_state *state);
+> >>  
+> >>  void a6xx_bus_clear_pending_transactions(struct adreno_gpu *adreno_gpu, bool gx_off);
+> >> +void a6xx_gpu_sw_reset(struct msm_gpu *gpu, bool assert);
+> >>  
+> >>  #endif /* __A6XX_GPU_H__ */
+> >>
+> >> -- 
+> >> 2.40.1
+> >>
