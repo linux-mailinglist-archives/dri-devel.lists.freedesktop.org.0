@@ -1,36 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D21D17322CC
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 00:32:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6552D7322D7
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 00:43:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3A0510E563;
-	Thu, 15 Jun 2023 22:32:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65CF010E565;
+	Thu, 15 Jun 2023 22:43:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay02.th.seeweb.it (relay02.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EFC210E562
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 22:32:17 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id C7723200CC;
- Fri, 16 Jun 2023 00:32:14 +0200 (CEST)
-Date: Fri, 16 Jun 2023 00:32:13 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v2 00/22]drm/msm/dpu: another catalog rework
-Message-ID: <a3lfr4tgdhhcvdf5h6q25gstajtth772isjgaibmxtalhzxnsk@u4dbwpjva4yd>
-References: <20230613001004.3426676-1-dmitry.baryshkov@linaro.org>
- <168682860384.384026.9850510984858511761.b4-ty@linaro.org>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA08610E562;
+ Thu, 15 Jun 2023 22:43:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686869026; x=1718405026;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=3+QDlXhCxFo0nsuFqE9WvxxBhEXDo4bmX+KemRz3d1w=;
+ b=lgCYwLIGU/fcNiKhM8Oy+V/SRaN2DARiA7a3U9KL6eaotNApI/4Djwo2
+ XAs9mGSjQdv+Fszl+f8ymJSh/L1/wKHstZ5711vSFh3vx61/zxmx3qbfm
+ OYO4/ub3T9sYNfXcXmJusYe1QQSP9V0cm/cxEzgZr6tV3HluUFXD9gURI
+ reucbuv0QHInkf5vgQFFTP7cwwV0q1jNN85X0wiroPJmIkl3HIiz32mGt
+ +qPG6/3Ay9of9Wbc9pSnXfQWN6MJxyUOfOOc9b70Vkn4nv8iDEkIq5Ryj
+ ndtetEliWQtpgFAnFo8gcm+bXSIEsSlCayQIHMWaniL0hWEo3IBmX6Z24 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="348765979"
+X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; d="scan'208";a="348765979"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jun 2023 15:43:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="886862358"
+X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; d="scan'208";a="886862358"
+Received: from guc-pnp-dev-box-1.fm.intel.com ([10.1.27.12])
+ by orsmga005.jf.intel.com with ESMTP; 15 Jun 2023 15:43:45 -0700
+From: Zhanjun Dong <zhanjun.dong@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] Remove incorrect hard coded cache coherrency setting
+Date: Thu, 15 Jun 2023 15:43:43 -0700
+Message-Id: <20230615224343.965937-1-zhanjun.dong@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <168682860384.384026.9850510984858511761.b4-ty@linaro.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,39 +55,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
+Cc: Zhanjun Dong <zhanjun.dong@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-06-15 14:31:22, Dmitry Baryshkov wrote:
-> 
-> On Tue, 13 Jun 2023 03:09:39 +0300, Dmitry Baryshkov wrote:
-> > Having a macro with 10 arguments doesn't seem like a good idea. It makes
-> > it inherently harder to compare the actual structure values. Also this
-> > leads to adding macros covering varieties of the block.
-> > 
-> > As it was previously discussed, inline all foo_BLK macros in order to
-> > ease performing changes to the catalog data.
-> > 
-> > [...]
-> 
-> Applied, thanks!
-> 
-> [01/22] drm/msm/dpu: fix sc7280 and sc7180 PINGPONG done interrupts
->         https://gitlab.freedesktop.org/lumag/msm/-/commit/5efc0fec31d8
-> [02/22] drm/msm/dpu: correct MERGE_3D length
->         https://gitlab.freedesktop.org/lumag/msm/-/commit/f01fb5e211fd
-> [03/22] drm/msm/dpu: remove unused INTF_NONE interfaces
->         https://gitlab.freedesktop.org/lumag/msm/-/commit/17bf6f8efc50
+The previouse i915_gem_object_create_internal already set it with proper value before function return. This hard coded setting is incorrect for platforms like MTL, thus need to be removed.
 
-The first two patches are fixes, the third one is not?
+Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_timeline.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-- Marijn
+diff --git a/drivers/gpu/drm/i915/gt/intel_timeline.c b/drivers/gpu/drm/i915/gt/intel_timeline.c
+index b9640212d659..693d18e14b00 100644
+--- a/drivers/gpu/drm/i915/gt/intel_timeline.c
++++ b/drivers/gpu/drm/i915/gt/intel_timeline.c
+@@ -26,8 +26,6 @@ static struct i915_vma *hwsp_alloc(struct intel_gt *gt)
+ 	if (IS_ERR(obj))
+ 		return ERR_CAST(obj);
+ 
+-	i915_gem_object_set_cache_coherency(obj, I915_CACHE_LLC);
+-
+ 	vma = i915_vma_instance(obj, &gt->ggtt->vm, NULL);
+ 	if (IS_ERR(vma))
+ 		i915_gem_object_put(obj);
+-- 
+2.34.1
 
-> 
-> Best regards,
-> -- 
-> Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
