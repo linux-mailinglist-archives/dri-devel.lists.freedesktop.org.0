@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B23C7731EAC
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 19:06:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9FFC731EAF
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 19:06:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D76810E519;
-	Thu, 15 Jun 2023 17:06:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25E0910E521;
+	Thu, 15 Jun 2023 17:06:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B86F10E515;
- Thu, 15 Jun 2023 17:06:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1789310E515;
+ Thu, 15 Jun 2023 17:06:27 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D263360AF0;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 672D86194D;
+ Thu, 15 Jun 2023 17:06:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74575C433CB;
  Thu, 15 Jun 2023 17:06:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2615C433CA;
- Thu, 15 Jun 2023 17:06:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1686848785;
- bh=OMYNXDmf2G+KE4O+YFGoP1cRngLJ6R4++Xd36xT5ZOk=;
+ bh=pBH7ctxxtgC1B5e2uq+BToOm9A5Oq68fbzBEajU80s4=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=AGzxwnYFlrpfQHikLxx9cHO4xrRxWnsOY8UJcw0MOc7m4MG1hSamNgOyHff8Dbkad
- H30n72Y7sxEcu10lnQEi54gwNSgvRvFVM1Q3n0V+MWk5MAj52ICCtTwpw169vCkeJc
- PJEYl5wOKWmohP7ePjkJvr17Ba7WgIbVRAx3OrWt9Byup8GTZ39hU5dGgKmhk+iE9F
- gCkVtoll9LUFzUjBboeAmmibQJQkkaWHt2Gjkry7iIxBJ/XVT1+2TNUPYFooB9C6IZ
- SA/QjyTlti4LnEYUe04Ox4T7J+bc80uMcQ8Uds0J5HtMfBIpn5GMUGUkC375glqA+f
- ivWlNu9MFmmZg==
+ b=PB3qfgpt5Mq4cS2ibXgBEVd7mf4HGge8j2/63DI6+t9Maxc/mkRjMxIg/TYTx4ndx
+ MWhQ/A8u7/HABWDSxoxIfm2oySbeuXoxklIaLHBjXBK/Po3rtOAxjlRlGwNMOC26Sh
+ RD8qDp4IwwMbVH5u1kIRA+K7n7bMHef7dYErhqmiBQAdRbnbAlCvSZlCfyDtBtC3kC
+ F4CkeyLqyqVOYYDLqoBOyxfpbNX5qKBW32MaHo6Q7A0hxlxDxT5l3xT3mJzp+q/3uc
+ tW7z31i5eYpQPo36Qib7L0IaimJMXwT+yC2B+FyVviyNq/3wfuVGJimgFAKfkWKgH2
+ Yhgrf24aMizDw==
 From: Nathan Chancellor <nathan@kernel.org>
-Date: Thu, 15 Jun 2023 10:06:08 -0700
-Subject: [PATCH 1/2] drm/amdgpu: Remove CONFIG_DEBUG_FS guard around body
- of amdgpu_rap_debugfs_init()
+Date: Thu, 15 Jun 2023 10:06:09 -0700
+Subject: [PATCH 2/2] drm/amdgpu: Move clocks closer to its only usage in
+ amdgpu_parse_cg_state()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230615-amdgpu-wunused-const-variable-wo-debugfs-v1-1-06efd224aebb@kernel.org>
+Message-Id: <20230615-amdgpu-wunused-const-variable-wo-debugfs-v1-2-06efd224aebb@kernel.org>
 References: <20230615-amdgpu-wunused-const-variable-wo-debugfs-v1-0-06efd224aebb@kernel.org>
 In-Reply-To: <20230615-amdgpu-wunused-const-variable-wo-debugfs-v1-0-06efd224aebb@kernel.org>
 To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com
 X-Mailer: b4 0.13-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1622; i=nathan@kernel.org;
- h=from:subject:message-id; bh=OMYNXDmf2G+KE4O+YFGoP1cRngLJ6R4++Xd36xT5ZOk=;
- b=owGbwMvMwCEmm602sfCA1DTG02pJDCndrgLTpr27MJXd8MJGbYNzQbOPNOwV7TnUPTvd8n3k5
- q/CM3ce6ihlYRDjYJAVU2Spfqx63NBwzlnGG6cmwcxhZQIZwsDFKQATOazEyPCl3bDjz8WbZz6q
- zL2/QUH92dSnC2ffV347qbhi0z6N5+5mjAwn7+6unvXTuvxS6q8buyN11te4G9hbi7Ssf2QpEXe
- FoZ8BAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6322; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=pBH7ctxxtgC1B5e2uq+BToOm9A5Oq68fbzBEajU80s4=;
+ b=owGbwMvMwCEmm602sfCA1DTG02pJDCndrgKbzn8/ftYq7KQEq+9KHb516Xdnx8hflWVZv+GN4
+ +SpIdc6OkpZGMQ4GGTFFFmqH6seNzScc5bxxqlJMHNYmUCGMHBxCsBETq1g+J9r83Mzs7zCB9ng
+ 8PmHVd2++rF/y3VVjJvLu8HyhXV6tQjD/2pTu60C2vHPdRuEnDt03+xeF7tI6M/mkJP3zRLPd13
+ cyQoA
 X-Developer-Key: i=nathan@kernel.org; a=openpgp;
  fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,40 +72,114 @@ After commit a25a9dae2067 ("drm/amd/amdgpu: enable W=1 for amdgpu"),
 there is an instance of -Wunused-const-variable when CONFIG_DEBUG_FS is
 disabled:
 
-  drivers/gpu/drm/amd/amdgpu/amdgpu_rap.c:110:37: error: unused variable 'amdgpu_rap_debugfs_ops' [-Werror,-Wunused-const-variable]
-    110 | static const struct file_operations amdgpu_rap_debugfs_ops = {
-        |                                     ^
+  drivers/gpu/drm/amd/amdgpu/../pm/amdgpu_pm.c:38:34: error: unused variable 'clocks' [-Werror,-Wunused-const-variable]
+     38 | static const struct cg_flag_name clocks[] = {
+        |                                  ^
   1 error generated.
 
-There is no reason for the body of this function to be guarded when
-CONFIG_DEBUG_FS is disabled, as debugfs_create_file() is a stub that
-just returns an error pointer in that situation. Remove the preprocessor
-guards so that the variable never appears unused, while not changing
-anything at run time.
+clocks is only used when CONFIG_DEBUG_FS is set, so move the definition
+into the CONFIG_DEBUG_FS block right above its only usage to clear up
+the warning.
 
 Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_rap.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/amd/pm/amdgpu_pm.c | 76 +++++++++++++++++++-------------------
+ 1 file changed, 38 insertions(+), 38 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_rap.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_rap.c
-index 12010c988c8b..123bcf5c2bb1 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_rap.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_rap.c
-@@ -116,7 +116,6 @@ static const struct file_operations amdgpu_rap_debugfs_ops = {
+diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+index a57952b93e73..386ccf11e657 100644
+--- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
++++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+@@ -35,44 +35,6 @@
+ #include <linux/pm_runtime.h>
+ #include <asm/processor.h>
  
- void amdgpu_rap_debugfs_init(struct amdgpu_device *adev)
- {
--#if defined(CONFIG_DEBUG_FS)
- 	struct drm_minor *minor = adev_to_drm(adev)->primary;
- 
- 	if (!adev->psp.rap_context.context.initialized)
-@@ -124,5 +123,4 @@ void amdgpu_rap_debugfs_init(struct amdgpu_device *adev)
- 
- 	debugfs_create_file("rap_test", S_IWUSR, minor->debugfs_root,
- 				adev, &amdgpu_rap_debugfs_ops);
--#endif
+-static const struct cg_flag_name clocks[] = {
+-	{AMD_CG_SUPPORT_GFX_FGCG, "Graphics Fine Grain Clock Gating"},
+-	{AMD_CG_SUPPORT_GFX_MGCG, "Graphics Medium Grain Clock Gating"},
+-	{AMD_CG_SUPPORT_GFX_MGLS, "Graphics Medium Grain memory Light Sleep"},
+-	{AMD_CG_SUPPORT_GFX_CGCG, "Graphics Coarse Grain Clock Gating"},
+-	{AMD_CG_SUPPORT_GFX_CGLS, "Graphics Coarse Grain memory Light Sleep"},
+-	{AMD_CG_SUPPORT_GFX_CGTS, "Graphics Coarse Grain Tree Shader Clock Gating"},
+-	{AMD_CG_SUPPORT_GFX_CGTS_LS, "Graphics Coarse Grain Tree Shader Light Sleep"},
+-	{AMD_CG_SUPPORT_GFX_CP_LS, "Graphics Command Processor Light Sleep"},
+-	{AMD_CG_SUPPORT_GFX_RLC_LS, "Graphics Run List Controller Light Sleep"},
+-	{AMD_CG_SUPPORT_GFX_3D_CGCG, "Graphics 3D Coarse Grain Clock Gating"},
+-	{AMD_CG_SUPPORT_GFX_3D_CGLS, "Graphics 3D Coarse Grain memory Light Sleep"},
+-	{AMD_CG_SUPPORT_MC_LS, "Memory Controller Light Sleep"},
+-	{AMD_CG_SUPPORT_MC_MGCG, "Memory Controller Medium Grain Clock Gating"},
+-	{AMD_CG_SUPPORT_SDMA_LS, "System Direct Memory Access Light Sleep"},
+-	{AMD_CG_SUPPORT_SDMA_MGCG, "System Direct Memory Access Medium Grain Clock Gating"},
+-	{AMD_CG_SUPPORT_BIF_MGCG, "Bus Interface Medium Grain Clock Gating"},
+-	{AMD_CG_SUPPORT_BIF_LS, "Bus Interface Light Sleep"},
+-	{AMD_CG_SUPPORT_UVD_MGCG, "Unified Video Decoder Medium Grain Clock Gating"},
+-	{AMD_CG_SUPPORT_VCE_MGCG, "Video Compression Engine Medium Grain Clock Gating"},
+-	{AMD_CG_SUPPORT_HDP_LS, "Host Data Path Light Sleep"},
+-	{AMD_CG_SUPPORT_HDP_MGCG, "Host Data Path Medium Grain Clock Gating"},
+-	{AMD_CG_SUPPORT_DRM_MGCG, "Digital Right Management Medium Grain Clock Gating"},
+-	{AMD_CG_SUPPORT_DRM_LS, "Digital Right Management Light Sleep"},
+-	{AMD_CG_SUPPORT_ROM_MGCG, "Rom Medium Grain Clock Gating"},
+-	{AMD_CG_SUPPORT_DF_MGCG, "Data Fabric Medium Grain Clock Gating"},
+-	{AMD_CG_SUPPORT_VCN_MGCG, "VCN Medium Grain Clock Gating"},
+-	{AMD_CG_SUPPORT_HDP_DS, "Host Data Path Deep Sleep"},
+-	{AMD_CG_SUPPORT_HDP_SD, "Host Data Path Shutdown"},
+-	{AMD_CG_SUPPORT_IH_CG, "Interrupt Handler Clock Gating"},
+-	{AMD_CG_SUPPORT_JPEG_MGCG, "JPEG Medium Grain Clock Gating"},
+-	{AMD_CG_SUPPORT_REPEATER_FGCG, "Repeater Fine Grain Clock Gating"},
+-	{AMD_CG_SUPPORT_GFX_PERF_CLK, "Perfmon Clock Gating"},
+-	{AMD_CG_SUPPORT_ATHUB_MGCG, "Address Translation Hub Medium Grain Clock Gating"},
+-	{AMD_CG_SUPPORT_ATHUB_LS, "Address Translation Hub Light Sleep"},
+-	{0, NULL},
+-};
+-
+ static const struct hwmon_temp_label {
+ 	enum PP_HWMON_TEMP channel;
+ 	const char *label;
+@@ -3684,6 +3646,44 @@ static int amdgpu_debugfs_pm_info_pp(struct seq_file *m, struct amdgpu_device *a
+ 	return 0;
  }
+ 
++static const struct cg_flag_name clocks[] = {
++	{AMD_CG_SUPPORT_GFX_FGCG, "Graphics Fine Grain Clock Gating"},
++	{AMD_CG_SUPPORT_GFX_MGCG, "Graphics Medium Grain Clock Gating"},
++	{AMD_CG_SUPPORT_GFX_MGLS, "Graphics Medium Grain memory Light Sleep"},
++	{AMD_CG_SUPPORT_GFX_CGCG, "Graphics Coarse Grain Clock Gating"},
++	{AMD_CG_SUPPORT_GFX_CGLS, "Graphics Coarse Grain memory Light Sleep"},
++	{AMD_CG_SUPPORT_GFX_CGTS, "Graphics Coarse Grain Tree Shader Clock Gating"},
++	{AMD_CG_SUPPORT_GFX_CGTS_LS, "Graphics Coarse Grain Tree Shader Light Sleep"},
++	{AMD_CG_SUPPORT_GFX_CP_LS, "Graphics Command Processor Light Sleep"},
++	{AMD_CG_SUPPORT_GFX_RLC_LS, "Graphics Run List Controller Light Sleep"},
++	{AMD_CG_SUPPORT_GFX_3D_CGCG, "Graphics 3D Coarse Grain Clock Gating"},
++	{AMD_CG_SUPPORT_GFX_3D_CGLS, "Graphics 3D Coarse Grain memory Light Sleep"},
++	{AMD_CG_SUPPORT_MC_LS, "Memory Controller Light Sleep"},
++	{AMD_CG_SUPPORT_MC_MGCG, "Memory Controller Medium Grain Clock Gating"},
++	{AMD_CG_SUPPORT_SDMA_LS, "System Direct Memory Access Light Sleep"},
++	{AMD_CG_SUPPORT_SDMA_MGCG, "System Direct Memory Access Medium Grain Clock Gating"},
++	{AMD_CG_SUPPORT_BIF_MGCG, "Bus Interface Medium Grain Clock Gating"},
++	{AMD_CG_SUPPORT_BIF_LS, "Bus Interface Light Sleep"},
++	{AMD_CG_SUPPORT_UVD_MGCG, "Unified Video Decoder Medium Grain Clock Gating"},
++	{AMD_CG_SUPPORT_VCE_MGCG, "Video Compression Engine Medium Grain Clock Gating"},
++	{AMD_CG_SUPPORT_HDP_LS, "Host Data Path Light Sleep"},
++	{AMD_CG_SUPPORT_HDP_MGCG, "Host Data Path Medium Grain Clock Gating"},
++	{AMD_CG_SUPPORT_DRM_MGCG, "Digital Right Management Medium Grain Clock Gating"},
++	{AMD_CG_SUPPORT_DRM_LS, "Digital Right Management Light Sleep"},
++	{AMD_CG_SUPPORT_ROM_MGCG, "Rom Medium Grain Clock Gating"},
++	{AMD_CG_SUPPORT_DF_MGCG, "Data Fabric Medium Grain Clock Gating"},
++	{AMD_CG_SUPPORT_VCN_MGCG, "VCN Medium Grain Clock Gating"},
++	{AMD_CG_SUPPORT_HDP_DS, "Host Data Path Deep Sleep"},
++	{AMD_CG_SUPPORT_HDP_SD, "Host Data Path Shutdown"},
++	{AMD_CG_SUPPORT_IH_CG, "Interrupt Handler Clock Gating"},
++	{AMD_CG_SUPPORT_JPEG_MGCG, "JPEG Medium Grain Clock Gating"},
++	{AMD_CG_SUPPORT_REPEATER_FGCG, "Repeater Fine Grain Clock Gating"},
++	{AMD_CG_SUPPORT_GFX_PERF_CLK, "Perfmon Clock Gating"},
++	{AMD_CG_SUPPORT_ATHUB_MGCG, "Address Translation Hub Medium Grain Clock Gating"},
++	{AMD_CG_SUPPORT_ATHUB_LS, "Address Translation Hub Light Sleep"},
++	{0, NULL},
++};
++
+ static void amdgpu_parse_cg_state(struct seq_file *m, u64 flags)
+ {
+ 	int i;
 
 -- 
 2.41.0
