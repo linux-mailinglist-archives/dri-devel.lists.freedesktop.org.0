@@ -2,68 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B8567316AF
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 13:32:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75CF673172A
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 13:40:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E6E410E4CB;
-	Thu, 15 Jun 2023 11:32:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F4B310E4D3;
+	Thu, 15 Jun 2023 11:40:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6434A10E4D3
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 11:31:40 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id
- 38308e7fff4ca-2b44200367bso11853041fa.2
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 04:31:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686828698; x=1689420698;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5T8GgYIqVudWlnsC3oPDKoAyLE+QLU/Vc0UJQqOQEms=;
- b=asxgBI7ZjmLrmbZmvFQpyF/5eFUTJQWWW7xKqJqFCtjlsV0LV7ZxW7CJ9oqI4vd0oj
- 4LPzImZ6wWupg9kgiUwvnSiwoBPIXTKiBAlXZx9T+p+A6Gt2dI9hArmwyNxiZeqpRw22
- QHWN7auMbRPeq3+WXysgOGpLScuvTkMZeJ05E1bEix8FIVKMgOTvVGSEfk0g4JiqnBIN
- RpL64eej6Q3bHM9J85d774/erJNuo6JMCRRf4v6ei65hYaWmxP5QRZfCZVDQ0m8LFEIT
- gVA5mQIlskllXR1VRwp2V/3xjTd6wlPCgqTxGKf/7pgiFUwE+bn39vHttwfqr7toC9wb
- Adsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686828698; x=1689420698;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5T8GgYIqVudWlnsC3oPDKoAyLE+QLU/Vc0UJQqOQEms=;
- b=hQ//cXESSgxCbEqfJLlQmmhl3vH4LxAKxs4pQJB5jx0Nrw2qHIKRaz0Pj/90+EM30T
- kaFZUMkzW8YXDJtzxrSaW5d64s/M79lIY5CEZaT77ZzZrB7XQ+biz63P8xcTLmdWj1GY
- fPaDvga44B6K5h6xRDlciZU0w4fnMMNmNCqQg7syqvYdYiv22vB+7Z0kT8k+nr6Ck5W1
- 4xlymZC5wXd7mEE1h2/PMLpqkz8EXo6onFJ9ztEr752y2NrnePLMU3ExgVx1A6E76ZK9
- bZMwOWFdpf8OuFnjRcNEYAhPjk2tOdE0YlpHNmV9uddBo6+coWIMuakkK9r/tvdg/Hc3
- mvfg==
-X-Gm-Message-State: AC+VfDww8DppdKP+JXQxGauTzi1PlW406K7fam9dkNOMGFjwB14bZwu/
- FUSzhvvJOM6mCOgfurhah9mSBfnmTDTPbFHroT4=
-X-Google-Smtp-Source: ACHHUZ7anJq5+jo+HNiZTaLF+2RxcGBAkP3TUmnIjwSU0KcnYb1vyWAXaCDG02wduM41vfWbpKYzEQ==
-X-Received: by 2002:a2e:3c0a:0:b0:2b1:fcb2:3029 with SMTP id
- j10-20020a2e3c0a000000b002b1fcb23029mr8451714lja.28.1686828698241; 
- Thu, 15 Jun 2023 04:31:38 -0700 (PDT)
-Received: from eriador.lan (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
- [2001:14ba:a0db:1f00::8a5]) by smtp.gmail.com with ESMTPSA id
- y12-20020a2e320c000000b002b345f71039sm860525ljy.36.2023.06.15.04.31.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Jun 2023 04:31:37 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: dri-devel@lists.freedesktop.org, robdclark@gmail.com, sean@poorly.run,
- swboyd@chromium.org, dianders@chromium.org, vkoul@kernel.org,
- daniel@ffwll.ch, airlied@gmail.com, agross@kernel.org,
- andersson@kernel.org, Kuogee Hsieh <quic_khsieh@quicinc.com>
-Subject: Re: [PATCH v14 00/10] add DSC 1.2 dpu supports
-Date: Thu, 15 Jun 2023 14:31:27 +0300
-Message-Id: <168682860387.384026.8615794645993103495.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <1685036458-22683-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1685036458-22683-1-git-send-email-quic_khsieh@quicinc.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D36F310E4CE;
+ Thu, 15 Jun 2023 11:40:14 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2C7681FD98;
+ Thu, 15 Jun 2023 11:40:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1686829211; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Et3jOQsnWEEhqn9bjTn9Wq0rgWI8b9aJ7r29PM21EkM=;
+ b=WxlF0NPXHAvP7v2Q6uopIwsm+eKCQrYyggYth0bRy8R9D5R06HFtUez5yujeH1JRXPtsNv
+ HUikNvRrPb00UxmOgyB8U4jHfaOQ+ACkEt+tCPtyFzd/2SKeYwD6G1SSmVFBTu2oIPCMx1
+ ctGLwIqotTS2VVhmgUhTQXQ5T9CFl7Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1686829211;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Et3jOQsnWEEhqn9bjTn9Wq0rgWI8b9aJ7r29PM21EkM=;
+ b=6/f97z6HkOGGcNAVp1VWya9/ErNk6w4csA9q/bImnVOj1UbiZoGp4JASRD2KQlu/L9V1Wj
+ E9uCctIc0NWLmKAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E4F7513467;
+ Thu, 15 Jun 2023 11:40:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id bBjuNpr4imReGQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 15 Jun 2023 11:40:10 +0000
+Date: Thu, 15 Jun 2023 13:40:09 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-next-fixes
+Message-ID: <20230615114009.GA27261@linux-uq9g>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,33 +64,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- freedreno@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dave and Daniel,
 
-On Thu, 25 May 2023 10:40:48 -0700, Kuogee Hsieh wrote:
-> This series adds the DPU side changes to support DSC 1.2 encoder. This
-> was validated with both DSI DSC 1.2 panel and DP DSC 1.2 monitor.
-> The DSI and DP parts will be pushed later on top of this change.
-> This seriel is rebase on [1], [2] and catalog fixes from rev-4 of [3].
-> 
-> [1]: https://patchwork.freedesktop.org/series/116851/
-> [2]: https://patchwork.freedesktop.org/series/116615/
-> [3]: https://patchwork.freedesktop.org/series/112332/
-> 
-> [...]
+here's the release cycles first PR from drm-misc-next-fixes. It's just
+one fix and a backmerge.
 
-Applied, thanks!
+Best regards
+Thomas
 
-[06/10] drm/msm/dpu: add support for DSC encoder v1.2 engine
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/8c4094b275f6
-[09/10] drm/msm/dpu: add DSC 1.2 hw blocks for relevant chipsets
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/0d1b10c63346
+drm-misc-next-fixes-2023-06-15:
+Short summary of fixes pull:
 
-Best regards,
+ * Fix fbdev initializer macros
+The following changes since commit 901bdf5ea1a836400ee69aa32b04e9c209271ec7:
+
+  Merge tag 'amd-drm-next-6.5-2023-06-09' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2023-06-15 14:11:22 +1000)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2023-06-15
+
+for you to fetch changes up to cf683e8870bd4be0fd6b98639286700a35088660:
+
+  fbdev: Use /* */ comment in initializer macro (2023-06-15 10:45:17 +0200)
+
+----------------------------------------------------------------
+Short summary of fixes pull:
+
+ * Fix fbdev initializer macros
+
+----------------------------------------------------------------
+Thomas Zimmermann (2):
+      Merge drm/drm-next into drm-misc-next-fixes
+      fbdev: Use /* */ comment in initializer macro
+
+ include/linux/fb.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 Nürnberg, Germany
+(HRB 36809, AG Nürnberg)
+Geschäftsführer: Felix Imendörffer
