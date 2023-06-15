@@ -1,71 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE74F7321D5
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 23:43:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B7007321DF
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 23:45:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEA6A10E551;
-	Thu, 15 Jun 2023 21:43:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1A6010E552;
+	Thu, 15 Jun 2023 21:45:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92CC410E050
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 21:43:08 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id
- 2adb3069b0e04-4f642a24568so11400871e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 14:43:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686865386; x=1689457386;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6za7DDBL/Hf8PI3dh2htZMi4qLwBFMI0qYeLhd8/xT8=;
- b=tnSglTaWyiuz8AqEK1WyxApSkQKaWv4QNdQgfvw+ZOav24GjuM7/ejWi0wzYptnBJl
- nhjpQf7p+quAsvbWxIDeQ/Q18dRJa2DLnkX0TKdp1MibkEwqsqB2NSwAkvdNoN7UnFKZ
- X25gaxmxHcVfDedaU6oHYEYrbPpf0iF2CWT7W/D7+pL5ssJpQXm5Lk9gA4Cli/gy2y1U
- pKk8cFl2ZrNoWgv8oNCahBqRU9dRLvOgAFsihDQZpCf/QUywsH11L01rV4fZRMiOW3Z1
- PqhbVayAif97IbdT4lqvNPjaGuKwH4fmoj6tf/dvseKG7UVxGiBI2ZD+fOzi74XFPNgV
- 0pnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686865386; x=1689457386;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6za7DDBL/Hf8PI3dh2htZMi4qLwBFMI0qYeLhd8/xT8=;
- b=kGm43DP+BoNOdeFlQGujRHa8mICk6RfKE8YNr90FZdeiOL8X7Wc5owf6gEdJ0z6ai+
- Jlu70xnN3s3V1z+PL5l5dGBnmu+hDvGRW4nOPvsZ7XqcZBAdcG+DclHL6c1D0YztXzto
- aH5ic/dfwVGONJ1DAIjCvaOZbJTLDKclv47rK6UnQRUreDdckPbzZjyrp+rpyVkxoICx
- Q5kuQMVGFXLylOsWXALzhn64MtdY5UYynRlLt6sqpKqwnBTbtuuWe5OShYbLN0ZQFZlT
- 1GzdQvCdybhR2A+cZLj80/4W/Bl0Q5RHIp4OukTqGXFgiPV2V0WPoY2M8s+LkktQsnJH
- 3Mtg==
-X-Gm-Message-State: AC+VfDxURg0Chq06ta497Xqf+0mihM6vPwIg5akfVpEufwNfmyIveny8
- /7/NjZqMRGJEFZEJzDjSOcCCTg==
-X-Google-Smtp-Source: ACHHUZ5a4rZrTv046HEgR8PdbUILBhV2MftViFLyJHR4vCMSlWIdOouoDfNbpSOGhWxiEu6ap0w0WA==
-X-Received: by 2002:a19:654c:0:b0:4f8:4aed:b489 with SMTP id
- c12-20020a19654c000000b004f84aedb489mr5859lfj.18.1686865386499; 
- Thu, 15 Jun 2023 14:43:06 -0700 (PDT)
-Received: from [192.168.1.101] (abyj190.neoplus.adsl.tpnet.pl. [83.9.29.190])
- by smtp.gmail.com with ESMTPSA id
- f3-20020ac251a3000000b004f37c0dfcaasm2742013lfk.118.2023.06.15.14.43.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Jun 2023 14:43:06 -0700 (PDT)
-Message-ID: <c5396101-ad5b-afdd-d6d7-1a2efa3b9bf7@linaro.org>
-Date: Thu, 15 Jun 2023 23:43:04 +0200
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A680510E050;
+ Thu, 15 Jun 2023 21:45:17 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 35FLe5Gm003608; Thu, 15 Jun 2023 21:44:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=XlQK32qBclGRzKNC9imKrQEAFU1lTeT5bQOQse+IhKs=;
+ b=HuJATdhkHaFhK0SZx+Fz0+S8xi33ihuXwzQbzGQ90ISbwUqZi7pHq1WvO6oWJv3gBsIa
+ Rn/jUyK5lWeOATmuXD5veCgaOy6Z8BpNoqrLT1I/IkMqXUWWujn87+zHivUWNhv1d4zx
+ Pwaf5by5ZYNCaLCZ2uuMrg7mER+Tf+eFejLO9zbpVF3xCz9rjBSen47atgp33/gQ1XqN
+ VgSiwutI79BPXlzPVY9HhJJPstl3lQU9Smld0kpvPhdGVtod6r0IxSzpbpV72Z8/5Q4F
+ 192EYflMXUqmquv3DzSo4XbKD2I15qi/6FIzVlkjxtUzGBGiJ9lESN/zTo41bp5jLUhG Kg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r83p990s8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 15 Jun 2023 21:44:37 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35FLiaM9019935
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 15 Jun 2023 21:44:36 GMT
+Received: from [10.231.6.120] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Thu, 15 Jun
+ 2023 14:44:34 -0700
+Message-ID: <baa70725-89ba-2e92-c5ce-7619fbea26d2@quicinc.com>
+Date: Thu, 15 Jun 2023 17:44:33 -0400
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [RFC] Plane color pipeline KMS uAPI
 Content-Language: en-US
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-References: <20230223-topic-gmuwrapper-v8-0-69c68206609e@linaro.org>
- <20230223-topic-gmuwrapper-v8-10-69c68206609e@linaro.org>
- <2vr72w4tslxxumzphtuwgkcnbfjrtmw2j4qak2cukcabchadlg@spjbqoa7v4lr>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH v8 10/18] drm/msm/a6xx: Introduce GMU wrapper support
-In-Reply-To: <2vr72w4tslxxumzphtuwgkcnbfjrtmw2j4qak2cukcabchadlg@spjbqoa7v4lr>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Pekka Paalanen <ppaalanen@gmail.com>
+References: <QMers3awXvNCQlyhWdTtsPwkp5ie9bze_hD5nAccFW7a_RXlWjYB7MoUW_8CKLT2bSQwIXVi5H6VULYIxCdgvryZoAoJnC5lZgyK1QWn488=@emersion.fr>
+ <4341dac6-ada1-2a75-1c22-086d96408a85@quicinc.com>
+ <84d5dad7-5e8e-ce92-d08e-4609970f6604@quicinc.com>
+ <jerhZxCOWoQ2gv55pCK0JNVXMT_OY_j9KLewfG5me25cpqVzfOibpr4b9gZpjWPLQOaKWO2zD2KUI5mWge4mA74DmV1qmLB_LxsSRlKtvbk=@emersion.fr>
+ <6f9598e5-09b4-738f-4d00-dfdaba1c91d0@quicinc.com>
+ <20230612122135.40505458@eldfell>
+ <f9428dd3-09fb-74b7-7ba0-4710e8b43229@quicinc.com>
+ <20230613112312.755ef58f@eldfell>
+ <d132c9e0-d3e2-77e5-bcd6-1aef657b935f@quicinc.com>
+ <20230614120006.03284f7e@eldfell>
+From: Christopher Braga <quic_cbraga@quicinc.com>
+In-Reply-To: <20230614120006.03284f7e@eldfell>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: xBbMtVKHCQJQUxBCCcb87BQI4O4APKw_
+X-Proofpoint-GUID: xBbMtVKHCQJQUxBCCcb87BQI4O4APKw_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-15_17,2023-06-15_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ malwarescore=0 phishscore=0 bulkscore=0 mlxlogscore=999 mlxscore=0
+ suspectscore=0 adultscore=0 clxscore=1015 spamscore=0 priorityscore=1501
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306150187
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,636 +91,444 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>
+Cc: Aleix Pol <aleixpol@kde.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "xaver.hugl@gmail.com" <xaver.hugl@gmail.com>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <mdaenzer@redhat.com>,
+ wayland-devel <wayland-devel@lists.freedesktop.org>,
+ Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?Q?Jonas_=c3=85dahl?= <jadahl@redhat.com>,
+ Uma Shankar <uma.shankar@intel.com>,
+ Victoria Brekenfeld <victoria@system76.com>,
+ Sebastian Wick <sebastian.wick@redhat.com>, Joshua Ashton <joshua@froggi.es>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10.06.2023 00:06, Akhil P Oommen wrote:
-> On Mon, May 29, 2023 at 03:52:29PM +0200, Konrad Dybcio wrote:
->>
->> Some (particularly SMD_RPM, a.k.a non-RPMh) SoCs implement A6XX GPUs
->> but don't implement the associated GMUs. This is due to the fact that
->> the GMU directly pokes at RPMh. Sadly, this means we have to take care
->> of enabling & scaling power rails, clocks and bandwidth ourselves.
->>
->> Reuse existing Adreno-common code and modify the deeply-GMU-infused
->> A6XX code to facilitate these GPUs. This involves if-ing out lots
->> of GMU callbacks and introducing a new type of GMU - GMU wrapper (it's
->> the actual name that Qualcomm uses in their downstream kernels).
->>
->> This is essentially a register region which is convenient to model
->> as a device. We'll use it for managing the GDSCs. The register
->> layout matches the actual GMU_CX/GX regions on the "real GMU" devices
->> and lets us reuse quite a bit of gmu_read/write/rmw calls.
->>
->> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->> ---
->>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c       |  72 +++++++++-
->>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c       | 211 ++++++++++++++++++++++++----
->>  drivers/gpu/drm/msm/adreno/a6xx_gpu.h       |   1 +
->>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c |  14 +-
->>  drivers/gpu/drm/msm/adreno/adreno_gpu.c     |   8 +-
->>  drivers/gpu/drm/msm/adreno/adreno_gpu.h     |   6 +
->>  6 files changed, 277 insertions(+), 35 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
->> index 5ba8cba69383..385ca3a12462 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
->> @@ -1437,6 +1437,7 @@ static int a6xx_gmu_get_irq(struct a6xx_gmu *gmu, struct platform_device *pdev,
->>  
->>  void a6xx_gmu_remove(struct a6xx_gpu *a6xx_gpu)
->>  {
->> +	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
->>  	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
->>  	struct platform_device *pdev = to_platform_device(gmu->dev);
->>  
->> @@ -1462,10 +1463,12 @@ void a6xx_gmu_remove(struct a6xx_gpu *a6xx_gpu)
->>  	gmu->mmio = NULL;
->>  	gmu->rscc = NULL;
->>  
->> -	a6xx_gmu_memory_free(gmu);
->> +	if (!adreno_has_gmu_wrapper(adreno_gpu)) {
->> +		a6xx_gmu_memory_free(gmu);
->>  
->> -	free_irq(gmu->gmu_irq, gmu);
->> -	free_irq(gmu->hfi_irq, gmu);
->> +		free_irq(gmu->gmu_irq, gmu);
->> +		free_irq(gmu->hfi_irq, gmu);
->> +	}
->>  
->>  	/* Drop reference taken in of_find_device_by_node */
->>  	put_device(gmu->dev);
->> @@ -1484,6 +1487,69 @@ static int cxpd_notifier_cb(struct notifier_block *nb,
->>  	return 0;
->>  }
->>  
->> +int a6xx_gmu_wrapper_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
->> +{
->> +	struct platform_device *pdev = of_find_device_by_node(node);
->> +	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
->> +	int ret;
->> +
->> +	if (!pdev)
->> +		return -ENODEV;
->> +
->> +	gmu->dev = &pdev->dev;
->> +
->> +	of_dma_configure(gmu->dev, node, true);
->> +
->> +	pm_runtime_enable(gmu->dev);
->> +
->> +	/* Mark legacy for manual SPTPRAC control */
->> +	gmu->legacy = true;
->> +
->> +	/* Map the GMU registers */
->> +	gmu->mmio = a6xx_gmu_get_mmio(pdev, "gmu");
->> +	if (IS_ERR(gmu->mmio)) {
->> +		ret = PTR_ERR(gmu->mmio);
->> +		goto err_mmio;
->> +	}
->> +
->> +	gmu->cxpd = dev_pm_domain_attach_by_name(gmu->dev, "cx");
->> +	if (IS_ERR(gmu->cxpd)) {
->> +		ret = PTR_ERR(gmu->cxpd);
->> +		goto err_mmio;
->> +	}
->> +
->> +	if (!device_link_add(gmu->dev, gmu->cxpd, DL_FLAG_PM_RUNTIME)) {
->> +		ret = -ENODEV;
->> +		goto detach_cxpd;
->> +	}
->> +
->> +	init_completion(&gmu->pd_gate);
->> +	complete_all(&gmu->pd_gate);
->> +	gmu->pd_nb.notifier_call = cxpd_notifier_cb;
->> +
->> +	/* Get a link to the GX power domain to reset the GPU */
->> +	gmu->gxpd = dev_pm_domain_attach_by_name(gmu->dev, "gx");
->> +	if (IS_ERR(gmu->gxpd)) {
->> +		ret = PTR_ERR(gmu->gxpd);
->> +		goto err_mmio;
->> +	}
->> +
->> +	gmu->initialized = true;
->> +
->> +	return 0;
->> +
->> +detach_cxpd:
->> +	dev_pm_domain_detach(gmu->cxpd, false);
->> +
->> +err_mmio:
->> +	iounmap(gmu->mmio);
->> +
->> +	/* Drop reference taken in of_find_device_by_node */
->> +	put_device(gmu->dev);
->> +
->> +	return ret;
->> +}
->> +
->>  int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
->>  {
->>  	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> index 58bf405b85d8..0a44762dbb6d 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> @@ -21,7 +21,7 @@ static inline bool _a6xx_check_idle(struct msm_gpu *gpu)
->>  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
->>  
->>  	/* Check that the GMU is idle */
->> -	if (!a6xx_gmu_isidle(&a6xx_gpu->gmu))
->> +	if (!adreno_has_gmu_wrapper(adreno_gpu) && !a6xx_gmu_isidle(&a6xx_gpu->gmu))
->>  		return false;
->>  
->>  	/* Check tha the CX master is idle */
->> @@ -1018,10 +1018,13 @@ static int hw_init(struct msm_gpu *gpu)
->>  {
->>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
->>  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
->> +	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
->>  	int ret;
->>  
->> -	/* Make sure the GMU keeps the GPU on while we set it up */
->> -	a6xx_gmu_set_oob(&a6xx_gpu->gmu, GMU_OOB_GPU_SET);
->> +	if (!adreno_has_gmu_wrapper(adreno_gpu)) {
->> +		/* Make sure the GMU keeps the GPU on while we set it up */
->> +		a6xx_gmu_set_oob(&a6xx_gpu->gmu, GMU_OOB_GPU_SET);
->> +	}
->>  
->>  	/* Clear GBIF halt in case GX domain was not collapsed */
->>  	if (a6xx_has_gbif(adreno_gpu)) {
->> @@ -1148,6 +1151,17 @@ static int hw_init(struct msm_gpu *gpu)
->>  			0x3f0243f0);
->>  	}
->>  
->> +	if (adreno_has_gmu_wrapper(adreno_gpu)) {
->> +		/* Do it here, as GMU wrapper only inits the GMU for memory reservation etc. */
->> +
->> +		/* Set up the CX GMU counter 0 to count busy ticks */
->> +		gmu_write(gmu, REG_A6XX_GPU_GMU_AO_GPU_CX_BUSY_MASK, 0xff000000);
->> +
->> +		/* Enable power counter 0 */
->> +		gmu_rmw(gmu, REG_A6XX_GMU_CX_GMU_POWER_COUNTER_SELECT_0, 0xff, BIT(5));
->> +		gmu_write(gmu, REG_A6XX_GMU_CX_GMU_POWER_COUNTER_ENABLE, 1);
->> +	}
+
+
+On 6/14/2023 5:00 AM, Pekka Paalanen wrote:
+> On Tue, 13 Jun 2023 12:29:55 -0400
+> Christopher Braga <quic_cbraga@quicinc.com> wrote:
 > 
-> nit: For gmu targets, we do this at a6xx_rpmh_start() which is an odd place
-> to keep this. But I don't know the reason why it was decided to keep it
-> there. I don't see any reason why we cannot keep it here for both
-> gmu/gmu-wrapper like in the downstream driver.
-I split it up into a separate patch and reused for the next revision.
-Tested on A630, the GMU doesn't complain.
+>> On 6/13/2023 4:23 AM, Pekka Paalanen wrote:
+>>> On Mon, 12 Jun 2023 12:56:57 -0400
+>>> Christopher Braga <quic_cbraga@quicinc.com> wrote:
+>>>    
+>>>> On 6/12/2023 5:21 AM, Pekka Paalanen wrote:
+>>>>> On Fri, 9 Jun 2023 19:11:25 -0400
+>>>>> Christopher Braga <quic_cbraga@quicinc.com> wrote:
+>>>>>       
+>>>>>> On 6/9/2023 12:30 PM, Simon Ser wrote:
+>>>>>>> Hi Christopher,
+>>>>>>>
+>>>>>>> On Friday, June 9th, 2023 at 17:52, Christopher Braga <quic_cbraga@quicinc.com> wrote:
+>>>>>>>          
+>>>>>>>>> The new COLOROP objects also expose a number of KMS properties. Each has a
+>>>>>>>>> type, a reference to the next COLOROP object in the linked list, and other
+>>>>>>>>> type-specific properties. Here is an example for a 1D LUT operation:
+>>>>>>>>>
+>>>>>>>>>          Color operation 42
+>>>>>>>>>          ├─ "type": enum {Bypass, 1D curve} = 1D curve
+>>>>>>>>>          ├─ "1d_curve_type": enum {LUT, sRGB, PQ, BT.709, HLG, …} = LUT
+>>>>>>>> The options sRGB / PQ / BT.709 / HLG would select hard-coded 1D
+>>>>>>>> curves? Will different hardware be allowed to expose a subset of these
+>>>>>>>> enum values?
+>>>>>>>
+>>>>>>> Yes. Only hardcoded LUTs supported by the HW are exposed as enum entries.
+>>>>>>>          
+>>>>>>>>>          ├─ "lut_size": immutable range = 4096
+>>>>>>>>>          ├─ "lut_data": blob
+>>>>>>>>>          └─ "next": immutable color operation ID = 43
+>>>>>>>>>         
+>>>>>>>> Some hardware has per channel 1D LUT values, while others use the same
+>>>>>>>> LUT for all channels.  We will definitely need to expose this in the
+>>>>>>>> UAPI in some form.
+>>>>>>>
+>>>>>>> Hm, I was assuming per-channel 1D LUTs here, just like the existing GAMMA_LUT/
+>>>>>>> DEGAMMA_LUT properties work. If some hardware can't support that, it'll need
+>>>>>>> to get exposed as another color operation block.
+>>>>>>>          
+>>>>>>>>> To configure this hardware block, user-space can fill a KMS blob with
+>>>>>>>>> 4096 u32
+>>>>>>>>> entries, then set "lut_data" to the blob ID. Other color operation types
+>>>>>>>>> might
+>>>>>>>>> have different properties.
+>>>>>>>>>         
+>>>>>>>> The bit-depth of the LUT is an important piece of information we should
+>>>>>>>> include by default. Are we assuming that the DRM driver will always
+>>>>>>>> reduce the input values to the resolution supported by the pipeline?
+>>>>>>>> This could result in differences between the hardware behavior
+>>>>>>>> and the shader behavior.
+>>>>>>>>
+>>>>>>>> Additionally, some pipelines are floating point while others are fixed.
+>>>>>>>> How would user space know if it needs to pack 32 bit integer values vs
+>>>>>>>> 32 bit float values?
+>>>>>>>
+>>>>>>> Again, I'm deferring to the existing GAMMA_LUT/DEGAMMA_LUT. These use a common
+>>>>>>> definition of LUT blob (u16 elements) and it's up to the driver to convert.
+>>>>>>>
+>>>>>>> Using a very precise format for the uAPI has the nice property of making the
+>>>>>>> uAPI much simpler to use. User-space sends high precision data and it's up to
+>>>>>>> drivers to map that to whatever the hardware accepts.
+>>>>>>>         
+>>>>>> Conversion from a larger uint type to a smaller type sounds low effort,
+>>>>>> however if a block works in a floating point space things are going to
+>>>>>> get messy really quickly. If the block operates in FP16 space and the
+>>>>>> interface is 16 bits we are good, but going from 32 bits to FP16 (such
+>>>>>> as in the matrix case or 3DLUT) is less than ideal.
+>>>>>
+>>>>> Hi Christopher,
+>>>>>
+>>>>> are you thinking of precision loss, or the overhead of conversion?
+>>>>>
+>>>>> Conversion from N-bit fixed point to N-bit floating-point is generally
+>>>>> lossy, too, and the other direction as well.
+>>>>>
+>>>>> What exactly would be messy?
+>>>>>       
+>>>> Overheard of conversion is the primary concern here. Having to extract
+>>>> and / or calculate the significand + exponent components in the kernel
+>>>> is burdensome and imo a task better suited for user space. This also has
+>>>> to be done every blob set, meaning that if user space is re-using
+>>>> pre-calculated blobs we would be repeating the same conversion
+>>>> operations in kernel space unnecessarily.
+>>>
+>>> What is burdensome in that calculation? I don't think you would need to
+>>> use any actual floating-point instructions. Logarithm for finding the
+>>> exponent is about finding the highest bit set in an integer and
+>>> everything is conveniently expressed in base-2. Finding significand is
+>>> just masking the integer based on the exponent.
+>>>    
+>> Oh it definitely can be done, but I think this is just a difference of
+>> opinion at this point. At the end of the day we will do it if we have
+>> to, but it is just more optimal if a more agreeable common type is used.
+>>
+>>> Can you not cache the converted data, keyed by the DRM blob unique
+>>> identity vs. the KMS property it is attached to?
+>> If the userspace compositor has N common transforms (ex: standard P3 ->
+>> sRGB matrix), they would likely have N unique blobs. Obviously from the
+>> kernel end we wouldn't want to cache the transform of every blob passed
+>> down through the UAPI.
+> 
+> Hi Christoper,
+> 
+> as long as the blob exists, why not?
+
+Generally because this is an unbounded amount of blobs. I'm not 100% 
+sure what the typical behavior is upstream, but in our driver we have 
+scenarios where we can have per-frame blob updates (unique per-frame blobs).
+
+Speaking of per-frame blob updates, there is one concern I neglected to 
+bring up. Internally we have seen scenarios where frequent blob 
+allocation can lead to memory allocation delays of two frames or higher. 
+This typically was seen when the system is under high memory usage and 
+the blob allocation is > 1 page. The patch 
+https://patchwork.freedesktop.org/patch/525857/ was uploaded a few 
+months back to help mitigate these delays, but it didn't gain traction 
+at the time.
+
+This color pipeline UAPI is ultimately going to have the same problem. 
+Frequent 3DLUT color block updates will result in large allocations, and 
+if there is high system memory usage this could see blob allocation 
+delays. So two things here:
+- Let's reconsider https://patchwork.freedesktop.org/patch/525857/ so 
+frequent blob allocation doesn't get unnecessarily delayed
+- Do we have any alternative methods at our disposal for sending down 
+the color configuration data? Generally blobs work fine for low update 
+or blob cycling use cases, but frequent blob data updates results in a 
+total per frame IOCTL sequence of:
+   (IOCTL_BLOB_DESTROY * #_of_blob_updates) +		
+     (IOCTL_BLOB_CREATE * #_of_blob_updates) + IOCTL_DRM_ATOMIC
+
+Thanks,
+Christopher
 
 > 
->> +
->>  	/* Protect registers from the CP */
->>  	a6xx_set_cp_protect(gpu);
->>  
->> @@ -1237,6 +1251,8 @@ static int hw_init(struct msm_gpu *gpu)
->>  	}
->>  
->>  out:
->> +	if (adreno_has_gmu_wrapper(adreno_gpu))
->> +		return ret;
->>  	/*
->>  	 * Tell the GMU that we are done touching the GPU and it can start power
->>  	 * management
->> @@ -1271,9 +1287,6 @@ static void a6xx_dump(struct msm_gpu *gpu)
->>  	adreno_dump(gpu);
->>  }
->>  
->> -#define VBIF_RESET_ACK_TIMEOUT	100
->> -#define VBIF_RESET_ACK_MASK	0x00f0
->> -
->>  static void a6xx_recover(struct msm_gpu *gpu)
->>  {
->>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
->> @@ -1311,6 +1324,15 @@ static void a6xx_recover(struct msm_gpu *gpu)
->>  	 */
->>  	gpu->active_submits = 0;
->>  
->> +	if (adreno_has_gmu_wrapper(adreno_gpu)) {
->> +		/* Drain the outstanding traffic on memory buses */
->> +		a6xx_bus_clear_pending_transactions(adreno_gpu, true);
->> +
->> +		/* Reset the GPU to a clean state */
->> +		a6xx_gpu_sw_reset(gpu, true);
->> +		a6xx_gpu_sw_reset(gpu, false);
->> +	}
->> +
->>  	reinit_completion(&gmu->pd_gate);
->>  	dev_pm_genpd_add_notifier(gmu->cxpd, &gmu->pd_nb);
->>  	dev_pm_genpd_synced_poweroff(gmu->cxpd);
->> @@ -1461,7 +1483,8 @@ static void a6xx_fault_detect_irq(struct msm_gpu *gpu)
->>  	 * Force the GPU to stay on until after we finish
->>  	 * collecting information
->>  	 */
->> -	gmu_write(&a6xx_gpu->gmu, REG_A6XX_GMU_GMU_PWR_COL_KEEPALIVE, 1);
->> +	if (!adreno_has_gmu_wrapper(adreno_gpu))
->> +		gmu_write(&a6xx_gpu->gmu, REG_A6XX_GMU_GMU_PWR_COL_KEEPALIVE, 1);
->>  
->>  	DRM_DEV_ERROR(&gpu->pdev->dev,
->>  		"gpu fault ring %d fence %x status %8.8X rb %4.4x/%4.4x ib1 %16.16llX/%4.4x ib2 %16.16llX/%4.4x\n",
->> @@ -1592,6 +1615,10 @@ static void a6xx_llc_activate(struct a6xx_gpu *a6xx_gpu)
->>  
->>  static void a6xx_llc_slices_destroy(struct a6xx_gpu *a6xx_gpu)
->>  {
->> +	/* No LLCC on non-RPMh (and by extension, non-GMU) SoCs */
->> +	if (adreno_has_gmu_wrapper(&a6xx_gpu->base))
->> +		return;
->> +
->>  	llcc_slice_putd(a6xx_gpu->llc_slice);
->>  	llcc_slice_putd(a6xx_gpu->htw_llc_slice);
->>  }
->> @@ -1601,6 +1628,10 @@ static void a6xx_llc_slices_init(struct platform_device *pdev,
->>  {
->>  	struct device_node *phandle;
->>  
->> +	/* No LLCC on non-RPMh (and by extension, non-GMU) SoCs */
->> +	if (adreno_has_gmu_wrapper(&a6xx_gpu->base))
->> +		return;
->> +
->>  	/*
->>  	 * There is a different programming path for targets with an mmu500
->>  	 * attached, so detect if that is the case
->> @@ -1670,7 +1701,7 @@ void a6xx_gpu_sw_reset(struct msm_gpu *gpu, bool assert)
->>  		udelay(100);
->>  }
->>  
->> -static int a6xx_pm_resume(struct msm_gpu *gpu)
->> +static int a6xx_gmu_pm_resume(struct msm_gpu *gpu)
->>  {
->>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
->>  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
->> @@ -1690,10 +1721,58 @@ static int a6xx_pm_resume(struct msm_gpu *gpu)
->>  
->>  	a6xx_llc_activate(a6xx_gpu);
->>  
->> -	return 0;
->> +	return ret;
->>  }
->>  
->> -static int a6xx_pm_suspend(struct msm_gpu *gpu)
->> +static int a6xx_pm_resume(struct msm_gpu *gpu)
->> +{
->> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
->> +	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
->> +	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
->> +	unsigned long freq = gpu->fast_rate;
->> +	struct dev_pm_opp *opp;
->> +	int ret;
->> +
->> +	gpu->needs_hw_init = true;
->> +
->> +	trace_msm_gpu_resume(0);
->> +
->> +	mutex_lock(&a6xx_gpu->gmu.lock);
+>>> You can assume that userspace will not be re-creating DRM blobs without
+>>> a reason to believe the contents have changed. If the same blob is set
+>>> on the same property repeatedly, I would definitely not expect a driver
+>>> to convert the data again.
+>> If the blob ID is unchanged there is no issue since caching the last
+>> result is already common. As you say, blobs are immutable so no update
+>> is needed. I'd question why the compositor keeps trying to send down the
+>> same blob ID though.
 > 
-> Where is this lock initialized? If the init was moved out of
-> a6xx_gmu_init(), can you please share that patch?
-12abd735f030 ("drm/msm/a6xx: initialize GMU mutex earlier")
-
+> To avoid hard-to-debug situations with userspace vs. kernel view of KMS
+> state getting out of sync by a bug, for example. I did originally write
+> such KMS state caching in Weston to avoid emitting unchanged state, but
+> that was deemed unnecessary as the kernel side needs to do the same
+> comparisons "anyway".
 > 
->> +
->> +	opp = dev_pm_opp_find_freq_ceil(&gpu->pdev->dev, &freq);
->> +	if (IS_ERR(opp)) {
->> +		ret = PTR_ERR(opp);
->> +		goto err_set_opp;
->> +	}
->> +	dev_pm_opp_put(opp);
->> +
->> +	/* Set the core clock and bus bw, having VDD scaling in mind */
->> +	dev_pm_opp_set_opp(&gpu->pdev->dev, opp);
->> +
->> +	pm_runtime_resume_and_get(gmu->dev);
->> +	pm_runtime_resume_and_get(gmu->gxpd);
->> +
->> +	ret = clk_bulk_prepare_enable(gpu->nr_clocks, gpu->grp_clks);
->> +	if (ret)
->> +		goto err_bulk_clk;
->> +
->> +	/* If anything goes south, tear the GPU down piece by piece.. */
->> +	if (ret) {
->> +err_bulk_clk:
+>>> If a driver does that, it seems like it
+>>> should be easy to avoid, though I'm no kernel dev. Even if the
+>>> conversion was just a memcpy, I would still posit it needs to be
+>>> avoided when the data has obviously not changed. Blobs are immutable.
+>>>   > Userspace having to use hardware-specific number formats would probably
+>>> not be well received.
+>>>    
+>> To be clear, I am not asking user space to use custom value packing made
+>> purely for the hardware's benefit (this sounds like a problem just
+>> waiting to happen). Just support in the color pipeline UAPI for common
+>> numerical data types such as 16-bit floats. That said...
 > 
-> Goto jump directly to another block looks odd to me. Why do you need this label
-> anyway?
-If clk_bulk_prepare_enable() fails, trying to proceed will hang the
-platform with unclocked accesses. We need to unwind everything that
-has been done up until that point, in reverse order.
-
+> I wonder if there actually is a significant difference between
+> converting float<->float and int<->float if everything else is equally
+> fine.
 > 
->> +		pm_runtime_put(gmu->gxpd);
->> +		pm_runtime_put(gmu->dev);
->> +		dev_pm_opp_set_opp(&gpu->pdev->dev, NULL);
->> +	}
->> +err_set_opp:
+> It's possible that requirements on range and precision do
+> call for both types in UAPI, then we obviously need both.
 > 
-> Generally, it is better to name the label based on what you do here. For
-> eg: "unlock_lock:".
-That seems to be a mixed bag all throughout the kernel, I've seen many
-usages of err_(what went wrong)
-
+>>>> I agree normalization of the value causing precision loss and rounding
+>>>> we can't avoid.
+>>>>
+>>>> We should also consider the fact that float pipelines have been known to
+>>>> use the scrgb definition for floating point values
+>>>> (https://registry.khronos.org/EGL/extensions/EXT/EGL_EXT_gl_colorspace_scrgb_linear.txt).
+>>>
+>>> scRGB is as good a definition of color encoding as "floating-point" is
+>>> for numbers. What I mean is that it carries very little usable meaning,
+>>> and without further information it is practically boundless
+>>> - infinite - in both color gamut and dynamic range. Just like any
+>>> floating-point quantity.
+>>>
+>>> However, what we want from KMS color pipeline is zero implied or
+>>> defined meaning. That means scRGB carries too much meaning, because the
+>>> primaries are fixed and (1.0, 1.0, 1.0) should match sRGB/SDR white.
+>>>   > Btw. if one brings in nit units, you assume a specific viewing
+>>> environment which is rarely true in reality. I'll leave that rabbit
+>>> hole for another time. I just want to mention that nit (cd/m²) is a
+>>> unit that is relative to the chosen viewing environment when your goal
+>>> is a specific perception of brightness.
+>>>    
+>>>> In cases like this where there may be a expected value range in the
+>>>> pipeline, how to normalize a larger input becomes a little confusing. Ex
+>>>> - Does U32 MAX become FP16 MAX or value MAX (i.e 127).
+>>>
+>>> UAPI simply needs to specify the number encoding used in the UAPI, how
+>>> bit patterns map to real numbers. Real numbers are then what the color
+>>> pipeline operates on.
+>>>    
+>> If we plan to have the color pipeline UAPI expose these details then I
+>> am satisfied.
 > 
-> Also, this function is small enough that it is better to return directly
-> in case of error. I think that would be more readable.
-Not really, adding the necessary cleanup steps in `if (ret)`
-blocks would roughly double the function's size.
-
+> Very good. I do not see how else it could even work.
 > 
->> +	mutex_unlock(&a6xx_gpu->gmu.lock);
->> +
->> +	if (!ret)
->> +		msm_devfreq_resume(gpu);
->> +
->> +	return ret;
->> +}
->> +
->> +static int a6xx_gmu_pm_suspend(struct msm_gpu *gpu)
->>  {
->>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
->>  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
->> @@ -1720,7 +1799,40 @@ static int a6xx_pm_suspend(struct msm_gpu *gpu)
->>  	return 0;
->>  }
->>  
->> -static int a6xx_get_timestamp(struct msm_gpu *gpu, uint64_t *value)
->> +static int a6xx_pm_suspend(struct msm_gpu *gpu)
->> +{
->> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
->> +	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
->> +	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
->> +	int i;
->> +
->> +	trace_msm_gpu_suspend(0);
->> +
->> +	msm_devfreq_suspend(gpu);
->> +
->> +	mutex_lock(&a6xx_gpu->gmu.lock);
 > 
-> Again, is this initialized somewhere?
+> Thanks,
+> pq
 > 
->> +
->> +	/* Drain the outstanding traffic on memory buses */
->> +	a6xx_bus_clear_pending_transactions(adreno_gpu, true);
->> +
->> +	clk_bulk_disable_unprepare(gpu->nr_clocks, gpu->grp_clks);
->> +
->> +	pm_runtime_put_sync(gmu->gxpd);
->> +	dev_pm_opp_set_opp(&gpu->pdev->dev, NULL);
->> +	pm_runtime_put_sync(gmu->dev);
->> +
->> +	mutex_unlock(&a6xx_gpu->gmu.lock);
->> +
->> +	if (a6xx_gpu->shadow_bo)
->> +		for (i = 0; i < gpu->nr_rings; i++)
->> +			a6xx_gpu->shadow[i] = 0;
->> +
->> +	gpu->suspend_count++;
->> +
->> +	return 0;
->> +}
->> +
->> +static int a6xx_gmu_get_timestamp(struct msm_gpu *gpu, uint64_t *value)
->>  {
->>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
->>  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
->> @@ -1739,6 +1851,12 @@ static int a6xx_get_timestamp(struct msm_gpu *gpu, uint64_t *value)
->>  	return 0;
->>  }
->>  
->> +static int a6xx_get_timestamp(struct msm_gpu *gpu, uint64_t *value)
->> +{
->> +	*value = gpu_read64(gpu, REG_A6XX_CP_ALWAYS_ON_COUNTER);
->> +	return 0;
->> +}
->> +
->>  static struct msm_ringbuffer *a6xx_active_ring(struct msm_gpu *gpu)
->>  {
->>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
->> @@ -2004,8 +2122,8 @@ static const struct adreno_gpu_funcs funcs = {
->>  		.set_param = adreno_set_param,
->>  		.hw_init = a6xx_hw_init,
->>  		.ucode_load = a6xx_ucode_load,
->> -		.pm_suspend = a6xx_pm_suspend,
->> -		.pm_resume = a6xx_pm_resume,
->> +		.pm_suspend = a6xx_gmu_pm_suspend,
->> +		.pm_resume = a6xx_gmu_pm_resume,
->>  		.recover = a6xx_recover,
->>  		.submit = a6xx_submit,
->>  		.active_ring = a6xx_active_ring,
->> @@ -2020,6 +2138,35 @@ static const struct adreno_gpu_funcs funcs = {
->>  #if defined(CONFIG_DRM_MSM_GPU_STATE)
->>  		.gpu_state_get = a6xx_gpu_state_get,
->>  		.gpu_state_put = a6xx_gpu_state_put,
->> +#endif
->> +		.create_address_space = a6xx_create_address_space,
->> +		.create_private_address_space = a6xx_create_private_address_space,
->> +		.get_rptr = a6xx_get_rptr,
->> +		.progress = a6xx_progress,
->> +	},
->> +	.get_timestamp = a6xx_gmu_get_timestamp,
->> +};
->> +
->> +static const struct adreno_gpu_funcs funcs_gmuwrapper = {
->> +	.base = {
->> +		.get_param = adreno_get_param,
->> +		.set_param = adreno_set_param,
->> +		.hw_init = a6xx_hw_init,
->> +		.ucode_load = a6xx_ucode_load,
->> +		.pm_suspend = a6xx_pm_suspend,
->> +		.pm_resume = a6xx_pm_resume,
->> +		.recover = a6xx_recover,
->> +		.submit = a6xx_submit,
->> +		.active_ring = a6xx_active_ring,
->> +		.irq = a6xx_irq,
->> +		.destroy = a6xx_destroy,
->> +#if defined(CONFIG_DRM_MSM_GPU_STATE)
->> +		.show = a6xx_show,
->> +#endif
->> +		.gpu_busy = a6xx_gpu_busy,
->> +#if defined(CONFIG_DRM_MSM_GPU_STATE)
->> +		.gpu_state_get = a6xx_gpu_state_get,
->> +		.gpu_state_put = a6xx_gpu_state_put,
->>  #endif
->>  		.create_address_space = a6xx_create_address_space,
->>  		.create_private_address_space = a6xx_create_private_address_space,
->> @@ -2050,15 +2197,31 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
->>  
->>  	adreno_gpu->registers = NULL;
->>  
->> +	/* Check if there is a GMU phandle and set it up */
->> +	node = of_parse_phandle(pdev->dev.of_node, "qcom,gmu", 0);
->> +	/* FIXME: How do we gracefully handle this? */
->> +	BUG_ON(!node);
->> +
->> +	adreno_gpu->gmu_is_wrapper = of_device_is_compatible(node, "qcom,adreno-gmu-wrapper");
->> +
->>  	/*
->>  	 * We need to know the platform type before calling into adreno_gpu_init
->>  	 * so that the hw_apriv flag can be correctly set. Snoop into the info
->>  	 * and grab the revision number
->>  	 */
->>  	info = adreno_info(config->rev);
->> -
->> -	if (info && (info->revn == 650 || info->revn == 660 ||
->> -			adreno_cmp_rev(ADRENO_REV(6, 3, 5, ANY_ID), info->rev)))
->> +	if (!info)
->> +		return ERR_PTR(-EINVAL);
->> +
->> +	/* Assign these early so that we can use the is_aXYZ helpers */
->> +	/* Numeric revision IDs (e.g. 630) */
->> +	adreno_gpu->revn = info->revn;
->> +	/* New-style ADRENO_REV()-only */
->> +	adreno_gpu->rev = info->rev;
->> +	/* Quirk data */
->> +	adreno_gpu->info = info;
->> +
->> +	if (adreno_is_a650(adreno_gpu) || adreno_is_a660_family(adreno_gpu))
->>  		adreno_gpu->base.hw_apriv = true;
->>  
->>  	a6xx_llc_slices_init(pdev, a6xx_gpu);
->> @@ -2069,7 +2232,10 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
->>  		return ERR_PTR(ret);
->>  	}
->>  
->> -	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1);
->> +	if (adreno_has_gmu_wrapper(adreno_gpu))
->> +		ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_gmuwrapper, 1);
->> +	else
->> +		ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1);
->>  	if (ret) {
->>  		a6xx_destroy(&(a6xx_gpu->base.base));
->>  		return ERR_PTR(ret);
->> @@ -2082,13 +2248,10 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
->>  	if (adreno_is_a618(adreno_gpu) || adreno_is_7c3(adreno_gpu))
->>  		priv->gpu_clamp_to_idle = true;
->>  
->> -	/* Check if there is a GMU phandle and set it up */
->> -	node = of_parse_phandle(pdev->dev.of_node, "qcom,gmu", 0);
->> -
->> -	/* FIXME: How do we gracefully handle this? */
->> -	BUG_ON(!node);
->> -
->> -	ret = a6xx_gmu_init(a6xx_gpu, node);
->> +	if (adreno_has_gmu_wrapper(adreno_gpu))
->> +		ret = a6xx_gmu_wrapper_init(a6xx_gpu, node);
->> +	else
->> +		ret = a6xx_gmu_init(a6xx_gpu, node);
->>  	of_node_put(node);
->>  	if (ret) {
->>  		a6xx_destroy(&(a6xx_gpu->base.base));
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
->> index aa70390ee1c6..c788b06e72da 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
->> @@ -76,6 +76,7 @@ int a6xx_gmu_set_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state);
->>  void a6xx_gmu_clear_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state);
->>  
->>  int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node);
->> +int a6xx_gmu_wrapper_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node);
->>  void a6xx_gmu_remove(struct a6xx_gpu *a6xx_gpu);
->>  
->>  void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp,
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
->> index 30ecdff363e7..4e5d650578c6 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
->> @@ -1041,16 +1041,18 @@ struct msm_gpu_state *a6xx_gpu_state_get(struct msm_gpu *gpu)
->>  	/* Get the generic state from the adreno core */
->>  	adreno_gpu_state_get(gpu, &a6xx_state->base);
->>  
->> -	a6xx_get_gmu_registers(gpu, a6xx_state);
->> +	if (!adreno_has_gmu_wrapper(adreno_gpu)) {
->> +		a6xx_get_gmu_registers(gpu, a6xx_state);
->>  
->> -	a6xx_state->gmu_log = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.log);
->> -	a6xx_state->gmu_hfi = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.hfi);
->> -	a6xx_state->gmu_debug = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.debug);
->> +		a6xx_state->gmu_log = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.log);
->> +		a6xx_state->gmu_hfi = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.hfi);
->> +		a6xx_state->gmu_debug = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.debug);
->>  /
->> -	a6xx_snapshot_gmu_hfi_history(gpu, a6xx_state);
->> +		a6xx_snapshot_gmu_hfi_history(gpu, a6xx_state);
->> +	}
->>  
->>  	/* If GX isn't on the rest of the data isn't going to be accessible */
->> -	if (!a6xx_gmu_gx_is_on(&a6xx_gpu->gmu))
->> +	if (!adreno_has_gmu_wrapper(adreno_gpu) && !a6xx_gmu_gx_is_on(&a6xx_gpu->gmu))
->>  		return &a6xx_state->base;
->>  
->>  	/* Get the banks of indexed registers */
->> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->> index 6934cee07d42..5c5901d65950 100644
->> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->> @@ -528,6 +528,10 @@ int adreno_load_fw(struct adreno_gpu *adreno_gpu)
->>  		if (!adreno_gpu->info->fw[i])
->>  			continue;
->>  
->> +		/* Skip loading GMU firwmare with GMU Wrapper */
->> +		if (adreno_has_gmu_wrapper(adreno_gpu) && i == ADRENO_FW_GMU)
->> +			continue;
->> +
->>  		/* Skip if the firmware has already been loaded */
->>  		if (adreno_gpu->fw[i])
->>  			continue;
->> @@ -1074,8 +1078,8 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->>  	u32 speedbin;
->>  	int ret;
->>  
->> -	/* Only handle the core clock when GMU is not in use */
->> -	if (config->rev.core < 6) {
->> +	/* Only handle the core clock when GMU is not in use (or is absent). */
->> +	if (adreno_has_gmu_wrapper(adreno_gpu) || config->rev.core < 6) {
->>  		/*
->>  		 * This can only be done before devm_pm_opp_of_add_table(), or
->>  		 * dev_pm_opp_set_config() will WARN_ON()
->> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->> index f62612a5c70f..ee5352bc5329 100644
->> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->> @@ -115,6 +115,7 @@ struct adreno_gpu {
->>  	 * code (a3xx_gpu.c) and stored in this common location.
->>  	 */
->>  	const unsigned int *reg_offsets;
->> +	bool gmu_is_wrapper;
->>  };
->>  #define to_adreno_gpu(x) container_of(x, struct adreno_gpu, base)
->>  
->> @@ -145,6 +146,11 @@ struct adreno_platform_config {
->>  
->>  bool adreno_cmp_rev(struct adreno_rev rev1, struct adreno_rev rev2);
->>  
->> +static inline bool adreno_has_gmu_wrapper(struct adreno_gpu *gpu)
->> +{
->> +	return gpu->gmu_is_wrapper;
->> +}
->> +
->>  static inline bool adreno_is_a2xx(struct adreno_gpu *gpu)
->>  {
->>  	return (gpu->revn < 300);
+> 
+>>> However, intermediate value representation used between two KMS colorop
+>>> blocks is never observable to userspace. All userspace needs to know is
+>>> the usable value range and precision behaviour. I think that is best
+>>> defined for the input and output of each block rather than what flows
+>>> in between, because an optional (e.g. LUT) block when bypassed does not
+>>> impose its limitations.
+>>>    
+>> Sure. Everything in between can be inferred from the pipeline.
 >>
->> -- 
->> 2.40.1
+>>> What does 1.0 actually mean, that is left for userspace to use however
+>>> it wishes. There are only pipeline boundary conditions to that: the
+>>> input to a pipeline comes from a DRM FB, so it has a number encoding
+>>> specified mostly by pixel format, and an arbitrary colorimetric
+>>> encoding that only userspace knows. The output of the pipeline has to
+>>> be standardised so that drivers can number-encode the pipeline output
+>>> correctly to wire format on e.g. HDMI. Userspace alone is responsible
+>>> for making sure the colorimetry matches what the sink expects.
+>>>
+>>> Individual KMS color pipeline colorop blocks need to define their own
+>>> acceptable input and output ranges. E.g. a look-up table may assume
+>>> that it's input is in [0.0, 1.0] and anything outside is clamped to
+>>> that range. That poses restrictions on how userspace can use the block.
+>>>    
+>>>>>>      
+>>>>>>> Exposing the actual hardware precision is something we've talked about during
+>>>>>>> the hackfest. It'll probably be useful to some extent, but will require some
+>>>>>>> discussion to figure out how to design the uAPI. Maybe a simple property is
+>>>>>>> enough, maybe not (e.g. fully describing the precision of segmented LUTs would
+>>>>>>> probably be trickier).
+>>>>>>>
+>>>>>>> I'd rather keep things simple for the first pass, we can always add more
+>>>>>>> properties for bit depth etc later on.
+>>>>>>>          
+>>>>>> Indicating if a block operates on / with fixed vs float values is
+>>>>>> significant enough that I think we should account for this in initial
+>>>>>> design. It will have a affect on both the user space value packing +
+>>>>>> expected value ranges in the hardware.
+>>>>>
+>>>>> What do you mean by "value packing"? Memory layout of the bits forming
+>>>>> a value? Or possible exact values of a specific type? >
+>>>> Both really. If the kernel is provided a U32 value, we need to know if
+>>>> this is a U32 value, or a float packed into a U32 container. Likewise as
+>>>> mentioned with the scRGB above, float could even adjust the value range
+>>>> expectations.
+>>>
+>>> Right. The UAPI will simply define that.
+>>>    
+>> Great!
 >>
-> 
-> I am still not fully onboard with the idea of gmu_wrapper node in devicetree.
-> Aside from that, I don't see any other issue. Please check the few comments I left.
-Thanks for your review!
-
-Konrad
-> 
-> -Akhil.
+>> Thanks,
+>> Christopher
+>>
+>>>>> I don't think fixed vs. float is the most important thing. Even fixed
+>>>>> point formats can have different numbers of bits for whole numbers,
+>>>>> which changes the usable value range and not only precision. Userspace
+>>>>> at the very least needs to know the usable value range for the block's
+>>>>> inputs, outputs, and parameters.
+>>>>>
+>>>>> When defining the precision for inputs, outputs and parameters, then
+>>>>> fixed- vs. floating-point becomes meaningful in explaining what "N bits
+>>>>> of precision" means.
+>>>>>
+>>>>> Then there is the question of variable precision that depends on the
+>>>>> actual block input and parameter values, how to represent that. Worst
+>>>>> case precision might be too pessimistic alone.
+>>>>>       
+>>>> Agreed. More information probably is needed to full define the interface
+>>>> expectations.
+>>>>   
+>>>>>>>>> Here is another example with a 3D LUT:
+>>>>>>>>>
+>>>>>>>>>          Color operation 42
+>>>>>>>>>          ├─ "type": enum {Bypass, 3D LUT} = 3D LUT
+>>>>>>>>>          ├─ "lut_size": immutable range = 33
+>>>>>>>>>          ├─ "lut_data": blob
+>>>>>>>>>          └─ "next": immutable color operation ID = 43
+>>>>>>>>>         
+>>>>>>>> We are going to need to expose the packing order here to avoid any
+>>>>>>>> programming uncertainty. I don't think we can safely assume all hardware
+>>>>>>>> is equivalent.
+>>>>>>>
+>>>>>>> The driver can easily change the layout of the matrix and do any conversion
+>>>>>>> necessary when programming the hardware. We do need to document what layout is
+>>>>>>> used in the uAPI for sure.
+>>>>>>>          
+>>>>>>>>> And one last example with a matrix:
+>>>>>>>>>
+>>>>>>>>>          Color operation 42
+>>>>>>>>>          ├─ "type": enum {Bypass, Matrix} = Matrix
+>>>>>>>>>          ├─ "matrix_data": blob
+>>>>>>>>>          └─ "next": immutable color operation ID = 43
+>>>>>>>>>         
+>>>>>>>> It is unclear to me what the default sizing of this matrix is. Any
+>>>>>>>> objections to exposing these details with an additional property?
+>>>>>>>
+>>>>>>> The existing CTM property uses 9 uint64 (S31.32) values. Is there a case where
+>>>>>>> that wouldn't be enough?
+>>>>>>
+>>>>>> Larger cases do exist, but as you mention this can be resolved with a
+>>>>>> different type then. I don't have any issues with the default 'Matrix'
+>>>>>> type being 9 entries.
+>>>>>
+>>>>> Please, tell us more. How big, and what are they used for?
+>>>>>
+>>>>> IIRC ICC has 3x3 matrix + offset vector. Do you have even more?
+>>>>>
+>>>>>       
+>>>> Offset is one. Range adjustment 'vector' is another. But ultimately this
+>>>> proposal is flexible enough that this can probably just be another color
+>>>> block in the pipeline. No complaints from me here.
+>>>
+>>> What is a range adjustment vector? A vector of a multiplier per color
+>>> channel? Does it include offset?
+>>>
+>>> Yes, sounds like just another block.
+>>>    
+>>>>>>>          
+>>>>>>>> Dithering logic exists in some pipelines. I think we need a plan to
+>>>>>>>> expose that here as well.
+>>>>>>>
+>>>>>>> Hm, I'm not too familiar with dithering. Do you think it would make sense to
+>>>>>>> expose as an additional colorop block? Do you think it would have more
+>>>>>>> consequences on the design?
+>>>>>
+>>>>> I think it would be an additional block, and no other consequences, be
+>>>>> it temporal and/or spatial dithering, as long as it does not look at
+>>>>> neighbouring pixels to determine the output for current pixel.
+>>>>>       
+>>>>>>>
+>>>>>>> I want to re-iterate that we don't need to ship all features from day 1. We
+>>>>>>> just need to come up with a uAPI design on which new features can be built on.
+>>>>>>>          
+>>>>>>
+>>>>>> Agreed. I don't think this will affect the proposed design so this can
+>>>>>> be figured out once we have a DRM driver impl that declares this block.
+>>>>>>      
+>>>>>>>>> [Simon note: an alternative would be to split the color pipeline into
+>>>>>>>>> two, by
+>>>>>>>>> having two plane properties ("color_pipeline_pre_scale" and
+>>>>>>>>> "color_pipeline_post_scale") instead of a single one. This would be
+>>>>>>>>> similar to
+>>>>>>>>> the way we want to split pre-blending and post-blending. This could be less
+>>>>>>>>> expressive for drivers, there may be hardware where there are dependencies
+>>>>>>>>> between the pre- and post-scaling pipeline?]
+>>>>>>>>>         
+>>>>>>>> As others have noted, breaking up the pipeline with immutable blocks
+>>>>>>>> makes the most sense to me here. This way we don't have to predict ahead
+>>>>>>>> of time every type of block that maybe affected by pipeline ordering.
+>>>>>>>> Splitting the pipeline into two properties now means future
+>>>>>>>> logical splits would require introduction of further plane properties.
+>>>>>>>
+>>>>>>> Right, if there are more "breaking points", then we'll need immutable blocks
+>>>>>>> anyways.
+>>>>>>>          
+>>>>>>>>> Then, Alex from NVIDIA described how their hardware works. NVIDIA hardware
+>>>>>>>>> contains some fixed-function blocks which convert from LMS to ICtCp and
+>>>>>>>>> cannot
+>>>>>>>>> be disabled/bypassed. NVIDIA hardware has been designed for descriptive
+>>>>>>>>> APIs
+>>>>>>>>> where user-space provides a high-level description of the colorspace
+>>>>>>>>> conversions it needs to perform, and this is at odds with our KMS uAPI
+>>>>>>>>> proposal. To address this issue, we suggest adding a special block type
+>>>>>>>>> which
+>>>>>>>>> describes a fixed conversion from one colorspace to another and cannot be
+>>>>>>>>> configured by user-space. Then user-space will need to accomodate its
+>>>>>>>>> pipeline
+>>>>>>>>> for these special blocks. Such fixed hardware blocks need to be well enough
+>>>>>>>>> documented so that they can be implemented via shaders.
+>>>>>>>>>         
+>>>>>>>> A few questions here. What is the current plan for documenting the
+>>>>>>>> mathematical model for each exposed block? Will each defined 'type' enum
+>>>>>>>> value be locked to a definition in the kernel documents? As an example,
+>>>>>>>> when we say '3D LUT' in this proposal does this mean the block will
+>>>>>>>> expose a tri-linear interpolated 3D LUT interface? Is '1D Curve' a
+>>>>>>>> direct in to out LUT mapping?
+>>>>>>>
+>>>>>>> I think we'll want to document these things, yes. We do want to give _some_
+>>>>>>> slack to drivers, so that they can e.g. implement the "1D LUT" colorop via
+>>>>>>> hardware segmented LUTs with a different number of elements per LUT segment.
+>>>>>>> But being mathematically precise (probably with formulae in the docs) is
+>>>>>>> definitely a goal, and absolutely necessary to implement a shader-based
+>>>>>>> fallback.
+>>>>>>
+>>>>>> I agree some driver slack is necessary, however ideally this will be
+>>>>>> locked down enough that from the compositor side they see "1D LUT" and
+>>>>>> know exactly what to expect independent of the hardware. This way
+>>>>>> regardless of if I am running on a NVIDIA / AMD / QCOM / etc... chip,
+>>>>>> common color pipeline strategies can be used. Assuming a perfect world
+>>>>>> where there is a workable overlap between chips of course.
+>>>>>
+>>>>> Yes, of course, at least for a start.
+>>>>>
+>>>>> However, the long term plan includes a shared userspace library with
+>>>>> driver- and hardware-specific knowledge to use hardware- and
+>>>>> driver-specific blocks. All blocks still need to be explicitly
+>>>>> specified in the kernel UAPI documentation, the idea is that it should
+>>>>> not be a problem for many vendors to have blocks no-one else does. The
+>>>>> library would offer a much more generic API, and use snowflake blocks
+>>>>> to their fullest. The library would also spit out OpenGL shaders and
+>>>>> whatnot for the fallback.
+>>>>>
+>>>>> The future in the long term could be either way: evolving towards
+>>>>> generic KMS UAPI blocks with no need for a userspace library
+>>>>> abstraction, or evolving towards hardware-specific KMS UAPI blocks with
+>>>>> a userspace library to abstract them like Mesa does for GPUs.
+>>>>>       
+>>>> Sounds good to me!
+>>>
+>>> Awesome!
+>>>
+>>>
+>>> Thanks,
+>>> pq
 > 
