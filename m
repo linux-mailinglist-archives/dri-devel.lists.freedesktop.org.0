@@ -1,53 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B14CC73224C
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 00:01:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 860D7732265
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 00:05:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 468F010E554;
-	Thu, 15 Jun 2023 22:00:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A94A410E55A;
+	Thu, 15 Jun 2023 22:05:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96D0F10E554
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 22:00:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1686866456; x=1718402456;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=/DBKpHCZOe8HcbwIKY+6OcZWYK0x1Sli1ATyqhdAGec=;
- b=S81kY3eRk79YcdqKcSDOsy7WokoOaPT79QTWsATgY3wUttO152d9vZFV
- lmcP9G2yH12uw/aA9A0kDVP/QUfJFgLlCl0FsB2YId7eaLDVRHOE6tNrp
- ateVzPM6u6aJECrTDX9WDZ3xc2nj/zp5mdTfBx5vQjHUBULpGoig1ujsn
- hqDZkd6YqsA9l3P2vyDh/jcUJs17LkAzYNuxDTAv5vI8o9YRR9iLbc55e
- +5IxwQWAkdZvLzy0jfE7J3phK68TsCbLOrQBRAOoXkF3RNf9YE4QcU9Al
- UBF1Wyw+saL+lLWhJuH19LG2EnfVbkFz7ECWCIr3y7T1xD8/PAVlBAl9o Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="338669745"
-X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; d="scan'208";a="338669745"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2023 15:00:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="825471887"
-X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; d="scan'208";a="825471887"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
- by fmsmga002.fm.intel.com with ESMTP; 15 Jun 2023 15:00:52 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1q9v1P-0000Qp-1P;
- Thu, 15 Jun 2023 22:00:51 +0000
-Date: Fri, 16 Jun 2023 05:59:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arthur Grillo <arthurgrillo@riseup.net>,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3] drm/vkms: Add support to 1D gamma LUT
-Message-ID: <202306160524.qcbF0KNr-lkp@intel.com>
-References: <20230615200157.960630-1-arthurgrillo@riseup.net>
+Received: from relay03.th.seeweb.it (relay03.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::164])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD41710E557
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 22:05:37 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 1CE6820559;
+ Fri, 16 Jun 2023 00:05:33 +0200 (CEST)
+Date: Fri, 16 Jun 2023 00:05:31 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v2 16/21] drm/msm/dpu: inline DSC_BLK macros
+Message-ID: <73pqnayg6fuqjbrmc7yw3n5sdbthedumgluvjonc5vzl2mhf75@ab3poosthmcd>
+References: <20230613001004.3426676-1-dmitry.baryshkov@linaro.org>
+ <20230613001004.3426676-18-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230615200157.960630-1-arthurgrillo@riseup.net>
+In-Reply-To: <20230613001004.3426676-18-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,86 +43,250 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, aleixpol@kde.org, pekka.paalanen@collabora.com,
- rodrigosiqueiramelo@gmail.com, xaver.hugl@gmail.com, victoria@system76.com,
- mwen@igalia.com, mairacanal@riseup.net, mdaenzer@redhat.com, jadahl@redhat.com,
- Arthur Grillo <arthurgrillo@riseup.net>, oe-kbuild-all@lists.linux.dev,
- sebastian.wick@redhat.com, andrealmeid@riseup.net, uma.shankar@intel.com,
- joshua@froggi.es
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Arthur,
+On 2023-06-13 03:09:56, Dmitry Baryshkov wrote:
+> To simplify making changes to the hardware block definitions, expand
+> corresponding macros. This way making all the changes are more obvious
+> and visible in the source files.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   | 11 +++++--
+>  .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    | 17 +++++++---
+>  .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    | 21 ++++++++++---
+>  .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   | 31 +++++++++++++++----
+>  .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    | 21 ++++++++++---
+>  .../msm/disp/dpu1/catalog/dpu_6_4_sm6350.h    |  6 +++-
+>  .../msm/disp/dpu1/catalog/dpu_6_9_sm6375.h    |  6 +++-
+>  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 10 ------
+>  8 files changed, 91 insertions(+), 32 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+> index a07c68744b29..7c3da4033c46 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+> @@ -200,8 +200,15 @@ static const struct dpu_pingpong_cfg msm8998_pp[] = {
+>  };
+>  
+>  static const struct dpu_dsc_cfg msm8998_dsc[] = {
+> -	DSC_BLK("dsc_0", DSC_0, 0x80000, 0),
+> -	DSC_BLK("dsc_1", DSC_1, 0x80400, 0),
+> +	{
+> +		.name = "dsc_0", .id = DSC_0,
+> +		.base = 0x80000, .len = 0x1800,
+> +		.features = 0,
+> +	}, {
+> +		.name = "dsc_1", .id = DSC_1,
+> +		.base = 0x80400, .len = 0x1800,
+> +		.features = 0,
+> +	},
+>  };
+>  
+>  static const struct dpu_dspp_cfg msm8998_dspp[] = {
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+> index 786263ed1ef2..ca3bb6a1a93a 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+> @@ -224,10 +224,19 @@ static const struct dpu_pingpong_cfg sdm845_pp[] = {
+>  };
+>  
+>  static const struct dpu_dsc_cfg sdm845_dsc[] = {
+> -	DSC_BLK("dsc_0", DSC_0, 0x80000, 0),
+> -	DSC_BLK("dsc_1", DSC_1, 0x80400, 0),
+> -	DSC_BLK("dsc_2", DSC_2, 0x80800, 0),
+> -	DSC_BLK("dsc_3", DSC_3, 0x80c00, 0),
+> +	{
+> +		.name = "dsc_0", .id = DSC_0,
+> +		.base = 0x80000, .len = 0x1800,
+> +	}, {
+> +		.name = "dsc_1", .id = DSC_1,
+> +		.base = 0x80400, .len = 0x1800,
+> +	}, {
+> +		.name = "dsc_2", .id = DSC_2,
+> +		.base = 0x80800, .len = 0x1800,
+> +	}, {
+> +		.name = "dsc_3", .id = DSC_3,
+> +		.base = 0x80c00, .len = 0x1800,
+> +	},
+>  };
+>  
+>  static const struct dpu_intf_cfg sdm845_intf[] = {
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+> index 6b9bfeac6e0a..5b068521de13 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+> @@ -245,10 +245,23 @@ static const struct dpu_merge_3d_cfg sm8150_merge_3d[] = {
+>  };
+>  
+>  static const struct dpu_dsc_cfg sm8150_dsc[] = {
+> -	DSC_BLK("dsc_0", DSC_0, 0x80000, BIT(DPU_DSC_OUTPUT_CTRL)),
+> -	DSC_BLK("dsc_1", DSC_1, 0x80400, BIT(DPU_DSC_OUTPUT_CTRL)),
+> -	DSC_BLK("dsc_2", DSC_2, 0x80800, BIT(DPU_DSC_OUTPUT_CTRL)),
+> -	DSC_BLK("dsc_3", DSC_3, 0x80c00, BIT(DPU_DSC_OUTPUT_CTRL)),
+> +	{
+> +		.name = "dsc_0", .id = DSC_0,
+> +		.base = 0x80000, .len = 0x1800,
+> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
+> +	}, {
+> +		.name = "dsc_1", .id = DSC_1,
+> +		.base = 0x80400, .len = 0x1800,
+> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
+> +	}, {
+> +		.name = "dsc_2", .id = DSC_2,
+> +		.base = 0x80800, .len = 0x1800,
+> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
+> +	}, {
+> +		.name = "dsc_3", .id = DSC_3,
+> +		.base = 0x80c00, .len = 0x1800,
+> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
+> +	},
+>  };
+>  
+>  static const struct dpu_intf_cfg sm8150_intf[] = {
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
+> index 414f0db3306c..ba5420f334ec 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
+> @@ -244,12 +244,31 @@ static const struct dpu_merge_3d_cfg sc8180x_merge_3d[] = {
+>  };
+>  
+>  static const struct dpu_dsc_cfg sc8180x_dsc[] = {
+> -	DSC_BLK("dsc_0", DSC_0, 0x80000, BIT(DPU_DSC_OUTPUT_CTRL)),
+> -	DSC_BLK("dsc_1", DSC_1, 0x80400, BIT(DPU_DSC_OUTPUT_CTRL)),
+> -	DSC_BLK("dsc_2", DSC_2, 0x80800, BIT(DPU_DSC_OUTPUT_CTRL)),
+> -	DSC_BLK("dsc_3", DSC_3, 0x80c00, BIT(DPU_DSC_OUTPUT_CTRL)),
+> -	DSC_BLK("dsc_4", DSC_4, 0x81000, BIT(DPU_DSC_OUTPUT_CTRL)),
+> -	DSC_BLK("dsc_5", DSC_5, 0x81400, BIT(DPU_DSC_OUTPUT_CTRL)),
+> +	{
+> +		.name = "dsc_0", .id = DSC_0,
+> +		.base = 0x80000, .len = 0x1800,
+> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
+> +	}, {
+> +		.name = "dsc_1", .id = DSC_1,
+> +		.base = 0x80400, .len = 0x1800,
+> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
+> +	}, {
+> +		.name = "dsc_2", .id = DSC_2,
+> +		.base = 0x80800, .len = 0x1800,
+> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
+> +	}, {
+> +		.name = "dsc_3", .id = DSC_3,
+> +		.base = 0x80c00, .len = 0x1800,
+> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
+> +	}, {
+> +		.name = "dsc_4", .id = DSC_4,
+> +		.base = 0x81000, .len = 0x1800,
+> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
+> +	}, {
+> +		.name = "dsc_5", .id = DSC_5,
+> +		.base = 0x81400, .len = 0x1800,
+> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
+> +	},
+>  };
+>  
+>  static const struct dpu_intf_cfg sc8180x_intf[] = {
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+> index db3a65b011ca..01b61467a700 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+> @@ -245,10 +245,23 @@ static const struct dpu_merge_3d_cfg sm8250_merge_3d[] = {
+>  };
+>  
+>  static const struct dpu_dsc_cfg sm8250_dsc[] = {
+> -	DSC_BLK("dsc_0", DSC_0, 0x80000, BIT(DPU_DSC_OUTPUT_CTRL)),
+> -	DSC_BLK("dsc_1", DSC_1, 0x80400, BIT(DPU_DSC_OUTPUT_CTRL)),
+> -	DSC_BLK("dsc_2", DSC_2, 0x80800, BIT(DPU_DSC_OUTPUT_CTRL)),
+> -	DSC_BLK("dsc_3", DSC_3, 0x80c00, BIT(DPU_DSC_OUTPUT_CTRL)),
+> +	{
+> +		.name = "dsc_0", .id = DSC_0,
+> +		.base = 0x80000, .len = 0x1800,
+> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
+> +	}, {
+> +		.name = "dsc_1", .id = DSC_1,
+> +		.base = 0x80400, .len = 0x1800,
+> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
+> +	}, {
+> +		.name = "dsc_2", .id = DSC_2,
+> +		.base = 0x80800, .len = 0x1800,
+> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
+> +	}, {
+> +		.name = "dsc_3", .id = DSC_3,
+> +		.base = 0x80c00, .len = 0x1800,
+> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
+> +	},
+>  };
+>  
+>  static const struct dpu_intf_cfg sm8250_intf[] = {
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
+> index bf1c0024a55a..20262eb56b48 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
+> @@ -136,7 +136,11 @@ static struct dpu_pingpong_cfg sm6350_pp[] = {
+>  };
+>  
+>  static const struct dpu_dsc_cfg sm6350_dsc[] = {
+> -	DSC_BLK("dsc_0", DSC_0, 0x80000, BIT(DPU_DSC_OUTPUT_CTRL)),
+> +	{
+> +		.name = "dsc_0", .id = DSC_0,
+> +		.base = 0x80000, .len = 0x1800,
+> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
+> +	},
+>  };
+>  
+>  static const struct dpu_intf_cfg sm6350_intf[] = {
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h
+> index bf50ae6c525d..b9984ae6e7ed 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h
+> @@ -90,7 +90,11 @@ static const struct dpu_pingpong_cfg sm6375_pp[] = {
+>  };
+>  
+>  static const struct dpu_dsc_cfg sm6375_dsc[] = {
+> -	DSC_BLK("dsc_0", DSC_0, 0x80000, BIT(DPU_DSC_OUTPUT_CTRL)),
+> +	{
+> +		.name = "dsc_0", .id = DSC_0,
+> +		.base = 0x80000, .len = 0x1800,
+> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
+> +	},
+>  };
+>  
+>  static const struct dpu_intf_cfg sm6375_intf[] = {
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index eb046079bb37..f563e513cbd0 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -482,16 +482,6 @@ static const struct dpu_pingpong_sub_blks sc7280_pp_sblk = {
+>  	.sblk = NULL \
+>  	}
+>  
+> -/*************************************************************
+> - * DSC sub blocks config
+> - *************************************************************/
+> -#define DSC_BLK(_name, _id, _base, _features) \
+> -	{\
+> -	.name = _name, .id = _id, \
+> -	.base = _base, .len = 0x140, \
+> -	.features = _features, \
+> -	}
+> -
 
-kernel test robot noticed the following build warnings:
+This doesn't apply.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.4-rc6 next-20230615]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+What happened here?  This is patch 16/21, however the patch before it is
+16/22 and that already deleted DSC_BLK and DSC_BLK_1_2... Did an old and
+new format-patch -v2 series end up in the same local folder by accident?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Arthur-Grillo/drm-vkms-Add-support-to-1D-gamma-LUT/20230616-040349
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230615200157.960630-1-arthurgrillo%40riseup.net
-patch subject: [PATCH v3] drm/vkms: Add support to 1D gamma LUT
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230616/202306160524.qcbF0KNr-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add drm-misc git://anongit.freedesktop.org/drm/drm-misc
-        git fetch drm-misc drm-misc-next
-        git checkout drm-misc/drm-misc-next
-        b4 shazam https://lore.kernel.org/r/20230615200157.960630-1-arthurgrillo@riseup.net
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/gpu/
+- Marijn
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306160524.qcbF0KNr-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/vkms/vkms_crtc.c: In function 'vkms_crtc_atomic_flush':
->> drivers/gpu/drm/vkms/vkms_crtc.c:251:32: warning: variable 'gamma_lut' set but not used [-Wunused-but-set-variable]
-     251 |         struct vkms_color_lut *gamma_lut;
-         |                                ^~~~~~~~~
-
-
-vim +/gamma_lut +251 drivers/gpu/drm/vkms/vkms_crtc.c
-
-   246	
-   247	static void vkms_crtc_atomic_flush(struct drm_crtc *crtc,
-   248					   struct drm_atomic_state *state)
-   249	{
-   250		struct vkms_output *vkms_output = drm_crtc_to_vkms_output(crtc);
- > 251		struct vkms_color_lut *gamma_lut;
-   252	
-   253		if (crtc->state->event) {
-   254			spin_lock(&crtc->dev->event_lock);
-   255	
-   256			if (drm_crtc_vblank_get(crtc) != 0)
-   257				drm_crtc_send_vblank_event(crtc, crtc->state->event);
-   258			else
-   259				drm_crtc_arm_vblank_event(crtc, crtc->state->event);
-   260	
-   261			spin_unlock(&crtc->dev->event_lock);
-   262	
-   263			crtc->state->event = NULL;
-   264		}
-   265	
-   266		vkms_output->composer_state = to_vkms_crtc_state(crtc->state);
-   267		gamma_lut = &vkms_output->composer_state->gamma_lut;
-   268	
-   269		spin_unlock_irq(&vkms_output->lock);
-   270	}
-   271	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>  /*************************************************************
+>   * INTF sub blocks config
+>   *************************************************************/
+> -- 
+> 2.39.2
+> 
