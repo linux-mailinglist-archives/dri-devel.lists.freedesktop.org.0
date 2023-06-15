@@ -1,41 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B147073142F
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 11:38:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B607F731468
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 11:48:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3AE110E4AA;
-	Thu, 15 Jun 2023 09:38:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4188410E4AD;
+	Thu, 15 Jun 2023 09:48:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6729610E4AA
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 09:38:01 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1q9jQT-00073g-PQ; Thu, 15 Jun 2023 11:37:57 +0200
-Message-ID: <10d769fb8eb39b439b3cc793664a242e443261a7.camel@pengutronix.de>
-Subject: Re: [PATCH 3/8] drm/etnaviv: move runtime PM handling to events
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Thu, 15 Jun 2023 11:37:56 +0200
-In-Reply-To: <CAH9NwWfj0CKm3Q_bVjWi7PhhWfxQxeGfu1mo9bWdSe7xXrRW_w@mail.gmail.com>
-References: <20230607130223.3533464-1-l.stach@pengutronix.de>
- <20230607130223.3533464-3-l.stach@pengutronix.de>
- <CAH9NwWfj0CKm3Q_bVjWi7PhhWfxQxeGfu1mo9bWdSe7xXrRW_w@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D253110E4AE
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 09:48:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1686822520;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tFas5ce2A1vgl/Pd1KLK4gSYDaGRoYeIBhP4kavIodY=;
+ b=Rkva/9+cC8pNRv5Jh/EQ/fOlV15WLFgoiRfFrXsHvBX9gNFfG5nMHPar2DksxMtWek1nqL
+ 5TXeAdxLvnO24Klk8Zfi3Mwx6rMRbRh5yBVA5lmI95bPpeBy8R2AwbsxGTAQQ/jzOnvKFI
+ IXvmI5XgUeEAJa749YxWhwqo0BQg0H4=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-274-wHuaSFA2MEeNtNbpUQ1oEQ-1; Thu, 15 Jun 2023 05:48:38 -0400
+X-MC-Unique: wHuaSFA2MEeNtNbpUQ1oEQ-1
+Received: by mail-lf1-f69.google.com with SMTP id
+ 2adb3069b0e04-4edbdd8268bso6536394e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 02:48:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686822517; x=1689414517;
+ h=content-transfer-encoding:in-reply-to:subject:organization:from
+ :references:cc:to:content-language:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=tFas5ce2A1vgl/Pd1KLK4gSYDaGRoYeIBhP4kavIodY=;
+ b=L43tuIiCU+I5ibNNO5ZoBwhYidiyChcWucPY+Z2bGREXtJh41vrXJNn8IfQp0Bydlz
+ UbfeHLWwMdYHb2dgt7lmTZkM9xgQ3X2C6xJ1u4wXcczR5UEVaurjMgVe2Qj9FYc0MPP7
+ BEXXu35DHVg56JIJph7cM4R6hevVIf14xJIclBafXmCzlrpO1O2baz4xzIvlqwkOdOeh
+ r+NJCa8W1gSjckOyNul9OjhF8IQ9ChNBEaXWwSIw+vvKk0HToY5IaLtV/8I68315r+U1
+ khnMXSzTEAiXp/ubKATZ8bUCo6GpEi3ikmISU/XwcrafAzax/x3AzPwnEgAioMPmEICW
+ CVAQ==
+X-Gm-Message-State: AC+VfDw5U1HOFk2LVazArISUd9QxMw92dBOtKXzaafhEeYlmNNgtRes5
+ 6cRZzNug7xbeWTkLPcRZ4szGVzHG2A5uyBdKAFnYtOxf9Mo5lKqKwZc4r57gyS0Q+9peAliSCbA
+ FUBd8f4vTObNqdCbB+fFnpDZBCy7f
+X-Received: by 2002:a19:f205:0:b0:4dd:ce0b:7692 with SMTP id
+ q5-20020a19f205000000b004ddce0b7692mr9513517lfh.46.1686822517132; 
+ Thu, 15 Jun 2023 02:48:37 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ46ndnLtQ+lzJHNZ0kHKuZExuBXAwZ8nLK7yynFFKnsFo1JVRKjQW7nWIYv41TgUUl1IrX0NA==
+X-Received: by 2002:a19:f205:0:b0:4dd:ce0b:7692 with SMTP id
+ q5-20020a19f205000000b004ddce0b7692mr9513496lfh.46.1686822516710; 
+ Thu, 15 Jun 2023 02:48:36 -0700 (PDT)
+Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7?
+ ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
+ by smtp.gmail.com with ESMTPSA id
+ z15-20020a7bc7cf000000b003f6129d2e30sm20115269wmk.1.2023.06.15.02.48.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Jun 2023 02:48:36 -0700 (PDT)
+Message-ID: <015062b6-2d4a-7b91-8f64-1695f526f794@redhat.com>
+Date: Thu, 15 Jun 2023 11:48:34 +0200
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ Mike Kravetz <mike.kravetz@oracle.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Hugh Dickins <hughd@google.com>
+References: <20230608204927.88711-1-mike.kravetz@oracle.com>
+ <IA0PR11MB71851B64A5E7062E3BDD8D2FF854A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <281caf4f-25da-3a73-554b-4fb252963035@redhat.com>
+ <IA0PR11MB71852D6B27C83658670CBFBDF855A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <676ee47d-8ca0-94c4-7454-46e9915ea36a@redhat.com>
+ <IA0PR11MB71850D8A446FE1342B428EA1F85AA@IA0PR11MB7185.namprd11.prod.outlook.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH] udmabuf: revert 'Add support for mapping hugepages (v4)'
+In-Reply-To: <IA0PR11MB71850D8A446FE1342B428EA1F85AA@IA0PR11MB7185.namprd11.prod.outlook.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,152 +99,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, patchwork-lst@pengutronix.de,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: "Hocko, Michal" <mhocko@suse.com>,
+ "jmarchan@redhat.com" <jmarchan@redhat.com>, "Kim,
+ Dongwon" <dongwon.kim@intel.com>, "Chang, Junxiao" <junxiao.chang@intel.com>,
+ "muchun.song@linux.dev" <muchun.song@linux.dev>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ James Houghton <jthoughton@google.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
 
-Am Mittwoch, dem 14.06.2023 um 20:41 +0200 schrieb Christian Gmeiner:
-> Hi Lucas
->=20
-> >=20
-> > Conceptually events are the right abstraction to handle the GPU
-> > runtime PM state: as long as any event is pending the GPU can not
-> > be idle. Events are also properly freed and reallocated when the
-> > GPU has been reset after a hang.
-> >=20
-> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> > ---
-> >  drivers/gpu/drm/etnaviv/etnaviv_gem.h        |  1 -
-> >  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |  3 ---
-> >  drivers/gpu/drm/etnaviv/etnaviv_gpu.c        | 27 ++++++++++++--------
-> >  3 files changed, 16 insertions(+), 15 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/et=
-naviv/etnaviv_gem.h
-> > index baa81cbf701a..a42d260cac2c 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-> > @@ -97,7 +97,6 @@ struct etnaviv_gem_submit {
-> >         struct list_head node; /* GPU active submit list */
-> >         struct etnaviv_cmdbuf cmdbuf;
-> >         struct pid *pid;       /* submitting process */
-> > -       bool runtime_resumed;
-> >         u32 exec_state;
-> >         u32 flags;
-> >         unsigned int nr_pmrs;
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu=
-/drm/etnaviv/etnaviv_gem_submit.c
-> > index 45403ea38906..2416c526f9b0 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> > @@ -362,9 +362,6 @@ static void submit_cleanup(struct kref *kref)
-> >                         container_of(kref, struct etnaviv_gem_submit, r=
-efcount);
-> >         unsigned i;
-> >=20
-> > -       if (submit->runtime_resumed)
-> > -               pm_runtime_put_autosuspend(submit->gpu->dev);
-> > -
-> >         if (submit->cmdbuf.suballoc)
-> >                 etnaviv_cmdbuf_free(&submit->cmdbuf);
-> >=20
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/et=
-naviv/etnaviv_gpu.c
-> > index 4e18aa8566c6..54a1249c5bca 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> > @@ -1139,7 +1139,8 @@ static int event_alloc(struct etnaviv_gpu *gpu, u=
-nsigned nr_events,
-> >         unsigned int *events)
-> >  {
-> >         unsigned long timeout =3D msecs_to_jiffies(10 * 10000);
-> > -       unsigned i, acquired =3D 0;
-> > +       unsigned i, acquired =3D 0, rpm_count =3D 0;
->=20
-> rpm is the short form of runtime power management?
->=20
-Yes, it's used in this way in multiple places in the kernel. Do you
-think it's clear enough from the code what's going on to keep it that
-way or should I change it to a longer name?
+>> Skimming over at shmem_read_mapping_page() users, I assume most of
+>> them
+>> use a VM_PFNMAP mapping (or don't mmap them at all), where we won't be
+>> messing with the struct page at all.
+>>
+>> (That might even allow you to mmap hugetlb sub-pages, because the struct
+>> page -- and mapcount -- will be ignored completely and not touched.)
+> Oh, are you suggesting that if we do vma->vm_flags |= VM_PFNMAP
+> in the mmap handler (mmap_udmabuf) and also do
+> vmf_insert_pfn(vma, vmf->address, page_to_pfn(page))
+> instead of
+> vmf->page = ubuf->pages[pgoff];
+> get_page(vmf->page);
+> 
+> in the vma fault handler (udmabuf_vm_fault), we can avoid most of the
+> pitfalls you have identified -- including with the usage of hugetlb subpages?
 
-Regards,
-Lucas
+Yes, that's my thinking, but I have to do my homework first to see if 
+that would really work for hugetlb.
 
-> > +       int ret;
-> >=20
-> >         for (i =3D 0; i < nr_events; i++) {
-> >                 unsigned long ret;
-> > @@ -1148,6 +1149,7 @@ static int event_alloc(struct etnaviv_gpu *gpu, u=
-nsigned nr_events,
-> >=20
-> >                 if (!ret) {
-> >                         dev_err(gpu->dev, "wait_for_completion_timeout =
-failed");
-> > +                       ret =3D -EBUSY;
-> >                         goto out;
-> >                 }
-> >=20
-> > @@ -1167,13 +1169,23 @@ static int event_alloc(struct etnaviv_gpu *gpu,=
- unsigned nr_events,
-> >=20
-> >         spin_unlock(&gpu->event_spinlock);
-> >=20
-> > +       for (i =3D 0; i < nr_events; i++) {
-> > +               ret =3D pm_runtime_resume_and_get(gpu->dev);
-> > +               if (ret)
-> > +                       goto out_rpm;
-> > +               rpm_count++;
-> > +       }
-> > +
-> >         return 0;
-> >=20
-> > +out_rpm:
-> > +       for (i =3D 0; i < rpm_count; i++)
-> > +               pm_runtime_put_autosuspend(gpu->dev);
-> >  out:
-> >         for (i =3D 0; i < acquired; i++)
-> >                 complete(&gpu->event_free);
-> >=20
-> > -       return -EBUSY;
-> > +       return ret;
-> >  }
-> >=20
-> >  static void event_free(struct etnaviv_gpu *gpu, unsigned int event)
-> > @@ -1185,6 +1197,8 @@ static void event_free(struct etnaviv_gpu *gpu, u=
-nsigned int event)
-> >                 clear_bit(event, gpu->event_bitmap);
-> >                 complete(&gpu->event_free);
-> >         }
-> > +
-> > +       pm_runtime_put_autosuspend(gpu->dev);
-> >  }
-> >=20
-> >  /*
-> > @@ -1327,15 +1341,6 @@ struct dma_fence *etnaviv_gpu_submit(struct etna=
-viv_gem_submit *submit)
-> >         unsigned int i, nr_events =3D 1, event[3];
-> >         int ret;
-> >=20
-> > -       if (!submit->runtime_resumed) {
-> > -               ret =3D pm_runtime_get_sync(gpu->dev);
-> > -               if (ret < 0) {
-> > -                       pm_runtime_put_noidle(gpu->dev);
-> > -                       return NULL;
-> > -               }
-> > -               submit->runtime_resumed =3D true;
-> > -       }
-> > -
-> >         /*
-> >          * if there are performance monitor requests we need to have
-> >          * - a sync point to re-configure gpu and process ETNA_PM_PROCE=
-SS_PRE
-> > --
-> > 2.39.2
-> >=20
->=20
->=20
+The thing is, I kind-of consider what udmabuf does a layer violation: we 
+have a filesystem (shmem/hugetlb) that should handle mappings to user 
+space. Yet, a driver decides to bypass that and simply map the pages 
+ordinarily to user space. (revealed by the fact that hugetlb does never 
+map sub-pages but udmabuf decides to do so)
+
+In an ideal world everybody would simply mmap() the original memfd, but 
+thinking about offset+size configuration within the memfd that might not 
+always be desirable. As a workaround, we could mmap() only the PFNs, 
+leaving the struct page unaffected.
+
+I'll have to look closer into that.
+
+-- 
+Cheers,
+
+David / dhildenb
 
