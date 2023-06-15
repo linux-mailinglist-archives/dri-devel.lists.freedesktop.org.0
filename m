@@ -1,56 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9FFC731EAF
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 19:06:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6440B731EC1
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 19:12:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25E0910E521;
-	Thu, 15 Jun 2023 17:06:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB1E010E527;
+	Thu, 15 Jun 2023 17:12:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1789310E515;
- Thu, 15 Jun 2023 17:06:27 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 672D86194D;
- Thu, 15 Jun 2023 17:06:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74575C433CB;
- Thu, 15 Jun 2023 17:06:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686848785;
- bh=pBH7ctxxtgC1B5e2uq+BToOm9A5Oq68fbzBEajU80s4=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=PB3qfgpt5Mq4cS2ibXgBEVd7mf4HGge8j2/63DI6+t9Maxc/mkRjMxIg/TYTx4ndx
- MWhQ/A8u7/HABWDSxoxIfm2oySbeuXoxklIaLHBjXBK/Po3rtOAxjlRlGwNMOC26Sh
- RD8qDp4IwwMbVH5u1kIRA+K7n7bMHef7dYErhqmiBQAdRbnbAlCvSZlCfyDtBtC3kC
- F4CkeyLqyqVOYYDLqoBOyxfpbNX5qKBW32MaHo6Q7A0hxlxDxT5l3xT3mJzp+q/3uc
- tW7z31i5eYpQPo36Qib7L0IaimJMXwT+yC2B+FyVviyNq/3wfuVGJimgFAKfkWKgH2
- Yhgrf24aMizDw==
-From: Nathan Chancellor <nathan@kernel.org>
-Date: Thu, 15 Jun 2023 10:06:09 -0700
-Subject: [PATCH 2/2] drm/amdgpu: Move clocks closer to its only usage in
- amdgpu_parse_cg_state()
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
+ [IPv6:2607:f8b0:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D85E10E525;
+ Thu, 15 Jun 2023 17:12:42 +0000 (UTC)
+Received: by mail-ot1-x32c.google.com with SMTP id
+ 46e09a7af769-6b2dbca2daeso4780726a34.3; 
+ Thu, 15 Jun 2023 10:12:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1686849161; x=1689441161;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=f7t8tAjtALMCxF4db4hi1Na7h70msD6c1rOODixaixs=;
+ b=jNqIYIKjaHjZGxMm6sINXlkUWOIHlJv67UcaVrw15ZUbyxe0n2u5Y4JHeH3FviTlR/
+ pCh+K0a0f4XdDI2cqcOJ6lNIsg7OjMKICFPnIZrHuPwfcGHwywIiEHeGMFuCog6E6VVz
+ K6AyyNUE5jlhz5/QZco3+c/NKidFQfZuZLFOAt+RWhouuFhndh9Hg1e9krU3RvKgRMkz
+ mWee2eKcY/DTIVRhURZWmTAWs8cHAlgeComVUetYhxZCBHytBECwVOvwL/84LQrXwHLw
+ PPWOu6qSRyXYjJIV9QujArTRi0eTu030+MZB4DlrOCuWLf5JOD6nhH0shqaMMHiciJ0F
+ 5czQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686849161; x=1689441161;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=f7t8tAjtALMCxF4db4hi1Na7h70msD6c1rOODixaixs=;
+ b=DiwCoVnAneMjaw5qRArmo6MHuf8DvQockbWOL1eInnA6armVax8TaKwzFRgc32L/Tb
+ Vy1hmNPDnyCfE3jeV17kJy1vvkmrDSqHjBDrg1NA74klQyKXYVD5vp7ZMHgZ/q48i6SL
+ MQgasz9Zk16CjvI37KYlL1QsQD6x/1SYQ+xYnRYjIQyVXSDgQajyVYWlNbxGs2rNWdHg
+ OmSx5JYlPttfN8OzCLGKwH3h1O3FrzvDMOYaAfYXEq+saqXJCmGnUx1lc+wTsrVt391/
+ G+QuyKpwGetzScYBHcbYCmD2YZWPyopGk9XfEjpQdo89FBJTlmKPM+esMwLpa0KUZJma
+ P60Q==
+X-Gm-Message-State: AC+VfDzEcqxpvW+PhkZjBu4Pf6zNe3UX4aAd/U+3Af7t5ckER9B1P8KF
+ U78Vsz7dAhoDLVAiKIqjpL/4k9Mjt5mTQokzr1ZBr2FR
+X-Google-Smtp-Source: ACHHUZ6CXnT0WPxl4FYp/k4qqBNQvCCWTxuAf5kTrU+0rjax35sGjlU7IXpnGAs+b68DIsoVnpxYAHJfYkEVz1vWONM=
+X-Received: by 2002:a05:6870:e506:b0:1a2:7a03:4fe2 with SMTP id
+ y6-20020a056870e50600b001a27a034fe2mr12726386oag.35.1686849161335; Thu, 15
+ Jun 2023 10:12:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230615-amdgpu-wunused-const-variable-wo-debugfs-v1-2-06efd224aebb@kernel.org>
-References: <20230615-amdgpu-wunused-const-variable-wo-debugfs-v1-0-06efd224aebb@kernel.org>
-In-Reply-To: <20230615-amdgpu-wunused-const-variable-wo-debugfs-v1-0-06efd224aebb@kernel.org>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com
-X-Mailer: b4 0.13-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6322; i=nathan@kernel.org;
- h=from:subject:message-id; bh=pBH7ctxxtgC1B5e2uq+BToOm9A5Oq68fbzBEajU80s4=;
- b=owGbwMvMwCEmm602sfCA1DTG02pJDCndrgKbzn8/ftYq7KQEq+9KHb516Xdnx8hflWVZv+GN4
- +SpIdc6OkpZGMQ4GGTFFFmqH6seNzScc5bxxqlJMHNYmUCGMHBxCsBETq1g+J9r83Mzs7zCB9ng
- 8PmHVd2++rF/y3VVjJvLu8HyhXV6tQjD/2pTu60C2vHPdRuEnDt03+xeF7tI6M/mkJP3zRLPd13
- cyQoA
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+References: <20230614034936.876-1-machel@vivo.com>
+ <5844e20e-843d-f65e-107a-8fd4cff48e32@gnuweeb.org>
+In-Reply-To: <5844e20e-843d-f65e-107a-8fd4cff48e32@gnuweeb.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 15 Jun 2023 13:12:29 -0400
+Message-ID: <CADnq5_O-HmDpTbNnEAvtrFzFRHiBoDD+wfJM2kJ0rzT2PPb7+w@mail.gmail.com>
+Subject: Re: [PATCH] amd/display/dc:remove repeating expression
+To: Ammar Faizi <ammarfaizi2@gnuweeb.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,124 +69,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nathan Chancellor <nathan@kernel.org>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, patches@lists.linux.dev
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, opensource.kernel@vivo.com,
+ Leo Li <sunpeng.li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ amd-gfx@lists.freedesktop.org, Wang Ming <machel@vivo.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After commit a25a9dae2067 ("drm/amd/amdgpu: enable W=1 for amdgpu"),
-there is an instance of -Wunused-const-variable when CONFIG_DEBUG_FS is
-disabled:
+Applied.  Thanks!
 
-  drivers/gpu/drm/amd/amdgpu/../pm/amdgpu_pm.c:38:34: error: unused variable 'clocks' [-Werror,-Wunused-const-variable]
-     38 | static const struct cg_flag_name clocks[] = {
-        |                                  ^
-  1 error generated.
+Alex
 
-clocks is only used when CONFIG_DEBUG_FS is set, so move the definition
-into the CONFIG_DEBUG_FS block right above its only usage to clear up
-the warning.
-
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
- drivers/gpu/drm/amd/pm/amdgpu_pm.c | 76 +++++++++++++++++++-------------------
- 1 file changed, 38 insertions(+), 38 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-index a57952b93e73..386ccf11e657 100644
---- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-+++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-@@ -35,44 +35,6 @@
- #include <linux/pm_runtime.h>
- #include <asm/processor.h>
- 
--static const struct cg_flag_name clocks[] = {
--	{AMD_CG_SUPPORT_GFX_FGCG, "Graphics Fine Grain Clock Gating"},
--	{AMD_CG_SUPPORT_GFX_MGCG, "Graphics Medium Grain Clock Gating"},
--	{AMD_CG_SUPPORT_GFX_MGLS, "Graphics Medium Grain memory Light Sleep"},
--	{AMD_CG_SUPPORT_GFX_CGCG, "Graphics Coarse Grain Clock Gating"},
--	{AMD_CG_SUPPORT_GFX_CGLS, "Graphics Coarse Grain memory Light Sleep"},
--	{AMD_CG_SUPPORT_GFX_CGTS, "Graphics Coarse Grain Tree Shader Clock Gating"},
--	{AMD_CG_SUPPORT_GFX_CGTS_LS, "Graphics Coarse Grain Tree Shader Light Sleep"},
--	{AMD_CG_SUPPORT_GFX_CP_LS, "Graphics Command Processor Light Sleep"},
--	{AMD_CG_SUPPORT_GFX_RLC_LS, "Graphics Run List Controller Light Sleep"},
--	{AMD_CG_SUPPORT_GFX_3D_CGCG, "Graphics 3D Coarse Grain Clock Gating"},
--	{AMD_CG_SUPPORT_GFX_3D_CGLS, "Graphics 3D Coarse Grain memory Light Sleep"},
--	{AMD_CG_SUPPORT_MC_LS, "Memory Controller Light Sleep"},
--	{AMD_CG_SUPPORT_MC_MGCG, "Memory Controller Medium Grain Clock Gating"},
--	{AMD_CG_SUPPORT_SDMA_LS, "System Direct Memory Access Light Sleep"},
--	{AMD_CG_SUPPORT_SDMA_MGCG, "System Direct Memory Access Medium Grain Clock Gating"},
--	{AMD_CG_SUPPORT_BIF_MGCG, "Bus Interface Medium Grain Clock Gating"},
--	{AMD_CG_SUPPORT_BIF_LS, "Bus Interface Light Sleep"},
--	{AMD_CG_SUPPORT_UVD_MGCG, "Unified Video Decoder Medium Grain Clock Gating"},
--	{AMD_CG_SUPPORT_VCE_MGCG, "Video Compression Engine Medium Grain Clock Gating"},
--	{AMD_CG_SUPPORT_HDP_LS, "Host Data Path Light Sleep"},
--	{AMD_CG_SUPPORT_HDP_MGCG, "Host Data Path Medium Grain Clock Gating"},
--	{AMD_CG_SUPPORT_DRM_MGCG, "Digital Right Management Medium Grain Clock Gating"},
--	{AMD_CG_SUPPORT_DRM_LS, "Digital Right Management Light Sleep"},
--	{AMD_CG_SUPPORT_ROM_MGCG, "Rom Medium Grain Clock Gating"},
--	{AMD_CG_SUPPORT_DF_MGCG, "Data Fabric Medium Grain Clock Gating"},
--	{AMD_CG_SUPPORT_VCN_MGCG, "VCN Medium Grain Clock Gating"},
--	{AMD_CG_SUPPORT_HDP_DS, "Host Data Path Deep Sleep"},
--	{AMD_CG_SUPPORT_HDP_SD, "Host Data Path Shutdown"},
--	{AMD_CG_SUPPORT_IH_CG, "Interrupt Handler Clock Gating"},
--	{AMD_CG_SUPPORT_JPEG_MGCG, "JPEG Medium Grain Clock Gating"},
--	{AMD_CG_SUPPORT_REPEATER_FGCG, "Repeater Fine Grain Clock Gating"},
--	{AMD_CG_SUPPORT_GFX_PERF_CLK, "Perfmon Clock Gating"},
--	{AMD_CG_SUPPORT_ATHUB_MGCG, "Address Translation Hub Medium Grain Clock Gating"},
--	{AMD_CG_SUPPORT_ATHUB_LS, "Address Translation Hub Light Sleep"},
--	{0, NULL},
--};
--
- static const struct hwmon_temp_label {
- 	enum PP_HWMON_TEMP channel;
- 	const char *label;
-@@ -3684,6 +3646,44 @@ static int amdgpu_debugfs_pm_info_pp(struct seq_file *m, struct amdgpu_device *a
- 	return 0;
- }
- 
-+static const struct cg_flag_name clocks[] = {
-+	{AMD_CG_SUPPORT_GFX_FGCG, "Graphics Fine Grain Clock Gating"},
-+	{AMD_CG_SUPPORT_GFX_MGCG, "Graphics Medium Grain Clock Gating"},
-+	{AMD_CG_SUPPORT_GFX_MGLS, "Graphics Medium Grain memory Light Sleep"},
-+	{AMD_CG_SUPPORT_GFX_CGCG, "Graphics Coarse Grain Clock Gating"},
-+	{AMD_CG_SUPPORT_GFX_CGLS, "Graphics Coarse Grain memory Light Sleep"},
-+	{AMD_CG_SUPPORT_GFX_CGTS, "Graphics Coarse Grain Tree Shader Clock Gating"},
-+	{AMD_CG_SUPPORT_GFX_CGTS_LS, "Graphics Coarse Grain Tree Shader Light Sleep"},
-+	{AMD_CG_SUPPORT_GFX_CP_LS, "Graphics Command Processor Light Sleep"},
-+	{AMD_CG_SUPPORT_GFX_RLC_LS, "Graphics Run List Controller Light Sleep"},
-+	{AMD_CG_SUPPORT_GFX_3D_CGCG, "Graphics 3D Coarse Grain Clock Gating"},
-+	{AMD_CG_SUPPORT_GFX_3D_CGLS, "Graphics 3D Coarse Grain memory Light Sleep"},
-+	{AMD_CG_SUPPORT_MC_LS, "Memory Controller Light Sleep"},
-+	{AMD_CG_SUPPORT_MC_MGCG, "Memory Controller Medium Grain Clock Gating"},
-+	{AMD_CG_SUPPORT_SDMA_LS, "System Direct Memory Access Light Sleep"},
-+	{AMD_CG_SUPPORT_SDMA_MGCG, "System Direct Memory Access Medium Grain Clock Gating"},
-+	{AMD_CG_SUPPORT_BIF_MGCG, "Bus Interface Medium Grain Clock Gating"},
-+	{AMD_CG_SUPPORT_BIF_LS, "Bus Interface Light Sleep"},
-+	{AMD_CG_SUPPORT_UVD_MGCG, "Unified Video Decoder Medium Grain Clock Gating"},
-+	{AMD_CG_SUPPORT_VCE_MGCG, "Video Compression Engine Medium Grain Clock Gating"},
-+	{AMD_CG_SUPPORT_HDP_LS, "Host Data Path Light Sleep"},
-+	{AMD_CG_SUPPORT_HDP_MGCG, "Host Data Path Medium Grain Clock Gating"},
-+	{AMD_CG_SUPPORT_DRM_MGCG, "Digital Right Management Medium Grain Clock Gating"},
-+	{AMD_CG_SUPPORT_DRM_LS, "Digital Right Management Light Sleep"},
-+	{AMD_CG_SUPPORT_ROM_MGCG, "Rom Medium Grain Clock Gating"},
-+	{AMD_CG_SUPPORT_DF_MGCG, "Data Fabric Medium Grain Clock Gating"},
-+	{AMD_CG_SUPPORT_VCN_MGCG, "VCN Medium Grain Clock Gating"},
-+	{AMD_CG_SUPPORT_HDP_DS, "Host Data Path Deep Sleep"},
-+	{AMD_CG_SUPPORT_HDP_SD, "Host Data Path Shutdown"},
-+	{AMD_CG_SUPPORT_IH_CG, "Interrupt Handler Clock Gating"},
-+	{AMD_CG_SUPPORT_JPEG_MGCG, "JPEG Medium Grain Clock Gating"},
-+	{AMD_CG_SUPPORT_REPEATER_FGCG, "Repeater Fine Grain Clock Gating"},
-+	{AMD_CG_SUPPORT_GFX_PERF_CLK, "Perfmon Clock Gating"},
-+	{AMD_CG_SUPPORT_ATHUB_MGCG, "Address Translation Hub Medium Grain Clock Gating"},
-+	{AMD_CG_SUPPORT_ATHUB_LS, "Address Translation Hub Light Sleep"},
-+	{0, NULL},
-+};
-+
- static void amdgpu_parse_cg_state(struct seq_file *m, u64 flags)
- {
- 	int i;
-
--- 
-2.41.0
-
+On Wed, Jun 14, 2023 at 1:36=E2=80=AFAM Ammar Faizi <ammarfaizi2@gnuweeb.or=
+g> wrote:
+>
+> On 6/14/23 10:49 AM, Wang Ming wrote:
+> > Identify issues that arise by using the tests/doubletest.cocci
+> > semantic patch.Need to remove duplicate expression in if statement.
+> >
+> > Signed-off-by: Wang Ming <machel@vivo.com>
+>
+> Reviewed-by: Ammar Faizi <ammarfaizi2@gnuweeb.org>
+>
+> --
+> Ammar Faizi
