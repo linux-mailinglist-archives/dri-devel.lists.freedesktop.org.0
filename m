@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E1A27320CD
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 22:19:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C89A7320CE
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 22:19:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D2AE10E53B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC9AD10E53C;
 	Thu, 15 Jun 2023 20:19:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de
  [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2787610E536
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C021310E536
  for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 20:19:19 +0000 (UTC)
 Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 38F6D8617C;
+ by phobos.denx.de (Postfix) with ESMTPSA id BE1D386180;
  Thu, 15 Jun 2023 22:19:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1686860357;
- bh=rVNlQczB4mYuhQJvhfBiAZ3UIaUkZrJMurNSkAapFw0=;
+ s=phobos-20191101; t=1686860358;
+ bh=o6AM8fWj4yCkI3rnUT+PaoaPEAEg3J+vBs+EPGSVwNc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=yD2+QLMyUsvu2ux0R2cDaG7ffmDqZdA/ziS0D9DcTNlNcm7xcUXiTcKcrLPya0IFL
- HRkfcuvq1CXAqpist3JvID0EPLjXNebJAi0npacucR/ssE6MLUtyWtAdtfiABb3lzl
- yx8U30/deVajqRocTfGKSKiezn3blHWeLB2jze7qENgP29j4LRcufZkd+F9/mo3awi
- WJ88FLNS/+p4tvyoWbl/fp33/wRyXXcLh9n/aGlnogRfj9VjzQErmJfykZIT4J7nFL
- +KxAmLmy8bi5TDQqlmw5sDR647WUZnTnaMi7J/tqTmRf/Qq6qPrXl4jCIrWB16zVBq
- u+lN7q2N/patQ==
+ b=WjYulXmgfugDLOP6zcNcR9g2ieuo4hdYu+/Peuh68r7W88KyJMiivaiyO6iHhIjgu
+ eRcPkxIQWf/9001l8q4Rj5XAqHEMzxf1iZIhx2z/t4/O9TRr6fOpcazR5V41aYV7Uj
+ X3yM374dWNPS9lqQ0XDcKlLzw0A9QCM6kcM23il775q24Dq0sQxOngy+CG5eVAshWz
+ 3i36xAcUHj6/ZR6gx43ZFTFga7aNrw8L5gGGWwXuRwIyfgGpocFs4U04vcm0iV7sTr
+ jVdwofy3iCz1NCvZ10UP60Oy+cvrdYNjR5oSAfI/Y3kSeFbJ63rg1aaBQuGyCt3P3/
+ VkSfvXZWcE2yQ==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/5] drm/bridge: tc358762: Guess the meaning of LCDCTRL bits
-Date: Thu, 15 Jun 2023 22:19:01 +0200
-Message-Id: <20230615201902.566182-4-marex@denx.de>
+Subject: [PATCH 5/5] drm/bridge: tc358762: Handle HS/VS polarity
+Date: Thu, 15 Jun 2023 22:19:02 +0200
+Message-Id: <20230615201902.566182-5-marex@denx.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230615201902.566182-1-marex@denx.de>
 References: <20230615201902.566182-1-marex@denx.de>
@@ -60,10 +60,9 @@ Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The register content and behavior is very similar to TC358764 VP_CTRL.
-All the bits except for unknown bit 6 also seem to match, even though
-the datasheet is just not available. Add a comment and reuse the bit
-definitions.
+Add support for handling the HS/VS sync signals polarity in the bridge
+driver, otherwise e.g. DSIM bridge feeds the TC358762 inverted polarity
+sync signals and the image is shifted to the left, up, and wobbly.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 ---
@@ -77,43 +76,75 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>
 Cc: Robert Foss <rfoss@kernel.org>
 Cc: dri-devel@lists.freedesktop.org
 ---
- drivers/gpu/drm/bridge/tc358762.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/bridge/tc358762.c | 27 +++++++++++++++++++++++++--
+ 1 file changed, 25 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358762.c b/drivers/gpu/drm/bridge/tc358762.c
-index 77f2ec9de9e59..a092e2096074f 100644
+index a092e2096074f..46198af9eebbf 100644
 --- a/drivers/gpu/drm/bridge/tc358762.c
 +++ b/drivers/gpu/drm/bridge/tc358762.c
-@@ -41,8 +41,17 @@
- #define DSI_LANEENABLE		0x0210 /* Enables each lane */
- #define DSI_RX_START		1
+@@ -74,6 +74,7 @@ struct tc358762 {
+ 	struct regulator *regulator;
+ 	struct drm_bridge *panel_bridge;
+ 	struct gpio_desc *reset_gpio;
++	struct drm_display_mode mode;
+ 	bool pre_enabled;
+ 	int error;
+ };
+@@ -114,6 +115,8 @@ static inline struct tc358762 *bridge_to_tc358762(struct drm_bridge *bridge)
  
--/* LCDC/DPI Host Registers */
--#define LCDCTRL			0x0420
-+/* LCDC/DPI Host Registers, based on guesswork that this matches TC358764 */
-+#define LCDCTRL			0x0420 /* Video Path Control */
-+#define LCDCTRL_MSF		BIT(0) /* Magic square in RGB666 */
-+#define LCDCTRL_VTGEN		BIT(4)/* Use chip clock for timing */
-+#define LCDCTRL_UNK6		BIT(6) /* Unknown */
-+#define LCDCTRL_EVTMODE		BIT(5) /* Event mode */
-+#define LCDCTRL_RGB888		BIT(8) /* RGB888 mode */
-+#define LCDCTRL_HSPOL		BIT(17) /* Polarity of HSYNC signal */
-+#define LCDCTRL_DEPOL		BIT(18) /* Polarity of DE signal */
-+#define LCDCTRL_VSPOL		BIT(19) /* Polarity of VSYNC signal */
-+#define LCDCTRL_VSDELAY(v)	(((v) & 0xfff) << 20) /* VSYNC delay */
- 
- /* SPI Master Registers */
- #define SPICMR			0x0450
-@@ -114,7 +123,8 @@ static int tc358762_init(struct tc358762 *ctx)
+ static int tc358762_init(struct tc358762 *ctx)
+ {
++	u32 lcdctrl;
++
+ 	tc358762_write(ctx, DSI_LANEENABLE,
+ 		       LANEENABLE_L0EN | LANEENABLE_CLEN);
+ 	tc358762_write(ctx, PPI_D0S_CLRSIPOCOUNT, 5);
+@@ -123,8 +126,18 @@ static int tc358762_init(struct tc358762 *ctx)
  	tc358762_write(ctx, PPI_LPTXTIMECNT, LPX_PERIOD);
  
  	tc358762_write(ctx, SPICMR, 0x00);
--	tc358762_write(ctx, LCDCTRL, 0x00100150);
-+	tc358762_write(ctx, LCDCTRL, LCDCTRL_VSDELAY(1) | LCDCTRL_RGB888 |
-+				     LCDCTRL_UNK6 | LCDCTRL_VTGEN);
+-	tc358762_write(ctx, LCDCTRL, LCDCTRL_VSDELAY(1) | LCDCTRL_RGB888 |
+-				     LCDCTRL_UNK6 | LCDCTRL_VTGEN);
++
++	lcdctrl = LCDCTRL_VSDELAY(1) | LCDCTRL_RGB888 |
++		  LCDCTRL_UNK6 | LCDCTRL_VTGEN;
++
++	if (ctx->mode.flags & DRM_MODE_FLAG_NHSYNC)
++		lcdctrl |= LCDCTRL_HSPOL;
++
++	if (ctx->mode.flags & DRM_MODE_FLAG_NVSYNC)
++		lcdctrl |= LCDCTRL_VSPOL;
++
++	tc358762_write(ctx, LCDCTRL, lcdctrl);
++
  	tc358762_write(ctx, SYSCTRL, 0x040f);
  	msleep(100);
  
+@@ -194,6 +207,15 @@ static int tc358762_attach(struct drm_bridge *bridge,
+ 				 bridge, flags);
+ }
+ 
++static void tc358762_bridge_mode_set(struct drm_bridge *bridge,
++				     const struct drm_display_mode *mode,
++				     const struct drm_display_mode *adj)
++{
++	struct tc358762 *ctx = bridge_to_tc358762(bridge);
++
++	drm_mode_copy(&ctx->mode, mode);
++}
++
+ static const struct drm_bridge_funcs tc358762_bridge_funcs = {
+ 	.atomic_post_disable = tc358762_post_disable,
+ 	.atomic_pre_enable = tc358762_pre_enable,
+@@ -202,6 +224,7 @@ static const struct drm_bridge_funcs tc358762_bridge_funcs = {
+ 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+ 	.atomic_reset = drm_atomic_helper_bridge_reset,
+ 	.attach = tc358762_attach,
++	.mode_set = tc358762_bridge_mode_set,
+ };
+ 
+ static int tc358762_parse_dt(struct tc358762 *ctx)
 -- 
 2.39.2
 
