@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 323447322B8
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 00:26:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DE657322BC
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 00:27:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A24E10E560;
-	Thu, 15 Jun 2023 22:26:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A93010E55E;
+	Thu, 15 Jun 2023 22:26:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m-r1.th.seeweb.it (m-r1.th.seeweb.it [5.144.164.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F85B10E55E
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 22:26:07 +0000 (UTC)
+Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [5.144.164.164])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CA4110E55E;
+ Thu, 15 Jun 2023 22:26:56 +0000 (UTC)
 Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
  [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 1B2F620512;
- Fri, 16 Jun 2023 00:26:05 +0200 (CEST)
-Date: Fri, 16 Jun 2023 00:26:03 +0200
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 0421F20512;
+ Fri, 16 Jun 2023 00:26:53 +0200 (CEST)
+Date: Fri, 16 Jun 2023 00:26:52 +0200
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v2 03/22] drm/msm/dpu: remove unused INTF_NONE interfaces
-Message-ID: <6akejrsahbmrueanyhx5hdt5kipkm2fb4dylh4jzprfgzdbczk@x75wfsoza5ah>
+Subject: Re: [PATCH v2 04/22] drm/msm: enumerate DSI interfaces
+Message-ID: <wozcijpgqmpyavcfkvtkmtvho3jenjswx32djzv7wq7r7ko6xb@ejncq7zfm7un>
 References: <20230613001004.3426676-1-dmitry.baryshkov@linaro.org>
- <20230613001004.3426676-4-dmitry.baryshkov@linaro.org>
+ <20230613001004.3426676-5-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230613001004.3426676-4-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230613001004.3426676-5-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,63 +49,45 @@ Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-06-13 03:09:42, Dmitry Baryshkov wrote:
-> sm6115 and qcm2290 do not have INTF_0. Drop corresponding interface
-> definitions.
-
-As Abhinav said, add sm6375.
-
-If it wasn't for sc8280xp using INTF_NONE for fake MST, we could have
-dropped INTF_NONE and the special-cases in dpu_hw_interrupts.c and
-dpu_hw_intf.c entirely!  Is that your plan?
-
+On 2023-06-13 03:09:43, Dmitry Baryshkov wrote:
+> Follow the DP example and define MSM_DSI_CONTROLLER_n enumeration.
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+Nice, that'll be cleaner.
 
 Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h  | 1 -
->  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h | 1 -
->  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h  | 1 -
->  3 files changed, 3 deletions(-)
+>  drivers/gpu/drm/msm/msm_drv.h | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
-> index ba9de008519b..031fc8dae3c6 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
-> @@ -66,7 +66,6 @@ static const struct dpu_pingpong_cfg sm6115_pp[] = {
+> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+> index e13a8cbd61c9..ad4fad2bcdc8 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.h
+> +++ b/drivers/gpu/drm/msm/msm_drv.h
+> @@ -65,6 +65,12 @@ enum msm_dp_controller {
+>  	MSM_DP_CONTROLLER_COUNT,
 >  };
 >  
->  static const struct dpu_intf_cfg sm6115_intf[] = {
-> -	INTF_BLK("intf_0", INTF_0, 0x00000, 0x280, INTF_NONE, 0, 0, 0, 0, 0),
->  	INTF_BLK_DSI_TE("intf_1", INTF_1, 0x6a800, 0x2c0, INTF_DSI, 0, 24, INTF_SC7180_MASK,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
-> index 92ac348eea6b..f2808098af39 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
-> @@ -63,7 +63,6 @@ static const struct dpu_pingpong_cfg qcm2290_pp[] = {
->  };
+> +enum msm_dsi_controller {
+> +	MSM_DSI_CONTROLLER_0,
+> +	MSM_DSI_CONTROLLER_1,
+> +	MSM_DSI_CONTROLLER_COUNT,
+> +};
+> +
+>  #define MSM_GPU_MAX_RINGS 4
+>  #define MAX_H_TILES_PER_DISPLAY 2
 >  
->  static const struct dpu_intf_cfg qcm2290_intf[] = {
-> -	INTF_BLK("intf_0", INTF_0, 0x00000, 0x280, INTF_NONE, 0, 0, 0, 0, 0),
->  	INTF_BLK_DSI_TE("intf_1", INTF_1, 0x6a800, 0x2c0, INTF_DSI, 0, 24, INTF_SC7180_MASK,
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
->  			DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h
-> index d7aae45e3e66..241fa6746674 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h
-> @@ -71,7 +71,6 @@ static const struct dpu_dsc_cfg sm6375_dsc[] = {
->  };
+> @@ -117,7 +123,7 @@ struct msm_drm_private {
+>  	struct hdmi *hdmi;
 >  
->  static const struct dpu_intf_cfg sm6375_intf[] = {
-> -	INTF_BLK("intf_0", INTF_0, 0x00000, 0x280, INTF_NONE, 0, 0, 0, 0, 0),
->  	INTF_BLK_DSI_TE("intf_1", INTF_1, 0x6a800, 0x2c0, INTF_DSI, 0, 24, INTF_SC7180_MASK,
->  		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 26),
->  		DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 27),
+>  	/* DSI is shared by mdp4 and mdp5 */
+> -	struct msm_dsi *dsi[2];
+> +	struct msm_dsi *dsi[MSM_DSI_CONTROLLER_COUNT];
+>  
+>  	struct msm_dp *dp[MSM_DP_CONTROLLER_COUNT];
+>  
 > -- 
 > 2.39.2
 > 
