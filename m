@@ -1,60 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 217BD730F50
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 08:28:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14753730F60
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 08:32:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19B5410E10A;
-	Thu, 15 Jun 2023 06:28:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5963D10E482;
+	Thu, 15 Jun 2023 06:32:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com
- [IPv6:2607:f8b0:4864:20::b32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA6CD10E10A
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 06:28:34 +0000 (UTC)
-Received: by mail-yb1-xb32.google.com with SMTP id
- 3f1490d57ef6-bc492cb6475so1410661276.2
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 23:28:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686810513; x=1689402513;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Sl1LNkel2Jey/Q+VPNL7my6PAtZgOtyvxavcL0DTR4Y=;
- b=EygD5j0QlxcIGYupF35Vj1wtDKts5LDzLPDn5WDh9l6m+UlHM6cmB6bRcxjiCKro51
- RjdJaQiEUB+EdJjCtnhRvEVxyI7ClH6pEzI9YOxrfaAsNLDwj16sdqYxsUnDV99H4aaU
- ZJyZ6sFGAfNt0y1ekhXQNFZjigYPyD8mL0hZxZzxBkD2NBmAA1d1gm3As1xZKv42fxbv
- XnsOea/gFF7t+hy0RLiIbG9bwvuxHAgANu9ORtUe4jly0fsQQAIDc6IQQjgwvGBrKVVH
- qwaRPT35uNgdZN3aoMBr9Ys7C+0FBm3hV3MnQunimazRPsRle2qTonvW1gcNdzlNRJtC
- XouQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686810513; x=1689402513;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Sl1LNkel2Jey/Q+VPNL7my6PAtZgOtyvxavcL0DTR4Y=;
- b=gNmesl1EvEQvbFyEceuwJjHxvJd1fcmInOKBOM9a/cnsj9pj2DpNKVHDDwMwCvBnqN
- FAPC+Uo74+4FGlwWjy2zy1cTJwIkVGiXdSGNFhqZOZuU/+wyMZWwNGiKz5R5ZD6RX/uF
- +WtkxzQq3FyWK+Xcq+jZnl7uoTu8Nkqe9/yCXR9Bxc658wDSZRgig7h62w4/4jhDrJM8
- lEoRkZKCzORUZEZp7KAGGFbSQQ5h0FnOZKwE7ImOBBKVXShMjFrnVMlW6zbaFav1phAx
- UDZcqzVd4qIoi2DZH1+xbBkuOAp2TgLh9VXi31SClBHSRlXbLvaw5rEQBtWu7zXTblAj
- eh5w==
-X-Gm-Message-State: AC+VfDzgnhPTEDsZDLyJQnlstcLP4tKCgmK234SkCLlq+pzuCqheAkHZ
- HgSR86KNQVmtPrSETeL5cZSsURq5tk/gN+mu+SDSmw==
-X-Google-Smtp-Source: ACHHUZ5QQ7NM8OdLRY2rhKKn0eJJKrToeLatwb0wJspABwcTXVGkWpuDYwEgYMm7GhA+ErIn3CcSdu5DqMV6YDMP9G8=
-X-Received: by 2002:a25:2601:0:b0:b9e:712f:4a17 with SMTP id
- m1-20020a252601000000b00b9e712f4a17mr3583179ybm.6.1686810513685; Wed, 14 Jun
- 2023 23:28:33 -0700 (PDT)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 506A110E11A;
+ Thu, 15 Jun 2023 06:32:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686810771; x=1718346771;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=m7Rg4Z8tN68L4Ggv7n3oCaLNZ0NWwcD2fhinr5NJ6OQ=;
+ b=jMf83c3XLvk7tJXBwanPTTwO86u5jrb9KasKXOOIvgU07qgTtJ4K8iXz
+ FqbOh8yH/shXxqm4NHyFO6lfOOcV5pdnZnM4LJT898lkq1/avNRhY8GtX
+ kkdxRQ74ChxYYGzFDqPIujZO7G6TaHmXdj+g37doJaXdo2RYVko4hgl8y
+ CGUkLKAdxCyfpvr79U7kBDy5dULxd5Ry8/npgoi8YwNeRvwvG2HR4Dzxh
+ mhr0fzc+uGFEmHf8xk+49+5vWu3g83nwxKN19Pa96HsuamVEynRRnXiaj
+ aP149gHSx2z7mR5eD9pk9wl8mUKfCRPtUCQFLextOvNAwDDMAy6HRQDJF A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="343527719"
+X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; d="scan'208";a="343527719"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2023 23:32:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="712345887"
+X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; d="scan'208";a="712345887"
+Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
+ by orsmga002.jf.intel.com with ESMTP; 14 Jun 2023 23:32:47 -0700
+Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1q9gXG-0001Yd-2W;
+ Thu, 15 Jun 2023 06:32:46 +0000
+Date: Thu, 15 Jun 2023 14:32:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, Felix.Kuehling@amd.com
+Subject: Re: [PATCH] drm/amdkfd: Switch over to memdup_user()
+Message-ID: <202306151407.U4D2AMDM-lkp@intel.com>
+References: <20230614020432.44044-1-jiapeng.chong@linux.alibaba.com>
 MIME-Version: 1.0
-References: <20230612182534.3345805-1-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230612182534.3345805-1-dmitry.baryshkov@linaro.org>
-From: Yongqin Liu <yongqin.liu@linaro.org>
-Date: Thu, 15 Jun 2023 14:28:22 +0800
-Message-ID: <CAMSo37UVzFyigaTvKjxV-4Gvit8H4n8DtwC=2PYWGTr6L555Rg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/msm/dpu: do not enable color-management if DSPPs
- are not available
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230614020432.44044-1-jiapeng.chong@linux.alibaba.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,66 +59,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, Xinhui.Pan@amd.com,
+ Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 13 Jun 2023 at 02:25, Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> We can not support color management without DSPP blocks being provided
-> in the HW catalog. Do not enable color management for CRTCs if num_dspps
-> is 0.
->
-> Fixes: 4259ff7ae509 ("drm/msm/dpu: add support for pcc color block in dpu driver")
-> Reported-by: Yongqin Liu <yongqin.liu@linaro.org>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+Hi Jiapeng,
 
-Thanks for this fix!
-With it applied to the ACK android-mainline branch,
-the "dpu error" problem reported here:
-    https://lore.kernel.org/lkml/CAMSo37VmhB1-PUp1qu8gaxOXtu98eEYmWd71FOai+cwLb-JvSg@mail.gmail.com/
-is not reproduced.
+kernel test robot noticed the following build warnings:
 
-Tested-by: Yongqin Liu <yongqin.liu@linaro.org>
+[auto build test WARNING on next-20230613]
+[cannot apply to drm-misc/drm-misc-next v6.4-rc6 v6.4-rc5 v6.4-rc4 linus/master v6.4-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index 6e684a7b49a1..1edf2b6b0a26 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -1463,6 +1463,8 @@ static const struct drm_crtc_helper_funcs dpu_crtc_helper_funcs = {
->  struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
->                                 struct drm_plane *cursor)
->  {
-> +       struct msm_drm_private *priv = dev->dev_private;
-> +       struct dpu_kms *dpu_kms = to_dpu_kms(priv->kms);
->         struct drm_crtc *crtc = NULL;
->         struct dpu_crtc *dpu_crtc = NULL;
->         int i, ret;
-> @@ -1494,7 +1496,8 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
->
->         drm_crtc_helper_add(crtc, &dpu_crtc_helper_funcs);
->
-> -       drm_crtc_enable_color_mgmt(crtc, 0, true, 0);
-> +       if (dpu_kms->catalog->dspp_count)
-> +               drm_crtc_enable_color_mgmt(crtc, 0, true, 0);
->
->         /* save user friendly CRTC name for later */
->         snprintf(dpu_crtc->name, DPU_CRTC_NAME_SIZE, "crtc%u", crtc->base.id);
-> --
-> 2.39.2
->
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiapeng-Chong/drm-amdkfd-Switch-over-to-memdup_user/20230614-100553
+base:   next-20230613
+patch link:    https://lore.kernel.org/r/20230614020432.44044-1-jiapeng.chong%40linux.alibaba.com
+patch subject: [PATCH] drm/amdkfd: Switch over to memdup_user()
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230615/202306151407.U4D2AMDM-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build):
+        git checkout next-20230613
+        b4 shazam https://lore.kernel.org/r/20230614020432.44044-1-jiapeng.chong@linux.alibaba.com
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306151407.U4D2AMDM-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c: In function 'get_queue_ids':
+>> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c:2815:24: warning: returning 'long int' from a function with return type 'uint32_t *' {aka 'unsigned int *'} makes pointer from integer without a cast [-Wint-conversion]
+    2815 |                 return PTR_ERR(queue_ids);
+         |                        ^~~~~~~~~~~~~~~~~~
+
+
+vim +2815 drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_device_queue_manager.c
+
+  2804	
+  2805	static uint32_t *get_queue_ids(uint32_t num_queues, uint32_t *usr_queue_id_array)
+  2806	{
+  2807		size_t array_size = num_queues * sizeof(uint32_t);
+  2808		uint32_t *queue_ids = NULL;
+  2809	
+  2810		if (!usr_queue_id_array)
+  2811			return NULL;
+  2812	
+  2813		queue_ids = memdup_user(usr_queue_id_array, array_size);
+  2814		if (IS_ERR(queue_ids))
+> 2815			return PTR_ERR(queue_ids);
+  2816	
+  2817		return queue_ids;
+  2818	}
+  2819	
 
 -- 
-Best Regards,
-Yongqin Liu
----------------------------------------------------------------
-#mailing list
-linaro-android@lists.linaro.org
-http://lists.linaro.org/mailman/listinfo/linaro-android
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
