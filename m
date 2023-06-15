@@ -2,58 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7933E7319CF
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 15:21:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FADF731A47
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 15:41:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2D1F10E4F2;
-	Thu, 15 Jun 2023 13:21:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1960110E4FE;
+	Thu, 15 Jun 2023 13:41:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F66310E4F2
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 13:21:12 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id F03FC1FE25;
- Thu, 15 Jun 2023 13:21:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1686835269; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TrVNR5YBg7mfkrE02t70Ms3cyqfx5tB2TFuYK+7EJkI=;
- b=x/BdWHOHkWe2WasV/pUvs6obH6QCcDJL6X4sZDdDzsGJKh2/QN5RP6/uKkrzcdxOfmGx6G
- ZAkzuMFtKPlPuSMKANhspyGgv80chC6Ev7l+XKI6XkB0zI/872e1MTOJdpiut6a+xBa57H
- 494DAKP8zoffySmOZZw3ByypJtZqviY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1686835269;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TrVNR5YBg7mfkrE02t70Ms3cyqfx5tB2TFuYK+7EJkI=;
- b=+xll9ijtwX96g7AzQiIdJfrQ3zYgYisepLW5uvPXb0b3Xqsa3KMdadP8uVU1OHh9Nrhjho
- X5Mrj6byHVxCJtAQ==
-Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by relay2.suse.de (Postfix) with ESMTPS id 279FF2C141;
- Thu, 15 Jun 2023 13:21:09 +0000 (UTC)
-Date: Thu, 15 Jun 2023 15:21:07 +0200
-From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 1/2] fbdev/offb: Update expected device name
-Message-ID: <20230615132107.GA9196@kitsune.suse.cz>
-References: <20230412095509.2196162-1-cyril@debamax.com>
- <20230412095509.2196162-2-cyril@debamax.com>
- <ZDvrY7X9mpJ7WZ3z@eldamar.lan>
- <11b342dc-1a46-d1be-5fdd-c6eee661e15a@leemhuis.info>
- <fe3b90b0-b52f-9677-0245-a201975c3e0c@suse.de>
+Received: from mail-ua1-x92b.google.com (mail-ua1-x92b.google.com
+ [IPv6:2607:f8b0:4864:20::92b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8CFA10E4FD;
+ Thu, 15 Jun 2023 13:41:18 +0000 (UTC)
+Received: by mail-ua1-x92b.google.com with SMTP id
+ a1e0cc1a2514c-78a065548e3so1415211241.0; 
+ Thu, 15 Jun 2023 06:41:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1686836477; x=1689428477;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4WTgsjoTJ++OSepMTzs8x5zMgGNXZ92ZPRUNivR1rIg=;
+ b=cWMq0uyYadDryv4hDl5aKtuWQJgf2brO6Ee6pEYpNuE4hyrt6tfD9GlU3SAvXQo6ko
+ 21owT5ejEo7LiWbghiEasPDFzJoydmc1qfWdAkxZBRtQ9arjXgHReOzfe1g0CWnBRNcM
+ UxkkY1MRvnflvwjW9BziDLbqZ4WnBDqRoA5/ehiQ2kmtsNhHo86Jh+bWQYbNBsEWtLHB
+ b3zS3LOgEfMAgkym1WsGQJTCXnLo0nQYbnOZJ7qZC7IlrJj0BHe9sMUYVWQ58mbiSH/k
+ Z2uF+iIXmOPiU2vYqe+c6RW8qYbxnFYhDfY8Zw38j+vb2KZWrqKpxOZOO6sOc2ilz6m+
+ Xh5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686836477; x=1689428477;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=4WTgsjoTJ++OSepMTzs8x5zMgGNXZ92ZPRUNivR1rIg=;
+ b=M8AhguHp9e3Rd6JnMgepm1TvPWDPSXuJjtfFLoBjrGbU1qLpMJ8N+oJiDFpb1jvReE
+ baSvh923W+YkK/rP86kKRBkk2jaM4U7uov+nQS+M7zFBtfAA1ah89pL5JxpIbld2kg5F
+ C9LQJodRWVM/jXXaH/4mi9zOmj80EKqgNdtnA54JoRpLLAjsqZ8V4ZzAEyiAU8SZ5Nad
+ 8Ax19CKTIIch9AFHR/y46+UC0Ct937fwHzTG8dvCv5GGfYiFuqULFKOcAYrbulz44LXZ
+ DBltWAgA4sgRreig1sDUbrOUqzfK8qISQqyyZd7vrOZUw6rnpsjEPSUL0rbGcJNEMOut
+ Y1IQ==
+X-Gm-Message-State: AC+VfDyKXhwrnSCqidJzo3J0EDOxEbZZh7smAdPHieyB1PhdL68iPngB
+ 6yv5Amo4Bk0thw9/DAoFDiAtjc3meC1djc/EXa8=
+X-Google-Smtp-Source: ACHHUZ6hq4JMIAKcu/2kE2tCDQoi8K+Mix0ax2Jn9wIMcFVIdLXJJOSI60KB5siYLCh04HS4+FmH05PSgQzMVA3GsZg=
+X-Received: by 2002:a67:e899:0:b0:43f:41ae:46d1 with SMTP id
+ x25-20020a67e899000000b0043f41ae46d1mr4764521vsn.25.1686836477262; Thu, 15
+ Jun 2023 06:41:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fe3b90b0-b52f-9677-0245-a201975c3e0c@suse.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20230607125932.3518547-1-l.stach@pengutronix.de>
+ <8c36b8bc-5a0d-75f7-265c-b0191979165a@loongson.cn>
+ <d17de4ebfd08faa23238ece2ad0b737bf271498b.camel@pengutronix.de>
+ <36946504-45c3-f0bc-3e4a-9106d9f4a2dd@loongson.cn>
+ <CAH9NwWeB-MudNvuyuH1kUNiyWQTZ5Y4fuiB4uNKtutCKL3EZPg@mail.gmail.com>
+ <b69671a6-4d4a-b1ee-784e-e21bd8f5558c@loongson.cn>
+ <7bbad708041fffac5fcaf5c0ef2b0e53c29c682a.camel@pengutronix.de>
+In-Reply-To: <7bbad708041fffac5fcaf5c0ef2b0e53c29c682a.camel@pengutronix.de>
+From: Chris Healy <cphealy@gmail.com>
+Date: Thu, 15 Jun 2023 06:41:06 -0700
+Message-ID: <CAFXsbZo8Kcy0OAM61ENUE64-b0imbH8yHd68Mz-4=4sNGJ5x-A@mail.gmail.com>
+Subject: Re: drm/etnaviv: slow down FE idle polling
+To: Lucas Stach <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,81 +74,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Linux regressions mailing list <regressions@lists.linux.dev>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Cyril Brulebois <cyril@debamax.com>, stable@vger.kernel.org,
- Salvatore Bonaccorso <carnil@debian.org>
+Cc: Sui Jingfeng <suijingfeng@loongson.cn>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de,
+ kernel@pengutronix.de, Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Jingfeng,
 
-On Thu, Jun 15, 2023 at 03:06:28PM +0200, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 15.06.23 um 15:03 schrieb Linux regression tracking (Thorsten Leemhuis):
-> > On 16.04.23 14:34, Salvatore Bonaccorso wrote:
-> > > 
-> > > On Wed, Apr 12, 2023 at 11:55:08AM +0200, Cyril Brulebois wrote:
-> > > > Since commit 241d2fb56a18 ("of: Make OF framebuffer device names unique"),
-> > > > as spotted by Frédéric Bonnard, the historical "of-display" device is
-> > > > gone: the updated logic creates "of-display.0" instead, then as many
-> > > > "of-display.N" as required.
-> > > > 
-> > > > This means that offb no longer finds the expected device, which prevents
-> > > > the Debian Installer from setting up its interface, at least on ppc64el.
-> > > > 
-> > > > It might be better to iterate on all possible nodes, but updating the
-> > > > hardcoded device from "of-display" to "of-display.0" is confirmed to fix
-> > > > the Debian Installer at the very least.
+Does your design have any bus PMU counters that can be used to measure
+DRAM bandwidth of the 3D GPU directly or even indirectly?
 
-At the time this was proposed it was said that "of-display", is wrong,
-and that "of-display.0" must be used for the first device instead, and
-if something breaks an alias can be provided.
+Regards,
 
-So how does one provide an alias so that offb can find "of-display.0" as
-"of-display"?
+Chris
 
-Thanks
-
-Michal
-
-> > > [...]
-> > > #regzbot ^introduced 241d2fb56a18
-> > > #regzbot title: Open Firmware framebuffer cannot find of-display
-> > > #regzbot link: https://bugzilla.kernel.org/show_bug.cgi?id=217328
-> > > #regzbot link: https://lore.kernel.org/all/20230412095509.2196162-1-cyril@debamax.com/T/#m34493480243a2cad2ae359abfd9db5e755f41add
-> > > #regzbot link: https://bugs.debian.org/1033058
-> > 
-> > No reply to my status inquiry[1] a few weeks ago, so I have to assume
-> > nobody cares anymore. If somebody still cares, holler!
-> 
-> I'd take a look if anyone can point me to an example of Geert's proposal.
-> 
-> Best regards
-> Thomas
-> 
-> > 
-> > #regzbot inconclusive: no answer to a status inquiry
-> > #regzbot ignore-activity
-> > 
-> > [1]
-> > https://lore.kernel.org/lkml/d1aee7d3-05f6-0920-b8e1-4ed5cf3f9f70@leemhuis.info/
-> > 
-> > Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
-> > --
-> > Everything you wanna know about Linux kernel regression tracking:
-> > https://linux-regtracking.leemhuis.info/about/#tldr
-> > If I did something stupid, please tell me, as explained on that page.
-> 
-> -- 
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
-
-
-
+On Thu, Jun 15, 2023 at 2:53=E2=80=AFAM Lucas Stach <l.stach@pengutronix.de=
+> wrote:
+>
+> Am Donnerstag, dem 15.06.2023 um 17:37 +0800 schrieb Sui Jingfeng:
+> > Hi,
+> >
+> [...]
+> > > > > > > +
+> > > > > > > +   /*
+> > > > > > > +    * Choose number of wait cycles to target a ~30us (1/3276=
+8) max latency
+> > > > > > > +    * until new work is picked up by the FE when it polls in=
+ the idle loop.
+> > > > > > > +    */
+> > > > > > > +   gpu->fe_waitcycles =3D min(gpu->base_rate_core >> (15 - g=
+pu->freq_scale),
+> > > > > > > +                            0xffffUL);
+> > > > > > This patch is NOT effective on our hardware GC1000 v5037 (ls7a1=
+000 +
+> > > > > > ls3a5000).
+> > > > > >
+> > > > > > As the gpu->base_rate_core is 0,  so, in the end gpu->fe_waitcy=
+cles is
+> > > > > > also zero.
+> > > > > >
+> > > > > Uh, that's a problem, as the patch will then have the opposite ef=
+fect
+> > > > > on your platform by speeding up the idle loop. Thanks for catchin=
+g
+> > > > > this! I'll improve the patch to keep a reasonable amount of wait =
+cycles
+> > > > > in this case.
+> > > > It's OK, no big problem as far as I can see. (it my platform's prob=
+lem,
+> > > > not your problem)
+> > > >
+> > > It will become a problem as it eats up the bandwidth that you want to
+> > > spend for real graphic work.
+> > >
+> > > > Merge it is also OK, if we found something wrong we could fix it wi=
+th a
+> > > > another patch.
+> > > >
+> > > Hmm.. I think that the fix for this problem is more or less an extra
+> > > if so I would love to see a proper fix
+> > > before this patch gets merged.
+>
+> Right, we don't merge known broken stuff. We are all humans and bugs
+> and oversights happen, but we don't knowingly regress things.
+>
+> >
+> > It just no effect(at least I can't find).
+> >
+> > I have tried, The score of glmark2 does not change, not become better,
+> > not become worse.
+>
+> That's because it only affects your system when the GPU is idle but
+> isn't in runtime PM yet. If you measure the DRAM bandwidth in that time
+> window you'll see that the GPU now uses much more bandwidth, slowing
+> down other workloads.
+>
+> Regards,
+> Lucas
+>
