@@ -1,74 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11FE973213B
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 22:59:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2813732164
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 23:12:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3966310E54A;
-	Thu, 15 Jun 2023 20:59:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5ED5110E023;
+	Thu, 15 Jun 2023 21:12:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA98910E54A
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 20:59:27 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id
- 2adb3069b0e04-4f76a4c211dso3111277e87.3
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 13:59:27 -0700 (PDT)
+Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
+ [IPv6:2001:4860:4864:20::33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E99210E023;
+ Thu, 15 Jun 2023 21:12:10 +0000 (UTC)
+Received: by mail-oa1-x33.google.com with SMTP id
+ 586e51a60fabf-1a991886254so140341fac.2; 
+ Thu, 15 Jun 2023 14:12:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686862765; x=1689454765;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=niAlZljWXW/H63Y0SMOkpmVWJA4JXQOx/GZYVfHqRhM=;
- b=IZAfsnAPCywJPU6vGov8IiuC6/OwaScJ9/lcwgZmfIQ+t81KTiG8qIrf4Q9J7ow31a
- e0/BFZWJP4J1T5ji4OH0hSYdtWRyQls3po7+NhWcz4xvyi2YiVoG4Bion7fMqLczexeE
- ggZ9o0NHQdd3oltkh5+eoV8OM4Y1YAaYUpslFx4qZEbmD3pTEjp24Oe0FC/7Dv0pblL3
- lIX/ZO5eIxg7cHAp8QHOXm49JYcRqb8iSFLsnw7nm0v7XbE/qbJ97zdoMqPAowpz9f3U
- TfgSxGaXXkY5OzOKfevkEBnWgvh3lTDbYP35Fzg9i9vLq7hX1lvXYLO8EAmWKhUcteOC
- zWJA==
+ d=gmail.com; s=20221208; t=1686863529; x=1689455529;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=cYFIoxmK6/11WcQGMEd3k+GSDGPqNwcIqNk05D0COTE=;
+ b=Ctj8OnhGP2r2mDaRqVkWYkbCXLxlBOU1XnLMs2rQnEZVFtLbX4y/91GeJfTZJq5ilZ
+ BEBJVQLtXSa74ZV6v9HQtOkzjDigIp47DOIRcrHwGUcKTsqQAhkMdn1UO87Sb7Gpm7ex
+ X45UZ0QhVvOtmv5xonVSE+x+ADmFWyurK8i6hsId3TXKamH0UIU6FCtus2oYmyYc/hXN
+ aKVQWGwGuIgL3W0ZwDOUERyeYftA7rlPAK83m58oUSPJYAdDpFEgGtRYfhALMGIZvZ2b
+ gofXVCoULo3vxmDnvGTZQX+wnBV6wdCwVEVCg+rvInQGzr6Uhq9I2bWmhZs/WkNDiQrK
+ W5gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686862765; x=1689454765;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=niAlZljWXW/H63Y0SMOkpmVWJA4JXQOx/GZYVfHqRhM=;
- b=aZCC+rkhnq8LuOwhKi/hzPKrFg1a4/AZKKGIiZQ6BS3Qz/gzqsjC8ZVheJ3vIXJXP6
- nQgu0ybT2DBixQGSOI9sGu5bWOAg4euYiKKoViiBBtqXIjl1xtrcecopUtD7UL0ayYBC
- d+Z5Su7QHXeKH8CBmOSpPoZFdgjaShHrk+bRMdISTdoxkT+vqCWjZZftJO1wsh3RhK1M
- f8LbTG3t0+2UP5PCne8nEBooCE1OIE1eSl+i8Jst8SKIpyVWS3A+zNvmXhIKHeZi93Xb
- eMBEHI5zmp0V+POapvM9GXYlxMjgGUlVHufFDyu9jzNWx1WMnHWgoiNxN/Ugaptiqr4u
- tFHA==
-X-Gm-Message-State: AC+VfDxehSigKXTqu+2wOIUV2ePfZSYIhX8s54M5Agid6/bXpLdW4zK+
- 5GhrjSIi9FRdxwFmnroR854Gig==
-X-Google-Smtp-Source: ACHHUZ5iut2/IQev9V/2oWiVW8z3ctcktYp59vG5CrqEkxtz2aEQV7PRsrNmDdJcBnuil92PLjjKQQ==
-X-Received: by 2002:a19:d611:0:b0:4f7:434b:70b4 with SMTP id
- n17-20020a19d611000000b004f7434b70b4mr7568688lfg.41.1686862765535; 
- Thu, 15 Jun 2023 13:59:25 -0700 (PDT)
-Received: from [192.168.1.101] (abyj190.neoplus.adsl.tpnet.pl. [83.9.29.190])
- by smtp.gmail.com with ESMTPSA id
- c26-20020ac244ba000000b004ec8b638115sm2700798lfm.193.2023.06.15.13.59.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Jun 2023 13:59:25 -0700 (PDT)
-Message-ID: <e0141f93-b3d8-cc3e-7b2d-32618351ba10@linaro.org>
-Date: Thu, 15 Jun 2023 22:59:23 +0200
+ d=1e100.net; s=20221208; t=1686863529; x=1689455529;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cYFIoxmK6/11WcQGMEd3k+GSDGPqNwcIqNk05D0COTE=;
+ b=jfVVE6xAZdVxNcuxdOj0IBv7br7cvBdPcsUViwbPRbPROC8oLbRo4J+nYzUJyjl5dG
+ ayVkSLOBarNeI+KP0iy20FVKOfN9GDjuF9fUkdg85iqrTueQuTv0wAXz7Iqs2NYstyNt
+ jy5wQYDInLvG4S6IrfCaQGr2Sq2fhrjAgAMvkWPs0cP6DNkm0fydTgqXyMCU75V2/iXY
+ Ul4KjIaS+OCsz8EogjdLHK6CCa2dNaBv4a7O08dwuOwc0al8V5t/k8BiNjdaM/K/ohDu
+ +MILem1sdHOF21AM25/9cF2An4VO8Fq+qgnfriEnVEB+178C7XLgA0iHGRDYGVK0ayXe
+ 8nEw==
+X-Gm-Message-State: AC+VfDz/MOd3CB5EbHtRPqe66VpVcSiW57b8XpQGqoiYOgHDY6sZPrtk
+ CNY64h0vlkx/ncUOk6DKR21HIKmSvcmVAzq2fm0=
+X-Google-Smtp-Source: ACHHUZ4RQOzLkRBT57QFtwfdt42rHQTpRvSKNUguWsVJUC9l4YMVkHjXvUxUEmpNf+dIqOqbJjieNSEhAcMqJy+p5M0=
+X-Received: by 2002:a05:6871:6ba6:b0:19f:ad5a:f518 with SMTP id
+ zh38-20020a0568716ba600b0019fad5af518mr274084oab.25.1686863529246; Thu, 15
+ Jun 2023 14:12:09 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v8 07/18] drm/msm/a6xx: Add a helper for
- software-resetting the GPU
-Content-Language: en-US
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-References: <20230223-topic-gmuwrapper-v8-0-69c68206609e@linaro.org>
- <20230223-topic-gmuwrapper-v8-7-69c68206609e@linaro.org>
- <jplt5g5xuphbnci73pdtaxd63fguxtgtp4c37kc7ehavzrjbau@kamshezxnvgy>
- <001d7571-5e9f-4f60-f6d0-35806a3e51c5@linaro.org>
- <rd4mte26n22xlgx5umerpgr66b4wfi7mdm6ovszafyinrg3q4c@g227oj3nh2vc>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <rd4mte26n22xlgx5umerpgr66b4wfi7mdm6ovszafyinrg3q4c@g227oj3nh2vc>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230613030151.216625-1-15330273260@189.cn>
+ <20230613030151.216625-3-15330273260@189.cn>
+ <dbf0d89f-717a-1f78-aef2-f30506751d4d@loongson.cn>
+In-Reply-To: <dbf0d89f-717a-1f78-aef2-f30506751d4d@loongson.cn>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 15 Jun 2023 17:11:58 -0400
+Message-ID: <CADnq5_N6vVtzH6tzguZdHnP_TdRoG1G-Cr94O+X03jvtk=vhag@mail.gmail.com>
+Subject: Re: [PATCH v7 2/8] PCI/VGA: Deal only with VGA class devices
+To: Sui Jingfeng <suijingfeng@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,122 +70,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>
+Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sui Jingfeng <15330273260@189.cn>, amd-gfx@lists.freedesktop.org,
+ linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15.06.2023 22:11, Akhil P Oommen wrote:
-> On Thu, Jun 15, 2023 at 12:34:06PM +0200, Konrad Dybcio wrote:
->>
->> On 6.06.2023 19:18, Akhil P Oommen wrote:
->>> On Mon, May 29, 2023 at 03:52:26PM +0200, Konrad Dybcio wrote:
->>>>
->>>> Introduce a6xx_gpu_sw_reset() in preparation for adding GMU wrapper
->>>> GPUs and reuse it in a6xx_gmu_force_off().
->>>>
->>>> This helper, contrary to the original usage in GMU code paths, adds
->>>> a write memory barrier which together with the necessary delay should
->>>> ensure that the reset is never deasserted too quickly due to e.g. OoO
->>>> execution going crazy.
->>>>
->>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->>>> ---
->>>>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c |  3 +--
->>>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 11 +++++++++++
->>>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.h |  1 +
->>>>  3 files changed, 13 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
->>>> index b86be123ecd0..5ba8cba69383 100644
->>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
->>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
->>>> @@ -899,8 +899,7 @@ static void a6xx_gmu_force_off(struct a6xx_gmu *gmu)
->>>>  	a6xx_bus_clear_pending_transactions(adreno_gpu, true);
->>>>  
->>>>  	/* Reset GPU core blocks */
->>>> -	gpu_write(gpu, REG_A6XX_RBBM_SW_RESET_CMD, 1);
->>>> -	udelay(100);
->>>> +	a6xx_gpu_sw_reset(gpu, true);
->>>>  }
->>>>  
->>>>  static void a6xx_gmu_set_initial_freq(struct msm_gpu *gpu, struct a6xx_gmu *gmu)
->>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>>> index e3ac3f045665..083ccb5bcb4e 100644
->>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>>> @@ -1634,6 +1634,17 @@ void a6xx_bus_clear_pending_transactions(struct adreno_gpu *adreno_gpu, bool gx_
->>>>  	gpu_write(gpu, REG_A6XX_GBIF_HALT, 0x0);
->>>>  }
->>>>  
->>>> +void a6xx_gpu_sw_reset(struct msm_gpu *gpu, bool assert)
->>>> +{
->>>> +	gpu_write(gpu, REG_A6XX_RBBM_SW_RESET_CMD, assert);
->>>> +	/* Add a barrier to avoid bad surprises */
->>> Can you please make this comment a bit more clear? Highlight that we
->>> should ensure the register is posted at hw before polling.
->>>
->>> I think this barrier is required only during assert.
->> Generally it should not be strictly required at all, but I'm thinking
->> that it'd be good to keep it in both cases, so that:
->>
->> if (assert)
->> 	we don't keep writing things to the GPU if it's in reset
->> else
->> 	we don't start writing things to the GPU becomes it comes
->> 	out of reset
->>
->> Also, if you squint hard enough at the commit message, you'll notice
->> I intended for this so only be a wmb, but for some reason generalized
->> it.. Perhaps that's another thing I should fix!
->> for v9..
-> 
-> wmb() doesn't provide any ordering guarantee with the delay loop.
-Hm, fair.. I'm still not as fluent with memory access knowledge as I'd
-like to be..
+On Wed, Jun 14, 2023 at 6:50=E2=80=AFAM Sui Jingfeng <suijingfeng@loongson.=
+cn> wrote:
+>
+> Hi,
+>
+> On 2023/6/13 11:01, Sui Jingfeng wrote:
+> > From: Sui Jingfeng <suijingfeng@loongson.cn>
+> >
+> > Deal only with the VGA devcie(pdev->class =3D=3D 0x0300), so replace th=
+e
+> > pci_get_subsys() function with pci_get_class(). Filter the non-PCI disp=
+lay
+> > device(pdev->class !=3D 0x0300) out. There no need to process the non-d=
+isplay
+> > PCI device.
+> >
+> > Cc: Bjorn Helgaas <bhelgaas@google.com>
+> > Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> > ---
+> >   drivers/pci/vgaarb.c | 22 ++++++++++++----------
+> >   1 file changed, 12 insertions(+), 10 deletions(-)
+> >
+> > diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+> > index c1bc6c983932..22a505e877dc 100644
+> > --- a/drivers/pci/vgaarb.c
+> > +++ b/drivers/pci/vgaarb.c
+> > @@ -754,10 +754,6 @@ static bool vga_arbiter_add_pci_device(struct pci_=
+dev *pdev)
+> >       struct pci_dev *bridge;
+> >       u16 cmd;
+> >
+> > -     /* Only deal with VGA class devices */
+> > -     if ((pdev->class >> 8) !=3D PCI_CLASS_DISPLAY_VGA)
+> > -             return false;
+> > -
+>
+> Hi, here is probably a bug fixing.
+>
+> For an example, nvidia render only GPU typically has 0x0380.
+>
+> at its PCI class number, but  render only GPU should not participate in
+> the arbitration.
+>
+> As it shouldn't snoop the legacy fixed VGA address.
+>
+> It(render only GPU) can not display anything.
+>
+>
+> But 0x0380 >> 8 =3D 0x03, the filter  failed.
+>
+>
+> >       /* Allocate structure */
+> >       vgadev =3D kzalloc(sizeof(struct vga_device), GFP_KERNEL);
+> >       if (vgadev =3D=3D NULL) {
+> > @@ -1500,7 +1496,9 @@ static int pci_notify(struct notifier_block *nb, =
+unsigned long action,
+> >       struct pci_dev *pdev =3D to_pci_dev(dev);
+> >       bool notify =3D false;
+> >
+> > -     vgaarb_dbg(dev, "%s\n", __func__);
+> > +     /* Only deal with VGA class devices */
+> > +     if (pdev->class !=3D PCI_CLASS_DISPLAY_VGA << 8)
+> > +             return 0;
+>
+> So here we only care 0x0300, my initial intent is to make an optimization=
+,
+>
+> nowadays sane display graphic card should all has 0x0300 as its PCI
+> class number, is this complete right?
+>
+> ```
+>
+> #define PCI_BASE_CLASS_DISPLAY        0x03
+> #define PCI_CLASS_DISPLAY_VGA        0x0300
+> #define PCI_CLASS_DISPLAY_XGA        0x0301
+> #define PCI_CLASS_DISPLAY_3D        0x0302
+> #define PCI_CLASS_DISPLAY_OTHER        0x0380
+>
+> ```
+>
+> Any ideas ?
 
-> A common practice is to just read back the same register before
-> the loop because a readl followed by delay() is guaranteed to be ordered.
-So, how should I proceed? Keep the r/w barrier, or add a readback and
-a tiiiny (perhaps even using ndelay instead of udelay?) delay on de-assert?
+I'm not quite sure what you are asking about here.  For vga_arb, we
+only care about VGA class devices since those should be on the only
+ones that might have VGA routed to them.  However, as VGA gets
+deprecated, you'll have more non VGA PCI classes for devices which
+could be the pre-OS console device.
 
-Konrad
-> 
-> -Akhil.
->>
->> Konrad
->>>
->>> -Akhil.
->>>> +	mb();
->>>> +
->>>> +	/* The reset line needs to be asserted for at least 100 us */
->>>> +	if (assert)
->>>> +		udelay(100);
->>>> +}
->>>> +
->>>>  static int a6xx_pm_resume(struct msm_gpu *gpu)
->>>>  {
->>>>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
->>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
->>>> index 9580def06d45..aa70390ee1c6 100644
->>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
->>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
->>>> @@ -89,5 +89,6 @@ struct msm_gpu_state *a6xx_gpu_state_get(struct msm_gpu *gpu);
->>>>  int a6xx_gpu_state_put(struct msm_gpu_state *state);
->>>>  
->>>>  void a6xx_bus_clear_pending_transactions(struct adreno_gpu *adreno_gpu, bool gx_off);
->>>> +void a6xx_gpu_sw_reset(struct msm_gpu *gpu, bool assert);
->>>>  
->>>>  #endif /* __A6XX_GPU_H__ */
->>>>
->>>> -- 
->>>> 2.40.1
->>>>
+Alex
+
+>
+> >       /* For now we're only intereted in devices added and removed. I d=
+idn't
+> >        * test this thing here, so someone needs to double check for the
+> > @@ -1510,6 +1508,8 @@ static int pci_notify(struct notifier_block *nb, =
+unsigned long action,
+> >       else if (action =3D=3D BUS_NOTIFY_DEL_DEVICE)
+> >               notify =3D vga_arbiter_del_pci_device(pdev);
+> >
+> > +     vgaarb_dbg(dev, "%s: action =3D %lu\n", __func__, action);
+> > +
+> >       if (notify)
+> >               vga_arbiter_notify_clients();
+> >       return 0;
+> > @@ -1534,8 +1534,8 @@ static struct miscdevice vga_arb_device =3D {
+> >
+> >   static int __init vga_arb_device_init(void)
+> >   {
+> > +     struct pci_dev *pdev =3D NULL;
+> >       int rc;
+> > -     struct pci_dev *pdev;
+> >
+> >       rc =3D misc_register(&vga_arb_device);
+> >       if (rc < 0)
+> > @@ -1545,11 +1545,13 @@ static int __init vga_arb_device_init(void)
+> >
+> >       /* We add all PCI devices satisfying VGA class in the arbiter by
+> >        * default */
+> > -     pdev =3D NULL;
+> > -     while ((pdev =3D
+> > -             pci_get_subsys(PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID,
+> > -                            PCI_ANY_ID, pdev)) !=3D NULL)
+> > +     while (1) {
+> > +             pdev =3D pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, pdev);
+> > +             if (!pdev)
+> > +                     break;
+> > +
+> >               vga_arbiter_add_pci_device(pdev);
+> > +     }
+> >
+> >       pr_info("loaded\n");
+> >       return rc;
+>
+> --
+> Jingfeng
+>
