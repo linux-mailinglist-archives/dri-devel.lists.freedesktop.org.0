@@ -1,71 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAC02730CFE
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 04:02:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A3BE730D57
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 04:47:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ED9C10E0FE;
-	Thu, 15 Jun 2023 02:02:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7220210E172;
+	Thu, 15 Jun 2023 02:47:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83DE110E0FE
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 02:02:24 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id
- 38308e7fff4ca-2b344476313so19649501fa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 19:02:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1686794540; x=1689386540;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yWURV6WhlNOJavnCVMftL3VNvBn19BVJFQP7jTmgUlQ=;
- b=ArrfkEDaBmcPXNaVY2jSil6n5a1beS0dAzgKkhBM9DC8N/08MJzw7c4Vdjex1oLRgW
- ZHZuQf9OyQfy+YmkO37VuHCF9erYw0MMt4L29trmfFWzKvCjSqyrFydWbyZvIbk4Jk/O
- 9xO8n7rlmzfHs/7qtUkvGNfBqct8kuaZNFWHk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686794540; x=1689386540;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yWURV6WhlNOJavnCVMftL3VNvBn19BVJFQP7jTmgUlQ=;
- b=DOXczsijVH4mrU53tCIq6+hucl++Xh2PV0BH3wtJAQ46qjh6Plrhful34QKmHb5OPP
- JlYPgWEzOykPdz3H4Wn+x9umL7RBBYkimJX1z1qzAUzBR1snbK4IohHMLmOpUNv3RlDW
- WKUMu2dTD1axSY8+wBqT+gOK5liIsfJb7/UYKUdBOsRxt7JTWL4fQ4Y5NIzE/JkGhq4O
- +ahsNPnk16SHlSJaU0UU+GH84U5LydfKN3IgSo1Ws3SYImMAAS4vPqqvMaOn6UwxoQBM
- wVBHi6B5Audml0YsOJgbb/KOXF65bs4du1ktfn2U1CdNjN26x0q18cZrnnQJISsrNZ+F
- G/IA==
-X-Gm-Message-State: AC+VfDz9s9rtl4g884bvzf0rZl8QWRLEF6/jkHlJC/Ckgg26qO8vKwz5
- ntYgZURdsQrMTkLccL8sdpmx+rEhC39gu7T4GF4EQYk+
-X-Google-Smtp-Source: ACHHUZ4ZmvBmwivFkx4kKevIc4t/LOgpt6ZcIAK/Zv+edVffeoy8cG6P4XjDnTTKXe8I0hlKu48oLw==
-X-Received: by 2002:a2e:8e91:0:b0:2b4:44fe:a6d7 with SMTP id
- z17-20020a2e8e91000000b002b444fea6d7mr248819ljk.21.1686794539793; 
- Wed, 14 Jun 2023 19:02:19 -0700 (PDT)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com.
- [209.85.167.42]) by smtp.gmail.com with ESMTPSA id
- i1-20020a2e9401000000b002b323126037sm1874322ljh.81.2023.06.14.19.02.18
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Jun 2023 19:02:18 -0700 (PDT)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-4f76386e0daso918e87.1
- for <dri-devel@lists.freedesktop.org>; Wed, 14 Jun 2023 19:02:18 -0700 (PDT)
-X-Received: by 2002:a05:6512:79:b0:4f7:5f7d:2f9b with SMTP id
- i25-20020a056512007900b004f75f7d2f9bmr35250lfo.1.1686794538084; Wed, 14 Jun
- 2023 19:02:18 -0700 (PDT)
+X-Greylist: delayed 345 seconds by postgrey-1.36 at gabe;
+ Thu, 15 Jun 2023 02:47:11 UTC
+Received: from us-smtp-delivery-44.mimecast.com (unknown [207.211.30.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E137910E172
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 02:47:11 +0000 (UTC)
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-572-i5oqHeJeOiOVgDHvcUPtEA-1; Wed, 14 Jun 2023 22:40:11 -0400
+X-MC-Unique: i5oqHeJeOiOVgDHvcUPtEA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C2F05800A15
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 02:40:10 +0000 (UTC)
+Received: from nomad.redhat.com (vpn2-54-59.bne.redhat.com [10.64.54.59])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BE718492CA6
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 02:40:09 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] nouveau: fix client work fence deletion race
+Date: Thu, 15 Jun 2023 12:40:08 +1000
+Message-Id: <20230615024008.1600281-1-airlied@gmail.com>
 MIME-Version: 1.0
-References: <20230612182527.3345786-1-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230612182527.3345786-1-dmitry.baryshkov@linaro.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 14 Jun 2023 19:02:05 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VoF0TKnC5Yuwmt90UZORCZonO3mS74T3X50Oz22TwT2A@mail.gmail.com>
-Message-ID: <CAD=FV=VoF0TKnC5Yuwmt90UZORCZonO3mS74T3X50Oz22TwT2A@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/adreno: make adreno_is_a690()'s argument const
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: gmail.com
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,36 +51,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Dave Airlie <airlied@redhat.com>
 
-On Mon, Jun 12, 2023 at 11:25=E2=80=AFAM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> Change adreno_is_a690() prototype to accept the const struct adreno_gpu
-> pointer instead of a non-const one. This fixes the following warning:
->
-> In file included from drivers/gpu/drm/msm/msm_drv.c:33:
-> drivers/gpu/drm/msm/adreno/adreno_gpu.h: In function =E2=80=98adreno_is_a=
-660_family=E2=80=99:
-> drivers/gpu/drm/msm/adreno/adreno_gpu.h:303:54: warning: passing argument=
- 1 of =E2=80=98adreno_is_a690=E2=80=99 discards =E2=80=98const=E2=80=99 qua=
-lifier from pointer target type [-Wdiscarded-qualifiers]
->   303 |         return adreno_is_a660(gpu) || adreno_is_a690(gpu) || adre=
-no_is_7c3(gpu);
->
-> Fixes: 1b90e8f8879c ("drm/msm/adreno: change adreno_is_* functions to acc=
-ept const argument")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/msm/adreno/adreno_gpu.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+This seems to have existed for ever but is now more apparant after
+9bff18d13473a9fdf81d5158248472a9d8ecf2bd (drm/ttm: use per BO cleanup worke=
+rs)
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+My analysis:
+two threads are running,
+one in the irq signalling the fence, in dma_fence_signal_timestamp_locked,
+it has done the DMA_FENCE_FLAG_SIGNALLED_BIT setting, but hasn't yet reache=
+d the callbacks.
+
+second thread in nouveau_cli_work_ready, where it sees the fence is signall=
+ed, so then puts the
+fence, cleanups the object and frees the work item, which contains the call=
+back.
+
+thread one goes again and tries to call the callback and causes the use-aft=
+er-free.
+
+Proposed fix:
+lock the fence signalled check in nouveau_cli_work_ready, so either the cal=
+lbacks are done
+or the memory is freed.
+
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ drivers/gpu/drm/nouveau/nouveau_drm.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouvea=
+u/nouveau_drm.c
+index cc7c5b4a05fd..1a45be769848 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_drm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
+@@ -137,10 +137,16 @@ nouveau_name(struct drm_device *dev)
+ static inline bool
+ nouveau_cli_work_ready(struct dma_fence *fence)
+ {
+-=09if (!dma_fence_is_signaled(fence))
+-=09=09return false;
+-=09dma_fence_put(fence);
+-=09return true;
++=09unsigned long flags;
++=09bool ret =3D true;
++=09spin_lock_irqsave(fence->lock, flags);
++=09if (!dma_fence_is_signaled_locked(fence))
++=09=09ret =3D false;
++=09spin_unlock_irqrestore(fence->lock, flags);
++
++=09if (ret =3D=3D true)
++=09=09dma_fence_put(fence);
++=09return ret;
+ }
+=20
+ static void
+--=20
+2.40.1
+
