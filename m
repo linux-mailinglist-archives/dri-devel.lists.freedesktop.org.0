@@ -2,64 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A40E731990
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 15:06:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7933E7319CF
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 15:21:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2099110E4E6;
-	Thu, 15 Jun 2023 13:06:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2D1F10E4F2;
+	Thu, 15 Jun 2023 13:21:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 134EB10E4F5
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 13:06:34 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C0721223ED;
- Thu, 15 Jun 2023 13:06:29 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F66310E4F2
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 13:21:12 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out2.suse.de (Postfix) with ESMTP id F03FC1FE25;
+ Thu, 15 Jun 2023 13:21:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1686834389; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1686835269; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YPwlg25jLGaHT3oj2DubbGYtU0RJM6ImkkU7cEnCagg=;
- b=THle+G0AQvH4k9UPtgierHCbRY7nXJDDCl4OFDcuMVKru5VFjhIrIDBHQdH+Z0O4YfrIou
- vcMvavvY/ib/0o4hnZgPxE/oQE1GHrSD6gcKuojcferz/KPcHDMFMDUzJjX2aOoKmbGwtz
- cT90VGcEzSEmSjwH3L4YhjFWoz8wFbY=
+ bh=TrVNR5YBg7mfkrE02t70Ms3cyqfx5tB2TFuYK+7EJkI=;
+ b=x/BdWHOHkWe2WasV/pUvs6obH6QCcDJL6X4sZDdDzsGJKh2/QN5RP6/uKkrzcdxOfmGx6G
+ ZAkzuMFtKPlPuSMKANhspyGgv80chC6Ev7l+XKI6XkB0zI/872e1MTOJdpiut6a+xBa57H
+ 494DAKP8zoffySmOZZw3ByypJtZqviY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1686834389;
+ s=susede2_ed25519; t=1686835269;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YPwlg25jLGaHT3oj2DubbGYtU0RJM6ImkkU7cEnCagg=;
- b=Ot2Hg7P/MPe+PboV3rKSt/pFxiHOzjFNo139/UwcXQssONiu/NZqgBjx3xARILGrxa4T9N
- 6SKsJOrOxDp/XgCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=TrVNR5YBg7mfkrE02t70Ms3cyqfx5tB2TFuYK+7EJkI=;
+ b=+xll9ijtwX96g7AzQiIdJfrQ3zYgYisepLW5uvPXb0b3Xqsa3KMdadP8uVU1OHh9Nrhjho
+ X5Mrj6byHVxCJtAQ==
+Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8FD4913467;
- Thu, 15 Jun 2023 13:06:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ck3ZIdUMi2T1SAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 15 Jun 2023 13:06:29 +0000
-Message-ID: <fe3b90b0-b52f-9677-0245-a201975c3e0c@suse.de>
-Date: Thu, 15 Jun 2023 15:06:28 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
+ by relay2.suse.de (Postfix) with ESMTPS id 279FF2C141;
+ Thu, 15 Jun 2023 13:21:09 +0000 (UTC)
+Date: Thu, 15 Jun 2023 15:21:07 +0200
+From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>
 Subject: Re: [PATCH 1/2] fbdev/offb: Update expected device name
-Content-Language: en-US
-To: Linux regressions mailing list <regressions@lists.linux.dev>,
- Salvatore Bonaccorso <carnil@debian.org>, Cyril Brulebois <cyril@debamax.com>
+Message-ID: <20230615132107.GA9196@kitsune.suse.cz>
 References: <20230412095509.2196162-1-cyril@debamax.com>
- <20230412095509.2196162-2-cyril@debamax.com> <ZDvrY7X9mpJ7WZ3z@eldamar.lan>
+ <20230412095509.2196162-2-cyril@debamax.com>
+ <ZDvrY7X9mpJ7WZ3z@eldamar.lan>
  <11b342dc-1a46-d1be-5fdd-c6eee661e15a@leemhuis.info>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <11b342dc-1a46-d1be-5fdd-c6eee661e15a@leemhuis.info>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------MIFWyohkbRqZtPZHrrSmrfsA"
+ <fe3b90b0-b52f-9677-0245-a201975c3e0c@suse.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <fe3b90b0-b52f-9677-0245-a201975c3e0c@suse.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,95 +66,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Michal Suchanek <msuchanek@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org,
+ Linux regressions mailing list <regressions@lists.linux.dev>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Cyril Brulebois <cyril@debamax.com>, stable@vger.kernel.org,
+ Salvatore Bonaccorso <carnil@debian.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------MIFWyohkbRqZtPZHrrSmrfsA
-Content-Type: multipart/mixed; boundary="------------5nyOBEXATYgsVY80Vv7FLhml";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Linux regressions mailing list <regressions@lists.linux.dev>,
- Salvatore Bonaccorso <carnil@debian.org>, Cyril Brulebois <cyril@debamax.com>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
- Michal Suchanek <msuchanek@suse.de>
-Message-ID: <fe3b90b0-b52f-9677-0245-a201975c3e0c@suse.de>
-Subject: Re: [PATCH 1/2] fbdev/offb: Update expected device name
-References: <20230412095509.2196162-1-cyril@debamax.com>
- <20230412095509.2196162-2-cyril@debamax.com> <ZDvrY7X9mpJ7WZ3z@eldamar.lan>
- <11b342dc-1a46-d1be-5fdd-c6eee661e15a@leemhuis.info>
-In-Reply-To: <11b342dc-1a46-d1be-5fdd-c6eee661e15a@leemhuis.info>
+Hello,
 
---------------5nyOBEXATYgsVY80Vv7FLhml
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Thu, Jun 15, 2023 at 03:06:28PM +0200, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 15.06.23 um 15:03 schrieb Linux regression tracking (Thorsten Leemhuis):
+> > On 16.04.23 14:34, Salvatore Bonaccorso wrote:
+> > > 
+> > > On Wed, Apr 12, 2023 at 11:55:08AM +0200, Cyril Brulebois wrote:
+> > > > Since commit 241d2fb56a18 ("of: Make OF framebuffer device names unique"),
+> > > > as spotted by Frédéric Bonnard, the historical "of-display" device is
+> > > > gone: the updated logic creates "of-display.0" instead, then as many
+> > > > "of-display.N" as required.
+> > > > 
+> > > > This means that offb no longer finds the expected device, which prevents
+> > > > the Debian Installer from setting up its interface, at least on ppc64el.
+> > > > 
+> > > > It might be better to iterate on all possible nodes, but updating the
+> > > > hardcoded device from "of-display" to "of-display.0" is confirmed to fix
+> > > > the Debian Installer at the very least.
 
-SGkNCg0KQW0gMTUuMDYuMjMgdW0gMTU6MDMgc2NocmllYiBMaW51eCByZWdyZXNzaW9uIHRy
-YWNraW5nIChUaG9yc3RlbiBMZWVtaHVpcyk6DQo+IE9uIDE2LjA0LjIzIDE0OjM0LCBTYWx2
-YXRvcmUgQm9uYWNjb3JzbyB3cm90ZToNCj4+DQo+PiBPbiBXZWQsIEFwciAxMiwgMjAyMyBh
-dCAxMTo1NTowOEFNICswMjAwLCBDeXJpbCBCcnVsZWJvaXMgd3JvdGU6DQo+Pj4gU2luY2Ug
-Y29tbWl0IDI0MWQyZmI1NmExOCAoIm9mOiBNYWtlIE9GIGZyYW1lYnVmZmVyIGRldmljZSBu
-YW1lcyB1bmlxdWUiKSwNCj4+PiBhcyBzcG90dGVkIGJ5IEZyw6lkw6lyaWMgQm9ubmFyZCwg
-dGhlIGhpc3RvcmljYWwgIm9mLWRpc3BsYXkiIGRldmljZSBpcw0KPj4+IGdvbmU6IHRoZSB1
-cGRhdGVkIGxvZ2ljIGNyZWF0ZXMgIm9mLWRpc3BsYXkuMCIgaW5zdGVhZCwgdGhlbiBhcyBt
-YW55DQo+Pj4gIm9mLWRpc3BsYXkuTiIgYXMgcmVxdWlyZWQuDQo+Pj4NCj4+PiBUaGlzIG1l
-YW5zIHRoYXQgb2ZmYiBubyBsb25nZXIgZmluZHMgdGhlIGV4cGVjdGVkIGRldmljZSwgd2hp
-Y2ggcHJldmVudHMNCj4+PiB0aGUgRGViaWFuIEluc3RhbGxlciBmcm9tIHNldHRpbmcgdXAg
-aXRzIGludGVyZmFjZSwgYXQgbGVhc3Qgb24gcHBjNjRlbC4NCj4+Pg0KPj4+IEl0IG1pZ2h0
-IGJlIGJldHRlciB0byBpdGVyYXRlIG9uIGFsbCBwb3NzaWJsZSBub2RlcywgYnV0IHVwZGF0
-aW5nIHRoZQ0KPj4+IGhhcmRjb2RlZCBkZXZpY2UgZnJvbSAib2YtZGlzcGxheSIgdG8gIm9m
-LWRpc3BsYXkuMCIgaXMgY29uZmlybWVkIHRvIGZpeA0KPj4+IHRoZSBEZWJpYW4gSW5zdGFs
-bGVyIGF0IHRoZSB2ZXJ5IGxlYXN0Lg0KPj4gWy4uLl0NCj4+ICNyZWd6Ym90IF5pbnRyb2R1
-Y2VkIDI0MWQyZmI1NmExOA0KPj4gI3JlZ3pib3QgdGl0bGU6IE9wZW4gRmlybXdhcmUgZnJh
-bWVidWZmZXIgY2Fubm90IGZpbmQgb2YtZGlzcGxheQ0KPj4gI3JlZ3pib3QgbGluazogaHR0
-cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMTczMjgNCj4+ICNy
-ZWd6Ym90IGxpbms6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FsbC8yMDIzMDQxMjA5NTUw
-OS4yMTk2MTYyLTEtY3lyaWxAZGViYW1heC5jb20vVC8jbTM0NDkzNDgwMjQzYTJjYWQyYWUz
-NTlhYmZkOWRiNWU3NTVmNDFhZGQNCj4+ICNyZWd6Ym90IGxpbms6IGh0dHBzOi8vYnVncy5k
-ZWJpYW4ub3JnLzEwMzMwNTgNCj4gDQo+IE5vIHJlcGx5IHRvIG15IHN0YXR1cyBpbnF1aXJ5
-WzFdIGEgZmV3IHdlZWtzIGFnbywgc28gSSBoYXZlIHRvIGFzc3VtZQ0KPiBub2JvZHkgY2Fy
-ZXMgYW55bW9yZS4gSWYgc29tZWJvZHkgc3RpbGwgY2FyZXMsIGhvbGxlciENCg0KSSdkIHRh
-a2UgYSBsb29rIGlmIGFueW9uZSBjYW4gcG9pbnQgbWUgdG8gYW4gZXhhbXBsZSBvZiBHZWVy
-dCdzIHByb3Bvc2FsLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiAjcmVnemJv
-dCBpbmNvbmNsdXNpdmU6IG5vIGFuc3dlciB0byBhIHN0YXR1cyBpbnF1aXJ5DQo+ICNyZWd6
-Ym90IGlnbm9yZS1hY3Rpdml0eQ0KPiANCj4gWzFdDQo+IGh0dHBzOi8vbG9yZS5rZXJuZWwu
-b3JnL2xrbWwvZDFhZWU3ZDMtMDVmNi0wOTIwLWI4ZTEtNGVkNWNmM2Y5ZjcwQGxlZW1odWlz
-LmluZm8vDQo+IA0KPiBDaWFvLCBUaG9yc3RlbiAod2VhcmluZyBoaXMgJ3RoZSBMaW51eCBr
-ZXJuZWwncyByZWdyZXNzaW9uIHRyYWNrZXInIGhhdCkNCj4gLS0NCj4gRXZlcnl0aGluZyB5
-b3Ugd2FubmEga25vdyBhYm91dCBMaW51eCBrZXJuZWwgcmVncmVzc2lvbiB0cmFja2luZzoN
-Cj4gaHR0cHM6Ly9saW51eC1yZWd0cmFja2luZy5sZWVtaHVpcy5pbmZvL2Fib3V0LyN0bGRy
-DQo+IElmIEkgZGlkIHNvbWV0aGluZyBzdHVwaWQsIHBsZWFzZSB0ZWxsIG1lLCBhcyBleHBs
-YWluZWQgb24gdGhhdCBwYWdlLg0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGlj
-cyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdt
-YkgNCkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjog
-SXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2Vy
-bWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
+At the time this was proposed it was said that "of-display", is wrong,
+and that "of-display.0" must be used for the first device instead, and
+if something breaks an alias can be provided.
 
---------------5nyOBEXATYgsVY80Vv7FLhml--
+So how does one provide an alias so that offb can find "of-display.0" as
+"of-display"?
 
---------------MIFWyohkbRqZtPZHrrSmrfsA
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Thanks
 
------BEGIN PGP SIGNATURE-----
+Michal
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSLDNQFAwAAAAAACgkQlh/E3EQov+Db
-kQ/+KGqbOla/cqP49fzHPrd8Zbcp2WJaa6P1g8Ygr6U92wVzKB5XaGdUSBaD9tJsOC4LQKwRDoGW
-mLeM4ubyCw7mZyTkg/Uy7J9PctsQlxOuolsW6hkQ0Ubl0SaFyQ2sPUMJINz7lTFmP4KzqRM1/AdE
-O/q67Jh5QbA9Dmr1nxOxkOZbhz8k/KsuQMcrc7FmyXqfr60OPBhwumx7chWfxeKZYIh/9RSQEQEs
-mGnbmxC4tTxOHspJpP0yBy4GN/ebQhS+53r4KH9B561FBsXMEEnZLBEbdrB0J0MQ7szIsqHyzuEa
-uSZgjVvp8Jr2IdD6kHjL1TfikTVRGwNzgiiWvwew8nAEPuQ7KNUuuxDzF2H5jRdjlHLoY0b4nakL
-s5ESzr8BOCcAqIqdlmupyXgQslxSwkcRHXWGYh99Nl45ONStGqjOv6s6LKJO6gIOLNjKdwK38e87
-mO4WeCl23Wx6P/M5//6g20lS0yV5RwhQoXgCUvJhsvFYjt7gXLo/0qDLbGz9zKK6MeR19j0w3sGK
-+apq/u/K4VqUNX806CHnNY4xejQ9713vlvmOHXay2yAtaRJ57avpx9XAdNfOT4p6HKicdsvpn3Db
-palLXstjkp/G06TbjLqaV+lqmAgSOsrMB1Js2C9k5tcCh/fKF1XIf7f9sXFAs8x9AWKs75eQcjuD
-HGk=
-=iH2J
------END PGP SIGNATURE-----
+> > > [...]
+> > > #regzbot ^introduced 241d2fb56a18
+> > > #regzbot title: Open Firmware framebuffer cannot find of-display
+> > > #regzbot link: https://bugzilla.kernel.org/show_bug.cgi?id=217328
+> > > #regzbot link: https://lore.kernel.org/all/20230412095509.2196162-1-cyril@debamax.com/T/#m34493480243a2cad2ae359abfd9db5e755f41add
+> > > #regzbot link: https://bugs.debian.org/1033058
+> > 
+> > No reply to my status inquiry[1] a few weeks ago, so I have to assume
+> > nobody cares anymore. If somebody still cares, holler!
+> 
+> I'd take a look if anyone can point me to an example of Geert's proposal.
+> 
+> Best regards
+> Thomas
+> 
+> > 
+> > #regzbot inconclusive: no answer to a status inquiry
+> > #regzbot ignore-activity
+> > 
+> > [1]
+> > https://lore.kernel.org/lkml/d1aee7d3-05f6-0920-b8e1-4ed5cf3f9f70@leemhuis.info/
+> > 
+> > Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+> > --
+> > Everything you wanna know about Linux kernel regression tracking:
+> > https://linux-regtracking.leemhuis.info/about/#tldr
+> > If I did something stupid, please tell me, as explained on that page.
+> 
+> -- 
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
 
---------------MIFWyohkbRqZtPZHrrSmrfsA--
+
+
