@@ -2,66 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2E3B7316A9
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 13:31:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9A4A7316B1
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 13:32:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C64C10E4D9;
-	Thu, 15 Jun 2023 11:31:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A4B310E4CF;
+	Thu, 15 Jun 2023 11:32:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1932D10E4D1
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 11:31:34 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id
- 38308e7fff4ca-2b448470602so5419821fa.2
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 04:31:34 -0700 (PDT)
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A08310E4D3
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 11:31:35 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id
+ 38308e7fff4ca-2b4491aaf4dso3478071fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 04:31:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686828692; x=1689420692;
+ d=linaro.org; s=google; t=1686828693; x=1689420693;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=70uYOl22od6voBT++PO0PloxqsuILnAv+rJj4oS0Q5U=;
- b=JLeyIJZxnpVHC3jQwlds4ko3NwjIUHoLiSFmDPH9ZXv0XPS6TQ717WiJlKIY0ymaDv
- gTV2pR0kfwphmwKiPsSgwodV7AcsW2CInL712psWsqWfvF/fD4FgR3t7mBUIntqDgoZd
- bnY6NA/AvyNZ6lmkyZhVnpmHcCJSfZIAM71On2h+KYCyqilFGx4/dil3oq+tv9HNIynE
- 4efo5Tl5+Pg12RNUw8ztzxHaYItnuD8pO3srvL0YoiflNO6RMUA72osBEDDxmlY6sVnd
- qc3uNxJBLY7OkiYtZQtMhQ7M5wy/7mnrBRzYxPTW4+YrdXhqVCBX2YvZbI9jttdpN/nx
- TVUQ==
+ bh=X+ILs23VDjH7i7mI0fWXkAKxSZYuahl0zC/MkJHloGo=;
+ b=oBiIi9gL+Ha0pHIzfHmW/7IOVMZlbHpTc/+wAIG44AGSF0P1uWif0rGXRZTyBssYkA
+ V+WbCm9NDmllkjGF70Zn7iT9dEESwti8/ea6lOjXknjXWnlIdcdEtn1c04w/WF3wZp+O
+ PrtokjcpASYKEvQpDhpEML9TfrqdorSYf/xxoIT1r0PLWLitfbl6DLMi8D0ItVExEBU/
+ CtFb0kKDu7Jp+LQlpkmfXjeGAuRRXBMJAMiv1NGIj6+CwVP2iK8fUcSXYxGxevnC2fq/
+ Ef17W77iU2XqYXY1mmr1bHUqxj+yu7slUFSIpIzRPP5d+W0CDnA9Zog4ShpmVf2kbcU7
+ Ww9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686828692; x=1689420692;
+ d=1e100.net; s=20221208; t=1686828693; x=1689420693;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=70uYOl22od6voBT++PO0PloxqsuILnAv+rJj4oS0Q5U=;
- b=MT3PVIB53ouzCEYQlh0bo+pqm+qqhqw4sgzyFaatD89i3cLkuPMyJLR1SlxcqKT+8+
- KKksL2x41OrXl2VWe+QmehfmMli7Smhl8oFhhzUJghO5IV6pJTb+gkyIaDzJ6/tFIqpO
- q/TZCNmTk/9RRj58mwE878HACEJpCpD6BuLTaaK3Li/PAD64rtuq//eBhGXz7pb8gbQ+
- LDpybmrw3u5xVYoQAlUts4Trem8xuowdQZqi95q+MQDt+2CbI/+XshbNAT/AES+/YiQG
- quMmmejMRCz+SMGf7+StKwRitwZJHr4U8WEVsyl8Q0MibiBwIZIuDKdbPqs8ugY6YoLd
- tnHQ==
-X-Gm-Message-State: AC+VfDxWthNv43Zo1wrLw1T1p0X9VweH923Bty9+5Nj1/G0LVzklcLId
- 2gQici0tLub+w3PdjzL3PKR2dgv+G/JXTZNBvAU=
-X-Google-Smtp-Source: ACHHUZ5Li3AXk78OUM4vR7rskyjT/kylPI5nBf3KDCjoapmUh5UQ5ppn5e5dUqqp32J7YHO0DEY3cg==
-X-Received: by 2002:a2e:9582:0:b0:2b1:c7f7:188d with SMTP id
- w2-20020a2e9582000000b002b1c7f7188dmr8807832ljh.23.1686828692640; 
- Thu, 15 Jun 2023 04:31:32 -0700 (PDT)
+ bh=X+ILs23VDjH7i7mI0fWXkAKxSZYuahl0zC/MkJHloGo=;
+ b=ciitLbZgTzUBSnAabvryGCshc+VZIz0NVHH3PD4eZvNJ1uO0cBNP7V7f+cyRrDDuiM
+ U/3ySeK2KPDaxHX0UhW1u3mCQ8YYAuzmzu87J5Uc2CDLWukQyC2sSsb0bcZLaJ3CYcn9
+ 0fhUJE9JkrkaaVXTJCbrC5kqXkC2TvBknHakeo5QRzKD/T/vIUfWkCuZYojXOMsf95Sg
+ onG2TYmdNiW63IkNArUrPRZk2Ngsz0Q+SQelbHNjXBMRO7qQFYkv47b6d4xLQdl6qMng
+ 23PLLhC1UqhRlPVFoOnNsIX2+j3hw/05MsZ/j1GRUmvloQJeuyCYow9+sQnQBb66HrGH
+ m3vg==
+X-Gm-Message-State: AC+VfDy6iFEieXJ1S9KbHqE5xyLDFoJMYDIoIvQsVximKW11LR/17c5i
+ /ih5PJYpOvUb86pXpBV/8HsfcA==
+X-Google-Smtp-Source: ACHHUZ4G6b++G23dV54nFY5x9tcMqhFvU20QUp8NmqaFOrwRhPMRIe/TRaOFAfk5OmkSzRvi+EYcrw==
+X-Received: by 2002:a2e:91c6:0:b0:2b4:430a:83f3 with SMTP id
+ u6-20020a2e91c6000000b002b4430a83f3mr1385560ljg.53.1686828693628; 
+ Thu, 15 Jun 2023 04:31:33 -0700 (PDT)
 Received: from eriador.lan (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a0db:1f00::8a5]) by smtp.gmail.com with ESMTPSA id
- y12-20020a2e320c000000b002b345f71039sm860525ljy.36.2023.06.15.04.31.31
+ y12-20020a2e320c000000b002b345f71039sm860525ljy.36.2023.06.15.04.31.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Jun 2023 04:31:32 -0700 (PDT)
+ Thu, 15 Jun 2023 04:31:33 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v2 00/22]drm/msm/dpu: another catalog rework
-Date: Thu, 15 Jun 2023 14:31:22 +0300
-Message-Id: <168682860384.384026.9850510984858511761.b4-ty@linaro.org>
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Johan Hovold <johan+linaro@kernel.org>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>
+Subject: Re: [PATCH] drm/msm/dp: Drop aux devices together with DP controller
+Date: Thu, 15 Jun 2023 14:31:23 +0300
+Message-Id: <168682860385.384026.4498168865636345708.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230613001004.3426676-1-dmitry.baryshkov@linaro.org>
-References: <20230613001004.3426676-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230612220106.1884039-1-quic_bjorande@quicinc.com>
+References: <20230612220106.1884039-1-quic_bjorande@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -77,31 +78,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Vinod Polimera <quic_vpolimer@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Tue, 13 Jun 2023 03:09:39 +0300, Dmitry Baryshkov wrote:
-> Having a macro with 10 arguments doesn't seem like a good idea. It makes
-> it inherently harder to compare the actual structure values. Also this
-> leads to adding macros covering varieties of the block.
+On Mon, 12 Jun 2023 15:01:06 -0700, Bjorn Andersson wrote:
+> Using devres to depopulate the aux bus made sure that upon a probe
+> deferral the EDP panel device would be destroyed and recreated upon next
+> attempt.
 > 
-> As it was previously discussed, inline all foo_BLK macros in order to
-> ease performing changes to the catalog data.
+> But the struct device which the devres is tied to is the DPUs
+> (drm_dev->dev), which may be happen after the DP controller is torn
+> down.
 > 
 > [...]
 
 Applied, thanks!
 
-[01/22] drm/msm/dpu: fix sc7280 and sc7180 PINGPONG done interrupts
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/5efc0fec31d8
-[02/22] drm/msm/dpu: correct MERGE_3D length
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/f01fb5e211fd
-[03/22] drm/msm/dpu: remove unused INTF_NONE interfaces
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/17bf6f8efc50
+[1/1] drm/msm/dp: Drop aux devices together with DP controller
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/a7bfb2ad2184
 
 Best regards,
 -- 
