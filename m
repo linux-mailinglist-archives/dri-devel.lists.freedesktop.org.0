@@ -1,62 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D5DE73142C
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 11:37:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B147073142F
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 11:38:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7E6F10E4A8;
-	Thu, 15 Jun 2023 09:37:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3AE110E4AA;
+	Thu, 15 Jun 2023 09:38:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id CCCA210E4A8;
- Thu, 15 Jun 2023 09:37:44 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8AxW+rl24pkTIIFAA--.11817S3;
- Thu, 15 Jun 2023 17:37:42 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Ax6OTl24pkp9EbAA--.13538S3; 
- Thu, 15 Jun 2023 17:37:41 +0800 (CST)
-Message-ID: <b69671a6-4d4a-b1ee-784e-e21bd8f5558c@loongson.cn>
-Date: Thu, 15 Jun 2023 17:37:41 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: drm/etnaviv: slow down FE idle polling
-Content-Language: en-US
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6729610E4AA
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 09:38:01 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1q9jQT-00073g-PQ; Thu, 15 Jun 2023 11:37:57 +0200
+Message-ID: <10d769fb8eb39b439b3cc793664a242e443261a7.camel@pengutronix.de>
+Subject: Re: [PATCH 3/8] drm/etnaviv: move runtime PM handling to events
+From: Lucas Stach <l.stach@pengutronix.de>
 To: Christian Gmeiner <christian.gmeiner@gmail.com>
-References: <20230607125932.3518547-1-l.stach@pengutronix.de>
- <8c36b8bc-5a0d-75f7-265c-b0191979165a@loongson.cn>
- <d17de4ebfd08faa23238ece2ad0b737bf271498b.camel@pengutronix.de>
- <36946504-45c3-f0bc-3e4a-9106d9f4a2dd@loongson.cn>
- <CAH9NwWeB-MudNvuyuH1kUNiyWQTZ5Y4fuiB4uNKtutCKL3EZPg@mail.gmail.com>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <CAH9NwWeB-MudNvuyuH1kUNiyWQTZ5Y4fuiB4uNKtutCKL3EZPg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Ax6OTl24pkp9EbAA--.13538S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxuw1DJr1xJF17XFW8Zw13GFX_yoWxGw4DpF
- 45KF4YyF1qvryUKw42qwn8JF13K3ZrWFyv9ryDJ3sF9ws0yF1qgr1UCFs8Wr98Ar1fWr42
- qr15Gr9rWF1YyrXCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUPab4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
- xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
- AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
- XVWUAwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
- 8JMxk0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vI
- r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67
- AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIY
- rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
- v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWx
- JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUc3kuDU
- UUU
+Date: Thu, 15 Jun 2023 11:37:56 +0200
+In-Reply-To: <CAH9NwWfj0CKm3Q_bVjWi7PhhWfxQxeGfu1mo9bWdSe7xXrRW_w@mail.gmail.com>
+References: <20230607130223.3533464-1-l.stach@pengutronix.de>
+ <20230607130223.3533464-3-l.stach@pengutronix.de>
+ <CAH9NwWfj0CKm3Q_bVjWi7PhhWfxQxeGfu1mo9bWdSe7xXrRW_w@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,167 +48,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+Cc: kernel@pengutronix.de, patchwork-lst@pengutronix.de,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Christian,
 
-On 2023/6/15 17:20, Christian Gmeiner wrote:
-> Hi
->
-> Am Do., 15. Juni 2023 um 11:16 Uhr schrieb Sui Jingfeng
-> <suijingfeng@loongson.cn>:
->> Hi,
->>
->> On 2023/6/15 17:04, Lucas Stach wrote:
->>> Am Donnerstag, dem 15.06.2023 um 12:09 +0800 schrieb Sui Jingfeng:
->>>> Hi,
->>>>
->>>> On 2023/6/7 20:59, Lucas Stach wrote:
->>>>> Currently the FE is spinning way too fast when polling for new work in
->>>> 'way' -> 'away'
->>>>> the FE idleloop.
->>>> 'idleloop' -> 'idle loop'
->>>>>     As each poll fetches 16 bytes from memory, a GPU running
->>>>> at 1GHz with the current setting of 200 wait cycle between fetches causes
->>>>> 80 MB/s of memory traffic just to check for new work when the GPU is
->>>>> otherwise idle, which is more FE traffic than in some GPU loaded cases.
->>>>>
->>>>> Significantly increase the number of wait cycles to slow down the poll
->>>>> interval to ~30µs, limiting the FE idle memory traffic to 512 KB/s, while
->>>>> providing a max latency which should not hurt most use-cases. The FE WAIT
->>>>> command seems to have some unknown discrete steps in the wait cycles
->>>> add a comma here.
->>>>>     so
->>>>> we may over/undershoot the target a bit, but that should be harmless.
->>>> overshoot or undershoot
->>>>> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
->>>>> Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
->>>>> ---
->>>>>     drivers/gpu/drm/etnaviv/etnaviv_buffer.c | 11 ++++++-----
->>>>>     drivers/gpu/drm/etnaviv/etnaviv_gpu.c    |  7 +++++++
->>>>>     drivers/gpu/drm/etnaviv/etnaviv_gpu.h    |  1 +
->>>>>     3 files changed, 14 insertions(+), 5 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
->>>>> index cf741c5c82d2..384df1659be6 100644
->>>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
->>>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
->>>>> @@ -53,11 +53,12 @@ static inline void CMD_END(struct etnaviv_cmdbuf *buffer)
->>>>>      OUT(buffer, VIV_FE_END_HEADER_OP_END);
->>>>>     }
->>>>>
->>>>> -static inline void CMD_WAIT(struct etnaviv_cmdbuf *buffer)
->>>>> +static inline void CMD_WAIT(struct etnaviv_cmdbuf *buffer,
->>>>> +                       unsigned int waitcycles)
->>>>>     {
->>>>>      buffer->user_size = ALIGN(buffer->user_size, 8);
->>>>>
->>>>> -   OUT(buffer, VIV_FE_WAIT_HEADER_OP_WAIT | 200);
->>>>> +   OUT(buffer, VIV_FE_WAIT_HEADER_OP_WAIT | waitcycles);
->>>>>     }
->>>>>
->>>>>     static inline void CMD_LINK(struct etnaviv_cmdbuf *buffer,
->>>>> @@ -168,7 +169,7 @@ u16 etnaviv_buffer_init(struct etnaviv_gpu *gpu)
->>>>>      /* initialize buffer */
->>>>>      buffer->user_size = 0;
->>>>>
->>>>> -   CMD_WAIT(buffer);
->>>>> +   CMD_WAIT(buffer, gpu->fe_waitcycles);
->>>>>      CMD_LINK(buffer, 2,
->>>>>               etnaviv_cmdbuf_get_va(buffer, &gpu->mmu_context->cmdbuf_mapping)
->>>>>               + buffer->user_size - 4);
->>>>> @@ -320,7 +321,7 @@ void etnaviv_sync_point_queue(struct etnaviv_gpu *gpu, unsigned int event)
->>>>>      CMD_END(buffer);
->>>>>
->>>>>      /* Append waitlink */
->>>>> -   CMD_WAIT(buffer);
->>>>> +   CMD_WAIT(buffer, gpu->fe_waitcycles);
->>>>>      CMD_LINK(buffer, 2,
->>>>>               etnaviv_cmdbuf_get_va(buffer, &gpu->mmu_context->cmdbuf_mapping)
->>>>>               + buffer->user_size - 4);
->>>>> @@ -503,7 +504,7 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
->>>>>
->>>>>      CMD_LOAD_STATE(buffer, VIVS_GL_EVENT, VIVS_GL_EVENT_EVENT_ID(event) |
->>>>>                     VIVS_GL_EVENT_FROM_PE);
->>>>> -   CMD_WAIT(buffer);
->>>>> +   CMD_WAIT(buffer, gpu->fe_waitcycles);
->>>>>      CMD_LINK(buffer, 2,
->>>>>               etnaviv_cmdbuf_get_va(buffer, &gpu->mmu_context->cmdbuf_mapping)
->>>>>               + buffer->user_size - 4);
->>>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
->>>>> index 41aab1aa330b..8c20dff32240 100644
->>>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
->>>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
->>>>> @@ -493,6 +493,13 @@ static void etnaviv_gpu_update_clock(struct etnaviv_gpu *gpu)
->>>>>              clock |= VIVS_HI_CLOCK_CONTROL_FSCALE_VAL(fscale);
->>>>>              etnaviv_gpu_load_clock(gpu, clock);
->>>>>      }
->>>>> +
->>>>> +   /*
->>>>> +    * Choose number of wait cycles to target a ~30us (1/32768) max latency
->>>>> +    * until new work is picked up by the FE when it polls in the idle loop.
->>>>> +    */
->>>>> +   gpu->fe_waitcycles = min(gpu->base_rate_core >> (15 - gpu->freq_scale),
->>>>> +                            0xffffUL);
->>>> This patch is NOT effective on our hardware GC1000 v5037 (ls7a1000 +
->>>> ls3a5000).
->>>>
->>>> As the gpu->base_rate_core is 0,  so, in the end gpu->fe_waitcycles is
->>>> also zero.
->>>>
->>> Uh, that's a problem, as the patch will then have the opposite effect
->>> on your platform by speeding up the idle loop. Thanks for catching
->>> this! I'll improve the patch to keep a reasonable amount of wait cycles
->>> in this case.
->> It's OK, no big problem as far as I can see. (it my platform's problem,
->> not your problem)
->>
-> It will become a problem as it eats up the bandwidth that you want to
-> spend for real graphic work.
->
->> Merge it is also OK, if we found something wrong we could fix it with a
->> another patch.
->>
-> Hmm.. I think that the fix for this problem is more or less an extra
-> if so I would love to see a proper fix
-> before this patch gets merged.
+Am Mittwoch, dem 14.06.2023 um 20:41 +0200 schrieb Christian Gmeiner:
+> Hi Lucas
+>=20
+> >=20
+> > Conceptually events are the right abstraction to handle the GPU
+> > runtime PM state: as long as any event is pending the GPU can not
+> > be idle. Events are also properly freed and reallocated when the
+> > GPU has been reset after a hang.
+> >=20
+> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> > ---
+> >  drivers/gpu/drm/etnaviv/etnaviv_gem.h        |  1 -
+> >  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |  3 ---
+> >  drivers/gpu/drm/etnaviv/etnaviv_gpu.c        | 27 ++++++++++++--------
+> >  3 files changed, 16 insertions(+), 15 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/et=
+naviv/etnaviv_gem.h
+> > index baa81cbf701a..a42d260cac2c 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+> > @@ -97,7 +97,6 @@ struct etnaviv_gem_submit {
+> >         struct list_head node; /* GPU active submit list */
+> >         struct etnaviv_cmdbuf cmdbuf;
+> >         struct pid *pid;       /* submitting process */
+> > -       bool runtime_resumed;
+> >         u32 exec_state;
+> >         u32 flags;
+> >         unsigned int nr_pmrs;
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu=
+/drm/etnaviv/etnaviv_gem_submit.c
+> > index 45403ea38906..2416c526f9b0 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> > @@ -362,9 +362,6 @@ static void submit_cleanup(struct kref *kref)
+> >                         container_of(kref, struct etnaviv_gem_submit, r=
+efcount);
+> >         unsigned i;
+> >=20
+> > -       if (submit->runtime_resumed)
+> > -               pm_runtime_put_autosuspend(submit->gpu->dev);
+> > -
+> >         if (submit->cmdbuf.suballoc)
+> >                 etnaviv_cmdbuf_free(&submit->cmdbuf);
+> >=20
+> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/et=
+naviv/etnaviv_gpu.c
+> > index 4e18aa8566c6..54a1249c5bca 100644
+> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > @@ -1139,7 +1139,8 @@ static int event_alloc(struct etnaviv_gpu *gpu, u=
+nsigned nr_events,
+> >         unsigned int *events)
+> >  {
+> >         unsigned long timeout =3D msecs_to_jiffies(10 * 10000);
+> > -       unsigned i, acquired =3D 0;
+> > +       unsigned i, acquired =3D 0, rpm_count =3D 0;
+>=20
+> rpm is the short form of runtime power management?
+>=20
+Yes, it's used in this way in multiple places in the kernel. Do you
+think it's clear enough from the code what's going on to keep it that
+way or should I change it to a longer name?
 
-It just no effect(at least I can't find).
+Regards,
+Lucas
 
-I have tried, The score of glmark2 does not change, not become better, 
-not become worse.
-
->>> Regards,
->>> Lucas
->>>
->>>> But after apply this path, the glmark2 still run happily, no influence. So
->>>>
->>>>
->>>> Tested-by: Sui Jingfeng <suijingfeng@loongson.cn>
->>>>
->>>>>     }
->>>>>
->>>>>     static int etnaviv_hw_reset(struct etnaviv_gpu *gpu)
->>>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
->>>>> index 98c6f9c320fc..e1e1de59c38d 100644
->>>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
->>>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
->>>>> @@ -150,6 +150,7 @@ struct etnaviv_gpu {
->>>>>      struct clk *clk_shader;
->>>>>
->>>>>      unsigned int freq_scale;
->>>>> +   unsigned int fe_waitcycles;
->>>>>      unsigned long base_rate_core;
->>>>>      unsigned long base_rate_shader;
->>>>>     };
->> --
->> Jingfeng
->>
->
--- 
-Jingfeng
+> > +       int ret;
+> >=20
+> >         for (i =3D 0; i < nr_events; i++) {
+> >                 unsigned long ret;
+> > @@ -1148,6 +1149,7 @@ static int event_alloc(struct etnaviv_gpu *gpu, u=
+nsigned nr_events,
+> >=20
+> >                 if (!ret) {
+> >                         dev_err(gpu->dev, "wait_for_completion_timeout =
+failed");
+> > +                       ret =3D -EBUSY;
+> >                         goto out;
+> >                 }
+> >=20
+> > @@ -1167,13 +1169,23 @@ static int event_alloc(struct etnaviv_gpu *gpu,=
+ unsigned nr_events,
+> >=20
+> >         spin_unlock(&gpu->event_spinlock);
+> >=20
+> > +       for (i =3D 0; i < nr_events; i++) {
+> > +               ret =3D pm_runtime_resume_and_get(gpu->dev);
+> > +               if (ret)
+> > +                       goto out_rpm;
+> > +               rpm_count++;
+> > +       }
+> > +
+> >         return 0;
+> >=20
+> > +out_rpm:
+> > +       for (i =3D 0; i < rpm_count; i++)
+> > +               pm_runtime_put_autosuspend(gpu->dev);
+> >  out:
+> >         for (i =3D 0; i < acquired; i++)
+> >                 complete(&gpu->event_free);
+> >=20
+> > -       return -EBUSY;
+> > +       return ret;
+> >  }
+> >=20
+> >  static void event_free(struct etnaviv_gpu *gpu, unsigned int event)
+> > @@ -1185,6 +1197,8 @@ static void event_free(struct etnaviv_gpu *gpu, u=
+nsigned int event)
+> >                 clear_bit(event, gpu->event_bitmap);
+> >                 complete(&gpu->event_free);
+> >         }
+> > +
+> > +       pm_runtime_put_autosuspend(gpu->dev);
+> >  }
+> >=20
+> >  /*
+> > @@ -1327,15 +1341,6 @@ struct dma_fence *etnaviv_gpu_submit(struct etna=
+viv_gem_submit *submit)
+> >         unsigned int i, nr_events =3D 1, event[3];
+> >         int ret;
+> >=20
+> > -       if (!submit->runtime_resumed) {
+> > -               ret =3D pm_runtime_get_sync(gpu->dev);
+> > -               if (ret < 0) {
+> > -                       pm_runtime_put_noidle(gpu->dev);
+> > -                       return NULL;
+> > -               }
+> > -               submit->runtime_resumed =3D true;
+> > -       }
+> > -
+> >         /*
+> >          * if there are performance monitor requests we need to have
+> >          * - a sync point to re-configure gpu and process ETNA_PM_PROCE=
+SS_PRE
+> > --
+> > 2.39.2
+> >=20
+>=20
+>=20
 
