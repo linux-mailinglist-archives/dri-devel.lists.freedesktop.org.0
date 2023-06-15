@@ -1,80 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2D6C7311C7
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 10:09:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6B2973127C
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 10:42:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FF9A10E497;
-	Thu, 15 Jun 2023 08:09:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B986510E189;
+	Thu, 15 Jun 2023 08:42:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9B5210E497
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 08:09:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1686816558; cv=none;
- d=strato.com; s=strato-dkim-0002;
- b=CM7X1acMlB9WU8dvRzsFaeuR+Zxu4lSplpwEgbSpugUa9RAg2qqohuAnJAoqe8ZAhF
- 6pPANXYTQH9flPD4cWTmMgVPfXT83mP1DUIZgqMqTyGvYptaP5EMXyktTqJkUKwrHkog
- K+D33JWQkJmx+bwHHWXgoDQ98IvEMkso2v0y3VpwchWop/OoT9ZzRbLwFGYdu02vTTGV
- ywdG5X7y6IPwO3v6poPLO+NHEmdfpuHJKZPiGIrmpdkIl4fjaAh9jyyc06sfATA7XWTz
- GtDXf/iMgnZBYUAFacExRV/40+NfkfiSGMUwL5R74oyBPy0TqAgrbFpSPPD4A5/Se6rF
- SMvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1686816558;
- s=strato-dkim-0002; d=strato.com;
- h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
- From:Subject:Sender;
- bh=fHWWafcLE6QbxDZMj4uI+BLupiwN2GnJnfQh/hNxH3w=;
- b=EilZDXPgL9RnXrs4Q7bb79kSb+2Y9saXgDc5xqj6kXL0/7zFSLob8W7rcyJPmZCLbJ
- KJ9CyeBMGPwN4WaydiABVLlViwq5cXGIdPn+su4Lw1wuI/diBmcx1dF6PLKtzLd86aut
- ZGD5A2nLamYb56Pwmv2WjTGX255u6Oyu1QuRQKggUGDdgzdfxB08r8wVPyrsnFx1qBQ1
- ipHmc2bYGUbhDCByXlA27mjFFS9hzKRKx3cuvuk9VRxMm+6chG/Up64Na14bOu+nteiP
- mji12lqb8bzyZOZqdmtlrBy3xabd8hVduUgSYQOltkQXa87cKBJ5LCjn6Z5fKvbgzl0D
- 6yzQ==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1686816558;
- s=strato-dkim-0002; d=gerhold.net;
- h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
- From:Subject:Sender;
- bh=fHWWafcLE6QbxDZMj4uI+BLupiwN2GnJnfQh/hNxH3w=;
- b=fYekLnWK/msIk09f0xVngrxb/OzQleVapVWg8qySgcFjEdgLF919n2Apkg3Upqa450
- o/h2jP/g2cyoLffYtEllyfHjHhTmSI5RS9/7RUalT3wK9xxt2/hDKvSF8ddLzEw7aChx
- CICeaH1+kkxzvKjmXk9DxDwtIUDFhCUocCLBWUS00/hi+vZr1T/UuRLAdzlpiMvntFzD
- n9lyltZarnb2oZLE1mLKIoAY8lYsdqCVhD9RARrQF8X4dPUCreMQWh5Dnr5RRGvCLEI5
- rGn0MQ5zkKIyGV+m02w5VcrAKo3PBUavQ1ifEQkasdblhLttKJVyHyMX+7CWRcCeYBU7
- P+uQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1686816558;
- s=strato-dkim-0003; d=gerhold.net;
- h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
- From:Subject:Sender;
- bh=fHWWafcLE6QbxDZMj4uI+BLupiwN2GnJnfQh/hNxH3w=;
- b=8W/5Wst501Ovg8dERHZTLgFkDKd47TFrLgU6DVM53Ic/bnegN1+Mlaw9glGzNOUn2m
- YV7Z6Evh/7EWHjGD8wCQ==
-X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQ/OcYgojyw4j34+u261EJF5OxJD4paA9J/h"
-Received: from gerhold.net by smtp.strato.de (RZmta 49.6.0 DYNA|AUTH)
- with ESMTPSA id D0d0a8z5F89H1vN
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Thu, 15 Jun 2023 10:09:17 +0200 (CEST)
-Date: Thu, 15 Jun 2023 10:09:11 +0200
-From: Stephan Gerhold <stephan@gerhold.net>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/panel: move some dsi commands from unprepare to
- disable
-Message-ID: <ZIrHJwm2-ghSUHL0@gerhold.net>
-References: <20230613-panel-dsi-disable-v1-1-5e454e409fa8@linaro.org>
- <ZIjayn8nVy-ejThH@gerhold.net>
- <CACRpkdZ7a3aARMs3iBbBavF_0AkPOPs3fH8e6CrZYo7Ybr6m_A@mail.gmail.com>
- <4f78b601-6e6e-2274-3174-87c62d7cfcd5@linaro.org>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22CC210E189
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 08:42:32 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 98EDF223E4
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 08:42:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1686818548; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=efHycJ/lD5LV2Ywylv717gl2FrqBAM8c5/H54Hwx6Tk=;
+ b=IUVrVZ+sRZx5Mh5pQhQZhRv+T/jTcS6BxS6GvSevtJapu2vJ5V0dk7/4hAUoyKl1q12urT
+ L0zvWTbiAlUV0/dekG6PwGYfHx5xZf1+wPvDs8IGOqkZtQl6qpq5kGYygXbQQD8zv876Ih
+ 4E0THxdJs365075MREeCB002ydstFuI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1686818548;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=efHycJ/lD5LV2Ywylv717gl2FrqBAM8c5/H54Hwx6Tk=;
+ b=y0SL0t6+xczP0b1cKIdqfzRxD4XIY3zrBwL9p6JIBoyKlq2nJ515V7OHW7NeRvnSN7YxBd
+ iUEebOBxxQWGdOBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8AF3213467
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 08:42:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id oYz6IPTOimSpOQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>)
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 08:42:28 +0000
+Message-ID: <a56550ff-326c-00da-ac0b-29d2327fcf7b@suse.de>
+Date: Thu, 15 Jun 2023 10:42:27 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4f78b601-6e6e-2274-3174-87c62d7cfcd5@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: PSA: drm-misc-next-fixes is open
+To: dri-devel <dri-devel@lists.freedesktop.org>
+Content-Language: en-US
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------kMV0gMVrJm7gjMHB5gPbEwgl"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,85 +66,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Caleb Connolly <caleb.connolly@linaro.org>, phone-devel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Joel Selvaraj <joelselvaraj.oss@gmail.com>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, ~postmarketos/upstreaming@lists.sr.ht,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Thierry Reding <treding@nvidia.com>, Sam Ravnborg <sam@ravnborg.org>,
- Ajay Kumar <ajaykumar.rs@samsung.com>, Joel Selvaraj <jo@jsfamily.in>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 15, 2023 at 09:49:27AM +0200, Neil Armstrong wrote:
-> On 14/06/2023 22:58, Linus Walleij wrote:
-> > On Tue, Jun 13, 2023 at 11:08 PM Stephan Gerhold <stephan@gerhold.net> wrote:
-> > 
-> > > I'm still quite confused about what exactly is supposed to be in
-> > > (un)prepare and what in enable/disable. I've seen some related
-> > > discussion every now and then but it's still quite inconsistent across
-> > > different panel drivers... Can someone clarify this?
-> > 
-> > It is somewhat clarified in commit 45527d435c5e39b6eec4aa0065a562e7cf05d503
-> > that added the callbacks:
-> > 
-> > Author: Ajay Kumar <ajaykumar.rs@samsung.com>
-> > Date:   Fri Jul 18 02:13:48 2014 +0530
-> > 
-> >      drm/panel: add .prepare() and .unprepare() functions
-> > 
-> >      Panels often require an initialization sequence that consists of three
-> >      steps: a) powering up the panel, b) starting transmission of video data
-> >      and c) enabling the panel (e.g. turn on backlight). This is usually
-> >      necessary to avoid visual glitches at the beginning of video data
-> >      transmission.
-> > 
-> >      Similarly, the shutdown sequence is typically done in three steps as
-> >      well: a) disable the panel (e.g. turn off backlight), b) cease video
-> >      data transmission and c) power down the panel.
-> > 
-> >      Currently drivers can only implement .enable() and .disable() functions,
-> >      which is not enough to implement the above sequences. This commit adds a
-> >      second pair of functions, .prepare() and .unprepare() to allow more
-> >      fine-grained control over when the above steps are performed.
-> > 
-> >      Signed-off-by: Ajay Kumar <ajaykumar.rs@samsung.com>
-> >      [treding: rewrite changelog, add kerneldoc]
-> >      Signed-off-by: Thierry Reding <treding@nvidia.com>
-> > 
-> > My interpretation is that .enable/.disable is for enabling/disabling
-> > backlight and well, make things show up on the display, and that
-> > happens quickly.
-> > 
-> > prepare/unprepare is for everything else setting up/tearing down
-> > the data transmission pipeline.
-> > 
-> > In the clock subsystem the enable/disable could be called in fastpath
-> > and prepare/unprepare only from slowpath so e.g an IRQ handler
-> > can gate a simple gated clock. This semantic seems to have nothing
-> > to do with the display semantic. :/
-> 
-> It had to do, .prepare is called when the DSI link is at LP11 state
-> before it has switched to the VIDEO mode, and .unprepare is the
-> reverse when VIDEO mode has been disabled and before the DSI link
-> is totally disabled.
-> 
-> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c#L938
-> 
-> then
-> 
-> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c#L855
-> 
-> but Doug has started changing this starting with MSM DSI driver, leading to
-> current panel drivers not working anymore with the current DSI init mode
-> and requires setting pre_enable_prev_first for only some DSI hosts
-> who switched out of set_mode().
-> 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------kMV0gMVrJm7gjMHB5gPbEwgl
+Content-Type: multipart/mixed; boundary="------------kQX5F4ULPNm7rMDqfgkf4THy";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: dri-devel <dri-devel@lists.freedesktop.org>
+Message-ID: <a56550ff-326c-00da-ac0b-29d2327fcf7b@suse.de>
+Subject: PSA: drm-misc-next-fixes is open
 
-Hm, do I understand you correctly that setting
-bridge->pre_enable_prev_first / panel->prepare_prev_first should work as
-an alternative to $subject patch, at least for the MSM DSI driver? With
-it DSI commands should be possible to be sent in .unprepare()?
+--------------kQX5F4ULPNm7rMDqfgkf4THy
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Thanks,
-Stephan
+SGksDQoNCi1yYzYgaGFzIGJlZW4gdGFnZ2VkIGZvciBhIGZldyBkYXlzLiBUaGlzIG1lYW5z
+IHRoYXQgZHJtLW1pc2MtbmV4dC1maXhlcyANCmlzIG5vdyBvcGVuIGZvciBidWcgZml4ZXMs
+IGFzIGRybS1uZXh0IGlzIGluIGZlYXR1cmUgZnJlZXplIHVudGlsIHRoZSANCm5leHQgLXJj
+MSBjb21lcyBvdXQuDQoNClNvbWUgcnVsZXMgb2YgdGh1bWIgb24gd2hlcmUgdG8gbGFuZCB5
+b3VyIHBhdGNoOg0KDQogICAgICogaWYgeW91ciBwYXRjaCBmaXhlcyBhIGJ1ZyBpbiB1cHN0
+cmVhbSwgcGxlYXNlIHB1dCBpdCBpbnRvIA0KZHJtLW1pc2MtZml4ZXMsDQoNCiAgICAgKiBp
+ZiB5b3VyIHBhdGNoIGZpeGVzIGEgYnVnIGluIGRybS1uZXh0LCBwbGVhc2UgcHV0IGl0IGlu
+dG8gDQpkcm0tbWlzYy1uZXh0LWZpeGVzLA0KDQogICAgICogYW55dGhpbmcgZWxzZSwgZXNw
+ZWNpYWxseSBuZXcgZmVhdHVyZXMsIHNob3VsZCBnbyBpbnRvIGRybS1taXNjLW5leHQuDQoN
+ClRoZSBmbG93IGNoYXJ0IGlzIGF0IFsxXS4NCg0KVGhlIHRyYW5zaXRpb24gZnJvbS90byBk
+cm0tbWlzYy1maXhlcy1uZXh0IHNvbWV0aW1lcyByZXN1bHRzIGluIHBhdGNoZXMgDQp0aGF0
+IGFyZSBhcHBsaWVkIHRvIHRoZSB3cm9uZyB0cmVlIGFuZCBnZXQgc3R1Y2sgdGhlcmUgZm9y
+IGEgbG9uZyB0aW1lLiANCklmIHlvdSBoYXZlIGZpeGVzIGluIGRybS1taXNjLW5leHQgdGhh
+dCBtdXN0IGdvIGludG8gZHJtLW5leHQgc29vbiwgDQpwbGVhc2UgY2hlcnJ5LXBpY2sgdGhl
+bSBpbnRvIGRybS1taXNjLW5leHQtZml4ZXMuIFdlIGhhdmUNCg0KICAgICBkaW0gY2hlcnJ5
+LXBpY2sNCg0KdG8gaGVscCB5b3Ugd2l0aCB0aGF0Lg0KDQpCZXN0IHJlZ2FyZHMNClRob21h
+cw0KDQpbMV0gDQpodHRwczovL2RybS5wYWdlcy5mcmVlZGVza3RvcC5vcmcvbWFpbnRhaW5l
+ci10b29scy9jb21taXR0ZXItZHJtLW1pc2MuaHRtbCN3aGVyZS1kby1pLWFwcGx5LW15LXBh
+dGNoDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9w
+ZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4g
+NSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcp
+DQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+
+--------------kQX5F4ULPNm7rMDqfgkf4THy--
+
+--------------kMV0gMVrJm7gjMHB5gPbEwgl
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSKzvMFAwAAAAAACgkQlh/E3EQov+Bg
+9RAAuxs9dGXd698fskpQXwZav5nX6DUVOBkJbQx/WZSk9e+juG3KRllZOd0b/R0y9KXIaYYo5pks
+4xSgCHPfyCAgOrWxZdeeftepgbWvwMTH5o4UtFb1YrLLkL93RE54EY9CeAHe07nLJ4XmUiiHvBlR
+Y60HmMgUldZ8pip0KNg81M6jlbF8XHYBvzP99FTErjTGrEy1Hd069mZGFT/2ej2ZDnk0S+3Xod0p
+28AYw2vh8PCQ7Eg9zALdovi73jwfO8nnST5y0kJIEhnsNlTXNwTksgw+oMU3WAqKTAThKSYDUgMo
+HGtdMoC637aE9rJGozCmlVvvAQtvzT6phspIhD/nuEwA02bj/LMgpdj1nJwttfFvggk8Y2cpNgsG
+7/Efn8qAuvlnkMcxXRKj1waFlChTb0gZ12tzRVIxSCRrO409f+8uNGeC29/YO0vIGnGynVDTvKQA
+Qtkv0RHmYHT8vxbBle3F5IdiKhdI/DGFQRptBjU9mb91XWnRcW0V1x8p7XR95gL/Rca/hZihgUWp
+9EXQnGMFxJpNfSmMwExPT6jOufXRO1xXXBbS8U1aGZsD1qWMb/sE8RIuK8SobDLeoYoDQoZjNXFV
+PcT94MOZIy1V64ZZIgcE3zC4FFeUEOTaLE+10V72tHvCpcW6lbBa99WUDvmJe44gDDjnQp9nIxgX
+pGo=
+=voPC
+-----END PGP SIGNATURE-----
+
+--------------kMV0gMVrJm7gjMHB5gPbEwgl--
