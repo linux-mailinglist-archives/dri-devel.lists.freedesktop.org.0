@@ -1,41 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92AB2732090
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 22:02:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 810057320A1
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 22:09:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96C3510E0F4;
-	Thu, 15 Jun 2023 20:02:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FCAF10E532;
+	Thu, 15 Jun 2023 20:09:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B77A910E0F4
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 20:02:27 +0000 (UTC)
-Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx0.riseup.net (Postfix) with ESMTPS id 4QhtVp1q7Bz9sDL;
- Thu, 15 Jun 2023 20:02:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1686859346; bh=NndVBmjsXJLkW9ub4DGuKnzSRuHTS56pDFVe2jVqG4g=;
- h=From:To:Cc:Subject:Date:From;
- b=VUJeS5/KFZ6T+kTaT9KcDgavE4z2W4Tq+xAVJX95bMcygIisvs2Y3BRQE5ZfdrA3P
- 9mGCl/x70l/lE0I171Fk1xILls7+HT9mJDZ69VdCPQQZRK1oyB7nOT86l89WC0/kbD
- Vu8AA7ry9D5yLnTThOKNRulpkLrkyQ7B7jVH5wSY=
-X-Riseup-User-ID: C5372CF0D9107D7DF541A7FB78F320E698B812EFC8112279AA2FF824490CA60F
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4QhtVR27BgzJntJ;
- Thu, 15 Jun 2023 20:02:06 +0000 (UTC)
-From: Arthur Grillo <arthurgrillo@riseup.net>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3] drm/vkms: Add support to 1D gamma LUT
-Date: Thu, 15 Jun 2023 17:01:57 -0300
-Message-Id: <20230615200157.960630-1-arthurgrillo@riseup.net>
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com
+ [209.85.166.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EE6910E532
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 20:09:04 +0000 (UTC)
+Received: by mail-il1-f175.google.com with SMTP id
+ e9e14a558f8ab-3408217cd66so12812195ab.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 13:09:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686859744; x=1689451744;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=aTfjaS0IPEiXuHhWcjsCm7WS5mqkvAN6gaYW2Bcvzz4=;
+ b=Knkc/3JZJcWYse5CyfwNgSCZZZmjBVhRSzMX8VmYB8woWqTB7ca8lZ/ZlTOZXbf3HZ
+ 2jKoETbt40x2y1GYWdiuXZrvRp25+Ug0FD9IjYDukAm8mgHL4FDzDVEJcOxmc1gCHTNN
+ MUuxD8K11Uf0OXlMQbMbSOE3V+6n9U+ziij0LtCTK/2U+HNs0BVw90U+BdHYlR27bkB3
+ TL3dYp0YV3jSRdvnkX4B9YZf9qNr4AhfaA+/VR8mY4fqpICCuMiQMo7Yf+KYymXdWpwt
+ HGeshD3hWDvMGJWOEZ7t0RTpn/hmju2Jb0z3IKX1DNfShj6Mripk7ZDAB1+vqZTnPAMf
+ zQxA==
+X-Gm-Message-State: AC+VfDyYyk/0rMvTR9dyofplmt06isbNExaEty36wjwnFs7qLEP9wweY
+ sr7W7bD2Rpt749GIgqDJfw==
+X-Google-Smtp-Source: ACHHUZ79LfJp9RkPNTpyZJ5OtyEoIgIYPICSHb+vRi8hTHwBhSpMqkvv/DethS+ipksLPiMZ71fxMQ==
+X-Received: by 2002:a92:d3c3:0:b0:340:6984:cc6f with SMTP id
+ c3-20020a92d3c3000000b003406984cc6fmr478157ilh.3.1686859744059; 
+ Thu, 15 Jun 2023 13:09:04 -0700 (PDT)
+Received: from robh_at_kernel.org ([64.188.179.250])
+ by smtp.gmail.com with ESMTPSA id
+ g24-20020a056638061800b004166c24e30dsm5685797jar.32.2023.06.15.13.09.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Jun 2023 13:09:03 -0700 (PDT)
+Received: (nullmailer pid 1586553 invoked by uid 1000);
+ Thu, 15 Jun 2023 20:09:01 -0000
+Date: Thu, 15 Jun 2023 14:09:01 -0600
+From: Rob Herring <robh@kernel.org>
+To: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+Subject: Re: [PATCH 1/2] fbdev/offb: Update expected device name
+Message-ID: <20230615200901.GA1572644-robh@kernel.org>
+References: <20230412095509.2196162-1-cyril@debamax.com>
+ <20230412095509.2196162-2-cyril@debamax.com>
+ <ZDvrY7X9mpJ7WZ3z@eldamar.lan>
+ <11b342dc-1a46-d1be-5fdd-c6eee661e15a@leemhuis.info>
+ <fe3b90b0-b52f-9677-0245-a201975c3e0c@suse.de>
+ <20230615132107.GA9196@kitsune.suse.cz>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230615132107.GA9196@kitsune.suse.cz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,259 +69,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, aleixpol@kde.org, andrealmeid@riseup.net,
- pekka.paalanen@collabora.com, rodrigosiqueiramelo@gmail.com,
- xaver.hugl@gmail.com, mdaenzer@redhat.com, victoria@system76.com,
- mwen@igalia.com, mairacanal@riseup.net, jadahl@redhat.com,
- uma.shankar@intel.com, sebastian.wick@redhat.com,
- Arthur Grillo <arthurgrillo@riseup.net>, joshua@froggi.es
+Cc: linux-fbdev@vger.kernel.org,
+ Linux regressions mailing list <regressions@lists.linux.dev>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Cyril Brulebois <cyril@debamax.com>, stable@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Salvatore Bonaccorso <carnil@debian.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Support a 1D gamma LUT with interpolation for each color channel on the
-VKMS driver. Add a check for the LUT length by creating
-vkms_atomic_check().
+On Thu, Jun 15, 2023 at 03:21:07PM +0200, Michal Suchánek wrote:
+> Hello,
+> 
+> On Thu, Jun 15, 2023 at 03:06:28PM +0200, Thomas Zimmermann wrote:
+> > Hi
+> > 
+> > Am 15.06.23 um 15:03 schrieb Linux regression tracking (Thorsten Leemhuis):
+> > > On 16.04.23 14:34, Salvatore Bonaccorso wrote:
+> > > > 
+> > > > On Wed, Apr 12, 2023 at 11:55:08AM +0200, Cyril Brulebois wrote:
+> > > > > Since commit 241d2fb56a18 ("of: Make OF framebuffer device names unique"),
+> > > > > as spotted by Frédéric Bonnard, the historical "of-display" device is
+> > > > > gone: the updated logic creates "of-display.0" instead, then as many
+> > > > > "of-display.N" as required.
+> > > > > 
+> > > > > This means that offb no longer finds the expected device, which prevents
+> > > > > the Debian Installer from setting up its interface, at least on ppc64el.
+> > > > > 
+> > > > > It might be better to iterate on all possible nodes, but updating the
+> > > > > hardcoded device from "of-display" to "of-display.0" is confirmed to fix
+> > > > > the Debian Installer at the very least.
+> 
+> At the time this was proposed it was said that "of-display", is wrong,
+> and that "of-display.0" must be used for the first device instead, and
+> if something breaks an alias can be provided.
+> 
+> So how does one provide an alias so that offb can find "of-display.0" as
+> "of-display"?
 
-Tested with:
-igt@kms_color@gamma
-igt@kms_color@legacy-gamma
-igt@kms_color@invalid-gamma-lut-sizes
+I'm not aware of any way. There isn't because device names and paths are 
+not considered ABI. There are mechanisms for getting stable class device 
+indices (e.g. i2c0, mmcblk0, fb0, fb1, etc.) though not implemented for 
+fbN (and please don't add it). 
 
-v2:
-    - Add interpolation between the values of the LUT (Simon Ser)
+In any case, this should be an easy fix. Though if "linux,opened" or 
+"linux,boot-display" is not set, then you'd still get "of-display.0":
 
-v3:
-    - s/ratio/delta (Pekka)
-    - s/color_channel/channel_value (Pekka)
-    - s/lut_area/lut_channel
-    - Store the `drm_color_lut`, `lut_length`, and
-      `channel_value2index_ratio` inside a struct called `vkms_lut`
-      (Pekka)
-    - Pre-compute some constants values used through the LUT procedure
-      (Pekka)
-    - Change the switch statement to a cast to __u16* (Pekka)
-    - Make the apply_lut_to_channel_value return the computation result
-      (Pekka)
-
-Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
----
- drivers/gpu/drm/vkms/vkms_composer.c | 82 ++++++++++++++++++++++++++++
- drivers/gpu/drm/vkms/vkms_crtc.c     |  5 ++
- drivers/gpu/drm/vkms/vkms_drv.c      | 20 ++++++-
- drivers/gpu/drm/vkms/vkms_drv.h      |  9 +++
- 4 files changed, 115 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index 906d3df40cdb..9e735a963b81 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -6,6 +6,7 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_blend.h>
- #include <drm/drm_fourcc.h>
-+#include <drm/drm_fixed.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_vblank.h>
- #include <linux/minmax.h>
-@@ -89,6 +90,69 @@ static void fill_background(const struct pixel_argb_u16 *background_color,
- 		output_buffer->pixels[i] = *background_color;
- }
- 
-+// lerp(a, b, t) = a + (b - a) * t
-+static u16 lerp_u16(u16 a, u16 b, s64 t)
-+{
-+	s64 a_fp = drm_int2fixp(a);
-+	s64 b_fp = drm_int2fixp(b);
-+
-+	s64 delta = drm_fixp_mul(b_fp - a_fp,  t);
-+
-+	return drm_fixp2int(a_fp + delta);
-+}
-+
-+static s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value)
-+{
-+	s64 color_channel_fp = drm_int2fixp(channel_value);
-+
-+	return drm_fixp_mul(color_channel_fp, lut->channel_value2index_ratio);
-+}
-+
-+enum lut_channel {
-+	LUT_RED = 0,
-+	LUT_GREEN,
-+	LUT_BLUE,
-+	LUT_RESERVED
-+};
-+
-+static u16 apply_lut_to_channel_value(const struct vkms_color_lut *lut, u16 channel_value,
-+				      enum lut_channel channel)
-+{
-+	s64 lut_index = get_lut_index(lut, channel_value);
-+
-+	/*
-+	 * This checks if `struct drm_color_lut` had any gap added by the compiler
-+	 * between the struct fields.
-+	 */
-+	static_assert(sizeof(struct drm_color_lut) == sizeof(__u16) * 4);
-+
-+	u16 *floor_lut_value = (__u16 *)&lut->base[drm_fixp2int(lut_index)];
-+	u16 *ceil_lut_value = (__u16 *)&lut->base[drm_fixp2int_ceil(lut_index)];
-+
-+	u16 floor_channel_value = floor_lut_value[channel];
-+	u16 ceil_channel_value = ceil_lut_value[channel];
-+
-+	return lerp_u16(floor_channel_value, ceil_channel_value,
-+			lut_index & DRM_FIXED_DECIMAL_MASK);
-+}
-+
-+static void apply_lut(const struct vkms_crtc_state *crtc_state, struct line_buffer *output_buffer)
-+{
-+	if (!crtc_state->gamma_lut.base)
-+		return;
-+
-+	if (!crtc_state->gamma_lut.lut_length)
-+		return;
-+
-+	for (size_t x = 0; x < output_buffer->n_pixels; x++) {
-+		struct pixel_argb_u16 *pixel = &output_buffer->pixels[x];
-+
-+		pixel->r = apply_lut_to_channel_value(&crtc_state->gamma_lut, pixel->r, LUT_RED);
-+		pixel->g = apply_lut_to_channel_value(&crtc_state->gamma_lut, pixel->g, LUT_GREEN);
-+		pixel->b = apply_lut_to_channel_value(&crtc_state->gamma_lut, pixel->b, LUT_BLUE);
-+	}
-+}
-+
- /**
-  * @wb_frame_info: The writeback frame buffer metadata
-  * @crtc_state: The crtc state
-@@ -128,6 +192,8 @@ static void blend(struct vkms_writeback_job *wb,
- 					    output_buffer);
- 		}
- 
-+		apply_lut(crtc_state, output_buffer);
-+
- 		*crc32 = crc32_le(*crc32, (void *)output_buffer->pixels, row_size);
- 
- 		if (wb)
-@@ -242,6 +308,22 @@ void vkms_composer_worker(struct work_struct *work)
- 	crtc_state->frame_start = 0;
- 	crtc_state->frame_end = 0;
- 	crtc_state->crc_pending = false;
-+
-+	if (crtc->state->gamma_lut) {
-+		s64 max_lut_index_fp;
-+		s64 u16_max_fp = drm_int2fixp(0xffff);
-+
-+		crtc_state->gamma_lut.base = (struct drm_color_lut *)crtc->state->gamma_lut->data;
-+		crtc_state->gamma_lut.lut_length =
-+			crtc->state->gamma_lut->length / sizeof(struct drm_color_lut);
-+		max_lut_index_fp = drm_int2fixp(crtc_state->gamma_lut.lut_length  - 1);
-+		crtc_state->gamma_lut.channel_value2index_ratio = drm_fixp_div(max_lut_index_fp,
-+									       u16_max_fp);
-+
-+	} else {
-+		crtc_state->gamma_lut.base = NULL;
-+	}
-+
- 	spin_unlock_irq(&out->composer_lock);
- 
- 	/*
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index 515f6772b866..4854a390b167 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -248,6 +248,7 @@ static void vkms_crtc_atomic_flush(struct drm_crtc *crtc,
- 				   struct drm_atomic_state *state)
- {
- 	struct vkms_output *vkms_output = drm_crtc_to_vkms_output(crtc);
-+	struct vkms_color_lut *gamma_lut;
- 
- 	if (crtc->state->event) {
- 		spin_lock(&crtc->dev->event_lock);
-@@ -263,6 +264,7 @@ static void vkms_crtc_atomic_flush(struct drm_crtc *crtc,
- 	}
- 
- 	vkms_output->composer_state = to_vkms_crtc_state(crtc->state);
-+	gamma_lut = &vkms_output->composer_state->gamma_lut;
- 
- 	spin_unlock_irq(&vkms_output->lock);
- }
-@@ -290,6 +292,9 @@ int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
- 
- 	drm_crtc_helper_add(crtc, &vkms_crtc_helper_funcs);
- 
-+	drm_mode_crtc_set_gamma_size(crtc, VKMS_LUT_SIZE);
-+	drm_crtc_enable_color_mgmt(crtc, 0, false, VKMS_LUT_SIZE);
-+
- 	spin_lock_init(&vkms_out->lock);
- 	spin_lock_init(&vkms_out->composer_lock);
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index e3c9c9571c8d..dd0af086e7fa 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -120,9 +120,27 @@ static const struct drm_driver vkms_driver = {
- 	.minor			= DRIVER_MINOR,
- };
- 
-+static int vkms_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
-+{
-+	struct drm_crtc *crtc;
-+	struct drm_crtc_state *new_crtc_state;
-+	int i;
-+
-+	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
-+		if (!new_crtc_state->gamma_lut || !new_crtc_state->color_mgmt_changed)
-+			continue;
-+
-+		if (new_crtc_state->gamma_lut->length / sizeof(struct drm_color_lut *)
-+		    > VKMS_LUT_SIZE)
-+			return -EINVAL;
-+	}
-+
-+	return drm_atomic_helper_check(dev, state);
-+}
-+
- static const struct drm_mode_config_funcs vkms_mode_funcs = {
- 	.fb_create = drm_gem_fb_create,
--	.atomic_check = drm_atomic_helper_check,
-+	.atomic_check = vkms_atomic_check,
- 	.atomic_commit = drm_atomic_helper_commit,
- };
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 5f1a0a44a78c..f16b5d7b81ef 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -23,6 +23,8 @@
- 
- #define NUM_OVERLAY_PLANES 8
- 
-+#define VKMS_LUT_SIZE 256
-+
- struct vkms_frame_info {
- 	struct drm_framebuffer *fb;
- 	struct drm_rect src, dst;
-@@ -65,6 +67,12 @@ struct vkms_plane {
- 	struct drm_plane base;
- };
- 
-+struct vkms_color_lut {
-+	struct drm_color_lut *base;
-+	size_t lut_length;
-+	s64 channel_value2index_ratio;
-+};
-+
- /**
-  * vkms_crtc_state - Driver specific CRTC state
-  * @base: base CRTC state
-@@ -80,6 +88,7 @@ struct vkms_crtc_state {
- 	/* stack of active planes for crc computation, should be in z order */
- 	struct vkms_plane_state **active_planes;
- 	struct vkms_writeback_job *active_writeback;
-+	struct vkms_color_lut gamma_lut;
- 
- 	/* below four are protected by vkms_output.composer_lock */
- 	bool crc_pending;
--- 
-2.40.1
-
+diff --git a/drivers/of/platform.c b/drivers/of/platform.c
+index 78ae84187449..e46482cef9c7 100644
+--- a/drivers/of/platform.c
++++ b/drivers/of/platform.c
+@@ -553,7 +553,7 @@ static int __init of_platform_default_populate_init(void)
+                        if (!of_get_property(node, "linux,opened", NULL) ||
+                            !of_get_property(node, "linux,boot-display", NULL))
+                                continue;
+-                       dev = of_platform_device_create(node, "of-display.0", NULL);
++                       dev = of_platform_device_create(node, "of-display", NULL);
+                        of_node_put(node);
+                        if (WARN_ON(!dev))
+                                return -ENOMEM;
