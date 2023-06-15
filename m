@@ -1,63 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 874C0731BEA
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 16:56:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD640731C61
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 17:23:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8577010E190;
-	Thu, 15 Jun 2023 14:56:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18DEF10E512;
+	Thu, 15 Jun 2023 15:23:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BDDD10E190
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 14:56:47 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 8CC871FE35;
- Thu, 15 Jun 2023 14:56:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1686841004; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=S/r9F0pVJ7WI3Eonl8IpuKk53HYXo/ZHSrzYItIdWKU=;
- b=n/h9EJH391teEdmHNTCiOOCFsp5EEv+IyTkIhJHrwc36KMwqDG3TsHCos0zAK7HdUgOtA7
- RgXbDvqJy3zgU7VkMPevshIEKBkDmUZAXBwWpXQcNj1Ybzu6fHajw4CrDWOooOvIqlFPEH
- EHyHOsj8nT008Fp1qE2zUw8ruZF+ql8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1686841004;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=S/r9F0pVJ7WI3Eonl8IpuKk53HYXo/ZHSrzYItIdWKU=;
- b=TFoOY/G6RGdqpDJfQXC6nEa14Vv/CPG1PJtPv0gxmo8EZ0D6FaBLZ0grAocqRrPsXmaXhp
- NJMrxraNzTXWPYDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2AEE913A32;
- Thu, 15 Jun 2023 14:56:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id RdlRCawmi2Q6BgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 15 Jun 2023 14:56:44 +0000
-Message-ID: <eddaa39b-4688-4035-b8cc-4eb5ef59de46@suse.de>
-Date: Thu, 15 Jun 2023 16:56:43 +0200
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7056A10E512
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 15:23:15 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 35F99SZ9021244; Thu, 15 Jun 2023 15:23:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=lXDkh9Ioj/i7AsHQRhCycsHoCHLy67EWMphr83ltGGI=;
+ b=RdCwfsYjnF9UiZ4GTkB9hwF5RXvAze7t4zsH/5jnRTw2pxilvUETCOy37abS6JiCY06o
+ tb8fJFoL4SfulhFSnSTorWCyKa7LiEUO3BHdWylfovmsZYDqSjw0ZOUcElFTLpv5PIyY
+ KWsoIte2cjyeM6RwHt0ash5rbDmxSuhQYyPzFmiUYd2kFFuNKRI+wIKt6KIzw1xuXKQu
+ SvvZoCaablB9NFyBARLw6chgFx/dVRSzp2zwuS/Yf/zHGKCyVT6cIpIjm5EoxqL0GiMe
+ P9pr8VMmP5wnjn2kbsDjN6Kt4yx8FcLFn25pHRC0HdudaCum1VbCqRmu0RepI+MVWFLf Tw== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r7u8c9hsf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 15 Jun 2023 15:23:09 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35FFN8Zs002629
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 15 Jun 2023 15:23:08 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Thu, 15 Jun
+ 2023 08:23:07 -0700
+Message-ID: <af6fb581-42c7-2619-82ce-8bd590ec629e@quicinc.com>
+Date: Thu, 15 Jun 2023 09:23:06 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH 0/3] drm: Allow PRIME 'self-import' for all drivers
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] accel/qaic: Call DRM helper function to destroy prime GEM
 Content-Language: en-US
-To: Simon Ser <contact@emersion.fr>
-References: <20230615094206.4424-1-tzimmermann@suse.de>
- <O78vhvv6qtN2Fjh9tljnBnBeNwr-eASqyXaUG3e8cWPZ2MqoOSWR_D8S_ce2gqSvbLkJwX72tmc6ReUry0OTqJQWwhDcyrZrQP4hgg7iH30=@emersion.fr>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <O78vhvv6qtN2Fjh9tljnBnBeNwr-eASqyXaUG3e8cWPZ2MqoOSWR_D8S_ce2gqSvbLkJwX72tmc6ReUry0OTqJQWwhDcyrZrQP4hgg7iH30=@emersion.fr>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------VCk7rhYgQxQf2uLSml0v3BuM"
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ <quic_carlv@quicinc.com>, <quic_pkanojiy@quicinc.com>,
+ <sukrut.bellary@linux.com>, <sumit.semwal@linaro.org>
+References: <20230614161528.11710-1-quic_jhugo@quicinc.com>
+ <87ce15c9-670e-f270-94b7-580b0a54f59f@amd.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <87ce15c9-670e-f270-94b7-580b0a54f59f@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: hUxM7iksB7MhaGd6cTFMcjdglreF6WMh
+X-Proofpoint-GUID: hUxM7iksB7MhaGd6cTFMcjdglreF6WMh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-15_11,2023-06-15_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ lowpriorityscore=0 suspectscore=0 mlxlogscore=868 malwarescore=0
+ phishscore=0 bulkscore=0 impostorscore=0 priorityscore=1501 spamscore=0
+ mlxscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306150134
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,81 +85,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mripard@kernel.org, linux-graphics-maintainer@vmware.com,
- dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, ogabbay@kernel.org,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------VCk7rhYgQxQf2uLSml0v3BuM
-Content-Type: multipart/mixed; boundary="------------m0V2cr84y4wjviVc4lIZ5yUg";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Simon Ser <contact@emersion.fr>
-Cc: daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, zackr@vmware.com,
- linux-graphics-maintainer@vmware.com, dri-devel@lists.freedesktop.org
-Message-ID: <eddaa39b-4688-4035-b8cc-4eb5ef59de46@suse.de>
-Subject: Re: [PATCH 0/3] drm: Allow PRIME 'self-import' for all drivers
-References: <20230615094206.4424-1-tzimmermann@suse.de>
- <O78vhvv6qtN2Fjh9tljnBnBeNwr-eASqyXaUG3e8cWPZ2MqoOSWR_D8S_ce2gqSvbLkJwX72tmc6ReUry0OTqJQWwhDcyrZrQP4hgg7iH30=@emersion.fr>
-In-Reply-To: <O78vhvv6qtN2Fjh9tljnBnBeNwr-eASqyXaUG3e8cWPZ2MqoOSWR_D8S_ce2gqSvbLkJwX72tmc6ReUry0OTqJQWwhDcyrZrQP4hgg7iH30=@emersion.fr>
+On 6/15/2023 1:05 AM, Christian König wrote:
+> 
+> 
+> Am 14.06.23 um 18:15 schrieb Jeffrey Hugo:
+>> From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+>>
+>> smatch warning:
+>>     drivers/accel/qaic/qaic_data.c:620 qaic_free_object() error:
+>>         dereferencing freed memory 'obj->import_attach'
+>>
+>> obj->import_attach is detached and freed using dma_buf_detach().
+>> But used after free to decrease the dmabuf ref count using
+>> dma_buf_put().
+>>
+>> drm_prime_gem_destroy() handles this issue and performs the proper clean
+>> up instead of open coding it in the driver.
+>>
+>> Fixes: ff13be830333 ("accel/qaic: Add datapath")
+>> Reported-by: Sukrut Bellary <sukrut.bellary@linux.com>
+>> Closes: 
+>> https://lore.kernel.org/all/20230610021200.377452-1-sukrut.bellary@linux.com/ 
+>>
+>> Suggested-by: Christian König <christian.koenig@amd.com>
+>> Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+>> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
+>> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+>> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> 
+> Reviewed-by: Christian König <christian.koenig@amd.com>
 
---------------m0V2cr84y4wjviVc4lIZ5yUg
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-
-SGkNCg0KQW0gMTUuMDYuMjMgdW0gMTY6NTAgc2NocmllYiBTaW1vbiBTZXI6DQo+IE9uIFRo
-dXJzZGF5LCBKdW5lIDE1dGgsIDIwMjMgYXQgMTE6MzEsIFRob21hcyBaaW1tZXJtYW5uIDx0
-emltbWVybWFubkBzdXNlLmRlPiB3cm90ZToNCj4gDQo+PiBTZXQgZHJtX2dlbV9wcmltZV9o
-YW5kbGVfdG9fZmQoKSBhbmQgZHJtX2dlbV9wcmltZV9mZF90b19oYW5kbGUoKQ0KPj4gZm9y
-IGFsbCBEUk0gZHJpdmVycy4gRXZlbiBkcml2ZXJzIHRoYXQgZG8gbm90IHN1cHBvcnQgUFJJ
-TUUgaW1wb3J0DQo+PiBvciBleHBvcnQgb2YgZG1hLWJ1ZnMgY2FuIG5vdyBpbXBvcnQgdGhl
-aXIgb3duIGJ1ZmZlciBvYmplY3RzLiBUaGlzDQo+PiBpcyByZXF1aXJlZCBieSBzb21lIHVz
-ZXJzcGFjZSwgc3VjaCBhcyB3bHJvb3RzLWJhc2VkIGNvbXBvc2l0b3JzLCB0bw0KPj4gc2hh
-cmUgYnVmZmVycyBhbW9uZyBwcm9jZXNzZXMuDQo+Pg0KPj4gVGhlIG9ubHkgZHJpdmVyIHRo
-YXQgZG9lcyBub3QgdXNlIHRoZSBkcm1fZ2VtX3ByaW1lXyooKSBoZWxwZXJzIGlzDQo+PiB2
-bXdnZnguIE9uY2UgaXQgaGFzIGJlZW4gY29udmVydGVkLCB0aGUgY2FsbGJhY2tzIGluIHN0
-cnVjdCBkcm1fZHJpdmVyDQo+PiBjYW4gYmUgcmVtb3ZlZC4NCj4+DQo+PiBTaW1vbiBTZXIg
-aW1wbGVtZW50ZWQgdGhlIGZlYXR1cmUgZm9yIGRyaXZlcnMgYmFzZWQgb24gR0VNIFZSQU0g
-aGVscGVycw0KPj4gaW4gWzFdLiBUaGlzIHBhdGNoc2V0IGdlbmVyYWxpemVzIHRoZSBjb2Rl
-IGZvciBhbGwgZHJpdmVycyB0aGF0IGRvIG5vdA0KPj4gb3RoZXJ3aXNlIHN1cHBvcnQgUFJJ
-TUUuIFRlc3RlZCBieSBydW5uaW5nIHN3YXkgd2l0aCBnbWE1MDAgaGFyZHdhcmUuDQo+IA0K
-PiBWZXJ5IG5pY2UhIFRoYW5rcyBhIGxvdCBmb3IgZG9pbmcgdGhpcyENCj4gDQo+IEp1c3Qg
-b25lIG1pbm9yIGNvbW1lbnQgYWJvdXQgZG9jcy4gSSB0aGluayB0aGVyZSBhcmUgYWxzbyBz
-b21lIHJlbWFpbmluZw0KPiByZWZlcmVuY2VzIHRvIGRybV9nZW1fcHJpbWVfaGFuZGxlX3Rv
-X2ZkKCkgYW5kIGRybV9nZW1fcHJpbWVfZmRfdG9faGFuZGxlKCkNCj4gaW4gdGhlIGRybV9w
-cmltZS5jIG92ZXJ2aWV3LiBUaGVzZSBiZWNvbWUgc3RhbGUgc2luY2UgdGhpcyBzZXJpZXMg
-dW5leHBvcnRzDQo+IHRoZXNlIGZ1bmN0aW9ucy4NCg0KSSdsbCBhZGRyZXNzIHRoZSBkb2N1
-bWVudGF0aW9uIGlzc3VlLg0KDQo+IA0KPiBXaXRoIHRoYXQgZml4ZWQ6DQo+IA0KPiBSZXZp
-ZXdlZC1ieTogU2ltb24gU2VyIDxjb250YWN0QGVtZXJzaW9uLmZyPg0KDQpUaGFua3MgYSBs
-b3QuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4N
-CkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdl
-cm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1h
-bnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3Vk
-aWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
-
---------------m0V2cr84y4wjviVc4lIZ5yUg--
-
---------------VCk7rhYgQxQf2uLSml0v3BuM
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSLJqsFAwAAAAAACgkQlh/E3EQov+C4
-whAAxjoxvTHKDHXNoAYxMvobSzcMhCdmfI0XjJ9eUxrcZ48at3aRUi/Bx71oh6BGnYKspBBiu201
-blfxpU+sI6Ds2yz9o+LfRX59u66dSFPYduztuFMpINW2WxrwPJ7ReC0LWLp0xs2lb7hSINAyvHzj
-Qg6UnEUq2IX68xbuhs1XLPK+sMjmDp2Z9Q9vnZPYbxxHucjUMGtgPh7R6SLsxR489ldR7NkjoJz4
-CNStvYQAnKx6fGYXMEHvaEWwc/pEH/L3hJ/tz2KjGdtMQK/irbCWUi8um2JhXglw1kCCpFEo0i3x
-LgpTEZkJYflhGe0hU019IHh7bNeS8PVhtz8TODG4Kj9/xetE/RskRoXvRlOvdnH7gMovWxSgI26t
-g9PQGxSGRReYkwvi7gfVP91XAzXVCBr9bqeK33geg5kx64B9fyh7SfH+jO30fCY83BP2/B7IG4yf
-7uM+1FG5Ja1EaRdipZyf37vJW24aQUMgnzvMT8oPwVQsQah1K5jxxOiQEXM6xanxV70KqXoi1kny
-33SQ0ARr/GxBbUGm0IBir++yavsmDp0POa+BlL8iS8TP6Sk2P5ZLGC5wYJc1l0gqyl2l+R5hVs8v
-+5LfiWtbWkNYk5mDP5blsfkaPspvdUOztRUPxblkRtUD+WFYzDGYbaVKANhw2qZuF7PBtPGeLQDv
-WVs=
-=9/Uf
------END PGP SIGNATURE-----
-
---------------VCk7rhYgQxQf2uLSml0v3BuM--
+Thanks for the guidance and review!
