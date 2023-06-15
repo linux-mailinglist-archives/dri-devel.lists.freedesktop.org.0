@@ -2,30 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 394377312FF
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 11:04:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2283D731353
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 11:14:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0761E10E4A6;
-	Thu, 15 Jun 2023 09:04:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A624910E4A2;
+	Thu, 15 Jun 2023 09:14:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94EEE10E4AB
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 09:04:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E4B210E49A
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 09:14:51 +0000 (UTC)
 Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
  helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1q9iuJ-0001Ds-AU; Thu, 15 Jun 2023 11:04:43 +0200
-Message-ID: <d17de4ebfd08faa23238ece2ad0b737bf271498b.camel@pengutronix.de>
-Subject: Re: drm/etnaviv: slow down FE idle polling
+ id 1q9j43-0002j0-9G; Thu, 15 Jun 2023 11:14:47 +0200
+Message-ID: <5eda22a30113abd46ebdbab40ca54233868f5bfe.camel@pengutronix.de>
+Subject: Re: drm/etnaviv: disable MLCG and pulse eater on GPU reset
 From: Lucas Stach <l.stach@pengutronix.de>
 To: Sui Jingfeng <suijingfeng@loongson.cn>, etnaviv@lists.freedesktop.org
-Date: Thu, 15 Jun 2023 11:04:40 +0200
-In-Reply-To: <8c36b8bc-5a0d-75f7-265c-b0191979165a@loongson.cn>
-References: <20230607125932.3518547-1-l.stach@pengutronix.de>
- <8c36b8bc-5a0d-75f7-265c-b0191979165a@loongson.cn>
+Date: Thu, 15 Jun 2023 11:14:45 +0200
+In-Reply-To: <9ca50a8e-5e56-14a2-7ae7-988340ee8c81@loongson.cn>
+References: <20230607125841.3518385-1-l.stach@pengutronix.de>
+ <b154bee4-9129-8f21-06d4-d86e3b5234f7@loongson.cn>
+ <58362294c70476e54abc29d7591a328b1e92a617.camel@pengutronix.de>
+ <9ca50a8e-5e56-14a2-7ae7-988340ee8c81@loongson.cn>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
@@ -53,146 +55,147 @@ Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Donnerstag, dem 15.06.2023 um 12:09 +0800 schrieb Sui Jingfeng:
-> Hi,
+Am Donnerstag, dem 15.06.2023 um 01:49 +0800 schrieb Sui Jingfeng:
+> Hi
 >=20
-> On 2023/6/7 20:59, Lucas Stach wrote:
-> > Currently the FE is spinning way too fast when polling for new work in
-> 'way' -> 'away'
-> > the FE idleloop.
-> 'idleloop' -> 'idle loop'
-> >   As each poll fetches 16 bytes from memory, a GPU running
-> > at 1GHz with the current setting of 200 wait cycle between fetches caus=
-es
-> > 80 MB/s of memory traffic just to check for new work when the GPU is
-> > otherwise idle, which is more FE traffic than in some GPU loaded cases.
+> On 2023/6/14 15:45, Lucas Stach wrote:
+> > Hi,
 > >=20
-> > Significantly increase the number of wait cycles to slow down the poll
-> > interval to ~30=C2=B5s, limiting the FE idle memory traffic to 512 KB/s=
-, while
-> > providing a max latency which should not hurt most use-cases. The FE WA=
-IT
-> > command seems to have some unknown discrete steps in the wait cycles
-> add a comma here.
-> >   so
-> > we may over/undershoot the target a bit, but that should be harmless.
-> overshoot or undershoot
-> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> > Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
-> > ---
-> >   drivers/gpu/drm/etnaviv/etnaviv_buffer.c | 11 ++++++-----
-> >   drivers/gpu/drm/etnaviv/etnaviv_gpu.c    |  7 +++++++
-> >   drivers/gpu/drm/etnaviv/etnaviv_gpu.h    |  1 +
-> >   3 files changed, 14 insertions(+), 5 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm=
-/etnaviv/etnaviv_buffer.c
-> > index cf741c5c82d2..384df1659be6 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> > @@ -53,11 +53,12 @@ static inline void CMD_END(struct etnaviv_cmdbuf *b=
-uffer)
-> >   	OUT(buffer, VIV_FE_END_HEADER_OP_END);
-> >   }
-> >  =20
-> > -static inline void CMD_WAIT(struct etnaviv_cmdbuf *buffer)
-> > +static inline void CMD_WAIT(struct etnaviv_cmdbuf *buffer,
-> > +			    unsigned int waitcycles)
-> >   {
-> >   	buffer->user_size =3D ALIGN(buffer->user_size, 8);
-> >  =20
-> > -	OUT(buffer, VIV_FE_WAIT_HEADER_OP_WAIT | 200);
-> > +	OUT(buffer, VIV_FE_WAIT_HEADER_OP_WAIT | waitcycles);
-> >   }
-> >  =20
-> >   static inline void CMD_LINK(struct etnaviv_cmdbuf *buffer,
-> > @@ -168,7 +169,7 @@ u16 etnaviv_buffer_init(struct etnaviv_gpu *gpu)
-> >   	/* initialize buffer */
-> >   	buffer->user_size =3D 0;
-> >  =20
-> > -	CMD_WAIT(buffer);
-> > +	CMD_WAIT(buffer, gpu->fe_waitcycles);
-> >   	CMD_LINK(buffer, 2,
-> >   		 etnaviv_cmdbuf_get_va(buffer, &gpu->mmu_context->cmdbuf_mapping)
-> >   		 + buffer->user_size - 4);
-> > @@ -320,7 +321,7 @@ void etnaviv_sync_point_queue(struct etnaviv_gpu *g=
-pu, unsigned int event)
-> >   	CMD_END(buffer);
-> >  =20
-> >   	/* Append waitlink */
-> > -	CMD_WAIT(buffer);
-> > +	CMD_WAIT(buffer, gpu->fe_waitcycles);
-> >   	CMD_LINK(buffer, 2,
-> >   		 etnaviv_cmdbuf_get_va(buffer, &gpu->mmu_context->cmdbuf_mapping)
-> >   		 + buffer->user_size - 4);
-> > @@ -503,7 +504,7 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, =
-u32 exec_state,
-> >  =20
-> >   	CMD_LOAD_STATE(buffer, VIVS_GL_EVENT, VIVS_GL_EVENT_EVENT_ID(event) =
-|
-> >   		       VIVS_GL_EVENT_FROM_PE);
-> > -	CMD_WAIT(buffer);
-> > +	CMD_WAIT(buffer, gpu->fe_waitcycles);
-> >   	CMD_LINK(buffer, 2,
-> >   		 etnaviv_cmdbuf_get_va(buffer, &gpu->mmu_context->cmdbuf_mapping)
-> >   		 + buffer->user_size - 4);
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/et=
-naviv/etnaviv_gpu.c
-> > index 41aab1aa330b..8c20dff32240 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> > @@ -493,6 +493,13 @@ static void etnaviv_gpu_update_clock(struct etnavi=
-v_gpu *gpu)
-> >   		clock |=3D VIVS_HI_CLOCK_CONTROL_FSCALE_VAL(fscale);
-> >   		etnaviv_gpu_load_clock(gpu, clock);
-> >   	}
-> > +
-> > +	/*
-> > +	 * Choose number of wait cycles to target a ~30us (1/32768) max laten=
-cy
-> > +	 * until new work is picked up by the FE when it polls in the idle lo=
-op.
-> > +	 */
-> > +	gpu->fe_waitcycles =3D min(gpu->base_rate_core >> (15 - gpu->freq_sca=
-le),
-> > +				 0xffffUL);
+> > Am Mittwoch, dem 14.06.2023 um 00:42 +0800 schrieb Sui Jingfeng:
+> > > Hi, Lucas
+> > >=20
+> > >=20
+> > > I love your patch, perhaps something to improve:
+> > >=20
+> > > The MLCG stand for "Module Level Clock Gating",
+> > >=20
+> > > without reading the commit message, I guess there may have people don=
+'t
+> > > know its meaning.
+> > >=20
+> > Yea, I expect people to read the commit message and not just the
+> > subject if they want to know what a patch does. The MLCG abbreviation
+> > is already well established within the driver code.
 >=20
-> This patch is NOT effective on our hardware GC1000 v5037 (ls7a1000 +=20
-> ls3a5000).
+> Yeah, I agree with you that the reviewer should read the commit message=
+=20
+> and the patch itself(code)
 >=20
-> As the gpu->base_rate_core is 0,=C2=A0 so, in the end gpu->fe_waitcycles =
-is=20
-> also zero.
+> But after look the code quite a while, I'm wondering that
 >=20
-Uh, that's a problem, as the patch will then have the opposite effect
-on your platform by speeding up the idle loop. Thanks for catching
-this! I'll improve the patch to keep a reasonable amount of wait cycles
-in this case.
+> 1) is the "Module Level" absolutely needed ?
+>=20
+> 2) is it accurate enough ?
+>=20
+>=20
+> For question in 1),=C2=A0 I meant that is it better by saying: "drm/etnav=
+iv:=20
+> disable clock gating and pulse eater on GPU reset"
+>=20
+> For question in 2),=C2=A0 I mean that the code inside the=20
+> etnaviv_hw_reset(struct etnaviv_gpu *gpu) function are per GPU instance=
+=20
+> level.
+>=20
+>=20
+> Every GPU instance managed by the drm/etnaviv will run those clock=20
+> gating related code.
+>=20
+> So it is per GPU instance level.
+>=20
+>=20
+> As far as I can understand, the "Module Level" stand for the=20
+> drm/etnaviv(etnaviv.ko) as a whole
+>=20
+> Nearly all patches for the gpu/drm/drivers are module level by default,
+>=20
+> What's you really want to emphasize?
+>=20
+>=20
+> I think you probably want to drop the "ML",=C2=A0 and replace the "MLCG" =
+with=20
+> "clock gating".
+>=20
+> explain the "ML" in the commit message should be enough.
+>=20
+No "module level" here has nothing to do with the kernel module at
+all.=C2=A0
+
+MLCG is the GPU internal clock gating mechanism implemented in the
+Vivante GPU cores. The module level here means that the GPU can gate
+individual modules of the core like the texture engine, pixel engine,
+etc. when the they are either idle or stalled. It's a fine grained
+clock gating mechanism, in contrast to the more coarse-grained platform
+level mechanisms, which may be able to gate the clock for the GPU as a
+whole.
+
+So in essence MLCG is the absolutely right and most specific term that
+need to be used here to describe what is being done in this patch.
 
 Regards,
 Lucas
 
-> But after apply this path, the glmark2 still run happily, no influence. S=
-o
->=20
->=20
-> Tested-by: Sui Jingfeng <suijingfeng@loongson.cn>
->=20
-> >   }
-> >  =20
-> >   static int etnaviv_hw_reset(struct etnaviv_gpu *gpu)
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/et=
-naviv/etnaviv_gpu.h
-> > index 98c6f9c320fc..e1e1de59c38d 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> > @@ -150,6 +150,7 @@ struct etnaviv_gpu {
-> >   	struct clk *clk_shader;
-> >  =20
-> >   	unsigned int freq_scale;
-> > +	unsigned int fe_waitcycles;
-> >   	unsigned long base_rate_core;
-> >   	unsigned long base_rate_shader;
-> >   };
+> > > There are still more thing in this patch can only be understand relay=
+ on
+> > > guessing... :-)
+> > >=20
+> > That's unfortunately true. I don't know exactly what the pulse eater
+> > control bits mean either. I've taken them verbatim from the reset
+> > sequence in the Vivante kernel driver, which is also why I didn't try
+> > to assign some meaning by giving them a name, but keep them as BITs in
+> > the driver code.
+> >=20
+> > Regards,
+> > Lucas
+> >=20
+> > > But drm/etnaviv drvier still works with this patch applied, so
+> > >=20
+> > >=20
+> > > On 2023/6/7 20:58, Lucas Stach wrote:
+> > > > Module level clock gating and the pulse eater might interfere with
+> > > > the GPU reset, as they both have the potential to stop the clock
+> > > > and thus reset propagation to parts of the GPU.
+> > > >=20
+> > > > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> > > > Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
+> > >=20
+> > > Tested-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> > >=20
+> > >=20
+> > > > ---
+> > > > I'm not aware of any cases where this would have been an issue, but
+> > > > it is what the downstream driver does and fundametally seems like
+> > > > the right thing to do.
+> > > > ---
+> > > >    drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 13 ++++++++++++-
+> > > >    1 file changed, 12 insertions(+), 1 deletion(-)
+> > > >=20
+> > > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/dr=
+m/etnaviv/etnaviv_gpu.c
+> > > > index de8c9894967c..41aab1aa330b 100644
+> > > > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> > > > @@ -505,8 +505,19 @@ static int etnaviv_hw_reset(struct etnaviv_gpu=
+ *gpu)
+> > > >    	timeout =3D jiffies + msecs_to_jiffies(1000);
+> > > >   =20
+> > > >    	while (time_is_after_jiffies(timeout)) {
+> > > > -		/* enable clock */
+> > > >    		unsigned int fscale =3D 1 << (6 - gpu->freq_scale);
+> > > > +		u32 pulse_eater =3D 0x01590880;
+> > > > +
+> > > > +		/* disable clock gating */
+> > > > +		gpu_write_power(gpu, VIVS_PM_POWER_CONTROLS, 0x0);
+> > > > +
+> > > > +		/* disable pulse eater */
+> > > > +		pulse_eater |=3D BIT(17);
+> > > > +		gpu_write_power(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
+> > > > +		pulse_eater |=3D BIT(0);
+> > > > +		gpu_write_power(gpu, VIVS_PM_PULSE_EATER, pulse_eater);
+> > > > +
+> > > > +		/* enable clock */
+> > > >    		control =3D VIVS_HI_CLOCK_CONTROL_FSCALE_VAL(fscale);
+> > > >    		etnaviv_gpu_load_clock(gpu, control);
+> > > >   =20
 >=20
 
