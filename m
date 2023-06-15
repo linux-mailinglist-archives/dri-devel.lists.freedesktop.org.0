@@ -2,64 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B29CF731B3E
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 16:24:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0160A731B52
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 16:28:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A33010E502;
-	Thu, 15 Jun 2023 14:24:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 045E210E507;
+	Thu, 15 Jun 2023 14:28:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9459D10E502
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 14:24:41 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 25FB11FE0D;
- Thu, 15 Jun 2023 14:24:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1686839080; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22ED110E506
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 14:28:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1686839300;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=eLXAkn9dtlD6rd9fGaH3nF/zNCAfac/y0Lech1lJ/mU=;
- b=SDTl0c3SWPviBVvDj0LkmBH5TOWLggcjM+Jfy/4aZD4W0JwVlr57dl6R8cE0I6Hv3Oo2pm
- yee8eU4MjDjcTbf2rvIh87595Ma0IreO/9yZufbH9dTh9kilURrmwrBqyKuPORsq+7OyQT
- v66fnF+PxviFN+JGEFyeGYxCWUKwaUE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1686839080;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=eLXAkn9dtlD6rd9fGaH3nF/zNCAfac/y0Lech1lJ/mU=;
- b=/VkAi/X9iJhR+uOejbddwdHixg8Dpo5xOWwy1fwgjF31VHszRs8g1bEIILP5dL5B8Fjhe5
- KNA+5643XYAw8kCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E67E413A32;
- Thu, 15 Jun 2023 14:24:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id BLlBNycfi2QjcwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 15 Jun 2023 14:24:39 +0000
-Message-ID: <d610d6ee-cf53-6357-b25d-5a396859cc45@suse.de>
-Date: Thu, 15 Jun 2023 16:24:39 +0200
+ bh=2AppGI609JbEPwHraZbtSwMpZ0sEabRHse5zg46RZUI=;
+ b=bdgByvtAXYimL0XOIK9sT1BT90A/R6yHL32HBXTYdvqy1uzb4ra2tGDCm3IUcJYGXrsuxi
+ 6qNqKdUTbSRBMxD3WtZuofybfRpPgbx6jExMk7tvvALGKTyBCjTCRWyMeCUk4q1oodFm4P
+ WpMP2IoSrHTMDm2657hhZEVxkugKJXg=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-480-Xcua_1DgN3ene8KJNq6ffQ-1; Thu, 15 Jun 2023 10:28:10 -0400
+X-MC-Unique: Xcua_1DgN3ene8KJNq6ffQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ a640c23a62f3a-982ab5d1151so58037366b.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 07:28:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686839285; x=1689431285;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2AppGI609JbEPwHraZbtSwMpZ0sEabRHse5zg46RZUI=;
+ b=JpV7Ey4RUHWn/Nts959MAtZnT9pMdQTT3dbPfruk+4QrM1YhEkelq2X57miz6A2DBb
+ yBdRVmmSlckbFyRTfpa/NdQw/qjc2j+cC5N/BhSsQRuWTX527IfqGhdcVlzdE2Przpqu
+ dI1H7lf/6jgWnO27/wcB0N9VnNTDaHE8261FASdZUkr18USGua97lZylMqMN0oCSmE8O
+ +A06jxd41lhEiLH40hdjZnlFLR2sDE56c3AjlFEEwwtI/lvEYUdRN+vP2ijy/ndwQ2Ln
+ JzZRkyCb/vrK043TSfWFj1jAgxOEBcYYBoUH2P2UmF8orhuiktbBaaOkJsYepaeEYa5x
+ ai5A==
+X-Gm-Message-State: AC+VfDw58vkdODx14ImeBHffIW01ierZRTcU+h/jAwl512/Ex7voQzjP
+ TonfCmSYqKqU2QDTEC+XI503Rb4rfSNXdfoFevFGSsqplrTtvmI7YAoxg9Zm0jAuYr8Pap+oUAD
+ oKhWgc3qNooNPINGkUoyrV144NQFq
+X-Received: by 2002:a17:907:3e1a:b0:982:69cd:7362 with SMTP id
+ hp26-20020a1709073e1a00b0098269cd7362mr5099953ejc.38.1686839283934; 
+ Thu, 15 Jun 2023 07:28:03 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ627TVnUTdIhGpVoGmLjI6eKeJ48dYdPBzEFnoCIsBwuV6DZCVt8MqyUKBpVvMufMsolotTiQ==
+X-Received: by 2002:a17:907:3e1a:b0:982:69cd:7362 with SMTP id
+ hp26-20020a1709073e1a00b0098269cd7362mr5099899ejc.38.1686839282738; 
+ Thu, 15 Jun 2023 07:28:02 -0700 (PDT)
+Received: from pollux ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ v26-20020a170906489a00b0097d7924b4edsm7875737ejq.168.2023.06.15.07.28.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Jun 2023 07:28:02 -0700 (PDT)
+Date: Thu, 15 Jun 2023 16:27:58 +0200
+From: Danilo Krummrich <dakr@redhat.com>
+To: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+Subject: Re: [PATCH drm-next v4 03/14] drm: manager to keep track of GPUs VA
+ mappings
+Message-ID: <ZIsf7jAWNrStIZt7@pollux>
+References: <20230606223130.6132-1-dakr@redhat.com>
+ <20230606223130.6132-4-dakr@redhat.com>
+ <20230614002935.rwbbys7bbxuaoxod@revolver>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v2 4/4] drm/mgag200: Use DMA to copy the framebuffer to
- the VRAM
-Content-Language: en-US
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- airlied@redhat.com, javierm@redhat.com, lyude@redhat.com
-References: <20230531092110.140564-1-jfalempe@redhat.com>
- <20230531092110.140564-5-jfalempe@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230531092110.140564-5-jfalempe@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------TmQBa7Nep3QYTv1ZJo2YruWx"
+In-Reply-To: <20230614002935.rwbbys7bbxuaoxod@revolver>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,444 +84,2811 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: matthew.brost@intel.com, willy@infradead.org,
+ dri-devel@lists.freedesktop.org, corbet@lwn.net, nouveau@lists.freedesktop.org,
+ ogabbay@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mripard@kernel.org, linux-mm@kvack.org, boris.brezillon@collabora.com,
+ bskeggs@redhat.com, tzimmermann@suse.de, Dave Airlie <airlied@redhat.com>,
+ bagasdotme@gmail.com, christian.koenig@amd.com, jason@jlekstrand.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------TmQBa7Nep3QYTv1ZJo2YruWx
-Content-Type: multipart/mixed; boundary="------------9Qho0vVB5MgKhctfWEWWV9Vn";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- airlied@redhat.com, javierm@redhat.com, lyude@redhat.com
-Message-ID: <d610d6ee-cf53-6357-b25d-5a396859cc45@suse.de>
-Subject: Re: [PATCH v2 4/4] drm/mgag200: Use DMA to copy the framebuffer to
- the VRAM
-References: <20230531092110.140564-1-jfalempe@redhat.com>
- <20230531092110.140564-5-jfalempe@redhat.com>
-In-Reply-To: <20230531092110.140564-5-jfalempe@redhat.com>
+On Tue, Jun 13, 2023 at 08:29:35PM -0400, Liam R. Howlett wrote:
+> * Danilo Krummrich <dakr@redhat.com> [230606 18:32]:
+> > Add infrastructure to keep track of GPU virtual address (VA) mappings
+> > with a decicated VA space manager implementation.
+> > 
+> > New UAPIs, motivated by Vulkan sparse memory bindings graphics drivers
+> > start implementing, allow userspace applications to request multiple and
+> > arbitrary GPU VA mappings of buffer objects. The DRM GPU VA manager is
+> > intended to serve the following purposes in this context.
+> > 
+> > 1) Provide infrastructure to track GPU VA allocations and mappings,
+> >    making use of the maple_tree.
+> > 
+> > 2) Generically connect GPU VA mappings to their backing buffers, in
+> >    particular DRM GEM objects.
+> > 
+> > 3) Provide a common implementation to perform more complex mapping
+> >    operations on the GPU VA space. In particular splitting and merging
+> >    of GPU VA mappings, e.g. for intersecting mapping requests or partial
+> >    unmap requests.
+> > 
+> > Suggested-by: Dave Airlie <airlied@redhat.com>
+> > Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+> > ---
+> >  Documentation/gpu/drm-mm.rst    |   31 +
+> >  drivers/gpu/drm/Makefile        |    1 +
+> >  drivers/gpu/drm/drm_gem.c       |    3 +
+> >  drivers/gpu/drm/drm_gpuva_mgr.c | 1687 +++++++++++++++++++++++++++++++
+> >  include/drm/drm_drv.h           |    6 +
+> >  include/drm/drm_gem.h           |   75 ++
+> >  include/drm/drm_gpuva_mgr.h     |  681 +++++++++++++
+> >  7 files changed, 2484 insertions(+)
+> >  create mode 100644 drivers/gpu/drm/drm_gpuva_mgr.c
+> >  create mode 100644 include/drm/drm_gpuva_mgr.h
+> > 
+> > diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+> > index a52e6f4117d6..c9f120cfe730 100644
+> > --- a/Documentation/gpu/drm-mm.rst
+> > +++ b/Documentation/gpu/drm-mm.rst
+> > @@ -466,6 +466,37 @@ DRM MM Range Allocator Function References
+> >  .. kernel-doc:: drivers/gpu/drm/drm_mm.c
+> >     :export:
+> >  
+> > +DRM GPU VA Manager
+> > +==================
+> > +
+> > +Overview
+> > +--------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/drm_gpuva_mgr.c
+> > +   :doc: Overview
+> > +
+> > +Split and Merge
+> > +---------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/drm_gpuva_mgr.c
+> > +   :doc: Split and Merge
+> > +
+> > +Locking
+> > +-------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/drm_gpuva_mgr.c
+> > +   :doc: Locking
+> > +
+> > +
+> > +DRM GPU VA Manager Function References
+> > +--------------------------------------
+> > +
+> > +.. kernel-doc:: include/drm/drm_gpuva_mgr.h
+> > +   :internal:
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/drm_gpuva_mgr.c
+> > +   :export:
+> > +
+> >  DRM Buddy Allocator
+> >  ===================
+> >  
+> > diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> > index 9c6446eb3c83..8eeed446a078 100644
+> > --- a/drivers/gpu/drm/Makefile
+> > +++ b/drivers/gpu/drm/Makefile
+> > @@ -45,6 +45,7 @@ drm-y := \
+> >  	drm_vblank.o \
+> >  	drm_vblank_work.o \
+> >  	drm_vma_manager.o \
+> > +	drm_gpuva_mgr.o \
+> >  	drm_writeback.o
+> >  drm-$(CONFIG_DRM_LEGACY) += \
+> >  	drm_agpsupport.o \
+> > diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> > index 1a5a2cd0d4ec..cd878ebddbd0 100644
+> > --- a/drivers/gpu/drm/drm_gem.c
+> > +++ b/drivers/gpu/drm/drm_gem.c
+> > @@ -164,6 +164,9 @@ void drm_gem_private_object_init(struct drm_device *dev,
+> >  	if (!obj->resv)
+> >  		obj->resv = &obj->_resv;
+> >  
+> > +	if (drm_core_check_feature(dev, DRIVER_GEM_GPUVA))
+> > +		drm_gem_gpuva_init(obj);
+> > +
+> >  	drm_vma_node_reset(&obj->vma_node);
+> >  	INIT_LIST_HEAD(&obj->lru_node);
+> >  }
+> > diff --git a/drivers/gpu/drm/drm_gpuva_mgr.c b/drivers/gpu/drm/drm_gpuva_mgr.c
+> > new file mode 100644
+> > index 000000000000..dd8dd7fef14b
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/drm_gpuva_mgr.c
+> > @@ -0,0 +1,1687 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright (c) 2022 Red Hat.
+> > + *
+> > + * Permission is hereby granted, free of charge, to any person obtaining a
+> > + * copy of this software and associated documentation files (the "Software"),
+> > + * to deal in the Software without restriction, including without limitation
+> > + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> > + * and/or sell copies of the Software, and to permit persons to whom the
+> > + * Software is furnished to do so, subject to the following conditions:
+> > + *
+> > + * The above copyright notice and this permission notice shall be included in
+> > + * all copies or substantial portions of the Software.
+> > + *
+> > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> > + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> > + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> > + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+> > + * OTHER DEALINGS IN THE SOFTWARE.
+> > + *
+> > + * Authors:
+> > + *     Danilo Krummrich <dakr@redhat.com>
+> > + *
+> > + */
+> > +
+> > +#include <drm/drm_gem.h>
+> > +#include <drm/drm_gpuva_mgr.h>
+> > +
+> > +/**
+> > + * DOC: Overview
+> > + *
+> > + * The DRM GPU VA Manager, represented by struct drm_gpuva_manager keeps track
+> > + * of a GPU's virtual address (VA) space and manages the corresponding virtual
+> > + * mappings represented by &drm_gpuva objects. It also keeps track of the
+> > + * mapping's backing &drm_gem_object buffers.
+> > + *
+> > + * &drm_gem_object buffers maintain a list (and a corresponding list lock) of
+> > + * &drm_gpuva objects representing all existent GPU VA mappings using this
+> > + * &drm_gem_object as backing buffer.
+> > + *
+> > + * GPU VAs can be flagged as sparse, such that drivers may use GPU VAs to also
+> > + * keep track of sparse PTEs in order to support Vulkan 'Sparse Resources'.
+> > + *
+> > + * The GPU VA manager internally uses a &maple_tree to manage the
+> > + * &drm_gpuva mappings within a GPU's virtual address space.
+> > + *
+> > + * The &drm_gpuva_manager contains a special &drm_gpuva representing the
+> > + * portion of VA space reserved by the kernel. This node is initialized together
+> > + * with the GPU VA manager instance and removed when the GPU VA manager is
+> > + * destroyed.
+> > + *
+> > + * In a typical application drivers would embed struct drm_gpuva_manager and
+> > + * struct drm_gpuva within their own driver specific structures, there won't be
+> > + * any memory allocations of it's own nor memory allocations of &drm_gpuva
+> > + * entries.
+> > + *
+> > + * However, the &drm_gpuva_manager needs to allocate nodes for it's internal
+> > + * tree structures when &drm_gpuva entries are inserted. In order to support
+> > + * inserting &drm_gpuva entries from dma-fence signalling critical sections the
+> > + * &drm_gpuva_manager provides struct drm_gpuva_prealloc. Drivers may create
+> > + * pre-allocated nodes which drm_gpuva_prealloc_create() and subsequently insert
+> > + * a new &drm_gpuva entry with drm_gpuva_insert_prealloc().
+> > + */
+> > +
+> > +/**
+> > + * DOC: Split and Merge
+> > + *
+> > + * The DRM GPU VA manager also provides an algorithm implementing splitting and
+> > + * merging of existent GPU VA mappings with the ones that are requested to be
+> > + * mapped or unmapped. This feature is required by the Vulkan API to implement
+> > + * Vulkan 'Sparse Memory Bindings' - drivers UAPIs often refer to this as
+> > + * VM BIND.
+> > + *
+> > + * Drivers can call drm_gpuva_sm_map() to receive a sequence of callbacks
+> > + * containing map, unmap and remap operations for a given newly requested
+> > + * mapping. The sequence of callbacks represents the set of operations to
+> > + * execute in order to integrate the new mapping cleanly into the current state
+> > + * of the GPU VA space.
+> > + *
+> > + * Depending on how the new GPU VA mapping intersects with the existent mappings
+> > + * of the GPU VA space the &drm_gpuva_fn_ops callbacks contain an arbitrary
+> > + * amount of unmap operations, a maximum of two remap operations and a single
+> > + * map operation. The caller might receive no callback at all if no operation is
+> > + * required, e.g. if the requested mapping already exists in the exact same way.
+> > + *
+> > + * The single map operation represents the original map operation requested by
+> > + * the caller.
+> > + *
+> > + * &drm_gpuva_op_unmap contains a 'keep' field, which indicates whether the
+> > + * &drm_gpuva to unmap is physically contiguous with the original mapping
+> > + * request. Optionally, if 'keep' is set, drivers may keep the actual page table
+> > + * entries for this &drm_gpuva, adding the missing page table entries only and
+> > + * update the &drm_gpuva_manager's view of things accordingly.
+> > + *
+> > + * Drivers may do the same optimization, namely delta page table updates, also
+> > + * for remap operations. This is possible since &drm_gpuva_op_remap consists of
+> > + * one unmap operation and one or two map operations, such that drivers can
+> > + * derive the page table update delta accordingly.
+> > + *
+> > + * Note that there can't be more than two existent mappings to split up, one at
+> > + * the beginning and one at the end of the new mapping, hence there is a
+> > + * maximum of two remap operations.
+> > + *
+> > + * Analogous to drm_gpuva_sm_map() drm_gpuva_sm_unmap() uses &drm_gpuva_fn_ops
+> > + * to call back into the driver in order to unmap a range of GPU VA space. The
+> > + * logic behind this function is way simpler though: For all existent mappings
+> > + * enclosed by the given range unmap operations are created. For mappings which
+> > + * are only partically located within the given range, remap operations are
+> > + * created such that those mappings are split up and re-mapped partically.
+> > + *
+> > + * To update the &drm_gpuva_manager's view of the GPU VA space
+> > + * drm_gpuva_insert(), drm_gpuva_insert_prealloc(), and drm_gpuva_remove() may
+> > + * be used. Please note that these functions are not safe to be called from a
+> > + * &drm_gpuva_fn_ops callback originating from drm_gpuva_sm_map() or
+> > + * drm_gpuva_sm_unmap(). The drm_gpuva_map(), drm_gpuva_remap() and
+> > + * drm_gpuva_unmap() helpers should be used instead.
+> > + *
+> > + * The following diagram depicts the basic relationships of existent GPU VA
+> > + * mappings, a newly requested mapping and the resulting mappings as implemented
+> > + * by drm_gpuva_sm_map() - it doesn't cover any arbitrary combinations of these.
+> > + *
+> > + * 1) Requested mapping is identical. Replace it, but indicate the backing PTEs
+> > + *    could be kept.
+> > + *
+> > + *    ::
+> > + *
+> > + *	     0     a     1
+> > + *	old: |-----------| (bo_offset=n)
+> > + *
+> > + *	     0     a     1
+> > + *	req: |-----------| (bo_offset=n)
+> > + *
+> > + *	     0     a     1
+> > + *	new: |-----------| (bo_offset=n)
+> > + *
+> > + *
+> > + * 2) Requested mapping is identical, except for the BO offset, hence replace
+> > + *    the mapping.
+> > + *
+> > + *    ::
+> > + *
+> > + *	     0     a     1
+> > + *	old: |-----------| (bo_offset=n)
+> > + *
+> > + *	     0     a     1
+> > + *	req: |-----------| (bo_offset=m)
+> > + *
+> > + *	     0     a     1
+> > + *	new: |-----------| (bo_offset=m)
+> > + *
+> > + *
+> > + * 3) Requested mapping is identical, except for the backing BO, hence replace
+> > + *    the mapping.
+> > + *
+> > + *    ::
+> > + *
+> > + *	     0     a     1
+> > + *	old: |-----------| (bo_offset=n)
+> > + *
+> > + *	     0     b     1
+> > + *	req: |-----------| (bo_offset=n)
+> > + *
+> > + *	     0     b     1
+> > + *	new: |-----------| (bo_offset=n)
+> > + *
+> > + *
+> > + * 4) Existent mapping is a left aligned subset of the requested one, hence
+> > + *    replace the existent one.
+> > + *
+> > + *    ::
+> > + *
+> > + *	     0  a  1
+> > + *	old: |-----|       (bo_offset=n)
+> > + *
+> > + *	     0     a     2
+> > + *	req: |-----------| (bo_offset=n)
+> > + *
+> > + *	     0     a     2
+> > + *	new: |-----------| (bo_offset=n)
+> > + *
+> > + *    .. note::
+> > + *       We expect to see the same result for a request with a different BO
+> > + *       and/or non-contiguous BO offset.
+> > + *
+> > + *
+> > + * 5) Requested mapping's range is a left aligned subset of the existent one,
+> > + *    but backed by a different BO. Hence, map the requested mapping and split
+> > + *    the existent one adjusting it's BO offset.
+> > + *
+> > + *    ::
+> > + *
+> > + *	     0     a     2
+> > + *	old: |-----------| (bo_offset=n)
+> > + *
+> > + *	     0  b  1
+> > + *	req: |-----|       (bo_offset=n)
+> > + *
+> > + *	     0  b  1  a' 2
+> > + *	new: |-----|-----| (b.bo_offset=n, a.bo_offset=n+1)
+> > + *
+> > + *    .. note::
+> > + *       We expect to see the same result for a request with a different BO
+> > + *       and/or non-contiguous BO offset.
+> > + *
+> > + *
+> > + * 6) Existent mapping is a superset of the requested mapping. Split it up, but
+> > + *    indicate that the backing PTEs could be kept.
+> > + *
+> > + *    ::
+> > + *
+> > + *	     0     a     2
+> > + *	old: |-----------| (bo_offset=n)
+> > + *
+> > + *	     0  a  1
+> > + *	req: |-----|       (bo_offset=n)
+> > + *
+> > + *	     0  a  1  a' 2
+> > + *	new: |-----|-----| (a.bo_offset=n, a'.bo_offset=n+1)
+> > + *
+> > + *
+> > + * 7) Requested mapping's range is a right aligned subset of the existent one,
+> > + *    but backed by a different BO. Hence, map the requested mapping and split
+> > + *    the existent one, without adjusting the BO offset.
+> > + *
+> > + *    ::
+> > + *
+> > + *	     0     a     2
+> > + *	old: |-----------| (bo_offset=n)
+> > + *
+> > + *	           1  b  2
+> > + *	req:       |-----| (bo_offset=m)
+> > + *
+> > + *	     0  a  1  b  2
+> > + *	new: |-----|-----| (a.bo_offset=n,b.bo_offset=m)
+> > + *
+> > + *
+> > + * 8) Existent mapping is a superset of the requested mapping. Split it up, but
+> > + *    indicate that the backing PTEs could be kept.
+> > + *
+> > + *    ::
+> > + *
+> > + *	      0     a     2
+> > + *	old: |-----------| (bo_offset=n)
+> > + *
+> > + *	           1  a  2
+> > + *	req:       |-----| (bo_offset=n+1)
+> > + *
+> > + *	     0  a' 1  a  2
+> > + *	new: |-----|-----| (a'.bo_offset=n, a.bo_offset=n+1)
+> > + *
+> > + *
+> > + * 9) Existent mapping is overlapped at the end by the requested mapping backed
+> > + *    by a different BO. Hence, map the requested mapping and split up the
+> > + *    existent one, without adjusting the BO offset.
+> > + *
+> > + *    ::
+> > + *
+> > + *	     0     a     2
+> > + *	old: |-----------|       (bo_offset=n)
+> > + *
+> > + *	           1     b     3
+> > + *	req:       |-----------| (bo_offset=m)
+> > + *
+> > + *	     0  a  1     b     3
+> > + *	new: |-----|-----------| (a.bo_offset=n,b.bo_offset=m)
+> > + *
+> > + *
+> > + * 10) Existent mapping is overlapped by the requested mapping, both having the
+> > + *     same backing BO with a contiguous offset. Indicate the backing PTEs of
+> > + *     the old mapping could be kept.
+> > + *
+> > + *     ::
+> > + *
+> > + *	      0     a     2
+> > + *	 old: |-----------|       (bo_offset=n)
+> > + *
+> > + *	            1     a     3
+> > + *	 req:       |-----------| (bo_offset=n+1)
+> > + *
+> > + *	      0  a' 1     a     3
+> > + *	 new: |-----|-----------| (a'.bo_offset=n, a.bo_offset=n+1)
+> > + *
+> > + *
+> > + * 11) Requested mapping's range is a centered subset of the existent one
+> > + *     having a different backing BO. Hence, map the requested mapping and split
+> > + *     up the existent one in two mappings, adjusting the BO offset of the right
+> > + *     one accordingly.
+> > + *
+> > + *     ::
+> > + *
+> > + *	      0        a        3
+> > + *	 old: |-----------------| (bo_offset=n)
+> > + *
+> > + *	            1  b  2
+> > + *	 req:       |-----|       (bo_offset=m)
+> > + *
+> > + *	      0  a  1  b  2  a' 3
+> > + *	 new: |-----|-----|-----| (a.bo_offset=n,b.bo_offset=m,a'.bo_offset=n+2)
+> > + *
+> > + *
+> > + * 12) Requested mapping is a contiguous subset of the existent one. Split it
+> > + *     up, but indicate that the backing PTEs could be kept.
+> > + *
+> > + *     ::
+> > + *
+> > + *	      0        a        3
+> > + *	 old: |-----------------| (bo_offset=n)
+> > + *
+> > + *	            1  a  2
+> > + *	 req:       |-----|       (bo_offset=n+1)
+> > + *
+> > + *	      0  a' 1  a  2 a'' 3
+> > + *	 old: |-----|-----|-----| (a'.bo_offset=n, a.bo_offset=n+1, a''.bo_offset=n+2)
+> > + *
+> > + *
+> > + * 13) Existent mapping is a right aligned subset of the requested one, hence
+> > + *     replace the existent one.
+> > + *
+> > + *     ::
+> > + *
+> > + *	            1  a  2
+> > + *	 old:       |-----| (bo_offset=n+1)
+> > + *
+> > + *	      0     a     2
+> > + *	 req: |-----------| (bo_offset=n)
+> > + *
+> > + *	      0     a     2
+> > + *	 new: |-----------| (bo_offset=n)
+> > + *
+> > + *     .. note::
+> > + *        We expect to see the same result for a request with a different bo
+> > + *        and/or non-contiguous bo_offset.
+> > + *
+> > + *
+> > + * 14) Existent mapping is a centered subset of the requested one, hence
+> > + *     replace the existent one.
+> > + *
+> > + *     ::
+> > + *
+> > + *	            1  a  2
+> > + *	 old:       |-----| (bo_offset=n+1)
+> > + *
+> > + *	      0        a       3
+> > + *	 req: |----------------| (bo_offset=n)
+> > + *
+> > + *	      0        a       3
+> > + *	 new: |----------------| (bo_offset=n)
+> > + *
+> > + *     .. note::
+> > + *        We expect to see the same result for a request with a different bo
+> > + *        and/or non-contiguous bo_offset.
+> > + *
+> > + *
+> > + * 15) Existent mappings is overlapped at the beginning by the requested mapping
+> > + *     backed by a different BO. Hence, map the requested mapping and split up
+> > + *     the existent one, adjusting it's BO offset accordingly.
+> > + *
+> > + *     ::
+> > + *
+> > + *	            1     a     3
+> > + *	 old:       |-----------| (bo_offset=n)
+> > + *
+> > + *	      0     b     2
+> > + *	 req: |-----------|       (bo_offset=m)
+> > + *
+> > + *	      0     b     2  a' 3
+> > + *	 new: |-----------|-----| (b.bo_offset=m,a.bo_offset=n+2)
+> > + */
+> > +
+> > +/**
+> > + * DOC: Locking
+> > + *
+> > + * Generally, the GPU VA manager does not take care of locking itself, it is
+> > + * the drivers responsibility to take care about locking. Drivers might want to
+> > + * protect the following operations: inserting, removing and iterating
+> > + * &drm_gpuva objects as well as generating all kinds of operations, such as
+> > + * split / merge or prefetch.
+> > + *
+> > + * The GPU VA manager also does not take care of the locking of the backing
+> > + * &drm_gem_object buffers GPU VA lists by itself; drivers are responsible to
+> > + * enforce mutual exclusion.
+> > + */
+> > +
+> > + /*
+> > +  * Maple Tree Locking
+> > +  *
+> > +  * The maple tree's advanced API requires the user of the API to protect
+> > +  * certain tree operations with a lock (either the external or internal tree
+> > +  * lock) for tree internal reasons.
+> > +  *
+> > +  * The actual rules (when to aquire/release the lock) are enforced by lockdep
+> > +  * through the maple tree implementation.
+> > +  *
+> > +  * For this reason the DRM GPUVA manager takes the maple tree's internal
+> > +  * spinlock according to the lockdep enforced rules.
+> > +  *
+> > +  * Please note, that this lock is *only* meant to fulfill the maple trees
+> > +  * requirements and does not intentionally protect the DRM GPUVA manager
+> > +  * against concurrent access.
+> > +  *
+> > +  * The following mail thread provides more details on why the maple tree
+> > +  * has this requirement.
+> > +  *
+> > +  * https://lore.kernel.org/lkml/20230217134422.14116-5-dakr@redhat.com/
+> > +  */
+> > +
+> > +static int __drm_gpuva_insert(struct drm_gpuva_manager *mgr,
+> > +			      struct drm_gpuva *va);
+> > +static void __drm_gpuva_remove(struct drm_gpuva *va);
+> > +
+> > +/**
+> > + * drm_gpuva_manager_init - initialize a &drm_gpuva_manager
+> > + * @mgr: pointer to the &drm_gpuva_manager to initialize
+> > + * @name: the name of the GPU VA space
+> > + * @start_offset: the start offset of the GPU VA space
+> > + * @range: the size of the GPU VA space
+> > + * @reserve_offset: the start of the kernel reserved GPU VA area
+> > + * @reserve_range: the size of the kernel reserved GPU VA area
+> > + * @ops: &drm_gpuva_fn_ops called on &drm_gpuva_sm_map / &drm_gpuva_sm_unmap
+> > + *
+> > + * The &drm_gpuva_manager must be initialized with this function before use.
+> > + *
+> > + * Note that @mgr must be cleared to 0 before calling this function. The given
+> > + * &name is expected to be managed by the surrounding driver structures.
+> > + */
+> > +void
+> > +drm_gpuva_manager_init(struct drm_gpuva_manager *mgr,
+> > +		       const char *name,
+> > +		       u64 start_offset, u64 range,
+> > +		       u64 reserve_offset, u64 reserve_range,
+> > +		       const struct drm_gpuva_fn_ops *ops)
+> > +{
+> > +	mt_init(&mgr->mtree);
+> > +
+> > +	mgr->mm_start = start_offset;
+> > +	mgr->mm_range = range;
+> > +
+> > +	mgr->name = name ? name : "unknown";
+> > +	mgr->ops = ops;
+> > +
+> > +	memset(&mgr->kernel_alloc_node, 0, sizeof(struct drm_gpuva));
+> > +
+> > +	if (reserve_range) {
+> > +		mgr->kernel_alloc_node.va.addr = reserve_offset;
+> > +		mgr->kernel_alloc_node.va.range = reserve_range;
+> > +
+> > +		__drm_gpuva_insert(mgr, &mgr->kernel_alloc_node);
+> > +	}
+> > +
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_manager_init);
+> > +
+> > +/**
+> > + * drm_gpuva_manager_destroy - cleanup a &drm_gpuva_manager
+> > + * @mgr: pointer to the &drm_gpuva_manager to clean up
+> > + *
+> > + * Note that it is a bug to call this function on a manager that still
+> > + * holds GPU VA mappings.
+> > + */
+> > +void
+> > +drm_gpuva_manager_destroy(struct drm_gpuva_manager *mgr)
+> > +{
+> > +	mgr->name = NULL;
+> > +
+> > +	if (mgr->kernel_alloc_node.va.range)
+> > +		__drm_gpuva_remove(&mgr->kernel_alloc_node);
+> > +
+> > +	mtree_lock(&mgr->mtree);
+> > +	WARN(!mtree_empty(&mgr->mtree),
+> > +	     "GPUVA tree is not empty, potentially leaking memory.");
+> > +	__mt_destroy(&mgr->mtree);
+> > +	mtree_unlock(&mgr->mtree);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_manager_destroy);
+> > +
+> > +static inline bool
+> > +drm_gpuva_in_mm_range(struct drm_gpuva_manager *mgr, u64 addr, u64 range)
+> > +{
+> > +	u64 end = addr + range;
+> > +	u64 mm_start = mgr->mm_start;
+> > +	u64 mm_end = mm_start + mgr->mm_range;
+> > +
+> > +	return addr < mm_end && mm_start < end;
+> > +}
+> > +
+> > +static inline bool
+> > +drm_gpuva_in_kernel_node(struct drm_gpuva_manager *mgr, u64 addr, u64 range)
+> > +{
+> > +	u64 end = addr + range;
+> > +	u64 kstart = mgr->kernel_alloc_node.va.addr;
+> > +	u64 krange = mgr->kernel_alloc_node.va.range;
+> > +	u64 kend = kstart + krange;
+> > +
+> > +	return krange && addr < kend && kstart < end;
+> > +}
+> > +
+> > +static inline bool
+> > +drm_gpuva_range_valid(struct drm_gpuva_manager *mgr,
+> > +		      u64 addr, u64 range)
+> > +{
+> > +	return drm_gpuva_in_mm_range(mgr, addr, range) &&
+> > +	       !drm_gpuva_in_kernel_node(mgr, addr, range);
+> > +}
+> > +
+> > +/**
+> > + * drm_gpuva_iter_remove - removes the iterators current element
+> > + * @it: the &drm_gpuva_iterator
+> > + *
+> > + * This removes the element the iterator currently points to.
+> > + */
+> > +void
+> > +drm_gpuva_iter_remove(struct drm_gpuva_iterator *it)
+> > +{
+> > +	mas_lock(&it->mas);
+> > +	mas_erase(&it->mas);
+> > +	mas_unlock(&it->mas);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_iter_remove);
+> > +
+> > +/**
+> > + * drm_gpuva_prealloc_create - creates a preallocated node to store a
+> > + * &drm_gpuva entry.
+> > + *
+> > + * Returns: the &drm_gpuva_prealloc object on success, NULL on failure
+> > + */
+> > +struct drm_gpuva_prealloc *
+> > +drm_gpuva_prealloc_create(struct drm_gpuva_manager *mgr)
+> > +{
+> > +	struct drm_gpuva_prealloc *pa;
+> > +
+> > +	pa = kzalloc(sizeof(*pa), GFP_KERNEL);
+> > +	if (!pa)
+> > +		return NULL;
+> > +
+> > +	mas_init(&pa->mas, &mgr->mtree, 0);
+> 
+> I've broken this interface on you too, with the mas_preallocate()
+> change - See below.
+> 
+> > +	if (mas_preallocate(&pa->mas, GFP_KERNEL)) {
+> > +		kfree(pa);
+> > +		return NULL;
+> > +	}
+> > +
+> > +	return pa;
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_prealloc_create);
+> > +
+> > +/**
+> > + * drm_gpuva_prealloc_destroy - destroyes a preallocated node and frees the
+> > + * &drm_gpuva_prealloc
+> 
+> I tend to think of it as destroying a maple state by freeing the
+> preallocated nodes, but I guess the state isn't destroyed.
+> 
 
---------------9Qho0vVB5MgKhctfWEWWV9Vn
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+While writing 'preallocated node' I think I did not think of the maple tree
+implementation behind it. I intended to tell the user of the API that the 'node'
+(meaning an arbitrary place to store a GPUVA entry) internally is destroyed with
+this function.
 
-SGkgSm9jZWx5bg0KDQpBbSAzMS4wNS4yMyB1bSAxMToyMSBzY2hyaWViIEpvY2VseW4gRmFs
-ZW1wZToNCj4gRXZlbiBpZiB0aGUgdHJhbnNmZXIgaXMgbm90IGZhc3RlciwgaXQgYnJpbmdz
-IHNpZ25pZmljYW50DQo+IGltcHJvdmVtZW50IGluIGxhdGVuY2llcyBhbmQgQ1BVIHVzYWdl
-Lg0KPiANCj4gQ1BVIHVzYWdlIGRyb3BzIGZyb20gMTAwJSBvZiBvbmUgY29yZSB0byAzJSB3
-aGVuIGNvbnRpbnVvdXNseQ0KPiByZWZyZXNoaW5nIHRoZSBzY3JlZW4uDQoNCkkgdHJpZWQg
-eW91ciBwYXRjaHNldCBvbiBhIEhQIFByb2xpYW50IHNlcnZlciB3aXRoIGEgRzIwMEVILiBJ
-IGNhbiBzZWUgDQp0aGF0IHRoZSBDUFUgdXNhZ2UgZ29lcyBkb3duLCBidXQgdGhlIHRpbWUg
-dW50aWwgdGhlIHNjcmVlbiB1cGRhdGUgDQpyZWFjaGVzIHRoZSBoYXJkd2FyZSdzIHZpZGVv
-IG1lbW9yeSBoYXMgaW5jcmVhc2VkIHNpZ25pZmljYW50bHkuDQoNCkFueSBkaXNwbGF5IHVw
-ZGF0ZSB0aGF0IGlzIG1vcmUgdGhhbiBqdXN0IG1vdmluZyB0aGUgbW91c2UgcmVzdWx0cyBp
-biANCnRlYXJpbmcuIEkgY2FuIHNlZSBob3cgdGhlIGluZGl2aWRpYWwgc2NhbmxpbmVzIGFy
-ZSB1cGRhdGVkIGZyb20gdG9wIHRvIA0KYm90dG9tLiBUaGF0IHRha2VzIH4xIHNlYyBwZXIg
-ZnVsbCBmcmFtZS4gU28gdGhpcyBwYXRjaCByZW5kZXJzIHRoZSANCmRpc3BsYXkgZnJvbSBz
-bG93IHRvIGJhcmVseSB1c2FibGUuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+
-IFRoZSBwcmltYXJ5IERNQSBpcyB1c2VkIHRvIHNlbmQgY29tbWFuZHMgKHJlZ2lzdGVyIHdy
-aXRlKSwgYW5kDQo+IHRoZSBzZWNvbmRhcnkgRE1BIHRvIHNlbmQgdGhlIHBpeGVsIGRhdGEu
-DQo+IEl0IHVzZXMgdGhlIElMT0FEIGNvbW1hbmQgKGNoYXB0ZXIgNC41LjcgaW4gRzIwMCBz
-cGVjaWZpY2F0aW9uKSwNCj4gd2hpY2ggYWxsb3dzIHRvIGxvYWQgYW4gaW1hZ2UsIG9yIGEg
-cGFydCBvZiBhbiBpbWFnZSBmcm9tIHN5c3RlbQ0KPiBtZW1vcnkgdG8gVlJBTS4NCj4gVGhl
-IGxhc3QgY29tbWFuZCBzZW50LCBpcyBhIHNvZnRyYXAgY29tbWFuZCwgd2hpY2ggdHJpZ2dl
-cnMgYW4gSVJRDQo+IHdoZW4gdGhlIERNQSB0cmFuc2ZlciBpcyBjb21wbGV0ZS4NCj4gRm9y
-IDE2Yml0cyBhbmQgMjRiaXRzIHBpeGVsIHdpZHRoLCBlYWNoIGxpbmUgaXMgcGFkZGVkIHRv
-IG1ha2Ugc3VyZSwNCj4gdGhlIERNQSB0cmFuc2ZlciBpcyBhIG11bHRpcGxlIG9mIDMyYml0
-cy4gVGhlIHBhZGRlZCBieXRlcyB3b24ndCBiZQ0KPiBkcmF3biBvbiB0aGUgc2NyZWVuLCBz
-byB0aGV5IGRvbid0IG5lZWQgdG8gYmUgaW5pdGlhbGl6ZWQuDQo+IA0KPiBTaWduZWQtb2Zm
-LWJ5OiBKb2NlbHluIEZhbGVtcGUgPGpmYWxlbXBlQHJlZGhhdC5jb20+DQo+IC0tLQ0KPiAg
-IGRyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL01ha2VmaWxlICAgICAgICAgIHwgICAzICstDQo+
-ICAgZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9kbWEuYyAgICAgfCAyMzcgKysr
-KysrKysrKysrKysrKysrKysrKw0KPiAgIGRyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcy
-MDBfZHJ2LmMgICAgIHwgICA0ICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdh
-ZzIwMF9kcnYuaCAgICAgfCAgMjkgKysrDQo+ICAgZHJpdmVycy9ncHUvZHJtL21nYWcyMDAv
-bWdhZzIwMF9nMjAwLmMgICAgfCAgIDQgKw0KPiAgIGRyaXZlcnMvZ3B1L2RybS9tZ2FnMjAw
-L21nYWcyMDBfZzIwMGVoLmMgIHwgICA0ICsNCj4gICBkcml2ZXJzL2dwdS9kcm0vbWdhZzIw
-MC9tZ2FnMjAwX2cyMDBlaDMuYyB8ICAgNCArDQo+ICAgZHJpdmVycy9ncHUvZHJtL21nYWcy
-MDAvbWdhZzIwMF9nMjAwZXIuYyAgfCAgIDQgKw0KPiAgIGRyaXZlcnMvZ3B1L2RybS9tZ2Fn
-MjAwL21nYWcyMDBfZzIwMGV2LmMgIHwgICA0ICsNCj4gICBkcml2ZXJzL2dwdS9kcm0vbWdh
-ZzIwMC9tZ2FnMjAwX2cyMDBldzMuYyB8ICAgNCArDQo+ICAgZHJpdmVycy9ncHUvZHJtL21n
-YWcyMDAvbWdhZzIwMF9nMjAwc2UuYyAgfCAgIDQgKw0KPiAgIGRyaXZlcnMvZ3B1L2RybS9t
-Z2FnMjAwL21nYWcyMDBfZzIwMHdiLmMgIHwgICA0ICsNCj4gICBkcml2ZXJzL2dwdS9kcm0v
-bWdhZzIwMC9tZ2FnMjAwX21vZGUuYyAgICB8ICAxNSArLQ0KPiAgIGRyaXZlcnMvZ3B1L2Ry
-bS9tZ2FnMjAwL21nYWcyMDBfcmVnLmggICAgIHwgIDI1ICsrKw0KPiAgIDE0IGZpbGVzIGNo
-YW5nZWQsIDMzMyBpbnNlcnRpb25zKCspLCAxMiBkZWxldGlvbnMoLSkNCj4gICBjcmVhdGUg
-bW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9kbWEuYw0KPiAN
-Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL01ha2VmaWxlIGIvZHJp
-dmVycy9ncHUvZHJtL21nYWcyMDAvTWFrZWZpbGUNCj4gaW5kZXggMTgyZTIyNGM0NjBkLi45
-NmUyM2RjNTU3MmMgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL01h
-a2VmaWxlDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL01ha2VmaWxlDQo+IEBA
-IC0xMSw2ICsxMSw3IEBAIG1nYWcyMDAteSA6PSBcDQo+ICAgCW1nYWcyMDBfZzIwMHNlLm8g
-XA0KPiAgIAltZ2FnMjAwX2cyMDB3Yi5vIFwNCj4gICAJbWdhZzIwMF9pMmMubyBcDQo+IC0J
-bWdhZzIwMF9tb2RlLm8NCj4gKwltZ2FnMjAwX21vZGUubyBcDQo+ICsJbWdhZzIwMF9kbWEu
-bw0KPiAgIA0KPiAgIG9iai0kKENPTkZJR19EUk1fTUdBRzIwMCkgKz0gbWdhZzIwMC5vDQo+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2RtYS5jIGIv
-ZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9kbWEuYw0KPiBuZXcgZmlsZSBtb2Rl
-IDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwMDAwMDAuLjdlOWI1OWVmMDhkOQ0KPiAtLS0gL2Rl
-di9udWxsDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfZG1hLmMN
-Cj4gQEAgLTAsMCArMSwyMzcgQEANCj4gKy8vIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBH
-UEwtMi4wLW9ubHkNCj4gKy8qDQo+ICsgKiBDb3B5cmlnaHQgMjAyMyBSZWQgSGF0DQo+ICsg
-Kg0KPiArICogQXV0aG9yczogSm9jZWx5biBGYWxlbXBlDQo+ICsgKg0KPiArICovDQo+ICsN
-Cj4gKyNpbmNsdWRlIDxsaW51eC9kbWEtbWFwcGluZy5oPg0KPiArI2luY2x1ZGUgPGxpbnV4
-L2lvc3lzLW1hcC5oPg0KPiArI2luY2x1ZGUgPGxpbnV4L3dhaXQuaD4NCj4gKw0KPiArI2lu
-Y2x1ZGUgPGRybS9kcm1fZnJhbWVidWZmZXIuaD4NCj4gKw0KPiArI2luY2x1ZGUgIm1nYWcy
-MDBfZHJ2LmgiDQo+ICsjaW5jbHVkZSAibWdhZzIwMF9yZWcuaCINCj4gKw0KPiArLyogTWF4
-aW11bSBudW1iZXIgb2YgY29tbWFuZCBibG9jayBmb3Igb25lIERNQSB0cmFuc2Zlcg0KPiAr
-ICogaWxvYWQgc2hvdWxkIG9ubHkgdXNlIDQgYmxvY2tzDQo+ICsgKi8NCj4gKyNkZWZpbmUg
-TUdBX01BWF9DTUQJCTUwDQo+ICsNCj4gKyNkZWZpbmUgTUdBX0RNQV9TSVpFCQkoNCAqIDEw
-MjQgKiAxMDI0KQ0KPiArI2RlZmluZSBNR0FfTUlOX0RNQV9TSVpFCSg2NCAqIDEwMjQpDQo+
-ICsNCj4gKy8qDQo+ICsgKiBBbGxvY2F0ZSBjb2hlcmVudCBidWZmZXJzIGZvciBETUEgdHJh
-bnNmZXIuDQo+ICsgKiBXZSBuZWVkIHR3byBidWZmZXJzLCBvbmUgZm9yIHRoZSBjb21tYW5k
-cywgYW5kIG9uZSBmb3IgdGhlIGRhdGEuDQo+ICsgKi8NCj4gK2ludCBtZ2FnMjAwX2RtYV9p
-bml0KHN0cnVjdCBtZ2FfZGV2aWNlICptZGV2KQ0KPiArew0KPiArCXN0cnVjdCBkcm1fZGV2
-aWNlICpkZXYgPSAmbWRldi0+YmFzZTsNCj4gKwlzdHJ1Y3QgbWdhX2RtYSAqZG1hID0gJm1k
-ZXYtPmRtYTsNCj4gKwlpbnQgc2l6ZTsNCj4gKwkvKiBBbGxvY2F0ZSB0aGUgY29tbWFuZCBi
-dWZmZXIgKi8NCj4gKwlkbWEtPmNtZCA9IGRtYW1fYWxsb2NfY29oZXJlbnQoZGV2LT5kZXYs
-IE1HQV9NQVhfQ01EICogc2l6ZW9mKCpkbWEtPmNtZCksDQo+ICsJCQkJCSZkbWEtPmNtZF9o
-YW5kbGUsIEdGUF9LRVJORUwpOw0KPiArDQo+ICsJaWYgKCFkbWEtPmNtZCkgew0KPiArCQlk
-cm1fZXJyKGRldiwgIkRNQSBjb21tYW5kIGJ1ZmZlciBhbGxvY2F0aW9uIGZhaWxlZFxuIik7
-DQo+ICsJCXJldHVybiAtRU5PTUVNOw0KPiArCX0NCj4gKw0KPiArCWZvciAoc2l6ZSA9IE1H
-QV9ETUFfU0laRTsgc2l6ZSA+PSBNR0FfTUlOX0RNQV9TSVpFOyBzaXplID0gc2l6ZSA+PiAx
-KSB7DQo+ICsJCWRtYS0+YnVmID0gZG1hbV9hbGxvY19jb2hlcmVudChkZXYtPmRldiwgc2l6
-ZSwgJmRtYS0+aGFuZGxlLCBHRlBfS0VSTkVMKTsNCj4gKwkJaWYgKGRtYS0+YnVmKQ0KPiAr
-CQkJYnJlYWs7DQo+ICsJfQ0KPiArCWlmICghZG1hLT5idWYpIHsNCj4gKwkJZHJtX2Vycihk
-ZXYsICJETUEgZGF0YSBidWZmZXIgYWxsb2NhdGlvbiBmYWlsZWRcbiIpOw0KPiArCQlyZXR1
-cm4gLUVOT01FTTsNCj4gKwl9DQo+ICsJZG1hLT5zaXplID0gc2l6ZTsNCj4gKwlkcm1faW5m
-byhkZXYsICJVc2luZyBETUEgd2l0aCBhICVkayBkYXRhIGJ1ZmZlclxuIiwgc2l6ZSAvIDEw
-MjQpOw0KPiArDQo+ICsJaW5pdF93YWl0cXVldWVfaGVhZCgmZG1hLT53YWl0cSk7DQo+ICsJ
-cmV0dXJuIDA7DQo+ICt9DQo+ICsNCj4gKy8qDQo+ICsgKiBNYXRyb3ggdXNlcyBhIGNvbW1h
-bmQgYmxvY2sgdG8gcHJvZ3JhbSB0aGUgaGFyZHdhcmUgdGhyb3VnaCBETUEuDQo+ICsgKiBF
-YWNoIGNvbW1hbmQgaXMgYSByZWdpc3RlciB3cml0ZSwgYW5kIGVhY2ggYmxvY2sgY29udGFp
-bnMgNCBjb21tYW5kcw0KPiArICogcGFja2VkIGluIDUgZHdvcmRzKHUzMikuDQo+ICsgKiBG
-aXJzdCBkd29yZCBpcyB0aGUgNCByZWdpc3RlciBpbmRleCAoOGJpdCkgdG8gd3JpdGUgZm9y
-IHRoZSA0IGNvbW1hbmRzLA0KPiArICogZm9sbG93ZWQgYnkgdGhlIGZvdXIgdmFsdWVzIHRv
-IGJlIHdyaXR0ZW4uDQo+ICsgKi8NCj4gK3N0YXRpYyB2b2lkIG1nYWcyMDBfZG1hX2FkZF9i
-bG9jayhzdHJ1Y3QgbWdhX2RldmljZSAqbWRldiwNCj4gKwkJCSAgIHUzMiByZWcwLCB1MzIg
-dmFsMCwNCj4gKwkJCSAgIHUzMiByZWcxLCB1MzIgdmFsMSwNCj4gKwkJCSAgIHUzMiByZWcy
-LCB1MzIgdmFsMiwNCj4gKwkJCSAgIHUzMiByZWczLCB1MzIgdmFsMykNCj4gK3sNCj4gKwlp
-ZiAobWRldi0+ZG1hLmNtZF9pZHggPj0gTUdBX01BWF9DTUQpIHsNCj4gKwkJcHJfZXJyKCJt
-Z2FnMjAwOiBleGNlZWRpbmcgdGhlIERNQSBjb21tYW5kIGJ1ZmZlciBzaXplXG4iKTsNCj4g
-KwkJcmV0dXJuOw0KPiArCX0NCj4gKw0KPiArCW1kZXYtPmRtYS5jbWRbbWRldi0+ZG1hLmNt
-ZF9pZHhdID0gKHN0cnVjdCBtZ2FfY21kX2Jsb2NrKSB7DQo+ICsJCS5jbWQgPSBETUFSRUco
-cmVnMCkgfCBETUFSRUcocmVnMSkgPDwgOCB8IERNQVJFRyhyZWcyKSA8PCAxNiB8IERNQVJF
-RyhyZWczKSA8PCAyNCwNCj4gKwkJLnYwID0gdmFsMCwNCj4gKwkJLnYxID0gdmFsMSwNCj4g
-KwkJLnYyID0gdmFsMiwNCj4gKwkJLnYzID0gdmFsM307DQo+ICsJbWRldi0+ZG1hLmNtZF9p
-ZHgrKzsNCj4gK30NCj4gKw0KPiArc3RhdGljIHZvaWQgbWdhZzIwMF9kbWFfcnVuX2NtZChz
-dHJ1Y3QgbWdhX2RldmljZSAqbWRldikNCj4gK3sNCj4gKwlzdHJ1Y3QgZHJtX2RldmljZSAq
-ZGV2ID0gJm1kZXYtPmJhc2U7DQo+ICsJdTMyIHByaW1lbmQ7DQo+ICsNCj4gKwkvKiBBZGQg
-YSBsYXN0IGJsb2NrIHRvIHRyaWdnZXIgdGhlIHNvZnRyYXAgaW50ZXJydXB0ICovDQo+ICsJ
-bWdhZzIwMF9kbWFfYWRkX2Jsb2NrKG1kZXYsDQo+ICsJCQlNR0FSRUdfRE1BUEFELCAwLA0K
-PiArCQkJTUdBUkVHX0RNQVBBRCwgMCwNCj4gKwkJCU1HQVJFR19ETUFQQUQsIDAsDQo+ICsJ
-CQlNR0FSRUdfU09GVFJBUCwgMCk7DQo+ICsNCj4gKwlwcmltZW5kID0gbWRldi0+ZG1hLmNt
-ZF9oYW5kbGUgKyBtZGV2LT5kbWEuY21kX2lkeCAqIHNpemVvZihzdHJ1Y3QgbWdhX2NtZF9i
-bG9jayk7DQo+ICsNCj4gKwkvLyBVc2UgcHJpbWFyeSBETUEgdG8gc2VuZCB0aGUgY29tbWFu
-ZHMNCj4gKwlXUkVHMzIoTUdBUkVHX1BSSU1BRERSLCAodTMyKSBtZGV2LT5kbWEuY21kX2hh
-bmRsZSk7DQo+ICsJbWRldi0+ZG1hLmluX3VzZSA9IDE7DQo+ICsJV1JFRzMyKE1HQVJFR19Q
-UklNRU5ELCBwcmltZW5kKTsNCj4gKw0KPiArCXdhaXRfZXZlbnRfdGltZW91dChtZGV2LT5k
-bWEud2FpdHEsIG1kZXYtPmRtYS5pbl91c2UgPT0gMCwgSFopOw0KPiArDQo+ICsJaWYgKG1k
-ZXYtPmRtYS5pbl91c2UpIHsNCj4gKwkJZHJtX2VycihkZXYsICJETUEgdHJhbnNmZXIgdGlt
-ZWQgb3V0XG4iKTsNCj4gKwkJLyogc29tZXRoaW5nIGdvZXMgd3JvbmcsIHJlc2V0IHRoZSBE
-TUEgZW5naW5lICovDQo+ICsJCVdSRUc4KE1HQVJFR19PUE1PREUsIE1HQU9QTV9ETUFfQkxJ
-VCk7DQo+ICsJCW1kZXYtPmRtYS5pbl91c2UgPSAwOw0KPiArCX0NCj4gKw0KPiArCS8qIHJl
-c2V0IGNvbW1hbmQgaW5kZXggdG8gc3RhcnQgYSBuZXcgc2VxdWVuY2UgKi8NCj4gKwltZGV2
-LT5kbWEuY21kX2lkeCA9IDA7DQo+ICt9DQo+ICsNCj4gKy8qDQo+ICsgKiBJTE9BRCBhbGxv
-d3MgdG8gbG9hZCBhbiBpbWFnZSBmcm9tIHN5c3RlbSBtZW1vcnkgdG8gdGhlIFZSQU0sIGFu
-ZCB3aXRoIEZYQk5EUlksIFlEU1QgYW5kIFlEU1RMRU4sDQo+ICsgKiB5b3UgY2FuIHRyYW5z
-ZmVyIGEgcmVjdGFuZ2xlLCBzbyBpdCdzIHBlcmZlY3Qgd2hlbiB1c2VkIHdpdGggYSBkYW1h
-Z2UgY2xpcC4NCj4gKyAqLw0KPiArc3RhdGljIHZvaWQgbWdhZzIwMF9pbG9hZF9jbWQoc3Ry
-dWN0IG1nYV9kZXZpY2UgKm1kZXYsIGludCB4LCBpbnQgeSwgaW50IHdpZHRoLCBpbnQgaGVp
-Z2h0LA0KPiArCQkJICAgICAgaW50IHdpZHRoX3BhZGRlZCwgaW50IGNwcCkNCj4gK3sNCj4g
-KwlpbnQgc2l6ZSA9IHdpZHRoX3BhZGRlZCAqIGhlaWdodDsNCj4gKwl1MzIgaWxvYWQ7DQo+
-ICsNCj4gKwlpbG9hZCA9IE1HQURXR19JTE9BRCB8IE1HQURXR19TR05aRVJPIHwgTUdBRFdH
-X1NISUZUWkVSTyB8IE1HQURXR19SRVBMQUNFIHwgTUdBRFdHX0NMSVBESVMNCj4gKwkJfCBN
-R0FEV0dfQkZDT0w7DQo+ICsNCj4gKwltZ2FnMjAwX2RtYV9hZGRfYmxvY2sobWRldiwNCj4g
-KwkJTUdBUkVHX0RXR0NUTCwgaWxvYWQsDQo+ICsJCU1HQVJFR19GWEJORFJZLCAoKCh4ICsg
-d2lkdGggLSAxKSA8PCAxNikgfCB4KSwNCj4gKwkJTUdBUkVHX0FSMCwgKHdpZHRoX3BhZGRl
-ZCAvIGNwcCkgLSAxLA0KPiArCQlNR0FSRUdfQVIzLCAwKTsNCj4gKw0KPiArCW1nYWcyMDBf
-ZG1hX2FkZF9ibG9jayhtZGV2LA0KPiArCQlNR0FSRUdfQVI1LCAwLA0KPiArCQlNR0FSRUdf
-WURTVCwgeSwNCj4gKwkJTUdBUkVHX0RNQVBBRCwgMCwNCj4gKwkJTUdBUkVHX0RNQVBBRCwg
-MCk7DQo+ICsNCj4gKwltZ2FnMjAwX2RtYV9hZGRfYmxvY2sobWRldiwNCj4gKwkJTUdBUkVH
-X0RNQVBBRCwgMCwNCj4gKwkJTUdBUkVHX0xFTiB8IE1HQVJFR19FWEVDLCBoZWlnaHQsDQo+
-ICsJCU1HQVJFR19TRUNBRERSLCBtZGV2LT5kbWEuaGFuZGxlIHwgMSwNCj4gKwkJLyogV3Jp
-dGluZyBTRUNFTkQgc2hvdWxkIGFsd2F5cyBiZSB0aGUgbGFzdCBjb21tYW5kIG9mIGEgYmxv
-Y2sgKi8NCj4gKwkJTUdBUkVHX1NFQ0VORCwgbWRldi0+ZG1hLmhhbmRsZSArIHNpemUpOw0K
-PiArfQ0KPiArDQo+ICtzdGF0aWMgdm9pZCBtZ2FnMjAwX2RtYV9jb3B5KHN0cnVjdCBtZ2Ff
-ZGV2aWNlICptZGV2LCBjb25zdCB2b2lkICpzcmMsIHUzMiBwaXRjaCwNCj4gKwkJCQlzdHJ1
-Y3QgZHJtX3JlY3QgKmNsaXAsIGludCBjcHApDQo+ICt7DQo+ICsJaW50IGk7DQo+ICsJaW50
-IHdpZHRoID0gZHJtX3JlY3Rfd2lkdGgoY2xpcCk7DQo+ICsJaW50IGhlaWdodCA9IGRybV9y
-ZWN0X2hlaWdodChjbGlwKTsNCj4gKw0KPiArCS8qIHBhZCBlYWNoIGxpbmUgdG8gMzJiaXRz
-IGJvdW5kYXJpZXMgc2VlIHNlY3Rpb24gNC41Ljcgb2YgRzIwMCBTcGVjaWZpY2F0aW9uICov
-DQo+ICsJaW50IHdpZHRoX3BhZGRlZCA9IHJvdW5kX3VwKHdpZHRoICogY3BwLCA0KTsNCj4g
-Kw0KPiArCWZvciAoaSA9IDA7IGkgPCBoZWlnaHQ7IGkrKykNCj4gKwkJbWVtY3B5KG1kZXYt
-PmRtYS5idWYgKyB3aWR0aF9wYWRkZWQgKiBpLA0KPiArCQkgICAgICAgc3JjICsgKCgoY2xp
-cC0+eTEgKyBpKSAqIHBpdGNoKSArIGNsaXAtPngxICogY3BwKSwNCj4gKwkJICAgICAgIHdp
-ZHRoICogY3BwKTsNCj4gKw0KPiArCW1nYWcyMDBfaWxvYWRfY21kKG1kZXYsIGNsaXAtPngx
-LCBjbGlwLT55MSwgd2lkdGgsIGhlaWdodCwgd2lkdGhfcGFkZGVkLCBjcHApOw0KPiArCW1n
-YWcyMDBfZG1hX3J1bl9jbWQobWRldik7DQo+ICt9DQo+ICsNCj4gKy8qDQo+ICsgKiBJZiB0
-aGUgRE1BIGNvaGVyZW50IGJ1ZmZlciBpcyBzbWFsbGVyIHRoYW4gZGFtYWdlIHJlY3Rhbmds
-ZSwgd2UgbmVlZCB0bw0KPiArICogc3BsaXQgaXQgaW50byBtdWx0aXBsZSBETUEgdHJhbnNm
-ZXJzLg0KPiArICovDQo+ICt2b2lkIG1nYWcyMDBfZG1hX2RhbWFnZShzdHJ1Y3QgbWdhX2Rl
-dmljZSAqbWRldiwgY29uc3Qgc3RydWN0IGlvc3lzX21hcCAqdm1hcCwNCj4gKwkJCXN0cnVj
-dCBkcm1fZnJhbWVidWZmZXIgKmZiLCBzdHJ1Y3QgZHJtX3JlY3QgKmNsaXApDQo+ICt7DQo+
-ICsJdTMyIHBpdGNoID0gZmItPnBpdGNoZXNbMF07DQo+ICsJY29uc3Qgdm9pZCAqc3JjID0g
-dm1hcFswXS52YWRkcjsNCj4gKwlzdHJ1Y3QgZHJtX3JlY3Qgc3ViY2xpcDsNCj4gKwlpbnQg
-eTE7DQo+ICsJaW50IGxpbmVzOw0KPiArCWludCBjcHAgPSBmYi0+Zm9ybWF0LT5jcHBbMF07
-DQo+ICsNCj4gKwkvKiBOdW1iZXIgb2YgbGluZXMgdGhhdCBmaXQgaW4gb25lIERNQSBidWZm
-ZXIgKi8NCj4gKwlsaW5lcyA9IG1pbihkcm1fcmVjdF9oZWlnaHQoY2xpcCksIChpbnQpIG1k
-ZXYtPmRtYS5zaXplIC8gKGRybV9yZWN0X3dpZHRoKGNsaXApICogY3BwKSk7DQo+ICsNCj4g
-KwlzdWJjbGlwLngxID0gY2xpcC0+eDE7DQo+ICsJc3ViY2xpcC54MiA9IGNsaXAtPngyOw0K
-PiArDQo+ICsJZm9yICh5MSA9IGNsaXAtPnkxOyB5MSA8IGNsaXAtPnkyOyB5MSArPSBsaW5l
-cykgew0KPiArCQlzdWJjbGlwLnkxID0geTE7DQo+ICsJCXN1YmNsaXAueTIgPSBtaW4oY2xp
-cC0+eTIsIHkxICsgbGluZXMpOw0KPiArCQltZ2FnMjAwX2RtYV9jb3B5KG1kZXYsIHNyYywg
-cGl0Y2gsICZzdWJjbGlwLCBjcHApOw0KPiArCX0NCj4gK30NCj4gKw0KPiArLyoNCj4gKyAq
-IFNldHVwIHRoZSBkcmF3aW5nIGVuZ2luZSAoRFdHKSByZWdpc3RlcnMNCj4gKyAqIENvbG9y
-IGZvcm1hdCwgZnJhbWVidWZmZXIgd2lkdGgsIC4uLg0KPiArICogVGhpcyBtdXN0IGJlIGRv
-bmUgYmVmb3JlIHVzaW5nIGFueSBEV0dDVEwgY29tbWFuZA0KPiArICovDQo+ICt2b2lkIG1n
-YWcyMDBfZG1hX2R3Z19zZXR1cChzdHJ1Y3QgbWdhX2RldmljZSAqbWRldiwgc3RydWN0IGRy
-bV9mcmFtZWJ1ZmZlciAqZmIpDQo+ICt7DQo+ICsJdTMyIG1hY2Nlc3M7DQo+ICsNCj4gKwlk
-cm1fZGJnKCZtZGV2LT5iYXNlLCAiU2V0dXAgRFdHIHdpdGggJWR4JWQgJXA0Y2NcbiIsDQo+
-ICsJCWZiLT53aWR0aCwgZmItPmhlaWdodCwgJmZiLT5mb3JtYXQtPmZvcm1hdCk7DQo+ICsN
-Cj4gKwlzd2l0Y2ggKGZiLT5mb3JtYXQtPmZvcm1hdCkgew0KPiArCWNhc2UgRFJNX0ZPUk1B
-VF9SR0I1NjU6DQo+ICsJCW1hY2Nlc3MgPSBNR0FNQUNfUFcxNjsNCj4gKwkJYnJlYWs7DQo+
-ICsJY2FzZSBEUk1fRk9STUFUX1JHQjg4ODoNCj4gKwkJbWFjY2VzcyA9IE1HQU1BQ19QVzI0
-Ow0KPiArCQlicmVhazsNCj4gKwljYXNlIERSTV9GT1JNQVRfWFJHQjg4ODg6DQo+ICsJCW1h
-Y2Nlc3MgPSBNR0FNQUNfUFczMjsNCj4gKwkJYnJlYWs7DQo+ICsJfQ0KPiArCVdSRUczMihN
-R0FSRUdfTUFDQ0VTUywgbWFjY2Vzcyk7DQo+ICsNCj4gKwkvKiBGcmFtZWJ1ZmZlciB3aWR0
-aCBpbiBwaXhlbCAqLw0KPiArCVdSRUczMihNR0FSRUdfUElUQ0gsIGZiLT53aWR0aCk7DQo+
-ICsNCj4gKwkvKiBTYW5lIGRlZmF1bHQgdmFsdWUgZm9yIHRoZSBkcmF3aW5nIGVuZ2luZSBy
-ZWdpc3RlcnMgKi8NCj4gKwlXUkVHMzIoTUdBUkVHX0RTVE9SRywgMCk7DQo+ICsJV1JFRzMy
-KE1HQVJFR19ZRFNUT1JHLCAwKTsNCj4gKwlXUkVHMzIoTUdBUkVHX1NSQ09SRywgMCk7DQo+
-ICsJV1JFRzMyKE1HQVJFR19DWEJORFJZLCAweDBGRkYwMDAwKTsNCj4gKwlXUkVHMzIoTUdB
-UkVHX1lUT1AsIDApOw0KPiArCVdSRUczMihNR0FSRUdfWUJPVCwgMHgwMEZGRkZGRik7DQo+
-ICsNCj4gKwkvKiBBY3RpdmF0ZSBibGl0IG1vZGUgRE1BLCBvbmx5IHdyaXRlIHRoZSBsb3cg
-cGFydCBvZiB0aGUgcmVnaXN0ZXIgKi8NCj4gKwlXUkVHOChNR0FSRUdfT1BNT0RFLCBNR0FP
-UE1fRE1BX0JMSVQpOw0KPiArfQ0KPiArDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vbWdhZzIwMC9tZ2FnMjAwX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdh
-ZzIwMF9kcnYuYw0KPiBpbmRleCBhNTg1MWRjYzZiZGQuLjA3ZjM0ZTRkZjFiMCAxMDA2NDQN
-Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9kcnYuYw0KPiArKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2Rydi5jDQo+IEBAIC0xMTksNiAr
-MTE5LDggQEAgc3RhdGljIGlycXJldHVybl90IG1nYWcyMDBfZHJpdmVyX2lycV9oYW5kbGVy
-KGludCBpcnEsIHZvaWQgKmFyZykNCj4gICANCj4gICAJaWYgKHN0YXR1cyAmIE1HQUlSUV9T
-T0ZUUkFQKSB7DQo+ICAgCQlXUkVHMzIoTUdBUkVHX0lDTEVBUiwgTUdBSVJRX1NPRlRSQVAp
-Ow0KPiArCQltZGV2LT5kbWEuaW5fdXNlID0gMDsNCj4gKwkJd2FrZV91cCgmbWRldi0+ZG1h
-LndhaXRxKTsNCj4gICAJCXJldHVybiBJUlFfSEFORExFRDsNCj4gICAJfQ0KPiAgIAlyZXR1
-cm4gSVJRX05PTkU7DQo+IEBAIC0xODcsNyArMTg5LDcgQEAgaW50IG1nYWcyMDBfZGV2aWNl
-X3ByZWluaXQoc3RydWN0IG1nYV9kZXZpY2UgKm1kZXYpDQo+ICAgCQkJICAgICAgIElSUUZf
-U0hBUkVELCAibWdhZzIwMF9pcnEiLCBtZGV2KTsNCj4gICAJaWYgKHJldCA8IDApIHsNCj4g
-ICAJCWRybV9lcnIoZGV2LCAiZGV2bV9yZXF1ZXN0X2lycShWUkFNKSBmYWlsZWQgJWRcbiIs
-IHJldCk7DQo+IC0JCXJldHVybiAtRU5YSU87DQo+ICsJCXJldHVybiByZXQ7DQo+ICAgCX0N
-Cj4gICAJcmV0dXJuIDA7DQo+ICAgfQ0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L21nYWcyMDAvbWdhZzIwMF9kcnYuaCBiL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcy
-MDBfZHJ2LmgNCj4gaW5kZXggOWU2MDRkYmI4ZTQ0Li5hZjY5ZjYxYTExYjcgMTAwNjQ0DQo+
-IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfZHJ2LmgNCj4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9kcnYuaA0KPiBAQCAtMjc3LDYgKzI3
-NywyNyBAQCBzdHJ1Y3QgbWdhZzIwMF9kZXZpY2VfZnVuY3Mgew0KPiAgIAl2b2lkICgqcGl4
-cGxsY19hdG9taWNfdXBkYXRlKShzdHJ1Y3QgZHJtX2NydGMgKmNydGMsIHN0cnVjdCBkcm1f
-YXRvbWljX3N0YXRlICpvbGRfc3RhdGUpOw0KPiAgIH07DQo+ICAgDQo+ICtzdHJ1Y3QgbWdh
-X2NtZF9ibG9jayB7DQo+ICsJdTMyIGNtZDsNCj4gKwl1MzIgdjA7DQo+ICsJdTMyIHYxOw0K
-PiArCXUzMiB2MjsNCj4gKwl1MzIgdjM7DQo+ICt9IF9fcGFja2VkOw0KPiArDQo+ICtzdHJ1
-Y3QgbWdhX2RtYSB7DQo+ICsJdm9pZCAqYnVmOw0KPiArCXNpemVfdCBzaXplOw0KPiArCWRt
-YV9hZGRyX3QgaGFuZGxlOw0KPiArDQo+ICsJc3RydWN0IG1nYV9jbWRfYmxvY2sgKmNtZDsN
-Cj4gKwlpbnQgY21kX2lkeDsNCj4gKwlkbWFfYWRkcl90IGNtZF9oYW5kbGU7DQo+ICsNCj4g
-Kwl3YWl0X3F1ZXVlX2hlYWRfdCB3YWl0cTsNCj4gKwlpbnQgaW5fdXNlOw0KPiArfTsNCj4g
-Kw0KPiAgIHN0cnVjdCBtZ2FfZGV2aWNlIHsNCj4gICAJc3RydWN0IGRybV9kZXZpY2UgYmFz
-ZTsNCj4gICANCj4gQEAgLTI5MSw2ICszMTIsOCBAQCBzdHJ1Y3QgbWdhX2RldmljZSB7DQo+
-ICAgCXZvaWQgX19pb21lbQkJCSp2cmFtOw0KPiAgIAlyZXNvdXJjZV9zaXplX3QJCQl2cmFt
-X2F2YWlsYWJsZTsNCj4gICANCj4gKwlzdHJ1Y3QgbWdhX2RtYSBkbWE7DQo+ICsNCj4gICAJ
-c3RydWN0IGRybV9wbGFuZSBwcmltYXJ5X3BsYW5lOw0KPiAgIAlzdHJ1Y3QgZHJtX2NydGMg
-Y3J0YzsNCj4gICAJc3RydWN0IGRybV9lbmNvZGVyIGVuY29kZXI7DQo+IEBAIC00NDMsNCAr
-NDY2LDEwIEBAIHZvaWQgbWdhZzIwMF9ibWNfZW5hYmxlX3ZpZHJzdChzdHJ1Y3QgbWdhX2Rl
-dmljZSAqbWRldik7DQo+ICAgCQkJCS8qIG1nYWcyMDBfaTJjLmMgKi8NCj4gICBpbnQgbWdh
-ZzIwMF9pMmNfaW5pdChzdHJ1Y3QgbWdhX2RldmljZSAqbWRldiwgc3RydWN0IG1nYV9pMmNf
-Y2hhbiAqaTJjKTsNCj4gICANCj4gKy8qIG1nYWcyMDBfZG1hLmMgKi8NCj4gK2ludCBtZ2Fn
-MjAwX2RtYV9pbml0KHN0cnVjdCBtZ2FfZGV2aWNlICptZGV2KTsNCj4gK3ZvaWQgbWdhZzIw
-MF9kbWFfZGFtYWdlKHN0cnVjdCBtZ2FfZGV2aWNlICptZGV2LCBjb25zdCBzdHJ1Y3QgaW9z
-eXNfbWFwICp2bWFwLA0KPiArCQkJc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIsIHN0cnVj
-dCBkcm1fcmVjdCAqY2xpcCk7DQo+ICt2b2lkIG1nYWcyMDBfZG1hX2R3Z19zZXR1cChzdHJ1
-Y3QgbWdhX2RldmljZSAqbWRldiwgc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIpOw0KPiAr
-DQo+ICAgI2VuZGlmCQkJCS8qIF9fTUdBRzIwMF9EUlZfSF9fICovDQo+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2cyMDAuYyBiL2RyaXZlcnMvZ3B1
-L2RybS9tZ2FnMjAwL21nYWcyMDBfZzIwMC5jDQo+IGluZGV4IGJmNWQ3ZmU1MjVhMy4uNGU5
-NzI1MTg3MzNhIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2Fn
-MjAwX2cyMDAuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2cy
-MDAuYw0KPiBAQCAtNDI0LDYgKzQyNCwxMCBAQCBzdHJ1Y3QgbWdhX2RldmljZSAqbWdhZzIw
-MF9nMjAwX2RldmljZV9jcmVhdGUoc3RydWN0IHBjaV9kZXYgKnBkZXYsIGNvbnN0IHN0cnVj
-dA0KPiAgIA0KPiAgIAltZ2FnMjAwX2cyMDBfaW5pdF9yZWZjbGsoZzIwMCk7DQo+ICAgDQo+
-ICsJcmV0ID0gbWdhZzIwMF9kbWFfaW5pdChtZGV2KTsNCj4gKwlpZiAocmV0KQ0KPiArCQly
-ZXR1cm4gRVJSX1BUUihyZXQpOw0KPiArDQo+ICAgCXJldCA9IG1nYWcyMDBfZGV2aWNlX2lu
-aXQobWRldiwgJm1nYWcyMDBfZzIwMF9kZXZpY2VfaW5mbywNCj4gICAJCQkJICAmbWdhZzIw
-MF9nMjAwX2RldmljZV9mdW5jcyk7DQo+ICAgCWlmIChyZXQpDQo+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2cyMDBlaC5jIGIvZHJpdmVycy9ncHUv
-ZHJtL21nYWcyMDAvbWdhZzIwMF9nMjAwZWguYw0KPiBpbmRleCBmYWQ2MjQ1M2E5MWQuLjY2
-MjhiODkxMTE4ZCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdh
-ZzIwMF9nMjAwZWguYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAw
-X2cyMDBlaC5jDQo+IEBAIC0yOTYsNiArMjk2LDEwIEBAIHN0cnVjdCBtZ2FfZGV2aWNlICpt
-Z2FnMjAwX2cyMDBlaF9kZXZpY2VfY3JlYXRlKHN0cnVjdCBwY2lfZGV2ICpwZGV2LCBjb25z
-dCBzdHJ1DQo+ICAgCWlmIChyZXQpDQo+ICAgCQlyZXR1cm4gRVJSX1BUUihyZXQpOw0KPiAg
-IA0KPiArCXJldCA9IG1nYWcyMDBfZG1hX2luaXQobWRldik7DQo+ICsJaWYgKHJldCkNCj4g
-KwkJcmV0dXJuIEVSUl9QVFIocmV0KTsNCj4gKw0KPiAgIAlyZXQgPSBtZ2FnMjAwX2Rldmlj
-ZV9pbml0KG1kZXYsICZtZ2FnMjAwX2cyMDBlaF9kZXZpY2VfaW5mbywNCj4gICAJCQkJICAm
-bWdhZzIwMF9nMjAwZWhfZGV2aWNlX2Z1bmNzKTsNCj4gICAJaWYgKHJldCkNCj4gZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfZzIwMGVoMy5jIGIvZHJp
-dmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9nMjAwZWgzLmMNCj4gaW5kZXggMGY3ZDgx
-MTJjZDQ5Li4zNTIxOWZiZTM2NGYgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9t
-Z2FnMjAwL21nYWcyMDBfZzIwMGVoMy5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZ2Fn
-MjAwL21nYWcyMDBfZzIwMGVoMy5jDQo+IEBAIC0yMDEsNiArMjAxLDEwIEBAIHN0cnVjdCBt
-Z2FfZGV2aWNlICptZ2FnMjAwX2cyMDBlaDNfZGV2aWNlX2NyZWF0ZShzdHJ1Y3QgcGNpX2Rl
-diAqcGRldiwNCj4gICAJaWYgKHJldCkNCj4gICAJCXJldHVybiBFUlJfUFRSKHJldCk7DQo+
-ICAgDQo+ICsJcmV0ID0gbWdhZzIwMF9kbWFfaW5pdChtZGV2KTsNCj4gKwlpZiAocmV0KQ0K
-PiArCQlyZXR1cm4gRVJSX1BUUihyZXQpOw0KPiArDQo+ICAgCXJldCA9IG1nYWcyMDBfZGV2
-aWNlX2luaXQobWRldiwgJm1nYWcyMDBfZzIwMGVoM19kZXZpY2VfaW5mbywNCj4gICAJCQkJ
-ICAmbWdhZzIwMF9nMjAwZWgzX2RldmljZV9mdW5jcyk7DQo+ICAgCWlmIChyZXQpDQo+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2cyMDBlci5jIGIv
-ZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9nMjAwZXIuYw0KPiBpbmRleCBiY2Uy
-NjdlMGY3ZGUuLmZjNmRmMmZmZDk5ZCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
-L21nYWcyMDAvbWdhZzIwMF9nMjAwZXIuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWdh
-ZzIwMC9tZ2FnMjAwX2cyMDBlci5jDQo+IEBAIC0zMzAsNiArMzMwLDEwIEBAIHN0cnVjdCBt
-Z2FfZGV2aWNlICptZ2FnMjAwX2cyMDBlcl9kZXZpY2VfY3JlYXRlKHN0cnVjdCBwY2lfZGV2
-ICpwZGV2LCBjb25zdCBzdHJ1DQo+ICAgCWlmIChyZXQpDQo+ICAgCQlyZXR1cm4gRVJSX1BU
-UihyZXQpOw0KPiAgIA0KPiArCXJldCA9IG1nYWcyMDBfZG1hX2luaXQobWRldik7DQo+ICsJ
-aWYgKHJldCkNCj4gKwkJcmV0dXJuIEVSUl9QVFIocmV0KTsNCj4gKw0KPiAgIAlyZXQgPSBt
-Z2FnMjAwX2RldmljZV9pbml0KG1kZXYsICZtZ2FnMjAwX2cyMDBlcl9kZXZpY2VfaW5mbywN
-Cj4gICAJCQkJICAmbWdhZzIwMF9nMjAwZXJfZGV2aWNlX2Z1bmNzKTsNCj4gICAJaWYgKHJl
-dCkNCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfZzIw
-MGV2LmMgYi9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2cyMDBldi5jDQo+IGlu
-ZGV4IGFjOTU3ZjQyYWJlMS4uMTkwYzM1OGFiYTdlIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2cyMDBldi5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9tZ2FnMjAwL21nYWcyMDBfZzIwMGV2LmMNCj4gQEAgLTMzNSw2ICszMzUsMTAgQEAg
-c3RydWN0IG1nYV9kZXZpY2UgKm1nYWcyMDBfZzIwMGV2X2RldmljZV9jcmVhdGUoc3RydWN0
-IHBjaV9kZXYgKnBkZXYsIGNvbnN0IHN0cnUNCj4gICAJaWYgKHJldCkNCj4gICAJCXJldHVy
-biBFUlJfUFRSKHJldCk7DQo+ICAgDQo+ICsJcmV0ID0gbWdhZzIwMF9kbWFfaW5pdChtZGV2
-KTsNCj4gKwlpZiAocmV0KQ0KPiArCQlyZXR1cm4gRVJSX1BUUihyZXQpOw0KPiArDQo+ICAg
-CXJldCA9IG1nYWcyMDBfZGV2aWNlX2luaXQobWRldiwgJm1nYWcyMDBfZzIwMGV2X2Rldmlj
-ZV9pbmZvLA0KPiAgIAkJCQkgICZtZ2FnMjAwX2cyMDBldl9kZXZpY2VfZnVuY3MpOw0KPiAg
-IAlpZiAocmV0KQ0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdh
-ZzIwMF9nMjAwZXczLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2cyMDBl
-dzMuYw0KPiBpbmRleCAxNzA5MzQ0MTRkN2QuLjVkZTdjY2JjNTc1YyAxMDA2NDQNCj4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9nMjAwZXczLmMNCj4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9nMjAwZXczLmMNCj4gQEAgLTIyMSw2
-ICsyMjEsMTAgQEAgc3RydWN0IG1nYV9kZXZpY2UgKm1nYWcyMDBfZzIwMGV3M19kZXZpY2Vf
-Y3JlYXRlKHN0cnVjdCBwY2lfZGV2ICpwZGV2LA0KPiAgIAlpZiAocmV0KQ0KPiAgIAkJcmV0
-dXJuIEVSUl9QVFIocmV0KTsNCj4gICANCj4gKwlyZXQgPSBtZ2FnMjAwX2RtYV9pbml0KG1k
-ZXYpOw0KPiArCWlmIChyZXQpDQo+ICsJCXJldHVybiBFUlJfUFRSKHJldCk7DQo+ICsNCj4g
-ICAJcmV0ID0gbWdhZzIwMF9kZXZpY2VfaW5pdChtZGV2LCAmbWdhZzIwMF9nMjAwZXczX2Rl
-dmljZV9pbmZvLA0KPiAgIAkJCQkgICZtZ2FnMjAwX2cyMDBldzNfZGV2aWNlX2Z1bmNzKTsN
-Cj4gICAJaWYgKHJldCkNCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAw
-L21nYWcyMDBfZzIwMHNlLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2cy
-MDBzZS5jDQo+IGluZGV4IGJkNmU1NzNjOWExYS4uM2VkYjkzMDU5OGRkIDEwMDY0NA0KPiAt
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2cyMDBzZS5jDQo+ICsrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfZzIwMHNlLmMNCj4gQEAgLTUwNiw2
-ICs1MDYsMTAgQEAgc3RydWN0IG1nYV9kZXZpY2UgKm1nYWcyMDBfZzIwMHNlX2RldmljZV9j
-cmVhdGUoc3RydWN0IHBjaV9kZXYgKnBkZXYsIGNvbnN0IHN0cnUNCj4gICAJaWYgKHJldCkN
-Cj4gICAJCXJldHVybiBFUlJfUFRSKHJldCk7DQo+ICAgDQo+ICsJcmV0ID0gbWdhZzIwMF9k
-bWFfaW5pdChtZGV2KTsNCj4gKwlpZiAocmV0KQ0KPiArCQlyZXR1cm4gRVJSX1BUUihyZXQp
-Ow0KPiArDQo+ICAgCXJldCA9IG1nYWcyMDBfZzIwMHNlX2luaXRfdW5pcXVlX3Jldl9pZChn
-MjAwc2UpOw0KPiAgIAlpZiAocmV0KQ0KPiAgIAkJcmV0dXJuIEVSUl9QVFIocmV0KTsNCj4g
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfZzIwMHdiLmMg
-Yi9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2cyMDB3Yi5jDQo+IGluZGV4IDli
-YWE3MjdhYzZmOS4uNmU3MzFkYTg5YTVmIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vbWdhZzIwMC9tZ2FnMjAwX2cyMDB3Yi5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9t
-Z2FnMjAwL21nYWcyMDBfZzIwMHdiLmMNCj4gQEAgLTM0NSw2ICszNDUsMTAgQEAgc3RydWN0
-IG1nYV9kZXZpY2UgKm1nYWcyMDBfZzIwMHdiX2RldmljZV9jcmVhdGUoc3RydWN0IHBjaV9k
-ZXYgKnBkZXYsIGNvbnN0IHN0cnUNCj4gICAJaWYgKHJldCkNCj4gICAJCXJldHVybiBFUlJf
-UFRSKHJldCk7DQo+ICAgDQo+ICsJcmV0ID0gbWdhZzIwMF9kbWFfaW5pdChtZGV2KTsNCj4g
-KwlpZiAocmV0KQ0KPiArCQlyZXR1cm4gRVJSX1BUUihyZXQpOw0KPiArDQo+ICAgCXJldCA9
-IG1nYWcyMDBfZGV2aWNlX2luaXQobWRldiwgJm1nYWcyMDBfZzIwMHdiX2RldmljZV9pbmZv
-LA0KPiAgIAkJCQkgICZtZ2FnMjAwX2cyMDB3Yl9kZXZpY2VfZnVuY3MpOw0KPiAgIAlpZiAo
-cmV0KQ0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9t
-b2RlLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX21vZGUuYw0KPiBpbmRl
-eCA3ZDhjNjUzNzJhYzQuLmFkZmM2MTQyOGRmNiAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL21nYWcyMDAvbWdhZzIwMF9tb2RlLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
-L21nYWcyMDAvbWdhZzIwMF9tb2RlLmMNCj4gQEAgLTM5OCwxNSArMzk4LDYgQEAgc3RhdGlj
-IHZvaWQgbWdhZzIwMF9kaXNhYmxlX2Rpc3BsYXkoc3RydWN0IG1nYV9kZXZpY2UgKm1kZXYp
-DQo+ICAgCVdSRUdfRUNSVCgweDAxLCBjcnRjZXh0MSk7DQo+ICAgfQ0KPiAgIA0KPiAtc3Rh
-dGljIHZvaWQgbWdhZzIwMF9oYW5kbGVfZGFtYWdlKHN0cnVjdCBtZ2FfZGV2aWNlICptZGV2
-LCBjb25zdCBzdHJ1Y3QgaW9zeXNfbWFwICp2bWFwLA0KPiAtCQkJCSAgc3RydWN0IGRybV9m
-cmFtZWJ1ZmZlciAqZmIsIHN0cnVjdCBkcm1fcmVjdCAqY2xpcCkNCj4gLXsNCj4gLQlzdHJ1
-Y3QgaW9zeXNfbWFwIGRzdCA9IElPU1lTX01BUF9JTklUX1ZBRERSX0lPTUVNKG1kZXYtPnZy
-YW0pOw0KPiAtDQo+IC0JaW9zeXNfbWFwX2luY3IoJmRzdCwgZHJtX2ZiX2NsaXBfb2Zmc2V0
-KGZiLT5waXRjaGVzWzBdLCBmYi0+Zm9ybWF0LCBjbGlwKSk7DQo+IC0JZHJtX2ZiX21lbWNw
-eSgmZHN0LCBmYi0+cGl0Y2hlcywgdm1hcCwgZmIsIGNsaXApOw0KPiAtfQ0KPiAtDQo+ICAg
-LyoNCj4gICAgKiBQcmltYXJ5IHBsYW5lDQo+ICAgICovDQo+IEBAIC00NzUsOSArNDY2LDEz
-IEBAIHZvaWQgbWdhZzIwMF9wcmltYXJ5X3BsYW5lX2hlbHBlcl9hdG9taWNfdXBkYXRlKHN0
-cnVjdCBkcm1fcGxhbmUgKnBsYW5lLA0KPiAgIAlpZiAoIWZiKQ0KPiAgIAkJcmV0dXJuOw0K
-PiAgIA0KPiArCWlmICghb2xkX3BsYW5lX3N0YXRlLT5mYiB8fCBmYi0+Zm9ybWF0ICE9IG9s
-ZF9wbGFuZV9zdGF0ZS0+ZmItPmZvcm1hdA0KPiArCSAgICB8fCBmYi0+d2lkdGggIT0gb2xk
-X3BsYW5lX3N0YXRlLT5mYi0+d2lkdGgpDQo+ICsJCW1nYWcyMDBfZG1hX2R3Z19zZXR1cCht
-ZGV2LCBmYik7DQo+ICsNCj4gICAJZHJtX2F0b21pY19oZWxwZXJfZGFtYWdlX2l0ZXJfaW5p
-dCgmaXRlciwgb2xkX3BsYW5lX3N0YXRlLCBwbGFuZV9zdGF0ZSk7DQo+ICAgCWRybV9hdG9t
-aWNfZm9yX2VhY2hfcGxhbmVfZGFtYWdlKCZpdGVyLCAmZGFtYWdlKSB7DQo+IC0JCW1nYWcy
-MDBfaGFuZGxlX2RhbWFnZShtZGV2LCBzaGFkb3dfcGxhbmVfc3RhdGUtPmRhdGEsIGZiLCAm
-ZGFtYWdlKTsNCj4gKwkJbWdhZzIwMF9kbWFfZGFtYWdlKG1kZXYsIHNoYWRvd19wbGFuZV9z
-dGF0ZS0+ZGF0YSwgZmIsICZkYW1hZ2UpOw0KPiAgIAl9DQo+ICAgDQo+ICAgCS8qIEFsd2F5
-cyBzY2Fub3V0IGltYWdlIGF0IFZSQU0gb2Zmc2V0IDAgKi8NCj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfcmVnLmggYi9kcml2ZXJzL2dwdS9kcm0v
-bWdhZzIwMC9tZ2FnMjAwX3JlZy5oDQo+IGluZGV4IDc0OGM4ZTE4ZTkzOC4uMjU2YWM5MmRh
-ZTU2IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX3Jl
-Zy5oDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfcmVnLmgNCj4g
-QEAgLTExNiw2ICsxMTYsOSBAQA0KPiAgIA0KPiAgICNkZWZpbmUJTUdBUkVHX09QTU9ERQkJ
-MHgxZTU0DQo+ICAgDQo+ICsjZGVmaW5lIE1HQVJFR19QUklNQUREUgkJMHgxZTU4DQo+ICsj
-ZGVmaW5lIE1HQVJFR19QUklNRU5ECQkweDFlNWMNCj4gKw0KPiAgIC8qIFdhcnAgUmVnaXN0
-ZXJzICovDQo+ICAgI2RlZmluZSBNR0FSRUdfV0lBRERSICAgICAgICAgICAweDFkYzANCj4g
-ICAjZGVmaW5lIE1HQVJFR19XSUFERFIyICAgICAgICAgIDB4MWRkOA0KPiBAQCAtMjAwLDYg
-KzIwMyw4IEBADQo+ICAgDQo+ICAgLyogU2VlIHRhYmxlIG9uIDQtNDMgZm9yIGJvcCBBTFUg
-b3BlcmF0aW9ucyAqLw0KPiAgIA0KPiArI2RlZmluZSBNR0FEV0dfUkVQTEFDRQkoMHhDIDw8
-IDE2KQ0KPiArDQo+ICAgLyogU2VlIHRhYmxlIG9uIDQtNDQgZm9yIHRyYW5zbHVjaWRpdHkg
-bWFza3MgKi8NCj4gICANCj4gICAjZGVmaW5lIE1HQURXR19CTU9OT0xFRgkJKCAweDAwIDw8
-IDI1ICkNCj4gQEAgLTIxOCw2ICsyMjMsOCBAQA0KPiAgIA0KPiAgICNkZWZpbmUgTUdBRFdH
-X1BBVFRFUk4JCSggMHgwMSA8PCAyOSApDQo+ICAgI2RlZmluZSBNR0FEV0dfVFJBTlNDCQko
-IDB4MDEgPDwgMzAgKQ0KPiArI2RlZmluZSBNR0FEV0dfQ0xJUERJUwkJKCAweDAxIDw8IDMx
-ICkNCj4gKw0KPiAgICNkZWZpbmUgTUdBUkVHX01JU0NfV1JJVEUJMHgzYzINCj4gICAjZGVm
-aW5lIE1HQVJFR19NSVNDX1JFQUQJMHgzY2MNCj4gICAjZGVmaW5lIE1HQVJFR19NRU1fTUlT
-Q19XUklURSAgICAgICAweDFmYzINCj4gQEAgLTYwNSw2ICs2MTIsOSBAQA0KPiAgICMgICAg
-ZGVmaW5lIE1HQV9UQzJfU0VMRUNUX1RNVTEgICAgICAgICAgICAgICAgICgweDgwMDAwMDAw
-KQ0KPiAgICNkZWZpbmUgTUdBUkVHX1RFWFRSQU5TCQkweDJjMzQNCj4gICAjZGVmaW5lIE1H
-QVJFR19URVhUUkFOU0hJR0gJMHgyYzM4DQo+ICsjZGVmaW5lIE1HQVJFR19TRUNBRERSCQkw
-eDJjNDANCj4gKyNkZWZpbmUgTUdBUkVHX1NFQ0VORAkJMHgyYzQ0DQo+ICsjZGVmaW5lIE1H
-QVJFR19TT0ZUUkFQCQkweDJjNDgNCj4gICAjZGVmaW5lIE1HQVJFR19URVhGSUxURVIJMHgy
-YzU4DQo+ICAgIyAgICBkZWZpbmUgTUdBX01JTl9OUlNUICAgICAgICAgICAgICAgICAgICAg
-ICAgKDB4MDAwMDAwMDApDQo+ICAgIyAgICBkZWZpbmUgTUdBX01JTl9CSUxJTiAgICAgICAg
-ICAgICAgICAgICAgICAgKDB4MDAwMDAwMDIpDQo+IEBAIC02OTEsNCArNzAxLDE5IEBADQo+
-ICAgI2RlZmluZSBNR0FfQUdQMlhQTExfRU5BQkxFCQkweDENCj4gICAjZGVmaW5lIE1HQV9B
-R1AyWFBMTF9ESVNBQkxFCQkweDANCj4gICANCj4gKw0KPiArI2RlZmluZSBEV0dSRUcwCQkw
-eDFjMDANCj4gKyNkZWZpbmUgRFdHUkVHMF9FTkQJMHgxZGZmDQo+ICsjZGVmaW5lIERXR1JF
-RzEJCTB4MmMwMA0KPiArI2RlZmluZSBEV0dSRUcxX0VORAkweDJkZmYNCj4gKw0KPiArLyog
-VGhlc2UgbWFjcm9zIGNvbnZlcnQgcmVnaXN0ZXIgYWRkcmVzcyB0byB0aGUgOCBiaXQgY29t
-bWFuZCBpbmRleCB1c2VkIHdpdGggRE1BDQo+ICsgKiBJdCByZW1hcHMgMHgxYzAwLTB4MWRm
-ZiB0byAweDAwLTB4N2YgKFJFRzApDQo+ICsgKiBhbmQgMHgyYzAwLTB4MmRmZiB0byAweDgw
-LTB4ZmYgKFJFRzEpDQo+ICsgKi8NCj4gKyNkZWZpbmUgSVNSRUcwKHIpCShyID49IERXR1JF
-RzAgJiYgciA8PSBEV0dSRUcwX0VORCkNCj4gKyNkZWZpbmUgRE1BUkVHMChyKQkoKHU4KSgo
-ciAtIERXR1JFRzApID4+IDIpKQ0KPiArI2RlZmluZSBETUFSRUcxKHIpCSgodTgpKCgociAt
-IERXR1JFRzEpID4+IDIpIHwgMHg4MCkpDQo+ICsjZGVmaW5lIERNQVJFRyhyKQkoSVNSRUcw
-KChyKSkgPyBETUFSRUcwKChyKSkgOiBETUFSRUcxKChyKSkpDQo+ICsNCj4gICAjZW5kaWYN
-Cg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0K
-U1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAx
-NDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15
-ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBO
-dWVybmJlcmcpDQo=
+> > + *
+> > + * @pa: the &drm_gpuva_prealloc to destroy
+> > + */
+> > +void
+> > +drm_gpuva_prealloc_destroy(struct drm_gpuva_prealloc *pa)
+> > +{
+> > +	mas_destroy(&pa->mas);
+> > +	kfree(pa);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_prealloc_destroy);
+> > +
+> > +static int
+> > +drm_gpuva_insert_state(struct drm_gpuva_manager *mgr,
+> > +		       struct ma_state *mas,
+> > +		       struct drm_gpuva *va)
+> 
+> Couldn't these arguments could be on one line?
+> 
 
---------------9Qho0vVB5MgKhctfWEWWV9Vn--
+Yep, gonna change that.
 
---------------TmQBa7Nep3QYTv1ZJo2YruWx
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> > +{
+> > +	u64 addr = va->va.addr;
+> > +	u64 range = va->va.range;
+> > +	u64 last = addr + range - 1;
+> > +
+> > +	mas_set(mas, addr);
+> > +
+> > +	mas_lock(mas);
+> > +	if (unlikely(mas_walk(mas))) {
+> > +		mas_unlock(mas);
+> > +		return -EEXIST;
+> > +	}
+> > +
+> > +	if (unlikely(mas->last < last)) {
+> > +		mas_unlock(mas);
+> > +		return -EEXIST;
+> > +	}
+> > +
+> > +	mas->index = addr;
+> > +	mas->last = last;
+> > +
+> > +	mas_store_prealloc(mas, va);
+> > +	mas_unlock(mas);
+> > +
+> > +	va->mgr = mgr;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int
+> > +__drm_gpuva_insert(struct drm_gpuva_manager *mgr,
+> > +		   struct drm_gpuva *va)
+> > +{
+> > +	MA_STATE(mas, &mgr->mtree, 0, 0);
+> > +	int ret;
+> > +
+> > +	ret = mas_preallocate(&mas, GFP_KERNEL);
+> 
+> mas_preallocate() is in the process of being updated to reduce the
+> allocations, so this will eventually fail to compile [1].
+> 
+> mas_preallocate(&mas, va, GFP_KERNEL) will work in the future.
 
------BEGIN PGP SIGNATURE-----
+This is perfectly fine for __drm_gpuva_insert(). In fact, I could also just
+use mas_store_gfp() right away in this function. The reason for this
+mas_preallocate() is just to produce a common code path for __drm_gpuva_insert()
+and drm_gpuva_insert_prealloc() with drm_gpuva_insert_state(). I already
+considered to abstain from that and just implement __drm_gpuva_insert() with
+mas_store_gfp() noticing the overhead of mas_preallocate() in this case.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSLHycFAwAAAAAACgkQlh/E3EQov+AB
-EBAAryGCmJF4k4MjZttwSqigppi6++Lk98otn58KgLv8Ik5Z9QEVKCY3a1+V+9rw/+LgFFCIKzWG
-aeiuMljGZkgYCmkNnuKqBusyipS4CA89Hbe2fFZM8e9fUPcA/qm0MFQBO8X60PSOEXrnX6Y9RLTP
-U8znKldv3OwIIo1JoNZPTzOis+5K5his5J55GMRiEvujbtLTuqjdQ1XmGQmm7c8VvOFvSJlOdpBQ
-kL8SffCHQtjP6nVfrPjJkZRLOH8V09ilRvUDfuCVrRgP2HrCx9X35e8mox2Tq0qSGXI1Wj7gcUmh
-wZsxLJxeywaUlfMRpg7297c1/eXQIFH/a0gqESw9Ee0+WnQ5Fg9AUnKbR+d/4M3ON/lNfvZCyOOl
-LoktWH4C0gTe3vlUyM4CR1bVDWV4VSpSqmZCcO856D8Dj8IvLaE7qL6tpe7J2UCxWV/ZJ0jbscJ9
-WgdnF/Xi3F4F+q5Ws7H8nTgbY696WvDXx3WOqLJkCOEfvBkNvVnNxTUR/5fnD5oF93PgxsSAjWot
-KhEGL0433Xp72WNyZE7B2eczdtDj4PyUmWWZrP4wrjqTT+WTYupT/pe8c1jiNNu5Kjsq0YJ7QMW4
-vpa6mAxTJZ0ujVrH6CEVEUWvq5x+t0Ih6ne4w8HwRyr9dc/F/0Kh33XK6BbC74gp9FlkqJAcM1xs
-7jw=
-=gegY
------END PGP SIGNATURE-----
+However, considering your explanation below, I tend to think that this change
+could be a showstopper for another use case. Please see the comment on
+drm_gpuva_insert_prealloc().
 
---------------TmQBa7Nep3QYTv1ZJo2YruWx--
+> 
+> The calculated allocations depend on the area being written and if there
+> is a value or NULL being written.
+> 
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	return drm_gpuva_insert_state(mgr, &mas, va);
+> 
+> This has the added effect that the mas_preallocate() examines the tree
+> by walking it, so you need to hold the lock during that work.  It is
+> also possible, since you are not holding the lock here, that you could
+> have a writer come in and change what you preallocated to store and may
+> cause the write to not have enough memory.  IIRC you have another
+> locking strategy that negates this, but you will still need to hold the
+> lock and have the maple state pointing at the correct range now (or,
+> well, soon) to keep lockdep happy.
+> 
+> Change this:
+> 	MA_STATE(mas, &mgr->mtree, 0, 0);
+> 
+> to something like this (but hopefully less ugly..)
+> 	MA_STATE(mas, &mgr->mtree, va->va.addr, va->va.addr + va->va.range - 1);
+> 
+> ...maybe use mas_init() instead.
+> 
+> This strictly does not need to preallocate since you don't have complex
+> locking in this case, but I suspect you are preallocating for external
+> driver use as documented in this patch?  This can still work if the
+> preallocation call sets up the maple state and the driver doesn't mess
+> things up on you.  You could check that by verifying mas.index and
+> mas.last are what you expect, but I think you'll want to move your
+> mas_walk() checks to before preallocating.
+> 
+> [1] https://lore.kernel.org/all/20230612203953.2093911-1-Liam.Howlett@oracle.com/
+> 
+> > +}
+> > +
+> > +/**
+> > + * drm_gpuva_insert - insert a &drm_gpuva
+> > + * @mgr: the &drm_gpuva_manager to insert the &drm_gpuva in
+> > + * @va: the &drm_gpuva to insert
+> > + *
+> > + * Insert a &drm_gpuva with a given address and range into a
+> > + * &drm_gpuva_manager.
+> > + *
+> > + * It is not allowed to use this function while iterating this GPU VA space,
+> > + * e.g via drm_gpuva_iter_for_each().
+> > + *
+> > + * Returns: 0 on success, negative error code on failure.
+> > + */
+> > +int
+> > +drm_gpuva_insert(struct drm_gpuva_manager *mgr,
+> > +		 struct drm_gpuva *va)
+> > +{
+> > +	u64 addr = va->va.addr;
+> > +	u64 range = va->va.range;
+> > +
+> > +	if (unlikely(!drm_gpuva_range_valid(mgr, addr, range)))
+> > +		return -EINVAL;
+> > +
+> > +	return __drm_gpuva_insert(mgr, va);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_insert);
+> > +
+> > +/**
+> > + * drm_gpuva_insert_prealloc - insert a &drm_gpuva with a preallocated node
+> > + * @mgr: the &drm_gpuva_manager to insert the &drm_gpuva in
+> > + * @va: the &drm_gpuva to insert
+> > + * @pa: the &drm_gpuva_prealloc node
+> > + *
+> > + * Insert a &drm_gpuva with a given address and range into a
+> > + * &drm_gpuva_manager.
+> > + *
+> > + * It is not allowed to use this function while iterating this GPU VA space,
+> > + * e.g via drm_gpuva_iter_for_each().
+> > + *
+> > + * Returns: 0 on success, negative error code on failure.
+> > + */
+> > +int
+> > +drm_gpuva_insert_prealloc(struct drm_gpuva_manager *mgr,
+> > +			  struct drm_gpuva_prealloc *pa,
+> > +			  struct drm_gpuva *va)
+> > +{
+> > +	struct ma_state *mas = &pa->mas;
+> > +	u64 addr = va->va.addr;
+> > +	u64 range = va->va.range;
+> > +
+> > +	if (unlikely(!drm_gpuva_range_valid(mgr, addr, range)))
+> > +		return -EINVAL;
+> > +
+> > +	mas->tree = &mgr->mtree;
+> 
+> Are you trying to take the allocated nodes for a write to a different
+> tree?  You may not have enough nodes..
+> 
+
+They're not going to a different tree. I guess your're confused why I set
+mas->tree (again). And so am I - I think it is just a leftover. The tree is
+already set in drm_gpuva_prealloc_create() through mas_init().
+
+However, if I understand your changes to mas_preallocate() you explained above
+correctly, your point "you may not have enough nodes" might still hold. Let me
+explain:
+
+When talking about locking I mentioned earlier that there are two cases.
+In the first case users of the GPUVA manager need to hold a mutex (anyway) while
+applying changes to the GPUVA space and hence the maple tree, not just to
+protect the tree, but also to make sure that multiple changes to the GPUVA space
+appear atomically.
+In the second case, any accesses to GPUVA space are serialized and hence
+technically don't require any locking at all.
+
+In the latter, serialized, case we basically have two stages.
+In the first one jobs to create / remove mappings are submitted to the driver,
+which pre-allocates the required resources and puts the job into a job queue.
+In a second stage the actual updates to the GPUVA space are performed
+asynchronously running within a dma_fence signalling critical path and hence
+no memory allocations are permitted. One single job entering the serialized path
+can usually contain an arbitrary amount of map / unmap / remap operations and
+hence an arbitrary amount of GPUVAs to add or remove from the maple tree.
+
+Therefore at the time of pre-allocation we can't predict the state of the maple
+tree at the time the pre-allocated nodes are actually used to insert an entry,
+nor can we ensure that the maple tree doesn't change until the pre-allocated
+nodes were actually used to insert an entry.
+
+If I understand it correctly, until now mas_preallocate() allocates the
+worst-case amount of nodes, which seems to be exactly what we need for this use
+case. While with your change you walk the tree calculate how many nodes you need
+at this time and hence require to not have the tree changed until the nodes were
+used to store the indicated entry.
+
+Would it be possible to just have both paths, your new mas_preallocate() and
+something like mas_preallocate_worst_case() (hopefully with a better name)?
+
+> > +	return drm_gpuva_insert_state(mgr, mas, va);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_insert_prealloc);
+> > +
+> > +static void
+> > +__drm_gpuva_remove(struct drm_gpuva *va)
+> > +{
+> > +	MA_STATE(mas, &va->mgr->mtree, va->va.addr, 0);
+> > +
+> > +	mas_lock(&mas);
+> > +	mas_erase(&mas);
+> > +	mas_unlock(&mas);
+> 
+> This should be the same as: mtree_erase(&va->mgr->mtree, va->va.addr);
+> 
+
+Yeah, I think there are a few cases where I could do something similar as well.
+I think in a follow up patch I already covered those, seems like I missed
+them here.
+
+> > +}
+> > +
+> > +/**
+> > + * drm_gpuva_remove - remove a &drm_gpuva
+> > + * @va: the &drm_gpuva to remove
+> > + *
+> > + * This removes the given &va from the underlaying tree.
+> > + *
+> > + * It is not allowed to use this function while iterating this GPU VA space,
+> > + * e.g via drm_gpuva_iter_for_each(). Please use drm_gpuva_iter_remove()
+> > + * instead.
+> > + */
+> > +void
+> > +drm_gpuva_remove(struct drm_gpuva *va)
+> > +{
+> > +	struct drm_gpuva_manager *mgr = va->mgr;
+> > +
+> > +	if (unlikely(va == &mgr->kernel_alloc_node)) {
+> > +		WARN(1, "Can't destroy kernel reserved node.\n");
+> > +		return;
+> > +	}
+> > +
+> > +	__drm_gpuva_remove(va);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_remove);
+> > +
+> > +/**
+> > + * drm_gpuva_link - link a &drm_gpuva
+> > + * @va: the &drm_gpuva to link
+> > + *
+> > + * This adds the given &va to the GPU VA list of the &drm_gem_object it is
+> > + * associated with.
+> > + *
+> > + * This function expects the caller to protect the GEM's GPUVA list against
+> > + * concurrent access.
+> > + */
+> > +void
+> > +drm_gpuva_link(struct drm_gpuva *va)
+> > +{
+> > +	if (likely(va->gem.obj))
+> > +		list_add_tail(&va->gem.entry, &va->gem.obj->gpuva.list);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_link);
+> > +
+> > +/**
+> > + * drm_gpuva_unlink - unlink a &drm_gpuva
+> > + * @va: the &drm_gpuva to unlink
+> > + *
+> > + * This removes the given &va from the GPU VA list of the &drm_gem_object it is
+> > + * associated with.
+> > + *
+> > + * This function expects the caller to protect the GEM's GPUVA list against
+> > + * concurrent access.
+> > + */
+> > +void
+> > +drm_gpuva_unlink(struct drm_gpuva *va)
+> > +{
+> > +	if (likely(va->gem.obj))
+> > +		list_del_init(&va->gem.entry);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_unlink);
+> > +
+> > +/**
+> > + * drm_gpuva_find_first - find the first &drm_gpuva in the given range
+> > + * @mgr: the &drm_gpuva_manager to search in
+> > + * @addr: the &drm_gpuvas address
+> > + * @range: the &drm_gpuvas range
+> > + *
+> > + * Returns: the first &drm_gpuva within the given range
+> > + */
+> > +struct drm_gpuva *
+> > +drm_gpuva_find_first(struct drm_gpuva_manager *mgr,
+> > +		     u64 addr, u64 range)
+> > +{
+> > +	MA_STATE(mas, &mgr->mtree, addr, 0);
+> > +	struct drm_gpuva *va;
+> > +
+> 
+> Again, this can be an rcu_read_lock()
+> 
+
+Same as below.
+
+> > +	mas_lock(&mas);
+> > +	va = mas_find(&mas, addr + range - 1);
+> > +	mas_unlock(&mas);
+> > +
+> > +	return va;
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_find_first);
+> > +
+> > +/**
+> > + * drm_gpuva_find - find a &drm_gpuva
+> > + * @mgr: the &drm_gpuva_manager to search in
+> > + * @addr: the &drm_gpuvas address
+> > + * @range: the &drm_gpuvas range
+> > + *
+> > + * Returns: the &drm_gpuva at a given &addr and with a given &range
+> > + */
+> > +struct drm_gpuva *
+> > +drm_gpuva_find(struct drm_gpuva_manager *mgr,
+> > +	       u64 addr, u64 range)
+> > +{
+> > +	struct drm_gpuva *va;
+> > +
+> > +	va = drm_gpuva_find_first(mgr, addr, range);
+> > +	if (!va)
+> > +		goto out;
+> > +
+> > +	if (va->va.addr != addr ||
+> > +	    va->va.range != range)
+> > +		goto out;
+> > +
+> > +	return va;
+> > +
+> > +out:
+> > +	return NULL;
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_find);
+> > +
+> > +/**
+> > + * drm_gpuva_find_prev - find the &drm_gpuva before the given address
+> > + * @mgr: the &drm_gpuva_manager to search in
+> > + * @start: the given GPU VA's start address
+> > + *
+> > + * Find the adjacent &drm_gpuva before the GPU VA with given &start address.
+> > + *
+> > + * Note that if there is any free space between the GPU VA mappings no mapping
+> > + * is returned.
+> > + *
+> > + * Returns: a pointer to the found &drm_gpuva or NULL if none was found
+> > + */
+> > +struct drm_gpuva *
+> > +drm_gpuva_find_prev(struct drm_gpuva_manager *mgr, u64 start)
+> > +{
+> > +	MA_STATE(mas, &mgr->mtree, start - 1, 0);
+> > +	struct drm_gpuva *va;
+> > +
+> > +	if (start <= mgr->mm_start ||
+> > +	    start > (mgr->mm_start + mgr->mm_range))
+> > +		return NULL;
+> > +
+> 
+> And here as well.  Maybe mtree_load() would be easier?
+> 
+> > +	mas_lock(&mas);
+> > +	va = mas_walk(&mas);
+> > +	mas_unlock(&mas);
+> > +
+> > +	return va;
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_find_prev);
+> > +
+> > +/**
+> > + * drm_gpuva_find_next - find the &drm_gpuva after the given address
+> > + * @mgr: the &drm_gpuva_manager to search in
+> > + * @end: the given GPU VA's end address
+> > + *
+> > + * Find the adjacent &drm_gpuva after the GPU VA with given &end address.
+> > + *
+> > + * Note that if there is any free space between the GPU VA mappings no mapping
+> > + * is returned.
+> > + *
+> > + * Returns: a pointer to the found &drm_gpuva or NULL if none was found
+> > + */
+> > +struct drm_gpuva *
+> > +drm_gpuva_find_next(struct drm_gpuva_manager *mgr, u64 end)
+> > +{
+> > +	MA_STATE(mas, &mgr->mtree, end, 0);
+> > +	struct drm_gpuva *va;
+> > +
+> > +	if (end < mgr->mm_start ||
+> > +	    end >= (mgr->mm_start + mgr->mm_range))
+> > +		return NULL;
+> > +
+> 
+> Here too, you can use the mtree_load() function.
+> 
+> A note though that when I store my VMAs in the mm code, the VMAs are
+> [start, end) and the tree is [start, end], so I always take one away.
+> Not sure if your VMAs are the same way.
+> 
+> > +	mas_lock(&mas);
+> > +	va = mas_walk(&mas);
+> > +	mas_unlock(&mas);
+> > +
+> > +	return va;
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_find_next);
+> > +
+> > +/**
+> > + * drm_gpuva_interval_empty - indicate whether a given interval of the VA space
+> > + * is empty
+> > + * @mgr: the &drm_gpuva_manager to check the range for
+> > + * @addr: the start address of the range
+> > + * @range: the range of the interval
+> > + *
+> > + * Returns: true if the interval is empty, false otherwise
+> > + */
+> > +bool
+> > +drm_gpuva_interval_empty(struct drm_gpuva_manager *mgr, u64 addr, u64 range)
+> > +{
+> > +	DRM_GPUVA_ITER(it, mgr, addr);
+> > +	struct drm_gpuva *va;
+> > +
+> > +	drm_gpuva_iter_for_each_range(va, it, addr + range)
+> > +		return false;
+> > +
+> > +	return true;
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_interval_empty);
+> > +
+> > +/**
+> > + * drm_gpuva_map - helper to insert a &drm_gpuva from &drm_gpuva_fn_ops
+> > + * callbacks
+> > + *
+> > + * @mgr: the &drm_gpuva_manager
+> > + * @pa: the &drm_gpuva_prealloc
+> > + * @va: the &drm_gpuva to inser
+> > + */
+> > +int
+> > +drm_gpuva_map(struct drm_gpuva_manager *mgr,
+> > +	      struct drm_gpuva_prealloc *pa,
+> > +	      struct drm_gpuva *va)
+> > +{
+> > +	return drm_gpuva_insert_prealloc(mgr, pa, va);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_map);
+> > +
+> > +/**
+> > + * drm_gpuva_remap - helper to insert a &drm_gpuva from &drm_gpuva_fn_ops
+> > + * callbacks
+> > + *
+> > + * @state: the current &drm_gpuva_state
+> > + * @prev: the &drm_gpuva to remap when keeping the start of a mapping,
+> > + * may be NULL
+> > + * @next: the &drm_gpuva to remap when keeping the end of a mapping,
+> > + * may be NULL
+> > + */
+> > +int
+> > +drm_gpuva_remap(drm_gpuva_state_t state,
+> > +		struct drm_gpuva *prev,
+> > +		struct drm_gpuva *next)
+> > +{
+> > +	struct ma_state *mas = &state->mas;
+> > +	u64 max = mas->last;
+> > +
+> > +	if (unlikely(!prev && !next))
+> > +		return -EINVAL;
+> > +
+> > +	if (prev) {
+> > +		u64 addr = prev->va.addr;
+> > +		u64 last = addr + prev->va.range - 1;
+> > +
+> > +		if (unlikely(addr != mas->index))
+> > +			return -EINVAL;
+> > +
+> > +		if (unlikely(last >= mas->last))
+> > +			return -EINVAL;
+> > +	}
+> > +
+> > +	if (next) {
+> > +		u64 addr = next->va.addr;
+> > +		u64 last = addr + next->va.range - 1;
+> > +
+> > +		if (unlikely(last != mas->last))
+> > +			return -EINVAL;
+> > +
+> > +		if (unlikely(addr <= mas->index))
+> > +			return -EINVAL;
+> > +	}
+> > +
+> > +	if (prev && next) {
+> > +		u64 p_last = prev->va.addr + prev->va.range - 1;
+> > +		u64 n_addr = next->va.addr;
+> > +
+> > +		if (unlikely(p_last > n_addr))
+> > +			return -EINVAL;
+> > +
+> > +		if (unlikely(n_addr - p_last <= 1))
+> > +			return -EINVAL;
+> > +	}
+> > +
+> > +	mas_lock(mas);
+> > +	if (prev) {
+> > +		mas_store(mas, prev);
+> > +		mas_next(mas, max);
+> 
+> This will advance to the next entry, is that what you want to do?  I
+> think you want mas_next_range(), which is in a recent patch set [2].  I
+> believe, what you have here is a large range which is NULL and you are
+> either inserting something at the start, at the end, or both?
+
+drm_gpuva_remap() is called from a callback while walking the tree in
+__drm_gpuva_sm_map() or __drm_gpuva_sm_unmap() with
+drm_gpuva_iter_for_each_range() to insert a new mapping or unmap a given range.
+
+It is called whenever the new mapping to insert or the given range to unmap
+intersects with the entry at the iterators current position. For example:
+
+     0        a        3
+old: |-----------------| (bo_offset=n)
+
+           1  b  2
+req:       |-----|       (bo_offset=m)
+
+     0  a' 1  b  2 a'' 3
+new: |-----|-----|-----| (a.bo_offset=n,b.bo_offset=m,a'.bo_offset=n+2)
+
+In this example the current iterators entry would be a. prev would be a' and
+next would be a''. When this function returns I expect to have a hole where b
+should go. b would be inserted in the last iteration of
+drm_gpuva_iter_for_each_range() in __drm_gpuva_sm_map from another callback,
+which is drm_gpuva_map(). drm_gpuva_map() gets a struct drm_gpuva_prealloc
+passed by the caller such that it got the pre-allocated nodes for inserting the
+entry into the hole we left in this function.
+
+Taking this example the maple tree should look like this right before the call
+to mas_next():
+
+0  a' 1     a     3
+|-----|-----------|
+
+So, what I expect from mas_next() is that it brings me to offset '1'.
+Afterwards, we enter the 'if (next)' path and create the hole with
+'mas->last = next->va.addr - 1' and 'mas_store(mas, NULL)'. Again calling
+mas_next() to jump to offset '2' inserting a''.
+
+Hopefully, now you can tell me whether I want mas_next() or mas_next_range()
+here. :-)
+
+> 
+> [2] https://lore.kernel.org/lkml/20230518145544.1722059-29-Liam.Howlett@oracle.com/
+> 
+> > +		if (!next)
+> > +			mas_store(mas, NULL);
+> > +	}
+> > +
+> > +	if (next) {
+> > +		mas->last = next->va.addr - 1;
+> > +		mas_store(mas, NULL);
+> > +		mas_next(mas, max);
+> > +		mas_store(mas, next);
+> > +	}
+> > +	mas_unlock(mas);
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_remap);
+> > +
+> > +/**
+> > + * drm_gpuva_unmap - helper to remove a &drm_gpuva from &drm_gpuva_fn_ops
+> > + * callbacks
+> > + *
+> > + * @state: the current &drm_gpuva_state
+> > + *
+> > + * The entry associated with the current state is removed.
+> > + */
+> > +void
+> > +drm_gpuva_unmap(drm_gpuva_state_t state)
+> > +{
+> > +	drm_gpuva_iter_remove(state);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_unmap);
+> > +
+> > +static int
+> > +op_map_cb(const struct drm_gpuva_fn_ops *fn, void *priv,
+> > +	  u64 addr, u64 range,
+> > +	  struct drm_gem_object *obj, u64 offset)
+> > +{
+> > +	struct drm_gpuva_op op = {};
+> > +
+> > +	op.op = DRM_GPUVA_OP_MAP;
+> > +	op.map.va.addr = addr;
+> > +	op.map.va.range = range;
+> > +	op.map.gem.obj = obj;
+> > +	op.map.gem.offset = offset;
+> > +
+> > +	return fn->sm_step_map(&op, priv);
+> > +}
+> > +
+> > +static int
+> > +op_remap_cb(const struct drm_gpuva_fn_ops *fn,
+> > +	    drm_gpuva_state_t state, void *priv,
+> > +	    struct drm_gpuva_op_map *prev,
+> > +	    struct drm_gpuva_op_map *next,
+> > +	    struct drm_gpuva_op_unmap *unmap)
+> > +{
+> > +	struct drm_gpuva_op op = {};
+> > +	struct drm_gpuva_op_remap *r;
+> > +
+> > +	op.op = DRM_GPUVA_OP_REMAP;
+> > +	r = &op.remap;
+> > +	r->prev = prev;
+> > +	r->next = next;
+> > +	r->unmap = unmap;
+> > +
+> > +	return fn->sm_step_remap(&op, state, priv);
+> > +}
+> > +
+> > +static int
+> > +op_unmap_cb(const struct drm_gpuva_fn_ops *fn,
+> > +	    drm_gpuva_state_t state, void *priv,
+> > +	    struct drm_gpuva *va, bool merge)
+> > +{
+> > +	struct drm_gpuva_op op = {};
+> > +
+> > +	op.op = DRM_GPUVA_OP_UNMAP;
+> > +	op.unmap.va = va;
+> > +	op.unmap.keep = merge;
+> > +
+> > +	return fn->sm_step_unmap(&op, state, priv);
+> > +}
+> > +
+> > +static int
+> > +__drm_gpuva_sm_map(struct drm_gpuva_manager *mgr,
+> > +		   const struct drm_gpuva_fn_ops *ops, void *priv,
+> > +		   u64 req_addr, u64 req_range,
+> > +		   struct drm_gem_object *req_obj, u64 req_offset)
+> > +{
+> > +	DRM_GPUVA_ITER(it, mgr, req_addr);
+> > +	struct drm_gpuva *va, *prev = NULL;
+> > +	u64 req_end = req_addr + req_range;
+> > +	int ret;
+> > +
+> > +	if (unlikely(!drm_gpuva_in_mm_range(mgr, req_addr, req_range)))
+> > +		return -EINVAL;
+> > +
+> > +	if (unlikely(drm_gpuva_in_kernel_node(mgr, req_addr, req_range)))
+> > +		return -EINVAL;
+> > +
+> > +	drm_gpuva_iter_for_each_range(va, it, req_end) {
+> > +		struct drm_gem_object *obj = va->gem.obj;
+> > +		u64 offset = va->gem.offset;
+> > +		u64 addr = va->va.addr;
+> > +		u64 range = va->va.range;
+> > +		u64 end = addr + range;
+> > +		bool merge = !!va->gem.obj;
+> > +
+> > +		if (addr == req_addr) {
+> > +			merge &= obj == req_obj &&
+> > +				 offset == req_offset;
+> > +
+> > +			if (end == req_end) {
+> > +				ret = op_unmap_cb(ops, &it, priv, va, merge);
+> > +				if (ret)
+> > +					return ret;
+> > +				break;
+> > +			}
+> > +
+> > +			if (end < req_end) {
+> > +				ret = op_unmap_cb(ops, &it, priv, va, merge);
+> > +				if (ret)
+> > +					return ret;
+> > +				goto next;
+> > +			}
+> > +
+> > +			if (end > req_end) {
+> > +				struct drm_gpuva_op_map n = {
+> > +					.va.addr = req_end,
+> > +					.va.range = range - req_range,
+> > +					.gem.obj = obj,
+> > +					.gem.offset = offset + req_range,
+> > +				};
+> > +				struct drm_gpuva_op_unmap u = {
+> > +					.va = va,
+> > +					.keep = merge,
+> > +				};
+> > +
+> > +				ret = op_remap_cb(ops, &it, priv, NULL, &n, &u);
+> > +				if (ret)
+> > +					return ret;
+> > +				break;
+> > +			}
+> > +		} else if (addr < req_addr) {
+> > +			u64 ls_range = req_addr - addr;
+> > +			struct drm_gpuva_op_map p = {
+> > +				.va.addr = addr,
+> > +				.va.range = ls_range,
+> > +				.gem.obj = obj,
+> > +				.gem.offset = offset,
+> > +			};
+> > +			struct drm_gpuva_op_unmap u = { .va = va };
+> > +
+> > +			merge &= obj == req_obj &&
+> > +				 offset + ls_range == req_offset;
+> > +			u.keep = merge;
+> > +
+> > +			if (end == req_end) {
+> > +				ret = op_remap_cb(ops, &it, priv, &p, NULL, &u);
+> > +				if (ret)
+> > +					return ret;
+> > +				break;
+> > +			}
+> > +
+> > +			if (end < req_end) {
+> > +				ret = op_remap_cb(ops, &it, priv, &p, NULL, &u);
+> > +				if (ret)
+> > +					return ret;
+> > +				goto next;
+> > +			}
+> > +
+> > +			if (end > req_end) {
+> > +				struct drm_gpuva_op_map n = {
+> > +					.va.addr = req_end,
+> > +					.va.range = end - req_end,
+> > +					.gem.obj = obj,
+> > +					.gem.offset = offset + ls_range +
+> > +						      req_range,
+> > +				};
+> > +
+> > +				ret = op_remap_cb(ops, &it, priv, &p, &n, &u);
+> > +				if (ret)
+> > +					return ret;
+> > +				break;
+> > +			}
+> > +		} else if (addr > req_addr) {
+> > +			merge &= obj == req_obj &&
+> > +				 offset == req_offset +
+> > +					   (addr - req_addr);
+> > +
+> > +			if (end == req_end) {
+> > +				ret = op_unmap_cb(ops, &it, priv, va, merge);
+> > +				if (ret)
+> > +					return ret;
+> > +				break;
+> > +			}
+> > +
+> > +			if (end < req_end) {
+> > +				ret = op_unmap_cb(ops, &it, priv, va, merge);
+> > +				if (ret)
+> > +					return ret;
+> > +				goto next;
+> > +			}
+> > +
+> > +			if (end > req_end) {
+> > +				struct drm_gpuva_op_map n = {
+> > +					.va.addr = req_end,
+> > +					.va.range = end - req_end,
+> > +					.gem.obj = obj,
+> > +					.gem.offset = offset + req_end - addr,
+> > +				};
+> > +				struct drm_gpuva_op_unmap u = {
+> > +					.va = va,
+> > +					.keep = merge,
+> > +				};
+> > +
+> > +				ret = op_remap_cb(ops, &it, priv, NULL, &n, &u);
+> > +				if (ret)
+> > +					return ret;
+> > +				break;
+> > +			}
+> > +		}
+> > +next:
+> > +		prev = va;
+> > +	}
+> > +
+> > +	return op_map_cb(ops, priv,
+> > +			 req_addr, req_range,
+> > +			 req_obj, req_offset);
+> > +}
+> > +
+> > +static int
+> > +__drm_gpuva_sm_unmap(struct drm_gpuva_manager *mgr,
+> > +		     const struct drm_gpuva_fn_ops *ops, void *priv,
+> > +		     u64 req_addr, u64 req_range)
+> > +{
+> > +	DRM_GPUVA_ITER(it, mgr, req_addr);
+> > +	struct drm_gpuva *va;
+> > +	u64 req_end = req_addr + req_range;
+> > +	int ret;
+> > +
+> > +	if (unlikely(drm_gpuva_in_kernel_node(mgr, req_addr, req_range)))
+> > +		return -EINVAL;
+> > +
+> > +	drm_gpuva_iter_for_each_range(va, it, req_end) {
+> > +		struct drm_gpuva_op_map prev = {}, next = {};
+> > +		bool prev_split = false, next_split = false;
+> > +		struct drm_gem_object *obj = va->gem.obj;
+> > +		u64 offset = va->gem.offset;
+> > +		u64 addr = va->va.addr;
+> > +		u64 range = va->va.range;
+> > +		u64 end = addr + range;
+> > +
+> > +		if (addr < req_addr) {
+> > +			prev.va.addr = addr;
+> > +			prev.va.range = req_addr - addr;
+> > +			prev.gem.obj = obj;
+> > +			prev.gem.offset = offset;
+> > +
+> > +			prev_split = true;
+> > +		}
+> > +
+> > +		if (end > req_end) {
+> > +			next.va.addr = req_end;
+> > +			next.va.range = end - req_end;
+> > +			next.gem.obj = obj;
+> > +			next.gem.offset = offset + (req_end - addr);
+> > +
+> > +			next_split = true;
+> > +		}
+> > +
+> > +		if (prev_split || next_split) {
+> > +			struct drm_gpuva_op_unmap unmap = { .va = va };
+> > +
+> > +			ret = op_remap_cb(ops, &it, priv,
+> > +					  prev_split ? &prev : NULL,
+> > +					  next_split ? &next : NULL,
+> > +					  &unmap);
+> > +			if (ret)
+> > +				return ret;
+> > +		} else {
+> > +			ret = op_unmap_cb(ops, &it, priv, va, false);
+> > +			if (ret)
+> > +				return ret;
+> > +		}
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +/**
+> > + * drm_gpuva_sm_map - creates the &drm_gpuva_op split/merge steps
+> > + * @mgr: the &drm_gpuva_manager representing the GPU VA space
+> > + * @req_addr: the start address of the new mapping
+> > + * @req_range: the range of the new mapping
+> > + * @req_obj: the &drm_gem_object to map
+> > + * @req_offset: the offset within the &drm_gem_object
+> > + * @priv: pointer to a driver private data structure
+> > + *
+> > + * This function iterates the given range of the GPU VA space. It utilizes the
+> > + * &drm_gpuva_fn_ops to call back into the driver providing the split and merge
+> > + * steps.
+> > + *
+> > + * Drivers may use these callbacks to update the GPU VA space right away within
+> > + * the callback. In case the driver decides to copy and store the operations for
+> > + * later processing neither this function nor &drm_gpuva_sm_unmap is allowed to
+> > + * be called before the &drm_gpuva_manager's view of the GPU VA space was
+> > + * updated with the previous set of operations. To update the
+> > + * &drm_gpuva_manager's view of the GPU VA space drm_gpuva_insert(),
+> > + * drm_gpuva_destroy_locked() and/or drm_gpuva_destroy_unlocked() should be
+> > + * used.
+> > + *
+> > + * A sequence of callbacks can contain map, unmap and remap operations, but
+> > + * the sequence of callbacks might also be empty if no operation is required,
+> > + * e.g. if the requested mapping already exists in the exact same way.
+> > + *
+> > + * There can be an arbitrary amount of unmap operations, a maximum of two remap
+> > + * operations and a single map operation. The latter one represents the original
+> > + * map operation requested by the caller.
+> > + *
+> > + * Returns: 0 on success or a negative error code
+> > + */
+> > +int
+> > +drm_gpuva_sm_map(struct drm_gpuva_manager *mgr, void *priv,
+> > +		 u64 req_addr, u64 req_range,
+> > +		 struct drm_gem_object *req_obj, u64 req_offset)
+> > +{
+> > +	const struct drm_gpuva_fn_ops *ops = mgr->ops;
+> > +
+> > +	if (unlikely(!(ops && ops->sm_step_map &&
+> > +		       ops->sm_step_remap &&
+> > +		       ops->sm_step_unmap)))
+> > +		return -EINVAL;
+> > +
+> > +	return __drm_gpuva_sm_map(mgr, ops, priv,
+> > +				  req_addr, req_range,
+> > +				  req_obj, req_offset);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_sm_map);
+> > +
+> > +/**
+> > + * drm_gpuva_sm_unmap - creates the &drm_gpuva_ops to split on unmap
+> > + * @mgr: the &drm_gpuva_manager representing the GPU VA space
+> > + * @priv: pointer to a driver private data structure
+> > + * @req_addr: the start address of the range to unmap
+> > + * @req_range: the range of the mappings to unmap
+> > + *
+> > + * This function iterates the given range of the GPU VA space. It utilizes the
+> > + * &drm_gpuva_fn_ops to call back into the driver providing the operations to
+> > + * unmap and, if required, split existent mappings.
+> > + *
+> > + * Drivers may use these callbacks to update the GPU VA space right away within
+> > + * the callback. In case the driver decides to copy and store the operations for
+> > + * later processing neither this function nor &drm_gpuva_sm_map is allowed to be
+> > + * called before the &drm_gpuva_manager's view of the GPU VA space was updated
+> > + * with the previous set of operations. To update the &drm_gpuva_manager's view
+> > + * of the GPU VA space drm_gpuva_insert(), drm_gpuva_destroy_locked() and/or
+> > + * drm_gpuva_destroy_unlocked() should be used.
+> > + *
+> > + * A sequence of callbacks can contain unmap and remap operations, depending on
+> > + * whether there are actual overlapping mappings to split.
+> > + *
+> > + * There can be an arbitrary amount of unmap operations and a maximum of two
+> > + * remap operations.
+> > + *
+> > + * Returns: 0 on success or a negative error code
+> > + */
+> > +int
+> > +drm_gpuva_sm_unmap(struct drm_gpuva_manager *mgr, void *priv,
+> > +		   u64 req_addr, u64 req_range)
+> > +{
+> > +	const struct drm_gpuva_fn_ops *ops = mgr->ops;
+> > +
+> > +	if (unlikely(!(ops && ops->sm_step_remap &&
+> > +		       ops->sm_step_unmap)))
+> > +		return -EINVAL;
+> > +
+> > +	return __drm_gpuva_sm_unmap(mgr, ops, priv,
+> > +				    req_addr, req_range);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_sm_unmap);
+> > +
+> > +static struct drm_gpuva_op *
+> > +gpuva_op_alloc(struct drm_gpuva_manager *mgr)
+> > +{
+> > +	const struct drm_gpuva_fn_ops *fn = mgr->ops;
+> > +	struct drm_gpuva_op *op;
+> > +
+> > +	if (fn && fn->op_alloc)
+> > +		op = fn->op_alloc();
+> > +	else
+> > +		op = kzalloc(sizeof(*op), GFP_KERNEL);
+> > +
+> > +	if (unlikely(!op))
+> > +		return NULL;
+> > +
+> > +	return op;
+> > +}
+> > +
+> > +static void
+> > +gpuva_op_free(struct drm_gpuva_manager *mgr,
+> > +	      struct drm_gpuva_op *op)
+> > +{
+> > +	const struct drm_gpuva_fn_ops *fn = mgr->ops;
+> > +
+> > +	if (fn && fn->op_free)
+> > +		fn->op_free(op);
+> > +	else
+> > +		kfree(op);
+> > +}
+> > +
+> > +static int
+> > +drm_gpuva_sm_step(struct drm_gpuva_op *__op,
+> > +		  drm_gpuva_state_t state,
+> > +		  void *priv)
+> > +{
+> > +	struct {
+> > +		struct drm_gpuva_manager *mgr;
+> > +		struct drm_gpuva_ops *ops;
+> > +	} *args = priv;
+> > +	struct drm_gpuva_manager *mgr = args->mgr;
+> > +	struct drm_gpuva_ops *ops = args->ops;
+> > +	struct drm_gpuva_op *op;
+> > +
+> > +	op = gpuva_op_alloc(mgr);
+> > +	if (unlikely(!op))
+> > +		goto err;
+> > +
+> > +	memcpy(op, __op, sizeof(*op));
+> > +
+> > +	if (op->op == DRM_GPUVA_OP_REMAP) {
+> > +		struct drm_gpuva_op_remap *__r = &__op->remap;
+> > +		struct drm_gpuva_op_remap *r = &op->remap;
+> > +
+> > +		r->unmap = kmemdup(__r->unmap, sizeof(*r->unmap),
+> > +				   GFP_KERNEL);
+> > +		if (unlikely(!r->unmap))
+> > +			goto err_free_op;
+> > +
+> > +		if (__r->prev) {
+> > +			r->prev = kmemdup(__r->prev, sizeof(*r->prev),
+> > +					  GFP_KERNEL);
+> > +			if (unlikely(!r->prev))
+> > +				goto err_free_unmap;
+> > +		}
+> > +
+> > +		if (__r->next) {
+> > +			r->next = kmemdup(__r->next, sizeof(*r->next),
+> > +					  GFP_KERNEL);
+> > +			if (unlikely(!r->next))
+> > +				goto err_free_prev;
+> > +		}
+> > +	}
+> > +
+> > +	list_add_tail(&op->entry, &ops->list);
+> > +
+> > +	return 0;
+> > +
+> > +err_free_unmap:
+> > +	kfree(op->remap.unmap);
+> > +err_free_prev:
+> > +	kfree(op->remap.prev);
+> > +err_free_op:
+> > +	gpuva_op_free(mgr, op);
+> > +err:
+> > +	return -ENOMEM;
+> > +}
+> > +
+> > +static int
+> > +drm_gpuva_sm_step_map(struct drm_gpuva_op *__op, void *priv)
+> > +{
+> > +	return drm_gpuva_sm_step(__op, NULL, priv);
+> > +}
+> > +
+> > +static const struct drm_gpuva_fn_ops gpuva_list_ops = {
+> > +	.sm_step_map = drm_gpuva_sm_step_map,
+> > +	.sm_step_remap = drm_gpuva_sm_step,
+> > +	.sm_step_unmap = drm_gpuva_sm_step,
+> > +};
+> > +
+> > +/**
+> > + * drm_gpuva_sm_map_ops_create - creates the &drm_gpuva_ops to split and merge
+> > + * @mgr: the &drm_gpuva_manager representing the GPU VA space
+> > + * @req_addr: the start address of the new mapping
+> > + * @req_range: the range of the new mapping
+> > + * @req_obj: the &drm_gem_object to map
+> > + * @req_offset: the offset within the &drm_gem_object
+> > + *
+> > + * This function creates a list of operations to perform splitting and merging
+> > + * of existent mapping(s) with the newly requested one.
+> > + *
+> > + * The list can be iterated with &drm_gpuva_for_each_op and must be processed
+> > + * in the given order. It can contain map, unmap and remap operations, but it
+> > + * also can be empty if no operation is required, e.g. if the requested mapping
+> > + * already exists is the exact same way.
+> > + *
+> > + * There can be an arbitrary amount of unmap operations, a maximum of two remap
+> > + * operations and a single map operation. The latter one represents the original
+> > + * map operation requested by the caller.
+> > + *
+> > + * Note that before calling this function again with another mapping request it
+> > + * is necessary to update the &drm_gpuva_manager's view of the GPU VA space. The
+> > + * previously obtained operations must be either processed or abandoned. To
+> > + * update the &drm_gpuva_manager's view of the GPU VA space drm_gpuva_insert(),
+> > + * drm_gpuva_destroy_locked() and/or drm_gpuva_destroy_unlocked() should be
+> > + * used.
+> > + *
+> > + * After the caller finished processing the returned &drm_gpuva_ops, they must
+> > + * be freed with &drm_gpuva_ops_free.
+> > + *
+> > + * Returns: a pointer to the &drm_gpuva_ops on success, an ERR_PTR on failure
+> > + */
+> > +struct drm_gpuva_ops *
+> > +drm_gpuva_sm_map_ops_create(struct drm_gpuva_manager *mgr,
+> > +			    u64 req_addr, u64 req_range,
+> > +			    struct drm_gem_object *req_obj, u64 req_offset)
+> > +{
+> > +	struct drm_gpuva_ops *ops;
+> > +	struct {
+> > +		struct drm_gpuva_manager *mgr;
+> > +		struct drm_gpuva_ops *ops;
+> > +	} args;
+> > +	int ret;
+> > +
+> > +	ops = kzalloc(sizeof(*ops), GFP_KERNEL);
+> > +	if (unlikely(!ops))
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	INIT_LIST_HEAD(&ops->list);
+> > +
+> > +	args.mgr = mgr;
+> > +	args.ops = ops;
+> > +
+> > +	ret = __drm_gpuva_sm_map(mgr, &gpuva_list_ops, &args,
+> > +				 req_addr, req_range,
+> > +				 req_obj, req_offset);
+> > +	if (ret)
+> > +		goto err_free_ops;
+> > +
+> > +	return ops;
+> > +
+> > +err_free_ops:
+> > +	drm_gpuva_ops_free(mgr, ops);
+> > +	return ERR_PTR(ret);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_sm_map_ops_create);
+> > +
+> > +/**
+> > + * drm_gpuva_sm_unmap_ops_create - creates the &drm_gpuva_ops to split on unmap
+> > + * @mgr: the &drm_gpuva_manager representing the GPU VA space
+> > + * @req_addr: the start address of the range to unmap
+> > + * @req_range: the range of the mappings to unmap
+> > + *
+> > + * This function creates a list of operations to perform unmapping and, if
+> > + * required, splitting of the mappings overlapping the unmap range.
+> > + *
+> > + * The list can be iterated with &drm_gpuva_for_each_op and must be processed
+> > + * in the given order. It can contain unmap and remap operations, depending on
+> > + * whether there are actual overlapping mappings to split.
+> > + *
+> > + * There can be an arbitrary amount of unmap operations and a maximum of two
+> > + * remap operations.
+> > + *
+> > + * Note that before calling this function again with another range to unmap it
+> > + * is necessary to update the &drm_gpuva_manager's view of the GPU VA space. The
+> > + * previously obtained operations must be processed or abandoned. To update the
+> > + * &drm_gpuva_manager's view of the GPU VA space drm_gpuva_insert(),
+> > + * drm_gpuva_destroy_locked() and/or drm_gpuva_destroy_unlocked() should be
+> > + * used.
+> > + *
+> > + * After the caller finished processing the returned &drm_gpuva_ops, they must
+> > + * be freed with &drm_gpuva_ops_free.
+> > + *
+> > + * Returns: a pointer to the &drm_gpuva_ops on success, an ERR_PTR on failure
+> > + */
+> > +struct drm_gpuva_ops *
+> > +drm_gpuva_sm_unmap_ops_create(struct drm_gpuva_manager *mgr,
+> > +			      u64 req_addr, u64 req_range)
+> > +{
+> > +	struct drm_gpuva_ops *ops;
+> > +	struct {
+> > +		struct drm_gpuva_manager *mgr;
+> > +		struct drm_gpuva_ops *ops;
+> > +	} args;
+> > +	int ret;
+> > +
+> > +	ops = kzalloc(sizeof(*ops), GFP_KERNEL);
+> > +	if (unlikely(!ops))
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	INIT_LIST_HEAD(&ops->list);
+> > +
+> > +	args.mgr = mgr;
+> > +	args.ops = ops;
+> > +
+> > +	ret = __drm_gpuva_sm_unmap(mgr, &gpuva_list_ops, &args,
+> > +				   req_addr, req_range);
+> > +	if (ret)
+> > +		goto err_free_ops;
+> > +
+> > +	return ops;
+> > +
+> > +err_free_ops:
+> > +	drm_gpuva_ops_free(mgr, ops);
+> > +	return ERR_PTR(ret);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_sm_unmap_ops_create);
+> > +
+> > +/**
+> > + * drm_gpuva_prefetch_ops_create - creates the &drm_gpuva_ops to prefetch
+> > + * @mgr: the &drm_gpuva_manager representing the GPU VA space
+> > + * @addr: the start address of the range to prefetch
+> > + * @range: the range of the mappings to prefetch
+> > + *
+> > + * This function creates a list of operations to perform prefetching.
+> > + *
+> > + * The list can be iterated with &drm_gpuva_for_each_op and must be processed
+> > + * in the given order. It can contain prefetch operations.
+> > + *
+> > + * There can be an arbitrary amount of prefetch operations.
+> > + *
+> > + * After the caller finished processing the returned &drm_gpuva_ops, they must
+> > + * be freed with &drm_gpuva_ops_free.
+> > + *
+> > + * Returns: a pointer to the &drm_gpuva_ops on success, an ERR_PTR on failure
+> > + */
+> > +struct drm_gpuva_ops *
+> > +drm_gpuva_prefetch_ops_create(struct drm_gpuva_manager *mgr,
+> > +			      u64 addr, u64 range)
+> > +{
+> > +	DRM_GPUVA_ITER(it, mgr, addr);
+> > +	struct drm_gpuva_ops *ops;
+> > +	struct drm_gpuva_op *op;
+> > +	struct drm_gpuva *va;
+> > +	int ret;
+> > +
+> > +	ops = kzalloc(sizeof(*ops), GFP_KERNEL);
+> > +	if (!ops)
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	INIT_LIST_HEAD(&ops->list);
+> > +
+> > +	drm_gpuva_iter_for_each_range(va, it, addr + range) {
+> > +		op = gpuva_op_alloc(mgr);
+> > +		if (!op) {
+> > +			ret = -ENOMEM;
+> > +			goto err_free_ops;
+> > +		}
+> > +
+> > +		op->op = DRM_GPUVA_OP_PREFETCH;
+> > +		op->prefetch.va = va;
+> > +		list_add_tail(&op->entry, &ops->list);
+> > +	}
+> > +
+> > +	return ops;
+> > +
+> > +err_free_ops:
+> > +	drm_gpuva_ops_free(mgr, ops);
+> > +	return ERR_PTR(ret);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_prefetch_ops_create);
+> > +
+> > +/**
+> > + * drm_gpuva_gem_unmap_ops_create - creates the &drm_gpuva_ops to unmap a GEM
+> > + * @mgr: the &drm_gpuva_manager representing the GPU VA space
+> > + * @obj: the &drm_gem_object to unmap
+> > + *
+> > + * This function creates a list of operations to perform unmapping for every
+> > + * GPUVA attached to a GEM.
+> > + *
+> > + * The list can be iterated with &drm_gpuva_for_each_op and consists out of an
+> > + * arbitrary amount of unmap operations.
+> > + *
+> > + * After the caller finished processing the returned &drm_gpuva_ops, they must
+> > + * be freed with &drm_gpuva_ops_free.
+> > + *
+> > + * It is the callers responsibility to protect the GEMs GPUVA list against
+> > + * concurrent access.
+> > + *
+> > + * Returns: a pointer to the &drm_gpuva_ops on success, an ERR_PTR on failure
+> > + */
+> > +struct drm_gpuva_ops *
+> > +drm_gpuva_gem_unmap_ops_create(struct drm_gpuva_manager *mgr,
+> > +			       struct drm_gem_object *obj)
+> > +{
+> > +	struct drm_gpuva_ops *ops;
+> > +	struct drm_gpuva_op *op;
+> > +	struct drm_gpuva *va;
+> > +	int ret;
+> > +
+> > +	ops = kzalloc(sizeof(*ops), GFP_KERNEL);
+> > +	if (!ops)
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	INIT_LIST_HEAD(&ops->list);
+> > +
+> > +	drm_gem_for_each_gpuva(va, obj) {
+> > +		op = gpuva_op_alloc(mgr);
+> > +		if (!op) {
+> > +			ret = -ENOMEM;
+> > +			goto err_free_ops;
+> > +		}
+> > +
+> > +		op->op = DRM_GPUVA_OP_UNMAP;
+> > +		op->unmap.va = va;
+> > +		list_add_tail(&op->entry, &ops->list);
+> > +	}
+> > +
+> > +	return ops;
+> > +
+> > +err_free_ops:
+> > +	drm_gpuva_ops_free(mgr, ops);
+> > +	return ERR_PTR(ret);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_gem_unmap_ops_create);
+> > +
+> > +
+> > +/**
+> > + * drm_gpuva_ops_free - free the given &drm_gpuva_ops
+> > + * @mgr: the &drm_gpuva_manager the ops were created for
+> > + * @ops: the &drm_gpuva_ops to free
+> > + *
+> > + * Frees the given &drm_gpuva_ops structure including all the ops associated
+> > + * with it.
+> > + */
+> > +void
+> > +drm_gpuva_ops_free(struct drm_gpuva_manager *mgr,
+> > +		   struct drm_gpuva_ops *ops)
+> > +{
+> > +	struct drm_gpuva_op *op, *next;
+> > +
+> > +	drm_gpuva_for_each_op_safe(op, next, ops) {
+> > +		list_del(&op->entry);
+> > +
+> > +		if (op->op == DRM_GPUVA_OP_REMAP) {
+> > +			kfree(op->remap.prev);
+> > +			kfree(op->remap.next);
+> > +			kfree(op->remap.unmap);
+> > +		}
+> > +
+> > +		gpuva_op_free(mgr, op);
+> > +	}
+> > +
+> > +	kfree(ops);
+> > +}
+> > +EXPORT_SYMBOL(drm_gpuva_ops_free);
+> > diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+> > index b419c59c4bef..b6e22f66c3fd 100644
+> > --- a/include/drm/drm_drv.h
+> > +++ b/include/drm/drm_drv.h
+> > @@ -104,6 +104,12 @@ enum drm_driver_feature {
+> >  	 * acceleration should be handled by two drivers that are connected using auxiliary bus.
+> >  	 */
+> >  	DRIVER_COMPUTE_ACCEL            = BIT(7),
+> > +	/**
+> > +	 * @DRIVER_GEM_GPUVA:
+> > +	 *
+> > +	 * Driver supports user defined GPU VA bindings for GEM objects.
+> > +	 */
+> > +	DRIVER_GEM_GPUVA		= BIT(8),
+> >  
+> >  	/* IMPORTANT: Below are all the legacy flags, add new ones above. */
+> >  
+> > diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> > index b8efd836edef..f2782f55b7e7 100644
+> > --- a/include/drm/drm_gem.h
+> > +++ b/include/drm/drm_gem.h
+> > @@ -36,6 +36,8 @@
+> >  
+> >  #include <linux/kref.h>
+> >  #include <linux/dma-resv.h>
+> > +#include <linux/list.h>
+> > +#include <linux/mutex.h>
+> >  
+> >  #include <drm/drm_vma_manager.h>
+> >  
+> > @@ -347,6 +349,17 @@ struct drm_gem_object {
+> >  	 */
+> >  	struct dma_resv _resv;
+> >  
+> > +	/**
+> > +	 * @gpuva:
+> > +	 *
+> > +	 * Provides the list and list mutex of GPU VAs attached to this
+> > +	 * GEM object.
+> > +	 */
+> > +	struct {
+> > +		struct list_head list;
+> > +		struct mutex mutex;
+> > +	} gpuva;
+> > +
+> >  	/**
+> >  	 * @funcs:
+> >  	 *
+> > @@ -494,4 +507,66 @@ unsigned long drm_gem_lru_scan(struct drm_gem_lru *lru,
+> >  
+> >  int drm_gem_evict(struct drm_gem_object *obj);
+> >  
+> > +/**
+> > + * drm_gem_gpuva_init - initialize the gpuva list of a GEM object
+> > + * @obj: the &drm_gem_object
+> > + *
+> > + * This initializes the &drm_gem_object's &drm_gpuva list and the mutex
+> > + * protecting it.
+> > + *
+> > + * Calling this function is only necessary for drivers intending to support the
+> > + * &drm_driver_feature DRIVER_GEM_GPUVA.
+> > + */
+> > +static inline void drm_gem_gpuva_init(struct drm_gem_object *obj)
+> > +{
+> > +	INIT_LIST_HEAD(&obj->gpuva.list);
+> > +	mutex_init(&obj->gpuva.mutex);
+> > +}
+> > +
+> > +/**
+> > + * drm_gem_gpuva_lock - lock the GEM's gpuva list mutex
+> > + * @obj: the &drm_gem_object
+> > + *
+> > + * This unlocks the mutex protecting the &drm_gem_object's &drm_gpuva list.
+> > + */
+> > +static inline void drm_gem_gpuva_lock(struct drm_gem_object *obj)
+> > +{
+> > +	mutex_lock(&obj->gpuva.mutex);
+> > +}
+> > +
+> > +/**
+> > + * drm_gem_gpuva_unlock - unlock the GEM's gpuva list mutex
+> > + * @obj: the &drm_gem_object
+> > + *
+> > + * This unlocks the mutex protecting the &drm_gem_object's &drm_gpuva list.
+> > + */
+> > +static inline void drm_gem_gpuva_unlock(struct drm_gem_object *obj)
+> > +{
+> > +	mutex_unlock(&obj->gpuva.mutex);
+> > +}
+> > +
+> > +/**
+> > + * drm_gem_for_each_gpuva - iternator to walk over a list of gpuvas
+> > + * @entry: &drm_gpuva structure to assign to in each iteration step
+> > + * @obj: the &drm_gem_object the &drm_gpuvas to walk are associated with
+> > + *
+> > + * This iterator walks over all &drm_gpuva structures associated with the
+> > + * &drm_gpuva_manager.
+> > + */
+> > +#define drm_gem_for_each_gpuva(entry__, obj__) \
+> > +	list_for_each_entry(entry__, &(obj__)->gpuva.list, gem.entry)
+> > +
+> > +/**
+> > + * drm_gem_for_each_gpuva_safe - iternator to safely walk over a list of gpuvas
+> > + * @entry: &drm_gpuva structure to assign to in each iteration step
+> > + * @next: &next &drm_gpuva to store the next step
+> > + * @obj: the &drm_gem_object the &drm_gpuvas to walk are associated with
+> > + *
+> > + * This iterator walks over all &drm_gpuva structures associated with the
+> > + * &drm_gem_object. It is implemented with list_for_each_entry_safe(), hence
+> > + * it is save against removal of elements.
+> > + */
+> > +#define drm_gem_for_each_gpuva_safe(entry__, next__, obj__) \
+> > +	list_for_each_entry_safe(entry__, next__, &(obj__)->gpuva.list, gem.entry)
+> > +
+> >  #endif /* __DRM_GEM_H__ */
+> > diff --git a/include/drm/drm_gpuva_mgr.h b/include/drm/drm_gpuva_mgr.h
+> > new file mode 100644
+> > index 000000000000..b52ac2d00d12
+> > --- /dev/null
+> > +++ b/include/drm/drm_gpuva_mgr.h
+> > @@ -0,0 +1,681 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +
+> > +#ifndef __DRM_GPUVA_MGR_H__
+> > +#define __DRM_GPUVA_MGR_H__
+> > +
+> > +/*
+> > + * Copyright (c) 2022 Red Hat.
+> > + *
+> > + * Permission is hereby granted, free of charge, to any person obtaining a
+> > + * copy of this software and associated documentation files (the "Software"),
+> > + * to deal in the Software without restriction, including without limitation
+> > + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> > + * and/or sell copies of the Software, and to permit persons to whom the
+> > + * Software is furnished to do so, subject to the following conditions:
+> > + *
+> > + * The above copyright notice and this permission notice shall be included in
+> > + * all copies or substantial portions of the Software.
+> > + *
+> > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> > + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> > + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> > + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+> > + * OTHER DEALINGS IN THE SOFTWARE.
+> > + */
+> > +
+> > +#include <linux/maple_tree.h>
+> > +#include <linux/mm.h>
+> > +#include <linux/rbtree.h>
+> > +#include <linux/spinlock.h>
+> > +#include <linux/types.h>
+> > +
+> > +struct drm_gpuva_manager;
+> > +struct drm_gpuva_fn_ops;
+> > +struct drm_gpuva_prealloc;
+> > +
+> > +/**
+> > + * enum drm_gpuva_flags - flags for struct drm_gpuva
+> > + */
+> > +enum drm_gpuva_flags {
+> > +	/**
+> > +	 * @DRM_GPUVA_EVICTED:
+> > +	 *
+> > +	 * Flag indicating that the &drm_gpuva's backing GEM is evicted.
+> > +	 */
+> > +	DRM_GPUVA_EVICTED = (1 << 0),
+> > +
+> > +	/**
+> > +	 * @DRM_GPUVA_SPARSE:
+> > +	 *
+> > +	 * Flag indicating that the &drm_gpuva is a sparse mapping.
+> > +	 */
+> > +	DRM_GPUVA_SPARSE = (1 << 1),
+> > +
+> > +	/**
+> > +	 * @DRM_GPUVA_USERBITS: user defined bits
+> > +	 */
+> > +	DRM_GPUVA_USERBITS = (1 << 2),
+> > +};
+> > +
+> > +/**
+> > + * struct drm_gpuva - structure to track a GPU VA mapping
+> > + *
+> > + * This structure represents a GPU VA mapping and is associated with a
+> > + * &drm_gpuva_manager.
+> > + *
+> > + * Typically, this structure is embedded in bigger driver structures.
+> > + */
+> > +struct drm_gpuva {
+> > +	/**
+> > +	 * @mgr: the &drm_gpuva_manager this object is associated with
+> > +	 */
+> > +	struct drm_gpuva_manager *mgr;
+> > +
+> > +	/**
+> > +	 * @flags: the &drm_gpuva_flags for this mapping
+> > +	 */
+> > +	enum drm_gpuva_flags flags;
+> > +
+> > +	/**
+> > +	 * @va: structure containing the address and range of the &drm_gpuva
+> > +	 */
+> > +	struct {
+> > +		/**
+> > +		 * @addr: the start address
+> > +		 */
+> > +		u64 addr;
+> > +
+> > +		/*
+> > +		 * @range: the range
+> > +		 */
+> > +		u64 range;
+> > +	} va;
+> > +
+> > +	/**
+> > +	 * @gem: structure containing the &drm_gem_object and it's offset
+> > +	 */
+> > +	struct {
+> > +		/**
+> > +		 * @offset: the offset within the &drm_gem_object
+> > +		 */
+> > +		u64 offset;
+> > +
+> > +		/**
+> > +		 * @obj: the mapped &drm_gem_object
+> > +		 */
+> > +		struct drm_gem_object *obj;
+> > +
+> > +		/**
+> > +		 * @entry: the &list_head to attach this object to a &drm_gem_object
+> > +		 */
+> > +		struct list_head entry;
+> > +	} gem;
+> > +};
+> > +
+> > +void drm_gpuva_link(struct drm_gpuva *va);
+> > +void drm_gpuva_unlink(struct drm_gpuva *va);
+> > +
+> > +int drm_gpuva_insert(struct drm_gpuva_manager *mgr,
+> > +		     struct drm_gpuva *va);
+> > +int drm_gpuva_insert_prealloc(struct drm_gpuva_manager *mgr,
+> > +			      struct drm_gpuva_prealloc *pa,
+> > +			      struct drm_gpuva *va);
+> > +void drm_gpuva_remove(struct drm_gpuva *va);
+> > +
+> > +struct drm_gpuva *drm_gpuva_find(struct drm_gpuva_manager *mgr,
+> > +				 u64 addr, u64 range);
+> > +struct drm_gpuva *drm_gpuva_find_first(struct drm_gpuva_manager *mgr,
+> > +				       u64 addr, u64 range);
+> > +struct drm_gpuva *drm_gpuva_find_prev(struct drm_gpuva_manager *mgr, u64 start);
+> > +struct drm_gpuva *drm_gpuva_find_next(struct drm_gpuva_manager *mgr, u64 end);
+> > +
+> > +bool drm_gpuva_interval_empty(struct drm_gpuva_manager *mgr, u64 addr, u64 range);
+> > +
+> > +/**
+> > + * drm_gpuva_evict - sets whether the backing GEM of this &drm_gpuva is evicted
+> > + * @va: the &drm_gpuva to set the evict flag for
+> > + * @evict: indicates whether the &drm_gpuva is evicted
+> > + */
+> > +static inline void drm_gpuva_evict(struct drm_gpuva *va, bool evict)
+> > +{
+> > +	if (evict)
+> > +		va->flags |= DRM_GPUVA_EVICTED;
+> > +	else
+> > +		va->flags &= ~DRM_GPUVA_EVICTED;
+> > +}
+> > +
+> > +/**
+> > + * drm_gpuva_evicted - indicates whether the backing BO of this &drm_gpuva
+> > + * is evicted
+> > + * @va: the &drm_gpuva to check
+> > + */
+> > +static inline bool drm_gpuva_evicted(struct drm_gpuva *va)
+> > +{
+> > +	return va->flags & DRM_GPUVA_EVICTED;
+> > +}
+> > +
+> > +/**
+> > + * struct drm_gpuva_manager - DRM GPU VA Manager
+> > + *
+> > + * The DRM GPU VA Manager keeps track of a GPU's virtual address space by using
+> > + * &maple_tree structures. Typically, this structure is embedded in bigger
+> > + * driver structures.
+> > + *
+> > + * Drivers can pass addresses and ranges in an arbitrary unit, e.g. bytes or
+> > + * pages.
+> > + *
+> > + * There should be one manager instance per GPU virtual address space.
+> > + */
+> > +struct drm_gpuva_manager {
+> > +	/**
+> > +	 * @name: the name of the DRM GPU VA space
+> > +	 */
+> > +	const char *name;
+> > +
+> > +	/**
+> > +	 * @mm_start: start of the VA space
+> > +	 */
+> > +	u64 mm_start;
+> > +
+> > +	/**
+> > +	 * @mm_range: length of the VA space
+> > +	 */
+> > +	u64 mm_range;
+> > +
+> > +	/**
+> > +	 * @mtree: the &maple_tree to track GPU VA mappings
+> > +	 */
+> > +	struct maple_tree mtree;
+> > +
+> > +	/**
+> > +	 * @kernel_alloc_node:
+> > +	 *
+> > +	 * &drm_gpuva representing the address space cutout reserved for
+> > +	 * the kernel
+> > +	 */
+> > +	struct drm_gpuva kernel_alloc_node;
+> > +
+> > +	/**
+> > +	 * @ops: &drm_gpuva_fn_ops providing the split/merge steps to drivers
+> > +	 */
+> > +	const struct drm_gpuva_fn_ops *ops;
+> > +};
+> > +
+> > +void drm_gpuva_manager_init(struct drm_gpuva_manager *mgr,
+> > +			    const char *name,
+> > +			    u64 start_offset, u64 range,
+> > +			    u64 reserve_offset, u64 reserve_range,
+> > +			    const struct drm_gpuva_fn_ops *ops);
+> > +void drm_gpuva_manager_destroy(struct drm_gpuva_manager *mgr);
+> > +
+> > +/**
+> > + * struct drm_gpuva_prealloc - holds a preallocated node for the
+> > + * &drm_gpuva_manager to insert a single new entry
+> > + */
+> > +struct drm_gpuva_prealloc {
+> > +	/**
+> > +	 * @mas: the maple tree advanced state
+> > +	 */
+> > +	struct ma_state mas;
+> > +};
+> > +
+> > +struct drm_gpuva_prealloc * drm_gpuva_prealloc_create(struct drm_gpuva_manager *mgr);
+> > +void drm_gpuva_prealloc_destroy(struct drm_gpuva_prealloc *pa);
+> > +
+> > +/**
+> > + * struct drm_gpuva_iterator - iterator for walking the internal (maple) tree
+> > + */
+> > +struct drm_gpuva_iterator {
+> > +	/**
+> > +	 * @mas: the maple tree advanced state
+> > +	 */
+> > +	struct ma_state mas;
+> > +
+> > +	/**
+> > +	 * @mgr: the &drm_gpuva_manager to iterate
+> > +	 */
+> > +	struct drm_gpuva_manager *mgr;
+> > +};
+> > +typedef struct drm_gpuva_iterator * drm_gpuva_state_t;
+> > +
+> > +void drm_gpuva_iter_remove(struct drm_gpuva_iterator *it);
+> > +int drm_gpuva_iter_va_replace(struct drm_gpuva_iterator *it,
+> > +			      struct drm_gpuva *va);
+> > +
+> > +static inline struct drm_gpuva *
+> > +drm_gpuva_iter_find(struct drm_gpuva_iterator *it, unsigned long max)
+> > +{
+> > +	struct drm_gpuva *va;
+> > +
+> > +	mas_lock(&it->mas);
+> 
+> This is the write lock, if you can have more than one reader then use
+> rcu_read_lock() and friends.  You can also probably use mt_find() to
+> handle the locking here?
+> 
+
+Calls to this function should either be protected by an external lock or be
+serialized anyway. I only got those locks here to make lockdep happly. Hence,
+I think there should not be much of a difference. However, I will change read
+only sections to use rcu_read_lock(), even if it's just to be a better example.
+:-)
+
+> > +	va = mas_find(&it->mas, max);
+> > +	mas_unlock(&it->mas);
+> > +
+> > +	return va;
+> > +}
+> > +
+> > +/**
+> > + * DRM_GPUVA_ITER - create an iterator structure to iterate the &drm_gpuva tree
+> > + * @name: the name of the &drm_gpuva_iterator to create
+> > + * @mgr__: the &drm_gpuva_manager to iterate
+> > + * @start: starting offset, the first entry will overlap this
+> > + */
+> > +#define DRM_GPUVA_ITER(name, mgr__, start)				\
+> > +	struct drm_gpuva_iterator name = {				\
+> > +		.mas = MA_STATE_INIT(&(mgr__)->mtree, start, 0),	\
+> > +		.mgr = mgr__,						\
+> > +	}
+> > +
+> > +/**
+> > + * drm_gpuva_iter_for_each_range - iternator to walk over a range of entries
+> > + * @va__: the &drm_gpuva found for the current iteration
+> > + * @it__: &drm_gpuva_iterator structure to assign to in each iteration step
+> > + * @end__: ending offset, the last entry will start before this (but may overlap)
+> > + *
+> > + * This function can be used to iterate &drm_gpuva objects.
+> > + *
+> > + * It is safe against the removal of elements using &drm_gpuva_iter_remove,
+> > + * however it is not safe against the removal of elements using
+> > + * &drm_gpuva_remove.
+> > + */
+> > +#define drm_gpuva_iter_for_each_range(va__, it__, end__) \
+> > +	while (((va__) = drm_gpuva_iter_find(&(it__), (end__) - 1)))
+> > +
+> > +/**
+> > + * drm_gpuva_iter_for_each - iternator to walk over all existing entries
+> > + * @va__: the &drm_gpuva found for the current iteration
+> > + * @it__: &drm_gpuva_iterator structure to assign to in each iteration step
+> > + *
+> > + * This function can be used to iterate &drm_gpuva objects.
+> > + *
+> > + * In order to walk over all potentially existing entries, the
+> > + * &drm_gpuva_iterator must be initialized to start at
+> > + * &drm_gpuva_manager->mm_start or simply 0.
+> > + *
+> > + * It is safe against the removal of elements using &drm_gpuva_iter_remove,
+> > + * however it is not safe against the removal of elements using
+> > + * &drm_gpuva_remove.
+> > + */
+> > +#define drm_gpuva_iter_for_each(va__, it__) \
+> > +	drm_gpuva_iter_for_each_range(va__, it__, (it__).mgr->mm_start + (it__).mgr->mm_range)
+> > +
+> > +/**
+> > + * enum drm_gpuva_op_type - GPU VA operation type
+> > + *
+> > + * Operations to alter the GPU VA mappings tracked by the &drm_gpuva_manager.
+> > + */
+> > +enum drm_gpuva_op_type {
+> > +	/**
+> > +	 * @DRM_GPUVA_OP_MAP: the map op type
+> > +	 */
+> > +	DRM_GPUVA_OP_MAP,
+> > +
+> > +	/**
+> > +	 * @DRM_GPUVA_OP_REMAP: the remap op type
+> > +	 */
+> > +	DRM_GPUVA_OP_REMAP,
+> > +
+> > +	/**
+> > +	 * @DRM_GPUVA_OP_UNMAP: the unmap op type
+> > +	 */
+> > +	DRM_GPUVA_OP_UNMAP,
+> > +
+> > +	/**
+> > +	 * @DRM_GPUVA_OP_PREFETCH: the prefetch op type
+> > +	 */
+> > +	DRM_GPUVA_OP_PREFETCH,
+> > +};
+> > +
+> > +/**
+> > + * struct drm_gpuva_op_map - GPU VA map operation
+> > + *
+> > + * This structure represents a single map operation generated by the
+> > + * DRM GPU VA manager.
+> > + */
+> > +struct drm_gpuva_op_map {
+> > +	/**
+> > +	 * @va: structure containing address and range of a map
+> > +	 * operation
+> > +	 */
+> > +	struct {
+> > +		/**
+> > +		 * @addr: the base address of the new mapping
+> > +		 */
+> > +		u64 addr;
+> > +
+> > +		/**
+> > +		 * @range: the range of the new mapping
+> > +		 */
+> > +		u64 range;
+> > +	} va;
+> > +
+> > +	/**
+> > +	 * @gem: structure containing the &drm_gem_object and it's offset
+> > +	 */
+> > +	struct {
+> > +		/**
+> > +		 * @offset: the offset within the &drm_gem_object
+> > +		 */
+> > +		u64 offset;
+> > +
+> > +		/**
+> > +		 * @obj: the &drm_gem_object to map
+> > +		 */
+> > +		struct drm_gem_object *obj;
+> > +	} gem;
+> > +};
+> > +
+> > +/**
+> > + * struct drm_gpuva_op_unmap - GPU VA unmap operation
+> > + *
+> > + * This structure represents a single unmap operation generated by the
+> > + * DRM GPU VA manager.
+> > + */
+> > +struct drm_gpuva_op_unmap {
+> > +	/**
+> > +	 * @va: the &drm_gpuva to unmap
+> > +	 */
+> > +	struct drm_gpuva *va;
+> > +
+> > +	/**
+> > +	 * @keep:
+> > +	 *
+> > +	 * Indicates whether this &drm_gpuva is physically contiguous with the
+> > +	 * original mapping request.
+> > +	 *
+> > +	 * Optionally, if &keep is set, drivers may keep the actual page table
+> > +	 * mappings for this &drm_gpuva, adding the missing page table entries
+> > +	 * only and update the &drm_gpuva_manager accordingly.
+> > +	 */
+> > +	bool keep;
+> > +};
+> > +
+> > +/**
+> > + * struct drm_gpuva_op_remap - GPU VA remap operation
+> > + *
+> > + * This represents a single remap operation generated by the DRM GPU VA manager.
+> > + *
+> > + * A remap operation is generated when an existing GPU VA mmapping is split up
+> > + * by inserting a new GPU VA mapping or by partially unmapping existent
+> > + * mapping(s), hence it consists of a maximum of two map and one unmap
+> > + * operation.
+> > + *
+> > + * The @unmap operation takes care of removing the original existing mapping.
+> > + * @prev is used to remap the preceding part, @next the subsequent part.
+> > + *
+> > + * If either a new mapping's start address is aligned with the start address
+> > + * of the old mapping or the new mapping's end address is aligned with the
+> > + * end address of the old mapping, either @prev or @next is NULL.
+> > + *
+> > + * Note, the reason for a dedicated remap operation, rather than arbitrary
+> > + * unmap and map operations, is to give drivers the chance of extracting driver
+> > + * specific data for creating the new mappings from the unmap operations's
+> > + * &drm_gpuva structure which typically is embedded in larger driver specific
+> > + * structures.
+> > + */
+> > +struct drm_gpuva_op_remap {
+> > +	/**
+> > +	 * @prev: the preceding part of a split mapping
+> > +	 */
+> > +	struct drm_gpuva_op_map *prev;
+> > +
+> > +	/**
+> > +	 * @next: the subsequent part of a split mapping
+> > +	 */
+> > +	struct drm_gpuva_op_map *next;
+> > +
+> > +	/**
+> > +	 * @unmap: the unmap operation for the original existing mapping
+> > +	 */
+> > +	struct drm_gpuva_op_unmap *unmap;
+> > +};
+> > +
+> > +/**
+> > + * struct drm_gpuva_op_prefetch - GPU VA prefetch operation
+> > + *
+> > + * This structure represents a single prefetch operation generated by the
+> > + * DRM GPU VA manager.
+> > + */
+> > +struct drm_gpuva_op_prefetch {
+> > +	/**
+> > +	 * @va: the &drm_gpuva to prefetch
+> > +	 */
+> > +	struct drm_gpuva *va;
+> > +};
+> > +
+> > +/**
+> > + * struct drm_gpuva_op - GPU VA operation
+> > + *
+> > + * This structure represents a single generic operation.
+> > + *
+> > + * The particular type of the operation is defined by @op.
+> > + */
+> > +struct drm_gpuva_op {
+> > +	/**
+> > +	 * @entry:
+> > +	 *
+> > +	 * The &list_head used to distribute instances of this struct within
+> > +	 * &drm_gpuva_ops.
+> > +	 */
+> > +	struct list_head entry;
+> > +
+> > +	/**
+> > +	 * @op: the type of the operation
+> > +	 */
+> > +	enum drm_gpuva_op_type op;
+> > +
+> > +	union {
+> > +		/**
+> > +		 * @map: the map operation
+> > +		 */
+> > +		struct drm_gpuva_op_map map;
+> > +
+> > +		/**
+> > +		 * @remap: the remap operation
+> > +		 */
+> > +		struct drm_gpuva_op_remap remap;
+> > +
+> > +		/**
+> > +		 * @unmap: the unmap operation
+> > +		 */
+> > +		struct drm_gpuva_op_unmap unmap;
+> > +
+> > +		/**
+> > +		 * @prefetch: the prefetch operation
+> > +		 */
+> > +		struct drm_gpuva_op_prefetch prefetch;
+> > +	};
+> > +};
+> > +
+> > +/**
+> > + * struct drm_gpuva_ops - wraps a list of &drm_gpuva_op
+> > + */
+> > +struct drm_gpuva_ops {
+> > +	/**
+> > +	 * @list: the &list_head
+> > +	 */
+> > +	struct list_head list;
+> > +};
+> > +
+> > +/**
+> > + * drm_gpuva_for_each_op - iterator to walk over &drm_gpuva_ops
+> > + * @op: &drm_gpuva_op to assign in each iteration step
+> > + * @ops: &drm_gpuva_ops to walk
+> > + *
+> > + * This iterator walks over all ops within a given list of operations.
+> > + */
+> > +#define drm_gpuva_for_each_op(op, ops) list_for_each_entry(op, &(ops)->list, entry)
+> > +
+> > +/**
+> > + * drm_gpuva_for_each_op_safe - iterator to safely walk over &drm_gpuva_ops
+> > + * @op: &drm_gpuva_op to assign in each iteration step
+> > + * @next: &next &drm_gpuva_op to store the next step
+> > + * @ops: &drm_gpuva_ops to walk
+> > + *
+> > + * This iterator walks over all ops within a given list of operations. It is
+> > + * implemented with list_for_each_safe(), so save against removal of elements.
+> > + */
+> > +#define drm_gpuva_for_each_op_safe(op, next, ops) \
+> > +	list_for_each_entry_safe(op, next, &(ops)->list, entry)
+> > +
+> > +/**
+> > + * drm_gpuva_for_each_op_from_reverse - iterate backwards from the given point
+> > + * @op: &drm_gpuva_op to assign in each iteration step
+> > + * @ops: &drm_gpuva_ops to walk
+> > + *
+> > + * This iterator walks over all ops within a given list of operations beginning
+> > + * from the given operation in reverse order.
+> > + */
+> > +#define drm_gpuva_for_each_op_from_reverse(op, ops) \
+> > +	list_for_each_entry_from_reverse(op, &(ops)->list, entry)
+> > +
+> > +/**
+> > + * drm_gpuva_first_op - returns the first &drm_gpuva_op from &drm_gpuva_ops
+> > + * @ops: the &drm_gpuva_ops to get the fist &drm_gpuva_op from
+> > + */
+> > +#define drm_gpuva_first_op(ops) \
+> > +	list_first_entry(&(ops)->list, struct drm_gpuva_op, entry)
+> > +
+> > +/**
+> > + * drm_gpuva_last_op - returns the last &drm_gpuva_op from &drm_gpuva_ops
+> > + * @ops: the &drm_gpuva_ops to get the last &drm_gpuva_op from
+> > + */
+> > +#define drm_gpuva_last_op(ops) \
+> > +	list_last_entry(&(ops)->list, struct drm_gpuva_op, entry)
+> > +
+> > +/**
+> > + * drm_gpuva_prev_op - previous &drm_gpuva_op in the list
+> > + * @op: the current &drm_gpuva_op
+> > + */
+> > +#define drm_gpuva_prev_op(op) list_prev_entry(op, entry)
+> > +
+> > +/**
+> > + * drm_gpuva_next_op - next &drm_gpuva_op in the list
+> > + * @op: the current &drm_gpuva_op
+> > + */
+> > +#define drm_gpuva_next_op(op) list_next_entry(op, entry)
+> > +
+> > +struct drm_gpuva_ops *
+> > +drm_gpuva_sm_map_ops_create(struct drm_gpuva_manager *mgr,
+> > +			    u64 addr, u64 range,
+> > +			    struct drm_gem_object *obj, u64 offset);
+> > +struct drm_gpuva_ops *
+> > +drm_gpuva_sm_unmap_ops_create(struct drm_gpuva_manager *mgr,
+> > +			      u64 addr, u64 range);
+> > +
+> > +struct drm_gpuva_ops *
+> > +drm_gpuva_prefetch_ops_create(struct drm_gpuva_manager *mgr,
+> > +				 u64 addr, u64 range);
+> > +
+> > +struct drm_gpuva_ops *
+> > +drm_gpuva_gem_unmap_ops_create(struct drm_gpuva_manager *mgr,
+> > +			       struct drm_gem_object *obj);
+> > +
+> > +void drm_gpuva_ops_free(struct drm_gpuva_manager *mgr,
+> > +			struct drm_gpuva_ops *ops);
+> > +
+> > +/**
+> > + * struct drm_gpuva_fn_ops - callbacks for split/merge steps
+> > + *
+> > + * This structure defines the callbacks used by &drm_gpuva_sm_map and
+> > + * &drm_gpuva_sm_unmap to provide the split/merge steps for map and unmap
+> > + * operations to drivers.
+> > + */
+> > +struct drm_gpuva_fn_ops {
+> > +	/**
+> > +	 * @op_alloc: called when the &drm_gpuva_manager allocates
+> > +	 * a struct drm_gpuva_op
+> > +	 *
+> > +	 * Some drivers may want to embed struct drm_gpuva_op into driver
+> > +	 * specific structures. By implementing this callback drivers can
+> > +	 * allocate memory accordingly.
+> > +	 *
+> > +	 * This callback is optional.
+> > +	 */
+> > +	struct drm_gpuva_op *(*op_alloc)(void);
+> > +
+> > +	/**
+> > +	 * @op_free: called when the &drm_gpuva_manager frees a
+> > +	 * struct drm_gpuva_op
+> > +	 *
+> > +	 * Some drivers may want to embed struct drm_gpuva_op into driver
+> > +	 * specific structures. By implementing this callback drivers can
+> > +	 * free the previously allocated memory accordingly.
+> > +	 *
+> > +	 * This callback is optional.
+> > +	 */
+> > +	void (*op_free)(struct drm_gpuva_op *op);
+> > +
+> > +	/**
+> > +	 * @sm_step_map: called from &drm_gpuva_sm_map to finally insert the
+> > +	 * mapping once all previous steps were completed
+> > +	 *
+> > +	 * The &priv pointer matches the one the driver passed to
+> > +	 * &drm_gpuva_sm_map or &drm_gpuva_sm_unmap, respectively.
+> > +	 *
+> > +	 * Can be NULL if &drm_gpuva_sm_map is used.
+> > +	 */
+> > +	int (*sm_step_map)(struct drm_gpuva_op *op, void *priv);
+> > +
+> > +	/**
+> > +	 * @sm_step_remap: called from &drm_gpuva_sm_map and
+> > +	 * &drm_gpuva_sm_unmap to split up an existent mapping
+> > +	 *
+> > +	 * This callback is called when existent mapping needs to be split up.
+> > +	 * This is the case when either a newly requested mapping overlaps or
+> > +	 * is enclosed by an existent mapping or a partial unmap of an existent
+> > +	 * mapping is requested.
+> > +	 *
+> > +	 * Drivers must not modify the GPUVA space with accessors that do not
+> > +	 * take a &drm_gpuva_state as argument from this callback.
+> > +	 *
+> > +	 * The &priv pointer matches the one the driver passed to
+> > +	 * &drm_gpuva_sm_map or &drm_gpuva_sm_unmap, respectively.
+> > +	 *
+> > +	 * Can be NULL if neither &drm_gpuva_sm_map nor &drm_gpuva_sm_unmap is
+> > +	 * used.
+> > +	 */
+> > +	int (*sm_step_remap)(struct drm_gpuva_op *op,
+> > +			     drm_gpuva_state_t state,
+> > +			     void *priv);
+> > +
+> > +	/**
+> > +	 * @sm_step_unmap: called from &drm_gpuva_sm_map and
+> > +	 * &drm_gpuva_sm_unmap to unmap an existent mapping
+> > +	 *
+> > +	 * This callback is called when existent mapping needs to be unmapped.
+> > +	 * This is the case when either a newly requested mapping encloses an
+> > +	 * existent mapping or an unmap of an existent mapping is requested.
+> > +	 *
+> > +	 * Drivers must not modify the GPUVA space with accessors that do not
+> > +	 * take a &drm_gpuva_state as argument from this callback.
+> > +	 *
+> > +	 * The &priv pointer matches the one the driver passed to
+> > +	 * &drm_gpuva_sm_map or &drm_gpuva_sm_unmap, respectively.
+> > +	 *
+> > +	 * Can be NULL if neither &drm_gpuva_sm_map nor &drm_gpuva_sm_unmap is
+> > +	 * used.
+> > +	 */
+> > +	int (*sm_step_unmap)(struct drm_gpuva_op *op,
+> > +			     drm_gpuva_state_t state,
+> > +			     void *priv);
+> > +};
+> > +
+> > +int drm_gpuva_sm_map(struct drm_gpuva_manager *mgr, void *priv,
+> > +		     u64 addr, u64 range,
+> > +		     struct drm_gem_object *obj, u64 offset);
+> > +
+> > +int drm_gpuva_sm_unmap(struct drm_gpuva_manager *mgr, void *priv,
+> > +		       u64 addr, u64 range);
+> > +
+> > +int drm_gpuva_map(struct drm_gpuva_manager *mgr,
+> > +		  struct drm_gpuva_prealloc *pa,
+> > +		  struct drm_gpuva *va);
+> > +int drm_gpuva_remap(drm_gpuva_state_t state,
+> > +		    struct drm_gpuva *prev,
+> > +		    struct drm_gpuva *next);
+> > +void drm_gpuva_unmap(drm_gpuva_state_t state);
+> > +
+> > +#endif /* __DRM_GPUVA_MGR_H__ */
+> > -- 
+> > 2.40.1
+> > 
+> 
+
