@@ -2,45 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7AC9731B72
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 16:36:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44CA9731BBB
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Jun 2023 16:47:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 305D610E50E;
-	Thu, 15 Jun 2023 14:36:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27C7710E50B;
+	Thu, 15 Jun 2023 14:47:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.103])
- by gabe.freedesktop.org (Postfix) with ESMTP id 77F6210E511
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 14:36:23 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.43:38118.1572836322
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
- by 189.cn (HERMES) with SMTP id A4EC7100295;
- Thu, 15 Jun 2023 22:36:20 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-75648544bd-7vx9t with ESMTP id
- f757833a38c0491a9b3e100f3191d20a for maarten.lankhorst@linux.intel.com; 
- Thu, 15 Jun 2023 22:36:21 CST
-X-Transaction-ID: f757833a38c0491a9b3e100f3191d20a
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-From: Sui Jingfeng <15330273260@189.cn>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- Sui Jingfeng <suijingfeng@loongson.cn>,
- Christian Koenig <christian.koenig@amd.com>
-Subject: [PATCH v15 2/2] MAINTAINERS: add maintainers for DRM LOONGSON driver
-Date: Thu, 15 Jun 2023 22:36:13 +0800
-Message-Id: <20230615143613.1236245-3-15330273260@189.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230615143613.1236245-1-15330273260@189.cn>
-References: <20230615143613.1236245-1-15330273260@189.cn>
+Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5EEF10E503
+ for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 14:47:50 +0000 (UTC)
+Date: Thu, 15 Jun 2023 14:47:33 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1686840466; x=1687099666;
+ bh=FKAUli3o4hy8Ej3BV4NaF7G+I501rWlHmYecmIQngXI=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=Ne9VCqfTgLOqKLU81j5rT0Xqk8XPEWCRUhpqAQCdKmg+zMnbq9BWS2Z4Ll4VMeild
+ ncqJYPKMHgvKDqYhhNInMLdW2mgf4I18yN+L8lDkzAfLf2E2CoCDlT/txtR5CCeCRf
+ Yx+8kcQeXph8qTd4Em4eKaZo4+rcTm/FS6nddH/kVTfs9kr3lOrVyX3pHtwzYFjuCp
+ 2q3Lz4yzcbKAgtZggB3/a3YIk6sM950e0JtRCek9bDiyDIthszXnMJeojmaJkDORgR
+ U/jTrirw+RQfUowOmBWGdHHNqHnptgDsqVqpD9/07NQVDBYg4NrMgY9oQuxUPV/CUM
+ Xy2VZPzbq9AWg==
+To: Thomas Zimmermann <tzimmermann@suse.de>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH 1/3] drm: Enable PRIME import/export for all drivers
+Message-ID: <-Zu2xcAP6KgnhQVsOLkYcnIH7KhL5Tancp7W66ZA-tToQbsE_4bbcB8oIGO1RIHhIDcGTXyAHX-aPuANlbN1FH50uAxXL1VlNFHwSXO2s_M=@emersion.fr>
+In-Reply-To: <20230615094206.4424-2-tzimmermann@suse.de>
+References: <20230615094206.4424-1-tzimmermann@suse.de>
+ <20230615094206.4424-2-tzimmermann@suse.de>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,38 +48,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, inux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org
+Cc: mripard@kernel.org, linux-graphics-maintainer@vmware.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sui Jingfeng <suijingfeng@loongson.cn>
+On Thursday, June 15th, 2023 at 11:31, Thomas Zimmermann <tzimmermann@suse.=
+de> wrote:
 
-This patch add Sui Jingfeng as maintainer to drm/loongson driver.
+> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+> index 89e2706cac561..10af1899236a0 100644
+> --- a/include/drm/drm_drv.h
+> +++ b/include/drm/drm_drv.h
+> @@ -309,6 +309,9 @@ struct drm_driver {
+>  =09 *
+>  =09 * For an in-depth discussion see :ref:`PRIME buffer sharing
+>  =09 * documentation <prime_buffer_sharing>`.
+> +=09 *
+> +=09 * TODO: Convert remaining drivers to drm_gem_prime_handle_to_fd()
+> +=09 *       and remove this callback.
+>  =09 */
 
-Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
----
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+The docs right above still state: "Should be implemented with
+drm_gem_prime_handle_to_fd() for GEM based drivers". Maybe we can replace t=
+hat
+and state that leaving this NULL will use a default implementation?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 225e20582a96..70262eb6e614 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6956,6 +6956,13 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	drivers/gpu/drm/lima/
- F:	include/uapi/drm/lima_drm.h
- 
-+DRM DRIVERS FOR LOONGSON
-+M:	Sui Jingfeng <suijingfeng@loongson.cn>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Supported
-+T:	git git://anongit.freedesktop.org/drm/drm-misc
-+F:	drivers/gpu/drm/loongson/
-+
- DRM DRIVERS FOR MEDIATEK
- M:	Chun-Kuang Hu <chunkuang.hu@kernel.org>
- M:	Philipp Zabel <p.zabel@pengutronix.de>
--- 
-2.25.1
+>  =09int (*prime_handle_to_fd)(struct drm_device *dev, struct drm_file *fi=
+le_priv,
+>  =09=09=09=09uint32_t handle, uint32_t flags, int *prime_fd);
+> @@ -320,6 +323,9 @@ struct drm_driver {
+>  =09 *
+>  =09 * For an in-depth discussion see :ref:`PRIME buffer sharing
+>  =09 * documentation <prime_buffer_sharing>`.
+> +=09 *
+> +=09 * TODO: Convert remaining drivers to drm_gem_prime_fd_to_handle()
+> +=09 *       and remove this callback.
+>  =09 */
 
+Ditto.
+
+>  =09int (*prime_fd_to_handle)(struct drm_device *dev, struct drm_file *fi=
+le_priv,
+>  =09=09=09=09int prime_fd, uint32_t *handle);
+> --
+> 2.41.0
