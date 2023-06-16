@@ -2,73 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C6E473295D
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 09:59:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 256E9732981
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 10:08:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1077110E5C4;
-	Fri, 16 Jun 2023 07:59:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0F6110E5C1;
+	Fri, 16 Jun 2023 08:08:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E79A10E052;
- Fri, 16 Jun 2023 07:59:35 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id
- 2adb3069b0e04-4f6370ddd27so464701e87.0; 
- Fri, 16 Jun 2023 00:59:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1686902373; x=1689494373;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=/NbTNi3p50Jqj44KQpypXTfod2ZdmBLU/lTATgUJbUM=;
- b=QDKIllHUz+pntPVZHJ9l6PAeUKk60Goln/DQrejhs+e+Nm4s8Krh7lMruqxouia4Sw
- ZHxGd60eLHfMSgOYgHkOXjYf5eapvoRG2uz+VLorU/+nQdC8Lv7nMBsGZwzbmce6BAxp
- ZOQOMlZwvUujh7lcvGpbKJCQT2CIrFDGC5BztdV5287XZG8Drkw2TOq+W/VFCLbybruU
- YGVX1So+meDd4nX3+0YHDh3LO2yjEtp8pYLCQqPl5OSQef5g7lOF7uzwqFBBPmvu8rv8
- mri3O/mqiSkkzYAkdWJNPUY4oYWiqOqlYnVfLF/hfo93PBnYB4gGYoecx1FOPfvsCA7p
- cC1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686902373; x=1689494373;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/NbTNi3p50Jqj44KQpypXTfod2ZdmBLU/lTATgUJbUM=;
- b=dNHXGwBjuTMGl1/aZSLwcNqmG+vZ7QEQuUZJbh92Rwj75ejVY0mDPTOAnC48w6ioPn
- bc4qQqjQ5VsCSxuYi46OjE3dsURyCnHoRHgpoyr1HNR3JeHXYXxQGEeNEFaxrMM1i1gm
- JZdMcwuC+WqLqShLwJcChjc3l6wocWXOj+7ExlH7GllCBRgIFjtELmeFJtltMRMDpmVA
- VPE1fLMyz89J9hySv3ikedXZkZFIn/lFKbUy9Ps59FLJSNoI/TLqxT1QMTYdE/7dzpvs
- 5HnioZ1Va1JdQqpO3uHDjOXbb/8PlhMBS7ObcJqnoEzFXduOCJXKS77iwKx9oZGBN572
- dh6Q==
-X-Gm-Message-State: AC+VfDypEFvc8Bz3wC96GBm7sWuUmIEyeQ6O5AXgN22qK3OkKHMvt5vt
- 64yo7PqIkNk+L57LczBrSHM=
-X-Google-Smtp-Source: ACHHUZ4G3lIJmIb6y1qZlOzYIUzJSSnq0fnn8s5HyOfm6aEbEnhLYluecGriws39Z9V1SP/INOC+5w==
-X-Received: by 2002:a19:8c0d:0:b0:4f8:5696:6bbc with SMTP id
- o13-20020a198c0d000000b004f856966bbcmr539163lfd.29.1686902372822; 
- Fri, 16 Jun 2023 00:59:32 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- f16-20020ac25330000000b004f84226f0bfsm654329lfh.26.2023.06.16.00.59.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Jun 2023 00:59:32 -0700 (PDT)
-Date: Fri, 16 Jun 2023 10:59:28 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Christopher Braga <quic_cbraga@quicinc.com>
-Subject: Re: [RFC] Plane color pipeline KMS uAPI
-Message-ID: <20230616105928.1e5013ab@eldfell>
-In-Reply-To: <baa70725-89ba-2e92-c5ce-7619fbea26d2@quicinc.com>
-References: <QMers3awXvNCQlyhWdTtsPwkp5ie9bze_hD5nAccFW7a_RXlWjYB7MoUW_8CKLT2bSQwIXVi5H6VULYIxCdgvryZoAoJnC5lZgyK1QWn488=@emersion.fr>
- <4341dac6-ada1-2a75-1c22-086d96408a85@quicinc.com>
- <84d5dad7-5e8e-ce92-d08e-4609970f6604@quicinc.com>
- <jerhZxCOWoQ2gv55pCK0JNVXMT_OY_j9KLewfG5me25cpqVzfOibpr4b9gZpjWPLQOaKWO2zD2KUI5mWge4mA74DmV1qmLB_LxsSRlKtvbk=@emersion.fr>
- <6f9598e5-09b4-738f-4d00-dfdaba1c91d0@quicinc.com>
- <20230612122135.40505458@eldfell>
- <f9428dd3-09fb-74b7-7ba0-4710e8b43229@quicinc.com>
- <20230613112312.755ef58f@eldfell>
- <d132c9e0-d3e2-77e5-bcd6-1aef657b935f@quicinc.com>
- <20230614120006.03284f7e@eldfell>
- <baa70725-89ba-2e92-c5ce-7619fbea26d2@quicinc.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.24; x86_64-pc-linux-gnu)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80C1310E5C1
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 08:08:18 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B98D421C44;
+ Fri, 16 Jun 2023 08:08:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1686902896; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UDvXX7ny3jhF7cGUA6wFs+LB1MsO7rOcLM5QoVVkJmA=;
+ b=DpxCbNGSwF5Rn7XwJ6jBE4RIKR4D7FnyFA1/VAVFmprfCbMLaPVBUsUWoEz2ZZ2zeXMTNY
+ ZvxyqCFI4R0fStrfPAV/VBpyPKMwLtfAHprW3dtruu7ewjlm+dSwGZcpccpQmuNu6I8mDT
+ q6yhydQ/LCYF4t9HgS6a43EH8b7nD5w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1686902896;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UDvXX7ny3jhF7cGUA6wFs+LB1MsO7rOcLM5QoVVkJmA=;
+ b=ryFi2l45G67vhdn5j4M35saRtvn+u3nkqFiR35attEJKxWOOaoaFT4xMK3SUxt3289YZeX
+ AZjsW8Q3pPfaESCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9CB8F1330B;
+ Fri, 16 Jun 2023 08:08:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id QxFXJXAYjGS9IwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 16 Jun 2023 08:08:16 +0000
+Message-ID: <98ebc72a-813a-aaf9-23db-f93b3986f21e@suse.de>
+Date: Fri, 16 Jun 2023 10:08:15 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/hXI2x1MyIGUNJokMCvOQfyN";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH v2 4/4] drm/mgag200: Use DMA to copy the framebuffer to
+ the VRAM
+Content-Language: en-US
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com, javierm@redhat.com, lyude@redhat.com
+References: <20230531092110.140564-1-jfalempe@redhat.com>
+ <20230531092110.140564-5-jfalempe@redhat.com>
+ <d610d6ee-cf53-6357-b25d-5a396859cc45@suse.de>
+ <15b08823-f2c2-5836-2421-f3bc25d51e11@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <15b08823-f2c2-5836-2421-f3bc25d51e11@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------k4IC130PI4Uk3SJ01hcbwjO5"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,261 +74,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Aleix Pol <aleixpol@kde.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "xaver.hugl@gmail.com" <xaver.hugl@gmail.com>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <mdaenzer@redhat.com>,
- wayland-devel <wayland-devel@lists.freedesktop.org>,
- Melissa Wen <mwen@igalia.com>, Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@redhat.com>,
- Uma Shankar <uma.shankar@intel.com>,
- Victoria Brekenfeld <victoria@system76.com>,
- Sebastian Wick <sebastian.wick@redhat.com>, Joshua Ashton <joshua@froggi.es>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/hXI2x1MyIGUNJokMCvOQfyN
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------k4IC130PI4Uk3SJ01hcbwjO5
+Content-Type: multipart/mixed; boundary="------------ReDtHDmUJoFNp73XyLHGiZsg";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com, javierm@redhat.com, lyude@redhat.com
+Message-ID: <98ebc72a-813a-aaf9-23db-f93b3986f21e@suse.de>
+Subject: Re: [PATCH v2 4/4] drm/mgag200: Use DMA to copy the framebuffer to
+ the VRAM
+References: <20230531092110.140564-1-jfalempe@redhat.com>
+ <20230531092110.140564-5-jfalempe@redhat.com>
+ <d610d6ee-cf53-6357-b25d-5a396859cc45@suse.de>
+ <15b08823-f2c2-5836-2421-f3bc25d51e11@redhat.com>
+In-Reply-To: <15b08823-f2c2-5836-2421-f3bc25d51e11@redhat.com>
 
-On Thu, 15 Jun 2023 17:44:33 -0400
-Christopher Braga <quic_cbraga@quicinc.com> wrote:
+--------------ReDtHDmUJoFNp73XyLHGiZsg
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> On 6/14/2023 5:00 AM, Pekka Paalanen wrote:
-> > On Tue, 13 Jun 2023 12:29:55 -0400
-> > Christopher Braga <quic_cbraga@quicinc.com> wrote:
-> >  =20
-> >> On 6/13/2023 4:23 AM, Pekka Paalanen wrote: =20
-> >>> On Mon, 12 Jun 2023 12:56:57 -0400
-> >>> Christopher Braga <quic_cbraga@quicinc.com> wrote:
-> >>>     =20
-> >>>> On 6/12/2023 5:21 AM, Pekka Paalanen wrote: =20
-> >>>>> On Fri, 9 Jun 2023 19:11:25 -0400
-> >>>>> Christopher Braga <quic_cbraga@quicinc.com> wrote:
-> >>>>>        =20
-> >>>>>> On 6/9/2023 12:30 PM, Simon Ser wrote: =20
-> >>>>>>> Hi Christopher,
-> >>>>>>>
-> >>>>>>> On Friday, June 9th, 2023 at 17:52, Christopher Braga <quic_cbrag=
-a@quicinc.com> wrote:
-> >>>>>>>           =20
-> >>>>>>>>> The new COLOROP objects also expose a number of KMS properties.=
- Each has a
-> >>>>>>>>> type, a reference to the next COLOROP object in the linked list=
-, and other
-> >>>>>>>>> type-specific properties. Here is an example for a 1D LUT opera=
-tion:
-> >>>>>>>>>
-> >>>>>>>>>          Color operation 42
-> >>>>>>>>>          =E2=94=9C=E2=94=80 "type": enum {Bypass, 1D curve} =3D=
- 1D curve
-> >>>>>>>>>          =E2=94=9C=E2=94=80 "1d_curve_type": enum {LUT, sRGB, P=
-Q, BT.709, HLG, =E2=80=A6} =3D LUT =20
-> >>>>>>>> The options sRGB / PQ / BT.709 / HLG would select hard-coded 1D
-> >>>>>>>> curves? Will different hardware be allowed to expose a subset of=
- these
-> >>>>>>>> enum values? =20
-> >>>>>>>
-> >>>>>>> Yes. Only hardcoded LUTs supported by the HW are exposed as enum =
-entries.
-> >>>>>>>           =20
-> >>>>>>>>>          =E2=94=9C=E2=94=80 "lut_size": immutable range =3D 4096
-> >>>>>>>>>          =E2=94=9C=E2=94=80 "lut_data": blob
-> >>>>>>>>>          =E2=94=94=E2=94=80 "next": immutable color operation I=
-D =3D 43
-> >>>>>>>>>          =20
-> >>>>>>>> Some hardware has per channel 1D LUT values, while others use th=
-e same
-> >>>>>>>> LUT for all channels.  We will definitely need to expose this in=
- the
-> >>>>>>>> UAPI in some form. =20
-> >>>>>>>
-> >>>>>>> Hm, I was assuming per-channel 1D LUTs here, just like the existi=
-ng GAMMA_LUT/
-> >>>>>>> DEGAMMA_LUT properties work. If some hardware can't support that,=
- it'll need
-> >>>>>>> to get exposed as another color operation block.
-> >>>>>>>           =20
-> >>>>>>>>> To configure this hardware block, user-space can fill a KMS blo=
-b with
-> >>>>>>>>> 4096 u32
-> >>>>>>>>> entries, then set "lut_data" to the blob ID. Other color operat=
-ion types
-> >>>>>>>>> might
-> >>>>>>>>> have different properties.
-> >>>>>>>>>          =20
-> >>>>>>>> The bit-depth of the LUT is an important piece of information we=
- should
-> >>>>>>>> include by default. Are we assuming that the DRM driver will alw=
-ays
-> >>>>>>>> reduce the input values to the resolution supported by the pipel=
-ine?
-> >>>>>>>> This could result in differences between the hardware behavior
-> >>>>>>>> and the shader behavior.
-> >>>>>>>>
-> >>>>>>>> Additionally, some pipelines are floating point while others are=
- fixed.
-> >>>>>>>> How would user space know if it needs to pack 32 bit integer val=
-ues vs
-> >>>>>>>> 32 bit float values? =20
-> >>>>>>>
-> >>>>>>> Again, I'm deferring to the existing GAMMA_LUT/DEGAMMA_LUT. These=
- use a common
-> >>>>>>> definition of LUT blob (u16 elements) and it's up to the driver t=
-o convert.
-> >>>>>>>
-> >>>>>>> Using a very precise format for the uAPI has the nice property of=
- making the
-> >>>>>>> uAPI much simpler to use. User-space sends high precision data an=
-d it's up to
-> >>>>>>> drivers to map that to whatever the hardware accepts.
-> >>>>>>>          =20
-> >>>>>> Conversion from a larger uint type to a smaller type sounds low ef=
-fort,
-> >>>>>> however if a block works in a floating point space things are goin=
-g to
-> >>>>>> get messy really quickly. If the block operates in FP16 space and =
-the
-> >>>>>> interface is 16 bits we are good, but going from 32 bits to FP16 (=
-such
-> >>>>>> as in the matrix case or 3DLUT) is less than ideal. =20
-> >>>>>
-> >>>>> Hi Christopher,
-> >>>>>
-> >>>>> are you thinking of precision loss, or the overhead of conversion?
-> >>>>>
-> >>>>> Conversion from N-bit fixed point to N-bit floating-point is genera=
-lly
-> >>>>> lossy, too, and the other direction as well.
-> >>>>>
-> >>>>> What exactly would be messy?
-> >>>>>        =20
-> >>>> Overheard of conversion is the primary concern here. Having to extra=
-ct
-> >>>> and / or calculate the significand + exponent components in the kern=
-el
-> >>>> is burdensome and imo a task better suited for user space. This also=
- has
-> >>>> to be done every blob set, meaning that if user space is re-using
-> >>>> pre-calculated blobs we would be repeating the same conversion
-> >>>> operations in kernel space unnecessarily. =20
-> >>>
-> >>> What is burdensome in that calculation? I don't think you would need =
-to
-> >>> use any actual floating-point instructions. Logarithm for finding the
-> >>> exponent is about finding the highest bit set in an integer and
-> >>> everything is conveniently expressed in base-2. Finding significand is
-> >>> just masking the integer based on the exponent.
-> >>>     =20
-> >> Oh it definitely can be done, but I think this is just a difference of
-> >> opinion at this point. At the end of the day we will do it if we have
-> >> to, but it is just more optimal if a more agreeable common type is use=
-d.
-> >> =20
-> >>> Can you not cache the converted data, keyed by the DRM blob unique
-> >>> identity vs. the KMS property it is attached to? =20
-> >> If the userspace compositor has N common transforms (ex: standard P3 ->
-> >> sRGB matrix), they would likely have N unique blobs. Obviously from the
-> >> kernel end we wouldn't want to cache the transform of every blob passed
-> >> down through the UAPI. =20
-> >=20
-> > Hi Christoper,
-> >=20
-> > as long as the blob exists, why not? =20
->=20
-> Generally because this is an unbounded amount of blobs. I'm not 100%=20
-> sure what the typical behavior is upstream, but in our driver we have=20
-> scenarios where we can have per-frame blob updates (unique per-frame blob=
-s).
+SGkNCg0KQW0gMTUuMDYuMjMgdW0gMTk6MTUgc2NocmllYiBKb2NlbHluIEZhbGVtcGU6DQo+
+IE9uIDE1LzA2LzIwMjMgMTY6MjQsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gSGkg
+Sm9jZWx5bg0KPj4NCj4+IEFtIDMxLjA1LjIzIHVtIDExOjIxIHNjaHJpZWIgSm9jZWx5biBG
+YWxlbXBlOg0KPj4+IEV2ZW4gaWYgdGhlIHRyYW5zZmVyIGlzIG5vdCBmYXN0ZXIsIGl0IGJy
+aW5ncyBzaWduaWZpY2FudA0KPj4+IGltcHJvdmVtZW50IGluIGxhdGVuY2llcyBhbmQgQ1BV
+IHVzYWdlLg0KPj4+DQo+Pj4gQ1BVIHVzYWdlIGRyb3BzIGZyb20gMTAwJSBvZiBvbmUgY29y
+ZSB0byAzJSB3aGVuIGNvbnRpbnVvdXNseQ0KPj4+IHJlZnJlc2hpbmcgdGhlIHNjcmVlbi4N
+Cj4+DQo+PiBJIHRyaWVkIHlvdXIgcGF0Y2hzZXQgb24gYSBIUCBQcm9saWFudCBzZXJ2ZXIg
+d2l0aCBhIEcyMDBFSC4gSSBjYW4gc2VlIA0KPj4gdGhhdCB0aGUgQ1BVIHVzYWdlIGdvZXMg
+ZG93biwgYnV0IHRoZSB0aW1lIHVudGlsIHRoZSBzY3JlZW4gdXBkYXRlIA0KPj4gcmVhY2hl
+cyB0aGUgaGFyZHdhcmUncyB2aWRlbyBtZW1vcnkgaGFzIGluY3JlYXNlZCBzaWduaWZpY2Fu
+dGx5Lg0KPiANCj4gVGhhbmtzIGZvciB0YWtpbmcgdGltZSB0byB0ZXN0IGl0Lg0KPiBDYW4g
+eW91IGNoZWNrIGlmIHRoZXJlIGlzIHNvbWV0aGluZyBpbiB0aGUgZG1lc2cgPw0KPiANCj4g
+VGhlIDFzIGxvb2tzIHN1c3BpY2lvdXMsIGlmIHRoZSBJUlEgaXMgbm90IHdvcmtpbmcsIHRo
+ZXJlIGlzIGEgMXMgDQo+IHRpbWVvdXQsIHdoaWNoIGNhbiBleHBsYWluIHdoeSBpdCB3aWxs
+IGRpc3BsYXkgb25seSBvbmUgZnJhbWUgcGVyIA0KPiBzZWNvbmQuIChsb2dzIHNob3VsZCBi
+ZSBmaWxsZWQgd2l0aCAiRE1BIHRyYW5zZmVyIHRpbWVkIG91dCIpDQoNCk5vLCBJIGRvbid0
+IHNlZSB0aGF0IGVycm9yLiBJIGFsc28gdmVyaWZpZWQgdGhhdCB0aGUgSVJRIGhhbmRsZXIg
+aXMgDQpydW5uaW5nLiBJdCBydW5zIG9uIGVhY2ggdXBkYXRlIEFGQUlDVC4NCg0KV2hlbiBJ
+J20gZG9pbmcgZnVsbC1zY3JlZW4gc2Nyb2xsaW5nIG9uIHRoZSBrZXJuZWwgY29uc29sZSBJ
+IGNhbiBzZWUgdGhlIA0Kc2NhbmxpbmVzIGJlaW5nIHVwZGF0ZWQgZnJvbSB0b3AgdG8gYm90
+dG9tLiBUaGlzIGluZGljYXRlcyB0byBtZSB0aGF0IA0KdGhlIGFjdHVhbCBjb3B5aW5nIHRh
+a2VzIHRpbWUgb3IgaW50ZXJmZXJlcyB3aXRoIHRoZSBzY2Fub3V0Lg0KDQpCZXN0IHJlZ2Fy
+ZHMNClRob21hcw0KDQo+IA0KPiBJIHdpbGwgc2VlIGlmIEkgY2FuIGdldCBhY2Nlc3MgdG8g
+YSBHMjAwRUgsIGFuZCBpZiBJIGNhbiByZXByb2R1Y2UgdGhpcy4NCj4gDQo+IEJlc3QgcmVn
+YXJkcywNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBE
+ZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtl
+bnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYs
+IEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAz
+NjgwOSAoQUcgTnVlcm5iZXJnKQ0K
 
-All kernel allocated blob-related data should be accounted to the
-userspace process. I don't think that happens today, but I think it
-definitely should. Userspace can create a practically unlimited number
-of arbitrary sized blobs to begin with, consuming arbitrary amounts of
-kernel memory at will, even without drivers caching any derived data.
+--------------ReDtHDmUJoFNp73XyLHGiZsg--
 
-It does not seem to me like refusing to cache derived blob data would
-really help.
-
-> Speaking of per-frame blob updates, there is one concern I neglected to=20
-> bring up. Internally we have seen scenarios where frequent blob=20
-> allocation can lead to memory allocation delays of two frames or higher.=
-=20
-> This typically was seen when the system is under high memory usage and=20
-> the blob allocation is > 1 page. The patch=20
-> https://patchwork.freedesktop.org/patch/525857/ was uploaded a few=20
-> months back to help mitigate these delays, but it didn't gain traction=20
-> at the time.
-
-That is worrying.
-
-As a userspace developer, I like the idea of limiting blob allocation
-to DRM master only, but if the concern is the DRM master leaking, then
-I'd imagine process accounting could at least point to the culprit.
-
-Trying to defend against a malicious DRM master is in my opinion a
-little moot. Untrusted processes should not be able to gain DRM master
-to begin with.
-
-Hmm, but DRM leasing...
-
-> This color pipeline UAPI is ultimately going to have the same problem.=20
-> Frequent 3DLUT color block updates will result in large allocations, and=
-=20
-> if there is high system memory usage this could see blob allocation=20
-> delays. So two things here:
-> - Let's reconsider https://patchwork.freedesktop.org/patch/525857/ so=20
-> frequent blob allocation doesn't get unnecessarily delayed
-> - Do we have any alternative methods at our disposal for sending down=20
-> the color configuration data? Generally blobs work fine for low update=20
-> or blob cycling use cases, but frequent blob data updates results in a=20
-> total per frame IOCTL sequence of:
->    (IOCTL_BLOB_DESTROY * #_of_blob_updates) +	=09
->      (IOCTL_BLOB_CREATE * #_of_blob_updates) + IOCTL_DRM_ATOMIC
-
-Good questions.
-
-I have no ideas for that, but I got a random idea to mitigate the blob
-conversion overhead:
-
-What if we had a new kind of blob that is targeted to a specific
-property of a specific KMS object at creation?
-
-Then the driver could do the conversion work at create ioctl time, and
-store only the derived data and not the original userspace data at all.
-Then there are no unexpected delays due to allocation or conversion at
-atomic commit time, and the memory cost is optimal for the specific
-usage.
-
-The disadvantage is that the blob is then tied to the specific property
-of the specific KMS object, and cannot be used anywhere else. I'm not
-sure how much of a problem that would be in practice for userspace
-having to create maybe even more blobs per-plane or per-crtc, or a
-problem for drivers that have a flexible mapping between KMS objects
-and hardware blocks.
-
-
-Thanks
-pq
-
---Sig_/hXI2x1MyIGUNJokMCvOQfyN
-Content-Type: application/pgp-signature
+--------------k4IC130PI4Uk3SJ01hcbwjO5
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmSMFmAACgkQI1/ltBGq
-qqdoNRAAjRG9T5x3VN9AQjxlUBZ4Mvj/kjGE/p4lFNPyQyOkh4wUj9leRioDUzCs
-112VC9yJgk8t+sFA4+vMUKbudyptG0jyPCgDuM3cPriYq8iZgTthAc7ngX8mJiOg
-+JOjB5knrpJdOm63Sx606gHfls2eiPc0MRx7+sdGPRR4nGn6muSoYYzhRZ1CZKEi
-hUF90oLH7j9hJqhvmWZWe7zDizAFlJuPImxbQAMW6/H3/pQ6xy8AxpLpZB0stazD
-bcrC4WvlSy5390ESumXaepZB4ot50mzVETnb2SUy+BIw+GleRb+HnLu9SeB0YAtH
-J6uDdix9DtkErogvZSx1LZ7cta7zauImq32hxdz/4GfV+XRFzBqpWvsvbqLX4X0g
-/eadZBM91FrJ2C6DRPvwyytvOO+k5PvzFJjq2WRebH6PXopwLdgELokwy00mPC3d
-KM0i5HHMSxaZIPBQwAV0g60R06sEJGZ5FLc/MzKLbgC6P9czblX68n06qXR+1jli
-CKcGAK+BYg8vpcW7hOhAyVFm2S3fQlfOvZIx/ne90BkxfJ8izKJFP3vQJOHk+r1a
-+PITd+riCiCoA48nEsNf+i3Jwqvvf7lBXyJQBaS+xmmflGwjUD1JnOZdBrlg1nFU
-J1BHKWcQdlV+2PTZIqSM5uzdW+5fzBmFOtDT11wAl86er8LWDPE=
-=GjFu
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSMGG8FAwAAAAAACgkQlh/E3EQov+D7
+WQ//aTA8tp5wxiJDqoIplDrvdNTuUSaWJtsHBzpTaItJFLNnx5LKNfBwqNVHgoPcrIXXn8MHFXw6
+3Aw0ZRHzMf5dnCz09lBSDHg3scGrgKr5UJboTxLJzoQ7Mh0A+YoMEnvEYjGfsc+y4OjeX7nKCOf/
+lZGlVza2zEDH+2fBOhte0g2JgV23ejbBegm8yZCoUszVBEAtsZA96krz7hch0OATXoIY+1lwmpGX
+qgYZLi1s9K5CkbkStVY2PV19q18EHfDUNJCB7v6EFse96dMgvE2y3ziuLjAwMKMDl26+3xiFL0Fx
+6hYOtF7bPFT9i47085AliuSNsEcB90rmErx1j1YBNdm0sLaEnL4cCvyiqlVAF4idiDRnAMSS+yB/
+rg8UIj/B1fxacHmT3EPl7iRthKVT9jxWNoh7SqS5DqtYiCk0H6V4EenJpN31EpAcZZcfiZiDwiz+
+GMUKwfufsemOIRt7q0JEzK3/N5JuTHZzy48RiLb9Jfn/Qcldp8ZrhOpeYbzS01et86GjlhLCiFzh
+0OJNAbYR4pYzPfFeTBgkzYb7D8haLXNC2+jY4ap8101WweGdZg6CHM1skhsbK8/FQFEhU5EV0Nqt
+X5+eGO6f8qEXaR3GwfMznCojehz36Lafn/rfZIOj7cS+4DubGxBlYlV2oseDz+jFS3PXghX9JP1p
+5KA=
+=PEvR
 -----END PGP SIGNATURE-----
 
---Sig_/hXI2x1MyIGUNJokMCvOQfyN--
+--------------k4IC130PI4Uk3SJ01hcbwjO5--
