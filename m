@@ -2,65 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CFBF732C58
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 11:42:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE1EB732C69
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 11:46:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDF8F10E5A0;
-	Fri, 16 Jun 2023 09:42:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 112BA10E59A;
+	Fri, 16 Jun 2023 09:46:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36E9610E587
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 09:41:58 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id
- 38308e7fff4ca-2b4274f7640so21170571fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 02:41:58 -0700 (PDT)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94E4510E58E
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 09:45:59 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id
+ 2adb3069b0e04-4f6370ddd27so609129e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 02:45:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686908516; x=1689500516;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ZOdAkBA8FOVnbZoSsi+PF1F3scMmt2Df8O/OAnmM4VU=;
- b=UI/zlnBm/dscnXLIZ+pOpEko9tSEf14nSYHZg+p470KerrBvtZ+uPX1PW9TsMOEZ+E
- K2TDU0duDskkspbS2cSvcjoMgPsVXacVzZMSPoZwNwlLnW/xMkkcl+nSXcLqCnpkndH0
- f9CbEX/ZxmR+tei1rTUZK/XwkCoMqgB3sNpKYHdKMaOnruCPCsrxqQU9THnMc01DuEAr
- uPo2u8O9zOhJUtyANL4fxtLy2ggzTUKUAKxiEaR7zd470TDsAK4/4srybLAFLy+8jgQN
- XAiZ6Nx/Vl9ZQHnXDKJoGBra4/evWgW48DmLBwnNyHONT1FzA2/oxkR5ztlQV4paxDl3
- CO0A==
+ d=linaro.org; s=google; t=1686908757; x=1689500757;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=kXLM4NFaLwOKoRpyf+vOO8vBgPE/jR4bTbtGmnUq/5c=;
+ b=En91242UsGlQP0bme45MubDUSzku9MUCw40vuwNsik+T6e79QMxSkB4l/nwuWmm1RV
+ aI227qqMhYRWKdMi6fUnUYody8QKUo6jTuFWBTW6SAPhfB6t5VsB1S5TdyTgYD5YSu0m
+ vz7TzvK4WPmZw3i+1KlUq0iLQ7ejidVKTrQvfoQ9ymbRIYCiAOGze4zxqONJc4Ycvjb1
+ l99AxYqJucrK2NEbU+0pkWAB6tmdHXGXbvf2D4kuDib9SKwSHbHXfykxyC+4Si7Gqs1r
+ 8dtilI1mWouWnofeCLNk9GrDHuNmkfNpwBaiHbERo0uCExmtsW3WBXx16JGTv91v6ZH5
+ +EKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686908516; x=1689500516;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ZOdAkBA8FOVnbZoSsi+PF1F3scMmt2Df8O/OAnmM4VU=;
- b=C5yoIQh6CrsSEHdmhdUhkXaVbHMwDf6v+lgMv3UZKsdjC7JM/JXxP+tbbVjdrS51Ln
- sIpMgkWMrRrngGMR+0MuD9BfFGG2K+FBUhNZeXCAqrQeMPTIfodhsijXzJtNWN9g3EQn
- y+X+xEzJc3/Zuh3V4jY3y/FJODBI07NzXqVeUOtqO03aHuc+adqK41qD1oKsGuvtRgZc
- wYKbQttLI8Ul28VWJ3WpY9S9GAvkzhH8Y0yU631gkqiygHJoEAOdz8mE3S2wKzA10fwV
- 9IWRDpNYSLfPBFmTWl3uItf9gqueQr8TB9p9rkguJGK/8x4e1btYXG9TtoAyO+3wpRls
- k+zg==
-X-Gm-Message-State: AC+VfDyfX9McXkFnvopdzOUopxoxZdxi49XTpe2sAN6eaZSTUMnwqPED
- L7hwGV+GHggBOMDaG/ZBqoPVGg==
-X-Google-Smtp-Source: ACHHUZ47GquGnTYuMlPm2AJHqLpY6Q+MU1t9IezNRjf3b38AdAZhLfoHzbT48HcYyKs7T25DBmNqgQ==
-X-Received: by 2002:a2e:9f55:0:b0:2b1:f90b:f51a with SMTP id
- v21-20020a2e9f55000000b002b1f90bf51amr443499ljk.5.1686908515946; 
- Fri, 16 Jun 2023 02:41:55 -0700 (PDT)
-Received: from eriador.lan (85-76-68-127-nat.elisa-mobile.fi. [85.76.68.127])
- by smtp.gmail.com with ESMTPSA id
- e8-20020a2e9e08000000b00295a96a0f6csm3441184ljk.102.2023.06.16.02.41.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Jun 2023 02:41:54 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH] drm/msm/dsi: Document DSC related pclk_rate and hdisplay
- calculations
-Date: Fri, 16 Jun 2023 12:41:52 +0300
-Message-Id: <20230616094152.495723-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
+ d=1e100.net; s=20221208; t=1686908757; x=1689500757;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kXLM4NFaLwOKoRpyf+vOO8vBgPE/jR4bTbtGmnUq/5c=;
+ b=MEK+Jn8VORIA1celtMY50fE+2FVqsJSECQk48vcTWAYpDr8Rl92y/rGnl6ejX7dZn5
+ gWr4c0s9j8z+yVoy1IeeDz6cLTdq5TvLyOhbHx4zUxe9ZTzWQIzhTcXRtqlAhnDJQACw
+ nRLQK5zxjPX1I0ZlFJ/lLvg0nvee6WdsTRX5YVbatGjRSlSqVHRzBixELvW8nE1EIU2i
+ eWUAXH0WguenPnhg+Ub4Q2hwfxAfO4Wj6JmCEw15p/S7HsaKriMiKteNxHKHa/il1cCa
+ AnpvAvcy57bwKM1sh8tuD5op9zKWzQFZz7YUao7XbPjTPsJsHqPquFT3x3h32sF5tcXq
+ G3Bg==
+X-Gm-Message-State: AC+VfDxtV1GwAaF12Buhlyg9Dm15dQzygIy0g9xHlbWwBVrdCQjFJR/r
+ cZ52Q6bkx8HWDRAz+UVARCRedg==
+X-Google-Smtp-Source: ACHHUZ6AJTxuGkVYzvPH0ELAab9b7fXx+ccjFNbrYYWva7GJsrsI7CMAvuq1Y7mmMyl2AgDfFEHfgg==
+X-Received: by 2002:a2e:95c2:0:b0:2ae:db65:2d01 with SMTP id
+ y2-20020a2e95c2000000b002aedb652d01mr1371945ljh.23.1686908757350; 
+ Fri, 16 Jun 2023 02:45:57 -0700 (PDT)
+Received: from [192.168.1.151] (85-76-68-127-nat.elisa-mobile.fi.
+ [85.76.68.127]) by smtp.gmail.com with ESMTPSA id
+ l5-20020a2ea305000000b002b1a7823548sm3562992lje.98.2023.06.16.02.45.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Jun 2023 02:45:56 -0700 (PDT)
+Message-ID: <dcd7e7bf-ce9f-2862-c246-32b57f53afff@linaro.org>
+Date: Fri, 16 Jun 2023 12:45:55 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 02/22] drm/msm/dpu: correct MERGE_3D length
+Content-Language: en-GB
+To: Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230613001004.3426676-1-dmitry.baryshkov@linaro.org>
+ <20230613001004.3426676-3-dmitry.baryshkov@linaro.org>
+ <qjaeua65pboforhlqusbmiwgvhm5j5c7quijjm2n55ivki5wjv@cgip4znnt2sl>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <qjaeua65pboforhlqusbmiwgvhm5j5c7quijjm2n55ivki5wjv@cgip4znnt2sl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,73 +78,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Provide actual documentation for the pclk and hdisplay calculations in
-the case of DSC compression being used.
+On 16/06/2023 01:22, Marijn Suijten wrote:
+> On 2023-06-13 03:09:41, Dmitry Baryshkov wrote:
+>> Each MERGE_3D block has just two registers. Correct the block length
+>> accordingly.
+>>
+>> Fixes: 4369c93cf36b ("drm/msm/dpu: initial support for merge3D hardware block")
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
+> Indeed, and that patch wasn't even introducing the register writes -
+> this only happened in commit 9ffd0e8569937 ("drm/msm/dpu: setup merge
+> modes in merge_3d block").
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/dsi/dsi_host.c | 35 ++++++++++++++++++++++++++++--
- 1 file changed, 33 insertions(+), 2 deletions(-)
+Yep. Vendor dts declares merge 3d block length to be 0x100, which I 
+blindly copied.
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index 3f6dfb4f9d5a..72c377c9c7be 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -528,6 +528,21 @@ void dsi_link_clk_disable_v2(struct msm_dsi_host *msm_host)
- 	clk_disable_unprepare(msm_host->byte_clk);
- }
- 
-+/*
-+ * Adjust the pclk rate by calculating a new hdisplay proportional to
-+ * the compression ratio such that:
-+ *     new_hdisplay = old_hdisplay * compressed_bpp / uncompressed_bpp
-+ *
-+ * Porches do not need to be adjusted:
-+ * - For the VIDEO mode they are not compressed by DSC and are passed as is.
-+ * - For the CMD mode the are no actual porches. Instead they represent the
-+ *   overhead to the image data transfer. As such, they are calculated for the
-+ *   final mode parameters (after the compression) and are not to be adjusted
-+ *   too.
-+ *
-+ *  FIXME: Reconsider this if/when CMD mode handling is rewritten to use
-+ *  refresh rate and data overhead as a starting point of the calculations.
-+ */
- static unsigned long dsi_adjust_pclk_for_compression(const struct drm_display_mode *mode,
- 		const struct drm_dsc_config *dsc)
- {
-@@ -926,8 +941,24 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
- 		if (ret)
- 			return;
- 
--		/* Divide the display by 3 but keep back/font porch and
--		 * pulse width same
-+		/*
-+		 * DPU sends 3 bytes per pclk cycle to DSI. If compression is
-+		 * not used, a single pixel is transferred at each pulse, no
-+		 * matter what bpp or pixel format is used. In case of DSC
-+		 * compression this results (due to data alignment
-+		 * requirements) in a transfer of 3 compressed pixel per pclk
-+		 * cycle.
-+		 *
-+		 * If widebus is enabled, bus width is extended to 6 bytes.
-+		 * This way the DPU can transfer 6 compressed pixels with bpp
-+		 * less or equal to 8 or 3 compressed pyxels in case bpp is
-+		 * greater than 8.
-+		 *
-+		 * The back/font porch and pulse width are kept intact.  They
-+		 * represent timing parameters rather than actual data
-+		 * transfer.
-+		 *
-+		 * XXX: widebus is not supported by the driver (yet).
- 		 */
- 		h_total -= hdisplay;
- 		hdisplay = DIV_ROUND_UP(msm_dsc_get_bytes_per_line(msm_host->dsc), 3);
+> 
+> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+> 
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>> index 36ba3f58dcdf..0de507d4d7b7 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>> @@ -508,7 +508,7 @@ static const struct dpu_pingpong_sub_blks sc7280_pp_sblk = {
+>>   #define MERGE_3D_BLK(_name, _id, _base) \
+>>   	{\
+>>   	.name = _name, .id = _id, \
+>> -	.base = _base, .len = 0x100, \
+>> +	.base = _base, .len = 0x8, \
+>>   	.features = MERGE_3D_SM8150_MASK, \
+>>   	.sblk = NULL \
+>>   	}
+>> -- 
+>> 2.39.2
+>>
+
 -- 
-2.39.2
+With best wishes
+Dmitry
 
