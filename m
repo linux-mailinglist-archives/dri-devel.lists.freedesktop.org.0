@@ -1,48 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71650733189
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 14:45:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABF4B733195
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 14:49:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F16810E613;
-	Fri, 16 Jun 2023 12:45:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31F7910E616;
+	Fri, 16 Jun 2023 12:49:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F347110E613
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 12:45:48 +0000 (UTC)
-Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi
- [91.154.35.171])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D8FE9AB;
- Fri, 16 Jun 2023 14:45:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1686919515;
- bh=2O2xVR59QzjwM/PsDbH94LJv9nRecygjI3jFJiv0M9c=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=NE5CFNNeNDwgKdnO30Y9Hs2VgQr/YGXXKDlw7dwVAC6ikh2T7efriqzFFvxQIAsRv
- LW/zYloy0dBkDud71550qVUyhvrCY5wyiN36vfJrfdSTh1xBgVAJYC4dNPuw+zMb34
- YSXY6KWChBh0daZBOWo47Vuba7kn+xMICpmqWS90=
-Message-ID: <2de29abb-4c1f-9c5e-564a-ac29d953f0a1@ideasonboard.com>
-Date: Fri, 16 Jun 2023 15:45:43 +0300
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
+ [IPv6:2607:f8b0:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8DE110E616
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 12:49:06 +0000 (UTC)
+Received: by mail-ot1-x331.google.com with SMTP id
+ 46e09a7af769-6b2d8b5fde6so629974a34.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 05:49:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1686919745; x=1689511745;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=O6qp6CYPJwvK/QdWpPuRP8ydNnMSR2Rxn7S3w8iwScw=;
+ b=d613mMgesg7KYmENHpBXL2uBQV15ZXDD2hzAsyLaNKsog9juYdmosljg07WXHHik4a
+ VfyU+6mgISow2FKs8rSuySF8N1iOoWOTgQQZqrg078gHUycp/xP/kcGW6BMzzVJRJmH0
+ Qii6vCUYjezoalCJ4UfcppFcABA1Uyo0u/gKu0D3NFFS9jnIcICGzWwsP+OSQLw/l1t7
+ NoLdtozMOzucO0vwOiKu7rOMNAT/umNkFd/J4RSK00wGaWFrrgDOGfbxwUGolqhQ27RQ
+ AmRk0OBuUduuOusBGfyKc/vxJsRy3kzwF+bA+f68rH0qFsD0pv3SfbvY0Ro2AO69sENA
+ JADg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686919745; x=1689511745;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=O6qp6CYPJwvK/QdWpPuRP8ydNnMSR2Rxn7S3w8iwScw=;
+ b=MyWEOBsbWbxuhAXpZjvqIpZrxRmvWu2p3WEcTAgTGdqjV1n0TCxNblmp8OZaxGhA1K
+ 21QnoUJMPrgif4x60IyIE4plwRS4aAY82r1jGVN7y7FIUTodzGFX7MSWOKiDkc3INI2j
+ nUgCjGsA96Yw7umAtDiJF7woAA6/RU8eqkOV76usn2NcTZregQqFyw596kwRW3BH19gO
+ mgIfKyGgaDJuEY0E+42dxh9M+9RObxI9rNiBEJQ2oNRKfL9ugULFDj/8UZHIWFtqmiGx
+ 6B1CT+ZbSJiNQaBWQ8EcqBcji0BBt1/uGaRXYOhiSrS0oLM4eXW+ONa14FV5rj+aFzKd
+ 2ZKg==
+X-Gm-Message-State: AC+VfDy3sjOT6Of954whrkOAMx6JyWUJtKaxsiUV811IEIruTQ0RJXbx
+ DD1yf9lgm8I+XXgf3rBsZZtxyLwR5QDHFmO37+dXeg==
+X-Google-Smtp-Source: ACHHUZ7hgTJJ+MNGw19TPKQutsaTfxchDQSvngKmUWpy5IyaQaeJNdxAcO9mUeQoGh/4JedExII5F2wCyv96fu0DXkw=
+X-Received: by 2002:a05:6359:a2f:b0:128:d2d0:6967 with SMTP id
+ el47-20020a0563590a2f00b00128d2d06967mr1453690rwb.3.1686919745604; Fri, 16
+ Jun 2023 05:49:05 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v8 1/2] dt-bindings: display: ti, am65x-dss: Add am625 dss
- compatible
-Content-Language: en-US
-To: Aradhya Bhatia <a-bhatia1@ti.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-References: <20230608163734.2578-1-a-bhatia1@ti.com>
- <20230608163734.2578-2-a-bhatia1@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20230608163734.2578-2-a-bhatia1@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230613144800.52657-1-sarah.walker@imgtec.com>
+ <20230613144800.52657-3-sarah.walker@imgtec.com>
+In-Reply-To: <20230613144800.52657-3-sarah.walker@imgtec.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 16 Jun 2023 14:48:54 +0200
+Message-ID: <CACRpkdaDkchJkP0MOOBWPtaBhfvR0OUEjkHAHgY0sv8T+SDdiQ@mail.gmail.com>
+Subject: Re: [PATCH v3 02/17] dt-bindings: gpu: Add Imagination Technologies
+ PowerVR GPU
+To: Sarah Walker <sarah.walker@imgtec.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,30 +70,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Jayesh Choudhary <j-choudhary@ti.com>, Rahul T R <r-ravikumar@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Vignesh Raghavendra <vigneshr@ti.com>
+Cc: matthew.brost@intel.com, "Dr. H. Nikolaus Schaller" <hns@goldelico.com>,
+ dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+ luben.tuikov@amd.com, dakr@redhat.com, donald.robson@imgtec.com,
+ boris.brezillon@collabora.com, sumit.semwal@linaro.org,
+ faith.ekstrand@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/06/2023 19:37, Aradhya Bhatia wrote:
-> The DSS controller on TI's AM625 SoC is an update from that on TI's
-> AM65X SoC. The former has an additional OLDI TX on its first video port
-> that helps output cloned video or WUXGA (1920x1200@60fps) resolution
-> video output over a dual-link mode to reduce the required OLDI clock
-> output.
-> 
-> The second video port is same from AM65x DSS and it outputs DPI video
-> data. It can support 2K resolutions @ 60fps, independently.
-> 
-> Add the new controller's compatible and update descriptions.
-> 
-> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+Hi Sarah,
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+thanks for your patch!
 
-  Tomi
+On Tue, Jun 13, 2023 at 5:20=E2=80=AFPM Sarah Walker <sarah.walker@imgtec.c=
+om> wrote:
 
+> Add the device tree binding documentation for the Series AXE GPU used in
+> TI AM62 SoCs.
+>
+> Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
+
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - ti,am62-gpu
+> +          - const: img,powervr-seriesaxe
+
+I don't see why you need to restrict the bindings to just the stuff
+you happen to
+be writing Linux drivers for right now.
+
+Add all of them!
+
+There is this out-of-tree binding:
+https://github.com/openpvrsgx-devgroup/linux_openpvrsgx/commit/0ddd308a7892=
+6782b8a72f75c74b91417ceb9779
+
+With these two on top:
+https://github.com/openpvrsgx-devgroup/linux_openpvrsgx/commit/053346e19339=
+32815066f16ebf6e6bda45d67548
+https://github.com/openpvrsgx-devgroup/linux_openpvrsgx/commit/1cb62c4cdcad=
+096d438ee7d1d51f6001998acee3
+
+They are indeed out-of-tree, but H. Nikolaus is a well-known and respected
+contributor to the kernel, and I'm pretty sure he would be contributing
+these upstream if he had the time and incentive.
+
+To me it seems much more like you should talk to Nikolaus about submitting
+these patches initially, and then add Rogue support with patches on top of =
+it.
+It could be a nice series with just DT bindings.
+
+I see that your binding uses a power domain rather than a regulator
+(sgx-supply) for power and that is probably a better approach but other
+than that the openpvrsgx binding looks more complete and to the point?
+
+It will also help them to get these bindings settled so they can merge all
+of the DTS patches adding the SGX block to misc platforms in the
+kernel upstream so they can focus their work on the actual driver.
+
+When I look at the PowerVR wikipedia page:
+https://en.wikipedia.org/wiki/PowerVR
+there is no correspondence between the product names there and
+"img,powervr-seriesaxe" as used here.
+
+I think you need to explain if these are internal product names or what
+is going on, and what the relationship is to the marketing names, it could
+be part of the description simply, so that people know what string to use
+somewhat intuitively. Maybe all the strings in the out-of-tree documentatio=
+n
+are just wrong because internal code names need to be used?
+
+Yours,
+Linus Walleij
