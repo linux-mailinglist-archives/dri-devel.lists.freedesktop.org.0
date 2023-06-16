@@ -1,77 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0326733339
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 16:12:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F94373333C
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 16:14:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EFE010E63B;
-	Fri, 16 Jun 2023 14:12:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA4EF10E644;
+	Fri, 16 Jun 2023 14:14:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 328 seconds by postgrey-1.36 at gabe;
- Fri, 16 Jun 2023 14:12:52 UTC
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF29710E63B
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 14:12:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1686924407; cv=none;
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
+ [85.215.255.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04C2F10E644
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 14:14:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1686924533; cv=none;
  d=strato.com; s=strato-dkim-0002;
- b=XItB18IQIX/jACGLeEiuViIDhNf41TqosHIcEnWFt+S7l60/I2EtgWrJocef7B9S2q
- X142Y+sYRmi3lX6Y8lk0BvLJHHLi9rzsSrRMP0ysnArjQttsNT+P1fDEKmRT9ipnOM2U
- +EdEDfqAKOmQb8kA5AE0nSVM2gVH7+Lmzz4GFnl6knUG0HL9Q2Sjq+YgmmihNe+cwhf+
- hueGS1UfHPYA32INu9tfqMMxSMSmRkxsow7MbvdwCBntyqe7CXJOt7S/uxz3fFw4KJlo
- haJS0uf90sBadt0GmXHxyLrn1w/fprMlRP5v2SmMyF7qUgSSQsjLsxRXD2zAdMueEdY0
- vFpQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1686924407;
+ b=DZ/sznPOCsZ2N9bWRgjcMlrjgpe3AMB6v/K8AuOacy+eRH47M25LV2rggEFJGZ0tQE
+ sTHRhkrrfPQ2zqwAJkKLeRDXGZgiKjgjopozwZc9tXMHP+mMhHKOPgUV1Atzt3B2EshU
+ h4TJ13Y7V6DLSYrm9LUOwxLbFrJew4IWY34HsgRsOSAO8ODLNjIoLv0gg/wLNaFzEY53
+ C0jQU3wHsvOBAkkymig+BK1jsSwF6C46fcUTgjZ04R2f3SnH92P5xctnEqdL1yqNp5Jq
+ lVF4KO5q/rG/SrwbSREA1HHHKqvypM60nJgvBYwJx7UTHs8IjhhmuTybVFJIKOiy4hPd
+ lWiQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1686924533;
  s=strato-dkim-0002; d=strato.com;
  h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
  From:Subject:Sender;
  bh=+FAEIASIz8oKie711NU6GVGe3x4TthEP9e1C55ifneQ=;
- b=PXA5zYYrIJnqdUc0W6j/EBrEx4RB7bu07I+cGIw/5titxIoEiAKMgKCPUkc3On5r9A
- IZ+Mw2EzhpHNbOBnzxeytNk04yR4gp+7420tKVEYuQeiBB5r4w+RbLZarq0dtzk6gOxE
- 3SkuK1casHCxmh9OrZgM+upjZf3rtNVSBXx6Vacfot/9ejRGaJrJ4zYJPFn2f98FmL8F
- 0H4TDJIgBAtYjx0Oed7rJ1PTzdcLpOe7xlmY+wfirEWOdgI6GvLDazniZ3Pnz7w2eKLj
- f15SM3cTVERAb3+wPmYWvXgAKWOqUTnGkhOL5HB4Z0zKFqTqSooCse1cM11oB2nHRbk1
- DQHw==
+ b=lRy+/XIHtLEezozcnzdNm2Le5QdfFrgD0wF5yuhMrlssdfX89cVzUM18kNRH9JDThj
+ h/2+DZEPCLJ/H6GTWJUnU+B4bKlALauxLBP73b0AYoWBwmiYiFFK44zbMMyWy4LBgaqo
+ 0sY4becqlRq2qAlNNGyTmggPNnzWY1N6/hIH5IoST3adu4+d+cJ5/2eRgzIsNnbspquo
+ TdLQYh6HFN+EFfOqwqd96Aazw5xsJGs1yAph+F3t87Wjuj2NIe5syWirY9QCkhobg/Xy
+ Vrv2dDrpIoez4fQT5i/rHYsgHxRG6N7YwQSmsdcYSw8xpwFIOTX6HcIncKb6B6cbjA9C
+ JLuA==
 ARC-Authentication-Results: i=1; strato.com;
     arc=none;
     dkim=none
-X-RZG-CLASS-ID: mo01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1686924407;
+X-RZG-CLASS-ID: mo02
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1686924533;
  s=strato-dkim-0002; d=goldelico.com;
  h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
  From:Subject:Sender;
  bh=+FAEIASIz8oKie711NU6GVGe3x4TthEP9e1C55ifneQ=;
- b=lQ5OR91J3wG3EtXPECzhyMtUw5CqRieDPohXP+5bcf2AACaUN6dWTzLEVy2qtM02oU
- lf5NwAZkwHD9aYO2wvHMHpKvDlCJaFL7PYKuyLZDXqhO2TG06F0MiQoNcChYJmq/nUNI
- r+h1eg31RG8SihxvU2EBxHXQQSF21sAeaPUx+ABlNkTCfCqekQ89tFRpB2C/v/Mk79wN
- 1W2GgAiVoW30nC1Z4gEct2tMeRtmRSEJK6lKVdqSOn+eI5yd/1MFT/EAGP04Ex9DfOa/
- glXr6Cs+tfAXKjxUB1sTVXFlWgqTWncQAWAd0zi42KcGCwr3SX7chhSlOdwYtTkGm3KS
- U7aw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1686924407;
+ b=oo4Csjus9QE3o85M1BqLIIxwVsiP6uMIdaUhXeElx1Q1V7BrgLmKR+BuOyRqWCvid5
+ 5XkZlzlcCQWTDy6qA+wDc3gaSpt16KPOsPGE6xlt/Jcs3zS81iFQHWVxYdqoLqwOAIn/
+ jz6+e+os28WfNOoMRZrb6q/9ViCqPCWKJim+GyBMc0nkYNgjSnMDwQiDBBSqWkl08fq7
+ D3DZmNIAd/jj4n29LdevHJXl9b51Ch4bPm7LwQijtTuyL4jKe0Pwz8AbkL8Thvcy4VTM
+ JDbn0Ub5Gu9NIHsbjgx8fXpjWmsVYeYKCl7D4P7U1YBTjQ+is874DYpbHZ5q21bLEofY
+ lajg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1686924533;
  s=strato-dkim-0003; d=goldelico.com;
  h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
  From:Subject:Sender;
  bh=+FAEIASIz8oKie711NU6GVGe3x4TthEP9e1C55ifneQ=;
- b=j/oUAOMP58B+rPxa1p+1z34QiYDhWYYCQbC147EL2i6E5+p714WslPE/n+YIEEe9c7
- roCrVxFHbYKhjZgAQKDA==
+ b=yBNPZhvQ+23NnXN2mU0bZ+HywiVn9oJJzw/hAM/PJU0H6SXnpfY+PQqx0QTOCeJOCs
+ OFnQHZZK+VKNUEb6N6BA==
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Apz9PSN6LgsXcGYkv8="
 Received: from imac.fritz.box by smtp.strato.de (RZmta 49.6.0 DYNA|AUTH)
- with ESMTPSA id jaf17fz5GE6l9XI
+ with ESMTPSA id jaf17fz5GE8r9Xm
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
  with 256 ECDH bits, eq. 3072 bits RSA))
  (Client did not present a certificate);
- Fri, 16 Jun 2023 16:06:47 +0200 (CEST)
+ Fri, 16 Jun 2023 16:08:53 +0200 (CEST)
 Content-Type: text/plain;
 	charset=utf-8
 Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
 Subject: Re: [PATCH v3 00/17] Imagination Technologies PowerVR DRM driver
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
+From: H. Nikolaus Schaller <hns@goldelico.com>
 In-Reply-To: <CACRpkdYAAxvHLfEGFwaHQYvZRNhySNo7gSVEBSgGP-pusBwBnQ@mail.gmail.com>
-Date: Fri, 16 Jun 2023 16:06:45 +0200
+Date: Fri, 16 Jun 2023 16:08:52 +0200
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <CC39D823-AAE1-4D23-8BFE-70823E737DC2@goldelico.com>
+Message-Id: <7D5A18D6-F915-49E3-ADD9-8613BA70E112@goldelico.com>
 References: <20230613144800.52657-1-sarah.walker@imgtec.com>
  <CACRpkdYAAxvHLfEGFwaHQYvZRNhySNo7gSVEBSgGP-pusBwBnQ@mail.gmail.com>
 To: Linus Walleij <linus.walleij@linaro.org>
@@ -89,7 +87,7 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: matthew.brost@intel.com, Sarah Walker <sarah.walker@imgtec.com>,
- openpvrsgx-devgroup-bounces@letux.org, dri-devel@lists.freedesktop.org,
+ openpvrsgx-devgroup@letux.org, dri-devel@lists.freedesktop.org,
  christian.koenig@amd.com, luben.tuikov@amd.com, dakr@redhat.com,
  donald.robson@imgtec.com, boris.brezillon@collabora.com,
  sumit.semwal@linaro.org, faith.ekstrand@collabora.com
