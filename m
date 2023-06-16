@@ -1,61 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DDE87331A6
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 14:53:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BFE9733255
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 15:38:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54FB810E61C;
-	Fri, 16 Jun 2023 12:53:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EA9910E0B9;
+	Fri, 16 Jun 2023 13:38:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com
- [IPv6:2607:f8b0:4864:20::c2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CA4510E61B;
- Fri, 16 Jun 2023 12:53:32 +0000 (UTC)
-Received: by mail-oo1-xc2d.google.com with SMTP id
- 006d021491bc7-55b069a7cf4so425889eaf.3; 
- Fri, 16 Jun 2023 05:53:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1686920011; x=1689512011;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=w2DJZHQdpL3IJvZ92o0uwtsAvPZ4lFxeVkbvKVjLF2k=;
- b=G2jhokx/Sp5VaGnIqNNzlNJglrUvkLJZaIecSn9/uufexFl4+Ee3VdCfVXxUa9RPS8
- gkRFKWnnZfbsXDlRtFE8/1fYQPXmebqpe5r1H2UsWSqUSfeUkjabsRXRK6itzy6GcxGk
- 5yKcFtFa+DutHhgH0msvkJR62Og7HQldi7IunNtle3MiEd5lMNhfot09q3vbL7yWXLWC
- DdUOm+v1Hdy6j0c/NBcj7uj5ZNipYeZ3LHYWiNAr7gQWXVZyF6kJz8IzeMNIdqG6OZ4i
- fTH0ODq6T02jBO94XZWO0epnPg4RKVDpsSES0AzAFxdTxQzJKtkUffPwf5NNSHJXzHiy
- G5jA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686920011; x=1689512011;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=w2DJZHQdpL3IJvZ92o0uwtsAvPZ4lFxeVkbvKVjLF2k=;
- b=RG83b9nohUCgA0PNCy83x+ujPZCg2uRqC56vY8YiEEF37IpYrRBC2sigAHt1If5NoI
- V3cfaVuCtREXU5tW7wVVkqLVwBg7mKO6ytduOILLjKnGN6lqBR/Pm/C9FCwJyL3D/50e
- 49PzxTaK3gRf34TrWATMS06/VoeU7pfB/PZAKGzS95wDSW1c3vO6yie6jsrRoiz2ogQf
- PrHQXhDjLBXk/4TsOMCEtKpwwPJsWJfIWQZs+a3eQ3EYrcg3O6uoT9O/drTC1fVjWrpj
- LVevuKUFb/J8NrKQW4fwRNoBXdZKq+cfY20X7+j/NOSl8Og0ZvUGrpBlUPi7K41adYsp
- 0doQ==
-X-Gm-Message-State: AC+VfDx9ltFSL0EgEI285xIGmxJqIjyzJp24NZOGjT4LGKuqC424bqZk
- NCLwOGwIqYjN6b61+mxnvdYFxLlo1E7PEjzS+9Q=
-X-Google-Smtp-Source: ACHHUZ5NBPESqSOu9Tlh+n7Ja0S8R1Op1Kj+waIDTv5fiswEzzwvfI2N6skIa+NWpULVJfDnOVfXGXPSNksyloMfkrk=
-X-Received: by 2002:a4a:a2c3:0:b0:558:a3c5:86cd with SMTP id
- r3-20020a4aa2c3000000b00558a3c586cdmr1734874ool.6.1686920011040; Fri, 16 Jun
- 2023 05:53:31 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 217C010E0B9
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 13:38:10 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9A11F6159D;
+ Fri, 16 Jun 2023 13:38:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 993F9C433C8;
+ Fri, 16 Jun 2023 13:38:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1686922687;
+ bh=u9jc2dsGlg1D+RH50wK5bkx2o24kM8ZnMNyQTmP89LI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LiuIqQ3z3unGqUDxP1wAOjtP/jgeVGaJJqv8xsCAM4+v8I2T1i86HF/cRnx3WFTB1
+ uMn4J9GVs9e1Q1LILktGZZ8Rm0WebLfuabzd+l5RbH8Z3/gGYG6T0Zm2xn0871W5EV
+ U7bLpY2qUM85OM8Bl19PgcPppreXmJhTliwVLSFv/K/eO5anq3VTHVqFA8+SELz3z6
+ fjX25nbXGkQOyFYUSSW8NIg3+mGcK62In2odfkiuYs223PymrzBGoZ3wQMdaf6AzF9
+ 5qkiXIfX/nJvZWTOX8gzv3gFqobhs153h17j9NyAToPk31dCk5vM+J82WZMVBotZ3K
+ vHPdru+RMnLpA==
+Received: by mercury (Postfix, from userid 1000)
+ id C65511060BB1; Fri, 16 Jun 2023 15:38:04 +0200 (CEST)
+Date: Fri, 16 Jun 2023 15:38:04 +0200
+From: Sebastian Reichel <sre@kernel.org>
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: Re: [PATCH 7/7] drm/panel: sitronix-st7789v: Check display ID
+Message-ID: <20230616133804.7jhe4djj5kzzhoyg@mercury.elektranox.org>
+References: <20230609145951.853533-1-miquel.raynal@bootlin.com>
+ <20230609145951.853533-8-miquel.raynal@bootlin.com>
+ <20230610204525.GA1042549@ravnborg.org>
+ <20230614232724.yer2ikvfzmaiejrd@mercury.elektranox.org>
+ <20230616121345.2501c36a@xps-13>
 MIME-Version: 1.0
-References: <20230616121116.1031336-1-juerg.haefliger@canonical.com>
-In-Reply-To: <20230616121116.1031336-1-juerg.haefliger@canonical.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 16 Jun 2023 08:53:20 -0400
-Message-ID: <CADnq5_Nnr=BO2y3O3_x+sX-93CtY7g52m9DHva7WWqeeO5xqMA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Add missing MODULE_FIRMWARE macro
-To: Juerg Haefliger <juerg.haefliger@canonical.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="kjfhvwbeq6z6hchc"
+Content-Disposition: inline
+In-Reply-To: <20230616121345.2501c36a@xps-13>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,42 +59,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lijo.lazar@amd.com, Bokun.Zhang@amd.com, Xinhui.Pan@amd.com,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- YiPeng.Chai@amd.com, dri-devel@lists.freedesktop.org,
- alexander.deucher@amd.com, Likun.Gao@amd.com, Hawking.Zhang@amd.com,
- christian.koenig@amd.com, mario.limonciello@amd.com
+Cc: Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel@lists.freedesktop.org,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 16, 2023 at 8:11=E2=80=AFAM Juerg Haefliger
-<juerg.haefliger@canonical.com> wrote:
->
-> Add the missing MODULE_FIRMWARE macro for "amdgpu/fiji_smc.bin".
->
-> Signed-off-by: Juerg Haefliger <juerg.haefliger@canonical.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm=
-/amd/amdgpu/amdgpu_device.c
-> index 5c7d40873ee2..1f83a939d641 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -92,6 +92,7 @@ MODULE_FIRMWARE("amdgpu/picasso_gpu_info.bin");
->  MODULE_FIRMWARE("amdgpu/raven2_gpu_info.bin");
->  MODULE_FIRMWARE("amdgpu/arcturus_gpu_info.bin");
->  MODULE_FIRMWARE("amdgpu/navi12_gpu_info.bin");
-> +MODULE_FIRMWARE("amdgpu/fiji_smc.bin");
 
-This is already specified in smumgr.c.
+--kjfhvwbeq6z6hchc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Alex
+Hi,
 
->
->  #define AMDGPU_RESUME_MS               2000
->  #define AMDGPU_MAX_RETRY_LIMIT         2
-> --
-> 2.37.2
->
+On Fri, Jun 16, 2023 at 12:13:45PM +0200, Miquel Raynal wrote:
+> sre@kernel.org wrote on Thu, 15 Jun 2023 01:27:24 +0200:
+> > On Sat, Jun 10, 2023 at 10:45:25PM +0200, Sam Ravnborg wrote:
+> > > On Fri, Jun 09, 2023 at 04:59:51PM +0200, Miquel Raynal wrote: =20
+> > > > A very basic debugging rule when a device is connected for the first
+> > > > time is to access a read-only register which contains known data in
+> > > > order to ensure the communication protocol is properly working. This
+> > > > driver lacked any read helper which is often a critical peace for
+> > > > fastening bring-ups.
+> > > >=20
+> > > > Add a read helper and use it to verify the communication with the p=
+anel
+> > > > is working as soon as possible in order to fail early if this is no=
+t the
+> > > > case. =20
+> > >=20
+> > > The read helper seems like a log of general boiler plate code.
+> > > I briefly looked into the use of regmap for the spi communication,
+> > > but it did not look like it supported the bit9 stuff.
+> > >=20
+> > > I did not stare enough to add a reviewd by, but the approach is fine
+> > > and it is good to detech issues early. =20
+> >=20
+> > The st7789v datasheet describes a setup where SPI is connected
+> > unidirectional (i.e. without MISO). In that case the ID check
+> > will fail.
+>=20
+> Right. I'll add a (spi->mode & SPI_NO_RX) check, as the default is to
+> have both lines, if there is no MISO line, I'd expect it to be
+> described in the DT, otherwise the description is broken.
+
+Checking for SPI_NO_RX sounds good to me.
+
+-- Sebastian
+
+--kjfhvwbeq6z6hchc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmSMZa4ACgkQ2O7X88g7
++ppOzRAAl2oIV01cduJzEkjxg4QSNuwuCEG2J6aKFijHr3TPYwwSvhxvvC2p5JWG
+a+wEi/9svpJ4CGS3atrwY7VJ6ZMaXxgHIAoylW/gvqxQFaLGNJdwbLJd7Wq5Q8bR
+r4SHsK9DiKcClWBSqpIuAlq04gGK8wk8jVK903fhl2Clj6PHH/f/IRLrI6Ml3wJ+
+87zHS1MNKhvu/zMTygHtLFqI59h4dKcsx52Vj0wUe0jiFs0rGP/xZITIRsIjGlov
+KXsINofc/dg9sCI+Uw3So2TSC19CRU/aUCVU+/H4PU2/0NTAOY9uR6Csny+W0pQF
+LHmDKkbp6+3PbJMAEP1t1Rhkm2/cdKscd9bQItno7+BbTDNPSAAch7/Z8cChfiRs
+AcjKEjDXEVR8Mxns1j5IkXMtUslI/TlMylommDeW22iueqf6k53iiAVzMTvJzUaB
+4wyuEYkRAEYpTIzdvY15gki5zjlY/1y7W2jCm8KVuYMB9cmP69GAI64coiv63Jjs
+8Uj12MudJvKpOURjm5h+Q1+vCHWsGeVWgyKqqvRf6vZD2QOBy/X3LjMfmycajezQ
+HGMyvK1iaQqAX7GAYElpkAtKtFnBUYASLOpy6ESo88SdV5rc+/prvRFrPTa8dVAQ
+HnaW1sOUZkCFZLQnmZQ1jOSJbrP0Rq5GJvG+Eo/KRbiZWNuBksg=
+=RgJZ
+-----END PGP SIGNATURE-----
+
+--kjfhvwbeq6z6hchc--
