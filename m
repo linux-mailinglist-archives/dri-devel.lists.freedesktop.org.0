@@ -2,55 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C2C5733276
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 15:47:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 690AF733299
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 15:54:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7815C10E622;
-	Fri, 16 Jun 2023 13:47:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B18D10E624;
+	Fri, 16 Jun 2023 13:54:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B82310E622
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 13:47:44 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B0730629F3
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 13:47:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56EC8C43391
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 13:47:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686923261;
- bh=e3Rn9wSp0yBzOPdTFOU/3C0NFGTIC9+SG2QGu/MQAiI=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Fwp/B2s6/1SMHXRYeVOqtSkxp17GBTzZ9lvprmabfaWKOBVM7I2+iCqNf2YnjPyXk
- yhjB7NhUuEAQEh5JGsUHNYWINtu6W4dBn1C/+1HwahCTnusYOENpybWKC91OQ37Udn
- z7A8TMgHrOboK7mdbFR8OS56LyY72J3p06xXgsy0auR17x5xhLjIYBI7mWMof9xphg
- L4k/g1sx0tIYT0Je/d+AmjqWzrOsa9pW56HpEEpelcQN9J5XhuLDpHbqu4C/FltLin
- zqYw7HQBYk04qC2AGZPLGYBozvhK3gkZtC71+9krbCmC62eysTcvyHSjC2AjgFAW75
- uQktPBuoaOdZg==
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-1b539102474so2031125ad.1
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 06:47:41 -0700 (PDT)
-X-Gm-Message-State: AC+VfDySfb1wEwtcAp/yzUN2NVqB8uWKF3tTh8LVzut6cHtYpo4vMcoC
- dmxbxXrFZp2694oH36xllYkls3wXyUFUw9K29Wx4pQ==
-X-Google-Smtp-Source: ACHHUZ6S6xDb9UwuivCY3/VT2rSDFUreEKhVsbql4uCpIS5aTfqDe0VsnssVVihzjlCFyZXmoDBshHzfwGBE6X1ZLjQ=
-X-Received: by 2002:a17:903:1112:b0:1af:a293:e155 with SMTP id
- n18-20020a170903111200b001afa293e155mr2017620plh.16.1686923260691; Fri, 16
- Jun 2023 06:47:40 -0700 (PDT)
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC66210E638
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 13:54:23 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:973f:5136:97a4:2046])
+ by baptiste.telenet-ops.be with bizsmtp
+ id 9puJ2A00X0Fik0k01puJQC; Fri, 16 Jun 2023 15:54:19 +0200
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtp (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1qA9tf-008tCq-Gw;
+ Fri, 16 Jun 2023 15:54:18 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1qA9u6-008xAB-Hm;
+ Fri, 16 Jun 2023 15:54:18 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sean Paul <sean@poorly.run>,
+ Alex Deucher <alexander.deucher@amd.com>
+Subject: [PATCH] drm/atomic-helper: Update reference to
+ drm_crtc_force_disable_all()
+Date: Fri, 16 Jun 2023 15:54:16 +0200
+Message-Id: <87ece3775c9491fb2173f3bbe96cbe407b8ae756.1686923622.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230616121341.1032187-1-juerg.haefliger@canonical.com>
-In-Reply-To: <20230616121341.1032187-1-juerg.haefliger@canonical.com>
-From: Robert Foss <rfoss@kernel.org>
-Date: Fri, 16 Jun 2023 15:47:29 +0200
-X-Gmail-Original-Message-ID: <CAN6tsi4jdDD20DY5sKL+ALC_Mk2UHRArOrQnjzKoyF30QZi8jw@mail.gmail.com>
-Message-ID: <CAN6tsi4jdDD20DY5sKL+ALC_Mk2UHRArOrQnjzKoyF30QZi8jw@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: lt9611uxc: Add MODULE_FIRMWARE macro
-To: Juerg Haefliger <juerg.haefliger@canonical.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,41 +48,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, jonas@kwiboo.se, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 16, 2023 at 2:13=E2=80=AFPM Juerg Haefliger
-<juerg.haefliger@canonical.com> wrote:
->
-> The module loads firmware so add a MODULE_FIRMWARE macro to provide that
-> information via modinfo.
->
-> Signed-off-by: Juerg Haefliger <juerg.haefliger@canonical.com>
-> ---
->  drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm=
-/bridge/lontium-lt9611uxc.c
-> index 583daacf3705..6b2a4f8d6f78 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> @@ -1019,3 +1019,5 @@ module_i2c_driver(lt9611uxc_driver);
->
->  MODULE_AUTHOR("Dmitry Baryshkov <dmitry.baryshkov@linaro.org>");
->  MODULE_LICENSE("GPL v2");
-> +
-> +MODULE_FIRMWARE("lt9611uxc_fw.bin");
-> --
-> 2.37.2
->
+drm_crtc_force_disable_all() was renamed to
+drm_helper_force_disable_all(), but one reference was not updated.
 
-Can filename string be made into a macro, as it is used in two locations?
+Fixes: c2d88e06bcb98540 ("drm: Move the legacy kms disable_all helper to crtc helpers")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ drivers/gpu/drm/drm_atomic_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-With that fixed, please add my r-b.
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index 41b8066f61fff4be..292e38eb621806a0 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -3332,7 +3332,7 @@ EXPORT_SYMBOL(drm_atomic_helper_disable_all);
+  * that also takes a snapshot of the modeset state to be restored on resume.
+  *
+  * This is just a convenience wrapper around drm_atomic_helper_disable_all(),
+- * and it is the atomic version of drm_crtc_force_disable_all().
++ * and it is the atomic version of drm_helper_force_disable_all().
+  */
+ void drm_atomic_helper_shutdown(struct drm_device *dev)
+ {
+-- 
+2.34.1
 
-
-Rob.
