@@ -1,65 +1,149 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3220733511
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 17:44:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F9D733533
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 17:54:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88CF310E102;
-	Fri, 16 Jun 2023 15:44:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0891310E65C;
+	Fri, 16 Jun 2023 15:54:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7183010E0E3;
- Fri, 16 Jun 2023 15:44:48 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8BxKupvg4xk8wUGAA--.12861S3;
- Fri, 16 Jun 2023 23:44:47 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxhuRsg4xkqmsdAA--.18023S3; 
- Fri, 16 Jun 2023 23:44:45 +0800 (CST)
-Message-ID: <1486f6e9-3123-3c3e-806a-47b9463cb61a@loongson.cn>
-Date: Fri, 16 Jun 2023 23:44:44 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9F4910E66F;
+ Fri, 16 Jun 2023 15:54:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686930887; x=1718466887;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=SCYn8lAt1WDuJFdDppUF97taev0BeV91PAxz9LAIp/k=;
+ b=YsQf7m3Nvbj9ygFTGla7tqSwItqWZ0GBOavbhLicyPDGyz2wehqY/cTD
+ cCoTRcqEvfcJC2xuYuGCq+nkIjcpvBqDowJ7nrKSUihp4S66+voM+mh5t
+ IbbwMxqSjA1It7DNo3q26Twz4y94yhHazHDIF2DqX+vks0ywceLfa8a11
+ HYs5gWTHzfCszM7d44sKYVS/PKTO5tpRqzjUomAX/xJfH04ZJMgAPlUlX
+ MkL+xdQVSXL7oUnGY4VGItlCKFHbYKllSiJZZ91VRx28jZeI2N8FdM/Jp
+ WDrJeK/1EN1poV7ffjVJJstVDDb20hlx3tFyHXCNzqTpgzCHUFOeXFndz w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="425183009"
+X-IronPort-AV: E=Sophos;i="6.00,247,1681196400"; d="scan'208";a="425183009"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2023 08:54:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="857425247"
+X-IronPort-AV: E=Sophos;i="6.00,247,1681196400"; d="scan'208";a="857425247"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by fmsmga001.fm.intel.com with ESMTP; 16 Jun 2023 08:54:44 -0700
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Fri, 16 Jun 2023 08:54:44 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Fri, 16 Jun 2023 08:54:44 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.172)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Fri, 16 Jun 2023 08:54:43 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iyIoz/KMfKXrcy9exgptwye2V5idm4ybLiLXKo627u7V/b7qbnEjWbZDUkf8qkRlPUp64BNl19GF6hLIJS7oVzwsQ69ZKA1lI4pPbUgjxAGsEyeq7Adro8ju687e44W9I+r8fI+Qc7qStySGpKWIRiA9t6qEExdpFujM1HeZZXPYVOyg+XPmjIlH8nbIXgBm+s3E8X+fo3kxjJywQ1myOxC1DCDL8ko+v8AQjVEw+3upIkMTv0WyQgzyC3OarmBl7BUS8caIpRv875bFUGkeRMHCQF9YiVL5mqbZ4o0icbwazhZB5uYOVG6knZ2MX60Xko/GvFlqiv8+KfNxA9HQhw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=F5n2gnFUiIDAJY/GVro7Oxofdu2+niOLZrBfLQ11d38=;
+ b=kiEiWh1pZdy7uusCEJWSysLe+Dh0oWY91bBvApUCz0mMYpUpl3+/T+os4HHadoyHIMqoUTKD7wIygYAmTCxjkearHkk5+UJ+pEGT28SJ9OPlB4AmH0FYT+qrJ6rsuuaK66qjDOGXkvduDTd9+KW990qQnONACEuDgWwRkvcpWkLtCN5uVMTfkuhZ7km9K0thF3Y7ZXjZyXS6YkuZ+AhyY2t8lQJFvZj5kZAhuZDazbJr41dr9A0Un40pZoq9l9L3CZMLDZj+yhx1BPd6VD2G2L8lap35gvi/2U47vpWEPklgHKwsNIvLO/WUzAm5rz2T6YDsgYqLEwQMi5eYuTURTg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB7605.namprd11.prod.outlook.com (2603:10b6:510:277::5)
+ by SJ0PR11MB5895.namprd11.prod.outlook.com (2603:10b6:a03:42b::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.37; Fri, 16 Jun
+ 2023 15:54:41 +0000
+Received: from PH7PR11MB7605.namprd11.prod.outlook.com
+ ([fe80::d2fe:fc74:e24b:26da]) by PH7PR11MB7605.namprd11.prod.outlook.com
+ ([fe80::d2fe:fc74:e24b:26da%5]) with mapi id 15.20.6500.029; Fri, 16 Jun 2023
+ 15:54:41 +0000
+Message-ID: <2e8ce4e7-9efa-3c47-d9b2-b16f4ba75dba@intel.com>
+Date: Fri, 16 Jun 2023 08:54:39 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH v7 2/8] PCI/VGA: Deal only with VGA class devices
+Subject: Re: [PATCH v1] drm/i915/gsc: Fix intel_gsc_uc_fw_proxy_init_done with
+ directed wakerefs
+To: Alan Previn <alan.previn.teres.alexis@intel.com>,
+ <intel-gfx@lists.freedesktop.org>
+References: <20230615211940.4061378-1-alan.previn.teres.alexis@intel.com>
 Content-Language: en-US
-To: Alex Deucher <alexdeucher@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
- Daniel Vetter <daniel@ffwll.ch>
-References: <20230613030151.216625-1-15330273260@189.cn>
- <20230613030151.216625-3-15330273260@189.cn>
- <dbf0d89f-717a-1f78-aef2-f30506751d4d@loongson.cn>
- <CADnq5_N6vVtzH6tzguZdHnP_TdRoG1G-Cr94O+X03jvtk=vhag@mail.gmail.com>
- <3c1c86ab-96ea-aa1c-c9c5-9a4012644fd6@loongson.cn>
- <CADnq5_Px-HWfwetv8LZsCnCeV7SMt_uqtLwMVK7648ZQiP2RCQ@mail.gmail.com>
- <f08b6a76-6c90-b59b-ff43-c779ef759d09@loongson.cn>
- <CADnq5_PFoM2O8mCd6+VFfu9Nc-Hg_HTnwEMxrq0FGRpva1kKiA@mail.gmail.com>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <CADnq5_PFoM2O8mCd6+VFfu9Nc-Hg_HTnwEMxrq0FGRpva1kKiA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxhuRsg4xkqmsdAA--.18023S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW3Zr4kXFW7uF1fWr1kJF47Awc_yoWkZFyDpF
- W5GFW5tF4DJr1UCr12qw1UXFyYv34rJFy5Xr15Jw1Y9ws0yr1UXryrtr4UC347Jrn5GF12
- vr4UJry7uF15ZagCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUBFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
- xVWxJr0_GcWln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
- xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y
- 6r17McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
- 1lc7I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
- JVW8JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
- vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
- x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
- xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAF
- wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jFa0PUUUUU=
+From: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
+In-Reply-To: <20230615211940.4061378-1-alan.previn.teres.alexis@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BYAPR02CA0035.namprd02.prod.outlook.com
+ (2603:10b6:a02:ee::48) To PH7PR11MB7605.namprd11.prod.outlook.com
+ (2603:10b6:510:277::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB7605:EE_|SJ0PR11MB5895:EE_
+X-MS-Office365-Filtering-Correlation-Id: b9af7d58-543a-48e4-00b4-08db6e81ff4d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: MLdY2OvZv26ukXJL0RnFBv38H4LrJXxhy07k+JhHCWTzB40axCkPC7/DUH1KxWOh2ZquHksuM3rCgW5uglxROjCoQIsjMfw4rauZv2L3C9wEr7vZytYU9U/AiYnG++PilVuxhPeM2rSxEp8ZcQ21eVrEjV3jAzTk/K31woWDYG//9H21C/ttNCD6vLDVr9OsTnLFV8c9fZjhBVPuG6LzJFL1mwzORMWaCU85U0ttW19txaW1joX3sbg6KoA1+Vojr4PoAN2nHeEtvaxASyUDYiQ5eEhHWEgct3GZ+vQXMp5HqPBAhVfXc3T8dyHv/kRf5qeoH+Daf0xRI6Kpv1IxtRSdOkpSqJk9Omc03uSx4oKH68JIb3xjbYpDFKuhMS8va+3GBOejq0PWEvAADdcYDRgHwc7CecYASeHTaVo/WpyYrZuAodA5rapqLIzYpD6RGMR1Rv1aU/LPh9VtFMzlHDnD5NhT22PvRL9ur2mdCtWGjUo+iKa9phMC6HgvyUwy7mVExlbEJBkkBjbsuotDBVW6XoVWtQxylTulFjZDpXv+rvXzsx6Lzdl2IoqowNN7IaIxCWHkVgcUcJjt7egj3GwspzLuQaH8ojOfyiMw/QGEpYG0Xs0rNXtDOTsZ1Wv3l8aS6our9MC4RKs0BuRpyA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB7605.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(396003)(39860400002)(376002)(366004)(346002)(136003)(451199021)(26005)(8936002)(6486002)(8676002)(6512007)(41300700001)(36756003)(82960400001)(478600001)(66556008)(4326008)(66946007)(38100700002)(86362001)(66476007)(316002)(31696002)(450100002)(53546011)(6506007)(83380400001)(5660300002)(186003)(2616005)(2906002)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dlNFQnl2eDJlKzNjZzZmTzRTVVIwM0dZUmlYR3lzUlR5NXpUME5pdjBJL3d3?=
+ =?utf-8?B?R2w3dDJEVUMzZlFDdU9GcnV1Sk5uYXRNQkl4WWZrSU03MEE5dmRYVVJpeWh1?=
+ =?utf-8?B?b2Q2c3BQUWkySVQwRkd0RXZKWGVaVElRY3kycGRKaWZuYTl6TXRKMkphQlY1?=
+ =?utf-8?B?WkEyKzhqN0JqdWV6Q3JMNW00WWpsRkx2cHpVUHlQdkt5S2w4aVVuRE9kdU5V?=
+ =?utf-8?B?M2M2b2NENWJxcUF0WFpXMTR6SlJNYzFiWjRKbStCbHVoWHRxZkZKcUNYbGNG?=
+ =?utf-8?B?cHRTYmdTODVEMVREZWh3SW1HOWJ3S21RSmtRc2dXbXAxMEZoSFFCUUJGWDg0?=
+ =?utf-8?B?dHB1Y2RxNjgwMkxSeUY3RE9UUW9YblNnWWZ4cW1XaFo5bmZMdjJuT0V4L0FE?=
+ =?utf-8?B?cnIyM25MOUpjWjhEbytuT2krc2N5VmRhZTV6ZTBEdlFiNFZYc3ZyWDBKeDZJ?=
+ =?utf-8?B?ejNUdEVhK294NmpBNEc2M0NVWGVyUmZyN2d2b0xYU2dZaTRCZThISm1NTnlC?=
+ =?utf-8?B?NEtMZmc5TUIvc0dCOTRvUmcxandadkcwZnorNHg3bzFLWVRYaGRFQXM1ZEtO?=
+ =?utf-8?B?cmlDYTlZUVByL0JLUlFoeHAwSUxkaGw1Z3dTQWwyL3B5YVBnb3JNZWxuWVVD?=
+ =?utf-8?B?Ri9yQThrUjRCWUI1bDdMTUVpbHlDVU81Sk0wMkJVeXYvdDY5dHJzbTQzeTJs?=
+ =?utf-8?B?clp2c1lWMmtONHZxY0dTaytoTXVBMDN2V3MxNXJWVWVMczBCTEFldGx1aFcv?=
+ =?utf-8?B?b2pybzRjRm05VUthaDJYR0NzRldkNzQ2MWpESENRMFRNNXZ4c2NheG84MGhh?=
+ =?utf-8?B?UDF6MHVvNnBybGdvT2dNaC9mMnVJbEx3TE4xZmpGVEhWS2tHUnRUNGxNRkVH?=
+ =?utf-8?B?djNVYWxlSmM0UExaaFJIcnJLSHViR1NYcUtZMEUxUlcvd1QreWN5RUl5TGsy?=
+ =?utf-8?B?TWFWVEN0L3RLdnlaci9UZHRwd2pqSC9Jay8zMHJJbkVCczdkL3JEMnQxZndv?=
+ =?utf-8?B?UmMvMDlpcUFNeURMZ3RBZ3pBdzVuc3FlM3U0ZG1RUDZsV0FUTUhGNTFQeTI3?=
+ =?utf-8?B?b011bFBYdDJOZkFVbiszQWI2QVJVaEJXd0xIVmdqd0w3RHo5VnliUElnWmdn?=
+ =?utf-8?B?MGNFci9TZS9lSHoxK2h3NWdIZlY2WTBSQkN3MFBNU3k4a0EvNUx2SDk2bTBw?=
+ =?utf-8?B?c05aekl3QlhUSCtWVm52VFU5WE1Fb29RMWNCN1Y2MVpKQURCOVZJT2RKcE41?=
+ =?utf-8?B?bW1jUnQ3amNTZ1dnbU5nTTFkZnpuUWkyVmVrZWVXeDBKVUUzSXYxR0FMOFFV?=
+ =?utf-8?B?dk9CcWVUcDk3WlptaXlxcWJBVkNINXFlNkxTL2RHbkpjWWVUT2wzVkxBT01i?=
+ =?utf-8?B?Ym1tQUJwTjk1a3NGdGcrMVZlTW00S1dmcGpSMndoYjhWZmVCZGluTVk0RXFa?=
+ =?utf-8?B?OFA2MHhNMGFIT2wrUmlseXl3TDgvRm5tZk12dWRCeFJYWVZOTmF0ZHBrWlha?=
+ =?utf-8?B?Q0VZMjdwczh2MjBiQmszWWVJTU1hZEVnaHp2ajJaSm1Kam9odlZVc3J6M3lw?=
+ =?utf-8?B?Q0JzbmlCbXJPd2xVd0lla1ZNdGwrUlRoMzdOQnR0aUVGZzVOSmVPTTgrYkkz?=
+ =?utf-8?B?N0FVYmFpNGdmMlhJNlFwNVo0c0ZkWncxaTg3enlyc1QyRnFBQ0k0U21rQ0po?=
+ =?utf-8?B?VG5kYk43K2l3d1dTY2k0NVJRb2pTZ01TQ1pyZWZBdThMZjlQM3diYSs3alF3?=
+ =?utf-8?B?QzNNRURQQW9CT2swVWl0eU11dno3dlR6elRoMEVSRGM4c1NiSjk5V2V6ODhF?=
+ =?utf-8?B?cFFhQkdxb2ZBOGFPc2k5TTcrQ3NIWk02eGNUUDNmZkNEd29PaWNNN0dYSTky?=
+ =?utf-8?B?eDJ1alJDUzF2cFY1TTZzTTN2M1UvNUVTY1ZTMXdVOHBSUWZBZExtTExWa0NF?=
+ =?utf-8?B?OXpnLytpZjRlUjJ5T2xyZnk3Mkt6RzVqV3UwZVRqTE5VMnZmZjJKUjVSTU9l?=
+ =?utf-8?B?SC9DYlZONnNzTk9wT2dVL3JvbjNlL3NkSWFkTjFOVVRZWFVWdkhwb3VmUGJH?=
+ =?utf-8?B?bWgvOG11aU5La0JBUXc0dFdQaEc1YTFzWEtvcFJTaW1SejFsQkh1cWtXazNo?=
+ =?utf-8?B?RnFFWnRnTmU3TEFpb2VDalI5dDIyMHBhTitwU09TR3dwYzNkN1hlWkp4TU5s?=
+ =?utf-8?B?b0E9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b9af7d58-543a-48e4-00b4-08db6e81ff4d
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7605.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2023 15:54:41.7978 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kHZUaRpCUfzIMv+zTppbrVynygSEU1ULackC1YU452OxK07Vf66Lr9pDPEqqz7yJDrxQi3IuPLreT+kV9WlxrGpoFHV4EsYym19BwScaFBg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5895
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,372 +156,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sui Jingfeng <15330273260@189.cn>, amd-gfx@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-pci@vger.kernel.org,
- Bjorn Helgaas <bhelgaas@google.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 2023/6/16 22:34, Alex Deucher wrote:
-> On Fri, Jun 16, 2023 at 10:22 AM Sui Jingfeng <suijingfeng@loongson.cn> wrote:
->>
->> On 2023/6/16 21:41, Alex Deucher wrote:
->>> On Fri, Jun 16, 2023 at 3:11 AM Sui Jingfeng <suijingfeng@loongson.cn> wrote:
->>>> Hi,
->>>>
->>>> On 2023/6/16 05:11, Alex Deucher wrote:
->>>>> On Wed, Jun 14, 2023 at 6:50 AM Sui Jingfeng <suijingfeng@loongson.cn> wrote:
->>>>>> Hi,
->>>>>>
->>>>>> On 2023/6/13 11:01, Sui Jingfeng wrote:
->>>>>>> From: Sui Jingfeng <suijingfeng@loongson.cn>
->>>>>>>
->>>>>>> Deal only with the VGA devcie(pdev->class == 0x0300), so replace the
->>>>>>> pci_get_subsys() function with pci_get_class(). Filter the non-PCI display
->>>>>>> device(pdev->class != 0x0300) out. There no need to process the non-display
->>>>>>> PCI device.
->>>>>>>
->>>>>>> Cc: Bjorn Helgaas <bhelgaas@google.com>
->>>>>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->>>>>>> ---
->>>>>>>      drivers/pci/vgaarb.c | 22 ++++++++++++----------
->>>>>>>      1 file changed, 12 insertions(+), 10 deletions(-)
->>>>>>>
->>>>>>> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
->>>>>>> index c1bc6c983932..22a505e877dc 100644
->>>>>>> --- a/drivers/pci/vgaarb.c
->>>>>>> +++ b/drivers/pci/vgaarb.c
->>>>>>> @@ -754,10 +754,6 @@ static bool vga_arbiter_add_pci_device(struct pci_dev *pdev)
->>>>>>>          struct pci_dev *bridge;
->>>>>>>          u16 cmd;
->>>>>>>
->>>>>>> -     /* Only deal with VGA class devices */
->>>>>>> -     if ((pdev->class >> 8) != PCI_CLASS_DISPLAY_VGA)
->>>>>>> -             return false;
->>>>>>> -
->>>>>> Hi, here is probably a bug fixing.
->>>>>>
->>>>>> For an example, nvidia render only GPU typically has 0x0380.
->>>>>>
->>>>>> as its PCI class number, but render only GPU should not participate in
->>>>>> the arbitration.
->>>>>>
->>>>>> As it shouldn't snoop the legacy fixed VGA address.
->>>>>>
->>>>>> It(render only GPU) can not display anything.
->>>>>>
->>>>>>
->>>>>> But 0x0380 >> 8 = 0x03, the filter  failed.
->>>>>>
->>>>>>
->>>>>>>          /* Allocate structure */
->>>>>>>          vgadev = kzalloc(sizeof(struct vga_device), GFP_KERNEL);
->>>>>>>          if (vgadev == NULL) {
->>>>>>> @@ -1500,7 +1496,9 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
->>>>>>>          struct pci_dev *pdev = to_pci_dev(dev);
->>>>>>>          bool notify = false;
->>>>>>>
->>>>>>> -     vgaarb_dbg(dev, "%s\n", __func__);
->>>>>>> +     /* Only deal with VGA class devices */
->>>>>>> +     if (pdev->class != PCI_CLASS_DISPLAY_VGA << 8)
->>>>>>> +             return 0;
->>>>>> So here we only care 0x0300, my initial intent is to make an optimization,
->>>>>>
->>>>>> nowadays sane display graphic card should all has 0x0300 as its PCI
->>>>>> class number, is this complete right?
->>>>>>
->>>>>> ```
->>>>>>
->>>>>> #define PCI_BASE_CLASS_DISPLAY        0x03
->>>>>> #define PCI_CLASS_DISPLAY_VGA        0x0300
->>>>>> #define PCI_CLASS_DISPLAY_XGA        0x0301
->>>>>> #define PCI_CLASS_DISPLAY_3D        0x0302
->>>>>> #define PCI_CLASS_DISPLAY_OTHER        0x0380
->>>>>>
->>>>>> ```
->>>>>>
->>>>>> Any ideas ?
->>>>> I'm not quite sure what you are asking about here.
->>>> To be honest, I'm worried about the PCI devices which has a
->>>>
->>>> PCI_CLASS_DISPLAY_XGA as its PCI class number.
->>>>
->>>> As those devices are very uncommon in the real world.
->>>>
->>>>
->>>> $ find . -name "*.c" -type f | xargs grep "PCI_CLASS_DISPLAY_XGA"
->>>>
->>>>
->>>> Grep the "PCI_CLASS_DISPLAY_XGA" in the linux kernel tree got ZERO,
->>>>
->>>> there no code reference this macro. So I think it seems safe to ignore
->>>> the XGA ?
->>>>
->>>>
->>>> PCI_CLASS_DISPLAY_3D and PCI_CLASS_DISPLAY_OTHER are used to annotate
->>>> the render-only GPU.
->>>>
->>>> And render-only GPU can't decode the fixed VGA address space, it is safe
->>>> to ignore them.
->>>>
->>>>
->>>>>     For vga_arb, we
->>>>> only care about VGA class devices since those should be on the only
->>>>> ones that might have VGA routed to them.
->>>>>     However, as VGA gets deprecated,
->>>> We need the vgaarb for a system with multiple video card.
->>>>
->>>> Not only because some Legacy VGA devices implemented
->>>>
->>>> on PCI will typically have the same "hard-decoded" addresses;
->>>>
->>>> But also these video card need to participate in the arbitration,
->>>>
->>>> determine the default boot device.
->>> But couldn't the boot device be determined via what whatever resources
->>> were used by the pre-OS console?
->> I don't know what you are refer to by saying  pre-OS console, UEFI
->> SHELL,  UEFI GOP  or something like that.
->>
-> Right.  Before the OS loads the platform firmware generally sets up
-> something for display.  That could be GOP or vesa or some other
-> platform specific protocol.
+
+On 6/15/2023 2:19 PM, Alan Previn wrote:
+> intel_gsc_uc_fw_proxy_init_done is used by a few code paths
+> and usages. However, certain paths need a wakeref while others
+> can't take a wakeref such as from the runtime_pm_resume callstack.
 >
->> If you are referring to the framebuffer driver which light up the screen
->> before the Linux kernel is loaded .
->>
->>
->> Then, what you have said is true,  the boot device is determined by the
->> pre-OS console.
->>
->> But the problem is how does the Linux kernel(vgaarb) could know which
->> one is the default boot device
->>
->> on a multiple GPU machine.  Relaying on the firmware fb's address and
->> size is what the mechanism
->>
->> we already in using.
-> Right.  It shouldn't need to depend on vgaarb.
+> Add a param into this helper to allow callers to direct whether
+> to take the wakeref or not. This resolves the following bug:
 >
->>
->>>    I feel like that should be separate from vgaarb.
->> Emm, this really deserved another patch, please ?
->>
->>>    vgaarb should handle PCI VGA routing and some other
->>> mechanism should be used to determine what device provided the pre-OS
->>> console.
->> If the new mechanism need the firmware changed, then this probably break
->> the old machine.
->>
->> Also, this probably will get all arch involved. to get the new mechanism
->> supported.
->>
->> The testing pressure and review power needed is quite large.
->>
->> drm/amdgpu and drm/radeon already being used on X86, ARM64,  Mips and
->> more arch...
->>
->> The reviewing process will became quite difficult then.
->>
->> vgaarb is really what we already in use, and being used more than ten
->> years ...
-> Yes, it works for x86 (and a few other platforms) today because of the
-> VGA legacy, so we can look at VGA routing to determine this.  But even
-> today, we don't need VGA routing to determine what was the primary
-> display before starting the OS.  We could probably have a platform
-> independent way to handle this by looking at the bread crumbs leftover
-> from the pre-OS environment.  E.g., for pre-UEFI platforms, we can
-> look at VGA routing.  For UEFI platforms we can look at what GOP left
-> us.  For various non-UEFI ARM/PPC/MIPS/etc. platforms we can look at
-> whatever breadcrumbs those pre-OS environments left.  That way when
-> VGA goes away, we can have a clean break and you won't need vgaarb if
-> the platform has no VGA devices.
-
-Yes, I'm complete agree the spirit you are convey here.
-
-Patch 5[1] of this series is actually does what you have told me just now.
-
-I put this function in video/aperture intended.
-
-
-Its does not rely on "VGA routing".
-
-Its also does not required the display device is PCI vga device.
-
-Platform display controller drivers(drm/ingenic, drm/imx, drm/rockchip etc)
-
-can also call this function(aperture_contain_firmware_fb).
-
-It only require the platform has a firmware framebuffer driver 
-registered successfully.
-
-Both EFIFB are SIMPLEFB will be OK.
-
-
-Beside  this, on systems with a platform display controller device and a 
-PCI GPU device,
-
-the current implement may always set the PCI GPU device as the default 
-boot device.
-
-This is probably true for the arm64 platform.
-
-
-On the past, loongson LS2K1000 SoC  has a platform display controller,
-
-the SoC also has PCIE controller, So drm/radeon driver can be used on it.
-
-When discrete card is mounted on the system, the discrete gpu is always been
-
-selected as the default boot device in the past.
-
-Because radeon gpu is more faster, this behavior meet the user's 
-expectation by accident.
-
-Its funny and lucky.
-
-
-But the problem is sometime you want to use the integrated one,
-
-for example in the process of developing driver, or discrete GPU driver
-
-has a bug panic X server,  the user(or the device driver) don't has the 
-right to override.
-
-
-Also with the current implement, even you disable the device driver.
-
-vgaarb still make the decision for you,  which made the X server 
-confused and panic.
-
-
-Say on machine with loongson integrated display controller and a rx5700  
-machine.
-
-By passing the cmdline "modprobe.blacklist=amdgpu", then vgaarb will not 
-agree.
-
-He still mark the rx5700 as the default boot device. Then X server crash.
-
-Because xf86-video-amdgpu(still loaded) has no root in the kernel do the 
-service for it.
-
-
-I'm doing such a thing because I need developing the drivers for this
-
-integrated display controller, but I don't want unmounted the discrete 
-GPU every time.
-
-Because I also need to do the PRIME buffer sharing developing and test.
-
-
-For AMD APU, this is also the case.
-
-R5 200GE and 3000G processor has the integrated GPU,
-
-On a machine with R5 5600G + nvidia gtx1060, a user may want to compare
-
-which GPU is more powerful. But with the current implement, both the device
-
-driver and the end user don't have a choice.
-
-
-This is the reason why patch 6, 7 and 8[2] of this series is introduced.
-
-Device driver could do the force override if it isn't the default device.
-
-(by introducing another kernel cmd line)
-
-Because of device driver(.ko) get loaded latter than vgaarb.
-
-
-So feel free send a reviewed by ?
-
-
-[1] https://patchwork.freedesktop.org/patch/542253/?series=119250&rev=1
-
-[2] https://patchwork.freedesktop.org/patch/542255/?series=119250&rev=1
-
-> Alex
+>     INFO: task sh:2607 blocked for more than 61 seconds.
+>     Not tainted 6.3.0-pxp-gsc-final-jun14+ #297
+>     "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+>     task:sh              state:D stack:13016 pid:2607  ppid:2602   flags:0x00004000
+>     Call Trace:
+>        <TASK>
+>        __schedule+0x47b/0xe10
+>        schedule+0x58/0xd0
+>        rpm_resume+0x1cc/0x800
+>        ? __pfx_autoremove_wake_function+0x10/0x10
+>        __pm_runtime_resume+0x42/0x80
+>        __intel_runtime_pm_get+0x19/0x80 [i915]
+>        gsc_uc_get_fw_status+0x10/0x50 [i915]
+>        intel_gsc_uc_fw_init_done+0x9/0x20 [i915]
+>        intel_gsc_uc_load_start+0x5b/0x130 [i915]
+>        __uc_resume+0xa5/0x280 [i915]
+>        intel_runtime_resume+0xd4/0x250 [i915]
+>        ? __pfx_pci_pm_runtime_resume+0x10/0x10
+>     __rpm_callback+0x3c/0x160
 >
->>
->>> Alex
->>>
->>>> Nowadays, the 'VGA devices' here is stand for the Graphics card
->>>>
->>>> which is capable of display something on the screen.
->>>>
->>>> We still need vgaarb to select the default boot device.
->>>>
->>>>
->>>>> you'll have more non VGA PCI classes for devices which
->>>>> could be the pre-OS console device.
->>>> Ah, we still want  do this(by applying this patch) first,
->>>>
->>>> and then we will have the opportunity to see who will crying if
->>>> something is broken. Will know more then.
->>>>
->>>> But drop this patch or revise it with more consideration is also
->>>> acceptable.
->>>>
->>>>
->>>> I asking about suggestion and/or review.
->>>>
->>>>> Alex
->>>>>
->>>>>>>          /* For now we're only intereted in devices added and removed. I didn't
->>>>>>>           * test this thing here, so someone needs to double check for the
->>>>>>> @@ -1510,6 +1508,8 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
->>>>>>>          else if (action == BUS_NOTIFY_DEL_DEVICE)
->>>>>>>                  notify = vga_arbiter_del_pci_device(pdev);
->>>>>>>
->>>>>>> +     vgaarb_dbg(dev, "%s: action = %lu\n", __func__, action);
->>>>>>> +
->>>>>>>          if (notify)
->>>>>>>                  vga_arbiter_notify_clients();
->>>>>>>          return 0;
->>>>>>> @@ -1534,8 +1534,8 @@ static struct miscdevice vga_arb_device = {
->>>>>>>
->>>>>>>      static int __init vga_arb_device_init(void)
->>>>>>>      {
->>>>>>> +     struct pci_dev *pdev = NULL;
->>>>>>>          int rc;
->>>>>>> -     struct pci_dev *pdev;
->>>>>>>
->>>>>>>          rc = misc_register(&vga_arb_device);
->>>>>>>          if (rc < 0)
->>>>>>> @@ -1545,11 +1545,13 @@ static int __init vga_arb_device_init(void)
->>>>>>>
->>>>>>>          /* We add all PCI devices satisfying VGA class in the arbiter by
->>>>>>>           * default */
->>>>>>> -     pdev = NULL;
->>>>>>> -     while ((pdev =
->>>>>>> -             pci_get_subsys(PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID,
->>>>>>> -                            PCI_ANY_ID, pdev)) != NULL)
->>>>>>> +     while (1) {
->>>>>>> +             pdev = pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, pdev);
->>>>>>> +             if (!pdev)
->>>>>>> +                     break;
->>>>>>> +
->>>>>>>                  vga_arbiter_add_pci_device(pdev);
->>>>>>> +     }
->>>>>>>
->>>>>>>          pr_info("loaded\n");
->>>>>>>          return rc;
->>>>>> --
->>>>>> Jingfeng
->>>>>>
->>>> --
->>>> Jingfeng
->>>>
->> --
->> Jingfeng
->>
--- 
-Jingfeng
+> Fixes: 8c33c3755b75 ("drm/i915/gsc: take a wakeref for the proxy-init-completion check")
+> Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
+
+Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+
+I'm going to send a trybot of this patch with the FW definition patch, 
+just to make sure there aren't any other issues that kick in once the FW 
+is defined and the code starts being executed, and merge if the results 
+are ok.
+
+Daniele
+
+> ---
+>   drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c  | 17 +++++++++++------
+>   drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h  |  2 +-
+>   drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c  |  2 +-
+>   drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c |  2 +-
+>   4 files changed, 14 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
+> index 856de9af1e3a..ab1a456f833d 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c
+> @@ -22,27 +22,32 @@ static bool gsc_is_in_reset(struct intel_uncore *uncore)
+>   			HECI1_FWSTS1_CURRENT_STATE_RESET;
+>   }
+>   
+> -static u32 gsc_uc_get_fw_status(struct intel_uncore *uncore)
+> +static u32 gsc_uc_get_fw_status(struct intel_uncore *uncore, bool needs_wakeref)
+>   {
+>   	intel_wakeref_t wakeref;
+>   	u32 fw_status = 0;
+>   
+> -	with_intel_runtime_pm(uncore->rpm, wakeref)
+> -		fw_status = intel_uncore_read(uncore, HECI_FWSTS(MTL_GSC_HECI1_BASE, 1));
+> +	if (needs_wakeref)
+> +		wakeref = intel_runtime_pm_get(uncore->rpm);
+>   
+> +	fw_status = intel_uncore_read(uncore, HECI_FWSTS(MTL_GSC_HECI1_BASE, 1));
+> +
+> +	if (needs_wakeref)
+> +		intel_runtime_pm_put(uncore->rpm, wakeref);
+>   	return fw_status;
+>   }
+>   
+> -bool intel_gsc_uc_fw_proxy_init_done(struct intel_gsc_uc *gsc)
+> +bool intel_gsc_uc_fw_proxy_init_done(struct intel_gsc_uc *gsc, bool needs_wakeref)
+>   {
+>   	return REG_FIELD_GET(HECI1_FWSTS1_CURRENT_STATE,
+> -			     gsc_uc_get_fw_status(gsc_uc_to_gt(gsc)->uncore)) ==
+> +			     gsc_uc_get_fw_status(gsc_uc_to_gt(gsc)->uncore,
+> +						  needs_wakeref)) ==
+>   	       HECI1_FWSTS1_PROXY_STATE_NORMAL;
+>   }
+>   
+>   bool intel_gsc_uc_fw_init_done(struct intel_gsc_uc *gsc)
+>   {
+> -	return gsc_uc_get_fw_status(gsc_uc_to_gt(gsc)->uncore) &
+> +	return gsc_uc_get_fw_status(gsc_uc_to_gt(gsc)->uncore, false) &
+>   	       HECI1_FWSTS1_INIT_COMPLETE;
+>   }
+>   
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h
+> index 8d7b9e4f1ffc..ad2167ce9137 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h
+> @@ -15,6 +15,6 @@ struct intel_uncore;
+>   int intel_gsc_fw_get_binary_info(struct intel_uc_fw *gsc_fw, const void *data, size_t size);
+>   int intel_gsc_uc_fw_upload(struct intel_gsc_uc *gsc);
+>   bool intel_gsc_uc_fw_init_done(struct intel_gsc_uc *gsc);
+> -bool intel_gsc_uc_fw_proxy_init_done(struct intel_gsc_uc *gsc);
+> +bool intel_gsc_uc_fw_proxy_init_done(struct intel_gsc_uc *gsc, bool needs_wakeref);
+>   
+>   #endif
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c
+> index 85d90f0a15e3..75a3a0790ef3 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c
+> @@ -72,7 +72,7 @@ static void gsc_work(struct work_struct *work)
+>   			 * complete the request handling cleanly, so we need to check the
+>   			 * status register to check if the proxy init was actually successful
+>   			 */
+> -			if (intel_gsc_uc_fw_proxy_init_done(gsc)) {
+> +			if (intel_gsc_uc_fw_proxy_init_done(gsc, false)) {
+>   				drm_dbg(&gt->i915->drm, "GSC Proxy initialized\n");
+>   				intel_uc_fw_change_status(&gsc->fw, INTEL_UC_FIRMWARE_RUNNING);
+>   			} else {
+> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
+> index f13890ec7db1..c7df47364013 100644
+> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
+> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
+> @@ -197,7 +197,7 @@ bool intel_pxp_gsccs_is_ready_for_sessions(struct intel_pxp *pxp)
+>   	 * are out of order) will suffice.
+>   	 */
+>   	if (intel_huc_is_authenticated(&pxp->ctrl_gt->uc.huc, INTEL_HUC_AUTH_BY_GSC) &&
+> -	    intel_gsc_uc_fw_proxy_init_done(&pxp->ctrl_gt->uc.gsc))
+> +	    intel_gsc_uc_fw_proxy_init_done(&pxp->ctrl_gt->uc.gsc, true))
+>   		return true;
+>   
+>   	return false;
+>
+> base-commit: 134d180cacae82fadbc5ee32f86014cc290f5e0c
 
