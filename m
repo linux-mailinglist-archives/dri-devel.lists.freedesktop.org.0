@@ -2,161 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05C357328EA
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 09:30:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C744B732815
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 08:58:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F052C10E0BB;
-	Fri, 16 Jun 2023 07:30:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C72CB10E5A5;
+	Fri, 16 Jun 2023 06:58:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EE7010E05C
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 06:50:18 +0000 (UTC)
-X-UUID: 0ab16e0e0c1211eeb20a276fd37b9834-20230616
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
- bh=pZDnURsH6UmyqrqCAMtghLC13LdknZ5SB6JxfETKXH4=; 
- b=WPALxhyneVPSi5f5MHnAgU8MvkPuzjS9WQOs21bq7c0K/3ZSYQ6gj6i6yYerXjmB7l7dckvk+qcwgA+kR1Ajod1vwYMfDxmb6NFenkZ1hS9pILNP+ZpLvr66YfctwrjocLiLvB8JEIgwsIEcmNibsFnHBRiH0a4jWseUSuMm0fU=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.26, REQID:9601dd12-fdb4-4db7-8135-3feb8ed67685, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:cb9a4e1, CLOUDID:a49e9f3e-de1e-4348-bc35-c96f92f1dcbb,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 0ab16e0e0c1211eeb20a276fd37b9834-20230616
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
- mailgw02.mediatek.com (envelope-from <shuijing.li@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 231992511; Fri, 16 Jun 2023 14:50:12 +0800
-Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 16 Jun 2023 14:50:11 +0800
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP
- Server id
- 15.2.1118.26 via Frontend Transport; Fri, 16 Jun 2023 14:50:11 +0800
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02on2045.outbound.protection.outlook.com [40.107.95.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD5FF10E5A3;
+ Fri, 16 Jun 2023 06:58:45 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Bcxyz4wFTxF/bPZ5i3LQeLn1RNEwwHoNYyyylvtN84mUzwwj12guXi+eEOkvChbvfKs4MFfHE7AGfz2rU9JrnlADi8ptKm91uDlvej9l0p53rdf17KpPPOOTR+d6Up/T/GWw8BY9PYhI7lmnAW2oqHHG3w5IgY/meNHhuA+W3Hir/9lrpUfbxlqpoXPwKjYHrhcd4EItCnY/yHkXXU48HqKQk89gQIc/6aBic8lVOOVaJ9WkG6mQNd+Cb3VDsLd7WbnnzSMA56X3uO9Y6Q5HG0/edy68t1LQWCYMLas5VDJ/FO930866MU6mf6JfB6imz3LkCNZOiyE+Phw30pUZCg==
+ b=k3mSfCJ1HAwf33BUYPx4wwpRxefpvnuVVkFjhMTo2l3NAK8FuubPLxqE+7CHdem3wFPSIWhRDdisz+Mrkk0GjVEWMB1WKudVKNWQgAc9AKJQf6aZ7r1ysENyg8yKnocjktA55wKTzCSUXkLr+zWYMObWHEXSm7MFHphI2JC5vMYFZ1oifL3UyJP8mdt8n7R0u2LEY8JnTbmENW8NNJhCBik3kpZBfXgSlG34WH5d7nDGwOFlHfvIzU9BRsJSmtOfdn/zP5qJX6o8Ytrtv9fjjt0LF51Esyq+qAt0b3uSGE+NtcroLZyGc8s6hBnmT+VK/r0eVIVO/1X104XgG9cX1Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=R8dk6+Xl9Q+LMa4OZS5SuECVjuURNyaYdYgThqdZL0c=;
- b=iOzX6FJRYSD16U0k6gaSwzGBsHIqh2OWLQbnrCaf5W8SNYh9RElG+RVt6uGJWuipVSVNi6zjFKV3s2v5czntXtF+yLegRzha6VePhHJ4seMPZcBUyvktcYFMTP5kSq0DXLVM7S6p2M/DoLLT/YRHwf09eA6aftMV5isQp81YuE3VilYqKU1E/1T1YINr6RWgFcHIVSb+n58S22QefzKOWBTfZBTTtDdVkDIf1RpSYLMAO7TZd5kQa+UhqzO3rQRFq9XpZEm4A86KseT6lA6daeWR5qzgNZkigLMlmo4pk+IGZFdC8jwWDKraaBT1Qv13xhxcwpIUrNqHsm70QBHPrQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ bh=jJDf4Hy6wji+mjAcc051sZRUQccDxPYxRWu0KEMFJQg=;
+ b=Wc30DU0OLQXIK/M4L9z+WHy0h4XyiD1sPjTPUgZ5q6Xhaquqxy9QqwHdcAm2s4WEkgJ4++ePbnNyajYuhrnNdzhDQ3EvX0Mmf0dr2ZxPbVW1qoaA+eF0Oo6n3SrcWw2pyn27ilXP+JcWFWTItkYuR396G9qhXrT+v7ICrKugWM00y4IGPP4pLVAJcAYeXcbZ7MU1/mq+jd8jZDIfKePgKxcd3w3caGUQCprbiAEF0SowVye2d0/3jdG0h/Wh0iRyJxrqugj9H0cWAHWUzv4TQgPeSLh6lkPPpn8deiwZhPAVaNgpGrQTXBDVtY9z36pK83OTH3/mWpRdqz9q+vopuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R8dk6+Xl9Q+LMa4OZS5SuECVjuURNyaYdYgThqdZL0c=;
- b=ur/bCIrNLbArKxh3Cw7zWN7Z/Rk6J8JaqVK3MTLt7rZfxdeYkO1d53NbLMw7kTcwhd9/OeBbLdmzNkmHYWYB6uEmKY6mAhd/vnxakDAyUuNvwEBN2zpYiyaQvHIjMnctp0S24rnFi+WVhxZDXDHdC3YpawfnENYsKYBzco1neEY=
-Received: from SG2PR03MB4165.apcprd03.prod.outlook.com (2603:1096:4:3d::11) by
- SEZPR03MB8122.apcprd03.prod.outlook.com (2603:1096:101:183::7) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6500.29; Fri, 16 Jun 2023 06:50:08 +0000
-Received: from SG2PR03MB4165.apcprd03.prod.outlook.com
- ([fe80::d741:b0af:5075:b7d4]) by SG2PR03MB4165.apcprd03.prod.outlook.com
- ([fe80::d741:b0af:5075:b7d4%3]) with mapi id 15.20.6500.029; Fri, 16 Jun 2023
- 06:50:06 +0000
-From: =?utf-8?B?U2h1aWppbmcgTGkgKOadjuawtOmdmSk=?= <Shuijing.Li@mediatek.com>
-To: "robh+dt@kernel.org" <robh+dt@kernel.org>, "chunkuang.hu@kernel.org"
- <chunkuang.hu@kernel.org>, =?utf-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?=
- <jitao.shi@mediatek.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- =?utf-8?B?WGlubGVpIExlZSAo5p2O5piV56OKKQ==?= <Xinlei.Lee@mediatek.com>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, "airlied@linux.ie"
- <airlied@linux.ie>
-Subject: Re: [PATCH 3/3] drm/mediatek: dsi: Add dsi cmdq_ctl to send panel
- initial code
-Thread-Topic: [PATCH 3/3] drm/mediatek: dsi: Add dsi cmdq_ctl to send panel
- initial code
-Thread-Index: AQHZbc6dGP+8UZnx5EOtJItjghrVOa8o85aAgGRufwA=
-Date: Fri, 16 Jun 2023 06:50:06 +0000
-Message-ID: <a89a22d786fbb7a2176b1eb4823ebbdd163cfb09.camel@mediatek.com>
-References: <1681366162-4949-1-git-send-email-xinlei.lee@mediatek.com>
- <1681366162-4949-4-git-send-email-xinlei.lee@mediatek.com>
- <015f4c60-ed77-9e1f-8a6b-cda6e4f6ac93@gmail.com>
-In-Reply-To: <015f4c60-ed77-9e1f-8a6b-cda6e4f6ac93@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SG2PR03MB4165:EE_|SEZPR03MB8122:EE_
-x-ms-office365-filtering-correlation-id: 4b175d07-b84a-46f3-193a-08db6e35eb56
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 06cGYr91VV1u0LFGWSDAJNjauUM6SONPID4DgHWmo2gqNE1zhe0eD7ubThhgHvY+6pF6jLfI+h7Elv2acXl3NycqIVWpIxDIDHlH2CEN9NN1mI/9uWXQDtiX/wIHvmmyN2W2xaf5iQRK9alTGMl/kvz2nY72FgnhsuRH+SN7b5gZUxupyqM1/Eh7PDd7t63ycC62YbZEfaQzdHU4sQv89YcTVyugzM6dmEgk+x62+5snIBzd018tRi3Ze2n+oHXb8OazwUc9+6wjjl4nYc/RkvhCvtwFWTmcY/hnwJLsJcqDi26uUnOULxFu4oQtsTTVZOrb6wjk/UPZHgzxREdFJG/ErCI/+0KZMuZo0sq49UQaRzVqJGiFRGJUNTQy2G0EWdooumtEJ6C+LXrYLNKdBpAJm/Z8oTw/sGKaLidwMeCa8N6Lyu0Cma6jYbRUEGbsPqbC7DwGbBxv2tpjOVjGOgr1dlRD2rzz5jPx8e3LtFJNil/7Ou2qO7wzyuaTpKN2kssjicmsk58kHI6HVLl6gZTUVf09wGnDsZd8GCJiSUx9pQp4b1KW/jhBqebEy5a3RUVV5/xsCdUXSXMSvv2P7PX+YaRyYTnxQLqGWDqJYKdzsVmakxSNwfTXNw+ITH6eh/2F2oq4ha+ahCFK1d4cMIxwKAakWBJ2MPmqmW39poc=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SG2PR03MB4165.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(396003)(366004)(39860400002)(376002)(346002)(136003)(451199021)(71200400001)(53546011)(6512007)(6506007)(107886003)(26005)(66946007)(4326008)(316002)(64756008)(66446008)(66476007)(66556008)(76116006)(2616005)(186003)(83380400001)(122000001)(6486002)(110136005)(478600001)(54906003)(38100700002)(7416002)(8676002)(8936002)(5660300002)(41300700001)(86362001)(38070700005)(85182001)(2906002)(36756003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Q0J2NjY0NitIQmJ3L0wyMlB4M29sRE1IWnhjOGZLWnRLTFhnM3pnUDQyM0pP?=
- =?utf-8?B?L3g4c0JQS1hiMnRoKzhVdEhRMk9aTmkrUXQwY0V3by8yaG93WXJKKzY4Z2Ju?=
- =?utf-8?B?dFNxQkhYZDhPamFkVnJMNHlXdVpFN1NYK1V6RFgvTnF6bEg5cDRWNWMwMm5U?=
- =?utf-8?B?c3BzMlU1N0lNS2JhZEJESTFncXlYYzg3dlp1WWRzaW02SjJhN1VaaWJtNFF6?=
- =?utf-8?B?czJNbW9tVHYzNFgrL2hzYkhjb0EybmliTEZxUlZXN0hNK0VuQWxhdkNGb09F?=
- =?utf-8?B?Qkt2Umw1VnE2M3Vhdm5HeWR1NFVmazQweTBpRzBDeDE0YjdQajFBNHFMTEJH?=
- =?utf-8?B?UjFIUVg3YVlERFNVbUVnWHJxamsyQlhqaUdzQ1hXWnQxTy9Uc1N4RWluRytZ?=
- =?utf-8?B?S29MK1NaQTlFWlpDejJGK3dlMjRGeXR6TU0ySmFXTzhML2RPV1ZBRmV6c1pO?=
- =?utf-8?B?MVR3VzArOXFjc1hubitSVEN0a0F5RTNDblkzRzZVOTk1Ym95T3R0M0lrUGpm?=
- =?utf-8?B?Smx5YThFcGo3cmV1QTI4UktQbXo4b3M0czhyNTllZmdaaEE5TjRUUjNxbGp4?=
- =?utf-8?B?VHNHbzJSQ3ZWK3JteXlHMk91d2RreWJEZml2cm02dkpNQ2lBMmdDVVc1R2dW?=
- =?utf-8?B?dlhCdXY1U2tkc0xad01COTFVNUY0UjY1OFIwaEZGN1NKcWtManhBRVIxdTFr?=
- =?utf-8?B?ODl2QWtnQWJ4MW5iTXFyaUdVVWUyVEZNeElmQnEvUFRzbUxyMG1YdWx2clI3?=
- =?utf-8?B?UTJKaHZtelhCS2FSYTZsZzhGVHI0TC9CemN1OVRIZGlGakUyTDlDY3o4QndV?=
- =?utf-8?B?VkdjTHQySXNuRTJXZHl0T1BjTDJURGZ0QWl3U21KcG1CUVJQNXMweVRuMGJv?=
- =?utf-8?B?SmNsOTllU3ZvOVFnOEZNNFNQVngzcDhrSVhzS3JXSEkrRVZMaE12Q3pzN3NR?=
- =?utf-8?B?Q2RucHBKMVp3d2pVVEFYMkhYS2pMKzNuZmhNL3JhYkh0cy9zRkhpWTgvQnUv?=
- =?utf-8?B?TGY4MWRSRFV6YzB1ZUQ3QnFvYWd5TTk1VjcyMGg1bEZINThRMmxxbi9VZHQ2?=
- =?utf-8?B?c2NtWUZNRzl4OWdERDhhdS8yaFJIZ2NpM1MxTzlCblc4bXU2YXpBbzdDS2wv?=
- =?utf-8?B?L3ZOUTRtNWVBckl1eC9EMDVmL0lCaDZYUnFnUmVZRDRFV255eEJGNUVoV2Yw?=
- =?utf-8?B?dFovSnJQUkNhZTRrSitPQkF6Q2RRbTlaNmJYR3F4bCs4TlhwdVd3d1lScURO?=
- =?utf-8?B?ZGpqU0xidTFkR0V2WGhHYy9xU0VIaytpeDU3VEFhMmxGcGVSWllpVDh1Nlp5?=
- =?utf-8?B?NVVLRG5BOUdMZks2RG5lVGJTaDhlaDY1aVZxUTlZQXpFaUp4MFRDTzZVYmFT?=
- =?utf-8?B?OWVkSUQ1RVZteENva2ZlcTBpSUV4WmdENXI1Qkx6a1lCMm9oSG5XVjhOTW5X?=
- =?utf-8?B?S0pCRUpyQ0loaGtMWEEyc0x3RzhPZUZad05oWW1XYkpaK0hQQ1ZBRk5CNDEx?=
- =?utf-8?B?dS9HM1VuUnlXV09wcU1mNUtBSXRSL0ZJTHlDVzJjVStqZ2o3MEw0SlYyOGVj?=
- =?utf-8?B?ZXVTZm4wQ2UxSjE1aWtWRFhzbmMvL3ZrZVlaS3VidTBTSVZDNFEyRzhwc0Vq?=
- =?utf-8?B?LzVwSGdLVGZVemV1L25TNFJwTVJNaUsvNVJZaW80cEhKTVBWNGQ4bW9weXNm?=
- =?utf-8?B?WG81MWdkT01pK2YvNXU0d01LeXloOVZBcm00bjQ3NmFTV3NJYWRkK2o0NG9j?=
- =?utf-8?B?T1hkUmFDUHpsdjhwZEwrYzkyRVpQWGxIeWFpTUx2ckdqa1ZXQzJmZ0pzT2xz?=
- =?utf-8?B?Vmppd1p4cUduMGlqZHpjT0k5UGxzWWhpNDZSRHRuaFIzVWF4dEtJTkR0OEFr?=
- =?utf-8?B?VGpHNHEyM2Q0bmgzbDE1UytWRG8xWWlCbzVRWU9mSUJYNUpDcWUzYzNKU0Vi?=
- =?utf-8?B?MVEzbytIRG1CU1h5aC9USlFHVVhBUG1MLzRZa3FBK3R0UFAvS3NRRXFsWGV2?=
- =?utf-8?B?UnROYXV2R2NzQmJJK3NQUjdldzhmeER4dHRLWFJKdEh3dDRQdVlrWE9KOXZz?=
- =?utf-8?B?aVkvTEh1NjZxekdaUm9HS3ZoUUVSc1hET1o3bGdMdWg3eU1UbGF3NVh3YUVn?=
- =?utf-8?B?MDdEalNUVzhHYjVLM25lU3ZWWG9mRjNGTmJoMkdra05YUFUzb0pGc0t6NFpX?=
- =?utf-8?B?cnc9PQ==?=
-Content-ID: <8E4BD44426393F4E8806D1F4D97305D4@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ bh=jJDf4Hy6wji+mjAcc051sZRUQccDxPYxRWu0KEMFJQg=;
+ b=fOSub4XtxW+Qc4vnBd+dznofNc8O7Sj/IfsmAFry5y3UG9fGR7mXoKsR8ISoUkxpwUQnEOcYxDK+/ROFkXkykOErYiYHAHu4SsdooHtdrpYQ+U2BsbZI5n3xTz8IqX3sdoNx9F7mmmbBQ4R+83cG44p7jxo/Sp08bIapso5WzG4=
+Received: from BN9PR03CA0776.namprd03.prod.outlook.com (2603:10b6:408:13a::31)
+ by MN2PR12MB4471.namprd12.prod.outlook.com (2603:10b6:208:26f::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.27; Fri, 16 Jun
+ 2023 06:58:42 +0000
+Received: from BN8NAM11FT091.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:13a:cafe::b1) by BN9PR03CA0776.outlook.office365.com
+ (2603:10b6:408:13a::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.29 via Frontend
+ Transport; Fri, 16 Jun 2023 06:58:42 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT091.mail.protection.outlook.com (10.13.176.134) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6500.29 via Frontend Transport; Fri, 16 Jun 2023 06:58:42 +0000
+Received: from equan-buildpc.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 16 Jun
+ 2023 01:58:36 -0500
+From: Evan Quan <evan.quan@amd.com>
+To: <rafael@kernel.org>, <lenb@kernel.org>, <Alexander.Deucher@amd.com>,
+ <Christian.Koenig@amd.com>, <Xinhui.Pan@amd.com>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>, <kvalo@kernel.org>, <nbd@nbd.name>, <lorenzo@kernel.org>,
+ <ryder.lee@mediatek.com>, <shayne.chen@mediatek.com>,
+ <sean.wang@mediatek.com>, <matthias.bgg@gmail.com>,
+ <angelogioacchino.delregno@collabora.com>, <Mario.Limonciello@amd.com>,
+ <Lijo.Lazar@amd.com>
+Subject: [PATCH V3 0/7] Support Wifi RFI interference mitigation feature
+Date: Fri, 16 Jun 2023 14:57:50 +0800
+Message-ID: <20230616065757.1054422-1-evan.quan@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SG2PR03MB4165.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4b175d07-b84a-46f3-193a-08db6e35eb56
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jun 2023 06:50:06.3216 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RsFT65PlBkaEWj359pW+LZuqYSgxJhPQ+w1wS8alDRjS0y+BkJymWSFOo0lczXpt2BZYROxFefOSFizmzMHIw5GFV8vWX1ejJx/WEHICeXk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR03MB8122
-Content-Type: multipart/alternative;
- boundary="__=_Part_Boundary_006_882039064.139032636"
-X-Mailman-Approved-At: Fri, 16 Jun 2023 07:30:22 +0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT091:EE_|MN2PR12MB4471:EE_
+X-MS-Office365-Filtering-Correlation-Id: a85935fe-bc41-4c82-3fff-08db6e371f0d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2P414eYWbX1C3GHQIGZOBfeO8difOgcbW+evqegs+ra2YK817cfxQCILD1YKZ+9PvFUE5pBVUvUt1s1c5MSq1sgSOPr86GqBJMvqmisqZIrRbZUFmZJgzGXCpkeW0O303r3wuHDxNiZo1bbRTvNqmqO2A/yszttNaRkA7GGa8d9f0uc4bt2cLL4zYj1lr1WDJ4lqyISv5mmt+uKMgxnhQ3lZf1dBB8H6AX3qsSxgOPCr6+/GzIhvqQvtjxZ/k6tDXlZ78BY1SUyUxXaZqwIPKBEjgtzMmeo76m6zLfsccUWZREh6MAp/rQZAsnLGRcitcd/nBn+1uamJgDyaTyd7WsmSu4Mm+I5E+LHLfd3xjGepW+tgHpPRK3pTZB+CjwQMcVMGyva1qy4+/hx/ewtZThTM81bR0RSDoFbMkTDd7rQYuiQJel5wwIafrgb+YZDkCdNiae7tGjSwtrVjrEgsiCMb54zXFxqQJASE4skDvCupORm74Y+0bwwOvQYTzbgrT3r3YoY1wuITVJUC9WHbVNqjsysT+V6CJUR/U+q98rUmitTJyWz36q4YvtzqfMh8WsCOhFmqs0pF8rsA2Z82RDBHWwPbQqCXCvQxb8EzyMbBws/hlBBIhXEu07ANOENwHIOvXfQ+ogZKSk9rgtJBVwGc9TGLHYxDx8pqyEkiFgOAWi3fevvGvE/DxZ8I9lsveseTvGU5vOvlk/hDICVJ2Ar7AqMjqupQ5AT9m6B71C2VxcDbE3n1i0SJyRCqTvUcb1aMVNaH/JM4IdNTNURPmit+YkmfM5PJwFvksUP6qWo=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(39860400002)(346002)(136003)(376002)(451199021)(46966006)(40470700004)(36840700001)(110136005)(54906003)(82310400005)(41300700001)(8676002)(86362001)(7696005)(8936002)(316002)(6666004)(70206006)(70586007)(4326008)(36756003)(6636002)(40460700003)(478600001)(36860700001)(7416002)(26005)(47076005)(44832011)(40480700001)(82740400003)(5660300002)(83380400001)(1076003)(426003)(16526019)(356005)(2906002)(186003)(81166007)(2616005)(336012)(921005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2023 06:58:42.5807 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a85935fe-bc41-4c82-3fff-08db6e371f0d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT091.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4471
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -169,215 +104,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-acpi@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Evan Quan <evan.quan@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---__=_Part_Boundary_006_882039064.139032636
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+Due to electrical and mechanical constraints in certain platform designs there may
+be likely interference of relatively high-powered harmonics of the (G-)DDR memory
+clocks with local radio module frequency bands used by Wifi 6/6e/7. To mitigate
+possible RFI interference producers can advertise the frequencies in use and
+consumers can use this information to avoid using these frequencies for
+sensitive features.
 
-PHByZT4NCkhpJiMzMjtNYXR0aGlhcywNCg0KSSYjMzI7d2lsbCYjMzI7dXBkYXRlJiMzMjt2MiYj
-MzI7dmVyc2lvbiYjMzI7YXMmIzMyO3lvdXImIzMyO3N1Z2dlc3Rpb24uDQoNCkJScywNClNodWlq
-aW5nDQoNCk9uJiMzMjtUaHUsJiMzMjsyMDIzLTA0LTEzJiMzMjthdCYjMzI7MTE6MDkmIzMyOysw
-MjAwLCYjMzI7TWF0dGhpYXMmIzMyO0JydWdnZXImIzMyO3dyb3RlOg0KJmd0OyYjMzI7RXh0ZXJu
-YWwmIzMyO2VtYWlsJiMzMjs6JiMzMjtQbGVhc2UmIzMyO2RvJiMzMjtub3QmIzMyO2NsaWNrJiMz
-MjtsaW5rcyYjMzI7b3ImIzMyO29wZW4mIzMyO2F0dGFjaG1lbnRzJiMzMjt1bnRpbA0KJmd0OyYj
-MzI7eW91JiMzMjtoYXZlJiMzMjt2ZXJpZmllZCYjMzI7dGhlJiMzMjtzZW5kZXImIzMyO29yJiMz
-Mjt0aGUmIzMyO2NvbnRlbnQuDQomZ3Q7JiMzMjsNCiZndDsmIzMyOw0KJmd0OyYjMzI7T24mIzMy
-OzEzLzA0LzIwMjMmIzMyOzA4OjA5LCYjMzI7eGlubGVpLmxlZUBtZWRpYXRlay5jb20mIzMyO3dy
-b3RlOg0KJmd0OyYjMzI7Jmd0OyYjMzI7RnJvbTomIzMyO1hpbmxlaSYjMzI7TGVlJiMzMjsmbHQ7
-eGlubGVpLmxlZUBtZWRpYXRlay5jb20mZ3Q7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsNCiZndDsmIzMy
-OyZndDsmIzMyO0ZvciYjMzI7bXQ4MTg4LCYjMzI7YWRkJiMzMjtkc2kmIzMyO2NtZHEmIzMyO3Jl
-ZyYjMzI7Y29udHJvbCYjMzI7dG8mIzMyO3NlbmQmIzMyO2xvbmcmIzMyO3BhY2tldHMmIzMyO3Rv
-JiMzMjtwYW5lbA0KJmd0OyYjMzI7Jmd0OyYjMzI7aW5pdGlhbGl6YXRpb24uDQomZ3Q7JiMzMjsm
-Z3Q7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMyO1NpZ25lZC1vZmYtYnk6JiMzMjtYaW5sZWkmIzMy
-O0xlZSYjMzI7Jmx0O3hpbmxlaS5sZWVAbWVkaWF0ZWsuY29tJmd0Ow0KJmd0OyYjMzI7Jmd0OyYj
-MzI7U2lnbmVkLW9mZi1ieTomIzMyO0ppdGFvJiMzMjtTaGkmIzMyOyZsdDtqaXRhby5zaGlAbWVk
-aWF0ZWsuY29tJmd0Ow0KJmd0OyYjMzI7Jmd0OyYjMzI7LS0tDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsm
-IzMyOyYjMzI7ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYyYjMzI7fCYjMzI7MTIm
-IzMyOysrKysrKysrKysrKw0KJmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjsmIzMyOzEmIzMyO2ZpbGUm
-IzMyO2NoYW5nZWQsJiMzMjsxMiYjMzI7aW5zZXJ0aW9ucygrKQ0KJmd0OyYjMzI7Jmd0OyYjMzI7
-DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtkaWZmJiMzMjstLWdpdCYjMzI7YS9kcml2ZXJzL2dwdS9kcm0v
-bWVkaWF0ZWsvbXRrX2RzaS5jDQomZ3Q7JiMzMjsmZ3Q7JiMzMjtiL2RyaXZlcnMvZ3B1L2RybS9t
-ZWRpYXRlay9tdGtfZHNpLmMNCiZndDsmIzMyOyZndDsmIzMyO2luZGV4JiMzMjs1MDBhMzA1NDI4
-MmQuLmNiZmU1ZGY0NjQ3YyYjMzI7MTAwNjQ0DQomZ3Q7JiMzMjsmZ3Q7JiMzMjstLS0mIzMyO2Ev
-ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYw0KJmd0OyYjMzI7Jmd0OyYjMzI7Kysr
-JiMzMjtiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHNpLmMNCiZndDsmIzMyOyZndDsm
-IzMyO0BAJiMzMjstODYsNiYjMzI7Kzg2LDcmIzMyO0BADQomZ3Q7JiMzMjsmZ3Q7JiMzMjsNCiZn
-dDsmIzMyOyZndDsmIzMyOyYjMzI7JiMzMjsjZGVmaW5lJiMzMjtEU0lfQ01EUV9TSVpFJiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7MHg2MA0KJmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjsmIzMyOyNkZWZpbmUmIzMy
-O0NNRFFfU0laRSYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7MHgzZg0KJmd0
-OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO0NNRFFfU0laRV9TRUwmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtCSVQoMTUpDQom
-Z3Q7JiMzMjsmZ3Q7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMyOyYjMzI7JiMzMjsjZGVmaW5lJiMz
-MjtEU0lfSFNUWF9DS0xfV0MmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOzB4NjQNCiZndDsmIzMyOyZndDsmIzMyOw0KJmd0OyYj
-MzI7Jmd0OyYjMzI7QEAmIzMyOy0xNzgsNiYjMzI7KzE3OSw3JiMzMjtAQCYjMzI7c3RydWN0JiMz
-MjttdGtfZHNpX2RyaXZlcl9kYXRhJiMzMjt7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjtjb25zdCYjMzI7dTMyJiMzMjtyZWdfY21kcV9vZmY7DQomZ3Q7
-JiMzMjsmZ3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtib29sJiMzMjtoYXNf
-c2hhZG93X2N0bDsNCiZndDsmIzMyOyZndDsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyO2Jvb2wmIzMyO2hhc19zaXplX2N0bDsNCiZndDsmIzMyOyZndDsmIzMyOysmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7Ym9vbCYjMzI7Y21kcV9sb25nX3BhY2tldF9jdGw7DQomZ3Q7JiMzMjsm
-Z3Q7JiMzMjsmIzMyOyYjMzI7fTsNCiZndDsmIzMyOyZndDsmIzMyOw0KJmd0OyYjMzI7Jmd0OyYj
-MzI7JiMzMjsmIzMyO3N0cnVjdCYjMzI7bXRrX2RzaSYjMzI7ew0KJmd0OyYjMzI7Jmd0OyYjMzI7
-QEAmIzMyOy05NjUsNiYjMzI7Kzk2NywxMSYjMzI7QEAmIzMyO3N0YXRpYyYjMzI7dTMyJiMzMjtt
-dGtfZHNpX3JlY3ZfY250KHU4JiMzMjt0eXBlLCYjMzI7dTgNCiZndDsmIzMyOyZndDsmIzMyOypy
-ZWFkX2RhdGEpDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjtyZXR1cm4mIzMyOzA7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzMyOyYjMzI7fQ0KJmd0OyYjMzI7
-Jmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrc3RhdGljJiMzMjt2b2lkJiMzMjttdGtfZHNp
-X2NtZF9wYWNrZXRfY3RsKHN0cnVjdCYjMzI7bXRrX2RzaSYjMzI7KmRzaSkNCiZndDsmIzMyOyZn
-dDsmIzMyOyt7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO210
-a19kc2lfbWFzayhkc2ksJiMzMjtEU0lfQ01EUV9TSVpFLCYjMzI7Q01EUV9TSVpFX1NFTCwNCiZn
-dDsmIzMyOyZndDsmIzMyO0NNRFFfU0laRV9TRUwpOw0KJmd0OyYjMzI7Jmd0OyYjMzI7K30NCiZn
-dDsmIzMyOyZndDsmIzMyOysNCiZndDsmIzMyOyZndDsmIzMyOyYjMzI7JiMzMjtzdGF0aWMmIzMy
-O3ZvaWQmIzMyO210a19kc2lfY21kcShzdHJ1Y3QmIzMyO210a19kc2kmIzMyOypkc2ksJiMzMjtj
-b25zdCYjMzI7c3RydWN0DQomZ3Q7JiMzMjsmZ3Q7JiMzMjttaXBpX2RzaV9tc2cmIzMyOyptc2cp
-DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzMyOyYjMzI7ew0KJmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7Y29uc3QmIzMyO2NoYXImIzMyOyp0eF9idWYmIzMyOz0m
-IzMyO21zZy0mZ3Q7dHhfYnVmOw0KJmd0OyYjMzI7Jmd0OyYjMzI7QEAmIzMyOy05OTYsNiYjMzI7
-KzEwMDMsOCYjMzI7QEAmIzMyO3N0YXRpYyYjMzI7dm9pZCYjMzI7bXRrX2RzaV9jbWRxKHN0cnVj
-dCYjMzI7bXRrX2RzaSYjMzI7KmRzaSwNCiZndDsmIzMyOyZndDsmIzMyO2NvbnN0JiMzMjtzdHJ1
-Y3QmIzMyO21pcGlfZHNpX21zZyYjMzI7Km1zZykNCiZndDsmIzMyOyZndDsmIzMyOw0KJmd0OyYj
-MzI7Jmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7bXRrX2RzaV9tYXNrKGRz
-aSwmIzMyO3JlZ19jbWRxX29mZiwmIzMyO2NtZHFfbWFzaywmIzMyO3JlZ192YWwpOw0KJmd0OyYj
-MzI7Jmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7bXRrX2RzaV9tYXNrKGRz
-aSwmIzMyO0RTSV9DTURRX1NJWkUsJiMzMjtDTURRX1NJWkUsJiMzMjtjbWRxX3NpemUpOw0KJmd0
-OyYjMzI7Jmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtpZiYjMzI7KGRzaS0mZ3Q7
-ZHJpdmVyX2RhdGEtJmd0O2NtZHFfbG9uZ19wYWNrZXRfY3RsKQ0KJmd0OyYjMzI7Jmd0OyYjMzI7
-KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7bXRrX2RzaV9jbWRfcGFja2V0X2N0bChkc2kpOw0KJmd0OyYjMzI7DQomZ3Q7JiMz
-MjtXaHkmIzMyO2RvbiYjMzk7dCYjMzI7eW91JiMzMjtwdXQmIzMyO3RoZSYjMzI7b25saW5lcg0K
-Jmd0OyYjMzI7bXRrX2RzaV9tYXNrKGRzaSwmIzMyO0RTSV9DTURRX1NJWkUsJiMzMjtDTURRX1NJ
-WkVfU0VMLCYjMzI7Q01EUV9TSVpFX1NFTCk7DQomZ3Q7JiMzMjtkaXJlY3RseSYjMzI7aGVyZS4m
-IzMyO1BsZWFzZSYjMzI7aGVscCYjMzI7bWUmIzMyO3VuZGVyc3RhbmQmIzMyO3doeSYjMzI7YWRk
-aW5nJiMzMjthbm90aGVyDQomZ3Q7JiMzMjtpbmRpcmVjdGlvbiYjMzI7aXMNCiZndDsmIzMyO3Vz
-ZWZ1bGwmIzMyO2hlcmUuDQomZ3Q7JiMzMjsNCiZndDsmIzMyO0Jlc3QmIzMyO3JlZ2FyZHMsDQom
-Z3Q7JiMzMjtNYXR0aGlhcw0KJmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzMyOyYjMzI7
-fQ0KJmd0OyYjMzI7Jmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzMyOyYjMzI7c3RhdGlj
-JiMzMjtzc2l6ZV90JiMzMjttdGtfZHNpX2hvc3Rfc2VuZF9jbWQoc3RydWN0JiMzMjttdGtfZHNp
-JiMzMjsqZHNpLA0KJmd0OyYjMzI7Jmd0OyYjMzI7QEAmIzMyOy0xMjAwLDE4JiMzMjsrMTIwOSwy
-MSYjMzI7QEAmIzMyO3N0YXRpYyYjMzI7Y29uc3QmIzMyO3N0cnVjdCYjMzI7bXRrX2RzaV9kcml2
-ZXJfZGF0YQ0KJmd0OyYjMzI7Jmd0OyYjMzI7bXQ4MTgzX2RzaV9kcml2ZXJfZGF0YSYjMzI7PSYj
-MzI7ew0KJmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7LnJl
-Z19jbWRxX29mZiYjMzI7PSYjMzI7MHgyMDAsDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsuaGFzX3NoYWRvd19jdGwmIzMyOz0mIzMyO3RydWUsDQomZ3Q7
-JiMzMjsmZ3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsuaGFzX3NpemVfY3Rs
-JiMzMjs9JiMzMjt0cnVlLA0KJmd0OyYjMzI7Jmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsuY21kcV9sb25nX3BhY2tldF9jdGwmIzMyOz0mIzMyO2ZhbHNlLA0KJmd0OyYjMzI7Jmd0
-OyYjMzI7JiMzMjsmIzMyO307DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMy
-OyYjMzI7JiMzMjtzdGF0aWMmIzMyO2NvbnN0JiMzMjtzdHJ1Y3QmIzMyO210a19kc2lfZHJpdmVy
-X2RhdGEmIzMyO210ODE4Nl9kc2lfZHJpdmVyX2RhdGEmIzMyOz0NCiZndDsmIzMyOyZndDsmIzMy
-O3sNCiZndDsmIzMyOyZndDsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOy5yZWdf
-Y21kcV9vZmYmIzMyOz0mIzMyOzB4ZDAwLA0KJmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7Lmhhc19zaGFkb3dfY3RsJiMzMjs9JiMzMjt0cnVlLA0KJmd0OyYj
-MzI7Jmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7Lmhhc19zaXplX2N0bCYj
-MzI7PSYjMzI7dHJ1ZSwNCiZndDsmIzMyOyZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7LmNtZHFfbG9uZ19wYWNrZXRfY3RsJiMzMjs9JiMzMjtmYWxzZSwNCiZndDsmIzMyOyZndDsm
-IzMyOyYjMzI7JiMzMjt9Ow0KJmd0OyYjMzI7Jmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsm
-IzMyOyYjMzI7c3RhdGljJiMzMjtjb25zdCYjMzI7c3RydWN0JiMzMjttdGtfZHNpX2RyaXZlcl9k
-YXRhJiMzMjttdDgxODhfZHNpX2RyaXZlcl9kYXRhJiMzMjs9DQomZ3Q7JiMzMjsmZ3Q7JiMzMjt7
-DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsucmVnX2Nt
-ZHFfb2ZmJiMzMjs9JiMzMjsweGQwMCwNCiZndDsmIzMyOyZndDsmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7JiMzMjsmIzMyOy5oYXNfc2hhZG93X2N0bCYjMzI7PSYjMzI7dHJ1ZSwNCiZndDsmIzMy
-OyZndDsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOy5oYXNfc2l6ZV9jdGwmIzMy
-Oz0mIzMyO3RydWUsDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-Oy5jbWRxX2xvbmdfcGFja2V0X2N0bCYjMzI7PSYjMzI7dHJ1ZSwNCiZndDsmIzMyOyZndDsmIzMy
-OyYjMzI7JiMzMjt9Ow0KJmd0OyYjMzI7Jmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzMy
-OyYjMzI7c3RhdGljJiMzMjtjb25zdCYjMzI7c3RydWN0JiMzMjtvZl9kZXZpY2VfaWQmIzMyO210
-a19kc2lfb2ZfbWF0Y2hbXSYjMzI7PSYjMzI7ew0KDQo8L3ByZT48IS0tdHlwZTp0ZXh0LS0+PCEt
-LXstLT48cHJlPioqKioqKioqKioqKiogTUVESUFURUsgQ29uZmlkZW50aWFsaXR5IE5vdGljZQ0K
-ICoqKioqKioqKioqKioqKioqKioqDQpUaGUgaW5mb3JtYXRpb24gY29udGFpbmVkIGluIHRoaXMg
-ZS1tYWlsIG1lc3NhZ2UgKGluY2x1ZGluZyBhbnkgDQphdHRhY2htZW50cykgbWF5IGJlIGNvbmZp
-ZGVudGlhbCwgcHJvcHJpZXRhcnksIHByaXZpbGVnZWQsIG9yIG90aGVyd2lzZQ0KZXhlbXB0IGZy
-b20gZGlzY2xvc3VyZSB1bmRlciBhcHBsaWNhYmxlIGxhd3MuIEl0IGlzIGludGVuZGVkIHRvIGJl
-IA0KY29udmV5ZWQgb25seSB0byB0aGUgZGVzaWduYXRlZCByZWNpcGllbnQocykuIEFueSB1c2Us
-IGRpc3NlbWluYXRpb24sIA0KZGlzdHJpYnV0aW9uLCBwcmludGluZywgcmV0YWluaW5nIG9yIGNv
-cHlpbmcgb2YgdGhpcyBlLW1haWwgKGluY2x1ZGluZyBpdHMgDQphdHRhY2htZW50cykgYnkgdW5p
-bnRlbmRlZCByZWNpcGllbnQocykgaXMgc3RyaWN0bHkgcHJvaGliaXRlZCBhbmQgbWF5IA0KYmUg
-dW5sYXdmdWwuIElmIHlvdSBhcmUgbm90IGFuIGludGVuZGVkIHJlY2lwaWVudCBvZiB0aGlzIGUt
-bWFpbCwgb3IgYmVsaWV2ZQ0KIA0KdGhhdCB5b3UgaGF2ZSByZWNlaXZlZCB0aGlzIGUtbWFpbCBp
-biBlcnJvciwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVyIA0KaW1tZWRpYXRlbHkgKGJ5IHJlcGx5
-aW5nIHRvIHRoaXMgZS1tYWlsKSwgZGVsZXRlIGFueSBhbmQgYWxsIGNvcGllcyBvZiANCnRoaXMg
-ZS1tYWlsIChpbmNsdWRpbmcgYW55IGF0dGFjaG1lbnRzKSBmcm9tIHlvdXIgc3lzdGVtLCBhbmQg
-ZG8gbm90DQpkaXNjbG9zZSB0aGUgY29udGVudCBvZiB0aGlzIGUtbWFpbCB0byBhbnkgb3RoZXIg
-cGVyc29uLiBUaGFuayB5b3UhDQo8L3ByZT48IS0tfS0tPg==
+The whole patch set is based on 6.4-rc3. With some brief introductions as below:
+Patch1:     Core ACPI interfaces needed to support WBRF feature.
+Patch2:     Enable WBRF support for wifi subsystem.
+Patch3 - 7: Enable WBRF support for AMD graphics driver.
 
---__=_Part_Boundary_006_882039064.139032636
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+Evan Quan (5):
+  drm/amd/pm: update driver_if and ppsmc headers for coming wbrf feature
+  drm/amd/pm: setup the framework to support Wifi RFI mitigation feature
+  drm/amd/pm: add flood detection for wbrf events
+  drm/amd/pm: enable Wifi RFI mitigation feature support for SMU13.0.0
+  drm/amd/pm: enable Wifi RFI mitigation feature support for SMU13.0.7
 
-SGkgTWF0dGhpYXMsDQoNCkkgd2lsbCB1cGRhdGUgdjIgdmVyc2lvbiBhcyB5b3VyIHN1Z2dlc3Rp
-b24uDQoNCkJScywNClNodWlqaW5nDQoNCk9uIFRodSwgMjAyMy0wNC0xMyBhdCAxMTowOSArMDIw
-MCwgTWF0dGhpYXMgQnJ1Z2dlciB3cm90ZToNCj4gRXh0ZXJuYWwgZW1haWwgOiBQbGVhc2UgZG8g
-bm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0YWNobWVudHMgdW50aWwNCj4geW91IGhhdmUgdmVy
-aWZpZWQgdGhlIHNlbmRlciBvciB0aGUgY29udGVudC4NCj4gDQo+IA0KPiBPbiAxMy8wNC8yMDIz
-IDA4OjA5LCB4aW5sZWkubGVlQG1lZGlhdGVrLmNvbSB3cm90ZToNCj4gPiBGcm9tOiBYaW5sZWkg
-TGVlIDx4aW5sZWkubGVlQG1lZGlhdGVrLmNvbT4NCj4gPiANCj4gPiBGb3IgbXQ4MTg4LCBhZGQg
-ZHNpIGNtZHEgcmVnIGNvbnRyb2wgdG8gc2VuZCBsb25nIHBhY2tldHMgdG8gcGFuZWwNCj4gPiBp
-bml0aWFsaXphdGlvbi4NCj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBYaW5sZWkgTGVlIDx4aW5s
-ZWkubGVlQG1lZGlhdGVrLmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBKaXRhbyBTaGkgPGppdGFv
-LnNoaUBtZWRpYXRlay5jb20+DQo+ID4gLS0tDQo+ID4gICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0
-ZWsvbXRrX2RzaS5jIHwgMTIgKysrKysrKysrKysrDQo+ID4gICAxIGZpbGUgY2hhbmdlZCwgMTIg
-aW5zZXJ0aW9ucygrKQ0KPiA+IA0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVk
-aWF0ZWsvbXRrX2RzaS5jDQo+ID4gYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RzaS5j
-DQo+ID4gaW5kZXggNTAwYTMwNTQyODJkLi5jYmZlNWRmNDY0N2MgMTAwNjQ0DQo+ID4gLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYw0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9tZWRpYXRlay9tdGtfZHNpLmMNCj4gPiBAQCAtODYsNiArODYsNyBAQA0KPiA+IA0KPiA+
-ICAgI2RlZmluZSBEU0lfQ01EUV9TSVpFICAgICAgICAgICAgICAgMHg2MA0KPiA+ICAgI2RlZmlu
-ZSBDTURRX1NJWkUgICAgICAgICAgICAgICAgICAgMHgzZg0KPiA+ICsjZGVmaW5lIENNRFFfU0la
-RV9TRUwgICAgICAgICAgICAgICAgICAgICAgICBCSVQoMTUpDQo+ID4gDQo+ID4gICAjZGVmaW5l
-IERTSV9IU1RYX0NLTF9XQyAgICAgICAgICAgICAweDY0DQo+ID4gDQo+ID4gQEAgLTE3OCw2ICsx
-NzksNyBAQCBzdHJ1Y3QgbXRrX2RzaV9kcml2ZXJfZGF0YSB7DQo+ID4gICAgICAgY29uc3QgdTMy
-IHJlZ19jbWRxX29mZjsNCj4gPiAgICAgICBib29sIGhhc19zaGFkb3dfY3RsOw0KPiA+ICAgICAg
-IGJvb2wgaGFzX3NpemVfY3RsOw0KPiA+ICsgICAgIGJvb2wgY21kcV9sb25nX3BhY2tldF9jdGw7
-DQo+ID4gICB9Ow0KPiA+IA0KPiA+ICAgc3RydWN0IG10a19kc2kgew0KPiA+IEBAIC05NjUsNiAr
-OTY3LDExIEBAIHN0YXRpYyB1MzIgbXRrX2RzaV9yZWN2X2NudCh1OCB0eXBlLCB1OA0KPiA+ICpy
-ZWFkX2RhdGEpDQo+ID4gICAgICAgcmV0dXJuIDA7DQo+ID4gICB9DQo+ID4gDQo+ID4gK3N0YXRp
-YyB2b2lkIG10a19kc2lfY21kX3BhY2tldF9jdGwoc3RydWN0IG10a19kc2kgKmRzaSkNCj4gPiAr
-ew0KPiA+ICsgICAgIG10a19kc2lfbWFzayhkc2ksIERTSV9DTURRX1NJWkUsIENNRFFfU0laRV9T
-RUwsDQo+ID4gQ01EUV9TSVpFX1NFTCk7DQo+ID4gK30NCj4gPiArDQo+ID4gICBzdGF0aWMgdm9p
-ZCBtdGtfZHNpX2NtZHEoc3RydWN0IG10a19kc2kgKmRzaSwgY29uc3Qgc3RydWN0DQo+ID4gbWlw
-aV9kc2lfbXNnICptc2cpDQo+ID4gICB7DQo+ID4gICAgICAgY29uc3QgY2hhciAqdHhfYnVmID0g
-bXNnLT50eF9idWY7DQo+ID4gQEAgLTk5Niw2ICsxMDAzLDggQEAgc3RhdGljIHZvaWQgbXRrX2Rz
-aV9jbWRxKHN0cnVjdCBtdGtfZHNpICpkc2ksDQo+ID4gY29uc3Qgc3RydWN0IG1pcGlfZHNpX21z
-ZyAqbXNnKQ0KPiA+IA0KPiA+ICAgICAgIG10a19kc2lfbWFzayhkc2ksIHJlZ19jbWRxX29mZiwg
-Y21kcV9tYXNrLCByZWdfdmFsKTsNCj4gPiAgICAgICBtdGtfZHNpX21hc2soZHNpLCBEU0lfQ01E
-UV9TSVpFLCBDTURRX1NJWkUsIGNtZHFfc2l6ZSk7DQo+ID4gKyAgICAgaWYgKGRzaS0+ZHJpdmVy
-X2RhdGEtPmNtZHFfbG9uZ19wYWNrZXRfY3RsKQ0KPiA+ICsgICAgICAgICAgICAgbXRrX2RzaV9j
-bWRfcGFja2V0X2N0bChkc2kpOw0KPiANCj4gV2h5IGRvbid0IHlvdSBwdXQgdGhlIG9ubGluZXIN
-Cj4gbXRrX2RzaV9tYXNrKGRzaSwgRFNJX0NNRFFfU0laRSwgQ01EUV9TSVpFX1NFTCwgQ01EUV9T
-SVpFX1NFTCk7DQo+IGRpcmVjdGx5IGhlcmUuIFBsZWFzZSBoZWxwIG1lIHVuZGVyc3RhbmQgd2h5
-IGFkZGluZyBhbm90aGVyDQo+IGluZGlyZWN0aW9uIGlzDQo+IHVzZWZ1bGwgaGVyZS4NCj4gDQo+
-IEJlc3QgcmVnYXJkcywNCj4gTWF0dGhpYXMNCj4gDQo+ID4gICB9DQo+ID4gDQo+ID4gICBzdGF0
-aWMgc3NpemVfdCBtdGtfZHNpX2hvc3Rfc2VuZF9jbWQoc3RydWN0IG10a19kc2kgKmRzaSwNCj4g
-PiBAQCAtMTIwMCwxOCArMTIwOSwyMSBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IG10a19kc2lfZHJp
-dmVyX2RhdGENCj4gPiBtdDgxODNfZHNpX2RyaXZlcl9kYXRhID0gew0KPiA+ICAgICAgIC5yZWdf
-Y21kcV9vZmYgPSAweDIwMCwNCj4gPiAgICAgICAuaGFzX3NoYWRvd19jdGwgPSB0cnVlLA0KPiA+
-ICAgICAgIC5oYXNfc2l6ZV9jdGwgPSB0cnVlLA0KPiA+ICsgICAgIC5jbWRxX2xvbmdfcGFja2V0
-X2N0bCA9IGZhbHNlLA0KPiA+ICAgfTsNCj4gPiANCj4gPiAgIHN0YXRpYyBjb25zdCBzdHJ1Y3Qg
-bXRrX2RzaV9kcml2ZXJfZGF0YSBtdDgxODZfZHNpX2RyaXZlcl9kYXRhID0NCj4gPiB7DQo+ID4g
-ICAgICAgLnJlZ19jbWRxX29mZiA9IDB4ZDAwLA0KPiA+ICAgICAgIC5oYXNfc2hhZG93X2N0bCA9
-IHRydWUsDQo+ID4gICAgICAgLmhhc19zaXplX2N0bCA9IHRydWUsDQo+ID4gKyAgICAgLmNtZHFf
-bG9uZ19wYWNrZXRfY3RsID0gZmFsc2UsDQo+ID4gICB9Ow0KPiA+IA0KPiA+ICAgc3RhdGljIGNv
-bnN0IHN0cnVjdCBtdGtfZHNpX2RyaXZlcl9kYXRhIG10ODE4OF9kc2lfZHJpdmVyX2RhdGEgPQ0K
-PiA+IHsNCj4gPiAgICAgICAucmVnX2NtZHFfb2ZmID0gMHhkMDAsDQo+ID4gICAgICAgLmhhc19z
-aGFkb3dfY3RsID0gdHJ1ZSwNCj4gPiAgICAgICAuaGFzX3NpemVfY3RsID0gdHJ1ZSwNCj4gPiAr
-ICAgICAuY21kcV9sb25nX3BhY2tldF9jdGwgPSB0cnVlLA0KPiA+ICAgfTsNCj4gPiANCj4gPiAg
-IHN0YXRpYyBjb25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIG10a19kc2lfb2ZfbWF0Y2hbXSA9IHsN
-Cg==
+Mario Limonciello (2):
+  drivers/acpi: Add support for Wifi band RF mitigations
+  wifi: mac80211: Add support for ACPI WBRF
 
---__=_Part_Boundary_006_882039064.139032636--
+ drivers/acpi/Kconfig                          |   7 +
+ drivers/acpi/Makefile                         |   2 +
+ drivers/acpi/acpi_wbrf.c                      | 215 ++++++++++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h           |  26 +++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c      |  63 +++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  19 ++
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c     | 204 +++++++++++++++++
+ drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h |  30 +++
+ .../inc/pmfw_if/smu13_driver_if_v13_0_0.h     |  14 +-
+ .../inc/pmfw_if/smu13_driver_if_v13_0_7.h     |  14 +-
+ .../pm/swsmu/inc/pmfw_if/smu_v13_0_0_ppsmc.h  |   3 +-
+ .../pm/swsmu/inc/pmfw_if/smu_v13_0_7_ppsmc.h  |   3 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h  |   3 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h  |   3 +
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c    |   9 +
+ .../drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c  |  60 +++++
+ .../drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c  |  59 +++++
+ drivers/gpu/drm/amd/pm/swsmu/smu_internal.h   |   3 +
+ include/linux/wbrf.h                          |  55 +++++
+ include/net/cfg80211.h                        |   8 +
+ net/mac80211/Makefile                         |   2 +
+ net/mac80211/chan.c                           |  11 +
+ net/mac80211/ieee80211_i.h                    |  19 ++
+ net/mac80211/main.c                           |   2 +
+ net/mac80211/wbrf.c                           | 137 +++++++++++
+ net/wireless/chan.c                           |   3 +-
+ 26 files changed, 968 insertions(+), 6 deletions(-)
+ create mode 100644 drivers/acpi/acpi_wbrf.c
+ create mode 100644 include/linux/wbrf.h
+ create mode 100644 net/mac80211/wbrf.c
+
+-- 
+2.34.1
 
