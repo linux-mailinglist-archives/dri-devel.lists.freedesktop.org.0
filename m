@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C9B57330F4
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 14:15:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAA097330F5
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 14:15:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B026D10E608;
-	Fri, 16 Jun 2023 12:15:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD51F10E609;
+	Fri, 16 Jun 2023 12:15:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-relay-internal-1.canonical.com
  (smtp-relay-internal-1.canonical.com [185.125.188.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 234F610E608
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BB0910E609
  for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 12:15:08 +0000 (UTC)
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200])
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 15BD33F04C
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 12:05:39 +0000 (UTC)
+ by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 949253F36A
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 12:07:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1686917139;
- bh=m7ySH3JrcTV8+yw7ueBFG47cxZsJ9e+MajPgheIKd1w=;
+ s=20210705; t=1686917228;
+ bh=HXrbrNjx5wkbmZikN4dyh9skh67sgOUdUExxc/zzJTU=;
  h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
- b=sgvBiES5LemzjKmE5arXKRcu7Tc5bUYOste+4GM84XMboqjj399vY+XAcF+GxVqLr
- J+YhN/FibZAZUhdkseItgGZNB74pE+o9t5A1zcfycYX693rh1/o3FEUO3vtohA+2gj
- nR/MiSi480xNUKe0zUl6e7TJ5aOFeKJAIpDpn1y4khNo17oF0GhXVeSP4rcQ8J5Dfx
- fO4p2VvrUTT0GA966CJ5h8efNMnbqq6hlWRABd+W42PBKcrmRU3P+0oQttw8UhZHkU
- CQLIuLC0SCH4EqQ/BMgCwPjJOxJYswOuti07KghoNB3bUZxCUaBCJxhZAGRLxryCdD
- F/h6C/LSKDUQw==
-Received: by mail-lj1-f200.google.com with SMTP id
- 38308e7fff4ca-2b45e987207so523161fa.1
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 05:05:39 -0700 (PDT)
+ b=C5vVY7DCWb+XWlyf/eb8f6T/8YVm+QwqG8ki5qc2Jah4kCjENpXIzvQySs9Rj8+Ec
+ gvaj6b0YcuvJ77JLp9POeFUq50DZ7FX5Sax08VMH3/5ehnvhFHV/UjAr07GfiKjB0w
+ LLtei/zyHGvtjjiLPgU8R2b7JUiHsJch3BXIBlZhPQGicry2p/t1QU8jI+ty1eHDzL
+ ffWbJnmgYHZaVwcpAKpaQkRF0tYANx+UdIo5pYK8KvEhEBOEHqLW/yUbe9OUIFdJcY
+ Vzea1orGhINbxLkDgtdDXQgMDhMLI2bX8DIvAX8N9UO2WTvowN1NUv//pTL9w9hA3m
+ DH5eiboAuYqnQ==
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-30e4d85e1ffso800498f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 05:07:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686917138; x=1689509138;
+ d=1e100.net; s=20221208; t=1686917228; x=1689509228;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=m7ySH3JrcTV8+yw7ueBFG47cxZsJ9e+MajPgheIKd1w=;
- b=LRDyEo3xCMUjErGc3cCBOrqjVovxzm38dHVX/jf0D0TC/MZ3s9dDB4HBRv80Jew/5M
- SC8oqnJtUa95H+JuccFaXfPT5Q9uY79Rm4Xtg2e6tCcHKze9eMXGQKjis2htpCgwNFxj
- MVbTu2zJti37rvto48yKbyg9HA5dkR6Sds02ptcXmgVzkqxEmo074257PI/+eVkXfBsd
- 1kmDHbrD01huP/phEbdYUiS+Dx9VHHMoqQdmteR2JsNI2u9U2hKqwbBFsmInWfwCmDvt
- g7Ub1EKIzN8YVTYFeaM/MplYjSNKaNDxFfQKNtYPp3w0V8r0AUk9mbSpvRfV28bfGF5v
- 8WsQ==
-X-Gm-Message-State: AC+VfDyZyycGAtpJUbiA/JtNYNDNzOqix4R3WzwiAg4VIHkakxF2Pr1Z
- TMoUkzW7h2s54zKm3ILvBxmmAv1+jhYPtSGObOTyDa3aWkkt5VwKhEhS2Y9zBDqwHXtPAjpkvmw
- LWZVe2nXP/tgeJK9wZ4t6sMCplK1BO1wmGo5HtOdEd6gfYQ==
-X-Received: by 2002:ac2:5f9b:0:b0:4f3:78c2:2a6d with SMTP id
- r27-20020ac25f9b000000b004f378c22a6dmr1288644lfe.3.1686917138628; 
- Fri, 16 Jun 2023 05:05:38 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ75fXyeKCuznl3pidwrqckduT+X32ZYDJY7P5oHI98szTnf3jjwPSD9DqOJGAXHWnqzY1XyWA==
-X-Received: by 2002:ac2:5f9b:0:b0:4f3:78c2:2a6d with SMTP id
- r27-20020ac25f9b000000b004f378c22a6dmr1288629lfe.3.1686917138336; 
- Fri, 16 Jun 2023 05:05:38 -0700 (PDT)
+ bh=HXrbrNjx5wkbmZikN4dyh9skh67sgOUdUExxc/zzJTU=;
+ b=j02EOxYC8mghCfKMWHZEkyVJWWX8hh9tVM6lykSqlQj6Z0d0xQbm9MFrNatSu8ZUd7
+ bNPLrGHLRlM4xdYgDG4AshGFNjGAOJvad7zhMBJrQjZ/9WzgRuWwLvAGjKrXvIkvCZZX
+ lmc9REcgQKUmTMmFx5BMFooaPuZ6llwFNVO8B+bEXPOotqH64l4e9pM0UrlUHy/VnqFo
+ qBsP6fqK2cpfYuha4q9hrqMEbkaC+VLRrGQMDLPM7ScRlewj+5m8bQGO5NSJnwdkoUVw
+ k5p75PLMj/2a3dMIZ6wWUjEBmeanOyHEOwN4f9sl20e0h/IltFhnbOjgkNFGYQYNM5F6
+ WSGA==
+X-Gm-Message-State: AC+VfDw0gjulejcf9HvWUMk3NDDX0nwYkpXk/KvJt3nKVz+UuPT8mc4O
+ cYp8q+1uu9084p14q34Lvkd9Do2yDhmVduI1wGyAdpSb0vRyE+eloMApmL6ei0ntQoOZx/PaoS3
+ vnLG2LycgNVvP97vjwiN8gsRVjqQgrAoYxvRi5NBLJStguA==
+X-Received: by 2002:adf:f30b:0:b0:311:1390:7b55 with SMTP id
+ i11-20020adff30b000000b0031113907b55mr1318545wro.68.1686917228274; 
+ Fri, 16 Jun 2023 05:07:08 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6y5XukSe+P9vq+zfXWohqAIWdKqIQWbdE7ej4TGZZFMtoW9oJ1tfvYWN7PDP7vhBlrCWHGmQ==
+X-Received: by 2002:adf:f30b:0:b0:311:1390:7b55 with SMTP id
+ i11-20020adff30b000000b0031113907b55mr1318529wro.68.1686917227945; 
+ Fri, 16 Jun 2023 05:07:07 -0700 (PDT)
 Received: from localhost ([194.191.244.86]) by smtp.gmail.com with ESMTPSA id
- c25-20020a05600c0ad900b003f18b942338sm2068082wmr.3.2023.06.16.05.05.37
+ q7-20020adff947000000b0030af72bca98sm23428851wrr.103.2023.06.16.05.07.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Jun 2023 05:05:37 -0700 (PDT)
+ Fri, 16 Jun 2023 05:07:07 -0700 (PDT)
 From: Juerg Haefliger <juerg.haefliger@canonical.com>
 To: deller@gmx.de, linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH] fbdev: metronomefb: Add MODULE_FIRMWARE macro
-Date: Fri, 16 Jun 2023 14:05:29 +0200
-Message-Id: <20230616120529.1028798-1-juerg.haefliger@canonical.com>
+Subject: [PATCH] fbdev: broadsheetfb: Add MODULE_FIRMWARE macro
+Date: Fri, 16 Jun 2023 14:07:05 +0200
+Message-Id: <20230616120705.1030177-1-juerg.haefliger@canonical.com>
 X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -89,19 +89,19 @@ information via modinfo.
 
 Signed-off-by: Juerg Haefliger <juerg.haefliger@canonical.com>
 ---
- drivers/video/fbdev/metronomefb.c | 2 ++
+ drivers/video/fbdev/broadsheetfb.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/video/fbdev/metronomefb.c b/drivers/video/fbdev/metronomefb.c
-index bbdbf463f0c8..4e50882d080c 100644
---- a/drivers/video/fbdev/metronomefb.c
-+++ b/drivers/video/fbdev/metronomefb.c
-@@ -778,3 +778,5 @@ MODULE_PARM_DESC(user_wfm_size, "Set custom waveform size");
- MODULE_DESCRIPTION("fbdev driver for Metronome controller");
+diff --git a/drivers/video/fbdev/broadsheetfb.c b/drivers/video/fbdev/broadsheetfb.c
+index b518cacbf7cd..678d182d187d 100644
+--- a/drivers/video/fbdev/broadsheetfb.c
++++ b/drivers/video/fbdev/broadsheetfb.c
+@@ -1223,3 +1223,5 @@ module_platform_driver(broadsheetfb_driver);
+ MODULE_DESCRIPTION("fbdev driver for Broadsheet controller");
  MODULE_AUTHOR("Jaya Kumar");
  MODULE_LICENSE("GPL");
 +
-+MODULE_FIRMWARE("metronome.wbf");
++MODULE_FIRMWARE("broadsheet.wbf");
 -- 
 2.37.2
 
