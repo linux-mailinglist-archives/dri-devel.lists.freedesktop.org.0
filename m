@@ -1,61 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B23F73338B
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 16:26:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38F1B733395
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 16:30:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEDE210E642;
-	Fri, 16 Jun 2023 14:26:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7389810E641;
+	Fri, 16 Jun 2023 14:30:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAEBC10E642
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 14:26:01 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 35GEPh48037867;
- Fri, 16 Jun 2023 09:25:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1686925543;
- bh=Pvjp0zpmxsyuufHh7izfqxh0vKwlbuqJ0cxBzxOE1HE=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=y1ZTPJL+wEFXp3CZbtgCoafIvbOaB/e64sWqx/XPgZOrKwbBN12flulCRctHP2XX6
- j4gY2NmU3GsH+oXm+6uu3fpT5oK1gEwhjsoioFTQWFXBstGaf7jTMkONl2R+KOnsXW
- SVBVwrxWEi61uMIH92SSZ08mXRl52EgGUWrOO++E=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 35GEPhev001555
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 16 Jun 2023 09:25:43 -0500
-Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 16
- Jun 2023 09:25:43 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 16 Jun 2023 09:25:43 -0500
-Received: from [172.24.217.203] (ileaxei01-snat.itg.ti.com [10.180.69.5])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 35GEPc20009741;
- Fri, 16 Jun 2023 09:25:38 -0500
-Message-ID: <04785de2-6096-95ea-71fe-428796a4d65a@ti.com>
-Date: Fri, 16 Jun 2023 19:55:37 +0530
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EBC7C10E641
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 14:30:35 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8BxKuoKcoxktQEGAA--.12822S3;
+ Fri, 16 Jun 2023 22:30:34 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8CxG8oJcoxk614dAA--.8835S3; 
+ Fri, 16 Jun 2023 22:30:34 +0800 (CST)
+Message-ID: <8cd7c335-5592-66b5-fda4-2744d9bca1cd@loongson.cn>
+Date: Fri, 16 Jun 2023 22:30:33 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v8 2/2] drm/tidss: Add support for AM625 DSS
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Jyri Sarha
- <jyri.sarha@iki.fi>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
-References: <20230608163734.2578-1-a-bhatia1@ti.com>
- <20230608163734.2578-3-a-bhatia1@ti.com>
- <5eb55b7d-f1e9-0dbe-cbbf-bd27ae521e5f@ideasonboard.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 00/14] drm/ast: Refactor the device-detection code
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ jfalempe@redhat.com, daniel@ffwll.ch, jammy_huang@aspeedtech.com
+References: <20230616140739.32042-1-tzimmermann@suse.de>
 Content-Language: en-US
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-In-Reply-To: <5eb55b7d-f1e9-0dbe-cbbf-bd27ae521e5f@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <20230616140739.32042-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8CxG8oJcoxk614dAA--.8835S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7Ary3ZrW8uw47uF1rJFWkAFc_yoW8Kr4Dpa
+ y5JaySyrs5J3y2qF4fGw45ZFyfJan3Jw40qrnaqw1S934jvw1v9rn5Ka15uasrGFyfAFyj
+ vFyIqrWrGr1UA3gCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
+ Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2jsIE
+ 14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1c
+ AE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8C
+ rVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtw
+ CIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x02
+ 67AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr
+ 0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8w0
+ eJUUUUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,53 +65,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Jayesh Choudhary <j-choudhary@ti.com>, Rahul T R <r-ravikumar@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Vignesh Raghavendra <vigneshr@ti.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+Hi,
 
-Thank you for the reviews!
+On 2023/6/16 21:52, Thomas Zimmermann wrote:
+> Ast's code for detecting the device type and features is convoluted.
+> It mixes up several state fields, chip types and sub-models. Rework
+> the driver into somehting more understandable.
+"somehting" -> "something"
+> Patches 1 fixes a long-standing bug. The affected code has never
+> worked correctly.
+>
+> Patches 2 to 8 make various changes to the init code, or remove dead
+> and duplicated code paths.
+>
+> Patch 9 introduces chip generations. Until now, ast used the value
+> of enum ast_chip to represent a certain set of related modes, and
+> also used the enum to represent individal models. This makes the
+> driver code hard to understand in certain places. The patch encodes
+> a chip generation in each model enum and converts the driver to use
+> it.
+>
+> Patches 10 to 12 replace duplicated model checks with the correct
+> enum value. Detection of wide-screen functionality and the transmitter
+> chip can then be moved into individual functions in patch 13.
+>
+> Patch 14 merges the detection of the silicon revision and the chip
+> model into s single function.
+'s' -> 'a'
+>   Both need to be done in the same place
+> and affect each other.
+>
+> Tested on AST1100 and AST2300.
+>
+> Thomas Zimmermann (14):
+>    drm/ast: Fix DRAM init on AST2200
+>    drm/ast: Remove vga2_clone field
+>    drm/ast: Implement register helpers in ast_drv.h
+>    drm/ast: Remove dead else branch in POST code
+>    drm/ast: Remove device POSTing and config from chip detection
+>    drm/ast: Set PCI config before accessing I/O registers
+>    drm/ast: Enable and unlock device access early during init
+>    drm/ast: Set up release action right after enabling MMIO
+>    drm/ast: Distinguish among chip generations
+>    drm/ast: Detect AST 1300 model
+>    drm/ast: Detect AST 1400 model
+>    drm/ast: Detect AST 2510 model
+>    drm/ast: Move widescreen- and tx-chip detection into separate helpers
+>    drm/ast: Merge config and chip detection
+>
+>   drivers/gpu/drm/ast/ast_dp501.c |   6 +-
+>   drivers/gpu/drm/ast/ast_drv.h   |  97 +++++++---
+>   drivers/gpu/drm/ast/ast_main.c  | 320 +++++++++++++++++++-------------
+>   drivers/gpu/drm/ast/ast_mm.c    |   2 -
+>   drivers/gpu/drm/ast/ast_mode.c  |  35 ++--
+>   drivers/gpu/drm/ast/ast_post.c  |  74 ++------
+>   6 files changed, 294 insertions(+), 240 deletions(-)
+>
+-- 
+Jingfeng
 
-On 16-Jun-23 18:15, Tomi Valkeinen wrote:
-> Hi,
-> 
-> On 08/06/2023 19:37, Aradhya Bhatia wrote:
->> Add support for the DSS controller on TI's AM625 SoC in the tidss
->> driver.
->>
->> The AM625 DSS supports 2 video planes connecting to 2 video ports.
->> The first plane is a full plane supporting all the features, while the
->> 2nd plane is a "lite" plane without scaling support.
-> 
-> The DRM planes are reversed compared to the HW planes, aren't they? Is
-> the above referring to HW planes?
-
-Yes, I am referring to the HW planes, and the DRM planes reversed as
-well. =)
-
-> 
->> The first video port in AM625 DSS internally provides DPI output to 2
->> OLDI transmitters. Each OLDI TX outputs 4 differential lanes of video
->> output and 1 of clock output.
-> 
-> I think it should be explained that OLDI is not supported in this
-> version, but will be added later.
-
-Okay, I will make the change.
-
-Regards
-Aradhya
-
-> 
-> Other than that:
-> 
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> 
->  Tomi
-> 
