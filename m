@@ -1,75 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64B147323B8
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 01:36:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 353FE732564
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 04:50:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CB9310E585;
-	Thu, 15 Jun 2023 23:36:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5716E10E58A;
+	Fri, 16 Jun 2023 02:50:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2AAD10E577
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 23:36:53 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id
- a640c23a62f3a-982ae93386aso4140866b.1
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 16:36:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1686872210; x=1689464210;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=T0rZt7VTxPy2u4yytr6naYAQkiPv4eyJaIUeBq2hAvA=;
- b=BsFh7pTECPY62B6Mo0QO9rWv012oVDHuxhwwrPAaeMEA22WtZNUWqEdjmSH9i0fINa
- c4/3q3cX+u7akxgAu5ovYLFBoIqV0qgi+Q3FdwJgE8m+8y9UWVZ2wEjHPGGeyMKEySIp
- e7atN573VBzDevK7Rec+MyK/WI490N0uWwOu8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686872210; x=1689464210;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=T0rZt7VTxPy2u4yytr6naYAQkiPv4eyJaIUeBq2hAvA=;
- b=jCD8y41hvMT8sxbb0byu7uEw2CJBzR4V5sJq8bvPZgWOrzFV0hDsiDp0D3VPCpV2Ez
- Q5TIauUx63wulus5/e4cS3T063ps+qqWnM2WUDATo9pDn1NtPD/bt3GEVP2k9X7kdp8Q
- 1R7BWwMuQ9mMc9w/GjA020BDtNGMxmk7IFjTH3vrGVNYapEhcgmK60tDbwKeDuTXMBjG
- fRZNTYx+NDdCJwArPED/WxihD+XVPssEGSz487rGrJOr125z65XWhObYzLoHNtTCe9o/
- ygWQOQ9e6lsvu6nIEyx5KTatWtfaymtoLXgEDk9OIXTsY3up8E+ir0u2+yWjmCMp2vqG
- r9cA==
-X-Gm-Message-State: AC+VfDztOC7Vl7noNJETksPaLVPxmQC5lkKNbZs/NnmfQt2o33NYD6GC
- K7YA80t7Jm/Yz1sfyFW4uOvG3YaXda2nb43+I783JgaS
-X-Google-Smtp-Source: ACHHUZ5CZdb7RQbabLpORp9m3NQlToVRupss/VUJlrRA15Pzk9ajzl0FyXOZ3rAJZRGWeY918HzEpA==
-X-Received: by 2002:a17:907:5c2:b0:974:55a2:cb0b with SMTP id
- wg2-20020a17090705c200b0097455a2cb0bmr311641ejb.55.1686872209830; 
- Thu, 15 Jun 2023 16:36:49 -0700 (PDT)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com.
- [209.85.208.44]) by smtp.gmail.com with ESMTPSA id
- z6-20020a1709060ac600b009745ecf5438sm9914838ejf.193.2023.06.15.16.36.47
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Jun 2023 16:36:47 -0700 (PDT)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-513ea2990b8so4576a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 15 Jun 2023 16:36:47 -0700 (PDT)
-X-Received: by 2002:a50:d681:0:b0:514:95d4:c2bb with SMTP id
- r1-20020a50d681000000b0051495d4c2bbmr182302edi.2.1686872207006; Thu, 15 Jun
- 2023 16:36:47 -0700 (PDT)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A67010E58A
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 02:50:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1686883810; x=1718419810;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=GCBi7WKbYqqXi/HvNdaR3un8/Yj937XeVlGfrtAkTUk=;
+ b=YvjP3oYhX/jEHwfjh14N58BjYxMTpKFPjUvU3Wcdsk7/MEb3e2Zw5rMC
+ AdIWPNa1k4plfskKGEyJI2bLCEx9MP2Z4Hi4edUrPZiAVlL3NJAEYj1uh
+ 2pUf0ColHQ3WMHu+5U5fd8KZsa6gMCvZLjeU5Khrye31B4GWJTQJxL29A
+ wWgoJj10Qg+X/enWTr0CiXgFL62wvrZciGpvZcU9Skzwn4qRw6yxJiz3K
+ bSByiObNkXed5NxDstyUgKjIyN6XPOLUP2Z1YHYvqar45UAH0suaYJEHD
+ 4IyAdZXoIMY7Ju7eys3G4gv6J7hZBIrXnD1iH33+YVaxq8+XO7XyfaPcb w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="357974045"
+X-IronPort-AV: E=Sophos;i="6.00,246,1681196400"; d="scan'208";a="357974045"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jun 2023 19:50:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="782722269"
+X-IronPort-AV: E=Sophos;i="6.00,246,1681196400"; d="scan'208";a="782722269"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+ by fmsmga004.fm.intel.com with ESMTP; 15 Jun 2023 19:50:05 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1q9zXI-0000iv-1I;
+ Fri, 16 Jun 2023 02:50:04 +0000
+Date: Fri, 16 Jun 2023 10:49:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arthur Grillo <arthurgrillo@riseup.net>,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3] drm/vkms: Add support to 1D gamma LUT
+Message-ID: <202306161055.oBAa9NF1-lkp@intel.com>
+References: <20230615200157.960630-1-arthurgrillo@riseup.net>
 MIME-Version: 1.0
-References: <20230613-panel-dsi-disable-v1-1-5e454e409fa8@linaro.org>
- <ZIjayn8nVy-ejThH@gerhold.net>
- <CACRpkdZ7a3aARMs3iBbBavF_0AkPOPs3fH8e6CrZYo7Ybr6m_A@mail.gmail.com>
- <4f78b601-6e6e-2274-3174-87c62d7cfcd5@linaro.org>
-In-Reply-To: <4f78b601-6e6e-2274-3174-87c62d7cfcd5@linaro.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 15 Jun 2023 16:36:34 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=X_xonf1Dz0BsNTKm4-zBm+ccKvPO+wEWFVMUVY_2=h3Q@mail.gmail.com>
-Message-ID: <CAD=FV=X_xonf1Dz0BsNTKm4-zBm+ccKvPO+wEWFVMUVY_2=h3Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: move some dsi commands from unprepare to
- disable
-To: neil.armstrong@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230615200157.960630-1-arthurgrillo@riseup.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,159 +60,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Caleb Connolly <caleb.connolly@linaro.org>, phone-devel@vger.kernel.org,
- Stephan Gerhold <stephan@gerhold.net>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-arm-msm@vger.kernel.org,
- Joel Selvaraj <joelselvaraj.oss@gmail.com>, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, ~postmarketos/upstreaming@lists.sr.ht,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Thierry Reding <treding@nvidia.com>, Sam Ravnborg <sam@ravnborg.org>,
- Ajay Kumar <ajaykumar.rs@samsung.com>, Joel Selvaraj <jo@jsfamily.in>
+Cc: hamohammed.sa@gmail.com, aleixpol@kde.org, pekka.paalanen@collabora.com,
+ rodrigosiqueiramelo@gmail.com, llvm@lists.linux.dev, xaver.hugl@gmail.com,
+ victoria@system76.com, mwen@igalia.com, mairacanal@riseup.net,
+ mdaenzer@redhat.com, jadahl@redhat.com,
+ Arthur Grillo <arthurgrillo@riseup.net>, oe-kbuild-all@lists.linux.dev,
+ sebastian.wick@redhat.com, andrealmeid@riseup.net, uma.shankar@intel.com,
+ joshua@froggi.es
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Arthur,
 
-On Thu, Jun 15, 2023 at 12:49=E2=80=AFAM Neil Armstrong
-<neil.armstrong@linaro.org> wrote:
->
-> On 14/06/2023 22:58, Linus Walleij wrote:
-> > On Tue, Jun 13, 2023 at 11:08=E2=80=AFPM Stephan Gerhold <stephan@gerho=
-ld.net> wrote:
-> >
-> >> I'm still quite confused about what exactly is supposed to be in
-> >> (un)prepare and what in enable/disable. I've seen some related
-> >> discussion every now and then but it's still quite inconsistent across
-> >> different panel drivers... Can someone clarify this?
-> >
-> > It is somewhat clarified in commit 45527d435c5e39b6eec4aa0065a562e7cf05=
-d503
-> > that added the callbacks:
-> >
-> > Author: Ajay Kumar <ajaykumar.rs@samsung.com>
-> > Date:   Fri Jul 18 02:13:48 2014 +0530
-> >
-> >      drm/panel: add .prepare() and .unprepare() functions
-> >
-> >      Panels often require an initialization sequence that consists of t=
-hree
-> >      steps: a) powering up the panel, b) starting transmission of video=
- data
-> >      and c) enabling the panel (e.g. turn on backlight). This is usuall=
-y
-> >      necessary to avoid visual glitches at the beginning of video data
-> >      transmission.
-> >
-> >      Similarly, the shutdown sequence is typically done in three steps =
-as
-> >      well: a) disable the panel (e.g. turn off backlight), b) cease vid=
-eo
-> >      data transmission and c) power down the panel.
-> >
-> >      Currently drivers can only implement .enable() and .disable() func=
-tions,
-> >      which is not enough to implement the above sequences. This commit =
-adds a
-> >      second pair of functions, .prepare() and .unprepare() to allow mor=
-e
-> >      fine-grained control over when the above steps are performed.
-> >
-> >      Signed-off-by: Ajay Kumar <ajaykumar.rs@samsung.com>
-> >      [treding: rewrite changelog, add kerneldoc]
-> >      Signed-off-by: Thierry Reding <treding@nvidia.com>
-> >
-> > My interpretation is that .enable/.disable is for enabling/disabling
-> > backlight and well, make things show up on the display, and that
-> > happens quickly.
-> >
-> > prepare/unprepare is for everything else setting up/tearing down
-> > the data transmission pipeline.
-> >
-> > In the clock subsystem the enable/disable could be called in fastpath
-> > and prepare/unprepare only from slowpath so e.g an IRQ handler
-> > can gate a simple gated clock. This semantic seems to have nothing
-> > to do with the display semantic. :/
->
-> It had to do, .prepare is called when the DSI link is at LP11 state
-> before it has switched to the VIDEO mode, and .unprepare is the
-> reverse when VIDEO mode has been disabled and before the DSI link
-> is totally disabled.
->
-> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/bridge/syn=
-opsys/dw-mipi-dsi.c#L938
->
-> then
->
-> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/bridge/syn=
-opsys/dw-mipi-dsi.c#L855
->
-> but Doug has started changing this starting with MSM DSI driver, leading =
-to
-> current panel drivers not working anymore with the current DSI init mode
-> and requires setting pre_enable_prev_first for only some DSI hosts
-> who switched out of set_mode().
->
-> The DSI init model doesn't fit at all with the atomic bridge model and
-> some DSI controllers doesn't support the same features like the allwinner
-> DSI controller not support sending LP commands when in HS video mode
-> for example.
+kernel test robot noticed the following build warnings:
 
-Summary of the history here as I understand it:
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.4-rc6 next-20230615]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-1. Before the switch to DRM_PANEL_BRIDGE, things worked OK.
+url:    https://github.com/intel-lab-lkp/linux/commits/Arthur-Grillo/drm-vkms-Add-support-to-1D-gamma-LUT/20230616-040349
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230615200157.960630-1-arthurgrillo%40riseup.net
+patch subject: [PATCH v3] drm/vkms: Add support to 1D gamma LUT
+config: x86_64-randconfig-r022-20230615 (https://download.01.org/0day-ci/archive/20230616/202306161055.oBAa9NF1-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add drm-misc git://anongit.freedesktop.org/drm/drm-misc
+        git fetch drm-misc drm-misc-next
+        git checkout drm-misc/drm-misc-next
+        b4 shazam https://lore.kernel.org/r/20230615200157.960630-1-arthurgrillo@riseup.net
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/vkms/
 
-2. After the switch to DRM_PANEL_BRIDGE, things broke for tc358762.
-That led to commit 7d8e9a90509f ("drm/msm/dsi: move DSI host powerup
-to modeset time"), which was a little ugly but sorta OK, except ...
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306161055.oBAa9NF1-lkp@intel.com/
 
-3. Moving the DSI host powerup to modeset time broke ps8640. That led
-to commit ec7981e6c614 ("drm/msm/dsi: don't powerup at modeset time
-for parade-ps8640"), which was a hack.
+All warnings (new ones prefixed by >>):
 
-4. We fixed tc358762 using the new "pre_enable_prev_first" in commit
-55cac10739d5 ("drm/bridge: tc358762: Set pre_enable_prev_first") and
-thus were able to undo moving DSI host powerup to modeset time and
-then undo the ps8640 hack. I talk about this a bit more in the message
-for commit 9e15123eca79 ("drm/msm/dsi: Stop unconditionally powering
-up DSI hosts at modeset").
-
-If there are other things that need "pre_enable_prev_first" we could
-do that. If I understand Dave Stevenson [1], though, this doesn't hurt
-but technically shouldn't be required. He says that "It is documented
-that the mipi_dsi_host_ops transfer function should be called with the
-host in any state [1], so the host driver is failing there." Even if
-it shouldn't be required, though, "pre_enable_prev_first" can still
-have a benefit as Dave says [2] because it would mean that the DSI
-controller doesn't have to power itself up and down for each
-transfer...
-
-If I understand, if the MSM DSI driver did what Dave said (proactive
-turn on if someone sends commands) then we'd actually be OK even with
-ps8640, since we don't send any commands in the ps8640 pre_enable()
-function.
-
-I guess one other point of reference is commit a3ee9e0b57f8
-("drm/panel: boe-tv101wum-nl6: Ensure DSI writes succeed during
-disable"). I think Stephen made that change before
-"pre_enable_prev_first" was widely available...
-
-Hopefully I summarized all that correctly. If I messed up, please yell.
-
-I guess the tl;dr (summary of my summary) is:
-
-a) Moving panels like this to "pre_enable_prev_first" seems like a
-reasonable idea anyway and (presumably) works around the issue.
-
-b) Moving some commands between disable() / post_diable() or
-pre_enable() / enable() can also make sense and isn't terrible. As
-people have pointed out, there is some vagueness on exactly what
-belongs in each.
-
-c) Ideally someone could fix the MSM DSI driver to behave as Dave documente=
-d.
+>> drivers/gpu/drm/vkms/vkms_crtc.c:251:25: warning: variable 'gamma_lut' set but not used [-Wunused-but-set-variable]
+           struct vkms_color_lut *gamma_lut;
+                                  ^
+   1 warning generated.
 
 
-[1] https://lore.kernel.org/r/CAPY8ntA=3DDq6GFQ3gEOm9PzPyOa9bHTr8JrpXLibnai=
-7xKqRbpQ@mail.gmail.com
-[2] https://lore.kernel.org/r/CAPY8ntAUhVB6UtQTeHAcxNW950Ou+NcEoGwk3JnVWLay=
-89_0Nw@mail.gmail.com
+vim +/gamma_lut +251 drivers/gpu/drm/vkms/vkms_crtc.c
+
+   246	
+   247	static void vkms_crtc_atomic_flush(struct drm_crtc *crtc,
+   248					   struct drm_atomic_state *state)
+   249	{
+   250		struct vkms_output *vkms_output = drm_crtc_to_vkms_output(crtc);
+ > 251		struct vkms_color_lut *gamma_lut;
+   252	
+   253		if (crtc->state->event) {
+   254			spin_lock(&crtc->dev->event_lock);
+   255	
+   256			if (drm_crtc_vblank_get(crtc) != 0)
+   257				drm_crtc_send_vblank_event(crtc, crtc->state->event);
+   258			else
+   259				drm_crtc_arm_vblank_event(crtc, crtc->state->event);
+   260	
+   261			spin_unlock(&crtc->dev->event_lock);
+   262	
+   263			crtc->state->event = NULL;
+   264		}
+   265	
+   266		vkms_output->composer_state = to_vkms_crtc_state(crtc->state);
+   267		gamma_lut = &vkms_output->composer_state->gamma_lut;
+   268	
+   269		spin_unlock_irq(&vkms_output->lock);
+   270	}
+   271	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
