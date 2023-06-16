@@ -2,71 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 821637334BF
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 17:29:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3220733511
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 17:44:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AFDD10E666;
-	Fri, 16 Jun 2023 15:29:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88CF310E102;
+	Fri, 16 Jun 2023 15:44:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A657010E5C8
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 15:29:13 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id
- 2adb3069b0e04-4f61b45ee0dso1194656e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 08:29:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1686929351; x=1689521351;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
- :cc:subject:date:message-id:reply-to;
- bh=VeValyIzucrvcdVSMQeHHxyyygnInnDMzRn1T9fpOHo=;
- b=end5jpdjZlV6qafEDB7eSX+jg2bgePpVQoUMEvCdMs4hreRxXDJTk90OlYoNQQtlhe
- 5WCLJCE+vW1emiDxw7J0yYxnPgN5ep/mo9Z1f0x9Mkle1kUegaX+vxNtqgCy2d6EAacZ
- VhGavcOJW24CkWuorxUkYU9MSDr0sYAuXKRqOnMXgglwd9KcDOdel7C854kZS4SZk4nv
- T/B7lnyv/xJ8m6EpHkhdY/flhM5ZCMKLzYjTRvRa0mcc5R88sr5jF+dwLmDci+q4QbNC
- QiDBOULejPo+aUUzTp54oqD4H7vp8c9zcScMR9wQSkscXM/gg1WnNtTbp4tzNzvTjlih
- dkLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686929351; x=1689521351;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:from:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VeValyIzucrvcdVSMQeHHxyyygnInnDMzRn1T9fpOHo=;
- b=Tn/SLmjUmKbTij3mrRITckmKdad1L07LUI8/UOY18ikwtL6W+T5T19BrPb2zkyAYnM
- zWlXp3899G5Y9BwAcK+ZSZPDoh8G9XOQ10azB5zT1lWrR+kh2BuInimSeKWVPqh+6DQh
- Fgx6N4/9Nc3n+Tz9CUnxDOupGdDrUz2rfJ914dpSIVR7Bs0HY2WhmjxM6onSJeYXMd/N
- F5fJRWABCQez+JqMjzDO61XCZb4GpWwzssqNklyscwVZP1yJJi/8kdsda7KiexoulJpg
- 3eJyPIFxX3GdHzUaat3I1/1Wa7in2/4YZOGm4De7VVfbgZXKvRjP25/BGNqdVLyZ9DzE
- 9CZw==
-X-Gm-Message-State: AC+VfDx7uMGFYkAXEItG3ASpvqwsuSFX9kvPMxtx1NTk/nr5ihRGuBEy
- r4AFWmyao6S77we1Yd6PjC4=
-X-Google-Smtp-Source: ACHHUZ7lf6ZCg92WrS5N6WhJIVm8cZsqXmc9I3KGq/I3Ihg88kzzkPbjfTiefkPlMFqImG6X9xUaFA==
-X-Received: by 2002:a05:6512:60a:b0:4f8:560e:f4d8 with SMTP id
- b10-20020a056512060a00b004f8560ef4d8mr1585656lfe.6.1686929351105; 
- Fri, 16 Jun 2023 08:29:11 -0700 (PDT)
-Received: from [192.168.50.244] (83.8.116.77.ipv4.supernova.orange.pl.
- [83.8.116.77]) by smtp.gmail.com with ESMTPSA id
- d13-20020aa7d5cd000000b00510d110db58sm10019513eds.80.2023.06.16.08.29.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Jun 2023 08:29:10 -0700 (PDT)
-Message-ID: <23f9f004-3e20-67b0-bddc-ab9700968c53@gmail.com>
-Date: Fri, 16 Jun 2023 17:29:08 +0200
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7183010E0E3;
+ Fri, 16 Jun 2023 15:44:48 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8BxKupvg4xk8wUGAA--.12861S3;
+ Fri, 16 Jun 2023 23:44:47 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8CxhuRsg4xkqmsdAA--.18023S3; 
+ Fri, 16 Jun 2023 23:44:45 +0800 (CST)
+Message-ID: <1486f6e9-3123-3c3e-806a-47b9463cb61a@loongson.cn>
+Date: Fri, 16 Jun 2023 23:44:44 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-From: Artur Weber <aweber.kernel@gmail.com>
-Subject: Re: [PATCH 2/4] video: backlight: lp855x: get PWM for PWM mode during
- probe
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
-References: <20230429104534.28943-1-aweber.kernel@gmail.com>
- <20230429104534.28943-3-aweber.kernel@gmail.com>
- <20230614083953.e4kkweddjz7wztby@pengutronix.de>
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v7 2/8] PCI/VGA: Deal only with VGA class devices
 Content-Language: en-US
-In-Reply-To: <20230614083953.e4kkweddjz7wztby@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
+To: Alex Deucher <alexdeucher@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20230613030151.216625-1-15330273260@189.cn>
+ <20230613030151.216625-3-15330273260@189.cn>
+ <dbf0d89f-717a-1f78-aef2-f30506751d4d@loongson.cn>
+ <CADnq5_N6vVtzH6tzguZdHnP_TdRoG1G-Cr94O+X03jvtk=vhag@mail.gmail.com>
+ <3c1c86ab-96ea-aa1c-c9c5-9a4012644fd6@loongson.cn>
+ <CADnq5_Px-HWfwetv8LZsCnCeV7SMt_uqtLwMVK7648ZQiP2RCQ@mail.gmail.com>
+ <f08b6a76-6c90-b59b-ff43-c779ef759d09@loongson.cn>
+ <CADnq5_PFoM2O8mCd6+VFfu9Nc-Hg_HTnwEMxrq0FGRpva1kKiA@mail.gmail.com>
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <CADnq5_PFoM2O8mCd6+VFfu9Nc-Hg_HTnwEMxrq0FGRpva1kKiA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8CxhuRsg4xkqmsdAA--.18023S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW3Zr4kXFW7uF1fWr1kJF47Awc_yoWkZFyDpF
+ W5GFW5tF4DJr1UCr12qw1UXFyYv34rJFy5Xr15Jw1Y9ws0yr1UXryrtr4UC347Jrn5GF12
+ vr4UJry7uF15ZagCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUBFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVWxJr0_GcWln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
+ xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y
+ 6r17McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
+ 1lc7I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
+ JVW8JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+ vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
+ x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
+ xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAF
+ wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jFa0PUUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,101 +72,372 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-pwm@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>, Lee Jones <lee@kernel.org>,
- Andy Gross <agross@kernel.org>, dri-devel@lists.freedesktop.org,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, linux-fbdev@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- ~postmarketos/upstreaming@lists.sr.ht, Pavel Machek <pavel@ucw.cz>,
- linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
- Helge Deller <deller@gmx.de>, linux-leds@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sui Jingfeng <15330273260@189.cn>, amd-gfx@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-pci@vger.kernel.org,
+ Bjorn Helgaas <bhelgaas@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/06/2023 10:39, Uwe Kleine-König wrote:
-> On Sat, Apr 29, 2023 at 12:45:32PM +0200, Artur Weber wrote:
->> Also deprecate the pwm-period DT property, as it is now redundant
->> (pwms property already contains period value).
+Hi,
+
+On 2023/6/16 22:34, Alex Deucher wrote:
+> On Fri, Jun 16, 2023 at 10:22 AM Sui Jingfeng <suijingfeng@loongson.cn> wrote:
 >>
->> Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
->> ---
->>  drivers/video/backlight/lp855x_bl.c | 48 ++++++++++++++++-------------
->>  1 file changed, 26 insertions(+), 22 deletions(-)
+>> On 2023/6/16 21:41, Alex Deucher wrote:
+>>> On Fri, Jun 16, 2023 at 3:11 AM Sui Jingfeng <suijingfeng@loongson.cn> wrote:
+>>>> Hi,
+>>>>
+>>>> On 2023/6/16 05:11, Alex Deucher wrote:
+>>>>> On Wed, Jun 14, 2023 at 6:50 AM Sui Jingfeng <suijingfeng@loongson.cn> wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> On 2023/6/13 11:01, Sui Jingfeng wrote:
+>>>>>>> From: Sui Jingfeng <suijingfeng@loongson.cn>
+>>>>>>>
+>>>>>>> Deal only with the VGA devcie(pdev->class == 0x0300), so replace the
+>>>>>>> pci_get_subsys() function with pci_get_class(). Filter the non-PCI display
+>>>>>>> device(pdev->class != 0x0300) out. There no need to process the non-display
+>>>>>>> PCI device.
+>>>>>>>
+>>>>>>> Cc: Bjorn Helgaas <bhelgaas@google.com>
+>>>>>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>>>>>>> ---
+>>>>>>>      drivers/pci/vgaarb.c | 22 ++++++++++++----------
+>>>>>>>      1 file changed, 12 insertions(+), 10 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+>>>>>>> index c1bc6c983932..22a505e877dc 100644
+>>>>>>> --- a/drivers/pci/vgaarb.c
+>>>>>>> +++ b/drivers/pci/vgaarb.c
+>>>>>>> @@ -754,10 +754,6 @@ static bool vga_arbiter_add_pci_device(struct pci_dev *pdev)
+>>>>>>>          struct pci_dev *bridge;
+>>>>>>>          u16 cmd;
+>>>>>>>
+>>>>>>> -     /* Only deal with VGA class devices */
+>>>>>>> -     if ((pdev->class >> 8) != PCI_CLASS_DISPLAY_VGA)
+>>>>>>> -             return false;
+>>>>>>> -
+>>>>>> Hi, here is probably a bug fixing.
+>>>>>>
+>>>>>> For an example, nvidia render only GPU typically has 0x0380.
+>>>>>>
+>>>>>> as its PCI class number, but render only GPU should not participate in
+>>>>>> the arbitration.
+>>>>>>
+>>>>>> As it shouldn't snoop the legacy fixed VGA address.
+>>>>>>
+>>>>>> It(render only GPU) can not display anything.
+>>>>>>
+>>>>>>
+>>>>>> But 0x0380 >> 8 = 0x03, the filter  failed.
+>>>>>>
+>>>>>>
+>>>>>>>          /* Allocate structure */
+>>>>>>>          vgadev = kzalloc(sizeof(struct vga_device), GFP_KERNEL);
+>>>>>>>          if (vgadev == NULL) {
+>>>>>>> @@ -1500,7 +1496,9 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
+>>>>>>>          struct pci_dev *pdev = to_pci_dev(dev);
+>>>>>>>          bool notify = false;
+>>>>>>>
+>>>>>>> -     vgaarb_dbg(dev, "%s\n", __func__);
+>>>>>>> +     /* Only deal with VGA class devices */
+>>>>>>> +     if (pdev->class != PCI_CLASS_DISPLAY_VGA << 8)
+>>>>>>> +             return 0;
+>>>>>> So here we only care 0x0300, my initial intent is to make an optimization,
+>>>>>>
+>>>>>> nowadays sane display graphic card should all has 0x0300 as its PCI
+>>>>>> class number, is this complete right?
+>>>>>>
+>>>>>> ```
+>>>>>>
+>>>>>> #define PCI_BASE_CLASS_DISPLAY        0x03
+>>>>>> #define PCI_CLASS_DISPLAY_VGA        0x0300
+>>>>>> #define PCI_CLASS_DISPLAY_XGA        0x0301
+>>>>>> #define PCI_CLASS_DISPLAY_3D        0x0302
+>>>>>> #define PCI_CLASS_DISPLAY_OTHER        0x0380
+>>>>>>
+>>>>>> ```
+>>>>>>
+>>>>>> Any ideas ?
+>>>>> I'm not quite sure what you are asking about here.
+>>>> To be honest, I'm worried about the PCI devices which has a
+>>>>
+>>>> PCI_CLASS_DISPLAY_XGA as its PCI class number.
+>>>>
+>>>> As those devices are very uncommon in the real world.
+>>>>
+>>>>
+>>>> $ find . -name "*.c" -type f | xargs grep "PCI_CLASS_DISPLAY_XGA"
+>>>>
+>>>>
+>>>> Grep the "PCI_CLASS_DISPLAY_XGA" in the linux kernel tree got ZERO,
+>>>>
+>>>> there no code reference this macro. So I think it seems safe to ignore
+>>>> the XGA ?
+>>>>
+>>>>
+>>>> PCI_CLASS_DISPLAY_3D and PCI_CLASS_DISPLAY_OTHER are used to annotate
+>>>> the render-only GPU.
+>>>>
+>>>> And render-only GPU can't decode the fixed VGA address space, it is safe
+>>>> to ignore them.
+>>>>
+>>>>
+>>>>>     For vga_arb, we
+>>>>> only care about VGA class devices since those should be on the only
+>>>>> ones that might have VGA routed to them.
+>>>>>     However, as VGA gets deprecated,
+>>>> We need the vgaarb for a system with multiple video card.
+>>>>
+>>>> Not only because some Legacy VGA devices implemented
+>>>>
+>>>> on PCI will typically have the same "hard-decoded" addresses;
+>>>>
+>>>> But also these video card need to participate in the arbitration,
+>>>>
+>>>> determine the default boot device.
+>>> But couldn't the boot device be determined via what whatever resources
+>>> were used by the pre-OS console?
+>> I don't know what you are refer to by saying  pre-OS console, UEFI
+>> SHELL,  UEFI GOP  or something like that.
 >>
->> diff --git a/drivers/video/backlight/lp855x_bl.c b/drivers/video/backlight/lp855x_bl.c
->> index 81012bf29baf..21eb4943ed56 100644
->> --- a/drivers/video/backlight/lp855x_bl.c
->> +++ b/drivers/video/backlight/lp855x_bl.c
->> ...
->> @@ -472,11 +456,31 @@ static int lp855x_probe(struct i2c_client *cl)
->>  	lp->enable = devm_regulator_get_optional(dev, "enable");
->>  	if (IS_ERR(lp->enable)) {
->>  		ret = PTR_ERR(lp->enable);
->> -		if (ret == -ENODEV) {
->> +		if (ret == -ENODEV)
->>  			lp->enable = NULL;
->> -		} else {
->> +		else
->>  			return dev_err_probe(dev, ret, "getting enable regulator\n");
->> -		}
->> +	}
->> +
->> +	lp->pwm = devm_pwm_get(lp->dev, lp->chipname);
->> +	if (IS_ERR(lp->pwm)) {
->> +		ret = PTR_ERR(lp->pwm);
->> +		if (ret == -ENODEV || ret == -EINVAL)
-> 
-> Why would you ignore EINVAL?
+> Right.  Before the OS loads the platform firmware generally sets up
+> something for display.  That could be GOP or vesa or some other
+> platform specific protocol.
+>
+>> If you are referring to the framebuffer driver which light up the screen
+>> before the Linux kernel is loaded .
+>>
+>>
+>> Then, what you have said is true,  the boot device is determined by the
+>> pre-OS console.
+>>
+>> But the problem is how does the Linux kernel(vgaarb) could know which
+>> one is the default boot device
+>>
+>> on a multiple GPU machine.  Relaying on the firmware fb's address and
+>> size is what the mechanism
+>>
+>> we already in using.
+> Right.  It shouldn't need to depend on vgaarb.
+>
+>>
+>>>    I feel like that should be separate from vgaarb.
+>> Emm, this really deserved another patch, please ?
+>>
+>>>    vgaarb should handle PCI VGA routing and some other
+>>> mechanism should be used to determine what device provided the pre-OS
+>>> console.
+>> If the new mechanism need the firmware changed, then this probably break
+>> the old machine.
+>>
+>> Also, this probably will get all arch involved. to get the new mechanism
+>> supported.
+>>
+>> The testing pressure and review power needed is quite large.
+>>
+>> drm/amdgpu and drm/radeon already being used on X86, ARM64,  Mips and
+>> more arch...
+>>
+>> The reviewing process will became quite difficult then.
+>>
+>> vgaarb is really what we already in use, and being used more than ten
+>> years ...
+> Yes, it works for x86 (and a few other platforms) today because of the
+> VGA legacy, so we can look at VGA routing to determine this.  But even
+> today, we don't need VGA routing to determine what was the primary
+> display before starting the OS.  We could probably have a platform
+> independent way to handle this by looking at the bread crumbs leftover
+> from the pre-OS environment.  E.g., for pre-UEFI platforms, we can
+> look at VGA routing.  For UEFI platforms we can look at what GOP left
+> us.  For various non-UEFI ARM/PPC/MIPS/etc. platforms we can look at
+> whatever breadcrumbs those pre-OS environments left.  That way when
+> VGA goes away, we can have a clean break and you won't need vgaarb if
+> the platform has no VGA devices.
 
-EINVAL is returned when the pwms property is not found in the DT node
-for the backlight. Not sure if there's a better way of separately
-detecting whether it's present (especially when taking into
-consideration non-DT platforms that might use the driver). Would be nice
-to have something like devm_regulator_get_optional but for PWMs...
+Yes, I'm complete agree the spirit you are convey here.
 
-Still, someone who's setting up the driver could check the debug
-messages to see if the backlight was set up in PWM mode or register mode.
+Patch 5[1] of this series is actually does what you have told me just now.
 
-> ...
->> +		pwm_init_state(lp->pwm, &pwmstate);
->> +		/* Legacy platform data compatibility */
->> +		if (lp->pdata->period_ns > 0)
->> +			pwmstate.period = lp->pdata->period_ns;
->> +		pwm_apply_state(lp->pwm, &pwmstate);
-> 
-> This is a change in behaviour. Before lp855x_probe() didn't modify the
-> state the bootloader left the backlight in. Now you're disabling it (I
-> think). Is this intended?
+I put this function in video/aperture intended.
 
-I didn't really consider the implication of this in this way, as on the
-device I was testing this on (Exynos4212-based tablet) the PWM state
-would get reset during PWM chip initialization in the kernel anyways,
-meaning that the state from the bootloader would be lost regardless of
-this change. Either way, there's no guarantee that this would be the
-same on other devices, though I'd assume that in most cases it's not
-noticeable anyways as brightness is usually set somewhere in userspace
-(or even earlier, in the driver, if the init-brt property is set).
-Nonetheless, that's an oversight on my part.
 
-As for the reasoning for this change in behavior - the previous behavior
-was to silently fail if, while setting the brightness, the PWM could not
-be set up. This seemed rather confusing to me (I encountered this while
-I was initially working on the tablet, I added a "pwm" property instead
-of "pwms" and was wondering why the backlight didn't work...)
+Its does not rely on "VGA routing".
 
-Of course, that could be fixed by adding error detection in the
-brightness set function, but since I was already working on it, it made
-more sense to me for the PWM to be set up during the probing process,
-given that this way we could 1. warn about errors early, and 2. catch
-deferred probes and defer the backlight's probe if we're still waiting
-for the PWM. That's why it's done the way it is in this patch.
+Its also does not required the display device is PCI vga device.
 
-If this is undesired behavior, let me know and I'll submit another patch
-to revert it.
+Platform display controller drivers(drm/ingenic, drm/imx, drm/rockchip etc)
 
-Best regards
-Artur
+can also call this function(aperture_contain_firmware_fb).
+
+It only require the platform has a firmware framebuffer driver 
+registered successfully.
+
+Both EFIFB are SIMPLEFB will be OK.
+
+
+Beside  this, on systems with a platform display controller device and a 
+PCI GPU device,
+
+the current implement may always set the PCI GPU device as the default 
+boot device.
+
+This is probably true for the arm64 platform.
+
+
+On the past, loongson LS2K1000 SoC  has a platform display controller,
+
+the SoC also has PCIE controller, So drm/radeon driver can be used on it.
+
+When discrete card is mounted on the system, the discrete gpu is always been
+
+selected as the default boot device in the past.
+
+Because radeon gpu is more faster, this behavior meet the user's 
+expectation by accident.
+
+Its funny and lucky.
+
+
+But the problem is sometime you want to use the integrated one,
+
+for example in the process of developing driver, or discrete GPU driver
+
+has a bug panic X server,  the user(or the device driver) don't has the 
+right to override.
+
+
+Also with the current implement, even you disable the device driver.
+
+vgaarb still make the decision for you,  which made the X server 
+confused and panic.
+
+
+Say on machine with loongson integrated display controller and a rx5700  
+machine.
+
+By passing the cmdline "modprobe.blacklist=amdgpu", then vgaarb will not 
+agree.
+
+He still mark the rx5700 as the default boot device. Then X server crash.
+
+Because xf86-video-amdgpu(still loaded) has no root in the kernel do the 
+service for it.
+
+
+I'm doing such a thing because I need developing the drivers for this
+
+integrated display controller, but I don't want unmounted the discrete 
+GPU every time.
+
+Because I also need to do the PRIME buffer sharing developing and test.
+
+
+For AMD APU, this is also the case.
+
+R5 200GE and 3000G processor has the integrated GPU,
+
+On a machine with R5 5600G + nvidia gtx1060, a user may want to compare
+
+which GPU is more powerful. But with the current implement, both the device
+
+driver and the end user don't have a choice.
+
+
+This is the reason why patch 6, 7 and 8[2] of this series is introduced.
+
+Device driver could do the force override if it isn't the default device.
+
+(by introducing another kernel cmd line)
+
+Because of device driver(.ko) get loaded latter than vgaarb.
+
+
+So feel free send a reviewed by ?
+
+
+[1] https://patchwork.freedesktop.org/patch/542253/?series=119250&rev=1
+
+[2] https://patchwork.freedesktop.org/patch/542255/?series=119250&rev=1
+
+> Alex
+>
+>>
+>>> Alex
+>>>
+>>>> Nowadays, the 'VGA devices' here is stand for the Graphics card
+>>>>
+>>>> which is capable of display something on the screen.
+>>>>
+>>>> We still need vgaarb to select the default boot device.
+>>>>
+>>>>
+>>>>> you'll have more non VGA PCI classes for devices which
+>>>>> could be the pre-OS console device.
+>>>> Ah, we still want  do this(by applying this patch) first,
+>>>>
+>>>> and then we will have the opportunity to see who will crying if
+>>>> something is broken. Will know more then.
+>>>>
+>>>> But drop this patch or revise it with more consideration is also
+>>>> acceptable.
+>>>>
+>>>>
+>>>> I asking about suggestion and/or review.
+>>>>
+>>>>> Alex
+>>>>>
+>>>>>>>          /* For now we're only intereted in devices added and removed. I didn't
+>>>>>>>           * test this thing here, so someone needs to double check for the
+>>>>>>> @@ -1510,6 +1508,8 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
+>>>>>>>          else if (action == BUS_NOTIFY_DEL_DEVICE)
+>>>>>>>                  notify = vga_arbiter_del_pci_device(pdev);
+>>>>>>>
+>>>>>>> +     vgaarb_dbg(dev, "%s: action = %lu\n", __func__, action);
+>>>>>>> +
+>>>>>>>          if (notify)
+>>>>>>>                  vga_arbiter_notify_clients();
+>>>>>>>          return 0;
+>>>>>>> @@ -1534,8 +1534,8 @@ static struct miscdevice vga_arb_device = {
+>>>>>>>
+>>>>>>>      static int __init vga_arb_device_init(void)
+>>>>>>>      {
+>>>>>>> +     struct pci_dev *pdev = NULL;
+>>>>>>>          int rc;
+>>>>>>> -     struct pci_dev *pdev;
+>>>>>>>
+>>>>>>>          rc = misc_register(&vga_arb_device);
+>>>>>>>          if (rc < 0)
+>>>>>>> @@ -1545,11 +1545,13 @@ static int __init vga_arb_device_init(void)
+>>>>>>>
+>>>>>>>          /* We add all PCI devices satisfying VGA class in the arbiter by
+>>>>>>>           * default */
+>>>>>>> -     pdev = NULL;
+>>>>>>> -     while ((pdev =
+>>>>>>> -             pci_get_subsys(PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID,
+>>>>>>> -                            PCI_ANY_ID, pdev)) != NULL)
+>>>>>>> +     while (1) {
+>>>>>>> +             pdev = pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, pdev);
+>>>>>>> +             if (!pdev)
+>>>>>>> +                     break;
+>>>>>>> +
+>>>>>>>                  vga_arbiter_add_pci_device(pdev);
+>>>>>>> +     }
+>>>>>>>
+>>>>>>>          pr_info("loaded\n");
+>>>>>>>          return rc;
+>>>>>> --
+>>>>>> Jingfeng
+>>>>>>
+>>>> --
+>>>> Jingfeng
+>>>>
+>> --
+>> Jingfeng
+>>
+-- 
+Jingfeng
+
