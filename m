@@ -2,66 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 256E9732981
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 10:08:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E585B732B90
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 11:30:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0F6110E5C1;
-	Fri, 16 Jun 2023 08:08:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21BA210E12C;
+	Fri, 16 Jun 2023 09:30:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80C1310E5C1
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 08:08:18 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A77010E12C
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 09:29:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1686907798; x=1718443798;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=32N1yGo7ctZs2eC7CuXCSbbaVed5l58bkGfloxPTIp4=;
+ b=Rw0VeRDhlMv9GueDMiDC4ald1icPaPcZnQHi/ns7+EC2Wf/Od7iiRpAp
+ RPbujcuxpt5I4j3K4YJh3cMR7COadEdmt5rD35bjYRhXMU/TFSXZufDE1
+ 6tJGWRBVS0tPWoVLDWCNzc3aJ8cOyYNO2e4nhJM52M6qnzlSqjUhftQDx
+ 4BohpJAXhqjBF06H3C6duuRNHsyabIdZNoRODXaJ+bGyNs2hDzd+iJ721
+ OZmzDba5QDWuSVRhZjwQC9bGPsZglZw6hMBBnUhOjtGrwfgxdTgBGYJgw
+ N87sDluyue4ykspzservV0MdPxAbpXzd1rQ1uw4oi77FAL57XCfh5QIuD Q==;
+X-IronPort-AV: E=Sophos;i="6.00,247,1681164000"; d="scan'208";a="31462582"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 16 Jun 2023 11:29:55 +0200
+Received: from steina-w.localnet (unknown [10.123.53.21])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B98D421C44;
- Fri, 16 Jun 2023 08:08:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1686902896; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UDvXX7ny3jhF7cGUA6wFs+LB1MsO7rOcLM5QoVVkJmA=;
- b=DpxCbNGSwF5Rn7XwJ6jBE4RIKR4D7FnyFA1/VAVFmprfCbMLaPVBUsUWoEz2ZZ2zeXMTNY
- ZvxyqCFI4R0fStrfPAV/VBpyPKMwLtfAHprW3dtruu7ewjlm+dSwGZcpccpQmuNu6I8mDT
- q6yhydQ/LCYF4t9HgS6a43EH8b7nD5w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1686902896;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UDvXX7ny3jhF7cGUA6wFs+LB1MsO7rOcLM5QoVVkJmA=;
- b=ryFi2l45G67vhdn5j4M35saRtvn+u3nkqFiR35attEJKxWOOaoaFT4xMK3SUxt3289YZeX
- AZjsW8Q3pPfaESCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9CB8F1330B;
- Fri, 16 Jun 2023 08:08:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id QxFXJXAYjGS9IwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 16 Jun 2023 08:08:16 +0000
-Message-ID: <98ebc72a-813a-aaf9-23db-f93b3986f21e@suse.de>
-Date: Fri, 16 Jun 2023 10:08:15 +0200
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 63301280082;
+ Fri, 16 Jun 2023 11:29:55 +0200 (CEST)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, robert.foss@linaro.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com,
+ airlied@gmail.com, daniel@ffwll.ch, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ festevam@gmail.com, vkoul@kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
+Subject: Re: [PATCH v6 5/8] drm: bridge: Cadence: Add MHDP8501 HDMI driver
+Date: Fri, 16 Jun 2023 11:29:57 +0200
+Message-ID: <11795277.nUPlyArG6x@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <ee0982418cc2e996b1f7889375b1a5138fb38a11.1686729444.git.Sandor.yu@nxp.com>
+References: <cover.1686729444.git.Sandor.yu@nxp.com>
+ <ee0982418cc2e996b1f7889375b1a5138fb38a11.1686729444.git.Sandor.yu@nxp.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v2 4/4] drm/mgag200: Use DMA to copy the framebuffer to
- the VRAM
-Content-Language: en-US
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- airlied@redhat.com, javierm@redhat.com, lyude@redhat.com
-References: <20230531092110.140564-1-jfalempe@redhat.com>
- <20230531092110.140564-5-jfalempe@redhat.com>
- <d610d6ee-cf53-6357-b25d-5a396859cc45@suse.de>
- <15b08823-f2c2-5836-2421-f3bc25d51e11@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <15b08823-f2c2-5836-2421-f3bc25d51e11@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------k4IC130PI4Uk3SJ01hcbwjO5"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,81 +63,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: oliver.brown@nxp.com, Sandor Yu <Sandor.yu@nxp.com>, linux-imx@nxp.com,
+ kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------k4IC130PI4Uk3SJ01hcbwjO5
-Content-Type: multipart/mixed; boundary="------------ReDtHDmUJoFNp73XyLHGiZsg";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- airlied@redhat.com, javierm@redhat.com, lyude@redhat.com
-Message-ID: <98ebc72a-813a-aaf9-23db-f93b3986f21e@suse.de>
-Subject: Re: [PATCH v2 4/4] drm/mgag200: Use DMA to copy the framebuffer to
- the VRAM
-References: <20230531092110.140564-1-jfalempe@redhat.com>
- <20230531092110.140564-5-jfalempe@redhat.com>
- <d610d6ee-cf53-6357-b25d-5a396859cc45@suse.de>
- <15b08823-f2c2-5836-2421-f3bc25d51e11@redhat.com>
-In-Reply-To: <15b08823-f2c2-5836-2421-f3bc25d51e11@redhat.com>
+Hi Sandor,
 
---------------ReDtHDmUJoFNp73XyLHGiZsg
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+thanks for sending a new version.
 
-SGkNCg0KQW0gMTUuMDYuMjMgdW0gMTk6MTUgc2NocmllYiBKb2NlbHluIEZhbGVtcGU6DQo+
-IE9uIDE1LzA2LzIwMjMgMTY6MjQsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gSGkg
-Sm9jZWx5bg0KPj4NCj4+IEFtIDMxLjA1LjIzIHVtIDExOjIxIHNjaHJpZWIgSm9jZWx5biBG
-YWxlbXBlOg0KPj4+IEV2ZW4gaWYgdGhlIHRyYW5zZmVyIGlzIG5vdCBmYXN0ZXIsIGl0IGJy
-aW5ncyBzaWduaWZpY2FudA0KPj4+IGltcHJvdmVtZW50IGluIGxhdGVuY2llcyBhbmQgQ1BV
-IHVzYWdlLg0KPj4+DQo+Pj4gQ1BVIHVzYWdlIGRyb3BzIGZyb20gMTAwJSBvZiBvbmUgY29y
-ZSB0byAzJSB3aGVuIGNvbnRpbnVvdXNseQ0KPj4+IHJlZnJlc2hpbmcgdGhlIHNjcmVlbi4N
-Cj4+DQo+PiBJIHRyaWVkIHlvdXIgcGF0Y2hzZXQgb24gYSBIUCBQcm9saWFudCBzZXJ2ZXIg
-d2l0aCBhIEcyMDBFSC4gSSBjYW4gc2VlIA0KPj4gdGhhdCB0aGUgQ1BVIHVzYWdlIGdvZXMg
-ZG93biwgYnV0IHRoZSB0aW1lIHVudGlsIHRoZSBzY3JlZW4gdXBkYXRlIA0KPj4gcmVhY2hl
-cyB0aGUgaGFyZHdhcmUncyB2aWRlbyBtZW1vcnkgaGFzIGluY3JlYXNlZCBzaWduaWZpY2Fu
-dGx5Lg0KPiANCj4gVGhhbmtzIGZvciB0YWtpbmcgdGltZSB0byB0ZXN0IGl0Lg0KPiBDYW4g
-eW91IGNoZWNrIGlmIHRoZXJlIGlzIHNvbWV0aGluZyBpbiB0aGUgZG1lc2cgPw0KPiANCj4g
-VGhlIDFzIGxvb2tzIHN1c3BpY2lvdXMsIGlmIHRoZSBJUlEgaXMgbm90IHdvcmtpbmcsIHRo
-ZXJlIGlzIGEgMXMgDQo+IHRpbWVvdXQsIHdoaWNoIGNhbiBleHBsYWluIHdoeSBpdCB3aWxs
-IGRpc3BsYXkgb25seSBvbmUgZnJhbWUgcGVyIA0KPiBzZWNvbmQuIChsb2dzIHNob3VsZCBi
-ZSBmaWxsZWQgd2l0aCAiRE1BIHRyYW5zZmVyIHRpbWVkIG91dCIpDQoNCk5vLCBJIGRvbid0
-IHNlZSB0aGF0IGVycm9yLiBJIGFsc28gdmVyaWZpZWQgdGhhdCB0aGUgSVJRIGhhbmRsZXIg
-aXMgDQpydW5uaW5nLiBJdCBydW5zIG9uIGVhY2ggdXBkYXRlIEFGQUlDVC4NCg0KV2hlbiBJ
-J20gZG9pbmcgZnVsbC1zY3JlZW4gc2Nyb2xsaW5nIG9uIHRoZSBrZXJuZWwgY29uc29sZSBJ
-IGNhbiBzZWUgdGhlIA0Kc2NhbmxpbmVzIGJlaW5nIHVwZGF0ZWQgZnJvbSB0b3AgdG8gYm90
-dG9tLiBUaGlzIGluZGljYXRlcyB0byBtZSB0aGF0IA0KdGhlIGFjdHVhbCBjb3B5aW5nIHRh
-a2VzIHRpbWUgb3IgaW50ZXJmZXJlcyB3aXRoIHRoZSBzY2Fub3V0Lg0KDQpCZXN0IHJlZ2Fy
-ZHMNClRob21hcw0KDQo+IA0KPiBJIHdpbGwgc2VlIGlmIEkgY2FuIGdldCBhY2Nlc3MgdG8g
-YSBHMjAwRUgsIGFuZCBpZiBJIGNhbiByZXByb2R1Y2UgdGhpcy4NCj4gDQo+IEJlc3QgcmVn
-YXJkcywNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBE
-ZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtl
-bnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYs
-IEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAz
-NjgwOSAoQUcgTnVlcm5iZXJnKQ0K
+Am Donnerstag, 15. Juni 2023, 03:38:15 CEST schrieb Sandor Yu:
+> Add a new DRM HDMI bridge driver for Cadence MHDP8501
+> that used in Freescale i.MX8MQ SoC.
+> MHDP8501 could support HDMI or DisplayPort standards according
+> embedded Firmware running in the uCPU.
+>=20
+> For iMX8MQ SoC, the HDMI FW was loaded and activated by SOC ROM code.
+> Bootload binary included HDMI FW was required for the driver.
+>=20
+> Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
+> ---
+>  drivers/gpu/drm/bridge/cadence/Kconfig        |   12 +
+>  drivers/gpu/drm/bridge/cadence/Makefile       |    1 +
+>  .../drm/bridge/cadence/cdns-mhdp8501-hdmi.c   | 1024 +++++++++++++++++
+>  3 files changed, 1037 insertions(+)
+>  create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-hdmi.c
+>=20
+> diff --git a/drivers/gpu/drm/bridge/cadence/Kconfig
+> b/drivers/gpu/drm/bridge/cadence/Kconfig index 5b7ec4e49aa1..bee05e834055
+> 100644
+> --- a/drivers/gpu/drm/bridge/cadence/Kconfig
+> +++ b/drivers/gpu/drm/bridge/cadence/Kconfig
+> @@ -59,3 +59,15 @@ config DRM_CDNS_MHDP8501_DP
+>  	  Support Cadence MHDP8501 DisplayPort driver.
+>  	  Cadence MHDP8501 Controller support one or more protocols,
+>  	  DisplayPort firmware is required for this driver.
+> +
+> +config DRM_CDNS_MHDP8501_HDMI
+> +	tristate "Cadence MHDP8501 HDMI DRM driver"
+> +	select DRM_KMS_HELPER
+> +	select DRM_PANEL_BRIDGE
+> +	select DRM_DISPLAY_HELPER
+> +	select DRM_CDNS_AUDIO
+> +	depends on OF
+> +	help
+> +	  Support Cadence MHDP8501 HDMI driver.
+> +	  Cadence MHDP8501 Controller support one or more protocols,
+> +	  HDMI firmware is required for this driver.
+> diff --git a/drivers/gpu/drm/bridge/cadence/Makefile
+> b/drivers/gpu/drm/bridge/cadence/Makefile index 5842e4540c62..8a129c14ac14
+> 100644
+> --- a/drivers/gpu/drm/bridge/cadence/Makefile
+> +++ b/drivers/gpu/drm/bridge/cadence/Makefile
+> @@ -7,3 +7,4 @@ cdns-mhdp8546-y :=3D cdns-mhdp8546-core.o cdns-mhdp8546-h=
+dcp.o
+> cdns-mhdp8546-$(CONFIG_DRM_CDNS_MHDP8546_J721E) +=3D cdns-mhdp8546-j721e.o
+>=20
+>  obj-$(CONFIG_DRM_CDNS_MHDP8501_DP) +=3D cdns-mhdp8501-dp.o
+> +obj-$(CONFIG_DRM_CDNS_MHDP8501_HDMI) +=3D cdns-mhdp8501-hdmi.o
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-hdmi.c
+> b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-hdmi.c new file mode 100644
+> index 000000000000..43673f1b50f6
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-hdmi.c
+[...]
+> +static int cdns_hdmi_bridge_attach(struct drm_bridge *bridge,
+> +				 enum drm_bridge_attach_flags flags)
+> +{
+> +	struct cdns_mhdp_device *mhdp =3D bridge->driver_private;
+> +	struct drm_mode_config *config =3D &bridge->dev->mode_config;
+> +	struct drm_encoder *encoder =3D bridge->encoder;
+> +	struct drm_connector *connector =3D &mhdp->connector;
+> +
+> +	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
+> +		connector->interlace_allowed =3D 0;
+> +		connector->polled =3D DRM_CONNECTOR_POLL_HPD;
+> +
+> +		drm_connector_helper_add(connector,=20
+&cdns_hdmi_connector_helper_funcs);
+> +
+> +		drm_connector_init(bridge->dev, connector,=20
+&cdns_hdmi_connector_funcs,
+> +				   DRM_MODE_CONNECTOR_HDMIA);
+> +
+> +		drm_object_attach_property(&connector->base,
+> +					   config-
+>hdr_output_metadata_property, 0);
+> +
+> +		if (!drm_mode_create_hdmi_colorspace_property(connector))
 
---------------ReDtHDmUJoFNp73XyLHGiZsg--
+This is missing a 2nd parameter.
 
---------------k4IC130PI4Uk3SJ01hcbwjO5
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> +			drm_object_attach_property(&connector->base,
+> +						connector-
+>colorspace_property, 0);
+> +
+> +		drm_connector_attach_encoder(connector, encoder);
+> +	}
+> +
+> +	return 0;
+> +}
+[...]
 
------BEGIN PGP SIGNATURE-----
+Best regards,
+Alexander
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSMGG8FAwAAAAAACgkQlh/E3EQov+D7
-WQ//aTA8tp5wxiJDqoIplDrvdNTuUSaWJtsHBzpTaItJFLNnx5LKNfBwqNVHgoPcrIXXn8MHFXw6
-3Aw0ZRHzMf5dnCz09lBSDHg3scGrgKr5UJboTxLJzoQ7Mh0A+YoMEnvEYjGfsc+y4OjeX7nKCOf/
-lZGlVza2zEDH+2fBOhte0g2JgV23ejbBegm8yZCoUszVBEAtsZA96krz7hch0OATXoIY+1lwmpGX
-qgYZLi1s9K5CkbkStVY2PV19q18EHfDUNJCB7v6EFse96dMgvE2y3ziuLjAwMKMDl26+3xiFL0Fx
-6hYOtF7bPFT9i47085AliuSNsEcB90rmErx1j1YBNdm0sLaEnL4cCvyiqlVAF4idiDRnAMSS+yB/
-rg8UIj/B1fxacHmT3EPl7iRthKVT9jxWNoh7SqS5DqtYiCk0H6V4EenJpN31EpAcZZcfiZiDwiz+
-GMUKwfufsemOIRt7q0JEzK3/N5JuTHZzy48RiLb9Jfn/Qcldp8ZrhOpeYbzS01et86GjlhLCiFzh
-0OJNAbYR4pYzPfFeTBgkzYb7D8haLXNC2+jY4ap8101WweGdZg6CHM1skhsbK8/FQFEhU5EV0Nqt
-X5+eGO6f8qEXaR3GwfMznCojehz36Lafn/rfZIOj7cS+4DubGxBlYlV2oseDz+jFS3PXghX9JP1p
-5KA=
-=PEvR
------END PGP SIGNATURE-----
 
---------------k4IC130PI4Uk3SJ01hcbwjO5--
