@@ -1,58 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD587335FD
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 18:31:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 489AF733609
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 18:33:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C060310E654;
-	Fri, 16 Jun 2023 16:31:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E488210E659;
+	Fri, 16 Jun 2023 16:33:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8A94910E654
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 16:31:49 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8Cxd+l0joxkHgkGAA--.10893S3;
- Sat, 17 Jun 2023 00:31:48 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxTMpzjoxkWnQdAA--.9078S3; 
- Sat, 17 Jun 2023 00:31:47 +0800 (CST)
-Message-ID: <1ff12168-2a89-6182-11cf-66b3a640dacf@loongson.cn>
-Date: Sat, 17 Jun 2023 00:31:47 +0800
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [217.70.183.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B24BC10E655
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 16:33:01 +0000 (UTC)
+X-GND-Sasl: miquel.raynal@bootlin.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1686933179;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rNKYvNwhbFXZTMrZMR6PZ0ZSwbpD9eFmPanu+do8Pb4=;
+ b=B8qYY6MHX8qaYJcBep7+WOTOcB8z7ocWd6R2QHy1KSr9Igb2FyB5uaqGA92aWP2tZKw+V7
+ zhq+PYuciXlo6EsrWapcKIpJo9vhj3PT/XlXnTl9v+nkFttTlRVz8iFzXTgCBz55KjQtHm
+ Nd4C7/dBMzv+IfGMBbE9R4pVcJuKejmtSwzXEOrCAUQ24B/KH7cL3DEjT0YTwv5TcTtRg4
+ dd6BPogbEw/Wb3KGPCSNUsnymHHOOZkuwNGNxfwtANGMRStVQIszoAmVOGm37+CaA8v17Z
+ Ngqk7kxmxNP1vGhDKqfgK/v17zyPbJuMUnBfj09ar5jILGRfo83qwdP5WkwwwA==
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id BDCA3C0005;
+ Fri, 16 Jun 2023 16:32:56 +0000 (UTC)
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/6] drm/panel: sitronix-st7789v: Support ET028013DMA panel
+Date: Fri, 16 Jun 2023 18:32:49 +0200
+Message-Id: <20230616163255.2804163-1-miquel.raynal@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [02/14] drm/ast: Remove vga2_clone field
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- jfalempe@redhat.com, daniel@ffwll.ch, jammy_huang@aspeedtech.com
-References: <20230616140739.32042-3-tzimmermann@suse.de>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <20230616140739.32042-3-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8BxTMpzjoxkWnQdAA--.9078S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxJr43Gw1xZFWfArWfJryruFX_yoW8Jw13pF
- srAaySvrWrJF1UtFW7C3Z8ZFy3K3W3tFy09r1kAwn093yjvas5Xr98tw45CFyUJayfZFya
- yF9Fqry8Gasru3gCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUvYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
- Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
- 8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv67AK
- xVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
- AYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
- 14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIx
- kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW8JVW5JwCI42IY6xIIjxv20xvEc7CjxVAF
- wI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F
- 4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07josjUU
- UUUU=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,49 +62,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Sebastian Reichel <sre@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Michael Riesch <michael.riesch@wolfvision.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello,
 
-On 2023/6/16 21:52, Thomas Zimmermann wrote:
-> Remove the unused field vga2_clone from struct ast_device. No
-> functional changes.
+The aim of this series is to add support for the EDT ET028013DMA
+panel. This panel features a Sitronix ST7789V2 LCD controller, which is
+already supported mainline (or very close to the ST7789V for which
+Maxime added support years ago).
 
-Yeah, it doesn't get used at all.
+The EDT panel is slightly different on the geometry and appears not to
+support refresh rates higher than 30fps (above, glitches are visible,
+despite the incoming signals being rather clean). While I was working on
+this panel, I found quite inconvenient to not be able to read anything
+back as it is a great tool for debugging purposes. So the last patch
+actually adds a read helper and uses it to perform a sanity check at
+probe time by verifying the Sitronix controller IDs.
 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
-> ---
->   drivers/gpu/drm/ast/ast_drv.h  | 1 -
->   drivers/gpu/drm/ast/ast_main.c | 1 -
->   2 files changed, 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-> index 5498a6676f2e8..fc4760a67596f 100644
-> --- a/drivers/gpu/drm/ast/ast_drv.h
-> +++ b/drivers/gpu/drm/ast/ast_drv.h
-> @@ -166,7 +166,6 @@ struct ast_device {
->   	void __iomem *dp501_fw_buf;
->   
->   	enum ast_chip chip;
-> -	bool vga2_clone;
->   	uint32_t dram_bus_width;
->   	uint32_t dram_type;
->   	uint32_t mclk;
-> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-> index 1f35438f614a7..da33cfc6366ec 100644
-> --- a/drivers/gpu/drm/ast/ast_main.c
-> +++ b/drivers/gpu/drm/ast/ast_main.c
-> @@ -179,7 +179,6 @@ static int ast_detect_chip(struct drm_device *dev, bool *need_post)
->   			drm_info(dev, "AST 2100 detected\n");
->   			break;
->   		}
-> -		ast->vga2_clone = false;
->   	} else {
->   		ast->chip = AST2000;
->   		drm_info(dev, "AST 2000 detected\n");
+This series applies on top of Sebastian's series which was also bringing
+a number of good improvements to this driver. As Sebastian started and
+contributed his work before me, I think his series is close to be merged
+so I adapted my changes on top of it.
+
+Link: https://lore.kernel.org/dri-devel/20230422205012.2464933-1-sre@kernel.org/
+
+Thanks,
+Miquèl
+
+Changes in v2:
+* Rebased on top of Sebastian's series and adapted all my changes to the
+  existing infrastructure he has already added.
+* Collected tags.
+* Prevented the ID check to fail if there is no MISO line.
+* Used dev_err_probe() when relevant.
+* Sorted the IDs in the tables.
+* Renamed the panel mode.
+* Fixed typos.
+
+Miquel Raynal (6):
+  dt-bindings: display: st7789v: Add the edt,et028013dma panel
+    compatible
+  dt-bindings: display: st7789v: bound the number of Rx data lines
+  drm/panel: sitronix-st7789v: Use 9 bits per spi word by default
+  drm/panel: sitronix-st7789v: Clarify a definition
+  drm/panel: sitronix-st7789v: Add EDT ET028013DMA panel support
+  drm/panel: sitronix-st7789v: Check display ID
+
+ .../display/panel/sitronix,st7789v.yaml       |   5 +
+ .../gpu/drm/panel/panel-sitronix-st7789v.c    | 116 +++++++++++++++++-
+ 2 files changed, 118 insertions(+), 3 deletions(-)
 
 -- 
-Jingfeng
+2.34.1
 
