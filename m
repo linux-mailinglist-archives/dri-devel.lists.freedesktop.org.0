@@ -2,99 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D86D732828
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 08:59:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F315F73287C
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 09:11:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34F9E10E5B7;
-	Fri, 16 Jun 2023 06:59:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4926610E091;
+	Fri, 16 Jun 2023 07:11:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2064.outbound.protection.outlook.com [40.107.94.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0226910E5B7;
- Fri, 16 Jun 2023 06:59:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eM3ALuLW2bO38Yg5AmFc2WGSc04j0AtSRzZpExnBfIvfvC1NHPyQJ4XalH490mTkKtMEujYxkqcs7WPGAXOw6pl6n4zIaz+boWlsdFemkvOpQCfw7pdeszB0yr3RIYZoGMquKt3DAVrx0TP2P6E+e8h+98TG4c5UB6Hez8g6BZmaTmnvYoUcmeo+SqGtNHLvhIsWgsu0NxVXtYNojH6FhIBmISkDRYt6ukLl4Xg0MYMchn4HcrBZEbVwXps2QPdfpK0ITiKzIq3acKuZmyrm7VFizgAm75AeH4V0kWUpd15pfD5qAJgCCh1CLMQmbcr97MOLTZEqVLSmVYlC3mR6Fg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uE+bqOMK/vEPNCeadJJAJvY4Ncouei1S5fSDGvN5UTc=;
- b=DaVrbSVmz/65cXUrJRlwzWmrZRdQuDzcTjyzTF5KOAs4M3n13LaV1Ea0os+Sx2NdBKpkhUVF9aMnpJFXXOFTXerkUzp6ILDX07E3gQgdp9YH7q/ke1C2Ci9dZby76Ni/b254UkCdPjAooCN3pUh0xyKelZg8XxEvnSp3rNYxYx5o2ZaBiRr5pOj47LXnA4rYeRw+LckwUDLBu6sbseHt4zo+gvy2GEudzRAx8dvaricCh2nZXg4MmQzp0BwfRpYOgo9teT//kYZnOwRnNozTmNTyZbhbv5q8ZCgDLGhejQ5fAfeD2uJe2A94JnbEXodGSii5ykxvE9U+SGCPEJQ14A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uE+bqOMK/vEPNCeadJJAJvY4Ncouei1S5fSDGvN5UTc=;
- b=NVejxeaInamfF1ktLA8XLLOBDvq+Mg6Nu0MA7Nshnb8x4b7u/ifItgN9aeZCKT6aqJ6LxjqV0+dOI1zu4t5X8z7NYA35ukB1Kpbatup1goEKvwiZFCkuJ7LF6MczeK6ojQaY8DmWH2fXU/ZTwHggMr8fL+zkLwGCGOz4y6JMyWA=
-Received: from BN7PR02CA0009.namprd02.prod.outlook.com (2603:10b6:408:20::22)
- by IA0PR12MB8645.namprd12.prod.outlook.com (2603:10b6:208:48f::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.25; Fri, 16 Jun
- 2023 06:59:34 +0000
-Received: from BN8NAM11FT021.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:20:cafe::61) by BN7PR02CA0009.outlook.office365.com
- (2603:10b6:408:20::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.29 via Frontend
- Transport; Fri, 16 Jun 2023 06:59:34 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT021.mail.protection.outlook.com (10.13.177.114) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6500.29 via Frontend Transport; Fri, 16 Jun 2023 06:59:34 +0000
-Received: from equan-buildpc.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 16 Jun
- 2023 01:59:28 -0500
-From: Evan Quan <evan.quan@amd.com>
-To: <rafael@kernel.org>, <lenb@kernel.org>, <Alexander.Deucher@amd.com>,
- <Christian.Koenig@amd.com>, <Xinhui.Pan@amd.com>, <airlied@gmail.com>,
- <daniel@ffwll.ch>, <kvalo@kernel.org>, <nbd@nbd.name>, <lorenzo@kernel.org>,
- <ryder.lee@mediatek.com>, <shayne.chen@mediatek.com>,
- <sean.wang@mediatek.com>, <matthias.bgg@gmail.com>,
- <angelogioacchino.delregno@collabora.com>, <Mario.Limonciello@amd.com>,
- <Lijo.Lazar@amd.com>
-Subject: [PATCH V3 7/7] drm/amd/pm: enable Wifi RFI mitigation feature support
- for SMU13.0.7
-Date: Fri, 16 Jun 2023 14:57:57 +0800
-Message-ID: <20230616065757.1054422-8-evan.quan@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230616065757.1054422-1-evan.quan@amd.com>
-References: <20230616065757.1054422-1-evan.quan@amd.com>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C97E510E091;
+ Fri, 16 Jun 2023 07:11:11 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8Bx7eoLC4xkoOAFAA--.12645S3;
+ Fri, 16 Jun 2023 15:11:07 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8AxZuQLC4xk+_0cAA--.16734S3; 
+ Fri, 16 Jun 2023 15:11:07 +0800 (CST)
+Message-ID: <3c1c86ab-96ea-aa1c-c9c5-9a4012644fd6@loongson.cn>
+Date: Fri, 16 Jun 2023 15:11:07 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v7 2/8] PCI/VGA: Deal only with VGA class devices
+Content-Language: en-US
+To: Alex Deucher <alexdeucher@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <20230613030151.216625-1-15330273260@189.cn>
+ <20230613030151.216625-3-15330273260@189.cn>
+ <dbf0d89f-717a-1f78-aef2-f30506751d4d@loongson.cn>
+ <CADnq5_N6vVtzH6tzguZdHnP_TdRoG1G-Cr94O+X03jvtk=vhag@mail.gmail.com>
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <CADnq5_N6vVtzH6tzguZdHnP_TdRoG1G-Cr94O+X03jvtk=vhag@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT021:EE_|IA0PR12MB8645:EE_
-X-MS-Office365-Filtering-Correlation-Id: 04d2a67b-b03e-485d-d802-08db6e373e02
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MremAtLguZwFMuHBILadQECqMSpjCQHzqvGTwBLvJxdCYtH54pC9CyMmkctWC6hb6Quk7U8i/oCbhJskpyYdyvroyXzcY3xWreXsCInBg3j+uLIFcc5esyZT1mrXNlgvtWN4hzrtaocnr8VtH7NsUzBYK37YOOLYMGAsrhgpyEa+d5ysetaH3GwHfVbW2H0fpYQeVMe+ffxwCdBy/NOp2GqOzoz5FbeH2stxkF8M+691WtWCQNUvSOv6DMgMCyWvSaf/YDjo0HonDg6AKQ54VPGpZ7GHFPtWgn7tlCwCvthPSi+ZB+V/CrQpsgUTBPdK/qtwqUPi4j/QxnnT1LyVwyCK1YIwyKvayW8oNL4pDZFw1K77487ACLr4Yil/AGM7AbYSiOcWxN1XTcj8gbQ6LtMf+ZeRVHM+VuEl9T14ti6QFy345D7B8DWHJtNt0h2bAtBTSErz7xHvQXWGle2k356hpbZ3vjgJURFwTbHcJTy4nuv+/7rOMhUUMQIP64V094/i+2EHFT57kglgnMlcp9SL6RHREDU2yj9yxoTmw/SaHs/oRIKmd71hbWZMpfvnYRvk+/FrtWo/v/o4bPUuunDGDyZMK21rCoaLUJhr3/nJgeEEj0e25RYm9+o7VgIQU+ZegtteWFz2loRK076RR6Qx3QhILbl9KavB911LeRVQ6uXky5L4Ur2aqulHMcjGuOoP/vx9+HYkEPfRYcPGfWZgtb5kahbfkeLw16+NuGWFQEE0G+MU8j4JaXt1BN4t+rIg64KpJfZiERRsIb3LuQDVSA0bRQ2smdmYvz4rUCM=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(136003)(396003)(376002)(39860400002)(346002)(451199021)(40470700004)(36840700001)(46966006)(44832011)(7416002)(70586007)(4326008)(86362001)(2906002)(316002)(6636002)(70206006)(41300700001)(110136005)(5660300002)(8676002)(8936002)(54906003)(356005)(40480700001)(82310400005)(478600001)(81166007)(921005)(7696005)(6666004)(82740400003)(40460700003)(47076005)(83380400001)(186003)(26005)(16526019)(1076003)(36756003)(2616005)(426003)(336012)(36860700001)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2023 06:59:34.5218 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 04d2a67b-b03e-485d-d802-08db6e373e02
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT021.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8645
+X-CM-TRANSID: AQAAf8AxZuQLC4xk+_0cAA--.16734S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW3Xw1Utryrury5AF4rCFyrKrX_yoW7Ar48pF
+ WrCay5KrW8JFy7C342qr1kXFyYv3sYya4rJF4rK3sakFZ0yr98WryrKry5u3yxGrZ5GF1I
+ vw4UJF9rua9YqagCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
+ 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv
+ 67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07
+ AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
+ F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GF
+ ylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
+ xVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
+ 1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU1Ek
+ sDUUUUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,117 +68,195 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-acpi@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Evan Quan <evan.quan@amd.com>
+Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sui Jingfeng <15330273260@189.cn>, amd-gfx@lists.freedesktop.org,
+ linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fulfill the SMU13.0.7 support for Wifi RFI mitigation feature.
+Hi,
 
-Signed-off-by: Evan Quan <evan.quan@amd.com>
----
- .../drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c  | 59 +++++++++++++++++++
- 1 file changed, 59 insertions(+)
+On 2023/6/16 05:11, Alex Deucher wrote:
+> On Wed, Jun 14, 2023 at 6:50 AM Sui Jingfeng <suijingfeng@loongson.cn> wrote:
+>> Hi,
+>>
+>> On 2023/6/13 11:01, Sui Jingfeng wrote:
+>>> From: Sui Jingfeng <suijingfeng@loongson.cn>
+>>>
+>>> Deal only with the VGA devcie(pdev->class == 0x0300), so replace the
+>>> pci_get_subsys() function with pci_get_class(). Filter the non-PCI display
+>>> device(pdev->class != 0x0300) out. There no need to process the non-display
+>>> PCI device.
+>>>
+>>> Cc: Bjorn Helgaas <bhelgaas@google.com>
+>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>>> ---
+>>>    drivers/pci/vgaarb.c | 22 ++++++++++++----------
+>>>    1 file changed, 12 insertions(+), 10 deletions(-)
+>>>
+>>> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+>>> index c1bc6c983932..22a505e877dc 100644
+>>> --- a/drivers/pci/vgaarb.c
+>>> +++ b/drivers/pci/vgaarb.c
+>>> @@ -754,10 +754,6 @@ static bool vga_arbiter_add_pci_device(struct pci_dev *pdev)
+>>>        struct pci_dev *bridge;
+>>>        u16 cmd;
+>>>
+>>> -     /* Only deal with VGA class devices */
+>>> -     if ((pdev->class >> 8) != PCI_CLASS_DISPLAY_VGA)
+>>> -             return false;
+>>> -
+>> Hi, here is probably a bug fixing.
+>>
+>> For an example, nvidia render only GPU typically has 0x0380.
+>>
+>> as its PCI class number, but render only GPU should not participate in
+>> the arbitration.
+>>
+>> As it shouldn't snoop the legacy fixed VGA address.
+>>
+>> It(render only GPU) can not display anything.
+>>
+>>
+>> But 0x0380 >> 8 = 0x03, the filter  failed.
+>>
+>>
+>>>        /* Allocate structure */
+>>>        vgadev = kzalloc(sizeof(struct vga_device), GFP_KERNEL);
+>>>        if (vgadev == NULL) {
+>>> @@ -1500,7 +1496,9 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
+>>>        struct pci_dev *pdev = to_pci_dev(dev);
+>>>        bool notify = false;
+>>>
+>>> -     vgaarb_dbg(dev, "%s\n", __func__);
+>>> +     /* Only deal with VGA class devices */
+>>> +     if (pdev->class != PCI_CLASS_DISPLAY_VGA << 8)
+>>> +             return 0;
+>> So here we only care 0x0300, my initial intent is to make an optimization,
+>>
+>> nowadays sane display graphic card should all has 0x0300 as its PCI
+>> class number, is this complete right?
+>>
+>> ```
+>>
+>> #define PCI_BASE_CLASS_DISPLAY        0x03
+>> #define PCI_CLASS_DISPLAY_VGA        0x0300
+>> #define PCI_CLASS_DISPLAY_XGA        0x0301
+>> #define PCI_CLASS_DISPLAY_3D        0x0302
+>> #define PCI_CLASS_DISPLAY_OTHER        0x0380
+>>
+>> ```
+>>
+>> Any ideas ?
+> I'm not quite sure what you are asking about here.
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c
-index 98a33f8ee209..16c1c04e2034 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c
-@@ -125,6 +125,7 @@ static struct cmn2asic_msg_mapping smu_v13_0_7_message_map[SMU_MSG_MAX_COUNT] =
- 	MSG_MAP(ArmD3,				PPSMC_MSG_ArmD3,                       0),
- 	MSG_MAP(AllowGpo,			PPSMC_MSG_SetGpoAllow,           0),
- 	MSG_MAP(GetPptLimit,			PPSMC_MSG_GetPptLimit,                 0),
-+	MSG_MAP(EnableUCLKShadow,		PPSMC_MSG_EnableUCLKShadow,            0),
- };
- 
- static struct cmn2asic_mapping smu_v13_0_7_clk_map[SMU_CLK_COUNT] = {
-@@ -205,6 +206,7 @@ static struct cmn2asic_mapping smu_v13_0_7_table_map[SMU_TABLE_COUNT] = {
- 	TAB_MAP(DRIVER_SMU_CONFIG),
- 	TAB_MAP(ACTIVITY_MONITOR_COEFF),
- 	[SMU_TABLE_COMBO_PPTABLE] = {1, TABLE_COMBO_PPTABLE},
-+	TAB_MAP(WIFIBAND),
- };
- 
- static struct cmn2asic_mapping smu_v13_0_7_pwr_src_map[SMU_POWER_SOURCE_COUNT] = {
-@@ -487,6 +489,9 @@ static int smu_v13_0_7_tables_init(struct smu_context *smu)
- 	               AMDGPU_GEM_DOMAIN_VRAM);
- 	SMU_TABLE_INIT(tables, SMU_TABLE_COMBO_PPTABLE, MP0_MP1_DATA_REGION_SIZE_COMBOPPTABLE,
- 			PAGE_SIZE, AMDGPU_GEM_DOMAIN_VRAM);
-+	SMU_TABLE_INIT(tables, SMU_TABLE_WIFIBAND,
-+		       sizeof(WifiBandEntryTable_t), PAGE_SIZE,
-+		       AMDGPU_GEM_DOMAIN_VRAM);
- 
- 	smu_table->metrics_table = kzalloc(sizeof(SmuMetricsExternal_t), GFP_KERNEL);
- 	if (!smu_table->metrics_table)
-@@ -1721,6 +1726,57 @@ static int smu_v13_0_7_set_df_cstate(struct smu_context *smu,
- 					       NULL);
- }
- 
-+static bool smu_v13_0_7_wbrf_support_check(struct smu_context *smu)
-+{
-+	return smu->smc_fw_version > 0x00524600;
-+}
-+
-+static int smu_v13_0_7_set_wbrf_exclusion_ranges(struct smu_context *smu,
-+						 struct exclusion_range *exclusion_ranges)
-+{
-+	WifiBandEntryTable_t wifi_bands;
-+	int valid_entries = 0;
-+	int ret, i;
-+
-+	memset(&wifi_bands, 0, sizeof(wifi_bands));
-+	for (i = 0; i < ARRAY_SIZE(wifi_bands.WifiBandEntry); i++) {
-+		if (!exclusion_ranges[i].start &&
-+		    !exclusion_ranges[i].end)
-+			break;
-+
-+		/* PMFW expects the inputs to be in Mhz unit */
-+		wifi_bands.WifiBandEntry[valid_entries].LowFreq =
-+			DIV_ROUND_DOWN_ULL(exclusion_ranges[i].start, HZ_IN_MHZ);
-+		wifi_bands.WifiBandEntry[valid_entries++].HighFreq =
-+			DIV_ROUND_UP_ULL(exclusion_ranges[i].end, HZ_IN_MHZ);
-+	}
-+	wifi_bands.WifiBandEntryNum = valid_entries;
-+
-+	/*
-+	 * Per confirm with PMFW team, WifiBandEntryNum = 0 is a valid setting.
-+	 * Considering the scenarios below:
-+	 * - At first the wifi device adds an exclusion range e.g. (2400,2500) to
-+	 *   BIOS and our driver gets notified. We will set WifiBandEntryNum = 1
-+	 *   and pass the WifiBandEntry (2400, 2500) to PMFW.
-+	 *
-+	 * - Later the wifi device removes the wifiband list added above and
-+	 *   our driver gets notified again. At this time, driver will set
-+	 *   WifiBandEntryNum = 0 and pass an empty WifiBandEntry list to PMFW.
-+	 *   - PMFW may still need to do some uclk shadow update(e.g. switching
-+	 *     from shadow clock back to primary clock) on receiving this.
-+	 */
-+
-+	ret = smu_cmn_update_table(smu,
-+				   SMU_TABLE_WIFIBAND,
-+				   0,
-+				   (void *)(&wifi_bands),
-+				   true);
-+	if (ret)
-+		dev_err(smu->adev->dev, "Failed to set wifiband!");
-+
-+	return ret;
-+}
-+
- static const struct pptable_funcs smu_v13_0_7_ppt_funcs = {
- 	.get_allowed_feature_mask = smu_v13_0_7_get_allowed_feature_mask,
- 	.set_default_dpm_table = smu_v13_0_7_set_default_dpm_table,
-@@ -1786,6 +1842,9 @@ static const struct pptable_funcs smu_v13_0_7_ppt_funcs = {
- 	.set_mp1_state = smu_v13_0_7_set_mp1_state,
- 	.set_df_cstate = smu_v13_0_7_set_df_cstate,
- 	.gpo_control = smu_v13_0_gpo_control,
-+	.is_asic_wbrf_supported = smu_v13_0_7_wbrf_support_check,
-+	.enable_uclk_shadow = smu_v13_0_enable_uclk_shadow,
-+	.set_wbrf_exclusion_ranges = smu_v13_0_7_set_wbrf_exclusion_ranges,
- };
- 
- void smu_v13_0_7_set_ppt_funcs(struct smu_context *smu)
+To be honest, I'm worried about the PCI devices which has a
+
+PCI_CLASS_DISPLAY_XGA as its PCI class number.
+
+As those devices are very uncommon in the real world.
+
+
+$ find . -name "*.c" -type f | xargs grep "PCI_CLASS_DISPLAY_XGA"
+
+
+Grep the "PCI_CLASS_DISPLAY_XGA" in the linux kernel tree got ZERO,
+
+there no code reference this macro. So I think it seems safe to ignore 
+the XGA ?
+
+
+PCI_CLASS_DISPLAY_3D and PCI_CLASS_DISPLAY_OTHER are used to annotate 
+the render-only GPU.
+
+And render-only GPU can't decode the fixed VGA address space, it is safe 
+to ignore them.
+
+
+>   For vga_arb, we
+> only care about VGA class devices since those should be on the only
+> ones that might have VGA routed to them.
+
+>   However, as VGA gets deprecated,
+
+We need the vgaarb for a system with multiple video card.
+
+Not only because some Legacy VGA devices implemented
+
+on PCI will typically have the same "hard-decoded" addresses;
+
+But also these video card need to participate in the arbitration,
+
+determine the default boot device.
+
+
+Nowadays, the 'VGA devices' here is stand for the Graphics card
+
+which is capable of display something on the screen.
+
+We still need vgaarb to select the default boot device.
+
+
+> you'll have more non VGA PCI classes for devices which
+> could be the pre-OS console device.
+
+Ah, we still want  do this(by applying this patch) first,
+
+and then we will have the opportunity to see who will crying if 
+something is broken. Will know more then.
+
+But drop this patch or revise it with more consideration is also 
+acceptable.
+
+
+I asking about suggestion and/or review.
+
+> Alex
+>
+>>>        /* For now we're only intereted in devices added and removed. I didn't
+>>>         * test this thing here, so someone needs to double check for the
+>>> @@ -1510,6 +1508,8 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
+>>>        else if (action == BUS_NOTIFY_DEL_DEVICE)
+>>>                notify = vga_arbiter_del_pci_device(pdev);
+>>>
+>>> +     vgaarb_dbg(dev, "%s: action = %lu\n", __func__, action);
+>>> +
+>>>        if (notify)
+>>>                vga_arbiter_notify_clients();
+>>>        return 0;
+>>> @@ -1534,8 +1534,8 @@ static struct miscdevice vga_arb_device = {
+>>>
+>>>    static int __init vga_arb_device_init(void)
+>>>    {
+>>> +     struct pci_dev *pdev = NULL;
+>>>        int rc;
+>>> -     struct pci_dev *pdev;
+>>>
+>>>        rc = misc_register(&vga_arb_device);
+>>>        if (rc < 0)
+>>> @@ -1545,11 +1545,13 @@ static int __init vga_arb_device_init(void)
+>>>
+>>>        /* We add all PCI devices satisfying VGA class in the arbiter by
+>>>         * default */
+>>> -     pdev = NULL;
+>>> -     while ((pdev =
+>>> -             pci_get_subsys(PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID,
+>>> -                            PCI_ANY_ID, pdev)) != NULL)
+>>> +     while (1) {
+>>> +             pdev = pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, pdev);
+>>> +             if (!pdev)
+>>> +                     break;
+>>> +
+>>>                vga_arbiter_add_pci_device(pdev);
+>>> +     }
+>>>
+>>>        pr_info("loaded\n");
+>>>        return rc;
+>> --
+>> Jingfeng
+>>
 -- 
-2.34.1
+Jingfeng
 
