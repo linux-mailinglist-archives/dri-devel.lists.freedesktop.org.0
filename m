@@ -1,39 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 690AF733299
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 15:54:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05EE8733322
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 16:08:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B18D10E624;
-	Fri, 16 Jun 2023 13:54:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFDC010E634;
+	Fri, 16 Jun 2023 14:08:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC66210E638
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 13:54:23 +0000 (UTC)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:973f:5136:97a4:2046])
- by baptiste.telenet-ops.be with bizsmtp
- id 9puJ2A00X0Fik0k01puJQC; Fri, 16 Jun 2023 15:54:19 +0200
-Received: from rox.of.borg ([192.168.97.57])
- by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qA9tf-008tCq-Gw;
- Fri, 16 Jun 2023 15:54:18 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qA9u6-008xAB-Hm;
- Fri, 16 Jun 2023 15:54:18 +0200
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Sean Paul <sean@poorly.run>,
- Alex Deucher <alexander.deucher@amd.com>
-Subject: [PATCH] drm/atomic-helper: Update reference to
- drm_crtc_force_disable_all()
-Date: Fri, 16 Jun 2023 15:54:16 +0200
-Message-Id: <87ece3775c9491fb2173f3bbe96cbe407b8ae756.1686923622.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90F3810E629
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 14:07:43 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7D7401F853;
+ Fri, 16 Jun 2023 14:07:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1686924461; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=396giAWWm30kR1j/LWVbAhqOPnRK36I9bEyhjDwwaUo=;
+ b=0KkP6u+XSmZH4emWHPm3GH0X/BT8D+5oX8g0KM9tqBazaFneBA+F70MhZSgH6+PugMIBAc
+ NeCMziNkC/fdoc5w71thQjKjDTGn7LO0q1sVYn3oN3H3Img6AQHEdf2PK+1NRHunNh/Elq
+ /Gac+HX3OQOu5Ph6I+fKzf1XO7H9jKM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1686924461;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=396giAWWm30kR1j/LWVbAhqOPnRK36I9bEyhjDwwaUo=;
+ b=zz2ZwOOyLT6a/4u9n4z9sZpXSd86QlQ8Uz0k+8YmErDQl1n0S+ppUKet0ecd5HHZru8SUk
+ jXZSqZCzcwRg/fAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 52972138E8;
+ Fri, 16 Jun 2023 14:07:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id IOP9Eq1sjGTfWgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 16 Jun 2023 14:07:41 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@redhat.com, jfalempe@redhat.com, daniel@ffwll.ch,
+ jammy_huang@aspeedtech.com
+Subject: [PATCH 00/14] drm/ast: Refactor the device-detection code
+Date: Fri, 16 Jun 2023 15:52:22 +0200
+Message-ID: <20230616140739.32042-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -48,33 +62,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_crtc_force_disable_all() was renamed to
-drm_helper_force_disable_all(), but one reference was not updated.
+Ast's code for detecting the device type and features is convoluted.
+It mixes up several state fields, chip types and sub-models. Rework
+the driver into somehting more understandable.
 
-Fixes: c2d88e06bcb98540 ("drm: Move the legacy kms disable_all helper to crtc helpers")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/gpu/drm/drm_atomic_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Patches 1 fixes a long-standing bug. The affected code has never
+worked correctly.
 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 41b8066f61fff4be..292e38eb621806a0 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -3332,7 +3332,7 @@ EXPORT_SYMBOL(drm_atomic_helper_disable_all);
-  * that also takes a snapshot of the modeset state to be restored on resume.
-  *
-  * This is just a convenience wrapper around drm_atomic_helper_disable_all(),
-- * and it is the atomic version of drm_crtc_force_disable_all().
-+ * and it is the atomic version of drm_helper_force_disable_all().
-  */
- void drm_atomic_helper_shutdown(struct drm_device *dev)
- {
+Patches 2 to 8 make various changes to the init code, or remove dead
+and duplicated code paths.
+
+Patch 9 introduces chip generations. Until now, ast used the value
+of enum ast_chip to represent a certain set of related modes, and
+also used the enum to represent individal models. This makes the
+driver code hard to understand in certain places. The patch encodes
+a chip generation in each model enum and converts the driver to use
+it.
+
+Patches 10 to 12 replace duplicated model checks with the correct
+enum value. Detection of wide-screen functionality and the transmitter
+chip can then be moved into individual functions in patch 13.
+
+Patch 14 merges the detection of the silicon revision and the chip
+model into s single function. Both need to be done in the same place
+and affect each other.
+
+Tested on AST1100 and AST2300.
+
+Thomas Zimmermann (14):
+  drm/ast: Fix DRAM init on AST2200
+  drm/ast: Remove vga2_clone field
+  drm/ast: Implement register helpers in ast_drv.h
+  drm/ast: Remove dead else branch in POST code
+  drm/ast: Remove device POSTing and config from chip detection
+  drm/ast: Set PCI config before accessing I/O registers
+  drm/ast: Enable and unlock device access early during init
+  drm/ast: Set up release action right after enabling MMIO
+  drm/ast: Distinguish among chip generations
+  drm/ast: Detect AST 1300 model
+  drm/ast: Detect AST 1400 model
+  drm/ast: Detect AST 2510 model
+  drm/ast: Move widescreen- and tx-chip detection into separate helpers
+  drm/ast: Merge config and chip detection
+
+ drivers/gpu/drm/ast/ast_dp501.c |   6 +-
+ drivers/gpu/drm/ast/ast_drv.h   |  97 +++++++---
+ drivers/gpu/drm/ast/ast_main.c  | 320 +++++++++++++++++++-------------
+ drivers/gpu/drm/ast/ast_mm.c    |   2 -
+ drivers/gpu/drm/ast/ast_mode.c  |  35 ++--
+ drivers/gpu/drm/ast/ast_post.c  |  74 ++------
+ 6 files changed, 294 insertions(+), 240 deletions(-)
+
 -- 
-2.34.1
+2.41.0
 
