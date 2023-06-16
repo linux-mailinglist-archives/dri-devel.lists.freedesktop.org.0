@@ -1,44 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABB6D732D71
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 12:22:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC2F2732D8E
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 12:25:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B539410E5C5;
-	Fri, 16 Jun 2023 10:21:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4440810E5DC;
+	Fri, 16 Jun 2023 10:25:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E471410E5C5
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 10:21:55 +0000 (UTC)
-Received: from localhost.localdomain (unknown
- [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0FE910E5DC
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 10:25:48 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 525B16606F7B;
- Fri, 16 Jun 2023 11:21:54 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1686910914;
- bh=3gTzZg7ZqNBrj113+/CPATd473PXw+ycSCcNooIWYOs=;
- h=From:To:Cc:Subject:Date:From;
- b=DcWx8PhSueIK5/SHd+jwruMLgdx/TVIYZnPxlXeDUKutuyzRt8+UcIdMqtpF9kXt3
- tKMiVnEi6TO5zMZolQ+HZBdh61GMDL1S2JMKXhmUZ8EtqhI7mSvdAAyN9MdulAh64A
- yBd6AVT2mVI3iCqWLq3hRoqpyYxqQ3q9M4+PSvUXWKY+FbYC7xat11+ahwyL8+i2Ry
- OIKwpLiohwz2+vo3ROKSnmN+BVTMTg+nNTGl3lvGtNz9hgWVMZ+BfF/9JlcdeJvdKI
- qA14HRhU7VsFZtWzz0WytRfVCKF5udUnGaZg7O2T596DpqjjBMyyFhGb+DkPMFw7tQ
- xJIZh6c1wXkHg==
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4] drm/sched: Make sure we wait for all dependencies in
- kill_jobs_cb()
-Date: Fri, 16 Jun 2023 12:21:50 +0200
-Message-Id: <20230616102150.3122113-1-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.40.1
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 45792635E4;
+ Fri, 16 Jun 2023 10:25:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E54C3C433BD;
+ Fri, 16 Jun 2023 10:25:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1686911147;
+ bh=ExstxKPrGbziirkucB5PqIckFETFvkocrqw85/Grcv4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=VnTJ3de2zeV16ltBQyW4hUPjAz7PtnUC3L2sZD2/JuuIddWi3JspaPCmcKrzn8aWS
+ g6EFtmKf0L1nEkC33Gv63ib/xMKF1uDFoGIFVPIGcVOwUvpizX1fd8j+FNb+hmecII
+ y7fm+lSC6nRN6EMyDltq5DnsSI5jETufHhdmMHgb4MyC0Vpbc5/S9EZ3uXR+rCOhO4
+ 9igg3OAZWdgmMO+nyqBKCaG/ZvLE5dvV0r7YnQesTQdWsPHp0BV8cuw2HHfv01sM4Y
+ aAHhocB7zmLE0AWgNuCo2YHCrnwK1XR7qa0/xOZZBDuZ5wQt/WVLbV3XdGqTGW6tC1
+ XTKcZptHV0xfw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.3 13/30] drm/ast: Fix modeset failed on DisplayPort
+Date: Fri, 16 Jun 2023 06:25:01 -0400
+Message-Id: <20230616102521.673087-13-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230616102521.673087-1-sashal@kernel.org>
+References: <20230616102521.673087-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.3.8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,123 +56,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Luben Tuikov <luben.tuikov@amd.com>, Sarah Walker <sarah.walker@imgtec.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Donald Robson <donald.robson@imgtec.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Jammy Huang <jammy_huang@aspeedtech.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_sched_entity_kill_jobs_cb() logic is omitting the last fence popped
-from the dependency array that was waited upon before
-drm_sched_entity_kill() was called (drm_sched_entity::dependency field),
-so we're basically waiting for all dependencies except one.
+From: Jammy Huang <jammy_huang@aspeedtech.com>
 
-In theory, this wait shouldn't be needed because resources should have
-their users registered to the dma_resv object, thus guaranteeing that
-future jobs wanting to access these resources wait on all the previous
-users (depending on the access type, of course). But we want to keep
-these explicit waits in the kill entity path just in case.
+[ Upstream commit 3692ababa322b4d9ffbd973865bc88018e896fcd ]
 
-Let's make sure we keep all dependencies in the array in
-drm_sched_job_dependency(), so we can iterate over the array and wait
-in drm_sched_entity_kill_jobs_cb().
+If we switch display and update cursor together, it could lead to
+modeset failed because of concurrent access to IO registers.
 
-We also make sure we wait on drm_sched_fence::finished if we were
-originally asked to wait on drm_sched_fence::scheduled. In that case,
-we assume the intent was to delegate the wait to the firmware/GPU or
-rely on the pipelining done at the entity/scheduler level, but when
-killing jobs, we really want to wait for completion not just scheduling.
+Add lock protection in DP's edid access to avoid this problem.
 
-v4:
-- Fix commit message
-- Fix a use-after-free bug
-
-v3:
-- Always wait for drm_sched_fence::finished fences in
-  drm_sched_entity_kill_jobs_cb() when we see a sched_fence
-
-v2:
-- Don't evict deps in drm_sched_job_dependency()
-
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Suggested-by: "Christian König" <christian.koenig@amd.com>
-Cc: Frank Binns <frank.binns@imgtec.com>
-Cc: Sarah Walker <sarah.walker@imgtec.com>
-Cc: Donald Robson <donald.robson@imgtec.com>
-Cc: Luben Tuikov <luben.tuikov@amd.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Link: https://patchwork.freedesktop.org/patch/msgid/20230601004847.1115-1-jammy_huang@aspeedtech.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/scheduler/sched_entity.c | 41 +++++++++++++++++++-----
- 1 file changed, 33 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/ast/ast_mode.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index 68e807ae136a..ec41d82d0141 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -176,16 +176,32 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 984ec590a7e7d..e267cf9f505b9 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -1635,6 +1635,8 @@ static int ast_dp501_output_init(struct ast_private *ast)
+ static int ast_astdp_connector_helper_get_modes(struct drm_connector *connector)
  {
- 	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
- 						 finish_cb);
--	int r;
-+	unsigned long index;
+ 	void *edid;
++	struct drm_device *dev = connector->dev;
++	struct ast_device *ast = to_ast_device(dev);
  
- 	dma_fence_put(f);
+ 	int succ;
+ 	int count;
+@@ -1643,9 +1645,17 @@ static int ast_astdp_connector_helper_get_modes(struct drm_connector *connector)
+ 	if (!edid)
+ 		goto err_drm_connector_update_edid_property;
  
- 	/* Wait for all dependencies to avoid data corruptions */
--	while (!xa_empty(&job->dependencies)) {
--		f = xa_erase(&job->dependencies, job->last_dependency++);
--		r = dma_fence_add_callback(f, &job->finish_cb,
--					   drm_sched_entity_kill_jobs_cb);
--		if (!r)
-+	xa_for_each(&job->dependencies, index, f) {
-+		struct drm_sched_fence *s_fence = to_drm_sched_fence(f);
-+
-+		if (s_fence && f == &s_fence->scheduled) {
-+			/* The dependencies array had a reference on the scheduled
-+			 * fence, and the finished fence refcount might have
-+			 * dropped to zero. Use dma_fence_get_rcu() so we get
-+			 * a NULL fence in that case.
-+			 */
-+			f = dma_fence_get_rcu(&s_fence->finished);
-+
-+			/* Now that we have a reference on the finished fence,
-+			 * we can release the reference the dependencies array
-+			 * had on the scheduled fence.
-+			 */
-+			dma_fence_put(&s_fence->scheduled);
-+		}
-+
-+		xa_erase(&job->dependencies, index);
-+		if (f && !dma_fence_add_callback(f, &job->finish_cb,
-+						 drm_sched_entity_kill_jobs_cb))
- 			return;
- 
- 		dma_fence_put(f);
-@@ -415,8 +431,17 @@ static struct dma_fence *
- drm_sched_job_dependency(struct drm_sched_job *job,
- 			 struct drm_sched_entity *entity)
- {
--	if (!xa_empty(&job->dependencies))
--		return xa_erase(&job->dependencies, job->last_dependency++);
-+	struct dma_fence *f;
-+
-+	/* We keep the fence around, so we can iterate over all dependencies
-+	 * in drm_sched_entity_kill_jobs_cb() to ensure all deps are signaled
-+	 * before killing the job.
++	/*
++	 * Protect access to I/O registers from concurrent modesetting
++	 * by acquiring the I/O-register lock.
 +	 */
-+	f = xa_load(&job->dependencies, job->last_dependency);
-+	if (f) {
-+		job->last_dependency++;
-+		return dma_fence_get(f);
-+	}
++	mutex_lock(&ast->ioregs_lock);
++
+ 	succ = ast_astdp_read_edid(connector->dev, edid);
+ 	if (succ < 0)
+-		goto err_kfree;
++		goto err_mutex_unlock;
++
++	mutex_unlock(&ast->ioregs_lock);
  
- 	if (job->sched->ops->prepare_job)
- 		return job->sched->ops->prepare_job(job, entity);
+ 	drm_connector_update_edid_property(connector, edid);
+ 	count = drm_add_edid_modes(connector, edid);
+@@ -1653,7 +1663,8 @@ static int ast_astdp_connector_helper_get_modes(struct drm_connector *connector)
+ 
+ 	return count;
+ 
+-err_kfree:
++err_mutex_unlock:
++	mutex_unlock(&ast->ioregs_lock);
+ 	kfree(edid);
+ err_drm_connector_update_edid_property:
+ 	drm_connector_update_edid_property(connector, NULL);
 -- 
-2.40.1
+2.39.2
 
