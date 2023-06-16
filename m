@@ -2,72 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 873CE7330E6
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 14:11:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1424C7330EF
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 14:13:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1427310E607;
-	Fri, 16 Jun 2023 12:11:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FCA910E606;
+	Fri, 16 Jun 2023 12:13:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 342 seconds by postgrey-1.36 at gabe;
- Fri, 16 Jun 2023 12:11:23 UTC
-Received: from smtp-relay-internal-0.canonical.com
- (smtp-relay-internal-0.canonical.com [185.125.188.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D67F110E607
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 12:11:23 +0000 (UTC)
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72])
+Received: from smtp-relay-internal-1.canonical.com
+ (smtp-relay-internal-1.canonical.com [185.125.188.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49BAA10E606
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 12:13:46 +0000 (UTC)
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 493A13F10B
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 12:11:20 +0000 (UTC)
+ by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id B378F3F84C
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 12:13:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1686917480;
- bh=ygm1JpcHC+yM6gwUZ9anDyDYQkSa5UJcZ+p9QEN6GhU=;
+ s=20210705; t=1686917624;
+ bh=jjkvjCGEAka4RH5igFy+6Ctmq+VoeIh047CD5mFgF2Q=;
  h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
- b=m80NhPyjDUPqJGH+dmcSS1hWLH3FcicKhUkPYlM1C1vnspQ+/LWrwQGr7PqsgRyx6
- svaXwURgeBgJhSIPbb4czOv33q0jtzO7m6VTzr5UPjl+WagKysQuUNN065BgqvFK7y
- BM3k1h6wOljAc1DJRHf8+Nu0odTWOhyR6DfdsF7ZwNqdvFhNyyLCIqMphQu3Q0fSC4
- eZoOfWo0zxlHqSdus5vCFCA3m3lCH6daJw6I2aWbgKmC8NP+Pi5yaTd9J4MBDqhziX
- 8oZS2R0xxl/60DnHcmwjDhn0j60iZSQvHFFPKjUrE9eSN5ffc2fgRYxLMgF9hhBjTy
- Zr10Sq3xDbekQ==
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-30e3fb5d1a4so207817f8f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 05:11:20 -0700 (PDT)
+ b=ihpz2129s7nzWiWff+40TiX4Ji/wAWeYyb6POaPA1A55KCDg7ZIy5KzFKBXqM25M1
+ 3Ogj9cffT3syOdNeZARnUHiaNMF7D2CD22DaX9zAT9gHQGxTrUHtI0NbJTLVtuWjBw
+ U3IsOl6Pr+i1paz42lTRxRyEmbA73Hlqi31K9H4kPoi/3ep4P4hf/QvxnELTQ0p8D+
+ YWDIxiRtKdOoza7q/qPOUNDlw2OTrGp31XaxBQ5sBtgYpJbIgrqTgQWEr7LOa2d9bJ
+ kh2rWfvlRX73AMA3pRQUGRQwq1MTqop8K1rI3OSMt80jzZE/eEGH+oG2RSfQv5yODD
+ 4e/iNTzO7lgkg==
+Received: by mail-lf1-f70.google.com with SMTP id
+ 2adb3069b0e04-4f6275fdb9eso502405e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 05:13:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686917480; x=1689509480;
+ d=1e100.net; s=20221208; t=1686917624; x=1689509624;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=ygm1JpcHC+yM6gwUZ9anDyDYQkSa5UJcZ+p9QEN6GhU=;
- b=fs2GcIQ2Lu59l6qgWMqKdKyPa+L1/AWHsDXhZEKOz+uSJpjX+KTojP3eXdMraYfcsU
- eSfqF9Y3wFOxoLB85/CLFjgn8wma6XkrDhEXv8YlS/ikiRQcAj1/81TAxq7tgefYZx4+
- i/f0u+Zc4HlRQDNzkfHArwkrKQDXAVIBxufbTk73I8kexlj7nYnES6yriq8AMluQcj2t
- q/bzMiCjm6B0IFVFmMK7I9PAlQ9Nek4Iahb8yosLDd9QXIVPjLwCQdQrjGRcrzXG6mpN
- QDB73XmEIJXCOqinUMD2EHdou0IdC+TCFMHV/l5UlDv7S1Hy/xXYEOg/K7ivUHj10KG3
- hYyg==
-X-Gm-Message-State: AC+VfDxHSj7VGoplMxF6xFEXSvdfegkruX9OVxsjd/iX3J67S+k8GNK5
- 7skLsSZpYCzD2YvXc5klMCHQ9SRfem5Yor/o9FjaO9hF5Y1d2zUzFPakMv2/IZoru/TOiBDJjWx
- oZ8ED3AcM4BL/GicSqGTHw+swsAhiPVyqQECEfCQ9dmN5SQ==
-X-Received: by 2002:adf:fd82:0:b0:30e:19a8:4b15 with SMTP id
- d2-20020adffd82000000b0030e19a84b15mr1232222wrr.30.1686917480061; 
- Fri, 16 Jun 2023 05:11:20 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7+RJMFh0mO2k3qKah4mRBirj+tBn8JQcdEo6xSgXQRBq85MahquhXfYVqxTBHqLgbleXfsHQ==
-X-Received: by 2002:adf:fd82:0:b0:30e:19a8:4b15 with SMTP id
- d2-20020adffd82000000b0030e19a84b15mr1232197wrr.30.1686917479747; 
- Fri, 16 Jun 2023 05:11:19 -0700 (PDT)
+ bh=jjkvjCGEAka4RH5igFy+6Ctmq+VoeIh047CD5mFgF2Q=;
+ b=dgBhNhH8GPSDRorRxWlAlvphtqHRX77S2vXVzSUggqL+SOCbvualQux+IPnxUh+v5h
+ pTU6UPITMNwiskSXGKNQX+j78cAkk33nUWgmhaefbI/Fvswl7MBvYwUyE/8bgkb/UbxG
+ KF59281+UTk3/+5x5GDhtSUpePezUYJA9ogB6HzxR/dU/wrAUiOBEq03/VaMoO/ywwjU
+ +h/rsS2elxZerzPCu5MIeuYdhn/UosA66GYB8Wk00UbbJPlX+9DgGlc+pm6phQFGtAmk
+ LJHby+H/lgoLs5yHks88yDFpjhnK3ExAr+aZDlv+92EtGObQPwjQmYP8C5I05A5ROrOB
+ z6JA==
+X-Gm-Message-State: AC+VfDwXNm2HKMh6JHxIsT5tOVJll5u2Jmf3J++FNTWXnllZDLQBIPbt
+ SelnBuRmjZuXp5x4H9kwQd69K6qgUwRdyL2cYhVf3HIw4NhHk2ePJlOZYpHsFCqc+ZBvgftjK9E
+ rCkwXTmvTmqSJvbGMtqzFaKRDybjzXMz4dWdXUor/gjmg+A==
+X-Received: by 2002:a19:6d0e:0:b0:4f8:4240:5308 with SMTP id
+ i14-20020a196d0e000000b004f842405308mr1048762lfc.42.1686917624164; 
+ Fri, 16 Jun 2023 05:13:44 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ700sMZllYAWkxyIgKy/64sfYN91WIU+FJW9c47JxophbF/4xNj1sw9O0R778sGm02TsDe1mw==
+X-Received: by 2002:a19:6d0e:0:b0:4f8:4240:5308 with SMTP id
+ i14-20020a196d0e000000b004f842405308mr1048751lfc.42.1686917623807; 
+ Fri, 16 Jun 2023 05:13:43 -0700 (PDT)
 Received: from localhost ([194.191.244.86]) by smtp.gmail.com with ESMTPSA id
- s2-20020adfecc2000000b0030aed4223e0sm23325047wro.105.2023.06.16.05.11.19
+ f13-20020a7bcd0d000000b003f7ba52eeccsm2047601wmj.7.2023.06.16.05.13.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Jun 2023 05:11:19 -0700 (PDT)
+ Fri, 16 Jun 2023 05:13:43 -0700 (PDT)
 From: Juerg Haefliger <juerg.haefliger@canonical.com>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
+To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, airlied@gmail.com, daniel@ffwll.ch,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/amdgpu: Add missing MODULE_FIRMWARE macro
-Date: Fri, 16 Jun 2023 14:11:16 +0200
-Message-Id: <20230616121116.1031336-1-juerg.haefliger@canonical.com>
+Subject: [PATCH] drm/bridge: lt9611uxc: Add MODULE_FIRMWARE macro
+Date: Fri, 16 Jun 2023 14:13:41 +0200
+Message-Id: <20230616121341.1032187-1-juerg.haefliger@canonical.com>
 X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -83,31 +82,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bokun.Zhang@amd.com, lijo.lazar@amd.com, linux-kernel@vger.kernel.org,
- YiPeng.Chai@amd.com, Juerg Haefliger <juerg.haefliger@canonical.com>,
- mario.limonciello@amd.com, Likun.Gao@amd.com, Hawking.Zhang@amd.com
+Cc: Juerg Haefliger <juerg.haefliger@canonical.com>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the missing MODULE_FIRMWARE macro for "amdgpu/fiji_smc.bin".
+The module loads firmware so add a MODULE_FIRMWARE macro to provide that
+information via modinfo.
 
 Signed-off-by: Juerg Haefliger <juerg.haefliger@canonical.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 5c7d40873ee2..1f83a939d641 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -92,6 +92,7 @@ MODULE_FIRMWARE("amdgpu/picasso_gpu_info.bin");
- MODULE_FIRMWARE("amdgpu/raven2_gpu_info.bin");
- MODULE_FIRMWARE("amdgpu/arcturus_gpu_info.bin");
- MODULE_FIRMWARE("amdgpu/navi12_gpu_info.bin");
-+MODULE_FIRMWARE("amdgpu/fiji_smc.bin");
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+index 583daacf3705..6b2a4f8d6f78 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+@@ -1019,3 +1019,5 @@ module_i2c_driver(lt9611uxc_driver);
  
- #define AMDGPU_RESUME_MS		2000
- #define AMDGPU_MAX_RETRY_LIMIT		2
+ MODULE_AUTHOR("Dmitry Baryshkov <dmitry.baryshkov@linaro.org>");
+ MODULE_LICENSE("GPL v2");
++
++MODULE_FIRMWARE("lt9611uxc_fw.bin");
 -- 
 2.37.2
 
