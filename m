@@ -1,50 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6052732DBA
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 12:27:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DD2D732DC6
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 12:27:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A650E10E5EE;
-	Fri, 16 Jun 2023 10:27:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80EC510E5F0;
+	Fri, 16 Jun 2023 10:27:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B60610E5ED;
- Fri, 16 Jun 2023 10:27:14 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12CA710E5ED
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 10:27:43 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0ED3B6245F;
- Fri, 16 Jun 2023 10:27:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47DD3C433CB;
- Fri, 16 Jun 2023 10:27:12 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 649FF6245F;
+ Fri, 16 Jun 2023 10:27:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 801D5C433D9;
+ Fri, 16 Jun 2023 10:27:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686911233;
- bh=ad9mJNWY2ATqiIvDKYUCVrrn+8LgbBm8sw+UrkCnxFI=;
+ s=k20201202; t=1686911262;
+ bh=XFn1afc3CoB5JTiXT23yatsipLgYi74pLHBf8rgy/9A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=o02bTlsY8jJ3/G3tMZYjvkq7Sbv9xz9guRQ2fLHLo60F+TXPjjqRr9Jm6yjfjfr7b
- EG76cuAvrzBWX696foHkzZ/uvm3/XH8ZJ47zWqmtokVYYNUCicboJtXTCa2+kjlwCA
- TmdPp2jBCt8i0I8AGGZ0hEkM61MaR9+VdP43/bwB7/KgPHgxmEYaoMT1iN8mbR/U5Q
- hsXr+3+Ue6mnLRQ9vR3mtH7iHdwDV1tfB6FxiN/CPnXfuGzv9FTo0nG4lBgKumXkGm
- LmOp1bsNyZP9aTqh2mA9cf3IgbHyla4qTBHoZpQw/74a1MueF9HlcEM+i9i3uZvmHy
- ukem1mmO+DslA==
+ b=iQqH9zeGv/b/+G9mbyR1e03jCagrCIr7p1JqlWuKpgi/HQD0+QEprpiXOMvuS8LCI
+ GK9MThOY53OnWcw/QYLMvsovlYMmexxpQYLjbz3YaFvpr9NCQ00FJhOCU6PGBJaNeP
+ yKiPUqhRDKntEw33umG5ZJmwMNI+8png9D60bTMsuSG5hgmNEGoiTji8AkBFE7Aiqn
+ NJ7lzvGpIh95EV5Uopke+DTM8/nt9bH7ZWo4ZvBOpWh7pwMvZXbQZ86If2Y1fQN7fR
+ aIvcYMEfsCVyrxdBny3qq9ahN4psfXp+Av7CZaWpyX/A+j2g3JP70GoE65PuElkIvT
+ nEnktgQCqV2xg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 22/26] drm/radeon: fix race condition UAF in
- radeon_gem_set_domain_ioctl
-Date: Fri, 16 Jun 2023 06:26:19 -0400
-Message-Id: <20230616102625.673454-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 10/16] drm/exynos: vidi: fix a wrong error return
+Date: Fri, 16 Jun 2023 06:27:13 -0400
+Message-Id: <20230616102721.673775-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230616102625.673454-1-sashal@kernel.org>
-References: <20230616102625.673454-1-sashal@kernel.org>
+In-Reply-To: <20230616102721.673775-1-sashal@kernel.org>
+References: <20230616102721.673775-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.34
+X-stable-base: Linux 5.15.117
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,56 +57,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Min Li <lm0963hack@gmail.com>,
- Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, linux-samsung-soc@vger.kernel.org,
+ Andi Shyti <andi.shyti@kernel.org>, sw0312.kim@samsung.com,
+ krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
+ kyungmin.park@samsung.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Min Li <lm0963hack@gmail.com>
+From: Inki Dae <inki.dae@samsung.com>
 
-[ Upstream commit 982b173a6c6d9472730c3116051977e05d17c8c5 ]
+[ Upstream commit 4a059559809fd1ddbf16f847c4d2237309c08edf ]
 
-Userspace can race to free the gobj(robj converted from), robj should not
-be accessed again after drm_gem_object_put, otherwith it will result in
-use-after-free.
+Fix a wrong error return by dropping an error return.
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Min Li <lm0963hack@gmail.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+When vidi driver is remvoed, if ctx->raw_edid isn't same as fake_edid_info
+then only what we have to is to free ctx->raw_edid so that driver removing
+can work correctly - it's not an error case.
+
+Signed-off-by: Inki Dae <inki.dae@samsung.com>
+Reviewed-by: Andi Shyti <andi.shyti@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/radeon/radeon_gem.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/gpu/drm/exynos/exynos_drm_vidi.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
-index 261fcbae88d78..75d79c3110389 100644
---- a/drivers/gpu/drm/radeon/radeon_gem.c
-+++ b/drivers/gpu/drm/radeon/radeon_gem.c
-@@ -459,7 +459,6 @@ int radeon_gem_set_domain_ioctl(struct drm_device *dev, void *data,
- 	struct radeon_device *rdev = dev->dev_private;
- 	struct drm_radeon_gem_set_domain *args = data;
- 	struct drm_gem_object *gobj;
--	struct radeon_bo *robj;
- 	int r;
- 
- 	/* for now if someone requests domain CPU -
-@@ -472,13 +471,12 @@ int radeon_gem_set_domain_ioctl(struct drm_device *dev, void *data,
- 		up_read(&rdev->exclusive_lock);
- 		return -ENOENT;
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_vidi.c b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
+index e5662bdcbbde3..e96436e11a36c 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_vidi.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
+@@ -468,8 +468,6 @@ static int vidi_remove(struct platform_device *pdev)
+ 	if (ctx->raw_edid != (struct edid *)fake_edid_info) {
+ 		kfree(ctx->raw_edid);
+ 		ctx->raw_edid = NULL;
+-
+-		return -EINVAL;
  	}
--	robj = gem_to_radeon_bo(gobj);
  
- 	r = radeon_gem_set_domain(gobj, args->read_domains, args->write_domain);
- 
- 	drm_gem_object_put(gobj);
- 	up_read(&rdev->exclusive_lock);
--	r = radeon_gem_handle_lockup(robj->rdev, r);
-+	r = radeon_gem_handle_lockup(rdev, r);
- 	return r;
- }
- 
+ 	component_del(&pdev->dev, &vidi_component_ops);
 -- 
 2.39.2
 
