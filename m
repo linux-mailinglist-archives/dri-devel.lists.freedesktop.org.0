@@ -2,55 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2D2C732C86
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 11:56:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC16B732C8E
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 11:57:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE69910E58F;
-	Fri, 16 Jun 2023 09:56:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06B2810E592;
+	Fri, 16 Jun 2023 09:57:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23D3110E05A
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 09:56:16 +0000 (UTC)
-X-GND-Sasl: miquel.raynal@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1686909373;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8/T4ahbYYhg9xGxNTufEKBAfGkusYwd6bc/dclvufaU=;
- b=Sx1FgyZNi7Iq7mGdv/wHgfG3TQOPJHaRKmm5BPiZaOayV6HAUct1qvoWRvhHe29vP9/iIY
- Lb1aACB10guksm0QOI/OGB3PeNyGR9HiakjV4CzVGU1AHvU5cdnmTi7jmH8E2Ggv76R97C
- 9mOcAvgpGMooOz7fMVusUl9PYZ3BnpBph7/WuwCh7OD7Um+WRRWDcMAYQutW9AEGmhc0pZ
- SNX275wOJb8ZUQF0SZiafa5xptpHXPOdmc0khHqJUAJd7UyndInwJPLT2MxKuvU1e2Jq7s
- e0LXaaHlT/vIxV8UuOf3/fEMVQwNcLYfDbB/mMBtJp/F8ovIfFjhB0b0hibapA==
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id AA3BF1C0003;
- Fri, 16 Jun 2023 09:56:12 +0000 (UTC)
-Date: Fri, 16 Jun 2023 11:56:11 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH 3/7] drm/panel: sitronix-st7789v: Specify the expected
- bus format
-Message-ID: <20230616115611.77b8aff9@xps-13>
-In-Reply-To: <20230610201246.GD1041001@ravnborg.org>
-References: <20230609145951.853533-1-miquel.raynal@bootlin.com>
- <20230609145951.853533-4-miquel.raynal@bootlin.com>
- <20230610201246.GD1041001@ravnborg.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
+ [IPv6:2607:f8b0:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AC4010E592
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 09:57:42 +0000 (UTC)
+Received: by mail-pg1-x529.google.com with SMTP id
+ 41be03b00d2f7-5535efe37b7so261376a12.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 02:57:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1686909461; x=1689501461;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xSWPkl0GFydjtQjoGfD84JMg5QUAqadLvCPjoKyFk/g=;
+ b=NI1iKvl3RMZOqooY3oDaUiNuG3ljgxd4rNh/b6GXzeq0LrnAbYqiWGW5dkYeHhF6Q0
+ rgPnLKX35oso6ufA6urIqmAymiVx7S2rJ6y4WU9DNpVSqCNQM36yvM9LIJe/jheqa5FI
+ ngbGI0HBdTEV2LjiX1ePJa5zE3kCQ221VhINFVDFTXk6zXYyBfh3zwe3xW1elT58Zu7I
+ d3n9IqsiBrSfdgYEp0iDz0+BI1N1g/ku0IqjbcxBOYE2Td0A2zJG7707JtR+AIvWEEX/
+ Xvtsb3SWvWxxA2IMhNguq9a6EyUwspbcb5JByF/vPAIbnTZitkV9ntyPkLMI3V+mii2m
+ H7jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686909461; x=1689501461;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xSWPkl0GFydjtQjoGfD84JMg5QUAqadLvCPjoKyFk/g=;
+ b=cckEKRDIGRFeCLHFPpgoBM/ivzMXT49wqc/S91nEtgQzZYSpu2sT4LSDS7XN1CE8Yb
+ 3BG6G5kHdWCfhLAm09uSCZijGSC9GwwtzD9gTUmu95HKJvkt2nmwyEY+YqsNgF3ZKlJI
+ MKYjilEZzkWXEoT2Ke4resWfUGsGKLiiUFXnl4RFBuB9kfxLNHPg8WjkGqJpanAUJrJu
+ IOkG8v3KFLo5g+dGr3idQ7wkOL+6D3cOdDBc5aCy5ogPZsJXGgcpOeEZSZkiR16SMK0W
+ go9BgPrG1o0Hqyfc+bgTcZAyBQRD2+z478z6V53sk4qP8dgzH5sbu1jNPwiGUXuBK8KV
+ 4jyg==
+X-Gm-Message-State: AC+VfDwdCt0GbMt8+V7F2tBFHoGcSxjz1xT56dAc762HsCoMRUYO40IH
+ BlI0dhk2uxH26K8cshwjKLpGSMAPE/Zkwj2Txpc=
+X-Google-Smtp-Source: ACHHUZ6Xr7jEKTocO3zdpMURLNPKvIe0g4CLZ3O+v7Vi0S2kHoaUXSUaqAbwMWkTRwVpsbZ6aT3vLCDQxPIZ3EeC4cc=
+X-Received: by 2002:a17:90a:898c:b0:256:cf39:afce with SMTP id
+ v12-20020a17090a898c00b00256cf39afcemr1020399pjn.43.1686909461105; Fri, 16
+ Jun 2023 02:57:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20230607151127.1542024-1-pavacic.p@gmail.com>
+ <20230607151127.1542024-4-pavacic.p@gmail.com>
+ <CACRpkdbrEA54qmfTKSsFRG9ZS4u8hM6P5TXtOjRAiW+TD_v-fQ@mail.gmail.com>
+In-Reply-To: <CACRpkdbrEA54qmfTKSsFRG9ZS4u8hM6P5TXtOjRAiW+TD_v-fQ@mail.gmail.com>
+From: Paulo Pavacic <pavacic.p@gmail.com>
+Date: Fri, 16 Jun 2023 11:57:29 +0200
+Message-ID: <CAO9szn00vRFm+iM1m7KgkW0WRuKyJEgVU4tVx4f5tF6KPnE=2w@mail.gmail.com>
+Subject: Re: [PATCH v4 3/3] drm/panel-fannal-c3004: Add fannal c3004 DSI panel
+To: Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,28 +70,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: neil.armstrong@linaro.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ sam@ravnborg.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
+Hello Linus,
 
-sam@ravnborg.org wrote on Sat, 10 Jun 2023 22:12:46 +0200:
+thank you for the comments.
 
-> On Fri, Jun 09, 2023 at 04:59:47PM +0200, Miquel Raynal wrote:
-> > The LCD controller supports RGB444, RGB565 and RGB888. The value that is
-> > written in the COLMOD register indicates using RGB888, so let's clearly
-> > specify the in-use bus format. =20
->=20
-> Confused.
-> MEDIA_BUS_FMT_RGB666_1X18 assumes 6 bits per color.
-> But RGB888 is 8 bits per color.
->=20
-> Something that I have forgotten, or is this inconsistent?
+=C4=8Det, 15. lip 2023. u 21:55 Linus Walleij <linus.walleij@linaro.org> na=
+pisao je:
+>
+> Hi Paulo,
+>
+> thanks for your patch!
+>
+> Overall this looks very good.
+>
+> I doubt that the display controller is actually by Fannal, but I guess
+> you tried to find out? We usually try to identify the underlying display
+> controller so the driver can be named after it and reused for more
+> display panels.
 
-That is a typo indeed, I meant RBG666.
+Yes, of course, the controller is ST7701S.
 
-Thanks, Miqu=C3=A8l
+>
+> Some minor questions/nitpicks below.
+>
+> On Wed, Jun 7, 2023 at 5:11=E2=80=AFPM Paulo Pavacic <pavacic.p@gmail.com=
+> wrote:
+>
+> > +static int fannal_panel_enable(struct drm_panel *panel)
+> > +{
+> > +       struct mipi_dsi_device *dsi =3D to_mipi_dsi_device(panel->dev);
+> > +
+> > +       mipi_dsi_generic_write_seq(dsi, 0xFF, 0x77, 0x01, 0x00, 0x00, 0=
+x13);
+> > +       mipi_dsi_generic_write_seq(dsi, 0xEF, 0x08);
+>
+> Why is everything using mipi_dsi_generic_write_seq() instead of
+> mipi_dsi_dcs_write_seq()?
+
+Okay, I will replace it.
+
+>
+> Especially here, because 0x11 is certainly a command:
+>
+> > +       mipi_dsi_generic_write_seq(dsi, 0x11); //MIPI_DCS_EXIT_SLEEP_MO=
+DE
+>
+> Instead use:
+>
+>     ret =3D mipi_dsi_dcs_exit_sleep_mode(dsi);
+>     if (ret)
+>             return ret;
+>
+>
+> > +       mipi_dsi_generic_write_seq(dsi, 0x29); //MIPI_DCS_SET_DISPLAY_O=
+N
+>
+> Instead use:
+>
+>     ret =3D mipi_dsi_dcs_set_display_on(dsi);
+>     if (ret)
+>             return ret;
+>
+
+Okay I will replace all commands with a functions found here:
+https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_mipi_dsi=
+.c#L995
+
+> Yours,
+> Linus Walleij
+
+Best regards,
+Paulo
