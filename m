@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF75A733655
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 18:44:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4461C73365D
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 18:45:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0423710E66A;
-	Fri, 16 Jun 2023 16:44:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 882F510E66B;
+	Fri, 16 Jun 2023 16:45:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay1-1.pub.mailoutpod2-cph3.one.com
- (mailrelay1-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:400::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D5C710E66A
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 16:44:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=B7SGOkiscnERiAu/chzqiMg1nhVPxRPZ/YgqKvyvPsE=;
- b=pSmSd9+anlIP0e76+zXPTo/HA52x7Mm5ZEZqKmavfPuFcWVHLZqD2Uu3jQ4271LzkQwPnkhp20hUi
- i0DTepyLcVhdSS6XYQ/UiYDDmXgITvT7kKRLrloQlzBBoHdRfRmvxrhyMspaR0C3mYNtnSQZW/WJ9F
- CGbC61h/v6eLoKak1Dpn/ePWS6DM+yRiatk+o8ihPYa+HXi8+uU0cEPX0vIRyaRjsZV0t934nnliWu
- Mmmt48+WhUOZ6L8vLWvjC+XytoNuuuSCM7cdLCIhgb2yArbmXZOWu8q5pKHA90QyAN9k6WH7W2oktA
- itGo9HvDQo+472k2ZddrPZl3qkF+p4A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=B7SGOkiscnERiAu/chzqiMg1nhVPxRPZ/YgqKvyvPsE=;
- b=xjRbRyrFD+VqtofV2snBUmCgShetOF1iVZX/2RRz6cM3nEtzIVAAWqqzlY3u1wWWr6hmbMPLeUJ7V
- 6Ycf0bECg==
-X-HalOne-ID: 13ef398d-0c65-11ee-9b26-99461c6a3fe8
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay1 (Halon) with ESMTPSA
- id 13ef398d-0c65-11ee-9b26-99461c6a3fe8;
- Fri, 16 Jun 2023 16:44:38 +0000 (UTC)
-Date: Fri, 16 Jun 2023 18:44:37 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH 2/2] drm/panel: boe-tv101wum-nl6: Drop surplus prepare
- tracking
-Message-ID: <20230616164437.GC1697490@ravnborg.org>
-References: <20230615-fix-boe-tv101wum-nl6-v1-0-8ac378405fb7@linaro.org>
- <20230615-fix-boe-tv101wum-nl6-v1-2-8ac378405fb7@linaro.org>
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [IPv6:2001:4b98:dc4:8::228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67D8310E66B
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 16:45:29 +0000 (UTC)
+X-GND-Sasl: miquel.raynal@bootlin.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1686933927;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=MGzSKk660DroERy27MTril8DXfD7rhlt4k34kYPLySg=;
+ b=WtFPNVqvwGutyQEyiX/7R/QKId0RoZmojte7VnQBxtEgOMhWT8Q95mC1v/EBp3Nf8JPh80
+ R0hDLmBIYpqnNEIN+q4og7Naii8ew9Anzd9VeWo8L61Xyur1SLOXk4GW9ivtqkk0wy37Ji
+ CRTnbBoj/oWDh83i3wfbG8vlyARPADQb13r12seQhqNO8EM28E3NruU0PEwmfs6g9DV2iW
+ 4iLuTFAyxPKIS9g55rspdVV1bqbY62w9+0BCCJiXo+gg2fLBxDOiEwUFYrARlCjVJpQY/S
+ hTh/IIpDpZvX7c3OMmsu2UU3TTDv+/otR4Q+C2J+TM8rxsUTfBASxAfGZOwrTA==
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E1B5A1BF203;
+ Fri, 16 Jun 2023 16:45:24 +0000 (UTC)
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org
+Subject: [PATCH 2/2] drm/panel: simple: Add support for Mitsubishi AA084XE01
+Date: Fri, 16 Jun 2023 18:45:24 +0200
+Message-Id: <20230616164524.2806421-1-miquel.raynal@bootlin.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230615-fix-boe-tv101wum-nl6-v1-2-8ac378405fb7@linaro.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,26 +59,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jitao Shi <jitao.shi@mediatek.com>,
- yangcong <yangcong5@huaqin.corp-partner.google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>,
- Ruihai Zhou <zhouruihai@huaqin.corp-partner.google.com>
+Cc: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Weber <thomas.weber@corscience.de>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus.
+From: Thomas Weber <thomas.weber@corscience.de>
 
-On Thu, Jun 15, 2023 at 10:21:38PM +0200, Linus Walleij wrote:
-> The DRM panel core already keeps track of if the panel is already
-> prepared so do not reimplement this.
-> 
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+Add support for the Mitsubishi AA084XE01 panel which is an 8.4 inch XGA
+TFT-LCD module for industrial use.
 
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+Link: https://www.mouser.fr/datasheet/2/274/aa084xe01_e-364171.pdf
+Signed-off-by: Thomas Weber <thomas.weber@corscience.de>
+Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+---
+ drivers/gpu/drm/panel/panel-simple.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-It would be good to rip it out for all panels so people do not copy
-less optimal code.
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 8a3b685c2fcc..f79c9f9124a0 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -2670,6 +2670,30 @@ static const struct panel_desc mitsubishi_aa070mc01 = {
+ 	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+ };
+ 
++static const struct drm_display_mode mitsubishi_aa084xe01_mode = {
++	.clock = 80000,
++	.hdisplay = 1024,
++	.hsync_start = 1024 + 24,
++	.hsync_end = 1024 + 24 + 63,
++	.htotal = 1024 + 24 + 63 + 1,
++	.vdisplay = 768,
++	.vsync_start = 768 + 3,
++	.vsync_end = 768 + 3 + 6,
++	.vtotal = 768 + 3 + 6 + 1,
++	.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC,
++};
++
++static const struct panel_desc mitsubishi_aa084xe01 = {
++	.modes = &mitsubishi_aa084xe01_mode,
++	.num_modes = 1,
++	.bpc = 8,
++	.size = {
++		.width = 1024,
++		.height = 768,
++	},
++	.bus_format = MEDIA_BUS_FMT_RGB565_1X16,
++};
++
+ static const struct display_timing multi_inno_mi0700s4t_6_timing = {
+ 	.pixelclock = { 29000000, 33000000, 38000000 },
+ 	.hactive = { 800, 800, 800 },
+@@ -4158,6 +4182,9 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "mitsubishi,aa070mc01-ca1",
+ 		.data = &mitsubishi_aa070mc01,
++	}, {
++		.compatible = "mitsubishi,aa084xe01",
++		.data = &mitsubishi_aa084xe01,
+ 	}, {
+ 		.compatible = "multi-inno,mi0700s4t-6",
+ 		.data = &multi_inno_mi0700s4t_6,
+-- 
+2.34.1
 
-	Sam
