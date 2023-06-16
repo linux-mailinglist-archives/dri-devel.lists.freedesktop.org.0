@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5FFF732D94
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 12:26:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A30E9732D9E
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 12:26:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E1A310E5DF;
-	Fri, 16 Jun 2023 10:26:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A94910E5E6;
+	Fri, 16 Jun 2023 10:26:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A68F10E5DF
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 10:26:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FBFA10E5DF
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 10:26:14 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D36E4635C4;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 763E2635AF;
+ Fri, 16 Jun 2023 10:26:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 841B5C433C0;
  Fri, 16 Jun 2023 10:26:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA8F9C433CA;
- Fri, 16 Jun 2023 10:26:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686911171;
- bh=VRkjnQDfjXAu6adCt3PdtX8T/zECSCAXojz7WBO3BNU=;
+ s=k20201202; t=1686911172;
+ bh=5r/F6a1Myi58nLeOgxAiMCY1m5Gdsqjn2GihdUq/W7Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=vFx6SfUdgarjHm7N5h+A1ettRCZ3kHj3b2NLqsr9WUrM215UkuN9Zn6qwEBq4KkCy
- uHX92L1N8Jqy2ZPUnmMTCXUhKY5OxUK/V8LNfGdSwolWHO3rdwOJ9QMndoV1GiW9jI
- aUyxC7wQ7r/uND+Hmwa1JYKpPs1ySzRtZYzQSPcg5M24OcMwsfKMCiMk8SgICBW8wW
- isOc+P2OQ3K/hHE1Fj2+UxC6A6MpH7iNrMIJRNqDlXfKpNy60YAtR7PtIb7/tOULU2
- aUNI0i6RH27lhw6Cbdb7MtfypboZoQKzsXQmQ/rHkq+VoDb5pgZfGsQuH/GqbnH3xK
- l3zRX8jx2Bd1A==
+ b=ZIsYm8I7snqJ+NIf0xtDJBaWSaHYytVRNbIG31+pmF3wpqbbAsVg7mP4EaZT3wTFG
+ m+VjeQ5NEeE8vqbArpmAkw+rnZceffWAzH97knQHeb9G8YhO/S6eQkcbonyZ1DuCeu
+ oK3VPbhMRQt0Ap75nY9pT3iniPqdW7cbLWFkCAHu+e9RdKGuotXX5aB9gl+ihzQg/1
+ yh8j5PhM3wAMlH40YFiu4eP9qkdiDWIKj/1qTfT6YZ+Xg6gjRJvcsS+hgqvx/kO4Hg
+ JYO2kWNwZIZ+x6BVN3rzCp8T6D+HuGfPQifj7umxzRXP6fSssUhIRG7GdGb1nRcUCi
+ 8qKfgNMbxo+KA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.3 23/30] drm/exynos: vidi: fix a wrong error return
-Date: Fri, 16 Jun 2023 06:25:11 -0400
-Message-Id: <20230616102521.673087-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.3 24/30] drm/exynos: fix race condition UAF in
+ exynos_g2d_exec_ioctl
+Date: Fri, 16 Jun 2023 06:25:12 -0400
+Message-Id: <20230616102521.673087-24-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230616102521.673087-1-sashal@kernel.org>
 References: <20230616102521.673087-1-sashal@kernel.org>
@@ -58,42 +59,42 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, linux-samsung-soc@vger.kernel.org,
- Andi Shyti <andi.shyti@kernel.org>, sw0312.kim@samsung.com,
+ Min Li <lm0963hack@gmail.com>, sw0312.kim@samsung.com,
  krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
- kyungmin.park@samsung.com, linux-arm-kernel@lists.infradead.org
+ kyungmin.park@samsung.com, linux-arm-kernel@lists.infradead.org,
+ Andi Shyti <andi.shyti@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Inki Dae <inki.dae@samsung.com>
+From: Min Li <lm0963hack@gmail.com>
 
-[ Upstream commit 4a059559809fd1ddbf16f847c4d2237309c08edf ]
+[ Upstream commit 48bfd02569f5db49cc033f259e66d57aa6efc9a3 ]
 
-Fix a wrong error return by dropping an error return.
+If it is async, runqueue_node is freed in g2d_runqueue_worker on another
+worker thread. So in extreme cases, if g2d_runqueue_worker runs first, and
+then executes the following if statement, there will be use-after-free.
 
-When vidi driver is remvoed, if ctx->raw_edid isn't same as fake_edid_info
-then only what we have to is to free ctx->raw_edid so that driver removing
-can work correctly - it's not an error case.
-
-Signed-off-by: Inki Dae <inki.dae@samsung.com>
+Signed-off-by: Min Li <lm0963hack@gmail.com>
 Reviewed-by: Andi Shyti <andi.shyti@kernel.org>
+Signed-off-by: Inki Dae <inki.dae@samsung.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/exynos/exynos_drm_vidi.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/exynos/exynos_drm_g2d.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_vidi.c b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-index 4d56c8c799c5a..f5e1adfcaa514 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-@@ -469,8 +469,6 @@ static int vidi_remove(struct platform_device *pdev)
- 	if (ctx->raw_edid != (struct edid *)fake_edid_info) {
- 		kfree(ctx->raw_edid);
- 		ctx->raw_edid = NULL;
--
--		return -EINVAL;
- 	}
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.c b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+index ec784e58da5c1..414e585ec7dd0 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_g2d.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+@@ -1335,7 +1335,7 @@ int exynos_g2d_exec_ioctl(struct drm_device *drm_dev, void *data,
+ 	/* Let the runqueue know that there is work to do. */
+ 	queue_work(g2d->g2d_workq, &g2d->runqueue_work);
  
- 	component_del(&pdev->dev, &vidi_component_ops);
+-	if (runqueue_node->async)
++	if (req->async)
+ 		goto out;
+ 
+ 	wait_for_completion(&runqueue_node->complete);
 -- 
 2.39.2
 
