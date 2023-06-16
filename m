@@ -1,57 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AC2A733457
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 17:09:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD3D07334A3
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 17:23:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5D7610E63E;
-	Fri, 16 Jun 2023 15:09:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AC2410E648;
+	Fri, 16 Jun 2023 15:23:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C593E10E63E
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 15:09:19 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 35GF94d9005293;
- Fri, 16 Jun 2023 10:09:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1686928144;
- bh=fSIOR21GyNGwrlLsCC1Pmti5aHVr60HCZep3gwVHG0w=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=kswZs73Y5WXfmVfFsN7TsgeTG1JnpsncXB1QO7rvGPlwCsFHiuK8XUmSfo45Qg4no
- A3DDprAeli7I3knGW0qPA7WYpHdhLgq3UKTf6OgQ7HZc6ft29hSsR2eLCgP41m2vZG
- 2qOq3CGhe6SGKslnrUM2a4pki7rS7NwLqp7QVmg4=
-Received: from DFLE110.ent.ti.com (dfle110.ent.ti.com [10.64.6.31])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 35GF94Fv005781
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 16 Jun 2023 10:09:04 -0500
-Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 16
- Jun 2023 10:09:04 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 16 Jun 2023 10:09:04 -0500
-Received: from localhost (ileaxei01-snat.itg.ti.com [10.180.69.5])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 35GF93hP091387;
- Fri, 16 Jun 2023 10:09:03 -0500
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-To: Tomi Valkeinen <tomba@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
-Subject: [PATCH v9 2/2] drm/tidss: Add support for AM625 DSS
-Date: Fri, 16 Jun 2023 20:39:00 +0530
-Message-ID: <20230616150900.6617-3-a-bhatia1@ti.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230616150900.6617-1-a-bhatia1@ti.com>
-References: <20230616150900.6617-1-a-bhatia1@ti.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1DBE10E648
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 15:23:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1686929001;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lA4WetjOkBjPwCImnk3E1z+blRFlganosEwAAK5HqlQ=;
+ b=dB1l6AhXDFPUlEJq2xEfid5BbEArSxOaRSHzQ1u75kzebIfKY4rNDHq0fJIgldwamQViqV
+ qTMhNa0qBi8Bz1xHPvOHjSK4zz+EMDlGYgH7kkTt/n2+HjsXT3HTXFKNskQPD3+zRp4YDX
+ Hc5Qoe/XBKQi4zoMcU7DJhz5VwCyyNE=
+Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
+ [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-528-bBsBuk1zOWS6puaPgoTiTA-1; Fri, 16 Jun 2023 11:23:19 -0400
+X-MC-Unique: bBsBuk1zOWS6puaPgoTiTA-1
+Received: by mail-yw1-f200.google.com with SMTP id
+ 00721157ae682-57008cbc58aso10398187b3.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 08:23:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686928999; x=1689520999;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=lA4WetjOkBjPwCImnk3E1z+blRFlganosEwAAK5HqlQ=;
+ b=bn5uKA0Sg31UpfuB/UOM3lQ3UzkDF1UspPAs2UDp3DdYNUtNUjHac7z9V1h7EJn7os
+ Kb6UGKG5U+sEVnzowRqenI4pZoB3ar9Yh8JrreqDKviTm2sgSoYXgmWhV+A8CtKSSktl
+ h8luSsxTiz6Dda0TPwzd29t5Y+dRTDsq05GEhEAH9SxRCsuebWgOBPKBnHSIcW4soX1f
+ BPt8nmJIrLBWlzQ0yIMl3eGsGSJNrgAkxo6xG6FYuTHFAixYefy7yKo2z7zfHE3shyNd
+ QzbNlA7ssscEF+LAlDYCoVGVktCnWjWz6QFwmlMYHFL5H+4nfOBmBCEnl2zJEot/o04q
+ gnkA==
+X-Gm-Message-State: AC+VfDy5V6CI3L+8swJYRzciwnps0z0IX/Jiln5oR7TmbuB/tvGQRPmm
+ VhqyOrYl1poXBV2idKzE/c2ZvSLJZTq0uDm+SiWw5vej4lkeAPpfeBP767u6ieQNNdcuXuGyiSM
+ A+KF8y0Ddrt3UK6mfXEkqXD1Q+A0O
+X-Received: by 2002:a0d:dc01:0:b0:55a:18e2:cdf9 with SMTP id
+ f1-20020a0ddc01000000b0055a18e2cdf9mr2220619ywe.49.1686928999374; 
+ Fri, 16 Jun 2023 08:23:19 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7NOTCKCTI0yyuQ0+PMG4jd1bn9GV0P6GZZ962o5J8zX2cgNyFC6rRy/x9Cnu6fAalYWPOdIw==
+X-Received: by 2002:a0d:dc01:0:b0:55a:18e2:cdf9 with SMTP id
+ f1-20020a0ddc01000000b0055a18e2cdf9mr2220605ywe.49.1686928999136; 
+ Fri, 16 Jun 2023 08:23:19 -0700 (PDT)
+Received: from brian-x1 (c-73-214-169-22.hsd1.pa.comcast.net. [73.214.169.22])
+ by smtp.gmail.com with ESMTPSA id
+ t66-20020a0dd145000000b0056d2dd6c5bcsm3164519ywd.89.2023.06.16.08.23.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Jun 2023 08:23:18 -0700 (PDT)
+Date: Fri, 16 Jun 2023 11:23:16 -0400
+From: Brian Masney <bmasney@redhat.com>
+To: Juerg Haefliger <juerg.haefliger@canonical.com>
+Subject: Re: [PATCH] drm/msm/adreno: Update MODULE_FIRMWARE macros
+Message-ID: <ZIx+ZHXTRGe3j4sh@brian-x1>
+References: <20230616122815.1037425-1-juerg.haefliger@canonical.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <20230616122815.1037425-1-juerg.haefliger@canonical.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,195 +82,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Jayesh Choudhary <j-choudhary@ti.com>, Rahul T R <r-ravikumar@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Aradhya Bhatia <a-bhatia1@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>
+Cc: freedreno@lists.freedesktop.org, quic_akhilpo@quicinc.com, sean@poorly.run,
+ ribalda@chromium.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ konrad.dybcio@linaro.org, joel@joelfernandes.org,
+ linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
+ johan+linaro@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the DSS controller on TI's AM625 SoC in the tidss
-driver.
+Hi Juerg,
 
-The AM625 DSS supports 2 video planes connecting to 2 video ports.
-The first plane is a full plane supporting all the features, while the
-2nd plane is a "lite" plane without scaling support.
+On Fri, Jun 16, 2023 at 02:28:15PM +0200, Juerg Haefliger wrote:
+> Add missing MODULE_FIRMWARE macros and remove some for firmwares that
+> the driver no longer references.
+> 
+> Signed-off-by: Juerg Haefliger <juerg.haefliger@canonical.com>
+> ---
+>  drivers/gpu/drm/msm/adreno/adreno_device.c | 23 ++++++++++++++++++----
+>  1 file changed, 19 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> index 8cff86e9d35c..9f70d7c1a72a 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> @@ -364,17 +364,32 @@ MODULE_FIRMWARE("qcom/a330_pm4.fw");
+>  MODULE_FIRMWARE("qcom/a330_pfp.fw");
+>  MODULE_FIRMWARE("qcom/a420_pm4.fw");
+>  MODULE_FIRMWARE("qcom/a420_pfp.fw");
+> +MODULE_FIRMWARE("qcom/a506_zap.mdt");
+> +MODULE_FIRMWARE("qcom/a508_zap.mdt");
+> +MODULE_FIRMWARE("qcom/a512_zap.mdt");
+>  MODULE_FIRMWARE("qcom/a530_pm4.fw");
+>  MODULE_FIRMWARE("qcom/a530_pfp.fw");
+>  MODULE_FIRMWARE("qcom/a530v3_gpmu.fw2");
+>  MODULE_FIRMWARE("qcom/a530_zap.mdt");
+> -MODULE_FIRMWARE("qcom/a530_zap.b00");
+> -MODULE_FIRMWARE("qcom/a530_zap.b01");
+> -MODULE_FIRMWARE("qcom/a530_zap.b02");
+> +MODULE_FIRMWARE("qcom/a540_gpmu.fw2");
+> +MODULE_FIRMWARE("qcom/a540_zap.mdt");
+> +MODULE_FIRMWARE("qcom/a615_zap.mdt");
+>  MODULE_FIRMWARE("qcom/a619_gmu.bin");
+>  MODULE_FIRMWARE("qcom/a630_sqe.fw");
+>  MODULE_FIRMWARE("qcom/a630_gmu.bin");
+> -MODULE_FIRMWARE("qcom/a630_zap.mbn");
+> +MODULE_FIRMWARE("qcom/a630_zap.mdt");
+> +MODULE_FIRMWARE("qcom/a640_gmu.bin");
+> +MODULE_FIRMWARE("qcom/a640_zap.mdt");
+> +MODULE_FIRMWARE("qcom/a650_gmu.bin");
+> +MODULE_FIRMWARE("qcom/a650_sqe.fw");
+> +MODULE_FIRMWARE("qcom/a650_zap.mdt");
+> +MODULE_FIRMWARE("qcom/a660_gmu.bin");
+> +MODULE_FIRMWARE("qcom/a660_sqe.fw");
+> +MODULE_FIRMWARE("qcom/a660_zap.mdt");
+> +MODULE_FIRMWARE("qcom/leia_pfp_470.fw");
+> +MODULE_FIRMWARE("qcom/leia_pm4_470.fw");
+> +MODULE_FIRMWARE("qcom/yamato_pfp.fw");
+> +MODULE_FIRMWARE("qcom/yamato_pm4.fw");
 
-The first video port in AM625 DSS internally provides DPI output to 2
-OLDI transmitters. Each OLDI TX outputs 4 differential lanes of video
-output and 1 of clock output.
+You should rebase this on top of the latest -next since the a690 needs
+to be added as well.
 
-This patch does not automatically enable the OLDI features of AM625 yet.
-That support for OLDI will be added subsequently.
-
-The second video port outputs DPI data directly out of the SoC. It has
-24 data lines and can support a maximum of RGB888 output bus format.
-
-Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
-
-Notes:
-
-  Changes from v8:
-  * Update commit message.
-  * Add Tomi Valkeinen's R-b tag.
-
-  Changes from v7:
-  * Drop all changes made after v3.
-    - Drop output bus type support. All outputs from DSS will be the
-      video port outptus.
-  * Make the first video port type as INTERNAL from OLDI.
-
- drivers/gpu/drm/tidss/tidss_dispc.c | 57 ++++++++++++++++++++++++++++-
- drivers/gpu/drm/tidss/tidss_dispc.h |  2 +
- drivers/gpu/drm/tidss/tidss_drv.c   |  1 +
- 3 files changed, 59 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-index dca077411f77..484da1aa27bb 100644
---- a/drivers/gpu/drm/tidss/tidss_dispc.c
-+++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-@@ -275,6 +275,55 @@ const struct dispc_features dispc_j721e_feats = {
- 	.vid_order = { 1, 3, 0, 2 },
- };
- 
-+const struct dispc_features dispc_am625_feats = {
-+	.max_pclk_khz = {
-+		[DISPC_VP_DPI] = 165000,
-+		[DISPC_VP_INTERNAL] = 170000,
-+	},
-+
-+	.scaling = {
-+		.in_width_max_5tap_rgb = 1280,
-+		.in_width_max_3tap_rgb = 2560,
-+		.in_width_max_5tap_yuv = 2560,
-+		.in_width_max_3tap_yuv = 4096,
-+		.upscale_limit = 16,
-+		.downscale_limit_5tap = 4,
-+		.downscale_limit_3tap = 2,
-+		/*
-+		 * The max supported pixel inc value is 255. The value
-+		 * of pixel inc is calculated like this: 1+(xinc-1)*bpp.
-+		 * The maximum bpp of all formats supported by the HW
-+		 * is 8. So the maximum supported xinc value is 32,
-+		 * because 1+(32-1)*8 < 255 < 1+(33-1)*4.
-+		 */
-+		.xinc_max = 32,
-+	},
-+
-+	.subrev = DISPC_AM625,
-+
-+	.common = "common",
-+	.common_regs = tidss_am65x_common_regs,
-+
-+	.num_vps = 2,
-+	.vp_name = { "vp1", "vp2" },
-+	.ovr_name = { "ovr1", "ovr2" },
-+	.vpclk_name =  { "vp1", "vp2" },
-+	.vp_bus_type = { DISPC_VP_INTERNAL, DISPC_VP_DPI },
-+
-+	.vp_feat = { .color = {
-+			.has_ctm = true,
-+			.gamma_size = 256,
-+			.gamma_type = TIDSS_GAMMA_8BIT,
-+		},
-+	},
-+
-+	.num_planes = 2,
-+	/* note: vid is plane_id 0 and vidl1 is plane_id 1 */
-+	.vid_name = { "vid", "vidl1" },
-+	.vid_lite = { false, true, },
-+	.vid_order = { 1, 0 },
-+};
-+
- static const u16 *dispc_common_regmap;
- 
- struct dss_vp_data {
-@@ -776,6 +825,7 @@ dispc_irq_t dispc_read_and_clear_irqstatus(struct dispc_device *dispc)
- 	switch (dispc->feat->subrev) {
- 	case DISPC_K2G:
- 		return dispc_k2g_read_and_clear_irqstatus(dispc);
-+	case DISPC_AM625:
- 	case DISPC_AM65X:
- 	case DISPC_J721E:
- 		return dispc_k3_read_and_clear_irqstatus(dispc);
-@@ -791,6 +841,7 @@ void dispc_set_irqenable(struct dispc_device *dispc, dispc_irq_t mask)
- 	case DISPC_K2G:
- 		dispc_k2g_set_irqenable(dispc, mask);
- 		break;
-+	case DISPC_AM625:
- 	case DISPC_AM65X:
- 	case DISPC_J721E:
- 		dispc_k3_set_irqenable(dispc, mask);
-@@ -1281,6 +1332,7 @@ void dispc_ovr_set_plane(struct dispc_device *dispc, u32 hw_plane,
- 		dispc_k2g_ovr_set_plane(dispc, hw_plane, hw_videoport,
- 					x, y, layer);
- 		break;
-+	case DISPC_AM625:
- 	case DISPC_AM65X:
- 		dispc_am65x_ovr_set_plane(dispc, hw_plane, hw_videoport,
- 					  x, y, layer);
-@@ -2199,6 +2251,7 @@ static void dispc_plane_init(struct dispc_device *dispc)
- 	case DISPC_K2G:
- 		dispc_k2g_plane_init(dispc);
- 		break;
-+	case DISPC_AM625:
- 	case DISPC_AM65X:
- 	case DISPC_J721E:
- 		dispc_k3_plane_init(dispc);
-@@ -2305,6 +2358,7 @@ static void dispc_vp_write_gamma_table(struct dispc_device *dispc,
- 	case DISPC_K2G:
- 		dispc_k2g_vp_write_gamma_table(dispc, hw_videoport);
- 		break;
-+	case DISPC_AM625:
- 	case DISPC_AM65X:
- 		dispc_am65x_vp_write_gamma_table(dispc, hw_videoport);
- 		break;
-@@ -2579,7 +2633,8 @@ int dispc_runtime_resume(struct dispc_device *dispc)
- 		REG_GET(dispc, DSS_SYSSTATUS, 2, 2),
- 		REG_GET(dispc, DSS_SYSSTATUS, 3, 3));
- 
--	if (dispc->feat->subrev == DISPC_AM65X)
-+	if (dispc->feat->subrev == DISPC_AM625 ||
-+	    dispc->feat->subrev == DISPC_AM65X)
- 		dev_dbg(dispc->dev, "OLDI RESETDONE %d,%d,%d\n",
- 			REG_GET(dispc, DSS_SYSSTATUS, 5, 5),
- 			REG_GET(dispc, DSS_SYSSTATUS, 6, 6),
-diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
-index 946ed769caaf..33ac5ad7a423 100644
---- a/drivers/gpu/drm/tidss/tidss_dispc.h
-+++ b/drivers/gpu/drm/tidss/tidss_dispc.h
-@@ -59,6 +59,7 @@ enum dispc_vp_bus_type {
- 
- enum dispc_dss_subrevision {
- 	DISPC_K2G,
-+	DISPC_AM625,
- 	DISPC_AM65X,
- 	DISPC_J721E,
- };
-@@ -86,6 +87,7 @@ struct dispc_features {
- };
- 
- extern const struct dispc_features dispc_k2g_feats;
-+extern const struct dispc_features dispc_am625_feats;
- extern const struct dispc_features dispc_am65x_feats;
- extern const struct dispc_features dispc_j721e_feats;
- 
-diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
-index 3f5f27fb6ebc..0a6f19314662 100644
---- a/drivers/gpu/drm/tidss/tidss_drv.c
-+++ b/drivers/gpu/drm/tidss/tidss_drv.c
-@@ -232,6 +232,7 @@ static void tidss_shutdown(struct platform_device *pdev)
- 
- static const struct of_device_id tidss_of_table[] = {
- 	{ .compatible = "ti,k2g-dss", .data = &dispc_k2g_feats, },
-+	{ .compatible = "ti,am625-dss", .data = &dispc_am625_feats, },
- 	{ .compatible = "ti,am65x-dss", .data = &dispc_am65x_feats, },
- 	{ .compatible = "ti,j721e-dss", .data = &dispc_j721e_feats, },
- 	{ }
--- 
-2.40.1
+Brian
 
