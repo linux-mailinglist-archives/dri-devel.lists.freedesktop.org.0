@@ -1,57 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A14D0732CA3
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 12:01:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D19E732CF6
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 12:06:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0521F10E596;
-	Fri, 16 Jun 2023 10:01:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90B8010E5CB;
+	Fri, 16 Jun 2023 10:06:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
- [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 607DE10E596
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 10:01:33 +0000 (UTC)
-X-GND-Sasl: miquel.raynal@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1686909691;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9X5WQIES+6mq7XGo7uf4HLjXsHKtnf4NLzPOksl9SVk=;
- b=LgRQEufPhj+l9+E7vgGPxDm3rkY2NdCq6QYoro45KxB6Rs/lxfvhxQAWpuX50I6XRWgOrc
- H3DW9aT6nubsEk1XukvYEN6zDQFI6bqDfOkNEP4wqwJYc1Lz3Q6t+3eRjy/IzXshpUMSg4
- 3NiuVMqTBELN74GdcpEmgQg5j4hVBrRQ5byTendTvCec6MRH9Et2drrWrS7d7w4Gn11bpM
- jn/nD758w8UEx0ofmq09mmBSMySd7rpidY6o74jwSdPsBMfNkL/3r30CcFJEXjEITPyi4Y
- se3O1PEj/yXBbbry+vG7NHT/Lmp3DOKKtjd1wOLhVSfM+7kqFnvrwD8grBuA+w==
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0CE8E20009;
- Fri, 16 Jun 2023 10:01:29 +0000 (UTC)
-Date: Fri, 16 Jun 2023 12:01:29 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH 6/7] drm/panel: sitronix-st7789v: Add EDT ET028013DMA
- panel support
-Message-ID: <20230616120129.75fb00b3@xps-13>
-In-Reply-To: <tr2rmz375jwkwjufhgvb7vbxwqik2w6i276yshh2tbo6dcfhh7@llvt6bigivfy>
-References: <20230609145951.853533-1-miquel.raynal@bootlin.com>
- <20230609145951.853533-7-miquel.raynal@bootlin.com>
- <tr2rmz375jwkwjufhgvb7vbxwqik2w6i276yshh2tbo6dcfhh7@llvt6bigivfy>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C48310E5AB
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 10:03:24 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id
+ 2adb3069b0e04-4f642a24555so599477e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 03:03:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1686909802; x=1689501802;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=wqvCgQcB3Bv4IdopumPU4IXPG8TJ8H9aWDi0425LcU8=;
+ b=jRnNwVx4kuiOhl9c7s8HE20l/pDDXGkSVuZLy/P70BCAd6jMUtSQ9fvECPc/YF+ke2
+ HyQy//r8sCxOVbHvwsQBIdZZuE4h879AUfEZm9FK9Xe/2D+LFi7yBvLgYUbNU0zNKLlx
+ Jm8oh4GvRambtGCBkTxRKCYZPaGz5GMGm+frqV9GRhr9PdNTNw64DAd2UpTqt6ujBWV9
+ nBiS4SfDTsSWx+hLpanMeIy6mK/KTpcWmDBoaWNnfkJ5QDQzOTZ1mKpE6HSbqn/vQDYt
+ rC+k8SkbKzOGv/Nlkx0hwqelpAnqyx5U2sHdQwOhF1PdOdpUhbHg59cpPDz0jNTAX/9G
+ L+BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686909802; x=1689501802;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wqvCgQcB3Bv4IdopumPU4IXPG8TJ8H9aWDi0425LcU8=;
+ b=bZ1PbptUsCSJzFEEY2yrjm9edENHtazcheaVjnSuvomD3XY+nAxoHjw47IkawUjwVZ
+ SI986/8fYVqK63C7JfSFMmDSqQWWPzHqIUOZ0QShMhSvGJBTZp0PL3FBqV52X8W+FLNS
+ cZ+nbnEv19dQ8KVMjiEb5/+APpmo9eVeKy3E03YbvFc+SEg5ARBX0CbTpo7JN8Ficd3d
+ Db8XzWZedexLZVHa9p9X8V1SeH0PTBx8GofgIXtuwW3uXAXbqTz7yiL9sMCKAo8NR5Oq
+ wCwwQoPf6llz86Q79MLtB1LsQbKcm1WHjTC+tF1CMgoJtRMnU4vUPhJVh0lVO1jKLpjB
+ I+sQ==
+X-Gm-Message-State: AC+VfDyGXDs+031r6hZvqBu5pNiuQJeCnBZ+K9S54hTvYKNInUGWbck0
+ nv9VI9nAHie7Dpk1zmypiSpqxQ==
+X-Google-Smtp-Source: ACHHUZ44G32FwLMijo5mBxcqQF7R/SrfcUW605+MOMTaWwmMZ/8fbLI81k6Wp5v5HOjdaDcI+TM3MQ==
+X-Received: by 2002:a05:6512:1c5:b0:4f6:217a:5615 with SMTP id
+ f5-20020a05651201c500b004f6217a5615mr873574lfp.38.1686909802612; 
+ Fri, 16 Jun 2023 03:03:22 -0700 (PDT)
+Received: from eriador.lan (85-76-68-127-nat.elisa-mobile.fi. [85.76.68.127])
+ by smtp.gmail.com with ESMTPSA id
+ r12-20020ac24d0c000000b004f4ce9c9338sm2967423lfi.283.2023.06.16.03.03.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Jun 2023 03:03:21 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [PATCH v3 00/19] drm/msm/dpu: another catalog rework
+Date: Fri, 16 Jun 2023 13:02:58 +0300
+Message-Id: <20230616100317.500687-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,140 +72,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Having a macro with 10 arguments doesn't seem like a good idea. It makes
+it inherently harder to compare the actual structure values. Also this
+leads to adding macros covering varieties of the block.
 
-mripard@kernel.org wrote on Mon, 12 Jun 2023 10:51:09 +0200:
+As it was previously discussed, inline all foo_BLK macros in order to
+ease performing changes to the catalog data.
 
-> On Fri, Jun 09, 2023 at 04:59:50PM +0200, Miquel Raynal wrote:
-> > This panel from Emerging Display Technologies Corporation features an
-> > ST7789V2 panel inside which is almost identical to what the Sitronix
-> > panel driver supports.
-> >=20
-> > In practice, the module physical size is specific, and experiments show
-> > that the display will malfunction if any of the following situation
-> > occurs:
-> > * Pixel clock is above 3MHz
-> > * Pixel clock is not inverted
-> > I could not properly identify the reasons behind these failures, scope
-> > captures show valid input signals.
-> >=20
-> > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> > ---
-> >  .../gpu/drm/panel/panel-sitronix-st7789v.c    | 34 +++++++++++++++++--
-> >  1 file changed, 32 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c b/drivers/g=
-pu/drm/panel/panel-sitronix-st7789v.c
-> > index 212bccc31804..7de192a3a8aa 100644
-> > --- a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-> > +++ b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-> > @@ -30,7 +30,8 @@
-> >  #define ST7789V_RGBCTRL_RCM(n)			(((n) & 3) << 5)
-> >  #define ST7789V_RGBCTRL_VSYNC_HIGH		BIT(3)
-> >  #define ST7789V_RGBCTRL_HSYNC_HIGH		BIT(2)
-> > -#define ST7789V_RGBCTRL_PCLK_HIGH		BIT(1)
-> > +#define ST7789V_RGBCTRL_PCLK_FALLING		BIT(1)
-> > +#define ST7789V_RGBCTRL_PCLK_RISING		0
-> >  #define ST7789V_RGBCTRL_VBP(n)			((n) & 0x7f)
-> >  #define ST7789V_RGBCTRL_HBP(n)			((n) & 0x1f)
-> > =20
-> > @@ -117,6 +118,7 @@ struct st7789v_panel_info {
-> >  	u16 width_mm;
-> >  	u16 height_mm;
-> >  	u32 bus_format;
-> > +	u32 bus_flags;
-> >  };
-> > =20
-> >  struct st7789v {
-> > @@ -175,6 +177,18 @@ static const struct drm_display_mode default_mode =
-=3D {
-> >  	.vtotal =3D 320 + 8 + 4 + 4,
-> >  };
-> > =20
-> > +static const struct drm_display_mode slow_mode =3D {
-> > +	.clock =3D 3000,
-> > +	.hdisplay =3D 240,
-> > +	.hsync_start =3D 240 + 38,
-> > +	.hsync_end =3D 240 + 38 + 10,
-> > +	.htotal =3D 240 + 38 + 10 + 10,
-> > +	.vdisplay =3D 320,
-> > +	.vsync_start =3D 320 + 8,
-> > +	.vsync_end =3D 320 + 8 + 4,
-> > +	.vtotal =3D 320 + 8 + 4 + 4,
-> > +}; =20
->=20
-> Why is it supposed to be slow (and compared to what)? It looks like a
-> fairly normal mode to me? Or is it because it's refreshed at 30Hz?
+Major part of the conversion was performed using vim script found at
+[1]. Then some manual cleanups were applied, like dropping fields set to
+0.
 
-The initial support was using 60Hz and for a reason that I do not
-understand (scope capture look right), the panel I use is highly
-unstable at whatever frequency above 30Hz, so for me it was "slow" :-)
-But of course I'll use the panel name to qualify the mode.
+Dependencies: msm-next-lumag.
 
-> Either way, the ST7789V is a panel controller and can be connected to a
-> wide range of panels depending on the model, so it would be better to
-> just use the model name there.
+Changes since v2:
+ - Rebased on top of msm-next-lumag
+ - Fixed MSM_DP/DSI_CONTROLLER_n usage in sm6350 and sm6375 catalog data
+   (Abhinav, Marijn).
 
-Sure.
+Changes since v1:
+ - Rebased on top of msm-next
+ - Dropped dependency on interrupt rework
 
-> >  static int st7789v_get_modes(struct drm_panel *panel,
-> >  			     struct drm_connector *connector)
-> >  {
-> > @@ -197,6 +211,7 @@ static int st7789v_get_modes(struct drm_panel *pane=
-l,
-> > =20
-> >  	connector->display_info.width_mm =3D panel_info->width_mm;
-> >  	connector->display_info.height_mm =3D panel_info->height_mm;
-> > +	connector->display_info.bus_flags =3D panel_info->bus_flags;
-> >  	drm_display_info_set_bus_formats(&connector->display_info,
-> >  					 &panel_info->bus_format, 1);
-> > =20
-> > @@ -206,8 +221,13 @@ static int st7789v_get_modes(struct drm_panel *pan=
-el,
-> >  static int st7789v_prepare(struct drm_panel *panel)
-> >  {
-> >  	struct st7789v *ctx =3D panel_to_st7789v(panel);
-> > +	const struct st7789v_panel_info *panel_info =3D ctx->panel_info;
-> > +	u8 pck =3D ST7789V_RGBCTRL_PCLK_FALLING;
-> >  	int ret;
-> > =20
-> > +	if (panel_info->bus_flags & DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE)
-> > +		pck =3D ST7789V_RGBCTRL_PCLK_RISING;
-> > + =20
->=20
-> I guess it could be in a separate commit
+[1] https://pastebin.ubuntu.com/p/26cdW5VpYB/
+[2] https://patchwork.freedesktop.org/patch/542142/?series=119220&rev=1
 
-I will rebase on top of Sebastian's series who already addressed that
-point (as well as many others).
+Dmitry Baryshkov (19):
+  drm/msm: enumerate DSI interfaces
+  drm/msm/dpu: always use MSM_DP/DSI_CONTROLLER_n
+  drm/msm/dpu: simplify peer LM handling
+  drm/msm/dpu: drop dpu_mdss_cfg::mdp_count field
+  drm/msm/dpu: drop enum dpu_mdp and MDP_TOP value
+  drm/msm/dpu: expand .clk_ctrls definitions
+  drm/msm/dpu: drop zero features from dpu_mdp_cfg data
+  drm/msm/dpu: drop zero features from dpu_ctl_cfg data
+  drm/msm/dpu: correct indentation for CTL definitions
+  drm/msm/dpu: inline SSPP_BLK macros
+  drm/msm/dpu: inline DSPP_BLK macros
+  drm/msm/dpu: inline LM_BLK macros
+  drm/msm/dpu: inline DSC_BLK and DSC_BLK_1_2 macros
+  drm/msm/dpu: inline MERGE_3D_BLK macros
+  drm/msm/dpu: inline various PP_BLK_* macros
+  drm/msm/dpu: inline WB_BLK macros
+  drm/msm/dpu: inline INTF_BLK and INTF_BLK_DSI_TE macros
+  drm/msm/dpu: drop empty features mask MERGE_3D_SM8150_MASK
+  drm/msm/dpu: drop empty features mask INTF_SDM845_MASK
 
-[...]
+ .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   | 329 ++++++++----
+ .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    | 348 +++++++++----
+ .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    | 411 ++++++++++-----
+ .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   | 448 +++++++++++-----
+ .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    | 430 +++++++++++-----
+ .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    | 184 +++++--
+ .../msm/disp/dpu1/catalog/dpu_6_3_sm6115.h    |  88 +++-
+ .../msm/disp/dpu1/catalog/dpu_6_4_sm6350.h    | 188 ++++---
+ .../msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h   |  88 +++-
+ .../msm/disp/dpu1/catalog/dpu_6_9_sm6375.h    |  95 +++-
+ .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    | 418 ++++++++++-----
+ .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    | 244 ++++++---
+ .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  | 484 +++++++++++++-----
+ .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    | 445 +++++++++++-----
+ .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    | 467 ++++++++++++-----
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 130 -----
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   5 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h   |   5 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c    |  34 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h    |   7 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        |  34 +-
+ drivers/gpu/drm/msm/msm_drv.h                 |   8 +-
+ 23 files changed, 3320 insertions(+), 1572 deletions(-)
 
-> > =20
-> > +static const struct st7789v_panel_info et028013dma_info =3D {
-> > +	.display_mode =3D &slow_mode,
-> > +	.width_mm =3D 43,
-> > +	.height_mm =3D 58,
-> > +	.bus_format =3D MEDIA_BUS_FMT_RGB666_1X18,
-> > +	.bus_flags =3D DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE,
-> > +};
-> > +
-> >  static const struct of_device_id st7789v_of_match[] =3D {
-> >  	{ .compatible =3D "sitronix,st7789v", .data =3D &st7789v_info },
-> > +	{ .compatible =3D "edt,et028013dma", .data =3D &et028013dma_info }, =
-=20
->=20
-> We should sort them by alphabetical order
->=20
-> Maxime
+-- 
+2.39.2
 
-Ok!
-
-Thanks,
-Miqu=C3=A8l
