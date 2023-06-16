@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E585B732B90
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 11:30:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FFCB732BD2
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 11:31:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21BA210E12C;
-	Fri, 16 Jun 2023 09:30:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B403C10E57D;
+	Fri, 16 Jun 2023 09:31:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A77010E12C
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 09:29:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3031710E57D
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 09:31:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1686907798; x=1718443798;
+ t=1686907907; x=1718443907;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=32N1yGo7ctZs2eC7CuXCSbbaVed5l58bkGfloxPTIp4=;
- b=Rw0VeRDhlMv9GueDMiDC4ald1icPaPcZnQHi/ns7+EC2Wf/Od7iiRpAp
- RPbujcuxpt5I4j3K4YJh3cMR7COadEdmt5rD35bjYRhXMU/TFSXZufDE1
- 6tJGWRBVS0tPWoVLDWCNzc3aJ8cOyYNO2e4nhJM52M6qnzlSqjUhftQDx
- 4BohpJAXhqjBF06H3C6duuRNHsyabIdZNoRODXaJ+bGyNs2hDzd+iJ721
- OZmzDba5QDWuSVRhZjwQC9bGPsZglZw6hMBBnUhOjtGrwfgxdTgBGYJgw
- N87sDluyue4ykspzservV0MdPxAbpXzd1rQ1uw4oi77FAL57XCfh5QIuD Q==;
-X-IronPort-AV: E=Sophos;i="6.00,247,1681164000"; d="scan'208";a="31462582"
+ bh=pMlSGOdl8IvS4LImlgrl3MIkfMf7pCHaKnwUSkpFQ1o=;
+ b=Ucx9RZNsmD3Rl+YRm4tesuCUnyA4blWYjogWt2mLCliH8wbZe8HbGAnB
+ U4aFixU0UnRw7+PRqhRiJYX3lO141UKkXPQ7tQXUlX/4OzW0azwtG6S9o
+ AHehv30VsHSw1rbMNL5qBt0dwRJKOLk0XN9YxUVFbkHgPOMqtIhQdn135
+ qF1zWPaMHYMkhk1G6wAFPl66uCIvLI2+XVq3Xw5uya/42BhoWsXe+ZlNF
+ bKiR9fl1F49fbn02KYhgesw4w00mw1sNwY5zB99bWCWOeyUnL7U1+tl9H
+ UtsmrLL/61wmrV3mc1RP8fC5YfJAmcg/EHYqohnJBGz64RnIYcx8+LUKH A==;
+X-IronPort-AV: E=Sophos;i="6.00,247,1681164000"; d="scan'208";a="31462623"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 16 Jun 2023 11:29:55 +0200
+ by mx1.tq-group.com with ESMTP; 16 Jun 2023 11:31:42 +0200
 Received: from steina-w.localnet (unknown [10.123.53.21])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 63301280082;
- Fri, 16 Jun 2023 11:29:55 +0200 (CEST)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 3A7A9280082;
+ Fri, 16 Jun 2023 11:31:42 +0200 (CEST)
 From: Alexander Stein <alexander.stein@ew.tq-group.com>
 To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, robert.foss@linaro.org,
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com,
@@ -41,13 +41,14 @@ To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, robert.foss@linaro.org,
  festevam@gmail.com, vkoul@kernel.org, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: Re: [PATCH v6 5/8] drm: bridge: Cadence: Add MHDP8501 HDMI driver
-Date: Fri, 16 Jun 2023 11:29:57 +0200
-Message-ID: <11795277.nUPlyArG6x@steina-w>
+Subject: Re: [PATCH v6 2/8] dt-bindings: display: bridge: Add Cadence MHDP8501
+ HDMI and DP
+Date: Fri, 16 Jun 2023 11:31:43 +0200
+Message-ID: <3439354.PYKUYFuaPT@steina-w>
 Organization: TQ-Systems GmbH
-In-Reply-To: <ee0982418cc2e996b1f7889375b1a5138fb38a11.1686729444.git.Sandor.yu@nxp.com>
+In-Reply-To: <8687f2221299b120e12f29fdccf264e120227bd7.1686729444.git.Sandor.yu@nxp.com>
 References: <cover.1686729444.git.Sandor.yu@nxp.com>
- <ee0982418cc2e996b1f7889375b1a5138fb38a11.1686729444.git.Sandor.yu@nxp.com>
+ <8687f2221299b120e12f29fdccf264e120227bd7.1686729444.git.Sandor.yu@nxp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="iso-8859-1"
@@ -70,103 +71,141 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Sandor,
 
-thanks for sending a new version.
-
-Am Donnerstag, 15. Juni 2023, 03:38:15 CEST schrieb Sandor Yu:
-> Add a new DRM HDMI bridge driver for Cadence MHDP8501
-> that used in Freescale i.MX8MQ SoC.
-> MHDP8501 could support HDMI or DisplayPort standards according
-> embedded Firmware running in the uCPU.
->=20
-> For iMX8MQ SoC, the HDMI FW was loaded and activated by SOC ROM code.
-> Bootload binary included HDMI FW was required for the driver.
+Am Donnerstag, 15. Juni 2023, 03:38:12 CEST schrieb Sandor Yu:
+> Add bindings for Cadence MHDP8501 DisplayPort and HDMI driver.
 >=20
 > Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
 > ---
->  drivers/gpu/drm/bridge/cadence/Kconfig        |   12 +
->  drivers/gpu/drm/bridge/cadence/Makefile       |    1 +
->  .../drm/bridge/cadence/cdns-mhdp8501-hdmi.c   | 1024 +++++++++++++++++
->  3 files changed, 1037 insertions(+)
->  create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-hdmi.c
+>  .../display/bridge/cdns,mhdp8501.yaml         | 105 ++++++++++++++++++
+>  1 file changed, 105 insertions(+)
+>  create mode 100644
+> Documentation/devicetree/bindings/display/bridge/cdns,mhdp8501.yaml
 >=20
-> diff --git a/drivers/gpu/drm/bridge/cadence/Kconfig
-> b/drivers/gpu/drm/bridge/cadence/Kconfig index 5b7ec4e49aa1..bee05e834055
-> 100644
-> --- a/drivers/gpu/drm/bridge/cadence/Kconfig
-> +++ b/drivers/gpu/drm/bridge/cadence/Kconfig
-> @@ -59,3 +59,15 @@ config DRM_CDNS_MHDP8501_DP
->  	  Support Cadence MHDP8501 DisplayPort driver.
->  	  Cadence MHDP8501 Controller support one or more protocols,
->  	  DisplayPort firmware is required for this driver.
-> +
-> +config DRM_CDNS_MHDP8501_HDMI
-> +	tristate "Cadence MHDP8501 HDMI DRM driver"
-> +	select DRM_KMS_HELPER
-> +	select DRM_PANEL_BRIDGE
-> +	select DRM_DISPLAY_HELPER
-> +	select DRM_CDNS_AUDIO
-> +	depends on OF
-> +	help
-> +	  Support Cadence MHDP8501 HDMI driver.
-> +	  Cadence MHDP8501 Controller support one or more protocols,
-> +	  HDMI firmware is required for this driver.
-> diff --git a/drivers/gpu/drm/bridge/cadence/Makefile
-> b/drivers/gpu/drm/bridge/cadence/Makefile index 5842e4540c62..8a129c14ac14
-> 100644
-> --- a/drivers/gpu/drm/bridge/cadence/Makefile
-> +++ b/drivers/gpu/drm/bridge/cadence/Makefile
-> @@ -7,3 +7,4 @@ cdns-mhdp8546-y :=3D cdns-mhdp8546-core.o cdns-mhdp8546-h=
-dcp.o
-> cdns-mhdp8546-$(CONFIG_DRM_CDNS_MHDP8546_J721E) +=3D cdns-mhdp8546-j721e.o
->=20
->  obj-$(CONFIG_DRM_CDNS_MHDP8501_DP) +=3D cdns-mhdp8501-dp.o
-> +obj-$(CONFIG_DRM_CDNS_MHDP8501_HDMI) +=3D cdns-mhdp8501-hdmi.o
-> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-hdmi.c
-> b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-hdmi.c new file mode 100644
-> index 000000000000..43673f1b50f6
+> diff --git
+> a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8501.yaml
+> b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8501.yaml new
+> file mode 100644
+> index 000000000000..a54756815e6f
 > --- /dev/null
-> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8501-hdmi.c
-[...]
-> +static int cdns_hdmi_bridge_attach(struct drm_bridge *bridge,
-> +				 enum drm_bridge_attach_flags flags)
-> +{
-> +	struct cdns_mhdp_device *mhdp =3D bridge->driver_private;
-> +	struct drm_mode_config *config =3D &bridge->dev->mode_config;
-> +	struct drm_encoder *encoder =3D bridge->encoder;
-> +	struct drm_connector *connector =3D &mhdp->connector;
+> +++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8501.yaml
+> @@ -0,0 +1,105 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/cdns,mhdp8501.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
-> +		connector->interlace_allowed =3D 0;
-> +		connector->polled =3D DRM_CONNECTOR_POLL_HPD;
+> +title: Cadence MHDP8501 Displayport bridge
 > +
-> +		drm_connector_helper_add(connector,=20
-&cdns_hdmi_connector_helper_funcs);
+> +maintainers:
+> +  - Sandor Yu <Sandor.yu@nxp.com>
 > +
-> +		drm_connector_init(bridge->dev, connector,=20
-&cdns_hdmi_connector_funcs,
-> +				   DRM_MODE_CONNECTOR_HDMIA);
+> +description:
+> +  The Cadence MHDP8501 Displayport/HDMI TX interface.
 > +
-> +		drm_object_attach_property(&connector->base,
-> +					   config-
->hdr_output_metadata_property, 0);
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - cdns,mhdp8501-dp
+> +      - cdns,mhdp8501-hdmi
+> +      - fsl,imx8mq-mhdp8501-dp
+> +      - fsl,imx8mq-mhdp8501-hdmi
 > +
-> +		if (!drm_mode_create_hdmi_colorspace_property(connector))
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +    description: MHDP8501 DP/HDMI APB clock.
+> +
+> +  phys:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    items:
+> +      - description: Hotplug cable plugin.
+> +      - description: Hotplug cable plugout.
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: plug_in
+> +      - const: plug_out
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Input port from display controller output.
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Output port to DP/HDMI connector.
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
 
-This is missing a 2nd parameter.
-
-> +			drm_object_attach_property(&connector->base,
-> +						connector-
->colorspace_property, 0);
-> +
-> +		drm_connector_attach_encoder(connector, encoder);
-> +	}
-> +
-> +	return 0;
-> +}
-[...]
+You mark these ports as required, but apparently the drivers do not use the=
+m,=20
+AFAICT. E.g. missing port@1 is not resulting in an error, at lease for HDMI=
+=20
+one.
 
 Best regards,
 Alexander
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - interrupts
+> +  - interrupt-names
+> +  - phys
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/imx8mq-clock.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    mhdp_dp: dp-bridge@32c00000 {
+> +        compatible =3D "fsl,imx8mq-mhdp8501-dp";
+> +        reg =3D <0x32c00000 0x100000>;
+> +        interrupts =3D <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>,
+> +                     <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
+> +        interrupt-names =3D "plug_in", "plug_out";
+> +        clocks =3D <&clk IMX8MQ_CLK_DISP_APB_ROOT>;
+> +        phys =3D <&dp_phy>;
+> +
+> +        ports {
+> +            #address-cells =3D <1>;
+> +            #size-cells =3D <0>;
+> +
+> +            port@0 {
+> +                reg =3D <0>;
+> +
+> +                mhdp_in: endpoint {
+> +                    remote-endpoint =3D <&dcss_out>;
+> +                };
+> +            };
+> +
+> +            port@1 {
+> +                reg =3D <1>;
+> +
+> +                mhdp_out: endpoint {
+> +                    remote-endpoint =3D <&dp_con>;
+> +                };
+> +            };
+> +        };
+> +    };
+
+
 =2D-=20
 TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
 Amtsgericht M=FCnchen, HRB 105018
