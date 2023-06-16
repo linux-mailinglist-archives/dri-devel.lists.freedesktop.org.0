@@ -1,47 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF82732E0B
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 12:29:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22E3B732E0F
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 12:29:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD71F10E602;
-	Fri, 16 Jun 2023 10:29:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70A7510E604;
+	Fri, 16 Jun 2023 10:29:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83ED910E5FF
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 10:28:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 123FB10E5FF;
+ Fri, 16 Jun 2023 10:29:01 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E7E676367C;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7F95C6374C;
+ Fri, 16 Jun 2023 10:29:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D0DFC433C0;
  Fri, 16 Jun 2023 10:28:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0E63C43397;
- Fri, 16 Jun 2023 10:28:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1686911338;
- bh=ngZd97GJO9P6sC4jMSqvWLbJfghbLBb2vX/wMBK7D4E=;
+ s=k20201202; t=1686911339;
+ bh=jFp0Hq2POJGsZrpeXaqiQ8IhrQ8rVyOi86cT82XbsEQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Ff9U5pu2CwrOVLPhsrFlqubWn5UH5vYPaCe9LvlX9pbiSBIBXwHanXP1IrjEmIijM
- MdQFRIOqh5bmpuiESPPCV63MSHR9KFGJhyrdrfLmENwOoob0AGvMbB5iZM3oCmgY6N
- 9b3llJJHx4Wwm8vJGccVz9geina3ckWqw9WOGxLEADuFsOQyq+MRyfpOJaw3BlkKBr
- a68DFjdeykAC5nWJpZ9VPa6wpxj86eI7Pi6jSFPb6RO3gOSPi7hB0fBqewZjqETDyz
- 7mQ0ccpjUKI0CTOFjm+bEUNGl3BoAnnvjBw4X85IQ7kNlsOSr+5J4IMST0OU1oiYAr
- F+xQEfOKQHDvA==
+ b=E6c/ulQlX4yt3zwCrsz5nPxY0lgM9da0xqm8Ow/ejULZ4FwERufrKHESFXWcgTmyr
+ 7m0hiSWT+7GpnlA6tb2GYVS5o6A+7qFxXjc8zh1Fc6xQiyWKPWsQL2ALK36UR6A7d8
+ jpGRbbLPpWa4XvxS2uCNfAauYrG3POhYQ6DPfGHAWwzvCyBWkxzuj/Fj1KHuV2BCnf
+ 6FRL0kS3Ky/zZR9xEv2pc69IVBm3QzpjkgOztyU+9EOJXcjQ5cq3pbfL4yjIeSVRuC
+ sfRCeBc+bACQo2Bxx1Jwno8vTt3T+XeEA6RNUYGXgXGb9EJk1kMWMU4OPHexuBRENn
+ Dju/cWGgNhzRg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 3/5] drm/exynos: fix race condition UAF in
- exynos_g2d_exec_ioctl
-Date: Fri, 16 Jun 2023 06:28:49 -0400
-Message-Id: <20230616102852.674366-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 4/5] drm/radeon: fix race condition UAF in
+ radeon_gem_set_domain_ioctl
+Date: Fri, 16 Jun 2023 06:28:50 -0400
+Message-Id: <20230616102852.674366-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230616102852.674366-1-sashal@kernel.org>
 References: <20230616102852.674366-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 4.14.318
@@ -58,43 +59,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-samsung-soc@vger.kernel.org,
- Min Li <lm0963hack@gmail.com>, sw0312.kim@samsung.com,
- krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
- kyungmin.park@samsung.com, linux-arm-kernel@lists.infradead.org,
- Andi Shyti <andi.shyti@kernel.org>
+Cc: Sasha Levin <sashal@kernel.org>, Min Li <lm0963hack@gmail.com>,
+ Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Min Li <lm0963hack@gmail.com>
 
-[ Upstream commit 48bfd02569f5db49cc033f259e66d57aa6efc9a3 ]
+[ Upstream commit 982b173a6c6d9472730c3116051977e05d17c8c5 ]
 
-If it is async, runqueue_node is freed in g2d_runqueue_worker on another
-worker thread. So in extreme cases, if g2d_runqueue_worker runs first, and
-then executes the following if statement, there will be use-after-free.
+Userspace can race to free the gobj(robj converted from), robj should not
+be accessed again after drm_gem_object_put, otherwith it will result in
+use-after-free.
 
+Reviewed-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Min Li <lm0963hack@gmail.com>
-Reviewed-by: Andi Shyti <andi.shyti@kernel.org>
-Signed-off-by: Inki Dae <inki.dae@samsung.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/exynos/exynos_drm_g2d.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/radeon/radeon_gem.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.c b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-index 9effe40f5fa5d..ddfcf22a883d5 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-@@ -1387,7 +1387,7 @@ int exynos_g2d_exec_ioctl(struct drm_device *drm_dev, void *data,
- 	/* Let the runqueue know that there is work to do. */
- 	queue_work(g2d->g2d_workq, &g2d->runqueue_work);
+diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
+index ac467b80edc7c..59ad0a4e2fd53 100644
+--- a/drivers/gpu/drm/radeon/radeon_gem.c
++++ b/drivers/gpu/drm/radeon/radeon_gem.c
+@@ -376,7 +376,6 @@ int radeon_gem_set_domain_ioctl(struct drm_device *dev, void *data,
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	struct drm_radeon_gem_set_domain *args = data;
+ 	struct drm_gem_object *gobj;
+-	struct radeon_bo *robj;
+ 	int r;
  
--	if (runqueue_node->async)
-+	if (req->async)
- 		goto out;
+ 	/* for now if someone requests domain CPU -
+@@ -389,13 +388,12 @@ int radeon_gem_set_domain_ioctl(struct drm_device *dev, void *data,
+ 		up_read(&rdev->exclusive_lock);
+ 		return -ENOENT;
+ 	}
+-	robj = gem_to_radeon_bo(gobj);
  
- 	wait_for_completion(&runqueue_node->complete);
+ 	r = radeon_gem_set_domain(gobj, args->read_domains, args->write_domain);
+ 
+ 	drm_gem_object_put_unlocked(gobj);
+ 	up_read(&rdev->exclusive_lock);
+-	r = radeon_gem_handle_lockup(robj->rdev, r);
++	r = radeon_gem_handle_lockup(rdev, r);
+ 	return r;
+ }
+ 
 -- 
 2.39.2
 
