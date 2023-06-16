@@ -1,79 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F94373333C
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 16:14:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D501733374
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 16:23:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA4EF10E644;
-	Fri, 16 Jun 2023 14:14:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7080310E638;
+	Fri, 16 Jun 2023 14:22:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
- [85.215.255.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04C2F10E644
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 14:14:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1686924533; cv=none;
- d=strato.com; s=strato-dkim-0002;
- b=DZ/sznPOCsZ2N9bWRgjcMlrjgpe3AMB6v/K8AuOacy+eRH47M25LV2rggEFJGZ0tQE
- sTHRhkrrfPQ2zqwAJkKLeRDXGZgiKjgjopozwZc9tXMHP+mMhHKOPgUV1Atzt3B2EshU
- h4TJ13Y7V6DLSYrm9LUOwxLbFrJew4IWY34HsgRsOSAO8ODLNjIoLv0gg/wLNaFzEY53
- C0jQU3wHsvOBAkkymig+BK1jsSwF6C46fcUTgjZ04R2f3SnH92P5xctnEqdL1yqNp5Jq
- lVF4KO5q/rG/SrwbSREA1HHHKqvypM60nJgvBYwJx7UTHs8IjhhmuTybVFJIKOiy4hPd
- lWiQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1686924533;
- s=strato-dkim-0002; d=strato.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=+FAEIASIz8oKie711NU6GVGe3x4TthEP9e1C55ifneQ=;
- b=lRy+/XIHtLEezozcnzdNm2Le5QdfFrgD0wF5yuhMrlssdfX89cVzUM18kNRH9JDThj
- h/2+DZEPCLJ/H6GTWJUnU+B4bKlALauxLBP73b0AYoWBwmiYiFFK44zbMMyWy4LBgaqo
- 0sY4becqlRq2qAlNNGyTmggPNnzWY1N6/hIH5IoST3adu4+d+cJ5/2eRgzIsNnbspquo
- TdLQYh6HFN+EFfOqwqd96Aazw5xsJGs1yAph+F3t87Wjuj2NIe5syWirY9QCkhobg/Xy
- Vrv2dDrpIoez4fQT5i/rHYsgHxRG6N7YwQSmsdcYSw8xpwFIOTX6HcIncKb6B6cbjA9C
- JLuA==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo02
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1686924533;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=+FAEIASIz8oKie711NU6GVGe3x4TthEP9e1C55ifneQ=;
- b=oo4Csjus9QE3o85M1BqLIIxwVsiP6uMIdaUhXeElx1Q1V7BrgLmKR+BuOyRqWCvid5
- 5XkZlzlcCQWTDy6qA+wDc3gaSpt16KPOsPGE6xlt/Jcs3zS81iFQHWVxYdqoLqwOAIn/
- jz6+e+os28WfNOoMRZrb6q/9ViCqPCWKJim+GyBMc0nkYNgjSnMDwQiDBBSqWkl08fq7
- D3DZmNIAd/jj4n29LdevHJXl9b51Ch4bPm7LwQijtTuyL4jKe0Pwz8AbkL8Thvcy4VTM
- JDbn0Ub5Gu9NIHsbjgx8fXpjWmsVYeYKCl7D4P7U1YBTjQ+is874DYpbHZ5q21bLEofY
- lajg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1686924533;
- s=strato-dkim-0003; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=+FAEIASIz8oKie711NU6GVGe3x4TthEP9e1C55ifneQ=;
- b=yBNPZhvQ+23NnXN2mU0bZ+HywiVn9oJJzw/hAM/PJU0H6SXnpfY+PQqx0QTOCeJOCs
- OFnQHZZK+VKNUEb6N6BA==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Apz9PSN6LgsXcGYkv8="
-Received: from imac.fritz.box by smtp.strato.de (RZmta 49.6.0 DYNA|AUTH)
- with ESMTPSA id jaf17fz5GE8r9Xm
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
- with 256 ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Fri, 16 Jun 2023 16:08:53 +0200 (CEST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
-Subject: Re: [PATCH v3 00/17] Imagination Technologies PowerVR DRM driver
-From: H. Nikolaus Schaller <hns@goldelico.com>
-In-Reply-To: <CACRpkdYAAxvHLfEGFwaHQYvZRNhySNo7gSVEBSgGP-pusBwBnQ@mail.gmail.com>
-Date: Fri, 16 Jun 2023 16:08:52 +0200
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <7D5A18D6-F915-49E3-ADD9-8613BA70E112@goldelico.com>
-References: <20230613144800.52657-1-sarah.walker@imgtec.com>
- <CACRpkdYAAxvHLfEGFwaHQYvZRNhySNo7gSVEBSgGP-pusBwBnQ@mail.gmail.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-X-Mailer: Apple Mail (2.3445.104.21)
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2A49410E632;
+ Fri, 16 Jun 2023 14:22:53 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8Ax0Og6cIxkUwEGAA--.10880S3;
+ Fri, 16 Jun 2023 22:22:50 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8CxXMo5cIxkFl4dAA--.9099S3; 
+ Fri, 16 Jun 2023 22:22:49 +0800 (CST)
+Message-ID: <f08b6a76-6c90-b59b-ff43-c779ef759d09@loongson.cn>
+Date: Fri, 16 Jun 2023 22:22:49 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v7 2/8] PCI/VGA: Deal only with VGA class devices
+To: Alex Deucher <alexdeucher@gmail.com>
+References: <20230613030151.216625-1-15330273260@189.cn>
+ <20230613030151.216625-3-15330273260@189.cn>
+ <dbf0d89f-717a-1f78-aef2-f30506751d4d@loongson.cn>
+ <CADnq5_N6vVtzH6tzguZdHnP_TdRoG1G-Cr94O+X03jvtk=vhag@mail.gmail.com>
+ <3c1c86ab-96ea-aa1c-c9c5-9a4012644fd6@loongson.cn>
+ <CADnq5_Px-HWfwetv8LZsCnCeV7SMt_uqtLwMVK7648ZQiP2RCQ@mail.gmail.com>
+Content-Language: en-US
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <CADnq5_Px-HWfwetv8LZsCnCeV7SMt_uqtLwMVK7648ZQiP2RCQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8CxXMo5cIxkFl4dAA--.9099S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW3JF4UJr48trW3WF15GrWfWFX_yoWxKw13pF
+ WrGFW5KFWkJFy7Cw12qw1vqFyYv3s5tFyrXr1rK3sakrs0yr1UGryrK3y5u34xZrs5GF1I
+ vr4UJFy7ua4YqagCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
+ Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE
+ 14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1c
+ AE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8C
+ rVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8Zw
+ CIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x02
+ 67AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr
+ 0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8cz
+ VUUUUUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,125 +69,247 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, Sarah Walker <sarah.walker@imgtec.com>,
- openpvrsgx-devgroup@letux.org, dri-devel@lists.freedesktop.org,
- christian.koenig@amd.com, luben.tuikov@amd.com, dakr@redhat.com,
- donald.robson@imgtec.com, boris.brezillon@collabora.com,
- sumit.semwal@linaro.org, faith.ekstrand@collabora.com
+Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sui Jingfeng <15330273260@189.cn>, amd-gfx@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-pci@vger.kernel.org,
+ Bjorn Helgaas <bhelgaas@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
-thanks for sharing this conversation with me.
 
-> Am 16.06.2023 um 14:29 schrieb Linus Walleij =
-<linus.walleij@linaro.org>:
->=20
-> Hi Sarah,
->=20
-> thanks for starting this long awaited work!
->=20
-> On Tue, Jun 13, 2023 at 5:20=E2=80=AFPM Sarah Walker =
-<sarah.walker@imgtec.com> wrote:
->=20
->> This patch series adds the initial DRM driver for Imagination =
-Technologies PowerVR
->> GPUs, starting with those based on our Rogue architecture. It's worth =
-pointing
->> out that this is a new driver, written from the ground up, rather =
-than a
->> refactored version of our existing downstream driver (pvrsrvkm).
+On 2023/6/16 21:41, Alex Deucher wrote:
+> On Fri, Jun 16, 2023 at 3:11 AM Sui Jingfeng <suijingfeng@loongson.cn> wrote:
+>> Hi,
+>>
+>> On 2023/6/16 05:11, Alex Deucher wrote:
+>>> On Wed, Jun 14, 2023 at 6:50 AM Sui Jingfeng <suijingfeng@loongson.cn> wrote:
+>>>> Hi,
+>>>>
+>>>> On 2023/6/13 11:01, Sui Jingfeng wrote:
+>>>>> From: Sui Jingfeng <suijingfeng@loongson.cn>
+>>>>>
+>>>>> Deal only with the VGA devcie(pdev->class == 0x0300), so replace the
+>>>>> pci_get_subsys() function with pci_get_class(). Filter the non-PCI display
+>>>>> device(pdev->class != 0x0300) out. There no need to process the non-display
+>>>>> PCI device.
+>>>>>
+>>>>> Cc: Bjorn Helgaas <bhelgaas@google.com>
+>>>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>>>>> ---
+>>>>>     drivers/pci/vgaarb.c | 22 ++++++++++++----------
+>>>>>     1 file changed, 12 insertions(+), 10 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+>>>>> index c1bc6c983932..22a505e877dc 100644
+>>>>> --- a/drivers/pci/vgaarb.c
+>>>>> +++ b/drivers/pci/vgaarb.c
+>>>>> @@ -754,10 +754,6 @@ static bool vga_arbiter_add_pci_device(struct pci_dev *pdev)
+>>>>>         struct pci_dev *bridge;
+>>>>>         u16 cmd;
+>>>>>
+>>>>> -     /* Only deal with VGA class devices */
+>>>>> -     if ((pdev->class >> 8) != PCI_CLASS_DISPLAY_VGA)
+>>>>> -             return false;
+>>>>> -
+>>>> Hi, here is probably a bug fixing.
+>>>>
+>>>> For an example, nvidia render only GPU typically has 0x0380.
+>>>>
+>>>> as its PCI class number, but render only GPU should not participate in
+>>>> the arbitration.
+>>>>
+>>>> As it shouldn't snoop the legacy fixed VGA address.
+>>>>
+>>>> It(render only GPU) can not display anything.
+>>>>
+>>>>
+>>>> But 0x0380 >> 8 = 0x03, the filter  failed.
+>>>>
+>>>>
+>>>>>         /* Allocate structure */
+>>>>>         vgadev = kzalloc(sizeof(struct vga_device), GFP_KERNEL);
+>>>>>         if (vgadev == NULL) {
+>>>>> @@ -1500,7 +1496,9 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
+>>>>>         struct pci_dev *pdev = to_pci_dev(dev);
+>>>>>         bool notify = false;
+>>>>>
+>>>>> -     vgaarb_dbg(dev, "%s\n", __func__);
+>>>>> +     /* Only deal with VGA class devices */
+>>>>> +     if (pdev->class != PCI_CLASS_DISPLAY_VGA << 8)
+>>>>> +             return 0;
+>>>> So here we only care 0x0300, my initial intent is to make an optimization,
+>>>>
+>>>> nowadays sane display graphic card should all has 0x0300 as its PCI
+>>>> class number, is this complete right?
+>>>>
+>>>> ```
+>>>>
+>>>> #define PCI_BASE_CLASS_DISPLAY        0x03
+>>>> #define PCI_CLASS_DISPLAY_VGA        0x0300
+>>>> #define PCI_CLASS_DISPLAY_XGA        0x0301
+>>>> #define PCI_CLASS_DISPLAY_3D        0x0302
+>>>> #define PCI_CLASS_DISPLAY_OTHER        0x0380
+>>>>
+>>>> ```
+>>>>
+>>>> Any ideas ?
+>>> I'm not quite sure what you are asking about here.
+>> To be honest, I'm worried about the PCI devices which has a
+>>
+>> PCI_CLASS_DISPLAY_XGA as its PCI class number.
+>>
+>> As those devices are very uncommon in the real world.
+>>
+>>
+>> $ find . -name "*.c" -type f | xargs grep "PCI_CLASS_DISPLAY_XGA"
+>>
+>>
+>> Grep the "PCI_CLASS_DISPLAY_XGA" in the linux kernel tree got ZERO,
+>>
+>> there no code reference this macro. So I think it seems safe to ignore
+>> the XGA ?
+>>
+>>
+>> PCI_CLASS_DISPLAY_3D and PCI_CLASS_DISPLAY_OTHER are used to annotate
+>> the render-only GPU.
+>>
+>> And render-only GPU can't decode the fixed VGA address space, it is safe
+>> to ignore them.
+>>
+>>
+>>>    For vga_arb, we
+>>> only care about VGA class devices since those should be on the only
+>>> ones that might have VGA routed to them.
+>>>    However, as VGA gets deprecated,
+>> We need the vgaarb for a system with multiple video card.
+>>
+>> Not only because some Legacy VGA devices implemented
+>>
+>> on PCI will typically have the same "hard-decoded" addresses;
+>>
+>> But also these video card need to participate in the arbitration,
+>>
+>> determine the default boot device.
+> But couldn't the boot device be determined via what whatever resources
+> were used by the pre-OS console?
 
-Great!
+I don't know what you are refer to by saying  pre-OS console, UEFI 
+SHELL,  UEFI GOP  or something like that.
 
->=20
-> This seems to be a fairly good starting point, a bit of trade-off
-> between latest-and-greatest
-> and recent enough devices that need aftermarket support.
->=20
-> I assume you are aware of the community existing around Series 5
-> (should be the immediate
-> predecessor to Rogue?):
-> https://github.com/openpvrsgx-devgroup/linux_openpvrsgx
->=20
-> I don't know how active those people are these days, but I can see =
-that a branch
+If you are referring to the framebuffer driver which light up the screen 
+before the Linux kernel is loaded .
 
-Well, there hasn't been much progress due to lack of documentation and =
-compatibility
-issues of user-space code. Just keeping the code compatible to latest =
-upstream kernels.
 
-But at least for OMAP3 and OMAP5 processors people are actively using =
-this work.
+Then, what you have said is true,  the boot device is determined by the 
+pre-OS console.
 
-There is even a gaming console (www.pyra-handheld.com) in active =
-production
-with a strong need for an up-to-date SGX544 driver running on OMAP5.
+But the problem is how does the Linux kernel(vgaarb) could know which 
+one is the default boot device
 
-> was updated for v6.4-rc3 just three weeks ago.
-> =
-https://github.com/openpvrsgx-devgroup/linux_openpvrsgx/tree/pvrsrvkm-6.4-=
-rc3
->=20
-> I think it would be good for community building to make sure that you =
-get these
-> people involved in reviewing, especially neutral stuff like device =
-tree bindings
-> but also to make sure no architectural choices are done that will make =
-it hard
-> to retrofit a proper driver for the older engines if this community
-> decide to work
-> on it.
+on a multiple GPU machine.  Relaying on the firmware fb's address and 
+size is what the mechanism
 
-Some questions to the author of the new driver:
-- are there plans to support SGX5 (the predecessor of Rogue6)?
-- will this be able to run the existing firmware and user-space code of =
-pvrsrvkm?
-- or will it have new firmware and user-space code for these older =
-chips?
-- or will there be open user-space code for SGX (and Rogue)?
+we already in using.
 
->=20
-> Specifically I would ask that the DT bindings include all old and new =
-PowerVR
-> hardware in one go, unless they have very specific hardware definition =
-needs,
-> which I doubt.
 
-Our current bindings for all SoC with a SGX5 GPU inside and which have =
-at least
-some official Linux support are here:
+>   I feel like that should be separate from vgaarb.
 
-=
-https://github.com/openpvrsgx-devgroup/linux_openpvrsgx/blob/letux/omap-pv=
-r-soc-glue-v8/Documentation/devicetree/bindings/gpu/img%2Cpvrsgx.yaml
+Emm, this really deserved another patch, please ?
 
-There was an attempt to upstream at least this plus glue code (i.e. =
-device tree
-sources) some years ago but there was no consensus about the number and =
-names of
-clocks that should be included in such a bindings document.
+>   vgaarb should handle PCI VGA routing and some other
+> mechanism should be used to determine what device provided the pre-OS
+> console.
 
->=20
-> Also I think they could use your help to get the proper firmware for =
-the older
-> hardware licensed properly from Imagination and included into =
-linux-firmware
-> so they do not need to ship files on the side.
+If the new mechanism need the firmware changed, then this probably break 
+the old machine.
 
-Indeed, this and some "universal" user-space code would help a lot. =
-Currently
-we have collected a lot of binaries for several architectures (e.g. =
-Intel, OMAP, JZ4780),
-but all from different DDK versions and very different assumptions about =
-system
-library versions.
+Also, this probably will get all arch involved. to get the new mechanism 
+supported.
 
->=20
-> Yours,
-> Linus Walleij
+The testing pressure and review power needed is quite large.
 
-Best regards,
-Nikolaus Schaller
+drm/amdgpu and drm/radeon already being used on X86, ARM64,  Mips and 
+more arch...
+
+The reviewing process will became quite difficult then.
+
+vgaarb is really what we already in use, and being used more than ten 
+years ...
+
+
+> Alex
+>
+
+>>
+>> Nowadays, the 'VGA devices' here is stand for the Graphics card
+>>
+>> which is capable of display something on the screen.
+>>
+>> We still need vgaarb to select the default boot device.
+>>
+>>
+>>> you'll have more non VGA PCI classes for devices which
+>>> could be the pre-OS console device.
+>> Ah, we still want  do this(by applying this patch) first,
+>>
+>> and then we will have the opportunity to see who will crying if
+>> something is broken. Will know more then.
+>>
+>> But drop this patch or revise it with more consideration is also
+>> acceptable.
+>>
+>>
+>> I asking about suggestion and/or review.
+>>
+>>> Alex
+>>>
+>>>>>         /* For now we're only intereted in devices added and removed. I didn't
+>>>>>          * test this thing here, so someone needs to double check for the
+>>>>> @@ -1510,6 +1508,8 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
+>>>>>         else if (action == BUS_NOTIFY_DEL_DEVICE)
+>>>>>                 notify = vga_arbiter_del_pci_device(pdev);
+>>>>>
+>>>>> +     vgaarb_dbg(dev, "%s: action = %lu\n", __func__, action);
+>>>>> +
+>>>>>         if (notify)
+>>>>>                 vga_arbiter_notify_clients();
+>>>>>         return 0;
+>>>>> @@ -1534,8 +1534,8 @@ static struct miscdevice vga_arb_device = {
+>>>>>
+>>>>>     static int __init vga_arb_device_init(void)
+>>>>>     {
+>>>>> +     struct pci_dev *pdev = NULL;
+>>>>>         int rc;
+>>>>> -     struct pci_dev *pdev;
+>>>>>
+>>>>>         rc = misc_register(&vga_arb_device);
+>>>>>         if (rc < 0)
+>>>>> @@ -1545,11 +1545,13 @@ static int __init vga_arb_device_init(void)
+>>>>>
+>>>>>         /* We add all PCI devices satisfying VGA class in the arbiter by
+>>>>>          * default */
+>>>>> -     pdev = NULL;
+>>>>> -     while ((pdev =
+>>>>> -             pci_get_subsys(PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID,
+>>>>> -                            PCI_ANY_ID, pdev)) != NULL)
+>>>>> +     while (1) {
+>>>>> +             pdev = pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, pdev);
+>>>>> +             if (!pdev)
+>>>>> +                     break;
+>>>>> +
+>>>>>                 vga_arbiter_add_pci_device(pdev);
+>>>>> +     }
+>>>>>
+>>>>>         pr_info("loaded\n");
+>>>>>         return rc;
+>>>> --
+>>>> Jingfeng
+>>>>
+>> --
+>> Jingfeng
+>>
+-- 
+Jingfeng
 
