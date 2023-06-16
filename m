@@ -2,60 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABF4B733195
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 14:49:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A987331A1
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 14:53:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31F7910E616;
-	Fri, 16 Jun 2023 12:49:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7391A10E619;
+	Fri, 16 Jun 2023 12:53:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
- [IPv6:2607:f8b0:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8DE110E616
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 12:49:06 +0000 (UTC)
-Received: by mail-ot1-x331.google.com with SMTP id
- 46e09a7af769-6b2d8b5fde6so629974a34.2
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 05:49:06 -0700 (PDT)
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
+ [IPv6:2607:f8b0:4864:20::112f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E830610E619
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 12:53:04 +0000 (UTC)
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-57026f4bccaso7717757b3.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 05:53:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686919745; x=1689511745;
+ d=linaro.org; s=google; t=1686919983; x=1689511983;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=O6qp6CYPJwvK/QdWpPuRP8ydNnMSR2Rxn7S3w8iwScw=;
- b=d613mMgesg7KYmENHpBXL2uBQV15ZXDD2hzAsyLaNKsog9juYdmosljg07WXHHik4a
- VfyU+6mgISow2FKs8rSuySF8N1iOoWOTgQQZqrg078gHUycp/xP/kcGW6BMzzVJRJmH0
- Qii6vCUYjezoalCJ4UfcppFcABA1Uyo0u/gKu0D3NFFS9jnIcICGzWwsP+OSQLw/l1t7
- NoLdtozMOzucO0vwOiKu7rOMNAT/umNkFd/J4RSK00wGaWFrrgDOGfbxwUGolqhQ27RQ
- AmRk0OBuUduuOusBGfyKc/vxJsRy3kzwF+bA+f68rH0qFsD0pv3SfbvY0Ro2AO69sENA
- JADg==
+ bh=CC4+pWhIZunTVuA2ymJql5DGmR0KK8KjL/YmD5fofdc=;
+ b=B/4ka6ITmEzsxEMx0GQ36klxPa8Yjb8CE6pScPqKHNm86oYRv6skCJmKi6R+LJtVSn
+ pTCokeNSdBgjNoOCerTGRxbVGXxwT18On2/GXpTeAVpmxOuRNjzJ5cc+wTdcZh/xERUP
+ rOh9FyvZ/sOJTtcpSsYF0kli9RzeIAVoEMuJwPIibPFOj784G2d8WoEX+UZhnAj5GYnY
+ GQdxCG1JO/HhFrHWfT8Rfoogcd71cIAWPVQ0szkiQLLlFURVodk7CQ89dJUHQbmT2Cp5
+ khYxpjIOm6gZK9PD9i73ZSCekZZaX7yRv+6i//c7F5ydsM4+cVVyToy29h7beuoTcVPK
+ Iuwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686919745; x=1689511745;
+ d=1e100.net; s=20221208; t=1686919983; x=1689511983;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=O6qp6CYPJwvK/QdWpPuRP8ydNnMSR2Rxn7S3w8iwScw=;
- b=MyWEOBsbWbxuhAXpZjvqIpZrxRmvWu2p3WEcTAgTGdqjV1n0TCxNblmp8OZaxGhA1K
- 21QnoUJMPrgif4x60IyIE4plwRS4aAY82r1jGVN7y7FIUTodzGFX7MSWOKiDkc3INI2j
- nUgCjGsA96Yw7umAtDiJF7woAA6/RU8eqkOV76usn2NcTZregQqFyw596kwRW3BH19gO
- mgIfKyGgaDJuEY0E+42dxh9M+9RObxI9rNiBEJQ2oNRKfL9ugULFDj/8UZHIWFtqmiGx
- 6B1CT+ZbSJiNQaBWQ8EcqBcji0BBt1/uGaRXYOhiSrS0oLM4eXW+ONa14FV5rj+aFzKd
- 2ZKg==
-X-Gm-Message-State: AC+VfDy3sjOT6Of954whrkOAMx6JyWUJtKaxsiUV811IEIruTQ0RJXbx
- DD1yf9lgm8I+XXgf3rBsZZtxyLwR5QDHFmO37+dXeg==
-X-Google-Smtp-Source: ACHHUZ7hgTJJ+MNGw19TPKQutsaTfxchDQSvngKmUWpy5IyaQaeJNdxAcO9mUeQoGh/4JedExII5F2wCyv96fu0DXkw=
-X-Received: by 2002:a05:6359:a2f:b0:128:d2d0:6967 with SMTP id
- el47-20020a0563590a2f00b00128d2d06967mr1453690rwb.3.1686919745604; Fri, 16
- Jun 2023 05:49:05 -0700 (PDT)
+ bh=CC4+pWhIZunTVuA2ymJql5DGmR0KK8KjL/YmD5fofdc=;
+ b=VNvnvo5e3rR8xUYTPpVAwmT8ipzieZRGdhyITZ9YI3KLBCnuczclClpQTW8PK6tf2m
+ 0jluO91ecD1/U8VPA8e/NFpMYjPlPEtzUJekYrUuwSxaCdPZuM/7ykf0plecqlmKtuzt
+ AOLABcGsFUr8fIpf96D30JkNBZ4nBjhasehgIDE3zgiOpOCPokukIu5i5Z214Ewh7Wde
+ 7D+Mwi5Fl2HFfPSxHZGlhMNuUVv8Hex8HK4sb6WG+g1n0cBcUK+0ZFbFLkaguCffM7X7
+ +ojG+qxErl3goBCtqx/wHb7672WVXzYATBtlF+gVsUMVBvG6t96iEwMjz4Jd/KQqb4SZ
+ la4Q==
+X-Gm-Message-State: AC+VfDyJGSholE/rHqiLAUVNwbMXe3daAThMQoJv+Mq4QFHtCr9WKkDZ
+ QqtwrOTb3r0iT84pOsbBu5VT580+EJ9f0IzcrRrA3w==
+X-Google-Smtp-Source: ACHHUZ5tzgmAO6NTdW16MM2p4xBolNh5C55obixHUitKfGfBPwj9jOy2ZwWteenp3/N1cvoaMpUp1DjEkRQSwMOnIRg=
+X-Received: by 2002:a25:40c3:0:b0:bcd:3379:11b2 with SMTP id
+ n186-20020a2540c3000000b00bcd337911b2mr1615849yba.52.1686919983691; Fri, 16
+ Jun 2023 05:53:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230613144800.52657-1-sarah.walker@imgtec.com>
- <20230613144800.52657-3-sarah.walker@imgtec.com>
-In-Reply-To: <20230613144800.52657-3-sarah.walker@imgtec.com>
+References: <20230607151127.1542024-1-pavacic.p@gmail.com>
+ <20230607151127.1542024-4-pavacic.p@gmail.com>
+ <CACRpkdbrEA54qmfTKSsFRG9ZS4u8hM6P5TXtOjRAiW+TD_v-fQ@mail.gmail.com>
+ <CAO9szn00vRFm+iM1m7KgkW0WRuKyJEgVU4tVx4f5tF6KPnE=2w@mail.gmail.com>
+ <CACRpkdaw8M3dSkmiV5QDOt3BBB7Jo6NxT0Og=zvA4REMA_7y9g@mail.gmail.com>
+ <CAO9szn29A0qCABG0ACni42UGpsGKLwG7OT1y_ho3DgQ0WLvfmw@mail.gmail.com>
+In-Reply-To: <CAO9szn29A0qCABG0ACni42UGpsGKLwG7OT1y_ho3DgQ0WLvfmw@mail.gmail.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 16 Jun 2023 14:48:54 +0200
-Message-ID: <CACRpkdaDkchJkP0MOOBWPtaBhfvR0OUEjkHAHgY0sv8T+SDdiQ@mail.gmail.com>
-Subject: Re: [PATCH v3 02/17] dt-bindings: gpu: Add Imagination Technologies
- PowerVR GPU
-To: Sarah Walker <sarah.walker@imgtec.com>
+Date: Fri, 16 Jun 2023 14:52:52 +0200
+Message-ID: <CACRpkdYXtQwmZR1u-1fwmyC_8Yq4bMkjDBcUCfuGqSz_UhXWJQ@mail.gmail.com>
+Subject: Re: [PATCH v4 3/3] drm/panel-fannal-c3004: Add fannal c3004 DSI panel
+To: Paulo Pavacic <pavacic.p@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,78 +73,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, "Dr. H. Nikolaus Schaller" <hns@goldelico.com>,
- dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- luben.tuikov@amd.com, dakr@redhat.com, donald.robson@imgtec.com,
- boris.brezillon@collabora.com, sumit.semwal@linaro.org,
- faith.ekstrand@collabora.com
+Cc: neil.armstrong@linaro.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ sam@ravnborg.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sarah,
-
-thanks for your patch!
-
-On Tue, Jun 13, 2023 at 5:20=E2=80=AFPM Sarah Walker <sarah.walker@imgtec.c=
-om> wrote:
-
-> Add the device tree binding documentation for the Series AXE GPU used in
-> TI AM62 SoCs.
+On Fri, Jun 16, 2023 at 2:31=E2=80=AFPM Paulo Pavacic <pavacic.p@gmail.com>=
+ wrote:
+> pet, 16. lip 2023. u 13:44 Linus Walleij <linus.walleij@linaro.org> napis=
+ao je:
+> >
+> > On Fri, Jun 16, 2023 at 11:57=E2=80=AFAM Paulo Pavacic <pavacic.p@gmail=
+.com> wrote:
+> > > =C4=8Det, 15. lip 2023. u 21:55 Linus Walleij <linus.walleij@linaro.o=
+rg> napisao je:
+> > > >
+> > > > I doubt that the display controller is actually by Fannal, but I gu=
+ess
+> > > > you tried to find out? We usually try to identify the underlying di=
+splay
+> > > > controller so the driver can be named after it and reused for more
+> > > > display panels.
+> > >
+> > > Yes, of course, the controller is ST7701S.
+> >
+> > Hm did you try to just refactor
+> > drivers/gpu/drm/panel/panel-sitronix-st7701.c
+> > to support your new panel?
 >
-> Signed-off-by: Sarah Walker <sarah.walker@imgtec.com>
+> Yes I have tried, but there are too many changes needed and I wasn't
+> sure whether I would be breaking compatibility with st7701 based
+> panels.
 
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - ti,am62-gpu
-> +          - const: img,powervr-seriesaxe
+For the community it creates a problem that now two drivers for similar
+hardware need to be maintained, and that burden will land on the DRM
+maintainers. For this reason it would be better if a joint driver could
+be created.
 
-I don't see why you need to restrict the bindings to just the stuff
-you happen to
-be writing Linux drivers for right now.
-
-Add all of them!
-
-There is this out-of-tree binding:
-https://github.com/openpvrsgx-devgroup/linux_openpvrsgx/commit/0ddd308a7892=
-6782b8a72f75c74b91417ceb9779
-
-With these two on top:
-https://github.com/openpvrsgx-devgroup/linux_openpvrsgx/commit/053346e19339=
-32815066f16ebf6e6bda45d67548
-https://github.com/openpvrsgx-devgroup/linux_openpvrsgx/commit/1cb62c4cdcad=
-096d438ee7d1d51f6001998acee3
-
-They are indeed out-of-tree, but H. Nikolaus is a well-known and respected
-contributor to the kernel, and I'm pretty sure he would be contributing
-these upstream if he had the time and incentive.
-
-To me it seems much more like you should talk to Nikolaus about submitting
-these patches initially, and then add Rogue support with patches on top of =
-it.
-It could be a nice series with just DT bindings.
-
-I see that your binding uses a power domain rather than a regulator
-(sgx-supply) for power and that is probably a better approach but other
-than that the openpvrsgx binding looks more complete and to the point?
-
-It will also help them to get these bindings settled so they can merge all
-of the DTS patches adding the SGX block to misc platforms in the
-kernel upstream so they can focus their work on the actual driver.
-
-When I look at the PowerVR wikipedia page:
-https://en.wikipedia.org/wiki/PowerVR
-there is no correspondence between the product names there and
-"img,powervr-seriesaxe" as used here.
-
-I think you need to explain if these are internal product names or what
-is going on, and what the relationship is to the marketing names, it could
-be part of the description simply, so that people know what string to use
-somewhat intuitively. Maybe all the strings in the out-of-tree documentatio=
-n
-are just wrong because internal code names need to be used?
+I am sure the users of the old driver will be willing to test patches to
+make sure their devices keep working.
 
 Yours,
 Linus Walleij
