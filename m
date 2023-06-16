@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE94D733320
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 16:08:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64126733317
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jun 2023 16:07:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8114C10E62C;
-	Fri, 16 Jun 2023 14:07:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB0F810E62B;
+	Fri, 16 Jun 2023 14:07:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A62AA10E62C
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 14:07:43 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B718510E62C
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 14:07:45 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id ADC121F899;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id DB9DD1F8B3;
  Fri, 16 Jun 2023 14:07:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1686924461; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dmuBd6wfu7xPrmCdhUYbYsyqzue8SYpjsKk5yr/LlrU=;
- b=UFBkavSSIUO0QX52+bC3F5Hj1U8z2HKjUglAKZXCyqzpakAQbxNCc1QsIlC7STxxeHnrRO
- k5zr44z66v5bt3WUO79x3zChdemXYt7AA7Q6SWw/O5ER8euekm6b8Jf90zhBEWnZTR8RDV
- Wa2a2J09IqZGHkETp3MIE/qjHxqmENM=
+ bh=DO8I+P8NuOeDyvlKgwrVZ/B3ZB90o2o5XGMrhu1aMxg=;
+ b=xbOE6P5arrGLdbzqkzeMbgQrBhEVDqWv+Prx+LTmE7Ad7/zt68heyiMoOZ0V4QT/wfTTne
+ NKB5kKD3u2+lg1pGo8o/KxMDaqzDetJJoMMN4Z6ma0wlnRKp8kKbOmZSUBqv9hnv1AQ8bm
+ UYJi7rw4ZOeyF+BAubaXwXJLfBEXzfQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1686924461;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dmuBd6wfu7xPrmCdhUYbYsyqzue8SYpjsKk5yr/LlrU=;
- b=A8Jrx1yi1h1mMdoNLveY0JtXRr9Yqkgxg0qTBN68gy6IFVjgbI1cMkQ51vgfMdn6dAgP3H
- K1ORVKXrVXjq6jBg==
+ bh=DO8I+P8NuOeDyvlKgwrVZ/B3ZB90o2o5XGMrhu1aMxg=;
+ b=YI6s//Z9llerDxROpr18njDq441XBVMO6Yc9amdPRwixMgB+99UPWhYrLcgmvU1G2SvWj0
+ kbpubfqGBMYgsrBA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 815CE1391E;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B33E6138E8;
  Fri, 16 Jun 2023 14:07:41 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id yBh0Hq1sjGTfWgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id QHCsKq1sjGTfWgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Fri, 16 Jun 2023 14:07:41 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, jfalempe@redhat.com, daniel@ffwll.ch,
  jammy_huang@aspeedtech.com
-Subject: [PATCH 01/14] drm/ast: Fix DRAM init on AST2200
-Date: Fri, 16 Jun 2023 15:52:23 +0200
-Message-ID: <20230616140739.32042-2-tzimmermann@suse.de>
+Subject: [PATCH 02/14] drm/ast: Remove vga2_clone field
+Date: Fri, 16 Jun 2023 15:52:24 +0200
+Message-ID: <20230616140739.32042-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230616140739.32042-1-tzimmermann@suse.de>
 References: <20230616140739.32042-1-tzimmermann@suse.de>
@@ -68,40 +68,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the test for the AST2200 in the DRAM initialization. The value
-in ast->chip has to be compared against an enum constant instead of
-a numerical value.
-
-This bug got introduced when the driver was first imported into the
-kernel.
+Remove the unused field vga2_clone from struct ast_device. No
+functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 312fec1405dd ("drm: Initial KMS driver for AST (ASpeed Technologies) 2000 series (v2)")
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v3.5+
 ---
- drivers/gpu/drm/ast/ast_post.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/ast/ast_drv.h  | 1 -
+ drivers/gpu/drm/ast/ast_main.c | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
-index a005aec18a020..0262aaafdb1c5 100644
---- a/drivers/gpu/drm/ast/ast_post.c
-+++ b/drivers/gpu/drm/ast/ast_post.c
-@@ -291,7 +291,7 @@ static void ast_init_dram_reg(struct drm_device *dev)
- 				;
- 			} while (ast_read32(ast, 0x10100) != 0xa8);
- 		} else {/* AST2100/1100 */
--			if (ast->chip == AST2100 || ast->chip == 2200)
-+			if (ast->chip == AST2100 || ast->chip == AST2200)
- 				dram_reg_info = ast2100_dram_table_data;
- 			else
- 				dram_reg_info = ast1100_dram_table_data;
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index 5498a6676f2e8..fc4760a67596f 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -166,7 +166,6 @@ struct ast_device {
+ 	void __iomem *dp501_fw_buf;
+ 
+ 	enum ast_chip chip;
+-	bool vga2_clone;
+ 	uint32_t dram_bus_width;
+ 	uint32_t dram_type;
+ 	uint32_t mclk;
+diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
+index 1f35438f614a7..da33cfc6366ec 100644
+--- a/drivers/gpu/drm/ast/ast_main.c
++++ b/drivers/gpu/drm/ast/ast_main.c
+@@ -179,7 +179,6 @@ static int ast_detect_chip(struct drm_device *dev, bool *need_post)
+ 			drm_info(dev, "AST 2100 detected\n");
+ 			break;
+ 		}
+-		ast->vga2_clone = false;
+ 	} else {
+ 		ast->chip = AST2000;
+ 		drm_info(dev, "AST 2000 detected\n");
 -- 
 2.41.0
 
