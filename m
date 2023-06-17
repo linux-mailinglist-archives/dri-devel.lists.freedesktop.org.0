@@ -2,71 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62BD4733FC3
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Jun 2023 10:53:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D33A473400F
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Jun 2023 12:12:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67A4810E14F;
-	Sat, 17 Jun 2023 08:53:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3E7510E08C;
+	Sat, 17 Jun 2023 10:12:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 511C010E14F
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 08:53:12 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id
- a640c23a62f3a-9829a5ae978so237856166b.2
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 01:53:12 -0700 (PDT)
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BEE210E08C
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 10:12:23 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id
+ a640c23a62f3a-986864cfe5dso234735466b.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 03:12:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686991990; x=1689583990;
+ d=linaro.org; s=google; t=1686996740; x=1689588740;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=H7v/MuJCI1UFCTEb0ULR4YPwehjpcbKBRUmu39o5MfA=;
- b=VtVrmiLDbD4WsRd7BNVvyMnAtiuxcS9O6ZzkUiy06oD/hw11A6e0xcoBPDLyH8tKbx
- edoByt1J5hbbc4YEa4QryL52GdE1358bbo18frPRqUeF0eAo1aS/u/JPG0cc1jiWbKJ8
- TiTQWAbPfjdebrKN1aFx3AMx0OcKyx9GJ26aV391kGCvXEee+i2pFHFVMYVsqnOBQLoV
- LbfAlNW0XAZpPxRkz245caoXQ1mp6S9C613EkKYnHTT+uI1l1Brt2Ai/EKj6wprGk42j
- GGDj1JgOZ8SZ7720VvNG3eETF4Y3X7WjqRcNriJcb7AiVILQ0MsZwsVWLx+L/jjQm6Zo
- 1vfw==
+ bh=TgP7Xo0/BI+q/hHqVMJMUYkrnaQIXgCa1ZtLOmCe39I=;
+ b=WY/Al9fg2u/uL7+ehIIXuN3VmIYDiGimoYGFQeZU7j8AvPZCB+bcbRw/+WqHtBruYr
+ ETErEbysbq115pvxQot3y8VruE74oD1UwQMYIRagJLyOxXLehg4EwLAlNRfH0kRRSkDz
+ wSLNCUUueHDn9G0f2kA7bNDD86wzffQKqbq5sO3Ow2jlbhRsG0hn646D5aEmZre6NfVe
+ s4SOKzNa4tdpcPXF8+sMQGyOQSUfUytKGY9n8FPEaGDgKgEeSfm5ddwC9IlXMquMhlL1
+ 84g4IDdebc+bMhNpNSMw1kE0850ioi+5VEaN9QcNCz4LhNBPQ2QCw83m1zPCHLrb82xI
+ JWJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686991990; x=1689583990;
+ d=1e100.net; s=20221208; t=1686996740; x=1689588740;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=H7v/MuJCI1UFCTEb0ULR4YPwehjpcbKBRUmu39o5MfA=;
- b=SJARZF1mJow+pHjyTh1qNZ2ZhCKzrlsdytd1qilHggzFfiK2thVzzQ2JQRE2+lhtb1
- 8w2cMa8KpmzqXzyj9vn8EE1/2CQ7zCyZu4p8Y9Tc7rFf6tK8o2wiHEnOOJTUZKkt4/r2
- 0lL0Xvy19SkYgrVCzzzI+qbbLaBmUGLAB4LGu/a0dk9e3E80cXg0bVqakpzMJ1My2vpY
- a4TbEj1IQJnyB6+fAov+aBWBn9UIzxsQb3/HiAtgTUZWNEj6j/RKEcfV7NFKVliSu5tD
- 66WJmtJoX/BuVRmOUYIuUD9x0SiPcguTah3m9pHkkiAuXBXQk+0kPwj+EP8ttWyNPj62
- MWDQ==
-X-Gm-Message-State: AC+VfDxeQOS7dWMba/s7/p7Qvp2tmSmg+pNc9lB1YBkbk8GeqCccAwgw
- oj2rM2c/IgJsHkYZbEgOFoNROIksXTb0Uzx+f3I=
-X-Google-Smtp-Source: ACHHUZ7AMfzuX8rRWUTw0RM7dJ0hcar2M9pAMiePR3WSb1BtFbqqF9p5lR1YlJ+Jt/alv09LczOsxA==
-X-Received: by 2002:a17:907:a41e:b0:978:8ecd:fa75 with SMTP id
- sg30-20020a170907a41e00b009788ecdfa75mr4340090ejc.9.1686991990401; 
- Sat, 17 Jun 2023 01:53:10 -0700 (PDT)
+ bh=TgP7Xo0/BI+q/hHqVMJMUYkrnaQIXgCa1ZtLOmCe39I=;
+ b=H8UmUcJwkBXyjbJwqd3tP7GYjDQEdIwkDyAr1Q5V/8OxQKx7RiRFG9txSulKltUOYK
+ 4DfcUyU1neaXsiEtlI+0WPOmBqQa61y/W3CwlWoJz8gXGaoJ4Ld33TyI0K2sWEdix+ps
+ nAEEhSxoEBdgqZFDdwkH1Wi8jbui/BGzoOm7JCZvwsu1d9s7NUOagT5uc82NMsmrQgfE
+ cdSoQBY0Sn8x1J3gXVxY9/GBaokutN9YqnXnkRyrgXtSeOQn55q280COtyJ5IO2MGPSB
+ vQHeYCEsQfJdODMEHmquWUHKTdUfLV2QuHbgX0ZYDNSQeNH6v5xmbjTRGLOzbFdKx6eN
+ ANoA==
+X-Gm-Message-State: AC+VfDyYVarFQ3ljUaSzSlyd1XSKrHJWPhkiuJgpsczYeQzeDMrGhQJg
+ UbXX7j2rM/zTj3tD6DqRLb6lTA==
+X-Google-Smtp-Source: ACHHUZ6Yrsd8H0C60FMXwj8vhCdlHIXessbhg49bscbUVgRS9oFYMYBeaKA0rC+pw4cm1EFHhY8Ygg==
+X-Received: by 2002:a17:907:d26:b0:977:d468:827 with SMTP id
+ gn38-20020a1709070d2600b00977d4680827mr4767373ejc.17.1686996739862; 
+ Sat, 17 Jun 2023 03:12:19 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.26])
  by smtp.gmail.com with ESMTPSA id
- z5-20020a170906714500b00985767bb5f9sm1997506ejj.70.2023.06.17.01.53.08
+ i24-20020a170906115800b0098642e99c26sm1980189eja.174.2023.06.17.03.12.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Jun 2023 01:53:09 -0700 (PDT)
-Message-ID: <73f246a7-7b3f-58a6-2679-fd983eaad9d0@linaro.org>
-Date: Sat, 17 Jun 2023 10:53:07 +0200
+ Sat, 17 Jun 2023 03:12:19 -0700 (PDT)
+Message-ID: <17576d81-a342-0b77-367a-eb9f2b97b734@linaro.org>
+Date: Sat, 17 Jun 2023 12:12:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH v2 2/6] dt-bindings: display: st7789v: bound the number of
- Rx data lines
+Subject: Re: [PATCH 2/3] dt-bindings: backlight: lm3630a: add entries to
+ control boost frequency
 Content-Language: en-US
-To: Miquel Raynal <miquel.raynal@bootlin.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org
-References: <20230616163255.2804163-1-miquel.raynal@bootlin.com>
- <20230616163255.2804163-3-miquel.raynal@bootlin.com>
+To: Maximilian Weigand <mweigand2017@gmail.com>, Lee Jones <lee@kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>
+References: <20230602-lm3630a_boost_frequency-v1-0-076472036d1a@mweigand.net>
+ <20230602-lm3630a_boost_frequency-v1-2-076472036d1a@mweigand.net>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230616163255.2804163-3-miquel.raynal@bootlin.com>
+In-Reply-To: <20230602-lm3630a_boost_frequency-v1-2-076472036d1a@mweigand.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,40 +83,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Sebastian Reichel <sre@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Michael Riesch <michael.riesch@wolfvision.net>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ Maximilian Weigand <mweigand@mweigand.net>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/06/2023 18:32, Miquel Raynal wrote:
-> The ST7789V LCD controller supports regular SPI wiring, as well as no Rx
-> data line at all. The operating system needs to know whether it can read
-> registers from the device or not. Let's detail this specific design
-> possibility by bounding the spi-rx-bus-width property.
+On 14/06/2023 21:08, Maximilian Weigand wrote:
+> From: Maximilian Weigand <mweigand@mweigand.net>
 > 
-> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> Add 'ti,boost_use_1mhz' to switch between 500 kHz and 1 MHz boost
+> converter switching frequency, and add 'ti,boost_frequency_shift' to
+> activate a frequency shift to 560 kHz or 1.12 MHz, respectively.
+> 
+> Signed-off-by: Maximilian Weigand <mweigand@mweigand.net>
 > ---
->  .../devicetree/bindings/display/panel/sitronix,st7789v.yaml   | 4 ++++
->  1 file changed, 4 insertions(+)
+>  .../bindings/leds/backlight/lm3630a-backlight.yaml           | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
-> index 0ccf0487fd8e..a25df7e1df88 100644
-> --- a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
-> @@ -29,6 +29,10 @@ properties:
->    spi-cpha: true
->    spi-cpol: true
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
+> index 3c9b4054ed9a..ef7ea0ad2d25 100644
+> --- a/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
+> +++ b/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
+> @@ -33,6 +33,18 @@ properties:
+>      description: GPIO to use to enable/disable the backlight (HWEN pin).
+>      maxItems: 1
 >  
-> +  spi-rx-bus-width:
-> +    minimum: 0
-> +    maximum: 1
+> +  ti,boost_use_1mhz:
 
-0 is already minimum, but I understand you want to emphasize lack of RX.
+No underscores in property names.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> +    description: |
+
+Do not need '|' unless you need to preserve formatting.
+
+> +      If present, change the boost converter switching frequency from the
+> +      default 500 kHz to 1 MHz. Refer to data sheet for hardware requirements.
+> +    type: boolean
+> +
+> +  ti,boost_frequency_shift:
+> +    description: |
+> +      If present, change boost converter switching frequency from 500 kHz to
+> +      560 kHz or from 1 Mhz to 1.12 Mhz, respectively.
+
+So just make it a property choosing the frequency, not bools, with
+proper unit suffix.
+
 
 Best regards,
 Krzysztof
