@@ -2,71 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E793733D58
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Jun 2023 02:48:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD5BD733EE7
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Jun 2023 08:54:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FF5D10E6B2;
-	Sat, 17 Jun 2023 00:48:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56B3510E02F;
+	Sat, 17 Jun 2023 06:54:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6BC510E6B2
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 00:48:36 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id
- 2adb3069b0e04-4f7b641f54cso1837717e87.2
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 17:48:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1686962914; x=1689554914;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=NTLsCOm+x4ZvrOFSB6ytsH0DzFh1BKzhychb27x+ZCk=;
- b=gBqvFFGhi2k1Y4mtAueB4OnvmeneTr3asfVLlhXV/KoukoBpKC/5fJRBWHcdTBqK8i
- xmjTgyEMajixAz7m3A9906HEGtDrMt3nHnXAHkUb2vfOS5b7IxIVvdzjutDP2wNRf+t9
- Pl2PbEvPwAhbeqtPjmYXgOuuP9nstKUX758l4KrWiDTHOyCU5VamLZ68KyuXKRlT9E7F
- phHrRmz5JxT7DwjZcogBgziaJ+1vsOBXwfdw0IxAJF1HddL7yYWGQNAbqzUN3x7exU+k
- EYyW1vacLbLv5RJYukAX/lBXxWjz66LB6ZtHhMLSFt6u65cqH2VSFKQ88nUwHBzUp9ur
- vtkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686962914; x=1689554914;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NTLsCOm+x4ZvrOFSB6ytsH0DzFh1BKzhychb27x+ZCk=;
- b=PfrxI7CoVL1Tdkm9kWkEbjR/bkvTlI08n/U/GzoXWvLVzEsajxg+M3m7BVrovXjZ36
- 9F4qjSn8B71/PWH1mpPEatUgJXDZ1MQ9dw8hXNLgsTjwlwXwu9BPNDSsq/WW2r3ix8jD
- ofQX/ixbiOZYm5zbn5UdQfBx6oQUmqeII50gOwadpUzkKNchmdNOqOhETx/Eg6nFSngt
- xxdFJnOr39g0Qz4gT+NWObUFl+YhpgPX4UlFvvSkaHmM+FuQ3L3R4yWhJ4cN1smwm5/G
- rZ5jeBBpXHrYOrUkH9//4a4wiDDeLvwrrpMOt5OSfPGIYxjVpJv6L8z3WrkGNSYvwTLb
- MZsg==
-X-Gm-Message-State: AC+VfDwAH6Y1qXMjrO6SdawwoI7i5TILfpDqIkzFLqQC3gjKwk7LeLre
- YyOWjlC5RWuWDK4dfBUNkE9TgA==
-X-Google-Smtp-Source: ACHHUZ6AYKV84W3IFZwyIjWK1ncKT0jMqQXhv6X4F4THuR6X7HIaPQniEwqZSsmfjSwnRF1a8MKUNQ==
-X-Received: by 2002:a19:f201:0:b0:4f4:dd51:aec7 with SMTP id
- q1-20020a19f201000000b004f4dd51aec7mr2028052lfh.54.1686962914329; 
- Fri, 16 Jun 2023 17:48:34 -0700 (PDT)
-Received: from [192.168.1.212] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- d15-20020ac2544f000000b004f858848fefsm348826lfn.177.2023.06.16.17.48.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Jun 2023 17:48:33 -0700 (PDT)
-Message-ID: <227c2ba0-cfb2-cd88-6506-895e8735d221@linaro.org>
-Date: Sat, 17 Jun 2023 03:48:33 +0300
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2196510E02F
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 06:54:31 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8BxLuujWI1kbjwGAA--.13428S3;
+ Sat, 17 Jun 2023 14:54:28 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8BxTMqjWI1kIgUeAA--.10469S3; 
+ Sat, 17 Jun 2023 14:54:27 +0800 (CST)
+Message-ID: <60af0f6e-3cbe-fb49-bc9b-9a0d5fbb2cb5@loongson.cn>
+Date: Sat, 17 Jun 2023 14:54:27 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH v3 17/19] drm/msm/dpu: inline INTF_BLK and INTF_BLK_DSI_TE
- macros
-Content-Language: en-GB
-To: Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230616100317.500687-1-dmitry.baryshkov@linaro.org>
- <20230616100317.500687-18-dmitry.baryshkov@linaro.org>
- <vpuwgjbgfau6fwn3etg3hyoo44yn4n4xo7hzbe3kfir4ih2tgp@rmutsfjobrub>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <vpuwgjbgfau6fwn3etg3hyoo44yn4n4xo7hzbe3kfir4ih2tgp@rmutsfjobrub>
+Subject: Re: [03/14] drm/ast: Implement register helpers in ast_drv.h
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ jfalempe@redhat.com, daniel@ffwll.ch, jammy_huang@aspeedtech.com
+References: <20230616140739.32042-4-tzimmermann@suse.de>
+Content-Language: en-US
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <20230616140739.32042-4-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8BxTMqjWI1kIgUeAA--.10469S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxuF48ZrW5tw4DKFWrXw45CFX_yoW5try7p3
+ 9xJa9a9rWUJF129rZxZFyDAFyfG3Z7Ka4FkrWDW3yv939xZr1ktryqvw43A345GrWxZFyU
+ JFsrGry8A3W5JagCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUBYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+ 6r4j6r4UJwAaw2AFwI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
+ Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_
+ JF1lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
+ CYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j
+ 6r4UMxCIbckI1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
+ AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
+ 0xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4
+ v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AK
+ xVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8TqcUUUUUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,31 +65,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/06/2023 01:12, Marijn Suijten wrote:
-> On 2023-06-16 13:03:15, Dmitry Baryshkov wrote:
->> To simplify making changes to the hardware block definitions, expand
->> corresponding macros. This way making all the changes are more obvious
->> and visible in the source files.
->>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> 
-> Looks good but I am not sure how much it is worth to review this (versus
-> checking your script and rerunning it to see if I get the same results),
-> considering that there are quite some conflicts with your interrupt
-> rework.  In what order to you intend to land that?
 
-As I wrote, this series goes in first. Initially I designed them the 
-other way, but intr rework depends on DPU revision changes, while this 
-one doesn't have such dependencies.
+On 2023/6/16 21:52, Thomas Zimmermann wrote:
+> There are already a number of register I/O functions in ast_drv.h.
+> For consistency, move the remaining functions there as well. No
+> functional changes.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> ---
+>   drivers/gpu/drm/ast/ast_drv.h  | 34 ++++++++++++++++++++++++----------
+>   drivers/gpu/drm/ast/ast_main.c | 28 ----------------------------
+>   2 files changed, 24 insertions(+), 38 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+> index fc4760a67596f..0141705beaee9 100644
+> --- a/drivers/gpu/drm/ast/ast_drv.h
+> +++ b/drivers/gpu/drm/ast/ast_drv.h
+> @@ -257,22 +257,36 @@ static inline void ast_io_write8(struct ast_device *ast, u32 reg, u8 val)
+>   	iowrite8(val, ast->ioregs + reg);
+>   }
+>   
+> -static inline void ast_set_index_reg(struct ast_device *ast,
+> -				     uint32_t base, uint8_t index,
+> -				     uint8_t val)
+> +static inline u8 ast_get_index_reg(struct ast_device *ast, u32 base, u8 index)
+> +{
+> +	ast_io_write8(ast, base, index);
+> +	++base;
+> +	return ast_io_read8(ast, base);
+> +}
+> +
+> +static inline u8 ast_get_index_reg_mask(struct ast_device *ast, u32 base, u8 index,
+> +					u8 preserve_mask)
+> +{
+> +	u8 val = ast_get_index_reg(ast, base, index);
+> +
+> +	return val & preserve_mask;
+> +}
+> +
+> +static inline void ast_set_index_reg(struct ast_device *ast, u32 base, u8 index, u8 val)
+>   {
+>   	ast_io_write8(ast, base, index);
+>   	++base;
+>   	ast_io_write8(ast, base, val);
+>   }
+>   
+> -void ast_set_index_reg_mask(struct ast_device *ast,
+> -			    uint32_t base, uint8_t index,
+> -			    uint8_t mask, uint8_t val);
+> -uint8_t ast_get_index_reg(struct ast_device *ast,
+> -			  uint32_t base, uint8_t index);
+> -uint8_t ast_get_index_reg_mask(struct ast_device *ast,
+> -			       uint32_t base, uint8_t index, uint8_t mask);
+> +static inline void ast_set_index_reg_mask(struct ast_device *ast, u32 base, u8 index,
+> +					  u8 preserve_mask, u8 val)
+> +{
+> +	u8 tmp = ast_get_index_reg_mask(ast, base, index, preserve_mask);
+> +
+> +	tmp |= val;
+> +	ast_set_index_reg(ast, base, index, tmp);
+> +}
+>   
+>   static inline void ast_open_key(struct ast_device *ast)
+>   {
+> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
+> index da33cfc6366ec..862fdf02f6100 100644
+> --- a/drivers/gpu/drm/ast/ast_main.c
+> +++ b/drivers/gpu/drm/ast/ast_main.c
+> @@ -35,34 +35,6 @@
+>   
+>   #include "ast_drv.h"
+>   
+> -void ast_set_index_reg_mask(struct ast_device *ast,
+> -			    uint32_t base, uint8_t index,
+> -			    uint8_t mask, uint8_t val)
+> -{
+> -	u8 tmp;
+> -	ast_io_write8(ast, base, index);
+> -	tmp = (ast_io_read8(ast, base + 1) & mask) | val;
+> -	ast_set_index_reg(ast, base, index, tmp);
+> -}
+> -
+> -uint8_t ast_get_index_reg(struct ast_device *ast,
+> -			  uint32_t base, uint8_t index)
+> -{
+> -	uint8_t ret;
+> -	ast_io_write8(ast, base, index);
+> -	ret = ast_io_read8(ast, base + 1);
+> -	return ret;
+> -}
+> -
+> -uint8_t ast_get_index_reg_mask(struct ast_device *ast,
+> -			       uint32_t base, uint8_t index, uint8_t mask)
+> -{
+> -	uint8_t ret;
+> -	ast_io_write8(ast, base, index);
+> -	ret = ast_io_read8(ast, base + 1) & mask;
+> -	return ret;
+> -}
+> -
+>   static void ast_detect_config_mode(struct drm_device *dev, u32 *scu_rev)
+>   {
+>   	struct device_node *np = dev->dev->of_node;
 
 -- 
-With best wishes
-Dmitry
+Jingfeng
 
