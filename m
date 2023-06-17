@@ -2,53 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E19C73445D
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 00:28:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA05734464
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 00:49:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9510F10E0A1;
-	Sat, 17 Jun 2023 22:28:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8A9610E012;
+	Sat, 17 Jun 2023 22:49:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from s.wrqvwxzv.outbound-mail.sendgrid.net
- (s.wrqvwxzv.outbound-mail.sendgrid.net [149.72.154.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D004B10E0A1
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 22:28:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=from:subject:in-reply-to:references:mime-version:to:cc:
- content-transfer-encoding:content-type:cc:content-type:from:subject:to;
- s=s1; bh=In9jXU/Xmc90ShXMfHKgvGxvsps9jJbDF/D42oeosxM=;
- b=f5OSXAF0iGtb4udg0YVYucbfwZeIk6ReJVzTnE562VDQ2IQXiN9oPimZEWkzNRcg3YlU
- Kf89B0WsEGLy0RUAON+z96YFuNcGPDvrjePeGGqtPJhAMw01K7Rl5hkbU9xpOHi1JjrCuD
- 7M7ozbb8t/n2AsdjdlrIqR4aiZbxmo90xZfdC/5xg6A1Gix/mcHH2NYlTHWoP8LtNAdu2+
- +TFTuX8MlWvODEz2OIsKyTc5J8GVVDGjkGcPAlmFmVc9Yfvaan38YDVMl32fn1GGyw3BpL
- RxyqaiTmZcUP8pB74lWkRjhToBxyAmU3xhE0bKEayoy767hXv3F41wC7zfmBPIRQ==
-Received: by filterdrecv-canary-78ff49ff78-6jdhb with SMTP id
- filterdrecv-canary-78ff49ff78-6jdhb-1-648E3251-31
- 2023-06-17 22:23:13.974305074 +0000 UTC m=+3278615.968239283
-Received: from bionic.localdomain (unknown) by geopod-ismtpd-1 (SG) with ESMTP
- id V8aP4NOAQ_-U3xk-8FFjJg Sat, 17 Jun 2023 22:23:13.695 +0000 (UTC)
-From: Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH v3 2/2] drm/rockchip: vop: Add NV15, NV20 and NV30 support
-Date: Sat, 17 Jun 2023 22:23:14 +0000 (UTC)
-Message-Id: <20230617222307.3145714-3-jonas@kwiboo.se>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230617222307.3145714-1-jonas@kwiboo.se>
-References: <20230617222307.3145714-1-jonas@kwiboo.se>
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBAD510E012
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 22:49:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
+ t=1687042166; bh=eyC5JI8V8DNnn2DGE7rCYRCn5Al5AnVBD9PbxGzqK2g=;
+ h=From:To:Cc:Subject:Date:From;
+ b=oKUwMM8cgEjhyZLWJWVJisv9Ze3H3GBrDTrEP/0OLHL9U0g8IcZNRG1MRdNl3aAKH
+ z/EGNYpVQFTVKGNW59SfocIxaEoKq8EIWbpGcFFN7XEi7p/SeQXOVgj4tqUPave0Tb
+ wUP3AWpKQZrMz/jz0MqT/ScvrpWQzoJXcI2sxArA=
+From: =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>
+To: linux-rockchip@lists.infradead.org
+Subject: [PATCH v2] drm: bridge: dw-mipi-dsi: Fix enable/disable of DSI
+ controller
+Date: Sun, 18 Jun 2023 00:48:25 +0200
+Message-ID: <20230617224915.1923630-1-megi@xff.cz>
 MIME-Version: 1.0
-X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
- =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0h6i1hv+OZJVIZNLFe?=
- =?us-ascii?Q?BUB6rZ5yOxRN6V3ryls9aLxT7Au4q7aBvoO6NbC?=
- =?us-ascii?Q?14xqEU0E9j+eD0WG1hBLHyO=2FHHqrQE7MMVPuOOg?=
- =?us-ascii?Q?t8tXdJlbCHOdqMNqww21pIytHpghGWNQFjv2md4?=
- =?us-ascii?Q?Kh+dl9VOEQsBN2D7rOx9ncvPN+YJy5H5jcKpGua?=
- =?us-ascii?Q?8z74FHBN5ABs8zIw9GBVQ=3D=3D?=
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Sandy Huang
- <hjc@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>
-X-Entity-ID: P7KYpSJvGCELWjBME/J5tg==
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,185 +38,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rockchip@lists.infradead.org, Jonas Karlman <jonas@kwiboo.se>,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Archit Taneja <architt@codeaurora.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Philippe CORNU <philippe.cornu@st.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ open list <linux-kernel@vger.kernel.org>, Ondrej Jirman <megi@xff.cz>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for displaying 10-bit 4:2:0 and 4:2:2 formats produced by the
-Rockchip Video Decoder on RK322X, RK3288, RK3328, RK3368 and RK3399.
-Also add support for 10-bit 4:4:4 format while at it.
+From: Ondrej Jirman <megi@xff.cz>
 
-V2: Added NV30 support
+Before this patch, booting to Linux VT and doing a simple:
 
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-Reviewed-by: Sandy Huang <hjc@rock-chips.com>
+  echo 2 > /sys/class/graphics/fb0/blank
+  echo 0 > /sys/class/graphics/fb0/blank
+
+would result in failures to re-enable the panel. Mode set callback is
+called only once during boot in this scenario, while calls to
+enable/disable callbacks are balanced afterwards. The driver doesn't
+work unless userspace calls modeset before enabling the CRTC/connector.
+
+This patch moves enabling of the DSI host from mode_set into pre_enable
+callback, and removes some old hacks where this bridge driver is
+directly calling into other bridge driver's callbacks.
+
+pre_enable_prev_first flag is set on the panel's bridge so that panel
+drivers will get their prepare function called between DSI host's
+pre_enable and enable callbacks, so that they get a chance to
+perform panel setup while DSI host is already enabled in command
+mode. Otherwise panel's prepare would be called before DSI host
+is enabled, and any DSI communication used in prepare callback
+would fail.
+
+With all these changes, the enable/disable sequence is now well
+balanced, and host's and panel's callbacks are called in proper order
+documented in the drm_panel API documentation without needing the old
+hacks. (Mainly that panel->prepare is called when DSI host is ready to
+allow the panel driver to send DSI commands and vice versa during
+disable.)
+
+Tested on Pinephone Pro. Trace of the callbacks follows.
+
+Before:
+
+[    1.253882] dw-mipi-dsi-rockchip ff960000.dsi: mode_set
+[    1.290732] panel-himax-hx8394 ff960000.dsi.0: prepare
+[    1.475576] dw-mipi-dsi-rockchip ff960000.dsi: enable
+[    1.475593] panel-himax-hx8394 ff960000.dsi.0: enable
+
+echo 2 > /sys/class/graphics/fb0/blank
+
+[   13.722799] panel-himax-hx8394 ff960000.dsi.0: disable
+[   13.774502] dw-mipi-dsi-rockchip ff960000.dsi: post_disable
+[   13.774526] panel-himax-hx8394 ff960000.dsi.0: unprepare
+
+echo 0 > /sys/class/graphics/fb0/blank
+
+[   17.735796] panel-himax-hx8394 ff960000.dsi.0: prepare
+[   17.923522] dw-mipi-dsi-rockchip ff960000.dsi: enable
+[   17.923540] panel-himax-hx8394 ff960000.dsi.0: enable
+[   17.944330] dw-mipi-dsi-rockchip ff960000.dsi: failed to write command FIFO
+[   17.944335] panel-himax-hx8394 ff960000.dsi.0: sending command 0xb9 failed: -110
+[   17.944340] panel-himax-hx8394 ff960000.dsi.0: Panel init sequence failed: -110
+
+echo 2 > /sys/class/graphics/fb0/blank
+
+[  431.148583] panel-himax-hx8394 ff960000.dsi.0: disable
+[  431.169259] dw-mipi-dsi-rockchip ff960000.dsi: failed to write command FIFO
+[  431.169268] panel-himax-hx8394 ff960000.dsi.0: Failed to enter sleep mode: -110
+[  431.169282] dw-mipi-dsi-rockchip ff960000.dsi: post_disable
+[  431.169316] panel-himax-hx8394 ff960000.dsi.0: unprepare
+[  431.169357] pclk_mipi_dsi0 already disabled
+
+echo 0 > /sys/class/graphics/fb0/blank
+
+[  432.796851] panel-himax-hx8394 ff960000.dsi.0: prepare
+[  432.981537] dw-mipi-dsi-rockchip ff960000.dsi: enable
+[  432.981568] panel-himax-hx8394 ff960000.dsi.0: enable
+[  433.002290] dw-mipi-dsi-rockchip ff960000.dsi: failed to write command FIFO
+[  433.002299] panel-himax-hx8394 ff960000.dsi.0: sending command 0xb9 failed: -110
+[  433.002312] panel-himax-hx8394 ff960000.dsi.0: Panel init sequence failed: -110
+
+-----------------------------------------------------------------------
+
+After:
+
+[    1.248372] dw-mipi-dsi-rockchip ff960000.dsi: mode_set
+[    1.248704] dw-mipi-dsi-rockchip ff960000.dsi: pre_enable
+[    1.285377] panel-himax-hx8394 ff960000.dsi.0: prepare
+[    1.468392] dw-mipi-dsi-rockchip ff960000.dsi: enable
+[    1.468421] panel-himax-hx8394 ff960000.dsi.0: enable
+
+echo 2 > /sys/class/graphics/fb0/blank
+
+[   16.210357] panel-himax-hx8394 ff960000.dsi.0: disable
+[   16.261315] dw-mipi-dsi-rockchip ff960000.dsi: post_disable
+[   16.261339] panel-himax-hx8394 ff960000.dsi.0: unprepare
+
+echo 0 > /sys/class/graphics/fb0/blank
+
+[   19.161453] dw-mipi-dsi-rockchip ff960000.dsi: pre_enable
+[   19.197869] panel-himax-hx8394 ff960000.dsi.0: prepare
+[   19.382141] dw-mipi-dsi-rockchip ff960000.dsi: enable
+[   19.382158] panel-himax-hx8394 ff960000.dsi.0: enable
+
+Fixes: 46fc51546d44 ("drm/bridge/synopsys: Add MIPI DSI host controller bridge")
+       (But depends on functionality intorduced in Linux 6.3, so this patch will
+        not build on older kernels when applied to older stable branches.)
+Signed-off-by: Ondrej Jirman <megi@xff.cz>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 29 +++++++++++++++++--
- drivers/gpu/drm/rockchip/rockchip_drm_vop.h |  1 +
- drivers/gpu/drm/rockchip/rockchip_vop_reg.c | 32 +++++++++++++++++----
- 3 files changed, 54 insertions(+), 8 deletions(-)
+Changed in v2:
+- use proper function for copying drm mode
+- add fixes + note about dependencies
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-index 60b23636a3fe..3984265a6d8f 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-@@ -273,6 +273,18 @@ static bool has_uv_swapped(uint32_t format)
- 	}
- }
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 28 +++++++++++--------
+ 1 file changed, 16 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+index b2efecf7d160..4291798bd70f 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+@@ -265,6 +265,7 @@ struct dw_mipi_dsi {
+ 	struct dw_mipi_dsi *master; /* dual-dsi master ptr */
+ 	struct dw_mipi_dsi *slave; /* dual-dsi slave ptr */
  
-+static bool is_fmt_10(uint32_t format)
-+{
-+	switch (format) {
-+	case DRM_FORMAT_NV15:
-+	case DRM_FORMAT_NV20:
-+	case DRM_FORMAT_NV30:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
- static enum vop_data_format vop_convert_format(uint32_t format)
- {
- 	switch (format) {
-@@ -288,12 +300,15 @@ static enum vop_data_format vop_convert_format(uint32_t format)
- 	case DRM_FORMAT_BGR565:
- 		return VOP_FMT_RGB565;
- 	case DRM_FORMAT_NV12:
-+	case DRM_FORMAT_NV15:
- 	case DRM_FORMAT_NV21:
- 		return VOP_FMT_YUV420SP;
- 	case DRM_FORMAT_NV16:
-+	case DRM_FORMAT_NV20:
- 	case DRM_FORMAT_NV61:
- 		return VOP_FMT_YUV422SP;
- 	case DRM_FORMAT_NV24:
-+	case DRM_FORMAT_NV30:
- 	case DRM_FORMAT_NV42:
- 		return VOP_FMT_YUV444SP;
- 	default:
-@@ -944,7 +959,12 @@ static void vop_plane_atomic_update(struct drm_plane *plane,
- 	dsp_sty = dest->y1 + crtc->mode.vtotal - crtc->mode.vsync_start;
- 	dsp_st = dsp_sty << 16 | (dsp_stx & 0xffff);
- 
--	offset = (src->x1 >> 16) * fb->format->cpp[0];
-+	if (fb->format->block_w[0])
-+		offset = (src->x1 >> 16) * fb->format->char_per_block[0] /
-+			 fb->format->block_w[0];
-+	else
-+		offset = (src->x1 >> 16) * fb->format->cpp[0];
-+
- 	offset += (src->y1 >> 16) * fb->pitches[0];
- 	dma_addr = rk_obj->dma_addr + offset + fb->offsets[0];
- 
-@@ -970,6 +990,7 @@ static void vop_plane_atomic_update(struct drm_plane *plane,
- 	}
- 
- 	VOP_WIN_SET(vop, win, format, format);
-+	VOP_WIN_SET(vop, win, fmt_10, is_fmt_10(fb->format->format));
- 	VOP_WIN_SET(vop, win, yrgb_vir, DIV_ROUND_UP(fb->pitches[0], 4));
- 	VOP_WIN_SET(vop, win, yrgb_mst, dma_addr);
- 	VOP_WIN_YUV2YUV_SET(vop, win_yuv2yuv, y2r_en, is_yuv);
-@@ -986,7 +1007,11 @@ static void vop_plane_atomic_update(struct drm_plane *plane,
- 		uv_obj = fb->obj[1];
- 		rk_uv_obj = to_rockchip_obj(uv_obj);
- 
--		offset = (src->x1 >> 16) * bpp / hsub;
-+		if (fb->format->block_w[1])
-+			offset = (src->x1 >> 16) * bpp /
-+				 fb->format->block_w[1] / hsub;
-+		else
-+			offset = (src->x1 >> 16) * bpp / hsub;
- 		offset += (src->y1 >> 16) * fb->pitches[1] / vsub;
- 
- 		dma_addr = rk_uv_obj->dma_addr + offset + fb->offsets[1];
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
-index 5f56e0597df8..4b2daefeb8c1 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
-@@ -186,6 +186,7 @@ struct vop_win_phy {
- 	struct vop_reg enable;
- 	struct vop_reg gate;
- 	struct vop_reg format;
-+	struct vop_reg fmt_10;
- 	struct vop_reg rb_swap;
- 	struct vop_reg uv_swap;
- 	struct vop_reg act_info;
-diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-index 20ac7811c5eb..7f72dcac6f0e 100644
---- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-@@ -53,6 +53,23 @@ static const uint32_t formats_win_full[] = {
- 	DRM_FORMAT_NV42,
++	struct drm_display_mode mode;
+ 	const struct dw_mipi_dsi_plat_data *plat_data;
  };
  
-+static const uint32_t formats_win_full_10[] = {
-+	DRM_FORMAT_XRGB8888,
-+	DRM_FORMAT_ARGB8888,
-+	DRM_FORMAT_XBGR8888,
-+	DRM_FORMAT_ABGR8888,
-+	DRM_FORMAT_RGB888,
-+	DRM_FORMAT_BGR888,
-+	DRM_FORMAT_RGB565,
-+	DRM_FORMAT_BGR565,
-+	DRM_FORMAT_NV12,
-+	DRM_FORMAT_NV16,
-+	DRM_FORMAT_NV24,
-+	DRM_FORMAT_NV15,
-+	DRM_FORMAT_NV20,
-+	DRM_FORMAT_NV30,
-+};
+@@ -332,6 +333,7 @@ static int dw_mipi_dsi_host_attach(struct mipi_dsi_host *host,
+ 	if (IS_ERR(bridge))
+ 		return PTR_ERR(bridge);
+ 
++	bridge->pre_enable_prev_first = true;
+ 	dsi->panel_bridge = bridge;
+ 
+ 	drm_bridge_add(&dsi->bridge);
+@@ -859,15 +861,6 @@ static void dw_mipi_dsi_bridge_post_atomic_disable(struct drm_bridge *bridge,
+ 	 */
+ 	dw_mipi_dsi_set_mode(dsi, 0);
+ 
+-	/*
+-	 * TODO Only way found to call panel-bridge post_disable &
+-	 * panel unprepare before the dsi "final" disable...
+-	 * This needs to be fixed in the drm_bridge framework and the API
+-	 * needs to be updated to manage our own call chains...
+-	 */
+-	if (dsi->panel_bridge->funcs->post_disable)
+-		dsi->panel_bridge->funcs->post_disable(dsi->panel_bridge);
+-
+ 	if (phy_ops->power_off)
+ 		phy_ops->power_off(dsi->plat_data->priv_data);
+ 
+@@ -942,15 +935,25 @@ static void dw_mipi_dsi_mode_set(struct dw_mipi_dsi *dsi,
+ 		phy_ops->power_on(dsi->plat_data->priv_data);
+ }
+ 
++static void dw_mipi_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
++						 struct drm_bridge_state *old_bridge_state)
++{
++	struct dw_mipi_dsi *dsi = bridge_to_dsi(bridge);
 +
- static const uint64_t format_modifiers_win_full[] = {
- 	DRM_FORMAT_MOD_LINEAR,
- 	DRM_FORMAT_MOD_INVALID,
-@@ -627,11 +644,12 @@ static const struct vop_scl_regs rk3288_win_full_scl = {
++	/* Power up the dsi ctl into a command mode */
++	dw_mipi_dsi_mode_set(dsi, &dsi->mode);
++	if (dsi->slave)
++		dw_mipi_dsi_mode_set(dsi->slave, &dsi->mode);
++}
++
+ static void dw_mipi_dsi_bridge_mode_set(struct drm_bridge *bridge,
+ 					const struct drm_display_mode *mode,
+ 					const struct drm_display_mode *adjusted_mode)
+ {
+ 	struct dw_mipi_dsi *dsi = bridge_to_dsi(bridge);
  
- static const struct vop_win_phy rk3288_win01_data = {
- 	.scl = &rk3288_win_full_scl,
--	.data_formats = formats_win_full,
--	.nformats = ARRAY_SIZE(formats_win_full),
-+	.data_formats = formats_win_full_10,
-+	.nformats = ARRAY_SIZE(formats_win_full_10),
- 	.format_modifiers = format_modifiers_win_full,
- 	.enable = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 0),
- 	.format = VOP_REG(RK3288_WIN0_CTRL0, 0x7, 1),
-+	.fmt_10 = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 4),
- 	.rb_swap = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 12),
- 	.uv_swap = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 15),
- 	.act_info = VOP_REG(RK3288_WIN0_ACT_INFO, 0x1fff1fff, 0),
-@@ -768,11 +786,12 @@ static const struct vop_intr rk3368_vop_intr = {
+-	dw_mipi_dsi_mode_set(dsi, adjusted_mode);
+-	if (dsi->slave)
+-		dw_mipi_dsi_mode_set(dsi->slave, adjusted_mode);
++	/* Store the display mode for later use in pre_enable callback */
++	drm_mode_copy(&dsi->mode, adjusted_mode);
+ }
  
- static const struct vop_win_phy rk3368_win01_data = {
- 	.scl = &rk3288_win_full_scl,
--	.data_formats = formats_win_full,
--	.nformats = ARRAY_SIZE(formats_win_full),
-+	.data_formats = formats_win_full_10,
-+	.nformats = ARRAY_SIZE(formats_win_full_10),
- 	.format_modifiers = format_modifiers_win_full,
- 	.enable = VOP_REG(RK3368_WIN0_CTRL0, 0x1, 0),
- 	.format = VOP_REG(RK3368_WIN0_CTRL0, 0x7, 1),
-+	.fmt_10 = VOP_REG(RK3368_WIN0_CTRL0, 0x1, 4),
- 	.rb_swap = VOP_REG(RK3368_WIN0_CTRL0, 0x1, 12),
- 	.uv_swap = VOP_REG(RK3368_WIN0_CTRL0, 0x1, 15),
- 	.x_mir_en = VOP_REG(RK3368_WIN0_CTRL0, 0x1, 21),
-@@ -938,11 +957,12 @@ static const struct vop_win_yuv2yuv_data rk3399_vop_big_win_yuv2yuv_data[] = {
- 
- static const struct vop_win_phy rk3399_win01_data = {
- 	.scl = &rk3288_win_full_scl,
--	.data_formats = formats_win_full,
--	.nformats = ARRAY_SIZE(formats_win_full),
-+	.data_formats = formats_win_full_10,
-+	.nformats = ARRAY_SIZE(formats_win_full_10),
- 	.format_modifiers = format_modifiers_win_full_afbc,
- 	.enable = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 0),
- 	.format = VOP_REG(RK3288_WIN0_CTRL0, 0x7, 1),
-+	.fmt_10 = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 4),
- 	.rb_swap = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 12),
- 	.uv_swap = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 15),
- 	.x_mir_en = VOP_REG(RK3288_WIN0_CTRL0, 0x1, 21),
+ static void dw_mipi_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
+@@ -1004,6 +1007,7 @@ static const struct drm_bridge_funcs dw_mipi_dsi_bridge_funcs = {
+ 	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
+ 	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
+ 	.atomic_reset		= drm_atomic_helper_bridge_reset,
++	.atomic_pre_enable	= dw_mipi_dsi_bridge_atomic_pre_enable,
+ 	.atomic_enable		= dw_mipi_dsi_bridge_atomic_enable,
+ 	.atomic_post_disable	= dw_mipi_dsi_bridge_post_atomic_disable,
+ 	.mode_set		= dw_mipi_dsi_bridge_mode_set,
 -- 
-2.40.1
+2.41.0
 
