@@ -1,60 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CA8D734573
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 10:21:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3773A734578
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 10:22:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C353410E0E4;
-	Sun, 18 Jun 2023 08:21:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5595F10E0F3;
+	Sun, 18 Jun 2023 08:22:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B523910E048;
- Sat, 17 Jun 2023 16:51:48 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-4f62b512fe2so2457802e87.1; 
- Sat, 17 Jun 2023 09:51:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687020706; x=1689612706;
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E53210E00D
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 18:03:52 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id
+ 2adb3069b0e04-4f866a3d8e4so469419e87.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 11:03:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1687025030; x=1689617030;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=IIAlmExRE6EbIYR/X1OU/hkRy+rZ5PC7Pr91ssHegm8=;
- b=Z6cHahOUF7tIh2qjVSwwHTlOMWsz4LXSL94AgOatTNRZflkoNM/lePU/oG5aNH6guF
- nmnsViznBkeF29LvAqG13/mBIYe5sfsuaKslBY5mNGboakREjDo6ZE1YU1h5IjE4xTnY
- hLvMghKUU5XvSzcnpuN1VV8or1nAqVhH281XzvlxjNMJvrzbNgkij0U9xlDKXxrFJa7f
- Bd1IN4y+pFbPD+uXDaVaEN2ZVltCLQ1it10DhRypUJ3Ny7XPQa7aeOVyvjdWB9WrQaBe
- UiiOAsTcdPP1Q/is5jdWGv59bsHUoRW5ixZSKoYTAW2pk1uVK/aSf1zVTzEXd251fe9s
- q3ZQ==
-X-Gm-Message-State: AC+VfDyV1UBxxS2BtSVjAt/7EutO4s79Ld0rmeJI437WN6PIe/9JZfOf
- MnWeGpxYwWaVZP3teLdHF2PFWCEZSSqZfaoP
-X-Google-Smtp-Source: ACHHUZ5E7ACU/lQw41Aq8HY3HF3pboXB46TSDqaTVv3sHaRkx2M/RzdvcbJ6KvVy81zpkULGoDWDlQ==
-X-Received: by 2002:a2e:3c16:0:b0:2b2:3a4:4ebe with SMTP id
- j22-20020a2e3c16000000b002b203a44ebemr3820771lja.48.1687020705659; 
- Sat, 17 Jun 2023 09:51:45 -0700 (PDT)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com.
- [209.85.208.170]) by smtp.gmail.com with ESMTPSA id
- r10-20020a2e94ca000000b002b0488ef239sm4238689ljh.93.2023.06.17.09.51.44
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=sD3IWEzBGQZ8mcTerhCj4o67e1f5v1lsAPNkuhRyMbk=;
+ b=D/NV9ZuZ+LuatN0mGKyv34QEjO67gq6UOroFdIlKQ3OcUuF0FVsi17zQtsLg7LvYee
+ dv5NnRFdutTcD5lbhLnRNKERsoOYqIaSkyuPsfPzmW6IPG1EMuZPxhluDhJQzChRJpmC
+ ZoT0sF8eX8nRr+PjAJ17VeJNOHgZnU4ehCnMI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687025030; x=1689617030;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=sD3IWEzBGQZ8mcTerhCj4o67e1f5v1lsAPNkuhRyMbk=;
+ b=V8rlOjRsBaFIjzhf+1aAUfeE4ur8Xy0iMr+Dsg8uWaimP1TIOYLLCxP0ncFU2gc6MF
+ fmoHqFrJdPEPXmccQ0qYm7onx1KTccMZP1Ae+ry/7WRlCWSHpxaN9C2OBY0Y6Hwsb3u8
+ Ty3kFA4mNoR1oeYfQTD+e6D+FUhrADOjQY9U0i736njAVlDNID8Zk0aG0iaI7lZCS3Jr
+ Z5gTuTg2YTX7psNTkKOG0zjgKj8CC98XvYIXTO5kHgwphcq0fnjfj1nvKKjkAtGho5mT
+ PVa6g4bf+gz8cVSehaQS1UnMqzPacac5T+26+hzLpTPRJg9WZ8HC/vA94vn5k52fuECq
+ cRTg==
+X-Gm-Message-State: AC+VfDypD6NBGVP/bC6HbVOP/r9a7DwPGdbagKzrBpR5tIqdyUH11vnn
+ AYiLaCEXywATYuaKM9ElrqXz3zf0VF778/zvu85lXe6Mn+o=
+X-Google-Smtp-Source: ACHHUZ7aQ4lPZpgVG3rm10wbUq7AHEpEHTpKhpQETzL0f+Wj/+YiLMYIxbSQ3bXFYzDT4W1mNkodPQ==
+X-Received: by 2002:a19:3807:0:b0:4f6:6b:a43b with SMTP id
+ f7-20020a193807000000b004f6006ba43bmr3253755lfa.52.1687025030344; 
+ Sat, 17 Jun 2023 11:03:50 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com.
+ [209.85.167.42]) by smtp.gmail.com with ESMTPSA id
+ j20-20020ac253b4000000b004edc72be17csm3502574lfh.2.2023.06.17.11.03.50
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Jun 2023 09:51:44 -0700 (PDT)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-2b45e6e1b73so18193181fa.0; 
- Sat, 17 Jun 2023 09:51:44 -0700 (PDT)
-X-Received: by 2002:a2e:9896:0:b0:2ad:8380:770d with SMTP id
- b22-20020a2e9896000000b002ad8380770dmr3881903ljj.21.1687020704207; Sat, 17
- Jun 2023 09:51:44 -0700 (PDT)
+ Sat, 17 Jun 2023 11:03:50 -0700 (PDT)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-4f85fa03cd9so1346e87.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 11:03:50 -0700 (PDT)
+X-Received: by 2002:a05:600c:444e:b0:3f4:2736:b5eb with SMTP id
+ v14-20020a05600c444e00b003f42736b5ebmr491530wmn.1.1687024655682; Sat, 17 Jun
+ 2023 10:57:35 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
  <20230601154002.uv2wfatpb7b45duz@pengutronix.de>
  <CAD=FV=WvP--wJwBQtnSoW_xb57R1Wf9dH0XzWxe+NorczXfeAw@mail.gmail.com>
  <20230617161222.wy55pbomnrrlfy5u@pengutronix.de>
 In-Reply-To: <20230617161222.wy55pbomnrrlfy5u@pengutronix.de>
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Sun, 18 Jun 2023 00:51:32 +0800
-X-Gmail-Original-Message-ID: <CAGb2v676WBuHeN5cLNZEF0FHRu=jsNhVxN50pnZCMbqGFPYmLw@mail.gmail.com>
-Message-ID: <CAGb2v676WBuHeN5cLNZEF0FHRu=jsNhVxN50pnZCMbqGFPYmLw@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Sat, 17 Jun 2023 10:57:23 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=U5gbMUNteyyFcTvHVBDWzfthM0aDirJC+yXGovDwMOBA@mail.gmail.com>
+Message-ID: <CAD=FV=U5gbMUNteyyFcTvHVBDWzfthM0aDirJC+yXGovDwMOBA@mail.gmail.com>
 Subject: Re: patches dropped from drm-misc-next [Was: Re: [PATCH 00/53] drm:
  Convert to platform remove callback returning] void
 To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
@@ -73,7 +83,6 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: wens@csie.org
 Cc: Raymond Tan <raymond.tan@intel.com>, Xinliang Liu <xinliang.liu@linaro.org>,
  dri-devel@lists.freedesktop.org,
  Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
@@ -110,9 +119,9 @@ Cc: Raymond Tan <raymond.tan@intel.com>, Xinliang Liu <xinliang.liu@linaro.org>,
  Steven Price <steven.price@arm.com>, linux-rockchip@lists.infradead.org,
  Ben Skeggs <bskeggs@redhat.com>, Russell King <linux+etnaviv@armlinux.org.uk>,
  Alain Volmat <alain.volmat@foss.st.com>, Liu Ying <victor.liu@nxp.com>,
- linux-arm-msm@vger.kernel.org, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Wang Jianzheng <wangjianzheng@vivo.com>, Maxime Ripard <mripard@kernel.org>,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, Wang Jianzheng <wangjianzheng@vivo.com>,
+ Maxime Ripard <mripard@kernel.org>, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
  Neil Armstrong <neil.armstrong@linaro.org>,
  Boris Brezillon <bbrezillon@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
  Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
@@ -125,7 +134,7 @@ Cc: Raymond Tan <raymond.tan@intel.com>, Xinliang Liu <xinliang.liu@linaro.org>,
  Matthias Brugger <matthias.bgg@gmail.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Xinwei Kong <kong.kongxinwei@hisilicon.com>,
  Mali DP Maintainers <malidp@foss.arm.com>, Joel Stanley <joel@jms.id.au>,
  nouveau@lists.freedesktop.org, Orson Zhai <orsonzhai@gmail.com>,
@@ -143,7 +152,8 @@ Cc: Raymond Tan <raymond.tan@intel.com>, Xinliang Liu <xinliang.liu@linaro.org>,
  linux-stm32@st-md-mailman.stormreply.com, Emma Anholt <emma@anholt.net>,
  Konrad Dybcio <konrad.dybcio@somainline.org>,
  Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Doug Anderson <dianders@chromium.org>, Liu Shixin <liushixin2@huawei.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Liu Shixin <liushixin2@huawei.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  Laura Nao <laura.nao@collabora.com>, Marek Vasut <marex@denx.de>,
  linux-renesas-soc@vger.kernel.org, Yongqin Liu <yongqin.liu@linaro.org>,
@@ -161,7 +171,9 @@ Cc: Raymond Tan <raymond.tan@intel.com>, Xinliang Liu <xinliang.liu@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 18, 2023 at 12:13=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+Hi,
+
+On Sat, Jun 17, 2023 at 9:15=E2=80=AFAM Uwe Kleine-K=C3=B6nig
 <u.kleine-koenig@pengutronix.de> wrote:
 >
 > [expanding recipents by the other affected persons]
@@ -287,9 +299,24 @@ ecb5290
 > my/these patches? Can c2807ecb5290 please be merged into drm-misc-next
 > again?
 
-AFAIK drm-misc/for-linux-next cuts off at -rc6, at which point any patches
-merged get queued up for -next-next. I think that's what happened to your
-patches?
+Actually, it was probably a mistake that these patches got merged to
+linuxnext during the 4 days that you noticed. However, your patches
+aren't dropped and are still present in drm-misc-next.
 
+drm-misc has a bit of a unique model and it's documented fairly well here:
 
-ChenYu
+https://drm.pages.freedesktop.org/maintainer-tools/drm-misc.html
+
+The key is that committers can commit to drm-misc-next _at any time_
+regardless of the merge window. The drm-misc merge strategy makes this
+OK. Specifically, when it's late in the linux cycle then drm-misc-next
+is supposed to stop merging to linuxnext. Then, shortly after the
+merge window closes, patches will start flowing again.
+
+So basically your patches are landed and should even keep the same git
+hashes when they eventually make it to Linux. They just won't land for
+another release cycle of Linux.
+
+Hope that makes sense!
+
+-Doug
