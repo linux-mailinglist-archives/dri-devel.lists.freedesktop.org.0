@@ -2,61 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FD1F734572
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 10:21:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8C9A734577
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 10:22:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81FBE10E0E0;
-	Sun, 18 Jun 2023 08:21:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3373710E0ED;
+	Sun, 18 Jun 2023 08:21:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 339 seconds by postgrey-1.36 at gabe;
- Sat, 17 Jun 2023 18:21:14 UTC
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0CA710E00D
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 18:21:14 +0000 (UTC)
-Received: from [192.168.1.131] ([89.1.214.195]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1N3Kc6-1q26EK0AFO-010Pfd; Sat, 17 Jun 2023 20:15:30 +0200
-Message-ID: <5d2eb5af-b674-751b-1583-e048fbf8c3a5@mweigand.net>
-Date: Sat, 17 Jun 2023 20:15:29 +0200
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
+ [IPv6:2607:f8b0:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8F0E10E00D;
+ Sat, 17 Jun 2023 18:26:19 +0000 (UTC)
+Received: by mail-ot1-x331.google.com with SMTP id
+ 46e09a7af769-6b2b7ca1c5eso1692685a34.0; 
+ Sat, 17 Jun 2023 11:26:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1687026378; x=1689618378;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=iAOhlvHTcWXeb9PboEkspmfVbcV594RGj9F/z1tmu4Y=;
+ b=DWYFOewOzfcxwUvqtdocgz991WeelZUqOziEmq3Yr1OOBIRlZZZ0Nnzb7tGqJ+WhvZ
+ UKCDxM4SD0iyTQC2LQPSnoYvHqvPTSbhi2EpJHXBZuN+zWmtNPGy3z37fgO+DDMDjTO6
+ SsSJ0BxgCV29PYyve4O/PEa5snOgcrgclkBGg4yovHC0pfal5ILNoTh3nawLfqGzUdQl
+ mBbAvMYXthloGbzpjwO/+YL0LBMR4Gvzvi+hCsHsuXi6jbWx8BJ/9wTWqC+LfhNfmIEM
+ 4GI/jnS+Wu8R0TofM1bt19kKhf31PegFr7HOoF+OZLjfbem0CtAKF4ZffGd+zIqmErHc
+ 2GbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687026378; x=1689618378;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=iAOhlvHTcWXeb9PboEkspmfVbcV594RGj9F/z1tmu4Y=;
+ b=dfZF1MXkoK/17QwZ5ABdYjcLkXioMK+Fwi/XBpvGkQDmAKKfQAabYYQfZWxPjhWQkx
+ 3PWXHhOeNNYBz9dFrGFC/nrL51pEKTjcA5rtaMR1kSCzIpH/DGKXzbbo3loAazgbJ5S8
+ y8sPunYiBz2IntTacrb+UZ91VRveI9OqnGT0zbOCxZIajfyXpMb67FyjwMQGLRdXyxXk
+ WvcL/3hNIOnF6m561naMl827jDbEJmvErRaoh0XYj2VdzuFV+mU4t/aocaV8JoKhzc1V
+ 7C53vTFtwjxRLRl3eYlgpnGNOxjO+E9wGG1rtAKZ5ZYC13CpQ6IlHNqconbd5P36WdU7
+ 3FPw==
+X-Gm-Message-State: AC+VfDxq8MTBw10/MJiCXZXRmThyKs1W63WOih04OPKaHBkxRMsGXnQV
+ TjSRlJK/qZba/eXy8SenBoI=
+X-Google-Smtp-Source: ACHHUZ56YUUTSc04n4jtBmXQunTwc6aTvQHQknF6ljrYQVzDoYqxNZifQoRcL1NlfF1RF9LJPzbkNw==
+X-Received: by 2002:a05:6359:c1e:b0:12b:dd43:b0a5 with SMTP id
+ gn30-20020a0563590c1e00b0012bdd43b0a5mr2815690rwb.24.1687026378312; 
+ Sat, 17 Jun 2023 11:26:18 -0700 (PDT)
+Received: from sumitra.com ([117.199.158.52]) by smtp.gmail.com with ESMTPSA id
+ ik26-20020a170902ab1a00b001b20dc1b3c9sm1646501plb.200.2023.06.17.11.26.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 17 Jun 2023 11:26:17 -0700 (PDT)
+Date: Sat, 17 Jun 2023 11:26:09 -0700
+From: Sumitra Sharma <sumitraartsy@gmail.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Call page_address() on page
+ acquired with GFP_KERNEL flag
+Message-ID: <20230617182609.GA410998@sumitra.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 2/3] dt-bindings: backlight: lm3630a: add entries to
- control boost frequency
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
- Maximilian Weigand <mweigand2017@gmail.com>, Lee Jones <lee@kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-References: <20230602-lm3630a_boost_frequency-v1-0-076472036d1a@mweigand.net>
- <20230602-lm3630a_boost_frequency-v1-2-076472036d1a@mweigand.net>
- <17576d81-a342-0b77-367a-eb9f2b97b734@linaro.org> <7491264.lOV4Wx5bFT@diego>
- <c29b2b0c-2b0c-f79c-9de5-58a67edd5c87@linaro.org>
-Content-Language: en-US
-From: Maximilian Weigand <mweigand@mweigand.net>
-In-Reply-To: <c29b2b0c-2b0c-f79c-9de5-58a67edd5c87@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:bV9uqzgIsGllvko+cxd+BlB62CSSsLP5A90XEJ+9cqd1n+07lc+
- AfZkzBcAE+RV8jmhmYvi7ZBTU3W3R7AlJCe1I4Kn5uQTVqpj3r/ox+IW7poeTyFs4hLMuhj
- 9XrXA3fiYg+eFkeddVpPQItFoaFs3iaHTpK5cl9PbjUYoKZHT0H24ESmlq9xEHyoBHU5ca1
- Bd+ymstKQAx8B71uT2pAg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Hj9awCXPZ/8=;m20PRlYwOiu617GdGtB78KuTHOc
- ejKMExCp4cO81qCAeBB8p5+YCFhEuiFMRSX6W9vCROmoBaB39NyGt5sj5eJ/Xj6ECLmNSHg0n
- 8kYjYQPMdc5OalP+3yYAMsnHPw/Hc/AJUm/AacaMcDh5qfGTqqLQH+IFrgsRl7WyKtkakka6e
- 8BT1MY6yjhHmpsmWmNWzf8xAsa4kPBPeDAkpfqlFygvgkuJd26yHOUrlkM7fEa577DbaxVyH/
- QNS+JDiVJLmJI4g2NXqSGuOAqlXrDPG3Zh0X9bcYgAz4Cq5ESyVFFLQHsJT9Cw74xvWacBTem
- ICFYXM6NUa5jipbqW3Ie3yr0AEfJ5PMUFc5HqHBrzE1f8dYP2DgG2eAWV1nuKhHj5HUdlXdS/
- J8Qdu7tUYNRxCZh5jpLmzBdfBiPC/iW+fGEzWC3GhdL08nrpX/ObGBipmcvPGpLbRlf3ewMG5
- bcxoLJBbHuoYFw8i8Ul5p/KINltYQLic+ibgGHm9nATbKyqKxWg9/c/NFGXNa+j9rMP5c+Qyq
- aA2nNgsuUjR7t/VygpSl8VZSqQGpAYGbEyNvBM4xBZDIaRWHggy9hsYgo78uo7JQk6pXtxT5v
- X0oEbRxLvCXCcXLOCbqNwQL6oe76GmVdeWw0/o8hD8Du3I4+BZkH9k/ipqxipbFFJEZsLl574
- p5ZvDjfD5VBa6710TxiLQ8tyYFWypqgSeTeM7FuK9w==
+In-Reply-To: <69d7af2f-f4c2-5a7d-ce69-c38be5660c74@shipmail.org>
 X-Mailman-Approved-At: Sun, 18 Jun 2023 08:21:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,71 +74,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, linux-leds@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Sumitra Sharma <sumitraartsy@gmail.com>, Ira Weiny <ira.weiny@intel.com>,
+ Deepak R Varma <drv@mailo.com>, Fabio <fmdefrancesco@gmail.com>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Thomas Hellstrom <thomas.hellstrom@intel.com>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 17.06.23 19:42, Krzysztof Kozlowski wrote:
-> On 17/06/2023 18:34, Heiko StÃ¼bner wrote:
->> Am Samstag, 17. Juni 2023, 12:12:17 CEST schrieb Krzysztof Kozlowski:
->>> On 14/06/2023 21:08, Maximilian Weigand wrote:
->>>> From: Maximilian Weigand <mweigand@mweigand.net>
->>>>
->>>> Add 'ti,boost_use_1mhz' to switch between 500 kHz and 1 MHz boost
->>>> converter switching frequency, and add 'ti,boost_frequency_shift' to
->>>> activate a frequency shift to 560 kHz or 1.12 MHz, respectively.
->>>>
->>>> Signed-off-by: Maximilian Weigand <mweigand@mweigand.net>
->>>> ---
->>>>  .../bindings/leds/backlight/lm3630a-backlight.yaml           | 12 ++++++++++++
->>>>  1 file changed, 12 insertions(+)
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
->>>> index 3c9b4054ed9a..ef7ea0ad2d25 100644
->>>> --- a/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
->>>> +++ b/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
->>>> @@ -33,6 +33,18 @@ properties:
->>>>      description: GPIO to use to enable/disable the backlight (HWEN pin).
->>>>      maxItems: 1
->>>>  
->>>> +  ti,boost_use_1mhz:
->>>
->>> No underscores in property names.
->>>
->>>> +    description: |
->>>
->>> Do not need '|' unless you need to preserve formatting.
->>>
->>>> +      If present, change the boost converter switching frequency from the
->>>> +      default 500 kHz to 1 MHz. Refer to data sheet for hardware requirements.
->>>> +    type: boolean
->>>> +
->>>> +  ti,boost_frequency_shift:
->>>> +    description: |
->>>> +      If present, change boost converter switching frequency from 500 kHz to
->>>> +      560 kHz or from 1 Mhz to 1.12 Mhz, respectively.
->>>
->>> So just make it a property choosing the frequency, not bools, with
->>> proper unit suffix.
->>
->> i.e.
->> ti,boost-frequency-hz = <x>;
->> with x being 500000, 560000, 1000000, 1120000
->>
->> with the driver failing when the frequency is not achievable
->> with the two knobs of 1mhz and shift.
+On Wed, Jun 14, 2023 at 05:30:25PM +0200, Thomas Hellström (Intel) wrote:
 > 
-> Yeah, with a default value (500000, I guess).
+> On 6/14/23 15:22, Tvrtko Ursulin wrote:
+> > 
+> > On 14/06/2023 13:35, Sumitra Sharma wrote:
+> > > Pages allocated with GFP_KERNEL cannot come from Highmem.
+> > > That is why there is no need to call kmap() on them.
+> > 
+> > Are you sure it is GFP_KERNEL backed and not tmpfs? I am not sure myself
+> > so let me copy Matt and Thomas if they happen to know off hand.
+>
 
-Thanks for the feedback, this is quite obviously the better solution! I
-will rework the submission accordingly.
+Hello,
 
-Best regards
+Yes it is true that the pages have not been acquired using the GFP_KERNEL.
 
-Maximilian
+I confused the allocation of the struct 'i915_vma_resource' tracking the 
+pages with the allocation of the pages themselves.
 
+This was noted by my mentor Ira Weiny <ira.weiny@intel.com>.
+
+> It looks to me these are shmem pages or TTM pages. Both could be highmem. So
+> I think kmap is the correct choice here.
+> 
+
+However, the kmap() will not be the correct choice here and kmap_local_page()
+must be used instead. I have created a v2 patch for the same
+https://lore.kernel.org/lkml/20230617180420.GA410966@sumitra.com/
+
+Thank you for helping me.
+
+Regards
+Sumitra
+
+> /Thomas
+>
+> 
+> 
+> 
+> > 
+> > Regards,
+> > 
+> > Tvrtko
+> > 
+> > > Therefore, don't call kmap() on the page coming from
+> > > vma_res->bi.pages using for_each_sgt_page() in
+> > > i915_vma_coredump_create().
+> > > 
+> > > Use a plain page_address() to get the kernel address instead.
+> > > 
+> > > Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
+> > > ---
+> > >   drivers/gpu/drm/i915/i915_gpu_error.c | 3 +--
+> > >   1 file changed, 1 insertion(+), 2 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c
+> > > b/drivers/gpu/drm/i915/i915_gpu_error.c
+> > > index f020c0086fbc..6f51cb4fc55c 100644
+> > > --- a/drivers/gpu/drm/i915/i915_gpu_error.c
+> > > +++ b/drivers/gpu/drm/i915/i915_gpu_error.c
+> > > @@ -1164,9 +1164,8 @@ i915_vma_coredump_create(const struct intel_gt
+> > > *gt,
+> > >                 drm_clflush_pages(&page, 1);
+> > >   -            s = kmap(page);
+> > > +            s = page_address(page);
+> > >               ret = compress_page(compress, s, dst, false);
+> > > -            kunmap(page);
+> > >                 drm_clflush_pages(&page, 1);
