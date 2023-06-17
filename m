@@ -2,61 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A92733D10
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Jun 2023 01:55:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 430F9733D1B
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Jun 2023 02:01:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53EF810E6A7;
-	Fri, 16 Jun 2023 23:55:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 053C410E6AD;
+	Sat, 17 Jun 2023 00:00:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com
- [IPv6:2607:f8b0:4864:20::b2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBC1510E6A7
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 23:55:48 +0000 (UTC)
-Received: by mail-yb1-xb2f.google.com with SMTP id
- 3f1490d57ef6-be3e2d172cbso1181317276.3
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 16:55:48 -0700 (PDT)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F79110E6AD
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 00:00:55 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id
+ 2adb3069b0e04-4f8467e39cfso1843550e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jun 2023 17:00:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1686959747; x=1689551747;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=L7c6vdsDMgEhg/4Dt7iJwihFwCqLkr9cdfGj229y85U=;
- b=SgxHfeWXtovRTx0Zp13Coj9JDCk2062f1OJ8xF7q3AXQSRe4L48Vnr2kYXYL88GzzJ
- EHbp0NSmUUt65eWWhCFBVxjBxZh/nNwIwnbwkf/h6P+niL4BRi5NmUQG/JA0gDlMAYGL
- U4xXsBgIktX5oZbPUFB7fA/GZE2qdhlHzCJnA=
+ d=linaro.org; s=google; t=1686960053; x=1689552053;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=W3KWVeHmsHPIaRZA6DLr0joW7Ttav+PaqmaoaMCes3k=;
+ b=Fr0YFsTnFYpZr2E6woSTSacK+xGPXui0A8DNyQZGfB51pPpU1dv679Yqiik1+Mp2ms
+ AknaszaOVklCNwMrU3js2EURxkTM6x3XvCay9wVJh17pDhMr0WttgAphHJBYmiquCzbr
+ 0OpF9rVsG/V4aakdyotWQiNqgrmdEMtmAqHhm+bjis4Jl1X1gj9t2rnk93JRJStkXN7i
+ FWJeoiTrW0VAIZz8aw2O2/NaT8rluHZd6+slkgvjSI80tkXwBtVSFdwztdLHrhls+URp
+ QBvL4+SgkHUXHcYyzdGB4bLGNB5WJoj8wpR4fiMgWJ12xIPob+sKMoTTRSwkoOXJOxmU
+ RhAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1686959747; x=1689551747;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=L7c6vdsDMgEhg/4Dt7iJwihFwCqLkr9cdfGj229y85U=;
- b=cvntzudh7XIEYXMdNsyCaU+u+f/sWTihIPquvBk9vGd2Org/BvSiuSduBi2JyMJXDi
- q2koaJTerl/JxfcZzq79kW0P85q0OrVkdGRV0xQtgJNZRQJ44miruWcKawZb5VFdYhsZ
- Ux4K1uV+gsiUzzl5sXFy4eLlgB7zj2t2H6Is01W71EzG9ZPy2DJldltLh2AKW+f/RsTI
- XPRDUCG08t3tYf9Hy/dklzP1rQlPi9BlZPKMfKKCf+ndoYgU6V6t817yxGmTyY3W3LYe
- f9tmhNtqcjT2Nq8gTWOP/143Jz0ebuLdwWmWeK1H6katAu115uDUUYVVHDRWZC90/Bv5
- LtsA==
-X-Gm-Message-State: AC+VfDzUTni/PNTTGASho3sM/8KjpAv3bnqib+sY1YOboGgnlD368DOj
- v5wrswdvOqxK+bGFaUiLU9WkDqp6hggRAWn4Iq4IfDOu
-X-Google-Smtp-Source: ACHHUZ494+LF9dHu8iWrChEGlIR80hEFdqBTzDAXJuZrJmvMeRhfSCPkiPjjmsQi6UZaol5OL5s7Sw==
-X-Received: by 2002:a25:583:0:b0:bc8:5eff:9767 with SMTP id
- 125-20020a250583000000b00bc85eff9767mr491558ybf.33.1686959746682; 
- Fri, 16 Jun 2023 16:55:46 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:9d:2:27ce:4d20:94c5:fde0])
+ d=1e100.net; s=20221208; t=1686960053; x=1689552053;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=W3KWVeHmsHPIaRZA6DLr0joW7Ttav+PaqmaoaMCes3k=;
+ b=kuo5NTiHWWUlGYBDuQf7KMjOKrr/H9aEDQDZdDRzINZaJgfRSW1dS3XFZFouati/rI
+ qyPz76tO7RHLjiPFoRjlC4otQ/Cn6ZqnpxRNJAI6Tz706owuZAoi7DpIJ5YpcxQ/tpP9
+ aEoA6wvHxgkMctqJ3Vh+DfmPAxVmmZpjPzrrtNsjTERtSFep2MSzJ9wcMA/b51hSW02K
+ jpl3GEmctr0c03htDMIioGszGieJ6rJav/9UxgvPJmUa+eiyje33vSqnVk7h8/wgGk1i
+ AwCh7Gmbo/APFRjgH2jjFuz3OVjmzk1b34MXOXefLPscQbhH7vcTURnfKEq3M3z6YTiP
+ Jk/A==
+X-Gm-Message-State: AC+VfDwpQq3ZHBPhhFE76Nbn1OdwBAABXo7ToxrSZFMqqMM+h2rq95if
+ fHbYjOc2ESFlQRjKc62VZGDxJA==
+X-Google-Smtp-Source: ACHHUZ6VIkLSjzCxdHpJRh/DtsIbyfdxALlas9PDHHZfTsJPGHvn+jB/qypqfMhEsiVOUWjQZj9N8g==
+X-Received: by 2002:a05:6512:290:b0:4f6:1504:f93c with SMTP id
+ j16-20020a056512029000b004f61504f93cmr2518520lfp.66.1686960052552; 
+ Fri, 16 Jun 2023 17:00:52 -0700 (PDT)
+Received: from [192.168.1.101] (abyj190.neoplus.adsl.tpnet.pl. [83.9.29.190])
  by smtp.gmail.com with ESMTPSA id
- w5-20020a17090aea0500b002562cfb81dfsm1862496pjy.28.2023.06.16.16.55.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Jun 2023 16:55:45 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/bridge: ps8640: Drop the ability of ps8640 to fetch
- the EDID
-Date: Fri, 16 Jun 2023 16:55:17 -0700
-Message-ID: <20230616165517.v2.1.I7b8f60b3fbfda068f9bf452d584dc934494bfbfa@changeid>
-X-Mailer: git-send-email 2.41.0.162.gfafddb0af9-goog
+ t12-20020ac2548c000000b004f60e0ecc78sm3202487lfk.239.2023.06.16.17.00.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Jun 2023 17:00:52 -0700 (PDT)
+Message-ID: <68e64a35-9705-6565-3b5c-5de38419aba8@linaro.org>
+Date: Sat, 17 Jun 2023 02:00:50 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [Freedreno] [PATCH v8 10/18] drm/msm/a6xx: Introduce GMU wrapper
+ support
+Content-Language: en-US
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+References: <20230223-topic-gmuwrapper-v8-0-69c68206609e@linaro.org>
+ <20230223-topic-gmuwrapper-v8-10-69c68206609e@linaro.org>
+ <2vr72w4tslxxumzphtuwgkcnbfjrtmw2j4qak2cukcabchadlg@spjbqoa7v4lr>
+ <c5396101-ad5b-afdd-d6d7-1a2efa3b9bf7@linaro.org>
+ <z5imqaxyumc5pyk4ijumjby4tswfmnjsnedeekonx5tymhwsfi@h5dk3pl2zawf>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <z5imqaxyumc5pyk4ijumjby4tswfmnjsnedeekonx5tymhwsfi@h5dk3pl2zawf>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,231 +81,377 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Icenowy Zheng <uwu@icenowy.me>, Jonas Karlman <jonas@kwiboo.se>,
- Douglas Anderson <dianders@chromium.org>, Maxime Ripard <mripard@kernel.org>,
- linux-kernel@vger.kernel.org, Pin-yen Lin <treapking@chromium.org>,
- linux-mediatek@lists.infradead.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Rob Clark <robdclark@chromium.org>, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to read the EDID from an eDP panel, you not only need to
-power on the bridge chip itself but also the panel. In the ps8640
-driver, this was made to work by having the bridge chip manually power
-the panel on by calling pre_enable() on everything connectorward on
-the bridge chain. This worked OK, but...
+On 16.06.2023 19:54, Akhil P Oommen wrote:
+> On Thu, Jun 15, 2023 at 11:43:04PM +0200, Konrad Dybcio wrote:
+>>
+>> On 10.06.2023 00:06, Akhil P Oommen wrote:
+>>> On Mon, May 29, 2023 at 03:52:29PM +0200, Konrad Dybcio wrote:
+>>>>
+>>>> Some (particularly SMD_RPM, a.k.a non-RPMh) SoCs implement A6XX GPUs
+>>>> but don't implement the associated GMUs. This is due to the fact that
+>>>> the GMU directly pokes at RPMh. Sadly, this means we have to take care
+>>>> of enabling & scaling power rails, clocks and bandwidth ourselves.
+>>>>
+>>>> Reuse existing Adreno-common code and modify the deeply-GMU-infused
+>>>> A6XX code to facilitate these GPUs. This involves if-ing out lots
+>>>> of GMU callbacks and introducing a new type of GMU - GMU wrapper (it's
+>>>> the actual name that Qualcomm uses in their downstream kernels).
+>>>>
+>>>> This is essentially a register region which is convenient to model
+>>>> as a device. We'll use it for managing the GDSCs. The register
+>>>> layout matches the actual GMU_CX/GX regions on the "real GMU" devices
+>>>> and lets us reuse quite a bit of gmu_read/write/rmw calls.
+>>>>
+>>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>>>> ---
+[...]
 
-...when trying to do the same thing on ti-sn65dsi86, feedback was that
-this wasn't a great idea. As a result, we designed the "DP AUX"
-bus. With the design we ended up with the panel driver itself was in
-charge of reading the EDID. The panel driver could power itself on and
-the bridge chip was able to power itself on because it implemented the
-DP AUX bus.
+>>>> +
+>>>> +	ret = clk_bulk_prepare_enable(gpu->nr_clocks, gpu->grp_clks);
+>>>> +	if (ret)
+>>>> +		goto err_bulk_clk;
+>>>> +
+>>>> +	/* If anything goes south, tear the GPU down piece by piece.. */
+>>>> +	if (ret) {
+>>>> +err_bulk_clk:
+>>>
+>>> Goto jump directly to another block looks odd to me. Why do you need this label
+>>> anyway?
+>> If clk_bulk_prepare_enable() fails, trying to proceed will hang the
+>> platform with unclocked accesses. We need to unwind everything that
+>> has been done up until that point, in reverse order.
+> 
+> I missed this response from you earlier.
+> 
+> But you are checking for 'ret' twice here. You will end up here even
+> if you don't jump! So "if (ret) goto err_bulk_clk;" looks
+> unnecessary.
+> 
+> -Akhil.
+Ohhh right, silly mistake on my part ;)
 
-Despite the fact that we came up with a new scheme, implemented in on
-ti-sn65dsi86, and even implemented it on parade-ps8640, we still kept
-the old code around. This was because the new scheme required a DT
-change. Previously the panel was a simple "platform_device" and in DT
-at the top level. With the new design the panel needs to be listed in
-DT under the DP controller node. The old code allowed us to properly
-fetch EDIDs with ps8640 with the old DTs.
+I already sent out a v9 since.. Please check it out and if you
+have any further comments, I'll fix this, and if not.. Perhaps I
+could fix it in an incremental patch if that revision is gtg?
 
-Unfortunately, the old code stopped working as of commit 102e80d1fa2c
-("drm/bridge: ps8640: Use atomic variants of drm_bridge_funcs"). There
-are cases at bootup where connector->state->state is NULL and the
-kernel crashed at:
-* drm_atomic_bridge_chain_pre_enable
-* drm_atomic_get_old_bridge_state
-* drm_atomic_get_old_private_obj_state
-
-The crash went away at commit 4fb912e5e190 ("drm/bridge: Introduce
-pre_enable_prev_first to alter bridge init order") which added a NULL
-check. However, even though we were no longer crashing the end result
-was that we weren't actually powering the panel on when we thought we
-were. Things could end up working (despite warning splats) if
-userspace was persistent and tried to get the mode again, but it
-wasn't great.
-
-A bit of digging was done to see if there was an easy fix but there
-was nothing obvious. Instead, the only device using ps8640 the "old"
-way had its DT updated so that the panel was no longer a simple
-"platform_deice". See commit c2d94f72140a ("arm64: dts: mediatek:
-mt8173-elm: Move display to ps8640 auxiliary bus") and commit
-113b5cc06f44 ("arm64: dts: mediatek: mt8173-elm: remove panel model
-number in DT").
-
-Let's delete the old broken code so nobody gets tempted to copy it or
-figure out how it works (since it doesn't).
-
-NOTE: from a device tree "purist" point of view, we're supposed to
-keep old device trees working and this patch is technically "against
-policy". Reasons I'm still proposing it anyway:
-1. Officially, old mt8173-elm device trees worked via the "little
-   white lie" approach. The DT would list an arbitrary/representative
-   panel that would be used for power sequencing. The mode information
-   in the panel driver would then be ignored / overridden by the EDID
-   reading code in ps8640. I don't feel too terrible breaking DTs that
-   contained the wrong "compatible" string to begin with. NOTE that
-   any old device trees that _didn't_ lie about their compatible will
-   still work because the mode information will come from the
-   hardcoded panels in panel-edp.
-2. The only users of the old code were Chromebooks and Chromebooks
-   don't bake their DTs into the BIOS (they are bundled with the
-   kernel). Thus we don't need to worry about breaking someone using
-   an old DT with a new kernel.
-3. The old code was broken anyway. If someone wants to fix the old
-   code instead of deleting it then they have my blessing, but without
-   a proper fix the old code isn't useful.
-
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
-
-Changes in v2:
-- Removed "Fixes" tag as per discussion on v1.
-- Adjusted commit message since commit 4fb912e5e190 made things not crash.
-
- drivers/gpu/drm/bridge/parade-ps8640.c | 79 --------------------------
- 1 file changed, 79 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-index 8801cdd033b5..8161b1a1a4b1 100644
---- a/drivers/gpu/drm/bridge/parade-ps8640.c
-+++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-@@ -105,7 +105,6 @@ struct ps8640 {
- 	struct gpio_desc *gpio_reset;
- 	struct gpio_desc *gpio_powerdown;
- 	struct device_link *link;
--	struct edid *edid;
- 	bool pre_enabled;
- 	bool need_post_hpd_delay;
- };
-@@ -155,23 +154,6 @@ static inline struct ps8640 *aux_to_ps8640(struct drm_dp_aux *aux)
- 	return container_of(aux, struct ps8640, aux);
- }
- 
--static bool ps8640_of_panel_on_aux_bus(struct device *dev)
--{
--	struct device_node *bus, *panel;
--
--	bus = of_get_child_by_name(dev->of_node, "aux-bus");
--	if (!bus)
--		return false;
--
--	panel = of_get_child_by_name(bus, "panel");
--	of_node_put(bus);
--	if (!panel)
--		return false;
--	of_node_put(panel);
--
--	return true;
--}
--
- static int _ps8640_wait_hpd_asserted(struct ps8640 *ps_bridge, unsigned long wait_us)
- {
- 	struct regmap *map = ps_bridge->regmap[PAGE2_TOP_CNTL];
-@@ -539,50 +521,6 @@ static void ps8640_bridge_detach(struct drm_bridge *bridge)
- 		device_link_del(ps_bridge->link);
- }
- 
--static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
--					   struct drm_connector *connector)
--{
--	struct ps8640 *ps_bridge = bridge_to_ps8640(bridge);
--	struct device *dev = &ps_bridge->page[PAGE0_DP_CNTL]->dev;
--	bool poweroff = !ps_bridge->pre_enabled;
--
--	if (!ps_bridge->edid) {
--		/*
--		 * When we end calling get_edid() triggered by an ioctl, i.e
--		 *
--		 *   drm_mode_getconnector (ioctl)
--		 *     -> drm_helper_probe_single_connector_modes
--		 *        -> drm_bridge_connector_get_modes
--		 *           -> ps8640_bridge_get_edid
--		 *
--		 * We need to make sure that what we need is enabled before
--		 * reading EDID, for this chip, we need to do a full poweron,
--		 * otherwise it will fail.
--		 */
--		if (poweroff)
--			drm_atomic_bridge_chain_pre_enable(bridge,
--							   connector->state->state);
--
--		ps_bridge->edid = drm_get_edid(connector,
--					       ps_bridge->page[PAGE0_DP_CNTL]->adapter);
--
--		/*
--		 * If we call the get_edid() function without having enabled the
--		 * chip before, return the chip to its original power state.
--		 */
--		if (poweroff)
--			drm_atomic_bridge_chain_post_disable(bridge,
--							     connector->state->state);
--	}
--
--	if (!ps_bridge->edid) {
--		dev_err(dev, "Failed to get EDID\n");
--		return NULL;
--	}
--
--	return drm_edid_duplicate(ps_bridge->edid);
--}
--
- static void ps8640_runtime_disable(void *data)
- {
- 	pm_runtime_dont_use_autosuspend(data);
-@@ -592,7 +530,6 @@ static void ps8640_runtime_disable(void *data)
- static const struct drm_bridge_funcs ps8640_bridge_funcs = {
- 	.attach = ps8640_bridge_attach,
- 	.detach = ps8640_bridge_detach,
--	.get_edid = ps8640_bridge_get_edid,
- 	.atomic_post_disable = ps8640_atomic_post_disable,
- 	.atomic_pre_enable = ps8640_atomic_pre_enable,
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-@@ -705,14 +642,6 @@ static int ps8640_probe(struct i2c_client *client)
- 	ps_bridge->bridge.of_node = dev->of_node;
- 	ps_bridge->bridge.type = DRM_MODE_CONNECTOR_eDP;
- 
--	/*
--	 * In the device tree, if panel is listed under aux-bus of the bridge
--	 * node, panel driver should be able to retrieve EDID by itself using
--	 * aux-bus. So let's not set DRM_BRIDGE_OP_EDID here.
--	 */
--	if (!ps8640_of_panel_on_aux_bus(&client->dev))
--		ps_bridge->bridge.ops = DRM_BRIDGE_OP_EDID;
--
- 	/*
- 	 * Get MIPI DSI resources early. These can return -EPROBE_DEFER so
- 	 * we want to get them out of the way sooner.
-@@ -777,13 +706,6 @@ static int ps8640_probe(struct i2c_client *client)
- 	return ret;
- }
- 
--static void ps8640_remove(struct i2c_client *client)
--{
--	struct ps8640 *ps_bridge = i2c_get_clientdata(client);
--
--	kfree(ps_bridge->edid);
--}
--
- static const struct of_device_id ps8640_match[] = {
- 	{ .compatible = "parade,ps8640" },
- 	{ }
-@@ -792,7 +714,6 @@ MODULE_DEVICE_TABLE(of, ps8640_match);
- 
- static struct i2c_driver ps8640_driver = {
- 	.probe = ps8640_probe,
--	.remove = ps8640_remove,
- 	.driver = {
- 		.name = "ps8640",
- 		.of_match_table = ps8640_match,
--- 
-2.41.0.162.gfafddb0af9-goog
-
+Konrad
+> 
+>>
+>>>
+>>>> +		pm_runtime_put(gmu->gxpd);
+>>>> +		pm_runtime_put(gmu->dev);
+>>>> +		dev_pm_opp_set_opp(&gpu->pdev->dev, NULL);
+>>>> +	}
+>>>> +err_set_opp:
+>>>
+>>> Generally, it is better to name the label based on what you do here. For
+>>> eg: "unlock_lock:".
+>> That seems to be a mixed bag all throughout the kernel, I've seen many
+>> usages of err_(what went wrong)
+>>
+>>>
+>>> Also, this function is small enough that it is better to return directly
+>>> in case of error. I think that would be more readable.
+>> Not really, adding the necessary cleanup steps in `if (ret)`
+>> blocks would roughly double the function's size.
+>>
+>>>
+>>>> +	mutex_unlock(&a6xx_gpu->gmu.lock);
+>>>> +
+>>>> +	if (!ret)
+>>>> +		msm_devfreq_resume(gpu);
+>>>> +
+>>>> +	return ret;
+>>>> +}
+>>>> +
+>>>> +static int a6xx_gmu_pm_suspend(struct msm_gpu *gpu)
+>>>>  {
+>>>>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>>>>  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+>>>> @@ -1720,7 +1799,40 @@ static int a6xx_pm_suspend(struct msm_gpu *gpu)
+>>>>  	return 0;
+>>>>  }
+>>>>  
+>>>> -static int a6xx_get_timestamp(struct msm_gpu *gpu, uint64_t *value)
+>>>> +static int a6xx_pm_suspend(struct msm_gpu *gpu)
+>>>> +{
+>>>> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>>>> +	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+>>>> +	struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
+>>>> +	int i;
+>>>> +
+>>>> +	trace_msm_gpu_suspend(0);
+>>>> +
+>>>> +	msm_devfreq_suspend(gpu);
+>>>> +
+>>>> +	mutex_lock(&a6xx_gpu->gmu.lock);
+>>>
+>>> Again, is this initialized somewhere?
+>>>
+>>>> +
+>>>> +	/* Drain the outstanding traffic on memory buses */
+>>>> +	a6xx_bus_clear_pending_transactions(adreno_gpu, true);
+>>>> +
+>>>> +	clk_bulk_disable_unprepare(gpu->nr_clocks, gpu->grp_clks);
+>>>> +
+>>>> +	pm_runtime_put_sync(gmu->gxpd);
+>>>> +	dev_pm_opp_set_opp(&gpu->pdev->dev, NULL);
+>>>> +	pm_runtime_put_sync(gmu->dev);
+>>>> +
+>>>> +	mutex_unlock(&a6xx_gpu->gmu.lock);
+>>>> +
+>>>> +	if (a6xx_gpu->shadow_bo)
+>>>> +		for (i = 0; i < gpu->nr_rings; i++)
+>>>> +			a6xx_gpu->shadow[i] = 0;
+>>>> +
+>>>> +	gpu->suspend_count++;
+>>>> +
+>>>> +	return 0;
+>>>> +}
+>>>> +
+>>>> +static int a6xx_gmu_get_timestamp(struct msm_gpu *gpu, uint64_t *value)
+>>>>  {
+>>>>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>>>>  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+>>>> @@ -1739,6 +1851,12 @@ static int a6xx_get_timestamp(struct msm_gpu *gpu, uint64_t *value)
+>>>>  	return 0;
+>>>>  }
+>>>>  
+>>>> +static int a6xx_get_timestamp(struct msm_gpu *gpu, uint64_t *value)
+>>>> +{
+>>>> +	*value = gpu_read64(gpu, REG_A6XX_CP_ALWAYS_ON_COUNTER);
+>>>> +	return 0;
+>>>> +}
+>>>> +
+>>>>  static struct msm_ringbuffer *a6xx_active_ring(struct msm_gpu *gpu)
+>>>>  {
+>>>>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>>>> @@ -2004,8 +2122,8 @@ static const struct adreno_gpu_funcs funcs = {
+>>>>  		.set_param = adreno_set_param,
+>>>>  		.hw_init = a6xx_hw_init,
+>>>>  		.ucode_load = a6xx_ucode_load,
+>>>> -		.pm_suspend = a6xx_pm_suspend,
+>>>> -		.pm_resume = a6xx_pm_resume,
+>>>> +		.pm_suspend = a6xx_gmu_pm_suspend,
+>>>> +		.pm_resume = a6xx_gmu_pm_resume,
+>>>>  		.recover = a6xx_recover,
+>>>>  		.submit = a6xx_submit,
+>>>>  		.active_ring = a6xx_active_ring,
+>>>> @@ -2020,6 +2138,35 @@ static const struct adreno_gpu_funcs funcs = {
+>>>>  #if defined(CONFIG_DRM_MSM_GPU_STATE)
+>>>>  		.gpu_state_get = a6xx_gpu_state_get,
+>>>>  		.gpu_state_put = a6xx_gpu_state_put,
+>>>> +#endif
+>>>> +		.create_address_space = a6xx_create_address_space,
+>>>> +		.create_private_address_space = a6xx_create_private_address_space,
+>>>> +		.get_rptr = a6xx_get_rptr,
+>>>> +		.progress = a6xx_progress,
+>>>> +	},
+>>>> +	.get_timestamp = a6xx_gmu_get_timestamp,
+>>>> +};
+>>>> +
+>>>> +static const struct adreno_gpu_funcs funcs_gmuwrapper = {
+>>>> +	.base = {
+>>>> +		.get_param = adreno_get_param,
+>>>> +		.set_param = adreno_set_param,
+>>>> +		.hw_init = a6xx_hw_init,
+>>>> +		.ucode_load = a6xx_ucode_load,
+>>>> +		.pm_suspend = a6xx_pm_suspend,
+>>>> +		.pm_resume = a6xx_pm_resume,
+>>>> +		.recover = a6xx_recover,
+>>>> +		.submit = a6xx_submit,
+>>>> +		.active_ring = a6xx_active_ring,
+>>>> +		.irq = a6xx_irq,
+>>>> +		.destroy = a6xx_destroy,
+>>>> +#if defined(CONFIG_DRM_MSM_GPU_STATE)
+>>>> +		.show = a6xx_show,
+>>>> +#endif
+>>>> +		.gpu_busy = a6xx_gpu_busy,
+>>>> +#if defined(CONFIG_DRM_MSM_GPU_STATE)
+>>>> +		.gpu_state_get = a6xx_gpu_state_get,
+>>>> +		.gpu_state_put = a6xx_gpu_state_put,
+>>>>  #endif
+>>>>  		.create_address_space = a6xx_create_address_space,
+>>>>  		.create_private_address_space = a6xx_create_private_address_space,
+>>>> @@ -2050,15 +2197,31 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+>>>>  
+>>>>  	adreno_gpu->registers = NULL;
+>>>>  
+>>>> +	/* Check if there is a GMU phandle and set it up */
+>>>> +	node = of_parse_phandle(pdev->dev.of_node, "qcom,gmu", 0);
+>>>> +	/* FIXME: How do we gracefully handle this? */
+>>>> +	BUG_ON(!node);
+>>>> +
+>>>> +	adreno_gpu->gmu_is_wrapper = of_device_is_compatible(node, "qcom,adreno-gmu-wrapper");
+>>>> +
+>>>>  	/*
+>>>>  	 * We need to know the platform type before calling into adreno_gpu_init
+>>>>  	 * so that the hw_apriv flag can be correctly set. Snoop into the info
+>>>>  	 * and grab the revision number
+>>>>  	 */
+>>>>  	info = adreno_info(config->rev);
+>>>> -
+>>>> -	if (info && (info->revn == 650 || info->revn == 660 ||
+>>>> -			adreno_cmp_rev(ADRENO_REV(6, 3, 5, ANY_ID), info->rev)))
+>>>> +	if (!info)
+>>>> +		return ERR_PTR(-EINVAL);
+>>>> +
+>>>> +	/* Assign these early so that we can use the is_aXYZ helpers */
+>>>> +	/* Numeric revision IDs (e.g. 630) */
+>>>> +	adreno_gpu->revn = info->revn;
+>>>> +	/* New-style ADRENO_REV()-only */
+>>>> +	adreno_gpu->rev = info->rev;
+>>>> +	/* Quirk data */
+>>>> +	adreno_gpu->info = info;
+>>>> +
+>>>> +	if (adreno_is_a650(adreno_gpu) || adreno_is_a660_family(adreno_gpu))
+>>>>  		adreno_gpu->base.hw_apriv = true;
+>>>>  
+>>>>  	a6xx_llc_slices_init(pdev, a6xx_gpu);
+>>>> @@ -2069,7 +2232,10 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+>>>>  		return ERR_PTR(ret);
+>>>>  	}
+>>>>  
+>>>> -	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1);
+>>>> +	if (adreno_has_gmu_wrapper(adreno_gpu))
+>>>> +		ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_gmuwrapper, 1);
+>>>> +	else
+>>>> +		ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1);
+>>>>  	if (ret) {
+>>>>  		a6xx_destroy(&(a6xx_gpu->base.base));
+>>>>  		return ERR_PTR(ret);
+>>>> @@ -2082,13 +2248,10 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+>>>>  	if (adreno_is_a618(adreno_gpu) || adreno_is_7c3(adreno_gpu))
+>>>>  		priv->gpu_clamp_to_idle = true;
+>>>>  
+>>>> -	/* Check if there is a GMU phandle and set it up */
+>>>> -	node = of_parse_phandle(pdev->dev.of_node, "qcom,gmu", 0);
+>>>> -
+>>>> -	/* FIXME: How do we gracefully handle this? */
+>>>> -	BUG_ON(!node);
+>>>> -
+>>>> -	ret = a6xx_gmu_init(a6xx_gpu, node);
+>>>> +	if (adreno_has_gmu_wrapper(adreno_gpu))
+>>>> +		ret = a6xx_gmu_wrapper_init(a6xx_gpu, node);
+>>>> +	else
+>>>> +		ret = a6xx_gmu_init(a6xx_gpu, node);
+>>>>  	of_node_put(node);
+>>>>  	if (ret) {
+>>>>  		a6xx_destroy(&(a6xx_gpu->base.base));
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+>>>> index aa70390ee1c6..c788b06e72da 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+>>>> @@ -76,6 +76,7 @@ int a6xx_gmu_set_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state);
+>>>>  void a6xx_gmu_clear_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state);
+>>>>  
+>>>>  int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node);
+>>>> +int a6xx_gmu_wrapper_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node);
+>>>>  void a6xx_gmu_remove(struct a6xx_gpu *a6xx_gpu);
+>>>>  
+>>>>  void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp,
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+>>>> index 30ecdff363e7..4e5d650578c6 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+>>>> @@ -1041,16 +1041,18 @@ struct msm_gpu_state *a6xx_gpu_state_get(struct msm_gpu *gpu)
+>>>>  	/* Get the generic state from the adreno core */
+>>>>  	adreno_gpu_state_get(gpu, &a6xx_state->base);
+>>>>  
+>>>> -	a6xx_get_gmu_registers(gpu, a6xx_state);
+>>>> +	if (!adreno_has_gmu_wrapper(adreno_gpu)) {
+>>>> +		a6xx_get_gmu_registers(gpu, a6xx_state);
+>>>>  
+>>>> -	a6xx_state->gmu_log = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.log);
+>>>> -	a6xx_state->gmu_hfi = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.hfi);
+>>>> -	a6xx_state->gmu_debug = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.debug);
+>>>> +		a6xx_state->gmu_log = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.log);
+>>>> +		a6xx_state->gmu_hfi = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.hfi);
+>>>> +		a6xx_state->gmu_debug = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.debug);
+>>>>  /
+>>>> -	a6xx_snapshot_gmu_hfi_history(gpu, a6xx_state);
+>>>> +		a6xx_snapshot_gmu_hfi_history(gpu, a6xx_state);
+>>>> +	}
+>>>>  
+>>>>  	/* If GX isn't on the rest of the data isn't going to be accessible */
+>>>> -	if (!a6xx_gmu_gx_is_on(&a6xx_gpu->gmu))
+>>>> +	if (!adreno_has_gmu_wrapper(adreno_gpu) && !a6xx_gmu_gx_is_on(&a6xx_gpu->gmu))
+>>>>  		return &a6xx_state->base;
+>>>>  
+>>>>  	/* Get the banks of indexed registers */
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>>>> index 6934cee07d42..5c5901d65950 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>>>> @@ -528,6 +528,10 @@ int adreno_load_fw(struct adreno_gpu *adreno_gpu)
+>>>>  		if (!adreno_gpu->info->fw[i])
+>>>>  			continue;
+>>>>  
+>>>> +		/* Skip loading GMU firwmare with GMU Wrapper */
+>>>> +		if (adreno_has_gmu_wrapper(adreno_gpu) && i == ADRENO_FW_GMU)
+>>>> +			continue;
+>>>> +
+>>>>  		/* Skip if the firmware has already been loaded */
+>>>>  		if (adreno_gpu->fw[i])
+>>>>  			continue;
+>>>> @@ -1074,8 +1078,8 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+>>>>  	u32 speedbin;
+>>>>  	int ret;
+>>>>  
+>>>> -	/* Only handle the core clock when GMU is not in use */
+>>>> -	if (config->rev.core < 6) {
+>>>> +	/* Only handle the core clock when GMU is not in use (or is absent). */
+>>>> +	if (adreno_has_gmu_wrapper(adreno_gpu) || config->rev.core < 6) {
+>>>>  		/*
+>>>>  		 * This can only be done before devm_pm_opp_of_add_table(), or
+>>>>  		 * dev_pm_opp_set_config() will WARN_ON()
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>>>> index f62612a5c70f..ee5352bc5329 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>>>> @@ -115,6 +115,7 @@ struct adreno_gpu {
+>>>>  	 * code (a3xx_gpu.c) and stored in this common location.
+>>>>  	 */
+>>>>  	const unsigned int *reg_offsets;
+>>>> +	bool gmu_is_wrapper;
+>>>>  };
+>>>>  #define to_adreno_gpu(x) container_of(x, struct adreno_gpu, base)
+>>>>  
+>>>> @@ -145,6 +146,11 @@ struct adreno_platform_config {
+>>>>  
+>>>>  bool adreno_cmp_rev(struct adreno_rev rev1, struct adreno_rev rev2);
+>>>>  
+>>>> +static inline bool adreno_has_gmu_wrapper(struct adreno_gpu *gpu)
+>>>> +{
+>>>> +	return gpu->gmu_is_wrapper;
+>>>> +}
+>>>> +
+>>>>  static inline bool adreno_is_a2xx(struct adreno_gpu *gpu)
+>>>>  {
+>>>>  	return (gpu->revn < 300);
+>>>>
+>>>> -- 
+>>>> 2.40.1
+>>>>
+>>>
+>>> I am still not fully onboard with the idea of gmu_wrapper node in devicetree.
+>>> Aside from that, I don't see any other issue. Please check the few comments I left.
+>> Thanks for your review!
+>>
+>> Konrad
+>>>
+>>> -Akhil.
+>>>
