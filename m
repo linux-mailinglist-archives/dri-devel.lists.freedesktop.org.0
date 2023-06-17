@@ -1,60 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFFC773450C
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 08:22:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBCE8734576
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 10:22:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CB1810E0D8;
-	Sun, 18 Jun 2023 06:22:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C88DB10E101;
+	Sun, 18 Jun 2023 08:21:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id EE68110E0CB
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jun 2023 06:22:43 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8BxLuuuoo5k7HcGAA--.13665S3;
- Sun, 18 Jun 2023 14:22:39 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxduStoo5kp8YeAA--.20943S3; 
- Sun, 18 Jun 2023 14:22:37 +0800 (CST)
-Message-ID: <a5abbedd-0b68-f64c-d6d4-2e71e3fb13c4@loongson.cn>
-Date: Sun, 18 Jun 2023 14:22:37 +0800
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 462A210E01F
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 16:14:41 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qAYXl-0000MG-Vh; Sat, 17 Jun 2023 18:12:54 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qAYXI-0085VF-9t; Sat, 17 Jun 2023 18:12:24 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qAYXH-00F4tf-3X; Sat, 17 Jun 2023 18:12:23 +0200
+Date: Sat, 17 Jun 2023 18:12:22 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Doug Anderson <dianders@chromium.org>
+Subject: patches dropped from drm-misc-next [Was: Re: [PATCH 00/53] drm:
+ Convert to platform remove callback returning] void
+Message-ID: <20230617161222.wy55pbomnrrlfy5u@pengutronix.de>
+References: <20230507162616.1368908-1-u.kleine-koenig@pengutronix.de>
+ <20230601154002.uv2wfatpb7b45duz@pengutronix.de>
+ <CAD=FV=WvP--wJwBQtnSoW_xb57R1Wf9dH0XzWxe+NorczXfeAw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2] drm/ingenic: Kconfig: select REGMAP and REGMAP_MMIO
-To: Paul Cercueil <paul@crapouillou.net>, Sam Ravnborg <sam@ravnborg.org>
-References: <20230607110650.569522-1-suijingfeng@loongson.cn>
- <c70cb3cb326439a5868beb54d720538923f653d1.camel@crapouillou.net>
- <20230617194843.GA1854380@ravnborg.org>
- <696b2c4144e454aa194e4487b41706075a70ae95.camel@crapouillou.net>
-Content-Language: en-US
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <696b2c4144e454aa194e4487b41706075a70ae95.camel@crapouillou.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxduStoo5kp8YeAA--.20943S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7CF48GrW3Kry3Ww4UWF47KFX_yoW8GFW3p3
- yDJas0vFs7ur95CwsFkr17tFy5tw1fXa1SqF1qyryqyr98tr1ftrW3ZF98WF9rJryfG3y7
- Zr93GF9rJFn7uFXCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUBjb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
- Gr0_Gr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
- kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWU
- AwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMx
- k0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_
- Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67
- AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8I
- cVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI
- 8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v2
- 6r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jjwZcUUUUU=
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="57sfyizjoix7o42y"
+Content-Disposition: inline
+In-Reply-To: <CAD=FV=WvP--wJwBQtnSoW_xb57R1Wf9dH0XzWxe+NorczXfeAw@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+X-Mailman-Approved-At: Sun, 18 Jun 2023 08:21:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,54 +57,226 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- linux-kernel@vger.kernel.org
+Cc: Raymond Tan <raymond.tan@intel.com>, Xinliang Liu <xinliang.liu@linaro.org>,
+ dri-devel@lists.freedesktop.org,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Jerome Brunet <jbrunet@baylibre.com>, linux-samsung-soc@vger.kernel.org,
+ Robert Foss <rfoss@kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, Danilo Krummrich <dakr@redhat.com>,
+ NXP Linux Team <linux-imx@nxp.com>, linux-sunxi@lists.linux.dev,
+ Rahul T R <r-ravikumar@ti.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Jani Nikula <jani.nikula@intel.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ etnaviv@lists.freedesktop.org, Yuan Can <yuancan@huawei.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Johan Hovold <johan+linaro@kernel.org>, Hyun Kwon <hyun.kwon@xilinx.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Jingoo Han <jingoohan1@gmail.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>, kernel@pengutronix.de,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Miaoqian Lin <linmq006@gmail.com>, linux-aspeed@lists.ozlabs.org,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Thierry Reding <thierry.reding@gmail.com>, John Stultz <jstultz@google.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>, Liang He <windhl@126.com>,
+ lima@lists.freedesktop.org, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Alexey Brodkin <abrodkin@synopsys.com>, Minghao Chi <chi.minghao@zte.com.cn>,
+ Steven Price <steven.price@arm.com>, linux-rockchip@lists.infradead.org,
+ Ben Skeggs <bskeggs@redhat.com>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Alain Volmat <alain.volmat@foss.st.com>, Liu Ying <victor.liu@nxp.com>,
+ linux-arm-msm@vger.kernel.org, Wang Jianzheng <wangjianzheng@vivo.com>,
+ Maxime Ripard <mripard@kernel.org>, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Boris Brezillon <bbrezillon@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Karol Herbst <kherbst@redhat.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Michal Simek <michal.simek@xilinx.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Mali DP Maintainers <malidp@foss.arm.com>, Joel Stanley <joel@jms.id.au>,
+ nouveau@lists.freedesktop.org, Orson Zhai <orsonzhai@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Guo Zhengkui <guozhengkui@vivo.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Alison Wang <alison.wang@nxp.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Mark Brown <broonie@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Paul Cercueil <paul@crapouillou.net>, Tomi Valkeinen <tomba@kernel.org>,
+ Deepak R Varma <drv@mailo.com>,
+ Karol Wachowski <karol.wachowski@linux.intel.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Ricardo Ribalda <ribalda@chromium.org>, Tian Tao <tiantao6@hisilicon.com>,
+ Shawn Guo <shawnguo@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ linux-stm32@st-md-mailman.stormreply.com, Emma Anholt <emma@anholt.net>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Liu Shixin <liushixin2@huawei.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Laura Nao <laura.nao@collabora.com>, Marek Vasut <marex@denx.de>,
+ linux-renesas-soc@vger.kernel.org, Yongqin Liu <yongqin.liu@linaro.org>,
+ Jayshri Pawar <jpawar@cadence.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Russell King <linux@armlinux.org.uk>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Qiang Yu <yuq825@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Melissa Wen <mwen@igalia.com>, linux-mediatek@lists.infradead.org,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, linux-tegra@vger.kernel.org,
+ Stephen Boyd <swboyd@chromium.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>, linux-mips@vger.kernel.org,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Jyri Sarha <jyri.sarha@iki.fi>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 2023/6/18 04:41, Paul Cercueil wrote:
-> Hi,
->
-> Le samedi 17 juin 2023 à 21:48 +0200, Sam Ravnborg a écrit :
->> Hi Paul,
->> On Sat, Jun 17, 2023 at 09:13:37PM +0200, Paul Cercueil wrote:
->>> Hi,
->>>
->>> Le mercredi 07 juin 2023 à 19:06 +0800, Sui Jingfeng a écrit :
->>>> Otherwise its failed to pass basic compile test on platform
->>>> without
->>>> REGMAP_MMIO selected by defconfig
->>>>
->>>> make -j$(nproc) ARCH=mips CROSS_COMPILE=mips64el-linux-gnuabi64-
->>>>
->>>>    SYNC    include/config/auto.conf.cmd
->>>>    Checking missing-syscalls for N32
->>>>    CALL    scripts/checksyscalls.sh
->>>>    Checking missing-syscalls for O32
->>>>    CALL    scripts/checksyscalls.sh
->>>>    CALL    scripts/checksyscalls.sh
->>>>    MODPOST Module.symvers
->>>> ERROR: modpost: "__devm_regmap_init_mmio_clk"
->>>> [drivers/gpu/drm/ingenic/ingenic-drm.ko] undefined!
->>>> make[1]: *** [scripts/Makefile.modpost:136: Module.symvers] Error
->>>> 1
->>>> make: *** [Makefile:1978: modpost] Error 2
->>>>
->>>> V2: Order alphabetically
->>>>
->>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->>> The patch looks good to me. But I need an ACK from someone else to
->>> apply to drm-misc-next.
->> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> Thanks Sam!
-Sam and Paul, thanks a lot, :-)
-> Applied to drm-misc-next.
->
-> Cheers,
-> -Paul
+--57sfyizjoix7o42y
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Jingfeng
+[expanding recipents by the other affected persons]
 
+On Thu, Jun 08, 2023 at 09:08:15AM -0700, Doug Anderson wrote:
+> On Thu, Jun 1, 2023 at 8:40=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+> <u.kleine-koenig@pengutronix.de> wrote:
+> >
+> > Hello,
+> >
+> > On Sun, May 07, 2023 at 06:25:23PM +0200, Uwe Kleine-K=C3=B6nig wrote:
+> > > this patch series adapts the platform drivers below drivers/gpu/drm
+> > > to use the .remove_new() callback. Compared to the traditional .remov=
+e()
+> > > callback .remove_new() returns no value. This is a good thing because
+> > > the driver core doesn't (and cannot) cope for errors during remove. T=
+he
+> > > only effect of a non-zero return value in .remove() is that the driver
+> > > core emits a warning. The device is removed anyhow and an early return
+> > > from .remove() usually yields a resource leak.
+> > >
+> > > By changing the remove callback to return void driver authors cannot
+> > > reasonably (but wrongly) assume any more that there happens some kind=
+ of
+> > > cleanup later.
+> >
+> > I wonder if someone would volunteer to add the whole series to
+> > drm-misc-next?!
+>=20
+> It looks as if Neil applied quite a few of them already, so I looked
+> at what was left...
+>=20
+> I'm a little hesitant to just apply the whole kit-and-caboodle to
+> drm-misc-next since there are specific DRM trees for a bunch of them
+> and it would be better if they landed there. ...so I went through all
+> the patches that still applied to drm-misc-next, then used
+> 'scripts/get_maintainer.pl --scm' to check if they were maintained
+> through drm-misc. That still left quite a few patches. I've applied
+> those ones and pushed to drm-misc-next:
+>=20
+> 71722685cd17 drm/xlnx/zynqmp_dpsub: Convert to platform remove
+> callback returning void
+> 1ed54a19f3b3 drm/vc4: Convert to platform remove callback returning void
+> b957812839f8 drm/v3d: Convert to platform remove callback returning void
+> e2fd3192e267 drm/tve200: Convert to platform remove callback returning vo=
+id
+> 84e6da7ad553 drm/tiny: Convert to platform remove callback returning void
+> 34cdd1f691ad drm/tidss: Convert to platform remove callback returning void
+> d665e3c9d37a drm/sun4i: Convert to platform remove callback returning void
+> 0c259ab19146 drm/stm: Convert to platform remove callback returning void
+> 9a865e45884a drm/sti: Convert to platform remove callback returning void
+> 3c855610840e drm/rockchip: Convert to platform remove callback returning =
+void
+> e41977a83b71 drm/panfrost: Convert to platform remove callback returning =
+void
+> cef3776d0b5a drm/panel: Convert to platform remove callback returning void
+> bd296a594e87 drm/mxsfb: Convert to platform remove callback returning void
+> 38ca2d93d323 drm/meson: Convert to platform remove callback returning void
+> fd1457d84bae drm/mcde: Convert to platform remove callback returning void
+> 41a56a18615c drm/logicvc: Convert to platform remove callback returning v=
+oid
+> 980ec6444372 drm/lima: Convert to platform remove callback returning void
+> 82a2c0cc1a22 drm/hisilicon: Convert to platform remove callback returning=
+ void
+> c3b28b29ac0a drm/fsl-dcu: Convert to platform remove callback returning v=
+oid
+> a118fc6e71f9 drm/atmel-hlcdc: Convert to platform remove callback returni=
+ng void
+> 9a32dd324c46 drm/aspeed: Convert to platform remove callback returning vo=
+id
+> 2c7d291c498c drm/arm/malidp: Convert to platform remove callback returnin=
+g void
+> a920028df679 drm/arm/hdlcd: Convert to platform remove callback returning=
+ void
+> 1bf3d76a7d15 drm/komeda: Convert to platform remove callback returning vo=
+id
+
+Together with the patches that were applied later the topmost commit
+=66rom this series is c2807ecb5290 ("drm/omap: Convert to platform remove
+callback returning void"). This commit was part for the following next
+tags:
+
+	$ git tag -l --contains c2807ecb5290
+	next-20230609
+	next-20230613
+	next-20230614
+	next-20230615
+
+However in next-20230616 they are missing. In next-20230616
+drm-misc/for-linux-next was cf683e8870bd4be0fd6b98639286700a35088660.
+Compared to c2807ecb5290 this adds 1149 patches but drops 37 (that are
+also not included with a different commit id). The 37 patches dropped
+are 13cdd12a9f934158f4ec817cf048fcb4384aa9dc..c2807ecb5290:
+
+	$ git shortlog -s 13cdd12a9f934158f4ec817cf048fcb4384aa9dc..c2807ecb5290
+	     1  Christophe JAILLET
+	     2  Jessica Zhang
+	     5  Karol Wachowski
+	     1  Laura Nao
+	    27  Uwe Kleine-K=C3=B6nig
+	     1  Wang Jianzheng
+
+
+I guess this was done by mistake because nobody told me about dropping
+my/these patches? Can c2807ecb5290 please be merged into drm-misc-next
+again?
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
+   |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--57sfyizjoix7o42y
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmSN22YACgkQj4D7WH0S
+/k4acwf9GPr1IWMMQ6HjlOCWYhOEksB+3DWauF61C+SdDvqLOvPu/hNGcgWuwYzV
+BhgtD4JwOuwoZ/zMLhOT+HdRBvqpsEyg0A44UMz9fwnqPDQ+mn1Gw7N/C9Z30JCo
+ncUw3rL4mH4QPXAVskP+YtAbPs+ZuiIYs89B9nBkm6NEcjNg4rISZlFHoxsUhs8B
+7ECcmnW76ezXSAdGrOHzGzJ+YCZJYEKqJdx9GgRcwJwHMF0KyYyoVxhEqXYODOJe
+v3SNgzxSS9K7/PSziTNotU7oZnrh9TlSAmoFVX6b7gYyDQv2EpcFDJ9zhsMJI6IJ
+tLKT6eARconsFWkjgb/fPWgMHMzjmw==
+=hehC
+-----END PGP SIGNATURE-----
+
+--57sfyizjoix7o42y--
