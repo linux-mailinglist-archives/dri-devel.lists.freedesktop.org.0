@@ -1,58 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD5BD733EE7
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Jun 2023 08:54:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 288E3733F3E
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Jun 2023 09:39:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56B3510E02F;
-	Sat, 17 Jun 2023 06:54:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1521210E008;
+	Sat, 17 Jun 2023 07:38:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2196510E02F
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 06:54:31 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8BxLuujWI1kbjwGAA--.13428S3;
- Sat, 17 Jun 2023 14:54:28 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxTMqjWI1kIgUeAA--.10469S3; 
- Sat, 17 Jun 2023 14:54:27 +0800 (CST)
-Message-ID: <60af0f6e-3cbe-fb49-bc9b-9a0d5fbb2cb5@loongson.cn>
-Date: Sat, 17 Jun 2023 14:54:27 +0800
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8313310E008
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 07:38:54 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id
+ 4fb4d7f45d1cf-51a200fc3eeso2129892a12.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 00:38:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1686987532; x=1689579532;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=67YwpV4r/TA8L/XN9KeePCcghZaMw0dJnLsptSbS9OA=;
+ b=lKJ6yNHVIk4OM5Rx6O8vvglodaLiXJITSBOlbOfJGwEHv0MsBvescU2jnfSbwfLGJf
+ mBJTHXlp5xoEnw5mVNnIXQgQtw0MrR3bmefZ2QmCkLNMs/xnQifwxUwUlILPvNW59b8N
+ r6k7pqBCEkvBy/6olQjd3y4oWubNq9qH0rwip0cAJLUTG8zyeyHS5um3qPeVqNWjxMvf
+ /+OngTaWdZZiop4aVVNc4ZAdjRDpt2UHpqna0SWIl9AFqzyJgoS56IxqsbeBKO+Wxxr4
+ Lm1CgpcN977UelBv8QH8ElOBXwRl82PW7tZkH+fbxwc7jDPSPKkqX94gWBzNy+zbu/P3
+ lVcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1686987532; x=1689579532;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=67YwpV4r/TA8L/XN9KeePCcghZaMw0dJnLsptSbS9OA=;
+ b=Y1hXTuFiCB0dE1GPmtRzcHkbGG4w30VvMsxzy7fF2ZoBdAVh7Nty9Vd1bhDsZuqSu3
+ B5JHJ3YotKnCuKw3hRGalbUkzAlQPzraIFwxnL6oMOWH3dncSsaOPWUdQpG8zGy+j+mF
+ 97lf3X9cfj4YlncWo24ZhRkeLWRSPwP+Jk2EMqOGMkd2+8P7URinpovCdjWbjpPw3J/a
+ BwHfYOi+gywV9o/FzoCyYHXJNftNTvEqE3z2xWrR7E359tmJ+D+FcUK1PSbiD0Ut6KBP
+ ELEDs9ik8gnSdH854bKQo/e6xXUu8Ub//ZJXlhXpkitv19iS3Xfww1/W85DFbNcsthNS
+ bh4w==
+X-Gm-Message-State: AC+VfDyTnGV0m4GamfdL2P6P3n7ewMc//BWFurNXfnwnQAjbX3E9BuqZ
+ l1Zs9QvxQDcPOregYAtXj7WmWw==
+X-Google-Smtp-Source: ACHHUZ4a3vmkFekym1Wy32PM/lXo8GJNMTPsYYtsp2+g2VcUZnlEIFYweqBuiWG4OLclZzUT0aYqPg==
+X-Received: by 2002:a17:907:728b:b0:96f:a8c2:77ad with SMTP id
+ dt11-20020a170907728b00b0096fa8c277admr3992090ejc.63.1686987532568; 
+ Sat, 17 Jun 2023 00:38:52 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+ by smtp.gmail.com with ESMTPSA id
+ r16-20020a170906705000b00986fa07729csm864795ejj.94.2023.06.17.00.38.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 17 Jun 2023 00:38:52 -0700 (PDT)
+Message-ID: <fc36dd50-7d4f-6232-ad59-968f929b6b6f@linaro.org>
+Date: Sat, 17 Jun 2023 09:38:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [03/14] drm/ast: Implement register helpers in ast_drv.h
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- jfalempe@redhat.com, daniel@ffwll.ch, jammy_huang@aspeedtech.com
-References: <20230616140739.32042-4-tzimmermann@suse.de>
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 1/2] dt-bindings: display: simple: Add Mitsubishi
+ AA084XE01 panel
 Content-Language: en-US
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <20230616140739.32042-4-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Miquel Raynal <miquel.raynal@bootlin.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org
+References: <20230616163919.2805694-1-miquel.raynal@bootlin.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230616163919.2805694-1-miquel.raynal@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8BxTMqjWI1kIgUeAA--.10469S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxuF48ZrW5tw4DKFWrXw45CFX_yoW5try7p3
- 9xJa9a9rWUJF129rZxZFyDAFyfG3Z7Ka4FkrWDW3yv939xZr1ktryqvw43A345GrWxZFyU
- JFsrGry8A3W5JagCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUBYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
- 6r4j6r4UJwAaw2AFwI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
- Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_
- JF1lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
- CYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j
- 6r4UMxCIbckI1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
- AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
- 0xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4
- v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AK
- xVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8TqcUUUUUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,114 +80,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 2023/6/16 21:52, Thomas Zimmermann wrote:
-> There are already a number of register I/O functions in ast_drv.h.
-> For consistency, move the remaining functions there as well. No
-> functional changes.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
+On 16/06/2023 18:39, Miquel Raynal wrote:
+> Add Mitsubishi AA084XE01 8.4" XGA TFT LCD panel compatible string.
+> 
+> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 > ---
->   drivers/gpu/drm/ast/ast_drv.h  | 34 ++++++++++++++++++++++++----------
->   drivers/gpu/drm/ast/ast_main.c | 28 ----------------------------
->   2 files changed, 24 insertions(+), 38 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-> index fc4760a67596f..0141705beaee9 100644
-> --- a/drivers/gpu/drm/ast/ast_drv.h
-> +++ b/drivers/gpu/drm/ast/ast_drv.h
-> @@ -257,22 +257,36 @@ static inline void ast_io_write8(struct ast_device *ast, u32 reg, u8 val)
->   	iowrite8(val, ast->ioregs + reg);
->   }
->   
-> -static inline void ast_set_index_reg(struct ast_device *ast,
-> -				     uint32_t base, uint8_t index,
-> -				     uint8_t val)
-> +static inline u8 ast_get_index_reg(struct ast_device *ast, u32 base, u8 index)
-> +{
-> +	ast_io_write8(ast, base, index);
-> +	++base;
-> +	return ast_io_read8(ast, base);
-> +}
-> +
-> +static inline u8 ast_get_index_reg_mask(struct ast_device *ast, u32 base, u8 index,
-> +					u8 preserve_mask)
-> +{
-> +	u8 val = ast_get_index_reg(ast, base, index);
-> +
-> +	return val & preserve_mask;
-> +}
-> +
-> +static inline void ast_set_index_reg(struct ast_device *ast, u32 base, u8 index, u8 val)
->   {
->   	ast_io_write8(ast, base, index);
->   	++base;
->   	ast_io_write8(ast, base, val);
->   }
->   
-> -void ast_set_index_reg_mask(struct ast_device *ast,
-> -			    uint32_t base, uint8_t index,
-> -			    uint8_t mask, uint8_t val);
-> -uint8_t ast_get_index_reg(struct ast_device *ast,
-> -			  uint32_t base, uint8_t index);
-> -uint8_t ast_get_index_reg_mask(struct ast_device *ast,
-> -			       uint32_t base, uint8_t index, uint8_t mask);
-> +static inline void ast_set_index_reg_mask(struct ast_device *ast, u32 base, u8 index,
-> +					  u8 preserve_mask, u8 val)
-> +{
-> +	u8 tmp = ast_get_index_reg_mask(ast, base, index, preserve_mask);
-> +
-> +	tmp |= val;
-> +	ast_set_index_reg(ast, base, index, tmp);
-> +}
->   
->   static inline void ast_open_key(struct ast_device *ast)
->   {
-> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-> index da33cfc6366ec..862fdf02f6100 100644
-> --- a/drivers/gpu/drm/ast/ast_main.c
-> +++ b/drivers/gpu/drm/ast/ast_main.c
-> @@ -35,34 +35,6 @@
->   
->   #include "ast_drv.h"
->   
-> -void ast_set_index_reg_mask(struct ast_device *ast,
-> -			    uint32_t base, uint8_t index,
-> -			    uint8_t mask, uint8_t val)
-> -{
-> -	u8 tmp;
-> -	ast_io_write8(ast, base, index);
-> -	tmp = (ast_io_read8(ast, base + 1) & mask) | val;
-> -	ast_set_index_reg(ast, base, index, tmp);
-> -}
-> -
-> -uint8_t ast_get_index_reg(struct ast_device *ast,
-> -			  uint32_t base, uint8_t index)
-> -{
-> -	uint8_t ret;
-> -	ast_io_write8(ast, base, index);
-> -	ret = ast_io_read8(ast, base + 1);
-> -	return ret;
-> -}
-> -
-> -uint8_t ast_get_index_reg_mask(struct ast_device *ast,
-> -			       uint32_t base, uint8_t index, uint8_t mask)
-> -{
-> -	uint8_t ret;
-> -	ast_io_write8(ast, base, index);
-> -	ret = ast_io_read8(ast, base + 1) & mask;
-> -	return ret;
-> -}
-> -
->   static void ast_detect_config_mode(struct drm_device *dev, u32 *scu_rev)
->   {
->   	struct device_node *np = dev->dev->of_node;
 
--- 
-Jingfeng
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
 
