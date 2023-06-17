@@ -1,38 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F906734344
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Jun 2023 21:13:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCC6B73435E
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Jun 2023 21:48:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08EDC10E055;
-	Sat, 17 Jun 2023 19:13:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56FCB10E05B;
+	Sat, 17 Jun 2023 19:48:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9ABC810E055
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 19:13:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1687029219;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nmqt6yb4ErstxdwxN6vUxbNPTZ5Zr6NGJzRsFUvY+v0=;
- b=OOz00nZQdMdd+W7ZBoXpmcmR97VRcm6Dl09QACAoOMdZdGwp4s9b45sCa1oemF92GyHf5O
- Tx2u9VE6o1n45/JodiQtehRsHqnsVKHBcEHK2CERDVpOlQ9HqHyg/MrGDvhC1XO4SBnnad
- /d7zT+NIi02oaTZsIhlGCxPp6CNid/g=
-Message-ID: <c70cb3cb326439a5868beb54d720538923f653d1.camel@crapouillou.net>
+Received: from mailrelay1-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay1-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:400::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E21D10E05B
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 19:48:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
+ message-id:subject:cc:to:from:date:from;
+ bh=JpMOu/1hNxHuaKwCQGdnk2FzL/My6PZIjCLG8MrTMrk=;
+ b=olI+Ud46siOzcq3kqIqwPJ5i5dACaKmPy5sljdckqrt15mByDfSsLsOKxpsY+d1Q8ZOsNY/yq1oIA
+ ulh1AWDpe3MgKw7Vbgs4w4Xrr5NCiCobIuFefe/lku4nOnv+V4NsdLgh6lumQLt5MnnIM8uTOiNSnZ
+ jLWdvw2UMxvk8TRbEF9Boh55EPdfXsgLDa8U8b+C1ZE6N3knAZCGZ5Sa6HhG2lBbZIiCX6eAGTK4aZ
+ C+6xiQBoM/ZO7Ai0Smy6WueXyTSwoyC19PN0XRCNsnh0apc+F7EOI0ZL8wup/9FTtFKce8FGW5g7xk
+ PiLYlUpa+M2Mul8/UfI/PjqhILtGycQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
+ message-id:subject:cc:to:from:date:from;
+ bh=JpMOu/1hNxHuaKwCQGdnk2FzL/My6PZIjCLG8MrTMrk=;
+ b=iU5ZO50tbDLra8ur+ON9C1XNg0BNwnaNbHntd4Pjwx1O7eY+11EAX0xPMRW6vni1YchwjRSloKQcu
+ qSNMxVZDw==
+X-HalOne-ID: f63d52c5-0d47-11ee-ada2-99461c6a3fe8
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay1 (Halon) with ESMTPSA
+ id f63d52c5-0d47-11ee-ada2-99461c6a3fe8;
+ Sat, 17 Jun 2023 19:48:45 +0000 (UTC)
+Date: Sat, 17 Jun 2023 21:48:43 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Paul Cercueil <paul@crapouillou.net>
 Subject: Re: [PATCH v2] drm/ingenic: Kconfig: select REGMAP and REGMAP_MMIO
-From: Paul Cercueil <paul@crapouillou.net>
-To: Sui Jingfeng <suijingfeng@loongson.cn>, David Airlie
- <airlied@gmail.com>,  Daniel Vetter <daniel@ffwll.ch>
-Date: Sat, 17 Jun 2023 21:13:37 +0200
-In-Reply-To: <20230607110650.569522-1-suijingfeng@loongson.cn>
+Message-ID: <20230617194843.GA1854380@ravnborg.org>
 References: <20230607110650.569522-1-suijingfeng@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <c70cb3cb326439a5868beb54d720538923f653d1.camel@crapouillou.net>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c70cb3cb326439a5868beb54d720538923f653d1.camel@crapouillou.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,60 +58,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Sui Jingfeng <suijingfeng@loongson.cn>, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-Le mercredi 07 juin 2023 =C3=A0 19:06 +0800, Sui Jingfeng a =C3=A9crit=C2=
-=A0:
-> Otherwise its failed to pass basic compile test on platform without
-> REGMAP_MMIO selected by defconfig
->=20
-> make -j$(nproc) ARCH=3Dmips CROSS_COMPILE=3Dmips64el-linux-gnuabi64-
->=20
-> =C2=A0 SYNC=C2=A0=C2=A0=C2=A0 include/config/auto.conf.cmd
-> =C2=A0 Checking missing-syscalls for N32
-> =C2=A0 CALL=C2=A0=C2=A0=C2=A0 scripts/checksyscalls.sh
-> =C2=A0 Checking missing-syscalls for O32
-> =C2=A0 CALL=C2=A0=C2=A0=C2=A0 scripts/checksyscalls.sh
-> =C2=A0 CALL=C2=A0=C2=A0=C2=A0 scripts/checksyscalls.sh
-> =C2=A0 MODPOST Module.symvers
-> ERROR: modpost: "__devm_regmap_init_mmio_clk"
-> [drivers/gpu/drm/ingenic/ingenic-drm.ko] undefined!
-> make[1]: *** [scripts/Makefile.modpost:136: Module.symvers] Error 1
-> make: *** [Makefile:1978: modpost] Error 2
->=20
-> V2: Order alphabetically
->=20
-> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
-
-The patch looks good to me. But I need an ACK from someone else to
-apply to drm-misc-next.
-
-Cheers,
--Paul
-
-> ---
-> =C2=A0drivers/gpu/drm/ingenic/Kconfig | 2 ++
-> =C2=A01 file changed, 2 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/ingenic/Kconfig
-> b/drivers/gpu/drm/ingenic/Kconfig
-> index a53f475d33df..b440e0cdc057 100644
-> --- a/drivers/gpu/drm/ingenic/Kconfig
-> +++ b/drivers/gpu/drm/ingenic/Kconfig
-> @@ -9,6 +9,8 @@ config DRM_INGENIC
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0select DRM_PANEL_BRIDGE
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0select DRM_KMS_HELPER
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0select DRM_GEM_DMA_HELPER
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0select REGMAP
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0select REGMAP_MMIO
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0select VT_HW_CONSOLE_BIND=
-ING if FRAMEBUFFER_CONSOLE
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0help
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Choose this option=
- for DRM support for the Ingenic SoCs.
-
+Hi Paul,
+On Sat, Jun 17, 2023 at 09:13:37PM +0200, Paul Cercueil wrote:
+> Hi,
+> 
+> Le mercredi 07 juin 2023 à 19:06 +0800, Sui Jingfeng a écrit :
+> > Otherwise its failed to pass basic compile test on platform without
+> > REGMAP_MMIO selected by defconfig
+> > 
+> > make -j$(nproc) ARCH=mips CROSS_COMPILE=mips64el-linux-gnuabi64-
+> > 
+> >   SYNC    include/config/auto.conf.cmd
+> >   Checking missing-syscalls for N32
+> >   CALL    scripts/checksyscalls.sh
+> >   Checking missing-syscalls for O32
+> >   CALL    scripts/checksyscalls.sh
+> >   CALL    scripts/checksyscalls.sh
+> >   MODPOST Module.symvers
+> > ERROR: modpost: "__devm_regmap_init_mmio_clk"
+> > [drivers/gpu/drm/ingenic/ingenic-drm.ko] undefined!
+> > make[1]: *** [scripts/Makefile.modpost:136: Module.symvers] Error 1
+> > make: *** [Makefile:1978: modpost] Error 2
+> > 
+> > V2: Order alphabetically
+> > 
+> > Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> 
+> The patch looks good to me. But I need an ACK from someone else to
+> apply to drm-misc-next.
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
