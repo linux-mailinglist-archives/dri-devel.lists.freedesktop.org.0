@@ -2,69 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 436B4734259
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Jun 2023 18:57:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B7D07342A5
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Jun 2023 19:36:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7389110E02C;
-	Sat, 17 Jun 2023 16:57:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5829110E09B;
+	Sat, 17 Jun 2023 17:36:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B9FB10E02C
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 16:57:32 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id
- 4fb4d7f45d1cf-51a20c744ebso2256984a12.1
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 09:57:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687021050; x=1689613050;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=cYkWr+qB9Dy27do4YoJJyP/9/BdByG4wfyLCrCmqa7U=;
- b=WJ0col15f2yIYiNyzpQLZROUE/7n8tQ4HuBnCy0Oof0nS+49wdxMqi5HnVue2p/ByY
- QEkU9wGzQSiktECAdDCRneh+ahbBQX9t7T149pNjjR3DmZl4/C4gLMPTt2ksNGZAznTA
- DRpCfLZGtmpdG5xm1EKHBc1/MhokeYzvwLC5Iubt1BtAaMr2VCZdpBOkTeCa1w+ifC2/
- WMNrVhI+lLGfubEKZfzvHELoGSvJaEb1RLQhSmrVFdnzwb7GxnTUl109VQx2IfXZZkuB
- P8ZVmQqlhegyECdr/V9Dnm2Dv1PtVctlbEnVhczort56TlYZuM/xCsb8f/iduuld79rg
- yD5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687021050; x=1689613050;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=cYkWr+qB9Dy27do4YoJJyP/9/BdByG4wfyLCrCmqa7U=;
- b=b7zyTrvNs4wi1E1Av989ZODU+wfHB5kKdP8v7YxPp7r/kqqJlhMa/RumfmD7zeeIKg
- S0PoKsB5YVdf0nq7L8XmrSv4SyZeIoTwP6bf5iJ6BaQIDgGRkHuHQHWGyrAyDEZoAko7
- cCoTdi+dMwm4VXNuP6XamT7RJJ5XVxwEJsKa/qs+N+Ak16DNyX+kAEAMSoxRnkWoV0G7
- EXkcqRauQ5M4sQoHrrLruyqxczltcqb3fLUfekku7rDmT3t88LLbsz/ImDYNUYDfIlZk
- T/7fcWXk+M7Mv6K1dSWlJLsdFuZQiwNWWDI+zU3i2TFRufnBncl7bRvyegRXsyWMNDn6
- WmsQ==
-X-Gm-Message-State: AC+VfDyKhNrYg7QfH+ZvPwaCuOIanFhwjbAOf4V0nc4IfGW5mjcRfEBU
- xJlnbVvMg23bseDcbXJqs29QeqbkneA8SpYdZw4=
-X-Google-Smtp-Source: ACHHUZ6rsOF2b6T9zuvp0klPgNhhjJbj2nLVN09KwwbbKBsxKtDmXRwtSdGhblpiDCx3PeU81GFQqQ==
-X-Received: by 2002:a17:907:94c1:b0:966:5c04:2c61 with SMTP id
- dn1-20020a17090794c100b009665c042c61mr5254779ejc.8.1687021050309; 
- Sat, 17 Jun 2023 09:57:30 -0700 (PDT)
-Received: from krzk-bin.. ([178.197.219.26]) by smtp.gmail.com with ESMTPSA id
- j15-20020a170906410f00b0098768661505sm1014598ejk.117.2023.06.17.09.57.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Jun 2023 09:57:29 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] dt-bindings: display: sony,
- td4353-jdi: allow width-mm and height-mm
-Date: Sat, 17 Jun 2023 18:57:26 +0200
-Message-Id: <20230617165726.279886-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+X-Greylist: delayed 81136 seconds by postgrey-1.36 at gabe;
+ Sat, 17 Jun 2023 17:36:01 UTC
+Received: from mailrelay5-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay5-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:404::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 623DC10E09B
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 17:36:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
+ message-id:subject:cc:to:from:date:from;
+ bh=HTsY6p85oS2lNQWL6cptD2+QQvem/CfxulA1ZbEcSKo=;
+ b=ZYFdOAt2MR2EVe5qAO5yJuhk6ISLZJIGdvabsFg2AUbdM8dn3OfJnJ/7s3I5e/mcK3jh0oDz964uD
+ 2lzzVRB5iLbki2u+pHvKZhMx9paJxZowsDpDWmj53vDAWyn5HvyVmlXz4wb+LkX4W5fMeLJ/zPbrpr
+ 6bndUTYGkca7iIe0b+a4WGmT65AuJxQOeXaBy+ZT5oWpfoL1VDbDLvH1+v1Bu4kNH8jRinQ4YZZ4f/
+ QF4wFUO00GeTSyocfHzMSa6+Jdq4FlBuc9TXQq3zK7YOqvwOfQTJLAqfUZa6PvVbKwONajbGnFpUKb
+ 0YjR6WWWw5pABGUuTnU4PzEjHPZFS7g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
+ message-id:subject:cc:to:from:date:from;
+ bh=HTsY6p85oS2lNQWL6cptD2+QQvem/CfxulA1ZbEcSKo=;
+ b=Q875wQXzhN4Y67Mih7wkf7RZg5W0WoyjEphiY9m9+Nlhv15sTwxQXGGDGnUU3X7SEYR3wX3+oWNYq
+ xSlUsgIAg==
+X-HalOne-ID: 67c6c44f-0d35-11ee-b74b-55333ba73462
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay5 (Halon) with ESMTPSA
+ id 67c6c44f-0d35-11ee-b74b-55333ba73462;
+ Sat, 17 Jun 2023 17:35:55 +0000 (UTC)
+Date: Sat, 17 Jun 2023 19:35:53 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
+Subject: Re: [PATCH] drm: bridge: dw-mipi-dsi: Fix enable/disable of DSI
+ controller
+Message-ID: <20230617173553.GA1843063@ravnborg.org>
+References: <20230617150643.1808409-1-megi@xff.cz>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230617150643.1808409-1-megi@xff.cz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,33 +60,188 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ linux-rockchip@lists.infradead.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Allow width and height properties from panel-common.yaml, already used
-on some boards:
+Hi Ondřej,
 
-  sdm845-sony-xperia-tama-apollo.dtb: panel@0: 'height-mm', 'width-mm' do not match any of the regexes: 'pinctrl-[0-9]+'
+On Sat, Jun 17, 2023 at 05:06:33PM +0200, Ondřej Jirman wrote:
+> From: Ondrej Jirman <megi@xff.cz>
+> 
+> Before this patch, booting to Linux VT and doing a simple:
+> 
+>   echo 2 > /sys/class/graphics/fb0/blank
+>   echo 0 > /sys/class/graphics/fb0/blank
+> 
+> would result in failures to re-enable the panel. Mode set callback is
+> called only once during boot in this scenario, while calls to
+> enable/disable callbacks are balanced afterwards. The driver doesn't
+> work unless userspace calls modeset before enabling the CRTC/connector.
+> 
+> This patch moves enabling of the DSI host from mode_set into pre_enable
+> callback, and removes some old hacks where this bridge driver is
+> directly calling into other bridge driver's callbacks.
+> 
+> pre_enable_prev_first flag is set on the panel's bridge so that panel
+> drivers will get their prepare function called between DSI host's
+> pre_enable and enable callbacks, so that they get a chance to
+> perform panel setup while DSI host is already enabled in command
+> mode. Otherwise panel's prepare would be called before DSI host
+> is enabled, and any DSI communication used in prepare callback
+> would fail.
+> 
+> With all these changes, the enable/disable sequence is now well
+> balanced, and host's and panel's callbacks are called in proper order
+> documented in the drm_panel API documentation without needing the old
+> hacks. (Mainly that panel->prepare is called when DSI host is ready to
+> allow the panel driver to send DSI commands and vice versa during
+> disable.)
+> 
+> Tested on Pinephone Pro. Trace of the callbacks follows.
+> 
+> Before:
+> 
+> [    1.253882] dw-mipi-dsi-rockchip ff960000.dsi: mode_set
+> [    1.290732] panel-himax-hx8394 ff960000.dsi.0: prepare
+> [    1.475576] dw-mipi-dsi-rockchip ff960000.dsi: enable
+> [    1.475593] panel-himax-hx8394 ff960000.dsi.0: enable
+> 
+> echo 2 > /sys/class/graphics/fb0/blank
+> 
+> [   13.722799] panel-himax-hx8394 ff960000.dsi.0: disable
+> [   13.774502] dw-mipi-dsi-rockchip ff960000.dsi: post_disable
+> [   13.774526] panel-himax-hx8394 ff960000.dsi.0: unprepare
+> 
+> echo 0 > /sys/class/graphics/fb0/blank
+> 
+> [   17.735796] panel-himax-hx8394 ff960000.dsi.0: prepare
+> [   17.923522] dw-mipi-dsi-rockchip ff960000.dsi: enable
+> [   17.923540] panel-himax-hx8394 ff960000.dsi.0: enable
+> [   17.944330] dw-mipi-dsi-rockchip ff960000.dsi: failed to write command FIFO
+> [   17.944335] panel-himax-hx8394 ff960000.dsi.0: sending command 0xb9 failed: -110
+> [   17.944340] panel-himax-hx8394 ff960000.dsi.0: Panel init sequence failed: -110
+> 
+> echo 2 > /sys/class/graphics/fb0/blank
+> 
+> [  431.148583] panel-himax-hx8394 ff960000.dsi.0: disable
+> [  431.169259] dw-mipi-dsi-rockchip ff960000.dsi: failed to write command FIFO
+> [  431.169268] panel-himax-hx8394 ff960000.dsi.0: Failed to enter sleep mode: -110
+> [  431.169282] dw-mipi-dsi-rockchip ff960000.dsi: post_disable
+> [  431.169316] panel-himax-hx8394 ff960000.dsi.0: unprepare
+> [  431.169357] pclk_mipi_dsi0 already disabled
+> 
+> echo 0 > /sys/class/graphics/fb0/blank
+> 
+> [  432.796851] panel-himax-hx8394 ff960000.dsi.0: prepare
+> [  432.981537] dw-mipi-dsi-rockchip ff960000.dsi: enable
+> [  432.981568] panel-himax-hx8394 ff960000.dsi.0: enable
+> [  433.002290] dw-mipi-dsi-rockchip ff960000.dsi: failed to write command FIFO
+> [  433.002299] panel-himax-hx8394 ff960000.dsi.0: sending command 0xb9 failed: -110
+> [  433.002312] panel-himax-hx8394 ff960000.dsi.0: Panel init sequence failed: -110
+> 
+> -----------------------------------------------------------------------
+> 
+> After:
+> 
+> [    1.248372] dw-mipi-dsi-rockchip ff960000.dsi: mode_set
+> [    1.248704] dw-mipi-dsi-rockchip ff960000.dsi: pre_enable
+> [    1.285377] panel-himax-hx8394 ff960000.dsi.0: prepare
+> [    1.468392] dw-mipi-dsi-rockchip ff960000.dsi: enable
+> [    1.468421] panel-himax-hx8394 ff960000.dsi.0: enable
+> 
+> echo 2 > /sys/class/graphics/fb0/blank
+> 
+> [   16.210357] panel-himax-hx8394 ff960000.dsi.0: disable
+> [   16.261315] dw-mipi-dsi-rockchip ff960000.dsi: post_disable
+> [   16.261339] panel-himax-hx8394 ff960000.dsi.0: unprepare
+> 
+> echo 0 > /sys/class/graphics/fb0/blank
+> 
+> [   19.161453] dw-mipi-dsi-rockchip ff960000.dsi: pre_enable
+> [   19.197869] panel-himax-hx8394 ff960000.dsi.0: prepare
+> [   19.382141] dw-mipi-dsi-rockchip ff960000.dsi: enable
+> [   19.382158] panel-himax-hx8394 ff960000.dsi.0: enable
+> 
+> Signed-off-by: Ondrej Jirman <megi@xff.cz>
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../devicetree/bindings/display/panel/sony,td4353-jdi.yaml      | 2 ++
- 1 file changed, 2 insertions(+)
+Nice cleanup and fix.
+Have you consider if this need a Fixes: ?
 
-diff --git a/Documentation/devicetree/bindings/display/panel/sony,td4353-jdi.yaml b/Documentation/devicetree/bindings/display/panel/sony,td4353-jdi.yaml
-index b6b885b4c22d..07bce556ad40 100644
---- a/Documentation/devicetree/bindings/display/panel/sony,td4353-jdi.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/sony,td4353-jdi.yaml
-@@ -23,6 +23,8 @@ properties:
-   reg: true
- 
-   backlight: true
-+  width-mm: true
-+  height-mm: true
- 
-   vddio-supply:
-     description: VDDIO 1.8V supply
--- 
-2.34.1
 
+> ---
+>  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 28 +++++++++++--------
+>  1 file changed, 16 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+> index b2efecf7d160..352c6829259a 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+> @@ -265,6 +265,7 @@ struct dw_mipi_dsi {
+>  	struct dw_mipi_dsi *master; /* dual-dsi master ptr */
+>  	struct dw_mipi_dsi *slave; /* dual-dsi slave ptr */
+>  
+> +	struct drm_display_mode mode;
+>  	const struct dw_mipi_dsi_plat_data *plat_data;
+>  };
+>  
+> @@ -332,6 +333,7 @@ static int dw_mipi_dsi_host_attach(struct mipi_dsi_host *host,
+>  	if (IS_ERR(bridge))
+>  		return PTR_ERR(bridge);
+>  
+> +	bridge->pre_enable_prev_first = true;
+>  	dsi->panel_bridge = bridge;
+>  
+>  	drm_bridge_add(&dsi->bridge);
+> @@ -859,15 +861,6 @@ static void dw_mipi_dsi_bridge_post_atomic_disable(struct drm_bridge *bridge,
+>  	 */
+>  	dw_mipi_dsi_set_mode(dsi, 0);
+>  
+> -	/*
+> -	 * TODO Only way found to call panel-bridge post_disable &
+> -	 * panel unprepare before the dsi "final" disable...
+> -	 * This needs to be fixed in the drm_bridge framework and the API
+> -	 * needs to be updated to manage our own call chains...
+> -	 */
+> -	if (dsi->panel_bridge->funcs->post_disable)
+> -		dsi->panel_bridge->funcs->post_disable(dsi->panel_bridge);
+> -
+>  	if (phy_ops->power_off)
+>  		phy_ops->power_off(dsi->plat_data->priv_data);
+>  
+> @@ -942,15 +935,25 @@ static void dw_mipi_dsi_mode_set(struct dw_mipi_dsi *dsi,
+>  		phy_ops->power_on(dsi->plat_data->priv_data);
+>  }
+>  
+> +static void dw_mipi_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
+> +						 struct drm_bridge_state *old_bridge_state)
+> +{
+> +	struct dw_mipi_dsi *dsi = bridge_to_dsi(bridge);
+> +
+> +	/* Power up the dsi ctl into a command mode */
+> +	dw_mipi_dsi_mode_set(dsi, &dsi->mode);
+> +	if (dsi->slave)
+> +		dw_mipi_dsi_mode_set(dsi->slave, &dsi->mode);
+> +}
+> +
+>  static void dw_mipi_dsi_bridge_mode_set(struct drm_bridge *bridge,
+>  					const struct drm_display_mode *mode,
+>  					const struct drm_display_mode *adjusted_mode)
+>  {
+>  	struct dw_mipi_dsi *dsi = bridge_to_dsi(bridge);
+>  
+> -	dw_mipi_dsi_mode_set(dsi, adjusted_mode);
+> -	if (dsi->slave)
+> -		dw_mipi_dsi_mode_set(dsi->slave, adjusted_mode);
+> +	/* Store the display mode for later use in pre_enable callback */
+> +	memcpy(&dsi->mode, adjusted_mode, sizeof(dsi->mode));
+>  }
+Use drm_mode_copy here.
+With this fixed:
+
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
