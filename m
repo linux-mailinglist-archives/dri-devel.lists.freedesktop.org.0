@@ -1,39 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48E227343B9
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Jun 2023 22:41:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 292CD73445C
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 00:28:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77BAB10E064;
-	Sat, 17 Jun 2023 20:41:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5368710E06F;
+	Sat, 17 Jun 2023 22:28:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34CFB10E064
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 20:41:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1687034465;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ITzK5tHf4CvvqOhskx/ZcZ/qtZMlBo54Z1U4DimH8/M=;
- b=uA6C7QqWxjWc0fViga/Y5qGlbWHDQ9nFWAra0ICdgZ/9KCix3cTBXQJ2U94vlxdfZ5hB9v
- nM18qmcBGUVUfwuli1/tb2OGtd1Tl5RL8somC92hLon9v8NwwuMItfuwetLEuMlTQOHRPL
- FAd04d9JrsfRv6cYdoTpEPzM852TTkc=
-Message-ID: <696b2c4144e454aa194e4487b41706075a70ae95.camel@crapouillou.net>
-Subject: Re: [PATCH v2] drm/ingenic: Kconfig: select REGMAP and REGMAP_MMIO
-From: Paul Cercueil <paul@crapouillou.net>
-To: Sam Ravnborg <sam@ravnborg.org>
-Date: Sat, 17 Jun 2023 22:41:03 +0200
-In-Reply-To: <20230617194843.GA1854380@ravnborg.org>
-References: <20230607110650.569522-1-suijingfeng@loongson.cn>
- <c70cb3cb326439a5868beb54d720538923f653d1.camel@crapouillou.net>
- <20230617194843.GA1854380@ravnborg.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Greylist: delayed 304 seconds by postgrey-1.36 at gabe;
+ Sat, 17 Jun 2023 22:28:17 UTC
+Received: from s.wrqvwxzv.outbound-mail.sendgrid.net
+ (s.wrqvwxzv.outbound-mail.sendgrid.net [149.72.154.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 288B510E06F
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 22:28:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=from:subject:mime-version:to:cc:content-transfer-encoding:
+ content-type:cc:content-type:from:subject:to;
+ s=s1; bh=3au+Er0OutWjHdL5XNw2ghh/+x9dzcZ5yBxaNAzWCcs=;
+ b=Zx6HGT9dW2hdc3fiEyLevza+BIk+osm+szaxPTPjwaWqUEyqNYsWOvAadD3ZpW5es6OT
+ G7B/SXlLVa7hlWcFT9I75ei1/2IbjjncwgGk3t5hemCw9fkqb1fHaNn2zKvWd/ZdgxUaGe
+ c02AUi72UYORPq0c4KjntfXHM0Xa2bMDadN936xTUWj0ayFzFcEQrOKZPVUDUeu281XLpn
+ kEVOXfP2JiZnqiCkFIU8ToJ2bbL6LqbKw5Je7nj6iL5C4zTbpiF/WfRTygUTbqAfhvNLWZ
+ gz9OC3Smbr5lV9YDXAfqiNSBQxrNvdddwc0qJUzN+eNGopZaTeOj9M/yJOxEgTUw==
+Received: by filterdrecv-66949dbc98-4lpsw with SMTP id
+ filterdrecv-66949dbc98-4lpsw-1-648E324E-8
+ 2023-06-17 22:23:10.893674033 +0000 UTC m=+3278604.170816701
+Received: from bionic.localdomain (unknown) by geopod-ismtpd-1 (SG) with ESMTP
+ id UU_EZyFMTgSb0INFqVrbVQ Sat, 17 Jun 2023 22:23:10.470 +0000 (UTC)
+From: Jonas Karlman <jonas@kwiboo.se>
+Subject: [PATCH v3 0/2] drm/rockchip: vop: Add NV15, NV20 and NV30 support
+Date: Sat, 17 Jun 2023 22:23:11 +0000 (UTC)
+Message-Id: <20230617222307.3145714-1-jonas@kwiboo.se>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
+X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
+ =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0hwz2osmywJU4M0tj7?=
+ =?us-ascii?Q?uo2KBjgsske2Ia2ljLgAD00R1w8G2DQk=2FmiOEYJ?=
+ =?us-ascii?Q?caybrQsIV3sbFEXe69l57US9Vi5TwOj28ACZkQf?=
+ =?us-ascii?Q?Z83=2FZ33v0+XLn=2Ff=2F3KLXEiqzjiSbg7HY6i4QSvC?=
+ =?us-ascii?Q?Jsxs0UFg0TfnLISAe6yGU+hHzN=2FxdtXaZstwPu?=
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Sandy Huang
+ <hjc@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>
+X-Entity-ID: P7KYpSJvGCELWjBME/J5tg==
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,50 +60,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sui Jingfeng <suijingfeng@loongson.cn>, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: linux-rockchip@lists.infradead.org, Jonas Karlman <jonas@kwiboo.se>,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This is a revival of a 3 year old series that never got picked up, see [1].
 
-Le samedi 17 juin 2023 =C3=A0 21:48 +0200, Sam Ravnborg a =C3=A9crit=C2=A0:
-> Hi Paul,
-> On Sat, Jun 17, 2023 at 09:13:37PM +0200, Paul Cercueil wrote:
-> > Hi,
-> >=20
-> > Le mercredi 07 juin 2023 =C3=A0 19:06 +0800, Sui Jingfeng a =C3=A9crit=
-=C2=A0:
-> > > Otherwise its failed to pass basic compile test on platform
-> > > without
-> > > REGMAP_MMIO selected by defconfig
-> > >=20
-> > > make -j$(nproc) ARCH=3Dmips CROSS_COMPILE=3Dmips64el-linux-gnuabi64-
-> > >=20
-> > > =C2=A0 SYNC=C2=A0=C2=A0=C2=A0 include/config/auto.conf.cmd
-> > > =C2=A0 Checking missing-syscalls for N32
-> > > =C2=A0 CALL=C2=A0=C2=A0=C2=A0 scripts/checksyscalls.sh
-> > > =C2=A0 Checking missing-syscalls for O32
-> > > =C2=A0 CALL=C2=A0=C2=A0=C2=A0 scripts/checksyscalls.sh
-> > > =C2=A0 CALL=C2=A0=C2=A0=C2=A0 scripts/checksyscalls.sh
-> > > =C2=A0 MODPOST Module.symvers
-> > > ERROR: modpost: "__devm_regmap_init_mmio_clk"
-> > > [drivers/gpu/drm/ingenic/ingenic-drm.ko] undefined!
-> > > make[1]: *** [scripts/Makefile.modpost:136: Module.symvers] Error
-> > > 1
-> > > make: *** [Makefile:1978: modpost] Error 2
-> > >=20
-> > > V2: Order alphabetically
-> > >=20
-> > > Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
-> >=20
-> > The patch looks good to me. But I need an ACK from someone else to
-> > apply to drm-misc-next.
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+This series add support for displaying 10-bit 4:2:0 and 4:2:2 formats produced
+by the Rockchip Video Decoder on RK322X, RK3288, RK3328, RK3368 and RK3399.
+Also include 10-bit 4:4:4 support since VOP can support that also.
 
-Thanks Sam!
+First patch adds new fourcc 10-bit YUV formats with 4:2:2/4:4:4 sub-sampling.
+Second patch adds support for displaying the new fourcc formats.
 
-Applied to drm-misc-next.
+These patches has been in use by LibreELEC and other distros for the
+past 3+ years, hoping they can be merged this time around :-)
 
-Cheers,
--Paul
+Changes in v3:
+- No changes, rebased on next-20230616
+- R-B tags was collected
+
+Changes in v2:
+- Add NV30 format
+- R-B tags was not collected due to NV30 changes
+
+This series is also available at [2].
+
+[1] https://lore.kernel.org/all/20200706223009.1200-1-jonas@kwiboo.se/
+[2] https://github.com/Kwiboo/linux-rockchip/commits/next-20230616-vop-nv15
+
+Jonas Karlman (2):
+  drm/fourcc: Add NV20 and NV30 YUV formats
+  drm/rockchip: vop: Add NV15, NV20 and NV30 support
+
+ drivers/gpu/drm/drm_fourcc.c                |  8 ++++++
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 29 +++++++++++++++++--
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.h |  1 +
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.c | 32 +++++++++++++++++----
+ include/uapi/drm/drm_fourcc.h               |  2 ++
+ 5 files changed, 64 insertions(+), 8 deletions(-)
+
+-- 
+2.40.1
+
