@@ -1,41 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4423173423F
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Jun 2023 18:34:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 436B4734259
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Jun 2023 18:57:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4D5210E07C;
-	Sat, 17 Jun 2023 16:34:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7389110E02C;
+	Sat, 17 Jun 2023 16:57:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE5F310E07C
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 16:34:37 +0000 (UTC)
-Received: from i53875b22.versanet.de ([83.135.91.34] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1qAYsg-0007Kt-6E; Sat, 17 Jun 2023 18:34:30 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Maximilian Weigand <mweigand2017@gmail.com>, Lee Jones <lee@kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B9FB10E02C
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 16:57:32 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id
+ 4fb4d7f45d1cf-51a20c744ebso2256984a12.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 09:57:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1687021050; x=1689613050;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=cYkWr+qB9Dy27do4YoJJyP/9/BdByG4wfyLCrCmqa7U=;
+ b=WJ0col15f2yIYiNyzpQLZROUE/7n8tQ4HuBnCy0Oof0nS+49wdxMqi5HnVue2p/ByY
+ QEkU9wGzQSiktECAdDCRneh+ahbBQX9t7T149pNjjR3DmZl4/C4gLMPTt2ksNGZAznTA
+ DRpCfLZGtmpdG5xm1EKHBc1/MhokeYzvwLC5Iubt1BtAaMr2VCZdpBOkTeCa1w+ifC2/
+ WMNrVhI+lLGfubEKZfzvHELoGSvJaEb1RLQhSmrVFdnzwb7GxnTUl109VQx2IfXZZkuB
+ P8ZVmQqlhegyECdr/V9Dnm2Dv1PtVctlbEnVhczort56TlYZuM/xCsb8f/iduuld79rg
+ yD5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687021050; x=1689613050;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=cYkWr+qB9Dy27do4YoJJyP/9/BdByG4wfyLCrCmqa7U=;
+ b=b7zyTrvNs4wi1E1Av989ZODU+wfHB5kKdP8v7YxPp7r/kqqJlhMa/RumfmD7zeeIKg
+ S0PoKsB5YVdf0nq7L8XmrSv4SyZeIoTwP6bf5iJ6BaQIDgGRkHuHQHWGyrAyDEZoAko7
+ cCoTdi+dMwm4VXNuP6XamT7RJJ5XVxwEJsKa/qs+N+Ak16DNyX+kAEAMSoxRnkWoV0G7
+ EXkcqRauQ5M4sQoHrrLruyqxczltcqb3fLUfekku7rDmT3t88LLbsz/ImDYNUYDfIlZk
+ T/7fcWXk+M7Mv6K1dSWlJLsdFuZQiwNWWDI+zU3i2TFRufnBncl7bRvyegRXsyWMNDn6
+ WmsQ==
+X-Gm-Message-State: AC+VfDyKhNrYg7QfH+ZvPwaCuOIanFhwjbAOf4V0nc4IfGW5mjcRfEBU
+ xJlnbVvMg23bseDcbXJqs29QeqbkneA8SpYdZw4=
+X-Google-Smtp-Source: ACHHUZ6rsOF2b6T9zuvp0klPgNhhjJbj2nLVN09KwwbbKBsxKtDmXRwtSdGhblpiDCx3PeU81GFQqQ==
+X-Received: by 2002:a17:907:94c1:b0:966:5c04:2c61 with SMTP id
+ dn1-20020a17090794c100b009665c042c61mr5254779ejc.8.1687021050309; 
+ Sat, 17 Jun 2023 09:57:30 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.219.26]) by smtp.gmail.com with ESMTPSA id
+ j15-20020a170906410f00b0098768661505sm1014598ejk.117.2023.06.17.09.57.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 17 Jun 2023 09:57:29 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 2/3] dt-bindings: backlight: lm3630a: add entries to
- control boost frequency
-Date: Sat, 17 Jun 2023 18:34:28 +0200
-Message-ID: <7491264.lOV4Wx5bFT@diego>
-In-Reply-To: <17576d81-a342-0b77-367a-eb9f2b97b734@linaro.org>
-References: <20230602-lm3630a_boost_frequency-v1-0-076472036d1a@mweigand.net>
- <20230602-lm3630a_boost_frequency-v1-2-076472036d1a@mweigand.net>
- <17576d81-a342-0b77-367a-eb9f2b97b734@linaro.org>
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] dt-bindings: display: sony,
+ td4353-jdi: allow width-mm and height-mm
+Date: Sat, 17 Jun 2023 18:57:26 +0200
+Message-Id: <20230617165726.279886-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,60 +77,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Maximilian Weigand <mweigand@mweigand.net>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Samstag, 17. Juni 2023, 12:12:17 CEST schrieb Krzysztof Kozlowski:
-> On 14/06/2023 21:08, Maximilian Weigand wrote:
-> > From: Maximilian Weigand <mweigand@mweigand.net>
-> > 
-> > Add 'ti,boost_use_1mhz' to switch between 500 kHz and 1 MHz boost
-> > converter switching frequency, and add 'ti,boost_frequency_shift' to
-> > activate a frequency shift to 560 kHz or 1.12 MHz, respectively.
-> > 
-> > Signed-off-by: Maximilian Weigand <mweigand@mweigand.net>
-> > ---
-> >  .../bindings/leds/backlight/lm3630a-backlight.yaml           | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
-> > index 3c9b4054ed9a..ef7ea0ad2d25 100644
-> > --- a/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
-> > +++ b/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
-> > @@ -33,6 +33,18 @@ properties:
-> >      description: GPIO to use to enable/disable the backlight (HWEN pin).
-> >      maxItems: 1
-> >  
-> > +  ti,boost_use_1mhz:
-> 
-> No underscores in property names.
-> 
-> > +    description: |
-> 
-> Do not need '|' unless you need to preserve formatting.
-> 
-> > +      If present, change the boost converter switching frequency from the
-> > +      default 500 kHz to 1 MHz. Refer to data sheet for hardware requirements.
-> > +    type: boolean
-> > +
-> > +  ti,boost_frequency_shift:
-> > +    description: |
-> > +      If present, change boost converter switching frequency from 500 kHz to
-> > +      560 kHz or from 1 Mhz to 1.12 Mhz, respectively.
-> 
-> So just make it a property choosing the frequency, not bools, with
-> proper unit suffix.
+Allow width and height properties from panel-common.yaml, already used
+on some boards:
 
-i.e.
-ti,boost-frequency-hz = <x>;
-with x being 500000, 560000, 1000000, 1120000
+  sdm845-sony-xperia-tama-apollo.dtb: panel@0: 'height-mm', 'width-mm' do not match any of the regexes: 'pinctrl-[0-9]+'
 
-with the driver failing when the frequency is not achievable
-with the two knobs of 1mhz and shift.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../devicetree/bindings/display/panel/sony,td4353-jdi.yaml      | 2 ++
+ 1 file changed, 2 insertions(+)
 
-
+diff --git a/Documentation/devicetree/bindings/display/panel/sony,td4353-jdi.yaml b/Documentation/devicetree/bindings/display/panel/sony,td4353-jdi.yaml
+index b6b885b4c22d..07bce556ad40 100644
+--- a/Documentation/devicetree/bindings/display/panel/sony,td4353-jdi.yaml
++++ b/Documentation/devicetree/bindings/display/panel/sony,td4353-jdi.yaml
+@@ -23,6 +23,8 @@ properties:
+   reg: true
+ 
+   backlight: true
++  width-mm: true
++  height-mm: true
+ 
+   vddio-supply:
+     description: VDDIO 1.8V supply
+-- 
+2.34.1
 
