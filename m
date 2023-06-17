@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F68B733F51
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Jun 2023 09:54:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18148733F5A
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Jun 2023 10:01:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F78210E035;
-	Sat, 17 Jun 2023 07:54:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80DBE10E045;
+	Sat, 17 Jun 2023 08:01:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3AC3710E035
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 07:54:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id B2EB310E045
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 08:01:33 +0000 (UTC)
 Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8DxDeujZo1k60AGAA--.13301S3;
- Sat, 17 Jun 2023 15:54:11 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8AxGupcaI1kTkEGAA--.13361S3;
+ Sat, 17 Jun 2023 16:01:32 +0800 (CST)
 Received: from [10.20.42.43] (unknown [10.20.42.43])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8AxauWiZo1ktBAeAA--.19616S3; 
- Sat, 17 Jun 2023 15:54:11 +0800 (CST)
-Message-ID: <4c56ceea-a0d7-bff6-de47-2603a8966c4a@loongson.cn>
-Date: Sat, 17 Jun 2023 15:54:10 +0800
+ AQAAf8AxKeVbaI1k+RIeAA--.18856S3; 
+ Sat, 17 Jun 2023 16:01:31 +0800 (CST)
+Message-ID: <0eec8603-bdd3-a060-b9cf-f44dfd449581@loongson.cn>
+Date: Sat, 17 Jun 2023 16:01:31 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
@@ -34,25 +34,25 @@ Organization: Loongson
 In-Reply-To: <20230616140739.32042-7-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8AxauWiZo1ktBAeAA--.19616S3
+X-CM-TRANSID: AQAAf8AxKeVbaI1k+RIeAA--.18856S3
 X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxJw1UJF4xJFy5AF1UXw4xAFc_yoW5tryDpF
- s8Ja4FvrW5JF4fKF47ZF1DZFy3J3Z2qa4Fgr9rX3sI9w40yw1kZF98A3yUJ348JrZ7AFya
- qFn7KFyUWrWqywcCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+X-Coremail-Antispam: 1Uk129KBj93XoWxuF4UZFW7CryUJw1xWFWfJFc_yoW5Zr47pa
+ n8Ja4SvrW5JF4fKF47Z3WDZFyfJ3WIqa4Fgr9rJ3sI9w40yw1kuF98A3y5J348JrZ7AFyS
+ qFn3KFyUWrZrAwcCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
  sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUvFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ 0xBIdaVrnRJUUU9Ib4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
  IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
  0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
  6r4j6r4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
- 02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAF
+ 02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAF
  wI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4
- CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
- 67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMI
- IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E
- 14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JV
- WxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUcyxR
- UUUUU
+ CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAF
+ wI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zV
+ AF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1l
+ IxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCw
+ CI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnI
+ WIevJa73UjIFyTuYvjxUcsjjDUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,7 +69,6 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
 On 2023/6/16 21:52, Thomas Zimmermann wrote:
 > Access to I/O registers is required to detect and set up the
@@ -77,12 +76,7 @@ On 2023/6/16 21:52, Thomas Zimmermann wrote:
 > convert the magic number to macro constants.
 >
 > Enabling the PCI config bits was done after trying to detect
-> the device.
-
-Otherwise the device can not be configured,  its don't even receive 
-write and read access anymore.
-
-> It was probably too late at this point.
+> the device. It was probably too late at this point.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
@@ -101,14 +95,6 @@ write and read access anymore.
 >   
 > +#define AST_PCI_OPTION_MEM_ACCESS_ENABLE	BIT(1)
 > +#define AST_PCI_OPTION_IO_ACCESS_ENABLE		BIT(0)
-
-You can use the space replace the tab to keep the 'BIT(0)' and 'BIT(1)' 
-aligned,
-
-why you need define this two macros youself,
-
-why not use PCI_COMMAND_MEMORY and PCI_COMMAND_IO ?
-
 >   
 >   enum ast_chip {
 >   	AST2000,
@@ -126,6 +112,11 @@ why not use PCI_COMMAND_MEMORY and PCI_COMMAND_IO ?
 > +	u32 pcis04;
 > +
 > +	err = pci_read_config_dword(pdev, 0x04, &pcis04);
+
+The third argument of pci_read_config_dword() function should be 'u16 *' 
+type;
+
+
 > +	if (err)
 > +		goto out;
 > +
@@ -137,7 +128,7 @@ why not use PCI_COMMAND_MEMORY and PCI_COMMAND_IO ?
 > +out:
 > +	return pcibios_err_to_errno(err);
 > +}
-> +
+
 
 static void ast_enable_mem_io(struct pci_dev *pdev)
 {
@@ -147,9 +138,7 @@ static void ast_enable_mem_io(struct pci_dev *pdev)
 
      cmd |= PCI_COMMAND_MEMORY | PCI_COMMAND_IO;
 
-     dev_dbg(&pdev->dev, "pci command: %u", cmd);
-
-     pci_read_config_word(pdev, PCI_COMMAND, &cmd);
+     pci_write_config_word(pdev, PCI_COMMAND, &cmd);
 }
 
 >   static void ast_detect_config_mode(struct drm_device *dev, u32 *scu_rev)
