@@ -2,77 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF6027342B6
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Jun 2023 19:42:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F2D3734317
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Jun 2023 20:42:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECB7E10E09F;
-	Sat, 17 Jun 2023 17:42:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D6A010E053;
+	Sat, 17 Jun 2023 18:42:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85DCA10E09F
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 17:42:35 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id
- a640c23a62f3a-987accb4349so103681466b.0
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 10:42:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687023752; x=1689615752;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=3wWvAWGQ6I3uVKkcwPxaCb9XbFnbEdfsJNuIbFzDQyw=;
- b=aRdxjDw/1uvXnJ//jlaQwyS/TqDcl1/7LzBQg/R1EXypY+rnCSK/aDPHd6Q+4ARnv4
- +NGnyV7dsW8AqrGmOwr/rR/VMnnoMMuDleT1XolFanwT3Kgg/pD9yP/t1KZl2GV3AH2j
- AZ7OuposYBI5ZkMMLmh/SKduk8jAxGkr6PFfpHHDhqjOcr/g2KkxXV+a6lk/CygopQ3j
- x/+8JctmHVdvEvaDP4TZBDZi5y2qR8yQMAKQwdTO1UPbtICOJVQ4Tmk/vjKUUT3+kWPG
- 9Bb4KFGsv84LnW8l0rr4tltcD4pVuRDZD9jAHZhRxHlAgdpSDg/6P5R8vxdC0LmUzS/2
- rMpw==
+Received: from mail-il1-f205.google.com (mail-il1-f205.google.com
+ [209.85.166.205])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB87F10E053
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 18:42:47 +0000 (UTC)
+Received: by mail-il1-f205.google.com with SMTP id
+ e9e14a558f8ab-33d93feefb5so16098005ab.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 11:42:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687023752; x=1689615752;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3wWvAWGQ6I3uVKkcwPxaCb9XbFnbEdfsJNuIbFzDQyw=;
- b=TAgod2RdDW4k8ACQ+BhAX1msnJ8wolXOlzjTkcLzezUFMZIHfzxsgH8f3QiHHYKN4E
- yPlZhO1uhEI6jDC9xU326r2sG9OHHYT0VLNhM9TwWWcfPRWXYJn8VxPe0fzXtZdMPpsT
- sFQQHGbxuQQlLOqc7EU+Mnq84nRDqiU3ZlH4zDGHaodGJmzOcOSha5OqHNyt0/+MzY4J
- /kSbNS6IN8qC8eXVA5uGorZ4yeLAE5qvLRPjD0Sd20GngMq5skcWbWDNa8bhOQIlAJwM
- GcZq9PuaTIRAP/G4ABqqrmMuwWbBOail6WdM8S0knE9S/OYCiEU6onIeNjf9OMm+MWqm
- RXGw==
-X-Gm-Message-State: AC+VfDz2ePvdB1IB9jUYmwH5O2pfrXv/tFWe4nIVcOqtMtvMWFjlw28A
- BLWtZi82XMogJLnqTvmPH6QuKA==
-X-Google-Smtp-Source: ACHHUZ5PyeAyyYwAOEyIOLQVoZ7ixv/ktFKK7Bl05nXnE2sYt17DPKOVjyphVc5AwypZukVfvRQ7mg==
-X-Received: by 2002:a17:907:a41e:b0:978:8ecd:fa75 with SMTP id
- sg30-20020a170907a41e00b009788ecdfa75mr5415289ejc.9.1687023751850; 
- Sat, 17 Jun 2023 10:42:31 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
- by smtp.gmail.com with ESMTPSA id
- m22-20020a056402051600b0051a4efed295sm51678edv.7.2023.06.17.10.42.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Jun 2023 10:42:31 -0700 (PDT)
-Message-ID: <c29b2b0c-2b0c-f79c-9de5-58a67edd5c87@linaro.org>
-Date: Sat, 17 Jun 2023 19:42:29 +0200
+ d=1e100.net; s=20221208; t=1687027366; x=1689619366;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=DBaDf6IaqpzK1ZRigtHt9P4RoGRnNk1rRIyUUGVymcY=;
+ b=CVRlRdvhbRHmDvEHOVv+iAk1qKrRnluwQE6xv22Dm5vdQa950VCr3Wrl4PK79goMDH
+ wHfL+VFwACzL3FJxaDW4WpTxeJbp+B47+lzGNEjYhytBBXVx5Oc2WX+6vga4G7vXYRNm
+ TCzrL6Ay1KZ+Kp3iBuVVIkka+hGY5ExDKPL5rlWIXALVdLzse88yZ4Ca3fOplAOZjBmA
+ X2gjol9oZOYY+SvsqZs2pJpJ44yuX/OssvqqMmIXKhmmokM6hQMn9u0PQBNAlJT8/Qrw
+ 9O8L48bu7pRiHAUVlbkC3ZSia2WxmmYtPjFZ/ysTBE9x/4mekJb/dAZ2X+1XbI6NuZsM
+ qO8Q==
+X-Gm-Message-State: AC+VfDwHpaJrw43IUESjbN5KMQQhnhNljfePpbQDtjZVxFWdhFWZ1u/M
+ yfF+3lhWxbiHO8v/2C5VFSH4vexrH33S+IprFRRlOU0C1+1i
+X-Google-Smtp-Source: ACHHUZ7CYafZSONe2OvDQu1FzU/g//AWiU+h+oZNfT7C8pKY2i6K0k+u8Q1dvFGQcIC5sN+Dv8KKCW7XpvJDLw7jCAqjoAFcGZXK
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 2/3] dt-bindings: backlight: lm3630a: add entries to
- control boost frequency
-Content-Language: en-US
-To: =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
- Maximilian Weigand <mweigand2017@gmail.com>, Lee Jones <lee@kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-References: <20230602-lm3630a_boost_frequency-v1-0-076472036d1a@mweigand.net>
- <20230602-lm3630a_boost_frequency-v1-2-076472036d1a@mweigand.net>
- <17576d81-a342-0b77-367a-eb9f2b97b734@linaro.org> <7491264.lOV4Wx5bFT@diego>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <7491264.lOV4Wx5bFT@diego>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a92:d204:0:b0:338:bdd7:d439 with SMTP id
+ y4-20020a92d204000000b00338bdd7d439mr1512731ily.6.1687027366660; Sat, 17 Jun
+ 2023 11:42:46 -0700 (PDT)
+Date: Sat, 17 Jun 2023 11:42:46 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000ea931b05fe57aa62@google.com>
+Subject: [syzbot] [dri?] KMSAN: uninit-value in drm_mode_setcrtc
+From: syzbot <syzbot+4fad2e57beb6397ab2fc@syzkaller.appspotmail.com>
+To: airlied@gmail.com, christian.koenig@amd.com, daniel@ffwll.ch, 
+ dri-devel@lists.freedesktop.org, glider@google.com, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com, 
+ tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,64 +59,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Maximilian Weigand <mweigand@mweigand.net>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/06/2023 18:34, Heiko Stübner wrote:
-> Am Samstag, 17. Juni 2023, 12:12:17 CEST schrieb Krzysztof Kozlowski:
->> On 14/06/2023 21:08, Maximilian Weigand wrote:
->>> From: Maximilian Weigand <mweigand@mweigand.net>
->>>
->>> Add 'ti,boost_use_1mhz' to switch between 500 kHz and 1 MHz boost
->>> converter switching frequency, and add 'ti,boost_frequency_shift' to
->>> activate a frequency shift to 560 kHz or 1.12 MHz, respectively.
->>>
->>> Signed-off-by: Maximilian Weigand <mweigand@mweigand.net>
->>> ---
->>>  .../bindings/leds/backlight/lm3630a-backlight.yaml           | 12 ++++++++++++
->>>  1 file changed, 12 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
->>> index 3c9b4054ed9a..ef7ea0ad2d25 100644
->>> --- a/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
->>> +++ b/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
->>> @@ -33,6 +33,18 @@ properties:
->>>      description: GPIO to use to enable/disable the backlight (HWEN pin).
->>>      maxItems: 1
->>>  
->>> +  ti,boost_use_1mhz:
->>
->> No underscores in property names.
->>
->>> +    description: |
->>
->> Do not need '|' unless you need to preserve formatting.
->>
->>> +      If present, change the boost converter switching frequency from the
->>> +      default 500 kHz to 1 MHz. Refer to data sheet for hardware requirements.
->>> +    type: boolean
->>> +
->>> +  ti,boost_frequency_shift:
->>> +    description: |
->>> +      If present, change boost converter switching frequency from 500 kHz to
->>> +      560 kHz or from 1 Mhz to 1.12 Mhz, respectively.
->>
->> So just make it a property choosing the frequency, not bools, with
->> proper unit suffix.
-> 
-> i.e.
-> ti,boost-frequency-hz = <x>;
-> with x being 500000, 560000, 1000000, 1120000
-> 
-> with the driver failing when the frequency is not achievable
-> with the two knobs of 1mhz and shift.
+Hello,
 
-Yeah, with a default value (500000, I guess).
+syzbot found the following issue on:
 
-Best regards,
-Krzysztof
+HEAD commit:    2741f1b02117 string: use __builtin_memcpy() in strlcpy/str..
+git tree:       https://github.com/google/kmsan.git master
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=17bb33d1280000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=753079601b2300f9
+dashboard link: https://syzkaller.appspot.com/bug?extid=4fad2e57beb6397ab2fc
+compiler:       Debian clang version 15.0.7, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16d669a5280000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14d8f095280000
 
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/ebd05512d8d7/disk-2741f1b0.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/aa555b09582c/vmlinux-2741f1b0.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/5ea0934e02cc/bzImage-2741f1b0.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+4fad2e57beb6397ab2fc@syzkaller.appspotmail.com
+
+=====================================================
+BUG: KMSAN: uninit-value in drm_mode_setcrtc+0x1ad3/0x24a0 drivers/gpu/drm/drm_crtc.c:896
+ drm_mode_setcrtc+0x1ad3/0x24a0 drivers/gpu/drm/drm_crtc.c:896
+ drm_ioctl_kernel+0x5ae/0x730 drivers/gpu/drm/drm_ioctl.c:788
+ drm_ioctl+0xd12/0x1590 drivers/gpu/drm/drm_ioctl.c:891
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:870 [inline]
+ __se_sys_ioctl+0x222/0x400 fs/ioctl.c:856
+ __x64_sys_ioctl+0x96/0xe0 fs/ioctl.c:856
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x41/0xc0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+Uninit was created at:
+ slab_post_alloc_hook+0x12d/0xb60 mm/slab.h:716
+ slab_alloc_node mm/slub.c:3451 [inline]
+ __kmem_cache_alloc_node+0x4ff/0x8b0 mm/slub.c:3490
+ __do_kmalloc_node mm/slab_common.c:965 [inline]
+ __kmalloc+0x121/0x3c0 mm/slab_common.c:979
+ kmalloc_array include/linux/slab.h:596 [inline]
+ drm_mode_setcrtc+0x1dba/0x24a0 drivers/gpu/drm/drm_crtc.c:846
+ drm_ioctl_kernel+0x5ae/0x730 drivers/gpu/drm/drm_ioctl.c:788
+ drm_ioctl+0xd12/0x1590 drivers/gpu/drm/drm_ioctl.c:891
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:870 [inline]
+ __se_sys_ioctl+0x222/0x400 fs/ioctl.c:856
+ __x64_sys_ioctl+0x96/0xe0 fs/ioctl.c:856
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x41/0xc0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+CPU: 1 PID: 4955 Comm: syz-executor275 Not tainted 6.4.0-rc4-syzkaller-g2741f1b02117 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/25/2023
+=====================================================
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the bug is already fixed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to change bug's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the bug is a duplicate of another bug, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
