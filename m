@@ -1,47 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3F0F7342AA
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Jun 2023 19:39:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF6027342B6
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Jun 2023 19:42:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2419D10E09D;
-	Sat, 17 Jun 2023 17:39:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECB7E10E09F;
+	Sat, 17 Jun 2023 17:42:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF8CD10E09D
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 17:39:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
- t=1687023562; bh=QNi/M5o8tjco+bs7ZpJCM0M69P+WYpwoTdiw6C3GKjE=;
- h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
- b=UCIIzZ1fZOAmlu5KBcigaoZdJeiQl5iQTvp+Em63hxeUFHVFV0VMqbdaea4EWAXd2
- zyNzLyQg4BvC6r1dp/bhnPzsSPmgYTl4xVte++3qTqVUnvPkrzgeQA3QaLX1yeaBJF
- kDvybXs2TotdiXv1/jxmESYHIbhgHQkxRY9Yky/I=
-Date: Sat, 17 Jun 2023 19:39:22 +0200
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH] drm: bridge: dw-mipi-dsi: Fix enable/disable of DSI
- controller
-Message-ID: <nm7nwmftzsjafovdprobzpuat6hrm6rghishgywww7qtul5skp@mihpqbpre3e5>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
- Sam Ravnborg <sam@ravnborg.org>, linux-rockchip@lists.infradead.org, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, 
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20230617150643.1808409-1-megi@xff.cz>
- <20230617173553.GA1843063@ravnborg.org>
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85DCA10E09F
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 17:42:35 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id
+ a640c23a62f3a-987accb4349so103681466b.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jun 2023 10:42:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1687023752; x=1689615752;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=3wWvAWGQ6I3uVKkcwPxaCb9XbFnbEdfsJNuIbFzDQyw=;
+ b=aRdxjDw/1uvXnJ//jlaQwyS/TqDcl1/7LzBQg/R1EXypY+rnCSK/aDPHd6Q+4ARnv4
+ +NGnyV7dsW8AqrGmOwr/rR/VMnnoMMuDleT1XolFanwT3Kgg/pD9yP/t1KZl2GV3AH2j
+ AZ7OuposYBI5ZkMMLmh/SKduk8jAxGkr6PFfpHHDhqjOcr/g2KkxXV+a6lk/CygopQ3j
+ x/+8JctmHVdvEvaDP4TZBDZi5y2qR8yQMAKQwdTO1UPbtICOJVQ4Tmk/vjKUUT3+kWPG
+ 9Bb4KFGsv84LnW8l0rr4tltcD4pVuRDZD9jAHZhRxHlAgdpSDg/6P5R8vxdC0LmUzS/2
+ rMpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687023752; x=1689615752;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=3wWvAWGQ6I3uVKkcwPxaCb9XbFnbEdfsJNuIbFzDQyw=;
+ b=TAgod2RdDW4k8ACQ+BhAX1msnJ8wolXOlzjTkcLzezUFMZIHfzxsgH8f3QiHHYKN4E
+ yPlZhO1uhEI6jDC9xU326r2sG9OHHYT0VLNhM9TwWWcfPRWXYJn8VxPe0fzXtZdMPpsT
+ sFQQHGbxuQQlLOqc7EU+Mnq84nRDqiU3ZlH4zDGHaodGJmzOcOSha5OqHNyt0/+MzY4J
+ /kSbNS6IN8qC8eXVA5uGorZ4yeLAE5qvLRPjD0Sd20GngMq5skcWbWDNa8bhOQIlAJwM
+ GcZq9PuaTIRAP/G4ABqqrmMuwWbBOail6WdM8S0knE9S/OYCiEU6onIeNjf9OMm+MWqm
+ RXGw==
+X-Gm-Message-State: AC+VfDz2ePvdB1IB9jUYmwH5O2pfrXv/tFWe4nIVcOqtMtvMWFjlw28A
+ BLWtZi82XMogJLnqTvmPH6QuKA==
+X-Google-Smtp-Source: ACHHUZ5PyeAyyYwAOEyIOLQVoZ7ixv/ktFKK7Bl05nXnE2sYt17DPKOVjyphVc5AwypZukVfvRQ7mg==
+X-Received: by 2002:a17:907:a41e:b0:978:8ecd:fa75 with SMTP id
+ sg30-20020a170907a41e00b009788ecdfa75mr5415289ejc.9.1687023751850; 
+ Sat, 17 Jun 2023 10:42:31 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+ by smtp.gmail.com with ESMTPSA id
+ m22-20020a056402051600b0051a4efed295sm51678edv.7.2023.06.17.10.42.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 17 Jun 2023 10:42:31 -0700 (PDT)
+Message-ID: <c29b2b0c-2b0c-f79c-9de5-58a67edd5c87@linaro.org>
+Date: Sat, 17 Jun 2023 19:42:29 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 2/3] dt-bindings: backlight: lm3630a: add entries to
+ control boost frequency
+Content-Language: en-US
+To: =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
+ Maximilian Weigand <mweigand2017@gmail.com>, Lee Jones <lee@kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+References: <20230602-lm3630a_boost_frequency-v1-0-076472036d1a@mweigand.net>
+ <20230602-lm3630a_boost_frequency-v1-2-076472036d1a@mweigand.net>
+ <17576d81-a342-0b77-367a-eb9f2b97b734@linaro.org> <7491264.lOV4Wx5bFT@diego>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <7491264.lOV4Wx5bFT@diego>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230617173553.GA1843063@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,200 +85,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- linux-rockchip@lists.infradead.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ Maximilian Weigand <mweigand@mweigand.net>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Sam,
-
-On Sat, Jun 17, 2023 at 07:35:53PM +0200, Sam Ravnborg wrote:
+On 17/06/2023 18:34, Heiko Stübner wrote:
+> Am Samstag, 17. Juni 2023, 12:12:17 CEST schrieb Krzysztof Kozlowski:
+>> On 14/06/2023 21:08, Maximilian Weigand wrote:
+>>> From: Maximilian Weigand <mweigand@mweigand.net>
+>>>
+>>> Add 'ti,boost_use_1mhz' to switch between 500 kHz and 1 MHz boost
+>>> converter switching frequency, and add 'ti,boost_frequency_shift' to
+>>> activate a frequency shift to 560 kHz or 1.12 MHz, respectively.
+>>>
+>>> Signed-off-by: Maximilian Weigand <mweigand@mweigand.net>
+>>> ---
+>>>  .../bindings/leds/backlight/lm3630a-backlight.yaml           | 12 ++++++++++++
+>>>  1 file changed, 12 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
+>>> index 3c9b4054ed9a..ef7ea0ad2d25 100644
+>>> --- a/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
+>>> +++ b/Documentation/devicetree/bindings/leds/backlight/lm3630a-backlight.yaml
+>>> @@ -33,6 +33,18 @@ properties:
+>>>      description: GPIO to use to enable/disable the backlight (HWEN pin).
+>>>      maxItems: 1
+>>>  
+>>> +  ti,boost_use_1mhz:
+>>
+>> No underscores in property names.
+>>
+>>> +    description: |
+>>
+>> Do not need '|' unless you need to preserve formatting.
+>>
+>>> +      If present, change the boost converter switching frequency from the
+>>> +      default 500 kHz to 1 MHz. Refer to data sheet for hardware requirements.
+>>> +    type: boolean
+>>> +
+>>> +  ti,boost_frequency_shift:
+>>> +    description: |
+>>> +      If present, change boost converter switching frequency from 500 kHz to
+>>> +      560 kHz or from 1 Mhz to 1.12 Mhz, respectively.
+>>
+>> So just make it a property choosing the frequency, not bools, with
+>> proper unit suffix.
 > 
-> Hi Ondřej,
+> i.e.
+> ti,boost-frequency-hz = <x>;
+> with x being 500000, 560000, 1000000, 1120000
 > 
-> On Sat, Jun 17, 2023 at 05:06:33PM +0200, Ondřej Jirman wrote:
-> > From: Ondrej Jirman <megi@xff.cz>
-> > 
-> > Before this patch, booting to Linux VT and doing a simple:
-> > 
-> >   echo 2 > /sys/class/graphics/fb0/blank
-> >   echo 0 > /sys/class/graphics/fb0/blank
-> > 
-> > would result in failures to re-enable the panel. Mode set callback is
-> > called only once during boot in this scenario, while calls to
-> > enable/disable callbacks are balanced afterwards. The driver doesn't
-> > work unless userspace calls modeset before enabling the CRTC/connector.
-> > 
-> > This patch moves enabling of the DSI host from mode_set into pre_enable
-> > callback, and removes some old hacks where this bridge driver is
-> > directly calling into other bridge driver's callbacks.
-> > 
-> > pre_enable_prev_first flag is set on the panel's bridge so that panel
-> > drivers will get their prepare function called between DSI host's
-> > pre_enable and enable callbacks, so that they get a chance to
-> > perform panel setup while DSI host is already enabled in command
-> > mode. Otherwise panel's prepare would be called before DSI host
-> > is enabled, and any DSI communication used in prepare callback
-> > would fail.
-> > 
-> > With all these changes, the enable/disable sequence is now well
-> > balanced, and host's and panel's callbacks are called in proper order
-> > documented in the drm_panel API documentation without needing the old
-> > hacks. (Mainly that panel->prepare is called when DSI host is ready to
-> > allow the panel driver to send DSI commands and vice versa during
-> > disable.)
-> > 
-> > Tested on Pinephone Pro. Trace of the callbacks follows.
-> > 
-> > Before:
-> > 
-> > [    1.253882] dw-mipi-dsi-rockchip ff960000.dsi: mode_set
-> > [    1.290732] panel-himax-hx8394 ff960000.dsi.0: prepare
-> > [    1.475576] dw-mipi-dsi-rockchip ff960000.dsi: enable
-> > [    1.475593] panel-himax-hx8394 ff960000.dsi.0: enable
-> > 
-> > echo 2 > /sys/class/graphics/fb0/blank
-> > 
-> > [   13.722799] panel-himax-hx8394 ff960000.dsi.0: disable
-> > [   13.774502] dw-mipi-dsi-rockchip ff960000.dsi: post_disable
-> > [   13.774526] panel-himax-hx8394 ff960000.dsi.0: unprepare
-> > 
-> > echo 0 > /sys/class/graphics/fb0/blank
-> > 
-> > [   17.735796] panel-himax-hx8394 ff960000.dsi.0: prepare
-> > [   17.923522] dw-mipi-dsi-rockchip ff960000.dsi: enable
-> > [   17.923540] panel-himax-hx8394 ff960000.dsi.0: enable
-> > [   17.944330] dw-mipi-dsi-rockchip ff960000.dsi: failed to write command FIFO
-> > [   17.944335] panel-himax-hx8394 ff960000.dsi.0: sending command 0xb9 failed: -110
-> > [   17.944340] panel-himax-hx8394 ff960000.dsi.0: Panel init sequence failed: -110
-> > 
-> > echo 2 > /sys/class/graphics/fb0/blank
-> > 
-> > [  431.148583] panel-himax-hx8394 ff960000.dsi.0: disable
-> > [  431.169259] dw-mipi-dsi-rockchip ff960000.dsi: failed to write command FIFO
-> > [  431.169268] panel-himax-hx8394 ff960000.dsi.0: Failed to enter sleep mode: -110
-> > [  431.169282] dw-mipi-dsi-rockchip ff960000.dsi: post_disable
-> > [  431.169316] panel-himax-hx8394 ff960000.dsi.0: unprepare
-> > [  431.169357] pclk_mipi_dsi0 already disabled
-> > 
-> > echo 0 > /sys/class/graphics/fb0/blank
-> > 
-> > [  432.796851] panel-himax-hx8394 ff960000.dsi.0: prepare
-> > [  432.981537] dw-mipi-dsi-rockchip ff960000.dsi: enable
-> > [  432.981568] panel-himax-hx8394 ff960000.dsi.0: enable
-> > [  433.002290] dw-mipi-dsi-rockchip ff960000.dsi: failed to write command FIFO
-> > [  433.002299] panel-himax-hx8394 ff960000.dsi.0: sending command 0xb9 failed: -110
-> > [  433.002312] panel-himax-hx8394 ff960000.dsi.0: Panel init sequence failed: -110
-> > 
-> > -----------------------------------------------------------------------
-> > 
-> > After:
-> > 
-> > [    1.248372] dw-mipi-dsi-rockchip ff960000.dsi: mode_set
-> > [    1.248704] dw-mipi-dsi-rockchip ff960000.dsi: pre_enable
-> > [    1.285377] panel-himax-hx8394 ff960000.dsi.0: prepare
-> > [    1.468392] dw-mipi-dsi-rockchip ff960000.dsi: enable
-> > [    1.468421] panel-himax-hx8394 ff960000.dsi.0: enable
-> > 
-> > echo 2 > /sys/class/graphics/fb0/blank
-> > 
-> > [   16.210357] panel-himax-hx8394 ff960000.dsi.0: disable
-> > [   16.261315] dw-mipi-dsi-rockchip ff960000.dsi: post_disable
-> > [   16.261339] panel-himax-hx8394 ff960000.dsi.0: unprepare
-> > 
-> > echo 0 > /sys/class/graphics/fb0/blank
-> > 
-> > [   19.161453] dw-mipi-dsi-rockchip ff960000.dsi: pre_enable
-> > [   19.197869] panel-himax-hx8394 ff960000.dsi.0: prepare
-> > [   19.382141] dw-mipi-dsi-rockchip ff960000.dsi: enable
-> > [   19.382158] panel-himax-hx8394 ff960000.dsi.0: enable
-> > 
-> > Signed-off-by: Ondrej Jirman <megi@xff.cz>
-> 
-> Nice cleanup and fix.
-> Have you consider if this need a Fixes: ?
+> with the driver failing when the frequency is not achievable
+> with the two knobs of 1mhz and shift.
 
-It might be useful, I'll hunt for some some useful base for a Fixes tag.
+Yeah, with a default value (500000, I guess).
 
-> 
-> > ---
-> >  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 28 +++++++++++--------
-> >  1 file changed, 16 insertions(+), 12 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> > index b2efecf7d160..352c6829259a 100644
-> > --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> > +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> > @@ -265,6 +265,7 @@ struct dw_mipi_dsi {
-> >  	struct dw_mipi_dsi *master; /* dual-dsi master ptr */
-> >  	struct dw_mipi_dsi *slave; /* dual-dsi slave ptr */
-> >  
-> > +	struct drm_display_mode mode;
-> >  	const struct dw_mipi_dsi_plat_data *plat_data;
-> >  };
-> >  
-> > @@ -332,6 +333,7 @@ static int dw_mipi_dsi_host_attach(struct mipi_dsi_host *host,
-> >  	if (IS_ERR(bridge))
-> >  		return PTR_ERR(bridge);
-> >  
-> > +	bridge->pre_enable_prev_first = true;
-> >  	dsi->panel_bridge = bridge;
-> >  
-> >  	drm_bridge_add(&dsi->bridge);
-> > @@ -859,15 +861,6 @@ static void dw_mipi_dsi_bridge_post_atomic_disable(struct drm_bridge *bridge,
-> >  	 */
-> >  	dw_mipi_dsi_set_mode(dsi, 0);
-> >  
-> > -	/*
-> > -	 * TODO Only way found to call panel-bridge post_disable &
-> > -	 * panel unprepare before the dsi "final" disable...
-> > -	 * This needs to be fixed in the drm_bridge framework and the API
-> > -	 * needs to be updated to manage our own call chains...
-> > -	 */
-> > -	if (dsi->panel_bridge->funcs->post_disable)
-> > -		dsi->panel_bridge->funcs->post_disable(dsi->panel_bridge);
-> > -
-> >  	if (phy_ops->power_off)
-> >  		phy_ops->power_off(dsi->plat_data->priv_data);
-> >  
-> > @@ -942,15 +935,25 @@ static void dw_mipi_dsi_mode_set(struct dw_mipi_dsi *dsi,
-> >  		phy_ops->power_on(dsi->plat_data->priv_data);
-> >  }
-> >  
-> > +static void dw_mipi_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
-> > +						 struct drm_bridge_state *old_bridge_state)
-> > +{
-> > +	struct dw_mipi_dsi *dsi = bridge_to_dsi(bridge);
-> > +
-> > +	/* Power up the dsi ctl into a command mode */
-> > +	dw_mipi_dsi_mode_set(dsi, &dsi->mode);
-> > +	if (dsi->slave)
-> > +		dw_mipi_dsi_mode_set(dsi->slave, &dsi->mode);
-> > +}
-> > +
-> >  static void dw_mipi_dsi_bridge_mode_set(struct drm_bridge *bridge,
-> >  					const struct drm_display_mode *mode,
-> >  					const struct drm_display_mode *adjusted_mode)
-> >  {
-> >  	struct dw_mipi_dsi *dsi = bridge_to_dsi(bridge);
-> >  
-> > -	dw_mipi_dsi_mode_set(dsi, adjusted_mode);
-> > -	if (dsi->slave)
-> > -		dw_mipi_dsi_mode_set(dsi->slave, adjusted_mode);
-> > +	/* Store the display mode for later use in pre_enable callback */
-> > +	memcpy(&dsi->mode, adjusted_mode, sizeof(dsi->mode));
-> >  }
-> Use drm_mode_copy here.
+Best regards,
+Krzysztof
 
-Ok.
-
-> With this fixed:
-> 
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-
-thank you,
-	Ondrej
