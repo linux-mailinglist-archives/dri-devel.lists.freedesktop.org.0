@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E41487346A9
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 16:40:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B15A27346AB
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 16:41:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B40A110E0AC;
-	Sun, 18 Jun 2023 14:40:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A1DF10E0AD;
+	Sun, 18 Jun 2023 14:41:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1EA510E0AC
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jun 2023 14:40:36 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93A8810E0AD
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Jun 2023 14:41:07 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B093D60B9D;
- Sun, 18 Jun 2023 14:40:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFA7EC433C0;
- Sun, 18 Jun 2023 14:40:34 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E0AD560AB7;
+ Sun, 18 Jun 2023 14:41:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0163FC433C0;
+ Sun, 18 Jun 2023 14:41:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1687099235;
- bh=Ujtpsjovx5hy0qxvCDoEJZ+gcP2oHPhauWUKKZTft7Y=;
+ s=k20201202; t=1687099266;
+ bh=K36LPtS7cFKbuaUZZHHl8/j5LOCx0vREpCqqg84LxhQ=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=kBN7tLLb/4sZ4s7RPl5Or76aHeEDG5e3QovBDT4VwM+SZ4O0OZ9eV/SuwIop+GO1d
- gyi8TVuK0nTrG+DElmfS0D3yamiUFyp2ZwncpDDjVF4lp+/Pjd/xOrO2iP4Dy5otnh
- aPBcpB6rWWvJRerBeJp8yE+VA9xF4QWSlRIOsFnVJshvQGPkF37fzCU1WLKMU22V1H
- 1gSifACmie7kobSariNKWqbquJ/WYcMDbSqetz4+/l55iDY+4Nq9LjHxumSViGsAyb
- ekikuav7n6Syul1DdWKkKSw8JoSBtOraMhczoMQ8JZk4CnNVxj0lf0nqkizxRotHAB
- 9sbWbNHopURRQ==
-Message-ID: <40fc54d65894036d182d15256ed2bf1c.mripard@kernel.org>
-Date: Sun, 18 Jun 2023 14:40:32 +0000
+ b=g5FmtpsXsxlyL8WSTaxSAFvrq5V2AHMQrdpxG+NLFPJ2bcfYtsFkxLUJmjDE21toq
+ lM6tENWltMRMB+KB27NhSzxW73YnnKTxR7lVdrsONMbGth9/8+BB3oXQTlfdlkTj67
+ YkDRn+WCVmQe1N6ADH0xR0LlFUIGolUHAlem7/5Y6/aghaI1PmiwRjUP4v63GvEFh3
+ YpnFPne4jkSNhmN+E/H35mka0XtUaW3LbBMax1phFeMzZgiuPMi9HqPUmgYVF1zjHG
+ 3gjumGPmz8OzUgYA0vxuW82f/E35gdRvhktVFvj66RyybpCUCz2nn2nAow5a6TKMkr
+ ixBH++RLpZsfA==
+Message-ID: <19d00fbb0a27f1ab5f8685ba45422702.mripard@kernel.org>
+Date: Sun, 18 Jun 2023 14:41:03 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Miquel Raynal" <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH v2 5/6] drm/panel: sitronix-st7789v: Add EDT ET028013DMA
- panel support
-In-Reply-To: <20230616163255.2804163-6-miquel.raynal@bootlin.com>
-References: <20230616163255.2804163-6-miquel.raynal@bootlin.com>
+Subject: Re: [PATCH v2 6/6] drm/panel: sitronix-st7789v: Check display ID
+In-Reply-To: <20230616163255.2804163-7-miquel.raynal@bootlin.com>
+References: <20230616163255.2804163-7-miquel.raynal@bootlin.com>
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,12 +60,12 @@ Cc: devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 16 Jun 2023 18:32:54 +0200, Miquel Raynal wrote:
-> This panel from Emerging Display Technologies Corporation features an
-> ST7789V2 LCD controller panel inside which is almost identical to what
-> the Sitronix panel driver supports.
-> 
-> In practice, the module physical size is specific, and experiments show
+On Fri, 16 Jun 2023 18:32:55 +0200, Miquel Raynal wrote:
+> A very basic debugging rule when a device is connected for the first
+> time is to access a read-only register which contains known data in
+> order to ensure the communication protocol is properly working. This
+> driver lacked any read helper which is often a critical piece for
+> speed-up bring-ups.
 > 
 > [ ... ]
 
