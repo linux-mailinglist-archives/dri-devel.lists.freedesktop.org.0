@@ -2,58 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A5CC7345B9
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 11:35:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5A9F7345D7
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 12:39:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BD9110E027;
-	Sun, 18 Jun 2023 09:35:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B988210E038;
+	Sun, 18 Jun 2023 10:39:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3507910E027
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jun 2023 09:35:46 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8AxV+nxz45knn4GAA--.11527S3;
- Sun, 18 Jun 2023 17:35:45 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Bx+OTwz45kEOMeAA--.21418S3; 
- Sun, 18 Jun 2023 17:35:44 +0800 (CST)
-Message-ID: <2d6969f7-3a33-5900-1594-7c0c090fed4a@loongson.cn>
-Date: Sun, 18 Jun 2023 17:35:44 +0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2075.outbound.protection.outlook.com [40.107.94.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE95610E038
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Jun 2023 10:39:04 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hda6Mqu1cqzZoDe2I4MwijHc7tIbv+pLl/l5QtdBOIGmL6xQ+KdOSeiVOS3D2ijyBo0X9ufKYPwviEhtfWhqYgySDuHRYIwcmUKKZR7IvrwdVxL+h1G6CEQRKZFq7sLB07IO5YQCsQ9EGJ2vjS4zWt7cRtZBhi1LE4kgtp6l6uVzTq9+5MJM/gWGiyyW4vMr8HlLY5IRpanQ/Ojcmw2oM7M1hpceN3978yGOyBEOdDPMEX473B/U+md1ebZJJKNx4hpRQhlg1d0QDwLKngi2Pc8USfy3CfSNHOfeM/igaflBAIjhLQygPgayv6C4j0vnkZaQFzxVt0K0PoaOJINuAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nNQTuJNlROQFEEbpx1BpK91AvqsylcnDxpY/RIJqKcE=;
+ b=KmHAWkbRQab0gJSFhFRu5OfrKdM8lTKnpsEFN2LR18IZ4TcOajmFKLIds26kcVby91eaJ0P2juosCj21eEVNymHyY4ptCajKABOAzHolJlrZ/WSIAJ4rhS/NcbIrtWQZBfxAGyU+oxEl6pHk42I0wMsX2vCfmarYZ9uos4muz7GObelvP7dJrynlZnXTqAv0UFlXkHKqIBgshj9dzMZIDqEvYD5yxTGoJYgEHqfykOsAlyexLQM48KyULnWnD9MQzGwwHUj7LOHvWaFUQJT5foxylIm+w6J1VECv/VzbEGdxtFf/zoxAJFD/VNbzY+USoynphtsh6G0pw54J4OlNxQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nNQTuJNlROQFEEbpx1BpK91AvqsylcnDxpY/RIJqKcE=;
+ b=FsuG9sxfWhzPT06rKrczUu57LKs2na5q+U2w98CnM2HXkBdgZ9yVrbDWsccqq23mJohfDi31HbJliLe4EUuf09hGcdwM7JloHzInSsESgVUEtR0ztewnY+5StpqZAbAMzE1VR07lM02d745dzXMlFl609J7LMcA/qgk1hm3z7to=
+Received: from CYXPR02CA0088.namprd02.prod.outlook.com (2603:10b6:930:ce::11)
+ by PH0PR12MB5434.namprd12.prod.outlook.com (2603:10b6:510:d5::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.35; Sun, 18 Jun
+ 2023 10:38:59 +0000
+Received: from CY4PEPF0000EE30.namprd05.prod.outlook.com
+ (2603:10b6:930:ce:cafe::17) by CYXPR02CA0088.outlook.office365.com
+ (2603:10b6:930:ce::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.35 via Frontend
+ Transport; Sun, 18 Jun 2023 10:38:58 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ CY4PEPF0000EE30.mail.protection.outlook.com (10.167.242.36) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6521.17 via Frontend Transport; Sun, 18 Jun 2023 10:38:58 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Sun, 18 Jun
+ 2023 05:38:57 -0500
+Received: from alan-new-dev.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.23 via Frontend
+ Transport; Sun, 18 Jun 2023 05:38:51 -0500
+From: Alan Liu <HaoPing.Liu@amd.com>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [PATCH v2 0/3] Checksum Region with new CRTC properties
+Date: Sun, 18 Jun 2023 18:38:44 +0800
+Message-ID: <20230618103847.614721-1-HaoPing.Liu@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [13/14] drm/ast: Move widescreen- and tx-chip detection into
- separate helpers
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- jfalempe@redhat.com, daniel@ffwll.ch, jammy_huang@aspeedtech.com
-References: <20230616140739.32042-14-tzimmermann@suse.de>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <20230616140739.32042-14-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8Bx+OTwz45kEOMeAA--.21418S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7Kw48uF45JrWftFy3Wr4ftFc_yoW8KF15pa
- ykJFZIqrW5tF12gr43C3WDZF9xt3WxtayUurn3J34akw4DKasY9rn8Xw45ua4DZFZ5ZFyU
- AF47GFyxJFWUCagCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
- xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
- 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv
- 67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07
- AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
- F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw
- 1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
- xVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
- 1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8cz
- VUUUUUU==
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE30:EE_|PH0PR12MB5434:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1a447bc1-0e70-4a7c-d442-08db6fe83946
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VKp2PtO5GB072S7hUCKtgVhS7uBK4+9Vovbcac/HrdSCnAa9UbE2YnNyCwPKpvbUS9PL02jIYpx3KCG2Ks/XFxXAy7KiAYS/uEfcWWli6UMkOh1qoR930VIPzUnwsZlonkaSFKm5QpV3HmgKtGHI9nUOJ9XhoyqZ6YsLtLRh4ahRl3dLO+VIvyqkbg95C1tngii48BYUecw7OIbyWrWx1/jDNX5JbhAD9w5Jc0IpIhCrt1E1VY+NdwiV7lVHquWk1QYcX/k2XYliuGhJsrWEpWtKDWNIhGjxgGn+Pll3UWUU310vAA9ppAPWWLLh3YIzaXT7pqaY8WMKHlU3SS8bAaIUQ/iKoWGfqQCCOUsTz0YVHtnmnM/5pjP9DsxWpfDx9q8+pxX1yEUsBDbD2q+Y6g1uaBWvD7yhzsp1VUwEpe8wOdMTiS39/sfECj49v4d2lt7pCfGGGvrlbyKywjTTgd+72y+Z4lVTMynmIw8MVDHLjCXsMe6U3lNgaRw3FzBme5/8fbygXeeNmEogR7Nj0DAnm/XH8GzS805/NLuQm7xYtU3nCdrL+sQx6cjOlU1GFuDitgcrcTlo3SXRecrHhPftARq7NzWE76jxo2LIpGhT8sX+G34QURRA97bsnXRgMSBXKMvd5i7GaVdJh0XVnchK+y9PPJNNKoifc+fcXK2g5YIuSqk3tUaGa1bJFHlj2+U1JF/xQMmFca8mbI90Xv73l9jpMp6shsvIGwQXLqc=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(39860400002)(346002)(376002)(136003)(451199021)(46966006)(36840700001)(40470700004)(41300700001)(5660300002)(8676002)(8936002)(2906002)(40460700003)(82310400005)(36756003)(40480700001)(86362001)(478600001)(26005)(1076003)(54906003)(186003)(7696005)(6666004)(966005)(81166007)(70586007)(70206006)(6916009)(356005)(47076005)(36860700001)(4326008)(316002)(336012)(426003)(2616005)(82740400003)(83380400001)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2023 10:38:58.6002 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a447bc1-0e70-4a7c-d442-08db6fe83946
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EE30.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5434
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,84 +98,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Alan Liu <HaoPing.Liu@amd.com>, Wayne.Lin@amd.com, Lili.Gong@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Dear DRM development community,
+
+We'd like to introduce the implementation of the new crtc properties.
+
+First of all, please let me introduce the problem we try to address. With the popularity of electric vehicles, the car vendors have increasing requirement for ensuring the integrity of the critical content on the display. For example, tell-tales are icons to indicate malfunction or operation on a car system. For safty concern, car vendors always want to make sure these icons are not tampered and can be correctly displayed on the instrument cluster.
+
+To address this problem, since modern display control hardware is able to calculate the CRC checksum of the display content, we are thinking of a feature to let userspace specify a region on display, and we can utilize the hardware to calculate the CRC checksum as frames scanned out, and finally, provide the checksum for userspace for validation purpose.
+In this case, since the icons themselves are often fixed over static backgrounds, the CRC of the pixels in the region can be known in advance. So one of the usage of the region and corresponding CRC result is that as users know the CRC checksum of the tell-tales in advance, at runtime they can retrieve the CRC value from kernel for validation as frames are scanned out.
+
+We implement this feature and call it checksum region. To let userspace set a region and retrieve the corresponding CRC value, we provide 2 new properties, CHECKSUM_REGION and CHECKSUM_CRC. Both of them are blob properties under CRTC, and the detailed struct of the two properties are listed below. One for userspace to set the region to kernel, and the other for userspace to retrieve CRC values from kernel. Upon userspace submitting the 4 coordinate values with checksum_region_enable true, kernel instructs DC hardware to calculate the CRC value accordingly as frames scanned out. The result CRC value of RGB colors are then stored in CHECKSUM_CRC property, with a reference frame count for userspace to know which frame the CRCs are calculated at.
+
+/**
+ * struct drm_checksum_region - The enablement and region of checksum_region
+ * @x_start: Horizontal starting coordinate of the region.
+ * @y_start: Vertical starting coordinate of the region.
+ * @x_end: Horizontal ending coordinate of the region.
+ * @y_end: Vertical ending coordinate of the region.
+ * @checksum_region_enable: To enable or disable checksum_region.
+ *
+ * Userspace uses this structure to configure the region and enablement for
+ * checksum_region. Userspace should not submit a region out of the displayable
+ * region because there is nothing to display and need protection.
+ */
+struct drm_checksum_region {
+	__u32 x_start;
+	__u32 y_start;
+	__u32 x_end;
+	__u32 y_end;
+	__u8 checksum_region_enable;
+	__u8 pad[7];
+};
+
+/**
+ * struct drm_checksum_crc - The CRC value of the corresponding checksum region.
+ * @crc_r: CRC value of red color.
+ * @crc_g: CRC value of green color.
+ * @crc_b: CRC value of blue color.
+ * @frame_count: a referenced frame count to indicate which frame the CRC values
+ *  are generated at.
+ *
+ * Userspace uses this structure to retrieve the CRC values of the current
+ * checksum region. @frame_count will be reset once a new region is updated or
+ * it reaches a maximum value. Currently these CRC values are designed to
+ * be validated with pre-saved CRC values, so userspace doesn't need to concern
+ * about the algorithm used to compute the CRC.
+ */
+struct drm_checksum_crc {
+	__u32 crc_r;
+	__u32 crc_g;
+	__u32 crc_b;
+	__u32 frame_count;
+};
+
+To better introduce the usage of this feature, we also have a paired Weston application as an reference app to use secure display via the properties. Please check the Weston application and see how the application set the region and validate the content from the CRC here: https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/1236
+This application can draw patterns on the display, and allow users to set the region and submit it to kernel via properties. With kernel keeping calculating the CRC, this example application takes the first CRC as source CRC, and keeps retrieving the new CRCs at each frame later. By comparing source CRC with the following CRC value, the application can validate if the display content got changed down the road.
+
+Finally, let me briefly introduce the patches. There are 3 patches in this patch series. The first patch is the main patch that contains change to drm, including the new CRTC properties, the property creation function and a update_checksum_region_crc() CRTC callback.
+	1. drm: Introduce CRTC checksum region and CRC properties
+
+The remaining 2 patches are only related to the processing of region and CRC data in our driver, also listed here for your reference.
+	2. drm/amd/display: Create checksum_region properties and handle new region update
+	3. drm/amd/display: Implement the retrieval of checksum_region's CRC data
+
+Thanks for the reading and hope to get your feedback soon!
 
 
-"widescreen-" -> "widescreen"
+v2:
+- Change the name of secure display to checksum region.
+- Move the new properties, their creation function and their state to drm layer.
+- Improve comments on the new properties's usage and limitation.
+- Add a new CRTC callback update_checksum_region_crc() for updating the CRC checksum to the crc blob.
+- Squash patches from 7 to 3.
 
 
-On 2023/6/16 21:52, Thomas Zimmermann wrote:
-> Split ast_detect_chip() into three functions and call them one by
-> one. The new functions detect the transmitter chip and widescreen
-> support. This will allow for further refactoring.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->   drivers/gpu/drm/ast/ast_main.c | 18 +++++++++++++++---
->   1 file changed, 15 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-> index 7f8fb9a613604..f028b5b47c56e 100644
-> --- a/drivers/gpu/drm/ast/ast_main.c
-> +++ b/drivers/gpu/drm/ast/ast_main.c
-> @@ -157,7 +157,6 @@ static int ast_detect_chip(struct drm_device *dev, bool need_post, u32 scu_rev)
->   {
->   	struct ast_device *ast = to_ast_device(dev);
->   	struct pci_dev *pdev = to_pci_dev(dev->dev);
-> -	uint32_t jreg;
->   
->   	/* Identify chipset */
->   	if (pdev->revision >= 0x50) {
-> @@ -218,6 +217,13 @@ static int ast_detect_chip(struct drm_device *dev, bool need_post, u32 scu_rev)
->   		drm_info(dev, "AST 2000 detected\n");
->   	}
->   
-> +	return 0;
-> +}
-> +
-> +static void ast_detect_widescreen(struct ast_device *ast)
-> +{
-> +	u8 jreg;
-> +
->   	/* Check if we support wide screen */
->   	switch (AST_GEN(ast)) {
->   	case 1:
-> @@ -242,6 +248,12 @@ static int ast_detect_chip(struct drm_device *dev, bool need_post, u32 scu_rev)
->   		}
->   		break;
->   	}
-> +}
-> +
-> +static void ast_detect_tx_chip(struct ast_device *ast, bool need_post)
-> +{
-> +	struct drm_device *dev = &ast->base;
-> +	u8 jreg;
->   
->   	/* Check 3rd Tx option (digital output afaik) */
->   	ast->tx_chip_types |= AST_TX_NONE_BIT;
-> @@ -301,8 +313,6 @@ static int ast_detect_chip(struct drm_device *dev, bool need_post, u32 scu_rev)
->   		drm_info(dev, "Using DP501 DisplayPort transmitter\n");
->   	if (ast->tx_chip_types & AST_TX_ASTDP_BIT)
->   		drm_info(dev, "Using ASPEED DisplayPort transmitter\n");
-> -
-> -	return 0;
->   }
->   
->   static int ast_get_dram_info(struct drm_device *dev)
-> @@ -494,6 +504,8 @@ struct ast_device *ast_device_create(const struct drm_driver *drv,
->   	ast_detect_config_mode(dev, &scu_rev);
->   
->   	ast_detect_chip(dev, need_post, scu_rev);
-> +	ast_detect_widescreen(ast);
-> +	ast_detect_tx_chip(ast, need_post);
->   
->   	ret = ast_get_dram_info(dev);
->   	if (ret)
+Alan Liu (3):
+  drm: Introduce CRTC checksum region and CRC properties
+  drm/amd/display: Create checksum_region properties and handle new
+    region update
+  drm/amd/display: Implement the retrieval of checksum_region's CRC data
+
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  44 +++++++
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c | 112 ++++++++++++++++--
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h |  14 +++
+ .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    |  52 ++++++++
+ drivers/gpu/drm/drm_atomic_state_helper.c     |   7 ++
+ drivers/gpu/drm/drm_atomic_uapi.c             |  21 +++-
+ drivers/gpu/drm/drm_crtc.c                    |  44 +++++++
+ include/drm/drm_crtc.h                        |  43 +++++++
+ include/uapi/drm/drm_mode.h                   |  42 +++++++
+ 9 files changed, 368 insertions(+), 11 deletions(-)
 
 -- 
-Jingfeng
+2.34.1
 
