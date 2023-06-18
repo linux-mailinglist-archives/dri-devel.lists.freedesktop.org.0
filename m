@@ -1,58 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9927734740
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 19:37:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F263B73476D
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 20:05:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 067E110E0B1;
-	Sun, 18 Jun 2023 17:37:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B89910E0BF;
+	Sun, 18 Jun 2023 18:05:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5824410E0B1
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jun 2023 17:37:37 +0000 (UTC)
-X-GND-Sasl: miquel.raynal@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1687109855;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FDZptFO5NnQUxuhT5MsLR5+QMUnZ7oxNR+YgYIxL7G8=;
- b=pbjtJlayc2DOxdDC0J4JxvK7c8NRGvGgmZkNgNuU/U/ngtZFeYGE4rq4oj4I0DgJCURhfP
- T7N63SiylXRtVDv/deAibVYZV2omW0C16oryHLP4b8+w/YMdZSFCkIQJKNkwYRiwK0uAIt
- V0fBrTXbVhDDY+S6UkbuzkEcME3av2ZlAl1UojzItSZ2u2tfxTf8yTb2jND3Q3qUQt+ro0
- Rzn1mV3jhXhYMG367CWZA2kQNB5FJDuguSa5w7oMOKBoekJC8Xa3no2jHJq6nX0ls+XDmZ
- 5ddIYjemgbRvkGNW+SJgGPb4L6CM86s7dZMCvSth90YLRlgeaiTkFl4s1vpWJQ==
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id DB54BC0002;
- Sun, 18 Jun 2023 17:37:33 +0000 (UTC)
-Date: Sun, 18 Jun 2023 19:37:32 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v2 2/6] dt-bindings: display: st7789v: bound the number
- of Rx data lines
-Message-ID: <20230618193732.04fc1909@xps-13>
-In-Reply-To: <tcxifa7ol3fukfsdw7hh3kl25dhpviu6lasdc6xasz4dvhjedx@mo2vae6smtok>
-References: <20230616163255.2804163-1-miquel.raynal@bootlin.com>
- <20230616163255.2804163-3-miquel.raynal@bootlin.com>
- <tcxifa7ol3fukfsdw7hh3kl25dhpviu6lasdc6xasz4dvhjedx@mo2vae6smtok>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+X-Greylist: delayed 79023 seconds by postgrey-1.36 at gabe;
+ Sun, 18 Jun 2023 18:05:38 UTC
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B08410E0BF
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Jun 2023 18:05:37 +0000 (UTC)
+Date: Sun, 18 Jun 2023 18:05:21 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+ s=protonmail3; t=1687111535; x=1687370735;
+ bh=YOfx98ZwkTSq19vP+aqft32B086IzCdS8xtWjsVpU+M=;
+ h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+ Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+ b=y0dpusDw5gQ/B3CG/plOmAj54U8x3gtOI2o38xE0QcEbWqG5uQQIiTeGecf/8NMai
+ lW1WcOP6h46F+NUUnEpwg7a/6pLv2rMeZeugIiigej0DWiyV95S5LfInU6hB44l3Vb
+ Fj5b/X2+DOg/V9EVWolNgha/xRLDxjCyfQyJEptgytvua3IkWFdBmgX0NGOsfA2hK+
+ KpDho+zsxWoL3TlXaRXlIqOYkzaSGtF8J9JK2Lfu8f/+qHK74uFDDcpkntTj/6Efs2
+ s8r68FGJ3IJ+pufVlfW1MobskU2ZLZU+D1yQCq2+ssEbmeCP9RIRwqCIDYY4ie07qD
+ ReGIicUSngjLw==
+To: =?utf-8?Q?Ond=C5=99ej_Jirman?= <megi@xff.cz>,
+ linux-rockchip@lists.infradead.org
+From: Julian <juliannfairfax@protonmail.com>
+Subject: Re: [PATCH] drm: bridge: dw-mipi-dsi: Fix enable/disable of DSI
+ controller
+Message-ID: <cb517ab5-d65e-489d-960e-501d40a06fde@protonmail.com>
+Feedback-ID: 23985752:user:proton
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,54 +48,206 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Maxime,
+Tested-by: Julian Fairfax
 
-maxime@cerno.tech wrote on Sun, 18 Jun 2023 16:37:58 +0200:
+On 17.06.23 17:06, Ond=C5=99ej Jirman wrote:
+> From: Ondrej Jirman <megi@xff.cz>
+>
+> Before this patch, booting to Linux VT and doing a simple:
+>
+>    echo 2 > /sys/class/graphics/fb0/blank
+>    echo 0 > /sys/class/graphics/fb0/blank
+>
+> would result in failures to re-enable the panel. Mode set callback is
+> called only once during boot in this scenario, while calls to
+> enable/disable callbacks are balanced afterwards. The driver doesn't
+> work unless userspace calls modeset before enabling the CRTC/connector.
+>
+> This patch moves enabling of the DSI host from mode_set into pre_enable
+> callback, and removes some old hacks where this bridge driver is
+> directly calling into other bridge driver's callbacks.
+>
+> pre_enable_prev_first flag is set on the panel's bridge so that panel
+> drivers will get their prepare function called between DSI host's
+> pre_enable and enable callbacks, so that they get a chance to
+> perform panel setup while DSI host is already enabled in command
+> mode. Otherwise panel's prepare would be called before DSI host
+> is enabled, and any DSI communication used in prepare callback
+> would fail.
+>
+> With all these changes, the enable/disable sequence is now well
+> balanced, and host's and panel's callbacks are called in proper order
+> documented in the drm_panel API documentation without needing the old
+> hacks. (Mainly that panel->prepare is called when DSI host is ready to
+> allow the panel driver to send DSI commands and vice versa during
+> disable.)
+>
+> Tested on Pinephone Pro. Trace of the callbacks follows.
+>
+> Before:
+>
+> [    1.253882] dw-mipi-dsi-rockchip ff960000.dsi: mode_set
+> [    1.290732] panel-himax-hx8394 ff960000.dsi.0: prepare
+> [    1.475576] dw-mipi-dsi-rockchip ff960000.dsi: enable
+> [    1.475593] panel-himax-hx8394 ff960000.dsi.0: enable
+>
+> echo 2 > /sys/class/graphics/fb0/blank
+>
+> [   13.722799] panel-himax-hx8394 ff960000.dsi.0: disable
+> [   13.774502] dw-mipi-dsi-rockchip ff960000.dsi: post_disable
+> [   13.774526] panel-himax-hx8394 ff960000.dsi.0: unprepare
+>
+> echo 0 > /sys/class/graphics/fb0/blank
+>
+> [   17.735796] panel-himax-hx8394 ff960000.dsi.0: prepare
+> [   17.923522] dw-mipi-dsi-rockchip ff960000.dsi: enable
+> [   17.923540] panel-himax-hx8394 ff960000.dsi.0: enable
+> [   17.944330] dw-mipi-dsi-rockchip ff960000.dsi: failed to write command=
+ FIFO
+> [   17.944335] panel-himax-hx8394 ff960000.dsi.0: sending command 0xb9 fa=
+iled: -110
+> [   17.944340] panel-himax-hx8394 ff960000.dsi.0: Panel init sequence fai=
+led: -110
+>
+> echo 2 > /sys/class/graphics/fb0/blank
+>
+> [  431.148583] panel-himax-hx8394 ff960000.dsi.0: disable
+> [  431.169259] dw-mipi-dsi-rockchip ff960000.dsi: failed to write command=
+ FIFO
+> [  431.169268] panel-himax-hx8394 ff960000.dsi.0: Failed to enter sleep m=
+ode: -110
+> [  431.169282] dw-mipi-dsi-rockchip ff960000.dsi: post_disable
+> [  431.169316] panel-himax-hx8394 ff960000.dsi.0: unprepare
+> [  431.169357] pclk_mipi_dsi0 already disabled
+>
+> echo 0 > /sys/class/graphics/fb0/blank
+>
+> [  432.796851] panel-himax-hx8394 ff960000.dsi.0: prepare
+> [  432.981537] dw-mipi-dsi-rockchip ff960000.dsi: enable
+> [  432.981568] panel-himax-hx8394 ff960000.dsi.0: enable
+> [  433.002290] dw-mipi-dsi-rockchip ff960000.dsi: failed to write command=
+ FIFO
+> [  433.002299] panel-himax-hx8394 ff960000.dsi.0: sending command 0xb9 fa=
+iled: -110
+> [  433.002312] panel-himax-hx8394 ff960000.dsi.0: Panel init sequence fai=
+led: -110
+>
+> -----------------------------------------------------------------------
+>
+> After:
+>
+> [    1.248372] dw-mipi-dsi-rockchip ff960000.dsi: mode_set
+> [    1.248704] dw-mipi-dsi-rockchip ff960000.dsi: pre_enable
+> [    1.285377] panel-himax-hx8394 ff960000.dsi.0: prepare
+> [    1.468392] dw-mipi-dsi-rockchip ff960000.dsi: enable
+> [    1.468421] panel-himax-hx8394 ff960000.dsi.0: enable
+>
+> echo 2 > /sys/class/graphics/fb0/blank
+>
+> [   16.210357] panel-himax-hx8394 ff960000.dsi.0: disable
+> [   16.261315] dw-mipi-dsi-rockchip ff960000.dsi: post_disable
+> [   16.261339] panel-himax-hx8394 ff960000.dsi.0: unprepare
+>
+> echo 0 > /sys/class/graphics/fb0/blank
+>
+> [   19.161453] dw-mipi-dsi-rockchip ff960000.dsi: pre_enable
+> [   19.197869] panel-himax-hx8394 ff960000.dsi.0: prepare
+> [   19.382141] dw-mipi-dsi-rockchip ff960000.dsi: enable
+> [   19.382158] panel-himax-hx8394 ff960000.dsi.0: enable
+>
+> Signed-off-by: Ondrej Jirman <megi@xff.cz>
+> ---
+>   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 28 +++++++++++--------
+>   1 file changed, 16 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/=
+drm/bridge/synopsys/dw-mipi-dsi.c
+> index b2efecf7d160..352c6829259a 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+> @@ -265,6 +265,7 @@ struct dw_mipi_dsi {
+>   =09struct dw_mipi_dsi *master; /* dual-dsi master ptr */
+>   =09struct dw_mipi_dsi *slave; /* dual-dsi slave ptr */
+>  =20
+> +=09struct drm_display_mode mode;
+>   =09const struct dw_mipi_dsi_plat_data *plat_data;
+>   };
+>  =20
+> @@ -332,6 +333,7 @@ static int dw_mipi_dsi_host_attach(struct mipi_dsi_ho=
+st *host,
+>   =09if (IS_ERR(bridge))
+>   =09=09return PTR_ERR(bridge);
+>  =20
+> +=09bridge->pre_enable_prev_first =3D true;
+>   =09dsi->panel_bridge =3D bridge;
+>  =20
+>   =09drm_bridge_add(&dsi->bridge);
+> @@ -859,15 +861,6 @@ static void dw_mipi_dsi_bridge_post_atomic_disable(s=
+truct drm_bridge *bridge,
+>   =09 */
+>   =09dw_mipi_dsi_set_mode(dsi, 0);
+>  =20
+> -=09/*
+> -=09 * TODO Only way found to call panel-bridge post_disable &
+> -=09 * panel unprepare before the dsi "final" disable...
+> -=09 * This needs to be fixed in the drm_bridge framework and the API
+> -=09 * needs to be updated to manage our own call chains...
+> -=09 */
+> -=09if (dsi->panel_bridge->funcs->post_disable)
+> -=09=09dsi->panel_bridge->funcs->post_disable(dsi->panel_bridge);
+> -
+>   =09if (phy_ops->power_off)
+>   =09=09phy_ops->power_off(dsi->plat_data->priv_data);
+>  =20
+> @@ -942,15 +935,25 @@ static void dw_mipi_dsi_mode_set(struct dw_mipi_dsi=
+ *dsi,
+>   =09=09phy_ops->power_on(dsi->plat_data->priv_data);
+>   }
+>  =20
+> +static void dw_mipi_dsi_bridge_atomic_pre_enable(struct drm_bridge *brid=
+ge,
+> +=09=09=09=09=09=09 struct drm_bridge_state *old_bridge_state)
+> +{
+> +=09struct dw_mipi_dsi *dsi =3D bridge_to_dsi(bridge);
+> +
+> +=09/* Power up the dsi ctl into a command mode */
+> +=09dw_mipi_dsi_mode_set(dsi, &dsi->mode);
+> +=09if (dsi->slave)
+> +=09=09dw_mipi_dsi_mode_set(dsi->slave, &dsi->mode);
+> +}
+> +
+>   static void dw_mipi_dsi_bridge_mode_set(struct drm_bridge *bridge,
+>   =09=09=09=09=09const struct drm_display_mode *mode,
+>   =09=09=09=09=09const struct drm_display_mode *adjusted_mode)
+>   {
+>   =09struct dw_mipi_dsi *dsi =3D bridge_to_dsi(bridge);
+>  =20
+> -=09dw_mipi_dsi_mode_set(dsi, adjusted_mode);
+> -=09if (dsi->slave)
+> -=09=09dw_mipi_dsi_mode_set(dsi->slave, adjusted_mode);
+> +=09/* Store the display mode for later use in pre_enable callback */
+> +=09memcpy(&dsi->mode, adjusted_mode, sizeof(dsi->mode));
+>   }
+>  =20
+>   static void dw_mipi_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
+> @@ -1004,6 +1007,7 @@ static const struct drm_bridge_funcs dw_mipi_dsi_br=
+idge_funcs =3D {
+>   =09.atomic_duplicate_state=09=3D drm_atomic_helper_bridge_duplicate_sta=
+te,
+>   =09.atomic_destroy_state=09=3D drm_atomic_helper_bridge_destroy_state,
+>   =09.atomic_reset=09=09=3D drm_atomic_helper_bridge_reset,
+> +=09.atomic_pre_enable=09=3D dw_mipi_dsi_bridge_atomic_pre_enable,
+>   =09.atomic_enable=09=09=3D dw_mipi_dsi_bridge_atomic_enable,
+>   =09.atomic_post_disable=09=3D dw_mipi_dsi_bridge_post_atomic_disable,
+>   =09.mode_set=09=09=3D dw_mipi_dsi_bridge_mode_set,
 
-> Hi,
->=20
-> On Fri, Jun 16, 2023 at 06:32:51PM +0200, Miquel Raynal wrote:
-> > The ST7789V LCD controller supports regular SPI wiring, as well as no Rx
-> > data line at all. The operating system needs to know whether it can read
-> > registers from the device or not. Let's detail this specific design
-> > possibility by bounding the spi-rx-bus-width property.
-> >=20
-> > Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> > ---
-> >  .../devicetree/bindings/display/panel/sitronix,st7789v.yaml   | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,s=
-t7789v.yaml b/Documentation/devicetree/bindings/display/panel/sitronix,st77=
-89v.yaml
-> > index 0ccf0487fd8e..a25df7e1df88 100644
-> > --- a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.=
-yaml
-> > +++ b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.=
-yaml
-> > @@ -29,6 +29,10 @@ properties:
-> >    spi-cpha: true
-> >    spi-cpol: true
-> > =20
-> > +  spi-rx-bus-width:
-> > +    minimum: 0
-> > +    maximum: 1
-> > + =20
->=20
-> It's not clear to me what the default would be?
-
-This binding references spi-peripheral-props.yaml which sets the
-default to 1, I believe it is sane to keep it that way?
-
-Thanks,
-Miqu=C3=A8l
