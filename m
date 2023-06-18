@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A7807346A7
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 16:39:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E41487346A9
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 16:40:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F48110E0A9;
-	Sun, 18 Jun 2023 14:39:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B40A110E0AC;
+	Sun, 18 Jun 2023 14:40:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30E0B10E0A9
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jun 2023 14:39:09 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1EA510E0AC
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Jun 2023 14:40:36 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 893DB60BAC;
- Sun, 18 Jun 2023 14:39:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0752C433C0;
- Sun, 18 Jun 2023 14:39:07 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B093D60B9D;
+ Sun, 18 Jun 2023 14:40:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFA7EC433C0;
+ Sun, 18 Jun 2023 14:40:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1687099148;
- bh=wvkhVOSIXZAPjW4B3K3huxSlZpIAJF0lQ4NJmv+BClk=;
+ s=k20201202; t=1687099235;
+ bh=Ujtpsjovx5hy0qxvCDoEJZ+gcP2oHPhauWUKKZTft7Y=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=BavRPtBl9ruDuyqvQe0CLoqSOkqS+WonLsWzyOScqgimiUyxKwfzFit1KJQnTAmaD
- e5D3buhfhgIFz9kAZIcSH8NGx83MO+qyav82FbpBmblOHHUqWBzuI2d8p1FBxchq8E
- p8n3rzXsublnBFgBHGwvu7ZHs/uvvcpu/0EZi28xWoD4mXRuFBFDfhYRx1kP3vtN1n
- A6R4X7HmqOytXM9PCizYPnyDp+i7emY/aED+4ru2vFc3zxEKz5Vqsf1i2PUv54eQg8
- Pf0c6yVuJszn5v8sPEFD4wIONtksASQn/YCcw/oS4fOrrqSbzDlvrjl9X3BhGNOYac
- DrU2xNg0m7VeA==
-Message-ID: <7add37b15a20d42b0cae0d8dd28605da.mripard@kernel.org>
-Date: Sun, 18 Jun 2023 14:39:05 +0000
+ b=kBN7tLLb/4sZ4s7RPl5Or76aHeEDG5e3QovBDT4VwM+SZ4O0OZ9eV/SuwIop+GO1d
+ gyi8TVuK0nTrG+DElmfS0D3yamiUFyp2ZwncpDDjVF4lp+/Pjd/xOrO2iP4Dy5otnh
+ aPBcpB6rWWvJRerBeJp8yE+VA9xF4QWSlRIOsFnVJshvQGPkF37fzCU1WLKMU22V1H
+ 1gSifACmie7kobSariNKWqbquJ/WYcMDbSqetz4+/l55iDY+4Nq9LjHxumSViGsAyb
+ ekikuav7n6Syul1DdWKkKSw8JoSBtOraMhczoMQ8JZk4CnNVxj0lf0nqkizxRotHAB
+ 9sbWbNHopURRQ==
+Message-ID: <40fc54d65894036d182d15256ed2bf1c.mripard@kernel.org>
+Date: Sun, 18 Jun 2023 14:40:32 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Miquel Raynal" <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH v2 4/6] drm/panel: sitronix-st7789v: Clarify a definition
-In-Reply-To: <20230616163255.2804163-5-miquel.raynal@bootlin.com>
-References: <20230616163255.2804163-5-miquel.raynal@bootlin.com>
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 5/6] drm/panel: sitronix-st7789v: Add EDT ET028013DMA
+ panel support
+In-Reply-To: <20230616163255.2804163-6-miquel.raynal@bootlin.com>
+References: <20230616163255.2804163-6-miquel.raynal@bootlin.com>
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,13 +60,13 @@ Cc: devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 16 Jun 2023 18:32:53 +0200, Miquel Raynal wrote:
-> The Sitronix datasheet explains BIT(1) of the RGBCTRL register as the
-> DOTCLK/PCLK edge used to sample the data lines:
->=20
->     =E2=80=9C0=E2=80=9D The data is input on the positive edge of DOTCLK
->     =E2=80=9C1=E2=80=9D The data is input on the negative edge of DOTCLK
->=20
+On Fri, 16 Jun 2023 18:32:54 +0200, Miquel Raynal wrote:
+> This panel from Emerging Display Technologies Corporation features an
+> ST7789V2 LCD controller panel inside which is almost identical to what
+> the Sitronix panel driver supports.
+> 
+> In practice, the module physical size is specific, and experiments show
+> 
 > [ ... ]
 
 Acked-by: Maxime Ripard <mripard@kernel.org>
