@@ -1,98 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B7F07345DA
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 12:39:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9FB6734615
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 14:11:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC20210E06C;
-	Sun, 18 Jun 2023 10:39:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D32310E128;
+	Sun, 18 Jun 2023 12:11:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2056.outbound.protection.outlook.com [40.107.220.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D37B410E06C
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jun 2023 10:39:25 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hrSUjtg0E2j/KBHXFyMMgGi3I2NbMfIoOoCHcI5hO2MkD1+0t1G1hICcKF/MTiW6kTBxumFkCNKoQj0AmhkdlGP/F0heNErfU1OpNf9ILXanCBeL1mXhTlE/bOWLSUkT805nOSwM8vbCOEjGs6NbLnXw3Sg67QKaQODtLceYxEEQYld5Qyo/UzTl8oH7cqT1EknAl2UaUA0/kiqFo3lKeepmrCR+lM0btD+hCJLwRvI302VaR9mwmkrYXjjlUzVDlDqFPHyqSC2oL7IH3Zwl5LRjCN6npCwpeL3KWSPL7YNF79VtP7xRPLrOOKcZI7ees82tWO03OqWdvCmN95iCQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XdW5b5yMcQeLmjHwpqm/Wnq+vlTS6RW5aKXlkFREj1c=;
- b=Kzs2xN4OGL7iOZp0IAxXQ6V8DHFOPLLzjfkR0Zil0kEfBYNffseslbw8FGPqgS840pJ4F9xzO+FWvh0l1uROvTui6tDFVyIgvbcR84QfXHwvdOtU4eGiusHhmuAWcmkT8GRwHYr+9Lzb1YWNM+cz8c1Vw3hHHzh2mw+9uMhCHd7dLSLA4sa1bbxPL7gFVNTMHWg6bKEEHc7lgV2bmq4SGUBRl7tE7LRphAePZtjF1qcbiqaVd8aPn2HP2I2ujeTwDhEmvhiBY5j82SHxygLBJTGVmSPZ7gc2M5Kh+hs0cPt2JzdmeXAjAkX+49AXv4GLrunfRciqW8bvD7ltjfc+Lw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XdW5b5yMcQeLmjHwpqm/Wnq+vlTS6RW5aKXlkFREj1c=;
- b=W8M8OrHgrZXjZLDCXo6sQ2ly+bVEl5RIRItgKoL+8oud0A5ikhr7P/u2+5d8HNgRF+dpTBfTazGi/Pwwuw48my4agg1Mos92NRjzyLro7Xj3ZImjW+ajs+Vl3gjPhAnXXs3YOLnDH7PFZglKhgNylwm5bpWuQvLtg80r4RWeu9o=
-Received: from CY8PR22CA0003.namprd22.prod.outlook.com (2603:10b6:930:45::8)
- by PH0PR12MB7485.namprd12.prod.outlook.com (2603:10b6:510:1e9::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.35; Sun, 18 Jun
- 2023 10:39:20 +0000
-Received: from CY4PEPF0000EE36.namprd05.prod.outlook.com
- (2603:10b6:930:45:cafe::7d) by CY8PR22CA0003.outlook.office365.com
- (2603:10b6:930:45::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.35 via Frontend
- Transport; Sun, 18 Jun 2023 10:39:20 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- CY4PEPF0000EE36.mail.protection.outlook.com (10.167.242.42) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6521.17 via Frontend Transport; Sun, 18 Jun 2023 10:39:20 +0000
-Received: from SATLEXMB08.amd.com (10.181.40.132) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Sun, 18 Jun
- 2023 05:39:19 -0500
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB08.amd.com
- (10.181.40.132) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Sun, 18 Jun
- 2023 03:39:19 -0700
-Received: from alan-new-dev.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.23 via Frontend
- Transport; Sun, 18 Jun 2023 05:39:12 -0500
-From: Alan Liu <HaoPing.Liu@amd.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v2 3/3] drm/amd/display: Implement the retrieval of
- checksum_region's CRC data
-Date: Sun, 18 Jun 2023 18:38:47 +0800
-Message-ID: <20230618103847.614721-4-HaoPing.Liu@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230618103847.614721-1-HaoPing.Liu@amd.com>
-References: <20230618103847.614721-1-HaoPing.Liu@amd.com>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7E53210E084;
+ Sun, 18 Jun 2023 12:11:21 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8Cxd+ln9I5knIQGAA--.11592S3;
+ Sun, 18 Jun 2023 20:11:19 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8AxJeRn9I5kzfseAA--.21964S3; 
+ Sun, 18 Jun 2023 20:11:19 +0800 (CST)
+Message-ID: <c2cdc3ca-20de-0133-b198-1118fcea7902@loongson.cn>
+Date: Sun, 18 Jun 2023 20:11:19 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v7 2/8] PCI/VGA: Deal only with VGA class devices
+Content-Language: en-US
+To: Alex Deucher <alexdeucher@gmail.com>
+References: <20230613030151.216625-1-15330273260@189.cn>
+ <20230613030151.216625-3-15330273260@189.cn>
+ <dbf0d89f-717a-1f78-aef2-f30506751d4d@loongson.cn>
+ <CADnq5_N6vVtzH6tzguZdHnP_TdRoG1G-Cr94O+X03jvtk=vhag@mail.gmail.com>
+ <3c1c86ab-96ea-aa1c-c9c5-9a4012644fd6@loongson.cn>
+ <CADnq5_Px-HWfwetv8LZsCnCeV7SMt_uqtLwMVK7648ZQiP2RCQ@mail.gmail.com>
+ <f08b6a76-6c90-b59b-ff43-c779ef759d09@loongson.cn>
+ <CADnq5_PFoM2O8mCd6+VFfu9Nc-Hg_HTnwEMxrq0FGRpva1kKiA@mail.gmail.com>
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <CADnq5_PFoM2O8mCd6+VFfu9Nc-Hg_HTnwEMxrq0FGRpva1kKiA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE36:EE_|PH0PR12MB7485:EE_
-X-MS-Office365-Filtering-Correlation-Id: a29d26fe-9662-4f07-ca18-08db6fe84613
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: m+R3S7i/WRm+utOBif1bmqhGWqQ7V0XJW8+9XjANcQNJjcbpGyi9xhczYRRRBZ7jxWIkp+sa4OQZ7sGJFPMy7meBIHkc4NYC62tauhmO2RMTcySoK/8XSbEBYvoS1ILv9TxNzIdQmKNGLBoFQzn6hE+sAJTB0FFJUo3HTFTip2xFldCaOmus96+7gdi+i2z6xWuDcD6i+JG0k2cOpT7yEV4QEf8N9KHmF9c4r0OfSQbggyN4ru2efM2myx0bKR7+EKnVkZekT5HvyM7wixRy/rLyHerBMpA/Gk3PSNsoFvWYs/OZvI7WJT2Zw7HLRn5idKITO8UOJ2OD0duyImFI/cRnA/2d4StjNLo1vlR0abLG0AvKDz+/Hrd+kAyGIUunJgB/n9o3jaZJ1W+SMDem2GxQW9f6qYnB5w9t/7dt1R/3JAc31FPHYXVQX9QMsUpRbHLRiEtJ2lJFrHJulHz//blUqPFFOon4dpv13+ZpmQWMUHUcwqni1c2vmC5hrsPCr6MkzwAA9hEuh1xnxCVfof8eSYXqP7ed0dksMCARly4/2voRsk/UUbo08jqAQ4zGkcOs8n7548cv4swPNOGceZQ7Qu8FeM2oG3me4TRhNcbQ0Qy3BsPphxHxPc8mpO2aDa5w0rZALhDRPZRxsHUeEiPXIq/lD42IvFWHThvlaX4w2j55Ns30R/13TssOPFKqTZosOtiCEuEFHftiCfBDUXByOcDXxKfjjcOZNqlMLpcsICgqG2/hZosEyxVk+9ArJspALhxsTajUP60qGTGeTw==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(396003)(39860400002)(136003)(346002)(376002)(451199021)(36840700001)(40470700004)(46966006)(40480700001)(36860700001)(426003)(336012)(47076005)(83380400001)(6916009)(70206006)(70586007)(1076003)(26005)(7696005)(6666004)(4326008)(478600001)(2616005)(54906003)(186003)(86362001)(2906002)(8676002)(8936002)(5660300002)(36756003)(40460700003)(82740400003)(81166007)(356005)(41300700001)(316002)(82310400005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2023 10:39:20.0917 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a29d26fe-9662-4f07-ca18-08db6fe84613
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EE36.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7485
+X-CM-TRANSID: AQAAf8AxJeRn9I5kzfseAA--.21964S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW3Zr4kXFW7uF1fWr1kJF47Awc_yoWDAr47pF
+ WrGFW5KF4kJr17Gr12qw18JFyYvryrJFyrXr1rJw1Ykrn0yr1UJryrKr45u34xJrs5Gr12
+ vr4UJry7uF15ZagCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUvIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAF
+ wI0_Cr1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
+ 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv
+ 67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07
+ AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
+ F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GF
+ ylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
+ xVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
+ 4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jO
+ F4_UUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,246 +71,314 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alan Liu <HaoPing.Liu@amd.com>, Wayne.Lin@amd.com, Lili.Gong@amd.com
+Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sui Jingfeng <15330273260@189.cn>, amd-gfx@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-pci@vger.kernel.org,
+ Bjorn Helgaas <bhelgaas@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Retrieve and store checksum_region's CRC data from the DC hardware in vline0 irq
-handler. A new function amdgpu_dm_crtc_update_checksum_region_crc() is
-implemented and hooked to CRTC callback for updating the latest CRC values
-to the checksum CRC blob.
+Hi,
 
-Signed-off-by: Alan Liu <HaoPing.Liu@amd.com>
----
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  8 ++-
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c | 55 +++++++++++++++----
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h | 11 ++++
- .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    | 47 ++++++++++++++++
- 4 files changed, 110 insertions(+), 11 deletions(-)
+On 2023/6/16 22:34, Alex Deucher wrote:
+> On Fri, Jun 16, 2023 at 10:22 AM Sui Jingfeng <suijingfeng@loongson.cn> wrote:
+>>
+>> On 2023/6/16 21:41, Alex Deucher wrote:
+>>> On Fri, Jun 16, 2023 at 3:11 AM Sui Jingfeng <suijingfeng@loongson.cn> wrote:
+>>>> Hi,
+>>>>
+>>>> On 2023/6/16 05:11, Alex Deucher wrote:
+>>>>> On Wed, Jun 14, 2023 at 6:50 AM Sui Jingfeng <suijingfeng@loongson.cn> wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> On 2023/6/13 11:01, Sui Jingfeng wrote:
+>>>>>>> From: Sui Jingfeng <suijingfeng@loongson.cn>
+>>>>>>>
+>>>>>>> Deal only with the VGA devcie(pdev->class == 0x0300), so replace the
+>>>>>>> pci_get_subsys() function with pci_get_class(). Filter the non-PCI display
+>>>>>>> device(pdev->class != 0x0300) out. There no need to process the non-display
+>>>>>>> PCI device.
+>>>>>>>
+>>>>>>> Cc: Bjorn Helgaas <bhelgaas@google.com>
+>>>>>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>>>>>>> ---
+>>>>>>>      drivers/pci/vgaarb.c | 22 ++++++++++++----------
+>>>>>>>      1 file changed, 12 insertions(+), 10 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+>>>>>>> index c1bc6c983932..22a505e877dc 100644
+>>>>>>> --- a/drivers/pci/vgaarb.c
+>>>>>>> +++ b/drivers/pci/vgaarb.c
+>>>>>>> @@ -754,10 +754,6 @@ static bool vga_arbiter_add_pci_device(struct pci_dev *pdev)
+>>>>>>>          struct pci_dev *bridge;
+>>>>>>>          u16 cmd;
+>>>>>>>
+>>>>>>> -     /* Only deal with VGA class devices */
+>>>>>>> -     if ((pdev->class >> 8) != PCI_CLASS_DISPLAY_VGA)
+>>>>>>> -             return false;
+>>>>>>> -
+>>>>>> Hi, here is probably a bug fixing.
+>>>>>>
+>>>>>> For an example, nvidia render only GPU typically has 0x0380.
+>>>>>>
+>>>>>> as its PCI class number, but render only GPU should not participate in
+>>>>>> the arbitration.
+>>>>>>
+>>>>>> As it shouldn't snoop the legacy fixed VGA address.
+>>>>>>
+>>>>>> It(render only GPU) can not display anything.
+>>>>>>
+>>>>>>
+>>>>>> But 0x0380 >> 8 = 0x03, the filter  failed.
+>>>>>>
+>>>>>>
+>>>>>>>          /* Allocate structure */
+>>>>>>>          vgadev = kzalloc(sizeof(struct vga_device), GFP_KERNEL);
+>>>>>>>          if (vgadev == NULL) {
+>>>>>>> @@ -1500,7 +1496,9 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
+>>>>>>>          struct pci_dev *pdev = to_pci_dev(dev);
+>>>>>>>          bool notify = false;
+>>>>>>>
+>>>>>>> -     vgaarb_dbg(dev, "%s\n", __func__);
+>>>>>>> +     /* Only deal with VGA class devices */
+>>>>>>> +     if (pdev->class != PCI_CLASS_DISPLAY_VGA << 8)
+>>>>>>> +             return 0;
+>>>>>> So here we only care 0x0300, my initial intent is to make an optimization,
+>>>>>>
+>>>>>> nowadays sane display graphic card should all has 0x0300 as its PCI
+>>>>>> class number, is this complete right?
+>>>>>>
+>>>>>> ```
+>>>>>>
+>>>>>> #define PCI_BASE_CLASS_DISPLAY        0x03
+>>>>>> #define PCI_CLASS_DISPLAY_VGA        0x0300
+>>>>>> #define PCI_CLASS_DISPLAY_XGA        0x0301
+>>>>>> #define PCI_CLASS_DISPLAY_3D        0x0302
+>>>>>> #define PCI_CLASS_DISPLAY_OTHER        0x0380
+>>>>>>
+>>>>>> ```
+>>>>>>
+>>>>>> Any ideas ?
+>>>>> I'm not quite sure what you are asking about here.
+>>>> To be honest, I'm worried about the PCI devices which has a
+>>>>
+>>>> PCI_CLASS_DISPLAY_XGA as its PCI class number.
+>>>>
+>>>> As those devices are very uncommon in the real world.
+>>>>
+>>>>
+>>>> $ find . -name "*.c" -type f | xargs grep "PCI_CLASS_DISPLAY_XGA"
+>>>>
+>>>>
+>>>> Grep the "PCI_CLASS_DISPLAY_XGA" in the linux kernel tree got ZERO,
+>>>>
+>>>> there no code reference this macro. So I think it seems safe to ignore
+>>>> the XGA ?
+>>>>
+>>>>
+>>>> PCI_CLASS_DISPLAY_3D and PCI_CLASS_DISPLAY_OTHER are used to annotate
+>>>> the render-only GPU.
+>>>>
+>>>> And render-only GPU can't decode the fixed VGA address space, it is safe
+>>>> to ignore them.
+>>>>
+>>>>
+>>>>>     For vga_arb, we
+>>>>> only care about VGA class devices since those should be on the only
+>>>>> ones that might have VGA routed to them.
+>>>>>     However, as VGA gets deprecated,
+>>>> We need the vgaarb for a system with multiple video card.
+>>>>
+>>>> Not only because some Legacy VGA devices implemented
+>>>>
+>>>> on PCI will typically have the same "hard-decoded" addresses;
+>>>>
+>>>> But also these video card need to participate in the arbitration,
+>>>>
+>>>> determine the default boot device.
+>>> But couldn't the boot device be determined via what whatever resources
+>>> were used by the pre-OS console?
+>> I don't know what you are refer to by saying  pre-OS console, UEFI
+>> SHELL,  UEFI GOP  or something like that.
+>>
+> Right.  Before the OS loads the platform firmware generally sets up
+> something for display.  That could be GOP or vesa or some other
+> platform specific protocol.
+>
+>> If you are referring to the framebuffer driver which light up the screen
+>> before the Linux kernel is loaded .
+>>
+>>
+>> Then, what you have said is true,  the boot device is determined by the
+>> pre-OS console.
+>>
+>> But the problem is how does the Linux kernel(vgaarb) could know which
+>> one is the default boot device
+>>
+>> on a multiple GPU machine.  Relaying on the firmware fb's address and
+>> size is what the mechanism
+>>
+>> we already in using.
+> Right.  It shouldn't need to depend on vgaarb.
+>
+>>
+>>>    I feel like that should be separate from vgaarb.
+>> Emm, this really deserved another patch, please ?
+>>
+>>>    vgaarb should handle PCI VGA routing and some other
+>>> mechanism should be used to determine what device provided the pre-OS
+>>> console.
+>> If the new mechanism need the firmware changed, then this probably break
+>> the old machine.
+>>
+>> Also, this probably will get all arch involved. to get the new mechanism
+>> supported.
+>>
+>> The testing pressure and review power needed is quite large.
+>>
+>> drm/amdgpu and drm/radeon already being used on X86, ARM64,  Mips and
+>> more arch...
+>>
+>> The reviewing process will became quite difficult then.
+>>
+>> vgaarb is really what we already in use, and being used more than ten
+>> years ...
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 26da07a25085..9fd08281fe27 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -8877,7 +8877,12 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
- 				(struct drm_checksum_region *)new_crtc_state->checksum_region.region_blob->data;
- 
- 			if (region_data->checksum_region_enable) {
-+				struct secure_display_context *secure_display_ctx =
-+					&dm->secure_display_ctxs[acrtc->crtc_id];
-+
- 				if (!amdgpu_dm_crc_window_is_activated(crtc)) {
-+					init_completion(&secure_display_ctx->crc.completion);
-+
- 					/* Enable secure display: set crc source to "crtc" */
- 					amdgpu_dm_crtc_set_secure_display_crc_source(crtc, "crtc");
- 
-@@ -8887,7 +8892,8 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
- 					spin_lock_irqsave(&adev_to_drm(adev)->event_lock, flags);
- 					acrtc->dm_irq_params.window_param.activated = true;
- 					spin_unlock_irqrestore(&adev_to_drm(adev)->event_lock, flags);
--				}
-+				} else
-+					reinit_completion(&secure_display_ctx->crc.completion);
- 
- 				/* Update ROI: copy ROI from crtc_state to dm_irq_params */
- 				spin_lock_irqsave(&adev_to_drm(adev)->event_lock, flags);
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
-index 26017e9fbc4a..f881ccd93a25 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
-@@ -529,6 +529,8 @@ void amdgpu_dm_crtc_handle_crc_window_irq(struct drm_crtc *crtc)
- 	struct amdgpu_crtc *acrtc = NULL;
- 	struct amdgpu_device *adev = NULL;
- 	struct secure_display_context *secure_display_ctx = NULL;
-+	bool reset_crc_frame_count = false, crc_is_updated = false;
-+	uint32_t crc[3] = {0};
- 	unsigned long flags1;
- 
- 	if (crtc == NULL)
-@@ -543,15 +545,14 @@ void amdgpu_dm_crtc_handle_crc_window_irq(struct drm_crtc *crtc)
- 
- 	/* Early return if CRC capture is not enabled. */
- 	if (!amdgpu_dm_is_valid_crc_source(cur_crc_src) ||
--		!dm_is_crc_source_crtc(cur_crc_src))
--		goto cleanup;
--
--	if (!acrtc->dm_irq_params.window_param.activated)
--		goto cleanup;
-+	    !dm_is_crc_source_crtc(cur_crc_src)) {
-+		spin_unlock_irqrestore(&drm_dev->event_lock, flags1);
-+		return;
-+	}
- 
--	if (acrtc->dm_irq_params.window_param.skip_frame_cnt) {
--		acrtc->dm_irq_params.window_param.skip_frame_cnt -= 1;
--		goto cleanup;
-+	if (!acrtc->dm_irq_params.window_param.activated) {
-+		spin_unlock_irqrestore(&drm_dev->event_lock, flags1);
-+		return;
- 	}
- 
- 	secure_display_ctx = &adev->dm.secure_display_ctxs[acrtc->crtc_id];
-@@ -562,16 +563,23 @@ void amdgpu_dm_crtc_handle_crc_window_irq(struct drm_crtc *crtc)
- 		secure_display_ctx->crtc = crtc;
- 	}
- 
-+	if (acrtc->dm_irq_params.window_param.skip_frame_cnt) {
-+		acrtc->dm_irq_params.window_param.skip_frame_cnt -= 1;
-+		goto cleanup;
-+	}
-+
- 	if (acrtc->dm_irq_params.window_param.update_win) {
- 		/* prepare work for dmub to update ROI */
- 		secure_display_ctx->rect.x = acrtc->dm_irq_params.window_param.x_start;
- 		secure_display_ctx->rect.y = acrtc->dm_irq_params.window_param.y_start;
- 		secure_display_ctx->rect.width = acrtc->dm_irq_params.window_param.x_end -
--								acrtc->dm_irq_params.window_param.x_start;
-+					acrtc->dm_irq_params.window_param.x_start;
- 		secure_display_ctx->rect.height = acrtc->dm_irq_params.window_param.y_end -
--								acrtc->dm_irq_params.window_param.y_start;
-+					acrtc->dm_irq_params.window_param.y_start;
- 		schedule_work(&secure_display_ctx->forward_roi_work);
- 
-+		reset_crc_frame_count = true;
-+
- 		acrtc->dm_irq_params.window_param.update_win = false;
- 
- 		/* Statically skip 1 frame, because we may need to wait below things
-@@ -582,12 +590,39 @@ void amdgpu_dm_crtc_handle_crc_window_irq(struct drm_crtc *crtc)
- 		acrtc->dm_irq_params.window_param.skip_frame_cnt = 1;
- 
- 	} else {
-+		struct dc_stream_state *stream_state = to_dm_crtc_state(crtc->state)->stream;
-+
-+		if (!dc_stream_get_crc(stream_state->ctx->dc, stream_state,
-+					&crc[0], &crc[1], &crc[2]))
-+			DRM_ERROR("Secure Display: fail to get crc\n");
-+		else
-+			crc_is_updated = true;
-+
- 		/* prepare work for psp to read ROI/CRC and send to I2C */
- 		schedule_work(&secure_display_ctx->notify_ta_work);
- 	}
- 
- cleanup:
- 	spin_unlock_irqrestore(&drm_dev->event_lock, flags1);
-+
-+	spin_lock_irqsave(&secure_display_ctx->crc.lock, flags1);
-+
-+	if (reset_crc_frame_count || secure_display_ctx->crc.frame_count == UINT_MAX)
-+		/* Reset the reference frame count after user update the ROI
-+		 * or it reaches the maximum value.
-+		 */
-+		secure_display_ctx->crc.frame_count = 0;
-+	else
-+		secure_display_ctx->crc.frame_count += 1;
-+
-+	if (crc_is_updated) {
-+		secure_display_ctx->crc.crc_R = crc[0];
-+		secure_display_ctx->crc.crc_G = crc[1];
-+		secure_display_ctx->crc.crc_B = crc[2];
-+		complete_all(&secure_display_ctx->crc.completion);
-+	}
-+
-+	spin_unlock_irqrestore(&secure_display_ctx->crc.lock, flags1);
- }
- 
- struct secure_display_context *
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h
-index f4765bcae840..7c7bd5922b7b 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h
-@@ -40,6 +40,15 @@ enum amdgpu_dm_pipe_crc_source {
- };
- 
- #ifdef CONFIG_DRM_AMD_SECURE_DISPLAY
-+struct crc_data {
-+	uint32_t crc_R;
-+	uint32_t crc_G;
-+	uint32_t crc_B;
-+	uint32_t frame_count;
-+	spinlock_t lock;
-+	struct completion completion;
-+};
-+
- struct crc_window_param {
- 	uint16_t x_start;
- 	uint16_t y_start;
-@@ -64,6 +73,8 @@ struct secure_display_context {
- 
- 	/* Region of Interest (ROI) */
- 	struct rect rect;
-+
-+	struct crc_data crc;
- };
- #endif
- 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-index e94fe4a7e492..b673338f048d 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-@@ -280,6 +280,50 @@ static void dm_crtc_reset_state(struct drm_crtc *crtc)
- 	__drm_atomic_helper_crtc_reset(crtc, &state->base);
- }
- 
-+#ifdef CONFIG_DRM_AMD_SECURE_DISPLAY
-+static bool amdgpu_dm_crtc_update_checksum_region_crc(struct drm_crtc *crtc)
-+{
-+	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
-+	struct drm_crtc_state *crtc_state = crtc->state;
-+	struct secure_display_context *secure_display_ctx =
-+		&adev->dm.secure_display_ctxs[crtc->index];
-+	struct drm_checksum_crc *new_data;
-+	struct drm_property_blob *new_blob, **old_blob;
-+	unsigned long flag;
-+
-+	if (!amdgpu_dm_crc_window_is_activated(crtc))
-+		goto fail;
-+
-+	wait_for_completion_interruptible_timeout(
-+		&secure_display_ctx->crc.completion, 10 * HZ);
-+
-+	new_blob = drm_property_create_blob(crtc->dev,
-+					sizeof(struct drm_checksum_crc),
-+					NULL);
-+	if (IS_ERR(new_blob))
-+		goto fail;
-+
-+	/* save new value to blob */
-+	new_data = (struct drm_checksum_crc *) new_blob->data;
-+	spin_lock_irqsave(&secure_display_ctx->crc.lock, flag);
-+	new_data->crc_r = secure_display_ctx->crc.crc_R;
-+	new_data->crc_g = secure_display_ctx->crc.crc_G;
-+	new_data->crc_b = secure_display_ctx->crc.crc_B;
-+	new_data->frame_count = secure_display_ctx->crc.frame_count;
-+	spin_unlock_irqrestore(&secure_display_ctx->crc.lock, flag);
-+
-+	old_blob = &crtc_state->checksum_region.crc_blob;
-+	if (!drm_property_replace_blob(old_blob, new_blob))
-+		goto fail;
-+	
-+	return true;
-+
-+fail:
-+	DRM_WARN("Checksum Region: fail to update checksum_region CRC\n");
-+	return false;
-+}
-+#endif
-+
- #ifdef CONFIG_DEBUG_FS
- static int amdgpu_dm_crtc_late_register(struct drm_crtc *crtc)
- {
-@@ -307,6 +351,9 @@ static const struct drm_crtc_funcs amdgpu_dm_crtc_funcs = {
- #if defined(CONFIG_DEBUG_FS)
- 	.late_register = amdgpu_dm_crtc_late_register,
- #endif
-+#ifdef CONFIG_DRM_AMD_SECURE_DISPLAY
-+	.update_checksum_region_crc = amdgpu_dm_crtc_update_checksum_region_crc,
-+#endif
- };
- 
- static void dm_crtc_helper_disable(struct drm_crtc *crtc)
+This base class is defined for all types of display controllers.
+
+For VGA devices (Sub-Class 00h), the Programming Interface byte is 
+divided into a bit field that identifies additional video controller 
+compatibilities.
+
+A device can support multiple interfaces by using the bit map to 
+indicate which interfaces are supported.
+
+For the XGA devices (Sub-Class 01h), only the standard XGA interface is 
+defined.
+
+Sub-Class 02h is for controllers that have hardware support for 3D 
+operations and are not VGA compatible.
+
+
+> Yes, it works for x86 (and a few other platforms) today because of the
+> VGA legacy, so we can look at VGA routing to determine this.  But even
+> today, we don't need VGA routing to determine what was the primary
+> display before starting the OS.  We could probably have a platform
+> independent way to handle this by looking at the bread crumbs leftover
+> from the pre-OS environment.
+
+Yes, I agree with you.
+
+>   E.g., for pre-UEFI platforms, we can
+> look at VGA routing.  For UEFI platforms we can look at what GOP left
+> us.  For various non-UEFI ARM/PPC/MIPS/etc. platforms we can look at
+> whatever breadcrumbs those pre-OS environments left.  That way when
+> VGA goes away, we can have a clean break and you won't need vgaarb if
+> the platform has no VGA devices.
+
+Yes, I agree with you.
+
+
+Then, move vga_is_firmware_default() function to video/aperture.c also ?
+
+Because this function shouldn't be platform dependent,
+
+can be usable as long as the PCI resource relocation don't happen  (The 
+vram bar don't move),
+
+And screen_info is more about video specifci thing.
+
+
+Yes your are right, it seems that the selection of the default boot 
+device shouldn't depend on vgaarb.
+
+As vgaarb is only for PCI vga compatible display controller.
+
+It seems that platform display controller device should also 
+participated in the arbitration.
+
+Emm, but that may a bit difficult. Because we rely on the PCI notifier 
+to snoop the bound between the drm driver and device,
+
+call back to use if successful. So, what should I do next?  as a first step?
+
+> Alex
+>
+>>
+>>> Alex
+>>>
+>>>> Nowadays, the 'VGA devices' here is stand for the Graphics card
+>>>>
+>>>> which is capable of display something on the screen.
+>>>>
+>>>> We still need vgaarb to select the default boot device.
+>>>>
+>>>>
+>>>>> you'll have more non VGA PCI classes for devices which
+>>>>> could be the pre-OS console device.
+>>>> Ah, we still want  do this(by applying this patch) first,
+>>>>
+>>>> and then we will have the opportunity to see who will crying if
+>>>> something is broken. Will know more then.
+>>>>
+>>>> But drop this patch or revise it with more consideration is also
+>>>> acceptable.
+>>>>
+>>>>
+>>>> I asking about suggestion and/or review.
+>>>>
+>>>>> Alex
+>>>>>
+>>>>>>>          /* For now we're only intereted in devices added and removed. I didn't
+>>>>>>>           * test this thing here, so someone needs to double check for the
+>>>>>>> @@ -1510,6 +1508,8 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
+>>>>>>>          else if (action == BUS_NOTIFY_DEL_DEVICE)
+>>>>>>>                  notify = vga_arbiter_del_pci_device(pdev);
+>>>>>>>
+>>>>>>> +     vgaarb_dbg(dev, "%s: action = %lu\n", __func__, action);
+>>>>>>> +
+>>>>>>>          if (notify)
+>>>>>>>                  vga_arbiter_notify_clients();
+>>>>>>>          return 0;
+>>>>>>> @@ -1534,8 +1534,8 @@ static struct miscdevice vga_arb_device = {
+>>>>>>>
+>>>>>>>      static int __init vga_arb_device_init(void)
+>>>>>>>      {
+>>>>>>> +     struct pci_dev *pdev = NULL;
+>>>>>>>          int rc;
+>>>>>>> -     struct pci_dev *pdev;
+>>>>>>>
+>>>>>>>          rc = misc_register(&vga_arb_device);
+>>>>>>>          if (rc < 0)
+>>>>>>> @@ -1545,11 +1545,13 @@ static int __init vga_arb_device_init(void)
+>>>>>>>
+>>>>>>>          /* We add all PCI devices satisfying VGA class in the arbiter by
+>>>>>>>           * default */
+>>>>>>> -     pdev = NULL;
+>>>>>>> -     while ((pdev =
+>>>>>>> -             pci_get_subsys(PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID,
+>>>>>>> -                            PCI_ANY_ID, pdev)) != NULL)
+>>>>>>> +     while (1) {
+>>>>>>> +             pdev = pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, pdev);
+>>>>>>> +             if (!pdev)
+>>>>>>> +                     break;
+>>>>>>> +
+>>>>>>>                  vga_arbiter_add_pci_device(pdev);
+>>>>>>> +     }
+>>>>>>>
+>>>>>>>          pr_info("loaded\n");
+>>>>>>>          return rc;
+>>>>>> --
+>>>>>> Jingfeng
+>>>>>>
+>>>> --
+>>>> Jingfeng
+>>>>
+>> --
+>> Jingfeng
+>>
 -- 
-2.34.1
+Jingfeng
 
