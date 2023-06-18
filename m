@@ -1,153 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C64C734579
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 10:22:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 140EA73457B
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 10:26:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F9CF10E0FB;
-	Sun, 18 Jun 2023 08:22:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7015010E0D9;
+	Sun, 18 Jun 2023 08:26:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EC7E10E106
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jun 2023 08:21:48 +0000 (UTC)
-X-UUID: 28bcf5080db111ee9cb5633481061a41-20230618
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=MIME-Version:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
- bh=COgxuk7uK/mTQPvw4muwJMSblHQQ97IZZbdY8tGd+Nk=; 
- b=Kk/k86RZN5lRLJNqp6FYxLRtNzdhfRDk0NShwmYA3k2MeZvVWwxSpqb+bmIL/efeMVhx/YgRHidZtddpu8etodBPVVlufyp/V8OXfqQ5VVKpwB3nhQot/4Wab7ER+kHcNjkBIZ9iesBeiXVRCuNns+w4YXnsSr+b0rTXsB8+Jok=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.26, REQID:1ef7b178-00c3-4a96-a696-692b5582cf5e, IP:0,
- U
- RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:-5
-X-CID-META: VersionHash:cb9a4e1, CLOUDID:3fdef93e-7aa7-41f3-a6bd-0433bee822f3,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:0,Content:0,EDM:-3,IP:nil,URL
- :0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 28bcf5080db111ee9cb5633481061a41-20230618
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
- mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 192277729; Sun, 18 Jun 2023 16:21:43 +0800
-Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Sun, 18 Jun 2023 16:21:42 +0800
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP
- Server id
- 15.2.1118.26 via Frontend Transport; Sun, 18 Jun 2023 16:21:42 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WWWGUUARKGx/BAv3q9k/YRLpf5XkTn5tAuxaRSwUK28WlvmmhLY4j7JdXFvJ3QwRBYBhMc/wB3nEHw5Nk0PViYpE4xrM8SI0HbIk+BqnAjh/0C+OUF2WUM/6B+FEUcIHDRbJy5a2xM2TkdIgQ5fD1ENkwaJTMQZpOD0aeV7j61dzrQhqYSZ7rsf0augkAprsj+CArMbrJsYsk1d6pztiCYM6m7Iq+bWq+Kh6vLaGFXBb6NS3eRlObEmRfLbscaCL3/8wAsmc59TA4ZNnxAdhdvApeA5wyNpoStgnv5bkDnJVh9iHUOLVd+Gl0VTCtTMaqenTrK6kmHBT4hQRJld/SQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eCBYnScoUPOLu2DcLGH5ibD4B72hWiLXyqBPL/Jmfvg=;
- b=U1fjqSo0PESWB1jL40ye1W4O5gY+aOXLP9IwDQGDws5IXbB+tHcwEpsmILV1ayQghXSs8z2etlAH1Qc0GU6VRTn9dO7iJ5sCy4Vqx6ZKt3umG7XJzzLfmhIJcX6dbRoeP5ylbpGJqXDyiYY0Qj2BA6Pzh22QmRQJjUB5guyUcqwV/Hl9t0GmfXsWbdcWfj+Kyk59vBMn5zciFaUZTM46kuz3SU1RNih1qE0w0dFewzqwDpFXKHu02cWfSDGoQhYLAldrlauVzn0w5ASi1P2vAzBluI0QzaWjQE+ee+Drzy68NV2TDASRjwJtnPX+KqrCthFSGzoZWdAxEyaIgEy5MA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eCBYnScoUPOLu2DcLGH5ibD4B72hWiLXyqBPL/Jmfvg=;
- b=iAcNjFJYS7Dm1Q+KrAMZ4Z6GHGfYIty40v5eShD3P+oe7px6EeK3jqcPXqysSEdMg9bqujSaTjlIpx1Z1K3N37Mj1osd/1VvFKfEbLvpOr7jIczmpxSm9iwqlorM6DfXtzrNdPYkG0k8MnGB3vI3h0gfA28gPSF4LXKf4N4n7Lg=
-Received: from SEYPR03MB7682.apcprd03.prod.outlook.com (2603:1096:101:149::11)
- by TYSPR03MB7942.apcprd03.prod.outlook.com (2603:1096:400:474::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.25; Sun, 18 Jun
- 2023 08:21:40 +0000
-Received: from SEYPR03MB7682.apcprd03.prod.outlook.com
- ([fe80::8b05:4869:405a:924d]) by SEYPR03MB7682.apcprd03.prod.outlook.com
- ([fe80::8b05:4869:405a:924d%4]) with mapi id 15.20.6455.045; Sun, 18 Jun 2023
- 08:21:40 +0000
-From: =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
-To: "amergnat@baylibre.com" <amergnat@baylibre.com>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>, "chunkuang.hu@kernel.org"
- <chunkuang.hu@kernel.org>
-Subject: Re: [PATCH v2 4/4] drm/mediatek: Fix dereference before null check
-Thread-Topic: [PATCH v2 4/4] drm/mediatek: Fix dereference before null check
-Thread-Index: AQHZnerQDg74imZeYkWYy7jwUnp9iK+J/N6AgAZDG4A=
-Date: Sun, 18 Jun 2023 08:21:40 +0000
-Message-ID: <b585acdc929c381b4ea6f1550104dd609505a742.camel@mediatek.com>
-References: <20230613113210.24949-1-jason-jh.lin@mediatek.com>
- <20230613113210.24949-5-jason-jh.lin@mediatek.com>
- <98809b8a-1d30-a686-0da8-5032bb362560@collabora.com>
-In-Reply-To: <98809b8a-1d30-a686-0da8-5032bb362560@collabora.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SEYPR03MB7682:EE_|TYSPR03MB7942:EE_
-x-ms-office365-filtering-correlation-id: cb8cfd6e-3733-4e5f-e1b4-08db6fd50aab
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: nxwpR2dT1/lPMWtWQcWGoJkP9nb/BFq4Hwsu/FwR5g/at84P/yW5X9uGgIe8oOR2Vq9OthywSGDrM+QBBMMirkXF6fD0iKQP3zZmVgXju8260XW3qGi7m45BAvqtEEmRPoGsrKkBaR00CKWuebkDG31/uM82MMFsp2ASU2QpFGGUwlgIVd3emyWTuSpbBolI4RQ73tDJjYb5QVE8T7bSQ7F3a6NUbPl2TJ6CB63hgJTNQ7tzx9+hCdydBv1zKNisdlt7BdL4XjzQZEhY7zpFYUXQ/TMMKWJ3vUC7x65roq0rTnAIOfu/sGVY5iNCQI7SdP3FpC5tb98jAHp080O0zVkJ4DSbKbujhLaroCxUFmrjNGrN0N5VPplreDqM4uHmxPI04fZrJAQK1byWrGBBvm/1m5I218FRwVAwMufHClSVkcWAElzf8oDBCDryZWNNLPQz7WVlwaRZEy94ZaLpGF0znpbtgwv46s5bxNEC7k/daQCbRxLG0HoM4JGXEpDu2db6kOiwJ8vAAIQv04tLoQks84zlM8fzc92tMbE+s6J3dr1onHpQr7MKYIKFH5DoMQVpDA5s+Xdg21ib31KcX6AVfgdIQ906vdpiedvdY/3vSSMrlyN+t4DOBDVjiaR7Jvt+QQVr5+jzGaw5lhusboStyx5sdLL/BHmohyWamJc=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SEYPR03MB7682.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(376002)(396003)(136003)(346002)(39850400004)(366004)(451199021)(6512007)(6506007)(107886003)(26005)(36756003)(478600001)(85182001)(186003)(71200400001)(6486002)(2906002)(4744005)(316002)(41300700001)(38070700005)(8936002)(86362001)(8676002)(5660300002)(122000001)(38100700002)(54906003)(110136005)(83380400001)(66556008)(2616005)(64756008)(4326008)(66946007)(76116006)(66476007)(91956017)(66446008);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?L3pxNFBHR1ZqRy9ralJPRldoNnpZUUVoY09HbTY1QkJkNkFVQjZOa2xBWDlU?=
- =?utf-8?B?c2ZjcUtXRi8yMmJ1UzV1QzRkQXRha0ZXOTdxY25nUTZSUmVZZm1xN0tsb2R2?=
- =?utf-8?B?Vk4ybUw2ZHVXVDViMUQrK3JRc3N2MFZRUEpsL2t4YWRyUE1lYXd3RWl0MldN?=
- =?utf-8?B?UjZJWVMvUTdsUDh0bE5CbGRJc2JyRGJRUG9MQkl2cHZnYzFqZUpRamxDU1RR?=
- =?utf-8?B?OHFVcnp0ZWh1OFJBKy8xQ0JwSjc0SFI1L2xZSEVEMndJTHEyWWpqMWo2cHNt?=
- =?utf-8?B?Rjd4OGhPOEhuRlNzdituNjRySXhyNFZ6UjNaN1RxTktnYk9LM09qRkRPWDlo?=
- =?utf-8?B?cTNFcU1sb3dITTF2bmxWd0g4bG5mdzJIbHJ0dnZtRWc3ZmtSREc0RTdVMXFi?=
- =?utf-8?B?WGJoV0hjODNnS0RmSHQxeHdDNFpKZFlwVEEydzRrdDBHS3dTNisxU2J2S1J3?=
- =?utf-8?B?NmVaYzVVbjltUm1yak1Vb2toVW05VXdCR3FmK0swaWN2ZHVwTDNHbEs3cU91?=
- =?utf-8?B?MGtsRVluN1ZkZzJWWnpIYWY3dmptOEVOMmowVWhWSC8zdmxFdDFGVTRMNEdI?=
- =?utf-8?B?VER4aUR3T2Jxd2s4UmtuV1Fhcmx6V21tejNObVpDbmR2NXp6L041eGlRcjQ2?=
- =?utf-8?B?UjB1TzIrT1BDV2xpM2ZLdmFnekdEeEh2RlFBRzdlMklTb2RyZk5DdVRFakh5?=
- =?utf-8?B?K0U2YW52eDM1amYvb2p2dWplQnpOek5SakhJTWJYMmFRb3BQWEYrc05lb2ky?=
- =?utf-8?B?N01FZHlqNElxNXBDSDZteWd1ZVRuMldWNXVGQUd2Z1BWOFAxSWVkOHpqQzdX?=
- =?utf-8?B?ME9IaTZRZFB4L2I4UWkvdzE5bEpTdXVFSlJ2NURMSXZtV0IySVIyZ3l2RUVV?=
- =?utf-8?B?UnNEWWxZNHRWa1hoVTN4QTgxdEZCQ2ltWUhhcHdUWVpieXo0T2xLalFsemZj?=
- =?utf-8?B?Rm5hdGhMZi9VSUhsVDdmc0tNSEo3bVFXOENtUTdvb1lMdFI2bTR1bXF4MlhY?=
- =?utf-8?B?T2VVdnBrdyttR0JOY0tYU0dRSXBTNGgvaDlnSWNtSGhsMnVvdXN4bnc3Vi9o?=
- =?utf-8?B?SUVGZjhnbHRFd1BwQldrdXpVQUFEeGF6WDZNeTFQcmhPRTArcllYVVVNckxy?=
- =?utf-8?B?Mjl1VlJrZlVGdDlWUEFnZEkySVlqaGY5VFA4dDZDYytDWlRnQWJva1FBYmpJ?=
- =?utf-8?B?b2JsOHY5QTFzcWVZWk1DMSthNEw0ZHFXcmhXVlVuTVduQWNtMVlrTU9iNko1?=
- =?utf-8?B?WnA2UnJRVzYvM0QwajJIKzlOMjRiNmdudjhRbWNLNlhUWjhJdVl0Vk5CMndG?=
- =?utf-8?B?NGIvMFpPT0JscXJ4aklPYUhXVXNjUkFCMGJLT2hzTks4RGlQOU9ueHIzU2Z1?=
- =?utf-8?B?WmsvdkhaTjZnUGx0bWpiUGhEaGE4Y21nOVZDK09LZGoxYmdnb0tjNjFqLzVE?=
- =?utf-8?B?bzMxaWVQd1VJWExPMmUzUDZjZHU3V0pnVE03Z2tnU1BFdmhwWFFQMzAxaUJz?=
- =?utf-8?B?R294Q2hCNGhSUkZ3VW91Rm9OSldoSlVWQmR6aXdHRWtRaytkM0ErZ1FSTDlR?=
- =?utf-8?B?V1JCMHQwNHBmWmd4a01lWDJSMGNmdEV2VmxTV0t4aWp1MTFLZXlzRU1qL2dX?=
- =?utf-8?B?YW5HbmZqQ2lWd3M1L1hhUGhhVFAzUUx1VjR4Y0ZRMnFvRUNtcVVnbFdFUU1P?=
- =?utf-8?B?aHYzOHJ5UWZ1cCtWbkppc2loUEJvaUVQQ1JqcnBrL2h6b1Izc3VCVi85WGxE?=
- =?utf-8?B?cDFEbjJrU2o2V3Zubkw5aS9wKzdvNXlDQzBlWm8rVnI5M2JPclVLdzRlR3JY?=
- =?utf-8?B?aUpqZnNxdC94SVE1SUNNTWkvWlU4TEtGNXpUTytNM3lYMEdnR25ad0VuaEZv?=
- =?utf-8?B?WHBuYWJVMGVNelYvb0c5V3h1VmhzY3lwKzNXOUI1cENCY0NRN1lrSkFQT0kx?=
- =?utf-8?B?eG5zdVNzemxTa1VXVGlINjhVMmlWbmZaWlQ2eFh2OVFJSE5URnNZNnZHa2FN?=
- =?utf-8?B?dFh0bnFtdmpwSU01WnNYWE5HNzVSRjlLUGJUMXpDZWZkVlVoa2VGYWE2VFFP?=
- =?utf-8?B?dFZldHh1ZzFwZGdwNmdIRjRHVEtVK0JLd0Z3R21yRVRqc1VzUnZ6TEVDZTM2?=
- =?utf-8?B?V3dtR25lSDdsUmpxVVBWTUF0aTNQay81VlBEZ0wxWk1xMUtpTXhuTjVDeWs2?=
- =?utf-8?B?Vnc9PQ==?=
-Content-Type: multipart/alternative;
- boundary="_000_b585acdc929c381b4ea6f1550104dd609505a742camelmediatekco_"
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D60B10E0D9;
+ Sun, 18 Jun 2023 08:26:08 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 52C3A60AB8;
+ Sun, 18 Jun 2023 08:26:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD64CC433C8;
+ Sun, 18 Jun 2023 08:26:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1687076765;
+ bh=+eBofwSb6IZB/zKNx2theD2VaBH+ePSND06CcMvofWU=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=Z7U8LSS8dYC1Pcg36jSAiC3bXPpkaqfS1ne4hpzs7v6D3F5xp9ZWJKZwV5flLCe5q
+ gn84w/dpdodijLyfRl/5h99pG1RpqrTqikYF26xDRBZx2ybZ0fnc6J8WI9h1PT9Agz
+ MKu3OXIkA9w15olPWWwpuQt+RJqhObyVvCFhxHeSH/O7Qna7xGb0IsKRHjm/FgERTS
+ 8SiwYc4QHLkIc+f7oe2YXXSOAbgzb1gjNaUW7he+X1keyE7NZtGgfVOCqa02eK9BRI
+ u946ZcISFRy+pX1jP8rFAgcxVNiB5tTyUyVGBVlHifSD0mcSRyk0p8+6QlXQdVZEV/
+ 9Osceacr5bvmQ==
+Received: by mail-yb1-f170.google.com with SMTP id
+ 3f1490d57ef6-b9a6eec8611so5287295276.0; 
+ Sun, 18 Jun 2023 01:26:05 -0700 (PDT)
+X-Gm-Message-State: AC+VfDzP5YbJquI+uqI6e2o/Yjq26jNgUhNM7qxpfCgFc775mBFK5e93
+ niYYEfuTcOU0S9YxK/oJOrfkcxuXb7xFTPNiABI=
+X-Google-Smtp-Source: ACHHUZ5sKOlE9gVOTIYCRtcG65JgW7CsutADrDLB7Y5SKPMyjSkAC/QhMYvmm2lKbg4VNOm32Ryi2iCoqMVo6JEDU4A=
+X-Received: by 2002:a25:4c84:0:b0:bca:1d11:c02e with SMTP id
+ z126-20020a254c84000000b00bca1d11c02emr3562475yba.13.1687076764664; Sun, 18
+ Jun 2023 01:26:04 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SEYPR03MB7682.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb8cfd6e-3733-4e5f-e1b4-08db6fd50aab
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jun 2023 08:21:40.0572 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: cMe3U8BMEdCRO9MI4O1ZxYfcp5OtQZs4+iHosG6DS+eieU/mOzY2SMaSnsy2rOHuyrqke0rMkeU94epbLJKPvKRzULNlel3OTW1bNsL89nM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR03MB7942
+References: <20230602142501.6-1-francois.dugast@intel.com>
+ <20230602142501.6-2-francois.dugast@intel.com>
+ <qcsuilqdccvku4qoa36a5m3mhdr75akwpba77oisjk6e4kvkrm@6u5tr3dfmf5v>
+ <ZIdIfdiClQ60fZSI@fdugast-desk.home>
+ <20230615000105.GU5433@mdroper-desk1.amr.corp.intel.com>
+ <CAFCwf10Td52xyKN9U903-GzS8V_T6sJ8t9ppLiXCNLzHGHzLEQ@mail.gmail.com>
+ <20230615163420.GW5433@mdroper-desk1.amr.corp.intel.com>
+In-Reply-To: <20230615163420.GW5433@mdroper-desk1.amr.corp.intel.com>
+From: Oded Gabbay <ogabbay@kernel.org>
+Date: Sun, 18 Jun 2023 11:25:38 +0300
+X-Gmail-Original-Message-ID: <CAFCwf12r1VHY5m7u=Krx4oSBje-O0+E5MhQwu21+NVVnejTj6g@mail.gmail.com>
+Message-ID: <CAFCwf12r1VHY5m7u=Krx4oSBje-O0+E5MhQwu21+NVVnejTj6g@mail.gmail.com>
+Subject: Re: [Intel-xe] [RFC PATCH 1/1] drm/xe: Introduce function pointers
+ for MMIO functions
+To: Matt Roper <matthew.d.roper@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,105 +70,418 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- =?utf-8?B?UmV4LUJDIENoZW4gKOmZs+afj+i+sCk=?= <Rex-BC.Chen@mediatek.com>,
- =?utf-8?B?SmFzb24tY2ggQ2hlbiAo6Zmz5bu66LGqKQ==?= <Jason-ch.Chen@mediatek.com>,
- =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
- =?utf-8?B?Sm9obnNvbiBXYW5nICjnjovogZbpkasp?= <Johnson.Wang@mediatek.com>,
- =?utf-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: ofir1.bitton@intel.com, Francois Dugast <francois.dugast@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+ ohadshar@intel.com, intel-xe@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---_000_b585acdc929c381b4ea6f1550104dd609505a742camelmediatekco_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On Thu, Jun 15, 2023 at 7:34=E2=80=AFPM Matt Roper <matthew.d.roper@intel.c=
+om> wrote:
+>
+> On Thu, Jun 15, 2023 at 04:04:18PM +0300, Oded Gabbay wrote:
+> > On Thu, Jun 15, 2023 at 3:01=E2=80=AFAM Matt Roper <matthew.d.roper@int=
+el.com> wrote:
+> > >
+> > > On Mon, Jun 12, 2023 at 06:31:57PM +0200, Francois Dugast wrote:
+> > > > On Thu, Jun 08, 2023 at 10:35:29AM -0700, Lucas De Marchi wrote:
+> > > > > On Fri, Jun 02, 2023 at 02:25:01PM +0000, Francois Dugast wrote:
+> > > > > > A local structure of function pointers is used as a minimal har=
+dware
+> > > > > > abstraction layer to prepare for platform independent MMIO call=
+s.
+> > > > > >
+> > > > > > Cc: Oded Gabbay <ogabbay@kernel.org>
+> > > > > > Cc: Ofir Bitton <ofir1.bitton@intel.com>
+> > > > > > Cc: Ohad Sharabi <ohadshar@intel.com>
+> > > > > > Signed-off-by: Francois Dugast <francois.dugast@intel.com>
+> > > > > > ---
+> > > > > > drivers/gpu/drm/xe/xe_device_types.h |  3 ++
+> > > > > > drivers/gpu/drm/xe/xe_mmio.c         | 81 +++++++++++++++++++++=
++++++++
+> > > > > > drivers/gpu/drm/xe/xe_mmio.h         | 35 ++++++------
+> > > > > > 3 files changed, 99 insertions(+), 20 deletions(-)
+> > > > > >
+> > > > > > diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu=
+/drm/xe/xe_device_types.h
+> > > > > > index 17b6b1cc5adb..3f8fd0d8129b 100644
+> > > > > > --- a/drivers/gpu/drm/xe/xe_device_types.h
+> > > > > > +++ b/drivers/gpu/drm/xe/xe_device_types.h
+> > > > > > @@ -378,6 +378,9 @@ struct xe_device {
+> > > > > >   /** @d3cold_allowed: Indicates if d3cold is a valid device st=
+ate */
+> > > > > >   bool d3cold_allowed;
+> > > > > >
+> > > > > > + /** @mmio_funcs: function pointers for MMIO related functions=
+ */
+> > > > > > + const struct xe_mmio_funcs *mmio_funcs;
+> > > > > > +
+> > > > > >   /* private: */
+> > > > > >
+> > > > > > #if IS_ENABLED(CONFIG_DRM_XE_DISPLAY)
+> > > > > > diff --git a/drivers/gpu/drm/xe/xe_mmio.c b/drivers/gpu/drm/xe/=
+xe_mmio.c
+> > > > > > index 475b14fe4356..f3d08676a77a 100644
+> > > > > > --- a/drivers/gpu/drm/xe/xe_mmio.c
+> > > > > > +++ b/drivers/gpu/drm/xe/xe_mmio.c
+> > > > > > @@ -25,6 +25,62 @@
+> > > > > >
+> > > > > > #define BAR_SIZE_SHIFT 20
+> > > > > >
+> > > > > > +static void xe_mmio_write32_device(struct xe_gt *gt,
+> > > > > > +                            struct xe_reg reg, u32 val);
+> > > > > > +static u32 xe_mmio_read32_device(struct xe_gt *gt, struct xe_r=
+eg reg);
+> > > > > > +static void xe_mmio_write64_device(struct xe_gt *gt,
+> > > > > > +                            struct xe_reg reg, u64 val);
+> > > > > > +static u64 xe_mmio_read64_device(struct xe_gt *gt, struct xe_r=
+eg reg);
+> > > > > > +
+> > > > > > +static const struct xe_mmio_funcs xe_mmio_funcs_device =3D {
+> > > > > > + .write32 =3D xe_mmio_write32_device,
+> > > > > > + .read32 =3D xe_mmio_read32_device,
+> > > > > > + .write64 =3D xe_mmio_write64_device,
+> > > > > > + .read64 =3D xe_mmio_read64_device,
+> > > > > > +};
+> > > > > > +
+> > > > > > +static inline void xe_mmio_write32_device(struct xe_gt *gt,
+> > > > > > +                            struct xe_reg reg, u32 val)
+> > > > > > +{
+> > > > > > + struct xe_tile *tile =3D gt_to_tile(gt);
+> > > > > > +
+> > > > > > + if (reg.addr < gt->mmio.adj_limit)
+> > > > > > +         reg.addr +=3D gt->mmio.adj_offset;
+> > > > > > +
+> > > > > > + writel(val, tile->mmio.regs + reg.addr);
+> > > > > > +}
+> > > > > > +
+> > > > > > +static inline u32 xe_mmio_read32_device(struct xe_gt *gt, stru=
+ct xe_reg reg)
+> > > > > > +{
+> > > > > > + struct xe_tile *tile =3D gt_to_tile(gt);
+> > > > > > +
+> > > > > > + if (reg.addr < gt->mmio.adj_limit)
+> > > > > > +         reg.addr +=3D gt->mmio.adj_offset;
+> > > > > > +
+> > > > > > + return readl(tile->mmio.regs + reg.addr);
+> > > > > > +}
+> > > > > > +
+> > > > > > +static inline void xe_mmio_write64_device(struct xe_gt *gt,
+> > > > > > +                            struct xe_reg reg, u64 val)
+> > > > > > +{
+> > > > > > + struct xe_tile *tile =3D gt_to_tile(gt);
+> > > > > > +
+> > > > > > + if (reg.addr < gt->mmio.adj_limit)
+> > > > > > +         reg.addr +=3D gt->mmio.adj_offset;
+> > > > > > +
+> > > > > > + writeq(val, tile->mmio.regs + reg.addr);
+> > > > > > +}
+> > > > > > +
+> > > > > > +static inline u64 xe_mmio_read64_device(struct xe_gt *gt, stru=
+ct xe_reg reg)
+> > > > > > +{
+> > > > > > + struct xe_tile *tile =3D gt_to_tile(gt);
+> > > > > > +
+> > > > > > + if (reg.addr < gt->mmio.adj_limit)
+> > > > > > +         reg.addr +=3D gt->mmio.adj_offset;
+> > > > > > +
+> > > > > > + return readq(tile->mmio.regs + reg.addr);
+> > > > > > +}
+> > > > > > +
+> > > > > > static int xe_set_dma_info(struct xe_device *xe)
+> > > > > > {
+> > > > > >   unsigned int mask_size =3D xe->info.dma_mask_size;
+> > > > > > @@ -377,6 +433,29 @@ static void mmio_fini(struct drm_device *d=
+rm, void *arg)
+> > > > > >           iounmap(xe->mem.vram.mapping);
+> > > > > > }
+> > > > > >
+> > > > > > +static void xe_mmio_set_funcs(struct xe_device *xe)
+> > > > > > +{
+> > > > > > + /* For now all platforms use the set of MMIO functions for a
+> > > > > > +  * physical device.
+> > > > > > +  */
+> > > > >
+> > > > >
+> > > > > what is "device" in this context? that seems confusing as we alwa=
+ys ever
+> > > > > just support reading/writing to a real device (physical here may =
+also
+> > > > > add to the confusion when thinking about SR-IOV and VFs).
+> > > > > We shouldn't add abstractions that are then never used and all pl=
+atforms
+> > > > > end up using the same. Unless it's a preparation for a follow up =
+series
+> > > > > adding the different handling.
+> > > >
+> > > > For now "device" is meant as "in opposition to simulator" but I agr=
+ee
+> > > > we can find a better name. Existing platforms all use the same
+> > > > implementation but this is preparation for platforms that require a
+> > > > different implementation.
+> > >
+> > > I agree with Lucas that this doesn't really seem to be a good candida=
+te
+> > > for a vtable; every platform uses exactly the same logic and I can't
+> > > really envision how/why this would need to change for future platform=
+s
+> > > either, so this seems to just be adding unnecessary complexity.
+> > > Registers being accessed at some offset into a PCI BAR isn't likely t=
+o
+> > > change going forward.  On future platforms it's more likely that we'd
+> > > need changes to the part of the code that maps the MMIO BAR rather th=
+an
+> > > the code that reads/writes an offset into a mapping that's already be=
+en
+> > > setup.
+> > I agree with that for every *real hardware* platform the
+> > implementation will probably be the same.
+> > But for simulator/emulation, there is a different implementation.
+> > And even if we don't upstream that different implementation, doing
+> > this abstraction will help us upstream the rest of the driver as we
+> > minimize the differences between upstream and downstream.
+> > And helping us upstream the driver is a good enough reason imo to add
+> > this abstraction.
+>
+> Adding extra abstraction layers to upstream code that provide no
+> upstream benefit and only come into play for some private, internal-only
+> workflow is generally frowned upon in the DRM subsystem.  Unless you
+> have some kind of public, open-source usage model, adding the extra
+> complexity and clutter here is probably a no-go for upstream.
+While in general I ofc agree with this statement, I believe it doesn't
+apply to this case.
 
-SGkgQW5nZWxvLA0KDQoNCk9uIFdlZCwgMjAyMy0wNi0xNCBhdCAxMDo0MyArMDIwMCwgQW5nZWxv
-R2lvYWNjaGlubyBEZWwgUmVnbm8gd3JvdGU6DQpFeHRlcm5hbCBlbWFpbCA6IFBsZWFzZSBkbyBu
-b3QgY2xpY2sgbGlua3Mgb3Igb3BlbiBhdHRhY2htZW50cyB1bnRpbCB5b3UgaGF2ZSB2ZXJpZmll
-ZCB0aGUgc2VuZGVyIG9yIHRoZSBjb250ZW50Lg0KDQpJbCAxMy8wNi8yMyAxMzozMiwgSmFzb24t
-SkguTGluIGhhIHNjcml0dG86DQoNCj4gTnVsbC1jaGVja2luZyBzdGF0ZSBzdWdnZXN0cyB0aGF0
-IGl0IG1heSBiZSBudWxsLCBidXQgaXQgaGFzIGFscmVhZHkNCg0KPiBiZWVuIGRlcmVmZXJlbmNl
-ZCBvbiBkcm1fYXRvbWljX2dldF9uZXdfcGxhbmVfc3RhdGUoc3RhdGUsIHBsYW5lKS4NCg0KPg0K
-DQo+IFRoZSBwYXJhbWV0ZXIgc3RhdGUgd2lsbCBuZXZlciBiZSBOVUxMIGN1cnJlbnRseSwgc28g
-anVzdCByZW1vdmUgdGhlDQoNCj4gc3RhdGUgaXMgTlVMTCBmbG93IGluIHRoaXMgZnVuY3Rpb24u
-DQoNCj4NCg0KPiBTaWduZWQtb2ZmLWJ5OiBKYXNvbi1KSC5MaW4gPGphc29uLWpoLmxpbkBtZWRp
-YXRlay5jb20+DQoNCj4gRml4ZXM6IDVkZGIwYmQ0ZGRjMyAoImRybS9hdG9taWM6IFBhc3MgdGhl
-IGZ1bGwgc3RhdGUgdG8gcGxhbmVzIGFzeW5jIGF0b21pYyBjaGVjayBhbmQgdXBkYXRlIikNCg0K
-DQpGaXhlcyBiZWZvcmUgUy1vLWIuLi4NCg0KDQpSZXZpZXdlZC1ieTogQW5nZWxvR2lvYWNjaGlu
-byBEZWwgUmVnbm8gPGFuZ2Vsb2dpb2FjY2hpbm8uZGVscmVnbm9AY29sbGFib3JhLmNvbT4NCg0K
-DQpUaGFua3MsIEknbGwgc3dhcCBpdCBhdCB0aGUgbmV4dCB2ZXJzaW9uLg0KDQpSZWdhcmRzLA0K
-SmFzb24tSkguTGluDQoNCg==
+The intention behind changing register access to be callback functions
+is to allow the Linux driver to serve as the principal entity for
+pre-silicon validation . This is an important distinction, as the aim
+is not to obscure the Linux kernel API for portability across other
+operating systems or to reinvent mechanisms already provided by the
+kernel, which I believe is the primary objection of upstream for
+adding abstraction layers.
 
---_000_b585acdc929c381b4ea6f1550104dd609505a742camelmediatekco_
-Content-Type: text/html; charset="utf-8"
-Content-ID: <9CF8258DA854E1409FF9FA42FA5F6F57@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Instead, this strategy is about utilizing the inherent advantages of
+Linux for the crucial stage of pre-silicon validation. In fact,
+adopting Linux as the main vessel for this process can help leverage a
+broader open source community for problem-solving, encourage more
+uniform testing practices, and result in higher quality drivers due to
+the transparency and scrutiny inherent in open-source development.
 
-PGh0bWwgZGlyPSJsdHIiPg0KPGhlYWQ+DQo8bWV0YSBodHRwLWVxdWl2PSJDb250ZW50LVR5cGUi
-IGNvbnRlbnQ9InRleHQvaHRtbDsgY2hhcnNldD11dGYtOCI+DQo8L2hlYWQ+DQo8Ym9keSBzdHls
-ZT0idGV4dC1hbGlnbjpsZWZ0OyBkaXJlY3Rpb246bHRyOyI+DQo8ZGl2PkhpIEFuZ2Vsbyw8L2Rp
-dj4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj5PbiBXZWQsIDIw
-MjMtMDYtMTQgYXQgMTA6NDMgKzAyMDAsIEFuZ2Vsb0dpb2FjY2hpbm8gRGVsIFJlZ25vIHdyb3Rl
-OjwvZGl2Pg0KPGJsb2NrcXVvdGUgdHlwZT0iY2l0ZSIgc3R5bGU9Im1hcmdpbjowIDAgMCAuOGV4
-OyBib3JkZXItbGVmdDoycHggIzcyOWZjZiBzb2xpZDtwYWRkaW5nLWxlZnQ6MWV4Ij4NCjx0YWJs
-ZSBjbGFzcz0iTXNvTm9ybWFsVGFibGUiIGJvcmRlcj0iMCIgY2VsbHNwYWNpbmc9IjAiIGNlbGxw
-YWRkaW5nPSIwIiBhbGlnbj0ibGVmdCIgd2lkdGg9IjEwMCUiIHN0eWxlPSJ3aWR0aDoxMDAuMCU7
-YmFja2dyb3VuZDojNzdGRkNDIj4NCjx0Ym9keT4NCjx0cj4NCjx0ZCB3aWR0aD0iOSIgc3R5bGU9
-IndpZHRoOjcuMHB0O2JhY2tncm91bmQ6I0VBMDYyMTtwYWRkaW5nOjUuMjVwdCAxLjVwdA0KIDUu
-MjVwdCAxLjVwdCI+DQo8L3RkPg0KPHRkIHdpZHRoPSIxMDAlIiBzdHlsZT0id2lkdGg6MTAwLjAl
-O2JhY2tncm91bmQ6I0ZGRDRENDtwYWRkaW5nOjUuMjVwdA0KIDMuNzVwdCA1LjI1cHQgMTEuMjVw
-dCI+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1zby1lbGVtZW50OmZyYW1l
-O21zby1lbGVtZW50LWZyYW1lLWhzcGFjZToyLjI1cHQ7bXNvLWVsZW1lbnQtd3JhcDphcm91bmQ7
-bXNvLWVsZW1lbnQtYW5jaG9yLXZlcnRpY2FsOnBhcmFncmFwaDttc28tZWxlbWVudC1hbmNob3It
-aG9yaXpvbnRhbDpjb2x1bW47bXNvLWhlaWdodC1ydWxlOmV4YWN0bHkiPg0KPHNwYW4gbGFuZz0i
-RU4tVVMiIHN0eWxlPSJmb250LXNpemU6OS41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7U2Vnb2UNCiBV
-SSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMyMTIxMjEiPkV4dGVybmFsIGVtYWlsIDogUGxlYXNl
-IGRvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVudGlsIHlvdSBoYXZlIHZl
-cmlmaWVkIHRoZSBzZW5kZXIgb3IgdGhlIGNvbnRlbnQuPG86cD48L286cD48L3NwYW4+PC9wPg0K
-PC9kaXY+DQo8L3RkPg0KPC90cj4NCjwvdGJvZHk+DQo8L3RhYmxlPg0KPCEtLX0tLT4NCjxwcmU+
-SWwgMTMvMDYvMjMgMTM6MzIsIEphc29uLUpILkxpbiBoYSBzY3JpdHRvOjwvcHJlPg0KPHByZT4m
-Z3Q7IE51bGwtY2hlY2tpbmcgc3RhdGUgc3VnZ2VzdHMgdGhhdCBpdCBtYXkgYmUgbnVsbCwgYnV0
-IGl0IGhhcyBhbHJlYWR5PC9wcmU+DQo8cHJlPiZndDsgYmVlbiBkZXJlZmVyZW5jZWQgb24gZHJt
-X2F0b21pY19nZXRfbmV3X3BsYW5lX3N0YXRlKHN0YXRlLCBwbGFuZSkuPC9wcmU+DQo8cHJlPiZn
-dDsgPC9wcmU+DQo8cHJlPiZndDsgVGhlIHBhcmFtZXRlciBzdGF0ZSB3aWxsIG5ldmVyIGJlIE5V
-TEwgY3VycmVudGx5LCBzbyBqdXN0IHJlbW92ZSB0aGU8L3ByZT4NCjxwcmU+Jmd0OyBzdGF0ZSBp
-cyBOVUxMIGZsb3cgaW4gdGhpcyBmdW5jdGlvbi48L3ByZT4NCjxwcmU+Jmd0OyA8L3ByZT4NCjxw
-cmU+Jmd0OyBTaWduZWQtb2ZmLWJ5OiBKYXNvbi1KSC5MaW4gJmx0O2phc29uLWpoLmxpbkBtZWRp
-YXRlay5jb20mZ3Q7PC9wcmU+DQo8cHJlPiZndDsgRml4ZXM6IDVkZGIwYmQ0ZGRjMyAoJnF1b3Q7
-ZHJtL2F0b21pYzogUGFzcyB0aGUgZnVsbCBzdGF0ZSB0byBwbGFuZXMgYXN5bmMgYXRvbWljIGNo
-ZWNrIGFuZCB1cGRhdGUmcXVvdDspPC9wcmU+DQo8cHJlPjxicj48L3ByZT4NCjxwcmU+Rml4ZXMg
-YmVmb3JlIFMtby1iLi4uPC9wcmU+DQo8cHJlPjxicj48L3ByZT4NCjxwcmU+UmV2aWV3ZWQtYnk6
-IEFuZ2Vsb0dpb2FjY2hpbm8gRGVsIFJlZ25vICZsdDthbmdlbG9naW9hY2NoaW5vLmRlbHJlZ25v
-QGNvbGxhYm9yYS5jb20mZ3Q7PC9wcmU+DQo8cHJlPjxicj48L3ByZT4NCjxwcmU+VGhhbmtzLCBJ
-J2xsIHN3YXAgaXQgYXQgdGhlIG5leHQgdmVyc2lvbi48L3ByZT4NCjwvYmxvY2txdW90ZT4NCjxk
-aXY+PGJyPg0KPC9kaXY+DQo8ZGl2PlJlZ2FyZHMsPC9kaXY+DQo8ZGl2Pkphc29uLUpILkxpbjwv
-ZGl2Pg0KPGJsb2NrcXVvdGUgdHlwZT0iY2l0ZSIgc3R5bGU9Im1hcmdpbjowIDAgMCAuOGV4OyBi
-b3JkZXItbGVmdDoycHggIzcyOWZjZiBzb2xpZDtwYWRkaW5nLWxlZnQ6MWV4Ij4NCjxwcmU+PGJy
-PjwvcHJlPg0KPC9ibG9ja3F1b3RlPg0KPC9ib2R5Pg0KPC9odG1sPg0KPCEtLXR5cGU6dGV4dC0t
-PjwhLS17LS0+PHByZT4qKioqKioqKioqKioqIE1FRElBVEVLIENvbmZpZGVudGlhbGl0eSBOb3Rp
-Y2UgKioqKioqKioqKioqKioqKioqKioNClRoZSBpbmZvcm1hdGlvbiBjb250YWluZWQgaW4gdGhp
-cyBlLW1haWwgbWVzc2FnZSAoaW5jbHVkaW5nIGFueSANCmF0dGFjaG1lbnRzKSBtYXkgYmUgY29u
-ZmlkZW50aWFsLCBwcm9wcmlldGFyeSwgcHJpdmlsZWdlZCwgb3Igb3RoZXJ3aXNlDQpleGVtcHQg
-ZnJvbSBkaXNjbG9zdXJlIHVuZGVyIGFwcGxpY2FibGUgbGF3cy4gSXQgaXMgaW50ZW5kZWQgdG8g
-YmUgDQpjb252ZXllZCBvbmx5IHRvIHRoZSBkZXNpZ25hdGVkIHJlY2lwaWVudChzKS4gQW55IHVz
-ZSwgZGlzc2VtaW5hdGlvbiwgDQpkaXN0cmlidXRpb24sIHByaW50aW5nLCByZXRhaW5pbmcgb3Ig
-Y29weWluZyBvZiB0aGlzIGUtbWFpbCAoaW5jbHVkaW5nIGl0cyANCmF0dGFjaG1lbnRzKSBieSB1
-bmludGVuZGVkIHJlY2lwaWVudChzKSBpcyBzdHJpY3RseSBwcm9oaWJpdGVkIGFuZCBtYXkgDQpi
-ZSB1bmxhd2Z1bC4gSWYgeW91IGFyZSBub3QgYW4gaW50ZW5kZWQgcmVjaXBpZW50IG9mIHRoaXMg
-ZS1tYWlsLCBvciBiZWxpZXZlIA0KdGhhdCB5b3UgaGF2ZSByZWNlaXZlZCB0aGlzIGUtbWFpbCBp
-biBlcnJvciwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVyIA0KaW1tZWRpYXRlbHkgKGJ5IHJlcGx5
-aW5nIHRvIHRoaXMgZS1tYWlsKSwgZGVsZXRlIGFueSBhbmQgYWxsIGNvcGllcyBvZiANCnRoaXMg
-ZS1tYWlsIChpbmNsdWRpbmcgYW55IGF0dGFjaG1lbnRzKSBmcm9tIHlvdXIgc3lzdGVtLCBhbmQg
-ZG8gbm90DQpkaXNjbG9zZSB0aGUgY29udGVudCBvZiB0aGlzIGUtbWFpbCB0byBhbnkgb3RoZXIg
-cGVyc29uLiBUaGFuayB5b3UhDQo8L3ByZT48IS0tfS0tPg==
+Making the upstream driver as close as possible to the internal driver
+is advantageous for both the speed and quality of the upstreaming
+process. A driver that closely mirrors the internal one will likely
+require fewer modifications, thus streamlining the upstreaming
+process. With a closely aligned internal and upstream driver, the
+benefits of any improvements, bug fixes, and other modifications made
+in the internal driver could be quickly and easily transferred to the
+upstream driver.
 
---_000_b585acdc929c381b4ea6f1550104dd609505a742camelmediatekco_--
+In short, this change will allow us to do a continuously faster and
+better upstream process, which imho provides a substantial benefit to
+the kernel community.
 
+>
+> Also, even if you do have an unusual form of simulation/emulation that
+> doesn't behave like real hardware, are you going to have several of them
+> that all work in different manners and need unique implementations?  If
+> we only ever expect to have two code paths total (and only one of those
+> upstream), then using a vtable seems like overkill.  A very simple
+>
+>         if (special case)
+>                 return alternate_implementation();
+>
+> would be much easier to understand and maintain.
+Specifically in this case (register access), as I don't foresee more
+than two implementations, we can go with your suggestion.
+i.e. add to the mmio inline functions
+
+if (sim)
+    return alternate_implementation();
+
+If there is no objection, we will follow this approach and send a
+patch for review.
+
+Thanks,
+Oded
+>
+>
+> There are lots of other places in the Xe driver that _would_ benefit
+> from per-platform vtables; we should prioritize making changes like this
+> in the areas where they provide a clear benefit.
+>
+>
+> Matt
+>
+> >
+> >
+> > Oded
+> > >
+> > > >
+> > > > >
+> > > > > +Matt as there is still (at least) one refactor planned in this a=
+rea,
+> > > > > since gt is not always the proper target for the MMIOs. He was sa=
+ying in
+> > > > > his earlier series about having a mmio_view or such to abstract t=
+he
+> > > > > offset and other differences between each IO range. Not sure if t=
+his
+> > > > > series would go the rigth direction, maybe we need to think in bo=
+th
+> > > > > cases together.
+> > > >
+> > > > Matt, would this series block the refactor mentioned by Lucas?
+> > > >
+> > > > In general, are there objections to introducing functions pointers =
+for
+> > > > MMIO functions (extended to all of them, as suggested by Ohad)?
+> > >
+> > > It probably makes more sense to do vtable conversion on other parts o=
+f
+> > > the driver where we already have different implementations per platfo=
+rm
+> > > and where we already know that design makes sense.  We can always com=
+e
+> > > back and do this to the MMIO functions later once there are actually
+> > > multiple implementations, but it doesn't seem to serve any purpose ri=
+ght
+> > > now.
+> > >
+> > >
+> > > Matt
+> > >
+> > > >
+> > > > Thanks,
+> > > > Francois
+> > > >
+> > > > >
+> > > > >
+> > > > > Lucas De Marchi
+> > > > >
+> > > > > > + switch (xe->info.platform) {
+> > > > > > + case XE_TIGERLAKE:
+> > > > > > + case XE_ROCKETLAKE:
+> > > > > > + case XE_ALDERLAKE_S:
+> > > > > > + case XE_ALDERLAKE_P:
+> > > > > > + case XE_ALDERLAKE_N:
+> > > > > > + case XE_DG1:
+> > > > > > + case XE_DG2:
+> > > > > > + case XE_PVC:
+> > > > > > + case XE_METEORLAKE:
+> > > > > > +         xe->mmio_funcs =3D &xe_mmio_funcs_device;
+> > > > > > +         break;
+> > > > > > + default:
+> > > > > > +         DRM_ERROR("Unsupported platform\n");
+> > > > > > +         break;
+> > > > > > + }
+> > > > > > +}
+> > > > > > +
+> > > > > > int xe_mmio_init(struct xe_device *xe)
+> > > > > > {
+> > > > > >   struct xe_tile *root_tile =3D xe_device_get_root_tile(xe);
+> > > > > > @@ -384,6 +463,8 @@ int xe_mmio_init(struct xe_device *xe)
+> > > > > >   const int mmio_bar =3D 0;
+> > > > > >   int err;
+> > > > > >
+> > > > > > + xe_mmio_set_funcs(xe);
+> > > > > > +
+> > > > > >   /*
+> > > > > >    * Map the first 16MB of th BAR, which includes the registers=
+ (0-4MB),
+> > > > > >    * reserved space (4MB-8MB), and GGTT (8MB-16MB) for a single=
+ tile.
+> > > > > > diff --git a/drivers/gpu/drm/xe/xe_mmio.h b/drivers/gpu/drm/xe/=
+xe_mmio.h
+> > > > > > index 3c547d78afba..80ce9de7aac4 100644
+> > > > > > --- a/drivers/gpu/drm/xe/xe_mmio.h
+> > > > > > +++ b/drivers/gpu/drm/xe/xe_mmio.h
+> > > > > > @@ -19,6 +19,13 @@ struct xe_device;
+> > > > > >
+> > > > > > #define GEN12_LMEM_BAR            2
+> > > > > >
+> > > > > > +struct xe_mmio_funcs {
+> > > > > > + u32 (*read32)(struct xe_gt *gt, struct xe_reg reg);
+> > > > > > + u64 (*read64)(struct xe_gt *gt, struct xe_reg reg);
+> > > > > > + void (*write32)(struct xe_gt *gt, struct xe_reg reg, u32 val)=
+;
+> > > > > > + void (*write64)(struct xe_gt *gt, struct xe_reg reg, u64 val)=
+;
+> > > > > > +};
+> > > > > > +
+> > > > > > int xe_mmio_init(struct xe_device *xe);
+> > > > > >
+> > > > > > static inline u8 xe_mmio_read8(struct xe_gt *gt, struct xe_reg =
+reg)
+> > > > > > @@ -34,22 +41,16 @@ static inline u8 xe_mmio_read8(struct xe_gt=
+ *gt, struct xe_reg reg)
+> > > > > > static inline void xe_mmio_write32(struct xe_gt *gt,
+> > > > > >                              struct xe_reg reg, u32 val)
+> > > > > > {
+> > > > > > - struct xe_tile *tile =3D gt_to_tile(gt);
+> > > > > > -
+> > > > > > - if (reg.addr < gt->mmio.adj_limit)
+> > > > > > -         reg.addr +=3D gt->mmio.adj_offset;
+> > > > > > + struct xe_device *xe =3D gt_to_xe(gt);
+> > > > > >
+> > > > > > - writel(val, tile->mmio.regs + reg.addr);
+> > > > > > + xe->mmio_funcs->write32(gt, reg, val);
+> > > > > > }
+> > > > > >
+> > > > > > static inline u32 xe_mmio_read32(struct xe_gt *gt, struct xe_re=
+g reg)
+> > > > > > {
+> > > > > > - struct xe_tile *tile =3D gt_to_tile(gt);
+> > > > > > -
+> > > > > > - if (reg.addr < gt->mmio.adj_limit)
+> > > > > > -         reg.addr +=3D gt->mmio.adj_offset;
+> > > > > > + struct xe_device *xe =3D gt_to_xe(gt);
+> > > > > >
+> > > > > > - return readl(tile->mmio.regs + reg.addr);
+> > > > > > + return xe->mmio_funcs->read32(gt, reg);
+> > > > > > }
+> > > > > >
+> > > > > > static inline u32 xe_mmio_rmw32(struct xe_gt *gt, struct xe_reg=
+ reg, u32 clr,
+> > > > > > @@ -67,22 +68,16 @@ static inline u32 xe_mmio_rmw32(struct xe_g=
+t *gt, struct xe_reg reg, u32 clr,
+> > > > > > static inline void xe_mmio_write64(struct xe_gt *gt,
+> > > > > >                              struct xe_reg reg, u64 val)
+> > > > > > {
+> > > > > > - struct xe_tile *tile =3D gt_to_tile(gt);
+> > > > > > -
+> > > > > > - if (reg.addr < gt->mmio.adj_limit)
+> > > > > > -         reg.addr +=3D gt->mmio.adj_offset;
+> > > > > > + struct xe_device *xe =3D gt_to_xe(gt);
+> > > > > >
+> > > > > > - writeq(val, tile->mmio.regs + reg.addr);
+> > > > > > + xe->mmio_funcs->write64(gt, reg, val);
+> > > > > > }
+> > > > > >
+> > > > > > static inline u64 xe_mmio_read64(struct xe_gt *gt, struct xe_re=
+g reg)
+> > > > > > {
+> > > > > > - struct xe_tile *tile =3D gt_to_tile(gt);
+> > > > > > -
+> > > > > > - if (reg.addr < gt->mmio.adj_limit)
+> > > > > > -         reg.addr +=3D gt->mmio.adj_offset;
+> > > > > > + struct xe_device *xe =3D gt_to_xe(gt);
+> > > > > >
+> > > > > > - return readq(tile->mmio.regs + reg.addr);
+> > > > > > + return xe->mmio_funcs->read64(gt, reg);
+> > > > > > }
+> > > > > >
+> > > > > > static inline int xe_mmio_write32_and_verify(struct xe_gt *gt,
+> > > > > > --
+> > > > > > 2.34.1
+> > > > > >
+> > >
+> > > --
+> > > Matt Roper
+> > > Graphics Software Engineer
+> > > Linux GPU Platform Enablement
+> > > Intel Corporation
+>
+> --
+> Matt Roper
+> Graphics Software Engineer
+> Linux GPU Platform Enablement
+> Intel Corporation
