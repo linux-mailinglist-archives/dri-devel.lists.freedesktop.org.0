@@ -1,41 +1,155 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F263B73476D
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 20:05:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 182ED73478C
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 20:11:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B89910E0BF;
-	Sun, 18 Jun 2023 18:05:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD97110E0DF;
+	Sun, 18 Jun 2023 18:11:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 79023 seconds by postgrey-1.36 at gabe;
- Sun, 18 Jun 2023 18:05:38 UTC
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B08410E0BF
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jun 2023 18:05:37 +0000 (UTC)
-Date: Sun, 18 Jun 2023 18:05:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail3; t=1687111535; x=1687370735;
- bh=YOfx98ZwkTSq19vP+aqft32B086IzCdS8xtWjsVpU+M=;
- h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
- Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
- b=y0dpusDw5gQ/B3CG/plOmAj54U8x3gtOI2o38xE0QcEbWqG5uQQIiTeGecf/8NMai
- lW1WcOP6h46F+NUUnEpwg7a/6pLv2rMeZeugIiigej0DWiyV95S5LfInU6hB44l3Vb
- Fj5b/X2+DOg/V9EVWolNgha/xRLDxjCyfQyJEptgytvua3IkWFdBmgX0NGOsfA2hK+
- KpDho+zsxWoL3TlXaRXlIqOYkzaSGtF8J9JK2Lfu8f/+qHK74uFDDcpkntTj/6Efs2
- s8r68FGJ3IJ+pufVlfW1MobskU2ZLZU+D1yQCq2+ssEbmeCP9RIRwqCIDYY4ie07qD
- ReGIicUSngjLw==
-To: =?utf-8?Q?Ond=C5=99ej_Jirman?= <megi@xff.cz>,
- linux-rockchip@lists.infradead.org
-From: Julian <juliannfairfax@protonmail.com>
-Subject: Re: [PATCH] drm: bridge: dw-mipi-dsi: Fix enable/disable of DSI
- controller
-Message-ID: <cb517ab5-d65e-489d-960e-501d40a06fde@protonmail.com>
-Feedback-ID: 23985752:user:proton
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4098C10E0DF;
+ Sun, 18 Jun 2023 18:11:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1687111880; x=1718647880;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=xqV/iUbRiFrycllg8J07B/DjmjrRyp2L9bWjdCAWp7Y=;
+ b=IA+vGrhBYuXfwQKud22Zipe9I3BnhTQVfn+4Wsla4Kr49XOcc9bNwCvb
+ x72QKzGu8k3UYx90XawD+RXTWE+Xg/jnXwxCoPb+MWolsykh2bgqzuD4a
+ mm+EaHDRF9RYSEsJr6rBtisxLjE5EQbP8OLMGW5xDslT9QuTiL7CKOMe8
+ ADk18m2akVAdULlvXerLT1x8jd2nnwaRzzaMvkusNH4cWsrSjOSIFFq75
+ lv0k2d0pacGqQsfKHgP1+C3hmVrtz2T6eFmweBahr8UBJwaZ7ZC7vhsR0
+ 76OVrdqfIOGl52VHWxIBIg7UWz7b7+k7IR9ai8lS2tHjBxBXoN69m+WgY A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="339834199"
+X-IronPort-AV: E=Sophos;i="6.00,253,1681196400"; d="scan'208";a="339834199"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jun 2023 11:11:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="837640827"
+X-IronPort-AV: E=Sophos;i="6.00,253,1681196400"; d="scan'208";a="837640827"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orsmga004.jf.intel.com with ESMTP; 18 Jun 2023 11:11:19 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Sun, 18 Jun 2023 11:11:18 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Sun, 18 Jun 2023 11:11:18 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Sun, 18 Jun 2023 11:11:18 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.103)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Sun, 18 Jun 2023 11:11:17 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BF2+vfhImdz03VfuAUr08JFB5eRadP5inldapbRp8jjvy4eUdSC1lQODB9YzXL5D73PBAMpVEpvd/Shspc532CEta8puwR0aENGfIR114VJahCu+Y1WPH5ZMyeggiSUGUcxiXBGcgikNJ9KYGguRlGxPEvEfQcMgyscqH+2aNsLRCB0rx6fO3oCiYQqIXPcn3U4cCUKaNIyBKW7Fn3I/Zd8fRh3IxiRxim2rhLz3add/AvuXKTW7ocld8R38frw5l8aV12Z/S1m5Qa9W0aQH/0pPUaG2v8bl2C4gQLeB91bDAHbOpYX1LKk3UX0hm/zMZ0+zbxfQkmF9ebz2aZpRhA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xVVSXzlLtQdGMUAdH4wZXZ/pdgYiGaS1oeTRmCjz4Ww=;
+ b=NwHXREZW84C2RAZqInh3lt6aTnRPwE3g7eEUA/jIJR3Lg2tMbOwYRTMsqXC2GUB9n32quN/YG/kv0ydWFX9sLBjTJFxP3g1MCFiGvMiTdAZO+P9wd928GRRgNPCIKDo0hrjjDptMyMnE098DNzaOEcXSByD7ArQLzO72gbKLGsIHGOC2DMLLskXL81DGuveLyHkXn5nh1Nfq8dpxFMulMthX2XHkgsOAIi6E/8Wss8cApAUOtjKELk/y/E5t2MlCho3OB8OVxP7vSNilgnV53NLBlOdW06WOqQy6EczZws4xODWbqSUQaukk80T7NLT5VZK6dFJXlVklnqaTjWcFvA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
+ by CYYPR11MB8358.namprd11.prod.outlook.com (2603:10b6:930:c9::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.37; Sun, 18 Jun
+ 2023 18:11:16 +0000
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::7237:cab8:f7f:52a5]) by SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::7237:cab8:f7f:52a5%7]) with mapi id 15.20.6500.031; Sun, 18 Jun 2023
+ 18:11:15 +0000
+Date: Sun, 18 Jun 2023 11:11:08 -0700
+From: Ira Weiny <ira.weiny@intel.com>
+To: Sumitra Sharma <sumitraartsy@gmail.com>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, Thomas
+ =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>
+Subject: Re: [PATCH v2] drm/i915: Replace kmap() with kmap_local_page()
+Message-ID: <648f48bc3d3c2_1de3f9294a3@iweiny-mobl.notmuch>
+References: <20230617180420.GA410966@sumitra.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230617180420.GA410966@sumitra.com>
+X-ClientProxiedBy: SJ0PR05CA0207.namprd05.prod.outlook.com
+ (2603:10b6:a03:330::32) To SA1PR11MB6733.namprd11.prod.outlook.com
+ (2603:10b6:806:25c::17)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|CYYPR11MB8358:EE_
+X-MS-Office365-Filtering-Correlation-Id: 26b1cb24-f28e-4bbd-6f51-08db702767ab
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qjRWiYd+1HnEfQd3lZWdQhZG9UxceONL8+adwN5aeZ3Nh3B2swAFAjWc9Yw4HVI51Dij5F3iSnv+qzznTvqm+ccJTw5JclM1S+U4ahJJe8lZXxWEb16+6dAbySUK3hpxPE31wpfAHW2LRCqVTx2WXJJeNBquhbmhRM4vBZBWRZGIh9U4e3GSVkoIYOK+hwMZ9/fMk7rx5th+jVo6sXF7fYqmVnsa7poAL/q6XH0v+Ig9xaSh+iQ6RNkjQZq5WFPpDzI6PtGdGP4ze/2QzGpoq/8zSdQR55wA+o4l5YbthSf5j779B0aizTzruUgnP+mmmPFCbJ9K+d6WcFYrn75xpod6ua3ggQtkT3lp0PDkw2H4lwrS0Wh74tbxMUFg5sAEXuPV3bHTfstGngRaee8qEa39SLmoAJinC5yvZTgQwFwHiLoD4jNDMF6MrTd+wB8m7uoxTHeA+DWWltWCVIAxKEEK1OcUZ8jYuufMNRvllQAfPS0qkdTXJP9/AQFWZGYqxu2rSyM0riWMFxULQu4sResim2t73h5SFIKXKsyNn9UeAY53Xb1YGN/UapnL1b7TH42moTQv8hvFrwrEnB5o0A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA1PR11MB6733.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(346002)(396003)(376002)(39860400002)(366004)(136003)(451199021)(66556008)(9686003)(8936002)(6486002)(8676002)(26005)(41300700001)(6512007)(82960400001)(478600001)(921005)(66946007)(38100700002)(86362001)(66476007)(4326008)(316002)(110136005)(54906003)(6666004)(44832011)(5660300002)(186003)(7416002)(966005)(83380400001)(6506007)(66899021)(2906002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bTQ4WkMxUnlEOUFpb29jeHlrVDh0WExFZkRSLzA5aytOVHAvdHQzWXZuTUR0?=
+ =?utf-8?B?MFNVNXpKQ1dhcGxsT05WcWY2eURES2hqL2EvZTJqbjUwMjY3bjBpWGJoQ2l6?=
+ =?utf-8?B?SU04OE9YSWhjUkNmU0pVNGtjWjZxNXFudzJzRFpidENUZjAvamk1SC8rQmNp?=
+ =?utf-8?B?OGxuYzMvVVFuZUl1QmpUR0dIWlh3MkZONEdwWEVQOXE0WEV3VS9SSERjUnA4?=
+ =?utf-8?B?L3REL095RGU2OVJtNHEvSGtVSE5QWTdSSjJiQy9yU3pvaXlvNlBtcERGWld2?=
+ =?utf-8?B?UkpOM2RkQkFlN2p2WjZjRFZwWEE0aTRYeXNIOHBSU0JqK2lQVXFrOXF6Y2NN?=
+ =?utf-8?B?anVudTFhdm1hWU9UbHJpL0VaYjUzNVNpQ1VWUkJ0TGd6TW94d3ltWk93eVFn?=
+ =?utf-8?B?dVRFUWpNblNqNVl5M2NhTUJCZkRsS0RMcm5CRmliTWVYTC9TeWdvSSswREhK?=
+ =?utf-8?B?ZmJCbFg1SnBrN0x3clBRcUNxWVVKcXV1elRGa3RURzdpdFgzM0FKZ2FMQzJW?=
+ =?utf-8?B?RDd0UDh4ajNsYjh4WHhVeGNyMmRET3UxTDZyemNjbWdVSHFIRTdVd2Joa256?=
+ =?utf-8?B?M0hsMVFMYnZFYlg1WFF1NHJhenZmbkdlR0M5djZNcVlBOTg4TEJIWDFqNVNE?=
+ =?utf-8?B?UlhPS0Z1Tkhrd3diQUNuNUt6L3FGQUd1OGg1QlQ3ZmsvM1FrbEpWZEF5Skhw?=
+ =?utf-8?B?bHNmSldhbkw0LzUwd1F3NkpQWUt4U3c0U2c3S0tOWVJ6OGxhblpVL3BoRkZj?=
+ =?utf-8?B?aEtMaHdQMUZCZm5BZUJHNSt3SFlVM20veGRrN3M4dDRDZ3c2SlVPdFZQQkdQ?=
+ =?utf-8?B?UFFZZGdCeFI5MXlFSW05d24rbG1ZSkdjd1FFTm83ZVAvNTJtYjBwaXBMVUxH?=
+ =?utf-8?B?MisraHJId0psS01sUStTUTMxNmRLYmZ0WjJ0OVpXaWFLSFpDellhUVRwaHh4?=
+ =?utf-8?B?ZksvYXk1R0VnM1o0c0o2RXFscDRhTUpXSEl0WUhNQm9peUI1KzJncDZyV2tL?=
+ =?utf-8?B?OUNFOUpBZjdQbDQ4SldXWWVnNDNrSEY0NDRQRHlVc1BZRzFxSzhjOVlSNTdy?=
+ =?utf-8?B?VzNvbU9sTkwxL1lzVUlhZTJxWjVEMDhwWUp0TlczYUxQRkNUdjVxSE9ZaWho?=
+ =?utf-8?B?aGFSOWRrVkduMmxrcEh1K1E0Zlh0Mk9SQ2d5aWJvbXYydkc2SWt0bTViL2hR?=
+ =?utf-8?B?Vy9XTEJHMXFrQ2l3U3JoQ2drZHZQQy9hT1BVU0ZDY083SzlOLzd2dTRqeWxO?=
+ =?utf-8?B?TUdzV2JyaVFGWjhOMXZBVng4VEVXYkt6SWYwRVhrOWtKdStsb2h1dmFteWl4?=
+ =?utf-8?B?OHRQbFhYTGZ0QmJON3Vocy8yWm90WmxyNjFKS2l3VWJMV05EajREeHJXdmlj?=
+ =?utf-8?B?dWFFOHpzSUJWZHpzWndLc0NLMmo3WUtzTmJweGZmNS9odlVaekNCMDFnTmx2?=
+ =?utf-8?B?S2hxWEpOUmFoRUlqQURWTGVidlBYMXNSNWRpYlJlKzBPdWorL1RDL0dPQkhx?=
+ =?utf-8?B?bTJnU1hiUVh3Qi9xbE1tekYwc2Vmc1RiTE9HdGNLVFBmOEg5ZGtTWW04bkcv?=
+ =?utf-8?B?b0lDdnJJeUErR2srbUJqWWNWeFd4TzFRVkU2WWRoYXdRNVRiVXpWdmhqSVpM?=
+ =?utf-8?B?aGZ2QzRzTSsvSDdIVEVrbURzYWlxQ2ZoQ2JHeFNkenVuWUUwUFlCN205Z0d3?=
+ =?utf-8?B?Y2FhbjVnYlR3V0JmNE9FbDMrNFNXQTVJc3REcTZHR1ZaYnJacTZBNFBVSzZW?=
+ =?utf-8?B?amJuZDlnN0JQNXpQQ014TWluZmZNWTBDOHpCU2N1eElTTWtad2thTjBWWWpw?=
+ =?utf-8?B?eE9iSjFuLzJJd0JwR0ZqNHQ1SHlrNUVGVlIxQTVaMkpBamhxZzFQQkZCQlBY?=
+ =?utf-8?B?MUYrSGRZZUV6eXN6cUEyL2JHREZGQldJOXdtU0tnQnZOS0V1YUV3Sm0wOEV0?=
+ =?utf-8?B?STRMalFKZmNqMEFCTlV0Nm81QWZ2aW5Ga0kvWXN0RVMxRmtONHF1eEpWKy9q?=
+ =?utf-8?B?ay9TMTRLVlU0MWkybVJDMXJZUlJyU0dacE9LK2RoR3NNT1lMQkR1OWlCcy9G?=
+ =?utf-8?B?MlRDR1ozckNKVGZMSk9Sd3ZXenhPaWhteHVVSmEwMW1KajNzNU5MS0xtTmhq?=
+ =?utf-8?Q?NZ+AuDGB8q9qjdUErnG6rr0xZ?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 26b1cb24-f28e-4bbd-6f51-08db702767ab
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2023 18:11:15.2309 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Xtj5Dzb99TbtFiVzRlZrcKZICE0fc2xRKQldOhcZq4LkUcevWBgnFCEAPD/2Sx/4Jg0XABBHR+9SldOIfn7b1g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR11MB8358
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,206 +162,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Deepak R Varma <drv@mailo.com>, Fabio <fmdefrancesco@gmail.com>,
+ Ira Weiny <ira.weiny@intel.com>, Sumitra Sharma <sumitraartsy@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tested-by: Julian Fairfax
+Sumitra Sharma wrote:
+> kmap() has been deprecated in favor of the kmap_local_page()
+> due to high cost, restricted mapping space, the overhead of a
+> global lock for synchronization, and making the process sleep
+> in the absence of free slots.
+> 
+> kmap_local_page() is faster than kmap() and offers thread-local
+> and CPU-local mappings, take pagefaults in a local kmap region
+> and preserves preemption by saving the mappings of outgoing tasks
+> and restoring those of the incoming one during a context switch.
+> 
+> The mapping is kept thread local in the function
+> “i915_vma_coredump_create” in i915_gpu_error.c
+> 
+> Therefore, replace kmap() with kmap_local_page().
+> 
+> Suggested-by: Ira Weiny <ira.weiny@intel.com>
+> 
 
-On 17.06.23 17:06, Ond=C5=99ej Jirman wrote:
-> From: Ondrej Jirman <megi@xff.cz>
->
-> Before this patch, booting to Linux VT and doing a simple:
->
->    echo 2 > /sys/class/graphics/fb0/blank
->    echo 0 > /sys/class/graphics/fb0/blank
->
-> would result in failures to re-enable the panel. Mode set callback is
-> called only once during boot in this scenario, while calls to
-> enable/disable callbacks are balanced afterwards. The driver doesn't
-> work unless userspace calls modeset before enabling the CRTC/connector.
->
-> This patch moves enabling of the DSI host from mode_set into pre_enable
-> callback, and removes some old hacks where this bridge driver is
-> directly calling into other bridge driver's callbacks.
->
-> pre_enable_prev_first flag is set on the panel's bridge so that panel
-> drivers will get their prepare function called between DSI host's
-> pre_enable and enable callbacks, so that they get a chance to
-> perform panel setup while DSI host is already enabled in command
-> mode. Otherwise panel's prepare would be called before DSI host
-> is enabled, and any DSI communication used in prepare callback
-> would fail.
->
-> With all these changes, the enable/disable sequence is now well
-> balanced, and host's and panel's callbacks are called in proper order
-> documented in the drm_panel API documentation without needing the old
-> hacks. (Mainly that panel->prepare is called when DSI host is ready to
-> allow the panel driver to send DSI commands and vice versa during
-> disable.)
->
-> Tested on Pinephone Pro. Trace of the callbacks follows.
->
-> Before:
->
-> [    1.253882] dw-mipi-dsi-rockchip ff960000.dsi: mode_set
-> [    1.290732] panel-himax-hx8394 ff960000.dsi.0: prepare
-> [    1.475576] dw-mipi-dsi-rockchip ff960000.dsi: enable
-> [    1.475593] panel-himax-hx8394 ff960000.dsi.0: enable
->
-> echo 2 > /sys/class/graphics/fb0/blank
->
-> [   13.722799] panel-himax-hx8394 ff960000.dsi.0: disable
-> [   13.774502] dw-mipi-dsi-rockchip ff960000.dsi: post_disable
-> [   13.774526] panel-himax-hx8394 ff960000.dsi.0: unprepare
->
-> echo 0 > /sys/class/graphics/fb0/blank
->
-> [   17.735796] panel-himax-hx8394 ff960000.dsi.0: prepare
-> [   17.923522] dw-mipi-dsi-rockchip ff960000.dsi: enable
-> [   17.923540] panel-himax-hx8394 ff960000.dsi.0: enable
-> [   17.944330] dw-mipi-dsi-rockchip ff960000.dsi: failed to write command=
- FIFO
-> [   17.944335] panel-himax-hx8394 ff960000.dsi.0: sending command 0xb9 fa=
-iled: -110
-> [   17.944340] panel-himax-hx8394 ff960000.dsi.0: Panel init sequence fai=
-led: -110
->
-> echo 2 > /sys/class/graphics/fb0/blank
->
-> [  431.148583] panel-himax-hx8394 ff960000.dsi.0: disable
-> [  431.169259] dw-mipi-dsi-rockchip ff960000.dsi: failed to write command=
- FIFO
-> [  431.169268] panel-himax-hx8394 ff960000.dsi.0: Failed to enter sleep m=
-ode: -110
-> [  431.169282] dw-mipi-dsi-rockchip ff960000.dsi: post_disable
-> [  431.169316] panel-himax-hx8394 ff960000.dsi.0: unprepare
-> [  431.169357] pclk_mipi_dsi0 already disabled
->
-> echo 0 > /sys/class/graphics/fb0/blank
->
-> [  432.796851] panel-himax-hx8394 ff960000.dsi.0: prepare
-> [  432.981537] dw-mipi-dsi-rockchip ff960000.dsi: enable
-> [  432.981568] panel-himax-hx8394 ff960000.dsi.0: enable
-> [  433.002290] dw-mipi-dsi-rockchip ff960000.dsi: failed to write command=
- FIFO
-> [  433.002299] panel-himax-hx8394 ff960000.dsi.0: sending command 0xb9 fa=
-iled: -110
-> [  433.002312] panel-himax-hx8394 ff960000.dsi.0: Panel init sequence fai=
-led: -110
->
-> -----------------------------------------------------------------------
->
-> After:
->
-> [    1.248372] dw-mipi-dsi-rockchip ff960000.dsi: mode_set
-> [    1.248704] dw-mipi-dsi-rockchip ff960000.dsi: pre_enable
-> [    1.285377] panel-himax-hx8394 ff960000.dsi.0: prepare
-> [    1.468392] dw-mipi-dsi-rockchip ff960000.dsi: enable
-> [    1.468421] panel-himax-hx8394 ff960000.dsi.0: enable
->
-> echo 2 > /sys/class/graphics/fb0/blank
->
-> [   16.210357] panel-himax-hx8394 ff960000.dsi.0: disable
-> [   16.261315] dw-mipi-dsi-rockchip ff960000.dsi: post_disable
-> [   16.261339] panel-himax-hx8394 ff960000.dsi.0: unprepare
->
-> echo 0 > /sys/class/graphics/fb0/blank
->
-> [   19.161453] dw-mipi-dsi-rockchip ff960000.dsi: pre_enable
-> [   19.197869] panel-himax-hx8394 ff960000.dsi.0: prepare
-> [   19.382141] dw-mipi-dsi-rockchip ff960000.dsi: enable
-> [   19.382158] panel-himax-hx8394 ff960000.dsi.0: enable
->
-> Signed-off-by: Ondrej Jirman <megi@xff.cz>
+NIT: No need for the line break between Suggested-by and your signed off line.
+
+> Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
 > ---
->   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 28 +++++++++++--------
->   1 file changed, 16 insertions(+), 12 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/=
-drm/bridge/synopsys/dw-mipi-dsi.c
-> index b2efecf7d160..352c6829259a 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> @@ -265,6 +265,7 @@ struct dw_mipi_dsi {
->   =09struct dw_mipi_dsi *master; /* dual-dsi master ptr */
->   =09struct dw_mipi_dsi *slave; /* dual-dsi slave ptr */
->  =20
-> +=09struct drm_display_mode mode;
->   =09const struct dw_mipi_dsi_plat_data *plat_data;
->   };
->  =20
-> @@ -332,6 +333,7 @@ static int dw_mipi_dsi_host_attach(struct mipi_dsi_ho=
-st *host,
->   =09if (IS_ERR(bridge))
->   =09=09return PTR_ERR(bridge);
->  =20
-> +=09bridge->pre_enable_prev_first =3D true;
->   =09dsi->panel_bridge =3D bridge;
->  =20
->   =09drm_bridge_add(&dsi->bridge);
-> @@ -859,15 +861,6 @@ static void dw_mipi_dsi_bridge_post_atomic_disable(s=
-truct drm_bridge *bridge,
->   =09 */
->   =09dw_mipi_dsi_set_mode(dsi, 0);
->  =20
-> -=09/*
-> -=09 * TODO Only way found to call panel-bridge post_disable &
-> -=09 * panel unprepare before the dsi "final" disable...
-> -=09 * This needs to be fixed in the drm_bridge framework and the API
-> -=09 * needs to be updated to manage our own call chains...
-> -=09 */
-> -=09if (dsi->panel_bridge->funcs->post_disable)
-> -=09=09dsi->panel_bridge->funcs->post_disable(dsi->panel_bridge);
-> -
->   =09if (phy_ops->power_off)
->   =09=09phy_ops->power_off(dsi->plat_data->priv_data);
->  =20
-> @@ -942,15 +935,25 @@ static void dw_mipi_dsi_mode_set(struct dw_mipi_dsi=
- *dsi,
->   =09=09phy_ops->power_on(dsi->plat_data->priv_data);
->   }
->  =20
-> +static void dw_mipi_dsi_bridge_atomic_pre_enable(struct drm_bridge *brid=
-ge,
-> +=09=09=09=09=09=09 struct drm_bridge_state *old_bridge_state)
-> +{
-> +=09struct dw_mipi_dsi *dsi =3D bridge_to_dsi(bridge);
-> +
-> +=09/* Power up the dsi ctl into a command mode */
-> +=09dw_mipi_dsi_mode_set(dsi, &dsi->mode);
-> +=09if (dsi->slave)
-> +=09=09dw_mipi_dsi_mode_set(dsi->slave, &dsi->mode);
-> +}
-> +
->   static void dw_mipi_dsi_bridge_mode_set(struct drm_bridge *bridge,
->   =09=09=09=09=09const struct drm_display_mode *mode,
->   =09=09=09=09=09const struct drm_display_mode *adjusted_mode)
->   {
->   =09struct dw_mipi_dsi *dsi =3D bridge_to_dsi(bridge);
->  =20
-> -=09dw_mipi_dsi_mode_set(dsi, adjusted_mode);
-> -=09if (dsi->slave)
-> -=09=09dw_mipi_dsi_mode_set(dsi->slave, adjusted_mode);
-> +=09/* Store the display mode for later use in pre_enable callback */
-> +=09memcpy(&dsi->mode, adjusted_mode, sizeof(dsi->mode));
->   }
->  =20
->   static void dw_mipi_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
-> @@ -1004,6 +1007,7 @@ static const struct drm_bridge_funcs dw_mipi_dsi_br=
-idge_funcs =3D {
->   =09.atomic_duplicate_state=09=3D drm_atomic_helper_bridge_duplicate_sta=
-te,
->   =09.atomic_destroy_state=09=3D drm_atomic_helper_bridge_destroy_state,
->   =09.atomic_reset=09=09=3D drm_atomic_helper_bridge_reset,
-> +=09.atomic_pre_enable=09=3D dw_mipi_dsi_bridge_atomic_pre_enable,
->   =09.atomic_enable=09=09=3D dw_mipi_dsi_bridge_atomic_enable,
->   =09.atomic_post_disable=09=3D dw_mipi_dsi_bridge_post_atomic_disable,
->   =09.mode_set=09=09=3D dw_mipi_dsi_bridge_mode_set,
+> 
+> Changes in v2:
+> 	- Replace kmap() with kmap_local_page().
+
+Generally it is customary to attribute a change like this to those who
+suggested it in a V1 review.
+
+For example:
+
+ 	- Tvrtko/Thomas: Use kmap_local_page() instead of page_address()
+
+Also I don't see Thomas on the new email list.  Since he took the time to
+review V1 he might want to check this version out.  I've added him to the
+'To:' list.
+
+Also a link to V1 is nice.  B4 formats it like this:
+
+- Link to v1: https://lore.kernel.org/all/20230614123556.GA381200@sumitra.com/
+
+All that said the code looks good to me.  So with the above changes.
+
+Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+
+> 	- Change commit subject and message.
+> 
+>  drivers/gpu/drm/i915/i915_gpu_error.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
+> index f020c0086fbc..bc41500eedf5 100644
+> --- a/drivers/gpu/drm/i915/i915_gpu_error.c
+> +++ b/drivers/gpu/drm/i915/i915_gpu_error.c
+> @@ -1164,9 +1164,9 @@ i915_vma_coredump_create(const struct intel_gt *gt,
+>  
+>  			drm_clflush_pages(&page, 1);
+>  
+> -			s = kmap(page);
+> +			s = kmap_local_page(page);
+>  			ret = compress_page(compress, s, dst, false);
+> -			kunmap(page);
+> +			kunmap_local(s);
+>  
+>  			drm_clflush_pages(&page, 1);
+>  
+> -- 
+> 2.25.1
+> 
+
 
