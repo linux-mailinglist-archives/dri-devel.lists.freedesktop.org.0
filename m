@@ -2,62 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A75573457E
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 10:28:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 052AC73458A
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 10:43:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6821410E0E3;
-	Sun, 18 Jun 2023 08:28:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8938210E032;
+	Sun, 18 Jun 2023 08:42:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3137910E032;
- Sun, 18 Jun 2023 08:28:49 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7EBDD60AB8;
- Sun, 18 Jun 2023 08:28:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3EC2C433C8;
- Sun, 18 Jun 2023 08:28:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1687076927;
- bh=KkWqANhJqR6INNdy9dRcDqXrNdrSbmEZWwkyiYBFR6s=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=JcB4ltpa6mtHuV0F+nd32UZ+wbHXM7YdiKelbBULlze8OYGDK+W7VEQGDZe77WPLZ
- fGRckJYOAbdy1SKKXH5U9BalzhkN8RsJumZ0BOUrxw4xANPXCNsZMKCLLAeZG/rpmz
- v+XcAVs2o4tyuYJndUSWuHinQhx3eOwlYdWi1nVrFEAxzZIUMDEw7mc/iYG3dA+vw9
- yGJ396fysM4mhtyYYFPwAoAHMkT4i9FVQmK2l3cHNRgTVQ1fBnyd8K/s7aLJoX92wk
- 9ceW3ae/399s8bVmKnojhlDK2WqysWZxeV2EwGVHDGxwml+J35Je1eK3TY3S6S4xh6
- nVxr5SSOWCnMw==
-Received: by mail-yb1-f172.google.com with SMTP id
- 3f1490d57ef6-be3b35ae72dso2586220276.0; 
- Sun, 18 Jun 2023 01:28:47 -0700 (PDT)
-X-Gm-Message-State: AC+VfDyvwDpe2SU0yXYzDJA+X64ybFEwkFuk9GYgZ3/FidZYRZy8cl2x
- oM0PB+Iuxyhi146oM4L4nVOVTHKHPNmXL9jn0xk=
-X-Google-Smtp-Source: ACHHUZ5i42uT8Td+JbSt3MXZEAASL82Ljj3DdNmbs9JlQLqL577TM6RKzG7y7pPOOzYKsKRd2BmJZDD22NA1LlNJf94=
-X-Received: by 2002:a25:d207:0:b0:ba8:2e05:3e9c with SMTP id
- j7-20020a25d207000000b00ba82e053e9cmr4367123ybg.24.1687076926814; Sun, 18 Jun
- 2023 01:28:46 -0700 (PDT)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD69B10E032
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Jun 2023 08:42:51 +0000 (UTC)
+X-UUID: 17ee5b1a0db411eeb20a276fd37b9834-20230618
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=MIME-Version:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=EJKSRs/8w3SSFnjH8BETxXCQvYgwCGxIxm8opHyBv+k=; 
+ b=pqGSzr3JAarimyMCshuGQsjs7hDNlAPErJbYSl4OGDJ+IlfNp6NZCg33Jt5p8f48FAHChJJRGmuAhqxlingjjYTRhsrox3Rl4e7H261weSKF4q/IcSmVVxGIid8+YjV3gh+/H7fkW3aG9a38Msxdum2LBrcz0umeaEEqvztpULQ=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.26, REQID:f50d4052-e399-4a02-a6c2-5f146ecfa88f, IP:0,
+ U
+ RL:0,TC:-8,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+ ON:release,TS:-33
+X-CID-META: VersionHash:cb9a4e1, CLOUDID:462fc93e-de1e-4348-bc35-c96f92f1dcbb,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:1,Content:0,EDM:-3,IP:nil,URL
+ :0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 17ee5b1a0db411eeb20a276fd37b9834-20230618
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1545185674; Sun, 18 Jun 2023 16:42:44 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Sun, 18 Jun 2023 16:42:42 +0800
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP
+ Server id
+ 15.2.1118.26 via Frontend Transport; Sun, 18 Jun 2023 16:42:42 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=b9LJt5AVRhHROJvOSgqqtNnksulu2gSU5xwR75Dib2c1r/oxja3AhRf6sPHpHH5xavLsCnoHy6xrjwmmq/W2eCn5FBc/i/uY6/ZgJzekTYxCOwzyxewn5tkbmIQu5DZRT1UgLONTXLqmkLTBD4cZjYWZPGWBna0WtLtGOt/tHGalGhuFc1xRj9PTeAeYI1TNr0xTxCOukLz8PePyOrFuWTmXXHEZ8CklmrxDMTpnEbrTF1pD+pUYiDWPTzTKRB7uJs6uE/gG6ZWH/FNb8BdwuWYxPcgVt/wpEry5E4P0aL3VZCg3+r1t6km4W6Ru3mupCENLJUObUjw5X2Ptu+iFFQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=139ukp7PmrWoN4h9lPhVe305hS2cCH93lld/q0vZsRA=;
+ b=GYK4CIFmDmki2Z0vh6YWlx6CclYqeCiwUMkoNVaHSjF+XYlI0myhiwkyeM1o0+MzzXArPp18iucQOMg4MHIx/lhn8P9mAeuTJtn+00UHiRZPsM8v+nYwnzUsKh2RbQBVT4kC2JKyM/RHpQ1XBCrUaKwP5B8TgODxzIDZb2zlC64wyPY9x2pefARbfrQIB39p14xBB2Of3LXMipSKXvj624I7/sds5pEsP1C0rw8WItfMPIplnwjg10mEYkTSK7ABPXg4eHHzlp+aco6BS955FvK4iOBbQTPdRgUEZuWy6bW4wTp5KZQEfrLFyQ+6dgY+nWsXMEapYvROqzN//ad8JQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=139ukp7PmrWoN4h9lPhVe305hS2cCH93lld/q0vZsRA=;
+ b=db2fUYHJugiJU6CjJlP1QPOc6UIgJJfM7AYNxE1l+rwwBzoDtmdt7daLkbPZnc7glBRfQ5iL3ZScuNvrUtMphsCn5mml4oHeBiAOOVgQJw4n5SLxYZfr94A1z+o8uXFuuxkAjukRCOht0zmjiah2tih1oZiNiW4dicCAfTZlSRY=
+Received: from SEYPR03MB7682.apcprd03.prod.outlook.com (2603:1096:101:149::11)
+ by TYZPR03MB7995.apcprd03.prod.outlook.com (2603:1096:400:45b::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.46; Sun, 18 Jun
+ 2023 08:42:39 +0000
+Received: from SEYPR03MB7682.apcprd03.prod.outlook.com
+ ([fe80::8b05:4869:405a:924d]) by SEYPR03MB7682.apcprd03.prod.outlook.com
+ ([fe80::8b05:4869:405a:924d%4]) with mapi id 15.20.6455.045; Sun, 18 Jun 2023
+ 08:42:39 +0000
+From: =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
+To: "amergnat@baylibre.com" <amergnat@baylibre.com>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>, "chunkuang.hu@kernel.org"
+ <chunkuang.hu@kernel.org>
+Subject: Re: [PATCH v2 3/4] drm/mediatek: Add casting before assign
+Thread-Topic: [PATCH v2 3/4] drm/mediatek: Add casting before assign
+Thread-Index: AQHZnesoWvjQZ4cLq0eP1VPlMsFf56+J/KYAgAZJLoA=
+Date: Sun, 18 Jun 2023 08:42:38 +0000
+Message-ID: <f91bff696ab6685af3509274ae2270f2079b5d24.camel@mediatek.com>
+References: <20230613113210.24949-1-jason-jh.lin@mediatek.com>
+ <20230613113210.24949-4-jason-jh.lin@mediatek.com>
+ <0f17e59f-21d6-bdf6-99a7-4f4e91f698ba@collabora.com>
+In-Reply-To: <0f17e59f-21d6-bdf6-99a7-4f4e91f698ba@collabora.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SEYPR03MB7682:EE_|TYZPR03MB7995:EE_
+x-ms-office365-filtering-correlation-id: 894e0f84-4a14-4ed2-d48e-08db6fd7f903
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: eVZPARtVdFORtB1RE2hduasuv2o7okxLbHp+RSh0enGJxDlxvezdM/462AJOjUjpXNkhf/iZgQyAeznPJUhhl11qIf98tBIUcWPXbrOWRvKt3UhvDZ7VmNo+DZIPJeGn/jg2F3sLfJi9HX+mpFtue7lCciLB97hEF2XbYuJ/H7kMxEEEcoO/Ie6Pc0TMdUt/n7E8/flgfaAwp/1t5MGqOvp1l4Cf+PxFltvqjgAAkO3QO6c703xWbdeB/rzjiTLKArmoEjpQ1JwoQRWiL8pAyTVBU0Z0yjsgjSBsXi6VW0X4OBUSlHqZLwvVrm9Q0KaPrKwNIBWqmL7wpBY0Rnty9LQSDLb+UH7434rSumW0fmtNp85IdUVqCLIDAv6Hm6SG3LRdUm37UNcWdi065SfMwsN3c/qo3ONHUwnbLVEEtteff4zyFiwaCBYAAfyR0K1hGRtVLQghzF/5WfBM98PF4IRD9aWbXFG92ABaqxp12HmAa8mepnDKL7acFsXkVV5JVaUwujvSk+kpYulMexe3FHulLAcT5x40TB/JO9q+YmO6tJClpaGy6ThDb3RlFiahJS/Nt/2dhJ37bVV5L+Ja7hsP7aVf2XwCp7RHBirNderNHxYhXtVA/pTxhedDLxEvn9P4ek4Sv7NJ4kpI8G3RvCbOHJRyssLfkOKKXubTWN8clIAZW3TdVUc0f3wWYK9c
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SEYPR03MB7682.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(376002)(396003)(366004)(346002)(136003)(39850400004)(451199021)(38100700002)(38070700005)(122000001)(316002)(5660300002)(8676002)(86362001)(41300700001)(66946007)(76116006)(66556008)(66446008)(66476007)(64756008)(83380400001)(91956017)(4326008)(36756003)(2616005)(186003)(6512007)(85182001)(54906003)(6506007)(110136005)(8936002)(26005)(478600001)(107886003)(6486002)(2906002)(71200400001)(266184004);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YWVVTlhQSVZTSFhvU1UwN0JXN1BKRkE4WDdzWm9uYXBFQWdxR01aQjFwOXV1?=
+ =?utf-8?B?d2xsWGZTK0ova2Y5Z2lpc2NxNUFzZWtiRFFQWkpMSTN0azBDbHgyOHhpYUFw?=
+ =?utf-8?B?bzF3Ukl0WjFnMFRwRmtJZUMrY0phRzZPUzNzcE9xODVjNTVJcWxKdXAycXRV?=
+ =?utf-8?B?RWwwMVJ3elVtRjFoVlRVbTdBQTVmaXlsdk95RDBvTHQyZjZJWWdNQm9NOVBk?=
+ =?utf-8?B?eEZ2V29FeS83bHRtUjVKZkZPTXU0WXVoSVJpMTZQR3dNak96MUc4MjE1aFJJ?=
+ =?utf-8?B?bHg5MVJjdllUelJTTU9QdE1IU2pGTlhJaHZvZVJkc0ZTWkd2MmhkUXllVkdQ?=
+ =?utf-8?B?UnBFZnJITU9aRzB3UTFnM3dxeG1MSXc0c3MzdXA4ZFVMUzByYnpZZStnbUJP?=
+ =?utf-8?B?YkFHczAySCtlbDBQbmV4VGgxRFNNamVKUjFUZzJsY1RCZ1BVQW14MWgydmIr?=
+ =?utf-8?B?K0l2VDBNT3hnbzlVUFhtM0RpZmNYMW8vRXhibUZjZVdlcDgvOXJaemZGUmQ5?=
+ =?utf-8?B?UkZCZHlzR1dJMzlCZ3dBWk5iMGlGQ3IvVDgwdElMYW9YZnc4STNkMDVEK0VP?=
+ =?utf-8?B?TGk3MWNoQmZXTk1LcTZrMkdPUVVHRFYrZFRYSFp5V3FhTHJ3VnAzMTBZdUZO?=
+ =?utf-8?B?R044bUlBeHFuUzh2QmhPam9Kd0U1VWV5MkxYTFhaTmVUUkFSM29WUlB2ZTZD?=
+ =?utf-8?B?M2R3aU1abVpXT2JCTkRYMjFGWjl0WmZTcG0rZVQwdFh4Rkh4TDd0WTUvRUdW?=
+ =?utf-8?B?Zi9ETjk2REowYjZTRHhtcnEzQVNRNlR2RUxRNHZob0dSaVBZazI0NEFHZ3VX?=
+ =?utf-8?B?VWZ6OWk0NTZoNmRVcUFzbWJJVUprdXV3TTFMTFJBNFFFZ1BJZi80SDBsY1Vj?=
+ =?utf-8?B?cXp1YlBjN1RIODV6eWtORU53d092TDlZUy9aV0QxWVdMYjdKM0ZXSThCeXpl?=
+ =?utf-8?B?VUhLN0VjUjFTSU1JVXQvZU1FbjdGY1l4cjJ1dFFOT2d6MUJkZllZU3J3SnFk?=
+ =?utf-8?B?NGlvaUJkODByeHhnVGw3UHF3WFRWaFk5L3Q4Yk1iRExhMmNDYmpRQUhoMlJT?=
+ =?utf-8?B?MlRCVGZGSmJyNnpJTmVRc3FqMlQ4bFBWeUZmeEYxYlJKbW5nbnRtRTlETnl1?=
+ =?utf-8?B?b05wRW4zUHR5eDdZeXUySStLU3BZZExXdjFlc0hkU2wrMnRtcmlJcFc4Tzkv?=
+ =?utf-8?B?K04xaFRVNkNJK0FLVWFxbVlscldFdk9lTFBzc1lIczNWT3FWbi9ZejJuR3JG?=
+ =?utf-8?B?RS9lNnZ4UmJCSWc4YzdUTk91bkFVMWE1ZlZzY1B1eEZWcXZPRnNqZFIzUzlt?=
+ =?utf-8?B?SzJIVXloVzRVMWhsN1ZDMjZWaG1oZk1kaHp6OVpyQ1pzZ0szMFBSSUlwWEVt?=
+ =?utf-8?B?NlgzcnFCVXZlNWN2MDNHdnlBOVQxM1ZGckIyYUhmNUJrN3B0UkNZc1VSRnBH?=
+ =?utf-8?B?N285RW1DUTc1NG1GRWZXa1hXc1lVQlc3RGh6ZVlMbXdod29tWFZnd2NacHAy?=
+ =?utf-8?B?MmdWMWpvK01EUUowQ3F2Q0JjdGwxM3FXclFxNDFVOWUxVmExYy80b0hhRy83?=
+ =?utf-8?B?dVRDL1p0SkVSTFBhTHRsVWZOSVBsa3orYmw5WDV2SzdZb25mZ0tOQ09BYWhk?=
+ =?utf-8?B?STk0OVg3Ni9BOXBwSW1DdHVwZ3Q5VWVTVjVwYXhnVC9rcHVMZ1RuTEdIQTNH?=
+ =?utf-8?B?NjRkK1VCWWx4d21tT213TjJLNXVDdk8yOXdSWDRBQWxSTHhTYjVUb3UxYjg1?=
+ =?utf-8?B?U3V0aDhEMmNKS0I2QjkwZVN1eVFhWUgyK0ZZSEtqN1dzcEE2K3p6eDQrUjBk?=
+ =?utf-8?B?WWdSNk9jY1UrVi93cUpFczFwdjRhWEZJYlUyN0hoNUl5VkdQZHB1T0ZJYjd5?=
+ =?utf-8?B?REJjVHVQVzArRTl1UVBoM3Q4WHBuZmVvbFg1VE8vVzRDdUkyNWhJSFBJNFcz?=
+ =?utf-8?B?QkV6UVplbnBEOFFySmFwTjNyWjZaNit1MUM1QURrSXBGaktOM084TmFxYm9W?=
+ =?utf-8?B?SGJiaVpGS29JSlJpemEzN2JUMEVvZzVqVUdJcFY1V0hFbk5NeEJrejVQU042?=
+ =?utf-8?B?M0FYcGdDdHkrYlRsdjVwcWI0NVBUTFN1WkFyZTRma2NOUzJ2N2grR2d6cm5D?=
+ =?utf-8?B?NlNoSTJyZGxtd3NFdHA3TXIydEdTZmVyMGV2akpzbjh6aERYTEt4Y1RZWFQx?=
+ =?utf-8?B?V3c9PQ==?=
+Content-Type: multipart/alternative;
+ boundary="_000_f91bff696ab6685af3509274ae2270f2079b5d24camelmediatekco_"
 MIME-Version: 1.0
-References: <20230602142501.6-1-francois.dugast@intel.com>
- <20230602142501.6-2-francois.dugast@intel.com>
- <qcsuilqdccvku4qoa36a5m3mhdr75akwpba77oisjk6e4kvkrm@6u5tr3dfmf5v>
- <ZIdIfdiClQ60fZSI@fdugast-desk.home>
- <20230615000105.GU5433@mdroper-desk1.amr.corp.intel.com>
- <CAFCwf10Td52xyKN9U903-GzS8V_T6sJ8t9ppLiXCNLzHGHzLEQ@mail.gmail.com>
- <20230615163420.GW5433@mdroper-desk1.amr.corp.intel.com>
-In-Reply-To: <20230615163420.GW5433@mdroper-desk1.amr.corp.intel.com>
-From: Oded Gabbay <ogabbay@kernel.org>
-Date: Sun, 18 Jun 2023 11:28:20 +0300
-X-Gmail-Original-Message-ID: <CAFCwf13z4b9oyTaz_ptMKs=OSvJgp-DryvLF=JQCw2FDvXmPew@mail.gmail.com>
-Message-ID: <CAFCwf13z4b9oyTaz_ptMKs=OSvJgp-DryvLF=JQCw2FDvXmPew@mail.gmail.com>
-Subject: Re: [Intel-xe] [RFC PATCH 1/1] drm/xe: Introduce function pointers
- for MMIO functions
-To: Matt Roper <matthew.d.roper@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SEYPR03MB7682.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 894e0f84-4a14-4ed2-d48e-08db6fd7f903
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jun 2023 08:42:38.9030 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Mb3ONwbIouo6HYZln3PRpJyr+nyOjgS2Q5vzaFuv46Lzo0qQNBr977xZnOsTqpbY846bNDOcse0J4lKL2wIWnZPkAOh9CKpGSaoQejXP7bw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR03MB7995
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,417 +160,261 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ofir1.bitton@intel.com, Francois Dugast <francois.dugast@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- ohadshar@intel.com, intel-xe@lists.freedesktop.org
+Cc: =?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ =?utf-8?B?UmV4LUJDIENoZW4gKOmZs+afj+i+sCk=?= <Rex-BC.Chen@mediatek.com>,
+ =?utf-8?B?SmFzb24tY2ggQ2hlbiAo6Zmz5bu66LGqKQ==?= <Jason-ch.Chen@mediatek.com>,
+ =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
+ =?utf-8?B?Sm9obnNvbiBXYW5nICjnjovogZbpkasp?= <Johnson.Wang@mediatek.com>,
+ =?utf-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?= <Shawn.Sung@mediatek.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 15, 2023 at 7:34=E2=80=AFPM Matt Roper <matthew.d.roper@intel.c=
-om> wrote:
->
-> On Thu, Jun 15, 2023 at 04:04:18PM +0300, Oded Gabbay wrote:
-> > On Thu, Jun 15, 2023 at 3:01=E2=80=AFAM Matt Roper <matthew.d.roper@int=
-el.com> wrote:
-> > >
-> > > On Mon, Jun 12, 2023 at 06:31:57PM +0200, Francois Dugast wrote:
-> > > > On Thu, Jun 08, 2023 at 10:35:29AM -0700, Lucas De Marchi wrote:
-> > > > > On Fri, Jun 02, 2023 at 02:25:01PM +0000, Francois Dugast wrote:
-> > > > > > A local structure of function pointers is used as a minimal har=
-dware
-> > > > > > abstraction layer to prepare for platform independent MMIO call=
-s.
-> > > > > >
-> > > > > > Cc: Oded Gabbay <ogabbay@kernel.org>
-> > > > > > Cc: Ofir Bitton <ofir1.bitton@intel.com>
-> > > > > > Cc: Ohad Sharabi <ohadshar@intel.com>
-> > > > > > Signed-off-by: Francois Dugast <francois.dugast@intel.com>
-> > > > > > ---
-> > > > > > drivers/gpu/drm/xe/xe_device_types.h |  3 ++
-> > > > > > drivers/gpu/drm/xe/xe_mmio.c         | 81 +++++++++++++++++++++=
-+++++++
-> > > > > > drivers/gpu/drm/xe/xe_mmio.h         | 35 ++++++------
-> > > > > > 3 files changed, 99 insertions(+), 20 deletions(-)
-> > > > > >
-> > > > > > diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu=
-/drm/xe/xe_device_types.h
-> > > > > > index 17b6b1cc5adb..3f8fd0d8129b 100644
-> > > > > > --- a/drivers/gpu/drm/xe/xe_device_types.h
-> > > > > > +++ b/drivers/gpu/drm/xe/xe_device_types.h
-> > > > > > @@ -378,6 +378,9 @@ struct xe_device {
-> > > > > >   /** @d3cold_allowed: Indicates if d3cold is a valid device st=
-ate */
-> > > > > >   bool d3cold_allowed;
-> > > > > >
-> > > > > > + /** @mmio_funcs: function pointers for MMIO related functions=
- */
-> > > > > > + const struct xe_mmio_funcs *mmio_funcs;
-> > > > > > +
-> > > > > >   /* private: */
-> > > > > >
-> > > > > > #if IS_ENABLED(CONFIG_DRM_XE_DISPLAY)
-> > > > > > diff --git a/drivers/gpu/drm/xe/xe_mmio.c b/drivers/gpu/drm/xe/=
-xe_mmio.c
-> > > > > > index 475b14fe4356..f3d08676a77a 100644
-> > > > > > --- a/drivers/gpu/drm/xe/xe_mmio.c
-> > > > > > +++ b/drivers/gpu/drm/xe/xe_mmio.c
-> > > > > > @@ -25,6 +25,62 @@
-> > > > > >
-> > > > > > #define BAR_SIZE_SHIFT 20
-> > > > > >
-> > > > > > +static void xe_mmio_write32_device(struct xe_gt *gt,
-> > > > > > +                            struct xe_reg reg, u32 val);
-> > > > > > +static u32 xe_mmio_read32_device(struct xe_gt *gt, struct xe_r=
-eg reg);
-> > > > > > +static void xe_mmio_write64_device(struct xe_gt *gt,
-> > > > > > +                            struct xe_reg reg, u64 val);
-> > > > > > +static u64 xe_mmio_read64_device(struct xe_gt *gt, struct xe_r=
-eg reg);
-> > > > > > +
-> > > > > > +static const struct xe_mmio_funcs xe_mmio_funcs_device =3D {
-> > > > > > + .write32 =3D xe_mmio_write32_device,
-> > > > > > + .read32 =3D xe_mmio_read32_device,
-> > > > > > + .write64 =3D xe_mmio_write64_device,
-> > > > > > + .read64 =3D xe_mmio_read64_device,
-> > > > > > +};
-> > > > > > +
-> > > > > > +static inline void xe_mmio_write32_device(struct xe_gt *gt,
-> > > > > > +                            struct xe_reg reg, u32 val)
-> > > > > > +{
-> > > > > > + struct xe_tile *tile =3D gt_to_tile(gt);
-> > > > > > +
-> > > > > > + if (reg.addr < gt->mmio.adj_limit)
-> > > > > > +         reg.addr +=3D gt->mmio.adj_offset;
-> > > > > > +
-> > > > > > + writel(val, tile->mmio.regs + reg.addr);
-> > > > > > +}
-> > > > > > +
-> > > > > > +static inline u32 xe_mmio_read32_device(struct xe_gt *gt, stru=
-ct xe_reg reg)
-> > > > > > +{
-> > > > > > + struct xe_tile *tile =3D gt_to_tile(gt);
-> > > > > > +
-> > > > > > + if (reg.addr < gt->mmio.adj_limit)
-> > > > > > +         reg.addr +=3D gt->mmio.adj_offset;
-> > > > > > +
-> > > > > > + return readl(tile->mmio.regs + reg.addr);
-> > > > > > +}
-> > > > > > +
-> > > > > > +static inline void xe_mmio_write64_device(struct xe_gt *gt,
-> > > > > > +                            struct xe_reg reg, u64 val)
-> > > > > > +{
-> > > > > > + struct xe_tile *tile =3D gt_to_tile(gt);
-> > > > > > +
-> > > > > > + if (reg.addr < gt->mmio.adj_limit)
-> > > > > > +         reg.addr +=3D gt->mmio.adj_offset;
-> > > > > > +
-> > > > > > + writeq(val, tile->mmio.regs + reg.addr);
-> > > > > > +}
-> > > > > > +
-> > > > > > +static inline u64 xe_mmio_read64_device(struct xe_gt *gt, stru=
-ct xe_reg reg)
-> > > > > > +{
-> > > > > > + struct xe_tile *tile =3D gt_to_tile(gt);
-> > > > > > +
-> > > > > > + if (reg.addr < gt->mmio.adj_limit)
-> > > > > > +         reg.addr +=3D gt->mmio.adj_offset;
-> > > > > > +
-> > > > > > + return readq(tile->mmio.regs + reg.addr);
-> > > > > > +}
-> > > > > > +
-> > > > > > static int xe_set_dma_info(struct xe_device *xe)
-> > > > > > {
-> > > > > >   unsigned int mask_size =3D xe->info.dma_mask_size;
-> > > > > > @@ -377,6 +433,29 @@ static void mmio_fini(struct drm_device *d=
-rm, void *arg)
-> > > > > >           iounmap(xe->mem.vram.mapping);
-> > > > > > }
-> > > > > >
-> > > > > > +static void xe_mmio_set_funcs(struct xe_device *xe)
-> > > > > > +{
-> > > > > > + /* For now all platforms use the set of MMIO functions for a
-> > > > > > +  * physical device.
-> > > > > > +  */
-> > > > >
-> > > > >
-> > > > > what is "device" in this context? that seems confusing as we alwa=
-ys ever
-> > > > > just support reading/writing to a real device (physical here may =
-also
-> > > > > add to the confusion when thinking about SR-IOV and VFs).
-> > > > > We shouldn't add abstractions that are then never used and all pl=
-atforms
-> > > > > end up using the same. Unless it's a preparation for a follow up =
-series
-> > > > > adding the different handling.
-> > > >
-> > > > For now "device" is meant as "in opposition to simulator" but I agr=
-ee
-> > > > we can find a better name. Existing platforms all use the same
-> > > > implementation but this is preparation for platforms that require a
-> > > > different implementation.
-> > >
-> > > I agree with Lucas that this doesn't really seem to be a good candida=
-te
-> > > for a vtable; every platform uses exactly the same logic and I can't
-> > > really envision how/why this would need to change for future platform=
-s
-> > > either, so this seems to just be adding unnecessary complexity.
-> > > Registers being accessed at some offset into a PCI BAR isn't likely t=
-o
-> > > change going forward.  On future platforms it's more likely that we'd
-> > > need changes to the part of the code that maps the MMIO BAR rather th=
-an
-> > > the code that reads/writes an offset into a mapping that's already be=
-en
-> > > setup.
-> > I agree with that for every *real hardware* platform the
-> > implementation will probably be the same.
-> > But for simulator/emulation, there is a different implementation.
-> > And even if we don't upstream that different implementation, doing
-> > this abstraction will help us upstream the rest of the driver as we
-> > minimize the differences between upstream and downstream.
-> > And helping us upstream the driver is a good enough reason imo to add
-> > this abstraction.
->
-> Adding extra abstraction layers to upstream code that provide no
-> upstream benefit and only come into play for some private, internal-only
-> workflow is generally frowned upon in the DRM subsystem.  Unless you
-> have some kind of public, open-source usage model, adding the extra
-> complexity and clutter here is probably a no-go for upstream.
-While I ofc agree in general with this statement, I believe it does
-not apply in this case.
+--_000_f91bff696ab6685af3509274ae2270f2079b5d24camelmediatekco_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-The intention behind changing register access to be callback functions
-is to allow the Linux driver to serve as the principal entity for
-pre-silicon validation . This is an important distinction, as the aim
-is not to obscure the Linux kernel API for portability across other
-operating systems or to reinvent mechanisms already provided by the
-kernel, which I believe is the primary objection of upstream for
-adding abstraction layers.
+SGkgQW5nZWxvLA0KDQpUaGFua3MgZm9yIHRoZSByZXZpZXdzLg0KDQpPbiBXZWQsIDIwMjMtMDYt
+MTQgYXQgMTA6NDMgKzAyMDAsIEFuZ2Vsb0dpb2FjY2hpbm8gRGVsIFJlZ25vIHdyb3RlOg0KRXh0
+ZXJuYWwgZW1haWwgOiBQbGVhc2UgZG8gbm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0YWNobWVu
+dHMgdW50aWwgeW91IGhhdmUgdmVyaWZpZWQgdGhlIHNlbmRlciBvciB0aGUgY29udGVudC4NCg0K
+SWwgMTMvMDYvMjMgMTM6MzIsIEphc29uLUpILkxpbiBoYSBzY3JpdHRvOg0KDQo+IDEuIEFkZCBj
+YXN0aW5nIGJlZm9yZSBhc3NpZ24gdG8gYXZvaWQgdGhlIHVuaW50ZW50aW9uYWwgaW50ZWdlcg0K
+DQo+ICAgICBvdmVyZmxvdyBvciB1bmludGVuZGVkIHNpZ24gZXh0ZW5zaW9uLg0KDQo+IDIuIEFk
+ZCBhIGludCB2YXJyaWFibGUgZm9yIG11bHRpcGxpZXIgY2FsY3VsYXRpb24gaW5zdGVhZCBvZiBj
+YWxjdWxhdGluZw0KDQo+ICAgICBkaWZmZXJlbnQgdHlwZXMgbXVsdGlwbGllciB3aXRoIGRtYV9h
+ZGRyX3QgdmFycmlhYmxlIGRpcmVjdGx5Lg0KDQo+DQoNCj4gU2lnbmVkLW9mZi1ieTogSmFzb24t
+SkguTGluIDxqYXNvbi1qaC5saW5AbWVkaWF0ZWsuY29tPg0KDQo+IEZpeGVzOiAxYTY0YTdhZmY4
+ZGEgKCJkcm0vbWVkaWF0ZWs6IEZpeCBjdXJzb3IgcGxhbmUgbm8gdXBkYXRlIikNCg0KPiAtLS0N
+Cg0KPiAgIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2dlbS5jICAgfCAgMiArLQ0K
+DQo+ICAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fcGxhbmUuYyB8IDIyICsrKysr
+KysrKysrKystLS0tLS0tLS0NCg0KPiAgIDIgZmlsZXMgY2hhbmdlZCwgMTQgaW5zZXJ0aW9ucygr
+KSwgMTAgZGVsZXRpb25zKC0pDQoNCj4NCg0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L21lZGlhdGVrL210a19kcm1fZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Ry
+bV9nZW0uYw0KDQo+IGluZGV4IGEyNWIyOGQzZWU5MC4uMGM3ODc4YmMwYjM3IDEwMDY0NA0KDQo+
+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2dlbS5jDQoNCj4gKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZ2VtLmMNCg0KPiBAQCAtMTIxLDcgKzEy
+MSw3IEBAIGludCBtdGtfZHJtX2dlbV9kdW1iX2NyZWF0ZShzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGVf
+cHJpdiwgc3RydWN0IGRybV9kZXZpY2UgKmRldiwNCg0KPiAgIGludCByZXQ7DQoNCj4NCg0KPiAg
+IGFyZ3MtPnBpdGNoID0gRElWX1JPVU5EX1VQKGFyZ3MtPndpZHRoICogYXJncy0+YnBwLCA4KTsN
+Cg0KPiAtYXJncy0+c2l6ZSA9IGFyZ3MtPnBpdGNoICogYXJncy0+aGVpZ2h0Ow0KDQo+ICthcmdz
+LT5zaXplID0gKF9fdTY0KWFyZ3MtPnBpdGNoICogYXJncy0+aGVpZ2h0Ow0KDQoNCldlIGNvdWxk
+IGF2b2lkIGV4cGxpY2l0IGNhc3RpbmcgaGVyZSBpZiB5b3UgZG8NCg0KDQphcmdzLT5zaXplID0g
+YXJncy0+cGl0Y2g7DQoNCmFyZ3MtPnNpemUgKj0gYXJncy0+aGVpZ2h0Ow0KDQoNCk9LLCBUaGFu
+a3MgZm9yIHlvdXIgYWR2aWNlLg0KDQpJJ2xsIHRha2UgdGhpcy4NCg0KDQo+DQoNCj4gICBtdGtf
+Z2VtID0gbXRrX2RybV9nZW1fY3JlYXRlKGRldiwgYXJncy0+c2l6ZSwgZmFsc2UpOw0KDQo+ICAg
+aWYgKElTX0VSUihtdGtfZ2VtKSkNCg0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21l
+ZGlhdGVrL210a19kcm1fcGxhbmUuYyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJt
+X3BsYW5lLmMNCg0KPiBpbmRleCAzMWY5NDIwYWZmNmYuLjFjZDQxNDU0ZDU0NSAxMDA2NDQNCg0K
+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9wbGFuZS5jDQoNCj4gKysr
+IGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fcGxhbmUuYw0KDQo+IEBAIC0xNDUs
+NiArMTQ1LDcgQEAgc3RhdGljIHZvaWQgbXRrX3BsYW5lX3VwZGF0ZV9uZXdfc3RhdGUoc3RydWN0
+IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRlLA0KDQo+ICAgZG1hX2FkZHJfdCBhZGRyOw0KDQo+
+ICAgZG1hX2FkZHJfdCBoZHJfYWRkciA9IDA7DQoNCj4gICB1bnNpZ25lZCBpbnQgaGRyX3BpdGNo
+ID0gMDsNCg0KPiAraW50IG9mZnNldDsNCg0KDQouLi5idXQgb2Zmc2V0IGNhbiBuZXZlciBiZSBu
+ZWdhdGl2ZSwgY2FuIGl0Pw0KDQppbiB0aGF0IGNhc2UsIHRoaXMgc2hvdWxkIGJlIHVuc2lnbmVk
+IGludC4NCg0KDQpzcmMueDEgYW5kIHNyYy55MSBhcmUgJ2ludCcsIHNvIHRoZXkgY2FuIGJlIG5l
+Z2F0aXZlLg0KDQpCdXQgSSdtIG5vdCBzdXJlIGRvZXMgYW55b25lIHdvdWxkIHNldCB0aGUgbmVn
+YXRpdmUgdG8gdGhlbS4NCg0KDQpJIHRoaW5rIHVzaW5nICd1bnNpZ25lZCBpbnQnIGZvciBvZmZz
+ZXQgd291bGQgYmUgdmVyeSBiaWcgYWZ0ZXIgbXVsdGlwbHkgd2l0aCBuZWdhdGl2ZSBzcmMueDEg
+b3Igc3JjLnkxLg0KDQpTbyBJIGp1c3QgdXNlICdpbnQnIGhlcmUgdG8gYXZvaWQgdGhhdCBjYXNl
+Lg0KDQoNCkRvIHlvdSB0aGluayBJIHNob3VsZCB1c2UgJ3Vuc2lnbmVkIGludCcgZm9yIG9mZnNl
+dCBhbmQgYWRkIHRoZSBib3VuZGFyeSBjaGVja2luZyBmb3IgYWRkcj8NCg0KDQpSZWdhcmQsDQoN
+Ckphc29uLUpILkxpbg0KDQoNCj4NCg0KPiAgIGdlbSA9IGZiLT5vYmpbMF07DQoNCj4gICBtdGtf
+Z2VtID0gdG9fbXRrX2dlbV9vYmooZ2VtKTsNCg0KPiBAQCAtMTU0LDggKzE1NSwxMCBAQCBzdGF0
+aWMgdm9pZCBtdGtfcGxhbmVfdXBkYXRlX25ld19zdGF0ZShzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRl
+ICpuZXdfc3RhdGUsDQoNCj4gICBtb2RpZmllciA9IGZiLT5tb2RpZmllcjsNCg0KPg0KDQo+ICAg
+aWYgKG1vZGlmaWVyID09IERSTV9GT1JNQVRfTU9EX0xJTkVBUikgew0KDQo+IC1hZGRyICs9IChu
+ZXdfc3RhdGUtPnNyYy54MSA+PiAxNikgKiBmYi0+Zm9ybWF0LT5jcHBbMF07DQoNCj4gLWFkZHIg
+Kz0gKG5ld19zdGF0ZS0+c3JjLnkxID4+IDE2KSAqIHBpdGNoOw0KDQo+ICtvZmZzZXQgPSAobmV3
+X3N0YXRlLT5zcmMueDEgPj4gMTYpICogZmItPmZvcm1hdC0+Y3BwWzBdOw0KDQo+ICthZGRyICs9
+IG9mZnNldDsNCg0KPiArb2Zmc2V0ID0gKG5ld19zdGF0ZS0+c3JjLnkxID4+IDE2KSAqIHBpdGNo
+Ow0KDQo+ICthZGRyICs9IG9mZnNldDsNCg0KPiAgIH0gZWxzZSB7DQoNCj4gICBpbnQgd2lkdGhf
+aW5fYmxvY2tzID0gQUxJR04oZmItPndpZHRoLCBBRkJDX0RBVEFfQkxPQ0tfV0lEVEgpDQoNCj4g
+ICAgICAgICAvIEFGQkNfREFUQV9CTE9DS19XSURUSDsNCg0KPiBAQCAtMTYzLDIxICsxNjYsMjIg
+QEAgc3RhdGljIHZvaWQgbXRrX3BsYW5lX3VwZGF0ZV9uZXdfc3RhdGUoc3RydWN0IGRybV9wbGFu
+ZV9zdGF0ZSAqbmV3X3N0YXRlLA0KDQo+ICAgICAgICAgIC8gQUZCQ19EQVRBX0JMT0NLX0hFSUdI
+VDsNCg0KPiAgIGludCB4X29mZnNldF9pbl9ibG9ja3MgPSAobmV3X3N0YXRlLT5zcmMueDEgPj4g
+MTYpIC8gQUZCQ19EQVRBX0JMT0NLX1dJRFRIOw0KDQo+ICAgaW50IHlfb2Zmc2V0X2luX2Jsb2Nr
+cyA9IChuZXdfc3RhdGUtPnNyYy55MSA+PiAxNikgLyBBRkJDX0RBVEFfQkxPQ0tfSEVJR0hUOw0K
+DQo+IC1pbnQgaGRyX3NpemU7DQoNCj4gK2ludCBoZHJfc2l6ZSwgaGRyX29mZnNldDsNCg0KPg0K
+DQo+ICAgaGRyX3BpdGNoID0gd2lkdGhfaW5fYmxvY2tzICogQUZCQ19IRUFERVJfQkxPQ0tfU0la
+RTsNCg0KPiAgIHBpdGNoID0gd2lkdGhfaW5fYmxvY2tzICogQUZCQ19EQVRBX0JMT0NLX1dJRFRI
+ICoNCg0KPiAgIEFGQkNfREFUQV9CTE9DS19IRUlHSFQgKiBmYi0+Zm9ybWF0LT5jcHBbMF07DQoN
+Cj4NCg0KPiAgIGhkcl9zaXplID0gQUxJR04oaGRyX3BpdGNoICogaGVpZ2h0X2luX2Jsb2Nrcywg
+QUZCQ19IRUFERVJfQUxJR05NRU5UKTsNCg0KPiAraGRyX29mZnNldCA9IGhkcl9waXRjaCAqIHlf
+b2Zmc2V0X2luX2Jsb2NrcyArDQoNCj4gK0FGQkNfSEVBREVSX0JMT0NLX1NJWkUgKiB4X29mZnNl
+dF9pbl9ibG9ja3M7DQoNCj4gK2hkcl9hZGRyID0gYWRkciArIGhkcl9vZmZzZXQ7DQoNCj4NCg0K
+PiAtaGRyX2FkZHIgPSBhZGRyICsgaGRyX3BpdGNoICogeV9vZmZzZXRfaW5fYmxvY2tzICsNCg0K
+PiAtICAgQUZCQ19IRUFERVJfQkxPQ0tfU0laRSAqIHhfb2Zmc2V0X2luX2Jsb2NrczsNCg0KPiAg
+IC8qIFRoZSBkYXRhIHBsYW5lIGlzIG9mZnNldCBieSAxIGFkZGl0aW9uYWwgYmxvY2suICovDQoN
+Cj4gLWFkZHIgPSBhZGRyICsgaGRyX3NpemUgKw0KDQo+IC0gICAgICAgcGl0Y2ggKiB5X29mZnNl
+dF9pbl9ibG9ja3MgKw0KDQo+IC0gICAgICAgQUZCQ19EQVRBX0JMT0NLX1dJRFRIICogQUZCQ19E
+QVRBX0JMT0NLX0hFSUdIVCAqDQoNCj4gLSAgICAgICBmYi0+Zm9ybWF0LT5jcHBbMF0gKiAoeF9v
+ZmZzZXRfaW5fYmxvY2tzICsgMSk7DQoNCj4gK29mZnNldCA9IHBpdGNoICogeV9vZmZzZXRfaW5f
+YmxvY2tzICsNCg0KPiArIEFGQkNfREFUQV9CTE9DS19XSURUSCAqIEFGQkNfREFUQV9CTE9DS19I
+RUlHSFQgKg0KDQo+ICsgZmItPmZvcm1hdC0+Y3BwWzBdICogKHhfb2Zmc2V0X2luX2Jsb2NrcyAr
+IDEpOw0KDQo+ICthZGRyID0gYWRkciArIGhkcl9zaXplICsgb2Zmc2V0Ow0KDQo+ICAgfQ0KDQo+
+DQoNCj4gICBtdGtfcGxhbmVfc3RhdGUtPnBlbmRpbmcuZW5hYmxlID0gdHJ1ZTsNCg0KDQoNCg==
 
-Instead, this strategy is about utilizing the inherent advantages of
-Linux for the crucial stage of pre-silicon validation. In fact,
-adopting Linux as the main vessel for this process can help leverage a
-broader open source community for problem-solving, encourage more
-uniform testing practices, and result in higher quality drivers due to
-the transparency and scrutiny inherent in open-source development.
+--_000_f91bff696ab6685af3509274ae2270f2079b5d24camelmediatekco_
+Content-Type: text/html; charset="utf-8"
+Content-ID: <3BF175E414C16A44B99A7FB299722692@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 
-Making the upstream driver as close as possible to the internal driver
-is advantageous for both the speed and quality of the upstreaming
-process. A driver that closely mirrors the internal one will likely
-require fewer modifications, thus streamlining the upstreaming
-process. With a closely aligned internal and upstream driver, the
-benefits of any improvements, bug fixes, and other modifications made
-in the internal driver could be quickly and easily transferred to the
-upstream driver.
+PGh0bWwgZGlyPSJsdHIiPg0KPGhlYWQ+DQo8bWV0YSBodHRwLWVxdWl2PSJDb250ZW50LVR5cGUi
+IGNvbnRlbnQ9InRleHQvaHRtbDsgY2hhcnNldD11dGYtOCI+DQo8L2hlYWQ+DQo8Ym9keSBzdHls
+ZT0idGV4dC1hbGlnbjpsZWZ0OyBkaXJlY3Rpb246bHRyOyI+DQo8ZGl2PkhpIEFuZ2Vsbyw8L2Rp
+dj4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8ZGl2PlRoYW5rcyBmb3IgdGhlIHJldmlld3MuPC9kaXY+
+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj5PbiBXZWQsIDIwMjMtMDYtMTQgYXQgMTA6NDMgKzAy
+MDAsIEFuZ2Vsb0dpb2FjY2hpbm8gRGVsIFJlZ25vIHdyb3RlOjwvZGl2Pg0KPGJsb2NrcXVvdGUg
+dHlwZT0iY2l0ZSIgc3R5bGU9Im1hcmdpbjowIDAgMCAuOGV4OyBib3JkZXItbGVmdDoycHggIzcy
+OWZjZiBzb2xpZDtwYWRkaW5nLWxlZnQ6MWV4Ij4NCjx0YWJsZSBjbGFzcz0iTXNvTm9ybWFsVGFi
+bGUiIGJvcmRlcj0iMCIgY2VsbHNwYWNpbmc9IjAiIGNlbGxwYWRkaW5nPSIwIiBhbGlnbj0ibGVm
+dCIgd2lkdGg9IjEwMCUiIHN0eWxlPSJ3aWR0aDoxMDAuMCU7YmFja2dyb3VuZDojNzdGRkNDIj4N
+Cjx0Ym9keT4NCjx0cj4NCjx0ZCB3aWR0aD0iOSIgc3R5bGU9IndpZHRoOjcuMHB0O2JhY2tncm91
+bmQ6I0VBMDYyMTtwYWRkaW5nOjUuMjVwdCAxLjVwdA0KIDUuMjVwdCAxLjVwdCI+DQo8L3RkPg0K
+PHRkIHdpZHRoPSIxMDAlIiBzdHlsZT0id2lkdGg6MTAwLjAlO2JhY2tncm91bmQ6I0ZGRDRENDtw
+YWRkaW5nOjUuMjVwdA0KIDMuNzVwdCA1LjI1cHQgMTEuMjVwdCI+DQo8ZGl2Pg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCIgc3R5bGU9Im1zby1lbGVtZW50OmZyYW1lO21zby1lbGVtZW50LWZyYW1lLWhz
+cGFjZToyLjI1cHQ7bXNvLWVsZW1lbnQtd3JhcDphcm91bmQ7bXNvLWVsZW1lbnQtYW5jaG9yLXZl
+cnRpY2FsOnBhcmFncmFwaDttc28tZWxlbWVudC1hbmNob3ItaG9yaXpvbnRhbDpjb2x1bW47bXNv
+LWhlaWdodC1ydWxlOmV4YWN0bHkiPg0KPHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNp
+emU6OS41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7U2Vnb2UNCiBVSSZxdW90OyxzYW5zLXNlcmlmO2Nv
+bG9yOiMyMTIxMjEiPkV4dGVybmFsIGVtYWlsIDogUGxlYXNlIGRvIG5vdCBjbGljayBsaW5rcyBv
+ciBvcGVuIGF0dGFjaG1lbnRzIHVudGlsIHlvdSBoYXZlIHZlcmlmaWVkIHRoZSBzZW5kZXIgb3Ig
+dGhlIGNvbnRlbnQuPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L3RkPg0KPC90cj4N
+CjwvdGJvZHk+DQo8L3RhYmxlPg0KPCEtLX0tLT4NCjxwcmU+SWwgMTMvMDYvMjMgMTM6MzIsIEph
+c29uLUpILkxpbiBoYSBzY3JpdHRvOjwvcHJlPg0KPHByZT4mZ3Q7IDEuIEFkZCBjYXN0aW5nIGJl
+Zm9yZSBhc3NpZ24gdG8gYXZvaWQgdGhlIHVuaW50ZW50aW9uYWwgaW50ZWdlcjwvcHJlPg0KPHBy
+ZT4mZ3Q7ICAgICBvdmVyZmxvdyBvciB1bmludGVuZGVkIHNpZ24gZXh0ZW5zaW9uLjwvcHJlPg0K
+PHByZT4mZ3Q7IDIuIEFkZCBhIGludCB2YXJyaWFibGUgZm9yIG11bHRpcGxpZXIgY2FsY3VsYXRp
+b24gaW5zdGVhZCBvZiBjYWxjdWxhdGluZzwvcHJlPg0KPHByZT4mZ3Q7ICAgICBkaWZmZXJlbnQg
+dHlwZXMgbXVsdGlwbGllciB3aXRoIGRtYV9hZGRyX3QgdmFycmlhYmxlIGRpcmVjdGx5LjwvcHJl
+Pg0KPHByZT4mZ3Q7IDwvcHJlPg0KPHByZT4mZ3Q7IFNpZ25lZC1vZmYtYnk6IEphc29uLUpILkxp
+biAmbHQ7amFzb24tamgubGluQG1lZGlhdGVrLmNvbSZndDs8L3ByZT4NCjxwcmU+Jmd0OyBGaXhl
+czogMWE2NGE3YWZmOGRhICgmcXVvdDtkcm0vbWVkaWF0ZWs6IEZpeCBjdXJzb3IgcGxhbmUgbm8g
+dXBkYXRlJnF1b3Q7KTwvcHJlPg0KPHByZT4mZ3Q7IC0tLTwvcHJlPg0KPHByZT4mZ3Q7ICAgZHJp
+dmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZ2VtLmMgICB8ICAyICstPC9wcmU+DQo8cHJl
+PiZndDsgICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9wbGFuZS5jIHwgMjIgKysr
+KysrKysrKysrKy0tLS0tLS0tLTwvcHJlPg0KPHByZT4mZ3Q7ICAgMiBmaWxlcyBjaGFuZ2VkLCAx
+NCBpbnNlcnRpb25zKCspLCAxMCBkZWxldGlvbnMoLSk8L3ByZT4NCjxwcmU+Jmd0OyA8L3ByZT4N
+CjxwcmU+Jmd0OyBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1f
+Z2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9nZW0uYzwvcHJlPg0KPHBy
+ZT4mZ3Q7IGluZGV4IGEyNWIyOGQzZWU5MC4uMGM3ODc4YmMwYjM3IDEwMDY0NDwvcHJlPg0KPHBy
+ZT4mZ3Q7IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2dlbS5jPC9wcmU+
+DQo8cHJlPiZndDsgKysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZ2VtLmM8
+L3ByZT4NCjxwcmU+Jmd0OyBAQCAtMTIxLDcgKzEyMSw3IEBAIGludCBtdGtfZHJtX2dlbV9kdW1i
+X2NyZWF0ZShzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGVfcHJpdiwgc3RydWN0IGRybV9kZXZpY2UgKmRl
+diw8L3ByZT4NCjxwcmU+Jmd0OyAgIGludCByZXQ7PC9wcmU+DQo8cHJlPiZndDsgICA8L3ByZT4N
+CjxwcmU+Jmd0OyAgIGFyZ3MtJmd0O3BpdGNoID0gRElWX1JPVU5EX1VQKGFyZ3MtJmd0O3dpZHRo
+ICogYXJncy0mZ3Q7YnBwLCA4KTs8L3ByZT4NCjxwcmU+Jmd0OyAtYXJncy0mZ3Q7c2l6ZSA9IGFy
+Z3MtJmd0O3BpdGNoICogYXJncy0mZ3Q7aGVpZ2h0OzwvcHJlPg0KPHByZT4mZ3Q7ICthcmdzLSZn
+dDtzaXplID0gKF9fdTY0KWFyZ3MtJmd0O3BpdGNoICogYXJncy0mZ3Q7aGVpZ2h0OzwvcHJlPg0K
+PHByZT48YnI+PC9wcmU+DQo8cHJlPldlIGNvdWxkIGF2b2lkIGV4cGxpY2l0IGNhc3RpbmcgaGVy
+ZSBpZiB5b3UgZG88L3ByZT4NCjxwcmU+PGJyPjwvcHJlPg0KPHByZT5hcmdzLSZndDtzaXplID0g
+YXJncy0mZ3Q7cGl0Y2g7PC9wcmU+DQo8cHJlPmFyZ3MtJmd0O3NpemUgKj0gYXJncy0mZ3Q7aGVp
+Z2h0OzwvcHJlPg0KPHByZT48YnI+PC9wcmU+DQo8L2Jsb2NrcXVvdGU+DQo8cHJlPk9LLCBUaGFu
+a3MgZm9yIHlvdXIgYWR2aWNlLjwvcHJlPg0KPHByZT5JJ2xsIHRha2UgdGhpcy48L3ByZT4NCjxi
+bG9ja3F1b3RlIHR5cGU9ImNpdGUiIHN0eWxlPSJtYXJnaW46MCAwIDAgLjhleDsgYm9yZGVyLWxl
+ZnQ6MnB4ICM3MjlmY2Ygc29saWQ7cGFkZGluZy1sZWZ0OjFleCI+DQo8cHJlPjxicj48L3ByZT4N
+CjxwcmU+Jmd0OyAgIDwvcHJlPg0KPHByZT4mZ3Q7ICAgbXRrX2dlbSA9IG10a19kcm1fZ2VtX2Ny
+ZWF0ZShkZXYsIGFyZ3MtJmd0O3NpemUsIGZhbHNlKTs8L3ByZT4NCjxwcmU+Jmd0OyAgIGlmIChJ
+U19FUlIobXRrX2dlbSkpPC9wcmU+DQo8cHJlPiZndDsgZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
+L2RybS9tZWRpYXRlay9tdGtfZHJtX3BsYW5lLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsv
+bXRrX2RybV9wbGFuZS5jPC9wcmU+DQo8cHJlPiZndDsgaW5kZXggMzFmOTQyMGFmZjZmLi4xY2Q0
+MTQ1NGQ1NDUgMTAwNjQ0PC9wcmU+DQo8cHJlPiZndDsgLS0tIGEvZHJpdmVycy9ncHUvZHJtL21l
+ZGlhdGVrL210a19kcm1fcGxhbmUuYzwvcHJlPg0KPHByZT4mZ3Q7ICsrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9tZWRpYXRlay9tdGtfZHJtX3BsYW5lLmM8L3ByZT4NCjxwcmU+Jmd0OyBAQCAtMTQ1LDYg
+KzE0NSw3IEBAIHN0YXRpYyB2b2lkIG10a19wbGFuZV91cGRhdGVfbmV3X3N0YXRlKHN0cnVjdCBk
+cm1fcGxhbmVfc3RhdGUgKm5ld19zdGF0ZSw8L3ByZT4NCjxwcmU+Jmd0OyAgIGRtYV9hZGRyX3Qg
+YWRkcjs8L3ByZT4NCjxwcmU+Jmd0OyAgIGRtYV9hZGRyX3QgaGRyX2FkZHIgPSAwOzwvcHJlPg0K
+PHByZT4mZ3Q7ICAgdW5zaWduZWQgaW50IGhkcl9waXRjaCA9IDA7PC9wcmU+DQo8cHJlPiZndDsg
+K2ludCBvZmZzZXQ7PC9wcmU+DQo8cHJlPjxicj48L3ByZT4NCjxwcmU+Li4uYnV0IG9mZnNldCBj
+YW4gbmV2ZXIgYmUgbmVnYXRpdmUsIGNhbiBpdD88L3ByZT4NCjxwcmU+aW4gdGhhdCBjYXNlLCB0
+aGlzIHNob3VsZCBiZSB1bnNpZ25lZCBpbnQuPC9wcmU+DQo8cHJlPjxicj48L3ByZT4NCjwvYmxv
+Y2txdW90ZT4NCjxwcmU+c3JjLngxIGFuZCBzcmMueTEgYXJlICdpbnQnLCBzbyB0aGV5IGNhbiBi
+ZSBuZWdhdGl2ZS48L3ByZT4NCjxwcmU+QnV0IEknbSBub3Qgc3VyZSBkb2VzIGFueW9uZSB3b3Vs
+ZCBzZXQgdGhlIG5lZ2F0aXZlIHRvIHRoZW0uPC9wcmU+DQo8cHJlPjxicj48L3ByZT4NCjxwcmU+
+SSB0aGluayB1c2luZyAndW5zaWduZWQgaW50JyBmb3Igb2Zmc2V0IHdvdWxkIGJlIHZlcnkgYmln
+IGFmdGVyIG11bHRpcGx5IHdpdGggbmVnYXRpdmUgc3JjLngxIG9yIHNyYy55MS48L3ByZT4NCjxw
+cmU+U28gSSBqdXN0IHVzZSAnaW50JyBoZXJlIHRvIGF2b2lkIHRoYXQgY2FzZS48L3ByZT4NCjxw
+cmU+PGJyPjwvcHJlPg0KPHByZT5EbyB5b3UgdGhpbmsgSSBzaG91bGQgdXNlICd1bnNpZ25lZCBp
+bnQnIGZvciBvZmZzZXQgYW5kIGFkZCB0aGUgYm91bmRhcnkgY2hlY2tpbmcgZm9yIGFkZHI/PC9w
+cmU+DQo8cHJlPjxicj48L3ByZT4NCjxwcmU+UmVnYXJkLDwvcHJlPg0KPHByZT5KYXNvbi1KSC5M
+aW48L3ByZT4NCjxibG9ja3F1b3RlIHR5cGU9ImNpdGUiIHN0eWxlPSJtYXJnaW46MCAwIDAgLjhl
+eDsgYm9yZGVyLWxlZnQ6MnB4ICM3MjlmY2Ygc29saWQ7cGFkZGluZy1sZWZ0OjFleCI+DQo8cHJl
+Pjxicj48L3ByZT4NCjxwcmU+Jmd0OyAgIDwvcHJlPg0KPHByZT4mZ3Q7ICAgZ2VtID0gZmItJmd0
+O29ialswXTs8L3ByZT4NCjxwcmU+Jmd0OyAgIG10a19nZW0gPSB0b19tdGtfZ2VtX29iaihnZW0p
+OzwvcHJlPg0KPHByZT4mZ3Q7IEBAIC0xNTQsOCArMTU1LDEwIEBAIHN0YXRpYyB2b2lkIG10a19w
+bGFuZV91cGRhdGVfbmV3X3N0YXRlKHN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKm5ld19zdGF0ZSw8
+L3ByZT4NCjxwcmU+Jmd0OyAgIG1vZGlmaWVyID0gZmItJmd0O21vZGlmaWVyOzwvcHJlPg0KPHBy
+ZT4mZ3Q7ICAgPC9wcmU+DQo8cHJlPiZndDsgICBpZiAobW9kaWZpZXIgPT0gRFJNX0ZPUk1BVF9N
+T0RfTElORUFSKSB7PC9wcmU+DQo8cHJlPiZndDsgLWFkZHIgKz0gKG5ld19zdGF0ZS0mZ3Q7c3Jj
+LngxICZndDsmZ3Q7IDE2KSAqIGZiLSZndDtmb3JtYXQtJmd0O2NwcFswXTs8L3ByZT4NCjxwcmU+
+Jmd0OyAtYWRkciArPSAobmV3X3N0YXRlLSZndDtzcmMueTEgJmd0OyZndDsgMTYpICogcGl0Y2g7
+PC9wcmU+DQo8cHJlPiZndDsgK29mZnNldCA9IChuZXdfc3RhdGUtJmd0O3NyYy54MSAmZ3Q7Jmd0
+OyAxNikgKiBmYi0mZ3Q7Zm9ybWF0LSZndDtjcHBbMF07PC9wcmU+DQo8cHJlPiZndDsgK2FkZHIg
+Kz0gb2Zmc2V0OzwvcHJlPg0KPHByZT4mZ3Q7ICtvZmZzZXQgPSAobmV3X3N0YXRlLSZndDtzcmMu
+eTEgJmd0OyZndDsgMTYpICogcGl0Y2g7PC9wcmU+DQo8cHJlPiZndDsgK2FkZHIgKz0gb2Zmc2V0
+OzwvcHJlPg0KPHByZT4mZ3Q7ICAgfSBlbHNlIHs8L3ByZT4NCjxwcmU+Jmd0OyAgIGludCB3aWR0
+aF9pbl9ibG9ja3MgPSBBTElHTihmYi0mZ3Q7d2lkdGgsIEFGQkNfREFUQV9CTE9DS19XSURUSCk8
+L3ByZT4NCjxwcmU+Jmd0OyAgICAgICAgIC8gQUZCQ19EQVRBX0JMT0NLX1dJRFRIOzwvcHJlPg0K
+PHByZT4mZ3Q7IEBAIC0xNjMsMjEgKzE2NiwyMiBAQCBzdGF0aWMgdm9pZCBtdGtfcGxhbmVfdXBk
+YXRlX25ld19zdGF0ZShzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfc3RhdGUsPC9wcmU+DQo8
+cHJlPiZndDsgICAgICAgICAgLyBBRkJDX0RBVEFfQkxPQ0tfSEVJR0hUOzwvcHJlPg0KPHByZT4m
+Z3Q7ICAgaW50IHhfb2Zmc2V0X2luX2Jsb2NrcyA9IChuZXdfc3RhdGUtJmd0O3NyYy54MSAmZ3Q7
+Jmd0OyAxNikgLyBBRkJDX0RBVEFfQkxPQ0tfV0lEVEg7PC9wcmU+DQo8cHJlPiZndDsgICBpbnQg
+eV9vZmZzZXRfaW5fYmxvY2tzID0gKG5ld19zdGF0ZS0mZ3Q7c3JjLnkxICZndDsmZ3Q7IDE2KSAv
+IEFGQkNfREFUQV9CTE9DS19IRUlHSFQ7PC9wcmU+DQo8cHJlPiZndDsgLWludCBoZHJfc2l6ZTs8
+L3ByZT4NCjxwcmU+Jmd0OyAraW50IGhkcl9zaXplLCBoZHJfb2Zmc2V0OzwvcHJlPg0KPHByZT4m
+Z3Q7ICAgPC9wcmU+DQo8cHJlPiZndDsgICBoZHJfcGl0Y2ggPSB3aWR0aF9pbl9ibG9ja3MgKiBB
+RkJDX0hFQURFUl9CTE9DS19TSVpFOzwvcHJlPg0KPHByZT4mZ3Q7ICAgcGl0Y2ggPSB3aWR0aF9p
+bl9ibG9ja3MgKiBBRkJDX0RBVEFfQkxPQ0tfV0lEVEggKjwvcHJlPg0KPHByZT4mZ3Q7ICAgQUZC
+Q19EQVRBX0JMT0NLX0hFSUdIVCAqIGZiLSZndDtmb3JtYXQtJmd0O2NwcFswXTs8L3ByZT4NCjxw
+cmU+Jmd0OyAgIDwvcHJlPg0KPHByZT4mZ3Q7ICAgaGRyX3NpemUgPSBBTElHTihoZHJfcGl0Y2gg
+KiBoZWlnaHRfaW5fYmxvY2tzLCBBRkJDX0hFQURFUl9BTElHTk1FTlQpOzwvcHJlPg0KPHByZT4m
+Z3Q7ICtoZHJfb2Zmc2V0ID0gaGRyX3BpdGNoICogeV9vZmZzZXRfaW5fYmxvY2tzICs8L3ByZT4N
+CjxwcmU+Jmd0OyArQUZCQ19IRUFERVJfQkxPQ0tfU0laRSAqIHhfb2Zmc2V0X2luX2Jsb2Nrczs8
+L3ByZT4NCjxwcmU+Jmd0OyAraGRyX2FkZHIgPSBhZGRyICsgaGRyX29mZnNldDs8L3ByZT4NCjxw
+cmU+Jmd0OyAgIDwvcHJlPg0KPHByZT4mZ3Q7IC1oZHJfYWRkciA9IGFkZHIgKyBoZHJfcGl0Y2gg
+KiB5X29mZnNldF9pbl9ibG9ja3MgKzwvcHJlPg0KPHByZT4mZ3Q7IC0gICBBRkJDX0hFQURFUl9C
+TE9DS19TSVpFICogeF9vZmZzZXRfaW5fYmxvY2tzOzwvcHJlPg0KPHByZT4mZ3Q7ICAgLyogVGhl
+IGRhdGEgcGxhbmUgaXMgb2Zmc2V0IGJ5IDEgYWRkaXRpb25hbCBibG9jay4gKi88L3ByZT4NCjxw
+cmU+Jmd0OyAtYWRkciA9IGFkZHIgKyBoZHJfc2l6ZSArPC9wcmU+DQo8cHJlPiZndDsgLSAgICAg
+ICBwaXRjaCAqIHlfb2Zmc2V0X2luX2Jsb2NrcyArPC9wcmU+DQo8cHJlPiZndDsgLSAgICAgICBB
+RkJDX0RBVEFfQkxPQ0tfV0lEVEggKiBBRkJDX0RBVEFfQkxPQ0tfSEVJR0hUICo8L3ByZT4NCjxw
+cmU+Jmd0OyAtICAgICAgIGZiLSZndDtmb3JtYXQtJmd0O2NwcFswXSAqICh4X29mZnNldF9pbl9i
+bG9ja3MgKyAxKTs8L3ByZT4NCjxwcmU+Jmd0OyArb2Zmc2V0ID0gcGl0Y2ggKiB5X29mZnNldF9p
+bl9ibG9ja3MgKzwvcHJlPg0KPHByZT4mZ3Q7ICsgQUZCQ19EQVRBX0JMT0NLX1dJRFRIICogQUZC
+Q19EQVRBX0JMT0NLX0hFSUdIVCAqPC9wcmU+DQo8cHJlPiZndDsgKyBmYi0mZ3Q7Zm9ybWF0LSZn
+dDtjcHBbMF0gKiAoeF9vZmZzZXRfaW5fYmxvY2tzICsgMSk7PC9wcmU+DQo8cHJlPiZndDsgK2Fk
+ZHIgPSBhZGRyICsgaGRyX3NpemUgKyBvZmZzZXQ7PC9wcmU+DQo8cHJlPiZndDsgICB9PC9wcmU+
+DQo8cHJlPiZndDsgICA8L3ByZT4NCjxwcmU+Jmd0OyAgIG10a19wbGFuZV9zdGF0ZS0mZ3Q7cGVu
+ZGluZy5lbmFibGUgPSB0cnVlOzwvcHJlPg0KPHByZT48YnI+PC9wcmU+DQo8cHJlPjxicj48L3By
+ZT4NCjxwcmU+PGJyPjwvcHJlPg0KPC9ibG9ja3F1b3RlPg0KPC9ib2R5Pg0KPC9odG1sPg0KPCEt
+LXR5cGU6dGV4dC0tPjwhLS17LS0+PHByZT4qKioqKioqKioqKioqIE1FRElBVEVLIENvbmZpZGVu
+dGlhbGl0eSBOb3RpY2UgKioqKioqKioqKioqKioqKioqKioNClRoZSBpbmZvcm1hdGlvbiBjb250
+YWluZWQgaW4gdGhpcyBlLW1haWwgbWVzc2FnZSAoaW5jbHVkaW5nIGFueSANCmF0dGFjaG1lbnRz
+KSBtYXkgYmUgY29uZmlkZW50aWFsLCBwcm9wcmlldGFyeSwgcHJpdmlsZWdlZCwgb3Igb3RoZXJ3
+aXNlDQpleGVtcHQgZnJvbSBkaXNjbG9zdXJlIHVuZGVyIGFwcGxpY2FibGUgbGF3cy4gSXQgaXMg
+aW50ZW5kZWQgdG8gYmUgDQpjb252ZXllZCBvbmx5IHRvIHRoZSBkZXNpZ25hdGVkIHJlY2lwaWVu
+dChzKS4gQW55IHVzZSwgZGlzc2VtaW5hdGlvbiwgDQpkaXN0cmlidXRpb24sIHByaW50aW5nLCBy
+ZXRhaW5pbmcgb3IgY29weWluZyBvZiB0aGlzIGUtbWFpbCAoaW5jbHVkaW5nIGl0cyANCmF0dGFj
+aG1lbnRzKSBieSB1bmludGVuZGVkIHJlY2lwaWVudChzKSBpcyBzdHJpY3RseSBwcm9oaWJpdGVk
+IGFuZCBtYXkgDQpiZSB1bmxhd2Z1bC4gSWYgeW91IGFyZSBub3QgYW4gaW50ZW5kZWQgcmVjaXBp
+ZW50IG9mIHRoaXMgZS1tYWlsLCBvciBiZWxpZXZlIA0KdGhhdCB5b3UgaGF2ZSByZWNlaXZlZCB0
+aGlzIGUtbWFpbCBpbiBlcnJvciwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVyIA0KaW1tZWRpYXRl
+bHkgKGJ5IHJlcGx5aW5nIHRvIHRoaXMgZS1tYWlsKSwgZGVsZXRlIGFueSBhbmQgYWxsIGNvcGll
+cyBvZiANCnRoaXMgZS1tYWlsIChpbmNsdWRpbmcgYW55IGF0dGFjaG1lbnRzKSBmcm9tIHlvdXIg
+c3lzdGVtLCBhbmQgZG8gbm90DQpkaXNjbG9zZSB0aGUgY29udGVudCBvZiB0aGlzIGUtbWFpbCB0
+byBhbnkgb3RoZXIgcGVyc29uLiBUaGFuayB5b3UhDQo8L3ByZT48IS0tfS0tPg==
 
-In short, this change will allow us to do a continuously faster and
-better upstream process, which imho provides a substantial benifit to
-the kernel community.
+--_000_f91bff696ab6685af3509274ae2270f2079b5d24camelmediatekco_--
 
->
-> Also, even if you do have an unusual form of simulation/emulation that
-> doesn't behave like real hardware, are you going to have several of them
-> that all work in different manners and need unique implementations?  If
-> we only ever expect to have two code paths total (and only one of those
-> upstream), then using a vtable seems like overkill.  A very simple
->
->         if (special case)
->                 return alternate_implementation();
->
-> would be much easier to understand and maintain.
->
-I agree that in this case (register access), as I don't foresee more
-than two implementations, we can go ahead with your suggestion.
-i.e. in the mmio access functions we will add:
-       if (sim)
-                 return alternate_implementation();
-
-If there are no objections, we can go ahead with this approach and
-send a patch upstream.
-
-Oded
-
->
-> There are lots of other places in the Xe driver that _would_ benefit
-> from per-platform vtables; we should prioritize making changes like this
-> in the areas where they provide a clear benefit.
->
->
-> Matt
->
-> >
-> >
-> > Oded
-> > >
-> > > >
-> > > > >
-> > > > > +Matt as there is still (at least) one refactor planned in this a=
-rea,
-> > > > > since gt is not always the proper target for the MMIOs. He was sa=
-ying in
-> > > > > his earlier series about having a mmio_view or such to abstract t=
-he
-> > > > > offset and other differences between each IO range. Not sure if t=
-his
-> > > > > series would go the rigth direction, maybe we need to think in bo=
-th
-> > > > > cases together.
-> > > >
-> > > > Matt, would this series block the refactor mentioned by Lucas?
-> > > >
-> > > > In general, are there objections to introducing functions pointers =
-for
-> > > > MMIO functions (extended to all of them, as suggested by Ohad)?
-> > >
-> > > It probably makes more sense to do vtable conversion on other parts o=
-f
-> > > the driver where we already have different implementations per platfo=
-rm
-> > > and where we already know that design makes sense.  We can always com=
-e
-> > > back and do this to the MMIO functions later once there are actually
-> > > multiple implementations, but it doesn't seem to serve any purpose ri=
-ght
-> > > now.
-> > >
-> > >
-> > > Matt
-> > >
-> > > >
-> > > > Thanks,
-> > > > Francois
-> > > >
-> > > > >
-> > > > >
-> > > > > Lucas De Marchi
-> > > > >
-> > > > > > + switch (xe->info.platform) {
-> > > > > > + case XE_TIGERLAKE:
-> > > > > > + case XE_ROCKETLAKE:
-> > > > > > + case XE_ALDERLAKE_S:
-> > > > > > + case XE_ALDERLAKE_P:
-> > > > > > + case XE_ALDERLAKE_N:
-> > > > > > + case XE_DG1:
-> > > > > > + case XE_DG2:
-> > > > > > + case XE_PVC:
-> > > > > > + case XE_METEORLAKE:
-> > > > > > +         xe->mmio_funcs =3D &xe_mmio_funcs_device;
-> > > > > > +         break;
-> > > > > > + default:
-> > > > > > +         DRM_ERROR("Unsupported platform\n");
-> > > > > > +         break;
-> > > > > > + }
-> > > > > > +}
-> > > > > > +
-> > > > > > int xe_mmio_init(struct xe_device *xe)
-> > > > > > {
-> > > > > >   struct xe_tile *root_tile =3D xe_device_get_root_tile(xe);
-> > > > > > @@ -384,6 +463,8 @@ int xe_mmio_init(struct xe_device *xe)
-> > > > > >   const int mmio_bar =3D 0;
-> > > > > >   int err;
-> > > > > >
-> > > > > > + xe_mmio_set_funcs(xe);
-> > > > > > +
-> > > > > >   /*
-> > > > > >    * Map the first 16MB of th BAR, which includes the registers=
- (0-4MB),
-> > > > > >    * reserved space (4MB-8MB), and GGTT (8MB-16MB) for a single=
- tile.
-> > > > > > diff --git a/drivers/gpu/drm/xe/xe_mmio.h b/drivers/gpu/drm/xe/=
-xe_mmio.h
-> > > > > > index 3c547d78afba..80ce9de7aac4 100644
-> > > > > > --- a/drivers/gpu/drm/xe/xe_mmio.h
-> > > > > > +++ b/drivers/gpu/drm/xe/xe_mmio.h
-> > > > > > @@ -19,6 +19,13 @@ struct xe_device;
-> > > > > >
-> > > > > > #define GEN12_LMEM_BAR            2
-> > > > > >
-> > > > > > +struct xe_mmio_funcs {
-> > > > > > + u32 (*read32)(struct xe_gt *gt, struct xe_reg reg);
-> > > > > > + u64 (*read64)(struct xe_gt *gt, struct xe_reg reg);
-> > > > > > + void (*write32)(struct xe_gt *gt, struct xe_reg reg, u32 val)=
-;
-> > > > > > + void (*write64)(struct xe_gt *gt, struct xe_reg reg, u64 val)=
-;
-> > > > > > +};
-> > > > > > +
-> > > > > > int xe_mmio_init(struct xe_device *xe);
-> > > > > >
-> > > > > > static inline u8 xe_mmio_read8(struct xe_gt *gt, struct xe_reg =
-reg)
-> > > > > > @@ -34,22 +41,16 @@ static inline u8 xe_mmio_read8(struct xe_gt=
- *gt, struct xe_reg reg)
-> > > > > > static inline void xe_mmio_write32(struct xe_gt *gt,
-> > > > > >                              struct xe_reg reg, u32 val)
-> > > > > > {
-> > > > > > - struct xe_tile *tile =3D gt_to_tile(gt);
-> > > > > > -
-> > > > > > - if (reg.addr < gt->mmio.adj_limit)
-> > > > > > -         reg.addr +=3D gt->mmio.adj_offset;
-> > > > > > + struct xe_device *xe =3D gt_to_xe(gt);
-> > > > > >
-> > > > > > - writel(val, tile->mmio.regs + reg.addr);
-> > > > > > + xe->mmio_funcs->write32(gt, reg, val);
-> > > > > > }
-> > > > > >
-> > > > > > static inline u32 xe_mmio_read32(struct xe_gt *gt, struct xe_re=
-g reg)
-> > > > > > {
-> > > > > > - struct xe_tile *tile =3D gt_to_tile(gt);
-> > > > > > -
-> > > > > > - if (reg.addr < gt->mmio.adj_limit)
-> > > > > > -         reg.addr +=3D gt->mmio.adj_offset;
-> > > > > > + struct xe_device *xe =3D gt_to_xe(gt);
-> > > > > >
-> > > > > > - return readl(tile->mmio.regs + reg.addr);
-> > > > > > + return xe->mmio_funcs->read32(gt, reg);
-> > > > > > }
-> > > > > >
-> > > > > > static inline u32 xe_mmio_rmw32(struct xe_gt *gt, struct xe_reg=
- reg, u32 clr,
-> > > > > > @@ -67,22 +68,16 @@ static inline u32 xe_mmio_rmw32(struct xe_g=
-t *gt, struct xe_reg reg, u32 clr,
-> > > > > > static inline void xe_mmio_write64(struct xe_gt *gt,
-> > > > > >                              struct xe_reg reg, u64 val)
-> > > > > > {
-> > > > > > - struct xe_tile *tile =3D gt_to_tile(gt);
-> > > > > > -
-> > > > > > - if (reg.addr < gt->mmio.adj_limit)
-> > > > > > -         reg.addr +=3D gt->mmio.adj_offset;
-> > > > > > + struct xe_device *xe =3D gt_to_xe(gt);
-> > > > > >
-> > > > > > - writeq(val, tile->mmio.regs + reg.addr);
-> > > > > > + xe->mmio_funcs->write64(gt, reg, val);
-> > > > > > }
-> > > > > >
-> > > > > > static inline u64 xe_mmio_read64(struct xe_gt *gt, struct xe_re=
-g reg)
-> > > > > > {
-> > > > > > - struct xe_tile *tile =3D gt_to_tile(gt);
-> > > > > > -
-> > > > > > - if (reg.addr < gt->mmio.adj_limit)
-> > > > > > -         reg.addr +=3D gt->mmio.adj_offset;
-> > > > > > + struct xe_device *xe =3D gt_to_xe(gt);
-> > > > > >
-> > > > > > - return readq(tile->mmio.regs + reg.addr);
-> > > > > > + return xe->mmio_funcs->read64(gt, reg);
-> > > > > > }
-> > > > > >
-> > > > > > static inline int xe_mmio_write32_and_verify(struct xe_gt *gt,
-> > > > > > --
-> > > > > > 2.34.1
-> > > > > >
-> > >
-> > > --
-> > > Matt Roper
-> > > Graphics Software Engineer
-> > > Linux GPU Platform Enablement
-> > > Intel Corporation
->
-> --
-> Matt Roper
-> Graphics Software Engineer
-> Linux GPU Platform Enablement
-> Intel Corporation
