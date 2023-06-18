@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 140EA73457B
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 10:26:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A75573457E
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 10:28:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7015010E0D9;
-	Sun, 18 Jun 2023 08:26:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6821410E0E3;
+	Sun, 18 Jun 2023 08:28:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D60B10E0D9;
- Sun, 18 Jun 2023 08:26:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3137910E032;
+ Sun, 18 Jun 2023 08:28:49 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 52C3A60AB8;
- Sun, 18 Jun 2023 08:26:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD64CC433C8;
- Sun, 18 Jun 2023 08:26:05 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7EBDD60AB8;
+ Sun, 18 Jun 2023 08:28:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3EC2C433C8;
+ Sun, 18 Jun 2023 08:28:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1687076765;
- bh=+eBofwSb6IZB/zKNx2theD2VaBH+ePSND06CcMvofWU=;
+ s=k20201202; t=1687076927;
+ bh=KkWqANhJqR6INNdy9dRcDqXrNdrSbmEZWwkyiYBFR6s=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Z7U8LSS8dYC1Pcg36jSAiC3bXPpkaqfS1ne4hpzs7v6D3F5xp9ZWJKZwV5flLCe5q
- gn84w/dpdodijLyfRl/5h99pG1RpqrTqikYF26xDRBZx2ybZ0fnc6J8WI9h1PT9Agz
- MKu3OXIkA9w15olPWWwpuQt+RJqhObyVvCFhxHeSH/O7Qna7xGb0IsKRHjm/FgERTS
- 8SiwYc4QHLkIc+f7oe2YXXSOAbgzb1gjNaUW7he+X1keyE7NZtGgfVOCqa02eK9BRI
- u946ZcISFRy+pX1jP8rFAgcxVNiB5tTyUyVGBVlHifSD0mcSRyk0p8+6QlXQdVZEV/
- 9Osceacr5bvmQ==
-Received: by mail-yb1-f170.google.com with SMTP id
- 3f1490d57ef6-b9a6eec8611so5287295276.0; 
- Sun, 18 Jun 2023 01:26:05 -0700 (PDT)
-X-Gm-Message-State: AC+VfDzP5YbJquI+uqI6e2o/Yjq26jNgUhNM7qxpfCgFc775mBFK5e93
- niYYEfuTcOU0S9YxK/oJOrfkcxuXb7xFTPNiABI=
-X-Google-Smtp-Source: ACHHUZ5sKOlE9gVOTIYCRtcG65JgW7CsutADrDLB7Y5SKPMyjSkAC/QhMYvmm2lKbg4VNOm32Ryi2iCoqMVo6JEDU4A=
-X-Received: by 2002:a25:4c84:0:b0:bca:1d11:c02e with SMTP id
- z126-20020a254c84000000b00bca1d11c02emr3562475yba.13.1687076764664; Sun, 18
- Jun 2023 01:26:04 -0700 (PDT)
+ b=JcB4ltpa6mtHuV0F+nd32UZ+wbHXM7YdiKelbBULlze8OYGDK+W7VEQGDZe77WPLZ
+ fGRckJYOAbdy1SKKXH5U9BalzhkN8RsJumZ0BOUrxw4xANPXCNsZMKCLLAeZG/rpmz
+ v+XcAVs2o4tyuYJndUSWuHinQhx3eOwlYdWi1nVrFEAxzZIUMDEw7mc/iYG3dA+vw9
+ yGJ396fysM4mhtyYYFPwAoAHMkT4i9FVQmK2l3cHNRgTVQ1fBnyd8K/s7aLJoX92wk
+ 9ceW3ae/399s8bVmKnojhlDK2WqysWZxeV2EwGVHDGxwml+J35Je1eK3TY3S6S4xh6
+ nVxr5SSOWCnMw==
+Received: by mail-yb1-f172.google.com with SMTP id
+ 3f1490d57ef6-be3b35ae72dso2586220276.0; 
+ Sun, 18 Jun 2023 01:28:47 -0700 (PDT)
+X-Gm-Message-State: AC+VfDyvwDpe2SU0yXYzDJA+X64ybFEwkFuk9GYgZ3/FidZYRZy8cl2x
+ oM0PB+Iuxyhi146oM4L4nVOVTHKHPNmXL9jn0xk=
+X-Google-Smtp-Source: ACHHUZ5i42uT8Td+JbSt3MXZEAASL82Ljj3DdNmbs9JlQLqL577TM6RKzG7y7pPOOzYKsKRd2BmJZDD22NA1LlNJf94=
+X-Received: by 2002:a25:d207:0:b0:ba8:2e05:3e9c with SMTP id
+ j7-20020a25d207000000b00ba82e053e9cmr4367123ybg.24.1687076926814; Sun, 18 Jun
+ 2023 01:28:46 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230602142501.6-1-francois.dugast@intel.com>
  <20230602142501.6-2-francois.dugast@intel.com>
@@ -50,9 +50,9 @@ References: <20230602142501.6-1-francois.dugast@intel.com>
  <20230615163420.GW5433@mdroper-desk1.amr.corp.intel.com>
 In-Reply-To: <20230615163420.GW5433@mdroper-desk1.amr.corp.intel.com>
 From: Oded Gabbay <ogabbay@kernel.org>
-Date: Sun, 18 Jun 2023 11:25:38 +0300
-X-Gmail-Original-Message-ID: <CAFCwf12r1VHY5m7u=Krx4oSBje-O0+E5MhQwu21+NVVnejTj6g@mail.gmail.com>
-Message-ID: <CAFCwf12r1VHY5m7u=Krx4oSBje-O0+E5MhQwu21+NVVnejTj6g@mail.gmail.com>
+Date: Sun, 18 Jun 2023 11:28:20 +0300
+X-Gmail-Original-Message-ID: <CAFCwf13z4b9oyTaz_ptMKs=OSvJgp-DryvLF=JQCw2FDvXmPew@mail.gmail.com>
+Message-ID: <CAFCwf13z4b9oyTaz_ptMKs=OSvJgp-DryvLF=JQCw2FDvXmPew@mail.gmail.com>
 Subject: Re: [Intel-xe] [RFC PATCH 1/1] drm/xe: Introduce function pointers
  for MMIO functions
 To: Matt Roper <matthew.d.roper@intel.com>
@@ -248,8 +248,8 @@ en
 > workflow is generally frowned upon in the DRM subsystem.  Unless you
 > have some kind of public, open-source usage model, adding the extra
 > complexity and clutter here is probably a no-go for upstream.
-While in general I ofc agree with this statement, I believe it doesn't
-apply to this case.
+While I ofc agree in general with this statement, I believe it does
+not apply in this case.
 
 The intention behind changing register access to be callback functions
 is to allow the Linux driver to serve as the principal entity for
@@ -276,7 +276,7 @@ in the internal driver could be quickly and easily transferred to the
 upstream driver.
 
 In short, this change will allow us to do a continuously faster and
-better upstream process, which imho provides a substantial benefit to
+better upstream process, which imho provides a substantial benifit to
 the kernel community.
 
 >
@@ -290,19 +290,18 @@ the kernel community.
 >                 return alternate_implementation();
 >
 > would be much easier to understand and maintain.
-Specifically in this case (register access), as I don't foresee more
-than two implementations, we can go with your suggestion.
-i.e. add to the mmio inline functions
-
-if (sim)
-    return alternate_implementation();
-
-If there is no objection, we will follow this approach and send a
-patch for review.
-
-Thanks,
-Oded
 >
+I agree that in this case (register access), as I don't foresee more
+than two implementations, we can go ahead with your suggestion.
+i.e. in the mmio access functions we will add:
+       if (sim)
+                 return alternate_implementation();
+
+If there are no objections, we can go ahead with this approach and
+send a patch upstream.
+
+Oded
+
 >
 > There are lots of other places in the Xe driver that _would_ benefit
 > from per-platform vtables; we should prioritize making changes like this
