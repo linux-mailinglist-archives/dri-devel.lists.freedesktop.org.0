@@ -2,64 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D415D7345D8
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 12:39:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52FB37345D9
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jun 2023 12:39:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B5CE10E042;
-	Sun, 18 Jun 2023 10:39:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A46910E061;
+	Sun, 18 Jun 2023 10:39:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2056.outbound.protection.outlook.com [40.107.244.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 797C110E046
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jun 2023 10:39:09 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2062e.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe5b::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B44B410E061
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Jun 2023 10:39:17 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HgMOYkZ2eAPt2f80bmJldGFTkIcVRsA+ZMcdTQpoXr8nd8RB0wwXUC0yjluVcSIDlu+rG/9thIGcoZVINQoHTRPy5xaf3vog5ReCBJiv9/mMcK+jqxzUVSlQxfhHchOkRiAwEFGGmMGopTkbFd9yix0pWKU2G591dYOcSrTEnvuUjNablvQWi1edbvVl9oObHCnHbvDSWskH6MdukW42n5yvkQaW++5i+5Tv6URYnYYlKaFqAzCVKZ1dU+rPqf7tJ77uCH2OZIAkLHl0Xl2/OtDsiiZ99ePjSN0efXOlLIY8YxaN2RG5W7Xy6jhG7y0ZXY5nly+aP95Y5X8mUcpWTw==
+ b=AQY28TtOGi7esEciBkpEs4wrgM2j97lSC3EtHPFJz2n3LeGiGM7LVssLeSDNLN6f/XC6jR3c89yZkd+Pq759a8HXtty2BELq7NU3bKvbnw+2tPQNFiZGDx2aSi7L+VAJN7eWA0PBbHcQISCFkA+sWUVNEnOaPbHyuYuOhMaIKhirGkihWMpTsfBR3Ns9GSjhHRsWBcx/jznLRNdSfeJria9TvGohj2ywT9l/CO1q2GaV3wcKrsB3gOy0Uclh2mC3KGQVAusTKMtLeFQqCJ8akVue6+lDn3JwIVgVR6Rq9DeMKZMjPR2vWFY4yS58t+1yV69PDdiOnUuGFHtXYpCB8A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2SXh8ZCADS/KkzCjHQ84sL1QIsA8Mx80kRGhaxu77LI=;
- b=HN0cps/2HhR0uSMs8aBzR90D422WX8p3NUonQ1P6u1LJ3+ejT48ClN/zs46A9WhdptfU2Pl67xqAoNe4QY127YMWWvRc7rIbEm03QKOQa/Djv56ibTH0RvCt2aYeCcQVY1ylj65zFHvm13PJOsIqzuTRGtl/iMQN0EycKZmdezyN13x3i9ZEszx4OlosFm99JZ45yeN4zPDn+j8EPSIdqYuEyzKiCvgzG10YdGwEDMl+kti/3gnVhhPW96SeqmzXEdfnKsc5RURWW25XJPXg4qjX+LCZcLH+2zQYiaFAhRLYfY3ZAdQzVmslAxNMk7jC/k4MdLruSZH4BPJbvx0QLw==
+ bh=MqPfhxr5kKr4EzbFil1U6HjVF1Ff4gEnqLZbkDeA+i4=;
+ b=Mzb9H0uELjijbAb6D1EYZHbgcAXWu7RVaFQO7VUrEhpYif6SQYR0hjRir1UQzNhwFV85RZc3kD69ws+uO04MUqreC5uCcEsT8/Vixbj9XUq9KWJxygo4aJ+51/YhcyL/eQa+uuTBv9mz1+YO2yG+5/OpcRQOUP69RRZCrhqmz4nZU//X0hsdYPVseMw7WLfqzBdE0pIjNMnCWINi1b5Mc6aKoppB+VvHThBgJX4ZLCEW7+y87+nDkIPpGpz93aLd6g0DQaYecerSdj/iIqf9JlGAOfh5qdIsgB8QLltB0szmZv47xAMP5q4eNrJCcUdyz1I6MEr1A8kfVwoaHAo5WQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2SXh8ZCADS/KkzCjHQ84sL1QIsA8Mx80kRGhaxu77LI=;
- b=aVFqnlf0X0vLVV2ZiWbq0d+6236oNabn1hO2ceduKh7JdK8KDUzbpAoHu8XCTQeSrSj6ic3RUU4mntDalGCSCTThgf0QJdNPmdNlv4ZX+8l9NUlI1N+09fp+XZFSJRNx+AlYCBXdoD0MDedHMpaEXQ7mQUWpD/U7bHLPccbLUmo=
-Received: from CY8PR22CA0005.namprd22.prod.outlook.com (2603:10b6:930:45::9)
- by SJ0PR12MB6805.namprd12.prod.outlook.com (2603:10b6:a03:44f::5) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=MqPfhxr5kKr4EzbFil1U6HjVF1Ff4gEnqLZbkDeA+i4=;
+ b=yn1sTTBC6UCPNdHPx/0o5OdqVkQKRNJXBamruZloSZF1qxgIgEUr9OX5Gt21ryQ3m3p6KsI0ZubRiG9A+6i/0AW5aVu3dG6X3c/hltKHX7dScwiWabCXaDwtUSR/KfpGRnHoneu+OPakCCYDXhrlOaRAsOxPeQlkKLAKqgmy7hU=
+Received: from MW4PR04CA0072.namprd04.prod.outlook.com (2603:10b6:303:6b::17)
+ by MW6PR12MB8999.namprd12.prod.outlook.com (2603:10b6:303:247::8)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.35; Sun, 18 Jun
- 2023 10:39:06 +0000
-Received: from CY4PEPF0000EE36.namprd05.prod.outlook.com
- (2603:10b6:930:45:cafe::bf) by CY8PR22CA0005.outlook.office365.com
- (2603:10b6:930:45::9) with Microsoft SMTP Server (version=TLS1_2,
+ 2023 10:39:13 +0000
+Received: from CO1PEPF000044FA.namprd21.prod.outlook.com
+ (2603:10b6:303:6b:cafe::a7) by MW4PR04CA0072.outlook.office365.com
+ (2603:10b6:303:6b::17) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.35 via Frontend
- Transport; Sun, 18 Jun 2023 10:39:05 +0000
+ Transport; Sun, 18 Jun 2023 10:39:13 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
 Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- CY4PEPF0000EE36.mail.protection.outlook.com (10.167.242.42) with Microsoft
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1PEPF000044FA.mail.protection.outlook.com (10.167.241.200) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6521.17 via Frontend Transport; Sun, 18 Jun 2023 10:39:05 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.6544.4 via Frontend Transport; Sun, 18 Jun 2023 10:39:13 +0000
+Received: from SATLEXMB08.amd.com (10.181.40.132) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Sun, 18 Jun
- 2023 05:39:04 -0500
+ 2023 05:39:12 -0500
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB08.amd.com
+ (10.181.40.132) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Sun, 18 Jun
+ 2023 03:39:12 -0700
 Received: from alan-new-dev.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.23 via Frontend
- Transport; Sun, 18 Jun 2023 05:38:58 -0500
+ Transport; Sun, 18 Jun 2023 05:39:05 -0500
 From: Alan Liu <HaoPing.Liu@amd.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v2 1/3] drm: Introduce CRTC checksum region and CRC properties
-Date: Sun, 18 Jun 2023 18:38:45 +0800
-Message-ID: <20230618103847.614721-2-HaoPing.Liu@amd.com>
+Subject: [PATCH v2 2/3] drm/amd/display: Create checksum_region properties and
+ handle new region update
+Date: Sun, 18 Jun 2023 18:38:46 +0800
+Message-ID: <20230618103847.614721-3-HaoPing.Liu@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230618103847.614721-1-HaoPing.Liu@amd.com>
 References: <20230618103847.614721-1-HaoPing.Liu@amd.com>
@@ -68,26 +74,26 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE36:EE_|SJ0PR12MB6805:EE_
-X-MS-Office365-Filtering-Correlation-Id: 363169f1-2d75-47e8-ca55-08db6fe83d78
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044FA:EE_|MW6PR12MB8999:EE_
+X-MS-Office365-Filtering-Correlation-Id: 389513a8-b1e8-4fc5-ccf9-08db6fe841ff
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: P74EU5fW5itSETo3Tg8ECgdHP3Uffp2oc8fu5Qsqz0JZrvc4ahsOxXSDc28AWl/yJUobA8226/ZJJnJQMbbygE0ZXpuEAH6gBHMKu8khovi0c1qY5UYqCqBLlEuU4nd6fSsHYKu+bMXE8cnDSpbypchaZqdZLsShARbw+uPg130cTE+ObdclqKrSa/8oVw6uab0h58oWaYoylsKlXIiaC5MMpSer86xFMzqMAAdrxH7gN3u/zbLMghS6tdJ/nlvwVrNgx621sIbGJKNI8tGLXswB7J18X/xuu8GYK++OFYjTXTez4qXwVABpKboKYQobFyWS69oDV5Mrfl2lZfbD89yuIWj01N51vqWi+b76pZmGRt6AAxmgmWbilU2Mh/ncXxqjeaM2zfGmKb7K1R72USfpSjFkq3Mbfdp8AgPRk5N4J8zr0Va5Qdy/J1Tpc5SLBP5NlsdcgGI9edKyf7mBJqkO35hNyRxbxMdRR1Yzo7Q3HaNULeQWOeo0S7xqz9gGSNiWtSMw8Y87ihhITSjZxj+hx/WzSIxlnuZCWktVlmkAjPEpRwHx2M6QqkXbpLxloC7/UD/SjhzXZL+BZr001G0PUNQDw9ZUUF4eCdI0qsCijXHDYq520wOyQjWbtt3TEm1H/2l86Jzg5zuqsOMWumgH+/mugWA16+cmc9vtDZY6ZPIdak2nP2MeVRPQBz4InMz+Q3Z6gkXsUL7Ze2qXNT7zTdlfzy769+4FOFKYZku+cHPOnAJmTgCb8H21BYsDB9m9JruGVEF+FFD3v0NGzQ==
+X-Microsoft-Antispam-Message-Info: ZMUnYTPiFEGCyYcp1vuLFGNQW+tBPM/UJBmMmEubiG7ZVU7TyerSsE1LcRRRTMRBCfu+x6lucGtY1O2rEFRP3wmEnD0tCxL23A34vPtzYMqgrIftipjC+rm3t4CDv7Z40uBcbpimCAWhFZ0yFbpGRVh6jCbq5tNSIBF5/1SaoaxgG8BDHFqV5bsgeOlf8VBIMHvHFF5pQUzfZMAKX0FkZxJxVwAb2BS97IbathlBCxMcV41YIZVhhoIDROMJNF7DLws2oeyKlGVwDDouiGcwNLXnzMXVqZ1LvVfvoKSzFaiuV/nSRh9Cwks0kU6t/l6nAomhkY8gS4sECKMht2hxjcpJdFKNElyZ8TGjqIclcw7fA7pMKOdh0iu1xZbLbfmlmAmm07JoZypOosOb1HH5NIcTX+Tw7l1C4STDeeY0V4gXCAtK8YXtfkDJgCX78QPX9DEPol9zTbAPro3arFKom9TXcn1cRykp7VY87EHOfTMbZuk1arns7a9Yz1vJ3Ru9r93sRP5f0NbS33hcB3bjK2lIa26AO5RycUqfqJcrbA5pPatpbRbE1ZC7EOxEnmkzAU7WGStc6LJsUvspZp6FvRZIJD8Oy+4wo++mzBt4RLSJDAvX/wwu9o/bjKEgAGwcoPDTsnuZFTIZioHy+SLSD9KG03vKbNLImcN/pqqXVWHGwD6Vonfr7VMr3d/xM7GEcsTFpEXlMz+5MsOKQ1zZUtU6RHqxtrSqkm85DLV7l96zLAL+qccEO6aAq/TYdO5ry81YR1WrvE4KRfjH57sU7A==
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(346002)(39860400002)(376002)(396003)(136003)(451199021)(36840700001)(40470700004)(46966006)(70586007)(186003)(8676002)(70206006)(8936002)(82740400003)(5660300002)(54906003)(40460700003)(4326008)(6666004)(7696005)(82310400005)(316002)(478600001)(41300700001)(36756003)(26005)(1076003)(6916009)(40480700001)(426003)(336012)(81166007)(356005)(47076005)(86362001)(83380400001)(2906002)(36860700001)(2616005)(36900700001);
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230028)(4636009)(136003)(396003)(376002)(39860400002)(346002)(451199021)(40470700004)(46966006)(36840700001)(82310400005)(356005)(82740400003)(81166007)(40480700001)(40460700003)(36756003)(86362001)(6666004)(7696005)(186003)(26005)(1076003)(8936002)(8676002)(15650500001)(5660300002)(2906002)(478600001)(54906003)(316002)(6916009)(4326008)(70586007)(70206006)(41300700001)(36860700001)(336012)(426003)(2616005)(83380400001)(47076005)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2023 10:39:05.6385 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 363169f1-2d75-47e8-ca55-08db6fe83d78
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2023 10:39:13.1717 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 389513a8-b1e8-4fc5-ccf9-08db6fe841ff
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EE36.namprd05.prod.outlook.com
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044FA.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6805
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8999
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,273 +110,170 @@ Cc: Alan Liu <HaoPing.Liu@amd.com>, Wayne.Lin@amd.com, Lili.Gong@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce per-CRTC properties: CHECKSUM_REGION and CHECKSUM_CRC.
-Userspace can configure a region by setting the region property and
-retrieve the CRC values from the CRC property to validate the content
-of the region.
-
-Apon userspace submits the 4 coordinate values with checksum_region_enable true,
-kernel instructs DC hardware to calculate the CRC value accordingly as frames
-scanned out. The result CRC value of RGB colors are then stored in CHECKSUM_CRC
-property, with a reference frame count for userspace to know which frame the
-CRCs are calculated at.
-
-Driver can set up these properties for a CRTC by calling
-drm_crtc_create_checksum_region_properties() and hook its own
-implementation on new CRTC function update_chechsum_region_crc() to update
-the values of the CRC property for the incoming userspace request.
+This commit creates checksum_region properties at CRTC initialization,
+and update the new region during the atomic atomic. A new function
+amdgpu_dm_crtc_set_secure_display_crc_source() is implemented to control
+the state of CRC engine of DC hardware.
 
 Signed-off-by: Alan Liu <HaoPing.Liu@amd.com>
 ---
- drivers/gpu/drm/drm_atomic_state_helper.c |  7 ++++
- drivers/gpu/drm/drm_atomic_uapi.c         | 21 ++++++++++-
- drivers/gpu/drm/drm_crtc.c                | 44 +++++++++++++++++++++++
- include/drm/drm_crtc.h                    | 43 ++++++++++++++++++++++
- include/uapi/drm/drm_mode.h               | 42 ++++++++++++++++++++++
- 5 files changed, 156 insertions(+), 1 deletion(-)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 38 +++++++++++++
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c | 57 +++++++++++++++++++
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h |  3 +
+ .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    |  5 ++
+ 4 files changed, 103 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-index dfb57217253b..a8f25575edef 100644
---- a/drivers/gpu/drm/drm_atomic_state_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-@@ -143,6 +143,11 @@ void __drm_atomic_helper_crtc_duplicate_state(struct drm_crtc *crtc,
- 		drm_property_blob_get(state->ctm);
- 	if (state->gamma_lut)
- 		drm_property_blob_get(state->gamma_lut);
-+	if (state->checksum_region.region_blob)
-+		drm_property_blob_get(state->checksum_region.region_blob);
-+	if (state->checksum_region.crc_blob)
-+		drm_property_blob_get(state->checksum_region.crc_blob);
-+
- 	state->mode_changed = false;
- 	state->active_changed = false;
- 	state->planes_changed = false;
-@@ -215,6 +220,8 @@ void __drm_atomic_helper_crtc_destroy_state(struct drm_crtc_state *state)
- 	drm_property_blob_put(state->degamma_lut);
- 	drm_property_blob_put(state->ctm);
- 	drm_property_blob_put(state->gamma_lut);
-+	drm_property_blob_put(state->checksum_region.region_blob);
-+	drm_property_blob_put(state->checksum_region.crc_blob);
- }
- EXPORT_SYMBOL(__drm_atomic_helper_crtc_destroy_state);
- 
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index c06d0639d552..5a934f191940 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -450,6 +450,17 @@ static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
- 		set_out_fence_for_crtc(state->state, crtc, fence_ptr);
- 	} else if (property == crtc->scaling_filter_property) {
- 		state->scaling_filter = val;
-+	} else if (property == crtc->checksum_region_property) {
-+		ret = drm_atomic_replace_property_blob_from_id(dev,
-+					&state->checksum_region.region_blob,
-+					val,
-+					-1, sizeof(struct drm_checksum_region),
-+					&replaced);
-+		state->checksum_region.region_changed |= replaced;
-+		return ret;
-+	} else if (property == crtc->checksum_crc_property) {
-+		/* don't let user set CRC data */
-+		return -EPERM;
- 	} else if (crtc->funcs->atomic_set_property) {
- 		return crtc->funcs->atomic_set_property(crtc, state, property, val);
- 	} else {
-@@ -487,7 +498,15 @@ drm_atomic_crtc_get_property(struct drm_crtc *crtc,
- 		*val = 0;
- 	else if (property == crtc->scaling_filter_property)
- 		*val = state->scaling_filter;
--	else if (crtc->funcs->atomic_get_property)
-+	else if (property == crtc->checksum_region_property)
-+		*val = (state->checksum_region.region_blob)
-+			? state->checksum_region.region_blob->base.id : 0;
-+	else if (property == crtc->checksum_crc_property) {
-+		if (crtc->funcs->update_checksum_region_crc)
-+			crtc->funcs->update_checksum_region_crc(crtc);
-+		*val = (state->checksum_region.crc_blob)
-+			? state->checksum_region.crc_blob->base.id : 0;
-+	} else if (crtc->funcs->atomic_get_property)
- 		return crtc->funcs->atomic_get_property(crtc, state, property, val);
- 	else
- 		return -EINVAL;
-diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
-index df9bf3c9206e..07186cb8bfd4 100644
---- a/drivers/gpu/drm/drm_crtc.c
-+++ b/drivers/gpu/drm/drm_crtc.c
-@@ -955,3 +955,47 @@ int drm_crtc_create_scaling_filter_property(struct drm_crtc *crtc,
- 	return 0;
- }
- EXPORT_SYMBOL(drm_crtc_create_scaling_filter_property);
-+
-+/**
-+ * drm_crtc_create_checksum_region_properties - create new checksum_region
-+ * properties
-+ *
-+ * @crtc: drm CRTC
-+ *
-+ * This function creates and attaches CHECKSUM_REGION and CHECKSUM_CRC blob
-+ * properties for the given CRTC.
-+ *
-+ * RETURNS:
-+ * Zero for success or -ENOMEM
-+ */
-+int drm_crtc_create_checksum_region_properties(struct drm_crtc *crtc)
-+{
-+	struct drm_device *dev = crtc->dev;
-+	struct drm_property *region_prop, *crc_prop;
-+
-+	region_prop = drm_property_create(dev, DRM_MODE_PROP_BLOB,
-+					"CHECKSUM_REGION", 0);
-+	crc_prop = drm_property_create(dev, DRM_MODE_PROP_BLOB,
-+					"CHECKSUM_CRC", 0);
-+
-+	if (!region_prop || !crc_prop)
-+		goto fail;
-+
-+	drm_object_attach_property(&crtc->base, region_prop, 0);
-+	drm_object_attach_property(&crtc->base, crc_prop, 0);
-+
-+	crtc->checksum_region_property = region_prop;
-+	crtc->checksum_crc_property = crc_prop;
-+
-+	return 0;
-+
-+fail:
-+	if (region_prop)
-+		drm_property_destroy(dev, region_prop);
-+
-+	if (crc_prop)
-+		drm_property_destroy(dev, crc_prop);
-+
-+	return -ENOMEM;
-+}
-+EXPORT_SYMBOL(drm_crtc_create_checksum_region_properties);
-diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
-index 8e1cbc75143e..e588c321eb7a 100644
---- a/include/drm/drm_crtc.h
-+++ b/include/drm/drm_crtc.h
-@@ -322,6 +322,21 @@ struct drm_crtc_state {
- 	 */
- 	enum drm_scaling_filter scaling_filter;
- 
-+	/**
-+	 * @checksum_region:
-+	 *
-+	 * Checksum_region properties for configuring the region and retrieving the
-+	 * CRC checksum values of the region content. The region_changed is set when
-+	 * a new region is set by the userspace. If not NULL, the region_blob is of
-+	 * type struct drm_checksum_region and the crc_blob is of type struct
-+	 * drm_checksum_crc.
-+	 */
-+	struct {
-+		struct drm_property_blob *region_blob;
-+		struct drm_property_blob *crc_blob;
-+		bool region_changed: 1;
-+	} checksum_region;
-+
- 	/**
- 	 * @event:
- 	 *
-@@ -926,6 +941,22 @@ struct drm_crtc_funcs {
- 				     int *max_error,
- 				     ktime_t *vblank_time,
- 				     bool in_vblank_irq);
-+	
-+	/**
-+	 * @update_checksum_region_crc:
-+	 * 
-+	 * Driver callback to update the content of CRTC CHECKSUM_CRC property.
-+	 * This function fetches the latest checksum CRC values and replaces the
-+	 * old crc_blob in struct drm_crtc_state.
-+	 *
-+	 * This callback is optional if the driver does not support any CRC
-+	 * generation functionality.
-+	 *
-+	 * RETURNS:
-+	 *
-+	 * True on success, false on failure.
-+	 */ 
-+	bool (*update_checksum_region_crc) (struct drm_crtc *crtc);
- };
- 
- /**
-@@ -1180,6 +1211,17 @@ struct drm_crtc {
- 	 * Initialized via drm_self_refresh_helper_init().
- 	 */
- 	struct drm_self_refresh_data *self_refresh_data;
-+
-+	/**
-+	 * @checksum_region_property: property for checksum region configuration.
-+	 */
-+	struct drm_property *checksum_region_property;
-+
-+	/**
-+	 * @checksum_crc_property: property for retrieving the CRC checksum
-+	 * values of the content of checksum region.
-+	 */
-+	struct drm_property *checksum_crc_property;
- };
- 
- /**
-@@ -1329,4 +1371,5 @@ static inline struct drm_crtc *drm_crtc_find(struct drm_device *dev,
- int drm_crtc_create_scaling_filter_property(struct drm_crtc *crtc,
- 					    unsigned int supported_filters);
- 
-+int drm_crtc_create_checksum_region_properties(struct drm_crtc *crtc);
- #endif /* __DRM_CRTC_H__ */
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index 46becedf5b2f..a2b7d2be94d3 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -1303,6 +1303,48 @@ struct drm_mode_rect {
- 	__s32 y2;
- };
- 
-+/**
-+ * struct drm_checksum_region - The enablement and region of checksum_region
-+ * @x_start: Horizontal starting coordinate of the region.
-+ * @y_start: Vertical starting coordinate of the region.
-+ * @x_end: Horizontal ending coordinate of the region.
-+ * @y_end: Vertical ending coordinate of the region.
-+ * @checksum_region_enable: To enable or disable checksum_region.
-+ *
-+ * Userspace uses this structure to configure the region and enablement for
-+ * checksum_region. Userspace should not submit a region out of the displayable
-+ * region because there is nothing to display and need protection.
-+ */
-+struct drm_checksum_region {
-+	__u32 x_start;
-+	__u32 y_start;
-+	__u32 x_end;
-+	__u32 y_end;
-+	__u8 checksum_region_enable;
-+	__u8 pad[7];
-+};
-+
-+/**
-+ * struct drm_checksum_crc - The CRC value of the corresponding checksum region.
-+ * @crc_r: CRC value of red color.
-+ * @crc_g: CRC value of green color.
-+ * @crc_b: CRC value of blue color.
-+ * @frame_count: a referenced frame count to indicate which frame the CRC values
-+ *  are generated at.
-+ *
-+ * Userspace uses this structure to retrieve the CRC values of the current
-+ * checksum region. @frame_count will be reset once a new region is updated or
-+ * it reaches a maximum value. Currently these CRC values are designed to
-+ * be validated with pre-saved CRC values, so userspace doesn't need to concern
-+ * about the algorithm used to compute the CRC.
-+ */
-+struct drm_checksum_crc {
-+	__u32 crc_r;
-+	__u32 crc_g;
-+	__u32 crc_b;
-+	__u32 frame_count;
-+};
-+
- #if defined(__cplusplus)
- }
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 90de0d37f1d2..26da07a25085 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -8870,6 +8870,44 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
+ 			}
+ 		}
  #endif
++
++#ifdef CONFIG_DRM_AMD_SECURE_DISPLAY
++		if (new_crtc_state->active && new_crtc_state->checksum_region.region_changed) {
++			struct drm_checksum_region *region_data =
++				(struct drm_checksum_region *)new_crtc_state->checksum_region.region_blob->data;
++
++			if (region_data->checksum_region_enable) {
++				if (!amdgpu_dm_crc_window_is_activated(crtc)) {
++					/* Enable secure display: set crc source to "crtc" */
++					amdgpu_dm_crtc_set_secure_display_crc_source(crtc, "crtc");
++
++					/* wait 1 more frame for CRC engine to start */
++					acrtc->dm_irq_params.window_param.skip_frame_cnt = 1;
++
++					spin_lock_irqsave(&adev_to_drm(adev)->event_lock, flags);
++					acrtc->dm_irq_params.window_param.activated = true;
++					spin_unlock_irqrestore(&adev_to_drm(adev)->event_lock, flags);
++				}
++
++				/* Update ROI: copy ROI from crtc_state to dm_irq_params */
++				spin_lock_irqsave(&adev_to_drm(adev)->event_lock, flags);
++				acrtc->dm_irq_params.window_param.x_start = region_data->x_start;
++				acrtc->dm_irq_params.window_param.y_start = region_data->y_start;
++				acrtc->dm_irq_params.window_param.x_end = region_data->x_end;
++				acrtc->dm_irq_params.window_param.y_end = region_data->y_end;
++				acrtc->dm_irq_params.window_param.update_win = true;
++				spin_unlock_irqrestore(&adev_to_drm(adev)->event_lock, flags);
++
++			} else {
++				if (amdgpu_dm_crc_window_is_activated(crtc)) {
++					/* Disable secure display: set crc source to "none" */
++					amdgpu_dm_crtc_set_secure_display_crc_source(crtc, "none");
++				}
++			}
++
++			new_crtc_state->checksum_region.region_changed = false;
++		}
++#endif
+ 	}
+ 
+ 	for_each_new_crtc_in_state(state, crtc, new_crtc_state, j)
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
+index 0802f8e8fac5..26017e9fbc4a 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
+@@ -465,6 +465,63 @@ void amdgpu_dm_crtc_handle_crc_irq(struct drm_crtc *crtc)
+ }
+ 
+ #if defined(CONFIG_DRM_AMD_SECURE_DISPLAY)
++int amdgpu_dm_crtc_set_secure_display_crc_source(struct drm_crtc *crtc, const char *src_name)
++{
++	enum amdgpu_dm_pipe_crc_source source = dm_parse_crc_source(src_name);
++	enum amdgpu_dm_pipe_crc_source cur_crc_src;
++	struct dm_crtc_state *crtc_state;
++	struct drm_device *drm_dev = crtc->dev;
++	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
++	bool enable = false;
++	bool enabled = false;
++	int ret = 0;
++	unsigned long flag;
++
++	if (source < 0) {
++		DRM_DEBUG_DRIVER("Unknown CRC source %s for CRTC%d\n",
++				 src_name, crtc->index);
++		return -EINVAL;
++	}
++
++	enable = amdgpu_dm_is_valid_crc_source(source);
++	crtc_state = to_dm_crtc_state(crtc->state);
++	spin_lock_irqsave(&drm_dev->event_lock, flag);
++	cur_crc_src = acrtc->dm_irq_params.crc_src;
++	spin_unlock_irqrestore(&drm_dev->event_lock, flag);
++
++	/* Reset secure_display when we change crc source */
++	amdgpu_dm_set_crc_window_default(crtc, crtc_state->stream);
++
++	if (amdgpu_dm_crtc_configure_crc_source(crtc, crtc_state, source)) {
++		ret = -EINVAL;
++		goto cleanup;
++	}
++
++	/*
++	 * Reading the CRC requires the vblank interrupt handler to be
++	 * enabled. Keep a reference until CRC capture stops.
++	 */
++	enabled = amdgpu_dm_is_valid_crc_source(cur_crc_src);
++	if (!enabled && enable) {
++		ret = drm_crtc_vblank_get(crtc);
++		if (ret)
++			goto cleanup;
++
++	} else if (enabled && !enable) {
++		drm_crtc_vblank_put(crtc);
++	}
++
++	spin_lock_irqsave(&drm_dev->event_lock, flag);
++	acrtc->dm_irq_params.crc_src = source;
++	spin_unlock_irqrestore(&drm_dev->event_lock, flag);
++
++	/* Reset crc_skipped on dm state */
++	crtc_state->crc_skip_count = 0;
++
++cleanup:
++	return ret;
++}
++
+ void amdgpu_dm_crtc_handle_crc_window_irq(struct drm_crtc *crtc)
+ {
+ 	struct drm_device *drm_dev = NULL;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h
+index 748e80ef40d0..f4765bcae840 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h
+@@ -97,10 +97,13 @@ bool amdgpu_dm_crc_window_is_activated(struct drm_crtc *crtc);
+ void amdgpu_dm_crtc_handle_crc_window_irq(struct drm_crtc *crtc);
+ struct secure_display_context *amdgpu_dm_crtc_secure_display_create_contexts(
+ 						struct amdgpu_device *adev);
++int amdgpu_dm_crtc_set_secure_display_crc_source(struct drm_crtc *crtc,
++						const char *src_name);
+ #else
+ #define amdgpu_dm_crc_window_is_activated(x)
+ #define amdgpu_dm_crtc_handle_crc_window_irq(x)
+ #define amdgpu_dm_crtc_secure_display_create_contexts(x)
++#define amdgpu_dm_crtc_set_secure_display_crc_source(x)
+ #endif
+ 
+ #endif /* AMD_DAL_DEV_AMDGPU_DM_AMDGPU_DM_CRC_H_ */
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+index 440fc0869a34..e94fe4a7e492 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+@@ -461,6 +461,11 @@ int amdgpu_dm_crtc_init(struct amdgpu_display_manager *dm,
+ 
+ 	dm->adev->mode_info.crtcs[crtc_index] = acrtc;
+ 
++#ifdef CONFIG_DRM_AMD_SECURE_DISPLAY
++	if (drm_crtc_create_checksum_region_properties(&acrtc->base))
++		DRM_ERROR("amdgpu: failed to create checksum region properties.\n");
++#endif
++
+ 	/* Don't enable DRM CRTC degamma property for DCE since it doesn't
+ 	 * support programmable degamma anywhere.
+ 	 */
 -- 
 2.34.1
 
