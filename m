@@ -1,89 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E0C7734E78
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 10:49:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0E47734E9C
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 10:52:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C23910E1BF;
-	Mon, 19 Jun 2023 08:49:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EEB910E1C2;
+	Mon, 19 Jun 2023 08:52:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9FFA10E1BF
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 08:48:59 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-4f866a3d8e4so1995616e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 01:48:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687164537; x=1689756537;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=sF2cMyWueJFSR5TkPmZGlAhqtXZxWsEsSEkaAm88ypQ=;
- b=XQd+u9lTrSgnCO0Qo9KbW8IQxo+yWt9dvjyBixrDcpBJna98f59YGrscomC1mI2aoa
- 7tCip6Qk9qTNPjZnSuMAYxGS3qu4JToHshc0czJP/8uwYxeMRKueGe56zzV30og/yxxr
- zk2++2VHwo+zaVMXbBazwxLmks4p7ty8QqOp9jdKwwz1FpIBCr2yqveVO8YtAK2Xjdja
- kFGlKbr1WNtVXFwj0711zo3gK7icicGlyX4B+kG/gYX8e2bzoJuChIF0//AMTg60SxaK
- 9Ltvc+K7vmloq4lMdxm8MLoF5t5kzHpXbkv+IMn+hA87YNQyzbzjqv0fCan5Y6rvNQ79
- 5EHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687164537; x=1689756537;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sF2cMyWueJFSR5TkPmZGlAhqtXZxWsEsSEkaAm88ypQ=;
- b=HtnVWSxReYwR6UDck8nvmXvARp0nsS4W6zEoM9xbXu6rkxjTWR8fnUXblzef8MtzX7
- AnW8ieM2n9wNH85FllZTAcdCb4zsIKfRvFvAWEwRKTUlQqMYfVH05OPUkB83PgPxZ/Bj
- jwg5lrZgE/EDS5Zv3DTtHLqT2HFjuUcXh4FwgVSxw65HOTsRZShu8QgTKleUXKsZZhro
- tLMHaHqQbsHGFngu37BWnxbaSKwq6DIySMtZxkMGJg0wNg9H2w4XKeBqRLVSnMEyknQb
- ki4F8D1ieguhYja1PnHGShBJd2VxmZQdCcLb2tKcSPHkrDd/6cLsa3bsTSuM9IUm/iBv
- Ajlg==
-X-Gm-Message-State: AC+VfDz0MVeMyIAv1sofqWxlxjJhi0dF8/toAlHB++CVHHhBaKXvSwWi
- 5a4dgfWulPEbfcPmwJzYAvD0rQ==
-X-Google-Smtp-Source: ACHHUZ7/KTFTuJeVnNUhOyKvzj95aKeLmjUS8mMwmnJC8Zgg5HbvWicUv51Lv1OeRDIyg5EibiO6Fw==
-X-Received: by 2002:ac2:5f99:0:b0:4f8:6cad:aae7 with SMTP id
- r25-20020ac25f99000000b004f86cadaae7mr1536250lfe.61.1687164537017; 
- Mon, 19 Jun 2023 01:48:57 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
- by smtp.gmail.com with ESMTPSA id
- w19-20020a1cf613000000b003f8c5ceeb77sm9967769wmc.21.2023.06.19.01.48.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jun 2023 01:48:56 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Mon, 19 Jun 2023 10:48:55 +0200
-Subject: [PATCH] drm/bridge: dw-hdmi: use curr_conn instead of connector
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2978610E1C2
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 08:52:14 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 744E21F37C;
+ Mon, 19 Jun 2023 08:52:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1687164732; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kgc3NNGdkcsygXK3F6bkzRdZnxWwlpebZxuGTfMzQx8=;
+ b=YEXTXEbmAMEsKPwx94rHQX9cdPoellDbiLlt4F+Oz2nBIGmKfVP/E4jC/Jck5YYoiOiVfp
+ UHF9B/3+dZAxiCRjLkkVFd/8MGYi2+54EErDnYEDRRleGfDZWld+iavTon6Ss7cc1M4snR
+ qwbKeK4rZrurP0OkQrkhcegFLOjmwws=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1687164732;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kgc3NNGdkcsygXK3F6bkzRdZnxWwlpebZxuGTfMzQx8=;
+ b=F65RJqLlDNnuJoQxtSJQZMFp3TaoY4+oIlvN6ewJc8MBAIDFnhSwuea+9J/G9Doje/OaOT
+ Vt4sdFB9B5Z03EBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 427D7138E8;
+ Mon, 19 Jun 2023 08:52:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id QUQ0DzwXkGSJHgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 19 Jun 2023 08:52:12 +0000
+Message-ID: <ce301097-471f-28d5-597c-9600dc049bac@suse.de>
+Date: Mon, 19 Jun 2023 10:52:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230619-topic-amlogic-upstream-fix-hdmi2-v1-1-c3d0262b5fd7@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAHYWkGQC/x2N2wrCMBBEf6XsswtN1F78FfEhSddmITeSVoTSf
- 3fxaTgDc+aARpWpwaM7oNKHG+ckoC4dOG/SSsiLMOheX/tBzbjlwg5NDHmV3EvbKpmIb/6iXyJ
- rdLMd7pOabuNIIBprGqGtJjkvorSHIGWpJIv/7/N1nj+EMV8ohwAAAA==
-To: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Thierry Reding <treding@nvidia.com>, 
- =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2235;
- i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=Nb4BnS0/cUSQoQgoig/fwJxu9bAtFxm8VFV6SBQ50Go=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBkkBZ3/0Rf5Tvhg/A1rfbEVRqdq7G85yQUD75m1dy2
- ocGv3/aJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZJAWdwAKCRB33NvayMhJ0QO3D/
- sHqK18tNE8KymC1WOj/BPF5dR6i/R5wqyrXEndJoSRzSpsVrb/nF4IiQvf2nzNI7v09//yZOVGXlgK
- E/frlcu95OXDWjPTO7+lsmdWAuawWcnc6se2tTaQRkwEDEKKUmPO17/8MpgHHRXTvBUvgZHbs9eQFo
- RFmGDDx3d6Wjq1DljwnCSh5/4lFa5HgPNcgkIGtS7GyyTvBCXnbYPgpvNk9zsU7u8/dRyMtYU7lr0Q
- xOPuknT06LFOeZGKHUHPVim2I3lCxcFUtzDCfwg6t4O7ij8wu6Ig+2EFfkhTs8YTQLrIKrjcyOxOee
- TIfn7KA1Eao0KSKWBhq5t7Zls/xv6h2HFkgSDJX32LrKo4mVSiJrDGHvc3nmqWFXRu0qJ8xRk4fHfy
- YEqx/gqgL+mZq4jt1blPArO5qHjoxVVa5I4g9OJErW8AGs+E6M75pLPs4PaZpmnsohjlAJgULsGACB
- SVIgPd19mWlI0J9OWN7Fp4zGKbC0g4s/HDzPyfXcwSPCgqgyzpP8p3DCkxDgn748JrHbFk08+zClO5
- dg3vefgcZf5+x/E36ytDcLTviW8p3q3VgfjGLe3j0hucH0jhApwLuyR3V0RHXG9MWqXXKB67s8yoBK
- bwKusKwrE8R62o93DhOj9SbVpw5ntvZiUV8qKJCsTLRqKspi+MoAqeRZbByg==
-X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 0/3] drm: Allow PRIME 'self-import' for all drivers
+Content-Language: en-US
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, daniel@ffwll.ch,
+ airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ zackr@vmware.com, contact@emersion.fr, linux-graphics-maintainer@vmware.com
+References: <20230615094206.4424-1-tzimmermann@suse.de>
+ <3fe4fe6a-5dc7-3d8c-938f-99a771650067@quicinc.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <3fe4fe6a-5dc7-3d8c-938f-99a771650067@quicinc.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------YtdI38sdROSEOlulp0y36d0q"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,66 +72,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- "Lukas F. Hartmann" <lukas@mntre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The struct dw_hdmi connector is only valid when not using the
-DRM_BRIDGE_ATTACH_NO_CONNECTOR, thus this leads to kernel crash
-on Amlogic platforms when connected to HDMI2 capable displays.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------YtdI38sdROSEOlulp0y36d0q
+Content-Type: multipart/mixed; boundary="------------TV73U0FhhWShpuUdqL7YuCIu";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, daniel@ffwll.ch,
+ airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ zackr@vmware.com, contact@emersion.fr, linux-graphics-maintainer@vmware.com
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <ce301097-471f-28d5-597c-9600dc049bac@suse.de>
+Subject: Re: [PATCH 0/3] drm: Allow PRIME 'self-import' for all drivers
+References: <20230615094206.4424-1-tzimmermann@suse.de>
+ <3fe4fe6a-5dc7-3d8c-938f-99a771650067@quicinc.com>
+In-Reply-To: <3fe4fe6a-5dc7-3d8c-938f-99a771650067@quicinc.com>
 
-Use hdmi->curr_conn instead which holds the current connector
-the current bridge chain is connected to.
+--------------TV73U0FhhWShpuUdqL7YuCIu
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Reported-by: Lukas F. Hartmann <lukas@mntre.com>
-Fixes: 5d844091f237 ("drm/scdc-helper: Pimp SCDC debugs")
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
----
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+SGkNCg0KQW0gMTYuMDYuMjMgdW0gMTk6MDAgc2NocmllYiBKZWZmcmV5IEh1Z286DQo+IE9u
+IDYvMTUvMjAyMyAzOjMxIEFNLCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4+IFNldCBk
+cm1fZ2VtX3ByaW1lX2hhbmRsZV90b19mZCgpIGFuZCBkcm1fZ2VtX3ByaW1lX2ZkX3RvX2hh
+bmRsZSgpDQo+PiBmb3IgYWxsIERSTSBkcml2ZXJzLiBFdmVuIGRyaXZlcnMgdGhhdCBkbyBu
+b3Qgc3VwcG9ydCBQUklNRSBpbXBvcnQNCj4+IG9yIGV4cG9ydCBvZiBkbWEtYnVmcyBjYW4g
+bm93IGltcG9ydCB0aGVpciBvd24gYnVmZmVyIG9iamVjdHMuIFRoaXMNCj4+IGlzIHJlcXVp
+cmVkIGJ5IHNvbWUgdXNlcnNwYWNlLCBzdWNoIGFzIHdscm9vdHMtYmFzZWQgY29tcG9zaXRv
+cnMsIHRvDQo+PiBzaGFyZSBidWZmZXJzIGFtb25nIHByb2Nlc3Nlcy4NCj4+DQo+PiBUaGUg
+b25seSBkcml2ZXIgdGhhdCBkb2VzIG5vdCB1c2UgdGhlIGRybV9nZW1fcHJpbWVfKigpIGhl
+bHBlcnMgaXMNCj4+IHZtd2dmeC4gT25jZSBpdCBoYXMgYmVlbiBjb252ZXJ0ZWQsIHRoZSBj
+YWxsYmFja3MgaW4gc3RydWN0IGRybV9kcml2ZXINCj4+IGNhbiBiZSByZW1vdmVkLg0KPj4N
+Cj4+IFNpbW9uIFNlciBpbXBsZW1lbnRlZCB0aGUgZmVhdHVyZSBmb3IgZHJpdmVycyBiYXNl
+ZCBvbiBHRU0gVlJBTSBoZWxwZXJzDQo+PiBpbiBbMV0uIFRoaXMgcGF0Y2hzZXQgZ2VuZXJh
+bGl6ZXMgdGhlIGNvZGUgZm9yIGFsbCBkcml2ZXJzIHRoYXQgZG8gbm90DQo+PiBvdGhlcndp
+c2Ugc3VwcG9ydCBQUklNRS4gVGVzdGVkIGJ5IHJ1bm5pbmcgc3dheSB3aXRoIGdtYTUwMCBo
+YXJkd2FyZS4NCj4+DQo+PiBbMV0gDQo+PiBodHRwczovL2xvcmUua2VybmVsLm9yZy9kcmkt
+ZGV2ZWwvMjAyMzAzMDIxNDM1MDIuNTAwNjYxLTEtY29udGFjdEBlbWVyc2lvbi5mci8NCj4+
+DQo+PiBUaG9tYXMgWmltbWVybWFubiAoMyk6DQo+PiDCoMKgIGRybTogRW5hYmxlIFBSSU1F
+IGltcG9ydC9leHBvcnQgZm9yIGFsbCBkcml2ZXJzDQo+PiDCoMKgIGRybTogQ2xlYXIgZmQv
+aGFuZGxlIGNhbGxiYWNrcyBpbiBzdHJ1Y3QgZHJtX2RyaXZlcg0KPj4gwqDCoCBkcm0vcHJp
+bWU6IFVuZXhwb3J0IGhlbHBlcnMgZm9yIGZkL2hhbmRsZSBjb252ZXJzaW9uDQo+Pg0KPj4g
+wqAgRG9jdW1lbnRhdGlvbi9ncHUvdG9kby5yc3TCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCB8IDE0ICsrKysrDQo+PiDCoCBkcml2ZXJzL2FjY2VsL2l2cHUvaXZw
+dV9kcnYuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAyIC0NCj4+IMKg
+IGRyaXZlcnMvYWNjZWwvcWFpYy9xYWljX2Rydi5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgfMKgIDEgLQ0KPj4gwqAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
+Z3B1X2Rydi5jwqDCoMKgwqDCoMKgIHzCoCAyIC0NCj4+IMKgIGRyaXZlcnMvZ3B1L2RybS9h
+cm1hZGEvYXJtYWRhX2Rydi5jwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDIgLQ0KPj4gwqAg
+ZHJpdmVycy9ncHUvZHJtL2RybV9pb2N0bC5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIHzCoCA0ICstDQo+PiDCoCBkcml2ZXJzL2dwdS9kcm0vZHJtX3ByaW1lLmPC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCA2MiArKysrKysrKysrLS0t
+LS0tLS0tDQo+PiDCoCBkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2Rydi5jwqDC
+oMKgwqDCoMKgwqDCoCB8wqAgMiAtDQo+PiDCoCBkcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4
+eW5vc19kcm1fZHJ2LmPCoMKgwqDCoMKgwqAgfMKgIDIgLQ0KPj4gwqAgZHJpdmVycy9ncHUv
+ZHJtL2k5MTUvaTkxNV9kcml2ZXIuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDIgLQ0K
+Pj4gwqAgZHJpdmVycy9ncHUvZHJtL2xpbWEvbGltYV9kcnYuY8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgfMKgIDIgLQ0KPj4gwqAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
+a19kcm1fZHJ2LmPCoMKgwqDCoMKgwqDCoCB8wqAgMiAtDQo+PiDCoCBkcml2ZXJzL2dwdS9k
+cm0vbXNtL21zbV9kcnYuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAy
+IC0NCj4+IMKgIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZHJtLmPCoMKgwqDC
+oMKgwqDCoMKgIHzCoCAyIC0NCj4+IMKgIGRyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL29tYXBf
+ZHJ2LmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAyIC0NCj4+IMKgIGRyaXZlcnMvZ3B1
+L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kcnYuY8KgwqDCoMKgwqDCoCB8wqAgMiAtDQo+PiDC
+oCBkcml2ZXJzL2dwdS9kcm0vcGwxMTEvcGwxMTFfZHJ2LmPCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgfMKgIDIgLQ0KPj4gwqAgZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfZHJ2LmPCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgMiAtDQo+PiDCoCBkcml2ZXJzL2dw
+dS9kcm0vcmFkZW9uL3JhZGVvbl9kcnYuY8KgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAyIC0N
+Cj4+IMKgIGRyaXZlcnMvZ3B1L2RybS9yZW5lc2FzL3JjYXItZHUvcmNhcl9kdV9kcnYuYyB8
+wqAgMiAtDQo+PiDCoCBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX2Ry
+di5jwqDCoCB8wqAgMiAtDQo+PiDCoCBkcml2ZXJzL2dwdS9kcm0vdGVncmEvZHJtLmPCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDIgLQ0KPj4gwqAgZHJpdmVy
+cy9ncHUvZHJtL3YzZC92M2RfZHJ2LmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCB8wqAgMiAtDQo+PiDCoCBkcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfZHJ2LmPC
+oMKgwqDCoMKgwqDCoMKgwqAgfMKgIDIgLQ0KPj4gwqAgZHJpdmVycy9ncHUvZHJtL3hlbi94
+ZW5fZHJtX2Zyb250LmPCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgMiAtDQo+PiDCoCBpbmNs
+dWRlL2RybS9kcm1fZHJ2LmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgfMKgIDYgKysNCj4+IMKgIGluY2x1ZGUvZHJtL2RybV9nZW1fZG1hX2hl
+bHBlci5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAxMiArKy0tDQo+PiDCoCBpbmNs
+dWRlL2RybS9kcm1fZ2VtX3NobWVtX2hlbHBlci5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8
+wqAgNiArLQ0KPj4gwqAgaW5jbHVkZS9kcm0vZHJtX2dlbV92cmFtX2hlbHBlci5owqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIHzCoCA0ICstDQo+PiDCoCBpbmNsdWRlL2RybS9kcm1fcHJp
+bWUuaMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCA3
+IC0tLQ0KPj4gwqAgMzAgZmlsZXMgY2hhbmdlZCwgNjIgaW5zZXJ0aW9ucygrKSwgOTYgZGVs
+ZXRpb25zKC0pDQo+Pg0KPiANCj4gU3VyZWx5IHRoZSBtYWludGFpbmVycyBvZiB0aGUgMjIg
+ZHJpdmVycyB0b3VjaGVkIGJ5IHRoaXMgc2VyaWVzIHNob3VsZCANCj4gYmUgaW4gdGhlIHRv
+IGxpc3Qgb3Igc29tZXRoaW5nP8KgIFNwZWFraW5nIGZvciBteXNlbGYsIHRocmVhZHMgdGhh
+dCANCj4gZGlyZWN0bHkgYWRkcmVzcyBtZSB0cmlnZ2VyIG15ICJwcmlvcml0eSIgZmlsdGVy
+cy4NCg0KTXkgYXBvbG9naWVzLiBJIGRpZG4ndCB3YW50IHRvIHNudWIgeW91IG9yIGFueW9u
+ZSBlbHNlLiBUaGlzIGNoYW5nZSANCnNob3VsZCBub3QgaGF2ZSBhbiBlZmZlY3Qgb24gKmFu
+eSogb2YgdGhlc2UgZHJpdmVycy4gSXQncyBqdXN0IGNsZWFyaW5nIA0KYSBwb2ludGVyIGFz
+c2lnbm1lbnQgdGhhdCBpcyBub3cgdGhlIGRlZmF1bHQuIEFuZCBhZGRpbmcgdGhlIG1haW50
+YWluZXJzIA0Kb2YgYWxsIGFmZmVjdGVkIGRyaXZlcnMgd291bGQgYWRkIGFsbCBtYWludGFp
+bmVycyBvZiBEUk0gY29kZSwgaGVuY2UgSSANCmRlY2lkZWQgdG8gbm90IGRvIHRoYXQuICBQ
+bGVhc2Ugbm90ZSB0aGF0IHRoZSBvbmUgbWFpbnRhaW5lciB0aGF0IA0KYWN0dWFsbHkgaXMg
+YWZmZWN0ZWQsIFphY2ssIGlzIGluIENDLg0KDQo+IA0KPiBTZXJpZXMgbG9va3Mgc2FuZSB0
+byBtZSwgYnV0IEknZCBsaWtlIHRvIHNlZSB3aGF0IHlvdSBkbyBmb3IgYSB2MiB0byANCj4g
+YWRkcmVzcyB0aGUgZXhpc3RpbmcgY29tbWVudHMuDQoNCllvdSdsbCBiZSBjYydlZC4NCg0K
+PiANCj4gRm9yIHRoZSBRQUlDIHBhcnQgLQ0KPiANCj4gQWNrZWQtYnk6IEplZmZyZXkgSHVn
+byA8cXVpY19qaHVnb0BxdWljaW5jLmNvbT4NCg0KVGhhbmtzIGEgbG90Lg0KDQpCZXN0IHJl
+Z2FyZHMNClRob21hcw0KDQo+IA0KPiAtSmVmZg0KDQotLSANClRob21hcyBaaW1tZXJtYW5u
+DQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBH
+ZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJt
+YW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91
+ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 9d6dcaf317a1..7262238cb014 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -1426,9 +1426,9 @@ void dw_hdmi_set_high_tmds_clock_ratio(struct dw_hdmi *hdmi,
- 	/* Control for TMDS Bit Period/TMDS Clock-Period Ratio */
- 	if (dw_hdmi_support_scdc(hdmi, display)) {
- 		if (mtmdsclock > HDMI14_MAX_TMDSCLK)
--			drm_scdc_set_high_tmds_clock_ratio(&hdmi->connector, 1);
-+			drm_scdc_set_high_tmds_clock_ratio(hdmi->curr_conn, 1);
- 		else
--			drm_scdc_set_high_tmds_clock_ratio(&hdmi->connector, 0);
-+			drm_scdc_set_high_tmds_clock_ratio(hdmi->curr_conn, 0);
- 	}
- }
- EXPORT_SYMBOL_GPL(dw_hdmi_set_high_tmds_clock_ratio);
-@@ -2116,7 +2116,7 @@ static void hdmi_av_composer(struct dw_hdmi *hdmi,
- 				min_t(u8, bytes, SCDC_MIN_SOURCE_VERSION));
- 
- 			/* Enabled Scrambling in the Sink */
--			drm_scdc_set_scrambling(&hdmi->connector, 1);
-+			drm_scdc_set_scrambling(hdmi->curr_conn, 1);
- 
- 			/*
- 			 * To activate the scrambler feature, you must ensure
-@@ -2132,7 +2132,7 @@ static void hdmi_av_composer(struct dw_hdmi *hdmi,
- 			hdmi_writeb(hdmi, 0, HDMI_FC_SCRAMBLER_CTRL);
- 			hdmi_writeb(hdmi, (u8)~HDMI_MC_SWRSTZ_TMDSSWRST_REQ,
- 				    HDMI_MC_SWRSTZ);
--			drm_scdc_set_scrambling(&hdmi->connector, 0);
-+			drm_scdc_set_scrambling(hdmi->curr_conn, 0);
- 		}
- 	}
- 
+--------------TV73U0FhhWShpuUdqL7YuCIu--
 
----
-base-commit: 47045630bc409ce6606d97b790895210dd1d517d
-change-id: 20230619-topic-amlogic-upstream-fix-hdmi2-c9b65818477e
+--------------YtdI38sdROSEOlulp0y36d0q
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Best regards,
--- 
-Neil Armstrong <neil.armstrong@linaro.org>
+-----BEGIN PGP SIGNATURE-----
 
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSQFzsFAwAAAAAACgkQlh/E3EQov+AS
+yw//Xn6hMMY+DsM/AXjxFx08GPHEET+DigNnsWs9a9l3H4xz8E9FZQXTz0lMJCKTkAtLOcSLh6ms
+wIaxNaHGTcfwvID7qu7he9axm7gQP85H8n7zKEj6D/Zc+7CYSAJtnaIBrWuvAx0jfz3ce4wN7J0j
+EO0I2Qz7O6ARbglJQDfyzyKnZAB7yA/kQ1XFLch4f4e+e33fEhG08kK94aEDTtdIEWz83wA9hxO8
+Y6P2qvVLs6smnyI/6TuXJKJRQt8SQclUA2FbfbMyuVoa7Lct6Sf6BFXPt5PJRuO323W876sh5Kl/
+6+Z2VNSL2/rkuPcPi4Fca/bGOFHKPc8XJYVWUsKq2iLw6+ZBidXZ2WtlQ2Z68x+zQ29TGnIQHpwQ
+ZmnJqojOnzzvaAKFcGe2bXVZKmaHaseAPom9ptUGQXKEb/BH48uU/idSdqAdKll+WpO5dfVoDFWt
+3KTf14bPL4CJ7MpiiM2sa6dFB6EI+I227RWArmpU5mH9mz87CNW9yY7Sc0YvnDeyYtsDx9tt2i2f
+K1NRIFB9R44M4GsTu9MMFH4KSnPuBAaVwhQsN4wePkhuBGcefY+Uan3t0xh1qxZiMDK3XXNIESSp
+2VtkJYZbJMrN1X+sQxe/YY8F4BVg+Ml+ccPEYGKfVQ7gLcoxWhC0b2eTuiZzs9Rx3QgfoOt+3BBy
+Wnw=
+=Vqr6
+-----END PGP SIGNATURE-----
+
+--------------YtdI38sdROSEOlulp0y36d0q--
