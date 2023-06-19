@@ -1,78 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 545BF7359E4
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 16:42:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B081D735A11
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 16:52:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3B2510E207;
-	Mon, 19 Jun 2023 14:42:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F46810E06B;
+	Mon, 19 Jun 2023 14:52:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-relay-internal-0.canonical.com
- (smtp-relay-internal-0.canonical.com [185.125.188.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FF4A10E212
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 14:42:27 +0000 (UTC)
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 1CE7B3F149
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 14:42:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1687185743;
- bh=oVzx6NYhYUEvG3AH2qaIIGghMLVni7wi0TtZ3p4soSE=;
- h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
- MIME-Version:Content-Type;
- b=Ae/+RKrmncU9myeHSwFon3FOjr/GFaTPOC1mTLEZfr0DLSXYCwLpmzUeUW+5JM1/P
- 67ECXxdxZZaYDiYzGqMygpX6ic7JYE8e0fIPWEsnBs8Id2KEMdis1qOL4/EGhem7fE
- rnsWq9imjssAlh9U3+cQLoE2iR7shVlCraWRO8ZG+ylnM9kSn8cbEhRHI99yjKXH3q
- NQBwpzpnMRqxn1wVnCY09+T452b2X2JosqqAKadiEUH/wYqhRKjNraM1JBYjTw9I2n
- aBo6nIdvSvw2SE0xNFsShuc3dtAO6WLjBkWykE1lVCPwSMxy3ChBCVjc0GPwrSlLbI
- X9NOhGRzHe6jA==
-Received: by mail-ej1-f69.google.com with SMTP id
- a640c23a62f3a-987a0365f77so134316166b.1
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 07:42:23 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
+ [209.85.128.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFB7810E06B
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 14:52:23 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-570002c9b38so41530707b3.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 07:52:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687185742; x=1689777742;
- h=mime-version:organization:references:in-reply-to:message-id:subject
- :cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oVzx6NYhYUEvG3AH2qaIIGghMLVni7wi0TtZ3p4soSE=;
- b=Buf73fQJmXK4tYU4rHDvc3qk7fO5Cl2zT4c0qlrTSGbuSgC89N/cO/IsbCX6bytBKt
- FiqZkeZyQrr3HUwUQuxsf8Y/SI7d4x54uSgK2EiLNpWWrzcUF50IR++ibyixkkT6GKFS
- SmkNYFjpr2H/1l//zrMEenMmh51SjKG2GBB5LW8ZDf46ZTKPs//XHaSu4SonFZBHl7vY
- 9LEGQvG+M4v0WLkEGNX1M5iT7pTiK1ijxs9ntnqmW9YoOIfmI2zuVZSeUZYpCrTgA/cO
- d/GoucKADhIEW/bWUsYhdo5dAvryCft6o5S5/Jtsl2Etk/ZyYzMLpz6wVfMdagXF25Dm
- SHYg==
-X-Gm-Message-State: AC+VfDyLIPpCRMTXF8jck3Xd/JreDzZ/74cDf/+K9IHk+Q3s7EfnrysA
- qFGLwZ38RdWYa0hrr+nQgXHrbIOVi6PZf5Yo1+/ExcHo9OuL3+i+Jcmo9FaLOg5mhmO+xyr15uf
- HYJFibpTgkJHCHFaQ3oqLjwbws/7kVLe5+yU4zhNZV0sKNg==
-X-Received: by 2002:a17:906:4fc5:b0:974:20bd:6e15 with SMTP id
- i5-20020a1709064fc500b0097420bd6e15mr7712240ejw.4.1687185742792; 
- Mon, 19 Jun 2023 07:42:22 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5uRvfrz4OGRcv0QxkR+P4tDg9wB7UCd8/6nh/dPpJc1WEhB3DIXye/HmnDc/eWXtbGoz8M8Q==
-X-Received: by 2002:a17:906:4fc5:b0:974:20bd:6e15 with SMTP id
- i5-20020a1709064fc500b0097420bd6e15mr7712224ejw.4.1687185742517; 
- Mon, 19 Jun 2023 07:42:22 -0700 (PDT)
-Received: from gollum ([194.191.244.86]) by smtp.gmail.com with ESMTPSA id
- bn14-20020a170906c0ce00b0095807ab4b57sm15016341ejb.178.2023.06.19.07.42.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jun 2023 07:42:21 -0700 (PDT)
-Date: Mon, 19 Jun 2023 16:42:19 +0200
-From: Juerg Haefliger <juerg.haefliger@canonical.com>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Add missing MODULE_FIRMWARE macro
-Message-ID: <20230619164219.4ae6a818@gollum>
-In-Reply-To: <CADnq5_Nnr=BO2y3O3_x+sX-93CtY7g52m9DHva7WWqeeO5xqMA@mail.gmail.com>
-References: <20230616121116.1031336-1-juerg.haefliger@canonical.com>
- <CADnq5_Nnr=BO2y3O3_x+sX-93CtY7g52m9DHva7WWqeeO5xqMA@mail.gmail.com>
-Organization: Canonical Ltd
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
+ d=1e100.net; s=20221208; t=1687186342; x=1689778342;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=LoOnRXHrsLLQiMhQI14PH3mvugiSH4SYYbHJHuEsw7E=;
+ b=GXVsXNNfjo8sCtkhilx1W8YeEeel42j9fdB49K83DhLzaXW3ci8EXOEIiJnYP1jl81
+ Eg4xRXge5fpSZkY/FUDdRzZVZJGJqABWqdiaYXjJhmefm8yu283pmBgFfYZOWJcnGvcO
+ JHKuv/EmWbKaTxX41ua2/THrRiBqQlX9eLFQpHSb2FUcnIwDw5SvK+4gvOX559GK3q8x
+ Xpd5UFWsN5tud5ke+hFfpyH7CjsXXBkw99kKUz3faK0MGg/klDXlhxSI2knWTmHMOxxJ
+ z61eJrWzrBy0mvgilWZYfVfYZ7+SP8uErE8utOPqJmvnY9CKo8m5NxLR3d6foCha1dTu
+ LdjQ==
+X-Gm-Message-State: AC+VfDzhAINEug5dcBzAx/P9KEE0Up/tphX4KjYQchwVCu7LvpIlT96u
+ VWScM6nQ9z/uccJZiVxDrWqSl/hhDPbopw==
+X-Google-Smtp-Source: ACHHUZ6BoMtp1T+VIdedh4i0VZyWNwGYgA5sO8wQfBBwnuAfX5gwf9zZ7l7nqLbAkEL2hiLnN7N3/w==
+X-Received: by 2002:a81:dd0d:0:b0:56f:ecdd:ded2 with SMTP id
+ e13-20020a81dd0d000000b0056fecddded2mr10470420ywn.40.1687186342594; 
+ Mon, 19 Jun 2023 07:52:22 -0700 (PDT)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com.
+ [209.85.219.178]) by smtp.gmail.com with ESMTPSA id
+ o12-20020a0dcc0c000000b0056d2fce4e09sm4692424ywd.42.2023.06.19.07.52.22
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 19 Jun 2023 07:52:22 -0700 (PDT)
+Received: by mail-yb1-f178.google.com with SMTP id
+ 3f1490d57ef6-bc4f89f0f2fso3768689276.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 07:52:22 -0700 (PDT)
+X-Received: by 2002:a25:7414:0:b0:bc8:cd2c:2fc with SMTP id
+ p20-20020a257414000000b00bc8cd2c02fcmr6811037ybc.24.1687186341787; Mon, 19
+ Jun 2023 07:52:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/VSLr7Uc977O.nGCK=PDUW7X";
- protocol="application/pgp-signature"; micalg=pgp-sha512
+References: <20230601154002.uv2wfatpb7b45duz@pengutronix.de>
+ <CAD=FV=WvP--wJwBQtnSoW_xb57R1Wf9dH0XzWxe+NorczXfeAw@mail.gmail.com>
+ <20230617161222.wy55pbomnrrlfy5u@pengutronix.de>
+ <CAD=FV=U5gbMUNteyyFcTvHVBDWzfthM0aDirJC+yXGovDwMOBA@mail.gmail.com>
+ <20230618123915.hmy66z7e532jhwgk@pengutronix.de>
+ <jlq2xayh4dxfigfsh2fms2kt4hlrqcwxblffmqq7czbhqhhvz7@hsvol72f5i3y>
+ <20230618162950.6th2yo66baqay5mv@pengutronix.de>
+ <vxjp5c4wojcvbnp3ghsspwkgrc4mjmskzl56jkuxlgfhcji7kx@m3hg525p7y6a>
+ <20230619105342.ugf5gz26gcalcsi6@pengutronix.de>
+ <a6ex232lwyovzzazfh6jfvlwszppr2624czgcc5sa4nthkgecf@asauiw3rf4vi>
+ <20230619135849.crbbeqsytla7upbw@pengutronix.de> <87bkhbjzhk.fsf@intel.com>
+In-Reply-To: <87bkhbjzhk.fsf@intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 19 Jun 2023 16:52:07 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUK_smDEbqKmm_teKW=mDNxWfK8wDieBTrta1YfU3_aLA@mail.gmail.com>
+Message-ID: <CAMuHMdUK_smDEbqKmm_teKW=mDNxWfK8wDieBTrta1YfU3_aLA@mail.gmail.com>
+Subject: Re: patches dropped from drm-misc-next [Was: Re: [PATCH 00/53] drm:
+ Convert to platform remove callback returning] void
+To: Jani Nikula <jani.nikula@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,79 +80,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lijo.lazar@amd.com, Bokun.Zhang@amd.com, Xinhui.Pan@amd.com,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- YiPeng.Chai@amd.com, dri-devel@lists.freedesktop.org,
- alexander.deucher@amd.com, Likun.Gao@amd.com, Hawking.Zhang@amd.com,
- christian.koenig@amd.com, mario.limonciello@amd.com
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Stephen Rothwell <sfr@canb.auug.org.au>, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/VSLr7Uc977O.nGCK=PDUW7X
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Hi Jani,
 
-On Fri, 16 Jun 2023 08:53:20 -0400
-Alex Deucher <alexdeucher@gmail.com> wrote:
+On Mon, Jun 19, 2023 at 4:30=E2=80=AFPM Jani Nikula <jani.nikula@intel.com>=
+ wrote:
+> [Trimmed the recipients considerably; there's really no need to keep
+> spamming so many people about this.]
 
-> On Fri, Jun 16, 2023 at 8:11=E2=80=AFAM Juerg Haefliger
-> <juerg.haefliger@canonical.com> wrote:
-> >
-> > Add the missing MODULE_FIRMWARE macro for "amdgpu/fiji_smc.bin".
-> >
-> > Signed-off-by: Juerg Haefliger <juerg.haefliger@canonical.com>
-> > ---
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/d=
-rm/amd/amdgpu/amdgpu_device.c
-> > index 5c7d40873ee2..1f83a939d641 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> > @@ -92,6 +92,7 @@ MODULE_FIRMWARE("amdgpu/picasso_gpu_info.bin");
-> >  MODULE_FIRMWARE("amdgpu/raven2_gpu_info.bin");
-> >  MODULE_FIRMWARE("amdgpu/arcturus_gpu_info.bin");
-> >  MODULE_FIRMWARE("amdgpu/navi12_gpu_info.bin");
-> > +MODULE_FIRMWARE("amdgpu/fiji_smc.bin"); =20
->=20
-> This is already specified in smumgr.c.
+CC sfr
 
-It sure is. Sorry for the noise :-(
+> On Mon, 19 Jun 2023, Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.d=
+e> wrote:
+> > Not knowing dim I think there is a simple(?) technical solution here: I=
+t
+> > only has to make sure that after the pull request from drm-misc to drm
+> > was sent, no new patches are added to the branch that is merged in next=
+.
+>
+> The drm-misc-next and drm-intel-next branches are *always* open to
+> patches, regardless of the merge window. That's not going to change. We
+> never tell people "this is not the right time for your patches" due to
+> the merge window, like some subsystems do.
 
-Thanks for looking at it.
-..Juerg
+Good (personally, I don't like it when a subsystem is not open to patches,
+as it means that when I finally have time to work on patches myself, I
+cannot submit them ;-)
 
-=20
-> Alex
->=20
-> >
-> >  #define AMDGPU_RESUME_MS               2000
-> >  #define AMDGPU_MAX_RETRY_LIMIT         2
-> > --
-> > 2.37.2
-> > =20
+> We have separate branches specifically for feeding to linux-next and
+> they serve no other purpose. The tooling tries to push the right thing
+> there, depending on the last pull request cutoff, so that linux-next
+> reflects what it's supposed to, but obviously the tooling doesn't have
+> the smarts to figure out when the last pull request is going to be
+> sent. (Really, humans don't always get that right either, because
+> predicting the future is kind of hard.)
 
+OK. So all of this was a genuine mistake...
 
---Sig_/VSLr7Uc977O.nGCK=PDUW7X
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+> Looks like you hit an issue, and although nobody else has complained
+> about this one over the 9 years we've been using dim, it royally
+> confused you. Sorry about that. There's always room for improvement in
+> the tooling, in the process, and in the human communication.
 
------BEGIN PGP SIGNATURE-----
+Thanks for the explanation!
 
-iQIzBAEBCgAdFiEEhZfU96IuprviLdeLD9OLCQumQrcFAmSQaUsACgkQD9OLCQum
-QreYUhAAnmXAhO0Tsu0xyykMZZdNzq88fuPv5q6L9CFkZYzPfZouX8irTOMyGuES
-vbrn1ZzVf66SzygqILzCkA2nH8sLgGJSF5S7t8yhtjrWsgLBXre88Exe/3RKyl9g
-W/zKNzlOlINUo3fm7bfvM+pZl/OKxVtfq2IbgaD/rk5LyFbl17Z1ETTA2TBY9P0m
-U4dpQ0KySNknwxEe6l8n3S9oJJzuaw5z0rgd5opwtv5RKFXZQUcQ4i8FcSfNCb89
-ciY/SdcRlybfyQ9tlfToOkSLnOkzMlMcmGX9LtiBvZTx6dvKfqd7xqy8p/+8tFTE
-sn1icmhV5zvLEyWs8eI51DwwpmK5BlAHbfDsjOfgOjc8r+OsarW5IpF2G8eP93oR
-tryuZx+kD1OcBd9jUiEyuJGC4mcYHNndwPniCjxP3OcKWhJsia2V8axHYZ//ddf7
-NfWFg6jE+M4j7Nl0C2XWq8KO83ejkSR7N+siPs6pPKUdHTKacJaeO/5ZBm7y0rRx
-3C4b335jx/uY74nBrW9WtJr+bOZz2YPTM4GOl6rOqsjy3LmzYt6kpFDYeTUYWoKW
-4uj3jRf0257eeaXjCL2kdNS4paQT0Ipil3kaSG1Ea32OyW8+ipqmg7nwuVkEifOx
-q4NmF4Rkmx1Q2enwGXRwP+PaXa4a4qe2OuSyzKEYG8IUyxITxFU=
-=i1ZT
------END PGP SIGNATURE-----
+Gr{oetje,eeting}s,
 
---Sig_/VSLr7Uc977O.nGCK=PDUW7X--
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
