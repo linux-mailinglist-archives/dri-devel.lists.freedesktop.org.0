@@ -1,59 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02D81734A60
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 04:53:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 567F5734A7D
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 05:11:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA07110E14B;
-	Mon, 19 Jun 2023 02:53:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8912410E196;
+	Mon, 19 Jun 2023 03:11:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id CA0E310E14B
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 02:53:04 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8AxX+sPw49kerQGAA--.13876S3;
- Mon, 19 Jun 2023 10:53:03 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxVeQOw49kxLUfAA--.23844S3; 
- Mon, 19 Jun 2023 10:53:02 +0800 (CST)
-Message-ID: <401080de-d55e-8196-cf9a-9af5e23495e2@loongson.cn>
-Date: Mon, 19 Jun 2023 10:53:02 +0800
+X-Greylist: delayed 525 seconds by postgrey-1.36 at gabe;
+ Mon, 19 Jun 2023 03:11:37 UTC
+Received: from angie.orcam.me.uk (angie.orcam.me.uk [IPv6:2001:4190:8020::34])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E92A810E18B;
+ Mon, 19 Jun 2023 03:11:37 +0000 (UTC)
+Received: by angie.orcam.me.uk (Postfix, from userid 500)
+ id BF25592009C; Mon, 19 Jun 2023 05:02:48 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by angie.orcam.me.uk (Postfix) with ESMTP id B0C1092009B;
+ Mon, 19 Jun 2023 04:02:48 +0100 (BST)
+Date: Mon, 19 Jun 2023 04:02:48 +0100 (BST)
+From: "Maciej W. Rozycki" <macro@orcam.me.uk>
+To: Sui Jingfeng <15330273260@189.cn>
+Subject: Re: [PATCH v7 2/8] PCI/VGA: Deal only with VGA class devices
+In-Reply-To: <20230613030151.216625-3-15330273260@189.cn>
+Message-ID: <alpine.DEB.2.21.2306190339590.14084@angie.orcam.me.uk>
+References: <20230613030151.216625-1-15330273260@189.cn>
+ <20230613030151.216625-3-15330273260@189.cn>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [13/14] drm/ast: Move widescreen- and tx-chip detection into
- separate helpers
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- jfalempe@redhat.com, daniel@ffwll.ch, jammy_huang@aspeedtech.com
-References: <20230616140739.32042-14-tzimmermann@suse.de>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <20230616140739.32042-14-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxVeQOw49kxLUfAA--.23844S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxArW3Xw43CrykXryDCr43twc_yoW5Xw1rpa
- yDJa9IqFW5JF12gr43C3WDZF9xt3Wxtay8urn3t34Ykr4DKwnY9rn8Xw4UZ3ZrZFZ5AFyU
- AF47GFyxJFWUCagCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
- xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
- 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv
- 67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07
- AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
- F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw
- 1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
- xVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
- 1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8xu
- ctUUUUU==
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,98 +42,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Sui Jingfeng <suijingfeng@loongson.cn>,
+ kvm@vger.kernel.org, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Tue, 13 Jun 2023, Sui Jingfeng wrote:
 
+> Deal only with the VGA devcie(pdev->class == 0x0300), so replace the
 
-Split ast_detect_chip() into three functions made it more clear.
+ Typo here: s/devcie/device/.
 
-As tx-chip is typicality  suffer from changed, and it is a choice of the 
-PCB board designer.
+> pci_get_subsys() function with pci_get_class(). Filter the non-PCI display
+> device(pdev->class != 0x0300) out. There no need to process the non-display
+> PCI device.
 
-tx-chip belong to the output, which chip identify and wide screen 
-support is a capability of
+ I've only come across this patch series now.  Without diving into what 
+this code actually does I have just one question as a matter of interest.
 
-the chip itself, once the chip is taped, it is fixed. So this patch 
-looks fine.
+> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+> index c1bc6c983932..22a505e877dc 100644
+> --- a/drivers/pci/vgaarb.c
+> +++ b/drivers/pci/vgaarb.c
+> @@ -1500,7 +1496,9 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
+>  	struct pci_dev *pdev = to_pci_dev(dev);
+>  	bool notify = false;
+>  
+> -	vgaarb_dbg(dev, "%s\n", __func__);
+> +	/* Only deal with VGA class devices */
+> +	if (pdev->class != PCI_CLASS_DISPLAY_VGA << 8)
+> +		return 0;
 
+ Hmm, shouldn't this also handle PCI_CLASS_NOT_DEFINED_VGA?  As far as I 
+know it is the equivalent of PCI_CLASS_DISPLAY_VGA for PCI <= 2.0 devices 
+that were implemented before the idea of PCI device classes has developed 
+into its current form.  I may have such a VGA device somewhere.
 
-On 2023/6/16 21:52, Thomas Zimmermann wrote:
-> Split ast_detect_chip() into three functions and call them one by
-> one. The new functions detect the transmitter chip and widescreen
-> support. This will allow for further refactoring.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
-
-Tested-by: Sui Jingfeng <suijingfeng@loongson.cn>
-
-> ---
->   drivers/gpu/drm/ast/ast_main.c | 18 +++++++++++++++---
->   1 file changed, 15 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-> index 7f8fb9a613604..f028b5b47c56e 100644
-> --- a/drivers/gpu/drm/ast/ast_main.c
-> +++ b/drivers/gpu/drm/ast/ast_main.c
-> @@ -157,7 +157,6 @@ static int ast_detect_chip(struct drm_device *dev, bool need_post, u32 scu_rev)
->   {
->   	struct ast_device *ast = to_ast_device(dev);
->   	struct pci_dev *pdev = to_pci_dev(dev->dev);
-> -	uint32_t jreg;
->   
->   	/* Identify chipset */
->   	if (pdev->revision >= 0x50) {
-> @@ -218,6 +217,13 @@ static int ast_detect_chip(struct drm_device *dev, bool need_post, u32 scu_rev)
->   		drm_info(dev, "AST 2000 detected\n");
->   	}
->   
-> +	return 0;
-> +}
-> +
-> +static void ast_detect_widescreen(struct ast_device *ast)
-> +{
-> +	u8 jreg;
-> +
->   	/* Check if we support wide screen */
->   	switch (AST_GEN(ast)) {
->   	case 1:
-> @@ -242,6 +248,12 @@ static int ast_detect_chip(struct drm_device *dev, bool need_post, u32 scu_rev)
->   		}
->   		break;
->   	}
-> +}
-> +
-> +static void ast_detect_tx_chip(struct ast_device *ast, bool need_post)
-> +{
-> +	struct drm_device *dev = &ast->base;
-> +	u8 jreg;
->   
->   	/* Check 3rd Tx option (digital output afaik) */
->   	ast->tx_chip_types |= AST_TX_NONE_BIT;
-> @@ -301,8 +313,6 @@ static int ast_detect_chip(struct drm_device *dev, bool need_post, u32 scu_rev)
->   		drm_info(dev, "Using DP501 DisplayPort transmitter\n");
->   	if (ast->tx_chip_types & AST_TX_ASTDP_BIT)
->   		drm_info(dev, "Using ASPEED DisplayPort transmitter\n");
-> -
-> -	return 0;
->   }
->   
->   static int ast_get_dram_info(struct drm_device *dev)
-> @@ -494,6 +504,8 @@ struct ast_device *ast_device_create(const struct drm_driver *drv,
->   	ast_detect_config_mode(dev, &scu_rev);
->   
->   	ast_detect_chip(dev, need_post, scu_rev);
-> +	ast_detect_widescreen(ast);
-> +	ast_detect_tx_chip(ast, need_post);
->   
->   	ret = ast_get_dram_info(dev);
->   	if (ret)
-
--- 
-Jingfeng
-
+  Maciej
