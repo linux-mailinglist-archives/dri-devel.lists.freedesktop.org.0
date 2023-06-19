@@ -1,54 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A364E7356F5
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 14:35:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04F0B735705
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 14:41:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DD5F10E1F0;
-	Mon, 19 Jun 2023 12:35:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15A4610E1F7;
+	Mon, 19 Jun 2023 12:40:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0927910E1F7
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 12:35:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1687178126;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yAWE58CsaAMtd+AIOuACgTo0t+B1QSHHfRWY4TLyueI=;
- b=A9yhcoVfG5oJmjDT+EDu2tPwpQCZdN5Oheh/0c2unraZtETTS+w1gbE03ao+n0eeoR/H1v
- 57lJZf6LSGQx0dgCQ4e7GPFLC2jzer6K1VB2yzZZ/T4/GsWLnU919/OdlXvDrkVIW6zxJB
- DjPhwX6aAF6xWZi9JYSJp1bDbw4xTRc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-434-iZkqP-SwMrCQnSEB2MSuuw-1; Mon, 19 Jun 2023 08:35:23 -0400
-X-MC-Unique: iZkqP-SwMrCQnSEB2MSuuw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 634AF10E1F7;
+ Mon, 19 Jun 2023 12:40:53 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A24D52A59570;
- Mon, 19 Jun 2023 12:35:22 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.194.241])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4644740C6F58;
- Mon, 19 Jun 2023 12:35:22 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id E201218003AB; Mon, 19 Jun 2023 14:35:15 +0200 (CEST)
-Date: Mon, 19 Jun 2023 14:35:15 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Mike Kravetz <mike.kravetz@oracle.com>
-Subject: Re: [PATCH] udmabuf: revert 'Add support for mapping hugepages (v4)'
-Message-ID: <jdfdmwanxzi6udltiezoqli77kutoeuzodet6tsfyyu4sibbom@yxhycebnts6j>
-References: <20230608204927.88711-1-mike.kravetz@oracle.com>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id BEADD60BEA;
+ Mon, 19 Jun 2023 12:40:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 216BFC433C9;
+ Mon, 19 Jun 2023 12:40:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1687178451;
+ bh=fHn3j7JDGruB0b35e3ystzKwAQyitAIm+XUJzpDo7XE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=c3MrkHD6pLv16fyMdny0V4Wy295aYVx4hBpchrDdzMvuLvh5YHOX5BHGBgySo1Zck
+ kWVvk4Hg1J0FADnVQdOKvl3rg9BJCSmax2gnX8yieO0ZKv4TyEwuEccyV2KFdxACK+
+ C0IlNF5AR7je0biR7hsbVNmdjTnDqiKafFi8LzjsWomc5Ykw/GSe/EMVhln3bI/nhC
+ OfelTxUdfEgArRZ4GEwwtS2G1+KECW906oVr6S7WwrEXgQvWbwKOfxapxQWSfo2ZxR
+ cGfAzUd2I9LikC2FfPi/KQEeArCa4cIc3eRSR7ccUlnEOHfsnfM85FysCp2KC7BkVQ
+ SBPA2QC7T00QA==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+ (envelope-from <johan@kernel.org>)
+ id 1qBEBc-00015W-Ar; Mon, 19 Jun 2023 14:40:48 +0200
+Date: Mon, 19 Jun 2023 14:40:48 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Bjorn Andersson <quic_bjorande@quicinc.com>
+Subject: Re: [PATCH] drm/msm/dp: Drop aux devices together with DP controller
+Message-ID: <ZJBM0E0vfeLXCw0W@hovoldconsulting.com>
+References: <20230612220106.1884039-1-quic_bjorande@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230608204927.88711-1-mike.kravetz@oracle.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+In-Reply-To: <20230612220106.1884039-1-quic_bjorande@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,37 +55,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mhocko@suse.com, jmarchan@redhat.com, Dongwon Kim <dongwon.kim@intel.com>,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Junxiao Chang <junxiao.chang@intel.com>, muchun.song@linux.dev,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- James Houghton <jthoughton@google.com>, stable@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>, kirill.shutemov@linux.intel.com
+Cc: freedreno@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
+ linux-kernel@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>,
+ Johan Hovold <johan+linaro@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 08, 2023 at 01:49:27PM -0700, Mike Kravetz wrote:
-> This effectively reverts commit 16c243e99d33 ("udmabuf: Add support
-> for mapping hugepages (v4)").  Recently, Junxiao Chang found a BUG
-> with page map counting as described here [1].  This issue pointed out
-> that the udmabuf driver was making direct use of subpages of hugetlb
-> pages.  This is not a good idea, and no other mm code attempts such use.
-> In addition to the mapcount issue, this also causes issues with hugetlb
-> vmemmap optimization and page poisoning.
+On Mon, Jun 12, 2023 at 03:01:06PM -0700, Bjorn Andersson wrote:
+> Using devres to depopulate the aux bus made sure that upon a probe
+> deferral the EDP panel device would be destroyed and recreated upon next
+> attempt.
 > 
-> For now, remove hugetlb support.
-> 
-> If udmabuf wants to be used on hugetlb mappings, it should be changed to
-> only use complete hugetlb pages.  This will require different alignment
-> and size requirements on the UDMABUF_CREATE API.
-> 
-> [1] https://lore.kernel.org/linux-mm/20230512072036.1027784-1-junxiao.chang@intel.com/
-> 
-> Fixes: 16c243e99d33 ("udmabuf: Add support for mapping hugepages (v4)")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Mike Kravetz <mike.kravetz@oracle.com>
+> But the struct device which the devres is tied to is the DPUs
+> (drm_dev->dev), which may be happen after the DP controller is torn
+> down.
 
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+There appears to be some words missing in this sentence.
+ 
+> Indications of this can be seen in the commonly seen EDID-hexdump full
+> of zeros in the log,
 
+This could happen also when the aux bus lifetime was tied to DP
+controller and is mostly benign as dp_aux_deinit() set the "initted"
+flag to false.
+
+> or the occasional/rare KASAN fault where the
+> panel's attempt to read the EDID information causes a use after free on
+> DP resources.
+
+But this is clearly a bug as there's a small window where the aux bus
+struct holding the above flag may also have been released...
+
+> It's tempting to move the devres to the DP controller's struct device,
+> but the resources used by the device(s) on the aux bus are explicitly
+> torn down in the error path. The KASAN-reported use-after-free also
+> remains, as the DP aux "module" explicitly frees its devres-allocated
+> memory in this code path.
+
+Right, and this would also not work as the aux bus could remain
+populated for the next bind attempt which would then fail (as described
+in the commit message of the offending commit).
+
+> As such, explicitly depopulate the aux bus in the error path, and in the
+> component unbind path, to avoid these issues.
+
+Sounds good.
+
+> Fixes: 2b57f726611e ("drm/msm/dp: fix aux-bus EP lifetime")
+
+This one should also have a stable tag:
+
+Cc: stable@vger.kernel.org      # 5.19
+
+> Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_display.c | 14 +++-----------
+>  1 file changed, 3 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 3d8fa2e73583..bbb0550a022b 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -322,6 +322,8 @@ static void dp_display_unbind(struct device *dev, struct device *master,
+>  
+>  	kthread_stop(dp->ev_tsk);
+>  
+> +	of_dp_aux_depopulate_bus(dp->aux);
+
+This may now be called without first having populated the bus, but looks
+like that still works.
+
+> +
+>  	dp_power_client_deinit(dp->power);
+>  	dp_unregister_audio_driver(dev, dp->audio);
+>  	dp_aux_unregister(dp->aux);
+
+I know this one was merged while I was out-of-office last week, but for
+the record:
+
+Reviewed-by: Johan Hovold <johan+linaro@kernel.org>
+Tested-by: Johan Hovold <johan+linaro@kernel.org>
+
+Johan
