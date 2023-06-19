@@ -1,64 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 181F2734CBC
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 09:54:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C210B734CE1
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 09:59:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C143B10E19B;
-	Mon, 19 Jun 2023 07:54:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1828F10E19E;
+	Mon, 19 Jun 2023 07:59:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E008110E19B
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 07:54:39 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-4f62cf9755eso3869361e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 00:54:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687161277; x=1689753277;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=FISB+ubitonY+Bg3mf4VS8LTS55df+ezUIj9F3wZhm4=;
- b=j8VnPd6MqJ/OUb3VkPoFDSwzsRbGCL3ofrqCzxCKRk5M72HvG9D9tKqQqo5lYdT84a
- R/zGRdYarl4x3kF8QT8n8i/KZkWeea3LH9gAAxpD2y0KuGIX//A3tXvRoag4fPhU7hUp
- Xe+bSLdmcH+RSbvEXYCrXDQtD5la7Pi7LZn4LynDhezHiT8jNrucBk4gKBrTiuNbC6C6
- EPQGfUf+iK5poqtjaQ7P88o60otAdqYnqGPmZaXfXEli1UyeREC+P/bEZMbYwnNgmugs
- rFsrJbDvgov6TbCqCoarSrY6YKOXgMgJCs59wtKiHSZc3UDWVxZEVXwF2UZS2zMxwklD
- B55Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687161277; x=1689753277;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FISB+ubitonY+Bg3mf4VS8LTS55df+ezUIj9F3wZhm4=;
- b=QqMDLBsa0mvK3qEBTSIhtqiUmV6lwOW8diRXiRRz6GVXRanDFUfXgqDbLP8rVrjnYY
- /L+8Qe7qI0nnJnp99o61yG5ndaHg8aRXDYWuI/13saz8tpSGGLdNZSU8vmRKlmBm3wAP
- iMso3R+0v+gEX3KeHDkxDmgwQQRrjPC8PhvjfSKEAbUGDs91zzGSbfcfedZ+UQh+zXMd
- oE/cLGw9my7laOVkptcUm9ArnI+ZgrbKbAHBuZSRwIpxiFmGAK+KVRaNR8K9FRfi/qBv
- 8JC5CI1kAJheOa8Gmzc+U4tgEqIh/NiDwasIwsOv0I6G5zZQGNNskZY7IXu0um/bWPiq
- 4M1w==
-X-Gm-Message-State: AC+VfDyXybZ3vHfVj4VETDY2uofFFDhc3i81l8Y20VmZGYkElj1FS/rl
- XyqiVfnufp4/QhXIpBmecWc=
-X-Google-Smtp-Source: ACHHUZ5zUWfvbSANwnq9UM/vmZnJaL/FobST1vT5RFoBxk89CaqUAGRMKInPkxGk0arZ+DwP9sMMTg==
-X-Received: by 2002:ac2:504d:0:b0:4f8:5964:ac6d with SMTP id
- a13-20020ac2504d000000b004f85964ac6dmr4301974lfm.36.1687161276464; 
- Mon, 19 Jun 2023 00:54:36 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- j12-20020ac2454c000000b004f86bcd1f02sm601317lfm.258.2023.06.19.00.54.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jun 2023 00:54:36 -0700 (PDT)
-Date: Mon, 19 Jun 2023 10:54:24 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Arthur Grillo <arthurgrillo@riseup.net>
-Subject: Re: [PATCH v3] drm/vkms: Add support to 1D gamma LUT
-Message-ID: <20230619105424.3d8f2d11@eldfell>
-In-Reply-To: <20230615200157.960630-1-arthurgrillo@riseup.net>
-References: <20230615200157.960630-1-arthurgrillo@riseup.net>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F85510E19E
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 07:59:15 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 8A86D1F38A;
+ Mon, 19 Jun 2023 07:59:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1687161552; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dbIGMUHZ278Tp8slKchKKMJCMLyvA3pNUrUUkxX2YKE=;
+ b=IQPcf3QewCiFH7vH8+Cj8RkRTmi+qtQok0SBRDI+MN5pn0ktludj32KCXBpqneorJ0hA/V
+ cKJX0jtIxJrpCB8WcmwWvT0MtISqmGqjYQS5bT+Id4JGx1AAGzxeKhBOqldBjTJd4i9X0N
+ FWwUh38CasnEUhxvXP1RtTZbwMEvO1c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1687161552;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dbIGMUHZ278Tp8slKchKKMJCMLyvA3pNUrUUkxX2YKE=;
+ b=XEIPw3Y2uROOlw3pB9qT3KI4TpZVwYAjVPGt7mSjgAOG7NEwW1lbPAzmRyjhuqIZ8mxgMH
+ rGkD4YHMczrPAjBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 65296139C2;
+ Mon, 19 Jun 2023 07:59:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id AnC0F9AKkGQlCAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 19 Jun 2023 07:59:12 +0000
+Message-ID: <8be5e2e9-92a7-1bbe-e768-78d38eda5854@suse.de>
+Date: Mon, 19 Jun 2023 09:59:11 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Zk+uZpoqDvm0aB.JBzZfPNb";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [06/14] drm/ast: Set PCI config before accessing I/O registers
+Content-Language: en-US
+To: Sui Jingfeng <suijingfeng@loongson.cn>, airlied@redhat.com,
+ jfalempe@redhat.com, daniel@ffwll.ch, jammy_huang@aspeedtech.com
+References: <20230616140739.32042-7-tzimmermann@suse.de>
+ <0eec8603-bdd3-a060-b9cf-f44dfd449581@loongson.cn>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <0eec8603-bdd3-a060-b9cf-f44dfd449581@loongson.cn>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------2RCcH1cz66FZWcbP3U9lWL0A"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,326 +71,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, aleixpol@kde.org, andrealmeid@riseup.net,
- rodrigosiqueiramelo@gmail.com, xaver.hugl@gmail.com, mdaenzer@redhat.com,
- dri-devel@lists.freedesktop.org, victoria@system76.com, mwen@igalia.com,
- mairacanal@riseup.net, jadahl@redhat.com, uma.shankar@intel.com,
- sebastian.wick@redhat.com, joshua@froggi.es
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/Zk+uZpoqDvm0aB.JBzZfPNb
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------2RCcH1cz66FZWcbP3U9lWL0A
+Content-Type: multipart/mixed; boundary="------------Mt5dHChhS8PPadl9YSrI4j1S";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sui Jingfeng <suijingfeng@loongson.cn>, airlied@redhat.com,
+ jfalempe@redhat.com, daniel@ffwll.ch, jammy_huang@aspeedtech.com
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <8be5e2e9-92a7-1bbe-e768-78d38eda5854@suse.de>
+Subject: Re: [06/14] drm/ast: Set PCI config before accessing I/O registers
+References: <20230616140739.32042-7-tzimmermann@suse.de>
+ <0eec8603-bdd3-a060-b9cf-f44dfd449581@loongson.cn>
+In-Reply-To: <0eec8603-bdd3-a060-b9cf-f44dfd449581@loongson.cn>
 
-On Thu, 15 Jun 2023 17:01:57 -0300
-Arthur Grillo <arthurgrillo@riseup.net> wrote:
+--------------Mt5dHChhS8PPadl9YSrI4j1S
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> Support a 1D gamma LUT with interpolation for each color channel on the
-> VKMS driver. Add a check for the LUT length by creating
-> vkms_atomic_check().
->=20
-> Tested with:
-> igt@kms_color@gamma
-> igt@kms_color@legacy-gamma
-> igt@kms_color@invalid-gamma-lut-sizes
->=20
-> v2:
->     - Add interpolation between the values of the LUT (Simon Ser)
->=20
-> v3:
->     - s/ratio/delta (Pekka)
->     - s/color_channel/channel_value (Pekka)
->     - s/lut_area/lut_channel
->     - Store the `drm_color_lut`, `lut_length`, and
->       `channel_value2index_ratio` inside a struct called `vkms_lut`
->       (Pekka)
->     - Pre-compute some constants values used through the LUT procedure
->       (Pekka)
->     - Change the switch statement to a cast to __u16* (Pekka)
->     - Make the apply_lut_to_channel_value return the computation result
->       (Pekka)
->=20
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+SGkNCg0KQW0gMTcuMDYuMjMgdW0gMTA6MDEgc2NocmllYiBTdWkgSmluZ2Zlbmc6DQo+IA0K
+PiBPbiAyMDIzLzYvMTYgMjE6NTIsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gQWNj
+ZXNzIHRvIEkvTyByZWdpc3RlcnMgaXMgcmVxdWlyZWQgdG8gZGV0ZWN0IGFuZCBzZXQgdXAg
+dGhlDQo+PiBkZXZpY2UuIEVuYWJsZSB0aGUgcnNwIFBDSSBjb25maWcgYml0cyBiZWZvcmUu
+IFdoaWxlIGF0IGl0LA0KPj4gY29udmVydCB0aGUgbWFnaWMgbnVtYmVyIHRvIG1hY3JvIGNv
+bnN0YW50cy4NCj4+DQo+PiBFbmFibGluZyB0aGUgUENJIGNvbmZpZyBiaXRzIHdhcyBkb25l
+IGFmdGVyIHRyeWluZyB0byBkZXRlY3QNCj4+IHRoZSBkZXZpY2UuIEl0IHdhcyBwcm9iYWJs
+eSB0b28gbGF0ZSBhdCB0aGlzIHBvaW50Lg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFRob21h
+cyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4gLS0tDQo+PiDCoCBkcml2
+ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuaMKgIHzCoCAyICsrDQo+PiDCoCBkcml2ZXJzL2dw
+dS9kcm0vYXN0L2FzdF9tYWluLmMgfCAyMiArKysrKysrKysrKysrKysrKysrKysrDQo+PiDC
+oCBkcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9wb3N0LmMgfMKgIDYgLS0tLS0tDQo+PiDCoCAz
+IGZpbGVzIGNoYW5nZWQsIDI0IGluc2VydGlvbnMoKyksIDYgZGVsZXRpb25zKC0pDQo+Pg0K
+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X2Rydi5oIA0KPj4gYi9k
+cml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuaA0KPj4gaW5kZXggMDE0MTcwNWJlYWVlOS4u
+NTU1YTA4NTA5NTdmMyAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0
+X2Rydi5oDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuaA0KPj4gQEAg
+LTUyLDYgKzUyLDggQEANCj4+IMKgICNkZWZpbmUgUENJX0NISVBfQVNUMjAwMCAweDIwMDAN
+Cj4+IMKgICNkZWZpbmUgUENJX0NISVBfQVNUMjEwMCAweDIwMTANCj4+ICsjZGVmaW5lIEFT
+VF9QQ0lfT1BUSU9OX01FTV9BQ0NFU1NfRU5BQkxFwqDCoMKgIEJJVCgxKQ0KPj4gKyNkZWZp
+bmUgQVNUX1BDSV9PUFRJT05fSU9fQUNDRVNTX0VOQUJMRcKgwqDCoMKgwqDCoMKgIEJJVCgw
+KQ0KPj4gwqAgZW51bSBhc3RfY2hpcCB7DQo+PiDCoMKgwqDCoMKgIEFTVDIwMDAsDQo+PiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbWFpbi5jIA0KPj4gYi9kcml2
+ZXJzL2dwdS9kcm0vYXN0L2FzdF9tYWluLmMNCj4+IGluZGV4IGM2OTg3ZTA0NDY2MTguLmZl
+MDU0NzM5YjQ5NGEgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9t
+YWluLmMNCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21haW4uYw0KPj4gQEAg
+LTM1LDYgKzM1LDI0IEBADQo+PiDCoCAjaW5jbHVkZSAiYXN0X2Rydi5oIg0KPj4gK3N0YXRp
+YyBpbnQgYXN0X2luaXRfcGNpX2NvbmZpZyhzdHJ1Y3QgcGNpX2RldiAqcGRldikNCj4+ICt7
+DQo+PiArwqDCoMKgIGludCBlcnI7DQo+PiArwqDCoMKgIHUzMiBwY2lzMDQ7DQo+PiArDQo+
+PiArwqDCoMKgIGVyciA9IHBjaV9yZWFkX2NvbmZpZ19kd29yZChwZGV2LCAweDA0LCAmcGNp
+czA0KTsNCj4gDQo+IFRoZSB0aGlyZCBhcmd1bWVudCBvZiBwY2lfcmVhZF9jb25maWdfZHdv
+cmQoKSBmdW5jdGlvbiBzaG91bGQgYmUgJ3UxNiAqJyANCj4gdHlwZTsNCg0KTm8sIGEgZHdv
+cmQgaXMgYSAzMi1iaXQgaW50ZWdlci4NCg0KPiANCj4gDQo+PiArwqDCoMKgIGlmIChlcnIp
+DQo+PiArwqDCoMKgwqDCoMKgwqAgZ290byBvdXQ7DQo+PiArDQo+PiArwqDCoMKgIHBjaXMw
+NCB8PSBBU1RfUENJX09QVElPTl9NRU1fQUNDRVNTX0VOQUJMRSB8DQo+PiArwqDCoMKgwqDC
+oMKgwqDCoMKgIEFTVF9QQ0lfT1BUSU9OX0lPX0FDQ0VTU19FTkFCTEU7DQo+PiArDQo+PiAr
+wqDCoMKgIGVyciA9IHBjaV93cml0ZV9jb25maWdfZHdvcmQocGRldiwgMHgwNCwgcGNpczA0
+KTsNCj4+ICsNCj4+ICtvdXQ6DQo+PiArwqDCoMKgIHJldHVybiBwY2liaW9zX2Vycl90b19l
+cnJubyhlcnIpOw0KPj4gK30NCj4gDQo+IA0KPiBzdGF0aWMgdm9pZCBhc3RfZW5hYmxlX21l
+bV9pbyhzdHJ1Y3QgcGNpX2RldiAqcGRldikNCj4gew0KPiAgwqDCoCDCoHUxNiBjbWQ7DQo+
+IA0KPiAgwqDCoCDCoHBjaV9yZWFkX2NvbmZpZ193b3JkKHBkZXYsIFBDSV9DT01NQU5ELCAm
+Y21kKTsNCj4gDQo+ICDCoMKgIMKgY21kIHw9IFBDSV9DT01NQU5EX01FTU9SWSB8IFBDSV9D
+T01NQU5EX0lPOw0KPiANCj4gIMKgwqAgwqBwY2lfd3JpdGVfY29uZmlnX3dvcmQocGRldiwg
+UENJX0NPTU1BTkQsICZjbWQpOw0KPiB9DQo+IA0KPj4gwqAgc3RhdGljIHZvaWQgYXN0X2Rl
+dGVjdF9jb25maWdfbW9kZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB1MzIgDQo+PiAqc2N1
+X3JldikNCj4+IMKgIHsNCj4+IMKgwqDCoMKgwqAgc3RydWN0IGRldmljZV9ub2RlICpucCA9
+IGRldi0+ZGV2LT5vZl9ub2RlOw0KPj4gQEAgLTM5OSw2ICs0MTcsMTAgQEAgc3RydWN0IGFz
+dF9kZXZpY2UgKmFzdF9kZXZpY2VfY3JlYXRlKGNvbnN0IHN0cnVjdCANCj4+IGRybV9kcml2
+ZXIgKmRydiwNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBFUlJfUFRS
+KC1FSU8pOw0KPj4gwqDCoMKgwqDCoCB9DQo+PiArwqDCoMKgIHJldCA9IGFzdF9pbml0X3Bj
+aV9jb25maWcocGRldik7DQo+PiArwqDCoMKgIGlmIChyZXQpDQo+PiArwqDCoMKgwqDCoMKg
+wqAgcmV0dXJuIEVSUl9QVFIocmV0KTsNCj4+ICsNCj4+IMKgwqDCoMKgwqAgaWYgKCFhc3Rf
+aXNfdmdhX2VuYWJsZWQoZGV2KSkgew0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgIGRybV9pbmZv
+KGRldiwgIlZHQSBub3QgZW5hYmxlZCBvbiBlbnRyeSwgcmVxdWVzdGluZyBjaGlwIA0KPj4g
+UE9TVFxuIik7DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgbmVlZF9wb3N0ID0gdHJ1ZTsNCj4+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9wb3N0LmMgDQo+PiBiL2Ry
+aXZlcnMvZ3B1L2RybS9hc3QvYXN0X3Bvc3QuYw0KPj4gaW5kZXggYWEzZjJjYjAwZjgyYy4u
+MmRhNWJkYjRiYWM0NSAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0
+X3Bvc3QuYw0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfcG9zdC5jDQo+PiBA
+QCAtMzYxLDEyICszNjEsNiBAQCBzdGF0aWMgdm9pZCBhc3RfaW5pdF9kcmFtX3JlZyhzdHJ1
+Y3QgZHJtX2RldmljZSANCj4+ICpkZXYpDQo+PiDCoCB2b2lkIGFzdF9wb3N0X2dwdShzdHJ1
+Y3QgZHJtX2RldmljZSAqZGV2KQ0KPj4gwqAgew0KPj4gwqDCoMKgwqDCoCBzdHJ1Y3QgYXN0
+X2RldmljZSAqYXN0ID0gdG9fYXN0X2RldmljZShkZXYpOw0KPj4gLcKgwqDCoCBzdHJ1Y3Qg
+cGNpX2RldiAqcGRldiA9IHRvX3BjaV9kZXYoZGV2LT5kZXYpOw0KPj4gLcKgwqDCoCB1MzIg
+cmVnOw0KPj4gLQ0KPj4gLcKgwqDCoCBwY2lfcmVhZF9jb25maWdfZHdvcmQocGRldiwgMHgw
+NCwgJnJlZyk7DQo+PiAtwqDCoMKgIHJlZyB8PSAweDM7DQo+PiAtwqDCoMKgIHBjaV93cml0
+ZV9jb25maWdfZHdvcmQocGRldiwgMHgwNCwgcmVnKTsNCj4+IMKgwqDCoMKgwqAgYXN0X2Vu
+YWJsZV92Z2EoZGV2KTsNCj4+IMKgwqDCoMKgwqAgYXN0X29wZW5fa2V5KGFzdCk7DQo+IA0K
+DQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpT
+VVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0
+NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcgTXll
+cnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFHIE51
+ZXJuYmVyZykNCg==
 
-Hi Arthur,
+--------------Mt5dHChhS8PPadl9YSrI4j1S--
 
-thanks for the changes! All my notes were addressed and I think it looks
-better and maybe even simpler now. Looks fine to me, though I don't
-know the surrounding code.
-
-The kernel test robot rightfully points out an unused variable. With
-that fixed:
-
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-
-Maybe there should be a comment with 'enum lut_channel` that the values
-depend on the layout of 'struct drm_color_lut'?
-
-
-Thanks,
-pq
-
-
-> ---
->  drivers/gpu/drm/vkms/vkms_composer.c | 82 ++++++++++++++++++++++++++++
->  drivers/gpu/drm/vkms/vkms_crtc.c     |  5 ++
->  drivers/gpu/drm/vkms/vkms_drv.c      | 20 ++++++-
->  drivers/gpu/drm/vkms/vkms_drv.h      |  9 +++
->  4 files changed, 115 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/=
-vkms_composer.c
-> index 906d3df40cdb..9e735a963b81 100644
-> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> @@ -6,6 +6,7 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_blend.h>
->  #include <drm/drm_fourcc.h>
-> +#include <drm/drm_fixed.h>
->  #include <drm/drm_gem_framebuffer_helper.h>
->  #include <drm/drm_vblank.h>
->  #include <linux/minmax.h>
-> @@ -89,6 +90,69 @@ static void fill_background(const struct pixel_argb_u1=
-6 *background_color,
->  		output_buffer->pixels[i] =3D *background_color;
->  }
-> =20
-> +// lerp(a, b, t) =3D a + (b - a) * t
-> +static u16 lerp_u16(u16 a, u16 b, s64 t)
-> +{
-> +	s64 a_fp =3D drm_int2fixp(a);
-> +	s64 b_fp =3D drm_int2fixp(b);
-> +
-> +	s64 delta =3D drm_fixp_mul(b_fp - a_fp,  t);
-> +
-> +	return drm_fixp2int(a_fp + delta);
-> +}
-> +
-> +static s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_v=
-alue)
-> +{
-> +	s64 color_channel_fp =3D drm_int2fixp(channel_value);
-> +
-> +	return drm_fixp_mul(color_channel_fp, lut->channel_value2index_ratio);
-> +}
-> +
-> +enum lut_channel {
-> +	LUT_RED =3D 0,
-> +	LUT_GREEN,
-> +	LUT_BLUE,
-> +	LUT_RESERVED
-> +};
-> +
-> +static u16 apply_lut_to_channel_value(const struct vkms_color_lut *lut, =
-u16 channel_value,
-> +				      enum lut_channel channel)
-> +{
-> +	s64 lut_index =3D get_lut_index(lut, channel_value);
-> +
-> +	/*
-> +	 * This checks if `struct drm_color_lut` had any gap added by the compi=
-ler
-> +	 * between the struct fields.
-> +	 */
-> +	static_assert(sizeof(struct drm_color_lut) =3D=3D sizeof(__u16) * 4);
-> +
-> +	u16 *floor_lut_value =3D (__u16 *)&lut->base[drm_fixp2int(lut_index)];
-> +	u16 *ceil_lut_value =3D (__u16 *)&lut->base[drm_fixp2int_ceil(lut_index=
-)];
-> +
-> +	u16 floor_channel_value =3D floor_lut_value[channel];
-> +	u16 ceil_channel_value =3D ceil_lut_value[channel];
-> +
-> +	return lerp_u16(floor_channel_value, ceil_channel_value,
-> +			lut_index & DRM_FIXED_DECIMAL_MASK);
-> +}
-> +
-> +static void apply_lut(const struct vkms_crtc_state *crtc_state, struct l=
-ine_buffer *output_buffer)
-> +{
-> +	if (!crtc_state->gamma_lut.base)
-> +		return;
-> +
-> +	if (!crtc_state->gamma_lut.lut_length)
-> +		return;
-> +
-> +	for (size_t x =3D 0; x < output_buffer->n_pixels; x++) {
-> +		struct pixel_argb_u16 *pixel =3D &output_buffer->pixels[x];
-> +
-> +		pixel->r =3D apply_lut_to_channel_value(&crtc_state->gamma_lut, pixel-=
->r, LUT_RED);
-> +		pixel->g =3D apply_lut_to_channel_value(&crtc_state->gamma_lut, pixel-=
->g, LUT_GREEN);
-> +		pixel->b =3D apply_lut_to_channel_value(&crtc_state->gamma_lut, pixel-=
->b, LUT_BLUE);
-> +	}
-> +}
-> +
->  /**
->   * @wb_frame_info: The writeback frame buffer metadata
->   * @crtc_state: The crtc state
-> @@ -128,6 +192,8 @@ static void blend(struct vkms_writeback_job *wb,
->  					    output_buffer);
->  		}
-> =20
-> +		apply_lut(crtc_state, output_buffer);
-> +
->  		*crc32 =3D crc32_le(*crc32, (void *)output_buffer->pixels, row_size);
-> =20
->  		if (wb)
-> @@ -242,6 +308,22 @@ void vkms_composer_worker(struct work_struct *work)
->  	crtc_state->frame_start =3D 0;
->  	crtc_state->frame_end =3D 0;
->  	crtc_state->crc_pending =3D false;
-> +
-> +	if (crtc->state->gamma_lut) {
-> +		s64 max_lut_index_fp;
-> +		s64 u16_max_fp =3D drm_int2fixp(0xffff);
-> +
-> +		crtc_state->gamma_lut.base =3D (struct drm_color_lut *)crtc->state->ga=
-mma_lut->data;
-> +		crtc_state->gamma_lut.lut_length =3D
-> +			crtc->state->gamma_lut->length / sizeof(struct drm_color_lut);
-> +		max_lut_index_fp =3D drm_int2fixp(crtc_state->gamma_lut.lut_length  - =
-1);
-> +		crtc_state->gamma_lut.channel_value2index_ratio =3D drm_fixp_div(max_l=
-ut_index_fp,
-> +									       u16_max_fp);
-> +
-> +	} else {
-> +		crtc_state->gamma_lut.base =3D NULL;
-> +	}
-> +
->  	spin_unlock_irq(&out->composer_lock);
-> =20
->  	/*
-> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms=
-_crtc.c
-> index 515f6772b866..4854a390b167 100644
-> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
-> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-> @@ -248,6 +248,7 @@ static void vkms_crtc_atomic_flush(struct drm_crtc *c=
-rtc,
->  				   struct drm_atomic_state *state)
->  {
->  	struct vkms_output *vkms_output =3D drm_crtc_to_vkms_output(crtc);
-> +	struct vkms_color_lut *gamma_lut;
-> =20
->  	if (crtc->state->event) {
->  		spin_lock(&crtc->dev->event_lock);
-> @@ -263,6 +264,7 @@ static void vkms_crtc_atomic_flush(struct drm_crtc *c=
-rtc,
->  	}
-> =20
->  	vkms_output->composer_state =3D to_vkms_crtc_state(crtc->state);
-> +	gamma_lut =3D &vkms_output->composer_state->gamma_lut;
-> =20
->  	spin_unlock_irq(&vkms_output->lock);
->  }
-> @@ -290,6 +292,9 @@ int vkms_crtc_init(struct drm_device *dev, struct drm=
-_crtc *crtc,
-> =20
->  	drm_crtc_helper_add(crtc, &vkms_crtc_helper_funcs);
-> =20
-> +	drm_mode_crtc_set_gamma_size(crtc, VKMS_LUT_SIZE);
-> +	drm_crtc_enable_color_mgmt(crtc, 0, false, VKMS_LUT_SIZE);
-> +
->  	spin_lock_init(&vkms_out->lock);
->  	spin_lock_init(&vkms_out->composer_lock);
-> =20
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_=
-drv.c
-> index e3c9c9571c8d..dd0af086e7fa 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> @@ -120,9 +120,27 @@ static const struct drm_driver vkms_driver =3D {
->  	.minor			=3D DRIVER_MINOR,
->  };
-> =20
-> +static int vkms_atomic_check(struct drm_device *dev, struct drm_atomic_s=
-tate *state)
-> +{
-> +	struct drm_crtc *crtc;
-> +	struct drm_crtc_state *new_crtc_state;
-> +	int i;
-> +
-> +	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
-> +		if (!new_crtc_state->gamma_lut || !new_crtc_state->color_mgmt_changed)
-> +			continue;
-> +
-> +		if (new_crtc_state->gamma_lut->length / sizeof(struct drm_color_lut *)
-> +		    > VKMS_LUT_SIZE)
-> +			return -EINVAL;
-> +	}
-> +
-> +	return drm_atomic_helper_check(dev, state);
-> +}
-> +
->  static const struct drm_mode_config_funcs vkms_mode_funcs =3D {
->  	.fb_create =3D drm_gem_fb_create,
-> -	.atomic_check =3D drm_atomic_helper_check,
-> +	.atomic_check =3D vkms_atomic_check,
->  	.atomic_commit =3D drm_atomic_helper_commit,
->  };
-> =20
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_=
-drv.h
-> index 5f1a0a44a78c..f16b5d7b81ef 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -23,6 +23,8 @@
-> =20
->  #define NUM_OVERLAY_PLANES 8
-> =20
-> +#define VKMS_LUT_SIZE 256
-> +
->  struct vkms_frame_info {
->  	struct drm_framebuffer *fb;
->  	struct drm_rect src, dst;
-> @@ -65,6 +67,12 @@ struct vkms_plane {
->  	struct drm_plane base;
->  };
-> =20
-> +struct vkms_color_lut {
-> +	struct drm_color_lut *base;
-> +	size_t lut_length;
-> +	s64 channel_value2index_ratio;
-> +};
-> +
->  /**
->   * vkms_crtc_state - Driver specific CRTC state
->   * @base: base CRTC state
-> @@ -80,6 +88,7 @@ struct vkms_crtc_state {
->  	/* stack of active planes for crc computation, should be in z order */
->  	struct vkms_plane_state **active_planes;
->  	struct vkms_writeback_job *active_writeback;
-> +	struct vkms_color_lut gamma_lut;
-> =20
->  	/* below four are protected by vkms_output.composer_lock */
->  	bool crc_pending;
-
-
---Sig_/Zk+uZpoqDvm0aB.JBzZfPNb
-Content-Type: application/pgp-signature
+--------------2RCcH1cz66FZWcbP3U9lWL0A
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmSQCbAACgkQI1/ltBGq
-qqe9nRAAhaAdJ5Ma9cOjwtzlrdDi2+0NXluUYi/IJ6bgAl4kAjjs1mRSldZQ7xr2
-PKk1Dy1XJdgjw+Cwq8zb1Lhz57RJCP+4cDkXkB6d7HPalGNFgNtYdEKCVsPLZPmr
-AXeXkovhfFf9XZn0vzjkTM15AUohBBkiIIoYBS7rorYFCELs978Otl9mjORxjh6W
-z1eNUJsHnMiSRIGghzV9omeKicq2/rTPzYP0tahjXHHq3eweI1plFVW/zWlSqwtd
-6c5I7xyyjdRymEh9MLiYH9Ih05n5wcS1RKxecZMNZJhobhgajztY+ac/wlu5m12C
-1u+GJmbFBqPi93RwgPC0makmMoiOD7jqyLXlbkH8Y5W/tMO7rQJNxYa66amXl/x/
-OdbZI6HLoq3kI5KcWOPS90VFCFfsSCDGfNFCjIBga2GIXy/TeDMtTdJnsCCeChLo
-M9zhbxsYRpQUA3O5xUj0XrCUxPR3lGszMCBd2/25/G6uCToryINgBjOxY6bVyzPv
-we0oP6hvsHt1tpwQ7rGMm3UQpzvgJm4qJEpos6FPB5DO9LKarTsLOTU9kgErEQwj
-Y3VX5Mx3nxcHW8h+DcYtlhRvzFstS91Za824zinx93JqntfSPY9mC3V9D9MVvkEL
-LJWVU8L95eYUo/gPYRezd+g7R8+P3TgeUwY3JQs3Tk3asziQSm8=
-=zNEY
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSQCs8FAwAAAAAACgkQlh/E3EQov+DF
+9w/9GukQsc64otVp1UhiLdAFABqrjBukc34rHTklCnmMX//R4hTfCd9mI1fCRaLvbMbl4Db/IUCh
+L/3/XgeVqA2ASILI1+NzKiOzS7r6eOsGoC1WSm6QB3Hx6UfnF9ZKlpseKhFQ5t5xCbubRHJATrc3
+SPRXGne4KoVIT4eCOI0boJPqAOhUD5ewWMrG29p4MPZrJCC5ZK8PH6nHPunGcwMNDOAyH3+fi8ok
+eowS0zx/JUza79Iq8JrGBD/qWLB9dK/NvcQoQ3SdsugvRrkUAGXdcaMGD7Jgb0QB4RGX0LugRveX
+dh/FhVsbH8Lz+MvYaPDCh0jUJjFMX3mY+MxSMKT15S7YaqPOXTtfQDpHu4dYLVXcIWx3BXSBrSmz
+8biXzs6DExQ5uLnlfylDORLqRdK+AvnScdVSA2EAbCZqaHt9xdeVY/khKrPcHeaN/85yFrLYKugj
+k25bNc+wor4tZbKA4DsxWcibuGEQPnLJJILbaeQglfFvL1HWyzrqr6rOegBnAHTKpUX0OUTQpC8T
+XdtQrTMLT7w4MHW4Pu+PqaXNyq4e95ZSVfwIYUj16SiOlSiPW2AEFulMrGWJYKE+GThy4wkTb4TR
+RZ2iWWa6f4YXiXSTO2r8Qw6KEiYCNZVPre5HGYCRl6n1GOmUV8L42peJ/o8RPRV6REVhqma8R3dq
+lp4=
+=Nb8n
 -----END PGP SIGNATURE-----
 
---Sig_/Zk+uZpoqDvm0aB.JBzZfPNb--
+--------------2RCcH1cz66FZWcbP3U9lWL0A--
