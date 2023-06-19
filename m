@@ -2,48 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4DD9735FBB
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 00:02:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 389B5735FCA
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 00:11:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3004A10E14A;
-	Mon, 19 Jun 2023 22:02:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D467D10E03B;
+	Mon, 19 Jun 2023 22:11:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28AAF10E14A
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 22:02:16 +0000 (UTC)
-Received: from [192.168.2.27] (109-252-154-132.dynamic.spd-mgts.ru
- [109.252.154.132])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id B14FD6606F13;
- Mon, 19 Jun 2023 23:02:13 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1687212134;
- bh=VqgwC2/HHb7TpiQzPWPBdbgB21OghZlAD854YZEpGnQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=OZS3+I9URPwQhBYUDS7YqM+kavx6qyTIifgsv8FdARbXN9IqGPrW2h+SWRtpkTqOi
- geNdONOtCHw7lnfjWpTZ1Y5LrA0Bii6bSCjYD302OXIM2qidrRdw3qTPdZqmKcGA0G
- 7udz+5iXK2uh8oXjv6zSF8xrQ2hMc8lLQFO3AeZs70jf5EsehuWnLVf0yeSA4p8Mfk
- HZMQAz5W+5BI+PhPINKYIV3FObnxeZW1ocuWXNwY/JvWXCPOrxP+vTG02NAVkX7m+u
- Tp1LpDrJ9TDxKOzH9GkmZ0+Oyr14vAIm2F1dFxp7M5ymmTdeJxP+ey1J+vPUAIpUHn
- a/0357HTR5/mg==
-Message-ID: <e4c1ad5b-bee0-cdd7-a85a-2229a8e32eb4@collabora.com>
-Date: Tue, 20 Jun 2023 01:02:11 +0300
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com
+ [209.85.166.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8ACE10E03B
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 22:11:17 +0000 (UTC)
+Received: by mail-il1-f177.google.com with SMTP id
+ e9e14a558f8ab-3422161e53bso8158875ab.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 15:11:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687212676; x=1689804676;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2GzJl3YIufx24rrPPBjiGHwcJLGJVUI+UoKbrhxXg1M=;
+ b=Izv3545kbSECkz3V/0m2Wy0EPshohtlZFd2p2DJINTFn17fd1uDFRMtZxwckKDlqJ1
+ rY3mvgiAqWJTu2eMuiBf7kXy7nlBDL++FEGru6OHhDi8L2VaeUzUgalw0u7Mw4fQHMB5
+ NsYoywkuA9gW3uX9c/6naQ8sKUaDy/t42usTSpeZ7JZdYxns3iWog+MprLhJIEv96RAg
+ zVdVzGz7K1RkqX0ISBsJ9j6QEl45i7aU/TRBQdn7Ymi79pbBfInVyXoPYikmsNWGcs2F
+ hOIvV2ReObwoitXFHZeXuGr0XwY6gdm70aU7bdhlOKRkhZCg6NDwXk3sf+/PCO4/75Xs
+ 2hTA==
+X-Gm-Message-State: AC+VfDxrNWtdGsh6KhXNUD7ppk8HAWKTKKx/o7eMPNqV6nNgOY+4JRCa
+ KyhP5swQ4QAAO10izxIq9A==
+X-Google-Smtp-Source: ACHHUZ6YHBtLREVH2RBkLmpN6iF2iPKgeZP7XF9P82sV7Y/BeGqT4CuDM3LoXhiiKoMP9nbsocyEXQ==
+X-Received: by 2002:a92:c60a:0:b0:33e:6d37:ce76 with SMTP id
+ p10-20020a92c60a000000b0033e6d37ce76mr6318463ilm.12.1687212676512; 
+ Mon, 19 Jun 2023 15:11:16 -0700 (PDT)
+Received: from robh_at_kernel.org ([64.188.179.250])
+ by smtp.gmail.com with ESMTPSA id
+ v2-20020a92c6c2000000b0033bc3a3ea39sm170537ilm.70.2023.06.19.15.11.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Jun 2023 15:11:15 -0700 (PDT)
+Received: (nullmailer pid 1611621 invoked by uid 1000);
+ Mon, 19 Jun 2023 22:11:13 -0000
+Date: Mon, 19 Jun 2023 16:11:13 -0600
+From: Rob Herring <robh@kernel.org>
+To: Conor Dooley <conor@kernel.org>
+Subject: Re: [PATCH v4 4/6] dt-bindings: display: stm32-ltdc: add optional
+ st,fb-bpp property
+Message-ID: <20230619221113.GA1608794-robh@kernel.org>
+References: <20230619165525.1035243-1-dario.binacchi@amarulasolutions.com>
+ <20230619165525.1035243-5-dario.binacchi@amarulasolutions.com>
+ <20230619-ion-decree-c63d2eb11e83@spud>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.1
-Subject: Re: [PATCH] drm/virtio: conditionally allocate virtio_gpu_fence
-Content-Language: en-US
-To: Gurchetan Singh <gurchetansingh@chromium.org>,
- dri-devel@lists.freedesktop.org
-References: <20230613174306.1208-1-gurchetansingh@chromium.org>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20230613174306.1208-1-gurchetansingh@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230619-ion-decree-c63d2eb11e83@spud>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,68 +66,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kraxel@redhat.com, acourbot@chromium.org
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Conor Dooley <conor+dt@kernel.org>, michael@amarulasolutions.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, devicetree@vger.kernel.org,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ Amarula patchwork <linux-amarula@amarulasolutions.com>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/13/23 20:43, Gurchetan Singh wrote:
-> We don't want to create a fence for every command submission.  It's
-> only necessary when userspace provides a waitable token for submission.
-> This could be:
+On Mon, Jun 19, 2023 at 09:18:25PM +0100, Conor Dooley wrote:
+> Hey,
 > 
-> 1) bo_handles, to be used with VIRTGPU_WAIT
-> 2) out_fence_fd, to be used with dma_fence apis
-> 3) a ring_idx provided with VIRTGPU_CONTEXT_PARAM_POLL_RINGS_MASK
->    + DRM event API
-> 4) syncobjs in the future
+> On Mon, Jun 19, 2023 at 06:55:23PM +0200, Dario Binacchi wrote:
+> > Boards that use the STM32F{4,7} series have limited amounts of RAM. The
+> > added property allows to size, within certain limits, the memory footprint
+> > required by the framebuffer.
 > 
-> The use case for just submitting a command to the host, and expecting
-> no response.  For example, gfxstream has GFXSTREAM_CONTEXT_PING that
-> just wakes up the host side worker threads.  There's also
-> CROSS_DOMAIN_CMD_SEND which just sends data to the Wayland server.
-> 
-> This prevents the need to signal the automatically created
-> virtio_gpu_fence.
-> 
-> Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
-> ---
->  drivers/gpu/drm/virtio/virtgpu_submit.c | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_submit.c b/drivers/gpu/drm/virtio/virtgpu_submit.c
-> index cf3c04b16a7a..add106c06ab2 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_submit.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_submit.c
-> @@ -168,9 +168,13 @@ static int virtio_gpu_init_submit(struct virtio_gpu_submit *submit,
->  
->  	memset(submit, 0, sizeof(*submit));
->  
-> -	out_fence = virtio_gpu_fence_alloc(vgdev, fence_ctx, ring_idx);
-> -	if (!out_fence)
-> -		return -ENOMEM;
-> +	if ((exbuf->flags & VIRTGPU_EXECBUF_FENCE_FD_OUT) ||
-> +		((exbuf->flags & VIRTGPU_EXECBUF_RING_IDX) &&
-> +		(vfpriv->ring_idx_mask & BIT_ULL(ring_idx))) ||
-> +		exbuf->num_bo_handles)
-> +		out_fence = virtio_gpu_fence_alloc(vgdev, fence_ctx, ring_idx);
-> +	else
-> +		out_fence = NULL;
->  
->  	err = virtio_gpu_fence_event_create(dev, file, out_fence, ring_idx);
->  	if (err) {
+> Hmm, this sounds quite a lot like "software policy", since the actual
+> display doesn't have these limitations. Rob, Krzysztof?
 
-Looks okay, code indentation may be improved a tad to make it more eye-friendly:
+Indeed. This doesn't belong in DT.
 
-+	if ((exbuf->flags & VIRTGPU_EXECBUF_FENCE_FD_OUT) ||
-+	   ((exbuf->flags & VIRTGPU_EXECBUF_RING_IDX) && (vfpriv->ring_idx_mask & BIT_ULL(ring_idx))) ||
-+	     exbuf->num_bo_handles)
-+		out_fence = virtio_gpu_fence_alloc(vgdev, fence_ctx, ring_idx);
-+	else
-+		out_fence = NULL;
-
-Checkpatch will complain about this variant, but the complaint can be ignored in this case.
-
--- 
-Best regards,
-Dmitry
+Rob
 
