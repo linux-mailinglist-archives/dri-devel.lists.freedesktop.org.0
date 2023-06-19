@@ -2,60 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ADB8734D2D
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 10:09:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18E2D734D57
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 10:16:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E57FE10E0E8;
-	Mon, 19 Jun 2023 08:08:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AA7210E19F;
+	Mon, 19 Jun 2023 08:16:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id DE6C410E0E8
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 08:08:53 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8Cxe+oSDZBkmMkGAA--.14011S3;
- Mon, 19 Jun 2023 16:08:51 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxbMoSDZBk5wQgAA--.15798S3; 
- Mon, 19 Jun 2023 16:08:50 +0800 (CST)
-Message-ID: <400ea394-7e25-e1c6-e2b1-1cb752926e0a@loongson.cn>
-Date: Mon, 19 Jun 2023 16:08:50 +0800
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9982E10E19F
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 08:16:11 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 3D08D1F38A;
+ Mon, 19 Jun 2023 08:16:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1687162570; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tdb2FlhNh74JkCWXsT14dFg/M2gGPU7uLn6j5fPdBb0=;
+ b=aKAPJRTvUeQRtxSHhB5M2u7lL6RTTA6RfiqCL9TfNnd9bYwHYOtwCciL5WKwX79I4N1Psi
+ EJloNZMLillujLaJY+bVd9p+HUzz6/e+7TsGeiOF06JLgm0zsmUoCEYUe4dU4zRiMVNcwq
+ vi5slF8aIy+fuO8BQr87/+9tFSk54hk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1687162570;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tdb2FlhNh74JkCWXsT14dFg/M2gGPU7uLn6j5fPdBb0=;
+ b=UHgRib5meFqr3jfbdys8a0T06XVLJcScBjoAw9+7wr4zVUxxGVxocAru5SkH5V786dnU8M
+ nnxP+X1ZigVQ/FDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1B4A3139C2;
+ Mon, 19 Jun 2023 08:16:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 5W1/BcoOkGQmEQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 19 Jun 2023 08:16:10 +0000
+Message-ID: <50cd6b99-1946-2c28-97fb-6c03ef63183d@suse.de>
+Date: Mon, 19 Jun 2023 10:16:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
+ Thunderbird/102.12.0
 Subject: Re: [06/14] drm/ast: Set PCI config before accessing I/O registers
 Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+To: Sui Jingfeng <suijingfeng@loongson.cn>, airlied@redhat.com,
  jfalempe@redhat.com, daniel@ffwll.ch, jammy_huang@aspeedtech.com
 References: <20230616140739.32042-7-tzimmermann@suse.de>
- <0eec8603-bdd3-a060-b9cf-f44dfd449581@loongson.cn>
- <8be5e2e9-92a7-1bbe-e768-78d38eda5854@suse.de>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <8be5e2e9-92a7-1bbe-e768-78d38eda5854@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxbMoSDZBk5wQgAA--.15798S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxJFykZw17Jw4UZFW5AF43urX_yoWrWr47pF
- 4kJFWFyrW5GF1fKr17X3WDZFyaya4xta4jgr1xXa4SqrsFyr1qgFyDXrs09ryDJrZ7AFy0
- yrn5Kry7uFy7JwcCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUPab4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
- xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
- AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
- AVWUtwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
- 8JMxk0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vI
- r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67
- AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIY
- rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
- v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWx
- JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUcqXdUU
- UUU
+ <4c56ceea-a0d7-bff6-de47-2603a8966c4a@loongson.cn>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <4c56ceea-a0d7-bff6-de47-2603a8966c4a@loongson.cn>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------PDWuOejtsUiTxrnjoV1Gjeqt"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,123 +75,132 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------PDWuOejtsUiTxrnjoV1Gjeqt
+Content-Type: multipart/mixed; boundary="------------1N0Nl3aG2ZM9khja6IdwkLdM";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sui Jingfeng <suijingfeng@loongson.cn>, airlied@redhat.com,
+ jfalempe@redhat.com, daniel@ffwll.ch, jammy_huang@aspeedtech.com
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <50cd6b99-1946-2c28-97fb-6c03ef63183d@suse.de>
+Subject: Re: [06/14] drm/ast: Set PCI config before accessing I/O registers
+References: <20230616140739.32042-7-tzimmermann@suse.de>
+ <4c56ceea-a0d7-bff6-de47-2603a8966c4a@loongson.cn>
+In-Reply-To: <4c56ceea-a0d7-bff6-de47-2603a8966c4a@loongson.cn>
 
-On 2023/6/19 15:59, Thomas Zimmermann wrote:
-> Hi
->
-> Am 17.06.23 um 10:01 schrieb Sui Jingfeng:
->>
->> On 2023/6/16 21:52, Thomas Zimmermann wrote:
->>> Access to I/O registers is required to detect and set up the
->>> device. Enable the rsp PCI config bits before. While at it,
->>> convert the magic number to macro constants.
->>>
->>> Enabling the PCI config bits was done after trying to detect
->>> the device. It was probably too late at this point.
->>>
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> ---
->>>   drivers/gpu/drm/ast/ast_drv.h  |  2 ++
->>>   drivers/gpu/drm/ast/ast_main.c | 22 ++++++++++++++++++++++
->>>   drivers/gpu/drm/ast/ast_post.c |  6 ------
->>>   3 files changed, 24 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/ast/ast_drv.h 
->>> b/drivers/gpu/drm/ast/ast_drv.h
->>> index 0141705beaee9..555a0850957f3 100644
->>> --- a/drivers/gpu/drm/ast/ast_drv.h
->>> +++ b/drivers/gpu/drm/ast/ast_drv.h
->>> @@ -52,6 +52,8 @@
->>>   #define PCI_CHIP_AST2000 0x2000
->>>   #define PCI_CHIP_AST2100 0x2010
->>> +#define AST_PCI_OPTION_MEM_ACCESS_ENABLE    BIT(1)
->>> +#define AST_PCI_OPTION_IO_ACCESS_ENABLE        BIT(0)
->>>   enum ast_chip {
->>>       AST2000,
->>> diff --git a/drivers/gpu/drm/ast/ast_main.c 
->>> b/drivers/gpu/drm/ast/ast_main.c
->>> index c6987e0446618..fe054739b494a 100644
->>> --- a/drivers/gpu/drm/ast/ast_main.c
->>> +++ b/drivers/gpu/drm/ast/ast_main.c
->>> @@ -35,6 +35,24 @@
->>>   #include "ast_drv.h"
->>> +static int ast_init_pci_config(struct pci_dev *pdev)
->>> +{
->>> +    int err;
->>> +    u32 pcis04;
->>> +
->>> +    err = pci_read_config_dword(pdev, 0x04, &pcis04);
->>
->> The third argument of pci_read_config_dword() function should be 'u16 
->> *' type;
->
-> No, a dword is a 32-bit integer.
->
-I meant the "u32 pcis04" should be declared as "u16 pcis04", right ?
+--------------1N0Nl3aG2ZM9khja6IdwkLdM
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
->>
->>
->>> +    if (err)
->>> +        goto out;
->>> +
->>> +    pcis04 |= AST_PCI_OPTION_MEM_ACCESS_ENABLE |
->>> +          AST_PCI_OPTION_IO_ACCESS_ENABLE;
->>> +
->>> +    err = pci_write_config_dword(pdev, 0x04, pcis04);
->>> +
->>> +out:
->>> +    return pcibios_err_to_errno(err);
->>> +}
->>
->>
->> static void ast_enable_mem_io(struct pci_dev *pdev)
->> {
->>      u16 cmd;
->>
->>      pci_read_config_word(pdev, PCI_COMMAND, &cmd);
->>
->>      cmd |= PCI_COMMAND_MEMORY | PCI_COMMAND_IO;
->>
->>      pci_write_config_word(pdev, PCI_COMMAND, &cmd);
->> }
->>
->>>   static void ast_detect_config_mode(struct drm_device *dev, u32 
->>> *scu_rev)
->>>   {
->>>       struct device_node *np = dev->dev->of_node;
->>> @@ -399,6 +417,10 @@ struct ast_device *ast_device_create(const 
->>> struct drm_driver *drv,
->>>               return ERR_PTR(-EIO);
->>>       }
->>> +    ret = ast_init_pci_config(pdev);
->>> +    if (ret)
->>> +        return ERR_PTR(ret);
->>> +
->>>       if (!ast_is_vga_enabled(dev)) {
->>>           drm_info(dev, "VGA not enabled on entry, requesting chip 
->>> POST\n");
->>>           need_post = true;
->>> diff --git a/drivers/gpu/drm/ast/ast_post.c 
->>> b/drivers/gpu/drm/ast/ast_post.c
->>> index aa3f2cb00f82c..2da5bdb4bac45 100644
->>> --- a/drivers/gpu/drm/ast/ast_post.c
->>> +++ b/drivers/gpu/drm/ast/ast_post.c
->>> @@ -361,12 +361,6 @@ static void ast_init_dram_reg(struct drm_device 
->>> *dev)
->>>   void ast_post_gpu(struct drm_device *dev)
->>>   {
->>>       struct ast_device *ast = to_ast_device(dev);
->>> -    struct pci_dev *pdev = to_pci_dev(dev->dev);
->>> -    u32 reg;
->>> -
->>> -    pci_read_config_dword(pdev, 0x04, &reg);
->>> -    reg |= 0x3;
->>> -    pci_write_config_dword(pdev, 0x04, reg);
->>>       ast_enable_vga(dev);
->>>       ast_open_key(ast);
->>
->
--- 
-Jingfeng
+SGkNCg0KQW0gMTcuMDYuMjMgdW0gMDk6NTQgc2NocmllYiBTdWkgSmluZ2Zlbmc6DQo+IEhp
+DQo+IA0KPiBPbiAyMDIzLzYvMTYgMjE6NTIsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0K
+Pj4gQWNjZXNzIHRvIEkvTyByZWdpc3RlcnMgaXMgcmVxdWlyZWQgdG8gZGV0ZWN0IGFuZCBz
+ZXQgdXAgdGhlDQo+PiBkZXZpY2UuIEVuYWJsZSB0aGUgcnNwIFBDSSBjb25maWcgYml0cyBi
+ZWZvcmUuIFdoaWxlIGF0IGl0LA0KPj4gY29udmVydCB0aGUgbWFnaWMgbnVtYmVyIHRvIG1h
+Y3JvIGNvbnN0YW50cy4NCj4+DQo+PiBFbmFibGluZyB0aGUgUENJIGNvbmZpZyBiaXRzIHdh
+cyBkb25lIGFmdGVyIHRyeWluZyB0byBkZXRlY3QNCj4+IHRoZSBkZXZpY2UuDQo+IA0KPiBP
+dGhlcndpc2UgdGhlIGRldmljZSBjYW4gbm90IGJlIGNvbmZpZ3VyZWQswqAgaXRzIGRvbid0
+IGV2ZW4gcmVjZWl2ZSANCj4gd3JpdGUgYW5kIHJlYWQgYWNjZXNzIGFueW1vcmUuDQoNCkkg
+ZG9uJ3QgdW5kZXJzdGFuZC4gVGhlIFBDSSBjb25maWcgcmVnIG5lZWRzIHRvIGJlIHNldCwg
+c28gdGhhdCBJL08gDQpzcGFjZXMgYXJlIGF2YWlsYWJsZSBmb3IgZGV0ZWN0aW5nIHRoZSBj
+aGlwIHR5cGUuDQoNCj4gDQo+PiBJdCB3YXMgcHJvYmFibHkgdG9vIGxhdGUgYXQgdGhpcyBw
+b2ludC4NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
+cm1hbm5Ac3VzZS5kZT4NCj4+IC0tLQ0KPj4gwqAgZHJpdmVycy9ncHUvZHJtL2FzdC9hc3Rf
+ZHJ2LmjCoCB8wqAgMiArKw0KPj4gwqAgZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbWFpbi5j
+IHwgMjIgKysrKysrKysrKysrKysrKysrKysrKw0KPj4gwqAgZHJpdmVycy9ncHUvZHJtL2Fz
+dC9hc3RfcG9zdC5jIHzCoCA2IC0tLS0tLQ0KPj4gwqAgMyBmaWxlcyBjaGFuZ2VkLCAyNCBp
+bnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuaCANCj4+IGIvZHJpdmVycy9ncHUvZHJtL2FzdC9h
+c3RfZHJ2LmgNCj4+IGluZGV4IDAxNDE3MDViZWFlZTkuLjU1NWEwODUwOTU3ZjMgMTAwNjQ0
+DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuaA0KPj4gKysrIGIvZHJp
+dmVycy9ncHUvZHJtL2FzdC9hc3RfZHJ2LmgNCj4+IEBAIC01Miw2ICs1Miw4IEBADQo+PiDC
+oCAjZGVmaW5lIFBDSV9DSElQX0FTVDIwMDAgMHgyMDAwDQo+PiDCoCAjZGVmaW5lIFBDSV9D
+SElQX0FTVDIxMDAgMHgyMDEwDQo+PiArI2RlZmluZSBBU1RfUENJX09QVElPTl9NRU1fQUND
+RVNTX0VOQUJMRcKgwqDCoCBCSVQoMSkNCj4+ICsjZGVmaW5lIEFTVF9QQ0lfT1BUSU9OX0lP
+X0FDQ0VTU19FTkFCTEXCoMKgwqDCoMKgwqDCoCBCSVQoMCkNCj4gDQo+IFlvdSBjYW4gdXNl
+IHRoZSBzcGFjZSByZXBsYWNlIHRoZSB0YWIgdG8ga2VlcCB0aGUgJ0JJVCgwKScgYW5kICdC
+SVQoMSknIA0KPiBhbGlnbmVkLA0KPiANCj4gd2h5IHlvdSBuZWVkIGRlZmluZSB0aGlzIHR3
+byBtYWNyb3MgeW91c2VsZiwNCj4gDQo+IHdoeSBub3QgdXNlIFBDSV9DT01NQU5EX01FTU9S
+WSBhbmQgUENJX0NPTU1BTkRfSU8gPw0KDQpHb29kIHBvaW50LCBJJ2xsIHVzZSB0aG9zZS4g
+SSB3YXNuJ3QgYXdhcmUgb2YgdGhlc2UgY29uc3RhbnRzLg0KDQo+IA0KPj4gwqAgZW51bSBh
+c3RfY2hpcCB7DQo+PiDCoMKgwqDCoMKgIEFTVDIwMDAsDQo+PiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL2FzdC9hc3RfbWFpbi5jIA0KPj4gYi9kcml2ZXJzL2dwdS9kcm0vYXN0
+L2FzdF9tYWluLmMNCj4+IGluZGV4IGM2OTg3ZTA0NDY2MTguLmZlMDU0NzM5YjQ5NGEgMTAw
+NjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tYWluLmMNCj4+ICsrKyBi
+L2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21haW4uYw0KPj4gQEAgLTM1LDYgKzM1LDI0IEBA
+DQo+PiDCoCAjaW5jbHVkZSAiYXN0X2Rydi5oIg0KPj4gK3N0YXRpYyBpbnQgYXN0X2luaXRf
+cGNpX2NvbmZpZyhzdHJ1Y3QgcGNpX2RldiAqcGRldikNCj4+ICt7DQo+PiArwqDCoMKgIGlu
+dCBlcnI7DQo+PiArwqDCoMKgIHUzMiBwY2lzMDQ7DQo+PiArDQo+PiArwqDCoMKgIGVyciA9
+IHBjaV9yZWFkX2NvbmZpZ19kd29yZChwZGV2LCAweDA0LCAmcGNpczA0KTsNCj4+ICvCoMKg
+wqAgaWYgKGVycikNCj4+ICvCoMKgwqDCoMKgwqDCoCBnb3RvIG91dDsNCj4+ICsNCj4+ICvC
+oMKgwqAgcGNpczA0IHw9IEFTVF9QQ0lfT1BUSU9OX01FTV9BQ0NFU1NfRU5BQkxFIHwNCj4+
+ICvCoMKgwqDCoMKgwqDCoMKgwqAgQVNUX1BDSV9PUFRJT05fSU9fQUNDRVNTX0VOQUJMRTsN
+Cj4+ICsNCj4+ICvCoMKgwqAgZXJyID0gcGNpX3dyaXRlX2NvbmZpZ19kd29yZChwZGV2LCAw
+eDA0LCBwY2lzMDQpOw0KPj4gKw0KPj4gK291dDoNCj4+ICvCoMKgwqAgcmV0dXJuIHBjaWJp
+b3NfZXJyX3RvX2Vycm5vKGVycik7DQo+PiArfQ0KPj4gKw0KPiANCj4gc3RhdGljIHZvaWQg
+YXN0X2VuYWJsZV9tZW1faW8oc3RydWN0IHBjaV9kZXYgKnBkZXYpDQo+IHsNCj4gIMKgwqAg
+wqB1MTYgY21kOw0KPiANCj4gIMKgwqAgwqBwY2lfcmVhZF9jb25maWdfd29yZChwZGV2LCBQ
+Q0lfQ09NTUFORCwgJmNtZCk7DQo+IA0KPiAgwqDCoCDCoGNtZCB8PSBQQ0lfQ09NTUFORF9N
+RU1PUlkgfCBQQ0lfQ09NTUFORF9JTzsNCj4gDQo+ICDCoMKgIMKgZGV2X2RiZygmcGRldi0+
+ZGV2LCAicGNpIGNvbW1hbmQ6ICV1IiwgY21kKTsNCj4gDQo+ICDCoMKgIMKgcGNpX3JlYWRf
+Y29uZmlnX3dvcmQocGRldiwgUENJX0NPTU1BTkQsICZjbWQpOw0KPiB9DQoNCkFsdGhvdWdo
+IGNvc21ldGljYWwsIEknbSBub3Qgc28gc3VwZXItaGFwcHkgYWJvdXQgdGhlIHNwZWNzIGRp
+c2FncmVlaW5nIA0KaGVyZTogUENJIHRlbmRzIHRvIHRyZWF0IHN0YXR1cyBhbmQgY29tbWFu
+ZCBhcyBzZXBhcmF0ZSAxNi1iaXQgcmVncywgDQp3aGlsZSB0aGUgQVNUIHNwZWMgdHJlYXRz
+IGl0IGFzIG9uZSAzMi1iaXQgcmVnaXN0ZXIuIEknbGwgY29uc2lkZXIgDQpjaGFuZ2luZyB0
+aGUgY29kZSB0byBmb2xsb3cgdGhlIFBDSSBzcGVjLg0KDQpCZXN0IHJlZ2FyZHMNClRob21h
+cw0KDQo+IA0KPj4gwqAgc3RhdGljIHZvaWQgYXN0X2RldGVjdF9jb25maWdfbW9kZShzdHJ1
+Y3QgZHJtX2RldmljZSAqZGV2LCB1MzIgDQo+PiAqc2N1X3JldikNCj4+IMKgIHsNCj4+IMKg
+wqDCoMKgwqAgc3RydWN0IGRldmljZV9ub2RlICpucCA9IGRldi0+ZGV2LT5vZl9ub2RlOw0K
+Pj4gQEAgLTM5OSw2ICs0MTcsMTAgQEAgc3RydWN0IGFzdF9kZXZpY2UgKmFzdF9kZXZpY2Vf
+Y3JlYXRlKGNvbnN0IHN0cnVjdCANCj4+IGRybV9kcml2ZXIgKmRydiwNCj4+IMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBFUlJfUFRSKC1FSU8pOw0KPj4gwqDCoMKgwqDC
+oCB9DQo+PiArwqDCoMKgIHJldCA9IGFzdF9pbml0X3BjaV9jb25maWcocGRldik7DQo+PiAr
+wqDCoMKgIGlmIChyZXQpDQo+PiArwqDCoMKgwqDCoMKgwqAgcmV0dXJuIEVSUl9QVFIocmV0
+KTsNCj4+ICsNCj4+IMKgwqDCoMKgwqAgaWYgKCFhc3RfaXNfdmdhX2VuYWJsZWQoZGV2KSkg
+ew0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgIGRybV9pbmZvKGRldiwgIlZHQSBub3QgZW5hYmxl
+ZCBvbiBlbnRyeSwgcmVxdWVzdGluZyBjaGlwIA0KPj4gUE9TVFxuIik7DQo+PiDCoMKgwqDC
+oMKgwqDCoMKgwqAgbmVlZF9wb3N0ID0gdHJ1ZTsNCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJz
+L2dwdS9kcm0vYXN0L2FzdF9wb3N0LmMgDQo+PiBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0
+X3Bvc3QuYw0KPj4gaW5kZXggYWEzZjJjYjAwZjgyYy4uMmRhNWJkYjRiYWM0NSAxMDA2NDQN
+Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X3Bvc3QuYw0KPj4gKysrIGIvZHJp
+dmVycy9ncHUvZHJtL2FzdC9hc3RfcG9zdC5jDQo+PiBAQCAtMzYxLDEyICszNjEsNiBAQCBz
+dGF0aWMgdm9pZCBhc3RfaW5pdF9kcmFtX3JlZyhzdHJ1Y3QgZHJtX2RldmljZSANCj4+ICpk
+ZXYpDQo+PiDCoCB2b2lkIGFzdF9wb3N0X2dwdShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KQ0K
+Pj4gwqAgew0KPj4gwqDCoMKgwqDCoCBzdHJ1Y3QgYXN0X2RldmljZSAqYXN0ID0gdG9fYXN0
+X2RldmljZShkZXYpOw0KPj4gLcKgwqDCoCBzdHJ1Y3QgcGNpX2RldiAqcGRldiA9IHRvX3Bj
+aV9kZXYoZGV2LT5kZXYpOw0KPj4gLcKgwqDCoCB1MzIgcmVnOw0KPj4gLQ0KPj4gLcKgwqDC
+oCBwY2lfcmVhZF9jb25maWdfZHdvcmQocGRldiwgMHgwNCwgJnJlZyk7DQo+PiAtwqDCoMKg
+IHJlZyB8PSAweDM7DQo+PiAtwqDCoMKgIHBjaV93cml0ZV9jb25maWdfZHdvcmQocGRldiwg
+MHgwNCwgcmVnKTsNCj4+IMKgwqDCoMKgwqAgYXN0X2VuYWJsZV92Z2EoZGV2KTsNCj4+IMKg
+wqDCoMKgwqAgYXN0X29wZW5fa2V5KGFzdCk7DQo+IA0KDQotLSANClRob21hcyBaaW1tZXJt
+YW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9u
+cyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBH
+ZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwg
+Qm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
 
+--------------1N0Nl3aG2ZM9khja6IdwkLdM--
+
+--------------PDWuOejtsUiTxrnjoV1Gjeqt
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSQDskFAwAAAAAACgkQlh/E3EQov+Dk
+1Q/+LAi2kmuDRKp9QM2xPN8rsTerErtDzcu3Wp7a+JSkrjxzZYkK+tNsJwbSw9xXD5CcGN/yk/Tt
+GFb8Ax1efS+mPBN3pOjMClVwHZpLC5QCSJfyfatCXcYr7DzcPUdyiK+3sVeYMZZDpYL8P4NDLcrf
+Z3l4aqxk6apW9CI7Nc1OhU4TaIkH0mwAOH7zJyjj5GG+67gOZ3m+s/iAdZSu7xEjAbcgZ5ik8VGu
+Sub9G8QNDseTfQ7MOCIkDjzt7ezHVbTaKXMHeoiex5Rk8wRZY3h2y6uHOvXwJF9ay0dVw6tEehec
+UEua6bVFwfZIsJVSjaCJggnn633vOoVQA0StfQTkPHPkRFMP/G6+VQK6yijdwPsOqt6TRusq8ywd
+WzzxtUvS6kbx4XPa7hRoMDdtxitC6gpHk34vqT4scHgN8RSiauTsfb2hJl4u+ZqAUMcMM//1Hgy8
+V0SaDyl+l5KEMjfqCuNDgCPuh6s9ok6v2Tf500xDrAC4duERgdnwSO1LVGtG6MziNHSNxlCnvCCM
+jbcjElPKevSLI71ZIx0uF+do1BiK0/B1ad26dKdHYKqil5j1mxusjmcgpm2hzzsmJHMk3FAEmeYa
+D/jg6d7nVLH2qhPyaL2NedBQpRpOQ0G6RpruAUUnNHVl+3zepcZWRcOZYHz149F9XiS0xS6Xe+dc
+7uU=
+=31Ak
+-----END PGP SIGNATURE-----
+
+--------------PDWuOejtsUiTxrnjoV1Gjeqt--
