@@ -2,119 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E597734D63
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 10:17:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53CE6734D6A
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 10:19:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2379310E1A8;
-	Mon, 19 Jun 2023 08:17:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 174E610E12F;
+	Mon, 19 Jun 2023 08:19:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com
- (mail-tycjpn01on2091.outbound.protection.outlook.com [40.107.114.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACB5510E1A8
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 08:17:31 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZgkXPvRrA+kv4cqmUMOmdz/ww0imtvbj+OQUNZ8CWhm7cu1iFwCF5fFSm2ClMdHgFAiLD7wS7eOIEK/ACiG+5tNObopvpI1IejFAkP+nOreLx/zX/u3iwA+lEGvdly66kyAJryBcJZCorcHqamSLYXrMr2VChBH7KDbOhVGJ73dx2f4A+nMsSoBxditk+afEmf5WrBYwJiaPNZoX1Gk0w+lDkSj7y2EUiqpv+ruwcrRNHWb0PDZiADXqnyvoBe6Bovmmi6qc+WAujgV0RpVJUutOw9ZrRy2w8Jhb4+utLS1jstYQZcFXMlEKeqD4iK8VOfDzO/ON4RQFVsmhyJ1/MA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sDKtBw8h71bhw9LxduPWXaRTGOWlDNqWhYaK4n4pvWE=;
- b=aF2oLtuseV4xuP7DFTml6vlnsmLpOzLnck7gTOzRCT3bztCshmUWdsNmiKvxis71uGwkotFqLk5e1BywB2RgnhOaoajWsgtMdMrd3QAFPCIeBYeD8aN/3zx5qlQr2l5SnKjwy9PR/v0mNx+YEoQCQb5TGeTfG7Pszn2mVlBN+CJJfsVuOqt3U/62GDxmjCAAEEjL0TjdzGc/oQNhyVLiOxi0Cbrl1K9Ou579ihgPU6yqtXN/COI46/zrE/nW+QdB6Gj03sfaBudvJWQ/CEL++X5m+MmG3BKftcUYxlOh00E3JDaN2rbpq/CrT904HNO2ORFzQyGpAvLsFn+IO2dzng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sDKtBw8h71bhw9LxduPWXaRTGOWlDNqWhYaK4n4pvWE=;
- b=jBctXn6AlAAhNRqQHUtG2kaaIG+lWr3F7B9srCIRgG/kOiXRPxJVSl+LNUdf3p67AlViArwHkXOVSlMKFEk3UV702radR8+PUbEuG35qmq6US4l5P6uGqBewMSPyAaHPZmuP+AZTWlYUdDlFnMJP0ZDY+SakmhgPJ+LnIT/zmHg=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OS3PR01MB5782.jpnprd01.prod.outlook.com (2603:1096:604:c7::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.36; Mon, 19 Jun
- 2023 08:17:27 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::fc77:6148:d6a:c72b]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::fc77:6148:d6a:c72b%4]) with mapi id 15.20.6500.036; Mon, 19 Jun 2023
- 08:17:27 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Wolfram Sang <wsa@kernel.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>
-Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Thread-Topic: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Thread-Index: AQHZjJbXGsyu+Gf1qUyolpKmZgFmTa9w75gAgAALD6CAAyijgIAAQNsAgAq9ooCAACGi4IABRk1QgABIHYCAAALdsIAAIbGAgAAAqmCABhKw0IAAMfIAgAADgjKAAAM7gIAAgX6AgACzT4CAABEtEIAAa5IAgAARedCAAQvgAIABlmqAgAAVHACAAWKtAIAE0w+w
-Date: Mon, 19 Jun 2023 08:17:27 +0000
-Message-ID: <OS0PR01MB59229E02F4EF0FDBD5EF5BED865FA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <ZIcUEdctlgRsGxJ3@ninjato>
- <CAMuHMdVOkBeKOEW9PkWB3Tqwa6-rC3BQj=W9VAEgeZfgqvQmWQ@mail.gmail.com>
- <ZIeDcVcfxfcMx/BP@shikoro>
- <CAMuHMdV_Ty=rkcMzsrnJ3YHZngRbyWvYjR_K9Zh7RiAJ4LbvKg@mail.gmail.com>
- <OS0PR01MB59225195B4F2C771F302F7EE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdUTAerddXG3zJVRZEAwcrR6V=NFeHwsKV9_tE+ccfw6_w@mail.gmail.com>
- <OS0PR01MB59224D7C95B9B0037046FCF78655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdUhaSKiuVkmoYt1sm87emFZu7HSSCK-e95-Yy=g8Sgo4w@mail.gmail.com>
- <CAMuHMdX4QxmFJi3q61ByOFG38KgcGMxPQMeXyPA3r1D9098BMg@mail.gmail.com>
- <20230615092312.GF741@pendragon.ideasonboard.com> <ZIwCBlb5xcLZ70w4@ninjato>
-In-Reply-To: <ZIwCBlb5xcLZ70w4@ninjato>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OS3PR01MB5782:EE_
-x-ms-office365-filtering-correlation-id: 2dfde37e-e11c-4c49-1ca9-08db709d9ea0
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: i2ehO3/3vdx5FLbruHL1ze1/cRzF05GyaB6Z3LkB1S5nrfAuxOhHMtuzbPj3YAr1SYkJBXPKJSKvpZkTwAfQ3NJaK9EzEOI2WBbETAv+epiHLWNLJ0W7DStVkUdV69Qf20Tz9peurUJ/rulzF0iQT+bDk+aG0iXnh9J4HavtH00vB3EW2Ehk7956NfPeSTEvoT2aa0IGJTEQYX9Sim6BhHXBY8614wr5V3Q9RqN5GuxNZKUo6MLVEML4MtLr2SxyeqLHiwjOcDqGxPOL+Vz8C60oTlRiGM0KL95EpyPQ+K6bFf/v3Rg1IlZWqO7ebU12p2+HDrQdjGtoRoJhb+22QqcWsBbPrzEvLRd+36QENzdfgBZRdHWPVPwBn2CijX1HSj+1zH327NAOASaXaq2RtRBDYhe+Vc5qZ0ybOQUa2IBLNBpOV1/ysqQFxI3DGiUKQZhJyWkeDMU5CoBh2/JpHulxjA2qaq4vvAAfpG1kl/Dm2zIkISkD/RGZn6E/5ThLC/IoVuw1z0gQc90BgaL9Fd+eXTsfJbqQ6idZ/jsmxzaEZjOD1Wc0vu+I85c2JYAChOIN++Un668xxok60+dBV9bD92xc2XmjoF6SQgVkV9m67y9dWV/54mKN03gGaVOE
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:OS0PR01MB5922.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(136003)(376002)(396003)(346002)(39860400002)(366004)(451199021)(478600001)(2906002)(4744005)(54906003)(7696005)(55016003)(110136005)(86362001)(33656002)(71200400001)(122000001)(38070700005)(9686003)(26005)(186003)(6506007)(8936002)(8676002)(76116006)(66446008)(66476007)(64756008)(66556008)(66946007)(7416002)(7406005)(5660300002)(38100700002)(52536014)(316002)(4326008)(83380400001)(41300700001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?HQBdWGna2YoV8uOOZSmhjToIdVCRzxV39X8t/f9B+qHuKOxQaAlN3mxo+3?=
- =?iso-8859-1?Q?tl3ZOuLoX64Gv2TNeKbVeQDPNb/tqBrOBPJf31F9+H7z8rHLllGm+E1wmL?=
- =?iso-8859-1?Q?bRB6Pcfd/QT3VnOjfM+vQk+w69NmdLpdu6vcyKxr5r2pjyLTG0Wy5vMBze?=
- =?iso-8859-1?Q?6omBfn65k7RbXmTkVzEp7X7X3rsvmXmahQxrxxZfwMFO4kanu2sYsXiBxr?=
- =?iso-8859-1?Q?Gasaa/nreqrzwDukWlVa2YwQOgmhzt9SkQLvVUkaubph4r/esd+9zlnlq2?=
- =?iso-8859-1?Q?E5ByHRzHWzEjcCgyIJ6Xz2kv61h8Wl2W7sKuTiQv6RCobelZpAoHI4IJg9?=
- =?iso-8859-1?Q?6GTsmeDLHNFwXg94seOwYz2RBMEMWa5sKZXkBUteZdLZpWvex7g4cIXzS7?=
- =?iso-8859-1?Q?31ifjbIZI6VIHpGv3FVe5aCGzt6ExuQs268lmJy4arfKx4Dj4niSRPLDa0?=
- =?iso-8859-1?Q?dFUEieZWxFdar2jZXbYdZCzwmB0gbUawrdoC3iWVeF5tx2ojNBl450HzSA?=
- =?iso-8859-1?Q?TiA6OyUvBdZBLJMyy38js+vN/izezqj/gkz9fuBxbv61eI+e+TEz5NKQCO?=
- =?iso-8859-1?Q?bUzVCbQwUX8GDAqZFGFqzgHTDbO8MBQUCe6Jfj3TDEczTqzrot3xE35Fv9?=
- =?iso-8859-1?Q?kCG7cWXxcgzMlP9GNwXgwMndTO0oYeoulxTV/tRARhUPC4uy7DW4Nqpg/k?=
- =?iso-8859-1?Q?LFy0Hxy5ms2IrvujUySQigCY8eype1YTeHvRg24jTNuMJX8At6seh/RudX?=
- =?iso-8859-1?Q?TVAZDri5KRPPUT9yJk0jR436krKr7tLJEEHbJ+si9fINQY2X2NHer5Kx9f?=
- =?iso-8859-1?Q?0nrB84VLjAj8Q5NphVahz13vvJr+5YvBxjKamFRgLowCAtinfmfa4OEMXU?=
- =?iso-8859-1?Q?wxs3KIbbqe8qebC5Rf2v1vPGMh04f+jh9bLG8mqT3t3uVVlD3fZku3e+VB?=
- =?iso-8859-1?Q?WXPobJTBWk/ESuHHaN3hD0GHac/ab/Ax1MszwNYZL0keo7Yy4BwHzAHbh1?=
- =?iso-8859-1?Q?0YWfXXz/g+nwi1A3rJ6ub3TLFASUSjm6DnmcHiPRTCG02W8KE9n5kvchti?=
- =?iso-8859-1?Q?MyTZT5+pJ33lFCT49CuhPMyoI5PX4SHmkSPEeK9dPhga6aQtLD3fU4y8wB?=
- =?iso-8859-1?Q?S1PvbBJkRf8sIIloltuuUz7nJDUndDileyoaxMsOrFhcXuLNjtB3PY3KFV?=
- =?iso-8859-1?Q?YC9ApXvEkcem+/7J1+D/EhYQq7+OiHk++xNkXUhrnk0plHWeZY1pb8OThN?=
- =?iso-8859-1?Q?WaXTlFdHFdFP2kDS6vWLWdi4RgJ460WR5/DezfGF3IdYbXrQFS2bVSWdir?=
- =?iso-8859-1?Q?95q88kKedVbiS9cwTCyxQbWHX1UrQFyYPLKfNLfFqYwNogyyKjH9zcwOZz?=
- =?iso-8859-1?Q?h0d3oerW9jgAeVLzqDXsU+nwDZJrVQgsi/WuXrBh5bYZ11Kaj0H5sGhTdZ?=
- =?iso-8859-1?Q?1+Q30Ywj6ikIfu1kcFr9REJsUc2DZ4U3bcbhmFuCC1QXgBPf3Jo31xw+0G?=
- =?iso-8859-1?Q?sq/5meMgSi2wy14W4nHfFOC/EeU87Nqmz8dFHFWqxizWMQuhg5V3Zmjk9U?=
- =?iso-8859-1?Q?ANMYaZ7NdxKrl0/M9u4rIlPE0gvoVJapb1wT6LoawiwpStdhfJvYHkbw2o?=
- =?iso-8859-1?Q?oxEc58OUz+tfvgjxiU7EgHQeO1ncF17BiX?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9CDC410E12F
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 08:19:25 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8Bx7eqMD5BkCcoGAA--.14043S3;
+ Mon, 19 Jun 2023 16:19:24 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8AxZuSLD5BkrAcgAA--.24518S3; 
+ Mon, 19 Jun 2023 16:19:23 +0800 (CST)
+Message-ID: <411abb62-6c80-b42f-54ce-895b863499f9@loongson.cn>
+Date: Mon, 19 Jun 2023 16:19:23 +0800
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2dfde37e-e11c-4c49-1ca9-08db709d9ea0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jun 2023 08:17:27.6032 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: X8ASFc8rwvTnY+YQDUjRP+AXhBcUz4NLp4ILaf1ZPE1fhD023E3qCUa4//uBRayoUS5u0GGbowHJ1aV5hCFYVHhiVmFg1bn5NXo+Jjtj98c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB5782
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [06/14] drm/ast: Set PCI config before accessing I/O registers
+Content-Language: en-US
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ jfalempe@redhat.com, daniel@ffwll.ch, jammy_huang@aspeedtech.com
+References: <20230616140739.32042-7-tzimmermann@suse.de>
+ <0eec8603-bdd3-a060-b9cf-f44dfd449581@loongson.cn>
+ <8be5e2e9-92a7-1bbe-e768-78d38eda5854@suse.de>
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <8be5e2e9-92a7-1bbe-e768-78d38eda5854@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8AxZuSLD5BkrAcgAA--.24518S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxJFykZw17Jw4UZFW5AF43urX_yoWrWw4UpF
+ 4kJFWFyrW5GF1ftr17Z3WDZFyaya4Iqa4jgrn7Xa4SqrsFyr1qgFyDXr4q934DJrZ7AFy0
+ yrn5Kry3uFy7AwcCm3ZEXasCq-sJn29KB7ZKAUJUUUU3529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUPab4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVW8Jr0_Cr1UM2kKe7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+ AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+ AVWUtwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
+ 8JMxk0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vI
+ r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67
+ AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIY
+ rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14
+ v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWx
+ JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU4SoGDU
+ UUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,54 +68,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Antonio Borneo <antonio.borneo@foss.st.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- =?iso-8859-1?Q?Marek_Beh=FAn?= <kabel@kernel.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Alessandro Zummo <a.zummo@towertech.it>,
- Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Rob Herring <robh+dt@kernel.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi All,
+Hi,
 
-> Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
->=20
->=20
-> > > Without of_node, devm_clk_get() and friends falls back to registered
-> > > clkdevs. So you could call clk_register_clkdev() from within the
-> > > PMIC driver, and can keep on using devm_clk_get_optional() in the
-> > > ISL1208 driver.
-> >
-> > Seriously, how many hacks are we piling ? :-)
->=20
-> For this particular case, why do you consider this a hack? I previously
-> suggested the solution that the PMIC driver exposes a clock to be consume=
-d
-> for the RTC driver even for the "two DT node solution". Because it then
-> avoids a custom property with a phandle to the other node with regular DT
-> clock bindings. I'd think we need sth like that in any case.
+On 2023/6/19 15:59, Thomas Zimmermann wrote:
+> Hi
+>
+> Am 17.06.23 um 10:01 schrieb Sui Jingfeng:
+>>
+>> On 2023/6/16 21:52, Thomas Zimmermann wrote:
+>>> Access to I/O registers is required to detect and set up the
+>>> device. Enable the rsp PCI config bits before. While at it,
+>>> convert the magic number to macro constants.
+>>>
+>>> Enabling the PCI config bits was done after trying to detect
+>>> the device. It was probably too late at this point.
+>>>
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> ---
+>>>   drivers/gpu/drm/ast/ast_drv.h  |  2 ++
+>>>   drivers/gpu/drm/ast/ast_main.c | 22 ++++++++++++++++++++++
+>>>   drivers/gpu/drm/ast/ast_post.c |  6 ------
+>>>   3 files changed, 24 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/ast/ast_drv.h 
+>>> b/drivers/gpu/drm/ast/ast_drv.h
+>>> index 0141705beaee9..555a0850957f3 100644
+>>> --- a/drivers/gpu/drm/ast/ast_drv.h
+>>> +++ b/drivers/gpu/drm/ast/ast_drv.h
+>>> @@ -52,6 +52,8 @@
+>>>   #define PCI_CHIP_AST2000 0x2000
+>>>   #define PCI_CHIP_AST2100 0x2010
+>>> +#define AST_PCI_OPTION_MEM_ACCESS_ENABLE    BIT(1)
+>>> +#define AST_PCI_OPTION_IO_ACCESS_ENABLE        BIT(0)
+>>>   enum ast_chip {
+>>>       AST2000,
+>>> diff --git a/drivers/gpu/drm/ast/ast_main.c 
+>>> b/drivers/gpu/drm/ast/ast_main.c
+>>> index c6987e0446618..fe054739b494a 100644
+>>> --- a/drivers/gpu/drm/ast/ast_main.c
+>>> +++ b/drivers/gpu/drm/ast/ast_main.c
+>>> @@ -35,6 +35,24 @@
+>>>   #include "ast_drv.h"
+>>> +static int ast_init_pci_config(struct pci_dev *pdev)
+>>> +{
+>>> +    int err;
+>>> +    u32 pcis04;
+>>> +
+>>> +    err = pci_read_config_dword(pdev, 0x04, &pcis04);
+>>
+>> The third argument of pci_read_config_dword() function should be 'u16 
+>> *' type;
+>
+> No, a dword is a 32-bit integer.
+>
+Yes, you are right.
 
-OK, Will use clk_register_clkdev() in PMIC driver, so that there is no code
-change needed in RTC driver for clk handling.
+'u32' is for the pci_read_config_dword() function.
 
-Cheers,
-Biju
+I'm recommend you to use the pci_read_config_word() function.
+
+Sorry for the noise.
+
+>>
+>>
+>>> +    if (err)
+>>> +        goto out;
+>>> +
+>>> +    pcis04 |= AST_PCI_OPTION_MEM_ACCESS_ENABLE |
+>>> +          AST_PCI_OPTION_IO_ACCESS_ENABLE;
+>>> +
+>>> +    err = pci_write_config_dword(pdev, 0x04, pcis04);
+>>> +
+>>> +out:
+>>> +    return pcibios_err_to_errno(err);
+>>> +}
+>>
+>>
+>> static void ast_enable_mem_io(struct pci_dev *pdev)
+>> {
+>>      u16 cmd;
+>>
+>>      pci_read_config_word(pdev, PCI_COMMAND, &cmd);
+>>
+>>      cmd |= PCI_COMMAND_MEMORY | PCI_COMMAND_IO;
+>>
+>>      pci_write_config_word(pdev, PCI_COMMAND, &cmd);
+>> }
+>>
+>>>   static void ast_detect_config_mode(struct drm_device *dev, u32 
+>>> *scu_rev)
+>>>   {
+>>>       struct device_node *np = dev->dev->of_node;
+>>> @@ -399,6 +417,10 @@ struct ast_device *ast_device_create(const 
+>>> struct drm_driver *drv,
+>>>               return ERR_PTR(-EIO);
+>>>       }
+>>> +    ret = ast_init_pci_config(pdev);
+>>> +    if (ret)
+>>> +        return ERR_PTR(ret);
+>>> +
+>>>       if (!ast_is_vga_enabled(dev)) {
+>>>           drm_info(dev, "VGA not enabled on entry, requesting chip 
+>>> POST\n");
+>>>           need_post = true;
+>>> diff --git a/drivers/gpu/drm/ast/ast_post.c 
+>>> b/drivers/gpu/drm/ast/ast_post.c
+>>> index aa3f2cb00f82c..2da5bdb4bac45 100644
+>>> --- a/drivers/gpu/drm/ast/ast_post.c
+>>> +++ b/drivers/gpu/drm/ast/ast_post.c
+>>> @@ -361,12 +361,6 @@ static void ast_init_dram_reg(struct drm_device 
+>>> *dev)
+>>>   void ast_post_gpu(struct drm_device *dev)
+>>>   {
+>>>       struct ast_device *ast = to_ast_device(dev);
+>>> -    struct pci_dev *pdev = to_pci_dev(dev->dev);
+>>> -    u32 reg;
+>>> -
+>>> -    pci_read_config_dword(pdev, 0x04, &reg);
+>>> -    reg |= 0x3;
+>>> -    pci_write_config_dword(pdev, 0x04, reg);
+>>>       ast_enable_vga(dev);
+>>>       ast_open_key(ast);
+>>
+>
+-- 
+Jingfeng
 
