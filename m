@@ -1,76 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62C2C735C4F
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 18:44:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C3AA735C76
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 18:55:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE2FF10E154;
-	Mon, 19 Jun 2023 16:44:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5934E10E221;
+	Mon, 19 Jun 2023 16:55:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 963FF10E228
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 16:44:32 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id
- 2adb3069b0e04-4f86bc35f13so2255135e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 09:44:32 -0700 (PDT)
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
+ [IPv6:2607:f8b0:4864:20::731])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B894810E221
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 16:55:35 +0000 (UTC)
+Received: by mail-qk1-x731.google.com with SMTP id
+ af79cd13be357-76241c98586so282318085a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 09:55:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687193070; x=1689785070;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=pwTI7UHTcKqCvzBNFhABN4+E8WkvXM5Y1T6fiTPNJV4=;
- b=uWDRPGlkpBeSI/LuJhTMqC5Wp8EXBY00FHSn2a24QSiOQoPU8ZnRorKuroEvCfkisY
- qWglo6EE2TJmz74pSs/ARvKryOuN8tpbcJy80admJkQHB6332oLgu5DbFsqTT8vZTbzO
- F0JQxiqRYe1B/sxTSwjZnXyA0JzISYja8qI1LRwXOvdIYx960lThXyAP/tr+bN72pnbA
- TA1GxSwLily75nHtK/oLVzhdKQIXsbksz6rMOHHy9fDDo/p71xuhPsDcJ4ZWY8RP61HO
- mzWnR/qExMY8g96Nd/G/7dmLM0qr/WFvKjn24Tp73ZKisN8is//SseIooGRyco2k0znB
- MLtg==
+ d=amarulasolutions.com; s=google; t=1687193734; x=1689785734;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=7c41/bHT5/tFLz1vS2dSA0XEpnWz70oHsIq3qIfRkDg=;
+ b=S9h89TIICRrr9urRyxkGPxg0pQMos+Ew4eyrnlhGAsTdrj9u8CsXILBMHfxlU7CPRA
+ MlvBX16u/Pe5p+tRlks2G3BeNtr8MSkOlCdEduf+udO69nQpBqWdvZm7vfzyiJKtXCKm
+ +m/FKU5TZTwkArCuraEa9SXh2BfvfGOdigDtQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687193070; x=1689785070;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pwTI7UHTcKqCvzBNFhABN4+E8WkvXM5Y1T6fiTPNJV4=;
- b=Zy67hdNmK7DCFF1w9LfyGMG7QYACXCXB2vEhm+uI0I1vovAaHYcbanArejGdHTohvi
- DBmy8VHCvF4IhzM5tFgiSkMNISpInvtYRNq+TKpucRQRj1UK2D90GaHumsB5OWWdPzMZ
- vxofN+pzlhzXHqDIbaQKB+CIr/s3LeFY7e1rfTicABkb409WNGTFcAR8FfkqSYWjqRyO
- bqEDUoLZRREGQEjlDbWtewXb5jPTDX9Wo1XVq4yUUt9KAp6sgaP5nPI7dm9vWC4a/KWk
- +u99bHSgHmIVO8FlbWUNhUs7mrYfitQhiqihSSThUCd2JUOGuIEAhjjLfnGKxw7O3jnK
- jNgw==
-X-Gm-Message-State: AC+VfDzNNVkErmYKrWBwYO1stq6fHSgjxdU414Nw/UrcT9xKb+f1Nk48
- El4sEk4SO13NZHaMvgqgQIrCSA==
-X-Google-Smtp-Source: ACHHUZ7SRbzXFs0RGMnWFB2M1GxJlqWegDELs/Dq5WMZwUldNGIIGp5oDE4bf4UMQtMh1o/PIwi8nA==
-X-Received: by 2002:a19:9209:0:b0:4f8:6fe9:3c9c with SMTP id
- u9-20020a199209000000b004f86fe93c9cmr2010394lfd.49.1687193070620; 
- Mon, 19 Jun 2023 09:44:30 -0700 (PDT)
-Received: from [192.168.1.101] (abyl242.neoplus.adsl.tpnet.pl. [83.9.31.242])
+ d=1e100.net; s=20221208; t=1687193734; x=1689785734;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7c41/bHT5/tFLz1vS2dSA0XEpnWz70oHsIq3qIfRkDg=;
+ b=PGwdZoadxUd2SBRJGy+nhAUoW2Y+pgr2MtFNBW/FEevqLCoqw/QWsKiDnRIjQPk/rm
+ 25F8bYIlQ1agBJR5rQo2zZ9Pgb8GgDH6cYe9RmyczC2iAs4m1t1wCWZ1svPohiKU0NWk
+ MVducP0+/xoaEnp2DPWuaItv3eY1MEL/2Gn6HkeYQubi6K02SfnvBcqgBqGW9J8uqFj+
+ Bbn1b9Qb/kuE1csfyNvhp5s9gzvv0vfdSA84lkJwc9sLUua9VX3U6bo4/stvcGZ+Ki+9
+ A7CvHyF8Ia9MfLLNNIQ3xZsu/AdQ1UUi8ZbUi5BLm2CFm0nBGFcL3cEtn2WHHzLs/wuh
+ wBLQ==
+X-Gm-Message-State: AC+VfDxSrXh0dOTVdua7krZjZQmVXxh4veEeog5lCZBWpw7gOHdTtKQk
+ a2gmaCpEEU7QW3cU+BsCGhiCTA==
+X-Google-Smtp-Source: ACHHUZ4sTAr3fMXBOvSLg9lwFYSVkTHAYf5eM0y/vpSON2lPB1hmZtTUmjdP6o3pvxtzCVlRsK/uFA==
+X-Received: by 2002:a05:620a:8e04:b0:762:55f7:7105 with SMTP id
+ re4-20020a05620a8e0400b0076255f77105mr4382806qkn.28.1687193734044; 
+ Mon, 19 Jun 2023 09:55:34 -0700 (PDT)
+Received: from dario-ThinkPad-T14s-Gen-2i.pdxnet.pdxeng.ch
+ (host-79-25-27-4.retail.telecomitalia.it. [79.25.27.4])
  by smtp.gmail.com with ESMTPSA id
- d9-20020ac24c89000000b004f849605be7sm1774293lfl.292.2023.06.19.09.44.29
+ p23-20020a05620a15f700b0075d49ce31c3sm109103qkm.91.2023.06.19.09.55.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jun 2023 09:44:30 -0700 (PDT)
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Mon, 19 Jun 2023 18:44:26 +0200
-Subject: [PATCH v3 6/6] drm/msm/a6xx: Fix up GMU region reservations
+ Mon, 19 Jun 2023 09:55:33 -0700 (PDT)
+From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/6] Add display support on the stm32f746-disco board
+Date: Mon, 19 Jun 2023 18:55:19 +0200
+Message-Id: <20230619165525.1035243-1-dario.binacchi@amarulasolutions.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230517-topic-a7xx_prep-v3-6-a3ce3725385b@linaro.org>
-References: <20230517-topic-a7xx_prep-v3-0-a3ce3725385b@linaro.org>
-In-Reply-To: <20230517-topic-a7xx_prep-v3-0-a3ce3725385b@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1687193061; l=1342;
- i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=yg0CsUYst1MC0yCvcYjryDQIsWMdtt76iHZrZNL17WI=;
- b=FknMc43zmZwkUD5y3nuDtPowX+jeCuLzVQmv1m9TogJq9v7mkOYVQ635wLUZM4nLlk2KbeTs6
- AGZUKNJMwB2AHrgQwtbdu4Lzhm1KoBpZLUs9z8Px3BMlBD5HzvZt6f4
-X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,49 +68,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Philippe Cornu <philippe.cornu@foss.st.com>,
+ michael@amarulasolutions.com,
+ Amarula patchwork <linux-amarula@amarulasolutions.com>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change the order of region allocations to make the addresses match
-downstream. This shouldn't matter very much, but helps eliminate one
-more difference when comparing register accesses.
+The series adds support for the display on the stm32f746-disco board,
+along with a generic patch that adds the "bpp" parameter to the stm-drm
+module. The intention is to allow users to size, within certain limits,
+the memory footprint required by the framebuffer.
 
-Also, make the log region 16K long. That's what it is, unconditionally
-on A6xx and A7xx.
+Changes in v4:
+- Use DTS property instead of module parameter to set the framebuffer bit depth.
 
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
----
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Changes in v3:
+- rename ltdc-pins-a-0 to ltdc-0.
+- drop [4/6] dt-bindings: display: simple: add Rocktech RK043FN48H
+  Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next):
+  https://cgit.freedesktop.org/drm/drm-misc/commit/?id=c42a37a27c777d63961dd634a30f7c887949491a
+- drop [5/6] drm/panel: simple: add support for Rocktech RK043FN48H panel
+  Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+  https://cgit.freedesktop.org/drm/drm-misc/commit/?id=13cdd12a9f934158f4ec817cf048fcb4384aa9dc
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-index 55b12a8066ee..d682c1ed48db 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-@@ -1640,13 +1640,13 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- 			goto err_memory;
- 	}
- 
--	/* Allocate memory for for the HFI queues */
--	ret = a6xx_gmu_memory_alloc(gmu, &gmu->hfi, SZ_16K, 0, "hfi");
-+	/* Allocate memory for the GMU log region */
-+	ret = a6xx_gmu_memory_alloc(gmu, &gmu->log, SZ_16K, 0, "log");
- 	if (ret)
- 		goto err_memory;
- 
--	/* Allocate memory for the GMU log region */
--	ret = a6xx_gmu_memory_alloc(gmu, &gmu->log, SZ_4K, 0, "log");
-+	/* Allocate memory for for the HFI queues */
-+	ret = a6xx_gmu_memory_alloc(gmu, &gmu->hfi, SZ_16K, 0, "hfi");
- 	if (ret)
- 		goto err_memory;
- 
+Dario Binacchi (6):
+  ARM: dts: stm32: add ltdc support on stm32f746 MCU
+  ARM: dts: stm32: add pin map for LTDC on stm32f7
+  ARM: dts: stm32: support display on stm32f746-disco board
+  dt-bindings: display: stm32-ltdc: add optional st,fb-bpp property
+  ARM: dts: stm32: set framebuffer bit depth on stm32f746-disco
+  drm/stm: set framebuffer bit depth through DTS property
+
+ .../bindings/display/st,stm32-ltdc.yaml       |  6 +++
+ arch/arm/boot/dts/stm32f7-pinctrl.dtsi        | 35 +++++++++++++
+ arch/arm/boot/dts/stm32f746-disco.dts         | 52 +++++++++++++++++++
+ arch/arm/boot/dts/stm32f746.dtsi              | 10 ++++
+ drivers/gpu/drm/stm/drv.c                     |  6 ++-
+ 5 files changed, 108 insertions(+), 1 deletion(-)
 
 -- 
-2.41.0
+2.32.0
 
