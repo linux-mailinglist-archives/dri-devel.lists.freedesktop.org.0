@@ -2,40 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 197FE736407
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 09:09:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C7FA736406
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 09:09:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F9BC10E26A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24AA910E269;
 	Tue, 20 Jun 2023 07:08:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 848E810E205;
- Mon, 19 Jun 2023 14:02:48 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7DDC960C74;
- Mon, 19 Jun 2023 14:02:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F02FBC433C8;
- Mon, 19 Jun 2023 14:02:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1687183366;
- bh=aoZIdKtakof1RrLG1uHfgHvEnjV5bAZA/iEPAGIdL1U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jV95SsXCscon9mjIrA85S4h2EdhGBkgNuFn8VZOUrDV+lIkF0pUNayXcf0CKyi8A6
- N48rXJ2wuubn0Bti2ZkKUiijVrVqJoWAxGylrGc2P/8z2dpERee9fF4Un0UHHbArW4
- auoHmiA8vzTlS8TEVa4jO3sKRu3sb8gHf+zbcrBovj5dR8bhFUe8fIUCFrs8zNtGMM
- a8tAV38SZ7gAwjXhA1JwM4LL2kusu0pUESpxODTU+LmevESt4iijRlQuZNuPIRrx6/
- xEJ/A1HJ21okj5noJ5wg00TGmdIesmam9MZrNHImWINT+iaS1huZnX+m6jmzDi4WVy
- eOUJrD/hLSISQ==
-Date: Mon, 19 Jun 2023 16:02:43 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: patches dropped from drm-misc-next [Was: Re: [PATCH 00/53] drm:
- Convert to platform remove callback returning] void
-Message-ID: <vegkiv4puxederjvonyyqsg4j5swpi2h7ttg7ng6gq2tibk4gy@afa5vexshp7q>
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
+ [209.85.128.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C224310E20E;
+ Mon, 19 Jun 2023 14:20:31 +0000 (UTC)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-5701810884aso32154217b3.0; 
+ Mon, 19 Jun 2023 07:20:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687184430; x=1689776430;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=jFntx4YXgadpDVJ2Ga1nOHhwiQ9Nxhf2XabKx8SJuMo=;
+ b=FEJSoiff/xS0T8ii2usxcwKFTsmvtkLawnqFzgnvnY7XJKBJhJze0G3pRIjcgqMqB7
+ mzLM4NLNyCsiUz6+tsHTaVZByUftfVUfZ2F5nuRmPyNSleaO60dZ1wzqIy8K0tjhImP8
+ IDz7LceN6YpXGGz0DDLTq6dlpXMg7OUgUrAvxzZerjEvr1rmXTWtugfSDmdTcqor/1IM
+ IJsrQIvyUbYmh1Z2mOXH3rUgifgVW7COMaxhZEhEXLwiDCMg/VFJ0hjRMrVKYI/MH8Xm
+ CHDiXpYFnuGRy+4ezXpphoB8k4i4tnd20h4NOvVDfGK8QQYJuEL3cwmR/97ASdfQTDNM
+ mu9w==
+X-Gm-Message-State: AC+VfDzSqfVNLjo0MrmwclIROW9oLMa+eQ4C5L9+EuoznrRW3LqLAkUg
+ aagEEypNiyMoLorQQsXbFm+n3zZnEHMUj2id
+X-Google-Smtp-Source: ACHHUZ4dMdey6WWzfsO//hceq8DUnEz1FRBhSjYqoEhnX2GpflqSYSr+yFI4pBZkmtKa6JXkySiSBA==
+X-Received: by 2002:a0d:d7c5:0:b0:56c:f372:292 with SMTP id
+ z188-20020a0dd7c5000000b0056cf3720292mr992265ywd.20.1687184429911; 
+ Mon, 19 Jun 2023 07:20:29 -0700 (PDT)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com.
+ [209.85.219.172]) by smtp.gmail.com with ESMTPSA id
+ a81-20020a0dd854000000b005463e45458bsm1722093ywe.123.2023.06.19.07.20.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 19 Jun 2023 07:20:28 -0700 (PDT)
+Received: by mail-yb1-f172.google.com with SMTP id
+ 3f1490d57ef6-be49e41a3d6so2445617276.1; 
+ Mon, 19 Jun 2023 07:20:27 -0700 (PDT)
+X-Received: by 2002:a5b:88e:0:b0:ba8:33d9:b583 with SMTP id
+ e14-20020a5b088e000000b00ba833d9b583mr987140ybq.13.1687184427316; Mon, 19 Jun
+ 2023 07:20:27 -0700 (PDT)
+MIME-Version: 1.0
 References: <CAD=FV=WvP--wJwBQtnSoW_xb57R1Wf9dH0XzWxe+NorczXfeAw@mail.gmail.com>
  <20230617161222.wy55pbomnrrlfy5u@pengutronix.de>
  <CAD=FV=U5gbMUNteyyFcTvHVBDWzfthM0aDirJC+yXGovDwMOBA@mail.gmail.com>
@@ -46,11 +56,17 @@ References: <CAD=FV=WvP--wJwBQtnSoW_xb57R1Wf9dH0XzWxe+NorczXfeAw@mail.gmail.com>
  <20230619105342.ugf5gz26gcalcsi6@pengutronix.de>
  <a6ex232lwyovzzazfh6jfvlwszppr2624czgcc5sa4nthkgecf@asauiw3rf4vi>
  <CAMuHMdWERLXOa4bQvsb7=gx+Q=Hn8v=XJZxahV0j3Vw1xKUYiQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="g5vgywptxejmww6t"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWERLXOa4bQvsb7=gx+Q=Hn8v=XJZxahV0j3Vw1xKUYiQ@mail.gmail.com>
+ <vegkiv4puxederjvonyyqsg4j5swpi2h7ttg7ng6gq2tibk4gy@afa5vexshp7q>
+In-Reply-To: <vegkiv4puxederjvonyyqsg4j5swpi2h7ttg7ng6gq2tibk4gy@afa5vexshp7q>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 19 Jun 2023 16:20:12 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXf5Pao+Fjf42iRV_iMFEcb+F=s09NG+mudB-L5wWF_OA@mail.gmail.com>
+Message-ID: <CAMuHMdXf5Pao+Fjf42iRV_iMFEcb+F=s09NG+mudB-L5wWF_OA@mail.gmail.com>
+Subject: Re: patches dropped from drm-misc-next [Was: Re: [PATCH 00/53] drm:
+ Convert to platform remove callback returning] void
+To: Maxime Ripard <mripard@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Tue, 20 Jun 2023 07:08:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,12 +90,12 @@ Cc: Raymond Tan <raymond.tan@intel.com>,
  Jerome Brunet <jbrunet@baylibre.com>, linux-samsung-soc@vger.kernel.org,
  Robert Foss <rfoss@kernel.org>, Karol Herbst <kherbst@redhat.com>,
  Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>,
  Javier Martinez Canillas <javierm@redhat.com>,
  Kuogee Hsieh <quic_khsieh@quicinc.com>, Xinliang Liu <xinliang.liu@linaro.org>,
  Danilo Krummrich <dakr@redhat.com>, NXP Linux Team <linux-imx@nxp.com>,
  Miaoqian Lin <linmq006@gmail.com>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
  linux-sunxi@lists.linux.dev, Rahul T R <r-ravikumar@ti.com>,
  Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
  Jani Nikula <jani.nikula@intel.com>, Sascha Hauer <s.hauer@pengutronix.de>,
@@ -88,7 +104,7 @@ Cc: Raymond Tan <raymond.tan@intel.com>,
  Johan Hovold <johan+linaro@kernel.org>, Hyun Kwon <hyun.kwon@xilinx.com>,
  Andrew Jeffery <andrew@aj.id.au>, Jingoo Han <jingoohan1@gmail.com>,
  Seung-Woo Kim <sw0312.kim@samsung.com>,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>, kernel@pengutronix.de,
+ =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, kernel@pengutronix.de,
  Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
  Claudiu Beznea <claudiu.beznea@microchip.com>,
  Alexandre Belloni <alexandre.belloni@bootlin.com>,
@@ -154,215 +170,233 @@ Cc: Raymond Tan <raymond.tan@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Maxime,
 
---g5vgywptxejmww6t
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Jun 19, 2023 at 03:25:28PM +0200, Geert Uytterhoeven wrote:
-> Hi Maxime,
->=20
-> CC sfr
->=20
-> On Mon, Jun 19, 2023 at 2:51=E2=80=AFPM Maxime Ripard <mripard@kernel.org=
-> wrote:
-> > On Mon, Jun 19, 2023 at 12:53:42PM +0200, Uwe Kleine-K=C3=B6nig wrote:
-> > > On Mon, Jun 19, 2023 at 11:45:37AM +0200, Maxime Ripard wrote:
-> > > > On Sun, Jun 18, 2023 at 06:29:50PM +0200, Uwe Kleine-K=C3=B6nig wro=
+On Mon, Jun 19, 2023 at 4:02=E2=80=AFPM Maxime Ripard <mripard@kernel.org> =
+wrote:
+> On Mon, Jun 19, 2023 at 03:25:28PM +0200, Geert Uytterhoeven wrote:
+> > On Mon, Jun 19, 2023 at 2:51=E2=80=AFPM Maxime Ripard <mripard@kernel.o=
+rg> wrote:
+> > > On Mon, Jun 19, 2023 at 12:53:42PM +0200, Uwe Kleine-K=C3=B6nig wrote=
+:
+> > > > On Mon, Jun 19, 2023 at 11:45:37AM +0200, Maxime Ripard wrote:
+> > > > > On Sun, Jun 18, 2023 at 06:29:50PM +0200, Uwe Kleine-K=C3=B6nig w=
+rote:
+> > > > > > On Sun, Jun 18, 2023 at 04:32:55PM +0200, Maxime Ripard wrote:
+> > > > > > > On Sun, Jun 18, 2023 at 02:39:15PM +0200, Uwe Kleine-K=C3=B6n=
+ig wrote:
+> > > > > > > > On Sat, Jun 17, 2023 at 10:57:23AM -0700, Doug Anderson wro=
 te:
-> > > > > On Sun, Jun 18, 2023 at 04:32:55PM +0200, Maxime Ripard wrote:
-> > > > > > On Sun, Jun 18, 2023 at 02:39:15PM +0200, Uwe Kleine-K=C3=B6nig=
- wrote:
-> > > > > > > On Sat, Jun 17, 2023 at 10:57:23AM -0700, Doug Anderson wrote:
-> > > > > > > > On Sat, Jun 17, 2023 at 9:15=E2=80=AFAM Uwe Kleine-K=C3=B6n=
-ig
-> > > > > > > > <u.kleine-koenig@pengutronix.de> wrote:
-> > > > > > > > > Together with the patches that were applied later the top=
-most commit
-> > > > > > > > > from this series is c2807ecb5290 ("drm/omap: Convert to p=
-latform remove
-> > > > > > > > > callback returning void"). This commit was part for the f=
-ollowing next
-> > > > > > > > > tags:
+> > > > > > > > > On Sat, Jun 17, 2023 at 9:15=E2=80=AFAM Uwe Kleine-K=C3=
+=B6nig
+> > > > > > > > > <u.kleine-koenig@pengutronix.de> wrote:
+> > > > > > > > > > Together with the patches that were applied later the t=
+opmost commit
+> > > > > > > > > > from this series is c2807ecb5290 ("drm/omap: Convert to=
+ platform remove
+> > > > > > > > > > callback returning void"). This commit was part for the=
+ following next
+> > > > > > > > > > tags:
+> > > > > > > > > >
+> > > > > > > > > >         $ git tag -l --contains c2807ecb5290
+> > > > > > > > > >         next-20230609
+> > > > > > > > > >         next-20230613
+> > > > > > > > > >         next-20230614
+> > > > > > > > > >         next-20230615
+> > > > > > > > > >
+> > > > > > > > > > However in next-20230616 they are missing. In next-2023=
+0616
+> > > > > > > > > > drm-misc/for-linux-next was cf683e8870bd4be0fd6b9863928=
+6700a35088660.
+> > > > > > > > > > Compared to c2807ecb5290 this adds 1149 patches but dro=
+ps 37 (that are
+> > > > > > > > > > also not included with a different commit id). The 37 p=
+atches dropped
+> > > > > > > > > > are 13cdd12a9f934158f4ec817cf048fcb4384aa9dc..c2807ecb5=
+290:
+> > > > > > > > > >
+> > > > > > > > > >         $ git shortlog -s 13cdd12a9f934158f4ec817cf048f=
+cb4384aa9dc..c2807ecb5290
+> > > > > > > > > >              1  Christophe JAILLET
+> > > > > > > > > >              2  Jessica Zhang
+> > > > > > > > > >              5  Karol Wachowski
+> > > > > > > > > >              1  Laura Nao
+> > > > > > > > > >             27  Uwe Kleine-K=C3=B6nig
+> > > > > > > > > >              1  Wang Jianzheng
+> > > > > > > > > >
+> > > > > > > > > >
+> > > > > > > > > > I guess this was done by mistake because nobody told me=
+ about dropping
+> > > > > > > > > > my/these patches? Can c2807ecb5290 please be merged int=
+o drm-misc-next
+> > > > > > > > > > again?
 > > > > > > > > >
-> > > > > > > > >         $ git tag -l --contains c2807ecb5290
-> > > > > > > > >         next-20230609
-> > > > > > > > >         next-20230613
-> > > > > > > > >         next-20230614
-> > > > > > > > >         next-20230615
+> > > > > > > > > Actually, it was probably a mistake that these patches go=
+t merged to
+> > > > > > > > > linuxnext during the 4 days that you noticed. However, yo=
+ur patches
+> > > > > > > > > aren't dropped and are still present in drm-misc-next.
 > > > > > > > > >
-> > > > > > > > > However in next-20230616 they are missing. In next-202306=
-16
-> > > > > > > > > drm-misc/for-linux-next was cf683e8870bd4be0fd6b986392867=
-00a35088660.
-> > > > > > > > > Compared to c2807ecb5290 this adds 1149 patches but drops=
- 37 (that are
-> > > > > > > > > also not included with a different commit id). The 37 pat=
-ches dropped
-> > > > > > > > > are 13cdd12a9f934158f4ec817cf048fcb4384aa9dc..c2807ecb529=
-0:
+> > > > > > > > > drm-misc has a bit of a unique model and it's documented =
+fairly well here:
 > > > > > > > > >
-> > > > > > > > >         $ git shortlog -s 13cdd12a9f934158f4ec817cf048fcb=
-4384aa9dc..c2807ecb5290
-> > > > > > > > >              1  Christophe JAILLET
-> > > > > > > > >              2  Jessica Zhang
-> > > > > > > > >              5  Karol Wachowski
-> > > > > > > > >              1  Laura Nao
-> > > > > > > > >             27  Uwe Kleine-K=C3=B6nig
-> > > > > > > > >              1  Wang Jianzheng
-> > > > > > > > >
-> > > > > > > > >
-> > > > > > > > > I guess this was done by mistake because nobody told me a=
-bout dropping
-> > > > > > > > > my/these patches? Can c2807ecb5290 please be merged into =
-drm-misc-next
-> > > > > > > > > again?
+> > > > > > > > > https://drm.pages.freedesktop.org/maintainer-tools/drm-mi=
+sc.html
 > > > > > > > >
-> > > > > > > > Actually, it was probably a mistake that these patches got =
-merged to
-> > > > > > > > linuxnext during the 4 days that you noticed. However, your=
- patches
-> > > > > > > > aren't dropped and are still present in drm-misc-next.
-> > > > > > > >
-> > > > > > > > drm-misc has a bit of a unique model and it's documented fa=
-irly well here:
-> > > > > > > >
-> > > > > > > > https://drm.pages.freedesktop.org/maintainer-tools/drm-misc=
-=2Ehtml
+> > > > > > > > Is there a flaw then in this unique model (or its implement=
+ation) when
+> > > > > > > > drm-misc/for-linux-next moves in a non-fast-forward manner?=
+ This isn't
+> > > > > > > > expected, is it?
 > > > > > > >
-> > > > > > > Is there a flaw then in this unique model (or its implementat=
-ion) when
-> > > > > > > drm-misc/for-linux-next moves in a non-fast-forward manner? T=
-his isn't
-> > > > > > > expected, is it?
+> > > > > > > There's no expectation afaik. Any tree merged in linux-next c=
+an be
+> > > > > > > rebased, drop a patch, amend one, etc. without any concern.
 > > > > > >
-> > > > > > There's no expectation afaik. Any tree merged in linux-next can=
+> > > > > > I agree that there are no rules broken for a tree that is inclu=
+ded in
+> > > > > > next and a maintainer is free to rewrite their tree independant=
+ of the
+> > > > > > tree being included in next.
+> > > > > >
+> > > > > > Still I think that shouldn't be used as an excuse.
+> > > > >
+> > > > > As an excuse for what?
+> > > >
+> > > > Just because the rules for trees in next allow the merged branch to=
  be
-> > > > > > rebased, drop a patch, amend one, etc. without any concern.
-> > > > >
-> > > > > I agree that there are no rules broken for a tree that is include=
-d in
-> > > > > next and a maintainer is free to rewrite their tree independant o=
-f the
-> > > > > tree being included in next.
-> > > > >
-> > > > > Still I think that shouldn't be used as an excuse.
+> > > > rewritten, shouldn't be used to justify rewriting the branch.
 > > > >
-> > > > As an excuse for what?
+> > > > IMHO you still should ensure that only commits make it into any nex=
+t
+> > > > snapshot via your tree before X-rc1 for some X (e.g. v6.5) that you
+> > > > intend to be included in X-rc1.
 > > >
-> > > Just because the rules for trees in next allow the merged branch to be
-> > > rewritten, shouldn't be used to justify rewriting the branch.
-> > >
-> > > IMHO you still should ensure that only commits make it into any next
-> > > snapshot via your tree before X-rc1 for some X (e.g. v6.5) that you
-> > > intend to be included in X-rc1.
+> > > That's never been a next rule either. Rust support has been in next f=
+or
+> > > almost a year without being sent as a PR for example.
 > >
-> > That's never been a next rule either. Rust support has been in next for
-> > almost a year without being sent as a PR for example.
->=20
-> https://elixir.bootlin.com/linux/latest/source/Documentation/process/2.Pr=
-ocess.rst#L297
->=20
->    "The linux-next tree is, by design, a snapshot of what the mainline
->     is expected to look like after the next merge window closes."
->=20
-> The general rule for linux-next is that its contents are intended to end
-> up in the next kernel release, and that it should not contain commits
-> that are intended for the next-next release, cfr. what Stephen sends
-> out to new trees:
->=20
->    "You will need to ensure that the patches/commits in your tree/series =
-have
->     been:
->             [...]
->          * destined for the current or next Linux merge window."
->=20
-> and what he requests regularly in his announces, e.g.:
->=20
->    "Please do not add any v6.4 related commits to your linux-next included
->     branches until after v6.3-rc1 has been released."
+> > https://elixir.bootlin.com/linux/latest/source/Documentation/process/2.=
+Process.rst#L297
+> >
+> >    "The linux-next tree is, by design, a snapshot of what the mainline
+> >     is expected to look like after the next merge window closes."
+> >
+> > The general rule for linux-next is that its contents are intended to en=
+d
+> > up in the next kernel release, and that it should not contain commits
+> > that are intended for the next-next release, cfr. what Stephen sends
+> > out to new trees:
+> >
+> >    "You will need to ensure that the patches/commits in your tree/serie=
+s have
+> >     been:
+> >             [...]
+> >          * destined for the current or next Linux merge window."
+> >
+> > and what he requests regularly in his announces, e.g.:
+> >
+> >    "Please do not add any v6.4 related commits to your linux-next inclu=
+ded
+> >     branches until after v6.3-rc1 has been released."
+>
+> Which is why those patches aren't in next anymore.
 
-Which is why those patches aren't in next anymore.
+So why were they in linux-next before?
+Was this a genuine mistake (things happen), or is there process
+or tooling to improve?
 
-> AFAIU, the exception to the rule is new, self-contained, and sometimes
-> controversial development, which may have to cook for a few more cycles,
-> if it ends up in a PR at all.
->=20
-> > > > > For me, if a maintainer puts some patch into next that's a statem=
-ent
-> > > > > saying (approximately) "I think this patch is fine and I intend to
-> > > > > send it to Linus during the next merge window.".
+> > AFAIU, the exception to the rule is new, self-contained, and sometimes
+> > controversial development, which may have to cook for a few more cycles=
+,
+> > if it ends up in a PR at all.
+> >
+> > > > > > For me, if a maintainer puts some patch into next that's a stat=
+ement
+> > > > > > saying (approximately) "I think this patch is fine and I intend=
+ to
+> > > > > > send it to Linus during the next merge window.".
+> > > > >
+> > > > > I mean, that's what we're saying and doing?
 > > > >
-> > > > I mean, that's what we're saying and doing?
+> > > > No, on 2023-06-09 I assumed that my patches will go into v6.5-rc1 (=
+as it
+> > > > was part of next-20230609). A few days later however the patches we=
+re
+> > > > dropped.
+> > > >
+> > > > The two options that would have made the experience smoother for me=
+ are:
+> > > >
+> > > >  a) keep c2807ecb5290 in next and send it for v6.5-rc1; or
 > > >
-> > > No, on 2023-06-09 I assumed that my patches will go into v6.5-rc1 (as=
- it
-> > > was part of next-20230609). A few days later however the patches were
-> > > dropped.
-> > >
-> > > The two options that would have made the experience smoother for me a=
-re:
-> > >
-> > >  a) keep c2807ecb5290 in next and send it for v6.5-rc1; or
+> > > That's not an option. You were simply too late for v6.5-rc1, unless y=
+ou
+> > > expect us to get rid of timezones and work on week-ends. But surely y=
+ou
+> > > don't.
 > >
-> > That's not an option. You were simply too late for v6.5-rc1, unless you
-> > expect us to get rid of timezones and work on week-ends. But surely you
-> > don't.
->=20
-> I don't think anyone expects you to do that...
->=20
-> > >  b) keep c2807ecb5290 in a branch that doesn't result it entering next
-> > >     before v6.5-rc1.
+> > I don't think anyone expects you to do that...
 > >
-> > All the drm-misc committers use dim. If that's a concern for you, feel
-> > free to send a patch addressing this to dim.
->=20
-> So you say this is an issue with the tooling? ;-)
-> If the tooling breaks the rules, perhaps the tooling should be fixed?
+> > > >  b) keep c2807ecb5290 in a branch that doesn't result it entering n=
+ext
+> > > >     before v6.5-rc1.
+> > >
+> > > All the drm-misc committers use dim. If that's a concern for you, fee=
+l
+> > > free to send a patch addressing this to dim.
+> >
+> > So you say this is an issue with the tooling? ;-)
+> > If the tooling breaks the rules, perhaps the tooling should be fixed?
+>
+> We've been using dim for more than 5 years. It doesn't seem to work too b=
+ad?
 
-We've been using dim for more than 5 years. It doesn't seem to work too bad?
+I don't know anything about dim, so I cannot commit on that.
 
-And it does feel like the goalposts are moving there: the discussion
-started by "you shouldn't rebase a tree" and is now at "patches should
-never be in a next branch if they can't reach the next merge window,
-even though it's not apparent yet"
+> And it does feel like the goalposts are moving there: the discussion
+> started by "you shouldn't rebase a tree" and is now at "patches should
+> never be in a next branch if they can't reach the next merge window,
+> even though it's not apparent yet"
 
-But yeah, I now that complaining about how much drm-misc sucks is fun
-and all, but it's still not clear to me what a potential solution to
-this would be?
+There is no such anti-rebasing rule for linux-next.
+Some branches and some subsystems do have a non-rebasing rule,
+but that's not applicable here, AFAIU.
 
-Knowing that we can't rebase or close drm-misc-next, and that it should
-be automated in dim somehow, what would that fix be?
+Besides, won't you have to rebase the remaining commits from
+drm-misc-next on top of v6.5-rc1 anyway later?
 
-> > So yeah, sorry if it was confusing. At the end of the day, it's a
-> > compromise, and I can't find a better one for everyone involved
-> > (maintainers, contributors and committers alike) off the top of my head.
->=20
-> As I understand, the main issue Uwe is objecting to, is that his
-> patches ended up in linux-next first, only to be dropped again from
-> linux-next later, and that there was no communication about the
-> latter.
->=20
-> If you're not constantly working on a subsystem, it can be very hard
-> to keep track of the status of your own drive-by patches. When patches
-> get applied, appear in linux-next, and disappear from linux-next again
-> later, it's worse...
+> But yeah, I now that complaining about how much drm-misc sucks is fun
+> and all, but it's still not clear to me what a potential solution to
+> this would be?
 
-Sure, I've worked with enough of these series to understand how it can
-be annoying.
+I'm so glad I'm not the one making personal attacks on drm-misc ;-)
 
-Maxime
+> Knowing that we can't rebase or close drm-misc-next, and that it should
+> be automated in dim somehow, what would that fix be?
 
---g5vgywptxejmww6t
-Content-Type: application/pgp-signature; name="signature.asc"
+Again, I don't know what dim does.
+But I think the solution involves not merging anything in drm-next
+if there is reason to believe it won't make the next merge window
+(in this case: when it is applied to drm-misc-next after the cut-off point)=
+.
 
------BEGIN PGP SIGNATURE-----
+Personally, I use foo-for-vX.Y branches.  Despite some of my
+foo-for-v6.6 branches already having new commits, I just hold off
+merging any of them in a for-next branch until after v6.5-rc1.
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZJBgAwAKCRDj7w1vZxhR
-xbHrAQC2tbpr59FvWgo5UdT6HVaFbQ1eIt6cd77EE73rYdv7cQD7B85ixe8k46Oo
-fLEiK8/0rTPKuTVzkjY164VJRmNDYQ0=
-=LBiM
------END PGP SIGNATURE-----
+Thanks!
 
---g5vgywptxejmww6t--
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
