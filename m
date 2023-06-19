@@ -1,46 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F3E734DBC
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 10:32:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA0F9734DC1
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 10:32:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8F3010E1B3;
-	Mon, 19 Jun 2023 08:32:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5D4C10E1B8;
+	Mon, 19 Jun 2023 08:32:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4322F10E1B3
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 08:32:05 +0000 (UTC)
-Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi
- [91.154.35.171])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 37A9A547;
- Mon, 19 Jun 2023 10:31:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1687163490;
- bh=iTBmgvKkm/RP71iegbPwrVucLcjIHJ7plxMSPCw6Oc0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=glwrKMUxVkqwUz9nEFWGj2T80a1Nvk35ivf6ESWzFTV80mALHg32mrqOsX0OHUfJI
- 0JzSGTjDS/IfNG9jAtaHje1/xD713o0LNc9w66Bvko18xFBtXqGa4zRuwyU6t4aBAL
- 2pU790FLQgq7aru38ImrjZSG5qod94QbDxZqlLrE=
-Message-ID: <ac326ebe-4d99-e73d-27bf-c21b532f3c4b@ideasonboard.com>
-Date: Mon, 19 Jun 2023 11:31:59 +0300
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D1C010E1B8
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 08:32:14 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 92B586156C;
+ Mon, 19 Jun 2023 08:32:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81387C433C0;
+ Mon, 19 Jun 2023 08:32:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1687163533;
+ bh=/WP7Oqb3gUygcJme/Qfhq25/WxnQQHPsXChiAPp7gy4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=p1iz1bwUIiae5MlMfwl1PhMaD8NFL9PqEmnIEXxSVu0juHbg0maV+YEchH3iW/j8d
+ +ODAPF1kQKCyqhWau6fb/ofLSgswhN1lpbj1uX3ALp8CsX0wTD0wJxMGKR+LUYg+Ci
+ qTXhTWk3Ij3zYf2tWIzxOwBqyvQvruh6rJAhyy9fU0IcNCfvDKR9VEDfsIckrG0ykd
+ DlW7cYzLkiyEUzrZ2uzanjsxA5dwecKXiJSddTNCEU7avPucSaXbddS/pVykskPxro
+ NGUnLtH42t98pAd+nkR8YwMm+Q4H6DTEhKvltPS24MSwQaU9nglCShDkTwh9KfpWBM
+ YgFYPx0LvCs1w==
+Date: Mon, 19 Jun 2023 09:32:07 +0100
+From: Lee Jones <lee@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v3 00/38] fbdev: Make userspace interfaces optional
+Message-ID: <20230619083207.GP3635807@google.com>
+References: <20230613110953.24176-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v9 0/2] Add DSS support for AM625 SoC
-To: Aradhya Bhatia <a-bhatia1@ti.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-References: <20230616150900.6617-1-a-bhatia1@ti.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20230616150900.6617-1-a-bhatia1@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230613110953.24176-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,111 +54,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Jayesh Choudhary <j-choudhary@ti.com>, Rahul T R <r-ravikumar@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Vignesh Raghavendra <vigneshr@ti.com>
+Cc: daniel.thompson@linaro.org, linux-kernel@vger.kernel.org,
+ geert+renesas@glider.be, linux-sh@vger.kernel.org, jingoohan1@gmail.com,
+ deller@gmx.de, linux-staging@lists.linux.dev, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ michael.j.ruhl@intel.com, linux-omap@vger.kernel.org, sam@ravnborg.org,
+ dan.carpenter@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/06/2023 18:08, Aradhya Bhatia wrote:
-> This patch series adds a new compatible for the Display SubSystem (DSS)
-> controller on TI's AM625 SoC. It further adds the required support for
-> the same in the tidss driver.
-> 
-> The AM625-DSS is a newer version of the DSS from the AM65X version with
-> the major change being the addition of another OLDI TX. With the help of
-> 2 OLDI TXes, the AM625 DSS can support dual-linked OLDI displays with a
-> resolution of up-to 2K or WUXGA (1920x1200@60fps) at half the OLDI clock
-> frequency or even cloned video outputs on each of the TXes.
-> 
-> This patch series acts as a continuation of the patches posted in v3[1].
-> The OLDI support patches combined from v5 onwards are now separated
-> again. The OLDI support will be added subsequently with a separte patch
-> series.
-> 
-> I have tested these patches on AM625 SK-EVM and AM625 based Beagle Play.
-> To test this series on AM625 based platforms, basic display support
-> patches (for driver + devicetree) can be found in the
-> "next_am62-base_support-V2" branch on my github fork[2].
+On Tue, 13 Jun 2023, Thomas Zimmermann wrote:
 
-Looks good to me. I'll pick these up to drm-misc.
+> Add the new config option FB_DEVICE. If enabled, fbdev provides
+> traditional userspace interfaces in devfs, sysfs and procfs, such
+> as /dev/fb0 or /proc/fb.
+> 
+> Modern Linux distrobutions have adopted DRM drivers for graphics
+> output and use fbdev only for the kernel's framebuffer console.
+> Userspace has also moved on, with no new fbdev code being written
+> and existing support being removed.
+> 
+> OTOH, fbdev provides userspace a way of accessing kernel or I/O
+> memory, which might compromise the system's security. See the recent
+> commit c8687694bb1f ("drm/fbdev-generic: prohibit potential
+> out-of-bounds access") for an example. Disabling fbdev userspace
+> interfaces is therefore a useful feature to limit unnecessary
+> exposure of fbdev code to processes of low privilegues.
+> 
+> Patches 1 to 31 fix various bugs and issues in fbdev-related code.
+> In most cases the code uses the fbdev device where it should use
+> the Linux hardware device or something else. Most of these patches
+> fix existing problems and should therefore be considered in any case.
+> 
+> Patches 32 to 37 refactor the fbdev core code. The patches move
+> support for backlights, sysfs, procfs and devfs into separate files
+> and hide it behind simple interfaces. These changes will allow to
+> easily build the userspace support conditionally.
+> 
+> Patch 38 introduces the config option FB_DEVICE and adapts the fbdev
+> core to support it. The field struct fb_info.dev is now optional,
+> hence the name of the config option.
+> 
+> Tested on simpledrm and i915, including the device handover.
+> 
+> Future directions: With the support for disabling fbdev userspace
+> interfaces in place, it will be possible to make most fbdev drivers'
+> file-I/O code in struct fb_ops optional as well. 
+> 
+> v3:
+> 	* add missing file fb_chrdev.c
+> 	* fix typo in Kconfig help (Daniel)
+> v2:
+> 	* fix fsl-diu-fb and sh7760fb
+> 	* split backlight patches
+> 	* set 'default y' for FB_CONFIG
+> 	* minor fixes and corrections
+> 
+> Thomas Zimmermann (38):
+>   backlight/bd6107: Compare against struct fb_info.device
+>   backlight/bd6107: Rename struct bd6107_platform_data.fbdev to 'dev'
+>   backlight/gpio_backlight: Compare against struct fb_info.device
+>   backlight/gpio_backlight: Rename field 'fbdev' to 'dev'
+>   backlight/lv5207lp: Compare against struct fb_info.device
+>   backlight/lv5207lp: Rename struct lv5207lp_platform_data.fbdev to
+>     'dev'
+>   fbdev/atyfb: Reorder backlight and framebuffer init/cleanup
+>   fbdev/atyfb: Use hardware device as backlight parent
+>   fbdev/aty128fb: Reorder backlight and framebuffer init/cleanup
+>   fbdev/aty128fb: Use hardware device as backlight parent
+>   fbdev/broadsheetfb: Call device_remove_file() with hardware device
+>   fbdev/ep93xx-fb: Alloc DMA memory from hardware device
+>   fbdev/ep93xx-fb: Output messages with fb_info() and fb_err()
+>   fbdev/ep93xx-fb: Do not assign to struct fb_info.dev
+>   fbdev/fsl-diu-fb: Output messages with fb_*() helpers
+>   fbdev/mb862xxfb: Output messages with fb_dbg()
+>   fbdev/metronomefb: Use hardware device for dev_err()
+>   fbdev/nvidiafb: Reorder backlight and framebuffer init/cleanup
+>   fbdev/nvidiafb: Use hardware device as backlight parent
+>   fbdev/pxa168fb: Do not assign to struct fb_info.dev
+>   fbdev/radeonfb: Reorder backlight and framebuffer cleanup
+>   fbdev/radeonfb: Use hardware device as backlight parent
+>   fbdev/rivafb: Reorder backlight and framebuffer init/cleanup
+>   fbdev/rivafb: Use hardware device as backlight parent
+>   fbdev/sh7760fb: Use fb_dbg() in sh7760fb_get_color_info()
+>   fbdev/sh7760fb: Output messages with fb_dbg()
+>   fbdev/sh7760fb: Alloc DMA memory from hardware device
+>   fbdev/sh7760fb: Use hardware device with dev_() output during probe
+>   fbdev/sm501fb: Output message with fb_err()
+>   fbdev/smscufx: Detect registered fb_info from refcount
+>   fbdev/tdfxfb: Set i2c adapter parent to hardware device
+>   fbdev/core: Pass Linux device to pm_vt_switch_*() functions
+>   fbdev/core: Move framebuffer and backlight helpers into separate files
+>   fbdev/core: Add fb_device_{create,destroy}()
+>   fbdev/core: Move procfs code to separate file
+>   fbdev/core: Move file-I/O code into separate file
+>   fbdev/core: Rework fb init code
+>   fbdev: Make support for userspace interfaces configurable
+> 
+>  Documentation/gpu/todo.rst                   |  13 +
+>  arch/sh/boards/mach-ecovec24/setup.c         |   2 +-
+>  arch/sh/boards/mach-kfr2r09/setup.c          |   2 +-
+>  drivers/staging/fbtft/Kconfig                |   1 +
 
-  Tomi
+>  drivers/video/backlight/bd6107.c             |   2 +-
+>  drivers/video/backlight/gpio_backlight.c     |   6 +-
+>  drivers/video/backlight/lv5207lp.c           |   2 +-
 
-> 
-> [1]: V3: https://patchwork.freedesktop.org/series/105373/
-> [2]: https://github.com/aradhya07/linux-ab/tree/next_am62-base_support-V2
-> 
-> Previous versions:
-> - V8: https://patchwork.freedesktop.org/series/119088/
-> - V7: https://patchwork.freedesktop.org/series/113328/
-> - V6: https://patchwork.freedesktop.org/series/111106/
-> - V5: https://patchwork.freedesktop.org/series/109194/
-> 
-> Changelog:
-> V9:
->    - Edit the commit message for Patch 2/2.
->    - Add Krzysztof Kozlowski's and Tomi Valkeinen's tags.
-> 
-> V8:
->    - Rebase for current merge window.
->    - Drop all the OLDI support patches.
->    - Update the binding to remove the 2nd OLDI port instances.
->    - Drop the Reviewed-by tags of Krzysztof Kozlowski and Rahul T R
->      because of the changes.
-> 
-> V7:
->    - Rebase to current linux-next.
->    - Address Tomi Valkeinen's comments.
->      1. Separate the DSS VP and output port coupling.
->         v6 introduced 'output_port_bus_type' in addition to 'vp_bus_type'
->         but having both of the variables was redundant. Hence, in v7
->         the 'output_port_bus_type' essentially replaces 'vp_bus_type'.
->      2. Break Patch v6 2/5 into 2 separate patches (v7 1/6 and v7 3/6).
->      3. Change in name and addition of OLDI mode macros.
->      4. Other minor changes.
-> 
-> V6:
->    - Rebase for current merge window.
->    - Add 'allOf:' condition in the DT binding.
->    - Address Tomi Valkeinen's comments.
->      1. Combine DT binding patches for new compatible and 3rd DSS port.
->      2. Further separate DSS VPs and output ports.
->      3. Separate OLDI mode discovery logic from the panel/bridge
->         discovery (which allowed support for OLDI bridges as well.)
->      4. Organize OLDI IO control register macros platform wise.
-> 
-> V5:
->    - Rebase for current merge window.
->    - Add max DT ports in DSS features.
->    - Combine the OLDI support series.
-> 
-> (Changes from OLDI support series v1)
->    - Address Tomi Valkeinen's comments.
->      1. Update the OLDI link detection approach.
->      2. Add port #3 for 2nd OLDI TX.
->      3. Configure 2 panel-bridges for cloned panels.
->      4. Drop the OLDI clock set patch.
->      5. Drop rgb565-to-888 patch.
-> 
-> V3:
->    - Change yaml enum in alphabetical order.
->    - Correct a typo.
-> 
-> V2:
->    - Remove redundant register array.
-> 
-> Aradhya Bhatia (2):
->    dt-bindings: display: ti,am65x-dss: Add am625 dss compatible
->    drm/tidss: Add support for AM625 DSS
-> 
->   .../bindings/display/ti/ti,am65x-dss.yaml     | 18 ++++--
->   drivers/gpu/drm/tidss/tidss_dispc.c           | 57 ++++++++++++++++++-
->   drivers/gpu/drm/tidss/tidss_dispc.h           |  2 +
->   drivers/gpu/drm/tidss/tidss_drv.c             |  1 +
->   4 files changed, 71 insertions(+), 7 deletions(-)
-> 
+Acked-by: Lee Jones <lee@kernel.org>
 
+-- 
+Lee Jones [李琼斯]
