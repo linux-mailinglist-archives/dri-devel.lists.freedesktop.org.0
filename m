@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA6BB735C4E
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 18:44:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62C2C735C4F
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 18:44:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9033B10E22F;
-	Mon, 19 Jun 2023 16:44:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE2FF10E154;
+	Mon, 19 Jun 2023 16:44:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 580C610E224
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 16:44:31 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-4f8689fbf59so2238866e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 09:44:31 -0700 (PDT)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 963FF10E228
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 16:44:32 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id
+ 2adb3069b0e04-4f86bc35f13so2255135e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 09:44:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687193069; x=1689785069;
+ d=linaro.org; s=google; t=1687193070; x=1689785070;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=uceOjOeFYW3YrOQKTUQY3Yfirv5mMIrxQprXiD+0ONY=;
- b=xOpv7V8piGwp9kSuScZZYSxnOZCd1tk3gtMa7ADQ1jETVtQDlOZSbz2uvTAIlOGc3W
- WklI9+RaTjwHA60bw1xN/rT+m1Xlh1D+00CdRAXqtyDZQwhFz9wiyFySTD9ik4C6HjOI
- +oHgfZYqmxzeIz6lR6rDj8pLEP1yiRds05eBGV3pi8O0xwqmlUvCMxTPdKpfNR4K/+bp
- kwtVrVUw9fVKf0fIgMu1OAYdESLJvmKaRLj7f2Msy52SLuJ23BLApzG6KmA9Rk61ffcC
- +DScSF9HB6sfexQETdwd9EC4aFcaYDeHHicOnu4Ct3QPlZxllOQPRpjUlFm/qAbkAuYd
- BuZw==
+ :reply-to; bh=pwTI7UHTcKqCvzBNFhABN4+E8WkvXM5Y1T6fiTPNJV4=;
+ b=uWDRPGlkpBeSI/LuJhTMqC5Wp8EXBY00FHSn2a24QSiOQoPU8ZnRorKuroEvCfkisY
+ qWglo6EE2TJmz74pSs/ARvKryOuN8tpbcJy80admJkQHB6332oLgu5DbFsqTT8vZTbzO
+ F0JQxiqRYe1B/sxTSwjZnXyA0JzISYja8qI1LRwXOvdIYx960lThXyAP/tr+bN72pnbA
+ TA1GxSwLily75nHtK/oLVzhdKQIXsbksz6rMOHHy9fDDo/p71xuhPsDcJ4ZWY8RP61HO
+ mzWnR/qExMY8g96Nd/G/7dmLM0qr/WFvKjn24Tp73ZKisN8is//SseIooGRyco2k0znB
+ MLtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687193069; x=1689785069;
+ d=1e100.net; s=20221208; t=1687193070; x=1689785070;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=uceOjOeFYW3YrOQKTUQY3Yfirv5mMIrxQprXiD+0ONY=;
- b=dZN71DxdrUXxtzPgb6l03enj0as6WKLuFuCSxwUDgwMaSQTvfmNXMFd5HLhlM1NVjl
- Lc25PZn5XND3Fe68kkiM8GhZRYU7Y55QlDGC9bbj8HmZYAMftlJMqS1u7n/jmpsqpEKU
- j4Ad17VhyomTkO93Fg5AS+I83D5fLzIaRRNKI7aOCrTEWcKF4E5vnFBdwKBTCn0nFPyA
- WXCy4Y72rdKJiCmmPaN3e1YttD2qAkgme2AOSX8+AnP2z5hOWB4G7Ugq8EVrZaXVrafj
- F7uPlOnC8RomyjUOz9vf1sckvb9riHg5EyqppLpEOPZYMdVbBN5nKX/1pMGzFLlTe+Pk
- IwrQ==
-X-Gm-Message-State: AC+VfDwYkDYK0+e+sqa0BtDKsH+Qp9oFhMcBzV/ZSyhk9CqX6xf7iQOc
- Ge2TKvcwGJQ283Lk3fVWdiBvww==
-X-Google-Smtp-Source: ACHHUZ55co0W+lBHMkpkIC71790GAjDutHsy5crYaSggmViTCmrlSdoglUSzsLjo7L/kFLehqHaRFg==
-X-Received: by 2002:a05:6512:1046:b0:4f4:7a5:e800 with SMTP id
- c6-20020a056512104600b004f407a5e800mr5318895lfb.10.1687193069425; 
- Mon, 19 Jun 2023 09:44:29 -0700 (PDT)
+ bh=pwTI7UHTcKqCvzBNFhABN4+E8WkvXM5Y1T6fiTPNJV4=;
+ b=Zy67hdNmK7DCFF1w9LfyGMG7QYACXCXB2vEhm+uI0I1vovAaHYcbanArejGdHTohvi
+ DBmy8VHCvF4IhzM5tFgiSkMNISpInvtYRNq+TKpucRQRj1UK2D90GaHumsB5OWWdPzMZ
+ vxofN+pzlhzXHqDIbaQKB+CIr/s3LeFY7e1rfTicABkb409WNGTFcAR8FfkqSYWjqRyO
+ bqEDUoLZRREGQEjlDbWtewXb5jPTDX9Wo1XVq4yUUt9KAp6sgaP5nPI7dm9vWC4a/KWk
+ +u99bHSgHmIVO8FlbWUNhUs7mrYfitQhiqihSSThUCd2JUOGuIEAhjjLfnGKxw7O3jnK
+ jNgw==
+X-Gm-Message-State: AC+VfDzNNVkErmYKrWBwYO1stq6fHSgjxdU414Nw/UrcT9xKb+f1Nk48
+ El4sEk4SO13NZHaMvgqgQIrCSA==
+X-Google-Smtp-Source: ACHHUZ7SRbzXFs0RGMnWFB2M1GxJlqWegDELs/Dq5WMZwUldNGIIGp5oDE4bf4UMQtMh1o/PIwi8nA==
+X-Received: by 2002:a19:9209:0:b0:4f8:6fe9:3c9c with SMTP id
+ u9-20020a199209000000b004f86fe93c9cmr2010394lfd.49.1687193070620; 
+ Mon, 19 Jun 2023 09:44:30 -0700 (PDT)
 Received: from [192.168.1.101] (abyl242.neoplus.adsl.tpnet.pl. [83.9.31.242])
  by smtp.gmail.com with ESMTPSA id
- d9-20020ac24c89000000b004f849605be7sm1774293lfl.292.2023.06.19.09.44.28
+ d9-20020ac24c89000000b004f849605be7sm1774293lfl.292.2023.06.19.09.44.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jun 2023 09:44:29 -0700 (PDT)
+ Mon, 19 Jun 2023 09:44:30 -0700 (PDT)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Mon, 19 Jun 2023 18:44:25 +0200
-Subject: [PATCH v3 5/6] drm/msm/a6xx: Improve GMU force shutdown sequence
+Date: Mon, 19 Jun 2023 18:44:26 +0200
+Subject: [PATCH v3 6/6] drm/msm/a6xx: Fix up GMU region reservations
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230517-topic-a7xx_prep-v3-5-a3ce3725385b@linaro.org>
+Message-Id: <20230517-topic-a7xx_prep-v3-6-a3ce3725385b@linaro.org>
 References: <20230517-topic-a7xx_prep-v3-0-a3ce3725385b@linaro.org>
 In-Reply-To: <20230517-topic-a7xx_prep-v3-0-a3ce3725385b@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -64,11 +64,11 @@ To: Rob Clark <robdclark@gmail.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1687193061; l=999;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1687193061; l=1342;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=HgL0AdZtJqxx0twaid3jHnuqKqCDcBlTAxb3JHJlxVw=;
- b=Pf6zJ0t2/uvlo+V9LyriSjXmfPMpP8Bno7oiFYGpMsSxVxwUMlFcB7vC+QzDp3HIKqNnv00kF
- IyI9s9s/9X7CNSdq1Wjolu7Eh34qSmxBKzhPddf6H7Ru943onBZn7t1
+ bh=yg0CsUYst1MC0yCvcYjryDQIsWMdtt76iHZrZNL17WI=;
+ b=FknMc43zmZwkUD5y3nuDtPowX+jeCuLzVQmv1m9TogJq9v7mkOYVQ635wLUZM4nLlk2KbeTs6
+ AGZUKNJMwB2AHrgQwtbdu4Lzhm1KoBpZLUs9z8Px3BMlBD5HzvZt6f4
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -91,31 +91,39 @@ Cc: Jonathan Marek <jonathan@marek.ca>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The GMU force shutdown sequence involves some additional register cleanup
-which was not implemented previously. Do so.
+Change the order of region allocations to make the addresses match
+downstream. This shouldn't matter very much, but helps eliminate one
+more difference when comparing register accesses.
+
+Also, make the log region 16K long. That's what it is, unconditionally
+on A6xx and A7xx.
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-index 9929ff187368..55b12a8066ee 100644
+index 55b12a8066ee..d682c1ed48db 100644
 --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
 +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-@@ -893,6 +893,13 @@ static void a6xx_gmu_force_off(struct a6xx_gmu *gmu)
- 	/* Make sure there are no outstanding RPMh votes */
- 	a6xx_gmu_rpmh_off(gmu);
+@@ -1640,13 +1640,13 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
+ 			goto err_memory;
+ 	}
  
-+	/* Clear the WRITEDROPPED fields and put fence into allow mode */
-+	gmu_write(gmu, REG_A6XX_GMU_AHB_FENCE_STATUS_CLR, 0x7);
-+	gmu_write(gmu, REG_A6XX_GMU_AO_AHB_FENCE_CTRL, 0);
-+
-+	/* Make sure the above writes go through */
-+	wmb();
-+
- 	/* Halt the gmu cm3 core */
- 	gmu_write(gmu, REG_A6XX_GMU_CM3_SYSRESET, 1);
+-	/* Allocate memory for for the HFI queues */
+-	ret = a6xx_gmu_memory_alloc(gmu, &gmu->hfi, SZ_16K, 0, "hfi");
++	/* Allocate memory for the GMU log region */
++	ret = a6xx_gmu_memory_alloc(gmu, &gmu->log, SZ_16K, 0, "log");
+ 	if (ret)
+ 		goto err_memory;
+ 
+-	/* Allocate memory for the GMU log region */
+-	ret = a6xx_gmu_memory_alloc(gmu, &gmu->log, SZ_4K, 0, "log");
++	/* Allocate memory for for the HFI queues */
++	ret = a6xx_gmu_memory_alloc(gmu, &gmu->hfi, SZ_16K, 0, "hfi");
+ 	if (ret)
+ 		goto err_memory;
  
 
 -- 
