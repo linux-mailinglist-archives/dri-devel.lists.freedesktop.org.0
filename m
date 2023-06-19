@@ -1,62 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8183A735C4A
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 18:44:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E49A7735C48
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 18:44:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C6A310E22A;
-	Mon, 19 Jun 2023 16:44:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE02210E223;
+	Mon, 19 Jun 2023 16:44:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C87BB10E21D
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 16:44:28 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id
- 2adb3069b0e04-4f8792d2e86so139166e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 09:44:28 -0700 (PDT)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FAAE10E223
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 16:44:30 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id
+ 2adb3069b0e04-4f875b267d9so967976e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 09:44:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687193066; x=1689785066;
+ d=linaro.org; s=google; t=1687193068; x=1689785068;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=qXvgXObuLUXgh3jnIU3RKwPMBc4ZARc1+vOEfqXJtnQ=;
- b=IZ95yaZCLywYLVLR/TLE12lPpUizicviR2/vp4221PjzLPEaNoGz/MhkOu28kaL4Gr
- mC91aGTs3x24gw/5ERaUD7LW5QMRo1fi9WYHK6kFfBHaVQ6i13J84xOF+3ZbvHX31nux
- 2G5jxTdkeOMLGP8ztIqw6srQJ5G7cYNQYSOhHdVwbz6qRe3r7B+l4CRH7iazeRYabX4e
- wzrhIxpKtYsXIrjHhKxHSd8Pv4wsuPpnUp2AD6zLPyGelbJ6+2/LCo4RaFJ+Vzmle8zv
- 987WIImYtuns40Hv5e/7cVx8iVs1Gi5WXUYK7yIZgFJ+ufN11VqALyrCHprHAVC+H9hl
- dpkg==
+ :reply-to; bh=QFAqDiLltNdklyeWnFl2VhcGAm3uwoOV8Onj4m150Sc=;
+ b=ydvczJg9iNkM262T5XB6cmLMaJVfVu7iYHqszB8VXkxPeO5NQ9+exlDXnGKGIe/7TJ
+ OYe/SfNNS6DnMMSL+Bd9RN+tuFtwo+voglslPDHyFEiF0kJami83CNgVtn5fGpkMnVOV
+ aZlL6SCjcvi+Bmqgi1cZ8J5LaQslfcscVzbcJCzL8FTAhqRF3fjW8/52N+PbPIbm/a0y
+ vVsHNDTVwgQhvhyFskNDxBVxsPrWEebE8qk4Y0bH+ql076gOj8h31mOr8w9UAoJqGd5C
+ TAhrSJ0hB9i3FqOz7rqBP2GSNGpet5dyP6+lbLKboYmYxd9gxRzbCFNbX3xD8OP71z8O
+ oO5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687193066; x=1689785066;
+ d=1e100.net; s=20221208; t=1687193068; x=1689785068;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qXvgXObuLUXgh3jnIU3RKwPMBc4ZARc1+vOEfqXJtnQ=;
- b=bWF90YzhBRpYDJhoFGu90lnaCBjfxttsj0Dm14/MF1jI82cDg1rFDQkuPfTHA6Y193
- 9gAV1Il02yv3Mw9/TvdEV3+RK30Pblfse3x/ng5Ql5WTyBJHL0kSzhpMk784UeTVKWhZ
- JSfinemFkfLJK9ita6SesT7X3Z32Up95ke7umY4+5rb+g94zSvkDrbelJzH4grAa0et2
- uEEVBM/Jmy22ZXtxDk21RgihoFNr96IsMtmZE01NjBELyC+62FLjx83vRIlt5+rrsT7f
- gYvEM/loaHHNMbmn86KK1i64J32zym0+mutxZ1ttPhUviJ0/+kclNxeGZN2NNkoufRqg
- NT7g==
-X-Gm-Message-State: AC+VfDyc5ADEhVVQvdOWCE+vfqCTorLSvANZ/gxPK6EAcYCLLpxnkF1U
- MoxY4GfZVuyil/NsotpJi7NFUg==
-X-Google-Smtp-Source: ACHHUZ6VBVIsEp99X3J5kbcY7YWOtxe2ikNj21kwhtR1+dfm8sR1zlcYHur4QOXDP0fF6/pt3PhbgA==
-X-Received: by 2002:ac2:465b:0:b0:4f8:692c:74cd with SMTP id
- s27-20020ac2465b000000b004f8692c74cdmr2667856lfo.22.1687193066782; 
- Mon, 19 Jun 2023 09:44:26 -0700 (PDT)
+ bh=QFAqDiLltNdklyeWnFl2VhcGAm3uwoOV8Onj4m150Sc=;
+ b=cF1R2u7wCoQjU7wQ8ZLt5mVGyzecTz/QKzPYo6jJ/16ftRyd7u+wfKf2Jc2xEJIDan
+ U3QBt0HZJdosETbqNgswzc3TCYmUvzBICI0P1MEN7rDZgD+q5KMBYJJSPy807oCBmhSi
+ AAammQwFsY8Pp0FbGhUKfUf/RvoyWPvwMDUOexUSBf6mismdnWm/1AY66a5kfpfUZB0w
+ Fozzu7+vU5dPr99DXXz3dxRa/nWgkY+LtyJj/35gtn+C6E59KhvARlHNYd66WRKcnDGD
+ gn1u0A/pHrrOrcTDTUGozNX9DVSMnOSRDOjKaYaxf0McURAMWgHeSImReTWXHidEqx0m
+ oRSg==
+X-Gm-Message-State: AC+VfDx7jYTZsbkFrlu6p914rQccEPe3dR81AYOGxAB+nNDJloIZwLNH
+ xodk6fot8D88kV76etOD8wnr0A==
+X-Google-Smtp-Source: ACHHUZ6GvqCREQISOX1d7De3EJU6DKvTJPcAypBgXVFT0pSTLd/AWtoPgTlrqTVKu+0llNXPSU3EBg==
+X-Received: by 2002:a19:505b:0:b0:4f8:5af4:73ef with SMTP id
+ z27-20020a19505b000000b004f85af473efmr4160229lfj.28.1687193068133; 
+ Mon, 19 Jun 2023 09:44:28 -0700 (PDT)
 Received: from [192.168.1.101] (abyl242.neoplus.adsl.tpnet.pl. [83.9.31.242])
  by smtp.gmail.com with ESMTPSA id
- d9-20020ac24c89000000b004f849605be7sm1774293lfl.292.2023.06.19.09.44.25
+ d9-20020ac24c89000000b004f849605be7sm1774293lfl.292.2023.06.19.09.44.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jun 2023 09:44:26 -0700 (PDT)
+ Mon, 19 Jun 2023 09:44:27 -0700 (PDT)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Mon, 19 Jun 2023 18:44:23 +0200
-Subject: [PATCH v3 3/6] drm/msm/a6xx: Skip empty protection ranges entries
+Date: Mon, 19 Jun 2023 18:44:24 +0200
+Subject: [PATCH v3 4/6] drm/msm/a6xx: Ensure clean GMU state in
+ a6xx_gmu_fw_start
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230517-topic-a7xx_prep-v3-3-a3ce3725385b@linaro.org>
+Message-Id: <20230517-topic-a7xx_prep-v3-4-a3ce3725385b@linaro.org>
 References: <20230517-topic-a7xx_prep-v3-0-a3ce3725385b@linaro.org>
 In-Reply-To: <20230517-topic-a7xx_prep-v3-0-a3ce3725385b@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -64,11 +65,11 @@ To: Rob Clark <robdclark@gmail.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1687193061; l=1073;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1687193061; l=1213;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=p7u0J4uljF3tZrz5h1ZuKJqCS/MqBnjZGFZOc1JmV0E=;
- b=NQKGopdA8vA2ah+7eJ7S+RCXRZTEZj6j9vXtT+BhcHdPpfCuUpxjOrOOv+NEU8MSEZS12wiBv
- omlcv8IvEudBeJXSOa3mNC646auqe2up6nzof87KXGcAGLu/HnjG4bR
+ bh=xLnqc6AHpOSP+ED80kyz8V2j7nuk18OJ2Jy8h13Cf1I=;
+ b=dCZGseLgFqy+mQCr62XX8kh4lVXddSmsA/R+OcREroBFhCmvIVQXZ/rLg2/fzr8nh4/9VxGJU
+ hqJVr4eX8zFDsryMCP6ihGHaz2PEVQGJ6qdRYjm5iBQfnC1QUYeCZ4A
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -91,32 +92,36 @@ Cc: Jonathan Marek <jonathan@marek.ca>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some specific SKUs leave certain protection range registers empty.
-Allow for that behavior.
+While it's not very well understood, there is some sort of a fault
+handler implemented in the GMU firmware which triggers when a certain
+bit is set, resulting in the M3 core not booting up the way we expect
+it to.
+
+Write a magic value to a magic register to hopefully prevent that
+from happening.
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index cd0c9bccdc19..488c69cf08d3 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -935,8 +935,11 @@ static void a6xx_set_cp_protect(struct msm_gpu *gpu)
- 		  A6XX_CP_PROTECT_CNTL_ACCESS_FAULT_ON_VIOL_EN |
- 		  A6XX_CP_PROTECT_CNTL_LAST_SPAN_INF_RANGE);
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+index 5deb79924897..9929ff187368 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+@@ -790,6 +790,12 @@ static int a6xx_gmu_fw_start(struct a6xx_gmu *gmu, unsigned int state)
+ 	gmu_write(gmu, REG_A6XX_GMU_AHB_FENCE_RANGE_0,
+ 		(1 << 31) | (0xa << 18) | (0xa0));
  
--	for (i = 0; i < count - 1; i++)
--		gpu_write(gpu, REG_A6XX_CP_PROTECT(i), regs[i]);
-+	for (i = 0; i < count - 1; i++) {
-+		/* Intentionally skip writing to some registers */
-+		if (regs[i])
-+			gpu_write(gpu, REG_A6XX_CP_PROTECT(i), regs[i]);
-+	}
- 	/* last CP_PROTECT to have "infinite" length on the last entry */
- 	gpu_write(gpu, REG_A6XX_CP_PROTECT(count_max - 1), regs[i]);
- }
++	/*
++	 * Snapshots toggle the NMI bit which will result in a jump to the NMI
++	 * handler instead of __main. Set the M3 config value to avoid that.
++	 */
++	gmu_write(gmu, REG_A6XX_GMU_CM3_CFG, 0x4052);
++
+ 	chipid = adreno_gpu->rev.core << 24;
+ 	chipid |= adreno_gpu->rev.major << 16;
+ 	chipid |= adreno_gpu->rev.minor << 12;
 
 -- 
 2.41.0
