@@ -2,67 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EB4A734CE8
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 10:00:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ADB8734D2D
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 10:09:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AC3910E1A6;
-	Mon, 19 Jun 2023 07:59:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E57FE10E0E8;
+	Mon, 19 Jun 2023 08:08:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ste-pvt-msa1.bahnhof.se (ste-pvt-msa1.bahnhof.se
- [213.80.101.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB26210E19F;
- Mon, 19 Jun 2023 07:59:56 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 0B2B240A80;
- Mon, 19 Jun 2023 09:59:54 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.2
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.091,
- T_SCC_BODY_TEXT_LINE=-0.01, URIBL_BLOCKED=0.001]
- autolearn=ham autolearn_force=no
-Authentication-Results: ste-pvt-msa1.bahnhof.se (amavisd-new);
- dkim=pass (1024-bit key) header.d=shipmail.org
-Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
- by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JHJ22o8d7g3u; Mon, 19 Jun 2023 09:59:52 +0200 (CEST)
-Received: by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id C78C840A59;
- Mon, 19 Jun 2023 09:59:51 +0200 (CEST)
-Received: from [192.168.0.209] (h-155-4-205-35.A357.priv.bahnhof.se
- [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 54A4D3631FE;
- Mon, 19 Jun 2023 09:59:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1687161591; bh=lKpentDuo+eUKVk60Qur3HgdnqCuR/j+T/VCjjRUt7M=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=GcxwNuF54lCuOZXO+hvxmf/SIrp7aDVR10nTeNMRwqYBO0EB23LW8ABDYY8m4mHCg
- iHIV1LT68QCjY6XT7vu9SmocuyOv2F70kadxdODdRKCie7KSE+Orv8bdx6BYl1QuZE
- gQgcBv3Urn2A5VlaJALdM8I8szMp1zEkd+G4h2Eg=
-Message-ID: <f2cc785b-f34a-2a71-78b1-18b4f37de24b@shipmail.org>
-Date: Mon, 19 Jun 2023 09:59:50 +0200
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DE6C410E0E8
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 08:08:53 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8Cxe+oSDZBkmMkGAA--.14011S3;
+ Mon, 19 Jun 2023 16:08:51 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8DxbMoSDZBk5wQgAA--.15798S3; 
+ Mon, 19 Jun 2023 16:08:50 +0800 (CST)
+Message-ID: <400ea394-7e25-e1c6-e2b1-1cb752926e0a@loongson.cn>
+Date: Mon, 19 Jun 2023 16:08:50 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.1
-Subject: Re: [PATCH v2] drm/i915: Replace kmap() with kmap_local_page()
+ Thunderbird/102.11.0
+Subject: Re: [06/14] drm/ast: Set PCI config before accessing I/O registers
 Content-Language: en-US
-To: Ira Weiny <ira.weiny@intel.com>, Sumitra Sharma <sumitraartsy@gmail.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20230617180420.GA410966@sumitra.com>
- <648f48bc3d3c2_1de3f9294a3@iweiny-mobl.notmuch>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-In-Reply-To: <648f48bc3d3c2_1de3f9294a3@iweiny-mobl.notmuch>
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ jfalempe@redhat.com, daniel@ffwll.ch, jammy_huang@aspeedtech.com
+References: <20230616140739.32042-7-tzimmermann@suse.de>
+ <0eec8603-bdd3-a060-b9cf-f44dfd449581@loongson.cn>
+ <8be5e2e9-92a7-1bbe-e768-78d38eda5854@suse.de>
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <8be5e2e9-92a7-1bbe-e768-78d38eda5854@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8DxbMoSDZBk5wQgAA--.15798S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxJFykZw17Jw4UZFW5AF43urX_yoWrWr47pF
+ 4kJFWFyrW5GF1fKr17X3WDZFyaya4xta4jgr1xXa4SqrsFyr1qgFyDXrs09ryDJrZ7AFy0
+ yrn5Kry7uFy7JwcCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUPab4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+ AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+ AVWUtwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
+ 8JMxk0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vI
+ r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67
+ AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIY
+ rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
+ v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWx
+ JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUcqXdUU
+ UUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,85 +68,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Deepak R Varma <drv@mailo.com>, Fabio <fmdefrancesco@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 6/18/23 20:11, Ira Weiny wrote:
-> Sumitra Sharma wrote:
->> kmap() has been deprecated in favor of the kmap_local_page()
->> due to high cost, restricted mapping space, the overhead of a
->> global lock for synchronization, and making the process sleep
->> in the absence of free slots.
->>
->> kmap_local_page() is faster than kmap() and offers thread-local
->> and CPU-local mappings, take pagefaults in a local kmap region
->> and preserves preemption by saving the mappings of outgoing tasks
->> and restoring those of the incoming one during a context switch.
->>
->> The mapping is kept thread local in the function
->> “i915_vma_coredump_create” in i915_gpu_error.c
->>
->> Therefore, replace kmap() with kmap_local_page().
->>
->> Suggested-by: Ira Weiny <ira.weiny@intel.com>
->>
-> NIT: No need for the line break between Suggested-by and your signed off line.
+On 2023/6/19 15:59, Thomas Zimmermann wrote:
+> Hi
 >
->> Signed-off-by: Sumitra Sharma <sumitraartsy@gmail.com>
->> ---
+> Am 17.06.23 um 10:01 schrieb Sui Jingfeng:
 >>
->> Changes in v2:
->> 	- Replace kmap() with kmap_local_page().
-> Generally it is customary to attribute a change like this to those who
-> suggested it in a V1 review.
+>> On 2023/6/16 21:52, Thomas Zimmermann wrote:
+>>> Access to I/O registers is required to detect and set up the
+>>> device. Enable the rsp PCI config bits before. While at it,
+>>> convert the magic number to macro constants.
+>>>
+>>> Enabling the PCI config bits was done after trying to detect
+>>> the device. It was probably too late at this point.
+>>>
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> ---
+>>>   drivers/gpu/drm/ast/ast_drv.h  |  2 ++
+>>>   drivers/gpu/drm/ast/ast_main.c | 22 ++++++++++++++++++++++
+>>>   drivers/gpu/drm/ast/ast_post.c |  6 ------
+>>>   3 files changed, 24 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/ast/ast_drv.h 
+>>> b/drivers/gpu/drm/ast/ast_drv.h
+>>> index 0141705beaee9..555a0850957f3 100644
+>>> --- a/drivers/gpu/drm/ast/ast_drv.h
+>>> +++ b/drivers/gpu/drm/ast/ast_drv.h
+>>> @@ -52,6 +52,8 @@
+>>>   #define PCI_CHIP_AST2000 0x2000
+>>>   #define PCI_CHIP_AST2100 0x2010
+>>> +#define AST_PCI_OPTION_MEM_ACCESS_ENABLE    BIT(1)
+>>> +#define AST_PCI_OPTION_IO_ACCESS_ENABLE        BIT(0)
+>>>   enum ast_chip {
+>>>       AST2000,
+>>> diff --git a/drivers/gpu/drm/ast/ast_main.c 
+>>> b/drivers/gpu/drm/ast/ast_main.c
+>>> index c6987e0446618..fe054739b494a 100644
+>>> --- a/drivers/gpu/drm/ast/ast_main.c
+>>> +++ b/drivers/gpu/drm/ast/ast_main.c
+>>> @@ -35,6 +35,24 @@
+>>>   #include "ast_drv.h"
+>>> +static int ast_init_pci_config(struct pci_dev *pdev)
+>>> +{
+>>> +    int err;
+>>> +    u32 pcis04;
+>>> +
+>>> +    err = pci_read_config_dword(pdev, 0x04, &pcis04);
+>>
+>> The third argument of pci_read_config_dword() function should be 'u16 
+>> *' type;
 >
-> For example:
+> No, a dword is a 32-bit integer.
 >
->   	- Tvrtko/Thomas: Use kmap_local_page() instead of page_address()
->
-> Also I don't see Thomas on the new email list.  Since he took the time to
-> review V1 he might want to check this version out.  I've added him to the
-> 'To:' list.
+I meant the "u32 pcis04" should be declared as "u16 pcis04", right ?
 
-Thanks.
-
-
-> Also a link to V1 is nice.  B4 formats it like this:
->
-> - Link to v1: https://lore.kernel.org/all/20230614123556.GA381200@sumitra.com/
->
-> All that said the code looks good to me.  So with the above changes.
->
-> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-
-LGTM. Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-
-
-
->
->> 	- Change commit subject and message.
 >>
->>   drivers/gpu/drm/i915/i915_gpu_error.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
 >>
->> diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
->> index f020c0086fbc..bc41500eedf5 100644
->> --- a/drivers/gpu/drm/i915/i915_gpu_error.c
->> +++ b/drivers/gpu/drm/i915/i915_gpu_error.c
->> @@ -1164,9 +1164,9 @@ i915_vma_coredump_create(const struct intel_gt *gt,
->>   
->>   			drm_clflush_pages(&page, 1);
->>   
->> -			s = kmap(page);
->> +			s = kmap_local_page(page);
->>   			ret = compress_page(compress, s, dst, false);
->> -			kunmap(page);
->> +			kunmap_local(s);
->>   
->>   			drm_clflush_pages(&page, 1);
->>   
->> -- 
->> 2.25.1
+>>> +    if (err)
+>>> +        goto out;
+>>> +
+>>> +    pcis04 |= AST_PCI_OPTION_MEM_ACCESS_ENABLE |
+>>> +          AST_PCI_OPTION_IO_ACCESS_ENABLE;
+>>> +
+>>> +    err = pci_write_config_dword(pdev, 0x04, pcis04);
+>>> +
+>>> +out:
+>>> +    return pcibios_err_to_errno(err);
+>>> +}
 >>
+>>
+>> static void ast_enable_mem_io(struct pci_dev *pdev)
+>> {
+>>      u16 cmd;
+>>
+>>      pci_read_config_word(pdev, PCI_COMMAND, &cmd);
+>>
+>>      cmd |= PCI_COMMAND_MEMORY | PCI_COMMAND_IO;
+>>
+>>      pci_write_config_word(pdev, PCI_COMMAND, &cmd);
+>> }
+>>
+>>>   static void ast_detect_config_mode(struct drm_device *dev, u32 
+>>> *scu_rev)
+>>>   {
+>>>       struct device_node *np = dev->dev->of_node;
+>>> @@ -399,6 +417,10 @@ struct ast_device *ast_device_create(const 
+>>> struct drm_driver *drv,
+>>>               return ERR_PTR(-EIO);
+>>>       }
+>>> +    ret = ast_init_pci_config(pdev);
+>>> +    if (ret)
+>>> +        return ERR_PTR(ret);
+>>> +
+>>>       if (!ast_is_vga_enabled(dev)) {
+>>>           drm_info(dev, "VGA not enabled on entry, requesting chip 
+>>> POST\n");
+>>>           need_post = true;
+>>> diff --git a/drivers/gpu/drm/ast/ast_post.c 
+>>> b/drivers/gpu/drm/ast/ast_post.c
+>>> index aa3f2cb00f82c..2da5bdb4bac45 100644
+>>> --- a/drivers/gpu/drm/ast/ast_post.c
+>>> +++ b/drivers/gpu/drm/ast/ast_post.c
+>>> @@ -361,12 +361,6 @@ static void ast_init_dram_reg(struct drm_device 
+>>> *dev)
+>>>   void ast_post_gpu(struct drm_device *dev)
+>>>   {
+>>>       struct ast_device *ast = to_ast_device(dev);
+>>> -    struct pci_dev *pdev = to_pci_dev(dev->dev);
+>>> -    u32 reg;
+>>> -
+>>> -    pci_read_config_dword(pdev, 0x04, &reg);
+>>> -    reg |= 0x3;
+>>> -    pci_write_config_dword(pdev, 0x04, reg);
+>>>       ast_enable_vga(dev);
+>>>       ast_open_key(ast);
+>>
+>
+-- 
+Jingfeng
+
