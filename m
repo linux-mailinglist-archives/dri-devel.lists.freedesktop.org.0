@@ -2,47 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98AD07358D8
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 15:44:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47D41735936
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jun 2023 16:11:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9DD510E206;
-	Mon, 19 Jun 2023 13:43:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4365B10E20B;
+	Mon, 19 Jun 2023 14:11:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD4D310E200;
- Mon, 19 Jun 2023 13:43:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=MIME-Version:Content-Transfer-Encoding:Content-Type:Date:Cc:To:
- From:Subject:Message-ID:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=G21UfM6A11SwSxvpHKE3gLePL0xC/fN+iv9J6MaBAIM=; b=K0k+f7GlGtXd16Q1rTyJy7kA7f
- drm2wd12XkYl6vAnU2aHtD8wZQ3XMTpt7IWHQP/1DwNRo/pLURiAGq2Ujh/IP5wfDjRdSOR2l5Wv3
- 63PknZcZatfrsd5r97JaUMgkXwQTKUOEo7Pc1OURStohqGC8aj+JOWO15KHGh5PBAGwVSZ36u0oRL
- X3ncWu4kjMEP8wOQt6FHCAyYBt62UwBAsHT88mSFiKuoxB7gFpaScFXz5zJw6XSeAJVNISrYWpkpM
- M3uuCFtqczben1iEm6j3iuBUNaC+WwXG5z1PcGoz5u+7K2lKSSvbgQMlNkjyB6wd1jfdhpB4tpxMO
- VZseo8yQ==;
-Received: from 145.red-83-52-114.dynamicip.rima-tde.net ([83.52.114.145]
- helo=localhost.localdomain) by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qBFAM-0009c4-0L; Mon, 19 Jun 2023 15:43:34 +0200
-Message-ID: <086c491482404be792c72798f5fc840cc5625715.camel@igalia.com>
-Subject: Requests For Proposals for hosting XDC 2024 are now open
-From: Ricardo Garcia <rgarcia@igalia.com>
-To: events@lists.x.org, xorg-devel@lists.freedesktop.org, 
- wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- libre-soc-dev <libre-soc-dev@lists.libre-soc.org>
-Date: Mon, 19 Jun 2023 15:43:33 +0200
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBF3A10E20A;
+ Mon, 19 Jun 2023 14:11:32 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 61E341F86C;
+ Mon, 19 Jun 2023 14:11:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1687183891; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NHHjMnmLiaqjuzq8Z6sqJ8v2E+XGkYJ+F+MumdZTb/k=;
+ b=FtvrIRDsMNxS42x0m+lv67YHM6AosAbZpe2JQkHeQUuodYCpQNx5sjuR08MRmaDiHmL7lg
+ 33IW5eVSgmRX3S7vYFQSdGI+ZMqIWH9+qlEdkxcJlyM9/tdBcBouuLbIDar/pjUxj491uh
+ RR8FF7IFyIybQ3pIHjOAcRC+LPKqYvk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1687183891;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NHHjMnmLiaqjuzq8Z6sqJ8v2E+XGkYJ+F+MumdZTb/k=;
+ b=04CtyWy0SWExfOMKWz7ztPGRkfDS2U5szTVWAC7qCO4RnD0cqTONhsM6Gdxdnc1Qd+yiys
+ KNDYjrASI/H97rBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 36197138E8;
+ Mon, 19 Jun 2023 14:11:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id SWZBDBNikGSBHAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 19 Jun 2023 14:11:31 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ jani.nikula@linux.intel.com
+Subject: [PATCH] drm/amdgpu: Remove struct drm_driver.gem_prime_mmap
+Date: Mon, 19 Jun 2023 16:11:12 +0200
+Message-ID: <20230619141129.2002-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,35 +65,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: board@foundation.x.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello everyone!
+The callback struct drm_driver.gem_prime_mmap as been removed in
+commit 0adec22702d4 ("drm: Remove struct drm_driver.gem_prime_mmap").
+Do not assign to it. The assigned function, drm_gem_prime_mmap(), is
+now the default for the operation, so there is no change in functionality.
 
-The X.org board is soliciting proposals to host XDC in 2024. Since XDC
-2023 is being held in Europe this year, we've decided to host in North
-America. However, the board is open to other locations, especially if
-there's an interesting co-location with another conference.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: 0adec22702d4 ("drm: Remove struct drm_driver.gem_prime_mmap")
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Cc: amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-If you're considering hosting XDC, we've assembled a wiki page with
-what's generally expected and needed:
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index 43613569801b6..07e16ad465d06 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -2879,7 +2879,6 @@ const struct drm_driver amdgpu_partition_driver = {
+ 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+ 	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+ 	.gem_prime_import = amdgpu_gem_prime_import,
+-	.gem_prime_mmap = drm_gem_prime_mmap,
+ 
+ 	.name = DRIVER_NAME,
+ 	.desc = DRIVER_DESC,
+-- 
+2.41.0
 
-https://www.x.org/wiki/Events/RFP/
-
-When submitting your proposal, please make sure to include at least the
-key information about the potential location in question, possible
-dates along with estimated costs. Proposals can be submitted to board
-at foundation.x.org until the deadline of *September 17th, 2023*.=20
-
-Additionally, an quirk early heads-up to the board if you're
-considering hosting would be appreciated, in case we need to adjust the
-schedule a bit. Also, earlier is better since there generally will be a
-bit of Q&A with organizers.
-
-And if you just have some questions about what organizing XDC entails,
-please feel free to chat with previous organizers, or someone from the
-board.
-
-Thanks,
-Ricardo Garcia, on behalf of X.Org
