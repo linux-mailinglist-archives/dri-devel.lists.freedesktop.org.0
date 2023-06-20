@@ -2,50 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0ABA736A1C
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 12:59:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32DBE736A4F
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 13:06:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D0BA10E2BC;
-	Tue, 20 Jun 2023 10:59:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4ADE10E2C1;
+	Tue, 20 Jun 2023 11:06:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7A06B10E2BE
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 10:59:08 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8AxX+t6hpFkXy0HAA--.14820S3;
- Tue, 20 Jun 2023 18:59:07 +0800 (CST)
-Received: from openarena.loongson.cn (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Axfcp5hpFkiJshAA--.20046S2; 
- Tue, 20 Jun 2023 18:59:05 +0800 (CST)
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: [PATCH v10 11/11] drm/etnaviv: Replace of_platform.h with explicit
- includes
-Date: Tue, 20 Jun 2023 18:59:03 +0800
-Message-Id: <20230620105903.2237111-1-suijingfeng@loongson.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDAD110E2BF
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 11:06:04 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E8D28611DF;
+ Tue, 20 Jun 2023 11:06:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E580C433C8;
+ Tue, 20 Jun 2023 11:06:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1687259162;
+ bh=c6Cl8H2kiIKibjwKn4E7jfaCJ/NmKegmDURyS5dIOTE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=nZp2C+ROS21lgm1J0hWgNn22wS1cKofTGZJpkaTJGIfKShWnn349LHgIXFxUTDBcq
+ bB1m5FxH7KO806pqJyQdruY0+nToITH9MjgFa8Pw6F0GNIKVLcbzr6RDynGjkORvRR
+ u13jrbNsCuu1bRIZscvgL5JiAmgkCftS4n4cQiHqU8N+LxCGyn2QETfNTtOzQ+JsQs
+ swAFE96KytVxfZ+Gny2Jjpt+ZWPdVg3qhWI1R1M7atNkMWale9fqZOdeXpGVnosxp/
+ 7R3u284lSngsoZK0QTWELwnFeKF7rF2efMPwnOHkyHCJ1tYkqdTl1hVMuRDFGHarkA
+ BFw9TW8mvveRA==
+Date: Tue, 20 Jun 2023 06:06:00 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Sui Jingfeng <15330273260@189.cn>
+Subject: Re: [PATCH v2] PCI: Add dummy implement for pci_clear_master()
+ function
+Message-ID: <20230620110600.GA40675@bhelgaas>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Axfcp5hpFkiJshAA--.20046S2
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj9xXoWrZFyxWFyxZFWfuFyUZrWrWFX_yoWkGwb_C3
- Z7ur47Wr13Arn7tr1ayF9xZFyFkFyrXrs7Z3Wkt3Z3KF9rJws8W3s7C34UXa4UuF92kFn5
- JF97GFyfur13WosvyTuYvTs0mTUanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvT
- s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
- cSsGvfJTRUUUb2AYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
- vaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
- w2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
- WxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v2
- 6F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
- 02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWrXVW3AwAv7VC2z280aVAF
- wI0_Cr0_Gr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x
- 0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
- 7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAIcV
- C0I7IYx2IY67AKxVW7JVWDJwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE
- 42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280aV
- CY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07jOjjgUUUUU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <459cf0c7-4111-6e76-8124-da1a10666f50@189.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,39 +52,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: kernel test robot <lkp@intel.com>, Li Yi <liyi@loongson.cn>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jesse Barnes <jbarnes@virtuousgeek.org>, loongson-kernel@lists.loongnix.cn,
+ Ben Hutchings <bhutchings@solarflare.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Matthew Wilcox <willy@infradead.org>, linux-pci@vger.kernel.org,
+ Bjorn Helgaas <bhelgaas@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Herring <robh@kernel.org>
+On Tue, Jun 20, 2023 at 12:04:40PM +0800, Sui Jingfeng wrote:
+> Where is the formal(unstream) PCI git branch where we could see the latest
+> patch ?
 
-Etnaviv doesn't use anything from of_platform.h, but depends on
-of.h, of_device.h, and platform_device.h which are all implicitly
-included, but that is going to be removed soon.
+Here's the "misc" branch: https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/log/?h=misc
 
-Signed-off-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
-Tested-by: Sui Jingfeng <suijingfeng@loongson.cn>
----
- drivers/gpu/drm/etnaviv/etnaviv_drv.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index c9f502a89de6..ee47efff42a6 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -7,8 +7,10 @@
- #include <linux/dma-mapping.h>
- #include <linux/dma-map-ops.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/of_address.h>
--#include <linux/of_platform.h>
-+#include <linux/of_device.h>
-+#include <linux/platform_device.h>
- #include <linux/uaccess.h>
- 
- #include <drm/drm_debugfs.h>
--- 
-2.25.1
-
+And here's the "next" branch that will be merged for v6.5, which
+includes "misc" and other things: https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/log/?h=next
