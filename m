@@ -1,67 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76C7F73675C
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 11:13:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AE2A73676E
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 11:14:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F74C10E181;
-	Tue, 20 Jun 2023 09:13:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD2BC10E293;
+	Tue, 20 Jun 2023 09:14:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFCCC10E181;
- Tue, 20 Jun 2023 09:13:39 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 38839218A4;
- Tue, 20 Jun 2023 09:13:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1687252418; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=643cn3VlhfyGF3/nPDAAt0MF5rD3PAjpYijtPiAOioc=;
- b=WG4h296rL+T5vF6Wy6jI35Vh+IyIYmteQJ4erwBvRqSlvBoWTGewEvIAD9kRpGfjLH9Xxt
- 0lCbj17QvSCzKBX5UjeDK/SWh4BG3IFhEM3tnDM33x04ThvIhuu8Z69hB8Dnb3BHCQ1FIc
- sHM13dQPT5ZVgtd3lt+xW6xOG89tg6s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1687252418;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=643cn3VlhfyGF3/nPDAAt0MF5rD3PAjpYijtPiAOioc=;
- b=dzMnMhWrK0KMbm+43FTGSv0+0lIFEMO5fEMJHDoD2QjUtH4E3grvg1sSqRmI1GEVlRJplY
- hxwC5wGOEMQsM+Bw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 031E8133A9;
- Tue, 20 Jun 2023 09:13:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id pG+QO8FtkWRsNAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 20 Jun 2023 09:13:37 +0000
-Message-ID: <0eedce4a-bf11-e6ab-b49b-4d3cee049627@suse.de>
-Date: Tue, 20 Jun 2023 11:13:37 +0200
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DF8B10E293;
+ Tue, 20 Jun 2023 09:14:55 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-3f9b4bf99c2so11651495e9.3; 
+ Tue, 20 Jun 2023 02:14:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1687252493; x=1689844493;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=rRGFfeXSo7TNj0IIOa1/K6NDHdvCUZ8QaqEZAsynC1s=;
+ b=mYNhn7PjrFZb0xp+mvyZZktwm2ZSMRC9jYyquzPtq+y299ERD1C1hZYbE+VHcl3O09
+ zRNmYFHKqC3GaFv2/cp3C3Fe6EoUTzpjegulaB5pg2rpxtq05x0l6C6s0XZxpKv2Aeh2
+ o+BnIYmkQMdwTSVgXcaLOoRWD/B0efjA6g1hVufMToIh6MM8Aa5wjgr0+CUmMCNIMas8
+ iYz/fgri3FNBpxOAEugF1MY2WFuM+R1taliLU76hfy6EVziMJ/hQO6LF2RU7qa/C4n3/
+ CKsiQasXy133QVUZBfTU002L6BaiX1wOcWif40WiM1U8z+SqcpAqd4wPC10b6NEqi0HL
+ m76w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687252493; x=1689844493;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=rRGFfeXSo7TNj0IIOa1/K6NDHdvCUZ8QaqEZAsynC1s=;
+ b=TG9Lq1uIvMWtCQa9eypTaKAR91yjmbCRF2YTjOFtle6dNpfmBCFVPfQhLYBt1fLvYv
+ OvrKAOxUx1zGPqidnsveAlhtu86DgkDRO44C63tFBbt6cRhQFp3zDWOJJLpEdslT+FYT
+ dqIQB6OJzSvLuJQo+uBE6AOaG3JhzMV3DLv59m1ldxCfbZ/bX0fwunPfpQ4BLNwB1pEJ
+ nXJUcVwdMRcFBbwmg37V7f3Dloj2xonlLwt7zu5nDVfkehM+QSoqp0sHXIWMRkJx+36b
+ n68HGjw9XqtMV04dbhlqZ+//02+LQqlA9HLkgmkz88czAAnTclpNbXc0LZ7B/LXqe6tA
+ 20rA==
+X-Gm-Message-State: AC+VfDy/6AHllIiIBfhvsu+cr244h95ns9zG/AS/INss/W9wYBXEv3Yw
+ c4R+FpEsP8Pm3BEFG3AwhOM=
+X-Google-Smtp-Source: ACHHUZ4vg2Btcnur7pb21CC0pevFf6QOminLlPBDL6+kFvV4xEgQkIGvggJ9V4XmGnxrRsJvmHGbgQ==
+X-Received: by 2002:a7b:c8da:0:b0:3f9:5f2:74ba with SMTP id
+ f26-20020a7bc8da000000b003f905f274bamr6136930wml.30.1687252492912; 
+ Tue, 20 Jun 2023 02:14:52 -0700 (PDT)
+Received: from ?IPV6:2a00:e180:154d:9c00:68d9:fc9c:8543:a6?
+ ([2a00:e180:154d:9c00:68d9:fc9c:8543:a6])
+ by smtp.gmail.com with ESMTPSA id
+ m12-20020a7bcb8c000000b003f7ea771b5dsm1870913wmi.1.2023.06.20.02.14.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Jun 2023 02:14:52 -0700 (PDT)
+Message-ID: <01ad928e-a900-fc5e-901c-8fe2639d711a@gmail.com>
+Date: Tue, 20 Jun 2023 11:14:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 08/13] drm/qxl: switch to using drm_exec
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- francois.dugast@intel.com, felix.kuehling@amd.com,
- arunpravin.paneerselvam@amd.com, thomas_os@shipmail.org, dakr@redhat.com,
- luben.tuikov@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20230504115159.2245-1-christian.koenig@amd.com>
- <20230504115159.2245-9-christian.koenig@amd.com>
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 06/13] drm/amdgpu: use the new drm_exec object for CS v2
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230504115159.2245-9-christian.koenig@amd.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------00ALl0Ya4kUeQ5r30kTMFxjF"
+To: Boris Brezillon <boris.brezillon@collabora.com>
+References: <20230504115159.2245-1-christian.koenig@amd.com>
+ <20230504115159.2245-7-christian.koenig@amd.com>
+ <e163fa54-b016-1879-d1c0-840a4d3885b1@gmail.com>
+ <08169925-eb0b-bc79-e6f1-1eaa26198f5e@gmail.com>
+ <20230620102817.6570f521@collabora.com>
+ <ee7987a4-a9ad-e667-9ac5-c06b42cf36f1@gmail.com>
+ <20230620110948.461e4359@collabora.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20230620110948.461e4359@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,179 +83,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: matthew.brost@intel.com, Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
+ arunpravin.paneerselvam@amd.com, thomas_os@shipmail.org,
+ francois.dugast@intel.com, amd-gfx@lists.freedesktop.org, luben.tuikov@amd.com,
+ dakr@redhat.com, dri-devel@lists.freedesktop.org, felix.kuehling@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------00ALl0Ya4kUeQ5r30kTMFxjF
-Content-Type: multipart/mixed; boundary="------------fYRWM0lFA3AVbQwe0rqD78A0";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- francois.dugast@intel.com, felix.kuehling@amd.com,
- arunpravin.paneerselvam@amd.com, thomas_os@shipmail.org, dakr@redhat.com,
- luben.tuikov@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Message-ID: <0eedce4a-bf11-e6ab-b49b-4d3cee049627@suse.de>
-Subject: Re: [PATCH 08/13] drm/qxl: switch to using drm_exec
-References: <20230504115159.2245-1-christian.koenig@amd.com>
- <20230504115159.2245-9-christian.koenig@amd.com>
-In-Reply-To: <20230504115159.2245-9-christian.koenig@amd.com>
+Am 20.06.23 um 11:09 schrieb Boris Brezillon:
+> On Tue, 20 Jun 2023 10:44:26 +0200
+> Christian König <ckoenig.leichtzumerken@gmail.com> wrote:
+>
+>> Am 20.06.23 um 10:28 schrieb Boris Brezillon:
+>>> On Tue, 20 Jun 2023 10:12:13 +0200
+>>> Christian König <ckoenig.leichtzumerken@gmail.com> wrote:
+>>>   
+>>>>> I think Boris's suggestion of having this through a common
+>>>>> DRM_EXEC_FLAG_ALLOW_DUPLICATES flag fits well.
+>>>> No, again. The only driver which should accept duplicates is radeon, for
+>>>> all other drivers especially new ones duplicates should probably be
+>>>> rejected.
+>>>>
+>>>> We only allow this for radeon because it is already UAPI, could be that
+>>>> we need to do this for amdgpu as well but I really hope we don't need this.
+>>> Just want to describe the use case we have: we support submission in
+>>> batch (several jobs passed to the submit ioctl) with a
+>>> submit-all-or-nothing model: if any of the job description is passed
+>>> wrong args or causes an allocation error, we fail the whole group. In
+>>> the submission path, we want to prepare GEMs for all jobs. That means
+>>> adding enough fence slots for the number job finished fences. Given not
+>>> all jobs will access the same set of BOs, I thought I could use
+>>> duplicates support to make my life easier, because otherwise I have to
+>>> collect all BOs upfront, store them in a temporary array, and keep
+>>> track of the number of fence slots needed for each of them. I guess
+>>> the other option would be to over-estimate the number of slots and make
+>>> it equal to num_jobs for all BOs.
+>> Sounds pretty much what amdgpu is doing as well, but question is why
+>> don't you give just one list of BOs? Do you really want to add the
+>> fences that fine grained?
+> Actually, we don't give a list of BOs at all, we pass a VM, and lock
+> all BOs attached to the VM (similar to what Xe does). And, as all other
+> drivers being submitted recently, we use explicit sync, so most of
+> those VM BOs, except for the imported/exported ones, will be given a
+> BOOKKEEP fence.
+>
+> The reason we need support for duplicates is because we also have
+> implicit BOs (like the HWRT object that's shared by the
+> geometry/fragment queues to pass data around), and those can be passed
+> to multiple jobs in a given batch and require special synchronization
+> (geometry job writes to them, fragment job reads from them, so we have
+> a reader/writer sync to express). I can of course de-duplicate upfront,
+> by parsing jobs and creating an array of BOs that need to be acquired
+> over the whole submission, but that's still one extra-step I'd prefer
+> to avoid, given the dma_resv framework allows us to figure it out at
+> lock time. I can also just deal with the EALREADY case in the driver
+> directly, it's not like it's super complicated anyway, just thought
+> other drivers would fall in the same situation, that's all.
 
---------------fYRWM0lFA3AVbQwe0rqD78A0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Well as long as you just need to ignore EALREADY, that should be trivial 
+and doable.
 
-SGkNCg0KQW0gMDQuMDUuMjMgdW0gMTM6NTEgc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOg0K
-PiBKdXN0IGEgc3RyYWlnaHRmb3J3YXJkIGNvbnZlcnNpb24gd2l0aG91dCBhbnkgb3B0aW1p
-emF0aW9uLg0KPiANCj4gT25seSBjb21waWxlIHRlc3RlZCBmb3Igbm93Lg0KPiANCj4gU2ln
-bmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29t
-Pg0KPiAtLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vcXhsL0tjb25maWcgICAgICAgfCAgMSAr
-DQo+ICAgZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfZHJ2LmggICAgIHwgIDcgKystLQ0KPiAg
-IGRyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX3JlbGVhc2UuYyB8IDY3ICsrKysrKysrKysrKysr
-KystLS0tLS0tLS0tLS0tLS0NCj4gICAzIGZpbGVzIGNoYW5nZWQsIDM5IGluc2VydGlvbnMo
-KyksIDM2IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS9xeGwvS2NvbmZpZyBiL2RyaXZlcnMvZ3B1L2RybS9xeGwvS2NvbmZpZw0KPiBpbmRleCBj
-YTNmNTFjMmE4ZmUuLjljOGU0MzNiZTMzZSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL3F4bC9LY29uZmlnDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9xeGwvS2NvbmZpZw0K
-PiBAQCAtNSw2ICs1LDcgQEAgY29uZmlnIERSTV9RWEwNCj4gICAJc2VsZWN0IERSTV9LTVNf
-SEVMUEVSDQo+ICAgCXNlbGVjdCBEUk1fVFRNDQo+ICAgCXNlbGVjdCBEUk1fVFRNX0hFTFBF
-Ug0KPiArCXNlbGVjdCBEUk1fRVhFQw0KDQpKdXN0IHNvbWUgbml0cGlja2luZywgYnV0IGNh
-biB3ZSB0cnkgdG8ga2VlcCB0aGVzZSBzZWxlY3Qgc3RhdGVtZW50cyANCnNvcnRlZCBhbHBo
-YWJldGljYWxseT8NCg0KPiAgIAlzZWxlY3QgQ1JDMzINCj4gICAJaGVscA0KPiAgIAkgIFFY
-TCB2aXJ0dWFsIEdQVSBmb3IgU3BpY2UgdmlydHVhbGl6YXRpb24gZGVza3RvcCBpbnRlZ3Jh
-dGlvbi4NCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX2Rydi5oIGIv
-ZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfZHJ2LmgNCj4gaW5kZXggZWE5OTNkNzE2MmU4Li4z
-ZTczMjY0OGIzMzIgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX2Ry
-di5oDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX2Rydi5oDQo+IEBAIC0zOCwx
-MiArMzgsMTIgQEANCj4gICANCj4gICAjaW5jbHVkZSA8ZHJtL2RybV9jcnRjLmg+DQo+ICAg
-I2luY2x1ZGUgPGRybS9kcm1fZW5jb2Rlci5oPg0KPiArI2luY2x1ZGUgPGRybS9kcm1fZXhl
-Yy5oPg0KPiAgICNpbmNsdWRlIDxkcm0vZHJtX2dlbV90dG1faGVscGVyLmg+DQo+ICAgI2lu
-Y2x1ZGUgPGRybS9kcm1faW9jdGwuaD4NCj4gICAjaW5jbHVkZSA8ZHJtL2RybV9nZW0uaD4N
-Cj4gICAjaW5jbHVkZSA8ZHJtL3F4bF9kcm0uaD4NCj4gICAjaW5jbHVkZSA8ZHJtL3R0bS90
-dG1fYm8uaD4NCj4gLSNpbmNsdWRlIDxkcm0vdHRtL3R0bV9leGVjYnVmX3V0aWwuaD4NCj4g
-ICAjaW5jbHVkZSA8ZHJtL3R0bS90dG1fcGxhY2VtZW50Lmg+DQo+ICAgDQo+ICAgI2luY2x1
-ZGUgInF4bF9kZXYuaCINCj4gQEAgLTEwMSw3ICsxMDEsOCBAQCBzdHJ1Y3QgcXhsX2dlbSB7
-DQo+ICAgfTsNCj4gICANCj4gICBzdHJ1Y3QgcXhsX2JvX2xpc3Qgew0KPiAtCXN0cnVjdCB0
-dG1fdmFsaWRhdGVfYnVmZmVyIHR2Ow0KPiArCXN0cnVjdCBxeGxfYm8JCSpibzsNCj4gKwlz
-dHJ1Y3QgbGlzdF9oZWFkCWxpc3Q7DQo+ICAgfTsNCj4gICANCj4gICBzdHJ1Y3QgcXhsX2Ny
-dGMgew0KPiBAQCAtMTUxLDcgKzE1Miw3IEBAIHN0cnVjdCBxeGxfcmVsZWFzZSB7DQo+ICAg
-CXN0cnVjdCBxeGxfYm8gKnJlbGVhc2VfYm87DQo+ICAgCXVpbnQzMl90IHJlbGVhc2Vfb2Zm
-c2V0Ow0KPiAgIAl1aW50MzJfdCBzdXJmYWNlX3JlbGVhc2VfaWQ7DQo+IC0Jc3RydWN0IHd3
-X2FjcXVpcmVfY3R4IHRpY2tldDsNCj4gKwlzdHJ1Y3QgZHJtX2V4ZWMJZXhlYzsNCj4gICAJ
-c3RydWN0IGxpc3RfaGVhZCBib3M7DQo+ICAgfTsNCj4gICANCj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9xeGwvcXhsX3JlbGVhc2UuYyBiL2RyaXZlcnMvZ3B1L2RybS9xeGwv
-cXhsX3JlbGVhc2UuYw0KPiBpbmRleCAzNjhkMjZkYTBkNmEuLmRhN2NkOWNkNThmOSAxMDA2
-NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfcmVsZWFzZS5jDQo+ICsrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX3JlbGVhc2UuYw0KPiBAQCAtMTIxLDEzICsxMjEs
-MTEgQEAgcXhsX3JlbGVhc2VfZnJlZV9saXN0KHN0cnVjdCBxeGxfcmVsZWFzZSAqcmVsZWFz
-ZSkNCj4gICB7DQo+ICAgCXdoaWxlICghbGlzdF9lbXB0eSgmcmVsZWFzZS0+Ym9zKSkgew0K
-PiAgIAkJc3RydWN0IHF4bF9ib19saXN0ICplbnRyeTsNCj4gLQkJc3RydWN0IHF4bF9ibyAq
-Ym87DQo+ICAgDQo+ICAgCQllbnRyeSA9IGNvbnRhaW5lcl9vZihyZWxlYXNlLT5ib3MubmV4
-dCwNCj4gLQkJCQkgICAgIHN0cnVjdCBxeGxfYm9fbGlzdCwgdHYuaGVhZCk7DQo+IC0JCWJv
-ID0gdG9fcXhsX2JvKGVudHJ5LT50di5ibyk7DQo+IC0JCXF4bF9ib191bnJlZigmYm8pOw0K
-PiAtCQlsaXN0X2RlbCgmZW50cnktPnR2LmhlYWQpOw0KPiArCQkJCSAgICAgc3RydWN0IHF4
-bF9ib19saXN0LCBsaXN0KTsNCj4gKwkJcXhsX2JvX3VucmVmKCZlbnRyeS0+Ym8pOw0KPiAr
-CQlsaXN0X2RlbCgmZW50cnktPmxpc3QpOw0KPiAgIAkJa2ZyZWUoZW50cnkpOw0KPiAgIAl9
-DQo+ICAgCXJlbGVhc2UtPnJlbGVhc2VfYm8gPSBOVUxMOw0KPiBAQCAtMTcyLDggKzE3MCw4
-IEBAIGludCBxeGxfcmVsZWFzZV9saXN0X2FkZChzdHJ1Y3QgcXhsX3JlbGVhc2UgKnJlbGVh
-c2UsIHN0cnVjdCBxeGxfYm8gKmJvKQ0KPiAgIHsNCj4gICAJc3RydWN0IHF4bF9ib19saXN0
-ICplbnRyeTsNCj4gICANCj4gLQlsaXN0X2Zvcl9lYWNoX2VudHJ5KGVudHJ5LCAmcmVsZWFz
-ZS0+Ym9zLCB0di5oZWFkKSB7DQo+IC0JCWlmIChlbnRyeS0+dHYuYm8gPT0gJmJvLT50Ym8p
-DQo+ICsJbGlzdF9mb3JfZWFjaF9lbnRyeShlbnRyeSwgJnJlbGVhc2UtPmJvcywgbGlzdCkg
-ew0KPiArCQlpZiAoZW50cnktPmJvID09IGJvKQ0KPiAgIAkJCXJldHVybiAwOw0KPiAgIAl9
-DQo+ICAgDQo+IEBAIC0xODIsOSArMTgwLDggQEAgaW50IHF4bF9yZWxlYXNlX2xpc3RfYWRk
-KHN0cnVjdCBxeGxfcmVsZWFzZSAqcmVsZWFzZSwgc3RydWN0IHF4bF9ibyAqYm8pDQo+ICAg
-CQlyZXR1cm4gLUVOT01FTTsNCj4gICANCj4gICAJcXhsX2JvX3JlZihibyk7DQo+IC0JZW50
-cnktPnR2LmJvID0gJmJvLT50Ym87DQo+IC0JZW50cnktPnR2Lm51bV9zaGFyZWQgPSAwOw0K
-PiAtCWxpc3RfYWRkX3RhaWwoJmVudHJ5LT50di5oZWFkLCAmcmVsZWFzZS0+Ym9zKTsNCj4g
-KwllbnRyeS0+Ym8gPSBibzsNCj4gKwlsaXN0X2FkZF90YWlsKCZlbnRyeS0+bGlzdCwgJnJl
-bGVhc2UtPmJvcyk7DQo+ICAgCXJldHVybiAwOw0KPiAgIH0NCj4gICANCj4gQEAgLTIyMSwy
-MSArMjE4LDI3IEBAIGludCBxeGxfcmVsZWFzZV9yZXNlcnZlX2xpc3Qoc3RydWN0IHF4bF9y
-ZWxlYXNlICpyZWxlYXNlLCBib29sIG5vX2ludHIpDQo+ICAgCWlmIChsaXN0X2lzX3Npbmd1
-bGFyKCZyZWxlYXNlLT5ib3MpKQ0KPiAgIAkJcmV0dXJuIDA7DQo+ICAgDQo+IC0JcmV0ID0g
-dHRtX2V1X3Jlc2VydmVfYnVmZmVycygmcmVsZWFzZS0+dGlja2V0LCAmcmVsZWFzZS0+Ym9z
-LA0KPiAtCQkJCSAgICAgIW5vX2ludHIsIE5VTEwpOw0KPiAtCWlmIChyZXQpDQo+IC0JCXJl
-dHVybiByZXQ7DQo+IC0NCj4gLQlsaXN0X2Zvcl9lYWNoX2VudHJ5KGVudHJ5LCAmcmVsZWFz
-ZS0+Ym9zLCB0di5oZWFkKSB7DQo+IC0JCXN0cnVjdCBxeGxfYm8gKmJvID0gdG9fcXhsX2Jv
-KGVudHJ5LT50di5ibyk7DQo+IC0NCj4gLQkJcmV0ID0gcXhsX3JlbGVhc2VfdmFsaWRhdGVf
-Ym8oYm8pOw0KPiAtCQlpZiAocmV0KSB7DQo+IC0JCQl0dG1fZXVfYmFja29mZl9yZXNlcnZh
-dGlvbigmcmVsZWFzZS0+dGlja2V0LCAmcmVsZWFzZS0+Ym9zKTsNCj4gLQkJCXJldHVybiBy
-ZXQ7DQo+ICsJZHJtX2V4ZWNfaW5pdCgmcmVsZWFzZS0+ZXhlYywgIW5vX2ludHIpOw0KPiAr
-CWRybV9leGVjX3doaWxlX25vdF9hbGxfbG9ja2VkKCZyZWxlYXNlLT5leGVjKSB7DQo+ICsJ
-CWxpc3RfZm9yX2VhY2hfZW50cnkoZW50cnksICZyZWxlYXNlLT5ib3MsIGxpc3QpIHsNCj4g
-KwkJCXJldCA9IGRybV9leGVjX3ByZXBhcmVfb2JqKCZyZWxlYXNlLT5leGVjLA0KPiArCQkJ
-CQkJICAgJmVudHJ5LT5iby0+dGJvLmJhc2UsDQo+ICsJCQkJCQkgICAxKTsNCj4gKwkJCWRy
-bV9leGVjX2JyZWFrX29uX2NvbnRlbnRpb24oJnJlbGVhc2UtPmV4ZWMpOw0KPiArCQkJaWYg
-KHJldCkNCj4gKwkJCQlnb3RvIGVycm9yOw0KPiAgIAkJfQ0KPiAgIAl9DQo+ICsNCj4gKwls
-aXN0X2Zvcl9lYWNoX2VudHJ5KGVudHJ5LCAmcmVsZWFzZS0+Ym9zLCBsaXN0KSB7DQo+ICsJ
-CXJldCA9IHF4bF9yZWxlYXNlX3ZhbGlkYXRlX2JvKGVudHJ5LT5ibyk7DQo+ICsJCWlmIChy
-ZXQpDQo+ICsJCQlnb3RvIGVycm9yOw0KPiArCX0NCj4gICAJcmV0dXJuIDA7DQo+ICtlcnJv
-cjoNCj4gKwlkcm1fZXhlY19maW5pKCZyZWxlYXNlLT5leGVjKTsNCj4gKwlyZXR1cm4gcmV0
-Ow0KPiAgIH0NCj4gICANCj4gICB2b2lkIHF4bF9yZWxlYXNlX2JhY2tvZmZfcmVzZXJ2ZV9s
-aXN0KHN0cnVjdCBxeGxfcmVsZWFzZSAqcmVsZWFzZSkNCj4gQEAgLTI0NSw3ICsyNDgsNyBA
-QCB2b2lkIHF4bF9yZWxlYXNlX2JhY2tvZmZfcmVzZXJ2ZV9saXN0KHN0cnVjdCBxeGxfcmVs
-ZWFzZSAqcmVsZWFzZSkNCj4gICAJaWYgKGxpc3RfaXNfc2luZ3VsYXIoJnJlbGVhc2UtPmJv
-cykpDQo+ICAgCQlyZXR1cm47DQo+ICAgDQo+IC0JdHRtX2V1X2JhY2tvZmZfcmVzZXJ2YXRp
-b24oJnJlbGVhc2UtPnRpY2tldCwgJnJlbGVhc2UtPmJvcyk7DQo+ICsJZHJtX2V4ZWNfZmlu
-aSgmcmVsZWFzZS0+ZXhlYyk7DQo+ICAgfQ0KPiAgIA0KPiAgIGludCBxeGxfYWxsb2Nfc3Vy
-ZmFjZV9yZWxlYXNlX3Jlc2VydmVkKHN0cnVjdCBxeGxfZGV2aWNlICpxZGV2LA0KPiBAQCAt
-NDA0LDE4ICs0MDcsMTggQEAgdm9pZCBxeGxfcmVsZWFzZV91bm1hcChzdHJ1Y3QgcXhsX2Rl
-dmljZSAqcWRldiwNCj4gICANCj4gICB2b2lkIHF4bF9yZWxlYXNlX2ZlbmNlX2J1ZmZlcl9v
-YmplY3RzKHN0cnVjdCBxeGxfcmVsZWFzZSAqcmVsZWFzZSkNCj4gICB7DQo+IC0Jc3RydWN0
-IHR0bV9idWZmZXJfb2JqZWN0ICpibzsNCj4gICAJc3RydWN0IHR0bV9kZXZpY2UgKmJkZXY7
-DQo+IC0Jc3RydWN0IHR0bV92YWxpZGF0ZV9idWZmZXIgKmVudHJ5Ow0KPiArCXN0cnVjdCBx
-eGxfYm9fbGlzdCAqZW50cnk7DQo+ICAgCXN0cnVjdCBxeGxfZGV2aWNlICpxZGV2Ow0KPiAr
-CXN0cnVjdCBxeGxfYm8gKmJvOw0KPiAgIA0KPiAgIAkvKiBpZiBvbmx5IG9uZSBvYmplY3Qg
-b24gdGhlIHJlbGVhc2UgaXRzIHRoZSByZWxlYXNlIGl0c2VsZg0KPiAgIAkgICBzaW5jZSB0
-aGVzZSBvYmplY3RzIGFyZSBwaW5uZWQgbm8gbmVlZCB0byByZXNlcnZlICovDQo+ICAgCWlm
-IChsaXN0X2lzX3Npbmd1bGFyKCZyZWxlYXNlLT5ib3MpIHx8IGxpc3RfZW1wdHkoJnJlbGVh
-c2UtPmJvcykpDQo+ICAgCQlyZXR1cm47DQo+ICAgDQo+IC0JYm8gPSBsaXN0X2ZpcnN0X2Vu
-dHJ5KCZyZWxlYXNlLT5ib3MsIHN0cnVjdCB0dG1fdmFsaWRhdGVfYnVmZmVyLCBoZWFkKS0+
-Ym87DQo+IC0JYmRldiA9IGJvLT5iZGV2Ow0KPiArCWJvID0gbGlzdF9maXJzdF9lbnRyeSgm
-cmVsZWFzZS0+Ym9zLCBzdHJ1Y3QgcXhsX2JvX2xpc3QsIGxpc3QpLT5ibzsNCj4gKwliZGV2
-ID0gYm8tPnRiby5iZGV2Ow0KPiAgIAlxZGV2ID0gY29udGFpbmVyX29mKGJkZXYsIHN0cnVj
-dCBxeGxfZGV2aWNlLCBtbWFuLmJkZXYpOw0KPiAgIA0KPiAgIAkvKg0KPiBAQCAtNDI2LDE0
-ICs0MjksMTIgQEAgdm9pZCBxeGxfcmVsZWFzZV9mZW5jZV9idWZmZXJfb2JqZWN0cyhzdHJ1
-Y3QgcXhsX3JlbGVhc2UgKnJlbGVhc2UpDQo+ICAgCQkgICAgICAgcmVsZWFzZS0+aWQgfCAw
-eGYwMDAwMDAwLCByZWxlYXNlLT5iYXNlLnNlcW5vKTsNCj4gICAJdHJhY2VfZG1hX2ZlbmNl
-X2VtaXQoJnJlbGVhc2UtPmJhc2UpOw0KPiAgIA0KPiAtCWxpc3RfZm9yX2VhY2hfZW50cnko
-ZW50cnksICZyZWxlYXNlLT5ib3MsIGhlYWQpIHsNCj4gKwlsaXN0X2Zvcl9lYWNoX2VudHJ5
-KGVudHJ5LCAmcmVsZWFzZS0+Ym9zLCBsaXN0KSB7DQo+ICAgCQlibyA9IGVudHJ5LT5ibzsN
-Cj4gICANCj4gLQkJZG1hX3Jlc3ZfYWRkX2ZlbmNlKGJvLT5iYXNlLnJlc3YsICZyZWxlYXNl
-LT5iYXNlLA0KPiArCQlkbWFfcmVzdl9hZGRfZmVuY2UoYm8tPnRiby5iYXNlLnJlc3YsICZy
-ZWxlYXNlLT5iYXNlLA0KPiAgIAkJCQkgICBETUFfUkVTVl9VU0FHRV9SRUFEKTsNCj4gLQkJ
-dHRtX2JvX21vdmVfdG9fbHJ1X3RhaWxfdW5sb2NrZWQoYm8pOw0KPiAtCQlkbWFfcmVzdl91
-bmxvY2soYm8tPmJhc2UucmVzdik7DQo+ICsJCXR0bV9ib19tb3ZlX3RvX2xydV90YWlsX3Vu
-bG9ja2VkKCZiby0+dGJvKTsNCj4gICAJfQ0KPiAtCXd3X2FjcXVpcmVfZmluaSgmcmVsZWFz
-ZS0+dGlja2V0KTsNCj4gKwlkcm1fZXhlY19maW5pKCZyZWxlYXNlLT5leGVjKTsNCj4gICB9
-DQo+IC0NCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVs
-b3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3Ry
-YXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5k
-cmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5
-IChBRyBOdWVybmJlcmcpDQo=
+What radeon needs is to keep EALREADY BOs in a separate container 
+because we need to double check their properties to not break the UAPI.
 
---------------fYRWM0lFA3AVbQwe0rqD78A0--
+I strongly think that this shouldn't be needed by any other driver.
 
---------------00ALl0Ya4kUeQ5r30kTMFxjF
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Going to add a flag to ignore EALREADY which can be set during exec init.
 
------BEGIN PGP SIGNATURE-----
+Regards,
+Christian.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSRbcEFAwAAAAAACgkQlh/E3EQov+BA
-jw/9HIz/yE4hn9w/jRhXB5qkdP8lq66lcP2LZTL3WK4/lY/VR+dG47OnGLqpOCvcDXJ0fwoXDi9w
-RpXfjUwo/32aZgO286xL4LXaKd9d0CqotyhSV5MMxp/3t5oUmtmOwBQrFtBdoVYLvIM/GxDScUCn
-e6z9x0qHoRdh+eJe6Eim26GCp9QJ78I1nRhi3zDQZGHTrOPqof2T+bOmSW1EOMgo9vfNZLcU69q7
-TfVkLgweUDCrZttDuaGp/uUIP16+ufuoQQjMvLWA50DGgsrR2zLY0MdRxYsbqEkgNoTby4kuhCzx
-kSPRyjVNVgkvjt+SKphiR70QPZm6OPwVsEfaC0hG7cYR9ox98xBgQxTk5elcbMAkhuFUW3owLEfH
-AAjXBmdStvzRM5HpOe4SAaehY/fwYLHkMkQLNFWluqzeLwenboAJWJlMjFDuHMmVEBFMzQcOCs/2
-A9kg+Gm/WKdh5datm9UUZNRuiKRFJMyVhsIdm3JEtNzwYiDdiJG459IlI3bXJ2YVucMzL04cP0Jv
-8dcFRt6rcg5cNze4kANYCHddm+/PR6udh45dDcTDZvRluV02nAp9tcfAKIYmkVrTZM3J9n+SevOq
-FDmIzVEvRTk9uTKkk1nrzJkNjyiwTimsWRaNEo8bk07GKryemnV1K1/XvSX4+AQUNT36sny99Y5i
-Jqg=
-=PjUK
------END PGP SIGNATURE-----
+>
+>> For radeon it turned out that we just had stupid userspace which
+>> sometimes mentioned a BO in the list twice.
+> Okay, that's not the same thing, indeed.
+>
+>> On the other hand over estimating the number of fences needed is
+>> perfectly fine as well, that is rounded up to the next kvmalloc size or
+>> even next page size anyway.
+> Yeah, actually over-provisioning is not the most annoying part.
+> Iterating over jobs to collect 'meta'-BOs is, so if I can just rely on
+> EALREADY to detect that case and fallback to reserving an extra slot in
+> that situation, I'd prefer that.
 
---------------00ALl0Ya4kUeQ5r30kTMFxjF--
