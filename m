@@ -1,69 +1,124 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31449736390
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 08:24:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B97B7363B9
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 08:45:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B24410E17B;
-	Tue, 20 Jun 2023 06:24:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 587BB10E26C;
+	Tue, 20 Jun 2023 06:45:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B277510E17B
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 06:24:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
- s=s31663417; t=1687242275; x=1687847075; i=deller@gmx.de;
- bh=P4yET/ii6laUO0c0nA2w7JL4IyFthpA/vzXPBsUXChM=;
- h=X-UI-Sender-Class:Date:To:Cc:References:From:Subject:In-Reply-To;
- b=hEfNUGv4oZFo6i7NeRr66V8+HC0Z19w49eyJegnYHUaTis3VcK+QjCzm+nxZIARZybq5iz1
- E2brAqU4PyV11XT8w/2ofjvNvlpPCS4FOh6ilx2VTUCYYYZbHNGkqulblBDBZfLxVRhFcTK7B
- oIMUzsgLqTjDzFde63HcfJdgSahV4I4F2cDi82he1WBLKot5r3sgNB1GMQ25Dsm1wa0Hz3jZz
- kg0v5NHrrU4wWOq0AXG7YQuLdN1rRb9rwI+Y7qc1x1Qp+bTCCguNJidtuRxxBkyDpY6nxxZWi
- iseO8qo1qex/MTeK1HCZptluKskuwvN/FM2DGJCSpNA7LLTbc/OQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([94.134.157.8]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MpUYu-1pkBv518uK-00ps7o; Tue, 20
- Jun 2023 08:24:35 +0200
-Message-ID: <3d8c3a8c-68be-422a-c4ff-6d2e99c3f01b@gmx.de>
-Date: Tue, 20 Jun 2023 08:24:34 +0200
-MIME-Version: 1.0
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on20600.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7eaa::600])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5823110E264;
+ Tue, 20 Jun 2023 06:45:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JVuG6IkSjOCXqdEWXeI92ag5xTvrmKMxrpCSv+GMb2F8l+Naqo5b4Snt/I/JL8RKdSUfAAZHgN47ImgOrmC+cstFMtMhVtphHNkDWZnmbVtAAQD8ypUMxPpFXpUAOEIPqMbyvlidtR9c6CPgHQaA2iCi1FEo9M9dvN5YpoUYHlP+0GgW7CH/wB8XZJswklkQozkbU0vpsQhN/FgcIMTHWdZS1YW1gX9C5ZigrK27pArP2JiOe8OIat6DzVFVJwCdy9DkywZfXjGinoiGE4tFIxJsVb0l3IwbO7d2iWRnzxaAMt8R5WBZHCyM9mRVVwUTx/lroBeZv78kdwMmBR5pOw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7FP0khkDo7XVVLXOsc0YO5tFywdc9jJYG0y71MKW79k=;
+ b=fnmBxZ1Ws3VnSA/dsfNlAZ4h8B3eGC3MfJ4rAI9hF1ecuwMitkCqswajLw9zT+2uhf6CcYCf0NIiMm27+H0rhO2+impBSuYx3+zZ2PiylKVqN/vkHUafsLVhDjXMs/Yhvkl4qL3GeUft1SZt8P6vM2OZ6s2TH+Aqgj2lY/pfv7W47HTyE97nBaS5TaeL1AjgdYPZH2+GdeOU98DCfR9FGLfZ+AU2o8o3J/gmRX6StqYFJ6hkeTTVpDl6uz/QfXC9oVqPy/QTHSlII+X/ECnzX/Fj57FOck1523i9W4VnUS30UNW4pUXwgcIrnjO3HEb8pyC357NgsuJNZ4jSZKMZOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7FP0khkDo7XVVLXOsc0YO5tFywdc9jJYG0y71MKW79k=;
+ b=D/uMWka1QW8Yog3XikL/DBZ8pu0O8t8W5IXHrfLTp94dfoGDhbtzowaudMfBIETr4jLUbHM/QWijnqccTduIoEGrb7x2UlRE+nIxd0mP0bD0jryx5rvAhTwXK4UeSnrxXqLcBfYljIGYL5hAk+Tu+WNvYULLogGDma0U1FIk09I=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by SN7PR12MB6692.namprd12.prod.outlook.com (2603:10b6:806:270::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.37; Tue, 20 Jun
+ 2023 06:45:45 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::384a:95a4:8819:ee84]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::384a:95a4:8819:ee84%7]) with mapi id 15.20.6500.036; Tue, 20 Jun 2023
+ 06:45:45 +0000
+Message-ID: <cf6846ea-5bd0-0b41-b7e6-901c70701751@amd.com>
+Date: Tue, 20 Jun 2023 08:45:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
+ Thunderbird/102.11.0
+Subject: Re: [PATCH drm-next v5 03/14] drm: manager to keep track of GPUs VA
+ mappings
 Content-Language: en-US
-To: Cyril Brulebois <cyril@debamax.com>, Rob Herring <robh@kernel.org>
-References: <20230412095509.2196162-1-cyril@debamax.com>
- <20230412095509.2196162-2-cyril@debamax.com> <ZDvrY7X9mpJ7WZ3z@eldamar.lan>
- <11b342dc-1a46-d1be-5fdd-c6eee661e15a@leemhuis.info>
- <fe3b90b0-b52f-9677-0245-a201975c3e0c@suse.de>
- <20230615132107.GA9196@kitsune.suse.cz>
- <20230615200901.GA1572644-robh@kernel.org>
- <20230615211924.cf2qs52cfaf7m3f7@debamax.com>
-From: Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH 1/2] fbdev/offb: Update expected device name
-In-Reply-To: <20230615211924.cf2qs52cfaf7m3f7@debamax.com>
+To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
+ tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net, bskeggs@redhat.com,
+ Liam.Howlett@oracle.com, matthew.brost@intel.com,
+ boris.brezillon@collabora.com, alexdeucher@gmail.com, ogabbay@kernel.org,
+ bagasdotme@gmail.com, willy@infradead.org, jason@jlekstrand.net
+References: <20230620004217.4700-1-dakr@redhat.com>
+ <20230620004217.4700-4-dakr@redhat.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20230620004217.4700-4-dakr@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:/5EbFHqdTR5VZsqWRgQuO1B3pFhNypJeYz67/Gfk+zk8oU7VQHh
- +VZIjwowX5PZ3z2zjHqKgFfyQGf8bdNU9PEU7PzE3mCVgiKu5kTkeUxVi7c1Bvp5pOoxEwF
- 3BCkiWoE7TRt3R514QqSXbDTf0vyL2jyRzqdymHfNt2l8YdEAYAiOyQKzzEmymdGqa0m8mY
- SNP16ZtzRxLCfHo3AYECg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:zbmZ87N98Vw=;mfvc1cgsO73dUvNLnQLh1n/hqru
- ji2qD0q7adNzvSs2na/gU8PIC28GNHDnx4Gy+NZgMC8n5dQenxQz9nkoKM/2RQXMQTZDpbBN6
- AIPFsSouYdTtry00NaNzIqPz4blCvHHsUA52OOkrk+OimQ4eZd0DebT9+e1fUUmdcRg8YtbHy
- pF2S9PXcNKeQs+p/4wNGuUptSi+CE5+AG6dKYqVMJLJWiwF0yhf2EKqdceS7zl4YP2t9QPake
- NNZpU9qann2QCr4BoAAyjCakXodNYUQmltm8jNbEYpjwY6HtuLBzI4QSLrfdUwHGqQwEkViRc
- RpIKXO0ii+pBneR7zu5u7sGY95DotNxUGHbu5s/jbZgsIGFDWxPAJeD+aMi8qBw4QtbO/oTh7
- 1zjS/l201UCQPN3ryMPiERbCgOHuAdDwUcnX4MPx0Rhu0UyTcNgk4gjZ+RyQIyjprFccFSE+b
- v0pXLiAueJ1A1FsQVoQ3lUFcAFUqJrrvYrbCnsfWIsceoUMu1fC5xzkfXL2+MmrTNOH2L9CgO
- PUs5Lw57XmZ1HKSN/lreKvucnVnBBJHW4EMhOgRVTZGczltM6hILr0AcH7seNBq7xW7p92Nqz
- HWpgTnAQVPBC1cDpJS443BRaoG+RclTS9WVVxgR18kDJA74rlB0cR/aYAsY3aF6bE9a6J+cc4
- 3viGZN6VgPBv+SPmNzd4oEEszvoLo3biHhvHAas9PK4Z6Z7s81Gz51lafN8c0TQPMEnY2XLuo
- 3XLBro8r9GAaOJ3VpWnH57Z9pt6Lah2Jr44KNKIlm6HRF2UbcGepYwHgd43UoJQP3BrKyuo29
- DrnEN6v4nnxAFStVj19KK4Jjd8r4cLWCjLJm/9/ByRlcuUMgm0yuFg35ioAC0+UqC2oRv41/e
- 1tmR4rxD9hnrleliemSKb9itdhUSIOqA9tBp1PezLz/NDcatUgZHPcltOCD5mCJ9ULa2kugiU
- PxYbSmWZbRu5W6tZibZAgSNNYDQ=
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0240.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b2::15) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SN7PR12MB6692:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8c58ac4e-1b54-4ef0-7e05-08db7159f96d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NXM5juGnqO0M0gw7+gJLCwHIbhH8JMHcurLMLY8cWJkXLWbHItCAMyLGk2fnVDHFHxr2QxMzZfPtQTFI48i51C3eGvKryjF6VDEpwN6BMnb5ySultXrCYJ1GRjcrcpO7ZQ7Dad0Fy+Wa3DAhorZD/lCz3+kRsvW2BA/9IPKZ/iZxt4D7AmwKuDf+R0cjXVQP2zLKDeajsge4fp9n/hENwgSR+mqU+agTkWWlH4gdIgtOdWwSMzNxMxbspjSQL41gdWXaSmbBoJuFtXqKTy2x/1Wn4uoKcUsryTnT93jKPopopqjp8Mk80fI9V/n3GS0I73c1ogXq0wAql6uV4iRfky1LT25DwAOrw9FxpqVmUXSW/qQeJIUyn/HvV17otX1DAtVYl6cllZn54W5pe57y48moZNCzR0yCVOs9VQbxjLuxYT2N/rX8YjykPAgoFbg07oVF9/bW7OR7NpOfJzy768Ra9QjhYlwzwHogU2XiUi9VVEyoxbXTt9lQlRZq3oz0Bk0IUo8qyA1FaYwCHxDnANEAjYNGEmbVWs2u8ag3GPwk2SRIb/LYMgcVgPgAMq//7xsOfC0DCZiwBVFdo9nHCLRMZvOk1bf3XsrPeiD3X+lTvGYgyiNeBrg/8ymwvlnZ3OTd966PZU1cZ6T/3z10y1w62IElw+l+yg5KhmbUn1M=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(39860400002)(136003)(346002)(366004)(376002)(451199021)(41300700001)(5660300002)(8676002)(8936002)(2906002)(7416002)(36756003)(86362001)(31696002)(6506007)(6512007)(26005)(478600001)(54906003)(186003)(6486002)(6666004)(66476007)(4326008)(66946007)(66556008)(316002)(38100700002)(31686004)(2616005)(83380400001)(921005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YUxqdDl4U21EZmdQQ01GUW9LSHVaK0dCeUR0NkQrTnRuTHUvZXNZTVNtUTk1?=
+ =?utf-8?B?Y0hFM0pjSms3WDhPYU5TdDR1TWx0NWJYaDRjdHN6SEZxNlh3Vlk2T1F3QXZT?=
+ =?utf-8?B?Z0F5ZFJ4d0ZSNFlMcUMxS2V2S1VlYTNHSUlGN04zclFTQ28zZjFySG1DZ3dG?=
+ =?utf-8?B?Rlp2dVZQVDJKWkJBVCtOdE1PVzBQTGNkSXB0d1I4b3I1c3k1Rys4UHJQM0Vq?=
+ =?utf-8?B?ZzVZa3BrMWZlRVZQUDVuTmdDWDF5N2lta0JmMVh5bVFnYnhvaG1CMGlvVCtB?=
+ =?utf-8?B?QmljQ3AxbVA2U3JaS1VlcDVGSk5ONzBySWttMGF3RVFQTlVLajl4Tkx5elRu?=
+ =?utf-8?B?NDJZRi9mL1FmcGhzcDJLcmkyNkNoaElwR0I3R25oOFhCdEdZUWtCSnVJcEVt?=
+ =?utf-8?B?YkNBNVlGQUR6SlVxaXNITnlIaFFUNGpmZlhDOXpBd2kyQUhod29hSzZ5Sitn?=
+ =?utf-8?B?bnkzbWY5RE9wTTRPOE1tczRDZCtXQ0t3QnJlWHlqZFNZalBSZ1FsYkFmSGFF?=
+ =?utf-8?B?ai9aeHNUZ1Y1b3Y0aTZoT01SY1FaVDBxMGE1ZjFQMTd4Z3VmaWVnYmxmb0VQ?=
+ =?utf-8?B?ejYxdFdrYlFzZGIzYlBWYzM0NXJlUXJFVExzcURGb0orVjg5NGttZ3pqNDgy?=
+ =?utf-8?B?RmtZRzlhMW9ZMEdIUU9HSTBSL0NaVDFRc3l5TTBoMGZkdUVzM3FRZGxKM3Mz?=
+ =?utf-8?B?U0NHMHVyUjlOL29adDdVNFpUY2dvTndSOUNZUmVYQVVnajRDZUlMaXRuSDNj?=
+ =?utf-8?B?eGJBWVhhcTFndm5nYXhETnhYTHAwbWRIUUJCNkVWTnlnZnZDN1JmdEZTd2Ir?=
+ =?utf-8?B?aXE5L0VPSEYxQkpNTjlGU01IR3NCSk95c3V2ODBUTVcxcHRSQVhqN1FmNE41?=
+ =?utf-8?B?V1pURWY3dnBRV2FvWjlXWS9xVC9UbWs3dmxjT05Wc1B2ODJZRXF2RHRkWGxt?=
+ =?utf-8?B?Unlybnhhb2tUWHNWZ1pyMTZUdy9MMWlxTHUvdHJKeC9GR2l4UUNIRSt0c3lR?=
+ =?utf-8?B?Z2JZTHFld3FGN05GbXFXUzhkRUR0eUk5Z2RVYnR6aFlERG9QWlVaSXF6TzlB?=
+ =?utf-8?B?S2k0MTNiWlJ1YzAzcTJ5bm1xNCtQU3YwMkJNSk9Gb2R2VVVTWWM4RURKaisy?=
+ =?utf-8?B?bnRVNGx0ZkxTdTRLak9tbitSdlpYNVpnTzJjKytOaTgyNE5scCtpeDJuaC9t?=
+ =?utf-8?B?cTBNQ3ZVcFc1cUx6WFRNMzNtbllnRFNCYnJZbUlwdHlvRjNKNGgzc0Nla3Vz?=
+ =?utf-8?B?TkxyYmVwU1d6Sk5ZU1YwaXRlWG5QUnJBQjVNcllMV0hwRlVsODJSMkpyQUg2?=
+ =?utf-8?B?SDhxUEdmT0VjTDF0UWJ1akxFM2h3R2tPTVdOWllWVXRvY1ZYZTBqNzVwVHhw?=
+ =?utf-8?B?V3pKRzAxcSttRDhQbDBja2ZtZ0xWb1o2NU8vL2NDU1ZPQTdUOFFvbHZrQUpW?=
+ =?utf-8?B?WTlrZHZMekZ4QXRKTDRwU0tkaEpWejJJQWZHTm1rM1g0SFQ0Z0k0ZE5tcWFX?=
+ =?utf-8?B?Tjd1Q3h1ZFRWMzVQU0MwUVhGRHVsanZzZ0hIUXRiVlR3NjljcVVXMi9wckIy?=
+ =?utf-8?B?L2RvZ0lRNE43eXpRWkE4Vnk0eC81ZzBpaFh2U01PZ3NvY1NyRUZhSVVYOGpX?=
+ =?utf-8?B?L01Rb1oxc1VGSWtHV3dTNWV3cVBmSTVVbkl6SDFscU5ld01EYzdXL1VTbExH?=
+ =?utf-8?B?TmJFL1ZMeGl2bTA0bXJXSVNOYmNYVDhMdjlWY2RTYi9ITkVROUJUa053bkpP?=
+ =?utf-8?B?c3JuZnYwTkRZT0cwUmdPaDVvVURYOVNOUk0walo5Vk9yd0JGcTArdHpxelR1?=
+ =?utf-8?B?Z0c1NmlySlp2TkZqUHR1MnVNZzVQYWpWamw0MEhSYnRTd205TEgwMjdmZm14?=
+ =?utf-8?B?STU1T29Jck5PVVR3Rlovb0ZkYlpmZnU3MVdRNDcxTUdRS3hreHplZnVUWjRN?=
+ =?utf-8?B?N1A1eFBUMkVkeUltMVBQOHhhR0hnR25Geks3ZGkwUE5MK05PVWdYY1VwUjRa?=
+ =?utf-8?B?THJLZjk4d1pnWnVrMFIzSFFsRXF3cGczY1NBcWYzWmw2OVA5SS9zbHIvd0VX?=
+ =?utf-8?B?amtyak5HZW9JMUZQUVlJbHVZZlIwaExvSS9SdkhsRW4wU3FHNFAxNXVQSWti?=
+ =?utf-8?Q?DzH2icqrkSULk4QA62OKneTIz?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8c58ac4e-1b54-4ef0-7e05-08db7159f96d
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jun 2023 06:45:45.7074 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uOvcmq9iNz0c4Y0irlKS7+fnH4/R06Wj/qaJ6dNUPmcz5QhEUkJ53mqzRy6Gxdp4
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6692
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,79 +131,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Linux regressions mailing list <regressions@lists.linux.dev>,
+Cc: linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- stable@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>,
- Salvatore Bonaccorso <carnil@debian.org>
+ linux-mm@kvack.org, Donald Robson <donald.robson@imgtec.com>,
+ Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/15/23 23:19, Cyril Brulebois wrote:
-> Hi Rob,
->
-> Rob Herring <robh@kernel.org> (2023-06-15):
->> On Thu, Jun 15, 2023 at 03:21:07PM +0200, Michal Such=C3=A1nek wrote:
->>> At the time this was proposed it was said that "of-display", is wrong,
->>> and that "of-display.0" must be used for the first device instead, and
->>> if something breaks an alias can be provided.
->>>
->>> So how does one provide an alias so that offb can find "of-display.0"
->>> as "of-display"?
->>
->> I'm not aware of any way. There isn't because device names and paths ar=
-e
->> not considered ABI. There are mechanisms for getting stable class devic=
-e
->> indices (e.g. i2c0, mmcblk0, fb0, fb1, etc.) though not implemented for
->> fbN (and please don't add it).
->>
->> In any case, this should be an easy fix. Though if "linux,opened" or
->> "linux,boot-display" is not set, then you'd still get "of-display.0":
->>
->> diff --git a/drivers/of/platform.c b/drivers/of/platform.c
->> index 78ae84187449..e46482cef9c7 100644
->> --- a/drivers/of/platform.c
->> +++ b/drivers/of/platform.c
->> @@ -553,7 +553,7 @@ static int __init of_platform_default_populate_init=
-(void)
->>                          if (!of_get_property(node, "linux,opened", NUL=
-L) ||
->>                              !of_get_property(node, "linux,boot-display=
-", NULL))
->>                                  continue;
->> -                       dev =3D of_platform_device_create(node, "of-dis=
-play.0", NULL);
->> +                       dev =3D of_platform_device_create(node, "of-dis=
-play", NULL);
->>                          of_node_put(node);
->>                          if (WARN_ON(!dev))
->>                                  return -ENOMEM;
+Hi Danilo,
 
-Michal, does that patch look correct?
-I don't have that hardware, but that way the boot-display gets named
-"of-display" while all others get "of-display.x"....
+sorry for the delayed reply. I've trying to dig myself out of a hole at 
+the moment.
 
-> I've just replaced my clueless workaround with this patch on top of the
-> kernel found in Debian 12 (Bookworm), i.e. 6.1.27 at this point, and it
-> indeed fixes the black screen problem in the installer's context.
+Am 20.06.23 um 02:42 schrieb Danilo Krummrich:
+> [SNIP]
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index bbc721870c13..5ec8148a30ee 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -36,6 +36,8 @@
+>   
+>   #include <linux/kref.h>
+>   #include <linux/dma-resv.h>
+> +#include <linux/list.h>
+> +#include <linux/mutex.h>
+>   
+>   #include <drm/drm_vma_manager.h>
+>   
+> @@ -379,6 +381,18 @@ struct drm_gem_object {
+>   	 */
+>   	struct dma_resv _resv;
+>   
+> +	/**
+> +	 * @gpuva:
+> +	 *
+> +	 * Provides the list of GPU VAs attached to this GEM object.
+> +	 *
+> +	 * Drivers should lock list accesses with the GEMs &dma_resv lock
+> +	 * (&drm_gem_object.resv).
+> +	 */
+> +	struct {
+> +		struct list_head list;
+> +	} gpuva;
+> +
+>   	/**
+>   	 * @funcs:
+>   	 *
 
-... at least it fixes the issue.
+I'm pretty sure that it's not a good idea to attach this directly to the 
+GEM object.
 
-> I didn't run a full installation to check whether this kernel is also fi=
-ne
-> after rebooting into the installed system, but as far as I understood fo=
-r
-> the original bug report[1], it wasn't affected in the first place.
->
->   1. https://bugs.debian.org/1033058
->
-> Will somebody else pick up the torch from here, and submit that for
-> inclusion in master? Or should I re-submit the above patch on my own?
+As you wrote in the commit message it's highly driver specific what to 
+map and where to map it.
 
-It would be good to get some more feedback, but in general if you
-or Rob send me a patch I can include it in the fbdev git tree for futher
-testing (and if nobody else disagrees).
+Instead I suggest to have a separate structure for mappings in a VA 
+space which driver can then add to their GEM objects or whatever they 
+want to map into their VMs.
 
-Helge
+Regards,
+Christian.
+
+
