@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3A8673622E
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 05:33:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A8B736264
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 05:56:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 901CC10E110;
-	Tue, 20 Jun 2023 03:32:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA9210E16A;
+	Tue, 20 Jun 2023 03:56:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A06D310E110;
- Tue, 20 Jun 2023 03:32:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1687231977; x=1718767977;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=vz9Elmf3UeS0RL3UTjU7uNXgCY47ti7fqCDYGrkHqhs=;
- b=m9tobE2MoUEA6+xAN6tKuRg6pC29TlEust+Ya/vQLh8zFCy7h5Ov0a+k
- dnK/cCILG9kowFVDJIsIJMVu126+qtzxGYWxeztBdhOsyPWUR1xzXVpWY
- I4nevD/Ahas2SpikE0RihUsSgVayUbTOjj4Z038Yf6vkL3bYONatz3C3h
- O/mTTSD+bkp5Ueod1obFWkRr/GWwEM/tNCSwlYv9HF9/hpFvnWE6OvAdd
- iN6A1hUpDlb53yQ5CmtPD18ohDitiANmX25UBdqn3eD4E00/ZuHT4STCD
- KnvA/i7/5wlo3wZg5fJoMAwoaFKxLVR1NKZS1l+c/tngcEBH1PjAaTawh A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="359758198"
-X-IronPort-AV: E=Sophos;i="6.00,256,1681196400"; d="scan'208";a="359758198"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2023 20:32:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="691279341"
-X-IronPort-AV: E=Sophos;i="6.00,256,1681196400"; d="scan'208";a="691279341"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
- by orsmga006.jf.intel.com with ESMTP; 19 Jun 2023 20:32:50 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qBS6s-0005RH-0F;
- Tue, 20 Jun 2023 03:32:50 +0000
-Date: Tue, 20 Jun 2023 11:32:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
- tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net,
- christian.koenig@amd.com, bskeggs@redhat.com,
- Liam.Howlett@oracle.com, matthew.brost@intel.com,
- boris.brezillon@collabora.com, alexdeucher@gmail.com,
- ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
- jason@jlekstrand.net
-Subject: Re: [PATCH drm-next v5 03/14] drm: manager to keep track of GPUs VA
- mappings
-Message-ID: <202306201123.4nvLB3cQ-lkp@intel.com>
-References: <20230620004217.4700-4-dakr@redhat.com>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3AD0210E16A
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 03:56:45 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8BxY+h7I5FkbgoHAA--.421S3;
+ Tue, 20 Jun 2023 11:56:44 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8AxauV7I5FkciwhAA--.27771S3; 
+ Tue, 20 Jun 2023 11:56:43 +0800 (CST)
+Message-ID: <50fbc003-fd3c-c7c4-9c6b-76d14a0babfc@loongson.cn>
+Date: Tue, 20 Jun 2023 11:56:43 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230620004217.4700-4-dakr@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2] drm/logicvc: Kconfig: select REGMAP and REGMAP_MMIO
+Content-Language: en-US
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+References: <20230608024207.581401-1-suijingfeng@loongson.cn>
+ <ZIGAEZTJvq1GqFVD@aptenodytes>
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <ZIGAEZTJvq1GqFVD@aptenodytes>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8AxauV7I5FkciwhAA--.27771S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7ZF1kZryDZr18GF1xur13Jrc_yoW8Xr43pF
+ W8ta4jyF4IvFWakF1IyF1aqFy5X3Z5GrWa9Fy2k3Z8u3s8CF1DZr93ZrWYgFy5XrZrAF4x
+ t3Z3Ka45GF47CacCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUB2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+ AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+ AVWUtwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
+ 8JMxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_
+ Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+ xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0
+ cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+ AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E
+ 14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU2uc_DUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,72 +65,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org,
- llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- Danilo Krummrich <dakr@redhat.com>, Donald Robson <donald.robson@imgtec.com>,
- oe-kbuild-all@lists.linux.dev, Dave Airlie <airlied@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Danilo,
+Hi,
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 2222dcb0775d36de28992f56455ab3967b30d380]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v4/20230620-084448
-base:   2222dcb0775d36de28992f56455ab3967b30d380
-patch link:    https://lore.kernel.org/r/20230620004217.4700-4-dakr%40redhat.com
-patch subject: [PATCH drm-next v5 03/14] drm: manager to keep track of GPUs VA mappings
-config: hexagon-randconfig-r041-20230620 (https://download.01.org/0day-ci/archive/20230620/202306201123.4nvLB3cQ-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230620/202306201123.4nvLB3cQ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306201123.4nvLB3cQ-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/drm_gpuva_mgr.c:676:7: warning: format specifies type 'unsigned long' but the argument has type 'unsigned int' [-Wformat]
-     676 |         return WARN(check_add_overflow(addr, range, &end),
-         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     677 |                     "GPUVA address limited to %lu bytes, see Documentation.\n",
-         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                               %u
-     678 |                     MTREE_INDEX_SIZE);
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_gpuva_mgr.c:663:26: note: expanded from macro 'MTREE_INDEX_SIZE'
-     663 | #define MTREE_INDEX_SIZE sizeof(MTREE_INDEX_TYPE)
-         |                          ^
-   include/asm-generic/bug.h:133:29: note: expanded from macro 'WARN'
-     133 |                 __WARN_printf(TAINT_WARN, format);                      \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-   include/asm-generic/bug.h:97:48: note: expanded from macro '__WARN_printf'
-      97 |                 warn_slowpath_fmt(__FILE__, __LINE__, taint, arg);      \
-         |                                                              ^~~
-   drivers/gpu/drm/drm_gpuva_mgr.c:1314:25: warning: variable 'prev' set but not used [-Wunused-but-set-variable]
-    1314 |         struct drm_gpuva *va, *prev = NULL;
-         |                                ^
-   2 warnings generated.
+On 2023/6/8 15:15, Paul Kocialkowski wrote:
+> Hi,
+>
+> On Thu 08 Jun 23, 10:42, Sui Jingfeng wrote:
+>> drm/logicvc driver is depend on REGMAP and REGMAP_MMIO, should select this
+>> two kconfig option, otherwise the driver failed to compile on platform
+>> without REGMAP_MMIO selected:
+>>
+>> ERROR: modpost: "__devm_regmap_init_mmio_clk" [drivers/gpu/drm/logicvc/logicvc-drm.ko] undefined!
+>> make[1]: *** [scripts/Makefile.modpost:136: Module.symvers] Error 1
+>> make: *** [Makefile:1978: modpost] Error 2
+>>
+>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> Thanks for the fix, looks good to me!
+>
+> Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
 
-vim +676 drivers/gpu/drm/drm_gpuva_mgr.c
+Thanks a lot,
 
-   668	
-   669	static inline bool
-   670	drm_gpuva_check_overflow(u64 addr, u64 range)
-   671	{
-   672		MTREE_INDEX_TYPE end;
-   673	
-   674		return WARN(check_add_overflow(addr, range, &end),
-   675			    "GPUVA address limited to %lu bytes, see Documentation.\n",
- > 676			    MTREE_INDEX_SIZE);
-   677	}
-   678	
 
+Please don't forget to push this to drm-misc or drm-tip if you has the time,
+
+as (even though trivial) it's precious for me.
+
+
+> Cheers,
+>
+> Paul
+>
+>> ---
+>>   drivers/gpu/drm/logicvc/Kconfig | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/logicvc/Kconfig b/drivers/gpu/drm/logicvc/Kconfig
+>> index fa7a88368809..1df22a852a23 100644
+>> --- a/drivers/gpu/drm/logicvc/Kconfig
+>> +++ b/drivers/gpu/drm/logicvc/Kconfig
+>> @@ -5,5 +5,7 @@ config DRM_LOGICVC
+>>   	select DRM_KMS_HELPER
+>>   	select DRM_KMS_DMA_HELPER
+>>   	select DRM_GEM_DMA_HELPER
+>> +	select REGMAP
+>> +	select REGMAP_MMIO
+>>   	help
+>>   	  DRM display driver for the logiCVC programmable logic block from Xylon
+>> -- 
+>> 2.25.1
+>>
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jingfeng
+
