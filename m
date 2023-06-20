@@ -1,66 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B74DE7372F7
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 19:33:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8A8973730F
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 19:40:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A37DF10E306;
-	Tue, 20 Jun 2023 17:33:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D2AF10E308;
+	Tue, 20 Jun 2023 17:40:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
- [IPv6:2001:4860:4864:20::33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B78B210E194
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 17:33:24 +0000 (UTC)
-Received: by mail-oa1-x33.google.com with SMTP id
- 586e51a60fabf-1a9e88d21d4so1213868fac.1
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 10:33:24 -0700 (PDT)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEC6510E308
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 17:40:44 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id
+ 2adb3069b0e04-4f875b267d9so2902417e87.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 10:40:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687282403; x=1689874403;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ESFewTyZPM1OZhlLkTTRzDuiv/Xt5eFtjuIGmwBh8EU=;
- b=VcNP8VPoeXjf8XzzY44xuIAy5XVftRzxUBSgwq4xXNKnyh2419rLqYC1+/Wap+LJSk
- QXAk4TsuMKdkintyweMt+tS6zHQ9DMQt6fXwqIYOvbQ6UbUIO8L60ilj6o/6dhylcMet
- tUUeXUZ108ZfMeecTioGnntMKiB2VIjDV2v1AokopJoAZvbb0Yu9VFdo2vdqXIlfd1HY
- 82+3BsgNYV/GcP8doZz7iFs8lz+kdnxtkowYlRnL8D9NrirCWQ6KJLH29WDPy1S1WRrE
- dFAZcbBbBDUgRbxy3GmUdFXVXu6MCwC1vSgzWNCzajaOLhbgVNVK0LsQFhSyogy4gMW/
- pQcg==
+ d=linaro.org; s=google; t=1687282841; x=1689874841;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=eqAZNQk7Z69YOwb0M82rDabEev5i0RfMRmDQpnJ2T2k=;
+ b=p/oYYTa+njNZ8YxPjsVGh3kzhKXu2dfQOzkL+VXETO9VyeJIh2yDg1XLZHJNa1zr95
+ RDea42DywaJjCsZ4Ebw8fskxYOp0we6rRu7HKh0BDs94t0VdEDg3sE0J0E9oDSVvnPm9
+ mRLtLVZiJYVVE9GUnad3awtQYqou1P8Ovo+tJJjH8ybzxh0MhIccpABciGHfPyNeljBy
+ pGtyW6Xs/9moRpqpSY+YYPIDYlsvpT/O44pJHzGtViSDHvP46inYHH/jj/4D08Svrtl+
+ j48xXm22jPKAaPk8bc/XqAHJoD70MXSqq0+HlrgNVAS9TnOifVd8yobGB8mE0+2N8mGm
+ eRPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687282403; x=1689874403;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ESFewTyZPM1OZhlLkTTRzDuiv/Xt5eFtjuIGmwBh8EU=;
- b=T1LubFfYUGxSIXL512kAeZW3E0QxLFTrCjbNJDoc9ShQebvXa55IsPG+VhQYsWtCDZ
- Z/pEWXw3o4rhCjF6Zamp5g8bGc9Hr9p/njBbvK/Outw8WhWHVhK2+EaN6bm2PQ1pkzCi
- 0POO/Rh0prO3GB60uqzIZ5KvueYmwrRxA+YcfpdVS3LtqdAOCaDHRnizVjUC4R+TCGWo
- rsEJEb/I7mt/rLf9+m4Qh/RYQr+HX5Ow71r81du8fp71XhiFPSk1Q+d0aKdGAT2X+3sj
- iVQmuPJ4QkTCL1zuoCtHp5/uoJDbXHv1P9F+ZPtURRLLeZiR5X9fh9URKm+TdWQLkpKI
- p1FQ==
-X-Gm-Message-State: AC+VfDyQkVqo4vvbh+Pl65wT8X6HU0ZdbofSjgQxzGstwyGuf6isqwd4
- tcLwEhxecN0LmZBTJPQ5iak=
-X-Google-Smtp-Source: ACHHUZ6+UrC4TZhz6QGK2px+UHwY9GWTptXgVSILSEf+PDFxewEanXrVq0nv2OesI2usdYOBO9u2Zw==
-X-Received: by 2002:aca:3405:0:b0:39e:ced8:8122 with SMTP id
- b5-20020aca3405000000b0039eced88122mr4697432oia.2.1687282403488; 
- Tue, 20 Jun 2023 10:33:23 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:1e46:4f71:3f19:a267])
+ d=1e100.net; s=20221208; t=1687282841; x=1689874841;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=eqAZNQk7Z69YOwb0M82rDabEev5i0RfMRmDQpnJ2T2k=;
+ b=Yy3CvYYCfjO7fjwrX1BvjW893st3UQuSxRXUUO79ORru4vxX9E1wUMxvxDqpHn6JSS
+ BuNhFXG8seKiF5uvGoma4LkR3oLlAXNwht9WFigEsUZs+bMEApM5r67HVEy3IuTQd0Oh
+ w+53FqXACbCZa2gUmOTB3+gxFLN/Wvkvmdx+63oCfsvQ55DnCU8kJMK7675/ol7TYyHD
+ qFSnQlkcmEkj5aGGYf+ChHb3fhwUVJJRcfaOpYBZLPWbe7iAfJl3SrdPzWlL29+z71kQ
+ jWfMKZxzOFwYR7tIlnGAF/r1DSmUZsFPYcZMNLizC1Wmrn7cYTtebh2Xx4mcbv3t7G8W
+ useA==
+X-Gm-Message-State: AC+VfDyaNfO2t5/go0DvGIMGh0t9avqtG3mINroSYaoEtuoZsRurssgj
+ bTpvAWpvikifgmNUefuNfYBKZg==
+X-Google-Smtp-Source: ACHHUZ4Mkz/tejUG8wsYLqpASgat6I12ValXWs3lcWJQuEUxr5KtZ43SFyTWMbguvw69zgCEm6NX5A==
+X-Received: by 2002:ac2:5f9a:0:b0:4f6:2f97:7f8b with SMTP id
+ r26-20020ac25f9a000000b004f62f977f8bmr6644997lfe.1.1687282841247; 
+ Tue, 20 Jun 2023 10:40:41 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
  by smtp.gmail.com with ESMTPSA id
- s203-20020acadbd4000000b00396050dca14sm1371204oig.28.2023.06.20.10.33.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jun 2023 10:33:23 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
-To: robdclark@gmail.com
-Subject: [PATCH 3/3] drm/msm/a5xx: Pass the revision information
-Date: Tue, 20 Jun 2023 14:33:05 -0300
-Message-Id: <20230620173305.896438-3-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230620173305.896438-1-festevam@gmail.com>
-References: <20230620173305.896438-1-festevam@gmail.com>
+ w10-20020ac254aa000000b004f20d0ebe50sm440511lfk.94.2023.06.20.10.40.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Jun 2023 10:40:40 -0700 (PDT)
+Message-ID: <254e633f-1cc4-0eac-d6d9-365f78433227@linaro.org>
+Date: Tue, 20 Jun 2023 20:40:40 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 1/3] drm/msm/a3xx: Pass the revision information
+Content-Language: en-GB
+To: Fabio Estevam <festevam@gmail.com>, robdclark@gmail.com
+References: <20230620173305.896438-1-festevam@gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230620173305.896438-1-festevam@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,62 +77,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dmitry.baryshkov@linaro.org, Fabio Estevam <festevam@denx.de>,
- dri-devel@lists.freedesktop.org
+Cc: Fabio Estevam <festevam@denx.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fabio Estevam <festevam@denx.de>
+On 20/06/2023 20:33, Fabio Estevam wrote:
+> From: Fabio Estevam <festevam@denx.de>
+> 
+> Commit cc943f43ece7 ("drm/msm/adreno: warn if chip revn is verified
+> before being set") exposes the need of setting the GPU revision fields
+> prior to using the adreno_is_xxx() functions.
+> 
+> Pass the GPU revision information to avoid run-time warning.
+> 
+> Signed-off-by: Fabio Estevam <festevam@denx.de>
 
-Commit cc943f43ece7 ("drm/msm/adreno: warn if chip revn is verified
-before being set") exposes the need of setting the GPU revision fields
-prior to using the adreno_is_xxx() functions.
+I'll take a glance later. Generic comment, you missed freedreno@, so 
+these patches will not pop up in our patch tracker. Also could you 
+please use git send-email passing all patches to the command, so that 
+they are threaded?
 
-Pass the GPU revision information to avoid run-time warning.
+> ---
+> Build-tested only.
+> 
+>   drivers/gpu/drm/msm/adreno/a3xx_gpu.c | 21 +++++++++++++++++++++
+>   1 file changed, 21 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a3xx_gpu.c b/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
+> index c86b377f6f0d..fc23810d7684 100644
+> --- a/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
+> @@ -530,6 +530,8 @@ struct msm_gpu *a3xx_gpu_init(struct drm_device *dev)
+>   	struct msm_gpu *gpu;
+>   	struct msm_drm_private *priv = dev->dev_private;
+>   	struct platform_device *pdev = priv->gpu_pdev;
+> +	struct adreno_platform_config *config = pdev->dev.platform_data;
+> +	const struct adreno_info *info;
+>   	struct icc_path *ocmem_icc_path;
+>   	struct icc_path *icc_path;
+>   	int ret;
+> @@ -558,6 +560,25 @@ struct msm_gpu *a3xx_gpu_init(struct drm_device *dev)
+>   	if (ret)
+>   		goto fail;
+>   
+> +	/*
+> +	 * We need to know the platform type before calling into adreno_gpu_init
+> +	 * so that the hw_apriv flag can be correctly set. Snoop into the info
+> +	 * and grab the revision number
+> +	 */
+> +	info = adreno_info(config->rev);
+> +	if (!info) {
+> +		ret = -EINVAL;
+> +		goto fail;
+> +	}
+> +
+> +	/* Assign these early so that we can use the is_aXYZ helpers */
+> +	/* Numeric revision IDs (e.g. 630) */
+> +	adreno_gpu->revn = info->revn;
+> +	/* New-style ADRENO_REV()-only */
+> +	adreno_gpu->rev = info->rev;
+> +	/* Quirk data */
+> +	adreno_gpu->info = info;
 
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
-Build-tested only.
+This looks like a boilerplate being added to all aYxx drivers (and then 
+these fields are also set in adreno_gpu_init()). Can we remove 
+duplication somehow?
 
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+> +
+>   	/* if needed, allocate gmem: */
+>   	if (adreno_is_a330(adreno_gpu)) {
+>   		ret = adreno_gpu_ocmem_init(&adreno_gpu->base.pdev->dev,
 
-diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-index a99310b68793..b4c1720ba89c 100644
---- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-@@ -1744,6 +1744,7 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
- 	struct msm_drm_private *priv = dev->dev_private;
- 	struct platform_device *pdev = priv->gpu_pdev;
- 	struct adreno_platform_config *config = pdev->dev.platform_data;
-+	const struct adreno_info *info;
- 	struct a5xx_gpu *a5xx_gpu = NULL;
- 	struct adreno_gpu *adreno_gpu;
- 	struct msm_gpu *gpu;
-@@ -1770,6 +1771,23 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
- 
- 	nr_rings = 4;
- 
-+	/*
-+	 * We need to know the platform type before calling into adreno_gpu_init
-+	 * so that the hw_apriv flag can be correctly set. Snoop into the info
-+	 * and grab the revision number
-+	 */
-+	info = adreno_info(config->rev);
-+	if (!info)
-+		return ERR_PTR(-EINVAL);
-+
-+	/* Assign these early so that we can use the is_aXYZ helpers */
-+	/* Numeric revision IDs (e.g. 630) */
-+	adreno_gpu->revn = info->revn;
-+	/* New-style ADRENO_REV()-only */
-+	adreno_gpu->rev = info->rev;
-+	/* Quirk data */
-+	adreno_gpu->info = info;
-+
- 	if (adreno_cmp_rev(ADRENO_REV(5, 1, 0, ANY_ID), config->rev))
- 		nr_rings = 1;
- 
 -- 
-2.34.1
+With best wishes
+Dmitry
 
