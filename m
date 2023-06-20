@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBA66737334
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 19:49:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE514737332
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 19:49:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9664310E320;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48BA410E316;
 	Tue, 20 Jun 2023 17:49:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F57E10E067;
- Tue, 20 Jun 2023 17:49:31 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id
- 46e09a7af769-6b466305a7cso229209a34.0; 
- Tue, 20 Jun 2023 10:49:31 -0700 (PDT)
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
+ [IPv6:2607:f8b0:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C790A10E30B;
+ Tue, 20 Jun 2023 17:49:33 +0000 (UTC)
+Received: by mail-ot1-x333.google.com with SMTP id
+ 46e09a7af769-6b466305a7cso229226a34.0; 
+ Tue, 20 Jun 2023 10:49:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687283370; x=1689875370;
+ d=gmail.com; s=20221208; t=1687283372; x=1689875372;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6YP9agMwH9qTdzgrdMa4Tw0z3MqPQmmHAnxaAinw4+Q=;
- b=aJHme6UABMswG9QdPiy5kTYCW+kpk43s9dAK+sHeZ/hKH60fLmPZ5AC4ihfSPXw5xx
- xj9xvjcUMaIf4j2TTuK5dp4fYLXvAi9xJ+yOPPcwcspN2WH9bWxmILyEPdTWepH2NtOg
- naoTI4K3md0ok34rx70Gq0w3hAyR1LdTvv877L/qFeccEg/pIJJbgYYi89XdpYjq1eUi
- 8SMfHLF5j0L1Lr3NMFzLgTTsoIG4yORRioApxXn528Wdoh3pzyo6pPQ5QY1xDk+3oCXx
- 42I+pURot1AZRoA6UxqeslNeWsPt4LuZ128Ew4nFzfpsUGDWOCLcwa2OC2Re1mmTas5b
- XEaQ==
+ bh=bSIrQQ/RAIvwJvQNHy8+RLPlTtOHjfI9O1iuZkDZSv8=;
+ b=M23cIlfHc2cWLrSZnqh1a6jAvzyxWCqU2OWymvDwDja39orDoZpcmOsG3NlMtVsxab
+ t+8sMf1NDcNr7vVRrapkztZa8N5Nq6OqmW12ZJUHAF7kNuT7N4wNflGOUjjgWCKT7f4K
+ C6yJ8tmxZlzFBkeY5gngk2RY6JMrATzMCh7QiaelGnBY4P6ikVhCreSoUsar7/DNjPBO
+ DlB3w58AT1z6iJDgEuvfFYyYiQhoa4+fmJZYQZlngY6ILo2KC3ppT4FU74bg//27gUIa
+ FT30fZuThRKTv+i7UghzSvWk7LQ5gYF6F4sLiynWlJJYo5CfLqGCwPzcfpMAMLfsL5jF
+ YVFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687283370; x=1689875370;
+ d=1e100.net; s=20221208; t=1687283372; x=1689875372;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=6YP9agMwH9qTdzgrdMa4Tw0z3MqPQmmHAnxaAinw4+Q=;
- b=gig9gKL+AtznQOX68mbC+vbFRijXvbtGc6Dzba4WEOoZna6iVLGOLVF84y1HXEhrRB
- CW/YkrxJQbon9D90mBjr4L4MWTJAxPw1+wLlwtvW/LOKiKEic8VXgQpIDUeEIb6DlUeO
- gMNCyT8y17BhW2eyj3BXECUqvxKpavfh/cN6PU8ScNaUgPqtgyxNXVLN8wqbogBctNoy
- MJLAoeqTGrE/VtlAApv09zdKzoCHrXSOudIGCXlR4CcOMtB6qPraZLIFhZKaNGo3dGAk
- /VjFnLZJqH2zx/DwuSNH0TSKNcyYzqvFX6803q8qWyYspgQ7Cbeos5yS8TLGRWYc6248
- hqDw==
-X-Gm-Message-State: AC+VfDzKYY3iZIfCPHwAzA7ncP6aCEQX0xrLPhCkxghRtnesuuSo/o1Z
- l81tY016/sjKth0nfZ+mzvRrJ8PdotI=
-X-Google-Smtp-Source: ACHHUZ7k61Dqv9ngYwXj+OAdQNntxlcFUozcpwNn3bGGocVGHtZPEloLWQWE9vBg/wCv7N0XDOyI9A==
-X-Received: by 2002:a9d:5387:0:b0:6b4:57ad:3d19 with SMTP id
- w7-20020a9d5387000000b006b457ad3d19mr8286996otg.2.1687283370024; 
- Tue, 20 Jun 2023 10:49:30 -0700 (PDT)
+ bh=bSIrQQ/RAIvwJvQNHy8+RLPlTtOHjfI9O1iuZkDZSv8=;
+ b=H4IdqMtlXgeSCJZCbn3trORMyB0/tGpuPgIOZ05SGgL4cLP+RG9xr6OWrqpbzwe+Zu
+ IHdDfbj95o4Sj4vqVTZtps+cZoZRcbHanHxHFRTh/3nsla3q6gbNRpYyKr/8Dff4utYI
+ QV1WUZrFbA5xOjVnTZFAdZ1fJK4HufEYz/XDyCM2o2+8E3GIFACXPevuoXwSJh888W05
+ Lim/+Jpw3tk9p6KGTtDJRQw3l1UkFnCPMmedyWqkaLM+KtyZX3tJ4+8oclVG4OBIgK4D
+ rhY7OgbH0KQKZJIBVEoC+ttui9AYiWMgB9atHc5a2IHYcGHBx7zc1DGAAvRbU2ZHxhv6
+ i42g==
+X-Gm-Message-State: AC+VfDwDOk+SQDIb5HQ0lP/0etoJRUqfHWSnVFDcFbz4k7SBrNqgjrx4
+ GPi+XXF94BYzb9zRELgjyVg=
+X-Google-Smtp-Source: ACHHUZ5v8ABMn9UdnlOi2nNJDH3HIEWaqObC3fr1PQ25fiJPBQ+Kr6HCcWoCdsMo9v2qyBOh8yQGRA==
+X-Received: by 2002:a05:6830:620d:b0:6b4:6145:dfb2 with SMTP id
+ cd13-20020a056830620d00b006b46145dfb2mr7655649otb.1.1687283372387; 
+ Tue, 20 Jun 2023 10:49:32 -0700 (PDT)
 Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:1e46:4f71:3f19:a267])
  by smtp.gmail.com with ESMTPSA id
- r21-20020a9d7cd5000000b006a44338c8efsm1154892otn.44.2023.06.20.10.49.27
+ r21-20020a9d7cd5000000b006a44338c8efsm1154892otn.44.2023.06.20.10.49.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jun 2023 10:49:29 -0700 (PDT)
+ Tue, 20 Jun 2023 10:49:31 -0700 (PDT)
 From: Fabio Estevam <festevam@gmail.com>
 To: robdclark@gmail.com
-Subject: [PATCH v2 2/4] drm/msm/a3xx: Pass the revision information
-Date: Tue, 20 Jun 2023 14:49:19 -0300
-Message-Id: <20230620174921.898275-2-festevam@gmail.com>
+Subject: [PATCH v2 3/4] drm/msm/a4xx: Pass the revision information
+Date: Tue, 20 Jun 2023 14:49:20 -0300
+Message-Id: <20230620174921.898275-3-festevam@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230620174921.898275-1-festevam@gmail.com>
 References: <20230620174921.898275-1-festevam@gmail.com>
@@ -93,14 +93,14 @@ Build-tested only.
 Changes since v1:
 - None
 
- drivers/gpu/drm/msm/adreno/a3xx_gpu.c | 21 +++++++++++++++++++++
+ drivers/gpu/drm/msm/adreno/a4xx_gpu.c | 21 +++++++++++++++++++++
  1 file changed, 21 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a3xx_gpu.c b/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
-index c86b377f6f0d..fc23810d7684 100644
---- a/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
-@@ -530,6 +530,8 @@ struct msm_gpu *a3xx_gpu_init(struct drm_device *dev)
+diff --git a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
+index 715436cb3996..2ae072b4e79d 100644
+--- a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
+@@ -658,6 +658,8 @@ struct msm_gpu *a4xx_gpu_init(struct drm_device *dev)
  	struct msm_gpu *gpu;
  	struct msm_drm_private *priv = dev->dev_private;
  	struct platform_device *pdev = priv->gpu_pdev;
@@ -109,7 +109,7 @@ index c86b377f6f0d..fc23810d7684 100644
  	struct icc_path *ocmem_icc_path;
  	struct icc_path *icc_path;
  	int ret;
-@@ -558,6 +560,25 @@ struct msm_gpu *a3xx_gpu_init(struct drm_device *dev)
+@@ -684,6 +686,25 @@ struct msm_gpu *a4xx_gpu_init(struct drm_device *dev)
  	if (ret)
  		goto fail;
  
@@ -132,9 +132,9 @@ index c86b377f6f0d..fc23810d7684 100644
 +	/* Quirk data */
 +	adreno_gpu->info = info;
 +
- 	/* if needed, allocate gmem: */
- 	if (adreno_is_a330(adreno_gpu)) {
- 		ret = adreno_gpu_ocmem_init(&adreno_gpu->base.pdev->dev,
+ 	adreno_gpu->registers = adreno_is_a405(adreno_gpu) ? a405_registers :
+ 							     a4xx_registers;
+ 
 -- 
 2.34.1
 
