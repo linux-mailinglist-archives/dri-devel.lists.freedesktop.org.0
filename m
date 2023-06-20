@@ -1,34 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BA2D736408
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 09:09:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFE5973636B
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 08:13:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A1E910E270;
-	Tue, 20 Jun 2023 07:08:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 892E510E17A;
+	Tue, 20 Jun 2023 06:13:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 515 seconds by postgrey-1.36 at gabe;
- Mon, 19 Jun 2023 16:12:05 UTC
-Received: from unicorn.mansr.com (unicorn.mansr.com [IPv6:2001:8b0:ca0d:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9852710E21D
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 16:12:05 +0000 (UTC)
-Received: from raven.mansr.com (raven.mansr.com [IPv6:2001:8b0:ca0d:1::3])
- by unicorn.mansr.com (Postfix) with ESMTPS id 0ECA415360;
- Mon, 19 Jun 2023 17:03:28 +0100 (BST)
-Received: by raven.mansr.com (Postfix, from userid 51770)
- id 005FE21A4DD; Mon, 19 Jun 2023 17:03:27 +0100 (BST)
-From: Mans Rullgard <mans@mansr.com>
-To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>
-Subject: [PATCH] backlight: led_bl: take led_access lock when required
-Date: Mon, 19 Jun 2023 17:02:49 +0100
-Message-ID: <20230619160249.10414-1-mans@mansr.com>
-X-Mailer: git-send-email 2.41.0
+Received: from smtp-relay-internal-0.canonical.com
+ (smtp-relay-internal-0.canonical.com [185.125.188.122])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2927510E17A
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 06:13:02 +0000 (UTC)
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id C51F13F0F7
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 06:12:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1687241577;
+ bh=9wIeiW1ZFsba/KXCWD2PyQ1wr/96tQbFZf3Edkh0XnI=;
+ h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+ MIME-Version;
+ b=Bl7C6SQI5ptZxUxyeKcck/ODIqkCpGcBix8Kvces20prt13n2tG1HYQi7PxUq6yHs
+ Ea9aIvS6G9Vh1aHMPSPIDigbf7Gvzd5Fuu/1oHP3AxMqwMLPwikw4TgIcQZlHpom5h
+ 8SV8TQvi9Pk4gP1jTt7/GrHovDKjzbi8YCFS0n87DFtakf8RVHahkC+tj07n1IsMID
+ o+2con3EXEnt8EgtTptHVd0SvCSQrEK15b3vUStzc4LjYCkuemh1VZEef6/RcqR7FA
+ LQxHQlP+8gAnnRpKllotxdYCIqh1gtzLujOulhJvOYKzF1HGYohR9qXcCUHST0Slx/
+ QO+t29D8tpEFw==
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-3f41a04a297so16411365e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 23:12:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687241577; x=1689833577;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9wIeiW1ZFsba/KXCWD2PyQ1wr/96tQbFZf3Edkh0XnI=;
+ b=dZ2CnVzzPbU9OONHr5gyEgjbjjUH91tgZPu3RxXMiHkEepYvsNPJpfgVS50VLXmxV9
+ 92lDQTwmxg4+wpiaHnJoNSG+JKqzD7s88MsstgEmqahiCK5wqqibk/7NxePF/gdKVv37
+ EXo8QCTek0pRjWYWoLtC5s1xN9hpBHvF6tnMMS7QJDh4ccK8+Z38ZpwNZ2u4+HqMXaBO
+ xTbS3ZnwSvnNoj7yjhWawjWBDnWHsVercpzTpjgsJIFNcVzlIsU/OOxB8YMKe/nXPjrU
+ xU/5+D7DQ/7RqwsIeZLg1s3UOxJD/XRbtZVcGFpzY/CTWjcqt+Z1g99R3H9F97Ib3D6R
+ EQzg==
+X-Gm-Message-State: AC+VfDyG7f/lJov4k9PmSWnORaiKrvMzY0O7jUa4hG7D1lV5Gishi/eO
+ uqaAKlEpvdfSl9O0fPhWtdDdOMWA1Te7VI8Fzn8csZ7bH+2VYPAICXurDWWccXS/DZerZN6J8P5
+ 9YVZ6uZjP2C8fTcp/RfCtlOOqaBoEQ7GEIxPxrlJUDXMwiA==
+X-Received: by 2002:a5d:5642:0:b0:311:13e6:6504 with SMTP id
+ j2-20020a5d5642000000b0031113e66504mr7172942wrw.47.1687241577594; 
+ Mon, 19 Jun 2023 23:12:57 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ53VbcjaaSaVOP7ZfF1U8PlZ6CnaKfIspgMD4HVg9YmI8nsBXcQDmAFnqzTcFArMw2i9VXRcA==
+X-Received: by 2002:a5d:5642:0:b0:311:13e6:6504 with SMTP id
+ j2-20020a5d5642000000b0031113e66504mr7172930wrw.47.1687241577282; 
+ Mon, 19 Jun 2023 23:12:57 -0700 (PDT)
+Received: from localhost ([194.191.244.86]) by smtp.gmail.com with ESMTPSA id
+ y10-20020adff6ca000000b0030f9c3219aasm1163729wrp.47.2023.06.19.23.12.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Jun 2023 23:12:56 -0700 (PDT)
+From: Juerg Haefliger <juerg.haefliger@canonical.com>
+To: rfoss@kernel.org
+Subject: [PATCH v2] drm/bridge: lt9611uxc: Add MODULE_FIRMWARE macro
+Date: Tue, 20 Jun 2023 08:12:54 +0200
+Message-Id: <20230620061254.1210248-1-juerg.haefliger@canonical.com>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <CAN6tsi4jdDD20DY5sKL+ALC_Mk2UHRArOrQnjzKoyF30QZi8jw@mail.gmail.com>
+References: <CAN6tsi4jdDD20DY5sKL+ALC_Mk2UHRArOrQnjzKoyF30QZi8jw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 20 Jun 2023 07:08:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,68 +82,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: neil.armstrong@linaro.org, andrzej.hajda@intel.com, jonas@kwiboo.se,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ juerg.haefliger@canonical.com, jernej.skrabec@gmail.com,
+ Laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The led_access lock must be held when calling led_sysfs_enable() and
-led_sysfs_disable().  This fixes warnings such as this:
+The module loads firmware so add a MODULE_FIRMWARE macro to provide that
+information via modinfo.
 
-[    2.432495] ------------[ cut here ]------------
-[    2.437316] WARNING: CPU: 0 PID: 22 at drivers/leds/led-core.c:349 led_sysfs_disable+0x54/0x58
-[    2.446105] Modules linked in:
-[    2.449218] CPU: 0 PID: 22 Comm: kworker/u2:1 Not tainted 6.3.8+ #1
-[    2.456268] Hardware name: Generic AM3517 (Flattened Device Tree)
-[    2.462402] Workqueue: events_unbound deferred_probe_work_func
-[    2.468353]  unwind_backtrace from show_stack+0x10/0x14
-[    2.473632]  show_stack from dump_stack_lvl+0x24/0x2c
-[    2.478759]  dump_stack_lvl from __warn+0x9c/0xc4
-[    2.483551]  __warn from warn_slowpath_fmt+0x64/0xc0
-[    2.488586]  warn_slowpath_fmt from led_sysfs_disable+0x54/0x58
-[    2.494567]  led_sysfs_disable from led_bl_probe+0x20c/0x3b0
-[    2.500305]  led_bl_probe from platform_probe+0x5c/0xb8
-[    2.505615]  platform_probe from really_probe+0xc8/0x2a0
-[    2.510986]  really_probe from __driver_probe_device+0x88/0x19c
-[    2.516967]  __driver_probe_device from driver_probe_device+0x30/0xcc
-[    2.523498]  driver_probe_device from __device_attach_driver+0x94/0xc4
-[    2.530090]  __device_attach_driver from bus_for_each_drv+0x80/0xcc
-[    2.536437]  bus_for_each_drv from __device_attach+0xf8/0x19c
-[    2.542236]  __device_attach from bus_probe_device+0x8c/0x90
-[    2.547973]  bus_probe_device from deferred_probe_work_func+0x80/0xb0
-[    2.554504]  deferred_probe_work_func from process_one_work+0x228/0x4c0
-[    2.561187]  process_one_work from worker_thread+0x1fc/0x4d0
-[    2.566925]  worker_thread from kthread+0xb4/0xd0
-[    2.571685]  kthread from ret_from_fork+0x14/0x2c
-[    2.576446] Exception stack(0xd0079fb0 to 0xd0079ff8)
-[    2.581573] 9fa0:                                     00000000 00000000 00000000 00000000
-[    2.589813] 9fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-[    2.598052] 9fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-[    2.604888] ---[ end trace 0000000000000000 ]---
-
-
-Signed-off-by: Mans Rullgard <mans@mansr.com>
+Signed-off-by: Juerg Haefliger <juerg.haefliger@canonical.com>
+Reviewed-by: Robert Foss <rfoss@kernel.org>
 ---
- drivers/video/backlight/led_bl.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+v2:
+  - Introduce FW_FILE macro
+  - Add Rob's r-b
+---
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/video/backlight/led_bl.c b/drivers/video/backlight/led_bl.c
-index f54d256e2d54..7d02deb3444a 100644
---- a/drivers/video/backlight/led_bl.c
-+++ b/drivers/video/backlight/led_bl.c
-@@ -209,8 +209,11 @@ static int led_bl_probe(struct platform_device *pdev)
- 		return PTR_ERR(priv->bl_dev);
- 	}
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+index 2a57e804ea02..22c84d29c2bc 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+@@ -28,6 +28,8 @@
+ #define EDID_BLOCK_SIZE	128
+ #define EDID_NUM_BLOCKS	2
  
--	for (i = 0; i < priv->nb_leds; i++)
-+	for (i = 0; i < priv->nb_leds; i++) {
-+		mutex_lock(&priv->leds[i]->led_access);
- 		led_sysfs_disable(priv->leds[i]);
-+		mutex_unlock(&priv->leds[i]->led_access);
-+	}
++#define FW_FILE "lt9611uxc_fw.bin"
++
+ struct lt9611uxc {
+ 	struct device *dev;
+ 	struct drm_bridge bridge;
+@@ -754,7 +756,7 @@ static int lt9611uxc_firmware_update(struct lt9611uxc *lt9611uxc)
+ 		REG_SEQ0(0x805a, 0x00),
+ 	};
  
- 	backlight_update_status(priv->bl_dev);
+-	ret = request_firmware(&fw, "lt9611uxc_fw.bin", lt9611uxc->dev);
++	ret = request_firmware(&fw, FW_FILE, lt9611uxc->dev);
+ 	if (ret < 0)
+ 		return ret;
  
+@@ -1019,3 +1021,5 @@ module_i2c_driver(lt9611uxc_driver);
+ 
+ MODULE_AUTHOR("Dmitry Baryshkov <dmitry.baryshkov@linaro.org>");
+ MODULE_LICENSE("GPL v2");
++
++MODULE_FIRMWARE(FW_FILE);
 -- 
-2.41.0
+2.37.2
 
