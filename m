@@ -1,74 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AE2A73676E
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 11:14:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 520A7736770
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 11:15:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD2BC10E293;
-	Tue, 20 Jun 2023 09:14:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58BF110E297;
+	Tue, 20 Jun 2023 09:15:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DF8B10E293;
- Tue, 20 Jun 2023 09:14:55 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- 5b1f17b1804b1-3f9b4bf99c2so11651495e9.3; 
- Tue, 20 Jun 2023 02:14:55 -0700 (PDT)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE6AA10E297;
+ Tue, 20 Jun 2023 09:15:43 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id
+ ffacd0b85a97d-31121494630so5141575f8f.3; 
+ Tue, 20 Jun 2023 02:15:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687252493; x=1689844493;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=gmail.com; s=20221208; t=1687252542; x=1689844542;
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=rRGFfeXSo7TNj0IIOa1/K6NDHdvCUZ8QaqEZAsynC1s=;
- b=mYNhn7PjrFZb0xp+mvyZZktwm2ZSMRC9jYyquzPtq+y299ERD1C1hZYbE+VHcl3O09
- zRNmYFHKqC3GaFv2/cp3C3Fe6EoUTzpjegulaB5pg2rpxtq05x0l6C6s0XZxpKv2Aeh2
- o+BnIYmkQMdwTSVgXcaLOoRWD/B0efjA6g1hVufMToIh6MM8Aa5wjgr0+CUmMCNIMas8
- iYz/fgri3FNBpxOAEugF1MY2WFuM+R1taliLU76hfy6EVziMJ/hQO6LF2RU7qa/C4n3/
- CKsiQasXy133QVUZBfTU002L6BaiX1wOcWif40WiM1U8z+SqcpAqd4wPC10b6NEqi0HL
- m76w==
+ bh=QoLjdcmtATlIxJ/j7hU+BqsFQqBE8XjEf1RqQqDsXmg=;
+ b=pKbytuAmUv1kgC3ZLx2Y5MpvPFv0bBQFNagZoj48GBf6T8jpYCzmM812m4N8ug/zpt
+ oo9GQgP62kOeTsC/DNWfc9Q+tNYRE/5fE39GQ/ww5szKX1km2xtfopjYPu4+2ZqMOSuH
+ PahQjVERWsGEwwGxr64GEJnx8n4gP3v3kRP7TXoZyH2BfFN7y3L1GRaKO79XdAjB5P3W
+ Ya8+K+3NNraT4VKN3LynSo+eg5TTNoBWioJmUyfEHNNEXu1m7TvOp1b3hmPF+MkwWu/r
+ iDSc9WLM1Ykf20mSobfzxKQI1tSZeKEJNcEx6mf1VblqU+AG6qsK7E7LiYieCSI9OREJ
+ HWvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687252493; x=1689844493;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=1e100.net; s=20221208; t=1687252542; x=1689844542;
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rRGFfeXSo7TNj0IIOa1/K6NDHdvCUZ8QaqEZAsynC1s=;
- b=TG9Lq1uIvMWtCQa9eypTaKAR91yjmbCRF2YTjOFtle6dNpfmBCFVPfQhLYBt1fLvYv
- OvrKAOxUx1zGPqidnsveAlhtu86DgkDRO44C63tFBbt6cRhQFp3zDWOJJLpEdslT+FYT
- dqIQB6OJzSvLuJQo+uBE6AOaG3JhzMV3DLv59m1ldxCfbZ/bX0fwunPfpQ4BLNwB1pEJ
- nXJUcVwdMRcFBbwmg37V7f3Dloj2xonlLwt7zu5nDVfkehM+QSoqp0sHXIWMRkJx+36b
- n68HGjw9XqtMV04dbhlqZ+//02+LQqlA9HLkgmkz88czAAnTclpNbXc0LZ7B/LXqe6tA
- 20rA==
-X-Gm-Message-State: AC+VfDy/6AHllIiIBfhvsu+cr244h95ns9zG/AS/INss/W9wYBXEv3Yw
- c4R+FpEsP8Pm3BEFG3AwhOM=
-X-Google-Smtp-Source: ACHHUZ4vg2Btcnur7pb21CC0pevFf6QOminLlPBDL6+kFvV4xEgQkIGvggJ9V4XmGnxrRsJvmHGbgQ==
-X-Received: by 2002:a7b:c8da:0:b0:3f9:5f2:74ba with SMTP id
- f26-20020a7bc8da000000b003f905f274bamr6136930wml.30.1687252492912; 
- Tue, 20 Jun 2023 02:14:52 -0700 (PDT)
+ bh=QoLjdcmtATlIxJ/j7hU+BqsFQqBE8XjEf1RqQqDsXmg=;
+ b=l7eFwJBfXsilCuruQLdF1w0arahcislPKb6Tsxw6N7stDdmIktm13A9GpVOI3RduTR
+ kEzBdgBPgDgJ8z0cn0LJnaDBTyKYCBhSfY21KbdgFJ24+PfUGVqxj2CNh2mmDjUdJcZ3
+ vtNW5BMxD2P8x0sw2jEoQuxTMchbd+XswdbpKV7/6s1vmzPh30UTF3GvBhkQV/z7GRV9
+ v0aOEOLSAmfvx8FvwtIWyGr9vgCzvJtkAkzUVWp7QAmWS6e4U4KDqPupJIZ14SCYmwJu
+ CF2QVD/7BUxCMhFq+tj0KXvfjJtOyr60IoqEVmOKDnF2aluIkJxSS2kqZvlfToUWI2Va
+ 0ryQ==
+X-Gm-Message-State: AC+VfDw3kIQ30bNKNgYPRuugK5o0bbRWUZMNK2FtEUXsvY0tCvhUq8MC
+ f2gFTjQgiO3YC4w2E1ggZXU=
+X-Google-Smtp-Source: ACHHUZ5OKa576Prx8+cpoQOO7gKnq9ocmDzz2Xee63wY88GSvxA9QCrNgHxExcT+MmtA+g7/mdeCdQ==
+X-Received: by 2002:adf:f787:0:b0:311:f77:6a91 with SMTP id
+ q7-20020adff787000000b003110f776a91mr9863720wrp.31.1687252541990; 
+ Tue, 20 Jun 2023 02:15:41 -0700 (PDT)
 Received: from ?IPV6:2a00:e180:154d:9c00:68d9:fc9c:8543:a6?
  ([2a00:e180:154d:9c00:68d9:fc9c:8543:a6])
  by smtp.gmail.com with ESMTPSA id
- m12-20020a7bcb8c000000b003f7ea771b5dsm1870913wmi.1.2023.06.20.02.14.52
+ k1-20020a5d66c1000000b003079c402762sm1561994wrw.19.2023.06.20.02.15.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Jun 2023 02:14:52 -0700 (PDT)
-Message-ID: <01ad928e-a900-fc5e-901c-8fe2639d711a@gmail.com>
-Date: Tue, 20 Jun 2023 11:14:51 +0200
+ Tue, 20 Jun 2023 02:15:41 -0700 (PDT)
+Message-ID: <93f681ad-230a-8e66-2f86-5870d4c7eca3@gmail.com>
+Date: Tue, 20 Jun 2023 11:15:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH 06/13] drm/amdgpu: use the new drm_exec object for CS v2
+Subject: Re: [PATCH 08/13] drm/qxl: switch to using drm_exec
 Content-Language: en-US
-To: Boris Brezillon <boris.brezillon@collabora.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, francois.dugast@intel.com,
+ felix.kuehling@amd.com, arunpravin.paneerselvam@amd.com,
+ thomas_os@shipmail.org, dakr@redhat.com, luben.tuikov@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 References: <20230504115159.2245-1-christian.koenig@amd.com>
- <20230504115159.2245-7-christian.koenig@amd.com>
- <e163fa54-b016-1879-d1c0-840a4d3885b1@gmail.com>
- <08169925-eb0b-bc79-e6f1-1eaa26198f5e@gmail.com>
- <20230620102817.6570f521@collabora.com>
- <ee7987a4-a9ad-e667-9ac5-c06b42cf36f1@gmail.com>
- <20230620110948.461e4359@collabora.com>
+ <20230504115159.2245-9-christian.koenig@amd.com>
+ <0eedce4a-bf11-e6ab-b49b-4d3cee049627@suse.de>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20230620110948.461e4359@collabora.com>
+In-Reply-To: <0eedce4a-bf11-e6ab-b49b-4d3cee049627@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,86 +82,205 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, Tatsuyuki Ishi <ishitatsuyuki@gmail.com>,
- arunpravin.paneerselvam@amd.com, thomas_os@shipmail.org,
- francois.dugast@intel.com, amd-gfx@lists.freedesktop.org, luben.tuikov@amd.com,
- dakr@redhat.com, dri-devel@lists.freedesktop.org, felix.kuehling@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 20.06.23 um 11:09 schrieb Boris Brezillon:
-> On Tue, 20 Jun 2023 10:44:26 +0200
-> Christian König <ckoenig.leichtzumerken@gmail.com> wrote:
+Am 20.06.23 um 11:13 schrieb Thomas Zimmermann:
+> Hi
 >
->> Am 20.06.23 um 10:28 schrieb Boris Brezillon:
->>> On Tue, 20 Jun 2023 10:12:13 +0200
->>> Christian König <ckoenig.leichtzumerken@gmail.com> wrote:
->>>   
->>>>> I think Boris's suggestion of having this through a common
->>>>> DRM_EXEC_FLAG_ALLOW_DUPLICATES flag fits well.
->>>> No, again. The only driver which should accept duplicates is radeon, for
->>>> all other drivers especially new ones duplicates should probably be
->>>> rejected.
->>>>
->>>> We only allow this for radeon because it is already UAPI, could be that
->>>> we need to do this for amdgpu as well but I really hope we don't need this.
->>> Just want to describe the use case we have: we support submission in
->>> batch (several jobs passed to the submit ioctl) with a
->>> submit-all-or-nothing model: if any of the job description is passed
->>> wrong args or causes an allocation error, we fail the whole group. In
->>> the submission path, we want to prepare GEMs for all jobs. That means
->>> adding enough fence slots for the number job finished fences. Given not
->>> all jobs will access the same set of BOs, I thought I could use
->>> duplicates support to make my life easier, because otherwise I have to
->>> collect all BOs upfront, store them in a temporary array, and keep
->>> track of the number of fence slots needed for each of them. I guess
->>> the other option would be to over-estimate the number of slots and make
->>> it equal to num_jobs for all BOs.
->> Sounds pretty much what amdgpu is doing as well, but question is why
->> don't you give just one list of BOs? Do you really want to add the
->> fences that fine grained?
-> Actually, we don't give a list of BOs at all, we pass a VM, and lock
-> all BOs attached to the VM (similar to what Xe does). And, as all other
-> drivers being submitted recently, we use explicit sync, so most of
-> those VM BOs, except for the imported/exported ones, will be given a
-> BOOKKEEP fence.
+> Am 04.05.23 um 13:51 schrieb Christian König:
+>> Just a straightforward conversion without any optimization.
+>>
+>> Only compile tested for now.
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   drivers/gpu/drm/qxl/Kconfig       |  1 +
+>>   drivers/gpu/drm/qxl/qxl_drv.h     |  7 ++--
+>>   drivers/gpu/drm/qxl/qxl_release.c | 67 ++++++++++++++++---------------
+>>   3 files changed, 39 insertions(+), 36 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/qxl/Kconfig b/drivers/gpu/drm/qxl/Kconfig
+>> index ca3f51c2a8fe..9c8e433be33e 100644
+>> --- a/drivers/gpu/drm/qxl/Kconfig
+>> +++ b/drivers/gpu/drm/qxl/Kconfig
+>> @@ -5,6 +5,7 @@ config DRM_QXL
+>>       select DRM_KMS_HELPER
+>>       select DRM_TTM
+>>       select DRM_TTM_HELPER
+>> +    select DRM_EXEC
 >
-> The reason we need support for duplicates is because we also have
-> implicit BOs (like the HWRT object that's shared by the
-> geometry/fragment queues to pass data around), and those can be passed
-> to multiple jobs in a given batch and require special synchronization
-> (geometry job writes to them, fragment job reads from them, so we have
-> a reader/writer sync to express). I can of course de-duplicate upfront,
-> by parsing jobs and creating an array of BOs that need to be acquired
-> over the whole submission, but that's still one extra-step I'd prefer
-> to avoid, given the dma_resv framework allows us to figure it out at
-> lock time. I can also just deal with the EALREADY case in the driver
-> directly, it's not like it's super complicated anyway, just thought
-> other drivers would fall in the same situation, that's all.
+> Just some nitpicking, but can we try to keep these select statements 
+> sorted alphabetically?
 
-Well as long as you just need to ignore EALREADY, that should be trivial 
-and doable.
+Sure and good point, going to apply that to other drivers as well.
 
-What radeon needs is to keep EALREADY BOs in a separate container 
-because we need to double check their properties to not break the UAPI.
-
-I strongly think that this shouldn't be needed by any other driver.
-
-Going to add a flag to ignore EALREADY which can be set during exec init.
-
-Regards,
 Christian.
 
 >
->> For radeon it turned out that we just had stupid userspace which
->> sometimes mentioned a BO in the list twice.
-> Okay, that's not the same thing, indeed.
+>>       select CRC32
+>>       help
+>>         QXL virtual GPU for Spice virtualization desktop integration.
+>> diff --git a/drivers/gpu/drm/qxl/qxl_drv.h 
+>> b/drivers/gpu/drm/qxl/qxl_drv.h
+>> index ea993d7162e8..3e732648b332 100644
+>> --- a/drivers/gpu/drm/qxl/qxl_drv.h
+>> +++ b/drivers/gpu/drm/qxl/qxl_drv.h
+>> @@ -38,12 +38,12 @@
+>>     #include <drm/drm_crtc.h>
+>>   #include <drm/drm_encoder.h>
+>> +#include <drm/drm_exec.h>
+>>   #include <drm/drm_gem_ttm_helper.h>
+>>   #include <drm/drm_ioctl.h>
+>>   #include <drm/drm_gem.h>
+>>   #include <drm/qxl_drm.h>
+>>   #include <drm/ttm/ttm_bo.h>
+>> -#include <drm/ttm/ttm_execbuf_util.h>
+>>   #include <drm/ttm/ttm_placement.h>
+>>     #include "qxl_dev.h"
+>> @@ -101,7 +101,8 @@ struct qxl_gem {
+>>   };
+>>     struct qxl_bo_list {
+>> -    struct ttm_validate_buffer tv;
+>> +    struct qxl_bo        *bo;
+>> +    struct list_head    list;
+>>   };
+>>     struct qxl_crtc {
+>> @@ -151,7 +152,7 @@ struct qxl_release {
+>>       struct qxl_bo *release_bo;
+>>       uint32_t release_offset;
+>>       uint32_t surface_release_id;
+>> -    struct ww_acquire_ctx ticket;
+>> +    struct drm_exec    exec;
+>>       struct list_head bos;
+>>   };
+>>   diff --git a/drivers/gpu/drm/qxl/qxl_release.c 
+>> b/drivers/gpu/drm/qxl/qxl_release.c
+>> index 368d26da0d6a..da7cd9cd58f9 100644
+>> --- a/drivers/gpu/drm/qxl/qxl_release.c
+>> +++ b/drivers/gpu/drm/qxl/qxl_release.c
+>> @@ -121,13 +121,11 @@ qxl_release_free_list(struct qxl_release *release)
+>>   {
+>>       while (!list_empty(&release->bos)) {
+>>           struct qxl_bo_list *entry;
+>> -        struct qxl_bo *bo;
+>>             entry = container_of(release->bos.next,
+>> -                     struct qxl_bo_list, tv.head);
+>> -        bo = to_qxl_bo(entry->tv.bo);
+>> -        qxl_bo_unref(&bo);
+>> -        list_del(&entry->tv.head);
+>> +                     struct qxl_bo_list, list);
+>> +        qxl_bo_unref(&entry->bo);
+>> +        list_del(&entry->list);
+>>           kfree(entry);
+>>       }
+>>       release->release_bo = NULL;
+>> @@ -172,8 +170,8 @@ int qxl_release_list_add(struct qxl_release 
+>> *release, struct qxl_bo *bo)
+>>   {
+>>       struct qxl_bo_list *entry;
+>>   -    list_for_each_entry(entry, &release->bos, tv.head) {
+>> -        if (entry->tv.bo == &bo->tbo)
+>> +    list_for_each_entry(entry, &release->bos, list) {
+>> +        if (entry->bo == bo)
+>>               return 0;
+>>       }
+>>   @@ -182,9 +180,8 @@ int qxl_release_list_add(struct qxl_release 
+>> *release, struct qxl_bo *bo)
+>>           return -ENOMEM;
+>>         qxl_bo_ref(bo);
+>> -    entry->tv.bo = &bo->tbo;
+>> -    entry->tv.num_shared = 0;
+>> -    list_add_tail(&entry->tv.head, &release->bos);
+>> +    entry->bo = bo;
+>> +    list_add_tail(&entry->list, &release->bos);
+>>       return 0;
+>>   }
+>>   @@ -221,21 +218,27 @@ int qxl_release_reserve_list(struct 
+>> qxl_release *release, bool no_intr)
+>>       if (list_is_singular(&release->bos))
+>>           return 0;
+>>   -    ret = ttm_eu_reserve_buffers(&release->ticket, &release->bos,
+>> -                     !no_intr, NULL);
+>> -    if (ret)
+>> -        return ret;
+>> -
+>> -    list_for_each_entry(entry, &release->bos, tv.head) {
+>> -        struct qxl_bo *bo = to_qxl_bo(entry->tv.bo);
+>> -
+>> -        ret = qxl_release_validate_bo(bo);
+>> -        if (ret) {
+>> -            ttm_eu_backoff_reservation(&release->ticket, 
+>> &release->bos);
+>> -            return ret;
+>> +    drm_exec_init(&release->exec, !no_intr);
+>> +    drm_exec_while_not_all_locked(&release->exec) {
+>> +        list_for_each_entry(entry, &release->bos, list) {
+>> +            ret = drm_exec_prepare_obj(&release->exec,
+>> +                           &entry->bo->tbo.base,
+>> +                           1);
+>> + drm_exec_break_on_contention(&release->exec);
+>> +            if (ret)
+>> +                goto error;
+>>           }
+>>       }
+>> +
+>> +    list_for_each_entry(entry, &release->bos, list) {
+>> +        ret = qxl_release_validate_bo(entry->bo);
+>> +        if (ret)
+>> +            goto error;
+>> +    }
+>>       return 0;
+>> +error:
+>> +    drm_exec_fini(&release->exec);
+>> +    return ret;
+>>   }
+>>     void qxl_release_backoff_reserve_list(struct qxl_release *release)
+>> @@ -245,7 +248,7 @@ void qxl_release_backoff_reserve_list(struct 
+>> qxl_release *release)
+>>       if (list_is_singular(&release->bos))
+>>           return;
+>>   -    ttm_eu_backoff_reservation(&release->ticket, &release->bos);
+>> +    drm_exec_fini(&release->exec);
+>>   }
+>>     int qxl_alloc_surface_release_reserved(struct qxl_device *qdev,
+>> @@ -404,18 +407,18 @@ void qxl_release_unmap(struct qxl_device *qdev,
+>>     void qxl_release_fence_buffer_objects(struct qxl_release *release)
+>>   {
+>> -    struct ttm_buffer_object *bo;
+>>       struct ttm_device *bdev;
+>> -    struct ttm_validate_buffer *entry;
+>> +    struct qxl_bo_list *entry;
+>>       struct qxl_device *qdev;
+>> +    struct qxl_bo *bo;
+>>         /* if only one object on the release its the release itself
+>>          since these objects are pinned no need to reserve */
+>>       if (list_is_singular(&release->bos) || list_empty(&release->bos))
+>>           return;
+>>   -    bo = list_first_entry(&release->bos, struct 
+>> ttm_validate_buffer, head)->bo;
+>> -    bdev = bo->bdev;
+>> +    bo = list_first_entry(&release->bos, struct qxl_bo_list, list)->bo;
+>> +    bdev = bo->tbo.bdev;
+>>       qdev = container_of(bdev, struct qxl_device, mman.bdev);
+>>         /*
+>> @@ -426,14 +429,12 @@ void qxl_release_fence_buffer_objects(struct 
+>> qxl_release *release)
+>>                  release->id | 0xf0000000, release->base.seqno);
+>>       trace_dma_fence_emit(&release->base);
+>>   -    list_for_each_entry(entry, &release->bos, head) {
+>> +    list_for_each_entry(entry, &release->bos, list) {
+>>           bo = entry->bo;
+>>   -        dma_resv_add_fence(bo->base.resv, &release->base,
+>> +        dma_resv_add_fence(bo->tbo.base.resv, &release->base,
+>>                      DMA_RESV_USAGE_READ);
+>> -        ttm_bo_move_to_lru_tail_unlocked(bo);
+>> -        dma_resv_unlock(bo->base.resv);
+>> +        ttm_bo_move_to_lru_tail_unlocked(&bo->tbo);
+>>       }
+>> -    ww_acquire_fini(&release->ticket);
+>> +    drm_exec_fini(&release->exec);
+>>   }
+>> -
 >
->> On the other hand over estimating the number of fences needed is
->> perfectly fine as well, that is rounded up to the next kvmalloc size or
->> even next page size anyway.
-> Yeah, actually over-provisioning is not the most annoying part.
-> Iterating over jobs to collect 'meta'-BOs is, so if I can just rely on
-> EALREADY to detect that case and fallback to reserving an extra slot in
-> that situation, I'd prefer that.
 
