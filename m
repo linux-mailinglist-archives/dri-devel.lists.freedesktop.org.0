@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE30173659C
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 10:03:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8717B7365A4
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 10:04:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5AC810E288;
-	Tue, 20 Jun 2023 08:03:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C7C310E083;
+	Tue, 20 Jun 2023 08:04:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CD2D10E288
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 08:03:01 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id E8BBD218B8;
- Tue, 20 Jun 2023 08:02:59 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D876510E162
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 08:04:37 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out2.suse.de (Postfix) with ESMTP id 33FFE1F37C;
+ Tue, 20 Jun 2023 08:04:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1687248179; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ t=1687248276; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H0V/sggmB50AaGpWkFM1KjJHBmuGjjTtbv3kTx452uc=;
- b=jFNMSpkTh/fQMJPRGZnV4cNEgKaI8Z3Y3aM3lXKDJKEe55elBl3rsNHcZHSaItUgLxnrvr
- RqoqWqjqdAWLFcfDADt4763BwXxRY6N7ulyjgu4qvmRJCoSg59mC7Hm4U+UyI4Wz7JAMxe
- nPNSk640jr1ovjC8l5SnA8DNY2n8Hf4=
+ bh=7OJL+2ljSAsX+K1gdyXTKpGUjBVDC+iSX2Dkj5l9F1E=;
+ b=VwbYO1I6T2fGkPwnvn8GfJx+WUb0vQY9rr31AUTLpwwKOPrVZv8b7Lp3E8scFLga/iXhKF
+ 4J+n9bzh5K7KoTqbMZDkhu7GRdzExRvH+v0jCYnNgOIj1A9ICZgQA2qTZm/+h/rOYZVw+w
+ 7EVW6DSk9IQie8tiGFoGvneGqoe5GKU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1687248179;
+ s=susede2_ed25519; t=1687248276;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H0V/sggmB50AaGpWkFM1KjJHBmuGjjTtbv3kTx452uc=;
- b=YrrQJU6y7eQiRgn6oXaWRM9wrnorROxC0l6nPk5me+NE/QClUaQiNjMVwavFD1MzGlKns5
- J6eM8z4Lg6Lu1xBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=7OJL+2ljSAsX+K1gdyXTKpGUjBVDC+iSX2Dkj5l9F1E=;
+ b=UCMTO8CD/webcRI2Fo5EoQLq/NF5sqXQ42k43dTN1pLahxxl7WrTimou6gZWuLATpKgGBV
+ vidFDbrvfCFwdHCg==
+Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id ABCE9139C7;
- Tue, 20 Jun 2023 08:02:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id CI0PKTNdkWRQEAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 20 Jun 2023 08:02:59 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, zackr@vmware.com, contact@emersion.fr,
- linux-graphics-maintainer@vmware.com, alexdeucher@gmail.com,
- quic_jhugo@quicinc.com
-Subject: [PATCH v2 3/3] drm/prime: Unexport helpers for fd/handle conversion
-Date: Tue, 20 Jun 2023 09:59:59 +0200
-Message-ID: <20230620080252.16368-4-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230620080252.16368-1-tzimmermann@suse.de>
-References: <20230620080252.16368-1-tzimmermann@suse.de>
+ by relay2.suse.de (Postfix) with ESMTPS id B94712C141;
+ Tue, 20 Jun 2023 08:04:35 +0000 (UTC)
+Date: Tue, 20 Jun 2023 10:04:34 +0200
+From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+To: Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH 1/2] fbdev/offb: Update expected device name
+Message-ID: <20230620080434.GD9196@kitsune.suse.cz>
+References: <20230412095509.2196162-1-cyril@debamax.com>
+ <20230412095509.2196162-2-cyril@debamax.com>
+ <ZDvrY7X9mpJ7WZ3z@eldamar.lan>
+ <11b342dc-1a46-d1be-5fdd-c6eee661e15a@leemhuis.info>
+ <fe3b90b0-b52f-9677-0245-a201975c3e0c@suse.de>
+ <20230615132107.GA9196@kitsune.suse.cz>
+ <20230615200901.GA1572644-robh@kernel.org>
+ <20230615211924.cf2qs52cfaf7m3f7@debamax.com>
+ <3d8c3a8c-68be-422a-c4ff-6d2e99c3f01b@gmx.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <3d8c3a8c-68be-422a-c4ff-6d2e99c3f01b@gmx.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,142 +70,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org,
+ Linux regressions mailing list <regressions@lists.linux.dev>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Cyril Brulebois <cyril@debamax.com>, stable@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Salvatore Bonaccorso <carnil@debian.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Unexport drm_gem_prime_fd_to_handle() and drm_gem_prime_handle_to_fd().
-Both are only used internally within the PRIME code.
+On Tue, Jun 20, 2023 at 08:24:34AM +0200, Helge Deller wrote:
+> On 6/15/23 23:19, Cyril Brulebois wrote:
+> > Hi Rob,
+> > 
+> > Rob Herring <robh@kernel.org> (2023-06-15):
+> > > On Thu, Jun 15, 2023 at 03:21:07PM +0200, Michal Suchánek wrote:
+> > > > At the time this was proposed it was said that "of-display", is wrong,
+> > > > and that "of-display.0" must be used for the first device instead, and
+> > > > if something breaks an alias can be provided.
+> > > > 
+> > > > So how does one provide an alias so that offb can find "of-display.0"
+> > > > as "of-display"?
+> > > 
+> > > I'm not aware of any way. There isn't because device names and paths are
+> > > not considered ABI. There are mechanisms for getting stable class device
+> > > indices (e.g. i2c0, mmcblk0, fb0, fb1, etc.) though not implemented for
+> > > fbN (and please don't add it).
+> > > 
+> > > In any case, this should be an easy fix. Though if "linux,opened" or
+> > > "linux,boot-display" is not set, then you'd still get "of-display.0":
+> > > 
+> > > diff --git a/drivers/of/platform.c b/drivers/of/platform.c
+> > > index 78ae84187449..e46482cef9c7 100644
+> > > --- a/drivers/of/platform.c
+> > > +++ b/drivers/of/platform.c
+> > > @@ -553,7 +553,7 @@ static int __init of_platform_default_populate_init(void)
+> > >                          if (!of_get_property(node, "linux,opened", NULL) ||
+> > >                              !of_get_property(node, "linux,boot-display", NULL))
+> > >                                  continue;
+> > > -                       dev = of_platform_device_create(node, "of-display.0", NULL);
+> > > +                       dev = of_platform_device_create(node, "of-display", NULL);
+> > >                          of_node_put(node);
+> > >                          if (WARN_ON(!dev))
+> > >                                  return -ENOMEM;
+> 
+> Michal, does that patch look correct?
+> I don't have that hardware, but that way the boot-display gets named
+> "of-display" while all others get "of-display.x"....
 
-v2:
-	* reword docs as functions are now unexported (Simon)
+Yes, that's inconsistent, and IIRC it's what I originally proposed to
+preserve compatibility as much as possible.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Simon Ser <contact@emersion.fr>
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
----
- drivers/gpu/drm/drm_prime.c | 33 +++++++++++++++------------------
- include/drm/drm_prime.h     |  7 -------
- 2 files changed, 15 insertions(+), 25 deletions(-)
+The patch went through multiple iteration by me and Rob and the final
+version that was merged uses the consistent but incompatible naming.
 
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index 3d37ee4c4ea4f..63e2e1bc99876 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -278,7 +278,7 @@ void drm_gem_dmabuf_release(struct dma_buf *dma_buf)
- }
- EXPORT_SYMBOL(drm_gem_dmabuf_release);
- 
--/**
-+/*
-  * drm_gem_prime_fd_to_handle - PRIME import function for GEM drivers
-  * @dev: drm_device to import into
-  * @file_priv: drm file-private structure
-@@ -292,9 +292,9 @@ EXPORT_SYMBOL(drm_gem_dmabuf_release);
-  *
-  * Returns 0 on success or a negative error code on failure.
-  */
--int drm_gem_prime_fd_to_handle(struct drm_device *dev,
--			       struct drm_file *file_priv, int prime_fd,
--			       uint32_t *handle)
-+static int drm_gem_prime_fd_to_handle(struct drm_device *dev,
-+				      struct drm_file *file_priv, int prime_fd,
-+				      uint32_t *handle)
- {
- 	struct dma_buf *dma_buf;
- 	struct drm_gem_object *obj;
-@@ -360,7 +360,6 @@ int drm_gem_prime_fd_to_handle(struct drm_device *dev,
- 	dma_buf_put(dma_buf);
- 	return ret;
- }
--EXPORT_SYMBOL(drm_gem_prime_fd_to_handle);
- 
- int drm_prime_fd_to_handle_ioctl(struct drm_device *dev, void *data,
- 				 struct drm_file *file_priv)
-@@ -409,7 +408,7 @@ static struct dma_buf *export_and_register_object(struct drm_device *dev,
- 	return dmabuf;
- }
- 
--/**
-+/*
-  * drm_gem_prime_handle_to_fd - PRIME export function for GEM drivers
-  * @dev: dev to export the buffer from
-  * @file_priv: drm file-private structure
-@@ -422,10 +421,10 @@ static struct dma_buf *export_and_register_object(struct drm_device *dev,
-  * The actual exporting from GEM object to a dma-buf is done through the
-  * &drm_gem_object_funcs.export callback.
-  */
--int drm_gem_prime_handle_to_fd(struct drm_device *dev,
--			       struct drm_file *file_priv, uint32_t handle,
--			       uint32_t flags,
--			       int *prime_fd)
-+static int drm_gem_prime_handle_to_fd(struct drm_device *dev,
-+				      struct drm_file *file_priv, uint32_t handle,
-+				      uint32_t flags,
-+				      int *prime_fd)
- {
- 	struct drm_gem_object *obj;
- 	int ret = 0;
-@@ -507,7 +506,6 @@ int drm_gem_prime_handle_to_fd(struct drm_device *dev,
- 
- 	return ret;
- }
--EXPORT_SYMBOL(drm_gem_prime_handle_to_fd);
- 
- int drm_prime_handle_to_fd_ioctl(struct drm_device *dev, void *data,
- 				 struct drm_file *file_priv)
-@@ -868,9 +866,9 @@ EXPORT_SYMBOL(drm_prime_get_contiguous_size);
-  * @obj: GEM object to export
-  * @flags: flags like DRM_CLOEXEC and DRM_RDWR
-  *
-- * This is the implementation of the &drm_gem_object_funcs.export functions for GEM drivers
-- * using the PRIME helpers. It is used as the default in
-- * drm_gem_prime_handle_to_fd().
-+ * This is the implementation of the &drm_gem_object_funcs.export functions
-+ * for GEM drivers using the PRIME helpers. It is used as the default for
-+ * drivers that do not set their own.
-  */
- struct dma_buf *drm_gem_prime_export(struct drm_gem_object *obj,
- 				     int flags)
-@@ -966,10 +964,9 @@ EXPORT_SYMBOL(drm_gem_prime_import_dev);
-  * @dev: drm_device to import into
-  * @dma_buf: dma-buf object to import
-  *
-- * This is the implementation of the gem_prime_import functions for GEM drivers
-- * using the PRIME helpers. Drivers can use this as their
-- * &drm_driver.gem_prime_import implementation. It is used as the default
-- * implementation in drm_gem_prime_fd_to_handle().
-+ * This is the implementation of the gem_prime_import functions for GEM
-+ * drivers using the PRIME helpers. It is the default for drivers that do
-+ * not set their own &drm_driver.gem_prime_import.
-  *
-  * Drivers must arrange to call drm_prime_gem_destroy() from their
-  * &drm_gem_object_funcs.free hook when using this function.
-diff --git a/include/drm/drm_prime.h b/include/drm/drm_prime.h
-index 2a1d01e5b56b8..a7abf9f3e6972 100644
---- a/include/drm/drm_prime.h
-+++ b/include/drm/drm_prime.h
-@@ -60,19 +60,12 @@ enum dma_data_direction;
- 
- struct drm_device;
- struct drm_gem_object;
--struct drm_file;
- 
- /* core prime functions */
- struct dma_buf *drm_gem_dmabuf_export(struct drm_device *dev,
- 				      struct dma_buf_export_info *exp_info);
- void drm_gem_dmabuf_release(struct dma_buf *dma_buf);
- 
--int drm_gem_prime_fd_to_handle(struct drm_device *dev,
--			       struct drm_file *file_priv, int prime_fd, uint32_t *handle);
--int drm_gem_prime_handle_to_fd(struct drm_device *dev,
--			       struct drm_file *file_priv, uint32_t handle, uint32_t flags,
--			       int *prime_fd);
--
- /* helper functions for exporting */
- int drm_gem_map_attach(struct dma_buf *dma_buf,
- 		       struct dma_buf_attachment *attach);
--- 
-2.41.0
+The other option would be to adapt the offb driver, presumably.
 
+I don't understand how the device name figures in attaching the driver
+to the device, the only other occurence of of-display is the name of the
+offb and ofdrm drivers.
+
+> > I've just replaced my clueless workaround with this patch on top of the
+> > kernel found in Debian 12 (Bookworm), i.e. 6.1.27 at this point, and it
+> > indeed fixes the black screen problem in the installer's context.
+> 
+> ... at least it fixes the issue.
+
+I would expect as much. I don't have the hardware either but keeping
+what was there before, and only adding on top is kind of the least
+disruptive way of adding new stuff.
+
+Thanks
+
+Michal
