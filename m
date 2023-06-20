@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79911736576
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 09:57:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D1E973659B
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 10:03:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A5E910E27F;
-	Tue, 20 Jun 2023 07:57:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05FAA10E286;
+	Tue, 20 Jun 2023 08:03:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.tom.com (smtprz25.163.net [106.38.219.110])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F9AD10E27F
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 07:57:33 +0000 (UTC)
-Received: from my-app02.tom.com (my-app02.tom.com [127.0.0.1])
- by freemail02.tom.com (Postfix) with ESMTP id 64325B00D3D
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 15:57:28 +0800 (CST)
-Received: from my-app02.tom.com (HELO smtp.tom.com) ([127.0.0.1])
- by my-app02 (TOM SMTP Server) with SMTP ID -1703999025
- for <dri-devel@lists.freedesktop.org>;
- Tue, 20 Jun 2023 15:57:28 +0800 (CST)
-Received: from antispam1.tom.com (unknown [172.25.16.55])
- by freemail02.tom.com (Postfix) with ESMTP id 31324B00D33
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 15:57:28 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tom.com; s=201807;
- t=1687247848; bh=fe2gbNBOimrCNd/Vj8kpZhrYgncj1cjN6H+eAQuu4MY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Xlg98piG1s6bLBhNbXo7UBieV60r1wHPRuUNk7mBSncadT5C1LDiUEt+ERH1ZlZ4v
- sPBIdHPT0N4B0m3KavXQL9d7eRznnDDxDo2eEhstuuP6RvFTmWddN7DkXKh/qh7UxE
- Lcn6leovUXh2QV5XP9BoY42LSK3PSJ+rsDl1C8IU=
-Received: from antispam1.tom.com (antispam1.tom.com [127.0.0.1])
- by antispam1.tom.com (Postfix) with ESMTP id 97F32D41AF3
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 15:57:26 +0800 (CST)
-X-Virus-Scanned: Debian amavisd-new at antispam1.tom.com
-Received: from antispam1.tom.com ([127.0.0.1])
- by antispam1.tom.com (antispam1.tom.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RVNRXlgCc0ai for <dri-devel@lists.freedesktop.org>;
- Tue, 20 Jun 2023 15:57:25 +0800 (CST)
-Received: from [172.30.11.106] (unknown [180.167.10.98])
- by antispam1.tom.com (Postfix) with ESMTPA id D096BD4140C;
- Tue, 20 Jun 2023 15:57:22 +0800 (CST)
-Message-ID: <c12c4031-52fb-25a2-b411-e668eb9baaa2@tom.com>
-Date: Tue, 20 Jun 2023 15:57:22 +0800
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C062A10E286
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 08:03:00 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 21687218A9;
+ Tue, 20 Jun 2023 08:02:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1687248179; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=zO/3BErcjE9tXo9wAwuu3i1JvxjwlBhYZKoyg3vwf2Q=;
+ b=pMzC9rNPryOdROxtuWa2Tdp7ls5gpb+F87VqvbbiW0quwoGRcBNYeJrOO+rLv8o7s0p/ND
+ wxhwmW6xXmOAqgH5VxnFOIhzEjiRf6a5gyaPyD1l79fPPJ6korMaHkfFt2CguXaYx+b+i+
+ 9YBh0nN7oCmbHl9bGDK+ILROw7vfrgY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1687248179;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=zO/3BErcjE9tXo9wAwuu3i1JvxjwlBhYZKoyg3vwf2Q=;
+ b=0wJdM2ihDFm/nxLF/dXta8vHD0YchQa4J0KW6Pvn8t0BSLqq2D4f/hbUMDVPTEK1L9bwnG
+ oOeBXg6/qAJe7HDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DC8AC1346D;
+ Tue, 20 Jun 2023 08:02:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id ggHTNDJdkWRQEAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 20 Jun 2023 08:02:58 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, zackr@vmware.com, contact@emersion.fr,
+ linux-graphics-maintainer@vmware.com, alexdeucher@gmail.com,
+ quic_jhugo@quicinc.com
+Subject: [PATCH v2 0/3] drm: Allow PRIME 'self-import' for all drivers
+Date: Tue, 20 Jun 2023 09:59:56 +0200
+Message-ID: <20230620080252.16368-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] drm/amd/amdgpu: Properly tune the size of struct
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>, Su Hui <suhui@nfschina.com>
-References: <20230620045919.492128-1-suhui@nfschina.com>
- <da6c860f-0ef0-44e4-8b58-0f4d55c1b8bd@kadam.mountain>
-From: Longsuhui <Jack_sun@tom.com>
-In-Reply-To: <da6c860f-0ef0-44e4-8b58-0f4d55c1b8bd@kadam.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,41 +64,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jane.Jian@amd.com, Bokun.Zhang@amd.com, David.Francis@amd.com,
- Xinhui.Pan@amd.com, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com, monk.liu@amd.com
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023/6/20 15:37, Dan Carpenter wrote:
-> On Tue, Jun 20, 2023 at 12:59:19PM +0800, Su Hui wrote:
->> Smatch error:
->>      gpu/drm/amd/amdgpu/amdgv_sriovmsg.h:316:49: error:
->>      static assertion failed: "amd_sriov_msg_pf2vf_info must be 1 KB"
->>      static assertion failed: "amd_sriov_msg_vf2pf_info must be 1 KB"
->>
-> I doubt that moving the struct members around is safe.  This looks like
-> it's in a very specific order.  So I don't think this patch is correct.
->
-> The reason for this false positive this code uses a #pragma to pack the
-> struct.
->
-> #pragma pack(push, 1) // PF2VF / VF2PF data areas are byte packed
+Set drm_gem_prime_handle_to_fd() and drm_gem_prime_fd_to_handle()
+for all DRM drivers. Even drivers that do not support PRIME import
+or export of dma-bufs can now import their own buffer objects. This
+is required by some userspace, such as wlroots-based compositors, to
+share buffers among processes.
 
-Oh, Sorry, I didn't see this code.
+The only driver that does not use the drm_gem_prime_*() helpers is
+vmwgfx. Leave a comment on the callbacks in struct drm_driver, so that
+no other driver uses them.
 
-This patch is error, and sorry for the noise.
+Simon Ser implemented the feature for drivers based on GEM VRAM helpers
+in [1]. This patchset generalizes the code for all drivers that do not
+otherwise support PRIME. Tested by running sway with gma500 hardware.
 
-> Sparse does not support this and Smatch uses Sparse as a parser.  The
-> main reason why Sparse doesn't support this pragma is because Linus
-> thinks it's gross.  You probably didn't even see the #pragma did you?
-> And anything you can't see is unreadable by definition.
->
-> "Mark the associated types properly packed individually, rather than
-> use the disgusting "pragma pack()" that should never be used."
->
-> https://lore.kernel.org/linux-sparse/CAHk-=wi7jGZ+bVbt-UfXOkpEQdHzF3Z2HBjkGdjh8q4dvPPGWQ@mail.gmail.com/
->
-> regards,
-> dan carpenter
+v2:
+	* documentation and TODO cleanups (Simon, Zack)
+	* small style cleanups
+
+[1] https://lore.kernel.org/dri-devel/20230302143502.500661-1-contact@emersion.fr/
+
+Thomas Zimmermann (3):
+  drm: Enable PRIME import/export for all drivers
+  drm: Clear fd/handle callbacks in struct drm_driver
+  drm/prime: Unexport helpers for fd/handle conversion
+
+ drivers/accel/ivpu/ivpu_drv.c                 |  2 -
+ drivers/accel/qaic/qaic_drv.c                 |  1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  4 --
+ drivers/gpu/drm/armada/armada_drv.c           |  2 -
+ drivers/gpu/drm/drm_ioctl.c                   |  3 +-
+ drivers/gpu/drm/drm_prime.c                   | 67 +++++++++----------
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c         |  2 -
+ drivers/gpu/drm/exynos/exynos_drm_drv.c       |  2 -
+ drivers/gpu/drm/i915/i915_driver.c            |  2 -
+ drivers/gpu/drm/lima/lima_drv.c               |  2 -
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  2 -
+ drivers/gpu/drm/msm/msm_drv.c                 |  2 -
+ drivers/gpu/drm/nouveau/nouveau_drm.c         |  2 -
+ drivers/gpu/drm/omapdrm/omap_drv.c            |  2 -
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |  2 -
+ drivers/gpu/drm/pl111/pl111_drv.c             |  2 -
+ drivers/gpu/drm/qxl/qxl_drv.c                 |  2 -
+ drivers/gpu/drm/radeon/radeon_drv.c           |  2 -
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c |  2 -
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |  2 -
+ drivers/gpu/drm/tegra/drm.c                   |  2 -
+ drivers/gpu/drm/v3d/v3d_drv.c                 |  2 -
+ drivers/gpu/drm/virtio/virtgpu_drv.c          |  2 -
+ drivers/gpu/drm/xen/xen_drm_front.c           |  2 -
+ include/drm/drm_drv.h                         | 12 +---
+ include/drm/drm_gem_dma_helper.h              |  8 +--
+ include/drm/drm_gem_shmem_helper.h            |  4 +-
+ include/drm/drm_gem_vram_helper.h             |  8 +--
+ include/drm/drm_prime.h                       |  7 --
+ 29 files changed, 40 insertions(+), 114 deletions(-)
+
+
+base-commit: 32e260cd0d16cee6f33e747679f168d63ea54bf6
+-- 
+2.41.0
+
