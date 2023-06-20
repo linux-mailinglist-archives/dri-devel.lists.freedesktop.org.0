@@ -1,62 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAB9073712B
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 18:07:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CFF1737152
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 18:18:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B34C510E2FB;
-	Tue, 20 Jun 2023 16:06:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BBED10E08D;
+	Tue, 20 Jun 2023 16:18:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id F200810E192
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 16:06:52 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8AxV+mZzpFkhkQHAA--.12934S3;
- Wed, 21 Jun 2023 00:06:49 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxB92YzpFkpS0AAA--.721S3; 
- Wed, 21 Jun 2023 00:06:49 +0800 (CST)
-Message-ID: <670a1763-181a-0133-9b31-b790072b3af8@loongson.cn>
-Date: Wed, 21 Jun 2023 00:06:48 +0800
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28F6510E08D
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 16:18:34 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 1F73F1F37E;
+ Tue, 20 Jun 2023 16:18:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1687277912; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=NpOMWoEW4pXe7i9/tC2HwtlusNqni+9aJsD0xiu39ZE=;
+ b=RNPvnF1eY02idMR17FNOho23Z+ouJTHn2QWhVTARYFpUmvu+OJj94987yvpKU3bCmRkKpS
+ D2jxVud/mdmRPA6Wk3gilC062sjGfkiwjmaL4xBmUj9hrjTns0vGe6p/iTaVSNULvajmbu
+ LnkAnpdIam1IHTx4oT0kNOdurAbRfHE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1687277912;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=NpOMWoEW4pXe7i9/tC2HwtlusNqni+9aJsD0xiu39ZE=;
+ b=Z4z3a26EwUEXpj5y6nItk1ps16PjyCn6owKSPAnzl9vUcK9BtKlxvPbnLFLYuDIE/WtEiL
+ 4Fl7ioXAZnkz/UBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E8B06133A9;
+ Tue, 20 Jun 2023 16:18:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id iC6RN1fRkWRDDAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 20 Jun 2023 16:18:31 +0000
+Message-ID: <c2bdf8ea-b770-23a1-222b-1791ab0e3cec@suse.de>
+Date: Tue, 20 Jun 2023 18:18:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
+ Thunderbird/102.12.0
 Subject: Re: [PATCH] drm/drm_gem.c: remove surplus else after return clause
 Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, Sui Jingfeng
+To: Sui Jingfeng <suijingfeng@loongson.cn>, Sui Jingfeng
  <15330273260@189.cn>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, liyi <liyi@loongson.cn>
 References: <20230314125305.2278964-1-15330273260@189.cn>
  <cde47fd0-a8e4-36cf-3f0b-a1b473799db3@loongson.cn>
  <163af01e-01cc-008d-333f-964cba9f9130@suse.de>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <163af01e-01cc-008d-333f-964cba9f9130@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxB92YzpFkpS0AAA--.721S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7WF47try7Ar1DXw18trW3CFX_yoW8tF1Upr
- n7JFW5urZ8ZFWFqr12qF1UZFyakw4Ig34UWFn5XFn5Ar40yF1jgrZ8Zan09rWUJr4xGF4Y
- qrs8XFyfZFyjyrXCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUU9Eb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
- Jr0_Gr1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2
- x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r126r1D
- McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7
- I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8
- JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14
- v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY
- 67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2
- IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_
- Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8q2NtUUUUU==
+ <670a1763-181a-0133-9b31-b790072b3af8@loongson.cn>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <670a1763-181a-0133-9b31-b790072b3af8@loongson.cn>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------XECJcNB95CHGTgv4UzeA4Xf7"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,95 +79,106 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------XECJcNB95CHGTgv4UzeA4Xf7
+Content-Type: multipart/mixed; boundary="------------UovRTmpFe7ChStNzzonz6T8f";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sui Jingfeng <suijingfeng@loongson.cn>, Sui Jingfeng
+ <15330273260@189.cn>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, liyi <liyi@loongson.cn>
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <c2bdf8ea-b770-23a1-222b-1791ab0e3cec@suse.de>
+Subject: Re: [PATCH] drm/drm_gem.c: remove surplus else after return clause
+References: <20230314125305.2278964-1-15330273260@189.cn>
+ <cde47fd0-a8e4-36cf-3f0b-a1b473799db3@loongson.cn>
+ <163af01e-01cc-008d-333f-964cba9f9130@suse.de>
+ <670a1763-181a-0133-9b31-b790072b3af8@loongson.cn>
+In-Reply-To: <670a1763-181a-0133-9b31-b790072b3af8@loongson.cn>
 
-On 2023/6/20 22:43, Thomas Zimmermann wrote:
-> Hi
->
-> Am 20.06.23 um 06:08 schrieb Sui Jingfeng:
->> ping ?
->>
->> On 2023/3/14 20:53, Sui Jingfeng wrote:
->>>   else is not generally useful after return
->
-> No indention please.
->
-OK, will be fixed at the next version.
->>>
->>> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
->>> ---
->>>   drivers/gpu/drm/drm_gem.c | 7 ++++---
->>>   1 file changed, 4 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
->>> index a6208e2c089b..364e3733af98 100644
->>> --- a/drivers/gpu/drm/drm_gem.c
->>> +++ b/drivers/gpu/drm/drm_gem.c
->>> @@ -1150,8 +1150,8 @@ int drm_gem_pin(struct drm_gem_object *obj)
->>>   {
->>>       if (obj->funcs->pin)
->>>           return obj->funcs->pin(obj);
->>> -    else
->>> -        return 0;
->>> +
->>> +    return 0;
->
-> This change is ok.
->
->>>   }
->>>   void drm_gem_unpin(struct drm_gem_object *obj)
->>> @@ -1172,7 +1172,8 @@ int drm_gem_vmap(struct drm_gem_object *obj, 
->>> struct iosys_map *map)
->>>       ret = obj->funcs->vmap(obj, map);
->>>       if (ret)
->>>           return ret;
->>> -    else if (iosys_map_is_null(map))
->>> +
->>> +    if (iosys_map_is_null(map))
->>>           return -ENOMEM;
->
-> This is not correct. Calling iosys_map_is_null() is part of handling 
-> the return value from vmap, so the else is fine.
->
-Are you serious ?
+--------------UovRTmpFe7ChStNzzonz6T8f
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
+SGkNCg0KQW0gMjAuMDYuMjMgdW0gMTg6MDYgc2NocmllYiBTdWkgSmluZ2Zlbmc6DQo+IEhp
+LA0KPiANCj4gT24gMjAyMy82LzIwIDIyOjQzLCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToN
+Cj4+IEhpDQo+Pg0KPj4gQW0gMjAuMDYuMjMgdW0gMDY6MDggc2NocmllYiBTdWkgSmluZ2Zl
+bmc6DQo+Pj4gcGluZyA/DQo+Pj4NCj4+PiBPbiAyMDIzLzMvMTQgMjA6NTMsIFN1aSBKaW5n
+ZmVuZyB3cm90ZToNCj4+Pj4gwqAgZWxzZSBpcyBub3QgZ2VuZXJhbGx5IHVzZWZ1bCBhZnRl
+ciByZXR1cm4NCj4+DQo+PiBObyBpbmRlbnRpb24gcGxlYXNlLg0KPj4NCj4gT0ssIHdpbGwg
+YmUgZml4ZWQgYXQgdGhlIG5leHQgdmVyc2lvbi4NCj4+Pj4NCj4+Pj4gU2lnbmVkLW9mZi1i
+eTogU3VpIEppbmdmZW5nIDwxNTMzMDI3MzI2MEAxODkuY24+DQo+Pj4+IC0tLQ0KPj4+PiDC
+oCBkcml2ZXJzL2dwdS9kcm0vZHJtX2dlbS5jIHwgNyArKysrLS0tDQo+Pj4+IMKgIDEgZmls
+ZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pDQo+Pj4+DQo+Pj4+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbS5jIGIvZHJpdmVycy9ncHUv
+ZHJtL2RybV9nZW0uYw0KPj4+PiBpbmRleCBhNjIwOGUyYzA4OWIuLjM2NGUzNzMzYWY5OCAx
+MDA2NDQNCj4+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW0uYw0KPj4+PiArKysg
+Yi9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbS5jDQo+Pj4+IEBAIC0xMTUwLDggKzExNTAsOCBA
+QCBpbnQgZHJtX2dlbV9waW4oc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopDQo+Pj4+IMKg
+IHsNCj4+Pj4gwqDCoMKgwqDCoCBpZiAob2JqLT5mdW5jcy0+cGluKQ0KPj4+PiDCoMKgwqDC
+oMKgwqDCoMKgwqAgcmV0dXJuIG9iai0+ZnVuY3MtPnBpbihvYmopOw0KPj4+PiAtwqDCoMKg
+IGVsc2UNCj4+Pj4gLcKgwqDCoMKgwqDCoMKgIHJldHVybiAwOw0KPj4+PiArDQo+Pj4+ICvC
+oMKgwqAgcmV0dXJuIDA7DQo+Pg0KPj4gVGhpcyBjaGFuZ2UgaXMgb2suDQo+Pg0KPj4+PiDC
+oCB9DQo+Pj4+IMKgIHZvaWQgZHJtX2dlbV91bnBpbihzdHJ1Y3QgZHJtX2dlbV9vYmplY3Qg
+Km9iaikNCj4+Pj4gQEAgLTExNzIsNyArMTE3Miw4IEBAIGludCBkcm1fZ2VtX3ZtYXAoc3Ry
+dWN0IGRybV9nZW1fb2JqZWN0ICpvYmosIA0KPj4+PiBzdHJ1Y3QgaW9zeXNfbWFwICptYXAp
+DQo+Pj4+IMKgwqDCoMKgwqAgcmV0ID0gb2JqLT5mdW5jcy0+dm1hcChvYmosIG1hcCk7DQo+
+Pj4+IMKgwqDCoMKgwqAgaWYgKHJldCkNCj4+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVy
+biByZXQ7DQo+Pj4+IC3CoMKgwqAgZWxzZSBpZiAoaW9zeXNfbWFwX2lzX251bGwobWFwKSkN
+Cj4+Pj4gKw0KPj4+PiArwqDCoMKgIGlmIChpb3N5c19tYXBfaXNfbnVsbChtYXApKQ0KPj4+
+PiDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIC1FTk9NRU07DQo+Pg0KPj4gVGhpcyBpcyBu
+b3QgY29ycmVjdC4gQ2FsbGluZyBpb3N5c19tYXBfaXNfbnVsbCgpIGlzIHBhcnQgb2YgaGFu
+ZGxpbmcgDQo+PiB0aGUgcmV0dXJuIHZhbHVlIGZyb20gdm1hcCwgc28gdGhlIGVsc2UgaXMg
+ZmluZS4NCj4+DQo+IEFyZSB5b3Ugc2VyaW91cyA/DQo+IA0KPiANCj4gMS4gQmVmb3JlIGFw
+cGx5IHRoaXMgcGF0Y2g6DQo+IA0KPiANCj4gSWYgdGhlICdyZXQnIGlzIDAswqAgaXQgc3Rh
+bmQgZm9yIG9iai0+ZnVuY3MtPnZtYXAoKSBpcyBzdWNjZXNzZnVsLCB0aGVuIA0KPiBpZiAo
+aW9zeXNfbWFwX2lzX251bGwobWFwKSkgd2lsbCBiZSBydW4uDQo+IA0KPiBJZiB0aGUgJ3Jl
+dCcgaXMgTk9UIDAsIHRoZW4gaXQgcmV0dXJuIGltbWVkaWF0ZWx5Lg0KPiANCj4gDQo+IDIu
+IEFmdGVyIGFwcGx5IHRoaXMgcGF0Y2g6DQo+IA0KPiANCj4gSWYgdGhlICdyZXQnIGlzIE5P
+VCAwLCBpdCBzdGFuZCBmb3Igb2JqLT5mdW5jcy0+dm1hcCgpIGZhaWxlZCwgdGhlbiBpdCAN
+Cj4gcmV0dXJuIGltbWVkaWF0ZWx5Lg0KPiANCj4gSWYgdGhlICdyZXQnIGlzIDAsIGl0IHN0
+YW5kIGZvciBvYmotPmZ1bmNzLT52bWFwKCkgaXMgc3VjY2Vzc2Z1bCwgdGhlbiANCj4gdGhl
+IGNoZWNrIGlmIChpb3N5c19tYXBfaXNfbnVsbChtYXApKQ0KPiANCj4gd2lsbCBiZSBydW4h
+DQo+IA0KPiANCj4gSSBmZWVsIHN0cmFuZ2UgYWJvdXQgdGhlIGNvcmUgaGVyZSwgSSB0aGlu
+ayB0aGUgY2hlY2sgJyBpZiANCj4gKGlvc3lzX21hcF9pc19udWxsKG1hcCkpJyBpcyBub3Qg
+bmVlZGVkLA0KPiANCj4gdGhlIGltcGxlbWVudCBzaG91bGQgcmVzcG9uc2libGUgdG8gaGFu
+ZGxlIGFsbCBvZiBwb3NzaWJsZSBlcnJvcnMuDQoNClRoZSAtPnZtYXAoKSBjYWxsYmFjayBj
+YW4gc3VjY2VlZCB3aXRoIHJldD0wLCBidXQgd2Ugc3RpbGwgaGF2ZSBubyANCm1lbW9yeS4g
+VGhlbiB3ZSByZXR1cm4gLUVOT01FTS4gVGhlIGNhbGwgdG8gX2lzX251bGwobWFwKSBpcyBw
+YXJ0IG9mIHRoZSANCmVycm9yIGhhbmRsaW5nIGZvciAtPnZtYXAoKS4gVGhhdCBpcyBhIGJp
+dCBzdHJhbmdlLCBidXQgaXQgYXMgYWx3YXlzIA0Kd29ya2VkIGxpa2UgdGhhdC4gS2VlcGlu
+ZyBhbGwgZXJyb3IgaGFuZGxpbmcgaW4gdGhlIHNhbWUgaWYtZWxzZSBibG9jayANCm1ha2Ug
+YWxsIHRoaXMgbW9yZSBvYnZpb3VzLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0K
+PiANCj4gQnV0IGJvdGggY2FzZSAoMS4gYW5kIDIuKSBhcmUgc2FtZSBpbiB0aGUgc2VtYW50
+aWMsIHJpZ2h0Pw0KPiANCj4gDQo+PiBCZXN0IHJlZ2FyZHMNCj4+IFRob21hcw0KPj4NCj4+
+Pj4gwqDCoMKgwqDCoCByZXR1cm4gMDsNCj4+Pg0KPj4NCg0KLS0gDQpUaG9tYXMgWmltbWVy
+bWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlv
+bnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywg
+R2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQs
+IEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
 
-1. Before apply this patch:
+--------------UovRTmpFe7ChStNzzonz6T8f--
 
+--------------XECJcNB95CHGTgv4UzeA4Xf7
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-If the 'ret' is 0,  it stand for obj->funcs->vmap() is successful, then 
-if (iosys_map_is_null(map)) will be run.
+-----BEGIN PGP SIGNATURE-----
 
-If the 'ret' is NOT 0, then it return immediately.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSR0VcFAwAAAAAACgkQlh/E3EQov+Cl
+/hAAnEWC5OQegpdai0DOv0dKS5NHzMmep/j5s/d16+lPeb99ZqvoiktXQUkRuAFCSNNcUW17pRoB
+9vrPhsqZs45I7+ZuA+94n6/HRp6Kmlc3OFQfccTgBUe8bywXE06xnLwPVMdvi2UyfhdDk6FUS94U
+AnZyvvLh+zEiYF6PBuzIfQK3LZc9EAfaia2MYpknppzoqY8ofsO5Bago4794wTO4hPX6hhE1UfNB
+pi+PhXzkRltmCVRX5geAt1RIHSXy1F/Um79T4Bh+Ol356MHlcLjudZ/BjsVszmoKgnAgA5dOWs4e
+q3PY+ZD7mGEIdLeg5d7W/BoNI/h7kbTuBoNbpy1QeeP3Na5RE/72uL4Ro1yXOKqq8HGpfotkQu6X
+7+qy1BGSP4L/hfAwG6LSjYdYt4xOvvqceJ32OSJYj7GTc8GFKwl7QnXnULIhCUnh89d3wl7s/NQl
+0cBHHiRh/blS6M1TcaGsfuTwpb9pfLE5f8qBB8IwbkMNFbuzEpJM7EMTPKvZd0RoKOJz+dPlrKNB
+qrdefEG/H+bCMl90ChnKG7EPvwCHK9p5QtZMwiWahM9IBWoAc2dtB/oRXsL96VgDZpAeIiT0T5LA
+9R8vyfCUmvXnqOlV9iG9iNjqjgARtnivKXTEzemzlymADevyb+2EKBTPwm9oCrzwYqZMTUIM5VYN
+0YA=
+=DwkN
+-----END PGP SIGNATURE-----
 
-
-2. After apply this patch:
-
-
-If the 'ret' is NOT 0, it stand for obj->funcs->vmap() failed, then it 
-return immediately.
-
-If the 'ret' is 0, it stand for obj->funcs->vmap() is successful, then 
-the check if (iosys_map_is_null(map))
-
-will be run!
-
-
-I feel strange about the core here, I think the check ' if 
-(iosys_map_is_null(map))' is not needed,
-
-the implement should responsible to handle all of possible errors.
-
-
-But both case (1. and 2.) are same in the semantic, right?
-
-
-> Best regards
-> Thomas
->
->>>       return 0;
->>
->
--- 
-Jingfeng
-
+--------------XECJcNB95CHGTgv4UzeA4Xf7--
