@@ -1,54 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6731736AE8
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 13:28:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DFE4736AF3
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 13:30:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F156010E2D2;
-	Tue, 20 Jun 2023 11:28:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2909810E17F;
+	Tue, 20 Jun 2023 11:30:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 745FD10E2D2
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 11:27:59 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8Ax0Og9jZFkqy8HAA--.12871S3;
- Tue, 20 Jun 2023 19:27:57 +0800 (CST)
-Received: from openarena.loongson.cn (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Bxjco9jZFkv6IhAA--.20686S2; 
- Tue, 20 Jun 2023 19:27:57 +0800 (CST)
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-To: suijingfeng@loongson.cn
-Subject: [PATCH v10 11/11] drm/etnaviv: Replace of_platform.h with explicit
- includes
-Date: Tue, 20 Jun 2023 19:27:56 +0800
-Message-Id: <20230620112756.2237769-1-suijingfeng@loongson.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230620104806.2236666-1-suijingfeng@loongson.cn>
-References: <20230620104806.2236666-1-suijingfeng@loongson.cn>
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 502CA10E17F
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 11:30:04 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id
+ 2adb3069b0e04-4f865f0e16cso4042231e87.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 04:30:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1687260602; x=1689852602;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=S29GAOwwZU/UObQHm7K1yfmLnNLJ0R5m3hwbW5Fh5rM=;
+ b=bTHzG1h+kD6J4+vhZGTHsDyQ7K9hsvawjTM8WE0Y53ykw8hcvb33uM/nwcsw9F1zeq
+ 9Qm4mrsxdOXq4zyXtZ13fmn+xqzbMBpL7QcIdWZMFb8mFPO2f8/xfle2z8/Vneebn5js
+ aypBK6IFASC/87S/DLQjnkLRr2dkPMxE6P6ppFcR5sXRoZwijyQjqSikNtcoHWtAB7Fr
+ lr1fhfjnnkJPyKCylS+BVb+BxD3trYNhV+B9hplhpSMFhwnZvZJP631l4UPfLlogvATX
+ eLfeZUgszbL4qoQM1uwF5Yc511j7pNni5TVMP5sWq3C3167ZSvJVa8avuVDIz889LByE
+ bdWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687260602; x=1689852602;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=S29GAOwwZU/UObQHm7K1yfmLnNLJ0R5m3hwbW5Fh5rM=;
+ b=MIyGjrqj2SDclejvgQU5DNGD0BGJflf69ttXwU53SPYVAjJWvux+WbVnpdLKosFosk
+ 46BSjYodkv2erZRn2Bq/eh3pmzc4yQn38Ksg/7le0pudEte0LV+JUodBXuzDYYAzphZ6
+ 0qaW4tbsWocKgqcGetUJ4MaXFnoFM59zzOqZsDuDNGAaNRGv9uCcLUzqz71WIXz9ckfb
+ 6tvgWnDYNAbi+O8f1lfFq66Md6lKgTyFzDy5uhHpHmDJJ+ODZUJgbS8RAaj9Sdtd2BtV
+ vv0zb//RdYJ+ANqr8VpJsnE9ZrBAUZQ02PXB91Qq0PzkNduRLr96Zn3cFtKQNkqxFo0H
+ fojQ==
+X-Gm-Message-State: AC+VfDwUF1lj8bKuXVMXE2Vk4WKsxOmVadZfeT6melRT/1MjibSu0eVL
+ 8cCLPDL1MyTwOEyr2LH/Tq8Emw==
+X-Google-Smtp-Source: ACHHUZ6QUJ2NUSmwlMllnTnlwhUMH00U8cch0Y7x4JBrv6lDEvgv8KA6emtEHyH6UtWTECxcKatUAQ==
+X-Received: by 2002:a19:5055:0:b0:4f6:14d1:596d with SMTP id
+ z21-20020a195055000000b004f614d1596dmr6541924lfj.61.1687260602313; 
+ Tue, 20 Jun 2023 04:30:02 -0700 (PDT)
+Received: from [192.168.1.101] (abxj193.neoplus.adsl.tpnet.pl. [83.9.3.193])
+ by smtp.gmail.com with ESMTPSA id
+ 8-20020ac24828000000b004eed8de597csm335709lft.32.2023.06.20.04.30.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Jun 2023 04:30:02 -0700 (PDT)
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: [PATCH 0/2] DSIPHY RPM
+Date: Tue, 20 Jun 2023 13:29:57 +0200
+Message-Id: <20230620-topic-dsiphy_rpm-v1-0-446a7fd0ce43@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Bxjco9jZFkv6IhAA--.20686S2
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj9xXoWrZFyxWFyxZFWfuFyUZrWrWFX_yoWkGwb_C3
- Z7ur47Wr13Arn7tr1ayF9xZFyFkFyrXrs7Z3Wkt3Z3KF9rJws8W3s7C34UXa4UuF92kFn5
- JF97GFyfur13WosvyTuYvTs0mTUanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvT
- s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
- cSsGvfJTRUUUba8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
- vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
- w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
- W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
- Cr1j6rxdM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
- kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWU
- XwAv7VC2z280aVAFwI0_Cr0_Gr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
- xGrwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWU
- XVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
- kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY
- 6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
- vEx4A2jsIE14v26F4j6r4UJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2
- KfnxnUUI43ZEXa7IU1tfHUUUUUU==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALWNkWQC/x2N0QrCMAwAf2Xk2UBXRcVfEZG0jTYwu5KoKGP/b
+ vDxDo5bwFiFDU7DAspvMZmbw7gZIFdqd0YpzhBD3IZ9DPicu2QsJr1+r9ofyLQ7jodEhSiBZ4m
+ MMSm1XD1sr2ly2ZVv8vl/zpd1/QHd37O+dwAAAA==
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1687260601; l=636;
+ i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
+ bh=wCUG/R9HXWMnAwuGxYhXrhmjszSC6nEVuCGugxXUvag=;
+ b=oLojyqv8R2Yxb/4Bx0OPl53gbOYVtZGEvfDiYfytg8gFL3uXbs/agnHkUqk3yiONeq1e1qWA5
+ xXDfhniDSFOBXQOoH7SqEunzIznVpy6eWLBLQDUMiYekoP0h3tuhm+y
+X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,39 +84,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Herring <robh@kernel.org>
+Some recent SoCs use power rails that we model as GENPDs to power the
+DSIPHY. This series attempts to make such configurations suspendable.
 
-Etnaviv doesn't use anything from of_platform.h, but depends on
-of.h, of_device.h, and platform_device.h which are all implicitly
-included, but that is going to be removed soon.
+Tested on SM6375.
 
-Signed-off-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
-Tested-by: Sui Jingfeng <suijingfeng@loongson.cn>
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_drv.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Konrad Dybcio (2):
+      drm/msm/dsi: Use pm_runtime_resume_and_get to prevent refcnt leaks
+      drm/msm/dsi: Enable runtime PM
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index c9f502a89de6..ee47efff42a6 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -7,8 +7,10 @@
- #include <linux/dma-mapping.h>
- #include <linux/dma-map-ops.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/of_address.h>
--#include <linux/of_platform.h>
-+#include <linux/of_device.h>
-+#include <linux/platform_device.h>
- #include <linux/uaccess.h>
- 
- #include <drm/drm_debugfs.h>
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+---
+base-commit: 9dbf40840551df336c95ce2a3adbdd25ed53c0ef
+change-id: 20230620-topic-dsiphy_rpm-ea4817badaab
+
+Best regards,
 -- 
-2.25.1
+Konrad Dybcio <konrad.dybcio@linaro.org>
 
