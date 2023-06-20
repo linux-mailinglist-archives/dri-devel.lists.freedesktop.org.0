@@ -1,51 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0371737111
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 17:58:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAB9073712B
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 18:07:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BCD510E2F7;
-	Tue, 20 Jun 2023 15:58:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B34C510E2FB;
+	Tue, 20 Jun 2023 16:06:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C88D410E2F7;
- Tue, 20 Jun 2023 15:58:20 +0000 (UTC)
-Received: from [192.168.2.254] (109-252-154-132.dynamic.spd-mgts.ru
- [109.252.154.132])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 59F9B6600359;
- Tue, 20 Jun 2023 16:58:16 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1687276697;
- bh=ls7zvLRnqt5Y8THKltOoAvNQHWOG4mAX3GW6W2X4FOI=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=BANzgbj+v61rPNNrF22H7ot9g3O9aOVblDPX03ehAkIYmdK/pOgHmG82/ArIZV8Hi
- ONnbjrL4ZXrkGAvQlnYGIBQoqsdXVmI8/RGLt49jpn0BRCcUq4XLim+wMEZxpJ5FEE
- VGyNS+iXCW3E/C0pGHsLrm12X7SiEwEd8tDFabhaKOcf/KkV4bxJOPHxLkGozcXWwK
- veGcVL3wWEf0HlJMaQo+RWSakvZzysjQikWYeCIRU6Xgo/9j3fQlKQRq5zTGYP6cJ1
- 6lNXRGk9WOi6ulayQaVeMGl/p1KJ14LtJJZJ6zYgQkznXz0R4QdiP9pzSPkBqn1SbD
- FMkPCLTEHDO4A==
-Message-ID: <1a04706a-caee-114c-6b6e-e4fdb815e619@collabora.com>
-Date: Tue, 20 Jun 2023 18:58:13 +0300
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id F200810E192
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 16:06:52 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8AxV+mZzpFkhkQHAA--.12934S3;
+ Wed, 21 Jun 2023 00:06:49 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8BxB92YzpFkpS0AAA--.721S3; 
+ Wed, 21 Jun 2023 00:06:49 +0800 (CST)
+Message-ID: <670a1763-181a-0133-9b31-b790072b3af8@loongson.cn>
+Date: Wed, 21 Jun 2023 00:06:48 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.1
-Subject: Re: [PATCH v4 5/6] dma-buf: Change locking policy for mmap()
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20230529223935.2672495-1-dmitry.osipenko@collabora.com>
- <20230529223935.2672495-6-dmitry.osipenko@collabora.com>
- <91466907-d4e1-1619-27a8-a49a01cbc8f1@collabora.com>
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm/drm_gem.c: remove surplus else after return clause
 Content-Language: en-US
-In-Reply-To: <91466907-d4e1-1619-27a8-a49a01cbc8f1@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Thomas Zimmermann <tzimmermann@suse.de>, Sui Jingfeng
+ <15330273260@189.cn>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, liyi <liyi@loongson.cn>
+References: <20230314125305.2278964-1-15330273260@189.cn>
+ <cde47fd0-a8e4-36cf-3f0b-a1b473799db3@loongson.cn>
+ <163af01e-01cc-008d-333f-964cba9f9130@suse.de>
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <163af01e-01cc-008d-333f-964cba9f9130@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8BxB92YzpFkpS0AAA--.721S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7WF47try7Ar1DXw18trW3CFX_yoW8tF1Upr
+ n7JFW5urZ8ZFWFqr12qF1UZFyakw4Ig34UWFn5XFn5Ar40yF1jgrZ8Zan09rWUJr4xGF4Y
+ qrs8XFyfZFyjyrXCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUU9Eb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+ Jr0_Gr1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2
+ x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r126r1D
+ McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7
+ I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8
+ JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14
+ v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY
+ 67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2
+ IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_
+ Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8q2NtUUUUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,42 +69,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
- Emil Velikov <emil.l.velikov@gmail.com>, intel-gfx@lists.freedesktop.org,
- Marek Szyprowski <m.szyprowski@samsung.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Tomasz Figa <tfiga@chromium.org>,
- Tomi Valkeinen <tomba@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- John Stultz <jstultz@google.com>, Gerd Hoffmann <kraxel@redhat.com>,
- linux-tegra@vger.kernel.org, kernel@collabora.com, linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/31/23 22:58, Dmitry Osipenko wrote:
-> On 5/30/23 01:39, Dmitry Osipenko wrote:
->> Change locking policy of mmap() callback, making exporters responsible
->> for handling dma-buf reservation locking. Previous locking policy stated
->> that dma-buf is locked for both importers and exporters by the dma-buf
->> core, which caused a deadlock problem for DRM drivers in a case of
->> self-imported dma-bufs which required to take the lock from the DRM
->> exporter side.
+Hi,
+
+On 2023/6/20 22:43, Thomas Zimmermann wrote:
+> Hi
+>
+> Am 20.06.23 um 06:08 schrieb Sui Jingfeng:
+>> ping ?
 >>
->> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
->> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->> ---
->>  drivers/dma-buf/dma-buf.c | 17 +++--------------
->>  1 file changed, 3 insertions(+), 14 deletions(-)
-> 
-> Christian, you acked the drm patch of this series sometime ago, perhaps
-> it also implies implicit ack to this patch, but I'd prefer to have the
-> explicit ack. I'll apply this series to drm-misc later this week if
-> you'll approve this dma-buf change. Thanks in advance!
+>> On 2023/3/14 20:53, Sui Jingfeng wrote:
+>>>   else is not generally useful after return
+>
+> No indention please.
+>
+OK, will be fixed at the next version.
+>>>
+>>> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
+>>> ---
+>>>   drivers/gpu/drm/drm_gem.c | 7 ++++---
+>>>   1 file changed, 4 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+>>> index a6208e2c089b..364e3733af98 100644
+>>> --- a/drivers/gpu/drm/drm_gem.c
+>>> +++ b/drivers/gpu/drm/drm_gem.c
+>>> @@ -1150,8 +1150,8 @@ int drm_gem_pin(struct drm_gem_object *obj)
+>>>   {
+>>>       if (obj->funcs->pin)
+>>>           return obj->funcs->pin(obj);
+>>> -    else
+>>> -        return 0;
+>>> +
+>>> +    return 0;
+>
+> This change is ok.
+>
+>>>   }
+>>>   void drm_gem_unpin(struct drm_gem_object *obj)
+>>> @@ -1172,7 +1172,8 @@ int drm_gem_vmap(struct drm_gem_object *obj, 
+>>> struct iosys_map *map)
+>>>       ret = obj->funcs->vmap(obj, map);
+>>>       if (ret)
+>>>           return ret;
+>>> -    else if (iosys_map_is_null(map))
+>>> +
+>>> +    if (iosys_map_is_null(map))
+>>>           return -ENOMEM;
+>
+> This is not correct. Calling iosys_map_is_null() is part of handling 
+> the return value from vmap, so the else is fine.
+>
+Are you serious ?
 
-I'll merge the patches tomorrow. If there are any additional comments,
-then please don't hesitate to post them.
 
+1. Before apply this patch:
+
+
+If the 'ret' is 0,  it stand for obj->funcs->vmap() is successful, then 
+if (iosys_map_is_null(map)) will be run.
+
+If the 'ret' is NOT 0, then it return immediately.
+
+
+2. After apply this patch:
+
+
+If the 'ret' is NOT 0, it stand for obj->funcs->vmap() failed, then it 
+return immediately.
+
+If the 'ret' is 0, it stand for obj->funcs->vmap() is successful, then 
+the check if (iosys_map_is_null(map))
+
+will be run!
+
+
+I feel strange about the core here, I think the check ' if 
+(iosys_map_is_null(map))' is not needed,
+
+the implement should responsible to handle all of possible errors.
+
+
+But both case (1. and 2.) are same in the semantic, right?
+
+
+> Best regards
+> Thomas
+>
+>>>       return 0;
+>>
+>
 -- 
-Best regards,
-Dmitry
+Jingfeng
 
