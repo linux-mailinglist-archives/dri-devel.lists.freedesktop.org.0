@@ -1,70 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A8973730F
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 19:40:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7F26737312
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 19:41:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D2AF10E308;
-	Tue, 20 Jun 2023 17:40:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C77110E30A;
+	Tue, 20 Jun 2023 17:41:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEC6510E308
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 17:40:44 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id
- 2adb3069b0e04-4f875b267d9so2902417e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 10:40:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687282841; x=1689874841;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=eqAZNQk7Z69YOwb0M82rDabEev5i0RfMRmDQpnJ2T2k=;
- b=p/oYYTa+njNZ8YxPjsVGh3kzhKXu2dfQOzkL+VXETO9VyeJIh2yDg1XLZHJNa1zr95
- RDea42DywaJjCsZ4Ebw8fskxYOp0we6rRu7HKh0BDs94t0VdEDg3sE0J0E9oDSVvnPm9
- mRLtLVZiJYVVE9GUnad3awtQYqou1P8Ovo+tJJjH8ybzxh0MhIccpABciGHfPyNeljBy
- pGtyW6Xs/9moRpqpSY+YYPIDYlsvpT/O44pJHzGtViSDHvP46inYHH/jj/4D08Svrtl+
- j48xXm22jPKAaPk8bc/XqAHJoD70MXSqq0+HlrgNVAS9TnOifVd8yobGB8mE0+2N8mGm
- eRPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687282841; x=1689874841;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=eqAZNQk7Z69YOwb0M82rDabEev5i0RfMRmDQpnJ2T2k=;
- b=Yy3CvYYCfjO7fjwrX1BvjW893st3UQuSxRXUUO79ORru4vxX9E1wUMxvxDqpHn6JSS
- BuNhFXG8seKiF5uvGoma4LkR3oLlAXNwht9WFigEsUZs+bMEApM5r67HVEy3IuTQd0Oh
- w+53FqXACbCZa2gUmOTB3+gxFLN/Wvkvmdx+63oCfsvQ55DnCU8kJMK7675/ol7TYyHD
- qFSnQlkcmEkj5aGGYf+ChHb3fhwUVJJRcfaOpYBZLPWbe7iAfJl3SrdPzWlL29+z71kQ
- jWfMKZxzOFwYR7tIlnGAF/r1DSmUZsFPYcZMNLizC1Wmrn7cYTtebh2Xx4mcbv3t7G8W
- useA==
-X-Gm-Message-State: AC+VfDyaNfO2t5/go0DvGIMGh0t9avqtG3mINroSYaoEtuoZsRurssgj
- bTpvAWpvikifgmNUefuNfYBKZg==
-X-Google-Smtp-Source: ACHHUZ4Mkz/tejUG8wsYLqpASgat6I12ValXWs3lcWJQuEUxr5KtZ43SFyTWMbguvw69zgCEm6NX5A==
-X-Received: by 2002:ac2:5f9a:0:b0:4f6:2f97:7f8b with SMTP id
- r26-20020ac25f9a000000b004f62f977f8bmr6644997lfe.1.1687282841247; 
- Tue, 20 Jun 2023 10:40:41 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- w10-20020ac254aa000000b004f20d0ebe50sm440511lfk.94.2023.06.20.10.40.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Jun 2023 10:40:40 -0700 (PDT)
-Message-ID: <254e633f-1cc4-0eac-d6d9-365f78433227@linaro.org>
-Date: Tue, 20 Jun 2023 20:40:40 +0300
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5576710E309;
+ Tue, 20 Jun 2023 17:41:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1687282877; x=1718818877;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=YU32wILb4tnhc0im+7dQGm/pq5C2AUFMvZXmoqqj258=;
+ b=X6RqOLNLt1eKuIx8ceRXb+zXgpBIe+MwoxKN4iD/t1LreXrJal208UHY
+ R4CrzDf/R2Pj4v8YHAkOFRv/x4u2Ea1tEO9pkQSSUUAL07QtotaSkrn47
+ P4+89axzw2zFhiKE8PlJeRdTjTG9khfRFE67P9sO5Hce2v4wXY1HnInRo
+ Q7oPL1mcU2LXSecE41U7AuamJ0Pf8fYd9V5bEm1jmAb3UAo8DtfuYDJn0
+ KqnkVOC9WB93CVns/T8T0sX0cxaVstkvvqIoYR8F55q6fegtMQCEkAq3K
+ f5aINdfs/1p2X3lvcHss0nUeUBBcYEqFGmznTDGd+x4+DmRMV0yaj1w4/ Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="357427865"
+X-IronPort-AV: E=Sophos;i="6.00,257,1681196400"; d="scan'208";a="357427865"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jun 2023 10:41:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="691531828"
+X-IronPort-AV: E=Sophos;i="6.00,257,1681196400"; d="scan'208";a="691531828"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by orsmga006.jf.intel.com with ESMTP; 20 Jun 2023 10:41:12 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1qBfLq-005JYh-1p; Tue, 20 Jun 2023 20:41:10 +0300
+Date: Tue, 20 Jun 2023 20:41:10 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: Re: [Intel-xe] [PATCH 2/3] linux/bits.h: Add fixed-width GENMASK and
+ BIT macros
+Message-ID: <ZJHkthMktY83pwvy@smile.fi.intel.com>
+References: <20230509051403.2748545-1-lucas.demarchi@intel.com>
+ <20230509051403.2748545-3-lucas.demarchi@intel.com>
+ <ZF4fi5B7PPlgZBOI@smile.fi.intel.com> <87pm75kd0h.fsf@intel.com>
+ <ZF4j0NPoBGMBT8CO@smile.fi.intel.com> <87mt29kc34.fsf@intel.com>
+ <ZIs0CC2J7nu0LHEK@smile.fi.intel.com> <875y7igph5.fsf@intel.com>
+ <ZJG91zMQW3Rnvdbe@smile.fi.intel.com>
+ <amgwl5mthhqgvgkqnor6tjfcr3x3pgwvpqin5efwwjfpdhvvpa@vhzhiq5mzsdg>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 1/3] drm/msm/a3xx: Pass the revision information
-Content-Language: en-GB
-To: Fabio Estevam <festevam@gmail.com>, robdclark@gmail.com
-References: <20230620173305.896438-1-festevam@gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230620173305.896438-1-festevam@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <amgwl5mthhqgvgkqnor6tjfcr3x3pgwvpqin5efwwjfpdhvvpa@vhzhiq5mzsdg>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,78 +67,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Fabio Estevam <festevam@denx.de>, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, Kevin Brodsky <kevin.brodsky@arm.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, Thomas Gleixner <tglx@linutronix.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20/06/2023 20:33, Fabio Estevam wrote:
-> From: Fabio Estevam <festevam@denx.de>
-> 
-> Commit cc943f43ece7 ("drm/msm/adreno: warn if chip revn is verified
-> before being set") exposes the need of setting the GPU revision fields
-> prior to using the adreno_is_xxx() functions.
-> 
-> Pass the GPU revision information to avoid run-time warning.
-> 
-> Signed-off-by: Fabio Estevam <festevam@denx.de>
+On Tue, Jun 20, 2023 at 10:25:21AM -0700, Lucas De Marchi wrote:
+> On Tue, Jun 20, 2023 at 05:55:19PM +0300, Andy Shevchenko wrote:
+> > On Tue, Jun 20, 2023 at 05:47:34PM +0300, Jani Nikula wrote:
+> > > On Thu, 15 Jun 2023, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> > > > On Fri, May 12, 2023 at 02:45:19PM +0300, Jani Nikula wrote:
+> > > >> On Fri, 12 May 2023, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> > > >> > On Fri, May 12, 2023 at 02:25:18PM +0300, Jani Nikula wrote:
+> > > >> >> On Fri, 12 May 2023, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> > > >> >> > On Mon, May 08, 2023 at 10:14:02PM -0700, Lucas De Marchi wrote:
+> > > >> >> >> Add GENMASK_U32(), GENMASK_U16() and GENMASK_U8()  macros to create
+> > > >> >> >> masks for fixed-width types and also the corresponding BIT_U32(),
+> > > >> >> >> BIT_U16() and BIT_U8().
 
-I'll take a glance later. Generic comment, you missed freedreno@, so 
-these patches will not pop up in our patch tracker. Also could you 
-please use git send-email passing all patches to the command, so that 
-they are threaded?
-
-> ---
-> Build-tested only.
+> > > >> >> > Why?
+> > > >> >>
+> > > >> >> The main reason is that GENMASK() and BIT() size varies for 32/64 bit
+> > > >> >> builds.
+> > > >> >
+> > > >> > When needed GENMASK_ULL() can be used (with respective castings perhaps)
+> > > >> > and BIT_ULL(), no?
+> > > >>
+> > > >> How does that help with making them the same 32-bit size on both 32 and
+> > > >> 64 bit builds?
+> > > >
+> > > > 	u32 x = GENMASK();
+> > > > 	u64 y = GENMASK_ULL();
+> > > >
+> > > > No? Then use in your code either x or y. Note that I assume that the parameters
+> > > > to GENMASK*() are built-time constants. Is it the case for you?
+> > > 
+> > > What's wrong with wanting to define macros with specific size, depending
+> > > on e.g. hardware registers instead of build size?
+> > 
+> > Nothing, but I think the problem is smaller than it's presented.
 > 
->   drivers/gpu/drm/msm/adreno/a3xx_gpu.c | 21 +++++++++++++++++++++
->   1 file changed, 21 insertions(+)
+> not sure about big/small problem you are talking about. It's a problem
+> for when the *device* register is a 32b fixed width, which is
+> independent from the CPU you are running on. We also have registers that
+> are u16 and u64. Having fixed-width GENMASK and BIT helps avoiding
+> mistakes like below. Just to use one example, the diff below builds
+> fine on my 64b machine, yet it's obviously wrong:
 > 
-> diff --git a/drivers/gpu/drm/msm/adreno/a3xx_gpu.c b/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
-> index c86b377f6f0d..fc23810d7684 100644
-> --- a/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
-> @@ -530,6 +530,8 @@ struct msm_gpu *a3xx_gpu_init(struct drm_device *dev)
->   	struct msm_gpu *gpu;
->   	struct msm_drm_private *priv = dev->dev_private;
->   	struct platform_device *pdev = priv->gpu_pdev;
-> +	struct adreno_platform_config *config = pdev->dev.platform_data;
-> +	const struct adreno_info *info;
->   	struct icc_path *ocmem_icc_path;
->   	struct icc_path *icc_path;
->   	int ret;
-> @@ -558,6 +560,25 @@ struct msm_gpu *a3xx_gpu_init(struct drm_device *dev)
->   	if (ret)
->   		goto fail;
->   
-> +	/*
-> +	 * We need to know the platform type before calling into adreno_gpu_init
-> +	 * so that the hw_apriv flag can be correctly set. Snoop into the info
-> +	 * and grab the revision number
-> +	 */
-> +	info = adreno_info(config->rev);
-> +	if (!info) {
-> +		ret = -EINVAL;
-> +		goto fail;
-> +	}
-> +
-> +	/* Assign these early so that we can use the is_aXYZ helpers */
-> +	/* Numeric revision IDs (e.g. 630) */
-> +	adreno_gpu->revn = info->revn;
-> +	/* New-style ADRENO_REV()-only */
-> +	adreno_gpu->rev = info->rev;
-> +	/* Quirk data */
-> +	adreno_gpu->info = info;
+> 	$ git diff 	diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+> b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+> 	index 0b414eae1683..692a0ad9a768 100644
+> 	--- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+> 	+++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+> 	@@ -261,8 +261,8 @@ static u32 rw_with_mcr_steering_fw(struct intel_gt *gt,
+> 			 * No need to save old steering reg value.
+> 			 */
+> 			intel_uncore_write_fw(uncore, MTL_MCR_SELECTOR,
+> 	-                                     REG_FIELD_PREP(MTL_MCR_GROUPID, group) |
+> 	-                                     REG_FIELD_PREP(MTL_MCR_INSTANCEID, instance) |
+> 	+                                     FIELD_PREP(MTL_MCR_GROUPID, group) |
+> 	+                                     FIELD_PREP(MTL_MCR_INSTANCEID, instance) |
+> 					      (rw_flag == FW_REG_READ ? GEN11_MCR_MULTICAST : 0));
+> 		} else if (GRAPHICS_VER(uncore->i915) >= 11) {
+> 			mcr_mask = GEN11_MCR_SLICE_MASK | GEN11_MCR_SUBSLICE_MASK;
+> 	diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> 	index 718cb2c80f79..c42bc2900c6a 100644
+> 	--- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> 	+++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> 	@@ -80,8 +80,8 @@
+> 	 #define   GEN11_MCR_SLICE_MASK                 GEN11_MCR_SLICE(0xf)
+> 	 #define   GEN11_MCR_SUBSLICE(subslice)         (((subslice) & 0x7) << 24)
+> 	 #define   GEN11_MCR_SUBSLICE_MASK              GEN11_MCR_SUBSLICE(0x7)
+> 	-#define   MTL_MCR_GROUPID                      REG_GENMASK(11, 8)
+> 	-#define   MTL_MCR_INSTANCEID                   REG_GENMASK(3, 0)
+> 	+#define   MTL_MCR_GROUPID                      GENMASK(32, 8)
+> 	+#define   MTL_MCR_INSTANCEID                   GENMASK(3, 0)
+> 	 	 #define IPEIR_I965                             _MMIO(0x2064)
+> 	 #define IPEHR_I965                             _MMIO(0x2068)
+> 
+> If the driver didn't support 32b CPUs, this would even go unnoticed.
 
-This looks like a boilerplate being added to all aYxx drivers (and then 
-these fields are also set in adreno_gpu_init()). Can we remove 
-duplication somehow?
+So, what does prevent you from using GENMASK_ULL()?
 
-> +
->   	/* if needed, allocate gmem: */
->   	if (adreno_is_a330(adreno_gpu)) {
->   		ret = adreno_gpu_ocmem_init(&adreno_gpu->base.pdev->dev,
+Another point, you may teach GENMASK() to issue a warning if hi and/or lo
+bigger than BITS_PER_LONG.
+
+I still don't see the usefulness of that churn.
+
+> Lucas De Marchi
+> 
+> > And there are already header for bitfields with a lot of helpers
+> > for (similar) cases if not yours.
+> > 
+> > > What would you use for printk format if you wanted to to print
+> > > GENMASK()?
+> > 
+> > %lu, no?
 
 -- 
-With best wishes
-Dmitry
+With Best Regards,
+Andy Shevchenko
+
 
