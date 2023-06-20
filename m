@@ -1,48 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F3527369EB
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 12:52:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 366E57369F0
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 12:53:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5350A10E0EF;
-	Tue, 20 Jun 2023 10:52:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4D6D10E2B7;
+	Tue, 20 Jun 2023 10:53:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B550D10E0EF
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 10:52:00 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 26DD8611D8;
- Tue, 20 Jun 2023 10:51:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38C26C433C0;
- Tue, 20 Jun 2023 10:51:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1687258318;
- bh=V9MJUCVMWI9KfhKjx8mSvYw2pf1xjGedQM3kQSvLgGM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OCv4HWAtYRwDDL4w75BYLov4HtUzw//tycij0AU63h9r8gj6xID+tOvOIk7VQyl8n
- w50Oa9scAAPxXzx0bCYCAVSaSLwP5Pc+m861ajyrs3T8AVsTaL59FgNOVRbwySC6MO
- L1IKvLICjaTdPDLe6tLk7CFBOrRK3ehFOzjgqWZAqfabRKUAZuVvTHAligZGK5E6iW
- cTVXpM3dzyrZshj72n/dWh2mnaFNRKXDM85xG4og/4MXgZ3s5UAyutoWr+YAyeQoLi
- rlyZQB03KRNUUfLDXfW2NOcK1yklLqT2/9kXmv8ezz4Q5RAcPeBrmUX3G78nhGcSIe
- ZTFEv8ueA3qIA==
-Date: Tue, 20 Jun 2023 12:51:55 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH v2] drm/bridge_connector: Handle
- drm_connector_init_with_ddc() failures
-Message-ID: <z3p6hqaf5yz24fe6g2pfw3saksu2iqu5gycyfij7rgfojx2ii5@ibrnokvqcucc>
-References: <53b00f9812deddf90297e42aa45a4a9988c70076.1687243706.git.geert+renesas@glider.be>
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 219EE10E2A6
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 10:53:07 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id
+ 2adb3069b0e04-4f8792d2e86so1285443e87.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 03:53:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1687258385; x=1689850385;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=DGZA36U9+mS8P8FwUzMqtiJLWLWVTpus9jpYOIpJAHI=;
+ b=zCLktcawGwl3ZsPxU9EJABiM6P9enioML2D1kbJFa+KbHw1qJ5sjDW0ffcEe9niZ/0
+ K4D0P/vMKB8dwFifr6bjUBTbEeZUj0QNz83ZF8KnmM3+++6nDECD86HqiQaxoI5yrxDP
+ 9D83SaroydyiLMvQuL0C1UMyz0CG2GnoDtfuDCxE3iDPA92DT405VdpgFL+uC+UPvFWf
+ c80eTqgAua38kS9+DW1YKIpXn2I6IpAVceUyWS9HPJusdCb6AbMJwNdV3jZK8CKVv4+s
+ 5PrZNmI2rhcJSsa/W/YV090GYv95VmFJ4dRY1LIzpVMGHyWnhC+di5QaokLwUgoNSAh1
+ 4tng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687258385; x=1689850385;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=DGZA36U9+mS8P8FwUzMqtiJLWLWVTpus9jpYOIpJAHI=;
+ b=b9hVyrII70exzptX+XuLfbj23k6av5D8b5k+RFuCR9rkW/XlHUdk24eL9/EVOs4r1f
+ rmj/VBGMeJjaDH24ZnJHfq5pQ9z/IOym5Aq5A6JUgMiutibqYqdCofXEoPIvfWtJ47W4
+ qEpNqAii3QP8OpqoUUIXA4urXryhukUiDsOcSla0xabef0PevtHAKe4bqIeptlXj91xd
+ VnoM4MizWZ/TFtBSOB7I5EvIvNOn+GLZWpMC2jDt6CLH2HZJo32D2HF+UkAhrj6cDANp
+ aOIlWYKlTDy4Xg8v53xyftPKz/oeEPB+GM9NLC13G+RIdGsOeRbhLdQWfDNzOngoUSjM
+ 8wXQ==
+X-Gm-Message-State: AC+VfDy13ilSzS1kE0LAUsMCV6RW7ub80bC7xJuTfrqh0r4pyXgeiAbi
+ 8pDLURXnFDWRtd75J37O0Pqaig==
+X-Google-Smtp-Source: ACHHUZ40vJmWNB5SpAS465doS632Log2ryoWnrvOSMPC8fEFO3Ml72G8Z0/MPWI1sB4NDEzcqssZtA==
+X-Received: by 2002:a19:6544:0:b0:4ed:cc6d:61fe with SMTP id
+ c4-20020a196544000000b004edcc6d61femr6652989lfj.24.1687258384796; 
+ Tue, 20 Jun 2023 03:53:04 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ w15-20020ac2598f000000b004f60a2429d4sm322093lfn.78.2023.06.20.03.53.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Jun 2023 03:53:04 -0700 (PDT)
+Message-ID: <58cb9077-5c39-5374-3d81-7922af9648a0@linaro.org>
+Date: Tue, 20 Jun 2023 13:53:03 +0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="meh2x7on6izf7tab"
-Content-Disposition: inline
-In-Reply-To: <53b00f9812deddf90297e42aa45a4a9988c70076.1687243706.git.geert+renesas@glider.be>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 3/8] drm/msm/dpu: drop
+ dpu_core_perf_params::max_per_pipe_ib
+Content-Language: en-GB
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20230620000846.946925-1-dmitry.baryshkov@linaro.org>
+ <20230620000846.946925-4-dmitry.baryshkov@linaro.org>
+ <5b72eb45-d2fa-a3b7-5792-d496dbde4314@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <5b72eb45-d2fa-a3b7-5792-d496dbde4314@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,39 +82,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 20/06/2023 13:46, Konrad Dybcio wrote:
+> On 20.06.2023 02:08, Dmitry Baryshkov wrote:
+>> The max_per_pipe_ib is a constant across all CRTCs and is read from the
+>> catalog. Drop corresponding calculations and read the value directly at
+>> icc_set_bw() time.
+>>
+>> Suggested-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+> This looks good, but doesn't apply on next-20230620
 
---meh2x7on6izf7tab
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hmm. It applied w/o any issues here.
 
-On Tue, Jun 20, 2023 at 08:50:44AM +0200, Geert Uytterhoeven wrote:
-> drm_connector_init_with_ddc() can fail, but the call in
-> drm_bridge_connector_init() does not check that.  Fix this by adding
-> the missing error handling.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> Konrad
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 17 +++++------------
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h |  2 --
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      |  2 --
+>>   3 files changed, 5 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+>> index 9902febc72c0..ba146af73bc5 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+>> @@ -105,13 +105,12 @@ static void _dpu_core_perf_calc_crtc(struct dpu_kms *kms,
+>>   	memset(perf, 0, sizeof(struct dpu_core_perf_params));
+>>   
+>>   	perf->bw_ctl = _dpu_core_perf_calc_bw(kms, crtc);
+>> -	perf->max_per_pipe_ib = kms->catalog->perf->min_dram_ib;
+>>   	perf->core_clk_rate = _dpu_core_perf_calc_clk(kms, crtc, state);
+>>   
+>>   	DRM_DEBUG_ATOMIC(
+>> -		"crtc=%d clk_rate=%llu core_ib=%llu core_ab=%llu\n",
+>> +		"crtc=%d clk_rate=%llu core_ab=%llu\n",
+>>   			crtc->base.id, perf->core_clk_rate,
+>> -			perf->max_per_pipe_ib, perf->bw_ctl);
+>> +			perf->bw_ctl);
+>>   }
+>>   
+>>   int dpu_core_perf_crtc_check(struct drm_crtc *crtc,
+>> @@ -199,9 +198,6 @@ static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
+>>   				dpu_crtc_get_client_type(tmp_crtc)) {
+>>   			dpu_cstate = to_dpu_crtc_state(tmp_crtc->state);
+>>   
+>> -			perf.max_per_pipe_ib = max(perf.max_per_pipe_ib,
+>> -					dpu_cstate->new_perf.max_per_pipe_ib);
+>> -
+>>   			perf.bw_ctl += dpu_cstate->new_perf.bw_ctl;
+>>   
+>>   			DRM_DEBUG_ATOMIC("crtc=%d bw=%llu paths:%d\n",
+>> @@ -217,7 +213,7 @@ static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
+>>   	do_div(avg_bw, (kms->num_paths * 1000)); /*Bps_to_icc*/
+>>   
+>>   	for (i = 0; i < kms->num_paths; i++)
+>> -		icc_set_bw(kms->path[i], avg_bw, perf.max_per_pipe_ib);
+>> +		icc_set_bw(kms->path[i], avg_bw, kms->catalog->perf->min_dram_ib);
+>>   
+>>   	return ret;
+>>   }
+>> @@ -320,15 +316,12 @@ int dpu_core_perf_crtc_update(struct drm_crtc *crtc,
+>>   		 * 2. new bandwidth vote - "ab or ib vote" is lower
+>>   		 *    than current vote at end of commit or stop.
+>>   		 */
+>> -		if ((params_changed && ((new->bw_ctl > old->bw_ctl) ||
+>> -			(new->max_per_pipe_ib > old->max_per_pipe_ib)))	||
+>> -			(!params_changed && ((new->bw_ctl < old->bw_ctl) ||
+>> -			(new->max_per_pipe_ib < old->max_per_pipe_ib)))) {
+>> +		if ((params_changed && new->bw_ctl > old->bw_ctl) ||
+>> +		    (!params_changed && new->bw_ctl < old->bw_ctl)) {
+>>   			DRM_DEBUG_ATOMIC("crtc=%d p=%d new_bw=%llu,old_bw=%llu\n",
+>>   				crtc->base.id, params_changed,
+>>   				new->bw_ctl, old->bw_ctl);
+>>   			old->bw_ctl = new->bw_ctl;
+>> -			old->max_per_pipe_ib = new->max_per_pipe_ib;
+>>   			update_bus = true;
+>>   		}
+>>   
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
+>> index e02cc2324af2..2bf7836f79bb 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
+>> @@ -16,12 +16,10 @@
+>>   
+>>   /**
+>>    * struct dpu_core_perf_params - definition of performance parameters
+>> - * @max_per_pipe_ib: maximum instantaneous bandwidth request
+>>    * @bw_ctl: arbitrated bandwidth request
+>>    * @core_clk_rate: core clock rate request
+>>    */
+>>   struct dpu_core_perf_params {
+>> -	u64 max_per_pipe_ib;
+>>   	u64 bw_ctl;
+>>   	u64 core_clk_rate;
+>>   };
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+>> index 1edf2b6b0a26..ff5d306b95ed 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+>> @@ -1400,8 +1400,6 @@ static int dpu_crtc_debugfs_state_show(struct seq_file *s, void *v)
+>>   	seq_printf(s, "core_clk_rate: %llu\n",
+>>   			dpu_crtc->cur_perf.core_clk_rate);
+>>   	seq_printf(s, "bw_ctl: %llu\n", dpu_crtc->cur_perf.bw_ctl);
+>> -	seq_printf(s, "max_per_pipe_ib: %llu\n",
+>> -				dpu_crtc->cur_perf.max_per_pipe_ib);
+>>   
+>>   	return 0;
+>>   }
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+-- 
+With best wishes
+Dmitry
 
-Maxime
-
---meh2x7on6izf7tab
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZJGEywAKCRDj7w1vZxhR
-xeJkAQCMntGxRYuYehLRiKEl5oWCZDQlZACd7j35XBBUT+CuhAD/RGvK96tX90ZV
-SZhI4pm1cKpx3pxPOlLSAx0D1btrTQs=
-=rGmg
------END PGP SIGNATURE-----
-
---meh2x7on6izf7tab--
