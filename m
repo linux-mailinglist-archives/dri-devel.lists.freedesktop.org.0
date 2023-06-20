@@ -2,60 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25FCD73628C
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 06:08:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81866736292
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 06:14:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA78E10E176;
-	Tue, 20 Jun 2023 04:08:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFE3410E258;
+	Tue, 20 Jun 2023 04:14:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id D26AD10E176
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 04:08:35 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8Dx_+tCJpFkvgoHAA--.14439S3;
- Tue, 20 Jun 2023 12:08:34 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxFORBJpFkmi8hAA--.27605S3; 
- Tue, 20 Jun 2023 12:08:34 +0800 (CST)
-Message-ID: <cde47fd0-a8e4-36cf-3f0b-a1b473799db3@loongson.cn>
-Date: Tue, 20 Jun 2023 12:08:33 +0800
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com
+ [IPv6:2607:f8b0:4864:20::d36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8B9810E258;
+ Tue, 20 Jun 2023 04:14:26 +0000 (UTC)
+Received: by mail-io1-xd36.google.com with SMTP id
+ ca18e2360f4ac-77e3c55843cso22853939f.0; 
+ Mon, 19 Jun 2023 21:14:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1687234465; x=1689826465;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :to:subject:from:user-agent:mime-version:date:message-id:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=HfXcA5JdNA0yf+U+AJ2SuyKVr9rRyTUAx98Z0AaLNjU=;
+ b=nCDvG5c6cXOqyczo3SPAlLoIYL3tinmRwA7LG1Sh2BeV10m0RceQxHtBmzDN5itEyg
+ WdlBkyD57wkjgU577v+JxRgihq6/g8/IECAgMO8OIlwe5tO8Y8rLmSlSetePJayCXYo2
+ ebHLcIDQaV6+YS6hKNMY2+RBjQbOsdsdJVHRzVz6YAfBAbPzP9a7ZDAnZTfYHaRbPwzC
+ 4a+LQiVzkY+sZLqT5kTZAqOBh+mgVqKlH/4fSRPWUIpVIyvlZsVpNOyMyZclRi0BXZWu
+ LM0rjyTIWUds3EkqN41d2X2uY3DhCkBY3O3V4H4dlXyutG1ztMMDXRBXCKSeHxl73q8r
+ J4gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687234465; x=1689826465;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :to:subject:from:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HfXcA5JdNA0yf+U+AJ2SuyKVr9rRyTUAx98Z0AaLNjU=;
+ b=S7WX4tigEoPTsK6yP3hSPvOzyD8ZbE9WjAuDh1kHSDSxOzo1OglrclfRPKISiIA523
+ etzzS+11E+9KzR0W5U74mugykX34L7Ir+aaWZiGm2BfP3jgGflaxFmhHMW9Yjz4S0yYy
+ RhH5oMON7JKq/JbEEwC1/mDlqeCqLkXQziQ2WaAh/1sxrIRa0EgjugGdwHjXXzU0CLJ5
+ MB8SJqBx+C4qHSh1w+hEHMNQarqYckOIRrHBeQIGqt8gjdr3KRfl2C+RAtNCO5eexAx6
+ ggyyg2fqKh77tvJ8glZGy9Pa3HFS5p0KtJ9Mi4GmtCrhTz7e+8qoGb3s53DcGOGzNYgy
+ PJBg==
+X-Gm-Message-State: AC+VfDxBe4fgGpQ6gaKmcdQZAmhMjuEOepap6kGeNf2kzX1w1P2KXcyZ
+ ASami6G6Y8wfJqNhOo0RfQ8=
+X-Google-Smtp-Source: ACHHUZ6F2FXg8uHYdsZkLFEFMNP7a1KIe0AMPEYR5KKoRUALJJ8c0cL/kyR+1tAgGrT+v0QoVyQYHg==
+X-Received: by 2002:a05:6e02:c72:b0:340:ba06:b16a with SMTP id
+ f18-20020a056e020c7200b00340ba06b16amr7876800ilj.3.1687234465308; 
+ Mon, 19 Jun 2023 21:14:25 -0700 (PDT)
+Received: from [10.104.2.174] (zz20184013906F627101.userreverse.dion.ne.jp.
+ [111.98.113.1]) by smtp.gmail.com with ESMTPSA id
+ l186-20020a6391c3000000b0052c9d1533b6sm432097pge.56.2023.06.19.21.14.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 19 Jun 2023 21:14:24 -0700 (PDT)
+Message-ID: <7446c685-474d-c69a-2224-e73146987365@gmail.com>
+Date: Tue, 20 Jun 2023 13:14:21 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/drm_gem.c: remove surplus else after return clause
+ Thunderbird/102.12.0
+From: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>
+Subject: Re: [PATCH 06/13] drm/amdgpu: use the new drm_exec object for CS v2
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ francois.dugast@intel.com, felix.kuehling@amd.com,
+ arunpravin.paneerselvam@amd.com, thomas_os@shipmail.org, dakr@redhat.com,
+ luben.tuikov@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, matthew.brost@intel.com,
+ boris.brezillon@collabora.com
+References: <20230504115159.2245-1-christian.koenig@amd.com>
+ <20230504115159.2245-7-christian.koenig@amd.com>
+ <e163fa54-b016-1879-d1c0-840a4d3885b1@gmail.com>
 Content-Language: en-US
-To: Sui Jingfeng <15330273260@189.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- liyi <liyi@loongson.cn>
-References: <20230314125305.2278964-1-15330273260@189.cn>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <20230314125305.2278964-1-15330273260@189.cn>
+In-Reply-To: <e163fa54-b016-1879-d1c0-840a4d3885b1@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8DxFORBJpFkmi8hAA--.27605S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj9xXoWruFyrJr4kCrWrJFWkKry3trc_yoWftwbEk3
- WUX3s3Wr98uF95ZFsxC39Ivr92yFZ5W3y8ZrZYg34xJ39rAr1UX3s7C34Dur1UJF4xGF98
- Ga1UuFZ2vFn7uosvyTuYvTs0mTUanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvT
- s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
- cSsGvfJTRUUUbS8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
- vaj40_Wr0E3s1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
- w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
- WUJVW8JwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
- 6r4UJVWxJr1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
- xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q
- 6rW5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
- 1lc7I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
- JVW8JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
- vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
- x2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
- xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAF
- wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jwBMNUUUUU=
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,46 +83,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ping ?
+On 6/20/23 13:07, Tatsuyuki Ishi wrote:
+>> @@ -1296,9 +1271,8 @@ static int amdgpu_cs_submit(struct 
+>> amdgpu_cs_parser *p,
+>>        */
+>>       r = 0;
+>>       amdgpu_bo_list_for_each_userptr_entry(e, p->bo_list) {
+>> -        struct amdgpu_bo *bo = ttm_to_amdgpu_bo(e->tv.bo);
+>> -
+>> -        r |= !amdgpu_ttm_tt_get_user_pages_done(bo->tbo.ttm, e->range);
+>> +        r |= !amdgpu_ttm_tt_get_user_pages_done(e->bo->tbo.ttm,
+>> +                            e->range);
+>>           e->range = NULL;
+> 
+> e->range = NULL; needs to be removed, or it's causing *massive* memory 
+> leaks.
 
-On 2023/3/14 20:53, Sui Jingfeng wrote:
->   else is not generally useful after return
->
-> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
-> ---
->   drivers/gpu/drm/drm_gem.c | 7 ++++---
->   1 file changed, 4 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index a6208e2c089b..364e3733af98 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -1150,8 +1150,8 @@ int drm_gem_pin(struct drm_gem_object *obj)
->   {
->   	if (obj->funcs->pin)
->   		return obj->funcs->pin(obj);
-> -	else
-> -		return 0;
+Actually, I quoted the wrong hunk, the correct one is below.
+
+> @@ -928,18 +874,56 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
+>  		e->user_invalidated = userpage_invalidated;
+>  	}
+>  
+> -	r = ttm_eu_reserve_buffers(&p->ticket, &p->validated, true,
+> -				   &duplicates);
+> -	if (unlikely(r != 0)) {
+> -		if (r != -ERESTARTSYS)
+> -			DRM_ERROR("ttm_eu_reserve_buffers failed.\n");
+> -		goto out_free_user_pages;
+> +	drm_exec_while_not_all_locked(&p->exec) {
+> +		r = amdgpu_vm_lock_pd(&fpriv->vm, &p->exec);
+> +		drm_exec_continue_on_contention(&p->exec);
+> +		if (unlikely(r))
+> +			goto out_free_user_pages;
 > +
-> +	return 0;
->   }
->   
->   void drm_gem_unpin(struct drm_gem_object *obj)
-> @@ -1172,7 +1172,8 @@ int drm_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map)
->   	ret = obj->funcs->vmap(obj, map);
->   	if (ret)
->   		return ret;
-> -	else if (iosys_map_is_null(map))
+> +		amdgpu_bo_list_for_each_entry(e, p->bo_list) {
+> +			r = drm_exec_prepare_obj(&p->exec, &e->bo->tbo.base, 2);
+> +			drm_exec_break_on_contention(&p->exec);
+> +			if (unlikely(r))
+> +				goto out_free_user_pages;
 > +
-> +	if (iosys_map_is_null(map))
->   		return -ENOMEM;
->   
->   	return 0;
+> +			e->bo_va = amdgpu_vm_bo_find(vm, e->bo);
+> +			e->range = NULL;
 
--- 
-Jingfeng
+This causes the leak.
 
+> +		}
+> +		drm_exec_continue_on_contention(&p->exec);
+> +
+> +		if (p->uf_bo) {
+> +			r = drm_exec_prepare_obj(&p->exec, &p->uf_bo->tbo.base,
+> +						 2);
+> +			drm_exec_continue_on_contention(&p->exec);
+> +			if (unlikely(r))
+> +				goto out_free_user_pages;
+> +		}
+>  	}
+
+Tatsuyuki
