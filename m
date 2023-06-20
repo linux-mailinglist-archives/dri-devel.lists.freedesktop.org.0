@@ -1,63 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43535736BB1
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 14:12:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B8E1736B85
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 14:05:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6085610E2DC;
-	Tue, 20 Jun 2023 12:12:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA9E810E2DA;
+	Tue, 20 Jun 2023 12:05:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDB8310E2DB
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 12:12:08 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+Received: from relay02.th.seeweb.it (relay02.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8968910E2DB
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 12:05:11 +0000 (UTC)
+Received: from SoMainline.org (82-72-63-87.cable.dynamic.v4.ziggo.nl
+ [82.72.63.87])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 91E14218BB;
- Tue, 20 Jun 2023 12:12:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1687263125; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Q0Y3PkLzO5C8O1e77DfS9r0CpVVFDaovCyRftFBwQK4=;
- b=t4mWsyIr3KeqwKvkcKjmqVYgZPiZjuGzbQ30wGX0U6y0Mg+nJbJ1A0OMGsw9rMN/xowWSd
- jAMt17ppzl1lgAQkD7BVvQNm2udXaR3s/yapd1PkHcIUVmV8y0cqvXZzzKGAzoPCXVZPQo
- DYLl5nwalG6Ss8XGnw+3Cz1XusSl7T0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1687263125;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Q0Y3PkLzO5C8O1e77DfS9r0CpVVFDaovCyRftFBwQK4=;
- b=/fMlEQ84LVNetCmTd7ax38tUic15tIua892kh7iGlH0yQS8rLGCuQah4f7YWmPjAFv/8ic
- CQ/P4xPMLPgsAvBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4CEEC133A9;
- Tue, 20 Jun 2023 12:12:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id cC+QEZWXkWSwEQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 20 Jun 2023 12:12:05 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch, laurent.pinchart@ideasonboard.com,
- kieran.bingham+renesas@ideasonboard.com, hjc@rock-chips.com,
- heiko@sntech.de
-Subject: [PATCH 3/3] drm/gem-dma: Unexport drm_gem_dma_vm_ops
-Date: Tue, 20 Jun 2023 14:03:23 +0200
-Message-ID: <20230620121202.28263-4-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230620121202.28263-1-tzimmermann@suse.de>
-References: <20230620121202.28263-1-tzimmermann@suse.de>
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id CC40D1F91E;
+ Tue, 20 Jun 2023 14:05:06 +0200 (CEST)
+Date: Tue, 20 Jun 2023 14:05:04 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v2] drm/msm/dsi: Document DSC related pclk_rate and
+ hdisplay calculations
+Message-ID: <6rcphtpxou2ef3z44upzfbx23ahmqc4f3eys6qreozutt7v6z6@b22a535fhpor>
+References: <20230619210647.867630-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230619210647.867630-1-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,62 +43,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are no external users of drm_gem_dma_vm_ops. Unexport the symbol.
+On 2023-06-20 00:06:47, Dmitry Baryshkov wrote:
+> Provide actual documentation for the pclk and hdisplay calculations in
+> the case of DSC compression being used.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+> 
+> Changes since v1:
+> - Converted dsi_adjust_pclk_for_compression() into kerneldoc (Marijn)
+> - Added a pointer from dsi_timing_setup() docs to
+>   dsi_adjust_pclk_for_compression() (Marijn)
+> - Fixed two typo (Marijn)
+> 
+> ---
+>  drivers/gpu/drm/msm/dsi/dsi_host.c | 40 ++++++++++++++++++++++++++++--
+>  1 file changed, 38 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index 3f6dfb4f9d5a..a8a31c3dd168 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -528,6 +528,25 @@ void dsi_link_clk_disable_v2(struct msm_dsi_host *msm_host)
+>  	clk_disable_unprepare(msm_host->byte_clk);
+>  }
+>  
+> +/**
+> + * dsi_adjust_pclk_for_compression() - Adjust the pclk rate for compression case
+> + * @mode: the selected mode for the DSI output
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_gem_dma_helper.c | 11 +++++------
- include/drm/drm_gem_dma_helper.h     |  2 --
- 2 files changed, 5 insertions(+), 8 deletions(-)
+The
 
-diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem_dma_helper.c
-index e9aa3ac140654..d8a415c3d156c 100644
---- a/drivers/gpu/drm/drm_gem_dma_helper.c
-+++ b/drivers/gpu/drm/drm_gem_dma_helper.c
-@@ -45,6 +45,11 @@
-  * drm_gem_dma_vmap()). These helpers perform the necessary type conversion.
-  */
- 
-+static const struct vm_operations_struct drm_gem_dma_vm_ops = {
-+	.open = drm_gem_vm_open,
-+	.close = drm_gem_vm_close,
-+};
-+
- static const struct drm_gem_object_funcs drm_gem_dma_default_funcs = {
- 	.free = drm_gem_dma_object_free,
- 	.print_info = drm_gem_dma_object_print_info,
-@@ -315,12 +320,6 @@ int drm_gem_dma_dumb_create(struct drm_file *file_priv,
- }
- EXPORT_SYMBOL_GPL(drm_gem_dma_dumb_create);
- 
--const struct vm_operations_struct drm_gem_dma_vm_ops = {
--	.open = drm_gem_vm_open,
--	.close = drm_gem_vm_close,
--};
--EXPORT_SYMBOL_GPL(drm_gem_dma_vm_ops);
--
- #ifndef CONFIG_MMU
- /**
-  * drm_gem_dma_get_unmapped_area - propose address for mapping in noMMU cases
-diff --git a/include/drm/drm_gem_dma_helper.h b/include/drm/drm_gem_dma_helper.h
-index 3877cbf0e927c..88a810f954fce 100644
---- a/include/drm/drm_gem_dma_helper.h
-+++ b/include/drm/drm_gem_dma_helper.h
-@@ -45,8 +45,6 @@ int drm_gem_dma_vmap(struct drm_gem_dma_object *dma_obj,
- 		     struct iosys_map *map);
- int drm_gem_dma_mmap(struct drm_gem_dma_object *dma_obj, struct vm_area_struct *vma);
- 
--extern const struct vm_operations_struct drm_gem_dma_vm_ops;
--
- /*
-  * GEM object functions
-  */
--- 
-2.41.0
+> + * @dsc: DRM DSC configuration for this DSI output
+> + *
+> + * Adjust the pclk rate by calculating a new hdisplay proportional to
+> + * the compression ratio such that:
+> + *     new_hdisplay = old_hdisplay * compressed_bpp / uncompressed_bpp
 
+And in v1 you explained that it is _not_ about bpp...
+
+> + *
+> + * Porches do not need to be adjusted:
+> + * - For the VIDEO mode they are not compressed by DSC and are passed as is.
+> + * - For the CMD mode there are no actual porches. Instead these fields
+
+I feel like "For VIDEO mode" and "For CMD mode" reads more naturally, no
+need for "the", but I don't know the grammar rule that states so.
+
+> + *   currently represent the overhead to the image data transfer. As such, they
+> + *   are calculated for the final mode parameters (after the compression) and
+> + *   are not to be adjusted too.
+> + *
+> + *  FIXME: Reconsider this if/when CMD mode handling is rewritten to use
+> + *  refresh rate and data overhead as a starting point of the calculations.
+
+Nit: well, refresh rate is already part of this calculation (that's how
+drm_display_mode's clock member comes to be, and how drm_mode_vrefresh()
+figures out fps after the fact).  It's all about the per-CMD transfer
+overhead in bytes that is currently not part of the calculation.
+
+> + */
+>  static unsigned long dsi_adjust_pclk_for_compression(const struct drm_display_mode *mode,
+>  		const struct drm_dsc_config *dsc)
+>  {
+> @@ -926,8 +945,25 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
+>  		if (ret)
+>  			return;
+>  
+> -		/* Divide the display by 3 but keep back/font porch and
+> -		 * pulse width same
+> +		/*
+> +		 * DPU sends 3 bytes per pclk cycle to DSI. If compression is
+
+Should this be pixels (1 pixel), not bytes, just like in the compressed
+scenario?
+
+> +		 * not used, a single pixel is transferred at each pulse, no
+> +		 * matter what bpp or pixel format is used. In case of DSC
+> +		 * compression this results (due to data alignment
+> +		 * requirements) in a transfer of 3 compressed pixel per pclk
+> +		 * cycle.
+> +		 *
+> +		 * If widebus is enabled, bus width is extended to 6 bytes.
+> +		 * This way the DPU can transfer 6 compressed pixels with bpp
+> +		 * less or equal to 8 or 3 compressed pixels in case bpp is
+> +		 * greater than 8.
+
+Okay, so one can not send more than 6 pixels even if the bpp is less
+than 8, is what this comes down to.
+
+> +		 *
+> +		 * The back/font porch and pulse width are kept intact.  They
+> +		 * represent timing parameters rather than actual data
+> +		 * transfer. See the documentation of
+> +		 * dsi_adjust_pclk_for_compression().
+
+Nit: note that this is only for VIDEO mode, h_total and ha_end are
+accurately unused in the CMDmode path below.
+
+- Marijn
+
+> +		 *
+> +		 * XXX: widebus is not supported by the driver (yet).
+>  		 */
+>  		h_total -= hdisplay;
+>  		hdisplay = DIV_ROUND_UP(msm_dsc_get_bytes_per_line(msm_host->dsc), 3);
+> -- 
+> 2.39.2
+> 
