@@ -2,67 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CFF1737152
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 18:18:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA216737202
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 18:48:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BBED10E08D;
-	Tue, 20 Jun 2023 16:18:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D09B210E192;
+	Tue, 20 Jun 2023 16:47:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28F6510E08D
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 16:18:34 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 1F73F1F37E;
- Tue, 20 Jun 2023 16:18:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1687277912; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NpOMWoEW4pXe7i9/tC2HwtlusNqni+9aJsD0xiu39ZE=;
- b=RNPvnF1eY02idMR17FNOho23Z+ouJTHn2QWhVTARYFpUmvu+OJj94987yvpKU3bCmRkKpS
- D2jxVud/mdmRPA6Wk3gilC062sjGfkiwjmaL4xBmUj9hrjTns0vGe6p/iTaVSNULvajmbu
- LnkAnpdIam1IHTx4oT0kNOdurAbRfHE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1687277912;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NpOMWoEW4pXe7i9/tC2HwtlusNqni+9aJsD0xiu39ZE=;
- b=Z4z3a26EwUEXpj5y6nItk1ps16PjyCn6owKSPAnzl9vUcK9BtKlxvPbnLFLYuDIE/WtEiL
- 4Fl7ioXAZnkz/UBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E8B06133A9;
- Tue, 20 Jun 2023 16:18:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id iC6RN1fRkWRDDAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 20 Jun 2023 16:18:31 +0000
-Message-ID: <c2bdf8ea-b770-23a1-222b-1791ab0e3cec@suse.de>
-Date: Tue, 20 Jun 2023 18:18:31 +0200
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2752310E192
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 16:47:54 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1DE032B3;
+ Tue, 20 Jun 2023 18:47:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1687279637;
+ bh=jYgE5le27xQma1/Mqs7mA7Z8eqDAn9yhZZQX0YvVRis=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GLyUiw/9qVwUqcWFa0iAR0S9IXTNPtpUTJ7z/Z1b6/jConkuiqFBkc3lHTbKs8Yad
+ eWE18Tp8b6iIWZ7LqWO+JkzNs/GJSHaMw6FWCOQw7F1FtYtxVpIlswgrfN+YBdDK+d
+ 0OyAMEUnRLHjj1y1tB164ODnRT/QimKG0V8x3AWo=
+Date: Tue, 20 Jun 2023 19:47:50 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 1/3] drm/rcar-du: Import buffers with GEM DMA's helpers
+Message-ID: <20230620164750.GE26467@pendragon.ideasonboard.com>
+References: <20230620121202.28263-1-tzimmermann@suse.de>
+ <20230620121202.28263-2-tzimmermann@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] drm/drm_gem.c: remove surplus else after return clause
-Content-Language: en-US
-To: Sui Jingfeng <suijingfeng@loongson.cn>, Sui Jingfeng
- <15330273260@189.cn>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, liyi <liyi@loongson.cn>
-References: <20230314125305.2278964-1-15330273260@189.cn>
- <cde47fd0-a8e4-36cf-3f0b-a1b473799db3@loongson.cn>
- <163af01e-01cc-008d-333f-964cba9f9130@suse.de>
- <670a1763-181a-0133-9b31-b790072b3af8@loongson.cn>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <670a1763-181a-0133-9b31-b790072b3af8@loongson.cn>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------XECJcNB95CHGTgv4UzeA4Xf7"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230620121202.28263-2-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,110 +47,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: hjc@rock-chips.com, mripard@kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, kieran.bingham+renesas@ideasonboard.com,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------XECJcNB95CHGTgv4UzeA4Xf7
-Content-Type: multipart/mixed; boundary="------------UovRTmpFe7ChStNzzonz6T8f";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sui Jingfeng <suijingfeng@loongson.cn>, Sui Jingfeng
- <15330273260@189.cn>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, liyi <liyi@loongson.cn>
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <c2bdf8ea-b770-23a1-222b-1791ab0e3cec@suse.de>
-Subject: Re: [PATCH] drm/drm_gem.c: remove surplus else after return clause
-References: <20230314125305.2278964-1-15330273260@189.cn>
- <cde47fd0-a8e4-36cf-3f0b-a1b473799db3@loongson.cn>
- <163af01e-01cc-008d-333f-964cba9f9130@suse.de>
- <670a1763-181a-0133-9b31-b790072b3af8@loongson.cn>
-In-Reply-To: <670a1763-181a-0133-9b31-b790072b3af8@loongson.cn>
+Hi Thomas,
 
---------------UovRTmpFe7ChStNzzonz6T8f
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Thank you for the patch.
 
-SGkNCg0KQW0gMjAuMDYuMjMgdW0gMTg6MDYgc2NocmllYiBTdWkgSmluZ2Zlbmc6DQo+IEhp
-LA0KPiANCj4gT24gMjAyMy82LzIwIDIyOjQzLCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToN
-Cj4+IEhpDQo+Pg0KPj4gQW0gMjAuMDYuMjMgdW0gMDY6MDggc2NocmllYiBTdWkgSmluZ2Zl
-bmc6DQo+Pj4gcGluZyA/DQo+Pj4NCj4+PiBPbiAyMDIzLzMvMTQgMjA6NTMsIFN1aSBKaW5n
-ZmVuZyB3cm90ZToNCj4+Pj4gwqAgZWxzZSBpcyBub3QgZ2VuZXJhbGx5IHVzZWZ1bCBhZnRl
-ciByZXR1cm4NCj4+DQo+PiBObyBpbmRlbnRpb24gcGxlYXNlLg0KPj4NCj4gT0ssIHdpbGwg
-YmUgZml4ZWQgYXQgdGhlIG5leHQgdmVyc2lvbi4NCj4+Pj4NCj4+Pj4gU2lnbmVkLW9mZi1i
-eTogU3VpIEppbmdmZW5nIDwxNTMzMDI3MzI2MEAxODkuY24+DQo+Pj4+IC0tLQ0KPj4+PiDC
-oCBkcml2ZXJzL2dwdS9kcm0vZHJtX2dlbS5jIHwgNyArKysrLS0tDQo+Pj4+IMKgIDEgZmls
-ZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pDQo+Pj4+DQo+Pj4+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbS5jIGIvZHJpdmVycy9ncHUv
-ZHJtL2RybV9nZW0uYw0KPj4+PiBpbmRleCBhNjIwOGUyYzA4OWIuLjM2NGUzNzMzYWY5OCAx
-MDA2NDQNCj4+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW0uYw0KPj4+PiArKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbS5jDQo+Pj4+IEBAIC0xMTUwLDggKzExNTAsOCBA
-QCBpbnQgZHJtX2dlbV9waW4oc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopDQo+Pj4+IMKg
-IHsNCj4+Pj4gwqDCoMKgwqDCoCBpZiAob2JqLT5mdW5jcy0+cGluKQ0KPj4+PiDCoMKgwqDC
-oMKgwqDCoMKgwqAgcmV0dXJuIG9iai0+ZnVuY3MtPnBpbihvYmopOw0KPj4+PiAtwqDCoMKg
-IGVsc2UNCj4+Pj4gLcKgwqDCoMKgwqDCoMKgIHJldHVybiAwOw0KPj4+PiArDQo+Pj4+ICvC
-oMKgwqAgcmV0dXJuIDA7DQo+Pg0KPj4gVGhpcyBjaGFuZ2UgaXMgb2suDQo+Pg0KPj4+PiDC
-oCB9DQo+Pj4+IMKgIHZvaWQgZHJtX2dlbV91bnBpbihzdHJ1Y3QgZHJtX2dlbV9vYmplY3Qg
-Km9iaikNCj4+Pj4gQEAgLTExNzIsNyArMTE3Miw4IEBAIGludCBkcm1fZ2VtX3ZtYXAoc3Ry
-dWN0IGRybV9nZW1fb2JqZWN0ICpvYmosIA0KPj4+PiBzdHJ1Y3QgaW9zeXNfbWFwICptYXAp
-DQo+Pj4+IMKgwqDCoMKgwqAgcmV0ID0gb2JqLT5mdW5jcy0+dm1hcChvYmosIG1hcCk7DQo+
-Pj4+IMKgwqDCoMKgwqAgaWYgKHJldCkNCj4+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVy
-biByZXQ7DQo+Pj4+IC3CoMKgwqAgZWxzZSBpZiAoaW9zeXNfbWFwX2lzX251bGwobWFwKSkN
-Cj4+Pj4gKw0KPj4+PiArwqDCoMKgIGlmIChpb3N5c19tYXBfaXNfbnVsbChtYXApKQ0KPj4+
-PiDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIC1FTk9NRU07DQo+Pg0KPj4gVGhpcyBpcyBu
-b3QgY29ycmVjdC4gQ2FsbGluZyBpb3N5c19tYXBfaXNfbnVsbCgpIGlzIHBhcnQgb2YgaGFu
-ZGxpbmcgDQo+PiB0aGUgcmV0dXJuIHZhbHVlIGZyb20gdm1hcCwgc28gdGhlIGVsc2UgaXMg
-ZmluZS4NCj4+DQo+IEFyZSB5b3Ugc2VyaW91cyA/DQo+IA0KPiANCj4gMS4gQmVmb3JlIGFw
-cGx5IHRoaXMgcGF0Y2g6DQo+IA0KPiANCj4gSWYgdGhlICdyZXQnIGlzIDAswqAgaXQgc3Rh
-bmQgZm9yIG9iai0+ZnVuY3MtPnZtYXAoKSBpcyBzdWNjZXNzZnVsLCB0aGVuIA0KPiBpZiAo
-aW9zeXNfbWFwX2lzX251bGwobWFwKSkgd2lsbCBiZSBydW4uDQo+IA0KPiBJZiB0aGUgJ3Jl
-dCcgaXMgTk9UIDAsIHRoZW4gaXQgcmV0dXJuIGltbWVkaWF0ZWx5Lg0KPiANCj4gDQo+IDIu
-IEFmdGVyIGFwcGx5IHRoaXMgcGF0Y2g6DQo+IA0KPiANCj4gSWYgdGhlICdyZXQnIGlzIE5P
-VCAwLCBpdCBzdGFuZCBmb3Igb2JqLT5mdW5jcy0+dm1hcCgpIGZhaWxlZCwgdGhlbiBpdCAN
-Cj4gcmV0dXJuIGltbWVkaWF0ZWx5Lg0KPiANCj4gSWYgdGhlICdyZXQnIGlzIDAsIGl0IHN0
-YW5kIGZvciBvYmotPmZ1bmNzLT52bWFwKCkgaXMgc3VjY2Vzc2Z1bCwgdGhlbiANCj4gdGhl
-IGNoZWNrIGlmIChpb3N5c19tYXBfaXNfbnVsbChtYXApKQ0KPiANCj4gd2lsbCBiZSBydW4h
-DQo+IA0KPiANCj4gSSBmZWVsIHN0cmFuZ2UgYWJvdXQgdGhlIGNvcmUgaGVyZSwgSSB0aGlu
-ayB0aGUgY2hlY2sgJyBpZiANCj4gKGlvc3lzX21hcF9pc19udWxsKG1hcCkpJyBpcyBub3Qg
-bmVlZGVkLA0KPiANCj4gdGhlIGltcGxlbWVudCBzaG91bGQgcmVzcG9uc2libGUgdG8gaGFu
-ZGxlIGFsbCBvZiBwb3NzaWJsZSBlcnJvcnMuDQoNClRoZSAtPnZtYXAoKSBjYWxsYmFjayBj
-YW4gc3VjY2VlZCB3aXRoIHJldD0wLCBidXQgd2Ugc3RpbGwgaGF2ZSBubyANCm1lbW9yeS4g
-VGhlbiB3ZSByZXR1cm4gLUVOT01FTS4gVGhlIGNhbGwgdG8gX2lzX251bGwobWFwKSBpcyBw
-YXJ0IG9mIHRoZSANCmVycm9yIGhhbmRsaW5nIGZvciAtPnZtYXAoKS4gVGhhdCBpcyBhIGJp
-dCBzdHJhbmdlLCBidXQgaXQgYXMgYWx3YXlzIA0Kd29ya2VkIGxpa2UgdGhhdC4gS2VlcGlu
-ZyBhbGwgZXJyb3IgaGFuZGxpbmcgaW4gdGhlIHNhbWUgaWYtZWxzZSBibG9jayANCm1ha2Ug
-YWxsIHRoaXMgbW9yZSBvYnZpb3VzLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0K
-PiANCj4gQnV0IGJvdGggY2FzZSAoMS4gYW5kIDIuKSBhcmUgc2FtZSBpbiB0aGUgc2VtYW50
-aWMsIHJpZ2h0Pw0KPiANCj4gDQo+PiBCZXN0IHJlZ2FyZHMNCj4+IFRob21hcw0KPj4NCj4+
-Pj4gwqDCoMKgwqDCoCByZXR1cm4gMDsNCj4+Pg0KPj4NCg0KLS0gDQpUaG9tYXMgWmltbWVy
-bWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlv
-bnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywg
-R2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQs
-IEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
 
---------------UovRTmpFe7ChStNzzonz6T8f--
+On Tue, Jun 20, 2023 at 02:03:21PM +0200, Thomas Zimmermann wrote:
+> Call __drm_gem_dma_create() to create an object for imported buffers,
+> instead of reimplementing the function within the driver. Reduces
+> code duplication and will later allow to un-export a number of symbols
+> from the GEM DMA helpers.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
---------------XECJcNB95CHGTgv4UzeA4Xf7
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Nice simplification.
 
------BEGIN PGP SIGNATURE-----
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSR0VcFAwAAAAAACgkQlh/E3EQov+Cl
-/hAAnEWC5OQegpdai0DOv0dKS5NHzMmep/j5s/d16+lPeb99ZqvoiktXQUkRuAFCSNNcUW17pRoB
-9vrPhsqZs45I7+ZuA+94n6/HRp6Kmlc3OFQfccTgBUe8bywXE06xnLwPVMdvi2UyfhdDk6FUS94U
-AnZyvvLh+zEiYF6PBuzIfQK3LZc9EAfaia2MYpknppzoqY8ofsO5Bago4794wTO4hPX6hhE1UfNB
-pi+PhXzkRltmCVRX5geAt1RIHSXy1F/Um79T4Bh+Ol356MHlcLjudZ/BjsVszmoKgnAgA5dOWs4e
-q3PY+ZD7mGEIdLeg5d7W/BoNI/h7kbTuBoNbpy1QeeP3Na5RE/72uL4Ro1yXOKqq8HGpfotkQu6X
-7+qy1BGSP4L/hfAwG6LSjYdYt4xOvvqceJ32OSJYj7GTc8GFKwl7QnXnULIhCUnh89d3wl7s/NQl
-0cBHHiRh/blS6M1TcaGsfuTwpb9pfLE5f8qBB8IwbkMNFbuzEpJM7EMTPKvZd0RoKOJz+dPlrKNB
-qrdefEG/H+bCMl90ChnKG7EPvwCHK9p5QtZMwiWahM9IBWoAc2dtB/oRXsL96VgDZpAeIiT0T5LA
-9R8vyfCUmvXnqOlV9iG9iNjqjgARtnivKXTEzemzlymADevyb+2EKBTPwm9oCrzwYqZMTUIM5VYN
-0YA=
-=DwkN
------END PGP SIGNATURE-----
+I assume you'll merge the whole series through drm-misc, please let me
+know if that's not correct.
 
---------------XECJcNB95CHGTgv4UzeA4Xf7--
+> ---
+>  drivers/gpu/drm/drm_gem_dma_helper.c          |  5 +--
+>  drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c | 33 +++----------------
+>  include/drm/drm_gem_dma_helper.h              |  3 ++
+>  3 files changed, 10 insertions(+), 31 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem_dma_helper.c
+> index 870b90b78bc4e..e9aa3ac140654 100644
+> --- a/drivers/gpu/drm/drm_gem_dma_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_dma_helper.c
+> @@ -67,8 +67,8 @@ static const struct drm_gem_object_funcs drm_gem_dma_default_funcs = {
+>   * A struct drm_gem_dma_object * on success or an ERR_PTR()-encoded negative
+>   * error code on failure.
+>   */
+> -static struct drm_gem_dma_object *
+> -__drm_gem_dma_create(struct drm_device *drm, size_t size, bool private)
+> +struct drm_gem_dma_object *__drm_gem_dma_create(struct drm_device *drm,
+> +						size_t size, bool private)
+>  {
+>  	struct drm_gem_dma_object *dma_obj;
+>  	struct drm_gem_object *gem_obj;
+> @@ -112,6 +112,7 @@ __drm_gem_dma_create(struct drm_device *drm, size_t size, bool private)
+>  	kfree(dma_obj);
+>  	return ERR_PTR(ret);
+>  }
+> +EXPORT_SYMBOL_GPL(__drm_gem_dma_create);
+>  
+>  /**
+>   * drm_gem_dma_create - allocate an object with the given size
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+> index adfb36b0e8154..ea7487e270f13 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+> @@ -356,49 +356,24 @@ const struct rcar_du_format_info *rcar_du_format_info(u32 fourcc)
+>   * Frame buffer
+>   */
+>  
+> -static const struct drm_gem_object_funcs rcar_du_gem_funcs = {
+> -	.free = drm_gem_dma_object_free,
+> -	.print_info = drm_gem_dma_object_print_info,
+> -	.get_sg_table = drm_gem_dma_object_get_sg_table,
+> -	.vmap = drm_gem_dma_object_vmap,
+> -	.mmap = drm_gem_dma_object_mmap,
+> -	.vm_ops = &drm_gem_dma_vm_ops,
+> -};
+> -
+>  struct drm_gem_object *rcar_du_gem_prime_import_sg_table(struct drm_device *dev,
+>  				struct dma_buf_attachment *attach,
+>  				struct sg_table *sgt)
+>  {
+>  	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
+>  	struct drm_gem_dma_object *dma_obj;
+> -	struct drm_gem_object *gem_obj;
+> -	int ret;
+>  
+>  	if (!rcar_du_has(rcdu, RCAR_DU_FEATURE_VSP1_SOURCE))
+>  		return drm_gem_dma_prime_import_sg_table(dev, attach, sgt);
+>  
+> -	/* Create a DMA GEM buffer. */
+> -	dma_obj = kzalloc(sizeof(*dma_obj), GFP_KERNEL);
+> -	if (!dma_obj)
+> -		return ERR_PTR(-ENOMEM);
+> -
+> -	gem_obj = &dma_obj->base;
+> -	gem_obj->funcs = &rcar_du_gem_funcs;
+> -
+> -	drm_gem_private_object_init(dev, gem_obj, attach->dmabuf->size);
+> -	dma_obj->map_noncoherent = false;
+> -
+> -	ret = drm_gem_create_mmap_offset(gem_obj);
+> -	if (ret) {
+> -		drm_gem_object_release(gem_obj);
+> -		kfree(dma_obj);
+> -		return ERR_PTR(ret);
+> -	}
+> +	dma_obj = __drm_gem_dma_create(dev, attach->dmabuf->size, true);
+> +	if (IS_ERR(dma_obj))
+> +		return ERR_CAST(dma_obj);
+>  
+>  	dma_obj->dma_addr = 0;
+>  	dma_obj->sgt = sgt;
+>  
+> -	return gem_obj;
+> +	return &dma_obj->base;
+>  }
+>  
+>  int rcar_du_dumb_create(struct drm_file *file, struct drm_device *dev,
+> diff --git a/include/drm/drm_gem_dma_helper.h b/include/drm/drm_gem_dma_helper.h
+> index 61da596780b64..3877cbf0e927c 100644
+> --- a/include/drm/drm_gem_dma_helper.h
+> +++ b/include/drm/drm_gem_dma_helper.h
+> @@ -32,6 +32,9 @@ struct drm_gem_dma_object {
+>  #define to_drm_gem_dma_obj(gem_obj) \
+>  	container_of(gem_obj, struct drm_gem_dma_object, base)
+>  
+> +struct drm_gem_dma_object *__drm_gem_dma_create(struct drm_device *drm,
+> +						size_t size, bool private);
+> +
+>  struct drm_gem_dma_object *drm_gem_dma_create(struct drm_device *drm,
+>  					      size_t size);
+>  void drm_gem_dma_free(struct drm_gem_dma_object *dma_obj);
+
+-- 
+Regards,
+
+Laurent Pinchart
