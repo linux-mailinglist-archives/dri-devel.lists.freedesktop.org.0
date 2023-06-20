@@ -1,73 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66CC37360AF
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 02:43:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A96247360B1
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 02:43:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD6EA10E241;
-	Tue, 20 Jun 2023 00:43:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE05010E245;
+	Tue, 20 Jun 2023 00:43:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AB8610E23E
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 00:43:04 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4FEA10E240
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 00:43:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1687221783;
+ s=mimecast20190719; t=1687221788;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N2u1hP2d/8CjIhjRb+gqUMgVIAuG2+DtyciZrujYDGU=;
- b=OKX1MvwDR7WaJrzgDUBKN0gYhmXR/v1Imo6TftmfSiZ4ZltiFu2B63InxSXGaeuNOVNqhm
- mIMTzD6TkqPXyhHaQ5sCBF6FuB1+AU+KdXAsk56Ju6KAXJYlA35Utz2rwDPFL31xLLkTwd
- Yd6rK4xMJANhDTlSnfnQgRP0L914or8=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=15bsZMHgn8HdtpEj/sQfVUEhkE1KgujwGvKHw17TRpw=;
+ b=fXERc5lKKSy4t3W/DmOHvsNLbopURfwkfQv9q1tiktAzsqwBD2y6KwePiYCvfDBh55lP4H
+ ymcm5to0k/lPd6DIXnosFBfqV6xmvimrrbVmJDCByiL+lbFDxV2yQpfxhBAlLg8CoPsfZH
+ KJMtIt40ySo3Kz2736PSFjV7Z0TO6KE=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-643-pgP-Wp_GMXSJ2S2e9Z93Iw-1; Mon, 19 Jun 2023 20:43:00 -0400
-X-MC-Unique: pgP-Wp_GMXSJ2S2e9Z93Iw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- 4fb4d7f45d1cf-51a5b073299so664804a12.3
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 17:43:00 -0700 (PDT)
+ us-mta-180-bIRQBUxIN1y8KKsP0QiH3w-1; Mon, 19 Jun 2023 20:43:05 -0400
+X-MC-Unique: bIRQBUxIN1y8KKsP0QiH3w-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ a640c23a62f3a-982180ac15cso320308466b.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jun 2023 17:43:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687221779; x=1689813779;
+ d=1e100.net; s=20221208; t=1687221784; x=1689813784;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=N2u1hP2d/8CjIhjRb+gqUMgVIAuG2+DtyciZrujYDGU=;
- b=AwwJSFJ7Vf+YeMr/xZCKICE7RgCFCwKIWThecDP1WpSTOhR/r8Z0NWdVf7tJdlS4Yg
- 0Bh3NyLQWCWGGZP8KRRdIDqVF9pLmdtBo2U3H7vtFadE5mx0LraJVgGX2VJ7CasuBKN7
- dG5z4fCphWUp3m07YRAolCuIGnRIKiNUpKOFIN/xzsxZolKtAYoWogMIUlwh2gsIqX7p
- MilljiWeeIavGXGSFCXlG0r5L9thLkWED6uwoSyOYlLsJ+YCbuvCj6dFX/MW+/acs2Kt
- QbYuC6W9H9V3oyEQxgSV3YdAAUMNtMtZckUmL7gule7dxBOfZYiWccyxFUXQMdibjPzL
- idWA==
-X-Gm-Message-State: AC+VfDxGMglVoGHPvwxPB0zQSz6W6TOEcoWbxUSe7a3QDCwjYK2vIX3v
- rk7x8NbdT7lVTzGoen1lcbChzQymwKjmmEpE4bAKq/qYGTuevapjPN5lWi46JhRnlTP9LkWDIwE
- Bl/5EvPTZ+VMAdKGXmUtgRjfC0kz7
-X-Received: by 2002:aa7:cd45:0:b0:514:994c:2982 with SMTP id
- v5-20020aa7cd45000000b00514994c2982mr6151185edw.40.1687221779429; 
- Mon, 19 Jun 2023 17:42:59 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ65FSvnjaoggF9h58zTqyT2DOkL9H5Vbq5o8fo2niPqP1lOxX39BSK0TAWF98v1OjzcZEYMlQ==
-X-Received: by 2002:aa7:cd45:0:b0:514:994c:2982 with SMTP id
- v5-20020aa7cd45000000b00514994c2982mr6151166edw.40.1687221779253; 
- Mon, 19 Jun 2023 17:42:59 -0700 (PDT)
+ bh=15bsZMHgn8HdtpEj/sQfVUEhkE1KgujwGvKHw17TRpw=;
+ b=CmKLrwUdIGDEKfYwtYTmiEuR+gaBntkpOISZ2tdKKo9gVZephFpEva4A8XVc+jyh5Z
+ fFaOEq9LwD/tGtnC2MK9hcz5y+O6JkuzJ5Kkd46onOQnE5gTCpxypfqupd3jyCV8ci+G
+ B50n+uITFTS216ZzbvNuWE1CnNoaFf8hKXceSYtHpHcZ87FvOXFnqqHoKCV4Jinpdk+5
+ SG69B6DZymdXkS/rSO8FMF1LboECKdFCD6GVPgnlpr6i7PMpT8D9IofSGLSyngEOo5s1
+ VJDwoChcLND9p8zT4/GbpthPjOOpJ8APMnjxt/mDmvSvylqBp3b60tfryiXxLAdvnGYS
+ 6QEQ==
+X-Gm-Message-State: AC+VfDzBWz93hUop3DhxJT78V6qZgya3kJHfS/kqjMlN2WMi0+E4QJL1
+ uY/vCcEqp7S4Vv4ae7IJCaxRpqwanh5Fq0Jpi/cvLzCCC1//xsIPBkIpNJcVGdMzTSlIY+HHDxS
+ 5A47yD3uUOaHGNTKXUQwTuG3mj6g3
+X-Received: by 2002:a17:907:94c6:b0:97a:588f:766 with SMTP id
+ dn6-20020a17090794c600b0097a588f0766mr10489580ejc.42.1687221784471; 
+ Mon, 19 Jun 2023 17:43:04 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7c9FPA9PfjnZ4NBX+L5X8JmjHfzdjLxD7tdsztb6oh+Z4IO34dObfIqPL2WWN4l2JkXpNgzg==
+X-Received: by 2002:a17:907:94c6:b0:97a:588f:766 with SMTP id
+ dn6-20020a17090794c600b0097a588f0766mr10489556ejc.42.1687221784330; 
+ Mon, 19 Jun 2023 17:43:04 -0700 (PDT)
 Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
  by smtp.gmail.com with ESMTPSA id
- d8-20020a056402078800b005187a42b44fsm310743edy.58.2023.06.19.17.42.57
+ me16-20020a170906aed000b0098669cc16b2sm389552ejb.83.2023.06.19.17.43.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jun 2023 17:42:58 -0700 (PDT)
+ Mon, 19 Jun 2023 17:43:03 -0700 (PDT)
 From: Danilo Krummrich <dakr@redhat.com>
 To: airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
  mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
  bskeggs@redhat.com, Liam.Howlett@oracle.com, matthew.brost@intel.com,
  boris.brezillon@collabora.com, alexdeucher@gmail.com, ogabbay@kernel.org,
  bagasdotme@gmail.com, willy@infradead.org, jason@jlekstrand.net
-Subject: [PATCH drm-next v5 07/14] drm/nouveau: bo: initialize GEM GPU VA
- interface
-Date: Tue, 20 Jun 2023 02:42:10 +0200
-Message-Id: <20230620004217.4700-8-dakr@redhat.com>
+Subject: [PATCH drm-next v5 08/14] drm/nouveau: move usercopy helpers to
+ nouveau_drv.h
+Date: Tue, 20 Jun 2023 02:42:11 +0200
+Message-Id: <20230620004217.4700-9-dakr@redhat.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230620004217.4700-1-dakr@redhat.com>
 References: <20230620004217.4700-1-dakr@redhat.com>
@@ -94,33 +94,89 @@ Cc: linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Initialize the GEM's DRM GPU VA manager interface in preparation for the
-(u)vmm implementation, provided by subsequent commits, to make use of it.
+Move the usercopy helpers to a common driver header file to make it
+usable for the new API added in subsequent commits.
 
 Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_bo.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/nouveau/nouveau_drv.h | 26 ++++++++++++++++++++++++++
+ drivers/gpu/drm/nouveau/nouveau_gem.c | 26 --------------------------
+ 2 files changed, 26 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-index 7724fe63067d..057bc995f19b 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -215,11 +215,14 @@ nouveau_bo_alloc(struct nouveau_cli *cli, u64 *size, int *align, u32 domain,
- 	nvbo = kzalloc(sizeof(struct nouveau_bo), GFP_KERNEL);
- 	if (!nvbo)
- 		return ERR_PTR(-ENOMEM);
-+
- 	INIT_LIST_HEAD(&nvbo->head);
- 	INIT_LIST_HEAD(&nvbo->entry);
- 	INIT_LIST_HEAD(&nvbo->vma_list);
- 	nvbo->bo.bdev = &drm->ttm.bdev;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouveau/nouveau_drv.h
+index 81350e685b50..20a7f31b9082 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_drv.h
++++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
+@@ -130,6 +130,32 @@ nouveau_cli(struct drm_file *fpriv)
+ 	return fpriv ? fpriv->driver_priv : NULL;
+ }
  
-+	drm_gem_gpuva_init(&nvbo->bo.base);
++static inline void
++u_free(void *addr)
++{
++	kvfree(addr);
++}
 +
- 	/* This is confusing, and doesn't actually mean we want an uncached
- 	 * mapping, but is what NOUVEAU_GEM_DOMAIN_COHERENT gets translated
- 	 * into in nouveau_gem_new().
++static inline void *
++u_memcpya(uint64_t user, unsigned nmemb, unsigned size)
++{
++	void *mem;
++	void __user *userptr = (void __force __user *)(uintptr_t)user;
++
++	size *= nmemb;
++
++	mem = kvmalloc(size, GFP_KERNEL);
++	if (!mem)
++		return ERR_PTR(-ENOMEM);
++
++	if (copy_from_user(mem, userptr, size)) {
++		u_free(mem);
++		return ERR_PTR(-EFAULT);
++	}
++
++	return mem;
++}
++
+ #include <nvif/object.h>
+ #include <nvif/parent.h>
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
+index 45ca4eb98f54..a48f42aaeab9 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_gem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
+@@ -613,32 +613,6 @@ nouveau_gem_pushbuf_validate(struct nouveau_channel *chan,
+ 	return 0;
+ }
+ 
+-static inline void
+-u_free(void *addr)
+-{
+-	kvfree(addr);
+-}
+-
+-static inline void *
+-u_memcpya(uint64_t user, unsigned nmemb, unsigned size)
+-{
+-	void *mem;
+-	void __user *userptr = (void __force __user *)(uintptr_t)user;
+-
+-	size *= nmemb;
+-
+-	mem = kvmalloc(size, GFP_KERNEL);
+-	if (!mem)
+-		return ERR_PTR(-ENOMEM);
+-
+-	if (copy_from_user(mem, userptr, size)) {
+-		u_free(mem);
+-		return ERR_PTR(-EFAULT);
+-	}
+-
+-	return mem;
+-}
+-
+ static int
+ nouveau_gem_pushbuf_reloc_apply(struct nouveau_cli *cli,
+ 				struct drm_nouveau_gem_pushbuf *req,
 -- 
 2.40.1
 
