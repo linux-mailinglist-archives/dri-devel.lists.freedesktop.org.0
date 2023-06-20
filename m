@@ -2,54 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41EB9736F09
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 16:47:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C76CB736F11
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 16:48:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DBA910E2E9;
-	Tue, 20 Jun 2023 14:47:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B9ED10E2F3;
+	Tue, 20 Jun 2023 14:48:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A804110E2F6;
- Tue, 20 Jun 2023 14:47:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1687272462; x=1718808462;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=LG0edqrvyHsDW/l6sS9e6UCd7Let6v/Fg5o7MAHvm2I=;
- b=RzS3sbE9m/1kV185sTjYGauGTk+/OtLeHBSGs5cDUMi4ZEA4EwIwCk5T
- RNSlZSqAIo6fpbOhR2xOqijlexa8CmkA+1dNN8hBHIkXDcCY2S8Y48lBv
- WvOAVd3JIC2pBKHgv/xrdKjI3CXLd4P3FrwvLXxCAOISEjGY/mkicctoj
- s9hzC/stu2bDbVPzpzb9kcFzC3t/PvMjCMWSQ9KyEng42XzH2hGHkh2oX
- emyAXGY4FNPYqAZzW3VubcOq2E8cmvgCC+E/DQ/Vx4IRC/I9LHE513Ydi
- nwAmet43s3+sThrwWJ7uZWeDeXwwuvufyb8AJuTeG3i67ATY+JaQ/NzDY w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="446251944"
-X-IronPort-AV: E=Sophos;i="6.00,257,1681196400"; d="scan'208";a="446251944"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jun 2023 07:47:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="827023019"
-X-IronPort-AV: E=Sophos;i="6.00,257,1681196400"; d="scan'208";a="827023019"
-Received: from dshvarts-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.62.204])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jun 2023 07:47:37 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH 2/3] linux/bits.h: Add fixed-width GENMASK and BIT macros
-In-Reply-To: <ZIs0CC2J7nu0LHEK@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230509051403.2748545-1-lucas.demarchi@intel.com>
- <20230509051403.2748545-3-lucas.demarchi@intel.com>
- <ZF4fi5B7PPlgZBOI@smile.fi.intel.com> <87pm75kd0h.fsf@intel.com>
- <ZF4j0NPoBGMBT8CO@smile.fi.intel.com> <87mt29kc34.fsf@intel.com>
- <ZIs0CC2J7nu0LHEK@smile.fi.intel.com>
-Date: Tue, 20 Jun 2023 17:47:34 +0300
-Message-ID: <875y7igph5.fsf@intel.com>
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
+ [IPv6:2607:f8b0:4864:20::1130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C3D610E2F7;
+ Tue, 20 Jun 2023 14:48:56 +0000 (UTC)
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-56ff9cc91b4so54714477b3.0; 
+ Tue, 20 Jun 2023 07:48:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1687272534; x=1689864534;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=P/BJYkX6bywThpMtgw8TodK1xxjg+6M9424vm6AiX+Y=;
+ b=lgOaNfjNi640O9ZZHKv/WLheDYiuIbH18qLmGDyCLONcthMEFX+H5LSmG9gOVzksDc
+ CQLFSTiuRlk1VWwhUbieZipxET0Zc/GAVPhzolyepEoZygQotuQZVRD4nYvzGaZn3PMC
+ WXvs926H2+4CKi5nARSFzigY4G/qCPjPOyomRJuWmIzfmVoL5hLT6xD++D+33HDh3YMr
+ 1cqM3g2fkpfHrsN2JbWw5fstY/OCkyK5XGks3hfOCC7dlfBe7YuijuzHYaingCIMGyhO
+ 7A7hUXQGBFqCTSLv4y8EyFKzwPGWCcONQVgOV5kPQTLtSvEcUnhORCwwAO4m6perxe7W
+ w98g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687272534; x=1689864534;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=P/BJYkX6bywThpMtgw8TodK1xxjg+6M9424vm6AiX+Y=;
+ b=OSUXifv300YSIVuKMPWGhkrO22dZPtk2V6zrdkdK4gGpLGzr964AUcCauK7oy0i2BM
+ YTjXR5he/uaUaIOU5os97xLeJl8xaV48sRaOqH/iBgEALtoGjm5vCrXrCRRUwpzS9lP6
+ c9plFlz8RbgM2uf29wDmOq9CkJT8ZF/ZEk2nUj9xk3Tx7HqSkcpaeYxmseZTYPyUmgz2
+ wz7SqyLkNTVIdOEqFBGHfonUeKewH8JFMJeE0ZhgjYtvITOa+jz6sM1vlYhTzfLRitTE
+ RF+aaEFh/MMEE3xhCohRVNU6FHR0inxn/Ac2CUL+i+IR/IALGU5T1QRg8rqDofkDHntL
+ zKuw==
+X-Gm-Message-State: AC+VfDzGbMFs9/gOAIafyv8AtC3BBfyHDZdo7IsGF+ObahwxjfohV5UU
+ la6EcSpVe/Lz/7HSJl3QyRZ/S9/hkw/8pXIAAlY=
+X-Google-Smtp-Source: ACHHUZ53FgFHl4GIT8XPufVJ5Bcyl9yhhVb0g6Za2zAKdfIAPBal6veXmG1rjZwhgPo+3i8UpRxR6fhd5byzeSU2tg4=
+X-Received: by 2002:a25:424b:0:b0:ba8:3a86:15ca with SMTP id
+ p72-20020a25424b000000b00ba83a8615camr10675163yba.60.1687272534290; Tue, 20
+ Jun 2023 07:48:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230314141904.1210824-1-tvrtko.ursulin@linux.intel.com>
+ <20230314141904.1210824-3-tvrtko.ursulin@linux.intel.com>
+ <CACvgo52Bb3kBua8dh+eac6dhSwiJLMGAdGDAa+LQYoOwCLPLNA@mail.gmail.com>
+ <77587046-aede-f625-6a35-55bf9c5f1179@linux.intel.com>
+In-Reply-To: <77587046-aede-f625-6a35-55bf9c5f1179@linux.intel.com>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Tue, 20 Jun 2023 15:48:42 +0100
+Message-ID: <CACvgo51DmeM7Tbboozxu3Yn-Pe-eALVTkiq4vZBJJHKfqP_HeA@mail.gmail.com>
+Subject: Re: [RFC 02/10] drm: Update file owner during use
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,53 +69,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Morton <akpm@linux-foundation.org>, intel-gfx@lists.freedesktop.org,
- Kevin Brodsky <kevin.brodsky@arm.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Thomas Gleixner <tglx@linutronix.de>,
- Masahiro Yamada <masahiroy@kernel.org>, intel-xe@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, cgroups@vger.kernel.org,
+ Dave Airlie <airlied@redhat.com>, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Kenny.Ho@amd.com, Intel-gfx@lists.freedesktop.org,
+ Brian Welty <brian.welty@intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "T . J . Mercier" <tjmercier@google.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zefan Li <lizefan.x@bytedance.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Tejun Heo <tj@kernel.org>,
+ =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 15 Jun 2023, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> On Fri, May 12, 2023 at 02:45:19PM +0300, Jani Nikula wrote:
->> On Fri, 12 May 2023, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
->> > On Fri, May 12, 2023 at 02:25:18PM +0300, Jani Nikula wrote:
->> >> On Fri, 12 May 2023, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
->> >> > On Mon, May 08, 2023 at 10:14:02PM -0700, Lucas De Marchi wrote:
->> >> >> Add GENMASK_U32(), GENMASK_U16() and GENMASK_U8()  macros to create
->> >> >> masks for fixed-width types and also the corresponding BIT_U32(),
->> >> >> BIT_U16() and BIT_U8().
->> >> >
->> >> > Why?
->> >> 
->> >> The main reason is that GENMASK() and BIT() size varies for 32/64 bit
->> >> builds.
->> >
->> > When needed GENMASK_ULL() can be used (with respective castings perhaps)
->> > and BIT_ULL(), no?
->> 
->> How does that help with making them the same 32-bit size on both 32 and
->> 64 bit builds?
+Hi Tvrtko
+
+Sorry for the delay, real life and other obligations got in the way.
+
+On Thu, 8 Jun 2023 at 15:26, Tvrtko Ursulin
+<tvrtko.ursulin@linux.intel.com> wrote:
+> On 21/04/2023 13:13, Emil Velikov wrote:
+
+> Are you okay if I just paste your very fine explanation verbatim, with
+> credits?
 >
-> 	u32 x = GENMASK();
-> 	u64 y = GENMASK_ULL();
+
+Yes, feel free to use as much of if as you see reasonable.
+
+> > I also had a brief look at 01/10, although I cannot find many
+> > references for the pid <> tguid mappings. Be that on the kernel side
+> > or userspace - do you have any links that I can educate myself?
 >
-> No? Then use in your code either x or y. Note that I assume that the parameters
-> to GENMASK*() are built-time constants. Is it the case for you?
+> TGID or thread group leader. For single threaded userspace TGID equals
+> to PID, while for multi-threaded first thread TGID equals PID/TID, while
+> additional threads PID/TID does not equal TGID. Clear, as mud? :) My
+> POSIX book is misplaced somewhere having not consulted it years... :)
+>
 
-What's wrong with wanting to define macros with specific size, depending
-on e.g. hardware registers instead of build size?
+Ack. /me looks into actually buying one, perhaps
 
-What would you use for printk format if you wanted to to print
-GENMASK()?
-
-
-BR,
-Jani.
-
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Thanks
+Emil
