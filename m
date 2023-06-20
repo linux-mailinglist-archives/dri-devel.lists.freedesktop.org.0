@@ -1,65 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CAA073642C
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 09:13:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2951B736457
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 09:20:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAA4E10E265;
-	Tue, 20 Jun 2023 07:13:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4FD410E274;
+	Tue, 20 Jun 2023 07:20:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02FA210E265;
- Tue, 20 Jun 2023 07:13:48 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id
- a640c23a62f3a-9786fc23505so526870566b.2; 
- Tue, 20 Jun 2023 00:13:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687245224; x=1689837224;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cHYZLznLEupvmNgdz85Wsrh9nTfIdkBiscUX255Az7M=;
- b=KS2MlNlXd3y1nTza3BQfUQefl0hUFRyaHJjF0aNqen8fNC0xrWWq2Wqj4BXSO/TymI
- 7ZYHqb9Q0z2YI2jLz3j5V3n5Ti55PCYI2DNo0FHlYiLkbjgBrKE94yVJbYGGRKO2JNie
- swEfgr00n17CznG0qqtGxiT9LXeKUpAqB8fL9K0Wiz5Fv4c9DZuG7zH27UlHU+IpIXwj
- /74r3NxBxFV57roZ9AojpB2d+cobw2MJdSENRHLkn+1RSHeZreF8MTrO09njiqaaSNXW
- jaqzeslntv7BXyd++oVljfTIIA2Inss/uW3+u+Ol8tO7biaME1caakBq2wFMkXEmVjx/
- SE8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687245224; x=1689837224;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cHYZLznLEupvmNgdz85Wsrh9nTfIdkBiscUX255Az7M=;
- b=PhKwlcxI6JmmLWkWzTHLZJvHrXl4pdduwZH/FSCTK3Uo5+0/L3YsFbdMRQaCSirCCr
- q0AiFInv/+Ov5DXj2r6PmedMfx3g/YfNXx/WiQs8LrljIlAEfszM803HREk94NywVTht
- 2AquCIx8H5RjbM9Rd6wzThFIVO/BKzxcN2XNCxuVsj6J5IPZUUo6Ll8ncUel72S2CMJl
- loKogaZN8y/4owvxCV+tRo7m5cqbiLBKKCsdNO5zxCGabhmncNKXB/CueLbzfS6uV7uB
- mYTNFkW3Oqh7fLi4nzJX8W1BB47rWiqp4YPr/69uCBzNwTbgkNVbNxUGuESJc2sxtG+u
- K61g==
-X-Gm-Message-State: AC+VfDxjTP+GryjyXtpJa7hT5eIwZaJ4tFNlMlCNjv89ruByuQRQE4FW
- 6vR2ik6cBxmAyIh4RbrUdfpGGx6M+OUtuk0Xoz8=
-X-Google-Smtp-Source: ACHHUZ6F96J1yKxnlaxPS5FMbR2w71s7opnQjEhCe3UpSiAY5D8Q7lBEBoaoOSJHfUY5/idqlvCgI9wkZMATl0p2xeQ=
-X-Received: by 2002:a17:907:a412:b0:989:d9d:d911 with SMTP id
- sg18-20020a170907a41200b009890d9dd911mr1975412ejc.69.1687245224382; Tue, 20
- Jun 2023 00:13:44 -0700 (PDT)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9805310E273;
+ Tue, 20 Jun 2023 07:20:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1687245606; x=1718781606;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=AQehVaXeVezyZ1EIIBMhF2TW21RUDUgTxTT8HfMhib8=;
+ b=WlaMEncQAWShn2pzjFL4Y+rpP2sw6WcNLdqPVIFc3Hu9Oq2E0f90MCeT
+ 4arIJUsHZogZuajSgOzfrh/OJmdPCFX9utVEHl4MWNeXaVSw2z6/46qta
+ fox6zBTi7194XjrrM6VaD32BT8TDFl6V49C+JqTFAyHcvdaYpTD8aJ5hi
+ ZZZetGvFqL2LZoyzjmjNhAAJeZDmQOZ0sTFKWqjLMrv2AOlBjg9QUxTj0
+ AbXGBx2xXvMcvSpEJlYaMiADK7N9u+x0gxzWk6VdpuMpeKVopn2EIPU7F
+ VgYS+RGvAeWRtjS+7PeHcv4+qJiEhiUKzrSBJa8IUL7q0ndITsN+En4bd Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="358657020"
+X-IronPort-AV: E=Sophos;i="6.00,256,1681196400"; d="scan'208";a="358657020"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jun 2023 00:20:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="803839635"
+X-IronPort-AV: E=Sophos;i="6.00,256,1681196400"; d="scan'208";a="803839635"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+ by FMSMGA003.fm.intel.com with ESMTP; 20 Jun 2023 00:20:01 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qBVei-0005dS-2W;
+ Tue, 20 Jun 2023 07:20:00 +0000
+Date: Tue, 20 Jun 2023 15:18:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v3 2/6] drm/msm/a6xx: Use descriptive bitfield names for
+ CP_PROTECT_CNTL
+Message-ID: <202306201502.pisn6tpR-lkp@intel.com>
+References: <20230517-topic-a7xx_prep-v3-2-a3ce3725385b@linaro.org>
 MIME-Version: 1.0
-References: <20230620004217.4700-1-dakr@redhat.com>
- <2c92bae3-0003-3c53-8ef1-6e12e5413995@redhat.com>
- <CAPM=9tzMzfuMN_iGD-97_o=QQEDT6Mbb9_u=z_o49TeT7=XUFA@mail.gmail.com>
- <CAFCwf11OwnoxPWHuS_55OXKE7wfHH++1Bk_37DATeCiT07GtMQ@mail.gmail.com>
-In-Reply-To: <CAFCwf11OwnoxPWHuS_55OXKE7wfHH++1Bk_37DATeCiT07GtMQ@mail.gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Tue, 20 Jun 2023 17:13:31 +1000
-Message-ID: <CAPM=9tyv5Fje0iL0-2oJQBKEsg-nc-YV9q4BSg5SwnBvGvrzDw@mail.gmail.com>
-Subject: Re: [PATCH drm-next v5 00/14] [RFC] DRM GPUVA Manager & Nouveau
- VM_BIND UAPI
-To: Oded Gabbay <ogabbay@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230517-topic-a7xx_prep-v3-2-a3ce3725385b@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,85 +64,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, willy@infradead.org, corbet@lwn.net,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, mripard@kernel.org,
- linux-mm@kvack.org, boris.brezillon@collabora.com,
- Danilo Krummrich <dakr@redhat.com>, Donald Robson <Donald.Robson@imgtec.com>,
- tzimmermann@suse.de, Liam.Howlett@oracle.com, bagasdotme@gmail.com,
- christian.koenig@amd.com, jason@jlekstrand.net, bskeggs@redhat.com
+Cc: Jonathan Marek <jonathan@marek.ca>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, oe-kbuild-all@lists.linux.dev,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 20 Jun 2023 at 17:06, Oded Gabbay <ogabbay@kernel.org> wrote:
->
-> On Tue, Jun 20, 2023 at 7:05=E2=80=AFAM Dave Airlie <airlied@gmail.com> w=
-rote:
-> >
-> > Since this is feature is nouveau only currently and doesn't disturb
-> > the current nouveau code paths, I'd like to try and get this work in
-> > tree so other drivers can work from it.
-> >
-> > If there are any major objections to this, I'm happy to pull it back
-> > out again, but I'd like to get some acks/rb in the next couple of days
-> > in order to land some of it.
-> >
-> > Dave.
-> >
-> >
-> > >
-> > > forgot to add your email address to the patch series - sorry about th=
-at.
-> > >
-> > > This series (v5) contains the Documentation changes you requested.
-> > >
-> > > - Danilo
-> > >
-> > > On 6/20/23 02:42, Danilo Krummrich wrote:
-> > > > This patch series provides a new UAPI for the Nouveau driver in ord=
-er to
-> > > > support Vulkan features, such as sparse bindings and sparse residen=
-cy.
-> > > >
-> > > > Furthermore, with the DRM GPUVA manager it provides a new DRM core =
-feature to
-> > > > keep track of GPU virtual address (VA) mappings in a more generic w=
-ay.
-> > > >
-> > > > The DRM GPUVA manager is indented to help drivers implement userspa=
-ce-manageable
-> > > > GPU VA spaces in reference to the Vulkan API. In order to achieve t=
-his goal it
-> > > > serves the following purposes in this context.
-> > > >
-> > > >      1) Provide infrastructure to track GPU VA allocations and mapp=
-ings,
-> > > >         making use of the maple_tree.
-> > > >
-> > > >      2) Generically connect GPU VA mappings to their backing buffer=
-s, in
-> > > >         particular DRM GEM objects.
-> Will this manager be able to connect GPU VA mappings to host memory
-> allocations (aka user pointers) ?
->
-> I only skimmed over the uapi definitions, but from that quick glance I
-> saw you can only pass a (gem) handle to the vm bind uapi.
->
-> I think it is an important feature because you don't want to have two
-> GPU VA managers running in your driver (if that's even possible).
-> Maybe we should at least try to make sure the uapi is/will be
-> compatible with such an extension.
->
+Hi Konrad,
 
-I think that would have to be a new uAPI entry point anyways, since
-managing user ptrs is extra, but the uAPI is nouveau specific and
-nouveau has no hostptr support as of now.
+kernel test robot noticed the following build errors:
 
-The gpuva manager is kernel internal, I think adding host ptr tracking
-is useful, but I don't think it's a blocker right now.
+[auto build test ERROR on 47045630bc409ce6606d97b790895210dd1d517d]
 
-One of the reasons I'd like to get this in the tree is to add things
-like that instead of overloading this initial patchset with feature
-creep.
+url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/drm-msm-a6xx-Add-some-missing-header-definitions/20230620-004639
+base:   47045630bc409ce6606d97b790895210dd1d517d
+patch link:    https://lore.kernel.org/r/20230517-topic-a7xx_prep-v3-2-a3ce3725385b%40linaro.org
+patch subject: [PATCH v3 2/6] drm/msm/a6xx: Use descriptive bitfield names for CP_PROTECT_CNTL
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230620/202306201502.pisn6tpR-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230620/202306201502.pisn6tpR-lkp@intel.com/reproduce)
 
-Dave.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306201502.pisn6tpR-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c: In function 'a6xx_set_cp_protect':
+>> drivers/gpu/drm/msm/adreno/a6xx_gpu.c:934:19: error: 'A6XX_CP_PROTECT_CNTL_ACCESS_PROT_EN' undeclared (first use in this function)
+     934 |                   A6XX_CP_PROTECT_CNTL_ACCESS_PROT_EN |
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:934:19: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/gpu/drm/msm/adreno/a6xx_gpu.c:935:19: error: 'A6XX_CP_PROTECT_CNTL_ACCESS_FAULT_ON_VIOL_EN' undeclared (first use in this function)
+     935 |                   A6XX_CP_PROTECT_CNTL_ACCESS_FAULT_ON_VIOL_EN |
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/msm/adreno/a6xx_gpu.c:936:19: error: 'A6XX_CP_PROTECT_CNTL_LAST_SPAN_INF_RANGE' undeclared (first use in this function)
+     936 |                   A6XX_CP_PROTECT_CNTL_LAST_SPAN_INF_RANGE);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SM_GCC_8350
+   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
+   Selected by [m]:
+   - SM_VIDEOCC_8350 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
+   WARNING: unmet direct dependencies detected for SM_GCC_8450
+   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
+   Selected by [m]:
+   - SM_GPUCC_8450 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
+   - SM_VIDEOCC_8450 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
+   WARNING: unmet direct dependencies detected for SM_GCC_8550
+   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
+   Selected by [m]:
+   - SM_GPUCC_8550 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
+   - SM_VIDEOCC_8550 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
+
+
+vim +/A6XX_CP_PROTECT_CNTL_ACCESS_PROT_EN +934 drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+
+   899	
+   900	static void a6xx_set_cp_protect(struct msm_gpu *gpu)
+   901	{
+   902		struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+   903		const u32 *regs = a6xx_protect;
+   904		unsigned i, count, count_max;
+   905	
+   906		if (adreno_is_a650(adreno_gpu)) {
+   907			regs = a650_protect;
+   908			count = ARRAY_SIZE(a650_protect);
+   909			count_max = 48;
+   910			BUILD_BUG_ON(ARRAY_SIZE(a650_protect) > 48);
+   911		} else if (adreno_is_a690(adreno_gpu)) {
+   912			regs = a690_protect;
+   913			count = ARRAY_SIZE(a690_protect);
+   914			count_max = 48;
+   915			BUILD_BUG_ON(ARRAY_SIZE(a690_protect) > 48);
+   916		} else if (adreno_is_a660_family(adreno_gpu)) {
+   917			regs = a660_protect;
+   918			count = ARRAY_SIZE(a660_protect);
+   919			count_max = 48;
+   920			BUILD_BUG_ON(ARRAY_SIZE(a660_protect) > 48);
+   921		} else {
+   922			regs = a6xx_protect;
+   923			count = ARRAY_SIZE(a6xx_protect);
+   924			count_max = 32;
+   925			BUILD_BUG_ON(ARRAY_SIZE(a6xx_protect) > 32);
+   926		}
+   927	
+   928		/*
+   929		 * Enable access protection to privileged registers, fault on an access
+   930		 * protect violation and select the last span to protect from the start
+   931		 * address all the way to the end of the register address space
+   932		 */
+   933		gpu_write(gpu, REG_A6XX_CP_PROTECT_CNTL,
+ > 934			  A6XX_CP_PROTECT_CNTL_ACCESS_PROT_EN |
+ > 935			  A6XX_CP_PROTECT_CNTL_ACCESS_FAULT_ON_VIOL_EN |
+ > 936			  A6XX_CP_PROTECT_CNTL_LAST_SPAN_INF_RANGE);
+   937	
+   938		for (i = 0; i < count - 1; i++)
+   939			gpu_write(gpu, REG_A6XX_CP_PROTECT(i), regs[i]);
+   940		/* last CP_PROTECT to have "infinite" length on the last entry */
+   941		gpu_write(gpu, REG_A6XX_CP_PROTECT(count_max - 1), regs[i]);
+   942	}
+   943	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
