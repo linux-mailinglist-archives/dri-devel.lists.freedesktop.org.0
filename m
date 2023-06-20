@@ -1,79 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C84FF736D48
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 15:27:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFFCB736DFB
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jun 2023 15:56:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB93F10E2E3;
-	Tue, 20 Jun 2023 13:27:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB19510E2E5;
+	Tue, 20 Jun 2023 13:56:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF17210E2EB
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 13:27:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1687267620;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GDTReUqFEm/gMu/RLApQxRwHfhWVwwVpaDwRKY90drE=;
- b=M3O3L7dLwdaiLyB3TWJmneFvGqSpUqXOo+thq3tJJeh5jrDEQd8ZwSGAzEJvnMdqFEcraH
- CM4EsnzAaGePIuQl23HJXYoyFBFqnG3fiP4tI3lrwSSixFQLDcF9CqsXWVasyBcljZgx5P
- PbfVxpqF6Aush+5DX0WjEwXAx2QdGQM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-133-UgKi-6SROO-tpcPnFoPsfA-1; Tue, 20 Jun 2023 09:26:55 -0400
-X-MC-Unique: UgKi-6SROO-tpcPnFoPsfA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-3112808cd0cso1769253f8f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 06:26:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687267613; x=1689859613;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GDTReUqFEm/gMu/RLApQxRwHfhWVwwVpaDwRKY90drE=;
- b=kJY8a6xNaRiI+hC5FneO6jaB8mFAkw56fbuRq/bnYe6XeUm/CHPtRWsPWmRlz576zS
- Ufp5DM6KWIG+giMOz0NJdgXzh2Ld0fUkyIgRX8jGqy6ufYCHqJzWbfPI9lY2slpQuswB
- YprU8A7BsQrOG8v2rPLR8IXpWlh9zy4qqo7brYv0yt2vpjRU0pSS2QPIXf0DCOdaDYRq
- 9SXrO6L/dot1yve/6G6YoPZqwMGr8Y+KEVsHBdfbRZ2j3h5/1UGHpyd0McV3J5byIDTp
- CXxbCkXW7pMui/FDokt0BNJihu+6LYWey25UZZF/HegY54ovDkfH0bF6lANaTTYb2SH4
- GLAQ==
-X-Gm-Message-State: AC+VfDwcJBMY2dyYbDHDY9mV7N4KGmLfSRN6Y+mtTu2Cqw/3MoKnZA6+
- jaW9aYoizum5vwlb27eftyqxidCtH4JblMXtMe87rWgXGZ1tzpJLgnErEdCahFF20dHbJys0YnE
- tfU+htIbpr8gzsp2rCUNyZoWWRE87
-X-Received: by 2002:adf:fc82:0:b0:30f:c188:67e0 with SMTP id
- g2-20020adffc82000000b0030fc18867e0mr10556633wrr.21.1687267613016; 
- Tue, 20 Jun 2023 06:26:53 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5AGs6WNsazPVkf2PhOlDJiUbeNoBu0vmYWBMuZHgNi5obEa1dsYtCjPtuHf+pRdXikfhV1/w==
-X-Received: by 2002:adf:fc82:0:b0:30f:c188:67e0 with SMTP id
- g2-20020adffc82000000b0030fc18867e0mr10556619wrr.21.1687267612711; 
- Tue, 20 Jun 2023 06:26:52 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- n11-20020a5d4c4b000000b003113ccbf388sm2046488wrt.13.2023.06.20.06.26.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Jun 2023 06:26:52 -0700 (PDT)
-Message-ID: <bcd6ed9a-cce7-53ce-4c33-8e0ecb7017a4@redhat.com>
-Date: Tue, 20 Jun 2023 15:26:51 +0200
+Received: from s.wrqvwxzv.outbound-mail.sendgrid.net
+ (s.wrqvwxzv.outbound-mail.sendgrid.net [149.72.154.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7582910E2E1
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jun 2023 13:56:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=mime-version:subject:references:from:in-reply-to:to:cc:content-type:
+ content-transfer-encoding:cc:content-type:from:subject:to;
+ s=s1; bh=9grUNdjpwqcccJBDhf97I+CcaImjeCFFPj4g4gaFuZI=;
+ b=Ja+cPrGU74pYP/PEoZNoGXjNhsM5CxymvSf6Z9demJvbei59nawZEY7OSrrKftzqd/RI
+ 0e9RJeil6W7IdF871oQdxyi6QPHu0SIoJHjUNtpiYYRhPqVu5SK8b8pfwF5SSxXYuFF7q2
+ tPS3dCNQJsU0VNe7voHO8nXpVm8zLNOFnUqe4EP4B6TQVo8a5lBJz7u7bP71pwzscczTjJ
+ rknChUUSWeCiX6f60EdPq+mf06MbfsbMDkyF7ziqO0UdLs0bWN3rQmuB+nwpm6iD08RH15
+ 0/y205azE1XRhv6Gb+R7wvqdxMTZ8gaNgfCzT14T8tKMOTEDQf6V/i+kOp8J2eJA==
+Received: by filterdrecv-84b96456cb-jnxmg with SMTP id
+ filterdrecv-84b96456cb-jnxmg-1-6491B000-11
+ 2023-06-20 13:56:16.489152857 +0000 UTC m=+3507455.908062499
+Received: from [192.168.1.50] (unknown) by geopod-ismtpd-9 (SG) with ESMTP
+ id yRlPZ-tUSQOW3d5KxRVAdg Tue, 20 Jun 2023 13:56:16.135 +0000 (UTC)
+Message-ID: <34c08fc9-eb9b-376d-57fb-d47a68c2fc4d@kwiboo.se>
+Date: Tue, 20 Jun 2023 13:56:16 +0000 (UTC)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 00/14] drm/ast: Refactor the device-detection code
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- daniel@ffwll.ch, jammy_huang@aspeedtech.com
-References: <20230616140739.32042-1-tzimmermann@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20230616140739.32042-1-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 2/3] drm/rockchip: Resolve dependency in GEM DMA helpers
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+References: <20230620121202.28263-1-tzimmermann@suse.de>
+ <20230620121202.28263-3-tzimmermann@suse.de>
+From: Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <20230620121202.28263-3-tzimmermann@suse.de>
+X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
+ =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0h584SJKyuyhG0hFts?=
+ =?us-ascii?Q?c+ciLuROhOoYSR1iWZ7yKcZEhmAlMelTfRjOp7s?=
+ =?us-ascii?Q?IRhf554NLzeDvXtYeCMp2cTjVytqzvhvUNMtzJQ?=
+ =?us-ascii?Q?sHWsoc4X+g4IsgfpDNB8oDb3CwWauRGysYAonTV?=
+ =?us-ascii?Q?eHA=2F3=2FkEW732oxMY7Aj6J56HwnQ+gY1Sia7Zy=2Fn?=
+ =?us-ascii?Q?=2FTWaCpcl87SGgNfcJcdsw=3D=3D?=
+To: Thomas Zimmermann <tzimmermann@suse.de>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch,
+ laurent.pinchart@ideasonboard.com, kieran.bingham+renesas@ideasonboard.com,
+ hjc@rock-chips.com, heiko@sntech.de
+X-Entity-ID: P7KYpSJvGCELWjBME/J5tg==
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,71 +64,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/06/2023 15:52, Thomas Zimmermann wrote:
-> Ast's code for detecting the device type and features is convoluted.
-> It mixes up several state fields, chip types and sub-models. Rework
-> the driver into somehting more understandable.
-> 
-> Patches 1 fixes a long-standing bug. The affected code has never
-> worked correctly.
-> 
-> Patches 2 to 8 make various changes to the init code, or remove dead
-> and duplicated code paths.
-> 
-> Patch 9 introduces chip generations. Until now, ast used the value
-> of enum ast_chip to represent a certain set of related modes, and
-> also used the enum to represent individal models. This makes the
-> driver code hard to understand in certain places. The patch encodes
-> a chip generation in each model enum and converts the driver to use
-> it.
+Hi Thomas,
 
-That's a very good thing, the handling of different AST revisions was a 
-bit messy, and there was bugs when a new one was introduced.
+On 2023-06-20 14:03, Thomas Zimmermann wrote:
+> Remove the dependency on the GEM DMA helper library. Rockchip comes
+> with its own implementation of the GEM interface. It only uses the VM
+> callbacks in drm_gem_dma_vm_ops from the GEM DMA helpers. These are
+> not DMA specific.
 > 
-> Patches 10 to 12 replace duplicated model checks with the correct
-> enum value. Detection of wide-screen functionality and the transmitter
-> chip can then be moved into individual functions in patch 13.
-> 
-> Patch 14 merges the detection of the silicon revision and the chip
-> model into s single function. Both need to be done in the same place
-> and affect each other.
-> 
-> Tested on AST1100 and AST2300.
+> Duplicate drm_gem_dma_vm_ops in rockchip and remove all dependencies on
+> the GEM DMA helper library.
 
-I've also tested (remotely) on AST2600
+I have intentions to remove the entire custom implementation of the GEM
+interface and replace it with use of GEM DMA helpers in a future series.
 
-For the whole series:
+Current custom implementation break import of video framebuffers located
+in memory beyond 4GB. Switching to use pure GEM DMA helpers solved that
+issue but requires reworking IOMMU integration for full support of
+multiple VOPs on e.g., RK3288 and RK3399.
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-Tested-by: Jocelyn Falempe <jfalempe@redhat.com>
+I have no ETA on when such series can be ready so this is more of a
+heads up that I will revert this removal of dependency on GEM DMA helper
+library in a future series.
+
+Regards,
+Jonas
 
 > 
-> Thomas Zimmermann (14):
->    drm/ast: Fix DRAM init on AST2200
->    drm/ast: Remove vga2_clone field
->    drm/ast: Implement register helpers in ast_drv.h
->    drm/ast: Remove dead else branch in POST code
->    drm/ast: Remove device POSTing and config from chip detection
->    drm/ast: Set PCI config before accessing I/O registers
->    drm/ast: Enable and unlock device access early during init
->    drm/ast: Set up release action right after enabling MMIO
->    drm/ast: Distinguish among chip generations
->    drm/ast: Detect AST 1300 model
->    drm/ast: Detect AST 1400 model
->    drm/ast: Detect AST 2510 model
->    drm/ast: Move widescreen- and tx-chip detection into separate helpers
->    drm/ast: Merge config and chip detection
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/rockchip/Kconfig            | 1 -
+>  drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 2 +-
+>  drivers/gpu/drm/rockchip/rockchip_drm_gem.c | 8 ++++++--
+>  3 files changed, 7 insertions(+), 4 deletions(-)
 > 
->   drivers/gpu/drm/ast/ast_dp501.c |   6 +-
->   drivers/gpu/drm/ast/ast_drv.h   |  97 +++++++---
->   drivers/gpu/drm/ast/ast_main.c  | 320 +++++++++++++++++++-------------
->   drivers/gpu/drm/ast/ast_mm.c    |   2 -
->   drivers/gpu/drm/ast/ast_mode.c  |  35 ++--
->   drivers/gpu/drm/ast/ast_post.c  |  74 ++------
->   6 files changed, 294 insertions(+), 240 deletions(-)
-> 
-
+[snip]
