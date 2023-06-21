@@ -2,78 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3901B738B79
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 18:36:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF09B738B8B
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 18:38:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FC2810E30D;
-	Wed, 21 Jun 2023 16:36:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D676D10E31C;
+	Wed, 21 Jun 2023 16:38:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AC5810E252
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 16:36:40 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id
- 2adb3069b0e04-4f85966b0f2so7651438e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 09:36:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687365398; x=1689957398;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=V91HdnJXsaX0PLi6by4eFkZCUR8xDSPcjyaQrOd751A=;
- b=Qh8KOKMuCq9jCpN3+pxWOUMRcma+ssgtoHyQsuO6TGppIutQdKQu6tsrZRxm/5vD1j
- c5xaA55jh45mfJ5Ksz1JaK4/3dP6phXPB8sSItILjcaHihwi+cbgYvO6WCYH8tzHw7ZP
- ohu8GHmMt8XYMri7HmKtjUffBeq3kZG7MJm0IEL1a6wkVlih8wjaUY+kaK/jFJGIrhke
- nygtNAD+r5R0TdDaCgbDGjJfuID1dRVioXrFeXzdHpHaDJUEreC8mSds6SgSkvhwDR0u
- ECIO6eB8dgnf5h7LVAm43XGyoHIOznecKu4oEsGfU7gBRYeDzYXiyPKMP70orzvVIp3w
- idng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687365398; x=1689957398;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=V91HdnJXsaX0PLi6by4eFkZCUR8xDSPcjyaQrOd751A=;
- b=aATZ+wDhR8M0gi14i6q6yCO+tw++qb9+Iq2+p3/j6KDH2Y6q04xNXgfLpRstjxAX/C
- omtb7XxHxfD9tK8/FS0JLFFi//croXe25XFUv6ovUfivMyVlgpPhNbV5Tr19+WBRoKLo
- Kuf1Uxm+N3yy2aCO80VIWVkL5KVpOD1XyS6v+5JZRWvMv/6LAbclLq/BbWyJLW+3Ttwy
- +kjjOwl9vamP7l2h+t3zjYL2OGkRU+gYwyzcKPAy6t3hOd2/mBpT2DTT6RxqqAQnkd3n
- peyxLwil1G6Ho39KcpW+osH89Hjsr/bLQ/zuV5m9bBR36Suxk9oenk72Elqp5cwHtH8G
- xbXw==
-X-Gm-Message-State: AC+VfDwwfxa4xqMHO+3AaMLTpf+YY9P9TlfXvyMBwgbgJ3aNE/Bo+hNC
- ow86T21eg5rUI+NDNrAzXaU93g==
-X-Google-Smtp-Source: ACHHUZ6dEDu85fL5mAUf/2mokFDGQqHGCVyQDKbdeNp2HIwGLClLZK2w/Hl7Mb+dn+n2XGKLgb19Tg==
-X-Received: by 2002:a19:5f18:0:b0:4f3:80a3:b40a with SMTP id
- t24-20020a195f18000000b004f380a3b40amr10226590lfb.69.1687365398317; 
- Wed, 21 Jun 2023 09:36:38 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- p2-20020a19f002000000b004f85885cff1sm813463lfc.134.2023.06.21.09.36.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Jun 2023 09:36:37 -0700 (PDT)
-Message-ID: <8dcd643f-9644-a4e7-a0d5-eefa28084a88@linaro.org>
-Date: Wed, 21 Jun 2023 19:36:37 +0300
+Received: from sipsolutions.net (s3.sipsolutions.net
+ [IPv6:2a01:4f8:191:4433::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AAC110E31C;
+ Wed, 21 Jun 2023 16:38:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+ Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+ Resent-Cc:Resent-Message-ID; bh=OdFzun0L0/e6r02A+DrKv3kwszx3coOMwNXnVWRuYqM=; 
+ t=1687365483; x=1688575083; b=CiZlMYI5eodDhOCG8uQfP+FzDma6nTHFGTs0na7tZp0TFqi
+ ONYi1bECR0aFttbp7BmzYpYMYYBSpeYp0WF+A22BanUWS+x9Sb6YRjJfgXBv2w4YZD822cj7hcQUL
+ ECy3DN4kpRyMGP14HqT66lA4JEdzd2rGWVA9sktV3iBAoNslklxuQChMlbtGlENcxxu1lpXmP0Hk4
+ BhwCACzCBPrv2HaXyv1OkXotnp+NYE3iWM0bjwcPnMbQIe10blYe+VG0PQ4yyTxwiFrzDl4FZaJFe
+ XLuz9xyxmb1k5bm7t1sKuENe2F8AkvCELVg9GHaKpGqYnRSsicpESeRtRHgmkbbg==;
+Received: by sipsolutions.net with esmtpsa
+ (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+ (Exim 4.96) (envelope-from <johannes@sipsolutions.net>)
+ id 1qC0pt-00Dltw-2s; Wed, 21 Jun 2023 18:37:38 +0200
+Message-ID: <aca10d753183508672739e8b6668d41ce2cdaf80.camel@sipsolutions.net>
+Subject: Re: [PATCH V4 1/8] drivers/acpi: Add support for Wifi band RF
+ mitigations
+From: Johannes Berg <johannes@sipsolutions.net>
+To: Andrew Lunn <andrew@lunn.ch>
+Date: Wed, 21 Jun 2023 18:37:36 +0200
+In-Reply-To: <d2dba04d-36bf-4d07-bf2b-dd06671c45c6@lunn.ch>
+References: <20230621054603.1262299-1-evan.quan@amd.com>
+ <20230621054603.1262299-2-evan.quan@amd.com>
+ <3a7c8ffa-de43-4795-ae76-5cd9b00c52b5@lunn.ch>
+ <216f3c5aa1299100a0009ddf4e95b019855a32be.camel@sipsolutions.net>
+ <d2dba04d-36bf-4d07-bf2b-dd06671c45c6@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 2/3] drm/msm/dpu: Set DATABUS_WIDEN on command mode
- encoders
-Content-Language: en-GB
-To: Marijn Suijten <marijn.suijten@somainline.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>
-References: <20230525-add-widebus-support-v1-0-c7069f2efca1@quicinc.com>
- <20230525-add-widebus-support-v1-2-c7069f2efca1@quicinc.com>
- <c74c9e0e-d059-f0e3-4350-03089c37131a@linaro.org>
- <cce68370-3fd9-4c9a-258e-af0d5d057fda@quicinc.com>
- <n2c5qlujxhbbj2aqlgj7fetzoteood5h4hmbwt4mapi77xlvmt@bpourzaideti>
- <81a5e241-ec82-7414-8752-4ce3cb084959@linaro.org>
- <f14f2c31-38c2-0600-3a29-17e83afececf@quicinc.com>
- <26tvhvqpxtxz5tqc6jbjixadpae34k7uc7fyec2u5o2ccj4tdq@tjvguzlolc3g>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <26tvhvqpxtxz5tqc6jbjixadpae34k7uc7fyec2u5o2ccj4tdq@tjvguzlolc3g>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-malware-bazaar: not-scanned
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,78 +56,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Cc: jingyuwang_vip@163.com, bellosilicio@gmail.com, rafael@kernel.org,
+ trix@redhat.com, lijo.lazar@amd.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, mdaenzer@redhat.com, mario.limonciello@amd.com,
+ amd-gfx@lists.freedesktop.org, linux-acpi@vger.kernel.org, kuba@kernel.org,
+ pabeni@redhat.com, lenb@kernel.org, andrealmeid@igalia.com, arnd@arndb.de,
+ hdegoede@redhat.com, Evan Quan <evan.quan@amd.com>, netdev@vger.kernel.org,
+ Xinhui.Pan@amd.com, linux-wireless@vger.kernel.org, edumazet@google.com,
+ christian.koenig@amd.com, tzimmermann@suse.de, alexander.deucher@amd.com,
+ davem@davemloft.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/06/2023 18:17, Marijn Suijten wrote:
-> On 2023-06-20 14:38:34, Jessica Zhang wrote:
-> <snip>
->>>>>>> +    if (phys_enc->hw_intf->ops.enable_widebus)
->>>>>>> +        phys_enc->hw_intf->ops.enable_widebus(phys_enc->hw_intf);
->>>>>>
->>>>>> No. Please provide a single function which takes necessary
->>>>>> configuration, including compression and wide_bus_enable.
->>>>>>
->>>>>
->>>>> There are two ways to look at this. Your point is coming from the
->>>>> perspective that its programming the same register but just a different
->>>>> bit. But that will also make it a bit confusing.
->>>
->>> My point is to have a high-level function that configures the INTF for
->>> the CMD mode. This way it can take a structure with necessary
->>> configuration bits.
->>
->> Hi Dmitry,
->>
->> After discussing this approach with Abhinav, we still have a few
->> questions about it:
->>
->> Currently, only 3 of the 32 bits for INTF_CONFIG2 are being used (the
->> rest are reserved with no plans of being programmed in the future). Does
->> this still justify the use of a struct to pass in the necessary
->> configuration?
-> 
-> No.  The point Dmitry is making is **not** about this concidentally
-> using the same register, but about adding a common codepath to enable
-> compression on this hw_intf (regardless of the registers it needs to
-> touch).
+On Wed, 2023-06-21 at 18:14 +0200, Andrew Lunn wrote:
+> > > Do only ACPI based systems have:
+> > >=20
+> > > =C2=A0=C2=A0=C2=A0interference of relatively high-powered harmonics o=
+f the (G-)DDR
+> > > =C2=A0=C2=A0=C2=A0memory clocks with local radio module frequency ban=
+ds used by
+> > > =C2=A0=C2=A0=C2=A0Wifi 6/6e/7."
+> > >=20
+> > > Could Device Tree based systems not experience this problem?
+> >=20
+> > They could, of course, but they'd need some other driver to change
+> > _something_ in the system? I don't even know what this is doing
+> > precisely under the hood in the ACPI BIOS
+>=20
+> If you don't know what it is actually doing, it suggests the API is
+> not very well defined.
 
-Actually to setup INTF for CMD stream (which is equal to setting up 
-compression at this point).
+I wouldn't say that. At the level it's defined now, the API is very
+clear: the wifi subsystem tells the other side what channels it's
+operating on right now.
 
->  Similar to how dpu_hw_intf_setup_timing_engine() programs the
-> hw_intf - including widebus! - for video-mode.
-> 
-> Or even more generically, have a struct similar to intf_timing_params
-> that says how the intf needs to be configured - without the caller
-> knowing about INTF_CONFIG2.
-> 
-> struct dpu_hw_intf_cfg is a very good example of how we can use a single
-> struct and a single callback to configure multiple registers at once
-> based on some input parameters.
-> 
->> In addition, it seems that video mode does all its INTF_CONFIG2
->> configuration separately in dpu_hw_intf_setup_timing_engine(). If we
->> have a generic set_intf_config2() op, it might be good to have it as
->> part of a larger cleanup where we have both video and command mode use
->> the generic op. What are your thoughts on this?
-> 
-> Not in that way, but if there is a generic enable_compression() or
-> configure_compression() callback (or even more generic, similar to
-> setup_intf_cfg in dpu_hw_ctl) that would work for both video-mode and
-> command-mode, maybe that is beneficial.
+> Is there even enough details that ARM64 ACPI
+> BIOS could implement this?=20
 
-I'd rather not do this. Let's just 'setup timing enging' vs 'setup CMD'. 
-For example, it might also include setting up other INTF parameters for 
-CMD mode (if anything is required later on).
+This, in itself? No. You'd have to know about the physical
+characteristics of the system, what is actually causing interference and
+at what frequencies and of course what you can actually do to mitigate
+(such as adjusting clock frequencies.)
 
-> 
-> - Marijn
+But as an API? I'd think yes, since WiFi can't really move off a
+frequency, other than disconnect, anyway.
 
--- 
-With best wishes
-Dmitry
 
+> > > > +bool wbrf_supported_producer(struct acpi_device *adev);
+> > > > +int wbrf_add_exclusion(struct acpi_device *adev,
+> > > > +		       struct wbrf_ranges_in *in);
+> > > > +int wbrf_remove_exclusion(struct acpi_device *adev,
+> > > > +			  struct wbrf_ranges_in *in);
+> > >=20
+> > > Could struct device be used here, to make the API agnostic to where
+> > > the information is coming from? That would then allow somebody in the
+> > > future to implement a device tree based information provider.
+> >=20
+> > That does make sense, and it wouldn't even be that much harder if we
+> > assume in a given platform there's only one provider
+>=20
+> That seems like a very reasonable assumption. It is theoretically
+> possible to build an ACPI + DT hybrid, but i've never seen it actually
+> done.
+
+OK.
+
+> If an ARM64 ACPI BIOS could implement this, then i would guess the low
+> level bits would be solved, i guess jumping into the EL1
+> firmware. Putting DT on top instead should not be too hard.
+
+Right.
+
+
+Maybe then this really shouldn't be called "wbrf", but maybe naming
+doesn't matter that much :)
+
+johannes
