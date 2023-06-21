@@ -2,52 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1BA6737F82
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 12:23:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5203A737F7F
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 12:23:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAC2310E440;
-	Wed, 21 Jun 2023 10:23:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DE1510E43D;
+	Wed, 21 Jun 2023 10:23:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sipsolutions.net (s3.sipsolutions.net
- [IPv6:2a01:4f8:191:4433::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D64A310E439;
- Wed, 21 Jun 2023 10:23:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
- Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
- Resent-Cc:Resent-Message-ID; bh=E5J3XlE1FsUIlBpFkRpwctJVhjB2FlOiEwVbSdNHhcE=; 
- t=1687342990; x=1688552590; b=fwZAzcF+UlIhVUrY3lP5AzfjB25U5O6sp/nmT71ZWMkuv28
- 7yswjLQZ0nCvuFVWV35HK5GzxpOcCzvkiTfgw93axqgaYKgzyYe0EOPiL0HyKXq7mlnJiD1TCbXDN
- Pnyu8K16p6LOhZVq5wfEuMMJRUbIU+xdgQgEfAItdm5hOi8YOOZM3I9Nlc/M7MsMZQYFs/lk05Cpr
- hVhBKUE462lSTo3Tn8hoiMjBSm2rydC+656SxlphXsDdvegBofxbUB23OkIdUuAFHY/uzmYmERA55
- RSydKXbByZf5lUD2ptvJUVQ7UVIBCOz0EUoVgvMWHObHK3s/VkXudHfKK0rRSYng==;
-Received: by sipsolutions.net with esmtpsa
- (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
- (Exim 4.96) (envelope-from <johannes@sipsolutions.net>)
- id 1qBuym-00DagI-0V; Wed, 21 Jun 2023 12:22:24 +0200
-Message-ID: <3eb2c16cb0692c8d6b03bd57cb049b1fb3457e92.camel@sipsolutions.net>
-Subject: Re: [PATCH V4 3/8] wifi: mac80211: Add support for ACPI WBRF
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Evan Quan <evan.quan@amd.com>, rafael@kernel.org, lenb@kernel.org, 
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
- airlied@gmail.com, daniel@ffwll.ch, davem@davemloft.net,
- edumazet@google.com,  kuba@kernel.org, pabeni@redhat.com,
- mario.limonciello@amd.com, mdaenzer@redhat.com, 
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
- hdegoede@redhat.com,  jingyuwang_vip@163.com, lijo.lazar@amd.com,
- jim.cromie@gmail.com,  bellosilicio@gmail.com, andrealmeid@igalia.com,
- trix@redhat.com, jsg@jsg.id.au,  arnd@arndb.de
-Date: Wed, 21 Jun 2023 12:22:21 +0200
-In-Reply-To: <20230621054603.1262299-4-evan.quan@amd.com>
-References: <20230621054603.1262299-1-evan.quan@amd.com>
- <20230621054603.1262299-4-evan.quan@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4075D10E436
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 10:22:56 +0000 (UTC)
+X-UUID: 92e90480101d11eeb20a276fd37b9834-20230621
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=EggFaisyYLlZMGKDdteaS6RHQn0kmzvukFhtmqjl8zM=; 
+ b=fkcpt4dMTOC5ixSXKk1wgqDep85GFjchHwuX5OrHVODaNFu7T8NUYIzYE9/LhAragdrMvVVWUzXpjRWcGf82oQJjcw5Vn0lXpmpqZ/kfaFBdPeTJy4B9EN9VlYIQs+v/14nPlNszN8oxAYaiUn+YEerpq2Ct65fiYddCk4iDGsY=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.27, REQID:fd8469c3-a066-4b30-8b64-6f9538eae72d, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:01c9525, CLOUDID:a8bf243f-de1e-4348-bc35-c96f92f1dcbb,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 92e90480101d11eeb20a276fd37b9834-20230621
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
+ mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 821007181; Wed, 21 Jun 2023 18:22:49 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 21 Jun 2023 18:22:48 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Wed, 21 Jun 2023 18:22:48 +0800
+From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Alexandre Mergnat
+ <amergnat@baylibre.com>
+Subject: [PATCH v3 0/4] Fix mediatek-drm coverity issues
+Date: Wed, 21 Jun 2023 18:22:43 +0800
+Message-ID: <20230621102247.10116-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-X-malware-bazaar: not-scanned
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,94 +65,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-acpi@vger.kernel.org, amd-gfx@lists.freedesktop.org
+Cc: "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ Johnson Wang <johnson.wang@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2023-06-21 at 13:45 +0800, Evan Quan wrote:
-> To support AMD's WBRF interference mitigation mechanism, Wifi adapters
-> utilized in the system must register the frequencies in use(or unregister
-> those frequencies no longer used) via the dedicated APCI calls. So that,
-> other drivers responding to the frequencies can take proper actions to
-> mitigate possible interference.
->=20
-> To make WBRF feature functional, the kernel needs to be configured with
-> CONFIG_ACPI_WBRF and the platform is equipped with WBRF support(from
-> BIOS and drivers).
->=20
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> Co-developed-by: Evan Quan <evan.quan@amd.com>
-> Signed-off-by: Evan Quan <evan.quan@amd.com>
+Add this patch series to fix some mediatek-drm coverity issues.
 
-I was going to say this looks good ... but still have a few nits, sorry.
+Change in v3:
+1. swap Fixes and Signed tag.
+2. change cast (__u64) to '=' then ' *='.
 
-But then the next question anyway is how we merge this? The wifi parts
-sort of depend on the first patch, although technically I guess I could
-merge them since it's all hidden behind the CONFIG_ symbol, assuming you
-get that in via some other tree it can combine upstream.
+Change in v2:
+1. remove kfree(pkt) in mtk_drm_crtc_create_pkt().
+2. change the statement of cnt reach to MAX_CRTC.
+3. drop the mtk_gem_obj initialized patch.
+4. change casting from unsined long to __u64.
+5. add 'int offset' for multiplier calculation.
+6. drop the unrelavaent modification in dereference null check patch.
 
-I'd also say you can merge those parts elsewhere but I'm planning to
-also land some locking rework that I've been working on, so it will
-probably conflict somewhere.
+Jason-JH.Lin (4):
+  drm/mediatek: Remove freeing not dynamic allocated memory
+  drm/mediatek: Add cnt checking for coverity issue
+  drm/mediatek: Add casting before assign
+  drm/mediatek: Fix dereference before null check
 
-> +++ b/net/mac80211/chan.c
-> @@ -506,11 +506,16 @@ static void _ieee80211_change_chanctx(struct ieee80=
-211_local *local,
-> =20
->  	WARN_ON(!cfg80211_chandef_compatible(&ctx->conf.def, chandef));
-> =20
-> +	ieee80211_remove_wbrf(local, &ctx->conf.def);
-> +
->  	ctx->conf.def =3D *chandef;
-> =20
->  	/* check if min chanctx also changed */
->  	changed =3D IEEE80211_CHANCTX_CHANGE_WIDTH |
->  		  _ieee80211_recalc_chanctx_min_def(local, ctx, rsvd_for);
-> +
-> +	ieee80211_add_wbrf(local, &ctx->conf.def);
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c  |  7 ++----
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c   |  5 ++++-
+ drivers/gpu/drm/mediatek/mtk_drm_gem.c   |  3 ++-
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c | 28 ++++++++++++------------
+ 4 files changed, 22 insertions(+), 21 deletions(-)
 
-You ignore the return value here.
+-- 
+2.18.0
 
-
-> @@ -668,6 +673,10 @@ static int ieee80211_add_chanctx(struct ieee80211_lo=
-cal *local,
->  	lockdep_assert_held(&local->mtx);
->  	lockdep_assert_held(&local->chanctx_mtx);
-> =20
-> +	err =3D ieee80211_add_wbrf(local, &ctx->conf.def);
-> +	if (err)
-> +		return err;
-
-But not here.
-
-In the code, there are basically two error paths:
-
-> +int ieee80211_add_wbrf(struct ieee80211_local *local,
-> +		       struct cfg80211_chan_def *chandef)
-> +{
-> +	struct device *dev =3D local->hw.wiphy->dev.parent;
-> +	struct wbrf_ranges_in ranges_in =3D {0};
-> +	int ret;
-> +
-> +	if (!local->wbrf_supported)
-> +		return 0;
-> +
-> +	ret =3D wbrf_get_ranges_from_chandef(chandef, &ranges_in);
-> +	if (ret)
-> +		return ret;
-
-This really won't fail, just if the bandwidth calculation was bad, but
-that's an internal error that WARNs anyway and we can ignore it.
-
-> +	return wbrf_add_exclusion(ACPI_COMPANION(dev), &ranges_in);
-
-This I find a bit confusing, why do we even propagate the error? If the
-platform has some issue with it, should we really fail the connection?
-
-
-I think it seems better to me to just make this void, and have it be
-only a notification interface?
-
-johannes
