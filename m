@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A78737875
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 02:58:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10C1B737878
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 02:58:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A88310E392;
-	Wed, 21 Jun 2023 00:58:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11D9C10E38F;
+	Wed, 21 Jun 2023 00:58:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CC1210E38F;
- Wed, 21 Jun 2023 00:58:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BADFA10E394;
+ Wed, 21 Jun 2023 00:58:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -19,22 +19,22 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=AHRpiiiLC5kKDXx9I68+5zUOknZnGRCucbKH1IwIdOA=; b=ZcBC5oLi2E/CWy/em1B12OApC7
- 20r32P8uA7Qb94hiFHgcfV9W3wrZXUErThEqCZNt17E90yEP19EmMhaXiQTM1wTzIpP16E2JWJxhX
- F7wpFdXLcBUmEmdVMkXjOQKUSJ10msQ5YFyu44DpJftADcB7dPF/n/qB4BGU5sEVCZqjMNDUlFu6W
- fP+bpoWCx6inN4SRmVjTmK4dinhO/EwDb6oGB58aHsnublzySd86iXLCWk7Bpyb6BWObbE0Zc/c2N
- FmpkOCwKYCHQ/hUr3obgd/q/0cCAOAD0tHeSwjcu5d2yhpAkwOA8OiwFrcDwGR4H3qTCpJnd+ReBH
- ZKz5J65A==;
+ bh=0e/opeWgqF70uqTQU9A9bAOiZ20K1sbyHX7KO5D5TY8=; b=XTK919HN6/AH2/VHbMb/7HlmAu
+ GoW2i5lwonJBrmjCq6YTpHnq/0ev1q446f0JNUkFqCXc5l1PMJdMZHUvMZOmqGbp1VGr045PfbuUg
+ KbaWXF+sLvepux8ODfT8yIXd3LQ4Az1Xlc3pazNjwgcDAeo/EF1xhmz1zwsG4AmXYPnQONQp5EOzF
+ n3qQNaepeR9ljB8izJuBxlFDTWaq00sHSAGsxhc4I5sdXJBYQaaQSrqFDHeRXNTIN8AIQoPC/0/AG
+ D3XI3yirz89u8Wi7wzho6GlJ4Mdli88A1bYeW6JmFqCAcS2WAzah8CNbgth3YWHWUrMnveiJEp4pB
+ bXxnoC8Q==;
 Received: from [179.113.218.86] (helo=steammachine.lan)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qBmB8-0011pg-K6; Wed, 21 Jun 2023 02:58:35 +0200
+ id 1qBmBD-0011pg-Eo; Wed, 21 Jun 2023 02:58:39 +0200
 From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v3 2/4] drm: Create DRM_IOCTL_GET_RESET
-Date: Tue, 20 Jun 2023 21:57:17 -0300
-Message-ID: <20230621005719.836857-3-andrealmeid@igalia.com>
+Subject: [RFC PATCH v3 3/4] drm/amdgpu: Implement DRM_IOCTL_GET_RESET
+Date: Tue, 20 Jun 2023 21:57:18 -0300
+Message-ID: <20230621005719.836857-4-andrealmeid@igalia.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230621005719.836857-1-andrealmeid@igalia.com>
 References: <20230621005719.836857-1-andrealmeid@igalia.com>
@@ -64,198 +64,179 @@ Cc: pierre-eric.pelloux-prayer@amd.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Create a new DRM ioctl operation to get the numbers of resets for a
-given context. The numbers reflect just the resets that happened after
-the context was created, and not since the machine was booted.
-
-Create a debugfs interface to make easier to test the API without real
-resets.
+Implement get_reset ioctl for amdgpu
 
 Signed-off-by: André Almeida <andrealmeid@igalia.com>
 ---
- drivers/gpu/drm/drm_debugfs.c |  2 ++
- drivers/gpu/drm/drm_ioctl.c   | 58 +++++++++++++++++++++++++++++++++++
- include/drm/drm_device.h      |  3 ++
- include/drm/drm_drv.h         |  3 ++
- include/uapi/drm/drm.h        | 21 +++++++++++++
- include/uapi/drm/drm_mode.h   | 15 +++++++++
- 6 files changed, 102 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c  |  4 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c | 35 +++++++++++++++++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h |  5 ++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c | 12 +++++++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.h |  2 ++
+ 6 files changed, 56 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index 4855230ba2c6..316dce60434d 100644
---- a/drivers/gpu/drm/drm_debugfs.c
-+++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -251,6 +251,8 @@ int drm_debugfs_init(struct drm_minor *minor, int minor_id,
- 		list_del(&entry->list);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+index 2eb2c66843a8..0ba26b4b039c 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+@@ -1262,8 +1262,10 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
+ 	uint64_t seq;
+ 	int r;
+ 
+-	for (i = 0; i < p->gang_size; ++i)
++	for (i = 0; i < p->gang_size; ++i) {
++		p->jobs[i]->ctx = p->ctx;
+ 		drm_sched_job_arm(&p->jobs[i]->base);
++	}
+ 
+ 	for (i = 0; i < p->gang_size; ++i) {
+ 		struct dma_fence *fence;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+index d2139ac12159..d3e292382d4a 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+@@ -322,6 +322,9 @@ static int amdgpu_ctx_init(struct amdgpu_ctx_mgr *mgr, int32_t priority,
+ 	ctx->init_priority = priority;
+ 	ctx->override_priority = AMDGPU_CTX_PRIORITY_UNSET;
+ 
++	ctx->global_reset_counter = atomic_read(&mgr->adev->gpu_reset_counter);
++	ctx->local_reset_counter = 0;
++
+ 	r = amdgpu_ctx_get_stable_pstate(ctx, &current_stable_pstate);
+ 	if (r)
+ 		return r;
+@@ -963,3 +966,35 @@ void amdgpu_ctx_mgr_usage(struct amdgpu_ctx_mgr *mgr,
  	}
- 
-+	debugfs_create_bool("drm_reset_spoof", 0644, minor->debugfs_root, &dev->reset_spoof);
-+
- 	return 0;
+ 	mutex_unlock(&mgr->lock);
  }
- 
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index 7c9d66ee917d..23c282681ec7 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -528,6 +528,63 @@ int drm_version(struct drm_device *dev, void *data,
- 	return err;
- }
- 
-+/**
-+ * drm_spoof_reset - Spoof a fake reset
-+ *
-+ * @reset: reset struct to be spoofed
-+ *
-+ * Create a fake reset report for testing
-+ */
-+static void drm_spoof_reset(struct drm_get_reset *reset)
++
++int amdgpu_get_reset(struct drm_file *filp, struct drm_device *dev,
++		     struct drm_get_reset *reset)
 +{
-+	reset->dev_reset_count = 1;
-+	reset->ctx_reset_count = 0;
-+	reset->flags = 0;
-+	reset->ctx_id = 0;
++	struct amdgpu_device *adev = drm_to_adev(dev);
++	struct amdgpu_ctx *ctx;
++	struct amdgpu_ctx_mgr *mgr;
++	unsigned int id = reset->ctx_id;
++	struct amdgpu_fpriv *fpriv = filp->driver_priv;
 +
-+	DRM_INFO("[Spoofed] Reporting reset.ctx = %llu .dev = %llu\n",
-+	       reset->ctx_reset_count, reset->dev_reset_count);
-+}
-+
-+/**
-+ * drm_getreset - Get reset information from a DRM device
-+ *
-+ * @dev DRM device
-+ * @data user argument, pointing to a drm_get_reset structure
-+ * @filp file pointer
-+ *
-+ * Return zero on success or negative number on failure.
-+ *
-+ * Fills in the reset information in data arg.
-+ */
-+int drm_getreset(struct drm_device *dev, void *data,
-+			struct drm_file *file_priv)
-+{
-+	struct drm_get_reset *reset = data;
-+	int ret = 0;
-+
-+	if (dev->reset_spoof) {
-+		drm_spoof_reset(reset);
-+		return 0;
++	mgr = &fpriv->ctx_mgr;
++	mutex_lock(&mgr->lock);
++	ctx = idr_find(&mgr->ctx_handles, id);
++	if (!ctx) {
++		mutex_unlock(&mgr->lock);
++		return -EINVAL;
 +	}
 +
-+	if (!dev->driver->get_reset)
-+		return -ENOSYS;
++	reset->dev_reset_count =
++		atomic_read(&adev->gpu_reset_counter) - ctx->global_reset_counter;
 +
-+	if (reset->flags)
-+		return -EINVAL;
++	reset->ctx_reset_count = ctx->local_reset_counter;
 +
-+	ret = dev->driver->get_reset(file_priv, dev, reset);
++	if (amdgpu_in_reset(adev))
++		reset->flags |= DRM_RESET_IN_PROGRESS;
 +
-+	if (!ret)
-+		DRM_INFO("Reporting reset.ctx = %llu .dev = %llu\n",
-+		       reset->ctx_reset_count, reset->dev_reset_count);
-+	else
-+		DRM_WARN("%s failed with %d return\n", __func__, ret);
++	if (ctx->vram_lost_counter != atomic_read(&adev->vram_lost_counter))
++		reset->flags |= DRM_RESET_VRAM_LOST;
 +
-+	return ret;
++	mutex_unlock(&mgr->lock);
++	return 0;
 +}
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h
+index 0fa0e56daf67..0c9815695884 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h
+@@ -57,6 +57,9 @@ struct amdgpu_ctx {
+ 	unsigned long			ras_counter_ce;
+ 	unsigned long			ras_counter_ue;
+ 	uint32_t			stable_pstate;
 +
- static int drm_ioctl_permit(u32 flags, struct drm_file *file_priv)
- {
- 	/* ROOT_ONLY is only for CAP_SYS_ADMIN */
-@@ -716,6 +773,7 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
- 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_LIST_LESSEES, drm_mode_list_lessees_ioctl, DRM_MASTER),
- 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GET_LEASE, drm_mode_get_lease_ioctl, DRM_MASTER),
- 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_REVOKE_LEASE, drm_mode_revoke_lease_ioctl, DRM_MASTER),
-+	DRM_IOCTL_DEF(DRM_IOCTL_GET_RESET, drm_getreset, DRM_RENDER_ALLOW),
++	uint64_t			global_reset_counter;
++	uint64_t			local_reset_counter;
  };
  
- #define DRM_CORE_IOCTL_COUNT	ARRAY_SIZE(drm_ioctls)
-diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-index 7cf4afae2e79..fcd7b5d45cde 100644
---- a/include/drm/drm_device.h
-+++ b/include/drm/drm_device.h
-@@ -326,6 +326,9 @@ struct drm_device {
- 	 */
- 	struct list_head debugfs_list;
+ struct amdgpu_ctx_mgr {
+@@ -97,4 +100,6 @@ void amdgpu_ctx_mgr_fini(struct amdgpu_ctx_mgr *mgr);
+ void amdgpu_ctx_mgr_usage(struct amdgpu_ctx_mgr *mgr,
+ 			  ktime_t usage[AMDGPU_HW_IP_NUM]);
  
-+	/* Spoof device reset for testing */
-+	bool reset_spoof;
-+
- 	/* Everything below here is for legacy driver, never use! */
- 	/* private: */
- #if IS_ENABLED(CONFIG_DRM_LEGACY)
-diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-index 89e2706cac56..518a9db157fb 100644
---- a/include/drm/drm_drv.h
-+++ b/include/drm/drm_drv.h
-@@ -401,6 +401,9 @@ struct drm_driver {
- 			       struct drm_device *dev, uint32_t handle,
- 			       uint64_t *offset);
- 
-+	int (*get_reset)(struct drm_file *file_priv,
-+			 struct drm_device *dev, struct drm_get_reset *reset);
-+
- 	/**
- 	 * @show_fdinfo:
- 	 *
-diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-index a87bbbbca2d4..a84559aa0d77 100644
---- a/include/uapi/drm/drm.h
-+++ b/include/uapi/drm/drm.h
-@@ -1169,6 +1169,27 @@ extern "C" {
-  */
- #define DRM_IOCTL_MODE_GETFB2		DRM_IOWR(0xCE, struct drm_mode_fb_cmd2)
- 
-+/**
-+ * DRM_IOCTL_GET_RESET - Get information about device resets
-+ *
-+ * This operation requests from the device information about resets. It should
-+ * consider only resets that happens after the context is created, therefore,
-+ * the counter should be zero during context creation.
-+ *
-+ * dev_reset_count tells how many resets have happened on this device, and
-+ * ctx_reset_count tells how many of such resets were caused by this context.
-+ *
-+ * Flags can be used to tell if a reset is in progress, and userspace should
-+ * wait until it's not in progress anymore to be able to create a new context;
-+ * and to tell if the VRAM is considered lost. There's no safe way to clean this
-+ * flag so if a context see this flag set, it should be like that until the end
-+ * of the context.
-+ */
-+#define DRM_IOCTL_GET_RESET		DRM_IOWR(0xCF, struct drm_get_reset)
-+
-+#define DRM_RESET_IN_PROGRESS	0x1
-+#define DRM_RESET_VRAM_LOST	0x2
-+
- /*
-  * Device specific ioctls should only be in their respective headers
-  * The device specific ioctl range is from 0x40 to 0x9f.
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index 43691058d28f..c3257bd1af9c 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -1308,6 +1308,21 @@ struct drm_mode_rect {
- 	__s32 y2;
- };
- 
-+/**
-+ * struct drm_get_reset - Get information about a DRM device resets
-+ * @ctx_id: the context id to be queried about resets
-+ * @flags: flags
-+ * @dev_reset_count: global counter of resets for a given DRM device
-+ * @ctx_reset_count: of all the resets counted by this device, how many were
-+ * caused by this context.
-+ */
-+struct drm_get_reset {
-+	__u32 ctx_id;
-+	__u32 flags;
-+	__u64 dev_reset_count;
-+	__u64 ctx_reset_count;
-+};
-+
- #if defined(__cplusplus)
- }
++int amdgpu_get_reset(struct drm_file *file_priv, struct drm_device *dev,
++		     struct drm_get_reset *reset);
  #endif
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index c9a41c997c6c..431791b2c3cb 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -2805,6 +2805,7 @@ static const struct drm_driver amdgpu_kms_driver = {
+ #ifdef CONFIG_PROC_FS
+ 	.show_fdinfo = amdgpu_show_fdinfo,
+ #endif
++	.get_reset = amdgpu_get_reset,
+ 
+ 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+ 	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+index c3d9d75143f4..1553a2633d46 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+@@ -35,11 +35,20 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
+ {
+ 	struct amdgpu_ring *ring = to_amdgpu_ring(s_job->sched);
+ 	struct amdgpu_job *job = to_amdgpu_job(s_job);
++	struct drm_sched_entity *entity = job->base.entity;
+ 	struct amdgpu_task_info ti;
+ 	struct amdgpu_device *adev = ring->adev;
+ 	int idx;
+ 	int r;
+ 
++	memset(&ti, 0, sizeof(struct amdgpu_task_info));
++	amdgpu_vm_get_task_info(ring->adev, job->pasid, &ti);
++
++	if (job->ctx) {
++		DRM_INFO("Increasing ctx reset count for %s (%d)\n", ti.process_name, ti.pid);
++		job->ctx->local_reset_counter++;
++	}
++
+ 	if (!drm_dev_enter(adev_to_drm(adev), &idx)) {
+ 		DRM_INFO("%s - device unplugged skipping recovery on scheduler:%s",
+ 			 __func__, s_job->sched->name);
+@@ -48,7 +57,6 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
+ 		return DRM_GPU_SCHED_STAT_ENODEV;
+ 	}
+ 
+-	memset(&ti, 0, sizeof(struct amdgpu_task_info));
+ 	adev->job_hang = true;
+ 
+ 	if (amdgpu_gpu_recovery &&
+@@ -58,7 +66,6 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
+ 		goto exit;
+ 	}
+ 
+-	amdgpu_vm_get_task_info(ring->adev, job->pasid, &ti);
+ 	DRM_ERROR("ring %s timeout, signaled seq=%u, emitted seq=%u\n",
+ 		  job->base.sched->name, atomic_read(&ring->fence_drv.last_seq),
+ 		  ring->fence_drv.sync_seq);
+@@ -105,6 +112,7 @@ int amdgpu_job_alloc(struct amdgpu_device *adev, struct amdgpu_vm *vm,
+ 	 */
+ 	(*job)->base.sched = &adev->rings[0]->sched;
+ 	(*job)->vm = vm;
++	(*job)->ctx = NULL;
+ 
+ 	amdgpu_sync_create(&(*job)->explicit_sync);
+ 	(*job)->vram_lost_counter = atomic_read(&adev->vram_lost_counter);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h
+index 52f2e313ea17..0d463babaa60 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.h
+@@ -63,6 +63,8 @@ struct amdgpu_job {
+ 	uint32_t		oa_base, oa_size;
+ 	uint32_t		vram_lost_counter;
+ 
++	struct amdgpu_ctx	*ctx;
++
+ 	/* user fence handling */
+ 	uint64_t		uf_addr;
+ 	uint64_t		uf_sequence;
 -- 
 2.41.0
 
