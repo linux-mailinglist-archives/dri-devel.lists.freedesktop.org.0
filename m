@@ -2,67 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CDE17391DB
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 23:55:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6AC6739239
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 00:06:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1840910E356;
-	Wed, 21 Jun 2023 21:55:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A46E810E35C;
+	Wed, 21 Jun 2023 22:06:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE32010E356
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 21:55:09 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id
- 4fb4d7f45d1cf-51878f8e541so7567679a12.3
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 14:55:09 -0700 (PDT)
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
+ [IPv6:2607:f8b0:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70D3D10E35C
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 22:06:31 +0000 (UTC)
+Received: by mail-ot1-x333.google.com with SMTP id
+ 46e09a7af769-6b5f362f4beso5979a34.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 15:06:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=shruggie-ro.20221208.gappssmtp.com; s=20221208; t=1687384506; x=1689976506; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kRUDsn4e6Ks8YzmKCfn5h1mpk0f1GA6PVcpiiIMFAtA=;
- b=ryqDqOAnnAJv9G8ZbZBMXI5Qf+NLTe4Z9G/CWY3yA0+dio5cKumyowL69kJfe4FSZ4
- 3/YwzXdHBxwfWqgXBexKcev4SCbeY75p0+Quq+Bsmx0dkRqAKi2foN/NHk93KSSNpt2G
- 9valT+R/D0YupatdQ9mJ8e5ogQnivBeohbZwy6luFduk0m0SvbuZiIrjiL16lPrlLM2U
- MfxFXJLqzPuZB48nubuzvOwBk/aLqDI2j+FKXY3iB8oBsDhng/Hr87OGMFObUMd0MQdI
- SedfW0L6q9PhuH+pS1qiEl/qbActqTHvoDcdHM/LKVs+o4yDOGpAUSke/eC4IuFGqaGh
- C7gg==
+ d=gmail.com; s=20221208; t=1687385190; x=1689977190;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=JK0VrOChNls2gnXAPFXNlAkcfaLHX3qumvUvMuZb8fQ=;
+ b=HBT7aNvQ9/0lOZBGTU/aMMtPfSpX+gUV4x1qNSU/y1cNhwhauphSbs0iFmIfoJZE0T
+ 6sbuM1r9v5WAemGBX2UyyEAavocyO0wdp2G0bRBtzXp3X3stQzvqGUHydBmiVBP5ZBRQ
+ EFXcpSWNo30kWz2nwG8H++kcRJgqTZd3bkaYiJ6d802ovuXEKhJ8g1Jk5DIg4ZO7GwYV
+ xBDn/BYWSfDAwZnUfM4mS07iQdqnNScE/vcpiqYuM3UltJfGUYP3Zao84EYgXTV0wiH0
+ 0MGyp58MfUtTVdz3iAGkwoHHT2q5lX0utM/ycEV5IHgI5nC3614rZh3TDctMyxAGrXjA
+ odNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687384506; x=1689976506;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kRUDsn4e6Ks8YzmKCfn5h1mpk0f1GA6PVcpiiIMFAtA=;
- b=YXvvmsmOn1nSwepHVNZcoMR8rInDjAnQ5joA4C64jEEBJr5HGUV0TvMAXRV9KILphB
- 2lAQjhtefq0YAMF3VO6Die8J1jEBJVlB1vFzoklZ8ymGZO3sEJgHOPEjIan1MYjJ7KiS
- usic14xKLuyv8C6k8B9FyKiJVjKQg8yecNdkE4Is7z8W+mNx8uR3leujfyIDghD2MckI
- UF0pDGg8oxaFFILG1N+TBD6N2O7nYwgrIuImfxocFfPZgaAC+HJqwZfaOndPChRmEeCr
- ZKIA4lEaoqYBg0bsxevdTRS9ofqZVJHsfgum9X6DGIt15z6GKZ9+DUc2cwkzULTlWFhD
- hj0Q==
-X-Gm-Message-State: AC+VfDxtaJEGESoV/RwPrPf+CIY26azPnMJNX/k+MjHgGE6TOLa3JIci
- CYqBAr+sbmhUQHzayG1tuvlr+348Vv0ylSofAI1bSA==
-X-Google-Smtp-Source: ACHHUZ68KU6zeF4KhP/4rSB+WCwcso3Hz0SCmqZuTCSqxgmUfmsCgyUVJ5ghWnoL72nCuOtxLztz5A==
-X-Received: by 2002:aa7:c3cc:0:b0:51a:4b53:e3f9 with SMTP id
- l12-20020aa7c3cc000000b0051a4b53e3f9mr7987253edr.31.1687384506197; 
- Wed, 21 Jun 2023 14:55:06 -0700 (PDT)
-Received: from localhost.localdomain ([188.27.132.2])
+ d=1e100.net; s=20221208; t=1687385190; x=1689977190;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=JK0VrOChNls2gnXAPFXNlAkcfaLHX3qumvUvMuZb8fQ=;
+ b=VysrzwvjnwciZ0nx8/6uhKt5BTIQVDaN6cbNyl0Opr7pA3H95EF5Te9D625RPtqyq0
+ mX+Gsd2OjYNTTi4/Si5Yvkx8q7/shLKgEwKuRqyrm44bYykKffZgpuYSS986oxvyV0AX
+ B9fSgaL8fyPIcZkMUm6zX2hfor7Kdrk72ci8qX+C2jY4X4rVHTPFqVpn5yyn0EU3xOiW
+ EidXY66F9uycCVF40n/47xYXC8G9V/MlyvCZuINMWKh+tKQJI5Nu5j57dy6333xnH/GW
+ ABzg/mHkeb1RqXAJnFPVT+AYv1UP+aQ6cIa5YjH/eOileTGRDi/+1v0cj1nI92EBC6eQ
+ 7vfg==
+X-Gm-Message-State: AC+VfDyWkG2oUG2Rq5HY27UL8QmYWSJyKMCdDFQKq3gKjTGC8qQ5xjZz
+ gRUSoC48QesElzIQxKhzECo=
+X-Google-Smtp-Source: ACHHUZ6h3GpYT62+BblCthS6pKiZlBs3ZJNxN8ROaGRwulVHq+v+K7zceKJauT9/jXHC1ihF4HUPEw==
+X-Received: by 2002:a9d:6a54:0:b0:6b5:e151:baec with SMTP id
+ h20-20020a9d6a54000000b006b5e151baecmr1423495otn.14.1687385190363; 
+ Wed, 21 Jun 2023 15:06:30 -0700 (PDT)
+Received: from smeagol.fibertel.com.ar ([201.235.4.68])
  by smtp.gmail.com with ESMTPSA id
- d16-20020aa7d5d0000000b0051a358a76c9sm3115417eds.72.2023.06.21.14.55.05
+ v7-20020a9d7d07000000b006af8b60e2c3sm2288987otn.74.2023.06.21.15.06.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jun 2023 14:55:05 -0700 (PDT)
-From: Alexandru Ardelean <alex@shruggie.ro>
-To: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org
-Subject: [PATCH v2 2/2] backlight: gpio_backlight: add new property
- default-brightness-level
-Date: Thu, 22 Jun 2023 00:54:57 +0300
-Message-Id: <20230621215457.11297-2-alex@shruggie.ro>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230621215457.11297-1-alex@shruggie.ro>
-References: <20230621215457.11297-1-alex@shruggie.ro>
+ Wed, 21 Jun 2023 15:06:29 -0700 (PDT)
+From: =?UTF-8?q?Joaqu=C3=ADn=20Ignacio=20Aramend=C3=ADa?= <samsagax@gmail.com>
+To: maarten.lankhorst@linux.intel.com
+Subject: [PATCH 0/3] drm: panel-orientation-quirks: Add some quirks for 
+Date: Wed, 21 Jun 2023 19:06:12 -0300
+Message-ID: <20230621220615.1253571-1-samsagax@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,60 +71,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.thompson@linaro.org, pavel@ucw.cz, jingoohan1@gmail.com,
- deller@gmx.de, lee@kernel.org, conor+dt@kernel.org,
- Alexandru Ardelean <alex@shruggie.ro>, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, Yannick Fertre <yannick.fertre@foss.st.com>
+Cc: tzimmermann@suse.de, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, mripard@kernel.org,
+ =?UTF-8?q?Joaqu=C3=ADn=20Ignacio=20Aramend=C3=ADa?= <samsagax@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yannick Fertre <yannick.fertre@foss.st.com>
+Add quirks for AYA NEO devices:
+- 2
+- GEEK
+- Founder
 
-Add new property to set a brightness by default at probe.
+The quirks have been tested by the JELOS team that has been patching their
+own kernel for a while now and confirmed by users in the AYA NEO and
+ChimeraOS discord servers.
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
-Signed-off-by: Alexandru Ardelean <alex@shruggie.ro>
----
+Joaquín Ignacio Aramendía (3):
+  drm: panel-orientation-quirks: Add quirk for AYA NEO 2 model
+  drm: panel-orientation-quirks: Add quirk for AYA NEO Founder edition
+  drm: panel-orientation-quirks: Add quirk for AYA NEO GEEK
 
-Link to original patch:
-  https://github.com/STMicroelectronics/linux/commit/c4067d7bd883c6fa14ffd49892c4ce663cdafe98
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-Changelog v1 -> v2:
-* https://lore.kernel.org/dri-devel/20230519200520.10657-1-alex@shruggie.ro/
-* removed 'Reviewed-by: Philippe CORNU <philippe.cornu@foss.st.com>' as
-  requested
-* patch is now second patch of 2 (was first in series)
-* added 'Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>'
-
- drivers/video/backlight/gpio_backlight.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/video/backlight/gpio_backlight.c b/drivers/video/backlight/gpio_backlight.c
-index 6f78d928f054..d3fa3a8bef4d 100644
---- a/drivers/video/backlight/gpio_backlight.c
-+++ b/drivers/video/backlight/gpio_backlight.c
-@@ -53,6 +53,7 @@ static int gpio_backlight_probe(struct platform_device *pdev)
- 	struct backlight_device *bl;
- 	struct gpio_backlight *gbl;
- 	int ret, init_brightness, def_value;
-+	u32 value;
- 
- 	gbl = devm_kzalloc(dev, sizeof(*gbl), GFP_KERNEL);
- 	if (gbl == NULL)
-@@ -93,7 +94,11 @@ static int gpio_backlight_probe(struct platform_device *pdev)
- 	else
- 		bl->props.power = FB_BLANK_UNBLANK;
- 
--	bl->props.brightness = 1;
-+	ret = device_property_read_u32(dev, "default-brightness-level", &value);
-+	if (!ret && value <= props.max_brightness)
-+		bl->props.brightness = value;
-+	else
-+		bl->props.brightness = 1;
- 
- 	init_brightness = backlight_get_brightness(bl);
- 	ret = gpiod_direction_output(gbl->gpiod, init_brightness);
 -- 
-2.40.1
+2.41.0
 
