@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A022F7386B6
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 16:21:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDD387386DA
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 16:25:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DAB510E497;
-	Wed, 21 Jun 2023 14:21:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AF2310E498;
+	Wed, 21 Jun 2023 14:25:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1237710E497
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 14:21:29 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 508096606F94;
- Wed, 21 Jun 2023 15:21:28 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1687357288;
- bh=EdzlLtSDJcVYdpNEfOFGw7sk81LSueECG7Is1nZmO4s=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Bm8sNZqVMmuBJVvy53nWGRJ0Fc3CtnBXhxHftSHmB5/soF6wx+tDFgKjMbzF0yVZw
- CHXqi7vmCVFS9e4HXfF2ijhXeyNhVOr/+DCX+sDJrvC+K3ravAVHI/qOrFv1VURAbF
- oBgu9o79+Dz7NWX0kFWdUjbFh7Q9GBg6yn3y0fldqUfRre/rgKKqpCGyluC0Ev+UD2
- tqWOlI6v9V/MGlcsKEPLirjzdWF25qVtSiqaFVKRrOAtgK02N03lE53B9RJbz9/cNW
- FD1+pQHDk1PmzxOsS3ISoXvwo+JoadITwdKW/BIAfQouPdOM44td6QALB1PIjkn6pl
- 7T4ny3y/s8SiQ==
-Date: Wed, 21 Jun 2023 16:21:25 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: [PATCH] drm/sched: Call drm_sched_fence_set_parent() from
- drm_sched_fence_scheduled()
-Message-ID: <20230621162125.1fa29793@collabora.com>
-In-Reply-To: <7333ddbd-6444-a6d5-73b2-4d1648ec4cec@amd.com>
-References: <20230613094424.2176746-1-boris.brezillon@collabora.com>
- <20230613114611.11402411@collabora.com>
- <7333ddbd-6444-a6d5-73b2-4d1648ec4cec@amd.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Received: from sipsolutions.net (s3.sipsolutions.net
+ [IPv6:2a01:4f8:191:4433::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7680A10E498;
+ Wed, 21 Jun 2023 14:25:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+ Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+ Resent-Cc:Resent-Message-ID; bh=y8KezyLc/DUW29gVzDAPim1rZ/zbq0krh1pHlYpx9Jc=; 
+ t=1687357522; x=1688567122; b=EhrdKum2HyOUfkWnDEKePBZ9zQB+RHIhNjCJcyj5oaYPU19
+ khn6xt+qwrBAzilaQ0ZZ5aZ3TS+IByPzdyP6BOtapZpwNGE8u9GU1ssAnB6rued3TZVIlymchsxVJ
+ culkl6J1yA6u4cBHOgAWgX5lPbyYP9IOKF+YeBkTcbwsnCI4fH2SoGdI9C3WlM81XmbgaJ1DK4+f7
+ vxuI7s0KH0wjhaRhEPiW4ru9hjuei88HGDFUeXDKep0Bt7npw34tlBJezc9wmHpfhaLepvG2f9DKi
+ 8ISdA6l4tQJLiTP9nlbHRQJvOpoZT0QNSlqehD5/gqg6L7Nsj+3GFTnreWTTc7hQ==;
+Received: by sipsolutions.net with esmtpsa
+ (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+ (Exim 4.96) (envelope-from <johannes@sipsolutions.net>)
+ id 1qByln-00Dhei-0G; Wed, 21 Jun 2023 16:25:15 +0200
+Message-ID: <9214266bf969207df60fdbde0157a0a5982bd2e0.camel@sipsolutions.net>
+Subject: Re: [PATCH V4 3/8] wifi: mac80211: Add support for ACPI WBRF
+From: Johannes Berg <johannes@sipsolutions.net>
+To: "Limonciello, Mario" <mario.limonciello@amd.com>, Evan Quan
+ <evan.quan@amd.com>, "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 21 Jun 2023 16:25:13 +0200
+In-Reply-To: <9fdcd5a6-5315-b4d8-1662-30bfc6cb67d8@amd.com>
+References: <20230621054603.1262299-1-evan.quan@amd.com>
+ <20230621054603.1262299-4-evan.quan@amd.com>
+ <3eb2c16cb0692c8d6b03bd57cb049b1fb3457e92.camel@sipsolutions.net>
+ <9fdcd5a6-5315-b4d8-1662-30bfc6cb67d8@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
+MIME-Version: 1.0
+X-malware-bazaar: not-scanned
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,38 +55,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sarah Walker <sarah.walker@imgtec.com>, dri-devel@lists.freedesktop.org,
- Luben Tuikov <luben.tuikov@amd.com>, Donald Robson <donald.robson@imgtec.com>,
- Sumit Semwal <sumit.semwal@linaro.org>
+Cc: jingyuwang_vip@163.com, bellosilicio@gmail.com, trix@redhat.com,
+ lijo.lazar@amd.com, dri-devel@lists.freedesktop.org, edumazet@google.com,
+ amd-gfx@lists.freedesktop.org, linux-acpi@vger.kernel.org, mdaenzer@redhat.com,
+ kuba@kernel.org, pabeni@redhat.com, lenb@kernel.org, andrealmeid@igalia.com,
+ arnd@arndb.de, hdegoede@redhat.com, netdev@vger.kernel.org, Xinhui.Pan@amd.com,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ christian.koenig@amd.com, tzimmermann@suse.de, alexander.deucher@amd.com,
+ davem@davemloft.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
-
-On Tue, 13 Jun 2023 13:06:06 +0200
-Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
-
-> Am 13.06.23 um 11:46 schrieb Boris Brezillon:
-> > On Tue, 13 Jun 2023 11:44:24 +0200
-> > Boris Brezillon <boris.brezillon@collabora.com> wrote:
-> > =20
-> >> Drivers that can delegate waits to the firmware/GPU pass the scheduled
-> >> fence to drm_sched_job_add_dependency(), and issue wait commands to
-> >> the firmware/GPU at job submission time. For this to be possible, they
-> >> need all their 'native' dependencies to have a valid parent since this
-> >> is where the actual HW fence information are encoded.
-> >>
-> >> In drm_sched_main(), we currently call drm_sched_fence_set_parent()
-> >> after drm_sched_fence_set_parent(), leaving a short period of time =20
-> > after drm_sched_fence_scheduled(), ... =20
+On Wed, 2023-06-21 at 09:12 -0500, Limonciello, Mario wrote:
+> >=20
+> > But then the next question anyway is how we merge this? The wifi parts
+> > sort of depend on the first patch, although technically I guess I could
+> > merge them since it's all hidden behind the CONFIG_ symbol, assuming yo=
+u
+> > get that in via some other tree it can combine upstream.
+> >=20
+> > I'd also say you can merge those parts elsewhere but I'm planning to
+> > also land some locking rework that I've been working on, so it will
+> > probably conflict somewhere.
+> Since it's all gated by CONFIG_ACPI_WBRF for each subsystem that it touch=
+es,
+> my take is that we should merge like this:
 >=20
-> I was just about to complain, but yeah sounds like the right idea to me.
+> 1) Get A-b/R-b on patch 1 (ACPI patch) from Rafael.
+> 2) Merge mac80211 bits through WLAN trees
+> 3) Merge AMDGPU bits *and* ACPI bits through amd-staging-drm-next=20
+> followed by drm tree
 >=20
-> Just let me review the patch in more detail.
+> Since WLAN and AMDGPU bits are using the exported ACPI functions from
+> patch 1, we need to make sure that it is accepted and won't change
+> interface before merging other bits.
 
-Did you have time to look at this patch in more detail? Should I send a
-v2 fixing the mistake in the commit message?
+Right.
 
-Regards,
+> Everything can come together in the upstream tree and the bots
+> will be able to test linux-next as well this way.
 
-Boris
+Yeah, that's what I thought.
+
+Sounds good to me!
+
+Oh, also, since it's pretty late in the cycle I'm assuming for now that
+you're not aiming this for 6.5 anymore. If you still are, it all would
+probably need to happen very quickly.
+
+johannes
