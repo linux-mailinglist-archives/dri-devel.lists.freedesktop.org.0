@@ -1,74 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4BA1739262
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 00:18:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB0B1739265
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 00:20:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 346C010E367;
-	Wed, 21 Jun 2023 22:18:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0405510E043;
+	Wed, 21 Jun 2023 22:20:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93A8110E367
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 22:18:16 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id
- 2adb3069b0e04-4f8792d2e86so4157691e87.1
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 15:18:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687385894; x=1689977894;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=zyWuSVMXh2Y/fSXjuElkXOGDHtemipt9fq/ZZgliCDQ=;
- b=y8vrACxzMcCef2j1eZMvyDCcR4g1WySOtRYSYJyZqwUKM4+gk+I3LPSGmrGtyQtqtw
- MvYjd6Ib3r6rZHSZMSh2yH4aFQ2E5lARS+WYZhB25P8fxa7ICZ4Qgkd4Pp8w9bXLnyho
- +ar+OFjHQwc86zWWpU8XRSIiyeaCC4yhtSx+qG3huWbBmuVl8wB9vQhzdp1pbIiG7gFR
- TNBjkEBdyO4mDXxeWtkUcajbdQUpSFA5Ry9I0WU8whd+wL7QnnRihow0MxwPSsiGzE4E
- u55FKvTNWFZz8Mtwv8f/FtYsbWr82ukB4r4QkAHYfcfIxQRRWxoxf58G1LJNcR1LfFcG
- 4hFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687385894; x=1689977894;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zyWuSVMXh2Y/fSXjuElkXOGDHtemipt9fq/ZZgliCDQ=;
- b=ap9tmbmGbNFcbGUMI6w4R2NvA1llJlMwinOTGvuv/ZP+/EUw+zO57AEJ6CtvU9kt+v
- 5BMRBZsDGgke6vh6XxY11LRnk/o+ecDFAeQEFAsjw1FgAcW+OYw3P3k9PN4swaZ9AOvK
- EEw8fUrAzsY3egBsMX7n1dDnlH6SywU9QV/kZzm4XXEnWVb7c4de6vAUoht5OUi9C0if
- KpnSPMC+GOx4KjTXgrj5Fk2Xa68uUGwZWBKZqXvVFDe3bndV79M5aoKdnxFNllYUO9K5
- 6cioz3tgEV3WzvS/jhlJAkIK5WJmPG9mT23jGt9Oej1ULol6kFH5zCYsc1vmHCvQs6LG
- xkoA==
-X-Gm-Message-State: AC+VfDy614jG+z+UXIbFF9BgRKmdvbbtRHRMSTVhMOG9CzfiwztuNPNF
- Z2PBUn+Y2TCVM1VvOU+kMcSW8A==
-X-Google-Smtp-Source: ACHHUZ5Si4dCWNPr03XUSarW8gCPbkN/erz8YhdBHCibOFkHWzUSZhPV12IA2841vnOqzTcqJaHntg==
-X-Received: by 2002:ac2:4988:0:b0:4f9:535e:cdca with SMTP id
- f8-20020ac24988000000b004f9535ecdcamr4407924lfl.7.1687385894197; 
- Wed, 21 Jun 2023 15:18:14 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- h16-20020ac25970000000b004f85858e52dsm893503lfp.138.2023.06.21.15.18.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Jun 2023 15:18:13 -0700 (PDT)
-Message-ID: <c05a9a02-0a33-6160-9072-717efe30031a@linaro.org>
-Date: Thu, 22 Jun 2023 01:18:13 +0300
+Received: from sipsolutions.net (s3.sipsolutions.net
+ [IPv6:2a01:4f8:191:4433::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2887D10E043;
+ Wed, 21 Jun 2023 22:20:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+ Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+ Resent-Cc:Resent-Message-ID; bh=cP+HR2GmRZPnSeQ8lcOfEZ7k5nuBFTrLSVTHUrZopt8=; 
+ t=1687385999; x=1688595599; b=R+ow3AIvq+FmawzeeFHUCuvs41WuRIqQOiv7K3FsJmTHojh
+ Nn0n7i/X7nDswf2+FdnuP0dM6EwqopMOioCrMG6ZwCXrEm5QFBRA0t7PwflIniwuO89Tc4P0z20oG
+ odLRF9j+WoZqOTgYc53c6RmjzkMFvK4PPYl04WucdFjHgipmtlprVGR4WROVoEpwGoJgoCMn1APFA
+ Iq8sMeJ8ZJPh3EU6fURJfmDK5CSWLsHBa3qYKZL7gthV6x/hfCecLuIOhkDkNweCEqmD6vtvnC9vX
+ dje1UMcK0yQskAdKPIOtStbMYw9Y7E64eqbbkjs1OR5BycsbLqd7ZQOX6/0PRcBg==;
+Received: by sipsolutions.net with esmtpsa
+ (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+ (Exim 4.96) (envelope-from <johannes@sipsolutions.net>)
+ id 1qC6AD-00Duer-15; Thu, 22 Jun 2023 00:18:58 +0200
+Message-ID: <3e337dc0482e16e2aaa4090b613dc8dea7803fa8.camel@sipsolutions.net>
+Subject: Re: [PATCH V4 1/8] drivers/acpi: Add support for Wifi band RF
+ mitigations
+From: Johannes Berg <johannes@sipsolutions.net>
+To: Andrew Lunn <andrew@lunn.ch>, "Limonciello, Mario"
+ <mario.limonciello@amd.com>
+Date: Thu, 22 Jun 2023 00:18:53 +0200
+In-Reply-To: <08dd8d17-6825-4e53-8441-85c709326f48@lunn.ch>
+References: <20230621054603.1262299-2-evan.quan@amd.com>
+ <3a7c8ffa-de43-4795-ae76-5cd9b00c52b5@lunn.ch>
+ <216f3c5aa1299100a0009ddf4e95b019855a32be.camel@sipsolutions.net>
+ <b1abec47-04df-4481-d680-43c5ff3cbb48@amd.com>
+ <36902dda-9e51-41b3-b5fc-c641edf6f1fb@lunn.ch>
+ <33d80292-e639-91d0-4d0f-3ed973f89e14@amd.com>
+ <9159c3a5-390f-4403-854d-9b5e87b58d8c@lunn.ch>
+ <a80c215a-c1d9-4c76-d4a8-9b5fd320a2b1@amd.com>
+ <8d3340de-34f6-47ad-8024-f6f5ecd9c4bb@lunn.ch>
+ <07ad6860-8ffb-cc6c-a8e5-e8dc4db4e87a@amd.com>
+ <08dd8d17-6825-4e53-8441-85c709326f48@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v9 2/2] dt-bindings: msm: dsi-controller-main: Document
- clocks on a per compatible basis
-Content-Language: en-GB
-To: Marijn Suijten <marijn.suijten@somainline.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-References: <20230118171621.102694-1-bryan.odonoghue@linaro.org>
- <20230118171621.102694-3-bryan.odonoghue@linaro.org>
- <qew6nd3jqnasb3mivvdxcwugfrvxdeafilaxk35v7uihagk2qi@oxe3oqdgfwpe>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <qew6nd3jqnasb3mivvdxcwugfrvxdeafilaxk35v7uihagk2qi@oxe3oqdgfwpe>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-malware-bazaar: not-scanned
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,134 +63,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, andersson@kernel.org,
- konrad.dybcio@somainline.org, quic_abhinavk@quicinc.com, david@ixit.cz,
- dianders@chromium.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- robh+dt@kernel.org, agross@kernel.org, swboyd@chromium.org, sean@poorly.run,
- linux-kernel@vger.kernel.org
+Cc: jingyuwang_vip@163.com, bellosilicio@gmail.com, rafael@kernel.org,
+ trix@redhat.com, lijo.lazar@amd.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, mdaenzer@redhat.com,
+ amd-gfx@lists.freedesktop.org, linux-acpi@vger.kernel.org, kuba@kernel.org,
+ pabeni@redhat.com, lenb@kernel.org, andrealmeid@igalia.com, arnd@arndb.de,
+ hdegoede@redhat.com, Evan Quan <evan.quan@amd.com>, netdev@vger.kernel.org,
+ Xinhui.Pan@amd.com, linux-wireless@vger.kernel.org, edumazet@google.com,
+ christian.koenig@amd.com, tzimmermann@suse.de, alexander.deucher@amd.com,
+ davem@davemloft.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/06/2023 00:45, Marijn Suijten wrote:
-> Hi!
-> 
-> On 2023-01-18 17:16:21, Bryan O'Donoghue wrote:
->> Each compatible has a different set of clocks which are associated with it.
->> Add in the list of clocks for each compatible.
-> 
-> So if each set of compatibles have their own unique set of clocks, is
-> there a reason to have so many duplicate then: blocks?  I ran into this
-> while preparing for submitting SM6125 DPU and having no clue where to
-> add it.
-> 
->> Acked-by: Rob Herring <robh@kernel.org>
->> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->> ---
->>   .../display/msm/dsi-controller-main.yaml      | 218 ++++++++++++++++--
->>   1 file changed, 201 insertions(+), 17 deletions(-)
->>
+On Wed, 2023-06-21 at 21:25 +0200, Andrew Lunn wrote:
+> > ACPI core does has notifiers that are used, but they don't work the sam=
+e.
+> > If you look at patch 4, you'll see amdgpu registers and unregisters usi=
+ng
+> > both
+> >=20
+> > acpi_install_notify_handler()
+> > and
+> > acpi_remove_notify_handler()
+> >=20
+> > If we supported both ACPI notifications and non-ACPI notifications
+> > all consumers would have to have support to register and use both types=
+.
+>=20
+> Why would you want to support ACPI notifications and non-ACPI
+> notifications? All you need is wbrf notification.
+>=20
+> The new wbrf.c should implement wbrf_install_notify_handler() and
+> wbrf_remove_notify_handler().
+>=20
+> As to where to put wbrf.c? I guess either drivers/base/ or
+> drivers/wbrf/. Maybe ask GregKH?
 
-[skipped most of the comments]
+Not sure it should even be called WBRF at that point, but hey :)
 
-> 
->> +
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            enum:
->> +              - qcom,sc7180-dsi-ctrl
->> +              - qcom,sc7280-dsi-ctrl
->> +              - qcom,sm8250-dsi-ctrl
->> +              - qcom,sm8150-dsi-ctrl
->> +              - qcom,sm8250-dsi-ctrl
->> +              - qcom,sm8350-dsi-ctrl
->> +              - qcom,sm8450-dsi-ctrl
->> +              - qcom,sm8550-dsi-ctrl
->> +    then:
->> +      properties:
->> +        clocks:
->> +          maxItems: 6
->> +        clock-names:
->> +          items:
->> +            - const: byte
->> +            - const: byte_intf
->> +            - const: pixel
->> +            - const: core
->> +            - const: iface
->> +            - const: bus
-> 
-> ... and here ...
-> 
->> +
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            enum:
->> +              - qcom,sdm660-dsi-ctrl
->> +    then:
->> +      properties:
->> +        clocks:
->> +          maxItems: 9
->> +        clock-names:
->> +          items:
->> +            - const: mdp_core
->> +            - const: byte
->> +            - const: byte_intf
->> +            - const: mnoc
->> +            - const: iface
->> +            - const: bus
->> +            - const: core_mmss
->> +            - const: pixel
->> +            - const: core
->> +
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            enum:
->> +              - qcom,sdm845-dsi-ctrl
->> +    then:
->> +      properties:
->> +        clocks:
->> +          maxItems: 6
->> +        clock-names:
->> +          items:
->> +            - const: byte
->> +            - const: byte_intf
->> +            - const: pixel
->> +            - const: core
->> +            - const: iface
->> +            - const: bus
-> 
-> and here, we have *three* identical lists of clocks.  Should they (have
-> been) combined?
-> 
-> I can send a patch fixing these all if desired!
+Honestly I'm not sure though we need this complexity right now? I mean,
+it'd be really easy to replace the calls in mac80211 with some other
+more generalised calls in the future?
 
-Probably it would be logical to split follow DPU and MDSS schema and 
-split this file into per-SoC compatibles and a generic file. Then it 
-would be easier to review different SoC parts.
+You need some really deep platform/hardware level knowledge and
+involvement to do this, so I don't think it's something that someone
+will come up with very easily for a DT-based platform...
 
-Regarding reordering of clocks. I think we have 5 different 
-configurations in dsi_cfg.c, but we definitely can optimize the schema.
+If we do something with a notifier chain in the future, we can just
+install one in the ACPI code too, and react indirectly rather than
+calling from wifi to the ACPI directly.
 
-> 
-> - Marijn
-> 
->> +
->>   additionalProperties: false
->>   
->>   examples:
->> -- 
->> 2.38.1
->>
-
--- 
-With best wishes
-Dmitry
-
+johannes
