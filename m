@@ -2,59 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BFF1738A05
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 17:44:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03F3E738A2E
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 17:54:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48C6910E250;
-	Wed, 21 Jun 2023 15:44:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3392310E08F;
+	Wed, 21 Jun 2023 15:54:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc31.google.com (mail-oo1-xc31.google.com
- [IPv6:2607:f8b0:4864:20::c31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7776F10E24F;
- Wed, 21 Jun 2023 15:44:51 +0000 (UTC)
-Received: by mail-oo1-xc31.google.com with SMTP id
- 006d021491bc7-55e04a83465so3993075eaf.3; 
- Wed, 21 Jun 2023 08:44:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687362290; x=1689954290;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ozXF5QIPe1h+vTDy7+nqY7ReNgmMUT8yQHedMlExsqQ=;
- b=B6q3aqfsPvCtD6I1EKY7FGkAP1IAfDBy0IB59BtxMekq1+pdzMjca+BYmKY+a1rbii
- Tvrv9kIz1mgfXzfXBu8laMOXPS5q2x2VQkP94vz8wIgKOjAkC4EmkzszXhAksKk7JHPl
- W42mGUjRoyvGsy+5faSFq5RqvPUb8VC/+W/tof6HonyDKrc8bKUHrw538rYgUpLe86mD
- AcCkC89qcSJGK44bOmXZL444RtnuwDLRzvKStmMbsuhZqlT2ForinTBQdsnPe9WGEK1Q
- TMdVH9WaM0ltJ0EgA2n3aE4YrzG8/3pbf+fZJHNQ6nfolSDtFReuItWXHKdM0Chtn92P
- cdSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687362290; x=1689954290;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ozXF5QIPe1h+vTDy7+nqY7ReNgmMUT8yQHedMlExsqQ=;
- b=bZMe54sLBWNP3uU+2vEuxJgK8DCcy1wAIsY2aYPGI8zyq9jE3I1ADj/lyqb79jPv/u
- 3s2ycP7CNDlHnhsWYK8ncCzuGztn7CHP8qA03VHTt0tobvwpcI/V23sjJNMkoAkWKUZG
- T71PplDQ+UmM5vTEEk14dRjg3IwhrvYw5/pC24s1SR1i5A9LtxywP/xnTCJtkEKcnhfO
- MiFxbxbE0P4iwiGHZmHp6fV83xNkxJNrWedhlXl4RHEXmpv0Z+wmdH0nnppgRA1J/io/
- Jau//pX7wmiCyfWkpLS7S/z0dkPTUxos6P04nkhQrIK+ctJv++vlpoHJ31/6peLIqcsZ
- fL7Q==
-X-Gm-Message-State: AC+VfDyAK/7yrQxVKu6MD8bF6e8NkI9K1lw3lktJpVcO2sA2a9IXsV9q
- sNjewqe2drvRuDLrYQP6GV9bFZQHmwFnTLl1f3M=
-X-Google-Smtp-Source: ACHHUZ6MMasdZGe8avriMkCRAA4vq9bezLA8BF/DF0gX9sLhxP9GEKELAcWm7MxrptZ2l5Fo4IaPyaKHH2ceg49ChWw=
-X-Received: by 2002:a4a:a645:0:b0:560:b1ce:7025 with SMTP id
- j5-20020a4aa645000000b00560b1ce7025mr1342917oom.0.1687362290047; Wed, 21 Jun
- 2023 08:44:50 -0700 (PDT)
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CB8D410E08F;
+ Wed, 21 Jun 2023 15:54:48 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8AxR8VHHZNksS4AAA--.344S3;
+ Wed, 21 Jun 2023 23:54:47 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8BxrM5GHZNk7+EAAA--.5168S3; 
+ Wed, 21 Jun 2023 23:54:46 +0800 (CST)
+Message-ID: <3911d448-5613-23a8-cfcb-5ae418677338@loongson.cn>
+Date: Wed, 21 Jun 2023 23:54:46 +0800
 MIME-Version: 1.0
-References: <20230414143810.572237-1-l.stach@pengutronix.de>
- <CAH9NwWfAuyLenoQHHdSZb2O87HHxu53JziL6Ro05F6yHdnZ+8A@mail.gmail.com>
-In-Reply-To: <CAH9NwWfAuyLenoQHHdSZb2O87HHxu53JziL6Ro05F6yHdnZ+8A@mail.gmail.com>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Wed, 21 Jun 2023 17:44:38 +0200
-Message-ID: <CAH9NwWcf9tYG9Ua_b-TvvQHRY-j_VsAtGdkPBqwh4KH37B2qjQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: fix dumping of active MMU context
-To: Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v10 07/11] drm/etnaviv: Add support for the dma coherent
+ device
+Content-Language: en-US
+To: Lucas Stach <l.stach@pengutronix.de>, Sui Jingfeng <18949883232@163.com>, 
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230620094716.2231414-1-18949883232@163.com>
+ <20230620094716.2231414-8-18949883232@163.com>
+ <8f74f0962c8bab6c832919a5340667c54e1a7ddc.camel@pengutronix.de>
+ <2249b895-84b9-adea-531b-bf190e9c866f@loongson.cn>
+ <030d44e2753b9b2eea0107cdee6c20e2bc2d3efe.camel@pengutronix.de>
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <030d44e2753b9b2eea0107cdee6c20e2bc2d3efe.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8BxrM5GHZNk7+EAAA--.5168S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxAr43uw1kurW5AFyrZr18Zwc_yoW5XFy7pF
+ W3tFWakrWDXrWIkwn2vr4rZFyaqrWSkr15ZFn5J34Yy3s8ta9xGF48KFWUuF9xWw1fWr4a
+ y3yUtFy3Cas8ArXCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUU9lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
+ Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE
+ 14v26r4UJVWxJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2
+ xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xF
+ xVAFwI0_Wrv_ZF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWw
+ C2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_
+ Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJV
+ WUCwCI42IY6I8E87Iv67AKxVW8Jr0_Cr1UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4U
+ JbIYCTnIWIevJa73UjIFyTuYvjxU7NtxDUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,97 +72,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, patchwork-lst@pengutronix.de,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lucas,
+Hi,
 
-Am Mo., 17. Apr. 2023 um 19:42 Uhr schrieb Christian Gmeiner
-<christian.gmeiner@gmail.com>:
+On 2023/6/21 23:33, Lucas Stach wrote:
+> Am Mittwoch, dem 21.06.2023 um 23:00 +0800 schrieb Sui Jingfeng:
+>> On 2023/6/21 18:00, Lucas Stach wrote:
+>>>>    static inline enum dma_data_direction etnaviv_op_to_dma_dir(u32 op)
+>>>> @@ -369,6 +381,7 @@ int etnaviv_gem_cpu_prep(struct drm_gem_object *obj, u32 op,
+>>>>    {
+>>>>    	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
+>>>>    	struct drm_device *dev = obj->dev;
+>>>> +	struct etnaviv_drm_private *priv = dev->dev_private;
+>>>>    	bool write = !!(op & ETNA_PREP_WRITE);
+>>>>    	int ret;
+>>>>    
+>>>> @@ -395,7 +408,7 @@ int etnaviv_gem_cpu_prep(struct drm_gem_object *obj, u32 op,
+>>>>    			return ret == 0 ? -ETIMEDOUT : ret;
+>>>>    	}
+>>>>    
+>>>> -	if (etnaviv_obj->flags & ETNA_BO_CACHED) {
+>>>> +	if (!priv->dma_coherent && etnaviv_obj->flags & ETNA_BO_CACHED) {
+>>> Why do you need this? Isn't dma_sync_sgtable_for_cpu a no-op on your
+>>> platform when the device is coherent?
+>>>
+>> I need this to show that our hardware is truly dma-coherent!
+>>
+>> I have tested that the driver still works like a charm without adding
+>> this code '!priv->dma_coherent'.
+>>
+>>
+>> But I'm expressing the idea that a truly dma-coherent just device don't
+>> need this.
+>>
+>> I don't care if it is a no-op.
+>>
+>> It is now, it may not in the future.
+> And that's exactly the point. If it ever turns into something more than
+> a no-op on your platform, then that's probably for a good reason and a
+> driver should not assume that it knows better than the DMA API
+> implementation what is or is not required on a specific platform to
+> make DMA work.
 >
-> Hi Lucas
->
-> >
-> > gpu->mmu_context is the MMU context of the last job in the HW queue, which
-> > isn't necessarily the same as the context from the bad job. Dump the MMU
-> > context from the scheduler determined bad submit to make it work as intended.
-> >
->
-> Good catch!
->
+>> Even it is, the overhead of function call itself still get involved.
+>>
+> cpu_prep/fini aren't total fast paths, you already synchronized with
+> the GPU here, potentially waiting for jobs to finish, etc. If your
+> platform no-ops this then the function call will be in the noise.
+>   
+>> Also, we want to try flush the write buffer with the CPU manually.
+>>
+>>
+>> Currently, we want the absolute correctness in the concept,
+>>
+>> not only the rendering results.
+> And if you want absolute correctness then calling dma_sync_sgtable_* is
+> the right thing to do, as it can do much more than just manage caches.
 
-I think this patch did not land yet. Do you have plans to add it to
-etnaviv/next?
+For our hardware, cached mapping don't need calling dma_sync_sgtable_*.
 
-> > Fixes: 17e4660ae3d7 ("drm/etnaviv: implement per-process address spaces on MMUv2")
-> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
->
-> Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
->
-> > ---
-> >  drivers/gpu/drm/etnaviv/etnaviv_dump.c | 14 +++++++-------
-> >  1 file changed, 7 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_dump.c b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
-> > index 44b5f3c35aab..898f84a0fc30 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_dump.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_dump.c
-> > @@ -130,9 +130,9 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
-> >                 return;
-> >         etnaviv_dump_core = false;
-> >
-> > -       mutex_lock(&gpu->mmu_context->lock);
-> > +       mutex_lock(&submit->mmu_context->lock);
-> >
-> > -       mmu_size = etnaviv_iommu_dump_size(gpu->mmu_context);
-> > +       mmu_size = etnaviv_iommu_dump_size(submit->mmu_context);
-> >
-> >         /* We always dump registers, mmu, ring, hanging cmdbuf and end marker */
-> >         n_obj = 5;
-> > @@ -162,7 +162,7 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
-> >         iter.start = __vmalloc(file_size, GFP_KERNEL | __GFP_NOWARN |
-> >                         __GFP_NORETRY);
-> >         if (!iter.start) {
-> > -               mutex_unlock(&gpu->mmu_context->lock);
-> > +               mutex_unlock(&submit->mmu_context->lock);
-> >                 dev_warn(gpu->dev, "failed to allocate devcoredump file\n");
-> >                 return;
-> >         }
-> > @@ -174,18 +174,18 @@ void etnaviv_core_dump(struct etnaviv_gem_submit *submit)
-> >         memset(iter.hdr, 0, iter.data - iter.start);
-> >
-> >         etnaviv_core_dump_registers(&iter, gpu);
-> > -       etnaviv_core_dump_mmu(&iter, gpu->mmu_context, mmu_size);
-> > +       etnaviv_core_dump_mmu(&iter, submit->mmu_context, mmu_size);
-> >         etnaviv_core_dump_mem(&iter, ETDUMP_BUF_RING, gpu->buffer.vaddr,
-> >                               gpu->buffer.size,
-> >                               etnaviv_cmdbuf_get_va(&gpu->buffer,
-> > -                                       &gpu->mmu_context->cmdbuf_mapping));
-> > +                                       &submit->mmu_context->cmdbuf_mapping));
-> >
-> >         etnaviv_core_dump_mem(&iter, ETDUMP_BUF_CMD,
-> >                               submit->cmdbuf.vaddr, submit->cmdbuf.size,
-> >                               etnaviv_cmdbuf_get_va(&submit->cmdbuf,
-> > -                                       &gpu->mmu_context->cmdbuf_mapping));
-> > +                                       &submit->mmu_context->cmdbuf_mapping));
-> >
-> > -       mutex_unlock(&gpu->mmu_context->lock);
-> > +       mutex_unlock(&submit->mmu_context->lock);
-> >
-> >         /* Reserve space for the bomap */
-> >         if (n_bomap_pages) {
-> > --
-> > 2.39.2
-> >
+This is the the right thing to do. The hardware already guarantee it for 
+use.
 
 
+We may only want to call it for WC mapping BO,  please don't tangle all 
+of this together.
+
+We simply want to do the right thing.
+
+> Right now it also provides SWIOTLB translation if needed.
+
+SWIOTLB introduce the bounce buffer, slower the performance.
+
+We don't need it. It should be avoid.
+
+  I know you know everything. No sugar-coated bullets please.
+
+>
+> Regards,
+> Lucas
 
 -- 
-greets
---
-Christian Gmeiner, MSc
+Jingfeng
 
-https://christian-gmeiner.info/privacypolicy
