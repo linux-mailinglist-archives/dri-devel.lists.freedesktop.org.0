@@ -1,59 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 959F1737C88
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 09:55:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0290E737C8C
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 09:57:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBD6210E0BB;
-	Wed, 21 Jun 2023 07:55:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CB9A10E3E8;
+	Wed, 21 Jun 2023 07:57:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com
- [IPv6:2001:4860:4864:20::34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 569C110E0BB;
- Wed, 21 Jun 2023 07:55:53 +0000 (UTC)
-Received: by mail-oa1-x34.google.com with SMTP id
- 586e51a60fabf-1acfce1fc0bso1076761fac.2; 
- Wed, 21 Jun 2023 00:55:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687334152; x=1689926152;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=chdbH7mNzgkmuCyhA12j8pNPXGXQu3niNcq2qlGIJcs=;
- b=LbxvhVwpNqssBmWSmVTSBoOqM3MlXb7DhtqbUE7LEO6cnbME5IpO64HbS9T7taeDtX
- ailK4VhS9N0EesSXQmFC2QE4SQ5fNtqKFY+87AtZ9U8ZOskme0FDpgkPTSs5lr+hUyTe
- /Qgvw0ssaER5tRu6uE15GBqc/dQxMJ55TBZdwRPyB3zbeMf7Q6bRTMeZwu/GgnYrbhr7
- 3sLqgkfyMTQCMhfCqGuLSseBFInIkpKzb76bqT5LDq7xMCwTcqeAGPmEB0OZZt+xemG0
- Hrlyp5maNwnixWVnA2DEu7A7EBtV9+EE+D94ZZ0WxqnqI5Tfbf1qH/2/HAGL8ZztSsCu
- HyXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687334152; x=1689926152;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=chdbH7mNzgkmuCyhA12j8pNPXGXQu3niNcq2qlGIJcs=;
- b=fO7IuGOO63BIIeQ4W6g9o15r7KAjN8fQMMXZ6SPInogOQFgMb0T+MoDGAFce6s1tD9
- AYi3yFtXfteR/vyVu9cyaVRRfkmXMQybgfYN3DUQk8TEHPmG1SGLRmIUUFMbAJBVIKi+
- vbuKCNqsGEwdUCpZDoE9aUKMojspxc3Gs6Bm7tqGPdZSJl4FsY+pmWYIdLfMdOXMsOca
- Xq5H+qs565DMMjRXn5ybxwAw3f8PVoRKAUDOzC9YeJ3VhZ5co9SFp+wfnheNWC0AF+fw
- mU1YnIbxtXvEIfyodBizNzBAXh4JlEVGLdZIbCfJzAZcGw48YC6zoZMWOyKbYrDsn5Qo
- 1gDw==
-X-Gm-Message-State: AC+VfDz0CnFrbQ9Acg2nhmT9JahoJ0UBL8QN7lWgAdnVM58mnUx3BO2B
- IQ+fRcrYI4P78XlxFahDYxe01T2YI5PCEA/C/6ysfqkCI/h7dQ==
-X-Google-Smtp-Source: ACHHUZ6hf43JL8/RjRnBEVRErt7bEY91oQCXLhTfpmTCVuL+A1sbzEX1l/BiasLu5n6sDvOOkVw+A4kp6AMZvTIKafo=
-X-Received: by 2002:a05:6870:343:b0:1aa:1c3f:4e7 with SMTP id
- n3-20020a056870034300b001aa1c3f04e7mr4918564oaf.57.1687334151934; Wed, 21 Jun
- 2023 00:55:51 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5878E10E3E8
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 07:57:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1687334241;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7HTmOa2A1R44TEuczs4wdI2fVqvdbq/sEU4yXPclC74=;
+ b=PWwJ/YyolKLC5t0h8zlkjYpMZqOLH3rUInlNFTqiXzckmei4kuy0ZptgaZETUOKI9EmpkM
+ lnXkwwDrAavfyBZanBVF2jdan3+SQyJJV/c74be6nfUJuR0VdhrNvij7qd1mmX4gGKrBTq
+ 9sRF+Na40n3C2r8ssgMoNegQsIIfO4E=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-80-dMAjkMmkOrOgmjnFM4vjaw-1; Wed, 21 Jun 2023 03:57:17 -0400
+X-MC-Unique: dMAjkMmkOrOgmjnFM4vjaw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7D2E6800CA5;
+ Wed, 21 Jun 2023 07:57:16 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3501B492C13;
+ Wed, 21 Jun 2023 07:57:16 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id CFE341800381; Wed, 21 Jun 2023 09:57:14 +0200 (CEST)
+Date: Wed, 21 Jun 2023 09:57:14 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/virtgpu: Replace dev_private by helper function
+Message-ID: <brjzelisopxjpqhy7shhkm6azyhwpyhw4vqurglfhouvtk2whf@ewnboldp64dy>
+References: <20230620103343.910-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-References: <20230620094716.2231414-1-18949883232@163.com>
-In-Reply-To: <20230620094716.2231414-1-18949883232@163.com>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Wed, 21 Jun 2023 09:55:40 +0200
-Message-ID: <CAH9NwWdfK0DkDA-Fi6TRrS4orm-HbAqBLDpYcMKd69dU6Jh+CA@mail.gmail.com>
-Subject: Re: [PATCH v10 00/11] drm/etnaviv: Add pci device driver support
-To: Sui Jingfeng <18949883232@163.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20230620103343.910-1-tzimmermann@suse.de>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,28 +63,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sui Jingfeng <suijingfeng@loongson.cn>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ airlied@redhat.com, gurchetansingh@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On Tue, Jun 20, 2023 at 12:33:28PM +0200, Thomas Zimmermann wrote:
+> Dereference struct drm_device.dev_private in the helper function
+> do_virtio_gpu_device(). The dev_private field is deprecated and
+> drivers are advised not ot use it. Encapsulating it in a helper
+> function will help with a later removal. No functional changes.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
->
-> From: Sui Jingfeng <suijingfeng@loongson.cn>
->
-> There is a Vivante GC1000 (v5037) in LS2K1000 and LS7A1000, this GPU is a
-> PCI device, and it has 2D and 3D cores in the same core. This series is
-> trying to add PCI device driver support to drm/etnaviv.
->
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 
-Is it possible to get the lspci output for the GPU? Something like
-this: sudo lspci -vvv -s ...
-
-
-thanks
---
-Christian Gmeiner, MSc
-
-https://christian-gmeiner.info/privacypolicy
