@@ -1,48 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49E19737CAB
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 10:05:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BAFF737CAC
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 10:05:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4470410E3EF;
-	Wed, 21 Jun 2023 08:05:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6012C10E3F1;
+	Wed, 21 Jun 2023 08:05:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B005E10E3EF
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 08:05:47 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1qBsqQ-0008H8-EV; Wed, 21 Jun 2023 10:05:38 +0200
-Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1qBsqN-00056Q-PQ; Wed, 21 Jun 2023 10:05:35 +0200
-Date: Wed, 21 Jun 2023 10:05:35 +0200
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Jonas Karlman <jonas@kwiboo.se>
-Subject: Re: [PATCH 1/4] drm/rockchip: vop: Fix reset of state in duplicate
- state crtc funcs
-Message-ID: <20230621080535.GV18491@pengutronix.de>
-References: <20230620064732.1525594-1-jonas@kwiboo.se>
- <20230620064732.1525594-2-jonas@kwiboo.se>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 86ECE10E3F1;
+ Wed, 21 Jun 2023 08:05:50 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8AxR8Vdr5JkOQ4AAA--.93S3;
+ Wed, 21 Jun 2023 16:05:49 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8DxDc9cr5JkEUUAAA--.1805S3; 
+ Wed, 21 Jun 2023 16:05:48 +0800 (CST)
+Message-ID: <a190b9ac-f4c5-1b36-c7eb-0b3333338a6d@loongson.cn>
+Date: Wed, 21 Jun 2023 16:05:48 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230620064732.1525594-2-jonas@kwiboo.se>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v10 00/11] drm/etnaviv: Add pci device driver support
+Content-Language: en-US
+To: Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Sui Jingfeng <18949883232@163.com>
+References: <20230620094716.2231414-1-18949883232@163.com>
+ <CAH9NwWdfK0DkDA-Fi6TRrS4orm-HbAqBLDpYcMKd69dU6Jh+CA@mail.gmail.com>
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <CAH9NwWdfK0DkDA-Fi6TRrS4orm-HbAqBLDpYcMKd69dU6Jh+CA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8DxDc9cr5JkEUUAAA--.1805S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7Ww47Cw45JFyDur4kJFW3twc_yoW8Cw45p3
+ 4rtF9xCrW0qr40y3y7Jr15Jry5ArWYya45Jr4DJFyUCFyDGF12vF1DZr4v9rZrXF48Xr4U
+ tF4YgFyqvw15XabCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUB2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+ AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+ tVWrXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
+ 8JMxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_
+ Jr0_Gr1l4IxYO2xFxVAFwI0_Jw0_GFylx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+ xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+ cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8V
+ AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E
+ 14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU4AhLUUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,52 +66,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- Andy Yan <andy.yan@rock-chips.com>, Mark Yao <markyao0591@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 20, 2023 at 06:47:36AM +0000, Jonas Karlman wrote:
-> struct rockchip_crtc_state members such as output_type, output_bpc and
-> enable_afbc is always reset to zero in the atomic_duplicate_state crtc
-> funcs.
-> 
-> Fix this by using kmemdup on the subclass rockchip_crtc_state struct.
-> 
-> Fixes: 4e257d9eee23 ("drm/rockchip: get rid of rockchip_drm_crtc_mode_config")
-> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+Hi,
 
-Reviewed-by: Sascha Hauer <s.hauer@pengutronix.de>
+Below is the gpu info cat from the debugfs,
 
-Sascha
+I guess this is also what you want ?
 
-> ---
->  drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-> index a530ecc4d207..60b23636a3fe 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-> @@ -1614,7 +1614,8 @@ static struct drm_crtc_state *vop_crtc_duplicate_state(struct drm_crtc *crtc)
->  	if (WARN_ON(!crtc->state))
->  		return NULL;
->  
-> -	rockchip_state = kzalloc(sizeof(*rockchip_state), GFP_KERNEL);
-> +	rockchip_state = kmemdup(to_rockchip_crtc_state(crtc->state),
-> +				 sizeof(*rockchip_state), GFP_KERNEL);
->  	if (!rockchip_state)
->  		return NULL;
->  
-> -- 
-> 2.41.0
-> 
-> 
+
+[root@fedora 0]# cat gpu
+
+0000:00:06.0 Status:
+     identity
+      model: 0x1000
+      revision: 0x5037
+      product_id: 0x0
+      customer_id: 0x0
+      eco_id: 0x0
+     features
+      major_features: 0xe0286eed
+      minor_features0: 0xe9799eff
+      minor_features1: 0xbe13b2d9
+      minor_features2: 0xca114080
+      minor_features3: 0x0e0100a1
+      minor_features4: 0x00000000
+      minor_features5: 0x00000000
+      minor_features6: 0x00000000
+      minor_features7: 0x00000000
+      minor_features8: 0x00000000
+      minor_features9: 0x00000000
+      minor_features10: 0x00000000
+      minor_features11: 0x00000000
+     specs
+      stream_count:  4
+      register_max: 64
+      thread_count: 512
+      vertex_cache_size: 8
+      shader_core_count: 2
+      nn_core_count: 0
+      pixel_pipes: 1
+      vertex_output_buffer_size: 512
+      buffer_size: 0
+      instruction_count: 256
+      num_constants: 576
+      varyings_count: 8
+     axi: 0x00000051
+     idle: 0x7ffffffe
+      FE is not idle
+     DMA is running
+      address 0: 0x00002ac0
+      address 1: 0x00002ac8
+      state 0: 0x00000800
+      state 1: 0x00000812
+      last fetch 64 bit word: 0x380000c8 0x00000701
+
+
+On 2023/6/21 15:55, Christian Gmeiner wrote:
+> Hi
+>
+>> From: Sui Jingfeng <suijingfeng@loongson.cn>
+>>
+>> There is a Vivante GC1000 (v5037) in LS2K1000 and LS7A1000, this GPU is a
+>> PCI device, and it has 2D and 3D cores in the same core. This series is
+>> trying to add PCI device driver support to drm/etnaviv.
+>>
+> Is it possible to get the lspci output for the GPU? Something like
+> this: sudo lspci -vvv -s ...
+>
+>
+> thanks
+> --
+> Christian Gmeiner, MSc
+>
+> https://christian-gmeiner.info/privacypolicy
 
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Jingfeng
+
