@@ -1,46 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C073737F59
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 12:16:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1BA6737F82
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 12:23:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41AEE10E431;
-	Wed, 21 Jun 2023 10:16:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAC2310E440;
+	Wed, 21 Jun 2023 10:23:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 213C610E431
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 10:16:37 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1qBut4-0004ep-2R; Wed, 21 Jun 2023 12:16:30 +0200
-Message-ID: <21f781a548cef63312df56cb2265de9a7c9a0901.camel@pengutronix.de>
-Subject: Re: [PATCH v10 01/11] drm/etnaviv: Add a dedicated function to
- register an irq handler
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Sui Jingfeng <suijingfeng@loongson.cn>, Sui Jingfeng
- <18949883232@163.com>,  Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 21 Jun 2023 12:16:26 +0200
-In-Reply-To: <52751b55-ce34-f3a8-b3c0-4858ad984622@loongson.cn>
-References: <20230620094716.2231414-1-18949883232@163.com>
- <20230620094716.2231414-2-18949883232@163.com>
- <77f62814f98dd2728a1e4747f0db6b2a3cfa2c11.camel@pengutronix.de>
- <52751b55-ce34-f3a8-b3c0-4858ad984622@loongson.cn>
+Received: from sipsolutions.net (s3.sipsolutions.net
+ [IPv6:2a01:4f8:191:4433::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D64A310E439;
+ Wed, 21 Jun 2023 10:23:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+ Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+ Resent-Cc:Resent-Message-ID; bh=E5J3XlE1FsUIlBpFkRpwctJVhjB2FlOiEwVbSdNHhcE=; 
+ t=1687342990; x=1688552590; b=fwZAzcF+UlIhVUrY3lP5AzfjB25U5O6sp/nmT71ZWMkuv28
+ 7yswjLQZ0nCvuFVWV35HK5GzxpOcCzvkiTfgw93axqgaYKgzyYe0EOPiL0HyKXq7mlnJiD1TCbXDN
+ Pnyu8K16p6LOhZVq5wfEuMMJRUbIU+xdgQgEfAItdm5hOi8YOOZM3I9Nlc/M7MsMZQYFs/lk05Cpr
+ hVhBKUE462lSTo3Tn8hoiMjBSm2rydC+656SxlphXsDdvegBofxbUB23OkIdUuAFHY/uzmYmERA55
+ RSydKXbByZf5lUD2ptvJUVQ7UVIBCOz0EUoVgvMWHObHK3s/VkXudHfKK0rRSYng==;
+Received: by sipsolutions.net with esmtpsa
+ (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+ (Exim 4.96) (envelope-from <johannes@sipsolutions.net>)
+ id 1qBuym-00DagI-0V; Wed, 21 Jun 2023 12:22:24 +0200
+Message-ID: <3eb2c16cb0692c8d6b03bd57cb049b1fb3457e92.camel@sipsolutions.net>
+Subject: Re: [PATCH V4 3/8] wifi: mac80211: Add support for ACPI WBRF
+From: Johannes Berg <johannes@sipsolutions.net>
+To: Evan Quan <evan.quan@amd.com>, rafael@kernel.org, lenb@kernel.org, 
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
+ airlied@gmail.com, daniel@ffwll.ch, davem@davemloft.net,
+ edumazet@google.com,  kuba@kernel.org, pabeni@redhat.com,
+ mario.limonciello@amd.com, mdaenzer@redhat.com, 
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
+ hdegoede@redhat.com,  jingyuwang_vip@163.com, lijo.lazar@amd.com,
+ jim.cromie@gmail.com,  bellosilicio@gmail.com, andrealmeid@igalia.com,
+ trix@redhat.com, jsg@jsg.id.au,  arnd@arndb.de
+Date: Wed, 21 Jun 2023 12:22:21 +0200
+In-Reply-To: <20230621054603.1262299-4-evan.quan@amd.com>
+References: <20230621054603.1262299-1-evan.quan@amd.com>
+ <20230621054603.1262299-4-evan.quan@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+X-malware-bazaar: not-scanned
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,136 +60,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, etnaviv@lists.freedesktop.org
+Cc: netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-acpi@vger.kernel.org, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Mittwoch, dem 21.06.2023 um 17:20 +0800 schrieb Sui Jingfeng:
-> Hi,
+On Wed, 2023-06-21 at 13:45 +0800, Evan Quan wrote:
+> To support AMD's WBRF interference mitigation mechanism, Wifi adapters
+> utilized in the system must register the frequencies in use(or unregister
+> those frequencies no longer used) via the dedicated APCI calls. So that,
+> other drivers responding to the frequencies can take proper actions to
+> mitigate possible interference.
 >=20
-> On 2023/6/21 17:07, Lucas Stach wrote:
-> > Am Dienstag, dem 20.06.2023 um 17:47 +0800 schrieb Sui Jingfeng:
-> > > From: Sui Jingfeng <suijingfeng@loongson.cn>
-> > >=20
-> > > Because getting IRQ from a device is platform-dependent, PCI devices =
-have
-> > > different methods for getting an IRQ. This patch is a preparation to =
-extend
-> > > this driver for supporting the PCI devices.
-> > >=20
-> > > Cc: Lucas Stach <l.stach@pengutronix.de>
-> > > Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-> > > Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> > > Cc: Bjorn Helgaas <bhelgaas@google.com>
-> > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
-> > > ---
-> > >   drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 32 +++++++++++++++++++-----=
----
-> > >   1 file changed, 23 insertions(+), 9 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/=
-etnaviv/etnaviv_gpu.c
-> > > index de8c9894967c..a03e81337d8f 100644
-> > > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> > > @@ -1817,6 +1817,27 @@ static const struct of_device_id etnaviv_gpu_m=
-atch[] =3D {
-> > >   };
-> > >   MODULE_DEVICE_TABLE(of, etnaviv_gpu_match);
-> > >  =20
-> > > +static int etnaviv_gpu_register_irq(struct etnaviv_gpu *gpu, int irq=
-)
-> > > +{
-> > > +	struct device *dev =3D gpu->dev;
-> > > +	int err;
-> > > +
-> > > +	if (irq < 0)
-> > > +		return irq;
-> > > +
-> > > +	err =3D devm_request_irq(dev, irq, irq_handler, 0, dev_name(dev), g=
-pu);
-> > > +	if (err) {
-> > > +		dev_err(dev, "failed to request irq %u: %d\n", irq, err);
-> > > +		return err;
-> > > +	}
-> > > +
-> > > +	gpu->irq =3D irq;
-> > > +
-> > > +	dev_info(dev, "irq(%d) handler registered\n", irq);
-> > There is no reason to put this into the kernel log.
+> To make WBRF feature functional, the kernel needs to be configured with
+> CONFIG_ACPI_WBRF and the platform is equipped with WBRF support(from
+> BIOS and drivers).
 >=20
-> I want to see the IRQ of the device when debugging,
->=20
-> etnaviv actually print very less.
->=20
-> This serve as a minimal signal=C2=A0 to us the etnaviv_gpu_register_irq()=
-=20
-> function is successful at driver load time.
->=20
-And debugging is a very different use-case than normal operation. If
-it's needed at all, downgrade this to dev_dbg. This isn't interesting
-information for a ordinary user of a system.
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> Co-developed-by: Evan Quan <evan.quan@amd.com>
+> Signed-off-by: Evan Quan <evan.quan@amd.com>
 
-> >   It's no different
-> > than other resources to the driver and we don't log each one of those
-> > either.
-> >=20
-> > In fact I don't see any reason for this change in the first place.
-> > Effectively you are moving a single function call into a new function,
-> > which doesn't seem like an improvement.
->=20
-> This is to make the patch easy to review, each patch is only introduce a=
-=20
-> small function,
->=20
-What I'm saying is that I don't see the need to introduce this function
-at all. All you need to do is move platform_get_irq out into the
-platform device code path. The devm_request_irq can stay where it is,
-as the only difference between platform and PCI device is how the irq
-number is retrieved from the platform.
+I was going to say this looks good ... but still have a few nits, sorry.
 
-Regards,
-Lucas
+But then the next question anyway is how we merge this? The wifi parts
+sort of depend on the first patch, although technically I guess I could
+merge them since it's all hidden behind the CONFIG_ symbol, assuming you
+get that in via some other tree it can combine upstream.
 
-> which is paving the way for we introducing the PCI device driver.
->=20
-> Otherwise when we introducing the PCI device driver, the patch is looks=
-=20
-> ugly,
->=20
-> It is difficult to review.
->=20
-> > Regards,
-> > Lucas
-> >=20
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > >   static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
-> > >   {
-> > >   	struct device *dev =3D &pdev->dev;
-> > > @@ -1837,16 +1858,9 @@ static int etnaviv_gpu_platform_probe(struct p=
-latform_device *pdev)
-> > >   		return PTR_ERR(gpu->mmio);
-> > >  =20
-> > >   	/* Get Interrupt: */
-> > > -	gpu->irq =3D platform_get_irq(pdev, 0);
-> > > -	if (gpu->irq < 0)
-> > > -		return gpu->irq;
-> > > -
-> > > -	err =3D devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
-> > > -			       dev_name(gpu->dev), gpu);
-> > > -	if (err) {
-> > > -		dev_err(dev, "failed to request IRQ%u: %d\n", gpu->irq, err);
-> > > +	err =3D etnaviv_gpu_register_irq(gpu, platform_get_irq(pdev, 0));
-> > > +	if (err)
-> > >   		return err;
-> > > -	}
-> > >  =20
-> > >   	/* Get Clocks: */
-> > >   	gpu->clk_reg =3D devm_clk_get_optional(&pdev->dev, "reg");
->=20
+I'd also say you can merge those parts elsewhere but I'm planning to
+also land some locking rework that I've been working on, so it will
+probably conflict somewhere.
 
+> +++ b/net/mac80211/chan.c
+> @@ -506,11 +506,16 @@ static void _ieee80211_change_chanctx(struct ieee80=
+211_local *local,
+> =20
+>  	WARN_ON(!cfg80211_chandef_compatible(&ctx->conf.def, chandef));
+> =20
+> +	ieee80211_remove_wbrf(local, &ctx->conf.def);
+> +
+>  	ctx->conf.def =3D *chandef;
+> =20
+>  	/* check if min chanctx also changed */
+>  	changed =3D IEEE80211_CHANCTX_CHANGE_WIDTH |
+>  		  _ieee80211_recalc_chanctx_min_def(local, ctx, rsvd_for);
+> +
+> +	ieee80211_add_wbrf(local, &ctx->conf.def);
+
+You ignore the return value here.
+
+
+> @@ -668,6 +673,10 @@ static int ieee80211_add_chanctx(struct ieee80211_lo=
+cal *local,
+>  	lockdep_assert_held(&local->mtx);
+>  	lockdep_assert_held(&local->chanctx_mtx);
+> =20
+> +	err =3D ieee80211_add_wbrf(local, &ctx->conf.def);
+> +	if (err)
+> +		return err;
+
+But not here.
+
+In the code, there are basically two error paths:
+
+> +int ieee80211_add_wbrf(struct ieee80211_local *local,
+> +		       struct cfg80211_chan_def *chandef)
+> +{
+> +	struct device *dev =3D local->hw.wiphy->dev.parent;
+> +	struct wbrf_ranges_in ranges_in =3D {0};
+> +	int ret;
+> +
+> +	if (!local->wbrf_supported)
+> +		return 0;
+> +
+> +	ret =3D wbrf_get_ranges_from_chandef(chandef, &ranges_in);
+> +	if (ret)
+> +		return ret;
+
+This really won't fail, just if the bandwidth calculation was bad, but
+that's an internal error that WARNs anyway and we can ignore it.
+
+> +	return wbrf_add_exclusion(ACPI_COMPANION(dev), &ranges_in);
+
+This I find a bit confusing, why do we even propagate the error? If the
+platform has some issue with it, should we really fail the connection?
+
+
+I think it seems better to me to just make this void, and have it be
+only a notification interface?
+
+johannes
