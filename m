@@ -1,35 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C10A737D1A
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 10:10:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97F45737D1B
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 10:10:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7514D10E3FB;
-	Wed, 21 Jun 2023 08:10:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 962BB10E3FC;
+	Wed, 21 Jun 2023 08:10:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A148710E3F9;
- Wed, 21 Jun 2023 08:10:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06EA410E3FA;
+ Wed, 21 Jun 2023 08:10:49 +0000 (UTC)
 Received: from uno.lan (unknown [IPv6:2001:b07:5d2e:52c9:1cf0:b3bc:c785:4625])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D77F510A;
- Wed, 21 Jun 2023 10:10:08 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A5036556;
+ Wed, 21 Jun 2023 10:10:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1687335010;
- bh=Hbr+RKqfhbJQ+nkVEm6ASUtLSzb4vRzDpeqBiTu74Uc=;
- h=From:To:Cc:Subject:Date:From;
- b=Ka47U7sYq8LTI/9eb8Yld6aGmYH+a8HD3wvnJXNKCpQi0PdaF53FmBP2lwSvkrEOt
- Xr3PSqCYvdCVdb4KR/6Atiq+4LI+2UXoa8UUs/q/+YPHR1slAymZV6Ix1Ud9jvlJyq
- sLZ06sNCZ5BAUnx0RIVHudF1lR26hRyL/MITQ+CM=
+ s=mail; t=1687335012;
+ bh=w1iXcw/V3spckvEgKXCmL4tvJ5rQs45envQm9GmietU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=lijEoFGnxbBm9UH+qEciP0O20xYkPzvcOmQZI9V7xuKhb0TOaQ1cL5nBuq8pcIRAd
+ C6229VvyMxhIzx8qb5JiZiLKcVjaUHdpVoBrTO059t988qV8D8rufYJAURSi7+cpZR
+ MXOBMtk2mcUkk5OIOA6JtlhslxhviA/IHEIubY3Y=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [RFC 0/9] drm: rcar-du: cmm: Enable 3D LUT support
-Date: Wed, 21 Jun 2023 10:10:22 +0200
-Message-Id: <20230621081031.7876-1-jacopo.mondi@ideasonboard.com>
+Subject: [RFC 1/9] drm: Add 3D LUT mode and its attributes
+Date: Wed, 21 Jun 2023 10:10:23 +0200
+Message-Id: <20230621081031.7876-2-jacopo.mondi@ideasonboard.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230621081031.7876-1-jacopo.mondi@ideasonboard.com>
+References: <20230621081031.7876-1-jacopo.mondi@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -48,6 +50,7 @@ Cc: Victoria Brekenfeld <victoria@system76.com>,
  DRI Development <dri-devel@lists.freedesktop.org>, mdaenzer@redhat.com,
  aleixpol@kde.org, Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org,
  wayland-devel <wayland-devel@lists.freedesktop.org>,
+ Alex Hung <alex.hung@amd.com>,
  =?UTF-8?q?Jonas=20=C3=85dahl?= <jadahl@redhat.com>,
  Uma Shankar <uma.shankar@intel.com>, tzimmermann@suse.de, sunpeng.li@amd.com,
  Sebastian Wick <sebastian.wick@redhat.com>, mripard@kernel.org,
@@ -59,72 +62,48 @@ Cc: Victoria Brekenfeld <victoria@system76.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello, this series is based on the RFC sent by Melssa Wen:
-"[RFC PATCH v2 00/18] Add DRM CRTC 3D LUT interface"
-https://lore.kernel.org/dri-devel/20230109143846.1966301-1-mwen@igalia.com/
-that introduces CRTC properties to control 3D LUT operations.
+From: Alex Hung <alex.hung@amd.com>
 
-The R-Car DU peripheral has a post-blending color management pipeline (CMM)
-composed by (in order of processing) a 3D LUT a 1D LUT and a Color conversion
-unit.
+A struct is defined for 3D LUT modes to be supported by hardware.
+The elements includes lut_size, lut_stride, bit_depth, color_format
+and flags.
 
-The CMM driver already supported operating the 1D LUT, this series add support
-for the cubic LUT (named CLU).
+Note: A patchset "IGT tests for pre-blending 3D LUT interfaces" for this
+proposal is sent to IGT mailing list.
 
-I've been made aware by Melissa and Pekka that the focus of upstream for
-color management properties is now on the definition of the "Plane color
-pipeline" properties
-https://lore.kernel.org/dri-devel/QMers3awXvNCQlyhWdTtsPwkp5ie9bze_hD5nAccFW7a_RXlWjYB7MoUW_8CKLT2bSQwIXVi5H6VULYIxCdgvryZoAoJnC5lZgyK1QWn488=@emersion.fr/
+Signed-off-by: Alex Hung <alex.hung@amd.com>
+---
+ include/uapi/drm/drm_mode.h | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-Unfortunately the model there proposed doesn't match the R-Car DU hardware which
-has color management at the post-blending level and not per plane (I've cc-ed
-all the receivers of that series, just in case).
-
-The user-space interface has been validated with dedicated unit tests for
-the R-Car DU test suite (kms-test) which are available at:
-https://git.sr.ht/~jmondi_/kms-test
-
-The series validates the usage of the HW interface in the hope of re-starting
-discussions and interests in the definition of CRTC color management
-properties.
-
-Thanks
-   j
-
-Alex Hung (1):
-  drm: Add 3D LUT mode and its attributes
-
-Jacopo Mondi (1):
-  drm: rcar-du: crtc: Enable 3D LUT
-
-Kieran Bingham (2):
-  drm: rcar-du: cmm: Provide 3D-CLU support
-  drm: rcar-du: kms: Configure the CLU
-
-Laurent Pinchart (1):
-  drm: rcar-du: cmm: Refactor LUT configuration
-
-Melissa Wen (4):
-  drm/drm_color_mgmt: add shaper LUT to color mgmt properties
-  drm/drm_color_mgmt: add 3D LUT props to DRM color mgmt
-  drm/drm_color_mgmt: add function to create 3D LUT modes supported
-  drm/drm_color_mgmt: add function to attach 3D LUT props
-
- drivers/gpu/drm/drm_atomic_state_helper.c |   7 ++
- drivers/gpu/drm/drm_atomic_uapi.c         |  24 ++++
- drivers/gpu/drm/drm_color_mgmt.c          | 113 +++++++++++++++++++
- drivers/gpu/drm/drm_fb_helper.c           |   5 +
- drivers/gpu/drm/drm_mode_config.c         |  21 ++++
- drivers/gpu/drm/rcar-du/rcar_cmm.c        | 127 ++++++++++++++++------
- drivers/gpu/drm/rcar-du/rcar_cmm.h        |  36 +++++-
- drivers/gpu/drm/rcar-du/rcar_du_crtc.c    |  68 +++++++++---
- include/drm/drm_color_mgmt.h              |   7 ++
- include/drm/drm_crtc.h                    |  32 +++++-
- include/drm/drm_mode_config.h             |  25 +++++
- include/drm/drm_mode_object.h             |   2 +-
- include/uapi/drm/drm_mode.h               |  17 +++
- 13 files changed, 428 insertions(+), 56 deletions(-)
-
---
+diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+index 43691058d28f..3b40694259c7 100644
+--- a/include/uapi/drm/drm_mode.h
++++ b/include/uapi/drm/drm_mode.h
+@@ -854,6 +854,23 @@ struct drm_color_lut {
+ 	__u16 reserved;
+ };
+ 
++/*
++ * struct drm_mode_lut3d_mode - 3D LUT mode information.
++ * @lut_size: number of valid points on every dimension of 3D LUT.
++ * @lut_stride: number of points on every dimension of 3D LUT.
++ * @bit_depth: number of bits of RGB. If color_mode defines entries with higher
++ *             bit_depth the least significant bits will be truncated.
++ * @color_format: fourcc values, ex. DRM_FORMAT_XRGB16161616 or DRM_FORMAT_XBGR16161616.
++ * @flags: flags for hardware-sepcific features
++ */
++struct drm_mode_lut3d_mode {
++	__u16 lut_size;
++	__u16 lut_stride[3];
++	__u16 bit_depth;
++	__u32 color_format;
++	__u32 flags;
++};
++
+ /**
+  * struct hdr_metadata_infoframe - HDR Metadata Infoframe Data.
+  *
+-- 
 2.40.1
 
