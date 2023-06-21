@@ -1,51 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9747F739292
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 00:33:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07C4B739293
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 00:33:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7350810E36C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCFC110E142;
 	Wed, 21 Jun 2023 22:33:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from s.wrqvtbkv.outbound-mail.sendgrid.net
  (s.wrqvtbkv.outbound-mail.sendgrid.net [149.72.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39C8010E36D
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 22:33:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6644310E36D
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 22:33:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
  h=from:subject:in-reply-to:references:mime-version:to:cc:
  content-transfer-encoding:content-type:cc:content-type:from:subject:to;
- s=s1; bh=v14Q72PruEDwmH4o+T8D3FApv9VBvr48LzkZegCo/u4=;
- b=rBdphp+s6nKgaYVQW7kNM0FgEY82p1wXQvzHlIC5PkiJlWolj396r9VbEcECshqqISme
- K1/Rm9vjIM5834etPzzojd16lF/NBRZp2BaCqg7Ib29s3myOI4lx50490qsayrRlZLWXvP
- dsaZzA04HgTxD3CFwzFXHIAvcVLhImJWFygnSp5/HxQhih5r7U04aCO7JZOIEBZJHfOd4j
- 7NfTIYvPAfycoU0VMdh6VtgzIok7APy8agt8yV2/9iWI00Rw9J5qLpRZgTlId6sS74OXJd
- 2TWR+V3/4RkVOIhQ2gW42NRU0Vqr4D7+zJyoFw/SUKhcKTmCa2UmxfYZOROn1Zhg==
-Received: by filterdrecv-84b96456cb-hq7z7 with SMTP id
- filterdrecv-84b96456cb-hq7z7-1-64937AB1-C
- 2023-06-21 22:33:21.44628361 +0000 UTC m=+3624889.700825056
+ s=s1; bh=gpt4shW9Az8HQBaGBESfhw3ZJgloP+jLONDW/keDorI=;
+ b=A8qHE49+Rg910ao7nsxF5wejLhadp5zf4H3oduW0IvhB6JgcqzK642zeQKPYN3xd6Kz+
+ bZnriW/wigqdWrwPerUr09sTPqBJt1oeH+WKLmj6f4fuLH+uXvBViFsnAkB5KmwqIV7FXf
+ DOJdKVGEcwKWyiwnz5XFki6bDwuRZxiFpFMO2mdKfZ8kK5OZkZaaqS7RiotSwKZ7ZHQP5W
+ QiOanLgQtVB5gyhNfl4RX6hS3/sHP8wvXV1jWLkCu4lJ3rLePPLxPizm/1ir69yz97MbZC
+ umfuwRmM0t1fB2ftWFwruJmeMlIXXqNMVbpPcCJ3qaB0IA3OcRvKyEfhubPU/Mcw==
+Received: by filterdrecv-65f68489c8-k2rl8 with SMTP id
+ filterdrecv-65f68489c8-k2rl8-1-64937AB2-32
+ 2023-06-21 22:33:23.019043275 +0000 UTC m=+1463598.288798320
 Received: from bionic.localdomain (unknown) by geopod-ismtpd-0 (SG) with ESMTP
- id vZirRyg8Rfmll8Z_NYscQw Wed, 21 Jun 2023 22:33:21.131 +0000 (UTC)
+ id W7fz8D3QRnife75m7ND9CA Wed, 21 Jun 2023 22:33:22.815 +0000 (UTC)
 From: Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH v2 4/5] drm/rockchip: vop2: Don't crash for invalid
- duplicate_state
-Date: Wed, 21 Jun 2023 22:33:21 +0000 (UTC)
-Message-ID: <20230621223311.2239547-5-jonas@kwiboo.se>
+Subject: [PATCH v2 5/5] drm/rockchip: vop2: Add missing call to crtc reset
+ helper
+Date: Wed, 21 Jun 2023 22:33:23 +0000 (UTC)
+Message-ID: <20230621223311.2239547-6-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230621223311.2239547-1-jonas@kwiboo.se>
 References: <20230621223311.2239547-1-jonas@kwiboo.se>
 MIME-Version: 1.0
 X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
- =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0h32UvfMM=2F7Im2hDMc?=
- =?us-ascii?Q?k0YtrNlBiYhIMIchAeUrU5n0sre8GH0aHkc25Kj?=
- =?us-ascii?Q?c5HCoIUZZ7FARoKQ=2FsE9PLBlsEjGZQuvkx=2FObop?=
- =?us-ascii?Q?SqLW3QtPBaudvauDz+8cw7CwPzWMAagqcBsOwA5?=
- =?us-ascii?Q?dHHmIoLw0+aYnRZjjGDnmgntbVz2zrUyi6ZHRO?=
+ =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0hz78e=2FvfUnHx3mUyD?=
+ =?us-ascii?Q?KgumjHDaRQIPiL31NJ2du6oz01DwPK8KoRoBpmL?=
+ =?us-ascii?Q?Yyy0WPk79Cbsu101l84dCjvPY43LcPBGkpHUpBM?=
+ =?us-ascii?Q?E5dJVsi=2FAO1LGUqErWFQtCHcouHJis=2FySk+s1Kw?=
+ =?us-ascii?Q?16FT=2FMnLpe1CbbXaR967oa4m2cYKk5BsQ5aDz2Y?=
+ =?us-ascii?Q?p81HNYfHNijIuCZyKm65Q=3D=3D?=
 To: Sandy Huang <hjc@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Andy Yan
- <andy.yan@rock-chips.com>, Rob Herring <robh@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Rob Herring <robh@kernel.org>
 X-Entity-ID: P7KYpSJvGCELWjBME/J5tg==
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset=us-ascii
@@ -67,42 +68,69 @@ Cc: Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's possible for users to try to duplicate the CRTC state even when the
-state doesn't exist. drm_atomic_helper_crtc_duplicate_state() (and other
-users of __drm_atomic_helper_crtc_duplicate_state()) already guard this
-with a WARN_ON() instead of crashing, so let's do that here too.
+Add missing call to crtc reset helper to properly vblank reset.
+
+Also move vop2_crtc_reset and call vop2_crtc_destroy_state to simplify
+and remove duplicated code.
 
 Fixes: 604be85547ce ("drm/rockchip: Add VOP2 driver")
 Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-Reviewed-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
 v2:
-- Collect r-b tag
+- Add check for allocation failure (Sascha)
 
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 31 +++++++++-----------
+ 1 file changed, 14 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index ca73b8ccc29f..f725487d02ef 100644
+index f725487d02ef..5ba83121a1b9 100644
 --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
 +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -2099,11 +2099,13 @@ static void vop2_crtc_reset(struct drm_crtc *crtc)
+@@ -2080,23 +2080,6 @@ static const struct drm_crtc_helper_funcs vop2_crtc_helper_funcs = {
+ 	.atomic_disable = vop2_crtc_atomic_disable,
+ };
  
+-static void vop2_crtc_reset(struct drm_crtc *crtc)
+-{
+-	struct rockchip_crtc_state *vcstate = to_rockchip_crtc_state(crtc->state);
+-
+-	if (crtc->state) {
+-		__drm_atomic_helper_crtc_destroy_state(crtc->state);
+-		kfree(vcstate);
+-	}
+-
+-	vcstate = kzalloc(sizeof(*vcstate), GFP_KERNEL);
+-	if (!vcstate)
+-		return;
+-
+-	crtc->state = &vcstate->base;
+-	crtc->state->crtc = crtc;
+-}
+-
  static struct drm_crtc_state *vop2_crtc_duplicate_state(struct drm_crtc *crtc)
  {
--	struct rockchip_crtc_state *vcstate, *old_vcstate;
-+	struct rockchip_crtc_state *vcstate;
+ 	struct rockchip_crtc_state *vcstate;
+@@ -2123,6 +2106,20 @@ static void vop2_crtc_destroy_state(struct drm_crtc *crtc,
+ 	kfree(vcstate);
+ }
  
--	old_vcstate = to_rockchip_crtc_state(crtc->state);
-+	if (WARN_ON(!crtc->state))
-+		return NULL;
- 
--	vcstate = kmemdup(old_vcstate, sizeof(*old_vcstate), GFP_KERNEL);
-+	vcstate = kmemdup(to_rockchip_crtc_state(crtc->state),
-+			  sizeof(*vcstate), GFP_KERNEL);
- 	if (!vcstate)
- 		return NULL;
- 
++static void vop2_crtc_reset(struct drm_crtc *crtc)
++{
++	struct rockchip_crtc_state *vcstate =
++		kzalloc(sizeof(*vcstate), GFP_KERNEL);
++
++	if (crtc->state)
++		vop2_crtc_destroy_state(crtc, crtc->state);
++
++	if (vcstate)
++		__drm_atomic_helper_crtc_reset(crtc, &vcstate->base);
++	else
++		__drm_atomic_helper_crtc_reset(crtc, NULL);
++}
++
+ static const struct drm_crtc_funcs vop2_crtc_funcs = {
+ 	.set_config = drm_atomic_helper_set_config,
+ 	.page_flip = drm_atomic_helper_page_flip,
 -- 
 2.41.0
 
