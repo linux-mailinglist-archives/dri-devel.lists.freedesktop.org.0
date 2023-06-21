@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E439738BF1
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 18:46:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9016738BEA
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 18:46:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D99410E32F;
-	Wed, 21 Jun 2023 16:46:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6FAF10E319;
+	Wed, 21 Jun 2023 16:46:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from casper.infradead.org (casper.infradead.org
  [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7966510E329
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75A7B10E326
  for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 16:46:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=7niWMu6g/Ga9ZksmA0zYh6a0pI2cBG5yqVDcIc9jMKw=; b=mY+uBPiycIfHNeNVplxKugqw8y
- ja2K6C7MvJK6a5FI2+yURLUgfwFYXZEiQLFhJKZKFoH26P6b8EqoKQNl4q/RV/1sfv1WL7OKRLXrA
- INno6Z7BtR+COXHsKd7SXQ6k1Df/kRG5SHduBcfxktVSs0GP9cCVaLt+gjY79DWa5MOXGMXWbYAT6
- etNCZZSKWiK1mHVDNJ+WCmubynjm50iSWFRDEX+P84WWha4AngPA+I2KS8lh3AQ0Lhy0SKsmaFCKv
- oy8NE0qqvtkZw7y0DBgRqj6k2mTOcmX89ClyhVMXPPrdLQC/DiqTeH0jAYyZs7bulU0tpckAefW40
- zJ4u14gw==;
+ bh=5w9pZnjuH0cui0+bbF2YOmmpAFWEgjcRmo7ue1AvTtQ=; b=jUfm5Cn2cwJWNOM2prgSqprGkR
+ LmBwKRhuxKAUtr8BE0MWy123wKScLJoAtBpp0gWtFk3qBzdvXx83AHH41KrVC1zrHidgkWPuXbrUN
+ WfjD0ZrDlse8jhsHm3mVGDt2m2kicLbSXaIYsdsLwQGBh+zoXbupr5MgiE7h5bsNCA2miJz2l/Fzn
+ JGs/PkNFCac9dJLJDLKFksQrmKWOn8+imY/f0PkCnuqNBHAGKE/4jhmFP0h25e/UcAXoK54snBzmr
+ ASDFZdUINRldKxUu0XLKMVMG+6bqx2IQgdu4zsWwH2B//OzYxwHJGhCgXv+2qTr4vXqFF+Ng3qqub
+ 1asVHOzQ==;
 Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1qC0y1-00EjDy-P0; Wed, 21 Jun 2023 16:46:01 +0000
+ Hat Linux)) id 1qC0y1-00EjE6-T3; Wed, 21 Jun 2023 16:46:01 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: linux-mm@kvack.org,
 	Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH 06/13] mm: Remove check_move_unevictable_pages()
-Date: Wed, 21 Jun 2023 17:45:50 +0100
-Message-Id: <20230621164557.3510324-7-willy@infradead.org>
+Subject: [PATCH 07/13] pagevec: Rename fbatch_count()
+Date: Wed, 21 Jun 2023 17:45:51 +0100
+Message-Id: <20230621164557.3510324-8-willy@infradead.org>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20230621164557.3510324-1-willy@infradead.org>
 References: <20230621164557.3510324-1-willy@infradead.org>
@@ -56,54 +56,35 @@ Cc: linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All callers have now been converted to call check_move_unevictable_folios().
+This should always have been called folio_batch_count().
 
 Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 ---
- include/linux/swap.h |  1 -
- mm/vmscan.c          | 17 -----------------
- 2 files changed, 18 deletions(-)
+ include/linux/pagevec.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/swap.h b/include/linux/swap.h
-index ce7e82cf787f..456546443f1f 100644
---- a/include/linux/swap.h
-+++ b/include/linux/swap.h
-@@ -439,7 +439,6 @@ static inline bool node_reclaim_enabled(void)
+diff --git a/include/linux/pagevec.h b/include/linux/pagevec.h
+index 42aad53e382e..3a9d29dd28a3 100644
+--- a/include/linux/pagevec.h
++++ b/include/linux/pagevec.h
+@@ -105,7 +105,7 @@ static inline unsigned int folio_batch_count(struct folio_batch *fbatch)
+ 	return fbatch->nr;
  }
  
- void check_move_unevictable_folios(struct folio_batch *fbatch);
--void check_move_unevictable_pages(struct pagevec *pvec);
- 
- extern void __meminit kswapd_run(int nid);
- extern void __meminit kswapd_stop(int nid);
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index 45d17c7cc555..f8dd1db15897 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -8074,23 +8074,6 @@ int node_reclaim(struct pglist_data *pgdat, gfp_t gfp_mask, unsigned int order)
+-static inline unsigned int fbatch_space(struct folio_batch *fbatch)
++static inline unsigned int folio_batch_space(struct folio_batch *fbatch)
+ {
+ 	return PAGEVEC_SIZE - fbatch->nr;
  }
- #endif
+@@ -124,7 +124,7 @@ static inline unsigned folio_batch_add(struct folio_batch *fbatch,
+ 		struct folio *folio)
+ {
+ 	fbatch->folios[fbatch->nr++] = folio;
+-	return fbatch_space(fbatch);
++	return folio_batch_space(fbatch);
+ }
  
--void check_move_unevictable_pages(struct pagevec *pvec)
--{
--	struct folio_batch fbatch;
--	unsigned i;
--
--	folio_batch_init(&fbatch);
--	for (i = 0; i < pvec->nr; i++) {
--		struct page *page = pvec->pages[i];
--
--		if (PageTransTail(page))
--			continue;
--		folio_batch_add(&fbatch, page_folio(page));
--	}
--	check_move_unevictable_folios(&fbatch);
--}
--EXPORT_SYMBOL_GPL(check_move_unevictable_pages);
--
- /**
-  * check_move_unevictable_folios - Move evictable folios to appropriate zone
-  * lru list
+ static inline void __folio_batch_release(struct folio_batch *fbatch)
 -- 
 2.39.2
 
