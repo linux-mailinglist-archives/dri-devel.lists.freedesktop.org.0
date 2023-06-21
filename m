@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0278A738C42
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 18:50:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01A0E738C43
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 18:50:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4796C10E333;
-	Wed, 21 Jun 2023 16:50:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0737310E334;
+	Wed, 21 Jun 2023 16:50:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90EAF10E333
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDDED10E334
  for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 16:50:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1687366214; x=1718902214;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:content-transfer-encoding:in-reply-to;
- bh=O2cYgDYfZq7uxx4j9ftKdOww9wTIdNHJIaNeOMcmb4k=;
- b=auVwX1px0W2og6o2EZ+zdHrTFhK6uT3OlmDjMmlq0XZwNNKFrcu9f7d4
- tSwTdl6/NkfrjqEp0RO0tT22AzJsrDvt07TWXExdlQw0aOGkimlzCDntv
- R9a4mPMMxLikW3o0aDkyEpOnaTNVR6qEIrre0D82U4plCbudRG5+a+c+U
- vECwqDVanXYAlZvZINhmcbZsw4WhX0ZfCMvaH+UKbBctvBdlnf+n5kPZU
- +ODmoWeyoorVVJW9xiwwL+HCzmNXW7cxjIERfgU/BKztFSdCbGjH9BHA9
- /BiukkF7napyB6YRklH+eTAd8ds5/3cGzdVTbx9dEuy2Jf4JtTnAI6KYO w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="363654039"
-X-IronPort-AV: E=Sophos;i="6.00,261,1681196400"; d="scan'208";a="363654039"
+ bh=D/jvwCEerwGBFWfNc5D+J1qZzVUNaA+8J5p0nV+vC+U=;
+ b=ENi25iInJgA7Z4USD8e+AJ5mkWFUtkAAvbnMsJ2Ph3CGYfBhQra7iYh5
+ dqRLBUahhDr/k8TAQ8fPn1R/wkEGRwUaqGyXULukeelKhTlBnqKo5dznT
+ coRPcVSMoZiFcFQko6oiB0jt3tW3zIpm6xrWSq9QpfEi3pDXN82V5+hVH
+ NBURSlPOW3fxUWosSZKvogMLdO3YMeShwc90GIzD+Q0rqviXHXOxJLuHK
+ v5y0G2xE9U0/8zNVH+OTUp9TFLt5YHF/aoKHwVv9lrwk/TG18KR+N8MR0
+ 4Txve5DdhyQ/9nw9FVs3EzCJ3Ukotsg3VPl3c0nstCnBxrHrTLaszsW9h A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="363654050"
+X-IronPort-AV: E=Sophos;i="6.00,261,1681196400"; d="scan'208";a="363654050"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  21 Jun 2023 09:48:15 -0700
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="748774225"
-X-IronPort-AV: E=Sophos;i="6.00,261,1681196400"; d="scan'208";a="748774225"
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="748774226"
+X-IronPort-AV: E=Sophos;i="6.00,261,1681196400"; d="scan'208";a="748774226"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
  by orsmga001.jf.intel.com with ESMTP; 21 Jun 2023 09:48:12 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qC108-0006xB-06;
+ (envelope-from <lkp@intel.com>) id 1qC108-0006xH-0O;
  Wed, 21 Jun 2023 16:48:12 +0000
-Date: Thu, 22 Jun 2023 00:48:04 +0800
+Date: Thu, 22 Jun 2023 00:48:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
  thomas_os@shipmail.org, boris.brezillon@collabora.com,
  arunpravin.paneerselvam@amd.com, dakr@redhat.com,
  dri-devel@lists.freedesktop.org
 Subject: Re: [PATCH 2/2] drm: add drm_exec selftests v4
-Message-ID: <202306220036.YcdJJD0a-lkp@intel.com>
+Message-ID: <202306220029.L9DTnHh6-lkp@intel.com>
 References: <20230621133700.7588-2-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
@@ -80,14 +80,14 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/drm-add-d
 base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
 patch link:    https://lore.kernel.org/r/20230621133700.7588-2-christian.koenig%40amd.com
 patch subject: [PATCH 2/2] drm: add drm_exec selftests v4
-config: arm-randconfig-r014-20230621 (https://download.01.org/0day-ci/archive/20230622/202306220036.YcdJJD0a-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230622/202306220036.YcdJJD0a-lkp@intel.com/reproduce)
+config: x86_64-buildonly-randconfig-r003-20230621 (https://download.01.org/0day-ci/archive/20230622/202306220029.L9DTnHh6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230622/202306220029.L9DTnHh6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306220036.YcdJJD0a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306220029.L9DTnHh6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
