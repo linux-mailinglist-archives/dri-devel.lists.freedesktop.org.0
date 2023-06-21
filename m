@@ -2,46 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F7AD738DF0
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 19:58:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D9D1738E57
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 20:16:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B5EE10E122;
-	Wed, 21 Jun 2023 17:58:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 233EA10E348;
+	Wed, 21 Jun 2023 18:16:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4778910E122
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 17:58:42 +0000 (UTC)
-Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx0.riseup.net (Postfix) with ESMTPS id 4QmWTF3Z6zz9tKv;
- Wed, 21 Jun 2023 17:58:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1687370321; bh=2jWGAPdWUwaxVJK+ZBjdAoh2WFHRVQopPAYZ/X2thNQ=;
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C3EB10E344;
+ Wed, 21 Jun 2023 18:16:37 +0000 (UTC)
+Received: from [192.168.2.254] (109-252-154-132.dynamic.spd-mgts.ru
+ [109.252.154.132])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 61D736606FAC;
+ Wed, 21 Jun 2023 19:16:32 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1687371394;
+ bh=PQA2rc/Gs+XDzpOTYaQqwgwiDRANnpvkFuiUXn6B45A=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Pw6FJQTIyQjlWMtNmfYxoou895kxRRVwvYtjYCaqpp0piYZ0KVmYdBYBgCvlxT2xu
- hTtTnOCvvKZInC45+ZUKxV0RMtmgDlE5hQtAAxGnfXpAYigQutCwyIMkC3AqafMRmk
- k79ybOR70I3EMSB5mZ2uDgXtXqYbQIlpDOkPUkxc=
-X-Riseup-User-ID: 6F5E01901793FAA868099AF47EE44BF67661D2C7992AC941DB02F1F75ED889DC
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4QmWT01wXwzJp1M;
- Wed, 21 Jun 2023 17:58:27 +0000 (UTC)
-Message-ID: <5ffa4aef-70eb-a2b9-b3e2-7ba00d706e16@riseup.net>
-Date: Wed, 21 Jun 2023 14:58:23 -0300
+ b=a6uFWwMGM2Wn9oqIqY7w7ZXRsmW9BSZjBsI4Ir5fTcMPux5toiFC6wlyILN77QVfb
+ 0L+ZFaptUWmBOJZm2yvNv0eh15H4wUN+1EiHsUsv63mFz6hu/moMeG3T4oQV6i35F0
+ sHKIlQJA6GxprALI1nuPl+VQIhbWRMZVczzPnrUz21ntwNTap1H/IueLMyT7eRukEz
+ N3GdhDZdinRaXuMBSFTeA1MUT7KUhYwb+koIItqlM5t/HFmZVenSeMDvjEPNqpSvPr
+ WnQ/f7ngy10rNR4q+TxKWqOltsVMxB7/UwzmOPEST6X3Ell8COhkS5FvW3+wJ2ZV00
+ b/tPSDkrH1Jtg==
+Message-ID: <106bc72b-9358-de06-6f3f-06fdfa3859cd@collabora.com>
+Date: Wed, 21 Jun 2023 21:16:29 +0300
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] drm/vkms: Fix race-condition between the hrtimer and
- the atomic commit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.1
+Subject: Re: [PATCH v4 2/6] dma-buf/heaps: Don't assert held reservation lock
+ for dma-buf mmapping
 Content-Language: en-US
-To: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <mwen@igalia.com>, Haneen Mohammed <hamohammed.sa@gmail.com>
-References: <20230523123207.173976-1-mcanal@igalia.com>
-From: Arthur Grillo Queiroz Cabral <arthurgrillo@riseup.net>
-In-Reply-To: <20230523123207.173976-1-mcanal@igalia.com>
+To: "T.J. Mercier" <tjmercier@google.com>
+References: <20230529223935.2672495-1-dmitry.osipenko@collabora.com>
+ <20230529223935.2672495-3-dmitry.osipenko@collabora.com>
+ <CABdmKX2RU2iYyUssBpwS17zA1dfegjzdo4pxp0r8cOCWcY9=kg@mail.gmail.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <CABdmKX2RU2iYyUssBpwS17zA1dfegjzdo4pxp0r8cOCWcY9=kg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -56,120 +59,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ John Stultz <jstultz@google.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ kernel@collabora.com, Sumit Semwal <sumit.semwal@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ linux-media@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ intel-gfx@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Tomi Valkeinen <tomba@kernel.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
+ Tomasz Figa <tfiga@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
+On 6/21/23 20:21, T.J. Mercier wrote:
+> On Mon, May 29, 2023 at 3:46 PM Dmitry Osipenko
+> <dmitry.osipenko@collabora.com> wrote:
+>>
+>> Don't assert held dma-buf reservation lock on memory mapping of exported
+>> buffer.
+>>
+>> We're going to change dma-buf mmap() locking policy such that exporters
+>> will have to handle the lock. The previous locking policy caused deadlock
+>> problem for DRM drivers in a case of self-imported dma-bufs once these
+>> drivers are moved to use reservation lock universally. The problem
+>> solved by moving the lock down to exporters. This patch prepares dma-buf
+>> heaps for the locking policy update.
+>>
+> Hi Dmitry,
+> 
+> I see that in patch 6 of this series calls to
+> dma_resv_lock/dma_resv_unlock have been added to the
+> drm_gem_shmem_helper functions and some exporters. But I'm curious why
+> no dma_resv_lock/dma_resv_unlock calls were added to these two dma-buf
+> heap exporters for mmap?
 
-On 23/05/23 09:32, Maíra Canal wrote:
-> Currently, it is possible for the composer to be set as enabled and then
-> as disabled without a proper call for the vkms_vblank_simulate(). This
-> is problematic, because the driver would skip one CRC output, causing CRC
-> tests to fail. Therefore, we need to make sure that, for each time the
-> composer is set as enabled, a composer job is added to the queue.
-> 
-> In order to provide this guarantee, add a mutex that will lock before
-> the composer is set as enabled and will unlock only after the composer
-> job is added to the queue. This way, we can have a guarantee that the
-> driver won't skip a CRC entry.
-> 
-> This race-condition is affecting the IGT test "writeback-check-output",
-> making the test fail and also, leaking writeback framebuffers, as the
-> writeback job is queued, but it is not signaled. This patch avoids both
-> problems.
-> 
-> [v2]:
->     * Create a new mutex and keep the spinlock across the atomic commit in
->       order to avoid interrupts that could result in deadlocks.
-> 
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+DMA-buf heaps are exporters, drm_gem_shmem_helper is importer. Locking
+rules are different for importers and exporters.
 
-Great catch!
+DMA-heaps use own locking, they can be moved to resv lock in the future.
 
-Reviewed-by: Arthur Grillo <arthurgrillo@riseup.net>
+DMA-heaps don't protect internal data in theirs mmap() implementations,
+nothing to protect there.
 
-> ---
->  drivers/gpu/drm/vkms/vkms_composer.c | 9 +++++++--
->  drivers/gpu/drm/vkms/vkms_crtc.c     | 9 +++++----
->  drivers/gpu/drm/vkms/vkms_drv.h      | 4 +++-
->  3 files changed, 15 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-> index 906d3df40cdb..b12188fd6b38 100644
-> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-> @@ -320,10 +320,15 @@ void vkms_set_composer(struct vkms_output *out, bool enabled)
->  	if (enabled)
->  		drm_crtc_vblank_get(&out->crtc);
->  
-> -	spin_lock_irq(&out->lock);
-> +	mutex_lock(&out->enabled_lock);
->  	old_enabled = out->composer_enabled;
->  	out->composer_enabled = enabled;
-> -	spin_unlock_irq(&out->lock);
-> +
-> +	/* the composition wasn't enabled, so unlock the lock to make sure the lock
-> +	 * will be balanced even if we have a failed commit
-> +	 */
-> +	if (!out->composer_enabled)
-> +		mutex_unlock(&out->enabled_lock);
->  
->  	if (old_enabled)
->  		drm_crtc_vblank_put(&out->crtc);
-> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-> index 515f6772b866..3079013c8b32 100644
-> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
-> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-> @@ -16,7 +16,7 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
->  	struct drm_crtc *crtc = &output->crtc;
->  	struct vkms_crtc_state *state;
->  	u64 ret_overrun;
-> -	bool ret, fence_cookie;
-> +	bool ret, fence_cookie, composer_enabled;
->  
->  	fence_cookie = dma_fence_begin_signalling();
->  
-> @@ -25,15 +25,15 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
->  	if (ret_overrun != 1)
->  		pr_warn("%s: vblank timer overrun\n", __func__);
->  
-> -	spin_lock(&output->lock);
->  	ret = drm_crtc_handle_vblank(crtc);
->  	if (!ret)
->  		DRM_ERROR("vkms failure on handling vblank");
->  
->  	state = output->composer_state;
-> -	spin_unlock(&output->lock);
-> +	composer_enabled = output->composer_enabled;
-> +	mutex_unlock(&output->enabled_lock);
->  
-> -	if (state && output->composer_enabled) {
-> +	if (state && composer_enabled) {
->  		u64 frame = drm_crtc_accurate_vblank_count(crtc);
->  
->  		/* update frame_start only if a queued vkms_composer_worker()
-> @@ -292,6 +292,7 @@ int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
->  
->  	spin_lock_init(&vkms_out->lock);
->  	spin_lock_init(&vkms_out->composer_lock);
-> +	mutex_init(&vkms_out->enabled_lock);
->  
->  	vkms_out->composer_workq = alloc_ordered_workqueue("vkms_composer", 0);
->  	if (!vkms_out->composer_workq)
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> index 5f1a0a44a78c..dcf4e302fb4d 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -100,8 +100,10 @@ struct vkms_output {
->  	struct workqueue_struct *composer_workq;
->  	/* protects concurrent access to composer */
->  	spinlock_t lock;
-> +	/* guarantees that if the composer is enabled, a job will be queued */
-> +	struct mutex enabled_lock;
->  
-> -	/* protected by @lock */
-> +	/* protected by @enabled_lock */
->  	bool composer_enabled;
->  	struct vkms_crtc_state *composer_state;
->  
+-- 
+Best regards,
+Dmitry
+
