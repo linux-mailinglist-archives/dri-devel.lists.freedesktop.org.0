@@ -1,48 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61A9E738A8A
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 18:12:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7B45738A94
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 18:14:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7AB810E178;
-	Wed, 21 Jun 2023 16:12:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5067910E20F;
+	Wed, 21 Jun 2023 16:14:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E69FF10E178
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 16:12:27 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1qC0RQ-0007gc-08; Wed, 21 Jun 2023 18:12:20 +0200
-Message-ID: <737b07582ef2a4b2f134a1a931b6621ff96adb77.camel@pengutronix.de>
-Subject: Re: [PATCH v10 07/11] drm/etnaviv: Add support for the dma coherent
- device
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Sui Jingfeng <suijingfeng@loongson.cn>, Sui Jingfeng
- <18949883232@163.com>,  Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 21 Jun 2023 18:12:16 +0200
-In-Reply-To: <9c8afcb4-70c0-a920-2a78-78a9ac884c80@loongson.cn>
-References: <20230620094716.2231414-1-18949883232@163.com>
- <20230620094716.2231414-8-18949883232@163.com>
- <8f74f0962c8bab6c832919a5340667c54e1a7ddc.camel@pengutronix.de>
- <aa73348d-5ec8-4ac0-2ec0-0cce24756c63@loongson.cn>
- <87c9576e6ca1b58fa94e0bc1a2f4be3847f0518c.camel@pengutronix.de>
- <9c8afcb4-70c0-a920-2a78-78a9ac884c80@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87C8810E20F;
+ Wed, 21 Jun 2023 16:14:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+ s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+ Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+ Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+ bh=ik7rJHaj1qzSs2X3MBG7iKEMNpHmxnSx/M+1Kzp2joY=; b=otdvDzqfkar6RS4pYFoDbzEzpq
+ JiN4CSjoBZNtghkEbKsI1RX5gmvM6tiW/Dr566PB7PEyCctqx8zFajPymPf5MymYszlRGwSq3Tc3g
+ GxqLybgBqao4pj6kJIszUNHKhsoeVIC/m4p07vccvLnZp/FBUW1D6/54RdI4ADtXNYW8=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+ (envelope-from <andrew@lunn.ch>)
+ id 1qC0T5-00HA64-GG; Wed, 21 Jun 2023 18:14:03 +0200
+Date: Wed, 21 Jun 2023 18:14:03 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Johannes Berg <johannes@sipsolutions.net>
+Subject: Re: [PATCH V4 1/8] drivers/acpi: Add support for Wifi band RF
+ mitigations
+Message-ID: <d2dba04d-36bf-4d07-bf2b-dd06671c45c6@lunn.ch>
+References: <20230621054603.1262299-1-evan.quan@amd.com>
+ <20230621054603.1262299-2-evan.quan@amd.com>
+ <3a7c8ffa-de43-4795-ae76-5cd9b00c52b5@lunn.ch>
+ <216f3c5aa1299100a0009ddf4e95b019855a32be.camel@sipsolutions.net>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <216f3c5aa1299100a0009ddf4e95b019855a32be.camel@sipsolutions.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,62 +49,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
+Cc: jingyuwang_vip@163.com, bellosilicio@gmail.com, rafael@kernel.org,
+ trix@redhat.com, lijo.lazar@amd.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, mdaenzer@redhat.com, mario.limonciello@amd.com,
+ amd-gfx@lists.freedesktop.org, linux-acpi@vger.kernel.org, kuba@kernel.org,
+ pabeni@redhat.com, lenb@kernel.org, andrealmeid@igalia.com, arnd@arndb.de,
+ hdegoede@redhat.com, Evan Quan <evan.quan@amd.com>, netdev@vger.kernel.org,
+ Xinhui.Pan@amd.com, linux-wireless@vger.kernel.org, edumazet@google.com,
+ christian.koenig@amd.com, tzimmermann@suse.de, alexander.deucher@amd.com,
+ davem@davemloft.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Mittwoch, dem 21.06.2023 um 23:41 +0800 schrieb Sui Jingfeng:
-> On 2023/6/21 23:23, Lucas Stach wrote:
-> > Am Mittwoch, dem 21.06.2023 um 22:44 +0800 schrieb Sui Jingfeng:
-> > > Hi,
-> > >=20
-> > > On 2023/6/21 18:00, Lucas Stach wrote:
-> > > > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/=
-drm/etnaviv/etnaviv_drv.h
-> > > > > index 9cd72948cfad..644e5712c050 100644
-> > > > > --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-> > > > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-> > > > > @@ -46,6 +46,12 @@ struct etnaviv_drm_private {
-> > > > >    	struct xarray active_contexts;
-> > > > >    	u32 next_context_id;
-> > > > >   =20
-> > > > > +	/*
-> > > > > +	 * If true, the GPU is capable of snooping cpu cache. Here, it
-> > > > > +	 * also means that cache coherency is enforced by the hardware.
-> > > > > +	 */
-> > > > > +	bool dma_coherent;
-> > > > > +
-> > > > No need for this, I think. Just use dev_is_dma_coherent() where you
-> > > > need to know this.
-> > > >=20
-> > > No, we want this value cached by the driver.
-> > >=20
-> > Why? dev_is_dma_coherent() is a header-only function with a single
-> > pointer chasing operation. Your cache is also a single pointer chasing
-> > access, just that we now need storage for this information in both
-> > struct device and struct etnaviv_gpu.
->=20
->=20
-> You don't need store it in struct etnaviv_gpu.
->=20
-> As this variable is shared across the device, so it is better to be put=
-=20
-> in the struct etnaviv_drm_private.
->=20
-> I don't think another 4 bytes allocation is something what we can't pay f=
-or.
->=20
->=20
-> My patch doesn't mentioned that it need to store it inside of struct=20
-> etnaviv_gpu, do I?
+> > Do only ACPI based systems have:
+> > 
+> >    interference of relatively high-powered harmonics of the (G-)DDR
+> >    memory clocks with local radio module frequency bands used by
+> >    Wifi 6/6e/7."
+> > 
+> > Could Device Tree based systems not experience this problem?
+> 
+> They could, of course, but they'd need some other driver to change
+> _something_ in the system? I don't even know what this is doing
+> precisely under the hood in the ACPI BIOS
 
-You are right, I was mistaken about the etnaviv struct this is added
-to. However there is still the fundamental question: what's the gain of
-this cache? The information is already available in struct device and
-will be accessed with the same amount of loads if you care that much
-about micro-optimization.
+If you don't know what it is actually doing, it suggests the API is
+not very well defined. Is there even enough details that ARM64 ACPI
+BIOS could implement this? 
 
-Regards,
-Lucas
+> > > +/**
+> > > + * APIs needed by drivers/subsystems for contributing frequencies:
+> > > + * During probe, check `wbrf_supported_producer` to see if WBRF is supported.
+> > > + * If adding frequencies, then call `wbrf_add_exclusion` with the
+> > > + * start and end points specified for the frequency ranges added.
+> > > + * If removing frequencies, then call `wbrf_remove_exclusion` with
+> > > + * start and end points specified for the frequency ranges added.
+> > > + */
+> > > +bool wbrf_supported_producer(struct acpi_device *adev);
+> > > +int wbrf_add_exclusion(struct acpi_device *adev,
+> > > +		       struct wbrf_ranges_in *in);
+> > > +int wbrf_remove_exclusion(struct acpi_device *adev,
+> > > +			  struct wbrf_ranges_in *in);
+> > 
+> > Could struct device be used here, to make the API agnostic to where
+> > the information is coming from? That would then allow somebody in the
+> > future to implement a device tree based information provider.
+> 
+> That does make sense, and it wouldn't even be that much harder if we
+> assume in a given platform there's only one provider
 
+That seems like a very reasonable assumption. It is theoretically
+possible to build an ACPI + DT hybrid, but i've never seen it actually
+done.
+
+If an ARM64 ACPI BIOS could implement this, then i would guess the low
+level bits would be solved, i guess jumping into the EL1
+firmware. Putting DT on top instead should not be too hard.
+
+	Andrew
