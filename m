@@ -1,69 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81DF3738907
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 17:27:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CD2E73891E
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 17:30:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B654110E4BA;
-	Wed, 21 Jun 2023 15:27:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E08FA10E4B2;
+	Wed, 21 Jun 2023 15:30:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37E1010E4B6
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 15:27:30 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id
- 38308e7fff4ca-2b46cfde592so64303921fa.0
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 08:27:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687361248; x=1689953248;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3qfuToZ41zkQt1uaQ5WCl4kX3p32GHMidFTGVWWTPxM=;
- b=j3AS4hx00Klja//zSZq6EcICNDh6V+sFiGhimSeRr3qhCyE775SAf3RDwNcRt4Ki3j
- EZl53sUA2QYsb6OrO7fL0yNWS4nF+Nu3d/41wVFs53vsaNC9CZRjWWOwqyBK6cXkOrRt
- CQDjL0P5WXKUA4YSqva42vlK0JCUK0OjuXMpLyWZtOWjLtdG4KjJgbTaMcq2SZKqv547
- pb9UBvDGYNVrTKyo9np/wTxog4tTdU+sLb4ioudsf79iH0Q+HP8y7Tz3+nC1uaIQt1l7
- hnsjTgwCTcSu7sb+aeHmmjKmk23joeWNbmwweaaoKmfE8eihAu3idLHSV4BFH3tmuRXj
- jsPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687361248; x=1689953248;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=3qfuToZ41zkQt1uaQ5WCl4kX3p32GHMidFTGVWWTPxM=;
- b=BvNP1FJeM77Nf13d1K3+CwZ5Bz0TZytPV9K7e3CxyMAaTyiDirGziicyJkAkCPAjKN
- Lfpi7loyLS2sO0VkrTN/UeGK1kIs8VPClmb9qiItd7ELd4n1PC5uhiEAg5lovZPd/nxe
- 864xEYEhijDGrUUXpS6Yd5pzT2gkh/u6aTGz8Ey7ULBLDanGdYhJ/vpt7QDhC4n2xomg
- tutdsNCyLu1XKnToVhAFGZ/eFqib+H0q9L+vGGZf3MTDGdSnz726+ru6+Zqp9Guzqlme
- aNRriEkDN9T0iAAsCYaHxN1uEn6X5oEEmtwch/QQl+z71zJ4MVq3Eau56WoQo90sTPlR
- QDoA==
-X-Gm-Message-State: AC+VfDwW2rG/xGMvSL02UQ1MxW/UpgU1oAotXog15njQdaSXWZxDJzwt
- NWLtu65Q/a5d7G/+ZbhsqN8n5A==
-X-Google-Smtp-Source: ACHHUZ5EtH0JIYoCiImPq++FdLSlJvawI4U6yNfoJPq8giZkqf6rQb3Qz2AhmIARMlYXgosLGRoApw==
-X-Received: by 2002:a2e:b601:0:b0:2b4:8623:cf74 with SMTP id
- r1-20020a2eb601000000b002b48623cf74mr4650604ljn.18.1687361248225; 
- Wed, 21 Jun 2023 08:27:28 -0700 (PDT)
-Received: from umbar.unikie.fi ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- o11-20020a2e9b4b000000b002ad5f774579sm926408ljj.96.2023.06.21.08.27.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jun 2023 08:27:27 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Michael Turquette <mturquette@baylibre.com>
-Subject: [PATCH 7/7] phy: qcom: qmp-combo: extract common function to setup
- clocks
-Date: Wed, 21 Jun 2023 18:27:19 +0300
-Message-Id: <20230621152719.1025801-8-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230621152719.1025801-1-dmitry.baryshkov@linaro.org>
-References: <20230621152719.1025801-1-dmitry.baryshkov@linaro.org>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3C8DD10E4AF;
+ Wed, 21 Jun 2023 15:30:05 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8BxlfB8F5NkbiwAAA--.339S3;
+ Wed, 21 Jun 2023 23:30:04 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Cx_c58F5Nkd9sAAA--.5186S3; 
+ Wed, 21 Jun 2023 23:30:04 +0800 (CST)
+Message-ID: <66fc74ae-299c-a5de-9cfb-07ae24fb3f07@loongson.cn>
+Date: Wed, 21 Jun 2023 23:30:04 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v10 07/11] drm/etnaviv: Add support for the dma coherent
+ device
+Content-Language: en-US
+To: Lucas Stach <l.stach@pengutronix.de>, Sui Jingfeng <18949883232@163.com>, 
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230620094716.2231414-1-18949883232@163.com>
+ <20230620094716.2231414-8-18949883232@163.com>
+ <8f74f0962c8bab6c832919a5340667c54e1a7ddc.camel@pengutronix.de>
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <8f74f0962c8bab6c832919a5340667c54e1a7ddc.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Cx_c58F5Nkd9sAAA--.5186S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxAFyxCF4Uur4UKryrAF47Awc_yoW5Ww45pF
+ WfAFyYyrWUXrWUK397Zan8Za4Fgr47W34Iyas8J3Z09w4YyF4qkF1rKFy5CFs8GryfCr1a
+ qa1j9ry5XF48ZrXCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUU9lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
+ Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE
+ 14v26r4UJVWxJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2
+ xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xF
+ xVAFwI0_Wrv_ZF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWw
+ C2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_
+ JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJV
+ WUCwCI42IY6I8E87Iv67AKxVW8Jr0_Cr1UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4U
+ JbIYCTnIWIevJa73UjIFyTuYvjxU7fHUDUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,124 +70,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
- Neil Armstrong <neil.armstrong@linaro.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Extact qmp_combo_configure_dp_clocks(), a common function to setup PHY
-clocks depending on the selected link rate.
+Hi,
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/phy/qualcomm/phy-qcom-qmp-combo.c | 63 ++++++++++-------------
- 1 file changed, 26 insertions(+), 37 deletions(-)
+On 2023/6/21 18:00, Lucas Stach wrote:
+>>   		dma_sync_sgtable_for_cpu(dev->dev, etnaviv_obj->sgt,
+>>   					 etnaviv_op_to_dma_dir(op));
+>>   		etnaviv_obj->last_cpu_prep_op = op;
+>> @@ -408,8 +421,9 @@ int etnaviv_gem_cpu_fini(struct drm_gem_object *obj)
+>>   {
+>>   	struct drm_device *dev = obj->dev;
+>>   	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
+>> +	struct etnaviv_drm_private *priv = dev->dev_private;
+>>   
+>> -	if (etnaviv_obj->flags & ETNA_BO_CACHED) {
+>> +	if (!priv->dma_coherent && etnaviv_obj->flags & ETNA_BO_CACHED) {
+>>   		/* fini without a prep is almost certainly a userspace error */
+>>   		WARN_ON(etnaviv_obj->last_cpu_prep_op == 0);
+>>   		dma_sync_sgtable_for_device(dev->dev, etnaviv_obj->sgt,
+>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+>> index 3524b5811682..754126992264 100644
+>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+>> @@ -112,11 +112,16 @@ static const struct etnaviv_gem_ops etnaviv_gem_prime_ops = {
+>>   struct drm_gem_object *etnaviv_gem_prime_import_sg_table(struct drm_device *dev,
+>>   	struct dma_buf_attachment *attach, struct sg_table *sgt)
+>>   {
+>> +	struct etnaviv_drm_private *priv = dev->dev_private;
+>>   	struct etnaviv_gem_object *etnaviv_obj;
+>>   	size_t size = PAGE_ALIGN(attach->dmabuf->size);
+>> +	u32 cache_flags = ETNA_BO_WC;
+>>   	int ret, npages;
+>>   
+>> -	ret = etnaviv_gem_new_private(dev, size, ETNA_BO_WC,
+>> +	if (priv->dma_coherent)
+>> +		cache_flags = ETNA_BO_CACHED;
+>> +
+> Drop this change. Instead etnaviv_gem_new_impl() should do the upgrade
+> from WC to CACHED as necessary by adding something like this:
 
-diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
-index ab6cfa02ecf9..d82fcd060e77 100644
---- a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
-+++ b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
-@@ -2074,18 +2074,12 @@ static bool qmp_combo_configure_dp_mode(struct qmp_combo *qmp)
- 	return reverse;
- }
- 
--static int qmp_v3_configure_dp_phy(struct qmp_combo *qmp)
-+static int qmp_combo_configure_dp_clocks(struct qmp_combo *qmp)
- {
- 	const struct phy_configure_opts_dp *dp_opts = &qmp->dp_opts;
--	const struct qmp_phy_cfg *cfg = qmp->cfg;
--	u32 phy_vco_div, status;
-+	u32 phy_vco_div;
- 	unsigned long pixel_freq;
- 
--	qmp_combo_configure_dp_mode(qmp);
--
--	writel(0x05, qmp->dp_dp_phy + QSERDES_V3_DP_PHY_TX0_TX1_LANE_CTL);
--	writel(0x05, qmp->dp_dp_phy + QSERDES_V3_DP_PHY_TX2_TX3_LANE_CTL);
--
- 	switch (dp_opts->link_rate) {
- 	case 1620:
- 		phy_vco_div = 0x1;
-@@ -2107,11 +2101,29 @@ static int qmp_v3_configure_dp_phy(struct qmp_combo *qmp)
- 		/* Other link rates aren't supported */
- 		return -EINVAL;
- 	}
--	writel(phy_vco_div, qmp->dp_dp_phy + QSERDES_V3_DP_PHY_VCO_DIV);
-+	writel(phy_vco_div, qmp->dp_dp_phy + QSERDES_V4_DP_PHY_VCO_DIV);
- 
- 	clk_set_rate(qmp->dp_link_hw.clk, dp_opts->link_rate * 100000);
- 	clk_set_rate(qmp->dp_pixel_hw.clk, pixel_freq);
- 
-+	return 0;
-+}
-+
-+static int qmp_v3_configure_dp_phy(struct qmp_combo *qmp)
-+{
-+	const struct qmp_phy_cfg *cfg = qmp->cfg;
-+	u32 status;
-+	int ret;
-+
-+	qmp_combo_configure_dp_mode(qmp);
-+
-+	writel(0x05, qmp->dp_dp_phy + QSERDES_V3_DP_PHY_TX0_TX1_LANE_CTL);
-+	writel(0x05, qmp->dp_dp_phy + QSERDES_V3_DP_PHY_TX2_TX3_LANE_CTL);
-+
-+	ret = qmp_combo_configure_dp_clocks(qmp);
-+	if (ret)
-+		return ret;
-+
- 	writel(0x04, qmp->dp_dp_phy + QSERDES_DP_PHY_AUX_CFG2);
- 	writel(0x01, qmp->dp_dp_phy + QSERDES_DP_PHY_CFG);
- 	writel(0x05, qmp->dp_dp_phy + QSERDES_DP_PHY_CFG);
-@@ -2210,10 +2222,9 @@ static void qmp_v4_configure_dp_tx(struct qmp_combo *qmp)
- 
- static int qmp_v456_configure_dp_phy(struct qmp_combo *qmp)
- {
--	const struct phy_configure_opts_dp *dp_opts = &qmp->dp_opts;
- 	const struct qmp_phy_cfg *cfg = qmp->cfg;
--	u32 phy_vco_div, status;
--	unsigned long pixel_freq;
-+	u32 status;
-+	int ret;
- 
- 	writel(0x0f, qmp->dp_dp_phy + QSERDES_V4_DP_PHY_CFG_1);
- 
-@@ -2225,31 +2236,9 @@ static int qmp_v456_configure_dp_phy(struct qmp_combo *qmp)
- 	writel(0x05, qmp->dp_dp_phy + QSERDES_V4_DP_PHY_TX0_TX1_LANE_CTL);
- 	writel(0x05, qmp->dp_dp_phy + QSERDES_V4_DP_PHY_TX2_TX3_LANE_CTL);
- 
--	switch (dp_opts->link_rate) {
--	case 1620:
--		phy_vco_div = 0x1;
--		pixel_freq = 1620000000UL / 2;
--		break;
--	case 2700:
--		phy_vco_div = 0x1;
--		pixel_freq = 2700000000UL / 2;
--		break;
--	case 5400:
--		phy_vco_div = 0x2;
--		pixel_freq = 5400000000UL / 4;
--		break;
--	case 8100:
--		phy_vco_div = 0x0;
--		pixel_freq = 8100000000UL / 6;
--		break;
--	default:
--		/* Other link rates aren't supported */
--		return -EINVAL;
--	}
--	writel(phy_vco_div, qmp->dp_dp_phy + QSERDES_V4_DP_PHY_VCO_DIV);
--
--	clk_set_rate(qmp->dp_link_hw.clk, dp_opts->link_rate * 100000);
--	clk_set_rate(qmp->dp_pixel_hw.clk, pixel_freq);
-+	ret = qmp_combo_configure_dp_clocks(qmp);
-+	if (ret)
-+		return ret;
- 
- 	writel(0x01, qmp->dp_dp_phy + QSERDES_DP_PHY_CFG);
- 	writel(0x05, qmp->dp_dp_phy + QSERDES_DP_PHY_CFG);
+I understand you are a profession person in vivante GPU driver domain.
+
+I respect you reviews and instruction.
+
+But, I'm really reluctant to agree with this, is there any space to 
+negotiate?
+
+> /*
+>   * Upgrade WC to CACHED when the device is hardware coherent and the
+>   * platform doesn't allow mixing cached and writecombined mappings to
+>   * the same memory area.
+>   */
+> if ((flags & ETNA_BO_CACHE_MASK) == ETNA_BO_WC &&
+>      dev_is_dma_coherent(dev) && !drm_arch_can_wc_memory())
+>          flags = (flags & ~ETNA_BO_CACHE_MASK) & ETNA_BO_CACHED;
+
+This is policy, not a mechanism.
+
+Using what cache property is a user-space program's choice.
+
+While you are override the WC with CACHED mapping. This is not correct 
+in the concept!
+
+you approach forbidden any possibility to use the WC BO at anywhere.
+
+
+My approach need only check once, while you approach need at least 3 
+check plus
+
+so much bit-wise logic operations,  plus a function call  (&, ==, &&,  
+&, ~, &) .
+
+and every time you create a BO. This nasty judgement happens.
+
+
+Please keep our original implement, it's simple and clear, Please?
+
+
 -- 
-2.39.2
+Jingfeng
 
