@@ -1,54 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23861738686
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 16:14:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A14287386A3
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 16:18:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DFBC10E495;
-	Wed, 21 Jun 2023 14:14:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B8FF10E494;
+	Wed, 21 Jun 2023 14:18:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D66E10E494;
- Wed, 21 Jun 2023 14:14:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1687356860; x=1718892860;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=9adIYkSPZPSbDZomCIPXDHAFkK/cANr4oaK1SeIPzi4=;
- b=YZgWnVbStYNW4fSiwL6uTwc1PWsGPSYJvQmK9yISDz+xYlmPWlu22W84
- N6UpCU5/5Nm8pgjLTcFm1BPGJYCYGZbPnsChI185CAOlF65FvyIqoK8wz
- A/g2xZds62P/jHngZoFXWPyl/mnL+aFhTB5mqZ9sV9Ds02Ug3V2IM9pgr
- 0XaH/yJEBsTM/PkyrWbHly7UJSgRZNan/LkI/hzpTbW9/W6413RyIDLR7
- IfOepPg9xmU6ea1X5g/Yi4TCDI71XTfRxvYSzfHGsAXzCcC0vTBbZl5pK
- CiK97Gdb+nP5HPvPjqENdmjETMXg8kwlT3VRECyf5DrMjHV4CS59x3de3 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="349915864"
-X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; d="scan'208";a="349915864"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jun 2023 07:14:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="784507825"
-X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; d="scan'208";a="784507825"
-Received: from uniemimu-mobl1.ger.corp.intel.com (HELO [10.249.254.76])
- ([10.249.254.76])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jun 2023 07:14:16 -0700
-Message-ID: <7bcd2548ad4a403d8c6b67a8274c253b07123be8.camel@linux.intel.com>
-Subject: Re: [PATCH v2] Documentation/gpu: Add a VM_BIND async draft document
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Danilo Krummrich <dakr@redhat.com>
-Date: Wed, 21 Jun 2023 16:14:14 +0200
-In-Reply-To: <ZJLdoPznXusy8l51@pollux>
-References: <20230621100435.54425-1-thomas.hellstrom@linux.intel.com>
- <ZJLdoPznXusy8l51@pollux>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1BA010E494
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 14:18:12 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 0C28E6606F94;
+ Wed, 21 Jun 2023 15:18:11 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1687357091;
+ bh=OU6ErLWoVViuJCLZ8kmduE3ULMZk2XC9Oor77rzzcCk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=JEkFvGaEx8JUT1lLFZZ+bNAYJ0PD1c5Xw/mgb3CO36tIYwscvcvLbJL/wMd8N4mLr
+ CrzrLsSV1ppvvwQ1kn4Eh8Pto6GMgDvbj/yDTdyqJ3BETlMa716S7AGLvEcvBDdMNY
+ RUyhigVOKd2UDntsLj707N67ZXgc9xt4cCWWxeg6fcYP1JI+EAekhsbWsKd3s/0V1w
+ C2d2Ro2c4DHr2L8Qy5C1/R9NJTE7nHKwe7/+4o3DC0PmkcD+uYPfiLHQ5BCo1Xar2W
+ cjGNW6KmguPv8ZPkJTMk6usSXuQjH6cWKF9cxqyHJtvAPTxi1wphBZHAbhJAu5O06/
+ k6TW8+mK+yU2g==
+Date: Wed, 21 Jun 2023 16:18:08 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Luben Tuikov <luben.tuikov@amd.com>
+Subject: Re: [PATCH v6] drm/sched: Make sure we wait for all dependencies in
+ kill_jobs_cb()
+Message-ID: <20230621161808.24262cdd@collabora.com>
+In-Reply-To: <dca9af00-271b-168d-c5f5-e6a662be38dc@amd.com>
+References: <20230619071921.3465992-1-boris.brezillon@collabora.com>
+ <dca9af00-271b-168d-c5f5-e6a662be38dc@amd.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,357 +54,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, linux-kernel@vger.kernel.org,
- Oak Zeng <oak.zeng@intel.com>, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, Nirmoy Das <nirmoy.das@intel.com>
+Cc: Sarah Walker <sarah.walker@imgtec.com>, dri-devel@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Donald Robson <donald.robson@imgtec.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks for reviewing.
+Hello Luben,
 
-On Wed, 2023-06-21 at 13:23 +0200, Danilo Krummrich wrote:
-> On Wed, Jun 21, 2023 at 12:04:35PM +0200, Thomas Hellstr=C3=B6m wrote:
-> > Add a motivation for and description of asynchronous VM_BIND
-> > operation
+On Wed, 21 Jun 2023 09:56:40 -0400
+Luben Tuikov <luben.tuikov@amd.com> wrote:
+
+> On 2023-06-19 03:19, Boris Brezillon wrote:
+> > drm_sched_entity_kill_jobs_cb() logic is omitting the last fence popped
+> > from the dependency array that was waited upon before
+> > drm_sched_entity_kill() was called (drm_sched_entity::dependency field),
+> > so we're basically waiting for all dependencies except one.
+> >=20
+> > In theory, this wait shouldn't be needed because resources should have
+> > their users registered to the dma_resv object, thus guaranteeing that
+> > future jobs wanting to access these resources wait on all the previous
+> > users (depending on the access type, of course). But we want to keep
+> > these explicit waits in the kill entity path just in case.
+> >=20
+> > Let's make sure we keep all dependencies in the array in
+> > drm_sched_job_dependency(), so we can iterate over the array and wait
+> > in drm_sched_entity_kill_jobs_cb().
+> >=20
+> > We also make sure we wait on drm_sched_fence::finished if we were
+> > originally asked to wait on drm_sched_fence::scheduled. In that case,
+> > we assume the intent was to delegate the wait to the firmware/GPU or
+> > rely on the pipelining done at the entity/scheduler level, but when
+> > killing jobs, we really want to wait for completion not just scheduling.
+> >=20
+> > v6:
+> > - Back to v4 implementation
+> > - Add Christian's R-b
+> >=20
+> > v5:
+> > - Flag deps on which we should only wait for the scheduled event
+> >   at insertion time
+> >=20
+> > v4:
+> > - Fix commit message
+> > - Fix a use-after-free bug
+> >=20
+> > v3:
+> > - Always wait for drm_sched_fence::finished fences in
+> >   drm_sched_entity_kill_jobs_cb() when we see a sched_fence
 > >=20
 > > v2:
-> > - Fix typos (Nirmoy Das)
-> > - Improve the description of a memory fence (Oak Zeng)
-> > - Add a reference to the document in the Xe RFC.
-> > - Add pointers to sample uAPI suggestions
+> > - Don't evict deps in drm_sched_job_dependency() =20
+>=20
+> Hmm, why is this in reverse chronological order?
+> It's very confusing.
+
+Dunno, that's how I've always ordered things, and quick look at some
+dri-devel patches [1][2] makes me think I'm not the only one to start
+from the latest submission.
+
+[1]https://lkml.org/lkml/2023/6/19/941
+[2]https://lore.kernel.org/dri-devel/cover.1686729444.git.Sandor.yu@nxp.com=
+/T/#t
+
+>=20
 > >=20
-> > Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> > Acked-by: Nirmoy Das <nirmoy.das@intel.com>
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > Suggested-by: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> > Reviewed-by: "Christian K=C3=B6nig" <christian.koenig@amd.com> =20
+>=20
+> These three lines would usually come after the CCs.
+
+Again, I think I've always inserted those tags before the Cc, but I can
+re-order things if you prefer. Let me know if you want me to send a v7
+addressing the Cc+changelog ordering.
+
+Regards,
+
+Boris
+
+>=20
+> Regards,
+> Luben
+>=20
+> > Cc: Frank Binns <frank.binns@imgtec.com>
+> > Cc: Sarah Walker <sarah.walker@imgtec.com>
+> > Cc: Donald Robson <donald.robson@imgtec.com>
+> > Cc: Luben Tuikov <luben.tuikov@amd.com>
+> > Cc: David Airlie <airlied@gmail.com>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
 > > ---
-> > =C2=A0Documentation/gpu/drm-vm-bind-async.rst | 145
-> > ++++++++++++++++++++++++
-> > =C2=A0Documentation/gpu/rfc/xe.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +-
-> > =C2=A02 files changed, 147 insertions(+), 2 deletions(-)
-> > =C2=A0create mode 100644 Documentation/gpu/drm-vm-bind-async.rst
+> >  drivers/gpu/drm/scheduler/sched_entity.c | 41 +++++++++++++++++++-----
+> >  1 file changed, 33 insertions(+), 8 deletions(-)
 > >=20
-> > diff --git a/Documentation/gpu/drm-vm-bind-async.rst
-> > b/Documentation/gpu/drm-vm-bind-async.rst
-> > new file mode 100644
-> > index 000000000000..69aff250b62f
-> > --- /dev/null
-> > +++ b/Documentation/gpu/drm-vm-bind-async.rst
-> > @@ -0,0 +1,145 @@
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +Asynchronous VM_BIND
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm=
+/scheduler/sched_entity.c
+> > index 68e807ae136a..ec41d82d0141 100644
+> > --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> > +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> > @@ -176,16 +176,32 @@ static void drm_sched_entity_kill_jobs_cb(struct =
+dma_fence *f,
+> >  {
+> >  	struct drm_sched_job *job =3D container_of(cb, struct drm_sched_job,
+> >  						 finish_cb);
+> > -	int r;
+> > +	unsigned long index;
+> > =20
+> >  	dma_fence_put(f);
+> > =20
+> >  	/* Wait for all dependencies to avoid data corruptions */
+> > -	while (!xa_empty(&job->dependencies)) {
+> > -		f =3D xa_erase(&job->dependencies, job->last_dependency++);
+> > -		r =3D dma_fence_add_callback(f, &job->finish_cb,
+> > -					   drm_sched_entity_kill_jobs_cb);
+> > -		if (!r)
+> > +	xa_for_each(&job->dependencies, index, f) {
+> > +		struct drm_sched_fence *s_fence =3D to_drm_sched_fence(f);
 > > +
-> > +Nomenclature:
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +		if (s_fence && f =3D=3D &s_fence->scheduled) {
+> > +			/* The dependencies array had a reference on the scheduled
+> > +			 * fence, and the finished fence refcount might have
+> > +			 * dropped to zero. Use dma_fence_get_rcu() so we get
+> > +			 * a NULL fence in that case.
+> > +			 */
+> > +			f =3D dma_fence_get_rcu(&s_fence->finished);
 > > +
-> > +* VRAM: On-device memory. Sometimes referred to as device local
-> > memory.
+> > +			/* Now that we have a reference on the finished fence,
+> > +			 * we can release the reference the dependencies array
+> > +			 * had on the scheduled fence.
+> > +			 */
+> > +			dma_fence_put(&s_fence->scheduled);
+> > +		}
 > > +
-> > +* vm: A GPU address space. Typically per process, but can be
-> > shared by
-> > +=C2=A0 multiple processes.
->=20
-> Rather obvious, but maybe specify as "GPU virtual address space" or
-> just
-> "GPU VA space".
->=20
-> Personally, I don't like "vm" as an abbreviation for "GPU VA space"
-> or "virtual
-> address space" in general, but it is commonly used and I fail to find
-> a better
-> one to be honest.
-
-I have another upcoming document related to VM_BIND locking variants /
-userptr integration and there I call gpu_vm. It would make sense to
-unify the naming in the documents anyway. I don't have a strong opinion
-either as long as it's not too long.
-
->=20
+> > +		xa_erase(&job->dependencies, index);
+> > +		if (f && !dma_fence_add_callback(f, &job->finish_cb,
+> > +						 drm_sched_entity_kill_jobs_cb))
+> >  			return;
+> > =20
+> >  		dma_fence_put(f);
+> > @@ -415,8 +431,17 @@ static struct dma_fence *
+> >  drm_sched_job_dependency(struct drm_sched_job *job,
+> >  			 struct drm_sched_entity *entity)
+> >  {
+> > -	if (!xa_empty(&job->dependencies))
+> > -		return xa_erase(&job->dependencies, job->last_dependency++);
+> > +	struct dma_fence *f;
 > > +
-> > +* VM_BIND: An operation or a list of operations to modify a vm
-> > using
-> > +=C2=A0 an IOCTL. The operations include mapping and unmapping system-
-> > or
-> > +=C2=A0 VRAM memory.
-> > +
-> > +* syncobj: A container that abstracts synchronization objects. The
-> > +=C2=A0 synchronization objects can be either generic, like dma-fences
-> > or
-> > +=C2=A0 driver specific. A syncobj typically indicates the type of the
-> > +=C2=A0 underlying synchronization object.
-> > +
-> > +* in-syncobj: Argument to a VM_BIND IOCTL, the VM_BIND operation
-> > waits
-> > +=C2=A0 for these before starting.
-> > +
-> > +* out-syncbj: Argument to a VM_BIND_IOCTL, the VM_BIND operation
-> > +=C2=A0 signals these when the bind operation is complete.
-> > +
-> > +* memory fence: A synchronization object, different from a dma-
-> > fence.
-> > +=C2=A0 A memory fence uses the value of a specified memory location to
-> > determine
-> > +=C2=A0 signaled status. A memory fence can be awaited and signaled by
-> > both
-> > +=C2=A0 the GPU and CPU. Memory fences are sometimes referred to as
-> > +=C2=A0 user-fences, and do not necessarily bey the dma-fence rule of
-> > +=C2=A0 signalling within a "reasonable amount of time". The kernel
-> > should
-> > +=C2=A0 thus avoid waiting for memory fences with locks held.
-> > +
-> > +* long-running workload: A workload that may take more than the
-> > +=C2=A0 current stipulated dma-fence maximum signal delay to complete
-> > and
-> > +=C2=A0 which therefore needs to set the VM or the GPU execution contex=
-t
-> > in
-> > +=C2=A0 a certain mode that disallows completion dma-fences.
-> > +
-> > +* UMD: User-mode driver.
-> > +
-> > +* KMD: Kernel-mode driver.
-> > +
-> > +
-> > +Synchronous / Asynchronous VM_BIND operation
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +Synchronous VM_BIND
-> > +___________________
-> > +With Synchronous VM_BIND, the VM_BIND operations all complete
-> > before the
-> > +ioctl returns. A synchronous VM_BIND takes neither in-fences nor
->=20
-> Just some nit-picking: IOCTL is mostly written in caps, maybe you
-> want to stick
-> to either of the two variants.
-
-Sure,
-
->=20
-> > +out-fences. Synchronous VM_BIND may block and wait for GPU
-> > operations;
-> > +for example swapin or clearing, or even previous binds.
-> > +
-> > +Asynchronous VM_BIND
-> > +____________________
-> > +Asynchronous VM_BIND accepts both in-syncobjs and out-syncobjs.
-> > While the
-> > +IOCTL may return immediately, the VM_BIND operations wait for the
-> > in-syncobjs
-> > +before modifying the GPU page-tables, and signal the out-syncobjs
-> > when
-> > +the modification is done in the sense that the next execbuf that
->=20
-> Maybe add "execbuf" to the nomenclature.
->=20
-> > +awaits for the out-syncobjs will see the change. Errors are
-> > reported
-> > +synchronously assuming that the asynchronous part of the job never
-> > errors.
-> > +In low-memory situations the implementation may block, performing
-> > the
-> > +VM_BIND synchronously, because there might not be enough memory
-> > +immediately available for preparing the asynchronous operation.
-> > +
-> > +If the VM_BIND IOCTL takes a list or an array of operations as an
-> > argument,
-> > +the in-syncobjs needs to signal before the first operation starts
-> > to
-> > +execute, and the out-syncobjs signal after the last operation
-> > +completes. Operations in the operation list can be assumed, where
-> > it
-> > +matters, to complete in order.
-> > +
-> > +To aid in supporting user-space queues, the VM_BIND may take a
-> > bind context
->=20
-> I think "bind context" should also be explained in the nomenclature.
->=20
-> > +AKA bind engine identifier argument. All VM_BIND operations using
-> > the same
-> > +bind engine can then be assumed, where it matters, to complete in
-> > +order. No such assumptions can be made between VM_BIND operations
-> > +using separate bind contexts.
-> > +
-> > +The purpose of an Asynchronous VM_BIND operation is for user-mode
-> > +drivers to be able to pipeline interleaved vm modifications and
-> > +execbufs. For long-running workloads, such pipelining of a bind
-> > +operation is not allowed and any in-fences need to be awaited
-> > +synchronously.
-> > +
-> > +Also for VM_BINDS for long-running VMs the user-mode driver should
-> > typically
-> > +select memory fences as out-fences since that gives greater
-> > flexibility for
-> > +the kernel mode driver to inject other=C2=A0 operations into the bind =
-/
-> > +unbind operations. Like for example inserting breakpoints into
-> > batch
-> > +buffers. The workload execution can then easily be pipelined
-> > behind
-> > +the bind completion using the memory out-fence as the signal
-> > condition
-> > +for a gpu semaphore embedded by UMD in the workload.
-> > +
-> > +Multi-operation VM_BIND IOCTL error handling and interrupts
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +The VM_BIND operations of the ioctl may error due to lack of
-> > resources
-> > +to complete and also due to interrupted waits. In both situations
-> > UMD
-> > +should preferably restart the IOCTL after taking suitable action.
-> > If
-> > +UMD has overcommitted a memory resource, an -ENOSPC error will be
-> > +returned, and UMD may then unbind resources that are not used at
-> > the
-> > +moment and restart the IOCTL. On -EINTR, UMD should simply restart
-> > the
-> > +IOCTL and on -ENOMEM user-space may either attempt to free known
-> > +system memory resources or abort the operation. If aborting as a
-> > +result of a failed operation in a list of operations, some
-> > operations
-> > +may still have completed, and to get back to a known state, user-
-> > space
-> > +should therefore attempt to unbind all virtual memory regions
-> > touched
-> > +by the failing IOCTL.
-> > +Unbind operations are guaranteed not to cause any errors due to
-> > +resource constraints.
-> > +In between a failed VM_BIND ioctl and a successful restart there
-> > may
-> > +be implementation defined restrictions on the use of the VM. For a
-> > +description why, please see KMD implementation details under
-> > [error
-> > +state saving]_.
-> > +
-> > +Sample uAPI implementations
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +Suggested uAPI implementations at the moment of writing can be
-> > found for
-> > +the Nouveau driver `here:
-> > https://patchwork.freedesktop.org/patch/543260/?series=3D112994&rev=3D6=
-`
-> > +and for the Xe driver `here:
-> > https://cgit.freedesktop.org/drm/drm-xe/diff/include/uapi/drm/xe_drm.h?=
-h=3Ddrm-xe-next&id=3D9cb016ebbb6a275f57b1cb512b95d5a842391ad7`
-> > +
-> > +KMD implementation details
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
->=20
-> Maybe we can mention the GPUVA manager as a helper for implementing
-> such an
-> interface.
-
-Sure will add this as well.
-Thanks,
-
-Thomas
-
->=20
-> Anyway, I will surely add a link pointing to this document to the
-> documentation
-> of the GPUVA manager.
-
-
->=20
-> - Danilo
->=20
-> > +
-> > +.. [error state saving] Open: When the VM_BIND ioctl returns an
-> > error, some
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0or eve=
-n parts of an operation may have been
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0comple=
-ted. If the ioctl is restarted, in
-> > order
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0to kno=
-w where to restart, the KMD can
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0either=
- put the VM in an error state and
-> > save
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0one in=
-stance of the needed restart state
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0intern=
-ally. In this case, KMD needs to
-> > block
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0furthe=
-r modifications of the VM state that
-> > may
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0cause =
-additional failures requiring a
-> > restart
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0state =
-save, until the error has been fully
-> > resolved.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0If the=
- uAPI instead defines a pointer to a
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0UMD al=
-located cookie in the IOCTL struct,
-> > it
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0could =
-also choose to store the restart
-> > state
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0in tha=
-t cookie.
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0The re=
-start state may, for example, be the
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0number=
- of successfully completed
-> > operations.
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Easies=
-t for UMD would of course be if KMD
-> > did
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0a full=
- unwind on error so that no error
-> > state
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0needs =
-to be saved.
-> > diff --git a/Documentation/gpu/rfc/xe.rst
-> > b/Documentation/gpu/rfc/xe.rst
-> > index 2516fe141db6..0f062e1346d2 100644
-> > --- a/Documentation/gpu/rfc/xe.rst
-> > +++ b/Documentation/gpu/rfc/xe.rst
-> > @@ -138,8 +138,8 @@ memory fences. Ideally with helper support so
-> > people don't get it wrong in all
-> > =C2=A0possible ways.
-> > =C2=A0
-> > =C2=A0As a key measurable result, the benefits of ASYNC VM_BIND and a
-> > discussion of
-> > -various flavors, error handling and a sample API should be
-> > documented here or in
-> > -a separate document pointed to by this document.
-> > +various flavors, error handling and sample API suggestions are
-> > documented in
-> > +Documentation/gpu/drm-vm-bind-async.rst
-> > =C2=A0
-> > =C2=A0Userptr integration and vm_bind
-> > =C2=A0-------------------------------
-> > --=20
-> > 2.40.1
-> >=20
+> > +	/* We keep the fence around, so we can iterate over all dependencies
+> > +	 * in drm_sched_entity_kill_jobs_cb() to ensure all deps are signaled
+> > +	 * before killing the job.
+> > +	 */
+> > +	f =3D xa_load(&job->dependencies, job->last_dependency);
+> > +	if (f) {
+> > +		job->last_dependency++;
+> > +		return dma_fence_get(f);
+> > +	}
+> > =20
+> >  	if (job->sched->ops->prepare_job)
+> >  		return job->sched->ops->prepare_job(job, entity); =20
 >=20
 
