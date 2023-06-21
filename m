@@ -1,63 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53D2F737C85
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 09:54:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 959F1737C88
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 09:55:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D557A10E0A2;
-	Wed, 21 Jun 2023 07:54:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBD6210E0BB;
+	Wed, 21 Jun 2023 07:55:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 563F010E0A2
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 07:54:32 +0000 (UTC)
-X-UUID: d6e6f562100811eeb20a276fd37b9834-20230621
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=J1PGEBaE5jy4F0xsx2ihC7H50qF8Y8OmmG73BXEbN/c=; 
- b=eMmkIabsAv7n7PiACRERSdzQoxL5TtZEny3VYVBUJu28eA7vDPrXPtyVH0CyIfsbMTdSKgkHmSoMq+6c1IJ+ePpR4c3goH+xLRAB10MfhcZVLXq0Ry6IAHFOK17jTe5XTlxXcGfDRsXkRS02L4eHCHjckXsFOPNU2/t5amrt8Oo=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.27, REQID:3878b4a9-c4f2-47a0-8322-2f22e58188ad, IP:0,
- U
- RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTI
- ON:release,TS:70
-X-CID-INFO: VERSION:1.1.27, REQID:3878b4a9-c4f2-47a0-8322-2f22e58188ad, IP:0,
- URL
- :0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTI
- ON:quarantine,TS:70
-X-CID-META: VersionHash:01c9525, CLOUDID:4edd1f3f-de1e-4348-bc35-c96f92f1dcbb,
- B
- ulkID:230621155427VHISTTUQ,BulkQuantity:0,Recheck:0,SF:28|17|19|48|38|29,T
- C:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
- ,OSI:0,OSA:0,AV:0,LES:1,SPR:NO
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_ULS, TF_CID_SPAM_SNR, TF_CID_SPAM_SDM,
- TF_CID_SPAM_ASC, TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
-X-UUID: d6e6f562100811eeb20a276fd37b9834-20230621
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
- mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1911199820; Wed, 21 Jun 2023 15:54:24 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 21 Jun 2023 15:54:23 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Wed, 21 Jun 2023 15:54:23 +0800
-From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH v2] drm/mediatek: Fix void-pointer-to-enum-cast warning
-Date: Wed, 21 Jun 2023 15:54:21 +0800
-Message-ID: <20230621075421.1982-1-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com
+ [IPv6:2001:4860:4864:20::34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 569C110E0BB;
+ Wed, 21 Jun 2023 07:55:53 +0000 (UTC)
+Received: by mail-oa1-x34.google.com with SMTP id
+ 586e51a60fabf-1acfce1fc0bso1076761fac.2; 
+ Wed, 21 Jun 2023 00:55:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1687334152; x=1689926152;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=chdbH7mNzgkmuCyhA12j8pNPXGXQu3niNcq2qlGIJcs=;
+ b=LbxvhVwpNqssBmWSmVTSBoOqM3MlXb7DhtqbUE7LEO6cnbME5IpO64HbS9T7taeDtX
+ ailK4VhS9N0EesSXQmFC2QE4SQ5fNtqKFY+87AtZ9U8ZOskme0FDpgkPTSs5lr+hUyTe
+ /Qgvw0ssaER5tRu6uE15GBqc/dQxMJ55TBZdwRPyB3zbeMf7Q6bRTMeZwu/GgnYrbhr7
+ 3sLqgkfyMTQCMhfCqGuLSseBFInIkpKzb76bqT5LDq7xMCwTcqeAGPmEB0OZZt+xemG0
+ Hrlyp5maNwnixWVnA2DEu7A7EBtV9+EE+D94ZZ0WxqnqI5Tfbf1qH/2/HAGL8ZztSsCu
+ HyXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687334152; x=1689926152;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=chdbH7mNzgkmuCyhA12j8pNPXGXQu3niNcq2qlGIJcs=;
+ b=fO7IuGOO63BIIeQ4W6g9o15r7KAjN8fQMMXZ6SPInogOQFgMb0T+MoDGAFce6s1tD9
+ AYi3yFtXfteR/vyVu9cyaVRRfkmXMQybgfYN3DUQk8TEHPmG1SGLRmIUUFMbAJBVIKi+
+ vbuKCNqsGEwdUCpZDoE9aUKMojspxc3Gs6Bm7tqGPdZSJl4FsY+pmWYIdLfMdOXMsOca
+ Xq5H+qs565DMMjRXn5ybxwAw3f8PVoRKAUDOzC9YeJ3VhZ5co9SFp+wfnheNWC0AF+fw
+ mU1YnIbxtXvEIfyodBizNzBAXh4JlEVGLdZIbCfJzAZcGw48YC6zoZMWOyKbYrDsn5Qo
+ 1gDw==
+X-Gm-Message-State: AC+VfDz0CnFrbQ9Acg2nhmT9JahoJ0UBL8QN7lWgAdnVM58mnUx3BO2B
+ IQ+fRcrYI4P78XlxFahDYxe01T2YI5PCEA/C/6ysfqkCI/h7dQ==
+X-Google-Smtp-Source: ACHHUZ6hf43JL8/RjRnBEVRErt7bEY91oQCXLhTfpmTCVuL+A1sbzEX1l/BiasLu5n6sDvOOkVw+A4kp6AMZvTIKafo=
+X-Received: by 2002:a05:6870:343:b0:1aa:1c3f:4e7 with SMTP id
+ n3-20020a056870034300b001aa1c3f04e7mr4918564oaf.57.1687334151934; Wed, 21 Jun
+ 2023 00:55:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+References: <20230620094716.2231414-1-18949883232@163.com>
+In-Reply-To: <20230620094716.2231414-1-18949883232@163.com>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Wed, 21 Jun 2023 09:55:40 +0200
+Message-ID: <CAH9NwWdfK0DkDA-Fi6TRrS4orm-HbAqBLDpYcMKd69dU6Jh+CA@mail.gmail.com>
+Subject: Re: [PATCH v10 00/11] drm/etnaviv: Add pci device driver support
+To: Sui Jingfeng <18949883232@163.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,73 +66,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- Johnson Wang <johnson.wang@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Sui Jingfeng <suijingfeng@loongson.cn>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-1. Fix build warning message in mtk_disp_ovl_adaptor.c
->> drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c:415:10:
-  warning: cast to smaller integer type 'enum mtk_ovl_adaptor_comp_type'
-  from 'const void *' [-Wvoid-pointer-to-enum-cast]
+Hi
 
-  type = (enum mtk_ovl_adaptor_comp_type)of_id->data;
+>
+> From: Sui Jingfeng <suijingfeng@loongson.cn>
+>
+> There is a Vivante GC1000 (v5037) in LS2K1000 and LS7A1000, this GPU is a
+> PCI device, and it has 2D and 3D cores in the same core. This series is
+> trying to add PCI device driver support to drm/etnaviv.
+>
 
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         1 warning generated.
+Is it possible to get the lspci output for the GPU? Something like
+this: sudo lspci -vvv -s ...
 
-2. Also fix the same warning message in mtk_drm_drv.c
->> drivers/gpu/drm/mediatek/mtk_drm_drv.c:832:15:
-   warning: cast to smaller integer type 'enum mtk_ddp_comp_type'
-   from 'const void *' [-Wvoid-pointer-to-enum-cast]
 
-   comp_type = (enum mtk_ddp_comp_type)of_id->data;
+thanks
+--
+Christian Gmeiner, MSc
 
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-               1 warning generated.
-
-Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-Fixes: 453c3364632a ("drm/mediatek: Add ovl_adaptor support for MT8195")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202305042054.ZtWME9OU-lkp@intel.com/
----
-V1 -> V2: Add casting to (uintprt_t) before casting from (void *) to (enum).
----
- drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c | 2 +-
- drivers/gpu/drm/mediatek/mtk_drm_drv.c          | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-index c0a38f5217ee..f2f6a5c01a6d 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-@@ -426,7 +426,7 @@ static int ovl_adaptor_comp_init(struct device *dev, struct component_match **ma
- 			continue;
- 		}
- 
--		type = (enum mtk_ovl_adaptor_comp_type)of_id->data;
-+		type = (enum mtk_ovl_adaptor_comp_type)(uintptr_t)of_id->data;
- 		id = ovl_adaptor_comp_get_id(dev, node, type);
- 		if (id < 0) {
- 			dev_warn(dev, "Skipping unknown component %pOF\n",
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 6dcb4ba2466c..80d3bcd315a9 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -829,7 +829,7 @@ static int mtk_drm_probe(struct platform_device *pdev)
- 			continue;
- 		}
- 
--		comp_type = (enum mtk_ddp_comp_type)of_id->data;
-+		comp_type = (enum mtk_ddp_comp_type)(uintptr_t)of_id->data;
- 
- 		if (comp_type == MTK_DISP_MUTEX) {
- 			int id;
--- 
-2.18.0
-
+https://christian-gmeiner.info/privacypolicy
