@@ -1,48 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB607738A76
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 18:07:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9097738A88
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 18:12:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0271C10E16C;
-	Wed, 21 Jun 2023 16:07:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B668D10E236;
+	Wed, 21 Jun 2023 16:12:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EE7310E16C
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 16:07:45 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1qC0Mr-0006r6-MP; Wed, 21 Jun 2023 18:07:37 +0200
-Message-ID: <87deb46db35b028da74c94f5496b721e14db4745.camel@pengutronix.de>
-Subject: Re: [PATCH v10 07/11] drm/etnaviv: Add support for the dma coherent
- device
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Sui Jingfeng <suijingfeng@loongson.cn>, Sui Jingfeng
- <18949883232@163.com>,  Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 21 Jun 2023 18:07:36 +0200
-In-Reply-To: <3911d448-5613-23a8-cfcb-5ae418677338@loongson.cn>
-References: <20230620094716.2231414-1-18949883232@163.com>
- <20230620094716.2231414-8-18949883232@163.com>
- <8f74f0962c8bab6c832919a5340667c54e1a7ddc.camel@pengutronix.de>
- <2249b895-84b9-adea-531b-bf190e9c866f@loongson.cn>
- <030d44e2753b9b2eea0107cdee6c20e2bc2d3efe.camel@pengutronix.de>
- <3911d448-5613-23a8-cfcb-5ae418677338@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DC05A10E178;
+ Wed, 21 Jun 2023 16:12:09 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8Cx68ZYIZNkSjAAAA--.326S3;
+ Thu, 22 Jun 2023 00:12:08 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8CxvM5XIZNkouUAAA--.5363S3; 
+ Thu, 22 Jun 2023 00:12:08 +0800 (CST)
+Message-ID: <1f1ab625-fa99-7f0c-6d2f-e19c88b2b43b@loongson.cn>
+Date: Thu, 22 Jun 2023 00:12:07 +0800
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v10 03/11] drm/etnaviv: Add dedicated functions to create
+ and destroy platform device
+Content-Language: en-US
+To: Lucas Stach <l.stach@pengutronix.de>, Sui Jingfeng <18949883232@163.com>, 
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230620094716.2231414-1-18949883232@163.com>
+ <20230620094716.2231414-4-18949883232@163.com>
+ <0daa7182d6600a24988d1c81cf8fe3c0c9487f52.camel@pengutronix.de>
+ <1c7596fd-7e63-6719-2574-7d7820687832@loongson.cn>
+ <6d287bbb1733814009dfeb7d48f08cb6f44dc56c.camel@pengutronix.de>
+ <30d80802-2d9d-2816-1a02-240145f6dd3a@loongson.cn>
+ <0f1095ef333da7ea103486a1121ca9038815e57c.camel@pengutronix.de>
+ <ab17a1e6-c621-9a92-73fc-8b762fd0800e@loongson.cn>
+ <6ef512179a4cc9ce24890e5ed50c6fabd86a18c1.camel@pengutronix.de>
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <6ef512179a4cc9ce24890e5ed50c6fabd86a18c1.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8CxvM5XIZNkouUAAA--.5363S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxZF17XF4UuryDXryUKw4rJFc_yoWrCw1DpF
+ WUtFyYkrWDCF1Ivw12qw4rXr10vw4rA34Yqr15Jryjkwn0vryfXrW7t3W5CasxtF1kta10
+ vr4jvrWxCFs8AagCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUU9Yb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+ Jr0_Gr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4
+ xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v2
+ 6r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67
+ vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v2
+ 6rWY6Fy7MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17
+ CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF
+ 0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIx
+ AIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIev
+ Ja73UjIFyTuYvjxU7XTmDUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,100 +81,133 @@ Cc: Bjorn Helgaas <bhelgaas@google.com>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Mittwoch, dem 21.06.2023 um 23:54 +0800 schrieb Sui Jingfeng:
-> Hi,
->=20
-> On 2023/6/21 23:33, Lucas Stach wrote:
-> > Am Mittwoch, dem 21.06.2023 um 23:00 +0800 schrieb Sui Jingfeng:
-> > > On 2023/6/21 18:00, Lucas Stach wrote:
-> > > > >    static inline enum dma_data_direction etnaviv_op_to_dma_dir(u3=
-2 op)
-> > > > > @@ -369,6 +381,7 @@ int etnaviv_gem_cpu_prep(struct drm_gem_objec=
-t *obj, u32 op,
-> > > > >    {
-> > > > >    	struct etnaviv_gem_object *etnaviv_obj =3D to_etnaviv_bo(obj)=
-;
-> > > > >    	struct drm_device *dev =3D obj->dev;
-> > > > > +	struct etnaviv_drm_private *priv =3D dev->dev_private;
-> > > > >    	bool write =3D !!(op & ETNA_PREP_WRITE);
-> > > > >    	int ret;
-> > > > >   =20
-> > > > > @@ -395,7 +408,7 @@ int etnaviv_gem_cpu_prep(struct drm_gem_objec=
-t *obj, u32 op,
-> > > > >    			return ret =3D=3D 0 ? -ETIMEDOUT : ret;
-> > > > >    	}
-> > > > >   =20
-> > > > > -	if (etnaviv_obj->flags & ETNA_BO_CACHED) {
-> > > > > +	if (!priv->dma_coherent && etnaviv_obj->flags & ETNA_BO_CACHED)=
- {
-> > > > Why do you need this? Isn't dma_sync_sgtable_for_cpu a no-op on you=
-r
-> > > > platform when the device is coherent?
-> > > >=20
-> > > I need this to show that our hardware is truly dma-coherent!
-> > >=20
-> > > I have tested that the driver still works like a charm without adding
-> > > this code '!priv->dma_coherent'.
-> > >=20
-> > >=20
-> > > But I'm expressing the idea that a truly dma-coherent just device don=
-'t
-> > > need this.
-> > >=20
-> > > I don't care if it is a no-op.
-> > >=20
-> > > It is now, it may not in the future.
-> > And that's exactly the point. If it ever turns into something more than
-> > a no-op on your platform, then that's probably for a good reason and a
-> > driver should not assume that it knows better than the DMA API
-> > implementation what is or is not required on a specific platform to
-> > make DMA work.
-> >=20
-> > > Even it is, the overhead of function call itself still get involved.
-> > >=20
-> > cpu_prep/fini aren't total fast paths, you already synchronized with
-> > the GPU here, potentially waiting for jobs to finish, etc. If your
-> > platform no-ops this then the function call will be in the noise.
-> >  =20
-> > > Also, we want to try flush the write buffer with the CPU manually.
-> > >=20
-> > >=20
-> > > Currently, we want the absolute correctness in the concept,
-> > >=20
-> > > not only the rendering results.
-> > And if you want absolute correctness then calling dma_sync_sgtable_* is
-> > the right thing to do, as it can do much more than just manage caches.
->=20
-> For our hardware, cached mapping don't need calling dma_sync_sgtable_*.
->=20
-> This is the the right thing to do. The hardware already guarantee it for=
-=20
-> use.
->=20
-And as the HW guarantees it on your platform, your platform
-implementation makes this function effectively a no-op. Skipping the
-call to this function is breaking the DMA API abstraction, as now the
-driver is second guessing the DMA API implementation. I really see no
-reason to do this.
+Hi
 
->=20
-> We may only want to call it for WC mapping BO,=C2=A0 please don't tangle =
-all=20
-> of this together.
->=20
-> We simply want to do the right thing.
->=20
-> > Right now it also provides SWIOTLB translation if needed.
->=20
-> SWIOTLB introduce the bounce buffer, slower the performance.
->=20
-> We don't need it. It should be avoid.
+On 2023/6/21 23:20, Lucas Stach wrote:
+> Am Mittwoch, dem 21.06.2023 um 22:35 +0800 schrieb Sui Jingfeng:
+>> Hi,
+>>
+>> On 2023/6/21 22:00, Lucas Stach wrote:
+>>> Am Mittwoch, dem 21.06.2023 um 21:31 +0800 schrieb Sui Jingfeng:
+>>>> On 2023/6/21 18:23, Lucas Stach wrote:
+>>>>>> While back to the question you ask, I want etnaviv_create_platform_device() to be generic,
+>>>>>>
+>>>>>> can be used by multiple place for multiple purpose.
+>>>>>>
+>>>>>> I have successfully copy this to a another drm driver by simply renaming.
+>>>>>>
+>>>>>> The body of the function itself does not need to change.
+>>>>> But it isn't shared,
+>>>> This can be shared for drm/etnaviv in the future,
+>>>>
+>>>> currently, we just need an opportunity to use this function.
+>>>>
+>>> I'm not convinced, yet.
+>>>
+>>>> I want to create a dummy platform device,
+>>>>
+>>>> let this dummy platform be bound to the single PCI GPU master.
+>>>>
+>>>>
+>>>> etnaviv_create_platform_device("dummy", &dummy_device);
+>>>>
+>>>>
+>>>> 1) To verify the component code path on PCI case.
+>>>>
+>>> My favorite option would be to just always use the component path even
+>>> when the GPU is on a PCI device to keep both paths mostly aligned. One
+>>> could easily image both a 3D and a 2D core being made available though
+>>> the same PCI device.
+>> Component is for something that is possible not available. (or something
+>> is optional)
+>>
+>> Yes it provided flexibly, but don't forget, it rely on the DT.
+> The component framework itself doesn't rely on DT in any way.
 
-Sure. If your platform doesn't need it, that's totally fine. But you
-can't guarantee that all platforms with coherent Vivante GPUs don't
-need this. If it isn't needed the DMA API implementation will skip it
-just fine at almost no cost, so the driver really shouldn't try to be
-more clever than the platform DMA API implementation.
+Yes I know that, for example the HDMI audio stuff.
 
-Regards,
-Lucas
+But *your implement* do rely on the DT, this is the point
+
+> By
+> providing a appropriate match function you can make it work with any
+> kind of device.
+Yes, you are right.
+>   In fact etnaviv supports platform devices instantiated
+> via board code today.
+Nice,
+>   They don't need to come from DT.
+What about the various clock, sir?
+> If we could make the PCI stuff work the same way, that would be my
+> preferred option.
+>
+>>
+>> But for the PCIe device, it always the case that all of the hardware is
+>> available at the same time
+>>
+>> when the device driver(kernel module) is loaded.
+> That isn't the issue solved by the component framework. On the existing
+> SoCs all the hardware is available when the driver is probed. The
+> component framework just makes sure that we only expose the DRM device
+> after all GPU cores that should be managed by a single DRM device
+> instance are probed.
+>
+> One could easily image a PCI device that containing a 2D and a 3D
+> Vivante GPU that should be made available through a single DRM device.
+> In that case you'll also need to use the component framework.
+>
+>>
+>>>> 2) Possibly for create a device for some other tiny hardware logic
+>>>> come with the platform
+>>>>
+>>> Do you have something in mind here? Until now I assumed that only the
+>>> GPU core is behind the PCI abstraction. Is there something else sharing
+>>> the MMIO space?
+>> A display controller, HDMI phy, vga encoder etc
+>>
+>>
+>> I have a discrete PCIe GPU card from another vendor,
+>>
+>> It integrated display controller and vivante GPU and unknown VPUs.
+>>
+>> All of the  hardware block mentioned above sharing the MMIO space.
+>>
+>> There are available on the same time when you mount this discrete PCIe
+>> GPU card on the mother board
+>>
+> But they surely should not all be made available through the etnaviv
+> driver. Etnaviv deals with the Vivante GPUs. If you have a PCI device
+> with multiple IP cores behind the shared MMIO space you should have a
+> PCI driver instantiating platform devices so the respective drivers for
+> those IP cores can bind to the platform device.
+
+I have only one PCI device, let start from the simple case, OK?
+
+I admire your fantastic idea.
+
+let deal with it another patch in the future if such hardware emerged.
+
+Accept the current implement, please ?
+
+>   Etnaviv is not that
+> driver.
+
+Yeah, but I notice that there is chipFeatures_DC defined in common.xml.h
+
+I don't know how does this going to used, if a hardware marked it as true.
+
+> Regards,
+> Lucas
+>
+>>> Regards,
+>>> Lucas
+>>>
+>>>> 3) Revival component_compare_dev_name() function.
+>>>>
+>>>>> in this compilation unit this function is specific
+>>>>> to the etnaviv driver and I don't see why we shouldn't have etnaviv
+>>>>> specifics in there if it makes the code of this driver easier to
+>>>>> follow.
+
+-- 
+Jingfeng
+
