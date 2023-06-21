@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90B61738447
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 15:01:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78F0B738441
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 15:01:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D286010E46D;
-	Wed, 21 Jun 2023 13:01:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3441D10E460;
+	Wed, 21 Jun 2023 13:00:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C53E310E460
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 13:00:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CB1A10E465
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 13:00:37 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 4E11721C9A;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 84A2921C9C;
  Wed, 21 Jun 2023 13:00:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1687352435; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DB827rCp86epC8SCQUJgRjUxBWrsnPJlsRRWTz9PPLs=;
- b=Wp08IKokd/twvpjsehbYlGKFF3xQ5J2hcngnlHsyzeEBHXw/4ioQzDxfqy+gZNRFS1CKTu
- dqdfdnJObuTAbr7j1B/CN/Wz5y8y61aHh/GgpFFq4zY/0x4lZoqLA6yeJNvFFGkFLK4YZI
- t4n+AYf3/6Bsk6Nnq9J6vTxTGiDnfFg=
+ bh=ewQZFs6cAM0pnz/b7PpC+eNKnCHMCZsg1C653e7Lwjk=;
+ b=nziRzsFLPn78HHb2XpKH0OsZj6Rr8hmgdKDquIOFW4YeYKmk1dQ7b9VSEvDAmgxqC9xwO7
+ py6C2AuoPtJ8zKXxwUvvRUzNmtcdEOc9w4vDWBNcXNDhVwsPJeoxsiQZIUAlbPuw1QtAqy
+ t1fsqui2P35bcArbaTZiYzvGKR/lD2U=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1687352435;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DB827rCp86epC8SCQUJgRjUxBWrsnPJlsRRWTz9PPLs=;
- b=LG714v/eNZN6mllA9aX9za//m070iX8r6dcHJaeMOSuPNI9UFK3dC3QyF4VTyiQdZDyt3Y
- C0jPhp7+85CAKmBQ==
+ bh=ewQZFs6cAM0pnz/b7PpC+eNKnCHMCZsg1C653e7Lwjk=;
+ b=aLrvdFSBVCClzVYP8NqIQnLcdf1OkYXo7ePdr/X+PdqWenskXbl2KJBg0AitoV3ZH5Efpd
+ j5EoSfGi+J7OSBBA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2B21513A66;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 52F66134B1;
  Wed, 21 Jun 2023 13:00:35 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id IFTDCXP0kmTaWgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id 0HpgE3P0kmTaWgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Wed, 21 Jun 2023 13:00:35 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, jfalempe@redhat.com, daniel@ffwll.ch,
  jammy_huang@aspeedtech.com, suijingfeng@loongson.cn
-Subject: [PATCH v2 06/14] drm/ast: Set PCI config before accessing I/O
- registers
-Date: Wed, 21 Jun 2023 14:53:40 +0200
-Message-ID: <20230621130032.3568-7-tzimmermann@suse.de>
+Subject: [PATCH v2 07/14] drm/ast: Enable and unlock device access early
+ during init
+Date: Wed, 21 Jun 2023 14:53:41 +0200
+Message-ID: <20230621130032.3568-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230621130032.3568-1-tzimmermann@suse.de>
 References: <20230621130032.3568-1-tzimmermann@suse.de>
@@ -73,93 +73,147 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Access to I/O registers is required to detect and set up the
-device. Enable the rsp PCI config bits before. While at it,
-convert the magic number to macro constants.
-
-Enabling the PCI config bits was done after trying to detect
-the device. It was probably too late at this point.
-
-v2:
-	* use standard 16-bit PCI r/w access (Jingfeng)
+POST and memory management contains code to enable access to the
+device's memory spaces. This is too late. Consolidate this code at
+the beginning of the device initialization.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 Tested-by: Jocelyn Falempe <jfalempe@redhat.com> # AST2600
 ---
- drivers/gpu/drm/ast/ast_drv.h  |  1 -
- drivers/gpu/drm/ast/ast_main.c | 21 +++++++++++++++++++++
- drivers/gpu/drm/ast/ast_post.c |  6 ------
- 3 files changed, 21 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/ast/ast_drv.h  |  8 --------
+ drivers/gpu/drm/ast/ast_main.c | 30 ++++++++++++++++++++++++++++++
+ drivers/gpu/drm/ast/ast_mm.c   |  2 --
+ drivers/gpu/drm/ast/ast_post.c | 29 -----------------------------
+ 4 files changed, 30 insertions(+), 39 deletions(-)
 
 diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 0141705beaee9..630105feec18a 100644
+index 630105feec18a..31fead32b19cc 100644
 --- a/drivers/gpu/drm/ast/ast_drv.h
 +++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -52,7 +52,6 @@
- #define PCI_CHIP_AST2000 0x2000
- #define PCI_CHIP_AST2100 0x2010
+@@ -287,11 +287,6 @@ static inline void ast_set_index_reg_mask(struct ast_device *ast, u32 base, u8 i
+ 	ast_set_index_reg(ast, base, index, tmp);
+ }
  
+-static inline void ast_open_key(struct ast_device *ast)
+-{
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0x80, 0xA8);
+-}
 -
- enum ast_chip {
- 	AST2000,
- 	AST2100,
+ #define AST_VIDMEM_SIZE_8M    0x00800000
+ #define AST_VIDMEM_SIZE_16M   0x01000000
+ #define AST_VIDMEM_SIZE_32M   0x02000000
+@@ -470,9 +465,6 @@ int ast_mode_config_init(struct ast_device *ast);
+ int ast_mm_init(struct ast_device *ast);
+ 
+ /* ast post */
+-void ast_enable_vga(struct drm_device *dev);
+-void ast_enable_mmio(struct drm_device *dev);
+-bool ast_is_vga_enabled(struct drm_device *dev);
+ void ast_post_gpu(struct drm_device *dev);
+ u32 ast_mindwm(struct ast_device *ast, u32 r);
+ void ast_moutdwm(struct ast_device *ast, u32 r, u32 v);
 diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-index c6987e0446618..01f938c2da28f 100644
+index 01f938c2da28f..031ff4ed1920f 100644
 --- a/drivers/gpu/drm/ast/ast_main.c
 +++ b/drivers/gpu/drm/ast/ast_main.c
-@@ -35,6 +35,23 @@
+@@ -52,6 +52,36 @@ static int ast_init_pci_config(struct pci_dev *pdev)
+ 	return pcibios_err_to_errno(err);
+ }
  
- #include "ast_drv.h"
- 
-+static int ast_init_pci_config(struct pci_dev *pdev)
++static bool ast_is_vga_enabled(struct drm_device *dev)
 +{
-+	int err;
-+	u16 pcis04;
++	struct ast_device *ast = to_ast_device(dev);
++	u8 ch;
 +
-+	err = pci_read_config_word(pdev, PCI_COMMAND, &pcis04);
-+	if (err)
-+		goto out;
++	ch = ast_io_read8(ast, AST_IO_VGA_ENABLE_PORT);
 +
-+	pcis04 |= PCI_COMMAND_MEMORY | PCI_COMMAND_IO;
++	return !!(ch & 0x01);
++}
 +
-+	err = pci_write_config_word(pdev, PCI_COMMAND, pcis04);
++static void ast_enable_vga(struct drm_device *dev)
++{
++	struct ast_device *ast = to_ast_device(dev);
 +
-+out:
-+	return pcibios_err_to_errno(err);
++	ast_io_write8(ast, AST_IO_VGA_ENABLE_PORT, 0x01);
++	ast_io_write8(ast, AST_IO_MISC_PORT_WRITE, 0x01);
++}
++
++static void ast_enable_mmio(struct drm_device *dev)
++{
++	struct ast_device *ast = to_ast_device(dev);
++
++	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa1, 0x06);
++}
++
++static void ast_open_key(struct ast_device *ast)
++{
++	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0x80, 0xA8);
 +}
 +
  static void ast_detect_config_mode(struct drm_device *dev, u32 *scu_rev)
  {
  	struct device_node *np = dev->dev->of_node;
-@@ -399,6 +416,10 @@ struct ast_device *ast_device_create(const struct drm_driver *drv,
- 			return ERR_PTR(-EIO);
- 	}
+diff --git a/drivers/gpu/drm/ast/ast_mm.c b/drivers/gpu/drm/ast/ast_mm.c
+index e16af60deef90..bc174bd933b97 100644
+--- a/drivers/gpu/drm/ast/ast_mm.c
++++ b/drivers/gpu/drm/ast/ast_mm.c
+@@ -38,8 +38,6 @@ static u32 ast_get_vram_size(struct ast_device *ast)
+ 	u8 jreg;
+ 	u32 vram_size;
  
-+	ret = ast_init_pci_config(pdev);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
- 	if (!ast_is_vga_enabled(dev)) {
- 		drm_info(dev, "VGA not enabled on entry, requesting chip POST\n");
- 		need_post = true;
+-	ast_open_key(ast);
+-
+ 	vram_size = AST_VIDMEM_DEFAULT_SIZE;
+ 	jreg = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xaa, 0xff);
+ 	switch (jreg & 3) {
 diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
-index aa3f2cb00f82c..2da5bdb4bac45 100644
+index 2da5bdb4bac45..b765eeb55e5f1 100644
 --- a/drivers/gpu/drm/ast/ast_post.c
 +++ b/drivers/gpu/drm/ast/ast_post.c
-@@ -361,12 +361,6 @@ static void ast_init_dram_reg(struct drm_device *dev)
- void ast_post_gpu(struct drm_device *dev)
+@@ -37,32 +37,6 @@
+ static void ast_post_chip_2300(struct drm_device *dev);
+ static void ast_post_chip_2500(struct drm_device *dev);
+ 
+-void ast_enable_vga(struct drm_device *dev)
+-{
+-	struct ast_device *ast = to_ast_device(dev);
+-
+-	ast_io_write8(ast, AST_IO_VGA_ENABLE_PORT, 0x01);
+-	ast_io_write8(ast, AST_IO_MISC_PORT_WRITE, 0x01);
+-}
+-
+-void ast_enable_mmio(struct drm_device *dev)
+-{
+-	struct ast_device *ast = to_ast_device(dev);
+-
+-	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa1, 0x06);
+-}
+-
+-
+-bool ast_is_vga_enabled(struct drm_device *dev)
+-{
+-	struct ast_device *ast = to_ast_device(dev);
+-	u8 ch;
+-
+-	ch = ast_io_read8(ast, AST_IO_VGA_ENABLE_PORT);
+-
+-	return !!(ch & 0x01);
+-}
+-
+ static const u8 extreginfo[] = { 0x0f, 0x04, 0x1c, 0xff };
+ static const u8 extreginfo_ast2300[] = { 0x0f, 0x04, 0x1f, 0xff };
+ 
+@@ -362,9 +336,6 @@ void ast_post_gpu(struct drm_device *dev)
  {
  	struct ast_device *ast = to_ast_device(dev);
--	struct pci_dev *pdev = to_pci_dev(dev->dev);
--	u32 reg;
--
--	pci_read_config_dword(pdev, 0x04, &reg);
--	reg |= 0x3;
--	pci_write_config_dword(pdev, 0x04, reg);
  
- 	ast_enable_vga(dev);
- 	ast_open_key(ast);
+-	ast_enable_vga(dev);
+-	ast_open_key(ast);
+-	ast_enable_mmio(dev);
+ 	ast_set_def_ext_reg(dev);
+ 
+ 	if (ast->chip == AST2600) {
 -- 
 2.41.0
 
