@@ -2,45 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE9E07390B9
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 22:25:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD7747391C4
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 23:45:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF7F110E35D;
-	Wed, 21 Jun 2023 20:25:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFCA410E358;
+	Wed, 21 Jun 2023 21:45:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE35510E35B;
- Wed, 21 Jun 2023 20:25:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=UJ2N4hpPRvWDuzI6rxDT0n0LIA9MntiG/Tq21yGX0Ss=; b=f6es/VPamjUr26Mdt8h0aMjY3Y
- 27t1y9SY7FkfX7yBJrkCbEuzBwf5a0poegmMHv0SFkcsUGiYDm1IgBr6DqGA0Y84OtccG5UrB0wUn
- 7PgUInCa44ibICDW44egfjNmcbSWHJgtDVZUp+jdrhm3Y7+AdPpZorZ0EY110ZBP0K6NiAN+8eHit
- o5dDWCRC0lyXKVLxCtXlcC72XvXhIe7j6WMgIMvA4BHXBiOj2uNbx2kGBXbIcN7Po5SrHagitpe1j
- kh5tNmO2YalziGDBxWZ9jVu63szaLeZW0s1z9r00vZV1XPWktq1cvR2GXwG7JB8FQppxNUXUaDMnY
- 3On+P0FQ==;
-Received: from [179.113.218.86] (helo=steammachine.lan)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qC4OJ-001TKu-78; Wed, 21 Jun 2023 22:25:23 +0200
-From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] amd/display: only accept async flips for fast updates
-Date: Wed, 21 Jun 2023 17:24:59 -0300
-Message-ID: <20230621202459.979661-2-andrealmeid@igalia.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230621202459.979661-1-andrealmeid@igalia.com>
-References: <20230621202459.979661-1-andrealmeid@igalia.com>
+Received: from relay08.th.seeweb.it (relay08.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE88F10E356;
+ Wed, 21 Jun 2023 21:45:29 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 1E6993F88A;
+ Wed, 21 Jun 2023 23:45:24 +0200 (CEST)
+Date: Wed, 21 Jun 2023 23:45:22 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: Re: [PATCH v9 2/2] dt-bindings: msm: dsi-controller-main: Document
+ clocks on a per compatible basis
+Message-ID: <qew6nd3jqnasb3mivvdxcwugfrvxdeafilaxk35v7uihagk2qi@oxe3oqdgfwpe>
+References: <20230118171621.102694-1-bryan.odonoghue@linaro.org>
+ <20230118171621.102694-3-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230118171621.102694-3-bryan.odonoghue@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,85 +44,307 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- =?UTF-8?q?=27Marek=20Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
- michel.daenzer@mailbox.org, kernel-dev@igalia.com, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: sean@poorly.run, devicetree@vger.kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, andersson@kernel.org,
+ konrad.dybcio@somainline.org, quic_abhinavk@quicinc.com, david@ixit.cz,
+ dianders@chromium.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ robh+dt@kernel.org, agross@kernel.org, dmitry.baryshkov@linaro.org,
+ swboyd@chromium.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Simon Ser <contact@emersion.fr>
+Hi!
 
-Up until now, amdgpu was silently degrading to vsync when
-user-space requested an async flip but the hardware didn't support
-it.
+On 2023-01-18 17:16:21, Bryan O'Donoghue wrote:
+> Each compatible has a different set of clocks which are associated with it.
+> Add in the list of clocks for each compatible.
 
-The hardware doesn't support immediate flips when the update changes
-the FB pitch, the DCC state, the rotation, enables or disables CRTCs
-or planes, etc. This is reflected in the dm_crtc_state.update_type
-field: UPDATE_TYPE_FAST means that immediate flip is supported.
+So if each set of compatibles have their own unique set of clocks, is
+there a reason to have so many duplicate then: blocks?  I ran into this
+while preparing for submitting SM6125 DPU and having no clue where to
+add it.
 
-Silently degrading async flips to vsync is not the expected behavior
-from a uAPI point-of-view. Xorg expects async flips to fail if
-unsupported, to be able to fall back to a blit. i915 already behaves
-this way.
+> Acked-by: Rob Herring <robh@kernel.org>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>  .../display/msm/dsi-controller-main.yaml      | 218 ++++++++++++++++--
+>  1 file changed, 201 insertions(+), 17 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+> index 35668caa190c4..ad1ba15b74c19 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+> @@ -9,9 +9,6 @@ title: Qualcomm Display DSI controller
+>  maintainers:
+>    - Krishna Manikandan <quic_mkrishn@quicinc.com>
+>  
+> -allOf:
+> -  - $ref: "../dsi-controller.yaml#"
+> -
+>  properties:
+>    compatible:
+>      oneOf:
+> @@ -50,22 +47,23 @@ properties:
+>      maxItems: 1
+>  
+>    clocks:
+> -    items:
+> -      - description: Display byte clock
+> -      - description: Display byte interface clock
+> -      - description: Display pixel clock
+> -      - description: Display core clock
+> -      - description: Display AHB clock
+> -      - description: Display AXI clock
+> +    description: |
+> +      Several clocks are used, depending on the variant. Typical ones are::
+> +       - bus:: Display AHB clock.
+> +       - byte:: Display byte clock.
+> +       - byte_intf:: Display byte interface clock.
+> +       - core:: Display core clock.
+> +       - core_mss:: Core MultiMedia SubSystem clock.
 
-This patch aligns amdgpu with uAPI expectations and returns a failure
-when an async flip is not possible.
+mm*??
 
-Signed-off-by: Simon Ser <contact@emersion.fr>
-Reviewed-by: André Almeida <andrealmeid@igalia.com>
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: André Almeida <andrealmeid@igalia.com>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    |  8 ++++++++
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c   | 12 ++++++++++++
- 2 files changed, 20 insertions(+)
+> +       - iface:: Display AXI clock.
+> +       - mdp_core:: MDP Core clock.
+> +       - mnoc:: MNOC clock
+> +       - pixel:: Display pixel clock.
+> +    minItems: 3
+> +    maxItems: 9
+>  
+>    clock-names:
+> -    items:
+> -      - const: byte
+> -      - const: byte_intf
+> -      - const: pixel
+> -      - const: core
+> -      - const: iface
+> -      - const: bus
+> +    minItems: 3
+> +    maxItems: 9
+>  
+>    phys:
+>      maxItems: 1
+> @@ -161,6 +159,192 @@ required:
+>    - assigned-clock-parents
+>    - ports
+>  
+> +allOf:
+> +  - $ref: ../dsi-controller.yaml#
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,apq8064-dsi-ctrl
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 7
+> +        clock-names:
+> +          items:
+> +            - const: iface
+> +            - const: bus
+> +            - const: core_mmss
+> +            - const: src
+> +            - const: byte
+> +            - const: pixel
+> +            - const: core
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,msm8916-dsi-ctrl
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 6
+> +        clock-names:
+> +          items:
+> +            - const: mdp_core
+> +            - const: iface
+> +            - const: bus
+> +            - const: byte
+> +            - const: pixel
+> +            - const: core
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 514f6785a020..1d9b84e5835f 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -8136,7 +8136,15 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
- 		 * Only allow immediate flips for fast updates that don't
- 		 * change memory domain, FB pitch, DCC state, rotation or
- 		 * mirroring.
-+		 *
-+		 * dm_crtc_helper_atomic_check() only accepts async flips with
-+		 * fast updates.
- 		 */
-+		if (crtc->state->async_flip &&
-+		    acrtc_state->update_type != UPDATE_TYPE_FAST)
-+			drm_warn_once(state->dev,
-+				      "[PLANE:%d:%s] async flip with non-fast update\n",
-+				      plane->base.id, plane->name);
- 		bundle->flip_addrs[planes_count].flip_immediate =
- 			crtc->state->async_flip &&
- 			acrtc_state->update_type == UPDATE_TYPE_FAST &&
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-index 440fc0869a34..30d4c6fd95f5 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-@@ -398,6 +398,18 @@ static int dm_crtc_helper_atomic_check(struct drm_crtc *crtc,
- 		return -EINVAL;
- 	}
- 
-+	/*
-+	 * Only allow async flips for fast updates that don't change the FB
-+	 * pitch, the DCC state, rotation, etc.
-+	 */
-+	if (crtc_state->async_flip &&
-+	    dm_crtc_state->update_type != UPDATE_TYPE_FAST) {
-+		drm_dbg_atomic(crtc->dev,
-+			       "[CRTC:%d:%s] async flips are only supported for fast updates\n",
-+			       crtc->base.id, crtc->name);
-+		return -EINVAL;
-+	}
-+
- 	/* In some use cases, like reset, no stream is attached */
- 	if (!dm_crtc_state->stream)
- 		return 0;
--- 
-2.41.0
+So this...
 
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,msm8953-dsi-ctrl
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 6
+> +        clock-names:
+> +          items:
+> +            - const: mdp_core
+> +            - const: iface
+> +            - const: bus
+> +            - const: byte
+> +            - const: pixel
+> +            - const: core
+
+Is the same as the above.  Can we merge msm8953 into msm8916 or do you
+expect differences down the line?
+
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,msm8974-dsi-ctrl
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 7
+> +        clock-names:
+> +          items:
+> +            - const: mdp_core
+> +            - const: iface
+> +            - const: bus
+> +            - const: byte
+> +            - const: pixel
+> +            - const: core
+> +            - const: core_mmss
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,msm8996-dsi-ctrl
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 7
+> +        clock-names:
+> +          items:
+> +            - const: mdp_core
+> +            - const: byte
+> +            - const: iface
+> +            - const: bus
+> +            - const: core_mmss
+> +            - const: pixel
+> +            - const: core
+
+This could be the same as msm8226/msm8974 if we reorder the entries.
+
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,msm8998-dsi-ctrl
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 6
+> +        clock-names:
+> +          items:
+> +            - const: byte
+> +            - const: byte_intf
+> +            - const: pixel
+> +            - const: core
+> +            - const: iface
+> +            - const: bus
+
+Then, here...
+
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,sc7180-dsi-ctrl
+> +              - qcom,sc7280-dsi-ctrl
+> +              - qcom,sm8250-dsi-ctrl
+> +              - qcom,sm8150-dsi-ctrl
+> +              - qcom,sm8250-dsi-ctrl
+> +              - qcom,sm8350-dsi-ctrl
+> +              - qcom,sm8450-dsi-ctrl
+> +              - qcom,sm8550-dsi-ctrl
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 6
+> +        clock-names:
+> +          items:
+> +            - const: byte
+> +            - const: byte_intf
+> +            - const: pixel
+> +            - const: core
+> +            - const: iface
+> +            - const: bus
+
+... and here ...
+
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,sdm660-dsi-ctrl
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 9
+> +        clock-names:
+> +          items:
+> +            - const: mdp_core
+> +            - const: byte
+> +            - const: byte_intf
+> +            - const: mnoc
+> +            - const: iface
+> +            - const: bus
+> +            - const: core_mmss
+> +            - const: pixel
+> +            - const: core
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,sdm845-dsi-ctrl
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 6
+> +        clock-names:
+> +          items:
+> +            - const: byte
+> +            - const: byte_intf
+> +            - const: pixel
+> +            - const: core
+> +            - const: iface
+> +            - const: bus
+
+and here, we have *three* identical lists of clocks.  Should they (have
+been) combined?
+
+I can send a patch fixing these all if desired!
+
+- Marijn
+
+> +
+>  additionalProperties: false
+>  
+>  examples:
+> -- 
+> 2.38.1
+> 
