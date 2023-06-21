@@ -2,55 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB0B1739265
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 00:20:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4AC2739289
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 00:33:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0405510E043;
-	Wed, 21 Jun 2023 22:20:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A98510E063;
+	Wed, 21 Jun 2023 22:33:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sipsolutions.net (s3.sipsolutions.net
- [IPv6:2a01:4f8:191:4433::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2887D10E043;
- Wed, 21 Jun 2023 22:20:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
- Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
- Resent-Cc:Resent-Message-ID; bh=cP+HR2GmRZPnSeQ8lcOfEZ7k5nuBFTrLSVTHUrZopt8=; 
- t=1687385999; x=1688595599; b=R+ow3AIvq+FmawzeeFHUCuvs41WuRIqQOiv7K3FsJmTHojh
- Nn0n7i/X7nDswf2+FdnuP0dM6EwqopMOioCrMG6ZwCXrEm5QFBRA0t7PwflIniwuO89Tc4P0z20oG
- odLRF9j+WoZqOTgYc53c6RmjzkMFvK4PPYl04WucdFjHgipmtlprVGR4WROVoEpwGoJgoCMn1APFA
- Iq8sMeJ8ZJPh3EU6fURJfmDK5CSWLsHBa3qYKZL7gthV6x/hfCecLuIOhkDkNweCEqmD6vtvnC9vX
- dje1UMcK0yQskAdKPIOtStbMYw9Y7E64eqbbkjs1OR5BycsbLqd7ZQOX6/0PRcBg==;
-Received: by sipsolutions.net with esmtpsa
- (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
- (Exim 4.96) (envelope-from <johannes@sipsolutions.net>)
- id 1qC6AD-00Duer-15; Thu, 22 Jun 2023 00:18:58 +0200
-Message-ID: <3e337dc0482e16e2aaa4090b613dc8dea7803fa8.camel@sipsolutions.net>
-Subject: Re: [PATCH V4 1/8] drivers/acpi: Add support for Wifi band RF
- mitigations
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Andrew Lunn <andrew@lunn.ch>, "Limonciello, Mario"
- <mario.limonciello@amd.com>
-Date: Thu, 22 Jun 2023 00:18:53 +0200
-In-Reply-To: <08dd8d17-6825-4e53-8441-85c709326f48@lunn.ch>
-References: <20230621054603.1262299-2-evan.quan@amd.com>
- <3a7c8ffa-de43-4795-ae76-5cd9b00c52b5@lunn.ch>
- <216f3c5aa1299100a0009ddf4e95b019855a32be.camel@sipsolutions.net>
- <b1abec47-04df-4481-d680-43c5ff3cbb48@amd.com>
- <36902dda-9e51-41b3-b5fc-c641edf6f1fb@lunn.ch>
- <33d80292-e639-91d0-4d0f-3ed973f89e14@amd.com>
- <9159c3a5-390f-4403-854d-9b5e87b58d8c@lunn.ch>
- <a80c215a-c1d9-4c76-d4a8-9b5fd320a2b1@amd.com>
- <8d3340de-34f6-47ad-8024-f6f5ecd9c4bb@lunn.ch>
- <07ad6860-8ffb-cc6c-a8e5-e8dc4db4e87a@amd.com>
- <08dd8d17-6825-4e53-8441-85c709326f48@lunn.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
+Received: from s.wrqvwxzv.outbound-mail.sendgrid.net
+ (s.wrqvwxzv.outbound-mail.sendgrid.net [149.72.154.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D415210E063
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 22:33:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=from:subject:mime-version:to:cc:content-transfer-encoding:
+ content-type:cc:content-type:from:subject:to;
+ s=s1; bh=Pv1U1EEqpR4gm7kxbWZCerK7wt2q95EyqJhSl+womJE=;
+ b=FkXsUOsXaFkwZrliDf9C2YwjNTIUEVvciEnSKJ9DTDBt+k27cbXeShchjqIG62qoBEXH
+ b0W+UdYOsXPSNmZl5/Pa8sDZfJN5aeForP98D+/3H6KELBuaDRZL2xHCv6G3oK6M/dQmyK
+ AMXMyqWZr86H/epaKAB4V5YO6jAJtDnPWYeG4EX3ygxWvztz3IhdGcfbov+QuCNbGM+LFl
+ lFhpBrEdkWwITScZKCVx/GAr3/k1aFutWnpGJzunVRusb7gmRM6uuMYpj8CKxUYbLSu4oG
+ i8u8jJfV7em/W//1XTI598X82qwaAx4/LdMfQCu/XA2/mKmYkdUdxX1yww99Iarw==
+Received: by filterdrecv-65f68489c8-b6w8z with SMTP id
+ filterdrecv-65f68489c8-b6w8z-1-64937AAA-5C
+ 2023-06-21 22:33:15.071715387 +0000 UTC m=+3625023.840218965
+Received: from bionic.localdomain (unknown) by geopod-ismtpd-0 (SG) with ESMTP
+ id Vsg4Okx2QpydLWx1dvgG5Q Wed, 21 Jun 2023 22:33:14.503 +0000 (UTC)
+From: Jonas Karlman <jonas@kwiboo.se>
+Subject: [PATCH v2 0/5] drm/rockchip: Fix crtc duplicate state and crtc reset
+ funcs
+Date: Wed, 21 Jun 2023 22:33:15 +0000 (UTC)
+Message-ID: <20230621223311.2239547-1-jonas@kwiboo.se>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-X-malware-bazaar: not-scanned
+X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
+ =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0hwAj6JtqDVdUtl=2Fsv?=
+ =?us-ascii?Q?EfHTEBPZGZPV0oT8N0cvVyWZgOlphJJAE1JguJu?=
+ =?us-ascii?Q?Hu+WRw0387JHRl7AW9o30oWLdB+uU36mi70pbpQ?=
+ =?us-ascii?Q?3JKqIuLWk=2FbtrxJ9a1kNFsa6MHZE6QlrmPy3RV4?=
+ =?us-ascii?Q?LxuC+4dQun3E+XsnO7akfSQPg4YiOksDaJgvZbu?=
+ =?us-ascii?Q?R3boykbwj7C82AVDe2aSA=3D=3D?=
+To: Sandy Huang <hjc@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+X-Entity-ID: P7KYpSJvGCELWjBME/J5tg==
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,54 +58,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jingyuwang_vip@163.com, bellosilicio@gmail.com, rafael@kernel.org,
- trix@redhat.com, lijo.lazar@amd.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, mdaenzer@redhat.com,
- amd-gfx@lists.freedesktop.org, linux-acpi@vger.kernel.org, kuba@kernel.org,
- pabeni@redhat.com, lenb@kernel.org, andrealmeid@igalia.com, arnd@arndb.de,
- hdegoede@redhat.com, Evan Quan <evan.quan@amd.com>, netdev@vger.kernel.org,
- Xinhui.Pan@amd.com, linux-wireless@vger.kernel.org, edumazet@google.com,
- christian.koenig@amd.com, tzimmermann@suse.de, alexander.deucher@amd.com,
- davem@davemloft.net
+Cc: Jonas Karlman <jonas@kwiboo.se>, Sascha Hauer <s.hauer@pengutronix.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org, Andy Yan <andy.yan@rock-chips.com>,
+ Mark Yao <markyao0591@gmail.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2023-06-21 at 21:25 +0200, Andrew Lunn wrote:
-> > ACPI core does has notifiers that are used, but they don't work the sam=
-e.
-> > If you look at patch 4, you'll see amdgpu registers and unregisters usi=
-ng
-> > both
-> >=20
-> > acpi_install_notify_handler()
-> > and
-> > acpi_remove_notify_handler()
-> >=20
-> > If we supported both ACPI notifications and non-ACPI notifications
-> > all consumers would have to have support to register and use both types=
-.
->=20
-> Why would you want to support ACPI notifications and non-ACPI
-> notifications? All you need is wbrf notification.
->=20
-> The new wbrf.c should implement wbrf_install_notify_handler() and
-> wbrf_remove_notify_handler().
->=20
-> As to where to put wbrf.c? I guess either drivers/base/ or
-> drivers/wbrf/. Maybe ask GregKH?
+This series fixes a reset of state in duplicate state crtc funcs for VOP
+driver, a possible crash and ensure crtc reset helper is called in VOP2
+driver.
 
-Not sure it should even be called WBRF at that point, but hey :)
+Patch 1 use kmemdup instead of kzalloc to duplicate the crtc state.
+Patch 2 change to use crtc and plane cleanup helpers directly.
+Patch 3 adds a null guard for allocation failure.
+Patch 4 adds a crash guard for empty crtc state.
+Patch 5 adds a missing call to crtc reset helper.
 
-Honestly I'm not sure though we need this complexity right now? I mean,
-it'd be really easy to replace the calls in mac80211 with some other
-more generalised calls in the future?
+This is the next part of an ongoing effort to upstream HDMI 2.0 support
+used in LibreELEC for the past 3+ years.
 
-You need some really deep platform/hardware level knowledge and
-involvement to do this, so I don't think it's something that someone
-will come up with very easily for a DT-based platform...
+Changes in v2:
+- Handle possible allocation failure in crtc reset funcs
+- Collect r-b tags
 
-If we do something with a notifier chain in the future, we can just
-install one in the ACPI code too, and react indirectly rather than
-calling from wifi to the ACPI directly.
+This series is also available at [1].
 
-johannes
+[1] https://github.com/Kwiboo/linux-rockchip/commits/next-20230621-duplicate-state
+
+Jonas Karlman (5):
+  drm/rockchip: vop: Fix reset of state in duplicate state crtc funcs
+  drm/rockchip: vop: Use cleanup helper directly as destroy funcs
+  drm/rockchip: vop: Fix call to crtc reset helper
+  drm/rockchip: vop2: Don't crash for invalid duplicate_state
+  drm/rockchip: vop2: Add missing call to crtc reset helper
+
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c  | 24 +++++-------
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 39 ++++++++++----------
+ 2 files changed, 28 insertions(+), 35 deletions(-)
+
+-- 
+2.41.0
+
