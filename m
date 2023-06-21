@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50E7E73843B
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 15:00:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E83C2738449
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 15:01:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 145E310E464;
-	Wed, 21 Jun 2023 13:00:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 100D410E470;
+	Wed, 21 Jun 2023 13:01:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 621AE10E464
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 13:00:36 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 498AC10E45F
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 13:00:37 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 9BE9521C2A;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id C4F4B21C8A;
  Wed, 21 Jun 2023 13:00:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1687352434; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hrFxrdRi2fHtdb3waShOa2Q+V8u9ec5UpNVMgXiNZR4=;
- b=e4whB82rBdGI/1mK8ml+3LZ1hWCP2EXgfcbxGE26ySp0PqGG6lyfEHraRqbFah/H+eBh48
- BXgqCGvKjaMTK7cH+XpaH4osmOuwZ1oRBf0evSDL3oyGx1+NpZEfFITAeFGfDCWC6UGry2
- D8KN1SUhzIRlvc6SoDisj0uGRXx3tYE=
+ bh=MOEsSmpxfvE9VWykcXcX8hUspFK5uKF+LVBkXBzT4uo=;
+ b=xRSM32lBK4RFbaLIq/4zF4iD9em8V7F3CCURySSkX+jE0q5/i3ajSgVk7VgA34ojFpichy
+ Igl/Hyj7t6Pk/YPNySGfZPeMIUeB6rifoDV+sQInqfokG4cNyBJtWd6oaYvRp3GWhq57nO
+ Me8tvPT3O2Wwjo6e35/NrJdjuFY63cY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1687352434;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hrFxrdRi2fHtdb3waShOa2Q+V8u9ec5UpNVMgXiNZR4=;
- b=+ZmufTc1jDbH9yen/yCvsuI72PHy0pvPdfhDKe3RPlupb7ABjW6HGmsvdtJO4NWiimS6Ss
- JP12fAhGtoGx6jBg==
+ bh=MOEsSmpxfvE9VWykcXcX8hUspFK5uKF+LVBkXBzT4uo=;
+ b=MGQIEuZbWCO99acUegE/tKpnYXSAOjUQm9Mpiu18e+UmdZgyUB54fDW6uGEb89R2CBBU+V
+ KJvH9TxTILniDkDg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 75F8013A66;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9FCA6134B1;
  Wed, 21 Jun 2023 13:00:34 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id GB75G3L0kmTaWgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id IEEtJnL0kmTaWgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Wed, 21 Jun 2023 13:00:34 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, jfalempe@redhat.com, daniel@ffwll.ch,
  jammy_huang@aspeedtech.com, suijingfeng@loongson.cn
-Subject: [PATCH v2 02/14] drm/ast: Remove vga2_clone field
-Date: Wed, 21 Jun 2023 14:53:36 +0200
-Message-ID: <20230621130032.3568-3-tzimmermann@suse.de>
+Subject: [PATCH v2 03/14] drm/ast: Implement register helpers in ast_drv.h
+Date: Wed, 21 Jun 2023 14:53:37 +0200
+Message-ID: <20230621130032.3568-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230621130032.3568-1-tzimmermann@suse.de>
 References: <20230621130032.3568-1-tzimmermann@suse.de>
@@ -72,7 +72,8 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the unused field vga2_clone from struct ast_device. No
+There are already a number of register I/O functions in ast_drv.h.
+For consistency, move the remaining functions there as well. No
 functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
@@ -80,34 +81,100 @@ Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
 Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 Tested-by: Jocelyn Falempe <jfalempe@redhat.com> # AST2600
 ---
- drivers/gpu/drm/ast/ast_drv.h  | 1 -
- drivers/gpu/drm/ast/ast_main.c | 1 -
- 2 files changed, 2 deletions(-)
+ drivers/gpu/drm/ast/ast_drv.h  | 34 ++++++++++++++++++++++++----------
+ drivers/gpu/drm/ast/ast_main.c | 28 ----------------------------
+ 2 files changed, 24 insertions(+), 38 deletions(-)
 
 diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 5498a6676f2e8..fc4760a67596f 100644
+index fc4760a67596f..0141705beaee9 100644
 --- a/drivers/gpu/drm/ast/ast_drv.h
 +++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -166,7 +166,6 @@ struct ast_device {
- 	void __iomem *dp501_fw_buf;
+@@ -257,22 +257,36 @@ static inline void ast_io_write8(struct ast_device *ast, u32 reg, u8 val)
+ 	iowrite8(val, ast->ioregs + reg);
+ }
  
- 	enum ast_chip chip;
--	bool vga2_clone;
- 	uint32_t dram_bus_width;
- 	uint32_t dram_type;
- 	uint32_t mclk;
+-static inline void ast_set_index_reg(struct ast_device *ast,
+-				     uint32_t base, uint8_t index,
+-				     uint8_t val)
++static inline u8 ast_get_index_reg(struct ast_device *ast, u32 base, u8 index)
++{
++	ast_io_write8(ast, base, index);
++	++base;
++	return ast_io_read8(ast, base);
++}
++
++static inline u8 ast_get_index_reg_mask(struct ast_device *ast, u32 base, u8 index,
++					u8 preserve_mask)
++{
++	u8 val = ast_get_index_reg(ast, base, index);
++
++	return val & preserve_mask;
++}
++
++static inline void ast_set_index_reg(struct ast_device *ast, u32 base, u8 index, u8 val)
+ {
+ 	ast_io_write8(ast, base, index);
+ 	++base;
+ 	ast_io_write8(ast, base, val);
+ }
+ 
+-void ast_set_index_reg_mask(struct ast_device *ast,
+-			    uint32_t base, uint8_t index,
+-			    uint8_t mask, uint8_t val);
+-uint8_t ast_get_index_reg(struct ast_device *ast,
+-			  uint32_t base, uint8_t index);
+-uint8_t ast_get_index_reg_mask(struct ast_device *ast,
+-			       uint32_t base, uint8_t index, uint8_t mask);
++static inline void ast_set_index_reg_mask(struct ast_device *ast, u32 base, u8 index,
++					  u8 preserve_mask, u8 val)
++{
++	u8 tmp = ast_get_index_reg_mask(ast, base, index, preserve_mask);
++
++	tmp |= val;
++	ast_set_index_reg(ast, base, index, tmp);
++}
+ 
+ static inline void ast_open_key(struct ast_device *ast)
+ {
 diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-index 1f35438f614a7..da33cfc6366ec 100644
+index da33cfc6366ec..862fdf02f6100 100644
 --- a/drivers/gpu/drm/ast/ast_main.c
 +++ b/drivers/gpu/drm/ast/ast_main.c
-@@ -179,7 +179,6 @@ static int ast_detect_chip(struct drm_device *dev, bool *need_post)
- 			drm_info(dev, "AST 2100 detected\n");
- 			break;
- 		}
--		ast->vga2_clone = false;
- 	} else {
- 		ast->chip = AST2000;
- 		drm_info(dev, "AST 2000 detected\n");
+@@ -35,34 +35,6 @@
+ 
+ #include "ast_drv.h"
+ 
+-void ast_set_index_reg_mask(struct ast_device *ast,
+-			    uint32_t base, uint8_t index,
+-			    uint8_t mask, uint8_t val)
+-{
+-	u8 tmp;
+-	ast_io_write8(ast, base, index);
+-	tmp = (ast_io_read8(ast, base + 1) & mask) | val;
+-	ast_set_index_reg(ast, base, index, tmp);
+-}
+-
+-uint8_t ast_get_index_reg(struct ast_device *ast,
+-			  uint32_t base, uint8_t index)
+-{
+-	uint8_t ret;
+-	ast_io_write8(ast, base, index);
+-	ret = ast_io_read8(ast, base + 1);
+-	return ret;
+-}
+-
+-uint8_t ast_get_index_reg_mask(struct ast_device *ast,
+-			       uint32_t base, uint8_t index, uint8_t mask)
+-{
+-	uint8_t ret;
+-	ast_io_write8(ast, base, index);
+-	ret = ast_io_read8(ast, base + 1) & mask;
+-	return ret;
+-}
+-
+ static void ast_detect_config_mode(struct drm_device *dev, u32 *scu_rev)
+ {
+ 	struct device_node *np = dev->dev->of_node;
 -- 
 2.41.0
 
