@@ -1,51 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAC4D73928E
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 00:33:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D2A373928C
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 00:33:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 748C510E36E;
-	Wed, 21 Jun 2023 22:33:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E74D10E36B;
+	Wed, 21 Jun 2023 22:33:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from s.wrqvtzvf.outbound-mail.sendgrid.net
  (s.wrqvtzvf.outbound-mail.sendgrid.net [149.72.126.143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0043910E135
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 22:33:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF80F10E135
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 22:33:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
  h=from:subject:in-reply-to:references:mime-version:to:cc:
  content-transfer-encoding:content-type:cc:content-type:from:subject:to;
- s=s1; bh=W99jR6zQr9o9HH0LFWjkqVeyLEmhww0LQ1TODMrD+JU=;
- b=lgYVrVqzL5xtT/wvZAyliCCJFvkwGuTcAcJfKQdzdxZC6nLMwUo9oDusU22C1uWycY8I
- p34S3bqatApfjKJTD6B4eqk7llOn5/Xibjn/59rFvUNYJpcXcORsPCo/1q8lBzu49gqfjB
- 5PDLZaTyULgvju+D0MFe6J6rsx8c/hdQbcyDzjbI6MDJnr3FbvWFMIIF/X0/Gt/wgODH29
- AMiYWHdlvJEungau2LBFg6UBFDagsmxX5TqNHt+ZoboL6wu8V4cakUrMw9jhJCfkqgkEj3
- F40YikYplgk68+/3que0WX9V4L4kVAXHsY7Sm/jyaWEFZ3bd0BYwBi10ZNkv5yNA==
-Received: by filterdrecv-84b96456cb-hrvlt with SMTP id
- filterdrecv-84b96456cb-hrvlt-1-64937AAC-29
- 2023-06-21 22:33:16.784398642 +0000 UTC m=+3624881.780498603
+ s=s1; bh=EBeEmyxPHZsV8uwK86Vd5rWpL+TZ9Rlo5l7W7Yh2uhw=;
+ b=aMHyRWqwoobd2f1d7rESpCk+lcJj5Z9C/apkwSupwwykIXNOJP/NLA+9jeCE1UEXhTcC
+ qnOqSRtq7pT6VYAlN7+GV+nQmVthZwMzFxpuWcGUh7fHsaROlYE21qNesmJYShwqF6J1P8
+ y8eoe9MvDB8jfrZsWvy1QOPxjzLErndwQHhP8UXcbWLXdcDiaN1osR0cFiOfKB+ZtWKDp1
+ 8nsc0PVm8QsGmfsf7fIdeyoyDdmVfOsbbm4EAxAnLkZSM16po4xEc6BAVg8nBz7qlk323j
+ AacmXij6fSU1hOKpMp5Nd73t5H3RvphjtczNKwKYrqnKzT3mDwyxmQhIJsMhYv8w==
+Received: by filterdrecv-65f68489c8-k2rl8 with SMTP id
+ filterdrecv-65f68489c8-k2rl8-1-64937AAE-5
+ 2023-06-21 22:33:18.193802383 +0000 UTC m=+1463593.463557322
 Received: from bionic.localdomain (unknown) by geopod-ismtpd-0 (SG) with ESMTP
- id q2JBcGBES7ak8zO87bOzoQ Wed, 21 Jun 2023 22:33:16.341 +0000 (UTC)
+ id -sFQmpmXTsaEvCoAmpELPQ Wed, 21 Jun 2023 22:33:17.910 +0000 (UTC)
 From: Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH v2 1/5] drm/rockchip: vop: Fix reset of state in duplicate
- state crtc funcs
-Date: Wed, 21 Jun 2023 22:33:17 +0000 (UTC)
-Message-ID: <20230621223311.2239547-2-jonas@kwiboo.se>
+Subject: [PATCH v2 2/5] drm/rockchip: vop: Use cleanup helper directly as
+ destroy funcs
+Date: Wed, 21 Jun 2023 22:33:18 +0000 (UTC)
+Message-ID: <20230621223311.2239547-3-jonas@kwiboo.se>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230621223311.2239547-1-jonas@kwiboo.se>
 References: <20230621223311.2239547-1-jonas@kwiboo.se>
 MIME-Version: 1.0
 X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
- =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0h4IxyhjudaBMscryW?=
- =?us-ascii?Q?yil2MxaaDxax+ugZQXodSqRHYB6mo1lanwr1jqt?=
- =?us-ascii?Q?Ei9avORGicVCxu+gicqUMciYzh1qKi1ZY3R+1P3?=
- =?us-ascii?Q?aX7yUhNr6Or2AE9dNYOm56eYLJtPiUd3ZR50SPS?=
- =?us-ascii?Q?B1bkQhX3ZiGjT=2F=2FxAb0d=2Fm0K6Mrf5xdkwW64C85?=
- =?us-ascii?Q?YKcmxYRXdySdhLFV3XH4A=3D=3D?=
+ =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0hx33UZE3akeZPDZ+m?=
+ =?us-ascii?Q?Bfd1ZvpDkt9enAwukw495j=2FN8pAF5a9hBPnC8XN?=
+ =?us-ascii?Q?JBaYIDCfuUuuWEK4B0qxGqt4f05EEKdsjGDqUdD?=
+ =?us-ascii?Q?LtWMhYBafqnmi59E2dedNoF0TF+Qo5xg90X+ogI?=
+ =?us-ascii?Q?O+gZ9fwPZLkRiejGMr4OOtUfqdDbDYwOVxM479?=
 To: Sandy Huang <hjc@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Mark Yao
- <markyao0591@gmail.com>
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 X-Entity-ID: P7KYpSJvGCELWjBME/J5tg==
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset=us-ascii
@@ -64,40 +62,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Jonas Karlman <jonas@kwiboo.se>, Sascha Hauer <s.hauer@pengutronix.de>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-rockchip@lists.infradead.org, Andy Yan <andy.yan@rock-chips.com>,
- linux-arm-kernel@lists.infradead.org
+ Mark Yao <markyao0591@gmail.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-struct rockchip_crtc_state members such as output_type, output_bpc and
-enable_afbc is always reset to zero in the atomic_duplicate_state crtc
-funcs.
+vop_plane_destroy and vop_crtc_destroy are plain wrappers around
+drm_plane_cleanup and drm_crtc_cleanup. Use them directly as plane and
+crtc funcs to closer match VOP2 driver.
 
-Fix this by using kmemdup on the subclass rockchip_crtc_state struct.
-
-Fixes: 4e257d9eee23 ("drm/rockchip: get rid of rockchip_drm_crtc_mode_config")
 Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 Reviewed-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
 v2:
 - Collect r-b tag
 
- drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 16 +++-------------
+ 1 file changed, 3 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-index a530ecc4d207..60b23636a3fe 100644
+index 60b23636a3fe..25c873d4ff53 100644
 --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
 +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-@@ -1614,7 +1614,8 @@ static struct drm_crtc_state *vop_crtc_duplicate_state(struct drm_crtc *crtc)
- 	if (WARN_ON(!crtc->state))
- 		return NULL;
+@@ -766,11 +766,6 @@ static void vop_crtc_atomic_disable(struct drm_crtc *crtc,
+ 	}
+ }
  
--	rockchip_state = kzalloc(sizeof(*rockchip_state), GFP_KERNEL);
-+	rockchip_state = kmemdup(to_rockchip_crtc_state(crtc->state),
-+				 sizeof(*rockchip_state), GFP_KERNEL);
- 	if (!rockchip_state)
- 		return NULL;
+-static void vop_plane_destroy(struct drm_plane *plane)
+-{
+-	drm_plane_cleanup(plane);
+-}
+-
+ static inline bool rockchip_afbc(u64 modifier)
+ {
+ 	return modifier == ROCKCHIP_AFBC_MOD;
+@@ -1131,7 +1126,7 @@ static const struct drm_plane_helper_funcs plane_helper_funcs = {
+ static const struct drm_plane_funcs vop_plane_funcs = {
+ 	.update_plane	= drm_atomic_helper_update_plane,
+ 	.disable_plane	= drm_atomic_helper_disable_plane,
+-	.destroy = vop_plane_destroy,
++	.destroy = drm_plane_cleanup,
+ 	.reset = drm_atomic_helper_plane_reset,
+ 	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
+@@ -1602,11 +1597,6 @@ static const struct drm_crtc_helper_funcs vop_crtc_helper_funcs = {
+ 	.atomic_disable = vop_crtc_atomic_disable,
+ };
  
+-static void vop_crtc_destroy(struct drm_crtc *crtc)
+-{
+-	drm_crtc_cleanup(crtc);
+-}
+-
+ static struct drm_crtc_state *vop_crtc_duplicate_state(struct drm_crtc *crtc)
+ {
+ 	struct rockchip_crtc_state *rockchip_state;
+@@ -1711,7 +1701,7 @@ vop_crtc_verify_crc_source(struct drm_crtc *crtc, const char *source_name,
+ static const struct drm_crtc_funcs vop_crtc_funcs = {
+ 	.set_config = drm_atomic_helper_set_config,
+ 	.page_flip = drm_atomic_helper_page_flip,
+-	.destroy = vop_crtc_destroy,
++	.destroy = drm_crtc_cleanup,
+ 	.reset = vop_crtc_reset,
+ 	.atomic_duplicate_state = vop_crtc_duplicate_state,
+ 	.atomic_destroy_state = vop_crtc_destroy_state,
+@@ -1962,7 +1952,7 @@ static void vop_destroy_crtc(struct vop *vop)
+ 	 */
+ 	list_for_each_entry_safe(plane, tmp, &drm_dev->mode_config.plane_list,
+ 				 head)
+-		vop_plane_destroy(plane);
++		drm_plane_cleanup(plane);
+ 
+ 	/*
+ 	 * Destroy CRTC after vop_plane_destroy() since vop_disable_plane()
 -- 
 2.41.0
 
