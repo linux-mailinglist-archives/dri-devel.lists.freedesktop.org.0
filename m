@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BCA873844A
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 15:01:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0404A73843E
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 15:00:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C82410E471;
-	Wed, 21 Jun 2023 13:01:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F5DD10E466;
+	Wed, 21 Jun 2023 13:00:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 339CF10E467
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38B9010E468
  for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 13:00:38 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 456B521C99;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 6E7D921CA1;
  Wed, 21 Jun 2023 13:00:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1687352436; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FbE4ou+y4X0W4oXh4qZ2i73cj+LyFiCoWDRXDZnKbr8=;
- b=SVRCt1TiiAUCRGwIPtRvUl9fLPXHEWkDJ1syZk1M7jBmwHxD8X9hQ3JDjOovOt0UOCtxhZ
- Rg11WYnhpjJ2kbopCAy8Pj4VT+2uN+AGQqUKKFp1qbKCIGY8eoqVZh9a+8p71Evl7L4xVT
- NvE/uJmCZ+uw0+j4mKUDJ5pVP/O18nc=
+ bh=kTAIwTzSjvqs3cvd6cl7l4w4q8pO1cyOiWgYaYQ+R0w=;
+ b=p8goR+pw6/N6MKC5CXnRO8SqwT7dzO2J6EJs6cjYHzwENonSoTGIQaEJgSlBsEhsfHh5zj
+ eRB5IQA0YwAC0cI1fIMcwcj6sjVLocfb7OFcUZFdvkP8aHEQXj3vdAu+0UW3y3DTksAYr2
+ X8XUmURRRnsEl+GWZJmdJ/6WCll+ouc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1687352436;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FbE4ou+y4X0W4oXh4qZ2i73cj+LyFiCoWDRXDZnKbr8=;
- b=uWqr4q5Xg5znYP4gdqtRODBYuH6b1c4WGoRVw7J3NU163OrPGfRUnAod2X2KMshG5EsG6q
- AIfYDzUkAWszRRDg==
+ bh=kTAIwTzSjvqs3cvd6cl7l4w4q8pO1cyOiWgYaYQ+R0w=;
+ b=h4sQNzqgcRNWUTjz+3k/WLMAmvKFVlWSn0fZ4J4xlspd064fC/hbmsAgQkPm/YOr8dUF6U
+ De+IKoNZIv1s2/Cg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2087213A66;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4A091134B1;
  Wed, 21 Jun 2023 13:00:36 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id iC4QB3T0kmTaWgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id GBdREXT0kmTaWgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Wed, 21 Jun 2023 13:00:36 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, jfalempe@redhat.com, daniel@ffwll.ch,
  jammy_huang@aspeedtech.com, suijingfeng@loongson.cn
-Subject: [PATCH v2 11/14] drm/ast: Detect AST 1400 model
-Date: Wed, 21 Jun 2023 14:53:45 +0200
-Message-ID: <20230621130032.3568-12-tzimmermann@suse.de>
+Subject: [PATCH v2 12/14] drm/ast: Detect AST 2510 model
+Date: Wed, 21 Jun 2023 14:53:46 +0200
+Message-ID: <20230621130032.3568-13-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230621130032.3568-1-tzimmermann@suse.de>
 References: <20230621130032.3568-1-tzimmermann@suse.de>
@@ -72,7 +72,7 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Detect the 5th-generation AST 1400. Allows to simplify the code
+Detect the 6th-generation AST 2510. Allows to simplify the code
 for widescreen support.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
@@ -84,50 +84,50 @@ Tested-by: Jocelyn Falempe <jfalempe@redhat.com> # AST2600
  2 files changed, 11 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 8199834f8fbe0..876ebbd3b60e0 100644
+index 876ebbd3b60e0..3f6e0c984523a 100644
 --- a/drivers/gpu/drm/ast/ast_drv.h
 +++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -71,7 +71,7 @@ enum ast_chip {
- 	AST1050 = __AST_CHIP(4, 2), // unused
- 	/* 5th gen */
- 	AST2400 = __AST_CHIP(5, 0),
--	AST1400 = __AST_CHIP(5, 1), // unused
-+	AST1400 = __AST_CHIP(5, 1),
+@@ -75,7 +75,7 @@ enum ast_chip {
  	AST1250 = __AST_CHIP(5, 2), // unused
  	/* 6th gen */
  	AST2500 = __AST_CHIP(6, 0),
+-	AST2510 = __AST_CHIP(6, 1), // unused
++	AST2510 = __AST_CHIP(6, 1),
+ 	AST2520 = __AST_CHIP(6, 2), // unused
+ 	/* 7th gen */
+ 	AST2600 = __AST_CHIP(7, 0),
 diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-index 7513924a5437b..cbfe93c7929d4 100644
+index cbfe93c7929d4..f2f8a054c52cf 100644
 --- a/drivers/gpu/drm/ast/ast_main.c
 +++ b/drivers/gpu/drm/ast/ast_main.c
-@@ -166,8 +166,15 @@ static int ast_detect_chip(struct drm_device *dev, bool need_post, u32 scu_rev)
- 		ast->chip = AST2500;
- 		drm_info(dev, "AST 2500 detected\n");
- 	} else if (pdev->revision >= 0x30) {
--		ast->chip = AST2400;
--		drm_info(dev, "AST 2400 detected\n");
+@@ -163,8 +163,15 @@ static int ast_detect_chip(struct drm_device *dev, bool need_post, u32 scu_rev)
+ 		ast->chip = AST2600;
+ 		drm_info(dev, "AST 2600 detected\n");
+ 	} else if (pdev->revision >= 0x40) {
+-		ast->chip = AST2500;
+-		drm_info(dev, "AST 2500 detected\n");
 +		switch (scu_rev & 0x300) {
 +		case 0x0100:
-+			ast->chip = AST1400;
-+			drm_info(dev, "AST 1400 detected\n");
++			ast->chip = AST2510;
++			drm_info(dev, "AST 2510 detected\n");
 +			break;
 +		default:
-+			ast->chip = AST2400;
-+			drm_info(dev, "AST 2400 detected\n");
++			ast->chip = AST2500;
++			drm_info(dev, "AST 2500 detected\n");
 +		}
- 	} else if (pdev->revision >= 0x20) {
+ 	} else if (pdev->revision >= 0x30) {
  		switch (scu_rev & 0x300) {
- 		case 0x0000:
-@@ -218,8 +225,7 @@ static int ast_detect_chip(struct drm_device *dev, bool need_post, u32 scu_rev)
- 			ast->support_wide_screen = false;
- 			if (ast->chip == AST1300)
+ 		case 0x0100:
+@@ -227,8 +234,7 @@ static int ast_detect_chip(struct drm_device *dev, bool need_post, u32 scu_rev)
  				ast->support_wide_screen = true;
--			if (ast->chip == AST2400 &&
--			    (scu_rev & 0x300) == 0x100) /* ast1400 */
-+			if (ast->chip == AST1400)
+ 			if (ast->chip == AST1400)
  				ast->support_wide_screen = true;
- 			if (ast->chip == AST2500 &&
- 			    scu_rev == 0x100)           /* ast2510 */
+-			if (ast->chip == AST2500 &&
+-			    scu_rev == 0x100)           /* ast2510 */
++			if (ast->chip == AST2510)
+ 				ast->support_wide_screen = true;
+ 			if (IS_AST_GEN7(ast))
+ 				ast->support_wide_screen = true;
 -- 
 2.41.0
 
