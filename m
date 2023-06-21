@@ -1,71 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF673737F0A
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 11:34:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8612737F0D
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 11:34:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2359F10E0B0;
-	Wed, 21 Jun 2023 09:34:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D436110E426;
+	Wed, 21 Jun 2023 09:34:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AB7910E0B0
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 09:34:01 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id
- a640c23a62f3a-9881b9d8cbdso745757466b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 02:34:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1687340039; x=1689932039; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ljGl+r+k1qbaLYIuL6tG07702g7IZr1fWRM+mo+h1Rs=;
- b=qAziTwFRi+PN2EIJAqo6CLMG8v1BgjgVrGJ3TOyUJe9FvL5/UBiAizWtsUc/fOBflk
- x9N7PA0xXWDdHjTYI2OAk5bIgwMrZ12xZi4hBr/PA/Q52tforWKejbIa+Bl1JX5NuXac
- j29s4Sz9n73z2jxc1D40fW0Yv3om1I+ge0rzg5yOiML2c/wCkIYBMezED7e0r1jkJBKt
- i4x0ROrnHUnFyXhSCykcsUOYjX9XOoD/xKFAuJALwh/z6TfkCnlRxg3QXTZUzfN/z5ZO
- Wf3fh9ZxYEiiSQL+JK/uCjRRLw5NOXJutgoilHNnlUXqPSKHjxkpUbQG6jpzSy/2hEiy
- Kcwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687340039; x=1689932039;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ljGl+r+k1qbaLYIuL6tG07702g7IZr1fWRM+mo+h1Rs=;
- b=Fb1+LdBqIocuedn6yCprYvhFdNNPVX6FCLCngX5KAbG1qYg0Tl/oATptL1qKnqlQjc
- RUpLdP0MAkcL5OyfpLr8Cn50miwmtPj21yvQJg9qqwFKt3PQjelt1TIVj3XEhqxBzzsd
- W/y6UKBjhTpu6vPgd1iNnYwo+1nZYxFbAK7TlIjiytLlXBxErQyj//NNuV+L2P+ip3qz
- XjhqiaQvYT62xmUq17GKZj/hCSL7Op6PVuXX1qTGsq39rc/WyoK/72BlrHSW2/EuQuiG
- v1wbb9W4WeYX8+OPekrm/8YUxTGspnyCQ1wEO0ndjFdsgIMYGmnZHq+Rp9GlrdpTPFHc
- hKGw==
-X-Gm-Message-State: AC+VfDxF/+Eee36lJWbGgUT8R5y/su42MKZMMW/6fT90f3y6r7gnCvJh
- E3XduIerKLqxHnCCF1hKdtqXZfhXVeMTApon/J0=
-X-Google-Smtp-Source: ACHHUZ4JX2zU1zAxBi3DbRV4OCuh8CPKC1bJlK3xGSb5VZzjGA+4Pt30r2DDo2hInl2arzbiOPL/GQ==
-X-Received: by 2002:a17:907:1ca3:b0:988:565f:bf46 with SMTP id
- nb35-20020a1709071ca300b00988565fbf46mr9062378ejc.32.1687340039335; 
- Wed, 21 Jun 2023 02:33:59 -0700 (PDT)
-Received: from [192.168.1.172] (158.22.5.93.rev.sfr.net. [93.5.22.158])
- by smtp.gmail.com with ESMTPSA id
- h6-20020a1709063b4600b009891da61b1asm2684086ejf.44.2023.06.21.02.33.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Jun 2023 02:33:58 -0700 (PDT)
-Message-ID: <e4fc7141-5351-479c-368d-3d469c053a81@baylibre.com>
-Date: Wed, 21 Jun 2023 11:33:52 +0200
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5CE0E10E425;
+ Wed, 21 Jun 2023 09:34:18 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8DxtMQYxJJkLxUAAA--.158S3;
+ Wed, 21 Jun 2023 17:34:16 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8CxvM4WxJJko2MAAA--.2509S3; 
+ Wed, 21 Jun 2023 17:34:15 +0800 (CST)
+Message-ID: <7659b79a-7e13-3be8-0be7-0b8d250206d8@loongson.cn>
+Date: Wed, 21 Jun 2023 17:34:14 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH 2/3] drm/mediatek: Use dev_err_probe() in probe functions
+Subject: Re: [PATCH v10 01/11] drm/etnaviv: Add a dedicated function to
+ register an irq handler
 Content-Language: en-US
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- chunkuang.hu@kernel.org
-References: <20230608101209.126499-1-angelogioacchino.delregno@collabora.com>
- <20230608101209.126499-3-angelogioacchino.delregno@collabora.com>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <20230608101209.126499-3-angelogioacchino.delregno@collabora.com>
+To: Lucas Stach <l.stach@pengutronix.de>, Sui Jingfeng <18949883232@163.com>, 
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230620094716.2231414-1-18949883232@163.com>
+ <20230620094716.2231414-2-18949883232@163.com>
+ <77f62814f98dd2728a1e4747f0db6b2a3cfa2c11.camel@pengutronix.de>
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <77f62814f98dd2728a1e4747f0db6b2a3cfa2c11.camel@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8CxvM4WxJJko2MAAA--.2509S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxCr45CF18Xr4DJFWUXFy5trc_yoW5Zry5pF
+ Z7GFyYkr1kua42g347ZFZ8ZFya9w4xXayxCr1Dt3sFk390yrs5tryYkF4UG34fAryfCw4I
+ qr4jgr47uF1YvrXCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUB2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+ AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+ tVWrXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
+ 8JMxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_
+ Jr0_Gr1l4IxYO2xFxVAFwI0_Jw0_GFylx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+ xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+ cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8V
+ AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E
+ 14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU4AhLUUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,20 +70,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- kernel@collabora.com, linux-arm-kernel@lists.infradead.org
+Cc: Bjorn Helgaas <bhelgaas@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/06/2023 12:12, AngeloGioacchino Del Regno wrote:
-> Convert all instances of dev_err() -> return to dev_err_probe() and
-> where it makes sense to, change instances of `return ret` at the end
-> of probe functions to `return 0`, as errors are returned earlier.
+Hi,
 
-Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+On 2023/6/21 17:07, Lucas Stach wrote:
+> Am Dienstag, dem 20.06.2023 um 17:47 +0800 schrieb Sui Jingfeng:
+>> From: Sui Jingfeng <suijingfeng@loongson.cn>
+>>
+>> Because getting IRQ from a device is platform-dependent, PCI devices have
+>> different methods for getting an IRQ. This patch is a preparation to extend
+>> this driver for supporting the PCI devices.
+>>
+>> Cc: Lucas Stach <l.stach@pengutronix.de>
+>> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+>> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+>> Cc: Bjorn Helgaas <bhelgaas@google.com>
+>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>> ---
+>>   drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 32 +++++++++++++++++++--------
+>>   1 file changed, 23 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+>> index de8c9894967c..a03e81337d8f 100644
+>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+>> @@ -1817,6 +1817,27 @@ static const struct of_device_id etnaviv_gpu_match[] = {
+>>   };
+>>   MODULE_DEVICE_TABLE(of, etnaviv_gpu_match);
+>>   
+>> +static int etnaviv_gpu_register_irq(struct etnaviv_gpu *gpu, int irq)
+>> +{
+>> +	struct device *dev = gpu->dev;
+>> +	int err;
+>> +
+>> +	if (irq < 0)
+>> +		return irq;
+>> +
+>> +	err = devm_request_irq(dev, irq, irq_handler, 0, dev_name(dev), gpu);
+>> +	if (err) {
+>> +		dev_err(dev, "failed to request irq %u: %d\n", irq, err);
+>> +		return err;
+>> +	}
+>> +
+>> +	gpu->irq = irq;
+>> +
+>> +	dev_info(dev, "irq(%d) handler registered\n", irq);
+> There is no reason to put this into the kernel log. It's no different
+> than other resources to the driver and we don't log each one of those
+> either.
+>
+> In fact I don't see any reason for this change in the first place.
+> Effectively you are moving a single function call into a new function,
+> which doesn't seem like an improvement.
+
+Hi, another reason is that we observed that
+
+It(register irq) has no relationship to rest of the 
+etnaviv_gpu_driver_create() funciton,
+
+so it should be stand alone.
+
+After stand alone, it is not platform-dependent any more,
+
+it can be shared by both the PCI device driver and the platform device 
+driver.
+
+
+So, this is what I'm thinking when I create this function.
+
+> Regards,
+> Lucas
+>
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>   static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
+>>   {
+>>   	struct device *dev = &pdev->dev;
+>> @@ -1837,16 +1858,9 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
+>>   		return PTR_ERR(gpu->mmio);
+>>   
+>>   	/* Get Interrupt: */
+>> -	gpu->irq = platform_get_irq(pdev, 0);
+>> -	if (gpu->irq < 0)
+>> -		return gpu->irq;
+>> -
+>> -	err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
+>> -			       dev_name(gpu->dev), gpu);
+>> -	if (err) {
+>> -		dev_err(dev, "failed to request IRQ%u: %d\n", gpu->irq, err);
+>> +	err = etnaviv_gpu_register_irq(gpu, platform_get_irq(pdev, 0));
+>> +	if (err)
+>>   		return err;
+>> -	}
+>>   
+>>   	/* Get Clocks: */
+>>   	gpu->clk_reg = devm_clk_get_optional(&pdev->dev, "reg");
 
 -- 
-Regards,
-Alexandre
+Jingfeng
 
