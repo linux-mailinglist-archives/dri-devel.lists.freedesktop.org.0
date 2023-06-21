@@ -1,63 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D66DD7383D4
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 14:31:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1221D7383DF
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 14:34:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3CAA10E458;
-	Wed, 21 Jun 2023 12:31:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADFF210E456;
+	Wed, 21 Jun 2023 12:34:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5FF8310E456;
- Wed, 21 Jun 2023 12:31:37 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8AxycWm7ZJkMCEAAA--.260S3;
- Wed, 21 Jun 2023 20:31:34 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8AxX8+l7ZJkHp4AAA--.3630S3; 
- Wed, 21 Jun 2023 20:31:33 +0800 (CST)
-Message-ID: <06e4482e-5711-4d0f-043a-8aa78c7f0ec0@loongson.cn>
-Date: Wed, 21 Jun 2023 20:31:33 +0800
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A57FD10E456
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 12:34:10 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id
+ 4fb4d7f45d1cf-51bdf6336d2so431686a12.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 05:34:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1687350848; x=1689942848; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=9iTM9Tx3UJaYsQqcJ5JbhlSjUUYORfuUf20lfWrNUGw=;
+ b=DyZTRfXkqmTQnyvBXikfY0NTynrMhXjBGLHZVMrJY0TwddYoDbuJhc1uqwl23cYthL
+ 6N/Z0MaQ8Dke4iO36VCMrPxTZ+bUC3ZT4vGz61ZpoHzd26MvkGEYBV/0U9Fstsdadhi7
+ /O0RIB2jzarwKJf7bVIC3FrsfdfNmCdEWPOFMF3yDtdEFPphCau35K+7MEdgAan2QbQ4
+ htypz58WEw1weh2+/UBIkqyGTp4wxvhmC7DYd6qFqe0jNQzgE7yCIZh/2WAODIe6mbj8
+ 2FZFKA71mrI1ORYFQZ1GTLsARQ2fbEKWihMKQHdpuVbMcgHkd+Na6kzd1Bdg2iz7J+3r
+ GfFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687350848; x=1689942848;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9iTM9Tx3UJaYsQqcJ5JbhlSjUUYORfuUf20lfWrNUGw=;
+ b=iY5hR+8T5j6OvhuV5htBfcY1GjE/z52mB1y0UR91UHRKwqLZOqrPObKcnP9o7FOuoF
+ PdRJoxkyxG9J9z4nEXuQnzDrC48YIeEBNFHaBwzLoQM7uJvejQZ0UMC0IjtXNPIrBK/n
+ 8XsFN5V9WIeylO0K8ZL7d3wbQJtCcXYZGAywJTfcBwnydyr8Ak6xrVlHOUuVC3ASENWv
+ kQw6D8+4VMw82rHBlmftavNS+1jghEYpZX8ZdKZSALBJW6QKZjkfBTaXKBgF8XpP8gBy
+ P6H+oV//uTeWkN+7q0jwm6jXAvDMG+OjwxRanveZk3atwavjIdIng3T32d+4PGczg+SY
+ wPeg==
+X-Gm-Message-State: AC+VfDxAU40mxHUV6BuVPu27Iko2v5wEtI6NsCZuKlGybPZuXNMrcjSy
+ dn5yCtItl1P0XamwarXYBEZiEg==
+X-Google-Smtp-Source: ACHHUZ73rIeM+5qs+5Ye74ibBRbWD6zPIqZkgDbrySnJcz6nb9Hi0Fxdp3gQ3hkix1TMdfOKYaKaYg==
+X-Received: by 2002:aa7:cb84:0:b0:518:7a8b:5d4 with SMTP id
+ r4-20020aa7cb84000000b005187a8b05d4mr10690489edt.16.1687350848621; 
+ Wed, 21 Jun 2023 05:34:08 -0700 (PDT)
+Received: from [192.168.1.172] (158.22.5.93.rev.sfr.net. [93.5.22.158])
+ by smtp.gmail.com with ESMTPSA id
+ k2-20020aa7c382000000b0051a5ac9a40csm2606525edq.7.2023.06.21.05.34.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 21 Jun 2023 05:34:08 -0700 (PDT)
+Message-ID: <797c0144-4072-8728-304e-e64213185687@baylibre.com>
+Date: Wed, 21 Jun 2023 14:34:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH v10 04/11] drm/etnaviv: Add helpers for private data
- construction and destruction
+Subject: Re: [PATCH v3 3/4] drm/mediatek: Add casting before assign
 Content-Language: en-US
-To: Lucas Stach <l.stach@pengutronix.de>, Sui Jingfeng <18949883232@163.com>, 
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20230620094716.2231414-1-18949883232@163.com>
- <20230620094716.2231414-5-18949883232@163.com>
- <cba8ebe734aed53e74ddee2242526d10338cbafb.camel@pengutronix.de>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <cba8ebe734aed53e74ddee2242526d10338cbafb.camel@pengutronix.de>
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+References: <20230621102247.10116-1-jason-jh.lin@mediatek.com>
+ <20230621102247.10116-4-jason-jh.lin@mediatek.com>
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <20230621102247.10116-4-jason-jh.lin@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8AxX8+l7ZJkHp4AAA--.3630S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW3Xw13tFWkAw4fAFWrur43XFc_yoWxJw17pF
- s7AFyYyrWkZry0g3sFqrs8XasI9w4xWrW09asrt3Z0qwsIyr1vgFn5KryUCas3AFy5CF4S
- yw4UtrnrWF40krXCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUvab4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
- xVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
- Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE
- 14v26F4j6r4UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07
- AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
- F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GF
- ylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
- xVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26F
- 4j6r4UJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU
- wEfOUUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,213 +79,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
+Cc: Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ Johnson Wang <johnson.wang@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 2023/6/21 17:22, Lucas Stach wrote:
-> Am Dienstag, dem 20.06.2023 um 17:47 +0800 schrieb Sui Jingfeng:
->> From: Sui Jingfeng <suijingfeng@loongson.cn>
->>
->> There are numerous members in the struct etnaviv_drm_private, which are
->> shared by all GPU core. This patch introduces two dedicated functions for
->> the construction and destruction of the instances of this structure.
->> The goal is to keep its members from leaking to the outside. The code
->> needed for error handling can also be simplified.
->>
->> Cc: Lucas Stach <l.stach@pengutronix.de>
->> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
->> Cc: Philipp Zabel <p.zabel@pengutronix.de>
->> Cc: Bjorn Helgaas <bhelgaas@google.com>
->> Cc: Daniel Vetter <daniel@ffwll.ch>
->> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->> ---
->>   drivers/gpu/drm/etnaviv/etnaviv_drv.c | 73 +++++++++++++++++----------
->>   drivers/gpu/drm/etnaviv/etnaviv_drv.h |  1 +
->>   2 files changed, 47 insertions(+), 27 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
->> index cec005035d0e..6a048be02857 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
->> @@ -24,9 +24,47 @@
->>   #include "etnaviv_perfmon.h"
->>   
->>   /*
->> - * DRM operations:
->> + * etnaviv private data construction and destructions:
->>    */
->> +static struct etnaviv_drm_private *
->> +etnaviv_alloc_private(struct device *dev, struct drm_device *drm)
->> +{
->> +	struct etnaviv_drm_private *priv;
->> +
->> +	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
->> +	if (!priv)
->> +		return ERR_PTR(-ENOMEM);
->> +
->> +	priv->drm = drm;
-> That's an unrelated change that you rely on in later patches. If this
-> is needed at all it needs to be in a separate patch with a explanation
-> on why it is needed.
-
-It helps the etnaviv_drm_unbind() function fetch the pointer to the 
-struct drm_device,
-
-etnaviv_drm_unbind() became a pure function which don't need to 
-reference external variables.
 
 
-The real rationale is that when we made the single 3D GPU core the be 
-the master device,
+On 21/06/2023 12:22, Jason-JH.Lin wrote:
+> 1. Add casting before assign to avoid the unintentional integer
+>     overflow or unintended sign extension.
+> 2. Add a int varriable for multiplier calculation instead of calculating
+>     different types multiplier with dma_addr_t varriable directly.
+> 
+> Fixes: 1a64a7aff8da ("drm/mediatek: Fix cursor plane no update")
+> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> ---
+>   drivers/gpu/drm/mediatek/mtk_drm_gem.c   |  3 ++-
+>   drivers/gpu/drm/mediatek/mtk_drm_plane.c | 22 +++++++++++++---------
+>   2 files changed, 15 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_gem.c b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
+> index a25b28d3ee90..da087d74612d 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_gem.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
+> @@ -121,7 +121,8 @@ int mtk_drm_gem_dumb_create(struct drm_file *file_priv, struct drm_device *dev,
+>   	int ret;
+>   
+>   	args->pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
+> -	args->size = args->pitch * args->height;
+> +	args->size = args->pitch;
+> +	args->size *= args->height;
+>   
+>   	mtk_gem = mtk_drm_gem_create(dev, args->size, false);
+>   	if (IS_ERR(mtk_gem))
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+> index 31f9420aff6f..1cd41454d545 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+> @@ -145,6 +145,7 @@ static void mtk_plane_update_new_state(struct drm_plane_state *new_state,
+>   	dma_addr_t addr;
+>   	dma_addr_t hdr_addr = 0;
+>   	unsigned int hdr_pitch = 0;
+> +	int offset;
 
-We no longer create the virtual master. We lost a place to store the 
-pointer to
+I agree with Angelo, please set offset as unsigned.
 
-struct drm_device.
-
-We have only one struct device across the whole driver.
-
-There only one dev->driver_data instance in the whole driver,
-
-The etnaviv_gpu_driver_create() function will call dev_set_drvdata(dev, gpu)
-
-function to store the pointer to the instance(struct etnaviv_gpu).
-
-The seat is taken, there is no where to store the pointer to struct 
-drm_device.
-
-
-As the drm is intended to be shared by all GPU core,
-
-so, in the end, even for multiple GPU cores case,
-
-this is still good thing, because the driver could fetch the pointer to 
-the struct drm_device
-
-via 'struct etnaviv_drm_private *', they are something in common, that 
-is they are both
-
-intended to be shared by the whole program.
-
-> Regards,
-> Lucas
->
->> +
->> +	xa_init_flags(&priv->active_contexts, XA_FLAGS_ALLOC);
->> +
->> +	mutex_init(&priv->gem_lock);
->> +	INIT_LIST_HEAD(&priv->gem_list);
->> +	priv->num_gpus = 0;
->> +	priv->shm_gfp_mask = GFP_HIGHUSER | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;
->>   
->> +	priv->cmdbuf_suballoc = etnaviv_cmdbuf_suballoc_new(dev);
->> +	if (IS_ERR(priv->cmdbuf_suballoc)) {
->> +		kfree(priv);
->> +		dev_err(dev, "Failed to create cmdbuf suballocator\n");
->> +		return ERR_PTR(-ENOMEM);
->> +	}
->> +
->> +	return priv;
->> +}
->> +
->> +static void etnaviv_free_private(struct etnaviv_drm_private *priv)
->> +{
->> +	if (!priv)
->> +		return;
->> +
->> +	etnaviv_cmdbuf_suballoc_destroy(priv->cmdbuf_suballoc);
->> +
->> +	xa_destroy(&priv->active_contexts);
->> +
->> +	kfree(priv);
->> +}
->>   
->>   static void load_gpu(struct drm_device *dev)
->>   {
->> @@ -511,35 +549,21 @@ static int etnaviv_bind(struct device *dev)
->>   	if (IS_ERR(drm))
->>   		return PTR_ERR(drm);
->>   
->> -	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
->> -	if (!priv) {
->> -		dev_err(dev, "failed to allocate private data\n");
->> -		ret = -ENOMEM;
->> +	priv = etnaviv_alloc_private(dev, drm);
->> +	if (IS_ERR(priv)) {
->> +		ret = PTR_ERR(priv);
->>   		goto out_put;
->>   	}
->> +
->>   	drm->dev_private = priv;
->>   
->>   	dma_set_max_seg_size(dev, SZ_2G);
->>   
->> -	xa_init_flags(&priv->active_contexts, XA_FLAGS_ALLOC);
->> -
->> -	mutex_init(&priv->gem_lock);
->> -	INIT_LIST_HEAD(&priv->gem_list);
->> -	priv->num_gpus = 0;
->> -	priv->shm_gfp_mask = GFP_HIGHUSER | __GFP_RETRY_MAYFAIL | __GFP_NOWARN;
->> -
->> -	priv->cmdbuf_suballoc = etnaviv_cmdbuf_suballoc_new(drm->dev);
->> -	if (IS_ERR(priv->cmdbuf_suballoc)) {
->> -		dev_err(drm->dev, "Failed to create cmdbuf suballocator\n");
->> -		ret = PTR_ERR(priv->cmdbuf_suballoc);
->> -		goto out_free_priv;
->> -	}
->> -
->>   	dev_set_drvdata(dev, drm);
->>   
->>   	ret = component_bind_all(dev, drm);
->>   	if (ret < 0)
->> -		goto out_destroy_suballoc;
->> +		goto out_free_priv;
->>   
->>   	load_gpu(drm);
->>   
->> @@ -551,10 +575,8 @@ static int etnaviv_bind(struct device *dev)
->>   
->>   out_unbind:
->>   	component_unbind_all(dev, drm);
->> -out_destroy_suballoc:
->> -	etnaviv_cmdbuf_suballoc_destroy(priv->cmdbuf_suballoc);
->>   out_free_priv:
->> -	kfree(priv);
->> +	etnaviv_free_private(priv);
->>   out_put:
->>   	drm_dev_put(drm);
->>   
->> @@ -570,12 +592,9 @@ static void etnaviv_unbind(struct device *dev)
->>   
->>   	component_unbind_all(dev, drm);
->>   
->> -	etnaviv_cmdbuf_suballoc_destroy(priv->cmdbuf_suballoc);
->> -
->> -	xa_destroy(&priv->active_contexts);
->> +	etnaviv_free_private(priv);
->>   
->>   	drm->dev_private = NULL;
->> -	kfree(priv);
->>   
->>   	drm_dev_put(drm);
->>   }
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
->> index b3eb1662e90c..e58f82e698de 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
->> @@ -35,6 +35,7 @@ struct etnaviv_file_private {
->>   };
->>   
->>   struct etnaviv_drm_private {
->> +	struct drm_device *drm;
->>   	int num_gpus;
->>   	struct etnaviv_gpu *gpu[ETNA_MAX_PIPES];
->>   	gfp_t shm_gfp_mask;
+>   
+>   	gem = fb->obj[0];
+>   	mtk_gem = to_mtk_gem_obj(gem);
+> @@ -154,8 +155,10 @@ static void mtk_plane_update_new_state(struct drm_plane_state *new_state,
+>   	modifier = fb->modifier;
+>   
+>   	if (modifier == DRM_FORMAT_MOD_LINEAR) {
+> -		addr += (new_state->src.x1 >> 16) * fb->format->cpp[0];
+> -		addr += (new_state->src.y1 >> 16) * pitch;
+> +		offset = (new_state->src.x1 >> 16) * fb->format->cpp[0];
+> +		addr += offset;
+> +		offset = (new_state->src.y1 >> 16) * pitch;
+> +		addr += offset;
+>   	} else {
+>   		int width_in_blocks = ALIGN(fb->width, AFBC_DATA_BLOCK_WIDTH)
+>   				      / AFBC_DATA_BLOCK_WIDTH;
+> @@ -163,21 +166,22 @@ static void mtk_plane_update_new_state(struct drm_plane_state *new_state,
+>   				       / AFBC_DATA_BLOCK_HEIGHT;
+>   		int x_offset_in_blocks = (new_state->src.x1 >> 16) / AFBC_DATA_BLOCK_WIDTH;
+>   		int y_offset_in_blocks = (new_state->src.y1 >> 16) / AFBC_DATA_BLOCK_HEIGHT;
+> -		int hdr_size;
+> +		int hdr_size, hdr_offset;
+>   
+>   		hdr_pitch = width_in_blocks * AFBC_HEADER_BLOCK_SIZE;
+>   		pitch = width_in_blocks * AFBC_DATA_BLOCK_WIDTH *
+>   			AFBC_DATA_BLOCK_HEIGHT * fb->format->cpp[0];
+>   
+>   		hdr_size = ALIGN(hdr_pitch * height_in_blocks, AFBC_HEADER_ALIGNMENT);
+> +		hdr_offset = hdr_pitch * y_offset_in_blocks +
+> +			AFBC_HEADER_BLOCK_SIZE * x_offset_in_blocks;
+> +		hdr_addr = addr + hdr_offset;
+>   
+> -		hdr_addr = addr + hdr_pitch * y_offset_in_blocks +
+> -			   AFBC_HEADER_BLOCK_SIZE * x_offset_in_blocks;
+>   		/* The data plane is offset by 1 additional block. */
+> -		addr = addr + hdr_size +
+> -		       pitch * y_offset_in_blocks +
+> -		       AFBC_DATA_BLOCK_WIDTH * AFBC_DATA_BLOCK_HEIGHT *
+> -		       fb->format->cpp[0] * (x_offset_in_blocks + 1);
+> +		offset = pitch * y_offset_in_blocks +
+> +			 AFBC_DATA_BLOCK_WIDTH * AFBC_DATA_BLOCK_HEIGHT *
+> +			 fb->format->cpp[0] * (x_offset_in_blocks + 1);
+> +		addr = addr + hdr_size + offset;
+>   	}
+>   
+>   	mtk_plane_state->pending.enable = true;
 
 -- 
-Jingfeng
-
+Regards,
+Alexandre
