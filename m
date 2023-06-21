@@ -1,55 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF3BB738B20
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 18:28:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FC9E738B22
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 18:28:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A2F410E202;
-	Wed, 21 Jun 2023 16:28:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EB6110E0CA;
+	Wed, 21 Jun 2023 16:28:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC22310E202
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 16:28:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1687364895; x=1718900895;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=lD08uLgUK9ZigDPBHDtgSA0rj18RciqVRTnE8VS7w1k=;
- b=boRO8UeOhE0YYswiADrGKFhGmPu3YvbR4MfrKcYM6ocD0ifQt35ap8gz
- VMN7V5q4Iz3xuZ1hftePALcwUUP9Gz39qxf+jJQMVSHI5L3qu8XT3ID6R
- OXMWi9HTxnkanjZCtHEC0ruSBFAB2FfdlVM5sstOOlmQ3ZP+WsBthmQay
- sX68hRH5ENwzJQ7W1K725uYb9tdI516kipLRvTwMNFMISZwqCf9eBqh6l
- N/NOujE5AVoofPa+c+zIg6SBV9c5ph7ZCC6npQphFynskUxblgyGF7Ll2
- DZtHvKHzyOzFoeB1KHUBkA6BAu57ePpLNLLjCqFFyo0EtOKAGFJt88/D/ w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="360241097"
-X-IronPort-AV: E=Sophos;i="6.00,261,1681196400"; d="scan'208";a="360241097"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jun 2023 09:28:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="859040594"
-X-IronPort-AV: E=Sophos;i="6.00,261,1681196400"; d="scan'208";a="859040594"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
- by fmsmga001.fm.intel.com with ESMTP; 21 Jun 2023 09:28:12 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qC0gl-0006wT-1v;
- Wed, 21 Jun 2023 16:28:11 +0000
-Date: Thu, 22 Jun 2023 00:27:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- thomas_os@shipmail.org, boris.brezillon@collabora.com,
- arunpravin.paneerselvam@amd.com, dakr@redhat.com,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 2/2] drm: add drm_exec selftests v4
-Message-ID: <202306220013.JRZDDrkO-lkp@intel.com>
-References: <20230621133700.7588-2-christian.koenig@amd.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E15A010E0CA;
+ Wed, 21 Jun 2023 16:28:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=twjQf8R86b3wIe7w+v/y0vrm9B6yITXlFsoZ7q0uaz0=; b=PilaYNCPRtDyNeptm+tMztdcUx
+ q524gSe07wN7rFu0YTNLX8UJ8SFdpcnU17kS6OjgoG+cqf/YpnU34HnNjeDNDFi6EZBkTb99EmhB9
+ yk63FT3P36aPWLz/5K29WR1CFzkgIQ+VENoj/w/JfAiam4gh/LpW8Ww52yutY7o+XatdSiJ0mjXui
+ LCEErASJ16DnnXsDuITj5qskFVwtwTedV7GGIKX3+03csOfEGMMO+XdZMEZBI05gk3PrhZSkJDSPx
+ Q487GTB4r8yHIX/NrdwDjnAe4U4pLzaQE4d7cbP1Xn4loRzal1RcpyixrWITwGuppfbqYvXnTE7UQ
+ V9M2A1+Q==;
+Received: from [179.113.218.86] (helo=[192.168.1.111])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1qC0hD-001NyD-Ft; Wed, 21 Jun 2023 18:28:39 +0200
+Message-ID: <26a4f7f3-33fa-c28e-dd71-e44e61ffa229@igalia.com>
+Date: Wed, 21 Jun 2023 13:28:34 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230621133700.7588-2-christian.koenig@amd.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [RFC PATCH v3 1/4] drm/doc: Document DRM device reset expectations
+Content-Language: en-US
+To: Pekka Paalanen <ppaalanen@gmail.com>
+References: <20230621005719.836857-1-andrealmeid@igalia.com>
+ <20230621005719.836857-2-andrealmeid@igalia.com>
+ <20230621105842.0c21b161@eldfell>
+From: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <20230621105842.0c21b161@eldfell>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,67 +56,209 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: pierre-eric.pelloux-prayer@amd.com,
+ Samuel Pitoiset <samuel.pitoiset@gmail.com>,
+ =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>,
+ =?UTF-8?Q?Timur_Krist=c3=b3f?= <timur.kristof@gmail.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+Em 21/06/2023 04:58, Pekka Paalanen escreveu:
+> On Tue, 20 Jun 2023 21:57:16 -0300
+> André Almeida <andrealmeid@igalia.com> wrote:
+> 
+>> Create a section that specifies how to deal with DRM device resets for
+>> kernel and userspace drivers.
+>>
+>> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+> 
+> Hi André,
+> 
+> nice to see this! I ended up giving lots of grammar comments, but I'm
+> not a native speaker. Generally it looks good to me.
 
-kernel test robot noticed the following build warnings:
+Thank you for your feedback :)
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.4-rc7 next-20230621]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+>> ---
+>>   Documentation/gpu/drm-uapi.rst | 65 ++++++++++++++++++++++++++++++++++
+>>   1 file changed, 65 insertions(+)
+>>
+>> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+>> index 65fb3036a580..da4f8a694d8d 100644
+>> --- a/Documentation/gpu/drm-uapi.rst
+>> +++ b/Documentation/gpu/drm-uapi.rst
+>> @@ -285,6 +285,71 @@ for GPU1 and GPU2 from different vendors, and a third handler for
+>>   mmapped regular files. Threads cause additional pain with signal
+>>   handling as well.
+>>   
+>> +Device reset
+>> +============
+>> +
+>> +The GPU stack is really complex and is prone to errors, from hardware bugs,
+>> +faulty applications and everything in between the many layers. To recover
+>> +from this kind of state, sometimes is needed to reset the device. This section
+> 
+> It seems unclear what "this kind of state" refers to, so maybe just write "errors"?
+> 
+> Maybe:
+> 
+> 	Some errors require resetting the device in order to make the
+> 	device usable again.
+> 
+> I presume that recovery does not mean that the failed job could recover.
+> 
+>> +describes what's the expectations for DRM and usermode drivers when a device
+>> +resets and how to propagate the reset status.
+>> +
+>> +Kernel Mode Driver
+>> +------------------
+>> +
+>> +The KMD is responsible for checking if the device needs a reset, and to perform
+>> +it as needed. Usually a hung is detected when a job gets stuck executing. KMD
+> 
+> s/hung/hang/ ?
+> 
+>> +then update it's internal reset tracking to be ready when userspace asks the
+> 
+> updates its
+> 
+> "update reset tracking"... do you mean that KMD records information
+> about the reset in case userspace asks for it later?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/drm-add-drm_exec-selftests-v4/20230621-213827
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230621133700.7588-2-christian.koenig%40amd.com
-patch subject: [PATCH 2/2] drm: add drm_exec selftests v4
-config: hexagon-randconfig-r015-20230621 (https://download.01.org/0day-ci/archive/20230622/202306220013.JRZDDrkO-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230622/202306220013.JRZDDrkO-lkp@intel.com/reproduce)
+Yes, kernel drivers do annotate whenever a reset happens, so it can 
+report to userspace when it asks about resets.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306220013.JRZDDrkO-lkp@intel.com/
+For instance, this is the amdgpu implementation of 
+AMDGPU_CTX_OP_QUERY_STATE2:
 
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/tests/drm_exec_test.c:134:2: warning: variable '__drm_exec_retry_ptr' set but not used [-Wunused-but-set-variable]
-     134 |         drm_exec_until_all_locked(&exec)
-         |         ^
-   include/drm/drm_exec.h:78:13: note: expanded from macro 'drm_exec_until_all_locked'
-      78 |         for (void *__drm_exec_retry_ptr; ({                     \
-         |                    ^
-   1 warning generated.
+https://elixir.bootlin.com/linux/v6.3.8/source/drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c#L548 
 
 
-vim +/__drm_exec_retry_ptr +134 drivers/gpu/drm/tests/drm_exec_test.c
+You can see there stored information about resets.
 
-   121	
-   122	static void test_prepare_array(struct kunit *test)
-   123	{
-   124		struct drm_gem_object gobj1 = { };
-   125		struct drm_gem_object gobj2 = { };
-   126		struct drm_gem_object *array[] = { &gobj1, &gobj2 };
-   127		struct drm_exec exec;
-   128		int ret;
-   129	
-   130		drm_gem_private_object_init(&dev, &gobj1, PAGE_SIZE);
-   131		drm_gem_private_object_init(&dev, &gobj2, PAGE_SIZE);
-   132	
-   133		drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
- > 134		drm_exec_until_all_locked(&exec)
-   135			ret = drm_exec_prepare_array(&exec, array, ARRAY_SIZE(array),
-   136						     1);
-   137		KUNIT_EXPECT_EQ(test, ret, 0);
-   138		drm_exec_fini(&exec);
-   139	}
-   140	
+> 
+>> +kernel about reset information. Drivers should implement the DRM_IOCTL_GET_RESET
+>> +for that.
+> 
+> At this point, I'm not sure what "reset tracking" or "reset
+> information" entails. Could something be said about those?
+>  >> +
+>> +User Mode Driver
+>> +----------------
+>> +
+>> +The UMD should check before submitting new commands to the KMD if the device has
+>> +been reset, and this can be checked more often if it requires to. The
+>> +DRM_IOCTL_GET_RESET is the default interface for those kind of checks. After
+>> +detecting a reset, UMD will then proceed to report it to the application using
+>> +the appropriated API error code, as explained in the bellow section about
+> 
+> s/bellow/below/
+> 
+>> +robustness.
+>> +
+>> +Robustness
+>> +----------
+>> +
+>> +The only way to try to keep an application working after a reset is if it
+>> +complies with the robustness aspects of the graphical API that is using.
+> 
+> that it is using.
+> 
+>> +
+>> +Graphical APIs provide ways to application to deal with device resets. However,
+> 
+> provide ways for applications to deal with
+> 
+>> +there's no guarantee that the app will be correctly using such features, and UMD
+>> +can implement policies to close the app if it's a repeating offender, likely in
+>> +a broken loop. This is done to ensure that it doesn't keeps blocking the user
+> 
+> does not keep
+> 
+> I think contractions are usually avoided in documents, but I'm not
+> bothering to flag them all.
+> 
+>> +interface to be correctly displayed.
+> 
+> interface from being correctly displayed.
+> 
+>> +
+>> +OpenGL
+>> +~~~~~~
+>> +
+>> +Apps using OpenGL can rely on ``GL_ARB_robustness`` to be robust. This extension
+>> +tells if a reset has happened, and if so, all the context state is considered
+>> +lost and the app proceeds by creating new ones. If robustness isn't in use, UMD
+>> +will terminate the app when a reset is detected, giving that the contexts are
+>> +lost and the app won't be able to figure this out and recreate the contexts.
+> 
+> What about GL ES? Is GL_ARB_robustness implemented or even defined there?
+> 
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I found this: 
+https://registry.khronos.org/OpenGL/extensions/EXT/EXT_robustness.txt
+
+"Since this is intended to be a version of ARB_robustness for OpenGL ES, 
+it should be named accordingly."
+
+I can add this to this paragraph.
+
+> What about EGL returning errors like EGL_CONTEXT_LOST, would handling that not
+> be enough from the app? The documented expectation is: "The application
+> must destroy all contexts and reinitialise OpenGL ES state and objects
+> to continue rendering."
+
+I couldn't find the spec for EGL_CONTEXT_LOST, but I found for 
+GL_CONTEXT_LOST, which I assume is similar.
+
+GL_CONTEXT_LOST is only returned in some specific commands (that might 
+cause a polling application to block indefinitely), so I don't think 
+it's enough, given that the we can't guarantee that the application will 
+call such commands after a reset, thus not being able to notice a reset.
+
+https://registry.khronos.org/OpenGL-Refpages/gl4/html/glGetGraphicsResetStatus.xhtml
+
+> 
+>> +
+>> +Vulkan
+>> +~~~~~~
+>> +
+>> +Apps using Vulkan should check for ``VK_ERROR_DEVICE_LOST`` for submissions.
+>> +This error code means, among other things, that a device reset has happened and
+>> +it needs to recreate the contexts to keep going.
+>> +
+>> +Reporting resets causes
+>> +-----------------------
+>> +
+>> +Apart from propagating the reset through the stack so apps can recover, it's
+>> +really useful for driver developers to learn more about what caused the reset in
+>> +first place. DRM devices should make use of devcoredump to store relevant
+>> +information about the reset, so this information can be added to user bug
+>> +reports.
+>> +
+>>   .. _drm_driver_ioctl:
+>>   
+>>   IOCTL Support on Device Nodes
+> 
+> What about VRAM contents? If userspace holds a dmabuf handle, can a GPU
+> reset wipe that buffer? How would that be communicated?
+> 
+
+Yes, it can.
+
+> The dmabuf may have originated in another process.
+> 
+
+Indeed, I think we might need to add an error code for dmabuf calls so 
+the buffer user knows that it's invalid now because a reset has happened 
+in the other device. I will need to read more dmabuf code to make sure 
+how this would be possible.
+
+> 
+> Thanks,
+> pq
