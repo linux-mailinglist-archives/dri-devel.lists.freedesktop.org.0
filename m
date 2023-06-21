@@ -1,55 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01A0E738C43
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 18:50:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48804738C40
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 18:49:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0737310E334;
-	Wed, 21 Jun 2023 16:50:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4BC910E326;
+	Wed, 21 Jun 2023 16:49:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDDED10E334
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 16:50:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1687366214; x=1718902214;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=D/jvwCEerwGBFWfNc5D+J1qZzVUNaA+8J5p0nV+vC+U=;
- b=ENi25iInJgA7Z4USD8e+AJ5mkWFUtkAAvbnMsJ2Ph3CGYfBhQra7iYh5
- dqRLBUahhDr/k8TAQ8fPn1R/wkEGRwUaqGyXULukeelKhTlBnqKo5dznT
- coRPcVSMoZiFcFQko6oiB0jt3tW3zIpm6xrWSq9QpfEi3pDXN82V5+hVH
- NBURSlPOW3fxUWosSZKvogMLdO3YMeShwc90GIzD+Q0rqviXHXOxJLuHK
- v5y0G2xE9U0/8zNVH+OTUp9TFLt5YHF/aoKHwVv9lrwk/TG18KR+N8MR0
- 4Txve5DdhyQ/9nw9FVs3EzCJ3Ukotsg3VPl3c0nstCnBxrHrTLaszsW9h A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="363654050"
-X-IronPort-AV: E=Sophos;i="6.00,261,1681196400"; d="scan'208";a="363654050"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jun 2023 09:48:15 -0700
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="748774226"
-X-IronPort-AV: E=Sophos;i="6.00,261,1681196400"; d="scan'208";a="748774226"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
- by orsmga001.jf.intel.com with ESMTP; 21 Jun 2023 09:48:12 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qC108-0006xH-0O;
- Wed, 21 Jun 2023 16:48:12 +0000
-Date: Thu, 22 Jun 2023 00:48:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- thomas_os@shipmail.org, boris.brezillon@collabora.com,
- arunpravin.paneerselvam@amd.com, dakr@redhat.com,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 2/2] drm: add drm_exec selftests v4
-Message-ID: <202306220029.L9DTnHh6-lkp@intel.com>
-References: <20230621133700.7588-2-christian.koenig@amd.com>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A3AF210E326;
+ Wed, 21 Jun 2023 16:49:49 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8CxY8QsKpNkODUAAA--.420S3;
+ Thu, 22 Jun 2023 00:49:48 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8DxzM4sKpNkIO8AAA--.5610S3; 
+ Thu, 22 Jun 2023 00:49:48 +0800 (CST)
+Message-ID: <866f4e8d-98be-0aaf-d3a2-f3e5bc94e945@loongson.cn>
+Date: Thu, 22 Jun 2023 00:49:48 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v10 07/11] drm/etnaviv: Add support for the dma coherent
+ device
+Content-Language: en-US
+To: Lucas Stach <l.stach@pengutronix.de>, Sui Jingfeng <18949883232@163.com>, 
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230620094716.2231414-1-18949883232@163.com>
+ <20230620094716.2231414-8-18949883232@163.com>
+ <8f74f0962c8bab6c832919a5340667c54e1a7ddc.camel@pengutronix.de>
+ <66fc74ae-299c-a5de-9cfb-07ae24fb3f07@loongson.cn>
+ <8212078bd56c54ce508205eae0ed0b69e78d4c38.camel@pengutronix.de>
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <8212078bd56c54ce508205eae0ed0b69e78d4c38.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230621133700.7588-2-christian.koenig@amd.com>
+X-CM-TRANSID: AQAAf8DxzM4sKpNkIO8AAA--.5610S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj9xXoW7Gr4rCw17Cr4rWFW8Jr1rKrX_yoWDtrXEga
+ y7AFyvkw1Utry2gwsxK3y8AF9F9rW8KF1DXrWfZ3yIy3s7Jan7Jr1kKrWfZw1fKrsFgrnx
+ u34fZF1Yya12gosvyTuYvTs0mTUanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvT
+ s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+ cSsGvfJTRUUUbfkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
+ vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+ w2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+ W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267AKxVW8
+ JVW8Jr1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2
+ x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5
+ McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7
+ I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8
+ JwCFI7km07C267AKxVW3AVW8Zr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67
+ AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8I
+ cVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI
+ 8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v2
+ 6r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU4AhLUUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,81 +72,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: Bjorn Helgaas <bhelgaas@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+Hi
 
-kernel test robot noticed the following build warnings:
+On 2023/6/21 23:58, Lucas Stach wrote:
+>> you approach forbidden any possibility to use the WC BO at anywhere.
+>>
+>>
+>> My approach need only check once, while you approach need at least 3
+>> check plus
+>>
+>> so much bit-wise logic operations,Â  plus a function callÂ  (&, ==, &&,
+>> &, ~, &) .
+>>
+>> and every time you create a BO. This nasty judgement happens.
+>>
+> BO creation again is not a fast path. You are committing to allocate
+> new memory, which is a few orders of magnitude more costly than the few
+> instructions needed for those comparisons.
+>
+What's wrong with you point here is that
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.4-rc7 next-20230621]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+We are not going make it more worse because it is worse.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/drm-add-drm_exec-selftests-v4/20230621-213827
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230621133700.7588-2-christian.koenig%40amd.com
-patch subject: [PATCH 2/2] drm: add drm_exec selftests v4
-config: x86_64-buildonly-randconfig-r003-20230621 (https://download.01.org/0day-ci/archive/20230622/202306220029.L9DTnHh6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230622/202306220029.L9DTnHh6-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306220029.L9DTnHh6-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/tests/drm_exec_test.c:13:
-   drivers/gpu/drm/tests/drm_exec_test.c: In function 'test_prepare_array':
->> include/drm/drm_exec.h:78:20: warning: variable '__drm_exec_retry_ptr' set but not used [-Wunused-but-set-variable]
-      78 |         for (void *__drm_exec_retry_ptr; ({                     \
-         |                    ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tests/drm_exec_test.c:134:9: note: in expansion of macro 'drm_exec_until_all_locked'
-     134 |         drm_exec_until_all_locked(&exec)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+We would like same any single bit of the performance.
 
 
-vim +/__drm_exec_retry_ptr +78 include/drm/drm_exec.h
+It's about the beauty, and beauty and correctness is every thing.
 
-5d87375e05b5f7 Christian König 2023-06-21  52  
-5d87375e05b5f7 Christian König 2023-06-21  53  /**
-5d87375e05b5f7 Christian König 2023-06-21  54   * drm_exec_for_each_locked_object - iterate over all the locked objects
-5d87375e05b5f7 Christian König 2023-06-21  55   * @exec: drm_exec object
-5d87375e05b5f7 Christian König 2023-06-21  56   * @index: unsigned long index for the iteration
-5d87375e05b5f7 Christian König 2023-06-21  57   * @obj: the current GEM object
-5d87375e05b5f7 Christian König 2023-06-21  58   *
-5d87375e05b5f7 Christian König 2023-06-21  59   * Iterate over all the locked GEM objects inside the drm_exec object.
-5d87375e05b5f7 Christian König 2023-06-21  60   */
-5d87375e05b5f7 Christian König 2023-06-21  61  #define drm_exec_for_each_locked_object(exec, index, obj)	\
-5d87375e05b5f7 Christian König 2023-06-21  62  	for (index = 0, obj = (exec)->objects[0];		\
-5d87375e05b5f7 Christian König 2023-06-21  63  	     index < (exec)->num_objects;			\
-5d87375e05b5f7 Christian König 2023-06-21  64  	     ++index, obj = (exec)->objects[index])
-5d87375e05b5f7 Christian König 2023-06-21  65  
-5d87375e05b5f7 Christian König 2023-06-21  66  /**
-5d87375e05b5f7 Christian König 2023-06-21  67   * drm_exec_until_all_locked - loop until all GEM objects are locked
-5d87375e05b5f7 Christian König 2023-06-21  68   * @exec: drm_exec object
-5d87375e05b5f7 Christian König 2023-06-21  69   *
-5d87375e05b5f7 Christian König 2023-06-21  70   * Core functionality of the drm_exec object. Loops until all GEM objects are
-5d87375e05b5f7 Christian König 2023-06-21  71   * locked and no more contention exists. At the beginning of the loop it is
-5d87375e05b5f7 Christian König 2023-06-21  72   * guaranteed that no GEM object is locked.
-5d87375e05b5f7 Christian König 2023-06-21  73   *
-5d87375e05b5f7 Christian König 2023-06-21  74   * Since labels can't be defined local to the loops body we use a jump pointer
-5d87375e05b5f7 Christian König 2023-06-21  75   * to make sure that the retry is only used from within the loops body.
-5d87375e05b5f7 Christian König 2023-06-21  76   */
-5d87375e05b5f7 Christian König 2023-06-21  77  #define drm_exec_until_all_locked(exec)				\
-5d87375e05b5f7 Christian König 2023-06-21 @78  	for (void *__drm_exec_retry_ptr; ({			\
-5d87375e05b5f7 Christian König 2023-06-21  79  		__label__ __drm_exec_retry;			\
-5d87375e05b5f7 Christian König 2023-06-21  80  __drm_exec_retry:						\
-5d87375e05b5f7 Christian König 2023-06-21  81  		__drm_exec_retry_ptr = &&__drm_exec_retry;	\
-5d87375e05b5f7 Christian König 2023-06-21  82  		drm_exec_cleanup(exec);				\
-5d87375e05b5f7 Christian König 2023-06-21  83  	});)
-5d87375e05b5f7 Christian König 2023-06-21  84  
+
+My implement is good both in the perspective of beauty and in the 
+perspective of the performance.
+
+BO creation is fast or not is irrelevant to what the point we are discuss.
+
+You are always introduce non-critical factor to disturb the discuss,
+
+leading the people go a wrong direction.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jingfeng
+
