@@ -2,64 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 474AF738616
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 16:03:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AC8B73863B
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 16:08:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5136B10E48F;
-	Wed, 21 Jun 2023 14:03:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFF5310E48D;
+	Wed, 21 Jun 2023 14:08:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 83BC410E48D;
- Wed, 21 Jun 2023 14:03:16 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8AxBsUjA5NkCicAAA--.292S3;
- Wed, 21 Jun 2023 22:03:15 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Ax8uQiA5NkzL4AAA--.4409S3; 
- Wed, 21 Jun 2023 22:03:14 +0800 (CST)
-Message-ID: <74a45dff-a0ea-9d05-36e4-e5d6822dfcec@loongson.cn>
-Date: Wed, 21 Jun 2023 22:03:14 +0800
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DB5510E491
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 14:08:19 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 3FAFC6606F95;
+ Wed, 21 Jun 2023 15:08:16 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1687356496;
+ bh=CWr8Zy4GWky49Wqr1WQ2GAslpxKat1lqCqYXWK5GlQQ=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=WXkmkpZSua/fYi3chElwtQvm+6c2Z/A2WbqwRSkYNW1JDMNixTPUIoKHkLkpxQ6be
+ Ijcyu4Oj6Z2fN+d07sGg9VKA/iiJal5+Hng7WcBk4fVEedn7JX+/PmoXR7hw8gBSpt
+ 0Su9f3Zr/Ao/dbANmqNuCB9273U8fTf7XC4v6b745pWZ2iiSMJIw5+jPF9/S0u/cQ/
+ 9ERIqKbOMbSOL4mS7vc5JZkZo6A/ZPg6A/DCwJuXgcBkElf6hvP1vPGdspOz6VDW17
+ 4pV37w6gxHcXdQKYYxLBvNp0NkkMTbnEPBFifCVeHw3GcoH1vTOxQYwFxF4mDCHcrL
+ GLEJd18/UKJvQ==
+Date: Wed, 21 Jun 2023 16:08:13 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: "Christian =?UTF-8?B?S8O2bmln?=" <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH 1/2] drm: execution context for GEM buffers v5
+Message-ID: <20230621160813.5916991a@collabora.com>
+In-Reply-To: <20230621133700.7588-1-christian.koenig@amd.com>
+References: <20230621133700.7588-1-christian.koenig@amd.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v10 03/11] drm/etnaviv: Add dedicated functions to create
- and destroy platform device
-Content-Language: en-US
-To: Lucas Stach <l.stach@pengutronix.de>, Sui Jingfeng <18949883232@163.com>, 
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20230620094716.2231414-1-18949883232@163.com>
- <20230620094716.2231414-4-18949883232@163.com>
- <0daa7182d6600a24988d1c81cf8fe3c0c9487f52.camel@pengutronix.de>
- <1c7596fd-7e63-6719-2574-7d7820687832@loongson.cn>
- <6d287bbb1733814009dfeb7d48f08cb6f44dc56c.camel@pengutronix.de>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <6d287bbb1733814009dfeb7d48f08cb6f44dc56c.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Ax8uQiA5NkzL4AAA--.4409S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj9xXoWrZrW3trWxWFykAr1DKr4fCrX_yoWxKFX_CF
- 1xuwnrJw1fW392qr42yrW7JF4xJa90gr9Fq3y8ZwnxKFy3JrWDZaykAa92ka4UXryxursx
- Jr98Jw4DJ34a9osvyTuYvTs0mTUanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvT
- s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
- cSsGvfJTRUUUb-AYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
- vaj40_Wr0E3s1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
- w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
- WUJVW8JwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
- 6F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
- 02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAF
- wI0_Gr1j6F4UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07
- AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C2
- 67AKxVWUtVW8ZwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI
- 8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWU
- CwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r
- 1xMIIF0xvEx4A2jsIE14v26r4UJVWxJr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1U
- YxBIdaVFxhVjvjDU0xZFpf9x07jjXdbUUUUU=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,36 +52,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, etnaviv@lists.freedesktop.org
+Cc: thomas_os@shipmail.org, dakr@redhat.com, dri-devel@lists.freedesktop.org,
+ arunpravin.paneerselvam@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Christian,
 
-On 2023/6/21 18:23, Lucas Stach wrote:
-> That's right, but all you do with those indirections through the
-> parameter list is move which of the functions is non-pure, in your case
-> it's etnaviv_init/etnaviv_exit,
+On Wed, 21 Jun 2023 15:36:59 +0200
+"Christian K=C3=B6nig" <ckoenig.leichtzumerken@gmail.com> wrote:
 
-But there is a difference,  etnaviv_init() and etnaviv_exit() is 
-impossible to be shared
+> This adds the infrastructure for an execution context for GEM buffers
+> which is similar to the existing TTMs execbuf util and intended to replace
+> it in the long term.
+>=20
+> The basic functionality is that we abstracts the necessary loop to lock
+> many different GEM buffers with automated deadlock and duplicate handling.
+>=20
+> v2: drop xarray and use dynamic resized array instead, the locking
+>     overhead is unecessary and measurable.
+> v3: drop duplicate tracking, radeon is really the only one needing that.
+> v4: fixes issues pointed out by Danilo, some typos in comments and a
+>     helper for lock arrays of GEM objects.
+> v5: some suggestions by Boris Brezillon, especially just use one retry
+>     macro, drop loop in prepare_array, use flags instead of bool
 
-there are only get called once when the module is loaded.
+One minor comment below, but otherwise, I think I'm happy with this version.
 
-They can never be reused anymore, except here.
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-And etnaviv_init() and etnaviv_exit() don't have a choice.
+> +
+> +/**
+> + * drm_exec_prepare_array - helper to prepare an array of objects
+> + * @exec: the drm_exec object with the state
+> + * @objects: array of GEM object to prepare
+> + * @num_objects: number of GEM objects in the array
+> + * @num_fences: number of fences to reserve on each GEM object
+> + *
+> + * Prepares all GEM objects in an array, handles contention but aports o=
+n first
 
+								   ^
+								   aborts
 
-But for etnaviv_create_platform_device() function,
+> + * error otherwise. Reserves @num_fences on each GEM object after lockin=
+g it.
 
-there is a possibility to be reused in the future.
+Either the documentation if wrong, or you unintentionally picked my
+version. If that's the intended usage:
 
+	drm_exec_until_all_locked(exec) {
+		ret =3D drm_exec_prepare_array(exec, bos, num_bos, num_fences);
+		drm_exec_retry_on_contention(exec)
+		if (ret)
+			break;
+	}
 
-> with the indirection dropped it's
-> etnaviv_create_platform_device/etnaviv_destroy_platform_device.
+you should drop the 'handles contention' part in the doc, and you
+should probably give an example to show how it's supposed to be used.
 
--- 
-Jingfeng
+> + *
+> + * Returns: -EALREADY when object is already locked, -ENOMEM when memory
+> + * allocation failed and zero for success.
+> + */
+> +int drm_exec_prepare_array(struct drm_exec *exec,
+> +			   struct drm_gem_object **objects,
+> +			   unsigned int num_objects,
+> +			   unsigned int num_fences)
+> +{
+> +	int ret;
+> +
+> +	for (unsigned int i =3D 0; i < num_objects; ++i) {
+> +		ret =3D drm_exec_prepare_obj(exec, objects[i], num_fences);
+> +		if (unlikely(ret))
+> +			return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_exec_prepare_array);
 
+[...]
+
+> +/**
+> + * drm_exec_until_all_locked - loop until all GEM objects are locked
+> + * @exec: drm_exec object
+> + *
+> + * Core functionality of the drm_exec object. Loops until all GEM object=
+s are
+> + * locked and no more contention exists. At the beginning of the loop it=
+ is
+> + * guaranteed that no GEM object is locked.
+> + *
+> + * Since labels can't be defined local to the loops body we use a jump p=
+ointer
+> + * to make sure that the retry is only used from within the loops body.
+> + */
+> +#define drm_exec_until_all_locked(exec)				\
+> +	for (void *__drm_exec_retry_ptr; ({			\
+> +		__label__ __drm_exec_retry;			\
+> +__drm_exec_retry:						\
+> +		__drm_exec_retry_ptr =3D &&__drm_exec_retry;	\
+> +		drm_exec_cleanup(exec);				\
+> +	});)
+> +
+> +/**
+> + * drm_exec_retry_on_contention - restart the loop to grap all locks
+> + * @exec: drm_exec object
+> + *
+> + * Control flow helper to continue when a contention was detected and we=
+ need to
+> + * clean up and re-start the loop to prepare all GEM objects.
+> + */
+> +#define drm_exec_retry_on_contention(exec)		\
+> +	if (unlikely(drm_exec_is_contended(exec)))	\
+> +		goto *__drm_exec_retry_ptr
+
+Glad that this ended up working.
+
+Regards,
+
+Boris
