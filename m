@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E83C2738449
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 15:01:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4281173843A
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 15:00:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 100D410E470;
-	Wed, 21 Jun 2023 13:01:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 660DF10E46B;
+	Wed, 21 Jun 2023 13:00:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 498AC10E45F
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 13:00:37 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CDCE10E465
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 13:00:36 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C4F4B21C8A;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id EF3BD21BCF;
  Wed, 21 Jun 2023 13:00:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1687352434; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MOEsSmpxfvE9VWykcXcX8hUspFK5uKF+LVBkXBzT4uo=;
- b=xRSM32lBK4RFbaLIq/4zF4iD9em8V7F3CCURySSkX+jE0q5/i3ajSgVk7VgA34ojFpichy
- Igl/Hyj7t6Pk/YPNySGfZPeMIUeB6rifoDV+sQInqfokG4cNyBJtWd6oaYvRp3GWhq57nO
- Me8tvPT3O2Wwjo6e35/NrJdjuFY63cY=
+ bh=LcWBdkY8F7+OtW95Xl0YZ7rP79Q4HKHruhteDGTjIYg=;
+ b=k56AEN518FO75Loi+5W9YV/nNi6xoNIWs83tmjHoxEZXg0PJCTnBbg48s3/XY1CmErNfjz
+ HtSA7MKPJY/V8F/evwmO7LwjhdlvRKTTfmnYBbAKSdewEbx3WXq9YwVothgC/VIqJhzhcj
+ Ryfk4QuWB+qvx+TVqCA0mkkgO18MIHI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1687352434;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MOEsSmpxfvE9VWykcXcX8hUspFK5uKF+LVBkXBzT4uo=;
- b=MGQIEuZbWCO99acUegE/tKpnYXSAOjUQm9Mpiu18e+UmdZgyUB54fDW6uGEb89R2CBBU+V
- KJvH9TxTILniDkDg==
+ bh=LcWBdkY8F7+OtW95Xl0YZ7rP79Q4HKHruhteDGTjIYg=;
+ b=DnuaeMfjudNn8EHNxARZt37mBApHjTv4rw0F/m+Eic5wUo2/UtnKlbFlv5DwJWffj2oMlD
+ 5WEmh0p5bXglR5CA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9FCA6134B1;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C984F13A66;
  Wed, 21 Jun 2023 13:00:34 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id IEEtJnL0kmTaWgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id eF5EMHL0kmTaWgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Wed, 21 Jun 2023 13:00:34 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, jfalempe@redhat.com, daniel@ffwll.ch,
  jammy_huang@aspeedtech.com, suijingfeng@loongson.cn
-Subject: [PATCH v2 03/14] drm/ast: Implement register helpers in ast_drv.h
-Date: Wed, 21 Jun 2023 14:53:37 +0200
-Message-ID: <20230621130032.3568-4-tzimmermann@suse.de>
+Subject: [PATCH v2 04/14] drm/ast: Remove dead else branch in POST code
+Date: Wed, 21 Jun 2023 14:53:38 +0200
+Message-ID: <20230621130032.3568-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230621130032.3568-1-tzimmermann@suse.de>
 References: <20230621130032.3568-1-tzimmermann@suse.de>
@@ -72,109 +72,55 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are already a number of register I/O functions in ast_drv.h.
-For consistency, move the remaining functions there as well. No
-functional changes.
+According to the chip detection in ast_detect_chip(), AST2300 and
+later always have a PCI revision of 0x20 or higher. Therefore the
+code in ast_set_def_ext_reg() can not use the else branch when
+selecing the EXT register values. Remove the dead branch and the
+related values.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
 Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 Tested-by: Jocelyn Falempe <jfalempe@redhat.com> # AST2600
 ---
- drivers/gpu/drm/ast/ast_drv.h  | 34 ++++++++++++++++++++++++----------
- drivers/gpu/drm/ast/ast_main.c | 28 ----------------------------
- 2 files changed, 24 insertions(+), 38 deletions(-)
+ drivers/gpu/drm/ast/ast_post.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index fc4760a67596f..0141705beaee9 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -257,22 +257,36 @@ static inline void ast_io_write8(struct ast_device *ast, u32 reg, u8 val)
- 	iowrite8(val, ast->ioregs + reg);
+diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
+index 0262aaafdb1c5..aa3f2cb00f82c 100644
+--- a/drivers/gpu/drm/ast/ast_post.c
++++ b/drivers/gpu/drm/ast/ast_post.c
+@@ -64,14 +64,12 @@ bool ast_is_vga_enabled(struct drm_device *dev)
  }
  
--static inline void ast_set_index_reg(struct ast_device *ast,
--				     uint32_t base, uint8_t index,
--				     uint8_t val)
-+static inline u8 ast_get_index_reg(struct ast_device *ast, u32 base, u8 index)
-+{
-+	ast_io_write8(ast, base, index);
-+	++base;
-+	return ast_io_read8(ast, base);
-+}
-+
-+static inline u8 ast_get_index_reg_mask(struct ast_device *ast, u32 base, u8 index,
-+					u8 preserve_mask)
-+{
-+	u8 val = ast_get_index_reg(ast, base, index);
-+
-+	return val & preserve_mask;
-+}
-+
-+static inline void ast_set_index_reg(struct ast_device *ast, u32 base, u8 index, u8 val)
+ static const u8 extreginfo[] = { 0x0f, 0x04, 0x1c, 0xff };
+-static const u8 extreginfo_ast2300a0[] = { 0x0f, 0x04, 0x1c, 0xff };
+ static const u8 extreginfo_ast2300[] = { 0x0f, 0x04, 0x1f, 0xff };
+ 
+ static void
+ ast_set_def_ext_reg(struct drm_device *dev)
  {
- 	ast_io_write8(ast, base, index);
- 	++base;
- 	ast_io_write8(ast, base, val);
- }
+ 	struct ast_device *ast = to_ast_device(dev);
+-	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	u8 i, index, reg;
+ 	const u8 *ext_reg_info;
  
--void ast_set_index_reg_mask(struct ast_device *ast,
--			    uint32_t base, uint8_t index,
--			    uint8_t mask, uint8_t val);
--uint8_t ast_get_index_reg(struct ast_device *ast,
--			  uint32_t base, uint8_t index);
--uint8_t ast_get_index_reg_mask(struct ast_device *ast,
--			       uint32_t base, uint8_t index, uint8_t mask);
-+static inline void ast_set_index_reg_mask(struct ast_device *ast, u32 base, u8 index,
-+					  u8 preserve_mask, u8 val)
-+{
-+	u8 tmp = ast_get_index_reg_mask(ast, base, index, preserve_mask);
-+
-+	tmp |= val;
-+	ast_set_index_reg(ast, base, index, tmp);
-+}
+@@ -79,13 +77,9 @@ ast_set_def_ext_reg(struct drm_device *dev)
+ 	for (i = 0x81; i <= 0x9f; i++)
+ 		ast_set_index_reg(ast, AST_IO_CRTC_PORT, i, 0x00);
  
- static inline void ast_open_key(struct ast_device *ast)
- {
-diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-index da33cfc6366ec..862fdf02f6100 100644
---- a/drivers/gpu/drm/ast/ast_main.c
-+++ b/drivers/gpu/drm/ast/ast_main.c
-@@ -35,34 +35,6 @@
+-	if (ast->chip == AST2300 || ast->chip == AST2400 ||
+-	    ast->chip == AST2500) {
+-		if (pdev->revision >= 0x20)
+-			ext_reg_info = extreginfo_ast2300;
+-		else
+-			ext_reg_info = extreginfo_ast2300a0;
+-	} else
++	if (ast->chip == AST2300 || ast->chip == AST2400 || ast->chip == AST2500)
++		ext_reg_info = extreginfo_ast2300;
++	else
+ 		ext_reg_info = extreginfo;
  
- #include "ast_drv.h"
- 
--void ast_set_index_reg_mask(struct ast_device *ast,
--			    uint32_t base, uint8_t index,
--			    uint8_t mask, uint8_t val)
--{
--	u8 tmp;
--	ast_io_write8(ast, base, index);
--	tmp = (ast_io_read8(ast, base + 1) & mask) | val;
--	ast_set_index_reg(ast, base, index, tmp);
--}
--
--uint8_t ast_get_index_reg(struct ast_device *ast,
--			  uint32_t base, uint8_t index)
--{
--	uint8_t ret;
--	ast_io_write8(ast, base, index);
--	ret = ast_io_read8(ast, base + 1);
--	return ret;
--}
--
--uint8_t ast_get_index_reg_mask(struct ast_device *ast,
--			       uint32_t base, uint8_t index, uint8_t mask)
--{
--	uint8_t ret;
--	ast_io_write8(ast, base, index);
--	ret = ast_io_read8(ast, base + 1) & mask;
--	return ret;
--}
--
- static void ast_detect_config_mode(struct drm_device *dev, u32 *scu_rev)
- {
- 	struct device_node *np = dev->dev->of_node;
+ 	index = 0xa0;
 -- 
 2.41.0
 
