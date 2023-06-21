@@ -1,72 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61CE87383F0
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 14:38:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7CC5738438
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 15:00:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A89F10E45C;
-	Wed, 21 Jun 2023 12:38:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D501A10E45F;
+	Wed, 21 Jun 2023 13:00:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF49B10E45C
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 12:38:50 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id
- a640c23a62f3a-98cd280cf94so67754266b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 05:38:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1687351129; x=1689943129; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=FhbZVLRFRJkTRcxEmprI7xfESOe65znA2x7PCSJbP4w=;
- b=rX6xit08xL8hzTukILjewPEnGxlcYO5HBbI47Bw7rqKA5AjR4jFyG1ELr57YKg4TRz
- n1QiHHs9fPIIsKIh7k/GVzXx4RnRidzckIQ8HTZZRsqkQmJJ0azsD+REJSPEvrpOcyjg
- Jze9UkEE5qaaePRw1ySE8RojnxoU3ThJh9dxwScMAWiNDoKlvNY0VbJPetGTVDOFj7I/
- g7lsANh+TFP15DcIptX4lyDA3rSZ+FZxBCISG359k+R2tD/Ha6Zj9gSeN1KjwEP8oG95
- FzDCX5oBJ5DkhXOL1j0aMFp6dGspob1mBzUxvhVD6o4tg+C7GBlcUKKtyXgqaeViifxM
- ZVYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687351129; x=1689943129;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FhbZVLRFRJkTRcxEmprI7xfESOe65znA2x7PCSJbP4w=;
- b=Qg1jXnOIwcM+VPRFjfONvDtOg2ldGnNLCoAVJoWiRcocVGRM6vDdVRmNyixXs3puf7
- Mvv0s7A44gALYBDxwQ82MDUMqyP1E+y6z95w9ZS9eFbCDKxJEcbRRD75zHsXlhTT7saX
- KaEWPa4o3DqQx/Y+4ikfR6hohrzGt5P+LvWz1kCDXI1i3RPMK3QNRyeVcp4fgBJ7/PF9
- qHgOD1aotQd2OzXXfYOHfeKbOsBLEjXwnYU9jIuZBs5zUnV08/5YLMFe0LMNiW2wcVgI
- 3qjCrnaLp/fu6g5GPWJZstZtRdQr9DjvRjm89TGk0pBnUxf2c4nfNsG2yF3SQcoQzcLA
- AmZA==
-X-Gm-Message-State: AC+VfDxUN1z8T8vR5vwFd6YV7VNkBSjaYbW25B9qVfnqKv70uTq45wTT
- oAQrVGgwLyePZmjm70Qcp8I8iA==
-X-Google-Smtp-Source: ACHHUZ6BSMtfKwz5HW9GJYvd/KsZG+lavipJGEgd/TdkOKxDDjdlZQP0gQsDk+qCv1GjAFRUQENgow==
-X-Received: by 2002:a17:907:6292:b0:983:ba44:48af with SMTP id
- nd18-20020a170907629200b00983ba4448afmr14707480ejc.53.1687351129098; 
- Wed, 21 Jun 2023 05:38:49 -0700 (PDT)
-Received: from [192.168.1.172] (158.22.5.93.rev.sfr.net. [93.5.22.158])
- by smtp.gmail.com with ESMTPSA id
- j24-20020a170906279800b00986d8722e46sm3145497ejc.17.2023.06.21.05.38.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Jun 2023 05:38:48 -0700 (PDT)
-Message-ID: <a2adfff3-1fc5-b3ab-c4a8-df06dbf5bb17@baylibre.com>
-Date: Wed, 21 Jun 2023 14:38:47 +0200
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2722310E45F
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 13:00:36 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 42BF31FE32;
+ Wed, 21 Jun 2023 13:00:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1687352434; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=M41pYkFSa4aBAqH2vMgv0DDFTfqWwurHsAkneJjmqxI=;
+ b=D3Vr1rVV87eYjlZ3yXwRWvGPTYCJ0Buk1g22r2k6R+1cXq54vmf76I5j23BbfeBIF9EeoH
+ +tEdSWT8EONpToO7Ixj/sX3RGOlHCRzsilWARcEACXsrAm+QwTEXJG6UZrv2rojclQ3CjG
+ pc+DAJ2AGYmqKsT+DImZS6Vdoyft720=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1687352434;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=M41pYkFSa4aBAqH2vMgv0DDFTfqWwurHsAkneJjmqxI=;
+ b=zaahEe2Z2XVoHzZFsoWoH45W9UI4O4DHa/rSDOhYfmDn312RZ8J2lLDnrxd78iAY/bQfmw
+ 1gwt0wpXyPE0pTAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1956A134B1;
+ Wed, 21 Jun 2023 13:00:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id DxU2BXL0kmTaWgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 21 Jun 2023 13:00:34 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@redhat.com, jfalempe@redhat.com, daniel@ffwll.ch,
+ jammy_huang@aspeedtech.com, suijingfeng@loongson.cn
+Subject: [PATCH v2 00/14] drm/ast: Refactor the device-detection code
+Date: Wed, 21 Jun 2023 14:53:34 +0200
+Message-ID: <20230621130032.3568-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v3 4/4] drm/mediatek: Fix dereference before null check
-Content-Language: en-US
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-References: <20230621102247.10116-1-jason-jh.lin@mediatek.com>
- <20230621102247.10116-5-jason-jh.lin@mediatek.com>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <20230621102247.10116-5-jason-jh.lin@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,27 +62,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- Johnson Wang <johnson.wang@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Ast's code for detecting the device type and features is convoluted.
+It mixes up several state fields, chip types and sub-models. Rework
+the driver into something more understandable.
+
+Patches 1 fixes a long-standing bug. The affected code has never
+worked correctly.
+
+Patches 2 to 8 make various changes to the init code, or remove dead
+and duplicated code paths.
+
+Patch 9 introduces chip generations. Until now, ast used the value
+of enum ast_chip to represent a certain set of related modes, and
+also used the enum to represent individal models. This makes the
+driver code hard to understand in certain places. The patch encodes
+a chip generation in each model enum and converts the driver to use
+it.
+
+Patches 10 to 12 replace duplicated model checks with the correct
+enum value. Detection of wide-screen functionality and the transmitter
+chip can then be moved into individual functions in patch 13.
+
+Patch 14 merges the detection of the silicon revision and the chip
+model into a single function. Both need to be done in the same place
+and affect each other.
+
+Tested on AST1100 and AST2300.
+
+v2:
+	* use standard 16-bit PCI access (Jingfeng)
+	* various cleanups
+
+Thomas Zimmermann (14):
+  drm/ast: Fix DRAM init on AST2200
+  drm/ast: Remove vga2_clone field
+  drm/ast: Implement register helpers in ast_drv.h
+  drm/ast: Remove dead else branch in POST code
+  drm/ast: Remove device POSTing and config from chip detection
+  drm/ast: Set PCI config before accessing I/O registers
+  drm/ast: Enable and unlock device access early during init
+  drm/ast: Set up release action right after enabling MMIO
+  drm/ast: Distinguish among chip generations
+  drm/ast: Detect AST 1300 model
+  drm/ast: Detect AST 1400 model
+  drm/ast: Detect AST 2510 model
+  drm/ast: Move widescreen and tx-chip detection into separate helpers
+  drm/ast: Merge config and chip detection
+
+ drivers/gpu/drm/ast/ast_dp501.c |   6 +-
+ drivers/gpu/drm/ast/ast_drv.h   |  94 +++++++---
+ drivers/gpu/drm/ast/ast_main.c  | 319 +++++++++++++++++++-------------
+ drivers/gpu/drm/ast/ast_mm.c    |   2 -
+ drivers/gpu/drm/ast/ast_mode.c  |  35 ++--
+ drivers/gpu/drm/ast/ast_post.c  |  74 ++------
+ 6 files changed, 290 insertions(+), 240 deletions(-)
 
 
-On 21/06/2023 12:22, Jason-JH.Lin wrote:
-> Null-checking state suggests that it may be null, but it has already
-> been dereferenced on drm_atomic_get_new_plane_state(state, plane).
-> 
-> The parameter state will never be NULL currently, so just remove the
-> state is NULL flow in this function.
-
-Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
-
+base-commit: 32e260cd0d16cee6f33e747679f168d63ea54bf6
+prerequisite-patch-id: 0aa359f6144c4015c140c8a6750be19099c676fb
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: cbc453ee02fae02af22fbfdce56ab732c7a88c36
+prerequisite-patch-id: d3145eae4b35a1290199af6ff6cd5abfebc82033
+prerequisite-patch-id: 242b6bc45675f1f1a62572542d75c89d4864f15a
 -- 
-Regards,
-Alexandre
+2.41.0
+
