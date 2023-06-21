@@ -1,67 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55596737C0A
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 09:32:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C167737C0B
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 09:33:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B47D10E3D9;
-	Wed, 21 Jun 2023 07:32:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 129CC10E096;
+	Wed, 21 Jun 2023 07:33:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A5DB10E3D9
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 07:32:09 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- 5b1f17b1804b1-3f9083d8849so50124795e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 00:32:09 -0700 (PDT)
+Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com
+ [IPv6:2607:f8b0:4864:20::c2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D82CF10E096;
+ Wed, 21 Jun 2023 07:33:20 +0000 (UTC)
+Received: by mail-oo1-xc2f.google.com with SMTP id
+ 006d021491bc7-560a2e87bc7so752013eaf.0; 
+ Wed, 21 Jun 2023 00:33:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687332727; x=1689924727;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=kmvHVXRDKqzFFcrWt+SJPU4Lcp8ha56oKmpqUONLlm8=;
- b=rqJgV+Tgbheh69qxRv9aEo7439O/wiUJqGbfIJbaVnyuECGj8rrnvxmXSLd5R5m2jK
- ZZN095TsDc2DLdcUN+2YPG/8YZ7R1c3oeILqPVOosTj6wQH5h/2tKgS73E1sz3OHaXe0
- D4WsOTDxvAZ6dsmijxyiazQb0/v0ADEKAX/ScAtIY+HXb/RA38aBqqYdtkO2mTBNYR6A
- HFLA46ttDkxbib+qm2wVzhK1So/mWcMTBLKRqAAHElPYfFViK6JOT6mLQCq9vXKDvRSC
- mFABIqGLVC2OcNiAumPHEXiqCUAHjWZ/qiDublIaCyjAOf74940y1C3bnD/JDOumGIny
- xQgg==
+ d=gmail.com; s=20221208; t=1687332799; x=1689924799;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=yZmJRmvGs63Sbc4+pRuQIRBBoeSOpejn00UglUbiNLI=;
+ b=MBs56Sp4fDTWQzFFAKCaTnFs5nYgvfymwUYjbQ5T9XLO2emeLb+BQWt4mRwHEsB1G1
+ MySXrqZg/xrlXvok4VJC89xNacmlTHMm5wiqOe6biJhA+fKX6bvopD4g0QGmuYKEYFkX
+ JuKzenalIgU4kcEjyQ/gVyjaYe03I0cGCl5iEkXYjZFIakPg1CBePJVoDISsqUlUkX1r
+ aoEfSu6Fgwe8b1TW5EPe4VXbL9Zjkyt2kflthPkl2ftPrmDziqkCVMiP7GZRnM5d/z+c
+ /5F8Cmulw9i+n59x2gx4nbbigDHD4AbgjstRhQuDeWKimgmsehfgZw3Qhm0k+DA5Expw
+ 0H1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687332727; x=1689924727;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20221208; t=1687332799; x=1689924799;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=kmvHVXRDKqzFFcrWt+SJPU4Lcp8ha56oKmpqUONLlm8=;
- b=iX8XRJyfIrpGSklycMx5r5DtSXkWGptcXMyByLAAJHwKb9sfbGSo2DZWXD/bzAqnQk
- sBEvIU37NxPkjp/b9fvuOd97TE1bEGDHErv4jE5sLpLAAKE1v7YZOUcGnZbUFjDgSv12
- zm7xQB8nY1s3Wl+2mWSfVBdnC1YgZXIMVx2q509jpkvszaZzy6ii5Mk5qKYQhtBw7nTk
- GSSe4UA68PD9t4njLZFd8xbtDAwaLDyCGjc+YjcxBFHpYdlIMKtMNaUKbQfWadT+l+QJ
- tR7hv7HZundyyv1Wz6SpuQOLWy08XrfNw50HteOCfoZdwuzoOvCCw3Ga2zOvvOwlQt23
- o9Fw==
-X-Gm-Message-State: AC+VfDzDC+u1Qk4S0xnbtCpHXAbpwwryNeR+/axXWFjFK3fzUD6UIR5f
- dd4IsMKYi8Tjt1RQD9WqffE=
-X-Google-Smtp-Source: ACHHUZ5DLf5c2uJYNlwVcCvkvAWXLwYzyx1pWgAqAksIZrY6kxe+Ywq7Y9qfv7TMbCLD/lLEHwEfFw==
-X-Received: by 2002:a7b:c041:0:b0:3f9:b748:ff3f with SMTP id
- u1-20020a7bc041000000b003f9b748ff3fmr3730382wmc.1.1687332727066; 
- Wed, 21 Jun 2023 00:32:07 -0700 (PDT)
-Received: from EliteBook.fritz.box ([2a00:e180:1557:8d00:aed9:fe98:2f71:4615])
- by smtp.gmail.com with ESMTPSA id
- y12-20020adff6cc000000b0030903d44dbcsm3714608wrp.33.2023.06.21.00.32.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jun 2023 00:32:06 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: juan.hao@nxp.com,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] dma-buf: keep the signaling time of merged fences
-Date: Wed, 21 Jun 2023 09:32:04 +0200
-Message-Id: <20230621073204.28459-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.34.1
+ bh=yZmJRmvGs63Sbc4+pRuQIRBBoeSOpejn00UglUbiNLI=;
+ b=JyjG1e/37o0TW+CAPv05bhjgUtd+smZj0v7k7OOxdxxEDhq6RuEF0c/jeNjmcRZ88H
+ c9sjdLa0RyRCFQi9ybODm2GO583rYSnQ4RvHj1w74mHo14lNDgOnU40rSmZfJWPC3JEU
+ xG0JpOFZjRt9VCz/X0LHGKkPKpuc/okn7SQc1wFRWfCRNV8aVnB3o10o7Fi5hL1wJab4
+ GKZuEC4GctH2wAdN0KVIi9e1Zeitk/ved1Ie267d6bEZ353S8ui+flQKSshccvF/Zwzj
+ LlVLxz9BzoZAVaBFgzrMVlh6trPT9A+Jx/H05Ej0S41BPXJ678FqDI62TOhQIPZJnDaD
+ ovhg==
+X-Gm-Message-State: AC+VfDyhJG7cpC6m+AqT6UqXRIqyZVZwnQhfORrq2kPxKu3r31TFdB8D
+ qOS/aQqS9m99gf2cXqvgodHIU6W65nBMF0Whp37wfhbmq4HQ5Q==
+X-Google-Smtp-Source: ACHHUZ4b6J0VwyWQJWIFL7nuSoy6hildslYaEbuW5h4yF7RMqNQlS/9xY6sWvfDRGwfPBCeiz+RVmZqQB6jvZfX5Q/o=
+X-Received: by 2002:a4a:e64f:0:b0:55e:3fe1:9e72 with SMTP id
+ q15-20020a4ae64f000000b0055e3fe19e72mr5958836oot.9.1687332798749; Wed, 21 Jun
+ 2023 00:33:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230607130223.3533464-1-l.stach@pengutronix.de>
+ <20230607130223.3533464-6-l.stach@pengutronix.de>
+In-Reply-To: <20230607130223.3533464-6-l.stach@pengutronix.de>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Wed, 21 Jun 2023 09:33:07 +0200
+Message-ID: <CAH9NwWd3rOS57+f8Dx7r-kPXY58HcG3pH4LzibTvo2GvGmx5Gg@mail.gmail.com>
+Subject: Re: [PATCH 6/8] drm/etnaviv: better track GPU state
+To: Lucas Stach <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,106 +67,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- stable@vger.kernel.org
+Cc: kernel@pengutronix.de, patchwork-lst@pengutronix.de,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some Android CTS is testing for that.
+Hi Lucas
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
-CC: stable@vger.kernel.org
----
- drivers/dma-buf/dma-fence-unwrap.c | 11 +++++++++--
- drivers/dma-buf/dma-fence.c        |  5 +++--
- drivers/gpu/drm/drm_syncobj.c      |  2 +-
- include/linux/dma-fence.h          |  2 +-
- 4 files changed, 14 insertions(+), 6 deletions(-)
+>
+> Instead of only tracking if the FE is running, use a enum to better
+> describe the various states the GPU can be in. This allows some
+> additional validation to make sure that functions that expect a
+> certain GPU state are only called when the GPU is actually in that
+> state.
+>
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 
-diff --git a/drivers/dma-buf/dma-fence-unwrap.c b/drivers/dma-buf/dma-fence-unwrap.c
-index 7002bca792ff..06eb91306c01 100644
---- a/drivers/dma-buf/dma-fence-unwrap.c
-+++ b/drivers/dma-buf/dma-fence-unwrap.c
-@@ -66,18 +66,25 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
- {
- 	struct dma_fence_array *result;
- 	struct dma_fence *tmp, **array;
-+	ktime_t timestamp;
- 	unsigned int i;
- 	size_t count;
- 
- 	count = 0;
-+	timestamp = ns_to_ktime(0);
- 	for (i = 0; i < num_fences; ++i) {
--		dma_fence_unwrap_for_each(tmp, &iter[i], fences[i])
-+		dma_fence_unwrap_for_each(tmp, &iter[i], fences[i]) {
- 			if (!dma_fence_is_signaled(tmp))
- 				++count;
-+			else if (test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT,
-+					  &tmp->flags) &&
-+				 ktime_after(tmp->timestamp, timestamp))
-+				timestamp = tmp->timestamp;
-+		}
- 	}
- 
- 	if (count == 0)
--		return dma_fence_get_stub();
-+		return dma_fence_allocate_private_stub(timestamp);
- 
- 	array = kmalloc_array(count, sizeof(*array), GFP_KERNEL);
- 	if (!array)
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index f177c56269bb..ad076f208760 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -150,10 +150,11 @@ EXPORT_SYMBOL(dma_fence_get_stub);
- 
- /**
-  * dma_fence_allocate_private_stub - return a private, signaled fence
-+ * @timestamp: timestamp when the fence was signaled
-  *
-  * Return a newly allocated and signaled stub fence.
-  */
--struct dma_fence *dma_fence_allocate_private_stub(void)
-+struct dma_fence *dma_fence_allocate_private_stub(ktime_t timestamp)
- {
- 	struct dma_fence *fence;
- 
-@@ -169,7 +170,7 @@ struct dma_fence *dma_fence_allocate_private_stub(void)
- 	set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
- 		&fence->flags);
- 
--	dma_fence_signal(fence);
-+	dma_fence_signal_timestamp(fence, timestamp);
- 
- 	return fence;
- }
-diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-index 0c2be8360525..04589a35eb09 100644
---- a/drivers/gpu/drm/drm_syncobj.c
-+++ b/drivers/gpu/drm/drm_syncobj.c
-@@ -353,7 +353,7 @@ EXPORT_SYMBOL(drm_syncobj_replace_fence);
-  */
- static int drm_syncobj_assign_null_handle(struct drm_syncobj *syncobj)
- {
--	struct dma_fence *fence = dma_fence_allocate_private_stub();
-+	struct dma_fence *fence = dma_fence_allocate_private_stub(ktime_get());
- 
- 	if (IS_ERR(fence))
- 		return PTR_ERR(fence);
-diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index d54b595a0fe0..0d678e9a7b24 100644
---- a/include/linux/dma-fence.h
-+++ b/include/linux/dma-fence.h
-@@ -606,7 +606,7 @@ static inline signed long dma_fence_wait(struct dma_fence *fence, bool intr)
- void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline);
- 
- struct dma_fence *dma_fence_get_stub(void);
--struct dma_fence *dma_fence_allocate_private_stub(void);
-+struct dma_fence *dma_fence_allocate_private_stub(ktime_t timestamp);
- u64 dma_fence_context_alloc(unsigned num);
- 
- extern const struct dma_fence_ops dma_fence_array_ops;
+Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
+
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 25 ++++++++++++++++++-------
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.h | 10 +++++++++-
+>  2 files changed, 27 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index fb07d0e73802..96cbb290b869 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -576,7 +576,7 @@ static int etnaviv_hw_reset(struct etnaviv_gpu *gpu)
+>         /* We rely on the GPU running, so program the clock */
+>         etnaviv_gpu_update_clock(gpu);
+>
+> -       gpu->fe_running = false;
+> +       gpu->state = ETNA_GPU_STATE_RESET;
+>         gpu->exec_state = -1;
+>         if (gpu->mmu_context)
+>                 etnaviv_iommu_context_put(gpu->mmu_context);
+> @@ -651,8 +651,6 @@ void etnaviv_gpu_start_fe(struct etnaviv_gpu *gpu, u32 address, u16 prefetch)
+>                           VIVS_MMUv2_SEC_COMMAND_CONTROL_ENABLE |
+>                           VIVS_MMUv2_SEC_COMMAND_CONTROL_PREFETCH(prefetch));
+>         }
+> -
+> -       gpu->fe_running = true;
+>  }
+>
+>  static void etnaviv_gpu_start_fe_idleloop(struct etnaviv_gpu *gpu,
+> @@ -661,6 +659,8 @@ static void etnaviv_gpu_start_fe_idleloop(struct etnaviv_gpu *gpu,
+>         u16 prefetch;
+>         u32 address;
+>
+> +       WARN_ON(gpu->state != ETNA_GPU_STATE_INITIALIZED);
+> +
+>         /* setup the MMU */
+>         etnaviv_iommu_restore(gpu, context);
+>
+> @@ -670,6 +670,8 @@ static void etnaviv_gpu_start_fe_idleloop(struct etnaviv_gpu *gpu,
+>                                         &gpu->mmu_context->cmdbuf_mapping);
+>
+>         etnaviv_gpu_start_fe(gpu, address, prefetch);
+> +
+> +       gpu->state = ETNA_GPU_STATE_RUNNING;
+>  }
+>
+>  static void etnaviv_gpu_setup_pulse_eater(struct etnaviv_gpu *gpu)
+> @@ -705,6 +707,9 @@ static void etnaviv_gpu_setup_pulse_eater(struct etnaviv_gpu *gpu)
+>
+>  static void etnaviv_gpu_hw_init(struct etnaviv_gpu *gpu)
+>  {
+> +       WARN_ON(!(gpu->state == ETNA_GPU_STATE_IDENTIFIED ||
+> +                 gpu->state == ETNA_GPU_STATE_RESET));
+> +
+>         if ((etnaviv_is_model_rev(gpu, GC320, 0x5007) ||
+>              etnaviv_is_model_rev(gpu, GC320, 0x5220)) &&
+>             gpu_read(gpu, VIVS_HI_CHIP_TIME) != 0x2062400) {
+> @@ -751,6 +756,8 @@ static void etnaviv_gpu_hw_init(struct etnaviv_gpu *gpu)
+>         etnaviv_gpu_setup_pulse_eater(gpu);
+>
+>         gpu_write(gpu, VIVS_HI_INTR_ENBL, ~0U);
+> +
+> +       gpu->state = ETNA_GPU_STATE_INITIALIZED;
+>  }
+>
+>  int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+> @@ -793,6 +800,8 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+>             (gpu->identity.minor_features10 & chipMinorFeatures10_SECURITY_AHB))
+>                 gpu->sec_mode = ETNA_SEC_KERNEL;
+>
+> +       gpu->state = ETNA_GPU_STATE_IDENTIFIED;
+> +
+>         ret = etnaviv_hw_reset(gpu);
+>         if (ret) {
+>                 dev_err(gpu->dev, "GPU reset failed\n");
+> @@ -1368,7 +1377,7 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
+>                 goto out_unlock;
+>         }
+>
+> -       if (!gpu->fe_running)
+> +       if (gpu->state == ETNA_GPU_STATE_INITIALIZED)
+>                 etnaviv_gpu_start_fe_idleloop(gpu, submit->mmu_context);
+>
+>         if (submit->prev_mmu_context)
+> @@ -1634,7 +1643,7 @@ int etnaviv_gpu_wait_idle(struct etnaviv_gpu *gpu, unsigned int timeout_ms)
+>
+>  static void etnaviv_gpu_hw_suspend(struct etnaviv_gpu *gpu)
+>  {
+> -       if (gpu->initialized && gpu->fe_running) {
+> +       if (gpu->state == ETNA_GPU_STATE_RUNNING) {
+>                 /* Replace the last WAIT with END */
+>                 mutex_lock(&gpu->lock);
+>                 etnaviv_buffer_end(gpu);
+> @@ -1647,7 +1656,7 @@ static void etnaviv_gpu_hw_suspend(struct etnaviv_gpu *gpu)
+>                  */
+>                 etnaviv_gpu_wait_idle(gpu, 100);
+>
+> -               gpu->fe_running = false;
+> +               gpu->state = ETNA_GPU_STATE_INITIALIZED;
+>         }
+>
+>         gpu->exec_state = -1;
+> @@ -1918,6 +1927,8 @@ static int etnaviv_gpu_rpm_suspend(struct device *dev)
+>
+>         etnaviv_gpu_hw_suspend(gpu);
+>
+> +       gpu->state = ETNA_GPU_STATE_IDENTIFIED;
+> +
+>         return etnaviv_gpu_clk_disable(gpu);
+>  }
+>
+> @@ -1931,7 +1942,7 @@ static int etnaviv_gpu_rpm_resume(struct device *dev)
+>                 return ret;
+>
+>         /* Re-initialise the basic hardware state */
+> -       if (gpu->initialized) {
+> +       if (gpu->state == ETNA_GPU_STATE_IDENTIFIED) {
+>                 ret = etnaviv_gpu_hw_resume(gpu);
+>                 if (ret) {
+>                         etnaviv_gpu_clk_disable(gpu);
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+> index 98c6f9c320fc..33ecc1bf84b1 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+> @@ -95,6 +95,14 @@ struct clk;
+>
+>  #define ETNA_NR_EVENTS 30
+>
+> +enum etnaviv_gpu_state {
+> +       ETNA_GPU_STATE_UNKNOWN = 0,
+> +       ETNA_GPU_STATE_IDENTIFIED,
+> +       ETNA_GPU_STATE_RESET,
+> +       ETNA_GPU_STATE_INITIALIZED,
+> +       ETNA_GPU_STATE_RUNNING,
+> +};
+> +
+>  struct etnaviv_gpu {
+>         struct drm_device *drm;
+>         struct thermal_cooling_device *cooling;
+> @@ -105,8 +113,8 @@ struct etnaviv_gpu {
+>         struct workqueue_struct *wq;
+>         struct mutex sched_lock;
+>         struct drm_gpu_scheduler sched;
+> +       enum etnaviv_gpu_state state;
+>         bool initialized;
+> -       bool fe_running;
+>
+>         /* 'ring'-buffer: */
+>         struct etnaviv_cmdbuf buffer;
+> --
+> 2.39.2
+>
+
+
 -- 
-2.34.1
+greets
+--
+Christian Gmeiner, MSc
 
+https://christian-gmeiner.info/privacypolicy
