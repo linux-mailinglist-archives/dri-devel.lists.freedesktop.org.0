@@ -2,40 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B41C737870
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 02:58:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1283A737873
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 02:58:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3FBC10E38A;
-	Wed, 21 Jun 2023 00:58:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 907D010E38E;
+	Wed, 21 Jun 2023 00:58:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D4D710E389;
- Wed, 21 Jun 2023 00:58:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DF9410E38A;
+ Wed, 21 Jun 2023 00:58:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=dD+0WX2WV6Iq8HXq3xOanwTmTky971Axctsxt30metE=; b=AFwHoupWdW4Ozmxjp9xj9e/m3t
- XZc6hhXZuz5Fqn+LWY/W1l4/QQ1VyrBkr7VIpCSaHzXE/fdAdnp/75Dn1rn5uAi2Bgg217t9kJ2DL
- DOrVgClp6/5GFX7rbSDkZM5ISxzBF0vSDfhAYDUAX0Pt3oRkdJ24nXyARDkobAwV6t39Qck2p+Vlv
- dVgec97mwUL9tjx6bfBs2i4X+Wimp+yavP138mdogQBNrjjVDKlLy1xgaoFbmzZCBfuZD3MmA75qY
- qBhPdsjj40Yf424y7WVChuNJGMavYTZxlcMpdSp5ieY3WCGOzLFVpsv6BzWR+5Jqqq/F9CARcy+kS
- Pdb6XNGw==;
+ bh=/U+iXS7cPu32eSBwTnxjvnLVI4LNUEgzC2fiTpf+640=; b=ViYBsyZduSvJIePE3SHI9Xcseq
+ ZUGzW4FIeLj6u40vb7Mut5GmR+n+ppjsfMBRmCJauD8lwHce6uWkVLA4p0l7j9xhwZT0ECXhrIWT7
+ UPL10h29Wx2SGRQe44eJHve6Y9Ho1ZOcuZZJnYXeqoPcPejsj46pXh7CcLPHEoOKfHKRqUei5OfTp
+ heAeYym/HcDNnNGapEkznLmRZ1gA3kvbLGamL9Gyh9JcOUQJswEbq6KL9O8EHF50qBeb8hgNMazRh
+ LoyI85oR2Mu0idXEWvjbf/BHvEsbLvzG3ixyv1NVSv4hzYhVGmg0cp1s1SvlgF4A2QA076u0ty0Ef
+ tlxTUvyQ==;
 Received: from [179.113.218.86] (helo=steammachine.lan)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qBmAz-0011pg-Iu; Wed, 21 Jun 2023 02:58:26 +0200
+ id 1qBmB4-0011pg-5q; Wed, 21 Jun 2023 02:58:30 +0200
 From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v3 0/4] drm: Standardize device reset notification
-Date: Tue, 20 Jun 2023 21:57:15 -0300
-Message-ID: <20230621005719.836857-1-andrealmeid@igalia.com>
+Subject: [RFC PATCH v3 1/4] drm/doc: Document DRM device reset expectations
+Date: Tue, 20 Jun 2023 21:57:16 -0300
+Message-ID: <20230621005719.836857-2-andrealmeid@igalia.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230621005719.836857-1-andrealmeid@igalia.com>
+References: <20230621005719.836857-1-andrealmeid@igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -62,71 +64,90 @@ Cc: pierre-eric.pelloux-prayer@amd.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Create a section that specifies how to deal with DRM device resets for
+kernel and userspace drivers.
 
-This is a new version of the documentation for DRM device resets. As I dived
-more in the subject, I started to believe that part of the problem was the lack
-of a DRM API to get reset information from the driver. With an API, we can
-better standardize reset queries, increase common code from both DRM and Mesa,
-and make easier to write end-to-end tests.
+Signed-off-by: André Almeida <andrealmeid@igalia.com>
+---
+ Documentation/gpu/drm-uapi.rst | 65 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
 
-So this patchset, along with the documentation, comes with a new IOCTL and two
-implementations of it for amdgpu and i915 (although just the former was really
-tested). This IOCTL uses the "context id" to query reset information, but this
-might be not generic enough to be included in a DRM API.  At least for amdgpu,
-this information is encapsulated by libdrm so one can't just call the ioctl
-directly from the UMD as I was planning to, but a small refactor can be done to
-expose the id. Anyway, I'm sharing it as it is to gather feedback if this seems
-to work.
-
-The amdgpu and i915 implementations are provided as a mean of testing and as
-exemplification, and not as reference code yet, as the goal is more about the
-interface itself then the driver parts.
-
-For the documentation itself, after spending some time reading the reset path in
-the kernel in Mesa, I decide to rewrite it to better reflect how it works, from
-bottom to top.
-
-You can check the userspace side of the IOCLT here:
- Mesa: https://gitlab.freedesktop.org/andrealmeid/mesa/-/commit/cd687b22fb32c21b23596c607003e2a495f465
- libdrm: https://gitlab.freedesktop.org/andrealmeid/libdrm/-/commit/b31e5404893ee9a85d1aa67e81c2f58c1dac3c46
-
-For testing, I use this vulkan app that has an infinity loop in the shader:
-https://github.com/andrealmeid/vulkan-triangle-v1
-
-Feedbacks are welcomed!
-
-Thanks,
-		André
-
-v2: https://lore.kernel.org/all/20230227204000.56787-1-andrealmeid@igalia.com/
-v1: https://lore.kernel.org/all/20230123202646.356592-1-andrealmeid@igalia.com/
-
-André Almeida (4):
-  drm/doc: Document DRM device reset expectations
-  drm: Create DRM_IOCTL_GET_RESET
-  drm/amdgpu: Implement DRM_IOCTL_GET_RESET
-  drm/i915: Implement DRM_IOCTL_GET_RESET
-
- Documentation/gpu/drm-uapi.rst                | 51 ++++++++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |  4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c       | 35 +++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h       |  5 ++
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       | 12 +++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_job.h       |  2 +
- drivers/gpu/drm/drm_debugfs.c                 |  2 +
- drivers/gpu/drm/drm_ioctl.c                   | 58 +++++++++++++++++++
- drivers/gpu/drm/i915/gem/i915_gem_context.c   | 18 ++++++
- drivers/gpu/drm/i915/gem/i915_gem_context.h   |  2 +
- .../gpu/drm/i915/gem/i915_gem_context_types.h |  2 +
- drivers/gpu/drm/i915/i915_driver.c            |  2 +
- include/drm/drm_device.h                      |  3 +
- include/drm/drm_drv.h                         |  3 +
- include/uapi/drm/drm.h                        | 21 +++++++
- include/uapi/drm/drm_mode.h                   | 15 +++++
- 17 files changed, 233 insertions(+), 3 deletions(-)
-
+diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+index 65fb3036a580..da4f8a694d8d 100644
+--- a/Documentation/gpu/drm-uapi.rst
++++ b/Documentation/gpu/drm-uapi.rst
+@@ -285,6 +285,71 @@ for GPU1 and GPU2 from different vendors, and a third handler for
+ mmapped regular files. Threads cause additional pain with signal
+ handling as well.
+ 
++Device reset
++============
++
++The GPU stack is really complex and is prone to errors, from hardware bugs,
++faulty applications and everything in between the many layers. To recover
++from this kind of state, sometimes is needed to reset the device. This section
++describes what's the expectations for DRM and usermode drivers when a device
++resets and how to propagate the reset status.
++
++Kernel Mode Driver
++------------------
++
++The KMD is responsible for checking if the device needs a reset, and to perform
++it as needed. Usually a hung is detected when a job gets stuck executing. KMD
++then update it's internal reset tracking to be ready when userspace asks the
++kernel about reset information. Drivers should implement the DRM_IOCTL_GET_RESET
++for that.
++
++User Mode Driver
++----------------
++
++The UMD should check before submitting new commands to the KMD if the device has
++been reset, and this can be checked more often if it requires to. The
++DRM_IOCTL_GET_RESET is the default interface for those kind of checks. After
++detecting a reset, UMD will then proceed to report it to the application using
++the appropriated API error code, as explained in the bellow section about
++robustness.
++
++Robustness
++----------
++
++The only way to try to keep an application working after a reset is if it
++complies with the robustness aspects of the graphical API that is using.
++
++Graphical APIs provide ways to application to deal with device resets. However,
++there's no guarantee that the app will be correctly using such features, and UMD
++can implement policies to close the app if it's a repeating offender, likely in
++a broken loop. This is done to ensure that it doesn't keeps blocking the user
++interface to be correctly displayed.
++
++OpenGL
++~~~~~~
++
++Apps using OpenGL can rely on ``GL_ARB_robustness`` to be robust. This extension
++tells if a reset has happened, and if so, all the context state is considered
++lost and the app proceeds by creating new ones. If robustness isn't in use, UMD
++will terminate the app when a reset is detected, giving that the contexts are
++lost and the app won't be able to figure this out and recreate the contexts.
++
++Vulkan
++~~~~~~
++
++Apps using Vulkan should check for ``VK_ERROR_DEVICE_LOST`` for submissions.
++This error code means, among other things, that a device reset has happened and
++it needs to recreate the contexts to keep going.
++
++Reporting resets causes
++-----------------------
++
++Apart from propagating the reset through the stack so apps can recover, it's
++really useful for driver developers to learn more about what caused the reset in
++first place. DRM devices should make use of devcoredump to store relevant
++information about the reset, so this information can be added to user bug
++reports.
++
+ .. _drm_driver_ioctl:
+ 
+ IOCTL Support on Device Nodes
 -- 
 2.41.0
 
