@@ -1,69 +1,125 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04DC6739819
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 09:32:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3149B739827
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 09:33:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9621910E4DF;
-	Thu, 22 Jun 2023 07:32:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB99210E4F8;
+	Thu, 22 Jun 2023 07:32:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09A4A10E430
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 10:02:53 +0000 (UTC)
-Received: by mail-pg1-x534.google.com with SMTP id
- 41be03b00d2f7-54f75f85a17so3030717a12.0
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 03:02:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687341773; x=1689933773;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rZflBfdXsCT719NMmNIjOCzP0A2DIyEtya42eY1OGEo=;
- b=LIM8WAYtMAwzuzuGYZgGNe8fuUQDKH5JyQoKSYbRSFA9qO2IxGXthnqQ9tVHIjxUJx
- wY9vWobbISdK2h5t+7pmfuu5tEVuNpqIjIRZzbsbc5c22rGxs4/uu7yx5/RvXTjhy8st
- doqr89ffYPQag707v04IgwEBsn8qO1y5qcM4bPYjKsQ9oCSk8TGfqDzBtsjSz2rTeluh
- a35wVAH+o9p9DNJM1tlueIus+jd9shRKuBY0P1OcRKb7goawu8SuxtYs6oF3uhHlaFyG
- eNEOWerOmieWl5HVs0cOV6Zv8dSSEE0Ip1Yfi8JIeFYjSjDP1oBVSqojSP10NLnMB6/r
- /Fxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687341773; x=1689933773;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rZflBfdXsCT719NMmNIjOCzP0A2DIyEtya42eY1OGEo=;
- b=DP3U/urIquLx0QF7g21C91A5RQm4VetbsvRRoWLQX7DkMU+hBD2Zv8aCvkkX3EkiwS
- 4XjF3GH4cnWj+jqcfdCW6jalxbb4437sYoAPt0W8O1/y0cWIDVeuq1W8UsVdsrX6yPYd
- SCjYf29iHBKK2ey1xSj75yple2pX/5NsTpNiLJZM48wktANQG22EpKx03mDFijVOb+AA
- daU5mvEFESSjhQS8/YRuXfIADEBjYbsV1cbgZFskovvvyetEUqEnkROA0JOAMRMzL62Z
- 1y+btey98C7VQzwozrZzThUCqMpjiVQQfjThfs3HfTsry+V4Uj+SAX+DSi0nUM1zdQ9M
- Zghg==
-X-Gm-Message-State: AC+VfDzfUGX/jZmY9Xn72mNusyc3pLvIs0H5pp9r87ne+vdSL7wHvSAC
- aUihDkwCNKh6Pix60vcTh0A=
-X-Google-Smtp-Source: ACHHUZ6Jide6SYJli/+K018flPuCPAUmmuBzu3FBCXntLGd88XlfvR9AkNjIVe6FEEeZXQe8zIa9/Q==
-X-Received: by 2002:a17:90a:72c4:b0:25e:9d27:40d4 with SMTP id
- l4-20020a17090a72c400b0025e9d2740d4mr8865263pjk.40.1687341772783; 
- Wed, 21 Jun 2023 03:02:52 -0700 (PDT)
-Received: from anyang.. ([106.250.177.234])
- by smtp.googlemail.com with ESMTPSA id
- e4-20020a17090a280400b0025c09577ce1sm9402937pjd.7.2023.06.21.03.02.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jun 2023 03:02:52 -0700 (PDT)
-From: Dongjin Kim <tobetter@gmail.com>
-To: tobetter@gmail.com, Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 2/2] drm/panel: ilitek-ili9881c: add support for Elida
- HJ080BE31IA1 panel
-Date: Wed, 21 Jun 2023 19:02:44 +0900
-Message-Id: <20230621100244.1325638-2-tobetter@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230621100244.1325638-1-tobetter@gmail.com>
-References: <20230621100244.1325638-1-tobetter@gmail.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0C4710E04B;
+ Wed, 21 Jun 2023 11:18:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1687346281; x=1718882281;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=bNOOeYVCQ7poh+/POpUoy8h5Fc7oKKTV5NlBm31y8T8=;
+ b=HLDgmo/Az6NkgE+D6yL5JMGr2Pp1WVOXbzcdpTFcOQWQMf1scnfKLRsK
+ qcM0pd7y57FmT0H91DPqWk/q3XD7rX73oC4LMk6bQoLGXYxSMfup3x+4N
+ u+WxV2MaqV3ul8KHLuA9plVHlezkS4MxGbiBl56QdBEOxmpsWBotktuca
+ 1xdZUEokxzpOa1y613kxEP3qDv8IBNz03kQMGCsX5X+kKPRaDc8gVBYhs
+ +S035kDarl9rPtjkZEcerIWYUyk2WSAqBMihZ6zJ/jOZbz7HwjJi8AZ7S
+ C5jtYbzTsaaZjtqBaFJpsTIWQ8LaVFEIU8hI731ciYI0TuD88/0uS6qjA Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="339758038"
+X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; d="scan'208";a="339758038"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jun 2023 04:17:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="664623042"
+X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; d="scan'208";a="664623042"
+Received: from unknown (HELO localhost) ([10.237.66.162])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jun 2023 04:16:58 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Joel Granados <j.granados@samsung.com>, mcgrof@kernel.org, Russell King
+ <linux@armlinux.org.uk>, Catalin
+ Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Michael
+ Ellerman <mpe@ellerman.id.au>, Heiko Carstens <hca@linux.ibm.com>, Vasily
+ Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Andy Lutomirski
+ <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
+ <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, x86@kernel.org, Herbert Xu
+ <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>,
+ Russ Weight <russell.h.weight@intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Phillip Potter <phil@philpotter.co.uk>,
+ Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, Corey
+ Minyard <minyard@acm.org>, Theodore Ts'o <tytso@mit.edu>, "Jason A.
+ Donenfeld" <Jason@zx2c4.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, "K. Y.
+ Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>,
+ Wei
+ Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Jason Gunthorpe
+ <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, Benjamin Herrenschmidt
+ <benh@kernel.crashing.org>, Song Liu <song@kernel.org>, Robin Holt
+ <robinmholt@gmail.com>, Steve Wahl <steve.wahl@hpe.com>, David Ahern
+ <dsahern@kernel.org>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Sudip Mukherjee
+ <sudipm.mukherjee@gmail.com>, Mark Rutland <mark.rutland@arm.com>, "James
+ E.J. Bottomley" <jejb@linux.ibm.com>, "Martin K. Petersen"
+ <martin.petersen@oracle.com>, Doug Gilbert <dgilbert@interlog.com>, Jiri
+ Slaby <jirislaby@kernel.org>, Juergen Gross <jgross@suse.com>, Stefano
+ Stabellini <sstabellini@kernel.org>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Benjamin
+ LaHaise <bcrl@kvack.org>, David Howells <dhowells@redhat.com>, Jan Harkes
+ <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, Trond Myklebust
+ <trond.myklebust@hammerspace.com>, Anna Schumaker <anna@kernel.org>, Chuck
+ Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, Jan Kara
+ <jack@suse.cz>, Anton Altaparmakov <anton@tuxera.com>, Mark Fasheh
+ <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, Joseph Qi
+ <joseph.qi@linux.alibaba.com>, Kees Cook <keescook@chromium.org>, Iurii
+ Zaikin <yzaikin@google.com>, Eric Biggers <ebiggers@kernel.org>, "Darrick
+ J. Wong" <djwong@kernel.org>, Alexei Starovoitov <ast@kernel.org>, Daniel
+ Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Balbir
+ Singh <bsingharora@gmail.com>, Eric Biederman <ebiederm@xmission.com>,
+ "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Anil S Keshavamurthy
+ <anil.s.keshavamurthy@intel.com>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Petr Mladek <pmladek@suse.com>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>, Juri Lelli
+ <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, John
+ Stultz <jstultz@google.com>, Steven Rostedt <rostedt@goodmis.org>, Andrew
+ Morton <akpm@linux-foundation.org>, Mike Kravetz <mike.kravetz@oracle.com>,
+ Muchun Song <muchun.song@linux.dev>, Naoya Horiguchi
+ <naoya.horiguchi@nec.com>, "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>, Joerg Reuter <jreuter@yaina.de>, Ralf Baechle
+ <ralf@linux-mips.org>, Pablo
+ Neira Ayuso <pablo@netfilter.org>, Jozsef Kadlecsik <kadlec@netfilter.org>,
+ Florian Westphal <fw@strlen.de>, Roopa Prabhu <roopa@nvidia.com>, Nikolay
+ Aleksandrov <razor@blackwall.org>, Alexander Aring <alex.aring@gmail.com>,
+ Stefan Schmidt <stefan@datenfreihafen.org>, Miquel Raynal
+ <miquel.raynal@bootlin.com>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Matthieu Baerts
+ <matthieu.baerts@tessares.net>, Mat Martineau <martineau@kernel.org>, Simon
+ Horman <horms@verge.net.au>, Julian Anastasov <ja@ssi.bg>, Remi
+ Denis-Courmont <courmisch@gmail.com>, Santosh Shilimkar
+ <santosh.shilimkar@oracle.com>, Marc Dionne <marc.dionne@auristor.com>,
+ Neil Horman <nhorman@tuxdriver.com>, Marcelo Ricardo Leitner
+ <marcelo.leitner@gmail.com>, Xin Long <lucien.xin@gmail.com>, Karsten
+ Graul <kgraul@linux.ibm.com>, Wenjia Zhang <wenjia@linux.ibm.com>, Jan
+ Karcher <jaka@linux.ibm.com>, Jon Maloy <jmaloy@redhat.com>, Ying Xue
+ <ying.xue@windriver.com>, Martin Schiller <ms@dev.tdt.de>, John Johansen
+ <john.johansen@canonical.com>, Paul Moore <paul@paul-moore.com>, James
+ Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Jarkko
+ Sakkinen <jarkko@kernel.org>
+Subject: Re: [PATCH 09/11] sysctl: Remove the end element in sysctl table
+ arrays
+In-Reply-To: <20230621094817.433842-1-j.granados@samsung.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230621091000.424843-1-j.granados@samsung.com>
+ <CGME20230621094824eucas1p2b6adfbd3f15ff3665674917f419b25d3@eucas1p2.samsung.com>
+ <20230621094817.433842-1-j.granados@samsung.com>
+Date: Wed, 21 Jun 2023 14:16:55 +0300
+Message-ID: <87o7l92hg8.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Mailman-Approved-At: Thu, 22 Jun 2023 07:32:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,289 +133,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Joel Granados <j.granados@samsung.com>, Miaohe Lin <linmiaohe@huawei.com>,
+ linux-hyperv@vger.kernel.org, linux-ia64@vger.kernel.org, "Rafael J.
+ Wysocki" <rafael@kernel.org>, linux-aio@kvack.org,
+ Amir Goldstein <amir73il@gmail.com>, mptcp@lists.linux.dev,
+ KP Singh <kpsingh@kernel.org>, dri-devel@lists.freedesktop.org,
+ Ben Segall <bsegall@google.com>, linux-mm@kvack.org,
+ linux-sctp@vger.kernel.org, keyrings@vger.kernel.org,
+ Stanislav Fomichev <sdf@google.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ linux-afs@lists.infradead.org, linux-s390@vger.kernel.org,
+ Valentin Schneider <vschneid@redhat.com>, xen-devel@lists.xenproject.org,
+ linux-scsi@vger.kernel.org, dccp@vger.kernel.org, linux-rdma@vger.kernel.org,
+ bridge@lists.linux-foundation.org, John Fastabend <john.fastabend@gmail.com>,
+ linux-ntfs-dev@lists.sourceforge.net,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, codalist@coda.cs.cmu.edu,
+ lvs-devel@vger.kernel.org, Matthew Bobrowski <repnop@google.com>,
+ linux-cachefs@redhat.com, Mel Gorman <mgorman@suse.de>,
+ tipc-discussion@lists.sourceforge.net, Yonghong Song <yhs@fb.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ intel-gfx@lists.freedesktop.org, linux-crypto@vger.kernel.org,
+ linux-wpan@vger.kernel.org, coreteam@netfilter.org,
+ John Ogness <john.ogness@linutronix.de>, Mike Travis <mike.travis@hpe.com>,
+ Boqun Feng <boqun.feng@gmail.com>, apparmor@lists.ubuntu.com,
+ linuxppc-dev@lists.ozlabs.org, Nicholas Piggin <npiggin@gmail.com>,
+ rds-devel@oss.oracle.com, linux-raid@vger.kernel.org,
+ Waiman Long <longman@redhat.com>, linux-hams@vger.kernel.org,
+ openipmi-developer@lists.sourceforge.net,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ linux-arm-kernel@lists.infradead.org, fsverity@lists.linux.dev,
+ Hao Luo <haoluo@google.com>, linux-nfs@vger.kernel.org,
+ Will Drewry <wad@chromium.org>, linux-x25@vger.kernel.org,
+ Stephen Boyd <sboyd@kernel.org>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>, kexec@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Andy Lutomirski <luto@amacapital.net>,
+ linux-xfs@vger.kernel.org,
+ Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+ linux-security-module@vger.kernel.org, netfilter-devel@vger.kernel.org,
+ Sven Schnelle <svens@linux.ibm.com>, Jiri Olsa <jolsa@kernel.org>,
+ netdev@vger.kernel.org, linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, Martin KaFai Lau <martin.lau@linux.dev>,
+ ocfs2-devel@oss.oracle.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-HJ080BE31IA1 is a panel by Elida and utilizes the Ilitek ILI9881C
-controller.
+On Wed, 21 Jun 2023, Joel Granados <j.granados@samsung.com> wrote:
+> Remove the empty end element from all the arrays that are passed to the
+> register sysctl calls. In some files this means reducing the explicit
+> array size by one. Also make sure that we are using the size in
+> ctl_table_header instead of evaluating the .procname element.
 
-This patch is to add the initialization sequence and timing to ILI9881C
-driver, tested on Hardkernel ODROID-M1.
+Where's the harm in removing the end elements driver by driver? This is
+an unwieldy patch to handle.
 
-Signed-off-by: Dongjin Kim <tobetter@gmail.com>
----
- drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 236 ++++++++++++++++++
- 1 file changed, 236 insertions(+)
+> diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
+> index f43950219ffc..e4d7372afb10 100644
+> --- a/drivers/gpu/drm/i915/i915_perf.c
+> +++ b/drivers/gpu/drm/i915/i915_perf.c
+> @@ -4884,24 +4884,23 @@ int i915_perf_remove_config_ioctl(struct drm_device *dev, void *data,
+>  
+>  static struct ctl_table oa_table[] = {
+>  	{
+> -	 .procname = "perf_stream_paranoid",
+> -	 .data = &i915_perf_stream_paranoid,
+> -	 .maxlen = sizeof(i915_perf_stream_paranoid),
+> -	 .mode = 0644,
+> -	 .proc_handler = proc_dointvec_minmax,
+> -	 .extra1 = SYSCTL_ZERO,
+> -	 .extra2 = SYSCTL_ONE,
+> -	 },
+> +		.procname = "perf_stream_paranoid",
+> +		.data = &i915_perf_stream_paranoid,
+> +		.maxlen = sizeof(i915_perf_stream_paranoid),
+> +		.mode = 0644,
+> +		.proc_handler = proc_dointvec_minmax,
+> +		.extra1 = SYSCTL_ZERO,
+> +		.extra2 = SYSCTL_ONE,
+> +	},
+>  	{
+> -	 .procname = "oa_max_sample_rate",
+> -	 .data = &i915_oa_max_sample_rate,
+> -	 .maxlen = sizeof(i915_oa_max_sample_rate),
+> -	 .mode = 0644,
+> -	 .proc_handler = proc_dointvec_minmax,
+> -	 .extra1 = SYSCTL_ZERO,
+> -	 .extra2 = &oa_sample_rate_hard_limit,
+> -	 },
+> -	{}
+> +		.procname = "oa_max_sample_rate",
+> +		.data = &i915_oa_max_sample_rate,
+> +		.maxlen = sizeof(i915_oa_max_sample_rate),
+> +		.mode = 0644,
+> +		.proc_handler = proc_dointvec_minmax,
+> +		.extra1 = SYSCTL_ZERO,
+> +		.extra2 = &oa_sample_rate_hard_limit,
+> +	}
+>  };
 
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-index 1ec696adf9de..eac81724cede 100644
---- a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-@@ -662,6 +662,216 @@ static const struct ili9881c_instr w552946ab_init[] = {
- 	ILI9881C_SWITCH_PAGE_INSTR(0),
- };
- 
-+static const struct ili9881c_instr hj080be31ia1_init[] = {
-+	ILI9881C_SWITCH_PAGE_INSTR(3),
-+	ILI9881C_COMMAND_INSTR(0x01, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x02, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x03, 0x53),
-+	ILI9881C_COMMAND_INSTR(0x04, 0x53),
-+	ILI9881C_COMMAND_INSTR(0x05, 0x13),
-+	ILI9881C_COMMAND_INSTR(0x06, 0x04),
-+	ILI9881C_COMMAND_INSTR(0x07, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x08, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x09, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x0a, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x0b, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x0c, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x0d, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x0e, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x0f, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x10, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x11, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x12, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x13, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x14, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x15, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x16, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x17, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x18, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x19, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x1a, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x1b, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x1c, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x1d, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x1e, 0xc0),
-+	ILI9881C_COMMAND_INSTR(0x1f, 0x80),
-+	ILI9881C_COMMAND_INSTR(0x20, 0x02),
-+	ILI9881C_COMMAND_INSTR(0x21, 0x09),
-+	ILI9881C_COMMAND_INSTR(0x22, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x23, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x24, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x25, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x26, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x27, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x28, 0x55),
-+	ILI9881C_COMMAND_INSTR(0x29, 0x03),
-+	ILI9881C_COMMAND_INSTR(0x2a, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x2b, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x2c, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x2d, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x2e, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x2f, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x30, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x31, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x32, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x33, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x34, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x35, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x36, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x37, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x38, 0x3C), /* VDD1&2 toggle 1sec */
-+	ILI9881C_COMMAND_INSTR(0x39, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x3a, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x3b, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x3c, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x3d, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x3e, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x3f, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x40, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x41, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x42, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x43, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x44, 0x00),
-+
-+	ILI9881C_COMMAND_INSTR(0x50, 0x01),
-+	ILI9881C_COMMAND_INSTR(0x51, 0x23),
-+	ILI9881C_COMMAND_INSTR(0x52, 0x45),
-+	ILI9881C_COMMAND_INSTR(0x53, 0x67),
-+	ILI9881C_COMMAND_INSTR(0x54, 0x89),
-+	ILI9881C_COMMAND_INSTR(0x55, 0xab),
-+	ILI9881C_COMMAND_INSTR(0x56, 0x01),
-+	ILI9881C_COMMAND_INSTR(0x57, 0x23),
-+	ILI9881C_COMMAND_INSTR(0x58, 0x45),
-+	ILI9881C_COMMAND_INSTR(0x59, 0x67),
-+	ILI9881C_COMMAND_INSTR(0x5a, 0x89),
-+	ILI9881C_COMMAND_INSTR(0x5b, 0xab),
-+	ILI9881C_COMMAND_INSTR(0x5c, 0xcd),
-+	ILI9881C_COMMAND_INSTR(0x5d, 0xef),
-+
-+	ILI9881C_COMMAND_INSTR(0x5e, 0x01),
-+	ILI9881C_COMMAND_INSTR(0x5f, 0x08), /* FW_GOUT_L1   STV2_ODD */
-+	ILI9881C_COMMAND_INSTR(0x60, 0x02), /* FW_GOUT_L2 */
-+	ILI9881C_COMMAND_INSTR(0x61, 0x02), /* FW_GOUT_L3 */
-+	ILI9881C_COMMAND_INSTR(0x62, 0x0A), /* FW_GOUT_L4   RESET_ODD */
-+	ILI9881C_COMMAND_INSTR(0x63, 0x15), /* FW_GOUT_L5 */
-+	ILI9881C_COMMAND_INSTR(0x64, 0x14), /* FW_GOUT_L6 */
-+	ILI9881C_COMMAND_INSTR(0x65, 0x02), /* FW_GOUT_L7 */
-+	ILI9881C_COMMAND_INSTR(0x66, 0x11), /* FW_GOUT_L8    CK11 */
-+	ILI9881C_COMMAND_INSTR(0x67, 0x10), /* FW_GOUT_L9    CK9 */
-+	ILI9881C_COMMAND_INSTR(0x68, 0x02), /* FW_GOUT_L10 */
-+	ILI9881C_COMMAND_INSTR(0x69, 0x0F), /* FW_GOUT_L11   CK7 */
-+	ILI9881C_COMMAND_INSTR(0x6a, 0x0E), /* FW_GOUT_L12   CK5 */
-+	ILI9881C_COMMAND_INSTR(0x6b, 0x02), /* FW_GOUT_L13 */
-+	ILI9881C_COMMAND_INSTR(0x6c, 0x0D), /* FW_GOUT_L14   CK3 */
-+	ILI9881C_COMMAND_INSTR(0x6d, 0x0C), /* FW_GOUT_L15   CK1 */
-+	ILI9881C_COMMAND_INSTR(0x6e, 0x06), /* FW_GOUT_L16   STV1_ODD */
-+	ILI9881C_COMMAND_INSTR(0x6f, 0x02), /* FW_GOUT_L17 */
-+	ILI9881C_COMMAND_INSTR(0x70, 0x02), /* FW_GOUT_L18 */
-+	ILI9881C_COMMAND_INSTR(0x71, 0x02), /* FW_GOUT_L19 */
-+	ILI9881C_COMMAND_INSTR(0x72, 0x02), /* FW_GOUT_L20 */
-+	ILI9881C_COMMAND_INSTR(0x73, 0x02), /* FW_GOUT_L21 */
-+	ILI9881C_COMMAND_INSTR(0x74, 0x02), /* FW_GOUT_L22 */
-+
-+	ILI9881C_COMMAND_INSTR(0x75, 0x06), /* BW_GOUT_L1   STV2_ODD */
-+	ILI9881C_COMMAND_INSTR(0x76, 0x02), /* BW_GOUT_L2 */
-+	ILI9881C_COMMAND_INSTR(0x77, 0x02), /* BW_GOUT_L3 */
-+	ILI9881C_COMMAND_INSTR(0x78, 0x0A), /* BW_GOUT_L4   RESET_ODD */
-+	ILI9881C_COMMAND_INSTR(0x79, 0x15), /* BW_GOUT_L5 */
-+	ILI9881C_COMMAND_INSTR(0x7a, 0x14), /* BW_GOUT_L6 */
-+	ILI9881C_COMMAND_INSTR(0x7b, 0x02), /* BW_GOUT_L7 */
-+	ILI9881C_COMMAND_INSTR(0x7c, 0x10), /* BW_GOUT_L8  CK11 */
-+	ILI9881C_COMMAND_INSTR(0x7d, 0x11), /* BW_GOUT_L9  CK9 */
-+	ILI9881C_COMMAND_INSTR(0x7e, 0x02), /* BW_GOUT_L10 */
-+	ILI9881C_COMMAND_INSTR(0x7f, 0x0C), /* BW_GOUT_L11 CK7 */
-+	ILI9881C_COMMAND_INSTR(0x80, 0x0D), /* BW_GOUT_L12 CK5 */
-+	ILI9881C_COMMAND_INSTR(0x81, 0x02), /* BW_GOUT_L13 */
-+	ILI9881C_COMMAND_INSTR(0x82, 0x0E), /* BW_GOUT_L14 CK3 */
-+	ILI9881C_COMMAND_INSTR(0x83, 0x0F), /* BW_GOUT_L15 CK1 */
-+	ILI9881C_COMMAND_INSTR(0x84, 0x08), /* BW_GOUT_L16 STV1_ODD */
-+	ILI9881C_COMMAND_INSTR(0x85, 0x02), /* BW_GOUT_L17 */
-+	ILI9881C_COMMAND_INSTR(0x86, 0x02), /* BW_GOUT_L18 */
-+	ILI9881C_COMMAND_INSTR(0x87, 0x02), /* BW_GOUT_L19 */
-+	ILI9881C_COMMAND_INSTR(0x88, 0x02), /* BW_GOUT_L20 */
-+	ILI9881C_COMMAND_INSTR(0x89, 0x02), /* BW_GOUT_L21 */
-+	ILI9881C_COMMAND_INSTR(0x8A, 0x02), /* BW_GOUT_L22 */
-+	ILI9881C_SWITCH_PAGE_INSTR(4),
-+	ILI9881C_COMMAND_INSTR(0x6C, 0x15),
-+	ILI9881C_COMMAND_INSTR(0x6E, 0x30), /* VGH clamp 16.08V */
-+	ILI9881C_COMMAND_INSTR(0x6F, 0x37), /* reg vcl + pumping ratio VGH=3x VGL=-3x */
-+	ILI9881C_COMMAND_INSTR(0x8D, 0x1F), /* VGL clamp -12.03V */
-+	ILI9881C_COMMAND_INSTR(0x87, 0xBA),
-+	ILI9881C_COMMAND_INSTR(0x26, 0x76),
-+	ILI9881C_COMMAND_INSTR(0xB2, 0xD1),
-+	ILI9881C_COMMAND_INSTR(0xB5, 0x07),
-+	ILI9881C_COMMAND_INSTR(0x35, 0x17),
-+	ILI9881C_COMMAND_INSTR(0x33, 0x14),
-+	ILI9881C_COMMAND_INSTR(0x31, 0x75),
-+	ILI9881C_COMMAND_INSTR(0x3A, 0x85),
-+	ILI9881C_COMMAND_INSTR(0x3B, 0x98),
-+	ILI9881C_COMMAND_INSTR(0x38, 0x01),
-+	ILI9881C_COMMAND_INSTR(0x39, 0x00),
-+	ILI9881C_COMMAND_INSTR(0x7A, 0x10), /* VREG1/2 out */
-+	ILI9881C_SWITCH_PAGE_INSTR(1),
-+	ILI9881C_COMMAND_INSTR(0x40, 0x53),
-+	ILI9881C_COMMAND_INSTR(0x22, 0x0A),
-+	ILI9881C_COMMAND_INSTR(0x31, 0x00), /* column inversion */
-+	ILI9881C_COMMAND_INSTR(0x50, 0xE9), /* VREG1OUT=5.508V */
-+	ILI9881C_COMMAND_INSTR(0x51, 0xE4), /* VREG2OUT=-5.508V */
-+	ILI9881C_COMMAND_INSTR(0x53, 0x48), /* VCOM1 */
-+	ILI9881C_COMMAND_INSTR(0x55, 0x48), /* VCOM2 */
-+	ILI9881C_COMMAND_INSTR(0x60, 0x28), /* SDT */
-+	ILI9881C_COMMAND_INSTR(0x2E, 0xC8), /* 1280 GATE NL SEL */
-+	ILI9881C_COMMAND_INSTR(0x34, 0x01),
-+	ILI9881C_COMMAND_INSTR(0xA0, 0x00), /* VP255 */
-+	ILI9881C_COMMAND_INSTR(0xA1, 0x13), /* VP251 */
-+	ILI9881C_COMMAND_INSTR(0xA2, 0x24), /* VP247 */
-+	ILI9881C_COMMAND_INSTR(0xA3, 0x15), /* VP243 */
-+	ILI9881C_COMMAND_INSTR(0xA4, 0x18), /* VP239 */
-+	ILI9881C_COMMAND_INSTR(0xA5, 0x2F), /* VP231 */
-+	ILI9881C_COMMAND_INSTR(0xA6, 0x22), /* VP219 */
-+	ILI9881C_COMMAND_INSTR(0xA7, 0x21), /* VP203 */
-+	ILI9881C_COMMAND_INSTR(0xA8, 0x89), /* VP175 */
-+	ILI9881C_COMMAND_INSTR(0xA9, 0x1B), /* VP144 */
-+	ILI9881C_COMMAND_INSTR(0xAA, 0x27), /* VP111 */
-+	ILI9881C_COMMAND_INSTR(0xAB, 0x7D), /* VP80 */
-+	ILI9881C_COMMAND_INSTR(0xAC, 0x1B), /* VP52 */
-+	ILI9881C_COMMAND_INSTR(0xAD, 0x1B), /* VP36 */
-+	ILI9881C_COMMAND_INSTR(0xAE, 0x50), /* VP24 */
-+	ILI9881C_COMMAND_INSTR(0xAF, 0x24), /* VP16 */
-+	ILI9881C_COMMAND_INSTR(0xB0, 0x2A), /* VP12 */
-+	ILI9881C_COMMAND_INSTR(0xB1, 0x51), /* VP8 */
-+	ILI9881C_COMMAND_INSTR(0xB2, 0x5A), /* VP4 */
-+	ILI9881C_COMMAND_INSTR(0xB3, 0x1B), /* VP0 */
-+	ILI9881C_COMMAND_INSTR(0xC0, 0x00), /* VN255 GAMMA N */
-+	ILI9881C_COMMAND_INSTR(0xC1, 0x16), /* VN251 */
-+	ILI9881C_COMMAND_INSTR(0xC2, 0x24), /* VN247 */
-+	ILI9881C_COMMAND_INSTR(0xC3, 0x13), /* VN243 */
-+	ILI9881C_COMMAND_INSTR(0xC4, 0x18), /* VN239 */
-+	ILI9881C_COMMAND_INSTR(0xC5, 0x2A), /* VN231 */
-+	ILI9881C_COMMAND_INSTR(0xC6, 0x20), /* VN219 */
-+	ILI9881C_COMMAND_INSTR(0xC7, 0x22), /* VN203 */
-+	ILI9881C_COMMAND_INSTR(0xC8, 0x80), /* VN175 */
-+	ILI9881C_COMMAND_INSTR(0xC9, 0x1C), /* VN144 */
-+	ILI9881C_COMMAND_INSTR(0xCA, 0x28), /* VN111 */
-+	ILI9881C_COMMAND_INSTR(0xCB, 0x71), /* VN80 */
-+	ILI9881C_COMMAND_INSTR(0xCC, 0x1D), /* VN52 */
-+	ILI9881C_COMMAND_INSTR(0xCD, 0x1B), /* VN36 */
-+	ILI9881C_COMMAND_INSTR(0xCE, 0x51), /* VN24 */
-+	ILI9881C_COMMAND_INSTR(0xCF, 0x24), /* VN16 */
-+	ILI9881C_COMMAND_INSTR(0xD0, 0x2A), /* VN12 */
-+	ILI9881C_COMMAND_INSTR(0xD1, 0x4C), /* VN8 */
-+	ILI9881C_COMMAND_INSTR(0xD2, 0x5A), /* VN4 */
-+	ILI9881C_COMMAND_INSTR(0xD3, 0x32), /* VN0 */
-+	ILI9881C_SWITCH_PAGE_INSTR(2),
-+	ILI9881C_COMMAND_INSTR(0x04, 0x17),
-+	ILI9881C_COMMAND_INSTR(0x05, 0x12),
-+	ILI9881C_COMMAND_INSTR(0x06, 0x40),
-+	ILI9881C_COMMAND_INSTR(0x07, 0x0B),
-+
-+	ILI9881C_SWITCH_PAGE_INSTR(0),
-+	ILI9881C_COMMAND_INSTR(0x35, 0x00),
-+};
-+
- static inline struct ili9881c *panel_to_ili9881c(struct drm_panel *panel)
- {
- 	return container_of(panel, struct ili9881c, panel);
-@@ -812,6 +1022,23 @@ static const struct drm_display_mode k101_im2byl02_default_mode = {
- 	.height_mm	= 217,
- };
- 
-+static const struct drm_display_mode hj080be31ia1_default_mode = {
-+	.clock		= 66000,
-+
-+	.hdisplay	= 800,
-+	.hsync_start	= 800 + 32,
-+	.hsync_end	= 800 + 32 + 24,
-+	.htotal		= 800 + 32 + 24 + 24,
-+
-+	.vdisplay	= 1280,
-+	.vsync_start	= 1280 + 8,
-+	.vsync_end	= 1280 + 8 + 4,
-+	.vtotal		= 1280 + 8 + 4 + 8,
-+
-+	.width_mm	= 108,
-+	.height_mm	= 172,
-+};
-+
- static const struct drm_display_mode w552946aba_default_mode = {
- 	.clock		= 64000,
- 
-@@ -944,6 +1171,14 @@ static const struct ili9881c_desc k101_im2byl02_desc = {
- 	.mode_flags = MIPI_DSI_MODE_VIDEO_SYNC_PULSE,
- };
- 
-+static const struct ili9881c_desc hj080be31ia1_desc = {
-+	.init = hj080be31ia1_init,
-+	.init_length = ARRAY_SIZE(hj080be31ia1_init),
-+	.mode = &hj080be31ia1_default_mode,
-+	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-+		      MIPI_DSI_MODE_NO_EOT_PACKET,
-+};
-+
- static const struct ili9881c_desc w552946aba_desc = {
- 	.init = w552946ab_init,
- 	.init_length = ARRAY_SIZE(w552946ab_init),
-@@ -954,6 +1189,7 @@ static const struct ili9881c_desc w552946aba_desc = {
- 
- static const struct of_device_id ili9881c_of_match[] = {
- 	{ .compatible = "bananapi,lhr050h41", .data = &lhr050h41_desc },
-+	{ .compatible = "elida,hj080be31ia1", .data = &hj080be31ia1_desc },
- 	{ .compatible = "feixin,k101-im2byl02", .data = &k101_im2byl02_desc },
- 	{ .compatible = "wanchanglong,w552946aba", .data = &w552946aba_desc },
- 	{ }
+The existing indentation is off, but fixing it doesn't really belong in
+this patch.
+
+BR,
+Jani.
+
+
 -- 
-2.34.1
-
+Jani Nikula, Intel Open Source Graphics Center
