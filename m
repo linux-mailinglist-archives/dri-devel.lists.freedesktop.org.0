@@ -1,47 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 493B2738DA0
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 19:50:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F10F5738DD0
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 19:53:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98F6510E31A;
-	Wed, 21 Jun 2023 17:50:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8760F10E32A;
+	Wed, 21 Jun 2023 17:53:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F5FD10E31A;
- Wed, 21 Jun 2023 17:50:33 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D6E046167F;
- Wed, 21 Jun 2023 17:50:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF744C433CC;
- Wed, 21 Jun 2023 17:50:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1687369831;
- bh=cIQE0tqYqde1wQS9/IcLrDtGE0ZwQxHO+6tde8cVt4E=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AYva0/5W7t0NxIgVeP53vFnVTqwMOS59neZkd9E2R3q/WoNeHdWpSaEZrCBAgnNvZ
- OZblVRAyPgDiw5WctBsoo9L3Arvz5mqxj7q/DcmLR0zYNJXbXUEhK4nW6hnlL0Kn0K
- EG2tHOVn/uhj4Fgy8ml/PRX+0nixFAdEnAy9IIL8Ej9UeYnn8/cXVNjinfbHefzGrh
- FwmwzO5ItB8xnxbnZgy+N/5CBOVLiqLQUXvXdwWvd/RUOaHknzUqB+5I1T8bCU4cnX
- 4smek8cmnOm6kSHHkKKJui4WQ3aLMV26JdX/MTrOTAtfahzYcKu+6h09EanF26OCHN
- cIjisblPWM5vQ==
-Date: Wed, 21 Jun 2023 13:50:28 -0400
-From: Chuck Lever <cel@kernel.org>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Subject: Re: [PATCH 09/13] net: Convert sunrpc from pagevec to folio_batch
-Message-ID: <ZJM4ZK8cKI4AmOgy@manet.1015granger.net>
-References: <20230621164557.3510324-1-willy@infradead.org>
- <20230621164557.3510324-10-willy@infradead.org>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA32010E32A
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 17:53:42 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1qC21Q-0003sT-J1; Wed, 21 Jun 2023 19:53:36 +0200
+Message-ID: <ba41b807e3af0a1cabb9ba203a401f41254cea1e.camel@pengutronix.de>
+Subject: Re: [PATCH v10 07/11] drm/etnaviv: Add support for the dma coherent
+ device
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Sui Jingfeng <suijingfeng@loongson.cn>, Sui Jingfeng
+ <18949883232@163.com>,  Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 21 Jun 2023 19:53:34 +0200
+In-Reply-To: <02c16e9b-0eca-caf4-b80c-53f1c7eab4e9@loongson.cn>
+References: <20230620094716.2231414-1-18949883232@163.com>
+ <20230620094716.2231414-8-18949883232@163.com>
+ <8f74f0962c8bab6c832919a5340667c54e1a7ddc.camel@pengutronix.de>
+ <2249b895-84b9-adea-531b-bf190e9c866f@loongson.cn>
+ <030d44e2753b9b2eea0107cdee6c20e2bc2d3efe.camel@pengutronix.de>
+ <3911d448-5613-23a8-cfcb-5ae418677338@loongson.cn>
+ <87deb46db35b028da74c94f5496b721e14db4745.camel@pengutronix.de>
+ <02c16e9b-0eca-caf4-b80c-53f1c7eab4e9@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230621164557.3510324-10-willy@infradead.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,84 +57,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- linux-afs@lists.infradead.org
+Cc: Bjorn Helgaas <bhelgaas@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 21, 2023 at 05:45:53PM +0100, Matthew Wilcox (Oracle) wrote:
-> Remove the last usage of pagevecs.  There is a slight change here; we
-> now free the folio_batch as soon as it fills up instead of freeing the
-> folio_batch when we try to add a page to a full batch.  This should have
-> no effect in practice.
-> 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Am Donnerstag, dem 22.06.2023 um 01:31 +0800 schrieb Sui Jingfeng:
+> Hi,
+>=20
+> On 2023/6/22 00:07, Lucas Stach wrote:
+> > And as the HW guarantees it on your platform, your platform
+> > implementation makes this function effectively a no-op. Skipping the
+> > call to this function is breaking the DMA API abstraction, as now the
+> > driver is second guessing the DMA API implementation. I really see no
+> > reason to do this.
+>=20
+> It is the same reason you chose the word 'effectively', not 'difinitely'.
+>=20
+> We don't want waste the CPU's time,
+>=20
+>=20
+>  =C2=A0to running the dma_sync_sg_for_cpu funcion() function
+>=20
+>=20
+> ```
+>=20
+> void dma_sync_sg_for_cpu(struct device *dev, struct scatterlist *sg,
+>  =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 int nelems, enu=
+m dma_data_direction dir)
+> {
+>  =C2=A0=C2=A0 =C2=A0const struct dma_map_ops *ops =3D get_dma_ops(dev);
+>=20
+>  =C2=A0=C2=A0 =C2=A0BUG_ON(!valid_dma_direction(dir));
+>  =C2=A0=C2=A0 =C2=A0if (dma_map_direct(dev, ops))
+>  =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 dma_direct_sync_sg_for_cpu(dev, sg=
+, nelems, dir);
+>  =C2=A0=C2=A0 =C2=A0else if (ops->sync_sg_for_cpu)
+>  =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 ops->sync_sg_for_cpu(dev, sg, nele=
+ms, dir);
+>  =C2=A0=C2=A0 =C2=A0debug_dma_sync_sg_for_cpu(dev, sg, nelems, dir);
+> }
+>=20
+> ```
+>=20
+>=20
+>  =C2=A0to running the this:
+>=20
+>=20
+> ```
+>=20
+> int etnaviv_gem_cpu_fini(struct drm_gem_object *obj)
+> {
+>  =C2=A0=C2=A0 =C2=A0struct drm_device *dev =3D obj->dev;
+>  =C2=A0=C2=A0 =C2=A0struct etnaviv_gem_object *etnaviv_obj =3D to_etnaviv=
+_bo(obj);
+>  =C2=A0=C2=A0 =C2=A0struct etnaviv_drm_private *priv =3D dev->dev_private=
+;
+>=20
+>  =C2=A0=C2=A0 =C2=A0if (!priv->dma_coherent && etnaviv_obj->flags & ETNA_=
+BO_CACHED) {
+>  =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 /* fini without a prep is almost c=
+ertainly a userspace error */
+>  =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 WARN_ON(etnaviv_obj->last_cpu_prep=
+_op =3D=3D 0);
+>  =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 dma_sync_sgtable_for_device(dev->d=
+ev, etnaviv_obj->sgt,
+> etnaviv_op_to_dma_dir(etnaviv_obj->last_cpu_prep_op));
+>  =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 etnaviv_obj->last_cpu_prep_op =3D =
+0;
+>  =C2=A0=C2=A0 =C2=A0}
+>=20
+>  =C2=A0=C2=A0 =C2=A0return 0;
+> }
+>=20
+> ```
+>=20
+My judgment as the maintainer of this driver is that the small CPU
+overhead of calling this function is very well worth it, if the
+alternative is breaking the DMA API abstractions.
 
-I don't yet have visibility into the folio_batch_* helpers, but this
-looks like a wholly mechanical replacement of pagevec. LGTM.
+>=20
+> But, this is acceptable, because we can kill the GEM_CPU_PREP and=20
+> GEM_CPU_FINI ioctl entirely
+>=20
+> at userspace for cached buffer, as this is totally not needed for cached=
+=20
+> mapping on our platform.
+>=20
+And that statement isn't true either. The CPU_PREP/FINI ioctls also
+provide fence synchronization between CPU and GPU. There are a few very
+specific cases where skipping those ioctls is acceptable (mostly when
+the userspace driver explicitly wants unsynchronized access), but in
+most cases they are required for correctness.
 
-I assume this is going to be merged via another tree, not nfsd-next,
-so:
-
-Acked-by: Chuck Lever <chuck.lever@oracle.com>
-
-
-> ---
->  include/linux/sunrpc/svc.h |  2 +-
->  net/sunrpc/svc.c           | 10 +++++-----
->  2 files changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/include/linux/sunrpc/svc.h b/include/linux/sunrpc/svc.h
-> index c2807e301790..f8751118c122 100644
-> --- a/include/linux/sunrpc/svc.h
-> +++ b/include/linux/sunrpc/svc.h
-> @@ -222,7 +222,7 @@ struct svc_rqst {
->  	struct page *		*rq_next_page; /* next reply page to use */
->  	struct page *		*rq_page_end;  /* one past the last page */
->  
-> -	struct pagevec		rq_pvec;
-> +	struct folio_batch	rq_fbatch;
->  	struct kvec		rq_vec[RPCSVC_MAXPAGES]; /* generally useful.. */
->  	struct bio_vec		rq_bvec[RPCSVC_MAXPAGES];
->  
-> diff --git a/net/sunrpc/svc.c b/net/sunrpc/svc.c
-> index e7c101290425..587811a002c9 100644
-> --- a/net/sunrpc/svc.c
-> +++ b/net/sunrpc/svc.c
-> @@ -640,7 +640,7 @@ svc_rqst_alloc(struct svc_serv *serv, struct svc_pool *pool, int node)
->  	if (!rqstp)
->  		return rqstp;
->  
-> -	pagevec_init(&rqstp->rq_pvec);
-> +	folio_batch_init(&rqstp->rq_fbatch);
->  
->  	__set_bit(RQ_BUSY, &rqstp->rq_flags);
->  	rqstp->rq_server = serv;
-> @@ -851,9 +851,9 @@ bool svc_rqst_replace_page(struct svc_rqst *rqstp, struct page *page)
->  	}
->  
->  	if (*rqstp->rq_next_page) {
-> -		if (!pagevec_space(&rqstp->rq_pvec))
-> -			__pagevec_release(&rqstp->rq_pvec);
-> -		pagevec_add(&rqstp->rq_pvec, *rqstp->rq_next_page);
-> +		if (!folio_batch_add(&rqstp->rq_fbatch,
-> +				page_folio(*rqstp->rq_next_page)))
-> +			__folio_batch_release(&rqstp->rq_fbatch);
->  	}
->  
->  	get_page(page);
-> @@ -887,7 +887,7 @@ void svc_rqst_release_pages(struct svc_rqst *rqstp)
->  void
->  svc_rqst_free(struct svc_rqst *rqstp)
->  {
-> -	pagevec_release(&rqstp->rq_pvec);
-> +	folio_batch_release(&rqstp->rq_fbatch);
->  	svc_release_buffer(rqstp);
->  	if (rqstp->rq_scratch_page)
->  		put_page(rqstp->rq_scratch_page);
-> -- 
-> 2.39.2
-> 
+Regards,
+Lucas
