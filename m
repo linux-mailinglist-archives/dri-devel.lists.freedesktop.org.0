@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B535737BF6
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 09:22:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D66EA737BF7
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 09:22:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E280D10E3D4;
-	Wed, 21 Jun 2023 07:22:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6135B10E3D2;
+	Wed, 21 Jun 2023 07:22:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE26810E3D4
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 07:22:09 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-3f9b0f139feso35621075e9.3
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 00:22:09 -0700 (PDT)
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C79E810E3D2
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 07:22:25 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id
+ 5b1f17b1804b1-3f90b8acefdso32879305e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 00:22:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687332128; x=1689924128;
+ d=linaro.org; s=google; t=1687332144; x=1689924144;
  h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
  :to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=+b4GexZhYGtFJ8457FP9Uyc3mQnN692CXOs2Lb8cwgE=;
- b=aa4DKZw2bQK9zS+DjaaGo5gMxSO32Ta7cm5CQh2RCsjj7hGF1y1tbA/iJpqtbb9Boj
- 0TPd6+O//mPvdUgmcs1euxuikN4j8opHMVLsK6l5PrqR8vjlb7bRpiyT7PvGB8wra0MI
- wcUSMrnbJdhqhXlhVvQKeJrKd9kYs4BJLJXzBB+0Q+QSsoS65z+Njd5teoo5vMmVQbKO
- 0Kp6OLBrDJqeTk+j/QbIOIg+HFJA7ZrNzexR3mCJOdAbV8sAAbNVLSr4tzYUwcMSEnYA
- /pWDSiVN22JHOVnJkyIxKdqwLmeYLGCQhD3adetc18073RlU9i2w8FFwSJddurgqTZko
- 6xQQ==
+ bh=6LvoAnY92IhuYKxUcIFqiF0B336ukPa8jJhL/uMvwzE=;
+ b=fqb+Lk5qFDdI8tsOo384wsahnjd07gLKH1f6HgdRNIZpDEu+zO/YTZuQ+XhyUm9pmz
+ 4wK6gc/xZRmxT+Km9H9lXKMZT2or6+NA5NV/jRz9cP6EmBe9LuOdxICsvgPUs2qXU9Uv
+ C5lFzWsrnwKKWtNg0XXySJ/s4z5KGXWz9pXGESAOmufwh5ZplHXxaOjS4oO1KlEXpOy5
+ RmhJ+ZatkFLeblkVSgBQwQc7S81DhxysHCXiI/Cs/wGlRSNMsNUaSRRM4/1YeJmJYQrr
+ 3noxF2mMjzVStM7K7wELhUlk6eCqHCXBXl2RNoiI1v4ZHKChof/0ugZk2t7Ue+bsE2N+
+ 6YIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687332128; x=1689924128;
+ d=1e100.net; s=20221208; t=1687332144; x=1689924144;
  h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
  :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=+b4GexZhYGtFJ8457FP9Uyc3mQnN692CXOs2Lb8cwgE=;
- b=YWF+GhyTEjoy9wOMsydYSfV4SP8y/sWDsd9m+n5R+DX60Zbq710u3VaDQIDN5XK/yy
- bU2xd0aiGkgBSTH3YPsTOObE42LBJ7UrElTGjXQ5ZXOKQIn9QYPhwYXY/TsKU1qB2Unk
- KmUcMQTiHt13vlf6un3+M9YKjuEpYRnUxen8Wy/0kuaLkc8Q9AbKilMrEHwqpYc1iFeJ
- Ndsv5EERDzKXUGDCJFYjOhJs5uMAlbgCmKSOCobMkbO/qHLmpeHEAJs+utf4+cHuoby7
- E+jOycAS5gdIw/7a00QHLQx7hF/3mwdEvoC2m1TsNsF1iOTFHAwYETbpwDoABIj6R6HF
- zzag==
-X-Gm-Message-State: AC+VfDw6JHud9LB1WAvLSvZrojzaDXF/AB+QjphQWoVDEsufG8nlxfmG
- EngM1KuP8tuMu06aClTQepXuEQ==
-X-Google-Smtp-Source: ACHHUZ53CCuxV6ZTQUPnw/p+BKD5sESTMplQpXucrjx+ujYgMjcEMKjr5ub7OUGfbA3GewP+jnCn6Q==
-X-Received: by 2002:a1c:7906:0:b0:3f9:3853:9d6a with SMTP id
- l6-20020a1c7906000000b003f938539d6amr7616012wme.12.1687332128199; 
- Wed, 21 Jun 2023 00:22:08 -0700 (PDT)
+ bh=6LvoAnY92IhuYKxUcIFqiF0B336ukPa8jJhL/uMvwzE=;
+ b=JlsA8BhzWKciWYBpdh4hziND47ym0Rc2hVj8FhQZT9FDFRH5145UXRmc+hiYQcoyHn
+ HI/oIQAhe7XuHrDlSk9EnNO47U+E7HuFCEErbGq1NP9hQnScLzZ0JUtfmMDmbEc0SDmg
+ tkzIGjDFvTDj0Yza2AXpzvpRTfE9m9vvvGuNSAx74h6UG0xAqwESLiUrTogoZJwnpsF2
+ AnPvhOWVEmgVKSS7Z1U/IDkdP8TRFAky3eH6gMGqqUxtEHpy3VL27uaBVGl5CVOl5Xi0
+ Z+9uD7Kl8RC0gqWMHQH42nPPRHjMz5/00NoC74gkuGSewBpCmrYtiukSCyJUoj9Sren8
+ DCtQ==
+X-Gm-Message-State: AC+VfDxQGUjKdA8/up+ytPNHBVTSkGYgAk33Im9RXQq4hof1pczU1j+7
+ k2Pflz8VfXHz/+ee9koKsvY0bw==
+X-Google-Smtp-Source: ACHHUZ4OLioLcbMLtIFKz0PjiB4ajmxMhMKaALqVWaK0zxD//PQ2N3/uhDiKEOVC0pJwRkD5gwXahA==
+X-Received: by 2002:a05:600c:211a:b0:3f6:e59:c04c with SMTP id
+ u26-20020a05600c211a00b003f60e59c04cmr10030649wml.24.1687332143848; 
+ Wed, 21 Jun 2023 00:22:23 -0700 (PDT)
 Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- t20-20020a1c7714000000b003f900678815sm4109190wmi.39.2023.06.21.00.22.06
+ l5-20020a1ced05000000b003f70a7b4537sm15211480wmh.36.2023.06.21.00.22.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jun 2023 00:22:06 -0700 (PDT)
-Date: Wed, 21 Jun 2023 10:22:03 +0300
+ Wed, 21 Jun 2023 00:22:22 -0700 (PDT)
+Date: Wed, 21 Jun 2023 10:22:18 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: [PATCH 3/5] accel/qaic: Add consistent integer overflow checks
-Message-ID: <a914d7ed-f7ef-45b5-9bca-dcc014b700eb@moroto.mountain>
+Subject: [PATCH 4/5] accel/qaic: move and expand integer overflow checks for
+ map_user_pages()
+Message-ID: <435abccc-9251-4c27-9b35-8fdf4bbd2433@moroto.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -80,65 +81,51 @@ Cc: linux-arm-msm@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The encode_dma() function has integer overflow checks.  The
-encode_passthrough(), encode_activate() and encode_status() functions
-did not.  I added integer overflow checking everywhere.  I also
-updated the integer overflow checking in encode_dma() to use size_add()
-so everything is consistent.
+The integer overflow checking for find_and_map_user_pages() was done in
+encode_dma().  Presumably this was to do it before the allocation.  But
+it's not super important that the failure path is a fast path and it
+hurts readability to put the check so far from the where the variable is
+used.
+
+Move the check to find_and_map_user_pages() instead and add some more
+additional potential integer overflow checks.
 
 Fixes: 129776ac2e38 ("accel/qaic: Add control path")
 Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
- drivers/accel/qaic/qaic_control.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+I kind of went to town adding integer overflow checks here.  Please,
+review this extra carefully.
+
+ drivers/accel/qaic/qaic_control.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/accel/qaic/qaic_control.c b/drivers/accel/qaic/qaic_control.c
-index 78f6c3d6380d..96a26539df18 100644
+index 96a26539df18..03932197f1ac 100644
 --- a/drivers/accel/qaic/qaic_control.c
 +++ b/drivers/accel/qaic/qaic_control.c
-@@ -366,7 +366,7 @@ static int encode_passthrough(struct qaic_device *qdev, void *trans, struct wrap
- 	if (in_trans->hdr.len % 8 != 0)
- 		return -EINVAL;
+@@ -401,6 +401,12 @@ static int find_and_map_user_pages(struct qaic_device *qdev,
  
--	if (msg_hdr_len + in_trans->hdr.len > QAIC_MANAGE_EXT_MSG_LENGTH)
-+	if (size_add(msg_hdr_len, in_trans->hdr.len) > QAIC_MANAGE_EXT_MSG_LENGTH)
- 		return -ENOSPC;
+ 	xfer_start_addr = in_trans->addr + resources->xferred_dma_size;
  
- 	trans_wrapper = add_wrapper(wrappers,
-@@ -557,12 +557,10 @@ static int encode_dma(struct qaic_device *qdev, void *trans, struct wrapper_list
- 	msg = &wrapper->msg;
- 	msg_hdr_len = le32_to_cpu(msg->hdr.len);
++	if (in_trans->size == 0 ||
++	    in_trans->addr + in_trans->size < in_trans->addr ||
++	    in_trans->addr + resources->xferred_dma_size < in_trans->addr ||
++	    in_trans->size + offset_in_page(xfer_start_addr) < resources->xferred_dma_size)
++		return -EINVAL;
++
+ 	need_pages = DIV_ROUND_UP(in_trans->size + offset_in_page(xfer_start_addr) -
+ 				  resources->xferred_dma_size, PAGE_SIZE);
  
--	if (msg_hdr_len > (UINT_MAX - QAIC_MANAGE_EXT_MSG_LENGTH))
--		return -EINVAL;
--
- 	/* There should be enough space to hold at least one ASP entry. */
--	if (msg_hdr_len + sizeof(*out_trans) + sizeof(struct wire_addr_size_pair) >
--	    QAIC_MANAGE_EXT_MSG_LENGTH)
-+	if (size_add(msg_hdr_len,
-+		     sizeof(*out_trans) + sizeof(struct wire_addr_size_pair)) >
-+		     QAIC_MANAGE_EXT_MSG_LENGTH)
+@@ -563,9 +569,6 @@ static int encode_dma(struct qaic_device *qdev, void *trans, struct wrapper_list
+ 		     QAIC_MANAGE_EXT_MSG_LENGTH)
  		return -ENOMEM;
  
- 	if (in_trans->addr + in_trans->size < in_trans->addr || !in_trans->size)
-@@ -634,7 +632,7 @@ static int encode_activate(struct qaic_device *qdev, void *trans, struct wrapper
- 	msg = &wrapper->msg;
- 	msg_hdr_len = le32_to_cpu(msg->hdr.len);
- 
--	if (msg_hdr_len + sizeof(*out_trans) > QAIC_MANAGE_MAX_MSG_LENGTH)
-+	if (size_add(msg_hdr_len, sizeof(*out_trans)) > QAIC_MANAGE_MAX_MSG_LENGTH)
- 		return -ENOSPC;
- 
- 	if (!in_trans->queue_size)
-@@ -718,7 +716,7 @@ static int encode_status(struct qaic_device *qdev, void *trans, struct wrapper_l
- 	msg = &wrapper->msg;
- 	msg_hdr_len = le32_to_cpu(msg->hdr.len);
- 
--	if (msg_hdr_len + in_trans->hdr.len > QAIC_MANAGE_MAX_MSG_LENGTH)
-+	if (size_add(msg_hdr_len, in_trans->hdr.len) > QAIC_MANAGE_MAX_MSG_LENGTH)
- 		return -ENOSPC;
- 
- 	trans_wrapper = add_wrapper(wrappers, sizeof(*trans_wrapper));
+-	if (in_trans->addr + in_trans->size < in_trans->addr || !in_trans->size)
+-		return -EINVAL;
+-
+ 	xfer = kmalloc(sizeof(*xfer), GFP_KERNEL);
+ 	if (!xfer)
+ 		return -ENOMEM;
 -- 
 2.39.2
 
