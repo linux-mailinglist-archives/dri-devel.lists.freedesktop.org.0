@@ -1,66 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 384EF737F81
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 12:23:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E8F3737F84
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 12:23:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAF0910E439;
-	Wed, 21 Jun 2023 10:23:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED7928979D;
+	Wed, 21 Jun 2023 10:23:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC68B10E437
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 10:22:55 +0000 (UTC)
-X-UUID: 934e3a76101d11eeb20a276fd37b9834-20230621
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=O41vH197D70VxUCGc542DtkWLu+f4yy1eaxFkwgJq5M=; 
- b=RkhAAg5upKuD+6B7QXInfHvpNAbXOSVNzW3QWnHGBYHXVbxvaSb7X643DMv+8KfH4Rzw2IMhAiucyaabrr6bKADkz41MDIWXh0OxmXOqwj1uZ3ZFoQtzWbJT04cPNsULEeNybZ4s7JNNrtx+1auon98mTS6S/+x6dolBgnmcdck=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.27, REQID:47b61bcd-d37c-47cd-bf32-6b9a50b27c0e, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:95
-X-CID-INFO: VERSION:1.1.27, REQID:47b61bcd-d37c-47cd-bf32-6b9a50b27c0e, IP:0,
- URL
- :0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTION
- :quarantine,TS:95
-X-CID-META: VersionHash:01c9525, CLOUDID:2345c96f-2f20-4998-991c-3b78627e4938,
- B
- ulkID:230621182251WOADT3BY,BulkQuantity:0,Recheck:0,SF:38|29|28|17|19|48,T
- C:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
- ,OSI:0,OSA:0,AV:0,LES:1,SPR:NO
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_FAS, TF_CID_SPAM_FSD, TF_CID_SPAM_SNR,
- TF_CID_SPAM_SDM, TF_CID_SPAM_ASC
-X-UUID: 934e3a76101d11eeb20a276fd37b9834-20230621
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 620558578; Wed, 21 Jun 2023 18:22:50 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 21 Jun 2023 18:22:49 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Wed, 21 Jun 2023 18:22:49 +0800
-From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Alexandre Mergnat
- <amergnat@baylibre.com>
-Subject: [PATCH v3 4/4] drm/mediatek: Fix dereference before null check
-Date: Wed, 21 Jun 2023 18:22:47 +0800
-Message-ID: <20230621102247.10116-5-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20230621102247.10116-1-jason-jh.lin@mediatek.com>
-References: <20230621102247.10116-1-jason-jh.lin@mediatek.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 688858979D
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 10:23:45 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1qBuzx-0005ua-T0; Wed, 21 Jun 2023 12:23:37 +0200
+Message-ID: <6d287bbb1733814009dfeb7d48f08cb6f44dc56c.camel@pengutronix.de>
+Subject: Re: [PATCH v10 03/11] drm/etnaviv: Add dedicated functions to
+ create and destroy platform device
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Sui Jingfeng <suijingfeng@loongson.cn>, Sui Jingfeng
+ <18949883232@163.com>,  Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 21 Jun 2023 12:23:35 +0200
+In-Reply-To: <1c7596fd-7e63-6719-2574-7d7820687832@loongson.cn>
+References: <20230620094716.2231414-1-18949883232@163.com>
+ <20230620094716.2231414-4-18949883232@163.com>
+ <0daa7182d6600a24988d1c81cf8fe3c0c9487f52.camel@pengutronix.de>
+ <1c7596fd-7e63-6719-2574-7d7820687832@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,47 +53,189 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- Johnson Wang <johnson.wang@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Bjorn Helgaas <bhelgaas@google.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, etnaviv@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Null-checking state suggests that it may be null, but it has already
-been dereferenced on drm_atomic_get_new_plane_state(state, plane).
-
-The parameter state will never be NULL currently, so just remove the
-state is NULL flow in this function.
-
-Fixes: 5ddb0bd4ddc3 ("drm/atomic: Pass the full state to planes async atomic check and update")
-Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Am Mittwoch, dem 21.06.2023 um 17:49 +0800 schrieb Sui Jingfeng:
+> Hi
+>=20
+> On 2023/6/21 17:15, Lucas Stach wrote:
+> > Am Dienstag, dem 20.06.2023 um 17:47 +0800 schrieb Sui Jingfeng:
+> > > From: Sui Jingfeng <suijingfeng@loongson.cn>
+> > >=20
+> > > Also rename the virtual master platform device as etnaviv_platform_de=
+vice,
+> > > for better reflection that it is a platform device, not a DRM device.
+> > >=20
+> > > Another benefit is that we no longer need to call of_node_put() for t=
+hree
+> > > different cases, Instead, we only need to call it once.
+> > >=20
+> > > Cc: Lucas Stach <l.stach@pengutronix.de>
+> > > Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+> > > Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> > > Cc: Bjorn Helgaas <bhelgaas@google.com>
+> > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> > > ---
+> > >   drivers/gpu/drm/etnaviv/etnaviv_drv.c | 56 +++++++++++++++++++-----=
 ---
- drivers/gpu/drm/mediatek/mtk_drm_plane.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+> > >   1 file changed, 39 insertions(+), 17 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/=
+etnaviv/etnaviv_drv.c
+> > > index 31a7f59ccb49..cec005035d0e 100644
+> > > --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> > > @@ -656,12 +656,44 @@ static struct platform_driver etnaviv_platform_=
+driver =3D {
+> > >   	},
+> > >   };
+> > >  =20
+> > > -static struct platform_device *etnaviv_drm;
+> > > +static struct platform_device *etnaviv_platform_device;
+> > >  =20
+> > > -static int __init etnaviv_init(void)
+> > > +static int etnaviv_create_platform_device(const char *name,
+> > > +					  struct platform_device **ppdev)
+> > As the platform device is a global static variable, there is no need to
+> > push it through the parameters of this function. Just use the global
+> > variable directly in this function.
+>=20
+> A function reference a global static variable is *NOT* a *pure* fucntion,
+>=20
+That's right, but all you do with those indirections through the
+parameter list is move which of the functions is non-pure, in your case
+it's etnaviv_init/etnaviv_exit, with the indirection dropped it's
+etnaviv_create_platform_device/etnaviv_destroy_platform_device.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-index 1cd41454d545..4828ffa75467 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-@@ -122,11 +122,7 @@ static int mtk_plane_atomic_async_check(struct drm_plane *plane,
- 	if (ret)
- 		return ret;
- 
--	if (state)
--		crtc_state = drm_atomic_get_existing_crtc_state(state,
--								new_plane_state->crtc);
--	else /* Special case for asynchronous cursor updates. */
--		crtc_state = new_plane_state->crtc->state;
-+	crtc_state = drm_atomic_get_existing_crtc_state(state, new_plane_state->crtc);
- 
- 	return drm_atomic_helper_check_plane_state(plane->state, crtc_state,
- 						   DRM_PLANE_NO_SCALING,
--- 
-2.18.0
+> it degenerate as a procedure,
+>=20
+>=20
+> The function is perfect in the sense that it does not reference any=20
+> global variable.
+>=20
+>=20
+> etnaviv_create_platform_device() is NOT intended to used by one function,
+>=20
+> a specific purpose only, but when create this function, I want to create =
+other
+>=20
+> platform device with this function.
+>=20
+> Say, You want to create a dummy platform device, targeting to bind to the=
+ real master
+>=20
+> (the single GPU core) . To verify the idea that we choose the first 3D gp=
+u core as master,
+>=20
+> other 2D or VG gpu core is not as important as the 3D one.
+>=20
+> The should bind to the 3D GPU core (master).
+>=20
+Sorry, I'm not following what you are trying to tell me here. Could you
+please rephrase?
+
+>=20
+> While back to the question you ask, I want etnaviv_create_platform_device=
+() to be generic,
+>=20
+> can be used by multiple place for multiple purpose.
+>=20
+> I have successfully copy this to a another drm driver by simply renaming.
+>=20
+> The body of the function itself does not need to change.
+
+But it isn't shared, in this compilation unit this function is specific
+to the etnaviv driver and I don't see why we shouldn't have etnaviv
+specifics in there if it makes the code of this driver easier to
+follow.
+
+Regards,
+Lucas
+
+>=20
+> > >   {
+> > >   	struct platform_device *pdev;
+> > >   	int ret;
+> > > +
+> > > +	pdev =3D platform_device_alloc(name, PLATFORM_DEVID_NONE);
+> > > +	if (!pdev)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	ret =3D platform_device_add(pdev);
+> > > +	if (ret) {
+> > > +		platform_device_put(pdev);
+> > > +		return ret;
+> > > +	}
+> > > +
+> > > +	*ppdev =3D pdev;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static void etnaviv_destroy_platform_device(struct platform_device *=
+*ppdev)
+> > > +{
+> > > +	struct platform_device *pdev =3D *ppdev;
+> > Same here, just use the global variable directly.
+> >=20
+> > Regards,
+> > Lucas
+> >=20
+> > > +
+> > > +	if (!pdev)
+> > > +		return;
+> > > +
+> > > +	platform_device_unregister(pdev);
+> > > +
+> > > +	*ppdev =3D NULL;
+> > > +}
+> > > +
+> > > +static int __init etnaviv_init(void)
+> > > +{
+> > > +	int ret;
+> > >   	struct device_node *np;
+> > >  =20
+> > >   	etnaviv_validate_init();
+> > > @@ -681,23 +713,13 @@ static int __init etnaviv_init(void)
+> > >   	for_each_compatible_node(np, NULL, "vivante,gc") {
+> > >   		if (!of_device_is_available(np))
+> > >   			continue;
+> > > +		of_node_put(np);
+> > >  =20
+> > > -		pdev =3D platform_device_alloc("etnaviv", PLATFORM_DEVID_NONE);
+> > > -		if (!pdev) {
+> > > -			ret =3D -ENOMEM;
+> > > -			of_node_put(np);
+> > > -			goto unregister_platform_driver;
+> > > -		}
+> > > -
+> > > -		ret =3D platform_device_add(pdev);
+> > > -		if (ret) {
+> > > -			platform_device_put(pdev);
+> > > -			of_node_put(np);
+> > > +		ret =3D etnaviv_create_platform_device("etnaviv",
+> > > +						     &etnaviv_platform_device);
+> > > +		if (ret)
+> > >   			goto unregister_platform_driver;
+> > > -		}
+> > >  =20
+> > > -		etnaviv_drm =3D pdev;
+> > > -		of_node_put(np);
+> > >   		break;
+> > >   	}
+> > >  =20
+> > > @@ -713,7 +735,7 @@ module_init(etnaviv_init);
+> > >  =20
+> > >   static void __exit etnaviv_exit(void)
+> > >   {
+> > > -	platform_device_unregister(etnaviv_drm);
+> > > +	etnaviv_destroy_platform_device(&etnaviv_platform_device);
+> > >   	platform_driver_unregister(&etnaviv_platform_driver);
+> > >   	platform_driver_unregister(&etnaviv_gpu_driver);
+> > >   }
+>=20
 
