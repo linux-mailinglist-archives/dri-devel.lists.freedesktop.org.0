@@ -1,42 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4539E738A70
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 18:07:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB607738A76
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 18:07:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F57710E102;
-	Wed, 21 Jun 2023 16:07:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0271C10E16C;
+	Wed, 21 Jun 2023 16:07:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1824 seconds by postgrey-1.36 at gabe;
- Wed, 21 Jun 2023 16:07:26 UTC
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0270C10E102;
- Wed, 21 Jun 2023 16:07:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
- s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
- Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
- Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
- bh=UNTcJ7CGT1Lez3ibsb1q0hENK9CgDCucVIYKxGl3TOA=; b=kX5Xr6VI87reS7/GA49etmzzJa
- 8UkZZawMQsboaJaBH0eNpIzk1bR3EcbBbU0KF6jAsbQhofPO8pHw+ovgkoxLGGJjfHxE1vVFC+buE
- dyHRIxHy1ZMVaryyek2UvdEHqUuLiwmWXnN8UhABnjwmxx9ilAZZaPSduE0A55vaKMZ8=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
- (envelope-from <andrew@lunn.ch>)
- id 1qBzsX-00H9mp-GK; Wed, 21 Jun 2023 17:36:17 +0200
-Date: Wed, 21 Jun 2023 17:36:17 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Evan Quan <evan.quan@amd.com>
-Subject: Re: [PATCH V4 1/8] drivers/acpi: Add support for Wifi band RF
- mitigations
-Message-ID: <3a7c8ffa-de43-4795-ae76-5cd9b00c52b5@lunn.ch>
-References: <20230621054603.1262299-1-evan.quan@amd.com>
- <20230621054603.1262299-2-evan.quan@amd.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EE7310E16C
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 16:07:45 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1qC0Mr-0006r6-MP; Wed, 21 Jun 2023 18:07:37 +0200
+Message-ID: <87deb46db35b028da74c94f5496b721e14db4745.camel@pengutronix.de>
+Subject: Re: [PATCH v10 07/11] drm/etnaviv: Add support for the dma coherent
+ device
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Sui Jingfeng <suijingfeng@loongson.cn>, Sui Jingfeng
+ <18949883232@163.com>,  Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 21 Jun 2023 18:07:36 +0200
+In-Reply-To: <3911d448-5613-23a8-cfcb-5ae418677338@loongson.cn>
+References: <20230620094716.2231414-1-18949883232@163.com>
+ <20230620094716.2231414-8-18949883232@163.com>
+ <8f74f0962c8bab6c832919a5340667c54e1a7ddc.camel@pengutronix.de>
+ <2249b895-84b9-adea-531b-bf190e9c866f@loongson.cn>
+ <030d44e2753b9b2eea0107cdee6c20e2bc2d3efe.camel@pengutronix.de>
+ <3911d448-5613-23a8-cfcb-5ae418677338@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230621054603.1262299-2-evan.quan@amd.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,55 +55,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jingyuwang_vip@163.com, bellosilicio@gmail.com, rafael@kernel.org,
- trix@redhat.com, lijo.lazar@amd.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, mdaenzer@redhat.com, mario.limonciello@amd.com,
- amd-gfx@lists.freedesktop.org, linux-acpi@vger.kernel.org, kuba@kernel.org,
- pabeni@redhat.com, lenb@kernel.org, andrealmeid@igalia.com, arnd@arndb.de,
- hdegoede@redhat.com, netdev@vger.kernel.org, Xinhui.Pan@amd.com,
- linux-wireless@vger.kernel.org, edumazet@google.com, christian.koenig@amd.com,
- tzimmermann@suse.de, alexander.deucher@amd.com, johannes@sipsolutions.net,
- davem@davemloft.net
+Cc: Bjorn Helgaas <bhelgaas@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 21, 2023 at 01:45:56PM +0800, Evan Quan wrote:
-> From: Mario Limonciello <mario.limonciello@amd.com>
-> 
-> Due to electrical and mechanical constraints in certain platform designs
-> there may be likely interference of relatively high-powered harmonics of
-> the (G-)DDR memory clocks with local radio module frequency bands used
-> by Wifi 6/6e/7.
-> 
-> To mitigate this, AMD has introduced an ACPI based mechanism that
-> devices can use to notify active use of particular frequencies so
-> that devices can make relative internal adjustments as necessary
-> to avoid this resonance.
+Am Mittwoch, dem 21.06.2023 um 23:54 +0800 schrieb Sui Jingfeng:
+> Hi,
+>=20
+> On 2023/6/21 23:33, Lucas Stach wrote:
+> > Am Mittwoch, dem 21.06.2023 um 23:00 +0800 schrieb Sui Jingfeng:
+> > > On 2023/6/21 18:00, Lucas Stach wrote:
+> > > > >    static inline enum dma_data_direction etnaviv_op_to_dma_dir(u3=
+2 op)
+> > > > > @@ -369,6 +381,7 @@ int etnaviv_gem_cpu_prep(struct drm_gem_objec=
+t *obj, u32 op,
+> > > > >    {
+> > > > >    	struct etnaviv_gem_object *etnaviv_obj =3D to_etnaviv_bo(obj)=
+;
+> > > > >    	struct drm_device *dev =3D obj->dev;
+> > > > > +	struct etnaviv_drm_private *priv =3D dev->dev_private;
+> > > > >    	bool write =3D !!(op & ETNA_PREP_WRITE);
+> > > > >    	int ret;
+> > > > >   =20
+> > > > > @@ -395,7 +408,7 @@ int etnaviv_gem_cpu_prep(struct drm_gem_objec=
+t *obj, u32 op,
+> > > > >    			return ret =3D=3D 0 ? -ETIMEDOUT : ret;
+> > > > >    	}
+> > > > >   =20
+> > > > > -	if (etnaviv_obj->flags & ETNA_BO_CACHED) {
+> > > > > +	if (!priv->dma_coherent && etnaviv_obj->flags & ETNA_BO_CACHED)=
+ {
+> > > > Why do you need this? Isn't dma_sync_sgtable_for_cpu a no-op on you=
+r
+> > > > platform when the device is coherent?
+> > > >=20
+> > > I need this to show that our hardware is truly dma-coherent!
+> > >=20
+> > > I have tested that the driver still works like a charm without adding
+> > > this code '!priv->dma_coherent'.
+> > >=20
+> > >=20
+> > > But I'm expressing the idea that a truly dma-coherent just device don=
+'t
+> > > need this.
+> > >=20
+> > > I don't care if it is a no-op.
+> > >=20
+> > > It is now, it may not in the future.
+> > And that's exactly the point. If it ever turns into something more than
+> > a no-op on your platform, then that's probably for a good reason and a
+> > driver should not assume that it knows better than the DMA API
+> > implementation what is or is not required on a specific platform to
+> > make DMA work.
+> >=20
+> > > Even it is, the overhead of function call itself still get involved.
+> > >=20
+> > cpu_prep/fini aren't total fast paths, you already synchronized with
+> > the GPU here, potentially waiting for jobs to finish, etc. If your
+> > platform no-ops this then the function call will be in the noise.
+> >  =20
+> > > Also, we want to try flush the write buffer with the CPU manually.
+> > >=20
+> > >=20
+> > > Currently, we want the absolute correctness in the concept,
+> > >=20
+> > > not only the rendering results.
+> > And if you want absolute correctness then calling dma_sync_sgtable_* is
+> > the right thing to do, as it can do much more than just manage caches.
+>=20
+> For our hardware, cached mapping don't need calling dma_sync_sgtable_*.
+>=20
+> This is the the right thing to do. The hardware already guarantee it for=
+=20
+> use.
+>=20
+And as the HW guarantees it on your platform, your platform
+implementation makes this function effectively a no-op. Skipping the
+call to this function is breaking the DMA API abstraction, as now the
+driver is second guessing the DMA API implementation. I really see no
+reason to do this.
 
-Do only ACPI based systems have:
+>=20
+> We may only want to call it for WC mapping BO,=C2=A0 please don't tangle =
+all=20
+> of this together.
+>=20
+> We simply want to do the right thing.
+>=20
+> > Right now it also provides SWIOTLB translation if needed.
+>=20
+> SWIOTLB introduce the bounce buffer, slower the performance.
+>=20
+> We don't need it. It should be avoid.
 
-   interference of relatively high-powered harmonics of the (G-)DDR
-   memory clocks with local radio module frequency bands used by
-   Wifi 6/6e/7."
+Sure. If your platform doesn't need it, that's totally fine. But you
+can't guarantee that all platforms with coherent Vivante GPUs don't
+need this. If it isn't needed the DMA API implementation will skip it
+just fine at almost no cost, so the driver really shouldn't try to be
+more clever than the platform DMA API implementation.
 
-Could Device Tree based systems not experience this problem?
-
-> +/**
-> + * APIs needed by drivers/subsystems for contributing frequencies:
-> + * During probe, check `wbrf_supported_producer` to see if WBRF is supported.
-> + * If adding frequencies, then call `wbrf_add_exclusion` with the
-> + * start and end points specified for the frequency ranges added.
-> + * If removing frequencies, then call `wbrf_remove_exclusion` with
-> + * start and end points specified for the frequency ranges added.
-> + */
-> +bool wbrf_supported_producer(struct acpi_device *adev);
-> +int wbrf_add_exclusion(struct acpi_device *adev,
-> +		       struct wbrf_ranges_in *in);
-> +int wbrf_remove_exclusion(struct acpi_device *adev,
-> +			  struct wbrf_ranges_in *in);
-
-Could struct device be used here, to make the API agnostic to where
-the information is coming from? That would then allow somebody in the
-future to implement a device tree based information provider.
-
-       Andrew
+Regards,
+Lucas
