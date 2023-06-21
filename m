@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC6C4737BF4
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 09:21:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5032C737BF5
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jun 2023 09:21:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98A1610E3D3;
-	Wed, 21 Jun 2023 07:21:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CF6D10E3D5;
+	Wed, 21 Jun 2023 07:21:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E64B810E3D2
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 07:21:38 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id
- ffacd0b85a97d-311183ef595so5486321f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 00:21:38 -0700 (PDT)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6132010E3D5
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 07:21:54 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id
+ 2adb3069b0e04-4f870247d6aso4572206e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jun 2023 00:21:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687332097; x=1689924097;
+ d=linaro.org; s=google; t=1687332112; x=1689924112;
  h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
  :to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=W89qn4/C8LoZMhk8A7/gIp60EbovNS/dN8Aiz2Yljxw=;
- b=gwX3I3y3JXGrO1fvvhPpZ2E3xlM4/joWTGZoQufhuS1+pPp2RUQ/kSFoMiwJJnceDX
- uiwyIYTj/8dw1EADck2P0Wv78wiXl2JCfd8UaAb3Sb6Bw5KnCIAJmGkEoTuzRe4itxbn
- ZuzrG3JukXgGl5rjPqtosS/XigPt+G+VA4r5yAygLs78F+y2V5a5d6B/P+HmFO+IBO6O
- nHjNb24iEOUUTwZffHQtqmecPCypsQesaFCIXjn96Hdu39OgqWvhWSK/GcLTVAsbCUAY
- i7bYMSjrKg7UwaxtwcCas54se3kJaakK4Qt6xEDoEiZ1i4Ljit5uxdEfnjeHlFH0qyHG
- dB4Q==
+ bh=CZmvVILTRUYuuna4kyNwmHz+05y6e9HA767/dDY6Eos=;
+ b=j4sioODyzUl2U16EBi+muzNb7LYcgJA6zqvzuGHn+vI7biXRHaBxjp/KvIY5JGYSg1
+ V93xDmp5YKIUTvcxnsVUhGgG0O8B3tYnuy4qH3/FXPcYRdlT1lSZgsmssFhLpTwE84Ok
+ WBAibyM4ulyOyRGMKglLCtJvNULodeek/M1GGq/CWvA1s0O1qezOrquDPGL5ifyeiqoD
+ oLP+RFptBUgGSCZWhn6n/s9zBPo1as5FzLKJjepV0GpHUwx7IX9RYvV8QU2zY/IraA5X
+ +RB3O+kMVFcbpy9ptWU4cpYRPtBNhzlg/U2+sKbhDxNhwYmFSaXzh0VkNQIBp92AulL8
+ tDyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687332097; x=1689924097;
+ d=1e100.net; s=20221208; t=1687332112; x=1689924112;
  h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
  :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=W89qn4/C8LoZMhk8A7/gIp60EbovNS/dN8Aiz2Yljxw=;
- b=IUMQCATE0evr+mLAPfgJWjDNXg1wH45amLcmM2skkDYLWaO3xOIali2Ffwj8rW++4Z
- lV9Tr2iY+LBDCN08djVQzWklucq+EXKH5UvUgbKDJpvK5cYZlKR4+JmVoF7uEfipLjgk
- bAt8lN6MlnOzEYv8BZ+RvWE64PQY30Kdbm5YC9BGRWCaumhcAurz5eIlsz0r1i7Mtp8N
- nodJ/KH12tfFy9boLDgvHHDZdMX2SeaWBkwzF8wvYswWuYwgcyj/tBCsbkvjOWTaOjqt
- WEvM4bUC+glMsDVHqvfCLWX7cXNJQYSMRYULx1WnLrEi1o6Q9ONYiIutM7BCuc1nbL3y
- Oo0g==
-X-Gm-Message-State: AC+VfDzkEiVALpES3H/sMpeM+k1aQtqRmyhs6bR3qRitVVB1TsNj6iOw
- 3oQrbWXfdPqlWnEaNFrKhtSCrg==
-X-Google-Smtp-Source: ACHHUZ60HKjNzSz8LdbwOSE2Cw7gl9ezizd0yDDWDAe3HI8NT9eurE9ffYF6AYJtLl+48w22r4UjUw==
-X-Received: by 2002:a5d:63c5:0:b0:30f:cf93:4bb8 with SMTP id
- c5-20020a5d63c5000000b0030fcf934bb8mr10906719wrw.57.1687332096781; 
- Wed, 21 Jun 2023 00:21:36 -0700 (PDT)
+ bh=CZmvVILTRUYuuna4kyNwmHz+05y6e9HA767/dDY6Eos=;
+ b=IJnZ09Kap6EBvgolW0u5G6sVnAs3AEjZkqvF+m2+JGlmyPxTskrJncFmIY3gf1+tL+
+ 3fPHwowDzZHaQC57UqZES8NB0p1c7gxHcjE5ROiodcQog6oio92bkOYMFmTm+fRMaHmo
+ p74kCG9pfRJcIvfC1GCHqZCxBRh5MM8ZARejMM5qZ0EC7kLmyMC0EofxoV1/p3tBxLU+
+ FMao60HqkEYcyDLiS/iOD7HVBesHYikqMHAYcotojc5EKT1amwQNxF9hKf+TdggGVdqK
+ GNBigQAFW7fugBXvp/Imyn60GdPZ9bTOuYOXS15ZKrPjNOCU3yXSLZpzOTPlH16+RTM+
+ Hx9Q==
+X-Gm-Message-State: AC+VfDxSerztAsqKy2tciAvwMu4lV/vG/kuiWg0hEDg0eYJCR+69WENW
+ dG9r7yyNxgAv8tlsNjPbHaulDQ==
+X-Google-Smtp-Source: ACHHUZ5i3hbZ+EY2u3cWMm7/VxqrPuRBkipz14YmZjC2dPxHjO1DIo3PL18tiL8tunWtmNyDMhgh3g==
+X-Received: by 2002:a19:5f4f:0:b0:4f9:5718:70b0 with SMTP id
+ a15-20020a195f4f000000b004f9571870b0mr1039020lfj.41.1687332112158; 
+ Wed, 21 Jun 2023 00:21:52 -0700 (PDT)
 Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- f12-20020a5d58ec000000b00309382eb047sm3626326wrd.112.2023.06.21.00.21.34
+ j10-20020a5d604a000000b0031272fced4dsm3671556wrt.52.2023.06.21.00.21.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jun 2023 00:21:35 -0700 (PDT)
-Date: Wed, 21 Jun 2023 10:21:31 +0300
+ Wed, 21 Jun 2023 00:21:50 -0700 (PDT)
+Date: Wed, 21 Jun 2023 10:21:47 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: [PATCH 1/5] accel/qaic: tighten bounds checking in encode_message()
-Message-ID: <8dc35a68-7257-41ac-9057-7c89b9ad6e18@moroto.mountain>
+Subject: [PATCH 2/5] accel/qaic: tighten bounds checking in decode_message()
+Message-ID: <e94567c5-0478-4bdf-84fc-5709df0b3392@moroto.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -74,81 +74,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: linux-arm-msm@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
  kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
  Carl Vanderlip <quic_carlv@quicinc.com>,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are several issues in this code.  The check at the start of the
-loop:
+Copy the bounds checking from encode_message() to decode_message().
 
-	if (user_len >= user_msg->len) {
+This patch addresses the following concerns.  Ensure that there is
+enough space for at least one header so that we don't have a negative
+size later.
 
-This check does not ensure that we have enough space for the trans_hdr
-(8 bytes).  Instead the check needs to be:
+	if (msg_hdr_len < sizeof(*trans_hdr))
 
-	if (user_len >= user_msg->len - sizeof(*trans_hdr)) {
+Ensure that we have enough space to read the next header from the
+msg->data.
 
-That subtraction is done as an unsigned long we want to avoid
-negatives.  Add a lower bound to the start of the function.
+	if (msg_len >= msg_hdr_len - sizeof(*trans_hdr))
+		return -EINVAL;
 
-	if (user_msg->len < sizeof(*trans_hdr))
+Check that the trans_hdr->len is not below the minimum size:
 
-There is a second integer underflow which can happen if
-trans_hdr->len is zero inside the encode_passthrough() function.
+	if (hdr_len < sizeof(*trans_hdr))
 
-	memcpy(out_trans->data, in_trans->data, in_trans->hdr.len - sizeof(in_trans->hdr));
+This minimum check ensures that we don't corrupt memory in
+decode_passthrough() when we do.
 
-Instead of adding a check to encode_passthrough() it's better to check
-in this central place.  Add that check:
+	memcpy(out_trans->data, in_trans->data, len - sizeof(in_trans->hdr));
 
-	if (trans_hdr->len < sizeof(trans_hdr)
+And finally, use size_add() to prevent an integer overflow:
 
-The final concern is that the "user_len + trans_hdr->len" might have an
-integer overflow bug.  Use size_add() to prevent that.
-
--	if (user_len + trans_hdr->len > user_msg->len) {
-+	if (size_add(user_len, trans_hdr->len) > user_msg->len) {
+	if (size_add(msg_len, hdr_len) > msg_hdr_len)
 
 Fixes: 129776ac2e38 ("accel/qaic: Add control path")
 Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
-This is based on code review and not tested.
-
- drivers/accel/qaic/qaic_control.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/accel/qaic/qaic_control.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/accel/qaic/qaic_control.c b/drivers/accel/qaic/qaic_control.c
-index 5c57f7b4494e..a51b1594dcfa 100644
+index a51b1594dcfa..78f6c3d6380d 100644
 --- a/drivers/accel/qaic/qaic_control.c
 +++ b/drivers/accel/qaic/qaic_control.c
-@@ -748,7 +748,8 @@ static int encode_message(struct qaic_device *qdev, struct manage_msg *user_msg,
+@@ -955,15 +955,23 @@ static int decode_message(struct qaic_device *qdev, struct manage_msg *user_msg,
  	int ret;
  	int i;
  
--	if (!user_msg->count) {
-+	if (!user_msg->count ||
-+	    user_msg->len < sizeof(*trans_hdr)) {
- 		ret = -EINVAL;
- 		goto out;
- 	}
-@@ -765,12 +766,13 @@ static int encode_message(struct qaic_device *qdev, struct manage_msg *user_msg,
- 	}
+-	if (msg_hdr_len > QAIC_MANAGE_MAX_MSG_LENGTH)
++	if (msg_hdr_len < sizeof(*trans_hdr) ||
++	    msg_hdr_len > QAIC_MANAGE_MAX_MSG_LENGTH)
+ 		return -EINVAL;
+ 
+ 	user_msg->len = 0;
+ 	user_msg->count = le32_to_cpu(msg->hdr.count);
  
  	for (i = 0; i < user_msg->count; ++i) {
--		if (user_len >= user_msg->len) {
-+		if (user_len >= user_msg->len - sizeof(*trans_hdr)) {
- 			ret = -EINVAL;
- 			break;
- 		}
- 		trans_hdr = (struct qaic_manage_trans_hdr *)(user_msg->data + user_len);
--		if (user_len + trans_hdr->len > user_msg->len) {
-+		if (trans_hdr->len < sizeof(trans_hdr) ||
-+		    size_add(user_len, trans_hdr->len) > user_msg->len) {
- 			ret = -EINVAL;
- 			break;
- 		}
++		u32 hdr_len;
++
++		if (msg_len >= msg_hdr_len - sizeof(*trans_hdr))
++			return -EINVAL;
++
+ 		trans_hdr = (struct wire_trans_hdr *)(msg->data + msg_len);
+-		if (msg_len + le32_to_cpu(trans_hdr->len) > msg_hdr_len)
++		hdr_len = le32_to_cpu(trans_hdr->len);
++		if (hdr_len < sizeof(*trans_hdr) ||
++		    size_add(msg_len, hdr_len) > msg_hdr_len)
+ 			return -EINVAL;
+ 
+ 		switch (le32_to_cpu(trans_hdr->type)) {
 -- 
 2.39.2
 
