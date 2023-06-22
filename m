@@ -1,67 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 865A073A01D
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 13:54:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DA7173A0CB
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 14:25:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5832C10E54E;
-	Thu, 22 Jun 2023 11:54:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AD8E10E553;
+	Thu, 22 Jun 2023 12:25:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FA9710E54E
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 11:54:14 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id
- ffacd0b85a97d-3112d202363so5472390f8f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 04:54:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687434852; x=1690026852;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=NEDzw9W907hEJwOxTJsGWFRFwCq3nRuMhD+n/fKGN60=;
- b=tK0/+K+m7/3eGhBv23aqBH5Gs2tZsqkyup99w+atiRRAqfT1ZbcbNIfmNz2yyQgh0W
- Rsj7HCR9tf2kbkvLlN4JX6KsZw7zVPNuG+By3hvLRWsWjzCjl5h3sk091vuxmFZUXVRH
- puBRfu0R1iMZqK9fW6MEm+OOkQ/PvqbMtcztaw0yThqtd5NDJa7lWMo54P8E2RS6XY0N
- S/0d9bwhNU79TcNwR/+jdiHDVXpHmI+DSbfjdbf0Ixu3cK0vZnnI2atq3Wjh1eOSQw/5
- 7iGMeI3lQD6lBXGVu99OAr5OV+HmAr4b6LGufZh1LrCdtLnOdob9Nk5Dz3SySVjiEHza
- I19g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687434852; x=1690026852;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NEDzw9W907hEJwOxTJsGWFRFwCq3nRuMhD+n/fKGN60=;
- b=duYn2hr7TAUjgq5M5u6sDI2uTNWGYz9OyEsMvj+ox5hCfUWCNbFZdIFh0uCW++iyvo
- 0qwlFSv3BJADcyDvS69VrQhCukXcmEKVHESwZv5yuCYL7S6MP3g8wpwvfP9Xe17NJUXO
- UlD7of7Ih6YLcwU/+/ODK+aBLe4cPV2fAJKNHWoDY4ez5+1ZOCcPD98EPs4Pz3XHya5i
- 4FpboW1XhJC1rX8rQCcIetaVeg/mTJZyTjYIoDmovj2YBfDUX9+AGr4wSy8rR/bXQxHr
- 7mWpN5fEVz1DPsxQhU6m2Lp5QRyZlq8kODoZQJhmx2oJnroLl4sQS+AlOgTQa8W/c9eJ
- FXzw==
-X-Gm-Message-State: AC+VfDx7LSQqOvqKbtNckkxwDUXs4OUAFWw1qRJoVNUj/JICKA1IMeQH
- rS7JrW9/yuvNlRK/FNxnkWEyuA==
-X-Google-Smtp-Source: ACHHUZ70D+J1QTacDXVqJOA4np0FJzeoEIPAcFhEXdbIZuDpiUcntI3PDgpYZPBt69zEoGYZZ+6soQ==
-X-Received: by 2002:a5d:5342:0:b0:30a:c2c4:7133 with SMTP id
- t2-20020a5d5342000000b0030ac2c47133mr13950349wrv.49.1687434852543; 
- Thu, 22 Jun 2023 04:54:12 -0700 (PDT)
-Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- x14-20020adfec0e000000b0030aee3da084sm6870368wrn.49.2023.06.22.04.54.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jun 2023 04:54:10 -0700 (PDT)
-Date: Thu, 22 Jun 2023 14:54:08 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-Subject: Re: [PATCH 1/5] accel/qaic: tighten bounds checking in
- encode_message()
-Message-ID: <1bf6a1b7-387c-4b39-a7b1-baa8eab7c1c2@kadam.mountain>
-References: <8dc35a68-7257-41ac-9057-7c89b9ad6e18@moroto.mountain>
- <95ed2c6b-df33-a252-8eba-3cb848c5c40b@quicinc.com>
- <225a7da6-f0fc-41d1-8bbc-6247a4733731@kadam.mountain>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 495D510E54F;
+ Thu, 22 Jun 2023 12:25:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1687436713; x=1718972713;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=VFIhXIMBVxone3gWtsN0Ctk34JSxSUHhD8XO85Zqc1I=;
+ b=GXshRkI4uhp6AzWebiug5rLk6WzRjwsEqe1+p0b03Stg2Tk6C885zFAa
+ jnT2pknAyGGGAsEKiO/OVLNCcOPKGdGKSR0m1jMP1G6TvTblkcBPsURxS
+ GqbpoGVqozxClTEBpOTe/MgDjMo85WvAwiHllXbszFUuid8FgY6Hh4KOF
+ E6VN/QglqnDyZ0MpGfdt0kCU5COaRSI2R9sAXYQYGaytdoXdGJwvDQNFj
+ crw7yS3Hg2vddyXRPFpQXhXenxZP5LHpsYtMXCS7O+5aoqh1npjmcwmQg
+ t237xOekYXObGNYDk2mlLNBGehByTnVO8f85Rnl+ocYUyMu3WKLKNMcCx A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="360489512"
+X-IronPort-AV: E=Sophos;i="6.00,263,1681196400"; d="scan'208";a="360489512"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2023 05:25:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="839028264"
+X-IronPort-AV: E=Sophos;i="6.00,263,1681196400"; d="scan'208";a="839028264"
+Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.249.46.93])
+ ([10.249.46.93])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2023 05:25:09 -0700
+Message-ID: <206f92ee-ed18-a503-6119-bc03779cd516@linux.intel.com>
+Date: Thu, 22 Jun 2023 14:25:06 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <225a7da6-f0fc-41d1-8bbc-6247a4733731@kadam.mountain>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 3/4] drm/ttm: Don't leak a resource on eviction error
+Content-Language: en-US
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org
+References: <20230622101412.78426-1-thomas.hellstrom@linux.intel.com>
+ <20230622101412.78426-4-thomas.hellstrom@linux.intel.com>
+From: Nirmoy Das <nirmoy.das@linux.intel.com>
+In-Reply-To: <20230622101412.78426-4-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,30 +63,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Oded Gabbay <ogabbay@kernel.org>, kernel-janitors@vger.kernel.org,
+Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, Huang Rui <ray.huang@amd.com>,
  dri-devel@lists.freedesktop.org,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- Carl Vanderlip <quic_carlv@quicinc.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 22, 2023 at 02:43:57PM +0300, Dan Carpenter wrote:
-> > > -	if (!user_msg->count) {
-> > > +	if (!user_msg->count ||
-> > > +	    user_msg->len < sizeof(*trans_hdr)) {
-> > Can we have something like this here
-> > user_msg->len < sizeof(*trans_hdr) * user_msg->count, no?
-> 
-> This check was just to ensure that we have space for one header so that
-> the "user_msg->len - sizeof(*trans_hdr)" subtraction doesn't overflow.
-> We're going to need to check that we have space for each header later
-> anyway.  Can the multiply fail (on 32bit)?
 
-s/fail/integer overflow/.  Obviously failure is not an option when it
-comes to multiplies.
+On 6/22/2023 12:14 PM, Thomas Hellström wrote:
+> On eviction errors other than -EMULTIHOP we were leaking a resource.
+> Fix.
+>
+> Fixes: 403797925768 ("drm/ttm: Fix multihop assert on eviction.")
+> Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Christian Koenig <christian.koenig@amd.com>
+> Cc: Huang Rui <ray.huang@amd.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: <stable@vger.kernel.org> # v5.15+
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-regards,
-dan carpenter
+Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
 
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo.c | 16 ++++++++--------
+>   1 file changed, 8 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 615d30c4262d..89530f2a027f 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -462,14 +462,14 @@ static int ttm_bo_evict(struct ttm_buffer_object *bo,
+>   	ret = ttm_bo_handle_move_mem(bo, evict_mem, true, ctx, &hop);
+>   	if (ret == -EMULTIHOP) {
+>   		ret = ttm_bo_bounce_temp_buffer(bo, &evict_mem, ctx, &hop);
+> -		if (ret) {
+> -			if (ret != -ERESTARTSYS && ret != -EINTR)
+> -				pr_err("Buffer eviction failed\n");
+> -			ttm_resource_free(bo, &evict_mem);
+> -			goto out;
+> -		}
+> -		/* try and move to final place now. */
+> -		goto bounce;
+> +		if (!ret)
+> +			/* try and move to final place now. */
+> +			goto bounce;
+> +	}
+> +	if (ret) {
+> +		ttm_resource_free(bo, &evict_mem);
+> +		if (ret != -ERESTARTSYS && ret != -EINTR)
+> +			pr_err("Buffer eviction failed\n");
+>   	}
+>   out:
+>   	return ret;
