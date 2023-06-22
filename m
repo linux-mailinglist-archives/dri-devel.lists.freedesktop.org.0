@@ -1,74 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0C41739E01
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 12:05:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28B0B739E09
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 12:09:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53D8710E50B;
-	Thu, 22 Jun 2023 10:05:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CE4E10E14F;
+	Thu, 22 Jun 2023 10:09:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93DA610E52D
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 10:05:07 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id
- 2adb3069b0e04-4f957a45b10so2679116e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 03:05:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687428304; x=1690020304;
- h=content-transfer-encoding:in-reply-to:subject:organization:from
- :references:cc:to:content-language:reply-to:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=jBO6o9D+DcMpniziEorxfJ2cHJ5z8r1Lg2ForQPrnOM=;
- b=ttrEBGs5dq6sP2JLrM396Vny+wGi75r2tazvT97qRA149UNYU+J58XA+tnaVqU+rO9
- pLm+MutKVBx78jketAlL+TpkwWv/L0ZZdc4OpmeNXJN25hLcbZUr7xomoTLheAwJga3b
- 7692bupps7udmyz/gXr6x0toV6AMejcPokl88XjbOGG7Svjllpd2JCshPJeuYgEuIRc4
- B4TebXVlDjCBYldVKjCAu5vw85aHFOcKM7+sUf7LnSeRERsPSLRDIrnXoM+MemtKUnsp
- 2Vi16UFUIIItAlCDe42F8/gfl/CNHagXOWKspjcPJjqk17HKlHYp7Tcdlup86hStb/dY
- 15EA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5933E10E14F
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 10:09:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1687428580;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Iyc9oo6eOBjlwwiDMdCsr8iwFpd3Id6kd+Jhvfv1Zrg=;
+ b=Njt3O8xZZzRBhtX27edi/JdaC8RsnRsPL7+WI7EczzNjdTrwu52MT6m2DMnYs2MO3/BI6G
+ hwKsfT/YuUB4rluE6ufcD49GeSK0Q3rDKKIMAMgPEoOqgVWq84eAACOHB8DFsjDPsIExZd
+ t69Qc03UBpFCL7j7Sc78iu/aU5Q11PU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-208-3N-tXRPPMFy1rY2AYIlAQg-1; Thu, 22 Jun 2023 06:09:39 -0400
+X-MC-Unique: 3N-tXRPPMFy1rY2AYIlAQg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-31114af5e45so3224979f8f.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 03:09:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687428304; x=1690020304;
- h=content-transfer-encoding:in-reply-to:subject:organization:from
- :references:cc:to:content-language:reply-to:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jBO6o9D+DcMpniziEorxfJ2cHJ5z8r1Lg2ForQPrnOM=;
- b=TlsgQ/A5p7pjr6zBWjQBDmpfj1licfS7XuIerP7th0BEclM/TI/qhr8VP6IYY6kM+9
- IAWi6GkIsg+u1fgiJrS8+Qo6lWnS7YU33t1TRwVg3cAezqb+Y5FRXRkTncCNoIg6+huZ
- uivhQnamR+ZwQVBjGzxD3+R4udJrlWGCDh0fl/joaK0et2cZmiqgUXr+PYyHf7n25OV4
- M9of7uJ4C0P9CF93CCOUs+ZkHV9PZ/IDtBq1D/PZyXLTn2SGhMdmgXhYvvWLsh3RxKqh
- BwINVD6gxWPXinX9LvYIx50VMgy03azJ7so4esXPb/ziTukZepmYX+qttFQ79O+2EIxK
- KB6A==
-X-Gm-Message-State: AC+VfDylQg7KmFopUduuYPEuv8c6pqPoAAI0rAr66atYdtxOhjoS74N5
- Gwh+HKTJrGaTCTMlXX8dkkMCsw==
-X-Google-Smtp-Source: ACHHUZ5bGJe/bMaN8OD0rhofY4WigMcHHdO0Z+7SP4gipUI8R74sFBWZ83RHOD7qkM86tfBUxk+pgQ==
-X-Received: by 2002:a19:7b0e:0:b0:4f4:d41b:f416 with SMTP id
- w14-20020a197b0e000000b004f4d41bf416mr9852674lfc.4.1687428303609; 
- Thu, 22 Jun 2023 03:05:03 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:f692:a800:4794:385?
- ([2a01:e0a:982:cbb0:f692:a800:4794:385])
- by smtp.gmail.com with ESMTPSA id
- p25-20020a05600c205900b003f9b1131a90sm7273138wmg.23.2023.06.22.03.05.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Jun 2023 03:05:03 -0700 (PDT)
-Message-ID: <41f05dd1-56ee-b6f9-dcd7-f6b6e8d0f08f@linaro.org>
-Date: Thu, 22 Jun 2023 12:05:02 +0200
+ d=1e100.net; s=20221208; t=1687428578; x=1690020578;
+ h=content-transfer-encoding:mime-version:message-id:date:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YTDWEZLNIRC67TnLQxvgMKS8qAvf3ra6SocYaQSHdeg=;
+ b=JmUQ6ApJmrEgC5Myi9XtahpyKVH1BxAnEEaD+I1hWeQjf0oo5hQ5UIxw0ltOaa5kR0
+ 0Kcn14OU8uHwws/X17qHjMowLld4DEQMcC4+kWwJoRpBfzZEhph98Fo2MMKrBi+LJNTW
+ o7FVaoeH1XQozvHkGsR71n5s291vcguTElGudWyX5EsOvD4FAyHn9Rl50SChKLAxADwa
+ mRO3T4mzGuAO3Gyjwbt8zW/+AzGeSDcgX0RZ1h3FjU8qTrePuCV+/q86wSSV4jnuo4yP
+ V/+qKhgIwS/ngJRHp7zNtIFPVxTaalPvONOCQsWbVLTW7jl7cSf3KRa3xElyns57yV0C
+ f94g==
+X-Gm-Message-State: AC+VfDyeYdoG9zonEX3XLEnHkVhHNfFZKL1gVjwdqMJBsWbBekUBNFF7
+ UU74ycS3fCmxUYNWiQpPSz58Ehfr1ZYUDdeFNvtkt2+MnL5Fd/Wz8FGvRPjed8nbqMN83y+sdmg
+ giOtQ6W7Bc9EVx5zgDFSffaaMtip7
+X-Received: by 2002:adf:df02:0:b0:2f6:bf04:c8cc with SMTP id
+ y2-20020adfdf02000000b002f6bf04c8ccmr13984924wrl.55.1687428578450; 
+ Thu, 22 Jun 2023 03:09:38 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7mmaoXLnnPlGpMcZQLjGzkejmifnhHk88cMioxTrep0rt9LVD1s46n5BwhWVnXtVOvy0ooeg==
+X-Received: by 2002:adf:df02:0:b0:2f6:bf04:c8cc with SMTP id
+ y2-20020adfdf02000000b002f6bf04c8ccmr13984908wrl.55.1687428578119; 
+ Thu, 22 Jun 2023 03:09:38 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ p7-20020a056000018700b003095bd71159sm6705980wrx.7.2023.06.22.03.09.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Jun 2023 03:09:37 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm/i2c: Switch i2c drivers back to use .probe()
+In-Reply-To: <20230616055844.rgmi5hu6sghgttil@pengutronix.de>
+References: <20230611202740.826120-1-u.kleine-koenig@pengutronix.de>
+ <20230616055844.rgmi5hu6sghgttil@pengutronix.de>
+Date: Thu, 22 Jun 2023 12:09:36 +0200
+Message-ID: <875y7f3j1b.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Content-Language: en-US
-To: =?UTF-8?Q?Adri=c3=a1n_Larumbe?= <adrian.larumbe@collabora.com>,
- ville.syrjala@linux.intel.com, narmstrong@baylibre.com,
- andrzej.hajda@intel.com, rfoss@kernel.org
-References: <20230601123153.196867-1-adrian.larumbe@collabora.com>
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Organization: Linaro Developer Services
-Subject: Re: [PATCH] drm: bridge: dw_hdmi: fix connector access for scdc
-In-Reply-To: <20230601123153.196867-1-adrian.larumbe@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,94 +84,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org
+Cc: Wolfram Sang <wsa@kernel.org>, dri-devel@lists.freedesktop.org,
+ kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi !
+Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> writes:
 
-On 01/06/2023 14:31, Adrián Larumbe wrote:
-> Commit 5d844091f237 ("drm/scdc-helper: Pimp SCDC debugs") changed the scdc
-> interface to pick up an i2c adapter from a connector instead. However, in
-> the case of dw-hdmi, the wrong connector was being used to pass i2c adapter
-> information, since dw-hdmi's embedded connector structure is only populated
-> when the bridge attachment callback explicitly asks for it.
-> 
-> drm-meson is handling connector creation, so this won't happen, leading to
-> a NULL pointer dereference.
-> 
-> Fix it by having scdc functions access dw-hdmi's current connector pointer
-> instead, which is assigned during the bridge enablement stage.
-> 
-> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-> Fixes: 5d844091f237 ("drm/scdc-helper: Pimp SCDC debugs")
+Hello Uwe,
 
-Fixes should go first.
+> Hello,
+>
+> On Sun, Jun 11, 2023 at 10:27:40PM +0200, Uwe Kleine-K=C3=B6nig wrote:
+>> After commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
+>> call-back type"), all drivers being converted to .probe_new() and then
+>> commit 03c835f498b5 ("i2c: Switch .probe() to not take an id parameter")
+>> convert back to (the new) .probe() to be able to eventually drop
+>> .probe_new() from struct i2c_driver.
+>
+> It would be great if this patch made it into 6.5-rc1, as I intend to
+> send a patch series to Wolfram after the upcoming merge window to drop
+> .probe_new to go in via the i2c tree. There are a few remaining
+> driver instances that I will have to fix in this series, but I'm happy
+> about every patch that goes in via its designated tree beforehand.
+>
 
-I missed again this change because you again used my old baylibre address,
-but git-send-email should not use it anymore since a .mailmap entry exists
-upstream since september 2022.
+Pushed to drm-misc (drm-misc-next). Thanks!
 
-Anyway, please use get_maintainers on the current working tree or use b4 to
-get the most recent maintainers, reviewers & list emails.
+> Best regards
+> Uwe
+>
+> --=20
+> Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig       =
+     |
+> Industrial Linux Solutions                 | https://www.pengutronix.de/ =
+|
 
-> ---
->   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 9 +++++----
->   1 file changed, 5 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index 0accfb51509c..69c0e80b8525 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -1412,9 +1412,9 @@ void dw_hdmi_set_high_tmds_clock_ratio(struct dw_hdmi *hdmi,
->   	/* Control for TMDS Bit Period/TMDS Clock-Period Ratio */
->   	if (dw_hdmi_support_scdc(hdmi, display)) {
->   		if (mtmdsclock > HDMI14_MAX_TMDSCLK)
-> -			drm_scdc_set_high_tmds_clock_ratio(&hdmi->connector, 1);
-> +			drm_scdc_set_high_tmds_clock_ratio(hdmi->curr_conn, 1);
->   		else
-> -			drm_scdc_set_high_tmds_clock_ratio(&hdmi->connector, 0);
-> +			drm_scdc_set_high_tmds_clock_ratio(hdmi->curr_conn, 0);
->   	}
->   }
->   EXPORT_SYMBOL_GPL(dw_hdmi_set_high_tmds_clock_ratio);
-> @@ -2102,7 +2102,7 @@ static void hdmi_av_composer(struct dw_hdmi *hdmi,
->   				min_t(u8, bytes, SCDC_MIN_SOURCE_VERSION));
->   
->   			/* Enabled Scrambling in the Sink */
-> -			drm_scdc_set_scrambling(&hdmi->connector, 1);
-> +			drm_scdc_set_scrambling(hdmi->curr_conn, 1);
->   
->   			/*
->   			 * To activate the scrambler feature, you must ensure
-> @@ -2118,7 +2118,7 @@ static void hdmi_av_composer(struct dw_hdmi *hdmi,
->   			hdmi_writeb(hdmi, 0, HDMI_FC_SCRAMBLER_CTRL);
->   			hdmi_writeb(hdmi, (u8)~HDMI_MC_SWRSTZ_TMDSSWRST_REQ,
->   				    HDMI_MC_SWRSTZ);
-> -			drm_scdc_set_scrambling(&hdmi->connector, 0);
-> +			drm_scdc_set_scrambling(hdmi->curr_conn, 0);
->   		}
->   	}
->   
-> @@ -3546,6 +3546,7 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
->   	hdmi->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID
->   			 | DRM_BRIDGE_OP_HPD;
->   	hdmi->bridge.interlace_allowed = true;
-> +	hdmi->bridge.ddc = hdmi->ddc;
+--=20
+Best regards,
 
-I missed this one on my change...
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
->   #ifdef CONFIG_OF
->   	hdmi->bridge.of_node = pdev->dev.of_node;
->   #endif
-
-I'll add:
-Reported-by: Lukas F. Hartmann <lukas@mntre.com>
-
-while applying and:
-
-Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
-
-Thanks,
-Neil
