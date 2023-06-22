@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 219DE739E3C
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 12:17:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3678739E47
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 12:18:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AB3110E52B;
-	Thu, 22 Jun 2023 10:17:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0F8F89070;
+	Thu, 22 Jun 2023 10:18:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AAEA10E52B
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 10:17:18 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E789910E52D;
+ Thu, 22 Jun 2023 10:18:54 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 63DD6617C7;
- Thu, 22 Jun 2023 10:17:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D45E1C433C8;
- Thu, 22 Jun 2023 10:17:13 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5D9C3617C8;
+ Thu, 22 Jun 2023 10:18:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6925BC433C8;
+ Thu, 22 Jun 2023 10:18:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1687429037;
- bh=McJw4yj+3Kf9jn1ZwGX0a9V4cQzBuo9RO+rqfuWeUZY=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=J2ZDseyurBPtJqc0nQ1uYwN70v9wASKytD4EvYBP+SUkfk9OUd/hkgTQ6MWDUu3Ti
- BFErVIXG2tQy2IGa23ZPj3sPXX9dhs9XsX/yYjDCFsM+cHEawoODeMWkfwDXtWd46Y
- TxLx1aZj1uiW+qW/hpjjbZqp2C3LNmIVNFr6npM3N/TftslXT/sKe3I5hyGFwCnBD6
- aXogCvhF+VsA4XSIbvMTWyr5a7XuGxsBVo6XvfN5E+ieck1B4oWnQaKqDvequLozH6
- E7r6HNAeJPc9E46B+4nbW0LoJtAVXmfpUTDFWAOg0iktmy1bx2JkK8+PpTv1la4/7u
- +ezH1yRfqO0eQ==
-From: rfoss@kernel.org
-To: linux-rockchip@lists.infradead.org,
- =?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>
-Subject: Re: [PATCH v2] drm: bridge: dw-mipi-dsi: Fix enable/disable of DSI
- controller
-Date: Thu, 22 Jun 2023 12:17:10 +0200
-Message-Id: <168742902332.865433.11382317679096265094.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230617224915.1923630-1-megi@xff.cz>
-References: <20230617224915.1923630-1-megi@xff.cz>
+ s=k20201202; t=1687429133;
+ bh=xqpXPLyBDps1Cg44j/16UrjMgGR6+mPM7epmRhz78VU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=bA1ijQaxhV2Ba8gH79uS0lA9Q4OSnfs1AflsnyFyATFtOTi3fLv01hAhDvAVYfDLc
+ QQKr8n5PDfVOZU8OhQ8wrRBgI4rNIBO3B9ODSHnF1QZPlPf2xtg0rdiWHKTYRaX5f8
+ EDI9Nbn/5bJS84IUZK/FDzmfovyJ3Z+dBlTcVw6gpC9Jp3n5sgsnkRshLkxH3Vy7u1
+ nOvNNsooLRdyAvNfl6hnDO9rf6sAW37Q4f+V55Be6hQxBgWXaHZlWE6T1FQR6PUvLc
+ ecRLU6e90tBq3eFNSdE1i6n3lc31HlBFXgKeQVheZDyingPAcZiudCUWAoypBDay1u
+ OXPhcWKWx0/zA==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] i915: avoid unused-but-set-variable warning
+Date: Thu, 22 Jun 2023 12:18:41 +0200
+Message-Id: <20230622101848.3482277-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,36 +55,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Archit Taneja <architt@codeaurora.org>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Philippe CORNU <philippe.cornu@st.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Robert Foss <rfoss@kernel.org>
+From: Arnd Bergmann <arnd@arndb.de>
 
-On Sun, 18 Jun 2023 00:48:25 +0200, Ondřej Jirman wrote:
-> From: Ondrej Jirman <megi@xff.cz>
-> 
-> Before this patch, booting to Linux VT and doing a simple:
-> 
->   echo 2 > /sys/class/graphics/fb0/blank
->   echo 0 > /sys/class/graphics/fb0/blank
-> 
-> [...]
+The mchbar_addr variable is only used inside of an #ifdef:
 
-Applied, thanks!
+drivers/gpu/drm/i915/soc/intel_gmch.c:41:6: error: variable 'mchbar_addr' set but not used [-Werror,-Wunused-but-set-variable]
 
-[1/1] drm: bridge: dw-mipi-dsi: Fix enable/disable of DSI controller
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=05aa61334592
+Change this to an IS_ENABLED() check to let the compiler see how
+it's used and no longer warn about it.
 
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/gpu/drm/i915/soc/intel_gmch.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-
-Rob
+diff --git a/drivers/gpu/drm/i915/soc/intel_gmch.c b/drivers/gpu/drm/i915/soc/intel_gmch.c
+index 6d0204942f7a5..49c7fb16e934f 100644
+--- a/drivers/gpu/drm/i915/soc/intel_gmch.c
++++ b/drivers/gpu/drm/i915/soc/intel_gmch.c
+@@ -47,11 +47,9 @@ intel_alloc_mchbar_resource(struct drm_i915_private *i915)
+ 	mchbar_addr = ((u64)temp_hi << 32) | temp_lo;
+ 
+ 	/* If ACPI doesn't have it, assume we need to allocate it ourselves */
+-#ifdef CONFIG_PNP
+-	if (mchbar_addr &&
++	if (IS_ENABLED(CONFIG_PNP) && mchbar_addr &&
+ 	    pnp_range_reserved(mchbar_addr, mchbar_addr + MCHBAR_SIZE))
+ 		return 0;
+-#endif
+ 
+ 	/* Get some space for it */
+ 	i915->gmch.mch_res.name = "i915 MCHBAR";
+-- 
+2.39.2
 
