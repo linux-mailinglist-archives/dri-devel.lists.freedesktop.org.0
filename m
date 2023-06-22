@@ -2,143 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E26073AC75
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 00:20:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8136473AC9D
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 00:38:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BB8B10E5B8;
-	Thu, 22 Jun 2023 22:20:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8462210E37B;
+	Thu, 22 Jun 2023 22:38:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BA3210E37B;
- Thu, 22 Jun 2023 22:20:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1687472439; x=1719008439;
- h=from:to:subject:date:message-id:references:in-reply-to:
- mime-version; bh=5RAKYAgPCyNVwCUA0aEqVktcaevqs7f68XOjD7qYUCQ=;
- b=S/Yo2SYjU20EP1hHZemruIsfzBjOpOLkYQjE+s/F5k9UvQpNBf2wGDWu
- U8wE/8zRbdFsQUsbGJHP6/AG/y7fHCJ2dxyL2cOx5o546bt+UVYRaEuiL
- I7q3b50AJ1FQ6Us9fJr+WjK9pW4Na3Ei3KxLEgs0Cs1lgYupVH0rv2Dd4
- I9Jsa6z0TTkZfxHPlx78RTnAjxA28eJ5hATvZpxqpOnSqS+3OQDJJxYl3
- 1c3ASSPvUink4GwFGC/fTI7rsRLy/3EKF1SY+1EXRgVhXSFIebtihB8lx
- KpxSqCTMdL2zuOqOsdAbKSXkcKNPjWyzMjLEO9ysttMvie7cHAPxUfLm3 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="364073923"
-X-IronPort-AV: E=Sophos;i="6.01,150,1684825200"; 
- d="scan'208,217";a="364073923"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2023 15:20:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="780405723"
-X-IronPort-AV: E=Sophos;i="6.01,150,1684825200"; 
- d="scan'208,217";a="780405723"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by fmsmga008.fm.intel.com with ESMTP; 22 Jun 2023 15:20:37 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 22 Jun 2023 15:20:37 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Thu, 22 Jun 2023 15:20:37 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.109)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Thu, 22 Jun 2023 15:20:37 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XdAWBDDRq7TFCjj95seUvCQ8d91MNHBUzAutJF8AdLIZHFj6AhWxBhT1Z/VHyZ7fe6wIRMRvPbm4mjRhZ1YPvUPgiMlrzPCFa8nhPpxVhJOlqHJIrG5ncM4Avin5Ib8NjeN7e+mf10tcnURqn0fCNgQxPKTYS/NIMiJxDvX48/bpCPbwxNU68QMKqxL2bxlF6rC3kdzl53UntMVRgLl/wsnwXlLv/kgJj5KpOQtr3y+DXlbiTrFte7chbMlrLJiylyy2MFmeYh9Z+izNJwi4QvTf2HoGqEoy9rVy5Pe2Q3H5IfssxVXt3KjiusjDqkIs+D3OtHvEKOV+4Xd9A2wqiA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x+MAUSCeuNCNB8r5JpuR07PwftbNyrd5s8PONycyTNA=;
- b=e70HOLS03rygC/CuBTACJgQBoms645ikzp5i3tFMcgcUB98xe9rotON2a9jIntjWRr/9ztZkthEZXfEVpBfZI/7j9zDb1F1O19UYV6ETQjaduklUE7d4FmYi7vxm8hzfkjvmMeljx6DXU9T8xXk9l6RygJ2bR+1V2DK/IWp50X/0iHTyxGvI0cY1aAa+wrorj+8KBHazSuSI0fY9mr9iwB8yeFmj16N+/5OUXQXLZ+ireQXv4EsM14MbIPsYHmBY9J1VrbsxBBTiOpyyuxQn+9NCX91D0xnRqwF/GXoWuqAMGTRg+KcS9OtZXej338EcCYYGoFOq6NlRJ/WQOdJtpg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BYAPR11MB2567.namprd11.prod.outlook.com (2603:10b6:a02:c5::32)
- by MW6PR11MB8438.namprd11.prod.outlook.com (2603:10b6:303:241::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.24; Thu, 22 Jun
- 2023 22:20:35 +0000
-Received: from BYAPR11MB2567.namprd11.prod.outlook.com
- ([fe80::28b4:ae85:a4f0:3f46]) by BYAPR11MB2567.namprd11.prod.outlook.com
- ([fe80::28b4:ae85:a4f0:3f46%4]) with mapi id 15.20.6521.020; Thu, 22 Jun 2023
- 22:20:35 +0000
-From: "Yang, Fei" <fei.yang@intel.com>
-To: "Dong, Zhanjun" <zhanjun.dong@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/gt: Remove incorrect hard coded
- cache coherrency setting
-Thread-Topic: [Intel-gfx] [PATCH] drm/i915/gt: Remove incorrect hard coded
- cache coherrency setting
-Thread-Index: AQHZpR4Cacq0e8isXEyNeScfx6YBBa+XY4um
-Date: Thu, 22 Jun 2023 22:20:35 +0000
-Message-ID: <BYAPR11MB2567EBC3DA33B7D1D4DABD599A22A@BYAPR11MB2567.namprd11.prod.outlook.com>
-References: <20230622152644.169400-1-zhanjun.dong@intel.com>
-In-Reply-To: <20230622152644.169400-1-zhanjun.dong@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BYAPR11MB2567:EE_|MW6PR11MB8438:EE_
-x-ms-office365-filtering-correlation-id: d55c5840-7a75-4611-73fc-08db736ee6b5
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: yIvdh08Lr96wJf/ECPepTUsj+nI4PFax4wlC8sof+eGNMysMFXz9nOivIoxbHzHVe8OIqJMn1b/QYr7NsY7LsGNp+p2/d0KP0ft4XEVCUUjC48o3Bg+l5AiWMxf4SpzSu823UO08h5gcmSIWwD8z9bwKVnVZ/7VsMtImQPM3bW7/XgQHJ+jJGeU3wTZoYQoW1NvhIyxISPGoqHwzqqmqnKxT5frg6CZRuDkhiBpJqz1swsbBt0v4PSOaoBf+DxY7R9jqyc0cdEp2mLwSzBTYEgdZePrRxoTxpkNAFCvN9Rv79FjpKiylBFdAumJZ/HVdA+Vk8zsSTazx2nXZ/Lg8I9aSrrjfnAumwtiO1Sm0WZhn6mkT+vXP3JxP44JWn0gprM4BCn7qAZw7NfNdB9waDHpHDLjR39aKg3ERC1jTaFpc14FbvpchUF7VeSGBTC4jRkpds5HmrpHUsByXPo7VMOiMoJQOgYIMLJt9icLYz+uavJP52F6Rk0URf+ube0/Hjdnr/P82UEYpLiC7rjBhRXNU+AIoK0qmVjhRZKvVdFHMgfVqcHs5tOdbD52h/RdpzObPzq7gEpnXEXW91Yc1B4FqX3txLKNz4o2h/iGSwl0Flg61FFbPavTmdc3UkPBc
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR11MB2567.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(396003)(346002)(136003)(366004)(39860400002)(376002)(451199021)(52536014)(8676002)(8936002)(5660300002)(122000001)(82960400001)(38100700002)(38070700005)(2906002)(478600001)(55016003)(71200400001)(186003)(110136005)(86362001)(33656002)(7696005)(19627405001)(6506007)(26005)(9686003)(83380400001)(91956017)(450100002)(66476007)(66556008)(66446008)(66946007)(76116006)(64756008)(41300700001)(316002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?tyOcUXHksP7u61gyEtNwPovxvPXFpXvauJo/ENRamBdkPkDDsPG3FYoYua?=
- =?iso-8859-1?Q?hSE2O2/ZH9rHh7L7iocwptGe3AUVujP6tlKN08ZWIJXF02PRdohuXrpJ4K?=
- =?iso-8859-1?Q?njKeUoOLuQT8EAEkBvJ4jpif0gzufYEyKJ+B272Ooqwkn1qCK1xKVp0DCo?=
- =?iso-8859-1?Q?XHLUdTR3cujLDX2QXnnU6Ks83C8CAzY0/wh8gO7eC+Ux3Q+hQjmxKxmCWI?=
- =?iso-8859-1?Q?c9PsJoafxTAUR6l6YWlDu1y/bmYfk6+1l5bJFZ1Te/GRZ8Td9ZX9WLqLVx?=
- =?iso-8859-1?Q?gAs5jRyRtmtYenlifIIUMTLjojAr4euz2UL5EVTx0iQ8kwSIqYLJVlqL0f?=
- =?iso-8859-1?Q?EcWCgwj1uRi0n8c56Itt2oQ7MGpcPd+YP+mrrR0kio9AO9T6wUHCMrnoBn?=
- =?iso-8859-1?Q?GvdSQfpx/ooj40tZWCxxWsYmU1ux48YO/mamUq8CVhCpEz+FdgemeTADH9?=
- =?iso-8859-1?Q?xMSWAAAmqbXspybOWOdnC+rfjzuWTnEnic1fwPKLsiTQrHXv1Mfkj3M53o?=
- =?iso-8859-1?Q?itOXhGilYHt2hpeOcPFbagXMln8lhtSzGu1R/q5nKNKfY5Bjy5Ogz6VL0u?=
- =?iso-8859-1?Q?PJ6HM6DnUwYVhGxyt5Y0hKVDaTvf/Zy9NQFPuVS8ieyFpLX6x1iJnxnM7x?=
- =?iso-8859-1?Q?l40gaUJ6QTPSroYP6rl8gmAlhXTGfbtd74RWIvPHaFDEb1C+hUOnOxHseA?=
- =?iso-8859-1?Q?ggg1+TSlpzfWCxYrNWhaX1RQgo9UKu80hpJ5PU2ooyMIyQYcXb4JtkEGkl?=
- =?iso-8859-1?Q?n0COj/BkXHfmviYJFhwQPp0trVxNpe4crSd2DXJpC6A1IfF/tTFlbFU6nB?=
- =?iso-8859-1?Q?vOq298KT076UDqdd790/bggf1oIq00uQcju4n+imuDuNfd0bAXwyVjq1cI?=
- =?iso-8859-1?Q?03h3/PgToA0jasn9U66uIR/vTDB/5pzdRWZ4GYUDEVGHZou/xbN7fnKjKl?=
- =?iso-8859-1?Q?Hj6yo//1TV4pqgAcHaM+rM9HhT/qTou7O3J6h/aqPzcTzdMMpB7GFzGPfh?=
- =?iso-8859-1?Q?XJO3yossUjwtj5s++f4LfmkAzA1cTVUYd/ckoEIHp34qVBtNC8OxWpXOor?=
- =?iso-8859-1?Q?8+pAdtUs2wuGLfjIXoJPLd9QMuseHyRy97BimM6A47Ii0qUZnBGrxa29df?=
- =?iso-8859-1?Q?HOasLqIqx18pdqSy4XqYTZu7ikA/e9jKC2ujaY+74bTZL+QjTiXem96Vy+?=
- =?iso-8859-1?Q?p+/6nJHYWSswQNh5XB/1glUtN5LTS861lyhS9BQ/LmWhO1gU0fVuIjkGNe?=
- =?iso-8859-1?Q?FDsmEDv3kI/hOzYTMNIhNQsSWBXq3bUUTNRtdo3W7X5I7QuGEZuT6yy6DC?=
- =?iso-8859-1?Q?WNa6zZiwajXQgpPlstxupmSF1wa7q97pVy8Ajq2bevJDke6iDqX/XzB+BZ?=
- =?iso-8859-1?Q?twdLUuTCS5cy2CUgX6hzY2XPy1OzLYDbpvz8uE5WJmicPvh50gL6eoqLyz?=
- =?iso-8859-1?Q?GzA2m8am7wzh0OMoGYaZavQo17+vJ2bXWgo+NXIQaybt5YOIKbgXh1eKVi?=
- =?iso-8859-1?Q?9ubsFtN0S0N1QnnlbWyHS700rBUBALJH3FcEedRpxZF7tQGPrQC6FjYsrh?=
- =?iso-8859-1?Q?ryLP+tJ0voHrU9c9PzAP6UfWYPvoOx0XlgbAyJDpTVHDEghJGrZeh6nVjJ?=
- =?iso-8859-1?Q?aKHc8sVexrQG4=3D?=
-Content-Type: multipart/alternative;
- boundary="_000_BYAPR11MB2567EBC3DA33B7D1D4DABD599A22ABYAPR11MB2567namp_"
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D16B10E37B;
+ Thu, 22 Jun 2023 22:38:01 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 35MMNc7N022727; Thu, 22 Jun 2023 22:37:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=lqjG8lHOS7lWVoYmoGhEqVzceX1d6uQdsfjKzRZjFlE=;
+ b=nHKnnDxuzAOyA7OPsPmyQeGMLtP/GZhSzTR0pxZC0ZFG5cYNH8NTCiorpsSU8Cx0/MAL
+ GX+sp291O6qJdnGQRMto88EuUjj0CtA+IH7EzzdYs5mqMX1lnzH1QwC8Hx0lt0+d9Yre
+ YsYmGgyg3mnR82HQgTkQ0tcYdEZwNlQ30HHUvSdODIw78sHNJXWR9+vw/v3fbeYoVn2X
+ S746vn70FtndHR7PC7Cb9DfxfKiAJKLMuFJi5J/Xy3cPQ2IUFSGQrC+kgPVx3fVUYV82
+ bjuSD1FkPpROjepCjak0pYG2/AvnfrzW1MTl0ql/+nF3PCK9hbpeu9Si9FOOtFGYiyl3 vA== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rc0sk4anb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 Jun 2023 22:37:57 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35MMbs71009408
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 Jun 2023 22:37:54 GMT
+Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Thu, 22 Jun
+ 2023 15:37:53 -0700
+Message-ID: <a4688db2-4230-7485-a688-bc6253d2d4b8@quicinc.com>
+Date: Thu, 22 Jun 2023 15:37:52 -0700
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2567.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d55c5840-7a75-4611-73fc-08db736ee6b5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jun 2023 22:20:35.7130 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: N7iev8yDxG1YQbCeenb4mnEVv0KP5gotCUqgR6jnJ4E4kap7bHRJKibOLPYzCUtIzMtBuh71F5n3OOLRTFRw4Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR11MB8438
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 2/3] drm/msm/dpu: Set DATABUS_WIDEN on command mode
+ encoders
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Jessica Zhang <quic_jesszhan@quicinc.com>
+References: <20230525-add-widebus-support-v1-0-c7069f2efca1@quicinc.com>
+ <20230525-add-widebus-support-v1-2-c7069f2efca1@quicinc.com>
+ <c74c9e0e-d059-f0e3-4350-03089c37131a@linaro.org>
+ <cce68370-3fd9-4c9a-258e-af0d5d057fda@quicinc.com>
+ <n2c5qlujxhbbj2aqlgj7fetzoteood5h4hmbwt4mapi77xlvmt@bpourzaideti>
+ <81a5e241-ec82-7414-8752-4ce3cb084959@linaro.org>
+ <f14f2c31-38c2-0600-3a29-17e83afececf@quicinc.com>
+ <26tvhvqpxtxz5tqc6jbjixadpae34k7uc7fyec2u5o2ccj4tdq@tjvguzlolc3g>
+ <8dcd643f-9644-a4e7-a0d5-eefa28084a88@linaro.org>
+ <7d5256cd-c0bd-36e3-9b59-63ad8595f0ce@quicinc.com>
+ <b119470d-f656-71d1-8b87-b4b8196f5220@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <b119470d-f656-71d1-8b87-b4b8196f5220@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: RK-70OohMmqAzAe6FT5Rd2pMbDhLWmGf
+X-Proofpoint-ORIG-GUID: RK-70OohMmqAzAe6FT5Rd2pMbDhLWmGf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-22_16,2023-06-22_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxscore=0
+ phishscore=0 impostorscore=0 mlxlogscore=999 priorityscore=1501
+ malwarescore=0 adultscore=0 spamscore=0 clxscore=1015 lowpriorityscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306220193
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,143 +94,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---_000_BYAPR11MB2567EBC3DA33B7D1D4DABD599A22ABYAPR11MB2567namp_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-> The previouse i915_gem_object_create_internal already set it with proper
-> value before function return. This hard coded setting is incorrect for
-> platforms like MTL, thus need to be removed.
->
-> Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/intel_timeline.c | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/intel_timeline.c b/drivers/gpu/drm/i=
-915/gt/intel_timeline.c
-> index b9640212d659..693d18e14b00 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_timeline.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_timeline.c
-> @@ -26,8 +26,6 @@ static struct i915_vma *hwsp_alloc(struct intel_gt *gt)
->          if (IS_ERR(obj))
->                  return ERR_CAST(obj);
->
-> -       i915_gem_object_set_cache_coherency(obj, I915_CACHE_LLC);
-> -
-
-Does this change really fix the coherency issue?
-I consulted with Chris and he said that the hwsp is purposely set to be
-cacheable. The mapping on CPU side also indicates it's cacheable,
-
-        intel_timeline_pin_map(struct intel_timeline *timeline)
-        {
-                struct drm_i915_gem_object *obj =3D timeline->hwsp_ggtt->ob=
-j;
-                u32 ofs =3D offset_in_page(timeline->hwsp_offset);
-                void *vaddr;
-
-                vaddr =3D i915_gem_object_pin_map(obj, I915_MAP_WB);
-                ...
-        }
-
->          vma =3D i915_vma_instance(obj, &gt->ggtt->vm, NULL);
->          if (IS_ERR(vma))
->                  i915_gem_object_put(obj);
-> --
-> 2.34.1
 
 
---_000_BYAPR11MB2567EBC3DA33B7D1D4DABD599A22ABYAPR11MB2567namp_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+On 6/21/2023 4:46 PM, Dmitry Baryshkov wrote:
+> On 22/06/2023 02:01, Abhinav Kumar wrote:
+>>
+>>
+>> On 6/21/2023 9:36 AM, Dmitry Baryshkov wrote:
+>>> On 21/06/2023 18:17, Marijn Suijten wrote:
+>>>> On 2023-06-20 14:38:34, Jessica Zhang wrote:
+>>>> <snip>
+>>>>>>>>>> +    if (phys_enc->hw_intf->ops.enable_widebus)
+>>>>>>>>>> +        
+>>>>>>>>>> phys_enc->hw_intf->ops.enable_widebus(phys_enc->hw_intf);
+>>>>>>>>>
+>>>>>>>>> No. Please provide a single function which takes necessary
+>>>>>>>>> configuration, including compression and wide_bus_enable.
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>> There are two ways to look at this. Your point is coming from the
+>>>>>>>> perspective that its programming the same register but just a 
+>>>>>>>> different
+>>>>>>>> bit. But that will also make it a bit confusing.
+>>>>>>
+>>>>>> My point is to have a high-level function that configures the INTF 
+>>>>>> for
+>>>>>> the CMD mode. This way it can take a structure with necessary
+>>>>>> configuration bits.
+>>>>>
+>>>>> Hi Dmitry,
+>>>>>
+>>>>> After discussing this approach with Abhinav, we still have a few
+>>>>> questions about it:
+>>>>>
+>>>>> Currently, only 3 of the 32 bits for INTF_CONFIG2 are being used (the
+>>>>> rest are reserved with no plans of being programmed in the future). 
+>>>>> Does
+>>>>> this still justify the use of a struct to pass in the necessary
+>>>>> configuration?
+>>>>
+>>>> No.  The point Dmitry is making is **not** about this concidentally
+>>>> using the same register, but about adding a common codepath to enable
+>>>> compression on this hw_intf (regardless of the registers it needs to
+>>>> touch).
+>>>
+>>> Actually to setup INTF for CMD stream (which is equal to setting up 
+>>> compression at this point).
+>>>
+>>
+>> Yes it should be setup intf for cmd and not enable compression.
+>>
+>> Widebus and compression are different features and we should be able 
+>> to control them independently.
+>>
+>> We just enable them together for DSI. So a separation is necessary.
+>>
+>> But I am still not totally convinced we even need to go down the path 
+>> for having an op called setup_intf_cmd() which takes in a struct like
+>>
+>> struct dpu_cmd_intf_cfg {
+>>      bool data_compress;
+>>      bool widebus_en;
+>> };
+>>
+>> As we have agreed that we will not touch the video mode timing engine 
+>> path, it leaves us with only two bits.
+>>
+>> And like I said, its not that these two bits always go together. We 
+>> want to be able to control them independently which means that its not 
+>> necessary both bits program the same register one by one. We might 
+>> just end up programming one of them if we just use widebus.
+>>
+>> Thats why I am still leaning on keeping this approach.
+> 
+> I do not like the idea of having small functions being called between 
+> modules. So, yes there will a config of two booleans, but it is 
+> preferable (and more scalable) compared to separate callbacks.
+> 
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0">
-&gt; The previouse i915_gem_object_create_internal already set it with prop=
-er
-<div class=3D"ContentPasted0">&gt; value before function return. This hard =
-coded setting is incorrect for</div>
-<div class=3D"ContentPasted0">&gt; platforms like MTL, thus need to be remo=
-ved.</div>
-<div class=3D"ContentPasted0">&gt;</div>
-<div class=3D"ContentPasted0">&gt; Signed-off-by: Zhanjun Dong &lt;zhanjun.=
-dong@intel.com&gt;</div>
-<div class=3D"ContentPasted0">&gt; ---</div>
-<div class=3D"ContentPasted0">&gt; &nbsp;drivers/gpu/drm/i915/gt/intel_time=
-line.c | 2 --</div>
-<div class=3D"ContentPasted0">&gt; &nbsp;1 file changed, 2 deletions(-)</di=
-v>
-<div class=3D"ContentPasted0">&gt;</div>
-<div class=3D"ContentPasted0">&gt; diff --git a/drivers/gpu/drm/i915/gt/int=
-el_timeline.c b/drivers/gpu/drm/i915/gt/intel_timeline.c</div>
-<div class=3D"ContentPasted0">&gt; index b9640212d659..693d18e14b00 100644<=
-/div>
-<div class=3D"ContentPasted0">&gt; --- a/drivers/gpu/drm/i915/gt/intel_time=
-line.c</div>
-<div class=3D"ContentPasted0">&gt; +++ b/drivers/gpu/drm/i915/gt/intel_time=
-line.c</div>
-<div class=3D"ContentPasted0">&gt; @@ -26,8 +26,6 @@ static struct i915_vma=
- *hwsp_alloc(struct intel_gt *gt)</div>
-<div class=3D"ContentPasted0">&gt; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if (IS=
-_ERR(obj))</div>
-<div class=3D"ContentPasted0">&gt; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp;return ERR_CAST(obj);</div>
-<div class=3D"ContentPasted0">&gt;</div>
-<div class=3D"ContentPasted0">&gt; - &nbsp; &nbsp; &nbsp; i915_gem_object_s=
-et_cache_coherency(obj, I915_CACHE_LLC);</div>
-<div class=3D"ContentPasted0">&gt; -</div>
-<div><br class=3D"ContentPasted0">
-</div>
-<div class=3D"ContentPasted0">Does this change really fix the coherency iss=
-ue?</div>
-<div class=3D"ContentPasted0">I consulted with Chris and he said that the h=
-wsp is purposely set to be</div>
-<div class=3D"ContentPasted0">cacheable. The mapping on CPU side also indic=
-ates it's cacheable,</div>
-<div><br class=3D"ContentPasted0">
-</div>
-<div class=3D"ContentPasted0">&nbsp; &nbsp; &nbsp; &nbsp; intel_timeline_pi=
-n_map(struct intel_timeline *timeline)</div>
-<div class=3D"ContentPasted0">&nbsp; &nbsp; &nbsp; &nbsp; {</div>
-<div class=3D"ContentPasted0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; struct drm_i915_gem_object *obj =3D timeline-&gt;hwsp_ggtt-&gt;o=
-bj;</div>
-<div class=3D"ContentPasted0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; u32 ofs =3D offset_in_page(timeline-&gt;hwsp_offset);</div>
-<div class=3D"ContentPasted0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; void *vaddr;</div>
-<div><br class=3D"ContentPasted0">
-</div>
-<div class=3D"ContentPasted0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; vaddr =3D i915_gem_object_pin_map(obj, I915_MAP_WB);</div>
-<div class=3D"ContentPasted0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; ...</div>
-<div class=3D"ContentPasted0">&nbsp; &nbsp; &nbsp; &nbsp; }</div>
-<div><br class=3D"ContentPasted0">
-</div>
-<div class=3D"ContentPasted0">&gt; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;vma =
-=3D i915_vma_instance(obj, &amp;gt-&gt;ggtt-&gt;vm, NULL);</div>
-<div class=3D"ContentPasted0">&gt; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if (IS=
-_ERR(vma))</div>
-<div class=3D"ContentPasted0">&gt; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp; &nbsp; &nbsp;i915_gem_object_put(obj);</div>
-<div class=3D"ContentPasted0">&gt; --</div>
-<div class=3D"ContentPasted0">&gt; 2.34.1</div>
-<br>
-</div>
-</body>
-</html>
+I definitely agree with the scalable part and I even cross checked that 
+the number of usable bitfields of this register is going up from one 
+chipset to the other although once again that depends on whether we will 
+use those features.
 
---_000_BYAPR11MB2567EBC3DA33B7D1D4DABD599A22ABYAPR11MB2567namp_--
+For that reason I am not opposed to the struct idea.
+
+But there is also another pattern i am seeing which worries me. Usable 
+bitfields sometimes even reduce. For those cases, if we go with a 
+pre-defined struct it ends up with redundant members as those bitfields 
+go away.
+
+With the function op based approach, we just call the op if the feature 
+bit / core revision.
+
+So I wanted to check once more about the fact that we should consider 
+not just expansion but also reduction.
+
+> Not to mention that it allows us to program required registers directly 
+> (by setting values) rather than using RMW cycles and thus depending on 
+> the value being previously programmed to these registers.
+> 
+
+This will not change. We will still have to use RMW cycles to preserve 
+the reset values of some of the fields as those are the right values for 
+the registers and shouldnt be touched.
+
+>>
+>>>>  Similar to how dpu_hw_intf_setup_timing_engine() programs the
+>>>> hw_intf - including widebus! - for video-mode.
+>>>>
+>>>> Or even more generically, have a struct similar to intf_timing_params
+>>>> that says how the intf needs to be configured - without the caller
+>>>> knowing about INTF_CONFIG2.
+>>>>
+>>>> struct dpu_hw_intf_cfg is a very good example of how we can use a 
+>>>> single
+>>>> struct and a single callback to configure multiple registers at once
+>>>> based on some input parameters.
+>>>>
+>>>>> In addition, it seems that video mode does all its INTF_CONFIG2
+>>>>> configuration separately in dpu_hw_intf_setup_timing_engine(). If we
+>>>>> have a generic set_intf_config2() op, it might be good to have it as
+>>>>> part of a larger cleanup where we have both video and command mode use
+>>>>> the generic op. What are your thoughts on this?
+>>>>
+>>>> Not in that way, but if there is a generic enable_compression() or
+>>>> configure_compression() callback (or even more generic, similar to
+>>>> setup_intf_cfg in dpu_hw_ctl) that would work for both video-mode and
+>>>> command-mode, maybe that is beneficial.
+>>>
+>>> I'd rather not do this. Let's just 'setup timing enging' vs 'setup 
+>>> CMD'. For example, it might also include setting up other INTF 
+>>> parameters for CMD mode (if anything is required later on).
+>>>
+>>
+>> Agreed on setup CMD but I dont know whether we need a setup CMD at all.
+>> Seems like an overkill.
+>>
+>>>>
+>>>> - Marijn
+>>>
+> 
