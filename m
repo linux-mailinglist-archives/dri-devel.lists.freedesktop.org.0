@@ -1,65 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32EA0739E7C
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 12:22:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D917739F60
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 13:24:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B7F510E542;
-	Thu, 22 Jun 2023 10:22:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0846D10E546;
+	Thu, 22 Jun 2023 11:24:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C217B10E53E
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 10:22:28 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id
- 2adb3069b0e04-4f87592eccfso5676034e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 03:22:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687429347; x=1690021347;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=kPKiuyN9lTn2LkZFVM0hiwkDKLitkiUuOZ5BrxWQ9JM=;
- b=VbQI4QlQql6NTE3CK6vOzMgaeeV7NW1krLgdhMVTPHSFmkonfA/KWeFi64sy9yRSa9
- WUaGbnhaJ1RSUyZbQ2fZaaQBxPsEHVBSn9bjIXwHdA/f9BjSo/kML4xI3dbZcthIQtqr
- 7pqCPWZygL5QDOgRU1IIkSEkKC7Qbn+0UgZ2QTfk67U46C75l54cqTGL+u5jg8ZUVB0A
- AJ/azt9aI29oJrmWdHehsC6VmNOcEDkG9fvISBCYWgDuM+J9dqh+J6NNi9LBeycA4tWo
- BNVBPvExzXZ4K4CVLWh8QtSI2EJbdqL0UHN2RD+e4FepanCbNps4zG+rYlUK5GRBtBh2
- w/3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687429347; x=1690021347;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kPKiuyN9lTn2LkZFVM0hiwkDKLitkiUuOZ5BrxWQ9JM=;
- b=SLDbXaCrHnLURBe29zw1k/IY/YerqnRFGEveY/7yOjKk3+V3w+hVhbzU3d23ZZzSyU
- /cPZrVHMR6FSCGtiXgzbkHxX1ss1KH4lK/+7GpdR6VIO0FKrAn4jXf3dibJwvQajr3qF
- m86rCjPEehAYRje17Y+mpF2Xs5et3avF6JxmzjmmzxbC+7ltV5Loi50IfvITEFKitgPR
- 3CWYJ7nD3Gkf79l4yPW076ZZW9rYkkfe9TcBdBcxOMIDXal2/+02MxRxv9bbBT9GY2Or
- 3KbaBDWVGWKJ5xRBYPm21YHXIq8UZ+I/hpE9wro2gWmTSZnc/ssyKMeED9d4ATbE1ODn
- boSg==
-X-Gm-Message-State: AC+VfDxzzgswdNZbhBB5Obv/s5liYfJ+CKZxYqTkkDGJ3vT2gU96awiN
- Ct7ZU9joWUYR8Xj7ygV8pxQhEA==
-X-Google-Smtp-Source: ACHHUZ76DdJUUP3DxprlEuqhHV0dMUceghkOayHt/bFjamB18quiILV7W/OOPRCuhZnD96eCgMJnzw==
-X-Received: by 2002:a19:8c18:0:b0:4f4:fdb4:c76d with SMTP id
- o24-20020a198c18000000b004f4fdb4c76dmr12121954lfd.47.1687429346736; 
- Thu, 22 Jun 2023 03:22:26 -0700 (PDT)
-Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- s10-20020a5d69ca000000b003047ea78b42sm6652592wrw.43.2023.06.22.03.22.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jun 2023 03:22:24 -0700 (PDT)
-Date: Thu, 22 Jun 2023 13:22:21 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: Re: [PATCH 0/5] accel/qaic: Improve bounds checking in encode/decode
-Message-ID: <780f7135-cd3c-4c3f-802e-4aa0e7ec3413@kadam.mountain>
-References: <af83549b-ccb4-4a8d-b036-9359eba9d39f@moroto.mountain>
- <26a1858f-d428-a2ac-9ddd-115ba2d8becc@quicinc.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B36ED10E546
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 11:24:15 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 35M5gofj002379; Thu, 22 Jun 2023 11:24:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=SgvYUEg4wWIl9XdzdYhSXdwnPQL38BSZhqGnsqa/o4c=;
+ b=aV6X9m+zqRqFPzDCz7Huxt67Omj6gUb1D/6mH3tRxNePHuKWjFBMItuQwFzdQY9LeJoN
+ QHoOXwBw891PJB0hpZv/c1k8EcfhuH/o7ZAYVG5mmSwtH2xKADdx17d7KnMx5+V/yDmY
+ uujvuCFWOV5TAewADYeL7cJ3R93b03QMGd/xGTJfJLGFREa+loi/tWH49IgAGlgy813+
+ +Q6I58O/h1rR2XWjqQKo5XrVPlZfBIoafYUUemRcCiQvx0O49oclydkze/idiva02y4D
+ TLdVcKLtHjxdvjRisPcIRzJO8c1tCDH6nvUfU+egvIkSx5aGIFDbY9tA8hNdzoM+YPAp MQ== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rbykdjush-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 Jun 2023 11:24:10 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35MBO8uM004953
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 Jun 2023 11:24:08 GMT
+Received: from [10.79.212.194] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Thu, 22 Jun
+ 2023 04:24:05 -0700
+Message-ID: <95ed2c6b-df33-a252-8eba-3cb848c5c40b@quicinc.com>
+Date: Thu, 22 Jun 2023 16:54:03 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <26a1858f-d428-a2ac-9ddd-115ba2d8becc@quicinc.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 1/5] accel/qaic: tighten bounds checking in
+ encode_message()
+To: Dan Carpenter <dan.carpenter@linaro.org>, Jeffrey Hugo
+ <quic_jhugo@quicinc.com>
+References: <8dc35a68-7257-41ac-9057-7c89b9ad6e18@moroto.mountain>
+Content-Language: en-US
+From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+In-Reply-To: <8dc35a68-7257-41ac-9057-7c89b9ad6e18@moroto.mountain>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: zCiBuYaZXBwd9gjT-P01LsSqgasUJbcq
+X-Proofpoint-GUID: zCiBuYaZXBwd9gjT-P01LsSqgasUJbcq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-22_08,2023-06-22_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0
+ mlxscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0 suspectscore=0
+ priorityscore=1501 phishscore=0 clxscore=1011 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
+ definitions=main-2306220095
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,51 +84,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Harshit Mogalapalli <harshit.m.mogalapalli@gmail.com>,
- linux-arm-msm@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
+Cc: linux-arm-msm@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
  kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
- smatch@vger.kernel.org, Carl Vanderlip <quic_carlv@quicinc.com>
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Carl Vanderlip <quic_carlv@quicinc.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 21, 2023 at 08:53:41PM -0600, Jeffrey Hugo wrote:
-> On 6/21/2023 1:21 AM, Dan Carpenter wrote:
-> > (I think this is the first cover letter I have ever written).
-> > 
-> > These patches are based on review and not from testing.
+
+
+On 6/21/2023 12:51 PM, Dan Carpenter wrote:
+> There are several issues in this code.  The check at the start of the
+> loop:
 > 
-> Thank you for your review.  I look forward to reading your patches and
-> learning from them.
+> 	if (user_len >= user_msg->len) {
 > 
-> Did you use any kind of tooling?  If there is something we can add to our
-> flow to bring up the quality, I would like to consider it.
+> This check does not ensure that we have enough space for the trans_hdr
+> (8 bytes).  Instead the check needs to be:
+> 
+> 	if (user_len >= user_msg->len - sizeof(*trans_hdr)) {
+> 
+> That subtraction is done as an unsigned long we want to avoid
+> negatives.  Add a lower bound to the start of the function.
+> 
+> 	if (user_msg->len < sizeof(*trans_hdr))
+> 
+> There is a second integer underflow which can happen if
+> trans_hdr->len is zero inside the encode_passthrough() function.
+> 
+> 	memcpy(out_trans->data, in_trans->data, in_trans->hdr.len - sizeof(in_trans->hdr));
+> 
+> Instead of adding a check to encode_passthrough() it's better to check
+> in this central place.  Add that check:
+> 
+> 	if (trans_hdr->len < sizeof(trans_hdr)
+> 
+> The final concern is that the "user_len + trans_hdr->len" might have an
+> integer overflow bug.  Use size_add() to prevent that.
+> 
+> -	if (user_len + trans_hdr->len > user_msg->len) {
+> +	if (size_add(user_len, trans_hdr->len) > user_msg->len) {
+> 
+> Fixes: 129776ac2e38 ("accel/qaic: Add control path")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+> This is based on code review and not tested.
+> 
+>   drivers/accel/qaic/qaic_control.c | 8 +++++---
+>   1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/accel/qaic/qaic_control.c b/drivers/accel/qaic/qaic_control.c
+> index 5c57f7b4494e..a51b1594dcfa 100644
+> --- a/drivers/accel/qaic/qaic_control.c
+> +++ b/drivers/accel/qaic/qaic_control.c
+> @@ -748,7 +748,8 @@ static int encode_message(struct qaic_device *qdev, struct manage_msg *user_msg,
+>   	int ret;
+>   	int i;
+>   
+> -	if (!user_msg->count) {
+> +	if (!user_msg->count ||
+> +	    user_msg->len < sizeof(*trans_hdr)) {
+Can we have something like this here
+user_msg->len < sizeof(*trans_hdr) * user_msg->count, no?
+>   		ret = -EINVAL;
+>   		goto out;
+>   	}
+> @@ -765,12 +766,13 @@ static int encode_message(struct qaic_device *qdev, struct manage_msg *user_msg,
+>   	}
+>   
+>   	for (i = 0; i < user_msg->count; ++i) {
+> -		if (user_len >= user_msg->len) {
+> +		if (user_len >= user_msg->len - sizeof(*trans_hdr)) {
+Do you think it is more readable if we have something like this
+user_len + sizeof(*trans_hdr) >= user_msg->len
+>   			ret = -EINVAL;
+>   			break;
+>   		}
+>   		trans_hdr = (struct qaic_manage_trans_hdr *)(user_msg->data + user_len);
+> -		if (user_len + trans_hdr->len > user_msg->len) {
+> +		if (trans_hdr->len < sizeof(trans_hdr) ||
+> +		    size_add(user_len, trans_hdr->len) > user_msg->len) {
+>   			ret = -EINVAL;
+>   			break;
+>   		}
 
-I started reviewing this code because of an unpublished Smatch warning:
-
-drivers/accel/qaic/qaic_control.c:379 encode_passthrough() warn: check that subtract can't underflow 'in_trans->hdr.len - 8' '0-3999968'
-
-The warning message means that Smatch thinks in_trans->hdr.len can be
-controlled by the user and is in the 0-3999968.  But from review it's
-in increments of 8.  "0,8,16...3999968".
-
-The other subtract underflow warnings are false positives except maybe
-cx231xx_bulk_copy()?  The put_cmsg() and the bpf warnings are definitely
-false positives.
-
-drivers/accel/qaic/qaic_control.c:379 encode_passthrough() warn: check that subtract can't underflow 'in_trans->hdr.len - 8' '0-3999968'
-drivers/media/usb/cx231xx/cx231xx-417.c:1355 cx231xx_bulk_copy() warn: check that subtract can't underflow 'buffer_size - 3' '0-4000000'
-drivers/net/ethernet/microchip/sparx5/sparx5_packet.c:153 sparx5_xtr_grp() warn: check that subtract can't underflow 'byte_cnt - 4' '0'
-drivers/net/ethernet/packetengines/hamachi.c:1504 hamachi_rx() warn: check that subtract can't underflow '(frame_status & 2047) - 4' '0-2047'
-drivers/net/ethernet/packetengines/hamachi.c:1506 hamachi_rx() warn: check that subtract can't underflow '(frame_status & 2047) - 4' '0-2047'
-drivers/net/ethernet/packetengines/hamachi.c:1520 hamachi_rx() warn: check that subtract can't underflow '(frame_status & 2047) - 4' '0-2047'
-fs/ubifs/debug.c:334 ubifs_dump_node() warn: check that subtract can't underflow 'safe_len - 24' 's32min-(-1),25-2147483646'
-fs/ubifs/debug.c:512 ubifs_dump_node() warn: check that subtract can't underflow 'safe_len - 48' 's32min-s32max'
-kernel/bpf/bpf_iter.c:479 bpf_iter_link_fill_link_info() warn: check that subtract can't underflow 'ulen - 1' '0-1010101'
-kernel/bpf/btf.c:7274 btf_get_info_by_fd() warn: check that subtract can't underflow 'uname_len - 1' '0-55'
-kernel/bpf/syscall.c:3268 bpf_raw_tp_link_fill_link_info() warn: check that subtract can't underflow 'ulen - 1' '0-1010101'
-net/compat.c:273 put_cmsg_compat() warn: check that subtract can't underflow 'cmlen - 12' 's32min-s32max'
-net/core/scm.c:249 put_cmsg() warn: check that subtract can't underflow 'cmlen - 16' 's32min-s32max'
-
-regards,
-dan carpenter
+Hey Dan, Thank you for going through qaic driver. You patches are very 
+much appreciated. This is good work.
