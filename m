@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C98A739CB1
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 11:23:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED6E2739CA5
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 11:23:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E27110E518;
-	Thu, 22 Jun 2023 09:22:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB65110E501;
+	Thu, 22 Jun 2023 09:22:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from albert.telenet-ops.be (albert.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:1a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48F1F10E50C
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 09:22:46 +0000 (UTC)
+Received: from michel.telenet-ops.be (michel.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2222610E502
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 09:22:45 +0000 (UTC)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:991a:a831:ea4b:6058])
- by albert.telenet-ops.be with bizsmtp
- id C9Nj2A00L1yfRTD069Njk3; Thu, 22 Jun 2023 11:22:44 +0200
+ by michel.telenet-ops.be with bizsmtp
+ id C9Nj2A00X1yfRTD069NjDP; Thu, 22 Jun 2023 11:22:44 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qCGWY-000Bww-0N;
+ (envelope-from <geert@linux-m68k.org>) id 1qCGWY-000Bx2-1N;
  Thu, 22 Jun 2023 11:22:43 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qCGWZ-003Vxc-Jd;
+ (envelope-from <geert@linux-m68k.org>) id 1qCGWZ-003Vxh-KT;
  Thu, 22 Jun 2023 11:22:43 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -29,10 +29,9 @@ To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Magnus Damm <magnus.damm@gmail.com>
-Subject: [PATCH 26/39] drm: renesas: shmobile: Rename
- shmob_drm_connector.connector
-Date: Thu, 22 Jun 2023 11:21:38 +0200
-Message-Id: <34065943fb616180779936aa5b1d20c3c5e06886.1687423204.git.geert+renesas@glider.be>
+Subject: [PATCH 27/39] drm: renesas: shmobile: Rename shmob_drm_plane.plane
+Date: Thu, 22 Jun 2023 11:21:39 +0200
+Message-Id: <ecd392c966c967ac6826e20f8888e10161c9cbf7.1687423204.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1687423204.git.geert+renesas@glider.be>
 References: <cover.1687423204.git.geert+renesas@glider.be>
@@ -56,50 +55,61 @@ Cc: linux-renesas-soc@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rename the "connector" member of the shmob_drm_connector subclass
-structure to "base", to improve readability.
+Rename the "plane" member of the shmob_drm_plane subclass structure to
+"base", to improve readability.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 4 ++--
- drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-index 3f0b71253ed929c9..2c0ca802d36026f4 100644
---- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-+++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-@@ -608,7 +608,7 @@ int shmob_drm_encoder_create(struct shmob_drm_device *sdev)
+diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+index 63886015baaebfc0..e300e5c0de70a9b1 100644
+--- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
++++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+@@ -20,7 +20,7 @@
+ #include "shmob_drm_regs.h"
  
- static inline struct shmob_drm_connector *to_shmob_connector(struct drm_connector *connector)
+ struct shmob_drm_plane {
+-	struct drm_plane plane;
++	struct drm_plane base;
+ 	unsigned int index;
+ 	unsigned int alpha;
+ 
+@@ -37,7 +37,7 @@ struct shmob_drm_plane {
+ 
+ static inline struct shmob_drm_plane *to_shmob_plane(struct drm_plane *plane)
  {
--	return container_of(connector, struct shmob_drm_connector, connector);
-+	return container_of(connector, struct shmob_drm_connector, base);
+-	return container_of(plane, struct shmob_drm_plane, plane);
++	return container_of(plane, struct shmob_drm_plane, base);
  }
  
- static int shmob_drm_connector_get_modes(struct drm_connector *connector)
-@@ -669,7 +669,7 @@ shmob_drm_connector_init(struct shmob_drm_device *sdev,
- 	if (!scon)
- 		return ERR_PTR(-ENOMEM);
+ static void shmob_drm_plane_compute_base(struct shmob_drm_plane *splane,
+@@ -64,7 +64,7 @@ static void shmob_drm_plane_compute_base(struct shmob_drm_plane *splane,
+ static void __shmob_drm_plane_setup(struct shmob_drm_plane *splane,
+ 				    struct drm_framebuffer *fb)
+ {
+-	struct shmob_drm_device *sdev = to_shmob_device(splane->plane.dev);
++	struct shmob_drm_device *sdev = to_shmob_device(splane->base.dev);
+ 	unsigned int ovl_idx = splane->index - 1;
+ 	u32 format;
  
--	connector = &scon->connector;
-+	connector = &scon->base;
- 	info = &connector->display_info;
- 	info->width_mm = sdev->pdata->panel.width_mm;
- 	info->height_mm = sdev->pdata->panel.height_mm;
-diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h
-index 79cce0a0ada4cfce..2c6d7541427581a6 100644
---- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h
-+++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h
-@@ -33,7 +33,7 @@ struct shmob_drm_crtc {
- };
+@@ -221,7 +221,7 @@ struct drm_plane *shmob_drm_plane_create(struct shmob_drm_device *sdev,
+ 	}
  
- struct shmob_drm_connector {
--	struct drm_connector connector;
-+	struct drm_connector base;
- 	struct drm_encoder *encoder;
- 	const struct videomode *mode;
- };
+ 	splane = drmm_universal_plane_alloc(&sdev->ddev,
+-					    struct shmob_drm_plane, plane, 1,
++					    struct shmob_drm_plane, base, 1,
+ 					    funcs, formats,
+ 					    ARRAY_SIZE(formats),  NULL, type,
+ 					    NULL);
+@@ -231,5 +231,5 @@ struct drm_plane *shmob_drm_plane_create(struct shmob_drm_device *sdev,
+ 	splane->index = index;
+ 	splane->alpha = 255;
+ 
+-	return &splane->plane;
++	return &splane->base;
+ }
 -- 
 2.34.1
 
