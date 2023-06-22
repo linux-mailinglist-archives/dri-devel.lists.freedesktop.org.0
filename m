@@ -2,50 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A428D739DDB
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 11:56:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6B4F739DED
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 12:00:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B27710E53C;
-	Thu, 22 Jun 2023 09:56:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8765710E51F;
+	Thu, 22 Jun 2023 10:00:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE6EF10E533
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 09:56:40 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 3F368660707C;
- Thu, 22 Jun 2023 10:56:39 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1687427799;
- bh=MKK+10o40TFjUQm6H9+WnOUbKNGNF889e3KEZ8XWc40=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=JQJIDJldgMOb2gIYnDqfzinszvM9XbTJRQ7ajo0OIW7EJ9RrcfEWYGvBZRHm64D4c
- 5d9A0TzsDTstr2eSOfMmblwYO+uEsJhhqDTYB4T8Yen3HVJehiW2nn/QKkRoP49r6k
- SqPd4ORIEg1akUeAlCuz7WbFPVULl85yjxEfLxu9Ux+eGqyCGZRV5Kdo8VyNSed/Jb
- HfuzItONcMJ9Z5NCCwyxrLTztSfbllxIvR7LjQaXqKryVNHTw4nR/D8ug9YyV4fkWX
- pwdudPRlGvblpwYvbX4GnV7l6FSumGxqT84lXW+VtCAqEb2vMqHExv+cBXCr8IZB45
- l2zX4l3C4+mZQ==
-Date: Thu, 22 Jun 2023 11:56:36 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Luben Tuikov <luben.tuikov@amd.com>
-Subject: Re: [PATCH v6] drm/sched: Make sure we wait for all dependencies in
- kill_jobs_cb()
-Message-ID: <20230622115636.6c6026d3@collabora.com>
-In-Reply-To: <14e873f4-d279-3afb-f10d-f797af3169b8@amd.com>
-References: <20230619071921.3465992-1-boris.brezillon@collabora.com>
- <dca9af00-271b-168d-c5f5-e6a662be38dc@amd.com>
- <20230621161808.24262cdd@collabora.com>
- <3d269410-e9ee-6cf5-8c22-5fb916ff75b2@amd.com>
- <20230621165330.29870beb@collabora.com>
- <14e873f4-d279-3afb-f10d-f797af3169b8@amd.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2061.outbound.protection.outlook.com [40.107.93.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C6EE10E508;
+ Thu, 22 Jun 2023 10:00:02 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=K1Afzg0uJNcs27IJaYSxPMAm3ECDUTWCYHt3g9ubkPuL2dJ78lMIrJIA5ajS4854MovPqbSSTMqtqIO2uHI4JuHGluUvoUIIlrCRCd0YMmOebf14nGOcMovrMaXIogTh0eLKPx0ycVKkV0OQjrsVQze7ruoLKsmibReOnfoVA3ZTx5gBt8ihZ0xNJfTYCi+rgQmtKFn1YSA+5MgHluyw1zhvPwC7vskkxNDqfWtUhmNTfsF4VH4m2ha3CqtWydsfsKZpkIQwhYaEGc8EYBtJxXoOtEyzOCxLq11JB0C1LQewgod1SePfGZGqH4Ek/LywWZwBeoJoOxeVFgYjXxRFSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=C1R5DOUVShpjIRnaTmmSb1HP3397S5/R4q8T3ZmIZc4=;
+ b=h8cwFa+WmH09y+lYMv4SrYBOZ8lqVh19j7Xbq75r1+uLW4aHNlCUCK4JTY+f4EJqWn3whelcq3lh4OqKwfpMZ7q6XxGvCLYbXiWpELH7hnWhZvREpCg3nvZI3l25pFQUtKw3wiV8mpZHU9V7w3SDO2TtdkStNd3csZBCIM3XbSmZOlrU1m76MCRWYHp+x8NNY6WS/NiRqaJ5ZVf9+Ag444V/XSg4xPfNRVPJSArci7/YyeDdByUvxL0ReLQmm0/PirUvliai17dXSIRuCeZHdrbZl5yH/OpwMq+HgXzvZ9WNs6ZzFkcXPEaAXl1odNzfJneqXD5AF/2+65BD+JNL+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=C1R5DOUVShpjIRnaTmmSb1HP3397S5/R4q8T3ZmIZc4=;
+ b=czKpVm/yqhv4UZhEVM12VxPO2tNFRzsGu+GutRGohBzAM51jzJoWjyFwHz8F18a+lzdPI20uNQDk2h8By5t/0tnPvzcxbmpdkS5cAlcX9Hi7FC73SDHjAbsvH8azL/Mofabet8NC4W1hjFuCPglaX8/NkirO18I8eedrYMXLs0c=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by PH8PR12MB7352.namprd12.prod.outlook.com (2603:10b6:510:214::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.24; Thu, 22 Jun
+ 2023 09:59:58 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::384a:95a4:8819:ee84]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::384a:95a4:8819:ee84%7]) with mapi id 15.20.6521.024; Thu, 22 Jun 2023
+ 09:59:57 +0000
+Message-ID: <97886df5-05bd-e28e-7cc3-1c46b460e557@amd.com>
+Date: Thu, 22 Jun 2023 11:59:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [RFC PATCH v3 2/4] drm: Create DRM_IOCTL_GET_RESET
+Content-Language: en-US
+To: Pekka Paalanen <ppaalanen@gmail.com>,
+ =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>
+References: <20230621005719.836857-1-andrealmeid@igalia.com>
+ <20230621005719.836857-3-andrealmeid@igalia.com>
+ <20230621110931.6f3c8914@eldfell>
+ <ab9ebe98-f583-234d-4901-ae570fb89d9f@igalia.com>
+ <20230622112241.70d4e941@eldfell>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20230622112241.70d4e941@eldfell>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0242.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:af::12) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH8PR12MB7352:EE_
+X-MS-Office365-Filtering-Correlation-Id: fb98be7c-7d4e-497b-557e-08db73076f70
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: yQ4UPeaf5D7HnRK0feXysJjgrOLQQjQhBit0OkSUeLVEILnwaEfE8WXTuswYL10Md65UH7XpCBzKwUJJQ+dSWXWgZS0vh9dZrDjcjIjCVyjgs8Ug8Yk01IxksbaMQ5Xac5C5UMrnuOGfjgKPqdtyiX8hrJsdq290ghRT3g8BlifK//v+J1Cb7XkqUJwuR+kHrc1B97Y1+rsfBXM0wDo+5T90vQ/qGC377ApfR9CeWv/PABNJ16iY4FB7vQeXiOqsjbmmgzN7e2pFDCqXSSgXP7o52DPxr15HX6+bugJOl/qEfgOFfB5smdKn+hY+iaEIcc2ddGAQZ1zT2Z/2b7oudplNI2Fyk/w/aGy1C66hUDsCvzNH001GJHRcLrqtZZa/4OPqptaM5FEEqJS6Ou+du5vfq8GIIFX6YUp/enGbxRtXQFENUz2kUfcIS3QeqWJrpfv461bx1a35l1FgWM7s2kqwao87uDRd67dQjjYKrIS9TMgE8ZPHqr9RUOuWmIfEL2Al9v81bA/AWGuBFpu6QOJzrcF+kxcg5SpgS8yH98oAN+CR5YBtppYFVU6s2tJPKxohBBeT4lQa39KqqXSE1OTqxbNzMSx+E2IUFZOneecVP7KRS+EK3WtMu5sMxizyhI0XB5jANOpfce4w8tHkOQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(39860400002)(376002)(346002)(366004)(136003)(451199021)(316002)(83380400001)(41300700001)(7416002)(5660300002)(2906002)(8936002)(8676002)(36756003)(38100700002)(6506007)(6512007)(6666004)(186003)(6486002)(31686004)(66476007)(4326008)(66556008)(66946007)(478600001)(31696002)(110136005)(54906003)(86362001)(2616005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YWFCb0VXdGFscktaSER4Q0w3SDYyb1JJa01oZ1RObTJOUlhlY0hpWGw2TDNm?=
+ =?utf-8?B?eEtOMFI2eUVIeDc3QlRyYWtRU2F0V24rS2FVeitpRWxIOWt5SUViaTNsZDVB?=
+ =?utf-8?B?aWkrMUJ4bUNNRE5OaEJ1bXJqM09tQklXWTkyYkNXR1JSWG1YTWlqRWF1UVZ4?=
+ =?utf-8?B?SFhHNnd3dm5vbHd6WlZuZU43OTY0eGhxcTZ5VlJZUTI5eTU4NkRHbVQrY3RJ?=
+ =?utf-8?B?U0J2bytHWHprWTZRYm5VRDB6TDUwYk83SG9pclczNXVCK1FOb1R2NG9oc0Rn?=
+ =?utf-8?B?RXBlWUVwc2FodEwxTSs1WGNWREk4ZzNRdSs1TGhDUHhEd0g0VXdMMytJd2E3?=
+ =?utf-8?B?RzFjSDdKL08yN08vRVRKNjc3czBTS01MdDUwVnpkYm1aQlREcVI0N1pMM1J1?=
+ =?utf-8?B?NnhTWlBkN1NGSUdiMXFMT2luTTNRM1lPTHVSSzlkdVY0THptTDZyak40N1JU?=
+ =?utf-8?B?RkRPUkFQWEZDTnVsUVBjczNBOGVkb2JVL0xibU55RXdIS3FrQVdaUlhtNXds?=
+ =?utf-8?B?U0VLNVVRdk81ZW5zZkprT25GTU5OZzhqZWRCWnVOa0JWSVpjRHFkb2VJbVM3?=
+ =?utf-8?B?QUFBdmQ0REc5MGsvbk9FMnJVV3pqTnNuNEtMYnhwU1VCZEZnOU9hSC9lNUhv?=
+ =?utf-8?B?TXZQR2JBbGlTbDNBanQzMEk3S3F5TlJSYytWZnYwUmpYakNpVGV1NEIrUEsw?=
+ =?utf-8?B?QkJub0ZNdFVjSngya0JUZFJsLzRHUFBGUExGeEJGQU93RlFEYVFPVkhoMWRX?=
+ =?utf-8?B?YnRDTUFiOFBNZUIrWC9OZUZ5R05GdWlwdTg4VmkxbGVQc2VmN0VHSWlCdmV2?=
+ =?utf-8?B?eWlxM0lmMEFsVmU2MFh2R1VTSjlsMFNXYU00eVNnUEJ6cVRjUXFSbEF2V2xT?=
+ =?utf-8?B?WWx4eEI3K2xMWEloY2xXcklXaUtKVFZXZmsyYWgwcjZHb1lhRkhBMHk1WjJx?=
+ =?utf-8?B?bEtMS3FFQ29JUllERyswSFZYUmY4ZnlqbXpGOVpoK3cyd1VrenpERFhOTktH?=
+ =?utf-8?B?V2dUV1FUc2ZMOFdheHFjaHJ1WUV6cVkvUGp1MDNkem4xQ0Y5QVphN1d4YVlz?=
+ =?utf-8?B?RENVSkpxWlRtVVowcEdZWVRvUEFFZWU1eE9EaGVxSlVPcUp5eWx1d1hSRUhG?=
+ =?utf-8?B?ZUxIU1g0VDVyVVpJMEtGSHdxYzhJUWF2SVBGY3l4SXBTajJzd0dPNVlwZmg4?=
+ =?utf-8?B?OGdsMzlDWVcyUkllYWR1WDVFQWZlY2xib1hZWVN1bnFia1NkVExCKzk3dDJO?=
+ =?utf-8?B?ekVZNVBhelRDTCtFT3ZZQmp0SUljbUtXTCtuRUFEL2k2TUpWSlZYVW5pc0Ux?=
+ =?utf-8?B?M0xOTmVoSlB3dUZVQ1dvK1RLU0EzWDV1d1ZLRHNEa2hOQXVidmw2MEE3RjRR?=
+ =?utf-8?B?Qm8ydHY5KzJsYWR1ZUFzQUcyRGhVUUR0NkY3V0RGZ3RmUHhwYWc5RTMydTVP?=
+ =?utf-8?B?aGp3V0htcXRhY25yOEZaV3FFM01jMzdtV1FXc3o5ckNLenJWSFN4M3NVaC9P?=
+ =?utf-8?B?WkpzaHhGUWZ6WmhRTXBTTGNvdFhZWWpaQTIwUHBvL2lLVVZRek1SZTRzZWRm?=
+ =?utf-8?B?eU9TbFZMNy9aU29YMTRIWTdBTlFwd3FoSU80L1FNbGVkdGwrbzFVODFPVzR2?=
+ =?utf-8?B?bGtPS3JVSGZodXVWUXBBSWZGWFpZbzNrRnlESGxBc09waWw0czhtUStEWEZB?=
+ =?utf-8?B?MXV5RUl3eC8wY3BWWGxxTWhObDRCYjhBMkpNYnlnSkF0Rkw4SFcwZWJBUGNm?=
+ =?utf-8?B?VnU2QVNyNUs5S3hndmJLaU16em91dHlDOFgwSkhYdDAvMFBVcW50NnNoVWJl?=
+ =?utf-8?B?TnA3bkg1ZGYzVjlZMFFHc3J2M29aamhVdzhwYXFmRmZybU85R0thQUxUZGVX?=
+ =?utf-8?B?Y0VIVVErWGs0MU56eURoSzFGOXhHalA5WTc0ZU4rUzk2M2I2QmNOaS9hbVZi?=
+ =?utf-8?B?SEZXL2hFOVJkR2U2dmh6SEVVcTF5dCtFS2Jlbm1wWTd1ZGc1b1NOejExcUN2?=
+ =?utf-8?B?emZWcHdVc2ZpTmJXTmoxcTFFOHNXUGg2RXhCaWZ2Zk8zU3RxdGlXZUxqRmxk?=
+ =?utf-8?B?UnpoWnZweWdWWGJHRzN6SFE1U1ozV01QWG5NbjJLeEpONnNNamNJWE5wTGY5?=
+ =?utf-8?B?dzJwNDRyc0FoeHd0b2NsbkFjbkRSVm9WcDhaYy9ZTUYySzFFa2FQNFY1ODFB?=
+ =?utf-8?Q?oLNjzu5kv3D1CRX3u6ZFU1aSDrBzgPLB8uBJuarPuCwr?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb98be7c-7d4e-497b-557e-08db73076f70
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2023 09:59:57.6740 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ig5tjSC5Ph8ORZV0Q5wgqPdcKxJhPYIq8fG4CXEdvYDpXzFbeesQa0x/2WKtH/6Q
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7352
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,142 +130,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sarah Walker <sarah.walker@imgtec.com>, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Donald Robson <donald.robson@imgtec.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: pierre-eric.pelloux-prayer@amd.com,
+ Samuel Pitoiset <samuel.pitoiset@gmail.com>,
+ =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>,
+ =?UTF-8?Q?Timur_Krist=c3=b3f?= <timur.kristof@gmail.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ alexander.deucher@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 21 Jun 2023 11:03:48 -0400
-Luben Tuikov <luben.tuikov@amd.com> wrote:
+Am 22.06.23 um 10:22 schrieb Pekka Paalanen:
+> On Wed, 21 Jun 2023 13:33:56 -0300
+> André Almeida <andrealmeid@igalia.com> wrote:
+>
+>> Em 21/06/2023 05:09, Pekka Paalanen escreveu:
+>>> On Tue, 20 Jun 2023 21:57:17 -0300
+>>> André Almeida <andrealmeid@igalia.com> wrote:
+>>>    
+>>>> Create a new DRM ioctl operation to get the numbers of resets for a
+>>>> given context. The numbers reflect just the resets that happened after
+>>>> the context was created, and not since the machine was booted.
+>>>>
+>>>> Create a debugfs interface to make easier to test the API without real
+>>>> resets.
+>>>>
+>>>> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+>>>> ---
+>>>>    drivers/gpu/drm/drm_debugfs.c |  2 ++
+>>>>    drivers/gpu/drm/drm_ioctl.c   | 58 +++++++++++++++++++++++++++++++++++
+>>>>    include/drm/drm_device.h      |  3 ++
+>>>>    include/drm/drm_drv.h         |  3 ++
+>>>>    include/uapi/drm/drm.h        | 21 +++++++++++++
+>>>>    include/uapi/drm/drm_mode.h   | 15 +++++++++
+>>>>    6 files changed, 102 insertions(+)
+>>> ...
+>>>    
+>>>> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+>>>> index a87bbbbca2d4..a84559aa0d77 100644
+>>>> --- a/include/uapi/drm/drm.h
+>>>> +++ b/include/uapi/drm/drm.h
+>>>> @@ -1169,6 +1169,27 @@ extern "C" {
+>>>>     */
+>>>>    #define DRM_IOCTL_MODE_GETFB2		DRM_IOWR(0xCE, struct drm_mode_fb_cmd2)
+>>>>    
+>>>> +/**
+>>>> + * DRM_IOCTL_GET_RESET - Get information about device resets
+>>>> + *
+>>>> + * This operation requests from the device information about resets. It should
+>>>> + * consider only resets that happens after the context is created, therefore,
+>>>> + * the counter should be zero during context creation.
+>>>> + *
+>>>> + * dev_reset_count tells how many resets have happened on this device, and
+>>>> + * ctx_reset_count tells how many of such resets were caused by this context.
+>>>> + *
+>>>> + * Flags can be used to tell if a reset is in progress, and userspace should
+>>>> + * wait until it's not in progress anymore to be able to create a new context;
+>>>> + * and to tell if the VRAM is considered lost. There's no safe way to clean this
+>>>> + * flag so if a context see this flag set, it should be like that until the end
+>>>> + * of the context.
+>>> Is "this flag" the VRAM_LOST? Or any flag?
+>>>
+>>> Does this mean that not all resets are fatal to the context? Is there
+>>> any kind of reset that should not be fatal to a context? All the
+>>> rendering APIs seem to assume that any reset is fatal and the context
+>>> must be destroyed.
+>> I got this flag from the `AMDGPU_CTX_OP_QUERY_STATE2` operation, and
+>> it's used to notify that the reset was fatal for a giving context,
+>> although the idea of non-fatal resets seems to be a bit controversial
+>> for now, so I think it will be better if I leave this flag for latter
+>> improvements of the API.
+> Which flag is "this flag"? There are RESET_IN_PROGRESS and VRAM_LOST.
+> Both are fine by me to exist.
+>
+> I think I made a wrong conclusion here. Somehow I read that it would be
+> possible to have a reset happen, and if VRAM is not lost, then the
+> context could work again.
 
-> On 2023-06-21 10:53, Boris Brezillon wrote:
-> > On Wed, 21 Jun 2023 10:41:22 -0400
-> > Luben Tuikov <luben.tuikov@amd.com> wrote:
-> >  =20
-> >> On 2023-06-21 10:18, Boris Brezillon wrote: =20
-> >>> Hello Luben,
-> >>>
-> >>> On Wed, 21 Jun 2023 09:56:40 -0400
-> >>> Luben Tuikov <luben.tuikov@amd.com> wrote:
-> >>>    =20
-> >>>> On 2023-06-19 03:19, Boris Brezillon wrote:   =20
-> >>>>> drm_sched_entity_kill_jobs_cb() logic is omitting the last fence po=
-pped
-> >>>>> from the dependency array that was waited upon before
-> >>>>> drm_sched_entity_kill() was called (drm_sched_entity::dependency fi=
-eld),
-> >>>>> so we're basically waiting for all dependencies except one.
-> >>>>>
-> >>>>> In theory, this wait shouldn't be needed because resources should h=
-ave
-> >>>>> their users registered to the dma_resv object, thus guaranteeing th=
-at
-> >>>>> future jobs wanting to access these resources wait on all the previ=
-ous
-> >>>>> users (depending on the access type, of course). But we want to keep
-> >>>>> these explicit waits in the kill entity path just in case.
-> >>>>>
-> >>>>> Let's make sure we keep all dependencies in the array in
-> >>>>> drm_sched_job_dependency(), so we can iterate over the array and wa=
-it
-> >>>>> in drm_sched_entity_kill_jobs_cb().
-> >>>>>
-> >>>>> We also make sure we wait on drm_sched_fence::finished if we were
-> >>>>> originally asked to wait on drm_sched_fence::scheduled. In that cas=
-e,
-> >>>>> we assume the intent was to delegate the wait to the firmware/GPU or
-> >>>>> rely on the pipelining done at the entity/scheduler level, but when
-> >>>>> killing jobs, we really want to wait for completion not just schedu=
-ling.
-> >>>>>
-> >>>>> v6:
-> >>>>> - Back to v4 implementation
-> >>>>> - Add Christian's R-b
-> >>>>>
-> >>>>> v5:
-> >>>>> - Flag deps on which we should only wait for the scheduled event
-> >>>>>   at insertion time
-> >>>>>
-> >>>>> v4:
-> >>>>> - Fix commit message
-> >>>>> - Fix a use-after-free bug
-> >>>>>
-> >>>>> v3:
-> >>>>> - Always wait for drm_sched_fence::finished fences in
-> >>>>>   drm_sched_entity_kill_jobs_cb() when we see a sched_fence
-> >>>>>
-> >>>>> v2:
-> >>>>> - Don't evict deps in drm_sched_job_dependency()     =20
-> >>>>
-> >>>> Hmm, why is this in reverse chronological order?
-> >>>> It's very confusing.   =20
-> >>>
-> >>> Dunno, that's how I've always ordered things, and quick look at some
-> >>> dri-devel patches [1][2] makes me think I'm not the only one to start
-> >>> from the latest submission.
-> >>>
-> >>> [1]https://lkml.org/lkml/2023/6/19/941
-> >>> [2]https://lore.kernel.org/dri-devel/cover.1686729444.git.Sandor.yu@n=
-xp.com/T/#t
-> >>>    =20
-> >>>>   =20
-> >>>>>
-> >>>>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> >>>>> Suggested-by: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> >>>>> Reviewed-by: "Christian K=C3=B6nig" <christian.koenig@amd.com>     =
-=20
-> >>>>
-> >>>> These three lines would usually come after the CCs.   =20
-> >>>
-> >>> Again, I think I've always inserted those tags before the Cc, but I c=
-an
-> >>> re-order things if you prefer. Let me know if you want me to send a v7
-> >>> addressing the Cc+changelog ordering.   =20
-> >>
-> >> No, it's not necessary for this patch, but in the future I'd rather fo=
-llow
-> >> chronological ordering for the versions, and in the Cc list. It's simi=
-lar
-> >> to how the patch description follows (narrative text) and to how we re=
-ply
-> >> back to emails, and prevalently in the kernel log in drm ("git log" sh=
-ould
-> >> suffice).
-> >>
-> >> Reading in chronological progression builds a narrative, a picture, in=
- one's
-> >> mind and makes it easy to see justifications for said narrative, or se=
-e reasons
-> >> to change the narrative.
-> >>
-> >> That is, one can make a better decision knowing the full history, rath=
-er than
-> >> only the latest change.
-> >>
-> >> (And in fact when I read the version revision list, my eyes skip over =
-v[X]
-> >> and just read down, so I was wondering why and how Christian R-B the p=
-atch
-> >> in v2, and it wasn't until I actually saw that they were ordered in re=
-verse
-> >> chronological order, which was in fact v6--listed first, which I'd ass=
-umed
-> >> was listed last.)
-> >>
-> >> Do you have access or do you know who is pushing this patch to drm-mis=
-c-fixes? =20
-> >=20
-> > I can push it.
-> >  =20
->=20
-> Acked-by: Luben Tuikov <luben.tuikov@amd.com>
+Yeah, that's exactly what AMD tries to do.
 
-Queued to drm-misc-fixes after re-ordering things in the commit message
-as you suggested.
+And no, I'm absolutely not keen about that idea.
 
 Regards,
+Christian.
 
-Boris
+> Should there be some wording added to say the context is permanently
+> broken on any kind of reset? Or is that for UMD to decide?
+>
+>
+> Thanks,
+> pq
+>
+>>>    
+>>>> + */
+>>>> +#define DRM_IOCTL_GET_RESET		DRM_IOWR(0xCF, struct drm_get_reset)
+>>>> +
+>>>> +#define DRM_RESET_IN_PROGRESS	0x1
+>>>> +#define DRM_RESET_VRAM_LOST	0x2
+>>> Ok, so the dmabuf lost is being communicated here, but how would a
+>>> userspace process know on which device a dmabuf resides on?
+>>>
+>>> Let's assume process A uses device 1 to draw, exports a dmabuf, sends
+>>> it to process B which imports it to device 2. Device 1 resets and loses
+>>> VRAM contents. How would process B notice that the dmabuf is lost when
+>>> it never touches device 1 itself?
+>>>    
+>>>> +
+>>>>    /*
+>>>>     * Device specific ioctls should only be in their respective headers
+>>>>     * The device specific ioctl range is from 0x40 to 0x9f.
+>>>> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+>>>> index 43691058d28f..c3257bd1af9c 100644
+>>>> --- a/include/uapi/drm/drm_mode.h
+>>>> +++ b/include/uapi/drm/drm_mode.h
+>>>> @@ -1308,6 +1308,21 @@ struct drm_mode_rect {
+>>>>    	__s32 y2;
+>>>>    };
+>>>>    
+>>>> +/**
+>>>> + * struct drm_get_reset - Get information about a DRM device resets
+>>>> + * @ctx_id: the context id to be queried about resets
+>>>> + * @flags: flags
+>>>> + * @dev_reset_count: global counter of resets for a given DRM device
+>>>> + * @ctx_reset_count: of all the resets counted by this device, how many were
+>>>> + * caused by this context.
+>>>> + */
+>>>> +struct drm_get_reset {
+>>>> +	__u32 ctx_id;
+>>>> +	__u32 flags;
+>>>> +	__u64 dev_reset_count;
+>>>> +	__u64 ctx_reset_count;
+>>>> +};
+>>>> +
+>>>>    #if defined(__cplusplus)
+>>>>    }
+>>>>    #endif
+>>> Thanks,
+>>> pq
 
