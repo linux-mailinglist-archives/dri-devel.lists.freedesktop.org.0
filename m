@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDF2A73A765
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 19:39:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2065173A811
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 20:19:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DC7910E59D;
-	Thu, 22 Jun 2023 17:39:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75C1810E048;
+	Thu, 22 Jun 2023 18:19:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C305E10E596
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 17:39:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
- s=s31663417; t=1687455576; x=1688060376; i=deller@gmx.de;
- bh=wdQcmzKW7tZq4TiRc//wTQ8UA2/uANqRxXM0FsQya2I=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=bKe27awmD2W5HJkynUiPanL2eE7nOklGeHPISBGts0pfwvzX+JKaCm+a6/PyDAcDUwHlYej
- 7aLaqUHFaVKPMGFxc0jVItuS+1wO/5V2WehfSplYRPrKDcUdSLAEYFsJsaKeDF7f2dBCjrkMs
- yDPil3btMrRz7Fw2/1OYSpoOpOwHPZrBbXIVCzOKySFfZgN+zRCAAEjJXzzvV/xgKlIEQ0TdI
- sIwpRUEZ6nGYg0AEdQ49V2Qbqu5HSJtW2VCPU2j3FgLOdVm0guRy/lfmOMzBXFpsDwIKgATM5
- i2gTGMsnBOmKxflNM+d/iErjIJcVMbyvWeR4Gxc5lOxVJbcFW4Iw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([94.134.155.210]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MN5eX-1qTEB320t3-00J6nA; Thu, 22
- Jun 2023 19:39:36 +0200
-Message-ID: <6dc9d84a-002c-820f-59c3-a19b49392c51@gmx.de>
-Date: Thu, 22 Jun 2023 19:39:35 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] fbdev: sh_mobile_lcdcfb: Fix ARGB32 overlay format typo
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>
-References: <a48665d08e6d4d2bbbff1d53aab06dfeb19136f4.1687426052.git.geert+renesas@glider.be>
- <20230622151550.GB950@pendragon.ideasonboard.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20230622151550.GB950@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ET461I0in8zA2gBZNZlCFEySoUX5FC0WzwrCrg6q7JUVbRoVZPI
- P9MANu3bR2azX84uHQNaKH7SC7fhMiBZ/8jkAvJbQot9hEuI+hMtcV19eA4qcNuSdYc2WVo
- K1Dgmh54crDZ5EGO0/Urr00dk8yokXqtwQn+uYjObF6hxhgUmLmW+mTm7MlRF0bvrJkxvuT
- /z2hXj4kcffbRECgSznVg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ERM+REMDpD4=;ji9qkw9/Dl7gcVMEG7nKTCUbsOP
- fHT10OYxpvc8VEs5mRjxQ+b7pOGrm3Maw89lPdt8X220F32twKdMtsMTe4u2jVoyp29vXJfc4
- gL7kZFJjxSv6ujmDMWzP6ihCMXlHIO33TgyB63dd5knsDIDpn1t8bC/MSeDsKTo1ltdLx9P8T
- wfi/4u5UiTlFLjTJrxKCVpBMrOEQF4U/fFKda75BXjd+/cGNk/PrXH/i+VZj5eHN9TmwvdTKI
- h5IhxHu2Od+qdTQxFHObUIddjNwELn+PPvY/KiOJNIj9NAIgDGhDUP/jHw/z9js+yZA5MVt+g
- qR0KIFemhDeraWkoTBifwn0sx6R1/UNGOqAEk+Usk9d3zWLfrMxXAC5v4MZVdQtekeylBcrc0
- 1kqY54i5DBgE31pZJDAowNE2b2HixTKMWYeIN4J3JsAQ/SjsFrOhU/kS2YijxsJJh4e165ZuP
- VneUI6t5EB5m0MnLBKEZ0ycT+bh8zYR9Q6q60ZlDXkMl0/xvhaqNgFKCFKyrooXVS5KABaKl/
- OA+80E8wAMSrArWBc92dciuRCNNfSsEum6/AwqcCH3cZi+nFDXEmCS3uId0ulY77OpmhNx6BY
- qApCEA8LbJ7067LvLqX2AZWZi+aEYx6QEvrFvPYyD2kr04+XZ+r73jAgVcm0M0l3DE+6Z+Ana
- VAX5aG9i7gFLZa60poeyob6uHgeAWQlpxdVO7SVV7KxdQldVuJ5WOjf3nc/0Cgo/mDL+ghW4N
- QIHwAzaypqPGWPUqtas/XKgYN5IOzW3ICmAsh64/ZBB159DAEG2vBzVVxAq9JhHVCO+oyvnBb
- ykmvr7fJfEOAoRXmpBnxOejob9m4gp7Jjxrbth4iRMPtZjo5aOO4XowchtM0SVydpfCtLdFax
- WkPV6T6d+zRicCWP9WsutRzfq5sTfauQVy0nngN+b/cikpVJlf5ngs/o9Hf1tcf88j8m5TiiP
- Y4wxPLbbte35WduWuu1Nw3j8H/s=
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
+ [IPv6:2607:f8b0:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E805B10E048
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 18:19:16 +0000 (UTC)
+Received: by mail-oi1-x22e.google.com with SMTP id
+ 5614622812f47-3a04e5baffcso1473939b6e.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 11:19:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20221208.gappssmtp.com; s=20221208; t=1687457955; x=1690049955; 
+ h=content-transfer-encoding:mime-version:message-id:to:from:cc
+ :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+ :reply-to; bh=2eCSU8eCreQMQARaqFK0Z7W8VecyujL3iJIi084r8bk=;
+ b=hJ2zkmtwhWO4g6OT6PCjZBUnY/2he9q5drY/j/hU4kEwc0SEnsoJHwTW8w45eM3b4w
+ RN+PcJ/CqcpXve69GuN6LRpJXwbStZICZdvtuz9ODFbTBwVrIi4df9d37SnQbadciOVX
+ PUWTPjiEemuj1TK613lA+nTvPw7a9KxaI1DpKzSwG53ZJ6cICspUvwoP2+qVvLhzdJBO
+ XvSD2WpkIhuOezesW//T48I3MF5cbE7ICNuM9mESqaUSO6Sb1IIqLdz128uSW8oE6emF
+ WFbEZsha4ORo5ZYpAK507l77w6vQFM/JTqFd6iyy9X378usl35oJycAQ0wWSu9U37mM8
+ J7ZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687457955; x=1690049955;
+ h=content-transfer-encoding:mime-version:message-id:to:from:cc
+ :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2eCSU8eCreQMQARaqFK0Z7W8VecyujL3iJIi084r8bk=;
+ b=UF02QQEt3bWV240nM3HBa9Ps+Hrv4PLZEzxdcgCLZrX5IqshygQ82GU2ftU7n1rO54
+ BxEys2rpSnYiIraWLiJYs1+L5gnqwghuSam74ZzFPwTs+WhelSYzbmRdIQDNDvPyTI5n
+ EFdRZfvHGSGckPTuAca0bJ7V3ZhQon8yqEeJBvZokvmE2dmedxjY9ljb3mKieeh6eKh0
+ gNy+esqblEeIiAg9FE0+svD9omvxN019laZOIIyV/hkGxGv30y4E/ueR990B7AH4d/IP
+ vLE9aSDqKpzRbtrefErbkFfvriC2iMtBBIeV5eC+o12kDelXANzQ8iQ+N6qMlRzFZoMP
+ uUAw==
+X-Gm-Message-State: AC+VfDw32C2aSILXA3AmowpuPOsPPU3L4ABpi4T94E6Ao35tqLF6BMGs
+ NpQAqlaBfSTAUxdlt8iILnZfuR7BV2x8Nvz3W2JBbw==
+X-Google-Smtp-Source: ACHHUZ7EBnnb4fJReoZIx5GFM1PIx+0BLy2Aj/TnlqNdQHm7hdf+kUGwMO2gLRRcnjXYslyeHFqv0w==
+X-Received: by 2002:a05:6808:8e8:b0:39e:dc23:d835 with SMTP id
+ d8-20020a05680808e800b0039edc23d835mr13371412oic.48.1687457955221; 
+ Thu, 22 Jun 2023 11:19:15 -0700 (PDT)
+Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
+ h8-20020a63df48000000b00548fb73874asm5184584pgj.37.2023.06.22.11.19.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Jun 2023 11:19:14 -0700 (PDT)
+Date: Thu, 22 Jun 2023 11:19:14 -0700 (PDT)
+X-Google-Original-Date: Thu, 22 Jun 2023 11:18:34 PDT (-0700)
+Subject: Re: [PATCH 0/9] Add DRM driver for StarFive SoC JH7110
+In-Reply-To: <20230602074043.33872-1-keith.zhao@starfivetech.com>
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: keith.zhao@starfivetech.com
+Message-ID: <mhng-17a80922-c7a0-4717-adfa-0959d3dfab77@palmer-ri-x1c9a>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,30 +71,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: kernel@esmil.dk, dri-devel@lists.freedesktop.org,
+ krzysztof.kozlowski+dt@linaro.org, linux-riscv@lists.infradead.org,
+ sumit.semwal@linaro.org, shengyang.chen@starfivetech.com,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org,
+ aou@eecs.berkeley.edu, mripard@kernel.org, jagan@edgeble.ai,
+ linaro-mm-sig@lists.linaro.org, robh+dt@kernel.org, macromorgan@hotmail.com,
+ Paul Walmsley <paul.walmsley@sifive.com>, keith.zhao@starfivetech.com,
+ andersson@kernel.org, linux-kernel@vger.kernel.org,
+ changhuang.liang@starfivetech.com, jack.zhu@starfivetech.com,
+ tzimmermann@suse.de, shawnguo@kernel.org, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/22/23 17:15, Laurent Pinchart wrote:
-> Hi Geert,
+On Fri, 02 Jun 2023 00:40:34 PDT (-0700), keith.zhao@starfivetech.com wrote:
+> Hi,
 >
-> Thank you for the patch.
+> This series is a DRM driver for StarFive SoC JH7110, which includes a
+> display controller driver for Verisilicon DC8200 and an HMDI driver.
 >
-> On Thu, Jun 22, 2023 at 11:28:48AM +0200, Geert Uytterhoeven wrote:
->> When configurating a CHn Source Image Format Register (LDBBSIFR), one
->> should use the corresponding LDBBSIFR_RPKF_* definition for overlay
->> planes, not the DDFR_PKF_* definition for the primary plane.
->>
->> Fortunately both definitions resolve to the same value, so this bug did
->> not cause any harm.
->>
->> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com=
+> We use GEM framework for buffer management and allocate memory by
+> using DMA APIs.
 >
+> The JH7110 display subsystem includes a display controller Verisilicon
+> DC8200 and an HDMI transmitter. The HDMI TX IP is designed for transmitting
+> video and audio data from DC8200 to a display device. The HDMI TX IP
+> consists of  the digital controller and the physical layer.
+>
+> This series does not support HDMI audio driver.
+>
+> Keith Zhao (9):
+>   dt-bindings: display: Add yamls for JH7110 display subsystem
+>   riscv: dts: starfive: jh7110: add dc&hdmi controller node
+>   drm/verisilicon: Add basic drm driver
+>   drm/verisilicon: Add gem driver for JH7110 SoC
+>   drm/verisilicon: Add mode config funcs
+>   drm/verisilicon: Add drm crtc funcs
+>   drm/verisilicon: Add drm plane funcs
+>   drm/verisilicon: Add verisilicon dc controller driver
+>   drm/verisilicon: Add starfive hdmi driver
+>
+>  .../display/verisilicon/starfive-hdmi.yaml    |   93 +
+>  .../display/verisilicon/verisilicon-dc.yaml   |  110 +
+>  .../display/verisilicon/verisilicon-drm.yaml  |   42 +
+>  .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+>  MAINTAINERS                                   |    9 +
+>  .../jh7110-starfive-visionfive-2.dtsi         |   87 +
+>  arch/riscv/boot/dts/starfive/jh7110.dtsi      |   46 +
+>  drivers/gpu/drm/Kconfig                       |    2 +
+>  drivers/gpu/drm/Makefile                      |    1 +
+>  drivers/gpu/drm/verisilicon/Kconfig           |   24 +
+>  drivers/gpu/drm/verisilicon/Makefile          |   13 +
+>  drivers/gpu/drm/verisilicon/starfive_hdmi.c   |  928 ++++++++
+>  drivers/gpu/drm/verisilicon/starfive_hdmi.h   |  296 +++
+>  drivers/gpu/drm/verisilicon/vs_crtc.c         |  388 ++++
+>  drivers/gpu/drm/verisilicon/vs_crtc.h         |   74 +
+>  drivers/gpu/drm/verisilicon/vs_dc.c           | 1040 +++++++++
+>  drivers/gpu/drm/verisilicon/vs_dc.h           |   62 +
+>  drivers/gpu/drm/verisilicon/vs_dc_hw.c        | 2008 +++++++++++++++++
+>  drivers/gpu/drm/verisilicon/vs_dc_hw.h        |  496 ++++
+>  drivers/gpu/drm/verisilicon/vs_drv.c          |  301 +++
+>  drivers/gpu/drm/verisilicon/vs_drv.h          |   52 +
+>  drivers/gpu/drm/verisilicon/vs_fb.c           |  181 ++
+>  drivers/gpu/drm/verisilicon/vs_fb.h           |   15 +
+>  drivers/gpu/drm/verisilicon/vs_gem.c          |  372 +++
+>  drivers/gpu/drm/verisilicon/vs_gem.h          |   72 +
+>  drivers/gpu/drm/verisilicon/vs_plane.c        |  440 ++++
+>  drivers/gpu/drm/verisilicon/vs_plane.h        |   74 +
+>  drivers/gpu/drm/verisilicon/vs_type.h         |   72 +
+>  include/uapi/drm/drm_fourcc.h                 |   83 +
+>  include/uapi/drm/vs_drm.h                     |   50 +
+>  30 files changed, 7433 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/verisilicon/starfive-hdmi.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/verisilicon/verisilicon-dc.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/verisilicon/verisilicon-drm.yaml
+>  create mode 100644 drivers/gpu/drm/verisilicon/Kconfig
+>  create mode 100644 drivers/gpu/drm/verisilicon/Makefile
+>  create mode 100644 drivers/gpu/drm/verisilicon/starfive_hdmi.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/starfive_hdmi.h
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.h
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_dc.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_dc.h
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_dc_hw.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_dc_hw.h
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_drv.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_drv.h
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_fb.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_fb.h
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_gem.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_gem.h
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.h
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_type.h
+>  create mode 100644 include/uapi/drm/vs_drm.h
 
-applied.
+This popped up in the RISC-V patchwork, so
 
-Thanks!
-Helge
+Acked-by: Palmer Dabbelt <palmer@rivosinc.com> # RISC-V
 
+in case anyone was looking for one -- I definately don't know anything 
+about DRM, though, so not sure that means much...
