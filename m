@@ -1,65 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22E8D73957E
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 04:23:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC05573959C
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 04:53:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2979510E381;
-	Thu, 22 Jun 2023 02:23:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9941910E366;
+	Thu, 22 Jun 2023 02:53:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
- [IPv6:2607:f8b0:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2336710E366;
- Thu, 22 Jun 2023 02:23:13 +0000 (UTC)
-Received: by mail-ot1-x32a.google.com with SMTP id
- 46e09a7af769-6b2f0a140b7so6064114a34.3; 
- Wed, 21 Jun 2023 19:23:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687400593; x=1689992593;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=x2t5KAjltcM5MEsffCq+OvNauZAaIEtA44G2Tn8lRMA=;
- b=hs0Gq/uSBcccPWXW2uHShGyCbqTNr5lfgn2C+U7Rgn8MSxTAzH66a7FsgwXqDZCzKx
- FhnThtX55MCK6kQ4g1uIudOlgfLfkj69AajOWTpDRaGaLDLwiD6A61yremIxMUDsKRR9
- 0/k9tUY23sOJ2g2FvehpRA5K2CZwBBdM1bF5cS8Q/gisW4jBZbXyeHOdt9kWp4IT/4Bz
- clIoY7qINaNC3C/5QfctLh1Gg4lJzvGY6/7OfnEd17Wk4OLW4oHKXVzFYtolMQCq5xRp
- tOzmlvPucCheWyY6VoY8G1njAqNdc7Uv0YnrsnZN7SsCSGL5ncfnK1cHhY4Nk7dssOcP
- dAhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687400593; x=1689992593;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=x2t5KAjltcM5MEsffCq+OvNauZAaIEtA44G2Tn8lRMA=;
- b=CWFeoruQLFxFMbaBMTASJ/UmEe6CE0JFkbnT3rJaVKVskTNekI2WgMKN7Cv3AQ88pV
- ty/ihG1u2D8wUku5lRKFauhSLCQI5aXzSazr6w+Ix666Qd/qLnOLYcezsajAoATfi4oS
- hgxRlV/IPo3sSBHvbePgPjnXCv7eI2VJ0LooqbSItPdZuZJLgWtfPajxae4HLusKPN/1
- KZvxLJSqVG6k53csZRm6iKkLYacWzJh/Sxgl6THAOgv5NMpqGOl3CXY2DXn9cV0vQzo9
- edAZogcojmWxT+LmrKAiym4wcIrcBOLo0U+6Bh35Zrf9Ki9f5Fu011nySmx970V/43bi
- RwqQ==
-X-Gm-Message-State: AC+VfDzwbHOivxpgtf/bNj7dy2IPxWYHOIUhn3msVcXpJotP3iKI1kw/
- 232WpnOSIcDwbKtixMBAvJQ=
-X-Google-Smtp-Source: ACHHUZ5xuQ0EpTo0pYQIl7XVvUVKkvpc4PnJ+XIFTlvdeUeiV51ju2NbVBXzB5xo/V1YXS//k+hFVQ==
-X-Received: by 2002:a05:6830:1d5a:b0:6b5:8762:cf6c with SMTP id
- p26-20020a0568301d5a00b006b58762cf6cmr8876245oth.34.1687400592706; 
- Wed, 21 Jun 2023 19:23:12 -0700 (PDT)
-Received: from localhost ([216.228.127.131]) by smtp.gmail.com with ESMTPSA id
- g13-20020a63e60d000000b005307501cfe4sm3718043pgh.44.2023.06.21.19.23.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jun 2023 19:23:12 -0700 (PDT)
-Date: Wed, 21 Jun 2023 19:20:59 -0700
-From: Yury Norov <yury.norov@gmail.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [PATCH 2/3] linux/bits.h: Add fixed-width GENMASK and BIT macros
-Message-ID: <ZJOwC5LIEySpduQJ@yury-ThinkPad>
-References: <20230509051403.2748545-1-lucas.demarchi@intel.com>
- <20230509051403.2748545-3-lucas.demarchi@intel.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07B9110E366
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 02:53:48 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 35M2aBNT007094; Thu, 22 Jun 2023 02:53:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=ldYepX8jKIyJFGSxDPjdZyCIZll72alhZGIxLxkAGN0=;
+ b=Iszjj0wbM6up4z2W3al4IScBR8Ogpl54vi0EZxwnJK7MaHtUa3xTQ4D+GE6LZ2BziDfp
+ KHK8CNaPJ/MdhtQaMPvIIzBTS0dDvXQ7ocKhQq9GLRhfdwKzDfbhM9Nzd1VXDx3HNoai
+ f2lhd7jZq5rdWcLIzCxK8mJozlzM1aZO7pXK+N2o3fxrlAVYEI4YoTl+MeQvBKpg1kNG
+ qmrKk0aKfDXlocqQtOtqx6EjTwMetzh+wZ6WAD3Xddal6dUDNqQl/accMh8oikTOBcGs
+ cWIBL6i97QLlP2HW3byta+Jp9o3VLu+jMwh0TJYQ28lDQA3s8JhWA28GKK7CUOzlO1WX CQ== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rbvr1j8hn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 Jun 2023 02:53:43 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35M2rgMo024703
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 22 Jun 2023 02:53:42 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 21 Jun
+ 2023 19:53:41 -0700
+Message-ID: <26a1858f-d428-a2ac-9ddd-115ba2d8becc@quicinc.com>
+Date: Wed, 21 Jun 2023 20:53:41 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230509051403.2748545-3-lucas.demarchi@intel.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 0/5] accel/qaic: Improve bounds checking in encode/decode
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>
+References: <af83549b-ccb4-4a8d-b036-9359eba9d39f@moroto.mountain>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <af83549b-ccb4-4a8d-b036-9359eba9d39f@moroto.mountain>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 7dnmcz4J2lFzqWFWEc99eA77B2y3-OI8
+X-Proofpoint-ORIG-GUID: 7dnmcz4J2lFzqWFWEc99eA77B2y3-OI8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-21_14,2023-06-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 spamscore=0
+ mlxlogscore=864 lowpriorityscore=0 priorityscore=1501 suspectscore=0
+ impostorscore=0 phishscore=0 mlxscore=0 bulkscore=0 malwarescore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306220021
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,187 +82,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Morton <akpm@linux-foundation.org>, intel-gfx@lists.freedesktop.org,
- Kevin Brodsky <kevin.brodsky@arm.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Masahiro Yamada <masahiroy@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>, Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- intel-xe@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
+ Carl Vanderlip <quic_carlv@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lucas, all!
-
-(Thanks, Andy, for pointing to this thread.)
-
-On Mon, May 08, 2023 at 10:14:02PM -0700, Lucas De Marchi wrote:
-> Add GENMASK_U32(), GENMASK_U16() and GENMASK_U8()  macros to create
-> masks for fixed-width types and also the corresponding BIT_U32(),
-> BIT_U16() and BIT_U8().
-
-Can you split BIT() and GENMASK() material to separate patches?
-
-> All of those depend on a new "U" suffix added to the integer constant.
-> Due to naming clashes it's better to call the macro U32. Since C doesn't
-> have a proper suffix for short and char types, the U16 and U18 variants
-> just use U32 with one additional check in the BIT_* macros to make
-> sure the compiler gives an error when the those types overflow.
-
-I feel like I don't understand the sentence...
-
-> The BIT_U16() and BIT_U8() need the help of GENMASK_INPUT_CHECK(),
-> as otherwise they would allow an invalid bit to be passed. Hence
-> implement them in include/linux/bits.h rather than together with
-> the other BIT* variants.
-
-I don't think it's a good way to go because BIT() belongs to a more basic
-level than GENMASK(). Not mentioning possible header dependency issues.
-If you need to test against tighter numeric region, I'd suggest to
-do the same trick as  GENMASK_INPUT_CHECK() does, but in uapi/linux/const.h
-directly. Something like:
-        #define _U8(x)		(CONST_GT(U8_MAX, x) + _AC(x, U))
-
-> The following test file is is used to test this:
+On 6/21/2023 1:21 AM, Dan Carpenter wrote:
+> (I think this is the first cover letter I have ever written).
 > 
-> 	$ cat mask.c
-> 	#include <linux/types.h>
-> 	#include <linux/bits.h>
+> These patches are based on review and not from testing.
+
+Thank you for your review.  I look forward to reading your patches and 
+learning from them.
+
+Did you use any kind of tooling?  If there is something we can add to 
+our flow to bring up the quality, I would like to consider it.
+
+Tooling or no, the control path is not a trivial part of the driver to 
+dip your toes in, and it seems like you really dug deep.  I find that 
+impressive.
+
+> I found it quite complicated to track the buffer sizes.  What happens
+> is the qaic_manage() gets a buffer user_msg->data[] which has
+> user_msg->len bytes.  The qaic_manage() calls qaic_manage_msg_xfer()
+> which encodes the user's message.
 > 
-> 	static const u32 a = GENMASK_U32(31, 0);
-> 	static const u16 b = GENMASK_U16(15, 0);
-> 	static const u8 c = GENMASK_U8(7, 0);
-> 	static const u32 x = BIT_U32(31);
-> 	static const u16 y = BIT_U16(15);
-> 	static const u8 z = BIT_U8(7);
+> Then we get a response and we decode the response back into
+> user_msg->data[], but we don't check that it is overflowed.  We instead
+> copy seem to check against msg_hdr_len (which would prevent a read
+> overflow).  At the end user_msg->len gets set to the number of bytes
+> that we copied to the buffer.
 > 
-> 	#if FAIL
-> 	static const u32 a2 = GENMASK_U32(32, 0);
-> 	static const u16 b2 = GENMASK_U16(16, 0);
-> 	static const u8 c2 = GENMASK_U8(8, 0);
-> 	static const u32 x2 = BIT_U32(32);
-> 	static const u16 y2 = BIT_U16(16);
-> 	static const u8 z2 = BIT_U8(8);
-> 	#endif
+> I'm coming to this code brand new, it's the first time I have seen it.
+> So I don't really understand.  There is an element of trust in
+> msg_hdr_len but then at other times we check it for integer overflows
+> which indicates deep distrust.
+
+Overall, we are taking a message from userspace and transforming it into 
+something the firmware on the device can consume.  Then we get a 
+response back from the firmware, and transform that back into something 
+userspace can consume.  From the driver perspective, neither the 
+firmware nor userspace is really trusted.  msg_hdr_len is something that 
+the driver calculates and maintains, but is updated with untrusted values.
+
+I can see where that could be confusing.  I look forward to looking at 
+what you've found, and hopefully making the code better.
+
+> What I'm saying is that there may be more issues in this code.  But also
+> that I don't really understand it so please review carefully.
 > 
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> ---
->  include/linux/bits.h       | 22 ++++++++++++++++++++++
->  include/uapi/linux/const.h |  2 ++
->  include/vdso/const.h       |  1 +
->  3 files changed, 25 insertions(+)
+> The patch that I'm least sure of is 4/5:
 > 
-> diff --git a/include/linux/bits.h b/include/linux/bits.h
-> index 7c0cf5031abe..ff4786c99b8c 100644
-> --- a/include/linux/bits.h
-> +++ b/include/linux/bits.h
-> @@ -42,4 +42,26 @@
->  #define GENMASK_ULL(h, l) \
->  	(GENMASK_INPUT_CHECK(h, l) + __GENMASK_ULL(h, l))
->  
-> +#define __GENMASK_U32(h, l) \
-> +	(((~U32(0)) - (U32(1) << (l)) + 1) & \
-> +	 (~U32(0) >> (32 - 1 - (h))))
-> +#define GENMASK_U32(h, l) \
-> +	(GENMASK_INPUT_CHECK(h, l) + __GENMASK_U32(h, l))
-> +
-> +#define __GENMASK_U16(h, l) \
-> +	((U32(0xffff) - (U32(1) << (l)) + 1) & \
-> +	 (U32(0xffff) >> (16 - 1 - (h))))
-> +#define GENMASK_U16(h, l) \
-> +	(GENMASK_INPUT_CHECK(h, l) + __GENMASK_U16(h, l))
-> +
-> +#define __GENMASK_U8(h, l) \
-> +	(((U32(0xff)) - (U32(1) << (l)) + 1) & \
-> +	 (U32(0xff) >> (8 - 1 - (h))))
-> +#define GENMASK_U8(h, l) \
-> +	(GENMASK_INPUT_CHECK(h, l) + __GENMASK_U8(h, l))
-
-[...]
-
-I see nothing wrong with fixed-wight versions of GENMASK if it helps
-people to write safer code. Can you please in commit message mention
-the exact patch(es) that added a bug related to GENMASK() misuse? It
-would be easier to advocate the purpose of new API with that in mind.
-
-Regarding implementation - we should avoid copy-pasting in cases
-like this. Below is the patch that I boot-tested for x86_64 and
-compile-tested for arm64.
-
-It looks less opencoded, and maybe Andy will be less skeptical about
-this approach because of less maintenance burden. Please take it if
-you like for v2.
-
-Thanks,
-Yury
-
-From 39c5b35075df67e7d88644470ca78a3486367c02 Mon Sep 17 00:00:00 2001
-From: Yury Norov <yury.norov@gmail.com>
-Date: Wed, 21 Jun 2023 15:27:29 -0700
-Subject: [PATCH] bits: introduce fixed-type genmasks
-
-Generalize __GENMASK() to support different types, and implement
-fixed-types versions of GENMASK() based on it.
-
-Signed-off-by: Yury Norov <yury.norov@gmail.com>
----
- include/linux/bitops.h |  1 -
- include/linux/bits.h   | 22 ++++++++++++----------
- 2 files changed, 12 insertions(+), 11 deletions(-)
-
-diff --git a/include/linux/bitops.h b/include/linux/bitops.h
-index 2ba557e067fe..1db50c69cfdb 100644
---- a/include/linux/bitops.h
-+++ b/include/linux/bitops.h
-@@ -15,7 +15,6 @@
- #  define aligned_byte_mask(n) (~0xffUL << (BITS_PER_LONG - 8 - 8*(n)))
- #endif
- 
--#define BITS_PER_TYPE(type)	(sizeof(type) * BITS_PER_BYTE)
- #define BITS_TO_LONGS(nr)	__KERNEL_DIV_ROUND_UP(nr, BITS_PER_TYPE(long))
- #define BITS_TO_U64(nr)		__KERNEL_DIV_ROUND_UP(nr, BITS_PER_TYPE(u64))
- #define BITS_TO_U32(nr)		__KERNEL_DIV_ROUND_UP(nr, BITS_PER_TYPE(u32))
-diff --git a/include/linux/bits.h b/include/linux/bits.h
-index 7c0cf5031abe..cb94128171b2 100644
---- a/include/linux/bits.h
-+++ b/include/linux/bits.h
-@@ -6,6 +6,8 @@
- #include <vdso/bits.h>
- #include <asm/bitsperlong.h>
- 
-+#define BITS_PER_TYPE(type)	(sizeof(type) * BITS_PER_BYTE)
-+
- #define BIT_MASK(nr)		(UL(1) << ((nr) % BITS_PER_LONG))
- #define BIT_WORD(nr)		((nr) / BITS_PER_LONG)
- #define BIT_ULL_MASK(nr)	(ULL(1) << ((nr) % BITS_PER_LONG_LONG))
-@@ -30,16 +32,16 @@
- #define GENMASK_INPUT_CHECK(h, l) 0
- #endif
- 
--#define __GENMASK(h, l) \
--	(((~UL(0)) - (UL(1) << (l)) + 1) & \
--	 (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
--#define GENMASK(h, l) \
--	(GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-+#define __GENMASK(t, h, l) \
-+	(GENMASK_INPUT_CHECK(h, l) + \
-+	 (((t)~0ULL - ((t)(1) << (l)) + 1) & \
-+	 ((t)~0ULL >> (BITS_PER_TYPE(t) - 1 - (h)))))
- 
--#define __GENMASK_ULL(h, l) \
--	(((~ULL(0)) - (ULL(1) << (l)) + 1) & \
--	 (~ULL(0) >> (BITS_PER_LONG_LONG - 1 - (h))))
--#define GENMASK_ULL(h, l) \
--	(GENMASK_INPUT_CHECK(h, l) + __GENMASK_ULL(h, l))
-+#define GENMASK(h, l)		__GENMASK(unsigned long,  h, l)
-+#define GENMASK_ULL(h, l)	__GENMASK(unsigned long long, h, l)
-+#define GENMASK_U8(h, l)	__GENMASK(u8,  h, l)
-+#define GENMASK_U16(h, l)	__GENMASK(u16, h, l)
-+#define GENMASK_U32(h, l)	__GENMASK(u32, h, l)
-+#define GENMASK_U64(h, l)	__GENMASK(u64, h, l)
- 
- #endif	/* __LINUX_BITS_H */
--- 
-2.39.2
+> [PATCH 4/5] accel/qaic: move and expand integer overflow checks for
+>   map_user_pages()
+> 
+> regards,
+> dan carpenter
 
