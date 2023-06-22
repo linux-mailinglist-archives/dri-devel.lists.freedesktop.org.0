@@ -1,77 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99A9673B049
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 07:47:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0FCF73B14F
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 09:27:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A88510E004;
-	Fri, 23 Jun 2023 05:47:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9539110E5ED;
+	Fri, 23 Jun 2023 07:26:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6B8B10E004;
- Fri, 23 Jun 2023 05:47:12 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 35N4KbI7005750; Fri, 23 Jun 2023 05:47:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=YAXCgFriuHwe2jc5mU56j8lqAOqpOjYjXA68MoBIPyk=;
- b=UZTUKd0p40Th9slfAzwHY5ZuH7xV4YvOcE/BsmwdHrCqXSCK5klzT1lbKzQPfk2ONESn
- nkZm8bDctKeT5+Med+vKsYnErUPCK1gsHxYVkSeYbw/MGR2Ccd71Zpc6U8JblOWWBN/F
- abB2FjB5ZGMF5xx2qMr6Tk3ceSfjbRyHpeSvQC8micDhwpR46LXQC1+b5ezGqxRTf6v8
- xkpCg6EKZdZAP+zZ5Aw2b6X0gJEI7wcxXfC4BqXSZd5ZQ31+PyER+Fc0It9+4lREnJDd
- j0zxiqlL+kW8pzsEU6LhAgksskyXDyWRCj+ael1TipFvFulpYN2QlVstVzFFPVjahk/g +w== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rc6b2bxd9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Jun 2023 05:47:06 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35N5l5IZ007443
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Jun 2023 05:47:05 GMT
-Received: from [10.110.6.30] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Thu, 22 Jun
- 2023 22:47:04 -0700
-Message-ID: <6b74cb1f-3128-4ebd-8ff9-33cc025d957b@quicinc.com>
-Date: Thu, 22 Jun 2023 22:47:04 -0700
+X-Greylist: delayed 561 seconds by postgrey-1.36 at gabe;
+ Thu, 22 Jun 2023 08:35:20 UTC
+Received: from out-60.mta0.migadu.com (out-60.mta0.migadu.com
+ [IPv6:2001:41d0:1004:224b::3c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EA7610E4FC
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 08:35:20 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1687422353;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=e1+xh+RWSStYbNLR0oQ989/HYJlswcKDbAXjdjN9B80=;
+ b=xvxAUOPZhkHxrz5auj/DvSbIPb+YBm0mm/vwQb+qVqQ4Y/6eX3JXDb6dSCEU7ngRnO9vZp
+ O1vW9hnvD6U+9SnmCeCg5ZUrSUfXFFxy4z0h/xJZBOF+zNdyhiwiBFgPQwcZSbT11oROSx
+ 3e1QwRBTHYpO3Pr2o6/qbeDKmmtUgn0=
+From: Qi Zheng <qi.zheng@linux.dev>
+To: akpm@linux-foundation.org, david@fromorbit.com, tkhai@ya.ru,
+ vbabka@suse.cz, roman.gushchin@linux.dev, djwong@kernel.org,
+ brauner@kernel.org, paulmck@kernel.org, tytso@mit.edu
+Subject: [PATCH 00/29] use refcount+RCU method to implement lockless slab
+ shrink
+Date: Thu, 22 Jun 2023 08:24:25 +0000
+Message-Id: <20230622082454.4090236-1-qi.zheng@linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 1/2] drm/msm/dpu: fix DSC 1.2 block lengths
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>
-References: <20230623013731.1088007-1-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230623013731.1088007-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: UjJxFmohiBNmshm8GEOAwRF7W3Fzry0V
-X-Proofpoint-GUID: UjJxFmohiBNmshm8GEOAwRF7W3Fzry0V
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-23_02,2023-06-22_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0
- malwarescore=0 spamscore=0 phishscore=0 suspectscore=0 priorityscore=1501
- mlxlogscore=999 lowpriorityscore=0 impostorscore=0 mlxscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
- definitions=main-2306230052
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
+X-Mailman-Approved-At: Fri, 23 Jun 2023 07:26:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,135 +50,326 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: mst@redhat.com, neilb@suse.de, jasowang@redhat.com,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linux-mm@kvack.org, song@kernel.org, dm-devel@redhat.com, ray.huang@amd.com,
+ namit@vmware.com, marijn.suijten@somainline.org, agk@redhat.com,
+ senozhatsky@chromium.org, david@redhat.com, clm@fb.com, steven.price@arm.com,
+ alyssa.rosenzweig@collabora.com, Qi Zheng <zhengqi.arch@bytedance.com>,
+ josef@toxicpanda.com, linux-ext4@vger.kernel.org, kent.overstreet@gmail.com,
+ xuanzhuo@linux.alibaba.com, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, snitzer@kernel.org, quic_abhinavk@quicinc.com,
+ colyli@suse.de, linux-raid@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-bcache@vger.kernel.org, viro@zeniv.linux.org.uk, dsterba@suse.com,
+ sean@poorly.run, linux-nfs@vger.kernel.org, tomeu.vizoso@collabora.com,
+ kolga@netapp.com, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ linux-xfs@vger.kernel.org, minchan@kernel.org, chuck.lever@oracle.com,
+ jack@suse.com, dmitry.baryshkov@linaro.org, adilger.kernel@dilger.ca,
+ freedreno@lists.freedesktop.org, christian.koenig@amd.com,
+ linux-btrfs@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Qi Zheng <zhengqi.arch@bytedance.com>
 
+Hi all,
 
-On 6/22/2023 6:37 PM, Dmitry Baryshkov wrote:
-> All DSC_BLK_1_2 declarations incorrectly pass 0x29c as the block length.
-> This includes the common block itself, enc subblocks and some empty
-> space around. Change that to pass 0x4 instead, the length of common
-> register block itself.
-> 
-> Fixes: 0d1b10c63346 ("drm/msm/dpu: add DSC 1.2 hw blocks for relevant chipsets")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+1. Background
+=============
 
-There is no need of a fixes tag for this.
+We used to implement the lockless slab shrink with SRCU [1], but then kernel
+test robot reported -88.8% regression in stress-ng.ramfs.ops_per_sec test
+case [2], so we reverted it [3].
 
-This is not a bug but was intentional.
+This patch series aims to re-implement the lockless slab shrink using the
+refcount+RCU method proposed by Dave Chinner [4].
 
-Till we added sub-block parsing support we had to dump the whole block.
+[1]. https://lore.kernel.org/lkml/20230313112819.38938-1-zhengqi.arch@bytedance.com/
+[2]. https://lore.kernel.org/lkml/202305230837.db2c233f-yujie.liu@intel.com/
+[3]. https://lore.kernel.org/all/20230609081518.3039120-1-qi.zheng@linux.dev/
+[4]. https://lore.kernel.org/lkml/ZIJhou1d55d4H1s0@dread.disaster.area/
 
-And hence I would suggest this change should be merged after the 
-sub-block parsing change otherwise we wont have full register dumps for DSC.
+2. Implementation
+=================
 
-Also, please add :
+Currently, the shrinker instances can be divided into the following three types:
 
-Suggested-by: Ryan McCann <quic_rmccann@quicinc.com>
+a) global shrinker instance statically defined in the kernel, such as
+   workingset_shadow_shrinker.
 
+b) global shrinker instance statically defined in the kernel modules, such as
+   mmu_shrinker in x86.
 
-> ---
->   .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h   |  8 ++++----
->   .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h   |  2 +-
->   .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h | 12 ++++++------
->   .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h   |  8 ++++----
->   .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h   |  8 ++++----
->   5 files changed, 19 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-> index 8da424eaee6a..6edf323f381f 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-> @@ -159,10 +159,10 @@ static const struct dpu_merge_3d_cfg sm8350_merge_3d[] = {
->    * its own different sub block address.
->    */
->   static const struct dpu_dsc_cfg sm8350_dsc[] = {
-> -	DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x29c, 0, dsc_sblk_0),
-> -	DSC_BLK_1_2("dce_0_1", DSC_1, 0x80000, 0x29c, 0, dsc_sblk_1),
-> -	DSC_BLK_1_2("dce_1_0", DSC_2, 0x81000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
-> -	DSC_BLK_1_2("dce_1_1", DSC_3, 0x81000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_1),
-> +	DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x4, 0, dsc_sblk_0),
-> +	DSC_BLK_1_2("dce_0_1", DSC_1, 0x80000, 0x4, 0, dsc_sblk_1),
-> +	DSC_BLK_1_2("dce_1_0", DSC_2, 0x81000, 0x4, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
-> +	DSC_BLK_1_2("dce_1_1", DSC_3, 0x81000, 0x4, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_1),
->   };
->   
->   static const struct dpu_intf_cfg sm8350_intf[] = {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> index 900fee410e11..5354003aa8be 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> @@ -104,7 +104,7 @@ static const struct dpu_pingpong_cfg sc7280_pp[] = {
->   
->   /* NOTE: sc7280 only has one DSC hard slice encoder */
->   static const struct dpu_dsc_cfg sc7280_dsc[] = {
-> -	DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
-> +	DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x4, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
->   };
->   
->   static const struct dpu_wb_cfg sc7280_wb[] = {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-> index f6ce6b090f71..1d374abec1fd 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-> @@ -148,12 +148,12 @@ static const struct dpu_merge_3d_cfg sc8280xp_merge_3d[] = {
->    * its own different sub block address.
->    */
->   static const struct dpu_dsc_cfg sc8280xp_dsc[] = {
-> -	DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x29c, 0, dsc_sblk_0),
-> -	DSC_BLK_1_2("dce_0_1", DSC_1, 0x80000, 0x29c, 0, dsc_sblk_1),
-> -	DSC_BLK_1_2("dce_1_0", DSC_2, 0x81000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
-> -	DSC_BLK_1_2("dce_1_1", DSC_3, 0x81000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_1),
-> -	DSC_BLK_1_2("dce_2_0", DSC_4, 0x82000, 0x29c, 0, dsc_sblk_0),
-> -	DSC_BLK_1_2("dce_2_1", DSC_5, 0x82000, 0x29c, 0, dsc_sblk_1),
-> +	DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x4, 0, dsc_sblk_0),
-> +	DSC_BLK_1_2("dce_0_1", DSC_1, 0x80000, 0x4, 0, dsc_sblk_1),
-> +	DSC_BLK_1_2("dce_1_0", DSC_2, 0x81000, 0x4, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
-> +	DSC_BLK_1_2("dce_1_1", DSC_3, 0x81000, 0x4, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_1),
-> +	DSC_BLK_1_2("dce_2_0", DSC_4, 0x82000, 0x4, 0, dsc_sblk_0),
-> +	DSC_BLK_1_2("dce_2_1", DSC_5, 0x82000, 0x4, 0, dsc_sblk_1),
->   };
->   
->   /* TODO: INTF 3, 8 and 7 are used for MST, marked as INTF_NONE for now */
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-> index 8d13c369213c..79447d8cab05 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-> @@ -167,10 +167,10 @@ static const struct dpu_merge_3d_cfg sm8450_merge_3d[] = {
->    * its own different sub block address.
->    */
->   static const struct dpu_dsc_cfg sm8450_dsc[] = {
-> -	DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x29c, 0, dsc_sblk_0),
-> -	DSC_BLK_1_2("dce_0_1", DSC_1, 0x80000, 0x29c, 0, dsc_sblk_1),
-> -	DSC_BLK_1_2("dce_1_0", DSC_2, 0x81000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
-> -	DSC_BLK_1_2("dce_1_1", DSC_3, 0x81000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_1),
-> +	DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x4, 0, dsc_sblk_0),
-> +	DSC_BLK_1_2("dce_0_1", DSC_1, 0x80000, 0x4, 0, dsc_sblk_1),
-> +	DSC_BLK_1_2("dce_1_0", DSC_2, 0x81000, 0x4, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
-> +	DSC_BLK_1_2("dce_1_1", DSC_3, 0x81000, 0x4, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_1),
->   };
->   
->   static const struct dpu_intf_cfg sm8450_intf[] = {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-> index f17b9a7fee85..26e3c28003f7 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-> @@ -171,10 +171,10 @@ static const struct dpu_merge_3d_cfg sm8550_merge_3d[] = {
->    * its own different sub block address.
->    */
->   static const struct dpu_dsc_cfg sm8550_dsc[] = {
-> -	DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x29c, 0, dsc_sblk_0),
-> -	DSC_BLK_1_2("dce_0_1", DSC_1, 0x80000, 0x29c, 0, dsc_sblk_1),
-> -	DSC_BLK_1_2("dce_1_0", DSC_2, 0x81000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
-> -	DSC_BLK_1_2("dce_1_1", DSC_3, 0x81000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_1),
-> +	DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x4, 0, dsc_sblk_0),
-> +	DSC_BLK_1_2("dce_0_1", DSC_1, 0x80000, 0x4, 0, dsc_sblk_1),
-> +	DSC_BLK_1_2("dce_1_0", DSC_2, 0x81000, 0x4, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
-> +	DSC_BLK_1_2("dce_1_1", DSC_3, 0x81000, 0x4, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_1),
->   };
->   
->   static const struct dpu_intf_cfg sm8550_intf[] = {
+c) shrinker instance embedded in other structures.
+
+For *case a*, the memory of shrinker instance is never freed. For *case b*, the
+memory of shrinker instance will be freed after the module is unloaded. But we
+will call synchronize_rcu() in free_module() to wait for RCU read-side critical
+section to exit. For *case c*, we need to dynamically allocate these shrinker
+instances, then the memory of shrinker instance can be dynamically freed alone
+by calling kfree_rcu(). Then we can use rcu_read_{lock,unlock}() to ensure that
+the shrinker instance is valid.
+
+The shrinker::refcount mechanism ensures that the shrinker instance will not be
+run again after unregistration. So the structure that records the pointer of
+shrinker instance can be safely freed without waiting for the RCU read-side
+critical section.
+
+In this way, while we implement the lockless slab shrink, we don't need to be
+blocked in unregister_shrinker() to wait RCU read-side critical section.
+
+PATCH 1 ~ 2: infrastructure for dynamically allocating shrinker instances
+PATCH 3 ~ 21: dynamically allocate the shrinker instances in case c
+PATCH 22: introduce pool_shrink_rwsem to implement private synchronize_shrinkers()
+PATCH 23 ~ 28: implement the lockless slab shrink
+PATCH 29: move shrinker-related code into a separate file
+
+3. Testing
+==========
+
+3.1 slab shrink stress test
+---------------------------
+
+We can reproduce the down_read_trylock() hotspot through the following script:
+
+```
+
+DIR="/root/shrinker/memcg/mnt"
+
+do_create()
+{
+    mkdir -p /sys/fs/cgroup/memory/test
+    mkdir -p /sys/fs/cgroup/perf_event/test
+    echo 4G > /sys/fs/cgroup/memory/test/memory.limit_in_bytes
+    for i in `seq 0 $1`;
+    do
+        mkdir -p /sys/fs/cgroup/memory/test/$i;
+        echo $$ > /sys/fs/cgroup/memory/test/$i/cgroup.procs;
+        echo $$ > /sys/fs/cgroup/perf_event/test/cgroup.procs;
+        mkdir -p $DIR/$i;
+    done
+}
+
+do_mount()
+{
+    for i in `seq $1 $2`;
+    do
+        mount -t tmpfs $i $DIR/$i;
+    done
+}
+
+do_touch()
+{
+    for i in `seq $1 $2`;
+    do
+        echo $$ > /sys/fs/cgroup/memory/test/$i/cgroup.procs;
+        echo $$ > /sys/fs/cgroup/perf_event/test/cgroup.procs;
+            dd if=/dev/zero of=$DIR/$i/file$i bs=1M count=1 &
+    done
+}
+
+case "$1" in
+  touch)
+    do_touch $2 $3
+    ;;
+  test)
+    do_create 4000
+    do_mount 0 4000
+    do_touch 0 3000
+    ;;
+  *)
+    exit 1
+    ;;
+esac
+```
+
+Save the above script, then run test and touch commands. Then we can use the
+following perf command to view hotspots:
+
+perf top -U -F 999 [-g]
+
+1) Before applying this patchset:
+
+  35.34%  [kernel]             [k] down_read_trylock
+  18.44%  [kernel]             [k] shrink_slab
+  15.98%  [kernel]             [k] pv_native_safe_halt
+  15.08%  [kernel]             [k] up_read
+   5.33%  [kernel]             [k] idr_find
+   2.71%  [kernel]             [k] _find_next_bit
+   2.21%  [kernel]             [k] shrink_node
+   1.29%  [kernel]             [k] shrink_lruvec
+   0.66%  [kernel]             [k] do_shrink_slab
+   0.33%  [kernel]             [k] list_lru_count_one
+   0.33%  [kernel]             [k] __radix_tree_lookup
+   0.25%  [kernel]             [k] mem_cgroup_iter
+
+-   82.19%    19.49%  [kernel]                  [k] shrink_slab
+   - 62.00% shrink_slab
+        36.37% down_read_trylock
+        15.52% up_read
+        5.48% idr_find
+        3.38% _find_next_bit
+      + 0.98% do_shrink_slab
+
+2) After applying this patchset:
+
+  46.83%  [kernel]           [k] shrink_slab
+  20.52%  [kernel]           [k] pv_native_safe_halt
+   8.85%  [kernel]           [k] do_shrink_slab
+   7.71%  [kernel]           [k] _find_next_bit
+   1.72%  [kernel]           [k] xas_descend
+   1.70%  [kernel]           [k] shrink_node
+   1.44%  [kernel]           [k] shrink_lruvec
+   1.43%  [kernel]           [k] mem_cgroup_iter
+   1.28%  [kernel]           [k] xas_load
+   0.89%  [kernel]           [k] super_cache_count
+   0.84%  [kernel]           [k] xas_start
+   0.66%  [kernel]           [k] list_lru_count_one
+
+-   65.50%    40.44%  [kernel]                  [k] shrink_slab
+   - 22.96% shrink_slab
+        13.11% _find_next_bit
+      - 9.91% do_shrink_slab
+         - 1.59% super_cache_count
+              0.92% list_lru_count_one
+
+We can see that the first perf hotspot becomes shrink_slab, which is what we
+expect.
+
+3.2 registeration and unregisteration stress test
+-------------------------------------------------
+
+Run the command below to test:
+
+stress-ng --timeout 60 --times --verify --metrics-brief --ramfs 9 &
+
+1) Before applying this patchset:
+
+ setting to a 60 second run per stressor
+ dispatching hogs: 9 ramfs
+ stressor       bogo ops real time  usr time  sys time   bogo ops/s     bogo ops/s
+                           (secs)    (secs)    (secs)   (real time) (usr+sys time)
+ ramfs            880623     60.02      7.71    226.93     14671.45        3753.09
+ ramfs:
+          1 System Management Interrupt
+ for a 60.03s run time:
+    5762.40s available CPU time
+       7.71s user time   (  0.13%)
+     226.93s system time (  3.94%)
+     234.64s total time  (  4.07%)
+ load average: 8.54 3.06 2.11
+ passed: 9: ramfs (9)
+ failed: 0
+ skipped: 0
+ successful run completed in 60.03s (1 min, 0.03 secs)
+
+2) After applying this patchset:
+
+ setting to a 60 second run per stressor
+ dispatching hogs: 9 ramfs
+ stressor       bogo ops real time  usr time  sys time   bogo ops/s     bogo ops/s
+                           (secs)    (secs)    (secs)   (real time) (usr+sys time)
+ ramfs            847562     60.02      7.44    230.22     14120.66        3566.23
+ ramfs:
+          4 System Management Interrupts
+ for a 60.12s run time:
+    5771.95s available CPU time
+       7.44s user time   (  0.13%)
+     230.22s system time (  3.99%)
+     237.66s total time  (  4.12%)
+ load average: 8.18 2.43 0.84
+ passed: 9: ramfs (9)
+ failed: 0
+ skipped: 0
+ successful run completed in 60.12s (1 min, 0.12 secs)
+
+We can see that the ops/s has hardly changed.
+
+This series is based on next-20230613.
+
+Comments and suggestions are welcome.
+
+Thanks,
+Qi.
+
+Qi Zheng (29):
+  mm: shrinker: add shrinker::private_data field
+  mm: vmscan: introduce some helpers for dynamically allocating shrinker
+  drm/i915: dynamically allocate the i915_gem_mm shrinker
+  drm/msm: dynamically allocate the drm-msm_gem shrinker
+  drm/panfrost: dynamically allocate the drm-panfrost shrinker
+  dm: dynamically allocate the dm-bufio shrinker
+  dm zoned: dynamically allocate the dm-zoned-meta shrinker
+  md/raid5: dynamically allocate the md-raid5 shrinker
+  bcache: dynamically allocate the md-bcache shrinker
+  vmw_balloon: dynamically allocate the vmw-balloon shrinker
+  virtio_balloon: dynamically allocate the virtio-balloon shrinker
+  mbcache: dynamically allocate the mbcache shrinker
+  ext4: dynamically allocate the ext4-es shrinker
+  jbd2,ext4: dynamically allocate the jbd2-journal shrinker
+  NFSD: dynamically allocate the nfsd-client shrinker
+  NFSD: dynamically allocate the nfsd-reply shrinker
+  xfs: dynamically allocate the xfs-buf shrinker
+  xfs: dynamically allocate the xfs-inodegc shrinker
+  xfs: dynamically allocate the xfs-qm shrinker
+  zsmalloc: dynamically allocate the mm-zspool shrinker
+  fs: super: dynamically allocate the s_shrink
+  drm/ttm: introduce pool_shrink_rwsem
+  mm: shrinker: add refcount and completion_wait fields
+  mm: vmscan: make global slab shrink lockless
+  mm: vmscan: make memcg slab shrink lockless
+  mm: shrinker: make count and scan in shrinker debugfs lockless
+  mm: vmscan: hold write lock to reparent shrinker nr_deferred
+  mm: shrinkers: convert shrinker_rwsem to mutex
+  mm: shrinker: move shrinker-related code into a separate file
+
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.c  |  27 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   3 +-
+ drivers/gpu/drm/msm/msm_drv.h                 |   2 +-
+ drivers/gpu/drm/msm/msm_gem_shrinker.c        |  25 +-
+ drivers/gpu/drm/panfrost/panfrost_device.h    |   2 +-
+ .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |  24 +-
+ drivers/gpu/drm/ttm/ttm_pool.c                |  15 +
+ drivers/md/bcache/bcache.h                    |   2 +-
+ drivers/md/bcache/btree.c                     |  23 +-
+ drivers/md/bcache/sysfs.c                     |   2 +-
+ drivers/md/dm-bufio.c                         |  23 +-
+ drivers/md/dm-cache-metadata.c                |   2 +-
+ drivers/md/dm-thin-metadata.c                 |   2 +-
+ drivers/md/dm-zoned-metadata.c                |  25 +-
+ drivers/md/raid5.c                            |  28 +-
+ drivers/md/raid5.h                            |   2 +-
+ drivers/misc/vmw_balloon.c                    |  16 +-
+ drivers/virtio/virtio_balloon.c               |  26 +-
+ fs/btrfs/super.c                              |   2 +-
+ fs/ext4/ext4.h                                |   2 +-
+ fs/ext4/extents_status.c                      |  21 +-
+ fs/jbd2/journal.c                             |  32 +-
+ fs/kernfs/mount.c                             |   2 +-
+ fs/mbcache.c                                  |  39 +-
+ fs/nfsd/netns.h                               |   4 +-
+ fs/nfsd/nfs4state.c                           |  20 +-
+ fs/nfsd/nfscache.c                            |  33 +-
+ fs/proc/root.c                                |   2 +-
+ fs/super.c                                    |  40 +-
+ fs/xfs/xfs_buf.c                              |  25 +-
+ fs/xfs/xfs_buf.h                              |   2 +-
+ fs/xfs/xfs_icache.c                           |  27 +-
+ fs/xfs/xfs_mount.c                            |   4 +-
+ fs/xfs/xfs_mount.h                            |   2 +-
+ fs/xfs/xfs_qm.c                               |  24 +-
+ fs/xfs/xfs_qm.h                               |   2 +-
+ include/linux/fs.h                            |   2 +-
+ include/linux/jbd2.h                          |   2 +-
+ include/linux/shrinker.h                      |  35 +-
+ mm/Makefile                                   |   4 +-
+ mm/shrinker.c                                 | 750 ++++++++++++++++++
+ mm/shrinker_debug.c                           |  26 +-
+ mm/vmscan.c                                   | 702 ----------------
+ mm/zsmalloc.c                                 |  28 +-
+ 44 files changed, 1128 insertions(+), 953 deletions(-)
+ create mode 100644 mm/shrinker.c
+
+-- 
+2.30.2
+
