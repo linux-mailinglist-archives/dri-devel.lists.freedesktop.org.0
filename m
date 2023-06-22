@@ -1,44 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B12573AB41
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 23:12:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D07E73AB4F
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 23:14:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5029F10E062;
-	Thu, 22 Jun 2023 21:12:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A76210E064;
+	Thu, 22 Jun 2023 21:14:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C8FE10E062
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 21:12:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40B3010E064
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 21:14:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
  Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=sCjqzOq5Io+fRooVNMtJwjPs6uLllaRKt1mjXlVAIv4=; b=ekmILxLCU+yJCsVbZvrDd095fb
- KtUwn6YCwwpcqJsSRbES6wK0e7DKijgUorYorBIfKAVfwvhGL/lv/mMAKdA/uRTllqqseFyewhf5+
- Z/emSJmpLdLXCtGfNTGflU0Cb5wyHAv+udPs/H6WzxXuTuVaY4WK6ioFdO6Re37ilQps/HB2Kz6Ox
- 1ZDtJKSS6Yje/U4xKt9sIMwJB2P+jEuCHaGBR2mOwb/YN16mg6BUI74EdBIi0g6K0x2ORatPCZlU1
- myFHr5sdwvkArOQA3kqgY2JPbKROD1rSyScSPkOriNZTcfGwhCKRUr6h4A9vsszD/8beX1yQvQxzr
- K+JcJw8w==;
+ bh=+evnrWvMO11pB2Se6CmXqRpq5vuKB5b/OFz8WvDzXFA=; b=BpqlADxE+aE9eMikiqLg5s5PFW
+ BseEQE5TVR+/CwqHyv131gu84M8Oa3/O1LFzKYdBhKDQ7rY1Ks4211A7yz+YLW0XIVv5YgyRnw94H
+ O1m6D/h/pBcJ6M4qWtJWoy0KVMcaU2z/snhoOGl4aCQeVGkWWSTuC75vG70Ymqxr39+NvbLVfYlWQ
+ wVtzjV9STTLc7AuYLG128apVY5VwdioqiCLEzG77hUOmIoWbHPwlwdnfPmKFAAsFDmOYhNu4Eopj1
+ zd74OewfWSkFMev2BI46DptGQQ8Zv0wkf9zEOdXNohhxiUCsR28qEG1jB+nSjyQ8I8dHqh5OY/GYj
+ ratQ5qgA==;
 Received: from [2601:1c2:980:9ec0::2764]
  by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1qCRbV-001o92-1k; Thu, 22 Jun 2023 21:12:33 +0000
-Message-ID: <dd6bd147-6d5f-ee2c-4feb-ec3376c01a87@infradead.org>
-Date: Thu, 22 Jun 2023 14:12:32 -0700
+ id 1qCRdW-001oSB-37; Thu, 22 Jun 2023 21:14:39 +0000
+Message-ID: <8e68daf3-485a-7def-b382-edc33415265d@infradead.org>
+Date: Thu, 22 Jun 2023 14:14:38 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.2
-Subject: Re: [PATCH 2/2] modules/firmware: add a new option to denote a
- firmware group to choose one.
+Subject: Re: [PATCH 1/2] docs: module: start adding some docs for MODULE_
+ macros.
 Content-Language: en-US
 To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
 References: <20230426042906.724352-1-airlied@gmail.com>
- <20230426042906.724352-2-airlied@gmail.com>
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230426042906.724352-2-airlied@gmail.com>
+In-Reply-To: <20230426042906.724352-1-airlied@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -54,7 +53,8 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Dave Airlie <airlied@redhat.com>, Luis Chamberlain <mcgrof@kernel.org>,
- linux-modules@vger.kernel.org
+ Jonathan Corbet <corbet@lwn.net>, linux-modules@vger.kernel.org,
+ linux-doc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -63,69 +63,186 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 4/25/23 21:29, Dave Airlie wrote:
 > From: Dave Airlie <airlied@redhat.com>
 > 
-> This adds a tag that will go into the module info, only one firmware from
-> the group given needs to be available for this driver to work. This allows
-> dracut to avoid adding in firmware that aren't needed.
+> In order to add a new macro, Luis suggested converting some docs
+> for the new ones.
 > 
-> This just brackets a module list in the modinfo, the modules in the list
-> will get entries in reversed order so the last module in the list is the
-> preferred one.
+> This tries to keep exisiting module_init, module_exit where they are,
+> and adds the new docs to the module section.
 > 
-> The corresponding dracut code it at:
-> https://github.com/dracutdevs/dracut/pull/2309
-> 
+> Cc: linux-doc@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
 > Cc: Luis Chamberlain <mcgrof@kernel.org>
 > Cc: linux-modules@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
 > Signed-off-by: Dave Airlie <airlied@redhat.com>
-> ---
->  include/linux/module.h | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> 
-> diff --git a/include/linux/module.h b/include/linux/module.h
-> index f9d072a7e198..d3e7085cedd0 100644
-> --- a/include/linux/module.h
-> +++ b/include/linux/module.h
-> @@ -306,6 +306,28 @@ extern typeof(name) __mod_##type##__##name##_device_table		\
->   */
->  #define MODULE_FIRMWARE(_firmware) MODULE_INFO(firmware, _firmware)
->  
-> +/**
-> + * MODULE_FIRMWARE_GROUP_ONLY_ONE - Create a need only one firmware group
-
-                                                need-only-one
-
-> + * @_grpname: group name
-> + *
-> + * This creates a group of which the driver only needs one firmware installed.
-> + * This is to allow dracut to limit the number of firmwares in the initramfs.
-> + * This just creates a new entry in the modinfo section, there should be one
-
-                                                   section;
-
-> + * of these entries bracketing the group of MODULE_INFO lines.
-> + * Due to how modinfo is constructed the ordering of the modinfo means the
-> + * last module info in the group will end up being the first one dracut will
-> + * search for, so place the newest firmware last.
-> + *
-> + * ``MODULE_FIRMWARE_GROUP_ONLY_ONE("mygroup")``
-> + *
-> + * ``MODULE_FIRMWARE("firmwarev1")``
-> + *
-> + * ``MODULE_FIRMWARE("firmwarev2")``
-> + *
-> + * ``MODULE_FIRMWARE_GROUP_ONLY_ONE("mygroup")``
-> + */
-> +#define MODULE_FIRMWARE_GROUP_ONLY_ONE(_grpname) MODULE_INFO(firmware_group_only_one, _grpname)
-> +
->  /**
->   * MODULE_IMPORT_NS - Set the symbol namespace for the module.
->   * @ns: symbol namespace to import the module into.
 
 Tested-by: Randy Dunlap <rdunlap@infradead.org> # for the kernel-doc
 
-Is this going anywhere? It was posted about 2 months ago.
+Thanks.
 
-thanks.
+> ---
+>  Documentation/core-api/kernel-api.rst |  3 ++
+>  Documentation/driver-api/basics.rst   |  2 +-
+>  include/linux/module.h                | 76 ++++++++++++++++++---------
+>  3 files changed, 54 insertions(+), 27 deletions(-)
+> 
+> diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
+> index 62f961610773..0b78b1a3e8a2 100644
+> --- a/Documentation/core-api/kernel-api.rst
+> +++ b/Documentation/core-api/kernel-api.rst
+> @@ -226,6 +226,9 @@ Module Loading
+>  .. kernel-doc:: kernel/kmod.c
+>     :export:
+>  
+> +.. kernel-doc:: include/linux/module.h
+> +   :no-identifiers: module_init module_exit klp_modinfo
+> +
+>  Inter Module support
+>  --------------------
+>  
+> diff --git a/Documentation/driver-api/basics.rst b/Documentation/driver-api/basics.rst
+> index 4b4d8e28d3be..fea42d6cad80 100644
+> --- a/Documentation/driver-api/basics.rst
+> +++ b/Documentation/driver-api/basics.rst
+> @@ -5,7 +5,7 @@ Driver Entry and Exit points
+>  ----------------------------
+>  
+>  .. kernel-doc:: include/linux/module.h
+> -   :internal:
+> +   :identifiers: module_init module_exit
+>  
+>  Driver device table
+>  -------------------
+> diff --git a/include/linux/module.h b/include/linux/module.h
+> index 4435ad9439ab..f9d072a7e198 100644
+> --- a/include/linux/module.h
+> +++ b/include/linux/module.h
+> @@ -182,23 +182,27 @@ extern void cleanup_module(void);
+>  #define MODULE_FILE	MODULE_INFO(file, KBUILD_MODFILE);
+>  #endif
+>  
+> -/*
+> +/**
+> + * MODULE_LICENSE - module license
+> + * @_license: license covering this module.
+> + *
+>   * The following license idents are currently accepted as indicating free
+>   * software modules
+>   *
+> - *	"GPL"				[GNU Public License v2]
+> - *	"GPL v2"			[GNU Public License v2]
+> - *	"GPL and additional rights"	[GNU Public License v2 rights and more]
+> - *	"Dual BSD/GPL"			[GNU Public License v2
+> - *					 or BSD license choice]
+> - *	"Dual MIT/GPL"			[GNU Public License v2
+> - *					 or MIT license choice]
+> - *	"Dual MPL/GPL"			[GNU Public License v2
+> - *					 or Mozilla license choice]
+> + *    "GPL"                        [GNU Public License v2]
+>   *
+> - * The following other idents are available
+> + *    "GPL v2"                     [GNU Public License v2]
+>   *
+> - *	"Proprietary"			[Non free products]
+> + *    "GPL and additional rights"  [GNU Public License v2 rights and more]
+> + *
+> + *    "Dual BSD/GPL"               [GNU Public License v2 or BSD license choice]
+> + *
+> + *    "Dual MIT/GPL"               [GNU Public License v2 or MIT license choice]
+> + *
+> + *    "Dual MPL/GPL"               [GNU Public License v2 or Mozilla license choice]
+> + *
+> + * The following other idents are available
+> + *    "Proprietary"                [Non free products]
+>   *
+>   * Both "GPL v2" and "GPL" (the latter also in dual licensed strings) are
+>   * merely stating that the module is licensed under the GPL v2, but are not
+> @@ -221,20 +225,26 @@ extern void cleanup_module(void);
+>   * is a GPL combined work.
+>   *
+>   * This exists for several reasons
+> - * 1.	So modinfo can show license info for users wanting to vet their setup
+> - *	is free
+> + *
+> + * 1.	So modinfo can show license info for users wanting to vet their setup is free
+> + *
+>   * 2.	So the community can ignore bug reports including proprietary modules
+> + *
+>   * 3.	So vendors can do likewise based on their own policies
+>   */
+>  #define MODULE_LICENSE(_license) MODULE_FILE MODULE_INFO(license, _license)
+>  
+> -/*
+> - * Author(s), use "Name <email>" or just "Name", for multiple
+> - * authors use multiple MODULE_AUTHOR() statements/lines.
+> +/**
+> + * MODULE_AUTHOR - Module author
+> + * @_author: Author(s), use "Name <email>" or just "Name", for multiple
+> + *           authors use multiple MODULE_AUTHOR() statements/lines.
+>   */
+>  #define MODULE_AUTHOR(_author) MODULE_INFO(author, _author)
+>  
+> -/* What your module does. */
+> +/**
+> + * MODULE_DESCRIPTION - Module description
+> + * @_description: What your module does.
+> + */
+>  #define MODULE_DESCRIPTION(_description) MODULE_INFO(description, _description)
+>  
+>  #ifdef MODULE
+> @@ -246,19 +256,23 @@ extern typeof(name) __mod_##type##__##name##_device_table		\
+>  #define MODULE_DEVICE_TABLE(type, name)
+>  #endif
+>  
+> -/* Version of form [<epoch>:]<version>[-<extra-version>].
+> +/**
+> + * MODULE_VERSION: version of module
+> + * @_version: version in the form below
+> + *
+> + * Version of form [<epoch>:]<version>[-<extra-version>].
+>   * Or for CVS/RCS ID version, everything but the number is stripped.
+>   * <epoch>: A (small) unsigned integer which allows you to start versions
+>   * anew. If not mentioned, it's zero.  eg. "2:1.0" is after
+>   * "1:2.0".
+> -
+> + *
+>   * <version>: The <version> may contain only alphanumerics and the
+> - * character `.'.  Ordered by numeric sort for numeric parts,
+> + * character '.'.  Ordered by numeric sort for numeric parts,
+>   * ascii sort for ascii parts (as per RPM or DEB algorithm).
+> -
+> + *
+>   * <extraversion>: Like <version>, but inserted for local
+>   * customizations, eg "rh3" or "rusty1".
+> -
+> + *
+>   * Using this automatically adds a checksum of the .c files and the
+>   * local headers in "srcversion".
+>   */
+> @@ -284,11 +298,21 @@ extern typeof(name) __mod_##type##__##name##_device_table		\
+>  		}
+>  #endif
+>  
+> -/* Optional firmware file (or files) needed by the module
+> - * format is simply firmware file name.  Multiple firmware
+> - * files require multiple MODULE_FIRMWARE() specifiers */
+> +/**
+> + * MODULE_FIRMWARE - Optional firmware files needed by the module
+> + * @_firmware: firmware file name
+> + *
+> + * Multiple firmware files require multiple MODULE_FIRMWARE() specifiers.
+> + */
+>  #define MODULE_FIRMWARE(_firmware) MODULE_INFO(firmware, _firmware)
+>  
+> +/**
+> + * MODULE_IMPORT_NS - Set the symbol namespace for the module.
+> + * @ns: symbol namespace to import the module into.
+> + *
+> + * This adds a modinfo tag 'import_ns' to the module. This is observed
+> + * by userspace at module loading time.
+> + */
+>  #define MODULE_IMPORT_NS(ns)	MODULE_INFO(import_ns, __stringify(ns))
+>  
+>  struct notifier_block;
+
 -- 
 ~Randy
