@@ -2,76 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D86573A0EC
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 14:30:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 798D373A105
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 14:36:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3F7810E1AB;
-	Thu, 22 Jun 2023 12:30:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64E6A10E03E;
+	Thu, 22 Jun 2023 12:35:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65A5F10E55D
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 12:30:52 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 752AD10E03E
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 12:35:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1687437050;
+ s=mimecast20190719; t=1687437355;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=stc8evGnDDpmXjdbQdBrRjBtyPvD68x7ziZzLCZcBJs=;
- b=Fotf6dZdJVY0xMyw0NLZdpDKa7A/fulzJrM6YgFPdPqRV6nKDOI4FocbHO1q1+pVFXk9wG
- H4Mx+nZ+8Lf+eYs5X4oz01mroQtzsZSNGTsc3/F2q+mq4onY1o3z7v8nTJi/6T3wNej1j+
- /a5FtHVh5PDC7hp5Kd/GFCcxTf0RmZ4=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=o3pBXTuB3tzuuBUsdWyQRug37awOIMzuxqG56/45cYw=;
+ b=YefFbdO1nR2+EZnSXKgq6ZgbTxRQZCQrK3FS8AMBQBRMTNtjr34iPZHqS2DzO3GnqVWJEp
+ V8l0Wvw0ZSGybFA0+II3SkEzCqFBoSkaa8wkbujY6k5yx/4LSZQAky/to0cMN9zohpW+IM
+ AYTKZE1xb7uvX0U2uhp+2pD/PAP6lnQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-568-JQF2tWQfNXy57r-i9_6MGQ-1; Thu, 22 Jun 2023 08:30:48 -0400
-X-MC-Unique: JQF2tWQfNXy57r-i9_6MGQ-1
-Received: by mail-lf1-f69.google.com with SMTP id
- 2adb3069b0e04-4f86d450b01so3876259e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 05:30:48 -0700 (PDT)
+ us-mta-329-8RnsIx37P0Gyy0QdrlyjpA-1; Thu, 22 Jun 2023 08:35:54 -0400
+X-MC-Unique: 8RnsIx37P0Gyy0QdrlyjpA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-31126581e13so10007052f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 05:35:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687437047; x=1690029047;
+ d=1e100.net; s=20221208; t=1687437353; x=1690029353;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=stc8evGnDDpmXjdbQdBrRjBtyPvD68x7ziZzLCZcBJs=;
- b=K/w5PmTEd+XIWp9ySBLc08ErkyW/34wOKLz24EfcIeqxec8EdymTiMs8ZAKR+lDGY2
- pAead2cpxkV+FfC1Lz76EDyaTXjjgzMFqnUtIvrseGdENT3HmfMLyms+rLNzHewLKDri
- QOfzVdiDgZRPOqj0Yo5CiaG2wVgjcJZ0Z58ry3PlDgih3PcvK9BXQLA6FVu9BTHFfngU
- 4gtYG170bHk0AK4+DN+MOtLI9iKynMZRS2AbXb+DYi9W66FWjotfQ9N03ZpOYMIGNsJR
- imNmlHCIi1jeeuZbuGgDjgLJdWMci3drNjvb498pV3OV2jdPHaTSGKed+hkKSeK//H9a
- uj+g==
-X-Gm-Message-State: AC+VfDx0yfnZ8Zq8x+izjWBBz2uadCLyrKYb2PESlIZpGe9dCDswH3/t
- J7xgH4CrCBgrWgHhBhJq8mqvtmvbm/ZxTCk6370mCL2z7T93OQL/gl+8mlhL9pCJ6oaf2BTj6tG
- 2wf0iHjONedMHdZSfbuaNyaa1p6Hn
-X-Received: by 2002:a19:5e41:0:b0:4f8:49a7:2deb with SMTP id
- z1-20020a195e41000000b004f849a72debmr10149668lfi.8.1687437047149; 
- Thu, 22 Jun 2023 05:30:47 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7biiNx9ILW7ILK23qr0T8GMiDK1wNbm4GZ3fgXl387sQPGqC4MxiUus7jFn4U2cw9kCo72bw==
-X-Received: by 2002:a19:5e41:0:b0:4f8:49a7:2deb with SMTP id
- z1-20020a195e41000000b004f849a72debmr10149647lfi.8.1687437046661; 
- Thu, 22 Jun 2023 05:30:46 -0700 (PDT)
+ bh=o3pBXTuB3tzuuBUsdWyQRug37awOIMzuxqG56/45cYw=;
+ b=eqY2RIHQ1MXcu+YkDtzhu6HcT8gyHr9jIm6QvkHB1ETEC2wjp3R3KUP715xE50CREu
+ UtzooaH8lbk33t3Gorgd2Q7xcx8SqJQZ8vc6xINQwbTnf8CL+7ecEqG5LfSidzmIr9cO
+ txJhkFMFJUXYdIjh3225f2jP/vUzRfTXNGMU6/48WWym3hx6BQfZnPQLllPzHkBk/6W/
+ h5EZrkmbO/CsYFqlZYeMS/zfc0TwgNxK1THQR7Ca3KeDQLt3/xzWKnUfll8/EAhmgXKX
+ TrsoqfATrVw4+y3tFQOwZt42pDo+Fz6ij6CXLVG98Cx+6BvRl8aVpeC+5gigqBsZFKMD
+ 9D0w==
+X-Gm-Message-State: AC+VfDwaU0kuBwq43xgRnWyj0F9M5tYtxS481WEeQzBSvaBk8dVrQnxz
+ yuEHwKilsft4YTzxNb9ektzpQKkhVgY4EeaDuX2/DVnyYDI9OQMNiXGQ0iptqaAdjnkWlUt6F2m
+ 8Jw17s/c9mQp6ycskYXiAfe8BXKax
+X-Received: by 2002:adf:df81:0:b0:311:1cd7:68b3 with SMTP id
+ z1-20020adfdf81000000b003111cd768b3mr18688361wrl.57.1687437353357; 
+ Thu, 22 Jun 2023 05:35:53 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4/IgalXYDuJ4s/OfSxQU7RlstK05ku6b/vAJRJl/dYkeQFv9nh31ixKyyAH3vZITc0Y/uPcg==
+X-Received: by 2002:adf:df81:0:b0:311:1cd7:68b3 with SMTP id
+ z1-20020adfdf81000000b003111cd768b3mr18688349wrl.57.1687437353049; 
+ Thu, 22 Jun 2023 05:35:53 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
  ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- y10-20020adff6ca000000b0030f9c3219aasm6910388wrp.47.2023.06.22.05.30.45
+ a16-20020adfe5d0000000b0030e5a63e2dbsm6993575wrn.80.2023.06.22.05.35.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Jun 2023 05:30:46 -0700 (PDT)
-Message-ID: <bc82a1d3-07cd-53b0-7f1d-0f71850cdb14@redhat.com>
-Date: Thu, 22 Jun 2023 14:30:45 +0200
+ Thu, 22 Jun 2023 05:35:52 -0700 (PDT)
+Message-ID: <8e7011fe-6757-e89f-c3c5-d5f87cf83766@redhat.com>
+Date: Thu, 22 Jun 2023 14:35:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH] MAINTAINERS: Add myself as reviewer for mgag200 and ast
- drivers
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- javierm@redhat.com, lyude@redhat.com
-References: <20230530142615.57014-1-jfalempe@redhat.com>
- <9fdd63d2-12c6-d589-8b24-3c9333ed98da@suse.de>
+Subject: Re: [PATCH] drm/mgag200: Fix a warning reported by Fi.CI.SPARSE
+To: Sui Jingfeng <suijingfeng@loongson.cn>, Dave Airlie <airlied@redhat.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Tom Rix <trix@redhat.com>
+References: <20230621191139.2291139-1-suijingfeng@loongson.cn>
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <9fdd63d2-12c6-d589-8b24-3c9333ed98da@suse.de>
+In-Reply-To: <20230621191139.2291139-1-suijingfeng@loongson.cn>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -93,25 +92,40 @@ Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/05/2023 09:08, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 30.05.23 um 16:26 schrieb Jocelyn Falempe:
->> I've contributed to these two drivers, fixing bugs and performance
->> issues.
-> 
-> Thanks for the work you're doing.
-> 
->>
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-> 
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> 
+This patch was already sent by Tom Rix last month:
+https://patchwork.freedesktop.org/series/117881/
 
+I can push it to drm-misc-next, if Thomas is ok.
 
-Applied to drm-misc-next
+Best regards,
 
 -- 
 
 Jocelyn
+
+On 21/06/2023 21:11, Sui Jingfeng wrote:
+> drivers/gpu/drm/mgag200/mgag200_drv.c:23:5: warning: symbol 'mgag200_modeset' was not declared. Should it be static?
+> 
+> Found in the log of Fi.CI.SPARSE test [1]
+> 
+> [1] https://patchwork.freedesktop.org/series/119249/
+> 
+> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> ---
+>   drivers/gpu/drm/mgag200/mgag200_drv.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
+> index 976f0ab2006b..abddf37f0ea1 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_drv.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
+> @@ -20,7 +20,7 @@
+>   
+>   #include "mgag200_drv.h"
+>   
+> -int mgag200_modeset = -1;
+> +static int mgag200_modeset = -1;
+>   MODULE_PARM_DESC(modeset, "Disable/Enable modesetting");
+>   module_param_named(modeset, mgag200_modeset, int, 0400);
+>   
 
