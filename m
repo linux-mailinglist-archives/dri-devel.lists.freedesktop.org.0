@@ -1,70 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41802739958
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 10:23:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8DD6739969
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 10:25:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98B6210E1B7;
-	Thu, 22 Jun 2023 08:22:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD59110E1AC;
+	Thu, 22 Jun 2023 08:25:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com
- [IPv6:2607:f8b0:4864:20::b2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C283810E1C0
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 08:22:55 +0000 (UTC)
-Received: by mail-yb1-xb2b.google.com with SMTP id
- 3f1490d57ef6-bfee679b7efso1533597276.0
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 01:22:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687422174; x=1690014174;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LkAmp/eBQd0cTktY86obokW51TRlbdxhv/mUSDQv+nU=;
- b=ryTD1haolYTGV5QhKbwvtO1zw8ha75NRjxLsZio0r8q11fXJAp1d1UhuGi2mBdtzoS
- Yd8SdHE7/3KfHvnaMlTK2Nz5jp/oI5ytf96D2RrI0CvQAMmTVufEaiix0nCH1Hy517jj
- 1wadPnb2zAVAiqSyEeMfPJSjfROYLnwTCflkT3TIU/a13cBP0m0nhByfFDf5r+waO8rX
- nIhExbPbf6vWiCRZIBWWsQnwoOLnSjLZ/EK8aM88r1L1O3QHg2bsosfvD+x98vx8TSMb
- /ap4uqa2wSP7grW2zTnOgcwoS2qRShdC+FlDAkjXmtQ1a1EaHiz8i4AAeTUaj39uEkma
- FWyw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 909F110E1AC
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 08:25:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1687422322;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rZXaqCVfN5pwWKG3rKtxQoevt0a1zXC+RoOCtcXhifY=;
+ b=e1YPmBahqNoV8c7krW6hBR3jjVpIOhHpX0DuhLQImIFEgnyxzgvXnH5GXbTQ+1mFApQ3Cx
+ nMS2kUkWoBtDvg/59zQMU/PwfiIuGMFY2M8K9q9rZVre0cu0IFjxRWBIVwtN1qnG1bFmOj
+ f0MhukaG9yoFJX+zWbCFtohclyIgCw0=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-394-e7xH1HlSPvafvL6sIyyTyg-1; Thu, 22 Jun 2023 04:25:21 -0400
+X-MC-Unique: e7xH1HlSPvafvL6sIyyTyg-1
+Received: by mail-lf1-f72.google.com with SMTP id
+ 2adb3069b0e04-4f8727c7fb6so3575390e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 01:25:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687422174; x=1690014174;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LkAmp/eBQd0cTktY86obokW51TRlbdxhv/mUSDQv+nU=;
- b=SXV9+0yhlSnlhZt8Cz26xre7lAc8Zsw2//o7kD970van59m/ElZshgTk7Xcmh8yAoJ
- YRNqwkUEQlvtU0dDaWMMONrLI/J+o+snDfMwtqWECNLn1aBvj1jFFvAshexPtB1QBS6T
- r5RUlEQh1jAusEUAZK8z3WoMWERckDeHbYFhEnEiGoKaWoBL/VWHM/b59e7uM/uE3OJ7
- RFXz10E4ss1fnyErPqR/pcMej2qVk3Kstgukc4D3W24oifoKXzAw0bnE1WEdc+pwiS88
- aOLxnYJ4cq8xHg+B/RBwrvJHX1xCrELcmogCtJMSUGhdwMtJqOy1OyIjPmW+mj2jkxjv
- QTGg==
-X-Gm-Message-State: AC+VfDzzXg4bG467+oh5nDU0rZlTlSJqcHepHkG7qRwCKYZj8x2+Ohi2
- YYhLi3GVwFHF3syMKvWMepH7mnBCvn6TU/85yPwXhg==
-X-Google-Smtp-Source: ACHHUZ7Vioh9y+yKvbETL5ubLi54HUryu5nk222T86+SVNsggRygRKWvIYgL7sfC92drn2aQWX+t3txSMmBU+WaJnRs=
-X-Received: by 2002:a25:9112:0:b0:bc8:cd2c:2fb with SMTP id
- v18-20020a259112000000b00bc8cd2c02fbmr13116488ybl.9.1687422174141; Thu, 22
- Jun 2023 01:22:54 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1687422319; x=1690014319;
+ h=content-transfer-encoding:in-reply-to:subject:organization:from
+ :content-language:references:cc:to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=rZXaqCVfN5pwWKG3rKtxQoevt0a1zXC+RoOCtcXhifY=;
+ b=j671WHbrXFvkwynGQtYpYt440XY7W1idtoVcjaos/Rnw9UpVEJK5TR4qwIdgUvAZyo
+ 8S5BJA4g9S2h72syg78JiGF0iNGPRXQzfINwLjPRz2C716mRgTAiAruua5NFw0WlfCym
+ rRbGHwDF4c8kvt+R97kj6dAw+ErVAP4MSS+9wycPkZkIrb6/im5+NR95nN/osoevYwF1
+ sEEi1/CzS+3QlOV/jNj4irDY6aJuwCAT7cIiOST7hRdRiiSUYEpcWpW7RHvXy9q1XEjl
+ WIa0KXYZu98jMZEncUUX0/6P9L2BVO8dUMnajCALT1sKuhW0BU8EfHteEuxEFudPOFUo
+ 5byQ==
+X-Gm-Message-State: AC+VfDxKvDYjXu/PEfeYXmg69BUxOVo9iiha8LD6yTJRCalmf5X+QQMq
+ DYh5gg8zZ1xicJROnxezbCPgvnOVgq8+5CbdfomjGgVw+vkpsAxC2t9EQAW864D+687A4a8w+eL
+ ml6YbY9nrx8/bNs2H206w4XGr7xPN
+X-Received: by 2002:a19:5e01:0:b0:4f6:45af:70b8 with SMTP id
+ s1-20020a195e01000000b004f645af70b8mr10006748lfb.58.1687422319532; 
+ Thu, 22 Jun 2023 01:25:19 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4qHq2NkQm/h8KwcL2Gs4ziUytBjL4OQtI5NDyjVyLs7lue4yBBVXXSWHlZdfjTNRloVUjujw==
+X-Received: by 2002:a19:5e01:0:b0:4f6:45af:70b8 with SMTP id
+ s1-20020a195e01000000b004f645af70b8mr10006730lfb.58.1687422319088; 
+ Thu, 22 Jun 2023 01:25:19 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c71a:c00:a3d3:85e8:742c:2e9?
+ (p200300cbc71a0c00a3d385e8742c02e9.dip0.t-ipconnect.de.
+ [2003:cb:c71a:c00:a3d3:85e8:742c:2e9])
+ by smtp.gmail.com with ESMTPSA id
+ e17-20020a5d5011000000b002c70ce264bfsm6448123wrt.76.2023.06.22.01.25.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Jun 2023 01:25:18 -0700 (PDT)
+Message-ID: <6e429fbc-e0e6-53c0-c545-2e2cbbe757de@redhat.com>
+Date: Thu, 22 Jun 2023 10:25:17 +0200
 MIME-Version: 1.0
-References: <20230607151127.1542024-1-pavacic.p@gmail.com>
- <20230607151127.1542024-4-pavacic.p@gmail.com>
- <CACRpkdbrEA54qmfTKSsFRG9ZS4u8hM6P5TXtOjRAiW+TD_v-fQ@mail.gmail.com>
- <CAO9szn00vRFm+iM1m7KgkW0WRuKyJEgVU4tVx4f5tF6KPnE=2w@mail.gmail.com>
- <CACRpkdaw8M3dSkmiV5QDOt3BBB7Jo6NxT0Og=zvA4REMA_7y9g@mail.gmail.com>
- <CAO9szn29A0qCABG0ACni42UGpsGKLwG7OT1y_ho3DgQ0WLvfmw@mail.gmail.com>
- <CACRpkdYXtQwmZR1u-1fwmyC_8Yq4bMkjDBcUCfuGqSz_UhXWJQ@mail.gmail.com>
- <CAO9szn0OuKW+-JZMs3TPUHiwLCe6cUPcsUq+og64K2utMyZpqQ@mail.gmail.com>
-In-Reply-To: <CAO9szn0OuKW+-JZMs3TPUHiwLCe6cUPcsUq+og64K2utMyZpqQ@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 22 Jun 2023 10:22:42 +0200
-Message-ID: <CACRpkdb5stXKb7FNk_FC-PKduCngRX3sZTbzcxN+kRskz78fuQ@mail.gmail.com>
-Subject: Re: [PATCH v4 3/3] drm/panel-fannal-c3004: Add fannal c3004 DSI panel
-To: Paulo Pavacic <pavacic.p@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, 
- Marek Vasut <marex@denx.de>, Maya Matuszczyk <maccraft123mc@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org
+References: <20230622072710.3707315-1-vivek.kasireddy@intel.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v1 0/2] udmabuf: Add back support for mapping hugetlb pages
+In-Reply-To: <20230622072710.3707315-1-vivek.kasireddy@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,34 +90,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
- sam@ravnborg.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org
+Cc: James Houghton <jthoughton@google.com>,
+ Jerome Marchand <jmarchan@redhat.com>, Dongwon Kim <dongwon.kim@intel.com>,
+ Junxiao Chang <junxiao.chang@intel.com>, Muchun Song <muchun.song@linux.dev>,
+ Michal Hocko <mhocko@suse.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, John Hubbard <jhubbard@nvidia.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 21, 2023 at 5:09=E2=80=AFPM Paulo Pavacic <pavacic.p@gmail.com>=
- wrote:
+On 22.06.23 09:27, Vivek Kasireddy wrote:
+> The first patch ensures that the mappings needed for handling mmap
+> operation would be managed by using the pfn instead of struct page.
+> The second patch restores support for mapping hugetlb pages where
+> subpages of a hugepage are not directly used anymore (main reason
+> for revert) and instead the hugetlb pages and the relevant offsets
+> are used to populate the scatterlist for dma-buf export and for
+> mmap operation.
+> 
+> Testcase: default_hugepagesz=2M hugepagesz=2M hugepages=2500 options
+> were passed to the Host kernel and Qemu was launched with these
+> relevant options: qemu-system-x86_64 -m 4096m....
+> -device virtio-gpu-pci,max_outputs=1,blob=true,xres=1920,yres=1080
+> -display gtk,gl=on
+> -object memory-backend-memfd,hugetlb=on,id=mem1,size=4096M
+> -machine memory-backend=mem1
+> 
+> Replacing -display gtk,gl=on with -display gtk,gl=off above would
+> exercise the mmap handler.
+> 
 
-> A lot of modifications to st7701 are required. I believe it would
-> result in a driver that doesn't look or work the same. e.g compare
-> delays between initialization sequences of panel-fannal-c3004 and
-> panel-st7701. I think it would be optimal to create st7701s driver and
-> have special handling for st7701s panels. If there was a flag for
-> whether panel is st7701 or st7701s it would end up looking like a
-> mess.
+While I think the VM_PFNMAP approach is much better and should fix that 
+issue at hand, I thought more about missing memlock support and realized 
+that we might have to fix something else. SO I'm going to raise the 
+issue here.
 
-What matters is if the original authors of the old st7701 driver are
-around and reviewing and testing patches at all. What we need is
-active maintainers. (Added Jagan, Marek & Maya).
+I think udmabuf chose the wrong interface to do what it's doing, that 
+makes it harder to fix it eventually.
 
-I buy the reasoning that the st7701s is perhaps substantially different
-from st7701.
+Instead of accepting a range in a memfd, it should just have accepted a 
+user space address range and then used 
+pin_user_pages(FOLL_WRITE|FOLL_LONGTERM) to longterm-pin the pages 
+"officially".
 
-If st7701s is very different then I suppose it needs a separate driver,
-then all we need to to name the driver properly, i.e.
-panel-sitronix-st7701s.c.
+So what's the issue? Udma effectively pins pages longterm ("possibly 
+forever") simply by grabbing a reference on them. These pages might 
+easily reside in ZONE_MOVABLE or in MIGRATE_CMA pageblocks.
 
-Yours,
-Linus Walleij
+So what udmabuf does is break memory hotunplug and CMA, because it turns 
+pages that have to remain movable unmovable.
+
+In the pin_user_pages(FOLL_LONGTERM) case we make sure to migrate these 
+pages. See mm/gup.c:check_and_migrate_movable_pages() and especially 
+folio_is_longterm_pinnable(). We'd probably have to implement something 
+similar for udmabuf, where we detect such unpinnable pages and migrate them.
+
+
+For example, pairing udmabuf with vfio (which pins pages using 
+pin_user_pages(FOLL_LONGTERM)) in QEMU will most probably not work in 
+all cases: if udmabuf longterm pinned the pages "the wrong way", vfio 
+will fail to migrate them during FOLL_LONGTERM and consequently fail 
+pin_user_pages(). As long as udmabuf holds a reference on these pages, 
+that will never succeed.
+
+
+There are *probably* more issues on the QEMU side when udmabuf is paired 
+with things like MADV_DONTNEED/FALLOC_FL_PUNCH_HOLE used for 
+virtio-balloon, virtio-mem, postcopy live migration, ... for example, in 
+the vfio/vdpa case we make sure that we disallow most of these, because 
+otherwise there can be an accidental "disconnect" between the pages 
+mapped into the VM (guest view) and the pages mapped into the IOMMU 
+(device view), for example, after a reboot.
+
+-- 
+Cheers,
+
+David / dhildenb
+
