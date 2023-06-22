@@ -1,129 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70BE573A97A
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 22:28:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B05E73A995
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 22:38:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 063B610E028;
-	Thu, 22 Jun 2023 20:28:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3952610E055;
+	Thu, 22 Jun 2023 20:38:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on20619.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe5b::619])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B1F710E028;
- Thu, 22 Jun 2023 20:28:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VUVQZpoY5e3r7CVd5FMFIJd8lxtT4THbB/M4F4TpLldfZmZoz/sToYE5QxXM2GUWO3NiorKPGpgrTs3DjgnEvjlFaAfBagDdBGpDCurkeU+GMKCa2AhTcEqbXqoaRaDAtwnq7oOGUwK7L2ZxS/biO4/kLc4xyyd+viHcgvsrbgm7naB1MpZ7CW/5+W/LKWg8ZH7grOcFOSeppFS8byMZGQX3UjID+UtIvWTSmloAl7Ws6oGZ27OktwHnwxO8gMyywMa8E+5JBys5SoPZunBxQ+5UMkV9k97UWnxfm5tdq+zaZ5WQaRMFiCjK9umLKtW9OwXgN/XOoJxF6yAFVjf4uw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QgMZxZyIThZ6iWrSNno0vz9zXLmjXPn37d3mR2d0IRs=;
- b=LYBWrHDJVHSWi/8NIJ5N6aqo0kPksK4XMHiCNxvxHsD0CNa8XtvFiUJ68ePK7QEhktnSpXCMgPQJfS73DDvYRf9r2ORFIanEeM2elx5DwHLy+kyPHz2LJ7sqUrwqODjQaxBHyZIxFhmjXFx1eveokkoXwve0+FZIwM6v3yhvMm5Z4CkeJKCIU5qPUmyRY4PhthAYwaHIchy7GpW2IsGNRhMBBA2FO3v1nY9o+ripMA/2sRZDQU98NM/t9K1iWLuW/TLqDJy7YD2YQwGdHv5euHQyhR2NMaoK8pPOKc53mcCzW6kJLLWNSFxnLoshareW15tKSgtqaezvBR7dsnmoLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QgMZxZyIThZ6iWrSNno0vz9zXLmjXPn37d3mR2d0IRs=;
- b=yTuwnXGc9hKSpSqbLRE2EB7V9aHH0u6dT/xGbhKjUVy6U41X/gulqu2C7h0+7aa0mmHVYVkaEUcQ6afvUIADIs7EcMfkfOKMb7rMHM66lS8JNbC7wIqo+SwO3B0kKzAKPKjUU1dRe2sE+yeqrH+6PnkVeq+fVPVS3o0r+Lpmox4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by IA0PR12MB7674.namprd12.prod.outlook.com (2603:10b6:208:434::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.37; Thu, 22 Jun
- 2023 20:28:44 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::dfcf:f53c:c778:6f70]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::dfcf:f53c:c778:6f70%5]) with mapi id 15.20.6521.020; Thu, 22 Jun 2023
- 20:28:44 +0000
-Message-ID: <4e522001-7b36-0e38-10d9-22c55de728ea@amd.com>
-Date: Thu, 22 Jun 2023 15:28:36 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH V4 1/8] drivers/acpi: Add support for Wifi band RF
- mitigations
-Content-Language: en-US
-To: Andrew Lunn <andrew@lunn.ch>, "Rafael J. Wysocki" <rafael@kernel.org>
-References: <216f3c5aa1299100a0009ddf4e95b019855a32be.camel@sipsolutions.net>
- <b1abec47-04df-4481-d680-43c5ff3cbb48@amd.com>
- <36902dda-9e51-41b3-b5fc-c641edf6f1fb@lunn.ch>
- <33d80292-e639-91d0-4d0f-3ed973f89e14@amd.com>
- <9159c3a5-390f-4403-854d-9b5e87b58d8c@lunn.ch>
- <a80c215a-c1d9-4c76-d4a8-9b5fd320a2b1@amd.com>
- <8d3340de-34f6-47ad-8024-f6f5ecd9c4bb@lunn.ch>
- <07ad6860-8ffb-cc6c-a8e5-e8dc4db4e87a@amd.com>
- <08dd8d17-6825-4e53-8441-85c709326f48@lunn.ch>
- <3e337dc0482e16e2aaa4090b613dc8dea7803fa8.camel@sipsolutions.net>
- <ef7dc1ab-c6d0-4761-8d0a-8949bfd3da80@lunn.ch>
-From: "Limonciello, Mario" <mario.limonciello@amd.com>
-In-Reply-To: <ef7dc1ab-c6d0-4761-8d0a-8949bfd3da80@lunn.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA9PR10CA0013.namprd10.prod.outlook.com
- (2603:10b6:806:a7::18) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5180110E055
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 20:38:37 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8AxxvBLsZRk7YwAAA--.945S3;
+ Fri, 23 Jun 2023 04:38:35 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Ax8uRKsZRkR4oCAA--.14009S3; 
+ Fri, 23 Jun 2023 04:38:34 +0800 (CST)
+Message-ID: <02d6f220-b457-b980-8623-8da636cb495c@loongson.cn>
+Date: Fri, 23 Jun 2023 04:38:34 +0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|IA0PR12MB7674:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8b16860c-bd64-4131-764f-08db735f44a4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3Uzw9drOXd2MmMi8YpGPBY42FLSBiukxBy7qnM/gmrXgSdeKoViTfnYGhJ7LA0Vj1pyNsRmNatU/QdKEg4wjDWVSMqcy8PHC5jTsgw2tr4mSD8OJnfbJUVr3yOLED+dlDx5yPqs/4ph05GKrzrb5k2uyBjyhQ8NjrFOI9kiSgVHGo7bHkfX6wenKC9GhyoCaum1QnpbMLFl++V6f07ZT1xaZ7JwpHtppwhWomN8BeIPHggdTaTDdT7/zJo+Px9q982XFj6wDAqYWbjLPx6WZ0F0p62VaI/C07JYNmaSg47QIYJXcwWEqfZ4y2bD3oWZkwBOcXs+xgfGruhhTU1s53yMdADp9UAYXoVlrPy0dtmeqDvs/Hl3W1M11aIhpa1mzMMmyvhjQePchgaCZH07l6fwjX7PS/3cSBXRnWJ0RKSUlGUWOZzN9drJg2/Vd5IatewhwyEVaqpyVVmZgfc9lHzCXmt0Qlmtyg/t6U8eIdNvNI19Ud2UcevDi4Av8XyE4Z0vT4Pmxys990CvtMQWk1gk27+u4tvw4BW93Y3gqU6GxxqLQvyXtcQkFpC8DTAPAP8aXqQcS34KNA7F870teM0p+MJqX9R+hc3zu4ax+3KFP8b2CG1SXW95uHZ+cS9sZiHS5Q9kt4IhONkBzh/WC1A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(376002)(39860400002)(346002)(366004)(396003)(136003)(451199021)(5660300002)(6486002)(38100700002)(6666004)(478600001)(54906003)(41300700001)(8676002)(7416002)(316002)(8936002)(110136005)(66476007)(2906002)(66556008)(2616005)(66946007)(4326008)(83380400001)(26005)(66899021)(186003)(6512007)(53546011)(6506007)(31696002)(36756003)(86362001)(31686004)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?am1WUE40WHE0ZXdRcm5WNHAvNzBBK3hIQkJNSmFuSTg4UVJtbk1lMFdKRW5h?=
- =?utf-8?B?L1NBVk9NZTFVZmNqQkxlNHBMMHJpMTlKdytXUUdKVzF3SjYzLzJxUmpuUm9h?=
- =?utf-8?B?UWhBL2EvTjFQQTFBdEM3OHQwT0o0NWdQNmwyZllSRWpvVEVjaHZqcW1UY21J?=
- =?utf-8?B?NUFrWGN5WkJEdmUwNFFOeWxkSE82V2x5WEdkK084TjNqaU9Ya1IyUmpLZUpH?=
- =?utf-8?B?Rm5kV1V3bldHdUFSMnlXMURYRThrWkFxb2NEaFBVSVQxK3NvV3ZFenQrNksy?=
- =?utf-8?B?Z294aE83eDVjVEtxanJaNVpsQ3Jpd3ptMkxEcnVJNHY3dTlBbnVpN1pVZjM0?=
- =?utf-8?B?RVpRRHNiV2VtWk9LcFo3VHR5Y0lpbUxpTmp0Nk9SMU9Ca3NvVmNiYkQvam50?=
- =?utf-8?B?VEN2SzJNR3hycVNHeXpMQzBFSzdMZ1JqWDE1eWVrcmJWaW5FSGJHT1U2SUNk?=
- =?utf-8?B?VmVnOExYa01uRXdUSi9FVDdsc2dlcndSZlVDSnV0RnFWMVVXMGxsa29iVTBL?=
- =?utf-8?B?Q1VHNXdDS2kxMW9UZUs0azlaUnE2RWZRTVhoc3ZwUTgydHduek5OMFkvVVJ6?=
- =?utf-8?B?K1BJVEovKzJLTUw5QXljRUFtZlpzR1RzSUpPQWVGbmhEMFZiaWdHWmVJRDQ5?=
- =?utf-8?B?RURMQnpLT2kzQ3NBSmRFVHZtTm9PVFhZT3MranhsdzhkVGRjYnJ1QkV1V3Zz?=
- =?utf-8?B?Y1FUWDRBbHAyUUFTRk1yVXNLNCsyWTdtbnFYb3hEajQ2c0RrdWp4VEFsdkpE?=
- =?utf-8?B?M2d6dWFLTExkSVFxczl1RFdxdzM3cHV1S09HaDlEYmcxL0FXUjJzd1U5V29L?=
- =?utf-8?B?TDE0YmpMc2pJYUF2SmJpVDBoQm9DOXdYSGM0V2JTa2xiQ3FaeXFHekJGVjFT?=
- =?utf-8?B?am1FYUxLUGgzZzlVZFhhZW5IOWJqQ2Vwb3B6SGVRN003V1hWT1RxK1JBUGVh?=
- =?utf-8?B?Vm1QYXpnU1E5ZlNWcXNzb3BRTkZPK0dQc0h6UUFPd2NPcXZQVTd2NmlPZ3ZH?=
- =?utf-8?B?b0VQODNTY3J4MXEwS21UZ29ENWlhM29DaHI0aFRqbDFNOWxZZDEwb0JEY1Vy?=
- =?utf-8?B?V092Smh5MUVZdC9FQmU3YnJDZHAzQUlEcWpQa01JdUx2MzJPbmFsSVB3YTYx?=
- =?utf-8?B?NTlTTytZS2pvTW1iSGdyWXRLcEROdlp2OVZPN0Y0c2dSNUNSUlNLbkxFZHdE?=
- =?utf-8?B?aFZPTWdEMnJFenJ0TG5LN1BWcjhZMHBBSWZTLzRFaGVDSTNhMWxrY3ZQdFZ0?=
- =?utf-8?B?LzdyQ1M0d3BZMSsrWGY1UWpzakRsdmM4K1lITEpQOGU2UnF0NG15L3huWTdG?=
- =?utf-8?B?SDR3bURpQlgyRFZzclVVbzZqTlJjTzJzYms3aElRUXR0R05LT0xGTEVNY3N6?=
- =?utf-8?B?cFYzOTVyNVluM0hucHBaY0dQRHpvUmZoL3ZkNEVHL3JzVWlhWFRpT3NRODJl?=
- =?utf-8?B?UXVPblpHSTAwTU83WU9XVXVJd1IzVWM0eU8zKzJQaE9nVFNCczUrYVFsZGdF?=
- =?utf-8?B?WWp3QTBqTWkrRkdmMjRxemlmcGtHKzcyenRXQWNVY096anhUMTlyUkllcDBO?=
- =?utf-8?B?bTJaNlN0MU5zVDlRMXhOeGMrQ2V0UE9qWmloOTF1TjlhQnBqRXJwdHZ3RjNQ?=
- =?utf-8?B?eW5QaHNrbWNNdkR3bTRsQW84TXdJRnhMb0Z5MFlKVmNqeVVzZjVoMUttYzI1?=
- =?utf-8?B?dXlaOWlES3N3dmhVMHdxYjg4RzlNaW00bzdib3Vma1JNUEI5S2NvN3Z4OXdo?=
- =?utf-8?B?WU1Cc05zcEZUeGQ2K1ZrbFowbGxvOVRGcS9mMDZkNDZvL2oxNWRpcW1XSDhW?=
- =?utf-8?B?aEgwMnVNTkxBSnRQVFJDRnFETE1sNk13Zys3blNCK0NLaGNkNVUxMmVpNXRz?=
- =?utf-8?B?cEFneUNlejRqYUM2SFcwWWpDdStsejRhT0ZvdFZYVTZpYjVJMEtIUFI4WCtl?=
- =?utf-8?B?aXdLdFRDNmtINWIzR1ZqRHpRZWxYOFl1dTNWSmVOREpaMDY4NFRIa09DaUth?=
- =?utf-8?B?SEo1MlVCc0VwZy9uZW1iRUJYKzBPNXl1TCtZaVRnUGF4SSt5YmE5ZndFL1BI?=
- =?utf-8?B?ay91ZXFydVM4TldOV21ZVEZQbmh5aG9XekdIZXFsT0l6UVVib1AyeWZZcjhl?=
- =?utf-8?Q?ekZjXPFk+Df/rSstpZn/plNKj?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b16860c-bd64-4131-764f-08db735f44a4
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2023 20:28:43.7700 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VQ5ODzVdjWdpBluKfqZVnOXbs7xaUSs07WlhhKZK14HWjP/8+Agy+9pvIQrAsu3aOYAmlKfbuhE0Z0RRk6bhUA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7674
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm: gem: add an option for supporting the dma-coherent
+ hardware.
+Content-Language: en-US
+To: Maxime Ripard <mripard@kernel.org>
+References: <20230607053053.345101-1-suijingfeng@loongson.cn>
+ <d4378aad1cf179d308068ef6072c5c7ff2bf2502.camel@crapouillou.net>
+ <6db23d14-652e-4b13-24cb-bfb92fa3faed@loongson.cn>
+ <e9714a0c29b1c4268081827571ad2545b0e6d5ec.camel@crapouillou.net>
+ <d5494751-0af0-42f6-bcad-f75415e4a6bd@loongson.cn>
+ <2dd4c870a5605a79105fb621c97a5f59a18c8c24.camel@crapouillou.net>
+ <ae085320-c93c-5d96-58ef-c5ee8b58c306@loongson.cn>
+ <i2odidvev3ztxit4iv4ndxcuk4opckgs5fg4jjjfrq5nike35u@mlo7hshexe2n>
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <i2odidvev3ztxit4iv4ndxcuk4opckgs5fg4jjjfrq5nike35u@mlo7hshexe2n>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Ax8uRKsZRkR4oCAA--.14009S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxuFyDZF4kArWfKF15JryktFc_yoWfuFyrpF
+ W5KF4jkF4DXryrKw1jkw4UZFyYyayrJFy5Wr1DJ34Ik3s0yF10gr17Kr15uFyDJr10gF40
+ vrWYvFyxuF1DAagCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUPFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+ Gr0_Gr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
+ kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWU
+ twAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMx
+ k0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l
+ 4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxV
+ WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI
+ 7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
+ 1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI
+ 42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUxYiiDUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,94 +72,334 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jingyuwang_vip@163.com, bellosilicio@gmail.com, trix@redhat.com,
- lijo.lazar@amd.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, mdaenzer@redhat.com,
- amd-gfx@lists.freedesktop.org, linux-acpi@vger.kernel.org, kuba@kernel.org,
- pabeni@redhat.com, lenb@kernel.org, andrealmeid@igalia.com, arnd@arndb.de,
- hdegoede@redhat.com, Evan Quan <evan.quan@amd.com>, netdev@vger.kernel.org,
- Xinhui.Pan@amd.com, linux-wireless@vger.kernel.org, edumazet@google.com,
- christian.koenig@amd.com, tzimmermann@suse.de, alexander.deucher@amd.com,
- Johannes Berg <johannes@sipsolutions.net>, davem@davemloft.net
+Cc: linux-renesas-soc@vger.kernel.org, loongson-kernel@lists.loongnix.cn,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ Paul Cercueil <paul@crapouillou.net>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 6/21/2023 8:55 PM, Andrew Lunn wrote:
->> Honestly I'm not sure though we need this complexity right now? I mean,
->> it'd be really easy to replace the calls in mac80211 with some other
->> more generalised calls in the future?
+On 2023/6/8 15:39, Maxime Ripard wrote:
+> On Thu, Jun 08, 2023 at 01:18:38AM +0800, Sui Jingfeng wrote:
+>> Hi,
 >>
->> You need some really deep platform/hardware level knowledge and
->> involvement to do this, so I don't think it's something that someone
->> will come up with very easily for a DT-based platform...
-> What is this API about?
+>> On 2023/6/8 00:12, Paul Cercueil wrote:
+>>> Hi Sui,
+>>>
+>>> Le mercredi 07 juin 2023 à 22:38 +0800, Sui Jingfeng a écrit :
+>>>> Hi,  welcome to discussion.
+>>>>
+>>>>
+>>>> I have limited skills in manipulating English.
+>>>>
+>>>> It may not express what I'm really means in the short time.
+>>>>
+>>>> Part of word in the sentence may not as accurate as your.
+>>>>
+>>>> Well, please don't misunderstand, I'm not doing the rude to you.
+>>> No problem.
+>>>
+>>>> I will explain it with more details.
+>>>>
+>>>> See below:
+>>>>
+>>>>
+>>>> On 2023/6/7 20:09, Paul Cercueil wrote:
+>>>>> Hi Sui,
+>>>>>
+>>>>> Le mercredi 07 juin 2023 à 18:30 +0800, Sui Jingfeng a écrit :
+>>>>>> Hi,
+>>>>>>
+>>>>>>
+>>>>>> On 2023/6/7 17:36, Paul Cercueil wrote:
+>>>>>>> Hi Sui,
+>>>>>>>
+>>>>>>> Le mercredi 07 juin 2023 à 13:30 +0800, Sui Jingfeng a écrit :
+>>>>>>>> The single map_noncoherent member of struct
+>>>>>>>> drm_gem_dma_object
+>>>>>>>> may
+>>>>>>>> not
+>>>>>>>> sufficient for describing the backing memory of the GEM
+>>>>>>>> buffer
+>>>>>>>> object.
+>>>>>>>>
+>>>>>>>> Especially on dma-coherent systems, the backing memory is
+>>>>>>>> both
+>>>>>>>> cached
+>>>>>>>> coherent for multi-core CPUs and dma-coherent for peripheral
+>>>>>>>> device.
+>>>>>>>> Say architectures like X86-64, LoongArch64, Loongson Mips64,
+>>>>>>>> etc.
+>>>>>>>>
+>>>>>>>> Whether a peripheral device is dma-coherent or not can be
+>>>>>>>> implementation-dependent. The single map_noncoherent option
+>>>>>>>> is
+>>>>>>>> not
+>>>>>>>> enough
+>>>>>>>> to reflect real hardware anymore. For example, the Loongson
+>>>>>>>> LS3A4000
+>>>>>>>> CPU
+>>>>>>>> and LS2K2000/LS2K1000 SoC, peripheral device of such hardware
+>>>>>>>> platform
+>>>>>>>> allways snoop CPU's cache. Doing the allocation with
+>>>>>>>> dma_alloc_coherent
+>>>>>>>> function is preferred. The return buffer is cached, it should
+>>>>>>>> not
+>>>>>>>> using
+>>>>>>>> the default write-combine mapping. While with the current
+>>>>>>>> implement,
+>>>>>>>> there
+>>>>>>>> no way to tell the drm core to reflect this.
+>>>>>>>>
+>>>>>>>> This patch adds cached and coherent members to struct
+>>>>>>>> drm_gem_dma_object.
+>>>>>>>> which allow driver implements to inform the core. Introducing
+>>>>>>>> new
+>>>>>>>> mappings
+>>>>>>>> while keeping the original default behavior unchanged.
+>>>>>>> Did you try to simply set the "dma-coherent" property to the
+>>>>>>> device's
+>>>>>>> node?
+>>>>>> But this approach can only be applied for the device driver with
+>>>>>> DT
+>>>>>> support.
+>>>>>>
+>>>>>> X86-64, Loongson ls3a4000 mips64, Loongson ls3a5000 CPU typically
+>>>>>> do
+>>>>>> not
+>>>>>> have DT support.
+>>>>>>
+>>>>>> They using ACPI to pass parameter from the firmware to Linux
+>>>>>> kernel.
+>>>>>>
+>>>>>> You approach will lost the effectiveness on such a case.
+>>>>> Well, I don't really know how ACPI handles it - but it should just
+>>>>> be a
+>>>>> matter of setting dev->dma_coherent. That's basically what the DT
+>>>>> code
+>>>>> does.
+>>>>>
+>>>>> Some MIPS boards set it in their setup code for instance.
+>>>>>
+>>>> This is a *strategy*, not a *mechanism*.
+>>>>
+>>>> In this case, DT is just used to describing the hardware.
+>>>>
+>>>> (It is actually a hardware feature describing language, the
+>>>> granularity
+>>>> is large)
+>>>>
+>>>> It does not changing the state of the hardware.
+>>>>
+>>>> It's your platform firmware or kernel setting up code who actually do
+>>>> such a things.
+>>>>
+>>>>
+>>>> It's just that it works on *one* platform, it does not guarantee it
+>>>> will
+>>>> works on others.
+>>> If you add the "dma-coherent" property in a device node in DT, you
+>>> effectively specify that the device is DMA-coherent; so you describe
+>>> the hardware, which is what DT is for, and you are not changing the
+>>> state of the hardware.
+>>>
+>>> Note that some MIPS platforms (arch/mips/alchemy/common/setup.c)
+>>> default to DMA-coherent mapping; I believe you could do something
+>>> similar with your Loongson LS3A4000 CPU and LS2K2000/LS2K1000 SoC.
+>>>
+>> The preblem is that device driver can have various demand.
+>>
+>> It probably want to create different kind of buffers for different thing
+>> simultaneously.
+>>
+>> Say, one allocated with dma_alloc_coherent for command buffer or dma
+>> descriptor
+>>
+>> another one allocated with  dma_alloc_wc for uploading shader etc.
+>>
+>> also has the third one allocated with dma_alloc_noncoherent() for doing some
+>> else.
+> And it will work just fine.
 >
-> It is a struct device says, i'm badly designed and make a mess of the
-> following frequency bands. Optionally, if you ask me nicely, i might
-> be able to tweak what i'm doing to avoid interfering with you.
+> struct device dma_coherent, or DT's dma-coherent property define that
+> the device doesn't need any kind of cache maintenance, ever. If it's
+> missing, we need to perform cache maintenance to keep coherency.
 >
-> And it is about a struct device say, i'm using this particular
-> frequency. If you can reduce the noise you make, i would be thankful.
-Hey now - you're making assumptions about what's badly designed.
-
-At it's core the issue here that prompts all of this is a
-"platform" issue with the tiny Z heights laptops these days
-strive for causing implied limitations for shielding.
-
-Independently both components work just fine.
-
+> dma_alloc_* functions provide guarantees to the driver. With
+> dma_alloc_wc and dma_alloc_coherent, the buffer is coherent, and thus
+> you don't need to perform cache maintenance operations by hand in the
+> driver.
 >
-> The one generating the noise could be anything. The PWM driving my
-> laptop display back light?, What is being interfered with?  The 3.5mm
-> audio jack?
+> With dma_alloc_noncoherent, the buffer is non-coherent and the driver
+> needs to perform them when relevant.
 >
-> How much deep system knowledge is needed to call pwm_set_state() to
-> move the base frequency up above 20Khz so only my dog will hear it?
-> But at the cost of a loss of efficiency and my battery going flatter
-> faster?
+> How those buffers are created is platform specific, but the guarantees
+> provided *to the driver* are always there.
 >
-> Is the DDR memory really the only badly designed component, when you
-> think of the range of systems Linux is used on from PHC to tiny
-> embedded systems?
+> A buffer allocated with dma_alloc_coherent might be provided by
+> different means (at the hardware level with a coherency unit, by mapping
+> it non-cacheable), but as far as the driver is concerned it's always
+> going to be coherent.
 >
-> Ideally we want any sort of receiver with a low noise amplifier to
-> just unconditionally use this API to let rest of the system know about
-> it. And ideally we want anything which is a source of noise to declare
-> itself. What happens after that should be up to the struct device
-> causing the interference.
-I do get your point here - but the problem with a PWM on your
-laptop display interfering with the 3.5mm audio jack would
-likely be localized to your specific model.
-
-If you have the 16" version of the laptop and I have the 13"
-version I might have the 3.5mm audio jack in another location,
-that is better shielded and so making that assumption that we
-both have the same components so need to make changes could be
-totally wrong.
-
-If you have EVERYTHING with an amplifier advertising frequencies
-in use without any extra information about the location of the
-component or the impacts that component can have you're going
-to have a useless interface that is just a bunch of garbage data.
-
-I really think the application of this type of software
-mitigation should be reserved for system designers that made
-those design decisions and know they are going to run into problems.
-
-> Mario did say:
+> Similarly, a driver using dma_alloc_noncoherent will always require
+> cache maintenance operations to use the API properly, even if the
+> hardware provides coherency (in which case, those operations will be
+> nop).
 >
->    The way that WBRF has been architected, it's intended to be able to
->    scale to any type of device pair that has harmonic issues.
+> So, yeah, like I was saying in the other mail, it looks like you're
+> confusing a bunch of things. dma_alloc_* functions are about the driver
+> expectations and guarantees. DT's dma-coherent property is about how we
+> can implement them on a given platform.
 >
-> Andrew
-The types of things that we envisioned were high frequency devices
-with larger power emissions. For example WWAN or USB4 devices.
-These fit well into the ACPI device model.
+> They don't have to match, and that's precisely how we can have drivers
+> that run on any combination of platforms: the driver only cares about
+> the buffer guarantees, the platform description takes care of how they
+> are implemented.
 
-When Evan gets back from holiday I'll discuss with him the ideas from
-this thread.
+You are right in overall.
 
-However before then I would really appreciate if Rafael can provide
-some comments on patch 1 as it stands today.
+Yeah, you have better understanding than me.
+
+
+But let me give you an example which may made people confusing:
+
+
+The the drm/ingenic and drm/etnaviv (KMS-RO) as an example:
+
+
+
+when drm/etnaviv's etnaviv_gem_prime_import_sg_table() function get called,
+
+drm/etnaviv is importing buffer from drm/ingenic.
+
+drm/etnaviv is the importer, and drm/ingenic is the exporter.
+
+drm/ingenic choose non-coherent mapping by default for JZ4770(this is 
+gc800 in it).
+
+It's cached, for fast CPU software rendering.
+
+
+While drm/etnaviv import the buffer, get the SG, using the WC mapping by 
+default.
+
+Dose this cause *cache aliasing* because of different driver using 
+different cache
+
+mapping for the same backing memory ?
+
+
+Because the imported buffer originally belong to the KMS driver side.
+
+For drm/ingenic(jz4770), the BO will be cached, but their hardware can't 
+guarantee coherency.
+
+when etnaviv finished the rendering, they will do the resolve.
+
+By using the WC mapping, the GPU will write directly to the system RAM.
+
+
+1)
+
+If CPU flush the cache back to the system RAM(framebuffer when running 
+glmark-es2-drm).
+
+then the image(resolved by GPU) in framebuffer will be overwrite by the 
+stall data in the cache.
+
+
+2)
+
+Think about occasions when we need the CPU to do the read access to the 
+rendered image.
+
+(snap shoot, or using with X server fake EXA)
+
+The CPU still think the share buffer as cached, it will read from the 
+cache if hit.
+
+while GPU write to RAM directly by using WC mapping.
+
+
+Even it call dma_sync_single_for_device(), it only get SYNC-ed for the 
+device.
+
+there is no SYNC for the CPU's cached.
+
+I think, In the end, it will lost of coherency.
+
+
+3)
+
+If the user want to use X server graphic environment,
+
+then the case will be more complex for 3D acceleration support.
+
+
+Even it hacks somewhere to call the sync for CPU,
+
+they still may need invalid the cache frequently.
+
+In this case, it will not get a good performance.
+
+
+At any case,  such a KMS-RO combination((cached no-coherent + WC)) will 
+be a misery./
+/
+
+While drm/ingenic could give up the hardware acceleration and the 3D 
+acceleration in X environment.
+
+it's OK, as its for low-ended graphic application.
+
+
+But, at the other hand, it is say also why arm soc adhere to the 
+write-combine.
+
+because they have no choice.
+
+While ingenic is the first exception, thanks Paul's patch which help us 
+to understand a lot thing .
+
+
+4)
+
+While Loongson LS2K1000 SoC is DMA-coherent,
+
+We are also prefer cached framebuffer for fast CPU software rendering.
+
+I also get the hardware accelerated 3D works successfully,
+
+even only for the GL client (such as glxgears and glmark2).
+
+
+Therefore, on our hardware platform.
+
+I force both the KMS driver and RO drivers to use cached mapping.
+
+with the hardware maintained cache coherence blessing us.
+
+It turn out that is works.
+
+
+We don't need ( and don't want ) to call the dma_sync_*() series function,
+
+not because we don't know it is no-op for DMA-coherent.
+
+It is because that we realized that it is not needed with 100% confident.
+
+
+We want to keep the code clean.
+
+We are ZERO tolerate to the not needed function calls.
+
+
+> Maxime
+
+-- 
+Jingfeng
 
