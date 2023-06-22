@@ -1,48 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3678739E47
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 12:18:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B0B3739E4A
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 12:19:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0F8F89070;
-	Thu, 22 Jun 2023 10:18:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8634810E53F;
+	Thu, 22 Jun 2023 10:19:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E789910E52D;
- Thu, 22 Jun 2023 10:18:54 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5D9C3617C8;
- Thu, 22 Jun 2023 10:18:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6925BC433C8;
- Thu, 22 Jun 2023 10:18:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1687429133;
- bh=xqpXPLyBDps1Cg44j/16UrjMgGR6+mPM7epmRhz78VU=;
- h=From:To:Cc:Subject:Date:From;
- b=bA1ijQaxhV2Ba8gH79uS0lA9Q4OSnfs1AflsnyFyATFtOTi3fLv01hAhDvAVYfDLc
- QQKr8n5PDfVOZU8OhQ8wrRBgI4rNIBO3B9ODSHnF1QZPlPf2xtg0rdiWHKTYRaX5f8
- EDI9Nbn/5bJS84IUZK/FDzmfovyJ3Z+dBlTcVw6gpC9Jp3n5sgsnkRshLkxH3Vy7u1
- nOvNNsooLRdyAvNfl6hnDO9rf6sAW37Q4f+V55Be6hQxBgWXaHZlWE6T1FQR6PUvLc
- ecRLU6e90tBq3eFNSdE1i6n3lc31HlBFXgKeQVheZDyingPAcZiudCUWAoypBDay1u
- OXPhcWKWx0/zA==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] i915: avoid unused-but-set-variable warning
-Date: Thu, 22 Jun 2023 12:18:41 +0200
-Message-Id: <20230622101848.3482277-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CE7AA10E533
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 10:19:00 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8DxOsYSIJRkjWgAAA--.721S3;
+ Thu, 22 Jun 2023 18:18:58 +0800 (CST)
+Received: from openarena.loongson.cn (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Cx_c4RIJRkwQICAA--.11118S2; 
+ Thu, 22 Jun 2023 18:18:58 +0800 (CST)
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/drm_gem.c: Remove surplus else after return
+Date: Thu, 22 Jun 2023 18:18:57 +0800
+Message-Id: <20230622101857.2298773-1-suijingfeng@loongson.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Cx_c4RIJRkwQICAA--.11118S2
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
+ ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
+ BjDU0xBIdaVrnRJUUUkSb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
+ xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
+ j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxV
+ AFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x02
+ 67AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
+ ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E
+ 87Iv67AKxVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw2
+ 8IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4l
+ x2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrw
+ CI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI
+ 42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr0_Gr1UMIIF0xvEx4
+ A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjxUFwZ2UUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,42 +58,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+else is not generally useful after return
 
-The mchbar_addr variable is only used inside of an #ifdef:
-
-drivers/gpu/drm/i915/soc/intel_gmch.c:41:6: error: variable 'mchbar_addr' set but not used [-Werror,-Wunused-but-set-variable]
-
-Change this to an IS_ENABLED() check to let the compiler see how
-it's used and no longer warn about it.
-
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
 ---
- drivers/gpu/drm/i915/soc/intel_gmch.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/gpu/drm/drm_gem.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/soc/intel_gmch.c b/drivers/gpu/drm/i915/soc/intel_gmch.c
-index 6d0204942f7a5..49c7fb16e934f 100644
---- a/drivers/gpu/drm/i915/soc/intel_gmch.c
-+++ b/drivers/gpu/drm/i915/soc/intel_gmch.c
-@@ -47,11 +47,9 @@ intel_alloc_mchbar_resource(struct drm_i915_private *i915)
- 	mchbar_addr = ((u64)temp_hi << 32) | temp_lo;
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index 1a5a2cd0d4ec..c18686f434d4 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -1150,8 +1150,8 @@ int drm_gem_pin(struct drm_gem_object *obj)
+ {
+ 	if (obj->funcs->pin)
+ 		return obj->funcs->pin(obj);
+-	else
+-		return 0;
++
++	return 0;
+ }
  
- 	/* If ACPI doesn't have it, assume we need to allocate it ourselves */
--#ifdef CONFIG_PNP
--	if (mchbar_addr &&
-+	if (IS_ENABLED(CONFIG_PNP) && mchbar_addr &&
- 	    pnp_range_reserved(mchbar_addr, mchbar_addr + MCHBAR_SIZE))
- 		return 0;
--#endif
- 
- 	/* Get some space for it */
- 	i915->gmch.mch_res.name = "i915 MCHBAR";
+ void drm_gem_unpin(struct drm_gem_object *obj)
 -- 
-2.39.2
+2.25.1
 
