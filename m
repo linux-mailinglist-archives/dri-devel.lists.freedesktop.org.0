@@ -2,42 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0AB973B16B
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 09:27:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A77273B162
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 09:27:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6659410E612;
-	Fri, 23 Jun 2023 07:27:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B08D110E60D;
+	Fri, 23 Jun 2023 07:26:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-37.mta0.migadu.com (out-37.mta0.migadu.com
- [IPv6:2001:41d0:1004:224b::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19FF910E4F3
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 08:35:20 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1687422388;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oQpOCkSVz0jjdFm4oEP2NJJ+zKFOVCxqbVN/b6qKeiM=;
- b=Vou+QBcBsFfrycM2PkKySs/6vc7t4z2y+ESRPtdGGBu1nh2ELX2n3XwLyStu2J7FwIsey0
- GRSdEt3Uk6O3X+qjfRuw6k2zIEyamPbwTm+TOHkS5CEaR6KvBgQJdhpJF9uZHGex1bKqla
- yWmLNi3h067slmAnbRZ3GfDMps2hTHE=
-From: Qi Zheng <qi.zheng@linux.dev>
-To: akpm@linux-foundation.org, david@fromorbit.com, tkhai@ya.ru,
- vbabka@suse.cz, roman.gushchin@linux.dev, djwong@kernel.org,
- brauner@kernel.org, paulmck@kernel.org, tytso@mit.edu
-Subject: [PATCH 02/29] mm: vmscan: introduce some helpers for dynamically
- allocating shrinker
-Date: Thu, 22 Jun 2023 08:24:27 +0000
-Message-Id: <20230622082454.4090236-3-qi.zheng@linux.dev>
-In-Reply-To: <20230622082454.4090236-1-qi.zheng@linux.dev>
-References: <20230622082454.4090236-1-qi.zheng@linux.dev>
+Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
+ [IPv6:2001:4860:4864:20::2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7441510E4F3
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 08:31:44 +0000 (UTC)
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-1a2dd615ddcso1805965fac.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 01:31:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance.com; s=google; t=1687422703; x=1690014703;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=jRx5u0dIx9qFXm7I93dXe9q/QmQ9W+wUToPS3aLpk1M=;
+ b=BLxeO0dy+qXx3mtPibK1S1/Or5zgBKyR+cJ+WdJudKlQtS/Nsabue7QFfygOG9X37C
+ JNC/knOS3tjYOQOseW33zi2F030DsgTWZcCvwE6mko6OoqIenxumjcv5Z8/rnxAjBO3/
+ xtucKEfCtZqg/VNDj8oOitF8gRCgoGC+eaFgizTMA41zH3SGC3RP8SzsV7WNcZX8qR+q
+ 6s7WskcQisgXsEcLIkuFshZF5uF8hpqRK404CDzKPS3hFNRImlWGDWKvxDEmNrhw0M34
+ cglWSueSHGyZNjK3S6DZy/VJBgyCTc7gX8Qm2fkIbSjNxChukxDTKOPYSzno2UgfFI9l
+ y7Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687422703; x=1690014703;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jRx5u0dIx9qFXm7I93dXe9q/QmQ9W+wUToPS3aLpk1M=;
+ b=ejMUuFHm8hCpdS+OeNKc3aN0To4JlIHSTeuk9lW7v1JbLSiAjG1DAotwZyk1uY5/hg
+ rVTR/RFchnkKLakaHLja/OM3h1Zw9qCrjq+ephwVAqXnvPZhShilnkhdK3iY8Hpu5n4/
+ a1rsZjqetlPllrFBY3nuRUwkegIw0hCZAfAkH3zARJvQ1eNW0jLQVA7p6/KRLUPGWvb/
+ CKIzMnuByzxaZk4hwjug1n7hLPew8pzTG2VVQ5bS/E0LUFD2WOabq+VNWNhJWxfwsBua
+ GtzpVHffYF/+UU+51srMFM//kwthxHsvCvf53sDuen1IM35iZoP5QK5qVGkGsGMvsSA9
+ SoaA==
+X-Gm-Message-State: AC+VfDzseOMCNOl+zDhSuLKJ1J/RnolbFKmqG3vO69GCJa3ToCgDJDM1
+ tEepAXhwoyue3RrBytUrywpffQ==
+X-Google-Smtp-Source: ACHHUZ4rJo+IPtTRaPya+U1JdMgc+u3gA3krnJKF3F08hxGt0uoHrxZAqg1izlNZ+SOIkOa4AMphOQ==
+X-Received: by 2002:a05:6830:19c1:b0:6b1:6db4:556f with SMTP id
+ p1-20020a05683019c100b006b16db4556fmr10609999otp.3.1687422702698; 
+ Thu, 22 Jun 2023 01:31:42 -0700 (PDT)
+Received: from [10.4.168.167] ([139.177.225.254])
+ by smtp.gmail.com with ESMTPSA id
+ y17-20020a63e251000000b0050a0227a4bcsm4369684pgj.57.2023.06.22.01.31.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Jun 2023 01:31:42 -0700 (PDT)
+Message-ID: <52bf599c-3c3a-7dfc-30b3-f3a2af5f29a8@bytedance.com>
+Date: Thu, 22 Jun 2023 16:31:22 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.12.0
+Subject: Re: [External] [PATCH 00/29] use refcount+RCU method to implement
+ lockless slab shrink
+To: Qi Zheng <qi.zheng@linux.dev>, akpm@linux-foundation.org,
+ david@fromorbit.com, tkhai@ya.ru, vbabka@suse.cz, roman.gushchin@linux.dev,
+ djwong@kernel.org, brauner@kernel.org, paulmck@kernel.org, tytso@mit.edu
+References: <20230622082454.4090236-1-qi.zheng@linux.dev>
+Content-Language: en-US
+From: Qi Zheng <zhengqi.arch@bytedance.com>
+In-Reply-To: <20230622082454.4090236-1-qi.zheng@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Fri, 23 Jun 2023 07:26:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,8 +85,8 @@ Cc: mst@redhat.com, neilb@suse.de, jasowang@redhat.com,
  linux-mm@kvack.org, song@kernel.org, dm-devel@redhat.com, ray.huang@amd.com,
  namit@vmware.com, marijn.suijten@somainline.org, agk@redhat.com,
  senozhatsky@chromium.org, david@redhat.com, clm@fb.com, steven.price@arm.com,
- alyssa.rosenzweig@collabora.com, Qi Zheng <zhengqi.arch@bytedance.com>,
- josef@toxicpanda.com, linux-ext4@vger.kernel.org, kent.overstreet@gmail.com,
+ alyssa.rosenzweig@collabora.com, josef@toxicpanda.com,
+ linux-ext4@vger.kernel.org, kent.overstreet@gmail.com,
  xuanzhuo@linux.alibaba.com, linux-arm-msm@vger.kernel.org,
  intel-gfx@lists.freedesktop.org, snitzer@kernel.org, quic_abhinavk@quicinc.com,
  colyli@suse.de, linux-raid@vger.kernel.org, linux-fsdevel@vger.kernel.org,
@@ -71,102 +100,6 @@ Cc: mst@redhat.com, neilb@suse.de, jasowang@redhat.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Qi Zheng <zhengqi.arch@bytedance.com>
+This patch set failed to send due to the following reasons, please ignore.
 
-Introduce some helpers for dynamically allocating shrinker instance,
-and their uses are as follows:
-
-1. shrinker_alloc_and_init()
-
-Used to allocate and initialize a shrinker instance, the priv_data
-parameter is used to pass the pointer of the previously embedded
-structure of the shrinker instance.
-
-2. shrinker_free()
-
-Used to free the shrinker instance when the registration of shrinker
-fails.
-
-3. unregister_and_free_shrinker()
-
-Used to unregister and free the shrinker instance, and the kfree()
-will be changed to kfree_rcu() later.
-
-Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
----
- include/linux/shrinker.h | 12 ++++++++++++
- mm/vmscan.c              | 35 +++++++++++++++++++++++++++++++++++
- 2 files changed, 47 insertions(+)
-
-diff --git a/include/linux/shrinker.h b/include/linux/shrinker.h
-index 43e6fcabbf51..8e9ba6fa3fcc 100644
---- a/include/linux/shrinker.h
-+++ b/include/linux/shrinker.h
-@@ -107,6 +107,18 @@ extern void unregister_shrinker(struct shrinker *shrinker);
- extern void free_prealloced_shrinker(struct shrinker *shrinker);
- extern void synchronize_shrinkers(void);
- 
-+typedef unsigned long (*count_objects_cb)(struct shrinker *s,
-+					  struct shrink_control *sc);
-+typedef unsigned long (*scan_objects_cb)(struct shrinker *s,
-+					 struct shrink_control *sc);
-+
-+struct shrinker *shrinker_alloc_and_init(count_objects_cb count,
-+					 scan_objects_cb scan, long batch,
-+					 int seeks, unsigned flags,
-+					 void *priv_data);
-+void shrinker_free(struct shrinker *shrinker);
-+void unregister_and_free_shrinker(struct shrinker *shrinker);
-+
- #ifdef CONFIG_SHRINKER_DEBUG
- extern int shrinker_debugfs_add(struct shrinker *shrinker);
- extern struct dentry *shrinker_debugfs_detach(struct shrinker *shrinker,
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index 45d17c7cc555..64ff598fbad9 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -809,6 +809,41 @@ void unregister_shrinker(struct shrinker *shrinker)
- }
- EXPORT_SYMBOL(unregister_shrinker);
- 
-+struct shrinker *shrinker_alloc_and_init(count_objects_cb count,
-+					 scan_objects_cb scan, long batch,
-+					 int seeks, unsigned flags,
-+					 void *priv_data)
-+{
-+	struct shrinker *shrinker;
-+
-+	shrinker = kzalloc(sizeof(struct shrinker), GFP_KERNEL);
-+	if (!shrinker)
-+		return NULL;
-+
-+	shrinker->count_objects = count;
-+	shrinker->scan_objects = scan;
-+	shrinker->batch = batch;
-+	shrinker->seeks = seeks;
-+	shrinker->flags = flags;
-+	shrinker->private_data = priv_data;
-+
-+	return shrinker;
-+}
-+EXPORT_SYMBOL(shrinker_alloc_and_init);
-+
-+void shrinker_free(struct shrinker *shrinker)
-+{
-+	kfree(shrinker);
-+}
-+EXPORT_SYMBOL(shrinker_free);
-+
-+void unregister_and_free_shrinker(struct shrinker *shrinker)
-+{
-+	unregister_shrinker(shrinker);
-+	kfree(shrinker);
-+}
-+EXPORT_SYMBOL(unregister_and_free_shrinker);
-+
- /**
-  * synchronize_shrinkers - Wait for all running shrinkers to complete.
-  *
--- 
-2.30.2
-
+	4.7.1 Error: too many recipients from 49.7.199.65
