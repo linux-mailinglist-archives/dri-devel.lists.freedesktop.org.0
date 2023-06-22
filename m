@@ -2,37 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDEB8739F87
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 13:34:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7960E739F89
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 13:35:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C56A10E175;
-	Thu, 22 Jun 2023 11:34:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEF4F10E54C;
+	Thu, 22 Jun 2023 11:35:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55A7B10E175
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 11:34:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 568E610E54C
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 11:35:29 +0000 (UTC)
 Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1qCIZs-0004YH-U2; Thu, 22 Jun 2023 13:34:16 +0200
+ id 1qCIav-0004ku-D1; Thu, 22 Jun 2023 13:35:21 +0200
 Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1qCIZp-0001NE-H1; Thu, 22 Jun 2023 13:34:13 +0200
-Date: Thu, 22 Jun 2023 13:34:13 +0200
+ id 1qCIau-0001Un-Cy; Thu, 22 Jun 2023 13:35:20 +0200
+Date: Thu, 22 Jun 2023 13:35:20 +0200
 From: Sascha Hauer <s.hauer@pengutronix.de>
 To: Jonas Karlman <jonas@kwiboo.se>
-Subject: Re: [PATCH v2 5/5] drm/rockchip: vop2: Add missing call to crtc
- reset helper
-Message-ID: <20230622113413.GL18491@pengutronix.de>
+Subject: Re: [PATCH v2 3/5] drm/rockchip: vop: Fix call to crtc reset helper
+Message-ID: <20230622113520.GM18491@pengutronix.de>
 References: <20230621223311.2239547-1-jonas@kwiboo.se>
- <20230621223311.2239547-6-jonas@kwiboo.se>
+ <20230621223311.2239547-4-jonas@kwiboo.se>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230621223311.2239547-6-jonas@kwiboo.se>
+In-Reply-To: <20230621223311.2239547-4-jonas@kwiboo.se>
 X-Sent-From: Pengutronix Hildesheim
 X-URL: http://www.pengutronix.de/
 X-Accept-Language: de,en
@@ -62,75 +61,42 @@ Cc: Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 21, 2023 at 10:33:23PM +0000, Jonas Karlman wrote:
-> Add missing call to crtc reset helper to properly vblank reset.
+On Wed, Jun 21, 2023 at 10:33:20PM +0000, Jonas Karlman wrote:
+> Allocation of crtc_state may fail in vop_crtc_reset, causing an invalid
+> pointer to be passed to __drm_atomic_helper_crtc_reset.
 > 
-> Also move vop2_crtc_reset and call vop2_crtc_destroy_state to simplify
-> and remove duplicated code.
+> Fix this by adding a NULL check of crtc_state, similar to other drivers.
 > 
-> Fixes: 604be85547ce ("drm/rockchip: Add VOP2 driver")
+> Fixes: 01e2eaf40c9d ("drm/rockchip: Convert to using __drm_atomic_helper_crtc_reset() for reset.")
 > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> ---
-> v2:
-> - Add check for allocation failure (Sascha)
 
 Reviewed-by: Sascha Hauer <s.hauer@pengutronix.de>
 
 Sascha
 
+> ---
+> v2:
+> - New patch
 > 
->  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 31 +++++++++-----------
->  1 file changed, 14 insertions(+), 17 deletions(-)
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> index f725487d02ef..5ba83121a1b9 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> @@ -2080,23 +2080,6 @@ static const struct drm_crtc_helper_funcs vop2_crtc_helper_funcs = {
->  	.atomic_disable = vop2_crtc_atomic_disable,
->  };
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> index 25c873d4ff53..23bc79064e78 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> @@ -1630,7 +1630,10 @@ static void vop_crtc_reset(struct drm_crtc *crtc)
+>  	if (crtc->state)
+>  		vop_crtc_destroy_state(crtc, crtc->state);
 >  
-> -static void vop2_crtc_reset(struct drm_crtc *crtc)
-> -{
-> -	struct rockchip_crtc_state *vcstate = to_rockchip_crtc_state(crtc->state);
-> -
-> -	if (crtc->state) {
-> -		__drm_atomic_helper_crtc_destroy_state(crtc->state);
-> -		kfree(vcstate);
-> -	}
-> -
-> -	vcstate = kzalloc(sizeof(*vcstate), GFP_KERNEL);
-> -	if (!vcstate)
-> -		return;
-> -
-> -	crtc->state = &vcstate->base;
-> -	crtc->state->crtc = crtc;
-> -}
-> -
->  static struct drm_crtc_state *vop2_crtc_duplicate_state(struct drm_crtc *crtc)
->  {
->  	struct rockchip_crtc_state *vcstate;
-> @@ -2123,6 +2106,20 @@ static void vop2_crtc_destroy_state(struct drm_crtc *crtc,
->  	kfree(vcstate);
->  }
->  
-> +static void vop2_crtc_reset(struct drm_crtc *crtc)
-> +{
-> +	struct rockchip_crtc_state *vcstate =
-> +		kzalloc(sizeof(*vcstate), GFP_KERNEL);
-> +
-> +	if (crtc->state)
-> +		vop2_crtc_destroy_state(crtc, crtc->state);
-> +
-> +	if (vcstate)
-> +		__drm_atomic_helper_crtc_reset(crtc, &vcstate->base);
+> -	__drm_atomic_helper_crtc_reset(crtc, &crtc_state->base);
+> +	if (crtc_state)
+> +		__drm_atomic_helper_crtc_reset(crtc, &crtc_state->base);
 > +	else
 > +		__drm_atomic_helper_crtc_reset(crtc, NULL);
-> +}
-> +
->  static const struct drm_crtc_funcs vop2_crtc_funcs = {
->  	.set_config = drm_atomic_helper_set_config,
->  	.page_flip = drm_atomic_helper_page_flip,
+>  }
+>  
+>  #ifdef CONFIG_DRM_ANALOGIX_DP
 > -- 
 > 2.41.0
 > 
