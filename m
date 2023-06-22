@@ -1,52 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A12A739E6C
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 12:21:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B32A739E3B
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 12:17:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2137C10E54B;
-	Thu, 22 Jun 2023 10:21:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4189010E528;
+	Thu, 22 Jun 2023 10:17:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 127D610E545;
- Thu, 22 Jun 2023 10:21:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1687429262; x=1718965262;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=nsBrKyprDyQqXkX1mcuTIRsLusoyhrCBKqlpyi/2hsM=;
- b=RuQakajhlC/z47dEopc3dERRKZqhayFPutDZOmVx0idhQQPCkAhu3Qs1
- 3LCjsgR0QokJ//T4U519g12VXVK+B3dkEulJ//boUvxEDZAKwDmad/MNY
- rR1d4Glt5W8Mwu+nuJM37uZ3WMj4nqssphgHcCIGnAAwDEPahBHIuw97q
- A9Cl+lhOEibBIN6CQmCF0J06Ra+f1eprH4Sm51y1kD8tCx4mc8ODos1+S
- yiC1ZjNxwob4aZyMREao9xiZByV6QEnj0qxkR8WXkoG4u+mnghzSst8/D
- SuQyig1+/R81hwtpiqeUz4ZpBfB1JiBRlog00FzSzZtvi6QJYY+KgsRCn g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="345182395"
-X-IronPort-AV: E=Sophos;i="6.00,263,1681196400"; d="scan'208";a="345182395"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2023 03:15:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="692194650"
-X-IronPort-AV: E=Sophos;i="6.00,263,1681196400"; d="scan'208";a="692194650"
-Received: from shari19x-mobl1.gar.corp.intel.com (HELO
- thellstr-mobl1.intel.com) ([10.249.254.173])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2023 03:15:07 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-xe@lists.freedesktop.org
-Subject: [PATCH 4/4] drm/ttm: Don't leak a resource on swapout move error
-Date: Thu, 22 Jun 2023 12:14:12 +0200
-Message-Id: <20230622101412.78426-5-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230622101412.78426-1-thomas.hellstrom@linux.intel.com>
-References: <20230622101412.78426-1-thomas.hellstrom@linux.intel.com>
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AAE310E528
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 10:17:09 +0000 (UTC)
+X-GND-Sasl: miquel.raynal@bootlin.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1687429027;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=W9aUItMReoPpYIK/wz4UleCRCSlHvAr+ArgPv0wraAc=;
+ b=eUTMI/SAS2r/dpn4tNDOyXzSr/TQco8LvrghB2kuadPJPCl1TGXnGk51h6BjxCEhtwjvaR
+ OrFR50zRmdVnHxmPzXi4fJMY2JwYBgSVPioRASOm4h+i8mWqnK8z3gTBEbmEyrd4qHqA4R
+ 4RuUYE6g2jCdzOfOyzoGNEdpARgEBZbU0DayIiknDT8uCILP8qmjhY1n0WYUfFY/OKnVPK
+ bSSdbtn0uEn+O+xVIo2ulCoiYyNnoOhRfxUt+mvhhGZTUFeIIAxRar/wyayUp+VmoM5qgr
+ GVcqIwwlZIRp1kerv8cOGayM7WveYvhhWifvyzKszlxeZLjiHUK3P0156lGD+g==
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-GND-Sasl: miquel.raynal@bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E2500FF80C;
+ Thu, 22 Jun 2023 10:17:05 +0000 (UTC)
+Date: Thu, 22 Jun 2023 12:17:05 +0200
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 2/2] drm/panel: simple: Add support for Mitsubishi
+ AA084XE01
+Message-ID: <20230622121705.32dc3924@xps-13>
+In-Reply-To: <20230619074348.2893701-2-miquel.raynal@bootlin.com>
+References: <20230619074348.2893701-1-miquel.raynal@bootlin.com>
+ <20230619074348.2893701-2-miquel.raynal@bootlin.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,39 +65,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Thomas Weber <thomas.weber@corscience.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If moving the bo to system for swapout failed, we were leaking
-a resource. Fix.
+Hello,
 
-Fixes: bfa3357ef9ab ("drm/ttm: allocate resource object instead of embedding it v2")
-Cc: Christian König <christian.koenig@amd.com>
-Cc: "Christian König" <ckoenig.leichtzumerken@gmail.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.14+
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/ttm/ttm_bo.c | 1 +
- 1 file changed, 1 insertion(+)
+miquel.raynal@bootlin.com wrote on Mon, 19 Jun 2023 09:43:48 +0200:
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 89530f2a027f..d737ddd7f4c0 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -1166,6 +1166,7 @@ int ttm_bo_swapout(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
- 		ret = ttm_bo_handle_move_mem(bo, evict_mem, true, ctx, &hop);
- 		if (unlikely(ret != 0)) {
- 			WARN(ret == -EMULTIHOP, "Unexpected multihop in swaput - likely driver bug.\n");
-+			ttm_resource_free(bo, &evict_mem);
- 			goto out;
- 		}
- 	}
--- 
-2.40.1
+> From: Thomas Weber <thomas.weber@corscience.de>
+>=20
+> Add support for the Mitsubishi AA084XE01 panel which is an 8.4 inch XGA
+> TFT-LCD module for industrial use.
+>=20
+> Link: https://www.mouser.fr/datasheet/2/274/aa084xe01_e-364171.pdf
+> Signed-off-by: Thomas Weber <thomas.weber@corscience.de>
+> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> ---
+>=20
+> Changes in v2:
+> * Lowered the clock to match the typical 65MHz frequency.
+> * Added the connector type and the missing bus flags.
+> * Collected an A-by tag.
+>=20
+>  drivers/gpu/drm/panel/panel-simple.c | 29 ++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel=
+/panel-simple.c
+> index 8a3b685c2fcc..963f3223c985 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -2670,6 +2670,32 @@ static const struct panel_desc mitsubishi_aa070mc0=
+1 =3D {
+>  	.bus_flags =3D DRM_BUS_FLAG_DE_HIGH,
+>  };
+> =20
+> +static const struct drm_display_mode mitsubishi_aa084xe01_mode =3D {
+> +	.clock =3D 56234,
+> +	.hdisplay =3D 1024,
+> +	.hsync_start =3D 1024 + 24,
+> +	.hsync_end =3D 1024 + 24 + 63,
+> +	.htotal =3D 1024 + 24 + 63 + 1,
+> +	.vdisplay =3D 768,
+> +	.vsync_start =3D 768 + 3,
+> +	.vsync_end =3D 768 + 3 + 6,
+> +	.vtotal =3D 768 + 3 + 6 + 1,
+> +	.flags =3D DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC,
+> +};
+> +
+> +static const struct panel_desc mitsubishi_aa084xe01 =3D {
+> +	.modes =3D &mitsubishi_aa084xe01_mode,
+> +	.num_modes =3D 1,
+> +	.bpc =3D 8,
+> +	.size =3D {
+> +		.width =3D 1024,
+> +		.height =3D 768,
+> +	},
+> +	.bus_format =3D MEDIA_BUS_FMT_RGB565_1X16,
+> +	.connector_type =3D DRM_MODE_CONNECTOR_LVDS,
 
+I've got confused, the connector is a DPI connector. On my board there
+are two RGB-LVDS and LVDS-RGB connectors, but this is not relevant
+here. I'll send an update using the right connector type.
+
+> +	.bus_flags =3D DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGED=
+GE,
+> +};
+> +
+>  static const struct display_timing multi_inno_mi0700s4t_6_timing =3D {
+>  	.pixelclock =3D { 29000000, 33000000, 38000000 },
+>  	.hactive =3D { 800, 800, 800 },
+> @@ -4158,6 +4184,9 @@ static const struct of_device_id platform_of_match[=
+] =3D {
+>  	}, {
+>  		.compatible =3D "mitsubishi,aa070mc01-ca1",
+>  		.data =3D &mitsubishi_aa070mc01,
+> +	}, {
+> +		.compatible =3D "mitsubishi,aa084xe01",
+> +		.data =3D &mitsubishi_aa084xe01,
+>  	}, {
+>  		.compatible =3D "multi-inno,mi0700s4t-6",
+>  		.data =3D &multi_inno_mi0700s4t_6,
+
+
+Thanks,
+Miqu=C3=A8l
