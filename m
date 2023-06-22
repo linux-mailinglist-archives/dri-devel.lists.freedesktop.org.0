@@ -1,55 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2F473ABA6
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 23:32:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFE7B73AC62
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 00:10:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C8A010E59B;
-	Thu, 22 Jun 2023 21:32:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4112410E5B2;
+	Thu, 22 Jun 2023 22:10:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [IPv6:2001:4b98:dc4:8::228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3225110E587
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 21:32:19 +0000 (UTC)
-X-GND-Sasl: miquel.raynal@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1687469538;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oBJxrt4i+LGbBD4mfrNY1AHWEbUyplXBhUqOZFUszxU=;
- b=XienpFfNhC63YHZ+S/Fx+4DGtTlTsqVyWMH3tsLqTkagaycqRyv8C1MZzudWZb+RfSPxsv
- qBzFgczekwDrWBaE3B8OghKq3ciYsPzy4ZqKdJncZBE/PD2DjKaa1s2wCTsZeALZNWl87C
- in2DTs+xSyCdryfI9yKhWPKD3vsw2IeiPeX29n/8zE5Z/hwXKlERiEvyQRLohrQh0Q0Kmx
- WrG5Sm1ZvfhAJ6bW44IWd78CJcdW9oD83ABrBRHSopa7Lmeq9JAaFtdw3X91z1u/yOPpbO
- y0enAVd8Yy264z6A6QpnSnlbff/MCMKHoR1ui5jx+ojzM+XJXHopDp/f4hFYMw==
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 617C81BF206;
- Thu, 22 Jun 2023 21:32:17 +0000 (UTC)
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>
-Subject: [PATCH v3 2/2] gpu: host1x: Stop open-coding of_device_uevent()
-Date: Thu, 22 Jun 2023 23:32:14 +0200
-Message-Id: <20230622213214.3586530-3-miquel.raynal@bootlin.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230622213214.3586530-1-miquel.raynal@bootlin.com>
-References: <20230622213214.3586530-1-miquel.raynal@bootlin.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0216610E5B2
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 22:10:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1687471853; x=1719007853;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=BKdj/JadWCFUxAEp/Fu2mYUFLMkg1UeER0yJgeOg5Og=;
+ b=mt/1GOIfrBGlDvsae0PKg8KeMwvkysyax1bEblYE0btbkYHWFTwcd9xx
+ PqEL6DlFNG4mdTYJm72ua9CfrLXP7iy/2A66fqzANCPc/Ton+UnF202XU
+ WsR8BPo+O1XDddppYsb+RGkds8ZjmHmbTK2xbIeNn2WGnwBHatAxz8VUe
+ vdooXUgX/3cxjl1khXf4X0L+bl4N7ztwSXFqc1UBBW2ZERrh1ezQRokUx
+ qMyvpll8OGJ0DxB2RHxQEePyiyCbMU+2LhH2VYNTFaOBBexBaOIOSCkWb
+ kkJHs1gda2j3+sgk0Q4kVNZ3eexO2JBDEdUk7pKMb+Ox7iZL4JigSKkdI Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="350388260"
+X-IronPort-AV: E=Sophos;i="6.01,150,1684825200"; d="scan'208";a="350388260"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2023 15:10:51 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="749508768"
+X-IronPort-AV: E=Sophos;i="6.01,150,1684825200"; d="scan'208";a="749508768"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+ by orsmga001.jf.intel.com with ESMTP; 22 Jun 2023 15:10:47 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qCSVr-0007mx-06;
+ Thu, 22 Jun 2023 22:10:47 +0000
+Date: Fri, 23 Jun 2023 06:10:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org
+Subject: Re: [PATCH v1 2/2] udmabuf: Add back support for mapping hugetlb pages
+Message-ID: <202306230534.TIq82gef-lkp@intel.com>
+References: <20230622072710.3707315-3-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230622072710.3707315-3-vivek.kasireddy@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,84 +59,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, linux-tegra@vger.kernel.org,
- Frank Rowand <frowand.list@gmail.com>
+Cc: James Houghton <jthoughton@google.com>,
+ Jerome Marchand <jmarchan@redhat.com>, Dongwon Kim <dongwon.kim@intel.com>,
+ David Hildenbrand <david@redhat.com>, Junxiao Chang <junxiao.chang@intel.com>,
+ Muchun Song <muchun.song@linux.dev>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Michal Hocko <mhocko@suse.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is apparently no reasons to open-code of_device_uevent() besides:
-- The helper receives a struct device while we want to use the of_node
-  member of the struct device *parent*.
-- of_device_uevent() could not be called by modules because of a missing
-  EXPORT_SYMBOL*().
+Hi Vivek,
 
-In practice, the former point is not very constraining, just calling
-of_device_uevent(dev->parent, ...) would have made the trick.
+kernel test robot noticed the following build warnings:
 
-The latter point is more an observation rather than a real blocking
-point because nothing prevented of_uevent() (called by the inline
-function of_device_uevent()) to be exported to modules. In practice,
-this helper is now exported, so nothing prevent us from using
-of_device_uevent() anymore.
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master next-20230622]
+[cannot apply to drm-misc/drm-misc-next drm-tip/drm-tip v6.4-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Let's use the core helper directly instead of open-coding it.
+url:    https://github.com/intel-lab-lkp/linux/commits/Vivek-Kasireddy/udmabuf-Use-vmf_insert_pfn-and-VM_PFNMAP-for-handling-mmap/20230622-155402
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230622072710.3707315-3-vivek.kasireddy%40intel.com
+patch subject: [PATCH v1 2/2] udmabuf: Add back support for mapping hugetlb pages
+config: openrisc-randconfig-c044-20230622 (https://download.01.org/0day-ci/archive/20230623/202306230534.TIq82gef-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230623/202306230534.TIq82gef-lkp@intel.com/reproduce)
 
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Mikko Perttunen <mperttunen@nvidia.com>
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Frank Rowand <frowand.list@gmail.com>
-Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
----
- drivers/gpu/host1x/bus.c | 29 ++++++-----------------------
- 1 file changed, 6 insertions(+), 23 deletions(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306230534.TIq82gef-lkp@intel.com/
 
-diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
-index 4d16a3396c4a..84d042796d2e 100644
---- a/drivers/gpu/host1x/bus.c
-+++ b/drivers/gpu/host1x/bus.c
-@@ -338,32 +338,15 @@ static int host1x_device_match(struct device *dev, struct device_driver *drv)
- 	return strcmp(dev_name(dev), drv->name) == 0;
- }
- 
-+/*
-+ * Note that this is really only needed for backwards compatibility
-+ * with libdrm, which parses this information from sysfs and will
-+ * fail if it can't find the OF_FULLNAME, specifically.
-+ */
- static int host1x_device_uevent(const struct device *dev,
- 				struct kobj_uevent_env *env)
- {
--	struct device_node *np = dev->parent->of_node;
--	unsigned int count = 0;
--	struct property *p;
--	const char *compat;
--
--	/*
--	 * This duplicates most of of_device_uevent(), but the latter cannot
--	 * be called from modules and operates on dev->of_node, which is not
--	 * available in this case.
--	 *
--	 * Note that this is really only needed for backwards compatibility
--	 * with libdrm, which parses this information from sysfs and will
--	 * fail if it can't find the OF_FULLNAME, specifically.
--	 */
--	add_uevent_var(env, "OF_NAME=%pOFn", np);
--	add_uevent_var(env, "OF_FULLNAME=%pOF", np);
--
--	of_property_for_each_string(np, "compatible", p, compat) {
--		add_uevent_var(env, "OF_COMPATIBLE_%u=%s", count, compat);
--		count++;
--	}
--
--	add_uevent_var(env, "OF_COMPATIBLE_N=%u", count);
-+	of_device_uevent(dev->parent, env);
- 
- 	return 0;
- }
+cocci warnings: (new ones prefixed by >>)
+>> drivers/dma-buf/udmabuf.c:172:2-7: WARNING: NULL check before some freeing functions is not needed.
+   drivers/dma-buf/udmabuf.c:360:2-7: WARNING: NULL check before some freeing functions is not needed.
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
