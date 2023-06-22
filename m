@@ -2,63 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4590E73A73A
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 19:28:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FF4273A760
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 19:39:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DDB010E593;
-	Thu, 22 Jun 2023 17:28:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59FAA10E594;
+	Thu, 22 Jun 2023 17:39:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com
- [IPv6:2607:f8b0:4864:20::c32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A78BE10E594
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 17:28:23 +0000 (UTC)
-Received: by mail-oo1-xc32.google.com with SMTP id
- 006d021491bc7-560c617c820so921850eaf.3
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 10:28:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1687454902; x=1690046902;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LG+SNuCveJ3k9ZN/Bizrp7A+pc/Q1Y7lTPWIVH04fxs=;
- b=T4I3aijPx32FFgw6FOHR4Ruv4anJ/z6F+8J8R3KxSSBtkaY0EbMuS4skm/dDmK8OpR
- vFlZY+b5HP+SGUiOwEE/tsifiyA746cimvL34ghxa5Mpuk2IcHRB8IbkcivmgGhDw76h
- 4R7f5O8draGsNBPtqFpB4troLWRAbfbUXGljQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687454902; x=1690046902;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LG+SNuCveJ3k9ZN/Bizrp7A+pc/Q1Y7lTPWIVH04fxs=;
- b=WAyEEDWcd2zCgg8Ia6n6mCCpGgHRiVrheKgWOQBO16YckN4whrU1zGMyIJpel3djY4
- q4c0fHLbmE4c8gSHzECWpnh9G/AJ0o+7dGeqbF0veMdZWJkzmd2ZJEQlBHWXdiy9fhzN
- 0TIBNisMeJuDOdYsB/C+sGuIJG+nMr31z45pQWPQ428hM2YNlxZbULRRm4Fcoj9ufNQE
- Ruft2YwANk262+euznINj1ta90Vjyhj3uFATlUuezwxmhaP1KJTCyxR8YCuFUFw+P2tX
- ivtBEwN49HrYmQ/rXi5numanASGMRtQUYyKol6lpuOl7OiroJylnVrczym4XZ+ZoHMCQ
- PHyA==
-X-Gm-Message-State: AC+VfDzd2/aKFj3MTdru48mk85ZBl0VMSghhEmM90MMgZrowxIRozQrO
- XptzftSHrXPUqCc6k7pVSWZjVQ==
-X-Google-Smtp-Source: ACHHUZ6aaAPgxRA2SMPMem3yPU+gg1InPzmqDPfdl3P3URnZ3GiIprPeBfYXA2NatKXYAXb9bAdDHg==
-X-Received: by 2002:a05:6808:6243:b0:398:9ee4:1dac with SMTP id
- dt3-20020a056808624300b003989ee41dacmr21175501oib.32.1687454902406; 
- Thu, 22 Jun 2023 10:28:22 -0700 (PDT)
-Received: from ballway1.c.googlers.com.com
- (97.173.125.34.bc.googleusercontent.com. [34.125.173.97])
- by smtp.gmail.com with ESMTPSA id
- q15-20020a17090a064f00b002533ce5b261sm36645pje.10.2023.06.22.10.28.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jun 2023 10:28:22 -0700 (PDT)
-From: Allen Ballway <ballway@chromium.org>
-To: ballway@chromium.org
-Subject: [PATCH v2] drm/i915/quirk: Add quirk for devices that cannot be dimmed
-Date: Thu, 22 Jun 2023 17:28:15 +0000
-Message-ID: <20230622172817.2281527-1-ballway@chromium.org>
-X-Mailer: git-send-email 2.41.0.162.gfafddb0af9-goog
-In-Reply-To: <20230606211901.1.I06e778109090b5dc85c44da7b742d185aa6adb59@changeid>
-References: <20230606211901.1.I06e778109090b5dc85c44da7b742d185aa6adb59@changeid>
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95F2B10E597
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 17:38:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
+ s=s31663417; t=1687455536; x=1688060336; i=deller@gmx.de;
+ bh=roHB+JreyqbCyh46TX0VgJAq4m6SfZv4rdjO3VvVBp4=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=t2W/Wyhb4VhIczxIoOKN9JE4rhU6dpuOTmsZdFbVGM+3njVQO0Qzt48hpU1uWU6z6tlxEyk
+ BJpTyDsehdRBny1NbTtS3bDV2qy8jzqaajwsPuhPMkIXwVqz9DN3iVQNSR/+uRCCiSInJuxKI
+ Pz7O/WueZfo3+8Aa7cAAbEJYnypTP9yr5tOG06WUQ/nbqB1fCinJHDJWn7c9Jocl7aGluumF4
+ fBuMhinEAPPdFQA/DoKtujFr58vBTA9eF5bSdB5o6XJwGkIGRuSe7/foyj1FKcr7e7hsQpsZK
+ 4uRFvD+4Xxb0xO4zIKONQmjLHlmav5KYUyZFkawPNo0un4YvO4GA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([94.134.155.210]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MulmF-1pvXsJ3J6R-00rtA3; Thu, 22
+ Jun 2023 19:38:56 +0200
+Message-ID: <ed5784a9-b707-dcd5-5898-cb76e8d169c1@gmx.de>
+Date: Thu, 22 Jun 2023 19:38:56 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH][next] fbdev: sh7760fb: Fix -Wimplicit-fallthrough warnings
+Content-Language: en-US
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+References: <ZJR66f3UY0UFZJ01@work>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <ZJR66f3UY0UFZJ01@work>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:0AMsLm4CGRzP+9jo/SLOyPBSOwhb9hi+YyvAI//2GPCYSgGDhjw
+ WRULZVkxM4/xxLE1oa0lJb6lq+b2r2VgJNdwN2G0d378sKPwXO1pr8dY60fqiZWuWLOkf2u
+ 20Mar4LMzlZKqIPGUYxAp7A+Wg0eJcmmobzVnKOS9mrBLct4zI38Jf/t2vJQ2Dfz58HTY2K
+ KZLwRQr4Wh3pWSBvWj6/w==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:v3wRNOQ3lDM=;KzA0nqjrywUt2MTT7Y/c7H59eyt
+ F3OGcuyVoFdzNHAKczE6V1n7iEMqnpZLUed/Of1vvxhdw3sd/W42nXs92730SlZp98sozxz1b
+ 0mWbwq8olHadQERt7yF4SuLjP4xMj1ZOHXGCS+RSRpTvkGR6T0VhGu4ju0c9KUS0lujWEr7ZR
+ OtEpsHq0qXKDotgxxbiNwIxafQi1oT1/K+hY5FWSONJjZvnD2uB90pTjaB7WsDgopzYELwvL5
+ SBOzeDTQYQ3RuYwS8ri4gf9HW9btRftxqZYPlLU2P/PbDd6Fs73DiEAakBKd1RoZFhhGr7Ikp
+ f65ZliX59WV2kt4g3NZQfhxQC3Gb3k2sxxL53gH8ElGRt9DOT+QxvFNohR/WiUkd7pvSX9gB8
+ cR36NuF6xoB3R8bGXI/vGKfFm8hVaypE90YOYSu8FU64n3+OSMpjjD8ed3ndS49eA0vWlM9ha
+ 0GKl74aht4EqeJan8Yd7ttWFVxw3JpCrD/oxi7GHzCE5Oib0BUTThOGRNRHCyA0yBpxskvt0g
+ /hh8EPpZwxni+wGWuSVpJ8UlOvSZB9SWRuQjVar9DUshdikCCxhWooUs9f2115+5HsR3+MhfZ
+ j4ie5CpWdQ48GRYJpsz3IW8pv35chqyULjI2bTdAnAIP1knCySIwH+nWW5LxmemTHEWrDQBuU
+ rCFb6blF0UbPpobYBUzOvDFI1xE8wO/Kz5qDW5NCcY9eh7TdHMN3KpPu6ZK5Da5R2vMRvEGxI
+ aHasosJxMoq9TjbmoGXDBkwOa5SZBhQ5e5viUzJuhwlJN6ESDmPL50PxcSVCxoKr3lDCXmkOj
+ r9ezznURd1jcofZT4VPgehaFQ5m7uyMS08E2CeB8KqVsRORsGBzIqNiQmhmWfCSQNf98CqMvu
+ lU5seedc5HXj6BYFoRXFK01ZcugyT3BbLbVWW0NtHbcKWYdbIj3cK/D2zCm6lzXKABwzOtIQA
+ 4vyvnw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,112 +70,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, arun.r.murthy@intel.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-hardening@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Cybernet T10C cannot be dimmed without the backlight strobing. Create a
-new quirk to lock the minimum brightness to the highest supported value.
-This aligns the device with its behavior on Windows, which will not
-lower the brightness below maximum.
+On 6/22/23 18:46, Gustavo A. R. Silva wrote:
+> Fix the following fallthrough warnings seen after building sh
+> architecture with sh7763rdp_defconfig configuration:
+>
+> drivers/video/fbdev/sh7760fb.c: In function 'sh7760fb_get_color_info':
+> drivers/video/fbdev/sh7760fb.c:138:23: warning: this statement may fall =
+through [-Wimplicit-fallthrough=3D]
+>    138 |                 lgray =3D 1;
+>        |                 ~~~~~~^~~
+> drivers/video/fbdev/sh7760fb.c:139:9: note: here
+>    139 |         case LDDFR_4BPP:
+>        |         ^~~~
+> drivers/video/fbdev/sh7760fb.c:143:23: warning: this statement may fall =
+through [-Wimplicit-fallthrough=3D]
+>    143 |                 lgray =3D 1;
+>        |                 ~~~~~~^~~
+> drivers/video/fbdev/sh7760fb.c:144:9: note: here
+>    144 |         case LDDFR_8BPP:
+>        |         ^~~~
+>
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-Signed-off-by: Allen Ballway <ballway@chromium.org>
----
-V1 -> V2: Fix style issue.
+applied.
 
- .../gpu/drm/i915/display/intel_backlight.c    |  5 ++++
- drivers/gpu/drm/i915/display/intel_quirks.c   | 27 +++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_quirks.h   |  1 +
- 3 files changed, 33 insertions(+)
+Thanks!
+Helge
 
-diff --git a/drivers/gpu/drm/i915/display/intel_backlight.c b/drivers/gpu/drm/i915/display/intel_backlight.c
-index 2e8f17c045222..049e95105e8b6 100644
---- a/drivers/gpu/drm/i915/display/intel_backlight.c
-+++ b/drivers/gpu/drm/i915/display/intel_backlight.c
-@@ -1192,6 +1192,11 @@ static u32 get_backlight_min_vbt(struct intel_connector *connector)
-
- 	drm_WARN_ON(&i915->drm, panel->backlight.pwm_level_max == 0);
-
-+	if (intel_has_quirk(i915, QUIRK_NO_DIM)) {
-+		/* Cannot dim backlight, set minimum to hightest value */
-+		return panel->backlight.pwm_level_max - 1;
-+	}
-+
- 	/*
- 	 * XXX: If the vbt value is 255, it makes min equal to max, which leads
- 	 * to problems. There are such machines out there. Either our
-diff --git a/drivers/gpu/drm/i915/display/intel_quirks.c b/drivers/gpu/drm/i915/display/intel_quirks.c
-index a280448df771a..910c95840a539 100644
---- a/drivers/gpu/drm/i915/display/intel_quirks.c
-+++ b/drivers/gpu/drm/i915/display/intel_quirks.c
-@@ -65,6 +65,12 @@ static void quirk_no_pps_backlight_power_hook(struct drm_i915_private *i915)
- 	drm_info(&i915->drm, "Applying no pps backlight power quirk\n");
- }
-
-+static void quirk_no_dim(struct drm_i915_private *i915)
-+{
-+	intel_set_quirk(i915, QUIRK_NO_DIM);
-+	drm_info(&i915->drm, "Applying no dim quirk\n");
-+}
-+
- struct intel_quirk {
- 	int device;
- 	int subsystem_vendor;
-@@ -90,6 +96,12 @@ static int intel_dmi_no_pps_backlight(const struct dmi_system_id *id)
- 	return 1;
- }
-
-+static int intel_dmi_no_dim(const struct dmi_system_id *id)
-+{
-+	DRM_INFO("No dimming allowed on %s\n", id->ident);
-+	return 1;
-+}
-+
- static const struct intel_dmi_quirk intel_dmi_quirks[] = {
- 	{
- 		.dmi_id_list = &(const struct dmi_system_id[]) {
-@@ -136,6 +148,20 @@ static const struct intel_dmi_quirk intel_dmi_quirks[] = {
- 		},
- 		.hook = quirk_no_pps_backlight_power_hook,
- 	},
-+	{
-+		.dmi_id_list = &(const struct dmi_system_id[]) {
-+			{
-+				.callback = intel_dmi_no_dim,
-+				.ident = "Cybernet T10C Tablet",
-+				.matches = {DMI_EXACT_MATCH(DMI_BOARD_VENDOR,
-+							    "Cybernet Manufacturing Inc."),
-+					    DMI_EXACT_MATCH(DMI_BOARD_NAME, "T10C Tablet"),
-+				},
-+			},
-+			{ }
-+		},
-+		.hook = quirk_no_dim,
-+	},
- };
-
- static struct intel_quirk intel_quirks[] = {
-@@ -218,6 +244,7 @@ void intel_init_quirks(struct drm_i915_private *i915)
- 		     q->subsystem_device == PCI_ANY_ID))
- 			q->hook(i915);
- 	}
-+
- 	for (i = 0; i < ARRAY_SIZE(intel_dmi_quirks); i++) {
- 		if (dmi_check_system(*intel_dmi_quirks[i].dmi_id_list) != 0)
- 			intel_dmi_quirks[i].hook(i915);
-diff --git a/drivers/gpu/drm/i915/display/intel_quirks.h b/drivers/gpu/drm/i915/display/intel_quirks.h
-index 10a4d163149fd..b41c7bbf0a5e3 100644
---- a/drivers/gpu/drm/i915/display/intel_quirks.h
-+++ b/drivers/gpu/drm/i915/display/intel_quirks.h
-@@ -17,6 +17,7 @@ enum intel_quirk_id {
- 	QUIRK_INVERT_BRIGHTNESS,
- 	QUIRK_LVDS_SSC_DISABLE,
- 	QUIRK_NO_PPS_BACKLIGHT_POWER_HOOK,
-+	QUIRK_NO_DIM,
- };
-
- void intel_init_quirks(struct drm_i915_private *i915);
---
-2.41.0.162.gfafddb0af9-goog
+> ---
+>   drivers/video/fbdev/sh7760fb.c | 2 ++
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/video/fbdev/sh7760fb.c b/drivers/video/fbdev/sh7760=
+fb.c
+> index 768011bdb430..98c5227098a8 100644
+> --- a/drivers/video/fbdev/sh7760fb.c
+> +++ b/drivers/video/fbdev/sh7760fb.c
+> @@ -136,11 +136,13 @@ static int sh7760fb_get_color_info(struct device *=
+dev,
+>   		break;
+>   	case LDDFR_4BPP_MONO:
+>   		lgray =3D 1;
+> +		fallthrough;
+>   	case LDDFR_4BPP:
+>   		lbpp =3D 4;
+>   		break;
+>   	case LDDFR_6BPP_MONO:
+>   		lgray =3D 1;
+> +		fallthrough;
+>   	case LDDFR_8BPP:
+>   		lbpp =3D 8;
+>   		break;
 
