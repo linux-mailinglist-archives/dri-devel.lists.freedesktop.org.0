@@ -2,62 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FF4273A760
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 19:39:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDF2A73A765
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 19:39:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59FAA10E594;
-	Thu, 22 Jun 2023 17:39:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DC7910E59D;
+	Thu, 22 Jun 2023 17:39:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95F2B10E597
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 17:38:59 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C305E10E596
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 17:39:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
- s=s31663417; t=1687455536; x=1688060336; i=deller@gmx.de;
- bh=roHB+JreyqbCyh46TX0VgJAq4m6SfZv4rdjO3VvVBp4=;
+ s=s31663417; t=1687455576; x=1688060376; i=deller@gmx.de;
+ bh=wdQcmzKW7tZq4TiRc//wTQ8UA2/uANqRxXM0FsQya2I=;
  h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=t2W/Wyhb4VhIczxIoOKN9JE4rhU6dpuOTmsZdFbVGM+3njVQO0Qzt48hpU1uWU6z6tlxEyk
- BJpTyDsehdRBny1NbTtS3bDV2qy8jzqaajwsPuhPMkIXwVqz9DN3iVQNSR/+uRCCiSInJuxKI
- Pz7O/WueZfo3+8Aa7cAAbEJYnypTP9yr5tOG06WUQ/nbqB1fCinJHDJWn7c9Jocl7aGluumF4
- fBuMhinEAPPdFQA/DoKtujFr58vBTA9eF5bSdB5o6XJwGkIGRuSe7/foyj1FKcr7e7hsQpsZK
- 4uRFvD+4Xxb0xO4zIKONQmjLHlmav5KYUyZFkawPNo0un4YvO4GA==
+ b=bKe27awmD2W5HJkynUiPanL2eE7nOklGeHPISBGts0pfwvzX+JKaCm+a6/PyDAcDUwHlYej
+ 7aLaqUHFaVKPMGFxc0jVItuS+1wO/5V2WehfSplYRPrKDcUdSLAEYFsJsaKeDF7f2dBCjrkMs
+ yDPil3btMrRz7Fw2/1OYSpoOpOwHPZrBbXIVCzOKySFfZgN+zRCAAEjJXzzvV/xgKlIEQ0TdI
+ sIwpRUEZ6nGYg0AEdQ49V2Qbqu5HSJtW2VCPU2j3FgLOdVm0guRy/lfmOMzBXFpsDwIKgATM5
+ i2gTGMsnBOmKxflNM+d/iErjIJcVMbyvWeR4Gxc5lOxVJbcFW4Iw==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from [192.168.20.60] ([94.134.155.210]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MulmF-1pvXsJ3J6R-00rtA3; Thu, 22
- Jun 2023 19:38:56 +0200
-Message-ID: <ed5784a9-b707-dcd5-5898-cb76e8d169c1@gmx.de>
-Date: Thu, 22 Jun 2023 19:38:56 +0200
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MN5eX-1qTEB320t3-00J6nA; Thu, 22
+ Jun 2023 19:39:36 +0200
+Message-ID: <6dc9d84a-002c-820f-59c3-a19b49392c51@gmx.de>
+Date: Thu, 22 Jun 2023 19:39:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH][next] fbdev: sh7760fb: Fix -Wimplicit-fallthrough warnings
+Subject: Re: [PATCH] fbdev: sh_mobile_lcdcfb: Fix ARGB32 overlay format typo
 Content-Language: en-US
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-References: <ZJR66f3UY0UFZJ01@work>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>
+References: <a48665d08e6d4d2bbbff1d53aab06dfeb19136f4.1687426052.git.geert+renesas@glider.be>
+ <20230622151550.GB950@pendragon.ideasonboard.com>
 From: Helge Deller <deller@gmx.de>
-In-Reply-To: <ZJR66f3UY0UFZJ01@work>
+In-Reply-To: <20230622151550.GB950@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:0AMsLm4CGRzP+9jo/SLOyPBSOwhb9hi+YyvAI//2GPCYSgGDhjw
- WRULZVkxM4/xxLE1oa0lJb6lq+b2r2VgJNdwN2G0d378sKPwXO1pr8dY60fqiZWuWLOkf2u
- 20Mar4LMzlZKqIPGUYxAp7A+Wg0eJcmmobzVnKOS9mrBLct4zI38Jf/t2vJQ2Dfz58HTY2K
- KZLwRQr4Wh3pWSBvWj6/w==
+X-Provags-ID: V03:K1:ET461I0in8zA2gBZNZlCFEySoUX5FC0WzwrCrg6q7JUVbRoVZPI
+ P9MANu3bR2azX84uHQNaKH7SC7fhMiBZ/8jkAvJbQot9hEuI+hMtcV19eA4qcNuSdYc2WVo
+ K1Dgmh54crDZ5EGO0/Urr00dk8yokXqtwQn+uYjObF6hxhgUmLmW+mTm7MlRF0bvrJkxvuT
+ /z2hXj4kcffbRECgSznVg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:v3wRNOQ3lDM=;KzA0nqjrywUt2MTT7Y/c7H59eyt
- F3OGcuyVoFdzNHAKczE6V1n7iEMqnpZLUed/Of1vvxhdw3sd/W42nXs92730SlZp98sozxz1b
- 0mWbwq8olHadQERt7yF4SuLjP4xMj1ZOHXGCS+RSRpTvkGR6T0VhGu4ju0c9KUS0lujWEr7ZR
- OtEpsHq0qXKDotgxxbiNwIxafQi1oT1/K+hY5FWSONJjZvnD2uB90pTjaB7WsDgopzYELwvL5
- SBOzeDTQYQ3RuYwS8ri4gf9HW9btRftxqZYPlLU2P/PbDd6Fs73DiEAakBKd1RoZFhhGr7Ikp
- f65ZliX59WV2kt4g3NZQfhxQC3Gb3k2sxxL53gH8ElGRt9DOT+QxvFNohR/WiUkd7pvSX9gB8
- cR36NuF6xoB3R8bGXI/vGKfFm8hVaypE90YOYSu8FU64n3+OSMpjjD8ed3ndS49eA0vWlM9ha
- 0GKl74aht4EqeJan8Yd7ttWFVxw3JpCrD/oxi7GHzCE5Oib0BUTThOGRNRHCyA0yBpxskvt0g
- /hh8EPpZwxni+wGWuSVpJ8UlOvSZB9SWRuQjVar9DUshdikCCxhWooUs9f2115+5HsR3+MhfZ
- j4ie5CpWdQ48GRYJpsz3IW8pv35chqyULjI2bTdAnAIP1knCySIwH+nWW5LxmemTHEWrDQBuU
- rCFb6blF0UbPpobYBUzOvDFI1xE8wO/Kz5qDW5NCcY9eh7TdHMN3KpPu6ZK5Da5R2vMRvEGxI
- aHasosJxMoq9TjbmoGXDBkwOa5SZBhQ5e5viUzJuhwlJN6ESDmPL50PxcSVCxoKr3lDCXmkOj
- r9ezznURd1jcofZT4VPgehaFQ5m7uyMS08E2CeB8KqVsRORsGBzIqNiQmhmWfCSQNf98CqMvu
- lU5seedc5HXj6BYFoRXFK01ZcugyT3BbLbVWW0NtHbcKWYdbIj3cK/D2zCm6lzXKABwzOtIQA
- 4vyvnw==
+UI-OutboundReport: notjunk:1;M01:P0:ERM+REMDpD4=;ji9qkw9/Dl7gcVMEG7nKTCUbsOP
+ fHT10OYxpvc8VEs5mRjxQ+b7pOGrm3Maw89lPdt8X220F32twKdMtsMTe4u2jVoyp29vXJfc4
+ gL7kZFJjxSv6ujmDMWzP6ihCMXlHIO33TgyB63dd5knsDIDpn1t8bC/MSeDsKTo1ltdLx9P8T
+ wfi/4u5UiTlFLjTJrxKCVpBMrOEQF4U/fFKda75BXjd+/cGNk/PrXH/i+VZj5eHN9TmwvdTKI
+ h5IhxHu2Od+qdTQxFHObUIddjNwELn+PPvY/KiOJNIj9NAIgDGhDUP/jHw/z9js+yZA5MVt+g
+ qR0KIFemhDeraWkoTBifwn0sx6R1/UNGOqAEk+Usk9d3zWLfrMxXAC5v4MZVdQtekeylBcrc0
+ 1kqY54i5DBgE31pZJDAowNE2b2HixTKMWYeIN4J3JsAQ/SjsFrOhU/kS2YijxsJJh4e165ZuP
+ VneUI6t5EB5m0MnLBKEZ0ycT+bh8zYR9Q6q60ZlDXkMl0/xvhaqNgFKCFKyrooXVS5KABaKl/
+ OA+80E8wAMSrArWBc92dciuRCNNfSsEum6/AwqcCH3cZi+nFDXEmCS3uId0ulY77OpmhNx6BY
+ qApCEA8LbJ7067LvLqX2AZWZi+aEYx6QEvrFvPYyD2kr04+XZ+r73jAgVcm0M0l3DE+6Z+Ana
+ VAX5aG9i7gFLZa60poeyob6uHgeAWQlpxdVO7SVV7KxdQldVuJ5WOjf3nc/0Cgo/mDL+ghW4N
+ QIHwAzaypqPGWPUqtas/XKgYN5IOzW3ICmAsh64/ZBB159DAEG2vBzVVxAq9JhHVCO+oyvnBb
+ ykmvr7fJfEOAoRXmpBnxOejob9m4gp7Jjxrbth4iRMPtZjo5aOO4XowchtM0SVydpfCtLdFax
+ WkPV6T6d+zRicCWP9WsutRzfq5sTfauQVy0nngN+b/cikpVJlf5ngs/o9Hf1tcf88j8m5TiiP
+ Y4wxPLbbte35WduWuu1Nw3j8H/s=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,60 +72,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-hardening@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/22/23 18:46, Gustavo A. R. Silva wrote:
-> Fix the following fallthrough warnings seen after building sh
-> architecture with sh7763rdp_defconfig configuration:
+On 6/22/23 17:15, Laurent Pinchart wrote:
+> Hi Geert,
 >
-> drivers/video/fbdev/sh7760fb.c: In function 'sh7760fb_get_color_info':
-> drivers/video/fbdev/sh7760fb.c:138:23: warning: this statement may fall =
-through [-Wimplicit-fallthrough=3D]
->    138 |                 lgray =3D 1;
->        |                 ~~~~~~^~~
-> drivers/video/fbdev/sh7760fb.c:139:9: note: here
->    139 |         case LDDFR_4BPP:
->        |         ^~~~
-> drivers/video/fbdev/sh7760fb.c:143:23: warning: this statement may fall =
-through [-Wimplicit-fallthrough=3D]
->    143 |                 lgray =3D 1;
->        |                 ~~~~~~^~~
-> drivers/video/fbdev/sh7760fb.c:144:9: note: here
->    144 |         case LDDFR_8BPP:
->        |         ^~~~
+> Thank you for the patch.
 >
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> On Thu, Jun 22, 2023 at 11:28:48AM +0200, Geert Uytterhoeven wrote:
+>> When configurating a CHn Source Image Format Register (LDBBSIFR), one
+>> should use the corresponding LDBBSIFR_RPKF_* definition for overlay
+>> planes, not the DDFR_PKF_* definition for the primary plane.
+>>
+>> Fortunately both definitions resolve to the same value, so this bug did
+>> not cause any harm.
+>>
+>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com=
+>
 
 applied.
 
 Thanks!
 Helge
-
-> ---
->   drivers/video/fbdev/sh7760fb.c | 2 ++
->   1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/video/fbdev/sh7760fb.c b/drivers/video/fbdev/sh7760=
-fb.c
-> index 768011bdb430..98c5227098a8 100644
-> --- a/drivers/video/fbdev/sh7760fb.c
-> +++ b/drivers/video/fbdev/sh7760fb.c
-> @@ -136,11 +136,13 @@ static int sh7760fb_get_color_info(struct device *=
-dev,
->   		break;
->   	case LDDFR_4BPP_MONO:
->   		lgray =3D 1;
-> +		fallthrough;
->   	case LDDFR_4BPP:
->   		lbpp =3D 4;
->   		break;
->   	case LDDFR_6BPP_MONO:
->   		lgray =3D 1;
-> +		fallthrough;
->   	case LDDFR_8BPP:
->   		lbpp =3D 8;
->   		break;
 
