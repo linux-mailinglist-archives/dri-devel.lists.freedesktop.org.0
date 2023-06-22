@@ -1,75 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA762739E10
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 12:11:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F5A5739E52
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 12:20:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A69D610E53A;
-	Thu, 22 Jun 2023 10:11:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4090610E533;
+	Thu, 22 Jun 2023 10:19:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C5C110E553
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 10:11:09 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id
- 38308e7fff4ca-2b479d53d48so64743421fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 03:11:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687428668; x=1690020668;
- h=content-transfer-encoding:content-language:in-reply-to:mime-version
- :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
- :subject:date:message-id:reply-to;
- bh=97S+NTwimgEvGUhJ6O5phnPpyUEei+BRZkc+BeXQtHA=;
- b=nXT4s9CJAjSVTTwqKkemUlcmpRMEOnLyJrHdlBI8DLExVONrkO949cszb+Cv4oVSq/
- mZXE7oj02OUI1gOdz9yawksKNDe9/H02OwzCTOSeWCU19kr5b+NYS1YJKBWQGZKKHQE+
- 01/jrFfE0J8Dw9PjE8L+NmZrQSblRVAmuXal02BpXGOIBV2zN8TjgedlDv9klXew8Dar
- UnX/zQeVo42QHOYx3AAju3RuQd7hfFtfUH0Aek/L795jvyDwgiEaYaFSh+FJp+nlFQOv
- ot7WWTBMUtU4q9zQOpEsIc+19toqMjL1zIj7TyjnMOQyG432rNSjsNs3sWk6saFisj5x
- koaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687428668; x=1690020668;
- h=content-transfer-encoding:content-language:in-reply-to:mime-version
- :user-agent:date:message-id:from:references:cc:to:subject
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=97S+NTwimgEvGUhJ6O5phnPpyUEei+BRZkc+BeXQtHA=;
- b=RGP48uZf6/ZJa3vp/6yZCs0fP5+4LAJqzlsVom5E/SMb8EoHgHCThDmp8q6vlhQw+i
- 7ebsQ+d6les5VPl7TCbgHMrJRQh0LdOQzawGQ0jkMtRCw2jUayjK6E4cUWETQkNuFGXQ
- zjkoqXZoQXo/MZ0Iixz0oxSqOzUcuAm1pwtJIC83RXv1Fv4zjwe8PQ+ERS6qhCwUWhr9
- +r+Ca65/qg7PlGk92Nib7u74bt2kjR/g/Ze7FzrGZGzGYOfo4bQWvIvPYOnNZP9MtVEe
- Kg9WMHD/bez1ps/cVhzDd4bDvYLnHFVeRRHv7/YCxiY3/NMoyEh6FiCFtl71CrLHXiBO
- 38Tg==
-X-Gm-Message-State: AC+VfDyBk1RsSB+0OIs3FEWLzQR01kOoqmh2Kg3zIYfMl3mwXY8X/+Je
- rXno25cPSVuG4vlD4r8K3ec8kvLoVj4=
-X-Google-Smtp-Source: ACHHUZ6oLiaK6ztZDvKBOxxd3Tp3oTDhzkgMh3kCc/zwAvSyND4XfxTh7iEyIT8kQGdwxAHtZCzbag==
-X-Received: by 2002:a2e:3513:0:b0:2b4:83c3:d285 with SMTP id
- z19-20020a2e3513000000b002b483c3d285mr6207420ljz.38.1687428667400; 
- Thu, 22 Jun 2023 03:11:07 -0700 (PDT)
-Received: from [192.168.1.103] ([178.176.74.98])
- by smtp.gmail.com with ESMTPSA id
- h9-20020a2e9009000000b002b326e7e76csm1225863ljg.64.2023.06.22.03.11.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Jun 2023 03:11:06 -0700 (PDT)
-Subject: Re: [PATCH 04/39] drm: renesas: shmobile: Fix ARGB32 overlay format
- typo
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, Magnus Damm <magnus.damm@gmail.com>
-References: <cover.1687423204.git.geert+renesas@glider.be>
- <7cc1dea4833e6fb9b30aa35f801f14338578dfb1.1687423204.git.geert+renesas@glider.be>
-From: Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <e13b3952-0446-67fb-e654-9890cc858faa@gmail.com>
-Date: Thu, 22 Jun 2023 13:11:00 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27D3210E52D;
+ Thu, 22 Jun 2023 10:19:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1687429196; x=1718965196;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=9jam3CMoVZ6A/N5nfAjGK/fytBzu9GaWl/y16AysgMI=;
+ b=Gy/z+/ZlUj6MHC5ATHyWD5pXGz/tmDNBcNpmLoYUGHOzko4rNOgdsxIN
+ TGvkXgbTFoUXI/4ciPnPKFDhSRy/hoEHVDo4vTg3pnVyzd3I70ycrmkFQ
+ P09T3/5kxIBWILgtglTAn0fk4kXg9jK2S7XIuJn2w5AF7RycoevD/Ii3f
+ mFBcgb/DnuAYJagk1XCHd3ct80R8tyePh1hrnYa6b5bOLMc/K4hD4DOLI
+ 4et4+KiTkC6H8xu5AR3+QYRLFPiR/3Ttwc/J4fvOteZt5LOHNCpBDMMFG
+ JofSoNHnNP57OOhmgIdBtFcKYNLMPZSgX+wsStD9RYV+943G/dCHeydku g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="345181952"
+X-IronPort-AV: E=Sophos;i="6.00,263,1681196400"; d="scan'208";a="345181952"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2023 03:14:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="692193726"
+X-IronPort-AV: E=Sophos;i="6.00,263,1681196400"; d="scan'208";a="692193726"
+Received: from shari19x-mobl1.gar.corp.intel.com (HELO
+ thellstr-mobl1.intel.com) ([10.249.254.173])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2023 03:14:29 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-xe@lists.freedesktop.org
+Subject: [PATCH 0/4] drm/ttm: Fixes around resources and bulk moves
+Date: Thu, 22 Jun 2023 12:14:08 +0200
+Message-Id: <20230622101412.78426-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-In-Reply-To: <7cc1dea4833e6fb9b30aa35f801f14338578dfb1.1687423204.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,27 +57,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello!
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 6/22/23 12:21 PM, Geert Uytterhoeven wrote:
+A couple of ttm fixes for issues that either were hit while developing the
+xe driver or, for the resource leak patches, discovered during code
+inspection.
 
-> When configurating
+Thomas Hellström (4):
+  drm/ttm: Fix ttm_lru_bulk_move_pos_tail()
+  drm/ttm: Don't shadow the operation context
+  drm/ttm: Don't leak a resource on eviction error
+  drm/ttm: Don't leak a resource on swapout move error
 
-   Configuring? My spellchecker trips. :-)
+ drivers/gpu/drm/ttm/ttm_bo.c       | 20 ++++++++++----------
+ drivers/gpu/drm/ttm/ttm_resource.c |  2 ++
+ 2 files changed, 12 insertions(+), 10 deletions(-)
 
-> a CHn Source Image Format Register (LDBBSIFR), one
-> should use the corresponding LDBBSIFR_RPKF_* definition for overlay
-> planes, not the DDFR_PKF_* definition for the primary plane.
-> 
-> Fortunately both definitions resolve to the same value, so this bug did
-> not cause any harm.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-[...]
+-- 
+2.40.1
 
-MBR, Sergey
