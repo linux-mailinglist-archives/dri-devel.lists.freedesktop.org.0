@@ -1,58 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B475973A45F
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 17:10:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF99673A46A
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 17:12:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB02610E57E;
-	Thu, 22 Jun 2023 15:10:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF09310E582;
+	Thu, 22 Jun 2023 15:12:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id D493110E57E
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 15:10:26 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8AxycVgZJRkdHcAAA--.815S3;
- Thu, 22 Jun 2023 23:10:24 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxDc9dZJRkSjgCAA--.12298S3; 
- Thu, 22 Jun 2023 23:10:21 +0800 (CST)
-Message-ID: <f28ac33e-b95c-9250-1cac-5e45f8949bab@loongson.cn>
-Date: Thu, 22 Jun 2023 23:10:21 +0800
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7F3210E581;
+ Thu, 22 Jun 2023 15:12:04 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 05F651FDD2;
+ Thu, 22 Jun 2023 15:12:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1687446723; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DxyEqnSQyZKokKZ2LU3qC8/yrgR0FWi1mwbmN5xCk9E=;
+ b=N9B19ELEkGrxV0suLxXhGZQpBLV2Yb7u7uZXemMcT2Ad1Ns9qHJoy72l2ulfj/9tDqlLBb
+ GVFwd6rBAVc5H15+Kb7yFySUdw5/Q+tDegqObQNCQUjja9lcvWjOK2f2isXuCAjrFX5YBO
+ 5+wd+oOgRBQuiRPGEInEXCDzdjlKZqA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1687446723;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DxyEqnSQyZKokKZ2LU3qC8/yrgR0FWi1mwbmN5xCk9E=;
+ b=n5V8ZHTPzF9VGJZMIFTWsPNIcgfy7jzHlKJbRGMIHWOaWYvwD7wX3oB3QALl4YmQglroUj
+ lTp+6+OznWDE/zCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A96C013905;
+ Thu, 22 Jun 2023 15:12:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id tmWdKMJklGScKwAAMHmgww
+ (envelope-from <vbabka@suse.cz>); Thu, 22 Jun 2023 15:12:02 +0000
+Message-ID: <cf0d9b12-6491-bf23-b464-9d01e5781203@suse.cz>
+Date: Thu, 22 Jun 2023 17:12:02 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [v2,09/14] drm/ast: Distinguish among chip generations
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 24/29] mm: vmscan: make global slab shrink lockless
 Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- jfalempe@redhat.com, daniel@ffwll.ch, jammy_huang@aspeedtech.com
-References: <20230621130032.3568-10-tzimmermann@suse.de>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <20230621130032.3568-10-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Qi Zheng <zhengqi.arch@bytedance.com>, akpm@linux-foundation.org,
+ david@fromorbit.com, tkhai@ya.ru, roman.gushchin@linux.dev,
+ djwong@kernel.org, brauner@kernel.org, paulmck@kernel.org, tytso@mit.edu
+References: <20230622085335.77010-1-zhengqi.arch@bytedance.com>
+ <20230622085335.77010-25-zhengqi.arch@bytedance.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20230622085335.77010-25-zhengqi.arch@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8DxDc9dZJRkSjgCAA--.12298S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj9fXoWfGrykJFWftrWUZr17Zr48Zrc_yoW8XFW7Ko
- WxGr1Sqa4fXr43Aws2gFn7t343ZrWDurs5WFsFkw4Du3yrW3yqgFWaqayxWr45KF1rJF45
- Aw4fuw45Ww1UKw1kl-sFpf9Il3svdjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8wcxFpf
- 9Il3svdxBIdaVrn0xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3
- UjIYCTnIWjp_UUUY-7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI
- 8IcIk0rVWrJVCq3wAFIxvE14AKwVWUGVWUXwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xG
- Y2AK021l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14
- v26r1j6r4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAF
- wI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI
- 0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280
- aVAFwI0_Gr1j6F4UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
- AS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s02
- 6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF
- 0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvE
- c7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14
- v26r4UJVWxJr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZF
- pf9x07j1rWrUUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,421 +73,264 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-bcache@vger.kernel.org, linux-xfs@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linux-raid@vger.kernel.org, linux-mm@kvack.org, dm-devel@redhat.com,
+ linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-btrfs@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 2023/6/21 20:53, Thomas Zimmermann wrote:
-> ASpeed distinguishes among various generations of the AST graphics
-> chipset with various models. [1] The most-recent model AST 2600 is
-> of the 7th generation, the AST 2500 is of the 6th generation, and so
-> on.
->
-> The ast driver simply picks one of the models as representative for
-> the whole generation. In several places, individual models of the
-> same generation need to be handled differently, which then requires
-> additional code for detecting the model.
->
-> Introduce different generations of the Aspeed chipset. In the source
-> code, refer to the generation instead of the representation model where
-> possible. The few places that require per-model handling are now clearly
-> marked.
->
-> In the enum ast_chip, we arrange each model's value such that it
-> encodes the generation. This allows for an easy test. The actual values
-> are ordered, but not of interest to the driver.
->
-> v2:
-> 	* use __ast_gen_is_eq() (Jingfeng)
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Link: https://web.archive.org/web/20141007093258/http://www.aspeedtech.com/products.php?fPath=20 # 1
-> Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-
-Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
-
-> Tested-by: Jocelyn Falempe <jfalempe@redhat.com> # AST2600
+On 6/22/23 10:53, Qi Zheng wrote:
+> The shrinker_rwsem is a global read-write lock in
+> shrinkers subsystem, which protects most operations
+> such as slab shrink, registration and unregistration
+> of shrinkers, etc. This can easily cause problems in
+> the following cases.
+> 
+> 1) When the memory pressure is high and there are many
+>    filesystems mounted or unmounted at the same time,
+>    slab shrink will be affected (down_read_trylock()
+>    failed).
+> 
+>    Such as the real workload mentioned by Kirill Tkhai:
+> 
+>    ```
+>    One of the real workloads from my experience is start
+>    of an overcommitted node containing many starting
+>    containers after node crash (or many resuming containers
+>    after reboot for kernel update). In these cases memory
+>    pressure is huge, and the node goes round in long reclaim.
+>    ```
+> 
+> 2) If a shrinker is blocked (such as the case mentioned
+>    in [1]) and a writer comes in (such as mount a fs),
+>    then this writer will be blocked and cause all
+>    subsequent shrinker-related operations to be blocked.
+> 
+> Even if there is no competitor when shrinking slab, there
+> may still be a problem. If we have a long shrinker list
+> and we do not reclaim enough memory with each shrinker,
+> then the down_read_trylock() may be called with high
+> frequency. Because of the poor multicore scalability of
+> atomic operations, this can lead to a significant drop
+> in IPC (instructions per cycle).
+> 
+> We used to implement the lockless slab shrink with
+> SRCU [1], but then kernel test robot reported -88.8%
+> regression in stress-ng.ramfs.ops_per_sec test case [2],
+> so we reverted it [3].
+> 
+> This commit uses the refcount+RCU method [4] proposed by
+> by Dave Chinner to re-implement the lockless global slab
+> shrink. The memcg slab shrink is handled in the subsequent
+> patch.
+> 
+> Currently, the shrinker instances can be divided into
+> the following three types:
+> 
+> a) global shrinker instance statically defined in the kernel,
+> such as workingset_shadow_shrinker.
+> 
+> b) global shrinker instance statically defined in the kernel
+> modules, such as mmu_shrinker in x86.
+> 
+> c) shrinker instance embedded in other structures.
+> 
+> For case a, the memory of shrinker instance is never freed.
+> For case b, the memory of shrinker instance will be freed
+> after the module is unloaded. But we will call synchronize_rcu()
+> in free_module() to wait for RCU read-side critical section to
+> exit. For case c, the memory of shrinker instance will be
+> dynamically freed by calling kfree_rcu(). So we can use
+> rcu_read_{lock,unlock}() to ensure that the shrinker instance
+> is valid.
+> 
+> The shrinker::refcount mechanism ensures that the shrinker
+> instance will not be run again after unregistration. So the
+> structure that records the pointer of shrinker instance can be
+> safely freed without waiting for the RCU read-side critical
+> section.
+> 
+> In this way, while we implement the lockless slab shrink, we
+> don't need to be blocked in unregister_shrinker() to wait
+> RCU read-side critical section.
+> 
+> The following are the test results:
+> 
+> stress-ng --timeout 60 --times --verify --metrics-brief --ramfs 9 &
+> 
+> 1) Before applying this patchset:
+> 
+>  setting to a 60 second run per stressor
+>  dispatching hogs: 9 ramfs
+>  stressor       bogo ops real time  usr time  sys time   bogo ops/s     bogo ops/s
+>                            (secs)    (secs)    (secs)   (real time) (usr+sys time)
+>  ramfs            880623     60.02      7.71    226.93     14671.45        3753.09
+>  ramfs:
+>           1 System Management Interrupt
+>  for a 60.03s run time:
+>     5762.40s available CPU time
+>        7.71s user time   (  0.13%)
+>      226.93s system time (  3.94%)
+>      234.64s total time  (  4.07%)
+>  load average: 8.54 3.06 2.11
+>  passed: 9: ramfs (9)
+>  failed: 0
+>  skipped: 0
+>  successful run completed in 60.03s (1 min, 0.03 secs)
+> 
+> 2) After applying this patchset:
+> 
+>  setting to a 60 second run per stressor
+>  dispatching hogs: 9 ramfs
+>  stressor       bogo ops real time  usr time  sys time   bogo ops/s     bogo ops/s
+>                            (secs)    (secs)    (secs)   (real time) (usr+sys time)
+>  ramfs            847562     60.02      7.44    230.22     14120.66        3566.23
+>  ramfs:
+>           4 System Management Interrupts
+>  for a 60.12s run time:
+>     5771.95s available CPU time
+>        7.44s user time   (  0.13%)
+>      230.22s system time (  3.99%)
+>      237.66s total time  (  4.12%)
+>  load average: 8.18 2.43 0.84
+>  passed: 9: ramfs (9)
+>  failed: 0
+>  skipped: 0
+>  successful run completed in 60.12s (1 min, 0.12 secs)
+> 
+> We can see that the ops/s has hardly changed.
+> 
+> [1]. https://lore.kernel.org/lkml/20230313112819.38938-1-zhengqi.arch@bytedance.com/
+> [2]. https://lore.kernel.org/lkml/202305230837.db2c233f-yujie.liu@intel.com/
+> [3]. https://lore.kernel.org/all/20230609081518.3039120-1-qi.zheng@linux.dev/
+> [4]. https://lore.kernel.org/lkml/ZIJhou1d55d4H1s0@dread.disaster.area/
+> 
+> Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
 > ---
->   drivers/gpu/drm/ast/ast_dp501.c |  6 ++--
->   drivers/gpu/drm/ast/ast_drv.h   | 56 +++++++++++++++++++++++++++------
->   drivers/gpu/drm/ast/ast_main.c  | 22 ++++++-------
->   drivers/gpu/drm/ast/ast_mode.c  | 35 ++++++++++-----------
->   drivers/gpu/drm/ast/ast_post.c  | 27 +++++++---------
->   5 files changed, 89 insertions(+), 57 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ast/ast_dp501.c b/drivers/gpu/drm/ast/ast_dp501.c
-> index 1bc35a992369d..a5d285850ffb1 100644
-> --- a/drivers/gpu/drm/ast/ast_dp501.c
-> +++ b/drivers/gpu/drm/ast/ast_dp501.c
-> @@ -350,7 +350,7 @@ static bool ast_init_dvo(struct drm_device *dev)
->   		data |= 0x00000500;
->   		ast_write32(ast, 0x12008, data);
->   
-> -		if (ast->chip == AST2300) {
-> +		if (IS_AST_GEN4(ast)) {
->   			data = ast_read32(ast, 0x12084);
->   			/* multi-pins for DVO single-edge */
->   			data |= 0xfffe0000;
-> @@ -366,7 +366,7 @@ static bool ast_init_dvo(struct drm_device *dev)
->   			data &= 0xffffffcf;
->   			data |= 0x00000020;
->   			ast_write32(ast, 0x12090, data);
-> -		} else { /* AST2400 */
-> +		} else { /* AST GEN5+ */
->   			data = ast_read32(ast, 0x12088);
->   			/* multi-pins for DVO single-edge */
->   			data |= 0x30000000;
-> @@ -437,7 +437,7 @@ void ast_init_3rdtx(struct drm_device *dev)
->   	struct ast_device *ast = to_ast_device(dev);
->   	u8 jreg;
->   
-> -	if (ast->chip == AST2300 || ast->chip == AST2400) {
-> +	if (IS_AST_GEN4(ast) || IS_AST_GEN5(ast)) {
->   		jreg = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd1, 0xff);
->   		switch (jreg & 0x0e) {
->   		case 0x04:
-> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-> index 31fead32b19cc..803d72a60506c 100644
-> --- a/drivers/gpu/drm/ast/ast_drv.h
-> +++ b/drivers/gpu/drm/ast/ast_drv.h
-> @@ -52,18 +52,38 @@
->   #define PCI_CHIP_AST2000 0x2000
->   #define PCI_CHIP_AST2100 0x2010
->   
-> +#define __AST_CHIP(__gen, __index)	((__gen) << 16 | (__index))
-> +
->   enum ast_chip {
-> -	AST2000,
-> -	AST2100,
-> -	AST1100,
-> -	AST2200,
-> -	AST2150,
-> -	AST2300,
-> -	AST2400,
-> -	AST2500,
-> -	AST2600,
-> +	/* 1st gen */
-> +	AST1000 = __AST_CHIP(1, 0), // unused
-> +	AST2000 = __AST_CHIP(1, 1),
-> +	/* 2nd gen */
-> +	AST1100 = __AST_CHIP(2, 0),
-> +	AST2100 = __AST_CHIP(2, 1),
-> +	AST2050 = __AST_CHIP(2, 2), // unused
-> +	/* 3rd gen */
-> +	AST2200 = __AST_CHIP(3, 0),
-> +	AST2150 = __AST_CHIP(3, 1),
-> +	/* 4th gen */
-> +	AST2300 = __AST_CHIP(4, 0),
-> +	AST1300 = __AST_CHIP(4, 1), // unused
-> +	AST1050 = __AST_CHIP(4, 2), // unused
-> +	/* 5th gen */
-> +	AST2400 = __AST_CHIP(5, 0),
-> +	AST1400 = __AST_CHIP(5, 1), // unused
-> +	AST1250 = __AST_CHIP(5, 2), // unused
-> +	/* 6th gen */
-> +	AST2500 = __AST_CHIP(6, 0),
-> +	AST2510 = __AST_CHIP(6, 1), // unused
-> +	AST2520 = __AST_CHIP(6, 2), // unused
-> +	/* 7th gen */
-> +	AST2600 = __AST_CHIP(7, 0),
-> +	AST2620 = __AST_CHIP(7, 1), // unused
->   };
->   
-> +#define __AST_CHIP_GEN(__chip)	(((unsigned long)(__chip)) >> 16)
-> +
->   enum ast_tx_chip {
->   	AST_TX_NONE,
->   	AST_TX_SIL164,
-> @@ -217,6 +237,24 @@ struct ast_device *ast_device_create(const struct drm_driver *drv,
->   				     struct pci_dev *pdev,
->   				     unsigned long flags);
->   
-> +static inline unsigned long __ast_gen(struct ast_device *ast)
+>  include/linux/shrinker.h |  6 ++++++
+>  mm/vmscan.c              | 33 ++++++++++++++-------------------
+>  2 files changed, 20 insertions(+), 19 deletions(-)
+> 
+> diff --git a/include/linux/shrinker.h b/include/linux/shrinker.h
+> index 7bfeb2f25246..b0c6c2df9db8 100644
+> --- a/include/linux/shrinker.h
+> +++ b/include/linux/shrinker.h
+> @@ -74,6 +74,7 @@ struct shrinker {
+>  
+>  	refcount_t refcount;
+>  	struct completion completion_wait;
+> +	struct rcu_head rcu;
+>  
+>  	void *private_data;
+>  
+> @@ -123,6 +124,11 @@ struct shrinker *shrinker_alloc_and_init(count_objects_cb count,
+>  void shrinker_free(struct shrinker *shrinker);
+>  void unregister_and_free_shrinker(struct shrinker *shrinker);
+>  
+> +static inline bool shrinker_try_get(struct shrinker *shrinker)
 > +{
-> +	return __AST_CHIP_GEN(ast->chip);
+> +	return refcount_inc_not_zero(&shrinker->refcount);
 > +}
-> +#define AST_GEN(__ast)	__ast_gen(__ast)
 > +
-> +static inline bool __ast_gen_is_eq(struct ast_device *ast, unsigned long gen)
-> +{
-> +	return __ast_gen(ast) == gen;
-> +}
-> +#define IS_AST_GEN1(__ast)	__ast_gen_is_eq(__ast, 1)
-> +#define IS_AST_GEN2(__ast)	__ast_gen_is_eq(__ast, 2)
-> +#define IS_AST_GEN3(__ast)	__ast_gen_is_eq(__ast, 3)
-> +#define IS_AST_GEN4(__ast)	__ast_gen_is_eq(__ast, 4)
-> +#define IS_AST_GEN5(__ast)	__ast_gen_is_eq(__ast, 5)
-> +#define IS_AST_GEN6(__ast)	__ast_gen_is_eq(__ast, 6)
-> +#define IS_AST_GEN7(__ast)	__ast_gen_is_eq(__ast, 7)
-> +
->   #define AST_IO_AR_PORT_WRITE		(0x40)
->   #define AST_IO_MISC_PORT_WRITE		(0x42)
->   #define AST_IO_VGA_ENABLE_PORT		(0x43)
-> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-> index d2f8396ec0a02..8fc412fe296c2 100644
-> --- a/drivers/gpu/drm/ast/ast_main.c
-> +++ b/drivers/gpu/drm/ast/ast_main.c
-> @@ -127,7 +127,7 @@ static void ast_detect_config_mode(struct drm_device *dev, u32 *scu_rev)
->   	jregd0 = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
->   	jregd1 = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd1, 0xff);
->   	if (!(jregd0 & 0x80) || !(jregd1 & 0x10)) {
-> -		/* Patch AST2500 */
-> +		/* Patch GEN6 */
->   		if (((pdev->revision & 0xF0) == 0x40)
->   			&& ((jregd0 & AST_VRAM_INIT_STATUS_MASK) == 0))
->   			ast_patch_ahb_2500(ast);
-> @@ -196,8 +196,8 @@ static int ast_detect_chip(struct drm_device *dev, bool need_post, u32 scu_rev)
->   	}
->   
->   	/* Check if we support wide screen */
-> -	switch (ast->chip) {
-> -	case AST2000:
-> +	switch (AST_GEN(ast)) {
-> +	case 1:
->   		ast->support_wide_screen = false;
->   		break;
->   	default:
-> @@ -217,7 +217,7 @@ static int ast_detect_chip(struct drm_device *dev, bool need_post, u32 scu_rev)
->   			if (ast->chip == AST2500 &&
->   			    scu_rev == 0x100)           /* ast2510 */
->   				ast->support_wide_screen = true;
-> -			if (ast->chip == AST2600)		/* ast2600 */
-> +			if (IS_AST_GEN7(ast))
->   				ast->support_wide_screen = true;
->   		}
->   		break;
-> @@ -240,9 +240,9 @@ static int ast_detect_chip(struct drm_device *dev, bool need_post, u32 scu_rev)
->   			ast->tx_chip_types = AST_TX_SIL164_BIT;
->   	}
->   
-> -	if ((ast->chip == AST2300) || (ast->chip == AST2400) || (ast->chip == AST2500)) {
-> +	if (IS_AST_GEN4(ast) || IS_AST_GEN5(ast) || IS_AST_GEN6(ast)) {
->   		/*
-> -		 * On AST2300 and 2400, look the configuration set by the SoC in
-> +		 * On AST GEN4+, look the configuration set by the SoC in
->   		 * the SOC scratch register #1 bits 11:8 (interestingly marked
->   		 * as "reserved" in the spec)
->   		 */
-> @@ -264,7 +264,7 @@ static int ast_detect_chip(struct drm_device *dev, bool need_post, u32 scu_rev)
->   		case 0x0c:
->   			ast->tx_chip_types = AST_TX_DP501_BIT;
->   		}
-> -	} else if (ast->chip == AST2600) {
-> +	} else if (IS_AST_GEN7(ast)) {
->   		if (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, TX_TYPE_MASK) ==
->   		    ASTDP_DPMCU_TX) {
->   			ast->tx_chip_types = AST_TX_ASTDP_BIT;
-> @@ -296,7 +296,7 @@ static int ast_get_dram_info(struct drm_device *dev)
->   	case ast_use_dt:
->   		/*
->   		 * If some properties are missing, use reasonable
-> -		 * defaults for AST2400
-> +		 * defaults for GEN5
->   		 */
->   		if (of_property_read_u32(np, "aspeed,mcr-configuration",
->   					 &mcr_cfg))
-> @@ -319,7 +319,7 @@ static int ast_get_dram_info(struct drm_device *dev)
->   	default:
->   		ast->dram_bus_width = 16;
->   		ast->dram_type = AST_DRAM_1Gx16;
-> -		if (ast->chip == AST2500)
-> +		if (IS_AST_GEN6(ast))
->   			ast->mclk = 800;
->   		else
->   			ast->mclk = 396;
-> @@ -331,7 +331,7 @@ static int ast_get_dram_info(struct drm_device *dev)
->   	else
->   		ast->dram_bus_width = 32;
->   
-> -	if (ast->chip == AST2500) {
-> +	if (IS_AST_GEN6(ast)) {
->   		switch (mcr_cfg & 0x03) {
->   		case 0:
->   			ast->dram_type = AST_DRAM_1Gx16;
-> @@ -347,7 +347,7 @@ static int ast_get_dram_info(struct drm_device *dev)
->   			ast->dram_type = AST_DRAM_8Gx16;
->   			break;
->   		}
-> -	} else if (ast->chip == AST2300 || ast->chip == AST2400) {
-> +	} else if (IS_AST_GEN4(ast) || IS_AST_GEN5(ast)) {
->   		switch (mcr_cfg & 0x03) {
->   		case 0:
->   			ast->dram_type = AST_DRAM_512Mx16;
-> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-> index b3c670af6ef2b..f711d592da52b 100644
-> --- a/drivers/gpu/drm/ast/ast_mode.c
-> +++ b/drivers/gpu/drm/ast/ast_mode.c
-> @@ -342,7 +342,7 @@ static void ast_set_crtc_reg(struct ast_device *ast,
->   	u8 jreg05 = 0, jreg07 = 0, jreg09 = 0, jregAC = 0, jregAD = 0, jregAE = 0;
->   	u16 temp, precache = 0;
->   
-> -	if ((ast->chip == AST2500 || ast->chip == AST2600) &&
-> +	if ((IS_AST_GEN6(ast) || IS_AST_GEN7(ast)) &&
->   	    (vbios_mode->enh_table->flags & AST2500PreCatchCRT))
->   		precache = 40;
->   
-> @@ -384,7 +384,7 @@ static void ast_set_crtc_reg(struct ast_device *ast,
->   	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xAD, 0x00, jregAD);
->   
->   	// Workaround for HSync Time non octave pixels (1920x1080@60Hz HSync 44 pixels);
-> -	if ((ast->chip == AST2600) && (mode->crtc_vdisplay == 1080))
-> +	if (IS_AST_GEN7(ast) && (mode->crtc_vdisplay == 1080))
->   		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xFC, 0xFD, 0x02);
->   	else
->   		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xFC, 0xFD, 0x00);
-> @@ -466,7 +466,7 @@ static void ast_set_dclk_reg(struct ast_device *ast,
->   {
->   	const struct ast_vbios_dclk_info *clk_info;
->   
-> -	if ((ast->chip == AST2500) || (ast->chip == AST2600))
-> +	if (IS_AST_GEN6(ast) || IS_AST_GEN7(ast))
->   		clk_info = &dclk_table_ast2500[vbios_mode->enh_table->dclk_index];
->   	else
->   		clk_info = &dclk_table[vbios_mode->enh_table->dclk_index];
-> @@ -510,17 +510,13 @@ static void ast_set_color_reg(struct ast_device *ast,
->   static void ast_set_crtthd_reg(struct ast_device *ast)
->   {
->   	/* Set Threshold */
-> -	if (ast->chip == AST2600) {
-> +	if (IS_AST_GEN7(ast)) {
->   		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa7, 0xe0);
->   		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa6, 0xa0);
-> -	} else if (ast->chip == AST2300 || ast->chip == AST2400 ||
-> -	    ast->chip == AST2500) {
-> +	} else if (IS_AST_GEN6(ast) || IS_AST_GEN5(ast) || IS_AST_GEN4(ast)) {
->   		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa7, 0x78);
->   		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa6, 0x60);
-> -	} else if (ast->chip == AST2100 ||
-> -		   ast->chip == AST1100 ||
-> -		   ast->chip == AST2200 ||
-> -		   ast->chip == AST2150) {
-> +	} else if (IS_AST_GEN3(ast) || IS_AST_GEN2(ast)) {
->   		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa7, 0x3f);
->   		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa6, 0x2f);
->   	} else {
-> @@ -1082,9 +1078,10 @@ ast_crtc_helper_mode_valid(struct drm_crtc *crtc, const struct drm_display_mode
->   		if ((mode->hdisplay == 1152) && (mode->vdisplay == 864))
->   			return MODE_OK;
->   
-> -		if ((ast->chip == AST2100) || (ast->chip == AST2200) ||
-> -		    (ast->chip == AST2300) || (ast->chip == AST2400) ||
-> -		    (ast->chip == AST2500) || (ast->chip == AST2600)) {
-> +		if ((ast->chip == AST2100) || // GEN2, but not AST1100 (?)
-> +		    (ast->chip == AST2200) || // GEN3, but not AST2150 (?)
-> +		    IS_AST_GEN4(ast) || IS_AST_GEN5(ast) ||
-> +		    IS_AST_GEN6(ast) || IS_AST_GEN7(ast)) {
->   			if ((mode->hdisplay == 1920) && (mode->vdisplay == 1080))
->   				return MODE_OK;
->   
-> @@ -1800,12 +1797,12 @@ int ast_mode_config_init(struct ast_device *ast)
->   	dev->mode_config.min_height = 0;
->   	dev->mode_config.preferred_depth = 24;
->   
-> -	if (ast->chip == AST2100 ||
-> -	    ast->chip == AST2200 ||
-> -	    ast->chip == AST2300 ||
-> -	    ast->chip == AST2400 ||
-> -	    ast->chip == AST2500 ||
-> -	    ast->chip == AST2600) {
-> +	if (ast->chip == AST2100 || // GEN2, but not AST1100 (?)
-> +	    ast->chip == AST2200 || // GEN3, but not AST2150 (?)
-> +	    IS_AST_GEN7(ast) ||
-> +	    IS_AST_GEN6(ast) ||
-> +	    IS_AST_GEN5(ast) ||
-> +	    IS_AST_GEN4(ast)) {
->   		dev->mode_config.max_width = 1920;
->   		dev->mode_config.max_height = 2048;
->   	} else {
-> diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
-> index b765eeb55e5f1..13e15173f2c5b 100644
-> --- a/drivers/gpu/drm/ast/ast_post.c
-> +++ b/drivers/gpu/drm/ast/ast_post.c
-> @@ -51,7 +51,7 @@ ast_set_def_ext_reg(struct drm_device *dev)
->   	for (i = 0x81; i <= 0x9f; i++)
->   		ast_set_index_reg(ast, AST_IO_CRTC_PORT, i, 0x00);
->   
-> -	if (ast->chip == AST2300 || ast->chip == AST2400 || ast->chip == AST2500)
-> +	if (IS_AST_GEN4(ast) || IS_AST_GEN5(ast) || IS_AST_GEN6(ast))
->   		ext_reg_info = extreginfo_ast2300;
->   	else
->   		ext_reg_info = extreginfo;
-> @@ -72,8 +72,7 @@ ast_set_def_ext_reg(struct drm_device *dev)
->   
->   	/* Enable RAMDAC for A1 */
->   	reg = 0x04;
-> -	if (ast->chip == AST2300 || ast->chip == AST2400 ||
-> -	    ast->chip == AST2500)
-> +	if (IS_AST_GEN4(ast) || IS_AST_GEN5(ast) || IS_AST_GEN6(ast))
->   		reg |= 0x20;
->   	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb6, 0xff, reg);
->   }
-> @@ -249,7 +248,7 @@ static void ast_init_dram_reg(struct drm_device *dev)
->   	j = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
->   
->   	if ((j & 0x80) == 0) { /* VGA only */
-> -		if (ast->chip == AST2000) {
-> +		if (IS_AST_GEN1(ast)) {
->   			dram_reg_info = ast2000_dram_table_data;
->   			ast_write32(ast, 0xf004, 0x1e6e0000);
->   			ast_write32(ast, 0xf000, 0x1);
-> @@ -258,7 +257,7 @@ static void ast_init_dram_reg(struct drm_device *dev)
->   			do {
->   				;
->   			} while (ast_read32(ast, 0x10100) != 0xa8);
-> -		} else {/* AST2100/1100 */
-> +		} else { /* GEN2/GEN3 */
->   			if (ast->chip == AST2100 || ast->chip == AST2200)
->   				dram_reg_info = ast2100_dram_table_data;
->   			else
-> @@ -281,7 +280,7 @@ static void ast_init_dram_reg(struct drm_device *dev)
->   			if (dram_reg_info->index == 0xff00) {/* delay fn */
->   				for (i = 0; i < 15; i++)
->   					udelay(dram_reg_info->data);
-> -			} else if (dram_reg_info->index == 0x4 && ast->chip != AST2000) {
-> +			} else if (dram_reg_info->index == 0x4 && !IS_AST_GEN1(ast)) {
->   				data = dram_reg_info->data;
->   				if (ast->dram_type == AST_DRAM_1Gx16)
->   					data = 0x00000d89;
-> @@ -307,15 +306,13 @@ static void ast_init_dram_reg(struct drm_device *dev)
->   				cbrdlli_ast2150(ast, 32); /* 32 bits */
->   		}
->   
-> -		switch (ast->chip) {
-> -		case AST2000:
-> +		switch (AST_GEN(ast)) {
-> +		case 1:
->   			temp = ast_read32(ast, 0x10140);
->   			ast_write32(ast, 0x10140, temp | 0x40);
->   			break;
-> -		case AST1100:
-> -		case AST2100:
-> -		case AST2200:
-> -		case AST2150:
-> +		case 2:
-> +		case 3:
->   			temp = ast_read32(ast, 0x1200c);
->   			ast_write32(ast, 0x1200c, temp & 0xfffffffd);
->   			temp = ast_read32(ast, 0x12040);
-> @@ -338,13 +335,13 @@ void ast_post_gpu(struct drm_device *dev)
->   
->   	ast_set_def_ext_reg(dev);
->   
-> -	if (ast->chip == AST2600) {
-> +	if (IS_AST_GEN7(ast)) {
->   		if (ast->tx_chip_types & AST_TX_ASTDP_BIT)
->   			ast_dp_launch(dev);
->   	} else if (ast->config_mode == ast_use_p2a) {
-> -		if (ast->chip == AST2500)
-> +		if (IS_AST_GEN6(ast))
->   			ast_post_chip_2500(dev);
-> -		else if (ast->chip == AST2300 || ast->chip == AST2400)
-> +		else if (IS_AST_GEN5(ast) || IS_AST_GEN4(ast))
->   			ast_post_chip_2300(dev);
->   		else
->   			ast_init_dram_reg(dev);
+>  static inline void shrinker_put(struct shrinker *shrinker)
+>  {
+>  	if (refcount_dec_and_test(&shrinker->refcount))
+> diff --git a/mm/vmscan.c b/mm/vmscan.c
+> index 6f9c4750effa..767569698946 100644
+> --- a/mm/vmscan.c
+> +++ b/mm/vmscan.c
+> @@ -57,6 +57,7 @@
+>  #include <linux/khugepaged.h>
+>  #include <linux/rculist_nulls.h>
+>  #include <linux/random.h>
+> +#include <linux/rculist.h>
+>  
+>  #include <asm/tlbflush.h>
+>  #include <asm/div64.h>
+> @@ -742,7 +743,7 @@ void register_shrinker_prepared(struct shrinker *shrinker)
+>  	down_write(&shrinker_rwsem);
+>  	refcount_set(&shrinker->refcount, 1);
+>  	init_completion(&shrinker->completion_wait);
+> -	list_add_tail(&shrinker->list, &shrinker_list);
+> +	list_add_tail_rcu(&shrinker->list, &shrinker_list);
+>  	shrinker->flags |= SHRINKER_REGISTERED;
+>  	shrinker_debugfs_add(shrinker);
+>  	up_write(&shrinker_rwsem);
+> @@ -800,7 +801,7 @@ void unregister_shrinker(struct shrinker *shrinker)
+>  	wait_for_completion(&shrinker->completion_wait);
+>  
+>  	down_write(&shrinker_rwsem);
+> -	list_del(&shrinker->list);
+> +	list_del_rcu(&shrinker->list);
+>  	shrinker->flags &= ~SHRINKER_REGISTERED;
+>  	if (shrinker->flags & SHRINKER_MEMCG_AWARE)
+>  		unregister_memcg_shrinker(shrinker);
+> @@ -845,7 +846,7 @@ EXPORT_SYMBOL(shrinker_free);
+>  void unregister_and_free_shrinker(struct shrinker *shrinker)
+>  {
+>  	unregister_shrinker(shrinker);
+> -	kfree(shrinker);
+> +	kfree_rcu(shrinker, rcu);
+>  }
+>  EXPORT_SYMBOL(unregister_and_free_shrinker);
+>  
+> @@ -1067,33 +1068,27 @@ static unsigned long shrink_slab(gfp_t gfp_mask, int nid,
+>  	if (!mem_cgroup_disabled() && !mem_cgroup_is_root(memcg))
+>  		return shrink_slab_memcg(gfp_mask, nid, memcg, priority);
+>  
+> -	if (!down_read_trylock(&shrinker_rwsem))
+> -		goto out;
+> -
+> -	list_for_each_entry(shrinker, &shrinker_list, list) {
+> +	rcu_read_lock();
+> +	list_for_each_entry_rcu(shrinker, &shrinker_list, list) {
+>  		struct shrink_control sc = {
+>  			.gfp_mask = gfp_mask,
+>  			.nid = nid,
+>  			.memcg = memcg,
+>  		};
+>  
+> +		if (!shrinker_try_get(shrinker))
+> +			continue;
+> +		rcu_read_unlock();
 
--- 
-Jingfeng
+I don't think you can do this unlock?
+
+> +
+>  		ret = do_shrink_slab(&sc, shrinker, priority);
+>  		if (ret == SHRINK_EMPTY)
+>  			ret = 0;
+>  		freed += ret;
+> -		/*
+> -		 * Bail out if someone want to register a new shrinker to
+> -		 * prevent the registration from being stalled for long periods
+> -		 * by parallel ongoing shrinking.
+> -		 */
+> -		if (rwsem_is_contended(&shrinker_rwsem)) {
+> -			freed = freed ? : 1;
+> -			break;
+> -		}
+> -	}
+>  
+> -	up_read(&shrinker_rwsem);
+> -out:
+> +		rcu_read_lock();
+
+That new rcu_read_lock() won't help AFAIK, the whole
+list_for_each_entry_rcu() needs to be under the single rcu_read_lock() to be
+safe.
+
+IIUC this is why Dave in [4] suggests unifying shrink_slab() with
+shrink_slab_memcg(), as the latter doesn't iterate the list but uses IDR.
+
+> +		shrinker_put(shrinker);
+> +	}
+> +	rcu_read_unlock();
+>  	cond_resched();
+>  	return freed;
+>  }
 
