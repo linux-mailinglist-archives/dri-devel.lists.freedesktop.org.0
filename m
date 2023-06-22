@@ -2,86 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4973373A4EA
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 17:28:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10F7373A4FF
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 17:30:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BED210E58D;
-	Thu, 22 Jun 2023 15:28:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 518E210E076;
+	Thu, 22 Jun 2023 15:30:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FA5C10E58D
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 15:28:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1687447690;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LFIsSMz1YrVeTt7yDPVdtnp2v+t72OcBanmN5WVCEzY=;
- b=iZWv3fygYFe+NsIXXI1zz+Q514+q14ViUqIkZfNnx41VR4Sw2VDIc1AqdBCfkhm8dsrYeC
- hnaFD1qAnoMmhGZdrWb5+8AAGjt8dgI5CQ1f1tQvUcAl8aEMSJIzR8gT/tWAPtv0GId8Yb
- 5FZT7lWzRkvJ+3eKS/hs1qGa4YGPNWc=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-261-i5TW3njAMVmmgoThFhw04g-1; Thu, 22 Jun 2023 11:28:06 -0400
-X-MC-Unique: i5TW3njAMVmmgoThFhw04g-1
-Received: by mail-pl1-f197.google.com with SMTP id
- d9443c01a7336-1b50a3809a1so5843545ad.0
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 08:27:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687447677; x=1690039677;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=LFIsSMz1YrVeTt7yDPVdtnp2v+t72OcBanmN5WVCEzY=;
- b=QroSd4hRB73QrLfF7/XkIWJ2PGgKCiYnmquaDZu1v/Gzrp+8OLFt841qSBaSxB6NdL
- fw/RxCa+ETIV9jXd8jDf1ZDzkaxR729thLh+3dKQXWHZWT5n/GIjtMsXsE2vK3eCNYBK
- UjSgExM01OTSd+b5mSeUcJ3Ja9bL9z6Bjqz/eLIO9SL+FzfWbo6WVBVpNCAyzd2NVvcZ
- eEiZHr/abhu7/5A3Uyb3nRUR2w/5EW2ezyD4tLaV0x3gZ7yY+v72C6VC6aB80KnS00dw
- mRESNTThBGC9jSWVRClIdHCAZ/IS3FnirGJd5QfInBk5wDWzlHfCMK/8UdaoDikt3qC4
- 7qWQ==
-X-Gm-Message-State: AC+VfDye+D+AgYyga6UFnSdqEj5Jl5XqLrOSDcvA/VSNEUD3/OkaPi7t
- 4UWDRfQz/pbVZ7b2u2QaKA1dLpCFR32NH0a3ndwRVOdq8B+FwfgQkWKBcHow/tL1IGYApyixMxL
- QptUsr/asod7GBcLrQTOwkpC39F01
-X-Received: by 2002:a17:902:db04:b0:1b6:4bc2:74bc with SMTP id
- m4-20020a170902db0400b001b64bc274bcmr17127848plx.2.1687447676709; 
- Thu, 22 Jun 2023 08:27:56 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5PkQD22nPF+PfRaRoeULgNWsV6z57goWT8b9vZTIr4iVPlbcuRSq0potrkLL5dqoW80YN4ig==
-X-Received: by 2002:a17:902:db04:b0:1b6:4bc2:74bc with SMTP id
- m4-20020a170902db0400b001b64bc274bcmr17127817plx.2.1687447676288; 
- Thu, 22 Jun 2023 08:27:56 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:642:1aff:fe31:a15c?
- ([2a02:810d:4b3f:de9c:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- l10-20020a170902eb0a00b001b6a241b671sm2713367plb.271.2023.06.22.08.27.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Jun 2023 08:27:55 -0700 (PDT)
-Message-ID: <fb1e5234-b9a5-ba45-1706-81f4cee45274@redhat.com>
-Date: Thu, 22 Jun 2023 17:27:44 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH drm-next v5 00/14] [RFC] DRM GPUVA Manager & Nouveau
- VM_BIND UAPI
-To: Boris Brezillon <boris.brezillon@collabora.com>
-References: <20230620004217.4700-1-dakr@redhat.com>
- <20230620112540.19142ef3@collabora.com>
- <94adfd82-e77d-f99c-1d94-8b6397d39310@redhat.com>
- <20230622150101.229391e5@collabora.com>
- <b04b3dbb-0509-fec1-4e8e-90f724443836@redhat.com>
- <20230622171931.1c46f745@collabora.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <20230622171931.1c46f745@collabora.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C5BD10E076;
+ Thu, 22 Jun 2023 15:30:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1687447806; x=1718983806;
+ h=message-id:date:subject:to:references:cc:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=guOtHImgXPHNBfqVRpp5dqmEf3IYz1DbQszoBboJI48=;
+ b=MZSHbhCuB8TNkuBbR7tfwa+w8wsEslJTVAzjOcOzjdHQH1vbIOAQdSPh
+ nFHta3/LlQnSFeuClWVkFcBxJ3o8raqJ/0poK/ktLfMGp4i+p0C9Nqfqs
+ m6zxuOKIRdd0q/4raQvuZt1pEQF0g9eBW3LHGmxFeIPcGE9BOdH/vrebW
+ B0MVA+Zbc2Q7dKEg7zBa7GYd0gG253nn+MguapSeFrv5qjJIFMsH+jarF
+ DSn6xwYtqKY/q3DZ0yQNWhg9mlfIykd3Tyu4DHfjiWY0k2NrVl2UfvEhG
+ TilLQi025YO3gp7A25tzqLp89JxmDi1czdOikGInfsWpyiD+j/iLow8+8 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="390286116"
+X-IronPort-AV: E=Sophos;i="6.01,149,1684825200"; d="scan'208";a="390286116"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2023 08:30:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="889087526"
+X-IronPort-AV: E=Sophos;i="6.01,149,1684825200"; d="scan'208";a="889087526"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga005.jf.intel.com with ESMTP; 22 Jun 2023 08:30:02 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Thu, 22 Jun 2023 08:30:01 -0700
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Thu, 22 Jun 2023 08:30:00 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Thu, 22 Jun 2023 08:30:00 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.176)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Thu, 22 Jun 2023 08:29:58 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BQljcZiqHm49MqJnYhFzyqOUwjSGrMjBbrQCNIrGN8JvJsmUwFj/ZT0ja9ISW0pTxn8qTJQaJRWe0zhpTTjFGqEHvKFQAyyjexJdgqIDDlhJgduMcInO5Nz2OEFvldQm+LzTNV9GwQov56rgICiXmLTd38dgFPMjdu+HhEZA3Jh+hVVbMhxG1ZXAgY4AGroIKIOFDv2xGkTijZ5aeRIHaz6y+wwkkwwDRIfHtw0mV4enBGekNcuTS11NO8rM8oykIAX4wPX7vwgHsSf/2SnluSftJYzFlStWcYXOqmKRO1NbKG8Uo5WYOIy8LztHenw/6tLL3L2YDSTZRSXPOS81cw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rEpZgwl5FkQ6/aa9YCqxH8Wm1gHY0nqxu+jVpOCWfbU=;
+ b=B/4er4nv3/wliV+GM2QNe1iPx9TxE+Lei9Vwg6SfMKOqVWFWM5aOaNVMR67cwc5XYKD4/Lskpr3QbiQKn4Ed4J1zvFTVB5OzA4HQhG6ygAR3YS6biW/aFTDNlmUQq3mRqaU3pI4kTDdk1cGoHVgxTMRmXFU/qIw3ucgH4yEvqQk7LhmXgvC7SAK/o4Z+iEjb9nVt4yVM/hZoWhq7AIbvWOQlgCgCJkL7KWVJ+1s4LHIjtPh6O5huNS45DzGufwMNdskKO0OfixjxXO2HhOHiq44PSXhlOcWDEu1xNLq5gW1kA086BAsfXZ5W0Fdqkk3N9SUlfCKbeVQjBJ76DOQYbA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SN6PR11MB2622.namprd11.prod.outlook.com (2603:10b6:805:57::31)
+ by MN2PR11MB4614.namprd11.prod.outlook.com (2603:10b6:208:268::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.24; Thu, 22 Jun
+ 2023 15:29:56 +0000
+Received: from SN6PR11MB2622.namprd11.prod.outlook.com
+ ([fe80::91eb:a6da:c4ea:2571]) by SN6PR11MB2622.namprd11.prod.outlook.com
+ ([fe80::91eb:a6da:c4ea:2571%4]) with mapi id 15.20.6521.024; Thu, 22 Jun 2023
+ 15:29:56 +0000
+Message-ID: <ff5de822-d6c3-8337-6920-7e0e1536f349@intel.com>
+Date: Thu, 22 Jun 2023 11:29:50 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.12.0
+Subject: Re: [PATCH] drm/i915/gt: Remove incorrect hard coded cache coherrency
+ setting
+To: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+References: <20230622152644.169400-1-zhanjun.dong@intel.com>
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: "Dong, Zhanjun" <zhanjun.dong@intel.com>
+In-Reply-To: <20230622152644.169400-1-zhanjun.dong@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0089.namprd04.prod.outlook.com
+ (2603:10b6:303:6b::34) To SN6PR11MB2622.namprd11.prod.outlook.com
+ (2603:10b6:805:57::31)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN6PR11MB2622:EE_|MN2PR11MB4614:EE_
+X-MS-Office365-Filtering-Correlation-Id: 75acaefa-49bb-4566-324d-08db733587fe
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2lrmSxTp8ku3a9rTPUuZEvVnHlSZHSvxefhTfIMl8wGCUeZmrsni0DLbXpjsehMB+cbyTb5H4TAvWrEE0fVcLQR2+xkqmfTDEpHt4UikWBFWXSBJWE5ALtJO2e6r2UMapK3hrHYHW/rfZ2eo4ZeobBI/4e7wVTk7CUJgkF6g3vv5F/naYeBUPp+EgtTNPJMNF374OHfYDyzkl7bjKYo/VQHFOuWgFCQbHzSZq8iAVLP31vv3Yfm4v8xbkLrXZ4WBjF7bLHPNHWWyr008mCXxDmeS8Rgirjpfuu9jTG2fJc6o+DfeApg8JvKlGk/YdRjUNiq/5evNvfhjkOoaGCn7mi+f7Byr6D2h1K/9du8E+5aAe2dFn5L/mf5FSz/GgOYesISZe50X2gYV+LYG8rfZSjQaf9ZT54uy1hp1lT28P62xis9e6zCQnyaBOnMTex9X9FXYZpTXLNIu8W4cB02lzTjLAOWvhv4D248jjWy/4mYSJWwrV0tJYzKEW20yekSCE/HQGRtvE5bkT7hbJJMJYdrM7ZLm/56TAcQZ+srxmTaQHY+/WsoyxMdLO5BJLanZFf+wZ58jFlE/MigEz5lZJKuMj2aEBbt5l2MClST63FA2+AVZu8Mw0YL75kD5i7rY
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR11MB2622.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(396003)(39860400002)(376002)(366004)(136003)(346002)(451199021)(6512007)(4326008)(6666004)(966005)(82960400001)(26005)(186003)(36756003)(2906002)(31686004)(31696002)(86362001)(2616005)(316002)(8936002)(66946007)(66476007)(66556008)(41300700001)(5660300002)(478600001)(53546011)(6486002)(6506007)(83380400001)(8676002)(38100700002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UjNPVGM0T0NLVkZwMHpwRTNUZEV2MloyOWUxRFd4bHBCQXpTbDhCZHZtWm9B?=
+ =?utf-8?B?VmVJR3RFUTNZUHVzaTlobXA1dkJCbzc1SFE5SWQwSVdsOUhFQUtpVk9BTnJI?=
+ =?utf-8?B?TUwxdTdtOEw1KzhjS2c4cFlWZFpKR1ZURjlxTUhyRkNsdzVJbjNJZ0N4ZDkx?=
+ =?utf-8?B?bitEY1B2WDZwUzNJcWtleXhNZ0U5Zy9pNXNhd3ZaUHE3cVlTZjFQUUpjeHpp?=
+ =?utf-8?B?M0JBN1BIdW9KRjVYd3VLcWRWQkN2TVg3UzRXYnRoT2xVcDdoaUNpbEYrT2hP?=
+ =?utf-8?B?V2g5MGQwWndCWEU5cmN2ODZuL05IWDhpUFk5NXZKSkE5WWZvUkdhOVBiNXVk?=
+ =?utf-8?B?bnpQYUpBOGVTajJUNzE4cDE3Z3hoaFQyZGpPK0RrSXR6UEY5aTVBeXo5MkV4?=
+ =?utf-8?B?YUUyc1pqRWM3NWVIZlN2M2NZMVV3dTdRb0l5eWtSNXc2bzV4UGhndlYyOUti?=
+ =?utf-8?B?M1plUlVJclUvVWtZa3pCK1BPOWdobWY3QmdpWWxpVGRmMldQVmptY3ozUlBU?=
+ =?utf-8?B?MnJvOXZIOXowL3RuMldUMWJhTGpiM2hFRG4zdHVKeTl0V3UvZXRQOXVWQVlK?=
+ =?utf-8?B?VVVhajh2c0tPbWp1RmpZQTJVZlBrazJudXVGRUg2TVorb0VjNVM4M0VWZTh5?=
+ =?utf-8?B?TndjSVF5OWUzZFgvSFhvNHZ4WHNsZ1AvV292cHl2N0lzYVZYK0cvU3p0VFpJ?=
+ =?utf-8?B?QkVLanF2Nm5YbnBtQlJWYkZWQmVjYU1ta0NLaHRJeS9lbGxBdXVhdjI1TG1C?=
+ =?utf-8?B?emc5TitURGYxK1Fvd3J5cDY4VHZsNVlBYllaNHc0UGpJV3dUd2NVUkRMS2ZY?=
+ =?utf-8?B?UmNCVWpTVkd0VGRuMWJQVllMNFAzcTF2bHVvVmF2TFcwelVoTzZkNnc1REI5?=
+ =?utf-8?B?L3lyZDJ1L0lOckZ5TmNzTU81dDFjZzVubGwxbkdKS3dyc3lPZFNDbUtKZk5w?=
+ =?utf-8?B?WEFMU1c3TFZjcm9sVzlTRXdSM1ZqbnRyS3BjQ2R6VHNocWRwM0JsRVlvbktI?=
+ =?utf-8?B?YXhaKzNyZWsrUU03VjUzRm5MR1hROVJTa3ExbDNxVXZxS3JQd3NvSWQ0YjUv?=
+ =?utf-8?B?TllGK0RrK2dNckpweVg2SkxyUmlodEpGMUJ0QURwbVV4dFJLN0V1UUF0QXh6?=
+ =?utf-8?B?QXJWMkMxMEdBNkJsVEpEdllYaDF3SEFmQlQ0Z0p1czl4QU13WHUxUGEra0xx?=
+ =?utf-8?B?WjdBakhSSnVvM29XenJmSGRpaDlmWTU0OHV6RVlyaG13RkhmcUJWUTFnQ3JF?=
+ =?utf-8?B?TDQ5YnlIM1YwNDlBenlhVTBXeWNRS25Pb00vbXdKaFFoZzkyWUptRHpwNlZ4?=
+ =?utf-8?B?R2sxVktmTUtRUE9YQVRIL0RYbWl2YnFFb042T2wrSTNpUmQxRUpGUE00aVVI?=
+ =?utf-8?B?c3VyL0tPYVYzNnlIR1NjRzJkN0dpY2JHdFI2b1VMU29HWDRsZjI0elplMTVi?=
+ =?utf-8?B?Q3FCd3BzWFEvTWFFT2szU043RmhQNG1PTzNScFhCeVRXdzFzZ3pvampSUS9x?=
+ =?utf-8?B?Z0cvSnZuZDVHYVhSdXRhSE54TzdsN0Zjb2FXT3BVYldRRmMwTVB4V21YdU9D?=
+ =?utf-8?B?WTlRV0xTRkJRUVB5MC9oSXNpRmdFZEtaYmxicHg3bG9XdHNqaXJueEJZK2Rl?=
+ =?utf-8?B?emxpWUtFTUEvWHNJY2hOdEEwVWVWTzlBWDNkbnVoT20wQjhzUC90d3VPUjJp?=
+ =?utf-8?B?cWhIdjdSYjlXMk9jTi9CSm9qRkIzNFdqbnlOdFQvWDZmYUg2N0d4WEM4NVpP?=
+ =?utf-8?B?c2IxRUpjTzRBbmlhWTZselNTWlNlNnNIdVkzMGdoRXBtT3U4TWxqZnBoQ001?=
+ =?utf-8?B?NlFQcWhhQVRWcDhDd1kxazBhdFV6WFZxMmtKQXBNQThvaURCOG9aNzdQbFQ4?=
+ =?utf-8?B?cXhMNlBGNTE0TjFQRWhMczBUOU4yZjgwR2RXTjVyVVJXSTdVbkZrWXpGWmho?=
+ =?utf-8?B?YVU2dlZ4S3pTbURCTkZkWkp2T1ZEd2xkSDJIQ0J0OXFZaGF1MHB5LzJEcjlM?=
+ =?utf-8?B?cXM3UEpwZ3RvaHNaNndrM3VYaFRVdUJTc2xNZDl4UjNwS1hEdlZrWURzVmZJ?=
+ =?utf-8?B?SSt4L08wSE9TWWJqMVhLcFpOSEIvUGFmSVV6UHBZTVIrM3Z0T2tCSUg3R1VV?=
+ =?utf-8?Q?LuaqXMSDrKhJ/dZk+CReVjUx5?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 75acaefa-49bb-4566-324d-08db733587fe
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2622.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2023 15:29:55.7540 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: by112mKUeO5APHlxVXz5ZC38/5Yk8TeR33ontQMgtmyF69Dxt/NdoOEZzJcnP/BL05QwNU/R6c/q/TSYZmuPHA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4614
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,197 +158,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, willy@infradead.org,
- dri-devel@lists.freedesktop.org, corbet@lwn.net, nouveau@lists.freedesktop.org,
- ogabbay@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- mripard@kernel.org, linux-mm@kvack.org, bskeggs@redhat.com,
- tzimmermann@suse.de, Liam.Howlett@oracle.com, bagasdotme@gmail.com,
- christian.koenig@amd.com, jason@jlekstrand.net
+Cc: Nirmoy Das <nirmoy.das@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/22/23 17:19, Boris Brezillon wrote:
-> Hi Danilo,
-> 
-> On Thu, 22 Jun 2023 15:58:23 +0200
-> Danilo Krummrich <dakr@redhat.com> wrote:
-> 
->> Hi Boris,
->>
->> On 6/22/23 15:01, Boris Brezillon wrote:
->>> Hi Danilo,
->>>
->>> On Tue, 20 Jun 2023 14:46:07 +0200
->>> Danilo Krummrich <dakr@redhat.com> wrote:
->>>    
->>>>> The only thing I'm worried about is the 'sync mapping requests have to
->>>>> go through the async path and wait for all previous async requests to
->>>>> be processed' problem I mentioned in one of your previous submission,
->>>>> but I'm happy leave that for later.
->>>>
->>>> Yes, I'm aware of this limitation.
->>>>
->>>> Let me quickly try to explain where this limitation comes from and how I
->>>> intend to address it.
->>>>
->>>> In order to be able to allocate the required page tables for a mapping
->>>> request and in order to free corresponding page tables once the (async)
->>>> job finished I need to know the corresponding sequence of operations
->>>> (drm_gpuva_ops) to fulfill the mapping request.
->>>>
->>>> This requires me to update the GPUVA space in the ioctl() rather than in
->>>> the async stage, because otherwise I would need to wait for previous
->>>> jobs to finish before being able to submit subsequent jobs to the job
->>>> queue, since I need an up to date view of the GPUVA space in order to
->>>> calculate the sequence of operations to fulfill a mapping request.
->>>>
->>>> As a consequence all jobs need to be processed in the order they were
->>>> submitted, including synchronous jobs.
->>>>
->>>> @Matt: I think you will have the same limitation with synchronous jobs
->>>> as your implementation in XE should be similar?
->>>>
->>>> In order to address it I want to switch to using callbacks rather than
->>>> 'pre-allocated' drm_gpuva_ops and update the GPUVA space within the
->>>> asynchronous stage.
->>>> This would allow me to 'fit' synchronous jobs
->>>> between jobs waiting in the async job queue. However, to do this I have
->>>> to re-work how the page table handling in Nouveau is implemented, since
->>>> this would require me to be able to manage the page tables without
->>>> knowing the exact sequence of operations to fulfill a mapping request.
->>>
->>> Ok, so I think that's more or less what we're trying to do right
->>> now in PowerVR.
->>>
->>> - First, we make sure we reserve enough MMU page tables for a given map
->>>     operation to succeed no matter the VM state in the VM_BIND job
->>>     submission path (our VM_BIND ioctl). That means we're always
->>>     over-provisioning and returning unused memory back when the operation
->>>     is done if we end up using less memory.
->>> - We pre-allocate for the mapple-tree insertions.
->>> - Then we map using drm_gpuva_sm_map() and the callbacks we provided in
->>>     the drm_sched::run_job() path. We guarantee that no memory is
->>>     allocated in that path thanks to the pre-allocation/reservation we've
->>>     done at VM_BIND job submission time.
->>>
->>> The problem I see with this v5 is that:
->>>
->>> 1/ We now have a dma_resv_lock_held() in drm_gpuva_{link,unlink}(),
->>>      which, in our case, is called in the async drm_sched::run_job() path,
->>>      and we don't hold the lock in that path (it's been released just
->>>      after the job submission).
->>
->> My solution to this, as by now, is to - in the same way we pre-allocate
->> - to just pre-link and pre-unlink. And then fix things up in the cleanup
->> path.
->>
->> However, depending on the driver, this might require you to set a flag
->> in the driver specific structure (embedding struct drm_gpuva) whether
->> the gpuva is actually mapped (as in has active page table entries).
->> Maybe we could also just add such a flag to struct drm_gpuva. But yeah,
->> doesn't sound too nice to be honest...
->>
->>> 2/ I'm worried that Liam's plan to only reserve what's actually needed
->>>      based on the mapple tree state is going to play against us, because
->>>      the mapple-tree is only modified at job exec time, and we might have
->>>      several unmaps happening between the moment we created and queued the
->>>      jobs, and the moment they actually get executed, meaning the
->>>      mapple-tree reservation might no longer fit the bill.
->>
->> Yes, I'm aware and I explained to Liam in detail why we need the
->> mas_preallocate_worst_case() way of doing it.
->>
->> See this mail:
->> https://lore.kernel.org/nouveau/68cd25de-e767-725e-2e7b-703217230bb0@redhat.com/T/#ma326e200b1de1e3c9df4e9fcb3bf243061fee8b5
->>
->> He hasn't answered yet, but I hope we can just get (or actually keep)
->> such a function (hopefully with better naming), since it shouldn't
->> interfere with anything else.
-> 
-> My bad, I started reading your reply and got interrupted. Never got
-> back to it, which I should definitely have done before posting my
-> questions. Anyway, glad to hear we're on the same page regarding the
-> mas_preallocate_worst_case() thing.
+Resend to restart the CI,
 
-No worries, I should probably also reply to Liams patch introducing the 
-change. I will do that in a minute.
+https://patchwork.freedesktop.org/series/119485/
 
-> 
->>
->>>
->>> For issue #1, it shouldn't be to problematic if we use a regular lock to
->>> insert to/remove from the GEM gpuva list.
->>
->> Yes, that's why I had a separate GEM gpuva list lock in the first place.
->> However, this doesn't really work when generating ops rather than using
->> the callback interface.
->>
->> Have a look at drm_gpuva_gem_unmap_ops_create() requested by Matt for
->> XE. This function generates drm_gpuva_ops to unmap all mappings of a
->> given GEM. In order to do that the function must iterate the GEM's gpuva
->> list and allocate operations for each mapping. As a consequence the
->> gpuva list lock wouldn't be allowed to be taken in the fence signalling
->> path (run_job()) any longer. Hence, we can just protect the list with
->> the GEM's dma-resv lock.
-> 
-> Yeah, I see why using dma_resv when pre-inserting the mapping is
-> useful, it just didn't really work with late mapping insertion.
-> 
->>
->> However, I can understand that it might be inconvenient for the callback
->> interface and admittedly my solution to that isn't that nice as well.
->> Hence the following idea:
->>
->> For drivers to be able to use their own lock for that it would be enough
->> to get rid of the lockdep checks. We could just add a flag to the GPUVA
->> manager to let the driver indicate it wants to do it's own locking for
->> the GPUVA list and skip the lockdep checks for the dma-resv lock in that
->> case.
-> 
-> Sounds good to me.
+Was stuck.
 
-I think it's way better than the pre-link / pre-unlink mess. I will add 
-this to v6.
 
-> 
->>
->>>
->>> For issue #2, I can see a way out if, instead of freeing gpuva nodes,
->>> we flag those as unused when we see that something happening later in
->>> the queue is going to map a section being unmapped. All of this implies
->>> keeping access to already queued VM_BIND jobs (using the spsc queue at
->>> the entity level is not practical), and iterating over them every time
->>> a new sync or async job is queued to flag what needs to be retained. It
->>> would obviously be easier if we could tell the mapple-tree API
->>> 'provision as if the tree was empty', so all we have to do is just
->>> over-provision for both the page tables and mapple-tree insertion, and
->>> free the unused mem when the operation is done.
->>>
->>> Don't know if you already thought about that and/or have solutions to
->>> solve these issues.
->>
->> As already mentioned above, I'd just expect we can keep it the
->> over-provision way, as you say. I think it's a legit use case to not
->> know the state of the maple tree at the time the pre-allocated nodes
->> will be used and keeping that should not interfere with Liams plan to
->> (hopefully separately) optimize for the pre-allocation use case they
->> have within -mm.
->>
->> But let's wait for his take on that.
-> 
-> Sure. As I said, I'm fine getting this version merged, we can sort out
-> the changes needed for PowerVR later. Just thought I'd mention those
-> issues early, so you're not surprised when we come back with crazy
-> requests (which apparently are not that crazy ;-)).
+Regards,
 
-They're not crazy at all, in fact they entirely represent what the 
-callback interface was designed for. :-)
+Zhanjun
 
-- Danilo
-
-> 
-> Regards,
-> 
-> Boris
-> 
-
+On 2023-06-22 11:26 a.m., Zhanjun Dong wrote:
+> The previouse i915_gem_object_create_internal already set it with proper
+> value before function return. This hard coded setting is incorrect for
+> platforms like MTL, thus need to be removed.
+>
+> Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/intel_timeline.c | 2 --
+>   1 file changed, 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_timeline.c b/drivers/gpu/drm/i915/gt/intel_timeline.c
+> index b9640212d659..693d18e14b00 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_timeline.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_timeline.c
+> @@ -26,8 +26,6 @@ static struct i915_vma *hwsp_alloc(struct intel_gt *gt)
+>   	if (IS_ERR(obj))
+>   		return ERR_CAST(obj);
+>   
+> -	i915_gem_object_set_cache_coherency(obj, I915_CACHE_LLC);
+> -
+>   	vma = i915_vma_instance(obj, &gt->ggtt->vm, NULL);
+>   	if (IS_ERR(vma))
+>   		i915_gem_object_put(obj);
