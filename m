@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6359073B14A
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 09:26:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7E8E73B166
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 09:27:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE95D10E5EA;
-	Fri, 23 Jun 2023 07:26:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1329110E601;
+	Fri, 23 Jun 2023 07:27:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 622 seconds by postgrey-1.36 at gabe;
- Thu, 22 Jun 2023 08:50:23 UTC
-Received: from out-25.mta1.migadu.com (out-25.mta1.migadu.com [95.215.58.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E50A10E4F3
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 08:50:23 +0000 (UTC)
+Received: from out-46.mta1.migadu.com (out-46.mta1.migadu.com
+ [IPv6:2001:41d0:203:375::2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C51210E506
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 08:50:25 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1687423228;
+ t=1687423235;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jsEwzAna4029RV6z6obfQmMl2Vwh1p3nS0yc9a+2Lh0=;
- b=ozPKp77xrQTWFLrt5JY9FY9sDiWzb4NwK8832YIIgpBuCa58zB9A3C1Ik+LPSf5cTp7v3t
- 9IJAZpdL4oTT3emFrHswJJuH9cCY+iz0ywCM1rCIq+rKQviZQ+esI9j+46bDRakK4PDGM5
- vgbb47CgXrJSb8zRxEAcYTBfo6A4am8=
+ bh=IxIKmzzZi67lG9XSJDebD80o50peuZjA/0wHZiu4cuU=;
+ b=H8s1pQs4VGCf5n+ceh0zwRdlcTNNqN2Py3KDQXuVt1RkndP77diVR1uYW4KzkPkjEIKsys
+ H7QDJljwElq7g1TzIAkvNua8zzlhkxB0H11gFgOBfIt7JJ6zRRMu3JZw1CdR8an7OABUut
+ k6NXXYI9vzZtztWWnS9SmS/quoFvciQ=
 From: Qi Zheng <qi.zheng@linux.dev>
 To: akpm@linux-foundation.org, david@fromorbit.com, tkhai@ya.ru,
  vbabka@suse.cz, roman.gushchin@linux.dev, djwong@kernel.org,
  brauner@kernel.org, paulmck@kernel.org, tytso@mit.edu
-Subject: [PATCH 04/29] drm/msm: dynamically allocate the drm-msm_gem shrinker
-Date: Thu, 22 Jun 2023 08:39:07 +0000
-Message-Id: <20230622083932.4090339-5-qi.zheng@linux.dev>
+Subject: [PATCH 05/29] drm/panfrost: dynamically allocate the drm-panfrost
+ shrinker
+Date: Thu, 22 Jun 2023 08:39:08 +0000
+Message-Id: <20230622083932.4090339-6-qi.zheng@linux.dev>
 In-Reply-To: <20230622083932.4090339-1-qi.zheng@linux.dev>
 References: <20230622083932.4090339-1-qi.zheng@linux.dev>
 MIME-Version: 1.0
@@ -65,93 +65,83 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 From: Qi Zheng <zhengqi.arch@bytedance.com>
 
 In preparation for implementing lockless slab shrink,
-we need to dynamically allocate the drm-msm_gem shrinker,
+we need to dynamically allocate the drm-panfrost shrinker,
 so that it can be freed asynchronously using kfree_rcu().
 Then it doesn't need to wait for RCU read-side critical
-section when releasing the struct msm_drm_private.
+section when releasing the struct panfrost_device.
 
 Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
 ---
- drivers/gpu/drm/msm/msm_drv.h          |  2 +-
- drivers/gpu/drm/msm/msm_gem_shrinker.c | 25 ++++++++++++++-----------
- 2 files changed, 15 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/panfrost/panfrost_device.h    |  2 +-
+ .../gpu/drm/panfrost/panfrost_gem_shrinker.c  | 24 ++++++++++---------
+ 2 files changed, 14 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index e13a8cbd61c9..4f3ba55058cd 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -217,7 +217,7 @@ struct msm_drm_private {
- 	} vram;
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+index b0126b9fbadc..e667e5689353 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.h
++++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+@@ -118,7 +118,7 @@ struct panfrost_device {
  
- 	struct notifier_block vmap_notifier;
+ 	struct mutex shrinker_lock;
+ 	struct list_head shrinker_list;
 -	struct shrinker shrinker;
 +	struct shrinker *shrinker;
  
- 	struct drm_atomic_state *pm_state;
- 
-diff --git a/drivers/gpu/drm/msm/msm_gem_shrinker.c b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-index f38296ad8743..db7582ae1f19 100644
---- a/drivers/gpu/drm/msm/msm_gem_shrinker.c
-+++ b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-@@ -34,8 +34,7 @@ static bool can_block(struct shrink_control *sc)
+ 	struct panfrost_devfreq pfdevfreq;
+ };
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
+index bf0170782f25..2a5513eb9e1f 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
+@@ -18,8 +18,7 @@
  static unsigned long
- msm_gem_shrinker_count(struct shrinker *shrinker, struct shrink_control *sc)
+ panfrost_gem_shrinker_count(struct shrinker *shrinker, struct shrink_control *sc)
  {
--	struct msm_drm_private *priv =
--		container_of(shrinker, struct msm_drm_private, shrinker);
-+	struct msm_drm_private *priv = shrinker->private_data;
- 	unsigned count = priv->lru.dontneed.count;
+-	struct panfrost_device *pfdev =
+-		container_of(shrinker, struct panfrost_device, shrinker);
++	struct panfrost_device *pfdev = shrinker->private_data;
+ 	struct drm_gem_shmem_object *shmem;
+ 	unsigned long count = 0;
  
- 	if (can_swap())
-@@ -100,8 +99,7 @@ active_evict(struct drm_gem_object *obj)
+@@ -65,8 +64,7 @@ static bool panfrost_gem_purge(struct drm_gem_object *obj)
  static unsigned long
- msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
+ panfrost_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
  {
--	struct msm_drm_private *priv =
--		container_of(shrinker, struct msm_drm_private, shrinker);
-+	struct msm_drm_private *priv = shrinker->private_data;
- 	struct {
- 		struct drm_gem_lru *lru;
- 		bool (*shrink)(struct drm_gem_object *obj);
-@@ -151,7 +149,7 @@ msm_gem_shrinker_shrink(struct drm_device *dev, unsigned long nr_to_scan)
- 	int ret;
+-	struct panfrost_device *pfdev =
+-		container_of(shrinker, struct panfrost_device, shrinker);
++	struct panfrost_device *pfdev = shrinker->private_data;
+ 	struct drm_gem_shmem_object *shmem, *tmp;
+ 	unsigned long freed = 0;
  
- 	fs_reclaim_acquire(GFP_KERNEL);
--	ret = msm_gem_shrinker_scan(&priv->shrinker, &sc);
-+	ret = msm_gem_shrinker_scan(priv->shrinker, &sc);
- 	fs_reclaim_release(GFP_KERNEL);
- 
- 	return ret;
-@@ -213,10 +211,15 @@ msm_gem_shrinker_vmap(struct notifier_block *nb, unsigned long event, void *ptr)
- void msm_gem_shrinker_init(struct drm_device *dev)
+@@ -100,10 +98,15 @@ panfrost_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
+ void panfrost_gem_shrinker_init(struct drm_device *dev)
  {
- 	struct msm_drm_private *priv = dev->dev_private;
--	priv->shrinker.count_objects = msm_gem_shrinker_count;
--	priv->shrinker.scan_objects = msm_gem_shrinker_scan;
--	priv->shrinker.seeks = DEFAULT_SEEKS;
--	WARN_ON(register_shrinker(&priv->shrinker, "drm-msm_gem"));
+ 	struct panfrost_device *pfdev = dev->dev_private;
+-	pfdev->shrinker.count_objects = panfrost_gem_shrinker_count;
+-	pfdev->shrinker.scan_objects = panfrost_gem_shrinker_scan;
+-	pfdev->shrinker.seeks = DEFAULT_SEEKS;
+-	WARN_ON(register_shrinker(&pfdev->shrinker, "drm-panfrost"));
 +
-+	priv->shrinker = shrinker_alloc_and_init(msm_gem_shrinker_count,
-+						 msm_gem_shrinker_scan, 0,
-+						 DEFAULT_SEEKS, 0, priv);
-+	if (priv->shrinker &&
-+	    register_shrinker(priv->shrinker, "drm-msm_gem")) {
-+		shrinker_free(priv->shrinker);
++	pfdev->shrinker = shrinker_alloc_and_init(panfrost_gem_shrinker_count,
++						  panfrost_gem_shrinker_scan, 0,
++						  DEFAULT_SEEKS, 0, pfdev);
++	if (pfdev->shrinker &&
++	    register_shrinker(pfdev->shrinker, "drm-panfrost")) {
++		shrinker_free(pfdev->shrinker);
 +		WARN_ON(1);
 +	}
+ }
  
- 	priv->vmap_notifier.notifier_call = msm_gem_shrinker_vmap;
- 	WARN_ON(register_vmap_purge_notifier(&priv->vmap_notifier));
-@@ -232,8 +235,8 @@ void msm_gem_shrinker_cleanup(struct drm_device *dev)
+ /**
+@@ -116,7 +119,6 @@ void panfrost_gem_shrinker_cleanup(struct drm_device *dev)
  {
- 	struct msm_drm_private *priv = dev->dev_private;
+ 	struct panfrost_device *pfdev = dev->dev_private;
  
--	if (priv->shrinker.nr_deferred) {
-+	if (priv->shrinker->nr_deferred) {
- 		WARN_ON(unregister_vmap_purge_notifier(&priv->vmap_notifier));
--		unregister_shrinker(&priv->shrinker);
-+		unregister_and_free_shrinker(priv->shrinker);
- 	}
+-	if (pfdev->shrinker.nr_deferred) {
+-		unregister_shrinker(&pfdev->shrinker);
+-	}
++	if (pfdev->shrinker->nr_deferred)
++		unregister_and_free_shrinker(pfdev->shrinker);
  }
 -- 
 2.30.2
