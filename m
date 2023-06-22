@@ -2,134 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B426B73A8D1
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 21:10:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2416173A8FA
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jun 2023 21:26:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31D4B10E058;
-	Thu, 22 Jun 2023 19:10:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CAEF10E00D;
+	Thu, 22 Jun 2023 19:26:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BEC010E028;
- Thu, 22 Jun 2023 19:10:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1687461013; x=1718997013;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=a8TZXOkVAzARevSHwvTQ/j9HklPfaqvc2V9syDaQm4A=;
- b=XtK/AYsZQF2k09vRa2v9BPUhkyaDAJ7X1A6LpecggKlmi37qQGVc5CpK
- SHhII1VagobiGiXqRW/exwM0z13CWOolJb1B65VERCv/tBJNOjX6/b7ud
- VTos0KWUukYft7xVstW7l4WbW0NriGRRKQ8Ql6tsvewXpOIMwIf5CHBNh
- sQYxSDXBMKOgZ8YZQuL4ZbCr+xzCMl+i83wjZ0iNfyScGFc7ZWyPWI5Pa
- dLnfTJerqtENg+QpqTOqeU6wWXhANfu8HBtaOKX9BMrXkBjYjAYsFID7i
- kPuSWDFlfYGV9rie1Dvek/IqLrJgkvNJaK2w4lqESCQ+0yPDEn+qWQOl3 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="364030811"
-X-IronPort-AV: E=Sophos;i="6.01,149,1684825200"; d="scan'208";a="364030811"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2023 12:10:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="1045340602"
-X-IronPort-AV: E=Sophos;i="6.01,149,1684825200"; d="scan'208";a="1045340602"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmsmga005.fm.intel.com with ESMTP; 22 Jun 2023 12:10:11 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 22 Jun 2023 12:10:11 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Thu, 22 Jun 2023 12:10:11 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.175)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Thu, 22 Jun 2023 12:10:10 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KHYm8qXCrrV2feJfJ3ZIXvkeYr+SRMMZtsOLYUBdFnQoRXEP/xUrL4W8Wi9KB7zZZDBdqI/Q7m6cxV9DIpT8pEOjdUsBbVjC38ZFfSIZz9Bqn4HlwyfnJpFGPGHXj5kdS8RFohM0PnspVZTckIuhLbpv1ed/57o3O4PlEignDibQC1+mHbW3mkHEeB4n7lBzEA/YTRBv2YBED8vUAGKShJmCO2ohcCe/EguNloQ+aF3dD7oGrsUX4paFTj35ul7UbJV1JlvYCR+YRj1zK6AbYmJeLYYC2yHSD7bMbf3fRGlOfRuOzpSdfjaoKtgBTqc6kVJxtlPuKViBbXxv57wgWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9CWcxpx+nnqXD7XV+MEgtVr1xxZQ8J3YwP/Zr6HAUHM=;
- b=V9t+oZFrx1lVYjEJwZFmfpe6HoZZ4NcCuC30DaKLBMRbhMYGMaIsviZ1ZvgpI88Eduk6caoMjS3NHPPS5D7UkomphVyn5HeMmlekJp8sQryHzzQlurshs3Adjeu/QhTud2f09TJJpydZDL7yMpr3kZhFNIZaLyNdZcsYVJuhFymaKU4g0wfOoy3VigyKFd8dbjOitIFCVfBNoJA8g12Pq8rKKmXYV1CNi2WM+vrXDy+b0PWaJks1NmEv2tktxQGXXWv+CbQ14NJ/rD7Str6j8wA6QNPUwt+uMfyuwYOVj1wZj1QTH+HHo/3zp9BSk54cyju2jOgE25E8Zv2+BrfA5Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by SJ0PR11MB5086.namprd11.prod.outlook.com (2603:10b6:a03:2d1::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.23; Thu, 22 Jun
- 2023 19:10:09 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::ff06:a115:e4eb:680e]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::ff06:a115:e4eb:680e%5]) with mapi id 15.20.6521.023; Thu, 22 Jun 2023
- 19:10:09 +0000
-Date: Thu, 22 Jun 2023 19:09:11 +0000
-From: Matthew Brost <matthew.brost@intel.com>
-To: Alan Previn <alan.previn.teres.alexis@intel.com>
-Subject: Re: [PATCH v2] drm/xe/guc: Fix h2g_write usage of GUC_CTB_MSG_MAX_LEN
-Message-ID: <ZJScV37DpVFmnmWv@DUT025-TGLU.fm.intel.com>
-References: <20230622162714.396367-1-alan.previn.teres.alexis@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230622162714.396367-1-alan.previn.teres.alexis@intel.com>
-X-ClientProxiedBy: SJ0PR03CA0125.namprd03.prod.outlook.com
- (2603:10b6:a03:33c::10) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1999710E00D;
+ Thu, 22 Jun 2023 19:26:26 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8AxxcRfoJRkzocAAA--.929S3;
+ Fri, 23 Jun 2023 03:26:23 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Cx_c5eoJRksncCAA--.13556S3; 
+ Fri, 23 Jun 2023 03:26:22 +0800 (CST)
+Message-ID: <9f3c3a81-1aca-a36e-8090-d851ea5ce9f7@loongson.cn>
+Date: Fri, 23 Jun 2023 03:26:22 +0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SJ0PR11MB5086:EE_
-X-MS-Office365-Filtering-Correlation-Id: af511ac6-aac4-4a07-eb73-08db73544bc1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +wwrY1VepM4ezhSQa+9zYe7TfHjo1E/xjurlltA6+T5cXd9RXH+orIBkjQXqx1OXWn1KkDxvjcZMGvZ9Uiih5Jndwr8Zor/7m4hGZQnBJ2jSE9RlIey2Eb6+DgXBtJsoVPUG//K5b3P9d1yBVo/fEaT+e9hgPzPA5NKk+Puo7iWuB31Hsdez1HfuMdpYKhl1dlqQ7WXwdcbgChQH7GFYJ158TExxuAtUKG8SWoEOPvY6KCT5W42rYPg9KfHUa38An4DLQLDZRVZDp1FLY2uqsROIGMaUMIj0GCuY0+7GyGxgxrl9TMaHM1j+vzob22NfJss6VrhiGby7SaYcTm1oYF+CDWr/IUMVsd2M8r9gtwlYuy7H2ZHxjheVd4sVUqiHFkaTcdl7mF9xDXKi7ez5/6NVFPH0su54cxiCR7uuypWRpx0WbqzzMfHSPaMclMelLyjc0L45QNxFwoDSMIjycnPu3A1WQnr6d2Ort+eYJ4RA3Z4EhtnBpC2aIlg5vGTtrwtV/0hEQf5xrEh86Wam/ErS9Cql4V5fv98RpOtbxnLCA/tyAEX4TbWE2sE2msV7
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(396003)(366004)(39860400002)(346002)(376002)(136003)(451199021)(2906002)(86362001)(186003)(6486002)(38100700002)(82960400001)(6666004)(107886003)(83380400001)(6512007)(6506007)(41300700001)(26005)(478600001)(5660300002)(6862004)(66556008)(66946007)(66476007)(316002)(8936002)(8676002)(4326008)(6636002)(450100002)(44832011);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZTcb/CuXqDUdLQb5P1za6H+ggAbE0d3maT6exgKuZYmefhNxTL9JTiKvXMX+?=
- =?us-ascii?Q?6PIwUXq1ApjgtnSuTjzUOlVW7UcCYEDsOa7b5jojeztLnaSPbAWk3u1qanAx?=
- =?us-ascii?Q?/Sago6BE6iby9/SAxJ/RpTazzVAre7Cbsi9EnK/CJecIjP0HDymTSisr2ulX?=
- =?us-ascii?Q?Muypxe01hKBQ0BT3soEDa/Pm+2jA/Z602U5CQ0FA+MgDouAk52iG7931ZccO?=
- =?us-ascii?Q?qqrBPsu4Kdpl52PubpZnCCCSSJwV888y0K/9GYEbynoyEEdSSx0AgMP9Zm7u?=
- =?us-ascii?Q?3XSHGPjiw7uteTZqTprF3VqrsTKFrwS6GdgXZzJaELKCzQ/DoDKEAnQoYcsI?=
- =?us-ascii?Q?R6UnJE0xKYhWZITprtNotUqJO44yBTZXsjkk33wlw+q0xCqKUnJ7yh3F7QnH?=
- =?us-ascii?Q?0dnNI42sqHLEN4t3CGW3AbJcXxeV0pKDFlYhKOfBwvvMnqCD4h3Y25FYXWH1?=
- =?us-ascii?Q?UqyKqeXFLfOWCBYpBJOeOJ3loi+73QfYUP8SqXzzpNIloDANkWQlhxKfuf4I?=
- =?us-ascii?Q?00QMg2ssjwlsJDLL9NQxjqzTta5y3e26EBecYg0yoYX4JxPcDmKADgWlFQpr?=
- =?us-ascii?Q?hws/9tedYadwMA5j0kDm+j5akuy1R9El3A5XGYXRvaYJpk+qYgMdY1U9s1kj?=
- =?us-ascii?Q?rRGWcHaU9QH0WpRrNEJF3j8qbFfUVrUKkX/mCZzJAGqlkqw3GyKsh4MB+cHa?=
- =?us-ascii?Q?DgUzfEYe48vAZClOc5uJj9C4kiPSvx6jiBZ5N/3ZxQpUfrZtuW91o5r6DwuP?=
- =?us-ascii?Q?zZnRuBgmwoEYybcLUaTGKSIVKQluN4YadI20NKeIDrEmh8tD3KwlDCdPPPcd?=
- =?us-ascii?Q?EhHyNPbdQCIcOwFB8naIQ8mV77aK2gy8ngbC4nwKcIBzgi4TeahbPtwOey3l?=
- =?us-ascii?Q?pmx30rgMJytYSnuIa9qQH4WykQMA8fpbT7AVKK94eQ9H6NYsmN2HP/PLo8fy?=
- =?us-ascii?Q?jzxBTFedxg8XZHepHBLg7yMd4bOPnmjHCQlTg36+79HIMawHj949faZrsJLR?=
- =?us-ascii?Q?YyFolBAiyha55iKjM1giYmbIT7R384z/pSN92/CrRNq7HcTkErlKjJ6STln4?=
- =?us-ascii?Q?XA2/UW0yoAqi1NwgcJ8EUrPnqTt388hJHyufqpDdDZF7mnGl8b6DufH5Lfdf?=
- =?us-ascii?Q?bQJEBpz3MHKkEiKFok0R5zYfmD/hIARebkvxX4YLAcGZGCbIdolY0faSqvlN?=
- =?us-ascii?Q?CiHf7wYfaMBZNarmVgRs/dbeq/TKZAYEI31HkPdm8kF1LYlxiA/uH54JFLfl?=
- =?us-ascii?Q?raojodURFbCBR5NxG82JLpcOYQyXl22yudNwHuEOuYQgtCJ38sdlprsHPpRd?=
- =?us-ascii?Q?R0Ar3QxMCHlFePa4FHyCcAIUiTSsclcD8pvaP9p5gRGfBeINhxZkHAVjS6Bi?=
- =?us-ascii?Q?v9awrUPWSOS8+9R/1iLo8XFhYAZMI9HoNNmFOL1g7vrjHiTtb5szMZoDYEnh?=
- =?us-ascii?Q?EIJBnt/ElHL1E7VTOwK3OxOUDfTOsuqBKWKoln2z0f6dgCa0qxlGJzpJ1lia?=
- =?us-ascii?Q?DNhDzIxvpC9g70iZAUE3va2JoILSZHTa7zio7N4vzG3OZJ3fOZV129SZOncd?=
- =?us-ascii?Q?jmM0z+8iUHY/NV33VeEr3wn7M16m4fbXAHC4tBAXwoz+3HVOtO2Uzfw7AC1i?=
- =?us-ascii?Q?pw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: af511ac6-aac4-4a07-eb73-08db73544bc1
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2023 19:10:09.1221 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: blkcU9JSHnYzOOaewWfAfXjxO9dSneAC3X26iwqETg14FvLPVLyvjHDtXLtcQxrpsbn95Q1/qEcm2zUWkXIV3A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5086
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v10 07/11] drm/etnaviv: Add support for the dma coherent
+ device
+To: Lucas Stach <l.stach@pengutronix.de>, Sui Jingfeng <18949883232@163.com>, 
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230620094716.2231414-1-18949883232@163.com>
+ <20230620094716.2231414-8-18949883232@163.com>
+ <8f74f0962c8bab6c832919a5340667c54e1a7ddc.camel@pengutronix.de>
+ <66fc74ae-299c-a5de-9cfb-07ae24fb3f07@loongson.cn>
+ <8212078bd56c54ce508205eae0ed0b69e78d4c38.camel@pengutronix.de>
+Content-Language: en-US
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <8212078bd56c54ce508205eae0ed0b69e78d4c38.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8Cx_c5eoJRksncCAA--.13556S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW3Gry5tFWrCF48AF45ZrWfXrc_yoWxXw15pF
+ WavFWYkr4DXrW8Kw1Ivw45Za4S9w4xXFy8Cw1DJwn0vws0kF1j9r4rKF15CFs8GryxWr4a
+ vr4jvFyUWF4kZFXCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+ Jr0_Gr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4
+ xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v2
+ 6r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67
+ vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAF
+ wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc4
+ 0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AK
+ xVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr
+ 1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU7XTmDUUU
+ U
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,113 +72,213 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <john.c.harrison@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: Bjorn Helgaas <bhelgaas@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 22, 2023 at 09:27:14AM -0700, Alan Previn wrote:
-> In the ABI header, GUC_CTB_MSG_MIN_LEN is '1' because
-> GUC_CTB_HDR_LEN is 1. This aligns with H2G/G2H CTB specification
-> where all command formats are defined in units of dwords so that '1'
-> is a dword. Accordingly, GUC_CTB_MSG_MAX_LEN is 256-1 (i.e. 255
-> dwords). However, h2g_write was incorrectly assuming that
-> GUC_CTB_MSG_MAX_LEN was in bytes. Fix this.
-> 
-> v2: By correctly treating GUC_CTB_MSG_MAX_LEN as dwords, it causes
->     a local array to consume 4x the stack size. Rework the function
->     to avoid consuming stack even if the action size is large.
-> 
-> Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
-> ---
->  drivers/gpu/drm/xe/xe_guc_ct.c | 29 ++++++++++++++++-------------
->  1 file changed, 16 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xe/xe_guc_ct.c b/drivers/gpu/drm/xe/xe_guc_ct.c
-> index 22bc9ce846db..45fdc0ebcc0e 100644
-> --- a/drivers/gpu/drm/xe/xe_guc_ct.c
-> +++ b/drivers/gpu/drm/xe/xe_guc_ct.c
-> @@ -401,19 +401,22 @@ static int h2g_write(struct xe_guc_ct *ct, const u32 *action, u32 len,
->  {
->  	struct xe_device *xe = ct_to_xe(ct);
->  	struct guc_ctb *h2g = &ct->ctbs.h2g;
-> -	u32 cmd[GUC_CTB_MSG_MAX_LEN / sizeof(u32)];
-> -	u32 cmd_len = len + GUC_CTB_HDR_LEN;
-> -	u32 cmd_idx = 0, i;
-> +#define H2G_CT_HEADERS 2  /* one for CTB header and one for HxG header */
+Hi
 
-Can you move this define above the function h2g_write? We have been
-asked to avoid using defines in the middle of functions.
+On 2023/6/21 23:58, Lucas Stach wrote:
+> Am Mittwoch, dem 21.06.2023 um 23:30 +0800 schrieb Sui Jingfeng:
+>> Hi,
+>>
+>> On 2023/6/21 18:00, Lucas Stach wrote:
+>>>>    		dma_sync_sgtable_for_cpu(dev->dev, etnaviv_obj->sgt,
+>>>>    					 etnaviv_op_to_dma_dir(op));
+>>>>    		etnaviv_obj->last_cpu_prep_op = op;
+>>>> @@ -408,8 +421,9 @@ int etnaviv_gem_cpu_fini(struct drm_gem_object *obj)
+>>>>    {
+>>>>    	struct drm_device *dev = obj->dev;
+>>>>    	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
+>>>> +	struct etnaviv_drm_private *priv = dev->dev_private;
+>>>>    
+>>>> -	if (etnaviv_obj->flags & ETNA_BO_CACHED) {
+>>>> +	if (!priv->dma_coherent && etnaviv_obj->flags & ETNA_BO_CACHED) {
+>>>>    		/* fini without a prep is almost certainly a userspace error */
+>>>>    		WARN_ON(etnaviv_obj->last_cpu_prep_op == 0);
+>>>>    		dma_sync_sgtable_for_device(dev->dev, etnaviv_obj->sgt,
+>>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+>>>> index 3524b5811682..754126992264 100644
+>>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+>>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+>>>> @@ -112,11 +112,16 @@ static const struct etnaviv_gem_ops etnaviv_gem_prime_ops = {
+>>>>    struct drm_gem_object *etnaviv_gem_prime_import_sg_table(struct drm_device *dev,
+>>>>    	struct dma_buf_attachment *attach, struct sg_table *sgt)
+>>>>    {
+>>>> +	struct etnaviv_drm_private *priv = dev->dev_private;
+>>>>    	struct etnaviv_gem_object *etnaviv_obj;
+>>>>    	size_t size = PAGE_ALIGN(attach->dmabuf->size);
+>>>> +	u32 cache_flags = ETNA_BO_WC;
+>>>>    	int ret, npages;
+>>>>    
+>>>> -	ret = etnaviv_gem_new_private(dev, size, ETNA_BO_WC,
+>>>> +	if (priv->dma_coherent)
+>>>> +		cache_flags = ETNA_BO_CACHED;
+>>>> +
+>>> Drop this change. Instead etnaviv_gem_new_impl() should do the upgrade
+>>> from WC to CACHED as necessary by adding something like this:
+>> I understand you are a profession person in vivante GPU driver domain.
+>>
+>> I respect you reviews and instruction.
+>>
+>> But, I'm really reluctant to agree with this, is there any space to
+>> negotiate?
+>>
+>>> /*
+>>>    * Upgrade WC to CACHED when the device is hardware coherent and the
+>>>    * platform doesn't allow mixing cached and writecombined mappings to
+>>>    * the same memory area.
+>>>    */
+>>> if ((flags & ETNA_BO_CACHE_MASK) == ETNA_BO_WC &&
+>>>       dev_is_dma_coherent(dev) && !drm_arch_can_wc_memory())
+>>>           flags = (flags & ~ETNA_BO_CACHE_MASK) & ETNA_BO_CACHED;
+>> This is policy, not a mechanism.
+>>
+>> Using what cache property is a user-space program's choice.
+>>
+>> While you are override the WC with CACHED mapping. This is not correct
+>> in the concept!
+>>
+> Please explain why you think that this isn't correct.
 
-> +	u32 cmd[H2G_CT_HEADERS];
->  	u32 tail = h2g->info.tail;
-> +	u32 full_len;
->  	struct iosys_map map = IOSYS_MAP_INIT_OFFSET(&h2g->cmds,
->  							 tail * sizeof(u32));
->  
-> +	--len; /* cmd[1] replaces action[0], so len is one dw less */
-> +	full_len = len + H2G_CT_HEADERS;
-> +
->  	lockdep_assert_held(&ct->lock);
-> -	XE_BUG_ON(len * sizeof(u32) > GUC_CTB_MSG_MAX_LEN);
-> +	XE_BUG_ON(len > (GUC_CTB_MSG_MAX_LEN - H2G_CT_HEADERS));
->  	XE_BUG_ON(tail > h2g->info.size);
->  
->  	/* Command will wrap, zero fill (NOPs), return and check credits again */
-> -	if (tail + cmd_len > h2g->info.size) {
-> +	if (tail + H2G_CT_HEADERS + len > h2g->info.size) {
->  		xe_map_memset(xe, &map, 0, 0,
->  			      (h2g->info.size - tail) * sizeof(u32));
->  		h2g_reserve_space(ct, (h2g->info.size - tail));
-> @@ -428,30 +431,30 @@ static int h2g_write(struct xe_guc_ct *ct, const u32 *action, u32 len,
->  	 * dw1: HXG header (including action code)
->  	 * dw2+: action data
->  	 */
-> -	cmd[cmd_idx++] = FIELD_PREP(GUC_CTB_MSG_0_FORMAT, GUC_CTB_FORMAT_HXG) |
-> +	cmd[0] = FIELD_PREP(GUC_CTB_MSG_0_FORMAT, GUC_CTB_FORMAT_HXG) |
->  		FIELD_PREP(GUC_CTB_MSG_0_NUM_DWORDS, len) |
->  		FIELD_PREP(GUC_CTB_MSG_0_FENCE, ct_fence_value);
->  	if (want_response) {
-> -		cmd[cmd_idx++] =
-> +		cmd[1] =
->  			FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_REQUEST) |
->  			FIELD_PREP(GUC_HXG_EVENT_MSG_0_ACTION |
->  				   GUC_HXG_EVENT_MSG_0_DATA0, action[0]);
->  	} else {
-> -		cmd[cmd_idx++] =
-> +		cmd[1] =
->  			FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_EVENT) |
->  			FIELD_PREP(GUC_HXG_EVENT_MSG_0_ACTION |
->  				   GUC_HXG_EVENT_MSG_0_DATA0, action[0]);
->  	}
-> -	for (i = 1; i < len; ++i)
-> -		cmd[cmd_idx++] = action[i];
-> +	++action;
+This is NOT always correct because:
 
-NIT move this next to --len as it makes sense to me these operations are
-next to each other.
+when etnaviv_gem_prime_import_sg_table() is called,
 
-Otherwise LGTM.
+drm/etnaviv is importing buffer from other drivers (for example drm/loongson or drm/ingenic).
 
-Matt
+drm/etnaviv is the importer, and drm/loongson or drm/ingenic is the exporter.
 
->  
->  	/* Write H2G ensuring visable before descriptor update */
-> -	xe_map_memcpy_to(xe, &map, 0, cmd, cmd_len * sizeof(u32));
-> +	xe_map_memcpy_to(xe, &map, 0, cmd, H2G_CT_HEADERS * sizeof(u32));
-> +	xe_map_memcpy_to(xe, &map, H2G_CT_HEADERS * sizeof(u32), action, len * sizeof(u32));
->  	xe_device_wmb(ct_to_xe(ct));
->  
->  	/* Update local copies */
-> -	h2g->info.tail = (tail + cmd_len) % h2g->info.size;
-> -	h2g_reserve_space(ct, cmd_len);
-> +	h2g->info.tail = (tail + full_len) % h2g->info.size;
-> +	h2g_reserve_space(ct, full_len);
->  
->  	/* Update descriptor */
->  	desc_write(xe, h2g, tail, h2g->info.tail);
-> 
-> base-commit: f0727faae3ac98601f3f4299a967f26542b3e482
-> -- 
-> 2.39.0
-> 
+
+While drm/etnaviv using the WC mapping by default, which may cause *cache aliasing*,
+
+
+Because the imported buffer originally belong to the KMS driver side.
+
+The KMS driver may choose cached mapping by default.
+
+
+For drm/ingenic(jz4770), the BO will be cached, but their hardware can't guarantee coherency.
+
+they have to flush the cache manually when do the frame buffer update(damage update or dirty update).
+
+Because cached mapping is more fast than the WC mapping.
+
+
+
+
+For drm/loongson, shared buffer have to pinned into GTT,
+
+By default, we using the cached mapping for the buffers in the system RAM;
+
+But we are lucky, our the hardware bless us,
+
+the hardware maintain the cache coherency for us.
+
+
+While drm/etnaviv choose the WC mapping for the imported buffer blindly,
+
+when doing the import,
+
+*drm/etnaviv know nothing about the original buffer's caching property.*
+
+This is the problem.
+
+
+Currently, I guess drm/etnaviv only works for drm/imx,
+
+because drm/imx choose WC mapping as the cache property by default for 
+the dumb buffer.
+
+The cache property mapping match, so it works.
+
+But their no communications between the KMS driver and RO driver.
+
+
+I think, drm/etanviv will also wrong on the ARM64 platforms where cache 
+coherency is maintained by the hardware.
+
+If the KMS driver using cached mapping, while drm/etnaviv using WC mapping,
+
+There still will have problems.
+
+I will go to find the hardware, and do the testing for you.
+
+
+> If using WC
+> mappings cause a potential loss of coherency on your platform, then we
+> can not allow the userspace driver to use WC mappings.
+
+I have explained with my broken English,
+
+The point is that loss of coherency may because KMS-RO framework have 
+defect,
+
+maybe software side bug, please don't make the conclusion too fast.
+
+
+Xorg DDX driver (EXA base DDX for an example) fallback to the CPU do the 
+software rendering.
+
+It is even faster than the hardware accelerated implement,
+
+especially in the case where the CPU is fast and the GPU is weak.
+
+LS7A1000(GC1000) + LS3A5000@2.5Ghz X4 core is such a case.
+
+For Discrete on-board VRAM we will using the WC mapping, it will not be 
+shared with other driver,
+
+The CPU use it themself, this is definitionally OK.
+
+In practice, it works like a charm.
+
+For buffers in the system RAM and GTT,
+
+We will using cached mapping for faster CPU software rendering.
+
+hard-coded by the driver.
+
+
+We are benefited so much from the cached mapping.
+
+While when using write-combine caching mapping for a buffer on LoongArch 
+and Loongson Mips CPU,
+
+It is OK for CPU write.
+
+But when you want read from such buffer by the CPU, it is just boil down 
+to uncached.
+
+For our platform, uncached read serve as a kind of SYNC.
+
+It will flush the data in the CPU's write buffer.
+
+This cause performance drop.
+
+
+But we still can use the write-combine caching mapping in the 
+circumstances where do not need the CPU read.
+
+So allow write-combine is providing one more choice to the user-space,
+
+It is just that use it at your own risk.
+
+
+> As I would like to keep the option of WC mappings,
+
+Yeah, I know what's reason.
+
+Because on the platform you love (imx6q, imx8q, for an example),
+
+The hardware don't maintain the cache coherency.
+
+So if fallback to software rendering, you will need to flush the cache frequency.
+
+the performance will drop very much, right?
+
+
+-- 
+Jingfeng
+
