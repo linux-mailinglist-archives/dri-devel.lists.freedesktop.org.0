@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76D7873B158
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 09:27:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CF0573B15E
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 09:27:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2112510E5FA;
-	Fri, 23 Jun 2023 07:26:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71E6710E5FF;
+	Fri, 23 Jun 2023 07:26:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-54.mta1.migadu.com (out-54.mta1.migadu.com [95.215.58.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E92C910E504
+Received: from out-38.mta1.migadu.com (out-38.mta1.migadu.com [95.215.58.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0BA510E506
  for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 08:50:23 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1687423256;
+ t=1687423263;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UVc05N8TOGwuUUKoNz87gDn866CFxAmc8E1rcih1bqo=;
- b=pIkop2eQR4AzcvFtx0fKC5u74SQHEPst+ye/aRaIN/XLkXx9ENeAfcG9GarTuIM0jnpWjY
- wc1vZF+DfrPQmzmeUXoRrgWlfs5txUtNbBR8RjUQS7TF9I112ROw+Fu0aprW/Xjax/gTyt
- /OzCXh22MrqgNQholBQLGjBVav3coLY=
+ bh=Wvf6K8f0ibCbbBPSLzPuI3EieQihggBPVC6NaGqGSAA=;
+ b=j+7c8QSWFcXyxaKKuBM4GeMmLTA2HAlnyi3uYH8tMDK+AyZd0VP/hv4q2gOUq3N/kRiA4T
+ KkrjKn2/u+BKa5kHjWbSpVP512yylAb6LOOIyPKo6DOnVE0TNZkaj8fFOuY4ak/S6tGJxD
+ J7gjjwvWCDcPoW60P1I/vRMb7nYCHBw=
 From: Qi Zheng <qi.zheng@linux.dev>
 To: akpm@linux-foundation.org, david@fromorbit.com, tkhai@ya.ru,
  vbabka@suse.cz, roman.gushchin@linux.dev, djwong@kernel.org,
  brauner@kernel.org, paulmck@kernel.org, tytso@mit.edu
-Subject: [PATCH 08/29] md/raid5: dynamically allocate the md-raid5 shrinker
-Date: Thu, 22 Jun 2023 08:39:11 +0000
-Message-Id: <20230622083932.4090339-9-qi.zheng@linux.dev>
+Subject: [PATCH 09/29] bcache: dynamically allocate the md-bcache shrinker
+Date: Thu, 22 Jun 2023 08:39:12 +0000
+Message-Id: <20230622083932.4090339-10-qi.zheng@linux.dev>
 In-Reply-To: <20230622083932.4090339-1-qi.zheng@linux.dev>
 References: <20230622083932.4090339-1-qi.zheng@linux.dev>
 MIME-Version: 1.0
@@ -63,100 +63,102 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 From: Qi Zheng <zhengqi.arch@bytedance.com>
 
 In preparation for implementing lockless slab shrink,
-we need to dynamically allocate the md-raid5 shrinker,
+we need to dynamically allocate the md-bcache shrinker,
 so that it can be freed asynchronously using kfree_rcu().
 Then it doesn't need to wait for RCU read-side critical
-section when releasing the struct r5conf.
+section when releasing the struct cache_set.
 
 Signed-off-by: Qi Zheng <zhengqi.arch@bytedance.com>
 ---
- drivers/md/raid5.c | 28 +++++++++++++++++-----------
- drivers/md/raid5.h |  2 +-
- 2 files changed, 18 insertions(+), 12 deletions(-)
+ drivers/md/bcache/bcache.h |  2 +-
+ drivers/md/bcache/btree.c  | 23 ++++++++++++++---------
+ drivers/md/bcache/sysfs.c  |  2 +-
+ 3 files changed, 16 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/md/raid5.c b/drivers/md/raid5.c
-index f4eea1bbbeaf..4866cad1ad62 100644
---- a/drivers/md/raid5.c
-+++ b/drivers/md/raid5.c
-@@ -7391,7 +7391,7 @@ static void free_conf(struct r5conf *conf)
+diff --git a/drivers/md/bcache/bcache.h b/drivers/md/bcache/bcache.h
+index 700dc5588d5f..53c73b372e7a 100644
+--- a/drivers/md/bcache/bcache.h
++++ b/drivers/md/bcache/bcache.h
+@@ -541,7 +541,7 @@ struct cache_set {
+ 	struct bio_set		bio_split;
  
- 	log_exit(conf);
+ 	/* For the btree cache */
+-	struct shrinker		shrink;
++	struct shrinker		*shrink;
  
--	unregister_shrinker(&conf->shrinker);
-+	unregister_and_free_shrinker(conf->shrinker);
- 	free_thread_groups(conf);
- 	shrink_stripes(conf);
- 	raid5_free_percpu(conf);
-@@ -7439,7 +7439,7 @@ static int raid5_alloc_percpu(struct r5conf *conf)
- static unsigned long raid5_cache_scan(struct shrinker *shrink,
- 				      struct shrink_control *sc)
+ 	/* For the btree cache and anything allocation related */
+ 	struct mutex		bucket_lock;
+diff --git a/drivers/md/bcache/btree.c b/drivers/md/bcache/btree.c
+index 569f48958bde..1131ae91f62a 100644
+--- a/drivers/md/bcache/btree.c
++++ b/drivers/md/bcache/btree.c
+@@ -667,7 +667,7 @@ static int mca_reap(struct btree *b, unsigned int min_order, bool flush)
+ static unsigned long bch_mca_scan(struct shrinker *shrink,
+ 				  struct shrink_control *sc)
  {
--	struct r5conf *conf = container_of(shrink, struct r5conf, shrinker);
-+	struct r5conf *conf = shrink->private_data;
- 	unsigned long ret = SHRINK_STOP;
- 
- 	if (mutex_trylock(&conf->cache_size_mutex)) {
-@@ -7460,7 +7460,7 @@ static unsigned long raid5_cache_scan(struct shrinker *shrink,
- static unsigned long raid5_cache_count(struct shrinker *shrink,
- 				       struct shrink_control *sc)
+-	struct cache_set *c = container_of(shrink, struct cache_set, shrink);
++	struct cache_set *c = shrink->private_data;
+ 	struct btree *b, *t;
+ 	unsigned long i, nr = sc->nr_to_scan;
+ 	unsigned long freed = 0;
+@@ -734,7 +734,7 @@ static unsigned long bch_mca_scan(struct shrinker *shrink,
+ static unsigned long bch_mca_count(struct shrinker *shrink,
+ 				   struct shrink_control *sc)
  {
--	struct r5conf *conf = container_of(shrink, struct r5conf, shrinker);
-+	struct r5conf *conf = shrink->private_data;
+-	struct cache_set *c = container_of(shrink, struct cache_set, shrink);
++	struct cache_set *c = shrink->private_data;
  
- 	if (conf->max_nr_stripes < conf->min_nr_stripes)
- 		/* unlikely, but not impossible */
-@@ -7695,16 +7695,21 @@ static struct r5conf *setup_conf(struct mddev *mddev)
- 	 * it reduces the queue depth and so can hurt throughput.
- 	 * So set it rather large, scaled by number of devices.
- 	 */
--	conf->shrinker.seeks = DEFAULT_SEEKS * conf->raid_disks * 4;
--	conf->shrinker.scan_objects = raid5_cache_scan;
--	conf->shrinker.count_objects = raid5_cache_count;
--	conf->shrinker.batch = 128;
--	conf->shrinker.flags = 0;
--	ret = register_shrinker(&conf->shrinker, "md-raid5:%s", mdname(mddev));
-+	conf->shrinker = shrinker_alloc_and_init(raid5_cache_count,
-+						 raid5_cache_scan, 128,
-+						 DEFAULT_SEEKS * conf->raid_disks * 4,
-+						 0, conf);
-+	if (!conf->shrinker) {
-+		pr_warn("md/raid:%s: couldn't allocate shrinker.\n",
-+			mdname(mddev));
-+		goto abort;
+ 	if (c->shrinker_disabled)
+ 		return 0;
+@@ -752,8 +752,8 @@ void bch_btree_cache_free(struct cache_set *c)
+ 
+ 	closure_init_stack(&cl);
+ 
+-	if (c->shrink.list.next)
+-		unregister_shrinker(&c->shrink);
++	if (c->shrink->list.next)
++		unregister_and_free_shrinker(c->shrink);
+ 
+ 	mutex_lock(&c->bucket_lock);
+ 
+@@ -828,14 +828,19 @@ int bch_btree_cache_alloc(struct cache_set *c)
+ 		c->verify_data = NULL;
+ #endif
+ 
+-	c->shrink.count_objects = bch_mca_count;
+-	c->shrink.scan_objects = bch_mca_scan;
+-	c->shrink.seeks = 4;
+-	c->shrink.batch = c->btree_pages * 2;
++	c->shrink = shrinker_alloc_and_init(bch_mca_count, bch_mca_scan,
++					    c->btree_pages * 2, 4, 0, c);
++	if (!c->shrink) {
++		pr_warn("bcache: %s: could not allocate shrinker\n",
++				__func__);
++		return -ENOMEM;
 +	}
-+
-+	ret = register_shrinker(conf->shrinker, "md-raid5:%s", mdname(mddev));
- 	if (ret) {
- 		pr_warn("md/raid:%s: couldn't register shrinker.\n",
- 			mdname(mddev));
--		goto abort;
-+		goto abort_shrinker;
+ 
+-	if (register_shrinker(&c->shrink, "md-bcache:%pU", c->set_uuid))
++	if (register_shrinker(c->shrink, "md-bcache:%pU", c->set_uuid)) {
+ 		pr_warn("bcache: %s: could not register shrinker\n",
+ 				__func__);
++		shrinker_free(c->shrink);
++	}
+ 
+ 	return 0;
+ }
+diff --git a/drivers/md/bcache/sysfs.c b/drivers/md/bcache/sysfs.c
+index c6f677059214..771577581f52 100644
+--- a/drivers/md/bcache/sysfs.c
++++ b/drivers/md/bcache/sysfs.c
+@@ -866,7 +866,7 @@ STORE(__bch_cache_set)
+ 
+ 		sc.gfp_mask = GFP_KERNEL;
+ 		sc.nr_to_scan = strtoul_or_return(buf);
+-		c->shrink.scan_objects(&c->shrink, &sc);
++		c->shrink->scan_objects(c->shrink, &sc);
  	}
  
- 	sprintf(pers_name, "raid%d", mddev->new_level);
-@@ -7717,7 +7722,8 @@ static struct r5conf *setup_conf(struct mddev *mddev)
- 	}
- 
- 	return conf;
--
-+abort_shrinker:
-+	shrinker_free(conf->shrinker);
-  abort:
- 	if (conf)
- 		free_conf(conf);
-diff --git a/drivers/md/raid5.h b/drivers/md/raid5.h
-index 6a92fafb0748..806f84681599 100644
---- a/drivers/md/raid5.h
-+++ b/drivers/md/raid5.h
-@@ -670,7 +670,7 @@ struct r5conf {
- 	wait_queue_head_t	wait_for_stripe;
- 	wait_queue_head_t	wait_for_overlap;
- 	unsigned long		cache_state;
--	struct shrinker		shrinker;
-+	struct shrinker		*shrinker;
- 	int			pool_size; /* number of disks in stripeheads in pool */
- 	spinlock_t		device_lock;
- 	struct disk_info	*disks;
+ 	sysfs_strtoul_clamp(congested_read_threshold_us,
 -- 
 2.30.2
 
