@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C86FF73AF45
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 06:07:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D389D73AFC4
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 07:26:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC73710E5D0;
-	Fri, 23 Jun 2023 04:07:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40ACC10E5D2;
+	Fri, 23 Jun 2023 05:26:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B599910E5D0
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 04:07:42 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id
- ffacd0b85a97d-307d20548adso206243f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 21:07:42 -0700 (PDT)
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D2B410E5D2
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 05:26:01 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id
+ d9443c01a7336-1b6824141b4so10167935ad.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jun 2023 22:26:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687493259; x=1690085259;
- h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jfr4aHtExKCjhX8/rfHVnmOqxjAsOewVsr3RQTrb4Ps=;
- b=PZGIC4e5GlPnSZSwaatuVGl+7FwpRbN7D3kl8h7U/PdQzYuJZ2lfvZvnHezsX45RCY
- Ncv2PlGe8MIK5Y/SgLxIbNIt5sbIimMtFdiKyfmQI0MxvWlXuaxcdLFroNrQZDMuQqUt
- Ae8/EUwr02EsrhZJo2upRM3Xp/ZBXDWvmvGx+KB1eskjb1vIegE6UMOLCnzL0J0MiDaR
- UhKIZ1JhYkJnJ172G0Z3QOzBSQ/brHtGqSUpJQk40Qr+KhAylFeOGyBm8H/7sg7TKFkv
- h0WjtYvg5vP4FyghFdBc+1sGkAqvnzj+mwKGZV+ANz3tRf4UV8yFnqr1SkD0BwmsNf+a
- mEgQ==
+ d=chromium.org; s=google; t=1687497961; x=1690089961;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=I74A3FzNlMiWSwenHJ0qW6K9Kk3RrnXa52gDQFbNI94=;
+ b=FE8O7Vw+I3Rj3/ymdkfv8Bc+lpDZ080s6kF+VZ6KYuJ8IcvSDzEvJHrYtehbevzDKJ
+ k39KSog3mD45RBSDswKQweqzUA8WL0SL0uOXty3tY4QBaCgZzpYfPiVwVN0bS3NDj5Wp
+ Vlnc7que1gB/FOXny+Xqd3OrpA8296BqQ44lM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687493259; x=1690085259;
- h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jfr4aHtExKCjhX8/rfHVnmOqxjAsOewVsr3RQTrb4Ps=;
- b=GomfBAYzmrL+my47wdIxNaOWeJHyvMHCzAHa864uRHUh2ekHi8jp0YPNL4DDvPfTso
- x00rXAADn5wH1c5rJsKO73vKHUxZfwedpoDz7VU9YRECfnrZ9bTQCZYlumDIWBjZYLaP
- 8h6WeapOah7eM2OUGYhFvUZF9I/PkZvf5ukaTIe/ikYjTem+7cEZSIwrwRAXI3lTA+Uy
- Fzl94FwvvsKvbZw9BCVk/+uoaidOauFoK9Uac1FV4k4ljSXPMAUYuj49EqnsD8hqowbZ
- I4ZXl9g7AlTAMtjK0wyHPaJZaDbzIcOZz3044DZgxh4vC93l2GFgVDiuAgg7hoKcOvDO
- RL/w==
-X-Gm-Message-State: AC+VfDxQHMHxWbd/sk3CxsrLHtusjbp9k/1AzaGz9aaafa8PracAGUoJ
- C0ZuQxM0z/vnzxRRYjn1AQs=
-X-Google-Smtp-Source: ACHHUZ4bJ7yS6ZD3ioE6Qng90F9n0ELRAyLZg88+aPuX+QJBSsmH1HUmvPgTqornneVCSn8kwE3pTw==
-X-Received: by 2002:adf:d092:0:b0:307:7f38:37f with SMTP id
- y18-20020adfd092000000b003077f38037fmr13245166wrh.66.1687493259449; 
- Thu, 22 Jun 2023 21:07:39 -0700 (PDT)
-Received: from felia.fritz.box ([2a02:810d:7e40:14b0:851e:d01d:5e81:992f])
+ d=1e100.net; s=20221208; t=1687497961; x=1690089961;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=I74A3FzNlMiWSwenHJ0qW6K9Kk3RrnXa52gDQFbNI94=;
+ b=TZjozVpkdPCbu7ldR4Z7JgUqJF8xGTYupFaGZ5PAilDffHTmE27tyBjA8Eqt7nDQg6
+ s/NVwPpzbX6cbljvDMiaGONgPcdQMBY0QfPnMy8nYSRXl9VbO0+xYfsFg8osvnyTM6oz
+ rvcA/Fm1Hzx8fK9CBuOLl8ud608CXc5p/lmypg8Mlvu8QpVPEE5bI7Ig6HU54aMtO/0g
+ fJyrsQAjW/uOJ8/CRVpQ6YW0cX7SZjJ9h8SVVsYpTu8r2RYZ7TH49BFy/vZkOBPpn+a/
+ rCQqwSyeUjtsRYOtOf+SFbeHancdQD8CLiIPdU//EYkqOMWzb+0/h2QX1wI+2is/sPdg
+ I56A==
+X-Gm-Message-State: AC+VfDxuuTwXvT2Vk5R303gqhiYuhJOMJYewoYLaetSQFWx6fdOBTo3h
+ ISr92+5QOTDqOSFcprTrXusnog==
+X-Google-Smtp-Source: ACHHUZ5sPbLx4vVXAJjIGembGjCJJyMTydKicDo1snyQX4c1P9pglVj/z3vqORh1yZ2I9l32bGJbWQ==
+X-Received: by 2002:a17:902:ecc6:b0:1ae:8fa:cd4c with SMTP id
+ a6-20020a170902ecc600b001ae08facd4cmr41235916plh.7.1687497961344; 
+ Thu, 22 Jun 2023 22:26:01 -0700 (PDT)
+Received: from google.com ([2401:fa00:8f:203:3383:b451:fa2:1538])
  by smtp.gmail.com with ESMTPSA id
- b13-20020a5d4d8d000000b003048477729asm8445713wru.81.2023.06.22.21.07.38
+ c1-20020a170902d48100b00192aa53a7d5sm6288753plg.8.2023.06.22.22.25.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jun 2023 21:07:39 -0700 (PDT)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To: Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Linus Walleij <linus.walleij@linaro.org>, Helge Deller <deller@gmx.de>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH] MAINTAINERS: adjust entry in VIA UNICHROME(PRO)/CHROME9
- FRAMEBUFFER DRIVER
-Date: Fri, 23 Jun 2023 06:07:36 +0200
-Message-Id: <20230623040736.9026-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ Thu, 22 Jun 2023 22:26:00 -0700 (PDT)
+Date: Fri, 23 Jun 2023 14:25:54 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Qi Zheng <zhengqi.arch@bytedance.com>
+Subject: Re: [PATCH 29/29] mm: shrinker: move shrinker-related code into a
+ separate file
+Message-ID: <20230623052554.GA11471@google.com>
+References: <20230622085335.77010-1-zhengqi.arch@bytedance.com>
+ <20230622085335.77010-30-zhengqi.arch@bytedance.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230622085335.77010-30-zhengqi.arch@bytedance.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,40 +71,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org
+Cc: djwong@kernel.org, roman.gushchin@linux.dev, david@fromorbit.com,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linux-mm@kvack.org, dm-devel@redhat.com, linux-ext4@vger.kernel.org,
+ paulmck@kernel.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-nfs@vger.kernel.org,
+ linux-raid@vger.kernel.org, linux-bcache@vger.kernel.org, vbabka@suse.cz,
+ brauner@kernel.org, tytso@mit.edu, linux-kernel@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ akpm@linux-foundation.org, linux-btrfs@vger.kernel.org, tkhai@ya.ru
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit d4313a68ec91 ("fbdev/media: Use GPIO descriptors for VIA GPIO")
-moves via-gpio.h from include/linux to drivers/video/fbdev/via, but misses
-to adjust the file entry for the VIA UNICHROME(PRO)/CHROME9 FRAMEBUFFER
-DRIVER section.
+On (23/06/22 16:53), Qi Zheng wrote:
+> +/*
+> + * Remove one
+> + */
+> +void unregister_shrinker(struct shrinker *shrinker)
+> +{
+> +	struct dentry *debugfs_entry;
+> +	int debugfs_id;
+> +
+> +	if (!(shrinker->flags & SHRINKER_REGISTERED))
+> +		return;
+> +
+> +	shrinker_put(shrinker);
+> +	wait_for_completion(&shrinker->completion_wait);
+> +
+> +	mutex_lock(&shrinker_mutex);
+> +	list_del_rcu(&shrinker->list);
 
-Hence, ./scripts/get_maintainer.pl --self-test=patterns complains about a
-broken reference.
+Should this function wait for RCU grace period(s) before it goes
+touching shrinker fields?
 
-Remove the file entry in VIA UNICHROME(PRO)/CHROME9 FRAMEBUFFER DRIVER, as
-the new location of the header is already covered by the file entry
-drivers/video/fbdev/via/.
+> +	shrinker->flags &= ~SHRINKER_REGISTERED;
+> +	if (shrinker->flags & SHRINKER_MEMCG_AWARE)
+> +		unregister_memcg_shrinker(shrinker);
+> +	debugfs_entry = shrinker_debugfs_detach(shrinker, &debugfs_id);
+> +	mutex_unlock(&shrinker_mutex);
+> +
+> +	shrinker_debugfs_remove(debugfs_entry, debugfs_id);
+> +
+> +	kfree(shrinker->nr_deferred);
+> +	shrinker->nr_deferred = NULL;
+> +}
+> +EXPORT_SYMBOL(unregister_shrinker);
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
- MAINTAINERS | 1 -
- 1 file changed, 1 deletion(-)
+[..]
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 88954a1c0017..e12ac544aa9d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -22415,7 +22415,6 @@ L:	linux-fbdev@vger.kernel.org
- S:	Maintained
- F:	drivers/video/fbdev/via/
- F:	include/linux/via-core.h
--F:	include/linux/via-gpio.h
- F:	include/linux/via_i2c.h
- 
- VIA VELOCITY NETWORK DRIVER
--- 
-2.17.1
+> +void shrinker_free(struct shrinker *shrinker)
+> +{
+> +	kfree(shrinker);
+> +}
+> +EXPORT_SYMBOL(shrinker_free);
+> +
+> +void unregister_and_free_shrinker(struct shrinker *shrinker)
+> +{
+> +	unregister_shrinker(shrinker);
+> +	kfree_rcu(shrinker, rcu);
+> +}
 
+Seems like this
+
+	unregister_shrinker();
+	shrinker_free();
+
+is not exact equivalent of this
+
+	unregister_and_free_shrinker();
