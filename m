@@ -2,66 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0D8C73B10F
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 09:09:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D39F973B112
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 09:10:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1471710E5DA;
-	Fri, 23 Jun 2023 07:09:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B62AC10E5E0;
+	Fri, 23 Jun 2023 07:10:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BE1B10E5DA
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 07:09:39 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-3f9c0abc8b1so4358695e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 00:09:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687504177; x=1690096177;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=NUlOXzpEnkH3q1cc95AdkBJh0vWal6KWTs2QNs6rI+U=;
- b=mXg9l5wETaCUpr9HweJb7OH3tKGnZqNtzZghWCUyYBSNy66wufBr+GuOsdRmF5Zlmz
- 3G+vFRtp0vWKGLQVMATg/IoybYw16t9hNqbVfPf+zqAjYnhzwXKM57KCx+dtwE92NtQr
- k/3BmaHh5NctWgVHexu9yzBaZOizwyZFG6tkYaO1UZyk3txSpGDMIO/y3jKGV0Js9hve
- Mc71wAeIvCr4aKp7+ubgjiIosjs26aKS8nd6KvU71jZKrRUPMtedSbxhOa40P/X39/8y
- DTe/1xvHKZ0QgQnAtDS+AI3xqC+QSgs8x5fPcaWoac+hiPYagq2ZZka5WraYlDzSRpud
- UK2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687504177; x=1690096177;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=NUlOXzpEnkH3q1cc95AdkBJh0vWal6KWTs2QNs6rI+U=;
- b=Z94zvO61gVuZde5JDER+pgVrv9367N/1AUTh1ubAY89wXntxfhlmwu1RXT31QrMx/S
- yyK9MCrQyjfmwlZ6mrbRuSBlzLJowAayxTmaGvBCNjLy6XfYansKCilOW+MpMZjaVYRX
- hbajkKmXiHggQXpXkqyu6T3GJDn7nhW74fp6wzRsc+9xV0xjPObZt+7/v4WlcTXq7C6l
- wDzPGXVmOXNAiLD5RVh03YgDCIk5CSoEMk6/pa86dOiXFO8BFpSYwb2JsGeElioM7d4s
- IwLmMhxQ2dcnlkBvtB0yeSTEZRwnanxHJJ4Z2oDS3MTuDsKjSJA0Q0WlSZh3ynpQuqdg
- KETg==
-X-Gm-Message-State: AC+VfDwgifeJ8hFmRVm6s6LKhH/7G3Zh2dFs2cTK7n1l8aFYEt/zQv2+
- l6iHyAxxul5rFdT6SM9t7abgoz5WMdo=
-X-Google-Smtp-Source: ACHHUZ4EmklmpobWsc+ezXpeUpsClnC6sgtjG8ZisfSPVgMql2RTAg4X7DCZ0SOUIl2lIA8yK/ay2w==
-X-Received: by 2002:a7b:ce8a:0:b0:3f9:8c3:6805 with SMTP id
- q10-20020a7bce8a000000b003f908c36805mr15356559wmj.7.1687504176837; 
- Fri, 23 Jun 2023 00:09:36 -0700 (PDT)
-Received: from EliteBook.fritz.box ([2a00:e180:156c:b700:68ee:b0ee:362e:fab7])
- by smtp.gmail.com with ESMTPSA id
- a1-20020a05600c224100b003f9b44e5b7fsm1431914wmm.46.2023.06.23.00.09.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Jun 2023 00:09:36 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: dri-devel@lists.freedesktop.org,
-	Yunxiang.Li@amd.com
-Subject: [PATCH] drm/ttm: fix warning that we shouldn't mix && and ||
-Date: Fri, 23 Jun 2023 09:09:35 +0200
-Message-Id: <20230623070935.65102-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.34.1
+Received: from relay05.th.seeweb.it (relay05.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9776F10E5E0
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 07:10:03 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 68D083F64E;
+ Fri, 23 Jun 2023 09:10:01 +0200 (CEST)
+Date: Fri, 23 Jun 2023 09:10:00 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Ryan McCann <quic_rmccann@quicinc.com>
+Subject: Re: [PATCH 0/6] Add support to print sub block registers in dpu hw
+ catalog
+Message-ID: <nywovdd4op22ylnrntqx2f6x2plmfrxsgsirq6vmqu2eemulzq@z5sc2kmypl74>
+References: <20230622-devcoredump_patch-v1-0-3b2cdcc6a576@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230622-devcoredump_patch-v1-0-3b2cdcc6a576@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,31 +43,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ quic_jesszhan@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Trivial warning fix.
+It is nice if cover letters also include the subsystem:
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Fixes: 4481913607e5 ("drm/ttm: fix bulk_move corruption when adding a entry")
----
- drivers/gpu/drm/ttm/ttm_resource.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+drm/msm: Add support to print DPU sub-block registers
 
-diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-index e51dbc7a2d53..46ff9c75bb12 100644
---- a/drivers/gpu/drm/ttm/ttm_resource.c
-+++ b/drivers/gpu/drm/ttm/ttm_resource.c
-@@ -114,7 +114,7 @@ static void ttm_lru_bulk_move_del(struct ttm_lru_bulk_move *bulk,
- 	struct ttm_lru_bulk_move_pos *pos = ttm_lru_bulk_move_pos(bulk, res);
- 
- 	if (unlikely(WARN_ON(!pos->first || !pos->last) ||
--		     pos->first == res && pos->last == res)) {
-+		     (pos->first == res && pos->last == res))) {
- 		pos->first = NULL;
- 		pos->last = NULL;
- 	} else if (pos->first == res) {
--- 
-2.34.1
+On 2023-06-22 16:48:52, Ryan McCann wrote:
+> The purpose of this patch series is to add support to print the registers
+> of sub blocks in the dpu hardware catalog and fix the order in which all
 
+Global nit: I think we previously settled on "sblk" or "sub-block(s)",
+not "sub blocks".
+
+And capitalize DPU.
+
+> hardware blocks are dumped for a device core dump. This involves:
+> 
+> 1. Changing data structure from stack to queue to fix the printing order
+> of the device core dump.
+> 
+> 2. Removing redundant suffix of sub block names.
+> 
+> 3. Removing redundant prefix of sub block names.
+> 
+> 4. Eliminating unused variable from relevant macros.
+
+Dmitry has been doing that in one of his DPU catalog reworks.
+
+> 5. Defining names for sub blocks that have not yet been defined.
+
+Let's see what this means, because the code logic should already be able
+to figure this out (and in some places we can perhaps delete the name
+entirely).
+
+> 6. Implementing wrapper function that prints the registers of sub blocks
+> when there is a need.
+
+Thought this could be rather automated, but let me see what it means in
+the patches.
+
+> Sample Output of the sspp_0 block and its sub blocks for devcore dump:
+> ======sspp_0======
+> ...registers
+> ...
+> ====sspp_0_scaler====
+
+My suggestion would be to put less emphasis on this header with:
+
+    ----sspp_0_scaler----
+
+So that it becomes obvious that this is a sblk of the ====sspp_0====
+above.
+
+> ...
+> ...
+> ====sspp_0_csc====
+> ...
+> ...
+> ====next_block====
+> ...
+> 
+> Signed-off-by: Ryan McCann <quic_rmccann@quicinc.com>
+
+No need for sign-off in cover letters.
+
+- Marijn
+
+> ---
+> Ryan McCann (6):
+>       drm/msm: Update dev core dump to not print backwards
+>       drm/msm/dpu: Drop unused num argument from relevant macros
+>       drm/msm/dpu: Define names for unnamed sblks
+>       drm/msm/dpu: Remove redundant suffix in name of sub blocks
+>       drm/msm/disp: Remove redundant prefix in name of sub blocks
+>       drm/msm/dpu: Update dev core dump to dump registers of sub blocks
+> 
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  90 +++++-----
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c           | 194 +++++++++++++++++++---
+>  drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c |   2 +-
+>  3 files changed, 214 insertions(+), 72 deletions(-)
+> ---
+> base-commit: 710025fdedb3767655823c3a12d27d404d209f75
+> change-id: 20230622-devcoredump_patch-df7e8f6fd632
+> 
+> Best regards,
+> -- 
+> Ryan McCann <quic_rmccann@quicinc.com>
+> 
