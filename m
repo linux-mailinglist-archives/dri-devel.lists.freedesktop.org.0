@@ -2,108 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0C5873BCBE
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 18:38:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1793D73BCC3
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 18:38:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 977A210E677;
-	Fri, 23 Jun 2023 16:38:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 037F810E676;
+	Fri, 23 Jun 2023 16:38:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2043.outbound.protection.outlook.com [40.107.243.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A51310E677
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 16:38:02 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RBQFplLKpfGhC18vd4W9UPypP3RqoqaF1rNFxJZTl28OiuYYL7A/3URuyFHZEDnGWnH4IuCT4YRDA/qGBd+tFhHuhWIfzt3oPQdyG1+ZJNEmSN7Wo+/eMFMTWweDMJ5DEO9JZO901BntYIPmaVWcbdDty2OO9Sy3ZJPiC6KqMVQqMlFUXkv4rBn5KDrRJPeSgz+pR4VmzWy5Cb6N77ATjm4xr3hE3CiyPfwRrR9IANn6UY9WDL09XG4sVrZWKYVNHTu3OI7cHbpRsvEJzro+lZoES1mf8kwYoroaqSnJshgaFHDCbUD7NZaFIvO1emUwN/4CiqYwjV4HiGQj5STr4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lypI+WPp0qCR6UgZQBoFhsFADNaan/psXzLEMjiwNRA=;
- b=amRMTgYwL5XG2SrogwIMhyfwz64Tvt+2fXeufaVaM5kH7HAojpozYxYyEmctG+7MmK/spyH+7mfWcq9DQ7ZUxI0uzBEj8XRRdGQNmHg1D1qMP3wwmyfvDsjcqXmHzrTaAZNnSUwjK+yvTpg//XeVwRxBBGhHS5kH+EVhpjeTyxodWGTssqoRxM7aK5ynauDrz3OHXi4VHnoS5lnArtR4yi08PYnEATZznmxRd2XTBvbds8CpNjarsg+uDHeIUaqT6vgHH1roL9ETaH+4WSyA+E30MzyfBqj34ZgeHsqNuT2PAJZzF8m9RUENiVAFlKI9XcPMRAEUg9y1W5h+d4c2pQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lypI+WPp0qCR6UgZQBoFhsFADNaan/psXzLEMjiwNRA=;
- b=KwtzTbzbOI7rc2CDJrlrwrbqRvEsYF2hy7xcW9iCOl2VUiorwi5pj5KsL1JSpbw1uP9BSp4o6PzO1++6QEFFPezQeCk6xRKXLTEqjsVX9cREFuSeyjOCwtirBwd+JKEsPlpLuUk8al2VZs4m3GQ7aQIxZLDupSmukgwtvP3IvIjEGAcFQ87NCp+RttqvtP1YvWmzQX49nfiOaZBuaIsohSRDatFaZZOorjME0ZWxXJy5GmLbpxSHv0K3iph3rEZNHlgg4T61HEAj4ZHAQk11Liwm7xA5sRqvuUsHF+ymv6DXzKYtTUQ1e9z6IlGODnjBTy3i9G5cLpS2Rrb9lO2hjQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by PH7PR12MB8014.namprd12.prod.outlook.com (2603:10b6:510:27c::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.24; Fri, 23 Jun
- 2023 16:38:00 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::f7a7:a561:87e9:5fab]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::f7a7:a561:87e9:5fab%7]) with mapi id 15.20.6521.024; Fri, 23 Jun 2023
- 16:37:59 +0000
-Date: Fri, 23 Jun 2023 13:37:58 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v1 0/2] udmabuf: Add back support for mapping hugetlb pages
-Message-ID: <ZJXKZkxDKYxaJI/1@nvidia.com>
-References: <20230622072710.3707315-1-vivek.kasireddy@intel.com>
- <6e429fbc-e0e6-53c0-c545-2e2cbbe757de@redhat.com>
- <IA0PR11MB718510999F2C0E2B70914E2AF823A@IA0PR11MB7185.namprd11.prod.outlook.com>
- <ZJXJ4ULRKVN5JPyv@x1n>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZJXJ4ULRKVN5JPyv@x1n>
-X-ClientProxiedBy: CH0P221CA0046.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:610:11d::19) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
+ [209.85.208.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C691A10E676;
+ Fri, 23 Jun 2023 16:38:52 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id
+ 38308e7fff4ca-2b5910c231bso2933091fa.0; 
+ Fri, 23 Jun 2023 09:38:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687538331; x=1690130331;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Mx2hGcoM9nMJ5B1yumLCPQFaFEylVPn0NXtUazu6c7s=;
+ b=Sf9q2WftIpzLcICdzQ7HRE7n9g+SIRq5pvnO1C94vzUO21kPKk3b7gcD4a/otJmrVs
+ cCbQu8gqY2QbLkG69TMJPSog6IFdst4D4ec5qNJ8gSR3psmmVOudHs079mlbzG9lsPW9
+ p1wn3mMXG5i4GfTX0p+g8UC+5PkJ5liIiH7L7WIel4bZxbbzopYUE168hDxRbt8gl0tg
+ u9p7muEu/VRcaxkBhLYOk0W7E84h1hB9CDcw/RbRpCuLUG2RFSEuWpaEO9yJtI+vkwAv
+ GHE/DQpiYA3biyraprIu/0LIVYrCAV+3FUCL74NUZR0W2k1BLcGi9bih6Q7LBvkaD0F5
+ Y5Eg==
+X-Gm-Message-State: AC+VfDzoqAxh3Zlktoh3AmGX9CX0V0WbUlMWM91z3NwG5vcZr5QShFys
+ dGyzqcczj/z9kVE5kzPu3Ff4IePbLY163d21XrTmy6N4
+X-Google-Smtp-Source: ACHHUZ69XDB4QsWg7aegIqf61bPD9nYqJdOwGBQjGBmh6nChdsk7tSQhI88TrGx8aR//M9ebB5ty7XYUZiU8BU/4D1U=
+X-Received: by 2002:a2e:b80f:0:b0:2b4:67bd:4367 with SMTP id
+ u15-20020a2eb80f000000b002b467bd4367mr9886059ljo.5.1687538330589; Fri, 23 Jun
+ 2023 09:38:50 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|PH7PR12MB8014:EE_
-X-MS-Office365-Filtering-Correlation-Id: e2390ab8-ce88-4a4d-55ad-08db740834ae
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bDFtZofFr7ksPlgjJOzvYWIcSpfGZbNfdhd2yjQeATB32wDXvGWhsQAL0+gsRkc3fSUzZgtJ+6KzYsTGs+rUQ8EHWZ7pSrBzxODHcJuCy3XgTOLRfPFY97t7hfSNhWtivgfff/XGNyX2mCewl/IEEo7ZWLd7xVln1yiX3TUQSXxAtbE3RhdCfBbioySKY++Dz8NPefZi/5QgrE7DCQbfJGWCKoVpRHPqFoTFaT+6WZKJL+2IrRuBy7kq7/KCAiZnfUzkR8zrrJ4jVt+yY9q/FbUzwyD7yGkVN0fsQ9VoLZff/3Wq8jK4F2Zdy95XCHON1IuyeEpcCktcmim3esyRP9ltdxub1CwrKtZ3WKqphC1pMeHmBK4oS+Ry2lBGaDX0K6l1sqNMIV8jaUFzLZiKAZWastJUQC+tPpOekWPTWMHzEdalQYWOHDPbS1hOz/tu5XUaiO2vw/RjHTMR9Bpa3DBttShnHXgwxh7cGaZXYD+XKeF6gedQfwdhO+vptvgzxDhEWpYrLtkCbNEhyOc/oMWGKD9zkrGacxWBxE1Tly6RHIKTvbhy4Pve0eYSRLdp255Ri5wAW/HqgUt7HuByWw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(396003)(136003)(346002)(366004)(39860400002)(376002)(451199021)(478600001)(4744005)(2906002)(54906003)(38100700002)(2616005)(36756003)(5660300002)(966005)(6486002)(66946007)(66556008)(66476007)(6916009)(4326008)(316002)(41300700001)(8936002)(86362001)(7416002)(8676002)(6506007)(6512007)(107886003)(186003)(26005);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YYDHj+d91MMI/VIlxHh1mJipjj7hsXxhVscnjMcClMsdoc3Jn+J8syoNvM+B?=
- =?us-ascii?Q?pRViWXDsVNbTjinRbqDlNYN/02BLJtwxL6RZDK/2VsNwD88gg49KTDSC2UjL?=
- =?us-ascii?Q?m2RrYdZDbsACv1LU+0LkuYC/8xy3dNznx6mF0zdtMyaPLOWCA1OUq2RsA7ls?=
- =?us-ascii?Q?7rD+0xjOUNMj2kwbrQ0/OdwnZWVfOl5F8Z+8rNDQ6gwuvCbu580stonxI3UA?=
- =?us-ascii?Q?JgzuSYCOj+wIHVJni/la5MJoQO849aErvMC0Sx480TlRSEfjn9stshWLDMAF?=
- =?us-ascii?Q?eeFPSWP5SAQ12h4BvCTg2dIogqqM4JG3DgVj/Ei407761Nh+QvNaiH6OLZgw?=
- =?us-ascii?Q?Pd15bcTa2WRT3wQKSvuGL4A5h28018JJTDvt0mjbbtXurfSsFyugZNqjZilG?=
- =?us-ascii?Q?g+rAqDJ698ZGSHcQHsLCADecxH868nXVVsEgo/uLQEDVNdDkqDPghqa6DuDh?=
- =?us-ascii?Q?LWGi1Z4nsRJiaF3TgZ9zvmjKry1hneXtaQoMcB4EbL74w3qEppuwt6N5QTbp?=
- =?us-ascii?Q?qAmf2khDxMkw4oav8Rv2+vRtSRDEvsj4AhL7RpETPFWB1KxWKF0y4nTez7OG?=
- =?us-ascii?Q?kkRf1FfNpWxVLlyA4s+iGVruZEkQFcuifbOBzgE86jghtFHkYy14D6JeQNXK?=
- =?us-ascii?Q?7yx0ox1+msIK+MBSx9xdUUP0IAqgU8tGECzOOXcRo31ssreo8xameZrJ5+5O?=
- =?us-ascii?Q?+kaI0D+0XRz5USXn1nfInXVW5mw/MUvKgs2VWEVt1/fh3XfjrZSkkt6LMGxW?=
- =?us-ascii?Q?/ABwbe+MkMhp+0Lp6zn8ng2XwKEC515JgbBbcBGB9skM6QkAl5kxBXh6rMXI?=
- =?us-ascii?Q?/Tc8VBfosn6Ew8lKgwBUpdvKh1Q05FTNFXPFWF6Li9QXHRQ1MOpZKmnAoNsx?=
- =?us-ascii?Q?ein2AjgaM+Je7N5bysTJU+3TRkyrrDcYvvw4n7MkKgnD1XGBrsSgPfjoDmUw?=
- =?us-ascii?Q?QoWEz2XhvPBMj1untZMAqJM0APVfyln6xXGqmobyF3SzNadXvMnNzW2in6wb?=
- =?us-ascii?Q?LcqTSoJ2VGt5OMBu9PMPDXL8lCf90IQrJeFT+IW2h16hkBZxZXabRfCcpTHM?=
- =?us-ascii?Q?woL4EB3amPvU3/P+0aYcU/JSFB6FWD5U9c9z6ZAvCMsN32WgHGBcg7F4zJ3Y?=
- =?us-ascii?Q?+75iPHY01u9s0FrFgR6aVDCUO9qbRBgHOAqkHiNU1kW3XsGdSJNfkZ6gaNcA?=
- =?us-ascii?Q?4VuTB4a8ur2+pp0kKz9LPwos8451RjMTkURSSP9g6YXoVDEds3JUGtjopPL0?=
- =?us-ascii?Q?TQtH+919r3sePDa1jNi+IA3N5JsBG785Fz5pZkVVto5yGG/4TZUVbRRr6FNm?=
- =?us-ascii?Q?GD1sR7PVhwZdBU9MTevZplEMksrrUJBzK4L6VV1fpdt2we5c/+f3QBPiphvU?=
- =?us-ascii?Q?UPNJBIRAsrc0bpVyJ7se3vFAkBFW6AuzfEkBlqpaj8VfAFDsjEN46dxalB65?=
- =?us-ascii?Q?MfTTf3KTR4qx+23shkZulq/7kBluzwGUWTVNmXfBMwXzfzqlyNva+OskmA2J?=
- =?us-ascii?Q?jfSpaL0Z3HH7F4Maae7H33j1ZNeFD4TWZireQptPoq4Ycz1iLU6YBKSWQhFp?=
- =?us-ascii?Q?8Qe1XJ0X++d3BZr8W/vcw1PkNr5QB0Wvq5bJr+Yc?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e2390ab8-ce88-4a4d-55ad-08db740834ae
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2023 16:37:59.6685 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: M5sAW2S9O8veYqGKI4pJi6mOYTUKhs/iWrrNAnIKr+HQVN6MD0KUOOKu69Yid/uk
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8014
+References: <20230621054603.1262299-1-evan.quan@amd.com>
+ <20230621054603.1262299-2-evan.quan@amd.com>
+In-Reply-To: <20230621054603.1262299-2-evan.quan@amd.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Fri, 23 Jun 2023 18:38:39 +0200
+Message-ID: <CAJZ5v0gDCa0fC5V6NRg2c4MPvS70fYZg9x+K=TiQi033_G9Caw@mail.gmail.com>
+Subject: Re: [PATCH V4 1/8] drivers/acpi: Add support for Wifi band RF
+ mitigations
+To: Evan Quan <evan.quan@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,42 +58,412 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: James Houghton <jthoughton@google.com>,
- Jerome Marchand <jmarchan@redhat.com>, "Kim, Dongwon" <dongwon.kim@intel.com>,
- David Hildenbrand <david@redhat.com>, "Chang,
- Junxiao" <junxiao.chang@intel.com>, Muchun Song <muchun.song@linux.dev>,
- "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>, "Hocko, Michal" <mhocko@suse.com>,
- Gerd Hoffmann <kraxel@redhat.com>, John Hubbard <jhubbard@nvidia.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Mike Kravetz <mike.kravetz@oracle.com>
+Cc: jingyuwang_vip@163.com, bellosilicio@gmail.com, rafael@kernel.org,
+ trix@redhat.com, lijo.lazar@amd.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, mdaenzer@redhat.com, mario.limonciello@amd.com,
+ amd-gfx@lists.freedesktop.org, linux-acpi@vger.kernel.org, kuba@kernel.org,
+ pabeni@redhat.com, lenb@kernel.org, andrealmeid@igalia.com, arnd@arndb.de,
+ hdegoede@redhat.com, netdev@vger.kernel.org, Xinhui.Pan@amd.com,
+ linux-wireless@vger.kernel.org, edumazet@google.com, christian.koenig@amd.com,
+ tzimmermann@suse.de, alexander.deucher@amd.com, johannes@sipsolutions.net,
+ davem@davemloft.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 23, 2023 at 12:35:45PM -0400, Peter Xu wrote:
+On Wed, Jun 21, 2023 at 7:47=E2=80=AFAM Evan Quan <evan.quan@amd.com> wrote=
+:
+>
+> From: Mario Limonciello <mario.limonciello@amd.com>
+>
+> Due to electrical and mechanical constraints in certain platform designs
+> there may be likely interference of relatively high-powered harmonics of
+> the (G-)DDR memory clocks with local radio module frequency bands used
+> by Wifi 6/6e/7.
+>
+> To mitigate this, AMD has introduced an ACPI based mechanism that
+> devices can use to notify active use of particular frequencies so
+> that devices can make relative internal adjustments as necessary
+> to avoid this resonance.
+>
+> In order for a device to support this, the expected flow for device
+> driver or subsystems:
+>
+> Drivers/subsystems contributing frequencies:
+>
+> 1) During probe, check `wbrf_supported_producer` to see if WBRF supported
+>    for the device.
+> 2) If adding frequencies, then call `wbrf_add_exclusion` with the
+>    start and end ranges of the frequencies.
+> 3) If removing frequencies, then call `wbrf_remove_exclusion` with
+>    start and end ranges of the frequencies.
+>
+> Drivers/subsystems responding to frequencies:
+>
+> 1) During probe, check `wbrf_supported_consumer` to see if WBRF is suppor=
+ted
+>    for the device.
+> 2) Call the `wbrf_retrieve_exclusions` to retrieve the current
+>    exclusions on receiving an ACPI notification for a new frequency
+>    change.
+>
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> Co-developed-by: Evan Quan <evan.quan@amd.com>
+> Signed-off-by: Evan Quan <evan.quan@amd.com>
+> --
+> v1->v2:
+>   - move those wlan specific implementations to net/mac80211(Mario)
+> ---
+>  drivers/acpi/Kconfig     |   7 ++
+>  drivers/acpi/Makefile    |   2 +
+>  drivers/acpi/acpi_wbrf.c | 215 +++++++++++++++++++++++++++++++++++++++
+>  include/linux/wbrf.h     |  55 ++++++++++
+>  4 files changed, 279 insertions(+)
+>  create mode 100644 drivers/acpi/acpi_wbrf.c
+>  create mode 100644 include/linux/wbrf.h
+>
+> diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
+> index ccbeab9500ec..0276c1487fa2 100644
+> --- a/drivers/acpi/Kconfig
+> +++ b/drivers/acpi/Kconfig
+> @@ -611,3 +611,10 @@ config X86_PM_TIMER
+>
+>           You should nearly always say Y here because many modern
+>           systems require this timer.
+> +
+> +config ACPI_WBRF
+> +       bool "ACPI Wifi band RF mitigation mechanism"
+> +       help
+> +         Wifi band RF mitigation mechanism allows multiple drivers from
+> +         different domains to notify the frequencies in use so that hard=
+ware
+> +         can be reconfigured to avoid harmonic conflicts.
+> diff --git a/drivers/acpi/Makefile b/drivers/acpi/Makefile
+> index feb36c0b9446..14863b0c619f 100644
+> --- a/drivers/acpi/Makefile
+> +++ b/drivers/acpi/Makefile
+> @@ -131,3 +131,5 @@ obj-y                               +=3D dptf/
+>  obj-$(CONFIG_ARM64)            +=3D arm64/
+>
+>  obj-$(CONFIG_ACPI_VIOT)                +=3D viot.o
+> +
+> +obj-$(CONFIG_ACPI_WBRF)                +=3D acpi_wbrf.o
+> diff --git a/drivers/acpi/acpi_wbrf.c b/drivers/acpi/acpi_wbrf.c
+> new file mode 100644
+> index 000000000000..8c275998ac29
+> --- /dev/null
+> +++ b/drivers/acpi/acpi_wbrf.c
+> @@ -0,0 +1,215 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * AMD Wifi Band Exclusion Interface
 
-> It seems the previous concern on using gup was majorly fork(), if this is it:
-> 
-> https://patchwork.freedesktop.org/patch/210992/?series=39879&rev=2#comment_414213
+Where is the AML interface for this defined and how does it work?
 
-Fork and GUP have been fixed since that comment anyhow there is no
-longer a problem using GUP and fork together.
+> + * Copyright (C) 2023 Advanced Micro Devices
+> + *
+> + */
+> +
+> +#include <linux/wbrf.h>
+> +
+> +/* functions */
+> +#define WBRF_RECORD            0x1
+> +#define WBRF_RETRIEVE          0x2
+> +
+> +/* record actions */
+> +#define WBRF_RECORD_ADD                0x0
+> +#define WBRF_RECORD_REMOVE     0x1
+> +
+> +#define WBRF_REVISION          0x1
+> +
+> +static const guid_t wifi_acpi_dsm_guid =3D
+> +       GUID_INIT(0x7b7656cf, 0xdc3d, 0x4c1c,
+> +                 0x83, 0xe9, 0x66, 0xe7, 0x21, 0xde, 0x30, 0x70);
+> +
+> +static int wbrf_dsm(struct acpi_device *adev, u8 fn,
+> +                   union acpi_object *argv4,
+> +                   union acpi_object **out)
+> +{
+> +       union acpi_object *obj;
+> +       int rc;
+> +
+> +       obj =3D acpi_evaluate_dsm(adev->handle, &wifi_acpi_dsm_guid,
+> +                               WBRF_REVISION, fn, argv4);
+> +       if (!obj)
+> +               return -ENXIO;
+> +
+> +       switch (obj->type) {
+> +       case ACPI_TYPE_BUFFER:
+> +               if (!*out) {
+> +                       rc =3D -EINVAL;
+> +                       break;
 
-> Could it also be guarded by just making sure the pages are MAP_SHARED when
-> creating the udmabuf, if fork() is a requirement of the feature?
+I'm not sure why you want to return an error in this case.  Did you
+really mean !out?
 
-Also a resaonable thing to do
+> +               }
+> +               *out =3D obj;
+> +               return 0;
+> +
+> +       case ACPI_TYPE_INTEGER:
+> +               rc =3D  obj->integer.value ? -EINVAL : 0;
+> +               break;
 
-> For instance, what if the userapp just punchs a hole in the shmem/hugetlbfs
-> file after creating the udmabuf (I see that F_SEAL_SHRINK is required, but
-> at least not F_SEAL_WRITE with current impl), and fault a new page into the
-> page cache?
+An empty line here, please, as you added one after the return statement abo=
+ve.
 
-It becomes incoherent just like all other GUP users if userspace
-explicitly manipulates the VMAs. It is no different to what happens
-with VFIO, qemu should treat this memory the same as it does for VFIO
-memory.
+> +       default:
+> +               rc =3D -EOPNOTSUPP;
+> +       }
+> +       ACPI_FREE(obj);
+> +
+> +       return rc;
 
-Jason
+How does the caller know whether or not they need to free the out
+object after calling this function?
+
+> +}
+> +
+> +static int wbrf_record(struct acpi_device *adev, uint8_t action,
+> +                      struct wbrf_ranges_in *in)
+> +{
+> +       union acpi_object *argv4;
+> +       uint32_t num_of_ranges =3D 0;
+> +       uint32_t arg_idx =3D 0;
+> +       uint32_t loop_idx;
+> +       int ret;
+> +
+> +       if (!in)
+> +               return -EINVAL;
+> +
+> +       for (loop_idx =3D 0; loop_idx < ARRAY_SIZE(in->band_list);
+> +            loop_idx++)
+> +               if (in->band_list[loop_idx].start &&
+> +                   in->band_list[loop_idx].end)
+> +                       num_of_ranges++;
+> +
+> +       argv4 =3D kzalloc(sizeof(*argv4) * (2 * num_of_ranges + 2 + 1), G=
+FP_KERNEL);
+> +       if (!argv4)
+> +               return -ENOMEM;
+> +
+> +       argv4[arg_idx].package.type =3D ACPI_TYPE_PACKAGE;
+> +       argv4[arg_idx].package.count =3D 2 + 2 * num_of_ranges;
+> +       argv4[arg_idx++].package.elements =3D &argv4[1];
+> +       argv4[arg_idx].integer.type =3D ACPI_TYPE_INTEGER;
+> +       argv4[arg_idx++].integer.value =3D num_of_ranges;
+> +       argv4[arg_idx].integer.type =3D ACPI_TYPE_INTEGER;
+> +       argv4[arg_idx++].integer.value =3D action;
+> +
+> +       for (loop_idx =3D 0; loop_idx < ARRAY_SIZE(in->band_list);
+> +            loop_idx++) {
+> +               if (!in->band_list[loop_idx].start ||
+> +                   !in->band_list[loop_idx].end)
+> +                       continue;
+> +
+> +               argv4[arg_idx].integer.type =3D ACPI_TYPE_INTEGER;
+> +               argv4[arg_idx++].integer.value =3D in->band_list[loop_idx=
+].start;
+> +               argv4[arg_idx].integer.type =3D ACPI_TYPE_INTEGER;
+> +               argv4[arg_idx++].integer.value =3D in->band_list[loop_idx=
+].end;
+> +       }
+> +
+> +       ret =3D wbrf_dsm(adev, WBRF_RECORD, argv4, NULL);
+> +
+> +       kfree(argv4);
+> +
+> +       return ret;
+> +}
+> +
+> +int wbrf_add_exclusion(struct acpi_device *adev,
+> +                      struct wbrf_ranges_in *in)
+> +{
+> +       return wbrf_record(adev, WBRF_RECORD_ADD, in);
+> +}
+> +EXPORT_SYMBOL_GPL(wbrf_add_exclusion);
+> +
+> +int wbrf_remove_exclusion(struct acpi_device *adev,
+> +                         struct wbrf_ranges_in *in)
+> +{
+> +       return wbrf_record(adev, WBRF_RECORD_REMOVE, in);
+> +}
+> +EXPORT_SYMBOL_GPL(wbrf_remove_exclusion);
+> +
+> +bool wbrf_supported_producer(struct acpi_device *adev)
+> +{
+> +       return acpi_check_dsm(adev->handle, &wifi_acpi_dsm_guid,
+> +                             WBRF_REVISION,
+> +                             (1ULL << WBRF_RECORD) | (1ULL << WBRF_RETRI=
+EVE));
+
+I'm wondering if the BIT() macro would work here (and below).
+
+> +}
+> +EXPORT_SYMBOL_GPL(wbrf_supported_producer);
+> +
+> +static union acpi_object *
+> +acpi_evaluate_wbrf(acpi_handle handle, u64 rev, u64 func)
+> +{
+> +       acpi_status ret;
+> +       struct acpi_buffer buf =3D {ACPI_ALLOCATE_BUFFER, NULL};
+> +       union acpi_object params[4];
+> +       struct acpi_object_list input =3D {
+> +               .count =3D 4,
+> +               .pointer =3D params,
+> +       };
+> +
+> +       params[0].type =3D ACPI_TYPE_INTEGER;
+> +       params[0].integer.value =3D rev;
+> +       params[1].type =3D ACPI_TYPE_INTEGER;
+> +       params[1].integer.value =3D func;
+> +       params[2].type =3D ACPI_TYPE_PACKAGE;
+> +       params[2].package.count =3D 0;
+> +       params[2].package.elements =3D NULL;
+> +       params[3].type =3D ACPI_TYPE_STRING;
+> +       params[3].string.length =3D 0;
+> +       params[3].string.pointer=3D NULL;
+> +
+> +       ret =3D acpi_evaluate_object(handle, "WBRF", &input, &buf);
+> +       if (ACPI_SUCCESS(ret))
+> +               return (union acpi_object *)buf.pointer;
+> +
+> +       if (ret !=3D AE_NOT_FOUND)
+> +               acpi_handle_warn(handle,
+> +                                "failed to evaluate WBRF(0x%x)\n", ret);
+
+Why _warn()?
+
+> +
+> +       return NULL;
+> +}
+> +
+> +static bool check_acpi_wbrf(acpi_handle handle, u64 rev, u64 funcs)
+> +{
+> +       int i;
+> +       u64 mask =3D 0;
+> +       union acpi_object *obj;
+> +
+> +       if (funcs =3D=3D 0)
+> +               return false;
+> +
+> +       obj =3D acpi_evaluate_wbrf(handle, rev, 0);
+> +       if (!obj)
+> +               return false;
+> +
+> +       if (obj->type !=3D ACPI_TYPE_BUFFER)
+> +               return false;
+> +
+> +       for (i =3D 0; i < obj->buffer.length && i < 8; i++)
+> +               mask |=3D (((u64)obj->buffer.pointer[i]) << (i * 8));
+
+What is going on here?  Any comment to explain it?
+
+> +       ACPI_FREE(obj);
+> +
+> +       /*
+> +        * Bit 0 indicates whether there's support for any functions othe=
+r than
+> +        * function 0.
+> +        */
+> +       if ((mask & 0x1) && (mask & funcs) =3D=3D funcs)
+> +               return true;
+> +
+> +       return false;
+> +}
+> +
+> +bool wbrf_supported_consumer(struct acpi_device *adev)
+> +{
+> +       return check_acpi_wbrf(adev->handle,
+> +                              WBRF_REVISION,
+> +                              1ULL << WBRF_RETRIEVE);
+> +}
+> +EXPORT_SYMBOL_GPL(wbrf_supported_consumer);
+> +
+> +int wbrf_retrieve_exclusions(struct acpi_device *adev,
+> +                            struct wbrf_ranges_out *exclusions_out)
+> +{
+> +       union acpi_object *obj;
+> +
+> +       obj =3D acpi_evaluate_wbrf(adev->handle,
+> +                                WBRF_REVISION,
+> +                                WBRF_RETRIEVE);
+> +       if (!obj)
+> +               return -EINVAL;
+> +
+> +       memcpy(exclusions_out, obj->buffer.pointer, obj->buffer.length);
+
+How is it guaranteed that the length of the buffer will not exceed the
+size of memory allocated by the caller for the data?
+
+> +
+> +       ACPI_FREE(obj);
+> +
+> +       return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(wbrf_retrieve_exclusions);
+> diff --git a/include/linux/wbrf.h b/include/linux/wbrf.h
+> new file mode 100644
+> index 000000000000..e4c99b69f1d2
+> --- /dev/null
+> +++ b/include/linux/wbrf.h
+> @@ -0,0 +1,55 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * AMD Wifi Band Exclusion Interface
+> + * Copyright (C) 2023 Advanced Micro Devices
+> + */
+> +
+> +#ifndef _LINUX_WBRF_H
+> +#define _LINUX_WBRF_H
+> +
+> +#include <linux/acpi.h>
+> +
+> +/* Maximum number of wbrf ranges */
+> +#define MAX_NUM_OF_WBRF_RANGES         11
+> +
+> +struct exclusion_range {
+> +       /* start and end point of the frequency range in Hz */
+> +       uint64_t        start;
+> +       uint64_t        end;
+> +};
+> +
+> +struct wbrf_ranges_in {
+> +       /* valid entry: `start` and `end` filled with non-zero values */
+> +       struct exclusion_range  band_list[MAX_NUM_OF_WBRF_RANGES];
+> +};
+> +
+> +struct wbrf_ranges_out {
+> +       uint32_t                num_of_ranges;
+> +       struct exclusion_range  band_list[MAX_NUM_OF_WBRF_RANGES];
+> +} __attribute__((packed));
+> +
+> +/**
+> + * APIs needed by drivers/subsystems for contributing frequencies:
+> + * During probe, check `wbrf_supported_producer` to see if WBRF is suppo=
+rted.
+> + * If adding frequencies, then call `wbrf_add_exclusion` with the
+> + * start and end points specified for the frequency ranges added.
+> + * If removing frequencies, then call `wbrf_remove_exclusion` with
+> + * start and end points specified for the frequency ranges added.
+> + */
+> +bool wbrf_supported_producer(struct acpi_device *adev);
+> +int wbrf_add_exclusion(struct acpi_device *adev,
+> +                      struct wbrf_ranges_in *in);
+> +int wbrf_remove_exclusion(struct acpi_device *adev,
+> +                         struct wbrf_ranges_in *in);
+> +
+> +/**
+> + * APIs needed by drivers/subsystems responding to frequencies:
+> + * During probe, check `wbrf_supported_consumer` to see if WBRF is suppo=
+rted.
+> + * When receiving an ACPI notification for some frequencies change, run
+> + * `wbrf_retrieve_exclusions` to retrieve the latest frequencies ranges.
+> + */
+> +int wbrf_retrieve_exclusions(struct acpi_device *adev,
+> +                            struct wbrf_ranges_out *out);
+> +bool wbrf_supported_consumer(struct acpi_device *adev);
+> +
+> +#endif /* _LINUX_WBRF_H */
+> --
+> 2.34.1
+>
