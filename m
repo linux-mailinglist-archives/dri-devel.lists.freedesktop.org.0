@@ -1,51 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D84D73BAC9
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 16:53:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F4B173BADE
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 16:56:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A55B10E64E;
-	Fri, 23 Jun 2023 14:53:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D217210E074;
+	Fri, 23 Jun 2023 14:56:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
- [209.85.218.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93D7B10E64D;
- Fri, 23 Jun 2023 14:53:10 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id
- a640c23a62f3a-98273ae42d0so17806066b.0; 
- Fri, 23 Jun 2023 07:53:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687531988; x=1690123988;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=T1qSDE3rPwykp1shfj1zuf+dGomt2YGKeLvj9O4itJ0=;
- b=ir2q7PL8n+dGkKuupfkPhGG0KdUl/f121pjDy88yZPqJ052AlWnwyjrYiQq4DWJaZz
- KVeXog+AK9AOcWrpffZv/VLIG6AORAHyiBQTZpyZpe/JCnpUIZxdcWkEnwgPjIA0Hjev
- ytnOS8nw00mSA+VL06bhGe8e2bM1aaL8f7R0yl7RtQh4kPV9frWqL92lC3BApVd/CNvu
- m9nBewyaww7PfvLf9dY/spwW2I2Vrcmh+kMhyq6aaedbvEqmXeTYjZPc2M+Jpc0x0BYQ
- Ot9GN04Vwsp4ui7fyJCuQSAuAWK6czR96haj2fYziJeDxuQBc968CDWzpVvrF7i6UA/S
- hw6A==
-X-Gm-Message-State: AC+VfDxSbsDKd9/E+/OCWHX1vb48aY6M5TYla5ftMfcJbQb3kSxOMTHD
- xU2ZuKDXBjD1ZRSyHkhBvAhweQPbA6B/phuQ6H0=
-X-Google-Smtp-Source: ACHHUZ5lKngbPAW+7VngRAiWWJe0ho7IRCDTsQ/Y4uI+dieZpeESY0wwLG08AmNxxZUVhw6DGESa4zSWiOgClczXE2E=
-X-Received: by 2002:a17:906:64cc:b0:987:115d:ba05 with SMTP id
- p12-20020a17090664cc00b00987115dba05mr17611355ejn.3.1687531988417; Fri, 23
- Jun 2023 07:53:08 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2234710E64F
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 14:56:40 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id BDB8DD5F;
+ Fri, 23 Jun 2023 16:56:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1687532161;
+ bh=qlSeLA7AwsNcc+6RnyaobyYnL725JuzygrXuObFz9hg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Z34FGxc7qciJD0E/UZeHg8UHHtzVNzTeQlVRfaNKxIMJ+JTb6kLAPiRuG/4ZVek83
+ 3hBBcwoKZahlBaKNwloSONRo4fj48lTVq6eXu+R6CqRGbqg8vyNdowssKBjCDS3AOg
+ tQ6p4XRYlGMgAEX47gw2bpB4nWVf/fo1kaOI0DXM=
+Date: Fri, 23 Jun 2023 17:56:37 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH 02/39] media: uapi: Add MEDIA_BUS_FMT_RGB666_2X9 variants
+Message-ID: <20230623145637.GF2112@pendragon.ideasonboard.com>
+References: <cover.1687423204.git.geert+renesas@glider.be>
+ <97fc74f2eaee860d1ed215c43193a0e36d014d42.1687423204.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-References: <20230621054603.1262299-1-evan.quan@amd.com>
- <20230621054603.1262299-2-evan.quan@amd.com>
-In-Reply-To: <20230621054603.1262299-2-evan.quan@amd.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Fri, 23 Jun 2023 16:52:55 +0200
-Message-ID: <CAJZ5v0iqy0yMJP5H7ub67R8R6i42=TcS_6+VF-+fWrM-9tYFQA@mail.gmail.com>
-Subject: Re: [PATCH V4 1/8] drivers/acpi: Add support for Wifi band RF
- mitigations
-To: Evan Quan <evan.quan@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <97fc74f2eaee860d1ed215c43193a0e36d014d42.1687423204.git.geert+renesas@glider.be>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,42 +47,215 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jingyuwang_vip@163.com, bellosilicio@gmail.com, rafael@kernel.org,
- trix@redhat.com, lijo.lazar@amd.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, mdaenzer@redhat.com, mario.limonciello@amd.com,
- amd-gfx@lists.freedesktop.org, linux-acpi@vger.kernel.org, kuba@kernel.org,
- pabeni@redhat.com, lenb@kernel.org, andrealmeid@igalia.com, arnd@arndb.de,
- hdegoede@redhat.com, netdev@vger.kernel.org, Xinhui.Pan@amd.com,
- linux-wireless@vger.kernel.org, edumazet@google.com, christian.koenig@amd.com,
- tzimmermann@suse.de, alexander.deucher@amd.com, johannes@sipsolutions.net,
- davem@davemloft.net
+Cc: Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 21, 2023 at 7:47=E2=80=AFAM Evan Quan <evan.quan@amd.com> wrote=
-:
->
-> From: Mario Limonciello <mario.limonciello@amd.com>
->
-> Due to electrical and mechanical constraints in certain platform designs
-> there may be likely interference of relatively high-powered harmonics of
-> the (G-)DDR memory clocks with local radio module frequency bands used
-> by Wifi 6/6e/7.
->
-> To mitigate this, AMD has introduced an ACPI based mechanism that
-> devices can use to notify active use of particular frequencies so
-> that devices can make relative internal adjustments as necessary
-> to avoid this resonance.
->
-> In order for a device to support this, the expected flow for device
-> driver or subsystems:
->
-> Drivers/subsystems contributing frequencies:
->
-> 1) During probe, check `wbrf_supported_producer` to see if WBRF supported
+Hi Geert,
 
-The prefix should be acpi_wbrf_ or acpi_amd_wbrf_ even, so it is clear
-that this uses ACPI and is AMD-specific.
+Thank you for the patch.
 
-Whether or not there needs to be an intermediate library wrapped
-around this is a different matter.
+On Thu, Jun 22, 2023 at 11:21:14AM +0200, Geert Uytterhoeven wrote:
+> Add the RGB666 9:9 formats MEDIA_BUS_FMT_RGB666_2X9_BE and
+> MEDIA_BUS_FMT_RGB666_2X9_LE.  The former is supported by the SH-Mobile
+> LCD Controller.
+
+If MEDIA_BUS_FMT_RGB666_2X9_LE isn't supported, I'd leave it out for
+now. It can be added later once a driver needs it.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: linux-media@vger.kernel.org
+> ---
+>  .../media/v4l/subdev-formats.rst              | 144 ++++++++++++++++++
+>  include/uapi/linux/media-bus-format.h         |   4 +-
+>  2 files changed, 147 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> index a3a35eeed70846ba..4bbcdec101384cb1 100644
+> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> @@ -949,6 +949,150 @@ The following tables list existing packed RGB formats.
+>        - b\ :sub:`2`
+>        - b\ :sub:`1`
+>        - b\ :sub:`0`
+> +    * .. _MEDIA-BUS-FMT-RGB666-2X9-BE:
+> +
+> +      - MEDIA_BUS_FMT_RGB666_2X9_BE
+> +      - 0x1025
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      - r\ :sub:`5`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+> +    * -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - b\ :sub:`5`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +    * .. _MEDIA-BUS-FMT-RGB666-2X9-LE:
+> +
+> +      - MEDIA_BUS_FMT_RGB666_2X9_LE
+> +      - 0x1026
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      - g\ :sub:`2`
+> +      - g\ :sub:`1`
+> +      - g\ :sub:`0`
+> +      - b\ :sub:`5`
+> +      - b\ :sub:`4`
+> +      - b\ :sub:`3`
+> +      - b\ :sub:`2`
+> +      - b\ :sub:`1`
+> +      - b\ :sub:`0`
+> +    * -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      - r\ :sub:`5`
+> +      - r\ :sub:`4`
+> +      - r\ :sub:`3`
+> +      - r\ :sub:`2`
+> +      - r\ :sub:`1`
+> +      - r\ :sub:`0`
+> +      - g\ :sub:`5`
+> +      - g\ :sub:`4`
+> +      - g\ :sub:`3`
+>      * .. _MEDIA-BUS-FMT-BGR666-1X18:
+>  
+>        - MEDIA_BUS_FMT_BGR666_1X18
+> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+> index a03c543cb072de30..07105f530400511e 100644
+> --- a/include/uapi/linux/media-bus-format.h
+> +++ b/include/uapi/linux/media-bus-format.h
+> @@ -34,7 +34,7 @@
+>  
+>  #define MEDIA_BUS_FMT_FIXED			0x0001
+>  
+> -/* RGB - next is	0x1025 */
+> +/* RGB - next is	0x1027 */
+>  #define MEDIA_BUS_FMT_RGB444_1X12		0x1016
+>  #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE	0x1001
+>  #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE	0x1002
+> @@ -46,6 +46,8 @@
+>  #define MEDIA_BUS_FMT_RGB565_2X8_BE		0x1007
+>  #define MEDIA_BUS_FMT_RGB565_2X8_LE		0x1008
+>  #define MEDIA_BUS_FMT_RGB666_1X18		0x1009
+> +#define MEDIA_BUS_FMT_RGB666_2X9_BE		0x1025
+> +#define MEDIA_BUS_FMT_RGB666_2X9_LE		0x1026
+>  #define MEDIA_BUS_FMT_BGR666_1X18		0x1023
+>  #define MEDIA_BUS_FMT_RBG888_1X24		0x100e
+>  #define MEDIA_BUS_FMT_RGB666_1X24_CPADHI	0x1015
+
+-- 
+Regards,
+
+Laurent Pinchart
