@@ -1,58 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 027C773B211
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 09:48:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69CC473B21F
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 09:52:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6EFF10E5E8;
-	Fri, 23 Jun 2023 07:48:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0364410E5E2;
+	Fri, 23 Jun 2023 07:52:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4065210E02D;
- Fri, 23 Jun 2023 07:48:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1687506520; x=1719042520;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=iX6DkmUl4cz2IjtF1PHE1fVSnIeq15AXAzNyDDfvQOQ=;
- b=R+LYFZoP8Oq1BuPvNplEmFPAVWbrPKq4MvjesYj7zyx7jzekkFR77UVA
- /IDHZAlNmHr6ulD1MSe0qaqLi81wm7YcmjtsduTXlHwM3hTuqgzA9YMNm
- kL64lEEAL70qXGhqOcTvpnc7qBAxgdZiCnNvlEreWGxcqHKWxa9saCJNm
- 7/TD4sIn4UTPRm+dd7X6RufR+cE/Alo0/iS68nYotbvumhl/C16GTMVUQ
- dLrbz+bQr0Mh+xxh4sHS+BLibfJ9BpcNXbQ4+obj4lS4sl2Gbzm+PY5Yi
- 2IoWKk2hpkmAlXlhnHxlwThW+lir9qHN6MDZwGWIOLHWSEzsriuT7l0YV w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="341046744"
-X-IronPort-AV: E=Sophos;i="6.01,151,1684825200"; d="scan'208";a="341046744"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jun 2023 00:48:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="692588026"
-X-IronPort-AV: E=Sophos;i="6.01,151,1684825200"; d="scan'208";a="692588026"
-Received: from wtedesch-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.251.215.233])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jun 2023 00:48:35 -0700
-Date: Fri, 23 Jun 2023 09:48:31 +0200
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Thomas =?iso-8859-15?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 3/4] drm/ttm: Don't leak a resource on
- eviction error
-Message-ID: <ZJVOTzorVVTvvF2z@ashyti-mobl2.lan>
-References: <20230622101412.78426-1-thomas.hellstrom@linux.intel.com>
- <20230622101412.78426-4-thomas.hellstrom@linux.intel.com>
- <ZJRSyp7fT6VXpow7@ashyti-mobl2.lan>
- <3a089ebb-7389-3d3e-beb0-13a8d64eb04d@linux.intel.com>
- <196a7f74-66ac-1eae-4795-a42691f4793e@amd.com>
- <ef5d91b8-c68b-5edc-d611-6a4dbf55c945@linux.intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1902E10E5E2
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 07:52:11 +0000 (UTC)
+Received: from localhost.localdomain (unknown
+ [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 1E2666606EF9;
+ Fri, 23 Jun 2023 08:52:08 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1687506728;
+ bh=cDGRd+4jtcXmu+q1s9fGutkakwMoT1gzXSXTJDxh0wM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=h9lEbWZIOljIWgbmL4Ui5YQYGbCJHq2dtAFoQ4+xL/DqhiaGekZ5XjLtjRnQwnZ0D
+ 5k47CZ4kjHsNJPcCn5fYPoXCvG5cuHQzG95vi2MEPN/mTmQcoZBQ1HnQ5CTYEkMKlP
+ rzw8IPGPN0uvD5gmT3nTvSlaaSEXkcVGbTFipFjhS84osAdoZ5jzS2lwZ2G/Q/+MS8
+ wUU4az0zQbDu+GxpiShptBVBcubxk/kB9aJyk2liMJsStvwBcnrCE9iOy5RUQ47r8J
+ +eQkpXbQmHREsHMO9pEd6qisLkTFAmIiCyL7OFCSOH+dNB1noo1+jT4UwyGDwJ5dP5
+ +p+mrB74E7a2w==
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v3] drm/sched: Call drm_sched_fence_set_parent() from
+ drm_sched_fence_scheduled()
+Date: Fri, 23 Jun 2023 09:52:04 +0200
+Message-ID: <20230623075204.382350-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ef5d91b8-c68b-5edc-d611-6a4dbf55c945@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,60 +52,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- Christian =?iso-8859-15?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, intel-xe@lists.freedesktop.org,
- Huang Rui <ray.huang@amd.com>, dri-devel@lists.freedesktop.org,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Christian =?iso-8859-15?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Luben Tuikov <luben.tuikov@amd.com>, Sarah Walker <sarah.walker@imgtec.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Donald Robson <donald.robson@imgtec.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian and Thomas,
+Drivers that can delegate waits to the firmware/GPU pass the scheduled
+fence to drm_sched_job_add_dependency(), and issue wait commands to
+the firmware/GPU at job submission time. For this to be possible, they
+need all their 'native' dependencies to have a valid parent since this
+is where the actual HW fence information are encoded.
 
-> > > > > diff --git a/drivers/gpu/drm/ttm/ttm_bo.c
-> > > > > b/drivers/gpu/drm/ttm/ttm_bo.c
-> > > > > index 615d30c4262d..89530f2a027f 100644
-> > > > > --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> > > > > +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> > > > > @@ -462,14 +462,14 @@ static int ttm_bo_evict(struct
-> > > > > ttm_buffer_object *bo,
-> > > > >       ret = ttm_bo_handle_move_mem(bo, evict_mem, true, ctx, &hop);
-> > > > >       if (ret == -EMULTIHOP) {
-> > > > >           ret = ttm_bo_bounce_temp_buffer(bo, &evict_mem, ctx, &hop);
-> > > > > -        if (ret) {
-> > > > > -            if (ret != -ERESTARTSYS && ret != -EINTR)
-> > > > > -                pr_err("Buffer eviction failed\n");
-> > > > > -            ttm_resource_free(bo, &evict_mem);
-> > > > > -            goto out;
-> > > > > -        }
-> > > > > -        /* try and move to final place now. */
-> > > > > -        goto bounce;
-> > > > > +        if (!ret)
-> > > > > +            /* try and move to final place now. */
-> > > > > +            goto bounce;
-> > > > As we are at this, can't we replace this with a while()? Goto's
-> > > > used instead of a while loop are a fist in the eye...
-> > > 
-> > > I'm completely OK with that. this patch already did away with one of
-> > > them. Let's hear Christian's opinion first, though.
-> > 
-> > I'm not a fan of that goto either, but could we somehow avoid the
-> > while(1) ? E.g. something like do { } while (!ret) after handling the
-> > multihop?
-> 
-> I think the construct that makes it most obvious what's happening, although
-> it needs two tests for -EMULTIHOP is something like
-> 
-> do {
-> ....
->    if (ret != -EMULTIHOP)
->       break;
->    ....
-> } while (ret ==-EMULTIHOP);
+In drm_sched_main(), we currently call drm_sched_fence_set_parent()
+after drm_sched_fence_scheduled(), leaving a short period of time
+during which the job depending on this fence can be submitted.
 
-even better :)
+Since setting parent and signaling the fence are two things that are
+kinda related (you can't have a parent if the job hasn't been scheduled),
+it probably makes sense to pass the parent fence to
+drm_sched_fence_scheduled() and let it call drm_sched_fence_set_parent()
+before it signals the scheduled fence.
 
-Thank you!
-Andi
+Here is a detailed description of the race we are fixing here:
+
+Thread A				Thread B
+
+- calls drm_sched_fence_scheduled()
+- signals s_fence->scheduled which
+  wakes up thread B
+
+					- entity dep signaled, checking
+					  the next dep
+					- no more deps waiting
+					- entity is picked for job
+					  submission by drm_gpu_scheduler
+					- run_job() is called
+					- run_job() tries to
+					  collect native fence info from
+					  s_fence->parent, but it's
+					  NULL =>
+					  BOOM, we can't do our native
+					  wait
+
+- calls drm_sched_fence_set_parent()
+
+v2:
+* Fix commit message
+
+v3:
+* Add a detailed description of the race to the commit message
+* Add Luben's R-b
+
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Frank Binns <frank.binns@imgtec.com>
+Cc: Sarah Walker <sarah.walker@imgtec.com>
+Cc: Donald Robson <donald.robson@imgtec.com>
+Cc: Luben Tuikov <luben.tuikov@amd.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian KÃ¶nig" <christian.koenig@amd.com>
+Reviewed-by: Luben Tuikov <luben.tuikov@amd.com>
+---
+ drivers/gpu/drm/scheduler/sched_fence.c | 40 +++++++++++++++----------
+ drivers/gpu/drm/scheduler/sched_main.c  |  3 +-
+ include/drm/gpu_scheduler.h             |  5 ++--
+ 3 files changed, 28 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
+index fe9c6468e440..b6e70ddb4ee5 100644
+--- a/drivers/gpu/drm/scheduler/sched_fence.c
++++ b/drivers/gpu/drm/scheduler/sched_fence.c
+@@ -48,8 +48,32 @@ static void __exit drm_sched_fence_slab_fini(void)
+ 	kmem_cache_destroy(sched_fence_slab);
+ }
+ 
+-void drm_sched_fence_scheduled(struct drm_sched_fence *fence)
++static void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
++				       struct dma_fence *fence)
+ {
++	/*
++	 * smp_store_release() to ensure another thread racing us
++	 * in drm_sched_fence_set_deadline_finished() sees the
++	 * fence's parent set before test_bit()
++	 */
++	smp_store_release(&s_fence->parent, dma_fence_get(fence));
++	if (test_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT,
++		     &s_fence->finished.flags))
++		dma_fence_set_deadline(fence, s_fence->deadline);
++}
++
++void drm_sched_fence_scheduled(struct drm_sched_fence *fence,
++			       struct dma_fence *parent)
++{
++	/* Set the parent before signaling the scheduled fence, such that,
++	 * any waiter expecting the parent to be filled after the job has
++	 * been scheduled (which is the case for drivers delegating waits
++	 * to some firmware) doesn't have to busy wait for parent to show
++	 * up.
++	 */
++	if (!IS_ERR_OR_NULL(parent))
++		drm_sched_fence_set_parent(fence, parent);
++
+ 	dma_fence_signal(&fence->scheduled);
+ }
+ 
+@@ -179,20 +203,6 @@ struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f)
+ }
+ EXPORT_SYMBOL(to_drm_sched_fence);
+ 
+-void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
+-				struct dma_fence *fence)
+-{
+-	/*
+-	 * smp_store_release() to ensure another thread racing us
+-	 * in drm_sched_fence_set_deadline_finished() sees the
+-	 * fence's parent set before test_bit()
+-	 */
+-	smp_store_release(&s_fence->parent, dma_fence_get(fence));
+-	if (test_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT,
+-		     &s_fence->finished.flags))
+-		dma_fence_set_deadline(fence, s_fence->deadline);
+-}
+-
+ struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *entity,
+ 					      void *owner)
+ {
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index aea5a90ff98b..eff0a7f42f69 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -1040,10 +1040,9 @@ static int drm_sched_main(void *param)
+ 		trace_drm_run_job(sched_job, entity);
+ 		fence = sched->ops->run_job(sched_job);
+ 		complete_all(&entity->entity_idle);
+-		drm_sched_fence_scheduled(s_fence);
++		drm_sched_fence_scheduled(s_fence, fence);
+ 
+ 		if (!IS_ERR_OR_NULL(fence)) {
+-			drm_sched_fence_set_parent(s_fence, fence);
+ 			/* Drop for original kref_init of the fence */
+ 			dma_fence_put(fence);
+ 
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index c0586d832260..b29e347b10a9 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -582,15 +582,14 @@ void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
+ 				   enum drm_sched_priority priority);
+ bool drm_sched_entity_is_ready(struct drm_sched_entity *entity);
+ 
+-void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
+-				struct dma_fence *fence);
+ struct drm_sched_fence *drm_sched_fence_alloc(
+ 	struct drm_sched_entity *s_entity, void *owner);
+ void drm_sched_fence_init(struct drm_sched_fence *fence,
+ 			  struct drm_sched_entity *entity);
+ void drm_sched_fence_free(struct drm_sched_fence *fence);
+ 
+-void drm_sched_fence_scheduled(struct drm_sched_fence *fence);
++void drm_sched_fence_scheduled(struct drm_sched_fence *fence,
++			       struct dma_fence *parent);
+ void drm_sched_fence_finished(struct drm_sched_fence *fence);
+ 
+ unsigned long drm_sched_suspend_timeout(struct drm_gpu_scheduler *sched);
+-- 
+2.41.0
+
