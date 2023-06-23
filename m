@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A77DD73C8D8
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jun 2023 10:16:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4793573C8DE
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jun 2023 10:16:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1576F10E0D2;
-	Sat, 24 Jun 2023 08:15:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBE8610E123;
+	Sat, 24 Jun 2023 08:15:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 514 seconds by postgrey-1.36 at gabe;
- Fri, 23 Jun 2023 10:17:05 UTC
-Received: from out-2.mta0.migadu.com (out-2.mta0.migadu.com [91.218.175.2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 807A710E0E9
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 10:17:05 +0000 (UTC)
+Received: from out-42.mta0.migadu.com (out-42.mta0.migadu.com [91.218.175.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5BDC10E106
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 10:17:06 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1687514922;
+ t=1687514925;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=01N/gRTBxFgDNySxI5l/vzBYcJURpU1c4PTDBFkFenU=;
- b=iVE+wCfu7F1lZw+i7xvth7KefJ7Fm0oVwOc9HakWxSE9euLod3n30C5QVkXV6rKMhBxr1G
- +VOhlWdHF0NLJA3SnKxhtza3ph0hpg1Po2K7X20cGpnrLvOHU/uHBEdEoumWsGLlW+ftGg
- +hyqHMoIZRSDBrjbQxiPCkoo3P6haeo=
+ bh=cp/dioA/Px4isvqDry6K9lCTQWmXUioxU/Gzve54Hpc=;
+ b=vC9134FYF29pSWqPRpQB9uDXrqIMd8A/Jlstt4sPbCM2Truov/UzIMrO/vnZZ7JtKW4oi0
+ 36rs70bROZZRiiWtgsMADXAY1qkL+niG400xBeXUrFXVkCnnKLjcRgb66C1itM0zOm/9zo
+ A2Q5k5aR6o7136tFzuqpR/+hBNcsedw=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v1 6/8] drm/etnaviv: No indentation by double tabs
-Date: Fri, 23 Jun 2023 18:08:20 +0800
-Message-Id: <20230623100822.274706-7-sui.jingfeng@linux.dev>
+Subject: [PATCH v1 7/8] drm/etnaviv: Add dedicated functions to create and
+ destroy platform device
+Date: Fri, 23 Jun 2023 18:08:21 +0800
+Message-Id: <20230623100822.274706-8-sui.jingfeng@linux.dev>
 In-Reply-To: <20230623100822.274706-1-sui.jingfeng@linux.dev>
 References: <20230623100822.274706-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
@@ -60,34 +59,104 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sui Jingfeng <suijingfeng@loongson.cn>
 
-Single tab should be enough.
+Also rename the virtual master device as etnaviv_platform_device,
+for better reflection that it is a platform device, not a DRM device.
+Another benefit is that we no longer need to call of_node_put() for three
+different cases, Instead, we only need to call it once.
 
 Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_drv.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c | 56 +++++++++++++++++++--------
+ 1 file changed, 39 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index cef97bb9c99f..14c2e9690ce1 100644
+index 14c2e9690ce1..7d0eeab3e8b7 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -231,11 +231,11 @@ static int show_each_gpu(struct seq_file *m, void *arg)
- }
- 
- static struct drm_info_list etnaviv_debugfs_list[] = {
--		{"gpu", show_each_gpu, 0, etnaviv_gpu_debugfs},
--		{"gem", show_unlocked, 0, etnaviv_gem_show},
--		{ "mm", show_unlocked, 0, etnaviv_mm_show },
--		{"mmu", show_each_gpu, 0, etnaviv_mmu_show},
--		{"ring", show_each_gpu, 0, etnaviv_ring_show},
-+	{"gpu", show_each_gpu, 0, etnaviv_gpu_debugfs},
-+	{"gem", show_unlocked, 0, etnaviv_gem_show},
-+	{ "mm", show_unlocked, 0, etnaviv_mm_show },
-+	{"mmu", show_each_gpu, 0, etnaviv_mmu_show},
-+	{"ring", show_each_gpu, 0, etnaviv_ring_show},
+@@ -655,12 +655,44 @@ static struct platform_driver etnaviv_platform_driver = {
+ 	},
  };
  
- static void etnaviv_debugfs_init(struct drm_minor *minor)
+-static struct platform_device *etnaviv_drm;
++static struct platform_device *etnaviv_platform_device;
+ 
+-static int __init etnaviv_init(void)
++static int etnaviv_create_platform_device(const char *name,
++					  struct platform_device **ppdev)
+ {
+ 	struct platform_device *pdev;
+ 	int ret;
++
++	pdev = platform_device_alloc(name, PLATFORM_DEVID_NONE);
++	if (!pdev)
++		return -ENOMEM;
++
++	ret = platform_device_add(pdev);
++	if (ret) {
++		platform_device_put(pdev);
++		return ret;
++	}
++
++	*ppdev = pdev;
++
++	return 0;
++}
++
++static void etnaviv_destroy_platform_device(struct platform_device **ppdev)
++{
++	struct platform_device *pdev = *ppdev;
++
++	if (!pdev)
++		return;
++
++	platform_device_unregister(pdev);
++
++	*ppdev = NULL;
++}
++
++static int __init etnaviv_init(void)
++{
++	int ret;
+ 	struct device_node *np;
+ 
+ 	etnaviv_validate_init();
+@@ -680,23 +712,13 @@ static int __init etnaviv_init(void)
+ 	for_each_compatible_node(np, NULL, "vivante,gc") {
+ 		if (!of_device_is_available(np))
+ 			continue;
++		of_node_put(np);
+ 
+-		pdev = platform_device_alloc("etnaviv", PLATFORM_DEVID_NONE);
+-		if (!pdev) {
+-			ret = -ENOMEM;
+-			of_node_put(np);
+-			goto unregister_platform_driver;
+-		}
+-
+-		ret = platform_device_add(pdev);
+-		if (ret) {
+-			platform_device_put(pdev);
+-			of_node_put(np);
++		ret = etnaviv_create_platform_device("etnaviv",
++						     &etnaviv_platform_device);
++		if (ret)
+ 			goto unregister_platform_driver;
+-		}
+ 
+-		etnaviv_drm = pdev;
+-		of_node_put(np);
+ 		break;
+ 	}
+ 
+@@ -712,7 +734,7 @@ module_init(etnaviv_init);
+ 
+ static void __exit etnaviv_exit(void)
+ {
+-	platform_device_unregister(etnaviv_drm);
++	etnaviv_destroy_platform_device(&etnaviv_platform_device);
+ 	platform_driver_unregister(&etnaviv_platform_driver);
+ 	platform_driver_unregister(&etnaviv_gpu_driver);
+ }
 -- 
 2.25.1
 
