@@ -2,46 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 931E373B246
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 10:03:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9364173B2B9
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 10:29:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 111AA10E60F;
-	Fri, 23 Jun 2023 08:03:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5322310E0CB;
+	Fri, 23 Jun 2023 08:29:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CD1710E60F
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 08:03:22 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3A9B10E0E9
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 08:28:58 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id D19B46607135;
- Fri, 23 Jun 2023 09:03:20 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1687507401;
- bh=U9drZvWCSCRsLuiva64YgAXZcBTJV1JLapC6QBZYCF4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Txvwios/zjcuhYtHvf56nsUIyl2wOXlfh2ZZrXch81ITEsZddPdjOLpRnpn5q/FPZ
- vjAxEGnLAUPkiSxJOP9X6L/QwnR+7mjfdyGzKSfn9U28I0Eu507v/uIGN45qMqu9lU
- By0aXCh1DQwrpMsEtQYVBj/n9vgr5GgMuuPt7B5JKrEDI6hqVpRg4am3xl9YKnJ640
- eqygGtNBhsV1ByRI4CCtMp8TE2kDRiUsEY7mADqgPEeIbXlIfcM90SVtrdXNruIwBi
- Zs8KMi2m1HSrEWe9Sdd0DAIsGG/6f4eIWf/ioJlAideTvCwepoluPTNH2sRz/6YINh
- E1cfwyphiIQCA==
-Date: Fri, 23 Jun 2023 10:03:17 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3] drm/sched: Call drm_sched_fence_set_parent() from
- drm_sched_fence_scheduled()
-Message-ID: <20230623100317.0f3fb434@collabora.com>
-In-Reply-To: <20230623075204.382350-1-boris.brezillon@collabora.com>
-References: <20230623075204.382350-1-boris.brezillon@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2ADD621B9D;
+ Fri, 23 Jun 2023 08:28:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1687508937; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=N5zSzDY8wP8yI/ZvIbhnGrW2NB8WGMEdPK0Rgi2O3vg=;
+ b=LmlmyXBtR0cfflaZ04iY6wWDjMjEgEjL21FtNYNKRd6cDHqbJEbhtcThzuR2lhHQ0z0ul3
+ S+fB2bOryeBGs5N7JdWLUjRseeVNPDfI3YaRE2ki3/uFhxBI9FGArialdWX4UUIpU2OJTT
+ x05GQGdWpT2q40XENAl7Q8Y+2xIiMwg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1687508937;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=N5zSzDY8wP8yI/ZvIbhnGrW2NB8WGMEdPK0Rgi2O3vg=;
+ b=BW9jkNvDcvzAQTwBMHl3Cc9R8K2yrHCrGaCWfHpLE8IqoHyMEd/xjaYryr5zgniGDTZ9N3
+ /k6uBNgQMQinv5CA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D8CAB1331F;
+ Fri, 23 Jun 2023 08:28:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id TAq7MMhXlWTPTQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 23 Jun 2023 08:28:56 +0000
+Message-ID: <f3d8cbe7-11a6-14a3-e161-906c73c5ade3@suse.de>
+Date: Fri, 23 Jun 2023 10:28:55 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] drm/mgag200: set variable mgag200_modeset
+ storage-class-specifier to static
+Content-Language: en-US
+To: Tom Rix <trix@redhat.com>, airlied@redhat.com, airlied@gmail.com,
+ daniel@ffwll.ch
+References: <20230517134140.874179-1-trix@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230517134140.874179-1-trix@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------3CoNwsP06LoWEAuceV8gzBBS"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,186 +71,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sarah Walker <sarah.walker@imgtec.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Luben Tuikov <luben.tuikov@amd.com>, Donald Robson <donald.robson@imgtec.com>,
- Sumit Semwal <sumit.semwal@linaro.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 23 Jun 2023 09:52:04 +0200
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------3CoNwsP06LoWEAuceV8gzBBS
+Content-Type: multipart/mixed; boundary="------------MBtKfXqZWxCaS01uw3on05RA";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Tom Rix <trix@redhat.com>, airlied@redhat.com, airlied@gmail.com,
+ daniel@ffwll.ch
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-ID: <f3d8cbe7-11a6-14a3-e161-906c73c5ade3@suse.de>
+Subject: Re: [PATCH] drm/mgag200: set variable mgag200_modeset
+ storage-class-specifier to static
+References: <20230517134140.874179-1-trix@redhat.com>
+In-Reply-To: <20230517134140.874179-1-trix@redhat.com>
 
-> Drivers that can delegate waits to the firmware/GPU pass the scheduled
-> fence to drm_sched_job_add_dependency(), and issue wait commands to
-> the firmware/GPU at job submission time. For this to be possible, they
-> need all their 'native' dependencies to have a valid parent since this
-> is where the actual HW fence information are encoded.
->=20
-> In drm_sched_main(), we currently call drm_sched_fence_set_parent()
-> after drm_sched_fence_scheduled(), leaving a short period of time
-> during which the job depending on this fence can be submitted.
->=20
-> Since setting parent and signaling the fence are two things that are
-> kinda related (you can't have a parent if the job hasn't been scheduled),
-> it probably makes sense to pass the parent fence to
-> drm_sched_fence_scheduled() and let it call drm_sched_fence_set_parent()
-> before it signals the scheduled fence.
->=20
-> Here is a detailed description of the race we are fixing here:
->=20
-> Thread A				Thread B
->=20
-> - calls drm_sched_fence_scheduled()
-> - signals s_fence->scheduled which
->   wakes up thread B
->=20
-> 					- entity dep signaled, checking
-> 					  the next dep
-> 					- no more deps waiting
-> 					- entity is picked for job
-> 					  submission by drm_gpu_scheduler
-> 					- run_job() is called
-> 					- run_job() tries to
-> 					  collect native fence info from
-> 					  s_fence->parent, but it's
-> 					  NULL =3D>
-> 					  BOOM, we can't do our native
-> 					  wait
->=20
-> - calls drm_sched_fence_set_parent()
->=20
-> v2:
-> * Fix commit message
->=20
-> v3:
-> * Add a detailed description of the race to the commit message
-> * Add Luben's R-b
->=20
+--------------MBtKfXqZWxCaS01uw3on05RA
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-FYI, I didn't put a Fixes tag because the various moves/modifications
-that happened on this file will make it hard to backport anyway, and no
-one complained about it so far. But if we want to have one, it would
-probably be:
+DQoNCkFtIDE3LjA1LjIzIHVtIDE1OjQxIHNjaHJpZWIgVG9tIFJpeDoNCj4gc21hdGNoIHJl
+cG9ydHMNCj4gZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9kcnYuYzoyMzo1OiB3
+YXJuaW5nOiBzeW1ib2wNCj4gICAgJ21nYWcyMDBfbW9kZXNldCcgd2FzIG5vdCBkZWNsYXJl
+ZC4gU2hvdWxkIGl0IGJlIHN0YXRpYz8NCj4gDQo+IFRoaXMgdmFyaWFibGUgaXMgb25seSB1
+c2VkIGluIGl0cyBkZWZpbmluZyBmaWxlLCBzbyBpdCBzaG91bGQgYmUgc3RhdGljDQo+IA0K
+PiBTaWduZWQtb2ZmLWJ5OiBUb20gUml4IDx0cml4QHJlZGhhdC5jb20+DQoNClJldmlld2Vk
+LWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCg0KPiAtLS0N
+Cj4gICBkcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2Rydi5jIHwgMiArLQ0KPiAg
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPiANCj4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfZHJ2LmMgYi9k
+cml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2Rydi5jDQo+IGluZGV4IDk3NmYwYWIy
+MDA2Yi4uYWJkZGYzN2YwZWExIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWdh
+ZzIwMC9tZ2FnMjAwX2Rydi5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21n
+YWcyMDBfZHJ2LmMNCj4gQEAgLTIwLDcgKzIwLDcgQEANCj4gICANCj4gICAjaW5jbHVkZSAi
+bWdhZzIwMF9kcnYuaCINCj4gICANCj4gLWludCBtZ2FnMjAwX21vZGVzZXQgPSAtMTsNCj4g
+K3N0YXRpYyBpbnQgbWdhZzIwMF9tb2Rlc2V0ID0gLTE7DQo+ICAgTU9EVUxFX1BBUk1fREVT
+Qyhtb2Rlc2V0LCAiRGlzYWJsZS9FbmFibGUgbW9kZXNldHRpbmciKTsNCj4gICBtb2R1bGVf
+cGFyYW1fbmFtZWQobW9kZXNldCwgbWdhZzIwMF9tb2Rlc2V0LCBpbnQsIDA0MDApOw0KPiAg
+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVy
+DQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3Nl
+IDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcg
+TXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFH
+IE51ZXJuYmVyZykNCg==
 
-Fixes: 754ce0fa55c4 ("drm/amd: add parent for sched fence")
+--------------MBtKfXqZWxCaS01uw3on05RA--
 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Cc: Frank Binns <frank.binns@imgtec.com>
-> Cc: Sarah Walker <sarah.walker@imgtec.com>
-> Cc: Donald Robson <donald.robson@imgtec.com>
-> Cc: Luben Tuikov <luben.tuikov@amd.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Reviewed-by: Luben Tuikov <luben.tuikov@amd.com>
-> ---
->  drivers/gpu/drm/scheduler/sched_fence.c | 40 +++++++++++++++----------
->  drivers/gpu/drm/scheduler/sched_main.c  |  3 +-
->  include/drm/gpu_scheduler.h             |  5 ++--
->  3 files changed, 28 insertions(+), 20 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/sc=
-heduler/sched_fence.c
-> index fe9c6468e440..b6e70ddb4ee5 100644
-> --- a/drivers/gpu/drm/scheduler/sched_fence.c
-> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
-> @@ -48,8 +48,32 @@ static void __exit drm_sched_fence_slab_fini(void)
->  	kmem_cache_destroy(sched_fence_slab);
->  }
-> =20
-> -void drm_sched_fence_scheduled(struct drm_sched_fence *fence)
-> +static void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
-> +				       struct dma_fence *fence)
->  {
-> +	/*
-> +	 * smp_store_release() to ensure another thread racing us
-> +	 * in drm_sched_fence_set_deadline_finished() sees the
-> +	 * fence's parent set before test_bit()
-> +	 */
-> +	smp_store_release(&s_fence->parent, dma_fence_get(fence));
-> +	if (test_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT,
-> +		     &s_fence->finished.flags))
-> +		dma_fence_set_deadline(fence, s_fence->deadline);
-> +}
-> +
-> +void drm_sched_fence_scheduled(struct drm_sched_fence *fence,
-> +			       struct dma_fence *parent)
-> +{
-> +	/* Set the parent before signaling the scheduled fence, such that,
-> +	 * any waiter expecting the parent to be filled after the job has
-> +	 * been scheduled (which is the case for drivers delegating waits
-> +	 * to some firmware) doesn't have to busy wait for parent to show
-> +	 * up.
-> +	 */
-> +	if (!IS_ERR_OR_NULL(parent))
-> +		drm_sched_fence_set_parent(fence, parent);
-> +
->  	dma_fence_signal(&fence->scheduled);
->  }
-> =20
-> @@ -179,20 +203,6 @@ struct drm_sched_fence *to_drm_sched_fence(struct dm=
-a_fence *f)
->  }
->  EXPORT_SYMBOL(to_drm_sched_fence);
-> =20
-> -void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
-> -				struct dma_fence *fence)
-> -{
-> -	/*
-> -	 * smp_store_release() to ensure another thread racing us
-> -	 * in drm_sched_fence_set_deadline_finished() sees the
-> -	 * fence's parent set before test_bit()
-> -	 */
-> -	smp_store_release(&s_fence->parent, dma_fence_get(fence));
-> -	if (test_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT,
-> -		     &s_fence->finished.flags))
-> -		dma_fence_set_deadline(fence, s_fence->deadline);
-> -}
-> -
->  struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *e=
-ntity,
->  					      void *owner)
->  {
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sch=
-eduler/sched_main.c
-> index aea5a90ff98b..eff0a7f42f69 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -1040,10 +1040,9 @@ static int drm_sched_main(void *param)
->  		trace_drm_run_job(sched_job, entity);
->  		fence =3D sched->ops->run_job(sched_job);
->  		complete_all(&entity->entity_idle);
-> -		drm_sched_fence_scheduled(s_fence);
-> +		drm_sched_fence_scheduled(s_fence, fence);
-> =20
->  		if (!IS_ERR_OR_NULL(fence)) {
-> -			drm_sched_fence_set_parent(s_fence, fence);
->  			/* Drop for original kref_init of the fence */
->  			dma_fence_put(fence);
-> =20
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index c0586d832260..b29e347b10a9 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -582,15 +582,14 @@ void drm_sched_entity_set_priority(struct drm_sched=
-_entity *entity,
->  				   enum drm_sched_priority priority);
->  bool drm_sched_entity_is_ready(struct drm_sched_entity *entity);
-> =20
-> -void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
-> -				struct dma_fence *fence);
->  struct drm_sched_fence *drm_sched_fence_alloc(
->  	struct drm_sched_entity *s_entity, void *owner);
->  void drm_sched_fence_init(struct drm_sched_fence *fence,
->  			  struct drm_sched_entity *entity);
->  void drm_sched_fence_free(struct drm_sched_fence *fence);
-> =20
-> -void drm_sched_fence_scheduled(struct drm_sched_fence *fence);
-> +void drm_sched_fence_scheduled(struct drm_sched_fence *fence,
-> +			       struct dma_fence *parent);
->  void drm_sched_fence_finished(struct drm_sched_fence *fence);
-> =20
->  unsigned long drm_sched_suspend_timeout(struct drm_gpu_scheduler *sched);
+--------------3CoNwsP06LoWEAuceV8gzBBS
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSVV8cFAwAAAAAACgkQlh/E3EQov+DG
+MA/+MthG+mFfhpt4/EKcSot3KZqnUjQgtUK8NGd7Hy2gdwSDFS8JWMwnWwG71+492glAtdXEjxZw
+r97j/5xgiZaaUyMzFpEb3cexT7GZNFriLCyvCK6/wvJ9oHxzROdWGNeodCJnOt4p41KcGg3R1ZyK
+fTDqESH5uBLbca21AzfVlSKuCAd3sMF2Pf6Rf2q1EuYY+KBfrwqT5CK5SsyNWd56f3jFwsDE2vhI
+kAYt9HS4ytyZb1antJvAVit3OPUZjtel1hzqqkowTwVAcQIBdK3kBf1toIG0m0ISL5VmAGdMhE17
+3vKyw79auVmLYqERBhz1cT4ffCZ2UBMnkfmgDcKUz66sccfn1EiLkR6T9GOcZ24kG8bsu/D7eC/Q
+olQHmU7+BCmQF1jaknMLafhZKFi3v9Q5WdDVlOlvJERmix8fFvNd5RcM812DChp3W0rZasKhioQA
+MUeMvr4owolAVTYUMg5y+cUnClOjv05U3jNQNR28ZQmctyfeeBtBzcm5eKKshKtPBqM7vmtEyOcO
+14yPd3UreesphkrNAv3eosFGgueMxhgRAnHSQNG8H3F7wWmRk1Lcx30CYkwPZ9lacMD9Dvr3RIal
+gx0ztiOqmaPbcnxakDIOZYuu7XUsdxvCWjStW2Wzzxijd0/ao4WOxN6Oh1AOpGz4+8AMUZQI8/Ku
+aRU=
+=NYlw
+-----END PGP SIGNATURE-----
+
+--------------3CoNwsP06LoWEAuceV8gzBBS--
