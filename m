@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE9F273BBC3
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 17:35:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE0773BBAA
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 17:30:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18E4D10E658;
-	Fri, 23 Jun 2023 15:35:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8056510E65B;
+	Fri, 23 Jun 2023 15:30:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 450 seconds by postgrey-1.36 at gabe;
- Fri, 23 Jun 2023 15:35:04 UTC
-Received: from knopi.disroot.org (knopi.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62CF810E658
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 15:35:04 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id 2CB8444CC3;
- Fri, 23 Jun 2023 17:27:32 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from knopi.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FpZaZEXR2z-q; Fri, 23 Jun 2023 17:27:31 +0200 (CEST)
-From: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1687534051; bh=OQuLU9BDJDTLdjsCyljauuBB36B9J2a1Ln7ZVQudRBU=;
- h=From:To:Cc:Subject:Date;
- b=YZpTl87GoaspziwZBeb1I5pAHo9jBqZpNXjDY2LWc77NT8eaWU3DTBMGWjS+IC4R2
- bJ7inLRSu8G9AUqVGltHxC881fSA66lMEmZOvgSF/5tIhdpVcX4GhBXvqxRX7b9kCs
- H/FXQnPN4FlPrh2lF+d6CmSdiCg3vKZ5aCQgXpb7yAciMTre1KgdHcTh0mDxRdhmVs
- xgxbVZ3FnVZo+pvUMrq5grOaOXQlkesc3NwFDlvHJXhxMKZ1V8KNU+97zF1fda3LBc
- 7vdRn9CGdY61HkktXFIZYLX+V9U/i9xsn8Kc1J7YW0IV+HpLUcHcjXS/h0lCp+7Wf2
- os8OiJ8rhcobg==
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/tests: Fix swapped test parameter names
-Date: Fri, 23 Jun 2023 12:25:18 -0300
-Message-Id: <20230623152518.8603-1-gcarlos@disroot.org>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10C1D10E65B
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 15:30:50 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E2757838;
+ Fri, 23 Jun 2023 17:30:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1687534212;
+ bh=iZK1V9dOkP6LtrJ3NgrRmUsGFQ4PBwaxc4z/PCSvXII=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NdwkZkK3ld2UqobpoQUkxecD6fXTxgLSLmsSnCzXCzncc2VcVwq6NhOaHgGXysHiB
+ dD02tqDlOBcLfUl32qXa39Z6p3IEmn3hQj/eKmJhjqeho6S1h+7/a09t1lpJG0aVL8
+ qSr8O0h52iGAqkENOr0Zk2VsaFqTCiX/D1mrFHQQ=
+Date: Fri, 23 Jun 2023 18:30:47 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH 10/39] drm: renesas: shmobile: Improve
+ shmob_drm_format_info table
+Message-ID: <20230623153047.GO2112@pendragon.ideasonboard.com>
+References: <cover.1687423204.git.geert+renesas@glider.be>
+ <a61c89c6e1514ab915ce0842470582e121612688.1687423204.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <a61c89c6e1514ab915ce0842470582e121612688.1687423204.git.geert+renesas@glider.be>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,44 +48,307 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michal.winiarski@intel.com, tales.aparecida@gmail.com, dlatypov@google.com,
- Carlos Eduardo Gallo Filho <gcarlos@disroot.org>, javierm@redhat.com,
- mairacanal@riseup.net, andrealmeid@riseup.net
+Cc: Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The "YVU420 DRM_MODE_FB_MODIFIERS set without modifier" test
-hadn't DRM_MODE_FB_MODIFIERS set, so that it was in fact testing
-another case, while the "YVU420 Normal sizes" test in turn was with
-DRM_MODE_FB_MODIFIERS set and without modifiers, what should be
-the case tested by the former, which also in turn fit in what
-"YVU320 Normal sizes" should be, meaning that they were swapped.
+Hi Geert,
 
-Signed-off-by: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
----
- drivers/gpu/drm/tests/drm_framebuffer_test.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thank you for the patch.
 
-diff --git a/drivers/gpu/drm/tests/drm_framebuffer_test.c b/drivers/gpu/drm/tests/drm_framebuffer_test.c
-index df235b7fdaa5..f759d9f3b76e 100644
---- a/drivers/gpu/drm/tests/drm_framebuffer_test.c
-+++ b/drivers/gpu/drm/tests/drm_framebuffer_test.c
-@@ -178,13 +178,13 @@ static const struct drm_framebuffer_test drm_framebuffer_create_cases[] = {
- 		 .handles = { 1, 1, 1 }, .pitches = { 600, 600, 600 },
- 	}
- },
--{ .buffer_created = 1, .name = "YVU420 Normal sizes",
-+{ .buffer_created = 1, .name = "YVU420 DRM_MODE_FB_MODIFIERS set without modifier",
- 	.cmd = { .width = 600, .height = 600, .pixel_format = DRM_FORMAT_YVU420,
- 		 .handles = { 1, 1, 1 }, .flags = DRM_MODE_FB_MODIFIERS,
- 		 .pitches = { 600, 300, 300 },
- 	}
- },
--{ .buffer_created = 1, .name = "YVU420 DRM_MODE_FB_MODIFIERS set without modifier",
-+{ .buffer_created = 1, .name = "YVU420 Normal sizes",
- 	.cmd = { .width = 600, .height = 600, .pixel_format = DRM_FORMAT_YVU420,
- 		 .handles = { 1, 1, 1 }, .pitches = { 600, 300, 300 },
- 	}
+On Thu, Jun 22, 2023 at 11:21:22AM +0200, Geert Uytterhoeven wrote:
+> Improve the table containing hardware information related to the
+> supported plane formats:
+>   1. Move (part of) the overlay format register settings from multiple
+>      switch() statements spread across the code into the table, like is
+>      already done for the primary plane register settings,
+>   2. Remove the .yuv field, as that information can easily be extracted
+>      from the register settings using a new helper macro,
+>   3. Shrink and move the .bpp field to reduce table size.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  .../gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 29 ++--------
+>  .../gpu/drm/renesas/shmobile/shmob_drm_kms.c  | 42 ++++++++++----
+>  .../gpu/drm/renesas/shmobile/shmob_drm_kms.h  |  9 ++-
+>  .../drm/renesas/shmobile/shmob_drm_plane.c    | 56 ++-----------------
+>  4 files changed, 47 insertions(+), 89 deletions(-)
+
+I like this :-)
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> index cd492806105e5b5d..9bfdfa7c6e2b1001 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> @@ -221,31 +221,12 @@ static void shmob_drm_crtc_start(struct shmob_drm_crtc *scrtc)
+>  	lcdc_write(sdev, LDDFR, format->lddfr | LDDFR_CF1);
+>  	lcdc_write(sdev, LDMLSR, scrtc->line_size);
+>  	lcdc_write(sdev, LDSA1R, scrtc->dma[0]);
+> -	if (format->yuv)
+> +	if (shmob_drm_format_is_yuv(format))
+>  		lcdc_write(sdev, LDSA2R, scrtc->dma[1]);
+>  	lcdc_write(sdev, LDSM1R, 0);
+>  
+>  	/* Word and long word swap. */
+> -	switch (format->fourcc) {
+> -	case DRM_FORMAT_RGB565:
+> -	case DRM_FORMAT_NV21:
+> -	case DRM_FORMAT_NV61:
+> -	case DRM_FORMAT_NV42:
+> -		value = LDDDSR_LS | LDDDSR_WS;
+> -		break;
+> -	case DRM_FORMAT_RGB888:
+> -	case DRM_FORMAT_NV12:
+> -	case DRM_FORMAT_NV16:
+> -	case DRM_FORMAT_NV24:
+> -		value = LDDDSR_LS | LDDDSR_WS | LDDDSR_BS;
+> -		break;
+> -	case DRM_FORMAT_ARGB8888:
+> -	case DRM_FORMAT_XRGB8888:
+> -	default:
+> -		value = LDDDSR_LS;
+> -		break;
+> -	}
+> -	lcdc_write(sdev, LDDDSR, value);
+> +	lcdc_write(sdev, LDDDSR, format->ldddsr);
+>  
+>  	/* Setup planes. */
+>  	drm_for_each_legacy_plane(plane, dev) {
+> @@ -304,12 +285,12 @@ static void shmob_drm_crtc_compute_base(struct shmob_drm_crtc *scrtc,
+>  	struct drm_gem_dma_object *gem;
+>  	unsigned int bpp;
+>  
+> -	bpp = scrtc->format->yuv ? 8 : scrtc->format->bpp;
+> +	bpp = shmob_drm_format_is_yuv(scrtc->format) ? 8 : scrtc->format->bpp;
+>  	gem = drm_fb_dma_get_gem_obj(fb, 0);
+>  	scrtc->dma[0] = gem->dma_addr + fb->offsets[0]
+>  		      + y * fb->pitches[0] + x * bpp / 8;
+>  
+> -	if (scrtc->format->yuv) {
+> +	if (shmob_drm_format_is_yuv(scrtc->format)) {
+>  		bpp = scrtc->format->bpp - 8;
+>  		gem = drm_fb_dma_get_gem_obj(fb, 1);
+>  		scrtc->dma[1] = gem->dma_addr + fb->offsets[1]
+> @@ -326,7 +307,7 @@ static void shmob_drm_crtc_update_base(struct shmob_drm_crtc *scrtc)
+>  	shmob_drm_crtc_compute_base(scrtc, crtc->x, crtc->y);
+>  
+>  	lcdc_write_mirror(sdev, LDSA1R, scrtc->dma[0]);
+> -	if (scrtc->format->yuv)
+> +	if (shmob_drm_format_is_yuv(scrtc->format))
+>  		lcdc_write_mirror(sdev, LDSA2R, scrtc->dma[1]);
+>  
+>  	lcdc_write(sdev, LDRCNTR, lcdc_read(sdev, LDRCNTR) ^ LDRCNTR_MRS);
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.c
+> index 99381cc0abf3ae1f..8fd360149743f8e2 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.c
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.c
+> @@ -27,53 +27,73 @@ static const struct shmob_drm_format_info shmob_drm_format_infos[] = {
+>  	{
+>  		.fourcc = DRM_FORMAT_RGB565,
+>  		.bpp = 16,
+> -		.yuv = false,
+>  		.lddfr = LDDFR_PKF_RGB16,
+> +		.ldddsr = LDDDSR_LS | LDDDSR_WS,
+> +		.ldbbsifr = LDBBSIFR_AL_1 | LDBBSIFR_SWPL | LDBBSIFR_SWPW |
+> +			    LDBBSIFR_RY | LDBBSIFR_RPKF_RGB16,
+>  	}, {
+>  		.fourcc = DRM_FORMAT_RGB888,
+>  		.bpp = 24,
+> -		.yuv = false,
+>  		.lddfr = LDDFR_PKF_RGB24,
+> +		.ldddsr = LDDDSR_LS | LDDDSR_WS | LDDDSR_BS,
+> +		.ldbbsifr = LDBBSIFR_AL_1 | LDBBSIFR_SWPL | LDBBSIFR_SWPW |
+> +			    LDBBSIFR_SWPB | LDBBSIFR_RY | LDBBSIFR_RPKF_RGB24,
+>  	}, {
+>  		.fourcc = DRM_FORMAT_ARGB8888,
+>  		.bpp = 32,
+> -		.yuv = false,
+>  		.lddfr = LDDFR_PKF_ARGB32,
+> +		.ldddsr = LDDDSR_LS,
+> +		.ldbbsifr = LDBBSIFR_AL_PK | LDBBSIFR_SWPL | LDBBSIFR_RY |
+> +			    LDBBSIFR_RPKF_ARGB32,
+>  	}, {
+>  		.fourcc = DRM_FORMAT_XRGB8888,
+>  		.bpp = 32,
+> -		.yuv = false,
+>  		.lddfr = LDDFR_PKF_ARGB32,
+> +		.ldddsr = LDDDSR_LS,
+> +		.ldbbsifr = LDBBSIFR_AL_1 | LDBBSIFR_SWPL | LDBBSIFR_RY |
+> +			    LDBBSIFR_RPKF_ARGB32,
+>  	}, {
+>  		.fourcc = DRM_FORMAT_NV12,
+>  		.bpp = 12,
+> -		.yuv = true,
+>  		.lddfr = LDDFR_CC | LDDFR_YF_420,
+> +		.ldddsr = LDDDSR_LS | LDDDSR_WS | LDDDSR_BS,
+> +		.ldbbsifr = LDBBSIFR_AL_1 | LDBBSIFR_SWPL | LDBBSIFR_SWPW |
+> +			    LDBBSIFR_SWPB | LDBBSIFR_CHRR_420,
+>  	}, {
+>  		.fourcc = DRM_FORMAT_NV21,
+>  		.bpp = 12,
+> -		.yuv = true,
+>  		.lddfr = LDDFR_CC | LDDFR_YF_420,
+> +		.ldddsr = LDDDSR_LS | LDDDSR_WS,
+> +		.ldbbsifr = LDBBSIFR_AL_1 | LDBBSIFR_SWPL | LDBBSIFR_SWPW |
+> +			    LDBBSIFR_CHRR_420,
+>  	}, {
+>  		.fourcc = DRM_FORMAT_NV16,
+>  		.bpp = 16,
+> -		.yuv = true,
+>  		.lddfr = LDDFR_CC | LDDFR_YF_422,
+> +		.ldddsr = LDDDSR_LS | LDDDSR_WS | LDDDSR_BS,
+> +		.ldbbsifr = LDBBSIFR_AL_1 | LDBBSIFR_SWPL | LDBBSIFR_SWPW |
+> +			    LDBBSIFR_SWPB | LDBBSIFR_CHRR_422,
+>  	}, {
+>  		.fourcc = DRM_FORMAT_NV61,
+>  		.bpp = 16,
+> -		.yuv = true,
+>  		.lddfr = LDDFR_CC | LDDFR_YF_422,
+> +		.ldddsr = LDDDSR_LS | LDDDSR_WS,
+> +		.ldbbsifr = LDBBSIFR_AL_1 | LDBBSIFR_SWPL | LDBBSIFR_SWPW |
+> +			    LDBBSIFR_CHRR_422,
+>  	}, {
+>  		.fourcc = DRM_FORMAT_NV24,
+>  		.bpp = 24,
+> -		.yuv = true,
+>  		.lddfr = LDDFR_CC | LDDFR_YF_444,
+> +		.ldddsr = LDDDSR_LS | LDDDSR_WS | LDDDSR_BS,
+> +		.ldbbsifr = LDBBSIFR_AL_1 | LDBBSIFR_SWPL | LDBBSIFR_SWPW |
+> +			    LDBBSIFR_SWPB | LDBBSIFR_CHRR_444,
+>  	}, {
+>  		.fourcc = DRM_FORMAT_NV42,
+>  		.bpp = 24,
+> -		.yuv = true,
+>  		.lddfr = LDDFR_CC | LDDFR_YF_444,
+> +		.ldddsr = LDDDSR_LS | LDDDSR_WS,
+> +		.ldbbsifr = LDBBSIFR_AL_1 | LDBBSIFR_SWPL | LDBBSIFR_SWPW |
+> +			    LDBBSIFR_CHRR_444,
+>  	},
+>  };
+>  
+> @@ -112,7 +132,7 @@ shmob_drm_fb_create(struct drm_device *dev, struct drm_file *file_priv,
+>  		return ERR_PTR(-EINVAL);
+>  	}
+>  
+> -	if (format->yuv) {
+> +	if (shmob_drm_format_is_yuv(format)) {
+>  		unsigned int chroma_cpp = format->bpp == 24 ? 2 : 1;
+>  
+>  		if (mode_cmd->pitches[1] != mode_cmd->pitches[0] * chroma_cpp) {
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.h b/drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.h
+> index 0347b1fd2338a84d..590162c3db20209d 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.h
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.h
+> @@ -17,11 +17,14 @@ struct shmob_drm_device;
+>  
+>  struct shmob_drm_format_info {
+>  	u32 fourcc;
+> -	unsigned int bpp;
+> -	bool yuv;
+> -	u32 lddfr;
+> +	u32 lddfr;	/* LCD Data Format Register */
+> +	u16 ldbbsifr;	/* CHn Source Image Format Register low bits */
+> +	u8 ldddsr;	/* LCDC Input Image Data Swap Register low bits */
+> +	u8 bpp;
+>  };
+>  
+> +#define shmob_drm_format_is_yuv(format)	((format)->lddfr & LDDFR_CC)
+> +
+>  const struct shmob_drm_format_info *shmob_drm_format_info(u32 fourcc);
+>  
+>  int shmob_drm_modeset_init(struct shmob_drm_device *sdev);
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> index 36fedb2b74c8b7a2..0b2ab153e9ae76df 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> @@ -43,12 +43,12 @@ static void shmob_drm_plane_compute_base(struct shmob_drm_plane *splane,
+>  	struct drm_gem_dma_object *gem;
+>  	unsigned int bpp;
+>  
+> -	bpp = splane->format->yuv ? 8 : splane->format->bpp;
+> +	bpp = shmob_drm_format_is_yuv(splane->format) ? 8 : splane->format->bpp;
+>  	gem = drm_fb_dma_get_gem_obj(fb, 0);
+>  	splane->dma[0] = gem->dma_addr + fb->offsets[0]
+>  		       + y * fb->pitches[0] + x * bpp / 8;
+>  
+> -	if (splane->format->yuv) {
+> +	if (shmob_drm_format_is_yuv(splane->format)) {
+>  		bpp = splane->format->bpp - 8;
+>  		gem = drm_fb_dma_get_gem_obj(fb, 1);
+>  		splane->dma[1] = gem->dma_addr + fb->offsets[1]
+> @@ -64,54 +64,8 @@ static void __shmob_drm_plane_setup(struct shmob_drm_plane *splane,
+>  	u32 format;
+>  
+>  	/* TODO: Support ROP3 mode */
+> -	format = LDBBSIFR_EN | (splane->alpha << LDBBSIFR_LAY_SHIFT);
+> -
+> -	switch (splane->format->fourcc) {
+> -	case DRM_FORMAT_RGB565:
+> -	case DRM_FORMAT_NV21:
+> -	case DRM_FORMAT_NV61:
+> -	case DRM_FORMAT_NV42:
+> -		format |= LDBBSIFR_SWPL | LDBBSIFR_SWPW;
+> -		break;
+> -	case DRM_FORMAT_RGB888:
+> -	case DRM_FORMAT_NV12:
+> -	case DRM_FORMAT_NV16:
+> -	case DRM_FORMAT_NV24:
+> -		format |= LDBBSIFR_SWPL | LDBBSIFR_SWPW | LDBBSIFR_SWPB;
+> -		break;
+> -	case DRM_FORMAT_ARGB8888:
+> -	case DRM_FORMAT_XRGB8888:
+> -	default:
+> -		format |= LDBBSIFR_SWPL;
+> -		break;
+> -	}
+> -
+> -	switch (splane->format->fourcc) {
+> -	case DRM_FORMAT_RGB565:
+> -		format |= LDBBSIFR_AL_1 | LDBBSIFR_RY | LDBBSIFR_RPKF_RGB16;
+> -		break;
+> -	case DRM_FORMAT_RGB888:
+> -		format |= LDBBSIFR_AL_1 | LDBBSIFR_RY | LDBBSIFR_RPKF_RGB24;
+> -		break;
+> -	case DRM_FORMAT_ARGB8888:
+> -		format |= LDBBSIFR_AL_PK | LDBBSIFR_RY | LDBBSIFR_RPKF_ARGB32;
+> -		break;
+> -	case DRM_FORMAT_XRGB8888:
+> -		format |= LDBBSIFR_AL_1 | LDBBSIFR_RY | LDBBSIFR_RPKF_ARGB32;
+> -		break;
+> -	case DRM_FORMAT_NV12:
+> -	case DRM_FORMAT_NV21:
+> -		format |= LDBBSIFR_AL_1 | LDBBSIFR_CHRR_420;
+> -		break;
+> -	case DRM_FORMAT_NV16:
+> -	case DRM_FORMAT_NV61:
+> -		format |= LDBBSIFR_AL_1 | LDBBSIFR_CHRR_422;
+> -		break;
+> -	case DRM_FORMAT_NV24:
+> -	case DRM_FORMAT_NV42:
+> -		format |= LDBBSIFR_AL_1 | LDBBSIFR_CHRR_444;
+> -		break;
+> -	}
+> +	format = LDBBSIFR_EN | (splane->alpha << LDBBSIFR_LAY_SHIFT) |
+> +		 splane->format->ldbbsifr;
+>  
+>  #define plane_reg_dump(sdev, splane, reg) \
+>  	dev_dbg(sdev->ddev->dev, "%s(%u): %s 0x%08x 0x%08x\n", __func__, \
+> @@ -144,7 +98,7 @@ static void __shmob_drm_plane_setup(struct shmob_drm_plane *splane,
+>  	shmob_drm_plane_compute_base(splane, fb, splane->src_x, splane->src_y);
+>  
+>  	lcdc_write(sdev, LDBnBSAYR(splane->index), splane->dma[0]);
+> -	if (splane->format->yuv)
+> +	if (shmob_drm_format_is_yuv(splane->format))
+>  		lcdc_write(sdev, LDBnBSACR(splane->index), splane->dma[1]);
+>  
+>  	lcdc_write(sdev, LDBCR,
+
 -- 
-2.39.3
+Regards,
 
+Laurent Pinchart
