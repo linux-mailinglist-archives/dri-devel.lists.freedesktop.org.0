@@ -1,71 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC01273B648
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 13:32:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DA2973B667
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 13:37:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1EF110E046;
-	Fri, 23 Jun 2023 11:32:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A84C310E06C;
+	Fri, 23 Jun 2023 11:37:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D021910E046
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 11:32:11 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id
- ffacd0b85a97d-311367a3e12so622919f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 04:32:11 -0700 (PDT)
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98FE510E061
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 11:37:16 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id
+ 38308e7fff4ca-2b4745834f3so8863951fa.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 04:37:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687519930; x=1690111930;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=P9ZwMVs40czKD5XDSrs3iEN9LA7uWnLI8CR5BnKA0UY=;
- b=CBjeN7Yvl5QDbituklmqZYeodwleXYQass+yos6URLcHssixFhCMZxvF+jOiJBronY
- TUc+FzMyHVmqqqWiV9V+k5l6twTk122i3RyDlVkNHI3MWhcxB6hJgbF81mldq2SB0/o4
- +TSgcFT7VMD+sL+b8QR5RByGb5dEfhRF0t4C3w3BJBiJ2+UdO5VsrRvXs3LNp6ofdMjA
- kDgPzaJc8xIdR8XyFaJuykoj1vS04qnfS239pyKpQrtH4itrndfzksqWEYdq6rF8AQq/
- PhsCgdhin9pB5O5vUA8m9f+mNTumHP8dApeX+y6jtCT4yI/ogr8Conin9X3SJ2MG2PpU
- 0u9A==
+ d=linaro.org; s=google; t=1687520234; x=1690112234;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Cno2LvifIIwNp8WyPKzeWjl5KgumWlzSdo3J2rjBK4w=;
+ b=eVvGdkiE/BhdwotgtG29D6pMZoytFINfdK5IwTY+okHmiDV/sCVEf3F+4FvniSB4Nk
+ 9WMHQQJuM+6O/awFnVa8YrbnfQjgCla9YGsHwYfZJl1FfUfXCqlNz2FBmNiG36T7AxfL
+ BNgskQXdwXcUaATlykSt7n163CQ7g0hjrYnc/gPnEJuURu7ys5f6dZ0x+SXzG/NrY909
+ Z5VYSCRHs7rILbN73JT4mPYYtGDsbz045w5ouqbnl+o/9sGNGklOIBG9tvzGkHosPw+y
+ JOq/l6K9b6pnTP2XpHU/XtmolRCIV1LUsKzlM0QPnZlIs1lCMjYYCUg+TTYyF4pDEc6u
+ 5Epg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687519930; x=1690111930;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20221208; t=1687520234; x=1690112234;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=P9ZwMVs40czKD5XDSrs3iEN9LA7uWnLI8CR5BnKA0UY=;
- b=Tm0gOvXceD1cHI/iu+Xp2CZ/hMf9sxTOh1mN0sojuHPN0Y+IO7Z3lLHfpQuHlQxZVx
- DyH5glQ09kpDpFI+EUPEu1qshbqoaU8/qHawpvAeh7IVweMipD2GremAvsTG+mAIEppZ
- mFhS8Mrf4MW/BYiOI0y+TqYY/kC20EP4HUjewgFJEdtj0DWvgkoLU8wSWiXTQTik5pe4
- MeO+90dyLL7nRgRuvp94Qy3/qk+CglbribGb60pNruuFK+DCYi0/cDqIpKAmnmO+TK90
- fRZaN/SRvXYlFJez60LyiI7aqSqbMgja37JmZU8fSvkJHyuqWL15lz1Ui4TTPJTVXNQs
- opEA==
-X-Gm-Message-State: AC+VfDzGc5xAVmcb1+k4pxBEb8my7HVsdKT91i2BCSlrI13WnykUtUsX
- Xc9EGAij3LO70epBgfizHhMrRA==
-X-Google-Smtp-Source: ACHHUZ4yGE7Jj/528UNR5dVYTd1jl6cieW71vsAHwRVCrwh0+5oIyPiflT16AwEbtFUCmIfx+HhwlQ==
-X-Received: by 2002:a5d:5751:0:b0:30f:c943:f925 with SMTP id
- q17-20020a5d5751000000b0030fc943f925mr16966957wrw.49.1687519929755; 
- Fri, 23 Jun 2023 04:32:09 -0700 (PDT)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ bh=Cno2LvifIIwNp8WyPKzeWjl5KgumWlzSdo3J2rjBK4w=;
+ b=SxG+CkDXW4Q/95M8Od7qPf610dISJTafvdlIDedBNYrdzpsakLXOhHplumWkqXuz6i
+ fA7n5iOHdKnhA1f3RTk7FBf6hJxUtBN41bFaEW3ziPCOWPVaiKdoATcMD+AA9kDozAqB
+ B8s4kiFc+Ql2W49QV7rjfGcxAdMBBbcL9lG3XrDGAIkbk9LC53fH2yJz2j3M1IvfKvth
+ zft5wEgKzJOYtbZSeUNRczg82rMtCQmq8JELfompH0LA95/zmAklJ9HPdsERQCu2/4iD
+ 0iRY6wc1RnRNLs+VCnvr+5sPmbRKu5SA0ThdXiAsB5skAXWHZjAyjuqvUV1xppiFwjIS
+ C8ZA==
+X-Gm-Message-State: AC+VfDx2i3EErPmJgI+GsZ83lB504PwYOcSD97HPCmY2k+f+CP2P3EmM
+ hQ+r5gpYW9JQOsK5OaUBbS63zA==
+X-Google-Smtp-Source: ACHHUZ5bUzhJUNRIJiKNQkFux9OsSkH+TAbLk1s9ZatD90LVPofzJYwRwRWeg3QG0+fH51G+4wQCyQ==
+X-Received: by 2002:a2e:8908:0:b0:2b4:6f70:c393 with SMTP id
+ d8-20020a2e8908000000b002b46f70c393mr13758437lji.20.1687520234403; 
+ Fri, 23 Jun 2023 04:37:14 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
  by smtp.gmail.com with ESMTPSA id
- x7-20020a5d54c7000000b0031270cf1904sm9365570wrv.59.2023.06.23.04.32.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Jun 2023 04:32:09 -0700 (PDT)
-Date: Fri, 23 Jun 2023 12:32:07 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Alexandru Ardelean <alex@shruggie.ro>
-Subject: Re: [PATCH v2 1/2] dt-bindings: backlight: document new property
- default-brightness-level
-Message-ID: <20230623113207.GB4426@aspen.lan>
-References: <20230621215457.11297-1-alex@shruggie.ro>
- <20230622021303.GA68330-robh@kernel.org>
- <CAH3L5Qp3q=K5w+LbccZBJqvkz98WgFLqg__y7Be_=-2GsWQs+Q@mail.gmail.com>
+ l5-20020a2e7005000000b002b483003b1asm1664397ljc.69.2023.06.23.04.37.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Jun 2023 04:37:13 -0700 (PDT)
+Message-ID: <ad1cf803-729f-5ef5-a6cf-667ecde0b282@linaro.org>
+Date: Fri, 23 Jun 2023 14:37:12 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAH3L5Qp3q=K5w+LbccZBJqvkz98WgFLqg__y7Be_=-2GsWQs+Q@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 1/2] drm/msm/dpu: fix DSC 1.2 block lengths
+Content-Language: en-GB
+To: Marijn Suijten <marijn.suijten@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20230623013731.1088007-1-dmitry.baryshkov@linaro.org>
+ <6b74cb1f-3128-4ebd-8ff9-33cc025d957b@quicinc.com>
+ <mwxs3rvemvdizqtsfa7pxms5prgrdq2lue6lvkt2f23nehzhwr@uawaxv5jsnmh>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <mwxs3rvemvdizqtsfa7pxms5prgrdq2lue6lvkt2f23nehzhwr@uawaxv5jsnmh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,85 +80,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: conor+dt@kernel.org, linux-fbdev@vger.kernel.org,
- krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
- jingoohan1@gmail.com, deller@gmx.de, lee@kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, pavel@ucw.cz,
- Yannick Fertre <yannick.fertre@foss.st.com>, linux-leds@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 23, 2023 at 10:19:57AM +0300, Alexandru Ardelean wrote:
-> On Thu, Jun 22, 2023 at 5:13 AM Rob Herring <robh@kernel.org> wrote:
-> > > +++ b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
-> > >    default-on:
-> > > -    description: enable the backlight at boot.
-> > > +    description:
-> > > +      The default power state of the backlight at boot.
-> > >      type: boolean
-> > >
-> > > +  default-brightness-level:
-> > > +    description:
-> > > +      The default brightness level on device init. The value can be 0 or 1.
-> > > +      If omitted, the value is 1. In the context of the "gpio-backlight" driver
-> > > +      the effect of this setting will be that the backlight is on/off.
-> > > +      The difference between this setting and "default-on" is that this handles
-> > > +      brightness, while "default-on" handles the power setting of the device.
-> >
-> > What power setting? You only have 1 GPIO to control here which is 2
-> > states.
+On 23/06/2023 09:54, Marijn Suijten wrote:
+> On 2023-06-22 22:47:04, Abhinav Kumar wrote:
+>> On 6/22/2023 6:37 PM, Dmitry Baryshkov wrote:
+>>> All DSC_BLK_1_2 declarations incorrectly pass 0x29c as the block length.
+>>> This includes the common block itself, enc subblocks and some empty
+>>> space around. Change that to pass 0x4 instead, the length of common
+>>> register block itself.
+>>>
+>>> Fixes: 0d1b10c63346 ("drm/msm/dpu: add DSC 1.2 hw blocks for relevant chipsets")
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>
+>> There is no need of a fixes tag for this.
+>>
+>> This is not a bug but was intentional.
+>>
+>> Till we added sub-block parsing support we had to dump the whole block.
+>>
+>> And hence I would suggest this change should be merged after the
+>> sub-block parsing change otherwise we wont have full register dumps for DSC.
+> 
+> This was indeed intentional, we discussed it in [1].
+> 
+> In fact I asked to make it 0xf00 + 0x10 or 0xf80 + 0x10 to also cover
+> the CTL registers, but that change didn't make it through.  0x29c is an
+> arbitrary number that I have no clue what it was based on.
 
-There are at least three states: On/Off/HiZ .
+This should have been NAKed. or at least TODOed.
 
-Currently the DT description isn't acually rich enough to allow drivers
-to safely use the HiZ state so that is not why this change is potentially
-useful today (but does illustrate why it is not "wrong" to put it on the
-h/ware description).
+> 
+> [1]: https://lore.kernel.org/linux-arm-msm/y2whfntyo2rbrg3taazjdw5sijle6k6swzl4uutcxm6tmuayh4@uxdur74uasua/
+> 
+> - Marijn
 
+-- 
+With best wishes
+Dmitry
 
-> > I fail to see why you need 6 possible states with all the
-> > combinations of 2 properties.
->
-> So, the "default-on" bool gets converted to backlight power settings,
-> which eventually gets converted back to GPIO values (at some point).
-> Which sounds quirky (when saying/writing it).
-
-Modern DT practice is to for the display to link to backlight. This
-gives display control over power state (so backlight automatically
-follows the display power state). On such systems the backlight will
-be turned "on" when the display hardware comes up (regardless of whether
-or not default-on is set).
-
-Thus this control covers the case where we have a display that is
-readable when the GPIO is off (e.g. transflexive LCD or epaper).
-A display that is readable with the GPIO off means the default
-brightness brightness at boot can meaningfully be zero. In this
-case the backlight is nominally on but the GPIO is off.
-
-In short, this becomes part of the hardware description, rather than
-merely being a driver feature, due to the effect of linking display
-to backlight in the DT.
-
-Note also that most backlights do expose on/off via DT for the same
-reasons (when the off and zero states both result in the backlight
-output pin doing physically the same thing).
-
-
-> But, yeah.
-> That's one thing that also made me a bit undecided to send this.
-> On the one hand I like the uniformity it brings.
-> On the other hand, because there is the legacy behavior (the
-> "default-on" property, and the fact that we can use the GPIO DT
-> settings to control this) just explodes complexity/quirks.
->
-> We can probably just drop this.
-> I'll also admit that my doc-writing skills aren't too great.
-
-It may be potentially useful for people building kit with sunlight
-readable displays and trivial backlights as a backup in the dark.
-
-Of course if the pin the backlight is connected to is PWM capable
-then the PWM backlight is probably a better bet ;-) .
-
-
-Daniel.
