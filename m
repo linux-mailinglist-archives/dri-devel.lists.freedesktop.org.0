@@ -1,43 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2951173C2AE
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 23:22:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A915A73C268
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 23:16:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5C3810E6C2;
-	Fri, 23 Jun 2023 21:22:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9215C10E0F5;
+	Fri, 23 Jun 2023 21:16:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail3-relais-sop.national.inria.fr
- (mail3-relais-sop.national.inria.fr [192.134.164.104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34B1110E6BA
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 21:22:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inria.fr; s=dc;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=jammjAxbCgbnRHLqhi6UIftAryvqKnOHjwdJrbKzjag=;
- b=Z47OQtnPiaEB5oaBB+oz82Qsg6BtHw8YihUVIhQDCMR+I0tQpbbrpJXq
- nj5C0YQSxjWsFlY9SUmJShUU8xGXEqdHAlNbU+0vzr8txprHO2a1l78O0
- vJXXUrP7E3H3oTBJf1CDCM1QC0nZjMpj3m7aYP6mcSPVWR15IxWF2hFkG o=;
-Authentication-Results: mail3-relais-sop.national.inria.fr;
- dkim=none (message not signed) header.i=none;
- spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr;
- dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.01,153,1684792800"; d="scan'208";a="59686178"
-Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
- by mail3-relais-sop.national.inria.fr with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2023 23:15:13 +0200
-From: Julia Lawall <Julia.Lawall@inria.fr>
-To: Zack Rusin <zackr@vmware.com>
-Subject: [PATCH 20/26] drm/vmwgfx: use array_size
-Date: Fri, 23 Jun 2023 23:14:51 +0200
-Message-Id: <20230623211457.102544-21-Julia.Lawall@inria.fr>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20230623211457.102544-1-Julia.Lawall@inria.fr>
-References: <20230623211457.102544-1-Julia.Lawall@inria.fr>
+Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com
+ [IPv6:2607:f8b0:4864:20::c35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 329B910E0F5
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 21:16:41 +0000 (UTC)
+Received: by mail-oo1-xc35.google.com with SMTP id
+ 006d021491bc7-562f36eaba9so803591eaf.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 14:16:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1687555000; x=1690147000;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ZQjsSh8xdWQ7cPSJtrniG176fZtuSK++L5k+xgsmZik=;
+ b=ESpvJyVDoB79drIjOoAJ7jJmROWECWJhuY5F5jyzXynNOhh11WpPYLogcylvclyOJ7
+ 8V3Ahhb1JbiMsfuGm4wi8DnoRbsrMF+JujJB4pAl4Vp3mKrus4tCH4p1qpfXXBILGOLg
+ UKRO4DguHNL9cYyvRCefJVd86PI7PDDAFP7eCnFL/bh6OWp3N/ymtdkFn9/ujPX6hRlY
+ 8gsOKZJT2C+WKBQm8AnGJWkPBJd1tv99Gazdjj6HH1CuEBWA8rn/ens7O21TFtiOT+Xt
+ w7sUVCB/Gr1ni0xYvw1YHdhlI+aGyrQCidT0fvtsMeXluncZONwucVTjGToyS2FZLH1+
+ l93g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687555000; x=1690147000;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ZQjsSh8xdWQ7cPSJtrniG176fZtuSK++L5k+xgsmZik=;
+ b=iuFLJdMY35ghvs+e0FOhwE3mJuIW2AGBVCEWxJe0P0XpBIbjvKa/a3rHcL+pnrl7Jc
+ 0Py0zga9kkBEle0kxxQQmWNIy5zLno5KrOgPmdfHy/7XuVK05iiWXPJe4ZYAuTZZm1mY
+ gUkLCnhKg14zC+h3Vh2U+i70ZUolZSn5Vd7UppDxtqLNGSSs0B9P9lqqCd1Ur2bu5mO+
+ TItgaRDW7yTbM0wsEpgalveYkr/k+c1v5oItz/ocgJ2DG59C9CKH8iPyZGqhvvyAA3Jz
+ Z+QQ/KJUc8MPbGQrEhH/e/tWtm4oTGSvHQIVmWSLq9/ShbYrTb7s+qNS8zA0jKGcjmqc
+ amNQ==
+X-Gm-Message-State: AC+VfDx82hQ1PbTZoY9Daqt+/YyE5BjhCbJmw8eawTayBSX/vqShY5Vx
+ kxBPgAcgbcrLhzTqe7e4uD/Bpuogds08Bhbt/VYt5y1j
+X-Google-Smtp-Source: ACHHUZ6M+mrqYMfIbhI/K065uI8kB0wZnxk/Y3/Ahj8C7M5Dpjc3wCkpsuKvLxkPy8+BBPcAo/JugzNTgGVqabTNcXo=
+X-Received: by 2002:a4a:b6c2:0:b0:560:cb1c:1534 with SMTP id
+ w2-20020a4ab6c2000000b00560cb1c1534mr3630658ooo.2.1687554999957; Fri, 23 Jun
+ 2023 14:16:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAPM=9twXadK-V1qttzJV3ks8hZu7jY3Nswzw6EgGADnJZF2+fA@mail.gmail.com>
+In-Reply-To: <CAPM=9twXadK-V1qttzJV3ks8hZu7jY3Nswzw6EgGADnJZF2+fA@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 23 Jun 2023 17:16:29 -0400
+Message-ID: <CADnq5_NmQdzpmuG+UtQTW3+MLp6em+M7dCQ2ZiAv0_HvM6cU9g@mail.gmail.com>
+Subject: Re: [git pull] drm fixes for 6.4 final
+To: Dave Airlie <airlied@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,53 +68,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: keescook@chromium.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use array_size to protect against multiplication overflows.
+On Fri, Jun 23, 2023 at 2:49=E2=80=AFAM Dave Airlie <airlied@gmail.com> wro=
+te:
+>
+> Hey Linus,
+>
+> very quiet last week, just two misc fixes, one dp-mst and one qaic.
+>
+> Should be all ready for the merge window next week.
 
-The changes were done using the following Coccinelle semantic patch:
+Was out of the office this week and didn't get to -fixes until today.
+Will send the PR to everyone now.
 
-// <smpl>
-@@
-    size_t e1,e2;
-    expression COUNT;
-    identifier alloc = {vmalloc,vzalloc,kvmalloc,kvzalloc};
-@@
+Alex
 
-(
-      alloc(
--           (e1) * (e2)
-+           array_size(e1, e2)
-      ,...)
-|
-      alloc(
--           (e1) * (COUNT)
-+           array_size(COUNT, e1)
-      ,...)
-)
-// </smpl>
 
-Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
-
----
- drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.c b/drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.c
-index 829df395c2ed..c72fc8111a11 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.c
-@@ -88,7 +88,7 @@ int vmw_devcaps_create(struct vmw_private *vmw)
- 	uint32_t i;
- 
- 	if (gb_objects) {
--		vmw->devcaps = vzalloc(sizeof(uint32_t) * SVGA3D_DEVCAP_MAX);
-+		vmw->devcaps = vzalloc(array_size(SVGA3D_DEVCAP_MAX, sizeof(uint32_t)));
- 		if (!vmw->devcaps)
- 			return -ENOMEM;
- 		for (i = 0; i < SVGA3D_DEVCAP_MAX; ++i) {
-
+>
+> Dave.
+>
+> drm-fixes-2023-06-23:
+> drm fixes for 6.4 final
+>
+> qaic:
+> - dma-buf import fix
+>
+> dp-mst:
+> - fix NULL ptr deref
+> The following changes since commit 45a3e24f65e90a047bef86f927ebdc4c710eda=
+a1:
+>
+>   Linux 6.4-rc7 (2023-06-18 14:06:27 -0700)
+>
+> are available in the Git repository at:
+>
+>   git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-06-23
+>
+> for you to fetch changes up to 9bd9be5cbaf8a8faa175ef4fba04a5623281debe:
+>
+>   Merge tag 'drm-misc-fixes-2023-06-21' of
+> git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2023-06-23
+> 12:16:48 +1000)
+>
+> ----------------------------------------------------------------
+> drm fixes for 6.4 final
+>
+> qaic:
+> - dma-buf import fix
+>
+> dp-mst:
+> - fix NULL ptr deref
+>
+> ----------------------------------------------------------------
+> Dave Airlie (1):
+>       Merge tag 'drm-misc-fixes-2023-06-21' of
+> git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+>
+> Jeff Layton (1):
+>       drm: use mgr->dev in drm_dbg_kms in drm_dp_add_payload_part2
+>
+> Pranjal Ramajor Asha Kanojiya (1):
+>       accel/qaic: Call DRM helper function to destroy prime GEM
+>
+>  drivers/accel/qaic/qaic_data.c                | 4 ++--
+>  drivers/gpu/drm/display/drm_dp_mst_topology.c | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
