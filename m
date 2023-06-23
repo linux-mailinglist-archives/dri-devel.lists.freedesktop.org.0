@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C43173BD99
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 19:16:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A89873BDAA
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 19:18:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AC7910E0BA;
-	Fri, 23 Jun 2023 17:16:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16A5010E68E;
+	Fri, 23 Jun 2023 17:18:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11EBF10E0BA
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 17:16:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C071510E68C
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 17:18:10 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
  [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 131D9838;
- Fri, 23 Jun 2023 19:15:24 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 97FB3838;
+ Fri, 23 Jun 2023 19:17:32 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1687540524;
- bh=+m8bhcEorL2N0D3vtWBNikB8ew3LCemt+gm4zE68GYw=;
+ s=mail; t=1687540652;
+ bh=0YZ1lxPbJiyDK0Mx7CR1+kV4GfIdauMzmbmUCh2M2yg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lFsyNBUPmVf0C7fnm8NfYfQw/CLaSrU/X5zKictx5sbxGy7CeXXQlYoRBjjIEQRmB
- EBFiwkuvYNTq48qYJ+5SkML9WgieDha5zWLAm7Ke97vBODl7PH6Zt5KLTh0RMbF4a+
- FWbp0Tnl5UtftIhVvwnP3Sjwh/CYxEe5i6ogXJGg=
-Date: Fri, 23 Jun 2023 20:15:59 +0300
+ b=I80U+ueO1+v3u+Akn9EWaSLkx1e6Z1BF8fHrMrFnz3SNglr77oZHGHNOAV2/B6DaG
+ tXC7IHbwESkqu7MTeeYE2l+kqt4cTfaZGH2A9W9m924sfNsORuMF64ebfvEtEbzaBU
+ g6eaEz66f6uhobK56I8/6d5c9ZEmlggEQXKZe1Ig=
+Date: Fri, 23 Jun 2023 20:18:08 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH 37/39] drm: renesas: shmobile: Remove internal CRTC state
- tracking
-Message-ID: <20230623171559.GM2112@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 38/39] drm: renesas: shmobile: Atomic conversion part 3
+Message-ID: <20230623171808.GN2112@pendragon.ideasonboard.com>
 References: <cover.1687423204.git.geert+renesas@glider.be>
- <7a758de388d2f904ac94eb256d815bb6b7bc6663.1687423204.git.geert+renesas@glider.be>
+ <9fcb81f939a6c4f09204f084519bf29d993b005a.1687423204.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <7a758de388d2f904ac94eb256d815bb6b7bc6663.1687423204.git.geert+renesas@glider.be>
+In-Reply-To: <9fcb81f939a6c4f09204f084519bf29d993b005a.1687423204.git.geert+renesas@glider.be>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,133 +58,55 @@ Hi Geert,
 
 Thank you for the patch.
 
-On Thu, Jun 22, 2023 at 11:21:49AM +0200, Geert Uytterhoeven wrote:
-> Now the suspend/resume methods no longer need to look at internal driver
-> state, the dpms and started fields in the shmob_drm_crtc structure can
-> be removed, as well as the shmob_drm_crtc_dpms() wrapper.
+On Thu, Jun 22, 2023 at 11:21:50AM +0200, Geert Uytterhoeven wrote:
+> Complete the conversion to atomic mode setting by converting the
+> connector, and setting the DRIVER_ATOMIC flag.
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  .../gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 35 ++++---------------
->  .../gpu/drm/renesas/shmobile/shmob_drm_crtc.h |  3 --
->  2 files changed, 6 insertions(+), 32 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-> index b11bb666de3bac46..f2332bb0fbbd51a1 100644
-> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-> @@ -196,9 +196,6 @@ static void shmob_drm_crtc_start(struct shmob_drm_crtc *scrtc)
->  	u32 value;
->  	int ret;
->  
-> -	if (scrtc->started)
-> -		return;
-> -
->  	ret = pm_runtime_resume_and_get(dev);
->  	if (ret)
->  		return;
-> @@ -252,8 +249,6 @@ static void shmob_drm_crtc_start(struct shmob_drm_crtc *scrtc)
->  
->  	/* Turn vertical blank interrupt reporting back on. */
->  	drm_crtc_vblank_on(crtc);
-> -
-> -	scrtc->started = true;
->  }
->  
->  /* -----------------------------------------------------------------------------
-> @@ -314,9 +309,6 @@ static void shmob_drm_crtc_stop(struct shmob_drm_crtc *scrtc)
->  	struct drm_crtc *crtc = &scrtc->base;
->  	struct shmob_drm_device *sdev = to_shmob_device(crtc->dev);
->  
-> -	if (!scrtc->started)
-> -		return;
-> -
->  	/*
->  	 * Disable vertical blank interrupt reporting.  We first need to wait
->  	 * for page flip completion before stopping the CRTC as userspace
-> @@ -335,8 +327,6 @@ static void shmob_drm_crtc_stop(struct shmob_drm_crtc *scrtc)
->  	shmob_drm_clk_off(sdev);
->  
->  	pm_runtime_put(sdev->dev);
-> -
-> -	scrtc->started = false;
->  }
->  
->  static inline struct shmob_drm_crtc *to_shmob_crtc(struct drm_crtc *crtc)
-> @@ -344,21 +334,6 @@ static inline struct shmob_drm_crtc *to_shmob_crtc(struct drm_crtc *crtc)
->  	return container_of(crtc, struct shmob_drm_crtc, base);
->  }
->  
-> -static void shmob_drm_crtc_dpms(struct drm_crtc *crtc, int mode)
-> -{
-> -	struct shmob_drm_crtc *scrtc = to_shmob_crtc(crtc);
-> -
-> -	if (scrtc->dpms == mode)
-> -		return;
-> -
-> -	if (mode == DRM_MODE_DPMS_ON)
-> -		shmob_drm_crtc_start(scrtc);
-> -	else
-> -		shmob_drm_crtc_stop(scrtc);
-> -
-> -	scrtc->dpms = mode;
-> -}
-> -
->  static void shmob_drm_crtc_atomic_flush(struct drm_crtc *crtc,
->  					struct drm_atomic_state *state)
->  {
-> @@ -378,13 +353,17 @@ static void shmob_drm_crtc_atomic_flush(struct drm_crtc *crtc,
->  static void shmob_drm_crtc_atomic_enable(struct drm_crtc *crtc,
->  					 struct drm_atomic_state *state)
->  {
-> -	shmob_drm_crtc_dpms(crtc, DRM_MODE_DPMS_ON);
-> +	struct shmob_drm_crtc *scrtc = to_shmob_crtc(crtc);
-> +
-> +	shmob_drm_crtc_start(scrtc);
-
-If this function isn't called from any other location anymore, you may
-want to inline it.
-
->  }
->  
->  static void shmob_drm_crtc_atomic_disable(struct drm_crtc *crtc,
->  					  struct drm_atomic_state *state)
->  {
-> -	shmob_drm_crtc_dpms(crtc, DRM_MODE_DPMS_OFF);
-> +	struct shmob_drm_crtc *scrtc = to_shmob_crtc(crtc);
-> +
-> +	shmob_drm_crtc_stop(scrtc);
-
-Same here.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
+> ---
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 5 +----
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c  | 2 +-
+>  2 files changed, 2 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> index f2332bb0fbbd51a1..17456dde57637ab8 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> @@ -574,7 +574,6 @@ static void shmob_drm_connector_destroy(struct drm_connector *connector)
 >  }
 >  
->  static const struct drm_crtc_helper_funcs crtc_helper_funcs = {
-> @@ -476,8 +455,6 @@ int shmob_drm_crtc_create(struct shmob_drm_device *sdev)
+>  static const struct drm_connector_funcs connector_funcs = {
+> -	.dpms = drm_helper_connector_dpms,
+>  	.reset = drm_atomic_helper_connector_reset,
+>  	.fill_modes = drm_helper_probe_single_connector_modes,
+>  	.destroy = shmob_drm_connector_destroy,
+> @@ -644,9 +643,7 @@ int shmob_drm_connector_create(struct shmob_drm_device *sdev,
+>  	if (ret < 0)
+>  		goto error;
 >  
->  	init_waitqueue_head(&sdev->crtc.flip_wait);
+> -	drm_helper_connector_dpms(connector, DRM_MODE_DPMS_OFF);
+> -	drm_object_property_set_value(&connector->base,
+> -		sdev->ddev.mode_config.dpms_property, DRM_MODE_DPMS_OFF);
+> +	connector->dpms = DRM_MODE_DPMS_OFF;
 >  
-> -	sdev->crtc.dpms = DRM_MODE_DPMS_OFF;
-> -
->  	primary = shmob_drm_plane_create(sdev, 0);
->  	if (IS_ERR(primary))
->  		return PTR_ERR(primary);
-> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h
-> index 37380c815f1f5a08..89a0746f9a35807d 100644
-> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h
-> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h
-> @@ -27,9 +27,6 @@ struct shmob_drm_crtc {
+>  	sdev->connector = connector;
 >  
->  	struct drm_pending_vblank_event *event;
->  	wait_queue_head_t flip_wait;
-> -	int dpms;
-> -
-> -	bool started;
->  };
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
+> index c43f408d6b1fcc5b..576869164479ec6b 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
+> @@ -98,7 +98,7 @@ static irqreturn_t shmob_drm_irq(int irq, void *arg)
+>  DEFINE_DRM_GEM_DMA_FOPS(shmob_drm_fops);
 >  
->  struct shmob_drm_connector {
+>  static const struct drm_driver shmob_drm_driver = {
+> -	.driver_features	= DRIVER_GEM | DRIVER_MODESET,
+> +	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+>  	DRM_GEM_DMA_DRIVER_OPS,
+>  	.fops			= &shmob_drm_fops,
+>  	.name			= "shmob-drm",
 
 -- 
 Regards,
