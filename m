@@ -1,40 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A89873BDAA
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 19:18:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7528273BDC7
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 19:28:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16A5010E68E;
-	Fri, 23 Jun 2023 17:18:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 862B410E68C;
+	Fri, 23 Jun 2023 17:28:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C071510E68C
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 17:18:10 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 97FB3838;
- Fri, 23 Jun 2023 19:17:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1687540652;
- bh=0YZ1lxPbJiyDK0Mx7CR1+kV4GfIdauMzmbmUCh2M2yg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=I80U+ueO1+v3u+Akn9EWaSLkx1e6Z1BF8fHrMrFnz3SNglr77oZHGHNOAV2/B6DaG
- tXC7IHbwESkqu7MTeeYE2l+kqt4cTfaZGH2A9W9m924sfNsORuMF64ebfvEtEbzaBU
- g6eaEz66f6uhobK56I8/6d5c9ZEmlggEQXKZe1Ig=
-Date: Fri, 23 Jun 2023 20:18:08 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH 38/39] drm: renesas: shmobile: Atomic conversion part 3
-Message-ID: <20230623171808.GN2112@pendragon.ideasonboard.com>
-References: <cover.1687423204.git.geert+renesas@glider.be>
- <9fcb81f939a6c4f09204f084519bf29d993b005a.1687423204.git.geert+renesas@glider.be>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99A5910E68C
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 17:28:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1687541309;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=6fU0VQ2K9z1Jj6RIKw9Q80E8iMxB7q7U8hKNsz0tnJQ=;
+ b=FtcB+sF2aYIWgQH5vOKmv8OZc05KqktlQX9ZltkFVdJtNZHlVLDnbrSHeqO81Jqdbi74kY
+ nN1UdKp2kDL34hB7a2vIjZFqOe9pyX+c7gQrRybbmo6jiGnzucflg5SAk5W+Q9eucTwIWo
+ vOIXRsOnSY+2j8gUD0NkYCP17o6chLE=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-155-PXkCJw8ZOUejc6wNAM_KVg-1; Fri, 23 Jun 2023 13:28:27 -0400
+X-MC-Unique: PXkCJw8ZOUejc6wNAM_KVg-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-76248f3057bso16703085a.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 10:28:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687541307; x=1690133307;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6fU0VQ2K9z1Jj6RIKw9Q80E8iMxB7q7U8hKNsz0tnJQ=;
+ b=YphCABlBZ75znZqmgHYrFI13M6jYGHIjnYjroZxtbEBsVNjR6UWqUTc8Hk8zobeZqT
+ JC2asSGjnrJ/S34NManUKfT9rkBV7P2C18PJ3Zni0rMcXxYkV7xr+IUrYxDVJIEn5xAp
+ Yg704PSy4mVjCs1+4S5kvuEPYeDjLUf5mpnbLNH6W5YFA7fbMzntGnkk3DuoAaFsUH4V
+ M88Juo6Vqzd38t+cjdzStRDHsJyh8yqedOecq5neAiLslcSccdLouM477qbJwAhnEnvU
+ 13HbtxslnVxbTpZeS+RB+CTU70FIaW7uvhTNhzYWocMvZeSiUylfAmQY3hOfoz9rpky9
+ PlfA==
+X-Gm-Message-State: AC+VfDxCNymNh+GJFeH7ML0JwbRlvzvaoURp1r9pnocaxybYCNe5Bunr
+ GwaldZUkySHTzTYVaBMLZLiqgtGW9YYernnHJGh3gOE5OyyyIl0dTKdX8ghgx8JdFMK9Q6T6TV5
+ tMwEsjzBN0iMIcr6sZYoMLaoo8Jb/
+X-Received: by 2002:a05:620a:2889:b0:75b:23a1:82a4 with SMTP id
+ j9-20020a05620a288900b0075b23a182a4mr26765902qkp.5.1687541306768; 
+ Fri, 23 Jun 2023 10:28:26 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7VViwaF12FfX/6pdG6AhUpCLUwFn4YR+G53Vb5p5iJruwoc/aa4i7ism3ViDHYJzAgSv9udQ==
+X-Received: by 2002:a05:620a:2889:b0:75b:23a1:82a4 with SMTP id
+ j9-20020a05620a288900b0075b23a182a4mr26765869qkp.5.1687541306451; 
+ Fri, 23 Jun 2023 10:28:26 -0700 (PDT)
+Received: from x1n (cpe5c7695f3aee0-cm5c7695f3aede.cpe.net.cable.rogers.com.
+ [99.254.144.39]) by smtp.gmail.com with ESMTPSA id
+ a30-20020a0ca99e000000b0062b35b691cdsm5293141qvb.93.2023.06.23.10.28.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Jun 2023 10:28:25 -0700 (PDT)
+Date: Fri, 23 Jun 2023 13:28:24 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v1 0/2] udmabuf: Add back support for mapping hugetlb pages
+Message-ID: <ZJXWOCwcms1DjN8w@x1n>
+References: <20230622072710.3707315-1-vivek.kasireddy@intel.com>
+ <6e429fbc-e0e6-53c0-c545-2e2cbbe757de@redhat.com>
+ <IA0PR11MB718510999F2C0E2B70914E2AF823A@IA0PR11MB7185.namprd11.prod.outlook.com>
+ <ZJXJ4ULRKVN5JPyv@x1n> <ZJXKZkxDKYxaJI/1@nvidia.com>
 MIME-Version: 1.0
+In-Reply-To: <ZJXKZkxDKYxaJI/1@nvidia.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <9fcb81f939a6c4f09204f084519bf29d993b005a.1687423204.git.geert+renesas@glider.be>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,68 +84,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: James Houghton <jthoughton@google.com>,
+ Jerome Marchand <jmarchan@redhat.com>, "Kim, Dongwon" <dongwon.kim@intel.com>,
+ David Hildenbrand <david@redhat.com>, "Chang,
+ Junxiao" <junxiao.chang@intel.com>, Muchun Song <muchun.song@linux.dev>,
+ "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, "Hocko, Michal" <mhocko@suse.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, John Hubbard <jhubbard@nvidia.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Geert,
-
-Thank you for the patch.
-
-On Thu, Jun 22, 2023 at 11:21:50AM +0200, Geert Uytterhoeven wrote:
-> Complete the conversion to atomic mode setting by converting the
-> connector, and setting the DRIVER_ATOMIC flag.
+On Fri, Jun 23, 2023 at 01:37:58PM -0300, Jason Gunthorpe wrote:
+> On Fri, Jun 23, 2023 at 12:35:45PM -0400, Peter Xu wrote:
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> ---
->  drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 5 +----
->  drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c  | 2 +-
->  2 files changed, 2 insertions(+), 5 deletions(-)
+> > It seems the previous concern on using gup was majorly fork(), if this is it:
+> > 
+> > https://patchwork.freedesktop.org/patch/210992/?series=39879&rev=2#comment_414213
 > 
-> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-> index f2332bb0fbbd51a1..17456dde57637ab8 100644
-> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-> @@ -574,7 +574,6 @@ static void shmob_drm_connector_destroy(struct drm_connector *connector)
->  }
->  
->  static const struct drm_connector_funcs connector_funcs = {
-> -	.dpms = drm_helper_connector_dpms,
->  	.reset = drm_atomic_helper_connector_reset,
->  	.fill_modes = drm_helper_probe_single_connector_modes,
->  	.destroy = shmob_drm_connector_destroy,
-> @@ -644,9 +643,7 @@ int shmob_drm_connector_create(struct shmob_drm_device *sdev,
->  	if (ret < 0)
->  		goto error;
->  
-> -	drm_helper_connector_dpms(connector, DRM_MODE_DPMS_OFF);
-> -	drm_object_property_set_value(&connector->base,
-> -		sdev->ddev.mode_config.dpms_property, DRM_MODE_DPMS_OFF);
-> +	connector->dpms = DRM_MODE_DPMS_OFF;
->  
->  	sdev->connector = connector;
->  
-> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> index c43f408d6b1fcc5b..576869164479ec6b 100644
-> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> @@ -98,7 +98,7 @@ static irqreturn_t shmob_drm_irq(int irq, void *arg)
->  DEFINE_DRM_GEM_DMA_FOPS(shmob_drm_fops);
->  
->  static const struct drm_driver shmob_drm_driver = {
-> -	.driver_features	= DRIVER_GEM | DRIVER_MODESET,
-> +	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
->  	DRM_GEM_DMA_DRIVER_OPS,
->  	.fops			= &shmob_drm_fops,
->  	.name			= "shmob-drm",
+> Fork and GUP have been fixed since that comment anyhow there is no
+> longer a problem using GUP and fork together.
+
+Ah, I read it previously as a requirement that the child will also be able
+the see the same / coherent page when manipulating the dmabuf later after
+fork(), e.g., the udmabuf can be created before fork().
+
+> 
+> > Could it also be guarded by just making sure the pages are MAP_SHARED when
+> > creating the udmabuf, if fork() is a requirement of the feature?
+> 
+> Also a resaonable thing to do
+> 
+> > For instance, what if the userapp just punchs a hole in the shmem/hugetlbfs
+> > file after creating the udmabuf (I see that F_SEAL_SHRINK is required, but
+> > at least not F_SEAL_WRITE with current impl), and fault a new page into the
+> > page cache?
+> 
+> It becomes incoherent just like all other GUP users if userspace
+> explicitly manipulates the VMAs. It is no different to what happens
+> with VFIO, qemu should treat this memory the same as it does for VFIO
+> memory.
+
+Agreed.
 
 -- 
-Regards,
+Peter Xu
 
-Laurent Pinchart
