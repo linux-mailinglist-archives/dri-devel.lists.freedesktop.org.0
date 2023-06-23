@@ -1,41 +1,143 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 051D973BBF6
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 17:48:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D0F373BBFA
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 17:49:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 650D010E665;
-	Fri, 23 Jun 2023 15:48:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 791D710E666;
+	Fri, 23 Jun 2023 15:49:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E01410E665
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 15:48:51 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id F2537838;
- Fri, 23 Jun 2023 17:48:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1687535293;
- bh=Cr3j7aexa8WAwMgg62BIgmrQaZI/I4rntBTLf0+HXZg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kpWNvhhacBf+A8WJs9gyv74Jr9p44s/IY16c+DQN52/9VKy4HO0w9c7jllqLqlCta
- Pykv8MHiqfuxAQtKoYM+t7ilvAItnuKg8ncEpo34tnlYuKepli8UT0mSuZjNQGHS0h
- F1MrUzwGVq4iLP81BUTElR4uimh65gktAgAALBuc=
-Date: Fri, 23 Jun 2023 18:48:48 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH 18/39] drm: renesas: shmobile: Embed drm_device in
- shmob_drm_device
-Message-ID: <20230623154848.GV2112@pendragon.ideasonboard.com>
-References: <cover.1687423204.git.geert+renesas@glider.be>
- <28a858c885713b3d64a531bbfa31efc3fffccc7d.1687423204.git.geert+renesas@glider.be>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2CD810E666;
+ Fri, 23 Jun 2023 15:49:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1687535358; x=1719071358;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=f1vtJUWn5GkrrciCQgPzyLnhU6Q134IlVZdSLsRGeNE=;
+ b=j9CPxVHUlkmNk5BHvqeIBVDtovbnVJWiw1HQwQwBVwIED0hyYHli7daT
+ DKUcT2W01Q77Q2EWLC82sJJHzYa9eP7qvQNhtQ3bka55otM1kYw6YqXO0
+ wmJq3jXi1vHH3o7PNELkkBlG1/YG0a2Pj78YqkGoMNMdDAta+U61VudlI
+ zcValizo4/KvyVeQ+mz1+hcSgUNbRIAg6huWrQlkc2eLK9Hu+NeX9cbz0
+ 4QuJNCbNF13O7tZ8Zm5eYwbZ21RLp3LC5urRs6JnBjK+t3yvK047fHz7G
+ RD3Tf/HSLy0i9IPSRhEFFq+DhXBOqkr1i62ZdRKRhPPF68P8jppe5R85P A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10750"; a="340386968"
+X-IronPort-AV: E=Sophos;i="6.01,152,1684825200"; d="scan'208";a="340386968"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2023 08:49:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10750"; a="961996992"
+X-IronPort-AV: E=Sophos;i="6.01,152,1684825200"; d="scan'208";a="961996992"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmsmga006.fm.intel.com with ESMTP; 23 Jun 2023 08:49:18 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Fri, 23 Jun 2023 08:49:17 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Fri, 23 Jun 2023 08:49:17 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Fri, 23 Jun 2023 08:49:17 -0700
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.43) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Fri, 23 Jun 2023 08:49:15 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FGgFIgJs1Xsx2aPb6scqHllvMes4tCr4tih6IYIAssU/YMpcS+hJDCK93aeNeb+jJZ+73oTWe5s0arNrz65gbqA6YnEQrpFfd0eK5CkBSf7jjsQW6VehSnAcOZHWEkJNhzmOXOMxx2RmCrVOk0GcTIB894O0iQOwsJM3/9dVDN6BtsRD6Ha61OvitTvh2sLucuU959B1JeKjVflWv4C/4x3cEqm7ZeId22xtKxNU5mfYWRp1UfkVwnPudpb4ej80MoDdoDyTr8yis+32GX3RVJPNOWEryVdEsthcjDU3V6YKjiT+AG6S2q8Jq81uupAlgXNFGSWUAsQusKoX9BGAsQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7jU+wMIXZ3DV8c4GEkCXPxzLXXDZpVA6XfCceWcMS7s=;
+ b=P56tQaSdZsbO9V9VJt2IP0WXPlCwGziHZg8yBOWGZdUFizcAKLb6Z0E+VUIqUOjnIEXyIEjm9ZRDrY8dwgYc9RuEMLHnHVoSyYL/of4M9tuHnxgd+TQXvcTMHVnNiRWkFzdpX+9+r41MeOr4Gn0LmsZCTA6QhjWlk38jY/El1/j9J726JE8cdabrHskYbz91mEzFDZnglqDBUQBx7jTUrPuhBnkg9jX6hv/LCTOTXLbX3zaFQ4V3EF3aFVB/L9o6YYPbJPZ7XXdNGySVFrRNq35FksfvDFgl9FjuiBzTP+MzlmUN2GzpCGSTRNc+4xs7C5UaJxOC4sJKw31WcbpN5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by IA0PR11MB7212.namprd11.prod.outlook.com (2603:10b6:208:43e::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.24; Fri, 23 Jun
+ 2023 15:49:08 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::44e7:c479:62f4:3eb4]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::44e7:c479:62f4:3eb4%7]) with mapi id 15.20.6521.023; Fri, 23 Jun 2023
+ 15:49:08 +0000
+Date: Fri, 23 Jun 2023 08:49:05 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Kenneth Graunke <kenneth@whitecape.org>
+Subject: Re: [PATCH 2/3] drm/i915/gt: Fix context workarounds with non-masked
+ regs
+Message-ID: <ehp36knxqfilobajjyk54oamk3n43s3cja5webx3q4jzm6xrlm@idrattdnr3fa>
+X-Patchwork-Hint: comment
+References: <20230622182731.3765039-1-lucas.demarchi@intel.com>
+ <20230622182731.3765039-2-lucas.demarchi@intel.com>
+ <3337022.2OMYdDKdcH@mizzik>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
 Content-Disposition: inline
-In-Reply-To: <28a858c885713b3d64a531bbfa31efc3fffccc7d.1687423204.git.geert+renesas@glider.be>
+In-Reply-To: <3337022.2OMYdDKdcH@mizzik>
+X-ClientProxiedBy: MW4PR03CA0330.namprd03.prod.outlook.com
+ (2603:10b6:303:dd::35) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|IA0PR11MB7212:EE_
+X-MS-Office365-Filtering-Correlation-Id: 29b40465-9a50-405e-ea6e-08db7401616b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ZspaTnhT7sH6WHgCVosHOHDXE34fEuJK3FEcHBZ1pz/mQmT5zgCxqzvWBBw5oAQMnq9RY8h2QLbrNuNVub9huoPMxODeDqjyJHffAF5XZsImkRAHFXpe9pIf8rHNBE9YthPXswVHiiJjvQNvAbp1RAcL1lTSk9N86XRnLt+L5eVKRT8Vr9lCmSPHSXs6vC27yVhN3g4/Eg+f2iEkhPmKz0XuLLBNa5XR1WTuigUMX95OBCUZaSCdQeF4HTfCe1RD/8V9CZPUnn7kuF7z9KAnUXUn1tw7yZLITu7ZLCAgYgRo3rNAX0cz/30Zz4frmKBTEbUQmCOlpRZKuCg04Eilbc8gYoGc3h8FxLLjanVJLZx+yV3O0iZ9wNIAjvQCA9hmAvtaj+jQm93bifeQw1SlyO9TAw2oagWCoBVsGycx25oLXd+Kd3oyBpK10E+GDfhMe/1m3axn8U+GTksoxgPUpDHlUgkspLIiLPTvTp0FytSkojIhCqGMb5WV3U+uHScKtR8lih0W7P9+KDjK0q6DO2szdjfvUpymxQuPD+vghDgNVgdRnBx9hZT1O7iBOKaX
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(7916004)(376002)(39860400002)(346002)(396003)(136003)(366004)(451199021)(33716001)(478600001)(86362001)(41300700001)(8936002)(6916009)(66946007)(66556008)(66476007)(316002)(8676002)(83380400001)(5660300002)(6486002)(6506007)(6666004)(6512007)(2906002)(4326008)(186003)(9686003)(26005)(82960400001)(38100700002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1uRDwALj/XX7cfPjqIODz6BDffHz9X33j5NF9Sbo297ViJPvA98BlS+QwW07?=
+ =?us-ascii?Q?D2nG/Dk0+ZSWaLrFbO22E2s9C3frU8D4fwN9q+G4MRYuxRk8AuQs6WxkKxro?=
+ =?us-ascii?Q?YItPbCW2MRzgpNm0dP6495tVo4jWFqJ35pKnRXtbLhYctdiDyF/7ud265KYg?=
+ =?us-ascii?Q?FMw9XCdIzWZTwiNfjcePdEpLMmwrTP44iVKTfKLnAIzq9gLqWv85V5fd68ho?=
+ =?us-ascii?Q?XBA50Y5A/5lTryPjxZg+Xm63t7WLOnyxwdxRkkph+fX10sDJ6F44HOyZTKsS?=
+ =?us-ascii?Q?JCA5Tn9wOmVsiyYqSP+RcJyRfsao7lw0XyI1o3tGtwPod60B9ojU2ZjAf7Z2?=
+ =?us-ascii?Q?W29cLwuj59O/yD00UIDGAi3FeTHIZmuZGsPyK9FloeiwteiWwtTrtKbB0WDR?=
+ =?us-ascii?Q?CfixdLrVhzmZwdyQSi3VYAa2RtyrCUCoK1QJE9WshW1PH+hMYGlk7KD9624i?=
+ =?us-ascii?Q?vjlk0eTBe750u1Otjd26Gry1/fCSyOimfxWGSgULSCKvKIoZoKlCta2WH2lw?=
+ =?us-ascii?Q?avRRKQXactmAcdWRyaDDK+mcNuwxNwjYobEGdBpYejFgHQuRk0B0z2HokP++?=
+ =?us-ascii?Q?uCcFHoWPguo9PuTTyPjC/NveeWbxPni7RZGHFfa0CjvP9VyMsHSGSl5EjsaC?=
+ =?us-ascii?Q?ld7mBb+SgRa2gcv1LXx9wu7AfBRaHrumPNSMPiM+RcDzAG9X/+jbgdvSruFu?=
+ =?us-ascii?Q?K/VpcVmf6BhxWMnELPg3+zuQRMU3hsPfZBVafsThupeL8isv3US2zFMBd3BC?=
+ =?us-ascii?Q?jrYGD7ETV4ziIVZCqhFJORayDWkV1QAzoBKYy6rYg/rOk9DdDGDZiIxsjLIR?=
+ =?us-ascii?Q?OH7Q0R6ngFGLPfi58f8lfTY+2odBduXoeQ2XMYfW3qvHfgvNbTV/xdGeApdK?=
+ =?us-ascii?Q?hstBvtaTR33ztXxjXZyrFU12HSwwuXy3AirMrs7yrEmb+GsJnPh0kTCfQeVP?=
+ =?us-ascii?Q?cboNA/FTRL+bEQcCjkQhBnFJre0NNgaH+Ffn/8P1e5dji6Eum8bQc05aC09B?=
+ =?us-ascii?Q?YnmAHPFMPKHO9yVYfKL9vHGMbEU6a8mGQuRYzINne22zfUFaaMPVTfyAt9Ze?=
+ =?us-ascii?Q?K1KeVvngBFAKKZytAKThBVfPfP5yIg5BoJ20OL56bxpKs2nRX6N2B/XtSP+f?=
+ =?us-ascii?Q?BBKzPBW82J9xVExMvpNJPnjsnPsCt3ArH5Xw3V3SYR1PC05WIP+qqt1SMHLF?=
+ =?us-ascii?Q?plLUEwiqXoWvcUOpXS72EhJ5hK6tB9aHpO9iHBT/ogn7n7EjeltU1G4V8Yji?=
+ =?us-ascii?Q?fL/0w/sfGFVdYRW06v3AW4ON8rxW7OxQFkdNio3O+tQKS8zv8w+8RVOAmRoT?=
+ =?us-ascii?Q?6Mb1yLWcHO0CNBZSuO1/017X5rifCl2z6Q7S+TLPrbRDqXOlc+KVyN2Uw108?=
+ =?us-ascii?Q?fepNAQrRdEtP05WluKBaOj6ROvCA92oZm4w7pPTiJAKX6NOz0sWRLOUm+LBN?=
+ =?us-ascii?Q?nGQIf5kLoHgRXPSmarIa0mGKKR1KEFIypODr2c5lfjrhdNrLntQ1EdWMP2LL?=
+ =?us-ascii?Q?DsGMRduP0jOGWQ2WN1wS+nCllVhU2pTVLRZc1aQi+QySq8ydWIArDoAkBiRz?=
+ =?us-ascii?Q?D0CA56AwRQGGoVByo1OSBbCG9LRJGhHawZSw+P51ctbedcZRS6FBgBJ+Pz9H?=
+ =?us-ascii?Q?mQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 29b40465-9a50-405e-ea6e-08db7401616b
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2023 15:49:08.3355 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wYgPjvE5CrURip8YDQnYCMvCouRYFoQijqtluJJjRp7ZccVRXPaVl7WeuXgxdUFPB9FXIXgeeEec+lMEvMACxvMonQZvtpgjGx8fzCDHQZM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7212
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,280 +150,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: intel-gfx@lists.freedesktop.org, Matt Roper <matthew.d.roper@intel.com>,
+ stable@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Geert,
+On Thu, Jun 22, 2023 at 04:37:21PM -0700, Kenneth Graunke wrote:
+>On Thursday, June 22, 2023 11:27:30 AM PDT Lucas De Marchi wrote:
+>> Most of the context workarounds tweak masked registers, but not all. For
+>> masked registers, when writing the value it's sufficient to just write
+>> the wa->set_bits since that will take care of both the clr and set bits
+>> as well as not overwriting other bits.
+>>
+>> However there are some workarounds, the registers are non-masked. Up
+>> until now the driver was simply emitting a MI_LOAD_REGISTER_IMM with the
+>> set_bits to program the register via the GPU in the WA bb. This has the
+>> side effect of overwriting the content of the register outside of bits
+>> that should be set and also doesn't handle the bits that should be
+>> cleared.
+>>
+>> Kenneth reported that on DG2, mesa was seeing a weird behavior due to
+>> the kernel programming of L3SQCREG5 in dg2_ctx_gt_tuning_init(). With
+>> the GPU idle, that register could be read via intel_reg as 0x00e001ff,
+>> but during a 3D workload it would change to 0x0000007f. So the
+>> programming of that tuning was affecting more than the bits in
+>> L3_PWM_TIMER_INIT_VAL_MASK. Matt Roper noticed the lack of rmw for the
+>> context workarounds due to the use of MI_LOAD_REGISTER_IMM.
+>>
+>> So, for registers that are not masked, read its value via mmio, modify
+>> and then set it in the buffer to be written by the GPU. This should take
+>> care in a simple way of programming just the bits required by the
+>> tuning/workaround. If in future there are registers that involved that
+>> can't be read by the CPU, a more complex approach may be required like
+>> a) issuing additional instructions to read and modify; or b) scan the
+>> golden context and patch it in place before saving it; or something
+>> else. But for now this should suffice.
+>>
+>> Scanning the context workarounds for all platforms, these are the
+>> impacted ones with the respective registers
+>>
+>> 	mtl: DRAW_WATERMARK
+>> 	mtl/dg2: XEHP_L3SQCREG5, XEHP_FF_MODE2
+>> 	gen12: GEN12_FF_MODE2
+>
+>Speaking of GEN12_FF_MODE2...there's a big scary comment above that
+>workaround write which says that register "will return the wrong value
+>when read."  I think with this patch, we'll start doing a RMW cycle for
+>the register, which could mix in some of this "wrong value".  The
+>comment mentions that the intention is to write the whole register,
+>as the default value is 0 for all fields.
 
-Thank you for the patch.
+Good point. That also means we don't need to backport this patch to
+stable kernel to any gen12, since overwritting the other bits is
+actually the intended behavior.
 
-On Thu, Jun 22, 2023 at 11:21:30AM +0200, Geert Uytterhoeven wrote:
-> Embedding drm_device in shmob_drm_device allows us to use the DRM
-> managed API to allocate both structures in one go, simplifying error
-> handling.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+>Maybe what we want to do is change gen12_ctx_gt_tuning_init to do
+>
+>    wa_write(wal, GEN12_FF_MODE2, FF_MODE2_TDS_TIMER_128);
+>
+>so it has a clear mask of ~0 instead of FF_MODE2_TDS_TIMER_MASK, and
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+In order to ignore read back when verifying, we would still need to use
+wa_add(), but changing the mask. We don't have a wa_write() that ends up
+with { .clr = ~0, .read_mask = 0 }.
 
-> ---
->  .../gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 12 +++---
->  .../gpu/drm/renesas/shmobile/shmob_drm_drv.c  | 41 +++++++------------
->  .../gpu/drm/renesas/shmobile/shmob_drm_drv.h  |  2 +-
->  .../gpu/drm/renesas/shmobile/shmob_drm_kms.c  | 16 ++++----
->  .../drm/renesas/shmobile/shmob_drm_plane.c    |  8 ++--
->  5 files changed, 34 insertions(+), 45 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-> index bcdebbc9f8a7e299..26611440f7a12715 100644
-> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-> @@ -139,7 +139,7 @@ static void shmob_drm_crtc_start(struct shmob_drm_crtc *scrtc)
->  	struct shmob_drm_device *sdev = crtc->dev->dev_private;
->  	const struct shmob_drm_interface_data *idata = &sdev->pdata->iface;
->  	const struct shmob_drm_format_info *format;
-> -	struct drm_device *dev = sdev->ddev;
-> +	struct drm_device *dev = &sdev->ddev;
->  	struct drm_plane *plane;
->  	u32 value;
->  	int ret;
-> @@ -472,7 +472,7 @@ int shmob_drm_crtc_create(struct shmob_drm_device *sdev)
->  
->  	sdev->crtc.dpms = DRM_MODE_DPMS_OFF;
->  
-> -	primary = __drm_universal_plane_alloc(sdev->ddev, sizeof(*primary), 0,
-> +	primary = __drm_universal_plane_alloc(&sdev->ddev, sizeof(*primary), 0,
->  					      0, &primary_plane_funcs,
->  					      modeset_formats,
->  					      ARRAY_SIZE(modeset_formats),
-> @@ -481,7 +481,7 @@ int shmob_drm_crtc_create(struct shmob_drm_device *sdev)
->  	if (IS_ERR(primary))
->  		return PTR_ERR(primary);
->  
-> -	ret = drm_crtc_init_with_planes(sdev->ddev, crtc, primary, NULL,
-> +	ret = drm_crtc_init_with_planes(&sdev->ddev, crtc, primary, NULL,
->  					&crtc_funcs, NULL);
->  	if (ret < 0) {
->  		drm_plane_cleanup(primary);
-> @@ -557,7 +557,7 @@ int shmob_drm_encoder_create(struct shmob_drm_device *sdev)
->  
->  	encoder->possible_crtcs = 1;
->  
-> -	ret = drm_simple_encoder_init(sdev->ddev, encoder,
-> +	ret = drm_simple_encoder_init(&sdev->ddev, encoder,
->  				      DRM_MODE_ENCODER_DPI);
->  	if (ret < 0)
->  		return ret;
-> @@ -637,7 +637,7 @@ int shmob_drm_connector_create(struct shmob_drm_device *sdev,
->  	connector->display_info.width_mm = sdev->pdata->panel.width_mm;
->  	connector->display_info.height_mm = sdev->pdata->panel.height_mm;
->  
-> -	ret = drm_connector_init(sdev->ddev, connector, &connector_funcs,
-> +	ret = drm_connector_init(&sdev->ddev, connector, &connector_funcs,
->  				 DRM_MODE_CONNECTOR_DPI);
->  	if (ret < 0)
->  		return ret;
-> @@ -650,7 +650,7 @@ int shmob_drm_connector_create(struct shmob_drm_device *sdev,
->  
->  	drm_helper_connector_dpms(connector, DRM_MODE_DPMS_OFF);
->  	drm_object_property_set_value(&connector->base,
-> -		sdev->ddev->mode_config.dpms_property, DRM_MODE_DPMS_OFF);
-> +		sdev->ddev.mode_config.dpms_property, DRM_MODE_DPMS_OFF);
->  
->  	return 0;
->  
-> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> index ece9aedde9b662d4..2b77af3a8c97ef8c 100644
-> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> @@ -137,7 +137,7 @@ static int shmob_drm_pm_suspend(struct device *dev)
->  {
->  	struct shmob_drm_device *sdev = dev_get_drvdata(dev);
->  
-> -	drm_kms_helper_poll_disable(sdev->ddev);
-> +	drm_kms_helper_poll_disable(&sdev->ddev);
->  	shmob_drm_crtc_suspend(&sdev->crtc);
->  
->  	return 0;
-> @@ -147,11 +147,11 @@ static int shmob_drm_pm_resume(struct device *dev)
->  {
->  	struct shmob_drm_device *sdev = dev_get_drvdata(dev);
->  
-> -	drm_modeset_lock_all(sdev->ddev);
-> +	drm_modeset_lock_all(&sdev->ddev);
->  	shmob_drm_crtc_resume(&sdev->crtc);
-> -	drm_modeset_unlock_all(sdev->ddev);
-> +	drm_modeset_unlock_all(&sdev->ddev);
->  
-> -	drm_kms_helper_poll_enable(sdev->ddev);
-> +	drm_kms_helper_poll_enable(&sdev->ddev);
->  	return 0;
->  }
->  
-> @@ -165,12 +165,10 @@ static DEFINE_SIMPLE_DEV_PM_OPS(shmob_drm_pm_ops,
->  static int shmob_drm_remove(struct platform_device *pdev)
->  {
->  	struct shmob_drm_device *sdev = platform_get_drvdata(pdev);
-> -	struct drm_device *ddev = sdev->ddev;
-> +	struct drm_device *ddev = &sdev->ddev;
->  
->  	drm_dev_unregister(ddev);
->  	drm_kms_helper_poll_fini(ddev);
-> -	drm_dev_put(ddev);
-> -
->  	return 0;
->  }
->  
-> @@ -188,13 +186,15 @@ static int shmob_drm_probe(struct platform_device *pdev)
->  	}
->  
->  	/*
-> -	 * Allocate and initialize the driver private data, I/O resources and
-> -	 * clocks.
-> +	 * Allocate and initialize the DRM device, driver private data, I/O
-> +	 * resources and clocks.
->  	 */
-> -	sdev = devm_kzalloc(&pdev->dev, sizeof(*sdev), GFP_KERNEL);
-> -	if (sdev == NULL)
-> -		return -ENOMEM;
-> +	sdev = devm_drm_dev_alloc(&pdev->dev, &shmob_drm_driver,
-> +				  struct shmob_drm_device, ddev);
-> +	if (IS_ERR(sdev))
-> +		return PTR_ERR(sdev);
->  
-> +	ddev = &sdev->ddev;
->  	sdev->dev = &pdev->dev;
->  	sdev->pdata = pdata;
->  	spin_lock_init(&sdev->irq_lock);
-> @@ -217,20 +217,12 @@ static int shmob_drm_probe(struct platform_device *pdev)
->  	if (ret < 0)
->  		return ret;
->  
-> -	/* Allocate and initialize the DRM device. */
-> -	ddev = drm_dev_alloc(&shmob_drm_driver, &pdev->dev);
-> -	if (IS_ERR(ddev))
-> -		return PTR_ERR(ddev);
-> -
-> -	sdev->ddev = ddev;
->  	ddev->dev_private = sdev;
->  
->  	ret = shmob_drm_modeset_init(sdev);
-> -	if (ret < 0) {
-> -		dev_err_probe(&pdev->dev, ret,
-> -			      "failed to initialize mode setting\n");
-> -		goto err_free_drm_dev;
-> -	}
-> +	if (ret < 0)
-> +		return dev_err_probe(&pdev->dev, ret,
-> +				     "failed to initialize mode setting\n");
->  
->  	for (i = 0; i < 4; ++i) {
->  		ret = shmob_drm_plane_create(sdev, i);
-> @@ -272,9 +264,6 @@ static int shmob_drm_probe(struct platform_device *pdev)
->  
->  err_modeset_cleanup:
->  	drm_kms_helper_poll_fini(ddev);
-> -err_free_drm_dev:
-> -	drm_dev_put(ddev);
-> -
->  	return ret;
->  }
->  
-> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.h b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.h
-> index 16d830168b2ada21..77bb0da48f37ace8 100644
-> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.h
-> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.h
-> @@ -32,7 +32,7 @@ struct shmob_drm_device {
->  	unsigned int irq;
->  	spinlock_t irq_lock;		/* Protects hardware LDINTR register */
->  
-> -	struct drm_device *ddev;
-> +	struct drm_device ddev;
->  
->  	struct shmob_drm_crtc crtc;
->  	struct drm_encoder encoder;
-> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.c
-> index 1a62e7f8a8a9e6df..20316907030b2789 100644
-> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.c
-> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.c
-> @@ -153,7 +153,7 @@ int shmob_drm_modeset_init(struct shmob_drm_device *sdev)
->  {
->  	int ret;
->  
-> -	ret = drmm_mode_config_init(sdev->ddev);
-> +	ret = drmm_mode_config_init(&sdev->ddev);
->  	if (ret)
->  		return ret;
->  
-> @@ -169,15 +169,15 @@ int shmob_drm_modeset_init(struct shmob_drm_device *sdev)
->  	if (ret < 0)
->  		return ret;
->  
-> -	drm_kms_helper_poll_init(sdev->ddev);
-> +	drm_kms_helper_poll_init(&sdev->ddev);
->  
-> -	sdev->ddev->mode_config.min_width = 0;
-> -	sdev->ddev->mode_config.min_height = 0;
-> -	sdev->ddev->mode_config.max_width = 4095;
-> -	sdev->ddev->mode_config.max_height = 4095;
-> -	sdev->ddev->mode_config.funcs = &shmob_drm_mode_config_funcs;
-> +	sdev->ddev.mode_config.min_width = 0;
-> +	sdev->ddev.mode_config.min_height = 0;
-> +	sdev->ddev.mode_config.max_width = 4095;
-> +	sdev->ddev.mode_config.max_height = 4095;
-> +	sdev->ddev.mode_config.funcs = &shmob_drm_mode_config_funcs;
->  
-> -	drm_helper_disable_unused_functions(sdev->ddev);
-> +	drm_helper_disable_unused_functions(&sdev->ddev);
->  
->  	return 0;
->  }
-> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-> index 1fb68b5fe915b8dc..17e66a018689f648 100644
-> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-> @@ -68,7 +68,7 @@ static void __shmob_drm_plane_setup(struct shmob_drm_plane *splane,
->  		 splane->format->ldbbsifr;
->  
->  #define plane_reg_dump(sdev, splane, reg) \
-> -	dev_dbg(sdev->ddev->dev, "%s(%u): %s 0x%08x 0x%08x\n", __func__, \
-> +	dev_dbg(sdev->ddev.dev, "%s(%u): %s 0x%08x 0x%08x\n", __func__, \
->  		splane->index, #reg, \
->  		lcdc_read(sdev, reg(splane->index)), \
->  		lcdc_read(sdev, reg(splane->index) + LCDC_SIDE_B_OFFSET))
-> @@ -81,7 +81,7 @@ static void __shmob_drm_plane_setup(struct shmob_drm_plane *splane,
->  	plane_reg_dump(sdev, splane, LDBnBSACR);
->  
->  	lcdc_write(sdev, LDBCR, LDBCR_UPC(splane->index));
-> -	dev_dbg(sdev->ddev->dev, "%s(%u): %s 0x%08x\n", __func__, splane->index,
-> +	dev_dbg(sdev->ddev.dev, "%s(%u): %s 0x%08x\n", __func__, splane->index,
->  		"LDBCR", lcdc_read(sdev, LDBCR));
->  
->  	lcdc_write(sdev, LDBnBSIFR(splane->index), format);
-> @@ -103,7 +103,7 @@ static void __shmob_drm_plane_setup(struct shmob_drm_plane *splane,
->  
->  	lcdc_write(sdev, LDBCR,
->  		   LDBCR_UPF(splane->index) | LDBCR_UPD(splane->index));
-> -	dev_dbg(sdev->ddev->dev, "%s(%u): %s 0x%08x\n", __func__, splane->index,
-> +	dev_dbg(sdev->ddev.dev, "%s(%u): %s 0x%08x\n", __func__, splane->index,
->  		"LDBCR", lcdc_read(sdev, LDBCR));
->  
->  	plane_reg_dump(sdev, splane, LDBnBSIFR);
-> @@ -198,7 +198,7 @@ int shmob_drm_plane_create(struct shmob_drm_device *sdev, unsigned int index)
->  {
->  	struct shmob_drm_plane *splane;
->  
-> -	splane = drmm_universal_plane_alloc(sdev->ddev, struct shmob_drm_plane,
-> +	splane = drmm_universal_plane_alloc(&sdev->ddev, struct shmob_drm_plane,
->  					    plane, 1, &shmob_drm_plane_funcs,
->  					    formats, ARRAY_SIZE(formats), NULL,
->  					    DRM_PLANE_TYPE_OVERLAY, NULL);
+	wa_add(wal,
+	       GEN12_FF_MODE2,
+	       ~0, FF_MODE2_TDS_TIMER_128,
+	       0, false);
 
--- 
-Regards,
 
-Laurent Pinchart
+>then in this patch update your condition below from
+>
+>+		if (wa->masked_reg || wa->set == U32_MAX) {
+>
+>to
+>
+>+		if (wa->masked_reg || wa->set == U32_MAX || wa->clear == U32_MAX) {
+
+yeah... and maybe also warn if wa->read is 0, which means it's one
+of the registers we can't/shouldn't read from the CPU.
+
+>
+>because if we're clearing all bits then we don't care about doing a
+>read-modify-write either.
+
+thanks
+Lucas De Marchi
+
+>
+>--Ken
+
+
