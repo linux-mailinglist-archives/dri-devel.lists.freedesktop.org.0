@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C988B73BBE5
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 17:42:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C893273BBF3
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 17:46:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FE2510E664;
-	Fri, 23 Jun 2023 15:42:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3381D10E662;
+	Fri, 23 Jun 2023 15:46:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F25610E662
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 15:42:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AC4C10E662
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 15:46:18 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
  [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 81B49838;
- Fri, 23 Jun 2023 17:41:22 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0FC95838;
+ Fri, 23 Jun 2023 17:45:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1687534882;
- bh=vAvgOuo7ciMIJdwJYscA2jdeSsVY0tXeEX6+c1G6yUs=;
+ s=mail; t=1687535140;
+ bh=d4FBXG63CJwNZipIqCkAvtDaYos1ujZp8A3xay9g6vw=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AhTrQcq0V0NHivubxoHGh6Ds97i2wVL7EETm/YajjkosrMXnyhS7b/zS86q5XoYbf
- pc5sp32yxe17PIVEwCGzvESweTETB/zgXhF5TdESW0fh87614QDSdWXkb9Gl6y7hgh
- Fk0PL2uoSazBvYuvhkCko6B+bmSgdNtYPGs92Jkg=
-Date: Fri, 23 Jun 2023 18:41:58 +0300
+ b=opXjkoJ40p1X8d/acUN86mfm0zCE3oSZmx/aVhG6gjKYHx8XS5vzkNvJrm3oM36bh
+ dhY+Nq3t4ZA2ayBfZYPlGz5p7uij7NxzGcEq0g6sszWUqp+tGaDFLMsR1DyJPPNZHy
+ Hji3i2RkZIDJUza87dBqXxx1Vayx+ELs+bQybNtc=
+Date: Fri, 23 Jun 2023 18:46:15 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH 16/39] drm: renesas: shmobile: Convert to use
- devm_request_irq()
-Message-ID: <20230623154158.GT2112@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 17/39] drm: renesas: shmobile: Use
+ drmm_universal_plane_alloc()
+Message-ID: <20230623154615.GU2112@pendragon.ideasonboard.com>
 References: <cover.1687423204.git.geert+renesas@glider.be>
- <c8d14f4a5e455d523c5c7ff89bd815196df7e4f9.1687423204.git.geert+renesas@glider.be>
+ <9af0b0e18c6f3ce3348cc728f177bf466e30e66a.1687423204.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <c8d14f4a5e455d523c5c7ff89bd815196df7e4f9.1687423204.git.geert+renesas@glider.be>
+In-Reply-To: <9af0b0e18c6f3ce3348cc728f177bf466e30e66a.1687423204.git.geert+renesas@glider.be>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,56 +59,74 @@ Hi Geert,
 
 Thank you for the patch.
 
-On Thu, Jun 22, 2023 at 11:21:28AM +0200, Geert Uytterhoeven wrote:
-> Convert to managed IRQ handling, to simplify cleanup.
+On Thu, Jun 22, 2023 at 11:21:29AM +0200, Geert Uytterhoeven wrote:
+> According to the comments for drm_universal_plane_init(), the plane
+> structure should not be allocated with devm_kzalloc().
+> 
+> Fix lifetime issues by using drmm_universal_plane_alloc() instead.
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
 > ---
->  drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
+> Plane (and connector) structures are still allocated with devm_kzalloc()
+> in several other drivers...
+> ---
+>  .../drm/renesas/shmobile/shmob_drm_plane.c    | 24 ++++++-------------
+>  1 file changed, 7 insertions(+), 17 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> index 50fca18282c5cb5e..ece9aedde9b662d4 100644
-> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> @@ -169,7 +169,6 @@ static int shmob_drm_remove(struct platform_device *pdev)
->  
->  	drm_dev_unregister(ddev);
->  	drm_kms_helper_poll_fini(ddev);
-> -	free_irq(sdev->irq, ddev);
->  	drm_dev_put(ddev);
->  
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> index 0b2ab153e9ae76df..1fb68b5fe915b8dc 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> @@ -176,16 +176,9 @@ static int shmob_drm_plane_disable(struct drm_plane *plane,
 >  	return 0;
-> @@ -252,8 +251,8 @@ static int shmob_drm_probe(struct platform_device *pdev)
->  		goto err_modeset_cleanup;
->  	sdev->irq = ret;
+>  }
 >  
-> -	ret = request_irq(sdev->irq, shmob_drm_irq, 0, ddev->driver->name,
-> -			  ddev);
-> +	ret = devm_request_irq(&pdev->dev, sdev->irq, shmob_drm_irq, 0,
-> +			       ddev->driver->name, ddev);
->  	if (ret < 0) {
->  		dev_err(&pdev->dev, "failed to install IRQ handler\n");
->  		goto err_modeset_cleanup;
-> @@ -265,14 +264,12 @@ static int shmob_drm_probe(struct platform_device *pdev)
->  	 */
->  	ret = drm_dev_register(ddev, 0);
->  	if (ret < 0)
-> -		goto err_irq_uninstall;
-> +		goto err_modeset_cleanup;
+> -static void shmob_drm_plane_destroy(struct drm_plane *plane)
+> -{
+> -	drm_plane_force_disable(plane);
+> -	drm_plane_cleanup(plane);
+
+drm_plane_cleanup() will still be called from
+drmm_universal_plane_alloc_release(), but drm_plane_force_disable()
+won't. Is this an issue ? This should be documented in the commit
+message.
+
+> -}
+> -
+>  static const struct drm_plane_funcs shmob_drm_plane_funcs = {
+>  	.update_plane = shmob_drm_plane_update,
+>  	.disable_plane = shmob_drm_plane_disable,
+> -	.destroy = shmob_drm_plane_destroy,
+>  };
 >  
->  	drm_fbdev_generic_setup(ddev, 16);
+>  static const uint32_t formats[] = {
+> @@ -204,19 +197,16 @@ static const uint32_t formats[] = {
+>  int shmob_drm_plane_create(struct shmob_drm_device *sdev, unsigned int index)
+>  {
+>  	struct shmob_drm_plane *splane;
+> -	int ret;
 >  
->  	return 0;
+> -	splane = devm_kzalloc(sdev->dev, sizeof(*splane), GFP_KERNEL);
+> -	if (splane == NULL)
+> -		return -ENOMEM;
+> +	splane = drmm_universal_plane_alloc(sdev->ddev, struct shmob_drm_plane,
+> +					    plane, 1, &shmob_drm_plane_funcs,
+> +					    formats, ARRAY_SIZE(formats), NULL,
+> +					    DRM_PLANE_TYPE_OVERLAY, NULL);
+> +	if (IS_ERR(splane))
+> +		return PTR_ERR(splane);
 >  
-> -err_irq_uninstall:
-> -	free_irq(sdev->irq, ddev);
->  err_modeset_cleanup:
->  	drm_kms_helper_poll_fini(ddev);
->  err_free_drm_dev:
+>  	splane->index = index;
+>  	splane->alpha = 255;
+>  
+> -	ret = drm_universal_plane_init(sdev->ddev, &splane->plane, 1,
+> -				       &shmob_drm_plane_funcs,
+> -				       formats, ARRAY_SIZE(formats), NULL,
+> -				       DRM_PLANE_TYPE_OVERLAY, NULL);
+> -
+> -	return ret;
+> +	return 0;
+>  }
 
 -- 
 Regards,
