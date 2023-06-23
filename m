@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4793573C8DE
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jun 2023 10:16:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE5E473C8DF
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jun 2023 10:16:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBE8610E123;
-	Sat, 24 Jun 2023 08:15:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91C8310E156;
+	Sat, 24 Jun 2023 08:15:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-42.mta0.migadu.com (out-42.mta0.migadu.com [91.218.175.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5BDC10E106
+Received: from out-7.mta0.migadu.com (out-7.mta0.migadu.com [91.218.175.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 786A910E63B
  for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 10:17:06 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1687514925;
+ t=1687514927;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cp/dioA/Px4isvqDry6K9lCTQWmXUioxU/Gzve54Hpc=;
- b=vC9134FYF29pSWqPRpQB9uDXrqIMd8A/Jlstt4sPbCM2Truov/UzIMrO/vnZZ7JtKW4oi0
- 36rs70bROZZRiiWtgsMADXAY1qkL+niG400xBeXUrFXVkCnnKLjcRgb66C1itM0zOm/9zo
- A2Q5k5aR6o7136tFzuqpR/+hBNcsedw=
+ bh=1mYSHA82Ggr/qk8LcxRbWw+jtvr8ZShkQNBHi2vnZ+s=;
+ b=Lzg3YyZjlP7eRGip2Pkq+Mlkn9hRfaUhzylAQ7XKNRcqwCBYLb1w4P73Ire/0LVeXvDLIz
+ MfyjpGmYhjQcQC4Hb+QFcuzk44dUFpduWHPWYF3n1tUjfYU02Rg7J0nHbNxqVTl/9EN6km
+ 1KkGyTaVOUxJgeE5C2JJqu6xcW0bLVg=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v1 7/8] drm/etnaviv: Add dedicated functions to create and
- destroy platform device
-Date: Fri, 23 Jun 2023 18:08:21 +0800
-Message-Id: <20230623100822.274706-8-sui.jingfeng@linux.dev>
+Subject: [PATCH v1 8/8] drm/etnaviv: Add a helper to get a pointer to the
+ first available node
+Date: Fri, 23 Jun 2023 18:08:22 +0800
+Message-Id: <20230623100822.274706-9-sui.jingfeng@linux.dev>
 In-Reply-To: <20230623100822.274706-1-sui.jingfeng@linux.dev>
 References: <20230623100822.274706-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
@@ -59,104 +59,94 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sui Jingfeng <suijingfeng@loongson.cn>
 
-Also rename the virtual master device as etnaviv_platform_device,
-for better reflection that it is a platform device, not a DRM device.
-Another benefit is that we no longer need to call of_node_put() for three
-different cases, Instead, we only need to call it once.
+This make the code in etnaviv_pdev_probe() less twisted, drop the reference
+to device node after finished. Also kill a double blank line.
 
 Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_drv.c | 56 +++++++++++++++++++--------
- 1 file changed, 39 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c | 32 ++++++++++++++++++---------
+ 1 file changed, 22 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index 14c2e9690ce1..7d0eeab3e8b7 100644
+index 7d0eeab3e8b7..3446f8eabf59 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -655,12 +655,44 @@ static struct platform_driver etnaviv_platform_driver = {
- 	},
- };
+@@ -27,6 +27,19 @@
+  * DRM operations:
+  */
  
--static struct platform_device *etnaviv_drm;
-+static struct platform_device *etnaviv_platform_device;
- 
--static int __init etnaviv_init(void)
-+static int etnaviv_create_platform_device(const char *name,
-+					  struct platform_device **ppdev)
- {
- 	struct platform_device *pdev;
- 	int ret;
++/* If the DT contains at least one available GPU, return a pointer to it */
 +
-+	pdev = platform_device_alloc(name, PLATFORM_DEVID_NONE);
-+	if (!pdev)
-+		return -ENOMEM;
++static struct device_node *etnaviv_of_first_node(void)
++{
++	struct device_node *np;
 +
-+	ret = platform_device_add(pdev);
-+	if (ret) {
-+		platform_device_put(pdev);
-+		return ret;
++	for_each_compatible_node(np, NULL, "vivante,gc") {
++		if (of_device_is_available(np))
++			return np;
 +	}
 +
-+	*ppdev = pdev;
-+
-+	return 0;
++	return NULL;
 +}
-+
-+static void etnaviv_destroy_platform_device(struct platform_device **ppdev)
-+{
-+	struct platform_device *pdev = *ppdev;
-+
-+	if (!pdev)
-+		return;
-+
-+	platform_device_unregister(pdev);
-+
-+	*ppdev = NULL;
-+}
-+
-+static int __init etnaviv_init(void)
-+{
-+	int ret;
- 	struct device_node *np;
  
- 	etnaviv_validate_init();
-@@ -680,23 +712,13 @@ static int __init etnaviv_init(void)
- 	for_each_compatible_node(np, NULL, "vivante,gc") {
- 		if (!of_device_is_available(np))
- 			continue;
-+		of_node_put(np);
+ static void load_gpu(struct drm_device *dev)
+ {
+@@ -587,7 +600,7 @@ static const struct component_master_ops etnaviv_master_ops = {
+ static int etnaviv_pdev_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+-	struct device_node *first_node = NULL;
++	struct device_node *first_node;
+ 	struct component_match *match = NULL;
  
--		pdev = platform_device_alloc("etnaviv", PLATFORM_DEVID_NONE);
--		if (!pdev) {
--			ret = -ENOMEM;
--			of_node_put(np);
--			goto unregister_platform_driver;
--		}
+ 	if (!dev->platform_data) {
+@@ -597,11 +610,10 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
+ 			if (!of_device_is_available(core_node))
+ 				continue;
+ 
+-			if (!first_node)
+-				first_node = core_node;
 -
--		ret = platform_device_add(pdev);
--		if (ret) {
--			platform_device_put(pdev);
--			of_node_put(np);
-+		ret = etnaviv_create_platform_device("etnaviv",
-+						     &etnaviv_platform_device);
-+		if (ret)
- 			goto unregister_platform_driver;
--		}
+ 			drm_of_component_match_add(&pdev->dev, &match,
+ 						   component_compare_of, core_node);
++
++			of_node_put(core_node);
+ 		}
+ 	} else {
+ 		char **names = dev->platform_data;
+@@ -634,8 +646,11 @@ static int etnaviv_pdev_probe(struct platform_device *pdev)
+ 	 * device as the GPU we found. This assumes that all Vivante
+ 	 * GPUs in the system share the same DMA constraints.
+ 	 */
+-	if (first_node)
++	first_node = etnaviv_of_first_node();
++	if (first_node) {
+ 		of_dma_configure(&pdev->dev, first_node, true);
++		of_node_put(first_node);
++	}
  
--		etnaviv_drm = pdev;
--		of_node_put(np);
- 		break;
+ 	return component_master_add_with_match(dev, &etnaviv_master_ops, match);
+ }
+@@ -709,17 +724,14 @@ static int __init etnaviv_init(void)
+ 	 * If the DT contains at least one available GPU device, instantiate
+ 	 * the DRM platform device.
+ 	 */
+-	for_each_compatible_node(np, NULL, "vivante,gc") {
+-		if (!of_device_is_available(np))
+-			continue;
++	np = etnaviv_of_first_node();
++	if (np) {
+ 		of_node_put(np);
+ 
+ 		ret = etnaviv_create_platform_device("etnaviv",
+ 						     &etnaviv_platform_device);
+ 		if (ret)
+ 			goto unregister_platform_driver;
+-
+-		break;
  	}
  
-@@ -712,7 +734,7 @@ module_init(etnaviv_init);
- 
- static void __exit etnaviv_exit(void)
- {
--	platform_device_unregister(etnaviv_drm);
-+	etnaviv_destroy_platform_device(&etnaviv_platform_device);
- 	platform_driver_unregister(&etnaviv_platform_driver);
- 	platform_driver_unregister(&etnaviv_gpu_driver);
- }
+ 	return 0;
 -- 
 2.25.1
 
