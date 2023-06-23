@@ -2,79 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E499573C3D4
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jun 2023 00:12:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0455F73C3EA
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jun 2023 00:19:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D7AB10E6C0;
-	Fri, 23 Jun 2023 22:12:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A33410E094;
+	Fri, 23 Jun 2023 22:19:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FED210E6C0;
- Fri, 23 Jun 2023 22:12:43 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 35NL8EEA010012; Fri, 23 Jun 2023 22:12:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=O8v3lQVXkeWFyOI99HHvp4iJWJ3r9lAwQlLUotxmmAc=;
- b=ptE3QWEaG6L4DNiFZaiUd/ETy1VJfQPX0+EC6ysP4TbO2/3W1fqBuVDvZJL+wVPhnXNN
- nQ1vlKS4isXLFFFmWZJsrP0kFG0+BCAL81vv1reUvl3keQJ5PUVZuA+T1plGJnaqKPlY
- xzejUhpUEz2AkPFX1g6ckIVOlhZQgbJi5fDS9mt3K7TD7uz7eFRDXtJtWbi5ql8T891B
- //XoFGB9GXl3wyWwQn4CmbaefKWabObYi17micIvXQoc/2l1KknQIFFC7dIJ3Au8r2BZ
- TtLcXr0mPkEY089hegrV5DLPdQiHLOPs1AGFhk02WJmwJN2RaU+fhIJZk3E3ia/1Z+dd pg== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rc0sk6t32-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Jun 2023 22:12:09 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35NMC8Ye014272
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Jun 2023 22:12:08 GMT
-Received: from [10.110.61.170] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 23 Jun
- 2023 15:12:07 -0700
-Message-ID: <fbfb5297-0b89-d48e-459f-7e2cd8aa221b@quicinc.com>
-Date: Fri, 23 Jun 2023 15:12:06 -0700
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
+ [IPv6:2607:f8b0:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7D1210E094
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 22:19:20 +0000 (UTC)
+Received: by mail-pf1-x42e.google.com with SMTP id
+ d2e1a72fcca58-666e3b15370so786359b3a.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 15:19:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fromorbit-com.20221208.gappssmtp.com; s=20221208; t=1687558760; x=1690150760;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=mD+HWl2aEG73j6Ak2J3eZjmDfUV1ZAzR4FiFGaQDP6g=;
+ b=lhK6GKfDyI3S2QEkidlKI9Ek7fIdf8s37/5sqH0oYikZjcY7jput4UDyCpFr2NTdT8
+ zVyRwANCpkSqZtLXi737KASfNRL8jzfb+T40RkB84q+J2KMVe792KQuGyG75zUe1uU9/
+ y8KvlnU3EwX/2kXOOlbwtshnDERQlNsq270xMVedNytpu7Z+d6cUbBidgJ6X6DjHIzPN
+ 7j8fd31lnOvF/aMkMY7bUu4o0IY8LUCtjYfDI1XbfU7cyMWriXOuApAvFBa9TAUUYDHZ
+ fQEMipnVJ6GJpcYxmPtjY5bvv9Ob+7MwsmiucWVnjVO5xA+M617znVGuQZS0X5eWOQ0u
+ zyUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687558760; x=1690150760;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mD+HWl2aEG73j6Ak2J3eZjmDfUV1ZAzR4FiFGaQDP6g=;
+ b=cIs/fkcTUHXUZnwS1u6a5LKsMT5jdlLGGTjYVtfMTChaSZFZciFbeSdcjI0a+NkcZV
+ r4tK407AGplZOzAjaWVqwmB3OdJPC0cbz+vWeD22k590n1SAIEHkM6QBDR7B1UMwS8VA
+ glia5P6glR3YSNP/XgSIFBTj4T0wxs0dIeLuGHxnhNCwCnSitzXcsNKOa2WKgx9+Orun
+ HfYJv4O5fO3dXgmskns+xsESbWK6i6Laksu7iyAzKVrx5yUm7SQ8YOQxlvTi+0g4gL47
+ rxfye8gDnPh6myQ4p9BVghT29hVBYLUyHjeKq8PbXY3VlHutqhX8FA4x18KeXOvQSMAM
+ c6iQ==
+X-Gm-Message-State: AC+VfDweDZdij83ufdQkue5UlVOtoNCn9cNoJzQFKL69RZAToJi2vL8C
+ sv3eIt1h5hc7W9s1q5ZXzyjM/Q==
+X-Google-Smtp-Source: ACHHUZ6Wu9ky21UYgtgHUmTHayjznwHVfcTzLH8QgkKVoWewOSRi12/4tLQSsphqEkidSt1h32qo3g==
+X-Received: by 2002:a05:6a20:4410:b0:121:7454:be2a with SMTP id
+ ce16-20020a056a20441000b001217454be2amr17133223pzb.45.1687558759759; 
+ Fri, 23 Jun 2023 15:19:19 -0700 (PDT)
+Received: from dread.disaster.area (pa49-186-94-37.pa.vic.optusnet.com.au.
+ [49.186.94.37]) by smtp.gmail.com with ESMTPSA id
+ b17-20020a170902b61100b001ab0672fc1fsm58552pls.105.2023.06.23.15.19.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Jun 2023 15:19:19 -0700 (PDT)
+Received: from dave by dread.disaster.area with local (Exim 4.96)
+ (envelope-from <david@fromorbit.com>) id 1qCp7a-00FP7U-2k;
+ Sat, 24 Jun 2023 08:19:14 +1000
+Date: Sat, 24 Jun 2023 08:19:14 +1000
+From: Dave Chinner <david@fromorbit.com>
+To: Qi Zheng <zhengqi.arch@bytedance.com>
+Subject: Re: [PATCH 24/29] mm: vmscan: make global slab shrink lockless
+Message-ID: <ZJYaYv4pACmCaBoT@dread.disaster.area>
+References: <20230622085335.77010-1-zhengqi.arch@bytedance.com>
+ <20230622085335.77010-25-zhengqi.arch@bytedance.com>
+ <cf0d9b12-6491-bf23-b464-9d01e5781203@suse.cz>
+ <ZJU708VIyJ/3StAX@dread.disaster.area>
+ <a21047bb-3b87-a50a-94a7-f3fa4847bc08@bytedance.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 1/2] drm/msm/dpu: fix DSC 1.2 block lengths
-Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>
-References: <20230623013731.1088007-1-dmitry.baryshkov@linaro.org>
- <6b74cb1f-3128-4ebd-8ff9-33cc025d957b@quicinc.com>
- <mwxs3rvemvdizqtsfa7pxms5prgrdq2lue6lvkt2f23nehzhwr@uawaxv5jsnmh>
- <ad1cf803-729f-5ef5-a6cf-667ecde0b282@linaro.org>
- <okxoa5ltkvki25q6e25jwoh55l3aav3umowynklinyapg4ojvp@wfxa6upwnk3m>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <okxoa5ltkvki25q6e25jwoh55l3aav3umowynklinyapg4ojvp@wfxa6upwnk3m>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: Atq8QTJo4piVg2gIYJfmDBAgk8e1Ta4Q
-X-Proofpoint-ORIG-GUID: Atq8QTJo4piVg2gIYJfmDBAgk8e1Ta4Q
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-23_12,2023-06-22_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 mlxscore=0
- phishscore=0 impostorscore=0 mlxlogscore=883 priorityscore=1501
- malwarescore=0 adultscore=0 spamscore=0 clxscore=1015 lowpriorityscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306230200
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a21047bb-3b87-a50a-94a7-f3fa4847bc08@bytedance.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,28 +79,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
+Cc: djwong@kernel.org, roman.gushchin@linux.dev,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linux-mm@kvack.org, dm-devel@redhat.com, linux-ext4@vger.kernel.org,
+ paulmck@kernel.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-nfs@vger.kernel.org,
+ linux-raid@vger.kernel.org, linux-bcache@vger.kernel.org,
+ Vlastimil Babka <vbabka@suse.cz>, brauner@kernel.org, tytso@mit.edu,
+ linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
+ linux-btrfs@vger.kernel.org, tkhai@ya.ru
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 6/23/2023 1:28 PM, Marijn Suijten wrote:
-> On 2023-06-23 14:37:12, Dmitry Baryshkov wrote:
-> <snip>
->>> In fact I asked to make it 0xf00 + 0x10 or 0xf80 + 0x10 to also cover
->>> the CTL registers, but that change didn't make it through.  0x29c is an
->>> arbitrary number that I have no clue what it was based on.
->>
->> This should have been NAKed. or at least TODOed.
+On Fri, Jun 23, 2023 at 09:10:57PM +0800, Qi Zheng wrote:
+> On 2023/6/23 14:29, Dave Chinner wrote:
+> > On Thu, Jun 22, 2023 at 05:12:02PM +0200, Vlastimil Babka wrote:
+> > > On 6/22/23 10:53, Qi Zheng wrote:
+> > Yes, I suggested the IDR route because radix tree lookups under RCU
+> > with reference counted objects are a known safe pattern that we can
+> > easily confirm is correct or not.  Hence I suggested the unification
+> > + IDR route because it makes the life of reviewers so, so much
+> > easier...
 > 
-> As usual ;) - add new features first, fix the fundamentals... later?
-> 
-> - Marijn
+> In fact, I originally planned to try the unification + IDR method you
+> suggested at the beginning. But in the case of CONFIG_MEMCG disabled,
+> the struct mem_cgroup is not even defined, and root_mem_cgroup and
+> shrinker_info will not be allocated.  This required more code changes, so
+> I ended up keeping the shrinker_list and implementing the above pattern.
 
-I think you yourself found out that this was not an arbitary number but 
-we atleast wanted to cover the full encoder set.
+Yes. Go back and read what I originally said needed to be done
+first. In the case of CONFIG_MEMCG=n, a dummy root memcg still needs
+to exist that holds all of the global shrinkers. Then shrink_slab()
+is only ever passed a memcg that should be iterated.
 
-So fundamentals are always sound sometimes understanding is not ;)
+Yes, it needs changes external to the shrinker code itself to be
+made to work. And even if memcg's are not enabled, we can still use
+the memcg structures to ensure a common abstraction is used for the
+shrinker tracking infrastructure....
+
+> If the above pattern is not safe, I will go back to the unification +
+> IDR method.
+
+And that is exactly how we got into this mess in the first place....
+
+-Dave
+-- 
+Dave Chinner
+david@fromorbit.com
