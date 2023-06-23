@@ -1,79 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C8CE73BDF9
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 19:42:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6EC973BE10
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 19:50:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C532C10E696;
-	Fri, 23 Jun 2023 17:41:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 245D110E021;
+	Fri, 23 Jun 2023 17:50:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAC1110E694;
- Fri, 23 Jun 2023 17:41:53 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 35NH0US1000662; Fri, 23 Jun 2023 17:41:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=vbccG3sKe3AZFrTNQpv9NS/+Ov7edvQzpdJW4wnPrTM=;
- b=FQCLFaXWN7MoqNOeAbAJ6K+o9reE5pxk2tr5SUXlkONPeyeAKYvIMrdLKtWACMTvD6Au
- b3b+HyUbYvWmEYrdvOL2MEZjvWazPdx2OTIPlSmkWMvu0vFkXoe4q6xsfcZIjNvpRDQZ
- Zr9AkqbljOlbhXMCNe/T+7U1/UnsIcCuZKOapgrstS0XXMN5IC15sBMV3LmSPgtKqOSc
- FR96H1dlOLMMeyuMr9YYqiEJPD7iTUfPmEOukD5zk5jZG9aMKcZK5WvjgHBoxvjSTGYa
- gYPV18Z75l59+1nvEgEwD11QuFsYRdu9iwh35ARZKTmZPOQI2M290AniquX1O7srDLC2 SA== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rc0sk69vv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Jun 2023 17:41:42 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35NHfeAH016356
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Jun 2023 17:41:40 GMT
-Received: from [10.110.6.30] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 23 Jun
- 2023 10:41:39 -0700
-Message-ID: <dc38d253-54aa-b4c1-499a-3d66f8c305c4@quicinc.com>
-Date: Fri, 23 Jun 2023 10:41:38 -0700
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6C0010E021
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 17:50:24 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id AB6FD838;
+ Fri, 23 Jun 2023 19:49:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1687542584;
+ bh=j3wTVnzjoXV2I65EnJr7FsW6GfRQuvO4SyLM1n82XPo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NZQo5HltjI6J7I6rCx8gi5ze9PpE82muAFABziMPLWeGH+9GoGmD62EHIftOk5LMz
+ 29GNeA07ZiRC9FEeDB/4loBxV76tVOXIVWJvoJk5rtH/bXer/lGHSMe8bGOjEUZZgz
+ YeAzBPvqG5yMuRu9jBi4qZBZRkSs5/PJjDGtcm9U=
+Date: Fri, 23 Jun 2023 20:50:19 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH 39/39] drm: renesas: shmobile: Add DT support
+Message-ID: <20230623175019.GO2112@pendragon.ideasonboard.com>
+References: <cover.1687423204.git.geert+renesas@glider.be>
+ <2759075c94c011b0f15cb610f39f8fa9b3736600.1687423204.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 1/2] drm/msm/dpu: fix DSC 1.2 block lengths
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>
-References: <20230623013731.1088007-1-dmitry.baryshkov@linaro.org>
- <6b74cb1f-3128-4ebd-8ff9-33cc025d957b@quicinc.com>
- <d98ddf40-c4b5-56a4-c444-2d87712a6ebd@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <d98ddf40-c4b5-56a4-c444-2d87712a6ebd@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: V4oUbbhhE3xZJ0qwC06O4Oto_FPVHaPG
-X-Proofpoint-ORIG-GUID: V4oUbbhhE3xZJ0qwC06O4Oto_FPVHaPG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-23_08,2023-06-22_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 mlxscore=0
- phishscore=0 impostorscore=0 mlxlogscore=999 priorityscore=1501
- malwarescore=0 adultscore=0 spamscore=0 clxscore=1015 lowpriorityscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306230157
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <2759075c94c011b0f15cb610f39f8fa9b3736600.1687423204.git.geert+renesas@glider.be>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,203 +47,381 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Geert,
 
+Thank you for the patch.
 
-On 6/23/2023 4:25 AM, Dmitry Baryshkov wrote:
-> On 23/06/2023 08:47, Abhinav Kumar wrote:
->>
->>
->> On 6/22/2023 6:37 PM, Dmitry Baryshkov wrote:
->>> All DSC_BLK_1_2 declarations incorrectly pass 0x29c as the block length.
->>> This includes the common block itself, enc subblocks and some empty
->>> space around. Change that to pass 0x4 instead, the length of common
->>> register block itself.
->>>
->>> Fixes: 0d1b10c63346 ("drm/msm/dpu: add DSC 1.2 hw blocks for relevant 
->>> chipsets")
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>
->> There is no need of a fixes tag for this.
->>
->> This is not a bug but was intentional.
+On Thu, Jun 22, 2023 at 11:21:51AM +0200, Geert Uytterhoeven wrote:
+> Add DT support, by:
+>   1. Creating a panel bridge from DT, and attaching it to the encoder,
+>   2. Replacing the custom connector with a bridge connector,
+>   3. Obtaining clock configuration based on the compatible value.
 > 
-> We have other subblocks which are not dumped withoyt Ryan's patchset. So 
-> this declaration should be corrected.
+> Note that for now the driver uses a fixed clock configuration selecting
+> the bus clock, as the current code to select other clock inputs needs
+> changes to support any other SoCs than SH7724.
 > 
-
-As registers were not contiguous, some of them had to be missed but the 
-goal was to cover as much as possible with the len of the main blk.
-
-Some registers had to take a hit till we dumped sub-blocks.
-
->>
->> Till we added sub-block parsing support we had to dump the whole block.
->>
->> And hence I would suggest this change should be merged after the 
->> sub-block parsing change otherwise we wont have full register dumps 
->> for DSC.
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> ---
+> SH-Mobile AG5 (SH73A0) support is untested.
 > 
-> No, the order should be opposite: this is merged first, then subblocks 
-> dumping can use block->len in all the cases.
+> Unbind crashes when drm_encoder_cleanup() calls drm_bridge_detach(), as
+> the bridge (allocated by devm_drm_panel_bridge_add()) has already been
+> freed by that time.
+> Should I allocate my encoder with devm_kzalloc(), instead of embedding
+> it inside struct shmob_drm_device?
+
+That shouldn't be needed, if you manage the memory for shmob_drm_device
+with the DRM managed helpers.
+
+Lifetime management of bridges is currently completely broken, there's
+nothing that prevents bridges from being freed while still in use.
+That's an issue in DRM, not in your driver.
+
+> ---
+>  .../gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 101 +++++++++++++++---
+>  .../gpu/drm/renesas/shmobile/shmob_drm_crtc.h |   1 +
+>  .../gpu/drm/renesas/shmobile/shmob_drm_drv.c  |  27 ++++-
+>  .../gpu/drm/renesas/shmobile/shmob_drm_drv.h  |   6 ++
+>  4 files changed, 118 insertions(+), 17 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> index 17456dde57637ab8..1ec87841658de4f0 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> @@ -9,12 +9,16 @@
+>  
+>  #include <linux/clk.h>
+>  #include <linux/media-bus-format.h>
+> +#include <linux/of.h>
+> +#include <linux/of_graph.h>
+>  #include <linux/pm_runtime.h>
+>  
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_atomic_state_helper.h>
+>  #include <drm/drm_atomic_uapi.h>
+> +#include <drm/drm_bridge.h>
+> +#include <drm/drm_bridge_connector.h>
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_crtc_helper.h>
+>  #include <drm/drm_fb_dma_helper.h>
+> @@ -23,6 +27,7 @@
+>  #include <drm/drm_gem_dma_helper.h>
+>  #include <drm/drm_modeset_helper.h>
+>  #include <drm/drm_modeset_helper_vtables.h>
+> +#include <drm/drm_panel.h>
+>  #include <drm/drm_probe_helper.h>
+>  #include <drm/drm_simple_kms_helper.h>
+>  #include <drm/drm_vblank.h>
+> @@ -35,10 +40,6 @@
+>  #include "shmob_drm_plane.h"
+>  #include "shmob_drm_regs.h"
+>  
+> -/*
+> - * TODO: panel support
+> - */
+> -
+>  /* -----------------------------------------------------------------------------
+>   * Clock management
+>   */
+> @@ -129,7 +130,6 @@ static void shmob_drm_crtc_setup_geometry(struct shmob_drm_crtc *scrtc)
+>  		value |= LDMT1R_VPOL;
+>  	if (mode->flags & DRM_MODE_FLAG_NHSYNC)
+>  		value |= LDMT1R_HPOL;
+> -
 
-Please stop pushing changes in the middle of an ongoing series. If you 
-really wanted this, we could have expanded the sub-block series to fix 
-this too or you could have discussed with the authors that you were 
-going to push this in parallel.
+This could be moved to one of the patches in the series that touch this
+code.
 
-Instead of helping developers, it sometimes offends them to receive 
-patches in the middle of an ongoing series.
+>  	lcdc_write(sdev, LDMT1R, value);
+>  
+>  	value = ((mode->hdisplay / 8) << 16)			/* HDCN */
+> @@ -191,7 +191,7 @@ static void shmob_drm_crtc_start(struct shmob_drm_crtc *scrtc)
+>  {
+>  	struct drm_crtc *crtc = &scrtc->base;
+>  	struct shmob_drm_device *sdev = to_shmob_device(crtc->dev);
+> -	const struct shmob_drm_interface_data *idata = &sdev->pdata->iface;
+> +	unsigned int clk_div = sdev->config.clk_div;
+>  	struct device *dev = sdev->dev;
+>  	u32 value;
+>  	int ret;
+> @@ -220,17 +220,17 @@ static void shmob_drm_crtc_start(struct shmob_drm_crtc *scrtc)
+>  	lcdc_write(sdev, LDPMR, 0);
+>  
+>  	value = sdev->lddckr;
+> -	if (idata->clk_div) {
+> +	if (clk_div) {
+>  		/* FIXME: sh7724 can only use 42, 48, 54 and 60 for the divider
+>  		 * denominator.
+>  		 */
+>  		lcdc_write(sdev, LDDCKPAT1R, 0);
+> -		lcdc_write(sdev, LDDCKPAT2R, (1 << (idata->clk_div / 2)) - 1);
+> +		lcdc_write(sdev, LDDCKPAT2R, (1 << (clk_div / 2)) - 1);
+>  
+> -		if (idata->clk_div == 1)
+> +		if (clk_div == 1)
+>  			value |= LDDCKR_MOSEL;
+>  		else
+> -			value |= idata->clk_div;
+> +			value |= clk_div;
+>  	}
+>  
+>  	lcdc_write(sdev, LDDCKR, value);
+> @@ -479,7 +479,7 @@ int shmob_drm_crtc_create(struct shmob_drm_device *sdev)
+>  }
+>  
+>  /* -----------------------------------------------------------------------------
+> - * Encoder
+> + * Legacy Encoder
+>   */
+>  
+>  static bool shmob_drm_encoder_mode_fixup(struct drm_encoder *encoder,
+> @@ -508,9 +508,43 @@ static const struct drm_encoder_helper_funcs encoder_helper_funcs = {
+>  	.mode_fixup = shmob_drm_encoder_mode_fixup,
+>  };
+>  
+> +/* -----------------------------------------------------------------------------
+> + * Encoder
+> + */
+> +
+> +static int shmob_drm_encoder_init(struct shmob_drm_device *sdev,
+> +				  struct device_node *enc_node)
+> +{
+> +	struct drm_bridge *bridge;
+> +	struct drm_panel *panel;
+> +	int ret;
+> +
+> +	/* Create a panel bridge */
+> +	panel = of_drm_find_panel(enc_node);
 
+Using drm_of_find_panel_or_bridge() would allow supporting platforms
+that connect a non-panel device to the SoC, in additional to the already
+supported panels.
 
->>
->> Also, please add :
->>
->> Suggested-by: Ryan McCann <quic_rmccann@quicinc.com>
-> 
+> +	if (IS_ERR(panel))
+> +		return PTR_ERR(panel);
+> +
+> +	bridge = devm_drm_panel_bridge_add(sdev->dev, panel);
+> +	if (IS_ERR(bridge))
+> +		return PTR_ERR(bridge);
+> +
+> +	/* Attach the bridge to the encoder */
+> +	ret = drm_bridge_attach(&sdev->encoder, bridge, NULL,
+> +				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> +	if (ret) {
+> +		dev_err(sdev->dev, "failed to attach bridge %pOF: %pe\n",
+> +			bridge->of_node, ERR_PTR(ret));
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  int shmob_drm_encoder_create(struct shmob_drm_device *sdev)
+>  {
+>  	struct drm_encoder *encoder = &sdev->encoder;
+> +	struct device_node *np = sdev->dev->of_node;
+> +	struct device_node *ep_node, *entity;
+>  	int ret;
+>  
+>  	encoder->possible_crtcs = 1;
+> @@ -520,13 +554,45 @@ int shmob_drm_encoder_create(struct shmob_drm_device *sdev)
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	drm_encoder_helper_add(encoder, &encoder_helper_funcs);
+> +	if (sdev->pdata) {
+> +		drm_encoder_helper_add(encoder, &encoder_helper_funcs);
+> +		return 0;
+> +	}
+> +
+> +	for_each_endpoint_of_node(np, ep_node) {
+> +		struct of_endpoint ep;
+> +
+> +		ret = of_graph_parse_endpoint(ep_node, &ep);
+> +		if (ret < 0) {
+> +			of_node_put(ep_node);
+> +			return ret;
+> +		}
+> +		/* Ignore all but the LCD port */
+> +		if (ep.port || ep.id)
+> +			continue;
+> +
+> +		entity = of_graph_get_remote_port_parent(ep.local_node);
+> +		if (!entity)
+> +			continue;
+> +
+> +		if (!of_device_is_available(entity)) {
+> +			of_node_put(entity);
+> +			continue;
+> +		}
+> +
+> +		ret = shmob_drm_encoder_init(sdev, entity);
+> +		if (ret < 0) {
+> +			of_node_put(entity);
+> +			of_node_put(ep_node);
+> +			return ret;
+> +		}
+> +	}
+>  
+>  	return 0;
+>  }
+>  
+>  /* -----------------------------------------------------------------------------
+> - * Connector
+> + * Legacy Connector
+>   */
+>  
+>  static inline struct shmob_drm_connector *to_shmob_connector(struct drm_connector *connector)
+> @@ -626,13 +692,20 @@ shmob_drm_connector_init(struct shmob_drm_device *sdev,
+>  	return connector;
+>  }
+>  
+> +/* -----------------------------------------------------------------------------
+> + * Connector
+> + */
+> +
+>  int shmob_drm_connector_create(struct shmob_drm_device *sdev,
+>  			       struct drm_encoder *encoder)
+>  {
+>  	struct drm_connector *connector;
+>  	int ret;
+>  
+> -	connector = shmob_drm_connector_init(sdev, encoder);
+> +	if (sdev->pdata)
+> +		connector = shmob_drm_connector_init(sdev, encoder);
+> +	else
+> +		connector = drm_bridge_connector_init(&sdev->ddev, encoder);
+>  	if (IS_ERR(connector)) {
+>  		dev_err(sdev->dev, "failed to created connector: %pe\n",
+>  			connector);
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h
+> index 89a0746f9a35807d..16e1712dd04e0f2b 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h
+> @@ -29,6 +29,7 @@ struct shmob_drm_crtc {
+>  	wait_queue_head_t flip_wait;
+>  };
+>  
+> +/* Legacy connector */
+>  struct shmob_drm_connector {
+>  	struct drm_connector base;
+>  	struct drm_encoder *encoder;
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
+> index 576869164479ec6b..db72ca1c8b2f44c9 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/io.h>
+>  #include <linux/mm.h>
+>  #include <linux/module.h>
+> +#include <linux/of.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm.h>
+>  #include <linux/pm_runtime.h>
+> @@ -147,11 +148,13 @@ static int shmob_drm_remove(struct platform_device *pdev)
+>  static int shmob_drm_probe(struct platform_device *pdev)
+>  {
+>  	struct shmob_drm_platform_data *pdata = pdev->dev.platform_data;
 
-+			/* For now, pass in a length of 0 because the DSC_BLK register space
-+			 * overlaps with the sblks' register space.
-+			 *
-+			 * TODO: Pass in a length of 0 t0 DSC_BLK_1_2 in the HW catalog where
-+			 * applicable.
+How about dropping non-DT support ? That would simplify the driver.
 
-The comment reports and tells what to do.
+> +	const struct shmob_drm_config *config;
+>  	struct shmob_drm_device *sdev;
+>  	struct drm_device *ddev;
+>  	int ret;
+>  
+> -	if (pdata == NULL) {
+> +	config = of_device_get_match_data(&pdev->dev);
+> +	if (!config && !pdata) {
+>  		dev_err(&pdev->dev, "no platform data\n");
+>  		return -EINVAL;
+>  	}
+> @@ -167,7 +170,13 @@ static int shmob_drm_probe(struct platform_device *pdev)
+>  
+>  	ddev = &sdev->ddev;
+>  	sdev->dev = &pdev->dev;
+> -	sdev->pdata = pdata;
+> +	if (config) {
+> +		sdev->config = *config;
+> +	} else {
+> +		sdev->pdata = pdata;
+> +		sdev->config.clk_source = pdata->clk_source;
+> +		sdev->config.clk_div = pdata->iface.clk_div;
+> +	}
+>  	spin_lock_init(&sdev->irq_lock);
+>  
+>  	platform_set_drvdata(pdev, sdev);
+> @@ -180,7 +189,7 @@ static int shmob_drm_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		return ret;
+>  
+> -	ret = shmob_drm_setup_clocks(sdev, pdata->clk_source);
+> +	ret = shmob_drm_setup_clocks(sdev, sdev->config.clk_source);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> @@ -224,11 +233,23 @@ static int shmob_drm_probe(struct platform_device *pdev)
+>  	return ret;
+>  }
+>  
+> +static const struct shmob_drm_config shmob_arm_config = {
+> +	.clk_source = SHMOB_DRM_CLK_BUS,
+> +	.clk_div = 5,
+> +};
+> +
+> +static const struct of_device_id shmob_drm_of_table[] __maybe_unused = {
+> +	{ .compatible = "renesas,r8a7740-lcdc",	.data = &shmob_arm_config, },
+> +	{ .compatible = "renesas,sh73a0-lcdc",	.data = &shmob_arm_config, },
+> +	{ /* sentinel */ }
+> +};
+> +
+>  static struct platform_driver shmob_drm_platform_driver = {
+>  	.probe		= shmob_drm_probe,
+>  	.remove		= shmob_drm_remove,
+>  	.driver		= {
+>  		.name	= "shmob-drm",
+> +		.of_match_table = of_match_ptr(shmob_drm_of_table),
+>  		.pm	= pm_sleep_ptr(&shmob_drm_pm_ops),
+>  	},
+>  };
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.h b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.h
+> index 18907e5ace51c681..088ac5381e91e61a 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.h
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.h
+> @@ -20,9 +20,15 @@ struct clk;
+>  struct device;
+>  struct drm_device;
+>  
+> +struct shmob_drm_config {
+> +	enum shmob_drm_clk_source clk_source;
+> +	unsigned int clk_div;
+> +};
+> +
+>  struct shmob_drm_device {
+>  	struct device *dev;
+>  	const struct shmob_drm_platform_data *pdata;
+> +	struct shmob_drm_config config;
+>  
+>  	void __iomem *mmio;
+>  	struct clk *clock;
 
-I thought of suggesting to add both first.
-> More likely:
-> 
-> Reported-by: Ryan McCann <quic_rmccann@quicinc.com>
-> 
->>
->>
->>> ---
->>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h   |  8 ++++----
->>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h   |  2 +-
->>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h | 12 ++++++------
->>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h   |  8 ++++----
->>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h   |  8 ++++----
->>>   5 files changed, 19 insertions(+), 19 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h 
->>> b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
->>> index 8da424eaee6a..6edf323f381f 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
->>> @@ -159,10 +159,10 @@ static const struct dpu_merge_3d_cfg 
->>> sm8350_merge_3d[] = {
->>>    * its own different sub block address.
->>>    */
->>>   static const struct dpu_dsc_cfg sm8350_dsc[] = {
->>> -    DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x29c, 0, dsc_sblk_0),
->>> -    DSC_BLK_1_2("dce_0_1", DSC_1, 0x80000, 0x29c, 0, dsc_sblk_1),
->>> -    DSC_BLK_1_2("dce_1_0", DSC_2, 0x81000, 0x29c, 
->>> BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
->>> -    DSC_BLK_1_2("dce_1_1", DSC_3, 0x81000, 0x29c, 
->>> BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_1),
->>> +    DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x4, 0, dsc_sblk_0),
->>> +    DSC_BLK_1_2("dce_0_1", DSC_1, 0x80000, 0x4, 0, dsc_sblk_1),
->>> +    DSC_BLK_1_2("dce_1_0", DSC_2, 0x81000, 0x4, 
->>> BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
->>> +    DSC_BLK_1_2("dce_1_1", DSC_3, 0x81000, 0x4, 
->>> BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_1),
->>>   };
->>>   static const struct dpu_intf_cfg sm8350_intf[] = {
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h 
->>> b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
->>> index 900fee410e11..5354003aa8be 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
->>> @@ -104,7 +104,7 @@ static const struct dpu_pingpong_cfg sc7280_pp[] = {
->>>   /* NOTE: sc7280 only has one DSC hard slice encoder */
->>>   static const struct dpu_dsc_cfg sc7280_dsc[] = {
->>> -    DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x29c, 
->>> BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
->>> +    DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x4, 
->>> BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
->>>   };
->>>   static const struct dpu_wb_cfg sc7280_wb[] = {
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h 
->>> b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
->>> index f6ce6b090f71..1d374abec1fd 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
->>> @@ -148,12 +148,12 @@ static const struct dpu_merge_3d_cfg 
->>> sc8280xp_merge_3d[] = {
->>>    * its own different sub block address.
->>>    */
->>>   static const struct dpu_dsc_cfg sc8280xp_dsc[] = {
->>> -    DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x29c, 0, dsc_sblk_0),
->>> -    DSC_BLK_1_2("dce_0_1", DSC_1, 0x80000, 0x29c, 0, dsc_sblk_1),
->>> -    DSC_BLK_1_2("dce_1_0", DSC_2, 0x81000, 0x29c, 
->>> BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
->>> -    DSC_BLK_1_2("dce_1_1", DSC_3, 0x81000, 0x29c, 
->>> BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_1),
->>> -    DSC_BLK_1_2("dce_2_0", DSC_4, 0x82000, 0x29c, 0, dsc_sblk_0),
->>> -    DSC_BLK_1_2("dce_2_1", DSC_5, 0x82000, 0x29c, 0, dsc_sblk_1),
->>> +    DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x4, 0, dsc_sblk_0),
->>> +    DSC_BLK_1_2("dce_0_1", DSC_1, 0x80000, 0x4, 0, dsc_sblk_1),
->>> +    DSC_BLK_1_2("dce_1_0", DSC_2, 0x81000, 0x4, 
->>> BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
->>> +    DSC_BLK_1_2("dce_1_1", DSC_3, 0x81000, 0x4, 
->>> BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_1),
->>> +    DSC_BLK_1_2("dce_2_0", DSC_4, 0x82000, 0x4, 0, dsc_sblk_0),
->>> +    DSC_BLK_1_2("dce_2_1", DSC_5, 0x82000, 0x4, 0, dsc_sblk_1),
->>>   };
->>>   /* TODO: INTF 3, 8 and 7 are used for MST, marked as INTF_NONE for 
->>> now */
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h 
->>> b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
->>> index 8d13c369213c..79447d8cab05 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
->>> @@ -167,10 +167,10 @@ static const struct dpu_merge_3d_cfg 
->>> sm8450_merge_3d[] = {
->>>    * its own different sub block address.
->>>    */
->>>   static const struct dpu_dsc_cfg sm8450_dsc[] = {
->>> -    DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x29c, 0, dsc_sblk_0),
->>> -    DSC_BLK_1_2("dce_0_1", DSC_1, 0x80000, 0x29c, 0, dsc_sblk_1),
->>> -    DSC_BLK_1_2("dce_1_0", DSC_2, 0x81000, 0x29c, 
->>> BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
->>> -    DSC_BLK_1_2("dce_1_1", DSC_3, 0x81000, 0x29c, 
->>> BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_1),
->>> +    DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x4, 0, dsc_sblk_0),
->>> +    DSC_BLK_1_2("dce_0_1", DSC_1, 0x80000, 0x4, 0, dsc_sblk_1),
->>> +    DSC_BLK_1_2("dce_1_0", DSC_2, 0x81000, 0x4, 
->>> BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
->>> +    DSC_BLK_1_2("dce_1_1", DSC_3, 0x81000, 0x4, 
->>> BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_1),
->>>   };
->>>   static const struct dpu_intf_cfg sm8450_intf[] = {
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h 
->>> b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
->>> index f17b9a7fee85..26e3c28003f7 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
->>> @@ -171,10 +171,10 @@ static const struct dpu_merge_3d_cfg 
->>> sm8550_merge_3d[] = {
->>>    * its own different sub block address.
->>>    */
->>>   static const struct dpu_dsc_cfg sm8550_dsc[] = {
->>> -    DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x29c, 0, dsc_sblk_0),
->>> -    DSC_BLK_1_2("dce_0_1", DSC_1, 0x80000, 0x29c, 0, dsc_sblk_1),
->>> -    DSC_BLK_1_2("dce_1_0", DSC_2, 0x81000, 0x29c, 
->>> BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
->>> -    DSC_BLK_1_2("dce_1_1", DSC_3, 0x81000, 0x29c, 
->>> BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_1),
->>> +    DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x4, 0, dsc_sblk_0),
->>> +    DSC_BLK_1_2("dce_0_1", DSC_1, 0x80000, 0x4, 0, dsc_sblk_1),
->>> +    DSC_BLK_1_2("dce_1_0", DSC_2, 0x81000, 0x4, 
->>> BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
->>> +    DSC_BLK_1_2("dce_1_1", DSC_3, 0x81000, 0x4, 
->>> BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_1),
->>>   };
->>>   static const struct dpu_intf_cfg sm8550_intf[] = {
-> 
+-- 
+Regards,
+
+Laurent Pinchart
