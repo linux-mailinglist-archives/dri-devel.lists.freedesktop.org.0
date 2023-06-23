@@ -2,43 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 023B273BE9D
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 20:53:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EF5073BEF0
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 21:36:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A653510E0DF;
-	Fri, 23 Jun 2023 18:52:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4CD210E69B;
+	Fri, 23 Jun 2023 19:36:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CFFB10E0DF
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 18:52:55 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id DBB40D5F;
- Fri, 23 Jun 2023 20:52:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1687546337;
- bh=T4l4qJ2IScPcpOSjZBjIdg+1mEYC03Hv+YAAeixilGo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WfSyio0w+6uDBtuyiwBSOlwJOGfur+p9+3bPKswIlBLHV8Kid/wr8RPki31Cg2wcj
- YuA2pFbSgdhmgDxfVyuuWTeH2YITXUdlevV95beUgwdVde+jzZ1ENAXmHsSVmiYxJR
- 9Gn0sUO9TIYC9KXzrGUh/5sr2lTcFqLDFHFV2Jj4=
-Date: Fri, 23 Jun 2023 21:52:52 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH 39/39] drm: renesas: shmobile: Add DT support
-Message-ID: <20230623185252.GS2112@pendragon.ideasonboard.com>
-References: <cover.1687423204.git.geert+renesas@glider.be>
- <2759075c94c011b0f15cb610f39f8fa9b3736600.1687423204.git.geert+renesas@glider.be>
- <20230623175019.GO2112@pendragon.ideasonboard.com>
- <20230623175409.GA2534204@ravnborg.org>
- <CAMuHMdVsvz1knSDqQW16rrT3tq2Zz4dfEJj4WS5By0AYLWRazA@mail.gmail.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F72C10E68F;
+ Fri, 23 Jun 2023 19:36:19 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 35NDqkBo002013; Fri, 23 Jun 2023 19:36:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=zO+PGNmN8a9U+5qGpmMEyYnTntxdbEi/c3pK95BwTPo=;
+ b=bHytJRC1b1wg8ghbWyTlwErmtTkd3qY8kKcetht9KDNaBIdx4zCxRCEAC9351B8F75g8
+ F/tvhzT1bWDzWjzXXIYjaxAIfjf4Eyu3ZZOJ7czBoG6xiYSP8aIpfOiFVkCm+8LDP4XC
+ ysFMRuWqsF7qi4j4HgD/NNU8nkhsgS2zB/K8MiFqlDCksiNB50/APvAu5cRfQQcLs2Yb
+ hwdz263ahEYCaw18Ac3drI+zP2MIRUyaQmBcK30gSJXmA8+3VJHZbfrYiusGSqW1Tca0
+ jLji4q0r/GQ4NlVsqo0ApRXNBOKa1oR7UIwXofqs+rBAOH/scc4zo/tV+TdidbImLbVa 8w== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rcju84cew-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 23 Jun 2023 19:36:09 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35NJa8j2031070
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 23 Jun 2023 19:36:08 GMT
+Received: from [10.110.61.170] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 23 Jun
+ 2023 12:36:07 -0700
+Message-ID: <6579ad4d-03ce-1320-3751-4b725fe3474e@quicinc.com>
+Date: Fri, 23 Jun 2023 12:36:06 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdVsvz1knSDqQW16rrT3tq2Zz4dfEJj4WS5By0AYLWRazA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 1/2] drm/msm/dpu: fix DSC 1.2 block lengths
+Content-Language: en-US
+To: Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230623013731.1088007-1-dmitry.baryshkov@linaro.org>
+ <6b74cb1f-3128-4ebd-8ff9-33cc025d957b@quicinc.com>
+ <mwxs3rvemvdizqtsfa7pxms5prgrdq2lue6lvkt2f23nehzhwr@uawaxv5jsnmh>
+ <wbeyverizh4644grwtz4r62gb5rypsuufs4ixz4qx5jl4233hr@uexh36futuys>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <wbeyverizh4644grwtz4r62gb5rypsuufs4ixz4qx5jl4233hr@uexh36futuys>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: JLVjg7zdDnjN2qoWH2dza96cILk-7zNa
+X-Proofpoint-GUID: JLVjg7zdDnjN2qoWH2dza96cILk-7zNa
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-23_11,2023-06-22_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 adultscore=0
+ clxscore=1015 phishscore=0 suspectscore=0 mlxlogscore=999
+ priorityscore=1501 lowpriorityscore=0 bulkscore=0 malwarescore=0
+ impostorscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2305260000 definitions=main-2306230175
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,116 +85,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 23, 2023 at 08:09:53PM +0200, Geert Uytterhoeven wrote:
-> On Fri, Jun 23, 2023 at 7:54 PM Sam Ravnborg <sam@ravnborg.org> wrote:
-> > On Fri, Jun 23, 2023 at 08:50:19PM +0300, Laurent Pinchart wrote:
-> > > On Thu, Jun 22, 2023 at 11:21:51AM +0200, Geert Uytterhoeven wrote:
-> > > > Add DT support, by:
-> > > >   1. Creating a panel bridge from DT, and attaching it to the encoder,
-> > > >   2. Replacing the custom connector with a bridge connector,
-> > > >   3. Obtaining clock configuration based on the compatible value.
-> > > >
-> > > > Note that for now the driver uses a fixed clock configuration selecting
-> > > > the bus clock, as the current code to select other clock inputs needs
-> > > > changes to support any other SoCs than SH7724.
-> > > >
-> > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > Cc: Rob Herring <robh+dt@kernel.org>
-> > > > Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> > > > Cc: Conor Dooley <conor+dt@kernel.org>
-> > > > Cc: devicetree@vger.kernel.org
-> > > > ---
-> > > > SH-Mobile AG5 (SH73A0) support is untested.
-> > > >
-> > > > Unbind crashes when drm_encoder_cleanup() calls drm_bridge_detach(), as
-> > > > the bridge (allocated by devm_drm_panel_bridge_add()) has already been
-> > > > freed by that time.
-> > > > Should I allocate my encoder with devm_kzalloc(), instead of embedding
-> > > > it inside struct shmob_drm_device?
-> > >
-> > > That shouldn't be needed, if you manage the memory for shmob_drm_device
-> > > with the DRM managed helpers.
-> 
-> Well, Marek said unbind works fine in drivers/gpu/drm/mxsfb/lcdif_drv.c,
-> where the order is:
-> 
->     bridge = devm_drm_of_get_bridge(...)
->     encoder = devm_kzalloc(...)
->     drm_encoder_init(...)
-> 
-> > > Lifetime management of bridges is currently completely broken, there's
-> > > nothing that prevents bridges from being freed while still in use.
-> > > That's an issue in DRM, not in your driver.
-> 
-> OK ;-) (or :-(
-> 
-> > > > --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-> > > > +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-> > > > @@ -508,9 +508,43 @@ static const struct drm_encoder_helper_funcs encoder_helper_funcs = {
-> > > >     .mode_fixup = shmob_drm_encoder_mode_fixup,
-> > > >  };
-> > > >
-> > > > +/* -----------------------------------------------------------------------------
-> > > > + * Encoder
-> > > > + */
-> > > > +
-> > > > +static int shmob_drm_encoder_init(struct shmob_drm_device *sdev,
-> > > > +                             struct device_node *enc_node)
-> > > > +{
-> > > > +   struct drm_bridge *bridge;
-> > > > +   struct drm_panel *panel;
-> > > > +   int ret;
-> > > > +
-> > > > +   /* Create a panel bridge */
-> > > > +   panel = of_drm_find_panel(enc_node);
-> > >
-> > > Using drm_of_find_panel_or_bridge() would allow supporting platforms
-> > > that connect a non-panel device to the SoC, in additional to the already
-> > > supported panels.
-> >
-> > From the documentation of drm_of_find_panel_or_bridge():
-> >
-> >  * This function is deprecated and should not be used in new drivers. Use
-> >  * devm_drm_of_get_bridge() instead.
 
-Indeed, my bad/ devm_drm_of_get_bridge() is better.
 
-> > I suggest to go that route.
+On 6/22/2023 11:57 PM, Marijn Suijten wrote:
+> On 2023-06-23 08:54:39, Marijn Suijten wrote:
+>> On 2023-06-22 22:47:04, Abhinav Kumar wrote:
+>>> On 6/22/2023 6:37 PM, Dmitry Baryshkov wrote:
+>>>> All DSC_BLK_1_2 declarations incorrectly pass 0x29c as the block length.
+>>>> This includes the common block itself, enc subblocks and some empty
+>>>> space around. Change that to pass 0x4 instead, the length of common
+>>>> register block itself.
+>>>>
+>>>> Fixes: 0d1b10c63346 ("drm/msm/dpu: add DSC 1.2 hw blocks for relevant chipsets")
+>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>
+>>> There is no need of a fixes tag for this.
+>>>
+>>> This is not a bug but was intentional.
+>>>
+>>> Till we added sub-block parsing support we had to dump the whole block.
+>>>
+>>> And hence I would suggest this change should be merged after the
+>>> sub-block parsing change otherwise we wont have full register dumps for DSC.
+>>
+>> This was indeed intentional, we discussed it in [1].
+>>
+>> In fact I asked to make it 0xf00 + 0x10 or 0xf80 + 0x10 to also cover
+>> the CTL registers, but that change didn't make it through.  0x29c is an
+>> arbitrary number that I have no clue what it was based on.
 > 
-> OK (do I have the feeling that these helpers are sometimes deprecated
-> faster than they are written? ;-)
+> Ah, as expected Dmitry's second commit clarifies that the last register
+> in the enc block is at 0x98, and the base of the enc + length of the enc
+> then is 0x200 + 0x9c.
 > 
-> > > > @@ -147,11 +148,13 @@ static int shmob_drm_remove(struct platform_device *pdev)
-> > > >  static int shmob_drm_probe(struct platform_device *pdev)
-> > > >  {
-> > > >     struct shmob_drm_platform_data *pdata = pdev->dev.platform_data;
-> > >
-> > > How about dropping non-DT support ? That would simplify the driver.
-> >
-> > +1 for that, without knowing the implications.
+> That still excludes the ctl sblk.
+
+0x29c is not an arbitrary number. The last encoder offset is 0x298 so we 
+add 4 more to that.
+
+Yes it will still exclude ctl blk as that space is not contiguous and we 
+dont want to increase len all the way to 0xf00.
+
 > 
-> That depends on your priorities: do you want to migrate all users of
-> sh_mobile_lcdc_fb to shmob_drm, or do you want the SuperH users to
-> stick with sh_mobile_lcdc_fb until they have migrated to DT? ;-)
-
-I'd vote for dropping LCDC support from the SH users. Does anyone
-*really* need it ? If they do, they should convert the board to DT.
-
-> Regardless of the above, I do not have (visible) access to any of the
-> affected SH772[234] platforms...
-
--- 
-Regards,
-
-Laurent Pinchart
+>> [1]: https://lore.kernel.org/linux-arm-msm/y2whfntyo2rbrg3taazjdw5sijle6k6swzl4uutcxm6tmuayh4@uxdur74uasua/
+>>
+>> - Marijn
