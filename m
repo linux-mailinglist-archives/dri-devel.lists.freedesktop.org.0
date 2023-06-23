@@ -2,68 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF8D73C4E5
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jun 2023 01:44:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E442F73C4EB
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jun 2023 01:47:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D80CE10E013;
-	Fri, 23 Jun 2023 23:44:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 866AD10E6D1;
+	Fri, 23 Jun 2023 23:47:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5209B10E013
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 23:44:23 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id
- 38308e7fff4ca-2b46f5d236dso20486571fa.2
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 16:44:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1687563859; x=1690155859;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=gVT3Ae52uNnNMAjvZ6ok3W1cvzQFVUDD1dzfpAkc+Ro=;
- b=NrP6fMkluNDMLVHiZLGr7OreyMjSY3mRQW4xsjeFPJGYbtczljHjwKw3PG46QEPtYA
- 5ZtC/CFIydKZnmO602tf1qEWOMg+RCt/19XXhMZBk6rSejzwkRtM7If5lTo5/D360CGS
- LSjPxU6ODch4AZ6Jb13UihWpep9DpBx7abFj0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687563859; x=1690155859;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=gVT3Ae52uNnNMAjvZ6ok3W1cvzQFVUDD1dzfpAkc+Ro=;
- b=R7rtP1Ts7p4/NW0eNbZNzu8udV7Xh9xxjmkWmZseidChdhnKNAOm3drh/YU67SrFZf
- AkWaRITCd7wuVt2/puGuVtVoZrvwxZFq0BvJyw2McC2gj1NGXYAwnhbCWFrzBUKhpr9U
- 3z+/NdXy+J1yzupUZaybjKEgNaGKri93diPmwtEl9FccG9z0C+rTFRh8/apUn+OKH7u3
- hNpSi3IXyxUru16TT3+9qN+zOT15ySPKqEkIQMr5CQqJZiizHiIGMDnheXz9p7xMeeYi
- 6zrnvbWR2Fcopcl3BCUswQyT8Au+K6KUifQcDRZ56cNdo6cJwzIhIC2ggZOkrHAuGg3v
- Reew==
-X-Gm-Message-State: AC+VfDyJjxjXG+dASaHNC9/sQvuZ/a1HT7UgKqrbxVLw9bYS+a9hVCvB
- pwOzQicpz5mrEnXFJEgNHdwFRkH+1/kTXiswylRgSQ==
-X-Google-Smtp-Source: ACHHUZ7y7x3cFZkbfHBhLad67uuqhArYc4eDe3rSq6i5tRheZglMqYAzfx/9qEiq348lVSk37Ccedw==
-X-Received: by 2002:a2e:a0d5:0:b0:2b4:5cad:f246 with SMTP id
- f21-20020a2ea0d5000000b002b45cadf246mr14369487ljm.7.1687563858796; 
- Fri, 23 Jun 2023 16:44:18 -0700 (PDT)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com.
- [209.85.208.172]) by smtp.gmail.com with ESMTPSA id
- e19-20020a2e9e13000000b002b47278407esm23315ljk.74.2023.06.23.16.44.17
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Jun 2023 16:44:18 -0700 (PDT)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-2b47742de92so20800891fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 16:44:17 -0700 (PDT)
-X-Received: by 2002:a2e:6e16:0:b0:2b5:950a:711c with SMTP id
- j22-20020a2e6e16000000b002b5950a711cmr3568282ljc.10.1687563857166; Fri, 23
- Jun 2023 16:44:17 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6870110E6D1;
+ Fri, 23 Jun 2023 23:47:45 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 35NNbGgC012691; Fri, 23 Jun 2023 23:47:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=NdumVFG0UxTGtv9SjRebHqegowG7qYHciwzHb3gBfsA=;
+ b=OOftGYfTx19hwBRU/vu39ot5x26YexLRSnOE6LGmVeV/1E6cTjAisdxPRr6UXXfjfaDJ
+ es2VvAx8vncQD/ILghm/ruy44H3NGotyOJrMllyEoj0AwtjtKwew6JBxfFNnyLAKoLWz
+ 7+UD76uK7zrgO0mFzZK+vM12Qki3Yb616qXYgIVxlWwGYe8aaecndXO5m8xTHY+40rOq
+ 7b+KFfYZiY4gNIV+1izi4CRxVoZSES6VQrbuaBupoMKtMZax2A/bNYUybL22wa+n7dcp
+ Y4AIQPFC+ikvYhiTHcsOXfCVlxtppmnmQx+qGZWj8fhCQGdIUBk6w4RTiTHR7j0UZPJV tQ== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rdfb18r0a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 23 Jun 2023 23:47:35 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35NNlYI6016643
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 23 Jun 2023 23:47:34 GMT
+Received: from [10.110.61.170] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 23 Jun
+ 2023 16:47:33 -0700
+Message-ID: <a0ef6cda-3f84-2294-4b38-0c7e5c08179a@quicinc.com>
+Date: Fri, 23 Jun 2023 16:47:32 -0700
 MIME-Version: 1.0
-References: <20230623211808.7667-1-alexander.deucher@amd.com>
-In-Reply-To: <20230623211808.7667-1-alexander.deucher@amd.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Fri, 23 Jun 2023 16:44:00 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiOCgiwzVPOwORHPML9eBphnbtM2DhRcv+v=-tnRrgbYg@mail.gmail.com>
-Message-ID: <CAHk-=wiOCgiwzVPOwORHPML9eBphnbtM2DhRcv+v=-tnRrgbYg@mail.gmail.com>
-Subject: Re: [pull] amdgpu drm-fixes-6.4
-To: Alex Deucher <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2] drm/msm/dsi: Document DSC related pclk_rate and
+ hdisplay calculations
+Content-Language: en-US
+To: Marijn Suijten <marijn.suijten@somainline.org>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>
+References: <20230619210647.867630-1-dmitry.baryshkov@linaro.org>
+ <e9d5876a-3113-8c79-c2aa-e1ad175f0d84@quicinc.com>
+ <b632e52d-7b86-9f5a-913a-aace26d9a039@linaro.org>
+ <c2f632e7-8302-a77f-fc61-ccda3b5a8aac@quicinc.com>
+ <eqdu44xcd6qdrmxcdr44dfcliydz6q4oombghjg6ptlcbxf22v@uhqnhnlv6gxi>
+ <6e2ded6a-63a9-d32a-7a2f-67d3c72b1aa2@quicinc.com>
+ <gpxqh6mu5dora7ul4agaflmzqiq7ps6j2dic3zj2ygvp7dsori@lnbnexnbqthg>
+ <a3ce94a4-8e5b-427c-28ad-1bfad041d097@linaro.org>
+ <gtbpo6o255z3wb5veapjf4z2gasf6sjqdswqxxgpcwtkxaa6qk@dgkopjxs47uz>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <gtbpo6o255z3wb5veapjf4z2gasf6sjqdswqxxgpcwtkxaa6qk@dgkopjxs47uz>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 40LnioeA3bV3l3_b4bXlSL1y_r4fSvB8
+X-Proofpoint-GUID: 40LnioeA3bV3l3_b4bXlSL1y_r4fSvB8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-23_12,2023-06-22_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ suspectscore=0 phishscore=0 lowpriorityscore=0 impostorscore=0 mlxscore=0
+ adultscore=0 malwarescore=0 mlxlogscore=999 spamscore=0 clxscore=1015
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306230215
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,27 +92,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 23 Jun 2023 at 14:18, Alex Deucher <alexander.deucher@amd.com> wrote:
->
-> are available in the Git repository at:
->
->   https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.4-2023-06-23
 
-That's not a valid signed tag.
 
-Yes, it's a tag.  But it doesn't actually have any cryptographic
-signing, and I'm not willing to pull random content from git sites
-that I can't verify. In fact, these days I ask even kernel.org pull
-requests to be proper signed tags, although I haven't really gotten to
-the point where I *require* it.
+On 6/23/2023 1:18 PM, Marijn Suijten wrote:
+> On 2023-06-23 23:10:56, Dmitry Baryshkov wrote:
+> <snip>
+>>>> There is no confusion between what was said earlier and now.
+>>>>
+>>>> This line is calculating the number of pclks needed to transmit one line
+>>>> of the compressed data:
+>>>>
+>>>> hdisplay = DIV_ROUND_UP(msm_dsc_get_bytes_per_line(msm_host->dsc), 3);
+>>>>
+>>>> msm_dsc_get_bytes_per_line() is calculating the number of compressed
+>>>> bytes as it uses the target bits_per_pixel
+>>>>
+>>>> 126 	 * @bits_per_pixel:
+>>>> 127 	 * Target bits per pixel with 4 fractional bits, bits_per_pixel << 4
+>>>> 128 	 */
+>>>> 129 	u16 bits_per_pixel;
+>>>>
+>>>> (like I have said a few times, hdisplay is perhaps confusing us)
+>>>>
+>>>> If you calculate the bytes this way you are already accounting for the
+>>>> compression, so where is the confusion.
+>>>>
+>>>> The pclk calculation does the same thing of using the ratio instead.
+>>>
+>>> This is not answering my question whether the ratio for pclk calculation
+>>> should also be adjusted to account for widebus.  And if the ratio is
+>>> fixed, why use a fixed factor here but the ratio between
+>>> src_bpp:target_bpp here?  It only adds extra confusion.
+>>
+>> Wide bus is dicussed separately. I think the question you are trying to
+>> ask is "why are we not using msm_dsc_get_bytes_per_line() in
+>> dsi_adjust_pclk_for_compression()?"
+> 
+> I have asked that question before, and the answer was something
+> incomprehensible.  But indeed, it would look more natural if
+> dsi_adjust_pclk_for_compression() replaces:
+> 
+>      int new_hdisplay = DIV_ROUND_UP(mode->hdisplay * drm_dsc_get_bpp_int(dsc),
+>          dsc->bits_per_component * 3)
+> 
+> With:
+> 
+>      int new_hdisplay = DIV_ROUND_UP(msm_dsc_get_bytes_per_line(dsc), 3);
+> 
+> Which is the same value as we have here.
+> 
+> And then it becomes more clear how widebus affects this calculation.
+> 
+> - Marijn
 
-So please sign your tags - use "git tag -s" (or "-u keyname" if you
-have some specific key you want to use, rather than one described by
-your regular git config file).
+Ok, I finally got your question I think. That "why don't we account for 
+widebus in the pixel clock calculation but only for calculating pclk 
+cycles for REG_DSI_CMD_MDP_STREAM0_TOTAL"
 
-                  Linus
+Even though DPU shall transmit 48 bits worth of data , DSI will be able 
+to consume only one uncompressed pixel worth of data. Thats the rule.
+
+Hence even though we are able to account for widebus in the 
+stream0_total to indicate DPU's increased data transfer rate with 
+widebus, since DSI is still going to consume only one uncompressed pixel 
+worth of data, we can only scale the pixel clock with compression ratio.
+
+Hope that clarifies it.
