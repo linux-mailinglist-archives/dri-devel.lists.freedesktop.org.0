@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A562173BD39
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 18:53:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D68F773BD3C
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 18:53:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8949A10E67E;
-	Fri, 23 Jun 2023 16:53:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B96E910E683;
+	Fri, 23 Jun 2023 16:53:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5288B10E67E
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 16:53:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 261DA89580
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 16:53:29 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
  [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4428B440;
- Fri, 23 Jun 2023 18:52:22 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2CF28440;
+ Fri, 23 Jun 2023 18:52:51 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1687539142;
- bh=YJ3yOXbzBwOA7XqInoA3P8Y2N6ErXUdW7tXjVgzSU1s=;
+ s=mail; t=1687539171;
+ bh=0o5JXOyLxku6NoKd+xArlaIIcndsIh5cFOxDa+QQXmE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IlRE08XWEpA/3WiAtLmtr4QhSVqBYLWSFmgG8O8tIu1gA8lbdcqLoEfZYLQUQkuDM
- 1FKORhiqQdMEHgUTb97uS8t0makkemU6wWVH687RHzZGiVMn/YQyaMFoIUyGoNZIrE
- dSz3wANBci0ADTqsJzAZWa8ATef1rhUUmZ8Qi8yg=
-Date: Fri, 23 Jun 2023 19:52:57 +0300
+ b=UkSy1I1YN/pSgE1/ghr0KqD6SzCfxezy5+NgpQygi8qcGa2hwSsE42cn8R7HCYRXz
+ 51hNQt5eInxYwMC2MgpKau/QRneOArV4riw8C9N+iCCxGcrrcA9drz00cObYia2agT
+ 4g2eAEgqQ7E055GmF83ChaZpGss66M+Eauk7bWgI=
+Date: Fri, 23 Jun 2023 19:53:26 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH 27/39] drm: renesas: shmobile: Rename shmob_drm_plane.plane
-Message-ID: <20230623165257.GE2112@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 28/39] drm: renesas: shmobile: Use drm_crtc_handle_vblank()
+Message-ID: <20230623165326.GF2112@pendragon.ideasonboard.com>
 References: <cover.1687423204.git.geert+renesas@glider.be>
- <ecd392c966c967ac6826e20f8888e10161c9cbf7.1687423204.git.geert+renesas@glider.be>
+ <7b6ffa43307522833103fe29ec6a084b7d621a16.1687423204.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ecd392c966c967ac6826e20f8888e10161c9cbf7.1687423204.git.geert+renesas@glider.be>
+In-Reply-To: <7b6ffa43307522833103fe29ec6a084b7d621a16.1687423204.git.geert+renesas@glider.be>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,65 +58,31 @@ Hi Geert,
 
 Thank you for the patch.
 
-On Thu, Jun 22, 2023 at 11:21:39AM +0200, Geert Uytterhoeven wrote:
-> Rename the "plane" member of the shmob_drm_plane subclass structure to
-> "base", to improve readability.
+On Thu, Jun 22, 2023 at 11:21:40AM +0200, Geert Uytterhoeven wrote:
+> Replace the call to the legacy drm_handle_vblank() function with a call
+> to the new drm_crtc_handle_vblank() helper.
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
 > ---
->  drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-> index 63886015baaebfc0..e300e5c0de70a9b1 100644
-> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
-> @@ -20,7 +20,7 @@
->  #include "shmob_drm_regs.h"
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
+> index c98e2bdd888c3274..6eaf2c5a104f451a 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
+> @@ -86,7 +86,7 @@ static irqreturn_t shmob_drm_irq(int irq, void *arg)
+>  	spin_unlock_irqrestore(&sdev->irq_lock, flags);
 >  
->  struct shmob_drm_plane {
-> -	struct drm_plane plane;
-> +	struct drm_plane base;
->  	unsigned int index;
->  	unsigned int alpha;
->  
-> @@ -37,7 +37,7 @@ struct shmob_drm_plane {
->  
->  static inline struct shmob_drm_plane *to_shmob_plane(struct drm_plane *plane)
->  {
-> -	return container_of(plane, struct shmob_drm_plane, plane);
-> +	return container_of(plane, struct shmob_drm_plane, base);
->  }
->  
->  static void shmob_drm_plane_compute_base(struct shmob_drm_plane *splane,
-> @@ -64,7 +64,7 @@ static void shmob_drm_plane_compute_base(struct shmob_drm_plane *splane,
->  static void __shmob_drm_plane_setup(struct shmob_drm_plane *splane,
->  				    struct drm_framebuffer *fb)
->  {
-> -	struct shmob_drm_device *sdev = to_shmob_device(splane->plane.dev);
-> +	struct shmob_drm_device *sdev = to_shmob_device(splane->base.dev);
->  	unsigned int ovl_idx = splane->index - 1;
->  	u32 format;
->  
-> @@ -221,7 +221,7 @@ struct drm_plane *shmob_drm_plane_create(struct shmob_drm_device *sdev,
+>  	if (status & LDINTR_VES) {
+> -		drm_handle_vblank(dev, 0);
+> +		drm_crtc_handle_vblank(&sdev->crtc.base);
+>  		shmob_drm_crtc_finish_page_flip(&sdev->crtc);
 >  	}
 >  
->  	splane = drmm_universal_plane_alloc(&sdev->ddev,
-> -					    struct shmob_drm_plane, plane, 1,
-> +					    struct shmob_drm_plane, base, 1,
->  					    funcs, formats,
->  					    ARRAY_SIZE(formats),  NULL, type,
->  					    NULL);
-> @@ -231,5 +231,5 @@ struct drm_plane *shmob_drm_plane_create(struct shmob_drm_device *sdev,
->  	splane->index = index;
->  	splane->alpha = 255;
->  
-> -	return &splane->plane;
-> +	return &splane->base;
->  }
 
 -- 
 Regards,
