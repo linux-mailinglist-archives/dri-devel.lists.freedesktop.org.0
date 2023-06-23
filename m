@@ -2,76 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8748C73BE41
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 20:03:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBCDD73BE4D
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 20:10:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B2A110E694;
-	Fri, 23 Jun 2023 18:03:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D036D10E0B1;
+	Fri, 23 Jun 2023 18:10:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D950A10E0B1;
- Fri, 23 Jun 2023 18:03:30 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 35NHu3li027390; Fri, 23 Jun 2023 18:03:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=Zs4PqRwqM2oQI386HL9oV+ST8IFSsaCmf3wwh3DeOCs=;
- b=knNKf8beC9SThR1bUwjBew59dMPjVJHafyP+/BGWi7h0av392JS6KfMtNd9cT13GUIWS
- 5YGFQNdhFqrqgq7UNE22VvBfr1WVgWD3Rv+IP6gj6JSL0edGNzWMVmIKKLpQeTuzSsst
- +0FkRaxgYheDQQ+BMn3Ly7YNeqs52/d6ou0CGyKxVha3cVFdlKyKwepO+shFtOvvzvl1
- iLvLuulLWT1h+8WwuJaXOojQ5LSXs0r/4l9qTiekakISX7CORhoYS92H6BcDX063JrWp
- FVES766bfhaN4ZFtLkl8O0CBu5VssRZqTLB/cY2JwRyzziZSkwMsLKorkWXeT453dU1g tA== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rc6b2dcfv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Jun 2023 18:03:24 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35NI3N9G008322
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Jun 2023 18:03:23 GMT
-Received: from [10.110.6.30] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 23 Jun
- 2023 11:03:22 -0700
-Message-ID: <dbaefcfe-18f2-0842-1059-9557e0802a99@quicinc.com>
-Date: Fri, 23 Jun 2023 11:03:21 -0700
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com
+ [209.85.217.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E1FC10E0B1
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 18:10:08 +0000 (UTC)
+Received: by mail-vs1-f52.google.com with SMTP id
+ ada2fe7eead31-440b9d60606so366444137.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 11:10:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687543807; x=1690135807;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=pdLesGDWRYBklitp69Kt70nnbJt9dWfGsl/z3ZsnPiw=;
+ b=aTgcMFTa28ddhSy7nmUg5lXFA8koandLCoKwh1ZpBISGrxmH2EIpwz8BmHn5zHg5fT
+ 1w4DCqeqOxwpCVoHoXw5axMZiJV3E0h/gHDLKMlBNruXC3lD13En1LCdhD3XQ2/C+pC4
+ Hr1z8Rfvqmkn82eYvGu/LgqdiG7Rge4EXMJDaYYefkr8yjGtsXB95EnLLYLZh4uUXM+i
+ 5n0fQ0GstO/VDxEn7BrPzE2EMyWARP5jsTKVlLYOJPPr+1iTOJ1VUD5/Ml+ALCiqoZR4
+ AryM/hBJsUxcM+pcWlojbC3xT1FeX6DYeh5CxHR9GIpO5+64FQO9VyMpJxlyKlF6PPLO
+ Md5A==
+X-Gm-Message-State: AC+VfDwalFrSAqEFc+/yRdmSXqnJyUOKCx+fSKviRKnhkz7WjTVk6Fm8
+ Ml4EyHELPs8NZtvJpPB6vvofmAvOK1hxRw==
+X-Google-Smtp-Source: ACHHUZ7veZTz7cxG64UuuWokfP9MrqD3ah9/zpiVyLvdzGlClsAvSEaL24yPVuUVsqJIbN9AITSxLw==
+X-Received: by 2002:a05:6102:242:b0:43c:8dc1:9df3 with SMTP id
+ a2-20020a056102024200b0043c8dc19df3mr12028214vsq.7.1687543806604; 
+ Fri, 23 Jun 2023 11:10:06 -0700 (PDT)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com.
+ [209.85.222.46]) by smtp.gmail.com with ESMTPSA id
+ m8-20020a67e0c8000000b0043d5d6eb61fsm1339464vsl.31.2023.06.23.11.10.05
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Jun 2023 11:10:05 -0700 (PDT)
+Received: by mail-ua1-f46.google.com with SMTP id
+ a1e0cc1a2514c-78cbc37c5b1so376165241.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 11:10:05 -0700 (PDT)
+X-Received: by 2002:a67:ee13:0:b0:43b:1561:9e6b with SMTP id
+ f19-20020a67ee13000000b0043b15619e6bmr12740902vsp.18.1687543804614; Fri, 23
+ Jun 2023 11:10:04 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 0/7] drm/msm/dpu: simplify DPU sub-blocks info
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>
-References: <20230623135844.1113908-1-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230623135844.1113908-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: dyqJ99a20fXbWmD6jBA-JsWhDF3_nO1d
-X-Proofpoint-GUID: dyqJ99a20fXbWmD6jBA-JsWhDF3_nO1d
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-23_09,2023-06-22_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0
- malwarescore=0 spamscore=0 phishscore=0 suspectscore=0 priorityscore=1501
- mlxlogscore=999 lowpriorityscore=0 impostorscore=0 mlxscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
- definitions=main-2306230161
+References: <cover.1687423204.git.geert+renesas@glider.be>
+ <2759075c94c011b0f15cb610f39f8fa9b3736600.1687423204.git.geert+renesas@glider.be>
+ <20230623175019.GO2112@pendragon.ideasonboard.com>
+ <20230623175409.GA2534204@ravnborg.org>
+In-Reply-To: <20230623175409.GA2534204@ravnborg.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 23 Jun 2023 20:09:53 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVsvz1knSDqQW16rrT3tq2Zz4dfEJj4WS5By0AYLWRazA@mail.gmail.com>
+Message-ID: <CAMuHMdVsvz1knSDqQW16rrT3tq2Zz4dfEJj4WS5By0AYLWRazA@mail.gmail.com>
+Subject: Re: [PATCH 39/39] drm: renesas: shmobile: Add DT support
+To: Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,68 +73,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Sam, Laurent,
 
+On Fri, Jun 23, 2023 at 7:54=E2=80=AFPM Sam Ravnborg <sam@ravnborg.org> wro=
+te:
+> On Fri, Jun 23, 2023 at 08:50:19PM +0300, Laurent Pinchart wrote:
+> > On Thu, Jun 22, 2023 at 11:21:51AM +0200, Geert Uytterhoeven wrote:
+> > > Add DT support, by:
+> > >   1. Creating a panel bridge from DT, and attaching it to the encoder=
+,
+> > >   2. Replacing the custom connector with a bridge connector,
+> > >   3. Obtaining clock configuration based on the compatible value.
+> > >
+> > > Note that for now the driver uses a fixed clock configuration selecti=
+ng
+> > > the bus clock, as the current code to select other clock inputs needs
+> > > changes to support any other SoCs than SH7724.
+> > >
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > Cc: Rob Herring <robh+dt@kernel.org>
+> > > Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> > > Cc: Conor Dooley <conor+dt@kernel.org>
+> > > Cc: devicetree@vger.kernel.org
+> > > ---
+> > > SH-Mobile AG5 (SH73A0) support is untested.
+> > >
+> > > Unbind crashes when drm_encoder_cleanup() calls drm_bridge_detach(), =
+as
+> > > the bridge (allocated by devm_drm_panel_bridge_add()) has already bee=
+n
+> > > freed by that time.
+> > > Should I allocate my encoder with devm_kzalloc(), instead of embeddin=
+g
+> > > it inside struct shmob_drm_device?
+> >
+> > That shouldn't be needed, if you manage the memory for shmob_drm_device
+> > with the DRM managed helpers.
 
-On 6/23/2023 6:58 AM, Dmitry Baryshkov wrote:
-> Ryan pointed out [1] that some (most) of of sub-blocks do not fill the
-> field `name'. Further research showed that we can drop the fields `name'
-> and `id' and further simplify the catalog. The handling code also
-> usually knows, which sub-block it is now looking at.
-> 
-> Drop unused field and arguments and merge some of sub-block
-> declarations. I did not merge inter-generation VIG_SBLK definitions,
-> this is pending another cleanup (which will also switch to using
-> hardcoded scaler version).
-> 
-> Dependencies: [2]
+Well, Marek said unbind works fine in drivers/gpu/drm/mxsfb/lcdif_drv.c,
+where the order is:
 
-NAK on this series till we have responded to the comments on the other 
-sub-blk series.
+    bridge =3D devm_drm_of_get_bridge(...)
+    encoder =3D devm_kzalloc(...)
+    drm_encoder_init(...)
 
-Please stop pushing changes in the middle of discussions with the goal 
-of forcing others to adopt them or rebase them.
+> > Lifetime management of bridges is currently completely broken, there's
+> > nothing that prevents bridges from being freed while still in use.
+> > That's an issue in DRM, not in your driver.
 
-Its not going to happen and we want to have a collaborative culture and 
-not an authoritative one.
+OK ;-) (or :-(
 
-> 
-> [1] https://patchwork.freedesktop.org/patch/543903/?series=119773&rev=1
-> [2] https://patchwork.freedesktop.org/series/118839/
-> 
-> Dmitry Baryshkov (6):
->    drm/msm/dpu: drop the `id' field from DPU_HW_SUBBLK_INFO
->    drm/msm/dpu: drop the field `name' from DPU_HW_SUBBLK_INFO
->    drm/msm/dpu: drop the `smart_dma_priority' field from struct
->      dpu_sspp_sub_blks
->    drm/msm/dpu: deduplicate some (most) of SSPP sub-blocks
->    drm/msm/dpu: drop DPU_HW_SUBBLK_INFO macro
->    drm/msm/dpu: merge dpu_csc_blk and dpu_dsc_blk into dpu_simple_blk
-> 
-> Ryan McCann (1):
->    drm/msm/dpu: Drop unused num argument from relevant macros
-> 
->   .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   |  16 +--
->   .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    |  16 +--
->   .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    |  16 +--
->   .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   |  16 +--
->   .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |  16 +--
->   .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |   8 +-
->   .../msm/disp/dpu1/catalog/dpu_6_3_sm6115.h    |   4 +-
->   .../msm/disp/dpu1/catalog/dpu_6_4_sm6350.h    |   8 +-
->   .../msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h   |   4 +-
->   .../msm/disp/dpu1/catalog/dpu_6_9_sm6375.h    |   4 +-
->   .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    |  16 +--
->   .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |   8 +-
->   .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  |  16 +--
->   .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    |  16 +--
->   .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |  20 +--
->   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 122 +++++++-----------
->   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  48 +++----
->   17 files changed, 154 insertions(+), 200 deletions(-)
-> 
+> > > --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> > > +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> > > @@ -508,9 +508,43 @@ static const struct drm_encoder_helper_funcs enc=
+oder_helper_funcs =3D {
+> > >     .mode_fixup =3D shmob_drm_encoder_mode_fixup,
+> > >  };
+> > >
+> > > +/* -----------------------------------------------------------------=
+------------
+> > > + * Encoder
+> > > + */
+> > > +
+> > > +static int shmob_drm_encoder_init(struct shmob_drm_device *sdev,
+> > > +                             struct device_node *enc_node)
+> > > +{
+> > > +   struct drm_bridge *bridge;
+> > > +   struct drm_panel *panel;
+> > > +   int ret;
+> > > +
+> > > +   /* Create a panel bridge */
+> > > +   panel =3D of_drm_find_panel(enc_node);
+> >
+> > Using drm_of_find_panel_or_bridge() would allow supporting platforms
+> > that connect a non-panel device to the SoC, in additional to the alread=
+y
+> > supported panels.
+>
+> From the documentation of drm_of_find_panel_or_bridge():
+>
+>  * This function is deprecated and should not be used in new drivers. Use
+>  * devm_drm_of_get_bridge() instead.
+>
+> I suggest to go that route.
+
+OK (do I have the feeling that these helpers are sometimes deprecated
+faster than they are written? ;-)
+
+> > > @@ -147,11 +148,13 @@ static int shmob_drm_remove(struct platform_dev=
+ice *pdev)
+> > >  static int shmob_drm_probe(struct platform_device *pdev)
+> > >  {
+> > >     struct shmob_drm_platform_data *pdata =3D pdev->dev.platform_data=
+;
+> >
+> > How about dropping non-DT support ? That would simplify the driver.
+>
+> +1 for that, without knowing the implications.
+
+That depends on your priorities: do you want to migrate all users of
+sh_mobile_lcdc_fb to shmob_drm, or do you want the SuperH users to
+stick with sh_mobile_lcdc_fb until they have migrated to DT? ;-)
+
+Regardless of the above, I do not have (visible) access to any of the
+affected SH772[234] platforms...
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
