@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F4B173BADE
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 16:56:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6A5B73BAE9
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 16:58:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D217210E074;
-	Fri, 23 Jun 2023 14:56:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35AFB10E0A9;
+	Fri, 23 Jun 2023 14:58:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2234710E64F
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 14:56:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15BDB10E0A9
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 14:58:40 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
  [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id BDB8DD5F;
- Fri, 23 Jun 2023 16:56:01 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D768FD5F;
+ Fri, 23 Jun 2023 16:58:02 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1687532161;
- bh=qlSeLA7AwsNcc+6RnyaobyYnL725JuzygrXuObFz9hg=;
+ s=mail; t=1687532283;
+ bh=HrdXUDw9AKd9rLNjuYJdpn9trFqz0nsG31l0bn5OKO0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Z34FGxc7qciJD0E/UZeHg8UHHtzVNzTeQlVRfaNKxIMJ+JTb6kLAPiRuG/4ZVek83
- 3hBBcwoKZahlBaKNwloSONRo4fj48lTVq6eXu+R6CqRGbqg8vyNdowssKBjCDS3AOg
- tQ6p4XRYlGMgAEX47gw2bpB4nWVf/fo1kaOI0DXM=
-Date: Fri, 23 Jun 2023 17:56:37 +0300
+ b=KZp7Vh0h6FGcZ/T8AZ7LwzFq4uBuI4Y9qphZYCkhCCLQxteuSPsfnHWX9XcJ14zHe
+ yHKdgyVxFDEDxy0uSJ10KfCxEENmcF+wHhTLNkEbM1ttFFZoT3xThmfxcShIrAR6M2
+ pnXKdg47dO10wQO9By9hZ1GY2EdQZguNQSMhTJkw=
+Date: Fri, 23 Jun 2023 17:58:38 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH 02/39] media: uapi: Add MEDIA_BUS_FMT_RGB666_2X9 variants
-Message-ID: <20230623145637.GF2112@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 04/39] drm: renesas: shmobile: Fix ARGB32 overlay format
+ typo
+Message-ID: <20230623145838.GA17477@pendragon.ideasonboard.com>
 References: <cover.1687423204.git.geert+renesas@glider.be>
- <97fc74f2eaee860d1ed215c43193a0e36d014d42.1687423204.git.geert+renesas@glider.be>
+ <7cc1dea4833e6fb9b30aa35f801f14338578dfb1.1687423204.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <97fc74f2eaee860d1ed215c43193a0e36d014d42.1687423204.git.geert+renesas@glider.be>
+In-Reply-To: <7cc1dea4833e6fb9b30aa35f801f14338578dfb1.1687423204.git.geert+renesas@glider.be>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,8 +51,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -59,201 +59,41 @@ Hi Geert,
 
 Thank you for the patch.
 
-On Thu, Jun 22, 2023 at 11:21:14AM +0200, Geert Uytterhoeven wrote:
-> Add the RGB666 9:9 formats MEDIA_BUS_FMT_RGB666_2X9_BE and
-> MEDIA_BUS_FMT_RGB666_2X9_LE.  The former is supported by the SH-Mobile
-> LCD Controller.
+On Thu, Jun 22, 2023 at 11:21:16AM +0200, Geert Uytterhoeven wrote:
+> When configurating a CHn Source Image Format Register (LDBBSIFR), one
+> should use the corresponding LDBBSIFR_RPKF_* definition for overlay
+> planes, not the DDFR_PKF_* definition for the primary plane.
+> 
+> Fortunately both definitions resolve to the same value, so this bug did
+> not cause any harm.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-If MEDIA_BUS_FMT_RGB666_2X9_LE isn't supported, I'd leave it out for
-now. It can be added later once a driver needs it.
+With the typo in the commit message fixed,
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: linux-media@vger.kernel.org
 > ---
->  .../media/v4l/subdev-formats.rst              | 144 ++++++++++++++++++
->  include/uapi/linux/media-bus-format.h         |   4 +-
->  2 files changed, 147 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> index a3a35eeed70846ba..4bbcdec101384cb1 100644
-> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> @@ -949,6 +949,150 @@ The following tables list existing packed RGB formats.
->        - b\ :sub:`2`
->        - b\ :sub:`1`
->        - b\ :sub:`0`
-> +    * .. _MEDIA-BUS-FMT-RGB666-2X9-BE:
-> +
-> +      - MEDIA_BUS_FMT_RGB666_2X9_BE
-> +      - 0x1025
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      - r\ :sub:`5`
-> +      - r\ :sub:`4`
-> +      - r\ :sub:`3`
-> +      - r\ :sub:`2`
-> +      - r\ :sub:`1`
-> +      - r\ :sub:`0`
-> +      - g\ :sub:`5`
-> +      - g\ :sub:`4`
-> +      - g\ :sub:`3`
-> +    * -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      - g\ :sub:`2`
-> +      - g\ :sub:`1`
-> +      - g\ :sub:`0`
-> +      - b\ :sub:`5`
-> +      - b\ :sub:`4`
-> +      - b\ :sub:`3`
-> +      - b\ :sub:`2`
-> +      - b\ :sub:`1`
-> +      - b\ :sub:`0`
-> +    * .. _MEDIA-BUS-FMT-RGB666-2X9-LE:
-> +
-> +      - MEDIA_BUS_FMT_RGB666_2X9_LE
-> +      - 0x1026
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      - g\ :sub:`2`
-> +      - g\ :sub:`1`
-> +      - g\ :sub:`0`
-> +      - b\ :sub:`5`
-> +      - b\ :sub:`4`
-> +      - b\ :sub:`3`
-> +      - b\ :sub:`2`
-> +      - b\ :sub:`1`
-> +      - b\ :sub:`0`
-> +    * -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      - r\ :sub:`5`
-> +      - r\ :sub:`4`
-> +      - r\ :sub:`3`
-> +      - r\ :sub:`2`
-> +      - r\ :sub:`1`
-> +      - r\ :sub:`0`
-> +      - g\ :sub:`5`
-> +      - g\ :sub:`4`
-> +      - g\ :sub:`3`
->      * .. _MEDIA-BUS-FMT-BGR666-1X18:
->  
->        - MEDIA_BUS_FMT_BGR666_1X18
-> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
-> index a03c543cb072de30..07105f530400511e 100644
-> --- a/include/uapi/linux/media-bus-format.h
-> +++ b/include/uapi/linux/media-bus-format.h
-> @@ -34,7 +34,7 @@
->  
->  #define MEDIA_BUS_FMT_FIXED			0x0001
->  
-> -/* RGB - next is	0x1025 */
-> +/* RGB - next is	0x1027 */
->  #define MEDIA_BUS_FMT_RGB444_1X12		0x1016
->  #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE	0x1001
->  #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE	0x1002
-> @@ -46,6 +46,8 @@
->  #define MEDIA_BUS_FMT_RGB565_2X8_BE		0x1007
->  #define MEDIA_BUS_FMT_RGB565_2X8_LE		0x1008
->  #define MEDIA_BUS_FMT_RGB666_1X18		0x1009
-> +#define MEDIA_BUS_FMT_RGB666_2X9_BE		0x1025
-> +#define MEDIA_BUS_FMT_RGB666_2X9_LE		0x1026
->  #define MEDIA_BUS_FMT_BGR666_1X18		0x1023
->  #define MEDIA_BUS_FMT_RBG888_1X24		0x100e
->  #define MEDIA_BUS_FMT_RGB666_1X24_CPADHI	0x1015
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> index 0e34573c3cb3d032..7e49e2873da1bb6f 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> @@ -94,10 +94,10 @@ static void __shmob_drm_plane_setup(struct shmob_drm_plane *splane,
+>  		format |= LDBBSIFR_AL_1 | LDBBSIFR_RY | LDBBSIFR_RPKF_RGB24;
+>  		break;
+>  	case DRM_FORMAT_ARGB8888:
+> -		format |= LDBBSIFR_AL_PK | LDBBSIFR_RY | LDDFR_PKF_ARGB32;
+> +		format |= LDBBSIFR_AL_PK | LDBBSIFR_RY | LDBBSIFR_RPKF_ARGB32;
+>  		break;
+>  	case DRM_FORMAT_XRGB8888:
+> -		format |= LDBBSIFR_AL_1 | LDBBSIFR_RY | LDDFR_PKF_ARGB32;
+> +		format |= LDBBSIFR_AL_1 | LDBBSIFR_RY | LDBBSIFR_RPKF_ARGB32;
+>  		break;
+>  	case DRM_FORMAT_NV12:
+>  	case DRM_FORMAT_NV21:
 
 -- 
 Regards,
