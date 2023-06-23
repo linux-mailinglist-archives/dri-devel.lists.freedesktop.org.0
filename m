@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36A5D73BB30
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 17:11:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC4FE73BB53
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 17:13:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A95310E652;
-	Fri, 23 Jun 2023 15:11:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FB9488CBF;
+	Fri, 23 Jun 2023 15:13:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3759C10E652
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 15:11:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33B3588CBF
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 15:13:40 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
  [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 38736838;
- Fri, 23 Jun 2023 17:10:33 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3CAF6D5F;
+ Fri, 23 Jun 2023 17:13:02 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1687533034;
- bh=r2qcI7W+t2jNWs5Sze0keM1XEI+oLa6CULoKu3QaqWs=;
+ s=mail; t=1687533182;
+ bh=keBSEwXRTk5UtRZ/0fenvLdSAenapjGMYjUaABKjGzI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=USDfXKQBwz/QjIU3e3ZKpZROJGOC5AmjSmgfr/E9Eis84Hn0xQMkfj0IaWf6ru8mp
- /hKWgGvzBqZzN5Rj0+H6nxQgQbnztMVKhdPworexB7htpfAcF1baVkzgbsPqiYBsOx
- iAJNHZoREDJlv8Q+yMtyzN42Rvq4zd/tpzTmWO88=
-Date: Fri, 23 Jun 2023 18:11:09 +0300
+ b=JAvQCvHfEA6T6ZXTTjkgoU3PNPvxOGlACUqaoFD73T6XZIiz+YddRdCuw9Aw+2dhH
+ l6Gu5LoOhUv1CCZAe3MiFcdHpxGHMXFM+qfWP3XEKiPtfWBPlV3OOqHL4FPTSrYnt8
+ pBM29IBo1roToEb7JYDk5jRAdGreYEBDQmQLahZA=
+Date: Fri, 23 Jun 2023 18:13:37 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH 06/39] drm: renesas: shmobile: Add support for Runtime PM
-Message-ID: <20230623151109.GL2112@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 09/39] drm: renesas: shmobile: Add missing YCbCr formats
+Message-ID: <20230623151337.GN2112@pendragon.ideasonboard.com>
 References: <cover.1687423204.git.geert+renesas@glider.be>
- <742b3351c1aed1f546ac2dcc1de15e0d04cc24d4.1687423204.git.geert+renesas@glider.be>
- <20230623150742.GK2112@pendragon.ideasonboard.com>
+ <b7b75a9e1170e1be5e9ecf9db91c6a21197b7df5.1687423204.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230623150742.GK2112@pendragon.ideasonboard.com>
+In-Reply-To: <b7b75a9e1170e1be5e9ecf9db91c6a21197b7df5.1687423204.git.geert+renesas@glider.be>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,101 +54,36 @@ Cc: Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 23, 2023 at 06:07:44PM +0300, Laurent Pinchart wrote:
-> Hi Geert,
+On Thu, Jun 22, 2023 at 11:21:21AM +0200, Geert Uytterhoeven wrote:
+> The primary plane supports various YCbCr formats, and the CRTC code
+> already knows how to handle them.  Enable support for the missing
+> formats by adding them to the table of supported modes.
 > 
-> Thank you for the patch.
-> 
-> On Thu, Jun 22, 2023 at 11:21:18AM +0200, Geert Uytterhoeven wrote:
-> > The SH-Mobile LCD Controller is part of a PM Domain on all relevant SoCs
-> > (clock domain on all, power domain on some).  Hence it may not be
-> > sufficient to manage the LCDC module clock explicitly (e.g. if the
-> > selected clock source differs from SHMOB_DRM_CLK_BUS).
-> > 
-> > Fix this by using Runtime PM instead.
-> > 
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> >  drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 11 ++++++++++-
-> >  drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c  |  5 +++++
-> >  2 files changed, 15 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-> > index fbfd906844da490c..84dbf35025d7be63 100644
-> > --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-> > +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-> > @@ -9,6 +9,7 @@
-> >  
-> >  #include <linux/backlight.h>
-> >  #include <linux/clk.h>
-> > +#include <linux/pm_runtime.h>
-> >  
-> >  #include <drm/drm_crtc.h>
-> >  #include <drm/drm_crtc_helper.h>
-> > @@ -170,10 +171,16 @@ static void shmob_drm_crtc_start(struct shmob_drm_crtc *scrtc)
-> >  	if (WARN_ON(format == NULL))
-> >  		return;
-> >  
-> > +	ret = pm_runtime_resume_and_get(sdev->dev);
-> > +	if (ret)
-> > +		return;
-> > +
-> >  	/* Enable clocks before accessing the hardware. */
-> >  	ret = shmob_drm_clk_on(sdev);
-> 
-> This would be best located in the runtime PM resume handler. Same for
-> disabling clocks in the runtime PM suspend handler.
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-The driver should then depend on CONFIG_PM. There's no indirect
-dependency through CONFIG_DRM as far as I can tell, but there's one
-through ARCH_SHMOBILE. This then got me puzzled, as ARCH_SHMOBILE is
-defined in arch/sh/Kconfig, and this driver depends on ARM. Am I missing
-something ?
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-> > -	if (ret < 0)
-> > +	if (ret < 0) {
-> > +		pm_runtime_put(sdev->dev);
-> >  		return;
-> > +	}
-> >  
-> >  	/* Reset and enable the LCDC. */
-> >  	lcdc_write(sdev, LDCNT2R, lcdc_read(sdev, LDCNT2R) | LDCNT2R_BR);
-> > @@ -271,6 +278,8 @@ static void shmob_drm_crtc_stop(struct shmob_drm_crtc *scrtc)
-> >  	/* Stop clocks. */
-> >  	shmob_drm_clk_off(sdev);
-> >  
-> > +	pm_runtime_put(sdev->dev);
-> > +
-> >  	scrtc->started = false;
-> >  }
-> >  
-> > diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> > index 30493ce874192e3e..4f01caa119637032 100644
-> > --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> > +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> > @@ -13,6 +13,7 @@
-> >  #include <linux/module.h>
-> >  #include <linux/platform_device.h>
-> >  #include <linux/pm.h>
-> > +#include <linux/pm_runtime.h>
-> >  #include <linux/slab.h>
-> >  
-> >  #include <drm/drm_drv.h>
-> > @@ -216,6 +217,10 @@ static int shmob_drm_probe(struct platform_device *pdev)
-> >  	if (IS_ERR(sdev->mmio))
-> >  		return PTR_ERR(sdev->mmio);
-> >  
-> > +	ret = devm_pm_runtime_enable(&pdev->dev);
-> > +	if (ret)
-> > +		return ret;
-> > +
+> ---
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> I would move this after shmob_drm_setup_clocks(), to ensure that the
-> runtime PM suspend and resume handlers will have access to clocks.
-> 
-> >  	ret = shmob_drm_setup_clocks(sdev, pdata->clk_source);
-> >  	if (ret < 0)
-> >  		return ret;
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> index 84dbf35025d7be63..cd492806105e5b5d 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> @@ -493,6 +493,12 @@ static const uint32_t modeset_formats[] = {
+>  	DRM_FORMAT_RGB888,
+>  	DRM_FORMAT_ARGB8888,
+>  	DRM_FORMAT_XRGB8888,
+> +	DRM_FORMAT_NV12,
+> +	DRM_FORMAT_NV21,
+> +	DRM_FORMAT_NV16,
+> +	DRM_FORMAT_NV61,
+> +	DRM_FORMAT_NV24,
+> +	DRM_FORMAT_NV42,
+>  };
+>  
+>  static const struct drm_plane_funcs primary_plane_funcs = {
 
 -- 
 Regards,
