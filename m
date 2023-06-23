@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BA2A73BBDE
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 17:41:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C988B73BBE5
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 17:42:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3130B10E65C;
-	Fri, 23 Jun 2023 15:41:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FE2510E664;
+	Fri, 23 Jun 2023 15:42:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71BBB10E65C
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 15:41:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F25610E662
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 15:42:00 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
  [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4A8EF838;
- Fri, 23 Jun 2023 17:40:37 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 81B49838;
+ Fri, 23 Jun 2023 17:41:22 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1687534837;
- bh=ArqSpTQIPLlQGIEbrbSLaivyf0ENs3vlfTMm4U/5SAs=;
+ s=mail; t=1687534882;
+ bh=vAvgOuo7ciMIJdwJYscA2jdeSsVY0tXeEX6+c1G6yUs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=wPzsCj056QJcxMA2HRsKQPOmZF6EdhSqvtkgvaVOL7ZfFp7bzuzwZ5MKa0lCU1jft
- AXPw1OlUdeV6dOWa6nUXpNxVrtRul9BxYzLC1/jDdi9Xl/f+W1+2Fespvd0Q8WwvnD
- 6dWN0vv27FDdYa8xb/VziVjWS5YWO/OoT/wCHW6A=
-Date: Fri, 23 Jun 2023 18:41:12 +0300
+ b=AhTrQcq0V0NHivubxoHGh6Ds97i2wVL7EETm/YajjkosrMXnyhS7b/zS86q5XoYbf
+ pc5sp32yxe17PIVEwCGzvESweTETB/zgXhF5TdESW0fh87614QDSdWXkb9Gl6y7hgh
+ Fk0PL2uoSazBvYuvhkCko6B+bmSgdNtYPGs92Jkg=
+Date: Fri, 23 Jun 2023 18:41:58 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH 15/39] drm: renesas: shmobile: Improve error handling
-Message-ID: <20230623154112.GS2112@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 16/39] drm: renesas: shmobile: Convert to use
+ devm_request_irq()
+Message-ID: <20230623154158.GT2112@pendragon.ideasonboard.com>
 References: <cover.1687423204.git.geert+renesas@glider.be>
- <100c650ab37ae09a142a93afa3734400a6a96757.1687423204.git.geert+renesas@glider.be>
+ <c8d14f4a5e455d523c5c7ff89bd815196df7e4f9.1687423204.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <100c650ab37ae09a142a93afa3734400a6a96757.1687423204.git.geert+renesas@glider.be>
+In-Reply-To: <c8d14f4a5e455d523c5c7ff89bd815196df7e4f9.1687423204.git.geert+renesas@glider.be>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,61 +59,56 @@ Hi Geert,
 
 Thank you for the patch.
 
-On Thu, Jun 22, 2023 at 11:21:27AM +0200, Geert Uytterhoeven wrote:
-> Prepare for DT conversion, where panel probe can be deferred, by
-> streamlining error propagation and handling:
->   - Use dev_err_probe() to avoid printing error messages in case of
->     probe deferral,
->   - Propagate errors where needed.
+On Thu, Jun 22, 2023 at 11:21:28AM +0200, Geert Uytterhoeven wrote:
+> Convert to managed IRQ handling, to simplify cleanup.
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
 > ---
->  drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c |  3 ++-
->  drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.c | 14 +++++++++++---
->  2 files changed, 13 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> index 9aa9800899976a23..50fca18282c5cb5e 100644
+> index 50fca18282c5cb5e..ece9aedde9b662d4 100644
 > --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
 > +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> @@ -228,7 +228,8 @@ static int shmob_drm_probe(struct platform_device *pdev)
+> @@ -169,7 +169,6 @@ static int shmob_drm_remove(struct platform_device *pdev)
 >  
->  	ret = shmob_drm_modeset_init(sdev);
+>  	drm_dev_unregister(ddev);
+>  	drm_kms_helper_poll_fini(ddev);
+> -	free_irq(sdev->irq, ddev);
+>  	drm_dev_put(ddev);
+>  
+>  	return 0;
+> @@ -252,8 +251,8 @@ static int shmob_drm_probe(struct platform_device *pdev)
+>  		goto err_modeset_cleanup;
+>  	sdev->irq = ret;
+>  
+> -	ret = request_irq(sdev->irq, shmob_drm_irq, 0, ddev->driver->name,
+> -			  ddev);
+> +	ret = devm_request_irq(&pdev->dev, sdev->irq, shmob_drm_irq, 0,
+> +			       ddev->driver->name, ddev);
 >  	if (ret < 0) {
-> -		dev_err(&pdev->dev, "failed to initialize mode setting\n");
-> +		dev_err_probe(&pdev->dev, ret,
-> +			      "failed to initialize mode setting\n");
->  		goto err_free_drm_dev;
->  	}
+>  		dev_err(&pdev->dev, "failed to install IRQ handler\n");
+>  		goto err_modeset_cleanup;
+> @@ -265,14 +264,12 @@ static int shmob_drm_probe(struct platform_device *pdev)
+>  	 */
+>  	ret = drm_dev_register(ddev, 0);
+>  	if (ret < 0)
+> -		goto err_irq_uninstall;
+> +		goto err_modeset_cleanup;
 >  
-> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.c
-> index 3051318ddc7999bc..1a62e7f8a8a9e6df 100644
-> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.c
-> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.c
-> @@ -157,9 +157,17 @@ int shmob_drm_modeset_init(struct shmob_drm_device *sdev)
->  	if (ret)
->  		return ret;
+>  	drm_fbdev_generic_setup(ddev, 16);
 >  
-> -	shmob_drm_crtc_create(sdev);
-> -	shmob_drm_encoder_create(sdev);
-> -	shmob_drm_connector_create(sdev, &sdev->encoder);
-> +	ret = shmob_drm_crtc_create(sdev);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = shmob_drm_encoder_create(sdev);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = shmob_drm_connector_create(sdev, &sdev->encoder);
-> +	if (ret < 0)
-> +		return ret;
+>  	return 0;
 >  
->  	drm_kms_helper_poll_init(sdev->ddev);
->  
+> -err_irq_uninstall:
+> -	free_irq(sdev->irq, ddev);
+>  err_modeset_cleanup:
+>  	drm_kms_helper_poll_fini(ddev);
+>  err_free_drm_dev:
 
 -- 
 Regards,
