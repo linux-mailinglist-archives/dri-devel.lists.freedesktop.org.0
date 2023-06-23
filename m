@@ -2,42 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C4F573C2EA
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 23:33:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C76D73C301
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 23:40:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAEB110E6C3;
-	Fri, 23 Jun 2023 21:33:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D8B910E6C6;
+	Fri, 23 Jun 2023 21:39:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay05.th.seeweb.it (relay05.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::166])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6363910E6C3
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 21:33:12 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 7D4DC3F28C;
- Fri, 23 Jun 2023 23:33:07 +0200 (CEST)
-Date: Fri, 23 Jun 2023 23:33:05 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [Freedreno] [PATCH 3/3] drm/msm/dsi: Enable DATABUS_WIDEN for
- DSI command mode
-Message-ID: <q7ysvtgkhvc3fv4ib65li6hb3p5aw2hfp4ck3d4afuvqxjopzj@mbsg3zr3pint>
-References: <20230525-add-widebus-support-v1-0-c7069f2efca1@quicinc.com>
- <20230525-add-widebus-support-v1-3-c7069f2efca1@quicinc.com>
- <ky7sgsaohak2pcdf6pbhedfyrwk4ea7y3ekfqlw7rn6cpk4rhe@rjuhb23n37oz>
- <cf968ab4-e4c4-dcad-f7d1-4edff6f08147@quicinc.com>
- <xrqiat4otnfwtss6zwubh77qx3frdyi77flna2xljzycvr6r2v@riimvmhoondt>
- <654ccc4c-40c2-bef6-9f47-847216e16cb0@quicinc.com>
- <daqhyz4rtgdxthsezmgk6t2egbdsvzsdy3cihrqrhyveoqbizi@etq2tafkucg2>
- <117d21da-aa44-9439-5d5b-9a9144b53979@quicinc.com>
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF0B010E6C4;
+ Fri, 23 Jun 2023 21:39:55 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id
+ 4fb4d7f45d1cf-51bec5c09ecso1165502a12.2; 
+ Fri, 23 Jun 2023 14:39:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1687556393; x=1690148393;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bDPCLE1RQkTvsneplUketcXAUHKug/HnPFR18EZ6AFs=;
+ b=rh8CgMHL2CJ0apk+OZNHOye2H6lF+tYhn+2PD+nbRiTI6VY/TE3CXI3qMGJ/pQkOWV
+ O1fMBNSm23YqBi1c1bdtCOJNaGe4wWgXtQg7zcPIUruue8qyzwQXKtyYyZC4VOBr3AJN
+ XAG61nRdd40N6PQ3wBhCw+/2CgS+8LMlRlTnRQ4H354o+fP8NTFga8FvlGdSF7CmZOVS
+ GYrcJgpxBdTbmPUSWjKjRCFaeqiwsZ4Yi7yAoyzB74Hx+jmMb7dmFTaujt0ykty3WqGS
+ BeNP+ZGqWGEcEKgGr4q/KqzE0Fu/kL71ff5lhSNjumKUzugAt9e5ebVr8+4dwFfhb5KB
+ WOLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687556393; x=1690148393;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=bDPCLE1RQkTvsneplUketcXAUHKug/HnPFR18EZ6AFs=;
+ b=l6ITb9fn/I7jBJEXpr/kDno4ADWzi7g/VVc0Zd1tbqRlkOMDZFAC68KEZ7zGYXDj+9
+ SOPAQRaSzW5XaGzke3U9dWqsvqc4giQG1Rj4v41KsZmbrxhWS/XH/C6bPQ4pDsPTXEme
+ Ps8uh2hFxT1AEB28CbteBI8VhQ6KxDNSudicaGxvUTOnaR4TW0o5d3G132GI/koVONbg
+ LlG9FSW8yiLTK1ja64tHmSlI+Jp/x9302Qj/JaJ9QlAv0XTOgNUlNqYpEtGAxNXRKSkN
+ Ywg4ZUgkfbjOwN0jBabu9WvoPDHw50uZ1XX/UqMvhU5dPFEXAPh4l189EkFR7WROBBOk
+ WgCw==
+X-Gm-Message-State: AC+VfDxuP0UXjmgBhxpfQIhV/WTqInkTXCk/cVxkQj/oh53g9m/QKpqd
+ +13vTOtT2CX8tJbWVV6hCB8L75Pf3Ip4CsTkXhs=
+X-Google-Smtp-Source: ACHHUZ7jX9fQESz+mCRUFDUxcYHWjremM0Jjg5A7lhHtogW5QN8OXanaIBIKvu4MWWbX1yMKIdWTbXIhjHsI5zmujRc=
+X-Received: by 2002:a17:907:7e8b:b0:988:fafd:d93a with SMTP id
+ qb11-20020a1709077e8b00b00988fafdd93amr13044572ejc.70.1687556393257; Fri, 23
+ Jun 2023 14:39:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <117d21da-aa44-9439-5d5b-9a9144b53979@quicinc.com>
+References: <20230623211808.7667-1-alexander.deucher@amd.com>
+In-Reply-To: <20230623211808.7667-1-alexander.deucher@amd.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Sat, 24 Jun 2023 07:39:40 +1000
+Message-ID: <CAPM=9tyQBhUftYrrQzTNwfZqoaXAwHDydKCFiYkqH18ESTapOA@mail.gmail.com>
+Subject: Re: [pull] amdgpu drm-fixes-6.4
+To: Alex Deucher <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,68 +68,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Sean Paul <sean@poorly.run>
+Cc: daniel.vetter@ffwll.ch, torvalds@linux-foundation.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-06-23 13:34:06, Abhinav Kumar wrote:
-> 
-> 
-> On 6/23/2023 1:14 PM, Marijn Suijten wrote:
-> > On 2023-06-23 10:29:51, Abhinav Kumar wrote:
-> > <snip>
-> >> The concept is quite simple
-> >>
-> >> one pixel per clock for uncompresssed without widebubus
-> >>
-> >> 2 pixels per clock for uncompressed with widebus (only enabled for DP
-> >> not DSI)
-> >>
-> >> 3 bytes worth of data for compressed without widebus
-> >>
-> >> 6 bytes worth of data for compressed with widebus
-> >>
-> >> When compression happens, we cannot quantify with pixels as the boundary
-> >> is not defined with respect to bytes.
-> >>
-> >> You brought up uncompressed in your below comment so I assumed your
-> >> question of /2 was about uncompressed too.
-> > 
-> > No clue where things are going wrong, but you either avoid or
-> > misunderstand the question.
-> > 
-> > (Talking exclusively about compressed data here!)
-> > 
-> > pclk is determined based on the number of bytes.
-> > 
-> > When widebus is enabled, we transfer twice as many bytes per pclk cycle.
-> > 
-> > Can pclk be reduced by a factor two, as that should still be enough to
-> > transfer the same amount of bytes when widebus is enabled?
-> > 
-> 
-> I dont know where the misunderstanding is too.
-> 
-> I already did answer that pclk can be /2 for uncompressed.
+Hi Linus,
 
-Except that my question is about compressed.
+Can you please pull this directly,
 
-> But for compressed it will be divided by the compression ration.
+Thanks,
+Dave.
 
-The question here is "why exactly"?  I am looking for the argument that
-justifies pclk being twice as high for the number of bytes we need to
-send.
-
-Is that answer: pclk is not only used for the bus between DPU and DSI?
-
-If the answer to that question is yes, then I'd ask what the advantage
-is of widebus.
-
-<snip>
-
-Let's leave the rest for what it is.
-
-- Marijn
+On Sat, 24 Jun 2023 at 07:18, Alex Deucher <alexander.deucher@amd.com> wrot=
+e:
+>
+> Hi Dave, Daniel, Linus,
+>
+> Last few fixes for 6.4.  Dave already sent out the drm-fixes PR this week=
+.
+> I was out of the office earlier in the week and just got this out now.
+>
+> The following changes since commit 9bd9be5cbaf8a8faa175ef4fba04a5623281de=
+be:
+>
+>   Merge tag 'drm-misc-fixes-2023-06-21' of git://anongit.freedesktop.org/=
+drm/drm-misc into drm-fixes (2023-06-23 12:16:48 +1000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.4-2=
+023-06-23
+>
+> for you to fetch changes up to 134ea95255cf359a2e6d70308c15243c3fdf8eaf:
+>
+>   drm/amd: Don't try to enable secure display TA multiple times (2023-06-=
+23 16:44:45 -0400)
+>
+> ----------------------------------------------------------------
+> amd-drm-fixes-6.4-2023-06-23:
+>
+> amdgpu:
+> - BO locking fixes
+> - MCBP fix
+> - GPU mapping clear fix for always valid BOs
+> - ASPM fixes
+> - SDMA4 hang fix
+> - Misc display fixes
+> - Parade TCON PSR hang fix
+> - SMU13 fixes
+> - Gang submit fence fix
+> - Secure display fix
+>
+> ----------------------------------------------------------------
+> Alex Deucher (1):
+>       drm/amdgpu/sdma4: set align mask to 255
+>
+> Christian K=C3=B6nig (3):
+>       drm/amdgpu: make sure BOs are locked in amdgpu_vm_get_memory
+>       drm/amdgpu: make sure that BOs have a backing store
+>       drm/amdgpu: fix number of fence calculations
+>
+> Evan Quan (2):
+>       drm/amd/pm: revise the ASPM settings for thunderbolt attached scena=
+rio
+>       drm/amd/pm: update the LC_L1_INACTIVITY setting to address possible=
+ noise issue
+>
+> Hamza Mahfooz (1):
+>       drm/amd/display: perform a bounds check before filling dirty rectan=
+gles
+>
+> Ilya Bakoulin (1):
+>       drm/amd/display: Fix 128b132b link loss handling
+>
+> Jiadong Zhu (1):
+>       drm/amdgpu: Skip mark offset for high priority rings
+>
+> Kenneth Feng (1):
+>       drm/amd/pm: add abnormal fan detection for smu 13.0.0
+>
+> Leo Chen (1):
+>       drm/amd/display: disable seamless boot if force_odm_combine is enab=
+led
+>
+> Mario Limonciello (2):
+>       drm/amd: Disable PSR-SU on Parade 0803 TCON
+>       drm/amd: Don't try to enable secure display TA multiple times
+>
+> Samuel Pitoiset (1):
+>       drm/amdgpu: fix clearing mappings for BOs that are always valid in =
+VM
+>
+> Sung-huai Wang (1):
+>       drm/amd/display: add a NULL pointer check
+>
+> Tao Zhou (1):
+>       drm/amdgpu: check RAS irq existence for VCN/JPEG
+>
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c             | 11 +--
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c           |  3 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |  6 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |  2 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ring_mux.c       |  3 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c            |  3 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             | 81 ++++++++++++++--=
+------
+>  drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c             | 13 ++--
+>  drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c             |  4 +-
+>  drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c           |  4 +-
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 13 ++--
+>  drivers/gpu/drm/amd/display/dc/core/dc.c           |  3 +
+>  .../drm/amd/display/dc/dce112/dce112_resource.c    | 10 +--
+>  .../dc/link/protocols/link_dp_irq_handler.c        | 11 ++-
+>  .../drm/amd/display/modules/power/power_helpers.c  |  2 +
+>  .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   |  1 +
+>  16 files changed, 108 insertions(+), 62 deletions(-)
