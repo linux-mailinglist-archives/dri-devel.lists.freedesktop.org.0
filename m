@@ -2,60 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C76D73C301
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 23:40:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70DDC73C308
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 23:42:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D8B910E6C6;
-	Fri, 23 Jun 2023 21:39:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F2B910E6C8;
+	Fri, 23 Jun 2023 21:42:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF0B010E6C4;
- Fri, 23 Jun 2023 21:39:55 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id
- 4fb4d7f45d1cf-51bec5c09ecso1165502a12.2; 
- Fri, 23 Jun 2023 14:39:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687556393; x=1690148393;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bDPCLE1RQkTvsneplUketcXAUHKug/HnPFR18EZ6AFs=;
- b=rh8CgMHL2CJ0apk+OZNHOye2H6lF+tYhn+2PD+nbRiTI6VY/TE3CXI3qMGJ/pQkOWV
- O1fMBNSm23YqBi1c1bdtCOJNaGe4wWgXtQg7zcPIUruue8qyzwQXKtyYyZC4VOBr3AJN
- XAG61nRdd40N6PQ3wBhCw+/2CgS+8LMlRlTnRQ4H354o+fP8NTFga8FvlGdSF7CmZOVS
- GYrcJgpxBdTbmPUSWjKjRCFaeqiwsZ4Yi7yAoyzB74Hx+jmMb7dmFTaujt0ykty3WqGS
- BeNP+ZGqWGEcEKgGr4q/KqzE0Fu/kL71ff5lhSNjumKUzugAt9e5ebVr8+4dwFfhb5KB
- WOLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687556393; x=1690148393;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bDPCLE1RQkTvsneplUketcXAUHKug/HnPFR18EZ6AFs=;
- b=l6ITb9fn/I7jBJEXpr/kDno4ADWzi7g/VVc0Zd1tbqRlkOMDZFAC68KEZ7zGYXDj+9
- SOPAQRaSzW5XaGzke3U9dWqsvqc4giQG1Rj4v41KsZmbrxhWS/XH/C6bPQ4pDsPTXEme
- Ps8uh2hFxT1AEB28CbteBI8VhQ6KxDNSudicaGxvUTOnaR4TW0o5d3G132GI/koVONbg
- LlG9FSW8yiLTK1ja64tHmSlI+Jp/x9302Qj/JaJ9QlAv0XTOgNUlNqYpEtGAxNXRKSkN
- Ywg4ZUgkfbjOwN0jBabu9WvoPDHw50uZ1XX/UqMvhU5dPFEXAPh4l189EkFR7WROBBOk
- WgCw==
-X-Gm-Message-State: AC+VfDxuP0UXjmgBhxpfQIhV/WTqInkTXCk/cVxkQj/oh53g9m/QKpqd
- +13vTOtT2CX8tJbWVV6hCB8L75Pf3Ip4CsTkXhs=
-X-Google-Smtp-Source: ACHHUZ7jX9fQESz+mCRUFDUxcYHWjremM0Jjg5A7lhHtogW5QN8OXanaIBIKvu4MWWbX1yMKIdWTbXIhjHsI5zmujRc=
-X-Received: by 2002:a17:907:7e8b:b0:988:fafd:d93a with SMTP id
- qb11-20020a1709077e8b00b00988fafdd93amr13044572ejc.70.1687556393257; Fri, 23
- Jun 2023 14:39:53 -0700 (PDT)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 634BA10E6DB
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 21:42:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1687556543; x=1719092543;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=a+4lEskqVhwadWcMhtuHPvVwUEVEbTSuP9GZMSUKTKs=;
+ b=iIRl8nabr3Be6qR4HYXNm9NP1UoryUxLUJMoIMUBPDbKvfhdH+O6VzsW
+ 6CgNpdSdRmY0+jKZjKgXT9Nx7mKhooj0K11WsboMLiraiZ6jGUbMvVfWM
+ 8k+eAWAWCWGPxMNUwQ795+GRYUsHNQFKcYOT4YtNo0lO3gFkAbPv+xTM5
+ IG/PVE2oEBxbAHFSuD8bLnGZE8fpbwNDGNoKmdB+gV3OTLc9KD543i4yW
+ vQBxcS/ozahfkJIy/rGnmVINOdGgp2idXwLSPLOb4PhPFliirL38wkLoB
+ 5Bv8Nepm/jocbzP0NAF4hqlNRINe8r1IPLdqACapAQiiFD4ZTXnqY+2uR Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10750"; a="358358830"
+X-IronPort-AV: E=Sophos;i="6.01,153,1684825200"; d="scan'208";a="358358830"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2023 14:42:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10750"; a="745131232"
+X-IronPort-AV: E=Sophos;i="6.01,153,1684825200"; d="scan'208";a="745131232"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+ by orsmga008.jf.intel.com with ESMTP; 23 Jun 2023 14:42:20 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qCoXr-0008YP-1f;
+ Fri, 23 Jun 2023 21:42:19 +0000
+Date: Sat, 24 Jun 2023 05:41:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yunxiang Li <Yunxiang.Li@amd.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2] dma-buf: allow nested dma_resv_reserve_fences
+Message-ID: <202306240524.WBCHWUlJ-lkp@intel.com>
+References: <20230623200113.62051-1-Yunxiang.Li@amd.com>
 MIME-Version: 1.0
-References: <20230623211808.7667-1-alexander.deucher@amd.com>
-In-Reply-To: <20230623211808.7667-1-alexander.deucher@amd.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Sat, 24 Jun 2023 07:39:40 +1000
-Message-ID: <CAPM=9tyQBhUftYrrQzTNwfZqoaXAwHDydKCFiYkqH18ESTapOA@mail.gmail.com>
-Subject: Re: [pull] amdgpu drm-fixes-6.4
-To: Alex Deucher <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230623200113.62051-1-Yunxiang.Li@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,120 +59,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, torvalds@linux-foundation.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Yunxiang Li <Yunxiang.Li@amd.com>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+Hi Yunxiang,
 
-Can you please pull this directly,
+kernel test robot noticed the following build errors:
 
-Thanks,
-Dave.
 
-On Sat, 24 Jun 2023 at 07:18, Alex Deucher <alexander.deucher@amd.com> wrot=
-e:
->
-> Hi Dave, Daniel, Linus,
->
-> Last few fixes for 6.4.  Dave already sent out the drm-fixes PR this week=
-.
-> I was out of the office earlier in the week and just got this out now.
->
-> The following changes since commit 9bd9be5cbaf8a8faa175ef4fba04a5623281de=
-be:
->
->   Merge tag 'drm-misc-fixes-2023-06-21' of git://anongit.freedesktop.org/=
-drm/drm-misc into drm-fixes (2023-06-23 12:16:48 +1000)
->
-> are available in the Git repository at:
->
->   https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.4-2=
-023-06-23
->
-> for you to fetch changes up to 134ea95255cf359a2e6d70308c15243c3fdf8eaf:
->
->   drm/amd: Don't try to enable secure display TA multiple times (2023-06-=
-23 16:44:45 -0400)
->
-> ----------------------------------------------------------------
-> amd-drm-fixes-6.4-2023-06-23:
->
-> amdgpu:
-> - BO locking fixes
-> - MCBP fix
-> - GPU mapping clear fix for always valid BOs
-> - ASPM fixes
-> - SDMA4 hang fix
-> - Misc display fixes
-> - Parade TCON PSR hang fix
-> - SMU13 fixes
-> - Gang submit fence fix
-> - Secure display fix
->
-> ----------------------------------------------------------------
-> Alex Deucher (1):
->       drm/amdgpu/sdma4: set align mask to 255
->
-> Christian K=C3=B6nig (3):
->       drm/amdgpu: make sure BOs are locked in amdgpu_vm_get_memory
->       drm/amdgpu: make sure that BOs have a backing store
->       drm/amdgpu: fix number of fence calculations
->
-> Evan Quan (2):
->       drm/amd/pm: revise the ASPM settings for thunderbolt attached scena=
-rio
->       drm/amd/pm: update the LC_L1_INACTIVITY setting to address possible=
- noise issue
->
-> Hamza Mahfooz (1):
->       drm/amd/display: perform a bounds check before filling dirty rectan=
-gles
->
-> Ilya Bakoulin (1):
->       drm/amd/display: Fix 128b132b link loss handling
->
-> Jiadong Zhu (1):
->       drm/amdgpu: Skip mark offset for high priority rings
->
-> Kenneth Feng (1):
->       drm/amd/pm: add abnormal fan detection for smu 13.0.0
->
-> Leo Chen (1):
->       drm/amd/display: disable seamless boot if force_odm_combine is enab=
-led
->
-> Mario Limonciello (2):
->       drm/amd: Disable PSR-SU on Parade 0803 TCON
->       drm/amd: Don't try to enable secure display TA multiple times
->
-> Samuel Pitoiset (1):
->       drm/amdgpu: fix clearing mappings for BOs that are always valid in =
-VM
->
-> Sung-huai Wang (1):
->       drm/amd/display: add a NULL pointer check
->
-> Tao Zhou (1):
->       drm/amdgpu: check RAS irq existence for VCN/JPEG
->
->  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c             | 11 +--
->  drivers/gpu/drm/amd/amdgpu/amdgpu_jpeg.c           |  3 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |  6 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |  2 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ring_mux.c       |  3 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c            |  3 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             | 81 ++++++++++++++--=
-------
->  drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c             | 13 ++--
->  drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c             |  4 +-
->  drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c           |  4 +-
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 13 ++--
->  drivers/gpu/drm/amd/display/dc/core/dc.c           |  3 +
->  .../drm/amd/display/dc/dce112/dce112_resource.c    | 10 +--
->  .../dc/link/protocols/link_dp_irq_handler.c        | 11 ++-
->  .../drm/amd/display/modules/power/power_helpers.c  |  2 +
->  .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   |  1 +
->  16 files changed, 108 insertions(+), 62 deletions(-)
+
+url:    https://github.com/intel-lab-lkp/linux/commits/UPDATE-20230624-040209/Yunxiang-Li/drm-amdgpu-fix-missing-fence-reserve-in-amdgpu_vm_sdma_commit/20230622-002915
+base:   the 2th patch of https://lore.kernel.org/r/20230621162652.10875-3-Yunxiang.Li%40amd.com
+patch link:    https://lore.kernel.org/r/20230623200113.62051-1-Yunxiang.Li%40amd.com
+patch subject: [PATCH v2] dma-buf: allow nested dma_resv_reserve_fences
+config: s390-randconfig-r016-20230621 (https://download.01.org/0day-ci/archive/20230624/202306240524.WBCHWUlJ-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230624/202306240524.WBCHWUlJ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306240524.WBCHWUlJ-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/dma-buf/dma-resv.c:326:2: error: unterminated conditional directive
+   #ifdef CONFIG_DEBUG_MUTEXES
+    ^
+>> drivers/dma-buf/dma-resv.c:817:7: error: expected '}'
+   #endif
+         ^
+   drivers/dma-buf/dma-resv.c:288:1: note: to match this '{'
+   {
+   ^
+   2 errors generated.
+
+
+vim +326 drivers/dma-buf/dma-resv.c
+
+   274	
+   275	/**
+   276	 * dma_resv_add_fence - Add a fence to the dma_resv obj
+   277	 * @obj: the reservation object
+   278	 * @fence: the fence to add
+   279	 * @usage: how the fence is used, see enum dma_resv_usage
+   280	 *
+   281	 * Add a fence to a slot, @obj must be locked with dma_resv_lock(), and
+   282	 * dma_resv_reserve_fences() has been called.
+   283	 *
+   284	 * See also &dma_resv.fence for a discussion of the semantics.
+   285	 */
+   286	void dma_resv_add_fence(struct dma_resv *obj, struct dma_fence *fence,
+   287				enum dma_resv_usage usage)
+   288	{
+   289		struct dma_resv_list *fobj;
+   290		struct dma_fence *old;
+   291		unsigned int i, count;
+   292	
+   293		dma_fence_get(fence);
+   294	
+   295		dma_resv_assert_held(obj);
+   296	
+   297		/* Drivers should not add containers here, instead add each fence
+   298		 * individually.
+   299		 */
+   300		WARN_ON(dma_fence_is_container(fence));
+   301	
+   302	retry:
+   303		fobj = dma_resv_fences_list(obj);
+   304		count = fobj->num_fences;
+   305	
+   306		for (i = 0; i < count; ++i) {
+   307			enum dma_resv_usage old_usage;
+   308	
+   309			dma_resv_list_entry(fobj, i, obj, &old, &old_usage);
+   310			if ((old->context == fence->context && old_usage >= usage &&
+   311			     dma_fence_is_later(fence, old)) ||
+   312			    dma_fence_is_signaled(old)) {
+   313				dma_resv_list_set(fobj, i, fence, usage);
+   314				dma_fence_put(old);
+   315				return;
+   316			}
+   317		}
+   318	
+   319		if (WARN_ON(fobj->num_fences == fobj->max_fences)) {
+   320			// try our best to avoid memory corruption
+   321			dma_resv_reserve_fences(obj, 1);
+   322			goto retry;
+   323		}
+   324		if (fobj->reserved_fences)
+   325			fobj->reserved_fences -= 1;
+ > 326	#ifdef CONFIG_DEBUG_MUTEXES
+   327		else
+   328			WARN_ON(1); // missing fence slot allocation
+   329	#else
+   330		count++;
+   331	
+   332		dma_resv_list_set(fobj, i, fence, usage);
+   333		/* pointer update must be visible before we extend the num_fences */
+   334		smp_store_mb(fobj->num_fences, count);
+   335	}
+   336	EXPORT_SYMBOL(dma_resv_add_fence);
+   337	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
