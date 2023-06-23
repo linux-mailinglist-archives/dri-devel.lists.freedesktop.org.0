@@ -1,81 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAC4773BF06
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 21:43:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D41273BF1C
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 21:56:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E90910E6A7;
-	Fri, 23 Jun 2023 19:43:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CAF710E6AA;
+	Fri, 23 Jun 2023 19:56:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F5DD10E69E;
- Fri, 23 Jun 2023 19:43:18 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 35NJ5IB2001145; Fri, 23 Jun 2023 19:42:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=bCMuSVjwVm36WBiqKfnAkht2KjQSuFlLI72pMHc4B0s=;
- b=W/goglAYMn7bSA5FZQPdliPNjmhUe2Jc2Q/JQcemNLpe2Ccht9r2pkJ3vTEbgdeYKJMi
- 9AxZjM3uPokNQKeqYK7whjnSxAvrEdVRCyhmiYn4TYpiyw7SIQNGyPsB6bdcrU/0z2HA
- QwPWV4Oywsh76LcWutRnlPXSF68CcPMk6fwJckJyWVArNsgS5MCotpdg2eamapoYMfNw
- BE1cJX14GcJK7oBKi1SZBtcxFK389o7SQ/DM5DIjgJ8LpCIHohoB7RR7GP8DVo19NXPJ
- zV63juLViiTkMz0RhIPN2GnkPV5RbSIs/UzHdWT08aFze5FThtNv6Lueius7rA5i7msi vQ== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rcw93jg0k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Jun 2023 19:42:59 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35NJgwBD005819
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Jun 2023 19:42:58 GMT
-Received: from [10.110.61.170] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 23 Jun
- 2023 12:42:57 -0700
-Message-ID: <de8ce528-3ef3-7f13-dc9e-87a9fc221200@quicinc.com>
-Date: Fri, 23 Jun 2023 12:42:56 -0700
+X-Greylist: delayed 511 seconds by postgrey-1.36 at gabe;
+ Fri, 23 Jun 2023 19:56:47 UTC
+Received: from smtp122.ord1d.emailsrvr.com (smtp122.ord1d.emailsrvr.com
+ [184.106.54.122])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAD6410E6A8
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 19:56:47 +0000 (UTC)
+X-Auth-ID: kenneth@whitecape.org
+Received: by smtp24.relay.ord1d.emailsrvr.com (Authenticated sender:
+ kenneth-AT-whitecape.org) with ESMTPSA id 11DEBA013F; 
+ Fri, 23 Jun 2023 15:48:13 -0400 (EDT)
+From: Kenneth Graunke <kenneth@whitecape.org>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: Re: [PATCH 2/3] drm/i915/gt: Fix context workarounds with non-masked
+ regs
+Date: Fri, 23 Jun 2023 12:48:13 -0700
+Message-ID: <2063427.kFxYfkjxrY@mizzik>
+In-Reply-To: <ehp36knxqfilobajjyk54oamk3n43s3cja5webx3q4jzm6xrlm@idrattdnr3fa>
+References: <20230622182731.3765039-1-lucas.demarchi@intel.com>
+ <3337022.2OMYdDKdcH@mizzik>
+ <ehp36knxqfilobajjyk54oamk3n43s3cja5webx3q4jzm6xrlm@idrattdnr3fa>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 1/2] drm/msm/dpu: fix DSC 1.2 block lengths
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>
-References: <20230623013731.1088007-1-dmitry.baryshkov@linaro.org>
- <6b74cb1f-3128-4ebd-8ff9-33cc025d957b@quicinc.com>
- <mwxs3rvemvdizqtsfa7pxms5prgrdq2lue6lvkt2f23nehzhwr@uawaxv5jsnmh>
- <ad1cf803-729f-5ef5-a6cf-667ecde0b282@linaro.org>
- <c22f165a-cc5b-2be1-fed9-420f68dbd8b7@quicinc.com>
- <500e6256-b1bc-35bf-546c-8ed896e3cba7@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <500e6256-b1bc-35bf-546c-8ed896e3cba7@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: C5wkFMQT6_1pX-H9kV3G2TILWQQP45WC
-X-Proofpoint-ORIG-GUID: C5wkFMQT6_1pX-H9kV3G2TILWQQP45WC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-23_10,2023-06-22_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- adultscore=0 clxscore=1015 impostorscore=0 spamscore=0 phishscore=0
- mlxlogscore=875 bulkscore=0 lowpriorityscore=0 priorityscore=1501
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306230176
+Content-Type: multipart/signed; boundary="nextPart1867622.CKnAoKXUt6";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
+X-Classification-ID: 5fd2a755-ac59-4319-8aa7-670f466f52f6-1-1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,72 +45,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, Matt Roper <matthew.d.roper@intel.com>,
+ stable@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--nextPart1867622.CKnAoKXUt6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
+From: Kenneth Graunke <kenneth@whitecape.org>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Date: Fri, 23 Jun 2023 12:48:13 -0700
+Message-ID: <2063427.kFxYfkjxrY@mizzik>
+MIME-Version: 1.0
 
-
-On 6/23/2023 12:40 PM, Dmitry Baryshkov wrote:
-> On 23/06/2023 22:37, Abhinav Kumar wrote:
->>
->>
->> On 6/23/2023 4:37 AM, Dmitry Baryshkov wrote:
->>> On 23/06/2023 09:54, Marijn Suijten wrote:
->>>> On 2023-06-22 22:47:04, Abhinav Kumar wrote:
->>>>> On 6/22/2023 6:37 PM, Dmitry Baryshkov wrote:
->>>>>> All DSC_BLK_1_2 declarations incorrectly pass 0x29c as the block 
->>>>>> length.
->>>>>> This includes the common block itself, enc subblocks and some empty
->>>>>> space around. Change that to pass 0x4 instead, the length of common
->>>>>> register block itself.
->>>>>>
->>>>>> Fixes: 0d1b10c63346 ("drm/msm/dpu: add DSC 1.2 hw blocks for 
->>>>>> relevant chipsets")
->>>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>>
->>>>> There is no need of a fixes tag for this.
->>>>>
->>>>> This is not a bug but was intentional.
->>>>>
->>>>> Till we added sub-block parsing support we had to dump the whole 
->>>>> block.
->>>>>
->>>>> And hence I would suggest this change should be merged after the
->>>>> sub-block parsing change otherwise we wont have full register dumps 
->>>>> for DSC.
->>>>
->>>> This was indeed intentional, we discussed it in [1].
->>>>
->>>> In fact I asked to make it 0xf00 + 0x10 or 0xf80 + 0x10 to also cover
->>>> the CTL registers, but that change didn't make it through.  0x29c is an
->>>> arbitrary number that I have no clue what it was based on.
->>>
->>> This should have been NAKed. or at least TODOed.
->>>
->>
->> Its is not an arbitrary number. Thats an incorrect comment.
->>
->> Its 4 more than the encoder's last offset which is 0x298 + 0x4 = 0x29c.
->>
->> There was nothing to NAK or TODO here.
+On Friday, June 23, 2023 8:49:05 AM PDT Lucas De Marchi wrote:
+> On Thu, Jun 22, 2023 at 04:37:21PM -0700, Kenneth Graunke wrote:
+> >On Thursday, June 22, 2023 11:27:30 AM PDT Lucas De Marchi wrote:
+> >> Most of the context workarounds tweak masked registers, but not all. For
+> >> masked registers, when writing the value it's sufficient to just write
+> >> the wa->set_bits since that will take care of both the clr and set bits
+> >> as well as not overwriting other bits.
+> >>
+> >> However there are some workarounds, the registers are non-masked. Up
+> >> until now the driver was simply emitting a MI_LOAD_REGISTER_IMM with the
+> >> set_bits to program the register via the GPU in the WA bb. This has the
+> >> side effect of overwriting the content of the register outside of bits
+> >> that should be set and also doesn't handle the bits that should be
+> >> cleared.
+> >>
+> >> Kenneth reported that on DG2, mesa was seeing a weird behavior due to
+> >> the kernel programming of L3SQCREG5 in dg2_ctx_gt_tuning_init(). With
+> >> the GPU idle, that register could be read via intel_reg as 0x00e001ff,
+> >> but during a 3D workload it would change to 0x0000007f. So the
+> >> programming of that tuning was affecting more than the bits in
+> >> L3_PWM_TIMER_INIT_VAL_MASK. Matt Roper noticed the lack of rmw for the
+> >> context workarounds due to the use of MI_LOAD_REGISTER_IMM.
+> >>
+> >> So, for registers that are not masked, read its value via mmio, modify
+> >> and then set it in the buffer to be written by the GPU. This should take
+> >> care in a simple way of programming just the bits required by the
+> >> tuning/workaround. If in future there are registers that involved that
+> >> can't be read by the CPU, a more complex approach may be required like
+> >> a) issuing additional instructions to read and modify; or b) scan the
+> >> golden context and patch it in place before saving it; or something
+> >> else. But for now this should suffice.
+> >>
+> >> Scanning the context workarounds for all platforms, these are the
+> >> impacted ones with the respective registers
+> >>
+> >> 	mtl: DRAW_WATERMARK
+> >> 	mtl/dg2: XEHP_L3SQCREG5, XEHP_FF_MODE2
+> >> 	gen12: GEN12_FF_MODE2
+> >
+> >Speaking of GEN12_FF_MODE2...there's a big scary comment above that
+> >workaround write which says that register "will return the wrong value
+> >when read."  I think with this patch, we'll start doing a RMW cycle for
+> >the register, which could mix in some of this "wrong value".  The
+> >comment mentions that the intention is to write the whole register,
+> >as the default value is 0 for all fields.
 > 
-> We do not include sub-blocks in the main block area. The SSPP's SRC 
-> blocks were cleaned up for this reason. The ENC registers are definitely 
-> a sub-block (and are described this way). There should have been a 
-> "TODO: reduce block length to 0x4 after adding sub-blocks to dump" comment.
+> Good point. That also means we don't need to backport this patch to
+> stable kernel to any gen12, since overwritting the other bits is
+> actually the intended behavior.
+> 
+> >
+> >Maybe what we want to do is change gen12_ctx_gt_tuning_init to do
+> >
+> >    wa_write(wal, GEN12_FF_MODE2, FF_MODE2_TDS_TIMER_128);
+> >
+> >so it has a clear mask of ~0 instead of FF_MODE2_TDS_TIMER_MASK, and
+> 
+> In order to ignore read back when verifying, we would still need to use
+> wa_add(), but changing the mask. We don't have a wa_write() that ends up
+> with { .clr = ~0, .read_mask = 0 }.
+> 
+> 	wa_add(wal,
+> 	       GEN12_FF_MODE2,
+> 	       ~0, FF_MODE2_TDS_TIMER_128,
+> 	       0, false);
+
+Good point!  Though, I just noticed another bug here:
+
+gen12_ctx_workarounds_init sets FF_MODE2_GS_TIMER_224 to avoid hangs
+in the HS/DS unit, after gen12_ctx_gt_tuning_init set TDS_TIMER_128
+for performance.  One of those is going to clobber the other; we're
+likely losing the TDS tuning today.  Combining those workarounds into
+one place seems like an easy way to fix that.
+
+> >then in this patch update your condition below from
+> >
+> >+		if (wa->masked_reg || wa->set == U32_MAX) {
+> >
+> >to
+> >
+> >+		if (wa->masked_reg || wa->set == U32_MAX || wa->clear == U32_MAX) {
+> 
+> yeah... and maybe also warn if wa->read is 0, which means it's one
+> of the registers we can't/shouldn't read from the CPU.
+> 
+> >
+> >because if we're clearing all bits then we don't care about doing a
+> >read-modify-write either.
+> 
+> thanks
+> Lucas De Marchi
+> 
+> >
+> >--Ken
+> 
+> 
 > 
 
-iirc the sub-block dump idea came to me in some other patchset not this 
-one. But ack that a comment could have been left.
 
->>
->>>>
->>>> [1]: 
->>>> https://lore.kernel.org/linux-arm-msm/y2whfntyo2rbrg3taazjdw5sijle6k6swzl4uutcxm6tmuayh4@uxdur74uasua/
->>>>
->>>> - Marijn
->>>
-> 
+--nextPart1867622.CKnAoKXUt6
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEE6OtbNAgc4e6ibv4ZW1vaBx1JzDgFAmSV9v0ACgkQW1vaBx1J
+zDjrZg//afm16ckrRi/gJT1PqXX0Vr6kGCfIH6eHyHu3tM2IFEUjbgTAUD8us+yf
+Vzao0Z+8ImfMZMWqYCqlkOdh+tzYq4uqOVpKnT37M6IR5eJ9084I3owuwijetrEn
+rekrPBwW+pDwzVMY8mVjZlnyU7NKoSuYsiWQrENy2POCVFd2yb/hIL3lKhzfeAs7
+x1kGY3K/mMGc3n5s7WgmSdOnR1n0E47ux8L3RkIb0quRTl6RUUpXuo23gwCvKahp
++Xkg0Ze/qAp7e++XuzGbLdZOjKQFNu8TvhpNhh9+YQsQGfG9NqZR4NrETRacF5Ve
+ERFwhoyRZulx6nJEgXE4IyIHZFr5GJcv6/l17mmhHLsbP+70KL9zJzhpSN/LRiWN
+u6bw8tOvaM6GWpuAgmvXARzOevI3NuSmovPPynEMHdNjDfHmB9gdmWfKSjqNDJMx
+CNj8ucEhyYUCJQ8kd41l5MCgYu6+tOUOLxA4fC5YlG82AywCR6tiPacAlaShaXi6
+5dd9WTIig6EpFe0mfRM30X2BHo2rZgaeYqfK0vaiif63g0cOaoUKi83D4NMUQWYf
+gidVjzA+gi9gvXJou+xy63mNMrOaNLW1M5cuySpb08kZ1/y3Srrq8R+Mw8ePfSMt
+cKV/sXMObB8ASqcpZ5Yi6eg1ohmg8KJ4aUGYdNBw2fKAC83DdnQ=
+=Palk
+-----END PGP SIGNATURE-----
+
+--nextPart1867622.CKnAoKXUt6--
+
+
+
