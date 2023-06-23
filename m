@@ -2,37 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D41273BF1C
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 21:56:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5059E73BF16
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 21:54:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CAF710E6AA;
-	Fri, 23 Jun 2023 19:56:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5851210E6A6;
+	Fri, 23 Jun 2023 19:54:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 511 seconds by postgrey-1.36 at gabe;
- Fri, 23 Jun 2023 19:56:47 UTC
-Received: from smtp122.ord1d.emailsrvr.com (smtp122.ord1d.emailsrvr.com
- [184.106.54.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAD6410E6A8
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 19:56:47 +0000 (UTC)
-X-Auth-ID: kenneth@whitecape.org
-Received: by smtp24.relay.ord1d.emailsrvr.com (Authenticated sender:
- kenneth-AT-whitecape.org) with ESMTPSA id 11DEBA013F; 
- Fri, 23 Jun 2023 15:48:13 -0400 (EDT)
-From: Kenneth Graunke <kenneth@whitecape.org>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [PATCH 2/3] drm/i915/gt: Fix context workarounds with non-masked
- regs
-Date: Fri, 23 Jun 2023 12:48:13 -0700
-Message-ID: <2063427.kFxYfkjxrY@mizzik>
-In-Reply-To: <ehp36knxqfilobajjyk54oamk3n43s3cja5webx3q4jzm6xrlm@idrattdnr3fa>
-References: <20230622182731.3765039-1-lucas.demarchi@intel.com>
- <3337022.2OMYdDKdcH@mizzik>
- <ehp36knxqfilobajjyk54oamk3n43s3cja5webx3q4jzm6xrlm@idrattdnr3fa>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6915E10E69E;
+ Fri, 23 Jun 2023 19:54:30 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 35NHScZW006660; Fri, 23 Jun 2023 19:54:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=KJXCSt6vNX6JuN5fiOipIYi6v7+kPoyW7neXNHF/pW0=;
+ b=OXJASK/U9jh8flmL6jx8S59WI7AINvtcc+fWLozyHpxn05jJavdy1lpq9YZ7utRgWawL
+ np/XX5bWpVX4+XMcdMk0aZT4nbWxLNY+tntJj/1dKyJsD8/FajhWsYpReuLlAHcTHGsB
+ W7iJkdYO/4mpegjRakg9YuhTfAyVP/2cC3g/unUSCJvch2BFbPqQp3yyBjqdt9Vqd3dJ
+ WaBRWvnxvMiDqTTYovphDSl+FSpBAvJnzm7vP7KY2lhuluoCaIX2kAqFT0lB/Xmo5j92
+ 5/0jH56tX+g6OvPyQnb1wVVcNRqbdAmJ/wEZO+6VYlPsYo/rJPEpOLwdHCfY5ahORl4t fg== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rcju84db5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 23 Jun 2023 19:54:20 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35NJsJre019340
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 23 Jun 2023 19:54:19 GMT
+Received: from [10.110.61.170] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 23 Jun
+ 2023 12:54:18 -0700
+Message-ID: <6e2ded6a-63a9-d32a-7a2f-67d3c72b1aa2@quicinc.com>
+Date: Fri, 23 Jun 2023 12:54:17 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart1867622.CKnAoKXUt6";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
-X-Classification-ID: 5fd2a755-ac59-4319-8aa7-670f466f52f6-1-1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2] drm/msm/dsi: Document DSC related pclk_rate and
+ hdisplay calculations
+Content-Language: en-US
+To: Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230619210647.867630-1-dmitry.baryshkov@linaro.org>
+ <e9d5876a-3113-8c79-c2aa-e1ad175f0d84@quicinc.com>
+ <b632e52d-7b86-9f5a-913a-aace26d9a039@linaro.org>
+ <c2f632e7-8302-a77f-fc61-ccda3b5a8aac@quicinc.com>
+ <eqdu44xcd6qdrmxcdr44dfcliydz6q4oombghjg6ptlcbxf22v@uhqnhnlv6gxi>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <eqdu44xcd6qdrmxcdr44dfcliydz6q4oombghjg6ptlcbxf22v@uhqnhnlv6gxi>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: Wyi_L1pib2UqUke0dCJpyYoyuAyXISdG
+X-Proofpoint-GUID: Wyi_L1pib2UqUke0dCJpyYoyuAyXISdG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-23_11,2023-06-22_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 adultscore=0
+ clxscore=1015 phishscore=0 suspectscore=0 mlxlogscore=999
+ priorityscore=1501 lowpriorityscore=0 bulkscore=0 malwarescore=0
+ impostorscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2305260000 definitions=main-2306230178
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,142 +87,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Matt Roper <matthew.d.roper@intel.com>,
- stable@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---nextPart1867622.CKnAoKXUt6
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
-From: Kenneth Graunke <kenneth@whitecape.org>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Date: Fri, 23 Jun 2023 12:48:13 -0700
-Message-ID: <2063427.kFxYfkjxrY@mizzik>
-MIME-Version: 1.0
 
-On Friday, June 23, 2023 8:49:05 AM PDT Lucas De Marchi wrote:
-> On Thu, Jun 22, 2023 at 04:37:21PM -0700, Kenneth Graunke wrote:
-> >On Thursday, June 22, 2023 11:27:30 AM PDT Lucas De Marchi wrote:
-> >> Most of the context workarounds tweak masked registers, but not all. For
-> >> masked registers, when writing the value it's sufficient to just write
-> >> the wa->set_bits since that will take care of both the clr and set bits
-> >> as well as not overwriting other bits.
-> >>
-> >> However there are some workarounds, the registers are non-masked. Up
-> >> until now the driver was simply emitting a MI_LOAD_REGISTER_IMM with the
-> >> set_bits to program the register via the GPU in the WA bb. This has the
-> >> side effect of overwriting the content of the register outside of bits
-> >> that should be set and also doesn't handle the bits that should be
-> >> cleared.
-> >>
-> >> Kenneth reported that on DG2, mesa was seeing a weird behavior due to
-> >> the kernel programming of L3SQCREG5 in dg2_ctx_gt_tuning_init(). With
-> >> the GPU idle, that register could be read via intel_reg as 0x00e001ff,
-> >> but during a 3D workload it would change to 0x0000007f. So the
-> >> programming of that tuning was affecting more than the bits in
-> >> L3_PWM_TIMER_INIT_VAL_MASK. Matt Roper noticed the lack of rmw for the
-> >> context workarounds due to the use of MI_LOAD_REGISTER_IMM.
-> >>
-> >> So, for registers that are not masked, read its value via mmio, modify
-> >> and then set it in the buffer to be written by the GPU. This should take
-> >> care in a simple way of programming just the bits required by the
-> >> tuning/workaround. If in future there are registers that involved that
-> >> can't be read by the CPU, a more complex approach may be required like
-> >> a) issuing additional instructions to read and modify; or b) scan the
-> >> golden context and patch it in place before saving it; or something
-> >> else. But for now this should suffice.
-> >>
-> >> Scanning the context workarounds for all platforms, these are the
-> >> impacted ones with the respective registers
-> >>
-> >> 	mtl: DRAW_WATERMARK
-> >> 	mtl/dg2: XEHP_L3SQCREG5, XEHP_FF_MODE2
-> >> 	gen12: GEN12_FF_MODE2
-> >
-> >Speaking of GEN12_FF_MODE2...there's a big scary comment above that
-> >workaround write which says that register "will return the wrong value
-> >when read."  I think with this patch, we'll start doing a RMW cycle for
-> >the register, which could mix in some of this "wrong value".  The
-> >comment mentions that the intention is to write the whole register,
-> >as the default value is 0 for all fields.
+
+On 6/23/2023 12:26 AM, Marijn Suijten wrote:
+> On 2023-06-22 17:32:17, Abhinav Kumar wrote:
+>>
+>>
+>> On 6/22/2023 5:17 PM, Dmitry Baryshkov wrote:
+>>> On 23/06/2023 03:14, Abhinav Kumar wrote:
+>>>>
+>>>>
+>>>> On 6/19/2023 2:06 PM, Dmitry Baryshkov wrote:
+>>>>> Provide actual documentation for the pclk and hdisplay calculations in
+>>>>> the case of DSC compression being used.
+>>>>>
+>>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>>> ---
+>>>>>
+>>>>> Changes since v1:
+>>>>> - Converted dsi_adjust_pclk_for_compression() into kerneldoc (Marijn)
+>>>>> - Added a pointer from dsi_timing_setup() docs to
+>>>>>     dsi_adjust_pclk_for_compression() (Marijn)
+>>>>> - Fixed two typo (Marijn)
+>>>>>
+>>>>> ---
+>>>>>    drivers/gpu/drm/msm/dsi/dsi_host.c | 40 ++++++++++++++++++++++++++++--
+>>>>>    1 file changed, 38 insertions(+), 2 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>>>> b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>>>> index 3f6dfb4f9d5a..a8a31c3dd168 100644
+>>>>> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>>>> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>>>> @@ -528,6 +528,25 @@ void dsi_link_clk_disable_v2(struct msm_dsi_host
+>>>>> *msm_host)
+>>>>>        clk_disable_unprepare(msm_host->byte_clk);
+>>>>>    }
+>>>>> +/**
+>>>>> + * dsi_adjust_pclk_for_compression() - Adjust the pclk rate for
+>>>>> compression case
+>>>>> + * @mode: the selected mode for the DSI output
+>>>>> + * @dsc: DRM DSC configuration for this DSI output
+>>>>> + *
+>>>>> + * Adjust the pclk rate by calculating a new hdisplay proportional to
+>>>>> + * the compression ratio such that:
+>>>>> + *     new_hdisplay = old_hdisplay * compressed_bpp / uncompressed_bpp
+>>>>> + *
+>>>>> + * Porches do not need to be adjusted:
+>>>>> + * - For the VIDEO mode they are not compressed by DSC and are
+>>>>> passed as is.
+>>>>> + * - For the CMD mode there are no actual porches. Instead these fields
+>>>>> + *   currently represent the overhead to the image data transfer. As
+>>>>> such, they
+>>>>> + *   are calculated for the final mode parameters (after the
+>>>>> compression) and
+>>>>> + *   are not to be adjusted too.
+>>>>> + *
+>>>>> + *  FIXME: Reconsider this if/when CMD mode handling is rewritten to
+>>>>> use
+>>>>> + *  refresh rate and data overhead as a starting point of the
+>>>>> calculations.
+>>>>> + */
+>>>>>    static unsigned long dsi_adjust_pclk_for_compression(const struct
+>>>>> drm_display_mode *mode,
+>>>>>            const struct drm_dsc_config *dsc)
+>>>>
+>>>> I am fine with this part of the doc.
+>>>>
+>>>>>    {
+>>>>> @@ -926,8 +945,25 @@ static void dsi_timing_setup(struct msm_dsi_host
+>>>>> *msm_host, bool is_bonded_dsi)
+>>>>>            if (ret)
+>>>>>                return;
+>>>>> -        /* Divide the display by 3 but keep back/font porch and
+>>>>> -         * pulse width same
+>>>>> +        /*
+>>>>> +         * DPU sends 3 bytes per pclk cycle to DSI. If compression is
+>>>>> +         * not used, a single pixel is transferred at each pulse, no
+>>>>> +         * matter what bpp or pixel format is used. In case of DSC
+>>>>> +         * compression this results (due to data alignment
+>>>>> +         * requirements) in a transfer of 3 compressed pixel per pclk
+>>>>> +         * cycle.
+>>>>> +         *
+>>>>
+>>>> I dont want to talk about data alignment nor formats and I will not
+>>>> ack any references to those.
+>>>>
+>>>> I would like to keep this simple and say that DPU sends 3 bytes of
+>>>> compressed data / pclk (6 with widebus enabled) and all this math is
+>>>> doing is that its calculating number of bytes and diving it by 3 OR 6
+>>>> with widebus to calculate the pclk cycles. Thats it.
+>>>
+>>> This makes it unclear, why do we simply by 3 rather than doing * dsc_bpp
+>>> / 24.  My description might be inaccurate as I don't have hw docs at
+>>> hand, but simple description is not enough.
+>>>
+>>
+>> Why is it unclear? With compression, we are saying we process at 3
+>> compressed bytes / pclk and this math is accurately giving the pclk cycles.
+>>
+>> You are once again trying to arrive at 3 with compression factor in mind
+>> by calculating target_bpp / src_bpp.
+>>
+>> I am saying that its independent of that. Whenever we do compression
+>> rate is 3 bytes of compressed data (and 6 with widebus) irrespective of
+>> what your dsc_bpp was.
 > 
-> Good point. That also means we don't need to backport this patch to
-> stable kernel to any gen12, since overwritting the other bits is
-> actually the intended behavior.
+> Abhinav, this is exactly what the confusion the pclk series is about.
+> There it was said (and committed to mainline now!) that pclk is based on
+> the compression factor of target_bpp / src_bpp.  Now you are saying
+> there is a fixed number of bytes sent by the (wide)bus between DPU-DSC
+> and DSI.
 > 
-> >
-> >Maybe what we want to do is change gen12_ctx_gt_tuning_init to do
-> >
-> >    wa_write(wal, GEN12_FF_MODE2, FF_MODE2_TDS_TIMER_128);
-> >
-> >so it has a clear mask of ~0 instead of FF_MODE2_TDS_TIMER_MASK, and
-> 
-> In order to ignore read back when verifying, we would still need to use
-> wa_add(), but changing the mask. We don't have a wa_write() that ends up
-> with { .clr = ~0, .read_mask = 0 }.
-> 
-> 	wa_add(wal,
-> 	       GEN12_FF_MODE2,
-> 	       ~0, FF_MODE2_TDS_TIMER_128,
-> 	       0, false);
-
-Good point!  Though, I just noticed another bug here:
-
-gen12_ctx_workarounds_init sets FF_MODE2_GS_TIMER_224 to avoid hangs
-in the HS/DS unit, after gen12_ctx_gt_tuning_init set TDS_TIMER_128
-for performance.  One of those is going to clobber the other; we're
-likely losing the TDS tuning today.  Combining those workarounds into
-one place seems like an easy way to fix that.
-
-> >then in this patch update your condition below from
-> >
-> >+		if (wa->masked_reg || wa->set == U32_MAX) {
-> >
-> >to
-> >
-> >+		if (wa->masked_reg || wa->set == U32_MAX || wa->clear == U32_MAX) {
-> 
-> yeah... and maybe also warn if wa->read is 0, which means it's one
-> of the registers we can't/shouldn't read from the CPU.
-> 
-> >
-> >because if we're clearing all bits then we don't care about doing a
-> >read-modify-write either.
-> 
-> thanks
-> Lucas De Marchi
-> 
-> >
-> >--Ken
-> 
-> 
+> Is pclk used for more purposes besides just ticking for the data
+> transfer between DPU and DSI?
 > 
 
+There is no confusion between what was said earlier and now.
 
---nextPart1867622.CKnAoKXUt6
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+This line is calculating the number of pclks needed to transmit one line 
+of the compressed data:
 
------BEGIN PGP SIGNATURE-----
+hdisplay = DIV_ROUND_UP(msm_dsc_get_bytes_per_line(msm_host->dsc), 3);
 
-iQIzBAABCAAdFiEE6OtbNAgc4e6ibv4ZW1vaBx1JzDgFAmSV9v0ACgkQW1vaBx1J
-zDjrZg//afm16ckrRi/gJT1PqXX0Vr6kGCfIH6eHyHu3tM2IFEUjbgTAUD8us+yf
-Vzao0Z+8ImfMZMWqYCqlkOdh+tzYq4uqOVpKnT37M6IR5eJ9084I3owuwijetrEn
-rekrPBwW+pDwzVMY8mVjZlnyU7NKoSuYsiWQrENy2POCVFd2yb/hIL3lKhzfeAs7
-x1kGY3K/mMGc3n5s7WgmSdOnR1n0E47ux8L3RkIb0quRTl6RUUpXuo23gwCvKahp
-+Xkg0Ze/qAp7e++XuzGbLdZOjKQFNu8TvhpNhh9+YQsQGfG9NqZR4NrETRacF5Ve
-ERFwhoyRZulx6nJEgXE4IyIHZFr5GJcv6/l17mmhHLsbP+70KL9zJzhpSN/LRiWN
-u6bw8tOvaM6GWpuAgmvXARzOevI3NuSmovPPynEMHdNjDfHmB9gdmWfKSjqNDJMx
-CNj8ucEhyYUCJQ8kd41l5MCgYu6+tOUOLxA4fC5YlG82AywCR6tiPacAlaShaXi6
-5dd9WTIig6EpFe0mfRM30X2BHo2rZgaeYqfK0vaiif63g0cOaoUKi83D4NMUQWYf
-gidVjzA+gi9gvXJou+xy63mNMrOaNLW1M5cuySpb08kZ1/y3Srrq8R+Mw8ePfSMt
-cKV/sXMObB8ASqcpZ5Yi6eg1ohmg8KJ4aUGYdNBw2fKAC83DdnQ=
-=Palk
------END PGP SIGNATURE-----
+msm_dsc_get_bytes_per_line() is calculating the number of compressed 
+bytes as it uses the target bits_per_pixel
 
---nextPart1867622.CKnAoKXUt6--
+126 	 * @bits_per_pixel:
+127 	 * Target bits per pixel with 4 fractional bits, bits_per_pixel << 4
+128 	 */
+129 	u16 bits_per_pixel;
 
+(like I have said a few times, hdisplay is perhaps confusing us)
 
+If you calculate the bytes this way you are already accounting for the 
+compression, so where is the confusion.
 
+The pclk calculation does the same thing of using the ratio instead.
+
+> - Marijn
