@@ -2,73 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47F5173B1AD
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 09:30:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 027C773B211
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 09:48:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3923910E62C;
-	Fri, 23 Jun 2023 07:30:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6EFF10E5E8;
+	Fri, 23 Jun 2023 07:48:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07C3910E639
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 07:29:04 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id
- ffacd0b85a97d-31126037f41so366609f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 00:29:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687505343; x=1690097343;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=74Pt8y9BLYayYvuaPPOjFJX++4vBERPSGc1K1bOgfPc=;
- b=Y4LcbyKKH4D6Sc646yqtnsdFR8fsUfhWH/1ZHEzwtdsJ2yk8zc1Id8XVlOltQkHnRw
- QOEMIZF8lARJZ6DwtHrkXJUM5ppaxzuno9eMOajvNiVVRauJQjgfI5z77h+YaaWHm0Pb
- LIT/8+VGo1gkux9Gm0eWNJy5t2FQLi4gwjAy+/ASpPay5cTlS+kJA/Is381aaoo+z1TY
- Bbq4uJmoUVRTHpOROfa+YIir1CtWiCJQBPgcqnIhQ42xSvYK2+2KRJtNbVv+Aq6b7+c/
- 7MqkFZv+o4R2+ucZPy/9fmXkuqzADq6kWRKTrQ5dkRxIZZPM8eJLdvaj6Ooo80jPhybu
- VN7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687505343; x=1690097343;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=74Pt8y9BLYayYvuaPPOjFJX++4vBERPSGc1K1bOgfPc=;
- b=fyy9F+3VH8yGi/9YP7HlmedeyJV1Nw37GGtHKxxEHA3rZm18rVmUMvLkkeuJa+fzBt
- PzPXHjJCmkJ+xnB7SKchjVaDIR+2UO5Ol3XnVnPYtHp0xsVT24MbRi+TMG0HlC4CcoXT
- DvuQu6lg7IER0ipQ18uYm2/NfVcLuzB5XyKYNIC2+w0/4eB+XCrMA79ZI2gZmA4eayLl
- hvDpVdz36vnvAIXi7KnvnRxKTJWC1maDtyO71SG8A205nK40np27ue3dEYMOOi+MIxM6
- Vmgk5oA4wQsKPJZaMRefTdZN6Q8LXloZQVECBy1QJ5/AwQuZ2v+Rh7Z/uBIF+YqzZdKk
- 3e5g==
-X-Gm-Message-State: AC+VfDxKIs57RJ2llWRuaG3aVpsCOuTkHOlzYZg+pAezDrsGLEiDBJDf
- 29BY2b+2oT02PFNkKqps/7Gehg==
-X-Google-Smtp-Source: ACHHUZ5R9hJ3wXhPhvbJVcGIHlACR3cX0dSORBCPRA3xKj+G+lmLhEIxWe2HnM4i26WPrqPkabi7bA==
-X-Received: by 2002:adf:f6c8:0:b0:311:d7d:e831 with SMTP id
- y8-20020adff6c8000000b003110d7de831mr15478208wrp.48.1687505343048; 
- Fri, 23 Jun 2023 00:29:03 -0700 (PDT)
-Received: from [192.168.27.65] (home.beaume.starnux.net. [82.66.176.246])
- by smtp.gmail.com with ESMTPSA id
- p9-20020adfcc89000000b003113f0ba414sm8822488wrj.65.2023.06.23.00.29.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Jun 2023 00:29:02 -0700 (PDT)
-Message-ID: <b4b1552d-67ab-3ab4-641a-1e190ed4a707@linaro.org>
-Date: Fri, 23 Jun 2023 09:29:00 +0200
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4065210E02D;
+ Fri, 23 Jun 2023 07:48:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1687506520; x=1719042520;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=iX6DkmUl4cz2IjtF1PHE1fVSnIeq15AXAzNyDDfvQOQ=;
+ b=R+LYFZoP8Oq1BuPvNplEmFPAVWbrPKq4MvjesYj7zyx7jzekkFR77UVA
+ /IDHZAlNmHr6ulD1MSe0qaqLi81wm7YcmjtsduTXlHwM3hTuqgzA9YMNm
+ kL64lEEAL70qXGhqOcTvpnc7qBAxgdZiCnNvlEreWGxcqHKWxa9saCJNm
+ 7/TD4sIn4UTPRm+dd7X6RufR+cE/Alo0/iS68nYotbvumhl/C16GTMVUQ
+ dLrbz+bQr0Mh+xxh4sHS+BLibfJ9BpcNXbQ4+obj4lS4sl2Gbzm+PY5Yi
+ 2IoWKk2hpkmAlXlhnHxlwThW+lir9qHN6MDZwGWIOLHWSEzsriuT7l0YV w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="341046744"
+X-IronPort-AV: E=Sophos;i="6.01,151,1684825200"; d="scan'208";a="341046744"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2023 00:48:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="692588026"
+X-IronPort-AV: E=Sophos;i="6.01,151,1684825200"; d="scan'208";a="692588026"
+Received: from wtedesch-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.251.215.233])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2023 00:48:35 -0700
+Date: Fri, 23 Jun 2023 09:48:31 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Thomas =?iso-8859-15?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH 3/4] drm/ttm: Don't leak a resource on
+ eviction error
+Message-ID: <ZJVOTzorVVTvvF2z@ashyti-mobl2.lan>
+References: <20230622101412.78426-1-thomas.hellstrom@linux.intel.com>
+ <20230622101412.78426-4-thomas.hellstrom@linux.intel.com>
+ <ZJRSyp7fT6VXpow7@ashyti-mobl2.lan>
+ <3a089ebb-7389-3d3e-beb0-13a8d64eb04d@linux.intel.com>
+ <196a7f74-66ac-1eae-4795-a42691f4793e@amd.com>
+ <ef5d91b8-c68b-5edc-d611-6a4dbf55c945@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 1/3] dt-bindings: display: msm: sm8350-mdss: document
- displayport controller subnode
-Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230621-topic-sm8x50-upstream-mdss-bindings-dp-subnode-v1-0-8bf386b373eb@linaro.org>
- <20230621-topic-sm8x50-upstream-mdss-bindings-dp-subnode-v1-1-8bf386b373eb@linaro.org>
- <xlr3rmz7wy5o3ka6cxo2tzl3hqbnk4vkm7jsgjdhyimiyyqnfr@pjjwjg37675s>
-Organization: Linaro Developer Services
-In-Reply-To: <xlr3rmz7wy5o3ka6cxo2tzl3hqbnk4vkm7jsgjdhyimiyyqnfr@pjjwjg37675s>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ef5d91b8-c68b-5edc-d611-6a4dbf55c945@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,56 +65,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: freedreno@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>,
- Robert Foss <rfoss@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ Christian =?iso-8859-15?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, intel-xe@lists.freedesktop.org,
+ Huang Rui <ray.huang@amd.com>, dri-devel@lists.freedesktop.org,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Christian =?iso-8859-15?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/06/2023 09:27, Marijn Suijten wrote:
-> On 2023-06-21 11:26:25, Neil Armstrong wrote:
->> Document the optional document displayport controller subnode
+Hi Christian and Thomas,
+
+> > > > > diff --git a/drivers/gpu/drm/ttm/ttm_bo.c
+> > > > > b/drivers/gpu/drm/ttm/ttm_bo.c
+> > > > > index 615d30c4262d..89530f2a027f 100644
+> > > > > --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> > > > > +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> > > > > @@ -462,14 +462,14 @@ static int ttm_bo_evict(struct
+> > > > > ttm_buffer_object *bo,
+> > > > >       ret = ttm_bo_handle_move_mem(bo, evict_mem, true, ctx, &hop);
+> > > > >       if (ret == -EMULTIHOP) {
+> > > > >           ret = ttm_bo_bounce_temp_buffer(bo, &evict_mem, ctx, &hop);
+> > > > > -        if (ret) {
+> > > > > -            if (ret != -ERESTARTSYS && ret != -EINTR)
+> > > > > -                pr_err("Buffer eviction failed\n");
+> > > > > -            ttm_resource_free(bo, &evict_mem);
+> > > > > -            goto out;
+> > > > > -        }
+> > > > > -        /* try and move to final place now. */
+> > > > > -        goto bounce;
+> > > > > +        if (!ret)
+> > > > > +            /* try and move to final place now. */
+> > > > > +            goto bounce;
+> > > > As we are at this, can't we replace this with a while()? Goto's
+> > > > used instead of a while loop are a fist in the eye...
+> > > 
+> > > I'm completely OK with that. this patch already did away with one of
+> > > them. Let's hear Christian's opinion first, though.
+> > 
+> > I'm not a fan of that goto either, but could we somehow avoid the
+> > while(1) ? E.g. something like do { } while (!ret) after handling the
+> > multihop?
 > 
-> document the optional *document*?  Same in the other patches IIRC.
-
-oops, will re-spin with this fixed
-
-thanks!
-
+> I think the construct that makes it most obvious what's happening, although
+> it needs two tests for -EMULTIHOP is something like
 > 
-> - Marijn
-> 
->> of the SM8350 MDSS.
->>
->> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->> ---
->>   Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml | 6 ++++++
->>   1 file changed, 6 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml
->> index 79a226e4cc6a..f2cbeb435f1b 100644
->> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml
->> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml
->> @@ -52,6 +52,12 @@ patternProperties:
->>         compatible:
->>           const: qcom,sm8350-dpu
->>   
->> +  "^displayport-controller@[0-9a-f]+$":
->> +    type: object
->> +    properties:
->> +      compatible:
->> +        const: qcom,sm8350-dp
->> +
->>     "^dsi@[0-9a-f]+$":
->>       type: object
->>       properties:
->>
->> -- 
->> 2.34.1
->>
+> do {
+> ....
+>    if (ret != -EMULTIHOP)
+>       break;
+>    ....
+> } while (ret ==-EMULTIHOP);
 
+even better :)
+
+Thank you!
+Andi
