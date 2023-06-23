@@ -1,65 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA75A73BE13
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 19:51:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBDF473BE16
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 19:52:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AEE010E04F;
-	Fri, 23 Jun 2023 17:51:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0352D10E697;
+	Fri, 23 Jun 2023 17:52:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com
- [209.85.128.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20D3910E04F
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 17:51:21 +0000 (UTC)
-Received: by mail-yw1-f179.google.com with SMTP id
- 00721157ae682-57040e313c5so14961657b3.0
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 10:51:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687542680; x=1690134680;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=H7quSJ3+jB/PSLZA5wSTCCL319u6birtQAJa6S9m7Do=;
- b=QxrZvmGn5wUKiBNGYmKOgf7jrYTEUAsSOJt9o3F2dsCp2/WSdCZmEJc924pNMk1DDy
- oMHq8ePn67uZ2BIg4HO04hAJ3RTEUbBQ69P91BCjOigNKF0iPLro3LxkuDy6ManvJqJt
- /6Grk1v4wpskdk4tiFGUG5oUkvx5IEMGeP0/skyrOFSOxQ43dBxD4xH7OmWdcDyBQDQT
- TcEMU/1Kd3mNwXlWvt6muyD14dvEUm+ET8YOLVfj3DPjnHMCt9Z3fEU1RYwMVq6FBds2
- 4udcXjdS40htKp0+dsnfeY7CnOf+KOKss3qny3JH00MZTz2OpjTJ50IZpf3stB3llrYc
- LQsg==
-X-Gm-Message-State: AC+VfDyhK52h3/L9lGflOHeiZMByBKq3Fl1k1wW25rQbHXh8gMlrB8SA
- R3m3fzyAAFDQHpMGzZTmPZzqr88sicF5XA==
-X-Google-Smtp-Source: ACHHUZ7SudpV1n3EJuv61a5U7VV1mFRlCZJtpqZLfCQxkFB/0BpLIPlDzgc9q5+rwjjwwvs3uGuXsg==
-X-Received: by 2002:a0d:dfd0:0:b0:576:87b1:ae0d with SMTP id
- i199-20020a0ddfd0000000b0057687b1ae0dmr459380ywe.21.1687542679887; 
- Fri, 23 Jun 2023 10:51:19 -0700 (PDT)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com.
- [209.85.219.181]) by smtp.gmail.com with ESMTPSA id
- d141-20020a814f93000000b00559f1cb8444sm2574632ywb.70.2023.06.23.10.51.19
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Jun 2023 10:51:19 -0700 (PDT)
-Received: by mail-yb1-f181.google.com with SMTP id
- 3f1490d57ef6-bad0c4f6f50so1468225276.1
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 10:51:19 -0700 (PDT)
-X-Received: by 2002:a25:32c1:0:b0:bc6:263a:2fe with SMTP id
- y184-20020a2532c1000000b00bc6263a02femr22491980yby.29.1687542678947; Fri, 23
- Jun 2023 10:51:18 -0700 (PDT)
-MIME-Version: 1.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AC1310E697
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 17:52:30 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E53D838;
+ Fri, 23 Jun 2023 19:51:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1687542712;
+ bh=6rT+n6mijf4+BiTWtjg5ainxi9bp14qGHZoBtspMrmA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OPb5chPnpf4jYQBzGlpPUlVg8zmUuRTOqy7IqqaVgYGXk6H2vkvu8AROWnGE7zvim
+ dABdk2AhBa6Y7SSL3O2GwIZTvyRLerqVGBVYqUgr+5DPXY0HMRPTWBZUW2mMVDQKxZ
+ SNXQTYNOtAGP/wfDxBfmWdRXjvkyQGGT9e37Hh+8=
+Date: Fri, 23 Jun 2023 20:52:27 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH 06/39] drm: renesas: shmobile: Add support for Runtime PM
+Message-ID: <20230623175227.GP2112@pendragon.ideasonboard.com>
 References: <cover.1687423204.git.geert+renesas@glider.be>
- <0032f38b474a8ff63a7cdfdbc8b73766c3561729.1687423204.git.geert+renesas@glider.be>
- <20230623163950.GA2112@pendragon.ideasonboard.com>
-In-Reply-To: <20230623163950.GA2112@pendragon.ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 23 Jun 2023 19:51:07 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU_gvs1+KtN14DxAMY+Qa2YTo8KL3L4VnL3yG2zYiH6JQ@mail.gmail.com>
-Message-ID: <CAMuHMdU_gvs1+KtN14DxAMY+Qa2YTo8KL3L4VnL3yG2zYiH6JQ@mail.gmail.com>
-Subject: Re: [PATCH 23/39] drm: renesas: shmobile: Move interface handling to
- connector setup
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <742b3351c1aed1f546ac2dcc1de15e0d04cc24d4.1687423204.git.geert+renesas@glider.be>
+ <20230623150742.GK2112@pendragon.ideasonboard.com>
+ <20230623151109.GL2112@pendragon.ideasonboard.com>
+ <CAMuHMdWn-V5b61t7SDDEW_fUt09Y=EVPdXCmAiht0c4uD67siA@mail.gmail.com>
+ <20230623153425.GQ2112@pendragon.ideasonboard.com>
+ <CAMuHMdU-2kfL1ysgriVg_2_y85YXr0v49mHuYxLJJGyLGr7V=w@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdU-2kfL1ysgriVg_2_y85YXr0v49mHuYxLJJGyLGr7V=w@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,117 +60,78 @@ Cc: Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+Hi Geert,
 
-On Fri, Jun 23, 2023 at 6:39=E2=80=AFPM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Thu, Jun 22, 2023 at 11:21:35AM +0200, Geert Uytterhoeven wrote:
-> > Move legacy interface handling to the connector setup code.
-> > Set up bus_flags and bus_formats in display_info according to the
-> > bus format and panel information from platform data, to make it more
-> > similar with DT-based connector/bridge/panel setup.
-> > This will allows us to use the same LCD interface setup code for both
->
-> s/allows/allow/
->
-> > legacy and DT-based systems.
+On Fri, Jun 23, 2023 at 07:41:36PM +0200, Geert Uytterhoeven wrote:
+> On Fri, Jun 23, 2023 at 5:34 PM Laurent Pinchart wrote:
+> > On Fri, Jun 23, 2023 at 05:22:45PM +0200, Geert Uytterhoeven wrote:
+> > > On Fri, Jun 23, 2023 at 5:11 PM Laurent Pinchart wrote:
+> > > > On Fri, Jun 23, 2023 at 06:07:44PM +0300, Laurent Pinchart wrote:
+> > > > > On Thu, Jun 22, 2023 at 11:21:18AM +0200, Geert Uytterhoeven wrote:
+> > > > > > The SH-Mobile LCD Controller is part of a PM Domain on all relevant SoCs
+> > > > > > (clock domain on all, power domain on some).  Hence it may not be
+> > > > > > sufficient to manage the LCDC module clock explicitly (e.g. if the
+> > > > > > selected clock source differs from SHMOB_DRM_CLK_BUS).
+> > > > > >
+> > > > > > Fix this by using Runtime PM instead.
+> > > > > >
+> > > > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > > > ---
+> > > > > >  drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 11 ++++++++++-
+> > > > > >  drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c  |  5 +++++
+> > > > > >  2 files changed, 15 insertions(+), 1 deletion(-)
+> > > > > >
+> > > > > > diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> > > > > > index fbfd906844da490c..84dbf35025d7be63 100644
+> > > > > > --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> > > > > > +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> > > > > > @@ -9,6 +9,7 @@
+> > > > > >
+> > > > > >  #include <linux/backlight.h>
+> > > > > >  #include <linux/clk.h>
+> > > > > > +#include <linux/pm_runtime.h>
+> > > > > >
+> > > > > >  #include <drm/drm_crtc.h>
+> > > > > >  #include <drm/drm_crtc_helper.h>
+> > > > > > @@ -170,10 +171,16 @@ static void shmob_drm_crtc_start(struct shmob_drm_crtc *scrtc)
+> > > > > >     if (WARN_ON(format == NULL))
+> > > > > >             return;
+> > > > > >
+> > > > > > +   ret = pm_runtime_resume_and_get(sdev->dev);
+> > > > > > +   if (ret)
+> > > > > > +           return;
+> > > > > > +
+> > > > > >     /* Enable clocks before accessing the hardware. */
+> > > > > >     ret = shmob_drm_clk_on(sdev);
+> > > > >
+> > > > > This would be best located in the runtime PM resume handler. Same for
+> > > > > disabling clocks in the runtime PM suspend handler.
+> > > >
+> > > > The driver should then depend on CONFIG_PM. There's no indirect
+> > > > dependency through CONFIG_DRM as far as I can tell, but there's one
+> > > > through ARCH_SHMOBILE. This then got me puzzled, as ARCH_SHMOBILE is
+> > > > defined in arch/sh/Kconfig, and this driver depends on ARM. Am I missing
+> > > > something ?
+> > >
+> > > Vommit 4bd65789ba847f39 ("drm: shmobile: Make DRM_SHMOBILE visible on
+> > > Renesas SoC platforms") in drm-next:
+> > >
+> > > -       depends on DRM && ARM
+> > > -       depends on ARCH_SHMOBILE || COMPILE_TEST
+> > > +       depends on DRM
+> > > +       depends on ARCH_RENESAS || ARCH_SHMOBILE || COMPILE_TEST
 > >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> > --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-> > +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-> > @@ -8,6 +8,7 @@
-> >   */
+> > That's better indeed :-)
 > >
-> >  #include <linux/clk.h>
-> > +#include <linux/media-bus-format.h>
-> >  #include <linux/pm_runtime.h>
-> >
-> >  #include <drm/drm_crtc.h>
-> > @@ -66,15 +67,65 @@ static void shmob_drm_crtc_setup_geometry(struct sh=
-mob_drm_crtc *scrtc)
-> >  {
-> >       struct drm_crtc *crtc =3D &scrtc->crtc;
-> >       struct shmob_drm_device *sdev =3D to_shmob_device(crtc->dev);
-> > -     enum display_flags dpy_flags =3D sdev->connector.mode->flags;
-> > +     const struct drm_display_info *info =3D &sdev->connector->display=
-_info;
-> >       const struct drm_display_mode *mode =3D &crtc->mode;
-> >       u32 value;
-> >
-> > -     value =3D sdev->ldmt1r
-> > -           | ((mode->flags & DRM_MODE_FLAG_PVSYNC) ? 0 : LDMT1R_VPOL)
-> > -           | ((mode->flags & DRM_MODE_FLAG_PHSYNC) ? 0 : LDMT1R_HPOL)
-> > -           | ((dpy_flags & DISPLAY_FLAGS_PIXDATA_POSEDGE) ? LDMT1R_DWP=
-OL : 0)
-> > -           | ((dpy_flags & DISPLAY_FLAGS_DE_LOW) ? LDMT1R_DIPOL : 0);
-> > +     if (!info->num_bus_formats || !info->bus_formats) {
-> > +             dev_warn(sdev->dev, "No bus format reported, using RGB888=
-\n");
-> > +             value =3D LDMT1R_MIFTYP_RGB24;
-> > +     } else {
-> > +             switch (info->bus_formats[0]) {
-> > +             case MEDIA_BUS_FMT_RGB888_3X8:
-> > +                     value =3D LDMT1R_MIFTYP_RGB8;
-> > +                     break;
-> > +
-> > +             case MEDIA_BUS_FMT_RGB666_2X9_BE:
-> > +                     value =3D LDMT1R_MIFTYP_RGB9;
-> > +                     break;
-> > +
-> > +             case MEDIA_BUS_FMT_RGB888_2X12_BE:
-> > +                     value =3D LDMT1R_MIFTYP_RGB12A;
-> > +                     break;
-> > +
-> > +             case MEDIA_BUS_FMT_RGB444_1X12:
-> > +                     value =3D LDMT1R_MIFTYP_RGB12B;
-> > +                     break;
-> > +
-> > +             case MEDIA_BUS_FMT_RGB565_1X16:
-> > +                     value =3D LDMT1R_MIFTYP_RGB16;
-> > +                     break;
-> > +
-> > +             case MEDIA_BUS_FMT_RGB666_1X18:
-> > +                     value =3D LDMT1R_MIFTYP_RGB18;
-> > +                     break;
-> > +
-> > +             case MEDIA_BUS_FMT_RGB888_1X24:
-> > +                     value =3D LDMT1R_MIFTYP_RGB24;
-> > +                     break;
-> > +
-> > +             case MEDIA_BUS_FMT_UYVY8_1X16:
-> > +                     value =3D LDMT1R_MIFTYP_YCBCR;
-> > +                     break;
-> > +
-> > +             default:
-> > +                     dev_warn(sdev->dev,
-> > +                              "unsupported bus format 0x%x, using RGB8=
-88\n",
-> > +                              info->bus_formats[0]);
-> > +                     value =3D LDMT1R_MIFTYP_RGB24;
-> > +                     break;
-> > +             }
->
-> It's a bit annoying to lose the ability to validate the bus format at
-> probe time. Can it be kept. I'm also OK with restoring it later in the
-> series if it gets in the way of the conversion, in which case a mention
-> in the commit message would be nice.
+> > A dependency on CONFIG_PM is still needed as ARCH_RENESAS doesn't depend
+> > on it.
+> 
+> ARCH_RMOBILE selects PM, so PM will be enabled on affected platforms.
 
-I guess I can keep it, somewhere.
-Probably it should be validated for the DT case later, too.
-BTW, drivers/gpu/drm/renesas/rcar-du/rcar_lvds.s doesn't check this
-either, so I copied the bad example from the expert ;-)
+Which also means that you will never test compilation without CONFIG_PM,
+while bots will. There's a risk of introducing compilation warnings.
 
-Gr{oetje,eeting}s,
+-- 
+Regards,
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Laurent Pinchart
