@@ -1,122 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F374C73BD14
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 18:48:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C31673BD2A
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 18:50:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34DE210E67C;
-	Fri, 23 Jun 2023 16:48:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB5EF10E67A;
+	Fri, 23 Jun 2023 16:50:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2067.outbound.protection.outlook.com [40.107.244.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60A4510E67C;
- Fri, 23 Jun 2023 16:48:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Gyxz6psqXfKGtt2NghUKwJ6aeWdU/Knn0ljih5q1FQuKWWX8NNuf8tnUtIBAnP+L5VOWOCyO7iaRdNopujvccNMHlazlqot5uyS4LJoEdMQF1DxQAlc4KPSBsxEmRDi9x+xaBzruBvLh8DLwJujCaJgCuW6EIcn9UDVZyS/ecZp3fLVhvHhxVHDMJkn/z4Lfoyi9gciGbjtmCIB29xLYYYe0KYHFT4ml7S8htwvzOFLlxbKuiP1tR7zbyRc9nf+pn90TXPlW3wXdmR9Y5Fi4GbAr6Wn5e40TmxBzQe4orSHer+IMpG5OS+noPQSceg6rME3517DJbnFkXl77Gn6KYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=l6XQ0U8iZdBfMciciO92IvQbgCD98QPwchDhmike6s0=;
- b=T2QAQP6L4hv0cUJZdmev2yDvmvzl3Aq2/gkZWrFvWEDUDIX6JBk0Ydh009BIrpydvURLkceKC5RGIbCcOKzbx/csN/XHgmChTc3OUWZ/vCxCmTwyqhuVmroOsTf+LPmBbIFLn+i0NlIO1WR8ILdPNiQ0oJwEBT50HvAjvi9dG6ZCDPeblq/UXxk5TGrOMOfpen21xu+bUipgA7gaibXk6onF1E/a6r/0rGvvf0NNeKWaGm3GDxDdsrfW0b8YnDz9ps3JbdGCx0htL+wEPiB5ouGUmoewcaoRHa62Vll5avBo3q8LmHklYPd4wnGtwq/Ecl6MqFbSs9u5aVk7le4VlQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l6XQ0U8iZdBfMciciO92IvQbgCD98QPwchDhmike6s0=;
- b=uau83O7Yt0cqxYgooEfyj5u+WBvq9EFz2e+CMayIO0TR7DRy+u8kOCO+RKa3Am8CQCvNGkcRjd3+Bt5hAOi6Xrn6SuYJR5bV+4LuOIVztqPDcrIwljXivH+WbK1SUL//l8SBVHJmkgBHZzqA/Smf0ByScHRjUtf0qcPH3jvM5/c=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by SA0PR12MB4496.namprd12.prod.outlook.com (2603:10b6:806:9b::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.24; Fri, 23 Jun
- 2023 16:48:33 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::dfcf:f53c:c778:6f70]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::dfcf:f53c:c778:6f70%5]) with mapi id 15.20.6521.026; Fri, 23 Jun 2023
- 16:48:33 +0000
-Message-ID: <5d6f6a89-1c7f-3763-8616-b80fdc301603@amd.com>
-Date: Fri, 23 Jun 2023 11:48:29 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH V4 1/8] drivers/acpi: Add support for Wifi band RF
- mitigations
-Content-Language: en-US
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-References: <20230621054603.1262299-1-evan.quan@amd.com>
- <20230621054603.1262299-2-evan.quan@amd.com>
- <CAJZ5v0iqy0yMJP5H7ub67R8R6i42=TcS_6+VF-+fWrM-9tYFQA@mail.gmail.com>
- <c518da2a-5ba5-af7e-e26d-1973db7b4c9e@amd.com>
- <CAJZ5v0gnTt0pV4nF+jcYCyZuZXDNuRn3mS0bDoAv-ZDpetyxVg@mail.gmail.com>
-From: "Limonciello, Mario" <mario.limonciello@amd.com>
-In-Reply-To: <CAJZ5v0gnTt0pV4nF+jcYCyZuZXDNuRn3mS0bDoAv-ZDpetyxVg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: DS7PR03CA0174.namprd03.prod.outlook.com
- (2603:10b6:5:3b2::29) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8C9010E67A
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 16:50:41 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8C31FD5F;
+ Fri, 23 Jun 2023 18:50:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1687539003;
+ bh=Dr1MULLggfcKWm01QouiXfbVzOt1DlbchHiVKjYWYJU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=evVRfDyHLmyTSDtajZP/lrPjpmQV9IaxC28lyVun1f4aPhR+ksStg6bG+GdzWieRb
+ dkXp8ue2BO7qNwuvA3P2axG9EqLSmVhORX3/LtJnKAgM6/9ZP7qMhz/G/uF8w5IVSS
+ x3NG0KcuMX+18yLay5l1LCqBAnZSVJli7iDvCQFI=
+Date: Fri, 23 Jun 2023 19:50:38 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH 24/39] drm: renesas: shmobile: Unify plane allocation
+Message-ID: <20230623165038.GB2112@pendragon.ideasonboard.com>
+References: <cover.1687423204.git.geert+renesas@glider.be>
+ <95c2af42a89c65ca603126e56c0423407dfc873f.1687423204.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|SA0PR12MB4496:EE_
-X-MS-Office365-Filtering-Correlation-Id: 38db0673-7828-4fee-8d21-08db7409ae70
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iZEJTaOLhQbjHTdZyoF0Y9mTVwZGX/UU78VbsnB2AnCWS16O9pEdR9uZiUzCLVikkawtABG4Bq7l3h8Wky64r5me+XnhZ0QsSQ1x4czHoWrrIedD/PA6sbp5PZrg+ZGK9TWOAp7reRD6/NeEzYvp0aHkrY4x5S8AL3FQzCzZaseglBY92GMadW3HWDD+6bIuU8FzRaeJuJtUQRuyafhFVij4waGdTKcaJnVIyNwVuqcIYecwZEKIXHXtXdr3gwW1l6pNL624G3vB1P6BE/97TPPizc59sBojONX0crM+3EVr49VkZiO94dCQtLd6UfEqw4+g25OhbmKNqKdrvYm8QL/naVeO+rs80T+aNAM18KGfRw3qJxFxERKv5UJATuqYz91jfD6TTSORxKkyb7fQryDMsRQQJMcErwsIWFhs9IgANAPS7WZ3C4ODemxpuZxSX5qAxKi3wkgB7siZRycKPYq9pvWaENRZknaolZkeWJy2KyclLUxIW1R31n0uEsphN/1teV4J6qxZ8FbDfsGkqr0ldqG5i7esNZnq3OQ4E4Cer3QhQ582FYn9jWlOU41KnU3WPCuStCqcRcD9vutlH5qEngXfU4HFd1BxoNVMpIdhVQfZ4EURIzbfuFHucwtXBvlYFX6sP+ObkBEovEQFwQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(136003)(366004)(346002)(39860400002)(396003)(376002)(451199021)(8936002)(186003)(8676002)(41300700001)(53546011)(6506007)(2906002)(26005)(6512007)(36756003)(66946007)(66476007)(86362001)(66556008)(6916009)(4326008)(316002)(31696002)(6486002)(6666004)(478600001)(38100700002)(83380400001)(2616005)(31686004)(5660300002)(7416002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VVlNMm5GemdWczZ4SHVuMU0yUkNIdUtmTU5FMktoNmpKUXFvZ3UrZ01DQU5w?=
- =?utf-8?B?bTJiUlFBeGtEZFYzT1NOMWVXUVhKZjB5K29sbnNwQ2k2UXhod29BZmRMcStO?=
- =?utf-8?B?V0hQRms4ZG1vVmQwck01RHlyeHhSYkRUR2JrbXVjWXJZVlFrclRFZElUeUt5?=
- =?utf-8?B?eXZ5OGpnSVRkeDR6TWQ1VXQ1TzJMcFNLY1AwWjlOcUdTQkl1NURaT1p5VGdl?=
- =?utf-8?B?Z2JVY2dUZktMNXo0ZEJtU1NqdHg1TjBxQ25NMWgzL0cveWZ6RGd3bWNTdkdD?=
- =?utf-8?B?L0xXcUtpemxRUERUUU5YTFl5aXZ0aHZaUm80cVkxUndCRG4xalU0TkYxdjBw?=
- =?utf-8?B?dVpaaEJubWY2U0hTTUg2eWk0SGRPVHpibUltWnRaeUwxV1NWY2RzZ1NvUERL?=
- =?utf-8?B?R2luZG5yZmtGSzBXdTgwSzNMV1NiV3Z3UTNQL3NxUW80NjdQU2tJcnBsUkVU?=
- =?utf-8?B?LzMxb2prWkYyMnRqbmgwQWJSWWJJR09Yb082cjA0T1JCQXkyMkM2S0RqNFda?=
- =?utf-8?B?bTh4d29MNTAzZnYzSzVSNXJsZnQ4NkZiM2M3NmhRV01mdXExUjh0YnFyL1FU?=
- =?utf-8?B?ZVFzSGFGWndoYkxYcTRaaGRmRXhyTnJxQWcxWkJNeWRjUEk1a1IydkVrdTUr?=
- =?utf-8?B?S3dvby9EVWVKdUxtZ1h5MTNTM1F6bm9hemxZTS9IK3BUVWVkR01pdHBkQUlS?=
- =?utf-8?B?SUZRd090S0JOUFV2S084cmtlbmFKazlpdkM0NWdKSUJuQ0RDWnFtRGJUZXRn?=
- =?utf-8?B?MlRreTZ6WEl3anh1ODB3RWlTeXVJaTRSQ0d5ZE96QUZReFJPMGZXYWNYZ0h4?=
- =?utf-8?B?SjQ0L3R1NEtxeUg0dGZqMUJiblBKMEFRUVh0YktoYzhnRXlUa2Q3UDQ3Sm1E?=
- =?utf-8?B?cFdqUjJCK2Y3UmVVYkx6L0l2K3BJNExUR25lS25HRERVaGJpdHB1aGdVbzc1?=
- =?utf-8?B?V3F6aUdabG53clpFcXBZRGMvZTc5cnkyN2I5cHEzT2IrQkxFaVhBNTdqVnRI?=
- =?utf-8?B?TTVBUWlrelU4UHZPM1JkNVVhRjJ4a0xEblFCU01FV0lpUk93bkFWODZHU3dH?=
- =?utf-8?B?ZVp4a1hZbzErVHoyQW8za3h2Z3hodzIxd3htY0JlQ1crdEV5V21BY2FDT2sz?=
- =?utf-8?B?aFFsZHY4M0NaaEpKRXFiTEdVZURadzYrTGIxallkM21iVFpXSFU5czBMVHIx?=
- =?utf-8?B?b2dzVGVMQUJldk1YTGsyUVdzME5jeTU3TWQ1Tkc5ZTk0eG5TZUNweXFHOG1Z?=
- =?utf-8?B?RWYwWXMzcTVpV21kdXNGZ292VUlHc2laN2RNSDFHVmRSR1dOZ1hXWHZqV25L?=
- =?utf-8?B?eUpkSlJNNG1LODUzc3NET1BUVmRKdVpOait4SFJTQ0VVYVlNQVNZQlhPOFVE?=
- =?utf-8?B?dk5MZ0hKZ0RHV2w3SGZCTEJYTWFoZ2tuTnRZUmh0eWxTNWNjS0F2YTdjSzRp?=
- =?utf-8?B?MUhLUkI0blZkelk1VWJIMjdZWEJhVEMzWkllWEpFYnplUmVIYnhNYzdoVFhr?=
- =?utf-8?B?Vld6NmJHZFR1SmJwYnc2RFd2SnZYSTdRdWJ0UWVtYjM5c3A0MnJJblZQWG5r?=
- =?utf-8?B?WFZDSU9jdGxuNk15QXNYOW55SXB3ZzB0aDJ1NmJCUFR6allySEE5QVRVZDlH?=
- =?utf-8?B?S1d1OS9KZGZvaisrRS9ZdUJlaHZNSWNKaGZUZytNTTNMTmdZWUlRUTZxOHBh?=
- =?utf-8?B?c3IyNkRGWnBETFRjdFg0bk16R2wvRWlqb2I5Tllxam5tY0NmcVdZRlpwcmJW?=
- =?utf-8?B?TDBPeVNhMUhXVGtKalFvbXN5QXJBOXdqQzRFeHpQaVNQckFnbFFiRFdiRUVN?=
- =?utf-8?B?U253VFN5QXU2NThtRTJrS2ZaaTJWWWtYbXFHekRqRVhDYjNUM2VGdFMzQXI3?=
- =?utf-8?B?MjlrSENhU2w0RU5iTHg4dUJkeFY5R1FLMWp1SzZWdEVNNldTb0VSN29ZZmUr?=
- =?utf-8?B?ZjRrZ2I3ZjN4aWw1OW5DZFg1Y1Nuclc3NTh1aHUvRHlCWnMvZFBqUEZjekFG?=
- =?utf-8?B?eVh2YjlSQVdPRzJRUjBsUkw5d3JDVE4vRjV3NnlYQmNoM3o4TForaGhZcTU0?=
- =?utf-8?B?RWxVUHlxZGlsQVlrK0VYL1k3QUxDbjRwNUN5d1dXU05MVjVmWmU3TFRjZXNu?=
- =?utf-8?Q?jP8XmM2Yqd041TV+5R8L9UUXl?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 38db0673-7828-4fee-8d21-08db7409ae70
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2023 16:48:33.4817 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MnayWXdH6U2haJb4WfGjJyU0/BA6jYA1ut19O4opyq8goW8ybxa6MLjT/ueesgY04dStfMmkkMhRrUNld9vmLw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4496
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <95c2af42a89c65ca603126e56c0423407dfc873f.1687423204.git.geert+renesas@glider.be>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,109 +47,326 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jingyuwang_vip@163.com, bellosilicio@gmail.com, trix@redhat.com,
- lijo.lazar@amd.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, mdaenzer@redhat.com,
- amd-gfx@lists.freedesktop.org, linux-acpi@vger.kernel.org, kuba@kernel.org,
- pabeni@redhat.com, lenb@kernel.org, andrealmeid@igalia.com, arnd@arndb.de,
- hdegoede@redhat.com, Evan Quan <evan.quan@amd.com>, netdev@vger.kernel.org,
- Xinhui.Pan@amd.com, linux-wireless@vger.kernel.org, edumazet@google.com,
- christian.koenig@amd.com, tzimmermann@suse.de, alexander.deucher@amd.com,
- johannes@sipsolutions.net, davem@davemloft.net
+Cc: Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Geert,
 
-On 6/23/2023 11:28 AM, Rafael J. Wysocki wrote:
-> On Fri, Jun 23, 2023 at 5:57 PM Limonciello, Mario
-> <mario.limonciello@amd.com> wrote:
->>
->> On 6/23/2023 9:52 AM, Rafael J. Wysocki wrote:
->>> On Wed, Jun 21, 2023 at 7:47 AM Evan Quan <evan.quan@amd.com> wrote:
->>>> From: Mario Limonciello <mario.limonciello@amd.com>
->>>>
->>>> Due to electrical and mechanical constraints in certain platform designs
->>>> there may be likely interference of relatively high-powered harmonics of
->>>> the (G-)DDR memory clocks with local radio module frequency bands used
->>>> by Wifi 6/6e/7.
->>>>
->>>> To mitigate this, AMD has introduced an ACPI based mechanism that
->>>> devices can use to notify active use of particular frequencies so
->>>> that devices can make relative internal adjustments as necessary
->>>> to avoid this resonance.
->>>>
->>>> In order for a device to support this, the expected flow for device
->>>> driver or subsystems:
->>>>
->>>> Drivers/subsystems contributing frequencies:
->>>>
->>>> 1) During probe, check `wbrf_supported_producer` to see if WBRF supported
->>> The prefix should be acpi_wbrf_ or acpi_amd_wbrf_ even, so it is clear
->>> that this uses ACPI and is AMD-specific.
->> I guess if we end up with an intermediary library approach
->> wbrf_supported_producer makes sense and that could call acpi_wbrf_*.
->>
->> But with no intermediate library your suggestion makes sense.
->>
->> I would prefer not to make it acpi_amd as there is no reason that
->> this exact same problem couldn't happen on an
->> Wifi 6e + Intel SOC + AMD dGPU design too and OEMs could use the
->> same mitigation mechanism as Wifi6e + AMD SOC + AMD dGPU too.
-> The mitigation mechanism might be the same, but the AML interface very
-> well may be different.
+Thank you for the patch.
 
+On Thu, Jun 22, 2023 at 11:21:36AM +0200, Geert Uytterhoeven wrote:
+> Unify primary and overlay plane allocation:
+>   - Enhance shmob_drm_plane_create() so it can be used to create the
+>     primary plane, too,
+>   - Move overlay plane creation next to primary plane creation.
+> 
+> As overlay plane index zero now means the primary plane, this requires
+> shifting all overlay plane indices by one.
 
-Right.  I suppose right now we should keep it prefixed as "amd",
-and if it later is promoted as a standard it can be renamed.
+Do you use index zero to identify the primary plane just for
+shmob_drm_plane_create(), or somewhere else too ? If it's just to create
+the plane, you could instead pass the plane type to the function.
 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Perhaps it would be better to not use dynamic allocation, but store
+> "struct drm_plane primary" and "struct shmob_drm_plane planes[5]" in
+> struct drm_shmob_device instead, like is done for the crtc and encoder?
+> ---
+>  .../gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 39 ++------
+>  .../gpu/drm/renesas/shmobile/shmob_drm_drv.c  |  9 --
+>  .../drm/renesas/shmobile/shmob_drm_plane.c    | 96 +++++++++++--------
+>  .../drm/renesas/shmobile/shmob_drm_plane.h    |  3 +-
+>  4 files changed, 70 insertions(+), 77 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> index 28a70536693f7788..3f6af12f45988124 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> @@ -19,7 +19,6 @@
+>  #include <drm/drm_gem_dma_helper.h>
+>  #include <drm/drm_modeset_helper.h>
+>  #include <drm/drm_modeset_helper_vtables.h>
+> -#include <drm/drm_plane_helper.h>
+>  #include <drm/drm_probe_helper.h>
+>  #include <drm/drm_simple_kms_helper.h>
+>  #include <drm/drm_vblank.h>
+> @@ -501,47 +500,29 @@ static const struct drm_crtc_funcs crtc_funcs = {
+>  	.disable_vblank = shmob_drm_disable_vblank,
+>  };
+>  
+> -static const uint32_t modeset_formats[] = {
+> -	DRM_FORMAT_RGB565,
+> -	DRM_FORMAT_RGB888,
+> -	DRM_FORMAT_ARGB8888,
+> -	DRM_FORMAT_XRGB8888,
+> -	DRM_FORMAT_NV12,
+> -	DRM_FORMAT_NV21,
+> -	DRM_FORMAT_NV16,
+> -	DRM_FORMAT_NV61,
+> -	DRM_FORMAT_NV24,
+> -	DRM_FORMAT_NV42,
+> -};
+> -
+> -static const struct drm_plane_funcs primary_plane_funcs = {
+> -	DRM_PLANE_NON_ATOMIC_FUNCS,
+> -};
+> -
+>  int shmob_drm_crtc_create(struct shmob_drm_device *sdev)
+>  {
+>  	struct drm_crtc *crtc = &sdev->crtc.crtc;
+> -	struct drm_plane *primary;
+> +	struct drm_plane *primary, *plane;
+> +	unsigned int i;
+>  	int ret;
+>  
+>  	sdev->crtc.dpms = DRM_MODE_DPMS_OFF;
+>  
+> -	primary = __drm_universal_plane_alloc(&sdev->ddev, sizeof(*primary), 0,
+> -					      0, &primary_plane_funcs,
+> -					      modeset_formats,
+> -					      ARRAY_SIZE(modeset_formats),
+> -					      NULL, DRM_PLANE_TYPE_PRIMARY,
+> -					      NULL);
+> +	primary = shmob_drm_plane_create(sdev, 0);
+>  	if (IS_ERR(primary))
+>  		return PTR_ERR(primary);
+>  
+> +	for (i = 1; i < 5; ++i) {
+> +		plane = shmob_drm_plane_create(sdev, i);
+> +		if (IS_ERR(plane))
+> +			return PTR_ERR(plane);
+> +	}
+> +
+>  	ret = drm_crtc_init_with_planes(&sdev->ddev, crtc, primary, NULL,
+>  					&crtc_funcs, NULL);
+> -	if (ret < 0) {
+> -		drm_plane_cleanup(primary);
+> -		kfree(primary);
+> +	if (ret < 0)
+>  		return ret;
+> -	}
+>  
+>  	drm_crtc_helper_add(crtc, &crtc_helper_funcs);
+>  
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
+> index c15ebbe74cac501f..c98e2bdd888c3274 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
+> @@ -154,7 +154,6 @@ static int shmob_drm_probe(struct platform_device *pdev)
+>  	struct shmob_drm_platform_data *pdata = pdev->dev.platform_data;
+>  	struct shmob_drm_device *sdev;
+>  	struct drm_device *ddev;
+> -	unsigned int i;
+>  	int ret;
+>  
+>  	if (pdata == NULL) {
+> @@ -195,14 +194,6 @@ static int shmob_drm_probe(struct platform_device *pdev)
+>  		return dev_err_probe(&pdev->dev, ret,
+>  				     "failed to initialize mode setting\n");
+>  
+> -	for (i = 0; i < 4; ++i) {
+> -		ret = shmob_drm_plane_create(sdev, i);
+> -		if (ret < 0) {
+> -			dev_err(&pdev->dev, "failed to create plane %u\n", i);
+> -			goto err_modeset_cleanup;
+> -		}
+> -	}
+> -
+>  	ret = drm_vblank_init(ddev, 1);
+>  	if (ret < 0) {
+>  		dev_err(&pdev->dev, "failed to initialize vblank\n");
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> index c58b9dca34736342..63886015baaebfc0 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c
+> @@ -12,6 +12,7 @@
+>  #include <drm/drm_fourcc.h>
+>  #include <drm/drm_framebuffer.h>
+>  #include <drm/drm_gem_dma_helper.h>
+> +#include <drm/drm_plane_helper.h>
+>  
+>  #include "shmob_drm_drv.h"
+>  #include "shmob_drm_kms.h"
+> @@ -64,57 +65,58 @@ static void __shmob_drm_plane_setup(struct shmob_drm_plane *splane,
+>  				    struct drm_framebuffer *fb)
+>  {
+>  	struct shmob_drm_device *sdev = to_shmob_device(splane->plane.dev);
+> +	unsigned int ovl_idx = splane->index - 1;
+>  	u32 format;
+>  
+>  	/* TODO: Support ROP3 mode */
+>  	format = LDBBSIFR_EN | (splane->alpha << LDBBSIFR_LAY_SHIFT) |
+>  		 splane->format->ldbbsifr;
+>  
+> -#define plane_reg_dump(sdev, splane, reg) \
+> +#define plane_reg_dump(sdev, ovl_idx, reg) \
+>  	dev_dbg(sdev->ddev.dev, "%s(%u): %s 0x%08x 0x%08x\n", __func__, \
+> -		splane->index, #reg, \
+> -		lcdc_read(sdev, reg(splane->index)), \
+> -		lcdc_read(sdev, reg(splane->index) + LCDC_SIDE_B_OFFSET))
+> -
+> -	plane_reg_dump(sdev, splane, LDBnBSIFR);
+> -	plane_reg_dump(sdev, splane, LDBnBSSZR);
+> -	plane_reg_dump(sdev, splane, LDBnBLOCR);
+> -	plane_reg_dump(sdev, splane, LDBnBSMWR);
+> -	plane_reg_dump(sdev, splane, LDBnBSAYR);
+> -	plane_reg_dump(sdev, splane, LDBnBSACR);
+> -
+> -	lcdc_write(sdev, LDBCR, LDBCR_UPC(splane->index));
+> -	dev_dbg(sdev->ddev.dev, "%s(%u): %s 0x%08x\n", __func__, splane->index,
+> +		ovl_idx, #reg, \
+> +		lcdc_read(sdev, reg(ovl_idx)), \
+> +		lcdc_read(sdev, reg(ovl_idx) + LCDC_SIDE_B_OFFSET))
+> +
+> +	plane_reg_dump(sdev, ovl_idx, LDBnBSIFR);
+> +	plane_reg_dump(sdev, ovl_idx, LDBnBSSZR);
+> +	plane_reg_dump(sdev, ovl_idx, LDBnBLOCR);
+> +	plane_reg_dump(sdev, ovl_idx, LDBnBSMWR);
+> +	plane_reg_dump(sdev, ovl_idx, LDBnBSAYR);
+> +	plane_reg_dump(sdev, ovl_idx, LDBnBSACR);
+> +
+> +	lcdc_write(sdev, LDBCR, LDBCR_UPC(ovl_idx));
+> +	dev_dbg(sdev->ddev.dev, "%s(%u): %s 0x%08x\n", __func__, ovl_idx,
+>  		"LDBCR", lcdc_read(sdev, LDBCR));
+>  
+> -	lcdc_write(sdev, LDBnBSIFR(splane->index), format);
+> +	lcdc_write(sdev, LDBnBSIFR(ovl_idx), format);
+>  
+> -	lcdc_write(sdev, LDBnBSSZR(splane->index),
+> +	lcdc_write(sdev, LDBnBSSZR(ovl_idx),
+>  		   (splane->crtc_h << LDBBSSZR_BVSS_SHIFT) |
+>  		   (splane->crtc_w << LDBBSSZR_BHSS_SHIFT));
+> -	lcdc_write(sdev, LDBnBLOCR(splane->index),
+> +	lcdc_write(sdev, LDBnBLOCR(ovl_idx),
+>  		   (splane->crtc_y << LDBBLOCR_CVLC_SHIFT) |
+>  		   (splane->crtc_x << LDBBLOCR_CHLC_SHIFT));
+> -	lcdc_write(sdev, LDBnBSMWR(splane->index),
+> +	lcdc_write(sdev, LDBnBSMWR(ovl_idx),
+>  		   fb->pitches[0] << LDBBSMWR_BSMW_SHIFT);
+>  
+>  	shmob_drm_plane_compute_base(splane, fb, splane->src_x, splane->src_y);
+>  
+> -	lcdc_write(sdev, LDBnBSAYR(splane->index), splane->dma[0]);
+> +	lcdc_write(sdev, LDBnBSAYR(ovl_idx), splane->dma[0]);
+>  	if (shmob_drm_format_is_yuv(splane->format))
+> -		lcdc_write(sdev, LDBnBSACR(splane->index), splane->dma[1]);
+> +		lcdc_write(sdev, LDBnBSACR(ovl_idx), splane->dma[1]);
+>  
+>  	lcdc_write(sdev, LDBCR,
+> -		   LDBCR_UPF(splane->index) | LDBCR_UPD(splane->index));
+> -	dev_dbg(sdev->ddev.dev, "%s(%u): %s 0x%08x\n", __func__, splane->index,
+> +		   LDBCR_UPF(ovl_idx) | LDBCR_UPD(ovl_idx));
+> +	dev_dbg(sdev->ddev.dev, "%s(%u): %s 0x%08x\n", __func__, ovl_idx,
+>  		"LDBCR", lcdc_read(sdev, LDBCR));
+>  
+> -	plane_reg_dump(sdev, splane, LDBnBSIFR);
+> -	plane_reg_dump(sdev, splane, LDBnBSSZR);
+> -	plane_reg_dump(sdev, splane, LDBnBLOCR);
+> -	plane_reg_dump(sdev, splane, LDBnBSMWR);
+> -	plane_reg_dump(sdev, splane, LDBnBSAYR);
+> -	plane_reg_dump(sdev, splane, LDBnBSACR);
+> +	plane_reg_dump(sdev, ovl_idx, LDBnBSIFR);
+> +	plane_reg_dump(sdev, ovl_idx, LDBnBSSZR);
+> +	plane_reg_dump(sdev, ovl_idx, LDBnBLOCR);
+> +	plane_reg_dump(sdev, ovl_idx, LDBnBSMWR);
+> +	plane_reg_dump(sdev, ovl_idx, LDBnBSAYR);
+> +	plane_reg_dump(sdev, ovl_idx, LDBnBSACR);
+>  }
+>  
+>  void shmob_drm_plane_setup(struct drm_plane *plane)
+> @@ -169,16 +171,22 @@ static int shmob_drm_plane_disable(struct drm_plane *plane,
+>  {
+>  	struct shmob_drm_device *sdev = to_shmob_device(plane->dev);
+>  	struct shmob_drm_plane *splane = to_shmob_plane(plane);
+> +	unsigned int ovl_idx = splane->index - 1;
+>  
+>  	splane->format = NULL;
+>  
+> -	lcdc_write(sdev, LDBCR, LDBCR_UPC(splane->index));
+> -	lcdc_write(sdev, LDBnBSIFR(splane->index), 0);
+> +	lcdc_write(sdev, LDBCR, LDBCR_UPC(ovl_idx));
+> +	lcdc_write(sdev, LDBnBSIFR(ovl_idx), 0);
+>  	lcdc_write(sdev, LDBCR,
+> -		   LDBCR_UPF(splane->index) | LDBCR_UPD(splane->index));
+> +		   LDBCR_UPF(ovl_idx) | LDBCR_UPD(ovl_idx));
+>  	return 0;
+>  }
+>  
+> +static const struct drm_plane_funcs primary_plane_funcs = {
 
->
-> My point is that this particular interface is AMD-specific ATM and I'm
-> not aware of any plans to make it "standard" in some way.
+While at it, you can name this shmob_primary_plane_funcs to avoid
+namespace clashes.
 
+> +	.update_plane = drm_plane_helper_update_primary,
+> +	.disable_plane = drm_plane_helper_disable_primary,
+> +};
+> +
+>  static const struct drm_plane_funcs shmob_drm_plane_funcs = {
 
-Yeah; this implementation is currently AMD specific AML, but I
-expect the exact same AML would be delivered to OEMs using the
-dGPUs.
+And shmob_overlay_plane_funcs for consistency.
 
+>  	.update_plane = shmob_drm_plane_update,
+>  	.disable_plane = shmob_drm_plane_disable,
+> @@ -197,19 +205,31 @@ static const uint32_t formats[] = {
+>  	DRM_FORMAT_NV42,
+>  };
+>  
+> -int shmob_drm_plane_create(struct shmob_drm_device *sdev, unsigned int index)
+> +struct drm_plane *shmob_drm_plane_create(struct shmob_drm_device *sdev,
+> +					 unsigned int index)
+>  {
+> +	const struct drm_plane_funcs *funcs;
+>  	struct shmob_drm_plane *splane;
+> +	enum drm_plane_type type;
+> +
+> +	if (!index) {
+> +		type = DRM_PLANE_TYPE_PRIMARY;
+> +		funcs = &primary_plane_funcs;
+> +	} else {
+> +		type = DRM_PLANE_TYPE_OVERLAY;
+> +		funcs = &shmob_drm_plane_funcs;
+> +	}
+>  
+> -	splane = drmm_universal_plane_alloc(&sdev->ddev, struct shmob_drm_plane,
+> -					    plane, 1, &shmob_drm_plane_funcs,
+> -					    formats, ARRAY_SIZE(formats), NULL,
+> -					    DRM_PLANE_TYPE_OVERLAY, NULL);
+> +	splane = drmm_universal_plane_alloc(&sdev->ddev,
+> +					    struct shmob_drm_plane, plane, 1,
+> +					    funcs, formats,
+> +					    ARRAY_SIZE(formats),  NULL, type,
+> +					    NULL);
+>  	if (IS_ERR(splane))
+> -		return PTR_ERR(splane);
+> +		return ERR_CAST(splane);
+>  
+>  	splane->index = index;
+>  	splane->alpha = 255;
+>  
+> -	return 0;
+> +	return &splane->plane;
+>  }
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.h b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.h
+> index e72b21a4288fc23f..29cf6732d479a509 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.h
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.h
+> @@ -13,7 +13,8 @@
+>  struct drm_plane;
+>  struct shmob_drm_device;
+>  
+> -int shmob_drm_plane_create(struct shmob_drm_device *sdev, unsigned int index);
+> +struct drm_plane *shmob_drm_plane_create(struct shmob_drm_device *sdev,
+> +					 unsigned int index);
+>  void shmob_drm_plane_setup(struct drm_plane *plane);
+>  
+>  #endif /* __SHMOB_DRM_PLANE_H__ */
 
->
-> Also if the given interface is specified somewhere, it would be good
-> to have a pointer to that place.
+-- 
+Regards,
 
-
-It's a code first implementation.  I'm discussing with the
-owners when they will release it.
-
-
->
->>> Whether or not there needs to be an intermediate library wrapped
->>> around this is a different matter.
-> IMO individual drivers should not be expected to use this interface
-> directly, as that would add to boilerplate code and overall bloat.
-
-The thing is the ACPI method is not a platform method.  It's
-a function of the device (_DSM).
-
-The reason for having acpi_wbrf.c in the first place is to
-avoid the boilerplate of the _DSM implementation across multiple
-drivers.
-
->
-> Also whoever uses it, would first need to check if the device in
-> question has an ACPI companion.
-
-
-Which comes back to Andrew's point.
-Either we:
-
-Have a generic wbrf_ helper that takes struct *device and
-internally checks if there is an ACPI companion and support.
-
-or
-
-Do the check for support in mac80211 + applicable drivers
-and only call the AMD WBRF ACPI method in those drivers in
-those cases.
-
-
+Laurent Pinchart
