@@ -2,52 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D296C73B33E
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 11:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 677A773B343
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 11:09:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60D1810E060;
-	Fri, 23 Jun 2023 09:08:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4756410E0F0;
+	Fri, 23 Jun 2023 09:09:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44E6B10E060
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 09:08:32 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2EFEB619B2;
- Fri, 23 Jun 2023 09:08:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCA2DC433C0;
- Fri, 23 Jun 2023 09:08:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1687511310;
- bh=XDe+QpmXX6ZcmTCp4Pqic6C3Q49nghoQCRwh4dRmpUU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BqvIt0bC0bF8EFUlTMtyW/XKDnuHrJ0oreIq6vIRnAqFhkGBOm2Gt75Ch4cMoWVRO
- W2ZvdkvLo5n0AM9ToAlzIPyd433I3knQzQN42KqbPvUCWKOAA9rJtlslA10vpocZUx
- mo2AHzJ6iSCOFa4g0nop4a9wXLreDdgufJxQeVde4zpMELwloI0yGeZ5NhsmGGufpd
- VadbC2Ogqa/ruMpHB6npS8INUSqbqBs0C9cXloGSYXUGoO5thHrSGYoCvmhUu9O4eg
- jsaI3hDjWo5LxnbT4jADCMd+zBeG0J8bAXKTcaQ6fFp60RufsrYZF+8FUEvZxdAdWM
- zSuZpNSD6KCNg==
-Date: Fri, 23 Jun 2023 11:08:26 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Doug Anderson <dianders@chromium.org>
-Subject: Re: [PATCH v2 00/10] drm/panel and i2c-hid: Allow panels and
- touchscreens to power sequence together
-Message-ID: <gkwymmfkdy2p2evz22wmbwgw42ii4wnvmvu64m3bghmj2jhv7x@4mbstjxnagxd>
-References: <20230607215224.2067679-1-dianders@chromium.org>
- <jehxiy3z4aieop5qgzmlon4u76n7gvt3kc6knxhb5yqkiz3rsp@mx27m75sx43r>
- <CAD=FV=Wr7Xatw1LsofiZ5Xx7WBvAuMMdq4D5Po1yJUC1VdtZdg@mail.gmail.com>
- <z7wi4z4lxpkhvooqhihlkpubyvueb37gvrpmwk6v7xwj2lm6jn@b7rwyr5ic5x5>
- <CAD=FV=XnANRM=+2D9+DzcXx9Gw6iKKQsgkAiq8=izNEN-91f_Q@mail.gmail.com>
- <boqzlmbrp5rvepmckkqht4h5auspjlbt5leam4xivy7a4bqxnj@iuxxhooxcphk>
- <CAD=FV=VO=GE5BEw6kKK19Qj9tcia509Pb-bvMcq0uA05sVLvHw@mail.gmail.com>
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1ACC110E0F0
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 09:09:01 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ 5b1f17b1804b1-3f9ede60140so4786945e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 02:09:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1687511338; x=1690103338;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=eAbdu1nB467ZQj6e5NDmoch5e1Im+ALrCoyg+ebvYvw=;
+ b=WJscmMxt+uRRKarevsXNHMpAKaUN8iPheOtvLvUFuc+f7FrjMesGyyJZ1h09gkvC3i
+ OkHmg69GTP5KYpyn/6OlyeWCD9Xt/EeJ7lW3Nt7D4xk96yKE9t1yu6KSr4XXxI65BUra
+ 4/5PcFVWQHqsMIyDXdDqbUPI3lvsn1NJ5tV4hIPoj5Itxzp7HeyMCB5OVR4rJXBhDVHf
+ hvtPEBgvlamf1qhT/aHVlSnF64K3OniJMb1D2LzhygwQBookVE4i2uJHqEl2KbCWc8IX
+ xCipDUthNILvLsyOe7fnMmOU+d+wshkJlK3I9txhVN44IUFYD0v0VnUGJZ6HEBfwzJvU
+ +qlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687511338; x=1690103338;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=eAbdu1nB467ZQj6e5NDmoch5e1Im+ALrCoyg+ebvYvw=;
+ b=HH3vuC11yuaPk3ucZNYXUiO/IU385cZ0WkJSb6+VO2ySkYLDzQKnh1uLa/F0YhSjP3
+ wQOzwhXmjKE1QlXL8qaCwbKXVS6nlOYg6FIwRgEo14Xtw/RCo0OGG4Z4hHm4VpjIjHHd
+ XmxoguBYG0Pd+2AiHYrXajaDva3+jbwc5eGfs+RcKzKNc1po+m13iI1Bgn3IZL0bkgQ3
+ mq+0xQvfRYuACJAIWlvtR8z0M+aFoPMtiWgdl3Y3hzOJT8UBWc8rAkUFWY0jPhjRTTAC
+ HWIaPMCJzHlSMMWsVc+iasQ4CjKlD1huYbBR6oW4cVI/ZRjjyy9fq5INbfnkJgmcw8AT
+ acrw==
+X-Gm-Message-State: AC+VfDyaGpKOAXhIlwirbz0Ap+laVH+vBQPPVeWY9nusiL0bx3/hknfD
+ m86tMr1LkThD8k+mEA+fDxg=
+X-Google-Smtp-Source: ACHHUZ58iTXNTSdj8rxHnRR+9vaPmFSSyRKu1rgNk97YO5DwT6praBRT9g3Itr6vaZcIZWIJjlt8uw==
+X-Received: by 2002:a7b:ce98:0:b0:3fa:7478:64ac with SMTP id
+ q24-20020a7bce98000000b003fa747864acmr2816037wmj.25.1687511337554; 
+ Fri, 23 Jun 2023 02:08:57 -0700 (PDT)
+Received: from able.fritz.box ([2a00:e180:156c:b700:4c02:e918:9d6c:809d])
+ by smtp.gmail.com with ESMTPSA id
+ 9-20020a05600c228900b003f9b3588192sm1793084wmf.8.2023.06.23.02.08.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Jun 2023 02:08:57 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: juan.hao@nxp.com,
+	dri-devel@lists.freedesktop.org,
+	Luben.Tuikov@amd.com
+Subject: [PATCH] dma-buf: keep the signaling time of merged fences v2
+Date: Fri, 23 Jun 2023 11:08:56 +0200
+Message-Id: <20230623090856.110456-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="k3mpzbb6xqnkqo6k"
-Content-Disposition: inline
-In-Reply-To: <CAD=FV=VO=GE5BEw6kKK19Qj9tcia509Pb-bvMcq0uA05sVLvHw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,247 +74,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Chris Morgan <macroalpha82@gmail.com>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Frank Rowand <frowand.list@gmail.com>,
- linux-input@vger.kernel.org, hsinyi@google.com, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org,
- linux-arm-msm@vger.kernel.org, yangcong5@huaqin.corp-partner.google.com,
- Jiri Kosina <jikos@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Some Android CTS is testing for that.
 
---k3mpzbb6xqnkqo6k
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+v2: use the current time if the fence is still in the signaling path and
+the timestamp not yet available.
 
-On Tue, Jun 13, 2023 at 08:56:39AM -0700, Doug Anderson wrote:
-> Hi,
->=20
-> On Tue, Jun 13, 2023 at 5:06=E2=80=AFAM Maxime Ripard <mripard@kernel.org=
-> wrote:
-> >
-> > > > What I'm trying to say is: could we just make it work by passing a =
-bunch
-> > > > of platform_data, 2-3 callbacks and a device registration from the =
-panel
-> > > > driver directly?
-> > >
-> > > I think I'm still confused about what you're proposing. Sorry! :( Let
-> > > me try rephrasing why I'm confused and perhaps we can get on the same
-> > > page. :-)
-> > >
-> > > First, I guess I'm confused about how you have one of these devices
-> > > "register" the other device.
-> > >
-> > > I can understand how one device might "register" its sub-devices in
-> > > the MFD case. To make it concrete, we can look at a PMIC like
-> > > max77686.c. The parent MFD device gets probed and then it's in charge
-> > > of creating all of its sub-devices. These sub-devices are intimately
-> > > tied to one another. They have shared data structures and can
-> > > coordinate power sequencing and whatnot. All good.
-> >
-> > We don't necessarily need to use MFD, but yeah, we could just register a
-> > device for the i2c-hid driver to probe from (using
-> > i2c_new_client_device?)
->=20
-> I think this can work for devices where the panel and touchscreen are
-> truly integrated where the panel driver knows enough about the related
-> touchscreen to fully describe and instantiate it. It doesn't work
-> quite as well for cases where the power and reset lines are shared
-> just because of what a given board designer did. To handle that, each
-> panel driver would need to get enough DT properties added to it so
-> that it could fully describe any arbitrary touchscreen, right?
->=20
-> Let's think about the generic panel-edp driver. This driver runs the
-> panel on many sc7180-trogdor laptops, including coachz, lazor, and
-> pompom. All three of those boards have a shared power rail for the
-> touchscreen and panel. If you look at "sc7180-trogdor-coachz.dtsi",
-> you can see the touchscreen currently looks like this:
->=20
-> ap_ts: touchscreen@5d {
->     compatible =3D "goodix,gt7375p";
->     reg =3D <0x5d>;
->     pinctrl-names =3D "default";
->     pinctrl-0 =3D <&ts_int_l>, <&ts_reset_l>;
->=20
->     interrupt-parent =3D <&tlmm>;
->     interrupts =3D <9 IRQ_TYPE_LEVEL_LOW>;
->=20
->     reset-gpios =3D <&tlmm 8 GPIO_ACTIVE_LOW>;
->=20
->     vdd-supply =3D <&pp3300_ts>;
-> };
->=20
-> In "sc7180-trogdor-lazor.dtsi" we have:
->=20
-> ap_ts: touchscreen@10 {
->     compatible =3D "hid-over-i2c";
->     reg =3D <0x10>;
->     pinctrl-names =3D "default";
->     pinctrl-0 =3D <&ts_int_l>, <&ts_reset_l>;
->=20
->     interrupt-parent =3D <&tlmm>;
->     interrupts =3D <9 IRQ_TYPE_LEVEL_LOW>;
->=20
->     post-power-on-delay-ms =3D <20>;
->     hid-descr-addr =3D <0x0001>;
->=20
->     vdd-supply =3D <&pp3300_ts>;
-> };
->=20
-> In both cases "pp3300_ts" is simply another name for "pp3300_dx_edp"
->=20
-> So I think to do what you propose, we need to add this information to
-> the panel-edp DT node so that it could dynamically construct the i2c
-> device for the touchscreen:
->=20
-> a) Which touchscreen is actually connected (generic hid-over-i2c,
-> goodix, ...). I guess this would be a "compatible" string?
->=20
-> b) Which i2c bus that device is hooked up to.
->=20
-> c) Which i2c address that device is hooked up to.
->=20
-> d) What the touchscreen interrupt GPIO is.
->=20
-> e) Possibly what the "hid-descr-addr" for the touchscreen is.
->=20
-> f) Any extra timing information needed to be passed to the touchscreen
-> driver, like "post-power-on-delay-ms"
->=20
-> The "pinctrl" stuff would be easy to subsume into the panel's DT node,
-> at least. ...and, in this case, we could skip the "vdd-supply" since
-> the panel and eDP are sharing power rails (which is what got us into
-> this situation). ...but, the above is still a lot. At this point, it
-> would make sense to have a sub-node under the panel to describe it,
-> which we could do but it starts to feel weird. We'd essentially be
-> describing an i2c device but not under the i2c controller it belongs
-> to.
->=20
-> I guess I'd also say that the above design also need additional code
-> if/when someone had a touchscreen that used a different communication
-> method, like SPI.
->
-> So I guess the tl;dr of all the above is that I think it could all work i=
-f:
->=20
-> 1. We described the touchscreen in a sub-node of the panel.
->=20
-> 2. We added a property to the panel saying what the true parent of the
-> touchscreen was (an I2C controller, a SPI controller, ...) and what
-> type of controller it was ("SPI" vs "I2C").
->=20
-> 3. We added some generic helpers that panels could call that would
-> understand how to instantiate the touchscreen under the appropriate
-> controller.
->=20
-> 4. From there, we added a new private / generic API between panels and
-> touchscreens letting them know that the panel was turning on/off.
->=20
-> That seems much more complex to me, though. It also seems like an
-> awkward way to describe it in DT.
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/dma-buf/dma-fence-unwrap.c | 20 +++++++++++++++++---
+ drivers/dma-buf/dma-fence.c        |  5 +++--
+ drivers/gpu/drm/drm_syncobj.c      |  2 +-
+ include/linux/dma-fence.h          |  2 +-
+ 4 files changed, 22 insertions(+), 7 deletions(-)
 
-Yeah, I guess you're right. I wish we had something simpler, but I can't
-think of any better way.
+diff --git a/drivers/dma-buf/dma-fence-unwrap.c b/drivers/dma-buf/dma-fence-unwrap.c
+index 7002bca792ff..46c2d3a474cd 100644
+--- a/drivers/dma-buf/dma-fence-unwrap.c
++++ b/drivers/dma-buf/dma-fence-unwrap.c
+@@ -66,18 +66,32 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
+ {
+ 	struct dma_fence_array *result;
+ 	struct dma_fence *tmp, **array;
++	ktime_t timestamp;
+ 	unsigned int i;
+ 	size_t count;
+ 
+ 	count = 0;
++	timestamp = ns_to_ktime(0);
+ 	for (i = 0; i < num_fences; ++i) {
+-		dma_fence_unwrap_for_each(tmp, &iter[i], fences[i])
+-			if (!dma_fence_is_signaled(tmp))
++		dma_fence_unwrap_for_each(tmp, &iter[i], fences[i]) {
++			if (!dma_fence_is_signaled(tmp)) {
+ 				++count;
++			} else if (test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT,
++					    &tmp->flags)) {
++				if (ktime_after(tmp->timestamp, timestamp))
++					timestamp = tmp->timestamp;
++			} else {
++				/*
++				 * Use the current time if the fence is
++				 * currently signaling.
++				 */
++				timestamp = ktime_get();
++			}
++		}
+ 	}
+ 
+ 	if (count == 0)
+-		return dma_fence_get_stub();
++		return dma_fence_allocate_private_stub(timestamp);
+ 
+ 	array = kmalloc_array(count, sizeof(*array), GFP_KERNEL);
+ 	if (!array)
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index f177c56269bb..ad076f208760 100644
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -150,10 +150,11 @@ EXPORT_SYMBOL(dma_fence_get_stub);
+ 
+ /**
+  * dma_fence_allocate_private_stub - return a private, signaled fence
++ * @timestamp: timestamp when the fence was signaled
+  *
+  * Return a newly allocated and signaled stub fence.
+  */
+-struct dma_fence *dma_fence_allocate_private_stub(void)
++struct dma_fence *dma_fence_allocate_private_stub(ktime_t timestamp)
+ {
+ 	struct dma_fence *fence;
+ 
+@@ -169,7 +170,7 @@ struct dma_fence *dma_fence_allocate_private_stub(void)
+ 	set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+ 		&fence->flags);
+ 
+-	dma_fence_signal(fence);
++	dma_fence_signal_timestamp(fence, timestamp);
+ 
+ 	return fence;
+ }
+diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+index 0c2be8360525..04589a35eb09 100644
+--- a/drivers/gpu/drm/drm_syncobj.c
++++ b/drivers/gpu/drm/drm_syncobj.c
+@@ -353,7 +353,7 @@ EXPORT_SYMBOL(drm_syncobj_replace_fence);
+  */
+ static int drm_syncobj_assign_null_handle(struct drm_syncobj *syncobj)
+ {
+-	struct dma_fence *fence = dma_fence_allocate_private_stub();
++	struct dma_fence *fence = dma_fence_allocate_private_stub(ktime_get());
+ 
+ 	if (IS_ERR(fence))
+ 		return PTR_ERR(fence);
+diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+index d54b595a0fe0..0d678e9a7b24 100644
+--- a/include/linux/dma-fence.h
++++ b/include/linux/dma-fence.h
+@@ -606,7 +606,7 @@ static inline signed long dma_fence_wait(struct dma_fence *fence, bool intr)
+ void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline);
+ 
+ struct dma_fence *dma_fence_get_stub(void);
+-struct dma_fence *dma_fence_allocate_private_stub(void);
++struct dma_fence *dma_fence_allocate_private_stub(ktime_t timestamp);
+ u64 dma_fence_context_alloc(unsigned num);
+ 
+ extern const struct dma_fence_ops dma_fence_array_ops;
+-- 
+2.34.1
 
-Sorry for the distraction.
-
-> > > In any case, is there any chance that we're in violent agreement
-> >
-> > Is it even violent? Sorry if it came across that way, it's really isn't
-> > on my end.
->=20
-> Sorry, maybe a poor choice of words on my end. I've heard that term
-> thrown about when two people spend a lot of time discussing something
-> / trying to persuade the other person only to find out in the end that
-> they were both on the same side of the issue. ;-)
->=20
-> > > and that if you dig into my design more you might like it? Other than
-> > > the fact that the panel doesn't "register" the touchscreen device, it
-> > > kinda sounds as if what my patches are already doing is roughly what
-> > > you're describing. The touchscreen and panel driver are really just
-> > > coordinating with each other through a shared data structure (struct
-> > > drm_panel_follower) that has a few callback functions. Just like with
-> > > "hdmi-codec", the devices probe separately but find each other through
-> > > a phandle. The coordination between the two happens through a few
-> > > simple helper functions.
-> >
-> > I guess we very much agree on the end-goal, and I'd really like to get
-> > this addressed somehow. There's a couple of things I'm not really
-> > sold on with your proposal though:
-> >
-> >  - It creates a ad-hoc KMS API for some problem that looks fairly
-> >    generic. It's also redundant with the notifier mechanism without
-> >    using it (probably for the best though).
-> >
-> >  - MIPI-DSI panel probe sequence is already fairly complex and fragile
-> >    (See https://www.kernel.org/doc/html/latest/gpu/drm-kms-helpers.html=
-#special-care-with-mipi-dsi-bridges).
-> >    I'd rather avoid creating a new dependency in that graph.
-> >
-> >  - And yeah, to some extent it's inconsistent with how we dealt with
-> >    secondary devices in KMS so far.
->=20
-> Hmmmm. To a large extent, my current implementation actually has no
-> impact on the DRM probe sequence. The panel itself never looks for the
-> touchscreen code and everything DRM-related can register without a
-> care in the world. From reading your bullet points, I guess that's
-> both a strength and a weakness of my current proposal. It's really
-> outside the world of bridge chains and DRM components which makes it a
-> special snowflake that people need to understand on its own. ...but,
-> at the same time, the fact that it is outside all the rest of that
-> stuff means it doesn't add complexity to an already complex system.
->=20
-> I guess I'd point to the panel backlight as a preexisting design
-> that's not totally unlike what I'm doing. The backlight is not part of
-> the DRM bridge chain and doesn't fit in like other components. This
-> actually makes sense since the backlight doesn't take in or put out
-> video data and it's simply something associated with the panel. The
-> backlight also has a loose connection to the panel driver and a given
-> panel could be associated with any number of different backlight
-> drivers depending on the board design. I guess one difference between
-> the backlight and what I'm doing with "panel follower" is that we
-> typically don't let the panel probe until after the backlight has
-> probed. In the case of my "panel follower" proposal it's the opposite.
-> As per above, from a DRM probe point of view this actually makes my
-> proposal less intrusive. I guess also a difference between backlight
-> and "panel follower" is that I allow an arbitrary number of followers
-> but there's only one backlight.
->=20
-> One additional note: if I actually make the panel probe function start
-> registering the touchscreen, that actually _does_ add more complexity
-> to the already complex DRM probe ordering. It's yet another thing that
-> could fail and/or defer...
->=20
-> Also, I'm curious: would my proposal be more or less palatable if I
-> made it less generic? Instead of "panel follower", I could hardcode it
-> to "touchscreen" and then remove all the list management. From a DRM
-> point of view this would make it even more like the preexisting
-> "backlight" except for the ordering difference.
-
-No, that's fine. I guess I don't have any objections to your work, so
-feel free to send a v2 :)
-
-Maxime
-
---k3mpzbb6xqnkqo6k
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZJVhCgAKCRDj7w1vZxhR
-xW+5APwJp/mnUVm6p+WU2acbD2UpQ96WlsVnv+rw+bcWT7s5PAEAmMPgVJKB18RU
-kj8QoiN4WNWP0PvCrWcYPAvffCfYeA4=
-=WfaZ
------END PGP SIGNATURE-----
-
---k3mpzbb6xqnkqo6k--
