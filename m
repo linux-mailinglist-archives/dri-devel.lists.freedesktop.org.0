@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 270EE73BD7D
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 19:10:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF7B573BD89
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jun 2023 19:12:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFE8510E689;
-	Fri, 23 Jun 2023 17:10:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADEAC10E687;
+	Fri, 23 Jun 2023 17:12:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFA9110E687
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 17:10:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0FEE10E687
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 17:12:45 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
  [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id CDF00838;
- Fri, 23 Jun 2023 19:09:55 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B136E838;
+ Fri, 23 Jun 2023 19:12:07 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1687540196;
- bh=I2KN4Hf4fDd8Jv18KuWnzfsxQ2rtmJLslT8JJroEUoQ=;
+ s=mail; t=1687540327;
+ bh=Q2Cw1ygD0gWexI2pL2Jb6NsRmnG74wmibJoVnNEtGqA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gmwktHPIvCPJgpZIruuuJ2XqnTA3ekqhCzMXnoGe02a3FoXcEOIj/hTcRKONue687
- NkpDLiI7LAZfO6vnlGy4noMPAwMI5MWngztEL3Naa5s9S00/+23IHlKHhQiQ9+6bCO
- MgNTvTn6QPYN4CQtXWCWAAOii290hkn4dbCs7fjQ=
-Date: Fri, 23 Jun 2023 20:10:31 +0300
+ b=RcwFBWaG+x5aska6fzT3PEjfRqJK8px1iFW4jcdr3q/9DrRZ6G5DdXBMmYrCGdjd6
+ r3aavajnfTodKNNqpqQix2RkKMx5kLp1nO2VCWr1LqKjmuUkha3Dps11i8Caykieff
+ Wb5FVvEamAlYwsqVLvsOdXqlyUhuQToJxJqkxnmY=
+Date: Fri, 23 Jun 2023 20:12:43 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH 32/39] drm: renesas: shmobile: Shutdown the display on
- remove
-Message-ID: <20230623171031.GJ2112@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 33/39] drm: renesas: shmobile: Cleanup encoder
+Message-ID: <20230623171243.GK2112@pendragon.ideasonboard.com>
 References: <cover.1687423204.git.geert+renesas@glider.be>
- <2c28c0a137854d39b6bc997a21bd6d2db1f7a0a5.1687423204.git.geert+renesas@glider.be>
+ <736a0b26a9393f82769b185e2daa30eb128ff240.1687423204.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <2c28c0a137854d39b6bc997a21bd6d2db1f7a0a5.1687423204.git.geert+renesas@glider.be>
+In-Reply-To: <736a0b26a9393f82769b185e2daa30eb128ff240.1687423204.git.geert+renesas@glider.be>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,40 +58,64 @@ Hi Geert,
 
 Thank you for the patch.
 
-On Thu, Jun 22, 2023 at 11:21:44AM +0200, Geert Uytterhoeven wrote:
-> When the device is unbound from the driver, the display may be active.
-> Make sure it gets shut down.
+On Thu, Jun 22, 2023 at 11:21:45AM +0200, Geert Uytterhoeven wrote:
+> Most unused callbacks can be NULL pointers these days.
+> Drop a bunch of empty encoder callbacks.
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> index a29c0c1093725b6e..636f1888b815579b 100644
-> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> @@ -16,6 +16,7 @@
->  #include <linux/pm_runtime.h>
->  #include <linux/slab.h>
->  
-> +#include <drm/drm_crtc_helper.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_fbdev_generic.h>
->  #include <drm/drm_gem_dma_helper.h>
-> @@ -145,6 +146,7 @@ static int shmob_drm_remove(struct platform_device *pdev)
->  	struct drm_device *ddev = &sdev->ddev;
->  
->  	drm_dev_unregister(ddev);
-> +	drm_helper_force_disable_all(ddev);
-
-I assume this will be turned into drm_atomic_helper_shutdown() later.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
->  	drm_kms_helper_poll_fini(ddev);
->  	return 0;
+> ---
+>  .../gpu/drm/renesas/shmobile/shmob_drm_crtc.c | 26 -------------------
+>  1 file changed, 26 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> index b184019d8b1ed89c..ef327da39bca415a 100644
+> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+> @@ -586,11 +586,6 @@ int shmob_drm_crtc_create(struct shmob_drm_device *sdev)
+>   * Encoder
+>   */
+>  
+> -static void shmob_drm_encoder_dpms(struct drm_encoder *encoder, int mode)
+> -{
+> -	/* No-op, everything is handled in the CRTC code. */
+> -}
+> -
+>  static bool shmob_drm_encoder_mode_fixup(struct drm_encoder *encoder,
+>  					 const struct drm_display_mode *mode,
+>  					 struct drm_display_mode *adjusted_mode)
+> @@ -613,29 +608,8 @@ static bool shmob_drm_encoder_mode_fixup(struct drm_encoder *encoder,
+>  	return true;
 >  }
+>  
+> -static void shmob_drm_encoder_mode_prepare(struct drm_encoder *encoder)
+> -{
+> -	/* No-op, everything is handled in the CRTC code. */
+> -}
+> -
+> -static void shmob_drm_encoder_mode_set(struct drm_encoder *encoder,
+> -				       struct drm_display_mode *mode,
+> -				       struct drm_display_mode *adjusted_mode)
+> -{
+> -	/* No-op, everything is handled in the CRTC code. */
+> -}
+> -
+> -static void shmob_drm_encoder_mode_commit(struct drm_encoder *encoder)
+> -{
+> -	/* No-op, everything is handled in the CRTC code. */
+> -}
+> -
+>  static const struct drm_encoder_helper_funcs encoder_helper_funcs = {
+> -	.dpms = shmob_drm_encoder_dpms,
+>  	.mode_fixup = shmob_drm_encoder_mode_fixup,
+> -	.prepare = shmob_drm_encoder_mode_prepare,
+> -	.commit = shmob_drm_encoder_mode_commit,
+> -	.mode_set = shmob_drm_encoder_mode_set,
+>  };
+>  
+>  int shmob_drm_encoder_create(struct shmob_drm_device *sdev)
 
 -- 
 Regards,
