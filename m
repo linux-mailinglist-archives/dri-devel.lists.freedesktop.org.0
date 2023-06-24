@@ -2,65 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6B7673C9D9
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jun 2023 11:09:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED91B73C9DF
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jun 2023 11:10:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4355710E148;
-	Sat, 24 Jun 2023 09:09:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4081910E0E8;
+	Sat, 24 Jun 2023 09:10:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA30B10E148
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jun 2023 09:09:00 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id
- a640c23a62f3a-98802908fedso167465366b.1
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jun 2023 02:09:00 -0700 (PDT)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2CAB10E0E8
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jun 2023 09:10:18 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id
+ a640c23a62f3a-98e011f45ffso15643666b.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jun 2023 02:10:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687597738; x=1690189738;
+ d=linaro.org; s=google; t=1687597816; x=1690189816;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=0iJR1qiOnOHItJJH4VOhUi4FNwu4+h9jh885qlL4HP0=;
- b=OT3cBSaqgJw4XxYazcpaRD93GXIBn7LdLztsnGLlMNIEIyOKPL1gZmj3j+HxgBttPb
- 0mtbq5H1u7zAWmKBJW/f0KfaG/iOwrpKDdt1GUksKeFH8ZWYFmLRy4vi3+87B7dBvqhf
- 0KeBi3ETipQyEr5aymal6vu3bybyt1J02yrnNhDwoNkpFuSnXguiCsRQ8Hr9zx040nG5
- OXUDtuxjgX3Zif51XMvuX7vtVHt+S/K65CKN/ukJmCw2kuHrhogat9TrHvRn3SrFUSDv
- D4uxHmPtbc92N5zinMsOWc6uhMl5acWHRMK0ydlgNuz8u4P+4M/RLEvht4pW01cBa7Os
- ZJOQ==
+ bh=iyaZqfbPtoW544erxGkV79CDXXxsYM/Fp16IQb+tP9I=;
+ b=jc1Auh5tqvnIULQo0SinoF4pptEI9CJAL3uA1jKLnlNGiTWufhWrhahGAE+h32L1xx
+ hCwdO7h3Vmv1b34q5rAjJbBMrkdAJ8jeyZmjvO+/pFLJkS4CYb8abNyKpQxPGX5ienRW
+ PIJMAwGBAxWfsdY4eyp40JyXmD5mVqTuA7AjloZ2sTj1+fTYOyn35xzG2+XOl0lDTdlS
+ QPyfGp/MBw3L4SDMqlLRDP9AJH7so7ie6Vil1QYZyTe6pApxQk8F1CZiR60hS7V1esSW
+ za+FT3/7dbx3jXeTCm+xsyV8y0gAot6PpCd97/OoF2RdV9kXALgQsFE8fatD+p/d2bEU
+ 4+iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687597738; x=1690189738;
+ d=1e100.net; s=20221208; t=1687597816; x=1690189816;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0iJR1qiOnOHItJJH4VOhUi4FNwu4+h9jh885qlL4HP0=;
- b=cEHWdz2i39CSqq+/TJO6uCOnlfvcE4SwbDgUpWABEg5xQJ8qok8f5y3fUKJ5hk9kKp
- oo333n5mfzKG9dUhLXmdRiz2jr/EFhfjSMe9d6+vVR5tr5g4t19HhIJxlkrd1usxsmBu
- belEkv0rHmKQ1Hn0JXJb3PQoF7EukCGTTRFGpu5LreF+zNKWQDgqDoYEmybtU5qzINbP
- c6MtYtyp2c+ZpDPskeqLKKFh/+xxwKR22cRUBdw/tNvUUnXSJ4Mzg4djY9jiKWB3MVVS
- r5sQrtK7pGFeZLhJdgSu5IomN680U0uZ2bjB8BPqRrSxQ2Xvje25ixs1SksmDzB9BivO
- /APQ==
-X-Gm-Message-State: AC+VfDzDD4GfwVu74xlVWiAeO7BYb6v6z0AbSON+Utgv2S9jlanZ1lQ8
- QSvqrRYCu8hcdhsjHnssQJqHTw==
-X-Google-Smtp-Source: ACHHUZ57vhhKgA2KWro0eA03NX7qoeLCiR9NZwED/O7dYzF3Ya0EjhnjcRnSJ+HMRT5ofjOczockxA==
-X-Received: by 2002:a17:907:d0c:b0:973:91f7:508a with SMTP id
- gn12-20020a1709070d0c00b0097391f7508amr22977407ejc.4.1687597738687; 
- Sat, 24 Jun 2023 02:08:58 -0700 (PDT)
+ bh=iyaZqfbPtoW544erxGkV79CDXXxsYM/Fp16IQb+tP9I=;
+ b=NtcDiRY6QUYTZI2KAz77A5HyRlHGQBBUc+/2IfXK3G5aeo7ydSvI3iS9SUK28BeCE7
+ BeS+hbz4ubIAIsvkTlofuZlF5NVyogYYw7HKysRdER0S3Pjujmk6WYQp2I/iceobbe+I
+ P0kQebTP39nwghGJkikXX3iMTwdPqg37kfB860y/UB8BeWt60yMp7MkU0s1ANMWa/W0G
+ GT0ym0qUTS0IDDBU0+zWLkm1mnMGEffcl3xomlN3iFwjCKB5XWrdQUB4EzK3k2TsJ7o4
+ FXYf9qshGJKp8KUpQko7GsCvXJ2C06Cm4wg4GIrtvl/4U7VqlHxr6iPo6BE/D0IJ9SmH
+ TiAg==
+X-Gm-Message-State: AC+VfDwBkWsyADp4gD09LVsmA9kEtb/d8nF8J/EjfE2LyoVRcEKrqca4
+ B8QoZcYKb/ZWPPgPMwPIRK3Q+w==
+X-Google-Smtp-Source: ACHHUZ4pqNge7JwaJVBPQcyWNxciyTTsdI3G9ALVxmbefnkvykz7tn8SBKrUteVDofWtt9OCuMQg/g==
+X-Received: by 2002:a17:907:7628:b0:98e:a54:42e3 with SMTP id
+ jy8-20020a170907762800b0098e0a5442e3mr173662ejc.54.1687597816650; 
+ Sat, 24 Jun 2023 02:10:16 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.26])
  by smtp.gmail.com with ESMTPSA id
- p26-20020a170906229a00b00986bf50fe7asm678897eja.60.2023.06.24.02.08.55
+ n3-20020aa7db43000000b0051a4361f3efsm455606edt.61.2023.06.24.02.10.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Jun 2023 02:08:58 -0700 (PDT)
-Message-ID: <55b0ca89-8f2e-5383-59d4-6809e813abf8@linaro.org>
-Date: Sat, 24 Jun 2023 11:08:54 +0200
+ Sat, 24 Jun 2023 02:10:16 -0700 (PDT)
+Message-ID: <0aefd7ef-a877-2501-1db9-d2c14c6ffdb8@linaro.org>
+Date: Sat, 24 Jun 2023 11:10:13 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH 03/15] dt-bindings: clock: qcom, dispcc-sm6125: Require GCC
- PLL0 DIV clock
+Subject: Re: [PATCH 04/15] dt-bindings: clock: qcom,dispcc-sm6125: Allow
+ power-domains property
 Content-Language: en-US
-To: Konrad Dybcio <konrad.dybcio@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+To: Marijn Suijten <marijn.suijten@somainline.org>,
  Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -72,10 +71,9 @@ To: Konrad Dybcio <konrad.dybcio@linaro.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Krishna Manikandan <quic_mkrishn@quicinc.com>
 References: <20230624-sm6125-dpu-v1-0-1d5a638cebf2@somainline.org>
- <20230624-sm6125-dpu-v1-3-1d5a638cebf2@somainline.org>
- <c9681bce-efa8-9b79-4bf6-837dd6a2dc12@linaro.org>
+ <20230624-sm6125-dpu-v1-4-1d5a638cebf2@somainline.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <c9681bce-efa8-9b79-4bf6-837dd6a2dc12@linaro.org>
+In-Reply-To: <20230624-sm6125-dpu-v1-4-1d5a638cebf2@somainline.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,25 +91,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: devicetree@vger.kernel.org, Jami Kettunen <jami.kettunen@somainline.org>,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
- Lux Aliaga <they@mint.lgbt>, Martin Botka <martin.botka@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Lux Aliaga <they@mint.lgbt>,
+ Martin Botka <martin.botka@somainline.org>,
  ~postmarketos/upstreaming@lists.sr.ht, freedreno@lists.freedesktop.org,
  linux-clk@vger.kernel.org,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/06/2023 03:45, Konrad Dybcio wrote:
-> On 24.06.2023 02:41, Marijn Suijten wrote:
->> The "gcc_disp_gpll0_div_clk_src" clock is consumed by the driver, will
->> be passed from DT, and should be required by the bindings.
->>
->> Fixes: 8397c9c0c26b ("dt-bindings: clock: add QCOM SM6125 display clock bindings")
->> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
->> ---
-> Ideally, you'd stick it at the bottom of the list, as the items: order
-> is part of the ABI
+On 24/06/2023 02:41, Marijn Suijten wrote:
+> On SM6125 the dispcc block is gated behind VDDCX: allow this domain to
+> be configured.
+> 
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> ---
+>  Documentation/devicetree/bindings/clock/qcom,dispcc-sm6125.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
 
-Yes, please add them to the end. Order is fixed.
+
+
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
