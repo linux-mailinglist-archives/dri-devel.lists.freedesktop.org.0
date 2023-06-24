@@ -2,78 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2CDF73CB88
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jun 2023 17:03:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDBDC73CBBB
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jun 2023 17:53:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E862810E18E;
-	Sat, 24 Jun 2023 15:03:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B787210E054;
+	Sat, 24 Jun 2023 15:53:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 996B910E18E
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jun 2023 15:03:36 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id
- 38308e7fff4ca-2b63e5f94f1so4310101fa.1
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jun 2023 08:03:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687619014; x=1690211014;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=qrT+GYGGau7b/Cl8N72Zc45Ylx7WRX09Tiirn5fp1ac=;
- b=Q0+IH0NfIr4sItc+gGTvYbOXJdSVw+TX6RaDX5Lr64ZIdOOQsv7zYWftvOWtpM84uE
- 4EzXQvALyo2j+UN94LzMDB7jeusq9Z+6WquHm5dzOKLHlnIOJ3puf4MaTNDGQlNv/GB1
- CNo0LBZrrUYLdgFZ59VpnuDDABpqzd+A7AyqKYJjO0HiyydEmQtN3gvXn/z9373Snrli
- X/tMusuIR9TD+XrguqWTVHntRzErivRbvq80BLyIJ65tc6fGEHynHFfKiMub//PZkx48
- /2wewqnYT1cua+QNpCG8OI+RO97lwduozQDbzYKJp4MDsz+dMpAk8jQEejy2t/JxnrwH
- DEoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687619014; x=1690211014;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qrT+GYGGau7b/Cl8N72Zc45Ylx7WRX09Tiirn5fp1ac=;
- b=SlA1qILao63uqWf3m7svJ2PmI9xsdwCY0aUIxKCG6k8VHuqcdbVuP1XV/Bk5N8II/o
- 5WmcrlunglLbKNwRJPBLYb3YJC7nPoDEEAKemIjEaju2JzDkjoFOakmku1E610/zPv7P
- q+eP8vBSL7GUOmIVnJPoVUVb0X4HMMAi0oYpKsdU40hy335Cu9hjTSJKjBoIMxreMubD
- 8oq1tEx2euGq+/srz4Uk9FZ0+IGacR9PmMPrA97oAe6xPoeeRtcdkpNVPmUNIJaknenl
- z8jRe7QdPTowY4ebGUtcFwzOOVM0RlL9tB/Pzw57BiR0AqNkb+SqjC03Qu+BXb57IeHr
- eBEQ==
-X-Gm-Message-State: AC+VfDzVCofAdUzXWznZcPXyXjXeXpSVnxNQMGJC+Y7+rZ4KVTG4iRoc
- 44HEADyCeVPk9RaG/CYmTJCZkg==
-X-Google-Smtp-Source: ACHHUZ6X6AUpG414pgFkU4Ct6EFKFG3kMG0ZPFLkwv8Y37FUGg8Jk87ZR0fIVX8/SBf9aHeG7ZkiCQ==
-X-Received: by 2002:a05:651c:169c:b0:2b4:6ea0:90eb with SMTP id
- bd28-20020a05651c169c00b002b46ea090ebmr6871688ljb.14.1687619014523; 
- Sat, 24 Jun 2023 08:03:34 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- w19-20020a2e9593000000b002b3e5794516sm311146ljh.26.2023.06.24.08.03.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Jun 2023 08:03:32 -0700 (PDT)
-Message-ID: <dffa5b4c-3273-3b8a-a170-acb146063f43@linaro.org>
-Date: Sat, 24 Jun 2023 18:03:32 +0300
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C73BA10E037;
+ Sat, 24 Jun 2023 15:53:44 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8AxjseEEZdkg0IBAA--.2099S3;
+ Sat, 24 Jun 2023 23:53:40 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8BxxsyCEZdkZGsFAA--.4872S3; 
+ Sat, 24 Jun 2023 23:53:38 +0800 (CST)
+Message-ID: <c1bac8c0-062a-72ed-e120-802965472191@loongson.cn>
+Date: Sat, 24 Jun 2023 23:53:38 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH 6/6] drm/msm/dpu: Update dev core dump to dump registers
- of sub blocks
-Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Ryan McCann <quic_rmccann@quicinc.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+Subject: Re: [PATCH v10 01/11] drm/etnaviv: Add a dedicated function to
+ register an irq handler
+Content-Language: en-US
+To: Lucas Stach <l.stach@pengutronix.de>, Sui Jingfeng <18949883232@163.com>, 
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20230622-devcoredump_patch-v1-0-3b2cdcc6a576@quicinc.com>
- <20230622-devcoredump_patch-v1-6-3b2cdcc6a576@quicinc.com>
- <114f34dd-e5ce-f878-5b23-4c14dc800547@linaro.org>
- <1e41b909-4886-8392-edbc-78684e52bbf9@quicinc.com>
- <412f68a3-e3cc-f26e-2e3d-59727e5c48d8@linaro.org>
- <37c4bde0-0798-7506-ffd3-c8689ab78ba0@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <37c4bde0-0798-7506-ffd3-c8689ab78ba0@quicinc.com>
+References: <20230620094716.2231414-1-18949883232@163.com>
+ <20230620094716.2231414-2-18949883232@163.com>
+ <77f62814f98dd2728a1e4747f0db6b2a3cfa2c11.camel@pengutronix.de>
+ <52751b55-ce34-f3a8-b3c0-4858ad984622@loongson.cn>
+ <21f781a548cef63312df56cb2265de9a7c9a0901.camel@pengutronix.de>
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <21f781a548cef63312df56cb2265de9a7c9a0901.camel@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8BxxsyCEZdkZGsFAA--.4872S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxuFyktFyfGrWktw18tw4UWrX_yoW7CF4rpa
+ yxGFyayr4kCryUK342qwn8ZFna9w4xX3yrZr1DK3sF93s0qF1DtryrtF4Uua4fAryrGw4j
+ qr4Utr4xuF15ZrXCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUvYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+ Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
+ 8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AK
+ xVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
+ AYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
+ 14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
+ kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
+ wI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F
+ 4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j5WrAU
+ UUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,305 +72,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- quic_jesszhan@quicinc.com, freedreno@lists.freedesktop.org
+Cc: Bjorn Helgaas <bhelgaas@google.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, etnaviv@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/06/2023 17:17, Abhinav Kumar wrote:
-> 
-> 
-> On 6/24/2023 5:07 AM, Dmitry Baryshkov wrote:
->> On 24/06/2023 03:09, Abhinav Kumar wrote:
->>>
->>>
->>> On 6/22/2023 5:13 PM, Dmitry Baryshkov wrote:
->>>> On 23/06/2023 02:48, Ryan McCann wrote:
->>>>> Currently, the device core dump mechanism does not dump registers 
->>>>> of sub
->>>>> blocks within the DSPP, SSPP, DSC, and PINGPONG blocks. Add wrapper
->>>>> function to dump hardware blocks that contain sub blocks.
->>>>>
->>>>> Signed-off-by: Ryan McCann <quic_rmccann@quicinc.com>
->>>>> ---
->>>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 194 
->>>>> +++++++++++++++++++++++++++-----
->>>>>   1 file changed, 168 insertions(+), 26 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c 
->>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>>>> index aa8499de1b9f..9b1b1c382269 100644
->>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>>>> @@ -885,6 +885,154 @@ static int dpu_irq_postinstall(struct msm_kms 
->>>>> *kms)
->>>>>       return 0;
->>>>>   }
->>>>> +static void dpu_kms_mdp_snapshot_add_block(struct msm_disp_state 
->>>>> *disp_state,
->>>>> +                       void __iomem *mmio, void *blk,
->>>>> +                       enum dpu_hw_blk_type blk_type)
+Hi,
+
+On 2023/6/21 18:16, Lucas Stach wrote:
+> Am Mittwoch, dem 21.06.2023 um 17:20 +0800 schrieb Sui Jingfeng:
+>> Hi,
+>>
+>> On 2023/6/21 17:07, Lucas Stach wrote:
+>>> Am Dienstag, dem 20.06.2023 um 17:47 +0800 schrieb Sui Jingfeng:
+>>>> From: Sui Jingfeng <suijingfeng@loongson.cn>
 >>>>
->>>> No. Such multiplexers add no value to the code. Please inline it.
+>>>> Because getting IRQ from a device is platform-dependent, PCI devices have
+>>>> different methods for getting an IRQ. This patch is a preparation to extend
+>>>> this driver for supporting the PCI devices.
 >>>>
->>>> Not to mention that this patch is hard to review. You both move 
->>>> existing code and add new features. If it were to go, it should have 
->>>> been split into two patches: one introducing the multiplexer and 
->>>> another one adding subblocks.
+>>>> Cc: Lucas Stach <l.stach@pengutronix.de>
+>>>> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+>>>> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+>>>> Cc: Bjorn Helgaas <bhelgaas@google.com>
+>>>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>>>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+>>>> ---
+>>>>    drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 32 +++++++++++++++++++--------
+>>>>    1 file changed, 23 insertions(+), 9 deletions(-)
 >>>>
+>>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+>>>> index de8c9894967c..a03e81337d8f 100644
+>>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+>>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+>>>> @@ -1817,6 +1817,27 @@ static const struct of_device_id etnaviv_gpu_match[] = {
+>>>>    };
+>>>>    MODULE_DEVICE_TABLE(of, etnaviv_gpu_match);
+>>>>    
+>>>> +static int etnaviv_gpu_register_irq(struct etnaviv_gpu *gpu, int irq)
+>>>> +{
+>>>> +	struct device *dev = gpu->dev;
+>>>> +	int err;
+>>>> +
+>>>> +	if (irq < 0)
+>>>> +		return irq;
+>>>> +
+>>>> +	err = devm_request_irq(dev, irq, irq_handler, 0, dev_name(dev), gpu);
+>>>> +	if (err) {
+>>>> +		dev_err(dev, "failed to request irq %u: %d\n", irq, err);
+>>>> +		return err;
+>>>> +	}
+>>>> +
+>>>> +	gpu->irq = irq;
+>>>> +
+>>>> +	dev_info(dev, "irq(%d) handler registered\n", irq);
+>>> There is no reason to put this into the kernel log.
+>> I want to see the IRQ of the device when debugging,
+>>
+>> etnaviv actually print very less.
+>>
+>> This serve as a minimal signal  to us the etnaviv_gpu_register_irq()
+>> function is successful at driver load time.
+>>
+> And debugging is a very different use-case than normal operation. If
+> it's needed at all, downgrade this to dev_dbg. This isn't interesting
+> information for a ordinary user of a system.
+>
+>>>    It's no different
+>>> than other resources to the driver and we don't log each one of those
+>>> either.
 >>>
->>> Ok. we can split this into:
+>>> In fact I don't see any reason for this change in the first place.
+>>> Effectively you are moving a single function call into a new function,
+>>> which doesn't seem like an improvement.
+>> This is to make the patch easy to review, each patch is only introduce a
+>> small function,
+>>
+> What I'm saying is that I don't see the need to introduce this function
+> at all. All you need to do is move platform_get_irq out into the
+> platform device code path. The devm_request_irq can stay where it is,
+> as the only difference between platform and PCI device is how the irq
+> number is retrieved from the platform.
+
+Yes, you are right. I understand what are asking, but my point is:
+
+
+This patch is paving the way for us to introduce the PCI device driver.
+
+All of the patches before the patch 
+v10-0006-drm-etnaviv-Add-driver-support-for-the-PCI-devic.patch
+
+are actually doing the preparation.
+
+
+Look at the patch 0006, I achieve the goal by 128 insertions and 7 
+deletions.
+
+while the only 7 deletions are actually for code shading(convert the 
+static function to global function).
+
+There is No large area diff and NO distortion.
+
+The goal is adding a PCI device driver on the top of what we already have.
+
+
+Before the cleanup, the etnaviv_gpu_platform_probe() function is just 
+like is a *glue*.
+
+Originally,  it integrate a lot of irrelevant part together.
+
+
+1.  Mapping MMIO registers make it platform-dependent;
+
+2.  Calling platform_get_irq(pdev, 0) make it platform-dependent;
+
+3.  Getting Clocks by calling devm_clk_get() make it platform-dependent;
+
+4.  Calling component_add() make it subsytem and framework-dependent;
+
+
+All of above list item is deny us to introduce the PCI device driver 
+wrapper.
+
+It(sub-functional code) is not relevant to each other.
+
+Hence the first five patch is actually do the clean,
+
+for the clarify(and tidy and good looking) of the patch 6.
+
+
+I will drop the printing, but keep the cleanup function there,
+
+Is this acceptable?
+
+
+> Regards,
+> Lucas
+>
+>> which is paving the way for we introducing the PCI device driver.
+>>
+>> Otherwise when we introducing the PCI device driver, the patch is looks
+>> ugly,
+>>
+>> It is difficult to review.
+>>
+>>> Regards,
+>>> Lucas
 >>>
->>> 1) adding the multiplexer
->>> 2) adding sub-blk parsing support inside the multiplexer
->>
->> I'd say, drop the multiplexer completely. It adds no value here. It is 
->> only used from dpu_kms_mdp_snapshot(). If the code there was complex 
->> enough, it would have made sense to _split_ the function. But even in 
->> such case there would be no point in having multiplexer. We do not 
->> enumerate block by type.
->>
-> 
-> Can you pls elaborate what you mean by enumerate blk by type?
-> 
-> We do have DPU_HW_BLK_***
-> 
-> Did you mean sub-blk?
-> 
->>>
->>>>> +{
->>>>> +    u32 base;
->>>>> +
->>>>> +    switch (blk_type) {
->>>>> +    case DPU_HW_BLK_TOP:
->>>>> +    {
->>>>> +        struct dpu_mdp_cfg *top = (struct dpu_mdp_cfg *)blk;
->>>>> +
->>>>> +        if (top->features & BIT(DPU_MDP_PERIPH_0_REMOVED)) {
->>>>> +            msm_disp_snapshot_add_block(disp_state, MDP_PERIPH_TOP0,
->>>>> +                            mmio + top->base, "top");
->>>>> +            msm_disp_snapshot_add_block(disp_state, top->len - 
->>>>> MDP_PERIPH_TOP0_END,
->>>>> +                            mmio + top->base + MDP_PERIPH_TOP0_END,
->>>>> +                            "top_2");
->>>>> +        } else {
->>>>> +            msm_disp_snapshot_add_block(disp_state, top->len, mmio 
->>>>> + top->base, "top");
->>>>> +        }
->>>>> +        break;
->>>>> +    }
->>>>> +    case DPU_HW_BLK_LM:
->>>>> +    {
->>>>> +        struct dpu_lm_cfg *mixer = (struct dpu_lm_cfg *)blk;
->>>>> +
->>>>> +        msm_disp_snapshot_add_block(disp_state, mixer->len, mmio + 
->>>>> mixer->base, "%s",
->>>>> +                        mixer->name);
->>>>> +        break;
->>>>> +    }
->>>>> +    case DPU_HW_BLK_CTL:
->>>>> +    {
->>>>> +        struct dpu_ctl_cfg *ctl = (struct dpu_ctl_cfg *)blk;
->>>>> +
->>>>> +        msm_disp_snapshot_add_block(disp_state, ctl->len, mmio + 
->>>>> ctl->base, "%s",
->>>>> +                        ctl->name);
->>>>> +        break;
->>>>> +    }
->>>>> +    case DPU_HW_BLK_INTF:
->>>>> +    {
->>>>> +        struct dpu_intf_cfg *intf = (struct dpu_intf_cfg *)blk;
->>>>> +
->>>>> +        msm_disp_snapshot_add_block(disp_state, intf->len, mmio + 
->>>>> intf->base, "%s",
->>>>> +                        intf->name);
->>>>> +        break;
->>>>> +    }
->>>>> +    case DPU_HW_BLK_WB:
->>>>> +    {
->>>>> +        struct dpu_wb_cfg *wb = (struct dpu_wb_cfg *)blk;
->>>>> +
->>>>> +        msm_disp_snapshot_add_block(disp_state, wb->len, mmio + 
->>>>> wb->base, "%s",
->>>>> +                        wb->name);
->>>>> +        break;
->>>>> +    }
->>>>> +    case DPU_HW_BLK_SSPP:
->>>>> +    {
->>>>> +        struct dpu_sspp_cfg *sspp_block = (struct dpu_sspp_cfg *)blk;
->>>>> +        const struct dpu_sspp_sub_blks *sblk = sspp_block->sblk;
->>>>> +
->>>>> +        base = sspp_block->base;
->>>>> +
->>>>> +        msm_disp_snapshot_add_block(disp_state, sspp_block->len, 
->>>>> mmio + base, "%s",
->>>>> +                        sspp_block->name);
->>>>> +
->>>>> +        if (sspp_block->features & BIT(DPU_SSPP_SCALER_QSEED3) ||
->>>>> +            sspp_block->features & BIT(DPU_SSPP_SCALER_QSEED3LITE) ||
->>>>> +            sspp_block->features & BIT(DPU_SSPP_SCALER_QSEED4))
->>>>> +            msm_disp_snapshot_add_block(disp_state, 
->>>>> sblk->scaler_blk.len,
->>>>> +                            mmio + base + sblk->scaler_blk.base, 
->>>>> "%s_%s",
->>>>> +                            sspp_block->name, sblk->scaler_blk.name);
->>>>
->>>> Actually, it would be better to:
->>>> - drop name from all sblk instances (and use known string instead of 
->>>> the sblk name here)
->>>> - Use sblk->foo_blk.len to check if it should be printed or not.
->>>>
->>>
->>> No, I dont agree. If we drop the names from the sub_blk in the 
->>> catalog, we will end up using "sub_blk_name" string here in the code 
->>> to indicate which blk that is in the dump.
->>>
->>> If we add more sub_blks in the catalog in the future we need to keep 
->>> changing the code over here. Thats not how it should be.
->>>
->>> Leaving the names in the catalog ensures that this code wont change 
->>> and only catalog changes when we add a new sub_blk either for an 
->>> existing or new chipset.
->>>
->>> catalog is indicating the new blk, and dumping code just prints it.
->>>
->>> with your approach, dumping code will or can keep changing with 
->>> chipsets or sub_blks. Thats not how it should be.
->>
->> Well, we do not enumerate sub-blocks in any way, they are not indexed. 
->> So even with sblk->blk.name in place, adding new sub-block would 
->> require adding new code here. That's why I wrote that the calling code 
->> knows which sub-block it refers to.
->>
-> 
-> Today, unfortunately each sub_blk type is different so we have to do 
-> this case by case.
-> 
-> Ideally, this should have just been
-> 
-> -> print main blk
-> -> print all sub-blks of the main blk
-> 
-> Without having to handle each main blk's sub-blks separately.
-> 
-> That way the dumping code would have remained generic without having to 
-> do even the multiplexer in the first place.
-> 
-> Need to explore if somehow we can come up with a generic sub-blk struct 
-> and make this possible. Then this code will become much easier and what 
-> I am saying will make total sense.
-
-In such case, yes. However I'd warn about having a generic array of 
-subblocks. Having named subblock entries might complicate snapshotting, 
-but it makes the rest of the DPU driver smaller.
-
-> 
-> Even without that, conceptually these sub-blk names are reflecting whats 
-> in our software document. So its not a random name but reflects the 
-> actual sub-blk name from the hardware.
-
-Yes
-
-> So this belongs in the catalog.
-
-But the sub-block field already has a correct name: scaler_blk, csc_blk, 
-etc. Having both sub-block field name and the .name inside results in 
-kind of duplication, which seems unnecessary to me.
-
-> Dumping code should not change or know whats the name of each block. It 
-> should just use whats in the catalog. thats why even conceptually I am 
-> not okay with your idea.
-
-Dumping code itself (msm_disp_snapshot_*) doesn't. But the caller code 
-knows what is the subblock.
-
-Let me pick a definition from the patch:
-
-static const struct dpu_dspp_sub_blks msm8998_dspp_sblk = {
-	.pcc = {.name = "pcc", .id = DPU_DSPP_PCC, .base = 0x1700,
-		.len = 0x90, .version = 0x10007},
-};
-
-the "pcc" is repeated three times. When the code looks at this block, it 
-already knows that it is a PCC block.
-
-Compare this with:
-
-static const struct dpu_dspp_sub_blks msm8998_dspp_sblk = {
-	.pcc = {
-		.base = 0x1700,
-		.len = 0x90,
-		.version = 0x10007,
-	},
-};
-
-Nothing is repeated, but we still know that this is the DSPPn_PCC 
-sub-block description.
-
-Calling code does:
-
-u32 base;
-base = ctx->cap->sblk->pcc.base;
-
-
-> 
->> Let me extract the relevant code (skipping all the conditions for now):
->>
->> msm_disp_snapshot_add_block(disp_state, sspp_block->len, mmio + base, 
->> "%s",
->>                  sspp_block->name);
->>
->> if (have_scaler)
->>      msm_disp_snapshot_add_block(disp_state, sblk->scaler_blk.len,
->>                      mmio + base + sblk->scaler_blk.base, "%s_%s",
->>                      sspp_block->name, sblk->scaler_blk.name);
->>
->> if (have_csc)
->>      msm_disp_snapshot_add_block(disp_state, sblk->csc_blk.len,
->>                      mmio + base + sblk->csc_blk.base, "%s_%s",
->>                      sspp_block->name, sblk->csc_blk.name);
->>
->> Consider adding new sub-block, "baz". We would still require manual 
->> addition of the following code:
->>
->>      msm_disp_snapshot_add_block(disp_state, sblk->baz_blk.len,
->>                      mmio + base + sblk->baz_blk.base, "%s_%s",
->>                      sspp_block->name, sblk->baz_blk.name);
->>
->>
->> Compare this with:
->>
->>      msm_disp_snapshot_add_block(disp_state, sblk->baz_blk.len,
->>                      mmio + base + sblk->baz_blk.base, "%s_baz",
->>                      sspp_block->name);
->>
-> 
-> Basically you are saying why not make the one line change here instead 
-> of using the name from the catalog.
-> 
-> I think it will be better to use from the catalog for the reason I wrote 
-> above that dumping code should just "use" the catalog's information and 
-> not become a catalog itself.
-> 
-> You are not saving much by dropping the sub-blk name from catalog anyway.
-> 
->> Moreover, if we follow the style of dpu_kms_mdp_snapshot() (which 
->> doesn't use name), it should be:
->>
->>      msm_disp_snapshot_add_block(disp_state, sblk->baz_blk.len,
->>                      mmio + base + sblk->baz_blk.base, "sspp%d_baz", 
->> idx);
->>
->>
-> tbh, after looking at this series, it made me think why I didnt use the 
-> name from the catalog even for the dpu_kms_mdp_snapshot()
->>
->>>
-> 
-> <snipped>
+>>>> +
+>>>> +	return 0;
+>>>> +}
+>>>> +
+>>>>    static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
+>>>>    {
+>>>>    	struct device *dev = &pdev->dev;
+>>>> @@ -1837,16 +1858,9 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
+>>>>    		return PTR_ERR(gpu->mmio);
+>>>>    
+>>>>    	/* Get Interrupt: */
+>>>> -	gpu->irq = platform_get_irq(pdev, 0);
+>>>> -	if (gpu->irq < 0)
+>>>> -		return gpu->irq;
+>>>> -
+>>>> -	err = devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
+>>>> -			       dev_name(gpu->dev), gpu);
+>>>> -	if (err) {
+>>>> -		dev_err(dev, "failed to request IRQ%u: %d\n", gpu->irq, err);
+>>>> +	err = etnaviv_gpu_register_irq(gpu, platform_get_irq(pdev, 0));
+>>>> +	if (err)
+>>>>    		return err;
+>>>> -	}
+>>>>    
+>>>>    	/* Get Clocks: */
+>>>>    	gpu->clk_reg = devm_clk_get_optional(&pdev->dev, "reg");
 
 -- 
-With best wishes
-Dmitry
+Jingfeng
 
