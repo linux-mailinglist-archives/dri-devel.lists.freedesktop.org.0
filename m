@@ -1,63 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED91B73C9DF
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jun 2023 11:10:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4987673C9E5
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jun 2023 11:11:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4081910E0E8;
-	Sat, 24 Jun 2023 09:10:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DEFE10E131;
+	Sat, 24 Jun 2023 09:11:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2CAB10E0E8
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jun 2023 09:10:18 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id
- a640c23a62f3a-98e011f45ffso15643666b.3
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jun 2023 02:10:18 -0700 (PDT)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE58810E131
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jun 2023 09:11:19 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id
+ a640c23a62f3a-98de21518fbso52290166b.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jun 2023 02:11:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687597816; x=1690189816;
+ d=linaro.org; s=google; t=1687597878; x=1690189878;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=iyaZqfbPtoW544erxGkV79CDXXxsYM/Fp16IQb+tP9I=;
- b=jc1Auh5tqvnIULQo0SinoF4pptEI9CJAL3uA1jKLnlNGiTWufhWrhahGAE+h32L1xx
- hCwdO7h3Vmv1b34q5rAjJbBMrkdAJ8jeyZmjvO+/pFLJkS4CYb8abNyKpQxPGX5ienRW
- PIJMAwGBAxWfsdY4eyp40JyXmD5mVqTuA7AjloZ2sTj1+fTYOyn35xzG2+XOl0lDTdlS
- QPyfGp/MBw3L4SDMqlLRDP9AJH7so7ie6Vil1QYZyTe6pApxQk8F1CZiR60hS7V1esSW
- za+FT3/7dbx3jXeTCm+xsyV8y0gAot6PpCd97/OoF2RdV9kXALgQsFE8fatD+p/d2bEU
- 4+iA==
+ bh=TB9IHENJDTgP3/+RgmCR40mbzefHRkoxy0VpWnLxklY=;
+ b=grwUtLESlVNXp6uim+dHlAYHJFBXetSUjezL5bHBZaNCN4WHItbgPsVqVEFsjYN4Rt
+ 2BAB2zpWJwRo9UEqMnSqwJkUbanLf/6B1TSOZLeZ8UfKg2TvccWv5R4eHxIvn5z24DMl
+ qk+juz7k5H9qq5p8oUhdEvxEClDedMtrUTeu1djwzyeMCx2QWE5ZyGXJqSF4iB+D7sFM
+ IorPe6SpPqO7N3InbG456FHlrS70BkvkEJqIrsMdwpNPXQoILbm6jRlrMgiKN3OppCZC
+ 39cqq4zhyC9Ea/FvFTODLTojMQmM0Ft5CoePsTengl0SjhapGJAjF1w5j8Ao5uvmcgWP
+ gmGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687597816; x=1690189816;
+ d=1e100.net; s=20221208; t=1687597878; x=1690189878;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iyaZqfbPtoW544erxGkV79CDXXxsYM/Fp16IQb+tP9I=;
- b=NtcDiRY6QUYTZI2KAz77A5HyRlHGQBBUc+/2IfXK3G5aeo7ydSvI3iS9SUK28BeCE7
- BeS+hbz4ubIAIsvkTlofuZlF5NVyogYYw7HKysRdER0S3Pjujmk6WYQp2I/iceobbe+I
- P0kQebTP39nwghGJkikXX3iMTwdPqg37kfB860y/UB8BeWt60yMp7MkU0s1ANMWa/W0G
- GT0ym0qUTS0IDDBU0+zWLkm1mnMGEffcl3xomlN3iFwjCKB5XWrdQUB4EzK3k2TsJ7o4
- FXYf9qshGJKp8KUpQko7GsCvXJ2C06Cm4wg4GIrtvl/4U7VqlHxr6iPo6BE/D0IJ9SmH
- TiAg==
-X-Gm-Message-State: AC+VfDwBkWsyADp4gD09LVsmA9kEtb/d8nF8J/EjfE2LyoVRcEKrqca4
- B8QoZcYKb/ZWPPgPMwPIRK3Q+w==
-X-Google-Smtp-Source: ACHHUZ4pqNge7JwaJVBPQcyWNxciyTTsdI3G9ALVxmbefnkvykz7tn8SBKrUteVDofWtt9OCuMQg/g==
-X-Received: by 2002:a17:907:7628:b0:98e:a54:42e3 with SMTP id
- jy8-20020a170907762800b0098e0a5442e3mr173662ejc.54.1687597816650; 
- Sat, 24 Jun 2023 02:10:16 -0700 (PDT)
+ bh=TB9IHENJDTgP3/+RgmCR40mbzefHRkoxy0VpWnLxklY=;
+ b=GzmAuaks2k6P4r/cof/b7sa2i2N60XFg1ru1S/fLb0mjSsLS4J8Yxhx8XCc//m8xry
+ 6hAFWN9Z1Kvr7ciPlrCD1lfHXa/4FwTyUIi5qxUBqjh+/v8mD9TIeMQeRRHphcBUgRi9
+ 3jcQuFXVhWSlJvwXY1/ZdttybkLjD5IjGqnWPqNzLEREIGIL7PXsFEPQ+iuuQcJi4XJI
+ RfW+ckip+/2aGBWVcq8x2DC44vdgE6xAAcfE1xIIZOWV4LBt5AtG6WWjVh2qgVc/vqQy
+ uHnBkwboQdNDZTwt6rkL2XmEe2pAo2U8xnfT6N/ivGovCknid+6Vj4kdK9gX1haY0zvD
+ mTPw==
+X-Gm-Message-State: AC+VfDxHaKSU+9kEQEU1/e6R4FmIZnt3N+xNS24RU5OUkha+UdE3mxcJ
+ jJ98lgkESYVicRprnE9GlB0Xfg==
+X-Google-Smtp-Source: ACHHUZ4TP0Vdg3BKzhJVTx8ptKa5/v9jsxLjJ+4KkREwbvl+gOjJuEvoSK1K+Qjdqw+DMfHimDsPFQ==
+X-Received: by 2002:a17:907:7293:b0:988:84e8:747c with SMTP id
+ dt19-20020a170907729300b0098884e8747cmr15007406ejc.32.1687597877906; 
+ Sat, 24 Jun 2023 02:11:17 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.26])
  by smtp.gmail.com with ESMTPSA id
- n3-20020aa7db43000000b0051a4361f3efsm455606edt.61.2023.06.24.02.10.14
+ u10-20020a056402064a00b00514b3dd8638sm455576edx.67.2023.06.24.02.11.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Jun 2023 02:10:16 -0700 (PDT)
-Message-ID: <0aefd7ef-a877-2501-1db9-d2c14c6ffdb8@linaro.org>
-Date: Sat, 24 Jun 2023 11:10:13 +0200
+ Sat, 24 Jun 2023 02:11:17 -0700 (PDT)
+Message-ID: <f880e10e-080e-4c80-4faa-fc2c0e62f260@linaro.org>
+Date: Sat, 24 Jun 2023 11:11:14 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH 04/15] dt-bindings: clock: qcom,dispcc-sm6125: Allow
- power-domains property
+Subject: Re: [PATCH 05/15] dt-bindings: display/msm: dsi-controller-main:
+ Document SM6125
 Content-Language: en-US
 To: Marijn Suijten <marijn.suijten@somainline.org>,
  Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
@@ -71,9 +71,9 @@ To: Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Krishna Manikandan <quic_mkrishn@quicinc.com>
 References: <20230624-sm6125-dpu-v1-0-1d5a638cebf2@somainline.org>
- <20230624-sm6125-dpu-v1-4-1d5a638cebf2@somainline.org>
+ <20230624-sm6125-dpu-v1-5-1d5a638cebf2@somainline.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230624-sm6125-dpu-v1-4-1d5a638cebf2@somainline.org>
+In-Reply-To: <20230624-sm6125-dpu-v1-5-1d5a638cebf2@somainline.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -100,17 +100,15 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 24/06/2023 02:41, Marijn Suijten wrote:
-> On SM6125 the dispcc block is gated behind VDDCX: allow this domain to
-> be configured.
+> Document general compatibility of the DSI controller on SM6125.
 > 
 > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 > ---
->  Documentation/devicetree/bindings/clock/qcom,dispcc-sm6125.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
+>  Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 
 
-
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
