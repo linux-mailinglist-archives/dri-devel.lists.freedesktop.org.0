@@ -2,66 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D54E073C8A6
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jun 2023 10:08:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D67873C9D7
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jun 2023 11:08:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2972810E08E;
-	Sat, 24 Jun 2023 08:08:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7408D10E12F;
+	Sat, 24 Jun 2023 09:08:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE76110E08E
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jun 2023 08:08:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
- s=s31663417; t=1687594095; x=1688198895; i=deller@gmx.de;
- bh=nV3CTyxNKPTPooCvqcC4CRaJBTriP3iL6heU9HaLMsk=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=WEND6irihw3+hXVTVzVRCtDU6tDJ9hPbciyqs75FgtbyRqGH3K2kBeb0ngWAak/YLiCruqG
- 3chkD/b1oSHz1pnxe0UhMIdnhtU32g+Zsjiuo05hJ4h3X2jkZKWd4pMm6pr5m7Yju+tQtAeYq
- EH1WW8dp7uCijj7T2gHUwb029m15dhuoDgoInJ+3SzQswAOaqvpNqbUjlb2gyuzmpGVAqS755
- dz0jXPu5CkW1S1Hi0DKU8gbpHWIhLZM84ATshOTLpLqqT5h6FB1RgMI5aZUKosGMHkgzVBBdb
- 8N1f1ola9udpPt+hSoAleFGxHSah31B6qQezb8NF1HvsYdRB2YTA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([94.134.156.152]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MRTRH-1qPQd93pht-00NNmj; Sat, 24
- Jun 2023 10:08:15 +0200
-Message-ID: <4570ff59-8f31-b218-7c21-0a69eb9130f3@gmx.de>
-Date: Sat, 24 Jun 2023 10:08:14 +0200
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0006510E12F
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jun 2023 09:08:35 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id
+ a640c23a62f3a-987341238aeso165631966b.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jun 2023 02:08:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1687597714; x=1690189714;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=n6JzkVRa8sMgqt4wOZNLb6V0TofrH1Kd7ev3kFxK2xc=;
+ b=Rh8pbD9W2/mmo4vpLwjYYWuICUk4g/xZiRykDWLdyyaNcYKkKFf6TC+hX59iPXhc7M
+ m5Mx927JbOZZSiDpI0jqZut6z0twtjvDu7+/APy5ALdjHKtkEAIoCzGHIdh/guaCxSMC
+ oPyZzW50fzbPIvzCUsmNlennD/6einpbBEDAudDYS6TPzm64u0db39jTTys5sUcDD/mL
+ TMGtGLgXaWbg3nboMjSS3FlLmT+dOSZrJUQvoW9EBQ4gC9m84otAZv1cC9I3IsPux4xg
+ Df8l8aR7Xz/s+tGAQMybg4+gRuO04k+gHoMl4TRnFb3c/JGOIJkgQSTQtfEuQo5+Z0bZ
+ xLVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687597714; x=1690189714;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=n6JzkVRa8sMgqt4wOZNLb6V0TofrH1Kd7ev3kFxK2xc=;
+ b=EAYf/3yeBH2ox0uVmoPuqEvhdSDYYbnrzzlB2gUjSo4fvH1FGqQcTyS0h8CW8+umKd
+ De6Tu+V9VXNz/zlv3nEBNBOXFpWRhMNEB4KCGkSH78w0pyY2ZkmrSHHRC7YsngbjUj9r
+ UTc5ieTua4fq/uFaF+SSywx2FmBsyNNoqDTQHchzOW1mX1XA7C+2RlkWXby0L4789JOv
+ mV9TEPL1UOWsFE7GBThLkzLuo4rPze5GGC8S5PEbnEQXlTnlbas7qssx+jLkXcP+ZqGi
+ n3gWiO5GrTfDSaUswSrHb1MhD8oCAVgeVLZDmEelhyD68IEjnmQ+wsqRCY6469cHk9J2
+ eOBg==
+X-Gm-Message-State: AC+VfDwKgKNtcXbqgnCisyaDkmTRPqDerxlTei83hN6yhcM/LTSOFSf4
+ Dv984169ISHKbtxObEumzbTwhg==
+X-Google-Smtp-Source: ACHHUZ6WDJEt8kVafAtj06USOxNi1vO5kwV8GgXL8AtGVdivZUyr0N1GgeF04ko574WKyptwyPK0cA==
+X-Received: by 2002:a17:907:a408:b0:98d:3ae:b683 with SMTP id
+ sg8-20020a170907a40800b0098d03aeb683mr6395204ejc.19.1687597713874; 
+ Sat, 24 Jun 2023 02:08:33 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+ by smtp.gmail.com with ESMTPSA id
+ gv18-20020a170906f11200b0098e0a937a6asm108250ejb.69.2023.06.24.02.08.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 24 Jun 2023 02:08:33 -0700 (PDT)
+Message-ID: <1d782241-f0ef-848b-9b42-a8a6234bbfae@linaro.org>
+Date: Sat, 24 Jun 2023 11:08:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] MAINTAINERS: adjust entry in VIA UNICHROME(PRO)/CHROME9
- FRAMEBUFFER DRIVER
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 02/15] dt-bindings: clock: qcom,dispcc-sm6125: Remove
+ unused GCC_DISP_AHB_CLK
 Content-Language: en-US
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Linus Walleij <linus.walleij@linaro.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20230623040736.9026-1-lukas.bulwahn@gmail.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20230623040736.9026-1-lukas.bulwahn@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:sdgtWdVp7ip4/4ayIBB1vUFupzXQG/VWEONZNgCv661G2u7SWyo
- 2fHSGlayiRWr/Pz7IZnIpC94+PobtToPkpGjUSj2YFJmi5kJB1tqS8Cf4oVDdi72MC5Rv67
- dsWrfcCdDqO8V5gyoZWqNPKgAlQnOrc/wnwKyMMcCtDRMJWrLPYrdFaqMXdsHL750B9ArS1
- YWGP1tsJqwXKxJJOTSwkQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:PYeCmMABKKI=;z6O1tiq+JqUujWJ+qFqTF8l+vsN
- M2rVfKqx94bc4Mpq4LGO37g3bCi2ZctqOl5cs+uIJZOoeawuCulUxGWCnAVyC5gxx9u4i5Yme
- XaomuDRTwvM46beTVb5NCbnkpNQ+mv4uZKJLxGxx2mh7V+RU/DCjT2DLu8612JjtWk4fOvaXW
- eRLdfl56WmNiMrjLVbekqV9qvOuIAr0uEeRBYbOsovSBMYcc33TFmt8D/bewFeDbo3raEFzfc
- Ndr+1r82vHSJpBZLALAsKQpErerQrLJYEbDVk3q5BDYPdRKxKo3CV1J1aglbHj5BoqJKk2Lbb
- lye1tCsdimB3hnkrpqMBrsZFl2anzH8XKECNxOqTtcnvVyBkNL2L+O46HfKjO90tLHK8Xq4NB
- 6SRea2Y+NfQvRlN7Xq4ZT3lXZ9jOi2FifkgI44nJ0DwdURwf4i8U7CG2lrJl2cpmIWk8fqSlR
- fIQ5GvmPX/tlGaKK404qkQrlpRkXrpS2ez4IyP/n6Q/9MnKXHt4fGCSqzbMLKqUX+hvnz1xKR
- Tp50v6EeW7fdApM0hsUGAIvDGJ9XIqZ51crchbhDG5d886L102q6bj563zk/90z5jiqGAlJYu
- 5pkjO3ltq3V2u7Ff0r/4AplrETTzRF7koBC0FMZm23spgjJcXI9aoxaauBy1iSZCW/YOsmfLm
- m969E7UR0AwfdoRJhw/q4OorflltI/YgmEYedOdc+uPsz8oaTlkCJY4OzqQ6pELAKGqn68/9h
- u4iDbGejirxAk3WkopHgUI3Ox7ZCr4pesIDisMxKtLRqI3ROBGDcbNIaKpJDoZvqbBLSDYgZ4
- jWguu9MRZPMpDOroSmKFwB0/yc23s81jBqIqw05Y4o8XEGgZAJhytxWpxNwZrjhLXYeuuX9iI
- BmYg6eLCUdG0zlgtcqesbibcW14SOr4YeTH6t50C4s0Il50XcnS3qHcxjD4dzXEHHTNhyYRw1
- fIw9y+HH/Dl6yiEAcO1Z+N8FvY8=
+To: Marijn Suijten <marijn.suijten@somainline.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>
+References: <20230624-sm6125-dpu-v1-0-1d5a638cebf2@somainline.org>
+ <20230624-sm6125-dpu-v1-2-1d5a638cebf2@somainline.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230624-sm6125-dpu-v1-2-1d5a638cebf2@somainline.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,47 +88,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Jami Kettunen <jami.kettunen@somainline.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Lux Aliaga <they@mint.lgbt>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, freedreno@lists.freedesktop.org,
+ linux-clk@vger.kernel.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/23/23 06:07, Lukas Bulwahn wrote:
-> Commit d4313a68ec91 ("fbdev/media: Use GPIO descriptors for VIA GPIO")
-> moves via-gpio.h from include/linux to drivers/video/fbdev/via, but miss=
-es
-> to adjust the file entry for the VIA UNICHROME(PRO)/CHROME9 FRAMEBUFFER
-> DRIVER section.
->
-> Hence, ./scripts/get_maintainer.pl --self-test=3Dpatterns complains abou=
-t a
-> broken reference.
->
-> Remove the file entry in VIA UNICHROME(PRO)/CHROME9 FRAMEBUFFER DRIVER, =
-as
-> the new location of the header is already covered by the file entry
-> drivers/video/fbdev/via/.
->
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-
-Added the Fixes tag and applied.
-
-Thanks!
-Helge
-
+On 24/06/2023 02:41, Marijn Suijten wrote:
+> The downsteam driver for dispcc only ever gets and puts this clock
+> without ever using it in the clocktree; this unnecessary workaround was
+> never ported to mainline, hence the driver doesn't consume this clock
+> and shouldn't be required by the bindings.
+> 
+> Fixes: 8397c9c0c26b ("dt-bindings: clock: add QCOM SM6125 display clock bindings")
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 > ---
->   MAINTAINERS | 1 -
->   1 file changed, 1 deletion(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 88954a1c0017..e12ac544aa9d 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -22415,7 +22415,6 @@ L:	linux-fbdev@vger.kernel.org
->   S:	Maintained
->   F:	drivers/video/fbdev/via/
->   F:	include/linux/via-core.h
-> -F:	include/linux/via-gpio.h
->   F:	include/linux/via_i2c.h
->
->   VIA VELOCITY NETWORK DRIVER
+
+In perfect would we would like to know whether hardware needs this clock
+enabled/controlled, not whether some driver needs it. I understand
+though that with lack of proper docs we rely on drivers, so:
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
 
