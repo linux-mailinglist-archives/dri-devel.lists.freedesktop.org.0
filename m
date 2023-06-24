@@ -1,45 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10AEA73CBFF
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jun 2023 19:18:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C386A73CC03
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jun 2023 19:18:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EA5010E07D;
-	Sat, 24 Jun 2023 17:18:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 344E210E150;
+	Sat, 24 Jun 2023 17:18:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07AE210E009;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19DF310E059;
  Sat, 24 Jun 2023 17:18:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1687627080; x=1719163080;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=c30KrreN7/GB/ngoSIdSdI0DuqnFwW6/O3MZAv+wURU=;
- b=ZD8aLHkY2/wxtyENNdHV3VFTeGKe4XbCT08oNE1mPSCkh597ewCa8TNB
- R/ozGNR5iCqqPp//cN2J/yn5EsncweHoxjP5VjnnWHllAKm1mpOG0XbCM
- 8LBgIT0ceWXthoZkbJy1gKhKANbHj2N3I6y01qFchxcnj8m/t+Cogon4P
- iGkfPX+KA48H4NOV7HKNYpOEif+62vMr8dPyQvNzwifZqmS+MTa3sghbt
- A0JiZl3me/8zVqMrszVhuAEzz5cYIg87ECO0UkDH/VphiNRDBHAWoq4f7
- J5+MjnYWhc9FwK8Y0cii5M9BqmlbVOR9yfgEVVYhvBxUlB1p5jUrayDcB A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="340557470"
-X-IronPort-AV: E=Sophos;i="6.01,155,1684825200"; d="scan'208";a="340557470"
+ bh=BK2i3uF8Mp1d8mtepKV6VDyQ8iqxwT8putwYzVYSo2k=;
+ b=A2hlGKPOj0iT0sLPz9w2ekgXrJYJ+MG8OjZOh+VWzqkCVs+gY/aZj1Yl
+ qLZ4s57EJs3ZvUtZwcyVmoH0ROqks9fwXjNVNotvYOZJQYFbLXLMWPp99
+ MCnXyBVAcrSwEqJRPqGL/WgDjcmzcKyauZPZbza7pT0lM4pydIvUkSyj3
+ rM5/xbl1cvCZVb1UNIWZL6z1IOYiTZnTOa2QZMd/Y/YcxiaSnpTK6TQV+
+ OLxWR4NJ5oX4FEtrEyX7+ptgiTfI6si6ayzHUP35X6yBYobKwZf1gUuuP
+ a7+bBFMcuKdZETQWcgefrSQuVQh0SlEieqIDlwtoupyB1aFG/x9hLNNqs Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="340557472"
+X-IronPort-AV: E=Sophos;i="6.01,155,1684825200"; d="scan'208";a="340557472"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  24 Jun 2023 10:17:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="1045977418"
-X-IronPort-AV: E=Sophos;i="6.01,155,1684825200"; d="scan'208";a="1045977418"
+X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="1045977421"
+X-IronPort-AV: E=Sophos;i="6.01,155,1684825200"; d="scan'208";a="1045977421"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2023 10:17:58 -0700
+ 24 Jun 2023 10:17:59 -0700
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 2/6] drm/i915/gt: Clear all bits from GEN12_FF_MODE2
-Date: Sat, 24 Jun 2023 10:17:53 -0700
-Message-Id: <20230624171757.3906095-3-lucas.demarchi@intel.com>
+Subject: [PATCH v2 3/6] drm/i915/gt: Fix context workarounds with non-masked
+ regs
+Date: Sat, 24 Jun 2023 10:17:54 -0700
+Message-Id: <20230624171757.3906095-4-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230624171757.3906095-1-lucas.demarchi@intel.com>
 References: <20230624171757.3906095-1-lucas.demarchi@intel.com>
@@ -63,102 +64,110 @@ Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Right now context workarounds don't do a rmw and instead only write to
-the register. Since 2 separate programmings to the same register are
-coalesced into a single write, this is not problematic for
-GEN12_FF_MODE2 since both TDS and GS timer are going to be written
-together and the other remaining bits be zeroed.
+Most of the context workarounds tweak masked registers, but not all. For
+masked registers, when writing the value it's sufficient to just write
+the wa->set_bits since that will take care of both the clr and set bits
+as well as not overwriting other bits.
 
-However in order to fix other workarounds that may want to preserve the
-unrelated bits in the same register, context workarounds need to
-be changed to a rmw. To prepare for that, move the programming of
-GEN12_FF_MODE2 to a single place so the value passed for "clear" can
-be all the bits. Otherwise the second workaround would be dropped as
-it'd be detected as overwriting a previously programmed workaround.
+However there are some workarounds, the registers are non-masked. Up
+until now the driver was simply emitting a MI_LOAD_REGISTER_IMM with the
+set_bits to program the register via the GPU in the WA bb. This has the
+side effect of overwriting the content of the register outside of bits
+that should be set and also doesn't handle the bits that should be
+cleared.
 
+Kenneth reported that on DG2, mesa was seeing a weird behavior due to
+the kernel programming of L3SQCREG5 in dg2_ctx_gt_tuning_init(). With
+the GPU idle, that register could be read via intel_reg as 0x00e001ff,
+but during a 3D workload it would change to 0x0000007f. So the
+programming of that tuning was affecting more than the bits in
+L3_PWM_TIMER_INIT_VAL_MASK. Matt Roper noticed the lack of rmw for the
+context workarounds due to the use of MI_LOAD_REGISTER_IMM.
+
+So, for registers that are not masked, read its value via mmio, modify
+and then set it in the buffer to be written by the GPU. This should take
+care in a simple way of programming just the bits required by the
+tuning/workaround. If in future there are registers that involved that
+can't be read by the CPU, a more complex approach may be required like
+a) issuing additional instructions to read and modify; or b) scan the
+golden context and patch it in place before saving it; or something
+else. But for now this should suffice.
+
+Scanning the context workarounds for all platforms, these are the
+impacted ones with the respective registers
+
+	mtl: DRAW_WATERMARK
+	mtl/dg2: XEHP_L3SQCREG5, XEHP_FF_MODE2
+
+ICL has some non-masked registers in the context workarounds:
+GEN8_L3CNTLREG, IVB_FBC_RT_BASE and VB_FBC_RT_BASE_UPPER, but there
+shouldn't be an impact. The first is already being manually read and the
+other 2 are intentionally overwriting the entire register. Same
+reasoning applies to GEN12_FF_MODE2: the WA is intentionally
+overwriting all the bits to avoid a read-modify-write.
+
+v2:  Reword commit message wrt GEN12_FF_MODE2 and the changed behavior
+on preparatory patches.
+
+Cc: Kenneth Graunke <kenneth@whitecape.org>
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Link: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/23783#note_1968971
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_workarounds.c | 51 +++++++--------------
- 1 file changed, 17 insertions(+), 34 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_workarounds.c | 27 ++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-index 8f8346df3c18..7d48bd57b6ef 100644
+index 7d48bd57b6ef..9291c2b4ca0e 100644
 --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
 +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-@@ -693,40 +693,11 @@ static void dg2_ctx_gt_tuning_init(struct intel_engine_cs *engine,
- 		   0, false);
- }
- 
--/*
-- * These settings aren't actually workarounds, but general tuning settings that
-- * need to be programmed on several platforms.
-- */
--static void gen12_ctx_gt_tuning_init(struct intel_engine_cs *engine,
--				     struct i915_wa_list *wal)
--{
--	/*
--	 * Although some platforms refer to it as Wa_1604555607, we need to
--	 * program it even on those that don't explicitly list that
--	 * workaround.
--	 *
--	 * Note that the programming of this register is further modified
--	 * according to the FF_MODE2 guidance given by Wa_1608008084:gen12.
--	 * Wa_1608008084 tells us the FF_MODE2 register will return the wrong
--	 * value when read. The default value for this register is zero for all
--	 * fields and there are no bit masks. So instead of doing a RMW we
--	 * should just write TDS timer value. For the same reason read
--	 * verification is ignored.
--	 */
--	wa_add(wal,
--	       GEN12_FF_MODE2,
--	       FF_MODE2_TDS_TIMER_MASK,
--	       FF_MODE2_TDS_TIMER_128,
--	       0, false);
--}
--
- static void gen12_ctx_workarounds_init(struct intel_engine_cs *engine,
- 				       struct i915_wa_list *wal)
+@@ -986,6 +986,9 @@ void intel_engine_init_ctx_wa(struct intel_engine_cs *engine)
+ int intel_engine_emit_ctx_wa(struct i915_request *rq)
  {
- 	struct drm_i915_private *i915 = engine->i915;
+ 	struct i915_wa_list *wal = &rq->engine->ctx_wa_list;
++	struct intel_uncore *uncore = rq->engine->uncore;
++	enum forcewake_domains fw;
++	unsigned long flags;
+ 	struct i915_wa *wa;
+ 	unsigned int i;
+ 	u32 *cs;
+@@ -1002,13 +1005,35 @@ int intel_engine_emit_ctx_wa(struct i915_request *rq)
+ 	if (IS_ERR(cs))
+ 		return PTR_ERR(cs);
  
--	gen12_ctx_gt_tuning_init(engine, wal);
--
- 	/*
- 	 * Wa_1409142259:tgl,dg1,adl-p
- 	 * Wa_1409347922:tgl,dg1,adl-p
-@@ -748,15 +719,27 @@ static void gen12_ctx_workarounds_init(struct intel_engine_cs *engine,
- 			    GEN9_PREEMPT_GPGPU_THREAD_GROUP_LEVEL);
++	fw = wal_get_fw_for_rmw(uncore, wal);
++
++	intel_gt_mcr_lock(wal->gt, &flags);
++	spin_lock(&uncore->lock);
++	intel_uncore_forcewake_get__locked(uncore, fw);
++
+ 	*cs++ = MI_LOAD_REGISTER_IMM(wal->count);
+ 	for (i = 0, wa = wal->list; i < wal->count; i++, wa++) {
++		u32 val;
++
++		if (wa->masked_reg || wa->set == U32_MAX) {
++			val = wa->set;
++		} else {
++			val = wa->is_mcr ?
++				intel_gt_mcr_read_any_fw(wal->gt, wa->mcr_reg) :
++				intel_uncore_read_fw(uncore, wa->reg);
++			val &= ~wa->clr;
++			val |= wa->set;
++		}
++
+ 		*cs++ = i915_mmio_reg_offset(wa->reg);
+-		*cs++ = wa->set;
++		*cs++ = val;
+ 	}
+ 	*cs++ = MI_NOOP;
  
- 	/*
--	 * Wa_16011163337
-+	 * Wa_16011163337 - GS_TIMER
-+	 *
-+	 * TDS_TIMER: Although some platforms refer to it as Wa_1604555607, we
-+	 * need to program it even on those that don't explicitly list that
-+	 * workaround.
-+	 *
-+	 * Note that the programming of GEN12_FF_MODE2 is further modified
-+	 * according to the FF_MODE2 guidance given by Wa_1608008084.
-+	 * Wa_1608008084 tells us the FF_MODE2 register will return the wrong
-+	 * value when read from the CPU.
- 	 *
--	 * Like in gen12_ctx_gt_tuning_init(), read verification is ignored due
--	 * to Wa_1608008084.
-+	 * The default value for this register is zero for all fields.
-+	 * So instead of doing a RMW we should just write the desired values
-+	 * for TDS and GS timers. Note that since the readback can't be trusted,
-+	 * the clear mask is just set to ~0 to make sure other bits are not
-+	 * inadvertently set. For the same reason read verification is ignored.
- 	 */
- 	wa_add(wal,
- 	       GEN12_FF_MODE2,
--	       FF_MODE2_GS_TIMER_MASK,
--	       FF_MODE2_GS_TIMER_224,
-+	       ~0,
-+	       FF_MODE2_TDS_TIMER_128 | FF_MODE2_GS_TIMER_224,
- 	       0, false);
++	intel_uncore_forcewake_put__locked(uncore, fw);
++	spin_unlock(&uncore->lock);
++	intel_gt_mcr_unlock(wal->gt, flags);
++
+ 	intel_ring_advance(rq, cs);
  
- 	if (!IS_DG1(i915)) {
+ 	ret = rq->engine->emit_flush(rq, EMIT_BARRIER);
 -- 
 2.40.1
 
