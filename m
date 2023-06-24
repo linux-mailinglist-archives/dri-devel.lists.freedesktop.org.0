@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C232073C612
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jun 2023 03:49:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFC6973C618
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jun 2023 03:50:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD3A310E6FA;
-	Sat, 24 Jun 2023 01:49:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D99410E6FC;
+	Sat, 24 Jun 2023 01:50:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D687410E6FA
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jun 2023 01:49:29 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id
- 2adb3069b0e04-4f86fbe5e4fso1633862e87.2
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 18:49:29 -0700 (PDT)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E59910E6ED
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jun 2023 01:50:16 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id
+ 2adb3069b0e04-4f640e48bc3so1689074e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jun 2023 18:50:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687571368; x=1690163368;
+ d=linaro.org; s=google; t=1687571414; x=1690163414;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=rfro2Z7t9cpTSkdETXGdcSnHCdkerPzBWRSGF3KNDQQ=;
- b=E711irWY9xbUdqCcACzkiknYFKiJC21DydvbOwg8e+nNeBP2ptQ+BDe9rifzUC1mEV
- qpLjB1n9M2vT9pfcd1htykBghjEw/LEVhiLiusXd+NojiMZxcLm8IzBXgOjslL3YIblG
- 7DTzy6hHTy9aJtyOld5JYh5vQ0+ZQ7H/m/uf8B1JjzzDsIGjxGeoJbyt5FWMMhV7D7Fr
- 7IkmYrEvQblTmzGUP6HjyUGNFPHYczoysxzQBqc6dHxssSWeHEbVKKqxCtWxlOiAL7wd
- 9u/2J3Jyc0z+cSKDLESVsHbJEf0g2NGykxC0cNT0vIS2p8jbjvXW3tW/fwDRvZ5Ll4d6
- 6qRA==
+ bh=MNi2d6GmsftsJ+atPufVKVknTeQVWLkwlnja8uNA9c8=;
+ b=m5zubTS7oBIrjbyDTIEZ70Ok3zRH35JGiZlJ+HvMXP4Rf+sYzCxyoiNnFKShU1Zybd
+ MDkEf31vdnyRuh3sTsMoTVjKtOfcVkQQijadv4L+OB8vzhXxaLxK3uW9bfmso/4HxCl3
+ S81Jc0QmDnvLDrsrhySdOLBAgTbBoVdHJgYZwr1Re12BtRutcLicpRi6U5RaWRDGsA6+
+ EKTLuvBI6H/p8lAQtcNdPWzds8VnSUGGoVHeZfEb+xTDJGLbm3GYxj31sKfv5xZl+stb
+ ex2yCYlve/n2ZNjyFrF+FmEyddtiU2s5HL1NFdjV++dartYeFJ7GSEWJvM1qQoUV7WMd
+ +9AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687571368; x=1690163368;
+ d=1e100.net; s=20221208; t=1687571414; x=1690163414;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rfro2Z7t9cpTSkdETXGdcSnHCdkerPzBWRSGF3KNDQQ=;
- b=UE38ozrsm9bbUZhmRFCognb/V4SeXX7W3w9ZYmpqq+bktrPkZ93fx7Hs1+7ZSwwc22
- THRadkTfsEgj8obu8V4gX3RlRMMPkyupqkC/FpqVlYh8483HFIkmL45ByoWreQFrhwb1
- vXBaxzxLbv6mP+cDWznUxrOfJQy+2i3JbZwWOviYy+3moiF2aMyAEZSsMwZxojujcgHI
- f5xmxzZ3/gZtw+MRJPrpLY1aiBDETRrIVqyyzXgESSJgAPXQwy7wZswaJIHBSIz4cwPT
- LZifePlVQTBSGPe1KDdJw97cv8aEHeawUMLoK9gPDfZu7y3UauzsLFcY1JEFgtmZUpgc
- MqPg==
-X-Gm-Message-State: AC+VfDz616eiBZySnDTtUajo398YHNBai6fjYPmTtpQOhJRsthTpwo/b
- 3ZD0AcaCIFdexkiXnq/5YNURFA==
-X-Google-Smtp-Source: ACHHUZ7lkBMDt6hQqNSL6eUx+zSLBCaelrzQ4f+uB82xB4QPavcR2tmkz9cOmbgTOgaJew8XT0385w==
-X-Received: by 2002:ac2:5d28:0:b0:4f8:4255:16ca with SMTP id
- i8-20020ac25d28000000b004f8425516camr13553209lfb.38.1687571368069; 
- Fri, 23 Jun 2023 18:49:28 -0700 (PDT)
+ bh=MNi2d6GmsftsJ+atPufVKVknTeQVWLkwlnja8uNA9c8=;
+ b=jdBCeO8ibLsQVDjMIiwhXCeXB5FOb98EwjJCJDeJKg8YlvHZZvpwVUnDOu8+twXsV9
+ FCgBVD0RADaazu7E80g0BGhlP1SRwRimLLh1Pg24dgZ2oTXbyT50qCgJAKVMwJfoT5Ee
+ l9sl+2kQzN/4u72/G55Hc2lNMLhAFKHkbi/DG+5X6WP1ykxa2R2STIl25fo97xKY+e5m
+ 6dqFQArfe4J+VBqiaOlVb9nDwAKJ7Y4RmKQE+tKVndzGzvcTWcVl64Wv5dUW5zjr8vt1
+ ysdQbFhAZTnSzywkrjaD3Rks54fyaGaGnCSqhY+xP8yPGV0UCH3yvvRdX3eZGuhSJaMM
+ GZlQ==
+X-Gm-Message-State: AC+VfDxgy4D+fDJsuavQq6kKe8lS6Ra+IA2wW7DAcePPPlKRWk01QCNa
+ U0jg+HMYx5Fljf9ZjLvTMgtNeA==
+X-Google-Smtp-Source: ACHHUZ4ST6i4QwIPfFE/arAJEjZ1Unxfc3+rXtHy6iSUDTWDUfFTNvhW18l63q3mvwcSzTNDem0v7w==
+X-Received: by 2002:a05:6512:44c:b0:4f8:7803:5559 with SMTP id
+ y12-20020a056512044c00b004f878035559mr9156150lfk.6.1687571414126; 
+ Fri, 23 Jun 2023 18:50:14 -0700 (PDT)
 Received: from [192.168.1.101] (abyk30.neoplus.adsl.tpnet.pl. [83.9.30.30])
  by smtp.gmail.com with ESMTPSA id
- w25-20020a19c519000000b004f85885cff1sm94649lfe.134.2023.06.23.18.49.26
+ z6-20020ac25de6000000b004f86aef886asm100843lfq.54.2023.06.23.18.50.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Jun 2023 18:49:27 -0700 (PDT)
-Message-ID: <18d969bb-69b5-0d42-1518-e8a3b92859b7@linaro.org>
-Date: Sat, 24 Jun 2023 03:49:25 +0200
+ Fri, 23 Jun 2023 18:50:13 -0700 (PDT)
+Message-ID: <8acfeaf2-2181-4ce7-5edb-1f23004dcd3a@linaro.org>
+Date: Sat, 24 Jun 2023 03:50:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH 11/15] drm/msm/dsi: Add 14nm phy configuration for SM6125
+Subject: Re: [PATCH 12/15] arm64: dts: qcom: sm6125: Switch fixed xo_board
+ clock to RPM XO clock
 Content-Language: en-US
 To: Marijn Suijten <marijn.suijten@somainline.org>,
  Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
@@ -70,9 +71,9 @@ To: Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Krishna Manikandan <quic_mkrishn@quicinc.com>
 References: <20230624-sm6125-dpu-v1-0-1d5a638cebf2@somainline.org>
- <20230624-sm6125-dpu-v1-11-1d5a638cebf2@somainline.org>
+ <20230624-sm6125-dpu-v1-12-1d5a638cebf2@somainline.org>
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20230624-sm6125-dpu-v1-11-1d5a638cebf2@somainline.org>
+In-Reply-To: <20230624-sm6125-dpu-v1-12-1d5a638cebf2@somainline.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,73 +99,56 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 24.06.2023 02:41, Marijn Suijten wrote:
-> SM6125 features only a single PHY (despite a secondary PHY PLL source
-> being available to the disp_cc_mdss_pclk0_clk_src clock), and downstream
-> sources for this "trinket" SoC do not define the typical "vcca"
-> regulator to be available nor used.
+> We have a working RPM XO clock; no other driver except rpmcc should be
+> parenting directly to the fixed-factor xo_board clock nor should it be
+> reachable by that global name.  Remove the name to that effect, so that
+> every clock relation is explicitly defined in DTS.
 > 
 > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 > ---
-The introduced ops are identical to 2290, modulo regulator..
-
-But the regulator is absent on both (VDD_MX powers it instead), so
-feel free to clean that up and reuse it ;)
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
 Konrad
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy.c      |  2 ++
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h      |  1 +
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c | 15 +++++++++++++++
->  3 files changed, 18 insertions(+)
+>  arch/arm64/boot/dts/qcom/sm6125.dtsi | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-> index 9d5795c58a98..8688ed502dcf 100644
-> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-> @@ -559,6 +559,8 @@ static const struct of_device_id dsi_phy_dt_match[] = {
->  	  .data = &dsi_phy_14nm_2290_cfgs },
->  	{ .compatible = "qcom,dsi-phy-14nm-660",
->  	  .data = &dsi_phy_14nm_660_cfgs },
-> +	{ .compatible = "qcom,dsi-phy-14nm-6125",
-> +	  .data = &dsi_phy_14nm_6125_cfgs },
->  	{ .compatible = "qcom,dsi-phy-14nm-8953",
->  	  .data = &dsi_phy_14nm_8953_cfgs },
->  #endif
-> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-> index 8b640d174785..ebf915f5e6c6 100644
-> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-> @@ -52,6 +52,7 @@ extern const struct msm_dsi_phy_cfg dsi_phy_20nm_cfgs;
->  extern const struct msm_dsi_phy_cfg dsi_phy_14nm_cfgs;
->  extern const struct msm_dsi_phy_cfg dsi_phy_14nm_660_cfgs;
->  extern const struct msm_dsi_phy_cfg dsi_phy_14nm_2290_cfgs;
-> +extern const struct msm_dsi_phy_cfg dsi_phy_14nm_6125_cfgs;
->  extern const struct msm_dsi_phy_cfg dsi_phy_14nm_8953_cfgs;
->  extern const struct msm_dsi_phy_cfg dsi_phy_10nm_cfgs;
->  extern const struct msm_dsi_phy_cfg dsi_phy_10nm_8998_cfgs;
-> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-> index 3ce45b023e63..5d43c9ec69ae 100644
-> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-> @@ -1068,6 +1068,21 @@ const struct msm_dsi_phy_cfg dsi_phy_14nm_660_cfgs = {
->  	.num_dsi_phy = 2,
->  };
+> diff --git a/arch/arm64/boot/dts/qcom/sm6125.dtsi b/arch/arm64/boot/dts/qcom/sm6125.dtsi
+> index 722dde560bec..edb03508dba3 100644
+> --- a/arch/arm64/boot/dts/qcom/sm6125.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sm6125.dtsi
+> @@ -22,7 +22,6 @@ xo_board: xo-board {
+>  			compatible = "fixed-clock";
+>  			#clock-cells = <0>;
+>  			clock-frequency = <19200000>;
+> -			clock-output-names = "xo_board";
+>  		};
 >  
-> +const struct msm_dsi_phy_cfg dsi_phy_14nm_6125_cfgs = {
-> +	.has_phy_lane = true,
-> +	.ops = {
-> +		.enable = dsi_14nm_phy_enable,
-> +		.disable = dsi_14nm_phy_disable,
-> +		.pll_init = dsi_pll_14nm_init,
-> +		.save_pll_state = dsi_14nm_pll_save_state,
-> +		.restore_pll_state = dsi_14nm_pll_restore_state,
-> +	},
-> +	.min_pll_rate = VCO_MIN_RATE,
-> +	.max_pll_rate = VCO_MAX_RATE,
-> +	.io_start = { 0x5e94400 },
-> +	.num_dsi_phy = 1,
-> +};
-> +
->  const struct msm_dsi_phy_cfg dsi_phy_14nm_8953_cfgs = {
->  	.has_phy_lane = true,
->  	.regulator_data = dsi_phy_14nm_17mA_regulators,
+>  		sleep_clk: sleep-clk {
+> @@ -306,6 +305,8 @@ rpm_requests: rpm-requests {
+>  			rpmcc: clock-controller {
+>  				compatible = "qcom,rpmcc-sm6125", "qcom,rpmcc";
+>  				#clock-cells = <1>;
+> +				clocks = <&xo_board>;
+> +				clock-names = "xo";
+>  			};
+>  
+>  			rpmpd: power-controller {
+> @@ -713,7 +714,7 @@ sdhc_1: mmc@4744000 {
+>  
+>  			clocks = <&gcc GCC_SDCC1_AHB_CLK>,
+>  				 <&gcc GCC_SDCC1_APPS_CLK>,
+> -				 <&xo_board>;
+> +				 <&rpmcc RPM_SMD_XO_CLK_SRC>;
+>  			clock-names = "iface", "core", "xo";
+>  			iommus = <&apps_smmu 0x160 0x0>;
+>  
+> @@ -740,7 +741,7 @@ sdhc_2: mmc@4784000 {
+>  
+>  			clocks = <&gcc GCC_SDCC2_AHB_CLK>,
+>  				 <&gcc GCC_SDCC2_APPS_CLK>,
+> -				 <&xo_board>;
+> +				 <&rpmcc RPM_SMD_XO_CLK_SRC>;
+>  			clock-names = "iface", "core", "xo";
+>  			iommus = <&apps_smmu 0x180 0x0>;
+>  
 > 
