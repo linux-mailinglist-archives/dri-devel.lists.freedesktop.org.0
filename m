@@ -2,74 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B8E873CE29
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jun 2023 05:15:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F22073CE4D
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jun 2023 05:51:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9EA410E0EC;
-	Sun, 25 Jun 2023 03:15:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0873710E0F1;
+	Sun, 25 Jun 2023 03:51:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
- [IPv6:2607:f8b0:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E092110E0EC
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jun 2023 03:15:12 +0000 (UTC)
-Received: by mail-pf1-x42e.google.com with SMTP id
- d2e1a72fcca58-657c4bcad0bso494633b3a.1
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jun 2023 20:15:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google; t=1687662910; x=1690254910;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=TKI5JnbDIC0GxIDWgHq4O/cOoJK+mFi4lHzSLMfVTqU=;
- b=ZAMx9Z9f9sidua+INHohqUOzi6qohVG8u4jVCH5kW+5KNZXm213btXme0+oY3eiFas
- kJ1eg2nzkYdYzNdOe7oa9qHmaJUnXCYxjS+yzRkh4fKBRaJsJ8sThwNTH8lHQfNkQNAM
- VzcFUF7+yXpjBTL7GbZNoITLErtoJw0Vjk1rTp/DbKRrvAbdhI1W9mMFrodUhQiTOgU4
- x87qi5B+whZkF6jL19/UUqYgrCxdv27BCv4u4d4gCY3C0TEpHKxxaHXbF0gjifwSN242
- 21vqEHW8Cm8PCiF/LjQeQL8d9CMETY+gbtFossFoUbQJa5ZrwnE/J5ioBpxXDyTlqBxM
- qigg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687662910; x=1690254910;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TKI5JnbDIC0GxIDWgHq4O/cOoJK+mFi4lHzSLMfVTqU=;
- b=Jo5cFYGMw+SEJj7PeHuE8tptKanvbtQXmgrp1PcU9Nhgjdpu37GuT7sTspMykf3wu2
- 0AA59+p0ptSIYONW3wIjgtv/ejtPUN4HfHQBxan8coDejej944Ibt/N8YRiLtd7H5LAs
- 0VjIImLSpdUUeXfHm2wQfPftgsmGcv2Xp8yzEBgN3cYgBd60rGurKkU48gnsmRLJWHSE
- htVkoPxG3paLVVLDbVNrasMOhxILgWWQpK2R2l6qyyFBCKo4uAqMXxK4kvQ31PT8xzL4
- VLnwKko6m6uWnUHDlJ0K3u5qN5cOsaR5w76l7hUeJ80lseEzbgmjOG6PryVLd05mjG2D
- ixxw==
-X-Gm-Message-State: AC+VfDy+ynlOZYNaufJ4wLJBNErwS06PF+cdGuotiBBKYyQK93qSWL/Q
- kIC28r4Vv2kVBdQamgBFCjjZZA==
-X-Google-Smtp-Source: ACHHUZ4cDGND46+rMO/jpoItKK6gyWoVPMpHTImOruhTgKiq3D9MdRMxw7KZsaNY9vtDgu3MtWReMw==
-X-Received: by 2002:a05:6a20:8426:b0:11f:7829:6d6c with SMTP id
- c38-20020a056a20842600b0011f78296d6cmr28507253pzd.3.1687662910560; 
- Sat, 24 Jun 2023 20:15:10 -0700 (PDT)
-Received: from [10.70.252.135] ([203.208.167.146])
- by smtp.gmail.com with ESMTPSA id
- r9-20020a62e409000000b0066642f95bc5sm1648412pfh.35.2023.06.24.20.15.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Jun 2023 20:15:10 -0700 (PDT)
-Message-ID: <00641d5b-86a3-f5d1-02ee-13b4f815df75@bytedance.com>
-Date: Sun, 25 Jun 2023 11:15:01 +0800
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7FA3A10E0F1;
+ Sun, 25 Jun 2023 03:51:23 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8AxhMS5uZdkPWsBAA--.2279S3;
+ Sun, 25 Jun 2023 11:51:21 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8DxzM65uZdkATMGAA--.30261S3; 
+ Sun, 25 Jun 2023 11:51:21 +0800 (CST)
+Message-ID: <064a39bd-cfca-2799-f72f-0e253215b927@loongson.cn>
+Date: Sun, 25 Jun 2023 11:51:21 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.12.0
-Subject: Re: [PATCH 24/29] mm: vmscan: make global slab shrink lockless
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v10 07/11] drm/etnaviv: Add support for the dma coherent
+ device
 Content-Language: en-US
-From: Qi Zheng <zhengqi.arch@bytedance.com>
-To: Dave Chinner <david@fromorbit.com>, paulmck@kernel.org
-References: <20230622085335.77010-1-zhengqi.arch@bytedance.com>
- <20230622085335.77010-25-zhengqi.arch@bytedance.com>
- <cf0d9b12-6491-bf23-b464-9d01e5781203@suse.cz>
- <ZJU708VIyJ/3StAX@dread.disaster.area>
- <a21047bb-3b87-a50a-94a7-f3fa4847bc08@bytedance.com>
- <ZJYaYv4pACmCaBoT@dread.disaster.area>
- <a7baf44a-1eb8-d4e1-d112-93cf9cdb7beb@bytedance.com>
-In-Reply-To: <a7baf44a-1eb8-d4e1-d112-93cf9cdb7beb@bytedance.com>
+To: Lucas Stach <l.stach@pengutronix.de>, Sui Jingfeng <18949883232@163.com>, 
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230620094716.2231414-1-18949883232@163.com>
+ <20230620094716.2231414-8-18949883232@163.com>
+ <8f74f0962c8bab6c832919a5340667c54e1a7ddc.camel@pengutronix.de>
+ <66fc74ae-299c-a5de-9cfb-07ae24fb3f07@loongson.cn>
+ <8212078bd56c54ce508205eae0ed0b69e78d4c38.camel@pengutronix.de>
+ <fd5dd250-b01e-fd00-1419-88398cb13347@loongson.cn>
+ <62bf84f19318c54c50f154e1eb64a179fb2389ce.camel@pengutronix.de>
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <62bf84f19318c54c50f154e1eb64a179fb2389ce.camel@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8DxzM65uZdkATMGAA--.30261S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxuw45AFykJr4DCF48CFyxtFc_yoW7uw18pF
+ WayFWYyr4UXry8tw1Ivw1UZ34Svr4xXFy5Zrn8Jwn0v390yF1xKF48KF1UCFn8Gr1xGr4a
+ qr4jyrW3GF1UZ3gCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUBFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+ 6r4UJVWxJr1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
+ xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y
+ 6r17McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
+ 1lc7I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
+ JVW8JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+ vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
+ x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
+ xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAF
+ wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jFa0PUUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,106 +74,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: djwong@kernel.org, roman.gushchin@linux.dev,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linux-mm@kvack.org, dm-devel@redhat.com, linux-ext4@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-nfs@vger.kernel.org, RCU <rcu@vger.kernel.org>,
- linux-bcache@vger.kernel.org, Vlastimil Babka <vbabka@suse.cz>,
- linux-raid@vger.kernel.org, brauner@kernel.org, tytso@mit.edu,
- linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org,
- linux-btrfs@vger.kernel.org, tkhai@ya.ru
+Cc: Bjorn Helgaas <bhelgaas@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-
-On 2023/6/24 19:08, Qi Zheng wrote:
-> Hi Dave,
-> 
-> On 2023/6/24 06:19, Dave Chinner wrote:
->> On Fri, Jun 23, 2023 at 09:10:57PM +0800, Qi Zheng wrote:
->>> On 2023/6/23 14:29, Dave Chinner wrote:
->>>> On Thu, Jun 22, 2023 at 05:12:02PM +0200, Vlastimil Babka wrote:
->>>>> On 6/22/23 10:53, Qi Zheng wrote:
->>>> Yes, I suggested the IDR route because radix tree lookups under RCU
->>>> with reference counted objects are a known safe pattern that we can
->>>> easily confirm is correct or not.  Hence I suggested the unification
->>>> + IDR route because it makes the life of reviewers so, so much
->>>> easier...
->>>
->>> In fact, I originally planned to try the unification + IDR method you
->>> suggested at the beginning. But in the case of CONFIG_MEMCG disabled,
->>> the struct mem_cgroup is not even defined, and root_mem_cgroup and
->>> shrinker_info will not be allocated.  This required more code 
->>> changes, so
->>> I ended up keeping the shrinker_list and implementing the above pattern.
+On 2023/6/22 01:45, Lucas Stach wrote:
+> Am Donnerstag, dem 22.06.2023 um 01:21 +0800 schrieb Sui Jingfeng:
+>> Hi,
 >>
->> Yes. Go back and read what I originally said needed to be done
->> first. In the case of CONFIG_MEMCG=n, a dummy root memcg still needs
->> to exist that holds all of the global shrinkers. Then shrink_slab()
->> is only ever passed a memcg that should be iterated.
+>> On 2023/6/21 23:58, Lucas Stach wrote:
+>>> Am Mittwoch, dem 21.06.2023 um 23:30 +0800 schrieb Sui Jingfeng:
+>>>> Hi,
+>>>>
+>>>> On 2023/6/21 18:00, Lucas Stach wrote:
+>>>>>>     		dma_sync_sgtable_for_cpu(dev->dev, etnaviv_obj->sgt,
+>>>>>>     					 etnaviv_op_to_dma_dir(op));
+>>>>>>     		etnaviv_obj->last_cpu_prep_op = op;
+>>>>>> @@ -408,8 +421,9 @@ int etnaviv_gem_cpu_fini(struct drm_gem_object *obj)
+>>>>>>     {
+>>>>>>     	struct drm_device *dev = obj->dev;
+>>>>>>     	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
+>>>>>> +	struct etnaviv_drm_private *priv = dev->dev_private;
+>>>>>>     
+>>>>>> -	if (etnaviv_obj->flags & ETNA_BO_CACHED) {
+>>>>>> +	if (!priv->dma_coherent && etnaviv_obj->flags & ETNA_BO_CACHED) {
+>>>>>>     		/* fini without a prep is almost certainly a userspace error */
+>>>>>>     		WARN_ON(etnaviv_obj->last_cpu_prep_op == 0);
+>>>>>>     		dma_sync_sgtable_for_device(dev->dev, etnaviv_obj->sgt,
+>>>>>> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+>>>>>> index 3524b5811682..754126992264 100644
+>>>>>> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+>>>>>> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+>>>>>> @@ -112,11 +112,16 @@ static const struct etnaviv_gem_ops etnaviv_gem_prime_ops = {
+>>>>>>     struct drm_gem_object *etnaviv_gem_prime_import_sg_table(struct drm_device *dev,
+>>>>>>     	struct dma_buf_attachment *attach, struct sg_table *sgt)
+>>>>>>     {
+>>>>>> +	struct etnaviv_drm_private *priv = dev->dev_private;
+>>>>>>     	struct etnaviv_gem_object *etnaviv_obj;
+>>>>>>     	size_t size = PAGE_ALIGN(attach->dmabuf->size);
+>>>>>> +	u32 cache_flags = ETNA_BO_WC;
+>>>>>>     	int ret, npages;
+>>>>>>     
+>>>>>> -	ret = etnaviv_gem_new_private(dev, size, ETNA_BO_WC,
+>>>>>> +	if (priv->dma_coherent)
+>>>>>> +		cache_flags = ETNA_BO_CACHED;
+>>>>>> +
+>>>>> Drop this change. Instead etnaviv_gem_new_impl() should do the upgrade
+>>>>> from WC to CACHED as necessary by adding something like this:
+>>>> I understand you are a profession person in vivante GPU driver domain.
+>>>>
+>>>> I respect you reviews and instruction.
+>>>>
+>>>> But, I'm really reluctant to agree with this, is there any space to
+>>>> negotiate?
+>>>>
+>>>>> /*
+>>>>>     * Upgrade WC to CACHED when the device is hardware coherent and the
+>>>>>     * platform doesn't allow mixing cached and writecombined mappings to
+>>>>>     * the same memory area.
+>>>>>     */
+>>>>> if ((flags & ETNA_BO_CACHE_MASK) == ETNA_BO_WC &&
+>>>>>        dev_is_dma_coherent(dev) && !drm_arch_can_wc_memory())
+>>>>>            flags = (flags & ~ETNA_BO_CACHE_MASK) & ETNA_BO_CACHED;
+>>>> This is policy, not a mechanism.
+>>>>
+>>>> Using what cache property is a user-space program's choice.
+>>>>
+>>>> While you are override the WC with CACHED mapping. This is not correct
+>>>> in the concept!
+>>>>
+>>> Please explain why you think that this isn't correct.
+>> Again,
 >>
->> Yes, it needs changes external to the shrinker code itself to be
->> made to work. And even if memcg's are not enabled, we can still use
->> the memcg structures to ensure a common abstraction is used for the
->> shrinker tracking infrastructure....
-> 
-> Yeah, what I imagined before was to define a more concise struct
-> mem_cgroup in the case of CONFIG_MEMCG=n, then allocate a dummy root
-> memcg on system boot:
-> 
-> #ifdef !CONFIG_MEMCG
-> 
-> struct shrinker_info {
->      struct rcu_head rcu;
->      atomic_long_t *nr_deferred;
->      unsigned long *map;
->      int map_nr_max;
-> };
-> 
-> struct mem_cgroup_per_node {
->      struct shrinker_info __rcu    *shrinker_info;
-> };
-> 
-> struct mem_cgroup {
->      struct mem_cgroup_per_node *nodeinfo[];
-> };
-> 
-> #endif
-> 
-> But I have a concern: if all global shrinkers are tracking with the
-> info->map of root memcg, a shrinker->id needs to be assigned to them,
-> which will cause info->map_nr_max to become larger than before, then
-> making the traversal of info->map slower.
-
-But most of the system is 'sb-xxx' shrinker instances, they all have
-the SHRINKER_MEMCG_AWARE flag, so it should have little impact on the
-speed of traversing info->map. ;)
-
-> 
+>> this is user-space things!
 >>
->>> If the above pattern is not safe, I will go back to the unification +
->>> IDR method.
+>> this is user-space things!
 >>
->> And that is exactly how we got into this mess in the first place....
-> 
-> I only found one similar pattern in the kernel:
-> 
-> fs/smb/server/oplock.c:find_same_lease_key/smb_break_all_levII_oplock/lookup_lease_in_table
-> 
-> But IIUC, the refcount here needs to be decremented after holding
-> rcu lock as I did above.
-> 
-> So regardless of whether we choose unification + IDR in the end, I still
-> want to confirm whether the pattern I implemented above is safe. :)
-
-Also + RCU mailing list.
-
-> 
-> Thanks,
-> Qi
-> 
+>> this is user-space things!
 >>
->> -Dave
+>> I have explained several times.
+>>
+>> made the decision for the user-space program is wrong.
+>>
+> This mode of communication isn't helpful. Please stop it.
+>
+> As I tried to explain to you multiple times: if userspace can break
+> coherency by selecting the wrong mapping type then this is something
+> the kernel should prevent.
+
+You are right in overall.
+
+
+This is the only one benefit which WC mapping is preferred over the 
+cached mapping.
+
+As you already told me,  the WC mapping don't *pollute CPU's cache*.
+
+
+If we can make sure that a BO is *only* going to be used by the GPU,
+
+then we still can choose WC mapping as the cache property of this BO.
+
+As the cache property is CPU side thing.
+
+
+>>> It allows
+>>> userspace to use WC mappings that would potentially cause loss of
+>>> coherency between CPU and GPU, which isn't acceptable.
+>> Before made the WC works correctly,  you need the developing environment.
+>>
+>> userspace program can tune the BO cache mapping easily.
+>>
+>> Either environment or supply a conf file.
+>>
+>>
+>> While with your implement, we don't have the opportunity to do debugging
+>> and the development.
+> You can always add a patch to your local kernel to re-allow WC mappings
+> while you work on making them behave as expected on your platform.
+
+
+We are doing the things about the *upstream*.
+
+
+>   With
+> the mainline kernel there is no way that the kernel driver will allow
+> broken coherency.
+
+
+A buffer is used by the GPU solely won't break the coherency.
+
+
+> And as I also mentioned before, there is a clear upgrade path here:
+> once WC mappings work as expected on your platform we can easily drop
+> the upgrading from the kernel driver again. The userspace driver can
+> already be changed to use CACHED BOs where beneficial on your platform
+> in the meantime.
+
+For our platform, I think the problem is that the GPU always write to L3 
+share cache,
+
+even you use the WC mapping.
+
+As I already said, the WC mapping only influence the CPU side.
+
+How can I control the GPU when a BO is WC mapping ?
+
+Does the GPU know that whether a BO  is WC mapping or not ?
+
+How can I let(or tell) the GPU that
+
+please not write to shared L3 cache,  write to the system RAM directly?
+
+On out platform, the coherency between the CPU and peripheral IO 
+device's cache
+
+is maintained by hardware. While at here.  the hardware is the shared L3 
+cache.
+
+
+I guess the current problem is that the GPU don't listen to me,
+
+he still write to CPU cache's even you choose the WC mapping.
+
+Then if you want to read the rendered image by CPU,
+
+the CPU go the un-cached path. Then I think the CPU will get wrong data.
+
+> Regards,
+> Lucas
+
+-- 
+Jingfeng
+
