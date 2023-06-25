@@ -2,47 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBC5B73D10C
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jun 2023 14:41:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D54873D15B
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jun 2023 16:17:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A277610E166;
-	Sun, 25 Jun 2023 12:41:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3594810E16D;
+	Sun, 25 Jun 2023 14:17:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3BB610E166
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jun 2023 12:41:48 +0000 (UTC)
-Received: from [192.168.2.254] (109-252-154-132.dynamic.spd-mgts.ru
- [109.252.154.132])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8710010E16D
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jun 2023 14:17:45 +0000 (UTC)
+Received: from sobremesa.fritz.box (unknown
+ [IPv6:2a02:8010:65b5:0:bbb0:f8ec:7bc9:dbe4])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id D7F6F66031BB;
- Sun, 25 Jun 2023 13:41:44 +0100 (BST)
+ (No client certificate requested) (Authenticated sender: alarumbe)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 66B026607117;
+ Sun, 25 Jun 2023 15:17:41 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1687696905;
- bh=0I1rLltUXkTnuQd/Jvq/oa9s7KLLg1FujdfDbdaVAKk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=P5ZIZ4UQKOsnlyXzqxUVqKQrAzvPU4bSOV3uz5j0Nmdim+LPgprXn5ucXF9fiCKSp
- 76huK/CIkDaX9pT7AHfWvykF+cyojiAgGZ9TdRQuQiD0Yia7xueQWSiFFMzny7FNhS
- 8O73csA8e/KRNaqvaseQhERP++r+ocEBniHGrcpLP76mfyrXsjIBffwoHtCbzjrfIu
- TXGDf4XZ4hEtDNVgVuT3jZgtfwdcIgAdlInclE2TezCUEdswbBevWdD2mXKA8F8ssW
- 21GKN5ubwDAnXRtNOiPA7oVseYQzj6ri51mDCzxEeLzcSYHhPZxVk62XD93C5G9BMg
- ognpTBMa0dhxw==
-Message-ID: <0ca8034d-0377-26b9-51c8-8caff6c4174a@collabora.com>
-Date: Sun, 25 Jun 2023 15:41:41 +0300
+ s=mail; t=1687702661;
+ bh=DxqtcNgHx6hoDKk2XdG/IolUBA1mvNJ/4G4qGWj7gtg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=bfXlEusYSiypBVOTQo73/JrfKbD5abbFJeLoRPCtK0pol+LLvfQ3MEwmH93H5QY3v
+ EXBnDEyxZtL8WRfWXXiF84jXhGM4rRxlntNAGYfC2Exdg1JESIsyw1Mv2vBdJoWum0
+ etn4CCy+ZPbs4uaJOoywFr7BCIuzp6iM2M5Jv0IFV2zopK972nG0cd+9WiNZDGzEEM
+ /z/3dpzQYfRDpUkIJbNhd7gpF6QOadpHlv4nZxC+XXFRbHLyySNtnDlUYS7dJ1szNe
+ DHuK2V9NzPpXAOTPAlssqofbbPpj9kTjlCpEcwarBKtM/I+MqY3M298tjIw2BmJ/MK
+ JQkcSJm3gxxbA==
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Subject: [PATCH v3 0/3] Add additional YUV420 bus format check for dw-meson's
+ bridge enable
+Date: Sun, 25 Jun 2023 15:17:14 +0100
+Message-Id: <cover.1687702042.git.adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.1
-Subject: Re: [PATCH v6 3/3] drm/virtio: Support sync objects
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20230416115237.798604-1-dmitry.osipenko@collabora.com>
- <20230416115237.798604-4-dmitry.osipenko@collabora.com>
- <CAMuHMdVrJsmQx8X-_Tnxir9W752Mdh8ye7ob2srtY+6HFDEMGw@mail.gmail.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <CAMuHMdVrJsmQx8X-_Tnxir9W752Mdh8ye7ob2srtY+6HFDEMGw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,55 +58,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@redhat.com>,
- kernel@collabora.com, virtualization@lists.linux-foundation.org,
- Emil Velikov <emil.velikov@collabora.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/25/23 11:47, Geert Uytterhoeven wrote:
-> Hi Dmitry,
-> 
-> On Sun, Apr 16, 2023 at 1:55 PM Dmitry Osipenko
-> <dmitry.osipenko@collabora.com> wrote:
->> Add sync object DRM UAPI support to VirtIO-GPU driver. Sync objects
->> support is needed by native context VirtIO-GPU Mesa drivers, it also will
->> be used by Venus and Virgl contexts.
->>
->> Reviewed-by; Emil Velikov <emil.velikov@collabora.com>
->> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> 
-> Thanks for your patch!
-> 
->> --- a/drivers/gpu/drm/virtio/virtgpu_submit.c
->> +++ b/drivers/gpu/drm/virtio/virtgpu_submit.c
-> 
->> +static int
->> +virtio_gpu_parse_deps(struct virtio_gpu_submit *submit)
->> +{
->> +       struct drm_virtgpu_execbuffer *exbuf = submit->exbuf;
->> +       struct drm_virtgpu_execbuffer_syncobj syncobj_desc;
->> +       size_t syncobj_stride = exbuf->syncobj_stride;
->> +       u32 num_in_syncobjs = exbuf->num_in_syncobjs;
->> +       struct drm_syncobj **syncobjs;
->> +       int ret = 0, i;
->> +
->> +       if (!num_in_syncobjs)
->> +               return 0;
->> +
->> +       /*
->> +        * kvalloc at first tries to allocate memory using kmalloc and
->> +        * falls back to vmalloc only on failure. It also uses GFP_NOWARN
-> 
-> GFP_NOWARN does not exist.
+This is a belated follow-up on
+https://lore.kernel.org/dri-devel/20220515204412.2733803-1-adrian.larumbe@collabora.com
 
-https://elixir.bootlin.com/linux/v6.4-rc7/source/include/linux/gfp_types.h#L38
+Commit e67f6037ae1be34b2b68 ("drm/meson: split out encoder from meson_dw_hdmi")
+broke 4K display modes for me, and I discovered it was because the right
+pixel clock wasn't being chosen in dw_hdmi_phy_init. I misinterpreted the
+reason as a problem in figuring out whether we want to enforce YUV420 mode,
+but it turned out to be a mismatch between what dw-meson code is doing and
+the way the bus format is being picked by the dw-hdmi bus output format drm
+helper.
+
+I fixed it by bringing back dw-hdmi bus format check in dw-meson.
+
+The second patch makes sure YUV420 bus format is the only one being
+returned by dw-hdmi's output format bridge function when that's the only
+drm mode allowed.
+
+Changelog:
+
+v3:
+        - Change commit message for all three commits to accurately
+        reflect the modified files' subsystem.
+        - Add v1's Acked-by tags from subsystem maintainer
+v2:
+        - Add commit message to patch number 3 in the series
+
+Adrián Larumbe (3):
+  drm/bridge: dw-hdmi: change YUV420 selection logic at clock setup
+  drm/bridge: dw-hdmi: truly enforce 420-only formats when drm mode
+    demands it
+  drm/bridge: dw-hdmi: remove dead code and fix indentation
+
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 35 +++++++++--------------
+ drivers/gpu/drm/meson/meson_dw_hdmi.c     |  4 +--
+ include/drm/bridge/dw_hdmi.h              |  2 ++
+ 3 files changed, 18 insertions(+), 23 deletions(-)
 
 -- 
-Best regards,
-Dmitry
+2.40.0
 
