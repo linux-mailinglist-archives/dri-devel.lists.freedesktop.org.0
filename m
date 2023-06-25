@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C267F73D372
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jun 2023 21:48:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44A2673D37A
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jun 2023 21:52:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97B5E10E190;
-	Sun, 25 Jun 2023 19:48:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21E7310E195;
+	Sun, 25 Jun 2023 19:52:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m-r1.th.seeweb.it (m-r1.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E824110E17E
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jun 2023 19:48:53 +0000 (UTC)
+Received: from relay03.th.seeweb.it (relay03.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::164])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7206B10E17E
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jun 2023 19:52:26 +0000 (UTC)
 Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
  [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 72E1F1F4D0;
- Sun, 25 Jun 2023 21:48:50 +0200 (CEST)
-Date: Sun, 25 Jun 2023 21:48:49 +0200
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id F06EF1FA83;
+ Sun, 25 Jun 2023 21:52:22 +0200 (CEST)
+Date: Sun, 25 Jun 2023 21:52:21 +0200
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 03/15] dt-bindings: clock: qcom,dispcc-sm6125: Require
- GCC PLL0 DIV clock
-Message-ID: <vnp263d43flny2ibt3n7fbloyi26enqrejnobogplfu5fcj6l3@s7zkxrsi2rde>
+Subject: Re: [PATCH 06/15] dt-bindings: display/msm: sc7180-dpu: Describe
+ SM6125
+Message-ID: <75d64lixeawfoqbrctm4thzh73cxkvnlmnh5xgbpf277pmh3gz@zthnqvvuxmeq>
 References: <20230624-sm6125-dpu-v1-0-1d5a638cebf2@somainline.org>
- <20230624-sm6125-dpu-v1-3-1d5a638cebf2@somainline.org>
- <c9681bce-efa8-9b79-4bf6-837dd6a2dc12@linaro.org>
- <55b0ca89-8f2e-5383-59d4-6809e813abf8@linaro.org>
+ <20230624-sm6125-dpu-v1-6-1d5a638cebf2@somainline.org>
+ <6bbf239f-d530-2f1e-ff52-361f7c9cc951@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <55b0ca89-8f2e-5383-59d4-6809e813abf8@linaro.org>
+In-Reply-To: <6bbf239f-d530-2f1e-ff52-361f7c9cc951@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,21 +63,22 @@ Cc: Michael Turquette <mturquette@baylibre.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-06-24 11:08:54, Krzysztof Kozlowski wrote:
-> On 24/06/2023 03:45, Konrad Dybcio wrote:
-> > On 24.06.2023 02:41, Marijn Suijten wrote:
-> >> The "gcc_disp_gpll0_div_clk_src" clock is consumed by the driver, will
-> >> be passed from DT, and should be required by the bindings.
-> >>
-> >> Fixes: 8397c9c0c26b ("dt-bindings: clock: add QCOM SM6125 display clock bindings")
-> >> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> >> ---
-> > Ideally, you'd stick it at the bottom of the list, as the items: order
-> > is part of the ABI
+On 2023-06-24 11:12:52, Krzysztof Kozlowski wrote:
+> On 24/06/2023 02:41, Marijn Suijten wrote:
+> > SM6125 is identical to SM6375 except that while downstream also defines
+> > a throttle clock, its presence results in timeouts whereas SM6375
+> > requires it to not observe any timeouts.
 > 
-> Yes, please add them to the end. Order is fixed.
+> Then it should not be allowed, so you need either "else:" block or
+> another "if: properties: compatible:" to disallow it. Because in current
+> patch it would be allowed.
 
-Disagreed for bindings that declare clock-names and when the driver
-adheres to it, see my reply to Konrad's message.
+That means this binding is wrong/incomplete for all other SoCs then.
+clock(-name)s has 6 items, and sets `minItems: 6`.  Only for sm6375-dpu
+does it set `minItems: 7`, but an else case is missing.
+
+Shall I send a Fixes: ed41005f5b7c ("dt-bindings: display/msm:
+sc7180-dpu: Describe SM6350 and SM6375") for that, and should maxItems:
+6 be the default under clock(-name)s or in an else:?
 
 - Marijn
