@@ -2,50 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 599EA73D2EF
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jun 2023 20:19:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29DBB73D308
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jun 2023 20:40:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C279410E067;
-	Sun, 25 Jun 2023 18:19:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8EE110E0CC;
+	Sun, 25 Jun 2023 18:39:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB98410E067
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jun 2023 18:19:42 +0000 (UTC)
-Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx1.riseup.net (Postfix) with ESMTPS id 4Qpzld6yfLzDqTd;
- Sun, 25 Jun 2023 18:19:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1687717182; bh=xsvIFhvgUYdxYwvrYe2HyUOmsEfpBrK8RvZ+xnuwhJI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Wi6J48T779MhMqAwTyDr1vqU7ETLPcl8EK1KOn7eilQdD2v/qPh021ApQJEK+8+Yp
- QOA7kwwx0ugCM5XM1EVmUQro/UhCykjHtQooEacOye2ohfrKHaiD+WjB7U/C9KBZ3y
- uWWHiNvFXKI4TVcwhzG5LRcgY6cAMXP65ajpm/XE=
-X-Riseup-User-ID: 6FC0270397A989D013840BF5A3B8EE4EE8879C50E829AE8076A22E06A3D75BBB
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4QpzlY5BPYzJqCB;
- Sun, 25 Jun 2023 18:19:37 +0000 (UTC)
-Message-ID: <936f3187-5049-76c2-393f-40aaba4a3908@riseup.net>
-Date: Sun, 25 Jun 2023 15:19:34 -0300
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E52D10E085;
+ Sun, 25 Jun 2023 18:39:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1687718394; x=1719254394;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=q6R71amRjNIc5cllZZ5FPVU9/46mtY678jxBRQOQ7pQ=;
+ b=JTRVH29Fqkw1z2EBFWt0tkYMPPJHPw9yACyRcUMA7/nFup7SgzoTxYR9
+ G+wVJlkR7GPE0Y6HUBGF8xoZa9A+grleq8QRVajqT9Olk1uiLbIThHwx/
+ U5W3QkKcmhmi55C6rTCRP0YjRMs7mF7FPlTPzoCQHtctdNaZtDZyOYU+g
+ 6zlNATVcNaX/FToeyj0s0Hvw6P/72Gi3cN05UVKU2kYmWFPq7ufZEsg8f
+ CNC1SCkOSRzppsNveEZ009dO5GxK3mfF3suDC8ITt878I4GcXsQ+F12se
+ XJYE1tGGz/HhpgHzwX18rsEII78DlTFwsKeFnnCHZvOFmzPoOUHSaKBpa A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="447487191"
+X-IronPort-AV: E=Sophos;i="6.01,157,1684825200"; d="scan'208";a="447487191"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jun 2023 11:39:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="745546243"
+X-IronPort-AV: E=Sophos;i="6.01,157,1684825200"; d="scan'208";a="745546243"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orsmga008.jf.intel.com with ESMTP; 25 Jun 2023 11:39:52 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Sun, 25 Jun 2023 11:39:52 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Sun, 25 Jun 2023 11:39:51 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Sun, 25 Jun 2023 11:39:51 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.45) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Sun, 25 Jun 2023 11:39:51 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PrHA5yty8nwi+QS6SgOOAIys38bY5p1B5bSTcxIMzhjkdJ3ecrw9+dd+lH94IHEHVnmHINgFolK7VEq/fIvI7GbxwwaPxZfpv34GRsjQjN17zrvdOiZ6fZpqexCQinJUIPxJ/VOYj2bYcr4lFF2Kst66S1ZaByxVN5eMlQp2O4XrQTlSAnN+qHF1/Axk9fuMcrMRm4YFf2XIASzC9+8QlgO6AEMIiQdoFFb7AT6dqJuDYsVvTYZgyNZlaaBG3kxZjFIQKLwQnp++hedcETmuy86Ow1Pq75YD6OXp8o5f+awP1Bjbx2fczMBic/ebl2xY2RUXycrsfbUbS+KWtnrnlw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wjUm3GHKyAEYM9ErdytRh8lkcURDOG0751m1LMoHwCg=;
+ b=VaUnOu2iM7iG/T5w+GQ33mX2wPuv9NWzyzNTWSb1Ryysq5q7hF9ACbNA0tVIdhPLCw4c6OWl5e73K829LqL5A0BFloc9xb9fkOg4A14X+CONDKLXVBd28cPT53MR111F33ziZMg+en6WpFypXtfVQyorA1WOWMRJNdc+cjreAtT8KxPbDMWhy5n2IsbnVLgNO1NtCPlrtbObCULNQYWeeoezY8e7oJ0/xnZnoW6JA5qYOIfMlTnYa+WmUkiBQRtA6aTVs5VnvudM6O9l/H1HzcJBd60oKh1D8OIhqDlFWoLrkszSPhDe5B+EBGR/Kxppq9yYRHPowdC3lcr+lPjM0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS7PR11MB7859.namprd11.prod.outlook.com (2603:10b6:8:da::22) by
+ DS7PR11MB6223.namprd11.prod.outlook.com (2603:10b6:8:98::19) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6521.26; Sun, 25 Jun 2023 18:39:47 +0000
+Received: from DS7PR11MB7859.namprd11.prod.outlook.com
+ ([fe80::9f98:8f3c:a608:8396]) by DS7PR11MB7859.namprd11.prod.outlook.com
+ ([fe80::9f98:8f3c:a608:8396%7]) with mapi id 15.20.6521.024; Sun, 25 Jun 2023
+ 18:39:47 +0000
+Date: Sun, 25 Jun 2023 11:39:43 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: Re: [PATCH v2 2/6] drm/i915/gt: Clear all bits from GEN12_FF_MODE2
+Message-ID: <20230625183943.GO5433@mdroper-desk1.amr.corp.intel.com>
+References: <20230624171757.3906095-1-lucas.demarchi@intel.com>
+ <20230624171757.3906095-3-lucas.demarchi@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230624171757.3906095-3-lucas.demarchi@intel.com>
+X-ClientProxiedBy: BYAPR01CA0011.prod.exchangelabs.com (2603:10b6:a02:80::24)
+ To DS7PR11MB7859.namprd11.prod.outlook.com
+ (2603:10b6:8:da::22)
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 4/6] drm/vkms: Add ConfigFS scaffolding to VKMS
-Content-Language: en-US
-To: Jim Shargo <jshargo@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Melissa Wen <melissa.srw@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-References: <20230623222353.97283-1-jshargo@chromium.org>
- <20230623222353.97283-5-jshargo@chromium.org>
-From: Maira Canal <mairacanal@riseup.net>
-In-Reply-To: <20230623222353.97283-5-jshargo@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR11MB7859:EE_|DS7PR11MB6223:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8e593201-fc13-40ec-f09a-08db75ab8cd1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dj7YrlkhD5DbPF5iqJs8P+1rj9Eqy0PCRfUmHNpPUvNJcrlWVK9j6yaqHq5zrvslC8I971iZuKrOnwA9yreBJky/QdNeh8LyaTgT6f8L9zWxJPN2RAJIFPrgbu5fFQ+hsDVSYYBGoymn7jRjTRiizvukjhbAcOjszf29mLJDo6+Uwo4NaF7D1sZ2Wy33w2ZNtAKuyyqlu88kU/QSlg43cU+m24eLoKOARAPwiNxVzdvsdDrpX7h/YGuCDoyT/WqejmC/mccwl00MG2z3VUIqLKm4tVdBrltSwWStzWWMnOERUG0ii7oq6bEoquJxDM52s4EffAkWLbZnEduZ3128NrkV00GNOXjcCuhT0t2SghJ9a8mrKGZG8xUTkFSV9N+O2aKqcm7qgAWxyP52/TZPeB+dHVKvAK2pOdACCYqyAEfUjLtZUAiU5Xm3S8rwjMyTIDriu89HifvLCK92OwNeObXnRJfh/5wjbDK36HBuTYREyu1AxJSz9zd1UzTU2lqBlgHc9W9RPEwjDGxGguTvaq4IjhbRkXN8tBY9fJ8tGes2JyvAwCWkKDTwIWwsd9NC
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS7PR11MB7859.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(136003)(396003)(376002)(366004)(39860400002)(346002)(451199021)(316002)(66946007)(66556008)(66476007)(33656002)(6636002)(4326008)(478600001)(8936002)(8676002)(6862004)(5660300002)(86362001)(41300700001)(6486002)(2906002)(26005)(186003)(6512007)(6506007)(1076003)(38100700002)(6666004)(83380400001)(82960400001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Jn4iW8noojmz7K0cU+WklWkgpDKNdkedq0TNeZGlzbWlwVVTUAovl9OXj5R3?=
+ =?us-ascii?Q?icpBlpPrDWkSVUGHcq8E/AYZtuqQJZlZhJ/VXa1MHaM/pPDCpj42coTnmd1V?=
+ =?us-ascii?Q?btpsTFFSSm8bepLmX7dlY0R31CB4C9I0GSdzuLk3mvZzh9AjmsdHexWuS1x5?=
+ =?us-ascii?Q?zNdyA4tuZd1lOGGUQVNkPxaMOaRW7MoKFVBD18yvCoydjXkCiq3UAfVjs9qX?=
+ =?us-ascii?Q?/23T8Aq1TkWB15xZgJq3bAhiDwHFaAGmX+pETWE7D84EHd9Nvb6Ugg/AqdNo?=
+ =?us-ascii?Q?tVnG5vtuCnHRVVTyRxVCfrywXPsFxHIV4j6lRFD+H8VYMjxb1oGiwFaOr3mJ?=
+ =?us-ascii?Q?8LoXP0cIc3kP3p3V2rx8k9ah5bUgmbBJ8A9NsnJlB/j0iOqv2GCiqu2+gXP5?=
+ =?us-ascii?Q?iXDQskhvGX6mbYOuMREtBG8BZ3R5mBZx1lzahfrsuFHx0kH9XtoHPxwm+e+3?=
+ =?us-ascii?Q?aowyBYBeLgV1VtKqvBCHQKESDCm3MyyJZqVTg4VcO6eocYk7GiN4WuiGqQTP?=
+ =?us-ascii?Q?zAglTFIiQ9AYhrKJb+NJueY8z9hfLFSAs4dwDH3IoVcwPypPbdLVqVr3Khca?=
+ =?us-ascii?Q?0G03xAEzClFPbVC7xzsXlFkTQNakAyufp5cjY7VgngDkuW05RSTVUAFzDFDg?=
+ =?us-ascii?Q?2Y/a/AK+SpJqaugSz1dMjRArjO6AQ5nRoSC9a39PAE7+7oudMNvWERLO8C80?=
+ =?us-ascii?Q?FDOVe/1P7QA0GITfaPmK4fxUFn38RcvxgEVepqEH3W0A/lsRbZoq5121GPeG?=
+ =?us-ascii?Q?Za6Z7bIVb9Xo+Q81WPMnSyLv8OiZC5OAqcWOjjdqydWbqchk4vY3Eh3dfVY9?=
+ =?us-ascii?Q?lhF9lxFcN3EJ42MSwj3ACo6MNn/s8G/KMCU3OH4w1p/gg0bOEZPz0YbrYQ3y?=
+ =?us-ascii?Q?xl5DGz3sDiESlMt0ELRBA4caoIvllINBBT9vuvjc5Uz1n/OtUjs4w6etIGxT?=
+ =?us-ascii?Q?Q3SzroL4IfBg6kycV/Fb512/cOPJz0b/RYjDCfXWgFGCLvdksDptfyiQ3KA5?=
+ =?us-ascii?Q?5qVkm+ApoEyirNrGMlP7tGZVaLOmBwGPbrrXhIOg9Kqum7XGD5PVqjoDOA7M?=
+ =?us-ascii?Q?GoCoLLcN23l5wo6hb6TmrXiAuqAr/XGLCPIz0JWo1SdlZWltTZ8oGFiN8zf1?=
+ =?us-ascii?Q?X+AvD+gjNFJkHVSmehlRmBdy4sUfi/r2MKxntFfDCXXkYoNO/nIU9q25kE3j?=
+ =?us-ascii?Q?outCY+2xqh2zlJ/X4JD234FcTDvpLchQfKS9Q4Dh6TPVh1zeLZxqc3jv/txW?=
+ =?us-ascii?Q?cxdg1C2+p5BIYhiu+JkChTh08qcniZRqSh8hYwmyLiipHMgxNyRs/Tb+UrcP?=
+ =?us-ascii?Q?NsH/Y40EeZmk+i6nxJ6cQdV890nsMLmEMGNXJgTUL4t1FAA8y80ZdbBYEK4n?=
+ =?us-ascii?Q?veYmIPit+yqNLhUqJCys2UVZUZAPjPHY4zZUUUGZeLba5w8AcPL0Kpw0E9gA?=
+ =?us-ascii?Q?r2YOlob5ftXOZ7U45kHXQp1OtdjC5fAH48x/7lHptHhzFf3bF2ehOKk1/nJc?=
+ =?us-ascii?Q?EPny5eEyT3Rmb2YPI3SAcrZO904xTVKyghr5ZTR50CZkU5ouRE569qBfq5i/?=
+ =?us-ascii?Q?I7zrW+rqj5v1S+HX9I4I+hAC0NnTK6rbvoUkzNuiPfJz0C05CdXgljOgLQwW?=
+ =?us-ascii?Q?UA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e593201-fc13-40ec-f09a-08db75ab8cd1
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR11MB7859.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2023 18:39:46.8909 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +9nVouQG7ahxmTRyK4qnTTby4w8SNdRwEkk4OFiu1Mvd7jntZoERQmCr05Q/Cl4Nhg8wkUgMQHPx5ECJsBqF/xvgI/E858VNd0hAqicIryc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB6223
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,535 +147,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, Kenneth Graunke <kenneth@whitecape.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jim,
+On Sat, Jun 24, 2023 at 10:17:53AM -0700, Lucas De Marchi wrote:
+> Right now context workarounds don't do a rmw and instead only write to
+> the register. Since 2 separate programmings to the same register are
+> coalesced into a single write, this is not problematic for
+> GEN12_FF_MODE2 since both TDS and GS timer are going to be written
+> together and the other remaining bits be zeroed.
+> 
+> However in order to fix other workarounds that may want to preserve the
+> unrelated bits in the same register, context workarounds need to
+> be changed to a rmw. To prepare for that, move the programming of
+> GEN12_FF_MODE2 to a single place so the value passed for "clear" can
+> be all the bits. Otherwise the second workaround would be dropped as
+> it'd be detected as overwriting a previously programmed workaround.
+> 
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 
-On 6/23/23 19:23, Jim Shargo wrote:
-> This change adds the basic scaffolding for ConfigFS, including setting
-> up the default directories. It does not allow for the registration of
-> configfs-backed devices, which is complex and provided in a follow-up
-> commit.
-> 
-> This CL includes docs about using ConfigFS with VKMS, but I'll summarize
-> in brief here as well (assuming ConfigFS is mounted at /config/):
-> 
-> To create a new device, you can do so via `mkdir
-> /config/vkms/my-device`.
-> 
-> This will create a number of directories and files automatically:
-> 
-> 	/config
-> 	`-- vkms
-> 	    `-- my-device
-> 		|-- connectors
-> 		|-- crtcs
-> 		|-- encoders
-> 		|-- planes
-> 		`-- enabled
-> 
-> You can then configure objects by mkdir'ing in each of the directories.
-> 
-> When you're satisfied, you can `echo 1 > /config/vkms/my-device/enabled`.
-> This will create a new device according to your configuration.
-> 
-> For now, this will fail, but the next change will add support for it.
-> 
-> Signed-off-by: Jim Shargo <jshargo@chromium.org>
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+
 > ---
->   Documentation/gpu/vkms.rst           |  17 +-
->   drivers/gpu/drm/Kconfig              |   1 +
->   drivers/gpu/drm/vkms/Makefile        |   1 +
->   drivers/gpu/drm/vkms/vkms_configfs.c | 646 +++++++++++++++++++++++++++
->   drivers/gpu/drm/vkms/vkms_drv.c      |  52 ++-
->   drivers/gpu/drm/vkms/vkms_drv.h      |  92 +++-
->   drivers/gpu/drm/vkms/vkms_output.c   |   5 +
->   7 files changed, 799 insertions(+), 15 deletions(-)
->   create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.c
+>  drivers/gpu/drm/i915/gt/intel_workarounds.c | 51 +++++++--------------
+>  1 file changed, 17 insertions(+), 34 deletions(-)
 > 
-> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-> index ba04ac7c2167..2c342ef0fb7b 100644
-> --- a/Documentation/gpu/vkms.rst
-> +++ b/Documentation/gpu/vkms.rst
-> @@ -51,6 +51,12 @@ To disable the driver, use ::
->   
->     sudo modprobe -r vkms
->   
-> +Configuration With ConfigFS
-> +===========================
-> +
-> +.. kernel-doc:: drivers/gpu/drm/vkms/vkms_configfs.c
-> +   :doc: ConfigFS Support for VKMS
-> +
->   Testing With IGT
->   ================
->   
-> @@ -135,22 +141,15 @@ project.
->   Runtime Configuration
->   ---------------------
->   
-> -We want to be able to reconfigure vkms instance without having to reload the
-> -module. Use/Test-cases:
-> +We want to vkms instances without having to reload the module. Such
-
-I believe that there is a verb missing here.
-
-> +configuration can be added as extensions to vkms's ConfigFS support. Use-cases:
->   
->   - Hotplug/hotremove connectors on the fly (to be able to test DP MST handling
->     of compositors).
->   
-> -- Configure planes/crtcs/connectors (we'd need some code to have more than 1 of
-> -  them first).
+> diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> index 8f8346df3c18..7d48bd57b6ef 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> @@ -693,40 +693,11 @@ static void dg2_ctx_gt_tuning_init(struct intel_engine_cs *engine,
+>  		   0, false);
+>  }
+>  
+> -/*
+> - * These settings aren't actually workarounds, but general tuning settings that
+> - * need to be programmed on several platforms.
+> - */
+> -static void gen12_ctx_gt_tuning_init(struct intel_engine_cs *engine,
+> -				     struct i915_wa_list *wal)
+> -{
+> -	/*
+> -	 * Although some platforms refer to it as Wa_1604555607, we need to
+> -	 * program it even on those that don't explicitly list that
+> -	 * workaround.
+> -	 *
+> -	 * Note that the programming of this register is further modified
+> -	 * according to the FF_MODE2 guidance given by Wa_1608008084:gen12.
+> -	 * Wa_1608008084 tells us the FF_MODE2 register will return the wrong
+> -	 * value when read. The default value for this register is zero for all
+> -	 * fields and there are no bit masks. So instead of doing a RMW we
+> -	 * should just write TDS timer value. For the same reason read
+> -	 * verification is ignored.
+> -	 */
+> -	wa_add(wal,
+> -	       GEN12_FF_MODE2,
+> -	       FF_MODE2_TDS_TIMER_MASK,
+> -	       FF_MODE2_TDS_TIMER_128,
+> -	       0, false);
+> -}
 > -
->   - Change output configuration: Plug/unplug screens, change EDID, allow changing
->     the refresh rate.
->   
-> -The currently proposed solution is to expose vkms configuration through
-> -configfs. All existing module options should be supported through configfs
-> -too.
+>  static void gen12_ctx_workarounds_init(struct intel_engine_cs *engine,
+>  				       struct i915_wa_list *wal)
+>  {
+>  	struct drm_i915_private *i915 = engine->i915;
+>  
+> -	gen12_ctx_gt_tuning_init(engine, wal);
 > -
->   Writeback support
->   -----------------
->   
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index afb3b2f5f425..71eb913b378f 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -262,6 +262,7 @@ config DRM_VKMS
->   	depends on DRM && MMU
->   	select DRM_KMS_HELPER
->   	select DRM_GEM_SHMEM_HELPER
-> +	select CONFIGFS_FS
->   	select CRC32
->   	default n
->   	help
-> diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
-> index 1b28a6a32948..6b83907ad554 100644
-> --- a/drivers/gpu/drm/vkms/Makefile
-> +++ b/drivers/gpu/drm/vkms/Makefile
-> @@ -1,5 +1,6 @@
->   # SPDX-License-Identifier: GPL-2.0-only
->   vkms-y := \
-> +	vkms_configfs.o \
->   	vkms_drv.o \
->   	vkms_plane.o \
->   	vkms_output.o \
-> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-> new file mode 100644
-> index 000000000000..544024735d19
-> --- /dev/null
-> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-> @@ -0,0 +1,646 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +
-> +#include <linux/configfs.h>
-> +#include <linux/mutex.h>
-> +#include <linux/platform_device.h>
-> +
-> +#include <drm/drm_plane.h>
-> +#include <drm/drm_print.h>
-> +
-> +#include "vkms_drv.h"
-> +
-> +/**
-> + * DOC: ConfigFS Support for VKMS
-> + *
-> + * VKMS is instrumented with support for configuration via :doc:`ConfigFS
-> + * <../filesystems/configfs>`.
-> + *
-> + * With VKMS installed, you can mount ConfigFS at ``/config/`` like so::
-> + *
-> + *   mkdir -p /config/
-> + *   sudo mount -t configfs none /config
-> + *
-> + * This allows you to configure multiple virtual devices in addition to an
-> + * immutable "default" device created by the driver at initialization time. Note
-> + * that the default device is immutable because we cannot pre-populate ConfigFS
-> + * directories with normal files.
-> + *
-> + * To set up a new device, create a new directory under the VKMS configfs
-> + * directory::
-> + *
-> + *   mkdir /config/vkms/test
-> + *
-> + * With your device created you'll find an new directory ready to be
-> + * configured::
-> + *
-> + *   /config
-> + *   `-- vkms
-> + *       |-- default
-> + *       |   `-- enabled
-> + *       `-- test
-> + *           |-- connectors
-> + *           |-- crtcs
-> + *           |-- encoders
-> + *           |-- planes
-> + *           `-- enabled
+>  	/*
+>  	 * Wa_1409142259:tgl,dg1,adl-p
+>  	 * Wa_1409347922:tgl,dg1,adl-p
+> @@ -748,15 +719,27 @@ static void gen12_ctx_workarounds_init(struct intel_engine_cs *engine,
+>  			    GEN9_PREEMPT_GPGPU_THREAD_GROUP_LEVEL);
+>  
+>  	/*
+> -	 * Wa_16011163337
+> +	 * Wa_16011163337 - GS_TIMER
+> +	 *
+> +	 * TDS_TIMER: Although some platforms refer to it as Wa_1604555607, we
+> +	 * need to program it even on those that don't explicitly list that
+> +	 * workaround.
+> +	 *
+> +	 * Note that the programming of GEN12_FF_MODE2 is further modified
+> +	 * according to the FF_MODE2 guidance given by Wa_1608008084.
+> +	 * Wa_1608008084 tells us the FF_MODE2 register will return the wrong
+> +	 * value when read from the CPU.
+>  	 *
+> -	 * Like in gen12_ctx_gt_tuning_init(), read verification is ignored due
+> -	 * to Wa_1608008084.
+> +	 * The default value for this register is zero for all fields.
+> +	 * So instead of doing a RMW we should just write the desired values
+> +	 * for TDS and GS timers. Note that since the readback can't be trusted,
+> +	 * the clear mask is just set to ~0 to make sure other bits are not
+> +	 * inadvertently set. For the same reason read verification is ignored.
+>  	 */
+>  	wa_add(wal,
+>  	       GEN12_FF_MODE2,
+> -	       FF_MODE2_GS_TIMER_MASK,
+> -	       FF_MODE2_GS_TIMER_224,
+> +	       ~0,
+> +	       FF_MODE2_TDS_TIMER_128 | FF_MODE2_GS_TIMER_224,
+>  	       0, false);
+>  
+>  	if (!IS_DG1(i915)) {
+> -- 
+> 2.40.1
+> 
 
-I followed this steps and ended up with the following tree:
-
-[root@fedora config]# tree vkms
-vkms
-└── test
-     ├── connectors
-     ├── crtcs
-     ├── enabled
-     ├── encoders
-     ├── id
-     └── planes
-
-I'm not sure if I did something wrong or if the folder "default" really
-shouldn't show. If the folder "default" shouldn't show, it would be nice
-to remove it from the docs.
-
-> + *
-> + * Each directory you add within the connectors, crtcs, encoders, and planes
-> + * directories will let you configure a new object of that type. Adding new
-> + * objects will automatically create a set of default files and folders you can
-> + * use to configure that object.
-> + *
-> + * For instance, we can set up a two-output device like so::
-> + *
-> + *   DRM_PLANE_TYPE_PRIMARY=1
-> + *   DRM_PLANE_TYPE_CURSOR=2
-> + *   DRM_PLANE_TYPE_OVERLAY=0
-> + *
-> + *   mkdir /config/vkms/test/planes/primary
-> + *   echo $DRM_PLANE_TYPE_PRIMARY > /config/vkms/test/planes/primary/type
-> + *
-> + *   mkdir /config/vkms/test/planes/other_primary
-> + *   echo $DRM_PLANE_TYPE_PRIMARY > /config/vkms/test/planes/other_primary/type
-> + *
-> + *   mkdir /config/vkms/test/planes/cursor
-> + *   echo $DRM_PLANE_TYPE_CURSOR > /config/vkms/test/planes/cursor/type
-> + *
-> + *   mkdir /config/vkms/test/planes/overlay
-> + *   echo $DRM_PLANE_TYPE_OVERLAY > /config/vkms/test/planes/overlay/type
-> + *
-> + *   mkdir /config/vkms/test/crtcs/crtc
-> + *   mkdir /config/vkms/test/crtcs/crtc_other
-> + *   mkdir /config/vkms/test/encoders/encoder
-> + *   mkdir /config/vkms/test/connectors/connector
-> + *
-> + * You can see that specific attributes, such as ``.../<plane>/type``, can be
-> + * configured by writing into them. Associating objects together can be done via
-> + * symlinks::
-> + *
-> + *   ln -s /config/vkms/test/encoders/encoder /config/vkms/test/connectors/connector/possible_encoders
-> + *
-> + *   ln -s /config/vkms/test/crtcs/crtc /config/vkms/test/encoders/encoder/possible_crtcs/
-> + *   ln -s /config/vkms/test/crtcs/crtc /config/vkms/test/planes/primary/possible_crtcs/
-> + *   ln -s /config/vkms/test/crtcs/crtc /config/vkms/test/planes/cursor/possible_crtcs/
-> + *   ln -s /config/vkms/test/crtcs/crtc /config/vkms/test/planes/overlay/possible_crtcs/
-> + *
-> + *   ln -s /config/vkms/test/crtcs/crtc_other /config/vkms/test/planes/overlay/possible_crtcs/
-> + *   ln -s /config/vkms/test/crtcs/crtc_other /config/vkms/test/planes/other_primary/possible_crtcs/
-> + *
-> + * Finally, to enable your configured device, just write 1 to the ``enabled``
-> + * file::
-> + *
-> + *   echo 1 > /config/vkms/test/enabled
-> + *
-> + * When you're done with the virtual device, you can clean up the device like
-> + * so::
-> + *
-> + *   echo 0 > /config/vkms/test/enabled
-> + *
-> + *   rm /config/vkms/test/connectors/connector/possible_encoders/encoder
-> + *   rm /config/vkms/test/encoders/encoder/possible_crtcs/crtc
-> + *   rm /config/vkms/test/planes/primary/possible_crtcs/crtc
-> + *   rm /config/vkms/test/planes/cursor/possible_crtcs/crtc
-> + *   rm /config/vkms/test/planes/overlay/possible_crtcs/crtc
-> + *   rm /config/vkms/test/planes/overlay/possible_crtcs/crtc_other
-> + *   rm /config/vkms/test/planes/other_primary/possible_crtcs/crtc_other
-> + *
-> + *   rmdir /config/vkms/test/planes/primary
-> + *   rmdir /config/vkms/test/planes/other_primary
-> + *   rmdir /config/vkms/test/planes/cursor
-> + *   rmdir /config/vkms/test/planes/overlay
-> + *   rmdir /config/vkms/test/crtcs/crtc
-> + *   rmdir /config/vkms/test/crtcs/crtc_other
-> + *   rmdir /config/vkms/test/encoders/encoder
-> + *   rmdir /config/vkms/test/connectors/connector
-> + *
-> + *   rmdir /config/vkms/test
-> + */
-> +
-> +/*
-
-[...]
-
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-> index d43121addf66..1b5b7143792f 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> @@ -9,7 +9,10 @@
->    * the GPU in DRM API tests.
->    */
->   
-> +#include <linux/configfs.h>
->   #include <linux/device.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/err.h>
->   #include <linux/module.h>
->   #include <linux/platform_device.h>
->   #include <linux/dma-mapping.h>
-> @@ -152,8 +155,8 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
->   	dev->mode_config.preferred_depth = 0;
->   	dev->mode_config.helper_private = &vkms_mode_config_helpers;
->   
-> -	return vkmsdev->is_default ? vkms_output_init_default(vkmsdev) :
-> -				     -ENOSYS;
-
-Is this middle step really needed?
-
-Best Regards,
-- Maíra
-
-> +	return vkmsdev->configfs ? vkms_output_init(vkmsdev) :
-> +				   vkms_output_init_default(vkmsdev);
->   }
->   
->   static int vkms_platform_probe(struct platform_device *pdev)
-> @@ -165,6 +168,7 @@ static int vkms_platform_probe(struct platform_device *pdev)
->   
->   	grp = devres_open_group(&pdev->dev, NULL, GFP_KERNEL);
->   	if (!grp) {
-> +		DRM_ERROR("Could not open devres group\n");
->   		return -ENOMEM;
->   	}
->   
-> @@ -179,7 +183,7 @@ static int vkms_platform_probe(struct platform_device *pdev)
->   	vkms_device->config.cursor = enable_cursor;
->   	vkms_device->config.writeback = enable_writeback;
->   	vkms_device->config.overlay = enable_overlay;
-> -	vkms_device->is_default = vkms_device_setup->is_default;
-> +	vkms_device->configfs = vkms_device_setup->configfs;
->   
->   	ret = dma_coerce_mask_and_coherent(vkms_device->drm.dev,
->   					   DMA_BIT_MASK(64));
-> @@ -239,12 +243,43 @@ static struct platform_driver vkms_platform_driver = {
->   	.driver.name = DRIVER_NAME,
->   };
->   
-> +struct vkms_device *vkms_add_device(struct vkms_configfs *configfs)
-> +{
-> +	struct device *dev = NULL;
-> +	struct platform_device *pdev;
-> +	int max_id = 1;
-> +	struct vkms_device_setup vkms_device_setup = {
-> +		.configfs = configfs,
-> +	};
-> +
-> +	while ((dev = platform_find_device_by_driver(
-> +			dev, &vkms_platform_driver.driver))) {
-> +		pdev = to_platform_device(dev);
-> +		max_id = max(max_id, pdev->id);
-> +	}
-> +
-> +	pdev = platform_device_register_data(NULL, DRIVER_NAME, max_id + 1,
-> +					     &vkms_device_setup,
-> +					     sizeof(vkms_device_setup));
-> +	if (IS_ERR(pdev)) {
-> +		DRM_ERROR("Unable to register vkms device'\n");
-> +		return ERR_PTR(PTR_ERR(pdev));
-> +	}
-> +
-> +	return platform_get_drvdata(pdev);
-> +}
-> +
-> +void vkms_remove_device(struct vkms_device *vkms_device)
-> +{
-> +	platform_device_unregister(vkms_device->platform);
-> +}
-> +
->   static int __init vkms_init(void)
->   {
->   	int ret;
->   	struct platform_device *pdev;
->   	struct vkms_device_setup vkms_device_setup = {
-> -		.is_default = true,
-> +		.configfs = NULL,
->   	};
->   
->   	ret = platform_driver_register(&vkms_platform_driver);
-> @@ -262,6 +297,13 @@ static int __init vkms_init(void)
->   		return PTR_ERR(pdev);
->   	}
->   
-> +	ret = vkms_init_configfs();
-> +	if (ret) {
-> +		DRM_ERROR("Unable to initialize configfs\n");
-> +		platform_device_unregister(pdev);
-> +		platform_driver_unregister(&vkms_platform_driver);
-> +	}
-> +
->   	return 0;
->   }
->   
-> @@ -269,6 +311,8 @@ static void __exit vkms_exit(void)
->   {
->   	struct device *dev;
->   
-> +	vkms_unregister_configfs();
-> +
->   	while ((dev = platform_find_device_by_driver(
->   			NULL, &vkms_platform_driver.driver))) {
->   		// platform_find_device_by_driver increments the refcount. Drop
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> index 84b35aa1dc5a..3634eeeb4548 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -3,6 +3,7 @@
->   #ifndef _VKMS_DRV_H_
->   #define _VKMS_DRV_H_
->   
-> +#include <linux/configfs.h>
->   #include <linux/hrtimer.h>
->   
->   #include <drm/drm.h>
-> @@ -10,6 +11,7 @@
->   #include <drm/drm_gem.h>
->   #include <drm/drm_gem_atomic_helper.h>
->   #include <drm/drm_encoder.h>
-> +#include <drm/drm_plane.h>
->   #include <drm/drm_writeback.h>
->   
->   #define XRES_MIN    10
-> @@ -127,14 +129,65 @@ struct vkms_config {
->   	bool overlay;
->   };
->   
-> +struct vkms_config_links {
-> +	struct config_group group;
-> +	unsigned long linked_object_bitmap;
-> +};
-> +
-> +struct vkms_config_connector {
-> +	struct config_group config_group;
-> +	struct vkms_config_links possible_encoders;
-> +};
-> +
-> +struct vkms_config_crtc {
-> +	struct config_group config_group;
-> +	unsigned long crtc_config_idx;
-> +};
-> +
-> +struct vkms_config_encoder {
-> +	struct config_group config_group;
-> +	struct vkms_config_links possible_crtcs;
-> +	unsigned long encoder_config_idx;
-> +};
-> +
-> +struct vkms_config_plane {
-> +	struct vkms_configfs *configfs;
-> +	struct config_group config_group;
-> +	struct vkms_config_links possible_crtcs;
-> +	enum drm_plane_type type;
-> +};
-> +
-> +struct vkms_configfs {
-> +	/* Directory group containing connector configs, e.g. /config/vkms/device/ */
-> +	struct config_group device_group;
-> +	/* Directory group containing connector configs, e.g. /config/vkms/device/connectors/ */
-> +	struct config_group connectors_group;
-> +	/* Directory group containing CRTC configs, e.g. /config/vkms/device/crtcs/ */
-> +	struct config_group crtcs_group;
-> +	/* Directory group containing encoder configs, e.g. /config/vkms/device/encoders/ */
-> +	struct config_group encoders_group;
-> +	/* Directory group containing plane configs, e.g. /config/vkms/device/planes/ */
-> +	struct config_group planes_group;
-> +
-> +	unsigned long allocated_crtcs;
-> +	unsigned long allocated_encoders;
-> +
-> +	struct mutex lock;
-> +
-> +	/* The platform device if this is registered, otherwise NULL */
-> +	struct vkms_device *vkms_device;
-> +};
-> +
->   struct vkms_device_setup {
-> -	bool is_default;
-> +	// Is NULL in the case of the default card.
-> +	struct vkms_configfs *configfs;
->   };
->   
->   struct vkms_device {
->   	struct drm_device drm;
->   	struct platform_device *platform;
-> -	bool is_default;
-> +	// Is NULL in the case of the default card.
-> +	struct vkms_configfs *configfs;
->   	struct vkms_output output;
->   	struct vkms_config config;
->   };
-> @@ -153,11 +206,42 @@ struct vkms_device {
->   #define to_vkms_plane_state(target)\
->   	container_of(target, struct vkms_plane_state, base.base)
->   
-> +#define item_to_configfs(item) \
-> +	container_of(to_config_group(item), struct vkms_configfs, device_group)
-> +
-> +#define item_to_config_connector(item)                                    \
-> +	container_of(to_config_group(item), struct vkms_config_connector, \
-> +		     config_group)
-> +
-> +#define item_to_config_crtc(item)                                    \
-> +	container_of(to_config_group(item), struct vkms_config_crtc, \
-> +		     config_group)
-> +
-> +#define item_to_config_encoder(item)                                    \
-> +	container_of(to_config_group(item), struct vkms_config_encoder, \
-> +		     config_group)
-> +
-> +#define item_to_config_plane(item)                                    \
-> +	container_of(to_config_group(item), struct vkms_config_plane, \
-> +		     config_group)
-> +
-> +#define item_to_config_links(item) \
-> +	container_of(to_config_group(item), struct vkms_config_links, group)
-> +
-> +#define plane_item_to_configfs(item)                                         \
-> +	container_of(to_config_group(item->ci_parent), struct vkms_configfs, \
-> +		     planes_group)
-> +
-> +/* Devices */
-> +struct vkms_device *vkms_add_device(struct vkms_configfs *configfs);
-> +void vkms_remove_device(struct vkms_device *vkms_device);
-> +
->   /* CRTC */
->   struct vkms_crtc *vkms_crtc_init(struct vkms_device *vkmsdev,
->   				 struct drm_plane *primary,
->   				 struct drm_plane *cursor);
->   
-> +int vkms_output_init(struct vkms_device *vkmsdev);
->   int vkms_output_init_default(struct vkms_device *vkmsdev);
->   
->   struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
-> @@ -179,4 +263,8 @@ void vkms_compose_row(struct line_buffer *stage_buffer, struct vkms_plane_state
->   int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
->   				    struct vkms_crtc *vkms_crtc);
->   
-> +/* ConfigFS Support */
-> +int vkms_init_configfs(void);
-> +void vkms_unregister_configfs(void);
-> +
->   #endif /* _VKMS_DRV_H_ */
-> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> index 3b5e272a8b33..c9e6c653de19 100644
-> --- a/drivers/gpu/drm/vkms/vkms_output.c
-> +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> @@ -177,3 +177,8 @@ int vkms_output_init_default(struct vkms_device *vkmsdev)
->   
->   	return ret;
->   }
-> +
-> +int vkms_output_init(struct vkms_device *vkmsdev)
-> +{
-> +	return -ENOTSUPP;
-> +}
+-- 
+Matt Roper
+Graphics Software Engineer
+Linux GPU Platform Enablement
+Intel Corporation
