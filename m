@@ -1,56 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D0E373CE85
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jun 2023 07:09:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C44673CEE0
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jun 2023 09:16:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F4AB10E147;
-	Sun, 25 Jun 2023 05:09:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E908510E0DE;
+	Sun, 25 Jun 2023 07:16:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 32C3810E105;
- Sun, 25 Jun 2023 05:09:02 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8BxlfDty5dk628BAA--.2239S3;
- Sun, 25 Jun 2023 13:09:01 +0800 (CST)
-Received: from openarena.loongson.cn (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Bxxszty5dk80sGAA--.8429S2; 
- Sun, 25 Jun 2023 13:09:01 +0800 (CST)
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Pan Xinhui <Xinhui.Pan@amd.com>
-Subject: [PATCH] drm: Remove the deprecated drm_put_dev() function
-Date: Sun, 25 Jun 2023 13:09:01 +0800
-Message-Id: <20230625050901.393055-1-suijingfeng@loongson.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED24810E144
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jun 2023 07:16:31 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id
+ 4fb4d7f45d1cf-51d884a22e7so1478513a12.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jun 2023 00:16:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1687677386; x=1690269386;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=uIrahwiJfRblkW3SQe71HLoNxiAeifXwVotzPF1COO8=;
+ b=SLN/+lBuA+L4hOibaG99ROPhT2q+4Zk1BkcUiRXl4SmMBXbIW7ZDZeuRWDY1cBg38Z
+ ds8IN6Tf2v7H77bI5N82BPsA6p+sb1Lj+PSR0P8pInIDV1RTT6vqMpSWO9KEJ0hHzfC9
+ PstfvAk+/fjKU2B0e7eYYEH2W3iBHla9soKb01tYlDCjDXbBy2hscxufKR4AS0Pqb0fw
+ xW/pU4+OdDUQISR5H5kuYf4bnneam72K/FNMC6qv8UwrAGSJsMpE/MizlpDV4DdZLRUJ
+ CLXPt0bN46dNwZB1ey2SqK6RPM+T8D3l2FMCfWMHk6CSE+YuPcm2jgpBH2tceoFZhhEK
+ CXig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687677386; x=1690269386;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uIrahwiJfRblkW3SQe71HLoNxiAeifXwVotzPF1COO8=;
+ b=Cb7BImFO473kpE9N9So1d0j417qOaHpnGLjNeDaLp9Af4OcteFPr8KCP/0C+UEC01T
+ CoFIR+NK6V9UxQ8gAo0KMOib7+bPZs9Gui69qqns9JC1S+rsDqRK3z78+52tRsSXq6Yr
+ N9BN6hmsFo/ZmNyGbPm9Xzq32+qKRlyaqQu+3/AtJBzAcIUS1+mlwDYqsmvHtg3DllBH
+ 2av89ZDZfvuwxKJwN0ZXopP8hDMcZGPF1xd4kEpH4DL5DdLKHgMi0RncD2yzET9+Nke5
+ X0GHOc5YvdUgVo6OpJdV0Q8Px5U9ijBmSrZee1mzPMJXFT1A/kHcO0TgLznSa/ENiP17
+ UsLQ==
+X-Gm-Message-State: AC+VfDy29v00kbbDCjjcAs6HQox74OYioQQna1HBhqZmle576M7MVW8P
+ QiKl/SwxS2LxmSTT5gFngWXEHQ==
+X-Google-Smtp-Source: ACHHUZ7yWmteCJ2ASXP6XlOddI/EKOWOLbTyVMMVtsIAE32VSvu1Ve67QKpbz2Drqglycme6vQHnYQ==
+X-Received: by 2002:a05:6402:517:b0:51a:53e0:843f with SMTP id
+ m23-20020a056402051700b0051a53e0843fmr15138396edv.37.1687677386589; 
+ Sun, 25 Jun 2023 00:16:26 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+ by smtp.gmail.com with ESMTPSA id
+ k21-20020aa7d8d5000000b0051bf6318fd7sm1440765eds.97.2023.06.25.00.16.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 25 Jun 2023 00:16:25 -0700 (PDT)
+Message-ID: <6be00ec7-2fab-7da0-ab47-fcaf3a1ce042@linaro.org>
+Date: Sun, 25 Jun 2023 09:16:22 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Bxxszty5dk80sGAA--.8429S2
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxZryfCw1xGrWDGF17uF4rZwc_yoW5CF1rpF
- 43JasakrW8tFZ8K3yUAFnrCFy5Ja17GayI9ryUG3sxWr4qvry7AF98JFyUJ345XrWkCF1a
- v3ZxXFyUZFy0krcCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUBIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
- xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
- AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
- XVWUAwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7V
- AKI48JMxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY
- 6r1j6r4UMxCIbckI1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
- xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xII
- jxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw2
- 0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x02
- 67AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0Urc3UUUUU==
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 10/15] dt-bindings: msm: dsi-phy-14nm: Document SM6125
+ variant
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>
+References: <20230624-sm6125-dpu-v1-0-1d5a638cebf2@somainline.org>
+ <20230624-sm6125-dpu-v1-10-1d5a638cebf2@somainline.org>
+ <1b40b16e-025a-c10b-e99b-404246de73fe@linaro.org>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <1b40b16e-025a-c10b-e99b-404246de73fe@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,101 +89,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Jami Kettunen <jami.kettunen@somainline.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Lux Aliaga <they@mint.lgbt>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, freedreno@lists.freedesktop.org,
+ linux-clk@vger.kernel.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As this function can be replaced with drm_dev_unregister() + drm_dev_put(),
-it is already marked as deprecated, so remove it. No functional change.
+On 24/06/2023 15:48, Dmitry Baryshkov wrote:
+> On 24/06/2023 03:41, Marijn Suijten wrote:
+>> Document availability of the 14nm DSI PHY on SM6125.
+>>
+>> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+>> ---
+>>   Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml
+>> index a43e11d3b00d..60b590f21138 100644
+>> --- a/Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml
+>> +++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml
+>> @@ -18,6 +18,7 @@ properties:
+>>         - qcom,dsi-phy-14nm
+>>         - qcom,dsi-phy-14nm-2290
+>>         - qcom,dsi-phy-14nm-660
+>> +      - qcom,dsi-phy-14nm-6125
+> 
+> Should we start using standard scheme, so "qcom,sm6125-dsi-phy-14nm" ?
 
-Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
----
- drivers/gpu/drm/drm_drv.c           | 28 ----------------------------
- drivers/gpu/drm/drm_pci.c           |  3 ++-
- drivers/gpu/drm/radeon/radeon_drv.c |  3 ++-
- include/drm/drm_drv.h               |  1 -
- 4 files changed, 4 insertions(+), 31 deletions(-)
+I guess the earlier the better.
 
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 12687dd9e1ac..5057307fe22a 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -406,34 +406,6 @@ void drm_minor_release(struct drm_minor *minor)
-  * possibly leaving the hardware enabled.
-  */
- 
--/**
-- * drm_put_dev - Unregister and release a DRM device
-- * @dev: DRM device
-- *
-- * Called at module unload time or when a PCI device is unplugged.
-- *
-- * Cleans up all DRM device, calling drm_lastclose().
-- *
-- * Note: Use of this function is deprecated. It will eventually go away
-- * completely.  Please use drm_dev_unregister() and drm_dev_put() explicitly
-- * instead to make sure that the device isn't userspace accessible any more
-- * while teardown is in progress, ensuring that userspace can't access an
-- * inconsistent state.
-- */
--void drm_put_dev(struct drm_device *dev)
--{
--	DRM_DEBUG("\n");
--
--	if (!dev) {
--		DRM_ERROR("cleanup called no dev\n");
--		return;
--	}
--
--	drm_dev_unregister(dev);
--	drm_dev_put(dev);
--}
--EXPORT_SYMBOL(drm_put_dev);
--
- /**
-  * drm_dev_enter - Enter device critical section
-  * @dev: DRM device
-diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
-index 39d35fc3a43b..b3a68a92eaa6 100644
---- a/drivers/gpu/drm/drm_pci.c
-+++ b/drivers/gpu/drm/drm_pci.c
-@@ -257,7 +257,8 @@ void drm_legacy_pci_exit(const struct drm_driver *driver,
- 					 legacy_dev_list) {
- 			if (dev->driver == driver) {
- 				list_del(&dev->legacy_dev_list);
--				drm_put_dev(dev);
-+				drm_dev_unregister(dev);
-+				drm_dev_put(dev);
- 			}
- 		}
- 		mutex_unlock(&legacy_dev_list_lock);
-diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
-index e4374814f0ef..a4955ae10659 100644
---- a/drivers/gpu/drm/radeon/radeon_drv.c
-+++ b/drivers/gpu/drm/radeon/radeon_drv.c
-@@ -357,7 +357,8 @@ radeon_pci_remove(struct pci_dev *pdev)
- {
- 	struct drm_device *dev = pci_get_drvdata(pdev);
- 
--	drm_put_dev(dev);
-+	drm_dev_unregister(dev);
-+	drm_dev_put(dev);
- }
- 
- static void
-diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-index 89e2706cac56..289c97b12e82 100644
---- a/include/drm/drm_drv.h
-+++ b/include/drm/drm_drv.h
-@@ -511,7 +511,6 @@ void drm_dev_unregister(struct drm_device *dev);
- 
- void drm_dev_get(struct drm_device *dev);
- void drm_dev_put(struct drm_device *dev);
--void drm_put_dev(struct drm_device *dev);
- bool drm_dev_enter(struct drm_device *dev, int *idx);
- void drm_dev_exit(int idx);
- void drm_dev_unplug(struct drm_device *dev);
--- 
-2.25.1
+Best regards,
+Krzysztof
 
