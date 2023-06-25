@@ -1,65 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2777773D1BD
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jun 2023 17:36:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF8473D294
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jun 2023 18:57:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DC1910E185;
-	Sun, 25 Jun 2023 15:36:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AB7B10E08D;
+	Sun, 25 Jun 2023 16:56:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
- [209.85.222.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30DAA10E184
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jun 2023 15:36:22 +0000 (UTC)
-Received: by mail-qk1-f174.google.com with SMTP id
- af79cd13be357-7654e1d83e8so192275785a.1
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jun 2023 08:36:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687707381; x=1690299381;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=t6hADTvRtybxnAgwb/MiYU3LVBKmH7BajnYoRP9HcuU=;
- b=MmsOIasSMFrOMrewm6RaToUdLr+a2cn/3y57UrZbGO2K9Bmadt4dsPjPZdLK1Bd5rM
- wMAVgl4CxbzXWX1i+KXQR0w0sg2DEMAlA32AcBczZJEbWik0B9Yw5Dz8jevTxmRuNtPv
- g4n+OyHHSL8YcxSc4aaYaUC6PObw8NlqxyGkBzF4zu3i9GsZNQfAAAZMQd2Vbt6fDLhi
- i7Z69KiOOWl/qRXjr4ul3oxLlKQu3qJ32XXQIraapSDtYJkX8Yyy3KLWV9rYA7eOX/tR
- w0oXEfvA1RENq0SYhXFxKuHwC6YsXQFyU/X3cGa3/hjUDiloZtmWOHC9ifbngMHeJ1tL
- EdmA==
-X-Gm-Message-State: AC+VfDwYy9EFcVwk2K0C6K5AIUOzgGBzt3S+HuRQx4BlrOx56Fpy+dgq
- 8cHRqUhdnE6ikPeZuxQa/9jjhEpVPibxTQ==
-X-Google-Smtp-Source: ACHHUZ7I+NBPLTDLBtuWGE8go1WSicNhHIjXJ0QkulYzq7796MjIDd549V9dnNFKtzJ/Hzd0C9MBaA==
-X-Received: by 2002:a81:6e89:0:b0:565:c21d:8ec6 with SMTP id
- j131-20020a816e89000000b00565c21d8ec6mr29051998ywc.6.1687707380587; 
- Sun, 25 Jun 2023 08:36:20 -0700 (PDT)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com.
- [209.85.219.181]) by smtp.gmail.com with ESMTPSA id
- z14-20020a81a24e000000b0056ca07bbc03sm845691ywg.86.2023.06.25.08.36.18
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 25 Jun 2023 08:36:19 -0700 (PDT)
-Received: by mail-yb1-f181.google.com with SMTP id
- 3f1490d57ef6-bff27026cb0so2429438276.1
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jun 2023 08:36:18 -0700 (PDT)
-X-Received: by 2002:a0d:d649:0:b0:56d:c02:58a7 with SMTP id
- y70-20020a0dd649000000b0056d0c0258a7mr27473610ywd.18.1687707378531; Sun, 25
- Jun 2023 08:36:18 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B22E810E08D
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jun 2023 16:56:55 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (85-160-50-14.reb.o2.cz
+ [85.160.50.14])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 34A2B4DB;
+ Sun, 25 Jun 2023 18:56:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1687712175;
+ bh=A3AnVnOFjJh6d289gsuCnuuSpnAbQwPDVvq/TgXBLpU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=X9W6i3tIHqxN6v1VSP4xm25Qb5Q1kjths2hfrZ8s/qsvH7acskBJlTmWj9hJ9U0lp
+ vQDSBTaJgBNJcDSbnJyiqS3H45vn1Cs8D5On6q4V/G387yOtzZU4jH+gDU2DABxKTA
+ rMMsD0MIbGKBHfhOrP9WPgxkBYpMJdSlbyjaRSOE=
+Date: Sun, 25 Jun 2023 19:56:51 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH 24/39] drm: renesas: shmobile: Unify plane allocation
+Message-ID: <20230625165651.GA13886@pendragon.ideasonboard.com>
+References: <cover.1687423204.git.geert+renesas@glider.be>
+ <95c2af42a89c65ca603126e56c0423407dfc873f.1687423204.git.geert+renesas@glider.be>
+ <20230623165038.GB2112@pendragon.ideasonboard.com>
+ <CAMuHMdWsDHMn4P1g_EYKzXyisUOnhJ0Q1Nd5Wq9H_CwPvaSaWw@mail.gmail.com>
+ <20230623185052.GR2112@pendragon.ideasonboard.com>
+ <CAMuHMdWdeRODcAa26EKuvR3yca0hVqSUR6WBHEtr9+RBKyk_Ow@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230416115237.798604-1-dmitry.osipenko@collabora.com>
- <20230416115237.798604-4-dmitry.osipenko@collabora.com>
- <CAMuHMdVrJsmQx8X-_Tnxir9W752Mdh8ye7ob2srtY+6HFDEMGw@mail.gmail.com>
- <0ca8034d-0377-26b9-51c8-8caff6c4174a@collabora.com>
-In-Reply-To: <0ca8034d-0377-26b9-51c8-8caff6c4174a@collabora.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Sun, 25 Jun 2023 17:36:07 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWfE=6xFsYFv=mCACpwZp45AiCzFxEB=suEFBhv9ry5aw@mail.gmail.com>
-Message-ID: <CAMuHMdWfE=6xFsYFv=mCACpwZp45AiCzFxEB=suEFBhv9ry5aw@mail.gmail.com>
-Subject: Re: [PATCH v6 3/3] drm/virtio: Support sync objects
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdWdeRODcAa26EKuvR3yca0hVqSUR6WBHEtr9+RBKyk_Ow@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,72 +52,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@redhat.com>,
- kernel@collabora.com, virtualization@lists.linux-foundation.org,
- Emil Velikov <emil.velikov@collabora.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
-
-On Sun, Jun 25, 2023 at 2:41=E2=80=AFPM Dmitry Osipenko
-<dmitry.osipenko@collabora.com> wrote:
-> On 6/25/23 11:47, Geert Uytterhoeven wrote:
-> > On Sun, Apr 16, 2023 at 1:55=E2=80=AFPM Dmitry Osipenko
-> > <dmitry.osipenko@collabora.com> wrote:
-> >> Add sync object DRM UAPI support to VirtIO-GPU driver. Sync objects
-> >> support is needed by native context VirtIO-GPU Mesa drivers, it also w=
-ill
-> >> be used by Venus and Virgl contexts.
-> >>
-> >> Reviewed-by; Emil Velikov <emil.velikov@collabora.com>
-> >> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+On Sun, Jun 25, 2023 at 10:58:17AM +0200, Geert Uytterhoeven wrote:
+> On Fri, Jun 23, 2023 at 8:50 PM Laurent Pinchart wrote:
+> > On Fri, Jun 23, 2023 at 07:55:22PM +0200, Geert Uytterhoeven wrote:
+> > > On Fri, Jun 23, 2023 at 6:50 PM Laurent Pinchart wrote:
+> > > > On Thu, Jun 22, 2023 at 11:21:36AM +0200, Geert Uytterhoeven wrote:
+> > > > > Unify primary and overlay plane allocation:
+> > > > >   - Enhance shmob_drm_plane_create() so it can be used to create the
+> > > > >     primary plane, too,
+> > > > >   - Move overlay plane creation next to primary plane creation.
+> > > > >
+> > > > > As overlay plane index zero now means the primary plane, this requires
+> > > > > shifting all overlay plane indices by one.
+> > > >
+> > > > Do you use index zero to identify the primary plane just for
+> > > > shmob_drm_plane_create(), or somewhere else too ? If it's just to create
+> > > > the plane, you could instead pass the plane type to the function.
+> > >
+> > > Index zero is just used for the creation.
+> > > I guess this sort of goes together with my question below...
+> > >
+> > > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > > ---
+> > > > > Perhaps it would be better to not use dynamic allocation, but store
+> > > > > "struct drm_plane primary" and "struct shmob_drm_plane planes[5]" in
+> > > > > struct drm_shmob_device instead, like is done for the crtc and encoder?
+> > >
+> > > ... as embedding separate primary and planes[] would also get rid of
+> > > the need to adjust the plane indices when converting from logical to physical
+> > > overlay plane indices.
 > >
-> > Thanks for your patch!
-> >
-> >> --- a/drivers/gpu/drm/virtio/virtgpu_submit.c
-> >> +++ b/drivers/gpu/drm/virtio/virtgpu_submit.c
-> >
-> >> +static int
-> >> +virtio_gpu_parse_deps(struct virtio_gpu_submit *submit)
-> >> +{
-> >> +       struct drm_virtgpu_execbuffer *exbuf =3D submit->exbuf;
-> >> +       struct drm_virtgpu_execbuffer_syncobj syncobj_desc;
-> >> +       size_t syncobj_stride =3D exbuf->syncobj_stride;
-> >> +       u32 num_in_syncobjs =3D exbuf->num_in_syncobjs;
-> >> +       struct drm_syncobj **syncobjs;
-> >> +       int ret =3D 0, i;
-> >> +
-> >> +       if (!num_in_syncobjs)
-> >> +               return 0;
-> >> +
-> >> +       /*
-> >> +        * kvalloc at first tries to allocate memory using kmalloc and
-> >> +        * falls back to vmalloc only on failure. It also uses GFP_NOW=
-ARN
-> >
-> > GFP_NOWARN does not exist.
->
-> https://elixir.bootlin.com/linux/v6.4-rc7/source/include/linux/gfp_types.=
-h#L38
+> > Do they need to be embedded for that, or could you simple keep the index
+> > as it is ?
+> 
+> If the plane type would be passed explicitly, they would not need to be
+> embedded for that.
+> 
+> Then the question becomes: does it make sense to unify primary and
+> overlay plane handling?
 
-That line defines "__GFP_NOWARN", not "GFP_NOWARN".
-C is case- and underscore-sensitive. as is "git grep -w" ;-)
+Good point. I don't mind much either way, it depends on how much code
+duplication it would remove I suppose.
 
-Gr{oetje,eeting}s,
+-- 
+Regards,
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Laurent Pinchart
