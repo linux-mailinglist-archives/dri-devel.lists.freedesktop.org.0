@@ -2,50 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B542E73E07B
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 15:21:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D6E073E07A
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 15:21:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2D1D10E1FD;
-	Mon, 26 Jun 2023 13:21:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A184910E1FB;
+	Mon, 26 Jun 2023 13:20:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 647DE10E1FE
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 13:20:57 +0000 (UTC)
-Received: from [192.168.2.254] (109-252-154-132.dynamic.spd-mgts.ru
- [109.252.154.132])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 8A3B86607134;
- Mon, 26 Jun 2023 14:20:55 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1687785656;
- bh=rhp4zEhI3pFi2vNX2zs+L2Vdw6QHH/dBNRQvSpHUpzw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=A+/FG6maqIC2yM1tswFgCqch7PrLRYDvjpfz6fHKAtrvNauNss+NaeLEKW5z9Wgtm
- 7Rj/c857nrxjeT0lKjggL6cXUAr/Sfxaq/bQ4tANXXG/q1+diGqs4g0JGNLrnnfaE3
- amctE0YSCWMjC410FOOypwoT3Ia0JzqxARqARMqfLmHSH/ZF4ArP7MkoJHcltHDygO
- hyWfedyiJW/AxMFMz2QXvNnweNR2lzK/47ID6vStbZIT0g1dQ0GuhwWjkOkrbrcYPq
- aqdGCQBkVGkWY09zXvjB9n7tyQVRvpPZOcyZUR95eKGuMdBSxon107WTKqW6kUqVNN
- 9JGUMHHhx5hNg==
-Message-ID: <2182355e-2412-fd60-fb0d-5359b43d4e0c@collabora.com>
-Date: Mon, 26 Jun 2023 16:20:53 +0300
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C252A10E1FB
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 13:20:56 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8BxFsW1kJlk+2ACAA--.3725S3;
+ Mon, 26 Jun 2023 21:20:53 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8DxJ8y1kJlksqUJAA--.2138S3; 
+ Mon, 26 Jun 2023 21:20:53 +0800 (CST)
+Message-ID: <1c93f083-87c1-87d9-3faa-c3ba50e69a0c@loongson.cn>
+Date: Mon, 26 Jun 2023 21:20:53 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.1
-Subject: Re: [PATCH 1/5] drm/panfrost: Stop using drm_gem_shmem_put_pages()
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm/drm_gem.c: remove surplus else after return clause
 Content-Language: en-US
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org
-References: <20230626120247.1337962-1-boris.brezillon@collabora.com>
- <20230626120247.1337962-2-boris.brezillon@collabora.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20230626120247.1337962-2-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+References: <20230314125305.2278964-1-15330273260@189.cn>
+ <cde47fd0-a8e4-36cf-3f0b-a1b473799db3@loongson.cn>
+ <163af01e-01cc-008d-333f-964cba9f9130@suse.de>
+ <670a1763-181a-0133-9b31-b790072b3af8@loongson.cn>
+ <c2bdf8ea-b770-23a1-222b-1791ab0e3cec@suse.de>
+ <ixkyytoxpsnw3ffumacdyyoj4qbs3zqob73oj6hzuzuwi25axm@roghs7ruhnik>
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <ixkyytoxpsnw3ffumacdyyoj4qbs3zqob73oj6hzuzuwi25axm@roghs7ruhnik>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8DxJ8y1kJlksqUJAA--.2138S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxWw4fGF48GryrAr45Cr17Jwc_yoW7JF4DpF
+ ykJayYkrZ8GF4Fqr17tr1UZFyYyw17WayUWr95J3WDArs8tF4jqrWUXFWj9rWUJr4fGF4a
+ qr45Xr13ZryUArgCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUBFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+ AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+ AVWUtwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
+ 8JMxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_
+ Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+ xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+ cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+ AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
+ 14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j5xhLUUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,30 +69,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emil Velikov <emil.l.velikov@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Steven Price <steven.price@arm.com>
+Cc: David Airlie <airlied@linux.ie>, liyi <liyi@loongson.cn>,
+ dri-devel@lists.freedesktop.org, Sui Jingfeng <15330273260@189.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/26/23 15:02, Boris Brezillon wrote:
-> -err_pages:
-> -	drm_gem_shmem_put_pages(&bo->base);
->  err_unlock:
->  	dma_resv_unlock(obj->resv);
-> +
-> +	if (ret && pinned)
-> +		drm_gem_shmem_unpin(&bo->base);
+Hi,
 
-The drm_gem_shmem_unpin() was supposed to be used only in conjunction
-with drm_gem_shmem_pin(). I've a pending patch to enable the pin/unpin
-refcounting needed by drm-shmem shrinker, it will prohibit invocation of
-unpin without a previous pin.
+On 2023/6/26 20:32, Maxime Ripard wrote:
+> Hi,
+>
+> On Tue, Jun 20, 2023 at 06:18:31PM +0200, Thomas Zimmermann wrote:
+>> Am 20.06.23 um 18:06 schrieb Sui Jingfeng:
+>>> Hi,
+>>>
+>>> On 2023/6/20 22:43, Thomas Zimmermann wrote:
+>>>> Hi
+>>>>
+>>>> Am 20.06.23 um 06:08 schrieb Sui Jingfeng:
+>>>>> ping ?
+>>>>>
+>>>>> On 2023/3/14 20:53, Sui Jingfeng wrote:
+>>>>>>    else is not generally useful after return
+>>>> No indention please.
+>>>>
+>>> OK, will be fixed at the next version.
+>>>>>> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
+>>>>>> ---
+>>>>>>    drivers/gpu/drm/drm_gem.c | 7 ++++---
+>>>>>>    1 file changed, 4 insertions(+), 3 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+>>>>>> index a6208e2c089b..364e3733af98 100644
+>>>>>> --- a/drivers/gpu/drm/drm_gem.c
+>>>>>> +++ b/drivers/gpu/drm/drm_gem.c
+>>>>>> @@ -1150,8 +1150,8 @@ int drm_gem_pin(struct drm_gem_object *obj)
+>>>>>>    {
+>>>>>>        if (obj->funcs->pin)
+>>>>>>            return obj->funcs->pin(obj);
+>>>>>> -    else
+>>>>>> -        return 0;
+>>>>>> +
+>>>>>> +    return 0;
+>>>> This change is ok.
+>>>>
+>>>>>>    }
+>>>>>>    void drm_gem_unpin(struct drm_gem_object *obj)
+>>>>>> @@ -1172,7 +1172,8 @@ int drm_gem_vmap(struct drm_gem_object
+>>>>>> *obj, struct iosys_map *map)
+>>>>>>        ret = obj->funcs->vmap(obj, map);
+>>>>>>        if (ret)
+>>>>>>            return ret;
+>>>>>> -    else if (iosys_map_is_null(map))
+>>>>>> +
+>>>>>> +    if (iosys_map_is_null(map))
+>>>>>>            return -ENOMEM;
+>>>> This is not correct. Calling iosys_map_is_null() is part of handling
+>>>> the return value from vmap, so the else is fine.
+>>>>
+>>> Are you serious ?
+>>>
+>>>
+>>> 1. Before apply this patch:
+>>>
+>>>
+>>> If the 'ret' is 0,  it stand for obj->funcs->vmap() is successful, then
+>>> if (iosys_map_is_null(map)) will be run.
+>>>
+>>> If the 'ret' is NOT 0, then it return immediately.
+>>>
+>>>
+>>> 2. After apply this patch:
+>>>
+>>>
+>>> If the 'ret' is NOT 0, it stand for obj->funcs->vmap() failed, then it
+>>> return immediately.
+>>>
+>>> If the 'ret' is 0, it stand for obj->funcs->vmap() is successful, then
+>>> the check if (iosys_map_is_null(map))
+>>>
+>>> will be run!
+>>>
+>>>
+>>> I feel strange about the core here, I think the check ' if
+>>> (iosys_map_is_null(map))' is not needed,
+>>>
+>>> the implement should responsible to handle all of possible errors.
+>> The ->vmap() callback can succeed with ret=0, but we still have no memory.
+>> Then we return -ENOMEM. The call to _is_null(map) is part of the error
+>> handling for ->vmap(). That is a bit strange, but it as always worked like
+>> that. Keeping all error handling in the same if-else block make all this
+>> more obvious.
+> Reading that patch, it wasn't obvious to me at all and could have made
+> the same patch.
+>
+> Could we add a comment maybe to make it more obvious?
 
-I'm wondering whether it will be okay to simply remove
-drm_gem_shmem_put_pages() from the Panfrost code, letting pages to be
-kept allocated in a error case. They will be freed once BO is destroyed.
+It could, but what should we to do ?
+
+
+It seems that it is true the  ->vmap() callback can succeed with ret=0,
+
+But I think this break the *convention*,
+
+the vmap() function at mm/vmalloc.c already said "Return: the address of 
+the area or %NULL on failure."
+
+
+The kernel's vmap() function return NULL on failure(may because the 
+space is not enough on 32-bit ARM SoCs).
+
+But the drm core's vmap hook just don't honor this.
+
+
+Take the drm/tegra as an example:
+
+
+```
+
+static void *tegra_bo_mmap(struct host1x_bo *bo)
+{
+     struct tegra_bo *obj = host1x_to_tegra_bo(bo);
+     struct iosys_map map;
+     int ret;
+
+     if (obj->vaddr) {
+         return obj->vaddr;
+     } else if (obj->gem.import_attach) {
+         ret = dma_buf_vmap_unlocked(obj->gem.import_attach->dmabuf, &map);
+         return ret ? NULL : map.vaddr;
+     } else {
+         return vmap(obj->pages, obj->num_pages, VM_MAP,
+                 pgprot_writecombine(PAGE_KERNEL));
+     }
+}
+
+
+static int tegra_gem_prime_vmap(struct dma_buf *buf, struct iosys_map *map)
+{
+     struct drm_gem_object *gem = buf->priv;
+     struct tegra_bo *bo = to_tegra_bo(gem);
+     void *vaddr;
+
+     vaddr = tegra_bo_mmap(&bo->base);
+     if (IS_ERR(vaddr))
+         return PTR_ERR(vaddr);
+
+     iosys_map_set_vaddr(map, vaddr);
+
+     return 0;
+}
+
+```
+
+
+On one of the all code path, tegra_gem_prime_vmap() call vmap() fucntion 
+to give the vmap the caller wanted.
+
+but the tegra_gem_prime_vmap() function *only* think 'error' as error(by 
+calling IS_ERR(vaddr)),
+
+But I think the 'NULL' should also be counted as error.
+
+For my patch(this patch), but the ultimate results is same for the case 
+before apply this patch and after apply this patch.
+
+
+Their are also many other drivers have the same problem.
+
+But I don't have their hardware to do the basic test.
+
+> Maxime
 
 -- 
-Best regards,
-Dmitry
+Jingfeng
 
