@@ -1,55 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3930B73E63F
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 19:16:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0B4273E694
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 19:35:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 234E410E0E6;
-	Mon, 26 Jun 2023 17:16:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C77B910E0FD;
+	Mon, 26 Jun 2023 17:35:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BB0110E0E6
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 17:16:47 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF6F310E0FD
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 17:35:36 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4377E60F0F;
- Mon, 26 Jun 2023 17:16:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 126D4C433C8;
- Mon, 26 Jun 2023 17:16:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1687799805;
- bh=8059eygYXUGESJrlTDcfhmLR43khYpXnsgBg/+/Am1Y=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WYi5nd0oIT09XyUPi7Ii818TZbuL+v152d/cmWR431S0REOjyDEaJ14zKrbDjm5gp
- AVJtkXWllIMRTKqN5f+WTlqcBXfSM/N61vPRC2XCjClr0CDD8Kl7FCCdqzs1P0UMzK
- 2hYVOvIO+7OoKVv3CgLWsJvuYtsdaLQ/lBCKHL48xg3dVBJCIN2jL9+rjlwxhVth+F
- uYjsrJLHRT2aODj+F7uS087TNgaHkRCdIaTXFmhN1ZAUnI8yNoV+C2YJHB68Xu4Tpc
- KBq9n98Y6oGusx7eLPaHn/81li34Hlo84KooOcFaV6ZAIvLQ+/b3tABL33CKm09+iX
- Ms+MJxroLigbA==
-Date: Mon, 26 Jun 2023 18:16:38 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Manikandan.M@microchip.com
-Subject: Re: [PATCH 1/9] dt-bindings: mfd: Add bindings for SAM9X7 LCD
- controller
-Message-ID: <20230626-coping-criteria-e5aa8b2ae212@spud>
-References: <20230613070426.467389-1-manikandan.m@microchip.com>
- <20230613070426.467389-2-manikandan.m@microchip.com>
- <a0b059d1-df4d-10ce-fb7c-7acea0a20793@linaro.org>
- <20230613-slider-coherent-d508d67afc91@spud>
- <423eef3c-54f0-5c88-9bc9-82c0198b6da6@microchip.com>
- <3a3f4463-981a-e8d8-8ec4-06f2abfa3b4d@microchip.com>
- <ef09246c-9220-4c71-4ac2-2792d9ca519d@microchip.com>
- <1252fa40-dd8e-73f3-18b7-7010a7f8085e@microchip.com>
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx0.riseup.net (Postfix) with ESMTPS id 4QqZkH4YJ6z9swq;
+ Mon, 26 Jun 2023 17:35:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1687800935; bh=giwnYDRnMKIEPj6n6wosuBvtsbeOu5tU0yrzPW0HLZk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=i92YP0uSlXGRYZsMBAT2Xb4RatVv6F1QEyEHouGadVWf2B8O9lWaMmVJ36uGPgSnZ
+ jISGjSFkxDDZQ14os0bMo9vmQ+eyrjvIFO5hU+Lpi8+RMCcj7Zs3RwMTnLN6nwFUaJ
+ vNL1N/TA0QlGYXZVID2MdDNE3A5Uh+BbamowDFzg=
+X-Riseup-User-ID: 48D28D37E56E8B9C8BC11B21C88B7421D088277F358A8FFF089DEA3A3870EEB1
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4QqZk83bL8zJq7n;
+ Mon, 26 Jun 2023 17:35:28 +0000 (UTC)
+Message-ID: <91aa3ffe-edb9-d85c-c62b-49f7bf73a0ae@riseup.net>
+Date: Mon, 26 Jun 2023 14:35:25 -0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="1j/2jjguTlX+Xhnw"
-Content-Disposition: inline
-In-Reply-To: <1252fa40-dd8e-73f3-18b7-7010a7f8085e@microchip.com>
+Subject: Re: [PATCH v4] drm/vkms: Add support to 1D gamma LUT
+To: Pekka Paalanen <ppaalanen@gmail.com>
+References: <20230621194121.184552-1-arthurgrillo@riseup.net>
+ <e880d5cd-a958-164e-4ba9-dd2d0e3ad903@riseup.net>
+ <20230626111745.49dbbf08@eldfell>
+Content-Language: en-US
+From: Maira Canal <mairacanal@riseup.net>
+In-Reply-To: <20230626111745.49dbbf08@eldfell>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,108 +54,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexandre.belloni@bootlin.com, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Hari.PrasathGE@microchip.com, krzysztof.kozlowski+dt@linaro.org,
- Varshini.Rajendran@microchip.com, sam@ravnborg.org,
- Balamanikandan.Gunasundar@microchip.com, lee@kernel.org,
- Dharma.B@microchip.com, Nayabbasha.Sayed@microchip.com, conor+dt@kernel.org,
- robh+dt@kernel.org, Durai.ManickamKR@microchip.com,
- linux-arm-kernel@lists.infradead.org, Balakrishnan.S@microchip.com,
- bbrezillon@kernel.org, Nicolas.Ferre@microchip.com,
- krzysztof.kozlowski@linaro.org, Claudiu.Beznea@microchip.com
+Cc: hamohammed.sa@gmail.com, aleixpol@kde.org, andrealmeid@riseup.net,
+ rodrigosiqueiramelo@gmail.com, xaver.hugl@gmail.com, mdaenzer@redhat.com,
+ dri-devel@lists.freedesktop.org, victoria@system76.com, mwen@igalia.com,
+ jadahl@redhat.com, uma.shankar@intel.com, sebastian.wick@redhat.com,
+ Arthur Grillo <arthurgrillo@riseup.net>, joshua@froggi.es
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Pekka,
 
---1j/2jjguTlX+Xhnw
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 6/26/23 05:17, Pekka Paalanen wrote:
+> On Sat, 24 Jun 2023 18:48:08 -0300
+> Maira Canal <mairacanal@riseup.net> wrote:
+> 
+>> Hi Arthur,
+>>
+>> Thanks for working on this feature for the VKMS!
+>>
+>> On 6/21/23 16:41, Arthur Grillo wrote:
+>>> Support a 1D gamma LUT with interpolation for each color channel on the
+>>> VKMS driver. Add a check for the LUT length by creating
+>>> vkms_atomic_check().
+>>>
+>>> Tested with:
+>>> igt@kms_color@gamma
+>>> igt@kms_color@legacy-gamma
+>>> igt@kms_color@invalid-gamma-lut-sizes
+>>
+>> Could you also mention that this will make it possible to run the test
+>> igt@kms_plane@pixel-format?
+>>
+>> Also, you mentioned to me that the performance degraded with this new
+>> feature, but I wasn't able to see it while running the VKMS CI. I
+>> performed a couple of tests and I didn't see any significant performance
+>> issue.
+>>
+>> Could you please run a benchmark and share the results with us? This way
+>> we can atest that this new feature will not affect significantly the
+>> VKMS performance. It would be nice to have a small brief of this
+>> benchmark on the commit message as well.
+>>
+>> Attesting that there isn't a performance issue and adding those nits to
+>> the commit message, you can add my
+>>
+>> Reviewed-by: Maíra Canal <mairacanal@riseup.net>
+>>
+>> on the next version.
+> 
+> Hi,
+> 
+> perfomance testing is good indeed. As future work, could there be a
+> document describing how to test VKMS performance?
 
-On Mon, Jun 26, 2023 at 05:31:59AM +0000, Manikandan.M@microchip.com wrote:
-> On 21/06/23 13:17, Nicolas Ferre wrote:
-> > On 16/06/2023 at 08:44, Manikandan M - I67131 wrote:
-> >> On 14/06/23 20:10, Nicolas Ferre wrote:
-> >>> On 13/06/2023 at 20:21, Conor Dooley wrote:
-> >>>> On Tue, Jun 13, 2023 at 08:17:13PM +0200, Krzysztof Kozlowski wrote:
-> >>>>> On 13/06/2023 09:04, Manikandan Muralidharan wrote:
-> >>>>>> Add new compatible string for the XLCD controller on SAM9X7 SoC.
-> >>>>>>
-> >>>>>> Signed-off-by: Manikandan Muralidharan<manikandan.m@microchip.com>
-> >>>>>> ---
-> >>>>>> =A0=A0 Documentation/devicetree/bindings/mfd/atmel-hlcdc.txt | 1 +
-> >>>>>> =A0=A0 1 file changed, 1 insertion(+)
-> >>>>>>
-> >>>>>> diff --git a/Documentation/devicetree/bindings/mfd/atmel-hlcdc.txt
-> >>>>>> b/Documentation/devicetree/bindings/mfd/atmel-hlcdc.txt
-> >>>>>> index 5f8880cc757e..7c77b6bf4adb 100644
-> >>>>>> --- a/Documentation/devicetree/bindings/mfd/atmel-hlcdc.txt
-> >>>>>> +++ b/Documentation/devicetree/bindings/mfd/atmel-hlcdc.txt
-> >>>>>> @@ -8,6 +8,7 @@ Required properties:
-> >>>>>> =A0=A0=A0=A0=A0 "atmel,sama5d3-hlcdc"
-> >>>>>> =A0=A0=A0=A0=A0 "atmel,sama5d4-hlcdc"
-> >>>>>> =A0=A0=A0=A0=A0 "microchip,sam9x60-hlcdc"
-> >>>>>> +=A0=A0 "microchip,sam9x7-xlcdc"
-> >>>>> Google says sam9x7 is a series, not a SoC. Please add compatibles f=
-or
-> >>>>> specific SoCs, not for series.
-> >>>> We had this one a few weeks ago, see
-> >>>> https://lore.kernel.org/all/add5e49e-8416-ba9f-819a-da944938c05f@mic=
-rochip.com/
-> >>>> and its parents. Outcome of that seemed to be that using "sam9x7" was
-> >>>> fine.
-> >>>
-> >>> And it's where it begins to be funny, as the LCD is precisely one asp=
-ect
-> >>> where we differentiate between sam9x75, sam9x72 and sam9x70...
-> >>> So please Manikandan sort this out if difference between these chips
-> >>> will be better handled with different compatibility string, in
-> >>> particular about //, LVDS and MIPI-DSI variants!
-> >> Yes Sure, I will replace the compatible as s/sam9x7/sam9x75/g to handle
-> >> the different variants of sam9x7 better.
-> >=20
-> > Moving to sam9x75 is probably good. But what is your plan for=20
-> > differentiating parallel and LVDS (on sam9x72) and precisely this=20
-> > sam9x75 variant which in addition has MIPI-DSI?
-> In sam9x75 with support for LVDS and MIPI, Parallel interfacing=20
-> peripherals, the additions performed on the LCD controller driver is the=
-=20
-> same.Considering the LCDC IP used in sam9x75, there are no registers=20
-> sets that needs modification per connecting peripheral variants, only=20
-> the clock and DRM_ENCODER_MODE_XXX (set by connecting peripheral driver)=
-=20
-> differs, which can be handled in DT, atmel-lcdc MFD driver and=20
-> peripheral driver.
->=20
-> In future, sam9x72 with XLCD controller can be differentiated with=20
-> sam9x72 compatible string and with a IP version flag(is_xlcdc_v2) in its=
-=20
-> driver data if an upgraded XLCD IP is used with difference in bits or=20
-> register set exist compared to current IP.
+I'll try to select a couple of more meaningful IGT tests to describe how
+to test the VKMS performance and also add a document to describe how to
+run this tests.
 
-Trying to covert that into what the binding will look like...
-sam9x72 & sam9x75 each get their own compatibles for the lcd controller.
-=46rom there, we permit `compatible =3D "microchip,sam9x75-foo"` in
-isolation. It *sounds* like the basic featureset of the sam9x75 is
-compatible with the sam9x72, so for that we permit
-`compatible =3D "microchip,sam9x72-foo", "microchip,sam9x75-foo"`.
-Although, if the hardware for the sam9x72 isn't set in stone yet, it
-might be best to hold off on documenting it until things settle down,
-and only add the sam9x75 for now.
+Recently, I added a VKMS must-pass testlist to IGT. This testlist
+tries to assure that regressions will not be introduced into VKMS. But,
+I failed to introduce a documentation on the kernel side pointing to
+this new testlist... I'll also work on it.
 
-Cheers,
-Conor.
+> 
+> "I ran IGT@blah 100 times and it took xx seconds before and yy seconds
+> after" does not really give someone like me an idea of what was
+> actually measured. For example blending overhead increase could be
+> completely lost in opaque pixel copying noise if the test case has only
+> few pixels to blend, e.g. a cursor plane, not to mention the overhead
+> of launching an IGT test in the first place.
 
---1j/2jjguTlX+Xhnw
-Content-Type: application/pgp-signature; name="signature.asc"
+About the IGT overhead, I don't know exactly how we could escape from
+it. Maybe writing KUnit tests to the VKMS's composition functions, such
+as blend(). Anyway, we would have the overhead of the KUnit framework.
+I mean, for whatever framework we choose, there'll be an overhead...
 
------BEGIN PGP SIGNATURE-----
+Do you have any other ideas on how to test VKMS with less overhead?
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZJnH9gAKCRB4tDGHoIJi
-0vJeAQCKTNo8DxOHcmMtCltpTrHcnzIsZYChyQOAwNVVzXJhJwEAuZ+yPxkQmRc/
-3vViIUv3oFaK8ps5UbhrKrBYzz5BQA4=
-=3Eob
------END PGP SIGNATURE-----
+Best Regards,
+- Maíra
 
---1j/2jjguTlX+Xhnw--
+> 
+> Something that would guide new developers in running meaningful
+> benchmarks would be nice.
+> 
+> Should e.g. IGT have explicit (VKMS) performance tests that need to be
+> run manually, since evaluation of the result is not feasible
+> automatically? Or a benchmark mode in correctness tests that would run
+> the identical operation N times and measure the time before checking
+> for correctness?
+> 
+> The correctness verification in IGT tests, if done by image comparison
+> which they undoubtedly will need to be in the future, may dominate the
+> CPU run time measurements if included.
+> 
+> 
+> Thanks,
+> pq
