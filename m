@@ -1,47 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9F4073ECF0
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 23:32:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D125273EEB6
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 00:38:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4D4810E255;
-	Mon, 26 Jun 2023 21:32:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5F4010E261;
+	Mon, 26 Jun 2023 22:38:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE7DC10E255;
- Mon, 26 Jun 2023 21:32:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=3WrV9FP4eW8Nnv/icMs114y+kK2oX4SvQP8ltNtE+5I=; b=yF8txQHE+JLtPnr/RSwcuSzZnC
- eEnAsz4U2YWpunoAyK5pJqyyG+WYpfWuzHhaZZ/HKebLX/nJ1xK05v6lfOlGYLswflyZaHsRUolmP
- wql48+oGq7ToJMBoMgTEIwX1kBxZrDghYRVTOrZHlH2WLlHDOdvmjShNJJ43wDhY+oNve91leQ+KB
- pdOw5mlN4+vZ36YmcH5OaiFNQnQWPJN7n8xN8iW+wH8tlKeqWsv6wVmiD0WlU3T9c/GswVXU6GBH2
- cFG5NrdEEUh/7EdqClshXDWBeSJTrkFbw1z0/jYAyG4oJnu9POSKDOlQAspBYmx+eQ1iqda1eCUoq
- SNd2Am7g==;
-Received: from [2601:1c2:980:9ec0::2764]
- by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1qDtoY-00B4pY-2A; Mon, 26 Jun 2023 21:32:02 +0000
-Message-ID: <e7abf1dc-e37e-e819-1f73-6b33633e41ad@infradead.org>
-Date: Mon, 26 Jun 2023 14:32:00 -0700
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57A7E10E261;
+ Mon, 26 Jun 2023 22:38:33 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id
+ 38308e7fff4ca-2b698dd515dso33294441fa.3; 
+ Mon, 26 Jun 2023 15:38:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1687819111; x=1690411111;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=/4BPPMHxIuX4VVUkfnAZKGZOTCGN6vqENFDffRdr5PA=;
+ b=jQFjf4X3mG+0YOiNUYcjsja7cQ+ItKtzN8+vj6u4YVgsB4JaIqtuhMT5UCVUxUJz4i
+ ZEDU69/ocAs3SvgoX+rDPvyDPOlHzbuQz/lyEAYF6L0LH+8LgctjGFNm4Vejo7MxVzDt
+ qiJjofMJtWSRxEVa10tAOWjc+h7fi/7Hv05huAdjtBimk8g1S+ueVSLTo7op4BLp7ON5
+ jvf5lj7DKxmOb5m6ju6QC6fnctbhz4mgT/io2QdujpKtpLMPYeNaco6tAscDk9Xkz5rQ
+ pWWh3HUFbUIbbkW+Cf/iIIqufSPZY+ydtcQZIpa8QIJJJ0JPVMXz72S6TAns18MhtEP2
+ apKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687819111; x=1690411111;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/4BPPMHxIuX4VVUkfnAZKGZOTCGN6vqENFDffRdr5PA=;
+ b=MbKjSN2Q7inrJiJOyOMzAubZeLd4qxegiTstnEiUwCu7z2UeNstaZmu1/Si0hGaIYE
+ La4elsmX/Pfe2YnPgcrqFxoHE/T21WlY/LKc+TP0N4sqh/RC9DdYJl5HJvPQpyaZjzK2
+ +iflnArs1OgBYrmH2fVmJ1vxaaa31OkhjPZP1ZDuU21M3ad1MS4tRi7/aj4kcXlck315
+ QEWcCWrU3Ex/53XUkRomy2v1C8FgozsyW5OArcx2HTOQnhhPhCrywaUws+jg+MqT1WG5
+ Lpl9u3g5UuFQCSLfRH0HfJdMPvrxURyozfJ36qt/B8Kcx36IKPjLbQS+gAiUfTaCsf8p
+ rnhw==
+X-Gm-Message-State: AC+VfDyTqPDTCZW+etEbw2HOrCwj2HI9AkYV4UnkLpamlAyERT6zvoRV
+ n3lLgE/7CO/ihPmIxPCFTNVgr0riz5BbxzmlkCc=
+X-Google-Smtp-Source: ACHHUZ6lR+r47SwmWrLOLwTX0weKHcxS2NtYt9q6sHoMoPzLK4Ljmu+yCVm3VJkQRyQVU7ShZUnwFUHfeto+xg4lEu4=
+X-Received: by 2002:a2e:2e10:0:b0:2b6:9b4a:2608 with SMTP id
+ u16-20020a2e2e10000000b002b69b4a2608mr2962412lju.37.1687819111001; Mon, 26
+ Jun 2023 15:38:31 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v4 1/1] drm/doc: Document DRM device reset expectations
-Content-Language: en-US
-To: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20230626183347.55118-1-andrealmeid@igalia.com>
- <20230626183347.55118-2-andrealmeid@igalia.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230626183347.55118-2-andrealmeid@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230620004217.4700-1-dakr@redhat.com>
+ <20230620004217.4700-4-dakr@redhat.com>
+ <cf6846ea-5bd0-0b41-b7e6-901c70701751@amd.com>
+ <a8edf75b-e0f7-a6c7-7d29-f0d39923549b@redhat.com>
+ <41aecd10-9956-0752-2838-34c97834f0c8@amd.com>
+ <bcde7ea3-fbab-3a18-e810-64b6589ddb18@redhat.com>
+ <86ef9898-c4b6-f4c0-7ad3-3ffe5358365a@amd.com>
+ <c1f05169-dec0-22ee-52fa-c8070678394e@redhat.com>
+ <2f502150-c1f8-615c-66d9-c3fb59b8c409@redhat.com>
+ <4a52ac7c-19ba-8906-5902-fbf75673bf59@amd.com>
+ <d18a4ea5-4e8e-be69-84c3-ca658f5cfd24@redhat.com>
+ <923e914f-d367-2f74-9774-f0024d946bdd@amd.com>
+In-Reply-To: <923e914f-d367-2f74-9774-f0024d946bdd@amd.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Tue, 27 Jun 2023 08:38:18 +1000
+Message-ID: <CAPM=9tzQ51LEc9if5HBCgbn7-HUOPw+qEvx7jEE2hk6gYBKvOA@mail.gmail.com>
+Subject: Re: [PATCH drm-next v5 03/14] drm: manager to keep track of GPUs VA
+ mappings
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,137 +78,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>,
- =?UTF-8?Q?Timur_Krist=c3=b3f?= <timur.kristof@gmail.com>,
- Pekka Paalanen <ppaalanen@gmail.com>,
- Samuel Pitoiset <samuel.pitoiset@gmail.com>, kernel-dev@igalia.com,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: matthew.brost@intel.com, willy@infradead.org,
+ dri-devel@lists.freedesktop.org, corbet@lwn.net, nouveau@lists.freedesktop.org,
+ ogabbay@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mripard@kernel.org, linux-mm@kvack.org, boris.brezillon@collabora.com,
+ Danilo Krummrich <dakr@redhat.com>, bskeggs@redhat.com, tzimmermann@suse.de,
+ Liam.Howlett@oracle.com, Dave Airlie <airlied@redhat.com>,
+ bagasdotme@gmail.com, jason@jlekstrand.net,
+ Donald Robson <donald.robson@imgtec.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+> > As pointed out by Christian, this would optimize the "get all mappings
+> > backed by a specific BO from a given VM" use case.
+> >
+> > The question for me is, do other drivers than amdgpu commonly need this?
+>
+> I have no idea.
+>
+> >
+> > And what does amdgpu need this for? Maybe amdgpu does something we're
+> > not doing (yet)?
+>
+> Basically when we do a CS we need to make sure that the VM used by this
+> CS is up to date. For this we walk over the relocation list of BOs and
+> check the status of each BO+VM structure.
+>
+> This is done because we don't want to update all VMs at the same time,
+> but rather just those who needs the update.
 
-On 6/26/23 11:33, André Almeida wrote:
-> Create a section that specifies how to deal with DRM device resets for
-> kernel and userspace drivers.
-> 
-> Signed-off-by: André Almeida <andrealmeid@igalia.com>
-> ---
->  Documentation/gpu/drm-uapi.rst | 68 ++++++++++++++++++++++++++++++++++
->  1 file changed, 68 insertions(+)
-> 
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-> index 65fb3036a580..25a11b9b98fa 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -285,6 +285,74 @@ for GPU1 and GPU2 from different vendors, and a third handler for
->  mmapped regular files. Threads cause additional pain with signal
->  handling as well.
->  
-> +Device reset
-> +============
-> +
-> +The GPU stack is really complex and is prone to errors, from hardware bugs,
-> +faulty applications and everything in between the many layers. Some errors
-> +require resetting the device in order to make the device usable again. This
-> +section describes what is the expectations for DRM and usermode drivers when a
+This seems like a legacy from GL and possibly older vulkan, going
+forward vulkan can't rely on passing lists of objects into the kernel
+due to things like buffer_device_address, I'm not sure we should
+optimise for this situation, and moving the tracking list into the
+drivers is going to mean having a bunch of drivers all having the same
+boilerplate, to do the same thing just so amdgpu can't avoid doing it.
 
-   sections describes the expectations for DRM and usermode drivers when a
+Now there might be some benchmark somewhere we can produce a benefit
+in this, and if there is then we should consider going this way for
+all drivers and not just allowing drivers to choose their own path
+here.
 
-> +device resets and how to propagate the reset status.
-> +
-> +Kernel Mode Driver
-> +------------------
-> +
-> +The KMD is responsible for checking if the device needs a reset, and to perform
-> +it as needed. Usually a hang is detected when a job gets stuck executing. KMD
-> +should keep track of resets, because userspace can query any time about the
-> +reset stats for an specific context. This is needed to propagate to the rest of
-> +the stack that a reset has happened. Currently, this is implemented by each
-> +driver separately, with no common DRM interface.
-> +
-> +User Mode Driver
-> +----------------
-> +
-> +The UMD should check before submitting new commands to the KMD if the device has
-> +been reset, and this can be checked more often if it requires to. After
+> >
+> > Christian - I know you didn't ask for "do it the way amdgpu does",
+> > instead you voted for keeping it entirely driver specific. But I think
+> > everyone is pretty close and I'm still optimistic that we could just
+> > generalize this.
+>
+> Well, you should *not* necessarily do it like amdgpu does! Basically the
+> implementation in amdgpu was driven by requirements, e.g. we need that,
+> let's do it like this.
+>
+> It's perfectly possible that other requirements (e.g. focus on Vulkan)
+> lead to a completely different implementation.
+>
+> It's just that ideally I would like to have an implementation where I
+> can apply at least the basics to amdgpu as well.
+>
 
-                                       more often if the UMD requires it. After
+I think we can still do that just either have an option to disable
+using the list internally in the gpuva or have the driver keep it's
+own tracking alongside, there may still be use cases where it can use
+the gpuva tracking instead of it's own.
 
-> +detecting a reset, UMD will then proceed to report it to the application using
-> +the appropriated API error code, as explained in the below section about
+I don't think we should forklift what is pretty likely to be common
+code across every driver that uses this going forward just to benefit
+an amdgpu design decision for older stacks.
 
-       appropriate                                  the section below about
-
-> +robustness.
-> +
-> +Robustness
-> +----------
-> +
-> +The only way to try to keep an application working after a reset is if it
-> +complies with the robustness aspects of the graphical API that it is using.
-> +
-> +Graphical APIs provide ways to application to deal with device resets. However,
-
-                               to applications
-
-> +there is no guarantee that the app will be correctly using such features, and
-
-                                      will use such features correctly, and a // or "and the"
-
-
-> +UMD can implement policies to close the app if it is a repeating offender,
-> +likely in a broken loop. This is done to ensure that it does not keeps blocking
-
-                                                                    keep
-
-> +the user interface from being correctly displayed. This should be done even if
-> +the app is correct but happens to trigger some bug in the hardware/driver.
-> +
-> +OpenGL
-> +~~~~~~
-> +
-> +Apps using OpenGL should use the available robust interfaces, like the
-> +extension ``GL_ARB_robustness`` (or ``GL_EXT_robustness`` for OpenGL ES). This
-> +interface tells if a reset has happened, and if so, all the context state is
-> +considered lost and the app proceeds by creating new ones. If is possible to
-
-                                                              If it is possible to
-
-> +determine that robustness is not in use, UMD will terminate the app when a reset
-
-                                            the UMD
-
-> +is detected, giving that the contexts are lost and the app won't be able to
-> +figure this out and recreate the contexts.
-> +
-> +Vulkan
-> +~~~~~~
-> +
-> +Apps using Vulkan should check for ``VK_ERROR_DEVICE_LOST`` for submissions.
-> +This error code means, among other things, that a device reset has happened and
-> +it needs to recreate the contexts to keep going.
-> +
-> +Reporting resets causes
-
-That's an awkward heading. How about:
-Reporting causes of resets
---------------------------
-
-> +-----------------------
-> +
-> +Apart from propagating the reset through the stack so apps can recover, it's
-> +really useful for driver developers to learn more about what caused the reset in
-> +first place. DRM devices should make use of devcoredump to store relevant
-> +information about the reset, so this information can be added to user bug
-> +reports.
-> +
->  .. _drm_driver_ioctl:
->  
->  IOCTL Support on Device Nodes
-
-thanks for the documentation.
--- 
-~Randy
+Dave.
