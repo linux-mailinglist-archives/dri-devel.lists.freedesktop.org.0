@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 996B973EC79
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 23:04:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBC3873EC7B
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 23:04:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD4F110E25C;
-	Mon, 26 Jun 2023 21:04:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7C3010E260;
+	Mon, 26 Jun 2023 21:04:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
- by gabe.freedesktop.org (Postfix) with ESMTP id ECEC210E1F8
+ by gabe.freedesktop.org (Postfix) with ESMTP id EE1BD10E1FC
  for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 12:13:53 +0000 (UTC)
-X-AuditID: a67dfc5b-d85ff70000001748-fc-64997d6b187d
+X-AuditID: a67dfc5b-d85ff70000001748-0f-64997d6bb058
 From: Byungchul Park <byungchul@sk.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v10 07/25] dept: Apply sdt_might_sleep_{start,
- end}() to wait_for_completion()/complete()
-Date: Mon, 26 Jun 2023 20:56:42 +0900
-Message-Id: <20230626115700.13873-8-byungchul@sk.com>
+Subject: [PATCH v10 08/25] dept: Apply sdt_might_sleep_{start,
+ end}() to PG_{locked, writeback} wait
+Date: Mon, 26 Jun 2023 20:56:43 +0900
+Message-Id: <20230626115700.13873-9-byungchul@sk.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230626115700.13873-1-byungchul@sk.com>
 References: <20230626115700.13873-1-byungchul@sk.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSa0wTWRSAvXdm7kwrxXHQdUSDpgaNbBZxRT3xHU10YlyzCf80Zrexk21D
- qaZIAY0JVDSKgA+ClYeKZVMQWMWCikKRRXn5oi4EqanNwpqFCkiCFq3go9X45+RLzne+X4ej
- hCYmktMbD8gmo8agJkpaORpm+8lwuFAb1/FfGJzJiQP/2+M0lFyrJuC6WoWgui4Tg691Gzyb
- GEEw+biLAmuBC8Hl/hcU1LV5ETgrLAS6X4ZDj3+MQGfBSQJHyq4ReDo8hcFz7iyGKscv8PC0
- DUNzYJAGq49AsfUIDo4hDAF7JQv2jGgYqChiYap/OXR6exlwPv8RCi96CDQ6O2loqx/A0H2n
- hIC3+jMDD9s6aHCdyWXgr9c2AsMTdgrs/jEW/mkuxVCTFQy9mnJiOPbmEwPtuc1B+vM6hh53
- A4Km4/9icFT3ErjnH8FQ6yig4EN5K4KBvFEWjuYEWCjOzENw8ug5Gro+tjOQ5VkJk+9LyKa1
- 0r2RMUrKqk2VnBOltPTAJkq3i16wUlbTc1YqdaRItRUxUlmjD0uXx/2M5Kg8QSTH+FlWyh7t
- wZKnt5FIr588YaWO85P0r/N3KddpZYPeLJuWbfhdqRt2jrL7785Mu+C6z2aguvBspOBEPl48
- cdfOfOe8Ri8dYsIvEfv6AlSIZ/ELxdrc/4OOkqP4suniYMd9NhtxXASvE9utiSGk+WjRkrco
- pKv4lWKxLx9/Sy4Qq2qav2YU/Cqx4ZENhVgIOhZPCwklRT5fIX6cHKS/HcwV/67oo08jVSma
- VokEvdGcpNEb4mN16UZ9WuzefUkOFPwq++Gp3fVo3JXQgngOqcNUcVHntQKjMSenJ7UgkaPU
- s1Q/vLdqBZVWk35QNu37zZRikJNb0DyOVs9R/TyRqhX4PzQH5ERZ3i+bvm8xp4jMQGnCou1b
- r86OX3qqfNOQ111UcyeyIYJ/xM2u3/vWGLMhqnBj4e7M/pkzfN05CbSQeGvbxZrWl3veWHcM
- da3enhAetTHCycTO2TyQv+TmmiJL30HSv97dZYo0+y7N8+6MXqEIuG+8WydYdqa4dery1MVm
- 7SH87PaNrdmWLSuom1c+pavpZJ1meQxlStZ8AYYYLbRRAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSa0xTZxzGfd9zpVpzrGQ70+iWGmbCNoRkLP8EYvxgwhsTCS5EE2OinT2x
- DVBNy3ULCxRQVoUIBst1KcVUhDpYSyJKqwSQy0ToBJmTyoS4YVcuCbOEjoq2Gr88+SXPk9+n
- h6cUFmYHr9VlS3qdKlPJymhZalLJVxmFdep493QcVF2Kh8CrchoaO+wseH5pR2DvKsbgu58C
- f6wuIFh/OE6BucaDoHn2GQVdgzMI3K1GFiZebIXJwDILIzUXWShp6WDhd38Ig/dqNYZ2x2F4
- cNmKoTc4T4PZx0KDuQSH4yWGoK2NA1tRDMy11nMQmk2AkZkpBvqbRhhwP/0C6n72suByj9Aw
- 2D2HYeJOIwsz9jcMPBgcpsFTVcHAzSUrC/5VGwW2wDIHj3otGDpLw7Z/Q24M5//bYGCoojdM
- 137FMPlnD4K75c8xOOxTLPQHFjA4HTUU/H/9PoK5ykUOyi4FOWgorkRwsewqDeOvhxgo9SbC
- +lojeyCZ9C8sU6TUmUfcqxaa/GYVye36ZxwpvfuUIxZHDnG2xpIWlw+T5pUAQxxtP7HEsVLN
- EdPiJCbeKRdLlsbGODJcu06n7TouS1ZLmdpcSb9v/ymZxu9e5M7d25bf5BngilDXVhOK4kXh
- a7HSNUNHmBX2ik+eBKkIRwufic6KfxgTkvGU0LJZnB8e4EyI57cLGnHInBFBWogRjZV7InO5
- kCg2+K7g98pPxfbO3neaKOEbsWfUiiKsCG+M3j72MpJZ0KY2FK3V5WaptJmJcYYMTYFOmx93
- +myWA4V/YysMVXWjVxMpfUjgkXKLPH53rVrBqHINBVl9SOQpZbT8ozWzWiFXqwq+l/RnT+pz
- MiVDH9rJ08qP5YeOSacUwhlVtpQhSeck/YcW81E7ilA2/iTQZFtT5M+lpfr1BX9X9QSNLToy
- O/Gt74Znant62cnj6ZoX1F+PX36Z0J13PqbrwHzzeHaeufqG1TV2dLTZ9FDv3J3y+U2j/8St
- nluHpjeX/Di6b4C6Xu9MXklL2mUvzzmi+a7wynNe+XiobuPC9MYPb5JOHBxrV4T2PvK3xaYr
- aYNGlRBL6Q2qt1umRrEzAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSfUxTZxSH97733vdeCjU3Bd1VyDBNjBGVocHtJC5mCdHdJTPRbEuMxo/O
+ 3o1KQW3la9OEj2IUKQqRFpGYUkxFwA+KS0Qp6ZBPGdhJUxlWMpiACEiGFi10aovxn5Mn53d+
+ z1+HoxROZgWnSTsm6dJUWiWR0bLpiKr12hMX1AktHZFQUpQAvlenaKi8UU/Adb0OQf2tXAwT
+ 7d/Ao7kpBAu9Dygwl7kQVA0/oeBWxxACR00egf6nS8DtmyHQXXaGQH71DQJ/TQYweE2lGOrs
+ 26HnnBWD0z9Og3mCwEVzPg6OZxj8tloWbDmrYKSmgoXA8AboHvIw4BhcCxcueQk0O7pp6Lg9
+ gqH/TiWBofp3DPR0dNHgKjEycO2FlcDknI0Cm2+GhYdOC4abhqDoecCB4eTLtwx0Gp1ButyA
+ wf33XQQtp/7BYK/3ELjnm8LQaC+jYP5KO4KR4mkWCor8LFzMLUZwpsBEw4P/OxkweDfBwptK
+ 8vVm8d7UDCUaGjNFx5yFFu9bBbGp4gkrGloGWdFiTxcba+LE6uYJLFbN+hjRXnuaiPbZUlYs
+ nHZj0etpJuKLvj5W7CpfoHfE7JZ9pZa0mgxJ9/mWA7LkXtcoORKQZ50/ayI56HF4IQrjBD5R
+ mHz5nP3I46NWEmLCrxYGBvxUiKP4lUKjcYwpRDKO4qvDhfGutsVCJP+T8K+rH4WY5lcJvVMl
+ OMRyfpMwbypHH6SxQt1N56IojP9CuPundXGvCN7keVtJSCrw5jDBb3hMPhSWC3/UDNDnkNyC
+ PqlFCk1aRqpKo02MT85O02TFHzycakfBv7KdCOy5jWZd37cinkPKCHnCZ+VqBaPK0GentiKB
+ o5RR8mVvzGqFXK3K/lXSHd6vS9dK+lYUzdHKT+Ub5zLVCv4X1TEpRZKOSLqPKebCVuSgq7An
+ NyoyPaat5bXJWPqqrrjzd+HgsDtru2P8Tso+NU76sW+soHvnWcOVpIicmIaKXZk/PHRsfZpY
+ tHA/+sDof4fmjSm+8KZYXN0wtia2abDot8i+ywoVtzxRHxe/5OSXlr3uo+1JHm9+j2ddPvk2
+ T7s0Ojdm27Ofv6tgOEcbPn5dSeuTVRviKJ1e9R5ycJ/5UwMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSa0xTZxjH957Le0qxy0lFPTqnS51ZZBFhse6JM8YPZr4xbDFmusuHSbce
+ pVIKaRHFRINcRJGqRblaZylLR7jJDiRjozWEm1S51EHASyVSdQhWSdQ2VOqldfHLk1/+/39+
+ nx4ZrbSzy2Q6Q5ZoNGj0Kixn5N9+lb827UiVNnG8+kuwlCRC4MUJBqyXGzF4mhsQNLYdo2C6
+ dxuMB/0I5geHaago8yCombxLQ1vfBAJXXR6GkQcfwmhgFoO77BSG/NrLGG48DlPgLS+loEH6
+ Bq6ftVPQGZpioGIaw4WKfCpyHlEQctRz4MhdDb66ag7Ck0ngnhhjofuimwXX7c+h6jcvBqfL
+ zUBfu4+CkX+sGCYa37Bwva+fAY/FzELTUzuGx0EHDY7ALAf/dtooaCmI2GbCLgqOP3/NwlVz
+ Z4R+/5OC0VsdCK6cuEeB1DiGoTvgp6BVKqPh5R+9CHynn3BQWBLi4MKx0whOFZYzMPzqKgsF
+ XjXMz1nxlk2k2z9Lk4LWg8QVtDHkml0gf1ff5UjBldscsUkHSGtdPKl1TlOk5lmAJVL9SUyk
+ Z6UcKX4yShHvmBOTp0NDHOmvnGd2fPyTfJNW1OuyReO6zSny1EHPQ5wZVhw6f6Yc56I7scUo
+ Ribw64Wph3YcZcx/Jty8GaKjHMd/IrSa/2OLkVxG87WxwlR/DxctFvK/CPc9IyjKDL9aGPRb
+ qCgreLXwsrwS/S9dKTS0dL4TxfAbhI4B+7tcGdnkebvwWSS3oQ/qUZzOkJ2u0enVCaa01ByD
+ 7lDCrxnpEop8juNI2NKOXoxs60K8DKkWKBJXVGqVrCbblJPehQQZrYpTLJ6r0CoVWk3OYdGY
+ scd4QC+autBHMka1RLH9ezFFye/TZIlpopgpGt+3lCxmWS4aSFYHDUf/muxJWOw7Gbtf/vMi
+ 5L+03rrUuXtjafV3w+Z17r13JGeob3NvyhqDNZ7ZRWe0+7L5zMPNs492fpHfFDTua1k18+kc
+ tlUWZZKU2sRdWR2K5EmlPrnwR3fJD2vZ0f1Q8vXMraI9XE2b2Zen3hrbU5Q1d2m5pVSQTP5z
+ KsaUqkmKp40mzVu761OUNQMAAA==
 X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Mon, 26 Jun 2023 21:03:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -91,79 +91,56 @@ Cc: hamohammed.sa@gmail.com, hdanton@sina.com, jack@suse.cz,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Makes Dept able to track dependencies by
-wait_for_completion()/complete().
+Makes Dept able to track dependencies by PG_{locked,writeback} waits.
 
 Signed-off-by: Byungchul Park <byungchul@sk.com>
 ---
- include/linux/completion.h | 30 +++++++++++++++++++++++++-----
- 1 file changed, 25 insertions(+), 5 deletions(-)
+ mm/filemap.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/include/linux/completion.h b/include/linux/completion.h
-index 62b32b19e0a8..32d535abebf3 100644
---- a/include/linux/completion.h
-+++ b/include/linux/completion.h
-@@ -10,6 +10,7 @@
-  */
- 
- #include <linux/swait.h>
+diff --git a/mm/filemap.c b/mm/filemap.c
+index c4d4ace9cc70..adc49cb59db6 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -42,6 +42,7 @@
+ #include <linux/ramfs.h>
+ #include <linux/page_idle.h>
+ #include <linux/migrate.h>
 +#include <linux/dept_sdt.h>
+ #include <asm/pgalloc.h>
+ #include <asm/tlbflush.h>
+ #include "internal.h"
+@@ -1215,6 +1216,9 @@ static inline bool folio_trylock_flag(struct folio *folio, int bit_nr,
+ /* How many times do we accept lock stealing from under a waiter? */
+ int sysctl_page_lock_unfairness = 5;
  
- /*
-  * struct completion - structure used to maintain state for a "completion"
-@@ -26,14 +27,33 @@
- struct completion {
- 	unsigned int done;
- 	struct swait_queue_head wait;
-+	struct dept_map dmap;
- };
- 
-+#define init_completion(x)				\
-+do {							\
-+	sdt_map_init(&(x)->dmap);			\
-+	__init_completion(x);				\
-+} while (0)
++static struct dept_map __maybe_unused PG_locked_map = DEPT_MAP_INITIALIZER(PG_locked_map, NULL);
++static struct dept_map __maybe_unused PG_writeback_map = DEPT_MAP_INITIALIZER(PG_writeback_map, NULL);
 +
-+/*
-+ * XXX: No use cases for now. Fill the body when needed.
-+ */
- #define init_completion_map(x, m) init_completion(x)
--static inline void complete_acquire(struct completion *x) {}
--static inline void complete_release(struct completion *x) {}
-+
-+static inline void complete_acquire(struct completion *x)
-+{
-+	sdt_might_sleep_start(&x->dmap);
-+}
-+
-+static inline void complete_release(struct completion *x)
-+{
-+	sdt_might_sleep_end();
-+}
- 
- #define COMPLETION_INITIALIZER(work) \
--	{ 0, __SWAIT_QUEUE_HEAD_INITIALIZER((work).wait) }
-+	{ 0, __SWAIT_QUEUE_HEAD_INITIALIZER((work).wait), \
-+	  .dmap = DEPT_MAP_INITIALIZER(work, NULL), }
- 
- #define COMPLETION_INITIALIZER_ONSTACK_MAP(work, map) \
- 	(*({ init_completion_map(&(work), &(map)); &(work); }))
-@@ -75,13 +95,13 @@ static inline void complete_release(struct completion *x) {}
- #endif
- 
- /**
-- * init_completion - Initialize a dynamically allocated completion
-+ * __init_completion - Initialize a dynamically allocated completion
-  * @x:  pointer to completion structure that is to be initialized
-  *
-  * This inline function will initialize a dynamically created completion
-  * structure.
-  */
--static inline void init_completion(struct completion *x)
-+static inline void __init_completion(struct completion *x)
+ static inline int folio_wait_bit_common(struct folio *folio, int bit_nr,
+ 		int state, enum behavior behavior)
  {
- 	x->done = 0;
- 	init_swait_queue_head(&x->wait);
+@@ -1226,6 +1230,11 @@ static inline int folio_wait_bit_common(struct folio *folio, int bit_nr,
+ 	unsigned long pflags;
+ 	bool in_thrashing;
+ 
++	if (bit_nr == PG_locked)
++		sdt_might_sleep_start(&PG_locked_map);
++	else if (bit_nr == PG_writeback)
++		sdt_might_sleep_start(&PG_writeback_map);
++
+ 	if (bit_nr == PG_locked &&
+ 	    !folio_test_uptodate(folio) && folio_test_workingset(folio)) {
+ 		delayacct_thrashing_start(&in_thrashing);
+@@ -1327,6 +1336,8 @@ static inline int folio_wait_bit_common(struct folio *folio, int bit_nr,
+ 	 */
+ 	finish_wait(q, wait);
+ 
++	sdt_might_sleep_end();
++
+ 	if (thrashing) {
+ 		delayacct_thrashing_end(&in_thrashing);
+ 		psi_memstall_leave(&pflags);
 -- 
 2.17.1
 
