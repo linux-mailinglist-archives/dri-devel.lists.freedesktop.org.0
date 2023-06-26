@@ -2,73 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81C4B73E44B
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 18:10:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37B4873E454
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 18:11:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AEFD10E011;
-	Mon, 26 Jun 2023 16:10:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C07710E237;
+	Mon, 26 Jun 2023 16:11:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDE4710E02B
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 16:10:49 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id
- ffacd0b85a97d-3113da5260dso3000082f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 09:10:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687795848; x=1690387848;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=zqAmLl/C5FNJIhv2Xt1PuXVNbepqgpYqVZ+raKQfDgo=;
- b=Dk9D/qPMCY74SEye/8fNMTPEpEockgkVtKFNB5FpvJP6Z2NVSo47uRsb0CubNQMYKd
- WtkUlVzRm0OstEhMn04c8lGSdVBSwfWues+6SYb8jxXGnITJ/3Kys7xO1aGHt0pWGOvM
- aA8yIEBHWbJFPmP0UWx3SloZvu0U2PR48aUI4URctIkhwDtRpYz7uXYWH7BXxA+BUtGd
- daPgIncZc5uHyrG7QxHLGDzN0ePEASN4hMWadW2r8fn/QIRPCMMWwCa5uoMgc6pxaZPl
- +Eaa8YzSoZgMSGjoplFEYNvjPCOATV5BP/Pbk7lZXMiSx1VYsVB+XwniRCN8wfPc5YmI
- LzLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687795848; x=1690387848;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zqAmLl/C5FNJIhv2Xt1PuXVNbepqgpYqVZ+raKQfDgo=;
- b=NcGr5F3Rtei2H7UBexxK5z/5KTzY15XiSjnSXaXECSXdAAf+Bkf1gQdTAdPsY6hrNT
- ZfWZIEzV2TkiPLTiT4PmWiCla+EHNHpH8U3DaBIyG9x+W/UG2Rrh3osbfuDiFZkWsHo1
- yFokdgALBvwKo6bMA8Q91mF+GbpaGcFlVTWFf45Rt+GjUl9iVi7YRNYvGfIBTP82dGzL
- PqAjSkGhfiAJaFrUiCJEZWWDskJyunnbdfF3UfKAjWvGOdILiB+0vW69z2TBt4X2AW7O
- jvNdyCzZ7LjVHPyP/o6qdYrRFgPCNwcgXb24XnMCyKNRB2uQcK/1SDqGU2WUaWbgF/z5
- AXJQ==
-X-Gm-Message-State: AC+VfDwiK626HDmDUq/O9eqRfkTHMsg2qfuwq/7KW3nDM0XRGSE7rKnO
- d3P/PJ6dPx2QN+bawr2iCfwKGA==
-X-Google-Smtp-Source: ACHHUZ7NhS/vlSmtNSKWHpB3xX654GhMOQ5yRJfZky0DhRpX0T7S8MJstbg9Aob3s7/xTaRbLNztbg==
-X-Received: by 2002:a05:6000:118f:b0:309:4620:e155 with SMTP id
- g15-20020a056000118f00b003094620e155mr8838545wrx.49.1687795847749; 
- Mon, 26 Jun 2023 09:10:47 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
- by smtp.gmail.com with ESMTPSA id
- r16-20020adfce90000000b00313f1f543b8sm3000758wrn.108.2023.06.26.09.10.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Jun 2023 09:10:47 -0700 (PDT)
-Message-ID: <52c57cab-10cf-2e7e-2c1d-fa6506786d45@linaro.org>
-Date: Mon, 26 Jun 2023 18:10:44 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5A2310E237
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 16:11:49 +0000 (UTC)
+Received: from [192.168.2.254] (109-252-154-132.dynamic.spd-mgts.ru
+ [109.252.154.132])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 7E6D566003AC;
+ Mon, 26 Jun 2023 17:11:47 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1687795908;
+ bh=9EZs0izTC9fT3uhYtjpxEXL0MLcsJc+fn/xx7LDWC30=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=eW9yYPq6r+yhdEvGBX0mFerL6rT+zA/f5p+Aq+i+1Gvz7TmqJ3PZZCbxm5O9mxC0q
+ +wsB3qZtEg6L+HAx2svRPhQWQW+uAjqweSzb5ZVPE96+wB2K6lfsiabzOX2s7HHEth
+ vT+clsYUfkiTRmR+8m1P4NMY6iBMVAYZemw2KTMwYfdrud9xHPfIVtghLSrypMxSO1
+ 8mOxPCsDdm7DtudciYaTh1sRBkpx6H0zjiINaLQPalZvz59ETD2dSxQ2K4Us+qd8Nh
+ f7DDiZEqwu3PHqtmtAnUgJaeZtg1Q1W4U9OfbF43uyvrvIQEhg5lpm2KKMvk1lAeW6
+ 7hsT1XtYiMYOA==
+Message-ID: <2f4d3e96-1e10-3662-bfc5-8c361a4c1366@collabora.com>
+Date: Mon, 26 Jun 2023 19:11:44 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 03/15] dt-bindings: clock: qcom, dispcc-sm6125: Require GCC
- PLL0 DIV clock
+ Thunderbird/102.11.1
+Subject: Re: [PATCH v6 3/3] drm/virtio: Support sync objects
 Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230624-sm6125-dpu-v1-0-1d5a638cebf2@somainline.org>
- <20230624-sm6125-dpu-v1-3-1d5a638cebf2@somainline.org>
- <c9681bce-efa8-9b79-4bf6-837dd6a2dc12@linaro.org>
- <55b0ca89-8f2e-5383-59d4-6809e813abf8@linaro.org>
- <vnp263d43flny2ibt3n7fbloyi26enqrejnobogplfu5fcj6l3@s7zkxrsi2rde>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <vnp263d43flny2ibt3n7fbloyi26enqrejnobogplfu5fcj6l3@s7zkxrsi2rde>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20230416115237.798604-1-dmitry.osipenko@collabora.com>
+ <20230416115237.798604-4-dmitry.osipenko@collabora.com>
+ <CAMuHMdVrJsmQx8X-_Tnxir9W752Mdh8ye7ob2srtY+6HFDEMGw@mail.gmail.com>
+ <0ca8034d-0377-26b9-51c8-8caff6c4174a@collabora.com>
+ <CAMuHMdWfE=6xFsYFv=mCACpwZp45AiCzFxEB=suEFBhv9ry5aw@mail.gmail.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <CAMuHMdWfE=6xFsYFv=mCACpwZp45AiCzFxEB=suEFBhv9ry5aw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,49 +60,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- dri-devel@lists.freedesktop.org, Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-clk@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
- Andy Gross <agross@kernel.org>, Lux Aliaga <they@mint.lgbt>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>, Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Stephen Boyd <sboyd@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@redhat.com>,
+ kernel@collabora.com, virtualization@lists.linux-foundation.org,
+ Emil Velikov <emil.velikov@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/06/2023 21:48, Marijn Suijten wrote:
-> On 2023-06-24 11:08:54, Krzysztof Kozlowski wrote:
->> On 24/06/2023 03:45, Konrad Dybcio wrote:
->>> On 24.06.2023 02:41, Marijn Suijten wrote:
->>>> The "gcc_disp_gpll0_div_clk_src" clock is consumed by the driver, will
->>>> be passed from DT, and should be required by the bindings.
->>>>
->>>> Fixes: 8397c9c0c26b ("dt-bindings: clock: add QCOM SM6125 display clock bindings")
->>>> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
->>>> ---
->>> Ideally, you'd stick it at the bottom of the list, as the items: order
->>> is part of the ABI
->>
->> Yes, please add them to the end. Order is fixed.
+On 6/25/23 18:36, Geert Uytterhoeven wrote:
+> Hi Dmitry,
 > 
-> Disagreed for bindings that declare clock-names and when the driver
-> adheres to it, see my reply to Konrad's message.
+> On Sun, Jun 25, 2023 at 2:41 PM Dmitry Osipenko
+> <dmitry.osipenko@collabora.com> wrote:
+>> On 6/25/23 11:47, Geert Uytterhoeven wrote:
+>>> On Sun, Apr 16, 2023 at 1:55 PM Dmitry Osipenko
+>>> <dmitry.osipenko@collabora.com> wrote:
+>>>> Add sync object DRM UAPI support to VirtIO-GPU driver. Sync objects
+>>>> support is needed by native context VirtIO-GPU Mesa drivers, it also will
+>>>> be used by Venus and Virgl contexts.
+>>>>
+>>>> Reviewed-by; Emil Velikov <emil.velikov@collabora.com>
+>>>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>>>
+>>> Thanks for your patch!
+>>>
+>>>> --- a/drivers/gpu/drm/virtio/virtgpu_submit.c
+>>>> +++ b/drivers/gpu/drm/virtio/virtgpu_submit.c
+>>>
+>>>> +static int
+>>>> +virtio_gpu_parse_deps(struct virtio_gpu_submit *submit)
+>>>> +{
+>>>> +       struct drm_virtgpu_execbuffer *exbuf = submit->exbuf;
+>>>> +       struct drm_virtgpu_execbuffer_syncobj syncobj_desc;
+>>>> +       size_t syncobj_stride = exbuf->syncobj_stride;
+>>>> +       u32 num_in_syncobjs = exbuf->num_in_syncobjs;
+>>>> +       struct drm_syncobj **syncobjs;
+>>>> +       int ret = 0, i;
+>>>> +
+>>>> +       if (!num_in_syncobjs)
+>>>> +               return 0;
+>>>> +
+>>>> +       /*
+>>>> +        * kvalloc at first tries to allocate memory using kmalloc and
+>>>> +        * falls back to vmalloc only on failure. It also uses GFP_NOWARN
+>>>
+>>> GFP_NOWARN does not exist.
+>>
+>> https://elixir.bootlin.com/linux/v6.4-rc7/source/include/linux/gfp_types.h#L38
+> 
+> That line defines "__GFP_NOWARN", not "GFP_NOWARN".
+> C is case- and underscore-sensitive. as is "git grep -w" ;-)
 
-That's the generic rule, with some exceptions of course. Whether one
-chosen driver (chosen system and chosen version of that system) adheres
-or not, does not change it. Other driver behaves differently and ABI is
-for everyone, not only for your specific version of Linux driver.
+The removal of underscores was done intentionally for improving
+readability of the comment
 
-Follow the rule.
-
+-- 
 Best regards,
-Krzysztof
+Dmitry
 
