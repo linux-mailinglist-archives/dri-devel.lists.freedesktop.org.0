@@ -1,66 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6525773D8F6
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 09:56:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8632673DB77
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 11:35:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 828B310E1A0;
-	Mon, 26 Jun 2023 07:56:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14A3D10E00C;
+	Mon, 26 Jun 2023 09:35:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CEC110E19D;
- Mon, 26 Jun 2023 07:56:37 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 00FDB218B0;
- Mon, 26 Jun 2023 07:56:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1687766194; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bDMEcMqr7gQqX0LbHuLFjSeOaDzf9Kz/97P7WhlcQrs=;
- b=UGh5/5JcQh2mGnG7LUh3tarHogrLvdg5EM6I96IQmFOZTRNO8rkv7+WU9hG8Zrm4rGg081
- 1Q6iOuefKIfoHch5ZlDyRTfsDW2S2SGPcla4f7UY1kc4MBO7R7JWSbeigeao9Lb6kXpCEo
- 602SqN357IRmgZX2F391iUEWSuDafH8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1687766194;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bDMEcMqr7gQqX0LbHuLFjSeOaDzf9Kz/97P7WhlcQrs=;
- b=z5qdRoVfJK4KFp1iFn/qBXHdLamutcDN8f6AjNyPZRsGgBAubnRa1+j4AOdR0x/kya2hym
- Itc150/194PiFeAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6CE161391D;
- Mon, 26 Jun 2023 07:56:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id bndXE7BEmWRtRQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 26 Jun 2023 07:56:32 +0000
-Message-ID: <4672fc8d-ca95-6d00-1303-cb5968c51703@suse.de>
-Date: Mon, 26 Jun 2023 09:56:30 +0200
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64A6510E088
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 06:56:42 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-1b80512a7f2so3273105ad.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jun 2023 23:56:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687762601; x=1690354601;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=u58j1CoFhNAAP0kPknc/GhPhE9N5OmJCD1ZWCCtRRgc=;
+ b=bnIeGOmDOYmuDJvFgA7d77P84wU99nlnohbm5DsmSllkAZNOuwmmobRcjBeqecTOKV
+ z/kIL5rnnTjLCeaYZeimobt/xgczpZDza8pP5cPwMs3Qo72MTKlkv+4AflKFALuSV+z6
+ d1PC2SXkRvGrSrh8NtobY/zcYFrrhbds79AALB4ZjqeWm5ZwxVDyiJPKP6qFsTcHx1KU
+ 45QeqJ1YgUA2LB2zp7ufVTIaACkGac7Xaz5TOGFpLnjdRUD+wsdxzAhnEeRZ3893e8f7
+ EPaC2gBnJ0+DOaqTekQ+mdzlts4xsuHAqAMGt2+PAxVrhB2pBDp+jfd0h1oW5bENXd9j
+ 9q7w==
+X-Gm-Message-State: AC+VfDw+cllih1YbFIq8K2aWx9peBvhQ+tDZ3G10zhwBR67p0aaYI5rk
+ rDe08r6RhfmyapisPLOHbDc=
+X-Google-Smtp-Source: ACHHUZ6OtbsuuY2aXoeHYGi4XSA3mdaoGOU6p/4pXML9TF8F1ADk58bPj18ptJOfaGu5YjoBFEMRig==
+X-Received: by 2002:a17:903:1250:b0:1b5:3c7f:1b3b with SMTP id
+ u16-20020a170903125000b001b53c7f1b3bmr5150508plh.35.1687762601317; 
+ Sun, 25 Jun 2023 23:56:41 -0700 (PDT)
+Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
+ by smtp.gmail.com with ESMTPSA id
+ jg3-20020a17090326c300b001a2104d706fsm2559571plb.225.2023.06.25.23.56.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 25 Jun 2023 23:56:40 -0700 (PDT)
+Date: Mon, 26 Jun 2023 15:56:39 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 00/24 v2] Documentation: correct lots of spelling errors
+ (series 1)
+Message-ID: <20230626065639.GA3403711@rocinante>
+References: <20230209071400.31476-1-rdunlap@infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] drm: Remove the deprecated drm_put_dev() function
-To: Sui Jingfeng <suijingfeng@loongson.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>, Pan Xinhui <Xinhui.Pan@amd.com>
-References: <20230625050901.393055-1-suijingfeng@loongson.cn>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230625050901.393055-1-suijingfeng@loongson.cn>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------JFdSLqXHt9O0c0JRuXjClnvM"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230209071400.31476-1-rdunlap@infradead.org>
+X-Mailman-Approved-At: Mon, 26 Jun 2023 09:35:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,122 +63,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Miaohe Lin <linmiaohe@huawei.com>, Juri Lelli <juri.lelli@redhat.com>,
+ linux-fbdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-doc@vger.kernel.org, Fenghua Yu <fenghua.yu@intel.com>,
+ Peter Zijlstra <peterz@infradead.org>, linux-pci@vger.kernel.org,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, linux-trace-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, James Morris <jmorris@namei.org>,
+ David Howells <dhowells@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ keyrings@vger.kernel.org, live-patching@vger.kernel.org,
+ Evgeniy Polyakov <zbr@ioremap.net>, Alexander Gordeev <agordeev@linux.ibm.com>,
+ Miroslav Benes <mbenes@suse.cz>, Will Deacon <will@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Steffen Klassert <steffen.klassert@secunet.com>, linux-s390@vger.kernel.org,
+ Vincent Guittot <vincent.guittot@linaro.org>, Paul Moore <paul@paul-moore.com>,
+ linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ linux-xtensa@linux-xtensa.org, Marc Zyngier <maz@kernel.org>,
+ Helge Deller <deller@gmx.de>, Henrik Rydberg <rydberg@bitmath.org>,
+ Russell King <linux@armlinux.org.uk>,
+ Daniel Jordan <daniel.m.jordan@oracle.com>, Ingo Molnar <mingo@redhat.com>,
+ linux-security-module@vger.kernel.org, linux-input@vger.kernel.org,
+ coresight@lists.linaro.org, "Serge E. Hallyn" <serge@hallyn.com>,
+ Petr Mladek <pmladek@suse.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Jiri Kosina <jikos@kernel.org>, Akinobu Mita <akinobu.mita@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+ linux-block@vger.kernel.org,
+ =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+ openrisc@lists.librecores.org, Borislav Petkov <bp@alien8.de>,
+ Bjorn Helgaas <bhelgaas@google.com>, Stafford Horne <shorne@gmail.com>,
+ Reinette Chatre <reinette.chatre@intel.com>,
+ Josh Poimboeuf <jpoimboe@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-sgx@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+ Chris Zankel <chris@zankel.net>, Karsten Keil <isdn@linux-pingi.de>,
+ Jonas Bonn <jonas@southpole.se>, Mathieu Poirier <mathieu.poirier@linaro.org>,
+ linux-mm@kvack.org, netdev@vger.kernel.org,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Naoya Horiguchi <naoya.horiguchi@nec.com>, linux-kernel@vger.kernel.org,
+ Jarkko Sakkinen <jarkko@kernel.org>, linux-trace-devel@vger.kernel.org,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Daniel Bristot de Oliveira <bristot@kernel.org>,
+ Michael Ellerman <mpe@ellerman.id.au>, linux-crypto@vger.kernel.org,
+ Vladimir Oltean <olteanv@gmail.com>, linuxppc-dev@lists.ozlabs.org,
+ x86@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------JFdSLqXHt9O0c0JRuXjClnvM
-Content-Type: multipart/mixed; boundary="------------2RkDms0vhUG72IC1rRbOoqhG";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sui Jingfeng <suijingfeng@loongson.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>, Pan Xinhui <Xinhui.Pan@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org
-Message-ID: <4672fc8d-ca95-6d00-1303-cb5968c51703@suse.de>
-Subject: Re: [PATCH] drm: Remove the deprecated drm_put_dev() function
-References: <20230625050901.393055-1-suijingfeng@loongson.cn>
-In-Reply-To: <20230625050901.393055-1-suijingfeng@loongson.cn>
+Hello,
 
---------------2RkDms0vhUG72IC1rRbOoqhG
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+> Correct many spelling errors in Documentation/ as reported by codespell.
+> 
+> Maintainers of specific kernel subsystems are only Cc-ed on their
+> respective patches, not the entire series.
+> 
+> These patches are based on linux-next-20230209.
+> 
+[...]
+>  [PATCH 13/24] Documentation: PCI: correct spelling
+[...]
 
-SGkNCg0KQW0gMjUuMDYuMjMgdW0gMDc6MDkgc2NocmllYiBTdWkgSmluZ2Zlbmc6DQo+IEFz
-IHRoaXMgZnVuY3Rpb24gY2FuIGJlIHJlcGxhY2VkIHdpdGggZHJtX2Rldl91bnJlZ2lzdGVy
-KCkgKyBkcm1fZGV2X3B1dCgpLA0KPiBpdCBpcyBhbHJlYWR5IG1hcmtlZCBhcyBkZXByZWNh
-dGVkLCBzbyByZW1vdmUgaXQuIE5vIGZ1bmN0aW9uYWwgY2hhbmdlLg0KPiANCj4gU2lnbmVk
-LW9mZi1ieTogU3VpIEppbmdmZW5nIDxzdWlqaW5nZmVuZ0Bsb29uZ3Nvbi5jbj4NCj4gLS0t
-DQo+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9kcnYuYyAgICAgICAgICAgfCAyOCAtLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9wY2kuYyAg
-ICAgICAgICAgfCAgMyArKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9k
-cnYuYyB8ICAzICsrLQ0KPiAgIGluY2x1ZGUvZHJtL2RybV9kcnYuaCAgICAgICAgICAgICAg
-IHwgIDEgLQ0KPiAgIDQgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCAzMSBkZWxl
-dGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Rydi5j
-IGIvZHJpdmVycy9ncHUvZHJtL2RybV9kcnYuYw0KPiBpbmRleCAxMjY4N2RkOWUxYWMuLjUw
-NTczMDdmZTIyYSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9kcnYuYw0K
-PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2Rydi5jDQo+IEBAIC00MDYsMzQgKzQwNiw2
-IEBAIHZvaWQgZHJtX21pbm9yX3JlbGVhc2Uoc3RydWN0IGRybV9taW5vciAqbWlub3IpDQo+
-ICAgICogcG9zc2libHkgbGVhdmluZyB0aGUgaGFyZHdhcmUgZW5hYmxlZC4NCj4gICAgKi8N
-Cj4gICANCj4gLS8qKg0KPiAtICogZHJtX3B1dF9kZXYgLSBVbnJlZ2lzdGVyIGFuZCByZWxl
-YXNlIGEgRFJNIGRldmljZQ0KPiAtICogQGRldjogRFJNIGRldmljZQ0KPiAtICoNCj4gLSAq
-IENhbGxlZCBhdCBtb2R1bGUgdW5sb2FkIHRpbWUgb3Igd2hlbiBhIFBDSSBkZXZpY2UgaXMg
-dW5wbHVnZ2VkLg0KPiAtICoNCj4gLSAqIENsZWFucyB1cCBhbGwgRFJNIGRldmljZSwgY2Fs
-bGluZyBkcm1fbGFzdGNsb3NlKCkuDQo+IC0gKg0KPiAtICogTm90ZTogVXNlIG9mIHRoaXMg
-ZnVuY3Rpb24gaXMgZGVwcmVjYXRlZC4gSXQgd2lsbCBldmVudHVhbGx5IGdvIGF3YXkNCj4g
-LSAqIGNvbXBsZXRlbHkuICBQbGVhc2UgdXNlIGRybV9kZXZfdW5yZWdpc3RlcigpIGFuZCBk
-cm1fZGV2X3B1dCgpIGV4cGxpY2l0bHkNCj4gLSAqIGluc3RlYWQgdG8gbWFrZSBzdXJlIHRo
-YXQgdGhlIGRldmljZSBpc24ndCB1c2Vyc3BhY2UgYWNjZXNzaWJsZSBhbnkgbW9yZQ0KPiAt
-ICogd2hpbGUgdGVhcmRvd24gaXMgaW4gcHJvZ3Jlc3MsIGVuc3VyaW5nIHRoYXQgdXNlcnNw
-YWNlIGNhbid0IGFjY2VzcyBhbg0KPiAtICogaW5jb25zaXN0ZW50IHN0YXRlLg0KPiAtICov
-DQo+IC12b2lkIGRybV9wdXRfZGV2KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpDQo+IC17DQo+
-IC0JRFJNX0RFQlVHKCJcbiIpOw0KPiAtDQo+IC0JaWYgKCFkZXYpIHsNCj4gLQkJRFJNX0VS
-Uk9SKCJjbGVhbnVwIGNhbGxlZCBubyBkZXZcbiIpOw0KPiAtCQlyZXR1cm47DQo+IC0JfQ0K
-PiAtDQo+IC0JZHJtX2Rldl91bnJlZ2lzdGVyKGRldik7DQo+IC0JZHJtX2Rldl9wdXQoZGV2
-KTsNCj4gLX0NCj4gLUVYUE9SVF9TWU1CT0woZHJtX3B1dF9kZXYpOw0KPiAtDQo+ICAgLyoq
-DQo+ICAgICogZHJtX2Rldl9lbnRlciAtIEVudGVyIGRldmljZSBjcml0aWNhbCBzZWN0aW9u
-DQo+ICAgICogQGRldjogRFJNIGRldmljZQ0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL2RybV9wY2kuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGNpLmMNCj4gaW5kZXggMzlk
-MzVmYzNhNDNiLi5iM2E2OGE5MmVhYTYgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9kcm1fcGNpLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9wY2kuYw0KPiBAQCAt
-MjU3LDcgKzI1Nyw4IEBAIHZvaWQgZHJtX2xlZ2FjeV9wY2lfZXhpdChjb25zdCBzdHJ1Y3Qg
-ZHJtX2RyaXZlciAqZHJpdmVyLA0KPiAgIAkJCQkJIGxlZ2FjeV9kZXZfbGlzdCkgew0KPiAg
-IAkJCWlmIChkZXYtPmRyaXZlciA9PSBkcml2ZXIpIHsNCj4gICAJCQkJbGlzdF9kZWwoJmRl
-di0+bGVnYWN5X2Rldl9saXN0KTsNCj4gLQkJCQlkcm1fcHV0X2RldihkZXYpOw0KPiArCQkJ
-CWRybV9kZXZfdW5yZWdpc3RlcihkZXYpOw0KPiArCQkJCWRybV9kZXZfcHV0KGRldik7DQo+
-ICAgCQkJfQ0KPiAgIAkJfQ0KPiAgIAkJbXV0ZXhfdW5sb2NrKCZsZWdhY3lfZGV2X2xpc3Rf
-bG9jayk7DQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9k
-cnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2Rydi5jDQo+IGluZGV4IGU0
-Mzc0ODE0ZjBlZi4uYTQ5NTVhZTEwNjU5IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vcmFkZW9uL3JhZGVvbl9kcnYuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9u
-L3JhZGVvbl9kcnYuYw0KPiBAQCAtMzU3LDcgKzM1Nyw4IEBAIHJhZGVvbl9wY2lfcmVtb3Zl
-KHN0cnVjdCBwY2lfZGV2ICpwZGV2KQ0KPiAgIHsNCj4gICAJc3RydWN0IGRybV9kZXZpY2Ug
-KmRldiA9IHBjaV9nZXRfZHJ2ZGF0YShwZGV2KTsNCj4gICANCj4gLQlkcm1fcHV0X2Rldihk
-ZXYpOw0KDQpEaWQgeW91IHZlcmlmeSB0aGF0IGRldiBjYW5ub3QgYmUgTlVMTCBoZXJlPyBU
-aGVyZSB3YXMgYSBjaGVjayBpbiANCmRybV9wdXRfZGV2KCkgZm9yICFkZXYuDQoNCkJlc3Qg
-cmVnYXJkcw0KVGhvbWFzDQoNCj4gKwlkcm1fZGV2X3VucmVnaXN0ZXIoZGV2KTsNCj4gKwlk
-cm1fZGV2X3B1dChkZXYpOw0KPiAgIH0NCj4gICANCj4gICBzdGF0aWMgdm9pZA0KPiBkaWZm
-IC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2Rydi5oIGIvaW5jbHVkZS9kcm0vZHJtX2Rydi5o
-DQo+IGluZGV4IDg5ZTI3MDZjYWM1Ni4uMjg5Yzk3YjEyZTgyIDEwMDY0NA0KPiAtLS0gYS9p
-bmNsdWRlL2RybS9kcm1fZHJ2LmgNCj4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX2Rydi5oDQo+
-IEBAIC01MTEsNyArNTExLDYgQEAgdm9pZCBkcm1fZGV2X3VucmVnaXN0ZXIoc3RydWN0IGRy
-bV9kZXZpY2UgKmRldik7DQo+ICAgDQo+ICAgdm9pZCBkcm1fZGV2X2dldChzdHJ1Y3QgZHJt
-X2RldmljZSAqZGV2KTsNCj4gICB2b2lkIGRybV9kZXZfcHV0KHN0cnVjdCBkcm1fZGV2aWNl
-ICpkZXYpOw0KPiAtdm9pZCBkcm1fcHV0X2RldihzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KTsN
-Cj4gICBib29sIGRybV9kZXZfZW50ZXIoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgaW50ICpp
-ZHgpOw0KPiAgIHZvaWQgZHJtX2Rldl9leGl0KGludCBpZHgpOw0KPiAgIHZvaWQgZHJtX2Rl
-dl91bnBsdWcoc3RydWN0IGRybV9kZXZpY2UgKmRldik7DQoNCi0tIA0KVGhvbWFzIFppbW1l
-cm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRp
-b25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcs
-IEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxk
-LCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
+Applied to misc, thank you!
 
---------------2RkDms0vhUG72IC1rRbOoqhG--
+[1/1] Documentation: PCI: correct spelling
+      https://git.kernel.org/pci/pci/c/b58d6d89ae02
 
---------------JFdSLqXHt9O0c0JRuXjClnvM
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSZRK4FAwAAAAAACgkQlh/E3EQov+C2
-3w//a8HjDztWC5ghdQzorI4Op+HxBhyun2Wvs5zvAiXYiySPhgSIhpm5BUidLJzFgw90r07Ttmrn
-XL8wGIMHyvg5id986W8ldTflDcuhEvxPVTi/nQWsfBh6bEjmKbo2wO5pIOPtuv6qpOMFXDwkpBhF
-uJwhLGMFaznNI4ImEh116qJpqMLYEcOJpOhPCdPTbwxfq2I42OF/DCvcWxMKKgk1skJb7kDuoGrx
-gLz0yA7EyN+iuTEKu0LysoJvGQ2DkHQsAhrLKMFHUCanWWJ/EwdrMLm8A74fZLXTWn92tY1lMsb8
-HJSEklK/YSQcxCUaID9VNX8bVDoabVJYZH4XgmD0ZzpphS+tHFzc/ydEm+xifmq67IPOQ6wl5wCw
-JvE+o/cs2jzJaC7Pj7n17BUmqGntGCPI+hW+2D8jme6sDxFyYUnN1m2QRe8PfXCgKZl377WgqDRF
-gFL7DKwrSrjuryu0mWKc8YsEJahiXg9YGTlEcEQly6HJfpCfr0RMfylO3OdYv3KiRgmekT9h8isz
-cZPKq8VwJC/sSlIWTnvTel0/SlpuQp7pnujcgy4B5epxq5byvkQ5ymJzD7/nsDdZfjBfJ7z80d2a
-K6a42oi8jTtebNOEHKmcx0ABs8+43j5e4tIbBfrY44JRwsYjKZJR91oFVTAALh8UCPuNxAOC/Xah
-B9Y=
-=m6lP
------END PGP SIGNATURE-----
-
---------------JFdSLqXHt9O0c0JRuXjClnvM--
+	Krzysztof
