@@ -1,70 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F10C73DB97
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 11:41:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7192873DBA7
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 11:43:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69F2610E1C1;
-	Mon, 26 Jun 2023 09:41:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E66E510E1D7;
+	Mon, 26 Jun 2023 09:43:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7EDC10E1C1
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 09:41:43 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-4fb7769f15aso726953e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 02:41:43 -0700 (PDT)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30A9A10E069
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 09:43:44 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id
+ 2adb3069b0e04-4f8775126d3so3832266e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 02:43:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687772501; x=1690364501;
+ d=linaro.org; s=google; t=1687772622; x=1690364622;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=19bT2Ez/4QvTgxknmIPFBTrHf6pxmJEHTkf/9uC/xL8=;
- b=yxSw15WdZQVN8PNNGw4tN8SV99vD1IzWVIDaV+OmSwHh9ksBGU5lGCZtHTLv7n/g/8
- H9SPHpqRGkhlTjlUZ7bKs8YXJ4bM9clccA2bHRBZs6v1tNt+cX5IGOFQMre/EZhdcBhI
- Q+Ujvfz2WxBbnSMDJ/JmkbR0fbbu9HNTbGFuucGMEGY+fbWxAun2/KNZW79RCDXwCit6
- yVsFfwTSc7sRKQ6804vYSzLfWErTg3m5GseeBwVqVDjkwOq+Y+/S6VX4qUaUxOkJEDFD
- gT2BIpS3l3rCEB14LJDV/Qo/3b8e4eqCWNdRe6m/xbz3s/AgkiP9LTABisSYtWbTh9sW
- HvOg==
+ bh=Wa4sSEA7B28vGW7cZkSmi2ta/a82zz6uw3G1/9bh3+4=;
+ b=Glvda0Sq1DktwYHBHGnIKm6y/v1J/ivavoXEZ5Yzh5ppJdiQIjuPTz8MombSSC+pSK
+ gXHLhMxdSPFSFl3HBrUNoGr2jrBJaMpPkL8QZU7fuJRnMB51L3AHtgfGQ4oYB6CP6Rli
+ +0c4N0JGOIJcKH3olOwzgAunyS7kl5qpKpCJfpC7X1wS0FV0Pe/3lajiLKZIC1Tq4Qfc
+ nnrCI2KaXdn51Fqjm0B0OvaZrxy0Oni3g4ofVDtef9ugjleF3FdubBaJQRM/WXX7kz1g
+ 5Ln/ntZyUChM4LyLMVRCEUXhXpMUlfKZkwPsm6euDjeNHWN6Lrtno7Y5ZGhrvrYGE151
+ aZog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687772501; x=1690364501;
+ d=1e100.net; s=20221208; t=1687772622; x=1690364622;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=19bT2Ez/4QvTgxknmIPFBTrHf6pxmJEHTkf/9uC/xL8=;
- b=TOR7gASeGxOhV9cXMPa7TVreVKf9bFXF+gUn/TsX1+TJOsEaDGgAotf3XGpt2/mBEC
- yWERE2+f7+fqTm40mPrDG8U7rQbasSGsyc91z99P+YETN+4WF+Vf16QV1ymH4kqgLLDP
- 6qGgXNby1K8kA5oUI4DvyR0sXnZzfV0lB0V/KQtSoUkmKiVo1Ig09Ja+CVs0U6BFVKdd
- tSc24zZJO261fEb2IJoGjpCQ3XxEDz+Ykn5iwZ6/VV7JFAK8TUpvllS/QmTG0G49WCgh
- gn8QnrY5bmtPzzCRCSEmZkXI+fiNHMzqj2UiHaQI1MUOR5eSafkxsKSQPqG5ST369C7K
- SLHg==
-X-Gm-Message-State: AC+VfDz9X3UuJme5pSOYHqBF7swLD13Ef+uvRHVN0+oNRAd7JaMrGvJk
- f883ljcQryCYNKGlKE9Llh5qfA==
-X-Google-Smtp-Source: ACHHUZ6QLpQ4x4dukEHxUmQX0UkdSkfQoSrgj9rfvM5FrrS3fIGQXAJ5KLDri7abT3n81xpiDDOWtQ==
-X-Received: by 2002:a19:ca58:0:b0:4f8:b349:6938 with SMTP id
- h24-20020a19ca58000000b004f8b3496938mr9703822lfj.65.1687772501651; 
- Mon, 26 Jun 2023 02:41:41 -0700 (PDT)
+ bh=Wa4sSEA7B28vGW7cZkSmi2ta/a82zz6uw3G1/9bh3+4=;
+ b=AmaJjrEJAVtjLO0UCaVgQKLGFk7Um0GbPpuSimy+hEbqD5z6FKZhV/UHnscR3WWZ9t
+ oCyIueWWyo8iIC6nJKMKQ9XBD5EDH9sS3ZWFEWrHGkMByp9mepbUdUHqJ/dWsvy0hmWH
+ DPcdqO+z3RfejS0duARS0uoym+oSZyV6eRAxZgP5tQLJOQJ+sV9mE1DEkqqxyxbk/9Up
+ CUjk8YpCMTWy5taIpb47Xpso0rGCtFOPiI0G02tkmY0gA0mJFGLPl0Zyy4TUXkC5fSb2
+ Wec32OtiFPMffz8/NkHcPLwuJCR+FvJKAhbzaJvjYhwzcvs8EQaT/o8+elTb6Xc3CayL
+ x6mw==
+X-Gm-Message-State: AC+VfDzQJ6iqHr4Qd3WE0Z+lqByKE770XlK934L/gHyILXfRh32/WJDz
+ DpsOzkWXtYuabt6FRIU6BbQsIQ==
+X-Google-Smtp-Source: ACHHUZ6F1v7pFN28t/+mbYAP/qNkuiQynLLEVdAGA02D77327AAmiQMZUi291CRiOVoLaRv03kmHRA==
+X-Received: by 2002:a05:6512:3e24:b0:4fa:d147:9df with SMTP id
+ i36-20020a0565123e2400b004fad14709dfmr2833708lfv.19.1687772622267; 
+ Mon, 26 Jun 2023 02:43:42 -0700 (PDT)
 Received: from [192.168.1.101] (abyk179.neoplus.adsl.tpnet.pl. [83.9.30.179])
  by smtp.gmail.com with ESMTPSA id
- f16-20020ac251b0000000b004efae490c51sm1013345lfk.240.2023.06.26.02.41.39
+ d13-20020ac241cd000000b004db1a7e6decsm1026500lfi.205.2023.06.26.02.43.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Jun 2023 02:41:41 -0700 (PDT)
-Message-ID: <701916b3-388e-8216-f7ae-1837d5895d87@linaro.org>
-Date: Mon, 26 Jun 2023 11:41:39 +0200
+ Mon, 26 Jun 2023 02:43:41 -0700 (PDT)
+Message-ID: <f62d750e-da73-fece-c3de-0dac1fbb9827@linaro.org>
+Date: Mon, 26 Jun 2023 11:43:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH 00/15] drm/msm: Add SM6125 MDSS/DPU hardware and enable
- Sony Xperia 10 II panel
+Subject: Re: [PATCH 03/15] dt-bindings: clock: qcom, dispcc-sm6125: Require GCC
+ PLL0 DIV clock
 Content-Language: en-US
 To: Marijn Suijten <marijn.suijten@somainline.org>
 References: <20230624-sm6125-dpu-v1-0-1d5a638cebf2@somainline.org>
- <035ffdd2-27e3-99bc-f8a4-41e66685db09@linaro.org>
- <i5xxzhfhlwzoxlnezzgg42hzwzwfcgxv5gopqhb6vd3udz252b@wpznuvoleeta>
+ <20230624-sm6125-dpu-v1-3-1d5a638cebf2@somainline.org>
+ <c9681bce-efa8-9b79-4bf6-837dd6a2dc12@linaro.org>
+ <edrftxqhywiaxvbonyh25cmubrg77y4dryqoy7id4ndan2lfa7@rhvcoavtg5vl>
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <i5xxzhfhlwzoxlnezzgg42hzwzwfcgxv5gopqhb6vd3udz252b@wpznuvoleeta>
+In-Reply-To: <edrftxqhywiaxvbonyh25cmubrg77y4dryqoy7id4ndan2lfa7@rhvcoavtg5vl>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -96,94 +97,71 @@ Cc: Michael Turquette <mturquette@baylibre.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25.06.2023 21:18, Marijn Suijten wrote:
-> On 2023-06-24 03:42:46, Konrad Dybcio wrote:
->> On 24.06.2023 02:40, Marijn Suijten wrote:
->>> Bring up the SM6125 DPU now that all preliminary series (such as INTF
->>> TE) have been merged (for me to test the hardware properly)
->> We should not repeat the same mistake in the future.. Finding a
->> balance between releasing early and releasing what we can declare
->> working and tested code is hard, but we waaaaaaaay overstayed on
->> this one..
+On 25.06.2023 21:48, Marijn Suijten wrote:
+> On 2023-06-24 03:45:02, Konrad Dybcio wrote:
+>> On 24.06.2023 02:41, Marijn Suijten wrote:
+>>> The "gcc_disp_gpll0_div_clk_src" clock is consumed by the driver, will
+>>> be passed from DT, and should be required by the bindings.
+>>>
+>>> Fixes: 8397c9c0c26b ("dt-bindings: clock: add QCOM SM6125 display clock bindings")
+>>> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+>>> ---
+>> Ideally, you'd stick it at the bottom of the list, as the items: order
+>> is part of the ABI
 > 
-> I don't understand what you mean by "mistake" at all.  Yes the DPU
-> catalog portion of this series sat in my local branch for a very long
-> time.  Yes it had to be rebased on top of conflicts many many times.
-> 
-> However, that time has also been used to fix and extend DPU where
-> necessary, instead of submitting a half-broken or half-incomplete
-> catalog entry...
-> 
-> Re "we overstayed": you could have asked to clean up and send my patch,
-> so I don't take this as a mistake on my part as you are completely aware
-> of my time schedule ;)
-I didn't mean to pick on you. I just wanted to emphasize that a more
-upstream-forward approach would have saved us quite some time on the
-rebasing and cleaning-up front.
-
-
+> This isn't an ABI break, as this driver nor its bindings require/declare
+> a fixed order: they declare a relation between clocks and clock-names.
+Bindings describe the ABI, drivers implement compliant code flow.
 
 > 
->> Konrad
->> , and most
-> 
-> Also here, don't forget to re-quote my message if you break half-way in
-> the line.
-Ugh. All the time I've been doing this I thought thunderfox was smart
-enough to do it for me. Apparently not and you're the 1st one to point
-that out.
+> This orders the GCC clock just like other dispccs.  And the previous
+> patch dropped the unused cfg_ahb_clk from the bindings, so all bets are
+> off anyway.
+Thinking about it again, the binding has not been consumed by any upstream
+DT to date, so it should (tm) be fine to let it slide..
 
 Konrad
 > 
->>> other conflicting work (barring ongoing catalog *improvements*) has made
->>> its way in as well or is still being discussed.
+> - Marijn
+> 
 >>
+>> Konrad
+>>>  Documentation/devicetree/bindings/clock/qcom,dispcc-sm6125.yaml | 4 ++++
+>>>  1 file changed, 4 insertions(+)
 >>>
->>> The second part of the series complements that by immediately utilizing
->>> this hardware in DT, and even enabling the MDSS/DSI nodes complete with
->>> a 6.0" 1080x2520 panel for Sony's Seine PDX201 (Xperia 10 II).
+>>> diff --git a/Documentation/devicetree/bindings/clock/qcom,dispcc-sm6125.yaml b/Documentation/devicetree/bindings/clock/qcom,dispcc-sm6125.yaml
+>>> index 2acf487d8a2f..11ec154503a3 100644
+>>> --- a/Documentation/devicetree/bindings/clock/qcom,dispcc-sm6125.yaml
+>>> +++ b/Documentation/devicetree/bindings/clock/qcom,dispcc-sm6125.yaml
+>>> @@ -23,6 +23,7 @@ properties:
+>>>    clocks:
+>>>      items:
+>>>        - description: Board XO source
+>>> +      - description: GPLL0 div source from GCC
+>>>        - description: Byte clock from DSI PHY0
+>>>        - description: Pixel clock from DSI PHY0
+>>>        - description: Pixel clock from DSI PHY1
+>>> @@ -32,6 +33,7 @@ properties:
+>>>    clock-names:
+>>>      items:
+>>>        - const: bi_tcxo
+>>> +      - const: gcc_disp_gpll0_div_clk_src
+>>>        - const: dsi0_phy_pll_out_byteclk
+>>>        - const: dsi0_phy_pll_out_dsiclk
+>>>        - const: dsi1_phy_pll_out_dsiclk
+>>> @@ -65,12 +67,14 @@ examples:
+>>>        compatible = "qcom,sm6125-dispcc";
+>>>        reg = <0x5f00000 0x20000>;
+>>>        clocks = <&rpmcc RPM_SMD_XO_CLK_SRC>,
+>>> +               <&gcc GCC_DISP_GPLL0_DIV_CLK_SRC>,
+>>>                 <&dsi0_phy 0>,
+>>>                 <&dsi0_phy 1>,
+>>>                 <&dsi1_phy 1>,
+>>>                 <&dp_phy 0>,
+>>>                 <&dp_phy 1>;
+>>>        clock-names = "bi_tcxo",
+>>> +                    "gcc_disp_gpll0_div_clk_src",
+>>>                      "dsi0_phy_pll_out_byteclk",
+>>>                      "dsi0_phy_pll_out_dsiclk",
+>>>                      "dsi1_phy_pll_out_dsiclk",
 >>>
->>> The last patch ("sm6125-seine: Configure MDSS, DSI and panel") depends
->>> on (an impending v2 of) my Sony panel collection series [1].
->>>
->>> [1]: https://lore.kernel.org/linux-arm-msm/20230521-drm-panels-sony-v1-0-541c341d6bee@somainline.org/
->>>
->>> ---
->>> Marijn Suijten (15):
->>>       arm64: dts: qcom: sm6125: Sort spmi_bus node numerically by reg
->>>       dt-bindings: clock: qcom,dispcc-sm6125: Remove unused GCC_DISP_AHB_CLK
->>>       dt-bindings: clock: qcom,dispcc-sm6125: Require GCC PLL0 DIV clock
->>>       dt-bindings: clock: qcom,dispcc-sm6125: Allow power-domains property
->>>       dt-bindings: display/msm: dsi-controller-main: Document SM6125
->>>       dt-bindings: display/msm: sc7180-dpu: Describe SM6125
->>>       dt-bindings: display/msm: Add SM6125 MDSS
->>>       drm/msm/dpu: Add SM6125 support
->>>       drm/msm/mdss: Add SM6125 support
->>>       dt-bindings: msm: dsi-phy-14nm: Document SM6125 variant
->>>       drm/msm/dsi: Add 14nm phy configuration for SM6125
->>>       arm64: dts: qcom: sm6125: Switch fixed xo_board clock to RPM XO clock
->>>       arm64: dts: qcom: sm6125: Add dispcc node
->>>       arm64: dts: qcom: sm6125: Add display hardware nodes
->>>       arm64: dts: qcom: sm6125-seine: Configure MDSS, DSI and panel
->>>
->>>  .../bindings/clock/qcom,dispcc-sm6125.yaml         |  17 +-
->>>  .../bindings/display/msm/dsi-controller-main.yaml  |   2 +
->>>  .../bindings/display/msm/dsi-phy-14nm.yaml         |   1 +
->>>  .../bindings/display/msm/qcom,sc7180-dpu.yaml      |   1 +
->>>  .../bindings/display/msm/qcom,sm6125-mdss.yaml     | 206 +++++++++++++++++
->>>  .../dts/qcom/sm6125-sony-xperia-seine-pdx201.dts   |  59 +++++
->>>  arch/arm64/boot/dts/qcom/sm6125.dtsi               | 244 +++++++++++++++++++--
->>>  .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h | 173 +++++++++++++++
->>>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   6 +
->>>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
->>>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
->>>  drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |   2 +
->>>  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |   1 +
->>>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c         |  15 ++
->>>  drivers/gpu/drm/msm/msm_mdss.c                     |   8 +
->>>  15 files changed, 712 insertions(+), 25 deletions(-)
->>> ---
->>> base-commit: 8d2be868b42c08290509c60515865f4de24ea704
->>> change-id: 20230624-sm6125-dpu-aedc9637ee7b
->>>
->>> Best regards,
