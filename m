@@ -1,47 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFF1873E355
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 17:30:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71C1873E35D
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 17:32:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC70410E22D;
-	Mon, 26 Jun 2023 15:30:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E34D710E22E;
+	Mon, 26 Jun 2023 15:32:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEA3D10E22E
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 15:30:20 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47FE810E22E;
+ Mon, 26 Jun 2023 15:32:23 +0000 (UTC)
+Received: from [192.168.2.254] (109-252-154-132.dynamic.spd-mgts.ru
+ [109.252.154.132])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D474760ED3;
- Mon, 26 Jun 2023 15:30:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0083DC433C8;
- Mon, 26 Jun 2023 15:30:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1687793418;
- bh=53scOIRiyUvo1bQ31bLWEAzYQBHJ1VAec+PK9RRAeNI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=acJeh38HK0X0EB2DCiG+ZL1pCaXWHFkUIlg7iMPP9YfXZ8LACO/k+FgE21pWrZw3u
- t6GnzFRUrPtvSI6B6DNHis8FhOzJOSMn64DamAJSfqc+xl4sGICxgLOyCihdLGpZ2p
- u2EoravVWawbrmd5KUHik4mQpq+GxF5tho8ebiDn5hcYDrybCUkOyRUH7NR0Cqjd/F
- zpytNn2pUJfmWBBebr6ONKc26tmWyrjmuJG8Hf5no0ZEnvNwaSnQmE3uQNGWNGoAOI
- eQOMYiGji49xM+3J/I0yX9jntxmNzYSz1ztiPpsO+GiM8TALb/TP8hTv7TSx28sg1z
- etZNMdmf+hTQw==
-Date: Mon, 26 Jun 2023 16:30:12 +0100
-From: Lee Jones <lee@kernel.org>
-To: Mans Rullgard <mans@mansr.com>
-Subject: Re: [PATCH] backlight: led_bl: take led_access lock when required
-Message-ID: <20230626153012.GB10378@google.com>
-References: <20230619160249.10414-1-mans@mansr.com>
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id B584F66003AF;
+ Mon, 26 Jun 2023 16:32:18 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1687793540;
+ bh=N7YClaLaHV0hg4+VyEKoSchWeCtkJ4wlscqEXFV5dek=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Sd/w15JWxmBf5nzcKCMwRZlqveqO9LaSYai72wu6i79sazACDUbd6sgfjbsx/snRF
+ WgiukljFuQDQpj1QVW2Z6SUaXpFA8Eu3di/XEx9balYnGUlCW1UtT5qxvQsIDe4Srt
+ pLFyv72lbqRfWbw8jung2GvD76+5fjrbuEuT+f5p9S9dMIuJ/Y1uKUT37yIE+IHGoZ
+ mtuAGEmO075KObuQH0f4NxafFQkaNbPifOksy2nm2zKsiKqGUwpzJEQKh/PXp3kAxj
+ DQYgT3nSvytaKY03X6yKPo9uSDTMeKVH0pKxv8wqKLTKZnpRnY0F+gZ2G+W0FsGaNU
+ F/kItH2zvHAHg==
+Message-ID: <76624af3-1d82-8f96-6681-76538026395e@collabora.com>
+Date: Mon, 26 Jun 2023 18:32:16 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230619160249.10414-1-mans@mansr.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.1
+Subject: Re: [PATCH v13 03/10] drm/shmem-helper: Add pages_pin_count field
+Content-Language: en-US
+To: Boris Brezillon <boris.brezillon@collabora.com>
+References: <20230314022659.1816246-1-dmitry.osipenko@collabora.com>
+ <20230314022659.1816246-4-dmitry.osipenko@collabora.com>
+ <20230626170420.45826ac7@collabora.com>
+ <20230626172148.706a2534@collabora.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20230626172148.706a2534@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,56 +59,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jingoo Han <jingoohan1@gmail.com>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Maxime Ripard <mripard@kernel.org>, kernel@collabora.com,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Daniel Almeida <daniel.almeida@collabora.com>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Steven Price <steven.price@arm.com>, virtualization@lists.linux-foundation.org,
+ Qiang Yu <yuq825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 19 Jun 2023, Mans Rullgard wrote:
+On 6/26/23 18:21, Boris Brezillon wrote:
+> On Mon, 26 Jun 2023 17:04:57 +0200
+> Boris Brezillon <boris.brezillon@collabora.com> wrote:
+> 
+>> Hi Dmitry,
+>>
+>> Sorry for chiming in only now :-/.
+>>
+>> On Tue, 14 Mar 2023 05:26:52 +0300
+>> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+>>
+>>> And new pages_pin_count field to struct drm_gem_shmem_object that will
+>>> determine whether pages are evictable by memory shrinker. The pages will
+>>> be evictable only when pages_pin_count=0. This patch prepares code for
+>>> addition of the memory shrinker that will utilize the new field.
+>>>
+>>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>>> ---
+>>>  drivers/gpu/drm/drm_gem_shmem_helper.c | 7 +++++++
+>>>  include/drm/drm_gem_shmem_helper.h     | 9 +++++++++
+>>>  2 files changed, 16 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>>> index 4da9c9c39b9a..81d61791f874 100644
+>>> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+>>> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+>>> @@ -277,6 +277,8 @@ static int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem)
+>>>  	drm_WARN_ON(obj->dev, obj->import_attach);
+>>>  
+>>>  	ret = drm_gem_shmem_get_pages(shmem);
+>>> +	if (!ret)
+>>> +		shmem->pages_pin_count++;
+>>>  
+>>>  	return ret;
+>>>  }
+>>> @@ -289,7 +291,12 @@ static void drm_gem_shmem_unpin_locked(struct drm_gem_shmem_object *shmem)
+>>>  
+>>>  	drm_WARN_ON(obj->dev, obj->import_attach);
+>>>  
+>>> +	if (drm_WARN_ON_ONCE(obj->dev, !shmem->pages_pin_count))
+>>> +		return;
+>>> +
+>>>  	drm_gem_shmem_put_pages(shmem);
+>>> +
+>>> +	shmem->pages_pin_count--;
+>>>  }
+>>>  
+>>>  /**
+>>> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+>>> index 20ddcd799df9..7d823c9fc480 100644
+>>> --- a/include/drm/drm_gem_shmem_helper.h
+>>> +++ b/include/drm/drm_gem_shmem_helper.h
+>>> @@ -39,6 +39,15 @@ struct drm_gem_shmem_object {
+>>>  	 */
+>>>  	unsigned int pages_use_count;
+>>>  
+>>> +	/**
+>>> +	 * @pages_pin_count:
+>>> +	 *
+>>> +	 * Reference count on the pinned pages table.
+>>> +	 * The pages allowed to be evicted by memory shrinker
+>>> +	 * only when the count is zero.
+>>> +	 */
+>>> +	unsigned int pages_pin_count;  
+>>
+>> s/pages_pin_count/pin_count/ ?
+>>
+>> And do we really need both pages_pin_count and pages_use_count. Looks
+>> like they both serve the same purpose, with one exception:
+>> pages_use_count is also incremented in the get_pages_sgt_locked() path,
+>> but you probably don't want it to prevent GEM eviction. Assuming
+>> your goal with this pin_count field is to check if a GEM object is
+>> evictable, it can be done with something like
+>>
+>> bool
+>> drm_gem_shmem_is_evictable_locked(struct drm_gem_shmem_object *shmem)
+>> {
+>> 	dma_resv_assert_held(shmem->base.resv);
+>>
+>> 	return shmem->pages_use_count == (shmem->sgt ? 1 : 0);
+>> }
+>>
+>> I mean, I'm not against renaming pages_use_count into pin_count, but,
+>> unless I'm missing something, I don't see a good reason to keep both.
+> 
+> My bad, I think I found one place calling drm_gem_shmem_get_pages()
+> where we want pin_count and pages_use_count to differ:
+> drm_gem_shmem_mmap(). We certainly don't want userspace mappings to
+> prevent eviction.
 
-> The led_access lock must be held when calling led_sysfs_enable() and
-> led_sysfs_disable().  This fixes warnings such as this:
-> 
-> [    2.432495] ------------[ cut here ]------------
-> [    2.437316] WARNING: CPU: 0 PID: 22 at drivers/leds/led-core.c:349 led_sysfs_disable+0x54/0x58
-> [    2.446105] Modules linked in:
-> [    2.449218] CPU: 0 PID: 22 Comm: kworker/u2:1 Not tainted 6.3.8+ #1
-> [    2.456268] Hardware name: Generic AM3517 (Flattened Device Tree)
-> [    2.462402] Workqueue: events_unbound deferred_probe_work_func
-> [    2.468353]  unwind_backtrace from show_stack+0x10/0x14
-> [    2.473632]  show_stack from dump_stack_lvl+0x24/0x2c
-> [    2.478759]  dump_stack_lvl from __warn+0x9c/0xc4
-> [    2.483551]  __warn from warn_slowpath_fmt+0x64/0xc0
-> [    2.488586]  warn_slowpath_fmt from led_sysfs_disable+0x54/0x58
-> [    2.494567]  led_sysfs_disable from led_bl_probe+0x20c/0x3b0
-> [    2.500305]  led_bl_probe from platform_probe+0x5c/0xb8
-> [    2.505615]  platform_probe from really_probe+0xc8/0x2a0
-> [    2.510986]  really_probe from __driver_probe_device+0x88/0x19c
-> [    2.516967]  __driver_probe_device from driver_probe_device+0x30/0xcc
-> [    2.523498]  driver_probe_device from __device_attach_driver+0x94/0xc4
-> [    2.530090]  __device_attach_driver from bus_for_each_drv+0x80/0xcc
-> [    2.536437]  bus_for_each_drv from __device_attach+0xf8/0x19c
-> [    2.542236]  __device_attach from bus_probe_device+0x8c/0x90
-> [    2.547973]  bus_probe_device from deferred_probe_work_func+0x80/0xb0
-> [    2.554504]  deferred_probe_work_func from process_one_work+0x228/0x4c0
-> [    2.561187]  process_one_work from worker_thread+0x1fc/0x4d0
-> [    2.566925]  worker_thread from kthread+0xb4/0xd0
-> [    2.571685]  kthread from ret_from_fork+0x14/0x2c
-> [    2.576446] Exception stack(0xd0079fb0 to 0xd0079ff8)
-> [    2.581573] 9fa0:                                     00000000 00000000 00000000 00000000
-> [    2.589813] 9fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> [    2.598052] 9fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-> [    2.604888] ---[ end trace 0000000000000000 ]---
-> 
-> 
-> Signed-off-by: Mans Rullgard <mans@mansr.com>
-> ---
->  drivers/video/backlight/led_bl.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-
-Applied, thanks
+That's correct, thanks for the review :)
 
 -- 
-Lee Jones [李琼斯]
+Best regards,
+Dmitry
+
