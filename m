@@ -2,64 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC43E73D920
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 10:07:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E9F273D92D
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 10:09:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0B3510E1A1;
-	Mon, 26 Jun 2023 08:07:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E47710E1C9;
+	Mon, 26 Jun 2023 08:09:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCDA710E1A1
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 08:07:42 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 40B931F8A4;
- Mon, 26 Jun 2023 08:07:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1687766861; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=cDyM1flrXkR51Vf/TmGF98r9fylMMFk3WQKH8XYc9r4=;
- b=KXamEoU7I9i23kOa1N5cIdVH6OQuFLr2rtxxqL2Lxb3NLyyG+BaseHRT2gN9s20ESHodwL
- Xpx/uft/VH8mGIRg0X4rNsnnEaDmtH28VIRgzH1tNPf6tJudhd7BSyJnmdmX4xr6046IoS
- q5QWiO/SrDtDRHVy8A7BGNi6IraztQ0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1687766861;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=cDyM1flrXkR51Vf/TmGF98r9fylMMFk3WQKH8XYc9r4=;
- b=4NDDiZFgnLKQiKPMvA7l91NQaWAhk9miAHsV14JoAOGkWPh1tByOZEURnzyqqVjdJwJffI
- v1NvUYvD24iOpJDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1723D1391D;
- Mon, 26 Jun 2023 08:07:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id FNd8BE1HmWRmSgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 26 Jun 2023 08:07:41 +0000
-Message-ID: <e6c10829-3a2d-7d7c-46ff-a38862728bc4@suse.de>
-Date: Mon, 26 Jun 2023 10:07:40 +0200
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 183B610E1C7;
+ Mon, 26 Jun 2023 08:09:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1687766983; x=1719302983;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=+lr7gWkrUK24BQPjHF38fYVzI+XtiPSL5/A2F9B/bVc=;
+ b=fGBtW5j/wKel3UivgGsMiA7GUvQzd1VkISoU0i0Vg7S3EqL4c92N76Um
+ 2JASlE8ZO060PR76efbOmN+j9Kdbk8U3A7Hg+CtP48MUWam/R2zhXUvig
+ 26lzFcIQBXsCdhKnGJjit/IHegsMt8UxeWOBQghdysYUYG2Wd8Il/enua
+ WNO6hZAxPDpGjtc+oGjW+8O6TEb614vU3kT8ZV61TfNGdJU2QY8D2n99t
+ Ru6QGEIRmHjG0j9KOUA8P6F32OG5VxlnSdqjpqOfvqox4OLUNkT6nf2Kg
+ j6NaQMsKq6Reo3G8yLIsKNzDigw+I7qLOsRZ/hA0MPCyLBP7u2i1PkSOy w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="447588953"
+X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; d="scan'208";a="447588953"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jun 2023 01:09:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="860596455"
+X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; d="scan'208";a="860596455"
+Received: from csteeb-mobl2.ger.corp.intel.com (HELO intel.com)
+ ([10.251.217.4])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jun 2023 01:09:24 -0700
+Date: Mon, 26 Jun 2023 10:09:15 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [Intel-gfx] [PATCH] i915: avoid unused-but-set-variable warning
+Message-ID: <ZJlHq30vUxVuv/Qh@ashyti-mobl2.lan>
+References: <20230622101848.3482277-1-arnd@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] drm/drm_gem.c: Remove surplus else after return
-Content-Language: en-US
-To: Sui Jingfeng <suijingfeng@loongson.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20230622101857.2298773-1-suijingfeng@loongson.cn>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230622101857.2298773-1-suijingfeng@loongson.cn>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------VSl75uvMDD0JaE9aR05gX2wK"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230622101848.3482277-1-arnd@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,70 +58,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Arnd Bergmann <arnd@arndb.de>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------VSl75uvMDD0JaE9aR05gX2wK
-Content-Type: multipart/mixed; boundary="------------lc9r9tlk1xzg5xXWFKQWd31n";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sui Jingfeng <suijingfeng@loongson.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-ID: <e6c10829-3a2d-7d7c-46ff-a38862728bc4@suse.de>
-Subject: Re: [PATCH] drm/drm_gem.c: Remove surplus else after return
-References: <20230622101857.2298773-1-suijingfeng@loongson.cn>
-In-Reply-To: <20230622101857.2298773-1-suijingfeng@loongson.cn>
+Hi Arnd,
 
---------------lc9r9tlk1xzg5xXWFKQWd31n
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Thu, Jun 22, 2023 at 12:18:41PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The mchbar_addr variable is only used inside of an #ifdef:
+> 
+> drivers/gpu/drm/i915/soc/intel_gmch.c:41:6: error: variable 'mchbar_addr' set but not used [-Werror,-Wunused-but-set-variable]
+> 
+> Change this to an IS_ENABLED() check to let the compiler see how
+> it's used and no longer warn about it.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/gpu/drm/i915/soc/intel_gmch.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/soc/intel_gmch.c b/drivers/gpu/drm/i915/soc/intel_gmch.c
+> index 6d0204942f7a5..49c7fb16e934f 100644
+> --- a/drivers/gpu/drm/i915/soc/intel_gmch.c
+> +++ b/drivers/gpu/drm/i915/soc/intel_gmch.c
+> @@ -47,11 +47,9 @@ intel_alloc_mchbar_resource(struct drm_i915_private *i915)
+>  	mchbar_addr = ((u64)temp_hi << 32) | temp_lo;
+>  
+>  	/* If ACPI doesn't have it, assume we need to allocate it ourselves */
+> -#ifdef CONFIG_PNP
+> -	if (mchbar_addr &&
+> +	if (IS_ENABLED(CONFIG_PNP) && mchbar_addr &&
+>  	    pnp_range_reserved(mchbar_addr, mchbar_addr + MCHBAR_SIZE))
+>  		return 0;
+> -#endif
 
-DQoNCkFtIDIyLjA2LjIzIHVtIDEyOjE4IHNjaHJpZWIgU3VpIEppbmdmZW5nOg0KPiBlbHNl
-IGlzIG5vdCBnZW5lcmFsbHkgdXNlZnVsIGFmdGVyIHJldHVybg0KPiANCj4gU2lnbmVkLW9m
-Zi1ieTogU3VpIEppbmdmZW5nIDxzdWlqaW5nZmVuZ0Bsb29uZ3Nvbi5jbj4NCg0KUmV2aWV3
-ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KDQo+IC0t
-LQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtLmMgfCA0ICsrLS0NCj4gICAxIGZpbGUg
-Y2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJt
-X2dlbS5jDQo+IGluZGV4IDFhNWEyY2QwZDRlYy4uYzE4Njg2ZjQzNGQ0IDEwMDY0NA0KPiAt
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbS5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9kcm1fZ2VtLmMNCj4gQEAgLTExNTAsOCArMTE1MCw4IEBAIGludCBkcm1fZ2VtX3Bpbihz
-dHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaikNCj4gICB7DQo+ICAgCWlmIChvYmotPmZ1bmNz
-LT5waW4pDQo+ICAgCQlyZXR1cm4gb2JqLT5mdW5jcy0+cGluKG9iaik7DQo+IC0JZWxzZQ0K
-PiAtCQlyZXR1cm4gMDsNCj4gKw0KPiArCXJldHVybiAwOw0KPiAgIH0NCj4gICANCj4gICB2
-b2lkIGRybV9nZW1fdW5waW4oc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopDQoNCi0tIA0K
-VGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29m
-dHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2
-MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5k
-cmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJn
-KQ0K
+you actually already sent this same patch[*] and I did push it in
+drm-intel-next.
 
---------------lc9r9tlk1xzg5xXWFKQWd31n--
+Andi
 
---------------VSl75uvMDD0JaE9aR05gX2wK
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+[*] https://patchwork.freedesktop.org/patch/542054/
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSZR0wFAwAAAAAACgkQlh/E3EQov+Aa
-OQ/5AXIaZkyAEx5lshNmfYGURMDQy2M1hxmokotbKX1a4LNxePhdDTeSNMIizJN8EzEP98mezcHg
-JOP6wEeG6UJ1/P0nndjc6G++PzTLVGpImZHUQuXWrYdrr7zU84Tupsl/xeEXJT1Xz1i/QuRP22rz
-GWAZheboqgH4R+h9Hqj/NrqVK0vlUKDWA76RDNN2/0mjU7phO748t1AxBDf8SmG1ysAA6TtJdJLr
-Cs4yDUZqLU9DETkV36RGlMjdTLK8ra2O6P5HnJNXPI5w9m2u1WfsWrCZJEWjod32R5zFqXElL7MG
-fP6Qky8Pu7LrGQgoyTXs9HvVUO54T5XMAC6hGCbliSr2uctD9hdhzxvIuFtA8nAubSjayarhaQB/
-00THDFPsukEh0BxGpNhbt+HahDJGtP7XsT9lEssTfggXjqlIBgD17fkC89tgoljhthvSCP8nLUd1
-+2hs7lC/MAzOC6zCWq46v0KL7YKxbn2nwvV91rnLeUdUgC87Ia40EQ952C2fyMrcFYJ+V5UPq7If
-bZUdnQtDCvJP7093a5x+YLEu9LiLXzfZkDclmvGGAjpaSYmL1GQpPmfSQWRScCTeml/0dNO8QcTW
-QWdfDsHSEme1ZBMX807EOUm3HhIy+FsfzuYFfAUP25YmgYf3rUSGmObuJwy68tcrtNvu0INhKmW4
-+dY=
-=6dZ1
------END PGP SIGNATURE-----
-
---------------VSl75uvMDD0JaE9aR05gX2wK--
+>  
+>  	/* Get some space for it */
+>  	i915->gmch.mch_res.name = "i915 MCHBAR";
+> -- 
+> 2.39.2
