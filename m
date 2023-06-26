@@ -1,65 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E11373D97B
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 10:18:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9892673D9AF
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 10:29:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E47810E091;
-	Mon, 26 Jun 2023 08:18:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D373F89D8E;
+	Mon, 26 Jun 2023 08:29:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F58510E091
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 08:18:01 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id
- 2adb3069b0e04-4f8689fbf59so4990491e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 01:18:01 -0700 (PDT)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A92889D8E;
+ Mon, 26 Jun 2023 08:29:17 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ 5b1f17b1804b1-3f90b8ace97so43672095e9.2; 
+ Mon, 26 Jun 2023 01:29:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687767478; x=1690359478;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=fwUolKbtwRxdhWapBxuBd5VI3PQINyUuKcXlQZkguQc=;
- b=fcLezbTs8/ZlxXChSEN5OXtOAOu1mkyMM1IPoWVbUwUDTlD51j6fVrxnEnJK2gxV55
- bJm9Y1TuZJ8dUpvqu+89pjOMU8jQ8BfP32M9/1Wc9Cm8SVzskbqK1AESWdRRYV3LZuWb
- U6tnbbMRW0xlBJNfzUEfM05Zloav875QGXGEsxjucb3DKqZNY2Zpd0VBSfkCvr6k0erL
- VESSlsr21XXtSzkJfzITmeqIjYHwS5BvjL9r3n1boEKCo63bRWa2YjNgg+sCuhURYjIW
- l38lZ5GTCEFMFr6J/3EHGBPAdLnNVs6+CMucO0pYaO0y/05T7yS65p0h5S7VFW0J2poU
- HODg==
+ d=gmail.com; s=20221208; t=1687768155; x=1690360155;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=GfxAu6sW5+q7WfzXLeH1/VjEmYM6LrxvH/FzoskmAzQ=;
+ b=o+Nplp0WDmZyHFlCdALUokQhCZyn4cHkrDBC4N5dkwytAvWfq3hHP7zo7+K89pZPmX
+ 6fBp26uue0TIf6Dmm7LLzadBd1m6JFy8UBZr42lzbmvC1RRtzYEU4t6Uu7Q3iSV/edMo
+ /Z6Zw7X2o16yPqI8r8Zf8BpxBXdrL1kLqKXj1O0dRLGsE7VLXvbRRMeUhlqekBF2hsYr
+ 82HxRtA1jDtMyTr42dDVtShKfbpbRFepYv2CN15mw49//Ukg6186q2f8VpgwwuMKHX1o
+ cNDZ44W+Zb5muGOlfcTvNijTMbo3Nvfu4RfCSJ9db+OX59miZ47j6j7PfSBTFRMJAFIn
+ CvHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687767478; x=1690359478;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fwUolKbtwRxdhWapBxuBd5VI3PQINyUuKcXlQZkguQc=;
- b=BNMPaGfELdv67yxBvDgIGG0VObQ2fiNPE/+EYezV3qiFhwez85EnpCVFGoJN67tQ76
- Bw+Ph12yrUDrCcEt55+Ji3Uu9UHvfcGrxx9jiZR6pA4ol2a9vpMiQiUqck30Wq3C9WGu
- 3OJryiC1sL0N8sSHVtLxS5X+envsRp9ou0FQzoEmXv7qfeV3aVAng2+bajm8/fql9hA2
- 0GquSkWH8DIH3KSyROOYeKarYhqugqlj0hvGjGG08xQXRodrdt/Yi24H2AGbUusCovYr
- P/5ewi/GWoMDHdOG/ZnvpxxFIQRRXzomPd/zfhaR4dGDlrhUIK+Wh5+CWdhZIEKSJZiq
- /czQ==
-X-Gm-Message-State: AC+VfDycRVGa4qxHTIHWW2WI5aMNFRaQ+RsnG1J+65cdRswgzZ82lxhC
- kfQp9CAGb8TiRyxWnE4ogZg=
-X-Google-Smtp-Source: ACHHUZ4evgfUhyJcfvwDtkjf3BAvRrHx9BTncB9thzXfDUVW9PtuaLuq6oNHP80BGKlVzNRrK0r1fA==
-X-Received: by 2002:a05:6512:31c9:b0:4f8:5e4e:52ad with SMTP id
- j9-20020a05651231c900b004f85e4e52admr8638577lfe.23.1687767477453; 
- Mon, 26 Jun 2023 01:17:57 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- l27-20020ac2555b000000b004fb75943ab3sm311293lfk.258.2023.06.26.01.17.56
+ d=1e100.net; s=20221208; t=1687768155; x=1690360155;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=GfxAu6sW5+q7WfzXLeH1/VjEmYM6LrxvH/FzoskmAzQ=;
+ b=kZFyjBSzz/2Ybrwr2gmacxujNaLMe83W+TaE5BSA7LC2uNJ9Gz7CkmDjxWmMsNo9C+
+ D+M/3Rq7k1H/OuWKkr76YeRkGE/lmYv80ac77x7U2u7/ktcnZNYVOtuQhzcSCTIk2ik3
+ sYrGdiBwuktaUGiwN8IAyE+VbKSnRRYXNYRUbJNSBpFAsl6mjxNTUUYqMBq6H96Ct4pB
+ Hd4PP5XMj+lsj+u9X7126kKNRs1uuCTlngeYEAQHlrPBG0CBoikXvJHWRr7B7qEyupxV
+ 3et7bvIlP/bb3AgBHCOyMcaxKcnxCyrNePp/ZXv8b7U/yrzZZkrL5pL2/65mss/PWx8G
+ okDw==
+X-Gm-Message-State: AC+VfDw9mSH4jylWM18xgZhQtWl6sj4bGV10B63AIUCsdp+4VR7cuvQI
+ zp3HZNmMOB6KPJB9xE9PhMs=
+X-Google-Smtp-Source: ACHHUZ7AR1J5W6NerK45Q0I6VwTfH0YXK4Ltix6kj7QS9wNQa4hFWKq1sMSHkujMGbfcV99bS7h4xg==
+X-Received: by 2002:a7b:cc8d:0:b0:3fa:9890:8016 with SMTP id
+ p13-20020a7bcc8d000000b003fa98908016mr1053413wma.2.1687768154860; 
+ Mon, 26 Jun 2023 01:29:14 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
+ m14-20020a7bca4e000000b003fa786b5195sm6896249wml.42.2023.06.26.01.29.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Jun 2023 01:17:57 -0700 (PDT)
-Date: Mon, 26 Jun 2023 11:17:45 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Maira Canal <mairacanal@riseup.net>
-Subject: Re: [PATCH v4] drm/vkms: Add support to 1D gamma LUT
-Message-ID: <20230626111745.49dbbf08@eldfell>
-In-Reply-To: <e880d5cd-a958-164e-4ba9-dd2d0e3ad903@riseup.net>
-References: <20230621194121.184552-1-arthurgrillo@riseup.net>
- <e880d5cd-a958-164e-4ba9-dd2d0e3ad903@riseup.net>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
+ Mon, 26 Jun 2023 01:29:14 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Gustavo Sousa <gustavo.sousa@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH][next] drm/i915/mtl: Fix spelling mistake "initate" ->
+ "initiate"
+Date: Mon, 26 Jun 2023 09:29:13 +0100
+Message-Id: <20230626082913.53089-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/ma/hM16i8ckbZQspRpbgvyO";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,105 +78,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, aleixpol@kde.org, andrealmeid@riseup.net,
- rodrigosiqueiramelo@gmail.com, xaver.hugl@gmail.com, mdaenzer@redhat.com,
- dri-devel@lists.freedesktop.org, victoria@system76.com, mwen@igalia.com,
- jadahl@redhat.com, uma.shankar@intel.com, sebastian.wick@redhat.com,
- Arthur Grillo <arthurgrillo@riseup.net>, joshua@froggi.es
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/ma/hM16i8ckbZQspRpbgvyO
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+There is a spelling mistake in a drm_dbg_kms message. Fix it.
 
-On Sat, 24 Jun 2023 18:48:08 -0300
-Maira Canal <mairacanal@riseup.net> wrote:
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/i915/display/intel_pmdemand.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Hi Arthur,
->=20
-> Thanks for working on this feature for the VKMS!
->=20
-> On 6/21/23 16:41, Arthur Grillo wrote:
-> > Support a 1D gamma LUT with interpolation for each color channel on the
-> > VKMS driver. Add a check for the LUT length by creating
-> > vkms_atomic_check().
-> >=20
-> > Tested with:
-> > igt@kms_color@gamma
-> > igt@kms_color@legacy-gamma
-> > igt@kms_color@invalid-gamma-lut-sizes =20
->=20
-> Could you also mention that this will make it possible to run the test=20
-> igt@kms_plane@pixel-format?
->=20
-> Also, you mentioned to me that the performance degraded with this new=20
-> feature, but I wasn't able to see it while running the VKMS CI. I=20
-> performed a couple of tests and I didn't see any significant performance=
-=20
-> issue.
->=20
-> Could you please run a benchmark and share the results with us? This way=
-=20
-> we can atest that this new feature will not affect significantly the=20
-> VKMS performance. It would be nice to have a small brief of this=20
-> benchmark on the commit message as well.
->=20
-> Attesting that there isn't a performance issue and adding those nits to=20
-> the commit message, you can add my
->=20
-> Reviewed-by: Ma=C3=ADra Canal <mairacanal@riseup.net>
->=20
-> on the next version.
+diff --git a/drivers/gpu/drm/i915/display/intel_pmdemand.c b/drivers/gpu/drm/i915/display/intel_pmdemand.c
+index f7608d363634..f59e1e962e3d 100644
+--- a/drivers/gpu/drm/i915/display/intel_pmdemand.c
++++ b/drivers/gpu/drm/i915/display/intel_pmdemand.c
+@@ -555,7 +555,7 @@ intel_pmdemand_program_params(struct drm_i915_private *i915,
+ 		goto unlock;
+ 
+ 	drm_dbg_kms(&i915->drm,
+-		    "initate pmdemand request values: (0x%x 0x%x)\n",
++		    "initiate pmdemand request values: (0x%x 0x%x)\n",
+ 		    mod_reg1, mod_reg2);
+ 
+ 	intel_de_rmw(i915, XELPDP_INITIATE_PMDEMAND_REQUEST(1), 0,
+-- 
+2.39.2
 
-Hi,
-
-perfomance testing is good indeed. As future work, could there be a
-document describing how to test VKMS performance?
-
-"I ran IGT@blah 100 times and it took xx seconds before and yy seconds
-after" does not really give someone like me an idea of what was
-actually measured. For example blending overhead increase could be
-completely lost in opaque pixel copying noise if the test case has only
-few pixels to blend, e.g. a cursor plane, not to mention the overhead
-of launching an IGT test in the first place.
-
-Something that would guide new developers in running meaningful
-benchmarks would be nice.
-
-Should e.g. IGT have explicit (VKMS) performance tests that need to be
-run manually, since evaluation of the result is not feasible
-automatically? Or a benchmark mode in correctness tests that would run
-the identical operation N times and measure the time before checking
-for correctness?
-
-The correctness verification in IGT tests, if done by image comparison
-which they undoubtedly will need to be in the future, may dominate the
-CPU run time measurements if included.
-
-
-Thanks,
-pq
-
---Sig_/ma/hM16i8ckbZQspRpbgvyO
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmSZSakACgkQI1/ltBGq
-qqeYAA//c+YbiXoa70P9NMZsNi8EBevl5NEk9/MjLMj/eItsQMkUBAZ3jP1fLl0/
-rp3tFpydASVPzIfvfOES7kMXrNB5QTaWwuY4tT9gb4qixONI5uqikBrcLokvdoNp
-m8iNZYFuHt8CWAcFdhijDYwkFIM3agdAvc2vMfoFVSyrPF/8nMPu8WuNtCBTvctb
-AjMYljlZ4T+j8WLXRxATbnJBA+FyJ7QZm6rroFipKS2NHUY955VK0+clAHGJ00QH
-klLBAggL6xWXCs0PHtvE6GsfX+5YpTXl4Rk/o8Ds9l84dCEqjnWIugzp5xSLaPkh
-enocpkHIxKoO4p0YI6ix3tvv9pI7ygRHd7Uud4gP8svdcVZ2pq9feFE+gt/nT8Nk
-GIQXnQ1tSspDlITo7h3Qr1eqYx6usk2v576e522sNIB91cOka7NFzg47v0HXaU9Z
-VcAYNYqUCpHsi2qdT0GUDOiX7VrmX7xVwW+IoFVcfBqFnp+qTplDNxSjSj8174p0
-HRHphSpC86NPCLWpGiTMaVut6q6iM8NZeGg0RchSxWfu2F9PSbhYNtrw/toro7gC
-M5quAAfCblF0q4JHK8OAorX4Yfiq0Dkcz3uQtkaZDjGZSllUSCsLTHFpxq+XhAwi
-NwNhL2e5BWpBGfEFGv/2DGxTWRDuYk19m2fghl1kAorGRvjokUE=
-=dUiv
------END PGP SIGNATURE-----
-
---Sig_/ma/hM16i8ckbZQspRpbgvyO--
