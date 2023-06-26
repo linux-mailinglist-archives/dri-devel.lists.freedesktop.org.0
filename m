@@ -1,39 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A0C73DC97
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 12:58:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B9CA73DCF7
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 13:10:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 507D610E1DE;
-	Mon, 26 Jun 2023 10:58:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 799B710E047;
+	Mon, 26 Jun 2023 11:10:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F78D10E1D2
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 10:58:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C68A10E047
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 11:10:45 +0000 (UTC)
 Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
  helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1qDjun-0005JX-Es; Mon, 26 Jun 2023 12:57:49 +0200
-Message-ID: <3927bb24f1f3480bf2d25a9a0f608aec9e58240d.camel@pengutronix.de>
-Subject: Re: [PATCH v10 01/11] drm/etnaviv: Add a dedicated function to
- register an irq handler
+ id 1qDk6W-0006UL-1D; Mon, 26 Jun 2023 13:10:00 +0200
+Message-ID: <dcbc91af5ac17e7618440a693b71d8d4e2b4a8ef.camel@pengutronix.de>
+Subject: Re: [PATCH v10 07/11] drm/etnaviv: Add support for the dma coherent
+ device
 From: Lucas Stach <l.stach@pengutronix.de>
 To: Sui Jingfeng <suijingfeng@loongson.cn>, Sui Jingfeng
  <18949883232@163.com>,  Russell King <linux+etnaviv@armlinux.org.uk>,
  Christian Gmeiner <christian.gmeiner@gmail.com>, David Airlie
  <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 26 Jun 2023 12:57:37 +0200
-In-Reply-To: <c1bac8c0-062a-72ed-e120-802965472191@loongson.cn>
+Date: Mon, 26 Jun 2023 13:08:52 +0200
+In-Reply-To: <064a39bd-cfca-2799-f72f-0e253215b927@loongson.cn>
 References: <20230620094716.2231414-1-18949883232@163.com>
- <20230620094716.2231414-2-18949883232@163.com>
- <77f62814f98dd2728a1e4747f0db6b2a3cfa2c11.camel@pengutronix.de>
- <52751b55-ce34-f3a8-b3c0-4858ad984622@loongson.cn>
- <21f781a548cef63312df56cb2265de9a7c9a0901.camel@pengutronix.de>
- <c1bac8c0-062a-72ed-e120-802965472191@loongson.cn>
+ <20230620094716.2231414-8-18949883232@163.com>
+ <8f74f0962c8bab6c832919a5340667c54e1a7ddc.camel@pengutronix.de>
+ <66fc74ae-299c-a5de-9cfb-07ae24fb3f07@loongson.cn>
+ <8212078bd56c54ce508205eae0ed0b69e78d4c38.camel@pengutronix.de>
+ <fd5dd250-b01e-fd00-1419-88398cb13347@loongson.cn>
+ <62bf84f19318c54c50f154e1eb64a179fb2389ce.camel@pengutronix.de>
+ <064a39bd-cfca-2799-f72f-0e253215b927@loongson.cn>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
@@ -55,207 +57,224 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, etnaviv@lists.freedesktop.org
+Cc: Bjorn Helgaas <bhelgaas@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Samstag, dem 24.06.2023 um 23:53 +0800 schrieb Sui Jingfeng:
+Hi,
+
+Am Sonntag, dem 25.06.2023 um 11:51 +0800 schrieb Sui Jingfeng:
 > Hi,
 >=20
-> On 2023/6/21 18:16, Lucas Stach wrote:
-> > Am Mittwoch, dem 21.06.2023 um 17:20 +0800 schrieb Sui Jingfeng:
+> On 2023/6/22 01:45, Lucas Stach wrote:
+> > Am Donnerstag, dem 22.06.2023 um 01:21 +0800 schrieb Sui Jingfeng:
 > > > Hi,
 > > >=20
-> > > On 2023/6/21 17:07, Lucas Stach wrote:
-> > > > Am Dienstag, dem 20.06.2023 um 17:47 +0800 schrieb Sui Jingfeng:
-> > > > > From: Sui Jingfeng <suijingfeng@loongson.cn>
+> > > On 2023/6/21 23:58, Lucas Stach wrote:
+> > > > Am Mittwoch, dem 21.06.2023 um 23:30 +0800 schrieb Sui Jingfeng:
+> > > > > Hi,
 > > > > >=20
-> > > > > Because getting IRQ from a device is platform-dependent, PCI devi=
-ces have
-> > > > > different methods for getting an IRQ. This patch is a preparation=
- to extend
-> > > > > this driver for supporting the PCI devices.
+> > > > > On 2023/6/21 18:00, Lucas Stach wrote:
+> > > > > > >     		dma_sync_sgtable_for_cpu(dev->dev, etnaviv_obj->sgt,
+> > > > > > >     					 etnaviv_op_to_dma_dir(op));
+> > > > > > >     		etnaviv_obj->last_cpu_prep_op =3D op;
+> > > > > > > @@ -408,8 +421,9 @@ int etnaviv_gem_cpu_fini(struct drm_gem_o=
+bject *obj)
+> > > > > > >     {
+> > > > > > >     	struct drm_device *dev =3D obj->dev;
+> > > > > > >     	struct etnaviv_gem_object *etnaviv_obj =3D to_etnaviv_bo=
+(obj);
+> > > > > > > +	struct etnaviv_drm_private *priv =3D dev->dev_private;
+> > > > > > >    =20
+> > > > > > > -	if (etnaviv_obj->flags & ETNA_BO_CACHED) {
+> > > > > > > +	if (!priv->dma_coherent && etnaviv_obj->flags & ETNA_BO_CAC=
+HED) {
+> > > > > > >     		/* fini without a prep is almost certainly a userspace =
+error */
+> > > > > > >     		WARN_ON(etnaviv_obj->last_cpu_prep_op =3D=3D 0);
+> > > > > > >     		dma_sync_sgtable_for_device(dev->dev, etnaviv_obj->sgt,
+> > > > > > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/dr=
+ivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> > > > > > > index 3524b5811682..754126992264 100644
+> > > > > > > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> > > > > > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> > > > > > > @@ -112,11 +112,16 @@ static const struct etnaviv_gem_ops etn=
+aviv_gem_prime_ops =3D {
+> > > > > > >     struct drm_gem_object *etnaviv_gem_prime_import_sg_table(=
+struct drm_device *dev,
+> > > > > > >     	struct dma_buf_attachment *attach, struct sg_table *sgt)
+> > > > > > >     {
+> > > > > > > +	struct etnaviv_drm_private *priv =3D dev->dev_private;
+> > > > > > >     	struct etnaviv_gem_object *etnaviv_obj;
+> > > > > > >     	size_t size =3D PAGE_ALIGN(attach->dmabuf->size);
+> > > > > > > +	u32 cache_flags =3D ETNA_BO_WC;
+> > > > > > >     	int ret, npages;
+> > > > > > >    =20
+> > > > > > > -	ret =3D etnaviv_gem_new_private(dev, size, ETNA_BO_WC,
+> > > > > > > +	if (priv->dma_coherent)
+> > > > > > > +		cache_flags =3D ETNA_BO_CACHED;
+> > > > > > > +
+> > > > > > Drop this change. Instead etnaviv_gem_new_impl() should do the =
+upgrade
+> > > > > > from WC to CACHED as necessary by adding something like this:
+> > > > > I understand you are a profession person in vivante GPU driver do=
+main.
 > > > > >=20
-> > > > > Cc: Lucas Stach <l.stach@pengutronix.de>
-> > > > > Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-> > > > > Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> > > > > Cc: Bjorn Helgaas <bhelgaas@google.com>
-> > > > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > > > Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
-> > > > > ---
-> > > > >    drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 32 +++++++++++++++++++=
---------
-> > > > >    1 file changed, 23 insertions(+), 9 deletions(-)
+> > > > > I respect you reviews and instruction.
 > > > > >=20
-> > > > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/=
-drm/etnaviv/etnaviv_gpu.c
-> > > > > index de8c9894967c..a03e81337d8f 100644
-> > > > > --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> > > > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> > > > > @@ -1817,6 +1817,27 @@ static const struct of_device_id etnaviv_g=
-pu_match[] =3D {
-> > > > >    };
-> > > > >    MODULE_DEVICE_TABLE(of, etnaviv_gpu_match);
-> > > > >   =20
-> > > > > +static int etnaviv_gpu_register_irq(struct etnaviv_gpu *gpu, int=
- irq)
-> > > > > +{
-> > > > > +	struct device *dev =3D gpu->dev;
-> > > > > +	int err;
-> > > > > +
-> > > > > +	if (irq < 0)
-> > > > > +		return irq;
-> > > > > +
-> > > > > +	err =3D devm_request_irq(dev, irq, irq_handler, 0, dev_name(dev=
-), gpu);
-> > > > > +	if (err) {
-> > > > > +		dev_err(dev, "failed to request irq %u: %d\n", irq, err);
-> > > > > +		return err;
-> > > > > +	}
-> > > > > +
-> > > > > +	gpu->irq =3D irq;
-> > > > > +
-> > > > > +	dev_info(dev, "irq(%d) handler registered\n", irq);
-> > > > There is no reason to put this into the kernel log.
-> > > I want to see the IRQ of the device when debugging,
+> > > > > But, I'm really reluctant to agree with this, is there any space =
+to
+> > > > > negotiate?
+> > > > >=20
+> > > > > > /*
+> > > > > >     * Upgrade WC to CACHED when the device is hardware coherent=
+ and the
+> > > > > >     * platform doesn't allow mixing cached and writecombined ma=
+ppings to
+> > > > > >     * the same memory area.
+> > > > > >     */
+> > > > > > if ((flags & ETNA_BO_CACHE_MASK) =3D=3D ETNA_BO_WC &&
+> > > > > >        dev_is_dma_coherent(dev) && !drm_arch_can_wc_memory())
+> > > > > >            flags =3D (flags & ~ETNA_BO_CACHE_MASK) & ETNA_BO_CA=
+CHED;
+> > > > > This is policy, not a mechanism.
+> > > > >=20
+> > > > > Using what cache property is a user-space program's choice.
+> > > > >=20
+> > > > > While you are override the WC with CACHED mapping. This is not co=
+rrect
+> > > > > in the concept!
+> > > > >=20
+> > > > Please explain why you think that this isn't correct.
+> > > Again,
 > > >=20
-> > > etnaviv actually print very less.
+> > > this is user-space things!
 > > >=20
-> > > This serve as a minimal signal=C2=A0 to us the etnaviv_gpu_register_i=
-rq()
-> > > function is successful at driver load time.
+> > > this is user-space things!
 > > >=20
-> > And debugging is a very different use-case than normal operation. If
-> > it's needed at all, downgrade this to dev_dbg. This isn't interesting
-> > information for a ordinary user of a system.
+> > > this is user-space things!
+> > >=20
+> > > I have explained several times.
+> > >=20
+> > > made the decision for the user-space program is wrong.
+> > >=20
+> > This mode of communication isn't helpful. Please stop it.
 > >=20
-> > > >    It's no different
-> > > > than other resources to the driver and we don't log each one of tho=
-se
-> > > > either.
-> > > >=20
-> > > > In fact I don't see any reason for this change in the first place.
-> > > > Effectively you are moving a single function call into a new functi=
-on,
-> > > > which doesn't seem like an improvement.
-> > > This is to make the patch easy to review, each patch is only introduc=
-e a
-> > > small function,
+> > As I tried to explain to you multiple times: if userspace can break
+> > coherency by selecting the wrong mapping type then this is something
+> > the kernel should prevent.
+>=20
+> You are right in overall.
+>=20
+>=20
+> This is the only one benefit which WC mapping is preferred over the=20
+> cached mapping.
+>=20
+> As you already told me,=C2=A0 the WC mapping don't *pollute CPU's cache*.
+>=20
+>=20
+> If we can make sure that a BO is *only* going to be used by the GPU,
+>=20
+> then we still can choose WC mapping as the cache property of this BO.
+>=20
+> As the cache property is CPU side thing.
+>=20
+But if it only used by the GPU, then WC won't help you either as the
+CPU is never touching the memory. The benefit of WC is that the CPU can
+write around the cache, so if it uploads data to the GPU this data
+won't pollute the cache. If the buffer is only used by the GPU, then
+there is no risk of cache pollution through the CPU, right?
+
+>=20
+> > > > It allows
+> > > > userspace to use WC mappings that would potentially cause loss of
+> > > > coherency between CPU and GPU, which isn't acceptable.
+> > > Before made the WC works correctly,=C2=A0 you need the developing env=
+ironment.
 > > >=20
-> > What I'm saying is that I don't see the need to introduce this function
-> > at all. All you need to do is move platform_get_irq out into the
-> > platform device code path. The devm_request_irq can stay where it is,
-> > as the only difference between platform and PCI device is how the irq
-> > number is retrieved from the platform.
->=20
-> Yes, you are right. I understand what are asking, but my point is:
->=20
->=20
-> This patch is paving the way for us to introduce the PCI device driver.
->=20
-> All of the patches before the patch=20
-> v10-0006-drm-etnaviv-Add-driver-support-for-the-PCI-devic.patch
->=20
-> are actually doing the preparation.
+> > > userspace program can tune the BO cache mapping easily.
+> > >=20
+> > > Either environment or supply a conf file.
+> > >=20
+> > >=20
+> > > While with your implement, we don't have the opportunity to do debugg=
+ing
+> > > and the development.
+> > You can always add a patch to your local kernel to re-allow WC mappings
+> > while you work on making them behave as expected on your platform.
 >=20
 >=20
-> Look at the patch 0006, I achieve the goal by 128 insertions and 7=20
-> deletions.
+> We are doing the things about the *upstream*.
 >=20
-> while the only 7 deletions are actually for code shading(convert the=20
-> static function to global function).
+Upstream is not about doing experiments. You can always do those
+experiments in your development kernel and if they prove to be
+beneficial, we can think about how to integrate them with the upstream
+kernel without the risk of inadvertently breaking things.
+
 >=20
-> There is No large area diff and NO distortion.
->=20
-> The goal is adding a PCI device driver on the top of what we already have=
-.
->=20
->=20
-> Before the cleanup, the etnaviv_gpu_platform_probe() function is just=20
-> like is a *glue*.
->=20
-> Originally,=C2=A0 it integrate a lot of irrelevant part together.
+> >   With
+> > the mainline kernel there is no way that the kernel driver will allow
+> > broken coherency.
 >=20
 >=20
-> 1.=C2=A0 Mapping MMIO registers make it platform-dependent;
+> A buffer is used by the GPU solely won't break the coherency.
 >=20
-> 2.=C2=A0 Calling platform_get_irq(pdev, 0) make it platform-dependent;
 >=20
-I get that and I'm fine with moving this out of this function. But
-that's not what you are actually doing in this patch. You are moving
-devm_request_irq out of this function, which isn't necessary, since the
-request IRQ is not platform dependent. It's the retrieval of the IRQ
-number to request (platform_get_irq/pdev->irq) which is platform
-dependent.
+> > And as I also mentioned before, there is a clear upgrade path here:
+> > once WC mappings work as expected on your platform we can easily drop
+> > the upgrading from the kernel driver again. The userspace driver can
+> > already be changed to use CACHED BOs where beneficial on your platform
+> > in the meantime.
+>=20
+> For our platform, I think the problem is that the GPU always write to L3=
+=20
+> share cache,
+>=20
+> even you use the WC mapping.
+
+As long as that is the case, I think forcing the CPU to go through the
+same cache by upgrading the BOs to cached is the right thing to do.
+>=20
+> As I already said, the WC mapping only influence the CPU side.
+>=20
+> How can I control the GPU when a BO is WC mapping ?
+
+Hm, newer GPUs allow to use different AXI attributes (which include the
+cachability) controlled via a pagetable setting, but I'm not sure if
+the GC1000 on your platform supports this.
+
+Can you ask your hardware guys if there is a way to set the PCI "no-
+snoop" transaction flag from the GPU and if that will cause the GPU
+memory accesses to bypass the L3 cache?
+=20
+>=20
+> Does the GPU know that whether a BO=C2=A0 is WC mapping or not ?
+>=20
+> How can I let(or tell) the GPU that
+>=20
+> please not write to shared L3 cache,=C2=A0 write to the system RAM direct=
+ly?
+>=20
+> On out platform, the coherency between the CPU and peripheral IO=20
+> device's cache
+>=20
+> is maintained by hardware. While at here.=C2=A0 the hardware is the share=
+d L3=20
+> cache.
+>=20
+>=20
+> I guess the current problem is that the GPU don't listen to me,
+>=20
+> he still write to CPU cache's even you choose the WC mapping.
+>=20
+> Then if you want to read the rendered image by CPU,
+>=20
+> the CPU go the un-cached path. Then I think the CPU will get wrong data.
+>=20
+Yes, that sounds plausible and I don't see much of a way around this
+other than forcing the CPU to use the same path through the cache.
 
 Regards,
 Lucas
-
-> 3.=C2=A0 Getting Clocks by calling devm_clk_get() make it platform-depend=
-ent;
->=20
-> 4.=C2=A0 Calling component_add() make it subsytem and framework-dependent=
-;
->=20
->=20
-> All of above list item is deny us to introduce the PCI device driver=20
-> wrapper.
->=20
-> It(sub-functional code) is not relevant to each other.
->=20
-> Hence the first five patch is actually do the clean,
->=20
-> for the clarify(and tidy and good looking) of the patch 6.
->=20
->=20
-> I will drop the printing, but keep the cleanup function there,
->=20
-> Is this acceptable?
->=20
->=20
-> > Regards,
-> > Lucas
-> >=20
-> > > which is paving the way for we introducing the PCI device driver.
-> > >=20
-> > > Otherwise when we introducing the PCI device driver, the patch is loo=
-ks
-> > > ugly,
-> > >=20
-> > > It is difficult to review.
-> > >=20
-> > > > Regards,
-> > > > Lucas
-> > > >=20
-> > > > > +
-> > > > > +	return 0;
-> > > > > +}
-> > > > > +
-> > > > >    static int etnaviv_gpu_platform_probe(struct platform_device *=
-pdev)
-> > > > >    {
-> > > > >    	struct device *dev =3D &pdev->dev;
-> > > > > @@ -1837,16 +1858,9 @@ static int etnaviv_gpu_platform_probe(stru=
-ct platform_device *pdev)
-> > > > >    		return PTR_ERR(gpu->mmio);
-> > > > >   =20
-> > > > >    	/* Get Interrupt: */
-> > > > > -	gpu->irq =3D platform_get_irq(pdev, 0);
-> > > > > -	if (gpu->irq < 0)
-> > > > > -		return gpu->irq;
-> > > > > -
-> > > > > -	err =3D devm_request_irq(&pdev->dev, gpu->irq, irq_handler, 0,
-> > > > > -			       dev_name(gpu->dev), gpu);
-> > > > > -	if (err) {
-> > > > > -		dev_err(dev, "failed to request IRQ%u: %d\n", gpu->irq, err);
-> > > > > +	err =3D etnaviv_gpu_register_irq(gpu, platform_get_irq(pdev, 0)=
-);
-> > > > > +	if (err)
-> > > > >    		return err;
-> > > > > -	}
-> > > > >   =20
-> > > > >    	/* Get Clocks: */
-> > > > >    	gpu->clk_reg =3D devm_clk_get_optional(&pdev->dev, "reg");
->=20
 
