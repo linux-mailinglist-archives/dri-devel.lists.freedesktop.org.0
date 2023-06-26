@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3BC073DE67
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 14:03:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B6A573DE66
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 14:03:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8BBD10E1F1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C948910E1EE;
 	Mon, 26 Jun 2023 12:03:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F03010E1E9
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9C7A10E1EC
  for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 12:02:56 +0000 (UTC)
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 0B286660714F;
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 6E5076607150;
  Mon, 26 Jun 2023 13:02:54 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1687780974;
- bh=Yo+pz+Tp+bqdyprITgKnXcZA+Qz/RRRbu5C4yTdFidk=;
+ bh=LQiDihajyS4lpLnWl0hRNS1aTYOBaC2aOlpCoubhNJY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MJji4tPomBasuVSibAAYimTd9IVMmHanBvi6k/mb4hOdwivggvnaoBo4ziQ4Vcf70
- zikD7mt9vcWsy7EB1zzMrjKJO6CpuujYm1yvUBXSFXNPqbGA/WUuiwPgcWYOW7LM8V
- BqBjDQpGLnG2uCEIjZVXBU12bnvpDM/6soEwepPA1rV+1v0PADzLmAByFeSQ2e0B6F
- yAeiWiufD5tvwi3B01+uyb51DZDPtm6sNS1XvJXgDAgYXk2GSPhBRsWxIpRkgHfiaO
- n8y2MHt92iB+BbWPU/fUCqFGSQm4srHBQXCRW1TXYu4oysF1OagC/Ff/JSkvBnwFwl
- CS0YUcZB5n4lA==
+ b=l0RA8Y2qJ/jjzI580eEQshqNwApQGSAxZQnh8m8aZeinkwOyGCLTZmFzrCcqrcN30
+ apy2wNNyuBt/GQYpNFqQuEnBBh6uWVLbX+RGyfEdiFVwO67owySBhegkh9yBwFm4I9
+ lxXuky6t/tynsot3rZAoVit6Xd4vCF+U50Um4iKXkzYnBNKJaQAxR/We6ZTis37NzI
+ 1gqixAdcaNc4YVIGBTKWmtDScIl98h7Xw20g9p4y9ci6bq2Tp5cXRC4A8rh9nqpWr4
+ 9P/0djIcVpQCWldYgAG/5Xa7NSmJrPE4p6LxXEgNH4PTfb6GL+NslQgHcLMdHWnu3O
+ TDQPHQ/VD9iaQ==
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/5] drm/panfrost: Stop using drm_gem_shmem_put_pages()
-Date: Mon, 26 Jun 2023 14:02:43 +0200
-Message-ID: <20230626120247.1337962-2-boris.brezillon@collabora.com>
+Subject: [PATCH 2/5] drm/shmem-helper: Stop exposing drm_gem_shmem_put_pages()
+Date: Mon, 26 Jun 2023 14:02:44 +0200
+Message-ID: <20230626120247.1337962-3-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230626120247.1337962-1-boris.brezillon@collabora.com>
 References: <20230626120247.1337962-1-boris.brezillon@collabora.com>
@@ -52,88 +51,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Emil Velikov <emil.l.velikov@gmail.com>, Steven Price <steven.price@arm.com>,
+Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
  Boris Brezillon <boris.brezillon@collabora.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We want to get rid of this helper function, so let's use
-drm_gem_shmem_unpin() and move this call out of the
-dma_resv-locked section.
+The last user (panfrost) moved to drm_gem_shmem_unpin(), so it's now
+safe to make this function private.
 
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: Emil Velikov <emil.l.velikov@gmail.com>
 Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Steven Price <steven.price@arm.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_mmu.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 5 +++--
+ include/drm/drm_gem_shmem_helper.h     | 1 -
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-index c0123d09f699..0b12f03ef0be 100644
---- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-@@ -447,6 +447,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
- 	pgoff_t page_offset;
- 	struct sg_table *sgt;
- 	struct page **pages;
-+	bool pinned = false;
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index a783d2245599..d6fc034164c0 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -128,6 +128,8 @@ struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t
+ }
+ EXPORT_SYMBOL_GPL(drm_gem_shmem_create);
  
- 	bomapping = addr_to_mapping(pfdev, as, addr);
- 	if (!bomapping)
-@@ -488,12 +489,14 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
- 		}
- 		bo->base.pages = pages;
- 		bo->base.pages_use_count = 1;
-+		pinned = true;
- 	} else {
- 		pages = bo->base.pages;
- 		if (pages[page_offset]) {
- 			/* Pages are already mapped, bail out. */
- 			goto out;
- 		}
-+		pinned = true;
- 	}
- 
- 	mapping = bo->base.base.filp->f_mapping;
-@@ -504,7 +507,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
- 		if (IS_ERR(pages[i])) {
- 			ret = PTR_ERR(pages[i]);
- 			pages[i] = NULL;
--			goto err_pages;
-+			goto err_unlock;
- 		}
- 	}
- 
-@@ -512,7 +515,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
- 	ret = sg_alloc_table_from_pages(sgt, pages + page_offset,
- 					NUM_FAULT_PAGES, 0, SZ_2M, GFP_KERNEL);
- 	if (ret)
--		goto err_pages;
-+		goto err_unlock;
- 
- 	ret = dma_map_sgtable(pfdev->dev, sgt, DMA_BIDIRECTIONAL, 0);
- 	if (ret)
-@@ -534,10 +537,12 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
- 
- err_map:
- 	sg_free_table(sgt);
--err_pages:
--	drm_gem_shmem_put_pages(&bo->base);
- err_unlock:
- 	dma_resv_unlock(obj->resv);
++static void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem);
 +
-+	if (ret && pinned)
-+		drm_gem_shmem_unpin(&bo->base);
-+
- err_bo:
- 	panfrost_gem_mapping_put(bomapping);
- 	return ret;
+ /**
+  * drm_gem_shmem_free - Free resources associated with a shmem GEM object
+  * @shmem: shmem GEM object to free
+@@ -204,7 +206,7 @@ static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
+  *
+  * This function decreases the use count and puts the backing pages when use drops to zero.
+  */
+-void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
++static void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
+ {
+ 	struct drm_gem_object *obj = &shmem->base;
+ 
+@@ -226,7 +228,6 @@ void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
+ 			  shmem->pages_mark_accessed_on_put);
+ 	shmem->pages = NULL;
+ }
+-EXPORT_SYMBOL(drm_gem_shmem_put_pages);
+ 
+ static int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem)
+ {
+diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+index 2867d2aba88b..f55f8739acc0 100644
+--- a/include/drm/drm_gem_shmem_helper.h
++++ b/include/drm/drm_gem_shmem_helper.h
+@@ -99,7 +99,6 @@ struct drm_gem_shmem_object {
+ struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t size);
+ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem);
+ 
+-void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem);
+ int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem);
+ void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem);
+ int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
 -- 
 2.41.0
 
