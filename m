@@ -1,48 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A502273EA6B
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 20:48:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF38073EA7E
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 20:51:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17D7610E036;
-	Mon, 26 Jun 2023 18:48:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D51B510E1AA;
+	Mon, 26 Jun 2023 18:51:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40DAD10E036
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 18:48:49 +0000 (UTC)
-Received: by mail-il1-f198.google.com with SMTP id
- e9e14a558f8ab-345958a02a5so13226835ab.2
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 11:48:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687805328; x=1690397328;
- h=to:from:subject:message-id:date:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=EKDg0PU5skwIvJvgiUpNR0ot0tJbUTU9ormzXZmrVcc=;
- b=a4G2An5wzXB4X5kD9gL4uOaF0OaLuczqiwBM6nCZ1N7zSViO99mzt6EPOU/0VbiDi5
- 6AAOgJvM/WQ0DZ+uKXofBlp6oZuc/TpVdKDU9mpdELJZgnktyMxOuqPh57SBlH3NOR4o
- BEI5c+H6z1a0j1xxFwgtawFKZbf8fu9zL/VL4alZXER+z/Iy7UVwff0Pftd18fh8mWbc
- Mt0aM+9lahjGd+p04ht837gw2FL2hXFPSNKsDjNX1EznS11oAZSO2lsBWdTFGexSHn+d
- TtOIWvmfWhVLX2zk2O2AJ4k+Mai+sHUYisSc2fU1a10BZIzWkIBPPmXqixONOnf9tiPQ
- CNdQ==
-X-Gm-Message-State: AC+VfDxgQbOiVqabwf3RaG5SMZ+f++8qI3aZfre6oS1l3s4EnHs66Xfv
- JT1/3k2Vr8aPMz2byaO6surfL7cnoMOTrLlPw/R5kxhBHF+0hMA=
-X-Google-Smtp-Source: ACHHUZ6ZPCR1drfrv30wGG3hFsOR39+u5VrXjRt+nY9QCPZzGrBMi4youpWU2H70VGiLD7s85ZPUIhv0bwmsfYBk9w10kSpB6Xsw
+Received: from relay01.th.seeweb.it (relay01.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::162])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93F0810E06B
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 18:51:43 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 86FC620024;
+ Mon, 26 Jun 2023 20:51:37 +0200 (CEST)
+Date: Mon, 26 Jun 2023 20:51:35 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 03/15] dt-bindings: clock: qcom,dispcc-sm6125: Require
+ GCC PLL0 DIV clock
+Message-ID: <uuy5prkjhhs66te7h6z3pu4lzj2cfbiqk6ftjijwoeqpw573av@ogs6cboanvzc>
+References: <20230624-sm6125-dpu-v1-0-1d5a638cebf2@somainline.org>
+ <20230624-sm6125-dpu-v1-3-1d5a638cebf2@somainline.org>
+ <c9681bce-efa8-9b79-4bf6-837dd6a2dc12@linaro.org>
+ <55b0ca89-8f2e-5383-59d4-6809e813abf8@linaro.org>
+ <vnp263d43flny2ibt3n7fbloyi26enqrejnobogplfu5fcj6l3@s7zkxrsi2rde>
+ <52c57cab-10cf-2e7e-2c1d-fa6506786d45@linaro.org>
+ <jmtjuya4c423rmdlo4ubvvqndbxvgapal5otjqnejdpdd25izp@kewbjmqdu2xs>
+ <6311f26f-79ee-c471-649f-5e0b4629cfcc@linaro.org>
 MIME-Version: 1.0
-X-Received: by 2002:a92:cfcd:0:b0:345:6973:66d3 with SMTP id
- y13-20020a92cfcd000000b00345697366d3mr2888062ilr.2.1687805328118; Mon, 26 Jun
- 2023 11:48:48 -0700 (PDT)
-Date: Mon, 26 Jun 2023 11:48:48 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000085b5d05ff0ccd0d@google.com>
-Subject: [syzbot] Monthly dri report (Jun 2023)
-From: syzbot <syzbot+listcc0457bcdf18b68b4591@syzkaller.appspotmail.com>
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6311f26f-79ee-c471-649f-5e0b4629cfcc@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,39 +50,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+ dri-devel@lists.freedesktop.org, Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-clk@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+ Andy Gross <agross@kernel.org>, Lux Aliaga <they@mint.lgbt>,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>, Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Stephen Boyd <sboyd@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello dri maintainers/developers,
+On 2023-06-26 20:29:37, Krzysztof Kozlowski wrote:
+> On 26/06/2023 19:49, Marijn Suijten wrote:
+> > On 2023-06-26 18:10:44, Krzysztof Kozlowski wrote:
+> >> On 25/06/2023 21:48, Marijn Suijten wrote:
+> >>> On 2023-06-24 11:08:54, Krzysztof Kozlowski wrote:
+> >>>> On 24/06/2023 03:45, Konrad Dybcio wrote:
+> >>>>> On 24.06.2023 02:41, Marijn Suijten wrote:
+> >>>>>> The "gcc_disp_gpll0_div_clk_src" clock is consumed by the driver, will
+> >>>>>> be passed from DT, and should be required by the bindings.
+> >>>>>>
+> >>>>>> Fixes: 8397c9c0c26b ("dt-bindings: clock: add QCOM SM6125 display clock bindings")
+> >>>>>> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> >>>>>> ---
+> >>>>> Ideally, you'd stick it at the bottom of the list, as the items: order
+> >>>>> is part of the ABI
+> >>>>
+> >>>> Yes, please add them to the end. Order is fixed.
+> >>>
+> >>> Disagreed for bindings that declare clock-names and when the driver
+> >>> adheres to it, see my reply to Konrad's message.
+> >>
+> >> That's the generic rule, with some exceptions of course. Whether one
+> >> chosen driver (chosen system and chosen version of that system) adheres
+> >> or not, does not change it. Other driver behaves differently and ABI is
+> >> for everyone, not only for your specific version of Linux driver.
+> >>
+> >> Follow the rule.
+> > 
+> > This has no relation to the driver (just that our driver adheres to the
+> > bindings, as it is supposed to be).  The bindings define a mapping from
+> > a clock-names=<> entry to a clock on the same index in the clocks=<>
+> > array.  That relation remains the same with this change.
+> 
+> Not really, binding also defines the list of clocks - their order and
+> specific entries. This changes.
 
-This is a 31-day syzbot report for the dri subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/dri
+And so it does in "dt-bindings: clock: qcom,dispcc-sm6125: Remove unused
+GCC_DISP_AHB_CLK"?
 
-During the period, 3 new issues were detected and 0 were fixed.
-In total, 7 issues are still open and 30 have been fixed so far.
-
-Some of the still happening issues:
-
-Ref Crashes Repro Title
-<1> 297     Yes   WARNING in drm_wait_one_vblank
-                  https://syzkaller.appspot.com/bug?extid=6f7fe2dbc479dca0ed17
-<2> 32      Yes   inconsistent lock state in sync_info_debugfs_show
-                  https://syzkaller.appspot.com/bug?extid=007bfe0f3330f6e1e7d1
-<3> 16      No    WARNING in vkms_get_vblank_timestamp (2)
-                  https://syzkaller.appspot.com/bug?extid=93bd128a383695391534
-<4> 2       Yes   divide error in drm_mode_vrefresh
-                  https://syzkaller.appspot.com/bug?extid=622bba18029bcde672e1
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
-
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
+- Marijn
