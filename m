@@ -1,43 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C48073E00A
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 15:02:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC5473E01E
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 15:05:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 666D710E1F4;
-	Mon, 26 Jun 2023 13:02:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F34610E1FC;
+	Mon, 26 Jun 2023 13:05:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2CC610E1F4
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 13:02:28 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56DFD10E1F7;
+ Mon, 26 Jun 2023 13:05:23 +0000 (UTC)
+Received: from [192.168.2.254] (109-252-154-132.dynamic.spd-mgts.ru
+ [109.252.154.132])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 1A2ED60EA2;
- Mon, 26 Jun 2023 13:02:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F9A6C433C0;
- Mon, 26 Jun 2023 13:02:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1687784546;
- bh=qHCByCNDys2ECT6mI9nx7oOPVqRAJqAf0TdsDuDj2PI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=o53DZaDNvEAwptnEewGQrTiUVPR6v8FwlmTYX7yfgHWj/oUbJGR0mhRH1GL39WX5g
- fp4oalcmiYuaNf5x8s65Ydy5ihYFrRckIWBUSM6GaHDjLwal1iUXFES1D/rhkOxDnz
- cdPK4n96JJlMF7nWtd+JoN35UgJzBHocXT3XWUCw=
-Date: Mon, 26 Jun 2023 15:02:22 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Byungchul Park <byungchul@sk.com>
-Subject: Re: [PATCH v10 00/25] DEPT(Dependency Tracker)
-Message-ID: <2023062627-chooser-douche-6613@gregkh>
-References: <20230626115700.13873-1-byungchul@sk.com>
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 265C96606EF9;
+ Mon, 26 Jun 2023 14:05:18 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1687784720;
+ bh=1sBMM2PRRV9h1R/j/rMSloE9aC2lpEqWGuljd40xwbM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=lGBeuXWb01fFSzJ2pFOwmMEqBs2rZQZVQpaA/TuCvDVDtXQgBurZ7wQBDEiRk+D0g
+ kFY6B96C8DgjTQOg4y+E15Bi2zbWx2hRzPT+TCeWBvlq/z3x9mLE/zZBSmqvOaVYg4
+ BNutK+oH87OC2/6/PhJ6UJyTyOQqs0eLny9I4cuW2DyKxbXTbei0YwBov4cLtLAWr1
+ NJrEfrJLFtxEKT4oyQogTfqonglyJRyKBfA5hiByacbQOSwuTg3+ej8OHo2WvybNiJ
+ 5eb75PHN01929Km2K0XGC2iOSUpP7IGjp0mhGtjQI9Xhu87S4NVhdTC4ov//7BmKtx
+ YFN46CpVsU7WQ==
+Message-ID: <2b932742-0637-3b7a-acb5-ab643781caa3@collabora.com>
+Date: Mon, 26 Jun 2023 16:05:14 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230626115700.13873-1-byungchul@sk.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.1
+Subject: Re: [PATCH v4 6/6] drm/shmem-helper: Switch to reservation lock
+Content-Language: en-US
+To: Boris Brezillon <boris.brezillon@collabora.com>
+References: <20230529223935.2672495-1-dmitry.osipenko@collabora.com>
+ <20230529223935.2672495-7-dmitry.osipenko@collabora.com>
+ <20230626114014.2c837255@collabora.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20230626114014.2c837255@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,81 +57,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, hdanton@sina.com, jack@suse.cz,
- peterz@infradead.org, daniel.vetter@ffwll.ch, amir73il@gmail.com,
- david@fromorbit.com, dri-devel@lists.freedesktop.org, mhocko@kernel.org,
- linux-mm@kvack.org, linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
- chris.p.wilson@intel.com, joel@joelfernandes.org, 42.hyeyoo@gmail.com,
- cl@linux.com, will@kernel.org, duyuyang@gmail.com, sashal@kernel.org,
- her0gyugyu@gmail.com, kernel_team@skhynix.com,
- damien.lemoal@opensource.wdc.com, willy@infradead.org, hch@infradead.org,
- mingo@redhat.com, djwong@kernel.org, vdavydov.dev@gmail.com,
- rientjes@google.com, dennis@kernel.org, linux-ext4@vger.kernel.org,
- ngupta@vflare.org, johannes.berg@intel.com, boqun.feng@gmail.com,
- dan.j.williams@intel.com, josef@toxicpanda.com, rostedt@goodmis.org,
- gwan-gyeong.mun@intel.com, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, jglisse@redhat.com, paolo.valente@linaro.org,
- viro@zeniv.linux.org.uk, longman@redhat.com, tglx@linutronix.de,
- vbabka@suse.cz, melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
- rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, jlayton@kernel.org,
- linux-kernel@vger.kernel.org, penberg@kernel.org, minchan@kernel.org,
- max.byungchul.park@gmail.com, hannes@cmpxchg.org, tj@kernel.org,
- akpm@linux-foundation.org, torvalds@linux-foundation.org
+Cc: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ John Stultz <jstultz@google.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ kernel@collabora.com, Sumit Semwal <sumit.semwal@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ linux-media@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ intel-gfx@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Tomi Valkeinen <tomba@kernel.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
+ Tomasz Figa <tfiga@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 26, 2023 at 08:56:35PM +0900, Byungchul Park wrote:
-> >From now on, I can work on LKML again! I'm wondering if DEPT has been
-> helping kernel debugging well even though it's a form of patches yet.
+On 6/26/23 12:40, Boris Brezillon wrote:
+> Same problem with this renaming: it's confusing because this function
+> was previously taking care of the locking, and it's no longer the case.
+> That's actually true for other public functions your patching, but I
+> won't go over all of them.
 > 
-> I'm happy to see that DEPT reports a real problem in practice. See:
-> 
->    https://lore.kernel.org/lkml/6383cde5-cf4b-facf-6e07-1378a485657d@I-love.SAKURA.ne.jp/#t
->    https://lore.kernel.org/lkml/1674268856-31807-1-git-send-email-byungchul.park@lge.com/
-> 
-> Nevertheless, I apologize for the lack of document. I promise to add it
-> before it gets needed to use DEPT's APIs by users. For now, you can use
-> DEPT just with CONFIG_DEPT on.
-> 
-> ---
-> 
-> Hi Linus and folks,
-> 
-> I've been developing a tool for detecting deadlock possibilities by
-> tracking wait/event rather than lock(?) acquisition order to try to
-> cover all synchonization machanisms. It's done on v6.2-rc2.
-> 
-> Benifit:
-> 
-> 	0. Works with all lock primitives.
-> 	1. Works with wait_for_completion()/complete().
-> 	2. Works with 'wait' on PG_locked.
-> 	3. Works with 'wait' on PG_writeback.
-> 	4. Works with swait/wakeup.
-> 	5. Works with waitqueue.
-> 	6. Works with wait_bit.
-> 	7. Multiple reports are allowed.
-> 	8. Deduplication control on multiple reports.
-> 	9. Withstand false positives thanks to 6.
-> 	10. Easy to tag any wait/event.
-> 
-> Future work:
-> 
-> 	0. To make it more stable.
-> 	1. To separates Dept from Lockdep.
-> 	2. To improves performance in terms of time and space.
-> 	3. To use Dept as a dependency engine for Lockdep.
-> 	4. To add any missing tags of wait/event in the kernel.
-> 	5. To deduplicate stack trace.
+> I know this patch has been under discussion for quite some time, and has
+> been validated by other devs/maintainers, but I'd like to understand the
+> reasoning behind these decisions. Not the decision to replace all locks
+> by dma_resv, which I kinda understand, but the decision to change the
+> behavior of functions without making the name reflect the new behavior
+> (_locked prefix), or the fact we now prohibit some functions to
+> succeed when the dma_resv lock is taken by the driver beforehand (which,
+> unless I'm mistaken, will happen in the VM_BIND logic, and can happen
+> in the SUBMIT ioctl too depending on the driver).
 
-If you run this today, does it find any issues with any subsystems /
-drivers that the current lockdep code does not find?  Have you run your
-tool on patches sent to the different mailing lists for new drivers and
-code added to the tree to verify that it can find issues easily?
+Adding explicit _locked/unlocked postfix to all function names indeed
+won't hurt to do. There was no decision made about the function names,
+the old functions kept the old name where possible to minimize code
+changes during transition to the resv lock. Improving the names could be
+the next step.
 
-In other words, why do we need this at all?  What makes it 'better' than
-what we already have that works for us today?  What benifit is it?
+Thanks for the feedback!
 
-thanks,
+-- 
+Best regards,
+Dmitry
 
-greg k-h
