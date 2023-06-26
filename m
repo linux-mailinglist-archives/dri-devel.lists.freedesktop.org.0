@@ -1,47 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA10173DBEF
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 11:58:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4387373DC24
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 12:21:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD22910E0B0;
-	Mon, 26 Jun 2023 09:57:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D3D810E09A;
+	Mon, 26 Jun 2023 10:21:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 033D010E09A;
- Mon, 26 Jun 2023 09:57:57 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id BF382660710F;
- Mon, 26 Jun 2023 10:57:55 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1687773476;
- bh=/hdhmDCFRTOeND3zSbQZJ0R4+Q+Md/hGuoDZfv2/+Do=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=UqsnVW1rtP9Z5G+2AIv0tg0dlyuCHapj2RhQYZEYa/rTMqT/8/gu7iu8hPZn5mGe1
- 6sgF+oCDR5YY3BX7iLc3yo3xZ7T4aA6tBGPs4ZQicyPSZvzt+SwIcKh/Br4cstesda
- lCwNu3tvfLkWniz8/ZD5YVuv4j7ONaSv4HnevnusU5HAlkoeDYtJ7Nq3YXmvAPjc5A
- qf/Q8LC8PEk5OFuLiDVX44EN/Kmz7ISjl1yVlC2zY/YtV7J13/p+qGP/iV4yTwJVzn
- 6kUlauEVSKYc77KEzrepEaRxSnDYzAUJ32V9OMhbfsfWznWU1rtBLqwWYqedJrYgzi
- cDUOWV6B8cbpQ==
-Date: Mon, 26 Jun 2023 11:57:52 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v4 6/6] drm/shmem-helper: Switch to reservation lock
-Message-ID: <20230626115752.37ea8e6d@collabora.com>
-In-Reply-To: <20230626114014.2c837255@collabora.com>
-References: <20230529223935.2672495-1-dmitry.osipenko@collabora.com>
- <20230529223935.2672495-7-dmitry.osipenko@collabora.com>
- <20230626114014.2c837255@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
+ [IPv6:2a00:1450:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A771110E09A;
+ Mon, 26 Jun 2023 10:21:41 +0000 (UTC)
+Received: by mail-lj1-x22d.google.com with SMTP id
+ 38308e7fff4ca-2b69ed7d050so14864821fa.2; 
+ Mon, 26 Jun 2023 03:21:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1687774899; x=1690366899;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=HeacIq0iGBmlMTVQdsWhJFRPflCyuB9lhDlBAARX9pM=;
+ b=MU0bhlG+BLyjbACqov3lAaQ+x/BLQbwWuoLQXFBcrNlTaUiR/oJWoe7If8mNFbrM/a
+ KvMV6iQ3ndKT2Suyh/cxeNu4v3aqi07XLFg0oFMSxlyKzitdS4c7H/9KvIkBKskwaP++
+ ilkzuD9jrM8gIYUops8xBUT2pJSAYAxUNkIGqHiqMACIbaTvGUD7kzZgilU+NqtJr6qq
+ ka8nNQC5CnSkSDCOmFbAoCy0/PBwsreflYYQR35R/SB7KRmRgubkBQ+zAT8WjkkBQy3/
+ 8fLLCI1ltpyhICG2SNJvoDhiXlp5Yl7PaGueJEIDk/DFKvKBJ9bPfkf/9Ju5D8fRqaXZ
+ 1p5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687774899; x=1690366899;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HeacIq0iGBmlMTVQdsWhJFRPflCyuB9lhDlBAARX9pM=;
+ b=htdjhWiJJedxIkgN/BcmA+9KlG4EBMXK4iyQvIBZdzjhg4ve9FmSplXScRf3XO1Q9C
+ Wacp778+LVxTYldBwEb5oYdYh9Is3Yk0a4FV6z9rcfY17nw0wOiQGtiCb3WR9GFtyXjP
+ 07vmiV5FrB0iICvBnSmfG4rURhiEayWJO66xN/F0gb8/PYZN8tLHRdOw4ysq++56YQhz
+ GCrrUNSFuI/GnsYMp+QQTwcJ3isOBU2MgOXh0M0kevJtC2+Zt43Itx1msIUqdM9o2N29
+ APGc4+rmVE7UzzIzdg5QSl83R2cJFKGGasBDA48ZOAitrKJrMrROWvcxV/LmftAsAVkY
+ blhw==
+X-Gm-Message-State: AC+VfDwNcd4zAA7bDpbGiP7lKRh+aHUxbZghXh1s8wzMAhxLPriStLsJ
+ jLT6WIh+o8pKg8tyElETbxG/WHZxupE=
+X-Google-Smtp-Source: ACHHUZ4FJTWxVTLMoTaqDFVe37vxY6VWwgHI7xhOcZo5HF8sUgxfA4+6g6TYMz7Wt/q2BtpA2MneDw==
+X-Received: by 2002:a2e:8088:0:b0:2b4:7f66:8c85 with SMTP id
+ i8-20020a2e8088000000b002b47f668c85mr13594865ljg.48.1687774898695; 
+ Mon, 26 Jun 2023 03:21:38 -0700 (PDT)
+Received: from ?IPV6:2a00:e180:158d:7600:d62f:c4fb:6eee:7b87?
+ ([2a00:e180:158d:7600:d62f:c4fb:6eee:7b87])
+ by smtp.gmail.com with ESMTPSA id
+ m10-20020a50ef0a000000b0051d8f9ec3basm2024177eds.15.2023.06.26.03.21.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Jun 2023 03:21:38 -0700 (PDT)
+Message-ID: <dd54ed9e-b548-67a9-4998-b969b6d888a4@gmail.com>
+Date: Mon, 26 Jun 2023 12:21:37 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 1/4] drm/ttm: Fix ttm_lru_bulk_move_pos_tail()
+Content-Language: en-US
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org
+References: <20230626091450.14757-1-thomas.hellstrom@linux.intel.com>
+ <20230626091450.14757-2-thomas.hellstrom@linux.intel.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20230626091450.14757-2-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,280 +79,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- John Stultz <jstultz@google.com>, Gerd Hoffmann <kraxel@redhat.com>,
- kernel@collabora.com, Sumit Semwal <sumit.semwal@linaro.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- linux-media@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- intel-gfx@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Tomi Valkeinen <tomba@kernel.org>,
- Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
- Tomasz Figa <tfiga@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 26 Jun 2023 11:40:14 +0200
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
+I've already pushed the version from Teddy to drm-misc-fixes last week.
 
-> Hi Dmitry,
-> 
-> On Tue, 30 May 2023 01:39:35 +0300
-> Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
-> 
-> > Replace all drm-shmem locks with a GEM reservation lock. This makes locks
-> > consistent with dma-buf locking convention where importers are responsible
-> > for holding reservation lock for all operations performed over dma-bufs,
-> > preventing deadlock between dma-buf importers and exporters.  
-> 
-> I've rebased some of my work on drm-misc-next this morning and noticed
-> that the drm_gem_shmem_get_pages() I was using to pin pages no longer
-> exists, so I ended looking at this patch to check what I should use
-> instead, and I have a few questions/comments.
-> 
-> > 
-> > Suggested-by: Daniel Vetter <daniel@ffwll.ch>
-> > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
-> > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> > ---
-> >  drivers/gpu/drm/drm_gem_shmem_helper.c        | 210 ++++++++----------
-> >  drivers/gpu/drm/lima/lima_gem.c               |   8 +-
-> >  drivers/gpu/drm/panfrost/panfrost_drv.c       |   7 +-
-> >  .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |   6 +-
-> >  drivers/gpu/drm/panfrost/panfrost_mmu.c       |  19 +-
-> >  include/drm/drm_gem_shmem_helper.h            |  14 +-
-> >  6 files changed, 116 insertions(+), 148 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> > index 4ea6507a77e5..a783d2245599 100644
-> > --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> > +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> > @@ -88,8 +88,6 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private)
-> >  	if (ret)
-> >  		goto err_release;
-> >  
-> > -	mutex_init(&shmem->pages_lock);
-> > -	mutex_init(&shmem->vmap_lock);
-> >  	INIT_LIST_HEAD(&shmem->madv_list);
-> >  
-> >  	if (!private) {
-> > @@ -141,11 +139,13 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
-> >  {
-> >  	struct drm_gem_object *obj = &shmem->base;
-> >  
-> > -	drm_WARN_ON(obj->dev, shmem->vmap_use_count);
-> > -
-> >  	if (obj->import_attach) {
-> >  		drm_prime_gem_destroy(obj, shmem->sgt);
-> >  	} else {
-> > +		dma_resv_lock(shmem->base.resv, NULL);
-> > +
-> > +		drm_WARN_ON(obj->dev, shmem->vmap_use_count);
-> > +
-> >  		if (shmem->sgt) {
-> >  			dma_unmap_sgtable(obj->dev->dev, shmem->sgt,
-> >  					  DMA_BIDIRECTIONAL, 0);
-> > @@ -154,22 +154,24 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
-> >  		}
-> >  		if (shmem->pages)
-> >  			drm_gem_shmem_put_pages(shmem);
-> > -	}
-> >  
-> > -	drm_WARN_ON(obj->dev, shmem->pages_use_count);
-> > +		drm_WARN_ON(obj->dev, shmem->pages_use_count);
-> > +
-> > +		dma_resv_unlock(shmem->base.resv);
-> > +	}
-> >  
-> >  	drm_gem_object_release(obj);
-> > -	mutex_destroy(&shmem->pages_lock);
-> > -	mutex_destroy(&shmem->vmap_lock);
-> >  	kfree(shmem);
-> >  }
-> >  EXPORT_SYMBOL_GPL(drm_gem_shmem_free);
-> >  
-> > -static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
-> > +static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)  
-> 
-> I find this name change confusing, because the function requires the
-> GEM resv lock to be held, and the _locked suffix was making it pretty
-> clear.
-> 
-> >  {
-> >  	struct drm_gem_object *obj = &shmem->base;
-> >  	struct page **pages;
-> >  
-> > +	dma_resv_assert_held(shmem->base.resv);
-> > +
-> >  	if (shmem->pages_use_count++ > 0)
-> >  		return 0;
-> >  
-> > @@ -197,35 +199,16 @@ static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
-> >  }
-> >  
-> >  /*
-> > - * drm_gem_shmem_get_pages - Allocate backing pages for a shmem GEM object
-> > + * drm_gem_shmem_put_pages - Decrease use count on the backing pages for a shmem GEM object
-> >   * @shmem: shmem GEM object
-> >   *
-> > - * This function makes sure that backing pages exists for the shmem GEM object
-> > - * and increases the use count.
-> > - *
-> > - * Returns:
-> > - * 0 on success or a negative error code on failure.
-> > + * This function decreases the use count and puts the backing pages when use drops to zero.
-> >   */
-> > -int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
-> > +void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)  
-> 
-> Same comment about the name change. That's even more confusing since
-> this function was previously taking care of the locking. Also not sure
-> why you'd want to expose this _put() helper when the _get() helper is
-> private.
-> 
-> >  {
-> >  	struct drm_gem_object *obj = &shmem->base;
-> > -	int ret;
-> >  
-> > -	drm_WARN_ON(obj->dev, obj->import_attach);
-> > -
-> > -	ret = mutex_lock_interruptible(&shmem->pages_lock);
-> > -	if (ret)
-> > -		return ret;
-> > -	ret = drm_gem_shmem_get_pages_locked(shmem);
-> > -	mutex_unlock(&shmem->pages_lock);
-> > -
-> > -	return ret;
-> > -}
-> > -EXPORT_SYMBOL(drm_gem_shmem_get_pages);
-> > -
-> > -static void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
-> > -{
-> > -	struct drm_gem_object *obj = &shmem->base;
-> > +	dma_resv_assert_held(shmem->base.resv);
-> >  
-> >  	if (drm_WARN_ON_ONCE(obj->dev, !shmem->pages_use_count))
-> >  		return;
-> > @@ -243,20 +226,25 @@ static void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
-> >  			  shmem->pages_mark_accessed_on_put);
-> >  	shmem->pages = NULL;
-> >  }
-> > +EXPORT_SYMBOL(drm_gem_shmem_put_pages);
-> >  
-> > -/*
-> > - * drm_gem_shmem_put_pages - Decrease use count on the backing pages for a shmem GEM object
-> > - * @shmem: shmem GEM object
-> > - *
-> > - * This function decreases the use count and puts the backing pages when use drops to zero.
-> > - */
-> > -void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
-> > +static int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem)
-> >  {
-> > -	mutex_lock(&shmem->pages_lock);
-> > -	drm_gem_shmem_put_pages_locked(shmem);
-> > -	mutex_unlock(&shmem->pages_lock);
-> > +	int ret;
-> > +
-> > +	dma_resv_assert_held(shmem->base.resv);
-> > +
-> > +	ret = drm_gem_shmem_get_pages(shmem);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static void drm_gem_shmem_unpin_locked(struct drm_gem_shmem_object *shmem)
-> > +{
-> > +	dma_resv_assert_held(shmem->base.resv);
-> > +
-> > +	drm_gem_shmem_put_pages(shmem);
-> >  }
-> > -EXPORT_SYMBOL(drm_gem_shmem_put_pages);
-> >  
-> >  /**
-> >   * drm_gem_shmem_pin - Pin backing pages for a shmem GEM object
-> > @@ -271,10 +259,17 @@ EXPORT_SYMBOL(drm_gem_shmem_put_pages);
-> >  int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem)
-> >  {
-> >  	struct drm_gem_object *obj = &shmem->base;
-> > +	int ret;
-> >  
-> >  	drm_WARN_ON(obj->dev, obj->import_attach);
-> >  
-> > -	return drm_gem_shmem_get_pages(shmem);
-> > +	ret = dma_resv_lock_interruptible(shmem->base.resv, NULL);
-> > +	if (ret)
-> > +		return ret;  
-> 
-> I think here is the major problem I have with this patch: you've made
-> drm_gem_shmem_{get_pages,pin}() private, which forces me to call
-> drm_gem_shmem_pin() in a path where I already acquired the resv lock
-> (using the drm_exec infra proposed by Christian). That would
-> probably work if you were letting ret == -EALREADY go through, but I'm
-> wondering if it wouldn't be preferable to expose
-> drm_gem_shmem_pin_locked().
-> 
-> > +	ret = drm_gem_shmem_pin_locked(shmem);
-> > +	dma_resv_unlock(shmem->base.resv);
-> > +
-> > +	return ret;
-> >  }
-> >  EXPORT_SYMBOL(drm_gem_shmem_pin);
-> >  
-> > @@ -291,12 +286,29 @@ void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem)
-> >  
-> >  	drm_WARN_ON(obj->dev, obj->import_attach);
-> >  
-> > -	drm_gem_shmem_put_pages(shmem);
-> > +	dma_resv_lock(shmem->base.resv, NULL);
-> > +	drm_gem_shmem_unpin_locked(shmem);
-> > +	dma_resv_unlock(shmem->base.resv);
-> >  }
-> >  EXPORT_SYMBOL(drm_gem_shmem_unpin);  
-> 
-> If we want to be consistent, let's just expose drm_gem_shmem_unpin()
-> and drm_gem_shmem_pin() and keep drm_gem_shmem_{get,put}_pages()
-> private, or even better, rename them drm_gem_shmem_{pin,unpin}_locked()
-> insert of having drm_gem_shmem_{pin,unpin}_locked() wrappers that just
-> forward the call to drm_gem_shmem_{get,put}_pages().
-> 
-> >  
-> > -static int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
-> > -				     struct iosys_map *map)
-> > +/*
-> > + * drm_gem_shmem_vmap - Create a virtual mapping for a shmem GEM object
-> > + * @shmem: shmem GEM object
-> > + * @map: Returns the kernel virtual address of the SHMEM GEM object's backing
-> > + *       store.
-> > + *
-> > + * This function makes sure that a contiguous kernel virtual address mapping
-> > + * exists for the buffer backing the shmem GEM object. It hides the differences
-> > + * between dma-buf imported and natively allocated objects.
-> > + *
-> > + * Acquired mappings should be cleaned up by calling drm_gem_shmem_vunmap().
-> > + *
-> > + * Returns:
-> > + * 0 on success or a negative error code on failure.
-> > + */
-> > +int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
-> > +		       struct iosys_map *map)  
-> 
-> Same problem with this renaming: it's confusing because this function
-> was previously taking care of the locking, and it's no longer the case.
-> That's actually true for other public functions your patching, but I
-> won't go over all of them.
+So no need for that one any more.
 
-vmap() is less of a problem, because we're not supposed to call
-drm_gem_shmem_vmap() directly, but rather go through drm_gem_vmap().
-This should probably be clarified in the doc though, with this sort of
-disclaimer: "don't use this function to map stuff, only use it to
-implement drm_gem_object_funcs::vmap()."
+Christian.
 
-Also noticed that the drm_gem API has the _locked pattern reversed,
-with a few drm_gem_xxx_unlocked() helper that take the lock and call
-the drm_gem_xxx() function. Don't have a strong opinion on whether this
-is better than the xxx_locked() and xxx() pattern or not, but the fact
-things are inconsistent across the API (drm_gem_pin() is letting the
-backend take the lock before pinning pages, when drm_gem_vmap() is
-not) is super confusing.
+Am 26.06.23 um 11:14 schrieb Thomas Hellström:
+> The value of pos->first was not updated when the first resource of the
+> range was moved. This could lead to errors like the one below.
+> Fix this by updating pos->first when needed.
+>
+> <3> [218.963342] BUG: KASAN: null-ptr-deref in ttm_lru_bulk_move_del+0xc5/0x180 [ttm]
+> <3> [218.963456] Read of size 8 at addr 0000000000000038 by task xe_evict/1529
+> <3> [218.963546]
+> <3> [218.963566] CPU: 0 PID: 1529 Comm: xe_evict Not tainted 6.3.0-xe #1
+> <3> [218.963664] Hardware name: Intel Corporation Tiger Lake Client Platform/TigerLake H DDR4 SODIMM RVP, BIOS TGLSFWI1.R00.4064.A00.2102041619 02/04/2021
+> <3> [218.963841] Call Trace:
+> <3> [218.963881]  <TASK>
+> <3> [218.963915]  dump_stack_lvl+0x64/0xb0
+> <3> [218.963976]  print_report+0x3e5/0x600
+> <3> [218.964036]  ? ttm_lru_bulk_move_del+0xc5/0x180 [ttm]
+> <3> [218.964127]  kasan_report+0x96/0xc0
+> <3> [218.964183]  ? ttm_lru_bulk_move_del+0xc5/0x180 [ttm]
+> <3> [218.964276]  ttm_lru_bulk_move_del+0xc5/0x180 [ttm]
+> <3> [218.964365]  ttm_bo_set_bulk_move+0x92/0x140 [ttm]
+> <3> [218.964454]  xe_gem_object_close+0xc8/0x120 [xe]
+> <3> [218.964675]  ? __pfx_xe_gem_object_close+0x10/0x10 [xe]
+> <3> [218.964908]  ? drm_gem_object_handle_put_unlocked+0xc7/0x170 [drm]
+> <3> [218.965071]  drm_gem_object_release_handle+0x45/0x80 [drm]
+> <3> [218.965220]  ? __pfx_drm_gem_object_release_handle+0x10/0x10 [drm]
+> <3> [218.965381]  idr_for_each+0xc9/0x180
+> <3> [218.965437]  ? __pfx_idr_for_each+0x10/0x10
+> <3> [218.965504]  drm_gem_release+0x20/0x30 [drm]
+> <3> [218.965637]  drm_file_free.part.0+0x4cb/0x4f0 [drm]
+> <3> [218.965778]  ? drm_close_helper.isra.0+0xb7/0xe0 [drm]
+> <3> [218.965921]  drm_release_noglobal+0x49/0x90 [drm]
+> <3> [218.966061]  __fput+0x122/0x450
+> <3> [218.966115]  task_work_run+0xfe/0x190
+> <3> [218.966175]  ? __pfx_task_work_run+0x10/0x10
+> <3> [218.966239]  ? do_raw_spin_unlock+0xa7/0x140
+> <3> [218.966308]  do_exit+0x55f/0x1430
+> <3> [218.966364]  ? __pfx_lock_release+0x10/0x10
+> <3> [218.966431]  ? do_raw_spin_lock+0x11d/0x1e0
+> <3> [218.966498]  ? __pfx_do_exit+0x10/0x10
+> <3> [218.966554]  ? __pfx_do_raw_spin_lock+0x10/0x10
+> <3> [218.966625]  ? mark_held_locks+0x24/0x90
+> <3> [218.966688]  ? lockdep_hardirqs_on_prepare+0x136/0x210
+> <3> [218.966768]  do_group_exit+0x68/0x110
+> <3> [218.966828]  __x64_sys_exit_group+0x2c/0x30
+> <3> [218.966896]  do_syscall_64+0x3c/0x90
+> <3> [218.966955]  entry_SYSCALL_64_after_hwframe+0x72/0xdc
+> <3> [218.967035] RIP: 0033:0x7f77b194f146
+> <3> [218.967094] Code: Unable to access opcode bytes at 0x7f77b194f11c.
+> <3> [218.967174] RSP: 002b:00007ffc64791188 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+> <3> [218.967271] RAX: ffffffffffffffda RBX: 00007f77b1a548a0 RCX: 00007f77b194f146
+> <3> [218.967364] RDX: 0000000000000062 RSI: 000000000000003c RDI: 0000000000000062
+> <3> [218.967458] RBP: 0000000000000062 R08: 00000000000000e7 R09: ffffffffffffff78
+> <3> [218.967553] R10: 0000000000000058 R11: 0000000000000246 R12: 00007f77b1a548a0
+> <3> [218.967648] R13: 0000000000000003 R14: 00007f77b1a5d2e8 R15: 0000000000000000
+> <3> [218.967745]  </TASK>
+>
+> Fixes: fee2ede15542 ("drm/ttm: rework bulk move handling v5")
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: "Christian König" <ckoenig.leichtzumerken@gmail.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: <stable@vger.kernel.org> # v5.19+
+> Link: https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/411
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> ---
+>   drivers/gpu/drm/ttm/ttm_resource.c | 2 ++
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+> index 7333f7a87a2f..cb05e0a36576 100644
+> --- a/drivers/gpu/drm/ttm/ttm_resource.c
+> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+> @@ -86,6 +86,8 @@ static void ttm_lru_bulk_move_pos_tail(struct ttm_lru_bulk_move_pos *pos,
+>   				       struct ttm_resource *res)
+>   {
+>   	if (pos->last != res) {
+> +		if (pos->first == res)
+> +			pos->first = list_next_entry(res, lru);
+>   		list_move(&res->lru, &pos->last->lru);
+>   		pos->last = res;
+>   	}
+
