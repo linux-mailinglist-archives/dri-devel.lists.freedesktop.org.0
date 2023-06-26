@@ -2,50 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3434073E604
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 19:12:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B57D773E634
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 19:16:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D31E10E0CA;
-	Mon, 26 Jun 2023 17:12:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5918410E0CD;
+	Mon, 26 Jun 2023 17:16:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 173FE10E0CA
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 17:12:40 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8AxTccGx5lkmoMCAA--.3834S3;
- Tue, 27 Jun 2023 01:12:38 +0800 (CST)
-Received: from openarena.loongson.cn (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxxswGx5lkYhgKAA--.21854S2; 
- Tue, 27 Jun 2023 01:12:38 +0800 (CST)
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/omap: Checking the mapping returned by vmap()
-Date: Tue, 27 Jun 2023 01:12:38 +0800
-Message-Id: <20230626171238.667533-1-suijingfeng@loongson.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE60E10E0CD
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 17:16:02 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 35QAbfRq019286; Mon, 26 Jun 2023 17:15:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=NkiFzCe25ddo2CI1iUwfIKdPfKGFMT4upqMXkk7C3OQ=;
+ b=WvfTG+Ce7OiqRZEwOJypw6r1nMQ/R0jtiAAIIAgz0VJLJIrAAVa3C/9xr69fqlvxi48l
+ iE4agheJleyfEyZQUJPvjyEvLZ+iQxKaQoTp+/OIJsoSWxE8Ro9N+D8HRvFqzW73J420
+ bx+WePGvCngnh5uFXOLEoZdHddUwqECKX6qxIxRd9iFe/49u4Rlrr907HKXT/OtGd3Tj
+ jQ7CFQzLJIl6kkiXeCG10o2AtyvFCmDA+66INFAdvhgotncKWtEq9V1Jt+Y7g+BCpAkJ
+ hFi02Ka4KdLlzbq15kQAZ/5FB0s6lheuWqXpBWyQhr6m7Sx14jd9wAy+7UzzWi0DUe9E sw== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rdssdmmaa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 26 Jun 2023 17:15:58 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35QHFvhs001058
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 26 Jun 2023 17:15:57 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 26 Jun
+ 2023 10:15:57 -0700
+Message-ID: <507f4cc2-15c2-8323-878e-4da00505bc45@quicinc.com>
+Date: Mon, 26 Jun 2023 11:15:56 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxxswGx5lkYhgKAA--.21854S2
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxJr1fKrW3GFy8Kw4xurWrCrX_yoW8uFy5pF
- s0ya4Y9rW8tFW2grsrZFn8Za45Ga1IkFWfWrW8t34fKr4FyrW7ZF98AFWqyr97WrWUArsI
- gw4kKF1rZFn0kwcCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUyEb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
- Jr0_Gr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4
- xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v2
- 6r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwI
- xGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480
- Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7
- IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k2
- 6cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxV
- AFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8czVUUUUUU==
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v2 0/2] Add MHI quirk for QAIC
+Content-Language: en-US
+To: Manivannan Sadhasivam <mani@kernel.org>
+References: <20230519163902.4170-1-quic_jhugo@quicinc.com>
+ <20230608115928.GA5672@thinkpad>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230608115928.GA5672@thinkpad>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: tc5UBN98mjMhOlVn5IJFVr011CeDJDEI
+X-Proofpoint-ORIG-GUID: tc5UBN98mjMhOlVn5IJFVr011CeDJDEI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-26_14,2023-06-26_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxscore=0
+ phishscore=0 suspectscore=0 clxscore=1015 malwarescore=0 bulkscore=0
+ priorityscore=1501 lowpriorityscore=0 impostorscore=0 spamscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306260158
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,69 +83,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ mhi@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Because vmap() function could fail.
-Also don't let omap_gem_vaddr() function signature (declaration) dangling
-there, as it will only get defined when CONFIG_DRM_FBDEV_EMULATION=y.
+On 6/8/2023 5:59 AM, Manivannan Sadhasivam wrote:
+> On Fri, May 19, 2023 at 10:39:00AM -0600, Jeffrey Hugo wrote:
+>> With the QAIC driver in -next, I'd like to suggest some MHI changes that
+>> specific to AIC100 devices, but perhaps provide a framework for other
+>> device oddities.
+>>
+>> AIC100 devices technically violate the MHI spec in two ways. Sadly, these
+>> issues comes from the device hardware, so host SW needs to work around
+>> them.
+>>
+>> Thie first issue, presented in this series, has to do with the
+>> SOC_HW_VERSION register. This register is suposed to be initialized by the
+>> hardware prior to the MHI being accessable by the host to contain a
+>> version string for the SoC of the device. This could be used by the host
+>> MHI controller software to identify and handle version to version changes.
+>> The AIC100 hardware does not initialize this register, and thus it
+>> contains garbage.
+>>
+>> This would not be much of a problem normally - the QAIC driver would just
+>> never use it. However the MHI stack uses this register as part of the init
+>> sequence and if the controller reports that the register is inaccessable
+>> then the init sequence fails.  On some AIC100 cards, the garbage value
+>> ends up being 0xFFFFFFFF which is PCIe spec defined to be a special value
+>> indicating the access failed.  The MHI controller cannot tell if that
+>> value is a PCIe link issue, or just garbage.
+>>
+>> QAIC needs a way to tell MHI not to use this register. Other buses have a
+>> quirk mechanism - a way to describe oddities in a particular
+>> implementation that have some kind of workaround. Since this seems to be
+>> the first need for such a thing in MHI, introduce a quirk framework.
+>>
+>> The second issue AIC100 has involves the PK Hash registers. A solution for
+>> this is expected to be proposed in the near future and is anticipated to
+>> make use of the quirk framework proposed here. With PK Hash, there are two
+>> oddities to handle. AIC100 does not initialize these registers until the
+>> SBL is running, which is later than the spec indicates, and in practice
+>> is after MHI reads/caches them. Also, AIC100 does not have enough
+>> registers defined to fully report the 5 PK Hash slots, so a custom
+>> reporting format is defined by the device.
+>>
+> 
+> Looking at the two issues you reported above, it looks to me that they can be
+> handled inside the aic100 mhi_controller driver itself. Since the MHI stack
+> exports the read_reg callback to controller drivers, if some registers are not
+> supported by the device, then the callback can provide some fixed dummy data
+> emulating the register until the issue is fixed in the device (if at all).
+> 
+> Quirk framework could be useful if the device misbehaves against the protocol
+> itself but for the register issues like this, I think the controller driver can
+> handle itself.
+> 
+> What do you think?
 
-Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
----
- drivers/gpu/drm/omapdrm/omap_fbdev.c | 10 ++++++++--
- drivers/gpu/drm/omapdrm/omap_gem.h   |  3 +++
- 2 files changed, 11 insertions(+), 2 deletions(-)
+I think for the HW_VERSION register, your suggestion is very good, and 
+something I plan to adopt.
 
-diff --git a/drivers/gpu/drm/omapdrm/omap_fbdev.c b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-index b7ccce0704a3..2c88aa1008d8 100644
---- a/drivers/gpu/drm/omapdrm/omap_fbdev.c
-+++ b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-@@ -197,6 +197,11 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
- 	drm_fb_helper_fill_info(fbi, helper, sizes);
- 
- 	fbi->screen_buffer = omap_gem_vaddr(bo);
-+	if (!fbi->screen_buffer) {
-+		ret = -ENOMEM;
-+		goto err_release_fbi;
-+	}
-+
- 	fbi->screen_size = bo->size;
- 	fbi->fix.smem_start = dma_addr;
- 	fbi->fix.smem_len = bo->size;
-@@ -210,14 +215,15 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
- 		fbi->fix.ywrapstep = 1;
- 	}
- 
--
- 	DBG("par=%p, %dx%d", fbi->par, fbi->var.xres, fbi->var.yres);
- 	DBG("allocated %dx%d fb", fb->width, fb->height);
- 
- 	return 0;
- 
--fail:
-+err_release_fbi:
-+	drm_fb_helper_release_info(helper);
- 
-+fail:
- 	if (ret) {
- 		if (fb)
- 			drm_framebuffer_remove(fb);
-diff --git a/drivers/gpu/drm/omapdrm/omap_gem.h b/drivers/gpu/drm/omapdrm/omap_gem.h
-index 4d4488939f6b..7e8c41b72aae 100644
---- a/drivers/gpu/drm/omapdrm/omap_gem.h
-+++ b/drivers/gpu/drm/omapdrm/omap_gem.h
-@@ -48,7 +48,10 @@ struct drm_gem_object *omap_gem_new_dmabuf(struct drm_device *dev, size_t size,
- 		struct sg_table *sgt);
- int omap_gem_new_handle(struct drm_device *dev, struct drm_file *file,
- 		union omap_gem_size gsize, u32 flags, u32 *handle);
-+
-+#ifdef CONFIG_DRM_FBDEV_EMULATION
- void *omap_gem_vaddr(struct drm_gem_object *obj);
-+#endif
- 
- /* Dumb Buffers Interface */
- int omap_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
--- 
-2.25.1
+For the PK Hash registers, I don't think it quite works.
+
+HW_VERSION I can hard code to a valid value, or just stub out to 0 since 
+that appears to be only consumed by the MHI Controller, and we don't use it.
+
+The PK Hash registers are programmed into the SoC, and can be unique 
+from SoC to SoC.  I don't see how the driver can provide valid, but 
+faked information for them.  Also, the user consumes this data via 
+sysfs.  We'd like to give the data to the user, and we can't fake it. 
+Also the data is dynamic.
+
+Lets start with the dynamic data issue.  Right now MHI reads these 
+registers once, and caches the values.  I would propose a quirk to 
+change that behavior for AIC100, but does MHI really need to operate in 
+a "read once" mode?  Would something actually break if MHI read the 
+registers every time the sysfs node is accessed?  Then sysfs would 
+display the latest data, which would be beneficial to AIC100 and should 
+not be a behavior change for other devices which have static data (MHI 
+just displays the same data because it hasn't changed).
+
+Do you recall the reason behind making the PK Hash registers read once 
+and cached?
+
+> 
+> - Mani
+> 
+>> v2:
+>> -Fix build error
+>> -Fix typo in commit text
+>>
+>> Jeffrey Hugo (2):
+>>    bus: mhi: host: Add quirk framework and initial quirk
+>>    accel/qaic: Add MHI_QUIRK_SOC_HW_VERSION_UNRELIABLE
+>>
+>>   drivers/accel/qaic/mhi_controller.c |  1 +
+>>   drivers/bus/mhi/host/init.c         | 13 +++++++++----
+>>   include/linux/mhi.h                 | 18 ++++++++++++++++++
+>>   3 files changed, 28 insertions(+), 4 deletions(-)
+>>
+>> -- 
+>> 2.40.1
+>>
+>>
+> 
 
