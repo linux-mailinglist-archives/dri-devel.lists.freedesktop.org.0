@@ -1,51 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B735273EBAC
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 22:19:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 210F873EBD5
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 22:28:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B42B610E0C1;
-	Mon, 26 Jun 2023 20:19:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 313A510E11C;
+	Mon, 26 Jun 2023 20:28:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay6-1.pub.mailoutpod2-cph3.one.com
- (mailrelay6-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:405::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F79A10E0C1
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 20:19:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=HH3O/h9U4e4x7ApDSU3+rbilP/iWCVhv/eDCHxh4kVo=;
- b=T0TBnQT1eRYj5+PK6O9b4JezgAE8HGUuf3EqIznR7yjTP3byGuUGZVB0NpVM6v0NHph2S8l4w4Yig
- RjUEcYC0k2YHs4/+LJGzSA2RxcAK5JW8p4V70Y1MPcDZ17vHxbFD6pLQ3/ZwuAjcVGXztElBaUE9TL
- M72+HdDXfZS7JmvQY2LRAG6yOstR07M5g141BR18GFhnJJSODXcRVOI0PwmqI+dKo8a1zS297XHkjr
- Kh3SCqUL5Ig4ssxpIsSly36JxhtM1UXvTE9jv73Iv1dZ6f3DKFYxHLYRK7gKlZ/2ACkVapwX4IuEWy
- tpnhgNnNqYU3edETCo1325cYSH+mcsQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=HH3O/h9U4e4x7ApDSU3+rbilP/iWCVhv/eDCHxh4kVo=;
- b=9y4tez6lwQh+SQWeTUZSHthxVuGzolmPlBCCnJAJwH1wb6OSjx61Brut1eWWY1b8SxG6Tx6go5INa
- 2mLwHLnDg==
-X-HalOne-ID: b28f4f00-145e-11ee-8bce-6f01c1d0a443
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay6 (Halon) with ESMTPSA
- id b28f4f00-145e-11ee-8bce-6f01c1d0a443;
- Mon, 26 Jun 2023 20:19:08 +0000 (UTC)
-Date: Mon, 26 Jun 2023 22:19:06 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Manikandan Muralidharan <manikandan.m@microchip.com>
-Subject: Re: [PATCH 3/9] drm: atmel-hlcdc: add LCD controller layer
- definition for SAM9X7
-Message-ID: <20230626201906.GA11422@ravnborg.org>
-References: <20230613070426.467389-1-manikandan.m@microchip.com>
- <20230613070426.467389-4-manikandan.m@microchip.com>
+Received: from m-r1.th.seeweb.it (m-r1.th.seeweb.it [5.144.164.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDD9C10E11C
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 20:28:47 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 63F771F48A;
+ Mon, 26 Jun 2023 22:28:43 +0200 (CEST)
+Date: Mon, 26 Jun 2023 22:28:41 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH 06/15] dt-bindings: display/msm: sc7180-dpu: Describe
+ SM6125
+Message-ID: <26pqxmuuyznb4qbi4wkiexr5excxenfmiuojrqgrz5k5t5palm@ttlk6m2zuokm>
+References: <20230624-sm6125-dpu-v1-0-1d5a638cebf2@somainline.org>
+ <20230624-sm6125-dpu-v1-6-1d5a638cebf2@somainline.org>
+ <6bbf239f-d530-2f1e-ff52-361f7c9cc951@linaro.org>
+ <75d64lixeawfoqbrctm4thzh73cxkvnlmnh5xgbpf277pmh3gz@zthnqvvuxmeq>
+ <a6f3906a-98a7-de7a-3e26-4b8c45fe93f7@linaro.org>
+ <w3bbdq72thnerbyglb4dyshzg4vu5go2wpsciprk27vah6w2ms@yc4eqclct24a>
+ <3daf9990-79da-9adf-af6a-d9007c186557@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230613070426.467389-4-manikandan.m@microchip.com>
+In-Reply-To: <3daf9990-79da-9adf-af6a-d9007c186557@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,136 +48,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nayabbasha.Sayed@microchip.com, devicetree@vger.kernel.org,
- alexandre.belloni@bootlin.com, bbrezillon@kernel.org,
- linux-kernel@vger.kernel.org, Balamanikandan.Gunasundar@microchip.com,
- lee@kernel.org, conor+dt@kernel.org, dri-devel@lists.freedesktop.org,
- nicolas.ferre@microchip.com, Varshini.Rajendran@microchip.com,
- Dharma.B@microchip.com, robh+dt@kernel.org, Durai.ManickamKR@microchip.com,
- krzysztof.kozlowski+dt@linaro.org, Hari.PrasathGE@microchip.com,
- Balakrishnan.S@microchip.com, claudiu.beznea@microchip.com,
- linux-arm-kernel@lists.infradead.org
+Cc: Michael Turquette <mturquette@baylibre.com>,
+ dri-devel@lists.freedesktop.org, Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-clk@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Andy Gross <agross@kernel.org>,
+ Lux Aliaga <they@mint.lgbt>, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Stephen Boyd <sboyd@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ linux-kernel@vger.kernel.org, Jami Kettunen <jami.kettunen@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Manikandan,
+On 2023-06-26 20:57:51, Konrad Dybcio wrote:
+> On 26.06.2023 19:54, Marijn Suijten wrote:
+> > On 2023-06-26 18:16:58, Krzysztof Kozlowski wrote:
+> >> On 25/06/2023 21:52, Marijn Suijten wrote:
+> >>> On 2023-06-24 11:12:52, Krzysztof Kozlowski wrote:
+> >>>> On 24/06/2023 02:41, Marijn Suijten wrote:
+> >>>>> SM6125 is identical to SM6375 except that while downstream also defines
+> >>>>> a throttle clock, its presence results in timeouts whereas SM6375
+> >>>>> requires it to not observe any timeouts.
+> >>>>
+> >>>> Then it should not be allowed, so you need either "else:" block or
+> >>>> another "if: properties: compatible:" to disallow it. Because in current
+> >>>> patch it would be allowed.
+> >>>
+> >>> That means this binding is wrong/incomplete for all other SoCs then.
+> >>> clock(-name)s has 6 items, and sets `minItems: 6`.  Only for sm6375-dpu
+> > 
+> > Of course meant to say that clock(-name)s has **7** items, not 6.
+> > 
+> >>> does it set `minItems: 7`, but an else case is missing.
+> >>
+> >> Ask the author why it is done like this.
+> > 
+> > Konrad, can you clarify why other 
 
-On Tue, Jun 13, 2023 at 12:34:20PM +0530, Manikandan Muralidharan wrote:
-> Add the LCD controller layer definition and descriptor structure for SAM9X7
-> for the following layers,
-> - Base Layer
-> - Overlay1 Layer
-> - Overlay2 Layer
-> - High End Overlay
+(Looks like I forgot to complete this sentence before sending,
+apologies)
+
+> 6375 needs the throttle clk and the clock(-names) are strongly ordered
+> so having minItems: 6 discards the last entry
+
+The question is whether or not we should have maxItems: 6 to disallow
+the clock from being passed: right now it is optional and either is
+allowed for any !6375 SoC.
+
+- Marijn
+
 > 
-> Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
-> ---
->  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 96 ++++++++++++++++++++
->  1 file changed, 96 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-> index fa0f9a93d50d..d7ad828e9e8c 100644
-> --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-> +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-> @@ -462,6 +462,98 @@ static const struct atmel_hlcdc_dc_desc atmel_hlcdc_dc_sam9x60 = {
->  	.layers = atmel_hlcdc_sam9x60_layers,
->  };
->  
-> +static const struct atmel_hlcdc_layer_desc atmel_xlcdc_sam9x7_layers[] = {
-> +	{
-> +		.name = "base",
-> +		.formats = &atmel_hlcdc_plane_rgb_formats,
-> +		.regs_offset = 0x60,
-> +		.id = 0,
-> +		.type = ATMEL_HLCDC_BASE_LAYER,
-> +		.cfgs_offset = 0x1c,
-> +		.layout = {
-> +			.xstride = { 2 },
-> +			.default_color = 3,
-> +			.general_config = 4,
-> +			.disc_pos = 5,
-> +			.disc_size = 6,
-> +		},
-> +		.clut_offset = 0x700,
-> +	},
-> +	{
-> +		.name = "overlay1",
-> +		.formats = &atmel_hlcdc_plane_rgb_formats,
-> +		.regs_offset = 0x160,
-> +		.id = 1,
-> +		.type = ATMEL_HLCDC_OVERLAY_LAYER,
-> +		.cfgs_offset = 0x1c,
-> +		.layout = {
-> +			.pos = 2,
-> +			.size = 3,
-> +			.xstride = { 4 },
-> +			.pstride = { 5 },
-> +			.default_color = 6,
-> +			.chroma_key = 7,
-> +			.chroma_key_mask = 8,
-> +			.general_config = 9,
-> +		},
-> +		.clut_offset = 0xb00,
-> +	},
-> +	{
-> +		.name = "overlay2",
-> +		.formats = &atmel_hlcdc_plane_rgb_formats,
-> +		.regs_offset = 0x260,
-> +		.id = 2,
-> +		.type = ATMEL_HLCDC_OVERLAY_LAYER,
-> +		.cfgs_offset = 0x1c,
-> +		.layout = {
-> +			.pos = 2,
-> +			.size = 3,
-> +			.xstride = { 4 },
-> +			.pstride = { 5 },
-> +			.default_color = 6,
-> +			.chroma_key = 7,
-> +			.chroma_key_mask = 8,
-> +			.general_config = 9,
-> +		},
-> +		.clut_offset = 0xf00,
-> +	},
-> +	{
-> +		.name = "high-end-overlay",
-> +		.formats = &atmel_hlcdc_plane_rgb_and_yuv_formats,
-> +		.regs_offset = 0x360,
-> +		.id = 3,
-> +		.type = ATMEL_HLCDC_OVERLAY_LAYER,
-> +		.cfgs_offset = 0x30,
-> +		.layout = {
-> +			.pos = 2,
-> +			.size = 3,
-> +			.memsize = 4,
-> +			.xstride = { 5, 7 },
-> +			.pstride = { 6, 8 },
-> +			.default_color = 9,
-> +			.chroma_key = 10,
-> +			.chroma_key_mask = 11,
-> +			.general_config = 12,
-> +			.csc = 16,
-> +			.scaler_config = 23,
-> +		},
-> +		.clut_offset = 0x1300,
-> +	},
-> +};
-> +
-> +static const struct atmel_hlcdc_dc_desc atmel_xlcdc_dc_sam9x7 = {
-> +	.min_width = 0,
-> +	.min_height = 0,
-> +	.max_width = 2048,
-> +	.max_height = 2048,
-> +	.max_spw = 0xff,
-> +	.max_vpw = 0xff,
-> +	.max_hpw = 0x3ff,
-> +	.fixed_clksrc = true,
-> +	.nlayers = ARRAY_SIZE(atmel_xlcdc_sam9x7_layers),
-> +	.layers = atmel_xlcdc_sam9x7_layers,
-> +};
-
-As already suggested by someone else, add is_xlcdc to struct
-atmel_hlcdc_dc_desc, so the check for the compatible can be dropped.
-It would be better to put it here.
-
-
-	Sam
+> Konrad
+> > 
+> >>> Shall I send a Fixes: ed41005f5b7c ("dt-bindings: display/msm:
+> >>> sc7180-dpu: Describe SM6350 and SM6375") for that, and should maxItems:
+> >>> 6 be the default under clock(-name)s or in an else:?
+> >>
+> >> There is no bug to fix. Or at least it is not yet known. Whether other
+> >> devices should be constrained as well - sure, sounds reasonable, but I
+> >> did not check the code exactly.
+> > 
+> > I don't know either, but we need this information to decide whether to
+> > use `maxItems: 6`:
+> > 
+> > 1. Directly on the property;
+> > 2. In an `else:` case on the current `if: sm6375-dpu` (should have the
+> >    same effect as 1., afaik);
+> > 3. In a second `if:` case that lists all SoCS explicitly.
+> > 
+> > Since we don't have this information, I think option 3. is the right way
+> > to go, setting `maxItems: 6` for qcom,sm6125-dpu.
+> > 
+> > However, it is not yet understood why downstream is able to use the
+> > throttle clock without repercussions.
+> > 
+> >> We talk here about this patch.
+> > 
+> > We used this patch to discover that other SoCs are similarly
+> > unconstrained.  But if you don't want me to look into it, by all means!
+> > Saves me a lot of time.  So I will go with option 3.
+> > 
+> > - Marijn
