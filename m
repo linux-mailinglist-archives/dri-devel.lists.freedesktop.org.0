@@ -1,74 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DF1273E1F6
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 16:21:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E51A373E21A
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 16:26:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B014E10E210;
-	Mon, 26 Jun 2023 14:20:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 958DD10E21B;
+	Mon, 26 Jun 2023 14:26:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 659A310E20E
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 14:20:54 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id
- 38308e7fff4ca-2b69ea3b29fso19218971fa.3
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 07:20:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687789250; x=1690381250;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=BK5tyLiExltIUFYV71NbilB0KUxdUAvXW4sOeYJQVs4=;
- b=v7ms8/4HiPgDXCGhcnzpzr6wpvOpoJB7cWdNJLFCQUxBAZta8PMnQpPx6f5p1w9lC/
- NKEk9zsHKp0AKUOG8+4sbGhgPcVYzOI7PKbNGQuL08U3gIaqDkvqw2j7lsoRq86Kl/y6
- urfyd5O4dKS7Rr2Jtf2z+hrHN0aSNhbL8gnt4WouN42kKyX3jaFBBZoyW58+VCUoj0qi
- BJsaFYAP1Hdc/JAJHV7cy35ibVpuXUI7foyLeXUv/wyZ+XfehQlFivn0dEx/Jo9udZIQ
- 5GYZMyI5V2QEuiYSmcJRUC39+rzGkmYY84MT08W9jCkAlasYvJeCzBM2POR/ZSIDJDFO
- A0+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687789250; x=1690381250;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BK5tyLiExltIUFYV71NbilB0KUxdUAvXW4sOeYJQVs4=;
- b=TRinflKToSgUUstXP4IykaewRUpNM0NJ0jUtPNKZ0hxdHPvfzNEFym8ckRwPo9Lutd
- 4SaMEfUsYhQduh/KJSsKOfCKGUorsyqDMP36fwwJYA/+SNdmi+hofVwR8Pm/LwUlDLvj
- 01q0brjbcgxMkSsFkjTQmVtSxY7XhrH9nrbEDvQruVeVZDVQ5APE68yNHMjF3YJIsYOA
- ZO54jQQM+0+Qfpy01ejrAfo0KbbQY/ghLYLEYt0sfw0RZizTd0jg4M1CAINOzZHC7O7J
- j8qX0JIti/mQR3zPl78JlP+FKx+a0rQFy2ZEV7Umh7HJSprm1rLhCsX5G1aZAhZyXuOq
- wqdw==
-X-Gm-Message-State: AC+VfDwapspvbVCaCKS5fUtSZUKjS2g3QO+i4w70rJB/U417Nx2/8RCp
- D/zDKvhP1fHjjj4luTvyIdKr7g==
-X-Google-Smtp-Source: ACHHUZ6BMDnWC7ITgKLp9Dk7eCjYutCbFasmjDj6TxuVFzh4Zeh5b7xqhNk+WSOU3/bH4mAoiY1Qrg==
-X-Received: by 2002:a2e:8559:0:b0:2b6:9fdf:d8f4 with SMTP id
- u25-20020a2e8559000000b002b69fdfd8f4mr1900728ljj.29.1687789250054; 
- Mon, 26 Jun 2023 07:20:50 -0700 (PDT)
-Received: from [192.168.1.101] (abyk179.neoplus.adsl.tpnet.pl. [83.9.30.179])
- by smtp.gmail.com with ESMTPSA id
- l3-20020a2e9083000000b002adb6dd5a97sm1245694ljg.27.2023.06.26.07.20.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Jun 2023 07:20:49 -0700 (PDT)
-Message-ID: <ea0e1283-8f0e-0524-176d-ce2726151f22@linaro.org>
-Date: Mon, 26 Jun 2023 16:20:47 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 00/15] drm/msm: Add SM6125 MDSS/DPU hardware and enable
- Sony Xperia 10 II panel
-Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>
+Received: from relay08.th.seeweb.it (relay08.th.seeweb.it [5.144.164.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B85AB10E20D
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 14:26:29 +0000 (UTC)
+Received: from SoMainline.org (82-72-63-87.cable.dynamic.v4.ziggo.nl
+ [82.72.63.87])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id DDFC63F494;
+ Mon, 26 Jun 2023 16:26:25 +0200 (CEST)
+Date: Mon, 26 Jun 2023 16:26:24 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH 03/15] dt-bindings: clock: qcom,dispcc-sm6125: Require
+ GCC PLL0 DIV clock
+Message-ID: <dp2ucgmql2jff52nbxti2hwjchtgjkbrwcgpx3p7ruodz7adnj@635pcqr6fv4x>
 References: <20230624-sm6125-dpu-v1-0-1d5a638cebf2@somainline.org>
- <035ffdd2-27e3-99bc-f8a4-41e66685db09@linaro.org>
- <i5xxzhfhlwzoxlnezzgg42hzwzwfcgxv5gopqhb6vd3udz252b@wpznuvoleeta>
- <701916b3-388e-8216-f7ae-1837d5895d87@linaro.org>
- <jllpsyveqvxco3ihclqypwnfhac2g3gdm6ukd3x3fjsr6z54xy@2xwh5fixpprh>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <jllpsyveqvxco3ihclqypwnfhac2g3gdm6ukd3x3fjsr6z54xy@2xwh5fixpprh>
-Content-Type: text/plain; charset=UTF-8
+ <20230624-sm6125-dpu-v1-3-1d5a638cebf2@somainline.org>
+ <c9681bce-efa8-9b79-4bf6-837dd6a2dc12@linaro.org>
+ <edrftxqhywiaxvbonyh25cmubrg77y4dryqoy7id4ndan2lfa7@rhvcoavtg5vl>
+ <f62d750e-da73-fece-c3de-0dac1fbb9827@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <f62d750e-da73-fece-c3de-0dac1fbb9827@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,58 +64,91 @@ Cc: Michael Turquette <mturquette@baylibre.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26.06.2023 16:17, Marijn Suijten wrote:
-> On 2023-06-26 11:41:39, Konrad Dybcio wrote:
->> On 25.06.2023 21:18, Marijn Suijten wrote:
->>> On 2023-06-24 03:42:46, Konrad Dybcio wrote:
->>>> On 24.06.2023 02:40, Marijn Suijten wrote:
->>>>> Bring up the SM6125 DPU now that all preliminary series (such as INTF
->>>>> TE) have been merged (for me to test the hardware properly)
->>>> We should not repeat the same mistake in the future.. Finding a
->>>> balance between releasing early and releasing what we can declare
->>>> working and tested code is hard, but we waaaaaaaay overstayed on
->>>> this one..
->>>
->>> I don't understand what you mean by "mistake" at all.  Yes the DPU
->>> catalog portion of this series sat in my local branch for a very long
->>> time.  Yes it had to be rebased on top of conflicts many many times.
->>>
->>> However, that time has also been used to fix and extend DPU where
->>> necessary, instead of submitting a half-broken or half-incomplete
->>> catalog entry...
->>>
->>> Re "we overstayed": you could have asked to clean up and send my patch,
->>> so I don't take this as a mistake on my part as you are completely aware
->>> of my time schedule ;)
->> I didn't mean to pick on you. I just wanted to emphasize that a more
->> upstream-forward approach would have saved us quite some time on the
->> rebasing and cleaning-up front.
-> 
-> That is how it comes across ;) - our dream is all about upstream-first
-> but as you know this becomes a mess really quickly when things are
-> blocked on dependencies and you're working on 5 different features and
-> testing across ±8 different Sony platforms on ±14 different devices at
-> once... all in a limited portion of free time.
-> 
-> Fwiw cleaning-up would have had to happen either way, and would have
-> taken the same amount of time regardless of whether this series is
-> submitted now or two months ago.
-> 
->>>> Konrad
->>>> , and most
->>>
->>> Also here, don't forget to re-quote my message if you break half-way in
->>> the line.
->> Ugh. All the time I've been doing this I thought thunderfox was smart
->> enough to do it for me. Apparently not and you're the 1st one to point
->> that out.
-> 
-> You're welcome!
-> (Though I thought it should be visible in Thunderburd, unless you're not
->  in plaintext mode?  Does it still show the "this is quoted" line in
->  front of the broken sentence?)
-It doesn't, but the text stays blue (as if it was)
+On 2023-06-26 11:43:39, Konrad Dybcio wrote:
+> On 25.06.2023 21:48, Marijn Suijten wrote:
+> > On 2023-06-24 03:45:02, Konrad Dybcio wrote:
+> >> On 24.06.2023 02:41, Marijn Suijten wrote:
+> >>> The "gcc_disp_gpll0_div_clk_src" clock is consumed by the driver, will
+> >>> be passed from DT, and should be required by the bindings.
+> >>>
+> >>> Fixes: 8397c9c0c26b ("dt-bindings: clock: add QCOM SM6125 display clock bindings")
+> >>> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> >>> ---
+> >> Ideally, you'd stick it at the bottom of the list, as the items: order
+> >> is part of the ABI
+> > 
+> > This isn't an ABI break, as this driver nor its bindings require/declare
+> > a fixed order: they declare a relation between clocks and clock-names.
+> Bindings describe the ABI, drivers implement compliant code flow.
 
-Konrad
-> 
->  - Marijn
+That is how bindings are supposed to be...  However typically the driver
+is written/ported first and then the bindings are simply created to
+reflect this, and sometimes (as is the case with this patch)
+incorrectly.
+
+That, together with a lack of DTS and known-working device with it
+(which is why I'm submitting driver+bindings+dts in one series now!)
+makes us shoot ourselves in the foot by locking everyone into an ABI
+that makes no sense.
+
+> > This orders the GCC clock just like other dispccs.  And the previous
+> > patch dropped the unused cfg_ahb_clk from the bindings, so all bets are
+> > off anyway.
+> Thinking about it again, the binding has not been consumed by any upstream
+> DT to date, so it should (tm) be fine to let it slide..
+
+Exactly, I hope/doubt anyone was already using these incomplete
+bindings.  And again: the ABI here is the name->phandle mapping, the
+order Does Not Matter™.  So I hope we can let it slide (otherwise the
+previous patch shouldd have been NAK'ed as well??)
+
+(Unless you are SM6115 which uses index-based mapping and does not
+ define clock-names at all)
+
+- Marijn
+
+> Konrad
+> > 
+> > - Marijn
+> > 
+> >>
+> >> Konrad
+> >>>  Documentation/devicetree/bindings/clock/qcom,dispcc-sm6125.yaml | 4 ++++
+> >>>  1 file changed, 4 insertions(+)
+> >>>
+> >>> diff --git a/Documentation/devicetree/bindings/clock/qcom,dispcc-sm6125.yaml b/Documentation/devicetree/bindings/clock/qcom,dispcc-sm6125.yaml
+> >>> index 2acf487d8a2f..11ec154503a3 100644
+> >>> --- a/Documentation/devicetree/bindings/clock/qcom,dispcc-sm6125.yaml
+> >>> +++ b/Documentation/devicetree/bindings/clock/qcom,dispcc-sm6125.yaml
+> >>> @@ -23,6 +23,7 @@ properties:
+> >>>    clocks:
+> >>>      items:
+> >>>        - description: Board XO source
+> >>> +      - description: GPLL0 div source from GCC
+> >>>        - description: Byte clock from DSI PHY0
+> >>>        - description: Pixel clock from DSI PHY0
+> >>>        - description: Pixel clock from DSI PHY1
+> >>> @@ -32,6 +33,7 @@ properties:
+> >>>    clock-names:
+> >>>      items:
+> >>>        - const: bi_tcxo
+> >>> +      - const: gcc_disp_gpll0_div_clk_src
+> >>>        - const: dsi0_phy_pll_out_byteclk
+> >>>        - const: dsi0_phy_pll_out_dsiclk
+> >>>        - const: dsi1_phy_pll_out_dsiclk
+> >>> @@ -65,12 +67,14 @@ examples:
+> >>>        compatible = "qcom,sm6125-dispcc";
+> >>>        reg = <0x5f00000 0x20000>;
+> >>>        clocks = <&rpmcc RPM_SMD_XO_CLK_SRC>,
+> >>> +               <&gcc GCC_DISP_GPLL0_DIV_CLK_SRC>,
+> >>>                 <&dsi0_phy 0>,
+> >>>                 <&dsi0_phy 1>,
+> >>>                 <&dsi1_phy 1>,
+> >>>                 <&dp_phy 0>,
+> >>>                 <&dp_phy 1>;
+> >>>        clock-names = "bi_tcxo",
+> >>> +                    "gcc_disp_gpll0_div_clk_src",
+> >>>                      "dsi0_phy_pll_out_byteclk",
+> >>>                      "dsi0_phy_pll_out_dsiclk",
+> >>>                      "dsi1_phy_pll_out_dsiclk",
+> >>>
