@@ -1,46 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A923473E945
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 20:34:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9B5273EA78
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 20:50:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2626B10E241;
-	Mon, 26 Jun 2023 18:34:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 245E010E14E;
+	Mon, 26 Jun 2023 18:50:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3292110E23F;
- Mon, 26 Jun 2023 18:34:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=oSueTiYMF138dSTfNnMKrmstGKw/e3IK9bYy1ze85L0=; b=VQDVxuCFQBdNcjmnjAju2cUvxx
- LdH3XwBHaGQt+dFtXZzyyu+W/1yGNAVjEAglYJbgQLXHkLJVlffMgBSq1vMLR2wF3dz42dSG8H7Ir
- TlTRAmLlOGgPkXEUMJl8rOUrZbyp1xefiLRLsyHc2zPNT79DoXwsAsD+yhYPtuKnIL6B/DeSBOa0z
- IRENLn6AMyTcHwfLAP3ArGvUvBZv2XLeN0YRVeHkd7DruLNqmwRQRguEnqcWCK/Mgph1JiXokoRmB
- Kgf2wWEq2dYg8ABzgTCFfV11DkZGwflzlbR9a71YIbqeJ+T4EIok1lB/svr/UCWLuWaB4ZjHGYyUZ
- ghykJ52g==;
-Received: from [179.113.218.86] (helo=steammachine.lan)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qDr2E-0047zl-Ju; Mon, 26 Jun 2023 20:33:59 +0200
-From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v4 1/1] drm/doc: Document DRM device reset expectations
-Date: Mon, 26 Jun 2023 15:33:47 -0300
-Message-ID: <20230626183347.55118-2-andrealmeid@igalia.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230626183347.55118-1-andrealmeid@igalia.com>
-References: <20230626183347.55118-1-andrealmeid@igalia.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
+ [85.215.255.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DCEC10E06B
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 18:50:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1687805358; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=gTvlPaFFkUqMjLEsN7T2t++0A0/4lG5JxbsW8gugtKpTzKMWMseI/C7fERjtzS2e+O
+ 5QNZR/HbdyGEIjQjgnug7h1oChs25qh7R5b0mj5HCij+iJU2s1m/USbZMwRi50dSomOJ
+ lXz7fztCuIs/pcgcLpZB+YtzT3MakxTrZrY7uYv5E8S4CasPUZ/Dk0VJ8X5VSJZrm+zx
+ 4jFvLzo6Ej0p3AdeaHYRgsTRRZN5VjYyZHxBxag+3DBXfamAc9SP1elOvJp6f9PprA6R
+ LHwqHCEanqisydGc7sUx6dwFw+ohFSqvpC9tauIMF7R8ndA3/J9WN8oS2yHLbYAbwd4g
+ F0ng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1687805358;
+ s=strato-dkim-0002; d=strato.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=YR72hcQKmYRFAb3nq232zB+KiPXieSkk7Rrtf/OoNG0=;
+ b=gwdeasnnLH1v1YHJ1ZMNub0WD0QUxpfJm/RYPalDMk4MU9KnAzxVlO+t3bIsua1jVd
+ XgL3Q7DPTSRvedV0+QXAvkyFHaazDJMqZax1AXcf3dIOTWv7PP+3iEWoeFi8VM9/H7qz
+ SXSmY/BBYh2cNjk641sR+uEs9BaLgMhG7GaIg7wT0fiETmGtCN3VoBar0A/n3ciUDvJE
+ DMdAOV14dc6OkXuMzUA3d88t3roz6wundA8PevsJ/veDR+/XloicvkQV7axlzsCaDZuR
+ g6EM2JbwqjwziNt29eT8JvrjXTUnsseCsDRB/gGshdo9ZLZNQU5zGAGU12TLn5YyXQVU
+ +AnA==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo02
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1687805358;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=YR72hcQKmYRFAb3nq232zB+KiPXieSkk7Rrtf/OoNG0=;
+ b=JJflF0ZtYBsav7OBlToowM22CqXPzNocl4/VOZCB0yWlGvU9sAtNO+T4kNNi5rD4N0
+ +NqTfzBStHAnN5utEgSA6l4pU0/3pORK/8XgS04tdgkFi0ibyMvvDk278qLVkmjovWEO
+ 9yDtbkYwaVsLVcQZpyoFtky7+a/XBxfBPJHsWnURtgSPxnCoVCe+2NHGRJPykMJad27b
+ bjpcA5Ju3NOi/ZvaMTk7rwymIcSUA2WP33vyqsdrYJNPun6rHOCPRXL8bH8RvzZ+6lc6
+ M2A0fgOjzYyN+w28h9XCkIxjj0LbmpGw5JQS59d2lxZ0IRsm5YcZAQ21OSkqa9CVxAdb
+ CMSQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1687805358;
+ s=strato-dkim-0003; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=YR72hcQKmYRFAb3nq232zB+KiPXieSkk7Rrtf/OoNG0=;
+ b=Y6gWWyM+PyH56EGN65Phm1vbkenhtTK9pHd+shiwapJptJA6ouQTlPwcKCPWSUC6eB
+ QiB2QD/fzkaX3EkkMnBQ==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Apz9PSN6LgsXcGZhzY="
+Received: from imac.fritz.box by smtp.strato.de (RZmta 49.6.0 DYNA|AUTH)
+ with ESMTPSA id jaf17fz5QInEmfj
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
+ with 256 ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Mon, 26 Jun 2023 20:49:14 +0200 (CEST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
+Subject: Re: [PATCH v3 00/17] Imagination Technologies PowerVR DRM driver
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <e4ec5cff0044ca307cfa71a20bc0a07c6a8123a2.camel@imgtec.com>
+Date: Mon, 26 Jun 2023 20:48:13 +0200
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <208D596A-5F22-479B-9125-81E8A6A3D90B@goldelico.com>
+References: <20230613144800.52657-1-sarah.walker@imgtec.com>
+ <CACRpkdYAAxvHLfEGFwaHQYvZRNhySNo7gSVEBSgGP-pusBwBnQ@mail.gmail.com>
+ <CC39D823-AAE1-4D23-8BFE-70823E737DC2@goldelico.com>
+ <e4ec5cff0044ca307cfa71a20bc0a07c6a8123a2.camel@imgtec.com>
+To: Frank Binns <Frank.Binns@imgtec.com>
+X-Mailer: Apple Mail (2.3445.104.21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,104 +88,189 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- =?UTF-8?q?=27Marek=20Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
- =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- =?UTF-8?q?Timur=20Krist=C3=B3f?= <timur.kristof@gmail.com>,
- Pekka Paalanen <ppaalanen@gmail.com>,
- Samuel Pitoiset <samuel.pitoiset@gmail.com>, kernel-dev@igalia.com,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: "matthew.brost@intel.com" <matthew.brost@intel.com>,
+ Sarah Walker <Sarah.Walker@imgtec.com>, kernel@pyra-handheld.com,
+ openpvrsgx-devgroup@letux.org,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ "luben.tuikov@amd.com" <luben.tuikov@amd.com>,
+ "dakr@redhat.com" <dakr@redhat.com>, Donald Robson <Donald.Robson@imgtec.com>,
+ "boris.brezillon@collabora.com" <boris.brezillon@collabora.com>,
+ phone-devel@vger.kernel.org, merlijn@wizzup.org,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "faith.ekstrand@collabora.com" <faith.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Create a section that specifies how to deal with DRM device resets for
-kernel and userspace drivers.
+Hi Frank,
+I have added Merlijn who is doing a lot with PVRSGX for Maemo-Leste and =
+the
+phone-devel list since most SoC we find using a PVRSGX are smartphone =
+processors.
 
-Signed-off-by: André Almeida <andrealmeid@igalia.com>
----
- Documentation/gpu/drm-uapi.rst | 68 ++++++++++++++++++++++++++++++++++
- 1 file changed, 68 insertions(+)
+> Am 26.06.2023 um 15:45 schrieb Frank Binns <Frank.Binns@imgtec.com>:
+>=20
+> Hi Nikolaus,
+>=20
+>>=20
+>> Some questions to the author of the new driver:
+>> - are there plans to support SGX5 (the predecessor of Rogue6)?
+>=20
+> We don't currently have any plans to support SGX. Our main focus is =
+currently on
+> Rogue and then we'll move onto Volcanic.
 
-diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-index 65fb3036a580..25a11b9b98fa 100644
---- a/Documentation/gpu/drm-uapi.rst
-+++ b/Documentation/gpu/drm-uapi.rst
-@@ -285,6 +285,74 @@ for GPU1 and GPU2 from different vendors, and a third handler for
- mmapped regular files. Threads cause additional pain with signal
- handling as well.
- 
-+Device reset
-+============
-+
-+The GPU stack is really complex and is prone to errors, from hardware bugs,
-+faulty applications and everything in between the many layers. Some errors
-+require resetting the device in order to make the device usable again. This
-+section describes what is the expectations for DRM and usermode drivers when a
-+device resets and how to propagate the reset status.
-+
-+Kernel Mode Driver
-+------------------
-+
-+The KMD is responsible for checking if the device needs a reset, and to perform
-+it as needed. Usually a hang is detected when a job gets stuck executing. KMD
-+should keep track of resets, because userspace can query any time about the
-+reset stats for an specific context. This is needed to propagate to the rest of
-+the stack that a reset has happened. Currently, this is implemented by each
-+driver separately, with no common DRM interface.
-+
-+User Mode Driver
-+----------------
-+
-+The UMD should check before submitting new commands to the KMD if the device has
-+been reset, and this can be checked more often if it requires to. After
-+detecting a reset, UMD will then proceed to report it to the application using
-+the appropriated API error code, as explained in the below section about
-+robustness.
-+
-+Robustness
-+----------
-+
-+The only way to try to keep an application working after a reset is if it
-+complies with the robustness aspects of the graphical API that it is using.
-+
-+Graphical APIs provide ways to application to deal with device resets. However,
-+there is no guarantee that the app will be correctly using such features, and
-+UMD can implement policies to close the app if it is a repeating offender,
-+likely in a broken loop. This is done to ensure that it does not keeps blocking
-+the user interface from being correctly displayed. This should be done even if
-+the app is correct but happens to trigger some bug in the hardware/driver.
-+
-+OpenGL
-+~~~~~~
-+
-+Apps using OpenGL should use the available robust interfaces, like the
-+extension ``GL_ARB_robustness`` (or ``GL_EXT_robustness`` for OpenGL ES). This
-+interface tells if a reset has happened, and if so, all the context state is
-+considered lost and the app proceeds by creating new ones. If is possible to
-+determine that robustness is not in use, UMD will terminate the app when a reset
-+is detected, giving that the contexts are lost and the app won't be able to
-+figure this out and recreate the contexts.
-+
-+Vulkan
-+~~~~~~
-+
-+Apps using Vulkan should check for ``VK_ERROR_DEVICE_LOST`` for submissions.
-+This error code means, among other things, that a device reset has happened and
-+it needs to recreate the contexts to keep going.
-+
-+Reporting resets causes
-+-----------------------
-+
-+Apart from propagating the reset through the stack so apps can recover, it's
-+really useful for driver developers to learn more about what caused the reset in
-+first place. DRM devices should make use of devcoredump to store relevant
-+information about the reset, so this information can be added to user bug
-+reports.
-+
- .. _drm_driver_ioctl:
- 
- IOCTL Support on Device Nodes
--- 
-2.41.0
+Okay, that's completely understandable from a commercial perspective.
+
+>=20
+>> - will this be able to run the existing firmware and user-space code =
+of pvrsrvkm?
+>=20
+> I'm afraid not. The interface for existing firmware and userspace code =
+were
+> designed with different requirements in mind and don't cater to the =
+kernel's
+> strict compatibility guarantees. As such, the uapi for this new driver =
+is
+> very different to pvrsrvkm's, although naturally there are =
+similarities:
+> =
+https://gitlab.freedesktop.org/sarah-walker-imgtec/powervr/-/blob/dev/v3/i=
+nclude/uapi/drm/pvr_drm.h
+
+This makes sense. So the new Rogue/Volcanic and the older PVRSGX drivers =
+should
+be able to coexist (at least in source code as there is no hardware =
+having both).
+
+> We've also worked with our firmware team to make changes to the =
+firmware
+> interface to better support this new driver. Specifically, parts of =
+the firmware
+> interface are no longer conditional on the GPU feature set / hardware
+> workarounds, meaning we now have a single interface which can work =
+across all
+> existing Rogue GPUs, which makes things a lot easier for this new =
+kernel driver.
+
+That is what I have dreamed of for SGX as well.
+
+We could have replaced all the #if for specific versions and errata by =
+some code
+to runtime check with the device tree for the specific SGX version.
+
+But this was never done because it is complex, difficult to automate and =
+our means
+for testing things are limited. And we could not decide which DDK =
+version we
+should build on as there is no common denominator for all SoC.
+
+>=20
+>> - or will it have new firmware and user-space code for these older =
+chips?
+>> - or will there be open user-space code for SGX (and Rogue)?
+>=20
+> We're using the same Rogue firmware as our closed source driver, just =
+with
+> modifications to the interface to cater for this new kernel driver. In =
+terms of
+
+Ok. Well, it was to be expected that SGX and Rogue firmware are quite =
+different.
+
+> userspace, we already have a Vulkan driver upstreamed to Mesa:
+> =
+https://gitlab.freedesktop.org/mesa/mesa/-/tree/main/src/imagination/vulka=
+n
+
+Nice!
+
+>=20
+> and will be working to enable GLES support via Mesa's Zink =
+GL(ES)-to-Vulkan
+> translation layer. This naturally limits support to Series 6 onwards, =
+as
+> anything older isn't capable of supporting Vulkan.
+
+I see.
+
+>=20
+>>=20
+>>> Specifically I would ask that the DT bindings include all old and =
+new PowerVR
+>>> hardware in one go, unless they have very specific hardware =
+definition needs,
+>>> which I doubt.
+>>=20
+>> Our current bindings for all SoC with a SGX5 GPU inside and which =
+have at least
+>> some official Linux support are here:
+>>=20
+>> =
+https://github.com/openpvrsgx-devgroup/linux_openpvrsgx/blob/letux/omap-pv=
+r-soc-glue-v8/Documentation/devicetree/bindings/gpu/img%2Cpvrsgx.yaml
+>>=20
+>> There was an attempt to upstream at least this plus glue code (i.e. =
+device tree
+>> sources) some years ago but there was no consensus about the number =
+and names of
+>> clocks that should be included in such a bindings document.
+>=20
+> I've taken a look and your bindings look very similar to the ones =
+we've come up
+> with. If you decide to attempt to upstream these again, please feel =
+free to CC
+> me, Sarah and Donald (all on this email chain) so we can provide some =
+feedback.
+
+That is good!
+
+It would be a good moment to give it another try as we can have even =
+more
+reviewers than before...
+
+>=20
+>>=20
+>>> Also I think they could use your help to get the proper firmware for =
+the older
+>>> hardware licensed properly from Imagination and included into =
+linux-firmware
+>>> so they do not need to ship files on the side.
+>>=20
+>> Indeed, this and some "universal" user-space code would help a lot. =
+Currently
+>> we have collected a lot of binaries for several architectures (e.g. =
+Intel, OMAP, JZ4780),
+>> but all from different DDK versions and very different assumptions =
+about system
+>> library versions.
+>=20
+> The way the SGX driver was designed means that it has to be built for =
+a specific
+> GPU, the version of the firmware, userspace driver(s) & kernel driver =
+have to
+> exactly match and the build configuration has to match as well. =
+Essentially, we
+> don't have "universal" userspace code ourselves. With our focus being =
+on Rogue
+> and beyond, we don't currently have any plans to work on this.
+
+Hm. This makes me wonder if it could be possible to open source the SGX =
+code
+since it is a different architecture than Rogue, is no longer your focus =
+and
+AFAIK the last SoC with SGX hit market almost a decade ago. This would =
+enable
+the community to make driver, firmware and user-space more generic (and =
+more
+compatible to modern distributions e.g. libc and other versions).
+
+Perhaps others interested in PVRSGX can chime in.
+
+>=20
+> Thanks
+> Frank
+
+Thanks as well,
+Nikolaus
 
