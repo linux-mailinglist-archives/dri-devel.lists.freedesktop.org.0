@@ -2,36 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CC5473E01E
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 15:05:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBC2C73E024
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 15:05:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F34610E1FC;
-	Mon, 26 Jun 2023 13:05:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C943610E0EB;
+	Mon, 26 Jun 2023 13:05:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56DFD10E1F7;
- Mon, 26 Jun 2023 13:05:23 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06F2C10E0EB;
+ Mon, 26 Jun 2023 13:05:40 +0000 (UTC)
 Received: from [192.168.2.254] (109-252-154-132.dynamic.spd-mgts.ru
  [109.252.154.132])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 265C96606EF9;
- Mon, 26 Jun 2023 14:05:18 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id BCCD36606EF9;
+ Mon, 26 Jun 2023 14:05:35 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1687784720;
- bh=1sBMM2PRRV9h1R/j/rMSloE9aC2lpEqWGuljd40xwbM=;
+ s=mail; t=1687784737;
+ bh=UduXksLELXstu/IT+fN/u2qfAoyq+jaxriMeJJQvIMM=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=lGBeuXWb01fFSzJ2pFOwmMEqBs2rZQZVQpaA/TuCvDVDtXQgBurZ7wQBDEiRk+D0g
- kFY6B96C8DgjTQOg4y+E15Bi2zbWx2hRzPT+TCeWBvlq/z3x9mLE/zZBSmqvOaVYg4
- BNutK+oH87OC2/6/PhJ6UJyTyOQqs0eLny9I4cuW2DyKxbXTbei0YwBov4cLtLAWr1
- NJrEfrJLFtxEKT4oyQogTfqonglyJRyKBfA5hiByacbQOSwuTg3+ej8OHo2WvybNiJ
- 5eb75PHN01929Km2K0XGC2iOSUpP7IGjp0mhGtjQI9Xhu87S4NVhdTC4ov//7BmKtx
- YFN46CpVsU7WQ==
-Message-ID: <2b932742-0637-3b7a-acb5-ab643781caa3@collabora.com>
-Date: Mon, 26 Jun 2023 16:05:14 +0300
+ b=NrgukjA1DHJj1g7zNjrN/5FsxxcF05ysjW5CddwQDyvmub9yTZmZfcfCi1zocvuQs
+ tKnhwifaeyEv0gyFrsBp6pXUKEIJ/jD1c/vVStDTe71ma2gejUp/lAZSQNd2YRsOtK
+ ZGqTay3e0HR9Y/knPtp+nSSlzp9ZoJ9w9E5wdGHJ5Yu0cCVFiNTAUJojSddZ/qoT5M
+ osqOer+obrMLx/wHp7XfRlUOn7AmJmt+eNmgm6D5uDi81CFyspZ0ecmB+tRUDOvqNs
+ b7ZDWOIvFbSmlfJL+d6Xs9g08fKOHWnL3rIJ65Re1zJ41jLzy/SMKKBFvqjwnhXW0Y
+ 2kOyALaDANEeQ==
+Message-ID: <4f652b3b-8691-84f4-037a-64950a30d496@collabora.com>
+Date: Mon, 26 Jun 2023 16:05:33 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.1
@@ -72,28 +73,17 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 6/26/23 12:40, Boris Brezillon wrote:
-> Same problem with this renaming: it's confusing because this function
-> was previously taking care of the locking, and it's no longer the case.
-> That's actually true for other public functions your patching, but I
-> won't go over all of them.
-> 
-> I know this patch has been under discussion for quite some time, and has
-> been validated by other devs/maintainers, but I'd like to understand the
-> reasoning behind these decisions. Not the decision to replace all locks
-> by dma_resv, which I kinda understand, but the decision to change the
-> behavior of functions without making the name reflect the new behavior
-> (_locked prefix), or the fact we now prohibit some functions to
-> succeed when the dma_resv lock is taken by the driver beforehand (which,
-> unless I'm mistaken, will happen in the VM_BIND logic, and can happen
-> in the SUBMIT ioctl too depending on the driver).
+> I think here is the major problem I have with this patch: you've made
+> drm_gem_shmem_{get_pages,pin}() private, which forces me to call
+> drm_gem_shmem_pin() in a path where I already acquired the resv lock
+> (using the drm_exec infra proposed by Christian). That would
+> probably work if you were letting ret == -EALREADY go through, but I'm
+> wondering if it wouldn't be preferable to expose
+> drm_gem_shmem_pin_locked().
 
-Adding explicit _locked/unlocked postfix to all function names indeed
-won't hurt to do. There was no decision made about the function names,
-the old functions kept the old name where possible to minimize code
-changes during transition to the resv lock. Improving the names could be
-the next step.
-
-Thanks for the feedback!
+You should be free to expose the necessary functions. They are private
+because nobody need them so far and we don't want to export unused
+functions.
 
 -- 
 Best regards,
