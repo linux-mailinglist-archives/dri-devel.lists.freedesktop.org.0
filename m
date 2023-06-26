@@ -2,39 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74A6C73E6FA
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 19:54:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44AF973E716
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 19:58:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8092C10E16C;
-	Mon, 26 Jun 2023 17:54:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12BEE10E204;
+	Mon, 26 Jun 2023 17:58:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24E6E10E16C
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 17:54:26 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 3CB883E7AF;
- Mon, 26 Jun 2023 19:54:23 +0200 (CEST)
-Date: Mon, 26 Jun 2023 19:54:21 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 06/15] dt-bindings: display/msm: sc7180-dpu: Describe
- SM6125
-Message-ID: <w3bbdq72thnerbyglb4dyshzg4vu5go2wpsciprk27vah6w2ms@yc4eqclct24a>
-References: <20230624-sm6125-dpu-v1-0-1d5a638cebf2@somainline.org>
- <20230624-sm6125-dpu-v1-6-1d5a638cebf2@somainline.org>
- <6bbf239f-d530-2f1e-ff52-361f7c9cc951@linaro.org>
- <75d64lixeawfoqbrctm4thzh73cxkvnlmnh5xgbpf277pmh3gz@zthnqvvuxmeq>
- <a6f3906a-98a7-de7a-3e26-4b8c45fe93f7@linaro.org>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 409D310E204
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 17:58:07 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8Dxc8St0Zlk5YkCAA--.4044S3;
+ Tue, 27 Jun 2023 01:58:06 +0800 (CST)
+Received: from openarena.loongson.cn (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Dx4eSt0ZlkojAKAA--.44182S2; 
+ Tue, 27 Jun 2023 01:58:05 +0800 (CST)
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>
+Subject: [PATCH] drm/tegra: Fix potential memory leak if vmap() fail
+Date: Tue, 27 Jun 2023 01:58:05 +0800
+Message-Id: <20230626175805.672589-1-suijingfeng@loongson.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a6f3906a-98a7-de7a-3e26-4b8c45fe93f7@linaro.org>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Dx4eSt0ZlkojAKAA--.44182S2
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj9xXoWrtF4DXFWxKw1UCr1kJFW5Arc_yoWfXFb_ua
+ 48ur97W34UCF1kCF1ayrW2yFWYk345Zr48XayqyF93K347ZFs3W34DuryruFyUGFsrG3Z8
+ JF9rXr4fZa1S9osvyTuYvTs0mTUanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUj1kv1TuYvT
+ s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+ cSsGvfJTRUUUbfkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
+ vaj40_Wr0E3s1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+ w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+ WUJVW8JwA2z4x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267AKxVW8
+ JVW8Jr1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2
+ x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r126r1D
+ McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr4
+ 1lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_
+ Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67
+ AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8I
+ cVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI
+ 8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v2
+ 6r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU4R6wDUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,73 +60,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- dri-devel@lists.freedesktop.org, Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-clk@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
- Andy Gross <agross@kernel.org>, Lux Aliaga <they@mint.lgbt>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>, Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Stephen Boyd <sboyd@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-06-26 18:16:58, Krzysztof Kozlowski wrote:
-> On 25/06/2023 21:52, Marijn Suijten wrote:
-> > On 2023-06-24 11:12:52, Krzysztof Kozlowski wrote:
-> >> On 24/06/2023 02:41, Marijn Suijten wrote:
-> >>> SM6125 is identical to SM6375 except that while downstream also defines
-> >>> a throttle clock, its presence results in timeouts whereas SM6375
-> >>> requires it to not observe any timeouts.
-> >>
-> >> Then it should not be allowed, so you need either "else:" block or
-> >> another "if: properties: compatible:" to disallow it. Because in current
-> >> patch it would be allowed.
-> > 
-> > That means this binding is wrong/incomplete for all other SoCs then.
-> > clock(-name)s has 6 items, and sets `minItems: 6`.  Only for sm6375-dpu
+The vmap function called in the tegra_fbdev_probe() function could fail,
+It doesn't matther. But if the error handling is necessary, it should
+also free the resources allocated by drm_fb_helper_alloc_info() function
+and the gem buffer object allocated by tegra_bo_create().
 
-Of course meant to say that clock(-name)s has **7** items, not 6.
+Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+---
+ drivers/gpu/drm/tegra/fbdev.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> > does it set `minItems: 7`, but an else case is missing.
-> 
-> Ask the author why it is done like this.
+diff --git a/drivers/gpu/drm/tegra/fbdev.c b/drivers/gpu/drm/tegra/fbdev.c
+index e74d9be981c7..d2152b5eb77b 100644
+--- a/drivers/gpu/drm/tegra/fbdev.c
++++ b/drivers/gpu/drm/tegra/fbdev.c
+@@ -141,6 +141,8 @@ static int tegra_fbdev_probe(struct drm_fb_helper *helper,
+ 
+ destroy:
+ 	drm_framebuffer_remove(fb);
++	drm_fb_helper_release_info(helper);
++	drm_gem_object_put(&bo->gem);
+ 	return err;
+ }
+ 
+-- 
+2.25.1
 
-Konrad, can you clarify why other 
-
-> > Shall I send a Fixes: ed41005f5b7c ("dt-bindings: display/msm:
-> > sc7180-dpu: Describe SM6350 and SM6375") for that, and should maxItems:
-> > 6 be the default under clock(-name)s or in an else:?
-> 
-> There is no bug to fix. Or at least it is not yet known. Whether other
-> devices should be constrained as well - sure, sounds reasonable, but I
-> did not check the code exactly.
-
-I don't know either, but we need this information to decide whether to
-use `maxItems: 6`:
-
-1. Directly on the property;
-2. In an `else:` case on the current `if: sm6375-dpu` (should have the
-   same effect as 1., afaik);
-3. In a second `if:` case that lists all SoCS explicitly.
-
-Since we don't have this information, I think option 3. is the right way
-to go, setting `maxItems: 6` for qcom,sm6125-dpu.
-
-However, it is not yet understood why downstream is able to use the
-throttle clock without repercussions.
-
-> We talk here about this patch.
-
-We used this patch to discover that other SoCs are similarly
-unconstrained.  But if you don't want me to look into it, by all means!
-Saves me a lot of time.  So I will go with option 3.
-
-- Marijn
