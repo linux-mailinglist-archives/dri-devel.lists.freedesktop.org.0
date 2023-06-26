@@ -2,57 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E139073E32A
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 17:23:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1104873E345
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 17:27:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C83E10E22C;
-	Mon, 26 Jun 2023 15:23:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28A1E10E229;
+	Mon, 26 Jun 2023 15:27:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85ACE10E229;
- Mon, 26 Jun 2023 15:23:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1687793022; x=1719329022;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=kGBsoJpqJ94noc4JnODvig8KugWVEyn0TcAx8lTmHng=;
- b=NiDUnymlOh7FRj6XYWehQzPsvoSEsU95GIIVx7lZeNBua0sF5YwzaDES
- 5PysewMXQAhIB4i57N87p9gzWUMM3XWGZcJhWd1EqwzGrsR+suiIuq9/V
- SPcsyDbAkTBlaZ3nX5HumercUXZe5r7ot4/rns/k+6++5ri4TICFWiYT8
- ixchWmsi6hipOd9MZlejKC3TDb/UXcFjhUOeu7IATbO/JMXb4DW4cIm7D
- 76RLwNmy8x+yIT7dwkJTfhP9QZobuqLgCgPG5VZnHgktvxVNiqKifSoUy
- X/xuRKajNdcHRIsiUsxwjwXd277O8RoujMZpRoqHNMNoQ2lR21Iue/SZp A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="346054640"
-X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; d="scan'208";a="346054640"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jun 2023 08:23:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="890311953"
-X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; d="scan'208";a="890311953"
-Received: from ettammin-mobl1.ger.corp.intel.com (HELO [10.249.254.105])
- ([10.249.254.105])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jun 2023 08:23:29 -0700
-Message-ID: <06e1342e5bee87e53e4c43bf31572cda0910513d.camel@linux.intel.com>
-Subject: Re: [Intel-xe] [PATCH v2 2/4] drm/ttm: Don't shadow the operation
- context
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
- intel-xe@lists.freedesktop.org
-Date: Mon, 26 Jun 2023 17:23:27 +0200
-In-Reply-To: <88cbec2d2ae6329d44426cece4b558b7d83b1ff6.camel@linux.intel.com>
-References: <20230626091450.14757-1-thomas.hellstrom@linux.intel.com>
- <20230626091450.14757-3-thomas.hellstrom@linux.intel.com>
- <8b22c855-c84d-4b56-c94b-a3a079ab3037@gmail.com>
- <88cbec2d2ae6329d44426cece4b558b7d83b1ff6.camel@linux.intel.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E14EE10E229
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 15:27:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1687793258;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nhVNEcGfHP6r7iYI6uK5UQkeoNFVEouUiPU/UXitWVk=;
+ b=MtYWnUz8fOw1BGK1nd3z+AGl+rmYyS2QyG9C/1a70xs3myRZ/ncHC39CqOcrFNJ6FOEHhQ
+ dTxhVP/yNeXMeIC/N8DJ1rl2URFB3M51WpV7S3V0joEHQcl8SSnvwYdBNeLnyztpU+ZeGD
+ AVj9+zgiPJYrxyvpSf4CSPVSPlAi6Gc=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-569-UYedLYrrMrK-5mIXEUTgig-1; Mon, 26 Jun 2023 11:27:36 -0400
+X-MC-Unique: UYedLYrrMrK-5mIXEUTgig-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ d75a77b69052e-401e07ebf2dso5104961cf.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 08:27:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687793256; x=1690385256;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=nhVNEcGfHP6r7iYI6uK5UQkeoNFVEouUiPU/UXitWVk=;
+ b=VUyza6AUYGa4TlqHjValY1UWAyEqDixwS1wtePA96yR9QD2tVTxdKQ7f4RfN21EFOT
+ 1EKLaDVA3opK/DWPwGC3EsAlRSRyEsx0bp1PKdD5WJTR7/THAxmKfy4kjRJjk7bUUzTD
+ G40kVtxQHvu9FPI6fQzRs0GK6L22W1WM654m66PQD8jzXoCt61eQ4r7pi+PyOHaXwydE
+ 2RTyJoSZzeEVbo1+PPH5i4dRnuEMnDfqMkVsYE/NaD3JvZAUofh5IrRTuQHP6ilIdhDp
+ BdJcCFQ1jH0cNQ9DqGsnom8b5qdc6SchULt9f/lGoEgRzOCRQwhzktwM8c5Tna/YPX3+
+ JCaQ==
+X-Gm-Message-State: AC+VfDxtQ6DRkD9WcTOTJRfZeYvDlnV+Gzi9kTf84kTUYPfXGr3i7HFM
+ SMVxhUymq3rpWGYJG7r2mZMByXJokz6BOwceKeePhv5HTeSq4X1+yUplx9qtPsIE+HgaNDTIPi3
+ JRu2PSR13dqssjLGegEeqYQ82ghlj30W9pmby9Fv1+5zU
+X-Received: by 2002:a05:622a:50f:b0:400:8fb3:8647 with SMTP id
+ l15-20020a05622a050f00b004008fb38647mr8721386qtx.6.1687793255826; 
+ Mon, 26 Jun 2023 08:27:35 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4TwvuXDKy9e+gI/3I+HhSR4c5+nrW+tY8HR6PT1g2FTGTp5mDJpijnD1fEtWSWZiFto+eJ4Zptasa++w84gzk=
+X-Received: by 2002:a05:622a:50f:b0:400:8fb3:8647 with SMTP id
+ l15-20020a05622a050f00b004008fb38647mr8721377qtx.6.1687793255624; Mon, 26 Jun
+ 2023 08:27:35 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230418171524.274386-1-npache@redhat.com>
+ <881c1f7e-6740-478d-2512-11a5a99563ec@amd.com>
+In-Reply-To: <881c1f7e-6740-478d-2512-11a5a99563ec@amd.com>
+From: Nico Pache <npache@redhat.com>
+Date: Mon, 26 Jun 2023 11:27:09 -0400
+Message-ID: <CAA1CXcDMghE4xv7+QS8hVpC5gm34d=GUfDNhKL7iDx_ZPA4LKQ@mail.gmail.com>
+Subject: Re: [PATCH] kunit: drm: make DRM buddy test compatible with other
+ pages sizes
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ davidgow@google.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
-MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,101 +80,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Roger He <Hongbo.He@amd.com>,
- stable@vger.kernel.org,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: ddutile@redhat.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2023-06-26 at 17:18 +0200, Thomas Hellstr=C3=B6m wrote:
-> On Mon, 2023-06-26 at 17:15 +0200, Christian K=C3=B6nig wrote:
-> > Am 26.06.23 um 11:14 schrieb Thomas Hellstr=C3=B6m:
-> > > ttm_bo_swapout() shadows the ttm operation context which may
-> > > cause
-> > > major confusion in driver callbacks when swapping out
-> > > !TTM_PL_SYSTEM
-> > > memory. Fix this by reusing the operation context argument to
-> > > ttm_bo_swapout().
-> > >=20
-> > > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> > > Cc: Roger He <Hongbo.He@amd.com>
-> > > Cc: <dri-devel@lists.freedesktop.org>
-> > > Cc: <intel-gfx@lists.freedesktop.org>
-> > > Cc: <stable@vger.kernel.org> # v4.16+
-> > > Fixes: dc947770cf34 ("drm/ttm: enable swapout for reserved BOs
-> > > during allocation")
-> > > Signed-off-by: Thomas Hellstr=C3=B6m
-> > > <thomas.hellstrom@linux.intel.com>
-> > > Acked-by: Matthew Brost <matthew.brost@intel.com>
-> >=20
-> > We intentionally didn't used the parameter here, but I absolutely
-> > can't=20
-> > figure out why.
-> >=20
-> > Feel free to add my rb, but let's give it some time upstream before
-> > you=20
-> > base anything on top of this. Just in case we missed something.
->=20
-> Sure. Thanks for reviewing,
+Hi Christian,
 
-BTW, I'll remove the Fixes: tag as well.
+Thanks for the information! I am not very familiar with the inner
+workings of DRM, so I'm not really in a position to make any large or
+systematic changes to the test regarding the points you made. I am
+mainly trying to allow the tests to be run on more diverse hardware.
+From the looks of it this test has been adapted from an older test, so
+perhaps this rule was set in place in the past.
 
-/Thomas
+Either way, I dont think my changes are going to break anything, so
+for the time being I think this small change is the best approach.
+Please let me know if you think otherwise.
 
+David, do you still have this on your radar? We've been carrying this
+as a RHEL-only since I originally posted it and have not noticed any
+issues due to it.
 
-> /Thomas
->=20
-> >=20
-> > Regards,
-> > Christian.
-> >=20
-> > > ---
-> > > =C2=A0 drivers/gpu/drm/ttm/ttm_bo.c | 3 +--
-> > > =C2=A0 1 file changed, 1 insertion(+), 2 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/ttm/ttm_bo.c
-> > > b/drivers/gpu/drm/ttm/ttm_bo.c
-> > > index bd5dae4d1624..615d30c4262d 100644
-> > > --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> > > +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> > > @@ -1154,7 +1154,6 @@ int ttm_bo_swapout(struct ttm_buffer_object
-> > > *bo, struct ttm_operation_ctx *ctx,
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Move to system cac=
-hed
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (bo->resource->mem=
-_type !=3D TTM_PL_SYSTEM) {
-> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0struct ttm_operation_ctx ctx =3D { false, false };
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0struct ttm_resource *evict_mem;
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0struct ttm_place hop;
-> > > =C2=A0=20
-> > > @@ -1164,7 +1163,7 @@ int ttm_bo_swapout(struct ttm_buffer_object
-> > > *bo, struct ttm_operation_ctx *ctx,
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0if (unlikely(ret))
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-goto out;
-> > > =C2=A0=20
-> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0ret =3D ttm_bo_handle_move_mem(bo, evict_mem, true,
-> > > &ctx, &hop);
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0ret =3D ttm_bo_handle_move_mem(bo, evict_mem, true,
-> > > ctx, &hop);
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0if (unlikely(ret !=3D 0)) {
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-WARN(ret =3D=3D -EMULTIHOP, "Unexpected
-> > > multihop in swaput - likely driver bug.\n");
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-goto out;
-> >=20
->=20
+Cheers,
+-- Nico
+
+On Wed, Apr 19, 2023 at 4:30=E2=80=AFAM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 18.04.23 um 19:15 schrieb Nico Pache:
+> > The DRM buddy test uses a fixed 12 bit shift to covert from pages to
+> > bytes. This number is then used to confirm that (chunk_size < PAGE_SIZE=
+)
+> > which can lead to a failing drm_buddy_init on systems with PAGE_SIZE > =
+4k.
+>
+> Since the buddy allocator is used for resources which are independent of
+> the CPU PAGE size the later check is actually the broken one.
+>
+> E.g. neither in the buddy allocator nor in it's test cases we should
+> have any of PAGE_SHIFT or PAGE_SIZE.
+>
+> Otherwise the allocator wouldn't work correctly on systems with a
+> PAGE_SIZE different than 4k.
+>
+> Regards,
+> Christian.
+>
+> >
+> > Fixes: 92937f170d3f ("drm/selftests: add drm buddy alloc range testcase=
+")
+> > Signed-off-by: Nico Pache <npache@redhat.com>
+> > ---
+> >   drivers/gpu/drm/tests/drm_buddy_test.c | 4 ++--
+> >   1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/t=
+ests/drm_buddy_test.c
+> > index 09ee6f6af896..a62b2690d3c2 100644
+> > --- a/drivers/gpu/drm/tests/drm_buddy_test.c
+> > +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
+> > @@ -318,8 +318,8 @@ static void mm_config(u64 *size, u64 *chunk_size)
+> >       s &=3D -ms;
+> >
+> >       /* Convert from pages to bytes */
+> > -     *chunk_size =3D (u64)ms << 12;
+> > -     *size =3D (u64)s << 12;
+> > +     *chunk_size =3D (u64)ms << PAGE_SHIFT;
+> > +     *size =3D (u64)s << PAGE_SHIFT;
+> >   }
+> >
+> >   static void drm_test_buddy_alloc_pathological(struct kunit *test)
+>
 
