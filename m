@@ -1,48 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67CF173D8C0
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 09:47:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7876873D8C3
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 09:48:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D69310E0F4;
-	Mon, 26 Jun 2023 07:47:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59D9D10E183;
+	Mon, 26 Jun 2023 07:48:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8249410E0F4
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 07:47:18 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 2746C6607113;
- Mon, 26 Jun 2023 08:47:15 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1687765635;
- bh=CeM5Hepu+zd1pOfUnqYqgigeKhykcYtCEUEeBxBlcO4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=FuaLt5h3+wbrOiBJGy6gmTS1dCPmTURQ7IBSHQFddyabAwyIqXtcpDzlkSdnTsvW+
- kL8BAvWp5KzQQodvSwwKtpNWECROMCCnnAo3cby/aNoqqYrMluZBcpiJj+tajEtkF3
- uW0a6DE21k9vI4tuKC0ffNSSCXqMTr7F5/5JDuz0y8IIGEsGhxZJoe7IZT4drhXu23
- jhGdNFVvOvBYrf1sp5iSVHa/7a7r8B5vG7/GpSMAl44Tj805CSTTMGsUquALaUGcBk
- j8aolON9vhc0u18gieZRctBKpKkbPi1hyFVNdGPXMcalxn6mSuZYsqpAVdjVKWUcf9
- fNQPB4WdKg8zw==
-Date: Mon, 26 Jun 2023 09:47:12 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Luben Tuikov <luben.tuikov@amd.com>
-Subject: Re: [PATCH v3] drm/sched: Call drm_sched_fence_set_parent() from
- drm_sched_fence_scheduled()
-Message-ID: <20230626094712.2030d137@collabora.com>
-In-Reply-To: <50612c38-6a53-c1ae-5c0f-9f3f74833db8@amd.com>
-References: <20230623075204.382350-1-boris.brezillon@collabora.com>
- <20230623100317.0f3fb434@collabora.com>
- <50612c38-6a53-c1ae-5c0f-9f3f74833db8@amd.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBC5410E183;
+ Mon, 26 Jun 2023 07:48:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1687765704; x=1719301704;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=LK1I7Y9xB0oaCr6kyKG+9IR2e8ZYmgTZaZI2mvVKLzg=;
+ b=I+8UA+e5jga9x9iJ0hqJOUVvOYjGdV7g5K6HO5PezBEvK23M8DzH3HJI
+ m0dTeodPSdTyYQDfkN5DYzc+ckWPUHXJcEPPmlx5794QV8E1vw8xjkU/4
+ pzSfywsAsXI1dib/Xw3jC5jeY80k0buz5WdAo2p2URca9tccRBP291TTO
+ x615yiMzxVcPqbM/0w0xpMzaJ0UAz5xxfq3HV/JQ7f3FuxU5FfOJj7DIP
+ sYYZ6l1Y4cjQZYzhC4qYzpA8IAc38a2Vn7hw1yaltOe5h6/Ui09gYr8k2
+ /SKLdBGifcXYbSM7gike0jL3ALa2aX51hKxMipf+sZGfKgF7oiRxkrRqR g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="364653461"
+X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; d="scan'208";a="364653461"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jun 2023 00:48:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="829133001"
+X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; d="scan'208";a="829133001"
+Received: from mkomuves-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.252.63.201])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jun 2023 00:48:19 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Sui Jingfeng <suijingfeng@loongson.cn>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>, Pan Xinhui
+ <Xinhui.Pan@amd.com>
+Subject: Re: [PATCH] drm: Remove the deprecated drm_put_dev() function
+In-Reply-To: <20230625050901.393055-1-suijingfeng@loongson.cn>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230625050901.393055-1-suijingfeng@loongson.cn>
+Date: Mon, 26 Jun 2023 10:48:04 +0300
+Message-ID: <87jzvqy897.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,78 +63,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sarah Walker <sarah.walker@imgtec.com>, dri-devel@lists.freedesktop.org,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Donald Robson <donald.robson@imgtec.com>,
- Sumit Semwal <sumit.semwal@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 23 Jun 2023 14:37:57 -0400
-Luben Tuikov <luben.tuikov@amd.com> wrote:
+On Sun, 25 Jun 2023, Sui Jingfeng <suijingfeng@loongson.cn> wrote:
+> As this function can be replaced with drm_dev_unregister() + drm_dev_put(),
+> it is already marked as deprecated, so remove it. No functional change.
+>
+> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> ---
+>  drivers/gpu/drm/drm_drv.c           | 28 ----------------------------
+>  drivers/gpu/drm/drm_pci.c           |  3 ++-
+>  drivers/gpu/drm/radeon/radeon_drv.c |  3 ++-
+>  include/drm/drm_drv.h               |  1 -
+>  4 files changed, 4 insertions(+), 31 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 12687dd9e1ac..5057307fe22a 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -406,34 +406,6 @@ void drm_minor_release(struct drm_minor *minor)
+>   * possibly leaving the hardware enabled.
+>   */
+>  
+> -/**
+> - * drm_put_dev - Unregister and release a DRM device
+> - * @dev: DRM device
+> - *
+> - * Called at module unload time or when a PCI device is unplugged.
+> - *
+> - * Cleans up all DRM device, calling drm_lastclose().
+> - *
+> - * Note: Use of this function is deprecated. It will eventually go away
+> - * completely.  Please use drm_dev_unregister() and drm_dev_put() explicitly
+> - * instead to make sure that the device isn't userspace accessible any more
+> - * while teardown is in progress, ensuring that userspace can't access an
+> - * inconsistent state.
 
-> On 2023-06-23 04:03, Boris Brezillon wrote:
-> > On Fri, 23 Jun 2023 09:52:04 +0200
-> > Boris Brezillon <boris.brezillon@collabora.com> wrote:
-> >   
-> >> Drivers that can delegate waits to the firmware/GPU pass the scheduled
-> >> fence to drm_sched_job_add_dependency(), and issue wait commands to
-> >> the firmware/GPU at job submission time. For this to be possible, they
-> >> need all their 'native' dependencies to have a valid parent since this
-> >> is where the actual HW fence information are encoded.
-> >>
-> >> In drm_sched_main(), we currently call drm_sched_fence_set_parent()
-> >> after drm_sched_fence_scheduled(), leaving a short period of time
-> >> during which the job depending on this fence can be submitted.
-> >>
-> >> Since setting parent and signaling the fence are two things that are
-> >> kinda related (you can't have a parent if the job hasn't been scheduled),
-> >> it probably makes sense to pass the parent fence to
-> >> drm_sched_fence_scheduled() and let it call drm_sched_fence_set_parent()
-> >> before it signals the scheduled fence.
-> >>
-> >> Here is a detailed description of the race we are fixing here:
-> >>
-> >> Thread A				Thread B
-> >>
-> >> - calls drm_sched_fence_scheduled()
-> >> - signals s_fence->scheduled which
-> >>   wakes up thread B
-> >>
-> >> 					- entity dep signaled, checking
-> >> 					  the next dep
-> >> 					- no more deps waiting
-> >> 					- entity is picked for job
-> >> 					  submission by drm_gpu_scheduler
-> >> 					- run_job() is called
-> >> 					- run_job() tries to
-> >> 					  collect native fence info from
-> >> 					  s_fence->parent, but it's
-> >> 					  NULL =>
-> >> 					  BOOM, we can't do our native
-> >> 					  wait
-> >>
-> >> - calls drm_sched_fence_set_parent()
-> >>
-> >> v2:
-> >> * Fix commit message
-> >>
-> >> v3:
-> >> * Add a detailed description of the race to the commit message
-> >> * Add Luben's R-b
-> >>  
-> > 
-> > FYI, I didn't put a Fixes tag because the various moves/modifications
-> > that happened on this file will make it hard to backport anyway, and no
-> > one complained about it so far. But if we want to have one, it would
-> > probably be:
-> > 
-> > Fixes: 754ce0fa55c4 ("drm/amd: add parent for sched fence")
-> >   
-> 
-> I agree with your assessment--the race fix doesn't seem to be pointing to
-> or introduced by one particular change. Plus that fixes change is from 2016...
-> So, we're good to go as is.
+The last sentence is the crucial one. While the patch has no functional
+changes, I believe the goal never was to just mechanically replace one
+call with the two.
 
-Queued to drm-misc-fixes.
+BR,
+Jani.
 
+
+> - */
+> -void drm_put_dev(struct drm_device *dev)
+> -{
+> -	DRM_DEBUG("\n");
+> -
+> -	if (!dev) {
+> -		DRM_ERROR("cleanup called no dev\n");
+> -		return;
+> -	}
+> -
+> -	drm_dev_unregister(dev);
+> -	drm_dev_put(dev);
+> -}
+> -EXPORT_SYMBOL(drm_put_dev);
+> -
+>  /**
+>   * drm_dev_enter - Enter device critical section
+>   * @dev: DRM device
+> diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
+> index 39d35fc3a43b..b3a68a92eaa6 100644
+> --- a/drivers/gpu/drm/drm_pci.c
+> +++ b/drivers/gpu/drm/drm_pci.c
+> @@ -257,7 +257,8 @@ void drm_legacy_pci_exit(const struct drm_driver *driver,
+>  					 legacy_dev_list) {
+>  			if (dev->driver == driver) {
+>  				list_del(&dev->legacy_dev_list);
+> -				drm_put_dev(dev);
+> +				drm_dev_unregister(dev);
+> +				drm_dev_put(dev);
+>  			}
+>  		}
+>  		mutex_unlock(&legacy_dev_list_lock);
+> diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
+> index e4374814f0ef..a4955ae10659 100644
+> --- a/drivers/gpu/drm/radeon/radeon_drv.c
+> +++ b/drivers/gpu/drm/radeon/radeon_drv.c
+> @@ -357,7 +357,8 @@ radeon_pci_remove(struct pci_dev *pdev)
+>  {
+>  	struct drm_device *dev = pci_get_drvdata(pdev);
+>  
+> -	drm_put_dev(dev);
+> +	drm_dev_unregister(dev);
+> +	drm_dev_put(dev);
+>  }
+>  
+>  static void
+> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+> index 89e2706cac56..289c97b12e82 100644
+> --- a/include/drm/drm_drv.h
+> +++ b/include/drm/drm_drv.h
+> @@ -511,7 +511,6 @@ void drm_dev_unregister(struct drm_device *dev);
+>  
+>  void drm_dev_get(struct drm_device *dev);
+>  void drm_dev_put(struct drm_device *dev);
+> -void drm_put_dev(struct drm_device *dev);
+>  bool drm_dev_enter(struct drm_device *dev, int *idx);
+>  void drm_dev_exit(int idx);
+>  void drm_dev_unplug(struct drm_device *dev);
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
