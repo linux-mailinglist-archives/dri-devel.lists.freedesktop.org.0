@@ -2,70 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26A4973DB86
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 11:38:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6013773DB91
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jun 2023 11:40:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2582710E052;
-	Mon, 26 Jun 2023 09:38:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1F9E10E1E2;
+	Mon, 26 Jun 2023 09:40:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E239210E052
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 09:38:01 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id
- 2adb3069b0e04-4fb5bcb9a28so1331056e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 02:38:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687772278; x=1690364278;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=HntGu0tHmgccyrJp9do4C9iS153gRi8tQo8VIX2fQsc=;
- b=YPNrdx/H3DhQD+dxZLPJh0Qb6ZTWUSwRvTgt5m6CShDLlLpYJg1oHBUZv1muqRgXjz
- BA5aAAVUUrVvnzaD59YATd+S4UmtBlt9UOeJ7ub0hyn2w1fw5MFqjWcQw2OofMcFMLm6
- izHL5FSbiBFTixFGHLxVkQ8P6nneQhij+wkyZ8L8n56fJsDubBRZQTnqBAaRecIng7Bj
- MI804yWxiICMtxzC5XJGf1ooON45FOKW1axXxGjT97Q1EVlplCz15voCmyvp1k4P5go/
- OWziH5tGh3QuzVC+oZLrEcGz8djhGdcA4HvkhSHEbaXer9tZNGJmC8w2aBk+sOS0McSx
- XlFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687772278; x=1690364278;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HntGu0tHmgccyrJp9do4C9iS153gRi8tQo8VIX2fQsc=;
- b=Jv8/sN17Y0JcHTluF1hz3ceqkUtQ8GRr8jyWCTV1XtxDkdBeRuLcdHYJt/GpsiFMxs
- ilpTKxKNoPQZ8USGfQpE1tf8QizmciMsLITFD+GO9x/qzlYqpho1YWcnW5cqLMBTAXb/
- gshm7JlB2q5Ggu3aqz2+VOsgAJumk76GUB/vr6yXZflWd8PPPTEHWhQPtcVMZrfUgyly
- T2wkMd0cLQSHBzXFWtjhFdG3AHpp9AJQtNo+sIz4EekEHVFiyQEERFAYgFQPkMvmntb2
- n081fSlEt3gmRuf/OM53Df2H2YDVIhs1q3UxhB2m98clwkl99vIroUxpvmZPeyS4AeTb
- GF5w==
-X-Gm-Message-State: AC+VfDxDk2MKHB9jQCVzb5XhZhvxjJB54L7RSFW47FB37v5ilrO99zXX
- JEYvr4NdTWUXuLDKIgzN39iCZg==
-X-Google-Smtp-Source: ACHHUZ4Xajymenc5txNv7UpHLVte7g5o3I5DJxUsWEX7tPlNPTQRCWdEcghJR2pWFmpkq67kmo4aVA==
-X-Received: by 2002:a19:ca50:0:b0:4f8:5792:37d7 with SMTP id
- h16-20020a19ca50000000b004f8579237d7mr15049605lfj.67.1687772278363; 
- Mon, 26 Jun 2023 02:37:58 -0700 (PDT)
-Received: from [192.168.1.101] (abyk179.neoplus.adsl.tpnet.pl. [83.9.30.179])
- by smtp.gmail.com with ESMTPSA id
- e24-20020ac25478000000b004f8675548ebsm1031105lfn.20.2023.06.26.02.37.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Jun 2023 02:37:58 -0700 (PDT)
-Message-ID: <459eef2b-4d66-e6cb-32b4-69cdb1a586fe@linaro.org>
-Date: Mon, 26 Jun 2023 11:37:55 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F67E10E1CC;
+ Mon, 26 Jun 2023 09:40:20 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id EAF59660710F;
+ Mon, 26 Jun 2023 10:40:17 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1687772418;
+ bh=nrhR8oq2efpkrpJAJZoiEhcI2s3TuRKvjkM4txfnivA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=RE40B/BKGYWRgmT2p5cXPbnaGINdFGsssda3ob0DpmbfJCSTTyuz9mCbatF9Dc9hJ
+ bJ2n9Mx/+GNqXQa5ZwqgYNdE3tNjXHIOjfz3lK3lgZ86xE0peje8c0NtBke4fefm5G
+ j2kKocSrtjvSmF5uZebPKA71KkAAtDQR1eYZuD1/t2sg+ysFEQusImuLjMFI7vRRHK
+ u3AvocNF6F3GeDm7rFzxIUDIz2TNCfU8OxnPxEHmZoaGO+w97ief4Zb4Z+GqcgNYXN
+ 3ulORtyxiypa+SY+ZNAtytfqQ5S1GUYiY6Jc85Hy/KB+c0yOaoxuPuzRoszNYaw3da
+ 0n29csgLj575g==
+Date: Mon, 26 Jun 2023 11:40:14 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v4 6/6] drm/shmem-helper: Switch to reservation lock
+Message-ID: <20230626114014.2c837255@collabora.com>
+In-Reply-To: <20230529223935.2672495-7-dmitry.osipenko@collabora.com>
+References: <20230529223935.2672495-1-dmitry.osipenko@collabora.com>
+ <20230529223935.2672495-7-dmitry.osipenko@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 08/15] drm/msm/dpu: Add SM6125 support
-Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230624-sm6125-dpu-v1-0-1d5a638cebf2@somainline.org>
- <20230624-sm6125-dpu-v1-8-1d5a638cebf2@somainline.org>
- <d836cdaa-7d67-82b1-baa6-6d2f8c761b1a@linaro.org>
- <eeyexowcbjmqpmw6xps6ewczamehhyopjkvd2tg72soirpla2r@ydtuxti4r6xk>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <eeyexowcbjmqpmw6xps6ewczamehhyopjkvd2tg72soirpla2r@ydtuxti4r6xk>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,163 +53,278 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- dri-devel@lists.freedesktop.org, Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-clk@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
- Andy Gross <agross@kernel.org>, Lux Aliaga <they@mint.lgbt>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>, Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Stephen Boyd <sboyd@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- linux-kernel@vger.kernel.org, Jami Kettunen <jami.kettunen@somainline.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ John Stultz <jstultz@google.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ kernel@collabora.com, Sumit Semwal <sumit.semwal@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ linux-media@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ intel-gfx@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Tomi Valkeinen <tomba@kernel.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
+ Tomasz Figa <tfiga@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25.06.2023 22:19, Marijn Suijten wrote:
-> On 2023-06-24 03:47:27, Konrad Dybcio wrote:
->> On 24.06.2023 02:41, Marijn Suijten wrote:
->>> Add definitions for the display hardware used on the Qualcomm SM6125
->>> platform.
->>>
->>> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
->>> ---
->> [...]
->>
->>> +static const struct dpu_perf_cfg sm6125_perf_data = {
->>> +	.max_bw_low = 4100000,
->>> +	.max_bw_high = 4100000,
->>> +	.min_core_ib = 2400000,
->>> +	.min_llcc_ib = 800000,
->> While Dmitry will likely validate other values
-> 
-> Lovely.
-> 
->> I can tell you already that this SoC has no LLCC.
-> 
-> Copy-paste error on downstream?
-> 
-> https://git.codelinaro.org/clo/la/kernel/msm-4.14/-/blob/LA.UM.9.11.c25/arch/arm64/boot/dts/qcom/trinket-sde.dtsi#L146
-> 
-> - Marijn
-Yes.
+Hi Dmitry,
 
-This code is bogus anyway and is just supposed to vote on DDR_FREQ_MIN
+On Tue, 30 May 2023 01:39:35 +0300
+Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
 
-Konrad
+> Replace all drm-shmem locks with a GEM reservation lock. This makes locks
+> consistent with dma-buf locking convention where importers are responsible
+> for holding reservation lock for all operations performed over dma-bufs,
+> preventing deadlock between dma-buf importers and exporters.
+
+I've rebased some of my work on drm-misc-next this morning and noticed
+that the drm_gem_shmem_get_pages() I was using to pin pages no longer
+exists, so I ended looking at this patch to check what I should use
+instead, and I have a few questions/comments.
+
 > 
->>
->> Konrad
->>> +	.min_dram_ib = 800000,
->>> +	.min_prefill_lines = 24,
->>> +	.danger_lut_tbl = {0xf, 0xffff, 0x0},
->>> +	.safe_lut_tbl = {0xfff8, 0xf000, 0xffff},
->>> +	.qos_lut_tbl = {
->>> +		{.nentry = ARRAY_SIZE(sm8150_qos_linear),
->>> +		.entries = sm8150_qos_linear
->>> +		},
->>> +		{.nentry = ARRAY_SIZE(sc7180_qos_macrotile),
->>> +		.entries = sc7180_qos_macrotile
->>> +		},
->>> +		{.nentry = ARRAY_SIZE(sc7180_qos_nrt),
->>> +		.entries = sc7180_qos_nrt
->>> +		},
->>> +		/* TODO: macrotile-qseed is different from macrotile */
->>> +	},
->>> +	.cdp_cfg = {
->>> +		{.rd_enable = 1, .wr_enable = 1},
->>> +		{.rd_enable = 1, .wr_enable = 0}
->>> +	},
->>> +	.clk_inefficiency_factor = 105,
->>> +	.bw_inefficiency_factor = 120,
->>> +};
->>> +
->>> +const struct dpu_mdss_cfg dpu_sm6125_cfg = {
->>> +	.caps = &sm6125_dpu_caps,
->>> +	.ubwc = &sm6125_ubwc_cfg,
->>> +	.mdp_count = ARRAY_SIZE(sm6125_mdp),
->>> +	.mdp = sm6125_mdp,
->>> +	.ctl_count = ARRAY_SIZE(sm6125_ctl),
->>> +	.ctl = sm6125_ctl,
->>> +	.sspp_count = ARRAY_SIZE(sm6125_sspp),
->>> +	.sspp = sm6125_sspp,
->>> +	.mixer_count = ARRAY_SIZE(sm6125_lm),
->>> +	.mixer = sm6125_lm,
->>> +	.dspp_count = ARRAY_SIZE(sm6125_dspp),
->>> +	.dspp = sm6125_dspp,
->>> +	.pingpong_count = ARRAY_SIZE(sm6125_pp),
->>> +	.pingpong = sm6125_pp,
->>> +	.intf_count = ARRAY_SIZE(sm6125_intf),
->>> +	.intf = sm6125_intf,
->>> +	.vbif_count = ARRAY_SIZE(sdm845_vbif),
->>> +	.vbif = sdm845_vbif,
->>> +	.perf = &sm6125_perf_data,
->>> +	.mdss_irqs = BIT(MDP_SSPP_TOP0_INTR) | \
->>> +		     BIT(MDP_SSPP_TOP0_INTR2) | \
->>> +		     BIT(MDP_SSPP_TOP0_HIST_INTR) | \
->>> +		     BIT(MDP_INTF0_INTR) | \
->>> +		     BIT(MDP_INTF1_INTR) | \
->>> +		     BIT(MDP_INTF1_TEAR_INTR),
->>> +};
->>> +
->>> +#endif
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->>> index 0de507d4d7b7..8a02bbdaae8a 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->>> @@ -33,6 +33,9 @@
->>>  #define VIG_SC7180_MASK \
->>>  	(VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) | BIT(DPU_SSPP_SCALER_QSEED4))
->>>  
->>> +#define VIG_SM6125_MASK \
->>> +	(VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) | BIT(DPU_SSPP_SCALER_QSEED3LITE))
->>> +
->>>  #define VIG_SC7180_MASK_SDMA \
->>>  	(VIG_SC7180_MASK | BIT(DPU_SSPP_SMART_DMA_V2))
->>>  
->>> @@ -348,6 +351,8 @@ static const struct dpu_sspp_sub_blks sc7280_vig_sblk_0 =
->>>  
->>>  static const struct dpu_sspp_sub_blks sm6115_vig_sblk_0 =
->>>  				_VIG_SBLK("0", 2, DPU_SSPP_SCALER_QSEED4);
->>> +static const struct dpu_sspp_sub_blks sm6125_vig_sblk_0 =
->>> +				_VIG_SBLK("0", 3, DPU_SSPP_SCALER_QSEED3LITE);
->>>  
->>>  static const struct dpu_sspp_sub_blks sm8250_vig_sblk_0 =
->>>  				_VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED4);
->>> @@ -762,6 +767,7 @@ static const struct dpu_qos_lut_entry sc7180_qos_nrt[] = {
->>>  
->>>  #include "catalog/dpu_5_0_sm8150.h"
->>>  #include "catalog/dpu_5_1_sc8180x.h"
->>> +#include "catalog/dpu_5_4_sm6125.h"
->>>  
->>>  #include "catalog/dpu_6_0_sm8250.h"
->>>  #include "catalog/dpu_6_2_sc7180.h"
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
->>> index b860784ade72..4314235cb2b8 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
->>> @@ -861,6 +861,7 @@ extern const struct dpu_mdss_cfg dpu_sc8180x_cfg;
->>>  extern const struct dpu_mdss_cfg dpu_sm8250_cfg;
->>>  extern const struct dpu_mdss_cfg dpu_sc7180_cfg;
->>>  extern const struct dpu_mdss_cfg dpu_sm6115_cfg;
->>> +extern const struct dpu_mdss_cfg dpu_sm6125_cfg;
->>>  extern const struct dpu_mdss_cfg dpu_sm6350_cfg;
->>>  extern const struct dpu_mdss_cfg dpu_qcm2290_cfg;
->>>  extern const struct dpu_mdss_cfg dpu_sm6375_cfg;
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>> index aa8499de1b9f..a1c7ffb6dffb 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>> @@ -1305,6 +1305,7 @@ static const struct of_device_id dpu_dt_match[] = {
->>>  	{ .compatible = "qcom,sc8180x-dpu", .data = &dpu_sc8180x_cfg, },
->>>  	{ .compatible = "qcom,sc8280xp-dpu", .data = &dpu_sc8280xp_cfg, },
->>>  	{ .compatible = "qcom,sm6115-dpu", .data = &dpu_sm6115_cfg, },
->>> +	{ .compatible = "qcom,sm6125-dpu", .data = &dpu_sm6125_cfg, },
->>>  	{ .compatible = "qcom,sm6350-dpu", .data = &dpu_sm6350_cfg, },
->>>  	{ .compatible = "qcom,sm6375-dpu", .data = &dpu_sm6375_cfg, },
->>>  	{ .compatible = "qcom,sm8150-dpu", .data = &dpu_sm8150_cfg, },
->>>
+> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> ---
+>  drivers/gpu/drm/drm_gem_shmem_helper.c        | 210 ++++++++----------
+>  drivers/gpu/drm/lima/lima_gem.c               |   8 +-
+>  drivers/gpu/drm/panfrost/panfrost_drv.c       |   7 +-
+>  .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |   6 +-
+>  drivers/gpu/drm/panfrost/panfrost_mmu.c       |  19 +-
+>  include/drm/drm_gem_shmem_helper.h            |  14 +-
+>  6 files changed, 116 insertions(+), 148 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index 4ea6507a77e5..a783d2245599 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -88,8 +88,6 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private)
+>  	if (ret)
+>  		goto err_release;
+>  
+> -	mutex_init(&shmem->pages_lock);
+> -	mutex_init(&shmem->vmap_lock);
+>  	INIT_LIST_HEAD(&shmem->madv_list);
+>  
+>  	if (!private) {
+> @@ -141,11 +139,13 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+>  {
+>  	struct drm_gem_object *obj = &shmem->base;
+>  
+> -	drm_WARN_ON(obj->dev, shmem->vmap_use_count);
+> -
+>  	if (obj->import_attach) {
+>  		drm_prime_gem_destroy(obj, shmem->sgt);
+>  	} else {
+> +		dma_resv_lock(shmem->base.resv, NULL);
+> +
+> +		drm_WARN_ON(obj->dev, shmem->vmap_use_count);
+> +
+>  		if (shmem->sgt) {
+>  			dma_unmap_sgtable(obj->dev->dev, shmem->sgt,
+>  					  DMA_BIDIRECTIONAL, 0);
+> @@ -154,22 +154,24 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+>  		}
+>  		if (shmem->pages)
+>  			drm_gem_shmem_put_pages(shmem);
+> -	}
+>  
+> -	drm_WARN_ON(obj->dev, shmem->pages_use_count);
+> +		drm_WARN_ON(obj->dev, shmem->pages_use_count);
+> +
+> +		dma_resv_unlock(shmem->base.resv);
+> +	}
+>  
+>  	drm_gem_object_release(obj);
+> -	mutex_destroy(&shmem->pages_lock);
+> -	mutex_destroy(&shmem->vmap_lock);
+>  	kfree(shmem);
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gem_shmem_free);
+>  
+> -static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
+> +static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
+
+I find this name change confusing, because the function requires the
+GEM resv lock to be held, and the _locked suffix was making it pretty
+clear.
+
+>  {
+>  	struct drm_gem_object *obj = &shmem->base;
+>  	struct page **pages;
+>  
+> +	dma_resv_assert_held(shmem->base.resv);
+> +
+>  	if (shmem->pages_use_count++ > 0)
+>  		return 0;
+>  
+> @@ -197,35 +199,16 @@ static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
+>  }
+>  
+>  /*
+> - * drm_gem_shmem_get_pages - Allocate backing pages for a shmem GEM object
+> + * drm_gem_shmem_put_pages - Decrease use count on the backing pages for a shmem GEM object
+>   * @shmem: shmem GEM object
+>   *
+> - * This function makes sure that backing pages exists for the shmem GEM object
+> - * and increases the use count.
+> - *
+> - * Returns:
+> - * 0 on success or a negative error code on failure.
+> + * This function decreases the use count and puts the backing pages when use drops to zero.
+>   */
+> -int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
+> +void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
+
+Same comment about the name change. That's even more confusing since
+this function was previously taking care of the locking. Also not sure
+why you'd want to expose this _put() helper when the _get() helper is
+private.
+
+>  {
+>  	struct drm_gem_object *obj = &shmem->base;
+> -	int ret;
+>  
+> -	drm_WARN_ON(obj->dev, obj->import_attach);
+> -
+> -	ret = mutex_lock_interruptible(&shmem->pages_lock);
+> -	if (ret)
+> -		return ret;
+> -	ret = drm_gem_shmem_get_pages_locked(shmem);
+> -	mutex_unlock(&shmem->pages_lock);
+> -
+> -	return ret;
+> -}
+> -EXPORT_SYMBOL(drm_gem_shmem_get_pages);
+> -
+> -static void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
+> -{
+> -	struct drm_gem_object *obj = &shmem->base;
+> +	dma_resv_assert_held(shmem->base.resv);
+>  
+>  	if (drm_WARN_ON_ONCE(obj->dev, !shmem->pages_use_count))
+>  		return;
+> @@ -243,20 +226,25 @@ static void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
+>  			  shmem->pages_mark_accessed_on_put);
+>  	shmem->pages = NULL;
+>  }
+> +EXPORT_SYMBOL(drm_gem_shmem_put_pages);
+>  
+> -/*
+> - * drm_gem_shmem_put_pages - Decrease use count on the backing pages for a shmem GEM object
+> - * @shmem: shmem GEM object
+> - *
+> - * This function decreases the use count and puts the backing pages when use drops to zero.
+> - */
+> -void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
+> +static int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem)
+>  {
+> -	mutex_lock(&shmem->pages_lock);
+> -	drm_gem_shmem_put_pages_locked(shmem);
+> -	mutex_unlock(&shmem->pages_lock);
+> +	int ret;
+> +
+> +	dma_resv_assert_held(shmem->base.resv);
+> +
+> +	ret = drm_gem_shmem_get_pages(shmem);
+> +
+> +	return ret;
+> +}
+> +
+> +static void drm_gem_shmem_unpin_locked(struct drm_gem_shmem_object *shmem)
+> +{
+> +	dma_resv_assert_held(shmem->base.resv);
+> +
+> +	drm_gem_shmem_put_pages(shmem);
+>  }
+> -EXPORT_SYMBOL(drm_gem_shmem_put_pages);
+>  
+>  /**
+>   * drm_gem_shmem_pin - Pin backing pages for a shmem GEM object
+> @@ -271,10 +259,17 @@ EXPORT_SYMBOL(drm_gem_shmem_put_pages);
+>  int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem)
+>  {
+>  	struct drm_gem_object *obj = &shmem->base;
+> +	int ret;
+>  
+>  	drm_WARN_ON(obj->dev, obj->import_attach);
+>  
+> -	return drm_gem_shmem_get_pages(shmem);
+> +	ret = dma_resv_lock_interruptible(shmem->base.resv, NULL);
+> +	if (ret)
+> +		return ret;
+
+I think here is the major problem I have with this patch: you've made
+drm_gem_shmem_{get_pages,pin}() private, which forces me to call
+drm_gem_shmem_pin() in a path where I already acquired the resv lock
+(using the drm_exec infra proposed by Christian). That would
+probably work if you were letting ret == -EALREADY go through, but I'm
+wondering if it wouldn't be preferable to expose
+drm_gem_shmem_pin_locked().
+
+> +	ret = drm_gem_shmem_pin_locked(shmem);
+> +	dma_resv_unlock(shmem->base.resv);
+> +
+> +	return ret;
+>  }
+>  EXPORT_SYMBOL(drm_gem_shmem_pin);
+>  
+> @@ -291,12 +286,29 @@ void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem)
+>  
+>  	drm_WARN_ON(obj->dev, obj->import_attach);
+>  
+> -	drm_gem_shmem_put_pages(shmem);
+> +	dma_resv_lock(shmem->base.resv, NULL);
+> +	drm_gem_shmem_unpin_locked(shmem);
+> +	dma_resv_unlock(shmem->base.resv);
+>  }
+>  EXPORT_SYMBOL(drm_gem_shmem_unpin);
+
+If we want to be consistent, let's just expose drm_gem_shmem_unpin()
+and drm_gem_shmem_pin() and keep drm_gem_shmem_{get,put}_pages()
+private, or even better, rename them drm_gem_shmem_{pin,unpin}_locked()
+insert of having drm_gem_shmem_{pin,unpin}_locked() wrappers that just
+forward the call to drm_gem_shmem_{get,put}_pages().
+
+>  
+> -static int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
+> -				     struct iosys_map *map)
+> +/*
+> + * drm_gem_shmem_vmap - Create a virtual mapping for a shmem GEM object
+> + * @shmem: shmem GEM object
+> + * @map: Returns the kernel virtual address of the SHMEM GEM object's backing
+> + *       store.
+> + *
+> + * This function makes sure that a contiguous kernel virtual address mapping
+> + * exists for the buffer backing the shmem GEM object. It hides the differences
+> + * between dma-buf imported and natively allocated objects.
+> + *
+> + * Acquired mappings should be cleaned up by calling drm_gem_shmem_vunmap().
+> + *
+> + * Returns:
+> + * 0 on success or a negative error code on failure.
+> + */
+> +int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
+> +		       struct iosys_map *map)
+
+Same problem with this renaming: it's confusing because this function
+was previously taking care of the locking, and it's no longer the case.
+That's actually true for other public functions your patching, but I
+won't go over all of them.
+
+I know this patch has been under discussion for quite some time, and has
+been validated by other devs/maintainers, but I'd like to understand the
+reasoning behind these decisions. Not the decision to replace all locks
+by dma_resv, which I kinda understand, but the decision to change the
+behavior of functions without making the name reflect the new behavior
+(_locked prefix), or the fact we now prohibit some functions to
+succeed when the dma_resv lock is taken by the driver beforehand (which,
+unless I'm mistaken, will happen in the VM_BIND logic, and can happen
+in the SUBMIT ioctl too depending on the driver).
+
+Regards,
+
+Boris
+
