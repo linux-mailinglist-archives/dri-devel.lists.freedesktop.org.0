@@ -2,79 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAA9173F7BF
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 10:49:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 304B873F7C1
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 10:49:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DEA410E2BA;
-	Tue, 27 Jun 2023 08:49:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B2A110E1AC;
+	Tue, 27 Jun 2023 08:49:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7083C10E1AC
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 08:49:10 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id
- 2adb3069b0e04-4f8777caaa1so5845151e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 01:49:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687855748; x=1690447748;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=TomAZ7O1EcBP8WsIDD1uG9Qcrmlg/XdNsRiguOyzx/0=;
- b=RN9aLjViLhcUH7KdpEXWJIAnR1KYFcbSesBCdFKTJhwVucsZLjDKnrhZjy/zoNoikP
- ZyjER8DVaECxXuqaOsf+/BAdzpowTouasRQCLrMrMn6jfQe4A0oeU1FGKN+oGbahWaQa
- Cki7OuUbEM4mJScX9zc/TCTrJqDpPaA0AU1u3yl/jmwzOLQfNQm+oKWIT4z5OF6PVs4M
- /ED2ykvHh4Z4alap67p2FI/AfvJvJeobLVb+XzBZTb+iz1/zW5qlJRm3huUcg+k8/Kyo
- JKORQVbwQmknHFwpef92HI2XluXPrcIKuBxe5/KO5z0x6cGyONu1pEUOz4I5onG0hHUP
- /lPA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81D2E10E1AC
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 08:49:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1687855784;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SlbTlNl9NUAAN17hhZb5ISrxttfrKbcOqC5EOdM8vV0=;
+ b=RU7kJhzdxkjJVvpXxl+89lN0KqqfoItcrthYczFuDTd9ots5bvYPgyYam0vmU8qR7eIQVH
+ a6D1i7XV/wAic54dZnxrrAq/bAlapKq71xZxRlyf2SZsc8abq8aFz22NVBEc5cgVFguG2E
+ 5zISVPOE0MEIJH6+22mA56bv5uYRGek=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-481-_yEcw0AOPJaoBnajNhMObQ-1; Tue, 27 Jun 2023 04:49:42 -0400
+X-MC-Unique: _yEcw0AOPJaoBnajNhMObQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-31273e0507dso2399027f8f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 01:49:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687855748; x=1690447748;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TomAZ7O1EcBP8WsIDD1uG9Qcrmlg/XdNsRiguOyzx/0=;
- b=iqJ51BKIDWvibojqeJHgp/bGPWd5zu2QlH5ENiUsBkdoFHOr+95f/B10e53bGH2baf
- J4mbT/mH/yELSblAK/cNL/l6RpBFI2hxRTO+R4noMp+Xnp5ZQYi+3Zv8cgrflHO6zCzZ
- qk6lxAXQQKqCmfaB2ibM8NCZbqmwktXYNmlCi3E7c9YnCKCuFvB1QzoG0IjoYls8Zc3Z
- pbhLtHgIr8X1VcvsViY2ZwYFmZIdBfjftKbLU/+y6oREJoNFHr/udaWJi6MCeoLMkCWX
- JYuTU1C031czm1n+l2mNzMHvtmBgxGPKWADOcnJpcI9zw07KMGSNzfa57ETUk4ybyXMo
- bjTA==
-X-Gm-Message-State: AC+VfDxLVQlzaJJ1HvW85io9e5Gdgu32+S328C1cWwxbLTpywOyLEKsY
- 1ARXfxbeCHHGSowqhHTlvoZ1qQ==
-X-Google-Smtp-Source: ACHHUZ7IDr8oibNYTHFk7o1dd1/ahrycgoOYSLclnkdUlcbGQzlTG4kCoZs3kPIK9DLExdcuVbuhJg==
-X-Received: by 2002:a19:e044:0:b0:4f8:7754:62e1 with SMTP id
- g4-20020a19e044000000b004f8775462e1mr13177206lfj.40.1687855748412; 
- Tue, 27 Jun 2023 01:49:08 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- r1-20020a19ac41000000b004f82c820245sm1419563lfc.107.2023.06.27.01.49.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Jun 2023 01:49:07 -0700 (PDT)
-Message-ID: <9ba8e5c9-642d-a09d-7e82-adba8e5497aa@linaro.org>
-Date: Tue, 27 Jun 2023 11:49:07 +0300
+ d=1e100.net; s=20221208; t=1687855781; x=1690447781;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SlbTlNl9NUAAN17hhZb5ISrxttfrKbcOqC5EOdM8vV0=;
+ b=GA3wBP78aNJ8BcHpH5gm1wQgnJBhc/Z6rx9cHsnyriv1+7AKYfzBmxhuz+TnlLoiEd
+ tuFBMX39EKo7o7Pl3tP7ZzIwmsylrnKl4ARZrjbo4Nhgmj0N3eenZE+qsyapHZr3UcVU
+ 5fR66D6NXpiuYC54H9U5UqQ8zO6xHy3pLDRtBlDEzKOZ5TfvQU60jgPgrfSCKdgRxXW4
+ okBHIJ/qY5ll9VshCp2KVC4vXKUIFVmVZYrLx17aWJycQB95RQkhOMiwmAKfxhs1SWmK
+ w5Z/0FV7T74Re/8mK95XHtBAkXxIrgWfpQ4L7ex3pc6lhrlTAbF+60yKggD9jBPJ9JN/
+ MW+w==
+X-Gm-Message-State: AC+VfDwHCY+Qwbtdo0dvP8eXwPX16UviIm9WdgahJpeHGBwOxCuJwjhV
+ Yud8ebMzDV354qjUTl4PGpnIyppSoQhRhZZ53WCxYiePHWf7/QJLzAgcXK8jVRC8rDs0/6DOzuH
+ W8DkAIrDpJiIryj4S2baWNCW3XiNGnS8zL/Ra
+X-Received: by 2002:a5d:4fcf:0:b0:30f:bfa0:3eab with SMTP id
+ h15-20020a5d4fcf000000b0030fbfa03eabmr25033899wrw.21.1687855781454; 
+ Tue, 27 Jun 2023 01:49:41 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4JDAchvvQUFaB+R+qRvTF7eg+kfKMd03GJdqop4U+Y5Xdtwp2ml2pfgVCLBspkfyy3cCYqXg==
+X-Received: by 2002:a5d:4fcf:0:b0:30f:bfa0:3eab with SMTP id
+ h15-20020a5d4fcf000000b0030fbfa03eabmr25033885wrw.21.1687855781133; 
+ Tue, 27 Jun 2023 01:49:41 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ u12-20020adfdd4c000000b0030903d44dbcsm9772221wrm.33.2023.06.27.01.49.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Jun 2023 01:49:40 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 2/8] drm/atomic: Add support for mouse hotspots
+In-Reply-To: <20230627035839.496399-3-zack@kde.org>
+References: <20230627035839.496399-1-zack@kde.org>
+ <20230627035839.496399-3-zack@kde.org>
+Date: Tue, 27 Jun 2023 10:49:39 +0200
+Message-ID: <87352d47do.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 09/15] drm/msm/mdss: Add SM6125 support
-Content-Language: en-GB
-To: Marijn Suijten <marijn.suijten@somainline.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>
-References: <20230624-sm6125-dpu-v1-0-1d5a638cebf2@somainline.org>
- <20230624-sm6125-dpu-v1-9-1d5a638cebf2@somainline.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230624-sm6125-dpu-v1-9-1d5a638cebf2@somainline.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,64 +80,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jami Kettunen <jami.kettunen@somainline.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Lux Aliaga <they@mint.lgbt>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht, freedreno@lists.freedesktop.org,
- linux-clk@vger.kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: David Airlie <airlied@linux.ie>, banackm@vmware.com, krastevm@vmware.com,
+ ppaalanen@gmail.com, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, iforbes@vmware.com,
+ mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/06/2023 03:41, Marijn Suijten wrote:
-> SM6125's UBWC hardware decoder is version 3.0, and supports decoding
-> UBWC 1.0.
+Zack Rusin <zack@kde.org> writes:
 
-I think it's UBWC encoder version, see 
-https://git.codelinaro.org/clo/la/platform/vendor/opensource/display-drivers/-/blob/display-kernel.lnx.5.15.1.r17-rel/msm/sde/sde_hw_top.c?ref_type=heads#L357
-
-This is a part of 
-https://patchwork.freedesktop.org/patch/538279/?series=118074&rev=1
-
-(no, you don't have to rebase on that patchset, it is not reviewed yet).
-
-> 
-> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> From: Zack Rusin <zackr@vmware.com>
+>
+> Atomic modesetting code lacked support for specifying mouse cursor
+> hotspots. The legacy kms DRM_IOCTL_MODE_CURSOR2 had support for setting
+> the hotspot but the functionality was not implemented in the new atomic
+> paths.
+>
+> Due to the lack of hotspots in the atomic paths userspace compositors
+> completely disable atomic modesetting for drivers that require it (i.e.
+> all paravirtualized drivers).
+>
+> This change adds hotspot properties to the atomic codepaths throughtout
+> the DRM core and will allow enabling atomic modesetting for virtualized
+> drivers in the userspace.
+>
+> Signed-off-by: Zack Rusin <zackr@vmware.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
 > ---
->   drivers/gpu/drm/msm/msm_mdss.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-> index 05648c910c68..bf68bae23264 100644
-> --- a/drivers/gpu/drm/msm/msm_mdss.c
-> +++ b/drivers/gpu/drm/msm/msm_mdss.c
-> @@ -559,6 +559,13 @@ static const struct msm_mdss_data sm6115_data = {
->   	.ubwc_static = 0x11f,
->   };
->   
-> +static const struct msm_mdss_data sm6125_data = {
-> +	.ubwc_version = UBWC_1_0,
-> +	.ubwc_dec_version = UBWC_3_0,
-> +	.ubwc_swizzle = 1,
-> +	.highest_bank_bit = 1,
-> +};
-> +
->   static const struct msm_mdss_data sm8250_data = {
->   	.ubwc_version = UBWC_4_0,
->   	.ubwc_dec_version = UBWC_4_0,
-> @@ -579,6 +586,7 @@ static const struct of_device_id mdss_dt_match[] = {
->   	{ .compatible = "qcom,sc8180x-mdss", .data = &sc8180x_data },
->   	{ .compatible = "qcom,sc8280xp-mdss", .data = &sc8280xp_data },
->   	{ .compatible = "qcom,sm6115-mdss", .data = &sm6115_data },
-> +	{ .compatible = "qcom,sm6125-mdss", .data = &sm6125_data },
->   	{ .compatible = "qcom,sm6350-mdss", .data = &sm6350_data },
->   	{ .compatible = "qcom,sm6375-mdss", .data = &sm6350_data },
->   	{ .compatible = "qcom,sm8150-mdss", .data = &sm8150_data },
-> 
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
-With best wishes
-Dmitry
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
