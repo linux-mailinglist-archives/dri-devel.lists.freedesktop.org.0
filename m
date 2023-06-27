@@ -1,75 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6072873F79C
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 10:42:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAA9173F7BF
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 10:49:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6413810E2BC;
-	Tue, 27 Jun 2023 08:42:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DEA410E2BA;
+	Tue, 27 Jun 2023 08:49:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8003B10E2BC
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 08:42:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1687855342;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=b2MmmmX8qSiO177aJ1IsOrsyeObiJXUg8rR6lbP0Xfw=;
- b=TfzmsX3/4BIdwaayJn+3JmCr1wYKhW/Eiab33Bn8M8RApqdu8Wcxq7421OV9XyPvKbynpP
- iN/0D/u/3AoPj3hEK3J3fm7NsRcymyDoJADItcZNHvto5lYVuHh8BNht4iSi1qS2hNQN/Z
- xzZ/jWHL7yzliH5LlpOgLm/IAK4Of7M=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-106--D0sjsayN2qXSQhEkmHVDQ-1; Tue, 27 Jun 2023 04:42:19 -0400
-X-MC-Unique: -D0sjsayN2qXSQhEkmHVDQ-1
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-3f8283a3a7aso12437271cf.1
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 01:42:19 -0700 (PDT)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7083C10E1AC
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 08:49:10 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id
+ 2adb3069b0e04-4f8777caaa1so5845151e87.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 01:49:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1687855748; x=1690447748;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=TomAZ7O1EcBP8WsIDD1uG9Qcrmlg/XdNsRiguOyzx/0=;
+ b=RN9aLjViLhcUH7KdpEXWJIAnR1KYFcbSesBCdFKTJhwVucsZLjDKnrhZjy/zoNoikP
+ ZyjER8DVaECxXuqaOsf+/BAdzpowTouasRQCLrMrMn6jfQe4A0oeU1FGKN+oGbahWaQa
+ Cki7OuUbEM4mJScX9zc/TCTrJqDpPaA0AU1u3yl/jmwzOLQfNQm+oKWIT4z5OF6PVs4M
+ /ED2ykvHh4Z4alap67p2FI/AfvJvJeobLVb+XzBZTb+iz1/zW5qlJRm3huUcg+k8/Kyo
+ JKORQVbwQmknHFwpef92HI2XluXPrcIKuBxe5/KO5z0x6cGyONu1pEUOz4I5onG0hHUP
+ /lPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687855339; x=1690447339;
- h=content-transfer-encoding:mime-version:organization:date:to:from
- :subject:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=b2MmmmX8qSiO177aJ1IsOrsyeObiJXUg8rR6lbP0Xfw=;
- b=BqDxku3OCOC0PhhWCng5a5OK1DNCtPMF0eql095w1D37029+o5WjNz0nuFfk/nwEBE
- tZHd0v86L2QTnZFfFlnhcWRkmPu8piLhMJtr58xFs4XfZyXnDbcnBskWeuv33O+8R8DO
- LD/5GPza5OGLC7e1mxIIfAXQkfsqdZ06TygbGhJj1zF118H0S2eutYYJTCPjxGTU4kK2
- nMJd6KuHmN+GJwSF+5HjWrGZmNTb7ivzvIg0QfIEZbNmgnvS2EOXRrRMVnIxUvvosR3i
- NdZy9mbxxGM3Blu+TlAOopuur0QqtvxUbj2f5AL2qBIARfhQ78jA30InRaWB7Y/Dxo37
- 5o6g==
-X-Gm-Message-State: AC+VfDw+mXV8GZivvsn+2gQ++1OhY4i/vtv3TKpmkhJHmt9OF0gqf11B
- K/Gjux5OaT6uDjHJ63A4XMKEfbj1f+2SzQkzWFwSV5IQwn1gHzha37LEtDY4AqKieWeQjZ+93IG
- 5Jpf73Q+IJT1wRKemJ69XpkOMHK7W2lPxvbKW7ZzGcYIPsHYZmQqz6FQnypvheZaNGdMdQfIAu9
- pQMFvM3IS+MuGu
-X-Received: by 2002:a05:622a:1014:b0:400:aa1a:bb4c with SMTP id
- d20-20020a05622a101400b00400aa1abb4cmr1819085qte.3.1687855339306; 
- Tue, 27 Jun 2023 01:42:19 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7ATT1RiIQZKXpf58QSToXjjNL1Xsj18ze16kl9PmEddxBEF/MvrYdYpO6COOgDpCrs4siIHA==
-X-Received: by 2002:a05:622a:1014:b0:400:aa1a:bb4c with SMTP id
- d20-20020a05622a101400b00400aa1abb4cmr1819076qte.3.1687855338902; 
- Tue, 27 Jun 2023 01:42:18 -0700 (PDT)
-Received: from dhcp-64-119.muc.redhat.com (nat-pool-muc-t.redhat.com.
- [149.14.88.26]) by smtp.gmail.com with ESMTPSA id
- cg13-20020a05622a408d00b003f4ed0ca698sm4242972qtb.49.2023.06.27.01.42.18
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jun 2023 01:42:18 -0700 (PDT)
-Message-ID: <b551fb687a07e1461ca325c6951e96f4f962941a.camel@redhat.com>
-Subject: Why does kgd2kfd_interrupt() have to schedule work on a specific CPU?
-From: Philipp Stanner <pstanner@redhat.com>
-To: dri-devel@lists.freedesktop.org
-Date: Tue, 27 Jun 2023 10:42:17 +0200
-Organization: Red Hat Inc.
-X-Mailer: Evolution 3.28.5 (3.28.5-18.el8)
-Mime-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+ d=1e100.net; s=20221208; t=1687855748; x=1690447748;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=TomAZ7O1EcBP8WsIDD1uG9Qcrmlg/XdNsRiguOyzx/0=;
+ b=iqJ51BKIDWvibojqeJHgp/bGPWd5zu2QlH5ENiUsBkdoFHOr+95f/B10e53bGH2baf
+ J4mbT/mH/yELSblAK/cNL/l6RpBFI2hxRTO+R4noMp+Xnp5ZQYi+3Zv8cgrflHO6zCzZ
+ qk6lxAXQQKqCmfaB2ibM8NCZbqmwktXYNmlCi3E7c9YnCKCuFvB1QzoG0IjoYls8Zc3Z
+ pbhLtHgIr8X1VcvsViY2ZwYFmZIdBfjftKbLU/+y6oREJoNFHr/udaWJi6MCeoLMkCWX
+ JYuTU1C031czm1n+l2mNzMHvtmBgxGPKWADOcnJpcI9zw07KMGSNzfa57ETUk4ybyXMo
+ bjTA==
+X-Gm-Message-State: AC+VfDxLVQlzaJJ1HvW85io9e5Gdgu32+S328C1cWwxbLTpywOyLEKsY
+ 1ARXfxbeCHHGSowqhHTlvoZ1qQ==
+X-Google-Smtp-Source: ACHHUZ7IDr8oibNYTHFk7o1dd1/ahrycgoOYSLclnkdUlcbGQzlTG4kCoZs3kPIK9DLExdcuVbuhJg==
+X-Received: by 2002:a19:e044:0:b0:4f8:7754:62e1 with SMTP id
+ g4-20020a19e044000000b004f8775462e1mr13177206lfj.40.1687855748412; 
+ Tue, 27 Jun 2023 01:49:08 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ r1-20020a19ac41000000b004f82c820245sm1419563lfc.107.2023.06.27.01.49.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Jun 2023 01:49:07 -0700 (PDT)
+Message-ID: <9ba8e5c9-642d-a09d-7e82-adba8e5497aa@linaro.org>
+Date: Tue, 27 Jun 2023 11:49:07 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 09/15] drm/msm/mdss: Add SM6125 support
+Content-Language: en-GB
+To: Marijn Suijten <marijn.suijten@somainline.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>
+References: <20230624-sm6125-dpu-v1-0-1d5a638cebf2@somainline.org>
+ <20230624-sm6125-dpu-v1-9-1d5a638cebf2@somainline.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230624-sm6125-dpu-v1-9-1d5a638cebf2@somainline.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,83 +87,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, Jami Kettunen <jami.kettunen@somainline.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Lux Aliaga <they@mint.lgbt>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, freedreno@lists.freedesktop.org,
+ linux-clk@vger.kernel.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello folks,
+On 24/06/2023 03:41, Marijn Suijten wrote:
+> SM6125's UBWC hardware decoder is version 3.0, and supports decoding
+> UBWC 1.0.
 
-I'm currently trying to learn more about DRM and discovered the
-following code sequence:
+I think it's UBWC encoder version, see 
+https://git.codelinaro.org/clo/la/platform/vendor/opensource/display-drivers/-/blob/display-kernel.lnx.5.15.1.r17-rel/msm/sde/sde_hw_top.c?ref_type=heads#L357
 
+This is a part of 
+https://patchwork.freedesktop.org/patch/538279/?series=118074&rev=1
 
-drivers/gpu/drm/amd/amdkfd/kfd_device.c, Line 824 on 6.4-rc7
+(no, you don't have to rebase on that patchset, it is not reviewed yet).
 
-static inline void kfd_queue_work(struct workqueue_struct *wq,
-				  struct work_struct *work)
-{
-	int cpu, new_cpu;
+> 
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> ---
+>   drivers/gpu/drm/msm/msm_mdss.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+> index 05648c910c68..bf68bae23264 100644
+> --- a/drivers/gpu/drm/msm/msm_mdss.c
+> +++ b/drivers/gpu/drm/msm/msm_mdss.c
+> @@ -559,6 +559,13 @@ static const struct msm_mdss_data sm6115_data = {
+>   	.ubwc_static = 0x11f,
+>   };
+>   
+> +static const struct msm_mdss_data sm6125_data = {
+> +	.ubwc_version = UBWC_1_0,
+> +	.ubwc_dec_version = UBWC_3_0,
+> +	.ubwc_swizzle = 1,
+> +	.highest_bank_bit = 1,
+> +};
+> +
+>   static const struct msm_mdss_data sm8250_data = {
+>   	.ubwc_version = UBWC_4_0,
+>   	.ubwc_dec_version = UBWC_4_0,
+> @@ -579,6 +586,7 @@ static const struct of_device_id mdss_dt_match[] = {
+>   	{ .compatible = "qcom,sc8180x-mdss", .data = &sc8180x_data },
+>   	{ .compatible = "qcom,sc8280xp-mdss", .data = &sc8280xp_data },
+>   	{ .compatible = "qcom,sm6115-mdss", .data = &sm6115_data },
+> +	{ .compatible = "qcom,sm6125-mdss", .data = &sm6125_data },
+>   	{ .compatible = "qcom,sm6350-mdss", .data = &sm6350_data },
+>   	{ .compatible = "qcom,sm6375-mdss", .data = &sm6350_data },
+>   	{ .compatible = "qcom,sm8150-mdss", .data = &sm8150_data },
+> 
 
-	cpu = new_cpu = smp_processor_id();
-	do {
-		new_cpu = cpumask_next(new_cpu, cpu_online_mask) % nr_cpu_ids;
-		if (cpu_to_node(new_cpu) == numa_node_id())
-			break;
-	} while (cpu != new_cpu);
-
-	queue_work_on(new_cpu, wq, work);
-}
-
-/* This is called directly from KGD at ISR. */
-void kgd2kfd_interrupt(struct kfd_dev *kfd, const void *ih_ring_entry)
-{
-	uint32_t patched_ihre[KFD_MAX_RING_ENTRY_SIZE];
-	bool is_patched = false;
-	unsigned long flags;
-
-	if (!kfd->init_complete)
-		return;
-
-	if (kfd->device_info.ih_ring_entry_size > sizeof(patched_ihre)) {
-		dev_err_once(kfd_device, "Ring entry too small\n");
-		return;
-	}
-
-	spin_lock_irqsave(&kfd->interrupt_lock, flags);
-
-	if (kfd->interrupts_active
-	    && interrupt_is_wanted(kfd, ih_ring_entry,
-				   patched_ihre, &is_patched)
-	    && enqueue_ih_ring_entry(kfd,
-				     is_patched ? patched_ihre : ih_ring_entry))
-		kfd_queue_work(kfd->ih_wq, &kfd->interrupt_work);
-
-	spin_unlock_irqrestore(&kfd->interrupt_lock, flags);
-}
-
-
-These functions seem to be exclusively invoked by amdgpu_irq_dispatch()
-in amdgpu_irq.c
-At first glance it seems to me that it's just a typical scenario taking
-place here: Interrupt arises, interrupt submits work to wq, then jumps
-back to sleep / former process execution context again.
-
-What I don't understand is why it's apparently important to schedule
-the work on a particular CPU.
-
-It seems that the do-while in kfd_queue_work() is searching for a CPU
-within the same NUMA-Node. Thus I suspect that this is done because
-either
-a) performance requires it or
-b) the work-function needs access to something that's only available 
-   within the same node.
-
-I suspect there is an interrupt-related reason why that particular work
-should be enqueued on a specific CPU. Just by reading the code alone I
-can't really figure out why precisely that's necessary, though.
-
-Does someone have any hints for me? :)
-
-Cheers,
-Philipp
-
+-- 
+With best wishes
+Dmitry
 
