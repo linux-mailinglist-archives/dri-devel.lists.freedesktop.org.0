@@ -1,44 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D83E573FCC6
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 15:23:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56E2C73FCDD
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 15:28:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8738C10E2E2;
-	Tue, 27 Jun 2023 13:23:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5271810E1AB;
+	Tue, 27 Jun 2023 13:28:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 032BE10E2E2;
- Tue, 27 Jun 2023 13:23:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=XXhdTWoMk14blpQJORYtPE+5yfyz5ZqdWBj8yIkLzts=; b=GVtsM/JAeN+WVIVK5y8d9+UwbL
- vQvr+6+K0y1KIV1qun0KL0TPobxoP4ch9FaLw2AcFV+RiUHM4eUbU2aJOAEHPs6lTnlI/UGB3x9Q0
- uHSyXWF1fI9dwNyrB+U5o8H4JRk7ajOxpvMdqI0gF++zcTN4Y06KyLNyKTRwz1v5Mh/IiapsMswEf
- UNJtlpWufkEyzBNENgpCLTvPOgiWgj6MZA6/9VJVumIeeElrAEoFV+Gs5PR0lToOPlshD0/SkVCpu
- 7t5eMnMIKmw5ryXFHhP6kjt7TigQ9cxnS0I55bG3WO+68FWUhmlpRbIpvTxGdHdEnwvk0f8V3IV9v
- DQ5bGx5A==;
-Received: from [179.113.218.86] (helo=steammachine.lan)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qE8fM-004Yyb-Bb; Tue, 27 Jun 2023 15:23:32 +0200
-From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v5 1/1] drm/doc: Document DRM device reset expectations
-Date: Tue, 27 Jun 2023 10:23:23 -0300
-Message-ID: <20230627132323.115440-1-andrealmeid@igalia.com>
-X-Mailer: git-send-email 2.41.0
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E82D10E1AB;
+ Tue, 27 Jun 2023 13:28:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1687872517; x=1719408517;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=QK8PWGYt9WGmo1Aafp1UFV+dZsQ8BVCohQwokMITKTU=;
+ b=PmcSjeX67ch4S+3kcy71D8WPbJNKsD5zIaV08hVCIL62R8EcyQuOtHBi
+ pZujYcUmSFtzgqjKcRaG5hfH9P0LCXtq2XzphHhhOXGJ69J9RheA0ioVL
+ bGDN5SVSJCn6F8kaorl3h761RM7QDuFMkMKiUB7zsuuo8YoocguKn9NBC
+ UQH5b+3TWuKSMDqHfpfWErZ7zs+1eaLJxmvgn9WWbG8YhrR26b3lhLgX4
+ iw0oeraZ/cl3t/a13giTEAUYClCtWTpbp3kIX+rw1KySVoxnsayQb+jjL
+ elc7XpxrtkZS7TL7xzPAsKCdmTNxa1ef0QibwZJFYcsbsbfi8vOARy+Bg w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="361607690"
+X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; d="scan'208";a="361607690"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jun 2023 06:28:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="719768311"
+X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; d="scan'208";a="719768311"
+Received: from jwerner6-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.39.48])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jun 2023 06:28:32 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: fei.yang@intel.com, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v8 1/2] drm/i915: preparation for using PAT index
+In-Reply-To: <20230509165200.1740-2-fei.yang@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230509165200.1740-1-fei.yang@intel.com>
+ <20230509165200.1740-2-fei.yang@intel.com>
+Date: Tue, 27 Jun 2023 16:28:16 +0300
+Message-ID: <874jmtt4pb.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,112 +59,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com, Randy Dunlap <rdunlap@infradead.org>,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- =?UTF-8?q?=27Marek=20Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
- =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- =?UTF-8?q?Timur=20Krist=C3=B3f?= <timur.kristof@gmail.com>,
- Pekka Paalanen <ppaalanen@gmail.com>,
- Samuel Pitoiset <samuel.pitoiset@gmail.com>, kernel-dev@igalia.com,
- alexander.deucher@amd.com, Pekka Paalanen <pekka.paalanen@collabora.com>,
- christian.koenig@amd.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Fei Yang <fei.yang@intel.com>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Create a section that specifies how to deal with DRM device resets for
-kernel and userspace drivers.
+On Tue, 09 May 2023, fei.yang@intel.com wrote:
+> From: Fei Yang <fei.yang@intel.com>
+>
+> This patch is a preparation for replacing enum i915_cache_level with PAT
+> index. Caching policy for buffer objects is set through the PAT index in
+> PTE, the old i915_cache_level is not sufficient to represent all caching
+> modes supported by the hardware.
+>
+> Preparing the transition by adding some platform dependent data structures
+> and helper functions to translate the cache_level to pat_index.
+>
+> cachelevel_to_pat: a platform dependent array mapping cache_level to
+>                    pat_index.
+>
+> max_pat_index: the maximum PAT index recommended in hardware specification
+>                Needed for validating the PAT index passed in from user
+>                space.
+>
+> i915_gem_get_pat_index: function to convert cache_level to PAT index.
+>
+> obj_to_i915(obj): macro moved to header file for wider usage.
+>
+> I915_MAX_CACHE_LEVEL: upper bound of i915_cache_level for the
+>                       convenience of coding.
+>
+> Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> Signed-off-by: Fei Yang <fei.yang@intel.com>
+> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-Signed-off-by: André Almeida <andrealmeid@igalia.com>
----
+[snip]
 
-v4: https://lore.kernel.org/lkml/20230626183347.55118-1-andrealmeid@igalia.com/
+> diff --git a/drivers/gpu/drm/i915/selftests/mock_gem_device.c b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
+> index f6a7c0bd2955..0eda8b4ee17f 100644
+> --- a/drivers/gpu/drm/i915/selftests/mock_gem_device.c
+> +++ b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
+> @@ -123,7 +123,9 @@ struct drm_i915_private *mock_gem_device(void)
+>  	static struct dev_iommu fake_iommu = { .priv = (void *)-1 };
+>  #endif
+>  	struct drm_i915_private *i915;
+> +	struct intel_device_info *i915_info;
+>  	struct pci_dev *pdev;
+> +	unsigned int i;
+>  	int ret;
+>  
+>  	pdev = kzalloc(sizeof(*pdev), GFP_KERNEL);
+> @@ -180,6 +182,13 @@ struct drm_i915_private *mock_gem_device(void)
+>  		I915_GTT_PAGE_SIZE_2M;
+>  
+>  	RUNTIME_INFO(i915)->memory_regions = REGION_SMEM;
+> +
+> +	/* simply use legacy cache level for mock device */
+> +	i915_info = (struct intel_device_info *)INTEL_INFO(i915);
 
-Changes:
- - Grammar fixes (Randy)
+This is not okay. It's not okay to modify device info at runtime. This
+is why we've separated runtime info from device info. This is why we've
+made device info const, and localized the modifications to a couple of
+places.
 
- Documentation/gpu/drm-uapi.rst | 68 ++++++++++++++++++++++++++++++++++
- 1 file changed, 68 insertions(+)
+If you need to modify it, it belongs in runtime info. Even if it's only
+ever modified for mock devices.
 
-diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-index 65fb3036a580..3cbffa25ed93 100644
---- a/Documentation/gpu/drm-uapi.rst
-+++ b/Documentation/gpu/drm-uapi.rst
-@@ -285,6 +285,74 @@ for GPU1 and GPU2 from different vendors, and a third handler for
- mmapped regular files. Threads cause additional pain with signal
- handling as well.
- 
-+Device reset
-+============
-+
-+The GPU stack is really complex and is prone to errors, from hardware bugs,
-+faulty applications and everything in between the many layers. Some errors
-+require resetting the device in order to make the device usable again. This
-+sections describes the expectations for DRM and usermode drivers when a
-+device resets and how to propagate the reset status.
-+
-+Kernel Mode Driver
-+------------------
-+
-+The KMD is responsible for checking if the device needs a reset, and to perform
-+it as needed. Usually a hang is detected when a job gets stuck executing. KMD
-+should keep track of resets, because userspace can query any time about the
-+reset stats for an specific context. This is needed to propagate to the rest of
-+the stack that a reset has happened. Currently, this is implemented by each
-+driver separately, with no common DRM interface.
-+
-+User Mode Driver
-+----------------
-+
-+The UMD should check before submitting new commands to the KMD if the device has
-+been reset, and this can be checked more often if the UMD requires it. After
-+detecting a reset, UMD will then proceed to report it to the application using
-+the appropriate API error code, as explained in the section below about
-+robustness.
-+
-+Robustness
-+----------
-+
-+The only way to try to keep an application working after a reset is if it
-+complies with the robustness aspects of the graphical API that it is using.
-+
-+Graphical APIs provide ways to applications to deal with device resets. However,
-+there is no guarantee that the app will use such features correctly, and the
-+UMD can implement policies to close the app if it is a repeating offender,
-+likely in a broken loop. This is done to ensure that it does not keep blocking
-+the user interface from being correctly displayed. This should be done even if
-+the app is correct but happens to trigger some bug in the hardware/driver.
-+
-+OpenGL
-+~~~~~~
-+
-+Apps using OpenGL should use the available robust interfaces, like the
-+extension ``GL_ARB_robustness`` (or ``GL_EXT_robustness`` for OpenGL ES). This
-+interface tells if a reset has happened, and if so, all the context state is
-+considered lost and the app proceeds by creating new ones. If it is possible to
-+determine that robustness is not in use, the UMD will terminate the app when a
-+reset is detected, giving that the contexts are lost and the app won't be able
-+to figure this out and recreate the contexts.
-+
-+Vulkan
-+~~~~~~
-+
-+Apps using Vulkan should check for ``VK_ERROR_DEVICE_LOST`` for submissions.
-+This error code means, among other things, that a device reset has happened and
-+it needs to recreate the contexts to keep going.
-+
-+Reporting causes of resets
-+--------------------------
-+
-+Apart from propagating the reset through the stack so apps can recover, it's
-+really useful for driver developers to learn more about what caused the reset in
-+first place. DRM devices should make use of devcoredump to store relevant
-+information about the reset, so this information can be added to user bug
-+reports.
-+
- .. _drm_driver_ioctl:
- 
- IOCTL Support on Device Nodes
+We were at the brink of being able to finally convert INTEL_INFO() into
+a pointer to const rodata [1], where you are unable to modify it, but
+this having been merged as commit 5e352e32aec2 ("drm/i915: preparation
+for using PAT index") sets us back. (With [1] this oopses trying to
+modify read-only data.)
+
+This has been posted to the public list 20+ times, and nobody noticed or
+pointed this out?!
+
+Throwing away const should be a huge red flag to any developer or
+reviewer. Hell, *any* cast should be.
+
+I've got a patch ready moving cachelevel_to_pat and max_pat_index to
+runtime info. It's not great, since we'd be doing it only for the mock
+device. Better ideas? I'm not waiting long.
+
+
+BR,
+Jani.
+
+
+[1] https://patchwork.freedesktop.org/patch/msgid/0badc36ce6dd6b030507bdfd8a42ab984fb38d12.1686236840.git.jani.nikula@intel.com
+
+
+> +	i915_info->max_pat_index = 3;
+> +	for (i = 0; i < I915_MAX_CACHE_LEVEL; i++)
+> +		i915_info->cachelevel_to_pat[i] = i;
+> +
+>  	intel_memory_regions_hw_probe(i915);
+>  
+>  	spin_lock_init(&i915->gpu_error.lock);
+
 -- 
-2.41.0
-
+Jani Nikula, Intel Open Source Graphics Center
