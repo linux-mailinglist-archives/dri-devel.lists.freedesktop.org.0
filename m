@@ -1,61 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63EDD74057D
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 23:17:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E5BD740581
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 23:18:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 586F010E055;
-	Tue, 27 Jun 2023 21:17:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1F2410E05B;
+	Tue, 27 Jun 2023 21:18:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D02C10E055
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 21:17:25 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id
- 4fb4d7f45d1cf-516500163b2so966a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 14:17:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1687900643; x=1690492643;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cBeSv/arp5bR8O0ezFl7fdKlEKxWfXnzLYU9+AdmzGc=;
- b=tfUpx5yzTHhQIqvV6B/hMBOXajoW3JRxIkAPylYF9WdKHxjWQXkaz29OkaD06EUW+C
- /tSk+kBo0MdDNbAf7SbEV9eaO4cZ/IK21j7EeF69T3+T4FzzOV+PVke8d6c+Bb5S1HQ6
- hLo5lk8AvJtb9soHB+Yq8dVmRdFaso7T2mFv1mIKj+d55uOi+2yqs11OZq8dxUl241lz
- awwPlDOWsF0ihnewJriL+vS5clDEI6pQt4emYOx9wGU1+1QnOmI0tM70awk/SeNecE/U
- 1czgUpwJqXcK5y/RIVjx/rZrDm5qZhvRlJVmFjXFnzG3xAq92G/YDwthgX0Iz5XRgtSC
- 2tLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687900643; x=1690492643;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cBeSv/arp5bR8O0ezFl7fdKlEKxWfXnzLYU9+AdmzGc=;
- b=PLWmz8assIKuDSGqiBcZv+1xg+m7h9EvWaVgsun30Az31JmC8LvbBqNOOgZ9ljcDhi
- dmBJ1vVrenhvCoLQje2tR3Q0Nl5VisKreSQEsNpYyP1J5IKFT/X1M3W2gWzPOnbUxhnb
- oh213EUH91qAb0nEDNGvvtGtnDTIVkB1VLK5QxYFhnGuqtCLnXAfGJ7cMhj4EZzAcOzG
- N2aGP2VapQqmO12pXmTsG1bTcTXS+C8LlVmSMVA0GHNoSkNs4BdoxYzw68D9u7VM7Bzb
- sQ3nKNyNTTp/n13UTCYll0GFApxTuPP1kJ7/4F1a9r+sKAXrqsN72xzPELTV5cDtwWWc
- YF+A==
-X-Gm-Message-State: AC+VfDzJHTpuR82XdIQ/siNyQ0w+G0NhM3QiW0xwuqaZx8dfW3fmqexL
- EdV5fVytOsbFi1ljNMtutaGEs5728pdtdbrocdalwKhszTXN1yydzZCxWQ==
-X-Google-Smtp-Source: ACHHUZ70Q5j1PrnGsHu1Pss9Gi238RZdicz8QeFii6Q1FnA+fmkZQD6gh8CYj3Aib3f7Q0vjX9+44Tr1PgkxN5zxB2M=
-X-Received: by 2002:a50:d087:0:b0:506:b280:4993 with SMTP id
- v7-20020a50d087000000b00506b2804993mr28983edd.2.1687900643282; Tue, 27 Jun
- 2023 14:17:23 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05CA310E05B;
+ Tue, 27 Jun 2023 21:18:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=3vhPCu53nxpX9E42A4ruWOxKwyzxqXGXKDJSyV2Vnpk=; b=esBYqXRaJNsjQ7Zydh+R9urN/b
+ Nx18p1tk8NSIfdccDDViIdi7Y4yI4IjhMdoC/pqWR3U4zCNfghH42qR9ZWLrZLWxQEl0eyXYVfr2T
+ zRki6ceQ3fztKcCmjzZB+9Al4YmhFZEhVTGMysYYU5Bed4DbqOfKcn6qscLRLE9/YsUBu5HzXMGT7
+ DiDXo3saZGh+Tt90xcLek0eYfnUzWIf9gy+9Jzi5LEBWQGodVo/i70P9vt00nYyPDpefIeFUTWoO1
+ fKWUK/RrFuYDqubMpbg+YzkDjDBZDK4L/iKZ4+0rO/mR3OdTXi0y6py6yweLj/ZPuvy779Y57jAd6
+ 7knoxslw==;
+Received: from [179.113.218.86] (helo=[192.168.1.111])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1qEG4D-004r3K-UH; Tue, 27 Jun 2023 23:17:42 +0200
+Message-ID: <b3f72b45-c607-7cd3-2bdb-21567f901469@igalia.com>
+Date: Tue, 27 Jun 2023 18:17:35 -0300
 MIME-Version: 1.0
-References: <20230627050148.2045691-1-yangcong5@huaqin.corp-partner.google.com>
-In-Reply-To: <20230627050148.2045691-1-yangcong5@huaqin.corp-partner.google.com>
-From: Doug Anderson <dianders@google.com>
-Date: Tue, 27 Jun 2023 14:17:10 -0700
-Message-ID: <CAD=FV=WR=fnhCxC37Eo3hinh2MV=eTNuXG+GrwgR6K_pV4Rbaw@mail.gmail.com>
-Subject: Re: [v2] drm/panel: Fine tune Starry-ili9882t panel HFP and HBP
-To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v5 1/1] drm/doc: Document DRM device reset expectations
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+References: <20230627132323.115440-1-andrealmeid@igalia.com>
+ <1dbeb507-3f18-1b5d-37be-fcfd60a1c0d4@gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <1dbeb507-3f18-1b5d-37be-fcfd60a1c0d4@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,39 +55,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, devicetree@vger.kernel.org, sam@ravnborg.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- hsinyi@google.com
+Cc: pierre-eric.pelloux-prayer@amd.com,
+ Samuel Pitoiset <samuel.pitoiset@gmail.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>, kernel-dev@igalia.com,
+ =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Pekka Paalanen <ppaalanen@gmail.com>,
+ =?UTF-8?Q?Timur_Krist=c3=b3f?= <timur.kristof@gmail.com>,
+ amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Em 27/06/2023 14:47, Christian König escreveu:
+> Am 27.06.23 um 15:23 schrieb André Almeida:
+>> Create a section that specifies how to deal with DRM device resets for
+>> kernel and userspace drivers.
+>>
+>> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+>> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+>> ---
+>>
+>> v4: 
+>> https://lore.kernel.org/lkml/20230626183347.55118-1-andrealmeid@igalia.com/
+>>
+>> Changes:
+>>   - Grammar fixes (Randy)
+>>
+>>   Documentation/gpu/drm-uapi.rst | 68 ++++++++++++++++++++++++++++++++++
+>>   1 file changed, 68 insertions(+)
+>>
+>> diff --git a/Documentation/gpu/drm-uapi.rst 
+>> b/Documentation/gpu/drm-uapi.rst
+>> index 65fb3036a580..3cbffa25ed93 100644
+>> --- a/Documentation/gpu/drm-uapi.rst
+>> +++ b/Documentation/gpu/drm-uapi.rst
+>> @@ -285,6 +285,74 @@ for GPU1 and GPU2 from different vendors, and a 
+>> third handler for
+>>   mmapped regular files. Threads cause additional pain with signal
+>>   handling as well.
+>> +Device reset
+>> +============
+>> +
+>> +The GPU stack is really complex and is prone to errors, from hardware 
+>> bugs,
+>> +faulty applications and everything in between the many layers. Some 
+>> errors
+>> +require resetting the device in order to make the device usable 
+>> again. This
+>> +sections describes the expectations for DRM and usermode drivers when a
+>> +device resets and how to propagate the reset status.
+>> +
+>> +Kernel Mode Driver
+>> +------------------
+>> +
+>> +The KMD is responsible for checking if the device needs a reset, and 
+>> to perform
+>> +it as needed. Usually a hang is detected when a job gets stuck 
+>> executing. KMD
+>> +should keep track of resets, because userspace can query any time 
+>> about the
+>> +reset stats for an specific context.
+> 
+> Maybe drop the part "for a specific context". Essentially the reset 
+> query could use global counters instead and we won't need the context 
+> any more here.
+> 
 
-On Mon, Jun 26, 2023 at 10:01=E2=80=AFPM Cong Yang
-<yangcong5@huaqin.corp-partner.google.com> wrote:
->
-> Because the setting of hproch is too small, there will be warning in
-> kernel log[1]. After fine tune the HFP and HBP, this warning can be
-> solved. The actual measurement frame rate is 60.1Hz.
->
-> [1]: WARNING kernel:[drm] HFP + HBP less than d-phy, FPS will under 60Hz
+Right, I wrote like this to reflect how it's currently implemented.
 
-Thanks for including the warming. This looks like something that's
-only printed on Mediatek display controllers. Just out of curiosity:
-is that because Mediatek controllers have special requirements, or is
-this something generic and the Mediatek controller is the only one
-that warns about it?
+If follow correctly what you meant, KMD could always notify the global 
+count for UMD, and we would move to the UMD the responsibility to manage 
+the reset counters, right? This would also simplify my 
+DRM_IOCTL_GET_RESET proposal. I'll apply your suggestion to the next doc 
+version.
 
-
-> Fixes: 8716a6473e6c ("drm/panel: Support for Starry-ili9882t TDDI
-> MIPI-DSI panel")
-
-Ideally the tool you have to send mail wouldn't wrap the Fixes line.
-Probably not worth resending just for this, but see if there's
-something you can do to fix this in the future.
-
-Since this is a tiny fix, I don't think we need to wait too long. I'll
-plan to land it on Thursday unless Neil wants to land it himself
-sooner.
-
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> Apart from that this sounds good to me, feel free to add my rb.
+> 
+> Regards,
+> Christian.
+> 
+> 
