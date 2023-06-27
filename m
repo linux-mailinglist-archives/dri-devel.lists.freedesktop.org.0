@@ -1,56 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD6D373FF22
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 16:58:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 692C373FF34
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 17:04:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FAC910E039;
-	Tue, 27 Jun 2023 14:58:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D65EB10E301;
+	Tue, 27 Jun 2023 15:04:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7882210E039
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 14:58:50 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 6A0AF21898;
- Tue, 27 Jun 2023 14:58:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1687877926; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=+AnPE2EhFo6W/qqAMZnuyc6esjF58TEFFbkBy5JTrLI=;
- b=BzUWwPXwULcHgEZ+gHsTCHFLYHNf3+mXVoMyX0NuLNzWZn6bKnS76Pp1qTrkf1az89ePRg
- f84PJp7Y0ybiW4owISoJPWOQHzJF2aYRmUPpmTgkohzPhhcu+inzbG00DXzicnoBkp3Dv+
- aM6q/C3moA86ooNRJqQl8iUcIxvAoWU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1687877926;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=+AnPE2EhFo6W/qqAMZnuyc6esjF58TEFFbkBy5JTrLI=;
- b=6/gSwSlHsFleByQJBJh3RWHq1sI6orcekPPoVaQ5fTB9iuWJzxyCbcgQZNqYv6Du7y/vME
- 5TWLfSlbDV9wYZCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3AC0813462;
- Tue, 27 Jun 2023 14:58:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 8AeNDSb5mmQxHQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 27 Jun 2023 14:58:46 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: davem@davemloft.net, arnd@arndb.de, linux@roeck-us.net, sam@ravnborg.org,
- deller@gmx.de
-Subject: [PATCH] arch/sparc: Add module license and description for fbdev
- helpers
-Date: Tue, 27 Jun 2023 16:58:20 +0200
-Message-ID: <20230627145843.31794-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.41.0
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5724210E301;
+ Tue, 27 Jun 2023 15:04:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1687878261; x=1719414261;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=2kiMALa71HEycvMDz7/YVI/SaGRhthJvggrF90y7KH0=;
+ b=agvrhRxVcdIy7F/yKwMb5SViEjKsrYzJqYcO1/PfpplZyR/48dxybNcF
+ FuiiXVghcReZD+5NLaAbllAmXh+BfiIMx7V68STszm1AhDXVxFWISV/0t
+ uRZ6xFPuFFF3jkqU6oVJDdFwyPFgYA6KOaD1JinlbzGgBdvmz9erBwFWX
+ mXHn9p8gEO05aYzMlsPfbh+71ypxc0xd6ZN7EjceAH+ib8cmE+AK8ZipJ
+ kKsHq4LE1guhhxgkSwWdmuIiZcYM8Inig3/GTc+aawJewMCUxbcy0xduj
+ yWkWx8mq17xwRq7tXx9wC+zkU0+uchSafDPMiSv8iFLutXmst1kMF4Zyb A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="341933672"
+X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; d="scan'208";a="341933672"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jun 2023 08:04:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="963215417"
+X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; d="scan'208";a="963215417"
+Received: from malashi-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.252.48.28])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jun 2023 08:04:13 -0700
+Date: Tue, 27 Jun 2023 17:04:09 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [PATCH v8 1/2] drm/i915: preparation for using PAT index
+Message-ID: <ZJr6aRb8SrLug7SQ@ashyti-mobl2.lan>
+References: <20230509165200.1740-1-fei.yang@intel.com>
+ <20230509165200.1740-2-fei.yang@intel.com>
+ <874jmtt4pb.fsf@intel.com>
+ <b22c7111-0587-19b5-d912-9d07b81d2bb0@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b22c7111-0587-19b5-d912-9d07b81d2bb0@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,41 +61,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
+Cc: fei.yang@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add MODULE_LICENSE() and MODULE_DESCRIPTION() for fbdev helpers
-on sparc. Fixes the following error:
+Hi Jani and Tvrtko,
 
-ERROR: modpost: missing MODULE_LICENSE() in arch/sparc/video/fbdev.o
+> > > This patch is a preparation for replacing enum i915_cache_level with PAT
+> > > index. Caching policy for buffer objects is set through the PAT index in
+> > > PTE, the old i915_cache_level is not sufficient to represent all caching
+> > > modes supported by the hardware.
+> > > 
+> > > Preparing the transition by adding some platform dependent data structures
+> > > and helper functions to translate the cache_level to pat_index.
+> > > 
+> > > cachelevel_to_pat: a platform dependent array mapping cache_level to
+> > >                     pat_index.
+> > > 
+> > > max_pat_index: the maximum PAT index recommended in hardware specification
+> > >                 Needed for validating the PAT index passed in from user
+> > >                 space.
+> > > 
+> > > i915_gem_get_pat_index: function to convert cache_level to PAT index.
+> > > 
+> > > obj_to_i915(obj): macro moved to header file for wider usage.
+> > > 
+> > > I915_MAX_CACHE_LEVEL: upper bound of i915_cache_level for the
+> > >                        convenience of coding.
+> > > 
+> > > Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
+> > > Cc: Matt Roper <matthew.d.roper@intel.com>
+> > > Signed-off-by: Fei Yang <fei.yang@intel.com>
+> > > Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+> > > Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> > 
+> > [snip]
+> > 
+> > > diff --git a/drivers/gpu/drm/i915/selftests/mock_gem_device.c b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
+> > > index f6a7c0bd2955..0eda8b4ee17f 100644
+> > > --- a/drivers/gpu/drm/i915/selftests/mock_gem_device.c
+> > > +++ b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
+> > > @@ -123,7 +123,9 @@ struct drm_i915_private *mock_gem_device(void)
+> > >   	static struct dev_iommu fake_iommu = { .priv = (void *)-1 };
+> > >   #endif
+> > >   	struct drm_i915_private *i915;
+> > > +	struct intel_device_info *i915_info;
+> > >   	struct pci_dev *pdev;
+> > > +	unsigned int i;
+> > >   	int ret;
+> > >   	pdev = kzalloc(sizeof(*pdev), GFP_KERNEL);
+> > > @@ -180,6 +182,13 @@ struct drm_i915_private *mock_gem_device(void)
+> > >   		I915_GTT_PAGE_SIZE_2M;
+> > >   	RUNTIME_INFO(i915)->memory_regions = REGION_SMEM;
+> > > +
+> > > +	/* simply use legacy cache level for mock device */
+> > > +	i915_info = (struct intel_device_info *)INTEL_INFO(i915);
+> > 
+> > This is not okay. It's not okay to modify device info at runtime. This
+> > is why we've separated runtime info from device info. This is why we've
+> > made device info const, and localized the modifications to a couple of
+> > places.
+> > 
+> > If you need to modify it, it belongs in runtime info. Even if it's only
+> > ever modified for mock devices.
+> > 
+> > We were at the brink of being able to finally convert INTEL_INFO() into
+> > a pointer to const rodata [1], where you are unable to modify it, but
+> > this having been merged as commit 5e352e32aec2 ("drm/i915: preparation
+> > for using PAT index") sets us back. (With [1] this oopses trying to
+> > modify read-only data.)
+> > 
+> > This has been posted to the public list 20+ times, and nobody noticed or
+> > pointed this out?!
 
-Reported-by: Guenter Roeck <linux@roeck-us.net>
-Closes: https://lore.kernel.org/dri-devel/c525adc9-6623-4660-8718-e0c9311563b8@roeck-us.net/
-Suggested-by: Arnd Bergmann <arnd@arndb.de>
-Fixes: 4eec0b3048fc ("arch/sparc: Implement fb_is_primary_device() in source file")
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Helge Deller <deller@gmx.de>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: sparclinux@vger.kernel.org
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- arch/sparc/video/fbdev.c | 3 +++
- 1 file changed, 3 insertions(+)
+That's not cool, indeed.
 
-diff --git a/arch/sparc/video/fbdev.c b/arch/sparc/video/fbdev.c
-index 25837f128132d..bff66dd1909a4 100644
---- a/arch/sparc/video/fbdev.c
-+++ b/arch/sparc/video/fbdev.c
-@@ -21,3 +21,6 @@ int fb_is_primary_device(struct fb_info *info)
- 	return 0;
- }
- EXPORT_SYMBOL(fb_is_primary_device);
-+
-+MODULE_DESCRIPTION("Sparc fbdev helpers");
-+MODULE_LICENSE("GPL");
--- 
-2.41.0
+> > Throwing away const should be a huge red flag to any developer or
+> > reviewer. Hell, *any* cast should be.
+> > 
+> > I've got a patch ready moving cachelevel_to_pat and max_pat_index to
+> > runtime info. It's not great, since we'd be doing it only for the mock
+> > device. Better ideas? I'm not waiting long.
+> > 
+> > 
+> > BR,
+> > Jani.
+> > 
+> > 
+> > [1] https://patchwork.freedesktop.org/patch/msgid/0badc36ce6dd6b030507bdfd8a42ab984fb38d12.1686236840.git.jani.nikula@intel.com
+> > 
+> > 
+> > > +	i915_info->max_pat_index = 3;
+> > > +	for (i = 0; i < I915_MAX_CACHE_LEVEL; i++)
+> > > +		i915_info->cachelevel_to_pat[i] = i;
+> > > +
+> 
+> I'd simply suggest having a local static const table for the mock device. It
+> should be trivial once i915->__info becomes a pointer so in that series I
+> guess.
 
+Fei... do you have bandwidth to look into this or do you want me
+to try Tvrtko's suggestion out?
+
+Thank you Jani for reporting it and thank you Tvrtko for
+proposing the fix.
+
+Andi
