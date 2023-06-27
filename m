@@ -1,57 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 254EE73F503
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 09:00:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 729CA73F461
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 08:18:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8D1310E089;
-	Tue, 27 Jun 2023 07:00:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B564C10E28F;
+	Tue, 27 Jun 2023 06:17:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C47EB10E27B
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 02:05:16 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id
- a640c23a62f3a-98e1c6a687fso229539766b.1
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 19:05:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687831513; x=1690423513;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=ViaS8m/tB1ZwDe3hpa7K3nFc8JiLeIQbzktG4koecjI=;
- b=DbvyrX8Kh6kxBwi4yPwAltA2DiZ4o5SRvn1oCCtneYIqW/eqa7r2XGFRQyu78iwNs2
- wXeZBKPhv6+36Q8iBzozcDu3iljnRp9SwDuy3oee+rBB/i3QAQx9otI3bMpXWqextziI
- DL2h7g9XafAHZPIAqijGEQ9OSIQihcHIYIYl+RpgnVtPQ2vUbgm6Df+iDNd8vP2GIIl/
- KvPVEQf7KhtPYozARf4MqECgM/2P+8fBMufVPYiTz72BNlbX9zi4MqnkrNnxeqh+3dBV
- LxgwaqbU7PoHpQaQI+WdIHviBoCm4xPijBE/cCmRaj4oVbjWmeY3WoUPiY3l/2Ov7AWR
- JB4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687831513; x=1690423513;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ViaS8m/tB1ZwDe3hpa7K3nFc8JiLeIQbzktG4koecjI=;
- b=Y9LrZagu/rpCWzwHDGsr+NtpFmcsoTIeCCMcZmA0CtrejZ/KtCvupFcCWTcvTAKtq2
- U7akAsJz1DBsYcrhRiLXuuQW08t6lsh8sfrwkMYWhCuzo2aStlSH+TyuzRPLcw+iWJfs
- uSLNEeD+mLKR4rsjLCI5mr1jFk3olWSfRWvTcuft1uKE+XpkZORgdcSbpPYPdB47URwi
- BF2Mejpcd7XctSG0UweNCu7SW1Dhikzgpuye0qXYAhs6TLxJMAPrgq033UFsDr1CdRAa
- QSS5vYABLRg2NmWG1clQRRVxKVdKjCQOBWZZjFNlXQemhxT6OeRcslmUOqw3blEfnf4i
- 87ug==
-X-Gm-Message-State: AC+VfDxnqXKaCNPjCGA6s0uqMM2Mci815nKB6lYOkGpOmYO6Yvw8iEsS
- LVPkewU6A9bp/vjsVp8NpWIAlxRSjshdDJLbx/g=
-X-Google-Smtp-Source: ACHHUZ5LWoLu45t0nxwwx6EzTGqalF+tTk0Cb0uyHlY09yrEoSb6duKmX7N6iCSU1Seld7+UMlKh04UsMs/qaXFOdn0=
-X-Received: by 2002:a17:906:8a4a:b0:991:c842:2ca2 with SMTP id
- gx10-20020a1709068a4a00b00991c8422ca2mr2584920ejc.15.1687831512929; Mon, 26
- Jun 2023 19:05:12 -0700 (PDT)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83AD010E28F
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 06:17:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
+ s=s31663417; t=1687846672; x=1688451472; i=deller@gmx.de;
+ bh=biWKrKStgCQVZ9bbSwx3mVIhNb6laWf8emSgOMQzZ5s=;
+ h=X-UI-Sender-Class:Date:From:To:Subject;
+ b=Adz33hOz0C9Rocc4r6kS7TC64qNTuom5XmlpJUnw3YOc2V2+t2PnKq5XWsv083Y0sRpYqfA
+ tZ62BYKklRNXuipkyAKSMlv1nqBoamk8EiRExx5chhIru3mB2g4pjTQk2kxtcmdgBqUc3q7oq
+ i88H7RIftKsTmUIx0Ax+gTKPfPfTE53NLNt9eicJJHBaGXOyX5oIBtjxfXEEvLh3f6FgfSLLz
+ nSeoaKTwJB2ciEFSMVE5E8ySVOeIznzkwMhEyDLUJFkMHdrasVgK8OdEp7yj9t9uA+FbqIJOd
+ ZTFexuq84oPfL6bkszWq0viaIBBOCWpo6TpaQ0E4RJbGR+v7SXVg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from ls3530 ([94.134.155.6]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mv31W-1pwVCi1ZY0-00r4BQ; Tue, 27
+ Jun 2023 08:17:52 +0200
+Date: Tue, 27 Jun 2023 08:17:50 +0200
+From: Helge Deller <deller@gmx.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [GIT PULL] fbdev fixes for v6.5-rc1
+Message-ID: <ZJp/DpaLeYq6s3hB@ls3530>
 MIME-Version: 1.0
-From: yguoaz <yguoaz@gmail.com>
-Date: Tue, 27 Jun 2023 10:05:01 +0800
-Message-ID: <CAM7=BFqB16zNZ3TVZM3XBAP6PiqtTniQ0PeS2CEf1thq15PHZw@mail.gmail.com>
-Subject: [drm/bridge]: possible buffer overrun in cdns-mhdp8546-core.c
-To: sjakhade@cadence.com
-Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Tue, 27 Jun 2023 07:00:45 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Provags-ID: V03:K1:zTp4pv51aTHsupl3rEEfdVUmEV8y05XJW4UGEP7OX89HuzsBbmy
+ c6U9j4ZlZBZ6xf9PCz2lOnqrd6yeR9hXtmZo3Bp6gRAMIWms/FeKJpfLab2vTD4CEXqGRb/
+ wmfoRNtlDecQEXrWHtW/W+isM2p9e40mVbdpxDWs7qiejy6EIDUjXpySVD2NuxBESdLfDd4
+ Pp9czyrG+z8GatWr66Dmw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:k9dm2dWlI+w=;X+V+rc4OQJPNZciMEMo6pehR1oN
+ UtTEiI8CgsXW4213CZmjTsFwAK4Cr+RmnV5xUrJE31pPoZma8P1KmJIrfCnUWu2DRIZunjon3
+ b/e4ZDB7mTWvYnttxJWwnDLzOjoWHfMdkE28oH6fqxTkwNJ3hDlBBBuboMHCrJd9v6e2BnAax
+ GQ+0Fa5Bdj2f5Rj+n+KbbQ6EtIsvDoWUYEDojfmTNGYGWywDlDmzor1vZElBAOe3eft5KLIZJ
+ LdYzuSL5DFI1QhVQaoEuo8kyyVBcxyae1K2RdDgjR4byi+1CzxQQttiHLO2b9fpw805h7g3S4
+ sjzIk7bw7noCnIBKzesvhe/wC9ChHOSbQ3oyGxsKeMimKekJafNLNJ41gy/xfw0Muuw0P9YXk
+ E1WKEi9B+Bdf5IegeVycAD5TNqzt/Ha+qkHtfxSRo6ur/QujAJTxU4W97/FT9JWYdV7M3+pKh
+ L8MquGH614FZrXI6UPaExOLbJQwywDWTeJImxRO8j3WkJ2EhTI3BNfe1VOYQk67omXvymdu5/
+ j19KGHy5ynZuPOEFzm/Ln7+m7faCssbZlgHBPF8Ll3Ze8EYVefyXGB2/7yhnwc0opSpRLK7H7
+ kIssTzjdbNv5GcCuG6jniJThYGfdzQ/2IYM+Dyt936nIVHvrW6CKT37oZaDVXP8VA6qafpktB
+ pepsWWq8WqbO/aEna0SDg2u5+ckRSk/KdcnVepCzWi1NgSCnLy4C/Ay+MIjsjz8SjRbS9eZUC
+ xajiHmhJ1CN9Ub88Z1oP5ocWc4phAWu1FK6+jF4RtAmdZM8/KxqHfQ/o7VcKYmYXpgQFJHzue
+ 1r1fiIBucW+OdlJ8S/V38jjn3RZRlY5mQFaM+mELxJtTLHul11f7Krqg4L7719jVvgtb9s1k3
+ NmJqTx+lYMkRMA4p2shhwyrr1n7Uvvg0gZyfMyOZDWnyRLqYUOQ2JIo1S3m1beZwImjRw39rW
+ sqWblw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,50 +67,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: yamonkar@cadence.com, dri-devel@lists.freedesktop.org,
- quentin.schulz@free-electrons.com, tomi.valkeinen@ti.com, jsarha@ti.com,
- andrzej.hajda@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the file drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c, the
-function cdns_mhdp_print_lt_status has the following code:
+Hi Linus,
 
-char vs[8] = "0/0/0/0";
-char pe[8] = "0/0/0/0";
-unsigned int i;
+please pull some fbdev fixes & cleanups for kernel 6.5-rc1.
+Includes is a fix for a potential out-of-bound memory access in
+fast_imageblit() and the switch of the VIA fbdev driver to use GPIO
+descriptors.
 
-for (i = 0; i < mhdp->link.num_lanes; i++) {
-    vs[i * 2] = '0' + phy_cfg->dp.voltage[i];
-    pe[i * 2] = '0' + phy_cfg->dp.pre[i];
-}
+Thanks!
+Helge
 
-vs[i * 2 - 1] = '\0';
-pe[i * 2 - 1] = '\0';
+--------------
 
-If mhdp->link.num_lanes == 0, the above code accesses vs[-1] and
-pe[-1]. I think this case might be possible. For example, in the
-function cdns_mhdp_link_training_channel_eq, we have:
+The following changes since commit 9561de3a55bed6bdd44a12820ba81ec416e705a7:
 
-cdns_mhdp_adjust_lt(mhdp, mhdp->link.num_lanes,
-    training_interval, lanes_data, link_status);
+  Linux 6.4-rc5 (2023-06-04 14:04:27 -0400)
 
-r = drm_dp_clock_recovery_ok(link_status, mhdp->link.num_lanes);
-if (!r)
-    goto err;
-if (drm_dp_channel_eq_ok(link_status, mhdp->link.num_lanes)) {
-    cdns_mhdp_print_lt_status("EQ phase ok", mhdp, &phy_cfg);
-    return true;
-}
+are available in the Git repository at:
 
-Notice that inside the function cdns_mhdp_adjust_lt, there is a check
-for possibly invalid number of lanes:
+  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-for-6.5-rc1
 
-if (nlanes != 4 && nlanes != 2 && nlanes != 1) {
-    dev_err(mhdp->dev, "invalid number of lanes: %u\n", nlanes);
-    ret = -EINVAL;
-    goto out;
-}
+for you to fetch changes up to c2d22806aecb24e2de55c30a06e5d6eb297d161d:
 
-If nlanes == 0,  a buffer overrun can happen in the subsequent call of
-cdns_mhdp_print_lt_status.
+  fbdev: fix potential OOB read in fast_imageblit() (2023-06-24 21:55:11 +0200)
+
+----------------------------------------------------------------
+fbdev fixes for 6.5-rc1:
+
+- fix potential OOB read in fast_imageblit()
+- fbdev/media: Use GPIO descriptors for VIA GPIO
+- broadsheetfb & metronomefb: Add MODULE_FIRMWARE macro
+- omapfb: error handling fix in mipid_spi_probe()
+- sh_mobile_lcdcfb, sh7760fb: Typo and warning fixes
+- hitfb: code cleanups
+
+----------------------------------------------------------------
+Christophe JAILLET (2):
+      fbdev: omapfb: lcd_mipid: Fix an error handling path in mipid_spi_probe()
+      video/hdmi: Reorder fields in 'struct hdmi_avi_infoframe'
+
+Geert Uytterhoeven (1):
+      fbdev: sh_mobile_lcdcfb: Fix ARGB32 overlay format typo
+
+Gustavo A. R. Silva (1):
+      fbdev: sh7760fb: Fix -Wimplicit-fallthrough warnings
+
+Juerg Haefliger (2):
+      fbdev: metronomefb: Add MODULE_FIRMWARE macro
+      fbdev: broadsheetfb: Add MODULE_FIRMWARE macro
+
+Linus Walleij (1):
+      fbdev/media: Use GPIO descriptors for VIA GPIO
+
+Lukas Bulwahn (1):
+      MAINTAINERS: adjust entry in VIA UNICHROME(PRO)/CHROME9 FRAMEBUFFER DRIVER
+
+Thomas Zimmermann (3):
+      fbdev: hitfb: Declare hitfb_blank() as static
+      fbdev: hitfb: Fix integer-to-pointer cast
+      fbdev: hitfb: Use NULL for pointers
+
+Zhang Shurong (1):
+      fbdev: fix potential OOB read in fast_imageblit()
+
+ MAINTAINERS                                        |  1 -
+ drivers/media/platform/via/via-camera.c            | 51 +++++++++-------------
+ drivers/video/fbdev/broadsheetfb.c                 |  2 +
+ drivers/video/fbdev/core/sysimgblt.c               |  2 +-
+ drivers/video/fbdev/hitfb.c                        |  8 ++--
+ drivers/video/fbdev/metronomefb.c                  |  2 +
+ drivers/video/fbdev/omap/lcd_mipid.c               |  6 ++-
+ drivers/video/fbdev/sh7760fb.c                     |  2 +
+ drivers/video/fbdev/sh_mobile_lcdcfb.c             |  2 +-
+ drivers/video/fbdev/via/via-core.c                 |  2 +-
+ drivers/video/fbdev/via/via-gpio.c                 | 28 ++++++------
+ .../linux => drivers/video/fbdev/via}/via-gpio.h   |  1 -
+ include/linux/hdmi.h                               |  4 +-
+ 13 files changed, 54 insertions(+), 57 deletions(-)
+ rename {include/linux => drivers/video/fbdev/via}/via-gpio.h (84%)
