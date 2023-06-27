@@ -2,63 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEA7C73F81A
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 11:04:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB48973F830
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 11:06:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 249EB10E2CA;
-	Tue, 27 Jun 2023 09:04:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CEFA10E2C8;
+	Tue, 27 Jun 2023 09:06:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id C24F310E2C7;
- Tue, 27 Jun 2023 09:04:44 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8Cxbccrpppk2PcCAA--.4634S3;
- Tue, 27 Jun 2023 17:04:43 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxWM0qpppkUbkLAA--.48575S3; 
- Tue, 27 Jun 2023 17:04:42 +0800 (CST)
-Message-ID: <5aee218e-2e46-b929-f905-a28794caac8c@loongson.cn>
-Date: Tue, 27 Jun 2023 17:04:42 +0800
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4721A10E2C8;
+ Tue, 27 Jun 2023 09:06:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1687856791; x=1719392791;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=JaKhdwJtfC7Oib/27piMBfnO+XxQp6i2NYK9CWnNEJA=;
+ b=D8tBwI4OKfJK6TsPpWpbGMd/s9CihtOfVlQrc8dMEdr7yWdXlQ97lwqN
+ lXDFPpXg6So4IsBgRMCKMof8fxmtKVCOn5ejTTT1NRbERMsEbFJRm3npf
+ sYia+JMjInObDjfr/sdVqwveXVJRaKztXq2c69sepcRBG6cOohIljjwd7
+ 7UoZicaJoIFpq/j7ZmD4PjNe/J8/xw0dAlrGnZxgYUC51FYM1gelUulf4
+ K1ibtEM5KxrT/nZBOcrJb2zIxhjjrBB8c+GVb9+BG1NM4isjUp/9zBLYI
+ fJgbhvtgRaRnL/PY6NFKI4i1jScNEs7t/DbkqroUt/qMMkKM5EA+txCLP A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="359017720"
+X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; d="scan'208";a="359017720"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jun 2023 02:06:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="781769236"
+X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; d="scan'208";a="781769236"
+Received: from skallurr-mobl1.ger.corp.intel.com (HELO [10.249.254.202])
+ ([10.249.254.202])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jun 2023 02:06:28 -0700
+Message-ID: <f821b9e3-b4b1-d182-040f-27df81cf8aa6@linux.intel.com>
+Date: Tue, 27 Jun 2023 11:05:45 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm: Remove the deprecated drm_put_dev() function
+ Thunderbird/102.11.1
+Subject: Re: [PATCH v2 0/4] drm/ttm: Fixes around resources and bulk moves
 Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>, Pan Xinhui <Xinhui.Pan@amd.com>
-References: <20230625050901.393055-1-suijingfeng@loongson.cn>
- <87jzvqy897.fsf@intel.com>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <87jzvqy897.fsf@intel.com>
+To: intel-xe@lists.freedesktop.org
+References: <20230626091450.14757-1-thomas.hellstrom@linux.intel.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20230626091450.14757-1-thomas.hellstrom@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxWM0qpppkUbkLAA--.48575S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxAFW7Gr1rAw47Xr13KFW8KrX_yoWrWFy7pF
- 43Aa4FkrW8tFZ8KrW7ZFnrCFy3Xa17Ka4xury7Gw13Ww1qvry7tF98JFy8GryUXrWkCF1S
- vF98XFyUuFy8CrcCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUPab4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
- xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
- AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
- tVWrXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
- 8JMxk0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vI
- r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jw0_GFylx2IqxVAqx4xG67
- AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIY
- rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14
- v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWx
- JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUxhiSDU
- UUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,141 +61,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org
+Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 2023/6/26 15:48, Jani Nikula wrote:
-> On Sun, 25 Jun 2023, Sui Jingfeng <suijingfeng@loongson.cn> wrote:
->> As this function can be replaced with drm_dev_unregister() + drm_dev_put(),
->> it is already marked as deprecated, so remove it. No functional change.
->>
->> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->> ---
->>   drivers/gpu/drm/drm_drv.c           | 28 ----------------------------
->>   drivers/gpu/drm/drm_pci.c           |  3 ++-
->>   drivers/gpu/drm/radeon/radeon_drv.c |  3 ++-
->>   include/drm/drm_drv.h               |  1 -
->>   4 files changed, 4 insertions(+), 31 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
->> index 12687dd9e1ac..5057307fe22a 100644
->> --- a/drivers/gpu/drm/drm_drv.c
->> +++ b/drivers/gpu/drm/drm_drv.c
->> @@ -406,34 +406,6 @@ void drm_minor_release(struct drm_minor *minor)
->>    * possibly leaving the hardware enabled.
->>    */
->>   
->> -/**
->> - * drm_put_dev - Unregister and release a DRM device
->> - * @dev: DRM device
->> - *
->> - * Called at module unload time or when a PCI device is unplugged.
->> - *
->> - * Cleans up all DRM device, calling drm_lastclose().
->> - *
->> - * Note: Use of this function is deprecated. It will eventually go away
->> - * completely.  Please use drm_dev_unregister() and drm_dev_put() explicitly
->> - * instead to make sure that the device isn't userspace accessible any more
->> - * while teardown is in progress, ensuring that userspace can't access an
->> - * inconsistent state.
-> The last sentence is the crucial one. While the patch has no functional
-> changes,
-
-But my patch help to save a useless check(if (!dev))
-
-on where we found the check is not necessary.
-
-```
-
--	if (!dev) {
--		DRM_ERROR("cleanup called no dev\n");
--		return;
--	}
-
-```
-
-
-> I believe the goal never was to just mechanically replace one
-> call with the two.
-
-The DRM core lose nothing, just a function wrapper.
-
-Instead, this is probably a good chance to migrate the burden to the 
-driver side.
-
-I think the device driver(drm/radeon, for example) have better understanding
-
-about how to ensure that userspace can't access an inconsistent state 
-than the DRM core.
-
+On 6/26/23 11:14, Thomas Hellström wrote:
+> MIME-Version: 1.0
+> Content-Type: text/plain; charset=UTF-8
+> Content-Transfer-Encoding: 8bit
 >
-> BR,
-> Jani.
+> A couple of ttm fixes for issues that either were hit while developing the
+> xe driver or, for the resource leak patches, discovered during code
+> inspection.
 >
+> v2:
+> - Avoid a goto in patch 3 (Andi Shyti)
+> - Add some RB's
 >
->> - */
->> -void drm_put_dev(struct drm_device *dev)
->> -{
->> -	DRM_DEBUG("\n");
->> -
->> -	if (!dev) {
->> -		DRM_ERROR("cleanup called no dev\n");
->> -		return;
->> -	}
->> -
->> -	drm_dev_unregister(dev);
->> -	drm_dev_put(dev);
->> -}
->> -EXPORT_SYMBOL(drm_put_dev);
->> -
->>   /**
->>    * drm_dev_enter - Enter device critical section
->>    * @dev: DRM device
->> diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
->> index 39d35fc3a43b..b3a68a92eaa6 100644
->> --- a/drivers/gpu/drm/drm_pci.c
->> +++ b/drivers/gpu/drm/drm_pci.c
->> @@ -257,7 +257,8 @@ void drm_legacy_pci_exit(const struct drm_driver *driver,
->>   					 legacy_dev_list) {
->>   			if (dev->driver == driver) {
->>   				list_del(&dev->legacy_dev_list);
->> -				drm_put_dev(dev);
->> +				drm_dev_unregister(dev);
->> +				drm_dev_put(dev);
->>   			}
->>   		}
->>   		mutex_unlock(&legacy_dev_list_lock);
->> diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
->> index e4374814f0ef..a4955ae10659 100644
->> --- a/drivers/gpu/drm/radeon/radeon_drv.c
->> +++ b/drivers/gpu/drm/radeon/radeon_drv.c
->> @@ -357,7 +357,8 @@ radeon_pci_remove(struct pci_dev *pdev)
->>   {
->>   	struct drm_device *dev = pci_get_drvdata(pdev);
->>   
->> -	drm_put_dev(dev);
->> +	drm_dev_unregister(dev);
->> +	drm_dev_put(dev);
->>   }
->>   
->>   static void
->> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
->> index 89e2706cac56..289c97b12e82 100644
->> --- a/include/drm/drm_drv.h
->> +++ b/include/drm/drm_drv.h
->> @@ -511,7 +511,6 @@ void drm_dev_unregister(struct drm_device *dev);
->>   
->>   void drm_dev_get(struct drm_device *dev);
->>   void drm_dev_put(struct drm_device *dev);
->> -void drm_put_dev(struct drm_device *dev);
->>   bool drm_dev_enter(struct drm_device *dev, int *idx);
->>   void drm_dev_exit(int idx);
->>   void drm_dev_unplug(struct drm_device *dev);
+> Thomas Hellström (4):
+>    drm/ttm: Fix ttm_lru_bulk_move_pos_tail()
+>    drm/ttm: Don't shadow the operation context
+>    drm/ttm: Don't leak a resource on eviction error
+>    drm/ttm: Don't leak a resource on swapout move error
+>
+>   drivers/gpu/drm/ttm/ttm_bo.c       | 26 +++++++++++++-------------
+>   drivers/gpu/drm/ttm/ttm_resource.c |  2 ++
+>   2 files changed, 15 insertions(+), 13 deletions(-)
+>
+Pushed 2/4 to drm-misc-next, 3/4 & 4/4 to drm-misc-fixes.
 
--- 
-Jingfeng
+/Thomas
+
 
