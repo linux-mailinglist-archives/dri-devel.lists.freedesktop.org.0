@@ -2,69 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9F7673FC6F
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 15:08:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D83E573FCC6
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 15:23:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A825010E03F;
-	Tue, 27 Jun 2023 13:08:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8738C10E2E2;
+	Tue, 27 Jun 2023 13:23:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 426A710E03F
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 13:08:24 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-3fa96fd79f0so29846445e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 06:08:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687871302; x=1690463302;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=RhFLQH19tfLajDmomHsBVwtG5cBv89ujnwcgjmZjJHg=;
- b=GFS/LVb0AJnfsQApsR4pZ4eIfGv3g0kCcqCkQNKxMIRRxCSALwrthFhMXx6T72r6aA
- Co8/EiAK2hNn2ujmvHwisoOgs/UIgqNMG2gCYSIVqZpWrNWITDfFBuyHBKXiOOuL+itj
- 7fFIfaWmS3z2x+jYdQoxEeGL2Eljx/fk+QxE0CYTE8EQVzENyRwxKUvDnYeCWJGiMeAw
- mO77mPv3ECThCAGJQbEpgl/FqVLKIe3kKoPYXeY6IFMmceoQriDuIqVt1H51ctHgadQe
- U5iiYHpvoFkoQ37kSIdLpk11c1NhZC/3E1ysHqmJv93nKsdVRqZi8y17DquqQ3fq9G6R
- LnKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687871302; x=1690463302;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RhFLQH19tfLajDmomHsBVwtG5cBv89ujnwcgjmZjJHg=;
- b=g08xlRDvh5DSFsGAm57wM+cs+RZqFz7H/3R3Z0hFTMivpuOZ46kg0t7+hIANAjzxXv
- +PmUO6rPnnrTRV6QzZKQaGB7weNvOdXjgkQduor9/4Um+8dIZ3ABwV7SerJ0ODJBZAW4
- fugbXPTN9nDUQNcXI3RjsuglcWw/s+3W59MlRMKgpnpEofTfAvH5Zsr3uSZ/6rhi4P29
- fYK70rt5iIpvBGYp1wOz5DSP/1Lax/yof/wUa8NoEj6X/+neAKRuPeqoW1EkFcOeq7JS
- UkcQGV4RRYQvRBkgC4Dzt5GDnBkCg/9H5Ptxxue/FWlByWmxTRSsp8FEtrZu5sNpAkDG
- H3bA==
-X-Gm-Message-State: AC+VfDzBqly9vJnVbWenCeTSbR8FDoOfTvLzzUZB6AGyN3BD5qfgL3F/
- LJpTFbaLLofmGa8IDtgW6q4=
-X-Google-Smtp-Source: ACHHUZ7Q8mO/usNDZVBORJyj5Uyi/+Vh0FvSAgaHNZHBIlLU9p197iNNRrTvqT4yGb/MEP4EGWgmIw==
-X-Received: by 2002:a05:600c:2944:b0:3fa:48cb:9038 with SMTP id
- n4-20020a05600c294400b003fa48cb9038mr18869319wmd.31.1687871301963; 
- Tue, 27 Jun 2023 06:08:21 -0700 (PDT)
-Received: from [192.168.2.181] (46-10-148-26.ip.btc-net.bg. [46.10.148.26])
- by smtp.gmail.com with ESMTPSA id
- m13-20020a7bcb8d000000b003fba97b1252sm801668wmi.1.2023.06.27.06.08.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Jun 2023 06:08:21 -0700 (PDT)
-Message-ID: <1e7aa2c9-9de4-cd14-1068-5b05f081f82e@gmail.com>
-Date: Tue, 27 Jun 2023 16:08:20 +0300
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 032BE10E2E2;
+ Tue, 27 Jun 2023 13:23:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=XXhdTWoMk14blpQJORYtPE+5yfyz5ZqdWBj8yIkLzts=; b=GVtsM/JAeN+WVIVK5y8d9+UwbL
+ vQvr+6+K0y1KIV1qun0KL0TPobxoP4ch9FaLw2AcFV+RiUHM4eUbU2aJOAEHPs6lTnlI/UGB3x9Q0
+ uHSyXWF1fI9dwNyrB+U5o8H4JRk7ajOxpvMdqI0gF++zcTN4Y06KyLNyKTRwz1v5Mh/IiapsMswEf
+ UNJtlpWufkEyzBNENgpCLTvPOgiWgj6MZA6/9VJVumIeeElrAEoFV+Gs5PR0lToOPlshD0/SkVCpu
+ 7t5eMnMIKmw5ryXFHhP6kjt7TigQ9cxnS0I55bG3WO+68FWUhmlpRbIpvTxGdHdEnwvk0f8V3IV9v
+ DQ5bGx5A==;
+Received: from [179.113.218.86] (helo=steammachine.lan)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1qE8fM-004Yyb-Bb; Tue, 27 Jun 2023 15:23:32 +0200
+From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v5 1/1] drm/doc: Document DRM device reset expectations
+Date: Tue, 27 Jun 2023 10:23:23 -0300
+Message-ID: <20230627132323.115440-1-andrealmeid@igalia.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v3 3/8] drm/vmwgfx: Use the hotspot properties from cursor
- planes
-Content-Language: en-US
-To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
-References: <20230627035839.496399-1-zack@kde.org>
- <20230627035839.496399-4-zack@kde.org>
-From: "Martin Krastev (VMware)" <martinkrastev768@gmail.com>
-In-Reply-To: <20230627035839.496399-4-zack@kde.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,55 +51,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: javierm@redhat.com, banackm@vmware.com, krastevm@vmware.com,
- ppaalanen@gmail.com, iforbes@vmware.com, mombasawalam@vmware.com
+Cc: pierre-eric.pelloux-prayer@amd.com, Randy Dunlap <rdunlap@infradead.org>,
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+ =?UTF-8?q?=27Marek=20Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ =?UTF-8?q?Timur=20Krist=C3=B3f?= <timur.kristof@gmail.com>,
+ Pekka Paalanen <ppaalanen@gmail.com>,
+ Samuel Pitoiset <samuel.pitoiset@gmail.com>, kernel-dev@igalia.com,
+ alexander.deucher@amd.com, Pekka Paalanen <pekka.paalanen@collabora.com>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Martin Krastev <krastevm@vmware.com>
+Create a section that specifies how to deal with DRM device resets for
+kernel and userspace drivers.
 
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+Signed-off-by: André Almeida <andrealmeid@igalia.com>
+---
 
-Looks good.
+v4: https://lore.kernel.org/lkml/20230626183347.55118-1-andrealmeid@igalia.com/
 
-Reviewed-by: Martin Krastev <krastevm@vmware.com>
+Changes:
+ - Grammar fixes (Randy)
 
+ Documentation/gpu/drm-uapi.rst | 68 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 68 insertions(+)
 
-Regards,
+diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+index 65fb3036a580..3cbffa25ed93 100644
+--- a/Documentation/gpu/drm-uapi.rst
++++ b/Documentation/gpu/drm-uapi.rst
+@@ -285,6 +285,74 @@ for GPU1 and GPU2 from different vendors, and a third handler for
+ mmapped regular files. Threads cause additional pain with signal
+ handling as well.
+ 
++Device reset
++============
++
++The GPU stack is really complex and is prone to errors, from hardware bugs,
++faulty applications and everything in between the many layers. Some errors
++require resetting the device in order to make the device usable again. This
++sections describes the expectations for DRM and usermode drivers when a
++device resets and how to propagate the reset status.
++
++Kernel Mode Driver
++------------------
++
++The KMD is responsible for checking if the device needs a reset, and to perform
++it as needed. Usually a hang is detected when a job gets stuck executing. KMD
++should keep track of resets, because userspace can query any time about the
++reset stats for an specific context. This is needed to propagate to the rest of
++the stack that a reset has happened. Currently, this is implemented by each
++driver separately, with no common DRM interface.
++
++User Mode Driver
++----------------
++
++The UMD should check before submitting new commands to the KMD if the device has
++been reset, and this can be checked more often if the UMD requires it. After
++detecting a reset, UMD will then proceed to report it to the application using
++the appropriate API error code, as explained in the section below about
++robustness.
++
++Robustness
++----------
++
++The only way to try to keep an application working after a reset is if it
++complies with the robustness aspects of the graphical API that it is using.
++
++Graphical APIs provide ways to applications to deal with device resets. However,
++there is no guarantee that the app will use such features correctly, and the
++UMD can implement policies to close the app if it is a repeating offender,
++likely in a broken loop. This is done to ensure that it does not keep blocking
++the user interface from being correctly displayed. This should be done even if
++the app is correct but happens to trigger some bug in the hardware/driver.
++
++OpenGL
++~~~~~~
++
++Apps using OpenGL should use the available robust interfaces, like the
++extension ``GL_ARB_robustness`` (or ``GL_EXT_robustness`` for OpenGL ES). This
++interface tells if a reset has happened, and if so, all the context state is
++considered lost and the app proceeds by creating new ones. If it is possible to
++determine that robustness is not in use, the UMD will terminate the app when a
++reset is detected, giving that the contexts are lost and the app won't be able
++to figure this out and recreate the contexts.
++
++Vulkan
++~~~~~~
++
++Apps using Vulkan should check for ``VK_ERROR_DEVICE_LOST`` for submissions.
++This error code means, among other things, that a device reset has happened and
++it needs to recreate the contexts to keep going.
++
++Reporting causes of resets
++--------------------------
++
++Apart from propagating the reset through the stack so apps can recover, it's
++really useful for driver developers to learn more about what caused the reset in
++first place. DRM devices should make use of devcoredump to store relevant
++information about the reset, so this information can be added to user bug
++reports.
++
+ .. _drm_driver_ioctl:
+ 
+ IOCTL Support on Device Nodes
+-- 
+2.41.0
 
-Martin
-
-
-On 27.06.23 г. 6:58 ч., Zack Rusin wrote:
-> From: Zack Rusin <zackr@vmware.com>
->
-> Atomic modesetting got support for mouse hotspots via the hotspot
-> properties. Port the legacy kms hotspot handling to the new properties
-> on cursor planes.
->
-> Signed-off-by: Zack Rusin <zackr@vmware.com>
-> Cc: Martin Krastev <krastevm@vmware.com>
-> Cc: Maaz Mombasawala <mombasawalam@vmware.com>
-> ---
->   drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 9 ++-------
->   1 file changed, 2 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> index b62207be3363..de294dfe05d0 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> @@ -768,13 +768,8 @@ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
->   	struct vmw_plane_state *old_vps = vmw_plane_state_to_vps(old_state);
->   	s32 hotspot_x, hotspot_y;
->   
-> -	hotspot_x = du->hotspot_x;
-> -	hotspot_y = du->hotspot_y;
-> -
-> -	if (new_state->fb) {
-> -		hotspot_x += new_state->fb->hot_x;
-> -		hotspot_y += new_state->fb->hot_y;
-> -	}
-> +	hotspot_x = du->hotspot_x + new_state->hotspot_x;
-> +	hotspot_y = du->hotspot_y + new_state->hotspot_y;
->   
->   	du->cursor_surface = vps->surf;
->   	du->cursor_bo = vps->bo;
