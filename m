@@ -1,60 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 729CA73F461
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 08:18:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4749973F475
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 08:24:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B564C10E28F;
-	Tue, 27 Jun 2023 06:17:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D8FF10E291;
+	Tue, 27 Jun 2023 06:24:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83AD010E28F
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 06:17:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
- s=s31663417; t=1687846672; x=1688451472; i=deller@gmx.de;
- bh=biWKrKStgCQVZ9bbSwx3mVIhNb6laWf8emSgOMQzZ5s=;
- h=X-UI-Sender-Class:Date:From:To:Subject;
- b=Adz33hOz0C9Rocc4r6kS7TC64qNTuom5XmlpJUnw3YOc2V2+t2PnKq5XWsv083Y0sRpYqfA
- tZ62BYKklRNXuipkyAKSMlv1nqBoamk8EiRExx5chhIru3mB2g4pjTQk2kxtcmdgBqUc3q7oq
- i88H7RIftKsTmUIx0Ax+gTKPfPfTE53NLNt9eicJJHBaGXOyX5oIBtjxfXEEvLh3f6FgfSLLz
- nSeoaKTwJB2ciEFSMVE5E8ySVOeIznzkwMhEyDLUJFkMHdrasVgK8OdEp7yj9t9uA+FbqIJOd
- ZTFexuq84oPfL6bkszWq0viaIBBOCWpo6TpaQ0E4RJbGR+v7SXVg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from ls3530 ([94.134.155.6]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mv31W-1pwVCi1ZY0-00r4BQ; Tue, 27
- Jun 2023 08:17:52 +0200
-Date: Tue, 27 Jun 2023 08:17:50 +0200
-From: Helge Deller <deller@gmx.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [GIT PULL] fbdev fixes for v6.5-rc1
-Message-ID: <ZJp/DpaLeYq6s3hB@ls3530>
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B6E210E292
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 06:24:47 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-3fa8cd4a113so20049215e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 23:24:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1687847084; x=1690439084;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=C98sJ4ODjsZ+PIPWAYUbo/b94g4oGT8VWWd+gYZdC8Y=;
+ b=uv3jvPbk6CbFCNFmndl4tn3daErP8c9c+QwKX1LiovcdtenXucdTjrfhHEwnPFk843
+ dweIw/aef9loL0yiVDr0Vf7L/7Bfg1dKHeWQt8/xdo+fgvBpiekVo4CWxJYbeHkLZ4jT
+ NLEOr0TsDrmJHcERtGoeICW2oyedjRQFfES5Q4+QD08PCzrfHUjE5PQB4OwmrjKkfqL5
+ XjPVw9WjVfgsypASqiH88mQG2CQgXBBynh7WWyRujqsUMeYLMSeqDiP86a96/V0yKSsz
+ PSiVVnd9ZBRQsl14hAOhOw7kg7a5DcewJW3X2ofiGv/cpFQ1gM2eScgFsMxDKENvUOAM
+ +vYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687847084; x=1690439084;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=C98sJ4ODjsZ+PIPWAYUbo/b94g4oGT8VWWd+gYZdC8Y=;
+ b=gukCTdIcL4IbQ8yrk53DHeSFFEX+n31uwP1LPrsRAh/IVAEZZ78st5C8WbnDAnkpWd
+ bFM24A3gpyLsmHd6WLhSaNZ3Js0Bd4j+7TpeXB0gj3yWK37HZA2idh/ohydHSyXbdjBd
+ ivomAppMZJm1RJCPQQf3a3Dsr0XSNa49KSnjQ+QEtC+zFfEnN9PjFxCLqkyQPe6ukkin
+ Md8gO7DpUYudgahFLVg9MjIhhpC4UHAh29DMk8/Wg0aRDCB/3uWHM38p4chRNTLwiTtu
+ wUooG3Go4Ze+UXbvsL5OM50ojQUBLhZ2gb3L61xkV3d10rA38VKCz7l+RITf0vzQ/b2f
+ 5ZqA==
+X-Gm-Message-State: AC+VfDykseTs4AEZEbjo7qdPsgMYCknvN5/3NVJAHVUIIFbNO9GrYJqr
+ P/rBUnL1nOezaP8Nu+PAyEx3EQ==
+X-Google-Smtp-Source: ACHHUZ5m0+fZBZC74PuVSF50TNZrU4lB5BVimIJf0UB/moRgkUGOinN/zs+UsF+XR3uW/d//lA5nWA==
+X-Received: by 2002:a05:600c:213:b0:3f6:91c:4e86 with SMTP id
+ 19-20020a05600c021300b003f6091c4e86mr21721010wmi.3.1687847084390; 
+ Mon, 26 Jun 2023 23:24:44 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+ by smtp.gmail.com with ESMTPSA id
+ t25-20020a1c7719000000b003fba80535a5sm226240wmi.24.2023.06.26.23.24.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Jun 2023 23:24:43 -0700 (PDT)
+Message-ID: <16731023-7dc7-d43d-1b16-fda44c0948ed@linaro.org>
+Date: Tue, 27 Jun 2023 08:24:41 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Provags-ID: V03:K1:zTp4pv51aTHsupl3rEEfdVUmEV8y05XJW4UGEP7OX89HuzsBbmy
- c6U9j4ZlZBZ6xf9PCz2lOnqrd6yeR9hXtmZo3Bp6gRAMIWms/FeKJpfLab2vTD4CEXqGRb/
- wmfoRNtlDecQEXrWHtW/W+isM2p9e40mVbdpxDWs7qiejy6EIDUjXpySVD2NuxBESdLfDd4
- Pp9czyrG+z8GatWr66Dmw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:k9dm2dWlI+w=;X+V+rc4OQJPNZciMEMo6pehR1oN
- UtTEiI8CgsXW4213CZmjTsFwAK4Cr+RmnV5xUrJE31pPoZma8P1KmJIrfCnUWu2DRIZunjon3
- b/e4ZDB7mTWvYnttxJWwnDLzOjoWHfMdkE28oH6fqxTkwNJ3hDlBBBuboMHCrJd9v6e2BnAax
- GQ+0Fa5Bdj2f5Rj+n+KbbQ6EtIsvDoWUYEDojfmTNGYGWywDlDmzor1vZElBAOe3eft5KLIZJ
- LdYzuSL5DFI1QhVQaoEuo8kyyVBcxyae1K2RdDgjR4byi+1CzxQQttiHLO2b9fpw805h7g3S4
- sjzIk7bw7noCnIBKzesvhe/wC9ChHOSbQ3oyGxsKeMimKekJafNLNJ41gy/xfw0Muuw0P9YXk
- E1WKEi9B+Bdf5IegeVycAD5TNqzt/Ha+qkHtfxSRo6ur/QujAJTxU4W97/FT9JWYdV7M3+pKh
- L8MquGH614FZrXI6UPaExOLbJQwywDWTeJImxRO8j3WkJ2EhTI3BNfe1VOYQk67omXvymdu5/
- j19KGHy5ynZuPOEFzm/Ln7+m7faCssbZlgHBPF8Ll3Ze8EYVefyXGB2/7yhnwc0opSpRLK7H7
- kIssTzjdbNv5GcCuG6jniJThYGfdzQ/2IYM+Dyt936nIVHvrW6CKT37oZaDVXP8VA6qafpktB
- pepsWWq8WqbO/aEna0SDg2u5+ckRSk/KdcnVepCzWi1NgSCnLy4C/Ay+MIjsjz8SjRbS9eZUC
- xajiHmhJ1CN9Ub88Z1oP5ocWc4phAWu1FK6+jF4RtAmdZM8/KxqHfQ/o7VcKYmYXpgQFJHzue
- 1r1fiIBucW+OdlJ8S/V38jjn3RZRlY5mQFaM+mELxJtTLHul11f7Krqg4L7719jVvgtb9s1k3
- NmJqTx+lYMkRMA4p2shhwyrr1n7Uvvg0gZyfMyOZDWnyRLqYUOQ2JIo1S3m1beZwImjRw39rW
- sqWblw==
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 03/15] dt-bindings: clock: qcom, dispcc-sm6125: Require GCC
+ PLL0 DIV clock
+Content-Language: en-US
+To: Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230624-sm6125-dpu-v1-0-1d5a638cebf2@somainline.org>
+ <20230624-sm6125-dpu-v1-3-1d5a638cebf2@somainline.org>
+ <c9681bce-efa8-9b79-4bf6-837dd6a2dc12@linaro.org>
+ <55b0ca89-8f2e-5383-59d4-6809e813abf8@linaro.org>
+ <vnp263d43flny2ibt3n7fbloyi26enqrejnobogplfu5fcj6l3@s7zkxrsi2rde>
+ <52c57cab-10cf-2e7e-2c1d-fa6506786d45@linaro.org>
+ <jmtjuya4c423rmdlo4ubvvqndbxvgapal5otjqnejdpdd25izp@kewbjmqdu2xs>
+ <6311f26f-79ee-c471-649f-5e0b4629cfcc@linaro.org>
+ <uuy5prkjhhs66te7h6z3pu4lzj2cfbiqk6ftjijwoeqpw573av@ogs6cboanvzc>
+ <ziykmixskqkgheigefvyo4q3katbc4uix6jtcg7mncs25z4tj5@5gykrfgns4bm>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <ziykmixskqkgheigefvyo4q3katbc4uix6jtcg7mncs25z4tj5@5gykrfgns4bm>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,84 +86,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+ dri-devel@lists.freedesktop.org, Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-clk@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+ Andy Gross <agross@kernel.org>, Lux Aliaga <they@mint.lgbt>,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>, Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Stephen Boyd <sboyd@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+On 26/06/2023 20:53, Marijn Suijten wrote:
+> On 2023-06-26 20:51:38, Marijn Suijten wrote:
+> <snip>
+>>> Not really, binding also defines the list of clocks - their order and
+>>> specific entries. This changes.
+>>
+>> And so it does in "dt-bindings: clock: qcom,dispcc-sm6125: Remove unused
+>> GCC_DISP_AHB_CLK"?
+> 
+> Never mind: it is the last item so the order of the other items doesn't
+> change.  The total number of items decreases though, which sounds like
+> an ABI-break too?
 
-please pull some fbdev fixes & cleanups for kernel 6.5-rc1.
-Includes is a fix for a potential out-of-bound memory access in
-fast_imageblit() and the switch of the VIA fbdev driver to use GPIO
-descriptors.
+How does it break? Old DTS works exactly the same, doesn't it?
 
-Thanks!
-Helge
+Best regards,
+Krzysztof
 
---------------
-
-The following changes since commit 9561de3a55bed6bdd44a12820ba81ec416e705a7:
-
-  Linux 6.4-rc5 (2023-06-04 14:04:27 -0400)
-
-are available in the Git repository at:
-
-  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-for-6.5-rc1
-
-for you to fetch changes up to c2d22806aecb24e2de55c30a06e5d6eb297d161d:
-
-  fbdev: fix potential OOB read in fast_imageblit() (2023-06-24 21:55:11 +0200)
-
-----------------------------------------------------------------
-fbdev fixes for 6.5-rc1:
-
-- fix potential OOB read in fast_imageblit()
-- fbdev/media: Use GPIO descriptors for VIA GPIO
-- broadsheetfb & metronomefb: Add MODULE_FIRMWARE macro
-- omapfb: error handling fix in mipid_spi_probe()
-- sh_mobile_lcdcfb, sh7760fb: Typo and warning fixes
-- hitfb: code cleanups
-
-----------------------------------------------------------------
-Christophe JAILLET (2):
-      fbdev: omapfb: lcd_mipid: Fix an error handling path in mipid_spi_probe()
-      video/hdmi: Reorder fields in 'struct hdmi_avi_infoframe'
-
-Geert Uytterhoeven (1):
-      fbdev: sh_mobile_lcdcfb: Fix ARGB32 overlay format typo
-
-Gustavo A. R. Silva (1):
-      fbdev: sh7760fb: Fix -Wimplicit-fallthrough warnings
-
-Juerg Haefliger (2):
-      fbdev: metronomefb: Add MODULE_FIRMWARE macro
-      fbdev: broadsheetfb: Add MODULE_FIRMWARE macro
-
-Linus Walleij (1):
-      fbdev/media: Use GPIO descriptors for VIA GPIO
-
-Lukas Bulwahn (1):
-      MAINTAINERS: adjust entry in VIA UNICHROME(PRO)/CHROME9 FRAMEBUFFER DRIVER
-
-Thomas Zimmermann (3):
-      fbdev: hitfb: Declare hitfb_blank() as static
-      fbdev: hitfb: Fix integer-to-pointer cast
-      fbdev: hitfb: Use NULL for pointers
-
-Zhang Shurong (1):
-      fbdev: fix potential OOB read in fast_imageblit()
-
- MAINTAINERS                                        |  1 -
- drivers/media/platform/via/via-camera.c            | 51 +++++++++-------------
- drivers/video/fbdev/broadsheetfb.c                 |  2 +
- drivers/video/fbdev/core/sysimgblt.c               |  2 +-
- drivers/video/fbdev/hitfb.c                        |  8 ++--
- drivers/video/fbdev/metronomefb.c                  |  2 +
- drivers/video/fbdev/omap/lcd_mipid.c               |  6 ++-
- drivers/video/fbdev/sh7760fb.c                     |  2 +
- drivers/video/fbdev/sh_mobile_lcdcfb.c             |  2 +-
- drivers/video/fbdev/via/via-core.c                 |  2 +-
- drivers/video/fbdev/via/via-gpio.c                 | 28 ++++++------
- .../linux => drivers/video/fbdev/via}/via-gpio.h   |  1 -
- include/linux/hdmi.h                               |  4 +-
- 13 files changed, 54 insertions(+), 57 deletions(-)
- rename {include/linux => drivers/video/fbdev/via}/via-gpio.h (84%)
