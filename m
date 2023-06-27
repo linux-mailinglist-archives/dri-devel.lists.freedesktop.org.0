@@ -2,65 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CABC073F68D
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 10:12:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63C5973F6C7
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 10:18:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAD4510E29E;
-	Tue, 27 Jun 2023 08:12:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 666A410E2B8;
+	Tue, 27 Jun 2023 08:18:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
  [IPv6:2a00:1450:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA4B410E29E
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 08:12:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D727110E2B8;
+ Tue, 27 Jun 2023 08:18:08 +0000 (UTC)
 Received: by mail-lj1-x22b.google.com with SMTP id
- 38308e7fff4ca-2b69e6d324aso32468161fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 01:12:37 -0700 (PDT)
+ 38308e7fff4ca-2b69923a715so37469531fa.0; 
+ Tue, 27 Jun 2023 01:18:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687853556; x=1690445556;
+ d=gmail.com; s=20221208; t=1687853887; x=1690445887;
  h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=XtvD204b/SR+u6xcCBLLYzT70vnoEnK28uSBU5v32j0=;
- b=TWoyRKQVvj7qJ7k6oPrjGST5ln/ysuAy0IsWFBtH4n/b91uSvpXe3yRCj4e1CQTGh5
- ZtlGuBR62Q2bBvAuOUSy+IocrIaZiXIsxPPKPld3M/UrL5HUK3HB4yV0GVqQ4Eay7oxJ
- zRQx1lghm0zg5w8+XBB77ZdHF/tJnLKTS1ijDpWRKCN37XoGTh8C1wvwct0cbtZx/kr3
- aN+zwSQqKogoltCzfKUmVhzfvkmGMRBwz89S5Kh1bBfrc53mgIvvGbwObMfUHKXzhbJ/
- Gj1TMfqD3qr+5coA6K32ILLYFRJfc6HJYw3eWGGXec+X3pWJbr5aDUQUNnMnb6Zs44r5
- A9+w==
+ bh=aDcwtD5dUb123KopR26bdwMl9ONuprOUqM+yKdmN9c0=;
+ b=jlQ2gQvxDhLs4c6oIgDQwYGRKdEaNxEKomPDk+ORI695SBCXAN7+x9dJPD4KB/DbRL
+ Z3kAjQbrwlrMXqs7Ga1mkzJb4/Wc9p3dyqyXW/6kfrqqr/PXofvB64g039xyPICBhnoS
+ 9PhII/bi7WRpn9xE9QR7NXOFQf4jDa9jJd60QDW/XPRYSjDkA33z2djuxx98sfSl9ihL
+ CFdcLcIKd66KU9THV1moDZnK/liFunO0LPv5wVkIJH9jEjDRr3CBvqVVv+fpIeODSx2h
+ iztz8E4lzamSEBOewzj/BaGoUO2qU+Er9/kExQmSgOEkdzugAjk+Ik2n9caA0VRuyzyn
+ 8CoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687853556; x=1690445556;
+ d=1e100.net; s=20221208; t=1687853887; x=1690445887;
  h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XtvD204b/SR+u6xcCBLLYzT70vnoEnK28uSBU5v32j0=;
- b=a2WEEcQUWu3bEZ0sh2UMpDgoo3lWzMRTyKgSjoZ9VvXkoy2IwSYB9TkqFEl4PV/pFP
- XvYg7A+3drhx0MgB7/D3RD7g8eyvIugDQgmQq4H1ZA4lfuLcv8Km6AcaAkb0dywHGpGs
- k4KiMereaNENPkguVCBRY+lfBcM12sI9UUNHFZeZ8v1VicBCH2X6UxXNfcarOStHyU7h
- ifFlqhULkhpviy4yTwWtGgwN/7P9STtXYE5rPjjepe+Npj1Eu7Sb4M6FMA4t6FSp7Zv1
- E431GH7sE8uOsaDM08kkNy/pA7V3DW/vTlqN3ek0JyFdkQ+ebHKEuW8etZMf1uwj8sLA
- n90g==
-X-Gm-Message-State: AC+VfDxfmbeDs6+TrRr3Vn3miLWbcSPQfg/68tEYTHXZcYkHJ4aHJuZe
- tAJE0D9GrEJ6FUxpPxSXYgM=
-X-Google-Smtp-Source: ACHHUZ7j8ma2JyFezxFTjFyl5ikUbw790zc3h0wrahS5vxtI/fBX8CZrkJRvXWMRQ0B03FQsNSp/8w==
-X-Received: by 2002:a2e:80d0:0:b0:2b5:9f54:e290 with SMTP id
- r16-20020a2e80d0000000b002b59f54e290mr5106103ljg.0.1687853555244; 
- Tue, 27 Jun 2023 01:12:35 -0700 (PDT)
+ bh=aDcwtD5dUb123KopR26bdwMl9ONuprOUqM+yKdmN9c0=;
+ b=jm9BQ5yUPDYhwWl7F2Mm4CWQ1UjYn0+E6vFshhW7udsUC+kqFN6BaNcudZztbluvNF
+ KFy5YSlnWAKdYUnT3wtkxdxgnlP6QzNnFk5+DUAVWe0Ovo4IX0hCLgXibt2l3kFrRa5x
+ XC9vRALypBYegMxVXcFU9ndZB4Pv5qn5ROhbXvMV4EQ+xwVnsYnh60gVZWcBJzRShxZm
+ dsg+otoOCsI123noVLR2m4oTkojdjq+ophXxB8YaAW1TO4cwHupRzCu48f9RAObAavVx
+ A7iCMndHw94k4x+z+0DuIx6ZTxR9DyjQSPDGXMgnOcwSgxy5x/hF994AjBdozplNel7Z
+ hwwA==
+X-Gm-Message-State: AC+VfDwK4cRTgrHenhGQDXjzFvHL3v2G8la5PKKZQulyJMF18gEgR4S4
+ rmMuF1cdttC0cysPR7A5OPA=
+X-Google-Smtp-Source: ACHHUZ5FLZn8rqUWAkxdQHm9Ebkb03Lru6KLXrl+NbgOJY0YeaeLuRriQGlPrQ27n31tEWDBOTG6HQ==
+X-Received: by 2002:a2e:6a07:0:b0:2b5:7fba:18ac with SMTP id
+ f7-20020a2e6a07000000b002b57fba18acmr15598565ljc.48.1687853886640; 
+ Tue, 27 Jun 2023 01:18:06 -0700 (PDT)
 Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- a12-20020a2eb16c000000b002b69f64b08asm1101668ljm.37.2023.06.27.01.12.34
+ y13-20020a2e9d4d000000b002b69b44fd52sm1282062ljj.5.2023.06.27.01.18.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jun 2023 01:12:34 -0700 (PDT)
-Date: Tue, 27 Jun 2023 11:12:31 +0300
+ Tue, 27 Jun 2023 01:18:06 -0700 (PDT)
+Date: Tue, 27 Jun 2023 11:18:02 +0300
 From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Maira Canal <mairacanal@riseup.net>
-Subject: Re: [PATCH v4] drm/vkms: Add support to 1D gamma LUT
-Message-ID: <20230627111231.79ed863c@eldfell>
-In-Reply-To: <91aa3ffe-edb9-d85c-c62b-49f7bf73a0ae@riseup.net>
-References: <20230621194121.184552-1-arthurgrillo@riseup.net>
- <e880d5cd-a958-164e-4ba9-dd2d0e3ad903@riseup.net>
- <20230626111745.49dbbf08@eldfell>
- <91aa3ffe-edb9-d85c-c62b-49f7bf73a0ae@riseup.net>
+To: Zack Rusin <zack@kde.org>
+Subject: Re: [PATCH v3 1/8] drm: Disable the cursor plane on atomic contexts
+ with virtualized drivers
+Message-ID: <20230627111802.4953a3ae@eldfell>
+In-Reply-To: <20230627035839.496399-2-zack@kde.org>
+References: <20230627035839.496399-1-zack@kde.org>
+ <20230627035839.496399-2-zack@kde.org>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/jJ0W.5+=RSh_tpTqjf3=ggJ";
+Content-Type: multipart/signed; boundary="Sig_/dn7NARskuHFZfslN0/I+jRo";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,163 +73,231 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, aleixpol@kde.org, andrealmeid@riseup.net,
- rodrigosiqueiramelo@gmail.com, xaver.hugl@gmail.com, mdaenzer@redhat.com,
- dri-devel@lists.freedesktop.org, victoria@system76.com, mwen@igalia.com,
- jadahl@redhat.com, uma.shankar@intel.com, sebastian.wick@redhat.com,
- Arthur Grillo <arthurgrillo@riseup.net>, joshua@froggi.es
+Cc: Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Hans de Goede <hdegoede@redhat.com>, David Airlie <airlied@linux.ie>,
+ banackm@vmware.com, javierm@redhat.com, krastevm@vmware.com,
+ spice-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>, dri-devel@lists.freedesktop.org,
+ Dave Airlie <airlied@redhat.com>, stable@vger.kernel.org, iforbes@vmware.com,
+ virtualization@lists.linux-foundation.org, mombasawalam@vmware.com,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/jJ0W.5+=RSh_tpTqjf3=ggJ
-Content-Type: text/plain; charset=UTF-8
+--Sig_/dn7NARskuHFZfslN0/I+jRo
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 26 Jun 2023 14:35:25 -0300
-Maira Canal <mairacanal@riseup.net> wrote:
+On Mon, 26 Jun 2023 23:58:32 -0400
+Zack Rusin <zack@kde.org> wrote:
 
-> Hi Pekka,
+> From: Zack Rusin <zackr@vmware.com>
 >=20
-> On 6/26/23 05:17, Pekka Paalanen wrote:
-> > On Sat, 24 Jun 2023 18:48:08 -0300
-> > Maira Canal <mairacanal@riseup.net> wrote:
-> >  =20
-> >> Hi Arthur,
-> >>
-> >> Thanks for working on this feature for the VKMS!
-> >>
-> >> On 6/21/23 16:41, Arthur Grillo wrote: =20
-> >>> Support a 1D gamma LUT with interpolation for each color channel on t=
-he
-> >>> VKMS driver. Add a check for the LUT length by creating
-> >>> vkms_atomic_check().
-> >>>
-> >>> Tested with:
-> >>> igt@kms_color@gamma
-> >>> igt@kms_color@legacy-gamma
-> >>> igt@kms_color@invalid-gamma-lut-sizes =20
-> >>
-> >> Could you also mention that this will make it possible to run the test
-> >> igt@kms_plane@pixel-format?
-> >>
-> >> Also, you mentioned to me that the performance degraded with this new
-> >> feature, but I wasn't able to see it while running the VKMS CI. I
-> >> performed a couple of tests and I didn't see any significant performan=
-ce
-> >> issue.
-> >>
-> >> Could you please run a benchmark and share the results with us? This w=
-ay
-> >> we can atest that this new feature will not affect significantly the
-> >> VKMS performance. It would be nice to have a small brief of this
-> >> benchmark on the commit message as well.
-> >>
-> >> Attesting that there isn't a performance issue and adding those nits to
-> >> the commit message, you can add my
-> >>
-> >> Reviewed-by: Ma=C3=ADra Canal <mairacanal@riseup.net>
-> >>
-> >> on the next version. =20
-> >=20
-> > Hi,
-> >=20
-> > perfomance testing is good indeed. As future work, could there be a
-> > document describing how to test VKMS performance? =20
+> Cursor planes on virtualized drivers have special meaning and require
+> that the clients handle them in specific ways, e.g. the cursor plane
+> should react to the mouse movement the way a mouse cursor would be
+> expected to and the client is required to set hotspot properties on it
+> in order for the mouse events to be routed correctly.
 >=20
-> I'll try to select a couple of more meaningful IGT tests to describe how
-> to test the VKMS performance and also add a document to describe how to
-> run this tests.
+> This breaks the contract as specified by the "universal planes". Fix it
+> by disabling the cursor planes on virtualized drivers while adding
+> a foundation on top of which it's possible to special case mouse cursor
+> planes for clients that want it.
 >=20
-> Recently, I added a VKMS must-pass testlist to IGT. This testlist
-> tries to assure that regressions will not be introduced into VKMS. But,
-> I failed to introduce a documentation on the kernel side pointing to
-> this new testlist... I'll also work on it.
+> Disabling the cursor planes makes some kms compositors which were broken,
+> e.g. Weston, fallback to software cursor which works fine or at least
+> better than currently while having no effect on others, e.g. gnome-shell
+> or kwin, which put virtualized drivers on a deny-list when running in
+> atomic context to make them fallback to legacy kms and avoid this issue.
 >=20
-> >=20
-> > "I ran IGT@blah 100 times and it took xx seconds before and yy seconds
-> > after" does not really give someone like me an idea of what was
-> > actually measured. For example blending overhead increase could be
-> > completely lost in opaque pixel copying noise if the test case has only
-> > few pixels to blend, e.g. a cursor plane, not to mention the overhead
-> > of launching an IGT test in the first place. =20
->=20
-> About the IGT overhead, I don't know exactly how we could escape from
-> it. Maybe writing KUnit tests to the VKMS's composition functions, such
-> as blend(). Anyway, we would have the overhead of the KUnit framework.
-> I mean, for whatever framework we choose, there'll be an overhead...
->=20
-> Do you have any other ideas on how to test VKMS with less overhead?
+> Signed-off-by: Zack Rusin <zackr@vmware.com>
+> Fixes: 681e7ec73044 ("drm: Allow userspace to ask for universal plane lis=
+t (v2)")
 
-Maybe put the repeat loop and time measurement inside the code of a few
-chosen IGT tests?
+Sounds good to me.
 
-So that it loops only the KMS programming and somehow ensures VKMS has
-finished processing each update before doing the next cycle. I presume
-VKMS does not have a timer-based refresh cycle that might add CPU idle
-time? Writeback should be included in the measurement too, but inspecting
-writeback results should not.
-
-Once all that is in place, then each performance test needs to use
-appropriate operations. E.g. if testing blending performance, use
-almost full-screen planes.
-
-What's the overhead of KUnit framework? Can you not do the same there,
-put the repeat loop and time measurement inside the test to cover only
-the interesting code?
-
-Unit-testing the composition function performance might be ideal.
-
-Depending on the type of test, if the CRTC mode and planes are big
-enough, maybe there is no need to repeat even. But testing presumably
-fast things like moving a cursor plane will likely need repeating in
-order to produce stable numbers.
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 
 
 Thanks,
 pq
 
->=20
-> Best Regards,
-> - Ma=C3=ADra
->=20
-> >=20
-> > Something that would guide new developers in running meaningful
-> > benchmarks would be nice.
-> >=20
-> > Should e.g. IGT have explicit (VKMS) performance tests that need to be
-> > run manually, since evaluation of the result is not feasible
-> > automatically? Or a benchmark mode in correctness tests that would run
-> > the identical operation N times and measure the time before checking
-> > for correctness?
-> >=20
-> > The correctness verification in IGT tests, if done by image comparison
-> > which they undoubtedly will need to be in the future, may dominate the
-> > CPU run time measurements if included.
-> >=20
-> >=20
-> > Thanks,
-> > pq =20
 
 
---Sig_/jJ0W.5+=RSh_tpTqjf3=ggJ
+> Cc: <stable@vger.kernel.org> # v5.4+
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Hans de Goede <hdegoede@redhat.com>
+> Cc: Gurchetan Singh <gurchetansingh@chromium.org>
+> Cc: Chia-I Wu <olvaffe@gmail.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: virtualization@lists.linux-foundation.org
+> Cc: spice-devel@lists.freedesktop.org
+> ---
+>  drivers/gpu/drm/drm_plane.c          | 13 +++++++++++++
+>  drivers/gpu/drm/qxl/qxl_drv.c        |  2 +-
+>  drivers/gpu/drm/vboxvideo/vbox_drv.c |  2 +-
+>  drivers/gpu/drm/virtio/virtgpu_drv.c |  2 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c  |  2 +-
+>  include/drm/drm_drv.h                |  9 +++++++++
+>  include/drm/drm_file.h               | 12 ++++++++++++
+>  7 files changed, 38 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> index 24e7998d1731..a4a39f4834e2 100644
+> --- a/drivers/gpu/drm/drm_plane.c
+> +++ b/drivers/gpu/drm/drm_plane.c
+> @@ -678,6 +678,19 @@ int drm_mode_getplane_res(struct drm_device *dev, vo=
+id *data,
+>  		    !file_priv->universal_planes)
+>  			continue;
+> =20
+> +		/*
+> +		 * If we're running on a virtualized driver then,
+> +		 * unless userspace advertizes support for the
+> +		 * virtualized cursor plane, disable cursor planes
+> +		 * because they'll be broken due to missing cursor
+> +		 * hotspot info.
+> +		 */
+> +		if (plane->type =3D=3D DRM_PLANE_TYPE_CURSOR &&
+> +		    drm_core_check_feature(dev, DRIVER_CURSOR_HOTSPOT)	&&
+> +		    file_priv->atomic &&
+> +		    !file_priv->supports_virtualized_cursor_plane)
+> +			continue;
+> +
+>  		if (drm_lease_held(file_priv, plane->base.id)) {
+>  			if (count < plane_resp->count_planes &&
+>  			    put_user(plane->base.id, plane_ptr + count))
+> diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_drv.c
+> index b30ede1cf62d..91930e84a9cd 100644
+> --- a/drivers/gpu/drm/qxl/qxl_drv.c
+> +++ b/drivers/gpu/drm/qxl/qxl_drv.c
+> @@ -283,7 +283,7 @@ static const struct drm_ioctl_desc qxl_ioctls[] =3D {
+>  };
+> =20
+>  static struct drm_driver qxl_driver =3D {
+> -	.driver_features =3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+> +	.driver_features =3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC | DRIV=
+ER_CURSOR_HOTSPOT,
+> =20
+>  	.dumb_create =3D qxl_mode_dumb_create,
+>  	.dumb_map_offset =3D drm_gem_ttm_dumb_map_offset,
+> diff --git a/drivers/gpu/drm/vboxvideo/vbox_drv.c b/drivers/gpu/drm/vboxv=
+ideo/vbox_drv.c
+> index 4fee15c97c34..8ecd0863fad7 100644
+> --- a/drivers/gpu/drm/vboxvideo/vbox_drv.c
+> +++ b/drivers/gpu/drm/vboxvideo/vbox_drv.c
+> @@ -172,7 +172,7 @@ DEFINE_DRM_GEM_FOPS(vbox_fops);
+> =20
+>  static const struct drm_driver driver =3D {
+>  	.driver_features =3D
+> -	    DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
+> +	    DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC | DRIVER_CURSOR_HOTSPOT,
+> =20
+>  	.fops =3D &vbox_fops,
+>  	.name =3D DRIVER_NAME,
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virti=
+o/virtgpu_drv.c
+> index a7ec5a3770da..8f4bb8a4e952 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_drv.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
+> @@ -176,7 +176,7 @@ static const struct drm_driver driver =3D {
+>  	 * If KMS is disabled DRIVER_MODESET and DRIVER_ATOMIC are masked
+>  	 * out via drm_device::driver_features:
+>  	 */
+> -	.driver_features =3D DRIVER_MODESET | DRIVER_GEM | DRIVER_RENDER | DRIV=
+ER_ATOMIC,
+> +	.driver_features =3D DRIVER_MODESET | DRIVER_GEM | DRIVER_RENDER | DRIV=
+ER_ATOMIC | DRIVER_CURSOR_HOTSPOT,
+>  	.open =3D virtio_gpu_driver_open,
+>  	.postclose =3D virtio_gpu_driver_postclose,
+> =20
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx=
+/vmwgfx_drv.c
+> index 8b24ecf60e3e..d3e308fdfd5b 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> @@ -1611,7 +1611,7 @@ static const struct file_operations vmwgfx_driver_f=
+ops =3D {
+> =20
+>  static const struct drm_driver driver =3D {
+>  	.driver_features =3D
+> -	DRIVER_MODESET | DRIVER_RENDER | DRIVER_ATOMIC | DRIVER_GEM,
+> +	DRIVER_MODESET | DRIVER_RENDER | DRIVER_ATOMIC | DRIVER_GEM | DRIVER_CU=
+RSOR_HOTSPOT,
+>  	.ioctls =3D vmw_ioctls,
+>  	.num_ioctls =3D ARRAY_SIZE(vmw_ioctls),
+>  	.master_set =3D vmw_master_set,
+> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+> index b77f2c7275b7..8303016665dd 100644
+> --- a/include/drm/drm_drv.h
+> +++ b/include/drm/drm_drv.h
+> @@ -104,6 +104,15 @@ enum drm_driver_feature {
+>  	 * acceleration should be handled by two drivers that are connected usi=
+ng auxiliary bus.
+>  	 */
+>  	DRIVER_COMPUTE_ACCEL            =3D BIT(7),
+> +	/**
+> +	 * @DRIVER_CURSOR_HOTSPOT:
+> +	 *
+> +	 * Driver supports and requires cursor hotspot information in the
+> +	 * cursor plane (e.g. cursor plane has to actually track the mouse
+> +	 * cursor and the clients are required to set hotspot in order for
+> +	 * the cursor planes to work correctly).
+> +	 */
+> +	DRIVER_CURSOR_HOTSPOT           =3D BIT(8),
+> =20
+>  	/* IMPORTANT: Below are all the legacy flags, add new ones above. */
+> =20
+> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+> index 966912053cb0..91cf7f452f86 100644
+> --- a/include/drm/drm_file.h
+> +++ b/include/drm/drm_file.h
+> @@ -228,6 +228,18 @@ struct drm_file {
+>  	 */
+>  	bool is_master;
+> =20
+> +	/**
+> +	 * @supports_virtualized_cursor_plane:
+> +	 *
+> +	 * This client is capable of handling the cursor plane with the
+> +	 * restrictions imposed on it by the virtualized drivers.
+> +	 *
+> +	 * This implies that the cursor plane has to behave like a cursor
+> +	 * i.e. track cursor movement. It also requires setting of the
+> +	 * hotspot properties by the client on the cursor plane.
+> +	 */
+> +	bool supports_virtualized_cursor_plane;
+> +
+>  	/**
+>  	 * @master:
+>  	 *
+
+
+--Sig_/dn7NARskuHFZfslN0/I+jRo
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmSame8ACgkQI1/ltBGq
-qqcU7g/8CUy8mBByAdflxHbAEJGg6pU7pXKP/zpSejdZuURajcda5cjJ9cdCf8Nb
-gVv9GapyBP5EcE7wjvm5zEUduHmTG4PyfdnIds6kAVApY907TLIpNxIH/RKPv1Ne
-yryZWnjqq5WWZtcRWsCIEHqWz57HGRYJWGIkOqfBAVxwy0haBvRywgFGrwKWxzFV
-EMwNLRNe5eYbRXLqbDM7x0FCVJz/uczOvqL57qgUZrM02DnJTwO2iztFbiOFW+F/
-r7DpgnpZZozXO5ivz9sV/j6qa2je4N6bi0K8SDKz3pmqs8NeGNEBB15LxtlWZ0hn
-suFZc4BHpsW/YlfbKb0Nkb+cVvvvuXtAEgUe3W7HtjeWKtSCsaQB9AlSbThF0OVJ
-ZqfH5NIwX/QVt4JGiFmWwjmUoG8053asdGhoZvwN0zLZDgmL+fzzg7xZ6OE2/ytU
-zQwlOJU8qDkmJkF5m4VjQGJbW9YbXrKAyLW0KER13dkfgmdDK5GdI1qLuHaR7EYA
-AkjhHB5n06piEmysSREpvIZYak/l9LLvFdmp5PS37FxlgKUE3CzxDSIDXOY+H4c0
-f0Kt1mvm4GtgcIHYR/oPi6SEMuzp3fIk5hEj55JSr6GcX+SY2Cyj6J49PVwi/fbU
-lxN1YDuKxhEhoj9D+Bo8Ezg28+7ab1V2rdYKlsgD7ld+ud6v3UA=
-=zmlY
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmSamzoACgkQI1/ltBGq
+qqev5w//bf7LGYapeDrkT7Kx5Wn2+3er1WUXQw0qS2wzQsju36GQD0vreWuKNiK+
+try/OSwHPEUFxwlsaBJ97ovqnb+P8EvxLHVe2Qa2feOoKgVY/HO5JvZiDMUT6ZIp
+gBH4UHeAdfpTIOyiI67Ru7qtWjsGZGamhyYBaD9JC7Qm2oRIBxCbCUBHvWmrvSG/
+HOzjY0u5CFFtsB1F6TttosUBXwLuGn3FRKp/7KgiBXUR5Q9rKW0r5ncmxRyVLV8H
+w5pOjD4BpAnJwvI78Yr/xaoM3+Wty4adawDysKOPA+OGXCWvRh+EkQ25kIXlms9Y
+USqq9qGP03dtAKiSjg+CkjYK2PCOPys17xsTFMSWCWU4byuJ0sF6V/S1ckpai2hz
+EMLPq/s3MBpWzX4ZeTAq3s4GkIbLeNgW4u1G2EeqG+obWEL7Y3fNGi4/G4BJr6Ue
+zYGL4XRMAyCQTtPSr7eXHbW5j2xQxUPWYgPFwgISyeBePxcWqov9IG+gulZOMSOj
+2q27CTVIjfYYKztU3JCyRxS8PTamoiDgo/7H+GqTBNRu9eOliapmp2Yo4atVXvE7
+p8BBogtHMTPzXpgVoR6NoKThHsTXBo4oC7w0ttQYoDSS811/b/xza4ptScBSqkxL
+1IIafFLBw5n/eBrJnQY8D2qaJR6Pj96fr8zB5to46EYwYdKpPXg=
+=wBza
 -----END PGP SIGNATURE-----
 
---Sig_/jJ0W.5+=RSh_tpTqjf3=ggJ--
+--Sig_/dn7NARskuHFZfslN0/I+jRo--
