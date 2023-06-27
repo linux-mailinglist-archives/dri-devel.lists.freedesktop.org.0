@@ -2,61 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F16C273F791
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 10:41:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6072873F79C
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 10:42:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E215410E008;
-	Tue, 27 Jun 2023 08:41:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6413810E2BC;
+	Tue, 27 Jun 2023 08:42:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id A256510E2B6;
- Tue, 27 Jun 2023 08:41:38 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8CxLMe_oJpkcPYCAA--.4609S3;
- Tue, 27 Jun 2023 16:41:35 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8AxzyO_oJpknq4LAA--.7367S3; 
- Tue, 27 Jun 2023 16:41:35 +0800 (CST)
-Message-ID: <766f323a-efcf-6552-f7e5-a736830c3f12@loongson.cn>
-Date: Tue, 27 Jun 2023 16:41:35 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm: Remove the deprecated drm_put_dev() function
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>, Pan Xinhui <Xinhui.Pan@amd.com>
-References: <20230625050901.393055-1-suijingfeng@loongson.cn>
- <4672fc8d-ca95-6d00-1303-cb5968c51703@suse.de>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <4672fc8d-ca95-6d00-1303-cb5968c51703@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8AxzyO_oJpknq4LAA--.7367S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW3Xr48Jw1UGr4Uur4fZw1kWFX_yoW7uF4fpF
- s3JFyrtrWUtFs5Gr17JF17CFy5Jw47t3WfWr18Ga43Wrs8Ary0qF9xXry0gryUJrW8Ar1F
- yF15XF1UZFyUCFcCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUvIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
- xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
- 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv
- 67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07
- AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
- F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GF
- ylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
- xVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
- 4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j5
- WrAUUUUU=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8003B10E2BC
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 08:42:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1687855342;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=b2MmmmX8qSiO177aJ1IsOrsyeObiJXUg8rR6lbP0Xfw=;
+ b=TfzmsX3/4BIdwaayJn+3JmCr1wYKhW/Eiab33Bn8M8RApqdu8Wcxq7421OV9XyPvKbynpP
+ iN/0D/u/3AoPj3hEK3J3fm7NsRcymyDoJADItcZNHvto5lYVuHh8BNht4iSi1qS2hNQN/Z
+ xzZ/jWHL7yzliH5LlpOgLm/IAK4Of7M=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-106--D0sjsayN2qXSQhEkmHVDQ-1; Tue, 27 Jun 2023 04:42:19 -0400
+X-MC-Unique: -D0sjsayN2qXSQhEkmHVDQ-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-3f8283a3a7aso12437271cf.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 01:42:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687855339; x=1690447339;
+ h=content-transfer-encoding:mime-version:organization:date:to:from
+ :subject:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=b2MmmmX8qSiO177aJ1IsOrsyeObiJXUg8rR6lbP0Xfw=;
+ b=BqDxku3OCOC0PhhWCng5a5OK1DNCtPMF0eql095w1D37029+o5WjNz0nuFfk/nwEBE
+ tZHd0v86L2QTnZFfFlnhcWRkmPu8piLhMJtr58xFs4XfZyXnDbcnBskWeuv33O+8R8DO
+ LD/5GPza5OGLC7e1mxIIfAXQkfsqdZ06TygbGhJj1zF118H0S2eutYYJTCPjxGTU4kK2
+ nMJd6KuHmN+GJwSF+5HjWrGZmNTb7ivzvIg0QfIEZbNmgnvS2EOXRrRMVnIxUvvosR3i
+ NdZy9mbxxGM3Blu+TlAOopuur0QqtvxUbj2f5AL2qBIARfhQ78jA30InRaWB7Y/Dxo37
+ 5o6g==
+X-Gm-Message-State: AC+VfDw+mXV8GZivvsn+2gQ++1OhY4i/vtv3TKpmkhJHmt9OF0gqf11B
+ K/Gjux5OaT6uDjHJ63A4XMKEfbj1f+2SzQkzWFwSV5IQwn1gHzha37LEtDY4AqKieWeQjZ+93IG
+ 5Jpf73Q+IJT1wRKemJ69XpkOMHK7W2lPxvbKW7ZzGcYIPsHYZmQqz6FQnypvheZaNGdMdQfIAu9
+ pQMFvM3IS+MuGu
+X-Received: by 2002:a05:622a:1014:b0:400:aa1a:bb4c with SMTP id
+ d20-20020a05622a101400b00400aa1abb4cmr1819085qte.3.1687855339306; 
+ Tue, 27 Jun 2023 01:42:19 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7ATT1RiIQZKXpf58QSToXjjNL1Xsj18ze16kl9PmEddxBEF/MvrYdYpO6COOgDpCrs4siIHA==
+X-Received: by 2002:a05:622a:1014:b0:400:aa1a:bb4c with SMTP id
+ d20-20020a05622a101400b00400aa1abb4cmr1819076qte.3.1687855338902; 
+ Tue, 27 Jun 2023 01:42:18 -0700 (PDT)
+Received: from dhcp-64-119.muc.redhat.com (nat-pool-muc-t.redhat.com.
+ [149.14.88.26]) by smtp.gmail.com with ESMTPSA id
+ cg13-20020a05622a408d00b003f4ed0ca698sm4242972qtb.49.2023.06.27.01.42.18
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Jun 2023 01:42:18 -0700 (PDT)
+Message-ID: <b551fb687a07e1461ca325c6951e96f4f962941a.camel@redhat.com>
+Subject: Why does kgd2kfd_interrupt() have to schedule work on a specific CPU?
+From: Philipp Stanner <pstanner@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Date: Tue, 27 Jun 2023 10:42:17 +0200
+Organization: Red Hat Inc.
+X-Mailer: Evolution 3.28.5 (3.28.5-18.el8)
+Mime-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,203 +83,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hello folks,
 
-On 2023/6/26 15:56, Thomas Zimmermann wrote:
-> Hi
->
-> Am 25.06.23 um 07:09 schrieb Sui Jingfeng:
->> As this function can be replaced with drm_dev_unregister() + 
->> drm_dev_put(),
->> it is already marked as deprecated, so remove it. No functional change.
->>
->> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->> ---
->>   drivers/gpu/drm/drm_drv.c           | 28 ----------------------------
->>   drivers/gpu/drm/drm_pci.c           |  3 ++-
->>   drivers/gpu/drm/radeon/radeon_drv.c |  3 ++-
->>   include/drm/drm_drv.h               |  1 -
->>   4 files changed, 4 insertions(+), 31 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
->> index 12687dd9e1ac..5057307fe22a 100644
->> --- a/drivers/gpu/drm/drm_drv.c
->> +++ b/drivers/gpu/drm/drm_drv.c
->> @@ -406,34 +406,6 @@ void drm_minor_release(struct drm_minor *minor)
->>    * possibly leaving the hardware enabled.
->>    */
->>   -/**
->> - * drm_put_dev - Unregister and release a DRM device
->> - * @dev: DRM device
->> - *
->> - * Called at module unload time or when a PCI device is unplugged.
->> - *
->> - * Cleans up all DRM device, calling drm_lastclose().
->> - *
->> - * Note: Use of this function is deprecated. It will eventually go away
->> - * completely.  Please use drm_dev_unregister() and drm_dev_put() 
->> explicitly
->> - * instead to make sure that the device isn't userspace accessible 
->> any more
->> - * while teardown is in progress, ensuring that userspace can't 
->> access an
->> - * inconsistent state.
->> - */
->> -void drm_put_dev(struct drm_device *dev)
->> -{
->> -    DRM_DEBUG("\n");
->> -
->> -    if (!dev) {
->> -        DRM_ERROR("cleanup called no dev\n");
->> -        return;
->> -    }
->> -
->> -    drm_dev_unregister(dev);
->> -    drm_dev_put(dev);
->> -}
->> -EXPORT_SYMBOL(drm_put_dev);
->> -
->>   /**
->>    * drm_dev_enter - Enter device critical section
->>    * @dev: DRM device
->> diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
->> index 39d35fc3a43b..b3a68a92eaa6 100644
->> --- a/drivers/gpu/drm/drm_pci.c
->> +++ b/drivers/gpu/drm/drm_pci.c
->> @@ -257,7 +257,8 @@ void drm_legacy_pci_exit(const struct drm_driver 
->> *driver,
->>                        legacy_dev_list) {
->>               if (dev->driver == driver) {
->>                   list_del(&dev->legacy_dev_list);
->> -                drm_put_dev(dev);
->> +                drm_dev_unregister(dev);
->> +                drm_dev_put(dev);
->>               }
->>           }
->>           mutex_unlock(&legacy_dev_list_lock);
->> diff --git a/drivers/gpu/drm/radeon/radeon_drv.c 
->> b/drivers/gpu/drm/radeon/radeon_drv.c
->> index e4374814f0ef..a4955ae10659 100644
->> --- a/drivers/gpu/drm/radeon/radeon_drv.c
->> +++ b/drivers/gpu/drm/radeon/radeon_drv.c
->> @@ -357,7 +357,8 @@ radeon_pci_remove(struct pci_dev *pdev)
->>   {
->>       struct drm_device *dev = pci_get_drvdata(pdev);
->>   -    drm_put_dev(dev);
->
-> Did you verify that dev cannot be NULL here? There was a check in 
-> drm_put_dev() for !dev.
->
-
-I have verified :
+I'm currently trying to learn more about DRM and discovered the
+following code sequence:
 
 
-1)
+drivers/gpu/drm/amd/amdkfd/kfd_device.c, Line 824 on 6.4-rc7
 
-If there is no radeon card(say R5-340) mounted in the system,  I 
-modprobe the radeon.ko manually.
+static inline void kfd_queue_work(struct workqueue_struct *wq,
+				  struct work_struct *work)
+{
+	int cpu, new_cpu;
 
-then both the radeon_pci_probe() and the radeon_pci_remove() function 
-won't get called.
+	cpu = new_cpu = smp_processor_id();
+	do {
+		new_cpu = cpumask_next(new_cpu, cpu_online_mask) % nr_cpu_ids;
+		if (cpu_to_node(new_cpu) == numa_node_id())
+			break;
+	} while (cpu != new_cpu);
 
-There is no chance that the driver_probe_device() function getting called.
+	queue_work_on(new_cpu, wq, work);
+}
 
+/* This is called directly from KGD at ISR. */
+void kgd2kfd_interrupt(struct kfd_dev *kfd, const void *ih_ring_entry)
+{
+	uint32_t patched_ihre[KFD_MAX_RING_ENTRY_SIZE];
+	bool is_patched = false;
+	unsigned long flags;
 
-|- driver_register()
+	if (!kfd->init_complete)
+		return;
 
-|-- bus_add_driver()
+	if (kfd->device_info.ih_ring_entry_size > sizeof(patched_ihre)) {
+		dev_err_once(kfd_device, "Ring entry too small\n");
+		return;
+	}
 
-|--- driver_attach()
+	spin_lock_irqsave(&kfd->interrupt_lock, flags);
 
-|---- bus_for_each_dev(drv->bus, NULL, drv, __driver_attach)
+	if (kfd->interrupts_active
+	    && interrupt_is_wanted(kfd, ih_ring_entry,
+				   patched_ihre, &is_patched)
+	    && enqueue_ih_ring_entry(kfd,
+				     is_patched ? patched_ihre : ih_ring_entry))
+		kfd_queue_work(kfd->ih_wq, &kfd->interrupt_work);
 
-|----- __driver_attach()
-
-|------ __device_attach_driver()
-
-// There is no chance that the driver_probe_device() function get called.
-
-|------- driver_probe_device(drv, dev)
-
-```
-
-
-2)  normal case:
-
-
-If there are radeon cards mounted in the system,
-
-then as long as the pci_set_drvdata(pdev, dev) get called,
-
-the 'driver_data' member of struct device will hold the pointer to the 
-'struct drm_device';
-
-So, it will be fine as long as the radeon.ko get loaded normally.
-
-
-I'm sure it will works as expected on normal case, with 100% confident.
-
-
-3) Abnormal case
-
-If there is a error happen before the 'pci_set_drvdata(pdev, dev)' 
-function get called.
-
-It is also don't need to worry, if the ->probe() failed, then the 
-->remove will be get called.
+	spin_unlock_irqrestore(&kfd->interrupt_lock, flags);
+}
 
 
-I have verified that
+These functions seem to be exclusively invoked by amdgpu_irq_dispatch()
+in amdgpu_irq.c
+At first glance it seems to me that it's just a typical scenario taking
+place here: Interrupt arises, interrupt submits work to wq, then jumps
+back to sleep / former process execution context again.
 
-if the ->probe() failed, then the ->remove will be get called.
+What I don't understand is why it's apparently important to schedule
+the work on a particular CPU.
 
-I'm doing the test by add a line before the drm_dev_alloc()
+It seems that the do-while in kfd_queue_work() is searching for a CPU
+within the same NUMA-Node. Thus I suspect that this is done because
+either
+a) performance requires it or
+b) the work-function needs access to something that's only available 
+   within the same node.
 
-function in the body of radeon_pci_probe() function.
+I suspect there is an interrupt-related reason why that particular work
+should be enqueued on a specific CPU. Just by reading the code alone I
+can't really figure out why precisely that's necessary, though.
 
-See below:
+Does someone have any hints for me? :)
 
-```
+Cheers,
+Philipp
 
-     return -ENODEV;
-
-     dev = drm_dev_alloc(&kms_driver, &pdev->dev);
-     if (IS_ERR(dev))
-         return PTR_ERR(dev);
-
-     ret = pci_enable_device(pdev);
-     if (ret)
-         goto err_free;
-```
-
-
-So, there is no problem, as far as I can see.
-
-
-> Best regards
-> Thomas
->
->> +    drm_dev_unregister(dev);
->> +    drm_dev_put(dev);
->>   }
->>     static void
->> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
->> index 89e2706cac56..289c97b12e82 100644
->> --- a/include/drm/drm_drv.h
->> +++ b/include/drm/drm_drv.h
->> @@ -511,7 +511,6 @@ void drm_dev_unregister(struct drm_device *dev);
->>     void drm_dev_get(struct drm_device *dev);
->>   void drm_dev_put(struct drm_device *dev);
->> -void drm_put_dev(struct drm_device *dev);
->>   bool drm_dev_enter(struct drm_device *dev, int *idx);
->>   void drm_dev_exit(int idx);
->>   void drm_dev_unplug(struct drm_device *dev);
->
--- 
-Jingfeng
 
