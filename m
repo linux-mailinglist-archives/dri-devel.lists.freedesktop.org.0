@@ -2,35 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38CFF73F734
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 10:29:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 454A173F74D
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 10:32:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC72910E2AC;
-	Tue, 27 Jun 2023 08:29:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A66D10E2B1;
+	Tue, 27 Jun 2023 08:32:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m-r1.th.seeweb.it (m-r1.th.seeweb.it [5.144.164.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5699410E2AC
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 08:29:05 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 791252003A;
- Tue, 27 Jun 2023 10:29:03 +0200 (CEST)
-Date: Tue, 27 Jun 2023 10:29:02 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v4 13/19] drm/msm/dpu: inline DSC_BLK and DSC_BLK_1_2
- macros
-Message-ID: <vcya62ftwhsc5yj4d6swlw5skzie57pwf3govmb2chlnwx5oi5@f3uqa5aimxr4>
-References: <20230619212519.875673-1-dmitry.baryshkov@linaro.org>
- <20230619212519.875673-14-dmitry.baryshkov@linaro.org>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1CA710E2AF
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 08:32:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1687854748; x=1719390748;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Op58+ZvTceJA/kBcs3lFW+Ix7CRRpdSR8m11slUrXk8=;
+ b=nrpS82bS4KznlmGp13Yace83TJCTLtnGcfvpqdVkPL6cVVdhruZo48l1
+ OMAWyIVz8fBmdIstdKR2zBrFbGcz7whtM54h0XnNET1mifyBkPddOI74a
+ /Zg5PBoi8n+BAzsnm8N3OkpnIN79yUqRrAy4W2l357x4gfJowbDlE0/fy
+ ac2dnshPLarSrf5RyGHyFmOgDgDZ67FcEdCsLNEez28PrJu28AeYG/tVW
+ oE6efR2iyNXBpilgyQSlhk7NbKqLdjfUURUM1ZMKVXMqbGz4HXPF2ZV6b
+ Nz0WwcacwxVYZGpVisOEJNJRQMIxXyyGda8Gdh7QbxMKlRJ3Vbu+D4rQi A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="364965667"
+X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; d="scan'208";a="364965667"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jun 2023 01:32:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="890600869"
+X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; d="scan'208";a="890600869"
+Received: from aludkiew-mobl1.ger.corp.intel.com (HELO
+ kdrobnik-desk.toya.net.pl) ([10.213.28.47])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jun 2023 01:32:25 -0700
+From: Karolina Stolarek <karolina.stolarek@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [RFC v2 0/3] Introduce KUnit tests for TTM subsystem
+Date: Tue, 27 Jun 2023 10:32:07 +0200
+Message-Id: <cover.1687779215.git.karolina.stolarek@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230619212519.875673-14-dmitry.baryshkov@linaro.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,468 +56,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>,
+ Karolina Stolarek <karolina.stolarek@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Shuah Khan <shuah@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-06-20 00:25:13, Dmitry Baryshkov wrote:
-> To simplify making changes to the hardware block definitions, expand
-> corresponding macros. This way making all the changes are more obvious
-> and visible in the source files.
-> 
-> Tested-by: Marijn Suijten <marijn.suijten@somainline.org>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+This series introduces KUnit[1] tests for TTM (Translation Table Manager)
+subsystem, a memory manager used by graphics drivers to create and manage
+memory buffers across different memory domains, such as system memory
+or VRAM.
 
-You still have two 0x1800's that should be 0x140.  Diffing the
-disassembly:
+Unit tests implemented here cover two data structures:
+  - ttm_device -- referred as a buffer object device, which stores
+    resource managers and page pools
+  - ttm_pool -- a struct of pools (ttm_pool_type) of different page
+    orders and caching attributes, with pages that can be reused on
+    the next buffer allocation
 
-    diff --git a/baseline.dis b/dpu_hw_catalog.dis
-    index 5a45280..04df183 100644
-    --- a/baseline.dis
-    +++ b/dpu_hw_catalog.dis
-    @@ -1,5 +1,5 @@
+Use kunit_tool script to manually run the tests:
 
-    -baseline.o:     file format elf64-littleaarch64
-    +dpu_hw_catalog.o:     file format elf64-littleaarch64
+$ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/ttm/tests
 
+The kunit tool might not work with older python versions. To fix that,
+apply [2] patch.
 
-     Disassembly of section .data:
-    @@ -2808,7 +2808,7 @@ Disassembly of section .rodata:
-            ...
-         3b18:      00000001        udf     #1
-         3b1c:      00080000        .inst   0x00080000 ; undefined
-    -    3b20:      00000140        udf     #320
-    +    3b20:      00001800        udf     #6144
-         3b24:      00000000        udf     #0
-         3b28:      00000002        udf     #2
-            ...
-    @@ -3112,7 +3112,7 @@ Disassembly of section .rodata:
-            ...
-         43a8:      00000001        udf     #1
-         43ac:      00080000        .inst   0x00080000 ; undefined
-    -    43b0:      00000140        udf     #320
-    +    43b0:      00001800        udf     #6144
-         43b4:      00000000        udf     #0
-         43b8:      00000002        udf     #2
-            ...
+To build a kernel with TTM KUnit tests, enable CONFIG_DRM_TTM_KUNIT_TEST
+symbol.
 
-These are the freshly added SM6350/75, see below.
+As for now, tests are architecture-agnostic (i.e. KUnit runner uses UML
+kernel), which means that we have limited coverage in some places. For
+example, we can't fully test the initialization of global page pools,
+such as global_write_combined. It is to be decided if we want to stick
+to UML or use CONFIG_X86 (at least to some extent).
 
-> ---
->  .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   |  9 ++++-
->  .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    | 17 +++++++--
->  .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    | 21 +++++++++--
->  .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   | 31 +++++++++++++---
->  .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    | 21 +++++++++--
->  .../msm/disp/dpu1/catalog/dpu_6_4_sm6350.h    |  6 ++-
->  .../msm/disp/dpu1/catalog/dpu_6_9_sm6375.h    |  6 ++-
->  .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    | 25 +++++++++++--
->  .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |  7 +++-
->  .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  | 37 ++++++++++++++++---
->  .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    | 25 +++++++++++--
->  .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    | 25 +++++++++++--
->  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 15 --------
->  13 files changed, 189 insertions(+), 56 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
-> index a07c68744b29..d5111f3782a2 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
-> @@ -200,8 +200,13 @@ static const struct dpu_pingpong_cfg msm8998_pp[] = {
->  };
->  
->  static const struct dpu_dsc_cfg msm8998_dsc[] = {
-> -	DSC_BLK("dsc_0", DSC_0, 0x80000, 0),
-> -	DSC_BLK("dsc_1", DSC_1, 0x80400, 0),
-> +	{
-> +		.name = "dsc_0", .id = DSC_0,
-> +		.base = 0x80000, .len = 0x140,
-> +	}, {
-> +		.name = "dsc_1", .id = DSC_1,
-> +		.base = 0x80400, .len = 0x140,
-> +	},
->  };
->  
->  static const struct dpu_dspp_cfg msm8998_dspp[] = {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
-> index 786263ed1ef2..b6f52b3864ce 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
-> @@ -224,10 +224,19 @@ static const struct dpu_pingpong_cfg sdm845_pp[] = {
->  };
->  
->  static const struct dpu_dsc_cfg sdm845_dsc[] = {
-> -	DSC_BLK("dsc_0", DSC_0, 0x80000, 0),
-> -	DSC_BLK("dsc_1", DSC_1, 0x80400, 0),
-> -	DSC_BLK("dsc_2", DSC_2, 0x80800, 0),
-> -	DSC_BLK("dsc_3", DSC_3, 0x80c00, 0),
-> +	{
-> +		.name = "dsc_0", .id = DSC_0,
-> +		.base = 0x80000, .len = 0x140,
-> +	}, {
-> +		.name = "dsc_1", .id = DSC_1,
-> +		.base = 0x80400, .len = 0x140,
-> +	}, {
-> +		.name = "dsc_2", .id = DSC_2,
-> +		.base = 0x80800, .len = 0x140,
-> +	}, {
-> +		.name = "dsc_3", .id = DSC_3,
-> +		.base = 0x80c00, .len = 0x140,
-> +	},
->  };
->  
->  static const struct dpu_intf_cfg sdm845_intf[] = {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-> index 6b9bfeac6e0a..9b2de5986e82 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-> @@ -245,10 +245,23 @@ static const struct dpu_merge_3d_cfg sm8150_merge_3d[] = {
->  };
->  
->  static const struct dpu_dsc_cfg sm8150_dsc[] = {
-> -	DSC_BLK("dsc_0", DSC_0, 0x80000, BIT(DPU_DSC_OUTPUT_CTRL)),
-> -	DSC_BLK("dsc_1", DSC_1, 0x80400, BIT(DPU_DSC_OUTPUT_CTRL)),
-> -	DSC_BLK("dsc_2", DSC_2, 0x80800, BIT(DPU_DSC_OUTPUT_CTRL)),
-> -	DSC_BLK("dsc_3", DSC_3, 0x80c00, BIT(DPU_DSC_OUTPUT_CTRL)),
-> +	{
-> +		.name = "dsc_0", .id = DSC_0,
-> +		.base = 0x80000, .len = 0x140,
-> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
-> +	}, {
-> +		.name = "dsc_1", .id = DSC_1,
-> +		.base = 0x80400, .len = 0x140,
-> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
-> +	}, {
-> +		.name = "dsc_2", .id = DSC_2,
-> +		.base = 0x80800, .len = 0x140,
-> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
-> +	}, {
-> +		.name = "dsc_3", .id = DSC_3,
-> +		.base = 0x80c00, .len = 0x140,
-> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
-> +	},
->  };
->  
->  static const struct dpu_intf_cfg sm8150_intf[] = {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-> index 414f0db3306c..683602e54c0e 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-> @@ -244,12 +244,31 @@ static const struct dpu_merge_3d_cfg sc8180x_merge_3d[] = {
->  };
->  
->  static const struct dpu_dsc_cfg sc8180x_dsc[] = {
-> -	DSC_BLK("dsc_0", DSC_0, 0x80000, BIT(DPU_DSC_OUTPUT_CTRL)),
-> -	DSC_BLK("dsc_1", DSC_1, 0x80400, BIT(DPU_DSC_OUTPUT_CTRL)),
-> -	DSC_BLK("dsc_2", DSC_2, 0x80800, BIT(DPU_DSC_OUTPUT_CTRL)),
-> -	DSC_BLK("dsc_3", DSC_3, 0x80c00, BIT(DPU_DSC_OUTPUT_CTRL)),
-> -	DSC_BLK("dsc_4", DSC_4, 0x81000, BIT(DPU_DSC_OUTPUT_CTRL)),
-> -	DSC_BLK("dsc_5", DSC_5, 0x81400, BIT(DPU_DSC_OUTPUT_CTRL)),
-> +	{
-> +		.name = "dsc_0", .id = DSC_0,
-> +		.base = 0x80000, .len = 0x140,
-> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
-> +	}, {
-> +		.name = "dsc_1", .id = DSC_1,
-> +		.base = 0x80400, .len = 0x140,
-> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
-> +	}, {
-> +		.name = "dsc_2", .id = DSC_2,
-> +		.base = 0x80800, .len = 0x140,
-> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
-> +	}, {
-> +		.name = "dsc_3", .id = DSC_3,
-> +		.base = 0x80c00, .len = 0x140,
-> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
-> +	}, {
-> +		.name = "dsc_4", .id = DSC_4,
-> +		.base = 0x81000, .len = 0x140,
-> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
-> +	}, {
-> +		.name = "dsc_5", .id = DSC_5,
-> +		.base = 0x81400, .len = 0x140,
-> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
-> +	},
->  };
->  
->  static const struct dpu_intf_cfg sc8180x_intf[] = {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
-> index db3a65b011ca..a98d63f6c47c 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
-> @@ -245,10 +245,23 @@ static const struct dpu_merge_3d_cfg sm8250_merge_3d[] = {
->  };
->  
->  static const struct dpu_dsc_cfg sm8250_dsc[] = {
-> -	DSC_BLK("dsc_0", DSC_0, 0x80000, BIT(DPU_DSC_OUTPUT_CTRL)),
-> -	DSC_BLK("dsc_1", DSC_1, 0x80400, BIT(DPU_DSC_OUTPUT_CTRL)),
-> -	DSC_BLK("dsc_2", DSC_2, 0x80800, BIT(DPU_DSC_OUTPUT_CTRL)),
-> -	DSC_BLK("dsc_3", DSC_3, 0x80c00, BIT(DPU_DSC_OUTPUT_CTRL)),
-> +	{
-> +		.name = "dsc_0", .id = DSC_0,
-> +		.base = 0x80000, .len = 0x140,
-> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
-> +	}, {
-> +		.name = "dsc_1", .id = DSC_1,
-> +		.base = 0x80400, .len = 0x140,
-> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
-> +	}, {
-> +		.name = "dsc_2", .id = DSC_2,
-> +		.base = 0x80800, .len = 0x140,
-> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
-> +	}, {
-> +		.name = "dsc_3", .id = DSC_3,
-> +		.base = 0x80c00, .len = 0x140,
-> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
-> +	},
->  };
->  
->  static const struct dpu_intf_cfg sm8250_intf[] = {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
-> index a996c39b7b1f..a9907010a4a2 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h
-> @@ -136,7 +136,11 @@ static struct dpu_pingpong_cfg sm6350_pp[] = {
->  };
->  
->  static const struct dpu_dsc_cfg sm6350_dsc[] = {
-> -	DSC_BLK("dsc_0", DSC_0, 0x80000, BIT(DPU_DSC_OUTPUT_CTRL)),
-> +	{
-> +		.name = "dsc_0", .id = DSC_0,
-> +		.base = 0x80000, .len = 0x1800,
+These patches are just a beginning of the work to improve the test
+coverage of TTM. Feel free to suggest changes, test cases or priorities.
 
-Here.
+Many thanks,
+Karolina
 
-> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
-> +	},
->  };
->  
->  static const struct dpu_intf_cfg sm6350_intf[] = {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h
-> index 0cdb77599583..e42f0dc3b2ab 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h
-> @@ -90,7 +90,11 @@ static const struct dpu_pingpong_cfg sm6375_pp[] = {
->  };
->  
->  static const struct dpu_dsc_cfg sm6375_dsc[] = {
-> -	DSC_BLK("dsc_0", DSC_0, 0x80000, BIT(DPU_DSC_OUTPUT_CTRL)),
-> +	{
-> +		.name = "dsc_0", .id = DSC_0,
-> +		.base = 0x80000, .len = 0x1800,
+v2:
+  - Add missing symbol exports in ttm_kunit_helpers.c
+  - Update helpers include to fix compilation issues (didn't catch it as
+    KUnit tests weren't enabled in the kernel I tested, an oversight
+    on my part)
+  - Add checks for ttm_pool fields in ttm_pool_alloc_basic(), including the
+    one for NUMA node id
+  - Rebase the changes on the top of drm-tip
 
-And here.
+--------------------------------
+[1] - https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html
+[2] - https://lore.kernel.org/lkml/20230610175618.82271-1-sj@kernel.org/T/
 
-- Marijn
+Karolina Stolarek (3):
+  drm/ttm: Introduce KUnit tests
+  drm/ttm/tests: Add tests for ttm_device
+  drm/ttm/tests: Add tests for ttm_pool
 
-> +		.features = BIT(DPU_DSC_OUTPUT_CTRL),
-> +	},
->  };
->  
->  static const struct dpu_intf_cfg sm6375_intf[] = {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-> index e08b29e9e146..8a9bfc4af72a 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-> @@ -248,10 +248,27 @@ static const struct dpu_merge_3d_cfg sm8350_merge_3d[] = {
->   * its own different sub block address.
->   */
->  static const struct dpu_dsc_cfg sm8350_dsc[] = {
-> -	DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x29c, 0, dsc_sblk_0),
-> -	DSC_BLK_1_2("dce_0_1", DSC_1, 0x80000, 0x29c, 0, dsc_sblk_1),
-> -	DSC_BLK_1_2("dce_1_0", DSC_2, 0x81000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
-> -	DSC_BLK_1_2("dce_1_1", DSC_3, 0x81000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_1),
-> +	{
-> +		.name = "dce_0_0", .id = DSC_0,
-> +		.base = 0x80000, .len = 0x29c,
-> +		.features = BIT(DPU_DSC_HW_REV_1_2),
-> +		.sblk = &dsc_sblk_0,
-> +	}, {
-> +		.name = "dce_0_1", .id = DSC_1,
-> +		.base = 0x80000, .len = 0x29c,
-> +		.features = BIT(DPU_DSC_HW_REV_1_2),
-> +		.sblk = &dsc_sblk_1,
-> +	}, {
-> +		.name = "dce_1_0", .id = DSC_2,
-> +		.base = 0x81000, .len = 0x29c,
-> +		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-> +		.sblk = &dsc_sblk_0,
-> +	}, {
-> +		.name = "dce_1_1", .id = DSC_3,
-> +		.base = 0x81000, .len = 0x29c,
-> +		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-> +		.sblk = &dsc_sblk_1,
-> +	},
->  };
->  
->  static const struct dpu_intf_cfg sm8350_intf[] = {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> index d5faa1816cb3..9c0beccce282 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-> @@ -146,7 +146,12 @@ static const struct dpu_pingpong_cfg sc7280_pp[] = {
->  
->  /* NOTE: sc7280 only has one DSC hard slice encoder */
->  static const struct dpu_dsc_cfg sc7280_dsc[] = {
-> -	DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
-> +	{
-> +		.name = "dce_0_0", .id = DSC_0,
-> +		.base = 0x80000, .len = 0x29c,
-> +		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-> +		.sblk = &dsc_sblk_0,
-> +	},
->  };
->  
->  static const struct dpu_wb_cfg sc7280_wb[] = {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-> index 8e4299be2b1c..b676819db42c 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-> @@ -246,12 +246,37 @@ static const struct dpu_merge_3d_cfg sc8280xp_merge_3d[] = {
->   * its own different sub block address.
->   */
->  static const struct dpu_dsc_cfg sc8280xp_dsc[] = {
-> -	DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x29c, 0, dsc_sblk_0),
-> -	DSC_BLK_1_2("dce_0_1", DSC_1, 0x80000, 0x29c, 0, dsc_sblk_1),
-> -	DSC_BLK_1_2("dce_1_0", DSC_2, 0x81000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
-> -	DSC_BLK_1_2("dce_1_1", DSC_3, 0x81000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_1),
-> -	DSC_BLK_1_2("dce_2_0", DSC_4, 0x82000, 0x29c, 0, dsc_sblk_0),
-> -	DSC_BLK_1_2("dce_2_1", DSC_5, 0x82000, 0x29c, 0, dsc_sblk_1),
-> +	{
-> +		.name = "dce_0_0", .id = DSC_0,
-> +		.base = 0x80000, .len = 0x29c,
-> +		.features = BIT(DPU_DSC_HW_REV_1_2),
-> +		.sblk = &dsc_sblk_0,
-> +	}, {
-> +		.name = "dce_0_1", .id = DSC_1,
-> +		.base = 0x80000, .len = 0x29c,
-> +		.features = BIT(DPU_DSC_HW_REV_1_2),
-> +		.sblk = &dsc_sblk_1,
-> +	}, {
-> +		.name = "dce_1_0", .id = DSC_2,
-> +		.base = 0x81000, .len = 0x29c,
-> +		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-> +		.sblk = &dsc_sblk_0,
-> +	}, {
-> +		.name = "dce_1_1", .id = DSC_3,
-> +		.base = 0x81000, .len = 0x29c,
-> +		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-> +		.sblk = &dsc_sblk_1,
-> +	}, {
-> +		.name = "dce_2_0", .id = DSC_4,
-> +		.base = 0x82000, .len = 0x29c,
-> +		.features = BIT(DPU_DSC_HW_REV_1_2),
-> +		.sblk = &dsc_sblk_0,
-> +	}, {
-> +		.name = "dce_2_1", .id = DSC_5,
-> +		.base = 0x82000, .len = 0x29c,
-> +		.features = BIT(DPU_DSC_HW_REV_1_2),
-> +		.sblk = &dsc_sblk_1,
-> +	},
->  };
->  
->  /* TODO: INTF 3, 8 and 7 are used for MST, marked as INTF_NONE for now */
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-> index bbee3c621943..568523abc1d0 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-> @@ -259,10 +259,27 @@ static const struct dpu_merge_3d_cfg sm8450_merge_3d[] = {
->   * its own different sub block address.
->   */
->  static const struct dpu_dsc_cfg sm8450_dsc[] = {
-> -	DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x29c, 0, dsc_sblk_0),
-> -	DSC_BLK_1_2("dce_0_1", DSC_1, 0x80000, 0x29c, 0, dsc_sblk_1),
-> -	DSC_BLK_1_2("dce_1_0", DSC_2, 0x81000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
-> -	DSC_BLK_1_2("dce_1_1", DSC_3, 0x81000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_1),
-> +	{
-> +		.name = "dce_0_0", .id = DSC_0,
-> +		.base = 0x80000, .len = 0x29c,
-> +		.features = BIT(DPU_DSC_HW_REV_1_2),
-> +		.sblk = &dsc_sblk_0,
-> +	}, {
-> +		.name = "dce_0_1", .id = DSC_1,
-> +		.base = 0x80000, .len = 0x29c,
-> +		.features = BIT(DPU_DSC_HW_REV_1_2),
-> +		.sblk = &dsc_sblk_1,
-> +	}, {
-> +		.name = "dce_1_0", .id = DSC_2,
-> +		.base = 0x81000, .len = 0x29c,
-> +		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-> +		.sblk = &dsc_sblk_0,
-> +	}, {
-> +		.name = "dce_1_1", .id = DSC_3,
-> +		.base = 0x81000, .len = 0x29c,
-> +		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-> +		.sblk = &dsc_sblk_1,
-> +	},
->  };
->  
->  static const struct dpu_intf_cfg sm8450_intf[] = {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-> index ea7bffe252a5..419624948e83 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-> @@ -273,10 +273,27 @@ static const struct dpu_merge_3d_cfg sm8550_merge_3d[] = {
->   * its own different sub block address.
->   */
->  static const struct dpu_dsc_cfg sm8550_dsc[] = {
-> -	DSC_BLK_1_2("dce_0_0", DSC_0, 0x80000, 0x29c, 0, dsc_sblk_0),
-> -	DSC_BLK_1_2("dce_0_1", DSC_1, 0x80000, 0x29c, 0, dsc_sblk_1),
-> -	DSC_BLK_1_2("dce_1_0", DSC_2, 0x81000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_0),
-> -	DSC_BLK_1_2("dce_1_1", DSC_3, 0x81000, 0x29c, BIT(DPU_DSC_NATIVE_42x_EN), dsc_sblk_1),
-> +	{
-> +		.name = "dce_0_0", .id = DSC_0,
-> +		.base = 0x80000, .len = 0x29c,
-> +		.features = BIT(DPU_DSC_HW_REV_1_2),
-> +		.sblk = &dsc_sblk_0,
-> +	}, {
-> +		.name = "dce_0_1", .id = DSC_1,
-> +		.base = 0x80000, .len = 0x29c,
-> +		.features = BIT(DPU_DSC_HW_REV_1_2),
-> +		.sblk = &dsc_sblk_1,
-> +	}, {
-> +		.name = "dce_1_0", .id = DSC_2,
-> +		.base = 0x81000, .len = 0x29c,
-> +		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-> +		.sblk = &dsc_sblk_0,
-> +	}, {
-> +		.name = "dce_1_1", .id = DSC_3,
-> +		.base = 0x81000, .len = 0x29c,
-> +		.features = BIT(DPU_DSC_HW_REV_1_2) | BIT(DPU_DSC_NATIVE_42x_EN),
-> +		.sblk = &dsc_sblk_1,
-> +	},
->  };
->  
->  static const struct dpu_intf_cfg sm8550_intf[] = {
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> index 6ef0dc2e1a5d..ee24402bf253 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> @@ -495,21 +495,6 @@ static const struct dpu_dsc_sub_blks dsc_sblk_1 = {
->  	.ctl = {.base = 0xF80, .len = 0x10},
->  };
->  
-> -#define DSC_BLK(_name, _id, _base, _features) \
-> -	{\
-> -	.name = _name, .id = _id, \
-> -	.base = _base, .len = 0x140, \
-> -	.features = _features, \
-> -	}
-> -
-> -#define DSC_BLK_1_2(_name, _id, _base, _len, _features, _sblk) \
-> -	{\
-> -	.name = _name, .id = _id, \
-> -	.base = _base, .len = _len, \
-> -	.features = BIT(DPU_DSC_HW_REV_1_2) | _features, \
-> -	.sblk = &_sblk, \
-> -	}
-> -
->  /*************************************************************
->   * INTF sub blocks config
->   *************************************************************/
-> -- 
-> 2.39.2
-> 
+ drivers/gpu/drm/Kconfig                       |  15 +
+ drivers/gpu/drm/ttm/Makefile                  |   1 +
+ drivers/gpu/drm/ttm/tests/.kunitconfig        |   4 +
+ drivers/gpu/drm/ttm/tests/Makefile            |   6 +
+ drivers/gpu/drm/ttm/tests/ttm_device_test.c   | 213 +++++++++
+ drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c |  88 ++++
+ drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h |  34 ++
+ drivers/gpu/drm/ttm/tests/ttm_pool_test.c     | 406 ++++++++++++++++++
+ 8 files changed, 767 insertions(+)
+ create mode 100644 drivers/gpu/drm/ttm/tests/.kunitconfig
+ create mode 100644 drivers/gpu/drm/ttm/tests/Makefile
+ create mode 100644 drivers/gpu/drm/ttm/tests/ttm_device_test.c
+ create mode 100644 drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
+ create mode 100644 drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
+ create mode 100644 drivers/gpu/drm/ttm/tests/ttm_pool_test.c
+
+-- 
+2.25.1
+
