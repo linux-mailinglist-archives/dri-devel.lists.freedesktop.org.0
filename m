@@ -2,81 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1D8574003B
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 18:00:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CC61740049
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 18:04:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFA0210E311;
-	Tue, 27 Jun 2023 16:00:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DC5710E30B;
+	Tue, 27 Jun 2023 16:04:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9243910E30B
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 16:00:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1687881642;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pj+zOzmUOF0cqvoi71YUgGQfKZGwkYWd7D7VJ4Uthv0=;
- b=gHMh2i2DJ0dLqYgPkYXiiPECHtWhnvm6fUfAXjrrssVTwbBCQTDf7a57IrJ7E8x293e8S1
- yV4vMlRfnAYpJUl0N867KMVXIo9eu5lneCxdNN8z+MRdxO3BIu9bjfZIO0fX8CQGT+sIqc
- bhH9/szKdcaK5a/D0Q5KGldWMdkEpFQ=
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-81-XSLSrQ-JNeuuAS1xRHWsiQ-1; Tue, 27 Jun 2023 12:00:41 -0400
-X-MC-Unique: XSLSrQ-JNeuuAS1xRHWsiQ-1
-Received: by mail-vk1-f197.google.com with SMTP id
- 71dfb90a1353d-47dccba4cbcso35159e0c.0
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 09:00:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687881640; x=1690473640;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pj+zOzmUOF0cqvoi71YUgGQfKZGwkYWd7D7VJ4Uthv0=;
- b=lIpxZ5PIBnhQ1R6Bp0L3qzQ9+xpprWfIAWQRxnae5gXhWLiCBxsNyQ8x+RCN2r8EWm
- Lj7UVEO1tOClvMqRsFbd6jHqepmBr0le+tOerMGtwYfmevLc5D458Jl67ZywGv31laAd
- WOhcIRSgmboK2ViV1e2s8/P2bHReC/AVKlSBtBnSjmnb7SHZ4G8RfjEiMJz1G2tjsgJh
- WlyWEvZAmGJMukwW+Osvq9v6NLX2wRWr4nPOQ4RE435FVaWRGL1HfNFl/2Xs+Wo58qVA
- YpTXHjGhiZb+l2hdb6o7CSHFvXrpYzpoomHg4n2XnypKj4QCbV/nYD5Kn7fwv33cZZbS
- ppZA==
-X-Gm-Message-State: AC+VfDzHULd2jrL3HkPVejwa+eMw7e57lzvVahe4IRl0Nxv+CKKXgx+B
- 8XKXiqjA1pvIE4dpUXo0eeXpQaTtFPzody2uE6IfZLe1oXMt1QNQw53SMhddjQ0MoHWkkXRNj6h
- HIeXOUSUzcV+R1k8WLDTHkWmzivcO
-X-Received: by 2002:a05:6102:ed0:b0:440:b01a:5c1a with SMTP id
- m16-20020a0561020ed000b00440b01a5c1amr11686245vst.2.1687881640351; 
- Tue, 27 Jun 2023 09:00:40 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7xVFFwcrphaqlcGPfMPVlXHfKmzWiSqArAVdBUA8Cx9G2oeekuo3uEn/YLT+Qi8i+897tJMQ==
-X-Received: by 2002:a05:6102:ed0:b0:440:b01a:5c1a with SMTP id
- m16-20020a0561020ed000b00440b01a5c1amr11686193vst.2.1687881640022; 
- Tue, 27 Jun 2023 09:00:40 -0700 (PDT)
-Received: from x1n (cpe5c7695f3aee0-cm5c7695f3aede.cpe.net.cable.rogers.com.
- [99.254.144.39]) by smtp.gmail.com with ESMTPSA id
- n10-20020a0cec4a000000b0060530c942f4sm4686678qvq.46.2023.06.27.09.00.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jun 2023 09:00:39 -0700 (PDT)
-Date: Tue, 27 Jun 2023 12:00:38 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2046.outbound.protection.outlook.com [40.107.93.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8673F10E305
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 16:04:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bFfTiY07gDcPOF1a3UPv6UEw53keQzsa2vUICLDJcP+E55x7Tah6P6fc/SPxj3qQXyJHSPs6NJcego6xmJqYaKN1RAV6X1YvO/eXpNEPEgeNPYvLsBpW3Qm3hU0/MppDYbbd1aiiZ0ds5rqX8MZwRnjtwYetTrKQtxkn4PAuZLYdveklJ4tI0xyS1FOvCaUzb/DS9InlGoobc6yB5kNrvCaDqkJk+uoz+qsQdXLAqhBAqbxC2ey84B+tFWMbtaUmJ7UDTJpbKfIYie8JbWlSyhbPN6rBX3iOhNqS24d2hoXTbnUiEtvtqrhB3Q4Jq/kWDHqcBcTcm0yV0Xog2xxjnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fA4EVws/w67mhjZzwV53QVFowIyoyW3JyDwuw4vd8Sc=;
+ b=LuZjyJ8InVr6RR9JDeAJFyEJd7/6r26u6gofMcNcSNeaGXc250AHMHM4dRtYZlSH9CdZt0OvQQi8TqdUli/4Faz40Bxkz6SIkuFeZPljWVwnrvQC04Ri+hPxZ2jOfW9BFFvnRXqSfCGk5p8cXuWuu2M7jPO12h9ghAI6vgRFM9iW3OotSurPZ3GjcQbUZL5oGFZ08J6e477tdqoBzmT9lawkXZAeh99Qragu/rGE/wHxlWtsGDJB4ZES0fRSRHQ/XmAP/ErWZod05ymZyRlqgN0vOzFwPi00BjSfmajOEGzAqdty5/A+FunyKvlMFB8QJrNwq7kHZ0oY+hMrtnJJyw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fA4EVws/w67mhjZzwV53QVFowIyoyW3JyDwuw4vd8Sc=;
+ b=q6edWPwcMve8fxJVmjYUJqFButbKl74/MS/DaunlEYubrepyIInbAcG4AQhARHXK4CFSaCzY3Bc8Pxo5mz87Tt5fnTiRO+pIxgS+KTwXfADcXTduJiN+b9/fHKHkRmMkitI0IZo3egdELQcr05fpC2wpzRqpdby9nIsT9euMmyqPa14ElLb230ZCc34imSdnrqem3OXyMbNfGTJusN1+kq62Pn74+T9n9CQNmssA6oOWTEYN6fKlimYBSdoyzDtl9nWaglcXbqE4X8OKzAEfFgBGjj3BnUw/+OZHltsXlnr6IMIOgVoChyn8QnRLmpDAbhhtutep5Lml6Iek6SXc/g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by DM4PR12MB5937.namprd12.prod.outlook.com (2603:10b6:8:68::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.24; Tue, 27 Jun
+ 2023 16:04:23 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::f7a7:a561:87e9:5fab]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::f7a7:a561:87e9:5fab%7]) with mapi id 15.20.6521.024; Tue, 27 Jun 2023
+ 16:04:23 +0000
+Date: Tue, 27 Jun 2023 13:04:22 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Peter Xu <peterx@redhat.com>
 Subject: Re: [PATCH v1 0/2] udmabuf: Add back support for mapping hugetlb pages
-Message-ID: <ZJsHpmNEZH8ZhTAP@x1n>
-References: <20230622072710.3707315-1-vivek.kasireddy@intel.com>
- <6e429fbc-e0e6-53c0-c545-2e2cbbe757de@redhat.com>
+Message-ID: <ZJsIhqD20pwD2WEq@nvidia.com>
+References: <6e429fbc-e0e6-53c0-c545-2e2cbbe757de@redhat.com>
  <IA0PR11MB718510999F2C0E2B70914E2AF823A@IA0PR11MB7185.namprd11.prod.outlook.com>
  <ZJXJ4ULRKVN5JPyv@x1n>
  <IA0PR11MB718571BA49F71282368D8649F826A@IA0PR11MB7185.namprd11.prod.outlook.com>
  <ZJnQYmbjWf5cOeFL@x1n>
  <dcccb5ab-1e0d-ac06-0d19-e07512db2cec@redhat.com>
  <ZJnWiDhrmL0lnyUv@nvidia.com> <ZJnhNSmSv8ynHu3U@x1n>
- <ZJsFwis9edi3dWr7@nvidia.com>
-MIME-Version: 1.0
-In-Reply-To: <ZJsFwis9edi3dWr7@nvidia.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+ <ZJsFwis9edi3dWr7@nvidia.com> <ZJsHpmNEZH8ZhTAP@x1n>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZJsHpmNEZH8ZhTAP@x1n>
+X-ClientProxiedBy: MN2PR01CA0034.prod.exchangelabs.com (2603:10b6:208:10c::47)
+ To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|DM4PR12MB5937:EE_
+X-MS-Office365-Filtering-Correlation-Id: 90b5e2a6-8609-427c-85e2-08db77282c92
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: +FRSfZmQXom0VFGbYLtf1B04tLkT12CPogf2uz/FIYcB0oWeVEHWQ0kJaPTPpLWY/UPKaXx3u5r8yT8LX10DmjM9jzy4PwIcFfkniH71pTQfZlkSYocW6jM39CDh6R0VJKHvcJcRRomPBm0+sW/aJizfNgyeT8qqgpl9j97hGNrcJ2e+kvir7+e7jR5A/gTwbsj+GsKR3auWWP4GKmkBfmO8tDqT6dNb+D5HSGYp2wbxfvjwUR13BGTv6EN+Ggb/dkK9jxM/2V8ij61tmRJNGjO4o/g6wrdRiMJkv94pyaQIAIWERVLvg42EP4PIYi3f7GW653BfxvDTUZfXkXzIPr3R6CwrnVYe8mB8vXhRweaeb/EMtdiz+jpsxxQGyKB4qKpnmwe0MsfR6Q4Yfzjg6fD6B5jK8DCE40cXjtmW5Vs2EKPzfpKMuvFvqFoEGCNs3yasxp/+fGf7HsWLpfx8FVuXA0x/Ejikx9p7Jhz+wmTXOZt2hCgYebJEev8QTE/du4jggQXcTDPKVhE3HNnCwNIhD/gz+9bUQN3T+13sqxPHbHYi1JE+4peK0HeLW9NX
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(39860400002)(346002)(396003)(376002)(366004)(136003)(451199021)(36756003)(38100700002)(5660300002)(7416002)(41300700001)(66476007)(6916009)(8936002)(8676002)(316002)(66556008)(66946007)(4326008)(86362001)(478600001)(107886003)(6486002)(186003)(6506007)(6512007)(26005)(2906002)(54906003)(2616005);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?UgZpdgR7iyZPciPdFLkT3+M7B2TGTPsuNR7WM7HC5xE1TJtGGzK1bmUM7obw?=
+ =?us-ascii?Q?vIqbsjtlU+GSvAG8BnI2VLMEvG70lU2Nb6/tsy1p6jb+cEigBBwPF/4vJbB5?=
+ =?us-ascii?Q?eMrCsqXrxXP2dq820HvTGKdoKJuuZP94nvLKx6o1ZfXLouYhfxHJAskVRpmm?=
+ =?us-ascii?Q?S7iQ5wmJkvXuGxKFztxNCrZ4RunQbzKKw2EkYq3BJg+SrHt6rOf1nC6ezAxs?=
+ =?us-ascii?Q?svDul70KGTCn3so9eb8WRPIBNN3eVRLKzgvgp+A1zIT6PCEVgSrGHE7vvpHN?=
+ =?us-ascii?Q?caJ12N/2ZSjvEXrxNmGAgUrfnbKCeezupWIin2wltGIpYP67xTUETqd/qo2T?=
+ =?us-ascii?Q?w0nrqQTUXttltl3TTaCG1f8jG9GB3WJol3PoeLJII19Xwy3gtJD17DWaJ3g6?=
+ =?us-ascii?Q?ojOGXyzz8uxok6NkICqeIq9oBsNPfd55kjPXpQxYisNfC+mA7qLFdfqVWr7C?=
+ =?us-ascii?Q?2fNA1AfsBhcaEl2GKKoDqRBY9aE3BNd6hDeYom4DoFrDjYV000tnJPeWZAEh?=
+ =?us-ascii?Q?CBXKFgyBly2GlQGp7VJs5dj92LLWQ9rG4T/Xar7STGbQyAXe8sW2MZSVAZVI?=
+ =?us-ascii?Q?dxCy6gVnSK32iMc3BMyp+8zFCM/ypeVkhDhbaVcX67Y85Dyj/uZ9ZhdAdzH2?=
+ =?us-ascii?Q?gEzZQrDn2tEXmmCacyivlU7GyN26dwVU4rSlWsAh2yW+Av7Ow++cdJrKiuis?=
+ =?us-ascii?Q?h2kd5mAou/k5mJFxxVSKbIFXFQcithKIwharMKHaHhI2BTLkXmLqNRPQuDPO?=
+ =?us-ascii?Q?Nw1673SvSuexVKat3KBlvc5+d3msNW9gbncsja7phkZsD402qYFkTSjl/jO1?=
+ =?us-ascii?Q?3cRcRL4CYg9l0m7JGt28EUBT7IKczjkSGgzvCbhWkWEEGYwIwGJCNMDf2hVk?=
+ =?us-ascii?Q?5rMrPWxhGh91WUTZdx7746C/s1EAUrXHAlk+jGEw62CWU/bAZFykrFLd95hc?=
+ =?us-ascii?Q?iZSIErSLJlb0f/n3FlZyc73DQfyE39xV7hnVyKR3xGXX0tV9P/EICjW/2RFo?=
+ =?us-ascii?Q?tlz+GHCCrIoXs921cSQ8Z979BbzXR4aIDRWnh0/++5w64j1xRjRIZjuY2Chd?=
+ =?us-ascii?Q?Ex+5okqz5veV1rpnKbyolbk1gTKQdnie95m0wBPhPG87jJDo5qbvZPls6ccK?=
+ =?us-ascii?Q?+6fKDPmk0xxAblgqGdQnFTQc6JifY3K2LY2AaCpd+LWk9KSc4XkD1GHE4+3U?=
+ =?us-ascii?Q?vCSfUre/+ULCb59M+BfGiCKGF37XaruiftEh0Gya/wyJIEhVNuiOwU1QJQWj?=
+ =?us-ascii?Q?cbLYfDkZ9Xy/QL8v11mzZBEj92TWR+CaTRmzybIQf/+ZAocMIrj3Od+pHlKs?=
+ =?us-ascii?Q?IYTcxbznTk6TdshuZojYisNqWlDMEBNfZu9Cjhd6iwcVNGAglPoQdcOR7s2Q?=
+ =?us-ascii?Q?HRFAKhrj9BvsYBqwQQpM8gxm88rVcTLzggCAAxwpkcl0wdlUoJEBIPohfqrM?=
+ =?us-ascii?Q?dHYZ5B6i4k8WjhVEk/L+V8aNoqBCL1AbQRi6vySiVcZE7yJ5s2cMXSORdE48?=
+ =?us-ascii?Q?5/2eFh6A7YTNScvKQ7amiFTDShsG0JtOW15vKOV7ERLw1MRsFmOw3/SpCZUx?=
+ =?us-ascii?Q?3KDcOUI6ujO8NWm8gvAG+YA5voNweHyEh6lTO46j?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 90b5e2a6-8609-427c-85e2-08db77282c92
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2023 16:04:23.6369 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CjMA1WuleUFhJ8vst4zdXHwaxR5OUCQ4NEvQxUvzpucUoOwP3A7EiWbpPa83997g
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5937
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,40 +134,50 @@ Cc: James Houghton <jthoughton@google.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 27, 2023 at 12:52:34PM -0300, Jason Gunthorpe wrote:
-> On Mon, Jun 26, 2023 at 03:04:21PM -0400, Peter Xu wrote:
-> > On Mon, Jun 26, 2023 at 03:18:48PM -0300, Jason Gunthorpe wrote:
-> > > On Mon, Jun 26, 2023 at 08:14:27PM +0200, David Hildenbrand wrote:
+On Tue, Jun 27, 2023 at 12:00:38PM -0400, Peter Xu wrote:
+> On Tue, Jun 27, 2023 at 12:52:34PM -0300, Jason Gunthorpe wrote:
+> > On Mon, Jun 26, 2023 at 03:04:21PM -0400, Peter Xu wrote:
+> > > On Mon, Jun 26, 2023 at 03:18:48PM -0300, Jason Gunthorpe wrote:
+> > > > On Mon, Jun 26, 2023 at 08:14:27PM +0200, David Hildenbrand wrote:
+> > > > 
+> > > > > So we might have to implement the same page migration as gup does on
+> > > > > FOLL_LONGTERM here ... maybe there are more such cases/drivers that actually
+> > > > > require that handling when simply taking pages out of the memfd, believing
+> > > > > they can hold on to them forever.
+> > > > 
+> > > > In general I would like to see an interface to FOLL_LONGTERM pin pages
+> > > > from a memfd. I would quite happily use that in iommufd as well.
+> > > > 
+> > > > It solves some problems we have there with fork/exec/etc if the pages
+> > > > are not linked to a mm_struct.
 > > > 
-> > > > So we might have to implement the same page migration as gup does on
-> > > > FOLL_LONGTERM here ... maybe there are more such cases/drivers that actually
-> > > > require that handling when simply taking pages out of the memfd, believing
-> > > > they can hold on to them forever.
-> > > 
-> > > In general I would like to see an interface to FOLL_LONGTERM pin pages
-> > > from a memfd. I would quite happily use that in iommufd as well.
-> > > 
-> > > It solves some problems we have there with fork/exec/etc if the pages
-> > > are not linked to a mm_struct.
+> > > Afaiu any fd based approach should mean it'll never work with private
+> > > memories, while mm-based should be able to work on any kind.  
 > > 
-> > Afaiu any fd based approach should mean it'll never work with private
-> > memories, while mm-based should be able to work on any kind.  
+> > Is there a significant use case to open a memfd and then use
+> > MAP_PRIVATE? Why would anyone want to do that instead of just using
+> > normal mmap anonymous memory?
 > 
-> Is there a significant use case to open a memfd and then use
-> MAP_PRIVATE? Why would anyone want to do that instead of just using
-> normal mmap anonymous memory?
+> I remember David Hildenbrand somewhere mentioned the use case where one
+> wants to snapshot a VM RAM into a file, then start multiple instances by
+> loading that VM RAM with MAP_PRIVATE, so it clones a bunch of snapshoted VM
+> running with a single RAM file shared as a template.  Not a generic use
+> case, I guess.
 
-I remember David Hildenbrand somewhere mentioned the use case where one
-wants to snapshot a VM RAM into a file, then start multiple instances by
-loading that VM RAM with MAP_PRIVATE, so it clones a bunch of snapshoted VM
-running with a single RAM file shared as a template.  Not a generic use
-case, I guess.
+A file I can see, but a file is not a memfd, we are talking
+specifically about memfd, aren't we?
 
-My question applies not only memfd but also in general - qemu by default
-doesn't use memfd afaict, so it boils down to e.g. whether you'll target
-the iommufd project to work in that case, where qemu uses anonymous memory.
-Privately mapped file memory is only one of those kinds.
+> My question applies not only memfd but also in general - qemu by default
+> doesn't use memfd afaict, so it boils down to e.g. whether you'll target
+> the iommufd project to work in that case, where qemu uses anonymous
+> memory.
 
--- 
-Peter Xu
+I think this may change, as I understand it, the approach for
+confidential compute is to put the guest memory in a memfd...
 
+> Privately mapped file memory is only one of those kinds.
+
+I think memfd and related shmem-like objects are a reasonable target. We
+already know we should not FOLL_LONGTERM pin file backed pages.
+
+Jason
