@@ -1,42 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 555CC73F0AA
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 03:54:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C23CC73F0BE
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 04:13:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6503210E274;
-	Tue, 27 Jun 2023 01:54:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7EEC88E26;
+	Tue, 27 Jun 2023 02:13:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EFC610E274;
- Tue, 27 Jun 2023 01:54:40 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Qqnp209DBz4wb6;
- Tue, 27 Jun 2023 11:54:33 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1687830875;
- bh=RRajNkNOmZ7k6F/p7wmvGLYlz9dAU7dhw4zq91Sf2i8=;
- h=Date:From:To:Cc:Subject:From;
- b=kGYYiwiL1YXQkNnZ5HOR9k/2YfORMdjyglVwTjbwG5iIGUg0pLhIC2Z5+Tqh11lpo
- PAGrMvXAZj6xrsJnoot7tTkHJLArlZZBMGNII/4WP9V/k9nObblgVC5d4ZJJDB+wVf
- rJemaPmOES9zyZeCBjbGb2FzoqF5IojIshloWsozYTwouPM7Rjg/llRIAiFzQleh1Q
- /xUQ2OYiFD1S10LjbIJ+kpqc4+6oUKSXmz2I/e9+gNIDosh7xjN29Wj4wYrVkioi9B
- 8g4DKeFNKqR5zs0q8uE/msFCMrBO7YJo8KZzz1Fw199r6Jpp1PCpcJ2idwh/ZD5UkG
- wOaD/OmuJNOng==
-Date: Tue, 27 Jun 2023 11:54:32 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@redhat.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: linux-next: manual merge of the drm tree with the drm-misc-fixes tree
-Message-ID: <20230627115432.6179f0ea@canb.auug.org.au>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC83C88E26;
+ Tue, 27 Jun 2023 02:13:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1687832010; x=1719368010;
+ h=from:to:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=1XCeFA5MmGpVCymJ5gXTLicGu5J96lw/hfhngFkb6aE=;
+ b=nhWn+hULabeWs3L/W/jjwUEcqn2iR9SL3moKxUSLGVh6BFCV6cAY5p6m
+ ASMAi0os6UbmqiskhXvvOkhGg0slGc3fmR3g4unVX2CSPx2mPNAW1hofX
+ jUIvx/MI3QbXnDcKGlklQqwij/5nx6kFTY1Z0ZyEA/efrfm4mpCQaNtpJ
+ Q9ZLwlQsQEzoj4fcwJ0pZ7Q2elcmzpJL3lPZwebU9eGNNcHUfQWbb2CA1
+ agBtvVR3YcjpA4hNWixGRE5BiU4KyDUw29bueMswmMDV0Wv/dXm8dHQBl
+ +Cse+EChEBc6iw9c8mkOxjEgc+pe/m0XFB4gaHtMAgijAzyDPUREBWktv g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="391893541"
+X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; d="scan'208";a="391893541"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jun 2023 19:13:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="962983337"
+X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; d="scan'208";a="962983337"
+Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
+ by fmsmga006.fm.intel.com with ESMTP; 26 Jun 2023 19:13:28 -0700
+From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915/guc: Dump perf_limit_reasons for debug
+Date: Mon, 26 Jun 2023 19:12:18 -0700
+Message-Id: <20230627021218.123999-1-vinay.belgaumkar@intel.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/A0wej4cPb9Y4mYG4zvi4GKW";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,88 +55,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/A0wej4cPb9Y4mYG4zvi4GKW
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+GuC load takes longer sometimes due to GT frequency not ramping up.
+Add perf_limit_reasons to the existing warn print to see if frequency
+is being throttled.
 
-Hi all,
+Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+---
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Today's linux-next merge of the drm tree got a conflict in:
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
+index 364d0d546ec8..73911536a8e7 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
+@@ -254,6 +254,8 @@ static int guc_wait_ucode(struct intel_guc *guc)
+ 		guc_warn(guc, "excessive init time: %lldms! [freq = %dMHz, before = %dMHz, status = 0x%08X, count = %d, ret = %d]\n",
+ 			 delta_ms, intel_rps_read_actual_frequency(&uncore->gt->rps),
+ 			 before_freq, status, count, ret);
++		guc_warn(guc, "perf limit reasons = 0x%08X\n",
++			 intel_uncore_read(uncore, intel_gt_perf_limit_reasons_reg(gt)));
+ 	} else {
+ 		guc_dbg(guc, "init took %lldms, freq = %dMHz, before = %dMHz, status = 0x%08X, count = %d, ret = %d\n",
+ 			delta_ms, intel_rps_read_actual_frequency(&uncore->gt->rps),
+-- 
+2.38.1
 
-  include/drm/gpu_scheduler.h
-
-between commit:
-
-  db8b4968a8d0 ("drm/sched: Call drm_sched_fence_set_parent() from drm_sche=
-d_fence_scheduled()")
-
-from the drm-misc-fixes tree and commit:
-
-  539f9ee4b52a ("drm/scheduler: properly forward fence errors")
-
-from the drm tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc include/drm/gpu_scheduler.h
-index b29e347b10a9,e95b4837e5a3..000000000000
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@@ -581,16 -581,18 +581,17 @@@ void drm_sched_entity_push_job(struct d
-  void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
-  				   enum drm_sched_priority priority);
-  bool drm_sched_entity_is_ready(struct drm_sched_entity *entity);
-+ int drm_sched_entity_error(struct drm_sched_entity *entity);
- =20
- -void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
- -				struct dma_fence *fence);
-  struct drm_sched_fence *drm_sched_fence_alloc(
-  	struct drm_sched_entity *s_entity, void *owner);
-  void drm_sched_fence_init(struct drm_sched_fence *fence,
-  			  struct drm_sched_entity *entity);
-  void drm_sched_fence_free(struct drm_sched_fence *fence);
- =20
- -void drm_sched_fence_scheduled(struct drm_sched_fence *fence);
- +void drm_sched_fence_scheduled(struct drm_sched_fence *fence,
- +			       struct dma_fence *parent);
-- void drm_sched_fence_finished(struct drm_sched_fence *fence);
-+ void drm_sched_fence_finished(struct drm_sched_fence *fence, int result);
- =20
-  unsigned long drm_sched_suspend_timeout(struct drm_gpu_scheduler *sched);
-  void drm_sched_resume_timeout(struct drm_gpu_scheduler *sched,
-
---Sig_/A0wej4cPb9Y4mYG4zvi4GKW
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmSaQVgACgkQAVBC80lX
-0GxhOQgAkVrLri2QnnyvU6f9lijKRB7p/0cLsfeP1cDKHbT43E4C6gDIydnHifeh
-Nlz/fxPU0HZfQufeLcP+8TVakK6o478QX5hyChWUQtNGyANdziaE9Kss7An5apd5
-YhW44XlEqhZuj8keVmGIX2v8B/4BNk/23llsIUQT7qGGr8nE4fmHBnWeiDfst6f4
-KJR/FQPeCY57TW1cdZlj4EFNjkVjY4RYgOd3La4TjpmCA3ybDp6ZKZXyGAAdfpfE
-LPic3ty1GH6y3syIikHuu6OFGWs7MR5a3FApw0TdqrAsFd9GGWBWpuHbx+RgV6o/
-JmI0uiryCD6c/5aI9QF6V/4Nv4vFUg==
-=FoQ1
------END PGP SIGNATURE-----
-
---Sig_/A0wej4cPb9Y4mYG4zvi4GKW--
