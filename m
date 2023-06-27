@@ -1,65 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 570A273F3D1
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 07:02:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 254EE73F503
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 09:00:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B11ED10E271;
-	Tue, 27 Jun 2023 05:02:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8D1310E089;
+	Tue, 27 Jun 2023 07:00:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
- [IPv6:2607:f8b0:4864:20::102a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9945F10E271
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 05:01:58 +0000 (UTC)
-Received: by mail-pj1-x102a.google.com with SMTP id
- 98e67ed59e1d1-262d505f336so1210363a91.2
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 22:01:58 -0700 (PDT)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C47EB10E27B
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 02:05:16 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id
+ a640c23a62f3a-98e1c6a687fso229539766b.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jun 2023 19:05:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20221208.gappssmtp.com; s=20221208;
- t=1687842117; x=1690434117; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=SzyQSNcjOHsaHAZ3PAkRaxQgaQX5KwIR0vuCWz7Tsjs=;
- b=gzHwLn4wOaOazUZEEeYo+L9zcazP7Smm9v049SKuVhFXtoqg+EYTGClSovaP/9Vb2o
- 0fSQHnHaOtvH12CQzhDdIkirHfMb+U+KaGRsX+6pzxyvthMOGUgNU6vW/DPiew5phLdi
- KNTDqMI6sauhG5sSAiOrGw4ylH06JxYl+MalXebD4YfXBDyFnett2QpWutcUt/dlyEfK
- tlhHU4iPQsApSq5Soag8J8AmRQ7KC596qOcYwzWEwSHyp9oVL6d8asl8SRxbtv5ure5m
- rRheczWQwipu7X90Uh/Xnb0BUJ8LKseZMpxB6FUT7nigWiY2fGT7SzeopI+4NWLr446s
- fABw==
+ d=gmail.com; s=20221208; t=1687831513; x=1690423513;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=ViaS8m/tB1ZwDe3hpa7K3nFc8JiLeIQbzktG4koecjI=;
+ b=DbvyrX8Kh6kxBwi4yPwAltA2DiZ4o5SRvn1oCCtneYIqW/eqa7r2XGFRQyu78iwNs2
+ wXeZBKPhv6+36Q8iBzozcDu3iljnRp9SwDuy3oee+rBB/i3QAQx9otI3bMpXWqextziI
+ DL2h7g9XafAHZPIAqijGEQ9OSIQihcHIYIYl+RpgnVtPQ2vUbgm6Df+iDNd8vP2GIIl/
+ KvPVEQf7KhtPYozARf4MqECgM/2P+8fBMufVPYiTz72BNlbX9zi4MqnkrNnxeqh+3dBV
+ LxgwaqbU7PoHpQaQI+WdIHviBoCm4xPijBE/cCmRaj4oVbjWmeY3WoUPiY3l/2Ov7AWR
+ JB4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687842117; x=1690434117;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=SzyQSNcjOHsaHAZ3PAkRaxQgaQX5KwIR0vuCWz7Tsjs=;
- b=OAAuojrQ4H174fz43IlHrfHi0LbqKl6FPcS60Rk/wqJPUqVxF+WFawblm553qxZ9bA
- kzpVf8Y5PsDyGYqe6mfiq+BK3OG18pBCosMEYS6QE06X77/SqHy5w2TJeDjB2HN6dy8w
- Z+ETfxOWKvIZRz5vvSaTbYB+P+99eDbPSpfThEw2Q8AdjmU1RhUWdJuY3MIHfTmDG2Uo
- mSUrTjjRoHVzl0dgFDjia51/FYU1Z9ClQf7vqDHo4+ISSxWk3Ge0p6j6+oYk2qFloAdN
- LzbY+MHiP/8Yr75mx0OXcXU4op0PpvLBS/dXiPgpPzN0G5GgWSZ2zQgEBfMdzldoZ0CI
- EuCw==
-X-Gm-Message-State: AC+VfDwEgKupNKsX80c+bO4ab6LPt2W+FCOKLlhToouZ4Luq0Iend3A8
- 6+OdTtXXONLFKhUVau35eFzlAA==
-X-Google-Smtp-Source: ACHHUZ5Qfmqrmo0A86/0Em+JJ9L1w+W9Cm3PVuzsMFP6GWuMHwTWkdxS8Bb73PfQCgCZL9X75rojtQ==
-X-Received: by 2002:a17:90b:3909:b0:262:ec71:9371 with SMTP id
- ob9-20020a17090b390900b00262ec719371mr4118131pjb.43.1687842116741; 
- Mon, 26 Jun 2023 22:01:56 -0700 (PDT)
-Received: from yc.huaqin.com ([101.78.151.205])
- by smtp.gmail.com with ESMTPSA id
- 8-20020a17090a004800b00262d6ac0140sm4686104pjb.9.2023.06.26.22.01.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Jun 2023 22:01:56 -0700 (PDT)
-From: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-To: sam@ravnborg.org, neil.armstrong@linaro.org, daniel@ffwll.ch,
- airlied@gmail.com, dianders@google.com, hsinyi@google.com
-Subject: [v2] drm/panel: Fine tune Starry-ili9882t panel HFP and HBP
-Date: Tue, 27 Jun 2023 13:01:48 +0800
-Message-Id: <20230627050148.2045691-1-yangcong5@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.25.1
+ d=1e100.net; s=20221208; t=1687831513; x=1690423513;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ViaS8m/tB1ZwDe3hpa7K3nFc8JiLeIQbzktG4koecjI=;
+ b=Y9LrZagu/rpCWzwHDGsr+NtpFmcsoTIeCCMcZmA0CtrejZ/KtCvupFcCWTcvTAKtq2
+ U7akAsJz1DBsYcrhRiLXuuQW08t6lsh8sfrwkMYWhCuzo2aStlSH+TyuzRPLcw+iWJfs
+ uSLNEeD+mLKR4rsjLCI5mr1jFk3olWSfRWvTcuft1uKE+XpkZORgdcSbpPYPdB47URwi
+ BF2Mejpcd7XctSG0UweNCu7SW1Dhikzgpuye0qXYAhs6TLxJMAPrgq033UFsDr1CdRAa
+ QSS5vYABLRg2NmWG1clQRRVxKVdKjCQOBWZZjFNlXQemhxT6OeRcslmUOqw3blEfnf4i
+ 87ug==
+X-Gm-Message-State: AC+VfDxnqXKaCNPjCGA6s0uqMM2Mci815nKB6lYOkGpOmYO6Yvw8iEsS
+ LVPkewU6A9bp/vjsVp8NpWIAlxRSjshdDJLbx/g=
+X-Google-Smtp-Source: ACHHUZ5LWoLu45t0nxwwx6EzTGqalF+tTk0Cb0uyHlY09yrEoSb6duKmX7N6iCSU1Seld7+UMlKh04UsMs/qaXFOdn0=
+X-Received: by 2002:a17:906:8a4a:b0:991:c842:2ca2 with SMTP id
+ gx10-20020a1709068a4a00b00991c8422ca2mr2584920ejc.15.1687831512929; Mon, 26
+ Jun 2023 19:05:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: yguoaz <yguoaz@gmail.com>
+Date: Tue, 27 Jun 2023 10:05:01 +0800
+Message-ID: <CAM7=BFqB16zNZ3TVZM3XBAP6PiqtTniQ0PeS2CEf1thq15PHZw@mail.gmail.com>
+Subject: [drm/bridge]: possible buffer overrun in cdns-mhdp8546-core.c
+To: sjakhade@cadence.com
+Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Tue, 27 Jun 2023 07:00:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,46 +64,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: yamonkar@cadence.com, dri-devel@lists.freedesktop.org,
+ quentin.schulz@free-electrons.com, tomi.valkeinen@ti.com, jsarha@ti.com,
+ andrzej.hajda@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Because the setting of hproch is too small, there will be warning in
-kernel log[1]. After fine tune the HFP and HBP, this warning can be
-solved. The actual measurement frame rate is 60.1Hz.
+In the file drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c, the
+function cdns_mhdp_print_lt_status has the following code:
 
-[1]: WARNING kernel:[drm] HFP + HBP less than d-phy, FPS will under 60Hz
+char vs[8] = "0/0/0/0";
+char pe[8] = "0/0/0/0";
+unsigned int i;
 
-Fixes: 8716a6473e6c ("drm/panel: Support for Starry-ili9882t TDDI
-MIPI-DSI panel")
-Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
----
-v2:
-  - Update commit add Fixes tag
----
- drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+for (i = 0; i < mhdp->link.num_lanes; i++) {
+    vs[i * 2] = '0' + phy_cfg->dp.voltage[i];
+    pe[i * 2] = '0' + phy_cfg->dp.pre[i];
+}
 
-diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-index 3cc9fb0d4f5d..dc276c346fd1 100644
---- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-+++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-@@ -2139,9 +2139,9 @@ static const struct panel_desc starry_himax83102_j02_desc = {
- static const struct drm_display_mode starry_ili9882t_default_mode = {
- 	.clock = 165280,
- 	.hdisplay = 1200,
--	.hsync_start = 1200 + 32,
--	.hsync_end = 1200 + 32 + 30,
--	.htotal = 1200 + 32 + 30 + 32,
-+	.hsync_start = 1200 + 72,
-+	.hsync_end = 1200 + 72 + 30,
-+	.htotal = 1200 + 72 + 30 + 72,
- 	.vdisplay = 1920,
- 	.vsync_start = 1920 + 68,
- 	.vsync_end = 1920 + 68 + 2,
--- 
-2.25.1
+vs[i * 2 - 1] = '\0';
+pe[i * 2 - 1] = '\0';
 
+If mhdp->link.num_lanes == 0, the above code accesses vs[-1] and
+pe[-1]. I think this case might be possible. For example, in the
+function cdns_mhdp_link_training_channel_eq, we have:
+
+cdns_mhdp_adjust_lt(mhdp, mhdp->link.num_lanes,
+    training_interval, lanes_data, link_status);
+
+r = drm_dp_clock_recovery_ok(link_status, mhdp->link.num_lanes);
+if (!r)
+    goto err;
+if (drm_dp_channel_eq_ok(link_status, mhdp->link.num_lanes)) {
+    cdns_mhdp_print_lt_status("EQ phase ok", mhdp, &phy_cfg);
+    return true;
+}
+
+Notice that inside the function cdns_mhdp_adjust_lt, there is a check
+for possibly invalid number of lanes:
+
+if (nlanes != 4 && nlanes != 2 && nlanes != 1) {
+    dev_err(mhdp->dev, "invalid number of lanes: %u\n", nlanes);
+    ret = -EINVAL;
+    goto out;
+}
+
+If nlanes == 0,  a buffer overrun can happen in the subsequent call of
+cdns_mhdp_print_lt_status.
