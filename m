@@ -2,58 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7AC773F8D4
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 11:33:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 110C673F903
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 11:49:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3013210E14C;
-	Tue, 27 Jun 2023 09:33:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7468E10E2C6;
+	Tue, 27 Jun 2023 09:49:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C74A010E14C;
- Tue, 27 Jun 2023 09:33:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1687858431; x=1719394431;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=miyyH8ZXvzirBIz3gYwBp+NbJvC/YZZCmCcT4P24Xgw=;
- b=hXIL8rXpKbRNCNfNoM3HtRiNrvDYalZnQ60jNALKimIZB3HajsTAzHxP
- Td62xukjePJHIUSjkFnCdYuym70nS4f548zM+x+SyNQ98UippcXPCImgN
- HBqUrAzJB2bqAHF8aKbAJnD/NA3/WVR3jxlaCvLESztTMn99jnTBGh/li
- 0br406QjzsuC1oVQGdM3tqTF2PkTS76pioce4OnhiUCGRVup6uw1w0WEi
- Fcavx2bl61tu+26DFB3+rA44dQIw17v8R0+BCtMqy+LVzNUaZqM/7uS7v
- awmpcexDgn/5VBRsLy6yJ928fHCt9vFopmudAWxpItQQLPGQHVouWu38M Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="364074054"
-X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; d="scan'208";a="364074054"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jun 2023 02:33:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="840630346"
-X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; d="scan'208";a="840630346"
-Received: from jwerner6-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.39.48])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jun 2023 02:33:47 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Sui Jingfeng <suijingfeng@loongson.cn>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>, Pan Xinhui
- <Xinhui.Pan@amd.com>
-Subject: Re: [PATCH] drm: Remove the deprecated drm_put_dev() function
-In-Reply-To: <5aee218e-2e46-b929-f905-a28794caac8c@loongson.cn>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230625050901.393055-1-suijingfeng@loongson.cn>
- <87jzvqy897.fsf@intel.com>
- <5aee218e-2e46-b929-f905-a28794caac8c@loongson.cn>
-Date: Tue, 27 Jun 2023 12:33:30 +0300
-Message-ID: <87bkh1tfkl.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 686CB10E2C6
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 09:49:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1687859384;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BDMolGe46QplsEcZcMLMBcT9vux9Sa9bWofnaqJ12E0=;
+ b=b1wv7ulhveUIdycSkbM58hKYejIUQFFlFQ/g5ZWW+j4+DDth/94vU0ZsY1jG/NtNlf1oXq
+ TIDOzP2u1kz1L/o0+oRwVb4FI7+Y5jDdV+KbLK++ADh8MSLTFNglm62/7Q5Tbb8/PIm1zX
+ O2hHIi3kyvv8NiSmvDQma8mqcJNcHfw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-263-ICH1HFqcNJWUMxp2ha2SxQ-1; Tue, 27 Jun 2023 05:49:43 -0400
+X-MC-Unique: ICH1HFqcNJWUMxp2ha2SxQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3fa979d0c32so8784055e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 02:49:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687859382; x=1690451382;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BDMolGe46QplsEcZcMLMBcT9vux9Sa9bWofnaqJ12E0=;
+ b=M2uA6OqDJkoWgvJcAYFTwXN5cqJDVWn8HAvQW+E8UmZnAPXcubTO92FDzpwZuALU2J
+ t7xwDC2SDY1yTLdKnwyHBf1CfhbX1dha/UPSprffIeD53wsJNURau/zj4euYhTw08p/E
+ t2i2pcaeSA54eR2IuEjD86Ov01ISHuFodB6TqLqJN4ETr067sToV9o29/o/IuzR1hHFQ
+ 8lo/jmaHnK3gyMJAguptmY3KgrAcwcsFPWJn2ersMyDw/bXuDUcer1suZh5q21OPYlZd
+ 3zupOv+PNy4Z2v/foxZifUvHODFH+5w7kIuYSaj7AXSyjneC4VGCxzIgWp1cAi9PE+sH
+ l8vw==
+X-Gm-Message-State: AC+VfDyvWNbpoqgIwb4R7T/lH/ysKLvPXLvNx2ilQ/GumhyOddoOdFYm
+ w80DFYADYrWJG3mMvT/kKsAfc5S+0agJeQz8GsNVK9HMvwaO12xIO5qigikQBwlsJjikMdRvzfl
+ r56RibQs2jhi/tTOTbFE7L2ahSasJ
+X-Received: by 2002:a7b:c017:0:b0:3f5:ffe3:46a7 with SMTP id
+ c23-20020a7bc017000000b003f5ffe346a7mr21876452wmb.9.1687859381980; 
+ Tue, 27 Jun 2023 02:49:41 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6vuBaSKrN7CLXVhG/j2ShVD0xFqKIjcxNBdS8rtrCbm0XIH4dz4kZ8aHrZyUcS4dq8vGb0ww==
+X-Received: by 2002:a7b:c017:0:b0:3f5:ffe3:46a7 with SMTP id
+ c23-20020a7bc017000000b003f5ffe346a7mr21876446wmb.9.1687859381683; 
+ Tue, 27 Jun 2023 02:49:41 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ q14-20020a7bce8e000000b003fba92fad35sm425821wmj.26.2023.06.27.02.49.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Jun 2023 02:49:41 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 3/8] drm/vmwgfx: Use the hotspot properties from
+ cursor planes
+In-Reply-To: <20230627035839.496399-4-zack@kde.org>
+References: <20230627035839.496399-1-zack@kde.org>
+ <20230627035839.496399-4-zack@kde.org>
+Date: Tue, 27 Jun 2023 11:49:39 +0200
+Message-ID: <87wmzp2q18.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,165 +81,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org
+Cc: krastevm@vmware.com, ppaalanen@gmail.com, iforbes@vmware.com,
+ mombasawalam@vmware.com, banackm@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 27 Jun 2023, Sui Jingfeng <suijingfeng@loongson.cn> wrote:
-> Hi,
->
-> On 2023/6/26 15:48, Jani Nikula wrote:
->> On Sun, 25 Jun 2023, Sui Jingfeng <suijingfeng@loongson.cn> wrote:
->>> As this function can be replaced with drm_dev_unregister() + drm_dev_pu=
-t(),
->>> it is already marked as deprecated, so remove it. No functional change.
->>>
->>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->>> ---
->>>   drivers/gpu/drm/drm_drv.c           | 28 ----------------------------
->>>   drivers/gpu/drm/drm_pci.c           |  3 ++-
->>>   drivers/gpu/drm/radeon/radeon_drv.c |  3 ++-
->>>   include/drm/drm_drv.h               |  1 -
->>>   4 files changed, 4 insertions(+), 31 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
->>> index 12687dd9e1ac..5057307fe22a 100644
->>> --- a/drivers/gpu/drm/drm_drv.c
->>> +++ b/drivers/gpu/drm/drm_drv.c
->>> @@ -406,34 +406,6 @@ void drm_minor_release(struct drm_minor *minor)
->>>    * possibly leaving the hardware enabled.
->>>    */
->>>=20=20=20
->>> -/**
->>> - * drm_put_dev - Unregister and release a DRM device
->>> - * @dev: DRM device
->>> - *
->>> - * Called at module unload time or when a PCI device is unplugged.
->>> - *
->>> - * Cleans up all DRM device, calling drm_lastclose().
->>> - *
->>> - * Note: Use of this function is deprecated. It will eventually go away
->>> - * completely.  Please use drm_dev_unregister() and drm_dev_put() expl=
-icitly
->>> - * instead to make sure that the device isn't userspace accessible any=
- more
->>> - * while teardown is in progress, ensuring that userspace can't access=
- an
->>> - * inconsistent state.
->> The last sentence is the crucial one. While the patch has no functional
->> changes,
->
-> But my patch help to=C2=A0save a useless check(if (!dev))
->
-> on where we found the check is not necessary.
->
-> ```
->
-> -	if (!dev) {
-> -		DRM_ERROR("cleanup called no dev\n");
-> -		return;
-> -	}
->
-> ```
->
->
->> I believe the goal never was to just mechanically replace one
->> call with the two.
->
-> The DRM core lose nothing, just a function wrapper.
->
-> Instead, this is probably a good chance to migrate the burden to the=20
-> driver side.
+Zack Rusin <zack@kde.org> writes:
 
-The point is to *fix* this stuff while doing the conversion. Anyone can
-replace one function call with two, but that's just brushing the problem
-under the carpet.
-
-The current state is that we have a function the use of which is
-potentially problematic, it's documented, and we can trivially locate
-all the call sites.
-
-After your change, we've lost that information, and we haven't fixed
-anything.
-
-
-BR,
-Jani.
-
-
+> From: Zack Rusin <zackr@vmware.com>
 >
-> I think the device driver(drm/radeon, for example) have better understand=
-ing
+> Atomic modesetting got support for mouse hotspots via the hotspot
+> properties. Port the legacy kms hotspot handling to the new properties
+> on cursor planes.
 >
-> about how to ensure that userspace can't access an inconsistent state=20
-> than the DRM core.
->
->>
->> BR,
->> Jani.
->>
->>
->>> - */
->>> -void drm_put_dev(struct drm_device *dev)
->>> -{
->>> -	DRM_DEBUG("\n");
->>> -
->>> -	if (!dev) {
->>> -		DRM_ERROR("cleanup called no dev\n");
->>> -		return;
->>> -	}
->>> -
->>> -	drm_dev_unregister(dev);
->>> -	drm_dev_put(dev);
->>> -}
->>> -EXPORT_SYMBOL(drm_put_dev);
->>> -
->>>   /**
->>>    * drm_dev_enter - Enter device critical section
->>>    * @dev: DRM device
->>> diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
->>> index 39d35fc3a43b..b3a68a92eaa6 100644
->>> --- a/drivers/gpu/drm/drm_pci.c
->>> +++ b/drivers/gpu/drm/drm_pci.c
->>> @@ -257,7 +257,8 @@ void drm_legacy_pci_exit(const struct drm_driver *d=
-river,
->>>   					 legacy_dev_list) {
->>>   			if (dev->driver =3D=3D driver) {
->>>   				list_del(&dev->legacy_dev_list);
->>> -				drm_put_dev(dev);
->>> +				drm_dev_unregister(dev);
->>> +				drm_dev_put(dev);
->>>   			}
->>>   		}
->>>   		mutex_unlock(&legacy_dev_list_lock);
->>> diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/rade=
-on/radeon_drv.c
->>> index e4374814f0ef..a4955ae10659 100644
->>> --- a/drivers/gpu/drm/radeon/radeon_drv.c
->>> +++ b/drivers/gpu/drm/radeon/radeon_drv.c
->>> @@ -357,7 +357,8 @@ radeon_pci_remove(struct pci_dev *pdev)
->>>   {
->>>   	struct drm_device *dev =3D pci_get_drvdata(pdev);
->>>=20=20=20
->>> -	drm_put_dev(dev);
->>> +	drm_dev_unregister(dev);
->>> +	drm_dev_put(dev);
->>>   }
->>>=20=20=20
->>>   static void
->>> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
->>> index 89e2706cac56..289c97b12e82 100644
->>> --- a/include/drm/drm_drv.h
->>> +++ b/include/drm/drm_drv.h
->>> @@ -511,7 +511,6 @@ void drm_dev_unregister(struct drm_device *dev);
->>>=20=20=20
->>>   void drm_dev_get(struct drm_device *dev);
->>>   void drm_dev_put(struct drm_device *dev);
->>> -void drm_put_dev(struct drm_device *dev);
->>>   bool drm_dev_enter(struct drm_device *dev, int *idx);
->>>   void drm_dev_exit(int idx);
->>>   void drm_dev_unplug(struct drm_device *dev);
+> Signed-off-by: Zack Rusin <zackr@vmware.com>
+> Cc: Martin Krastev <krastevm@vmware.com>
+> Cc: Maaz Mombasawala <mombasawalam@vmware.com>
+> ---
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
