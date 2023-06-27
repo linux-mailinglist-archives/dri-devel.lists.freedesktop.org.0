@@ -1,67 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 680B873FA40
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 12:31:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A51C73FA90
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 12:54:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C49A10E14F;
-	Tue, 27 Jun 2023 10:31:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1702210E08C;
+	Tue, 27 Jun 2023 10:54:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 693CE10E14F
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 10:31:11 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id
- 2adb3069b0e04-4f865f0e16cso5912420e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 03:31:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687861869; x=1690453869;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=DckDxEsx7nkit1HmycSxZwMQct0OfOCWzs+xT4xbZJA=;
- b=eQAoNcpqQadC//Ryx8nKc7vlYs22npU6wKYpMAKQkKswgnqVCJy0Nu14xzpGYZrXEF
- ZSmT4De3mTPiuO0P7JokU/pUxrHP+4iZamkjjy1rNQ709IGTF3pHriksJ1LXwA6HTdo1
- S9FDYfdjYOgrTqWcW9N48HZCrTc0rNiXQdhu019LDH7aKO3x6FfttI4LVTgAPmwd37ce
- gguPA/dJRZCGlddEKtm4kU9GAzEzXDnacEWkEVW37itsQ154RbGUl3d79S0x2NYiyP1m
- LIbKH6Z2jbaTItyMYBubkGKEXilkRLDFy7xd7mniwV4MSyhLSFgWGmYn/VrIs9d4jdxd
- C1fg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF20110E08C
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 10:54:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1687863281;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zIrtd34fhQsM0JJS1CVGtChSrcZbhuxBt8Dka9V6tRE=;
+ b=WmjRIkQ0mmtQGIlYDDz2Fp48siTWTnqX0xqF89DfIk4hFYwsxX7x5LpNI51HfcL+JQbmxS
+ YwmgiRpKZdBBSXtP4764UD1VHhh+/piGGbMiv5S+Q6JGF16awqXd4LW4lQ5a8cR5kaVHwj
+ 6E2IEyfY5xd7KHpZHWXcd1Pvuv1/V4Q=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-339-bJaD2FslOmGsA-KnmeLJDg-1; Tue, 27 Jun 2023 06:54:40 -0400
+X-MC-Unique: bJaD2FslOmGsA-KnmeLJDg-1
+Received: by mail-lj1-f199.google.com with SMTP id
+ 38308e7fff4ca-2b6a2a5f08aso17648961fa.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 03:54:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687861869; x=1690453869;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DckDxEsx7nkit1HmycSxZwMQct0OfOCWzs+xT4xbZJA=;
- b=S2+Fhhe6SyioZBCWQk9rcRIBZTkzesNvqS8keRZ+48nASE2bZ3Ye/7bWCfvVW7nvA3
- 1hSVe/2quM0ZmFpDiS6dhibYX0N9S5rMD33wpyCEaz4j9cYAsJMThKs8BnnH+TSqc5l2
- 4NiTK9MuuC4LuoWCVdER6dPl4I1P792R0Cn3irkcnu8tjuXIgfUgFbo9yoGUnevZ0Rdk
- NJgJXTyor5gmARaK4rWXvYEG5O+tHRJY1gFKpzYnzVTmH9sUjAGObYYeqiU/4YMogXW0
- bbdBkoG4EX+RDbZF4NolDHvPqiY8qNEOQQ6kIAuQn1zScBJj/DAtYLKiDbsy+RoHnLit
- p8iw==
-X-Gm-Message-State: AC+VfDzlsC3SnsLezMUOqolBhxkS+8CYVdy1Au7V+GibQ3xLJ261NB8F
- P4MPrDhEXJ9Yk6SlkoEcAjU=
-X-Google-Smtp-Source: ACHHUZ4liM92p9fZJxp2Hb0uv5nD52XuV6MznPY2zAhD0LHqRAh0joYGlqBZqXTRd/TitOz8OPavlg==
-X-Received: by 2002:a05:6512:401e:b0:4f9:b31b:db6 with SMTP id
- br30-20020a056512401e00b004f9b31b0db6mr5018733lfb.9.1687861868492; 
- Tue, 27 Jun 2023 03:31:08 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- t10-20020a19ad0a000000b004f85628ec34sm1466604lfc.33.2023.06.27.03.31.07
+ d=1e100.net; s=20221208; t=1687863279; x=1690455279;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=zIrtd34fhQsM0JJS1CVGtChSrcZbhuxBt8Dka9V6tRE=;
+ b=eFiiQTVGLsXHvp1sJJE+jZB/EquyxYL8JP2KfxJ2AbYeJ6ThWHG7I2/xef9/9RXW5V
+ jVK90h0l0SIBgaXoSvM5O4nxeEfcu7iO1th3fKX8bMZ1/h30ddzRGEh0bMW/x/2t3BK3
+ QHSFn0jPXKz01jWcMSqmaS9S28GTasCTHS/M/8L+8oluJZ2xLASGuyh4uAQliRyng6Ap
+ 0r2Jm0ZLAd0s3pJpZImZfRVuXYjDUhQ/dbK/W1v9I8wDMkkJKdxz0yZzT3jOq5TzBwSE
+ X3s58QIiN6OUa/rUoWzSr5bWXgOdpSQVem34gZndo0qN20rwNZvdxcy8jUUSaBLH3+Zm
+ 3TlQ==
+X-Gm-Message-State: AC+VfDy+hPKJ+F0taX2tofaUfk/9DOQEccb1wrLfm5MIooNvK1lAVHSo
+ h1hy11hxKx2G0hXvCau5brRHDwzPgmTqoV+YB8GAUk6QvAILjQn1YhAAi1S/08e6kSOmrDoxpE/
+ HE4Ei6fBLu3hPZ8U7crI6CoJvrHFq
+X-Received: by 2002:a05:6512:532:b0:4f8:770f:1b04 with SMTP id
+ o18-20020a056512053200b004f8770f1b04mr14117763lfc.0.1687863279309; 
+ Tue, 27 Jun 2023 03:54:39 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7dcM2u/BFBwcyVjjqICCzxRqbvBNQiSgXJMLuN+hUF1nF12aDE9Gc48PjhhJUyAqkNIXZ6lg==
+X-Received: by 2002:a05:6512:532:b0:4f8:770f:1b04 with SMTP id
+ o18-20020a056512053200b004f8770f1b04mr14117751lfc.0.1687863278976; 
+ Tue, 27 Jun 2023 03:54:38 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ p9-20020a05600c204900b003f93c450657sm10346588wmg.38.2023.06.27.03.54.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jun 2023 03:31:08 -0700 (PDT)
-Date: Tue, 27 Jun 2023 13:30:57 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
+ Tue, 27 Jun 2023 03:54:38 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Pekka Paalanen <ppaalanen@gmail.com>
 Subject: Re: [PATCH v3 2/8] drm/atomic: Add support for mouse hotspots
-Message-ID: <20230627133057.1ae7d357@eldfell>
-In-Reply-To: <87zg4l2shk.fsf@minerva.mail-host-address-is-not-set>
+In-Reply-To: <20230627133057.1ae7d357@eldfell>
 References: <20230627035839.496399-1-zack@kde.org>
- <20230627035839.496399-3-zack@kde.org>
- <20230627112647.175ec323@eldfell>
+ <20230627035839.496399-3-zack@kde.org> <20230627112647.175ec323@eldfell>
  <87zg4l2shk.fsf@minerva.mail-host-address-is-not-set>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
+ <20230627133057.1ae7d357@eldfell>
+Date: Tue, 27 Jun 2023 12:54:36 +0200
+Message-ID: <87cz1h2n0z.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/A76sBq2HzVEBvH2GkjjbOM7";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,87 +89,48 @@ Cc: Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/A76sBq2HzVEBvH2GkjjbOM7
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Pekka Paalanen <ppaalanen@gmail.com> writes:
 
-On Tue, 27 Jun 2023 10:56:39 +0200
-Javier Martinez Canillas <javierm@redhat.com> wrote:
+> On Tue, 27 Jun 2023 10:56:39 +0200
+> Javier Martinez Canillas <javierm@redhat.com> wrote:
+>
 
-> Pekka Paalanen <ppaalanen@gmail.com> writes:
->=20
-> > On Mon, 26 Jun 2023 23:58:33 -0400
-> > Zack Rusin <zack@kde.org> wrote:
-> > =20
-> >> From: Zack Rusin <zackr@vmware.com>
-> >>=20
-> >> Atomic modesetting code lacked support for specifying mouse cursor
-> >> hotspots. The legacy kms DRM_IOCTL_MODE_CURSOR2 had support for setting
-> >> the hotspot but the functionality was not implemented in the new atomic
-> >> paths.
-> >>=20
-> >> Due to the lack of hotspots in the atomic paths userspace compositors
-> >> completely disable atomic modesetting for drivers that require it (i.e.
-> >> all paravirtualized drivers).
-> >>=20
-> >> This change adds hotspot properties to the atomic codepaths throughtout
-> >> the DRM core and will allow enabling atomic modesetting for virtualized
-> >> drivers in the userspace.
-> >>=20
-> >> Signed-off-by: Zack Rusin <zackr@vmware.com>
-> >> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> >> Cc: Maxime Ripard <mripard@kernel.org>
-> >> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> >> Cc: David Airlie <airlied@linux.ie>
-> >> Cc: Daniel Vetter <daniel@ffwll.ch>
-> >> ---
-> >>  drivers/gpu/drm/drm_atomic_state_helper.c | 14 +++++++
-> >>  drivers/gpu/drm/drm_atomic_uapi.c         | 20 +++++++++
-> >>  drivers/gpu/drm/drm_plane.c               | 51 +++++++++++++++++++++++
-> >>  include/drm/drm_plane.h                   | 15 +++++++
-> >>  4 files changed, 100 insertions(+) =20
-> >
-> > Hi Zack,
-> >
-> > where is the UAPI documentation for these new properties? I mean
-> > something ending up in the HTML docs like what other properties have in
-> > e.g. https://www.kernel.org/doc/html/latest/gpu/drm-kms.html#plane-comp=
-osition-properties
-> >
-> > Otherwise looks fine to me. Could drm_plane_create_hotspot_properties()
-> > perhaps assert that the plane type is CURSOR?
-> > =20
->=20
-> I thought the same when reviewing but then I noticed this function is only
-> called from __drm_universal_plane_init() if type is DRM_PLANE_TYPE_CURSOR.
+[...]
 
-Right, so why bother checking for DRIVER_CURSOR_HOTSPOT either?
-Shouldn't the function be 'static' too, not exported, and not added to
-a header?
+>> > Hi Zack,
+>> >
+>> > where is the UAPI documentation for these new properties? I mean
+>> > something ending up in the HTML docs like what other properties have in
+>> > e.g. https://www.kernel.org/doc/html/latest/gpu/drm-kms.html#plane-composition-properties
+>> >
+>> > Otherwise looks fine to me. Could drm_plane_create_hotspot_properties()
+>> > perhaps assert that the plane type is CURSOR?
+>> >  
+>> 
+>> I thought the same when reviewing but then I noticed this function is only
+>> called from __drm_universal_plane_init() if type is DRM_PLANE_TYPE_CURSOR.
+>
+> Right, so why bother checking for DRIVER_CURSOR_HOTSPOT either?
+> Shouldn't the function be 'static' too, not exported, and not added to
+> a header?
+>
 
+Agreed. It should either be a static helper function in drm_plane.c and
+not an exported symbol (in which case the checks are superflous as you
+said) or the function should not make assumptions about what was checked
+by the callers.
 
-Thanks,
-pq
+I believe that the former would be better and only make it accessible to
+drivers if that is found to be needed later.
 
---Sig_/A76sBq2HzVEBvH2GkjjbOM7
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+>
+> Thanks,
+> pq
 
------BEGIN PGP SIGNATURE-----
+-- 
+Best regards,
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmSaumEACgkQI1/ltBGq
-qqeUCRAAnR033nBw6KkClM0ujAgx00w5kFqWVhX2Gpgu++Qz3xxhntW9vpqLFF9F
-N2MQnJuiEZv7NLzy9A9LoYIxgFmEN0v1sNp94XhUDrQ5DYmSxsFphcBR1Etvh5fL
-XF8pdUpbpci1n0q21PfTadekk0HPQoFwspXEjeinlP7HT+QczufOke+NBzCwIlHr
-13MYbxCwj4zgaNn+vBPdawCVUt9acnC92n0Nm0wxxwT29qpdNvJ6zZKCsRmar8KO
-fDzBZ/tmWAa9vjzN/HZZ0h+au+Xtc896MFFWXBMvVdq2a9NaFVxM2ruLMTTvfjSP
-QsWQx9FSqw8GHlEmROKFR49HjObwpoReOvPfxUrigHXZz6MphqxJFJEqO5kORrWt
-g1I/beMr6KSS2uFwhaK3aMfkIgXcAgbB/+Yb+ymQVkqOfV7SOa7w2pgGZ+TTszkx
-rb58Wln6f2V4ZbV4BkuNBmDFPIylaDvGZHZVl5Cz5QpqUNEwBjgH6Ox3Ili5cIBk
-N4xCjng2LmEXgOELz24lvnmhsicHYY84UFq7kMSs/tKil2bFj3EEaPLXoMrNNWdJ
-eptaw98SSumU5rYwbp+iGa/Vee7REo0VL4QOpGVRRRT4/AgmwDe1uFHswoUhYTGp
-pKunB9C7rTNK2ySexSPaMCk/r/tQgojJltt6Xk98DwP5u1Jt57c=
-=tU8x
------END PGP SIGNATURE-----
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
---Sig_/A76sBq2HzVEBvH2GkjjbOM7--
