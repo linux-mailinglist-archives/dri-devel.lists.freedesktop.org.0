@@ -1,57 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D7EE73FD53
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 16:05:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE1D573FD91
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 16:15:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1557410E2E8;
-	Tue, 27 Jun 2023 14:05:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BAAD10E2FA;
+	Tue, 27 Jun 2023 14:15:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B4F010E2E8;
- Tue, 27 Jun 2023 14:05:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1687874742; x=1719410742;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=A0BHjWoHFeCPHiEZfaGz7c0sHBpwOQmClpVoUUpMDD4=;
- b=CMf3UJE0N/F3GNk36bPhDUGG0/MPWud/IqS97KH6I/ZWV+mc7VFd6Ke5
- XuB5PK3pJYYo/YFZT1RvXanfS+PYkLP+19vxGmg2Wt/sM1QYQAP3h20Jv
- fRFbB5Pck//bX5VLyJTd/rUCKr2ggqsEED3d26f2mbTm0kzz+FIS/WH+u
- dVpjX3Vgvbo8AFrhi9zxAZH4q48pcQ/26PyLkvnemFNmyMtjX6MI0bdJf
- vOwOXpD066ImEBGaCpy849FtjeFpDRPccEKqQ/++iriYD3etIC1pYI7HD
- PdUkudvj6kDgy2XICYXn6Gpv1swRUWfir/mVgjXF2kPsgFr+Z7Mpkuv4+ w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="341916134"
-X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; d="scan'208";a="341916134"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jun 2023 07:05:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="710648903"
-X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; d="scan'208";a="710648903"
-Received: from acarotti-mobl1.ger.corp.intel.com (HELO [10.213.230.65])
- ([10.213.230.65])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jun 2023 07:05:29 -0700
-Message-ID: <b22c7111-0587-19b5-d912-9d07b81d2bb0@linux.intel.com>
-Date: Tue, 27 Jun 2023 15:05:26 +0100
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2386710E2E7;
+ Tue, 27 Jun 2023 14:15:14 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8Dx+8bv7ppkWiYDAA--.5224S3;
+ Tue, 27 Jun 2023 22:15:11 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Cx7yPv7ppkeVcMAA--.9012S3; 
+ Tue, 27 Jun 2023 22:15:11 +0800 (CST)
+Message-ID: <ea709740-5aa7-a904-d15b-fe27f91578a5@loongson.cn>
+Date: Tue, 27 Jun 2023 22:15:11 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH v8 1/2] drm/i915: preparation for using PAT index
+Subject: Re: [PATCH] drm: Remove the deprecated drm_put_dev() function
 Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>, fei.yang@intel.com,
- intel-gfx@lists.freedesktop.org
-References: <20230509165200.1740-1-fei.yang@intel.com>
- <20230509165200.1740-2-fei.yang@intel.com> <874jmtt4pb.fsf@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <874jmtt4pb.fsf@intel.com>
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>, Pan Xinhui <Xinhui.Pan@amd.com>
+References: <20230625050901.393055-1-suijingfeng@loongson.cn>
+ <4672fc8d-ca95-6d00-1303-cb5968c51703@suse.de>
+ <766f323a-efcf-6552-f7e5-a736830c3f12@loongson.cn>
+Organization: Loongson
+In-Reply-To: <766f323a-efcf-6552-f7e5-a736830c3f12@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Cx7yPv7ppkeVcMAA--.9012S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj9xXoW7Jw4xuFyUtFW8Aw4xJryUCFX_yoW3ZFg_Wa
+ yDuFZ3Ww4kJ397JF1DAr4xZry7GF4qvrykAa1SvF43Cry7XrZ5Ga45WrnYvryUWwsakry7
+ KrW5Zrn3J3WavosvyTuYvTs0mTUanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvT
+ s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+ cSsGvfJTRUUUbIAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
+ vaj40_Wr0E3s1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+ w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+ WUJVW8JwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+ 6r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
+ Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE
+ 14v26F4j6r4UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07
+ AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
+ F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GF
+ ylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
+ xVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26F
+ 4j6r4UJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU
+ wEfOUUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,114 +70,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matt Roper <matthew.d.roper@intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org,
- Andi Shyti <andi.shyti@linux.intel.com>
+Cc: amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 27/06/2023 14:28, Jani Nikula wrote:
-> On Tue, 09 May 2023, fei.yang@intel.com wrote:
->> From: Fei Yang <fei.yang@intel.com>
->>
->> This patch is a preparation for replacing enum i915_cache_level with PAT
->> index. Caching policy for buffer objects is set through the PAT index in
->> PTE, the old i915_cache_level is not sufficient to represent all caching
->> modes supported by the hardware.
->>
->> Preparing the transition by adding some platform dependent data structures
->> and helper functions to translate the cache_level to pat_index.
->>
->> cachelevel_to_pat: a platform dependent array mapping cache_level to
->>                     pat_index.
->>
->> max_pat_index: the maximum PAT index recommended in hardware specification
->>                 Needed for validating the PAT index passed in from user
->>                 space.
->>
->> i915_gem_get_pat_index: function to convert cache_level to PAT index.
->>
->> obj_to_i915(obj): macro moved to header file for wider usage.
->>
->> I915_MAX_CACHE_LEVEL: upper bound of i915_cache_level for the
->>                        convenience of coding.
->>
->> Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
->> Cc: Matt Roper <matthew.d.roper@intel.com>
->> Signed-off-by: Fei Yang <fei.yang@intel.com>
->> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
->> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-> 
-> [snip]
-> 
->> diff --git a/drivers/gpu/drm/i915/selftests/mock_gem_device.c b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
->> index f6a7c0bd2955..0eda8b4ee17f 100644
->> --- a/drivers/gpu/drm/i915/selftests/mock_gem_device.c
->> +++ b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
->> @@ -123,7 +123,9 @@ struct drm_i915_private *mock_gem_device(void)
->>   	static struct dev_iommu fake_iommu = { .priv = (void *)-1 };
->>   #endif
->>   	struct drm_i915_private *i915;
->> +	struct intel_device_info *i915_info;
->>   	struct pci_dev *pdev;
->> +	unsigned int i;
->>   	int ret;
->>   
->>   	pdev = kzalloc(sizeof(*pdev), GFP_KERNEL);
->> @@ -180,6 +182,13 @@ struct drm_i915_private *mock_gem_device(void)
->>   		I915_GTT_PAGE_SIZE_2M;
->>   
->>   	RUNTIME_INFO(i915)->memory_regions = REGION_SMEM;
->> +
->> +	/* simply use legacy cache level for mock device */
->> +	i915_info = (struct intel_device_info *)INTEL_INFO(i915);
-> 
-> This is not okay. It's not okay to modify device info at runtime. This
-> is why we've separated runtime info from device info. This is why we've
-> made device info const, and localized the modifications to a couple of
-> places.
-> 
-> If you need to modify it, it belongs in runtime info. Even if it's only
-> ever modified for mock devices.
-> 
-> We were at the brink of being able to finally convert INTEL_INFO() into
-> a pointer to const rodata [1], where you are unable to modify it, but
-> this having been merged as commit 5e352e32aec2 ("drm/i915: preparation
-> for using PAT index") sets us back. (With [1] this oopses trying to
-> modify read-only data.)
-> 
-> This has been posted to the public list 20+ times, and nobody noticed or
-> pointed this out?!
-> 
-> Throwing away const should be a huge red flag to any developer or
-> reviewer. Hell, *any* cast should be.
-> 
-> I've got a patch ready moving cachelevel_to_pat and max_pat_index to
-> runtime info. It's not great, since we'd be doing it only for the mock
-> device. Better ideas? I'm not waiting long.
-> 
-> 
-> BR,
-> Jani.
-> 
-> 
-> [1] https://patchwork.freedesktop.org/patch/msgid/0badc36ce6dd6b030507bdfd8a42ab984fb38d12.1686236840.git.jani.nikula@intel.com
-> 
-> 
->> +	i915_info->max_pat_index = 3;
->> +	for (i = 0; i < I915_MAX_CACHE_LEVEL; i++)
->> +		i915_info->cachelevel_to_pat[i] = i;
->> +
+On 2023/6/27 16:41, Sui Jingfeng wrote:
+> I have verified that
+>
+> if the ->probe() failed, then the ->remove will be get called.
+>
+Sorry,
 
-I'd simply suggest having a local static const table for the mock 
-device. It should be trivial once i915->__info becomes a pointer so in 
-that series I guess.
+if the ->probe() failed, then the ->remove() will *NOT* get called.
 
-While I am here - Fei - any plans to work on the promised cleanup? 
-Abstracting the caching modes with a hw agnostic sw/driver 
-representation, if you remember what we discussed.
 
-Regards,
+> I'm doing the test by add a line before the drm_dev_alloc()
+>
+I do the test by adding one line code before the drm_dev_alloc() function
 
-Tvrtko
+  to generate a fault(error) manually,
+
+
+>
+> See below:
+>
+> ```
+>
+>     return -ENODEV;
+>
+>     dev = drm_dev_alloc(&kms_driver, &pdev->dev);
+>     if (IS_ERR(dev))
+>         return PTR_ERR(dev);
+>
+>     ret = pci_enable_device(pdev);
+>     if (ret)
+>         goto err_free;
+> ```
+>
+>
+> So, there is no problem, as far as I can see. 
+All in all,  if the ->probe() failed, then the ->remove() will *NOT* get 
+called.
+
+-- 
+Jingfeng
+
