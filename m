@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDB3E73F74F
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 10:32:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8404673F750
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 10:32:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62B9410E2A8;
-	Tue, 27 Jun 2023 08:32:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16A4E10E2B2;
+	Tue, 27 Jun 2023 08:32:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC51010E2B1
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 08:32:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FB7110E2B5
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 08:32:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1687854750; x=1719390750;
+ t=1687854754; x=1719390754;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=PxmDewNzijma6owkvC5jwmDoPxigMjEg3MzHKIuDBzc=;
- b=RaTBFYYNRrDFiHXiRzIGavZS8nfb+qZOBRaNMngFmOF1D1JD0DUEYM0S
- 0qoX35/nONZj47mMwdcJYmNquUJTYO9PmNfBf91i1FHYDFrM7mdFecS3r
- JKQS0yS0FLv3auO4l2ABfI+ABSjxpz53QzU3B5emrIPnG1GF5cS8S6Fe6
- jEkzMbaNCDwIp3b21yZs07n22XJ41P3CRHz0AufnqB2KSEw/5U1+XL3Wa
- fzyWyUQZwcxWu30iKh2tLK+vAANLaq+hdlDTlMs1BEc3XBFL2ExJCe/D/
- wOeXsk27sMjCJ1T9BybqHZSJIpZrQNJ+BdqLCdnmi/KDVLibvFASuQYrc Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="364965680"
-X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; d="scan'208";a="364965680"
+ bh=cbuoMyEo82AOPlbp8Ti7dw/HmKmojdDcB5J8ctQPL48=;
+ b=iZN7wdod68ge8l1HN2Zg54PYmxNeJdXoJx99Ts5CQB/XPlDwTh3fvwaG
+ qhX5OAQft50roaZqaA9qzsljbQUw8OdP5ZDN4RlPrRkn7/HFf+UlOMYuc
+ aHXOpos71z51Yj6VdYgjkXQeeH0Ntv5tPk8Ivxv7HgLNTQ3wSvgUaMDbA
+ vUpPJ0MUhDBO1PSOYKxpbH1RTqG+KWgjh+d/DineYviyjpNd37181HePx
+ sTQK1rPfMv98PtvKTy8E+8um5QUSqcyiMhzkQ33uz/QMNP/BL4OKbG9ZX
+ 67J0WeTM4TKgdJ/dmXWuDmuS8WeJ6gp9dDArFWsd/ADDWxxauGGqGG4P6 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="364965692"
+X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; d="scan'208";a="364965692"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jun 2023 01:32:30 -0700
+ 27 Jun 2023 01:32:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="890600886"
-X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; d="scan'208";a="890600886"
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="890600909"
+X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; d="scan'208";a="890600909"
 Received: from aludkiew-mobl1.ger.corp.intel.com (HELO
  kdrobnik-desk.toya.net.pl) ([10.213.28.47])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jun 2023 01:32:27 -0700
+ 27 Jun 2023 01:32:30 -0700
 From: Karolina Stolarek <karolina.stolarek@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC v2 1/3] drm/ttm: Introduce KUnit tests
-Date: Tue, 27 Jun 2023 10:32:08 +0200
-Message-Id: <ccca4b6f62a5b87d4c8c504209c978266d1425ad.1687779215.git.karolina.stolarek@intel.com>
+Subject: [RFC v2 2/3] drm/ttm/tests: Add tests for ttm_device
+Date: Tue, 27 Jun 2023 10:32:09 +0200
+Message-Id: <6e0703484cec48f56fb8056b7afefa019ed3d5d3.1687779215.git.karolina.stolarek@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1687779215.git.karolina.stolarek@intel.com>
 References: <cover.1687779215.git.karolina.stolarek@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,102 +67,69 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the initial version of unit tests for ttm_device struct, together
-with helper functions.
+Test initialization and cleanup of the ttm_device struct, including
+some error paths. Verify the creation of page pools if use_dma_alloc
+param is true.
 
 Signed-off-by: Karolina Stolarek <karolina.stolarek@intel.com>
 ---
- drivers/gpu/drm/Kconfig                       | 15 +++++
- drivers/gpu/drm/ttm/Makefile                  |  1 +
- drivers/gpu/drm/ttm/tests/.kunitconfig        |  4 ++
- drivers/gpu/drm/ttm/tests/Makefile            |  5 ++
- drivers/gpu/drm/ttm/tests/ttm_device_test.c   | 54 +++++++++++++++++
- drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c | 59 +++++++++++++++++++
- drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h | 29 +++++++++
- 7 files changed, 167 insertions(+)
- create mode 100644 drivers/gpu/drm/ttm/tests/.kunitconfig
- create mode 100644 drivers/gpu/drm/ttm/tests/Makefile
- create mode 100644 drivers/gpu/drm/ttm/tests/ttm_device_test.c
- create mode 100644 drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
- create mode 100644 drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
+ drivers/gpu/drm/ttm/tests/ttm_device_test.c | 159 ++++++++++++++++++++
+ 1 file changed, 159 insertions(+)
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index afb3b2f5f425..53024e44a2d5 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -194,6 +194,21 @@ config DRM_TTM
- 	  GPU memory types. Will be enabled automatically if a device driver
- 	  uses it.
- 
-+config DRM_TTM_KUNIT_TEST
-+        tristate "KUnit tests for TTM" if !KUNIT_ALL_TESTS
-+        default n
-+        depends on DRM && KUNIT
-+        select DRM_TTM
-+        select DRM_EXPORT_FOR_TESTS if m
-+        select DRM_KUNIT_TEST_HELPERS
-+        default KUNIT_ALL_TESTS
-+        help
-+          Enables unit tests for TTM, a GPU memory manager subsystem used
-+          to manage memory buffers. This option is mostly useful for kernel
-+          developers.
-+
-+          If in doubt, say "N".
-+
- config DRM_BUDDY
- 	tristate
- 	depends on DRM
-diff --git a/drivers/gpu/drm/ttm/Makefile b/drivers/gpu/drm/ttm/Makefile
-index f906b22959cf..dad298127226 100644
---- a/drivers/gpu/drm/ttm/Makefile
-+++ b/drivers/gpu/drm/ttm/Makefile
-@@ -8,3 +8,4 @@ ttm-y := ttm_tt.o ttm_bo.o ttm_bo_util.o ttm_bo_vm.o ttm_module.o \
- ttm-$(CONFIG_AGP) += ttm_agp_backend.o
- 
- obj-$(CONFIG_DRM_TTM) += ttm.o
-+obj-$(CONFIG_DRM_TTM_KUNIT_TEST) += tests/
-diff --git a/drivers/gpu/drm/ttm/tests/.kunitconfig b/drivers/gpu/drm/ttm/tests/.kunitconfig
-new file mode 100644
-index 000000000000..75fdce0cd98e
---- /dev/null
-+++ b/drivers/gpu/drm/ttm/tests/.kunitconfig
-@@ -0,0 +1,4 @@
-+CONFIG_KUNIT=y
-+CONFIG_DRM=y
-+CONFIG_DRM_KUNIT_TEST_HELPERS=y
-+CONFIG_DRM_TTM_KUNIT_TEST=y
-diff --git a/drivers/gpu/drm/ttm/tests/Makefile b/drivers/gpu/drm/ttm/tests/Makefile
-new file mode 100644
-index 000000000000..7917805f37af
---- /dev/null
-+++ b/drivers/gpu/drm/ttm/tests/Makefile
-@@ -0,0 +1,5 @@
-+# SPDX-License-Identifier: GPL-2.0 AND MIT
-+
-+obj-$(CONFIG_DRM_TTM_KUNIT_TEST) += \
-+        ttm_device_test.o \
-+        ttm_kunit_helpers.o
 diff --git a/drivers/gpu/drm/ttm/tests/ttm_device_test.c b/drivers/gpu/drm/ttm/tests/ttm_device_test.c
-new file mode 100644
-index 000000000000..08d7314b1e35
---- /dev/null
+index 08d7314b1e35..67f7ec347a61 100644
+--- a/drivers/gpu/drm/ttm/tests/ttm_device_test.c
 +++ b/drivers/gpu/drm/ttm/tests/ttm_device_test.c
-@@ -0,0 +1,54 @@
-+// SPDX-License-Identifier: GPL-2.0 AND MIT
-+/*
-+ * Copyright © 2023 Intel Corporation
-+ */
-+#include <drm/ttm/ttm_resource.h>
-+#include <drm/ttm/ttm_device.h>
-+#include <drm/ttm/ttm_placement.h>
+@@ -8,6 +8,13 @@
+ 
+ #include "ttm_kunit_helpers.h"
+ 
++struct ttm_device_test_case {
++	const char *description;
++	bool use_dma_alloc;
++	bool use_dma32;
++	bool pools_init_expected;
++};
 +
-+#include "ttm_kunit_helpers.h"
-+
-+static void ttm_device_init_basic(struct kunit *test)
+ static void ttm_device_init_basic(struct kunit *test)
+ {
+ 	struct ttm_test_devices_priv *priv = test->priv;
+@@ -37,8 +44,160 @@ static void ttm_device_init_basic(struct kunit *test)
+ 	ttm_device_fini(ttm_dev);
+ }
+ 
++static void ttm_device_init_multiple(struct kunit *test)
 +{
 +	struct ttm_test_devices_priv *priv = test->priv;
++	struct ttm_device *ttm_devs;
++	unsigned int i, num_dev = 3;
++	int err;
++
++	ttm_devs = kunit_kcalloc(test, num_dev, sizeof(*ttm_devs), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, ttm_devs);
++
++	for (i = 0; i < num_dev; i++) {
++		err = ttm_kunit_helper_alloc_device(test, &ttm_devs[i],
++						    false, false);
++		KUNIT_ASSERT_EQ(test, err, 0);
++
++		KUNIT_EXPECT_PTR_EQ(test, ttm_devs[i].dev_mapping,
++				    priv->drm->anon_inode->i_mapping);
++		KUNIT_ASSERT_NOT_NULL(test, ttm_devs[i].wq);
++		KUNIT_EXPECT_PTR_EQ(test, ttm_devs[i].funcs, &ttm_dev_funcs);
++		KUNIT_ASSERT_NOT_NULL(test, ttm_devs[i].man_drv[TTM_PL_SYSTEM]);
++	}
++
++	KUNIT_ASSERT_EQ(test, list_count_nodes(&ttm_devs[0].device_list), num_dev);
++
++	for (i = 0; i < num_dev; i++)
++		ttm_device_fini(&ttm_devs[i]);
++}
++
++static void ttm_device_fini_basic(struct kunit *test)
++{
 +	struct ttm_device *ttm_dev;
-+	struct ttm_resource_manager *ttm_sys_man;
++	struct ttm_resource_manager *man;
 +	int err;
 +
 +	ttm_dev = kunit_kzalloc(test, sizeof(*ttm_dev), GFP_KERNEL);
@@ -172,137 +138,123 @@ index 000000000000..08d7314b1e35
 +	err = ttm_kunit_helper_alloc_device(test, ttm_dev, false, false);
 +	KUNIT_ASSERT_EQ(test, err, 0);
 +
-+	KUNIT_EXPECT_PTR_EQ(test, ttm_dev->funcs, &ttm_dev_funcs);
-+	KUNIT_ASSERT_NOT_NULL(test, ttm_dev->wq);
-+	KUNIT_ASSERT_NOT_NULL(test, ttm_dev->man_drv[TTM_PL_SYSTEM]);
++	man = ttm_manager_type(ttm_dev, TTM_PL_SYSTEM);
++	KUNIT_ASSERT_NOT_NULL(test, man);
 +
-+	ttm_sys_man = &ttm_dev->sysman;
-+	KUNIT_ASSERT_NOT_NULL(test, ttm_sys_man);
-+	KUNIT_EXPECT_TRUE(test, ttm_sys_man->use_tt);
-+	KUNIT_EXPECT_TRUE(test, ttm_sys_man->use_type);
-+	KUNIT_ASSERT_NOT_NULL(test, ttm_sys_man->func);
++	ttm_device_fini(ttm_dev);
 +
-+	KUNIT_EXPECT_PTR_EQ(test, ttm_dev->dev_mapping,
-+			    priv->drm->anon_inode->i_mapping);
++	KUNIT_ASSERT_FALSE(test, man->use_type);
++	KUNIT_ASSERT_TRUE(test, list_empty(&man->lru[0]));
++	KUNIT_ASSERT_NULL(test, ttm_dev->man_drv[TTM_PL_SYSTEM]);
++}
++
++static void ttm_device_init_no_vma_man(struct kunit *test)
++{
++	struct ttm_test_devices_priv *priv = test->priv;
++	struct drm_device *drm = priv->drm;
++	struct ttm_device *ttm_dev;
++	struct drm_vma_offset_manager *vma_man;
++	int err;
++
++	ttm_dev = kunit_kzalloc(test, sizeof(*ttm_dev), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, ttm_dev);
++
++	/* Let's pretend there's no VMA manager allocated */
++	vma_man = drm->vma_offset_manager;
++	drm->vma_offset_manager = NULL;
++
++	err = ttm_kunit_helper_alloc_device(test, ttm_dev, false, false);
++	KUNIT_EXPECT_EQ(test, err, -EINVAL);
++
++	/* Bring the manager back for a graceful cleanup */
++	drm->vma_offset_manager = vma_man;
++}
++
++static const struct ttm_device_test_case ttm_device_cases[] = {
++	{
++		.description = "No DMA allocations, no DMA32 required",
++		.use_dma_alloc = false,
++		.use_dma32 = false,
++		.pools_init_expected = false,
++	},
++	{
++		.description = "DMA allocations, DMA32 required",
++		.use_dma_alloc = true,
++		.use_dma32 = true,
++		.pools_init_expected = true,
++	},
++	{
++		.description = "No DMA allocations, DMA32 required",
++		.use_dma_alloc = false,
++		.use_dma32 = true,
++		.pools_init_expected = false,
++	},
++	{
++		.description = "DMA allocations, no DMA32 required",
++		.use_dma_alloc = true,
++		.use_dma32 = false,
++		.pools_init_expected = true,
++	},
++};
++
++static void ttm_device_case_desc(const struct ttm_device_test_case *t, char *desc)
++{
++	strscpy(desc, t->description, KUNIT_PARAM_DESC_SIZE);
++}
++
++KUNIT_ARRAY_PARAM(ttm_device, ttm_device_cases, ttm_device_case_desc);
++
++static void ttm_device_init_pools(struct kunit *test)
++{
++	struct ttm_test_devices_priv *priv = test->priv;
++	const struct ttm_device_test_case *params = test->param_value;
++	struct ttm_device *ttm_dev;
++	struct ttm_pool *pool;
++	struct ttm_pool_type pt;
++	int err;
++
++	ttm_dev = kunit_kzalloc(test, sizeof(*ttm_dev), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, ttm_dev);
++
++	err = ttm_kunit_helper_alloc_device(test, ttm_dev,
++					    params->use_dma_alloc,
++					    params->use_dma32);
++	KUNIT_ASSERT_EQ(test, err, 0);
++
++	pool = &ttm_dev->pool;
++	KUNIT_ASSERT_NOT_NULL(test, pool);
++	KUNIT_EXPECT_PTR_EQ(test, pool->dev, priv->dev);
++	KUNIT_EXPECT_EQ(test, pool->use_dma_alloc, params->use_dma_alloc);
++	KUNIT_EXPECT_EQ(test, pool->use_dma32, params->use_dma32);
++
++	if (params->pools_init_expected) {
++		for (int i = 0; i < TTM_NUM_CACHING_TYPES; ++i) {
++			for (int j = 0; j <= MAX_ORDER; ++j) {
++				pt = pool->caching[i].orders[j];
++				KUNIT_EXPECT_PTR_EQ(test, pt.pool, pool);
++				KUNIT_EXPECT_EQ(test, pt.caching, i);
++				KUNIT_EXPECT_EQ(test, pt.order, j);
++
++				if (params->use_dma_alloc) {
++					KUNIT_ASSERT_FALSE(test,
++							   list_empty(&pt.pages));
++				}
++			}
++		}
++	}
 +
 +	ttm_device_fini(ttm_dev);
 +}
 +
-+static struct kunit_case ttm_device_test_cases[] = {
-+	KUNIT_CASE(ttm_device_init_basic),
-+	{}
-+};
-+
-+static struct kunit_suite ttm_device_test_suite = {
-+	.name = "ttm_device",
-+	.init = ttm_test_devices_init,
-+	.exit = ttm_test_devices_fini,
-+	.test_cases = ttm_device_test_cases,
-+};
-+
-+kunit_test_suites(&ttm_device_test_suite);
-+
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-new file mode 100644
-index 000000000000..d03db0405484
---- /dev/null
-+++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-@@ -0,0 +1,59 @@
-+// SPDX-License-Identifier: GPL-2.0 AND MIT
-+/*
-+ * Copyright © 2023 Intel Corporation
-+ */
-+#include "ttm_kunit_helpers.h"
-+
-+struct ttm_device_funcs ttm_dev_funcs = {
-+};
-+EXPORT_SYMBOL_GPL(ttm_dev_funcs);
-+
-+int ttm_kunit_helper_alloc_device(struct kunit *test,
-+				  struct ttm_device *ttm,
-+				  bool use_dma_alloc,
-+				  bool use_dma32)
-+{
-+	struct ttm_test_devices_priv *priv = test->priv;
-+	struct drm_device *drm = priv->drm;
-+	int err;
-+
-+	err = ttm_device_init(ttm, &ttm_dev_funcs, drm->dev,
-+			      drm->anon_inode->i_mapping,
-+			      drm->vma_offset_manager,
-+			      use_dma_alloc, use_dma32);
-+
-+	return err;
-+}
-+EXPORT_SYMBOL_GPL(ttm_kunit_helper_alloc_device);
-+
-+int ttm_test_devices_init(struct kunit *test)
-+{
-+	struct ttm_test_devices_priv *priv;
-+
-+	priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, priv);
-+
-+	test->priv = priv;
-+
-+	priv->dev = drm_kunit_helper_alloc_device(test);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv->dev);
-+
-+	priv->drm = __drm_kunit_helper_alloc_drm_device(test, priv->dev,
-+							sizeof(*priv->drm), 0,
-+							DRIVER_GEM);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv->drm);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(ttm_test_devices_init);
-+
-+void ttm_test_devices_fini(struct kunit *test)
-+{
-+	struct ttm_test_devices_priv *priv = test->priv;
-+
-+	drm_kunit_helper_free_device(test, priv->dev);
-+	drm_dev_put(priv->drm);
-+}
-+EXPORT_SYMBOL_GPL(ttm_test_devices_fini);
-+
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-new file mode 100644
-index 000000000000..69fb03b9c4d2
---- /dev/null
-+++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-@@ -0,0 +1,29 @@
-+/* SPDX-License-Identifier: GPL-2.0 AND MIT */
-+/*
-+ * Copyright © 2023 Intel Corporation
-+ */
-+#ifndef TTM_KUNIT_HELPERS_H
-+#define TTM_KUNIT_HELPERS_H
-+
-+#include <drm/drm_drv.h>
-+#include <drm/ttm/ttm_device.h>
-+
-+#include <drm/drm_kunit_helpers.h>
-+#include <kunit/test.h>
-+
-+extern struct ttm_device_funcs ttm_dev_funcs;
-+
-+struct ttm_test_devices_priv {
-+	struct drm_device *drm;
-+	struct device *dev;
-+};
-+
-+int ttm_kunit_helper_alloc_device(struct kunit *test,
-+				  struct ttm_device *ttm,
-+				  bool use_dma_alloc,
-+				  bool use_dma32);
-+
-+int ttm_test_devices_init(struct kunit *test);
-+void ttm_test_devices_fini(struct kunit *test);
-+
-+#endif // TTM_KUNIT_HELPERS_H
+ static struct kunit_case ttm_device_test_cases[] = {
+ 	KUNIT_CASE(ttm_device_init_basic),
++	KUNIT_CASE(ttm_device_init_multiple),
++	KUNIT_CASE(ttm_device_fini_basic),
++	KUNIT_CASE(ttm_device_init_no_vma_man),
++	KUNIT_CASE_PARAM(ttm_device_init_pools, ttm_device_gen_params),
+ 	{}
+ };
+ 
 -- 
 2.25.1
 
