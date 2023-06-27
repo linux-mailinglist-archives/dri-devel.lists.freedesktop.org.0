@@ -1,31 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A2274049D
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 22:15:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0CA37404AD
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jun 2023 22:15:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14FEA10E09F;
-	Tue, 27 Jun 2023 20:15:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8329F10E322;
+	Tue, 27 Jun 2023 20:15:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay07.th.seeweb.it (relay07.th.seeweb.it [5.144.164.168])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3D7F10E322;
- Tue, 27 Jun 2023 20:14:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 401F910E329
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jun 2023 20:14:37 +0000 (UTC)
 Received: from Marijn-Arch-PC.localdomain
  (94-211-6-86.cable.dynamic.v4.ziggo.nl [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 6B9EC3F77F;
- Tue, 27 Jun 2023 22:14:33 +0200 (CEST)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id B9B313F4E7;
+ Tue, 27 Jun 2023 22:14:34 +0200 (CEST)
 From: Marijn Suijten <marijn.suijten@somainline.org>
-Date: Tue, 27 Jun 2023 22:14:24 +0200
-Subject: [PATCH v2 09/15] drm/msm/mdss: Add SM6125 support
+Date: Tue, 27 Jun 2023 22:14:25 +0200
+Subject: [PATCH v2 10/15] dt-bindings: msm: dsi-phy-14nm: Document SM6125
+ variant
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230627-sm6125-dpu-v2-9-03e430a2078c@somainline.org>
+Message-Id: <20230627-sm6125-dpu-v2-10-03e430a2078c@somainline.org>
 References: <20230627-sm6125-dpu-v2-0-03e430a2078c@somainline.org>
 In-Reply-To: <20230627-sm6125-dpu-v2-0-03e430a2078c@somainline.org>
 To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
@@ -57,47 +58,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: devicetree@vger.kernel.org, Jami Kettunen <jami.kettunen@somainline.org>,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Lux Aliaga <they@mint.lgbt>,
- Martin Botka <martin.botka@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Lux Aliaga <they@mint.lgbt>, Martin Botka <martin.botka@somainline.org>,
  ~postmarketos/upstreaming@lists.sr.ht, freedreno@lists.freedesktop.org,
  linux-clk@vger.kernel.org,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SM6125 has an UBWC 3.0 decoder but only an UBWC 1.0 encoder.
+Document availability of the 14nm DSI PHY on SM6125.  Note that this
+compatible uses the SoC-suffix variant, intead of postfixing an
+arbitrary number without the sm/sdm portion.  The PHY is not powered by
+a vcca regulator like on most SoCs, but by the MX power domain that is
+provided via the power-domains property and a single corresponding
+required-opps.
 
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 ---
- drivers/gpu/drm/msm/msm_mdss.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ .../devicetree/bindings/display/msm/dsi-phy-14nm.yaml         | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-index 05648c910c68..bf68bae23264 100644
---- a/drivers/gpu/drm/msm/msm_mdss.c
-+++ b/drivers/gpu/drm/msm/msm_mdss.c
-@@ -559,6 +559,13 @@ static const struct msm_mdss_data sm6115_data = {
- 	.ubwc_static = 0x11f,
- };
+diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml
+index a43e11d3b00d..183a26f8a6dc 100644
+--- a/Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml
+@@ -19,6 +19,7 @@ properties:
+       - qcom,dsi-phy-14nm-2290
+       - qcom,dsi-phy-14nm-660
+       - qcom,dsi-phy-14nm-8953
++      - qcom,sm6125-dsi-phy-14nm
  
-+static const struct msm_mdss_data sm6125_data = {
-+	.ubwc_version = UBWC_1_0,
-+	.ubwc_dec_version = UBWC_3_0,
-+	.ubwc_swizzle = 1,
-+	.highest_bank_bit = 1,
-+};
+   reg:
+     items:
+@@ -35,6 +36,16 @@ properties:
+   vcca-supply:
+     description: Phandle to vcca regulator device node.
+ 
++  power-domains:
++    description:
++      A phandle and PM domain specifier for an optional power domain.
++    maxItems: 1
 +
- static const struct msm_mdss_data sm8250_data = {
- 	.ubwc_version = UBWC_4_0,
- 	.ubwc_dec_version = UBWC_4_0,
-@@ -579,6 +586,7 @@ static const struct of_device_id mdss_dt_match[] = {
- 	{ .compatible = "qcom,sc8180x-mdss", .data = &sc8180x_data },
- 	{ .compatible = "qcom,sc8280xp-mdss", .data = &sc8280xp_data },
- 	{ .compatible = "qcom,sm6115-mdss", .data = &sm6115_data },
-+	{ .compatible = "qcom,sm6125-mdss", .data = &sm6125_data },
- 	{ .compatible = "qcom,sm6350-mdss", .data = &sm6350_data },
- 	{ .compatible = "qcom,sm6375-mdss", .data = &sm6350_data },
- 	{ .compatible = "qcom,sm8150-mdss", .data = &sm8150_data },
++  required-opps:
++    description:
++      A phandle to an OPP node describing an optional performance point.
++    maxItems: 1
++
+ required:
+   - compatible
+   - reg
 
 -- 
 2.41.0
