@@ -1,63 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B4C274166A
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jun 2023 18:30:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3616F74166C
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jun 2023 18:30:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F45010E37E;
-	Wed, 28 Jun 2023 16:29:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5185D10E377;
+	Wed, 28 Jun 2023 16:30:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEDF410E37B
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jun 2023 16:29:54 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id
- 38308e7fff4ca-2b69f958ef3so62261471fa.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jun 2023 09:29:54 -0700 (PDT)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1A0010E37C
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jun 2023 16:29:56 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id
+ 2adb3069b0e04-4fb8574a3a1so3425436e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jun 2023 09:29:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687969793; x=1690561793;
+ d=linaro.org; s=google; t=1687969795; x=1690561795;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=9eMvEkJ/XegETFODHiz62mk7KCxYtx3hl5+l1ieaHBA=;
- b=M2eG9b/rwLJbJ+ZYensGn99Z3sahqkhwgsICE+uWcaeCOhsMZixj0R91WrZhWHqvcT
- n077rgit6FDUr5nM+sZR6cA1yP9+24oT3o4DzuvO5+NGFm2ZSHsfTWKQSmmq2ClZweEH
- KU0lHXDJObPPbiBqKhxzrEB2ZPPFI8it67dn8IqsxVpiJmTQKFanRhkpwsx3UmQuQV6P
- FN0/+23yrw/BmMu+s+bAodxLNjgUYIK6dwYMMOG3TsEfZ5zhdfnvcisUm26xEq+oBd6v
- SElLQ5rIRNneoicmeE1ikfUOSowdZa11gUYoCWgqZo6j/h6BHzPhG0Fh1tzyJAUjIspc
- lUWA==
+ :reply-to; bh=SEhHQ8qdRfQQVMmnLHDVdeTjikaeU7SDTha8pASydDI=;
+ b=DQZ8bQM6OK1Jdf9uCG5L3p0W5NUTxn2k5hoJpqJ89L7veP52vetsvHAr9/3u2T02s3
+ FwN4eefSkPJdvODiqNbplGuLRIWZ9Ug+o+/AbFNmiw3XMd8YQpmooiF/N1hUHh6vhSbk
+ +ZrenMM5DtHlclnuBwZWPPEv3Ol5pFBCNQrhnDE8PhJzrMoTF3hwMBgVtWxIpX2LQ8Bh
+ J8uqKwhu4k/HYE5Y5Jcu11vJbOynqrOf5likeOo+7J2v3/gC2Fd1cRt5h/ihwA/b/FZz
+ zFCTB1P8rWz7AkjVdLLpogD/SCEe4jP4gZDSyaMdjoEdjth37IpwKnetCTIOvTGKKC7J
+ ohjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687969793; x=1690561793;
+ d=1e100.net; s=20221208; t=1687969795; x=1690561795;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9eMvEkJ/XegETFODHiz62mk7KCxYtx3hl5+l1ieaHBA=;
- b=Vj+x2tRZRylO+FUCwC58PEZVnVaTB1XUPR2vCKUbNcQi7eSEijQRRccgxbEtYqlRu0
- Z7CaZJ6+6dGcP0883iaY6tMY5GGeCybGsJvcnJB2aTxD1f/xHvfeCBOSBjBQIr432BuC
- /xoPmJ7HEwCpL0J+0BE/M8lkcIAdEuS2Nm1r0H24C5xauXISOZkef7oL22v/bSOl7VLO
- yXYCy3lWisITLR28wj0MJQl57fIrFclklRfq3+ZAg0RWHMn3Y7cyNIRgu8AZvD4FszPK
- jU+jlZkT6r/MCLvIJDykT2EXg2065WNYU5vvvklNicg7UL8wOuu57Vpi2JBt9d0FaWbd
- Rd/w==
-X-Gm-Message-State: AC+VfDxVwcxsPEqMn1wyZa6nU/FE7sBZURemVVHyoUoiH+DbvOD6IZUf
- zywvm961f4tzLfdvbc+YZ69zyQ==
-X-Google-Smtp-Source: ACHHUZ51B3mrrRAOt7s7WF2oHJ0SQg/cpfsp3d3HETCr5iBgITcho1tWvUElbupu3H1F3zZdBZLC2g==
-X-Received: by 2002:a05:6512:2024:b0:4f9:dac6:2f41 with SMTP id
- s4-20020a056512202400b004f9dac62f41mr6940702lfs.2.1687969792904; 
- Wed, 28 Jun 2023 09:29:52 -0700 (PDT)
+ bh=SEhHQ8qdRfQQVMmnLHDVdeTjikaeU7SDTha8pASydDI=;
+ b=SnUvhlDDcd9dOU6GUZTyyJKSLx5jyAJuM/qKt0XzWgVPHHfJdB6faIEf99x1wWBtQB
+ 2s75930xsDrzZIqMyvOpGv4PAWk/HFmplYN6mu0PHdNAoVzPzLE9mEy6UOcOXwBzFEDX
+ We++vcrihq94i+vduZ1mntODRDF1JqIZSbF7JXgjjHRXlO2LNCvN75nYp+vSObV2oF8/
+ Qnn0F4RLe7atQPkPouIkX+CtLZ3SgI8MEB5Zr82OJFkjTAeucgVPoHdH0QoeDcbedNXH
+ W4QlUHhMnuZYkyBzXIrViduK9dY05kHboFvsuq55oa6DUCvD5X8msWaUpzwU3kduabei
+ LkFA==
+X-Gm-Message-State: AC+VfDwrUcm9zvGWFPt4CG54DzWM2JS4K+ftGxSjUDpQwZxC37yBBRTU
+ xTpwINNLtvqKVjEgy+op7dNRpw==
+X-Google-Smtp-Source: ACHHUZ4Lrm2R/nQcM5BRiDtkitE2zrl7ditARQnOGBg5dQFQzWYPnI075o/ZH3A36BQhfejWQM+KIg==
+X-Received: by 2002:a05:6512:3d26:b0:4fb:89c1:c209 with SMTP id
+ d38-20020a0565123d2600b004fb89c1c209mr4023314lfv.62.1687969794861; 
+ Wed, 28 Jun 2023 09:29:54 -0700 (PDT)
 Received: from [192.168.1.101] (abyk82.neoplus.adsl.tpnet.pl. [83.9.30.82])
  by smtp.gmail.com with ESMTPSA id
- v28-20020a056512049c00b004faeedbb29dsm1678783lfq.64.2023.06.28.09.29.51
+ v28-20020a056512049c00b004faeedbb29dsm1678783lfq.64.2023.06.28.09.29.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jun 2023 09:29:52 -0700 (PDT)
+ Wed, 28 Jun 2023 09:29:54 -0700 (PDT)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Wed, 28 Jun 2023 18:29:47 +0200
-Subject: [PATCH 3/4] dt-bindings: display/msm: dsi-controller-main: Allow
- refgen-supply
+Date: Wed, 28 Jun 2023 18:29:48 +0200
+Subject: [PATCH 4/4] drm/msm/dsi: Hook up refgen regulator
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230628-topic-refgen-v1-3-126e59573eeb@linaro.org>
+Message-Id: <20230628-topic-refgen-v1-4-126e59573eeb@linaro.org>
 References: <20230628-topic-refgen-v1-0-126e59573eeb@linaro.org>
 In-Reply-To: <20230628-topic-refgen-v1-0-126e59573eeb@linaro.org>
 To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
@@ -70,11 +69,11 @@ To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
  Krishna Manikandan <quic_mkrishn@quicinc.com>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1687969785; l=919;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1687969785; l=1019;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=PSg1b4zAMPXvW/Hco4OyLK9NQz9E7zBcyA/3he+DDzs=;
- b=+OPEQNKdq4VxxdpETYujbLytJ4CfZJo5uT5nocAXxJ+Eyh9ZqgvBwYThV/7U27B/FHOT38/Me
- IiuUpQ7aMsjCNHKV40ETBzW3EwM7J1JB/Vf8qqxL5H0O4LwU2c1qKah
+ bh=bdVFkIHME+ksW97iOZJH0yeZoPTsVUfCpblAjJVbJjI=;
+ b=k+jAhj46mh/Oof9GvJUQpt/J2u2Kf9BOt4qC0dCu0ivMbU0GBjjqGdhsVkkJrQVyrqAml8JoS
+ YHTy+kjdBZUDW1wpX+4zBYjHF71ydli6DvpRMxSVeEkmb7N7RPRelKx
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -97,29 +96,33 @@ Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DSI host needs REFGEN to be enabled (if it's present on a given platform).
-Allow consuming it.
+Consume the refgen supply on configurations that may use it.
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- .../devicetree/bindings/display/msm/dsi-controller-main.yaml          | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/msm/dsi/dsi_cfg.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-index 01848bdd5873..76270992305a 100644
---- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-@@ -166,6 +166,10 @@ properties:
-     description:
-       Phandle to vdd regulator device node
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.c b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
+index 8a5fb6df7210..1f98ff74ceb0 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_cfg.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
+@@ -160,6 +160,7 @@ static const char * const dsi_v2_4_clk_names[] = {
  
-+  refgen-supply:
-+    description:
-+      Phandle to REFGEN regulator device node
-+
-   vcca-supply:
-     description:
-       Phandle to vdd regulator device node
+ static const struct regulator_bulk_data dsi_v2_4_regulators[] = {
+ 	{ .supply = "vdda", .init_load_uA = 21800 },	/* 1.2 V */
++	{ .supply = "refgen" },
+ };
+ 
+ static const struct msm_dsi_config sdm845_dsi_cfg = {
+@@ -191,6 +192,7 @@ static const struct msm_dsi_config sm8550_dsi_cfg = {
+ 
+ static const struct regulator_bulk_data sc7280_dsi_regulators[] = {
+ 	{ .supply = "vdda", .init_load_uA = 8350 },	/* 1.2 V */
++	{ .supply = "refgen" },
+ };
+ 
+ static const struct msm_dsi_config sc7280_dsi_cfg = {
 
 -- 
 2.41.0
