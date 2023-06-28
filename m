@@ -2,76 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D7A0741896
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jun 2023 21:05:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44CB97418C6
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jun 2023 21:18:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D10F10E388;
-	Wed, 28 Jun 2023 19:05:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C3A310E0B8;
+	Wed, 28 Jun 2023 19:18:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6719510E388
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jun 2023 19:05:13 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id
- 38308e7fff4ca-2b5c231c23aso2922481fa.0
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jun 2023 12:05:13 -0700 (PDT)
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
+ [IPv6:2607:f8b0:4864:20::b36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 005CC10E0B8
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jun 2023 19:18:50 +0000 (UTC)
+Received: by mail-yb1-xb36.google.com with SMTP id
+ 3f1490d57ef6-be30cbe88b3so84420276.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jun 2023 12:18:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687979111; x=1690571111;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=J5YZzdJQyh4eu5fAj6xameoZPW5lmqQSZHtsSrZxy+c=;
- b=bApBKeIV6L+P7bQQSgdCs8KOomZuQ+P1vVzFbdcBYF5YrlqR1gQpUbDKW+svoxZM5u
- ZMI1O2A432MkFzaG9yEcIzwtnDdz7yUanUYRGGth1TcETQ9nw9TCowrr7KBXzjA4LaTT
- 5a9wa4Mx67QZRyBtXHn535wSfV3hKRjiKJ8O6R7VMaIhU8OrO+kbE1JHkq26aLgK220A
- SlOWKQVRIMGY/BBPpmz2qqLFTj6aG1IUWc/dmxZA5aT9ZSYr01DHDkK0pZbIM0b67bCb
- G1p8PRTStaNe7WCI/CTPdXo6fR7CNQGEg7Na2JMDre/uMZseZJCfO5KoSO4gZyFtudW2
- uK0A==
+ d=linaro.org; s=google; t=1687979930; x=1690571930;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=7DUD/shWe46KMvA0LBMlGn2qbYD6iSa8fQ8POxlPlXM=;
+ b=bwFjvvNcUJo7//TF8Jp1vEu1xBV6qJmdrgeX0/ANiiVkekDwHHURXv+DV88cWYT6jW
+ RbHZEIn3r9PtHYcU4fIMjie5zJI6IS0zU0Yq+6jHzzBqH1S+8mbos0IDAI3y4O1YxynU
+ imdW1P2optY818M2gbNF5hU4q2ZU/cpterMPuJEU5VtKZ63vv5BOPOYpaOXFEVDcJCZe
+ njEyQ1uoFmFpp8jWN7ztedU+45WHoCMjLCJHxIZUoYY3yo0OHqUkekyUbJVC4tKKMOka
+ OguEhhd/Ez61qhzCh0w6nIJMbVWfYEit5vhI4og1FaIZ6NwTsVbGXZoQEAU8iEt/P0Zs
+ bmkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687979111; x=1690571111;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=J5YZzdJQyh4eu5fAj6xameoZPW5lmqQSZHtsSrZxy+c=;
- b=BPuKpK9plP+0Y/F1alyZqVyspCQlDxE5ediudM/QpniubRXDcDC+meq1zoQ46fcWMV
- iSrs8AXpG7oEH6fg9xqSobUC48ynJN/MDqtuIMIVSull2NQraveJtJvDZH8BSPNvFMg4
- 0PrR5YPzqNCJASdnMtfVYmT0i9dkM/PGTt9sEDCWtPJilo++tYuQvZyosZFxnM9A1jjv
- 8zrjyjavGQbQZMQX0VkO+sL60VXQuNpYE+33sMJKS/GogzkzqmliJns1s91AO4GWncIn
- Tljr0LI9HtraTYw1OM0YTf013h3AmhBZCH/n42VUUPhiwlnbqee/+CdjUKFBOTJl83oi
- Iy7w==
-X-Gm-Message-State: AC+VfDzcRtJd7MGrp7c8JYr8ENOEAbzCtLwX7L4fvLSWLuRV23LRM2GW
- 7tk27xHFRbKkF8vp0QS2tTC0ZA==
-X-Google-Smtp-Source: ACHHUZ4bn9WdqZwlwgpaohN+JH/FskgQr6To+oDImxYoZ8FAbp2paEayyppRUM7Xb7j7v5znECW0yA==
-X-Received: by 2002:a2e:900a:0:b0:2b4:6195:bb26 with SMTP id
- h10-20020a2e900a000000b002b46195bb26mr22432303ljg.25.1687979110797; 
- Wed, 28 Jun 2023 12:05:10 -0700 (PDT)
-Received: from [192.168.1.101] (abyk82.neoplus.adsl.tpnet.pl. [83.9.30.82])
- by smtp.gmail.com with ESMTPSA id
- t6-20020a2e9c46000000b002b6a85a7292sm1102616ljj.19.2023.06.28.12.05.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jun 2023 12:05:09 -0700 (PDT)
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Wed, 28 Jun 2023 21:05:08 +0200
-Subject: [PATCH] drm/msm/adreno: Assign revn to A635
+ d=1e100.net; s=20221208; t=1687979930; x=1690571930;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=7DUD/shWe46KMvA0LBMlGn2qbYD6iSa8fQ8POxlPlXM=;
+ b=jG1n2yPK81gVTMZxzROhRYFi7b0Na4kXCvTMlwhBe8BSDVOT1plX4pXVUjYbYgv2Ls
+ QWAIOlKo0qxJB8ERfwMYFzXfJTOpK7tiLGt2oqbYbAVEveGxdkb1yRzhTFq1GdcQg/T5
+ gwoH4dHTXu9JVIpPYjKmzyu/EOdPNJ75LMhJnllfzVGM918bCU09La71/NORbTt803VM
+ jV6OX7QY6F5ZKfHckEM+7saUviQmA/uXRFHJ3CIayUoVlpjSC82kNNy+icjdtyKeZwhp
+ PqpW4Wl6vkTV1GBHINJH2RGg1Winzwgjh2zvuKz2XbHExJ/pYPYieMMK/tVweOX9aSnU
+ woTw==
+X-Gm-Message-State: AC+VfDx+CWuXBmw28FIsaHwIKq7fIyeUj64lGHPmsXwwzTsUUAA3DDWv
+ M8jwI3cLuwruaKRevY34nEPzJqhVHpaibtaQ0ZU4vA==
+X-Google-Smtp-Source: ACHHUZ7rpDB3iLiEU8xufHcYAsfVBnrCQGv7FT1VlaIgweQmvXwzogrWdJylssczyf5duNaEFnucjJqA02PevJT363c=
+X-Received: by 2002:a05:6902:91:b0:bb8:4cc6:9d09 with SMTP id
+ h17-20020a056902009100b00bb84cc69d09mr28026725ybs.29.1687979929795; Wed, 28
+ Jun 2023 12:18:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230628-topic-a635-v1-1-5056e09c08fb@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAGOEnGQC/x2NQQqDMBAAvyJ77oJJrNp+RTwk221dkCiJihD8u
- 0uPMzBMgcxJOMO7KpD4kCxLVDCPCmjy8ccoH2WwtXV1a3vcllUIfeueaIIjS6++a0wHGgSfGUP
- ykSZN4j7PKtfEXzn/h2G8rhsjRnTzcQAAAA==
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1687979108; l=1049;
- i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=yOF2V2vC/eERQ5I69KrybMFDlBclITTn/+Bht2rKkYY=;
- b=T9f2BftsBHUMn+H55F1KeMb0BOE9TuUoOA3jtNlB1lxYTYSv97uLuQMLHUS9T4OyQkR1hib9J
- t+Eg5u6zA8ICDEQPx9CoIlDczwxnK718qaXUbFdux/m3XE4IGEwzpIS
-X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
+References: <20230521-drm-panels-sony-v1-0-541c341d6bee@somainline.org>
+ <20230521-drm-panels-sony-v1-10-541c341d6bee@somainline.org>
+ <CACRpkdbrk_pPqewo-bGPq4NQScHSRKNMeO0ik_aqEQ+BY12BBQ@mail.gmail.com>
+ <a7h7hudmgg3ldb334o2knga7dqilvp47tfd46se4szpri2xi35@lxg5i5igjfmj>
+In-Reply-To: <a7h7hudmgg3ldb334o2knga7dqilvp47tfd46se4szpri2xi35@lxg5i5igjfmj>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 28 Jun 2023 21:18:38 +0200
+Message-ID: <CACRpkdZSNzeh8v=HW6948dJ8j0xNMhgrAz2+CpvQX=meGwPkyg@mail.gmail.com>
+Subject: Re: [PATCH RFC 10/10] drm/panel/sony-griffin-samsung: Add panel
+ driver for Sony Xperia 1
+To: Marijn Suijten <marijn.suijten@somainline.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,41 +72,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Caleb Connolly <caleb@connolly.tech>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Andy Gross <agross@kernel.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>, Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Recently, a WARN_ON() was introduced to ensure that revn is filled before
-adreno_is_aXYZ is called. This however doesn't work very well when revn is
-0 by design (such as for A635). Fill it in as a stopgap solution for
--fixes.
+On Wed, Jun 28, 2023 at 4:20=E2=80=AFPM Marijn Suijten
+<marijn.suijten@somainline.org> wrote:
 
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
----
- drivers/gpu/drm/msm/adreno/adreno_device.c | 1 +
- 1 file changed, 1 insertion(+)
+> But for now we might already create a step-up version of that by having
+> a "Samsung panel driver library" to deduplicate generic commands, which
+> drivers can freely call into?
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-index cb94cfd137a8..8ea7eae9fc52 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-@@ -345,6 +345,7 @@ static const struct adreno_info gpulist[] = {
- 		.address_space_size = SZ_16G,
- 	}, {
- 		.rev = ADRENO_REV(6, 3, 5, ANY_ID),
-+		.revn = 635,
- 		.fw = {
- 			[ADRENO_FW_SQE] = "a660_sqe.fw",
- 			[ADRENO_FW_GMU] = "a660_gmu.bin",
+Yeah something like that is likely what we want.
 
----
-base-commit: 5c875096d59010cee4e00da1f9c7bdb07a025dc2
-change-id: 20230628-topic-a635-1b3c2c987417
+> On the other hand of the spectrum we currently have 4 downstream panels
+> for Sony devices that all declare to be using the sofef01 controller,
+> but with vastly different command sets.  And even if we "accidentally"
+> send the wrong set for the wrong device, the panel works anyway with no
+> noticeable color shifts or otherwise...
 
-Best regards,
--- 
-Konrad Dybcio <konrad.dybcio@linaro.org>
+Yeah that is typically the case :/
 
+We should try to group the similar code together and expect that sooner
+or later we will figure out what display controller(s) it is and name it af=
+ter
+that rather than after the panel (which I define as the combination of
+a display controller and an actual panel).
+
+Yours,
+Linus Walleij
