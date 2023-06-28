@@ -1,73 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 301117417C8
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jun 2023 20:06:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 202A17417DC
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jun 2023 20:17:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3878B10E382;
-	Wed, 28 Jun 2023 18:06:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F4D710E04F;
+	Wed, 28 Jun 2023 18:17:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85AA210E382
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jun 2023 18:06:05 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 35SHrtkw003303; Wed, 28 Jun 2023 18:05:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=qcppdkim1;
- bh=Vf+gMe3gDaEuOiUszMmoo8Fn0AAsQrdDmiENOUVV52M=;
- b=Z4XRHAiLs26tipb5uqvuxxs6LlYnD2eiwqjjWfEIZR2QSizEemp0PSumYh/rPfoLUoBK
- Y9gCbxGJS5IUSWtkN6Kc2TSvh1ktWBCluKitzUykpn9dm9o6EdULU7kHLEz+QgpQTEVk
- 2nRziCKL84OaMW7c8GQJaiI/1ZoWKjU5UGm8bgwNsTc01J2LGGjmk7I6q86csZxptsfa
- bq37bZqu7/vOKmhyE5rLpeYibyXMXN3ucRuXipe2L3rCLggsX89KUaA65DLDTzMnXrkn
- GPn/zZS6Ug5EfwKpnFbjcMKEkoIGmaEErhsxWGvrKI1JmFGpjn81PZfFXsrQA3oApO5/ Cw== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rgetphky9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 28 Jun 2023 18:05:52 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35SI5pVg017969
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 28 Jun 2023 18:05:51 GMT
-Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.7; Wed, 28 Jun 2023 11:05:50 -0700
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-To: <sumit.semwal@linaro.org>, <benjamin.gaignard@collabora.com>,
- <labbott@redhat.com>, <Brian.Starkey@arm.com>, <jstultz@google.com>,
- <andersson@kernel.org>
-Subject: [PATCH] MAINTAINERS: Remove Liam Mark from DMA-BUF HEAPS FRAMEWORK
-Date: Wed, 28 Jun 2023 12:05:34 -0600
-Message-ID: <20230628180534.31819-1-quic_jhugo@quicinc.com>
-X-Mailer: git-send-email 2.40.1
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99B2410E025;
+ Wed, 28 Jun 2023 18:17:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1687976243; x=1719512243;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=awebO5fMQdqhEpxQyrFHmz0FRuFSPGAp9TWVL7DsSNY=;
+ b=XqUw+rLtzNdn+0R1D5GTWl87ovKxtwwnSDRdmvaxrwzi5us+kWHVtyMY
+ cWYtfCBV2si03CGKp1sLj6k0J7vDfn5ko4xdeXCsysuG+OynXK95OAjSD
+ iO6ON6erwPDc2zwHReOfYrXVa588r0QA215pUlMnUJuHsgqaPeHdld8lZ
+ ++Zsxadw9BYoBq8oEMQKeX5irX+nTCLiz1SKbBBufFtgHS+uMxpzAv4iR
+ 0xjpVH7vbU0ca7PvVFDHCQ2EE64DDTH/pLrwINdvmJY9L+nbrc1CMr1Jb
+ 2u9hGINtux2PEzRuU8KRXKAbZtPXDQ4RRDxEXAE9eiISaV0QfE21CW4nd w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="448308201"
+X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; d="scan'208";a="448308201"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2023 11:17:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="752354978"
+X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; d="scan'208";a="752354978"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by orsmga001.jf.intel.com with ESMTP; 28 Jun 2023 11:17:21 -0700
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-xe@lists.freedesktop.org
+Subject: [PATCH v3] drm/xe/guc: Fix h2g_write usage of GUC_CTB_MSG_MAX_LEN
+Date: Wed, 28 Jun 2023 11:17:18 -0700
+Message-Id: <20230628181718.1023703-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: VGaYmJbqHHfVXnxMwLw7rdShKmQFuLe6
-X-Proofpoint-GUID: VGaYmJbqHHfVXnxMwLw7rdShKmQFuLe6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-28_12,2023-06-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0
- mlxlogscore=693 spamscore=0 priorityscore=1501 suspectscore=0
- clxscore=1011 bulkscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306280161
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,40 +54,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, Jeffrey
- Hugo <quic_jhugo@quicinc.com>, linux-media@vger.kernel.or,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ John Harrison <john.c.harrison@intel.com>, dri-devel@lists.freedesktop.org,
+ Alan Previn <alan.previn.teres.alexis@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-@codeaurora.org email addresses are no longer valid and will bounce.
+In the ABI header, GUC_CTB_MSG_MIN_LEN is '1' because
+GUC_CTB_HDR_LEN is 1. This aligns with H2G/G2H CTB specification
+where all command formats are defined in units of dwords so that '1'
+is a dword. Accordingly, GUC_CTB_MSG_MAX_LEN is 256-1 (i.e. 255
+dwords). However, h2g_write was incorrectly assuming that
+GUC_CTB_MSG_MAX_LEN was in bytes. Fix this.
 
-I reached out to Liam about updating his entry under DMA-BUF HEAPS
-FRAMEWORK with an @codeaurora.org address.  His response:
+v2: By correctly treating GUC_CTB_MSG_MAX_LEN as dwords, it causes
+    a local array to consume 4x the stack size. Rework the function
+    to avoid consuming stack even if the action size is large.
 
-"I am not a maintainer anymore, that should be removed."
-
-Liam currently does not have an email address that can be used to remove
-this entry, so I offered to submit a cleanup on his behalf with Liam's
-consent.
-
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
 ---
- MAINTAINERS | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/xe/xe_guc_ct.c | 31 ++++++++++++++++++-------------
+ 1 file changed, 18 insertions(+), 13 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 76b53bafc03c..1781eb0a8dda 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6168,7 +6168,6 @@ F:	kernel/dma/
- DMA-BUF HEAPS FRAMEWORK
- M:	Sumit Semwal <sumit.semwal@linaro.org>
- R:	Benjamin Gaignard <benjamin.gaignard@collabora.com>
--R:	Liam Mark <lmark@codeaurora.org>
- R:	Laura Abbott <labbott@redhat.com>
- R:	Brian Starkey <Brian.Starkey@arm.com>
- R:	John Stultz <jstultz@google.com>
+diff --git a/drivers/gpu/drm/xe/xe_guc_ct.c b/drivers/gpu/drm/xe/xe_guc_ct.c
+index 22bc9ce846db..aa04b5c4822f 100644
+--- a/drivers/gpu/drm/xe/xe_guc_ct.c
++++ b/drivers/gpu/drm/xe/xe_guc_ct.c
+@@ -401,19 +401,21 @@ static int h2g_write(struct xe_guc_ct *ct, const u32 *action, u32 len,
+ {
+ 	struct xe_device *xe = ct_to_xe(ct);
+ 	struct guc_ctb *h2g = &ct->ctbs.h2g;
+-	u32 cmd[GUC_CTB_MSG_MAX_LEN / sizeof(u32)];
+-	u32 cmd_len = len + GUC_CTB_HDR_LEN;
+-	u32 cmd_idx = 0, i;
++#define H2G_CT_HEADERS (GUC_CTB_HDR_LEN + 1) /* one DW CTB header and one DW HxG header */
++	u32 cmd[H2G_CT_HEADERS];
+ 	u32 tail = h2g->info.tail;
++	u32 full_len;
+ 	struct iosys_map map = IOSYS_MAP_INIT_OFFSET(&h2g->cmds,
+ 							 tail * sizeof(u32));
+ 
++	full_len = len + GUC_CTB_HDR_LEN;
++
+ 	lockdep_assert_held(&ct->lock);
+-	XE_BUG_ON(len * sizeof(u32) > GUC_CTB_MSG_MAX_LEN);
++	XE_BUG_ON(full_len > (GUC_CTB_MSG_MAX_LEN - GUC_CTB_HDR_LEN));
+ 	XE_BUG_ON(tail > h2g->info.size);
+ 
+ 	/* Command will wrap, zero fill (NOPs), return and check credits again */
+-	if (tail + cmd_len > h2g->info.size) {
++	if (tail + full_len > h2g->info.size) {
+ 		xe_map_memset(xe, &map, 0, 0,
+ 			      (h2g->info.size - tail) * sizeof(u32));
+ 		h2g_reserve_space(ct, (h2g->info.size - tail));
+@@ -428,30 +430,33 @@ static int h2g_write(struct xe_guc_ct *ct, const u32 *action, u32 len,
+ 	 * dw1: HXG header (including action code)
+ 	 * dw2+: action data
+ 	 */
+-	cmd[cmd_idx++] = FIELD_PREP(GUC_CTB_MSG_0_FORMAT, GUC_CTB_FORMAT_HXG) |
++	cmd[0] = FIELD_PREP(GUC_CTB_MSG_0_FORMAT, GUC_CTB_FORMAT_HXG) |
+ 		FIELD_PREP(GUC_CTB_MSG_0_NUM_DWORDS, len) |
+ 		FIELD_PREP(GUC_CTB_MSG_0_FENCE, ct_fence_value);
+ 	if (want_response) {
+-		cmd[cmd_idx++] =
++		cmd[1] =
+ 			FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_REQUEST) |
+ 			FIELD_PREP(GUC_HXG_EVENT_MSG_0_ACTION |
+ 				   GUC_HXG_EVENT_MSG_0_DATA0, action[0]);
+ 	} else {
+-		cmd[cmd_idx++] =
++		cmd[1] =
+ 			FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_EVENT) |
+ 			FIELD_PREP(GUC_HXG_EVENT_MSG_0_ACTION |
+ 				   GUC_HXG_EVENT_MSG_0_DATA0, action[0]);
+ 	}
+-	for (i = 1; i < len; ++i)
+-		cmd[cmd_idx++] = action[i];
++
++	/* H2G header in cmd[1] replaces action[0] so: */
++	--len;
++	++action;
+ 
+ 	/* Write H2G ensuring visable before descriptor update */
+-	xe_map_memcpy_to(xe, &map, 0, cmd, cmd_len * sizeof(u32));
++	xe_map_memcpy_to(xe, &map, 0, cmd, H2G_CT_HEADERS * sizeof(u32));
++	xe_map_memcpy_to(xe, &map, H2G_CT_HEADERS * sizeof(u32), action, len * sizeof(u32));
+ 	xe_device_wmb(ct_to_xe(ct));
+ 
+ 	/* Update local copies */
+-	h2g->info.tail = (tail + cmd_len) % h2g->info.size;
+-	h2g_reserve_space(ct, cmd_len);
++	h2g->info.tail = (tail + full_len) % h2g->info.size;
++	h2g_reserve_space(ct, full_len);
+ 
+ 	/* Update descriptor */
+ 	desc_write(xe, h2g, tail, h2g->info.tail);
+
+base-commit: abdb420db479bae28a2abd7ba2c66229b7e8cb77
 -- 
-2.40.1
+2.39.0
 
