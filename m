@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FAE874073D
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jun 2023 02:36:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0CD77407A0
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jun 2023 03:30:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27EC810E023;
-	Wed, 28 Jun 2023 00:36:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB23310E0A1;
+	Wed, 28 Jun 2023 01:30:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45BA510E012;
- Wed, 28 Jun 2023 00:36:50 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- 5b1f17b1804b1-3fa94ea1caaso3802975e9.1; 
- Tue, 27 Jun 2023 17:36:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687912607; x=1690504607;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=KSyQMNRIDW2sVBvZjUbWbTDiN/K/JBNAd9QdnzqxUV4=;
- b=lPQlGbTxW1W4Kl1mMmnpdJ/Wcyq8HNla6WCUjGDffyyWSHMjAbTvbBwKvC6VM1cfZ+
- y7ADmQ2cpumCZprCNDKKInYnNuB3VMQgREnMZYP6JKr8vKJGylGjmNXPPeDyyiRuRd7F
- FDKCfFZkIHXLOWb4ikoqMIvzUHT4/OfJ+lN12AIuEaMfUqSKue0nwBzlUBKai8HwAixp
- l3ntpfXYaUqX7zdBeSgOttN0F4Q7YI8xgnbaaExvmszSi97LEGgx4xQX7VhphXnLY6ov
- 0I/uvaGapp9KKQQ8+BeeJnB60eBrv3YpVzuOu5QUBtPOneWilj8ulEzi9KhCTFI+tDCp
- Ot8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687912607; x=1690504607;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KSyQMNRIDW2sVBvZjUbWbTDiN/K/JBNAd9QdnzqxUV4=;
- b=FxNLuli4aOuAcRIeAMcn2JYyeLHKvhsGhoXTwdluI0ixrTY0fGDnPhDhSuKxgpukTB
- uS3Cx2gZHC6r+cIaatB4VmsYlQRYxO854sMkhK+8TtYjkiXZJ97/1W/gCpPm0txVVG1M
- xCQZ/ZCgmxRlvxDEK3yotIYu6MlEu8i6gRh+pKTHVLaSfoGXNUqoNCV14rYo21zhap0s
- ZMh5esAJ/Hn2xauTgbs9ejJKVXJciWry8CuPV6SDXXho+xRbQV9Ojdc0Baag7/51yd06
- kRoCyBFexlVsUD1dJHC3C8KQgrrnCdYKWMQllmluVxLzOh3Oh7FcEaiePERzo3+DrxK0
- NvXA==
-X-Gm-Message-State: AC+VfDzA5zmY3W43bNMaT6OjNuEVeRwdQYLeFp8k9yVnLYGmnNvLkJjj
- +PnLrurApnuAhXHrrv7/qwvy1xZD2EBXunW72pA=
-X-Google-Smtp-Source: ACHHUZ6dB17cwxLqd1EMqnqww6hHHfLZThWe3HVfFiEnK/r6k/FuJ7DD9WvVkN7hZywn4svUznhFsw7DJpesb3dM/Uo=
-X-Received: by 2002:a05:600c:3b1f:b0:3fa:125c:8d65 with SMTP id
- m31-20020a05600c3b1f00b003fa125c8d65mr16967718wms.3.1687912607203; Tue, 27
- Jun 2023 17:36:47 -0700 (PDT)
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2EABA10E0A1
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jun 2023 01:30:36 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8DxuMU7jZtkxk0DAA--.5286S3;
+ Wed, 28 Jun 2023 09:30:35 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8CxriM7jZtkzU4NAA--.11230S3; 
+ Wed, 28 Jun 2023 09:30:35 +0800 (CST)
+Message-ID: <7ce46e54-2b78-8073-d892-ea107ec318c3@loongson.cn>
+Date: Wed, 28 Jun 2023 09:30:35 +0800
 MIME-Version: 1.0
-References: <20230627132323.115440-1-andrealmeid@igalia.com>
- <CAAxE2A4Hquz9bJNSEaUtBoJC3qbLBPYXd8i3JX9AhNUx_iUKpg@mail.gmail.com>
- <4302638a-c33b-7355-5201-d3020f5b1525@igalia.com>
-In-Reply-To: <4302638a-c33b-7355-5201-d3020f5b1525@igalia.com>
-From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
-Date: Tue, 27 Jun 2023 20:36:11 -0400
-Message-ID: <CAAxE2A4i50c34OFHMbrrk1g55zs0dodsPJvDcMGksLhApTy2NA@mail.gmail.com>
-Subject: Re: [PATCH v5 1/1] drm/doc: Document DRM device reset expectations
-To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-Content-Type: multipart/alternative; boundary="0000000000005d875605ff25c709"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: drm/udl: Convert to drm_crtc_helper_atomic_check()
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <336040bba05b019d629551b350b15bad2df2ba96.1687425928.git.geert+renesas@glider.be>
+Content-Language: en-US
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <336040bba05b019d629551b350b15bad2df2ba96.1687425928.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8CxriM7jZtkzU4NAA--.11230S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7ZFWfAF1DGrWxXr45Ww1Dtwc_yoW8Zw18pa
+ nrArZ0yr4YqF4DC39rJa1qy3W5ua1Yka4xJrWkGw1fu3Z7Kr15XF1rZr18WF15Xay7J3Wf
+ ZrnFyFy5Z3WY9FcCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUvYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+ Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
+ 8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv67AK
+ xVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
+ AYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
+ 14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIx
+ kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW8JVW5JwCI42IY6xIIjxv20xvEc7CjxVAF
+ wI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F
+ 4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07josjUU
+ UUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,176 +67,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Samuel Pitoiset <samuel.pitoiset@gmail.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>, kernel-dev@igalia.com,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- Pekka Paalanen <ppaalanen@gmail.com>,
- =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000005d875605ff25c709
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Tue, Jun 27, 2023 at 5:31=E2=80=AFPM Andr=C3=A9 Almeida <andrealmeid@iga=
-lia.com>
-wrote:
-
-> Hi Marek,
->
-> Em 27/06/2023 15:57, Marek Ol=C5=A1=C3=A1k escreveu:
-> > On Tue, Jun 27, 2023, 09:23 Andr=C3=A9 Almeida <andrealmeid@igalia.com
-> > <mailto:andrealmeid@igalia.com>> wrote:
-> >
-> >     +User Mode Driver
-> >     +----------------
-> >     +
-> >     +The UMD should check before submitting new commands to the KMD if
-> >     the device has
-> >     +been reset, and this can be checked more often if the UMD requires
-> >     it. After
-> >     +detecting a reset, UMD will then proceed to report it to the
-> >     application using
-> >     +the appropriate API error code, as explained in the section below
-> about
-> >     +robustness.
-> >
-> >
-> > The UMD won't check the device status before every command submission
-> > due to ioctl overhead. Instead, the KMD should skip command submission
-> > and return an error that it was skipped.
->
-> I wrote like this because when reading the source code for
-> vk::check_status()[0] and Gallium's si_flush_gfx_cs()[1], I was under
-> the impression that UMD checks the reset status before every
-> submission/flush.
->
-
-It only does that before every command submission when the context is
-robust. When it's not robust, radeonsi doesn't do anything.
+Yeah, the net result is same.
 
 
+On 2023/6/22 17:27, Geert Uytterhoeven wrote:
+> Use the drm_crtc_helper_atomic_check() helper instead of open-coding the
+> same operation.
 >
-> Is your comment about of how things are currently implemented, or how
-> they would ideally work? Either way I can apply your suggestion, I just
-> want to make it clear.
->
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Yes. Ideally, we would get the reply whether the context is lost from the
-CS ioctl. This is not currently implemented.
+Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
 
-Marek
+> ---
+> Compile-tested only.
+> ---
+>   drivers/gpu/drm/udl/udl_modeset.c | 13 ++-----------
+>   1 file changed, 2 insertions(+), 11 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
+> index aa02fd2789c3f885..40876bcdd79a47ac 100644
+> --- a/drivers/gpu/drm/udl/udl_modeset.c
+> +++ b/drivers/gpu/drm/udl/udl_modeset.c
+> @@ -12,6 +12,7 @@
+>   
+>   #include <drm/drm_atomic.h>
+>   #include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_crtc_helper.h>
+>   #include <drm/drm_damage_helper.h>
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_edid.h>
+> @@ -310,16 +311,6 @@ static const struct drm_plane_funcs udl_primary_plane_funcs = {
+>    * CRTC
+>    */
+>   
+> -static int udl_crtc_helper_atomic_check(struct drm_crtc *crtc, struct drm_atomic_state *state)
+> -{
+> -	struct drm_crtc_state *new_crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+> -
+> -	if (!new_crtc_state->enable)
+> -		return 0;
+> -
+> -	return drm_atomic_helper_check_crtc_primary_plane(new_crtc_state);
+> -}
+> -
+>   static void udl_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *state)
+>   {
+>   	struct drm_device *dev = crtc->dev;
+> @@ -381,7 +372,7 @@ static void udl_crtc_helper_atomic_disable(struct drm_crtc *crtc, struct drm_ato
+>   }
+>   
+>   static const struct drm_crtc_helper_funcs udl_crtc_helper_funcs = {
+> -	.atomic_check = udl_crtc_helper_atomic_check,
+> +	.atomic_check = drm_crtc_helper_atomic_check,
+>   	.atomic_enable = udl_crtc_helper_atomic_enable,
+>   	.atomic_disable = udl_crtc_helper_atomic_disable,
+>   };
 
+-- 
+Jingfeng
 
->
-> [0]
->
-> https://elixir.bootlin.com/mesa/mesa-23.1.3/source/src/vulkan/runtime/vk_=
-device.h#L142
-> [1]
->
-> https://elixir.bootlin.com/mesa/mesa-23.1.3/source/src/gallium/drivers/ra=
-deonsi/si_gfx_cs.c#L83
->
-> >
-> > The only case where that won't be applicable is user queues where
-> > drivers don't call into the kernel to submit work, but they do call int=
-o
-> > the kernel to create a dma_fence. In that case, the call to create a
-> > dma_fence can fail with an error.
-> >
-> > Marek
->
->
-
---0000000000005d875605ff25c709
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Tue, Jun 27, 2023 at 5:31=E2=80=AFPM Andr=C3=A9 Almeida &lt;<a hr=
-ef=3D"mailto:andrealmeid@igalia.com">andrealmeid@igalia.com</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Marek,<br>
-<br>
-Em 27/06/2023 15:57, Marek Ol=C5=A1=C3=A1k escreveu:<br>
-&gt; On Tue, Jun 27, 2023, 09:23 Andr=C3=A9 Almeida &lt;<a href=3D"mailto:a=
-ndrealmeid@igalia.com" target=3D"_blank">andrealmeid@igalia.com</a> <br>
-&gt; &lt;mailto:<a href=3D"mailto:andrealmeid@igalia.com" target=3D"_blank"=
->andrealmeid@igalia.com</a>&gt;&gt; wrote:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0+User Mode Driver<br>
-&gt;=C2=A0 =C2=A0 =C2=A0+----------------<br>
-&gt;=C2=A0 =C2=A0 =C2=A0+<br>
-&gt;=C2=A0 =C2=A0 =C2=A0+The UMD should check before submitting new command=
-s to the KMD if<br>
-&gt;=C2=A0 =C2=A0 =C2=A0the device has<br>
-&gt;=C2=A0 =C2=A0 =C2=A0+been reset, and this can be checked more often if =
-the UMD requires<br>
-&gt;=C2=A0 =C2=A0 =C2=A0it. After<br>
-&gt;=C2=A0 =C2=A0 =C2=A0+detecting a reset, UMD will then proceed to report=
- it to the<br>
-&gt;=C2=A0 =C2=A0 =C2=A0application using<br>
-&gt;=C2=A0 =C2=A0 =C2=A0+the appropriate API error code, as explained in th=
-e section below about<br>
-&gt;=C2=A0 =C2=A0 =C2=A0+robustness.<br>
-&gt; <br>
-&gt; <br>
-&gt; The UMD won&#39;t check the device status before every command submiss=
-ion <br>
-&gt; due to ioctl overhead. Instead, the KMD should skip command submission=
- <br>
-&gt; and return an error that it was skipped.<br>
-<br>
-I wrote like this because when reading the source code for <br>
-vk::check_status()[0] and Gallium&#39;s si_flush_gfx_cs()[1], I was under <=
-br>
-the impression that UMD checks the reset status before every <br>
-submission/flush.<br></blockquote><div><br></div><div>It only does that bef=
-ore every command submission when the context is robust. When it&#39;s not =
-robust, radeonsi doesn&#39;t do anything.<br></div><div>=C2=A0</div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex">
-<br>
-Is your comment about of how things are currently implemented, or how <br>
-they would ideally work? Either way I can apply your suggestion, I just <br=
->
-want to make it clear.<br></blockquote><div><br></div><div>Yes. Ideally, we=
- would get the reply whether the context is lost from the CS ioctl. This is=
- not currently implemented.<br></div><div><br></div><div>Marek<br></div><di=
-v>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-[0] <br>
-<a href=3D"https://elixir.bootlin.com/mesa/mesa-23.1.3/source/src/vulkan/ru=
-ntime/vk_device.h#L142" rel=3D"noreferrer" target=3D"_blank">https://elixir=
-.bootlin.com/mesa/mesa-23.1.3/source/src/vulkan/runtime/vk_device.h#L142</a=
-><br>
-[1] <br>
-<a href=3D"https://elixir.bootlin.com/mesa/mesa-23.1.3/source/src/gallium/d=
-rivers/radeonsi/si_gfx_cs.c#L83" rel=3D"noreferrer" target=3D"_blank">https=
-://elixir.bootlin.com/mesa/mesa-23.1.3/source/src/gallium/drivers/radeonsi/=
-si_gfx_cs.c#L83</a><br>
-<br>
-&gt; <br>
-&gt; The only case where that won&#39;t be applicable is user queues where =
-<br>
-&gt; drivers don&#39;t call into the kernel to submit work, but they do cal=
-l into <br>
-&gt; the kernel to create a dma_fence. In that case, the call to create a <=
-br>
-&gt; dma_fence can fail with an error.<br>
-&gt; <br>
-&gt; Marek<br>
-<br>
-</blockquote></div></div>
-
---0000000000005d875605ff25c709--
