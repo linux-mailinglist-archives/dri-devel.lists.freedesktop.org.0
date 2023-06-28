@@ -1,47 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 202A17417DC
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jun 2023 20:17:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D7A0741896
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jun 2023 21:05:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F4D710E04F;
-	Wed, 28 Jun 2023 18:17:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D10F10E388;
+	Wed, 28 Jun 2023 19:05:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99B2410E025;
- Wed, 28 Jun 2023 18:17:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1687976243; x=1719512243;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=awebO5fMQdqhEpxQyrFHmz0FRuFSPGAp9TWVL7DsSNY=;
- b=XqUw+rLtzNdn+0R1D5GTWl87ovKxtwwnSDRdmvaxrwzi5us+kWHVtyMY
- cWYtfCBV2si03CGKp1sLj6k0J7vDfn5ko4xdeXCsysuG+OynXK95OAjSD
- iO6ON6erwPDc2zwHReOfYrXVa588r0QA215pUlMnUJuHsgqaPeHdld8lZ
- ++Zsxadw9BYoBq8oEMQKeX5irX+nTCLiz1SKbBBufFtgHS+uMxpzAv4iR
- 0xjpVH7vbU0ca7PvVFDHCQ2EE64DDTH/pLrwINdvmJY9L+nbrc1CMr1Jb
- 2u9hGINtux2PEzRuU8KRXKAbZtPXDQ4RRDxEXAE9eiISaV0QfE21CW4nd w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="448308201"
-X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; d="scan'208";a="448308201"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jun 2023 11:17:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="752354978"
-X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; d="scan'208";a="752354978"
-Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
- by orsmga001.jf.intel.com with ESMTP; 28 Jun 2023 11:17:21 -0700
-From: Alan Previn <alan.previn.teres.alexis@intel.com>
-To: intel-xe@lists.freedesktop.org
-Subject: [PATCH v3] drm/xe/guc: Fix h2g_write usage of GUC_CTB_MSG_MAX_LEN
-Date: Wed, 28 Jun 2023 11:17:18 -0700
-Message-Id: <20230628181718.1023703-1-alan.previn.teres.alexis@intel.com>
-X-Mailer: git-send-email 2.39.0
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6719510E388
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jun 2023 19:05:13 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id
+ 38308e7fff4ca-2b5c231c23aso2922481fa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jun 2023 12:05:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1687979111; x=1690571111;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=J5YZzdJQyh4eu5fAj6xameoZPW5lmqQSZHtsSrZxy+c=;
+ b=bApBKeIV6L+P7bQQSgdCs8KOomZuQ+P1vVzFbdcBYF5YrlqR1gQpUbDKW+svoxZM5u
+ ZMI1O2A432MkFzaG9yEcIzwtnDdz7yUanUYRGGth1TcETQ9nw9TCowrr7KBXzjA4LaTT
+ 5a9wa4Mx67QZRyBtXHn535wSfV3hKRjiKJ8O6R7VMaIhU8OrO+kbE1JHkq26aLgK220A
+ SlOWKQVRIMGY/BBPpmz2qqLFTj6aG1IUWc/dmxZA5aT9ZSYr01DHDkK0pZbIM0b67bCb
+ G1p8PRTStaNe7WCI/CTPdXo6fR7CNQGEg7Na2JMDre/uMZseZJCfO5KoSO4gZyFtudW2
+ uK0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687979111; x=1690571111;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=J5YZzdJQyh4eu5fAj6xameoZPW5lmqQSZHtsSrZxy+c=;
+ b=BPuKpK9plP+0Y/F1alyZqVyspCQlDxE5ediudM/QpniubRXDcDC+meq1zoQ46fcWMV
+ iSrs8AXpG7oEH6fg9xqSobUC48ynJN/MDqtuIMIVSull2NQraveJtJvDZH8BSPNvFMg4
+ 0PrR5YPzqNCJASdnMtfVYmT0i9dkM/PGTt9sEDCWtPJilo++tYuQvZyosZFxnM9A1jjv
+ 8zrjyjavGQbQZMQX0VkO+sL60VXQuNpYE+33sMJKS/GogzkzqmliJns1s91AO4GWncIn
+ Tljr0LI9HtraTYw1OM0YTf013h3AmhBZCH/n42VUUPhiwlnbqee/+CdjUKFBOTJl83oi
+ Iy7w==
+X-Gm-Message-State: AC+VfDzcRtJd7MGrp7c8JYr8ENOEAbzCtLwX7L4fvLSWLuRV23LRM2GW
+ 7tk27xHFRbKkF8vp0QS2tTC0ZA==
+X-Google-Smtp-Source: ACHHUZ4bn9WdqZwlwgpaohN+JH/FskgQr6To+oDImxYoZ8FAbp2paEayyppRUM7Xb7j7v5znECW0yA==
+X-Received: by 2002:a2e:900a:0:b0:2b4:6195:bb26 with SMTP id
+ h10-20020a2e900a000000b002b46195bb26mr22432303ljg.25.1687979110797; 
+ Wed, 28 Jun 2023 12:05:10 -0700 (PDT)
+Received: from [192.168.1.101] (abyk82.neoplus.adsl.tpnet.pl. [83.9.30.82])
+ by smtp.gmail.com with ESMTPSA id
+ t6-20020a2e9c46000000b002b6a85a7292sm1102616ljj.19.2023.06.28.12.05.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Jun 2023 12:05:09 -0700 (PDT)
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Date: Wed, 28 Jun 2023 21:05:08 +0200
+Subject: [PATCH] drm/msm/adreno: Assign revn to A635
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230628-topic-a635-v1-1-5056e09c08fb@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAGOEnGQC/x2NQQqDMBAAvyJ77oJJrNp+RTwk221dkCiJihD8u
+ 0uPMzBMgcxJOMO7KpD4kCxLVDCPCmjy8ccoH2WwtXV1a3vcllUIfeueaIIjS6++a0wHGgSfGUP
+ ykSZN4j7PKtfEXzn/h2G8rhsjRnTzcQAAAA==
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1687979108; l=1049;
+ i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
+ bh=yOF2V2vC/eERQ5I69KrybMFDlBclITTn/+Bht2rKkYY=;
+ b=T9f2BftsBHUMn+H55F1KeMb0BOE9TuUoOA3jtNlB1lxYTYSv97uLuQMLHUS9T4OyQkR1hib9J
+ t+Eg5u6zA8ICDEQPx9CoIlDczwxnK718qaXUbFdux/m3XE4IGEwzpIS
+X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,103 +84,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- John Harrison <john.c.harrison@intel.com>, dri-devel@lists.freedesktop.org,
- Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the ABI header, GUC_CTB_MSG_MIN_LEN is '1' because
-GUC_CTB_HDR_LEN is 1. This aligns with H2G/G2H CTB specification
-where all command formats are defined in units of dwords so that '1'
-is a dword. Accordingly, GUC_CTB_MSG_MAX_LEN is 256-1 (i.e. 255
-dwords). However, h2g_write was incorrectly assuming that
-GUC_CTB_MSG_MAX_LEN was in bytes. Fix this.
+Recently, a WARN_ON() was introduced to ensure that revn is filled before
+adreno_is_aXYZ is called. This however doesn't work very well when revn is
+0 by design (such as for A635). Fill it in as a stopgap solution for
+-fixes.
 
-v2: By correctly treating GUC_CTB_MSG_MAX_LEN as dwords, it causes
-    a local array to consume 4x the stack size. Rework the function
-    to avoid consuming stack even if the action size is large.
-
-Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/gpu/drm/xe/xe_guc_ct.c | 31 ++++++++++++++++++-------------
- 1 file changed, 18 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/msm/adreno/adreno_device.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_guc_ct.c b/drivers/gpu/drm/xe/xe_guc_ct.c
-index 22bc9ce846db..aa04b5c4822f 100644
---- a/drivers/gpu/drm/xe/xe_guc_ct.c
-+++ b/drivers/gpu/drm/xe/xe_guc_ct.c
-@@ -401,19 +401,21 @@ static int h2g_write(struct xe_guc_ct *ct, const u32 *action, u32 len,
- {
- 	struct xe_device *xe = ct_to_xe(ct);
- 	struct guc_ctb *h2g = &ct->ctbs.h2g;
--	u32 cmd[GUC_CTB_MSG_MAX_LEN / sizeof(u32)];
--	u32 cmd_len = len + GUC_CTB_HDR_LEN;
--	u32 cmd_idx = 0, i;
-+#define H2G_CT_HEADERS (GUC_CTB_HDR_LEN + 1) /* one DW CTB header and one DW HxG header */
-+	u32 cmd[H2G_CT_HEADERS];
- 	u32 tail = h2g->info.tail;
-+	u32 full_len;
- 	struct iosys_map map = IOSYS_MAP_INIT_OFFSET(&h2g->cmds,
- 							 tail * sizeof(u32));
- 
-+	full_len = len + GUC_CTB_HDR_LEN;
-+
- 	lockdep_assert_held(&ct->lock);
--	XE_BUG_ON(len * sizeof(u32) > GUC_CTB_MSG_MAX_LEN);
-+	XE_BUG_ON(full_len > (GUC_CTB_MSG_MAX_LEN - GUC_CTB_HDR_LEN));
- 	XE_BUG_ON(tail > h2g->info.size);
- 
- 	/* Command will wrap, zero fill (NOPs), return and check credits again */
--	if (tail + cmd_len > h2g->info.size) {
-+	if (tail + full_len > h2g->info.size) {
- 		xe_map_memset(xe, &map, 0, 0,
- 			      (h2g->info.size - tail) * sizeof(u32));
- 		h2g_reserve_space(ct, (h2g->info.size - tail));
-@@ -428,30 +430,33 @@ static int h2g_write(struct xe_guc_ct *ct, const u32 *action, u32 len,
- 	 * dw1: HXG header (including action code)
- 	 * dw2+: action data
- 	 */
--	cmd[cmd_idx++] = FIELD_PREP(GUC_CTB_MSG_0_FORMAT, GUC_CTB_FORMAT_HXG) |
-+	cmd[0] = FIELD_PREP(GUC_CTB_MSG_0_FORMAT, GUC_CTB_FORMAT_HXG) |
- 		FIELD_PREP(GUC_CTB_MSG_0_NUM_DWORDS, len) |
- 		FIELD_PREP(GUC_CTB_MSG_0_FENCE, ct_fence_value);
- 	if (want_response) {
--		cmd[cmd_idx++] =
-+		cmd[1] =
- 			FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_REQUEST) |
- 			FIELD_PREP(GUC_HXG_EVENT_MSG_0_ACTION |
- 				   GUC_HXG_EVENT_MSG_0_DATA0, action[0]);
- 	} else {
--		cmd[cmd_idx++] =
-+		cmd[1] =
- 			FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_EVENT) |
- 			FIELD_PREP(GUC_HXG_EVENT_MSG_0_ACTION |
- 				   GUC_HXG_EVENT_MSG_0_DATA0, action[0]);
- 	}
--	for (i = 1; i < len; ++i)
--		cmd[cmd_idx++] = action[i];
-+
-+	/* H2G header in cmd[1] replaces action[0] so: */
-+	--len;
-+	++action;
- 
- 	/* Write H2G ensuring visable before descriptor update */
--	xe_map_memcpy_to(xe, &map, 0, cmd, cmd_len * sizeof(u32));
-+	xe_map_memcpy_to(xe, &map, 0, cmd, H2G_CT_HEADERS * sizeof(u32));
-+	xe_map_memcpy_to(xe, &map, H2G_CT_HEADERS * sizeof(u32), action, len * sizeof(u32));
- 	xe_device_wmb(ct_to_xe(ct));
- 
- 	/* Update local copies */
--	h2g->info.tail = (tail + cmd_len) % h2g->info.size;
--	h2g_reserve_space(ct, cmd_len);
-+	h2g->info.tail = (tail + full_len) % h2g->info.size;
-+	h2g_reserve_space(ct, full_len);
- 
- 	/* Update descriptor */
- 	desc_write(xe, h2g, tail, h2g->info.tail);
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+index cb94cfd137a8..8ea7eae9fc52 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_device.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+@@ -345,6 +345,7 @@ static const struct adreno_info gpulist[] = {
+ 		.address_space_size = SZ_16G,
+ 	}, {
+ 		.rev = ADRENO_REV(6, 3, 5, ANY_ID),
++		.revn = 635,
+ 		.fw = {
+ 			[ADRENO_FW_SQE] = "a660_sqe.fw",
+ 			[ADRENO_FW_GMU] = "a660_gmu.bin",
 
-base-commit: abdb420db479bae28a2abd7ba2c66229b7e8cb77
+---
+base-commit: 5c875096d59010cee4e00da1f9c7bdb07a025dc2
+change-id: 20230628-topic-a635-1b3c2c987417
+
+Best regards,
 -- 
-2.39.0
+Konrad Dybcio <konrad.dybcio@linaro.org>
 
