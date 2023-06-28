@@ -1,61 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A29E67407CA
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jun 2023 03:50:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A7AF7407FF
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jun 2023 04:00:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7981610E343;
-	Wed, 28 Jun 2023 01:50:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C321E10E33F;
+	Wed, 28 Jun 2023 02:00:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 29F7510E33F
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jun 2023 01:50:09 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8Bx1cTQkZtkEVADAA--.5464S3;
- Wed, 28 Jun 2023 09:50:08 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxF8zPkZtkUVgNAA--.11202S3; 
- Wed, 28 Jun 2023 09:50:07 +0800 (CST)
-Message-ID: <ebc3c30f-1ea5-5404-dbe0-1a153c580931@loongson.cn>
-Date: Wed, 28 Jun 2023 09:50:07 +0800
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1BBE10E33F
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jun 2023 02:00:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1687917636; x=1719453636;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Kf4OUq5f8e7JmaiUhbLO6qC90pOxyi/ygia+z/UvdLA=;
+ b=EXxteSgoq2ECGLhSoUD0S/aaTJd8aNVCEh1VvCfjCFqzlY+eWPaFqaFg
+ Okn5c993qTpvya1ioV/X/+LFKHtEjL9uZrKFGu3vlMeEfss8+vGjGsOU6
+ di9dls/rNnhSEHzuR16H3tAcYAxH0GbgqeMfreVWz1s9iksSlFlnbubwT
+ 73gRuiKo1YGLEB7A1oD52D0tPv+g6LgO7xbyMGl6p8bKlpPRoBXvwNiIk
+ 1GAOuXV/iXpBjYna2Qs4J1rPtyyYCVBP+IaTqS0Qm7lV49ckTtnsxhUAk
+ S83H/MBeU2KndrVYfn8kmzA4YnNPQr9mAn2+ezb7x3aXZXZ0sKFfcUp43 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="346489023"
+X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; d="scan'208";a="346489023"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jun 2023 19:00:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="840895500"
+X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; d="scan'208";a="840895500"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+ by orsmga004.jf.intel.com with ESMTP; 27 Jun 2023 19:00:31 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qEKTu-000CSt-2U;
+ Wed, 28 Jun 2023 02:00:30 +0000
+Date: Wed, 28 Jun 2023 10:00:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jim Shargo <jshargo@chromium.org>, mairacanal@riseup.net,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Melissa Wen <melissa.srw@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 4/6] drm/vkms: Add ConfigFS scaffolding to VKMS
+Message-ID: <202306280759.b1BQCTXw-lkp@intel.com>
+References: <20230623222353.97283-5-jshargo@chromium.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [13/39] drm: renesas: shmobile: Rename input clocks
-Content-Language: en-US
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, Magnus Damm <magnus.damm@gmail.com>
-References: <3f92b2c9dafbfeb8534d4e81b6899ef3249731f0.1687423204.git.geert+renesas@glider.be>
-From: Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <3f92b2c9dafbfeb8534d4e81b6899ef3249731f0.1687423204.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8CxF8zPkZtkUVgNAA--.11202S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7tr1UXw1rKw1xXr1xGryrZrc_yoW8WrWxpF
- 4xCFyYqr4Yqanrtryak3Z7ur95Aa47Ja4S9rWUKa1rCr4jqwnxJ39xuF13XFyDJF4xuF40
- vF15Cw48A3WUurXCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUUvYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
- Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
- 8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv67AK
- xVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
- AYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
- 14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
- kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAF
- wI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F
- 4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jOdb8U
- UUUU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230623222353.97283-5-jshargo@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,56 +66,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Jim Shargo <jshargo@chromium.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Jim,
 
-On 2023/6/22 17:21, Geert Uytterhoeven wrote:
-> From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->
-> Prepare for DT bindings by using more appropriate names for the input
-> clocks.
->
-> Note that all LDDCKR_ICKSEL_* definitions but the one for the bus clock
-> are valid only for SH7724, so the clock selection code needs to be
-> updated when extending clock support to other SoCs.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> [geert: Add note]
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
-> ---
->   drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> index d272e6273c782178..007ba97cc7733c82 100644
-> --- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> +++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c
-> @@ -74,15 +74,15 @@ static int shmob_drm_setup_clocks(struct shmob_drm_device *sdev,
->   
->   	switch (clksrc) {
->   	case SHMOB_DRM_CLK_BUS:
-> -		clkname = "bus_clk";
-> +		clkname = "fck";
->   		sdev->lddckr = LDDCKR_ICKSEL_BUS;
->   		break;
->   	case SHMOB_DRM_CLK_PERIPHERAL:
-> -		clkname = "peripheral_clk";
-> +		clkname = "media";
->   		sdev->lddckr = LDDCKR_ICKSEL_MIPI;
->   		break;
->   	case SHMOB_DRM_CLK_EXTERNAL:
-> -		clkname = NULL;
-> +		clkname = "lclk";
->   		sdev->lddckr = LDDCKR_ICKSEL_HDMI;
->   		break;
->   	default:
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm-intel/for-linux-next next-20230627]
+[cannot apply to drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jim-Shargo/drm-vkms-Back-VKMS-with-DRM-memory-management-instead-of-static-objects/20230624-062659
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230623222353.97283-5-jshargo%40chromium.org
+patch subject: [PATCH v2 4/6] drm/vkms: Add ConfigFS scaffolding to VKMS
+config: xtensa-randconfig-r052-20230627 (https://download.01.org/0day-ci/archive/20230628/202306280759.b1BQCTXw-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230628/202306280759.b1BQCTXw-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306280759.b1BQCTXw-lkp@intel.com/
+
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/vkms/vkms_drv.c:266:9-16: WARNING: ERR_CAST can be used with pdev
 
 -- 
-Jingfeng
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
