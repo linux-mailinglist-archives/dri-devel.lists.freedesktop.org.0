@@ -2,80 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFC14740662
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jun 2023 00:10:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FAE874073D
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jun 2023 02:36:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0E7910E33C;
-	Tue, 27 Jun 2023 22:10:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27EC810E023;
+	Wed, 28 Jun 2023 00:36:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0DFB10E09B;
- Tue, 27 Jun 2023 22:10:37 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 35RLw1Ba012822; Tue, 27 Jun 2023 22:10:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=MoI5LXqCldrFfheuu6F3daQNtzB6oGOSNVelNUzgYn8=;
- b=UInPPVsaN8i6qbzKEHitA+tbVz29vZhjtnWDPsJAMEuStljaa+lgP52P4WyD6U5CcsqX
- 0hzTzto9nwwpqkS+CJTE/P9MSG8BNGhz+xndsZx63+pWjVUKsfndLEoyXYxqJRmg3Ikq
- xnvynJGBieOXRBFN4737WmLmXfQ/KJdGx9xfKbL7lH7VP5lOwtBkOc9bCl/DzjqUxNKL
- lfPTMsd6BBzjhiSx8uNawOaT4xkm62ZBfaLRaFLXdZvFuWgPOW24tcpE56hybSTeMjE9
- KEFHEnt0qCylRRKAOoUefabh4McUYNZAdnIwh2DfrqncwWXXvD+too7cr7EpFJL9SYfj IQ== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rfgmp305h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 27 Jun 2023 22:10:22 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35RMAL3m024655
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 27 Jun 2023 22:10:21 GMT
-Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 27 Jun
- 2023 15:10:20 -0700
-Message-ID: <1613cdd4-8d90-6589-97e8-c4e1810bde04@quicinc.com>
-Date: Tue, 27 Jun 2023 15:10:19 -0700
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45BA510E012;
+ Wed, 28 Jun 2023 00:36:50 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-3fa94ea1caaso3802975e9.1; 
+ Tue, 27 Jun 2023 17:36:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1687912607; x=1690504607;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=KSyQMNRIDW2sVBvZjUbWbTDiN/K/JBNAd9QdnzqxUV4=;
+ b=lPQlGbTxW1W4Kl1mMmnpdJ/Wcyq8HNla6WCUjGDffyyWSHMjAbTvbBwKvC6VM1cfZ+
+ y7ADmQ2cpumCZprCNDKKInYnNuB3VMQgREnMZYP6JKr8vKJGylGjmNXPPeDyyiRuRd7F
+ FDKCfFZkIHXLOWb4ikoqMIvzUHT4/OfJ+lN12AIuEaMfUqSKue0nwBzlUBKai8HwAixp
+ l3ntpfXYaUqX7zdBeSgOttN0F4Q7YI8xgnbaaExvmszSi97LEGgx4xQX7VhphXnLY6ov
+ 0I/uvaGapp9KKQQ8+BeeJnB60eBrv3YpVzuOu5QUBtPOneWilj8ulEzi9KhCTFI+tDCp
+ Ot8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687912607; x=1690504607;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=KSyQMNRIDW2sVBvZjUbWbTDiN/K/JBNAd9QdnzqxUV4=;
+ b=FxNLuli4aOuAcRIeAMcn2JYyeLHKvhsGhoXTwdluI0ixrTY0fGDnPhDhSuKxgpukTB
+ uS3Cx2gZHC6r+cIaatB4VmsYlQRYxO854sMkhK+8TtYjkiXZJ97/1W/gCpPm0txVVG1M
+ xCQZ/ZCgmxRlvxDEK3yotIYu6MlEu8i6gRh+pKTHVLaSfoGXNUqoNCV14rYo21zhap0s
+ ZMh5esAJ/Hn2xauTgbs9ejJKVXJciWry8CuPV6SDXXho+xRbQV9Ojdc0Baag7/51yd06
+ kRoCyBFexlVsUD1dJHC3C8KQgrrnCdYKWMQllmluVxLzOh3Oh7FcEaiePERzo3+DrxK0
+ NvXA==
+X-Gm-Message-State: AC+VfDzA5zmY3W43bNMaT6OjNuEVeRwdQYLeFp8k9yVnLYGmnNvLkJjj
+ +PnLrurApnuAhXHrrv7/qwvy1xZD2EBXunW72pA=
+X-Google-Smtp-Source: ACHHUZ6dB17cwxLqd1EMqnqww6hHHfLZThWe3HVfFiEnK/r6k/FuJ7DD9WvVkN7hZywn4svUznhFsw7DJpesb3dM/Uo=
+X-Received: by 2002:a05:600c:3b1f:b0:3fa:125c:8d65 with SMTP id
+ m31-20020a05600c3b1f00b003fa125c8d65mr16967718wms.3.1687912607203; Tue, 27
+ Jun 2023 17:36:47 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [RFC PATCH 0/3] Support for Solid Fill Planes
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Jessica Zhang
- <quic_jesszhan@quicinc.com>, Pekka Paalanen <ppaalanen@gmail.com>
-References: <20221028225952.160-1-quic_jesszhan@quicinc.com>
- <Y2leZDfLj/5963wl@intel.com>
- <d0b5abdc-85ad-fee2-9760-866c32bab111@quicinc.com>
- <20230627105849.004050b3@eldfell>
- <5e60fe99-76d5-c242-608e-b74bf6f0e7bd@quicinc.com>
- <54f194fe-ab7b-247d-600b-6da8f5c57dbf@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <54f194fe-ab7b-247d-600b-6da8f5c57dbf@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: BHZVm3RHHyT6r8Yk4kMm1RLrjkfXbX2J
-X-Proofpoint-ORIG-GUID: BHZVm3RHHyT6r8Yk4kMm1RLrjkfXbX2J
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-27_14,2023-06-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0
- impostorscore=0 mlxscore=0 malwarescore=0 priorityscore=1501
- lowpriorityscore=0 bulkscore=0 mlxlogscore=999 phishscore=0 suspectscore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306270202
+References: <20230627132323.115440-1-andrealmeid@igalia.com>
+ <CAAxE2A4Hquz9bJNSEaUtBoJC3qbLBPYXd8i3JX9AhNUx_iUKpg@mail.gmail.com>
+ <4302638a-c33b-7355-5201-d3020f5b1525@igalia.com>
+In-Reply-To: <4302638a-c33b-7355-5201-d3020f5b1525@igalia.com>
+From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+Date: Tue, 27 Jun 2023 20:36:11 -0400
+Message-ID: <CAAxE2A4i50c34OFHMbrrk1g55zs0dodsPJvDcMGksLhApTy2NA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/1] drm/doc: Document DRM device reset expectations
+To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+Content-Type: multipart/alternative; boundary="0000000000005d875605ff25c709"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,218 +68,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, seanpaul@chromium.org, laurent.pinchart@ideasonboard.com,
- linux-arm-msm@vger.kernel.org, wayland-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
+Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Samuel Pitoiset <samuel.pitoiset@gmail.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>, kernel-dev@igalia.com,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ Pekka Paalanen <ppaalanen@gmail.com>,
+ =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--0000000000005d875605ff25c709
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jun 27, 2023 at 5:31=E2=80=AFPM Andr=C3=A9 Almeida <andrealmeid@iga=
+lia.com>
+wrote:
+
+> Hi Marek,
+>
+> Em 27/06/2023 15:57, Marek Ol=C5=A1=C3=A1k escreveu:
+> > On Tue, Jun 27, 2023, 09:23 Andr=C3=A9 Almeida <andrealmeid@igalia.com
+> > <mailto:andrealmeid@igalia.com>> wrote:
+> >
+> >     +User Mode Driver
+> >     +----------------
+> >     +
+> >     +The UMD should check before submitting new commands to the KMD if
+> >     the device has
+> >     +been reset, and this can be checked more often if the UMD requires
+> >     it. After
+> >     +detecting a reset, UMD will then proceed to report it to the
+> >     application using
+> >     +the appropriate API error code, as explained in the section below
+> about
+> >     +robustness.
+> >
+> >
+> > The UMD won't check the device status before every command submission
+> > due to ioctl overhead. Instead, the KMD should skip command submission
+> > and return an error that it was skipped.
+>
+> I wrote like this because when reading the source code for
+> vk::check_status()[0] and Gallium's si_flush_gfx_cs()[1], I was under
+> the impression that UMD checks the reset status before every
+> submission/flush.
+>
+
+It only does that before every command submission when the context is
+robust. When it's not robust, radeonsi doesn't do anything.
 
 
-On 6/27/2023 2:59 PM, Dmitry Baryshkov wrote:
-> On 28/06/2023 00:27, Jessica Zhang wrote:
->>
->>
->> On 6/27/2023 12:58 AM, Pekka Paalanen wrote:
->>> On Mon, 26 Jun 2023 16:02:50 -0700
->>> Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
->>>
->>>> On 11/7/2022 11:37 AM, Ville Syrjälä wrote:
->>>>> On Fri, Oct 28, 2022 at 03:59:49PM -0700, Jessica Zhang wrote:
->>>>>> Introduce and add support for COLOR_FILL and COLOR_FILL_FORMAT
->>>>>> properties. When the color fill value is set, and the framebuffer 
->>>>>> is set
->>>>>> to NULL, memory fetch will be disabled.
->>>>>
->>>>> Thinking a bit more universally I wonder if there should be
->>>>> some kind of enum property:
->>>>>
->>>>> enum plane_pixel_source {
->>>>>     FB,
->>>>>     COLOR,
->>>>>     LIVE_FOO,
->>>>>     LIVE_BAR,
->>>>>     ...
->>>>> }
->>>>
->>>> Reviving this thread as this was the initial comment suggesting to
->>>> implement pixel_source as an enum.
->>>>
->>>> I think the issue with having pixel_source as an enum is how to decide
->>>> what counts as a NULL commit.
->>>>
->>>> Currently, setting the FB to NULL will disable the plane. So I'm
->>>> guessing we will extend that logic to "if there's no pixel_source set
->>>> for the plane, then it will be a NULL commit and disable the plane".
->>>>
->>>> In that case, the question then becomes when to set the pixel_source to
->>>> NONE. Because if we do that when setting a NULL FB (or NULL solid_fill
->>>> blob), it then forces userspace to set one property before the other.
->>>
->>> Right, that won't work.
->>>
->>> There is no ordering between each property being set inside a single
->>> atomic commit. They can all be applied to kernel-internal state
->>> theoretically simultaneously, or any arbitrary random order, and the
->>> end result must always be the same. Hence, setting one property cannot
->>> change the state of another mutable property. I believe that doing
->>> otherwise would make userspace fragile and hard to get right.
->>>
->>> I guess there might be an exception to that rule when the same property
->>> is set multiple times in a single atomic commit; the last setting in
->>> the array prevails. That's universal and not a special-case between two
->>> specific properties.
->>>
->>>> Because of that, I'm thinking of having pixel_source be represented 
->>>> by a
->>>> bitmask instead. That way, we will simply unset the corresponding
->>>> pixel_source bit when passing in a NULL FB/solid_fill blob. Then, in
->>>> order to detect whether a commit is NULL or has a valid pixel 
->>>> source, we
->>>> can just check if pixel_source == 0.
->>>
->>> Sounds fine to me at first hand, but isn't there the enum property that
->>> says if the kernel must look at solid_fill blob *or* FB_ID?
->>>
->>> If enum prop says "use solid_fill prop", the why would changes to FB_ID
->>> do anything? Is it for backwards-compatibility with KMS clients that do
->>> not know about the enum prop?
->>>
->>> It seems like that kind of backwards-compatiblity will cause problems
->>> in trying to reason about the atomic state, as explained above, leading
->>> to very delicate and fragile conditions where things work intuitively.
->>> Hence, I'm not sure backwards-compatibility is wanted. This won't be
->>> the first or the last KMS property where an unexpected value left over
->>> will make old atomic KMS clients silently malfunction up to showing no
->>> recognisable picture at all. *If* that problem needs solving, there
->>> have been ideas floating around about resetting everything to nice
->>> values so that userspace can ignore what it does not understand. So far
->>> there has been no real interest in solving that problem in the kernel
->>> though.
->>>
->>> Legacy non-atomic UAPI wrappers can do whatever they want, and program
->>> any (new) properties they want in order to implement the legacy
->>> expectations, so that does not seem to be a problem.
->>
->> Hi Pekka and Dmitry,
->>
->> After reading through both of your comments, I think I have a better 
->> understanding of the pixel_source implementation now.
->>
->> So to summarize, we want to expose another property called 
->> "pixel_source" to userspace that will default to FB (as to not break 
->> legacy userspace).
->>
->> If userspace wants to use solid fill planes, it will set both the 
->> solid_fill *and* pixel_source properties to a valid blob and COLOR 
->> respectively. If it wants to use FB, it will set FB_ID and 
->> pixel_source to a valid FB and FB.
->>
->> Here's a table illustrating what I've described above:
->>
->> +-----------------+-------------------------+-------------------------+
->> | Use Case        | Legacy Userspace        | solid_fill-aware        |
->> |                 |                         | Userspace               |
->> +=================+=========================+=========================+
->> | Valid FB        | pixel_source = FB       | pixel_source = FB       |
->> |                 | FB_ID = valid FB        | FB_ID = valid FB        |
->> +-----------------+-------------------------+-------------------------+
->> | Valid           | pixel_source = COLOR    | N/A                     |
->> | solid_fill blob | solid_fill = valid blob |                         |
-> 
-> Probably these two cells were swapped.
-> 
+>
+> Is your comment about of how things are currently implemented, or how
+> they would ideally work? Either way I can apply your suggestion, I just
+> want to make it clear.
+>
 
-Ack, yes they were swapped.
+Yes. Ideally, we would get the reply whether the context is lost from the
+CS ioctl. This is not currently implemented.
 
->> +-----------------+-------------------------+-------------------------+
->> | NULL commit     | pixel_source = FB       | pixel_source = FB       |
->> |                 | FB_ID = NULL            | FB_ID = NULL            |
->> +-----------------+-------------------------+-------------------------+
-> 
->                                                | or:
->                                                | pixel_source = COLOR
->                                                | solid_fill = NULL
->>
->> Is there anything I'm missing or needs to be clarified?
->>
-> 
-> LGTM otherwise
-> 
+Marek
 
-LGTM too.
 
->> Thanks,
->>
->> Jessica Zhang
->>
->>>
->>>
->>> Thanks,
->>> pq
->>>
->>>
->>>>
->>>> Would be interested in any feedback on this.
->>>>
->>>> Thanks,
->>>>
->>>> Jessica Zhang
->>>>
->>>>>> In addition, loosen the NULL FB checks within the atomic commit 
->>>>>> callstack
->>>>>> to allow a NULL FB when color_fill is nonzero and add FB checks in
->>>>>> methods where the FB was previously assumed to be non-NULL.
->>>>>>
->>>>>> Finally, have the DPU driver use drm_plane_state.color_fill and
->>>>>> drm_plane_state.color_fill_format instead of 
->>>>>> dpu_plane_state.color_fill,
->>>>>> and add extra checks in the DPU atomic commit callstack to account 
->>>>>> for a
->>>>>> NULL FB in cases where color_fill is set.
->>>>>>
->>>>>> Some drivers support hardware that have optimizations for solid fill
->>>>>> planes. This series aims to expose these capabilities to userspace as
->>>>>> some compositors have a solid fill flag (ex. SOLID_COLOR in the 
->>>>>> Android
->>>>>> hardware composer HAL) that can be set by apps like the Android Gears
->>>>>> app.
->>>>>>
->>>>>> Userspace can set the color_fill value by setting 
->>>>>> COLOR_FILL_FORMAT to a
->>>>>> DRM format, setting COLOR_FILL to a color fill value, and setting the
->>>>>> framebuffer to NULL.
->>>>>
->>>>> Is there some real reason for the format property? Ie. why not
->>>>> just do what was the plan for the crttc background color and
->>>>> specify the color in full 16bpc format and just pick as many
->>>>> msbs from that as the hw can use?
->>>>>>
->>>>>> Jessica Zhang (3):
->>>>>>     drm: Introduce color fill properties for drm plane
->>>>>>     drm: Adjust atomic checks for solid fill color
->>>>>>     drm/msm/dpu: Use color_fill property for DPU planes
->>>>>>
->>>>>>    drivers/gpu/drm/drm_atomic.c              | 68 
->>>>>> ++++++++++++-----------
->>>>>>    drivers/gpu/drm/drm_atomic_helper.c       | 34 +++++++-----
->>>>>>    drivers/gpu/drm/drm_atomic_uapi.c         |  8 +++
->>>>>>    drivers/gpu/drm/drm_blend.c               | 38 +++++++++++++
->>>>>>    drivers/gpu/drm/drm_plane.c               |  8 +--
->>>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |  7 ++-
->>>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 66 
->>>>>> ++++++++++++++--------
->>>>>>    include/drm/drm_atomic_helper.h           |  5 +-
->>>>>>    include/drm/drm_blend.h                   |  2 +
->>>>>>    include/drm/drm_plane.h                   | 28 ++++++++++
->>>>>>    10 files changed, 188 insertions(+), 76 deletions(-)
->>>>>>
->>>>>> -- 
->>>>>> 2.38.0
->>>>>
->>>>> -- 
->>>>> Ville Syrjälä
->>>>> Intel
->>>
-> 
+>
+> [0]
+>
+> https://elixir.bootlin.com/mesa/mesa-23.1.3/source/src/vulkan/runtime/vk_=
+device.h#L142
+> [1]
+>
+> https://elixir.bootlin.com/mesa/mesa-23.1.3/source/src/gallium/drivers/ra=
+deonsi/si_gfx_cs.c#L83
+>
+> >
+> > The only case where that won't be applicable is user queues where
+> > drivers don't call into the kernel to submit work, but they do call int=
+o
+> > the kernel to create a dma_fence. In that case, the call to create a
+> > dma_fence can fail with an error.
+> >
+> > Marek
+>
+>
+
+--0000000000005d875605ff25c709
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Tue, Jun 27, 2023 at 5:31=E2=80=AFPM Andr=C3=A9 Almeida &lt;<a hr=
+ef=3D"mailto:andrealmeid@igalia.com">andrealmeid@igalia.com</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Marek,<br>
+<br>
+Em 27/06/2023 15:57, Marek Ol=C5=A1=C3=A1k escreveu:<br>
+&gt; On Tue, Jun 27, 2023, 09:23 Andr=C3=A9 Almeida &lt;<a href=3D"mailto:a=
+ndrealmeid@igalia.com" target=3D"_blank">andrealmeid@igalia.com</a> <br>
+&gt; &lt;mailto:<a href=3D"mailto:andrealmeid@igalia.com" target=3D"_blank"=
+>andrealmeid@igalia.com</a>&gt;&gt; wrote:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0+User Mode Driver<br>
+&gt;=C2=A0 =C2=A0 =C2=A0+----------------<br>
+&gt;=C2=A0 =C2=A0 =C2=A0+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0+The UMD should check before submitting new command=
+s to the KMD if<br>
+&gt;=C2=A0 =C2=A0 =C2=A0the device has<br>
+&gt;=C2=A0 =C2=A0 =C2=A0+been reset, and this can be checked more often if =
+the UMD requires<br>
+&gt;=C2=A0 =C2=A0 =C2=A0it. After<br>
+&gt;=C2=A0 =C2=A0 =C2=A0+detecting a reset, UMD will then proceed to report=
+ it to the<br>
+&gt;=C2=A0 =C2=A0 =C2=A0application using<br>
+&gt;=C2=A0 =C2=A0 =C2=A0+the appropriate API error code, as explained in th=
+e section below about<br>
+&gt;=C2=A0 =C2=A0 =C2=A0+robustness.<br>
+&gt; <br>
+&gt; <br>
+&gt; The UMD won&#39;t check the device status before every command submiss=
+ion <br>
+&gt; due to ioctl overhead. Instead, the KMD should skip command submission=
+ <br>
+&gt; and return an error that it was skipped.<br>
+<br>
+I wrote like this because when reading the source code for <br>
+vk::check_status()[0] and Gallium&#39;s si_flush_gfx_cs()[1], I was under <=
+br>
+the impression that UMD checks the reset status before every <br>
+submission/flush.<br></blockquote><div><br></div><div>It only does that bef=
+ore every command submission when the context is robust. When it&#39;s not =
+robust, radeonsi doesn&#39;t do anything.<br></div><div>=C2=A0</div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex">
+<br>
+Is your comment about of how things are currently implemented, or how <br>
+they would ideally work? Either way I can apply your suggestion, I just <br=
+>
+want to make it clear.<br></blockquote><div><br></div><div>Yes. Ideally, we=
+ would get the reply whether the context is lost from the CS ioctl. This is=
+ not currently implemented.<br></div><div><br></div><div>Marek<br></div><di=
+v>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+[0] <br>
+<a href=3D"https://elixir.bootlin.com/mesa/mesa-23.1.3/source/src/vulkan/ru=
+ntime/vk_device.h#L142" rel=3D"noreferrer" target=3D"_blank">https://elixir=
+.bootlin.com/mesa/mesa-23.1.3/source/src/vulkan/runtime/vk_device.h#L142</a=
+><br>
+[1] <br>
+<a href=3D"https://elixir.bootlin.com/mesa/mesa-23.1.3/source/src/gallium/d=
+rivers/radeonsi/si_gfx_cs.c#L83" rel=3D"noreferrer" target=3D"_blank">https=
+://elixir.bootlin.com/mesa/mesa-23.1.3/source/src/gallium/drivers/radeonsi/=
+si_gfx_cs.c#L83</a><br>
+<br>
+&gt; <br>
+&gt; The only case where that won&#39;t be applicable is user queues where =
+<br>
+&gt; drivers don&#39;t call into the kernel to submit work, but they do cal=
+l into <br>
+&gt; the kernel to create a dma_fence. In that case, the call to create a <=
+br>
+&gt; dma_fence can fail with an error.<br>
+&gt; <br>
+&gt; Marek<br>
+<br>
+</blockquote></div></div>
+
+--0000000000005d875605ff25c709--
