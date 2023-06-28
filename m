@@ -1,63 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B787B740C8E
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jun 2023 11:22:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 098B3740E4F
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jun 2023 12:10:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE3EF10E129;
-	Wed, 28 Jun 2023 09:22:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DA5A10E032;
+	Wed, 28 Jun 2023 10:10:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
- [IPv6:2607:f8b0:4864:20::b31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8D0210E129
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jun 2023 09:22:50 +0000 (UTC)
-Received: by mail-yb1-xb31.google.com with SMTP id
- 3f1490d57ef6-bd729434fa0so5707898276.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jun 2023 02:22:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1687944169; x=1690536169;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7/BYorY/q5cLcDCJ090Ghd9w+MLE7Dxtd/FOA8XGDK0=;
- b=yGjc51d+pnM9hgZXegh8DLv4eBfWeNuQiQAqZqW/yiUB1oZacLRVjQkPKxQ1SD3+cr
- OB9/i0YTbxwHomeiZ+R6g4e8ZlP9pHZrNtvk4dODAOPVPjg62kWiAbzqUknUJlbv2w8w
- 80uXgaDuIp90IZ8SgDVZ/RMIX03ZD3Jgq5ih+FL9wx6yYgNE/zB/3VhKzl+nyVnXExaC
- ZQToOuiiFgx5ELsVyQhptW9UqaLW7uN0QNjQ0qavMfUQHvMtu1Oa9hBD1Dz4qd2PQrUy
- 4Xhys1MVsogiRyPPJtcTynNPChMfuNIlaSus7JRWHT4Kpac2UG9+lVMsrpqHfGfBuCGM
- hw2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687944169; x=1690536169;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7/BYorY/q5cLcDCJ090Ghd9w+MLE7Dxtd/FOA8XGDK0=;
- b=RUouzk6Ri6NZ9RMvmIii7gHLiOxK/B3ecN+HzICqogO056WWbdh4p8tUqQKJp0UL2G
- WKwqdzgpnYtDHnWBtE8IRnvv+SG1gH+pydooSWJeGP1M9rUQ9HqpVysgfagpluTAL+Yu
- /TY7jd5uGzD+Eqh2m6JvbUiPDsuVP61RClcDHqdPhZwR7v+ViJSzpxgbeddF1QUxVHVq
- wK6lByYhXBOPMRPTmgreio1l5b9S5JKWpYKBD0Rg/i5pVZ+CyatrgsegNE1CjQYzJwPy
- ERfqht5L4ibVZyqde5ENpjd94dYF1fxyA7OUc6pdxthqUPWcAgEwyINOjfM6D5u0P9Sm
- vJEQ==
-X-Gm-Message-State: AC+VfDx/Sg6IH/TPh8vA1SO2wXxVO+Ri0JN1OLGt8CAG4mWjeIy2vw5o
- DOLpyM/rONjtoOiaRze81OsG9cx9Bq7S8VNshOVSDw==
-X-Google-Smtp-Source: ACHHUZ4r8WinXJCe974MXutLGlQG6R6mzm8uxHQuDvBriU4zf9/VBOQVyva1v0fUYCoOQYRpUOz5Bz8N4Lm1mHqZQc8=
-X-Received: by 2002:a25:838e:0:b0:c12:abdb:c22d with SMTP id
- t14-20020a25838e000000b00c12abdbc22dmr12289571ybk.61.1687944169188; Wed, 28
- Jun 2023 02:22:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230521-drm-panels-sony-v1-0-541c341d6bee@somainline.org>
- <20230521-drm-panels-sony-v1-10-541c341d6bee@somainline.org>
-In-Reply-To: <20230521-drm-panels-sony-v1-10-541c341d6bee@somainline.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 28 Jun 2023 11:22:37 +0200
-Message-ID: <CACRpkdbrk_pPqewo-bGPq4NQScHSRKNMeO0ik_aqEQ+BY12BBQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 10/10] drm/panel/sony-griffin-samsung: Add panel
- driver for Sony Xperia 1
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Greylist: delayed 501 seconds by postgrey-1.36 at gabe;
+ Wed, 28 Jun 2023 10:10:48 UTC
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8937310E032
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jun 2023 10:10:48 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailout.west.internal (Postfix) with ESMTP id CBDC43200065;
+ Wed, 28 Jun 2023 06:02:21 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+ by compute6.internal (MEProxy); Wed, 28 Jun 2023 06:02:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1687946541; x=1688032941; bh=jr
+ 26aMNCJW0isrXg6UfE/c6yGNQaJhjRzD6v2gyhJiU=; b=go17TU7pTv/88ZkN9V
+ azy1f3TEVC4eh2cFjnlQc2THDkHBS+hRIb/NP5smWX8p6PlBu7xeOqAwlNdA81xY
+ TUkBeDN7zTDh3o36eA21ZlUjbEU5candTuxAFq3YHskdZd/8uzhKvCwlBRFaGmdd
+ aw1DR0kZe/ksoI20WFqSBO+gM8dqlB2IUHdEh7hlP+DT2hdznnJW574L5g0d9Vwg
+ D5GtZjfLSEZm7snNwyXu0b74sIjEKF42ZMc7wLhJUDcHtrRk1pCpLasCCyCNEkNH
+ gV3ANc4YxQxjgWGLghO3x/mfFHkqhgIEr6KQRrJWV7koAkLG/LAXcn4K1lzvyzUI
+ urqw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; t=1687946541; x=1688032941; bh=jr26aMNCJW0is
+ rXg6UfE/c6yGNQaJhjRzD6v2gyhJiU=; b=gu+CZY1l55I1TAbIiJdtfb7gL+Up+
+ PXTJtGjBdA7pyur7SHIEFhf45EIjdwgUuG47YxZDuzXjF4zqkDy4OiEdtckEj+KR
+ hT3c4gY9Y8Zbs1P5SY8EHl0lfEF5tOTz1ibyRcHsSCjras6I5fLzCyyxANm9O9rU
+ FVjvcx80F96DvBDGL+up2UfzkUD00xBJwSuVlTnkAORCl20tNBC0S4IY68yWazFd
+ sRTsJIk0gTG0ZZ6ABFprGWXtT33+zqf8wgcxS5IQc5dg10rRJNJvCtnze0zHHTMT
+ BP1xXByoUkKMsH9aQ8m1uEdksBkSYB7QcQVWzSEgMwfeR+G/jQ51lOkLA==
+X-ME-Sender: <xms:LAWcZED4fNZxTlKrdjBmHxJP-sckGwx35hV9UkqQISEoQIfhRmo-JQ>
+ <xme:LAWcZGhPNT2BfytOOn8bcbgj-iEhpLaDXkzpKrTalDsNK6BfgCbkrCcgQAl4ySoEj
+ TpHsdXpmtJtJ4PC5BI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrtddvgddvudcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+ ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+ gvrhhnpeevhfffledtgeehfeffhfdtgedvheejtdfgkeeuvefgudffteettdekkeeufeeh
+ udenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:LAWcZHmXSlCpeeyNoZE7_0LnoPbJ74fdoPhH1-tEgZSeUBVdS7LK5g>
+ <xmx:LAWcZKygSArf1RXeJy6o-saV1OnxLw5eXJf69NNMxU3YltpCM4robQ>
+ <xmx:LAWcZJS1GiS98HbAAxa5aqyjTH6zrMIgmdtULLLD7yJ2KFbTG__paQ>
+ <xmx:LQWcZIAyk7e_edqPJYxvNmmrL7ukerO_p8vou2sRrc2B0RKlJg_Qaw>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 2F7CEB6008D; Wed, 28 Jun 2023 06:02:20 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-499-gf27bbf33e2-fm-20230619.001-gf27bbf33
+Mime-Version: 1.0
+Message-Id: <afe5194e-fd49-4cc9-9a8c-e7671c55d664@app.fastmail.com>
+In-Reply-To: <d9ffc44c-c4ae-4f01-bc0b-ee5359a24a0a@app.fastmail.com>
+References: <20230417125651.25126-18-tzimmermann@suse.de>
+ <c525adc9-6623-4660-8718-e0c9311563b8@roeck-us.net>
+ <55130a50-d129-4336-99ce-3be4229b1c7d@app.fastmail.com>
+ <d4156e51-102f-36b4-e42c-938268b4b608@roeck-us.net>
+ <d9ffc44c-c4ae-4f01-bc0b-ee5359a24a0a@app.fastmail.com>
+Date: Wed, 28 Jun 2023 12:01:58 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Guenter Roeck" <linux@roeck-us.net>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>
+Subject: Re: [v3,
+ 17/19] arch/sparc: Implement fb_is_primary_device() in source file
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,140 +90,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Caleb Connolly <caleb@connolly.tech>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Sam Ravnborg <sam@ravnborg.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Andy Gross <agross@kernel.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>, Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, linux-fbdev@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-sh@vger.kernel.org,
+ "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, sparclinux@vger.kernel.org,
+ Linux-Arch <linux-arch@vger.kernel.org>, Helge Deller <deller@gmx.de>,
+ x86@kernel.org, Javier Martinez Canillas <javierm@redhat.com>,
+ linux-snps-arc@lists.infradead.org, ees Cook <keescook@chromium.org>,
+ linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, "David S . Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, May 21, 2023 at 11:23=E2=80=AFPM Marijn Suijten
-<marijn.suijten@somainline.org> wrote:
-
-> The Sony Xperia 1 (codename kumano griffin) features an unnamed 4k OLED
-> DSI cmd mode panel produced by Samsung.  It can be driven in a
-> 1644x3840@60 or 1096x2560@60 mode, and always has Display Stream
-> Compression 1.1 enabled.
+On Sat, Jun 24, 2023, at 16:21, Arnd Bergmann wrote:
+> On Sat, Jun 24, 2023, at 15:26, Guenter Roeck wrote:
+>> On 6/24/23 02:27, Arnd Bergmann wrote:
+>>> On Sat, Jun 24, 2023, at 03:55, Guenter Roeck wrote:
+>>>>
+>>>> ERROR: modpost: "__xchg_called_with_bad_pointer" [lib/atomic64_test.ko]
+>>>> undefined!
+>>> 
+>>> These all look like old bugs that would be trivially fixed if
+>>> anyone cared about sparc.
+>>> 
+>>
+>> Odd argument, given that this _is_ a sparc patch. Those may be old
+>> bugs, but at least in 6.4-rc7 sparc64:allmodconfig does at least compile.
 >
-> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-(...)
+> I think we clearly want to fix the fbdev regression you found, and
+> maybe bisect the atomic64_test as well to see if that was caused by
+> a recent patch to get it into a working state again.
 
-> +static int sony_griffin_samsung_on(struct sony_griffin_samsung *ctx)
-> +{
+I have bisected this as well now and sent a trivial fix, see
+https://lore.kernel.org/lkml/20230628094938.2318171-1-arnd@kernel.org/
 
-> +       ret =3D mipi_dsi_dcs_exit_sleep_mode(dsi);
-> +       if (ret < 0) {
-> +               dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
-> +               return ret;
-> +       }
-> +       usleep_range(10000, 11000);
-> +
-> +       ret =3D mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLA=
-NK);
-> +       if (ret < 0) {
-> +               dev_err(dev, "Failed to set tear on: %d\n", ret);
-> +               return ret;
-> +       }
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x05);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xd7, 0x07);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
-> +       /* Enable backlight control */
-> +       mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, BIT(5=
-));
-> +       msleep(110);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xe2, enable_4k ? 0 : 1);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
-> +
-> +       ret =3D mipi_dsi_dcs_set_column_address(dsi, 0, hdisplay - 1);
-> +       if (ret < 0) {
-> +               dev_err(dev, "Failed to set column address: %d\n", ret);
-> +               return ret;
-> +       }
-> +
-> +       ret =3D mipi_dsi_dcs_set_page_address(dsi, 0, vdisplay - 1);
-> +       if (ret < 0) {
-> +               dev_err(dev, "Failed to set page address: %d\n", ret);
-> +               return ret;
-> +       }
-> +
-> +       mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x70);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xb9, 0x00, 0x60);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xc5, 0x2e, 0x21);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
-> +
-> +       ret =3D mipi_dsi_dcs_set_display_on(dsi);
-> +       if (ret < 0) {
-> +               dev_err(dev, "Failed to turn display on: %d\n", ret);
-> +               return ret;
-> +       }
-> +
-> +       return 0;
-> +}
-
-This is eerily similar to the sequence in panel-samsung-sofef00.c:
-
-static int sofef00_panel_on(struct sofef00_panel *ctx)
-{
-        struct mipi_dsi_device *dsi =3D ctx->dsi;
-        struct device *dev =3D &dsi->dev;
-        int ret;
-
-        dsi->mode_flags |=3D MIPI_DSI_MODE_LPM;
-
-        ret =3D mipi_dsi_dcs_exit_sleep_mode(dsi);
-        if (ret < 0) {
-                dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
-                return ret;
-        }
-        usleep_range(10000, 11000);
-
-        mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
-
-        ret =3D mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK=
-);
-        if (ret < 0) {
-                dev_err(dev, "Failed to set tear on: %d\n", ret);
-                return ret;
-        }
-
-        mipi_dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
-        mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
-        mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x07);
-        mipi_dsi_dcs_write_seq(dsi, 0xb6, 0x12);
-        mipi_dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
-        mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x20);
-        mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
-
-        ret =3D mipi_dsi_dcs_set_display_on(dsi);
-        if (ret < 0) {
-                dev_err(dev, "Failed to set display on: %d\n", ret);
-                return ret;
-        }
-
-        return 0;
-}
-
-Isn't this just the same display controller with a different configuration?
-Especially the sleep ranges are even the same.
-
-I almost feel like buying these phones just to pry them apart and put
-under a microscope to figure out what these displays actually contain.
-
-Yours,
-Linus Walleij
+      Arnd
