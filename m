@@ -1,48 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0431740EE1
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jun 2023 12:33:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70FFB740F11
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jun 2023 12:44:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEEBC882AF;
-	Wed, 28 Jun 2023 10:33:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73B9410E027;
+	Wed, 28 Jun 2023 10:44:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 448 seconds by postgrey-1.36 at gabe;
- Wed, 28 Jun 2023 10:33:43 UTC
-Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B59F1882AF
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jun 2023 10:33:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
- t=1687947969; bh=CywiEZ2ioeoVRwvb3VhckHlwPQWISEuRuyDIMUh/SlE=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=sO40R4CELoyZP15+xzNfqv8fc7MUdkASAJSkqWSLOF+ywVO11MV3l+vbMWMg1dqiL
- S3XqzYIfgs3lH9JEuQ4NBON04QSxnL2skzqa8NCotSC1yJtWdJ9eUJkPUFbXxZTmd4
- Zxi4HVbihTOgYh7ZLnJNy6YsG4+r5nIfmYW+cbyA=
-Received: from [100.100.34.13] (unknown [220.248.53.61])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 05B73600A6;
- Wed, 28 Jun 2023 18:26:08 +0800 (CST)
-Message-ID: <dd7bd914-634a-115f-ab5c-80349493b1f6@xen0n.name>
-Date: Wed, 28 Jun 2023 18:26:08 +0800
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F8A710E027;
+ Wed, 28 Jun 2023 10:44:51 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id
+ 4fb4d7f45d1cf-51d9865b848so3934139a12.1; 
+ Wed, 28 Jun 2023 03:44:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1687949089; x=1690541089;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=BsdkSefQ8IYbI/3B2PMzrD70xYP7RTu4xTohJobc3G0=;
+ b=WjYus+kk3lIjMOujmFHVqaj4jWRurauivNOWK6xaImNOoo/hBMYa9/D3bUvx1ShfYb
+ 440HkPvoLDttOPFJqiIGWaA7jyzcnWof0ZbbOk02piAw1XAT7J0zLUi7GEoqR2mBzsT2
+ KkKhZTPrkkwRx6LtPd0Xh35fkJg3CGXBKpfkch03mZQ6eTdzYsGbGNDCHpgwHnRHOx/i
+ 6IFEG+DbN1jrwPMu8KFNBWYa0RISUfAgQMeJMyhn4LlF7nBmRLWMMEx/fvi/HTvq9kj3
+ KR7OJLoHig0oSZw9UeWoOfJxxisBmLlmQl6IA5BaBtX7o33HSwDCmjrQfVeBBvk27Vcm
+ wHnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1687949089; x=1690541089;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BsdkSefQ8IYbI/3B2PMzrD70xYP7RTu4xTohJobc3G0=;
+ b=gUJRHlFB8Eg7A0XgKVkEeu1X0vOfiN1BUtramt/fNUFwwCP+aUEYm4y8qLZDfzMs/w
+ 5DuH57PjKHnzhs+1gc6BDBuhq1iBgFD5u4NMmf/XhS0+SnDdAkFe4XanxVF3t3awpTEa
+ MxnmQbQAuo5bl6nEoZXn7SElC2bTBvDoCKN51W4x3fKjiBbEDQJSnW0eecYu0g1r/hhp
+ v4nfVz7tcy62R4l5SxyFqIrD9eQI9B25lRShlcuVcsPqz5JktS8otBRur/Ji5wzl28Re
+ uOZGvvDSRbH3iZtl/ofXAp89UuZ7ODSuV6Nuw7Hoccail1y0gWfkAvhRklzmPUlVXbZt
+ 90PQ==
+X-Gm-Message-State: AC+VfDxvxUesMzmBAXbGH2J9Soo5YtGSEXt217cBNHJPuFARGiahbq+T
+ umghJPOcLxcwJexxv/GU3S9wqDFYby4=
+X-Google-Smtp-Source: ACHHUZ4ISwWuR4s436R+U5S+PO+uJdXT+gJpWUeBdjRi0YHxbZlXRyNGCcUCClw5lFfFH+MKXctJVA==
+X-Received: by 2002:aa7:d396:0:b0:51d:aa00:bdd4 with SMTP id
+ x22-20020aa7d396000000b0051daa00bdd4mr3553653edq.24.1687949089073; 
+ Wed, 28 Jun 2023 03:44:49 -0700 (PDT)
+Received: from able.fritz.box ([2a00:e180:15a4:6600:e1e8:ea62:da3f:c009])
+ by smtp.gmail.com with ESMTPSA id
+ n18-20020a056402515200b0051d9580b00esm3463537edd.11.2023.06.28.03.44.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Jun 2023 03:44:48 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ alexander.deucher@amd.com
+Subject: AMDGPU patches for the drm_exec context
+Date: Wed, 28 Jun 2023 12:44:40 +0200
+Message-Id: <20230628104446.1369-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.12.0
-Subject: Re: [PATCH v3 06/19] arch/loongarch: Implement <asm/fb.h> with
- generic helpers
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, arnd@arndb.de,
- daniel.vetter@ffwll.ch, deller@gmx.de, javierm@redhat.com,
- gregkh@linuxfoundation.org
-References: <20230417125651.25126-1-tzimmermann@suse.de>
- <20230417125651.25126-7-tzimmermann@suse.de>
-From: WANG Xuerui <kernel@xen0n.name>
-In-Reply-To: <20230417125651.25126-7-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,67 +73,14 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Huacai Chen <chenhuacai@kernel.org>, linux-ia64@vger.kernel.org,
- linux-parisc@vger.kernel.org, linux-sh@vger.kernel.org, x86@kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
- loongarch@lists.linux.dev, sparclinux@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hey Alex,
 
-On 2023/4/17 20:56, Thomas Zimmermann wrote:
-> Replace the architecture's fbdev helpers with the generic
-> ones from <asm-generic/fb.h>. No functional changes.
-> 
-> v2:
-> 	* use default implementation for fb_pgprotect() (Arnd)
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Huacai Chen <chenhuacai@kernel.org>
-> Cc: WANG Xuerui <kernel@xen0n.name>
-> ---
->   arch/loongarch/include/asm/fb.h | 15 +--------------
->   1 file changed, 1 insertion(+), 14 deletions(-)
-> 
-> diff --git a/arch/loongarch/include/asm/fb.h b/arch/loongarch/include/asm/fb.h
-> index 3116bde8772d..ff82f20685c8 100644
-> --- a/arch/loongarch/include/asm/fb.h
-> +++ b/arch/loongarch/include/asm/fb.h
-> @@ -5,19 +5,6 @@
->   #ifndef _ASM_FB_H_
->   #define _ASM_FB_H_
->   
-> -#include <linux/fb.h>
-> -#include <linux/fs.h>
-> -#include <asm/page.h>
-> -
-> -static inline void fb_pgprotect(struct file *file, struct vm_area_struct *vma,
-> -				unsigned long off)
-> -{
-> -	vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
-> -}
-> -
-> -static inline int fb_is_primary_device(struct fb_info *info)
-> -{
-> -	return 0;
-> -}
-> +#include <asm-generic/fb.h>
->   
->   #endif /* _ASM_FB_H_ */
+any objections to merge those patches through drm-misc-next? If not can you give me an rb for them?
 
-Sorry for the late review. The change is fairly trivial, so:
+Thanks,
+Christian.
 
-Reviewed-by: WANG Xuerui <git@xen0n.name>
-
-Thanks!
-
--- 
-WANG "xen0n" Xuerui
-
-Linux/LoongArch mailing list: https://lore.kernel.org/loongarch/
 
