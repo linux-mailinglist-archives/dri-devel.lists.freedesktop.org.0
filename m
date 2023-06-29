@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C398274264B
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 14:25:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 937BD742651
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 14:26:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FAA310E18F;
-	Thu, 29 Jun 2023 12:24:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FEFF89798;
+	Thu, 29 Jun 2023 12:26:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com
- [IPv6:2607:f8b0:4864:20::c2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D162689798
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 12:24:56 +0000 (UTC)
-Received: by mail-oo1-xc2b.google.com with SMTP id
- 006d021491bc7-5634fbf0cf4so361261eaf.3
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 05:24:56 -0700 (PDT)
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D009F10E1B1
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 12:26:45 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id
+ 46e09a7af769-6b74b37fbe0so533573a34.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 05:26:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688041495; x=1690633495;
+ d=linaro.org; s=google; t=1688041604; x=1690633604;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=VTzq8z32fPEVUV/pb5F02c76wadt+517zWU1LP37f6I=;
- b=DdKwwRcm6kKObAvaWt9jtGNjXf7LTrmHooCR6YGQPIaorlgX0JHmP3WgVsautTT0K7
- 7iRsaq6x4mmE+B+yH4zJTvNqdWjiva0uZSJQBMH5b2VLfOH7V6471whoWPSLCl7I5WSg
- +WYtWE1XJKhXB6tBK9Sv+ZXNGTPkBSbcCM2r2l6U8ngYC9+EopFcWY5IyUpWd3Xw92Bb
- 3GaQDC8qUK2uAIsoGfliUlXLR4Kcu9dUkg+PODaGhZMBdXPKzOks8uQxdTVDIWoX2Ycd
- 9GQfW5Vdr2s+ZZHppFXMRDRiTL50e4JLSzSdVwzik+hgY5BOHoFlPpfU2W63K4r67PVx
- DQYg==
+ bh=NIk8wJfpH3/FAkecZSGRLuKhBChqs6CWPQ8UTS6BFyg=;
+ b=eR/kPUuAd3/af7k4Nbz4TVTCdX1xjvfgAzUSaztt8l1P+l5BEnIae3/gvu6h42hE9G
+ /Rs6xuuqPGj78oHLv5cIKvQARlFXqgJwJM5S5bOcoJQfSaUkWsfoHJIYZveMMkzDzWnm
+ VJgk/NyNwVcs5RHGSeI7AjySTjefoggCBomRpr3ldjA8sVbPV5XkELdSZwL/SyNY6c5w
+ 6ipHpivvrUEDvJIUhAPNOGe+ZvWVf6sYKZGCAhGT5uFL+BQTGKt4OZlV0U5rrbcAlDTM
+ nv8YkIs7PJpCXyqGsH2qJsGh7itojyBM88kqCe4nyFOShcmW/UhHIJQhh48mqPpMHOEN
+ UpUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688041495; x=1690633495;
+ d=1e100.net; s=20221208; t=1688041604; x=1690633604;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=VTzq8z32fPEVUV/pb5F02c76wadt+517zWU1LP37f6I=;
- b=ONfKuHA3VP0G0cmxtKsmYuKdBBCHyJv4aF+yq1Vu/mi2sHbppwA6XGh6LW7wLYYO9+
- BNeO9r81S1IYH/1SSZhLL+xMcO88bcUR8vTRpaU8EBdmRCrwto2Vd0DWvua0KfyZKB4h
- UJNZxmkQ6nuxFIkajjGujXN57en8suDw2GOw6scID//6r3JXreLKrjBNjptQztZ+GKy2
- AMr4MyLHPxwKlGRh3ZZdFGLWQxXkwtpQ04p0/JL5Zlx3i7q40AUif3itJGnoaQCkuajD
- 4beKib2CkZckdfVShFQGNtOeu94Tr1VFMyKWV7CzzLyMy3ZLLDsqLu4lEn+qUnMX17jg
- aExg==
-X-Gm-Message-State: ABy/qLbAWJYn5K5/3HayF6+xybCUeeLeXO/e0m7Pj2Cu8jOdSQdg6XJ3
- 3mi+8yBr3MNOHycAo+mOUGTDHVLoSaXfZqSH7pwmBQ==
-X-Google-Smtp-Source: ACHHUZ7ZZiE29h6TGG7y8pc6HUcITIR7bXk1i4baG8qfwxrOlHz3QTVC9dH5i23aoiJoczTwELcymGXmbTl6fASHlpY=
-X-Received: by 2002:a05:6358:1a85:b0:134:e4fe:e162 with SMTP id
- gm5-20020a0563581a8500b00134e4fee162mr2591806rwb.13.1688041495258; Thu, 29
- Jun 2023 05:24:55 -0700 (PDT)
+ bh=NIk8wJfpH3/FAkecZSGRLuKhBChqs6CWPQ8UTS6BFyg=;
+ b=D2SWbGD4RoLijoFm4jJxHx9+q2ryup5Q9ldMLk1/WANwcVwr3O8ukZLgY7IOoSAC+G
+ v0m8lbYrlRq4cgQD3t+8wMumPZqCqx9W1mxiqnsXYfcOqkQev/Ys1vKjoFt3w/5IDyIs
+ LXwvCNDpVsoAmxnwTWFaFAr7RVprDMFSqeUJkRAIarssXMdqyYqCjoEWKxXoO2q8unc5
+ Znjqrsip1l6+9WPXaS36b2g3wTbhZUhOOmOrhoOnRnY9omPWrR3Y4z2FlLatbsiKtvBK
+ R+a5wT5iVqZBCTXLNjJ4w8Z7zpmI+hM8dlF6L1iqhayrVsUmZMRxQXFlOEJxRkpHEisX
+ 3eMg==
+X-Gm-Message-State: AC+VfDyH/fl48enOawezOfys+J0RbB9aKfF8d9IitI3MHPxnXHFDtoNB
+ qWroZmjzjk70XrjWF1PRT5yiWx8H7k01de/NJEcTjg==
+X-Google-Smtp-Source: ACHHUZ7elJFZUK/QSAojN3eXj6aPyhL1NPR9xEeFzIAo7HV9CqflV2dOYJOUp8Wkhr8zxc0HCzV1+n6otclDt9K3gI0=
+X-Received: by 2002:a05:6359:601:b0:134:d0d0:c5f1 with SMTP id
+ eh1-20020a056359060100b00134d0d0c5f1mr6107800rwb.19.1688041604413; Thu, 29
+ Jun 2023 05:26:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230627-sm6125-dpu-v2-0-03e430a2078c@somainline.org>
- <20230627-sm6125-dpu-v2-13-03e430a2078c@somainline.org>
- <4a267feb-5855-1427-c378-b2615eae4f84@linaro.org>
- <kisifidg4bdb4v6fb6nvgt5omsprssd4bxrn6wqehjo66l2y4a@7nfaydtafzpn>
-In-Reply-To: <kisifidg4bdb4v6fb6nvgt5omsprssd4bxrn6wqehjo66l2y4a@7nfaydtafzpn>
+ <20230627-sm6125-dpu-v2-12-03e430a2078c@somainline.org>
+ <84eb1d40-436b-a5b4-a4e3-75a511ad5a90@linaro.org>
+ <st3nrb54zxa5xp7qqkdyygf7t6ucgzl3xc5w6d426xy6udj4fx@puakunoaoj2l>
+In-Reply-To: <st3nrb54zxa5xp7qqkdyygf7t6ucgzl3xc5w6d426xy6udj4fx@puakunoaoj2l>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 29 Jun 2023 15:24:43 +0300
-Message-ID: <CAA8EJpr+PyjehSd4SEUVfh13+i=+-7v1esQasc+7gNaL2iqWJA@mail.gmail.com>
-Subject: Re: [PATCH v2 13/15] arm64: dts: qcom: sm6125: Add dispcc node
+Date: Thu, 29 Jun 2023 15:26:33 +0300
+Message-ID: <CAA8EJpqHh4ZWZxuRMLN2z8BZYFqzoWxZV=oW1ANzEJy4i-PWNw@mail.gmail.com>
+Subject: Re: [PATCH v2 12/15] arm64: dts: qcom: sm6125: Switch fixed xo_board
+ clock to RPM XO clock
 To: Marijn Suijten <marijn.suijten@somainline.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,85 +88,48 @@ Cc: Michael Turquette <mturquette@baylibre.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 29 Jun 2023 at 15:14, Marijn Suijten
+On Thu, 29 Jun 2023 at 15:09, Marijn Suijten
 <marijn.suijten@somainline.org> wrote:
 >
-> On 2023-06-29 13:56:25, Dmitry Baryshkov wrote:
+> On 2023-06-29 13:55:28, Dmitry Baryshkov wrote:
 > > On 27/06/2023 23:14, Marijn Suijten wrote:
-> > > Enable and configure the dispcc node on SM6125 for consumption by MDSS
-> > > later on.
+> > > We have a working RPM XO clock; no other driver except rpmcc should be
+> > > parenting directly to the fixed-factor xo_board clock nor should it be
+> > > reachable by that global name.  Remove the name to that effect, so that
+> > > every clock relation is explicitly defined in DTS.
 > > >
+> > > Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > > > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 > > > ---
-> > >   arch/arm64/boot/dts/qcom/sm6125.dtsi | 25 +++++++++++++++++++++++++
-> > >   1 file changed, 25 insertions(+)
+> > >   arch/arm64/boot/dts/qcom/sm6125.dtsi | 7 ++++---
+> > >   1 file changed, 4 insertions(+), 3 deletions(-)
 > > >
 > > > diff --git a/arch/arm64/boot/dts/qcom/sm6125.dtsi b/arch/arm64/boot/dts/qcom/sm6125.dtsi
-> > > index edb03508dba3..a5cc0d43d2d9 100644
+> > > index 722dde560bec..edb03508dba3 100644
 > > > --- a/arch/arm64/boot/dts/qcom/sm6125.dtsi
 > > > +++ b/arch/arm64/boot/dts/qcom/sm6125.dtsi
-> > > @@ -3,6 +3,7 @@
-> > >    * Copyright (c) 2021, Martin Botka <martin.botka@somainline.org>
-> > >    */
-> > >
-> > > +#include <dt-bindings/clock/qcom,dispcc-sm6125.h>
-> > >   #include <dt-bindings/clock/qcom,gcc-sm6125.h>
-> > >   #include <dt-bindings/clock/qcom,rpmcc.h>
-> > >   #include <dt-bindings/dma/qcom-gpi.h>
-> > > @@ -1203,6 +1204,30 @@ sram@4690000 {
-> > >                     reg = <0x04690000 0x10000>;
-> > >             };
-> > >
-> > > +           dispcc: clock-controller@5f00000 {
-> > > +                   compatible = "qcom,sm6125-dispcc";
-> > > +                   reg = <0x05f00000 0x20000>;
-> > > +                   clocks = <&rpmcc RPM_SMD_XO_CLK_SRC>,
-> > > +                            <0>,
-> > > +                            <0>,
-> > > +                            <0>,
-> > > +                            <0>,
-> > > +                            <0>,
-> > > +                            <&gcc GCC_DISP_AHB_CLK>,
-> > > +                            <&gcc GCC_DISP_GPLL0_DIV_CLK_SRC>;
-> > > +                   clock-names = "bi_tcxo",
-> > > +                                 "dsi0_phy_pll_out_byteclk",
-> > > +                                 "dsi0_phy_pll_out_dsiclk",
-> > > +                                 "dsi1_phy_pll_out_dsiclk",
-> > > +                                 "dp_phy_pll_link_clk",
-> > > +                                 "dp_phy_pll_vco_div_clk",
-> > > +                                 "cfg_ahb_clk",
-> > > +                                 "gcc_disp_gpll0_div_clk_src";
-> > > +                   power-domains = <&rpmpd SM6125_VDDCX>;
+> > > @@ -22,7 +22,6 @@ xo_board: xo-board {
+> > >                     compatible = "fixed-clock";
+> > >                     #clock-cells = <0>;
+> > >                     clock-frequency = <19200000>;
+> > > -                   clock-output-names = "xo_board";
 > >
-> > Would it be logical to specify the required-opps too?
+> > Why? I'd say, leave it.
 >
-> Perhaps, but barely any other SoC aside from sm8x50 sets it on dispcc.
-> What should it be, rpmhpd_opp_low_svs?  IIRC we used "svs" for the DSI
-> PHY despite not having a reference value downstream (it sets a range of
-> NOM-TURBO_NO_CPR, and RETENTION when it's off).
+> The exact reason is explained in the commit message.
 
-Then for DSI PHY the required-opps should be rpmpd_opp_nom.
+Usually we do no not kill the xo_board name for the sake of anybody
+still looking for the old name. Weak argument, I know.
 
-For the dispcc I think the rpmpd_opp_ret, the lowest possible vote,
-should be enough.
-
+>
+> >
+> > With that fixed:
+>
+> Hence I don't think it makes sense to "fix" this.
 >
 > - Marijn
 >
-> >
-> > > +                   #clock-cells = <1>;
-> > > +                   #power-domain-cells = <1>;
-> > > +           };
-> > > +
-> > >             apps_smmu: iommu@c600000 {
-> > >                     compatible = "qcom,sm6125-smmu-500", "qcom,smmu-500", "arm,mmu-500";
-> > >                     reg = <0x0c600000 0x80000>;
-> > >
-> >
-> > --
-> > With best wishes
-> > Dmitry
-> >
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 
 
