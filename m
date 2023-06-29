@@ -2,149 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51E88742AA7
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 18:28:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB5B742AF2
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 19:00:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEDFA10E3EF;
-	Thu, 29 Jun 2023 16:28:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F37710E19E;
+	Thu, 29 Jun 2023 17:00:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDE9210E037;
- Thu, 29 Jun 2023 16:28:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1688056116; x=1719592116;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=ix1EURMYoGTHh9eX11dQ5oFiCyXnPi3cxeDSmhVlbsc=;
- b=Tz08WaqWphX9ryOhyXGT3U62deUDyF0/p38LmMu5GOAc+CQiYNRZj33U
- ddnjdJ6aMe6mnsDtP9H/zAB2A6raPfod98UBZjz6SuA4S2Ailw5oqmPTW
- ngJrJHq0h8i7Zz7dtXfVGkNxIMWEqK0Zl/Iv4CShcmiN4FhSih/4dp2TQ
- PIik/S/bwxCP6LnFDOd7krEivK3dw+Q3KN+G1e09PIX84F/otNhysZJha
- PU2ZnkTNT0V+vpuCL6OML5gk2LYprMAM8uYuqpjxtuc+jH7vTqjMAgerq
- qdz5xgExsIaIAbfIEkY+10ZxlWOjGOUkSYJqqqNb25KLqntyV01+TYTAL Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="362194925"
-X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; d="scan'208";a="362194925"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jun 2023 09:28:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="841507171"
-X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; d="scan'208";a="841507171"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orsmga004.jf.intel.com with ESMTP; 29 Jun 2023 09:28:35 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Thu, 29 Jun 2023 09:28:34 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Thu, 29 Jun 2023 09:28:34 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.105)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.27; Thu, 29 Jun 2023 09:28:34 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DmGfh+MRHtsNZM7ki9QsNuoSqOyPluqr1dDZFlaemdGt7FZ7r+93SC6KvoS7D72EMsCqpyAFEITS0wvdWfQzHKVoUVg6tw7mUN94Eni3FZLrfyREaZDqfriGYj1NYYTK7xOVBns5l0tG1ZfjG5ddOpPOkldM8TOwZgE+6xZZr++6rl598yfatmOdgrJmc2EZVlqvBLvRh1VqnHrzaL6Is4APRU/8KDu3qAtZ4idVOnd9A4Hj2lwzHhnbiPOtHokduN+ra9PE4vMbA3CWQYRCe6iIuHDxXmhnbNmjlGTIQ78OjHG+CeGQI53i3EMaZ8wT4xzcGXJlT0rVqWimhzuLoA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ix1EURMYoGTHh9eX11dQ5oFiCyXnPi3cxeDSmhVlbsc=;
- b=fhxw/Pgc5PDkVRrUJBwHmwqflE8rpn1qN92HfDPexQrg8sKyNMraN8XCbKnrew9xqxno2vqgQZlnht1v6M1qJNDVtoTowfB4bHM0+B/IyBBiB+SX/UHgTTBQrdY3sOJS8T0yQzMqPVR93jdVG+euDHa1pK2I3FV9jv5xRqIBOAvXZUQIn89ajs8umzsRXI5dd1bdQ6Fo8m+4xJXg+xJQDxqBqT+E+r++IF89ogXJz6eVZOru26oUuOTrpQOhJzj9Evx0k2buz14yx7rVgQFs1WgNR/wBULxBc5ROH0qbGNK3Cb8QjMgEG2e6BJISYsnCTg6hyWFVgnLOQ80NDBHuHw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM8PR11MB5751.namprd11.prod.outlook.com (2603:10b6:8:12::16) by
- SA0PR11MB4733.namprd11.prod.outlook.com (2603:10b6:806:9a::7) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6521.24; Thu, 29 Jun 2023 16:28:32 +0000
-Received: from DM8PR11MB5751.namprd11.prod.outlook.com
- ([fe80::749a:b0c8:4930:5a2]) by DM8PR11MB5751.namprd11.prod.outlook.com
- ([fe80::749a:b0c8:4930:5a2%7]) with mapi id 15.20.6521.024; Thu, 29 Jun 2023
- 16:28:31 +0000
-From: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>
-To: "Brost, Matthew" <matthew.brost@intel.com>
-Subject: Re: [PATCH v3] drm/xe/guc: Fix h2g_write usage of GUC_CTB_MSG_MAX_LEN
-Thread-Topic: [PATCH v3] drm/xe/guc: Fix h2g_write usage of GUC_CTB_MSG_MAX_LEN
-Thread-Index: AQHZqezMNiKbYPLoUEeVLIHIoBaLja+gv32AgAE6IoA=
-Date: Thu, 29 Jun 2023 16:28:31 +0000
-Message-ID: <e9a8dec5bc2a11681df241f59a36e92e41e691e7.camel@intel.com>
-References: <20230628181718.1023703-1-alan.previn.teres.alexis@intel.com>
- <ZJypqfa107jTQZn+@DUT025-TGLU.fm.intel.com>
-In-Reply-To: <ZJypqfa107jTQZn+@DUT025-TGLU.fm.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.46.1-0ubuntu1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR11MB5751:EE_|SA0PR11MB4733:EE_
-x-ms-office365-filtering-correlation-id: afe0bf77-8735-470b-4327-08db78bde091
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: xiDeTVXQjCFinyAtzwrYTA408B6pZQv9a+QYGYY/SZONSuG6SNd0biLszw6Q52xz6bCuXcrxtumgVisWKO1YMOzyPRtB5bz9tdLVn8qCczv2gjtUQw9zizikp0oAqoJO5jJfTkM6paVtT4HlXDrxl49DHY38ZDtn58n8ArrYuW5Kbt3P/N6Il44GbLHxBalTNvnT6+Dr57znIZTmkUHbilWu3mjbQUu6eCuKXxB2607n0dOQYX5fCTJWN6rfKcYY3xNgSU53kl/1u65G0kUER7ceXTycj+0iajc2fWB4HMY8x768kqiVNQV149Mcq+sOFOjpUeBsan2txBHGtLFC9rXy9k5LfB+piiJ8oR6PcmlpNeBUC+nDpZ3BR89KCa1IRMVZSCit9sxTh8wBHakOwFuIJBi1/F2J5fGNPO1IGOj6y/JGFFApJUqs/JQ2XzAlzIT9L4ka6c3mtmPJT6UYKZsHfrSh7P4a0I+ehV2wtfT9REuoNq+UIsdpfxgM5Fs7V+FvVXiAM3ih68UPrsfiLt0THPGd/f71J57uxmfUlTbz7XN7uvZk1z6jA1HdFzQ4RfXK8NiDkHWIzFSohKPi8vCRviV7VkG+GttlEfNL2O75zmG3FLhYLdE5UqXN610f
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM8PR11MB5751.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(376002)(366004)(136003)(396003)(346002)(39860400002)(451199021)(6506007)(36756003)(66556008)(107886003)(6486002)(26005)(37006003)(71200400001)(54906003)(2616005)(6512007)(186003)(2906002)(478600001)(86362001)(316002)(64756008)(5660300002)(66476007)(122000001)(6862004)(76116006)(82960400001)(6636002)(66946007)(91956017)(450100002)(8676002)(4326008)(66446008)(41300700001)(8936002)(38070700005)(38100700002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Z1BnYXAwaDAvZGRnbk9PU1FiNHhKZ2ZZaFZCMzB2WHZUTk80OHNVYVF5LzN0?=
- =?utf-8?B?YnhNQW9NcjBFdnM5dThiQkx1bjVpMDVFK0JsVFRjK0g4cWIvSlNvR2JTcWxI?=
- =?utf-8?B?WGNTTUVzZVBLLzRxU3NxaTRnTE5pV1V3WnFlTWdSajNoQi9iYkFwWTBuMEZr?=
- =?utf-8?B?RVlnSnJlQUxXSG5QdzNMYWJSSUFjcEFMek4wMHFJdzQ4KzBzSytoVEpzNkhu?=
- =?utf-8?B?dlg1R1QwMy8zaUZuOG9FRXVxQ0FzbEpiSHUxLzdwR05JM0pyRGlkMk9vS05E?=
- =?utf-8?B?VGNRVnZQTDNPdGFnVU5QY0p1bGVQTnBCVEVpZVZMY0srNTliZHlBVmw1ckUr?=
- =?utf-8?B?MlB6MGxIUGtpNW9lNFBsYjc3ZFdjYVFzNFdWTE5lbmJRaCtBcmFGY1hXNEpt?=
- =?utf-8?B?MDRkYXJ1L3p2OUNXS3ZSMkRINTRlaThBRUZpUlpia2c0R1dJdjZzMXJFUldw?=
- =?utf-8?B?MUFkM3N0Ty9kc3o0N3FSanZTVUtKbVk5bDlIVko2WmJDNzhaVlVPdWNVcVJu?=
- =?utf-8?B?bXp1NGV0Y2k4OTVMb1dDaVp5cG1iZGo3NmhyaGNPMUVXcDNpNGNuY3BYMHFT?=
- =?utf-8?B?UmFwaXh3dGU2TW5KZWI5dzYwbHVVL3Bka0UvalluRlUweTJvS0JLa1ZTMnh5?=
- =?utf-8?B?TkhUZFVnSzZhSlFSczZXL0I0UTcvL0NGV1VPbmZIYUtSZ1NBVHI3TTB6WTd4?=
- =?utf-8?B?SmtaSkhYUmVhSXFCT3diMVZxTmo0Z3crZFcrbkNScDFGVUwyTU4xM0E1dnNY?=
- =?utf-8?B?WGNoNEpScmgyajBmNHQ1WVBQKytJOEk0TC83TVdEa0xjV2NhTzRJWmhaYWl0?=
- =?utf-8?B?ME5RdnQwRWMvZkRZRCtURGlvaElKblJ5RHdNemI5eENEUmRoSjQzTk1CeVF2?=
- =?utf-8?B?TGZJTVZYYjdJZ2NiYTlwQXhseXVlZVpsUlk4bWR0Y0QyN3lHQTFPZ09ibmhi?=
- =?utf-8?B?d0xRMnNRK3N5cU5oM0x2T0toYnZtTG5ZMlhQNVZERUp0eC8xcTdqdnk0N1BG?=
- =?utf-8?B?Z0plcFZubXZqallwd0ZBb3ZQelpUcWViWXRibDhnaExuVHJQOFdkeTI0Uk44?=
- =?utf-8?B?VUpTUmdXUWNXZlJBb2llYXY0T2xSOHNBN2xvZWVDRkhpbCtNSzRRaWJaaG9V?=
- =?utf-8?B?SlBveGpId3ZTOWZkVVFBYXQ0VUZEbkxPYjd3dFhYOXB3Ly9zZkpPVmtJV05i?=
- =?utf-8?B?ZnpJcTcvQkdJajFiaTZGWXlXVFhad1ArY1UxL0RLR1BBYnAxRkxpeWNRNER0?=
- =?utf-8?B?YS9SNzRuRjJ0UnlkbkJhbmlxeVV3bmJuRjczMEFERWFOMW1NdTM2K1FvVnNZ?=
- =?utf-8?B?VzlxMkcrYnNURldKYlpsVncvRUE2bHlBVk0vUXRQT3RBZzBaVy92Y3RjMVI0?=
- =?utf-8?B?ei9zajlUMTRKZFpZSk82RWpGQWFVUW5uT003MmtUelhIN3B1K1VLMEcxWU0y?=
- =?utf-8?B?RlpHUXE1U002cThQNG1MNm9HYktuT3oyRmFjS0tHSExETUpBaWM4UU82VjF2?=
- =?utf-8?B?UVVZMkpNQXNMTGtSdm9YNlBPTjhCVytFbGdWM3JDSURqQmVGZXJOQzVHU1E3?=
- =?utf-8?B?M3hQUFRwQkQ0V1lNQzhZN0FDcDlCL3RROTdYc0lzeDZoMWpGRnY5YmRuQzJX?=
- =?utf-8?B?MUJUajVXSTFSWmg0bmJYS0ROMzZ0QzNtbGhYRlNRc09ZWGtsaEw4RjNzYzhT?=
- =?utf-8?B?RlNuTWE4R2RmdFpURDRHQ0VSNkdlM0xtM283UG4yTDQ5TlNmbjFxU3BINUNl?=
- =?utf-8?B?M0Qxd1RtcTVJTW9BUkdYd0I3WGxSSDBzZGZJaEovSno2NkdtQzRMajdaWkgy?=
- =?utf-8?B?UEFJM0NzNmZIRlE3azZoSzc0VkRxZm9BWWdvNkhwdTFqRGxMalNFZUQ2cE9Z?=
- =?utf-8?B?eWxGeXBtS3NkWGxSakQrOE9OSTVqck9TTms2MWRuVGRDZFlKenNBbW5TYzkv?=
- =?utf-8?B?TTI4YlJrZ3kyc3p0SDlmSmtTZXVFcDc2TC9rTXRCb25ISnFPUlRGeWhhMTND?=
- =?utf-8?B?KzlnTkxENlpoWThtM3BnS1QzeHNYMTV0cWhYTnd5Q1RFbm1BTG5OVEp6ZjE1?=
- =?utf-8?B?VVh5a3R1Ymh4VkRMQTV4Z21TRWVvSVRqVU1RL2N6RkJROHYwSXh3M3dWYzdl?=
- =?utf-8?B?bUxCSUpMNjI1ZmpKMjRIL2tJa1hTUEMyR0R4cWJqQXRYUXp1VTArYmZMeVBa?=
- =?utf-8?Q?J5sRMpFTbJBZ4RgZFtoNh8M=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D8922F529DF242438FF7246D242A3337@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7A4B610E19E;
+ Thu, 29 Jun 2023 17:00:21 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.31:48394.1297546617
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
+ by 189.cn (HERMES) with SMTP id 05A4C10020D;
+ Fri, 30 Jun 2023 01:00:13 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-75648544bd-xp9j7 with ESMTP id
+ 2713aa1564624f348fd6c097b85f39d9 for helgaas@kernel.org; 
+ Fri, 30 Jun 2023 01:00:17 CST
+X-Transaction-ID: 2713aa1564624f348fd6c097b85f39d9
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Message-ID: <bcfdc77d-a94d-bca1-56e3-5e14e91f6fd9@189.cn>
+Date: Fri, 30 Jun 2023 01:00:10 +0800
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5751.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: afe0bf77-8735-470b-4327-08db78bde091
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2023 16:28:31.4330 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: GhGCwwWF7s2yhrvEfpIcY5M+lpdu6F7aXneznve8Je7I0k4Tkkl+dK02sYYPwurKzhIw+ANqKjhmbsWoy0GX2Bf0a0B1/f+fXmtmePWqBdH5joz6MlzsfxPBpgsUtVaI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4733
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v7 6/8] PCI/VGA: Introduce is_boot_device function
+ callback to vga_client_register
+To: Bjorn Helgaas <helgaas@kernel.org>, Sui Jingfeng <suijingfeng@loongson.cn>
+References: <20230629155436.GA397963@bhelgaas>
+Content-Language: en-US
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <20230629155436.GA397963@bhelgaas>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,35 +52,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Harrison, John C" <john.c.harrison@intel.com>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, Pan Xinhui <Xinhui.Pan@amd.com>,
+ kvm@vger.kernel.org, nouveau@lists.freedesktop.org,
+ Lijo Lazar <lijo.lazar@amd.com>, dri-devel@lists.freedesktop.org,
+ YiPeng Chai <YiPeng.Chai@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>, Likun Gao <Likun.Gao@amd.com>,
+ Yi Liu <yi.l.liu@intel.com>, Karol Herbst <kherbst@redhat.com>,
+ amd-gfx@lists.freedesktop.org, Jason Gunthorpe <jgg@ziepe.ca>,
+ Ben Skeggs <bskeggs@redhat.com>, linux-pci@vger.kernel.org,
+ Kevin Tian <kevin.tian@intel.com>, Bokun Zhang <Bokun.Zhang@amd.com>,
+ intel-gfx@lists.freedesktop.org, Alex Williamson <alex.williamson@redhat.com>,
+ Abhishek Sahu <abhsahu@nvidia.com>, Maxime Ripard <mripard@kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian Konig <christian.koenig@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyMDIzLTA2LTI4IGF0IDIxOjQ0ICswMDAwLCBCcm9zdCwgTWF0dGhldyB3cm90ZToN
-Cj4gT24gV2VkLCBKdW4gMjgsIDIwMjMgYXQgMTE6MTc6MThBTSAtMDcwMCwgQWxhbiBQcmV2aW4g
-d3JvdGU6DQo+ID4gSW4gdGhlIEFCSSBoZWFkZXIsIEdVQ19DVEJfTVNHX01JTl9MRU4gaXMgJzEn
-IGJlY2F1c2UNCj4gPiBHVUNfQ1RCX0hEUl9MRU4gaXMgMS4gVGhpcyBhbGlnbnMgd2l0aCBIMkcv
-RzJIIENUQiBzcGVjaWZpY2F0aW9uDQo+ID4gd2hlcmUgYWxsIGNvbW1hbmQgZm9ybWF0cyBhcmUg
-ZGVmaW5lZCBpbiB1bml0cyBvZiBkd29yZHMgc28gdGhhdCAnMScNCj4gPiBpcyBhIGR3b3JkLiBB
-Y2NvcmRpbmdseSwgR1VDX0NUQl9NU0dfTUFYX0xFTiBpcyAyNTYtMSAoaS5lLiAyNTUNCj4gPiBk
-d29yZHMpLiBIb3dldmVyLCBoMmdfd3JpdGUgd2FzIGluY29ycmVjdGx5IGFzc3VtaW5nIHRoYXQN
-Cj4gPiBHVUNfQ1RCX01TR19NQVhfTEVOIHdhcyBpbiBieXRlcy4gRml4IHRoaXMuDQo+IA0KYWxh
-bjpzbmlwDQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS94ZS94ZV9ndWNfY3QuYyBi
-L2RyaXZlcnMvZ3B1L2RybS94ZS94ZV9ndWNfY3QuYw0KPiA+IGluZGV4IDIyYmM5Y2U4NDZkYi4u
-YWEwNGI1YzQ4MjJmIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS94ZS94ZV9ndWNf
-Y3QuYw0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS94ZS94ZV9ndWNfY3QuYw0KPiA+IEBAIC00
-MDEsMTkgKzQwMSwyMSBAQCBzdGF0aWMgaW50IGgyZ193cml0ZShzdHJ1Y3QgeGVfZ3VjX2N0ICpj
-dCwgY29uc3QgdTMyICphY3Rpb24sIHUzMiBsZW4sDQo+ID4gIHsNCj4gPiAgCXN0cnVjdCB4ZV9k
-ZXZpY2UgKnhlID0gY3RfdG9feGUoY3QpOw0KPiA+ICAJc3RydWN0IGd1Y19jdGIgKmgyZyA9ICZj
-dC0+Y3Ricy5oMmc7DQo+ID4gLQl1MzIgY21kW0dVQ19DVEJfTVNHX01BWF9MRU4gLyBzaXplb2Yo
-dTMyKV07DQo+ID4gLQl1MzIgY21kX2xlbiA9IGxlbiArIEdVQ19DVEJfSERSX0xFTjsNCj4gPiAt
-CXUzMiBjbWRfaWR4ID0gMCwgaTsNCj4gPiArI2RlZmluZSBIMkdfQ1RfSEVBREVSUyAoR1VDX0NU
-Ql9IRFJfTEVOICsgMSkgLyogb25lIERXIENUQiBoZWFkZXIgYW5kIG9uZSBEVyBIeEcgaGVhZGVy
-ICovDQo+IA0KPiBIYXRlIHRvIG5pdCBwaWNrIGJ1dCBhZ2FpbiB0aGlzIHNob3VsZCBiZSBhYm92
-ZSB0aGUgaDJnX3dyaXRlIHBlcg0KPiBmZWVkYmFjayBmcm9tIE9kZW4gb24gWGUgaW4gZ2VuZXJh
-bC4NCj4gDQo+IE90aGVyd2lzZSBMR1RNLg0KPiANCj4gV2l0aCB0aGUgbml0IGFkZHJlc3NlZDoN
-Cj4gDQo+IFJldmlld2VkLWJ5OiBNYXR0aGV3IEJyb3N0IDxtYXR0aGV3LmJyb3N0QGludGVsLmNv
-bT4NCg0KVGhhbmtzIGZvciByZXZpZXdpbmcuIE15IGJhZCBvbiB0aGUgI2RlZmluZSAtIHlvdSBt
-ZW50aW9uZWQgdGhhdCBiZWZvcmUuDQpXaWxsIGZpeCB0aGF0IG5vdy4NCi4uLmFsYW4NCg==
+Hi,
+
+On 2023/6/29 23:54, Bjorn Helgaas wrote:
+> On Thu, Jun 22, 2023 at 01:08:15PM +0800, Sui Jingfeng wrote:
+>> Hi,
+>>
+>>
+>> A nouveau developer(Lyude) from redhat send me a R-B,
+>>
+>> Thanks for the developers of nouveau project.
+>>
+>>
+>> Please allow me add a link[1] here.
+>>
+>>
+>> [1] https://lore.kernel.org/all/0afadc69f99a36bc9d03ecf54ff25859dbc10e28.camel@redhat.com/
+> 1) Thanks for this.  If you post another version of this series,
+>     please pick up Lyude's Reviewed-by and include it in the relevant
+>     patches (as long as you haven't made significant changes to the
+>     code Lyude reviewed).
+
+Yes, no significant changes. Just fix typo.
+
+I also would like to add support for other DRM drivers.
+
+But I think this deserve another patch.
+
+>   Whoever applies this should automatically
+>     pick up Reviewed-by/Ack/etc that are replies to the version being
+>     applied, but they won't go through previous revisions to find them.
+>
+> 2) Please mention the commit to which the series applies.  I tried to
+>     apply this on v6.4-rc1, but it doesn't apply cleanly.
+
+Since I'm a graphic driver developer, I'm using drm-tip.
+
+I just have already pulled, it still apply cleanly on drm-tip.
+
+> 3) Thanks for including cover letters in your postings.  Please
+>     include a little changelog in the cover letter so we know what
+>     changed between v6 and v7, etc.
+
+No change between v6 and v7,
+
+it seems that it is because the mailbox don't allow me to sending too 
+many mails a day.
+
+so some of the patch is failed to delivery because out of quota.
+
+
+> 4) Right now we're in the middle of the v6.5 merge window, so new
+>     content, e.g., this series, is too late for v6.5.  Most
+>     maintainers, including me, wait to merge new content until the
+>     merge window closes and a new -rc1 is tagged.  This merge window
+>     should close on July 9, and people will start merging content for
+>     v6.6, typically based on v6.5-rc1.
+
+I'm wondering
+
+Would you will merge all of the patches in this series (e.g. including 
+the patch for drm/amdgpu(7/8) and drm/radeon(8/8)) ?
+
+Or just part of them?
+
+Emm, I don't know because my patch seems across different subsystem of 
+Linux kernel.
+
+There is also a developer for AMDGPU (Mario) give me a R-B for the 
+patch-0002 of this series.
+
+So, at least, PATCH-0001, PATCH-0002, PATCH-0003, PATCH-0004, PATCH-0006 
+are already OK(got reviewed by).
+
+Those 5 patch are already qualified to be merged, I think.
+
+I means that if you could merge those 5 patch first, then there no need 
+to send another version again.
+
+I will refine the rest patch with more details and description.
+
+I'm fear of making too much noise.
+
+> Bjorn
