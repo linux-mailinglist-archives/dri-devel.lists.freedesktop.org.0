@@ -1,49 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F730742709
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 15:11:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 507A1742725
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 15:18:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CF4310E3CA;
-	Thu, 29 Jun 2023 13:11:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFF6410E3DC;
+	Thu, 29 Jun 2023 13:18:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 165F310E3CA;
- Thu, 29 Jun 2023 13:11:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
- Cc:To:From:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=5gBm7015A4hdAPyt1XTpmFIFSaE1k9BcyQR+lyfqJ8o=; b=WcF7a7PvHPSSH8RkVJssqlUU+s
- ImScZlAnduZcKAwEtiUvHyTPNF9vZBW26pH3ld6VExtPVXcKZMyDvFSXjvRVLv6F46fkbIwtmGJSW
- 3J/hGWgetzDJjykSs/LPhPzQQ9d9hSg6lyJXfm6mYTJLoTQN0EEcduJ10WsEXRVuZ+a4Sgp6KX73m
- sxLLQffRdpKecaMLzKCKuuFm0WePnUOmZMTNN2UR2dq00AskhaueObNPhKW3YM2R08xCBCm6YUs8l
- xzTOWIrZ97X1ZdRqiHZuyxWgh9XNpjmDihWhIQPXF7VqBwr6gC9Dg03Fq31r8nL6P6B5DIAbQy1It
- Eo/BZCEQ==;
-Received: from [187.74.70.209] (helo=[192.168.1.111])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1qErQX-005nTk-1p; Thu, 29 Jun 2023 15:11:13 +0200
-Message-ID: <02789f9b-ff16-b419-097f-b97b56afad57@igalia.com>
-Date: Thu, 29 Jun 2023 10:11:06 -0300
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 404ED10E3F7
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 13:18:12 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 29F001FD64;
+ Thu, 29 Jun 2023 13:18:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1688044690; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=K5LR3H2yhcLZRfkUpcC1pYuRSidZ3cqdCZg/hSroVmk=;
+ b=iMfm+/ekl0xfXphQ8TVMKTrT9ToRvi4MYfuPCVZZAy+JWtEwFNQpmWYIMp1ahVk0VzxEMc
+ 9vdJjhaRzuPHB0EZlpDS2j4gGqL462DXX3aZ/YckBYoB9WMBTuLu9QNIxB5UgNdqSpVH7z
+ 52WX/ny9kEUHZSPElxwmGtlhnjwzsns=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1688044690;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=K5LR3H2yhcLZRfkUpcC1pYuRSidZ3cqdCZg/hSroVmk=;
+ b=xp7w81/HcKGr6AkcZ0NPWLrSaMy4em6tA16DRyZDyCoK4iK4hZmFtiZeOi0hbEeJ4JV0Im
+ oIingQYV0eMXi6Cw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C7381139FF;
+ Thu, 29 Jun 2023 13:18:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 6reCL5CEnWRzcwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 29 Jun 2023 13:18:08 +0000
+Message-ID: <90726a74-69db-3f8e-819d-3a1a10e98992@suse.de>
+Date: Thu, 29 Jun 2023 15:18:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH v5 1/1] drm/doc: Document DRM device reset expectations
+Subject: Re: [PATCH 06/12] arch: Declare screen_info in <asm/screen_info.h>
 Content-Language: en-US
-From: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-References: <20230627132323.115440-1-andrealmeid@igalia.com>
- <1dbeb507-3f18-1b5d-37be-fcfd60a1c0d4@gmail.com>
- <b3f72b45-c607-7cd3-2bdb-21567f901469@igalia.com>
-In-Reply-To: <b3f72b45-c607-7cd3-2bdb-21567f901469@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Arnd Bergmann <arnd@arndb.de>, Helge Deller <deller@gmx.de>,
+ Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@gmail.com>
+References: <20230629121952.10559-1-tzimmermann@suse.de>
+ <20230629121952.10559-7-tzimmermann@suse.de>
+ <b31f42c1-4283-4793-b448-f7b9326be5d4@app.fastmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <b31f42c1-4283-4793-b448-f7b9326be5d4@app.fastmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------lHNoVt04HU1vaNtq3nK0adnX"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,93 +72,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- Samuel Pitoiset <samuel.pitoiset@gmail.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>, kernel-dev@igalia.com,
- =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>,
- Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Pekka Paalanen <ppaalanen@gmail.com>,
- =?UTF-8?Q?Timur_Krist=c3=b3f?= <timur.kristof@gmail.com>,
- amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: linux-hyperv@vger.kernel.org, linux-efi@vger.kernel.org,
+ linux-ia64@vger.kernel.org, Anshuman Khandual <anshuman.khandual@arm.com>,
+ linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, Max Filippov <jcmvbkbc@gmail.com>,
+ Rich Felker <dalias@libc.org>, guoren <guoren@kernel.org>,
+ Michael Ellerman <mpe@ellerman.id.au>, "H. Peter Anvin" <hpa@zytor.com>,
+ sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
+ Will Deacon <will@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+ Linux-Arch <linux-arch@vger.kernel.org>,
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, linux-hexagon@vger.kernel.org,
+ linux-staging@lists.linux.dev, Russell King <linux@armlinux.org.uk>,
+ "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Ingo Molnar <mingo@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Sami Tolvanen <samitolvanen@google.com>,
+ Juerg Haefliger <juerg.haefliger@canonical.com>,
+ Matt Turner <mattst88@gmail.com>, Huacai Chen <chenhuacai@kernel.org>,
+ Albert Ou <aou@eecs.berkeley.edu>, Kees Cook <keescook@chromium.org>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Chris Zankel <chris@zankel.net>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Nicholas Piggin <npiggin@gmail.com>, Russell King <rmk+kernel@armlinux.org.uk>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, loongarch@lists.linux.dev,
+ Paul Walmsley <paul.walmsley@sifive.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Zi Yan <ziy@nvidia.com>, linux-arm-kernel@lists.infradead.org,
+ Brian Cain <bcain@quicinc.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ linux-kernel@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Mike Rapoport <rppt@kernel.org>,
+ Niklas Schnelle <schnelle@linux.ibm.com>, linux-alpha@vger.kernel.org,
+ Borislav Petkov <bp@alien8.de>, Andrew Morton <akpm@linux-foundation.org>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, linuxppc-dev@lists.ozlabs.org,
+ "David S . Miller" <davem@davemloft.net>, x86@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------lHNoVt04HU1vaNtq3nK0adnX
+Content-Type: multipart/mixed; boundary="------------NaZYgX4ZbucliJsCgNaPg0G7";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Arnd Bergmann <arnd@arndb.de>, Helge Deller <deller@gmx.de>,
+ Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org,
+ "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
+ linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ Linux-Arch <linux-arch@vger.kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ guoren <guoren@kernel.org>, Brian Cain <bcain@quicinc.com>,
+ Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Dinh Nguyen <dinguyen@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ "David S . Miller" <davem@davemloft.net>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
+ Kees Cook <keescook@chromium.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Sami Tolvanen <samitolvanen@google.com>,
+ Juerg Haefliger <juerg.haefliger@canonical.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Anshuman Khandual <anshuman.khandual@arm.com>,
+ Niklas Schnelle <schnelle@linux.ibm.com>,
+ Russell King <rmk+kernel@armlinux.org.uk>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Mike Rapoport <rppt@kernel.org>,
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ Zi Yan <ziy@nvidia.com>
+Message-ID: <90726a74-69db-3f8e-819d-3a1a10e98992@suse.de>
+Subject: Re: [PATCH 06/12] arch: Declare screen_info in <asm/screen_info.h>
+References: <20230629121952.10559-1-tzimmermann@suse.de>
+ <20230629121952.10559-7-tzimmermann@suse.de>
+ <b31f42c1-4283-4793-b448-f7b9326be5d4@app.fastmail.com>
+In-Reply-To: <b31f42c1-4283-4793-b448-f7b9326be5d4@app.fastmail.com>
 
+--------------NaZYgX4ZbucliJsCgNaPg0G7
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Em 27/06/2023 18:17, André Almeida escreveu:
-> Em 27/06/2023 14:47, Christian König escreveu:
->> Am 27.06.23 um 15:23 schrieb André Almeida:
->>> Create a section that specifies how to deal with DRM device resets for
->>> kernel and userspace drivers.
->>>
->>> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
->>> Signed-off-by: André Almeida <andrealmeid@igalia.com>
->>> ---
->>>
->>> v4: 
->>> https://lore.kernel.org/lkml/20230626183347.55118-1-andrealmeid@igalia.com/
->>>
->>> Changes:
->>>   - Grammar fixes (Randy)
->>>
->>>   Documentation/gpu/drm-uapi.rst | 68 ++++++++++++++++++++++++++++++++++
->>>   1 file changed, 68 insertions(+)
->>>
->>> diff --git a/Documentation/gpu/drm-uapi.rst 
->>> b/Documentation/gpu/drm-uapi.rst
->>> index 65fb3036a580..3cbffa25ed93 100644
->>> --- a/Documentation/gpu/drm-uapi.rst
->>> +++ b/Documentation/gpu/drm-uapi.rst
->>> @@ -285,6 +285,74 @@ for GPU1 and GPU2 from different vendors, and a 
->>> third handler for
->>>   mmapped regular files. Threads cause additional pain with signal
->>>   handling as well.
->>> +Device reset
->>> +============
->>> +
->>> +The GPU stack is really complex and is prone to errors, from 
->>> hardware bugs,
->>> +faulty applications and everything in between the many layers. Some 
->>> errors
->>> +require resetting the device in order to make the device usable 
->>> again. This
->>> +sections describes the expectations for DRM and usermode drivers when a
->>> +device resets and how to propagate the reset status.
->>> +
->>> +Kernel Mode Driver
->>> +------------------
->>> +
->>> +The KMD is responsible for checking if the device needs a reset, and 
->>> to perform
->>> +it as needed. Usually a hang is detected when a job gets stuck 
->>> executing. KMD
->>> +should keep track of resets, because userspace can query any time 
->>> about the
->>> +reset stats for an specific context.
->>
->> Maybe drop the part "for a specific context". Essentially the reset 
->> query could use global counters instead and we won't need the context 
->> any more here.
->>
-> 
-> Right, I wrote like this to reflect how it's currently implemented.
-> 
-> If follow correctly what you meant, KMD could always notify the global 
-> count for UMD, and we would move to the UMD the responsibility to manage 
-> the reset counters, right? This would also simplify my 
-> DRM_IOCTL_GET_RESET proposal. I'll apply your suggestion to the next doc 
-> version.
-> 
+SGkNCg0KQW0gMjkuMDYuMjMgdW0gMTU6MDMgc2NocmllYiBBcm5kIEJlcmdtYW5uOg0KPiBP
+biBUaHUsIEp1biAyOSwgMjAyMywgYXQgMTM6NDUsIFRob21hcyBaaW1tZXJtYW5uIHdyb3Rl
+Og0KPiANCj4+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2FzbS1nZW5lcmljL3NjcmVlbl9pbmZv
+LmgNCj4+IGIvaW5jbHVkZS9hc20tZ2VuZXJpYy9zY3JlZW5faW5mby5oDQo+PiBuZXcgZmls
+ZSBtb2RlIDEwMDY0NA0KPj4gaW5kZXggMDAwMDAwMDAwMDAwMC4uNmZkMGU1MGZhYmZjZA0K
+Pj4gLS0tIC9kZXYvbnVsbA0KPj4gKysrIGIvaW5jbHVkZS9hc20tZ2VuZXJpYy9zY3JlZW5f
+aW5mby5oDQo+PiBAQCAtMCwwICsxLDEyIEBADQo+PiArLyogU1BEWC1MaWNlbnNlLUlkZW50
+aWZpZXI6IEdQTC0yLjAgKi8NCj4+ICsNCj4+ICsjaWZuZGVmIF9BU01fR0VORVJJQ19TQ1JF
+RU5fSU5GT19IDQo+PiArI2RlZmluZSBfQVNNX0dFTkVSSUNfU0NSRUVOX0lORk9fSA0KPj4g
+Kw0KPj4gKyNpbmNsdWRlIDx1YXBpL2xpbnV4L3NjcmVlbl9pbmZvLmg+DQo+PiArDQo+PiAr
+I2lmIGRlZmluZWQoQ09ORklHX0FSQ0hfSEFTX1NDUkVFTl9JTkZPKQ0KPj4gK2V4dGVybiBz
+dHJ1Y3Qgc2NyZWVuX2luZm8gc2NyZWVuX2luZm87DQo+PiArI2VuZGlmDQo+PiArDQo+PiAr
+I2VuZGlmIC8qIF9BU01fR0VORVJJQ19TQ1JFRU5fSU5GT19IICovDQo+PiBkaWZmIC0tZ2l0
+IGEvaW5jbHVkZS9saW51eC9zY3JlZW5faW5mby5oIGIvaW5jbHVkZS9saW51eC9zY3JlZW5f
+aW5mby5oDQo+PiBpbmRleCBlYWI3MDgxMzkyZDUwLi5jNzY0YjlhNTFjMjRiIDEwMDY0NA0K
+Pj4gLS0tIGEvaW5jbHVkZS9saW51eC9zY3JlZW5faW5mby5oDQo+PiArKysgYi9pbmNsdWRl
+L2xpbnV4L3NjcmVlbl9pbmZvLmgNCj4+IEBAIC00LDYgKzQsNiBAQA0KPj4NCj4+ICAgI2lu
+Y2x1ZGUgPHVhcGkvbGludXgvc2NyZWVuX2luZm8uaD4NCj4+DQo+PiAtZXh0ZXJuIHN0cnVj
+dCBzY3JlZW5faW5mbyBzY3JlZW5faW5mbzsNCj4+ICsjaW5jbHVkZSA8YXNtL3NjcmVlbl9p
+bmZvLmg+DQo+Pg0KPiANCj4gV2hhdCBpcyB0aGUgcHVycG9zZSBvZiBhZGRpbmcgYSBmaWxl
+IGluIGFzbS1nZW5lcmljPyBJZiBhbGwNCj4gYXJjaGl0ZWN0dXJlcyB1c2UgdGhlIHNhbWUg
+Z2VuZXJpYyBmaWxlLCBJJ2QganVzdCBsZWF2ZSB0aGUNCj4gZGVjbGFyYXRpb24gaW4gaW5j
+bHVkZS9saW51eC8uIEkgd291bGRuJ3QgYm90aGVyIGFkZGluZyB0aGUNCg0KVGhhdCBhcHBl
+YXJzIGEgYml0ICd1bi1jbGVhbicgZm9yIHNvbWV0aGluZyB0aGF0IGlzIGRlZmluZWQgaW4g
+DQphcmNoaXRlY3R1cmU/IEJ1dCBPSywgSSB3b3VsZCBub3Qgb2JqZWN0Lg0KDQo+ICNpZmRl
+ZiBlaXRoZXIsIGJ1dCBJIGNhbiBzZWUgaG93IHRoYXQgaGVscHMgdHVybiBhIGxpbmsNCj4g
+ZXJyb3IgaW50byBhbiBlYXJsaWVyIGNvbXBpbGUgZXJyb3IuDQoNClllcywgdGhhdCdzIGlu
+dGVudGlvbmFsLiBJZiB0aGVyZSdzIGEgS2NvbmZpZyB0b2tlbiBhbnl3YXksIHdlIGNhbiBh
+bHNvIA0KZmFpbCBlYXJseSBkdXJpbmcgdGhlIGJ1aWxkLg0KDQpCZXN0IHJlZ2FyZHMNClRo
+b21hcw0KDQo+IA0KPiAgICAgICAgQXJuZA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpH
+cmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJt
+YW55IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55
+DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGll
+biBNb2VybWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
 
-Actually, if we drop the context identifier we would lose the ability to 
-track which is the guilty context. Vulkan API doesn't seem to care about 
-this, but OpenGL does.
+--------------NaZYgX4ZbucliJsCgNaPg0G7--
 
->> Apart from that this sounds good to me, feel free to add my rb.
->>
->> Regards,
->> Christian.
->>
->>
+--------------lHNoVt04HU1vaNtq3nK0adnX
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSdhI8FAwAAAAAACgkQlh/E3EQov+C6
+/A/9E2UeLuAYO4oVzr7MYxtHJqgMeXKL3iCmAlD5a1SYNi1ixD68cwakP+lI9m4szzDGyNU/sRYL
+Ce3i8WGXgRm991Ydm+ztZ8FO/ph9XOVhq7RFKwEYNy70l+7R56mDOd1ciNpH3MLjEfhoBJ5Xj0cD
+rPf/74n/ptJpdYGsFRJSqo+xj78uWljJdj9YQ6bpUNhOIFAJn+a91kvcreTWoVwBfaXlWevy3dHR
+lAFUpk+Ji1uldEboHSHzFB3V6FQ7odxZ/oW0ykURjjf2TyqrA4MwLtjZQYJqSr6i0cN1Qfn/IR1o
+CHZFJKzcQXgF+jqdXdEmgS3pDi+jmR7paLHGwX0pdlcczcjPuAJ9b0MqjQ5De1mJ1qNTKZCMUHrm
+n6BW6VGyUn4n7x/hieov6MXbqJkEXu9dAJgzNR9SQ/5Dszfwn8IJOGS3plNsPJSBYA1ZRAGmv5mv
+VtscxfEkzLP1f5IM+ukfQ4lfSC+P9B3jbsa6DqQfcr1IBMQiJkbK6XKI9TQwLqxfWlgkdUfjgp4d
+lDwmJfyb7JLxdMktscgr1rlA1KE/jlHX9wxTazYoUnY5uBtdeYco9NNe2fhvRv+c4mfJknGVZ/dR
+F72VPBGenSKLgGoPamSowIKZJ/CpjEecYs7IcjmIoSLJ01STOBrZDRjz8iMNHR7pdZRLjuUSHY+B
+wjM=
+=ZHT8
+-----END PGP SIGNATURE-----
+
+--------------lHNoVt04HU1vaNtq3nK0adnX--
