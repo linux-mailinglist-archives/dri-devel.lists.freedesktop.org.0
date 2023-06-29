@@ -2,82 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6C0074247F
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 12:56:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56D76742508
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 13:38:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32E7910E137;
-	Thu, 29 Jun 2023 10:56:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F86E10E156;
+	Thu, 29 Jun 2023 11:38:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AAC810E137
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 10:56:54 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id
- 2adb3069b0e04-4f8735ac3e3so789490e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 03:56:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688036213; x=1690628213;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=XudBHNh6EIvicDJvP3l5PakLMCO2XVjkw1Un1jKRhd0=;
- b=uu7ZjOBoQU8Zuc6xF9IASCisl5i3RJN+o5oEwL0m8WNpxK4h7tBhSvxhOCqQRrjq87
- Hkg7yfdzH0v8pIDmxRQAGR0u2DHKqAjQaV2OCkDaYZObNHJXM4/nLOXobEn13seseI6X
- T/XY7LDx1LM++ixk5soYZgowssC0pWDGzuVTcdV5WnF/uIYj0WWxjOZn2qju8TU2Emgw
- 10SG3XblmYyhBTrBCl95QTy0tnbNfHFsKBYPqn6sxYmBUku97ztxomjEPhya+HRs9NYt
- gEodLw7pzi0dZm1rldmPfx3Obbtqx7P3KOpXnk3n28Rucp/+1cm01JhaxQmMww0TL7bL
- sAgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688036213; x=1690628213;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XudBHNh6EIvicDJvP3l5PakLMCO2XVjkw1Un1jKRhd0=;
- b=JnfZl5FVEbxVvTS9rxEY7oxLDwxUYjYdokQEpQ0e9Vcezfi1vOxSgcyGf22aELsg3P
- /GWRv8RgVmJDYuvZ3nSilhhkoYizsj/U0QMdI6/vvICtghRAzTvtzzI7uKqgKfgNGE6w
- M5CvI2Mef2mrkrroPVy1jhvRjDTXcbxjR4vte4r2GqNmQNqRrP59TFyITSpH+9fayO9H
- 7sKbcPxYScUvd4dX+l4dZEeZnyjahnE/JNReGY70pyeDrtD4+RbI3DUIDo4JWw7niQ5e
- S4/6wvF8GbD3a1bKCYDXQM91tQ/UX4LZC4rcwE6Sxn9vWpffeRlaRGPr5QusRFMjJTwM
- 4wxg==
-X-Gm-Message-State: AC+VfDyjdfIaQ/eyBgwouNBXw5QL3dfJz4M9LFb97KTsw2Sa7zSTByPs
- brVpNYExV6ALALGs7U1j/rwOvg==
-X-Google-Smtp-Source: ACHHUZ67QQf0NeeCiPkk8c2GdI8jXCRn30dGTaBROv29CmYfqAcSa310+UuNTx97NP8aEBPeMY55Vg==
-X-Received: by 2002:a19:4f04:0:b0:4f8:56c8:e6b4 with SMTP id
- d4-20020a194f04000000b004f856c8e6b4mr22003723lfb.47.1688036212712; 
- Thu, 29 Jun 2023 03:56:52 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- u27-20020ac248bb000000b004f861e64f24sm2276659lfg.113.2023.06.29.03.56.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Jun 2023 03:56:52 -0700 (PDT)
-Message-ID: <9ea758a7-236a-6367-1832-fb65cb2ec75b@linaro.org>
-Date: Thu, 29 Jun 2023 13:56:51 +0300
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B31C210E156;
+ Thu, 29 Jun 2023 11:38:19 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id D2EE71F8C2;
+ Thu, 29 Jun 2023 11:38:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1688038695; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1gbWZyTdA6MKn6rkpQxBAfq32MNcc6SRve+UKkcnXTs=;
+ b=KwXakjw6HrM/PJAEOH4GZ6fykn2qXtJVoY1dP/bnohTaYOVz8JVMzpqBR+9Dfi2Q0hZ+rx
+ xFjPRjRxjx1YAbTlzj7Q3yp8MVpGDKG136mVmTBSoVlgXNBf3A5gdWq13za/e9IxYSkD4M
+ d71hKebsuJEhr7smGo5r0sV04mUXPUU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1688038695;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1gbWZyTdA6MKn6rkpQxBAfq32MNcc6SRve+UKkcnXTs=;
+ b=LEJENkEJ/Twp4JPTM9trKtLKgKb3HYS2Z1r0wfoL/BMZml9fGSGjkVwzFuEK6HwTkl6Yec
+ EzHaopqJa/FdvVCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 93CE813905;
+ Thu, 29 Jun 2023 11:38:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id KzIaIydtnWTOPwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 29 Jun 2023 11:38:15 +0000
+Date: Thu, 29 Jun 2023 13:38:14 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-next-fixes
+Message-ID: <20230629113814.GA10448@linux-uq9g>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 14/15] arm64: dts: qcom: sm6125: Add display hardware
- nodes
-Content-Language: en-GB
-To: Marijn Suijten <marijn.suijten@somainline.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Loic Poulain <loic.poulain@linaro.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>
-References: <20230627-sm6125-dpu-v2-0-03e430a2078c@somainline.org>
- <20230627-sm6125-dpu-v2-14-03e430a2078c@somainline.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230627-sm6125-dpu-v2-14-03e430a2078c@somainline.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,39 +64,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jami Kettunen <jami.kettunen@somainline.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Lux Aliaga <they@mint.lgbt>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht, freedreno@lists.freedesktop.org,
- linux-clk@vger.kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/06/2023 23:14, Marijn Suijten wrote:
-> Add the DT nodes that describe the MDSS hardware on SM6125, containing
-> one MDP (display controller) together with a single DSI and DSI PHY.  No
-> DisplayPort support is added for now.
-> 
-> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> ---
->   arch/arm64/boot/dts/qcom/sm6125.dtsi | 191 ++++++++++++++++++++++++++++++++++-
->   1 file changed, 189 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sm6125.dtsi b/arch/arm64/boot/dts/qcom/sm6125.dtsi
-> index a5cc0d43d2d9..b21fa1256f95 100644
-> --- a/arch/arm64/boot/dts/qcom/sm6125.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sm6125.dtsi
-> @@ -1204,12 +1204,199 @@ sram@4690000 {
->   			reg = <0x04690000 0x10000>;
->   		};
->   
+Hi Dave and Daniel,
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+only one trivial bugfix this week.
+
+Best regards
+Thomas
+
+drm-misc-next-fixes-2023-06-29:
+Short summary of fixes pull:
+
+ * fbdev: Fix module infos on sparc
+The following changes since commit cf683e8870bd4be0fd6b98639286700a35088660:
+
+  fbdev: Use /* */ comment in initializer macro (2023-06-15 10:45:17 +0200)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2023-06-29
+
+for you to fetch changes up to 861c249cd782cb9f2d5a881bbb32e8da7f0c1192:
+
+  arch/sparc: Add module license and description for fbdev helpers (2023-06-29 13:30:02 +0200)
+
+----------------------------------------------------------------
+Short summary of fixes pull:
+
+ * fbdev: Fix module infos on sparc
+
+----------------------------------------------------------------
+Thomas Zimmermann (1):
+      arch/sparc: Add module license and description for fbdev helpers
+
+ arch/sparc/video/fbdev.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 -- 
-With best wishes
-Dmitry
-
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 Nürnberg, Germany
+(HRB 36809, AG Nürnberg)
+Geschäftsführer: Felix Imendörffer
