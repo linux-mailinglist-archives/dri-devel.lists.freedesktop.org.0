@@ -1,66 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D634D7421BA
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 10:04:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CDEC7421DA
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 10:16:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6174D10E3BB;
-	Thu, 29 Jun 2023 08:03:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E84610E3C0;
+	Thu, 29 Jun 2023 08:16:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23BED10E3BB
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 08:03:55 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-4fb96e2b573so591458e87.3
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 01:03:54 -0700 (PDT)
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3B4F10E3BE
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 08:16:51 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id
+ 2adb3069b0e04-4fb7589b187so618822e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 01:16:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1688025833; x=1690617833;
+ d=gmail.com; s=20221208; t=1688026610; x=1690618610;
  h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=eq53CIFTLhRmjx5KrPYU9iiyTMEaDQf8XoKrYr20ffo=;
- b=LxBzdE/0zH7h1xiESO9PHtTGjj+4DrBFI4rdO/pHKHlzVtbeaooXfvvlsKsUt2MRbX
- CnOQ4lX13TAZR80flwctWuM2uhHxHJaNhIu1kghFWVVuE1EHFy9hiMP0Zigd7ZEE5XMB
- 0ULdX4SwrhsiO+AE7v8KMTNV/KTg3VqUHY1OUth2MZ5B7FdGD/9uFLrxU09USsSe2OuJ
- mjy4TyFISrzC3ZGqEMc1i5DiXV5j5ldpLsVHK+xGuWsfGiShWGzyhb0tViZm0nQj5z/q
- jAKkDqpAV6T32BoM+L767KjEAzjnjZkNF6FssPjcmmTARO14SJPdJOIa/JVBMUA0tLRE
- YO3Q==
+ bh=EmOHoq0NjlGwfSf0KRWjr3mKnrAiaa4B35qKB9ys4Ao=;
+ b=iOA6TSTdN/LICuUXuCAWhoO/ZgVKZEG1PXamJT/tZtOU60NVpz1WHrr/S8VeJxQEkN
+ Z6k2+J0nzvGePUuFk3OTvr2AbY2UfpqjnV32pawRvRLGZRrXJDrff8hLCebp1FnAiVxK
+ SZgutILSOmEB332XTvsdL0ddNeL9SkJST7oStWFV36TVOWzK5WaOljsMehZy+PbIOu35
+ tj163VMqFqrxP3w5Q4QFiEjjV8SYqW7sMEp7ymAEMmRIa/IY304r7l0NDI1UiUbKU2Ww
+ 65i5bOUk9uhwsVkhIq0+GUiKafL/lgVr9C4qGHuS1XkDgannOvwdNBI7kuxZi0ClQ+dM
+ LwRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688025833; x=1690617833;
+ d=1e100.net; s=20221208; t=1688026610; x=1690618610;
  h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=eq53CIFTLhRmjx5KrPYU9iiyTMEaDQf8XoKrYr20ffo=;
- b=eBE1p/PApR8ckbHrIOx7THcpk09f14bUieoyVaSDyRftTJptr9+slQ4M0xmgJxVlFN
- Lc02G4Haxwsn9mgX6QsyjZxmnLT8GaDOnnpPFgc4IOTYijo6D96v2R4shYVHOpm/wBXN
- 7n1GWHiVi9RupxT6tFJ1M/odgWM6B7VddHj2JI/ZhUnHt7xgrr7sNR9ivzLB1FmBTrJ3
- rJXptjffIIlkHXui1UwY+gl2seAcpeIZY1JxlAVWLE4gGdtFyguKd+uKfSrRssnuBKi2
- oEPZQrgDJRHP6sO8dVUKxDBwS2QV/BOurM1H8T7GjscFxCe8aV/xEDOzQ9guOaiXsUf6
- qqdQ==
-X-Gm-Message-State: AC+VfDyivPA2TisfRjulR62nlYizNF7xQ147R0JU0W3220c7WCm8iyMZ
- wZpmAEKDop5w3Fl/b+AAJNc=
-X-Google-Smtp-Source: ACHHUZ7prPCQoAnvahKRXOi1/W0vZoBh9+igC/IWqIGETEpOAHY3/6laB23vbjaozqudPgVR82EWzA==
-X-Received: by 2002:a05:6512:3ba5:b0:4fb:8fde:f60d with SMTP id
- g37-20020a0565123ba500b004fb8fdef60dmr3878403lfv.22.1688025832471; 
- Thu, 29 Jun 2023 01:03:52 -0700 (PDT)
+ bh=EmOHoq0NjlGwfSf0KRWjr3mKnrAiaa4B35qKB9ys4Ao=;
+ b=OgjwS+mHH4m//Rtj0jetO3wkCQmiKUm+ejs1vzF0OGNZ/9g6wW5WC4qOGqseTo3Mt4
+ 2sp0sSKGVIB5zRwvtUTQe4lsG7BiHP8sHQwjADIKRgMkS7byPl0I4txc7vB4ssnd1hhL
+ /TWfpZTyxUf2EWbW6FeEjJ0XU7HkL96sB0iSzQOcunbo/Xq2g/UNQGbrwYoZMTtZN88W
+ LTBpNy4LCtIH0xKQ3uZOBpjVeod0k0Z701LmbYW+FU9FWBuAJmarvThlJsh/DURzNc0q
+ SGZ4PKve0HfU5vtC85Ck9db/emE5aL4Q76NkV4g9gQP8UyyelD++FLPjgUvoVVQUjxBp
+ jfaA==
+X-Gm-Message-State: AC+VfDxJz+CiHSfSH/p+ZF+rgZU6RGZKObKL24gOtKWzOi8SASsy0GKu
+ MlNEUloDugOn6FHOCqS7y70=
+X-Google-Smtp-Source: ACHHUZ6tWASMU5EElpUt5ZlYlbn1bz4zUto1S1Jx7VWBomKQZCNbqAbsZy7kkSl0UdfhAx+tqC/VkA==
+X-Received: by 2002:a19:9106:0:b0:4f9:54f0:b6db with SMTP id
+ t6-20020a199106000000b004f954f0b6dbmr16029162lfd.13.1688026609219; 
+ Thu, 29 Jun 2023 01:16:49 -0700 (PDT)
 Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- p24-20020ac246d8000000b004fb7848bacbsm1372426lfo.46.2023.06.29.01.03.51
+ y23-20020ac24477000000b004fb745fd21esm1675443lfl.122.2023.06.29.01.16.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jun 2023 01:03:52 -0700 (PDT)
-Date: Thu, 29 Jun 2023 11:03:48 +0300
+ Thu, 29 Jun 2023 01:16:48 -0700 (PDT)
+Date: Thu, 29 Jun 2023 11:16:45 +0300
 From: Pekka Paalanen <ppaalanen@gmail.com>
 To: Zack Rusin <zackr@vmware.com>
 Subject: Re: [PATCH v4 2/8] drm/atomic: Add support for mouse hotspots
-Message-ID: <20230629110348.3530f427@eldfell>
-In-Reply-To: <2fb2f3985df4d6710e5ad33f6e618a52004714df.camel@vmware.com>
+Message-ID: <20230629111645.01611176@eldfell>
+In-Reply-To: <9e7a97481d17439f81cf1126e497bf720638c5f0.camel@vmware.com>
 References: <20230628052133.553154-1-zack@kde.org>
  <20230628052133.553154-3-zack@kde.org>
- <20230628104106.30360b55@eldfell> <20230628105424.11eb45ec@eldfell>
- <2fb2f3985df4d6710e5ad33f6e618a52004714df.camel@vmware.com>
+ <ELiKi1uMIZlwdApTnf2UXxjOpykcSbJ8YC8EXm-kzkHNMKHzA6iYzXTvbyyAfhqf9LGkjQSt1QErJ1m6WwglWXg9Hmh3QsG6mV84jbYTLFQ=@emersion.fr>
+ <9e7a97481d17439f81cf1126e497bf720638c5f0.camel@vmware.com>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Z6VhLfhCdcXjb7A_CE/n9A0";
+Content-Type: multipart/signed; boundary="Sig_/Ft.c2Df725j+Jci3gf90iAW";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,202 +80,82 @@ Cc: "mripard@kernel.org" <mripard@kernel.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  Martin Krastev <krastevm@vmware.com>, Michael Banack <banackm@vmware.com>,
  "tzimmermann@suse.de" <tzimmermann@suse.de>, Ian Forbes <iforbes@vmware.com>,
- Maaz Mombasawala <mombasawalam@vmware.com>, "zack@kde.org" <zack@kde.org>
+ Maaz Mombasawala <mombasawalam@vmware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/Z6VhLfhCdcXjb7A_CE/n9A0
-Content-Type: text/plain; charset=UTF-8
+--Sig_/Ft.c2Df725j+Jci3gf90iAW
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 28 Jun 2023 19:54:49 +0000
+On Wed, 28 Jun 2023 16:26:37 +0000
 Zack Rusin <zackr@vmware.com> wrote:
 
-> On Wed, 2023-06-28 at 10:54 +0300, Pekka Paalanen wrote:
-> > On Wed, 28 Jun 2023 10:41:06 +0300
-> > Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> >  =20
-> > > On Wed, 28 Jun 2023 01:21:27 -0400
-> > > Zack Rusin <zack@kde.org> wrote:
-> > >  =20
-> > > > From: Zack Rusin <zackr@vmware.com>
-> > > >=20
-> > > > Atomic modesetting code lacked support for specifying mouse cursor
-> > > > hotspots. The legacy kms DRM_IOCTL_MODE_CURSOR2 had support for set=
-ting
-> > > > the hotspot but the functionality was not implemented in the new at=
-omic
-> > > > paths.
-> > > >=20
-> > > > Due to the lack of hotspots in the atomic paths userspace composito=
-rs
-> > > > completely disable atomic modesetting for drivers that require it (=
-i.e.
-> > > > all paravirtualized drivers).
-> > > >=20
-> > > > This change adds hotspot properties to the atomic codepaths through=
-tout
-> > > > the DRM core and will allow enabling atomic modesetting for virtual=
-ized
-> > > > drivers in the userspace.
-> > > >=20
-> > > > Signed-off-by: Zack Rusin <zackr@vmware.com>
-> > > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > > > Cc: Maxime Ripard <mripard@kernel.org>
-> > > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > > > Cc: David Airlie <airlied@linux.ie>
-> > > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>=C2=A0  =
-=20
-> > >=20
-> > > Hi Zack,
-> > >=20
-> > > I still do not see any UAPI docs for the new properties in this patch=
-? =20
-> >=20
-> > If you are wondering what there could be to write about, maybe this can
-> > give a good mindset:
-> >=20
-> > Let's assume that I am a Wayland compositor developer who has never used
-> > "hotspots" with KMS UAPI before. As I have never tested anything in a
-> > VM, I have no idea why the kernel would ever want to know about cursor
-> > hotspots. Display hardware never does anything with that, it just puts
-> > the cursor plane where I tell it to and composes a single image to be
-> > sent to the sink. The virtual driver VKMS does the same. To me, a
-> > cursor plane is just another universal plane that may have weird
-> > stacking order, pixel format, and size limitations.
-> >=20
-> > Ideally the doc for HOTSPOT_X and HOTSPOT_Y documents not only their
-> > possible existence and allowed/expected values, but also the reasons
-> > to have them and what they are used for, and that if the properties
-> > are exposed they are mandatory to program in order to use the plane. =20
+> On Wed, 2023-06-28 at 14:15 +0000, Simon Ser wrote:
+> > I think we should drop the CRTC_X/CRTC_Y properties for hotspot-aware c=
+ursor
+> > planes.
+> > The drivers aren't going to do anything with these, and exposing them t=
+o user-
+> > space
+> > makes it sound like user-space controls the position of the plane, but =
+it really
+> > doesn't. =20
 >=20
-> Instead of resending the entire series maybe I can draft a possible doc b=
-elow and
-> see if we like it (once we're ok with I'll send out v5 which hopefully wi=
-ll be
-> good). How about:
+> I think we talked about this before. The CRTC_X/CRTC_Y properties are abs=
+olutely
+> being used and they're respected when the rendering is done guest-side - =
+the system
+> will be pretty broken if the client sets the crtc x/y properties to somew=
+here where
+> the mouse isn't though.
 
-Hi Zack,
+Right, but it would be useful to hear more about the "why".
 
-cool!
+> An argument could be made that crtc x/y properties should be removed on t=
+he cursor
+> plane in drivers for para-virtualized hardware and instead replaced with
+> mouse_position x/y properties that do exactly what crtc x/y properties do=
+ but make
+> it explicit what they really are on a cursor plane.
 
->=20
-> /**
->  * @hotspot_x_property: property to set mouse hotspot x offset.
+I suppose this is needed to support the guest OS warping the cursor position
+while the viewer has a relative-motion pointer locked to it?
 
-Hmm, this does not look like the style of
-https://www.kernel.org/doc/html/latest/gpu/drm-kms.html#plane-composition-p=
-roperties
+When the pointer is not locked to the VM viewer window, the pointer
+sends absolute motion events? Which is necessary for the roundtrip
+elision that the hotspot is needed for in the first place.
 
-I suspect it's a .rst file somewhere.
-
-It is important to use the userspace visible concepts and names, like
-the property name being "HOTSPOT_X", not hotspot_x_property. After all,
-"HOTSPOT_X" is the string that userspace must use to find this
-property. That's the UAPI.
-
->  *
->  * Hotspot is the point within the cursor image that's activating
->  * the click e.g. imagine an arrow cursor pointing to bottom right -
->  * the origin coordinate for that image would be top left
->  * but the point which would be propagating the click would be
->  * the bottom right cursor position (crtc_x, crtc_y) + hotspot
->  * coordinates which for bottom right facing arrow would probably
->  * be (cursor_width, cursor_height).
-
-Is it really required that the hotspot coordinates fall inside the
-cursor plane? Will the atomic commit be rejected otherwise?
-
-Are they given with respect to the cursor plane top-left corner,
-positive directions being right/down? Is the unit in CRTC pixels or FB
-pixels? The example does give an indirect answer, but my personal taste
-would like it to be more explicit.
-
->  *
->  * This information is only relevant for drivers working on top
->  * of para-virtualized hardware. The reason for that is that
->  * the hotspot is fairly encapsulated in the system but imagine having
->  * multiple windows with virtual machines running on servers
->  * across the globe, as you move the mouse across the screen
->  * and the cursor moves over those multiple windows you wouldn't
->  * want to be sending those mouse events to those machines, so virtual
->  * machine monitors implement an optimization where unless the mouse
->  * is locked to the VM window (e.g. via a click) instead of propagating
->  * those mouse events to those VM's they change the image of the native
->  * cursor to what's inside the mouse cursor plane and do not interact
->  * with the VM window until mouse is clicked in it.
-
-Surely the mouse events are sent to those machines across the globe
-regardless?
-
-The point I believe you want to make is that in addition that, a
-virtual machine viewer application independently moves the cursor image
-on the viewer window to avoid the roundtrip latency across the globe
-between mouse movement and cursor movement.
-
-Why is the locking you mention relevant? Wouldn't you do this
-optimization always if there is any cursor plane image set?
-
-Or if you literally do mean that no input is sent to the VM at all
-until the pointer is locked to that window, then why bother using the
-guest cursor image without locking?
-
-I suppose different viewers could do different things, so maybe it's
-not necessary to go into those details. Just the idea of the viewer
-independently moving the cursor image to reduce hand-eye latency is
-important, right?
-
->  *
->  * In order for that click to correctly and seamlessly propagate
->  * between the native and virtual machine, not only the cursor image
->  * but also the hotspot information has to match between them.
->  *
->  * Make sure to set this property on the cursor plane if you'd like
->  * your application to behave correctly when running on
->  * para-virtualized drivers (qxl, vbox, virtio or vmwgfx).
->  * /
-
-I think you could be more strict here. If these properties exist, then
-userspace must set them appropriately and use the cursor plane only for
-an actual input controlled cursor image. I might even leave the driver
-list out here, because they are mentioned at
-DRM_CLIENT_CAP_CURSOR_PLANE_HOTSPOT doc, and userspace should not base
-anything on "if driver is X or Y".
-
-This doc should also link to DRM_CLIENT_CAP_CURSOR_PLANE_HOTSPOT.
-
-The question of which input device corresponds to which cursor plane
-might be good to answer too. I presume the VM runner is configured to
-expose exactly one of each, so there can be only one association?
-
-Btw. for my own curiosity, what happens if there are two simultaneous
-viewer instances open to the same VM/guest instance? Will they fight
-over controlling the same pointer?
+Btw. this is somewhat conflicting with what you wrote as the first UAPI
+doc draft. I don't see how the viewer/host could independently position
+the cursor image if the related pointer device is not also delivering
+absolute motion events in the guest. Delivering relative motion events
+would cause the guest and host opinion of pointer position to drift
+apart primarily due to different acceleration curves.
 
 
 Thanks,
 pq
 
---Sig_/Z6VhLfhCdcXjb7A_CE/n9A0
+--Sig_/Ft.c2Df725j+Jci3gf90iAW
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmSdOuQACgkQI1/ltBGq
-qqesdA//TyHYL8QzYlH9/ZupaONLeG89EtwA1ensRqSKDhqSooRucbce7L2rpjtN
-OLm7KjMQs/XP3sx+gmuUITNRCmMdb3x1L2+ZPHlvl64bJdojTlBtHQtVNge5vi/w
-lGTIEfMWrhjOY9JL6m329KHobgG7t8tGzd3PRaideOKfTXpLmH+76Emb9Sxvw+wY
-uWmRoSa7G97UTxic1vH/y2+i+1/EVejYYjHpLEGB0SeoO75DKoWPl5LIvJs4dZoW
-D5EbhQ2u6d5pzC/02xdkovjfJ6Z+gIJY3ZuXA6uJ8UcBemhAiJwuh12v9+e0nk+v
-OOfAZQLvANW/wGPz1Bw/MgzqFIPyIHAWWkXoCAimwdxEarBk70nH1gLpZueFLuR2
-owfYCeXwxHwan6rGs01qQcU6iiEAKAL1g+l3uMVJol7wdB8LqNsMizfMTYDcIYey
-HlrEkKyq92e+HwW6bpcO/UB6/0KJ8WxeMXpgLR5yvLHB/gFWrs/cip5to7Y5SMN2
-BhoVEOKxWmZzT6vB66KNqidYAvyFaSloSGZY5Yd5322T0B92p+ZVGByz+YPFG/eX
-HyaR3J9FhBSOeVHfcwPU+29VebLYrwLpOSmvy6vhSjhIBt5jg1fxa44es2S7ogRX
-M573tYD0dZYkP7MpkAfMKVAD55UlII5NzivGDXzx4psFjW9p1GU=
-=ll1L
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmSdPe0ACgkQI1/ltBGq
+qqePkBAAq39LgzJKZPtnhalugldeF+C71v5JbzG8tAEZyonfPNDzoKd0FD2MjP37
+VztzRCxg80+FYDYd19ublli7RaT4Uv+IS10cXsYOcKs32aYHG7vSEcAYMj7J2oo4
+KryE/P9BZWksGvMEj3nRHLdzjCRBn5uiQhTJLSLZwSnfuzZSU4ursKS5AtwRptuo
+Z63Vo/jk4+qkdl2DEWiaNx2c4my5no55gMdNB2opyelOhv9G0uiBz3+PekHiakzF
+a94oGFhGF1mqi6BRav1AveAlIOaZBuOkE3pNau7eAljUIODp+P2CPb0j0Frkt3CU
+/7erbKYHBoybGZaYLMfqD4bBD1li7oIx4k/qfujqTNRCLjmhsIVMrtCYgrrx0Q0o
++zTC+dHn7hEVuN7mG+dPiKkw7tk7xaSW7g/3E4mK6BoOvL1pZSjLV0IFGdFh2600
+Rvq6opC/8uOXjZchKMMeHNNAXBAWm6UcXkAWqaWSgFYniKjlqnFi0wigULR4psc8
+QuF00JvBwRqOzhfl8d7F2Lk7aWAx3xvCrcZP3qhtzTvt0d+eek5CW13QVmwZJ1Tp
+qlkJMNO8F4mJ68XBURFzCk3Mo8jRJSpid6d3PcZtKY0YW7IXv7WxMCBmRuUhm1uS
+dwFrwD2j9j2KRacjvtf1uAb2VVgnfPVTok4iEJzaL/Xax4iYGuc=
+=uVJO
 -----END PGP SIGNATURE-----
 
---Sig_/Z6VhLfhCdcXjb7A_CE/n9A0--
+--Sig_/Ft.c2Df725j+Jci3gf90iAW--
