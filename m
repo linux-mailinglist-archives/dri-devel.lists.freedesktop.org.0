@@ -2,121 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D388742841
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 16:26:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FDFF74284F
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 16:29:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57B8110E139;
-	Thu, 29 Jun 2023 14:26:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F7F410E3D9;
+	Thu, 29 Jun 2023 14:29:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2075.outbound.protection.outlook.com [40.107.92.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C962A10E139
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 14:26:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mF2cVWsnqiuGQc/nRaB10USJBNRa5W1ZhpBezkV19+1YWrRuytviBz8+NHQO7IKAR+RgATBoUi26R28QyjAvmWpoNZsGXnOm1HRPfqSc3MEoCA3WsH8zK83bjcGCQTx9G1qoinuLHP6lc5DQ3T7wByHR4/AZnuVSd+U9zPWlimux0ueESL/EujLWvo6tk5Nezmy913FTUreTDz3YlzjddTtnp92Bz21dpEiqnArEM0oMW0LmTiY72ZyrW3M3SEs1yRYtuhK3wjmFHKsvCIWYkFHgMha1VWc7ClDZeKGTMIZ1ZAZoM0qC/WjNXBfm+jWEldslNIsvZOMZz3Mk4Khwyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JRs9Z9PiuBDIP0fqClpv1HphXxk1gTZcClefDvi0EYs=;
- b=nZpwxDwIQC0ht08TBbkCm6P2e2LVK8MCNrFjsOpEsXPVWRcbMaEVeiwsezHpjnixKNcx9y6WYN2GP3XrjrsoNN7aR++/r0gt3+rKpH9IRMrJryyzmwfSg6WCyC10LkL+WC2XAisP/X3/5kq5nus3tJoOfKvOetkoZ9QhbnZwABUXlLR1VhkW5B3JduEtO05RO4eK32sqCBd4fVJj9n/7fr2Xnqw7h+Znl8Ng0TOq8yDscHzjx8kWfb0hTlAejJXAeKxHTKANe1ELF1qRuDa1/v/V/vSIoM5uKbp5gg44ulKUoSTLs3tg4WzOrBHvr8fa4jH4xW1tduOw2j3AmoaNZw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JRs9Z9PiuBDIP0fqClpv1HphXxk1gTZcClefDvi0EYs=;
- b=kPxNTWy5a8UFfhqNNfE2D6KxpmjQ9uMJii50MS++d+6ywxG+mTWOglC7n0O7CODoMrwTmJf4SR7i47ZSIArHt//PnSkD+IK+5uWRVh94EGJRG0+joOTiwylldVUXfpqiqCWogsckTuZ3qIVNe4wtgDzZTLJeLuB61KSwvAiS+bo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB5149.namprd12.prod.outlook.com (2603:10b6:5:390::14)
- by CY5PR12MB6204.namprd12.prod.outlook.com (2603:10b6:930:23::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.23; Thu, 29 Jun
- 2023 14:26:10 +0000
-Received: from DM4PR12MB5149.namprd12.prod.outlook.com
- ([fe80::4469:e2f0:3628:49f6]) by DM4PR12MB5149.namprd12.prod.outlook.com
- ([fe80::4469:e2f0:3628:49f6%5]) with mapi id 15.20.6521.023; Thu, 29 Jun 2023
- 14:26:09 +0000
-Message-ID: <342cffe6-e063-9cca-7d7d-675d3fbe841e@amd.com>
-Date: Thu, 29 Jun 2023 10:26:06 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: Why does kgd2kfd_interrupt() have to schedule work on a specific
- CPU?
-Content-Language: en-US
-To: Alex Deucher <alexdeucher@gmail.com>,
- Philipp Stanner <pstanner@redhat.com>,
- "Kuehling, Felix" <Felix.Kuehling@amd.com>,
- "Yang, Philip" <Philip.Yang@amd.com>
-References: <b551fb687a07e1461ca325c6951e96f4f962941a.camel@redhat.com>
- <CADnq5_N-0DV7PpOwjMAp2ZdOEBYiJRWw4duo-g07AL7Mo5kS7Q@mail.gmail.com>
-From: Philip Yang <yangp@amd.com>
-In-Reply-To: <CADnq5_N-0DV7PpOwjMAp2ZdOEBYiJRWw4duo-g07AL7Mo5kS7Q@mail.gmail.com>
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQXPR0101CA0072.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c00:14::49) To DM4PR12MB5149.namprd12.prod.outlook.com
- (2603:10b6:5:390::14)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5149:EE_|CY5PR12MB6204:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9062dad7-d846-4990-4c35-08db78acc87d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HaFVXMXAkwChyUFQ3RWkzmSG30GitnQcKzqbdZw9m7PPP94Pvi73BrOL83uBw96EH19joy6m0vutTlPVWK49UVGnrxpRCJGxcnP4kmTQHoKpZ6/4nUw6qC7poCLUIZM0+aU89FRftjoqDuah8kQrmHUf/1JAIbOHStG2vJEvPtI7+olgUYX0HeaJF20+CQr38JApPpldwTb8j5VN9Aw9iy9PvWFVFJuaHchEy1ilLwlsVAWrdcdwYc//gzfRG+DecKpIKoRN+Pqc+HoJo/SJOwMc5edwSebFP0504vJ3x7tN2Vk5J1pNRUudbX2CX+jcnpGsuk68uli3zza/GWymLX1kysJSb0h1R7qn5ungC8Srhm9O/tyZWGIOlUvdrRHgDAyYn87cOCl+e7yIoVpH7F0/uJfm02CsVbBY63sVwWxWpZHq5SmQCdSL09fT1O2l5vh8XicY9mQBqSyaOmcf0h/odZwB+ZkxdDkY+4rhkus41Fn7c41t4zaZy/UNHhcNoYi1p5BFPFzmJWHL3M8nCLsH8dDo3hYplNA7zsmh3KXBlAZpA2Vj056/TznG2CxDjElvKvbbHkGq2knEmefrd5FoN+vTywr8/uc/LWsUfK62811d3/U5jd6163L+nbkPUjwgjafKpg058OhLztV7Bg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB5149.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(396003)(346002)(136003)(366004)(39860400002)(376002)(451199021)(26005)(4326008)(66476007)(66556008)(8936002)(6506007)(36756003)(110136005)(2616005)(478600001)(186003)(2906002)(6666004)(53546011)(6486002)(83380400001)(66946007)(5660300002)(38100700002)(31696002)(8676002)(6636002)(316002)(41300700001)(31686004)(6512007)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z0txKzkyUjhYeVUwcjIyVXlDcHF1RkVsNWd5M25yVjdTSkJvdzI5Nk85K0hn?=
- =?utf-8?B?bnduUFBzL1Y1MkU3dHJmM1hyZFU0SXhhSVZYTGNJaWVQUWwzeVJHSXR2SjJq?=
- =?utf-8?B?NFRSTUFwMkVnNHk3U0xvZTVUaVhCREk2c2lGb0ZJQUsyUklJeElhb0UxbzRx?=
- =?utf-8?B?Nm5lMVVCaXlKT3BBM0JrUnkzczJHdUw1eVAwb2x2aGhjbEkzTi9OelhPY1pa?=
- =?utf-8?B?eUNUb01TSkJOOG1lY3hGbWcvM0hMams2bWwxSDltMThuODVXOEJwUnllSTR1?=
- =?utf-8?B?QnJwRUJSYVo2aTBLRmhHT0NLZ2Rrc0hkMENzNFJNNHYzeEtaNzFqbDBEcnFx?=
- =?utf-8?B?eUNQQUJQOVpkaWlGeFFuVmluSWRxWnRtRDFHNE9kbUdybTFwbUcwYjBDUHpG?=
- =?utf-8?B?NUMwak5NS0krV2NvYXdjNzZSOVdSVklaZ0psOGo0U0dVUU40R0NCRkNhOFZX?=
- =?utf-8?B?VXRkTkdRam1JK1haOHVJOG1RVjJhVW5wbUk1UFFwelltdTRaSGlrTFNXNDYy?=
- =?utf-8?B?MzV0Qm05cUNpR3A2N3EzYnI4bjhnQjdIUkxEMGV5WkUySUpkaCtUZmlMeVhu?=
- =?utf-8?B?ZXgwZEFaNFQrSE9uR1dWY3UvYUplZG1acVZsVG9ZSGxjWlpKbU1DcGg0VEw1?=
- =?utf-8?B?VDRYamNoVkx2MEJnQWg3V0tLWms1Um1rKzhQRm5lWHA1eFAwMlFaWmtIdGtv?=
- =?utf-8?B?NTk2eWE5QUdnU28xRWNIWmdJNHNnN3h3dHFLVDFxNk1WeGFoRXZ3OHNoZkpZ?=
- =?utf-8?B?RFFsMy9FUU51R1o3S0NHK21aZUd6WEdTVXVsV21lb1dSa21MRlE4Tm5UM1Qx?=
- =?utf-8?B?OUJ2RUE1VDJyU0crNkhiRkVCbWtoRzFhQlF1NlpqSzJCK0RNQ3FlWkZiaGpQ?=
- =?utf-8?B?SS9ob0RvOXlvSUFaUDdQbjhFblpndnk0QkVneG9yeHJDKysxS3ZJZ0tMblJT?=
- =?utf-8?B?Mm40bk5IbjUra0RNb1NqaFJkWnVNMGgzSm9VMDl2U2ZnMThPMWh1clhDRk5y?=
- =?utf-8?B?cURNM2NuYzdQa0MzNzJxempjTVNOelJIdklRdnRwelV4VERZNENhbnRDR09p?=
- =?utf-8?B?dE45bUp5UHJCWGU0MU9JQ2RVTmtza0o5T0NmRDFnU0FFek5aZ1ZDNExYRW1o?=
- =?utf-8?B?T2JjK1JzSnhYc0FaTEJheXh5MjZ3OUVSbEgzWFBPeWNEZGpmRVJOeE1VZ1oy?=
- =?utf-8?B?Z05ZUmlBRFV6ZDAzTXhxR0pXTFAxdDN3enRUdU83R1RCR3p2SWtoRXVoTjh6?=
- =?utf-8?B?S0NlaFk5WFhMUkUvVWhRdnVOcjBoR3dvMjB6U2VxSmlIWkFLYzYxZFlzeDla?=
- =?utf-8?B?czN3US9DYW1jclFnaTFycXJuRi8wb1RXL2ZaOVF6SjlPeXpDWlBWdzVjQ0du?=
- =?utf-8?B?Z2JSUE5HYThOSHU2SW56Tjc2dnVtdGVXODJZRHZ6NW5JK2pHK3FmVVNMMkpz?=
- =?utf-8?B?ZHpEQzFQSGxKZ0lGOVBmV0lNT3Z0aDI5OTVSU2pwQkNYYnZuV01pTkxMeC9G?=
- =?utf-8?B?MzN5SUdWYzRQQ0U3eHdrdTdjSEJIN0FoZUUzb21laGU2TjVBdjZ3YzR3RkFT?=
- =?utf-8?B?RnZVdDdQSnFKRGhVM2NBWHF1TkNialV0V0RvNUk1eDM3aHg4ZERIY1lFYmRJ?=
- =?utf-8?B?UWRCSy9Td29qU3c5TGNMZ1dRbVNSVHJUOGw5Sk45ZHducFhTQ2pkdHVxSlhq?=
- =?utf-8?B?QTVteDdqSTJ0b1ByMXRZT0RmY3BERFR2VlptTkVXdGJUcW9YbEt5VkJFU2Rw?=
- =?utf-8?B?b0paMzdXdUlSVDZCTGx4dTc0bTZPaXhiVHVJamhiTUM3U3FYU01DVy92YWNn?=
- =?utf-8?B?S1p2T3Q2ODNpUTNjc3Y1eEtGVHVYbUdwLzJWaEFpRU1uVlY3ZUlUM2l6STBR?=
- =?utf-8?B?S1UwalpEc1hwWlN3ZjFPQTJxREdPVU5CQ2tXVzZ6Rk9NTzA1eWVSUk82eFM3?=
- =?utf-8?B?S2pHUmdLT3FuRkw5c3h2MFBsTUJoQUpaclRYUXpKcW5rRVRZRzJDWXZJenJO?=
- =?utf-8?B?aldZTlpEUXY1aGQrcldzenRUMC9WcC8xbU1tYWR6TzNDMkV3elpobW42dTky?=
- =?utf-8?B?NFNNa0NTMmZHUnBWREw1cmZ3dDZZSU9qM1RrV1hZS2hRZmFaRm5zVFVMdWhF?=
- =?utf-8?Q?cL3E=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9062dad7-d846-4990-4c35-08db78acc87d
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5149.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2023 14:26:09.7718 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: l9izCqteAQWxZh/HaJ14mIv96RMbHXk76Mapt5j/pDbWfvgrStz2lfv0gVC/OhIR
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6204
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
+ [64.147.123.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25AB510E3F1
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 14:29:40 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailnew.west.internal (Postfix) with ESMTP id 9B6A02B000A4;
+ Thu, 29 Jun 2023 10:29:38 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+ by compute6.internal (MEProxy); Thu, 29 Jun 2023 10:29:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1688048978; x=1688056178; bh=nG
+ nJsyAJyrvJkwnkSe1+RvyafOFNiNiqyHMsPO1u6Xk=; b=2EcylAr+2IQK5P7b6p
+ /vjLbGIHf8i+8rzMt8chAuFq+c5T2nXA6rNsTNzOdtksQ6e0sAw9/eRHtOar+WHl
+ hAsaWivSScicHRc+IOwIVIkXzMKCHS/A9Ffztx8GB0RJptxk+yUbu3OXBw/f3KTQ
+ oPUWqOApNqupZeOxA1+KamV7Y1R9j5wdLjjMttKjfSUmTUPTzRkr/PbCf7BFCJf4
+ mDKkwIwEguDSpZs+nb5nQ5ZSuOg9qrQBVpn/A0WtJOxqM4NA4/h3SXbcRbNONYzA
+ I5y/p+xe7tbFRUhSHoYPvHtNe3/fi0gTCERIIZJ9/fLQnFzpbVcymrZbyXkaYBBK
+ ODIg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; t=1688048978; x=1688056178; bh=nGnJsyAJyrvJk
+ wnkSe1+RvyafOFNiNiqyHMsPO1u6Xk=; b=qcZu2F7J3I03fwrcSPg8dsLuhFIrS
+ ucycm657dud2E6uYWskFVqcIfgSe/dBt8fFB6+XQTy/fANN6a1BuztN45oTSanNT
+ XxVMQih8LW415rbF6tRZPCXSpwn+ekET+YIRIH1036pYAwUd1Fb1ijQRv3N+j2GN
+ AxU6byz7HLauD8dLGeOrAT3BJrYb8oPjklQK9FEAS/EPJOPUSZb+pzy/zrsduOA2
+ IVQQiY6wMEEkf+oC5juPiNw0sDEEHj+C7FUzhU16m7yof5koi7/AUsQnx7vi7hIE
+ YvfD9R33aPOCag5rTXjki4uvznKy226FqetZdturkKSXU4rXB99QQtsyg==
+X-ME-Sender: <xms:UZWdZPQFtBYsPdlXlUSdNixOakdgSk0rQ0sJEW2WMk3NI57JBkFXZA>
+ <xme:UZWdZAzd5cSzTnb4-3WR64AVGeqojUQ8_r8RCWCNfeGwQuSKyph38WHIvHfKtGQ9D
+ iuBERCaWpz0v8yUOfI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrtdeggdejjecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+ ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+ gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+ ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+ hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:UZWdZE0-6IC7fBNDeGBvpnGm2Zr-dhEGRLTF93khPbJEJ5EkVp6Jfw>
+ <xmx:UZWdZPAguwQt8yn2qe__L5Yzs-USfTNjeEYazXWLDNvlZmzvvwKQYg>
+ <xmx:UZWdZIhqyNx_om12J_mIvSUHmK-q2dXchnc5mILhG3AL8P9Et1GMBA>
+ <xmx:UpWdZB0EDG72hkx-t3BFD4YV93ZdrsN0Q1V64IlAbDxvxvOYULKpsP-j2j8>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id C13A1B60089; Thu, 29 Jun 2023 10:29:37 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-499-gf27bbf33e2-fm-20230619.001-gf27bbf33
+Mime-Version: 1.0
+Message-Id: <0783a7ec-b779-4033-9877-f6eacc65c575@app.fastmail.com>
+In-Reply-To: <4d711508-c299-49f2-8691-e75d68f2485e@app.fastmail.com>
+References: <20230629121952.10559-1-tzimmermann@suse.de>
+ <4d711508-c299-49f2-8691-e75d68f2485e@app.fastmail.com>
+Date: Thu, 29 Jun 2023 16:29:17 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Thomas Zimmermann" <tzimmermann@suse.de>, "Helge Deller" <deller@gmx.de>, 
+ "Daniel Vetter" <daniel@ffwll.ch>, "Dave Airlie" <airlied@gmail.com>
+Subject: Re: [PATCH 00/12] arch,fbdev: Move screen_info into arch/
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,113 +84,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-hyperv@vger.kernel.org,
+ linux-efi@vger.kernel.org, linux-ia64@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-sh@vger.kernel.org,
+ linux-hexagon@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org,
+ "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
+ linux-mips@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-alpha@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <p>This was to fix application long event wait latency, when app
-      shader generates lots of event interrupts in short period, the
-      scheduled work no chance to execute on the same CPU core, this
-      causes event cannot post/return to app thread which are waiting
-      the event. To schedule work on the core of same NUMA node is to
-      optimize cache usage in general.<br>
-    </p>
-    <p>Regards</p>
-    <p>Philip<br>
-    </p>
-    <div class="moz-cite-prefix">On 2023-06-27 11:42, Alex Deucher
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:CADnq5_N-0DV7PpOwjMAp2ZdOEBYiJRWw4duo-g07AL7Mo5kS7Q@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">+Felix, Philip
+On Thu, Jun 29, 2023, at 15:31, Arnd Bergmann wrote:
+> On Thu, Jun 29, 2023, at 13:45, Thomas Zimmermann wrote:
+>>
+>> Future directions: with the patchset in place, it will become possible
+>> to provide screen_info and edid_info only if there are users. Some
+>> architectures do this by testing for CONFIG_VT, CONFIG_DUMMY_CONSOLE,
+>> etc. A more uniform approach would be nice. We should also attempt
+>> to minimize access to the global screen_info as much as possible. To
+>> do so, some drivers, such as efifb and vesafb, would require an update.
+>> The firmware's EDID data could possibly made available outside of fbdev.
+>> For example, the simpledrm and ofdrm drivers could provide such data
+>> to userspace compositors.
+>
+> I suspect that most architectures that provide a screen_info only
+> have this in order to compile the framebuffer drivers, and provide
+> hardcoded data that does not even reflect any real hardware.
+>
+> We can probably reduce the number of architectures that do this
+> a lot, especially if we get EFI out of the picture.
 
-On Tue, Jun 27, 2023 at 4:42 AM Philipp Stanner <a class="moz-txt-link-rfc2396E" href="mailto:pstanner@redhat.com">&lt;pstanner@redhat.com&gt;</a> wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-Hello folks,
+I tried to have another look at who uses what, and here are
+some observations:
 
-I'm currently trying to learn more about DRM and discovered the
-following code sequence:
+- EFIFB and hyperv are the only ones that are relevant on modern
+  systmes, and they are only used on systems using EFI, so they
+  could use a separate data structure that is defined as part of
+  drivers/firmware/efi. This would likely mean we don't have to
+  define a separate screen_info for arm64, loongarch, ia64 and
+  riscv, and could separate the legacy vgacon/vesafb stuff on
+  arm32 from the efi side.
 
+- FB_SIS can likely be marked 'depends on X86' like FB_INTEL,
+  it seems to depend on x86 BOOT_VESA_SUPPORT.
 
-drivers/gpu/drm/amd/amdkfd/kfd_device.c, Line 824 on 6.4-rc7
+- FB_VGA16 is currently support on powerpc and enabled on
+  one defconfig (pasemi), which I'm fairly sure is a mistake,
+  so this could be made x86 specific as well.
 
-static inline void kfd_queue_work(struct workqueue_struct *wq,
-                                  struct work_struct *work)
-{
-        int cpu, new_cpu;
+- VGA_CONSOLE has a complicated Kconfig dependency list that
+  lists platforms without VGA support but I think this is better
+  expressed with a positive list. It looks like csky, hexagon,
+  nios2 and xtensa should be excluded here and not provide
+  screen_info.
 
-        cpu = new_cpu = smp_processor_id();
-        do {
-                new_cpu = cpumask_next(new_cpu, cpu_online_mask) % nr_cpu_ids;
-                if (cpu_to_node(new_cpu) == numa_node_id())
-                        break;
-        } while (cpu != new_cpu);
+- arm and mips only need to provide screen_info on machines
+  with VGA_CONSOLE. On Arm we have a dependency on
+  footbridge/integrator/netwinder, while on mips the
+  dependency can be added to the platforms that fill
+  the info (mips, malta, sibyte, sni).
 
-        queue_work_on(new_cpu, wq, work);
-}
+- DUMMY_CONSOLE only uses screen_info on arm, and this should
+  likely be limited to the three obsolete machines that
+  support VGACON. Almost all Arm machines use DT these days
+  and won't ever fill the screen info dynamically.
 
-/* This is called directly from KGD at ISR. */
-void kgd2kfd_interrupt(struct kfd_dev *kfd, const void *ih_ring_entry)
-{
-        uint32_t patched_ihre[KFD_MAX_RING_ENTRY_SIZE];
-        bool is_patched = false;
-        unsigned long flags;
-
-        if (!kfd-&gt;init_complete)
-                return;
-
-        if (kfd-&gt;device_info.ih_ring_entry_size &gt; sizeof(patched_ihre)) {
-                dev_err_once(kfd_device, &quot;Ring entry too small\n&quot;);
-                return;
-        }
-
-        spin_lock_irqsave(&amp;kfd-&gt;interrupt_lock, flags);
-
-        if (kfd-&gt;interrupts_active
-            &amp;&amp; interrupt_is_wanted(kfd, ih_ring_entry,
-                                   patched_ihre, &amp;is_patched)
-            &amp;&amp; enqueue_ih_ring_entry(kfd,
-                                     is_patched ? patched_ihre : ih_ring_entry))
-                kfd_queue_work(kfd-&gt;ih_wq, &amp;kfd-&gt;interrupt_work);
-
-        spin_unlock_irqrestore(&amp;kfd-&gt;interrupt_lock, flags);
-}
-
-
-These functions seem to be exclusively invoked by amdgpu_irq_dispatch()
-in amdgpu_irq.c
-At first glance it seems to me that it's just a typical scenario taking
-place here: Interrupt arises, interrupt submits work to wq, then jumps
-back to sleep / former process execution context again.
-
-What I don't understand is why it's apparently important to schedule
-the work on a particular CPU.
-
-It seems that the do-while in kfd_queue_work() is searching for a CPU
-within the same NUMA-Node. Thus I suspect that this is done because
-either
-a) performance requires it or
-b) the work-function needs access to something that's only available
-   within the same node.
-
-I suspect there is an interrupt-related reason why that particular work
-should be enqueued on a specific CPU. Just by reading the code alone I
-can't really figure out why precisely that's necessary, though.
-
-Does someone have any hints for me? :)
-
-Cheers,
-Philipp
-
-
-</pre>
-      </blockquote>
-    </blockquote>
-  </body>
-</html>
+      Arnd
