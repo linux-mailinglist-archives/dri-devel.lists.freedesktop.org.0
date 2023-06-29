@@ -1,118 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC9EB742071
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 08:37:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C50137420FB
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 09:29:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4BE410E002;
-	Thu, 29 Jun 2023 06:37:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B897910E15B;
+	Thu, 29 Jun 2023 07:29:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2040.outbound.protection.outlook.com [40.107.92.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FD5E10E108
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 06:37:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=anVg5lGJQMJX2Q8akaWJUiqhy02yd9GFLsICOCYWBKJfFgcMalyxhpPP255Ik4E2Pwn/e/d3MNvBt784fhr5qgsJyxz1dwa+m0V7PgkeeBmj44Neuh1GOP/KbOim2nTEVIRRVKSCfzC4JzyfX8Nh6SXUpI8VYzAu4Su6oUAEHw8LZhVZItwJMAWLST6I7zYhYuvrIG3zJLeGtI1+GXsiQsW6r5bQoFPDOtTDSQX5fb7RqkhGpSkYEf8/IB+HRAkdl9qjVKG5qKAJfQ5WhhfNI8OL1FHFXZY82AbiVkLa7prxVQiXAGvWdinQjK771M7EJnQFDtvGOldBmnLniXrgNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q4YYPkIrpz/4CMO8zxEWkzr/uq93ua1yDY0pXaDvsTg=;
- b=JIi+Br4HzpIFTiPn06uVkuOdNPZLuozndpxH3oIFAapdqjWdHelLTqlFfPSWyGZfmjPrkUZm0ddknwOY0InriJOUzShS/PSet6x1OXn11pUSX9sS4XvTOM1+INqdZZ/NTwLKmt7/Rfq5keU4mBNTPLv5lc2lFRqf3JSlsn9TqoxUakG/HieR84/UqqXDM+5WRGXE/tENLFIAUG4Q63YMbWfAdgI3xvRdvmzz+9/JOlHZWHeECXz6mkzg3j1UJoOOHTuii2P3BvLSSKmTus2YCXUvaNJWoRtcUbllzqUIcsIpLllOfrzFrY0BXo+YfL9ZVi2T3RNxvgBKxflFxq80sw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q4YYPkIrpz/4CMO8zxEWkzr/uq93ua1yDY0pXaDvsTg=;
- b=J48w9wNnVS5T+cf3LcTceRZYpCfOEaDzzQ4rDtC/HKSBImnwxp/6UOzy539BqVRHgttdlylys8ZA5fFW/AbV728GcvndYmlkHR3cRqfVjNJib5g96nykSrCIlWV729oTEQ3kMtm0o8dz2ur1n1jDih3OfOjhGhE2E3qCdp6aqI8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by MW3PR12MB4411.namprd12.prod.outlook.com (2603:10b6:303:5e::24)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.26; Thu, 29 Jun
- 2023 06:37:44 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::384a:95a4:8819:ee84]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::384a:95a4:8819:ee84%7]) with mapi id 15.20.6521.026; Thu, 29 Jun 2023
- 06:37:44 +0000
-Message-ID: <cfdc6818-ff20-1e57-34c8-3b5b40a837d7@amd.com>
-Date: Thu, 29 Jun 2023 08:37:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/ttm: Remove duplicate assignments to ttm->caching
-To: Feng Jiang <jiangfeng@kylinos.cn>, ray.huang@amd.com, airlied@gmail.com,
- daniel@ffwll.ch, michael.j.ruhl@intel.com
-References: <20230625024528.13668-1-jiangfeng@kylinos.cn>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230625024528.13668-1-jiangfeng@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0017.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:15::22) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF8BB10E15B;
+ Thu, 29 Jun 2023 07:29:40 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id
+ 38308e7fff4ca-2b69f958ef3so5121471fa.1; 
+ Thu, 29 Jun 2023 00:29:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1688023776; x=1690615776;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=uqzYTrdPD4vbemfyu8eoAm1tg2yh7fiY9wJETEZ7F28=;
+ b=cXEEymKD1WNa45KrHFMTk1CuRbjaI7vhUxlXcrmat5ARGRz4jI3sDTiRMZZVef0phQ
+ fFaVjwRm3d/heSYo0x66HIyi9d0v4MZD+c5AwiAcpW/3kglJHZGID/BNdfcR0vBZv+2e
+ EMIrkpfVihi5VAU++yMAJAZqe6qPGQgDXvl+CFYjmyc5zbEQbsdgq8uiI+cQvpd66m+N
+ oWH7hlGtqhhdNcARLee5j1pbP/sZg5hoQh5EQ86nGFE3I+2KOon3ZXTh5+yLuPMG+uIJ
+ XmKLlmxHFfLIyggfFfZqesAZNiP0A8UL32qLG/oecGKpOf8tvRfCmF/mO8JMcwDF+d4W
+ xmog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688023776; x=1690615776;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uqzYTrdPD4vbemfyu8eoAm1tg2yh7fiY9wJETEZ7F28=;
+ b=hMbNfxYM5j58GFqhVcvnGv8JF5a+NAjhkBsp07zdpxig5xJ4+amlB13zGWqquLxp7z
+ 2MKEZP+S8e/0pzaloHcsTVzoYyIUTaikZy7KfXgy238r/i1UGLfScb9nEs2ox2pHiiSC
+ 9/U9HIpBfkJBpBsgMSBkhSW0oTAsZsK2/EIl7Ff84fxSqxTfQ17DskC3ezFNusUcLY04
+ FzqssD2Bb52U+SJn7gaPXJhWw6mTLANE8e1dCFsUzw/s0iATupkhacV92IMplvWHDeUJ
+ s/LbrClPo7LbcpxflmwKsnfEjy0iOZ7Kci8M7GhkufOprWqnXCJqx0EEJaeKHuchILJP
+ u1UQ==
+X-Gm-Message-State: AC+VfDwNZ0tqoM9tSwNnHwn7+gQsQY4Yr2IgNG3xi1ZFd6HEZ12R/YdA
+ UirQC7CL53HLaMMWokcERIQ=
+X-Google-Smtp-Source: ACHHUZ7wnEL/1jDFaM8stFx/R8zjf53vc47nrJgpdJdvlQRMgALdgIJJYkkK09Oatpg45wKS1++dpA==
+X-Received: by 2002:a2e:94c1:0:b0:2af:1817:26e1 with SMTP id
+ r1-20020a2e94c1000000b002af181726e1mr24897055ljh.30.1688023775972; 
+ Thu, 29 Jun 2023 00:29:35 -0700 (PDT)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ i23-20020a2e9417000000b002b6cba03427sm27286ljh.79.2023.06.29.00.29.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Jun 2023 00:29:35 -0700 (PDT)
+Date: Thu, 29 Jun 2023 10:29:25 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: Re: [RFC PATCH 0/3] Support for Solid Fill Planes
+Message-ID: <20230629102925.71b5b6ad@eldfell>
+In-Reply-To: <af4058fb-9744-87c8-bf9c-85cf78a97095@quicinc.com>
+References: <20221028225952.160-1-quic_jesszhan@quicinc.com>
+ <Y2leZDfLj/5963wl@intel.com>
+ <d0b5abdc-85ad-fee2-9760-866c32bab111@quicinc.com>
+ <20230627105849.004050b3@eldfell>
+ <5e60fe99-76d5-c242-608e-b74bf6f0e7bd@quicinc.com>
+ <54f194fe-ab7b-247d-600b-6da8f5c57dbf@linaro.org>
+ <1613cdd4-8d90-6589-97e8-c4e1810bde04@quicinc.com>
+ <20230628103451.118c0d76@eldfell>
+ <af4058fb-9744-87c8-bf9c-85cf78a97095@quicinc.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|MW3PR12MB4411:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8abbf952-1411-4457-e689-08db786b5862
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iM7S5NOe9n+AEc13QAtqu2bgI3KIEKKvXK22zaYatNZcykpA+wk6Beqc3WcE0HmgBwIP1Fzxrip4IziTvKGW51q0XSs50mno98cnbAZIiJdPkX2X50KC+0owfOd+SNLu6O5EmJObIGSUM5RdRgs3coi/GawQhap8+KwO1myJDO4Ps5yF7JIYOpo/l/B0e60rLaEQhKYQ/kWAmA3O5oyAwBh+yxRQAXBpX/48bcBwrN7z9pRpFXA/jdmytp/l2IR++kU6e4lxfLAJHwVcKVDmz/Qs8m6pN6ILRL89gq7eNYkWAo/hqZW4Vxm45iFib7ZkG/0PZv2ZyWCN2hrNzxcpceE7r4H/NKS89KTQgyPSltDofuvUvF+J3VqpNQ6ijNX0nYoNUXVBt6ri8kl5JWEcVO6PgmJKIag4Q3K0xF7GnsOVhNjqIDqKwfWu59FBBx3rOGEbW20XNsBmeZCHL17arKEm4Oyn1GE8W0Nn+k5Xaz5N1/pw9pxofpzsy8DFsDDpt27NgjlP6MmdGYilKJHZHJ1rUvWTgtDMffuS3qgVbbX+3xcrwpBeNHMdrAUCdETBtGevynF2L9/fNh1nzU1j+OQ9RIW4dNXPsIQyGPQe9zsQAFflfS0waZDb9orAuro9
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(396003)(376002)(366004)(136003)(346002)(39860400002)(451199021)(8936002)(8676002)(66946007)(316002)(41300700001)(83380400001)(66556008)(6512007)(6506007)(66476007)(186003)(26005)(4326008)(2616005)(966005)(6666004)(6486002)(2906002)(5660300002)(478600001)(38100700002)(31696002)(86362001)(31686004)(36756003)(66574015)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?c05ERmNlZTBQV2VLWlJ2Ry9zcG1KZHowWlRYeGIwYU8rcGZ1cnVSRkVqTUlt?=
- =?utf-8?B?YlE3VVBkSkpxWGZrR0J0K3hmUEVsRTZ3cDU1M2ZxeERRSDQ1RW9KelE3cE0x?=
- =?utf-8?B?MU1EVFp6THFYeXNVMUgrZWtGMDV4QTE3b2VLNmZCcnFoeDNJMjd5NzlFRXBR?=
- =?utf-8?B?RmNwVTVZOUsyZ2c1d0ZZKzJUMStOSDVCUlRKTmZEMUFqNUZwWmE1Y1psNEhr?=
- =?utf-8?B?aU5VTEVGTEZRWFRWeTM2cFBYd2RWTHF6QmVacE5Sdm9EVEtVbXRkSWlId2FO?=
- =?utf-8?B?MDV1blZlamZYQUhOVjZxZkJmMlh5NzIxTy9RcmF0blhnRDVKd3FLY2o1M0JJ?=
- =?utf-8?B?L1RKMTQxK3pQam5ac3Y3cXpZYitGbUhyMDdaK25XK2YyL2p3TGl0dFlKTUNw?=
- =?utf-8?B?Z1NGY09mNjduUHdreDZ2b0FHRUpRQ1BnVlZwUVBNZDVGeFdNUkZBOFZlUDZ0?=
- =?utf-8?B?Vk10Ym01T1cyN2luaVAzYWF3T3hrRzRWWXhFUDBobUo4OXgvN1RkT1VSQXB6?=
- =?utf-8?B?RXpkWkpCb25MaENXTWpHUWFzRjdXc3RKdEE0NVVSQjhJL2JDdXhacXRyOXN0?=
- =?utf-8?B?ZUJSZkozbHRjZTJXMGZuc2djTWVURUVQZWVBWWlRMzVFT2lFZUJrV042NjBO?=
- =?utf-8?B?VjU1dUtiMklnQXUyMzd6cXRJYUFKQWo3bnhGWXlzRG1uZDR5OStXTTVmMmpy?=
- =?utf-8?B?K04wQ3hyZEhBbktLZnJpZThOZ1kzZTJ3bHIybXBzTGpVMVB3ZTNsMFV3Zk9i?=
- =?utf-8?B?U1FHaTRoV01qZ1ZpQzZuN21EUjlqRUo1QXVsZXBDaVpqY25ocjVIdGN2Z3VQ?=
- =?utf-8?B?WmFlKzRKR09HVHhUYWVYUUhZczBoakJwREROV2puTTU1VklqK0ZiVkVwN1Vi?=
- =?utf-8?B?WVNTOWlYbHhTK2JxZlZMTm85VFhzTEU0Z1VoQ1FuUHljMEpMc0ZJS0t4LzlQ?=
- =?utf-8?B?QlV2VVNuWmdYM2xXeWh5ZTdGMk43MElPdlFoc09vVVJ6YUtJNEpBQ1FSdmNQ?=
- =?utf-8?B?cVArOE45aVhBU0kveVptT09JRW1hUjQrc1VYUmEzWGFBaElWRGtFVkJDVWlx?=
- =?utf-8?B?OVQzVkV2OWJmSFQzVWVNam9RM2dqcHRRNS9EK0pzZ0U1VTY3WW5qczdjWXVC?=
- =?utf-8?B?UmUyVkJRZVBIOFdOQ2VDUkRUWXE1Y0pMYWMyVFpSbnFCNmt6QVJSSkJSTWxY?=
- =?utf-8?B?TjMyQnJmRHk0NG5IRWdROFJ0V3dEN0RNTHE1OFloOXFGbmRSTnhnNHdCQnV1?=
- =?utf-8?B?azVid240SmNRQkJTU1hBMmk3Z1Q3UmRyM21UM0ZQTmJqQTNPeTFIRXNZZ3Nx?=
- =?utf-8?B?azN6L1ZnTjRyOGVXcVBIS1praUxDQ0lqVW5tc1U4TWlHaVVpTzVreWJ5VElO?=
- =?utf-8?B?UXI2NEs3MTVqeFZiVGVHY1pFejlCMHJLNXJGaHl1enplZW5wMGNOWklXUGlR?=
- =?utf-8?B?T0YvU1c1L25aNWhwYWFwZ2hXUEQydUZyTmFwSUxjNEJvbno5dkNmVVNNeWMw?=
- =?utf-8?B?SU5vR1phRngxZUIvOGhUcXl1S2k1aUJsVzZJKzJqWUdhRkFWSi9pcHE1V3BE?=
- =?utf-8?B?ZWdkZ1JBYkNiRkdkUjdscnBlOGMzWm12ZjcrR2FnaXlxR3pKZUkyZjVRb1hM?=
- =?utf-8?B?eFlGZmNUaUFnemJqV0hhS0NlU2I1Vm9ENDQ1WWNweks4SXVzSzZqcG9oem92?=
- =?utf-8?B?SkRQZm1zSFRITDNjWUgzRmRqOHpCQlQ2M042UXhSWkw2TGo5VUxFZ2N4ZHRz?=
- =?utf-8?B?WVZsKzNRVDg3R09LbkY3VjVCVlQrQjE2bE5yZE81RUFuWThsTG9SNS82QU1Q?=
- =?utf-8?B?Qk92U3pIMS9LUHY2czhhRWJCcmM2aXBNN2p1bzQ0VTI1Z0MvVEg1dXovWTk3?=
- =?utf-8?B?QVNzOU54Q0Q3UXJSY0U2S3BmV1hkMnFra2NwV1NkemcveXNQL09lWkRHRXBu?=
- =?utf-8?B?OTNJV0NFSVpWWVFnM2xUUWMrZ0UvYTlPMmY4WnJiYS9UWEEzMVVXempqdHdu?=
- =?utf-8?B?b0VqV3VyT1RSVThFdjk3U0NXMXNyclhTMmtRWlF5Qk9TT3R1WVF3anJBOEd4?=
- =?utf-8?B?Q3l2LzczS2JXSmdqQ0Q4ZXptMEVHa0RCL25hQ0pwTmI1VlQ0eFhYdjF2Znds?=
- =?utf-8?Q?Ldsc=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8abbf952-1411-4457-e689-08db786b5862
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2023 06:37:44.5746 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: c/WLztKJ/rDkE+Rp/uYwfjt0gX/ZkJxQ3txag101l25q+PdXF5G5tgdV4Ri6GTKj
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4411
+Content-Type: multipart/signed; boundary="Sig_/GvcJ4bJU1YyhWucAGmk+Hru";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,55 +79,273 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: daniel.vetter@ffwll.ch, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ laurent.pinchart@ideasonboard.com, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ wayland-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This has already been fixed with:
+--Sig_/GvcJ4bJU1YyhWucAGmk+Hru
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-commit 2ce977df10c179138e2723b25c2d2c055a3e3cc6
-Author: Ma Jun <Jun.Ma2@amd.com>
-Date:   Wed May 31 13:30:51 2023 +0800
+On Wed, 28 Jun 2023 09:40:21 -0700
+Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
 
-     drm/ttm: Remove redundant code in ttm_tt_init_fields
+> On 6/28/2023 12:34 AM, Pekka Paalanen wrote:
+> > On Tue, 27 Jun 2023 15:10:19 -0700
+> > Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> >  =20
+> >> On 6/27/2023 2:59 PM, Dmitry Baryshkov wrote: =20
+> >>> On 28/06/2023 00:27, Jessica Zhang wrote: =20
+> >>>>
+> >>>>
+> >>>> On 6/27/2023 12:58 AM, Pekka Paalanen wrote: =20
+> >>>>> On Mon, 26 Jun 2023 16:02:50 -0700
+> >>>>> Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
+> >>>>>    =20
+> >>>>>> On 11/7/2022 11:37 AM, Ville Syrj=C3=A4l=C3=A4 wrote: =20
+> >>>>>>> On Fri, Oct 28, 2022 at 03:59:49PM -0700, Jessica Zhang wrote: =20
+> >>>>>>>> Introduce and add support for COLOR_FILL and COLOR_FILL_FORMAT
+> >>>>>>>> properties. When the color fill value is set, and the framebuffer
+> >>>>>>>> is set
+> >>>>>>>> to NULL, memory fetch will be disabled. =20
+> >>>>>>>
+> >>>>>>> Thinking a bit more universally I wonder if there should be
+> >>>>>>> some kind of enum property:
+> >>>>>>>
+> >>>>>>> enum plane_pixel_source {
+> >>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0FB,
+> >>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0COLOR,
+> >>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0LIVE_FOO,
+> >>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0LIVE_BAR,
+> >>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0...
+> >>>>>>> } =20
+> >>>>>>
+> >>>>>> Reviving this thread as this was the initial comment suggesting to
+> >>>>>> implement pixel_source as an enum.
+> >>>>>>
+> >>>>>> I think the issue with having pixel_source as an enum is how to de=
+cide
+> >>>>>> what counts as a NULL commit.
+> >>>>>>
+> >>>>>> Currently, setting the FB to NULL will disable the plane. So I'm
+> >>>>>> guessing we will extend that logic to "if there's no pixel_source =
+set
+> >>>>>> for the plane, then it will be a NULL commit and disable the plane=
+".
+> >>>>>>
+> >>>>>> In that case, the question then becomes when to set the pixel_sour=
+ce to
+> >>>>>> NONE. Because if we do that when setting a NULL FB (or NULL solid_=
+fill
+> >>>>>> blob), it then forces userspace to set one property before the oth=
+er. =20
+> >>>>>
+> >>>>> Right, that won't work.
+> >>>>>
+> >>>>> There is no ordering between each property being set inside a single
+> >>>>> atomic commit. They can all be applied to kernel-internal state
+> >>>>> theoretically simultaneously, or any arbitrary random order, and the
+> >>>>> end result must always be the same. Hence, setting one property can=
+not
+> >>>>> change the state of another mutable property. I believe that doing
+> >>>>> otherwise would make userspace fragile and hard to get right.
+> >>>>>
+> >>>>> I guess there might be an exception to that rule when the same prop=
+erty
+> >>>>> is set multiple times in a single atomic commit; the last setting in
+> >>>>> the array prevails. That's universal and not a special-case between=
+ two
+> >>>>> specific properties.
+> >>>>>    =20
+> >>>>>> Because of that, I'm thinking of having pixel_source be represented
+> >>>>>> by a
+> >>>>>> bitmask instead. That way, we will simply unset the corresponding
+> >>>>>> pixel_source bit when passing in a NULL FB/solid_fill blob. Then, =
+in
+> >>>>>> order to detect whether a commit is NULL or has a valid pixel
+> >>>>>> source, we
+> >>>>>> can just check if pixel_source =3D=3D 0. =20
+> >>>>>
+> >>>>> Sounds fine to me at first hand, but isn't there the enum property =
+that
+> >>>>> says if the kernel must look at solid_fill blob *or* FB_ID?
+> >>>>>
+> >>>>> If enum prop says "use solid_fill prop", the why would changes to F=
+B_ID
+> >>>>> do anything? Is it for backwards-compatibility with KMS clients tha=
+t do
+> >>>>> not know about the enum prop?
+> >>>>>
+> >>>>> It seems like that kind of backwards-compatiblity will cause proble=
+ms
+> >>>>> in trying to reason about the atomic state, as explained above, lea=
+ding
+> >>>>> to very delicate and fragile conditions where things work intuitive=
+ly.
+> >>>>> Hence, I'm not sure backwards-compatibility is wanted. This won't be
+> >>>>> the first or the last KMS property where an unexpected value left o=
+ver
+> >>>>> will make old atomic KMS clients silently malfunction up to showing=
+ no
+> >>>>> recognisable picture at all. *If* that problem needs solving, there
+> >>>>> have been ideas floating around about resetting everything to nice
+> >>>>> values so that userspace can ignore what it does not understand. So=
+ far
+> >>>>> there has been no real interest in solving that problem in the kern=
+el
+> >>>>> though.
+> >>>>>
+> >>>>> Legacy non-atomic UAPI wrappers can do whatever they want, and prog=
+ram
+> >>>>> any (new) properties they want in order to implement the legacy
+> >>>>> expectations, so that does not seem to be a problem. =20
+> >>>>
+> >>>> Hi Pekka and Dmitry,
+> >>>>
+> >>>> After reading through both of your comments, I think I have a better
+> >>>> understanding of the pixel_source implementation now.
+> >>>>
+> >>>> So to summarize, we want to expose another property called
+> >>>> "pixel_source" to userspace that will default to FB (as to not break
+> >>>> legacy userspace).
+> >>>>
+> >>>> If userspace wants to use solid fill planes, it will set both the
+> >>>> solid_fill *and* pixel_source properties to a valid blob and COLOR
+> >>>> respectively. If it wants to use FB, it will set FB_ID and
+> >>>> pixel_source to a valid FB and FB.
+> >>>>
+> >>>> Here's a table illustrating what I've described above:
+> >>>>
+> >>>> +-----------------+-------------------------+-----------------------=
+--+
+> >>>> | Use Case=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | Legacy Usersp=
+ace=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | solid_fill-aware=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
+> >>>> |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 | Userspace=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
+> >>>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
+> >>>> | Valid FB=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | pixel_source =
+=3D FB=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | pixel_source =3D FB=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
+> >>>> |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | FB_ID =3D valid FB=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 | FB_ID =3D valid FB=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |
+> >>>> +-----------------+-------------------------+-----------------------=
+--+
+> >>>> | Valid=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+| pixel_source =3D COLOR=C2=A0=C2=A0=C2=A0 | N/A=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |
+> >>>> | solid_fill blob | solid_fill =3D valid blob |=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | =20
+> >>>
+> >>> Probably these two cells were swapped.
+> >>>     =20
+> >>
+> >> Ack, yes they were swapped.
+> >> =20
+> >>>> +-----------------+-------------------------+-----------------------=
+--+
+> >>>> | NULL commit=C2=A0=C2=A0=C2=A0=C2=A0 | pixel_source =3D FB=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 | pixel_source =3D FB=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 |
+> >>>> |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | FB_ID =3D NULL=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | FB_ID =3D NULL=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
+> >>>> +-----------------+-------------------------+-----------------------=
+--+ =20
+> >>>
+> >>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | or:
+> >>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | pixel_source =3D C=
+OLOR
+> >>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | solid_fill =3D NUL=
+L =20
+> >>>>
+> >>>> Is there anything I'm missing or needs to be clarified?
+> >>>>    =20
+> >>>
+> >>> LGTM otherwise
+> >>>     =20
+> >>
+> >> LGTM too. =20
+> >=20
+> > Hi,
+> >=20
+> > yeah, that sounds fine to me, if everyone thinks that adding a new
+> > property for pixel_source is a good idea. I just assumed it was already
+> > agreed, and based my comments on that.
+> >=20
+> > I don't really remember much of the discussion about a special FB that
+> > is actually a solid fill vs. this two new properties design, so I
+> > cannot currently give an opinion on that, or any other design. =20
+>=20
+> Hi Pekka,
+>=20
+> It was discussed in the v3 of this series, but we came to the conclusion=
+=20
+> that allocating an FB for solid_fill was unnecessary since solid fill=20
+> does not require memory fetch.
 
-     Remove redundant assignment code for ttm->caching as it's overwritten
-     just a few lines later.
+Hi,
 
-     v2:
-      - Update the commit message.
+it just occurred to me that the pixel_source property could be replaced
+with the rule that if a solid_fill blob id is 0, then use FD_IB. Or
+vice versa. But if someone then adds a third way of setting content on
+a plane, it would result in a chain of "if this is 0, then use the next
+one" and only if all are 0, there is no content.
 
-     Signed-off-by: Ma Jun <Jun.Ma2@amd.com>
-     Reviewed-by: Guchun Chen <guchun.chen@amd.com>
-     Reviewed-by: Christian König <christian.koenig@amd.com>
-     Signed-off-by: Christian König <christian.koenig@amd.com>
-     Link: 
-https://patchwork.freedesktop.org/patch/msgid/20230531053051.3453509-1-Jun.Ma2@amd.com
+I'm not sure if that's better or worse. Both designs seem to have the
+same backwards compatibility issues, and the exact same impact to
+legacy SetCrtc ioctl. Maybe pixel_source property is easier to document
+and understand though when there is no "if this does not exist or is 0
+then ..." chain.
+
+So, pixel_source is fine by me.
 
 
-Regards,
-Christian.
+Thanks,
+pq
 
-Am 25.06.23 um 04:45 schrieb Feng Jiang:
-> The parameter 'caching' has already been assigned to
-> 'ttm->caching', so 'ttm_cached' is redundant.
->
-> Fixes: 1b4ea4c5980f ("drm/ttm: set the tt caching state at creation time")
-> Signed-off-by: Feng Jiang <jiangfeng@kylinos.cn>
-> ---
->   drivers/gpu/drm/ttm/ttm_tt.c | 1 -
->   1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
-> index ab725d9d14a6..1ce4b36ab33b 100644
-> --- a/drivers/gpu/drm/ttm/ttm_tt.c
-> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
-> @@ -137,7 +137,6 @@ static void ttm_tt_init_fields(struct ttm_tt *ttm,
->   			       unsigned long extra_pages)
->   {
->   	ttm->num_pages = (PAGE_ALIGN(bo->base.size) >> PAGE_SHIFT) + extra_pages;
-> -	ttm->caching = ttm_cached;
->   	ttm->page_flags = page_flags;
->   	ttm->dma_address = NULL;
->   	ttm->swap_storage = NULL;
+--Sig_/GvcJ4bJU1YyhWucAGmk+Hru
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmSdMtUACgkQI1/ltBGq
+qqdiohAAtO5ykRix1okiXt75at5s1H1a9Pi7N+i3A7DYHhvTr/8XVK0ZFbSIUJtM
+ZIBbBjwSLfFenfxtpOIuHqbdkOnL/53+oZIj0sj6dWd8Q/9xShg5vN4pk/PDGXMu
+h3ZODT43XNNOdr6QoDcRsSlMaXqBTZ/8pcb2b1g4eywf/C3mzPAQmweTwRdpFUNB
+surcvG54bv0u2yXcYxb/k5bcRRgrlUHIl9ceKy39yQWRFWoJ0PsrcbyILv1fj5+Y
+gWG3rNAtSv8X/d692YAyqQNLEgvOdmn2Tn4r4k1kkbrcExr1baiujMJBOBVQ1h9Z
+LwHrnt1yEUqD+fNQCg8r9nbiInxpJwFPhd/RLvJNp0y7/jSOGR8KnPuz5D8mzekI
+ueCYDn7zSMJEKUO+sbu34qN528wUtcEolN1wgLyHfjsyNrXB1KTWbTDXxMeePFJb
+jHxMLMNafmRIOgwkaqKsWr3NyMhzGqizIK3e/RTzrpmzR8fVFcjnevRJman3AJPM
+qDD4c9HT8Uo71FKighIxfd2Rkh9IwTHCfVbRxJKj69vxuY2ZnyKzGNWz0/argPzO
+Lcize1A6T5sSjqruZgJZblBFyucc7Qp9iFBlu/6IVfQy+ArnjbKgyALsmCVyPTK9
+rkdMi93xWvfDhhLBfIa5ZWV6S2Ggyzw6JQhGzMP/hPE9ruCfjkI=
+=ve1K
+-----END PGP SIGNATURE-----
+
+--Sig_/GvcJ4bJU1YyhWucAGmk+Hru--
