@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D5B27425BD
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 14:20:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27B42742605
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 14:20:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 211BC10E07A;
-	Thu, 29 Jun 2023 12:20:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 584E710E3CF;
+	Thu, 29 Jun 2023 12:20:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8CD610E07A
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 12:20:03 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6598810E07A
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 12:20:04 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 524A81FD69;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id CC89C2189A;
  Thu, 29 Jun 2023 12:20:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1688041202; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8M3t+sIilpS+dvhDHVydT9EOWn+SooUMabnf/LFMHbo=;
- b=ZbROsLIJAkfIR/+jRVLDcd83SvH5cZmugk8kZwgL9JSMI/gKbyQR3HtKCm4o42ShuZpYkk
- PpOlJkUDBbcOuQ/YbZW1LarrlsmuvA7IRfwyIlPCdp7XjLFZCUf5QkBgkeK4CAQiyu6q+p
- rHluDhQg1B0za6ZvhP208NqkrxcQvWg=
+ bh=q1EPhwvEq31eQQzrYtIsQXTt/XpY0djP9Otjk0JmQCc=;
+ b=Dub84nZmbr1BGiuBX3aLZCTa/8FoWtNS4BzLIrTk5qvczeKCFX53em1kSbWeLcAyIspbMx
+ j6KHULUkYWyNqKDLvuCO97srdnBXPf6V9M5RJtPm/H/f0wvATtksA3VMvLECaNAMn8RMxS
+ gxDb1nO4bNmBncRGAjcZ0s/8rYkvx4Y=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1688041202;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8M3t+sIilpS+dvhDHVydT9EOWn+SooUMabnf/LFMHbo=;
- b=3Hj6UbEAQMoFiqqs75ilDIpvJONgA2he7Vj193adp37UYAYmUsCXwiE0RCS1+n5Jev4Itq
- c8ZFL5Xhnj0s4yAQ==
+ bh=q1EPhwvEq31eQQzrYtIsQXTt/XpY0djP9Otjk0JmQCc=;
+ b=3Y1jfeE0PeJBr+WAivUH1Npe9jamuIgzZi4hsiB1oUlsIjSgHaYMy5c5OmGy6U7+S8zHKp
+ tX1gbKFXmHiTluBA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D74B113905;
- Thu, 29 Jun 2023 12:20:01 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 59C8213905;
+ Thu, 29 Jun 2023 12:20:02 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 8BuiM/F2nWRlVAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 29 Jun 2023 12:20:01 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id EFS5FPJ2nWRlVAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 29 Jun 2023 12:20:02 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: arnd@arndb.de,
 	deller@gmx.de,
 	daniel@ffwll.ch,
 	airlied@gmail.com
-Subject: [PATCH 11/12] fbdev/core: Protect edid_info with
- CONFIG_ARCH_HAS_EDID_INFO
-Date: Thu, 29 Jun 2023 13:45:50 +0200
-Message-ID: <20230629121952.10559-12-tzimmermann@suse.de>
+Subject: [PATCH 12/12] fbdev/core: Define empty fb_firmware_edid() in
+ <linux/fb.h>
+Date: Thu, 29 Jun 2023 13:45:51 +0200
+Message-ID: <20230629121952.10559-13-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230629121952.10559-1-tzimmermann@suse.de>
 References: <20230629121952.10559-1-tzimmermann@suse.de>
@@ -84,42 +84,66 @@ Cc: linux-arch@vger.kernel.org, linux-hyperv@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Guard usage of edid_info with CONFIG_ARCH_HAS_EDID_INFO instead
-of CONFIG_X86. No functional changes.
+Move the empty declaration of fb_firmware_edid() to <linux/fb.h>.
+Follow common style and avoid the overhead of exporting the symbol.
+No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: Helge Deller <deller@gmx.de>
 Cc: Randy Dunlap <rdunlap@infradead.org>
 ---
- drivers/video/fbdev/core/fbmon.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/video/fbdev/core/fbmon.c |  7 +------
+ include/linux/fb.h               | 10 +++++++++-
+ 2 files changed, 10 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/video/fbdev/core/fbmon.c b/drivers/video/fbdev/core/fbmon.c
-index 35be4431f649a..9ae063021e431 100644
+index 9ae063021e431..d45bd8a18c2f2 100644
 --- a/drivers/video/fbdev/core/fbmon.c
 +++ b/drivers/video/fbdev/core/fbmon.c
-@@ -1480,17 +1480,19 @@ int fb_validate_mode(const struct fb_var_screeninfo *var, struct fb_info *info)
- 		-EINVAL : 0;
- }
- 
--#if defined(CONFIG_FIRMWARE_EDID) && defined(CONFIG_X86)
-+#if defined(CONFIG_FIRMWARE_EDID)
- const unsigned char *fb_firmware_edid(struct fb_info *info)
- {
- 	unsigned char *edid = NULL;
- 
-+#if defined(CONFIG_ARCH_HAS_EDID_INFO)
- 	/*
- 	 * We need to ensure that the EDID block is only
- 	 * returned for the primary graphics adapter.
- 	 */
- 	if (fb_is_primary_device(info))
- 		edid = edid_info.dummy;
-+#endif
+@@ -1496,13 +1496,8 @@ const unsigned char *fb_firmware_edid(struct fb_info *info)
  
  	return edid;
  }
+-#else
+-const unsigned char *fb_firmware_edid(struct fb_info *info)
+-{
+-	return NULL;
+-}
+-#endif
+ EXPORT_SYMBOL(fb_firmware_edid);
++#endif
+ 
+ EXPORT_SYMBOL(fb_parse_edid);
+ EXPORT_SYMBOL(fb_edid_to_monspecs);
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index 5ffd2223326bf..e949532ffc109 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -761,7 +761,6 @@ extern int fb_get_mode(int flags, u32 val, struct fb_var_screeninfo *var,
+ extern int fb_validate_mode(const struct fb_var_screeninfo *var,
+ 			    struct fb_info *info);
+ extern int fb_parse_edid(unsigned char *edid, struct fb_var_screeninfo *var);
+-extern const unsigned char *fb_firmware_edid(struct fb_info *info);
+ extern void fb_edid_to_monspecs(unsigned char *edid,
+ 				struct fb_monspecs *specs);
+ extern void fb_destroy_modedb(struct fb_videomode *modedb);
+@@ -774,6 +773,15 @@ extern int of_get_fb_videomode(struct device_node *np,
+ extern int fb_videomode_from_videomode(const struct videomode *vm,
+ 				       struct fb_videomode *fbmode);
+ 
++#if defined(CONFIG_FIRMWARE_EDID)
++const unsigned char *fb_firmware_edid(struct fb_info *info);
++#else
++static inline const unsigned char *fb_firmware_edid(struct fb_info *info)
++{
++	return NULL;
++}
++#endif
++
+ /* drivers/video/modedb.c */
+ #define VESA_MODEDB_SIZE 43
+ #define DMT_SIZE 0x50
 -- 
 2.41.0
 
