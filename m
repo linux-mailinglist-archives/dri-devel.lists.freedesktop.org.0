@@ -1,63 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F9F74247A
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 12:56:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6C0074247F
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 12:56:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A57110E148;
-	Thu, 29 Jun 2023 10:56:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32E7910E137;
+	Thu, 29 Jun 2023 10:56:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC1DC10E148
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 10:56:28 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id
- 2adb3069b0e04-4f86e6e4038so658331e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 03:56:28 -0700 (PDT)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AAC810E137
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 10:56:54 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id
+ 2adb3069b0e04-4f8735ac3e3so789490e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 03:56:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688036187; x=1690628187;
+ d=linaro.org; s=google; t=1688036213; x=1690628213;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=d7Es22f+qmqIYUbq2m24EW4HG+xWpZDw823veO7t87g=;
- b=au75T3nGEwiijIKy8ejeucQ+G1slqYYJrIzmYdyPgn/pZhYoiMSG4H1C9puI+S8h+U
- Y88s/zW6nXBqGbXSGZbXwcj+tBfNMtldbaboWaOakat8123dq0ZJjH0Trf7wmPJfXzOY
- 5ifzMfB6KNTDB60qT5qcPU7TwEA/syA0fZ8vvkWJ+JGnGxtJb7sDt3mtmrExCRHoxp50
- 9uKxB95AT/CGD691nq3Gx5DU/XGqs6nuAh56nvpzDhMqhfm0CSQioyM+NK9pe8BTadxZ
- wbXeruw+hqzMXkUSezOaXQPM8/CZ+DscJbXXQLZ17OU3fdhdlwH8yMTskEwjvRNwkpAS
- xgVg==
+ bh=XudBHNh6EIvicDJvP3l5PakLMCO2XVjkw1Un1jKRhd0=;
+ b=uu7ZjOBoQU8Zuc6xF9IASCisl5i3RJN+o5oEwL0m8WNpxK4h7tBhSvxhOCqQRrjq87
+ Hkg7yfdzH0v8pIDmxRQAGR0u2DHKqAjQaV2OCkDaYZObNHJXM4/nLOXobEn13seseI6X
+ T/XY7LDx1LM++ixk5soYZgowssC0pWDGzuVTcdV5WnF/uIYj0WWxjOZn2qju8TU2Emgw
+ 10SG3XblmYyhBTrBCl95QTy0tnbNfHFsKBYPqn6sxYmBUku97ztxomjEPhya+HRs9NYt
+ gEodLw7pzi0dZm1rldmPfx3Obbtqx7P3KOpXnk3n28Rucp/+1cm01JhaxQmMww0TL7bL
+ sAgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688036187; x=1690628187;
+ d=1e100.net; s=20221208; t=1688036213; x=1690628213;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=d7Es22f+qmqIYUbq2m24EW4HG+xWpZDw823veO7t87g=;
- b=FYt7d1N1p0yvWBGSb+TOjTtgAF+b2KWSBracumUuOUnPQJlR6UaT1qHSVDZ3hNaDgT
- W+mQN16sG9IJqADeR4FGyZ3RxH14vntBQ09cJP76FYfmF69+pW73AWDgs60eJTD3xSXQ
- gZyNrabuKVR/86z7wrRBfFNMBUPXxxvAY36nVlVKV0KnMLIMKqs1+O8Ragk12Rtqmy2E
- qwnWn3FI3Bhkxk6UXArqzzfP7Ajyc2Z2C7PVu4IHmy13HfOi1LvoyNzKhC82316rbEGt
- Pb28XhDa5i8jwCuP8nR1lHOjAX4CDjHAGpE1e3hF+BdGlYwYc6wAdhcgZTTMc9hRAqvr
- Zyww==
-X-Gm-Message-State: ABy/qLb9/vKknsFUvJ90MY39PGlKeD01sH9qkAO78tAYgwn+Tmpnx68S
- syU2ktOxriojffsPLCAvpFRhyw==
-X-Google-Smtp-Source: ACHHUZ6uCCsA72nHBEJeClAY0LKCCkK/SiNWp4r9atclYUh7lEO9fg7DN5y4FDNmwNH0R1AzIGkG0g==
-X-Received: by 2002:a05:6512:3f4:b0:4f8:6253:540 with SMTP id
- n20-20020a05651203f400b004f862530540mr1269195lfq.19.1688036186931; 
- Thu, 29 Jun 2023 03:56:26 -0700 (PDT)
+ bh=XudBHNh6EIvicDJvP3l5PakLMCO2XVjkw1Un1jKRhd0=;
+ b=JnfZl5FVEbxVvTS9rxEY7oxLDwxUYjYdokQEpQ0e9Vcezfi1vOxSgcyGf22aELsg3P
+ /GWRv8RgVmJDYuvZ3nSilhhkoYizsj/U0QMdI6/vvICtghRAzTvtzzI7uKqgKfgNGE6w
+ M5CvI2Mef2mrkrroPVy1jhvRjDTXcbxjR4vte4r2GqNmQNqRrP59TFyITSpH+9fayO9H
+ 7sKbcPxYScUvd4dX+l4dZEeZnyjahnE/JNReGY70pyeDrtD4+RbI3DUIDo4JWw7niQ5e
+ S4/6wvF8GbD3a1bKCYDXQM91tQ/UX4LZC4rcwE6Sxn9vWpffeRlaRGPr5QusRFMjJTwM
+ 4wxg==
+X-Gm-Message-State: AC+VfDyjdfIaQ/eyBgwouNBXw5QL3dfJz4M9LFb97KTsw2Sa7zSTByPs
+ brVpNYExV6ALALGs7U1j/rwOvg==
+X-Google-Smtp-Source: ACHHUZ67QQf0NeeCiPkk8c2GdI8jXCRn30dGTaBROv29CmYfqAcSa310+UuNTx97NP8aEBPeMY55Vg==
+X-Received: by 2002:a19:4f04:0:b0:4f8:56c8:e6b4 with SMTP id
+ d4-20020a194f04000000b004f856c8e6b4mr22003723lfb.47.1688036212712; 
+ Thu, 29 Jun 2023 03:56:52 -0700 (PDT)
 Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
  (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
  by smtp.gmail.com with ESMTPSA id
- b7-20020ac247e7000000b004f7673823d3sm2275679lfp.150.2023.06.29.03.56.26
+ u27-20020ac248bb000000b004f861e64f24sm2276659lfg.113.2023.06.29.03.56.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Jun 2023 03:56:26 -0700 (PDT)
-Message-ID: <4a267feb-5855-1427-c378-b2615eae4f84@linaro.org>
-Date: Thu, 29 Jun 2023 13:56:25 +0300
+ Thu, 29 Jun 2023 03:56:52 -0700 (PDT)
+Message-ID: <9ea758a7-236a-6367-1832-fb65cb2ec75b@linaro.org>
+Date: Thu, 29 Jun 2023 13:56:51 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH v2 13/15] arm64: dts: qcom: sm6125: Add dispcc node
+Subject: Re: [PATCH v2 14/15] arm64: dts: qcom: sm6125: Add display hardware
+ nodes
 Content-Language: en-GB
 To: Marijn Suijten <marijn.suijten@somainline.org>,
  Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
@@ -72,9 +73,9 @@ To: Marijn Suijten <marijn.suijten@somainline.org>,
  Loic Poulain <loic.poulain@linaro.org>,
  Konrad Dybcio <konrad.dybcio@somainline.org>
 References: <20230627-sm6125-dpu-v2-0-03e430a2078c@somainline.org>
- <20230627-sm6125-dpu-v2-13-03e430a2078c@somainline.org>
+ <20230627-sm6125-dpu-v2-14-03e430a2078c@somainline.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230627-sm6125-dpu-v2-13-03e430a2078c@somainline.org>
+In-Reply-To: <20230627-sm6125-dpu-v2-14-03e430a2078c@somainline.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,61 +102,25 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 27/06/2023 23:14, Marijn Suijten wrote:
-> Enable and configure the dispcc node on SM6125 for consumption by MDSS
-> later on.
+> Add the DT nodes that describe the MDSS hardware on SM6125, containing
+> one MDP (display controller) together with a single DSI and DSI PHY.  No
+> DisplayPort support is added for now.
 > 
 > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 > ---
->   arch/arm64/boot/dts/qcom/sm6125.dtsi | 25 +++++++++++++++++++++++++
->   1 file changed, 25 insertions(+)
+>   arch/arm64/boot/dts/qcom/sm6125.dtsi | 191 ++++++++++++++++++++++++++++++++++-
+>   1 file changed, 189 insertions(+), 2 deletions(-)
 > 
 > diff --git a/arch/arm64/boot/dts/qcom/sm6125.dtsi b/arch/arm64/boot/dts/qcom/sm6125.dtsi
-> index edb03508dba3..a5cc0d43d2d9 100644
+> index a5cc0d43d2d9..b21fa1256f95 100644
 > --- a/arch/arm64/boot/dts/qcom/sm6125.dtsi
 > +++ b/arch/arm64/boot/dts/qcom/sm6125.dtsi
-> @@ -3,6 +3,7 @@
->    * Copyright (c) 2021, Martin Botka <martin.botka@somainline.org>
->    */
->   
-> +#include <dt-bindings/clock/qcom,dispcc-sm6125.h>
->   #include <dt-bindings/clock/qcom,gcc-sm6125.h>
->   #include <dt-bindings/clock/qcom,rpmcc.h>
->   #include <dt-bindings/dma/qcom-gpi.h>
-> @@ -1203,6 +1204,30 @@ sram@4690000 {
+> @@ -1204,12 +1204,199 @@ sram@4690000 {
 >   			reg = <0x04690000 0x10000>;
 >   		};
 >   
-> +		dispcc: clock-controller@5f00000 {
-> +			compatible = "qcom,sm6125-dispcc";
-> +			reg = <0x05f00000 0x20000>;
-> +			clocks = <&rpmcc RPM_SMD_XO_CLK_SRC>,
-> +				 <0>,
-> +				 <0>,
-> +				 <0>,
-> +				 <0>,
-> +				 <0>,
-> +				 <&gcc GCC_DISP_AHB_CLK>,
-> +				 <&gcc GCC_DISP_GPLL0_DIV_CLK_SRC>;
-> +			clock-names = "bi_tcxo",
-> +				      "dsi0_phy_pll_out_byteclk",
-> +				      "dsi0_phy_pll_out_dsiclk",
-> +				      "dsi1_phy_pll_out_dsiclk",
-> +				      "dp_phy_pll_link_clk",
-> +				      "dp_phy_pll_vco_div_clk",
-> +				      "cfg_ahb_clk",
-> +				      "gcc_disp_gpll0_div_clk_src";
-> +			power-domains = <&rpmpd SM6125_VDDCX>;
 
-Would it be logical to specify the required-opps too?
-
-> +			#clock-cells = <1>;
-> +			#power-domain-cells = <1>;
-> +		};
-> +
->   		apps_smmu: iommu@c600000 {
->   			compatible = "qcom,sm6125-smmu-500", "qcom,smmu-500", "arm,mmu-500";
->   			reg = <0x0c600000 0x80000>;
-> 
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
 With best wishes
