@@ -1,71 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A99E74241C
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 12:45:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86D01742445
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 12:50:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CEA710E100;
-	Thu, 29 Jun 2023 10:45:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC13D10E10B;
+	Thu, 29 Jun 2023 10:50:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D94A810E0E8
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 10:45:03 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id
- 2adb3069b0e04-4fb7589b187so816378e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 03:45:03 -0700 (PDT)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ABBB10E0E8
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 10:50:14 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id
+ 2adb3069b0e04-4fb761efa7aso809940e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 03:50:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688035502; x=1690627502;
+ d=linaro.org; s=google; t=1688035812; x=1690627812;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ZycAiamSeAOei9N+fAI38YLBVtrmW7Hr+4Gb/tmtJdE=;
- b=F3yqPKaQcukcWpswKoEnWgsRS8CyP+vjEDX86QbJiUTKAX4Zl3N1i3AD3Dfh+CvFuD
- 4DZcigkFoaA0A4Lw21po6/5LklYIR8tCeqwZJXRu9K8IyDry5AJHRY7fqCeW1dmgTh7Q
- 9Jpp/Xy5X8GEFPremmquDrtEfBMIpE+Xu6HVMozAWYx5oF5vI7TXHm3pQklyWxVM5fRi
- RLLMScYeX0zUKdTRCpQrMxza0ZmyBTnF/a1PBzMBcJVObmSJhztglZgAE3E8LPSSmUHn
- IPggWVV84cEByw5AMWuSjjwHiG1SNvImf1ckL8KJObjSzIHrfNQJ7TReDUMrtGKMTEDM
- LXxw==
+ bh=AlWKrukg5MkoBr6pmLqgyqkqs3HWwrV9mYN/fyCAiOY=;
+ b=WBlfWCh+qhrVWdYpLZ45TxWD+z+z59deD4crcXaYxzldSoovleEsfQTWo8vQ+fEygu
+ MknhUiiWRRkpolb/Yzvak/bdgHVGSmM0dLxUIA2eOCuaESZqD5gNPn2ZvQSM2AqHCiU1
+ Skv5s73xK4dr6rLkqrmN/8w+WBBn4Ysp5Qks3qGcBN91lBrOEguZRKWyaI8BaZigtVqU
+ HssxCXJRtl+KcFwdptvdA+hw6O2mhRpQuHTgd2ns1JpN54rm+n7Rbl/IUMfqls/YdAht
+ 0XOzm0qMxB3367Uzv2CJnsMthpbxHJ8/NM+m+GZic3sFYgsgJx49jR6H5RlZMSpHsGpa
+ Zssw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688035502; x=1690627502;
+ d=1e100.net; s=20221208; t=1688035812; x=1690627812;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZycAiamSeAOei9N+fAI38YLBVtrmW7Hr+4Gb/tmtJdE=;
- b=idZo/h+rjvlrHGEBWgCz4G+/jZHbtLp9feKLSNs0Atxy+kb601CODoORxuNECIMgQa
- 9u7SWfZxwNi8bnxcUmcuvfeqDDI6w2DV3mXzH9cZeiwb6uGKKz+pCjzk8xG+dvJGftNI
- e+ZyDes3jAiO/P6ECyKUNcscvlDYtXVSV6cha2Yy2t0TMRpDrYchQsSqxWWbw3fyUuJM
- JvoZyxr+DOX/M00MvXEysXXuyWZNx+qlBzToJjGZapxesT5ZVI61sKWnzaVxgm4SLcEQ
- D1sw288PClESwutDExUw3nOgoQffBVSSBVaMk5pWlKqLIQuv7Q6ySyXtroQGJgV2v4Km
- MboA==
-X-Gm-Message-State: AC+VfDxLwTKU6hzF8yjHtQf5SPJhkjyQjx50n4HowLOv87CK5phwPOTp
- utD/ni++KpqHNmqDkIrmOlkkJQ==
-X-Google-Smtp-Source: ACHHUZ75RHc/BSu6OWqTmUPkHeojYgt1q2iHXJcOCWdC36jUqcV9FWlcjMVdvh5PrQGCY+XkgMVQcQ==
-X-Received: by 2002:a05:6512:23a4:b0:4fb:18f4:4cd4 with SMTP id
- c36-20020a05651223a400b004fb18f44cd4mr10650284lfv.55.1688035501764; 
- Thu, 29 Jun 2023 03:45:01 -0700 (PDT)
-Received: from [192.168.1.101] (abyk82.neoplus.adsl.tpnet.pl. [83.9.30.82])
+ bh=AlWKrukg5MkoBr6pmLqgyqkqs3HWwrV9mYN/fyCAiOY=;
+ b=dpFhjDf3EHaiOtZKOJTYkff0DPmestErp564VXsmZ7YMz2Z/WQhYwKMMl/H95WfHNI
+ e3+d+DioUi3yx03+rRGzwfeXnPxq9Y2LJlhlY83VzjE148xx02/Tk8xYISmeXbo3GuEt
+ Hlc+B8YkJNOTyLzr9dYCsOZ7AxCa3x6dJifLxGVYrSxpoz0fklF4L5bzmVSAw4hkkdST
+ sfnDpLT+TEulcWG3q8J9tGf4FJNeu/LBGw1XbDHmBatkICkqh8/p89eM26ERm/Y4fxeo
+ N2vPObggnAMWhB2CFLiMOykiOs7rhbjDYaMkoc+1iEu13crP9Zj2fyNe4HYK77qGCY9S
+ 6c9Q==
+X-Gm-Message-State: AC+VfDzVOGLXZOrAhaj3wphk18yp5eVkpwGvIxjngKOZC/UnFrQQTK4+
+ VL8zR8H+eVS1jhjNnjisdCwLZA==
+X-Google-Smtp-Source: ACHHUZ4MUaOhGLj+rMVCwGhuYzQmktcGM6s56V38iEDGRih5bps9QVtmpsk9PuqcaKJZSP1bMwcr+Q==
+X-Received: by 2002:a19:5f44:0:b0:4f6:2317:f387 with SMTP id
+ a4-20020a195f44000000b004f62317f387mr20026659lfj.35.1688035812045; 
+ Thu, 29 Jun 2023 03:50:12 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
  by smtp.gmail.com with ESMTPSA id
- z8-20020a19f708000000b004f84d7706a7sm2276290lfe.7.2023.06.29.03.44.59
+ b12-20020a056512024c00b004f87571a5c8sm2264826lfo.48.2023.06.29.03.50.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Jun 2023 03:45:01 -0700 (PDT)
-Message-ID: <6874227d-ea70-cae3-8267-1dd6baad997c@linaro.org>
-Date: Thu, 29 Jun 2023 12:44:59 +0200
+ Thu, 29 Jun 2023 03:50:11 -0700 (PDT)
+Message-ID: <bf82cadd-025d-58b9-15b0-5fd4d7a5603e@linaro.org>
+Date: Thu, 29 Jun 2023 13:50:10 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 2/4] regulator: Introduce Qualcomm REFGEN regulator driver
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>
-References: <20230628-topic-refgen-v1-0-126e59573eeb@linaro.org>
- <20230628-topic-refgen-v1-2-126e59573eeb@linaro.org>
- <76e2f865-1a37-4517-b343-6aaea397fcf7@sirena.org.uk>
- <6109d966-b705-4e84-d8b3-c895ef540db3@linaro.org>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <6109d966-b705-4e84-d8b3-c895ef540db3@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 01/15] drm/msm/dsi: Drop unused regulators from QCM2290
+ 14nm DSI PHY config
+Content-Language: en-GB
+To: Marijn Suijten <marijn.suijten@somainline.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Loic Poulain <loic.poulain@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>
+References: <20230627-sm6125-dpu-v2-0-03e430a2078c@somainline.org>
+ <20230627-sm6125-dpu-v2-1-03e430a2078c@somainline.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230627-sm6125-dpu-v2-1-03e430a2078c@somainline.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,82 +90,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Andy Gross <agross@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Jami Kettunen <jami.kettunen@somainline.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Lux Aliaga <they@mint.lgbt>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, freedreno@lists.freedesktop.org,
+ linux-clk@vger.kernel.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29.06.2023 10:43, Konrad Dybcio wrote:
-> On 28.06.2023 21:28, Mark Brown wrote:
->> On Wed, Jun 28, 2023 at 06:29:46PM +0200, Konrad Dybcio wrote:
->>
->>> +// SPDX-License-Identifier: GPL-2.0-only
->>> +/*
->>> + * Copyright (c) 2017, 2019-2020, The Linux Foundation. All rights reserved.
->>> + * Copyright (c) 2023, Linaro Limited
->>> + */
->>
->> Please use a C++ comment for the whole thing for consistency.
-> Oh that's new!
+On 27/06/2023 23:14, Marijn Suijten wrote:
+> The regulator setup was likely copied from other SoCs by mistake.  Just
+> like SM6125 the DSI PHY on this platform is not getting power from a
+> regulator but from the MX power domain.
 > 
->>
->>> +static int qcom_sdm845_refgen_enable(struct regulator_dev *rdev)
->>> +{
->>> +	struct qcom_refgen *vreg = rdev_get_drvdata(rdev);
->>> +
->>> +	regmap_update_bits(vreg->base, REFGEN_REG_BG_CTRL,
->>> +			   REFGEN_BG_CTRL_MASK, REFGEN_BG_CTRL_ENABLE);
->>> +	regmap_write(vreg->base, REFGEN_REG_BIAS_EN, REFGEN_BIAS_EN_ENABLE);
->>
->> For the enable and disable operations we use a mix of _update_bits() and
->> absolute writes with no FIELD_PREP()...
-> This absolute write was accidentally fine as the mask began at bit0...
-> 
->>
->>> +static int qcom_sdm845_refgen_is_enabled(struct regulator_dev *rdev)
->>> +{
->>> +	struct qcom_refgen *vreg = rdev_get_drvdata(rdev);
->>> +	u32 val;
->>> +
->>> +	regmap_read(vreg->base, REFGEN_REG_BG_CTRL, &val);
->>> +	if (FIELD_GET(REFGEN_BG_CTRL_MASK, val) != REFGEN_BG_CTRL_ENABLE)
->>> +		return 0;
->>> +
->>> +	regmap_read(vreg->base, REFGEN_REG_BIAS_EN, &val);
->>> +	if (FIELD_GET(REFGEN_BIAS_EN_MASK, val) != REFGEN_BIAS_EN_ENABLE)
->>> +		return 0;
->>
->> ...but when we read back the status we use FIELD_GET().  This looks like
->> a bug, and given that one of the fields starts at bit 1 it presumably is
->> one - FIELD_GET() will do shifting.
-> ...but a 2-bit-wide field will never equal 6.
-> Looks like I put unshifted values in the defines for REFGEN_BG_CTRL..
-> 
-> Thanks for spotting that!
-Even worse, I noticed I've been feeding a raw address into regmap
-functions.. :) 
+> Fixes: 572e9fd6d14a ("drm/msm/dsi: Add phy configuration for QCM2290")
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> ---
+>   drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c | 2 --
+>   1 file changed, 2 deletions(-)
 
-Konrad
-> 
->>
->>> +static int qcom_sm8250_refgen_enable(struct regulator_dev *rdev)
->>> +{
->>> +	struct qcom_refgen *vreg = rdev_get_drvdata(rdev);
->>> +
->>> +	regmap_update_bits(vreg->base, REFGEN_REG_PWRDWN_CTRL5,
->>> +			   REFGEN_PWRDWN_CTRL5_MASK, REFGEN_PWRDWN_CTRL5_ENABLE);
->>
->> This is a single bit in a single register so could use the standard
->> helpers rather than open coding, the sdm845 does need custom operations
->> due to having two fields to manage.
-> Forgot that's a thing!
-> 
-> Konrad
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+-- 
+With best wishes
+Dmitry
+
