@@ -1,72 +1,118 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C50137420FB
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 09:29:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45C9F742127
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 09:39:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B897910E15B;
-	Thu, 29 Jun 2023 07:29:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3300610E3B9;
+	Thu, 29 Jun 2023 07:39:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF8BB10E15B;
- Thu, 29 Jun 2023 07:29:40 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id
- 38308e7fff4ca-2b69f958ef3so5121471fa.1; 
- Thu, 29 Jun 2023 00:29:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1688023776; x=1690615776;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=uqzYTrdPD4vbemfyu8eoAm1tg2yh7fiY9wJETEZ7F28=;
- b=cXEEymKD1WNa45KrHFMTk1CuRbjaI7vhUxlXcrmat5ARGRz4jI3sDTiRMZZVef0phQ
- fFaVjwRm3d/heSYo0x66HIyi9d0v4MZD+c5AwiAcpW/3kglJHZGID/BNdfcR0vBZv+2e
- EMIrkpfVihi5VAU++yMAJAZqe6qPGQgDXvl+CFYjmyc5zbEQbsdgq8uiI+cQvpd66m+N
- oWH7hlGtqhhdNcARLee5j1pbP/sZg5hoQh5EQ86nGFE3I+2KOon3ZXTh5+yLuPMG+uIJ
- XmKLlmxHFfLIyggfFfZqesAZNiP0A8UL32qLG/oecGKpOf8tvRfCmF/mO8JMcwDF+d4W
- xmog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688023776; x=1690615776;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uqzYTrdPD4vbemfyu8eoAm1tg2yh7fiY9wJETEZ7F28=;
- b=hMbNfxYM5j58GFqhVcvnGv8JF5a+NAjhkBsp07zdpxig5xJ4+amlB13zGWqquLxp7z
- 2MKEZP+S8e/0pzaloHcsTVzoYyIUTaikZy7KfXgy238r/i1UGLfScb9nEs2ox2pHiiSC
- 9/U9HIpBfkJBpBsgMSBkhSW0oTAsZsK2/EIl7Ff84fxSqxTfQ17DskC3ezFNusUcLY04
- FzqssD2Bb52U+SJn7gaPXJhWw6mTLANE8e1dCFsUzw/s0iATupkhacV92IMplvWHDeUJ
- s/LbrClPo7LbcpxflmwKsnfEjy0iOZ7Kci8M7GhkufOprWqnXCJqx0EEJaeKHuchILJP
- u1UQ==
-X-Gm-Message-State: AC+VfDwNZ0tqoM9tSwNnHwn7+gQsQY4Yr2IgNG3xi1ZFd6HEZ12R/YdA
- UirQC7CL53HLaMMWokcERIQ=
-X-Google-Smtp-Source: ACHHUZ7wnEL/1jDFaM8stFx/R8zjf53vc47nrJgpdJdvlQRMgALdgIJJYkkK09Oatpg45wKS1++dpA==
-X-Received: by 2002:a2e:94c1:0:b0:2af:1817:26e1 with SMTP id
- r1-20020a2e94c1000000b002af181726e1mr24897055ljh.30.1688023775972; 
- Thu, 29 Jun 2023 00:29:35 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- i23-20020a2e9417000000b002b6cba03427sm27286ljh.79.2023.06.29.00.29.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Jun 2023 00:29:35 -0700 (PDT)
-Date: Thu, 29 Jun 2023 10:29:25 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: Re: [RFC PATCH 0/3] Support for Solid Fill Planes
-Message-ID: <20230629102925.71b5b6ad@eldfell>
-In-Reply-To: <af4058fb-9744-87c8-bf9c-85cf78a97095@quicinc.com>
-References: <20221028225952.160-1-quic_jesszhan@quicinc.com>
- <Y2leZDfLj/5963wl@intel.com>
- <d0b5abdc-85ad-fee2-9760-866c32bab111@quicinc.com>
- <20230627105849.004050b3@eldfell>
- <5e60fe99-76d5-c242-608e-b74bf6f0e7bd@quicinc.com>
- <54f194fe-ab7b-247d-600b-6da8f5c57dbf@linaro.org>
- <1613cdd4-8d90-6589-97e8-c4e1810bde04@quicinc.com>
- <20230628103451.118c0d76@eldfell>
- <af4058fb-9744-87c8-bf9c-85cf78a97095@quicinc.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2040.outbound.protection.outlook.com [40.107.220.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDC2810E3B9
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 07:39:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DQIfNT+/Up/zP5JYxtuNuZcZWHDY5k3uSoo5VBBTd3mAtlhIUxwDCfgzCVdy6NSkWT1nRYhD+0cUAQO4OyB589rVVjd8+6iziwwTMwA5CaWu4tjeOjL/YoBHU7FrWFMvO5p9/tQK81ChXUvRkRV70S2cjb8dqKiBDlFeWWazJlJgbAilBSkgupfdlLHcbBXopMdlsT0F6+gU2LRgNcqjHQ0i2ME2P//oIY3rqx4PfUhVXI3bRfUH7TPh4ATobPUPRZ8LGsPOiXPiAgIkCftVDb4wcegUjkYCuFXlcXbqYGsWg8e+1Ekd7r0NPa99eWMoaTXOpSZLyqh+kJHm7XKNzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JFTp6jN0HuPi/28fW9xSpcNS6PRL8FkBn3vxv0Rv4hg=;
+ b=JqhJ3PB8Or7JIJ3Yqd74EUZgu9oCMkPgxaqfanrccoKR7LFd/LMHpz7kiB30Td3vUM6EAcRhel7pGH7mDqr4WjSRkUlobHWAPYF+N7/kqjAVF/hS0LiQdlKLpPGhpndDpgcGjtyIv5mqfgxGc99efQXXahCVpx1P2TB6PgIKkab4iFIXerMig2kBlWIIv11rGCYcroVHV1sMeCAMkfeCgD6m8Y2wrOs25Kvu6MoLY1pYtgU6LOtT624Rs8DS96iTNZ9KCuM+arlNJmghWNhoaqQXdWojhzmpGNfgxt0HE6cM58QVx+3azaL5L6/5Ev55EyUrAEoMd2Tla9DMXA+eYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JFTp6jN0HuPi/28fW9xSpcNS6PRL8FkBn3vxv0Rv4hg=;
+ b=xs8MMaksgm+h8URMbVnop30JFU72ZnhV2J5av5pWXeSTeyHu369gs4Pf3AvY4Tza83cqRdT+LylpDfflHUJSbFNbdtCe8S/OBzhi45TQX3rUREilkRutB9hl1fJBXlqNXGd0y8uRFet4u9F6Ex4PnPjNmOv6O4kh3LTlhUs/IkI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by PH8PR12MB6794.namprd12.prod.outlook.com (2603:10b6:510:1c5::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.23; Thu, 29 Jun
+ 2023 07:39:32 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::384a:95a4:8819:ee84]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::384a:95a4:8819:ee84%7]) with mapi id 15.20.6521.026; Thu, 29 Jun 2023
+ 07:39:32 +0000
+Message-ID: <d4d9cccb-498d-673a-6727-7785e91f6e73@amd.com>
+Date: Thu, 29 Jun 2023 09:39:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [RFC v2 0/3] Introduce KUnit tests for TTM subsystem
+Content-Language: en-US
+To: Karolina Stolarek <karolina.stolarek@intel.com>,
+ dri-devel@lists.freedesktop.org
+References: <cover.1687779215.git.karolina.stolarek@intel.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <cover.1687779215.git.karolina.stolarek@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0030.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:14::17) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/GvcJ4bJU1YyhWucAGmk+Hru";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH8PR12MB6794:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9ff455b6-9df1-4320-9eb9-08db7873fa4d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: AvDdTY+5Mn31zpaUt2lcRIfpvtoo1wBq9ZhiuaQTsiKPU2XpsOK05GLBP85iDiwvC8TNE3ZeICO3/QfHRXzabssJAhaq90kOvuCEJR2W7kQlHrp59kCHNLtcdQyUs1fd/G9cOjwXYrTdbyXdtTL53OhVrvdPqzpHoeWU6WJfjlSGKFuwhyKf48wPWunmTLU4fJJAO3v9iB8GsyEbkHvNSY8xQ8PhHvXdmFV1xx3Tp73gpMrpDPlBrWaC5W5UIqLi9m0lmwNRPQ3+CfpOyhCKIbD5JzTe+nYgeIaE/hjDGo0Yy63scR7Z1r1EHSeUckTmzgIoUPyLXD4iVKuQ/a2N1DMcLMGA4MmYCmRg0nKwjLOm+cqz3Vqu/uvAU5CmLuuSulWake1KGLFaWxq48PCYq4Kl3TooJU9LMmdxBZDrL2dALd7XzFQDlffLuM7j0Qzj3gi3lgpL+i7jzMpG5bwjU4F73G1+KgOeO1zqqQp4+i5CV/PErVNgrHv7Sga3i0GvWGxMEz1ea2y/EDJqW6fbRtlKG1S+JG6gsiq5QmELDfNjUwSyNnqaCeTgsEDiZ7vq/FzGsDsHsmmyvz+BjoxDyZgh60bTAiZu5TpSlwmVUoQ6cxZCIBI5y11JgQ3jkjtyn+T1Pm981AsH75ro2niCx0pKbKbWpsi8x8L5af9U0jUAxTTSRB0kIpHWOj0fpbX8
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(346002)(366004)(136003)(39860400002)(396003)(376002)(451199021)(31686004)(186003)(2906002)(66476007)(5660300002)(26005)(6666004)(31696002)(36756003)(8676002)(316002)(54906003)(86362001)(6486002)(478600001)(966005)(4326008)(2616005)(38100700002)(66946007)(41300700001)(66556008)(8936002)(83380400001)(6512007)(6506007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WVArSS9ReEY2VXgrWWNoWHhBMFBPRWZaNWtZWDRzMkJoTEZqSVFpWlJoa2tY?=
+ =?utf-8?B?eVhSVWd6S3ZPSHdZaHFlUmpvajBadmtTVDZBWGFhUjlmVnRVWlRTSEk1Z2xI?=
+ =?utf-8?B?S1FiSkhaV1dkTzhTc1d0UTV3RGxXM01LTUJXbHNIdTJCVkFKZ2JUa2w4NG5q?=
+ =?utf-8?B?VlM2Y01jUEN6bnF5Nzd2dWJKaWdPcWxwZUNtN2h4N3ZTRy84WENLZVVvR3Bk?=
+ =?utf-8?B?ZlRtVjlCaWs3SXpTK3NiQ0tKK2w0dFJPZnBRN1A0aWo2VG83ODRMVHE4TzNP?=
+ =?utf-8?B?VEZVMWdWdmxTaWRDMURQa0M1a0E1ZVRwb3FKbURJWjFxOEZycUNLODJRWk9v?=
+ =?utf-8?B?V0JnTFl5TnNlL0RtRHAvZElDM1dVNzErbkJoQnNac1VRdzZtclN5N1NvZWNz?=
+ =?utf-8?B?QnFHY0NodDM1aFpxQlh6YmpKZmdJMS9aS0FtMEgzOWxFdVhUUmlLUWduMUkx?=
+ =?utf-8?B?ckR5LzFwRkRNR2I4dWJHNVQybUplT1h2T2N6d3dGVTBlaTNSQWRMVGNab1hk?=
+ =?utf-8?B?VE1DVzU4bDNNR3BGMDRON2k5OWRDUm83R2dCTm5JTnVPcDVFN2pMNlJnTEwy?=
+ =?utf-8?B?cWtZU2tlN2FId0g5c203K1VRanZjZEdlTzBETlRHRG16TjVsRG51M1E2RW5m?=
+ =?utf-8?B?SVZacHNLT0hEVUFrd2wzY2t0c3RtZzJlTDdGSy9FMy9iUnlyVUJ4NldNRG03?=
+ =?utf-8?B?bFBmZ1hJVzhHZ3c3aXQzRmpkRFhpbS9Nc3ltTVBXWForVFU0NWsrNTZrZDNQ?=
+ =?utf-8?B?MXh4SjVneGZYOXJCMHAxSFpraUxpdUwrdDV3d0pIUExxOG1yWEcwbEp0K1Q2?=
+ =?utf-8?B?aFQxaTRnYWtlLzU2dDk0RmdFbWoxOWcxSmlUeDRuRWZjK3VybURqQmxZSnY5?=
+ =?utf-8?B?eCt0clJzMldnY3VlMjJGWmRIOHNTaXp2SHBqMzRvUGI3V1pHUkN4aExEY0xw?=
+ =?utf-8?B?QUt6RkV2VXBFSGJMT1FMRnVEaGJrcGZXSTdCcnUxd2E1VTBYZUxSVWVVdHB5?=
+ =?utf-8?B?RFVPQVkybElZZlFqVWRYNUE3Rk1XZjErTXBXMzZLN2dkOW1OWjhuRG5HN3lE?=
+ =?utf-8?B?UGdtZ3B2ZlhrelBIMWE0K2dzc0hOdHlqSng0M0Nuamh2NG9MaUluZ2laSFhR?=
+ =?utf-8?B?QUdad1VNVnRONFcrNXVHcmxSaXJLb2N4S3hmeW5MMDA3VnBtS3pmZmwrU3pJ?=
+ =?utf-8?B?elRBZlZGNWJmVDlXOExDWnBIVVpwQ1h5eWRsb1hZbkdscHFBUVBiZVBDUTVU?=
+ =?utf-8?B?cHJReTlXSHpRZUxva003d1lSNDFYOGtNM0MyNk1rZEd1YWxzc3ovVUVUYkhR?=
+ =?utf-8?B?NmxJcjdrK3lMbk5XY256emRqOFBTSFh5UVJNSXlWZDJ1aHBtb1BsZTN3SG9S?=
+ =?utf-8?B?eEpCTlF5MEdKZ2ZzN2t6Ky9jTGlPSmhqSnNtTWIwdnoyS0FIbisxM2ErMVJU?=
+ =?utf-8?B?N1BiTG5hMFdvdVBtSFA5K2h3eGY2ZlY2YnBnZDBUNWU4Z0s3eEE3NTFndWlJ?=
+ =?utf-8?B?ejlqYmFlcmRFM3FWam9qT3VDV1g2emR3V2Y4SVowbTRQZUYrUC95ZWpkdFVZ?=
+ =?utf-8?B?THgxdzRQWFUzUEUwVTlmMStPa2tUK3ZBZ1NlbFk3L29jMWptbm1VQ3RSY0lE?=
+ =?utf-8?B?QzloNmtoSmIvOWtReFR1VE92V3VSd0F3c0txY25lNkZEMWhRd1hJLzdZNS9l?=
+ =?utf-8?B?YnZIcWNjOHM1bUJGWSthcEhuV3V0QXluRHAyL0Jla1RQdjRwK2QxNnB2QzVF?=
+ =?utf-8?B?dUpUb2pYaUpiN0RlNWpqdzVlMmt2RmFIM3FUekRKVVRibUNjd05nYW42czRw?=
+ =?utf-8?B?UzFmUFJEdG5JclM3TXdCK1NKbTVUM3NzelJ0a2NBU1BzN09JblgrY1lwRFAv?=
+ =?utf-8?B?YXJJSk9BaWczYWtiQ0FJWjQwSVZuOE0vZ3ZOSEJ2ZnBKR3BweWU2OGhJMGFv?=
+ =?utf-8?B?RU5hQ1BxVzYzZzhhVnA0aDRKbkpBUm1GRTl6MzhtMGR1MW5vUGlqWXRNTmhu?=
+ =?utf-8?B?RjdLekN3Zm1GQy9ZbUNwdjdUcFJxcERWWjBXblpRL3dnU041ZDUxd1lHUUZZ?=
+ =?utf-8?B?cUhRZFlEYjVvaDdPNStEZ3RVc2tFOUI5eGt4OEt6TVNqTXpUdXViM05ma2pu?=
+ =?utf-8?Q?7M7U=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ff455b6-9df1-4320-9eb9-08db7873fa4d
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2023 07:39:32.1558 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8lfU+JO6WODdMmHjYlMyVIKJNwRaDvK7QuJc8NmofJxf4AM7HG96V4OOptTSbtMn
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6794
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,273 +125,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- laurent.pinchart@ideasonboard.com, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- wayland-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>,
+ Shuah Khan <shuah@kernel.org>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/GvcJ4bJU1YyhWucAGmk+Hru
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Sorry for the delayed response, AMD had some mail server issues and I 
+simply missed this through the web access interface.
 
-On Wed, 28 Jun 2023 09:40:21 -0700
-Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
+Going to take a look at this now,
+Christian.
 
-> On 6/28/2023 12:34 AM, Pekka Paalanen wrote:
-> > On Tue, 27 Jun 2023 15:10:19 -0700
-> > Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >  =20
-> >> On 6/27/2023 2:59 PM, Dmitry Baryshkov wrote: =20
-> >>> On 28/06/2023 00:27, Jessica Zhang wrote: =20
-> >>>>
-> >>>>
-> >>>> On 6/27/2023 12:58 AM, Pekka Paalanen wrote: =20
-> >>>>> On Mon, 26 Jun 2023 16:02:50 -0700
-> >>>>> Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
-> >>>>>    =20
-> >>>>>> On 11/7/2022 11:37 AM, Ville Syrj=C3=A4l=C3=A4 wrote: =20
-> >>>>>>> On Fri, Oct 28, 2022 at 03:59:49PM -0700, Jessica Zhang wrote: =20
-> >>>>>>>> Introduce and add support for COLOR_FILL and COLOR_FILL_FORMAT
-> >>>>>>>> properties. When the color fill value is set, and the framebuffer
-> >>>>>>>> is set
-> >>>>>>>> to NULL, memory fetch will be disabled. =20
-> >>>>>>>
-> >>>>>>> Thinking a bit more universally I wonder if there should be
-> >>>>>>> some kind of enum property:
-> >>>>>>>
-> >>>>>>> enum plane_pixel_source {
-> >>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0FB,
-> >>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0COLOR,
-> >>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0LIVE_FOO,
-> >>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0LIVE_BAR,
-> >>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0...
-> >>>>>>> } =20
-> >>>>>>
-> >>>>>> Reviving this thread as this was the initial comment suggesting to
-> >>>>>> implement pixel_source as an enum.
-> >>>>>>
-> >>>>>> I think the issue with having pixel_source as an enum is how to de=
-cide
-> >>>>>> what counts as a NULL commit.
-> >>>>>>
-> >>>>>> Currently, setting the FB to NULL will disable the plane. So I'm
-> >>>>>> guessing we will extend that logic to "if there's no pixel_source =
-set
-> >>>>>> for the plane, then it will be a NULL commit and disable the plane=
-".
-> >>>>>>
-> >>>>>> In that case, the question then becomes when to set the pixel_sour=
-ce to
-> >>>>>> NONE. Because if we do that when setting a NULL FB (or NULL solid_=
-fill
-> >>>>>> blob), it then forces userspace to set one property before the oth=
-er. =20
-> >>>>>
-> >>>>> Right, that won't work.
-> >>>>>
-> >>>>> There is no ordering between each property being set inside a single
-> >>>>> atomic commit. They can all be applied to kernel-internal state
-> >>>>> theoretically simultaneously, or any arbitrary random order, and the
-> >>>>> end result must always be the same. Hence, setting one property can=
-not
-> >>>>> change the state of another mutable property. I believe that doing
-> >>>>> otherwise would make userspace fragile and hard to get right.
-> >>>>>
-> >>>>> I guess there might be an exception to that rule when the same prop=
-erty
-> >>>>> is set multiple times in a single atomic commit; the last setting in
-> >>>>> the array prevails. That's universal and not a special-case between=
- two
-> >>>>> specific properties.
-> >>>>>    =20
-> >>>>>> Because of that, I'm thinking of having pixel_source be represented
-> >>>>>> by a
-> >>>>>> bitmask instead. That way, we will simply unset the corresponding
-> >>>>>> pixel_source bit when passing in a NULL FB/solid_fill blob. Then, =
-in
-> >>>>>> order to detect whether a commit is NULL or has a valid pixel
-> >>>>>> source, we
-> >>>>>> can just check if pixel_source =3D=3D 0. =20
-> >>>>>
-> >>>>> Sounds fine to me at first hand, but isn't there the enum property =
-that
-> >>>>> says if the kernel must look at solid_fill blob *or* FB_ID?
-> >>>>>
-> >>>>> If enum prop says "use solid_fill prop", the why would changes to F=
-B_ID
-> >>>>> do anything? Is it for backwards-compatibility with KMS clients tha=
-t do
-> >>>>> not know about the enum prop?
-> >>>>>
-> >>>>> It seems like that kind of backwards-compatiblity will cause proble=
-ms
-> >>>>> in trying to reason about the atomic state, as explained above, lea=
-ding
-> >>>>> to very delicate and fragile conditions where things work intuitive=
-ly.
-> >>>>> Hence, I'm not sure backwards-compatibility is wanted. This won't be
-> >>>>> the first or the last KMS property where an unexpected value left o=
-ver
-> >>>>> will make old atomic KMS clients silently malfunction up to showing=
- no
-> >>>>> recognisable picture at all. *If* that problem needs solving, there
-> >>>>> have been ideas floating around about resetting everything to nice
-> >>>>> values so that userspace can ignore what it does not understand. So=
- far
-> >>>>> there has been no real interest in solving that problem in the kern=
-el
-> >>>>> though.
-> >>>>>
-> >>>>> Legacy non-atomic UAPI wrappers can do whatever they want, and prog=
-ram
-> >>>>> any (new) properties they want in order to implement the legacy
-> >>>>> expectations, so that does not seem to be a problem. =20
-> >>>>
-> >>>> Hi Pekka and Dmitry,
-> >>>>
-> >>>> After reading through both of your comments, I think I have a better
-> >>>> understanding of the pixel_source implementation now.
-> >>>>
-> >>>> So to summarize, we want to expose another property called
-> >>>> "pixel_source" to userspace that will default to FB (as to not break
-> >>>> legacy userspace).
-> >>>>
-> >>>> If userspace wants to use solid fill planes, it will set both the
-> >>>> solid_fill *and* pixel_source properties to a valid blob and COLOR
-> >>>> respectively. If it wants to use FB, it will set FB_ID and
-> >>>> pixel_source to a valid FB and FB.
-> >>>>
-> >>>> Here's a table illustrating what I've described above:
-> >>>>
-> >>>> +-----------------+-------------------------+-----------------------=
---+
-> >>>> | Use Case=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | Legacy Usersp=
-ace=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | solid_fill-aware=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
-> >>>> |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 | Userspace=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
-> >>>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
-> >>>> | Valid FB=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | pixel_source =
-=3D FB=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | pixel_source =3D FB=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
-> >>>> |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | FB_ID =3D valid FB=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 | FB_ID =3D valid FB=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 |
-> >>>> +-----------------+-------------------------+-----------------------=
---+
-> >>>> | Valid=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-| pixel_source =3D COLOR=C2=A0=C2=A0=C2=A0 | N/A=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |
-> >>>> | solid_fill blob | solid_fill =3D valid blob |=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | =20
-> >>>
-> >>> Probably these two cells were swapped.
-> >>>     =20
-> >>
-> >> Ack, yes they were swapped.
-> >> =20
-> >>>> +-----------------+-------------------------+-----------------------=
---+
-> >>>> | NULL commit=C2=A0=C2=A0=C2=A0=C2=A0 | pixel_source =3D FB=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 | pixel_source =3D FB=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |
-> >>>> |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | FB_ID =3D NULL=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | FB_ID =3D NULL=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
-> >>>> +-----------------+-------------------------+-----------------------=
---+ =20
-> >>>
-> >>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | or:
-> >>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | pixel_source =3D C=
-OLOR
-> >>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | solid_fill =3D NUL=
-L =20
-> >>>>
-> >>>> Is there anything I'm missing or needs to be clarified?
-> >>>>    =20
-> >>>
-> >>> LGTM otherwise
-> >>>     =20
-> >>
-> >> LGTM too. =20
-> >=20
-> > Hi,
-> >=20
-> > yeah, that sounds fine to me, if everyone thinks that adding a new
-> > property for pixel_source is a good idea. I just assumed it was already
-> > agreed, and based my comments on that.
-> >=20
-> > I don't really remember much of the discussion about a special FB that
-> > is actually a solid fill vs. this two new properties design, so I
-> > cannot currently give an opinion on that, or any other design. =20
->=20
-> Hi Pekka,
->=20
-> It was discussed in the v3 of this series, but we came to the conclusion=
-=20
-> that allocating an FB for solid_fill was unnecessary since solid fill=20
-> does not require memory fetch.
+Am 27.06.23 um 10:32 schrieb Karolina Stolarek:
+> This series introduces KUnit[1] tests for TTM (Translation Table Manager)
+> subsystem, a memory manager used by graphics drivers to create and manage
+> memory buffers across different memory domains, such as system memory
+> or VRAM.
+>
+> Unit tests implemented here cover two data structures:
+>    - ttm_device -- referred as a buffer object device, which stores
+>      resource managers and page pools
+>    - ttm_pool -- a struct of pools (ttm_pool_type) of different page
+>      orders and caching attributes, with pages that can be reused on
+>      the next buffer allocation
+>
+> Use kunit_tool script to manually run the tests:
+>
+> $ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/ttm/tests
+>
+> The kunit tool might not work with older python versions. To fix that,
+> apply [2] patch.
+>
+> To build a kernel with TTM KUnit tests, enable CONFIG_DRM_TTM_KUNIT_TEST
+> symbol.
+>
+> As for now, tests are architecture-agnostic (i.e. KUnit runner uses UML
+> kernel), which means that we have limited coverage in some places. For
+> example, we can't fully test the initialization of global page pools,
+> such as global_write_combined. It is to be decided if we want to stick
+> to UML or use CONFIG_X86 (at least to some extent).
+>
+> These patches are just a beginning of the work to improve the test
+> coverage of TTM. Feel free to suggest changes, test cases or priorities.
+>
+> Many thanks,
+> Karolina
+>
+> v2:
+>    - Add missing symbol exports in ttm_kunit_helpers.c
+>    - Update helpers include to fix compilation issues (didn't catch it as
+>      KUnit tests weren't enabled in the kernel I tested, an oversight
+>      on my part)
+>    - Add checks for ttm_pool fields in ttm_pool_alloc_basic(), including the
+>      one for NUMA node id
+>    - Rebase the changes on the top of drm-tip
+>
+> --------------------------------
+> [1] - https://www.kernel.org/doc/html/latest/dev-tools/kunit/index.html
+> [2] - https://lore.kernel.org/lkml/20230610175618.82271-1-sj@kernel.org/T/
+>
+> Karolina Stolarek (3):
+>    drm/ttm: Introduce KUnit tests
+>    drm/ttm/tests: Add tests for ttm_device
+>    drm/ttm/tests: Add tests for ttm_pool
+>
+>   drivers/gpu/drm/Kconfig                       |  15 +
+>   drivers/gpu/drm/ttm/Makefile                  |   1 +
+>   drivers/gpu/drm/ttm/tests/.kunitconfig        |   4 +
+>   drivers/gpu/drm/ttm/tests/Makefile            |   6 +
+>   drivers/gpu/drm/ttm/tests/ttm_device_test.c   | 213 +++++++++
+>   drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c |  88 ++++
+>   drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h |  34 ++
+>   drivers/gpu/drm/ttm/tests/ttm_pool_test.c     | 406 ++++++++++++++++++
+>   8 files changed, 767 insertions(+)
+>   create mode 100644 drivers/gpu/drm/ttm/tests/.kunitconfig
+>   create mode 100644 drivers/gpu/drm/ttm/tests/Makefile
+>   create mode 100644 drivers/gpu/drm/ttm/tests/ttm_device_test.c
+>   create mode 100644 drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
+>   create mode 100644 drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
+>   create mode 100644 drivers/gpu/drm/ttm/tests/ttm_pool_test.c
+>
 
-Hi,
-
-it just occurred to me that the pixel_source property could be replaced
-with the rule that if a solid_fill blob id is 0, then use FD_IB. Or
-vice versa. But if someone then adds a third way of setting content on
-a plane, it would result in a chain of "if this is 0, then use the next
-one" and only if all are 0, there is no content.
-
-I'm not sure if that's better or worse. Both designs seem to have the
-same backwards compatibility issues, and the exact same impact to
-legacy SetCrtc ioctl. Maybe pixel_source property is easier to document
-and understand though when there is no "if this does not exist or is 0
-then ..." chain.
-
-So, pixel_source is fine by me.
-
-
-Thanks,
-pq
-
---Sig_/GvcJ4bJU1YyhWucAGmk+Hru
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmSdMtUACgkQI1/ltBGq
-qqdiohAAtO5ykRix1okiXt75at5s1H1a9Pi7N+i3A7DYHhvTr/8XVK0ZFbSIUJtM
-ZIBbBjwSLfFenfxtpOIuHqbdkOnL/53+oZIj0sj6dWd8Q/9xShg5vN4pk/PDGXMu
-h3ZODT43XNNOdr6QoDcRsSlMaXqBTZ/8pcb2b1g4eywf/C3mzPAQmweTwRdpFUNB
-surcvG54bv0u2yXcYxb/k5bcRRgrlUHIl9ceKy39yQWRFWoJ0PsrcbyILv1fj5+Y
-gWG3rNAtSv8X/d692YAyqQNLEgvOdmn2Tn4r4k1kkbrcExr1baiujMJBOBVQ1h9Z
-LwHrnt1yEUqD+fNQCg8r9nbiInxpJwFPhd/RLvJNp0y7/jSOGR8KnPuz5D8mzekI
-ueCYDn7zSMJEKUO+sbu34qN528wUtcEolN1wgLyHfjsyNrXB1KTWbTDXxMeePFJb
-jHxMLMNafmRIOgwkaqKsWr3NyMhzGqizIK3e/RTzrpmzR8fVFcjnevRJman3AJPM
-qDD4c9HT8Uo71FKighIxfd2Rkh9IwTHCfVbRxJKj69vxuY2ZnyKzGNWz0/argPzO
-Lcize1A6T5sSjqruZgJZblBFyucc7Qp9iFBlu/6IVfQy+ArnjbKgyALsmCVyPTK9
-rkdMi93xWvfDhhLBfIa5ZWV6S2Ggyzw6JQhGzMP/hPE9ruCfjkI=
-=ve1K
------END PGP SIGNATURE-----
-
---Sig_/GvcJ4bJU1YyhWucAGmk+Hru--
