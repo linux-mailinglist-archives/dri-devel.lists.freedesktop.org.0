@@ -1,70 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C97B27421F2
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 10:20:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D90A07421F3
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 10:20:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF22710E116;
-	Thu, 29 Jun 2023 08:20:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD7F310E112;
+	Thu, 29 Jun 2023 08:20:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
- [IPv6:2607:f8b0:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39FAC10E112;
- Thu, 29 Jun 2023 08:20:08 +0000 (UTC)
-Received: by mail-pf1-x433.google.com with SMTP id
- d2e1a72fcca58-668842bc50dso112947b3a.1; 
- Thu, 29 Jun 2023 01:20:08 -0700 (PDT)
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
+ [IPv6:2607:f8b0:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7BFD10E14B;
+ Thu, 29 Jun 2023 08:20:14 +0000 (UTC)
+Received: by mail-pf1-x42f.google.com with SMTP id
+ d2e1a72fcca58-657c4bcad0bso121325b3a.1; 
+ Thu, 29 Jun 2023 01:20:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1688026807; x=1690618807;
+ d=gmail.com; s=20221208; t=1688026814; x=1690618814;
  h=content-transfer-encoding:in-reply-to:content-language:references
  :to:subject:from:user-agent:mime-version:date:message-id:from:to:cc
  :subject:date:message-id:reply-to;
- bh=MuU+IODmkTTkuhzQJRxiHpwnwKWskFKRKmO7ulwVp0E=;
- b=H+OfIxIC8xbL8SD6LYRIa82WDrmeZosn0syjWycpayKCcOKXYx/1VAkw9dDxL5N8lF
- BFFvJ9xhTzYcSAf57G9biAZbH4gKqYvwK1xOhL3anU0KU9L1vGfnzq6P9a+ejrUAj+Hz
- 5/Om69YAQ/q52t5QyH9aGA2/mUyvGch3nMRUcNBsDMdy6CIf7ZPtYLrKB9f6SBio4s2C
- LyNbLPtQXGQJDr8ce0n26htgKMtwJDXvjX9GvWbTmlPOCkhHahua0UwBhb4tx8pO6W4V
- 8vP+zOsCbNvrq/0wEFOAWR1xY33g+bvkr1NWEcaXA3+Wo46vYIKcXIcLKHLZusO4mnMn
- N7PQ==
+ bh=3ekq2//rgPNBeYEEizIXWWlTW0BlgF6AzeVi3W6aqWk=;
+ b=gLh59snSNoiU7tTwAJb8m69dA0EkbBED24tNnjXXAa4t6Xv84z+0PbiAsW5M6aQP2Q
+ IimpafEq4juTGZh/SKzqH0aY60u/B81xfbYbPVhRRt+8scMk1sai/4a5IRBmw8cCy8eR
+ lMez6HIv64gXmFUAJ64U68BFGkofC7C5Z3yLEA/Eg34tVUKMQmXzOJlopI82jiA8gAnt
+ zj9HXW8v/EpHKhk8ir96TGMeci1Y6YCH8i/MwwWMghP8eGFo6pjtn7va+pekPz55MDza
+ xOelWSxbfLIC4ULyH4nRiJjCZl3gdi/5IcF4h6ewOjR24uEaAhJ7rwUCcr5LF92IGbg+
+ qmnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688026807; x=1690618807;
+ d=1e100.net; s=20221208; t=1688026814; x=1690618814;
  h=content-transfer-encoding:in-reply-to:content-language:references
  :to:subject:from:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MuU+IODmkTTkuhzQJRxiHpwnwKWskFKRKmO7ulwVp0E=;
- b=XmGiV5+YZRP/BeU6tljlFDdQJECGLbNa+woUFWcLtsdqKyPEMdEpjz0RtEmP8Tp/eK
- J19yNMA4GVf/kUynpR7RODNH4Oh/lgyHTMAdsceG0WJ5hb3bHPjZYdFj2TdqNDloB3zF
- qGXTSBNXyKmbTLKTqOYZ+EcL7i92DfQZL3nyO0Ntwkoy0tg7EmApGSJ66xJIvAgOVCXC
- DYmArNisjD36gIv1wgkv8fOlnGc1g/DX5HS+sb9Nqxrb+qW8aWmq3WM+SbRevzxVCKDP
- ymhyqnlmO9yDNz3oa96jB79JfozvZS1zvSOUYKEDNRxEKdnEy2nL7ofFHoGsDdgFYn9Z
- j7SQ==
-X-Gm-Message-State: AC+VfDwuCXrpaw+eUOJ/OGMmcAGPyis28HMVAvaGEE9fGidEF9tRchHY
- CZG/Mu9SXcZgVXdWzf+PFK8=
-X-Google-Smtp-Source: ACHHUZ6gEZ5ACJV9oTS+MZBK7ulcj/tZMk6ytkXBK0GHfzMcE9c/6cAsaq3y+NbFE3JtAbsOrm1xyQ==
-X-Received: by 2002:a05:6a20:7295:b0:111:fba0:bd3b with SMTP id
- o21-20020a056a20729500b00111fba0bd3bmr45096785pzk.1.1688026807173; 
- Thu, 29 Jun 2023 01:20:07 -0700 (PDT)
+ bh=3ekq2//rgPNBeYEEizIXWWlTW0BlgF6AzeVi3W6aqWk=;
+ b=PfjyoPD75c54SB6Wg7rDdvwPk7K753G6M4fi5zp1L4pPSthRoOdw/CxaAERXn8JWUw
+ lfAcF7iTrGhlBhbcFgR9u5KR00yDFdpOeLYK3lXt07VCEdWHlamvTKIwgm/P8rJMlWiF
+ KxttpiqJtDdk+n7ytRwayzpiCHAnzjUtgUpLbgZEBZ6e5Butq/r8qbMP50jXCy7V842P
+ 3cqSuQw4cK626Ww836EdUNfbEymuxVqmAfmlUK6yW+v+SZARphxf5ygcxVq8LzeshYku
+ azWTysxUZlixvBVIRA6Y6QyZheYF3o5GNSIh22CiwcuZVoQonNhHp8OdR8V2hSvkM8pM
+ epYg==
+X-Gm-Message-State: AC+VfDzWPlljGGhFrKXUeuUM1AvKogUqJymnSpOOtuQe0si9OvQ7zFC6
+ kMrhoZC0f/IE+TGAd//rjsk=
+X-Google-Smtp-Source: ACHHUZ7FM2u2Mak8pDEsLVfIxizeo2nY/DwLtfHzUm6ovUXRCyjoZPhkQJExFHJCZSCqYJRe2u+N4w==
+X-Received: by 2002:a05:6a20:432a:b0:126:c759:27f8 with SMTP id
+ h42-20020a056a20432a00b00126c75927f8mr16009003pzk.2.1688026813753; 
+ Thu, 29 Jun 2023 01:20:13 -0700 (PDT)
 Received: from [10.104.2.174] (zz20184013906F627101.userreverse.dion.ne.jp.
  [111.98.113.1]) by smtp.gmail.com with ESMTPSA id
- 5-20020aa79145000000b0063b96574b8bsm7916030pfi.220.2023.06.29.01.20.04
+ n13-20020a170903110d00b001b558c37f91sm8610183plh.288.2023.06.29.01.20.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Jun 2023 01:20:05 -0700 (PDT)
-Message-ID: <17e929a5-d94f-8370-6aad-cf93490c6ad7@gmail.com>
-Date: Thu, 29 Jun 2023 17:20:02 +0900
+ Thu, 29 Jun 2023 01:20:12 -0700 (PDT)
+Message-ID: <dda5dd70-403a-273d-6506-cca5bc084f64@gmail.com>
+Date: Thu, 29 Jun 2023 17:20:10 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
 From: Tatsuyuki Ishi <ishitatsuyuki@gmail.com>
-Subject: Re: [PATCH 6/6] drm/amdgpu: use the new drm_exec object for CS v2
+Subject: Re: [PATCH 4/6] drm/amdgpu: use drm_exec for GEM and CSA handling
 To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  alexander.deucher@amd.com
 References: <20230628104446.1369-1-christian.koenig@amd.com>
- <20230628104446.1369-7-christian.koenig@amd.com>
+ <20230628104446.1369-5-christian.koenig@amd.com>
 Content-Language: en-US
-In-Reply-To: <20230628104446.1369-7-christian.koenig@amd.com>
+In-Reply-To: <20230628104446.1369-5-christian.koenig@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,41 +83,76 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 6/28/23 19:44, Christian König wrote:
-> @@ -958,18 +904,57 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
->   		e->user_invalidated = userpage_invalidated;
+
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> index 74055cba3dc9..6811fc866494 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> @@ -728,36 +723,37 @@ int amdgpu_gem_va_ioctl(struct drm_device *dev, void *data,
+>   		return -EINVAL;
 >   	}
 >   
-> -	r = ttm_eu_reserve_buffers(&p->ticket, &p->validated, true,
-> -				   &duplicates);
-> -	if (unlikely(r != 0)) {
-> -		if (r != -ERESTARTSYS)
-> -			DRM_ERROR("ttm_eu_reserve_buffers failed.\n");
-> -		goto out_free_user_pages;
-> +	drm_exec_until_all_locked(&p->exec) {
-> +		r = amdgpu_vm_lock_pd(&fpriv->vm, &p->exec, 1 + p->gang_size);
-> +		drm_exec_retry_on_contention(&p->exec);
-> +		if (unlikely(r))
-> +			goto out_free_user_pages;
-> +
-> +		amdgpu_bo_list_for_each_entry(e, p->bo_list) {
-> +			/* One fence for TTM and one for each CS job */
-> +			r = drm_exec_prepare_obj(&p->exec, &e->bo->tbo.base,
-> +						 1 + p->gang_size);
-> +			drm_exec_retry_on_contention(&p->exec);
-> +			if (unlikely(r))
-> +				goto out_free_user_pages;
-> +
-> +			e->bo_va = amdgpu_vm_bo_find(vm, e->bo);
-> +			e->range = NULL;
-Still leaking.
-> +		}
-> +
-> +		if (p->uf_bo) {
-> +			r = drm_exec_prepare_obj(&p->exec, &p->uf_bo->tbo.base,
-> +						 1 + p->gang_size);
-> +			drm_exec_retry_on_contention(&p->exec);
-> +			if (unlikely(r))
-> +				goto out_free_user_pages;
-> +		}
+> -	INIT_LIST_HEAD(&list);
+> -	INIT_LIST_HEAD(&duplicates);
+>   	if ((args->operation != AMDGPU_VA_OP_CLEAR) &&
+>   	    !(args->flags & AMDGPU_VM_PAGE_PRT)) {
+>   		gobj = drm_gem_object_lookup(filp, args->handle);
+>   		if (gobj == NULL)
+>   			return -ENOENT;
+>   		abo = gem_to_amdgpu_bo(gobj);
+> -		tv.bo = &abo->tbo;
+> -		if (abo->flags & AMDGPU_GEM_CREATE_VM_ALWAYS_VALID)
+> -			tv.num_shared = 1;
+> -		else
+> -			tv.num_shared = 0;
+> -		list_add(&tv.head, &list);
+>   	} else {
+>   		gobj = NULL;
+>   		abo = NULL;
 >   	}
+>   
+> -	amdgpu_vm_get_pd_bo(&fpriv->vm, &list, &vm_pd);
+> +	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
 
+Sorry, I missed this last time, but this needs to allow duplicates as well or mapping
+always_valid BOs doesn't work.
+
+> +	drm_exec_until_all_locked(&exec) {
+> +		if (gobj) {
+> +			r = drm_exec_lock_obj(&exec, gobj);
+> +			drm_exec_retry_on_contention(&exec);
+> +			if (unlikely(r))
+> +				goto error;
+> +		}
+>   
+> -	r = ttm_eu_reserve_buffers(&ticket, &list, true, &duplicates);
+> -	if (r)
+> -		goto error_unref;
+> +		r = amdgpu_vm_lock_pd(&fpriv->vm, &exec, 2);
+> +		drm_exec_retry_on_contention(&exec);
+> +		if (unlikely(r))
+> +			goto error;
+> +	}
+>   
+>   	if (abo) {
+>   		bo_va = amdgpu_vm_bo_find(&fpriv->vm, abo);
+>   		if (!bo_va) {
+>   			r = -ENOENT;
+> -			goto error_backoff;
+> +			goto error;
+>   		}
+>   	} else if (args->operation != AMDGPU_VA_OP_CLEAR) {
+>   		bo_va = fpriv->prt_va;
+> @@ -794,10 +790,8 @@ int amdgpu_gem_va_ioctl(struct drm_device *dev, void *data,
+>   		amdgpu_gem_va_update_vm(adev, &fpriv->vm, bo_va,
+>   					args->operation);
+>   
+> -error_backoff:
+> -	ttm_eu_backoff_reservation(&ticket, &list);
+> -
+> -error_unref:
+> +error:
+> +	drm_exec_fini(&exec);
+>   	drm_gem_object_put(gobj);
+>   	return r;
+>   }
