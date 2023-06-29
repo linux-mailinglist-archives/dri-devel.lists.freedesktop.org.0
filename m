@@ -1,79 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5D95742EBC
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 22:44:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 953C2742F3B
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 23:04:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E978610E3F9;
-	Thu, 29 Jun 2023 20:44:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D398A10E3FA;
+	Thu, 29 Jun 2023 21:04:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83CBC10E3FA
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 20:44:38 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id
- 2adb3069b0e04-4f957a45b10so1742481e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 13:44:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688071476; x=1690663476;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Yaz00FEgGCTPJB8nvCETL7NnrgelsFGdklYuZ97nPlY=;
- b=ZiLvRjrx0hTzcGSqqZFobRZbdbjQYk5Ph8ozUtUffExhYwZt8uGNvPdc+o1z0Ynp4X
- VZ+tu2UtkoXGOO5pr6F0I+l90UmhOQWGOCBPcFZg8E5oWWVipkpFIZ1zV9ZcgHMYJWkt
- dTcDBSQW8yiI0G2PBISA6VNQ7Xr7z8j0w0H/y4nDHDXLdG5/yKTTmv5cV5OH+DOWrz9C
- KdxfJp7VRpS5EI9IocXPkDD2OdnmEmDoozkoyLzlA5VRZEY+LOEmKxtkgVKVHK8JKGWY
- vr6HKRydRWhVOVLw8HUZLVnqz/TK4EF1jtbIv+SPcfggbpwA3p+8+HfyRkqimRUEyNVU
- A03w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688071476; x=1690663476;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Yaz00FEgGCTPJB8nvCETL7NnrgelsFGdklYuZ97nPlY=;
- b=Jp/NNmwINl6Z/4aQxDmSae0TJK/3NbhGZfT0F90G2ylgTQ0NtagPHMWPkDCxWH8axt
- W0DrCbMwFGP74c2bLCtabnWHwN0JXlW32bGnDaTDB8uqAopuvjvxX0AB1w5JU5fUb06X
- Hsnsw+kWbiaN9CcxK9aPef+eb+A1lrUvRzVmL6LAUkiACj4O3JXvCgef/2Fq3JMcneIs
- 6scG4uEBzmCmjxb5onYGBgRsGoxwpwm5zD3qhX4HIzMsqNVrEN+3PFiqKOcvqFef1Dj/
- POZq1sjq/xTJJrZ+fMH0Yu7kK1JGu/CmV4dDM85XBMij5Hwuqnsyrui2mc13YLuYyPqm
- 4rqg==
-X-Gm-Message-State: ABy/qLYJy/3Bp+FaL7W3pu7Bpp8n52dsdiYk5I5uOuOCVTVoC2TTAeQe
- KqohVhIGIjlmPVlIGOWYvVIXlA==
-X-Google-Smtp-Source: APBJJlHY6jW97U1D4G7rtrJ9N/FSbLkfUZXVa4JplOMQ3ixUjo5atHOSwdsjaRQRK6wNO8jyUxStRA==
-X-Received: by 2002:a19:4f10:0:b0:4f9:607a:6508 with SMTP id
- d16-20020a194f10000000b004f9607a6508mr787367lfb.50.1688071476300; 
- Thu, 29 Jun 2023 13:44:36 -0700 (PDT)
-Received: from [192.168.1.101] (abyk82.neoplus.adsl.tpnet.pl. [83.9.30.82])
- by smtp.gmail.com with ESMTPSA id
- m11-20020a056512014b00b004fb326d4ff0sm2045647lfo.77.2023.06.29.13.44.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Jun 2023 13:44:35 -0700 (PDT)
-Message-ID: <8ddbd947-6cb6-8c86-eb48-8b6ae9b4be2b@linaro.org>
-Date: Thu, 29 Jun 2023 22:44:34 +0200
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4B6A10E3FA;
+ Thu, 29 Jun 2023 21:04:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1688072660; x=1719608660;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=DKgzfp86Q0KqyedoDJ6vYBCPGtnMluW8FdLSwL2ABgg=;
+ b=JYRxhKBLQnqC+vFl57iBzj1BdanXfIeiImuanSyVwNJ1ewOdTu6/L133
+ HusdlHMKxgc+Niymmwkjd/Mygf2xcBD8Ajv8bzOg7h10guh/N0IfT5rPJ
+ UPmUW35w3y/CgIOIFgnhIRR7c5HKjURMU2jmHOImODU0R8b9EhzaR/1GY
+ q10uJPoZ8xdsON9M4KEzfxqHP8o8iynZY8Z0YdKzLLC61m9YyKgBirPx3
+ aH7FSfD5+xkdvAbkBSohYmHtzIHgqrhdvWuEyhDvaRz3cW74UsT9OYJcr
+ ZwsrLJrAdiJVrvNNmEo2cdsRBup7Pr4Yinblmd2cCJVXhTGYSa52DodAn w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="364807341"
+X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; d="scan'208";a="364807341"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jun 2023 14:04:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="891525907"
+X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; d="scan'208";a="891525907"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by orsmga005.jf.intel.com with ESMTP; 29 Jun 2023 14:04:18 -0700
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-xe@lists.freedesktop.org
+Subject: [PATCH v3] drm/xe/guc: Fix h2g_write usage of GUC_CTB_MSG_MAX_LEN
+Date: Thu, 29 Jun 2023 14:04:18 -0700
+Message-Id: <20230629210418.1289315-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2 2/4] regulator: Introduce Qualcomm REFGEN regulator
- driver
-Content-Language: en-US
-To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>
-References: <20230628-topic-refgen-v2-0-6136487c78c5@linaro.org>
- <20230628-topic-refgen-v2-2-6136487c78c5@linaro.org>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20230628-topic-refgen-v2-2-6136487c78c5@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,108 +54,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org, Konrad Dybcio <konradybcio@kernel.org>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ John Harrison <john.c.harrison@intel.com>, dri-devel@lists.freedesktop.org,
+ Alan Previn <alan.previn.teres.alexis@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29.06.2023 22:35, Konrad Dybcio wrote:
-> Modern Qualcomm SoCs have a REFGEN (reference voltage generator)
-> regulator, providing reference voltage to on-chip IP, like PHYs.
-> 
-> Add a driver to support toggling that regulator.
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
-Ugh. Missed the 'const' here and below. LMK if that warrants a resend
-(or.. perhaps you just have other comments)
+In the ABI header, GUC_CTB_MSG_MIN_LEN is '1' because
+GUC_CTB_HDR_LEN is 1. This aligns with H2G/G2H CTB specification
+where all command formats are defined in units of dwords so that '1'
+is a dword. Accordingly, GUC_CTB_MSG_MAX_LEN is 256-1 (i.e. 255
+dwords). However, h2g_write was incorrectly assuming that
+GUC_CTB_MSG_MAX_LEN was in bytes. Fix this.
 
-Konrad
-> +	.ops = &(struct regulator_ops) {
-> +		.enable		= qcom_sdm845_refgen_enable,
-> +		.disable	= qcom_sdm845_refgen_disable,
-> +		.is_enabled	= qcom_sdm845_refgen_is_enabled,
-> +	},
-> +};
-> +
-> +static struct regulator_desc sm8250_refgen_desc = {
-> +	.enable_reg = REFGEN_REG_PWRDWN_CTRL5,
-> +	.enable_mask = REFGEN_PWRDWN_CTRL5_MASK,
-> +	.enable_val = REFGEN_PWRDWN_CTRL5_ENABLE,
-> +	.disable_val = 0,
-> +	.enable_time = 5,
-> +	.name = "refgen",
-> +	.owner = THIS_MODULE,
-> +	.type = REGULATOR_VOLTAGE,
-> +	.ops = &(struct regulator_ops) {
-> +		.enable		= regulator_enable_regmap,
-> +		.disable	= regulator_disable_regmap,
-> +		.is_enabled	= regulator_is_enabled_regmap,
-> +	},
-> +};
-> +
-> +static const struct regmap_config qcom_refgen_regmap_config = {
-> +	.reg_bits = 32,
-> +	.reg_stride = 4,
-> +	.val_bits = 32,
-> +	.fast_io = true,
-> +};
-> +
-> +static int qcom_refgen_probe(struct platform_device *pdev)
-> +{
-> +	struct regulator_init_data *init_data;
-> +	struct regulator_config config = {};
-> +	const struct regulator_desc *rdesc;
-> +	struct device *dev = &pdev->dev;
-> +	struct regulator_dev *rdev;
-> +	struct regmap *regmap;
-> +	void __iomem *base;
-> +
-> +	rdesc = of_device_get_match_data(dev);
-> +	if (!rdesc)
-> +		return -ENODATA;
-> +
-> +	base = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(base))
-> +		return PTR_ERR(base);
-> +
-> +	regmap = devm_regmap_init_mmio(dev, base, &qcom_refgen_regmap_config);
-> +	if (IS_ERR(regmap))
-> +		return PTR_ERR(regmap);
-> +
-> +	init_data = of_get_regulator_init_data(dev, dev->of_node, rdesc);
-> +	if (!init_data)
-> +		return -ENOMEM;
-> +
-> +	config.dev = dev;
-> +	config.init_data = init_data;
-> +	config.of_node = dev->of_node;
-> +	config.regmap = regmap;
-> +
-> +	rdev = devm_regulator_register(dev, rdesc, &config);
-> +	if (IS_ERR(rdev))
-> +		return PTR_ERR(rdev);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id qcom_refgen_match_table[] = {
-> +	{ .compatible = "qcom,sdm845-refgen-regulator", .data = &sdm845_refgen_desc },
-> +	{ .compatible = "qcom,sm8250-refgen-regulator", .data = &sm8250_refgen_desc },
-> +	{ }
-> +};
-> +
-> +static struct platform_driver qcom_refgen_driver = {
-> +	.probe = qcom_refgen_probe,
-> +	.driver = {
-> +		.name = "qcom-refgen-regulator",
-> +		.of_match_table = qcom_refgen_match_table,
-> +	},
-> +};
-> +module_platform_driver(qcom_refgen_driver);
-> +
-> +MODULE_LICENSE("GPL");
-> +MODULE_DESCRIPTION("Qualcomm REFGEN regulator driver");
-> 
+v3: Fix nit on #define location.(Matt)
+v2: By correctly treating GUC_CTB_MSG_MAX_LEN as dwords, it causes
+    a local array to consume 4x the stack size. Rework the function
+    to avoid consuming stack even if the action size is large. (Matt)
+
+Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+
+---
+ drivers/gpu/drm/xe/xe_guc_ct.c | 31 ++++++++++++++++++-------------
+ 1 file changed, 18 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/gpu/drm/xe/xe_guc_ct.c b/drivers/gpu/drm/xe/xe_guc_ct.c
+index 22bc9ce846db..aa04b5c4822f 100644
+--- a/drivers/gpu/drm/xe/xe_guc_ct.c
++++ b/drivers/gpu/drm/xe/xe_guc_ct.c
+@@ -401,19 +401,21 @@ static int h2g_write(struct xe_guc_ct *ct, const u32 *action, u32 len,
+ {
+ 	struct xe_device *xe = ct_to_xe(ct);
+ 	struct guc_ctb *h2g = &ct->ctbs.h2g;
+-	u32 cmd[GUC_CTB_MSG_MAX_LEN / sizeof(u32)];
+-	u32 cmd_len = len + GUC_CTB_HDR_LEN;
+-	u32 cmd_idx = 0, i;
++#define H2G_CT_HEADERS (GUC_CTB_HDR_LEN + 1) /* one DW CTB header and one DW HxG header */
++	u32 cmd[H2G_CT_HEADERS];
+ 	u32 tail = h2g->info.tail;
++	u32 full_len;
+ 	struct iosys_map map = IOSYS_MAP_INIT_OFFSET(&h2g->cmds,
+ 							 tail * sizeof(u32));
+ 
++	full_len = len + GUC_CTB_HDR_LEN;
++
+ 	lockdep_assert_held(&ct->lock);
+-	XE_BUG_ON(len * sizeof(u32) > GUC_CTB_MSG_MAX_LEN);
++	XE_BUG_ON(full_len > (GUC_CTB_MSG_MAX_LEN - GUC_CTB_HDR_LEN));
+ 	XE_BUG_ON(tail > h2g->info.size);
+ 
+ 	/* Command will wrap, zero fill (NOPs), return and check credits again */
+-	if (tail + cmd_len > h2g->info.size) {
++	if (tail + full_len > h2g->info.size) {
+ 		xe_map_memset(xe, &map, 0, 0,
+ 			      (h2g->info.size - tail) * sizeof(u32));
+ 		h2g_reserve_space(ct, (h2g->info.size - tail));
+@@ -428,30 +430,33 @@ static int h2g_write(struct xe_guc_ct *ct, const u32 *action, u32 len,
+ 	 * dw1: HXG header (including action code)
+ 	 * dw2+: action data
+ 	 */
+-	cmd[cmd_idx++] = FIELD_PREP(GUC_CTB_MSG_0_FORMAT, GUC_CTB_FORMAT_HXG) |
++	cmd[0] = FIELD_PREP(GUC_CTB_MSG_0_FORMAT, GUC_CTB_FORMAT_HXG) |
+ 		FIELD_PREP(GUC_CTB_MSG_0_NUM_DWORDS, len) |
+ 		FIELD_PREP(GUC_CTB_MSG_0_FENCE, ct_fence_value);
+ 	if (want_response) {
+-		cmd[cmd_idx++] =
++		cmd[1] =
+ 			FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_REQUEST) |
+ 			FIELD_PREP(GUC_HXG_EVENT_MSG_0_ACTION |
+ 				   GUC_HXG_EVENT_MSG_0_DATA0, action[0]);
+ 	} else {
+-		cmd[cmd_idx++] =
++		cmd[1] =
+ 			FIELD_PREP(GUC_HXG_MSG_0_TYPE, GUC_HXG_TYPE_EVENT) |
+ 			FIELD_PREP(GUC_HXG_EVENT_MSG_0_ACTION |
+ 				   GUC_HXG_EVENT_MSG_0_DATA0, action[0]);
+ 	}
+-	for (i = 1; i < len; ++i)
+-		cmd[cmd_idx++] = action[i];
++
++	/* H2G header in cmd[1] replaces action[0] so: */
++	--len;
++	++action;
+ 
+ 	/* Write H2G ensuring visable before descriptor update */
+-	xe_map_memcpy_to(xe, &map, 0, cmd, cmd_len * sizeof(u32));
++	xe_map_memcpy_to(xe, &map, 0, cmd, H2G_CT_HEADERS * sizeof(u32));
++	xe_map_memcpy_to(xe, &map, H2G_CT_HEADERS * sizeof(u32), action, len * sizeof(u32));
+ 	xe_device_wmb(ct_to_xe(ct));
+ 
+ 	/* Update local copies */
+-	h2g->info.tail = (tail + cmd_len) % h2g->info.size;
+-	h2g_reserve_space(ct, cmd_len);
++	h2g->info.tail = (tail + full_len) % h2g->info.size;
++	h2g_reserve_space(ct, full_len);
+ 
+ 	/* Update descriptor */
+ 	desc_write(xe, h2g, tail, h2g->info.tail);
+
+base-commit: 2ec46ad7578ebba3048d6031c1a75c21920f0e19
+-- 
+2.39.0
+
