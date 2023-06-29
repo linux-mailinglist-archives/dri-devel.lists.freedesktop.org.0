@@ -1,78 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80068742D78
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 21:30:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 243CC742DD1
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 21:53:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 247C710E408;
-	Thu, 29 Jun 2023 19:30:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9498210E3F5;
+	Thu, 29 Jun 2023 19:53:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41B7110E1D5;
- Thu, 29 Jun 2023 19:30:23 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 35THuIVK022359; Thu, 29 Jun 2023 19:30:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=l/VdP1zAdROk8YySMoVsFWoGNzGxLoWK3gulGU/nzf4=;
- b=hVxl8KET+wloE++cRAJ/Y7bmPM4qLYdX/S8WPRY3LKJySeqzvOhLEakDUCNWXUuMFuBX
- UDw/Q5o7m7MfTTO1G85+qrn+e5QCPVGfdWFDwAMNUZq2U0KYjaFeT3/2mF0jg2vdxOyT
- IaDyxUZ5nQyVoYhsWzfAm0yt5NEJQm+QUha7IeZ3YMvjcVh6JtPXuqTdbhcxcguYYUqC
- l/UVrl+rtOCFP3WgqfzsQFexB+vLmeQmnFwlpAI9briVNiOY/ipxLwTcu8h4oQIbK+Ma
- 0QhCSG3Hp+HX/AnBfQ6VOdIpmJ4DD6pkDoyCWih4oJYw/tl5NOucI6i1Ijdzh+hdtMBJ Pg== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rh5g8sfrg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 29 Jun 2023 19:30:17 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35TJUG0K016224
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 29 Jun 2023 19:30:16 GMT
-Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.7; Thu, 29 Jun 2023 12:30:15 -0700
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: <freedreno@lists.freedesktop.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Daniel
- Vetter" <daniel@ffwll.ch>
-Subject: [PATCH v3 3/3] drm/msm/dpu: drop DPU_INTF_DATA_COMPRESS from dpu
- catalog
-Date: Thu, 29 Jun 2023 12:29:58 -0700
-Message-ID: <20230629193001.22618-3-quic_abhinavk@quicinc.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230629193001.22618-1-quic_abhinavk@quicinc.com>
-References: <20230629193001.22618-1-quic_abhinavk@quicinc.com>
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3ADE10E1D5
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 19:53:28 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id
+ 2adb3069b0e04-4f86e6e4038so1357451e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 12:53:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1688068407; x=1690660407;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=6pBbaluuyzwVXP1sHmiMWy/GcrSJJh0VQlK5YIkf6P0=;
+ b=edlVolaaYSWq+gCodM88LdgZ4bBSQjITOlBT06sdJFFBKOONKbSncjMaF8s29wapuZ
+ xoDUSGdULdCvp20rQCZwzxTBDsG6wVNxGsiAS2PkdRP6dZDjyNVk+0Q/9vCM1yly3VPK
+ ESCVLcOqp2KI7Gnl1tmpwKrxG3gUWO/KLmggO+nhdVnbXNh+X9nOVfDwc/C9a5pMJcEz
+ e3YTyQxg570Ov6g4ZPwM9FW4o33BAWcV99xTboRQl7WJmZl9cKckH24H+RDj6b6F5nrv
+ kBXah+OGDyawAGKb9ol5gZDn+5Ph3G0ai61YWnM1AP+hqa7tRQcp1gYUWWD0C2jrCDIH
+ 16Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688068407; x=1690660407;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6pBbaluuyzwVXP1sHmiMWy/GcrSJJh0VQlK5YIkf6P0=;
+ b=chunSbvjsgB8J1zvZyrCulIBL/REKFfuCGh6ab3kc/euv7wCeXN5tG63waBx+JFTaS
+ VmbRBlifTtQPc/LziTz2OjlnAMobwgAWI0nUzmLXrzt5Qnjiu8VEdOxebhmiuHwGQmPJ
+ pvLkO+1bh88ueGbtPh7BMG4uGnG+MDj/9fbNNCZjaiFqFdspwZsOq1lRpxrCv5MPPDkr
+ Om/+NNjzpO0oZQIQfE+92wRZY71vxC/djrRv4tbBIr+V4Ga6S/HAiKp9VLpgqaexswol
+ FAn14a0SQUPNToRQvZMou/jIUgitBmdDmqpeCYiW8+Le+rADZmUXxOgdAYTwY3zvwliT
+ riBg==
+X-Gm-Message-State: ABy/qLbdSQnt9Im0/RXYiPqo3dx/jFDOAxMRz4CFkir5py4vT2v9yZPj
+ bTSHY81Puet862UIpZUWlPYkWg==
+X-Google-Smtp-Source: APBJJlFEtRmdUeebJYgWsqZgvE8IML5SO44xmsVeT9iQKxrK3gpe0zDMG+bTdRHWyp3TXD/N+iKJaw==
+X-Received: by 2002:a05:6512:3994:b0:4f8:5dd2:21fb with SMTP id
+ j20-20020a056512399400b004f85dd221fbmr312467lfu.8.1688068406682; 
+ Thu, 29 Jun 2023 12:53:26 -0700 (PDT)
+Received: from [192.168.1.101] (abyk82.neoplus.adsl.tpnet.pl. [83.9.30.82])
+ by smtp.gmail.com with ESMTPSA id
+ n30-20020ac2491e000000b004fb82d7532dsm1219419lfi.177.2023.06.29.12.53.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Jun 2023 12:53:26 -0700 (PDT)
+Message-ID: <13f29231-692e-b624-bdbd-fa1b2b3e793b@linaro.org>
+Date: Thu, 29 Jun 2023 21:53:23 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: kAKDNCqhZBw5ssQUtPBS44D4vOZVAuz7
-X-Proofpoint-GUID: kAKDNCqhZBw5ssQUtPBS44D4vOZVAuz7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-29_06,2023-06-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- priorityscore=1501 malwarescore=0 spamscore=0 impostorscore=0 mlxscore=0
- phishscore=0 mlxlogscore=930 clxscore=1015 suspectscore=0
- lowpriorityscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2305260000 definitions=main-2306290175
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v2 13/15] arm64: dts: qcom: sm6125: Add dispcc node
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230627-sm6125-dpu-v2-0-03e430a2078c@somainline.org>
+ <20230627-sm6125-dpu-v2-13-03e430a2078c@somainline.org>
+ <4a267feb-5855-1427-c378-b2615eae4f84@linaro.org>
+ <kisifidg4bdb4v6fb6nvgt5omsprssd4bxrn6wqehjo66l2y4a@7nfaydtafzpn>
+ <CAA8EJpr+PyjehSd4SEUVfh13+i=+-7v1esQasc+7gNaL2iqWJA@mail.gmail.com>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <CAA8EJpr+PyjehSd4SEUVfh13+i=+-7v1esQasc+7gNaL2iqWJA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,55 +81,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_jesszhan@quicinc.com, andersson@kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org
+Cc: Michael Turquette <mturquette@baylibre.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>, dri-devel@lists.freedesktop.org,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-clk@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+ Andy Gross <agross@kernel.org>, Lux Aliaga <they@mint.lgbt>,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>, Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Loic Poulain <loic.poulain@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
+ Jami Kettunen <jami.kettunen@somainline.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that all usages of DPU_INTF_DATA_COMPRESS have been replaced
-with the dpu core's major revision lets drop DPU_INTF_DATA_COMPRESS
-from the catalog completely.
+On 29.06.2023 14:24, Dmitry Baryshkov wrote:
+> On Thu, 29 Jun 2023 at 15:14, Marijn Suijten
+> <marijn.suijten@somainline.org> wrote:
+>>
+>> On 2023-06-29 13:56:25, Dmitry Baryshkov wrote:
+>>> On 27/06/2023 23:14, Marijn Suijten wrote:
+>>>> Enable and configure the dispcc node on SM6125 for consumption by MDSS
+>>>> later on.
+>>>>
+>>>> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+>>>> ---
+>>>>   arch/arm64/boot/dts/qcom/sm6125.dtsi | 25 +++++++++++++++++++++++++
+>>>>   1 file changed, 25 insertions(+)
+>>>>
+>>>> diff --git a/arch/arm64/boot/dts/qcom/sm6125.dtsi b/arch/arm64/boot/dts/qcom/sm6125.dtsi
+>>>> index edb03508dba3..a5cc0d43d2d9 100644
+>>>> --- a/arch/arm64/boot/dts/qcom/sm6125.dtsi
+>>>> +++ b/arch/arm64/boot/dts/qcom/sm6125.dtsi
+>>>> @@ -3,6 +3,7 @@
+>>>>    * Copyright (c) 2021, Martin Botka <martin.botka@somainline.org>
+>>>>    */
+>>>>
+>>>> +#include <dt-bindings/clock/qcom,dispcc-sm6125.h>
+>>>>   #include <dt-bindings/clock/qcom,gcc-sm6125.h>
+>>>>   #include <dt-bindings/clock/qcom,rpmcc.h>
+>>>>   #include <dt-bindings/dma/qcom-gpi.h>
+>>>> @@ -1203,6 +1204,30 @@ sram@4690000 {
+>>>>                     reg = <0x04690000 0x10000>;
+>>>>             };
+>>>>
+>>>> +           dispcc: clock-controller@5f00000 {
+>>>> +                   compatible = "qcom,sm6125-dispcc";
+>>>> +                   reg = <0x05f00000 0x20000>;
+>>>> +                   clocks = <&rpmcc RPM_SMD_XO_CLK_SRC>,
+>>>> +                            <0>,
+>>>> +                            <0>,
+>>>> +                            <0>,
+>>>> +                            <0>,
+>>>> +                            <0>,
+>>>> +                            <&gcc GCC_DISP_AHB_CLK>,
+>>>> +                            <&gcc GCC_DISP_GPLL0_DIV_CLK_SRC>;
+>>>> +                   clock-names = "bi_tcxo",
+>>>> +                                 "dsi0_phy_pll_out_byteclk",
+>>>> +                                 "dsi0_phy_pll_out_dsiclk",
+>>>> +                                 "dsi1_phy_pll_out_dsiclk",
+>>>> +                                 "dp_phy_pll_link_clk",
+>>>> +                                 "dp_phy_pll_vco_div_clk",
+>>>> +                                 "cfg_ahb_clk",
+>>>> +                                 "gcc_disp_gpll0_div_clk_src";
+>>>> +                   power-domains = <&rpmpd SM6125_VDDCX>;
+>>>
+>>> Would it be logical to specify the required-opps too?
+>>
+>> Perhaps, but barely any other SoC aside from sm8x50 sets it on dispcc.
+>> What should it be, rpmhpd_opp_low_svs?  IIRC we used "svs" for the DSI
+>> PHY despite not having a reference value downstream (it sets a range of
+>> NOM-TURBO_NO_CPR, and RETENTION when it's off).
+> 
+> Then for DSI PHY the required-opps should be rpmpd_opp_nom.
+Yes
 
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 2 --
- 2 files changed, 1 insertion(+), 3 deletions(-)
+> 
+> For the dispcc I think the rpmpd_opp_ret, the lowest possible vote,
+> should be enough.
+I'm not 100% sure but not specifying an opp and turning on the domain
+*******probably******* just sticks with the lowest vote
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 0de507d4d7b7..35994e676450 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -105,7 +105,7 @@
- 	 BIT(DPU_INTF_STATUS_SUPPORTED) | \
- 	 BIT(DPU_DATA_HCTL_EN))
- 
--#define INTF_SC7280_MASK (INTF_SC7180_MASK | BIT(DPU_INTF_DATA_COMPRESS))
-+#define INTF_SC7280_MASK (INTF_SC7180_MASK)
- 
- #define WB_SM8250_MASK (BIT(DPU_WB_LINE_MODE) | \
- 			 BIT(DPU_WB_UBWC) | \
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 8b900be3ea90..572e618150b8 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -181,7 +181,6 @@ enum {
-  * @DPU_DATA_HCTL_EN                Allows data to be transferred at different rate
-  *                                  than video timing
-  * @DPU_INTF_STATUS_SUPPORTED       INTF block has INTF_STATUS register
-- * @DPU_INTF_DATA_COMPRESS          INTF block has DATA_COMPRESS register
-  * @DPU_INTF_MAX
-  */
- enum {
-@@ -189,7 +188,6 @@ enum {
- 	DPU_INTF_TE,
- 	DPU_DATA_HCTL_EN,
- 	DPU_INTF_STATUS_SUPPORTED,
--	DPU_INTF_DATA_COMPRESS,
- 	DPU_INTF_MAX
- };
- 
--- 
-2.40.1
-
+Konrad
+> 
+>>
+>> - Marijn
+>>
+>>>
+>>>> +                   #clock-cells = <1>;
+>>>> +                   #power-domain-cells = <1>;
+>>>> +           };
+>>>> +
+>>>>             apps_smmu: iommu@c600000 {
+>>>>                     compatible = "qcom,sm6125-smmu-500", "qcom,smmu-500", "arm,mmu-500";
+>>>>                     reg = <0x0c600000 0x80000>;
+>>>>
+>>>
+>>> --
+>>> With best wishes
+>>> Dmitry
+>>>
+> 
+> 
+> 
