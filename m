@@ -1,121 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05BDE742168
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 09:51:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D634D7421BA
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jun 2023 10:04:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 481C410E095;
-	Thu, 29 Jun 2023 07:51:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6174D10E3BB;
+	Thu, 29 Jun 2023 08:03:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on20627.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e89::627])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7AA210E095
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 07:51:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cDX5X+mAkRxyrTXwmEe2SbgdkLsUnuXSKsAyAb5hEG0WdnylhH5QdSxZgBgLQQ4ao13rlxQV/fjpzPqz1/+jxsvvA1WCFqPtGh2+RLNukdyMd8WKKY64Rjp2aEgTClhZSsnWBCl/3nnp68hOVtwfqgTob4NvIdO6RQRoNoOsSU7CI2Ad4cQt+kqdEW+AmGdjko6mUBjivTLyQVuYsg3o293aVxltBy7E4C8eJYCTosL7/laaB9VdH4zB4PY+gEK5I2RdEkwGtcItB7WqLOi4Xk+yOstTeC3hoC94wIogU7MNgq7JgQoc5gL5HcnTnMFpZ+6aFQWvCMaPH9XiDQyIuw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bn4JhB5hXgFqPqI9IAPHz6TngcFdapuXW5JmTmD8onI=;
- b=ST3QDqkV4MAquZUkWopSU1XmWT/+TKsiR1PBYCADIJYYOLedAl14GONtXBNoZPHSY1VpBhep8zdNQIrMZxaHN0Npuc3+WRbNritgX4ppTNNXQzgfTMmOnwmC0xD9LDxFNULs3kObj3Qx+qiZc1T0iHssf8XSZxFMAQMVMdO3qxWElx/15RvvUh61/MSuWDIPaQ5Pp68GTmJ3FGv4RoLfKVZTn7hGns6ikwuKWtvTVkcrmsXEJO9IuZewPXjTrayrp54e2RWkZmBfjZWvsn0pzg4ny9QhBr288YXioB9rdX06Ie+UWTukbZjeiKxwSTKJQHHs96N28NeJRNv6/XjOiQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bn4JhB5hXgFqPqI9IAPHz6TngcFdapuXW5JmTmD8onI=;
- b=T364db6zkt4NSs4BWG6l7RUV9FDNR0JPL5xU42w7bABe6A5OYrRuppesqOQ1oBFifRmuB3xMEEFPObNAT2P8Q6QyvQ0oGmTuboQ5zCaBvM3V5i8M4FDhx/MABwvnPd6Cbm0CmWVcFCRg8zq9HabHsQ3523pYxpnhlaUwn3bLxjs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DS0PR12MB7927.namprd12.prod.outlook.com (2603:10b6:8:147::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.23; Thu, 29 Jun
- 2023 07:51:42 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::384a:95a4:8819:ee84]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::384a:95a4:8819:ee84%7]) with mapi id 15.20.6521.026; Thu, 29 Jun 2023
- 07:51:42 +0000
-Message-ID: <4a99ccf2-da23-b64f-6768-548079b2edbd@amd.com>
-Date: Thu, 29 Jun 2023 09:50:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [RFC v2 1/3] drm/ttm: Introduce KUnit tests
-Content-Language: en-US
-To: Karolina Stolarek <karolina.stolarek@intel.com>,
- dri-devel@lists.freedesktop.org
-References: <cover.1687779215.git.karolina.stolarek@intel.com>
- <ccca4b6f62a5b87d4c8c504209c978266d1425ad.1687779215.git.karolina.stolarek@intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <ccca4b6f62a5b87d4c8c504209c978266d1425ad.1687779215.git.karolina.stolarek@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0140.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9e::8) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23BED10E3BB
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 08:03:55 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id
+ 2adb3069b0e04-4fb96e2b573so591458e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 01:03:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1688025833; x=1690617833;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=eq53CIFTLhRmjx5KrPYU9iiyTMEaDQf8XoKrYr20ffo=;
+ b=LxBzdE/0zH7h1xiESO9PHtTGjj+4DrBFI4rdO/pHKHlzVtbeaooXfvvlsKsUt2MRbX
+ CnOQ4lX13TAZR80flwctWuM2uhHxHJaNhIu1kghFWVVuE1EHFy9hiMP0Zigd7ZEE5XMB
+ 0ULdX4SwrhsiO+AE7v8KMTNV/KTg3VqUHY1OUth2MZ5B7FdGD/9uFLrxU09USsSe2OuJ
+ mjy4TyFISrzC3ZGqEMc1i5DiXV5j5ldpLsVHK+xGuWsfGiShWGzyhb0tViZm0nQj5z/q
+ jAKkDqpAV6T32BoM+L767KjEAzjnjZkNF6FssPjcmmTARO14SJPdJOIa/JVBMUA0tLRE
+ YO3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688025833; x=1690617833;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=eq53CIFTLhRmjx5KrPYU9iiyTMEaDQf8XoKrYr20ffo=;
+ b=eBE1p/PApR8ckbHrIOx7THcpk09f14bUieoyVaSDyRftTJptr9+slQ4M0xmgJxVlFN
+ Lc02G4Haxwsn9mgX6QsyjZxmnLT8GaDOnnpPFgc4IOTYijo6D96v2R4shYVHOpm/wBXN
+ 7n1GWHiVi9RupxT6tFJ1M/odgWM6B7VddHj2JI/ZhUnHt7xgrr7sNR9ivzLB1FmBTrJ3
+ rJXptjffIIlkHXui1UwY+gl2seAcpeIZY1JxlAVWLE4gGdtFyguKd+uKfSrRssnuBKi2
+ oEPZQrgDJRHP6sO8dVUKxDBwS2QV/BOurM1H8T7GjscFxCe8aV/xEDOzQ9guOaiXsUf6
+ qqdQ==
+X-Gm-Message-State: AC+VfDyivPA2TisfRjulR62nlYizNF7xQ147R0JU0W3220c7WCm8iyMZ
+ wZpmAEKDop5w3Fl/b+AAJNc=
+X-Google-Smtp-Source: ACHHUZ7prPCQoAnvahKRXOi1/W0vZoBh9+igC/IWqIGETEpOAHY3/6laB23vbjaozqudPgVR82EWzA==
+X-Received: by 2002:a05:6512:3ba5:b0:4fb:8fde:f60d with SMTP id
+ g37-20020a0565123ba500b004fb8fdef60dmr3878403lfv.22.1688025832471; 
+ Thu, 29 Jun 2023 01:03:52 -0700 (PDT)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ p24-20020ac246d8000000b004fb7848bacbsm1372426lfo.46.2023.06.29.01.03.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Jun 2023 01:03:52 -0700 (PDT)
+Date: Thu, 29 Jun 2023 11:03:48 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Zack Rusin <zackr@vmware.com>
+Subject: Re: [PATCH v4 2/8] drm/atomic: Add support for mouse hotspots
+Message-ID: <20230629110348.3530f427@eldfell>
+In-Reply-To: <2fb2f3985df4d6710e5ad33f6e618a52004714df.camel@vmware.com>
+References: <20230628052133.553154-1-zack@kde.org>
+ <20230628052133.553154-3-zack@kde.org>
+ <20230628104106.30360b55@eldfell> <20230628105424.11eb45ec@eldfell>
+ <2fb2f3985df4d6710e5ad33f6e618a52004714df.camel@vmware.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DS0PR12MB7927:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1f776eb1-412a-4fae-e2a8-08db7875addc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2V0HheU/gleaHvUpKrbrSYAHLVNzM+lpvJNbaTDqMuXtfRRtQdFh85AYTGZDZOj+iDP2fS6x+6538RrgdvqmS3c+4t3sWXpP1onJQEBQqGjiXUwziP+RoR7XOe/FoOii04wO0MJd5rYrMzW7VCXdqDKaYLfrPlcsOv/7CamP6Az9R9y28qBnPfJ9aekSA08r1gH/GMLHzh7qCt+onfnPpFdVPrugTJny65L8v5TWW+ZOIp6oB7ngxo6WBVfxc6Ydn/1kL7NdmI/3Yiav+ze9QdGEo9N0IoNPV5fBuJURPyYqr5vp4IpV7DnfzWbo9LKaYxEY5OBCDXIlju+HLrPpVn4dXpF6aB/25m69062MRk5gSuYLzKiCpVseQK2mcQM/hoefVPfCgC8CvvyBDf5XbRi/OYP1/zUWnjZvq7bczgWZPzdwUgm3UKMGufyzB+Jd2U2mpCq0G3TJSIRiZGymmk6qn8WDBMJH6CfG7IWTCgbMftV5Sag5+0p/Rflgl15x5F3cMDh7mLwCJeM9YgROCCTu1va936/+Kv3R0O96NsPs3ZCgNLfAFMjOxaUVGShMpDSFKK5TN+8ltFRaqbPomcUU/H+tKXNoCmtlQdvlbL7C00gITvbWnTMnLCOf+xsFF8sBEXWxqrZman+HcpXBlA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(366004)(396003)(376002)(136003)(346002)(39860400002)(451199021)(31686004)(36756003)(5660300002)(86362001)(8936002)(66556008)(8676002)(66476007)(41300700001)(31696002)(316002)(4326008)(38100700002)(66946007)(2906002)(186003)(478600001)(6506007)(2616005)(6512007)(6486002)(54906003)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aHlJeDZrV2ZMUTliTmErM08ya0hkODNaWnlQVTZHenZUdEtjQjZlOEkrL29D?=
- =?utf-8?B?NjZveG0vdUM2Sm44S3N5OXIwQm9GRkVVeDFiMHdwYkw5NUVyb25hZEwzTERH?=
- =?utf-8?B?bFhlUTdRL1FYN3pjNEZCdm5DcU1oaHoweGlOQUpaNlMxTGZEbGNTU0xwNXor?=
- =?utf-8?B?eGpzb3psVGZ0SUY4RDg0R0hrUm1SSXlvTk5MMittM3czZVVkS1BNMm05MmRG?=
- =?utf-8?B?OUNJT0lxbXhBMWVzemg3MmhTVFRXeUdVbk5EVHprdjQycmVGaWZVY05wSS9Q?=
- =?utf-8?B?aVpsY1R0OFFWNnlsZndLZGVrbXptaTdZU0F3OWNjNjd6dmdWRFIrRm0yTkJ6?=
- =?utf-8?B?empnUVFhRll3OWJyT3FHcWFkTXVKUGx6UU5QaUxKWkRhZjA0Wjg3TkpxRjhU?=
- =?utf-8?B?S25zQy9XakJtUVQ1SmlZekN3QlBLZTVuVFExNXdzb0tJeVdqbVdHNWpjZGFZ?=
- =?utf-8?B?MVBNdldGKzExazR1UmROcG5xek8za3NGTjVUdDVaMHNLSC9ZUGUxVVdyNExJ?=
- =?utf-8?B?S3ppVXB4b0NVVG1BSUVhNlExMExDQWpaTmg1OC9JS3ZINndaTVVVdHZLT3lU?=
- =?utf-8?B?MzJiQkR0V0RUMHFnU1NLRnpwM1pNQi93QldKWTNJbG05WmJNUWtBNVE4c3Rz?=
- =?utf-8?B?T3pLa2llSUpwdjZUVFJMMWN3Ry85aGpNV1NtbEtMY0xYMERoSXc3Qmg4T2ZQ?=
- =?utf-8?B?SlVnRFh2WUFpemhqczlqWUI1cXdmRlhvdXpLWDk2V3g5REtWdUU3UGtTNEE3?=
- =?utf-8?B?cFBEc0w2RkpaOEhETlhQN1lsTjBIOXFHaERSeGtGY1lVUlozRWczcHNxem1U?=
- =?utf-8?B?TTZobFhQd0ZrNkVPcS9uSUFBcFJtVTIvY2lCVEJIb0ZjakJ4ZHFQdUNWa1Nt?=
- =?utf-8?B?V293Q3RlRm04MDNLTXBhbUVSK2N0M0hDR3liY01PQnhKeHZKcXkyaDJXMkhD?=
- =?utf-8?B?UysrTlNHeUx5Uk05UHh6dVkzNm5DaHdlbHo2UEtuNG9CTDNjQ3NFU3JOSmZZ?=
- =?utf-8?B?ZnJrMHQwT0N1WVFKSDVPZEhSNzU1TmQ3b3ZOcGpzSTFsdWJ3YUd0cDZrWnor?=
- =?utf-8?B?N2pscVJFd2dmcnFNYWh6WUZ5U0hoaHY4UFFqWEhWb1UreCtsbElJNWdXUWQz?=
- =?utf-8?B?Q3d5cHVhNFdpNElqOVBNejBNUThlcDZ2UEVlU0gzR0syKzlpYitPNkt5MTlZ?=
- =?utf-8?B?UG9kcGQwaXdzTUlKeEFoUzNTdkpNTE82Q2podWkvMzExNWpiUEF5SFdjMm9U?=
- =?utf-8?B?YWdQTzRBRkI1Sy9MV0pGOUdVTXlSaFJKMDQ3QVk0R0hnZVJtbUo4VnIxY21P?=
- =?utf-8?B?TTAxS2lZOFpENlBsbENTaEY5Y092ZFV3K3FockVTRGF4NUtlOEQyTzRCbUxU?=
- =?utf-8?B?U2g1WXJNSkZ3aVdCWi9ObEkzejBxcCtXSDBWQ0Zaa2lSNUdWbVJUT2lHR05q?=
- =?utf-8?B?OXQzRDFwTi9odUkwWUtabGU1d1NvaU0rMnVPb3kvbldKTVltUW12SlhNZ1pE?=
- =?utf-8?B?VURVVzEyR1dlQ0FXTE13eE5vRk13VlkxdTJRUzlncTZpQVNJSjJvaHF1WTVt?=
- =?utf-8?B?L1IrbHh3UDFuOTh2UEYxd2hjZ3RoTzJCRGNKTUQ5K3M4Tnl1MVlzaU9BRUxW?=
- =?utf-8?B?Y3lzRlhHZmdZbnp6emdIYURPSWJNejVWUFlJQmVXNkE5Rnd0dk1wTDRlUnpE?=
- =?utf-8?B?cGR2RkRlR1dHU1pIc1NVTGdpbUJTc2lLdGptZ2V2cE14a0phQ3BQb0Vsd0pS?=
- =?utf-8?B?RUlJd1V0d3ZrM2l6R0oweXNwbHhqSldYeWQxYkErYitaT2hZcFhyckZwazZu?=
- =?utf-8?B?dHZVQjFGNWpiQWNTbDZESDk0bGx5YUw1MXlHTk1GaG5Sd1NNV3NZWXVpRGtr?=
- =?utf-8?B?bGpuOU4wWjB5dks1RUxBTFA4S0J4M2lTQ1RlQnBKUkJubEF6a2h1MDRHVXZR?=
- =?utf-8?B?Q2MydFJPSmRLMFkxNk4yRnJtV0NZakNWQnUzYW5aT2ZGczc4aU9IUDJWVkhO?=
- =?utf-8?B?cXJCdmR5L0EwUmtnWC9ibzdqcmZBNUVWUEM4U0pmWUg2VFJLMnFpMXZDNFBL?=
- =?utf-8?B?NXVGMjNPQ3dZaXFNbmpKTG4rd3hocEhOcW42TVNXTG5RbEZVNzVSVkQvUnYx?=
- =?utf-8?B?enA2dW95Q3o4UHdvcjYveDF1ckhPcXJldmFvc3lZQ3RDV296czFYSW5iNlJR?=
- =?utf-8?Q?6iF9ezpO7zt1OCId2Wmrft3PczrNyCHJZ13e4t7FAez1?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f776eb1-412a-4fae-e2a8-08db7875addc
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2023 07:51:42.7605 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8y11X6AerfaDOVQ3Tki8zNf4yrJNkJIIwaBY83a4r2mxXVybt1xtkv4aHaXW4JA5
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7927
+Content-Type: multipart/signed; boundary="Sig_/Z6VhLfhCdcXjb7A_CE/n9A0";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,257 +74,208 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>,
- Shuah Khan <shuah@kernel.org>, Andi Shyti <andi.shyti@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: "mripard@kernel.org" <mripard@kernel.org>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "javierm@redhat.com" <javierm@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Martin Krastev <krastevm@vmware.com>, Michael Banack <banackm@vmware.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>, Ian Forbes <iforbes@vmware.com>,
+ Maaz Mombasawala <mombasawalam@vmware.com>, "zack@kde.org" <zack@kde.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 27.06.23 um 10:32 schrieb Karolina Stolarek:
-> Add the initial version of unit tests for ttm_device struct, together
-> with helper functions.
->
-> Signed-off-by: Karolina Stolarek <karolina.stolarek@intel.com>
-> ---
->   drivers/gpu/drm/Kconfig                       | 15 +++++
->   drivers/gpu/drm/ttm/Makefile                  |  1 +
->   drivers/gpu/drm/ttm/tests/.kunitconfig        |  4 ++
->   drivers/gpu/drm/ttm/tests/Makefile            |  5 ++
->   drivers/gpu/drm/ttm/tests/ttm_device_test.c   | 54 +++++++++++++++++
->   drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c | 59 +++++++++++++++++++
->   drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h | 29 +++++++++
->   7 files changed, 167 insertions(+)
->   create mode 100644 drivers/gpu/drm/ttm/tests/.kunitconfig
->   create mode 100644 drivers/gpu/drm/ttm/tests/Makefile
->   create mode 100644 drivers/gpu/drm/ttm/tests/ttm_device_test.c
->   create mode 100644 drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
->   create mode 100644 drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
->
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index afb3b2f5f425..53024e44a2d5 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -194,6 +194,21 @@ config DRM_TTM
->   	  GPU memory types. Will be enabled automatically if a device driver
->   	  uses it.
->   
-> +config DRM_TTM_KUNIT_TEST
-> +        tristate "KUnit tests for TTM" if !KUNIT_ALL_TESTS
-> +        default n
-> +        depends on DRM && KUNIT
-> +        select DRM_TTM
-> +        select DRM_EXPORT_FOR_TESTS if m
-> +        select DRM_KUNIT_TEST_HELPERS
-> +        default KUNIT_ALL_TESTS
-> +        help
-> +          Enables unit tests for TTM, a GPU memory manager subsystem used
-> +          to manage memory buffers. This option is mostly useful for kernel
-> +          developers.
-> +
-> +          If in doubt, say "N".
-> +
->   config DRM_BUDDY
->   	tristate
->   	depends on DRM
-> diff --git a/drivers/gpu/drm/ttm/Makefile b/drivers/gpu/drm/ttm/Makefile
-> index f906b22959cf..dad298127226 100644
-> --- a/drivers/gpu/drm/ttm/Makefile
-> +++ b/drivers/gpu/drm/ttm/Makefile
-> @@ -8,3 +8,4 @@ ttm-y := ttm_tt.o ttm_bo.o ttm_bo_util.o ttm_bo_vm.o ttm_module.o \
->   ttm-$(CONFIG_AGP) += ttm_agp_backend.o
->   
->   obj-$(CONFIG_DRM_TTM) += ttm.o
-> +obj-$(CONFIG_DRM_TTM_KUNIT_TEST) += tests/
-> diff --git a/drivers/gpu/drm/ttm/tests/.kunitconfig b/drivers/gpu/drm/ttm/tests/.kunitconfig
-> new file mode 100644
-> index 000000000000..75fdce0cd98e
-> --- /dev/null
-> +++ b/drivers/gpu/drm/ttm/tests/.kunitconfig
-> @@ -0,0 +1,4 @@
-> +CONFIG_KUNIT=y
-> +CONFIG_DRM=y
-> +CONFIG_DRM_KUNIT_TEST_HELPERS=y
-> +CONFIG_DRM_TTM_KUNIT_TEST=y
-> diff --git a/drivers/gpu/drm/ttm/tests/Makefile b/drivers/gpu/drm/ttm/tests/Makefile
-> new file mode 100644
-> index 000000000000..7917805f37af
-> --- /dev/null
-> +++ b/drivers/gpu/drm/ttm/tests/Makefile
-> @@ -0,0 +1,5 @@
-> +# SPDX-License-Identifier: GPL-2.0 AND MIT
-> +
-> +obj-$(CONFIG_DRM_TTM_KUNIT_TEST) += \
-> +        ttm_device_test.o \
-> +        ttm_kunit_helpers.o
-> diff --git a/drivers/gpu/drm/ttm/tests/ttm_device_test.c b/drivers/gpu/drm/ttm/tests/ttm_device_test.c
-> new file mode 100644
-> index 000000000000..08d7314b1e35
-> --- /dev/null
-> +++ b/drivers/gpu/drm/ttm/tests/ttm_device_test.c
-> @@ -0,0 +1,54 @@
-> +// SPDX-License-Identifier: GPL-2.0 AND MIT
-> +/*
-> + * Copyright © 2023 Intel Corporation
-> + */
-> +#include <drm/ttm/ttm_resource.h>
-> +#include <drm/ttm/ttm_device.h>
-> +#include <drm/ttm/ttm_placement.h>
-> +
-> +#include "ttm_kunit_helpers.h"
-> +
-> +static void ttm_device_init_basic(struct kunit *test)
-> +{
-> +	struct ttm_test_devices_priv *priv = test->priv;
-> +	struct ttm_device *ttm_dev;
-> +	struct ttm_resource_manager *ttm_sys_man;
-> +	int err;
-> +
-> +	ttm_dev = kunit_kzalloc(test, sizeof(*ttm_dev), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, ttm_dev);
-> +
-> +	err = ttm_kunit_helper_alloc_device(test, ttm_dev, false, false);
-> +	KUNIT_ASSERT_EQ(test, err, 0);
-> +
-> +	KUNIT_EXPECT_PTR_EQ(test, ttm_dev->funcs, &ttm_dev_funcs);
-> +	KUNIT_ASSERT_NOT_NULL(test, ttm_dev->wq);
-> +	KUNIT_ASSERT_NOT_NULL(test, ttm_dev->man_drv[TTM_PL_SYSTEM]);
-> +
-> +	ttm_sys_man = &ttm_dev->sysman;
-> +	KUNIT_ASSERT_NOT_NULL(test, ttm_sys_man);
-> +	KUNIT_EXPECT_TRUE(test, ttm_sys_man->use_tt);
-> +	KUNIT_EXPECT_TRUE(test, ttm_sys_man->use_type);
-> +	KUNIT_ASSERT_NOT_NULL(test, ttm_sys_man->func);
-> +
-> +	KUNIT_EXPECT_PTR_EQ(test, ttm_dev->dev_mapping,
-> +			    priv->drm->anon_inode->i_mapping);
-> +
-> +	ttm_device_fini(ttm_dev);
-> +}
-> +
-> +static struct kunit_case ttm_device_test_cases[] = {
-> +	KUNIT_CASE(ttm_device_init_basic),
-> +	{}
-> +};
-> +
-> +static struct kunit_suite ttm_device_test_suite = {
-> +	.name = "ttm_device",
-> +	.init = ttm_test_devices_init,
-> +	.exit = ttm_test_devices_fini,
-> +	.test_cases = ttm_device_test_cases,
-> +};
-> +
-> +kunit_test_suites(&ttm_device_test_suite);
-> +
-> +MODULE_LICENSE("GPL");
-> diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-> new file mode 100644
-> index 000000000000..d03db0405484
-> --- /dev/null
-> +++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.c
-> @@ -0,0 +1,59 @@
-> +// SPDX-License-Identifier: GPL-2.0 AND MIT
-> +/*
-> + * Copyright © 2023 Intel Corporation
-> + */
-> +#include "ttm_kunit_helpers.h"
-> +
-> +struct ttm_device_funcs ttm_dev_funcs = {
-> +};
-> +EXPORT_SYMBOL_GPL(ttm_dev_funcs);
-> +
-> +int ttm_kunit_helper_alloc_device(struct kunit *test,
+--Sig_/Z6VhLfhCdcXjb7A_CE/n9A0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Since this function is only initializing the ttm device I think we 
-should name it ttm_kunit_helper_init_device().
+On Wed, 28 Jun 2023 19:54:49 +0000
+Zack Rusin <zackr@vmware.com> wrote:
 
-On the other hand I don't see a good reason why it can't also allocate 
-the device.
+> On Wed, 2023-06-28 at 10:54 +0300, Pekka Paalanen wrote:
+> > On Wed, 28 Jun 2023 10:41:06 +0300
+> > Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> >  =20
+> > > On Wed, 28 Jun 2023 01:21:27 -0400
+> > > Zack Rusin <zack@kde.org> wrote:
+> > >  =20
+> > > > From: Zack Rusin <zackr@vmware.com>
+> > > >=20
+> > > > Atomic modesetting code lacked support for specifying mouse cursor
+> > > > hotspots. The legacy kms DRM_IOCTL_MODE_CURSOR2 had support for set=
+ting
+> > > > the hotspot but the functionality was not implemented in the new at=
+omic
+> > > > paths.
+> > > >=20
+> > > > Due to the lack of hotspots in the atomic paths userspace composito=
+rs
+> > > > completely disable atomic modesetting for drivers that require it (=
+i.e.
+> > > > all paravirtualized drivers).
+> > > >=20
+> > > > This change adds hotspot properties to the atomic codepaths through=
+tout
+> > > > the DRM core and will allow enabling atomic modesetting for virtual=
+ized
+> > > > drivers in the userspace.
+> > > >=20
+> > > > Signed-off-by: Zack Rusin <zackr@vmware.com>
+> > > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > > > Cc: Maxime Ripard <mripard@kernel.org>
+> > > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > > > Cc: David Airlie <airlied@linux.ie>
+> > > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>=C2=A0  =
+=20
+> > >=20
+> > > Hi Zack,
+> > >=20
+> > > I still do not see any UAPI docs for the new properties in this patch=
+? =20
+> >=20
+> > If you are wondering what there could be to write about, maybe this can
+> > give a good mindset:
+> >=20
+> > Let's assume that I am a Wayland compositor developer who has never used
+> > "hotspots" with KMS UAPI before. As I have never tested anything in a
+> > VM, I have no idea why the kernel would ever want to know about cursor
+> > hotspots. Display hardware never does anything with that, it just puts
+> > the cursor plane where I tell it to and composes a single image to be
+> > sent to the sink. The virtual driver VKMS does the same. To me, a
+> > cursor plane is just another universal plane that may have weird
+> > stacking order, pixel format, and size limitations.
+> >=20
+> > Ideally the doc for HOTSPOT_X and HOTSPOT_Y documents not only their
+> > possible existence and allowed/expected values, but also the reasons
+> > to have them and what they are used for, and that if the properties
+> > are exposed they are mandatory to program in order to use the plane. =20
+>=20
+> Instead of resending the entire series maybe I can draft a possible doc b=
+elow and
+> see if we like it (once we're ok with I'll send out v5 which hopefully wi=
+ll be
+> good). How about:
 
-Apart from that looks like a good start,
-Christian.
+Hi Zack,
 
-> +				  struct ttm_device *ttm,
-> +				  bool use_dma_alloc,
-> +				  bool use_dma32)
-> +{
-> +	struct ttm_test_devices_priv *priv = test->priv;
-> +	struct drm_device *drm = priv->drm;
-> +	int err;
-> +
-> +	err = ttm_device_init(ttm, &ttm_dev_funcs, drm->dev,
-> +			      drm->anon_inode->i_mapping,
-> +			      drm->vma_offset_manager,
-> +			      use_dma_alloc, use_dma32);
-> +
-> +	return err;
-> +}
-> +EXPORT_SYMBOL_GPL(ttm_kunit_helper_alloc_device);
-> +
-> +int ttm_test_devices_init(struct kunit *test)
-> +{
-> +	struct ttm_test_devices_priv *priv;
-> +
-> +	priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, priv);
-> +
-> +	test->priv = priv;
-> +
-> +	priv->dev = drm_kunit_helper_alloc_device(test);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv->dev);
-> +
-> +	priv->drm = __drm_kunit_helper_alloc_drm_device(test, priv->dev,
-> +							sizeof(*priv->drm), 0,
-> +							DRIVER_GEM);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv->drm);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(ttm_test_devices_init);
-> +
-> +void ttm_test_devices_fini(struct kunit *test)
-> +{
-> +	struct ttm_test_devices_priv *priv = test->priv;
-> +
-> +	drm_kunit_helper_free_device(test, priv->dev);
-> +	drm_dev_put(priv->drm);
-> +}
-> +EXPORT_SYMBOL_GPL(ttm_test_devices_fini);
-> +
-> +MODULE_LICENSE("GPL");
-> diff --git a/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-> new file mode 100644
-> index 000000000000..69fb03b9c4d2
-> --- /dev/null
-> +++ b/drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.h
-> @@ -0,0 +1,29 @@
-> +/* SPDX-License-Identifier: GPL-2.0 AND MIT */
-> +/*
-> + * Copyright © 2023 Intel Corporation
-> + */
-> +#ifndef TTM_KUNIT_HELPERS_H
-> +#define TTM_KUNIT_HELPERS_H
-> +
-> +#include <drm/drm_drv.h>
-> +#include <drm/ttm/ttm_device.h>
-> +
-> +#include <drm/drm_kunit_helpers.h>
-> +#include <kunit/test.h>
-> +
-> +extern struct ttm_device_funcs ttm_dev_funcs;
-> +
-> +struct ttm_test_devices_priv {
-> +	struct drm_device *drm;
-> +	struct device *dev;
-> +};
-> +
-> +int ttm_kunit_helper_alloc_device(struct kunit *test,
-> +				  struct ttm_device *ttm,
-> +				  bool use_dma_alloc,
-> +				  bool use_dma32);
-> +
-> +int ttm_test_devices_init(struct kunit *test);
-> +void ttm_test_devices_fini(struct kunit *test);
-> +
-> +#endif // TTM_KUNIT_HELPERS_H
+cool!
 
+>=20
+> /**
+>  * @hotspot_x_property: property to set mouse hotspot x offset.
+
+Hmm, this does not look like the style of
+https://www.kernel.org/doc/html/latest/gpu/drm-kms.html#plane-composition-p=
+roperties
+
+I suspect it's a .rst file somewhere.
+
+It is important to use the userspace visible concepts and names, like
+the property name being "HOTSPOT_X", not hotspot_x_property. After all,
+"HOTSPOT_X" is the string that userspace must use to find this
+property. That's the UAPI.
+
+>  *
+>  * Hotspot is the point within the cursor image that's activating
+>  * the click e.g. imagine an arrow cursor pointing to bottom right -
+>  * the origin coordinate for that image would be top left
+>  * but the point which would be propagating the click would be
+>  * the bottom right cursor position (crtc_x, crtc_y) + hotspot
+>  * coordinates which for bottom right facing arrow would probably
+>  * be (cursor_width, cursor_height).
+
+Is it really required that the hotspot coordinates fall inside the
+cursor plane? Will the atomic commit be rejected otherwise?
+
+Are they given with respect to the cursor plane top-left corner,
+positive directions being right/down? Is the unit in CRTC pixels or FB
+pixels? The example does give an indirect answer, but my personal taste
+would like it to be more explicit.
+
+>  *
+>  * This information is only relevant for drivers working on top
+>  * of para-virtualized hardware. The reason for that is that
+>  * the hotspot is fairly encapsulated in the system but imagine having
+>  * multiple windows with virtual machines running on servers
+>  * across the globe, as you move the mouse across the screen
+>  * and the cursor moves over those multiple windows you wouldn't
+>  * want to be sending those mouse events to those machines, so virtual
+>  * machine monitors implement an optimization where unless the mouse
+>  * is locked to the VM window (e.g. via a click) instead of propagating
+>  * those mouse events to those VM's they change the image of the native
+>  * cursor to what's inside the mouse cursor plane and do not interact
+>  * with the VM window until mouse is clicked in it.
+
+Surely the mouse events are sent to those machines across the globe
+regardless?
+
+The point I believe you want to make is that in addition that, a
+virtual machine viewer application independently moves the cursor image
+on the viewer window to avoid the roundtrip latency across the globe
+between mouse movement and cursor movement.
+
+Why is the locking you mention relevant? Wouldn't you do this
+optimization always if there is any cursor plane image set?
+
+Or if you literally do mean that no input is sent to the VM at all
+until the pointer is locked to that window, then why bother using the
+guest cursor image without locking?
+
+I suppose different viewers could do different things, so maybe it's
+not necessary to go into those details. Just the idea of the viewer
+independently moving the cursor image to reduce hand-eye latency is
+important, right?
+
+>  *
+>  * In order for that click to correctly and seamlessly propagate
+>  * between the native and virtual machine, not only the cursor image
+>  * but also the hotspot information has to match between them.
+>  *
+>  * Make sure to set this property on the cursor plane if you'd like
+>  * your application to behave correctly when running on
+>  * para-virtualized drivers (qxl, vbox, virtio or vmwgfx).
+>  * /
+
+I think you could be more strict here. If these properties exist, then
+userspace must set them appropriately and use the cursor plane only for
+an actual input controlled cursor image. I might even leave the driver
+list out here, because they are mentioned at
+DRM_CLIENT_CAP_CURSOR_PLANE_HOTSPOT doc, and userspace should not base
+anything on "if driver is X or Y".
+
+This doc should also link to DRM_CLIENT_CAP_CURSOR_PLANE_HOTSPOT.
+
+The question of which input device corresponds to which cursor plane
+might be good to answer too. I presume the VM runner is configured to
+expose exactly one of each, so there can be only one association?
+
+Btw. for my own curiosity, what happens if there are two simultaneous
+viewer instances open to the same VM/guest instance? Will they fight
+over controlling the same pointer?
+
+
+Thanks,
+pq
+
+--Sig_/Z6VhLfhCdcXjb7A_CE/n9A0
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmSdOuQACgkQI1/ltBGq
+qqesdA//TyHYL8QzYlH9/ZupaONLeG89EtwA1ensRqSKDhqSooRucbce7L2rpjtN
+OLm7KjMQs/XP3sx+gmuUITNRCmMdb3x1L2+ZPHlvl64bJdojTlBtHQtVNge5vi/w
+lGTIEfMWrhjOY9JL6m329KHobgG7t8tGzd3PRaideOKfTXpLmH+76Emb9Sxvw+wY
+uWmRoSa7G97UTxic1vH/y2+i+1/EVejYYjHpLEGB0SeoO75DKoWPl5LIvJs4dZoW
+D5EbhQ2u6d5pzC/02xdkovjfJ6Z+gIJY3ZuXA6uJ8UcBemhAiJwuh12v9+e0nk+v
+OOfAZQLvANW/wGPz1Bw/MgzqFIPyIHAWWkXoCAimwdxEarBk70nH1gLpZueFLuR2
+owfYCeXwxHwan6rGs01qQcU6iiEAKAL1g+l3uMVJol7wdB8LqNsMizfMTYDcIYey
+HlrEkKyq92e+HwW6bpcO/UB6/0KJ8WxeMXpgLR5yvLHB/gFWrs/cip5to7Y5SMN2
+BhoVEOKxWmZzT6vB66KNqidYAvyFaSloSGZY5Yd5322T0B92p+ZVGByz+YPFG/eX
+HyaR3J9FhBSOeVHfcwPU+29VebLYrwLpOSmvy6vhSjhIBt5jg1fxa44es2S7ogRX
+M573tYD0dZYkP7MpkAfMKVAD55UlII5NzivGDXzx4psFjW9p1GU=
+=ll1L
+-----END PGP SIGNATURE-----
+
+--Sig_/Z6VhLfhCdcXjb7A_CE/n9A0--
