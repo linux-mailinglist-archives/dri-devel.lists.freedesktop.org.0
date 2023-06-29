@@ -2,62 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3952E7430E0
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 01:08:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62C3074311E
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 01:29:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDEB610E08A;
-	Thu, 29 Jun 2023 23:08:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE7C110E3FC;
+	Thu, 29 Jun 2023 23:29:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4B3F10E08A;
- Thu, 29 Jun 2023 23:08:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1688080088; x=1719616088;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=iznXYZ4xH3Nv8gWM89HiaGceomxOh3Ta2hE5jZaVkOM=;
- b=hf7R9BmpUHb+H+KPeikLPY/F62jOVX+vZ2xUi4+cFoSMP3goXwN4sSm2
- aphqsQE1NiP8vsP15kkpfIUNX/iXiT86U73biMPyopXHsqRoCcIoo16Dx
- 2qHRGo9G5QbxQxWAPKQQGz7EWJjuZrw8WvS6D02NfDmyRvkhk9ewuF8Cm
- 6SNKwaZ9qmzA8TXwn1nMoj5qLZO1Ro0P6NW5/1Gv29cy3oKug/eAPsHKd
- UnEzk/N1WXQzu/b5gsDbPZh1vBMYeP+MM/eGwePrbcr/fULZznmVvz0Nz
- QVvsP945RMWs3vqxPRzCWx5fwzSgi/vHIoizYl/s8mqbccP+MVDnk9Kqk g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="352077263"
-X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; d="scan'208";a="352077263"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jun 2023 16:08:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="807531156"
-X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; d="scan'208";a="807531156"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
- by FMSMGA003.fm.intel.com with ESMTP; 29 Jun 2023 16:08:02 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qF0k5-000ETx-1u;
- Thu, 29 Jun 2023 23:08:01 +0000
-Date: Fri, 30 Jun 2023 07:07:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>
-Subject: Re: [PATCH v2 2/4] regulator: Introduce Qualcomm REFGEN regulator
- driver
-Message-ID: <202306300643.LHN1fbOT-lkp@intel.com>
-References: <20230628-topic-refgen-v2-2-6136487c78c5@linaro.org>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDDAC10E3FC;
+ Thu, 29 Jun 2023 23:29:48 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 35TLbLZ4031590; Thu, 29 Jun 2023 23:29:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : from : to : cc : references : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=/QTyDMxjeb6S1ofSl7RyYNWEtok2JzJofl5BZM1/v5A=;
+ b=cGC4TaRWlL+Bsd8a8WqBCu/H2GEpArmk5JWPbUpc9qt49o0GK0sHWJWIJGd70J8rfeZ1
+ 35f4OQ0U9MNwg4quPaSjd/wLwrWhHf80X+KcKaza0tOxW3V3q6AcuVl8roTtMDAKZueE
+ C/aruURkiW1l0y3vjVsd4RsKqs9YBr5N8/ro9Ng2r4BH/lbY4H1aurglHXXz9KmgigiJ
+ J1S7PBuuOM9bKYc2b+C4aXkh3JtNZ84aVMjI2aSJB+HVg8rbCZZZfm84MxTPDNt9cBc7
+ udAnH2RxLfQHDZCYgstCZZGsPVIEOsQlSV1PD9VqXCSKYoH/GjdKKXlZPTMs23ECbdgu 9A== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rh7s2skfy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 29 Jun 2023 23:29:42 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35TNTf0j021671
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 29 Jun 2023 23:29:41 GMT
+Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.7; Thu, 29 Jun
+ 2023 16:29:40 -0700
+Message-ID: <413e6880-787c-06a1-8448-2b470e372c7e@quicinc.com>
+Date: Thu, 29 Jun 2023 16:29:39 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230628-topic-refgen-v2-2-6136487c78c5@linaro.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 6/6] drm/msm/dpu: Update dev core dump to dump registers
+ of sub blocks
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Ryan McCann
+ <quic_rmccann@quicinc.com>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
+ Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230622-devcoredump_patch-v1-0-3b2cdcc6a576@quicinc.com>
+ <20230622-devcoredump_patch-v1-6-3b2cdcc6a576@quicinc.com>
+ <114f34dd-e5ce-f878-5b23-4c14dc800547@linaro.org>
+ <1e41b909-4886-8392-edbc-78684e52bbf9@quicinc.com>
+ <412f68a3-e3cc-f26e-2e3d-59727e5c48d8@linaro.org>
+ <37c4bde0-0798-7506-ffd3-c8689ab78ba0@quicinc.com>
+ <dffa5b4c-3273-3b8a-a170-acb146063f43@linaro.org>
+ <9fcf6fb4-20eb-500d-a5fd-a0a328e530ed@quicinc.com>
+In-Reply-To: <9fcf6fb4-20eb-500d-a5fd-a0a328e530ed@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: jLVmSvlN-WG506e_MXDjuH6OWVPViI9U
+X-Proofpoint-ORIG-GUID: jLVmSvlN-WG506e_MXDjuH6OWVPViI9U
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-29_10,2023-06-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 adultscore=0
+ spamscore=0 priorityscore=1501 suspectscore=0 phishscore=0
+ lowpriorityscore=0 malwarescore=0 mlxlogscore=999 impostorscore=0
+ mlxscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306290213
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,145 +93,258 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>, oe-kbuild-all@lists.linux.dev,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
+ quic_jesszhan@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Konrad,
 
-kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 5c875096d59010cee4e00da1f9c7bdb07a025dc2]
+On 6/24/2023 7:44 PM, Abhinav Kumar wrote:
+> 
+> 
+> On 6/24/2023 8:03 AM, Dmitry Baryshkov wrote:
+>> On 24/06/2023 17:17, Abhinav Kumar wrote:
+>>>
+>>>
+>>> On 6/24/2023 5:07 AM, Dmitry Baryshkov wrote:
+>>>> On 24/06/2023 03:09, Abhinav Kumar wrote:
+>>>>>
+>>>>>
+>>>>> On 6/22/2023 5:13 PM, Dmitry Baryshkov wrote:
+>>>>>> On 23/06/2023 02:48, Ryan McCann wrote:
+>>>>>>> Currently, the device core dump mechanism does not dump registers 
+>>>>>>> of sub
+>>>>>>> blocks within the DSPP, SSPP, DSC, and PINGPONG blocks. Add wrapper
+>>>>>>> function to dump hardware blocks that contain sub blocks.
+>>>>>>>
+>>>>>>> Signed-off-by: Ryan McCann <quic_rmccann@quicinc.com>
+>>>>>>> ---
+>>>>>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 194 
+>>>>>>> +++++++++++++++++++++++++++-----
+>>>>>>>   1 file changed, 168 insertions(+), 26 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c 
+>>>>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>>>>>>> index aa8499de1b9f..9b1b1c382269 100644
+>>>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>>>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>>>>>>> @@ -885,6 +885,154 @@ static int dpu_irq_postinstall(struct 
+>>>>>>> msm_kms *kms)
+>>>>>>>       return 0;
+>>>>>>>   }
+>>>>>>> +static void dpu_kms_mdp_snapshot_add_block(struct msm_disp_state 
+>>>>>>> *disp_state,
+>>>>>>> +                       void __iomem *mmio, void *blk,
+>>>>>>> +                       enum dpu_hw_blk_type blk_type)
+>>>>>>
+>>>>>> No. Such multiplexers add no value to the code. Please inline it.
+>>>>>>
+>>>>>> Not to mention that this patch is hard to review. You both move 
+>>>>>> existing code and add new features. If it were to go, it should 
+>>>>>> have been split into two patches: one introducing the multiplexer 
+>>>>>> and another one adding subblocks.
+>>>>>>
+>>>>>
+>>>>> Ok. we can split this into:
+>>>>>
+>>>>> 1) adding the multiplexer
+>>>>> 2) adding sub-blk parsing support inside the multiplexer
+>>>>
+>>>> I'd say, drop the multiplexer completely. It adds no value here. It 
+>>>> is only used from dpu_kms_mdp_snapshot(). If the code there was 
+>>>> complex enough, it would have made sense to _split_ the function. 
+>>>> But even in such case there would be no point in having multiplexer. 
+>>>> We do not enumerate block by type.
+>>>>
+>>>
+>>> Can you pls elaborate what you mean by enumerate blk by type?
+>>>
+>>> We do have DPU_HW_BLK_***
+>>>
+>>> Did you mean sub-blk?
+>>>
+>>>>>
+>>>>>>> +{
+>>>>>>> +    u32 base;
+>>>>>>> +
+>>>>>>> +    switch (blk_type) {
+>>>>>>> +    case DPU_HW_BLK_TOP:
+>>>>>>> +    {
+>>>>>>> +        struct dpu_mdp_cfg *top = (struct dpu_mdp_cfg *)blk;
+>>>>>>> +
+>>>>>>> +        if (top->features & BIT(DPU_MDP_PERIPH_0_REMOVED)) {
+>>>>>>> +            msm_disp_snapshot_add_block(disp_state, 
+>>>>>>> MDP_PERIPH_TOP0,
+>>>>>>> +                            mmio + top->base, "top");
+>>>>>>> +            msm_disp_snapshot_add_block(disp_state, top->len - 
+>>>>>>> MDP_PERIPH_TOP0_END,
+>>>>>>> +                            mmio + top->base + MDP_PERIPH_TOP0_END,
+>>>>>>> +                            "top_2");
+>>>>>>> +        } else {
+>>>>>>> +            msm_disp_snapshot_add_block(disp_state, top->len, 
+>>>>>>> mmio + top->base, "top");
+>>>>>>> +        }
+>>>>>>> +        break;
+>>>>>>> +    }
+>>>>>>> +    case DPU_HW_BLK_LM:
+>>>>>>> +    {
+>>>>>>> +        struct dpu_lm_cfg *mixer = (struct dpu_lm_cfg *)blk;
+>>>>>>> +
+>>>>>>> +        msm_disp_snapshot_add_block(disp_state, mixer->len, mmio 
+>>>>>>> + mixer->base, "%s",
+>>>>>>> +                        mixer->name);
+>>>>>>> +        break;
+>>>>>>> +    }
+>>>>>>> +    case DPU_HW_BLK_CTL:
+>>>>>>> +    {
+>>>>>>> +        struct dpu_ctl_cfg *ctl = (struct dpu_ctl_cfg *)blk;
+>>>>>>> +
+>>>>>>> +        msm_disp_snapshot_add_block(disp_state, ctl->len, mmio + 
+>>>>>>> ctl->base, "%s",
+>>>>>>> +                        ctl->name);
+>>>>>>> +        break;
+>>>>>>> +    }
+>>>>>>> +    case DPU_HW_BLK_INTF:
+>>>>>>> +    {
+>>>>>>> +        struct dpu_intf_cfg *intf = (struct dpu_intf_cfg *)blk;
+>>>>>>> +
+>>>>>>> +        msm_disp_snapshot_add_block(disp_state, intf->len, mmio 
+>>>>>>> + intf->base, "%s",
+>>>>>>> +                        intf->name);
+>>>>>>> +        break;
+>>>>>>> +    }
+>>>>>>> +    case DPU_HW_BLK_WB:
+>>>>>>> +    {
+>>>>>>> +        struct dpu_wb_cfg *wb = (struct dpu_wb_cfg *)blk;
+>>>>>>> +
+>>>>>>> +        msm_disp_snapshot_add_block(disp_state, wb->len, mmio + 
+>>>>>>> wb->base, "%s",
+>>>>>>> +                        wb->name);
+>>>>>>> +        break;
+>>>>>>> +    }
+>>>>>>> +    case DPU_HW_BLK_SSPP:
+>>>>>>> +    {
+>>>>>>> +        struct dpu_sspp_cfg *sspp_block = (struct dpu_sspp_cfg 
+>>>>>>> *)blk;
+>>>>>>> +        const struct dpu_sspp_sub_blks *sblk = sspp_block->sblk;
+>>>>>>> +
+>>>>>>> +        base = sspp_block->base;
+>>>>>>> +
+>>>>>>> +        msm_disp_snapshot_add_block(disp_state, sspp_block->len, 
+>>>>>>> mmio + base, "%s",
+>>>>>>> +                        sspp_block->name);
+>>>>>>> +
+>>>>>>> +        if (sspp_block->features & BIT(DPU_SSPP_SCALER_QSEED3) ||
+>>>>>>> +            sspp_block->features & 
+>>>>>>> BIT(DPU_SSPP_SCALER_QSEED3LITE) ||
+>>>>>>> +            sspp_block->features & BIT(DPU_SSPP_SCALER_QSEED4))
+>>>>>>> +            msm_disp_snapshot_add_block(disp_state, 
+>>>>>>> sblk->scaler_blk.len,
+>>>>>>> +                            mmio + base + sblk->scaler_blk.base, 
+>>>>>>> "%s_%s",
+>>>>>>> +                            sspp_block->name, 
+>>>>>>> sblk->scaler_blk.name);
+>>>>>>
+>>>>>> Actually, it would be better to:
+>>>>>> - drop name from all sblk instances (and use known string instead 
+>>>>>> of the sblk name here)
+>>>>>> - Use sblk->foo_blk.len to check if it should be printed or not.
+>>>>>>
+>>>>>
+>>>>> No, I dont agree. If we drop the names from the sub_blk in the 
+>>>>> catalog, we will end up using "sub_blk_name" string here in the 
+>>>>> code to indicate which blk that is in the dump.
+>>>>>
+>>>>> If we add more sub_blks in the catalog in the future we need to 
+>>>>> keep changing the code over here. Thats not how it should be.
+>>>>>
+>>>>> Leaving the names in the catalog ensures that this code wont change 
+>>>>> and only catalog changes when we add a new sub_blk either for an 
+>>>>> existing or new chipset.
+>>>>>
+>>>>> catalog is indicating the new blk, and dumping code just prints it.
+>>>>>
+>>>>> with your approach, dumping code will or can keep changing with 
+>>>>> chipsets or sub_blks. Thats not how it should be.
+>>>>
+>>>> Well, we do not enumerate sub-blocks in any way, they are not 
+>>>> indexed. So even with sblk->blk.name in place, adding new sub-block 
+>>>> would require adding new code here. That's why I wrote that the 
+>>>> calling code knows which sub-block it refers to.
+>>>>
+>>>
+>>> Today, unfortunately each sub_blk type is different so we have to do 
+>>> this case by case.
+>>>
+>>> Ideally, this should have just been
+>>>
+>>> -> print main blk
+>>> -> print all sub-blks of the main blk
+>>>
+>>> Without having to handle each main blk's sub-blks separately.
+>>>
+>>> That way the dumping code would have remained generic without having 
+>>> to do even the multiplexer in the first place.
+>>>
+>>> Need to explore if somehow we can come up with a generic sub-blk 
+>>> struct and make this possible. Then this code will become much easier 
+>>> and what I am saying will make total sense.
+>>
+>> In such case, yes. However I'd warn about having a generic array of 
+>> subblocks. Having named subblock entries might complicate 
+>> snapshotting, but it makes the rest of the DPU driver smaller.
+>>
+> 
+> Need to explore this. But not immediately.
+> 
+>>>
+>>> Even without that, conceptually these sub-blk names are reflecting 
+>>> whats in our software document. So its not a random name but reflects 
+>>> the actual sub-blk name from the hardware.
+>>
+>> Yes
+>>
+>>> So this belongs in the catalog.
+>>
+>> But the sub-block field already has a correct name: scaler_blk, 
+>> csc_blk, etc. Having both sub-block field name and the .name inside 
+>> results in kind of duplication, which seems unnecessary to me.
+>>
+> 
+> No, there is a difference and not duplicated. One is the name of the 
+> struct so it can really be anything and doesnt need to match the hw doc 
+> name. But the other is the string name which we can give exactly to 
+> match software interface doc and makes parsing such a dump much much 
+> easier.
+> 
+> One point I dont see you have considered is the block index of the sub_blk.
+> 
+> Today, yes I see only a "pcc" or a "dither" etc
+> 
+> What if there are two PCCs or two dithers.
+> 
+> Then their names can just be "pcc_0" and "pcc_1" or "dither_0" and 
+> "dither_1".
+> 
+> Having name gives us the ability to easily incorporate even unsequential 
+> indices.
+> 
+> For example, every sspp's name today is not sequential. it can be 
+> "sspp_3" then "sspp_8" etc
+> 
+> By having names reflect the correct indices, dumping code becomes less 
+> complex as the catalog will still have the right names as dumping code 
+> will just use that.
+> 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/dt-bindings-regulator-Describe-Qualcomm-REFGEN-regulator/20230630-043835
-base:   5c875096d59010cee4e00da1f9c7bdb07a025dc2
-patch link:    https://lore.kernel.org/r/20230628-topic-refgen-v2-2-6136487c78c5%40linaro.org
-patch subject: [PATCH v2 2/4] regulator: Introduce Qualcomm REFGEN regulator driver
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230630/202306300643.LHN1fbOT-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230630/202306300643.LHN1fbOT-lkp@intel.com/reproduce)
+The QC team is in agreement that we would like to go ahead with the 
+names from the catalog and not drop them.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306300643.LHN1fbOT-lkp@intel.com/
+Hence we will post the next revision with the name still from the 
+catalog and drop the multiplexer completely.
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/cio/ccwgroup.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/cio/vfio_ccw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/block/dasd_diag_mod.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/block/dasd_eckd_mod.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/block/dasd_fba_mod.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/block/dcssblk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/char/raw3270.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/char/con3270.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/char/fs3270.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/net/lcs.o
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/idma64.ko] undefined!
->> ERROR: modpost: "devm_platform_ioremap_resource" [drivers/regulator/qcom-refgen-regulator.ko] undefined!
-ERROR: modpost: "iounmap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
-ERROR: modpost: "ioremap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/char/xillybus/xillybus_of.ko] undefined!
-ERROR: modpost: "devm_memremap" [drivers/misc/open-dice.ko] undefined!
-ERROR: modpost: "devm_memunmap" [drivers/misc/open-dice.ko] undefined!
-ERROR: modpost: "iounmap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
-ERROR: modpost: "ioremap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
-WARNING: modpost: suppressed 13 unresolved symbol warnings because there were too many)
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Since the intern has a short period of time to finish development on 
+this task, we would like to go ahead with this approach and post the 
+next rev.
