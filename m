@@ -1,91 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADB53743B1A
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 13:48:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 613F6743B2C
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 13:53:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0BB810E15D;
-	Fri, 30 Jun 2023 11:48:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0467D10E455;
+	Fri, 30 Jun 2023 11:53:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2058.outbound.protection.outlook.com [40.107.237.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22E3C10E15D
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 11:48:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PjcjOAV3g/58c+VTO9FWledL0hqp5JEkr8KC0MLJ/3niLvhOdlsvnDHdDDLLzYL9ZLLhsarVTN0nPiCdEJtvXMvUJrYrut1L8BqFqMBcS9LamrFTisNjdFomRap17XE3xBidGC+VkBfiPNH9wMG0Gd7oJ4NOGKZ8T155qA/CSwgbIm1ta41mkUpK7N9Ztg5uzr5zRxO6F2paav+7Y6SWLTJZS30nQlN34GprQO3lpLvx2/PIn8zOCaDhp0mTHChpHB94G9UyLdgZJKbgugJ6zGWpO+rd8/nA9IxHu64TiG4EkmG2+dmnc+rFqT4nhCcJivRpLqIvrW6LKDOfdLyXKQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JHcOF/BB79qV8szHLF7p08JA9U2RL5WZz3pT0VRoTpI=;
- b=bpG8ogB4oGkIvlkgXG/L4HWFFW+mrzFgWUv1hNhK2m1NrNAknBJP74W9srANYpr5atXQL85cgy/SuaLK9FO47F+0DdShJtgISZGEP21fy3ZnVSR6ibg629WT31KxHt0gPw5vTAuFCveYbRf37GL6dX4tuQOVatsMnFG1VC5n8uuuIko5v27XGhLJ7Lenw7BYZEXkHyPIgudLIQsXFTN7D0EUutUerJ9zgozMTazDXJAbPp8laTPHELEi4UvYQCWUL90Ve9/ailt95GTsPuo9UMwsEPtydRzdziADq4OO/gWVGd532esCVhXJ8y4jJ82goMipFwryRfk9OM5WykyD5Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JHcOF/BB79qV8szHLF7p08JA9U2RL5WZz3pT0VRoTpI=;
- b=TdPIoashH3w9WsWHcNd63XndT6AjnSgUSNfGDPbCn+Mk10vu94W+JDVPCbdDcEBqLtapMTBTBLisXmQEiGEUJguQ9RSNvVcQ3IeR9uQJ+bDutEhAzZWc78vH0eKGpqmgW1rOVdlDfuye1Oml8ENzUguupmuDXKpZ0etnZFdjumc=
-Received: from BN0PR04CA0147.namprd04.prod.outlook.com (2603:10b6:408:ed::32)
- by SA1PR12MB7411.namprd12.prod.outlook.com (2603:10b6:806:2b1::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.21; Fri, 30 Jun
- 2023 11:48:51 +0000
-Received: from BN8NAM11FT033.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:ed:cafe::32) by BN0PR04CA0147.outlook.office365.com
- (2603:10b6:408:ed::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.22 via Frontend
- Transport; Fri, 30 Jun 2023 11:48:51 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT033.mail.protection.outlook.com (10.13.177.149) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6500.49 via Frontend Transport; Fri, 30 Jun 2023 11:48:51 +0000
-Received: from jz-tester2.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 30 Jun
- 2023 06:48:50 -0500
-From: James Zhu <James.Zhu@amd.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm: support up to 128 drm devices
-Date: Fri, 30 Jun 2023 07:48:38 -0400
-Message-ID: <20230630114838.354806-1-James.Zhu@amd.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT033:EE_|SA1PR12MB7411:EE_
-X-MS-Office365-Filtering-Correlation-Id: 10acc44f-670e-4ce0-d7fb-08db795ff914
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: K9Jg5Xgy2Imtl8+ygv4tyAvXOxEXVOMxRcdkrytGZWQKwI/efte2BGlUC4jIapiFEfGOfWmcdJOsB5WPJeglLm+1iwT2FE60y+AsvowFI/ONpG9HPATJD6MD9hwNq4qcFV9gmnkNG2E7nih7f9BoSNCUHAd4MCmXGKBudMBUGcB+z7wz7Mr3OA5mm0lZZ+DBfF6giUPUUEoupZvowu2g9ntkVnnp+DLeaoIL4fQpd6lM6+HBYxQoxNnlaQaLITTxWW/I0wlevQG6tY5jmeg1Fh0Y0LmLezdwQOqnTTGYdJLk3d5Pbi+nOAR2EiS+IkXVZ+Y0jjsA8wZ88mZO0GSO5SdghJjZw1D2wMClZIplRV2ZLwD4mKXXzfHnigl2EG/2NppxMHcr+WeeHi2QSUnXFaRE7pBwBrfZAO7cDNtcXZvcIGU93w/L1u1tanP7AUcu5qMlVnUHEmKd51BmQoej3r+a0DM8ccILfLj5AFWuOugdtk6IrroHtpaMGt0h9wg5KHVUJ+8OB+6+eEeCSp2kGf/2Dao/LqbnK/7XMF4RxZj2wQX9B30QyFavobpc/NMr7kptNGSf6aRbKow0UhiRuCIc19BbhXNyk9Q8zOi3F0yhDCZ5EZHujF/wiJc5ecry5dGPRcSBFumaCSOYAHPNKEr/pHNN7zaYte9PSiXy7eG0gJEl5nEe6RVT3jYwZfpZbnsUi5Hu8ksgTTc4TYqEgmea6BQni7mk1JEmTFBCRspdWIdy4rQ3cd7llJPiJxcvlWKEXNOmsOGTetL4OsyVjA==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(376002)(136003)(39860400002)(396003)(346002)(451199021)(36840700001)(46966006)(40470700004)(426003)(83380400001)(336012)(66574015)(47076005)(316002)(8936002)(7696005)(6666004)(8676002)(54906003)(4326008)(41300700001)(186003)(40460700003)(36756003)(36860700001)(40480700001)(82740400003)(86362001)(82310400005)(356005)(81166007)(5660300002)(70586007)(478600001)(6916009)(4744005)(16526019)(70206006)(26005)(2906002)(2616005)(1076003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2023 11:48:51.0335 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 10acc44f-670e-4ce0-d7fb-08db795ff914
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT033.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7411
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED41610E458
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 11:53:46 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailnew.nyi.internal (Postfix) with ESMTP id C8F845842A1;
+ Fri, 30 Jun 2023 07:53:45 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+ by compute6.internal (MEProxy); Fri, 30 Jun 2023 07:53:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1688126025; x=1688133225; bh=ya
+ Hy0NgB4QI7znLtjDpufXmMXzZcSHw23m7h8BkLYBc=; b=10KOp+CzUmojO7ZSQ7
+ q9c3tAJBmOd76hg6sonOk40OjKAR6/QOPiz7XUomr8IP6aN19s7N9Q20gnTBA8OU
+ H+ET1KWhVc0oqozGAYUdc7B70SAPMdGIyEmEipUjQs98dHfF9mAUgsaeXHru8OlA
+ Z6b+3BUsGbAouqrpsuvP8THkbsAzAbWArrjQjssrDfLJHYAxMJ1nD0US1BwUxLpH
+ Khsbp9i0wfMK4NjF83UPBZQU2Xe9X8o6q5JmvVGPeBGgXYJSti5i4d4Vr++XzGjN
+ 1deBUgFU/w8tfA/bjpGKl2V8A3IgBHPWHWftg2j80IDtUUtjFI/5ldbjH9jVYmeY
+ G2pw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; t=1688126025; x=1688133225; bh=yaHy0NgB4QI7z
+ nLtjDpufXmMXzZcSHw23m7h8BkLYBc=; b=VLzmPefoROKUnYgyH59xLO28GGD4n
+ I4lte/pn3WzX95H4eQRtTSBAb90fH5FqIscW92NizI9x3K9rvYkB4k9q6ajV1EbD
+ VxE8AOWeA5gd3Truhe/A9kaDx6LrP7Tl4Y9XFamiioeruNo4WJqflkjaHJ0nsHcv
+ J2r4IJGTVqOt1B1dMbybj/sbd/LzIbl5CzvfvEtuw8uPdvo7PAFEKVHhv2+1X9Xd
+ qEBjQf6xoQoJmFw77YwpNSZG5Kn1KzEpYegVmCRAHDr3owvr/EeqaPrEmVGD6Gmw
+ mfm5v+sxS/9Ml4UMUnNpdnRbqLCJ6zjTnHpvZojc13GhJnUu+kDlq3vDg==
+X-ME-Sender: <xms:SMKeZCxMqe5zxyzHHEyo_jowh1NvQkg3HAWm1oxMk5pEwCXuDt8nPQ>
+ <xme:SMKeZOQSC2GjFmKEVBEJ34bdcsM63u6r5Bbn1HzIVxPff5ENjvEYekcilieyCztL0
+ OOiy6d_8S9V2AG4VWM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrtdeigdeggecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+ ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+ gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+ ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+ hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:SMKeZEU7QF7lH3eivuj7P9AQVrp-KepGLUxX15AeZTjz07bNrMm_5Q>
+ <xmx:SMKeZIimGJWbUJHe4AXjoJoG2-DRyW8QkepPJWqWF6Y-rgF7svHorw>
+ <xmx:SMKeZEDcwFLycbP_cRSrtSET1YHYJvelMIMgwIjYVgEhFWn2ec6cwQ>
+ <xmx:ScKeZMj8q19ja7k4QwyGQviRl-VaDcpKWJEn2nnWWhOtIymUXjLwrw>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 94900B60093; Fri, 30 Jun 2023 07:53:44 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-499-gf27bbf33e2-fm-20230619.001-gf27bbf33
+Mime-Version: 1.0
+Message-Id: <dd5aa01e-afad-48d2-bf4c-4a58b74f1644@app.fastmail.com>
+In-Reply-To: <ef7b3899-7d18-8018-47fa-aac0efaa61f4@suse.de>
+References: <20230629121952.10559-1-tzimmermann@suse.de>
+ <20230629121952.10559-8-tzimmermann@suse.de>
+ <80e3a583-805e-4e8f-a67b-ebe2e4b9a7e5@app.fastmail.com>
+ <d3de124c-6aa8-e930-e238-7bd6dd7929a6@suse.de>
+ <0dbbdfc4-0e91-4be4-9ca0-d8ba6f18453d@app.fastmail.com>
+ <ef7b3899-7d18-8018-47fa-aac0efaa61f4@suse.de>
+Date: Fri, 30 Jun 2023 13:53:24 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Thomas Zimmermann" <tzimmermann@suse.de>, "Helge Deller" <deller@gmx.de>, 
+ "Daniel Vetter" <daniel@ffwll.ch>, "Dave Airlie" <airlied@gmail.com>
+Subject: Re: [PATCH 07/12] arch/x86: Declare edid_info in <asm/screen_info.h>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,34 +88,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- jamesz@amd.com, christian.koenig@amd.com
+Cc: linux-hyperv@vger.kernel.org, linux-efi@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-sh@vger.kernel.org,
+ Peter Zijlstra <peterz@infradead.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
+ linux-riscv@lists.infradead.org, Ard Biesheuvel <ardb@kernel.org>,
+ Linux-Arch <linux-arch@vger.kernel.org>, linux-hexagon@vger.kernel.org,
+ linux-staging@lists.linux.dev,
+ "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Sami Tolvanen <samitolvanen@google.com>,
+ Kees Cook <keescook@chromium.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Frederic Weisbecker <frederic@kernel.org>, Nicholas Piggin <npiggin@gmail.com>,
+ Borislav Petkov <bp@alien8.de>, loongarch@lists.linux.dev,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ x86@kernel.org, linux-kernel@vger.kernel.org,
+ Juerg Haefliger <juerg.haefliger@canonical.com>, linux-alpha@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Christian König <ckoenig.leichtzumerken@gmail.com>
+On Fri, Jun 30, 2023, at 09:46, Thomas Zimmermann wrote:
+> Am 29.06.23 um 15:21 schrieb Arnd Bergmann:
+>> On Thu, Jun 29, 2023, at 15:01, Thomas Zimmermann wrote:
+>>> Am 29.06.23 um 14:35 schrieb Arnd Bergmann:
+>>>> On Thu, Jun 29, 2023, at 13:45, Thomas Zimmermann wrote:
+>
+>>>
+>>> FIRMWARE_EDID is a user-selectable feature, while ARCH_HAS_EDID_INFO
+>>> announces an architecture feature. They do different things.
+>> 
+>> I still have trouble seeing the difference.
+>
+> The idea here is that ARCH_HAS_ signals the architecture's support for 
+> the feature.  Drivers set 'depends on' in their Kconfig.
+>
+> Another Kconfig token, VIDEO_SCREEN_INFO or FIRMWARE_EDID, would then 
+> actually enable the feature.  Drivers select VIDEO_SCREEN_INFO or 
+> FIRMWARE_EDID and the architectures contains code like
 
-This makes room for up to 128 DRM devices.
+Fair enough. In that case, I guess FIRMWARE_EDID will just depend on
+ARCH_HAS_EDID_INFO, or possibly "depends on FIRMWARE_EDID || EFI"
+after it starts calling into an EFI specific function, right?
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: James Zhu <James.Zhu@amd.com>
----
- drivers/gpu/drm/drm_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> #ifdef VIDEO_SCREEN_INFO
+> struct screen_info screen_info = {
+> 	/* set values here */
+> }
+> #endif
+>
+> This allows us to disable code that requires screen_info/edid_info, but 
+> also disable screen_info/edid_info unless such code has been enabled in 
+> the kernel config.
+>
+> Some architectures currently mimic this by guarding screen_info with 
+> ifdef CONFIG_VT or similar. I'd like to make this more flexible. The 
+> cost of a few more internal Kconfig tokens seems negligible.
 
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 73b845a75d52..0d55c64444f5 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -137,7 +137,7 @@ static int drm_minor_alloc(struct drm_device *dev, unsigned int type)
- 		r = idr_alloc(&drm_minors_idr,
- 			NULL,
- 			64 * type,
--			64 * (type + 1),
-+			64 * (type + 2),
- 			GFP_NOWAIT);
- 		spin_unlock_irqrestore(&drm_minor_lock, flags);
- 	}
--- 
-2.34.1
+I definitely get it for the screen_info, which needs the complexity.
+For ARCHARCH_HAS_EDID_INFO I would hope that it's never selected by
+anything other than x86, so I would still go with just a dependency
+on x86 for simplicity, but I don't mind having the extra symbol if that
+keeps it more consistent with how the screen_info is handled.
 
+>> I suppose you could use FIRMWARE_EDID on EFI or OF systems without
+>> the need for a global edid_info structure, but that would not
+>> share any code with the current fb_firmware_edid() function.
+>
+> The current code is build on top of screen_info and edid_info. I'd 
+> preferably not replace that, if possible.
+
+One way I could imagine this looking in the end would be
+something like
+
+struct screen_info *fb_screen_info(struct device *dev)
+{
+      struct screen_info *si = NULL;
+
+      if (IS_ENABLED(CONFIG_EFI))
+            si = efi_get_screen_info(dev);
+
+      if (IS_ENABLED(CONFIG_ARCH_HAS_SCREEN_INFO) && !si)
+            si = screen_info;
+
+      return si;
+}
+
+corresponding to fb_firmware_edid(). With this, any driver
+that wants to access screen_info would call this function
+instead of using the global pointer, plus either NULL pointer
+check or a CONFIG_ARCH_HAS_SCREEN_INFO dependency.
+
+This way we could completely eliminate the global screen_info
+on arm64, riscv, and loongarch but still use the efi and
+hyperv framebuffer/drm drivers.
+
+    Arnd
