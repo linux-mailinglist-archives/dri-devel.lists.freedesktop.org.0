@@ -1,59 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E5CD743670
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 10:05:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A5A2743695
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 10:09:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F67310E19A;
-	Fri, 30 Jun 2023 08:05:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9384710E168;
+	Fri, 30 Jun 2023 08:09:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com
- [IPv6:2607:f8b0:4864:20::1136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5AF310E19A
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 08:05:02 +0000 (UTC)
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-57040e313c5so23637557b3.0
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 01:05:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1688112302; x=1690704302;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pOdCefwt7Ax9Hfvkk8Lveq+Ut2f18HISZZW5KXVicfQ=;
- b=kbBM1+oxUiXvU2/QQFm7kB6GyiMo7U1iOTgdHUVThD4ymFZhGi/+nIX9hb984D/xvh
- 30cJBDNZXVKpVfTZYvtdZjQAlUHrdL3tcXVzFTX6le+fj7HMu2t//8PLwZbkuP3afiK+
- 2bSz1dvdgQ07H9PimEwNYDR44LMTPO0YIMVqM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688112302; x=1690704302;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pOdCefwt7Ax9Hfvkk8Lveq+Ut2f18HISZZW5KXVicfQ=;
- b=ZaxSlntk7qJCkrdHkiTnGfnWM5MjvnEt/LxBvG6hYa4qMZX9GB4dlTYHOLw212a+gB
- ASmMrx78DngepTKJF2/BkHPlVSfViuFfd6L/tpZb6i2BSMNwVeOhqq5j7vQXefUL8NFR
- xuinPmiW+/+F7KCHfiuTy0LJYNuigEo8BM2sQIvvLVCRzi4yb66cv8wMDeG0eCKkaZOI
- RiITsl/cOBzVK9Qp/arx6ylr3zA9OPk21Ws63w7KjFzHy1BLTbvCaOll0Kjwk0KKkjI5
- ED11krjIy8fnw3dcma1LLTQWpgZL2/iH9YVaVVEuSft2kuS4vtFxhosIF/B9w8WkcEqZ
- ZAEg==
-X-Gm-Message-State: ABy/qLY0bfp5DXfwpAC3pS9afhTt78CbA3ZCl9MCugv28HaKAAAv/MDX
- WbWkG3uhegeOMrSoJ6XuDCdQznHPta9Fda2D+n3SjQ==
-X-Google-Smtp-Source: APBJJlGfwrmUqIda2skUGU7hqigqtdnfU9GNaAVk+AXsXmSBI2V2PRXoa6/XQ30k0k0b7dVMI7HqfKm1hGeUq+R4sf4=
-X-Received: by 2002:a0d:ea4e:0:b0:56d:a5a:3c00 with SMTP id
- t75-20020a0dea4e000000b0056d0a5a3c00mr2168518ywe.17.1688112301984; Fri, 30
- Jun 2023 01:05:01 -0700 (PDT)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51AC910E168;
+ Fri, 30 Jun 2023 08:09:28 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 2F9B06606FFA;
+ Fri, 30 Jun 2023 09:09:26 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1688112566;
+ bh=ANYK13+kMbufo5WxKeOKpUDTsJYoR7z7qubmUSW56Qk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=gvVru5Xspm5Eor9iojhhEZHcNdM8BgyHneoHzQoNyIrwnMPC1vl+y+Z1DbR+rQIbP
+ 1Ws/c0b1ZyTNbZI7BKQW5BlDjO6JdOSwJL05qR3osL8szn0ZZzi86kNOtIZokYK8Un
+ fE8HwBHTJ8LUHDnsRy7hTurihF7sXX5/XlLeFJKDsNEHnm3TSdv+EQEH0OHouPqKTk
+ sSNp+BmboD68/ri9+asbzJhjKti7xah7ynXp6oW+mdJaPb4QCdnrletH3WJPYC7yvp
+ t4o3KYbMBSY+5Ks9mIfKIWfRbgfaWlDUcP5flAlmTzdJq8C3QH5Bz3xsadVDSN1Tw7
+ JNcf8EwrVPW1g==
+Date: Fri, 30 Jun 2023 10:09:23 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH drm-next v6 02/13] drm: manager to keep track of GPUs VA
+ mappings
+Message-ID: <20230630100923.3fbab839@collabora.com>
+In-Reply-To: <20230630100252.7ff6421d@collabora.com>
+References: <20230629222651.3196-1-dakr@redhat.com>
+ <20230629222651.3196-3-dakr@redhat.com>
+ <20230630100252.7ff6421d@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20230615201511.565923-1-marex@denx.de>
-In-Reply-To: <20230615201511.565923-1-marex@denx.de>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Fri, 30 Jun 2023 13:34:50 +0530
-Message-ID: <CAMty3ZCkYUc1Cgrom=D-UyR8OF+ihfxQEpgHSDYu7tmZNaRi_Q@mail.gmail.com>
-Subject: Re: [PATCH] drm: bridge: samsung-dsim: Drain command transfer FIFO
- before transfer
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,26 +55,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: matthew.brost@intel.com, willy@infradead.org,
+ dri-devel@lists.freedesktop.org, corbet@lwn.net, nouveau@lists.freedesktop.org,
+ ogabbay@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mripard@kernel.org, bskeggs@redhat.com, tzimmermann@suse.de,
+ Liam.Howlett@oracle.com, Dave Airlie <airlied@redhat.com>,
+ bagasdotme@gmail.com, christian.koenig@amd.com, jason@jlekstrand.net,
+ Donald Robson <donald.robson@imgtec.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 16, 2023 at 1:45=E2=80=AFAM Marek Vasut <marex@denx.de> wrote:
->
-> Wait until the command transfer FIFO is empty before loading in the next
-> command. The previous behavior where the code waited until command transf=
-er
-> FIFO was not full suffered from transfer corruption, where the last comma=
-nd
-> in the FIFO could be overwritten in case the FIFO indicates not full, but
-> also does not have enough space to store another transfer yet.
->
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> ---
+On Fri, 30 Jun 2023 10:02:52 +0200
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
-Tested-by: Jagan Teki <jagan@amarulasolutions.com> # imx8mm-icore
+> Hi Danilo,
+> 
+> On Fri, 30 Jun 2023 00:25:18 +0200
+> Danilo Krummrich <dakr@redhat.com> wrote:
+> 
+> > + *	int driver_gpuva_remap(struct drm_gpuva_op *op, void *__ctx)
+> > + *	{
+> > + *		struct driver_context *ctx = __ctx;
+> > + *
+> > + *		drm_gpuva_remap(ctx->prev_va, ctx->next_va, &op->remap);
+> > + *
+> > + *		drm_gpuva_unlink(op->remap.unmap->va);
+> > + *		kfree(op->remap.unmap->va);
+> > + *
+> > + *		if (op->remap.prev) {
+> > + *			drm_gpuva_link(ctx->prev_va);
+> 
+> I ended up switching to dma_resv-based locking for the GEMs and I
+> wonder what the locking is supposed to look like in the async-mapping
+> case, where we insert/remove the VA nodes in the drm_sched::run_job()
+> path.
+> 
+> What I have right now is something like:
+> 
+> 	dma_resv_lock(vm->resv);
+> 
+> 	// split done in drm_gpuva_sm_map(), each iteration
+> 	// of the loop is a call to the driver ->[re,un]map()
+> 	// hook
+> 	for_each_sub_op() {
+> 		
+> 		// Private BOs have their resv field pointing to the
+> 		// VM resv and we take the VM resv lock before calling
+> 		// drm_gpuva_sm_map()
+> 		if (vm->resv != gem->resv)
+> 			dma_resv_lock(gem->resv);
+> 
+> 		drm_gpuva_[un]link(va);
+> 		gem_[un]pin(gem);
+> 
+> 		if (vm->resv != gem->resv)
+> 			dma_resv_unlock(gem->resv);
+> 	}
+> 
+> 	dma_resv_unlock(vm->resv);
+> 
+> In practice, I don't expect things to deadlock, because the VM resv is
+> not supposed to be taken outside the VM context and the locking order
+> is always the same (VM lock first, and then each shared BO
+> taken/released independently), but I'm not super thrilled by this
+> nested lock, and I'm wondering if we shouldn't have a pass collecting
+> locks in a drm_exec context first, and then have
+> the operations executed. IOW, something like that:
+> 
+> 	drm_exec_init(exec, DRM_EXEC_IGNORE_DUPLICATES)
+> 	drm_exec_until_all_locked(exec) {
+> 		// Dummy GEM is the dummy GEM object I use to make the VM
+> 		// participate in the locking without having to teach
+> 		// drm_exec how to deal with raw dma_resv objects.
+> 		ret = drm_exec_lock_obj(exec, vm->dummy_gem);
+> 		drm_exec_retry_on_contention(exec);
+> 		if (ret)
+> 			return ret;
+> 
+> 		// Could take the form of drm_gpuva_sm_[un]map_acquire_locks()
+> 		// helpers
+> 		for_each_sub_op() {
+> 			ret = drm_exec_lock_obj(exec, gem);
+> 			if (ret)
+> 				return ret;
+> 		}
+> 	}
+> 
+> 	// each iteration of the loop is a call to the driver
+> 	// ->[re,un]map() hook
+> 	for_each_sub_op() {
+> 		...
+> 		gem_[un]pin_locked(gem);
+
+Just wanted to clarify that the pages have been pinned at VM_BIND job
+creation time, so this gem_pin_locked() call is effectively just a
+pin_count++, not the whole page allocation, which we don't want to
+happen in a dma-signaling path.
+
+> 		drm_gpuva_[un]link(va);
+> 		...
+> 	}
+> 
+> 	drm_exec_fini(exec);
