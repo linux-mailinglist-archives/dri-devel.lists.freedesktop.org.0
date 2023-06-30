@@ -2,91 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B2A4743B46
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 13:57:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF5B7743B57
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 14:00:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53BD510E462;
-	Fri, 30 Jun 2023 11:57:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22E2910E460;
+	Fri, 30 Jun 2023 12:00:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on20621.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e88::621])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81F1C10E469
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 11:57:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DqAVknYdhV/aULcTm27H29qTOINk5o7nRJmFQzdSwyik/QtWPKZ6tAmSuFhKbjot6tARhQYmQZ63RmXzY6cdD4wue+ABy3y/lKevdJFuy/p/ann/ntUHEO7zNHti9aQu6aSIDgWjFEMaDkduIA1zzwu5985WC8jnXnK7EXnMU/tLCUre+eD1+9L8uDARUdmB2sUIetd18PJ1rAzS7vXQTaW7mGRtbY+Zkh63djC+R4iHeIpKglDCTFqB+rjg7KyLetwiQU583f57HYEIoBHuDut7h3Ph6RhpVJghFxQq0hax5XarSc8KQ4PDIUDzyuDvpOSqzTUUjboUAQQsjKJNkA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JHcOF/BB79qV8szHLF7p08JA9U2RL5WZz3pT0VRoTpI=;
- b=Kpmp84ndffglsTzHahCF4QKHdsSs6iptqhImmeEb6RlbSJa8AgT4r55N9KWissucJrsKPtznEaCM/8KF6VU58QBevqfih0DfZIj36t8TcEHM8NMNofyZddapFAvsUBqnCIg5GyPgR4Gw/rt1Y7ovfX5n6JAPujxf3tRIFR6i9w1azBmdoq7LrTX5p/julLyQt+cex1OerkkJMJt4fBttAcCr34VXg/WkOnR+GDN7KSj9Z20qLsicJo736uhiifgVKbGwYw8mTQJYt6vr1bU4RW9LQr/XAYoGHbUAXH4hqQGkVDtJDmIqUhhhErwkDbAQ1K2Tbw8YRt/UJEWORmXUSg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JHcOF/BB79qV8szHLF7p08JA9U2RL5WZz3pT0VRoTpI=;
- b=VXQYrGjmK0blk4qmF5xjCpKBAHu8896BuJJpNS2Jd6ATjr27BIrV2GQ/Ap7TLQavA1vkqwAEHxrfjV/uWZ9S3WnRl1Go5sIobIUvHlVCmoPlPzB92mwzuVetsu//bkysEbiQJm92OEdZQSAEMqV4NU0QPWxDyTnkmzIZcohqJrw=
-Received: from BN8PR12CA0032.namprd12.prod.outlook.com (2603:10b6:408:60::45)
- by DM4PR12MB5085.namprd12.prod.outlook.com (2603:10b6:5:388::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.19; Fri, 30 Jun
- 2023 11:57:03 +0000
-Received: from BN8NAM11FT094.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:60:cafe::9b) by BN8PR12CA0032.outlook.office365.com
- (2603:10b6:408:60::45) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.22 via Frontend
- Transport; Fri, 30 Jun 2023 11:57:03 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT094.mail.protection.outlook.com (10.13.176.131) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6500.49 via Frontend Transport; Fri, 30 Jun 2023 11:57:03 +0000
-Received: from jz-tester2.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 30 Jun
- 2023 06:57:02 -0500
-From: James Zhu <James.Zhu@amd.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm: support up to 128 drm devices
-Date: Fri, 30 Jun 2023 07:56:51 -0400
-Message-ID: <20230630115651.354849-1-James.Zhu@amd.com>
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0ECAC10E0EF
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 12:00:45 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id
+ 2adb3069b0e04-4f8735ac3e3so2870364e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 05:00:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1688126444; x=1690718444;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=jSNFkpy8X8q5snyPf0TnsjyEkjeDAOs/W3MviCQiKpU=;
+ b=Xxi3GKFOMn8YBEkXLqhdEFnxWd1Ej5ISBBpYBDdXb59eNl8eGYY+rSz6IgcdbpL04J
+ TkVyok5g7NKVknHW1N3tPOgbD5Y+vQjDO3W0F+tX5El/aREoDnWGspItca/ar9xKU2p8
+ rmPNpS2qHSejDoqnQH9YDzxSUqr78bWa7d7+hRcWgI/KqSoPfNkuc5g02amfo8WDDPB1
+ uBeNGvkGFFVTTTHNkR9uQgI/3k8UOBIlObnbBPxbuwb5Ig+x5mIqBkvm12KFahCkAzlC
+ bc6lOGXkOG9gIpATIiSqQgx0/kAsDbR2FJm5DTNMtZ3lyxpPGbQTUNZlMjgNFWd5Sjd8
+ 0+ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688126444; x=1690718444;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jSNFkpy8X8q5snyPf0TnsjyEkjeDAOs/W3MviCQiKpU=;
+ b=H/Lrq2BBRzHxkgVSeedaSh6rggMMTxTYexGdYjmlGY26YO22VDciUh3EZW0Cc8vlTX
+ RyOaOsu8LahIR9VEFlcq9KZhit6h1QugMhVnyAUQH17hEU9Suj/FLeFGQHgUepzjU/Fx
+ RHLzYgzGtWQ9QKLtcZQq1uvgSmp2J4pKSGzVVzXqhEx8RDPyaZ1yBsEssRdow1zRgJN+
+ BZPmAcAMECPr3koFyqEkC/wgmtXsvMAvpPtW0Khce0iF7fpLKsun9vXDxhPANOuTY6l1
+ 8I0/BnR8yq0OPigjKN3K4L1z8ACjDfjVEgbu1XXv+yv3lEsbgxnWYQ1Rj4BOefunTRgU
+ Aaug==
+X-Gm-Message-State: ABy/qLbY1jJaGzyTdbZ9u2rKCE1shfp4Mkml6owrPc6gMH9steIyEBP1
+ zFgjwjY9govpa0a70xulI82Pfcizfow=
+X-Google-Smtp-Source: APBJJlHLTQtIh5wy1odEImBp4NBhZQpOXNit0DgkOBCgR91/K7HjB6DQ+dJBflLPAIVqaGzvjJVYKQ==
+X-Received: by 2002:a05:6512:1196:b0:4fb:8cd1:1679 with SMTP id
+ g22-20020a056512119600b004fb8cd11679mr2858437lfr.44.1688126443329; 
+ Fri, 30 Jun 2023 05:00:43 -0700 (PDT)
+Received: from able.fritz.box ([2a00:e180:15ba:200:6a19:78f9:5238:6b7e])
+ by smtp.gmail.com with ESMTPSA id
+ o6-20020aa7d3c6000000b0051a5177adeasm6544043edr.21.2023.06.30.05.00.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Jun 2023 05:00:42 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: juan.hao@nxp.com,
+	dri-devel@lists.freedesktop.org,
+	Luben.Tuikov@amd.com
+Subject: [PATCH] dma-buf: keep the signaling time of merged fences v3
+Date: Fri, 30 Jun 2023 14:00:41 +0200
+Message-Id: <20230630120041.109216-1-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT094:EE_|DM4PR12MB5085:EE_
-X-MS-Office365-Filtering-Correlation-Id: b4813b37-19d8-4651-cb10-08db79611e71
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6npSzkC0yBdfzcYvGxDmTuceBCeGXQsPuJxPlJiCyhJE1ZiEKiyNhwrEZMID5yT1O9FYXRmhtIN+BrBaUprq5o+bNiEj1pYtkJW+OaFkLEwwbiW0BAuQLVZQxvzU1LgzEl1bz8QEm0R0i5zGuWfeKKpGnHdsyOwcqN+X8/E7GFLqbxVGJDf8EY3IwLlO0wwH19EK+MoComd+uf+KePnJQkElq9sjh6k+8u8KnI7ab/1x5/1KgsjTzEmWvwG0Exge/ek4M23OGVyexx4CaiSUA5pfP7RFyjko7hy5ehLkEdncJOFWRX95yKEzHDXU8GqS28kyX7mfFw5CqH4vx9EO5WOfHwGOoknBscc8j4n+aXLQ62ZEJv77EKZRLmXcKVR4oscjwHGe+5C2WrRgDYy0DOTAuhhkZ/mGR/F90ocqzC0L9+c5f/pKOGm6jW3npNWjKkB7N8Hdu693vhdZGEqRg6yRoX9lC3RpcabbYhsMJd0nRXAZMVxXr3VKF3yLnOGhtPdMcUQ5gc5omV73I5xbcAoh2c88RrEFJh1ri9SF3d287WZgNUSKbWwk8wzQ6EojQScUv5113RAodsHIs6pNNAFRzXPQGxugQLVhSowfNcHe/oiE1im9KvchO10mqAq7T5f5vKwCxQJbShsI5/IU3NozIqnZItLge3FPwFGF4Z9cTKCh3C9FytHt1fXmfRFjl57PqWbH/3gaVUGQaQrTqLYZE951N1MBU+/tEZoawJKotO4PSL4IhcQ+JsbkJFp6Dss+jHzKi+cEARvEx1btpw==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(396003)(376002)(346002)(136003)(39860400002)(451199021)(40470700004)(46966006)(36840700001)(86362001)(54906003)(8936002)(8676002)(5660300002)(82310400005)(26005)(1076003)(7696005)(478600001)(6916009)(4326008)(70206006)(70586007)(41300700001)(316002)(6666004)(16526019)(186003)(2616005)(2906002)(4744005)(47076005)(40460700003)(83380400001)(336012)(426003)(66574015)(36860700001)(40480700001)(36756003)(82740400003)(356005)(81166007)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2023 11:57:03.2151 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b4813b37-19d8-4651-cb10-08db79611e71
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT094.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5085
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,34 +74,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jamesz@amd.com, christian.koenig@amd.com,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Christian König <ckoenig.leichtzumerken@gmail.com>
+Some Android CTS is testing if the signaling time keeps consistent
+during merges.
 
-This makes room for up to 128 DRM devices.
+v2: use the current time if the fence is still in the signaling path and
+the timestamp not yet available.
+v3: improve comment, fix one more case to use the correct timestamp
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: James Zhu <James.Zhu@amd.com>
 ---
- drivers/gpu/drm/drm_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/dma-buf/dma-fence-unwrap.c | 26 ++++++++++++++++++++++----
+ drivers/dma-buf/dma-fence.c        |  5 +++--
+ drivers/gpu/drm/drm_syncobj.c      |  2 +-
+ include/linux/dma-fence.h          |  2 +-
+ 4 files changed, 27 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 73b845a75d52..0d55c64444f5 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -137,7 +137,7 @@ static int drm_minor_alloc(struct drm_device *dev, unsigned int type)
- 		r = idr_alloc(&drm_minors_idr,
- 			NULL,
- 			64 * type,
--			64 * (type + 1),
-+			64 * (type + 2),
- 			GFP_NOWAIT);
- 		spin_unlock_irqrestore(&drm_minor_lock, flags);
+diff --git a/drivers/dma-buf/dma-fence-unwrap.c b/drivers/dma-buf/dma-fence-unwrap.c
+index 7002bca792ff..c625bb2b5d56 100644
+--- a/drivers/dma-buf/dma-fence-unwrap.c
++++ b/drivers/dma-buf/dma-fence-unwrap.c
+@@ -66,18 +66,36 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
+ {
+ 	struct dma_fence_array *result;
+ 	struct dma_fence *tmp, **array;
++	ktime_t timestamp;
+ 	unsigned int i;
+ 	size_t count;
+ 
+ 	count = 0;
++	timestamp = ns_to_ktime(0);
+ 	for (i = 0; i < num_fences; ++i) {
+-		dma_fence_unwrap_for_each(tmp, &iter[i], fences[i])
+-			if (!dma_fence_is_signaled(tmp))
++		dma_fence_unwrap_for_each(tmp, &iter[i], fences[i]) {
++			if (!dma_fence_is_signaled(tmp)) {
+ 				++count;
++			} else if (test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT,
++					    &tmp->flags)) {
++				if (ktime_after(tmp->timestamp, timestamp))
++					timestamp = tmp->timestamp;
++			} else {
++				/*
++				 * Use the current time if the fence is
++				 * currently signaling.
++				 */
++				timestamp = ktime_get();
++			}
++		}
  	}
+ 
++	/*
++	 * If we couldn't find a pending fence just return a private signaled
++	 * fence with the timestamp of the last signaled one.
++	 */
+ 	if (count == 0)
+-		return dma_fence_get_stub();
++		return dma_fence_allocate_private_stub(timestamp);
+ 
+ 	array = kmalloc_array(count, sizeof(*array), GFP_KERNEL);
+ 	if (!array)
+@@ -138,7 +156,7 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
+ 	} while (tmp);
+ 
+ 	if (count == 0) {
+-		tmp = dma_fence_get_stub();
++		tmp = dma_fence_allocate_private_stub(ktime_get());
+ 		goto return_tmp;
+ 	}
+ 
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index f177c56269bb..ad076f208760 100644
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -150,10 +150,11 @@ EXPORT_SYMBOL(dma_fence_get_stub);
+ 
+ /**
+  * dma_fence_allocate_private_stub - return a private, signaled fence
++ * @timestamp: timestamp when the fence was signaled
+  *
+  * Return a newly allocated and signaled stub fence.
+  */
+-struct dma_fence *dma_fence_allocate_private_stub(void)
++struct dma_fence *dma_fence_allocate_private_stub(ktime_t timestamp)
+ {
+ 	struct dma_fence *fence;
+ 
+@@ -169,7 +170,7 @@ struct dma_fence *dma_fence_allocate_private_stub(void)
+ 	set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+ 		&fence->flags);
+ 
+-	dma_fence_signal(fence);
++	dma_fence_signal_timestamp(fence, timestamp);
+ 
+ 	return fence;
+ }
+diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+index 0c2be8360525..04589a35eb09 100644
+--- a/drivers/gpu/drm/drm_syncobj.c
++++ b/drivers/gpu/drm/drm_syncobj.c
+@@ -353,7 +353,7 @@ EXPORT_SYMBOL(drm_syncobj_replace_fence);
+  */
+ static int drm_syncobj_assign_null_handle(struct drm_syncobj *syncobj)
+ {
+-	struct dma_fence *fence = dma_fence_allocate_private_stub();
++	struct dma_fence *fence = dma_fence_allocate_private_stub(ktime_get());
+ 
+ 	if (IS_ERR(fence))
+ 		return PTR_ERR(fence);
+diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+index d54b595a0fe0..0d678e9a7b24 100644
+--- a/include/linux/dma-fence.h
++++ b/include/linux/dma-fence.h
+@@ -606,7 +606,7 @@ static inline signed long dma_fence_wait(struct dma_fence *fence, bool intr)
+ void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline);
+ 
+ struct dma_fence *dma_fence_get_stub(void);
+-struct dma_fence *dma_fence_allocate_private_stub(void);
++struct dma_fence *dma_fence_allocate_private_stub(ktime_t timestamp);
+ u64 dma_fence_context_alloc(unsigned num);
+ 
+ extern const struct dma_fence_ops dma_fence_array_ops;
 -- 
 2.34.1
 
