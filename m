@@ -1,45 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01AAC744340
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 22:35:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E82D744341
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 22:35:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89D8710E4EB;
-	Fri, 30 Jun 2023 20:35:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D89910E4EE;
+	Fri, 30 Jun 2023 20:35:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EABD10E4E2;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EB0410E4D8;
  Fri, 30 Jun 2023 20:35:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1688157332; x=1719693332;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=n1h3n/g1kHN4DndS8Sj2FI3KUmIxNNgPONk09gPI3Ac=;
- b=RZ9DkIXmnH6kBdjo3q+AwnEvtd+tJ8FpRLDbaWcQjC2A56DsUn9JxwI4
- tSLUnZIY78cZsZLMbxRRb5Wx5eWGGXwVcLa3QcDuxmy2v6gpyjUe0G1WJ
- fzcG5kWUJYUzbjbRQRhPOPN9qXqkAYPBm8f1jt618ZoQgV/eSNhLW+vw9
- g1jJxstAVFOu9w435xrcwuO3nl1Vrih+3f2Df3psXn/SmCI3TM0fAmnVU
- HWx/Z3gCPlrJccNDNDZOQC1AMzlyUadISQ+O1ZArYNBUtFfY1XepAp+NH
- /Y73IywIeQU0daGiWhEqYOi0XbL8ZHCCO26PJ+o4cEcBIaAcRZDfhv4uQ Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="393213917"
-X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; d="scan'208";a="393213917"
+ bh=lAFFQ+EfYN2M9/OpcUC0NCnPSP2/TeRDgmSUqNFdOlQ=;
+ b=dkhEM2FpJWh1TjXxGCMNTyFvEGQyy/Y/+UL935Lfo7tpUSRFnTFnTIzV
+ 5BvjDXghEOIgczJJyj9xEVxauW9hR5/R99Pd/+4pj5V6GOy3UO52oeObL
+ o/A7gR51c/6DD5m+CRPGKS0CEBgIkOID26th+cEFc6uJPkkhw2AuWHKTC
+ O9AsB6EP1dezgYa176AWSBOWqV4ieTneZiOxvt67cmX8iddOEfOWV0F3t
+ vB7l7T1IwyCGP9V/OGZVwOrByRhClDMSXXZlpo9ZS16t2rwK6ctf/mJqy
+ 3NKz8qxzPQWNHguPW3wWd5tpb9YMVc/EL4W5H00sMYj6uDK48w0/3djIV Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="393213919"
+X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; d="scan'208";a="393213919"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2023 13:35:31 -0700
+ 30 Jun 2023 13:35:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="807904261"
-X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; d="scan'208";a="807904261"
+X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="807904264"
+X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; d="scan'208";a="807904264"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  30 Jun 2023 13:35:31 -0700
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 5/7] drm/i915/gt: Enable read back on XEHP_FF_MODE2
-Date: Fri, 30 Jun 2023 13:35:07 -0700
-Message-Id: <20230630203509.1635216-6-lucas.demarchi@intel.com>
+Subject: [PATCH v3 6/7] drm/i915/gt: Remove bogus comment on
+ IVB_FBC_RT_BASE_UPPER
+Date: Fri, 30 Jun 2023 13:35:08 -0700
+Message-Id: <20230630203509.1635216-7-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230630203509.1635216-1-lucas.demarchi@intel.com>
 References: <20230630203509.1635216-1-lucas.demarchi@intel.com>
@@ -63,33 +64,29 @@ Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Contrary to GEN12_FF_MODE2, platforms using XEHP_FF_MODE2 are not
-affected by Wa_1608008084, hence read back can be enabled.
+The comment on the parameter being 0 to avoid the read back doesn't
+apply as this is not a call to wa_add(), but rather to
+wa_write_clr_set(). So, this register is actually checked and it's
+according to the Bspec that the register is RW, not RO.
 
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-Reviewed-by: Kenneth Graunke <kenneth@whitecape.org>
 ---
- drivers/gpu/drm/i915/gt/intel_workarounds.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_workarounds.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-index b07f84c3fa21..e2025c363949 100644
+index e2025c363949..a6f3f160ebe2 100644
 --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
 +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-@@ -683,11 +683,8 @@ static void dg2_ctx_gt_tuning_init(struct intel_engine_cs *engine,
- 	wa_mcr_masked_en(wal, CHICKEN_RASTER_2, TBIMR_FAST_CLIP);
- 	wa_mcr_write_clr_set(wal, XEHP_L3SQCREG5, L3_PWM_TIMER_INIT_VAL_MASK,
- 			     REG_FIELD_PREP(L3_PWM_TIMER_INIT_VAL_MASK, 0x7f));
--	wa_mcr_add(wal,
--		   XEHP_FF_MODE2,
--		   FF_MODE2_TDS_TIMER_MASK,
--		   FF_MODE2_TDS_TIMER_128,
--		   0, false);
-+	wa_mcr_write_clr_set(wal, XEHP_FF_MODE2, FF_MODE2_TDS_TIMER_MASK,
-+			     FF_MODE2_TDS_TIMER_128);
- }
+@@ -666,7 +666,7 @@ static void icl_ctx_workarounds_init(struct intel_engine_cs *engine,
+ 	/* Wa_1604278689:icl,ehl */
+ 	wa_write(wal, IVB_FBC_RT_BASE, 0xFFFFFFFF & ~ILK_FBC_RT_VALID);
+ 	wa_write_clr_set(wal, IVB_FBC_RT_BASE_UPPER,
+-			 0, /* write-only register; skip validation */
++			 0,
+ 			 0xFFFFFFFF);
  
- static void gen12_ctx_workarounds_init(struct intel_engine_cs *engine,
+ 	/* Wa_1406306137:icl,ehl */
 -- 
 2.40.1
 
