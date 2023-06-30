@@ -1,50 +1,118 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA2C874400B
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 18:45:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9206744105
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 19:19:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B509110E4C5;
-	Fri, 30 Jun 2023 16:45:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F30110E4CE;
+	Fri, 30 Jun 2023 17:19:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1E0C10E4C4;
- Fri, 30 Jun 2023 16:45:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1688143532; x=1719679532;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=mwCghSIRU7cPe7hlR/c4KaYJUaNS29YzTlPBy7cCGX0=;
- b=nkBqan94pU1Aat7vtxzrS8EbhcLLIFvHd/iDAeGm0CHCrLtdKFwRh1gO
- MqNXhNmHcBPUW9nAtibQ+pUkxeEAet+NvdJzjz+BT1sif1Y6smbITltz3
- mu5CSNH2u7wAc1nJu4lKdQJud/K2z2jciqSWsNdKo23OoNE4O9OHBemjn
- e5pAQLpuQT6YldSlCCCrklKHZL9xsxw0ETbjBjM3CMAVsl41IQ13AWaL1
- Wb6eRIGdB/RsGkaG5JU88d7Pp/MkKhS/zE6BXlVpPhRnGt86Z677+C7IP
- rYhVL2stOdk09HAVeuXB5+ID5pmTxV1/T2uGi10plYcKFdWAD2JeqKm0f A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="365015858"
-X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; d="scan'208";a="365015858"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2023 09:45:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="711871006"
-X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; d="scan'208";a="711871006"
-Received: from hlykke-mobl.ger.corp.intel.com (HELO thellstr-mobl1.intel.com)
- ([10.249.254.25])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2023 09:45:18 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-xe@lists.freedesktop.org
-Subject: [RFC PATCH] Documentation/gpu: Draft VM_BIND locking document
-Date: Fri, 30 Jun 2023 18:44:52 +0200
-Message-Id: <20230630164452.9228-1-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.40.1
-MIME-Version: 1.0
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2062.outbound.protection.outlook.com [40.107.243.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5468D10E4CD
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 17:19:22 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F3GlaLxekIw5NobA4Hxaqf0OfNQnfhezpyg7rGchw0Vz4ShUB8UuDY7p5fNpfDxl4MIgUTMccdVydKmp2xjQYe9JCIuh5bfYUFZ/rPiOgerg/NYNWWZpubyouD1KYbs1QfVlXoj3FwRrwHJMvAghcvR/IbYMXMdfpGfxlwka6ch8P16DgCCcu4BWJogDygiJQhZSu7xgCc19YLKC7Q1xri/zV+XW7Try75OZm8I6KxshAEcBIghJdo6y7Pwhg0ijXFqxpNQWmPzCvxgHvRjKDxgfEWwHMsdM4gmmqv6aBiXTEFabhQhrYp2KYZOjnLD2Wtr1WgrXKmzjFxEOLPt8pQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QinjLaTa3dTC/TtbQB9oVbdQUBM0QeTHUHOQqA5JF+c=;
+ b=c5mHID9ZGmW8SmBQlW2G7iBLwaGS1MSsHimD6IzEw85S7ZJCr8IoN3CAWI5NuO6KZNQyWisQcC5GwVXhGeo36bAbEDyYMU8LGCoq309Yj7QcNnlxHxm8VYagoew6LJMoKwGKD25/BRQ5l/jQq5KJZcviiV5SrOFG+UdZcMS3soHAmMPOgKYglTqMQ7368E7+w0FTuKZjNLsjbbpiDMYtGF3SaTzZgTJl/4/cXHY4lJFApVMPrfCX0o/U176spb7QJbTdF6fWr3zdcD4VVvQ/jpJ4TKqTmx4RVx1i4pqxmGAFIACfyVIc+aVtsQW+n8bAjEX1kqCl9CN9wbtm0Swvbg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QinjLaTa3dTC/TtbQB9oVbdQUBM0QeTHUHOQqA5JF+c=;
+ b=1xNaL9IsDPK801NNXasCYokXOM5Z668tjvm76xYdb7TRXCqG2FkmubTT6bh6KjDUQxU5baGVs6BG5HYVqgBCg0/lG4caOb1oiw8j9eDuTJobXtGcHQOcBbwW03wweOWNcepv+1dAKPELki8OtWc35dOHiYvAGyrDch+j2rd7GTE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
+ SA3PR12MB7921.namprd12.prod.outlook.com (2603:10b6:806:320::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.26; Fri, 30 Jun
+ 2023 17:19:17 +0000
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::b59e:105c:f546:4310]) by DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::b59e:105c:f546:4310%7]) with mapi id 15.20.6544.019; Fri, 30 Jun 2023
+ 17:19:17 +0000
+Message-ID: <5d7578de-13a1-35e3-f751-187d15e50b77@amd.com>
+Date: Fri, 30 Jun 2023 13:19:15 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Content-Language: en-CA, en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ juan.hao@nxp.com, dri-devel@lists.freedesktop.org
+References: <20230630120041.109216-1-christian.koenig@amd.com>
+From: Luben Tuikov <luben.tuikov@amd.com>
+Subject: Re: [PATCH] dma-buf: keep the signaling time of merged fences v3
+In-Reply-To: <20230630120041.109216-1-christian.koenig@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT4PR01CA0400.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:108::10) To DM6PR12MB3370.namprd12.prod.outlook.com
+ (2603:10b6:5:38::25)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|SA3PR12MB7921:EE_
+X-MS-Office365-Filtering-Correlation-Id: ab1faa8f-da1a-464f-3321-08db798e2226
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tTGLO+ZRzAPBbFkGPyV10R5eHeCjIUZMD7dTjzGorYy8mUjyCuhxcA3gIcjAfT7Qtk9bgsA/OERmm1yWonab3AwygPo5KP7O1y4NjVc7j5quulr7y1QNcJCvKF46sbXrNACNi4BR3aw5x/juibGY/edm+bR2Qxt/I1yWYz+qNib7goAJNbq607d0g44sHXzMsWDl5Rqn6FCaAQ8xjatydfGX6RY1Z4nVxgsUrqM7hI2HCpLUuL/EXriC340EsND4aYwd2yuMg2wLK2RMJnyVhjmA9Xg5ixlWC8nUWjKmxsdMV8RRUDL0Kc6XSqYnLxljDt/RUdPZsmXkEjVKQELotl9IZGlv49yFN2tTM0UDaeRhrQzoaHiLVbTVFjPpR4qdT+mw6/9blWqkKJZSXWC+sq4ywgyGJz+IsNWVtP3dd5gmrses1MX9OTLN9apYwNrjpbZ/G4sU5DBAsiR0QQbnbzu6HbcaizUcxqY/4q9QfhRJ9M7oxtKGU7sHsP5O6EmPnbB+VB8An1KK0QTQ2qA0cewS+yEGEV/8i+Sw6uyuplcGYeA7r8UGYjkXmXRFuTRdKIkufG/pZ1a3jHEaENcql56Zu2uXWsg8pkdB6jciYz8SAPntTVvWSJlkJa2fWpAoipPrm9aA/RaE6qqe/c/huw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(346002)(366004)(39860400002)(376002)(136003)(396003)(451199021)(38100700002)(31696002)(86362001)(53546011)(6506007)(5660300002)(6512007)(66556008)(66476007)(66946007)(2616005)(44832011)(186003)(26005)(478600001)(2906002)(8676002)(316002)(41300700001)(6486002)(8936002)(66574015)(83380400001)(31686004)(36756003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QVFaQjMrUEhWSU5sdmFEdzh3ZWlqd1l6SFRHWWNmQXdCVVNXRUs4OWxqWHU1?=
+ =?utf-8?B?UE4ydTR4dk0wVXNIUWNMdmNKSnJ6SVRDdWpST3Z0c1I0aFlqM1gzOUpCRnBD?=
+ =?utf-8?B?QzFscExFaldWTHlGN0dBTUVCOEVUcFNiY2JBTFVvdEhJZitIUUU5eXdRWmtE?=
+ =?utf-8?B?Y0w4bVpVaCtrWTFSbjVkOHJKKzNIVzdrTDZLNkIyWElYSHlCdEV5ZWd1Nm9u?=
+ =?utf-8?B?U3drOUlza3g2d1BCTlpUSE5xTXdnb1VnZ1hLV04xcE45YzltQmdmZTJHVkFY?=
+ =?utf-8?B?UGc3R3NTUXFIeVR2OVBicFNMNkRkZTBDVDR2U25pSlB1eTFnaHlyMzBQanlZ?=
+ =?utf-8?B?b0RMT0NsOHNkTDFORVo5T2pCVzBIdklEN2dabmFpYitWcGgwNlNyQU9FN2dT?=
+ =?utf-8?B?ancvMkgrOXhFNjZ4Q3Ria3B3V2xZL0t3M1hvTUFHRUdpNTlOZklLYVJqM3J0?=
+ =?utf-8?B?NjJHWUF5aFZuMEc3a2hzaXlaRXZKbWxZdjVsb1FKYUY5WG95SHpkL0VZVUNE?=
+ =?utf-8?B?ZkJObG9LNG9wMzJhaDBmQlJJWjQzK3Vod1NqbktLMFZCZFFKTCs0emJuY3Jo?=
+ =?utf-8?B?NWVIbGJYOW9vczBzU1Y4Z1hQOWJISUVoNGJvdjJZOW41ZTVYbXRiVDk5dG9k?=
+ =?utf-8?B?eTVzbG5TRG1XemhvdGgwNVBhTitvdjBoSVRKZldWem1PUEFzcHMzRXRJV2VE?=
+ =?utf-8?B?amlzM1hsTEwwQkVDbitiR0RCYTIvUUwyWkpDRzFFeC92cHpXc3hQdi9MVnlj?=
+ =?utf-8?B?aHM2dURpUHkzWmh6MlM1eDIwTk1uM0E2Z2dwc1V6UVN3NGFkSFB5M3lEd0U2?=
+ =?utf-8?B?LzFRYjBnMkhrVHpiNWNPNXZBQ3ZNYWxneVZjY1ZUNGhEWHBucWxkbE5zemps?=
+ =?utf-8?B?czFtbDlmcU1nWVE4c0JaMGcvNmw2KzBsYkFwMXhFOWlZdXdQSE1QTEY0WEM0?=
+ =?utf-8?B?alR4clJPVlQ4S3J1U1UvTG93V05LNExVaTR1ZVp5am5peE5TMGFYS29SUWFH?=
+ =?utf-8?B?MW11TytNSzcramc4OGM3MDVwOE9VOTR6bHJuME9Ba1IwaTVjMUtEaE1jeUJE?=
+ =?utf-8?B?NnNSUzFPWXYxME9FZEMrWkxjTFptVS82S092WUNlZWg4SG15Zkg2cmxaTmVi?=
+ =?utf-8?B?SjJhMVlqaXpub3FQRVplNUY0dnpUSDNNM241aC84Z3I2MWdYT0I2c3pRaXlF?=
+ =?utf-8?B?Y3VOUUVxWGNpdjZMbGFndWkzeTRKWWwxa0MvcmRYVUloZW5NM1pHbFFuN3Q1?=
+ =?utf-8?B?cDh1ZmxPeUY4U25JUmVETDlOVlNqSnFqMm5MU3RqRm1BMnFRMmJCdnd2dk5E?=
+ =?utf-8?B?ajh2SEwwRnVDVEdsVHBpTVdQeVlHQmw3SVhVNFd2WDdSU21pN2Q5UkI5M2d2?=
+ =?utf-8?B?dnBFc1M2Vnp0SCsrOHkrVjZsbTdpY24ybXQ5S2ltRW9OWEp6RFp6ZjRlRkRY?=
+ =?utf-8?B?VUhqMXl2dmZ2aWVuaG9WUmVacmRQM2pjZFRqTURTUlVlMjBJUHBpVXVTaEtI?=
+ =?utf-8?B?RTlXQVgwT0pNZFVZVHIzS0MvV3NJZ0JRQ0dyRnVSNmRhcGFKMEMrbVhRd1Uv?=
+ =?utf-8?B?ZjlNbnp0VDdmL3cwZlZJRmE5eGVFOHBhN213QzZyb0l1VWhKQmpGS2FkUXBB?=
+ =?utf-8?B?QWVyQ1NWSVB6ZngwZlQzaklsQkhPM2dxclpaRzV5NGVuTWFnMUlIVkRjUDRN?=
+ =?utf-8?B?dTRteWxwZE84UFBMQWJQTHZKYmI5TlJiZ1Q5ci9odjN5b0NtN2wvaTJaeEp5?=
+ =?utf-8?B?RkwzeTE0NE0vY0xIVFJXMm82YUVMd3RqZC9xSTZESTNzMGZMcVdHNUlyOWZO?=
+ =?utf-8?B?dXordm00SjU3S2hnTTdPcjUydXRQUERWUHNscFpUdkZLSTVqeXlPOUdoakdN?=
+ =?utf-8?B?T2h3eForay9MTUFTNC9FdGZFdTU3K2tTSDg4U05CbTB4Qnl2bWxBWUE0ZUdq?=
+ =?utf-8?B?b0pGT1U4RU9xQ0EvZG45Um1VYy9lZUt1NTF1Y1FzS3lXT0t5Z1ZEY1hxRm1n?=
+ =?utf-8?B?VDN3ZzJVSUJ2V0pUZTdSRjE4ZmYvcUlhMXl6aEZWeTZnSmtLYk13Qm5LNU9O?=
+ =?utf-8?B?RGU0blJWWEphbzNCK2lhUUVXSDhIeTNCU0ljV1RieTdFdFZDQmh5dnIxM0NX?=
+ =?utf-8?Q?ZDiWKN633caSsUOLBZS+kYC6u?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ab1faa8f-da1a-464f-3321-08db798e2226
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2023 17:19:16.9640 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mp+XWkSv4R2O51OCCEMLlszVrsUH41FCsl1ke7mPAxjL5gJQ4gxSqyj/AizTGqFY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7921
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,375 +125,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Francois Dugast <francois.dugast@intel.com>, linux-kernel@vger.kernel.org,
- Oak Zeng <oak.zeng@intel.com>, Danilo Krummrich <dakr@redhat.com>,
- dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the first version of the VM_BIND locking document which is
-intended to be part of the xe driver upstreaming agreement.
+On 2023-06-30 08:00, Christian König wrote:
+> Some Android CTS is testing if the signaling time keeps consistent
+> during merges.
+> 
+> v2: use the current time if the fence is still in the signaling path and
+> the timestamp not yet available.
+> v3: improve comment, fix one more case to use the correct timestamp
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>  drivers/dma-buf/dma-fence-unwrap.c | 26 ++++++++++++++++++++++----
+>  drivers/dma-buf/dma-fence.c        |  5 +++--
+>  drivers/gpu/drm/drm_syncobj.c      |  2 +-
+>  include/linux/dma-fence.h          |  2 +-
+>  4 files changed, 27 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-fence-unwrap.c b/drivers/dma-buf/dma-fence-unwrap.c
+> index 7002bca792ff..c625bb2b5d56 100644
+> --- a/drivers/dma-buf/dma-fence-unwrap.c
+> +++ b/drivers/dma-buf/dma-fence-unwrap.c
+> @@ -66,18 +66,36 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
+>  {
+>  	struct dma_fence_array *result;
+>  	struct dma_fence *tmp, **array;
+> +	ktime_t timestamp;
+>  	unsigned int i;
+>  	size_t count;
+>  
+>  	count = 0;
+> +	timestamp = ns_to_ktime(0);
+>  	for (i = 0; i < num_fences; ++i) {
+> -		dma_fence_unwrap_for_each(tmp, &iter[i], fences[i])
+> -			if (!dma_fence_is_signaled(tmp))
+> +		dma_fence_unwrap_for_each(tmp, &iter[i], fences[i]) {
+> +			if (!dma_fence_is_signaled(tmp)) {
+>  				++count;
+> +			} else if (test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT,
+> +					    &tmp->flags)) {
+> +				if (ktime_after(tmp->timestamp, timestamp))
+> +					timestamp = tmp->timestamp;
+> +			} else {
+> +				/*
+> +				 * Use the current time if the fence is
+> +				 * currently signaling.
+> +				 */
+> +				timestamp = ktime_get();
+> +			}
+> +		}
+>  	}
+>  
+> +	/*
+> +	 * If we couldn't find a pending fence just return a private signaled
+> +	 * fence with the timestamp of the last signaled one.
+> +	 */
+>  	if (count == 0)
+> -		return dma_fence_get_stub();
+> +		return dma_fence_allocate_private_stub(timestamp);
+>  
 
-The document describes and discuss the locking used during exec-
-functions, evicton and for userptr gmvas. Intention is to be using the
-same nomenclature as the drm-vm-bind-async.rst, but to keep naming a
-little shorter, use gvm and gmva instead of gpu_vm and gpu_vma which
-is used in the previous document, with an intention to modify also
-that document.
+Hi Christian,
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Thank you for clarifying the justification of this patch in the patch description,
+and adding the comment before "if (count == 0)"--it's clearer now.
+
+Reviewed-by: Luben Tuikov <luben.tuikov@amd.com>
+
+Thanks again for sending a v3 of this patch--it does make it clearer now. Feel
+free to push this patch in.
+
 ---
- Documentation/gpu/drm-vm-bind-locking.rst | 339 ++++++++++++++++++++++
- 1 file changed, 339 insertions(+)
- create mode 100644 Documentation/gpu/drm-vm-bind-locking.rst
-
-diff --git a/Documentation/gpu/drm-vm-bind-locking.rst b/Documentation/gpu/drm-vm-bind-locking.rst
-new file mode 100644
-index 000000000000..f5d1a40a2906
---- /dev/null
-+++ b/Documentation/gpu/drm-vm-bind-locking.rst
-@@ -0,0 +1,339 @@
-+===============
-+VM_BIND locking
-+===============
-+
-+This document attempts to describe what's needed to get VM_BIND locking right,
-+including the userptr mmu_notifier locking and it will also discuss some
-+optimizations to get rid of the looping through of all userptr mappings and
-+external / shared object mappings that is needed in the simplest
-+implementation. It will also discuss some implications for faulting gvms.
-+
-+Nomenclature
-+============
-+
-+* ``Context``: GPU execution context.
-+* ``gvm``: Abstraction of a GPU address space with meta-data. Typically
-+  one per client (DRM file-private), or one per context. 
-+* ``gvma``: Abstraction of a GPU address range within a gvma with
-+  associated meta-data. The backing storage of a gvma can either be
-+  a gem buffer object or anonymous pages mapped also into the CPU
-+  address space for the process.
-+* ``userptr gvma or just userptr``: A gvma, the backing store of
-+  which is anonymous pages as described above.
-+* ``revalidating``: Revalidating a gvma means making the latest version
-+  of the backing store resident and making sure the gvma's
-+  page-table entries point to that backing store.
-+* ``dma_fence``: A struct dma_fence that is similar to a struct completion
-+  and which tracks GPU activity. When the GPU activity is finished,
-+  the dma_fence signals.
-+* ``dma_resv``: A struct dma_resv (AKA reservation object) that is used
-+  to track GPU activity in the form of multiple dma_fences on a
-+  gvm or a gem buffer object. The dma_resv contains an array / list
-+  of dma_fences and a lock that needs to be held when adding
-+  additional dma_fences to the dma_resv. The lock is of a type that
-+  allows deadlock-safe locking of multiple dma_resvs in arbitrary order.
-+* ``exec function``: An exec function is a function that revalidates all
-+  affected gvmas, submits a GPU command batch and registers the
-+  dma_fence representing the GPU command's activity with all affected
-+  dma_resvs. For completeness, although not covered by this document,
-+  it's worth mentioning that an exec function may also be the
-+  revalidation worker that is used by some drivers in compute /
-+  long-running mode.
-+* ``local object``: A GEM object which is local to a gvm. Shared gem
-+  objects also share the gvm's dma_resv.
-+* ``shared object``: AKA external object: A GEM object which may be shared
-+  by multiple gvms and whose backing storage may be shared with
-+  other drivers.
-+
-+
-+Introducing the locks
-+=====================
-+
-+One of the benefits of VM_BIND is that local GEM objects share the gvm's
-+dma_resv object and hence the dma_resv lock. So even with a huge
-+number of local GEM objects, only one lock is needed to make the exec
-+sequence atomic.
-+
-+The following locks and locking orders are used:
-+
-+* The ``gvm->lock`` (optionally an rwsem). Protects how the gvm is
-+  partitioned into gvmas, protects the gvm's list of external objects,
-+  and can also with some simplification protect the gvm's list of
-+  userptr gvmas. With the CPU mm analogy this would correspond to the
-+  mmap_lock.
-+* The ``userptr_seqlock``. This lock is taken in read mode for each
-+  userptr gvma on the gvm's userptr list, and in write mode during mmu
-+  notifier invalidation.
-+* The ``gvm->resv`` lock. Protects the gvm's list of gvmas needing
-+  rebinding, and also the residency of all the gvm's local GEM object.
-+* The ``gvm->userptr_notifier_lock``. This is an rwsem that is taken in read
-+  mode during exec and write mode during a mmu notifier invalidation. In
-+  the absence of a separate page-table lock, this lock can serve
-+  together with the gvm's dma_resv lock as a page-table lock. More on
-+  this below. The userptr notifier lock is per gvm.
-+* The ``gvm->page_table_lock``. Protects the gvm's page-table updates. For
-+  simplicity the gvm's dma_resv lock can be reused as page-table lock.
-+
-+There are certain optimizations described below that require
-+additional locks. More on that later.
-+
-+.. code-block:: C
-+
-+   dma_resv_lock(&gvm->resv);
-+
-+   for_each_gvma_on_revalidate_list(gvm, &gvma) {
-+		revalidate_gvma(&gvma);
-+		remove_from_revalidate_list(&gvma);
-+   }
-+
-+   add_dependencies(&gpu_job, &gvm->resv);
-+   job_dma_fence = gpu_submit(&gpu_job));
-+
-+   add_dma_fence(job_dma_fence, &gvm->resv);
-+   dma_resv_unlock(&gvm->resv);
-+
-+Eviction of one of these local objects will then be something like the
-+following:
-+
-+.. code-block:: C
-+
-+   obj = get_object_from_lru();
-+
-+   dma_resv_lock(obj->resv);
-+   for_each_gvma_of_obj(obj, &gvma);
-+		put_gvma_on_revalidate_list(&gvma);
-+
-+   add_dependencies(&eviction_job, &obj->resv);
-+   job_dma_fence = gpu_submit(&eviction_job);
-+   add_dma_fence(&obj->resv, job_dma_fence);
-+
-+   dma_resv_unlock(&obj->resv);
-+   put_object(obj);
-+
-+Note that since the object is local to the gvm, it will share the gvm's
-+``dma_resv`` lock so that ``obj->resv == gvm->resv``. Invalidated gvmas are put
-+on the gvm's revalidation list, which is protected by ``gvm->resv``, which
-+is always locked while evicting, due to the above equality.
-+
-+Does the gvma need to be unbound before eviction? For VM_BIND gvms
-+the answer is no. Since the eviction blit or copy will wait for GPU
-+idle, any attempt by the GPU to access freed memory through the
-+gvma will be preceded by a new exec function, which will
-+make sure the gvma is revalidated, that is not an issue.
-+
-+Introducing external (or shared) buffer objects
-+===============================================
-+
-+Since shared buffer objects may be shared by multiple gvm's they
-+can't share their reservation object with a single gvm, but will rather
-+have a reservation object of their own. The shared objects bound to a
-+gvm using one or many
-+gvmas are therefore typically put on a per-gvm list which is
-+protected by the gvm lock. One could in theory protect it also with
-+the ``gvm->resv``, but since the list of dma_resvs to take is typically
-+built before the ``gvm->resv`` is locked due to a limitation in
-+the current locking helpers, that is typically not done. Also see
-+below for userptr gvmas.
-+
-+At eviction time we now need to invalidate *all* gvmas of a shared
-+object, but we can no longer be certain that we hold the gvm's
-+dma_resv of all the object's gvmas. We can only be certain that we
-+hold the object's private dma_resv. We can trylock the dma_resvs for
-+the affected gvm's but that might be unnecessarily complex. If we
-+have a ww_acquire context at hand at eviction time we can also perform
-+sleeping locks of those dma_resvs but that could cause expensive
-+rollbacks. One option is to just mark the invalidated gvmas with a bool
-+which is inspected on the next exec function, when the gvm's
-+dma_resv and the object's dma_resv is held, and the invalidated
-+gvmas could then be put on the gvm's list of invalidated
-+gvmas. That bool would then, although being per-gvma formally be
-+protected by the object's dma_resv.
-+
-+The exec function would then look something like the following:
-+
-+.. code-block:: C
-+
-+   read_lock(&gvm->lock);
-+		
-+   dma_resv_lock(&gvm->resv);
-+
-+   // Shared object list is protected by the gvm->lock.
-+   for_each_shared_obj(gvm, &obj) {
-+		dma_resv_lock(&obj->resv);
-+		move_marked_gvmas_to_revalidate_gvma_list(obj, &gvm);
-+   }
-+
-+   for_each_gvma_to_revalidate(gvm, &gvma) {
-+		revalidate_gvma(&gvma);
-+		remove_from_revalidate_list(&gvma);
-+   }
-+
-+   add_dependencies(&gpu_job, &gvm->resv);
-+   job_dma_fence = gpu_submit(&gpu_job));
-+
-+   add_dma_fence(job_dma_fence, &gvm->resv);
-+   for_each_shared_obj(gvm, &obj)
-+          add_dma_fence(job_dma_fence, &obj->resv);
-+   dma_resv_unlock_all_resv_locks();
-+
-+   read_unlock(&gvm->lock);
-+
-+And the corresponding shared-object aware eviction would look like:
-+
-+.. code-block:: C
-+
-+   obj = get_object_from_lru();
-+
-+   dma_resv_lock(obj->resv);
-+   for_each_gvma_of_obj(obj, &gvma);
-+		if (object_is_vm_local(obj))
-+		             put_gvma_on_revalidate_list(&gvma, &gvm);
-+		else
-+		             mark_gvma_for_revalidation(&gvma);
-+
-+   add_dependencies(&eviction_job, &obj->resv);
-+   job_dma_fence = gpu_submit(&eviction_job);
-+   add_dma_fence(&obj->resv, job_dma_fence);
-+
-+   dma_resv_unlock(&obj->resv);
-+   put_object(obj);
-+
-+Yet another option is to put the gvmas to be invalidated on a separate
-+gvm list protected by a lower level lock that can be taken both at eviction
-+time and at transfer-to-revalidate list time. The details are not in
-+this document, but this for reference implemented in the Intel xe
-+driver.
-+
-+Introducing userptr gvmas
-+=========================
-+
-+A userptr gvma is a gvma that, instead of mapping a buffer object to a
-+GPU virtual address range, directly maps a CPU mm range of anonymous-
-+or file page-cache pages.
-+A very simple approach would be to just pin the pages using
-+pin_user_pages() at bind time and unpin them at unbind time, but this
-+creates a Denial-Of-Service vector since a single user-space process
-+would be able to pin down all of system memory, which is not
-+desirable. (For special use-cases and with proper accounting pinning might
-+still be a desirable feature, though). What we need to do in the general case is
-+to obtain a reference to the desired pages, make sure we are notified
-+using a MMU notifier just before the CPU mm unmaps the pages, dirty
-+them if they are not mapped read-only to the GPU, and then drop the reference.
-+When we are notified by the MMU notifier that CPU mm is about to drop the
-+pages, we need to stop GPU access to the pages,
-+GPU page-table and make sure that before the next time the GPU tries to access
-+whatever is now present in the CPU mm range, we unmap the old pages
-+from the GPU page tables and repeat the process of obtaining new page
-+references. Note that when the core mm decides to laundry pages, we get such
-+an unmap MMU notification and can mark the pages dirty again before the
-+next GPU access. We also get similar MMU notifications for NUMA accounting
-+which the GPU driver doesn't really need to care about, but so far
-+it's proven difficult to exclude certain notifications.
-+
-+Using a MMU notifier for device DMA (and other methods) is described in
-+`this document 
-+<https://docs.kernel.org/core-api/pin_user_pages.html#case-3-mmu-notifier-registration-with-or-without-page-faulting-hardware>`_.
-+
-+Now the method of obtaining struct page references using
-+get_user_pages() unfortunately can't be used under a dma_resv lock
-+since that would violate the locking order of the dma_resv lock vs the
-+mmap_lock that is grabbed when resolving a CPU pagefault. This means the gvm's
-+list of userptr gvmas needs to be protected by an outer lock, and this
-+is the first time we strictly need the gvm->lock. While it was
-+previously used also to protect the list of the gvm's shared objects,
-+we could in theory have used the gvm->resv for that.
-+
-+The MMU interval seqlock for a userptr gvma is used in the following
-+way:
-+
-+.. code-block:: C
-+
-+   down_read(&gvm->lock);
-+
-+   retry:
-+
-+   // Note: mmu_interval_read_begin() blocks until there is no
-+   // invalidation notifier running anymore.
-+   seq = mmu_interval_read_begin(&gvma->userptr_interval);
-+   if (seq != gvma->saved_seq) {
-+           obtain_new_page_pointers(&gvma);
-+	   dma_resv_lock(&gvm->resv);
-+	   put_gvma_on_revalidate_list(&gvma, &gvm);
-+	   dma_resv_unlock(&gvm->resv);
-+	   gvma->saved_seq = seq;
-+   }
-+
-+   // The usual revalidation goes here.
-+
-+   // Final userptr sequence validation may not happen before the
-+   // submission dma_fence is added to the gvm's resv, from the POW
-+   // of the MMU invalidation notifier. Hence the
-+   // userptr_notifier_lock that will make them appear atomic.
-+   
-+   add_dependencies(&gpu_job, &gvm->resv);
-+   down_read(&gvm->userptr_notifier_lock);
-+   if (mmu_interval_read_retry(&gvma->userptr_interval, gvma->saved_seq)) {
-+          up_read(&gvm->userptr_notifier_lock);
-+	  goto retry;
-+   }
-+
-+   job_dma_fence = gpu_submit(&gpu_job));
-+
-+   add_dma_fence(job_dma_fence, &gvm->resv);
-+
-+   for_each_shared_obj(gvm, &obj)
-+          add_dma_fence(job_dma_fence, &obj->resv);
-+
-+   dma_resv_unlock_all_resv_locks();
-+   up_read(&gvm->userptr_notifier_lock);
-+   up_read(&gvm->lock);
-+
-+The code between ``mmu_interval_read_begin()`` and the
-+``mmu_interval_read_retry()`` marks the read side critical section of
-+what we call the ``userptr_seqlock``. In reality the gvm's userptr
-+gvma list is looped through, and the check is done for *all* of its
-+userptr gvmas, although we only show a single one here.
-+
-+The userptr gvma MMU invalidation notifier might be called from
-+reclaim context and, again to avoid locking order violations, we can't
-+take any dma_resv lock nor the gvm->lock from within it.
-+
-+.. code-block:: C
-+
-+  bool gvma_userptr_invalidate(userptr_interval, cur_seq)
-+  {
-+          // Make sure the exec function either sees the new sequence
-+	  // and backs off or we wait for the dma-fence:
-+	  
-+          down_write(&gvm->userptr_notifier_lock);
-+	  mmu_interval_set_seq(userptr_interval, cur_seq);
-+	  up_write(&gvm->userptr_notifier_lock);
-+
-+	  dma_resv_wait_timeout(&gvm->resv, DMA_RESV_USAGE_BOOKKEEP,
-+		                false, MAX_SCHEDULE_TIMEOUT);
-+	  return true;
-+  }
-+
-+When this invalidation notifier returns, the GPU can no longer be
-+accessing the old pages of the userptr gvma and needs to redo the page-binding
-+before a new GPU submission can succeed.
-+
-+Optimizing gvma iteration
-+-------------------------
-+
-+Iterating through all of a gvm's userptr gvmas to check the validity
-+on each exec function may be very costly. There is a scheme to avoid
-+this and only iterate through the userptr gvmas that actually saw an
-+invalidation notifier call since the last exec. T
-+
-+TODO: describe that scheme here. It's implemented in the xe driver.
-+
-+Locking for page-table updates at bind- and unbind time
-+=======================================================
-+
-+TODO.
-+
-+Recoverable page-fault implications
-+===================================
-+
-+TODO.
+Silly question perhaps:
+	Could we not have returned an existing (signalled) fence with
+the wanted timestamp (when count == 0), as opposed to allocating a stub? Maybe
+allocation should be avoided?
 -- 
-2.40.1
+Regards,
+Luben
+
+>  	array = kmalloc_array(count, sizeof(*array), GFP_KERNEL);
+>  	if (!array)
+> @@ -138,7 +156,7 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
+>  	} while (tmp);
+>  
+>  	if (count == 0) {
+> -		tmp = dma_fence_get_stub();
+> +		tmp = dma_fence_allocate_private_stub(ktime_get());
+>  		goto return_tmp;
+>  	}
+>  
+> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> index f177c56269bb..ad076f208760 100644
+> --- a/drivers/dma-buf/dma-fence.c
+> +++ b/drivers/dma-buf/dma-fence.c
+> @@ -150,10 +150,11 @@ EXPORT_SYMBOL(dma_fence_get_stub);
+>  
+>  /**
+>   * dma_fence_allocate_private_stub - return a private, signaled fence
+> + * @timestamp: timestamp when the fence was signaled
+>   *
+>   * Return a newly allocated and signaled stub fence.
+>   */
+> -struct dma_fence *dma_fence_allocate_private_stub(void)
+> +struct dma_fence *dma_fence_allocate_private_stub(ktime_t timestamp)
+>  {
+>  	struct dma_fence *fence;
+>  
+> @@ -169,7 +170,7 @@ struct dma_fence *dma_fence_allocate_private_stub(void)
+>  	set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+>  		&fence->flags);
+>  
+> -	dma_fence_signal(fence);
+> +	dma_fence_signal_timestamp(fence, timestamp);
+>  
+>  	return fence;
+>  }
+> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+> index 0c2be8360525..04589a35eb09 100644
+> --- a/drivers/gpu/drm/drm_syncobj.c
+> +++ b/drivers/gpu/drm/drm_syncobj.c
+> @@ -353,7 +353,7 @@ EXPORT_SYMBOL(drm_syncobj_replace_fence);
+>   */
+>  static int drm_syncobj_assign_null_handle(struct drm_syncobj *syncobj)
+>  {
+> -	struct dma_fence *fence = dma_fence_allocate_private_stub();
+> +	struct dma_fence *fence = dma_fence_allocate_private_stub(ktime_get());
+>  
+>  	if (IS_ERR(fence))
+>  		return PTR_ERR(fence);
+> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> index d54b595a0fe0..0d678e9a7b24 100644
+> --- a/include/linux/dma-fence.h
+> +++ b/include/linux/dma-fence.h
+> @@ -606,7 +606,7 @@ static inline signed long dma_fence_wait(struct dma_fence *fence, bool intr)
+>  void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline);
+>  
+>  struct dma_fence *dma_fence_get_stub(void);
+> -struct dma_fence *dma_fence_allocate_private_stub(void);
+> +struct dma_fence *dma_fence_allocate_private_stub(ktime_t timestamp);
+>  u64 dma_fence_context_alloc(unsigned num);
+>  
+>  extern const struct dma_fence_ops dma_fence_array_ops;
 
