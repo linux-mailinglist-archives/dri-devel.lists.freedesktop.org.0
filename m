@@ -1,79 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0715744508
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Jul 2023 01:13:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E7E474450D
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Jul 2023 01:15:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CCA610E199;
-	Fri, 30 Jun 2023 23:12:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36C4F10E1CF;
+	Fri, 30 Jun 2023 23:15:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA4CB10E199
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 23:12:55 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id
- 2adb3069b0e04-4fb960b7c9dso3941756e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 16:12:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688166774; x=1690758774;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=tk7tcTZ9mb+wfLY/iSHZQg5Fo49rxNkkvriMan5x4EY=;
- b=gJIYWpjQGjk6Ok+6dezGhjo5v7Ut16pua5m5HKrlE85emWC48Xz4Ko3bbJKppUc/0C
- q0SYc3QyiIFBMtbdWVXeUZuMwbLeRnNo9iJh0UA7K3l3uQ3IYbjbAtAuHVeQVID/6vhJ
- Tptgk9JmVyYr/qTMBDWOoZtZ7MpSzG0lOgAC+MzvmOwBsc/LDA5zVw9K10peQnMg4WZo
- r3tv9j96jCjfEC4tabffa3HLXbc0+x/RYYkN4MAH5reRNu0O0RxSgHE/I3HrKwvYNI5/
- kLzCCaRf9KERj6Hyn23l/5/8fdLmOrCzFOnhcAf4c/NneOasRvWQ3C9v6qSbz3hL6lRf
- wZPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688166774; x=1690758774;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=tk7tcTZ9mb+wfLY/iSHZQg5Fo49rxNkkvriMan5x4EY=;
- b=Ccs+tof+BwW9N1vKEsOenOf5ANaWXpb+u9wjyT3rtJXq9j5LWZDqM1kAV8X/SucfBO
- PKSkVOJCkzNZ1OAkWbCIZTxHbJanNHmOCPxKg/MlTLSEeRUVP3h9QMaR907XgOm+cW/q
- b3mQpivhw7b76a6ZrATQRV9FXUsDVoVCBaVGS+qYaOenJQt66/3YzgSytQUZyO7c9y7A
- z5Wq/t1danHxzEqCp90kJjhZtEQq4T7CprrLJC1CTHMHWjmgnX6VbX1+mmRkesXZ7Tvm
- AROMSoP5hTmdWz3zgEstH6CVRqJ36VJ5RNAP3ZKw9EsnITKjOySfiDIUcic2QTiZWH/Q
- sxWw==
-X-Gm-Message-State: ABy/qLZ3rpgKQ3UAnIwz3u2bV8Q5SFX9Hz7rmUYEMjPRCm/kukU7kwPr
- p7kGljwyaNXdhdAtwiXvcdASeA==
-X-Google-Smtp-Source: APBJJlGOQPbPsy71Zzasb4tSYlvGnNC3rxke+QcuIHviwP4fP+a6VaJuxJz+B/ssCIrt7lEFXNhmzw==
-X-Received: by 2002:a19:655c:0:b0:4f8:770f:1b0b with SMTP id
- c28-20020a19655c000000b004f8770f1b0bmr2951107lfj.33.1688166773682; 
- Fri, 30 Jun 2023 16:12:53 -0700 (PDT)
-Received: from [192.168.1.101] (abxi253.neoplus.adsl.tpnet.pl. [83.9.2.253])
- by smtp.gmail.com with ESMTPSA id
- a6-20020a056512390600b004f1383d57ecsm3009499lfu.202.2023.06.30.16.12.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Jun 2023 16:12:53 -0700 (PDT)
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Sat, 01 Jul 2023 01:12:51 +0200
-Subject: [PATCH v2] drm/msm/adreno: Assign revn to A635
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1519210E1CA;
+ Fri, 30 Jun 2023 23:15:15 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 35UESarO009393; Fri, 30 Jun 2023 23:15:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=fek3r6JbPOfPf/KuO5cIRxThw/Pivq2Iwcwz/5/g+Ok=;
+ b=BS5TfcznCmA5LEXekTc3TphzorXL4NgFwljWom3u57lUkFZ3LS8gXsrRKFeZfOx2Jf1p
+ 4dIpfi24qsRhulmWXp+7hic1FzSHskP7PALvoTNZRbzV/qu8P158ERmBtvBg33/GSO5x
+ pRFNvyO/SnKjU2Yv16rH9d/COoTKfbsbTzazEksDdb5VATywfMhqap/BD8eOBtMLnYJP
+ ST+7gKYe+nQ7T/gJUCz7nn46zKNpY7x3nK+lmh1jDqgkl+tgIeAcGlQRH9IPdaYTRylU
+ riYdPEYb0xZPbzPQk6t0YO64QsKLZug0fY1TNXg15FKkc7BgG4wPLt+5bwYZmTRvRPfP ZA== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rhfewb6sc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Jun 2023 23:15:07 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35UNF7MJ007051
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Jun 2023 23:15:07 GMT
+Received: from [10.71.110.193] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 30 Jun
+ 2023 16:15:06 -0700
+Message-ID: <f8fa50fb-40a6-cec9-c0ba-9dc98bc85b1f@quicinc.com>
+Date: Fri, 30 Jun 2023 16:15:06 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH 0/6] Add support to print sub block registers in dpu hw
+ catalog
+Content-Language: en-US
+To: Marijn Suijten <marijn.suijten@somainline.org>, Ryan McCann
+ <quic_rmccann@quicinc.com>
+References: <20230622-devcoredump_patch-v1-0-3b2cdcc6a576@quicinc.com>
+ <nywovdd4op22ylnrntqx2f6x2plmfrxsgsirq6vmqu2eemulzq@z5sc2kmypl74>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <nywovdd4op22ylnrntqx2f6x2plmfrxsgsirq6vmqu2eemulzq@z5sc2kmypl74>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230628-topic-a635-v2-1-5494c881b8be@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAHJhn2QC/22Nyw6CMBBFf8XM2jFtkZcr/8OwaOsAk5CWTJFoC
- P9uZe3ynOTes0EiYUpwO20gtHLiGDKY8wn8aMNAyM/MYJQpVGUaXOLMHm1VlKhd4Y1vm/qqa8g
- DZxOhExv8mCfhNU1ZzkI9v4/Co8s8clqifI7gqn/27/eqUWOpyopU61XTu/vEwUq8RBmg2/f9C
- 1kqkqK6AAAA
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Stephen Boyd <swboyd@chromium.org>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1688166772; l=1261;
- i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=oIevmiIoqBZEtyln22cHTlwhLGk4BKvbTI7KGaU8Yyc=;
- b=cKjj71LJhyQygBD7KLDoI76DTuLJ/0I8sUl0gry+/5Ze1m61sRakaDfaNwGegIBghEYrcCsVa
- aBNNJ9GGLn2ByljvvUFj5h7/KEa0LoFvaQzZTPVTEWKSlBC5av9OqZD
-X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 0_Kc7ni3azEfnesga67iYZIaUlBeY4S9
+X-Proofpoint-GUID: 0_Kc7ni3azEfnesga67iYZIaUlBeY4S9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-30_13,2023-06-30_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 lowpriorityscore=0
+ impostorscore=0 suspectscore=0 malwarescore=0 priorityscore=1501
+ clxscore=1015 spamscore=0 mlxlogscore=999 adultscore=0 bulkscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306300204
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,47 +85,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Recently, a WARN_ON() was introduced to ensure that revn is filled before
-adreno_is_aXYZ is called. This however doesn't work very well when revn is
-0 by design (such as for A635). Fill it in as a stopgap solution for
--fixes.
 
-Fixes: cc943f43ece7 ("drm/msm/adreno: warn if chip revn is verified before being set")
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
----
-Changes in v2:
-- add fixes
-- Link to v1: https://lore.kernel.org/r/20230628-topic-a635-v1-1-5056e09c08fb@linaro.org
----
- drivers/gpu/drm/msm/adreno/adreno_device.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-index cb94cfd137a8..8ea7eae9fc52 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-@@ -345,6 +345,7 @@ static const struct adreno_info gpulist[] = {
- 		.address_space_size = SZ_16G,
- 	}, {
- 		.rev = ADRENO_REV(6, 3, 5, ANY_ID),
-+		.revn = 635,
- 		.fw = {
- 			[ADRENO_FW_SQE] = "a660_sqe.fw",
- 			[ADRENO_FW_GMU] = "a660_gmu.bin",
+On 6/23/2023 12:10 AM, Marijn Suijten wrote:
+> It is nice if cover letters also include the subsystem:
+> 
+> drm/msm: Add support to print DPU sub-block registers
+> 
+> On 2023-06-22 16:48:52, Ryan McCann wrote:
+>> The purpose of this patch series is to add support to print the registers
+>> of sub blocks in the dpu hardware catalog and fix the order in which all
 
----
-base-commit: 5c875096d59010cee4e00da1f9c7bdb07a025dc2
-change-id: 20230628-topic-a635-1b3c2c987417
+Hey Marijn,
 
-Best regards,
--- 
-Konrad Dybcio <konrad.dybcio@linaro.org>
+Sorry for the late response -- had to shift focus onto another feature 
+for a bit.
 
+> 
+> Global nit: I think we previously settled on "sblk" or "sub-block(s)",
+> not "sub blocks".
+> 
+> And capitalize DPU.
+
+Acked.
+
+> 
+>> hardware blocks are dumped for a device core dump. This involves:
+>>
+>> 1. Changing data structure from stack to queue to fix the printing order
+>> of the device core dump.
+>>
+>> 2. Removing redundant suffix of sub block names.
+>>
+>> 3. Removing redundant prefix of sub block names.
+>>
+>> 4. Eliminating unused variable from relevant macros.
+> 
+> Dmitry has been doing that in one of his DPU catalog reworks.
+
+Got it. Is there a specific one that's making similar changes? IIRC, I 
+didn't see one that was changing the *_SBLK macro.
+
+> 
+>> 5. Defining names for sub blocks that have not yet been defined.
+> 
+> Let's see what this means, because the code logic should already be able
+> to figure this out (and in some places we can perhaps delete the name
+> entirely).
+> 
+>> 6. Implementing wrapper function that prints the registers of sub blocks
+>> when there is a need.
+> 
+> Thought this could be rather automated, but let me see what it means in
+> the patches.
+> 
+>> Sample Output of the sspp_0 block and its sub blocks for devcore dump:
+>> ======sspp_0======
+>> ...registers
+>> ...
+>> ====sspp_0_scaler====
+> 
+> My suggestion would be to put less emphasis on this header with:
+> 
+>      ----sspp_0_scaler----
+> 
+> So that it becomes obvious that this is a sblk of the ====sspp_0====
+> above.
+
+FWIW, I think having the main block name prefix in the sblk header makes 
+it clear which blocks are main block and which ones are sblks.
+
+In addition, I'd like to keep this change within DPU (aside from the fix 
+in the first patch) since implementing this change would require 
+changing the *_add_block() parameters, and DSI/DP don't seem to have a 
+need for conditional header formatting.
+
+Thanks,
+
+Jessica Zhang
+
+> 
+>> ...
+>> ...
+>> ====sspp_0_csc====
+>> ...
+>> ...
+>> ====next_block====
+>> ...
+>>
+>> Signed-off-by: Ryan McCann <quic_rmccann@quicinc.com>
+> 
+> No need for sign-off in cover letters.
+> 
+> - Marijn
+> 
+>> ---
+>> Ryan McCann (6):
+>>        drm/msm: Update dev core dump to not print backwards
+>>        drm/msm/dpu: Drop unused num argument from relevant macros
+>>        drm/msm/dpu: Define names for unnamed sblks
+>>        drm/msm/dpu: Remove redundant suffix in name of sub blocks
+>>        drm/msm/disp: Remove redundant prefix in name of sub blocks
+>>        drm/msm/dpu: Update dev core dump to dump registers of sub blocks
+>>
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  90 +++++-----
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c           | 194 +++++++++++++++++++---
+>>   drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c |   2 +-
+>>   3 files changed, 214 insertions(+), 72 deletions(-)
+>> ---
+>> base-commit: 710025fdedb3767655823c3a12d27d404d209f75
+>> change-id: 20230622-devcoredump_patch-df7e8f6fd632
+>>
+>> Best regards,
+>> -- 
+>> Ryan McCann <quic_rmccann@quicinc.com>
+>>
