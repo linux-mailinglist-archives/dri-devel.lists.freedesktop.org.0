@@ -1,62 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36ED9743FB8
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 18:29:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40E9D743FC4
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 18:29:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C82010E4B6;
-	Fri, 30 Jun 2023 16:29:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06FF410E4B9;
+	Fri, 30 Jun 2023 16:29:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68B6B10E4B5
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 16:29:24 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id
- ffacd0b85a97d-3113dabc549so2475421f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 09:29:24 -0700 (PDT)
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB85A10E4B6
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 16:29:25 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 5b1f17b1804b1-3fbc5d5742eso11715345e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 09:29:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688142562; x=1690734562;
+ d=linaro.org; s=google; t=1688142564; x=1690734564;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=agCUhn/8LSgqkRC+TGbYPlU94ThrQwri2McEeBSjgT0=;
- b=QamhUe19zrr27U1pgtrt5KJJXeWtzGaODKr1P3iXnhMILEH46IWrhPsxqWLPdJTh+O
- e/rXaUo+eASTI7giqLrvtUz4S5FSaF7J9U3V87fnraV8+xBYZk/4Cs5+apF0YmL2PYPf
- W/rprOLM10XxzK+Q5+bOW2MbXe5NK3A2ZGHXLtNZdxp9YWzW0UOuseOtqp5kX7ZF4K/b
- PCdf9OtzVH85LZ3fYeU2ZCQjJui/R3h2Y5fKEmqFPHZao2wsYO7yhAY2QjSUgmCCLcDQ
- vwy0fSWuGaNtWh7WQypPhtJYcRY4avBCNtOmrQ+v3/yqhvcBChB4+KUqXBk2BXVKeO/2
- nHqw==
+ :reply-to; bh=qgsDtF5O/s9PBjYfSivHAHvjRzma3FocfhBcV/z81+E=;
+ b=cbrn8U7T3rRRRa9/wFNFFWcRZwYBHNdv4SC+El/22ZXcbZSAtpJGWwWsCk4MFsdVxO
+ aC7bZXf8vPs9bteXMbcrxUl66aUChYf7s+M20DwcLs+BW16e94d8npPq300Spv0LPx8g
+ 2DmDmC1GCcuQyK8faV0ebM1Uv1relisqxeqVkVB6GpfwBoKgnycm1mMLY6m6dyzw/LDO
+ suLlk2T2J4ApZSYf1Ao00LNqyxD1ZGEpOiQawXxqC1gZNWxEfm7ffzfr7bRYWQ6n4xXJ
+ Zx0VGZK9CeTnBF5oxKjROZxALV95rDs/thCvZWIH2RHAJQtOrkhN8nc/7I15pReQVGEF
+ 4Kcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688142562; x=1690734562;
+ d=1e100.net; s=20221208; t=1688142564; x=1690734564;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=agCUhn/8LSgqkRC+TGbYPlU94ThrQwri2McEeBSjgT0=;
- b=fbd5OTdchIum5BZ79I02ZfAZuRDGD5oEM3qVVEilTwNWJtaSqo5ShjfmdVJRz1Ouk3
- Bct35HrE/cx+4oia771C3IgFjyyIDX/48cXgWEB21O3+5/cdHKDBlijo05hxJ2ud85vh
- aF1n4v3mqdYbhhGyNDnE46ytPfcfaDs6t3wwUqVAAOnzw/Ch1GojkJRPPnjaoYUb8t9M
- b5P7vkNPrxkpqMWCz4pap+e8LlwH1v1tHmfmBlXUsWDKLCD9Yrf4QW9hmBNAlLgKdHUf
- K9BxXT5KtDykQCUOzlhsTKUMER2AoFKFxWZYIVbVO7Zs01Ja6Ak84lKQsh/SVy2DCt1R
- Tnfw==
-X-Gm-Message-State: ABy/qLZtl9sqvB01mYpZcgMhlqXbRDdHnXgsiguRattisSwKnP76bDQY
- JnQEkS3LSeisFlyMef0oMQfSLg==
-X-Google-Smtp-Source: APBJJlHikretm5n4xlJzzhjMZTiRRnP+HGMQneFqm6dOuTAnk8LEumLOzV+kvWMu58qwMBZ9a7UTKQ==
-X-Received: by 2002:adf:f389:0:b0:314:1e3e:611d with SMTP id
- m9-20020adff389000000b003141e3e611dmr3154315wro.71.1688142562429; 
- Fri, 30 Jun 2023 09:29:22 -0700 (PDT)
+ bh=qgsDtF5O/s9PBjYfSivHAHvjRzma3FocfhBcV/z81+E=;
+ b=PoRB8CyXY2z0UmDiZmDvue3hQYD4FoscdYf6dLAGiMVB3AFQc1R3yhYbFMU3YwD+57
+ 87Hfewgt836o7p1wOWsWTnCCEIFVXUiVtS5JQcguVocKCq3xpBRRzpkAZ7fcUDQ/qsfV
+ +CUGddt2xIhJ8yRnpywZIIzvalU+1//07Gu8anezhw4vDtVEZc8uuGESdO/EW/PWu5e6
+ Q7kU7L7tgjiFJXowQeuO2gFKYVJygLWZmU5mmC2mFv/AnRuNJKJawxFXBMxkoIUa+2ny
+ 0zBQzUpH0b82908UorzeTb3DCbUmYOXu3U7E3eKwuFBNS8MelpnycXuF4G6tt/7SXekd
+ 3UDQ==
+X-Gm-Message-State: ABy/qLaFhBRLa5cCuxt8MMg/qEcE88NSQFUiPs8y70OA0zTQWbH4ES0p
+ 4zHrYuk/jx6wXaYJnCicXC/42A==
+X-Google-Smtp-Source: APBJJlFhYobw1rNWc3IMxzY9OQ3uRJLUOYDPD4/E40UWz9lbymKumyFXNuDyexqY5kl3DNaHFjZKNQ==
+X-Received: by 2002:a5d:4533:0:b0:314:11ac:341f with SMTP id
+ j19-20020a5d4533000000b0031411ac341fmr2412386wra.16.1688142564051; 
+ Fri, 30 Jun 2023 09:29:24 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- cx16-20020a056000093000b00301a351a8d6sm18835836wrb.84.2023.06.30.09.29.21
+ cx16-20020a056000093000b00301a351a8d6sm18835836wrb.84.2023.06.30.09.29.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Jun 2023 09:29:22 -0700 (PDT)
+ Fri, 30 Jun 2023 09:29:23 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Fri, 30 Jun 2023 18:29:10 +0200
-Subject: [PATCH v6 3/9] clk: meson: add vclk driver
+Date: Fri, 30 Jun 2023 18:29:11 +0200
+Subject: [PATCH v6 4/9] clk: meson: g12a: make VCLK2 and ENCL clock path
+ configurable by CCF
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v6-3-fd2ac9845472@linaro.org>
+Message-Id: <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v6-4-fd2ac9845472@linaro.org>
 References: <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v6-0-fd2ac9845472@linaro.org>
 In-Reply-To: <20230512-amlogic-v6-4-upstream-dsi-ccf-vim3-v6-0-fd2ac9845472@linaro.org>
 To: Jerome Brunet <jbrunet@baylibre.com>, 
@@ -69,20 +70,20 @@ To: Jerome Brunet <jbrunet@baylibre.com>,
  Jagan Teki <jagan@amarulasolutions.com>, 
  Nicolas Belin <nbelin@baylibre.com>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9036;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6934;
  i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=QRCNRMlZZPU+/GYJx9LR/JWNNbQG1u0cT+Nsy+8OVWo=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBknwLb2DX08JpGYWxGnt9ictmBQymge53zpoD7pUjF
- QRa0ZQSJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZJ8C2wAKCRB33NvayMhJ0feOD/
- 43MAQIIMHj/ev5F+H4eUu3fwjKo6waNz+2PDwX7w3GMPP1FPz0wrAI0ZPpzzEXOASNOT/qOJypi9bj
- 3p2RuxuLyZW3MKT2KT+vau+RrjPABY+miBe1H/VtbB9V95bBXLyZo0kP7wR1WgOTYfepyeFV1NmUsV
- T8J56BFi2ObC4OIOqa36KbXu6PHYWBexoO/zsKVXzl0fEH+LCsryDB/4Xr4dLSEE+m4xCly/IPhxUP
- n+FTbF1p2ZViM6xpoEPuOIruAH9noG0BxVFZCmZqTsTOdrLV2wo/faOC6esiyGbd8vZuqasWtQdBQe
- xDkTMjLbd15EyVuMQKzshkz1DxWUc+8vlHwIAwFvjwCft7UNu6zWeRWsvqPsemYcqu2yJ3CmTRlBg5
- WeTPEnSZxjBN/nNIcWSGyTs1IQF+Zsidr2UOJj4c4GwU+WW3yUPBT0jkEgKrqYqaO3infGpT/7nR7O
- IXgeliqEtTdUiFDQqUMHCJ1B/wkZMzXko1a2TCANNAkV2l8FOYKzfLtDEzwPeUiL67J9mSBeOU+j6B
- JUszaIbNyRGqjH9lIOdnMMQ6yCQQDEYooMMnDsaQJhQop7YCOa4MToAOgYIWYgwBcwtFoh4Ufb2B2X
- s+zCFk9WP1aeoQHSh4Y+6nyX/SsaQ5ovggeft4DvFSnGzGpCpBxu2sr/kjBA==
+ bh=TK47wN9qNcDXKejya/LAaw6P47MGsBz5Ae0PgRcGuY8=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBknwLb4ajvrkv81aDNok6xz48XrNs3zCdEx2QvPXj2
+ ayEUXOKJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZJ8C2wAKCRB33NvayMhJ0YtED/
+ 9nYTu+BX+fxWwUWKeO67oWDRAaKNBvUbOxUHDOWIH12h5DH+tjU2+/G+r59Qn774a6TIbp3ZcTqbjn
+ LqSdwdZkq7KBloA27fXyXqoWTT6H2iDZFGljemy8gW76AAZ/C4+7GKDqHo8w8NfX2CUZKxoLFPI3w0
+ faBy67jqcOh9Iob31k2n4P5FLzVz24D0tGnVD2P8OAq6L0un52tZx6vGNf6D3FUmiQYtgtLfoJdyiN
+ +na7SgIr1nph7pnDL3oVaebZkYg0P2WR3MZMYZKpnT2B6ae5Z/t73bz+fFro+KoMdDDQGtd+yZokQw
+ pnNAUoQ2sYSZYZ7NiBGYVJt8fei3iRUCzCTTSX30Ey+a/AIfT2yNwtG1NmwI/oyvPPbvPu9gatGo2j
+ mbVvkh06/9mpCfhTKE8FvabfFq9eIBQ88fFDIlvBEh99eRmq3v0CYGlGWcf9XLO0Csayyd6MV+th+p
+ CiXPXzlyDO5FMPyLYTikp2dOaC2eC3qw+f6nV+RbSnru59PBcteNgMOs2TaEX1tSI11DrEdJ877fVq
+ IOjosKXnw+6406GZBznzKbyfDayMCZKQMZ+mWqkc9k5xLPS5shf8R14FtH5NkhEZf2JYokQjI54Gk1
+ vdygDXhEaURSPhRv30EN1Y3sogz7PRuc7o0PVE6Njrz3WK4CsxTmZRxxJS7g==
 X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,289 +105,240 @@ Cc: devicetree@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The VCLK and VCLK_DIV clocks have supplementary bits.
+In order to setup the DSI clock, let's make the unused VCLK2 clock path
+configuration via CCF.
 
-The VCLK has a "SOFT RESET" bit to toggle after the whole
-VCLK sub-tree rate has been set, this is implemented in
-the gate enable callback.
+The nocache option is removed from following clocks:
+- vclk2_sel
+- vclk2_input
+- vclk2_div
+- vclk2
+- vclk_div1
+- vclk2_div2_en
+- vclk2_div4_en
+- vclk2_div6_en
+- vclk2_div12_en
+- vclk2_div2
+- vclk2_div4
+- vclk2_div6
+- vclk2_div12
+- cts_encl_sel
 
-The VCLK_DIV clocks as enable and reset bits used to disable
-and reset the divider, associated with CLK_SET_RATE_GATE it ensures
-the rate is set while the divider is disabled and in reset mode.
+vclk2 and vclk2_div uses the newly introduced vclk regmap driver
+to handle the enable and reset bits.
 
-The VCLK_DIV enable bit isn't implemented as a gate since it's part
-of the divider logic and vendor does this exact sequence to ensure
-the divider is correctly set.
+In order to set a rate on cts_encl via the vclk2 clock path,
+the NO_REPARENT flag is set on cts_encl_sel & vclk2_sel in order
+to keep CCF from selection a parent.
+The parents of cts_encl_sel & vclk2_sel are expected to be defined
+in DT.
+
+The following clock scheme is to be used for DSI:
+
+xtal
+\_ gp0_pll_dco
+   \_ gp0_pll
+      |- vclk2_sel
+      |  \_ vclk2_input
+      |     \_ vclk2_div
+      |        \_ vclk2
+      |           \_ vclk2_div1
+      |              \_ cts_encl_sel
+      |                 \_ cts_encl	-> to VPU LCD Encoder
+      |- mipi_dsi_pxclk_sel
+      \_ mipi_dsi_pxclk_div
+         \_ mipi_dsi_pxclk		-> to DSI controller
+
+The mipi_dsi_pxclk_div is set as RO in order to use the same GP0
+for mipi_dsi_pxclk and vclk2_input.
 
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- drivers/clk/meson/Kconfig  |   5 ++
- drivers/clk/meson/Makefile |   1 +
- drivers/clk/meson/vclk.c   | 146 +++++++++++++++++++++++++++++++++++++++++++++
- drivers/clk/meson/vclk.h   |  68 +++++++++++++++++++++
- 4 files changed, 220 insertions(+)
+ drivers/clk/meson/g12a.c | 43 ++++++++++++++++++++++++++-----------------
+ 1 file changed, 26 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/clk/meson/Kconfig b/drivers/clk/meson/Kconfig
-index 135da8f2d0b1..83f629515e96 100644
---- a/drivers/clk/meson/Kconfig
-+++ b/drivers/clk/meson/Kconfig
-@@ -30,6 +30,10 @@ config COMMON_CLK_MESON_VID_PLL_DIV
- 	tristate
- 	select COMMON_CLK_MESON_REGMAP
- 
-+config COMMON_CLK_MESON_VCLK
-+	tristate
-+	select COMMON_CLK_MESON_REGMAP
-+
- config COMMON_CLK_MESON_CLKC_UTILS
- 	tristate
- 
-@@ -140,6 +144,7 @@ config COMMON_CLK_G12A
- 	select COMMON_CLK_MESON_EE_CLKC
- 	select COMMON_CLK_MESON_CPU_DYNDIV
- 	select COMMON_CLK_MESON_VID_PLL_DIV
-+	select COMMON_CLK_MESON_VCLK
- 	select MFD_SYSCON
- 	help
- 	  Support for the clock controller on Amlogic S905D2, S905X2 and S905Y2
-diff --git a/drivers/clk/meson/Makefile b/drivers/clk/meson/Makefile
-index cd961cc4f4db..6efeb8c7bd2a 100644
---- a/drivers/clk/meson/Makefile
-+++ b/drivers/clk/meson/Makefile
-@@ -12,6 +12,7 @@ obj-$(CONFIG_COMMON_CLK_MESON_PLL) += clk-pll.o
- obj-$(CONFIG_COMMON_CLK_MESON_REGMAP) += clk-regmap.o
- obj-$(CONFIG_COMMON_CLK_MESON_SCLK_DIV) += sclk-div.o
- obj-$(CONFIG_COMMON_CLK_MESON_VID_PLL_DIV) += vid-pll-div.o
-+obj-$(CONFIG_COMMON_CLK_MESON_VCLK) += vclk.o
- 
- # Amlogic Clock controllers
- 
-diff --git a/drivers/clk/meson/vclk.c b/drivers/clk/meson/vclk.c
-new file mode 100644
-index 000000000000..0df84403b17f
---- /dev/null
-+++ b/drivers/clk/meson/vclk.c
-@@ -0,0 +1,146 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2023 Neil Armstrong <neil.armstrong@linaro.org>
-+ */
-+
-+#include <linux/module.h>
+diff --git a/drivers/clk/meson/g12a.c b/drivers/clk/meson/g12a.c
+index 5d62134335c1..552c8efb1ad8 100644
+--- a/drivers/clk/meson/g12a.c
++++ b/drivers/clk/meson/g12a.c
+@@ -22,6 +22,7 @@
+ #include "clk-regmap.h"
+ #include "clk-cpu-dyndiv.h"
+ #include "vid-pll-div.h"
 +#include "vclk.h"
-+
-+/* The VCLK gate has a supplementary reset bit to pulse after ungating */
-+
-+static int clk_regmap_vclk_enable(struct clk_hw *hw)
-+{
-+	struct clk_regmap *clk = to_clk_regmap(hw);
-+	struct clk_regmap_vclk_data *vclk = clk_get_regmap_vclk_data(clk);
-+
-+	regmap_set_bits(clk->map, vclk->offset, BIT(vclk->enable_bit_idx));
-+
-+	/* Do a reset pulse */
-+	regmap_set_bits(clk->map, vclk->offset, BIT(vclk->reset_bit_idx));
-+	regmap_clear_bits(clk->map, vclk->offset, BIT(vclk->reset_bit_idx));
-+
-+	return 0;
-+}
-+
-+static void clk_regmap_vclk_disable(struct clk_hw *hw)
-+{
-+	struct clk_regmap *clk = to_clk_regmap(hw);
-+	struct clk_regmap_vclk_data *vclk = clk_get_regmap_vclk_data(clk);
-+
-+	regmap_clear_bits(clk->map, vclk->offset, BIT(vclk->enable_bit_idx));
-+}
-+
-+static int clk_regmap_vclk_is_enabled(struct clk_hw *hw)
-+{
-+	struct clk_regmap *clk = to_clk_regmap(hw);
-+	struct clk_regmap_vclk_data *vclk = clk_get_regmap_vclk_data(clk);
-+	unsigned int val;
-+
-+	regmap_read(clk->map, vclk->offset, &val);
-+
-+	return val & BIT(vclk->enable_bit_idx) ? 1 : 0;
-+}
-+
-+const struct clk_ops clk_regmap_vclk_ops = {
-+	.enable = clk_regmap_vclk_enable,
-+	.disable = clk_regmap_vclk_disable,
-+	.is_enabled = clk_regmap_vclk_is_enabled,
-+};
-+EXPORT_SYMBOL_GPL(clk_regmap_vclk_ops);
-+
-+/* The VCLK Divider has supplementary reset & enable bits */
-+
-+static unsigned long clk_regmap_vclk_div_recalc_rate(struct clk_hw *hw,
-+						     unsigned long prate)
-+{
-+	struct clk_regmap *clk = to_clk_regmap(hw);
-+	struct clk_regmap_vclk_div_data *vclk = clk_get_regmap_vclk_div_data(clk);
-+	unsigned int val;
-+	int ret;
-+
-+	ret = regmap_read(clk->map, vclk->offset, &val);
-+	if (ret)
-+		/* Gives a hint that something is wrong */
-+		return 0;
-+
-+	val >>= vclk->shift;
-+	val &= clk_div_mask(vclk->width);
-+
-+	return divider_recalc_rate(hw, prate, val, vclk->table, vclk->flags,
-+				   vclk->width);
-+}
-+
-+static int clk_regmap_vclk_div_determine_rate(struct clk_hw *hw,
-+					      struct clk_rate_request *req)
-+{
-+	struct clk_regmap *clk = to_clk_regmap(hw);
-+	struct clk_regmap_vclk_div_data *vclk = clk_get_regmap_vclk_div_data(clk);
-+
-+	return divider_determine_rate(hw, req, vclk->table, vclk->width,
-+				      vclk->flags);
-+}
-+
-+static int clk_regmap_vclk_div_set_rate(struct clk_hw *hw, unsigned long rate,
-+					unsigned long parent_rate)
-+{
-+	struct clk_regmap *clk = to_clk_regmap(hw);
-+	struct clk_regmap_vclk_div_data *vclk = clk_get_regmap_vclk_div_data(clk);
-+	unsigned int val;
-+	int ret;
-+
-+	ret = divider_get_val(rate, parent_rate, vclk->table, vclk->width,
-+			      vclk->flags);
-+	if (ret < 0)
-+		return ret;
-+
-+	val = (unsigned int)ret << vclk->shift;
-+	return regmap_update_bits(clk->map, vclk->offset,
-+				  clk_div_mask(vclk->width) << vclk->shift, val);
-+};
-+
-+static int clk_regmap_vclk_div_enable(struct clk_hw *hw)
-+{
-+	struct clk_regmap *clk = to_clk_regmap(hw);
-+	struct clk_regmap_vclk_div_data *vclk = clk_get_regmap_vclk_div_data(clk);
-+
-+	/* Unreset the divider when ungating */
-+	regmap_clear_bits(clk->map, vclk->offset, BIT(vclk->reset_bit_idx));
-+
-+	return regmap_set_bits(clk->map, vclk->offset, BIT(vclk->enable_bit_idx));
-+}
-+
-+static void clk_regmap_vclk_div_disable(struct clk_hw *hw)
-+{
-+	struct clk_regmap *clk = to_clk_regmap(hw);
-+	struct clk_regmap_vclk_div_data *vclk = clk_get_regmap_vclk_div_data(clk);
-+
-+	/* Reset the divider when gating */
-+	regmap_clear_bits(clk->map, vclk->offset, BIT(vclk->enable_bit_idx));
-+
-+	regmap_set_bits(clk->map, vclk->offset, BIT(vclk->reset_bit_idx));
-+}
-+
-+static int clk_regmap_vclk_div_is_enabled(struct clk_hw *hw)
-+{
-+	struct clk_regmap *clk = to_clk_regmap(hw);
-+	struct clk_regmap_vclk_div_data *vclk = clk_get_regmap_vclk_div_data(clk);
-+	unsigned int val;
-+
-+	regmap_read(clk->map, vclk->offset, &val);
-+
-+	return val & BIT(vclk->enable_bit_idx) ? 1 : 0;
-+}
-+
-+const struct clk_ops clk_regmap_vclk_div_ops = {
-+	.recalc_rate = clk_regmap_vclk_div_recalc_rate,
-+	.determine_rate = clk_regmap_vclk_div_determine_rate,
-+	.set_rate = clk_regmap_vclk_div_set_rate,
-+	.enable = clk_regmap_vclk_div_enable,
-+	.disable = clk_regmap_vclk_div_disable,
-+	.is_enabled = clk_regmap_vclk_div_is_enabled,
-+};
-+EXPORT_SYMBOL_GPL(clk_regmap_vclk_div_ops);
-+
-+MODULE_DESCRIPTION("Amlogic vclk clock driver");
-+MODULE_AUTHOR("Neil Armstrong <neil.armstrong@linaro.org>");
-+MODULE_LICENSE("GPL v2");
-diff --git a/drivers/clk/meson/vclk.h b/drivers/clk/meson/vclk.h
-new file mode 100644
-index 000000000000..90786552a7f3
---- /dev/null
-+++ b/drivers/clk/meson/vclk.h
-@@ -0,0 +1,68 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (c) 2023 Neil Armstrong <neil.armstrong@linaro.org>
-+ */
-+
-+#ifndef __VCLK_H
-+#define __VCLK_H
-+
-+#include "clk-regmap.h"
-+
-+/**
-+ * struct clk_regmap_vclk_data - vclk regmap backed specific data
-+ *
-+ * @offset:		offset of the register controlling gate
-+ * @enable_bit_idx:	single bit controlling vclk enable
-+ * @reset_bit_idx:	single bit controlling vclk reset
-+ * @flags:		hardware-specific flags
-+ *
-+ * Flags:
-+ * Same as clk_gate except CLK_GATE_HIWORD_MASK which is ignored
-+ */
-+struct clk_regmap_vclk_data {
-+	unsigned int	offset;
-+	u8		enable_bit_idx;
-+	u8		reset_bit_idx;
-+	u8		flags;
-+};
-+
-+static inline struct clk_regmap_vclk_data *
-+clk_get_regmap_vclk_data(struct clk_regmap *clk)
-+{
-+	return (struct clk_regmap_vclk_data *)clk->data;
-+}
-+
-+extern const struct clk_ops clk_regmap_vclk_ops;
-+
-+/**
-+ * struct clk_regmap_vclk_div_data - vclk_div regmap back specific data
-+ *
-+ * @offset:	offset of the register controlling the divider
-+ * @shift:	shift to the divider bit field
-+ * @width:	width of the divider bit field
-+ * @enable_bit_idx:	single bit controlling vclk divider enable
-+ * @reset_bit_idx:	single bit controlling vclk divider reset
-+ * @table:	array of value/divider pairs, last entry should have div = 0
-+ *
-+ * Flags:
-+ * Same as clk_divider except CLK_DIVIDER_HIWORD_MASK which is ignored
-+ */
-+struct clk_regmap_vclk_div_data {
-+	unsigned int	offset;
-+	u8		shift;
-+	u8		width;
-+	u8		enable_bit_idx;
-+	u8		reset_bit_idx;
-+	const struct clk_div_table      *table;
-+	u8		flags;
-+};
-+
-+static inline struct clk_regmap_vclk_div_data *
-+clk_get_regmap_vclk_div_data(struct clk_regmap *clk)
-+{
-+	return (struct clk_regmap_vclk_div_data *)clk->data;
-+}
-+
-+extern const struct clk_ops clk_regmap_vclk_div_ops;
-+
-+#endif /* __VCLK_H */
+ #include "meson-eeclk.h"
+ #include "g12a.h"
+ 
+@@ -3165,7 +3166,7 @@ static struct clk_regmap g12a_vclk2_sel = {
+ 		.ops = &clk_regmap_mux_ops,
+ 		.parent_hws = g12a_vclk_parent_hws,
+ 		.num_parents = ARRAY_SIZE(g12a_vclk_parent_hws),
+-		.flags = CLK_SET_RATE_NO_REPARENT | CLK_GET_RATE_NOCACHE,
++		.flags = CLK_SET_RATE_PARENT | CLK_SET_RATE_NO_REPARENT,
+ 	},
+ };
+ 
+@@ -3193,7 +3194,7 @@ static struct clk_regmap g12a_vclk2_input = {
+ 		.ops = &clk_regmap_gate_ops,
+ 		.parent_hws = (const struct clk_hw *[]) { &g12a_vclk2_sel.hw },
+ 		.num_parents = 1,
+-		.flags = CLK_SET_RATE_PARENT | CLK_IGNORE_UNUSED,
++		.flags = CLK_SET_RATE_PARENT,
+ 	},
+ };
+ 
+@@ -3215,19 +3216,22 @@ static struct clk_regmap g12a_vclk_div = {
+ };
+ 
+ static struct clk_regmap g12a_vclk2_div = {
+-	.data = &(struct clk_regmap_div_data){
++	.data = &(struct clk_regmap_vclk_div_data){
+ 		.offset = HHI_VIID_CLK_DIV,
+ 		.shift = 0,
+ 		.width = 8,
++		.enable_bit_idx = 16,
++		.reset_bit_idx = 17,
++		.flags = CLK_DIVIDER_ROUND_CLOSEST,
+ 	},
+ 	.hw.init = &(struct clk_init_data){
+ 		.name = "vclk2_div",
+-		.ops = &clk_regmap_divider_ops,
++		.ops = &clk_regmap_vclk_div_ops,
+ 		.parent_hws = (const struct clk_hw *[]) {
+ 			&g12a_vclk2_input.hw
+ 		},
+ 		.num_parents = 1,
+-		.flags = CLK_GET_RATE_NOCACHE,
++		.flags = CLK_SET_RATE_PARENT | CLK_SET_RATE_GATE,
+ 	},
+ };
+ 
+@@ -3246,16 +3250,17 @@ static struct clk_regmap g12a_vclk = {
+ };
+ 
+ static struct clk_regmap g12a_vclk2 = {
+-	.data = &(struct clk_regmap_gate_data){
++	.data = &(struct clk_regmap_vclk_data){
+ 		.offset = HHI_VIID_CLK_CNTL,
+-		.bit_idx = 19,
++		.enable_bit_idx = 19,
++		.reset_bit_idx = 15,
+ 	},
+ 	.hw.init = &(struct clk_init_data) {
+ 		.name = "vclk2",
+-		.ops = &clk_regmap_gate_ops,
++		.ops = &clk_regmap_vclk_ops,
+ 		.parent_hws = (const struct clk_hw *[]) { &g12a_vclk2_div.hw },
+ 		.num_parents = 1,
+-		.flags = CLK_SET_RATE_PARENT | CLK_IGNORE_UNUSED,
++		.flags = CLK_SET_RATE_PARENT | CLK_SET_RATE_GATE,
+ 	},
+ };
+ 
+@@ -3339,7 +3344,7 @@ static struct clk_regmap g12a_vclk2_div1 = {
+ 		.ops = &clk_regmap_gate_ops,
+ 		.parent_hws = (const struct clk_hw *[]) { &g12a_vclk2.hw },
+ 		.num_parents = 1,
+-		.flags = CLK_SET_RATE_PARENT | CLK_IGNORE_UNUSED,
++		.flags = CLK_SET_RATE_PARENT,
+ 	},
+ };
+ 
+@@ -3353,7 +3358,7 @@ static struct clk_regmap g12a_vclk2_div2_en = {
+ 		.ops = &clk_regmap_gate_ops,
+ 		.parent_hws = (const struct clk_hw *[]) { &g12a_vclk2.hw },
+ 		.num_parents = 1,
+-		.flags = CLK_SET_RATE_PARENT | CLK_IGNORE_UNUSED,
++		.flags = CLK_SET_RATE_PARENT,
+ 	},
+ };
+ 
+@@ -3367,7 +3372,7 @@ static struct clk_regmap g12a_vclk2_div4_en = {
+ 		.ops = &clk_regmap_gate_ops,
+ 		.parent_hws = (const struct clk_hw *[]) { &g12a_vclk2.hw },
+ 		.num_parents = 1,
+-		.flags = CLK_SET_RATE_PARENT | CLK_IGNORE_UNUSED,
++		.flags = CLK_SET_RATE_PARENT,
+ 	},
+ };
+ 
+@@ -3381,7 +3386,7 @@ static struct clk_regmap g12a_vclk2_div6_en = {
+ 		.ops = &clk_regmap_gate_ops,
+ 		.parent_hws = (const struct clk_hw *[]) { &g12a_vclk2.hw },
+ 		.num_parents = 1,
+-		.flags = CLK_SET_RATE_PARENT | CLK_IGNORE_UNUSED,
++		.flags = CLK_SET_RATE_PARENT,
+ 	},
+ };
+ 
+@@ -3395,7 +3400,7 @@ static struct clk_regmap g12a_vclk2_div12_en = {
+ 		.ops = &clk_regmap_gate_ops,
+ 		.parent_hws = (const struct clk_hw *[]) { &g12a_vclk2.hw },
+ 		.num_parents = 1,
+-		.flags = CLK_SET_RATE_PARENT | CLK_IGNORE_UNUSED,
++		.flags = CLK_SET_RATE_PARENT,
+ 	},
+ };
+ 
+@@ -3461,6 +3466,7 @@ static struct clk_fixed_factor g12a_vclk2_div2 = {
+ 			&g12a_vclk2_div2_en.hw
+ 		},
+ 		.num_parents = 1,
++		.flags = CLK_SET_RATE_PARENT,
+ 	},
+ };
+ 
+@@ -3474,6 +3480,7 @@ static struct clk_fixed_factor g12a_vclk2_div4 = {
+ 			&g12a_vclk2_div4_en.hw
+ 		},
+ 		.num_parents = 1,
++		.flags = CLK_SET_RATE_PARENT,
+ 	},
+ };
+ 
+@@ -3487,6 +3494,7 @@ static struct clk_fixed_factor g12a_vclk2_div6 = {
+ 			&g12a_vclk2_div6_en.hw
+ 		},
+ 		.num_parents = 1,
++		.flags = CLK_SET_RATE_PARENT,
+ 	},
+ };
+ 
+@@ -3500,6 +3508,7 @@ static struct clk_fixed_factor g12a_vclk2_div12 = {
+ 			&g12a_vclk2_div12_en.hw
+ 		},
+ 		.num_parents = 1,
++		.flags = CLK_SET_RATE_PARENT,
+ 	},
+ };
+ 
+@@ -3561,7 +3570,7 @@ static struct clk_regmap g12a_cts_encl_sel = {
+ 		.ops = &clk_regmap_mux_ops,
+ 		.parent_hws = g12a_cts_parent_hws,
+ 		.num_parents = ARRAY_SIZE(g12a_cts_parent_hws),
+-		.flags = CLK_SET_RATE_NO_REPARENT | CLK_GET_RATE_NOCACHE,
++		.flags = CLK_SET_RATE_PARENT | CLK_SET_RATE_NO_REPARENT,
+ 	},
+ };
+ 
+@@ -3717,7 +3726,7 @@ static struct clk_regmap g12a_mipi_dsi_pxclk_sel = {
+ 		.ops = &clk_regmap_mux_ops,
+ 		.parent_hws = g12a_mipi_dsi_pxclk_parent_hws,
+ 		.num_parents = ARRAY_SIZE(g12a_mipi_dsi_pxclk_parent_hws),
+-		.flags = CLK_SET_RATE_NO_REPARENT,
++		.flags = CLK_SET_RATE_PARENT | CLK_SET_RATE_NO_REPARENT,
+ 	},
+ };
+ 
+@@ -3729,7 +3738,7 @@ static struct clk_regmap g12a_mipi_dsi_pxclk_div = {
+ 	},
+ 	.hw.init = &(struct clk_init_data){
+ 		.name = "mipi_dsi_pxclk_div",
+-		.ops = &clk_regmap_divider_ops,
++		.ops = &clk_regmap_divider_ro_ops,
+ 		.parent_hws = (const struct clk_hw *[]) {
+ 			&g12a_mipi_dsi_pxclk_sel.hw
+ 		},
 
 -- 
 2.34.1
