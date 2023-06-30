@@ -2,56 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A00EF744182
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 19:44:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 666A07441A3
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 19:55:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 042D110E4D6;
-	Fri, 30 Jun 2023 17:43:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26C5210E4D9;
+	Fri, 30 Jun 2023 17:55:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E54010E4D6
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 17:43:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1688147037; x=1719683037;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=I1kCbYOYtU84AgQILFjkzypl9YavoPrVMeRutm6k2fc=;
- b=AsugjCQyx2/u5vKd1YhsqwnqcF34OECaCxEI56B/Cduh5s2u6nhoAjW1
- ap9F2lNLPXe8nsqWXP6OUQq5O2HQ1YFaXm7T5nN9xp61/Nu2cYclKKDNF
- BuA3ObnpIUR1kjYYLRuhvTq9VZHsAMsg+PEi9C+snjTAx9DFJECVxnlWI
- ynsGKgzAXZArx28IQu4YasgHyKx23acldAdFHlMcfPNU5SfrONCv4piQF
- wwQbCj2/1fLs5anCUN1KtSWGGfbOcaXp06jAmtYsddEvkWvORm5WU/Nfc
- FlIpyMlg0uWdi8KH9j9VabT+9LHZrLmlZX3VY4CfVf8uK6Ka6bawT50aI Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="352273552"
-X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; d="scan'208";a="352273552"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2023 10:43:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="787790740"
-X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; d="scan'208";a="787790740"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmsmga004.fm.intel.com with ESMTP; 30 Jun 2023 10:43:51 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1qFI9s-001AXB-1Z; Fri, 30 Jun 2023 20:43:48 +0300
-Date: Fri, 30 Jun 2023 20:43:48 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH 0/2] Allow disabling all native fbdev drivers and only
- keeping DRM emulation
-Message-ID: <ZJ8UVHEWXu1Jrg+I@smile.fi.intel.com>
-References: <20230629225113.297512-1-javierm@redhat.com>
- <ZJ8RY7ZUlryrPB50@smile.fi.intel.com>
- <878rc0etqe.fsf@minerva.mail-host-address-is-not-set>
- <ZJ8T/Fexkr9wEZoP@smile.fi.intel.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 636A410E4D9;
+ Fri, 30 Jun 2023 17:55:13 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 35UCsMPZ027478; Fri, 30 Jun 2023 17:54:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=bGI605Yt1acHOhpiHV9hMd/eNOoz9Ob1L6r5EwqcJd0=;
+ b=ktMOgEzJKI41XwcxXnfnPymO4Bj+cr/9e24D20egnAru9iPgTzKjF7M56zjE6qv4IiRt
+ Bil078oBvU1bWAN3agzYVdNKR/oYA2QH8G35Ayy1W47FhM3yVLeAkeCEnrK4tltY39xW
+ QO/X/otHrgbNHbc85mbdx96WUo/SFMhNMuw3zaAewmlT1KqHXz3ZClnt7jDhBUJF3qlu
+ O4hRfwg/VR+zG67EwFT6d5O4I/LECY3u09f3PpjgSBYnW9Zy3StpX3wUUKGw2bvJKNKg
+ G5+u29jXAc75zSY4O6FWxc8yMnyUyoqUZ2Rf/5q7pIPudx7ZC3NJUBZpTdZ/zhRSDzMn mA== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rhwutrwhd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Jun 2023 17:54:53 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35UHsr4E014727
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Jun 2023 17:54:53 GMT
+Received: from [10.71.110.193] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 30 Jun
+ 2023 10:54:52 -0700
+Message-ID: <d9fa6c9c-d592-658d-404f-47067c70c1e5@quicinc.com>
+Date: Fri, 30 Jun 2023 10:54:52 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZJ8T/Fexkr9wEZoP@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH RFC v4 1/7] drm: Introduce solid fill DRM plane property
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230404-solid-fill-v4-0-f4ec0caa742d@quicinc.com>
+ <20230404-solid-fill-v4-1-f4ec0caa742d@quicinc.com>
+ <972b7cc7-77de-e332-ba41-b96c01dc7939@linaro.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <972b7cc7-77de-e332-ba41-b96c01dc7939@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: NXrrFklbUG3ASfSlULzowNIhZFqjz-QV
+X-Proofpoint-GUID: NXrrFklbUG3ASfSlULzowNIhZFqjz-QV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-30_10,2023-06-30_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0
+ priorityscore=1501 mlxscore=0 spamscore=0 malwarescore=0 clxscore=1015
+ suspectscore=0 bulkscore=0 mlxlogscore=901 lowpriorityscore=0
+ impostorscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2305260000 definitions=main-2306300155
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,42 +89,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: x86@kernel.org, linux-fbdev@vger.kernel.org,
- Randy Dunlap <rdunlap@infradead.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Helge Deller <deller@gmx.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, dri-devel@lists.freedesktop.org,
- "H. Peter Anvin" <hpa@zytor.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Thomas Gleixner <tglx@linutronix.de>
+Cc: sebastian.wick@redhat.com, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ ppaalanen@gmail.com, laurent.pinchart@ideasonboard.com,
+ linux-arm-msm@vger.kernel.org, wayland-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 30, 2023 at 08:42:21PM +0300, Andy Shevchenko wrote:
-> On Fri, Jun 30, 2023 at 07:38:01PM +0200, Javier Martinez Canillas wrote:
-> > Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
-> > > On Fri, Jun 30, 2023 at 12:51:02AM +0200, Javier Martinez Canillas wrote:
 
-...
 
-> > >> The reason for doing this is that now with simpledrm, there's no need for
-> > >> the legacy fbdev (e.g: efifb or vesafb) drivers anymore and many distros
-> > >
-> > > How does simpledrm works with earlycon=efi?
-> > >
-> > 
-> > simpledrm isn't for earlycon. For that you use a different driver (i.e:
-> > drivers/firmware/efi/earlycon.c). I'm just talking about fbdev drivers
-> > here that could be replaced by simpledrm.
+On 6/30/2023 3:33 AM, Dmitry Baryshkov wrote:
+> On 30/06/2023 03:25, Jessica Zhang wrote:
+>> Document and add support for solid_fill property to drm_plane. In
+>> addition, add support for setting and getting the values for solid_fill.
+>>
+>> To enable solid fill planes, userspace must assign a property blob to
+>> the "solid_fill" plane property containing the following information:
+>>
+>> struct drm_solid_fill_info {
+>>     u8 version;
+>>     u32 r, g, b;
+>> };
+>>
+>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/drm_atomic_state_helper.c |  9 +++++
+>>   drivers/gpu/drm/drm_atomic_uapi.c         | 55 
+>> +++++++++++++++++++++++++++++++
+>>   drivers/gpu/drm/drm_blend.c               | 33 +++++++++++++++++++
+>>   include/drm/drm_blend.h                   |  1 +
+>>   include/drm/drm_plane.h                   | 43 ++++++++++++++++++++++++
+>>   5 files changed, 141 insertions(+)
 > 
-> So, efifb can't be replaced. Please, fix your cover letter to reduce false
-> impression of the scope of usage of the simpledrm.
+> Also, I think the point which we missed up to now. Could you please add 
+> both new properties to dri/N/state debugfs?
 
-Or tell how it can be used for earlycon on EFI platforms (if it can be).
+Hi Dmitry,
 
--- 
-With Best Regards,
-Andy Shevchenko
+Good catch -- acked.
 
+Thanks,
 
+Jessica Zhang
+
+> 
+> -- 
+> With best wishes
+> Dmitry
+> 
