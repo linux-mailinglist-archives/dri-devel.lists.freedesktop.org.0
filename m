@@ -1,44 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C0A743A33
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 13:03:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 234D3743A48
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 13:06:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D431710E44B;
-	Fri, 30 Jun 2023 11:03:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 475DB10E44D;
+	Fri, 30 Jun 2023 11:06:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-50.mta0.migadu.com (out-50.mta0.migadu.com
- [IPv6:2001:41d0:1004:224b::32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48E4710E44D
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 11:03:12 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1688122990;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=btfhp53flz2znRJhVRVROxzr2+xJwf5jWKVzzdMQNCg=;
- b=T73HFHyypfPukJHUCivjqAqiND6lcrXP+g0ZSla4MUTvXmqJbQrwuT16aoxpOada4b8PuN
- Zb0G/hybooeV4zLJKuZI6dmV348rzV47I3c7QaAf/CWaoV1LLUZGqtqBRZZ0N54w/EswIc
- 92ry4Yxu6TJa1mUgnhkXb/bif7YjLxY=
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-To: Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>,
- Jani Nikula <jani.nikula@linux.intel.com>
-Subject: [PATCH v1 4/4] drm/radeon: Implement the is_boot_device callback
- function
-Date: Fri, 30 Jun 2023 19:02:43 +0800
-Message-Id: <20230630110243.141671-5-sui.jingfeng@linux.dev>
-In-Reply-To: <20230630110243.141671-1-sui.jingfeng@linux.dev>
-References: <20230630110243.141671-1-sui.jingfeng@linux.dev>
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EFEE10E44D
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 11:06:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
+ s=s31663417; t=1688123097; x=1688727897; i=deller@gmx.de;
+ bh=JTAkm9zWSXYW3bYkAJ2/xf1xYzWy+u1+1FqR3OLzr7g=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=GwI0k2Pmsws8bHhe8mwbBWIwpmvxSlY1zbJ0KjOoey92YhBTQK898xzm5poYGwLIgENVqGW
+ o5Rqe5qCHDjxGknkQRtk4ZryM2iM4+FDLXVIdkDadBl8jAhrSrsI639Je/QbDWcFhaJ4gA0l6
+ vkuw0jhbFV8SVNESpahtXih+nci6Qi+oIZObE/4GEaw2QqNXqS3tEinSeds784oRHOdINgLOu
+ 3OSFqnpnN4MX5sw+w7VVnqNpTcAAvpfZ5dTREpvLKryOLh0B1cmj9ZcxxHuEMFkzq6bxBhcRZ
+ VEEe9ihNudEu8l+1TYXXkNwUHTJavgLRnc4Gjw6OUKRUWvAgkmWg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([94.134.148.7]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MAfYm-1qLlVw3s9w-00B21a; Fri, 30
+ Jun 2023 13:04:57 +0200
+Message-ID: <46428dfc-af3f-7adf-54d7-44ece1589400@gmx.de>
+Date: Fri, 30 Jun 2023 13:04:55 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] arch/sparc: Add module license and description for fbdev
+ helpers
+Content-Language: en-US
+To: Thomas Zimmermann <tzimmermann@suse.de>, davem@davemloft.net,
+ arnd@arndb.de, linux@roeck-us.net, sam@ravnborg.org
+References: <20230627145843.31794-1-tzimmermann@suse.de>
+ <a290cf05-8f6b-3b88-32fc-66f6a173d5c4@gmx.de>
+ <4673a16d-0ca1-5c3e-b3f3-f8da34482f65@suse.de>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <4673a16d-0ca1-5c3e-b3f3-f8da34482f65@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:GpDf/glZ/op2vHNLSVe2IzWbunuky48dacBsU/sgzs7NNgSSXiE
+ zj0HWz1Fk86VPeOC9YD+geLBsP8MCo91cdLQpguYIJNmMxFkijexZV2ItSsQtmTrNWw+jaU
+ x/vnxsOlM+MlHlgZkr7IG1ZQMSpXXSIuxHLE/A8Npsmnie5aNWajnIE7Y3GCrNA1iFaxeqn
+ G9ZLq0fKeHFAO5R7GUv9Q==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Hy9U4Px+sQk=;ne892Uf0ugpNRmk7bdCLgiWfJP2
+ mGHenELoP4pa4wKxSsZFFbKWPUCgrfaY82PB/WMASZ9YwnGlGtPHnLktj+PSG/un0nkF9R6VM
+ SNxMlzsJtnmtIth5fBm7VnX6ugxb5ipP293koxakiAAMjvBX6snWyAgouJXw1Tt96Jnbasxqz
+ ttKnVvMZsExweqRPtqLLgXbwAMp0N4/EcIxxun8o0M9HMhjdH0nWn7mW/vrEXbzWlHtkCz5er
+ HoBTH8eC6676hqRKVbByCLz6xHFJvJ8TvsMdEpCYyiDVz3zduc0r/Rydreb6FYqitJzls4p5m
+ o174kjeiPbFM6AQFI8ai5L0djg5aIMsLf2ZujejdAMmYDyCusyI9uizviD0m1gfY0GXX6ZRO4
+ iah5N5Zf/+t3xveVwCv+BhpWltu0Sq4FHHNPUrg6dmrTX1Mou/VKZuwbGU4m+SYoGOkN/r8mW
+ 2v7ijIfR2WURetB4FdSuiWmoMQXt6GZGBO7QtOxgXs/a90FGJxO9uy+7XEyBZ6JX30ihhGVvd
+ N2imHY4DE4F5EnWmDnG2iLmnXLWlZ0cCJqRUfDQ1RPAjlQ8Wt/PCYIjWT2aQENV3wEpwIMc+z
+ ljjC7OVMQEvY4P+Ok1Pf96bmsGWIhmKj0/Ur06bR2Y9wxb8Kal7dtcf8bjYNEdHCd2EQMki6N
+ x7/eJcf/YC4KNpRD6sVhMC/xjguVXCwWpWzsf1SH9EjBmoqaoPwc4F8VBgf05ZBcdCGPepMhb
+ ZODTuHHCn+kkEprNkaSEeIEbiismSRhNJJsPhXnJjmIETGuR0tjtBi78O/bJJraCSgZVYitoS
+ FWh+yHXV4lva7Jr7hN7mlPVQ22fFbNwyxgI1MFZeU9qIKwKLAMqUZlgeYN//QCcYmwUKwvlhG
+ RdrOMicij2zxupigQzcKsVgwGmFvF6ovEqWzLGrPH9rIRYhspQI2jLDP3ydDz1Lxkt15oCgsd
+ xGynig==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,79 +74,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Sui Jingfeng <suijingfeng@loongson.cn>,
- kvm@vger.kernel.org, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, Pan Xinhui <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org,
- Christian Konig <christian.koenig@amd.com>
+Cc: sparclinux@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sui Jingfeng <suijingfeng@loongson.cn>
+On 6/30/23 12:58, Thomas Zimmermann wrote:
+> Hi Helge
+>
+> Am 30.06.23 um 11:43 schrieb Helge Deller:
+>> On 6/27/23 16:58, Thomas Zimmermann wrote:
+>>> Add MODULE_LICENSE() and MODULE_DESCRIPTION() for fbdev helpers
+>>> on sparc. Fixes the following error:
+>>>
+>>> ERROR: modpost: missing MODULE_LICENSE() in arch/sparc/video/fbdev.o
+>>>
+>>> Reported-by: Guenter Roeck <linux@roeck-us.net>
+>>> Closes: https://lore.kernel.org/dri-devel/c525adc9-6623-4660-8718-e0c9=
+311563b8@roeck-us.net/
+>>> Suggested-by: Arnd Bergmann <arnd@arndb.de>
+>>> Fixes: 4eec0b3048fc ("arch/sparc: Implement fb_is_primary_device() in =
+source file")
+>>> Cc: "David S. Miller" <davem@davemloft.net>
+>>> Cc: Helge Deller <deller@gmx.de>
+>>> Cc: Sam Ravnborg <sam@ravnborg.org>
+>>> Cc: sparclinux@vger.kernel.org
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> ---
+>>> =C2=A0 arch/sparc/video/fbdev.c | 3 +++
+>>> =C2=A0 1 file changed, 3 insertions(+)
+>>
+>> I've queued it up in the fbdev git tree but will drop it anytime
+>> if someone prefers to take this patch through another tree....
+>
+> It's in drm-misc-next-fixes already.
 
-[why]
+Ok, I'll drop it.
+Thanks!
+Helge
 
-The vga_is_firmware_default() defined in drivers/pci/vgaarb.c is
-arch-dependent, it's a dummy on non-x86 architectures currently.
-This made VGAARB lost an important condition for the arbitration.
-It could still be wrong even if we remove the #ifdef and #endif guards.
-because the PCI bar will move (resource re-allocation).
-
-[how]
-
-The device that owns the firmware framebuffer should be the default boot
-device. This patch adds an arch-independent function to enforce this rule.
-The vgaarb subsystem will call back to radeon_is_boot_device() function
-when drm/radeon is successfully bound to a radeon GPU device.
-
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Christian Konig <christian.koenig@amd.com>
-Cc: Pan Xinhui <Xinhui.Pan@amd.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
----
- drivers/gpu/drm/radeon/radeon_device.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
-index 71f2ff39d6a1..afb49000830c 100644
---- a/drivers/gpu/drm/radeon/radeon_device.c
-+++ b/drivers/gpu/drm/radeon/radeon_device.c
-@@ -34,6 +34,7 @@
- #include <linux/vga_switcheroo.h>
- #include <linux/vgaarb.h>
- 
-+#include <drm/drm_aperture.h>
- #include <drm/drm_cache.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_device.h>
-@@ -1263,6 +1264,15 @@ static const struct vga_switcheroo_client_ops radeon_switcheroo_ops = {
- 	.can_switch = radeon_switcheroo_can_switch,
- };
- 
-+static bool radeon_is_boot_device(struct pci_dev *pdev)
-+{
-+	struct drm_device *dev = pci_get_drvdata(pdev);
-+	struct radeon_device *rdev = dev->dev_private;
-+	struct radeon_mc *gmc = &rdev->mc;
-+
-+	return drm_aperture_contain_firmware_fb(gmc->aper_base, gmc->aper_size);
-+}
-+
- /**
-  * radeon_device_init - initialize the driver
-  *
-@@ -1425,7 +1435,7 @@ int radeon_device_init(struct radeon_device *rdev,
- 	/* if we have > 1 VGA cards, then disable the radeon VGA resources */
- 	/* this will fail for cards that aren't VGA class devices, just
- 	 * ignore it */
--	vga_client_register(rdev->pdev, radeon_vga_set_decode, NULL);
-+	vga_client_register(rdev->pdev, radeon_vga_set_decode, radeon_is_boot_device);
- 
- 	if (rdev->flags & RADEON_IS_PX)
- 		runtime = true;
--- 
-2.25.1
+> Best regards
+> Thomas
+>
+>>
+>> Thanks!
+>> Helge
+>>
+>>
+>>>
+>>> diff --git a/arch/sparc/video/fbdev.c b/arch/sparc/video/fbdev.c
+>>> index 25837f128132d..bff66dd1909a4 100644
+>>> --- a/arch/sparc/video/fbdev.c
+>>> +++ b/arch/sparc/video/fbdev.c
+>>> @@ -21,3 +21,6 @@ int fb_is_primary_device(struct fb_info *info)
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>>> =C2=A0 }
+>>> =C2=A0 EXPORT_SYMBOL(fb_is_primary_device);
+>>> +
+>>> +MODULE_DESCRIPTION("Sparc fbdev helpers");
+>>> +MODULE_LICENSE("GPL");
+>>
+>
 
