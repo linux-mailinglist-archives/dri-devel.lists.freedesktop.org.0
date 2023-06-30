@@ -1,63 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FE567443AC
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 22:56:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 319047443AD
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 22:56:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9219510E50F;
-	Fri, 30 Jun 2023 20:55:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B9DE10E515;
+	Fri, 30 Jun 2023 20:55:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1F6410E501
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 20:55:35 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id
- 2adb3069b0e04-4fba1288bbdso2539018e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 13:55:35 -0700 (PDT)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A1D310E4FD
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 20:55:36 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id
+ 2adb3069b0e04-4fa48b5dc2eso3896910e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 13:55:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1688158534; x=1690750534;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=spDliwbSiPrfNZvz8h02XqOoID4DkHsdeHUu2zyR/ik=;
- b=j3IuBNMk9Yjp0yTmrD0kYFSZi5mzZss08Oib2yD7B+QuwRzb4wNOsv+d//0CN2QGav
- hEzzh4RdHExPsWJZc1/hFduMg8URVOOwiAIL00CvawtTD62wSOEhjZXIWZsloanFHdYn
- hTHBArrwvHszVtixHo15exV3KbpNlbyLjrfjp+kju9TIhu7XZb3QLmB0k9fQd3gZ0MvR
- fFZIOJLvL11R9TDxruSN9OiEF4MNEz2KbmmbatMH7lFRQ0/3y7iSjyA7b9doW54h6bm/
- QPnlDpajMcQOzyHcsXwDbuNfxnhGTDh2qDYzoSxbTMxf14/z3CCc/YO/Ja0sk4ttFeCt
- SYIA==
+ bh=G1t11zAhxsmu1Xr+UnI4uTYSo+nnvaZyAO08nB5DWEo=;
+ b=Hq74wunDfzzWYPzBQ3leBAiPSoVXIxLmFpkMRRrGMIx7D8Z5b3dutbHj45guMAS4He
+ aOBwgLVJzOM/A7+2rAfagheJvz0ayEsi7LAuzI8tJozpeHAFlReooCOWkfFq9RpuNfW8
+ c5yH9BWPoxVlfB61pm1z84VjQ8tv4hHciLPyoY9kzFdlwXC7neauU4pHwK867ig9v3J1
+ vw3ODgDROuyVpF5Pba7Q5wuXWRLQ+8Jwul3Eb7TMK1f7vy69/GYAnytvBBiF6O/PfSzH
+ KG6zDTUolYfsB9EYnn3KKKgCf0lQVN5ssJYubqMDjUmt0TNjX2ouVUs9+ASiwJ4bk4WB
+ KFXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1688158534; x=1690750534;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=spDliwbSiPrfNZvz8h02XqOoID4DkHsdeHUu2zyR/ik=;
- b=UDr18+Se13h058KwVbVcZAKLaxLT0ST9U/G6nad3c3K2K3o4+X3hEfWyBvOV1ckq0R
- kgVQswVI1AVmEl6q9a7wvkr68YVikByux95wa/mx9nYVo2npQew7EdVb70nY3Uj5AH4D
- Wtf0fqe08sizptbY9wKo+Jz0z9M3DfkI7mnF5IuTFUJbHcla/y5407YHpeaxdjaE4Zna
- iO6zGGcFqCO3X73bBMBC8hcC/zuAM86gh1WYtfuzQGx0gKywrz07ektLG7w7QK5m85dR
- g9N4B5N5OoonBq9c/mgObdFrEA2n5FZpsnWqIwxB4IHwfnJ3hl7HFnpU9M0un9si37fk
- wv8A==
-X-Gm-Message-State: ABy/qLYEzVQIPtZ1tUb3ZI4vEnPjoVrbJSbm7+pF+vdrbCzlWmjxwOlN
- +9ng0OKgjG33g/v/gNcpPH3+YQ==
-X-Google-Smtp-Source: APBJJlGIKTn13PzHl07hwXKe0Li+OD/9Lq05+8g5RfE691wopZdfhaXVx46Iqbhc28QEPLdCZW2x2g==
-X-Received: by 2002:a05:6512:3696:b0:4f3:982a:8be1 with SMTP id
- d22-20020a056512369600b004f3982a8be1mr3175282lfs.69.1688158533938; 
- Fri, 30 Jun 2023 13:55:33 -0700 (PDT)
+ bh=G1t11zAhxsmu1Xr+UnI4uTYSo+nnvaZyAO08nB5DWEo=;
+ b=Zz3XczsM98XPUwmdJ8qd7dzWLr2a0JBr4BBekYvDvrs4s5YQkCuXcpfd5jvoeA0JaZ
+ QcTUsf+fIDMJH8tlFlt9uRbu7d3VFjtEO492C4MAitpdVpLzFEgNuc2dA06T1O16aLjm
+ +uzeSZN4JNuXcCRPELPLhxtreDAHiz5H1HBgdcRpakHF//RBK/yTX2T+NWbrUwxK7B0P
+ 3wLXcBaJkJcaDktVBdK2NJn/gNNwtCwiLPEol2F0CbKRMdMgnRXyu+wCMd5KSpLByUWC
+ aEkkaBiPUvb0M7hR/XISV2ZuL5v7m3HSUOal+N5g+w7ytXDaFttuGmHHxB4YlwPBfJ6H
+ 1dZg==
+X-Gm-Message-State: ABy/qLZWe3W+EOPZ9drm15s/PpxDBTIrN7gbcJiK7vDQdnaGCYyPTiuU
+ YhZD4ajh2NqGAyKZxsck90Qriw==
+X-Google-Smtp-Source: APBJJlHlGcIds8zpypMpzfS+yd/bW4hKcjV5uHLhJgKrG73BIvDzu2PreJVpFq8/NahzADRUVkQ/Hg==
+X-Received: by 2002:ac2:4dad:0:b0:4f8:62a6:8b2 with SMTP id
+ h13-20020ac24dad000000b004f862a608b2mr2995237lfe.46.1688158534653; 
+ Fri, 30 Jun 2023 13:55:34 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- z11-20020ac25deb000000b004fb75943aa0sm2252168lfq.196.2023.06.30.13.55.33
+ z11-20020ac25deb000000b004fb75943aa0sm2252168lfq.196.2023.06.30.13.55.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Jun 2023 13:55:33 -0700 (PDT)
+ Fri, 30 Jun 2023 13:55:34 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH 13/15] drm/msm/hdmi: drop hpd-gpios support
-Date: Fri, 30 Jun 2023 23:55:21 +0300
-Message-Id: <20230630205523.76823-14-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 14/15] drm/msm/hdmi: ensure that HDMI is one if HPD is
+ requested
+Date: Fri, 30 Jun 2023 23:55:22 +0300
+Message-Id: <20230630205523.76823-15-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230630205523.76823-1-dmitry.baryshkov@linaro.org>
 References: <20230630205523.76823-1-dmitry.baryshkov@linaro.org>
@@ -81,133 +82,111 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Supporting simultaneous check of native HPD and the external GPIO proved
-to be less stable than just native HPD. Drop the hpd-gpios support,
-leaving just the native HPD support. In case the native HPD doesn't work
-the user is urged to switch to specifying the HPD property to the
-hdmi-connector device.
+The HDMI block needs to be enabled to properly generate HPD events. Make
+sure it is not turned off in the disable paths if HPD delivery is enabled.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/hdmi/hdmi.c     | 14 ++------
- drivers/gpu/drm/msm/hdmi/hdmi.h     |  2 --
- drivers/gpu/drm/msm/hdmi/hdmi_hpd.c | 53 +++--------------------------
- 3 files changed, 7 insertions(+), 62 deletions(-)
+ drivers/gpu/drm/msm/hdmi/hdmi.c        | 1 +
+ drivers/gpu/drm/msm/hdmi/hdmi.h        | 2 ++
+ drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 8 +++++++-
+ drivers/gpu/drm/msm/hdmi/hdmi_hpd.c    | 9 ++++++++-
+ 4 files changed, 18 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-index 195e1ac90c5a..598c8284f125 100644
+index 598c8284f125..ec109255ee17 100644
 --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
 +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-@@ -478,17 +478,9 @@ static int msm_hdmi_dev_probe(struct platform_device *pdev)
- 		return dev_err_probe(dev, PTR_ERR(hdmi->extp_clk),
- 				     "failed to get extp clock\n");
+@@ -419,6 +419,7 @@ static int msm_hdmi_dev_probe(struct platform_device *pdev)
+ 	hdmi->pdev = pdev;
+ 	hdmi->config = config;
+ 	spin_lock_init(&hdmi->reg_lock);
++	mutex_init(&hdmi->state_mutex);
  
--	hdmi->hpd_gpiod = devm_gpiod_get_optional(&pdev->dev, "hpd", GPIOD_IN);
--	/* This will catch e.g. -EPROBE_DEFER */
--	if (IS_ERR(hdmi->hpd_gpiod))
--		return dev_err_probe(dev, PTR_ERR(hdmi->hpd_gpiod),
--				     "failed to get hpd gpio\n");
--
--	if (!hdmi->hpd_gpiod)
--		DBG("failed to get HPD gpio");
--
--	if (hdmi->hpd_gpiod)
--		gpiod_set_consumer_name(hdmi->hpd_gpiod, "HDMI_HPD");
-+	if (of_find_property(dev->of_node, "hpd-gpios", NULL) ||
-+	    of_find_property(dev->of_node, "hpd-gpio", NULL))
-+		dev_warn(dev, "hpd-gpios is not supported anymore, please migrate to the hdmi-connector\n");
- 
- 	ret = msm_hdmi_get_phy(hdmi);
- 	if (ret) {
+ 	ret = drm_of_find_panel_or_bridge(pdev->dev.of_node, 1, 0, NULL, &hdmi->next_bridge);
+ 	if (ret && ret != -ENODEV)
 diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.h b/drivers/gpu/drm/msm/hdmi/hdmi.h
-index acfd99d2876a..252d617939d4 100644
+index 252d617939d4..e07450fbb521 100644
 --- a/drivers/gpu/drm/msm/hdmi/hdmi.h
 +++ b/drivers/gpu/drm/msm/hdmi/hdmi.h
-@@ -52,8 +52,6 @@ struct hdmi {
- 	struct clk_bulk_data *pwr_clks;
- 	struct clk *extp_clk;
+@@ -42,6 +42,8 @@ struct hdmi {
  
--	struct gpio_desc *hpd_gpiod;
--
- 	struct hdmi_phy *phy;
- 	struct device *phy_dev;
+ 	/* video state: */
+ 	bool power_on;
++	bool hpd_enabled;
++	struct mutex state_mutex; /* protects two booleans */
+ 	unsigned long int pixclock;
  
+ 	void __iomem *mmio;
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+index d6d57768f3dd..01630445a664 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+@@ -125,11 +125,13 @@ static void msm_hdmi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
+ 
+ 	DBG("power up");
+ 
++	mutex_lock(&hdmi->state_mutex);
+ 	if (!hdmi->power_on) {
+ 		msm_hdmi_phy_resource_enable(phy);
+ 		msm_hdmi_power_on(bridge);
+ 		hdmi->power_on = true;
+ 	}
++	mutex_unlock(&hdmi->state_mutex);
+ 
+ 	if (hdmi->hdmi_mode) {
+ 		msm_hdmi_config_avi_infoframe(hdmi);
+@@ -155,7 +157,10 @@ static void msm_hdmi_bridge_atomic_post_disable(struct drm_bridge *bridge,
+ 		msm_hdmi_hdcp_off(hdmi->hdcp_ctrl);
+ 
+ 	DBG("power down");
+-	msm_hdmi_set_mode(hdmi, false);
++
++	/* Keep the HDMI enabled if the HPD is enabled */
++	mutex_lock(&hdmi->state_mutex);
++	msm_hdmi_set_mode(hdmi, hdmi->hpd_enabled);
+ 
+ 	msm_hdmi_phy_powerdown(phy);
+ 
+@@ -166,6 +171,7 @@ static void msm_hdmi_bridge_atomic_post_disable(struct drm_bridge *bridge,
+ 			msm_hdmi_audio_update(hdmi);
+ 		msm_hdmi_phy_resource_disable(phy);
+ 	}
++	mutex_unlock(&hdmi->state_mutex);
+ }
+ 
+ static void msm_hdmi_bridge_mode_set(struct drm_bridge *bridge,
 diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
-index 4167ba5a3b03..f3d6cc184999 100644
+index f3d6cc184999..2080e7c6700c 100644
 --- a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
 +++ b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
-@@ -69,9 +69,6 @@ int msm_hdmi_hpd_enable(struct drm_bridge *bridge)
- 	int ret;
- 	unsigned long flags;
- 
--	if (hdmi->hpd_gpiod)
--		gpiod_set_value_cansleep(hdmi->hpd_gpiod, 1);
--
- 	ret = pm_runtime_resume_and_get(dev);
+@@ -73,10 +73,14 @@ int msm_hdmi_hpd_enable(struct drm_bridge *bridge)
  	if (ret)
  		return ret;
-@@ -145,8 +142,11 @@ void msm_hdmi_hpd_irq(struct drm_bridge *bridge)
- 	}
- }
  
--static enum drm_connector_status detect_reg(struct hdmi *hdmi)
-+enum drm_connector_status msm_hdmi_bridge_detect(
-+		struct drm_bridge *bridge)
- {
-+	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
-+	struct hdmi *hdmi = hdmi_bridge->hdmi;
- 	uint32_t hpd_int_status = 0;
- 	int ret;
++	mutex_lock(&hdmi->state_mutex);
+ 	msm_hdmi_set_mode(hdmi, false);
+ 	msm_hdmi_phy_reset(hdmi);
+ 	msm_hdmi_set_mode(hdmi, true);
  
-@@ -162,48 +162,3 @@ static enum drm_connector_status detect_reg(struct hdmi *hdmi)
- 	return (hpd_int_status & HDMI_HPD_INT_STATUS_CABLE_DETECTED) ?
- 			connector_status_connected : connector_status_disconnected;
++	hdmi->hpd_enabled = true;
++	mutex_unlock(&hdmi->state_mutex);
++
+ 	hdmi_write(hdmi, REG_HDMI_USEC_REFTIMER, 0x0001001b);
+ 
+ 	/* enable HPD events: */
+@@ -107,7 +111,10 @@ void msm_hdmi_hpd_disable(struct hdmi_bridge *hdmi_bridge)
+ 	/* Disable HPD interrupt */
+ 	hdmi_write(hdmi, REG_HDMI_HPD_INT_CTRL, 0);
+ 
+-	msm_hdmi_set_mode(hdmi, false);
++	mutex_lock(&hdmi->state_mutex);
++	hdmi->hpd_enabled = false;
++	msm_hdmi_set_mode(hdmi, hdmi->power_on);
++	mutex_unlock(&hdmi->state_mutex);
+ 
+ 	pm_runtime_put(dev);
  }
--
--#define HPD_GPIO_INDEX	2
--static enum drm_connector_status detect_gpio(struct hdmi *hdmi)
--{
--	return gpiod_get_value(hdmi->hpd_gpiod) ?
--			connector_status_connected :
--			connector_status_disconnected;
--}
--
--enum drm_connector_status msm_hdmi_bridge_detect(
--		struct drm_bridge *bridge)
--{
--	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
--	struct hdmi *hdmi = hdmi_bridge->hdmi;
--	enum drm_connector_status stat_gpio, stat_reg;
--	int retry = 20;
--
--	/*
--	 * some platforms may not have hpd gpio. Rely only on the status
--	 * provided by REG_HDMI_HPD_INT_STATUS in this case.
--	 */
--	if (!hdmi->hpd_gpiod)
--		return detect_reg(hdmi);
--
--	do {
--		stat_gpio = detect_gpio(hdmi);
--		stat_reg  = detect_reg(hdmi);
--
--		if (stat_gpio == stat_reg)
--			break;
--
--		mdelay(10);
--	} while (--retry);
--
--	/* the status we get from reading gpio seems to be more reliable,
--	 * so trust that one the most if we didn't manage to get hdmi and
--	 * gpio status to agree:
--	 */
--	if (stat_gpio != stat_reg) {
--		DBG("HDMI_HPD_INT_STATUS tells us: %d", stat_reg);
--		DBG("hpd gpio tells us: %d", stat_gpio);
--	}
--
--	return stat_gpio;
--}
 -- 
 2.39.2
 
