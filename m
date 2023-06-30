@@ -2,47 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE2987433B2
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 06:43:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCFB17433C2
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 06:53:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4527A10E0FE;
-	Fri, 30 Jun 2023 04:43:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E70F10E0F1;
+	Fri, 30 Jun 2023 04:53:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.104])
- by gabe.freedesktop.org (Postfix) with ESMTP id CA1AE10E0EC;
- Fri, 30 Jun 2023 04:43:10 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.41:36042.36167694
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
- by 189.cn (HERMES) with SMTP id C76A010013F;
- Fri, 30 Jun 2023 12:43:02 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-6d8594f54d-zsdp9 with ESMTP id
- 5b3173dd4b264e9cbf3fad1bf2583dd6 for mario.limonciello@amd.com; 
- Fri, 30 Jun 2023 12:43:06 CST
-X-Transaction-ID: 5b3173dd4b264e9cbf3fad1bf2583dd6
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <b7528e1d-7f71-016c-f0ef-a044586b7765@189.cn>
-Date: Fri, 30 Jun 2023 12:42:59 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v7 6/8] PCI/VGA: Introduce is_boot_device function
- callback to vga_client_register
-To: "Limonciello, Mario" <Mario.Limonciello@amd.com>,
- Bjorn Helgaas <helgaas@kernel.org>, Sui Jingfeng <suijingfeng@loongson.cn>
-References: <20230629155436.GA397963@bhelgaas>
- <bcfdc77d-a94d-bca1-56e3-5e14e91f6fd9@189.cn>
- <MN0PR12MB6101CDB6FF9DC8F8EDEF5F45E225A@MN0PR12MB6101.namprd12.prod.outlook.com>
-Content-Language: en-US
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <MN0PR12MB6101CDB6FF9DC8F8EDEF5F45E225A@MN0PR12MB6101.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com
+ [IPv6:2607:f8b0:4864:20::64a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 967ED10E0F1
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 04:52:58 +0000 (UTC)
+Received: by mail-pl1-x64a.google.com with SMTP id
+ d9443c01a7336-1b825993586so9987315ad.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jun 2023 21:52:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20221208; t=1688100777; x=1690692777;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=QMopF0yt6SNtXURrQJLWhNgsWSeXqZOwln5eBV7VSyg=;
+ b=X0Nlx2LfwFLDoIreU6J/7nCFcprP8zXSy4BxreWWpmLt4DmeFREe1gl/cooDVrO5uc
+ QvfY2Cbb1PQsTS1vCHzruuFKJFgZT4o/rEBTiTTuI19w3kh2dNLNlnCtLlAOMOukieA1
+ ZJ38X6tokAgCiMV300QArFfYtblOiB+cgTo6Cv1/mSKKV1g5KsbxMKb0LDp8/UKgYjmX
+ O4mNSebBakv5tTr3K5HipZ4wOpIN2KIqlVbwTV147KpuJJhFWrw6eZanI7EWuXcbJEJ2
+ YFSYjRYsRWlbBpq6SsWcGytlzaik5q2Z19hTce/BKQ8N4XwlNB7lOnCpcebUkw3N5buX
+ wvvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688100777; x=1690692777;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=QMopF0yt6SNtXURrQJLWhNgsWSeXqZOwln5eBV7VSyg=;
+ b=GsIiL4rcBze/uwF2W6fJe7HYkHOtQO/NzlDhdCTWXbIWhpg2w1bCyQpdiLAOC+iw//
+ uQ+AEBRVa7zy5BmOzVrfuK2Z8lkCMY2tTGrxs17FFD3UKzvV6NgBiD1p5TqoPIYgWj0L
+ 4w3jd7/0osEobUpf0K+v/8bBubtsUK99RfiDXq4Ucg9TwilfUAe4uwMmhMO8a+7QXvMB
+ 4+1AEuTMEACNNVpM7pTcaoytAAmovEF/JlSbZlV52+JmiAkunaI7Ks2c2aMOEAQ2DXAb
+ ztPaXrN9na8HtaarlZEeM2CR41B5S3juIy7M+Bf3tBNm93UUP1Nnnep+uqCi0/+9JxVc
+ j5nw==
+X-Gm-Message-State: ABy/qLZOEqhINknW1hNbyAfwgPQukxiCH085piF1CYHujv4E77lr/lbL
+ FQeupcgxTYcMU7La6J98TbxficrXgZ4=
+X-Google-Smtp-Source: APBJJlEV+O7siKol/DY7iCP6fmNhLuKbzWPu98PuLcJd0QPskucrT7s+QKRfycseJlSmVxoSK0wgrz7omUNv
+X-Received: from jstultz-noogler2.c.googlers.com
+ ([fda3:e722:ac3:cc00:24:72f4:c0a8:600])
+ (user=jstultz job=sendgmr) by 2002:a17:903:2041:b0:1b8:fd7:cb0c with SMTP id
+ q1-20020a170903204100b001b80fd7cb0cmr873422pla.5.1688100777397; Thu, 29 Jun
+ 2023 21:52:57 -0700 (PDT)
+Date: Fri, 30 Jun 2023 04:52:23 +0000
+In-Reply-To: <CABdmKX0A8mqz5cS4+CqjRgpQQKuSp=3SvE1KJ_di09VjJQVoGg@mail.gmail.com>
+Mime-Version: 1.0
+References: <CABdmKX0A8mqz5cS4+CqjRgpQQKuSp=3SvE1KJ_di09VjJQVoGg@mail.gmail.com>
+X-Mailer: git-send-email 2.41.0.255.g8b1d071c50-goog
+Message-ID: <20230630045246.1674919-1-jstultz@google.com>
+Subject: [PATCH] MAINTAINERS: Add T.J. Mercier as reviewer for DMA-BUF HEAPS
+ FRAMEWORK
+From: John Stultz <jstultz@google.com>
+To: LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,50 +69,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Chai,
- Thomas" <YiPeng.Chai@amd.com>, "Gao, Likun" <Likun.Gao@amd.com>,
- Yi Liu <yi.l.liu@intel.com>, Karol Herbst <kherbst@redhat.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Ben Skeggs <bskeggs@redhat.com>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
- Kevin Tian <kevin.tian@intel.com>, "Lazar, Lijo" <Lijo.Lazar@amd.com>, "Zhang,
- Bokun" <Bokun.Zhang@amd.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Abhishek Sahu <abhsahu@nvidia.com>, Maxime Ripard <mripard@kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Yishai Hadas <yishaih@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Koenig,
- Christian" <Christian.Koenig@amd.com>, "Zhang,
- Hawking" <Hawking.Zhang@amd.com>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ kernel-team@android.com, dri-devel@lists.freedesktop.org,
+ "T . J . Mercier" <tjmercier@google.com>, linaro-mm-sig@lists.linaro.org,
+ John Stultz <jstultz@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+T.J. has been responsible for dmab-buf items on the Android team
+for awhile now, so it would be great to have him on as a reviewer.
 
-On 2023/6/30 01:44, Limonciello, Mario wrote:
-> I think what you can do is pick up all the tags in your next version.  Once the
-> whole series has tags we can discuss how it merges.
+Cc: T.J. Mercier <tjmercier@google.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: Brian Starkey <Brian.Starkey@arm.com>
+Cc: John Stultz <jstultz@google.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: kernel-team@android.com
+Signed-off-by: John Stultz <jstultz@google.com>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-Yes, you are right.
-
-I will prepare the next version.
-
-But I think, I should only gather the reverent part together.
-
-I means that I probably should divide the 8 patches in V7 into 4 + 4.
-
-The first four patch form a group, and the last four patch form another 
-group.
-
-
-Certainly, I will pick up the precious tags I got in the next version.
-
-Thanks you!
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cb075f52d97b..f4e92b968ed7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6184,6 +6184,7 @@ R:	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+ R:	Laura Abbott <labbott@redhat.com>
+ R:	Brian Starkey <Brian.Starkey@arm.com>
+ R:	John Stultz <jstultz@google.com>
++R:	T.J. Mercier <tjmercier@google.com>
+ L:	linux-media@vger.kernel.org
+ L:	dri-devel@lists.freedesktop.org
+ L:	linaro-mm-sig@lists.linaro.org (moderated for non-subscribers)
+-- 
+2.41.0.255.g8b1d071c50-goog
 
