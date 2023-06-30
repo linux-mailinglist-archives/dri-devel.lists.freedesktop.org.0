@@ -1,102 +1,131 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30EE77435D5
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 09:35:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93524743606
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 09:43:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A192E10E141;
-	Fri, 30 Jun 2023 07:35:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 805FF10E0DE;
+	Fri, 30 Jun 2023 07:43:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam02on2040.outbound.protection.outlook.com [40.107.212.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C734B10E0DE
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 07:35:37 +0000 (UTC)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2049.outbound.protection.outlook.com [40.107.92.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D4AD10E0DE
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 07:43:41 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SdnXiftQ4fVMNP+ZNmVhBwGvmuFSQ1OfFZVcMswWsyPJ0rsdw0xUTTtUHgxnOZBKP9HeBpL/0Qaw4h9AgEInfSmgQPzPNRmWNhGnqt69e9dt02XHL4ZSESpvlE6gpEUdQKHi0XRh+WtICUhKjvUJH2iL6BnVrkFheZhhl7fGL0JmG6scC3iGLEaT5ef2XZtAvMVHF1S011xW5SaI/wATiR/z1N3NUc9anY/YeA3YwEP9kLR9aKRUS4Ivag0K4AVGDMDgmTAiTsNNvBd3a74co2hSrP6WcT0612ShzNe02PQyOpo26kxcr4pHalU5UeLxx7WCuVaZwh1chG9XgUjrgA==
+ b=FLsl1gBfRsD/5YtfE4EmlKB7GzsjTooqE7TqVD7kSDwaVJA3B16WJZsj5FkBjvHBnWDERfbpNyvjjJwjrXF5uUcUj7TeGGl7Wipt476UGGJvbQJrpHCghmw/na+4UllbdcjV6H3X/xuqeqOI2Iwrb2reAObvYlVQZ/T3+D6Nh+rI6uyOmOafrfNEA+rJfxI2taCjkdLIV7LBLSB7WexZkkGjZyHggA2bF9jGloLiIrPNoffifuHiBIHiBIyilYKfVq98wgd2tXuUsRyir0gGVOdJWZiSXXZpn9ZcJ8bbKP+/ncx5SUgcZcMLaEjNn8PjWGE3/q3eqLFNxDrVZ/1CxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ppNRPku8dkiO7Shnqz4GBnoFzC/vZ0vYL1BvMQQBQuY=;
- b=O546CNGWNvaaTg61LskhhtPSf1S//uJ2eZqhNl5TQE6T9igxbuK/jQgLcVrUybd1iK7C2pskYZO2R9vkDfnF7uPzbEflVRnoJyaf4f5ipt7ISydehyyXzzE66TPFeHmuv5OhK1bB45H1xTW3KIrP8Bt7PETNwWbUEwamZC7QsazA+ht1q8GXoBmtv2AaiVR08LmSgx19RUPU0X79vYH+RIWDuiSq2vDggE+F0HloMWZu1ZaBQqlmyh9XIsrPLlmL6RjGcHUb14114cazCCeory/JqKLyJYKv1FiS5soBaoxMOkJiKEfrlD8UKB/H5ewAzmt5xcYluYNUZ31XhMMfuA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
+ bh=cwekAohhQ/d149vmOGBSxkHtg/kQ2EDgO2zuwStEuQ0=;
+ b=GzGPcuWFK83eI+jo8F+m4XldsX14tW+97C4qIXRKKRkH3p28CJM7fIu3zIeY+nSRCBWDQMLQJRfGhd/3C/f9MzZRkH3+gDlZIR/tKpyzYe6BylqjEvN0Aw3NJHL0Qzb+Fz21zQiCHRjfC9W/anmxfHjta8alSgANeiyitGrEjIW3PWQ2MrHktMApEkGlPuAwxOp1kGVf4CcPP/syOdkvfOz7/zjomWqajNYFtmjrfFQByH7gMjES4kn3BaIFZiTn9tuaCzSssylxYXkJ/3UYjcbT5cZDRp75nUW7ozy1cXMg3ERiqxE/KOX9TcjCL+DtEqzkIrPXdJt1ZWaYdtM08Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ppNRPku8dkiO7Shnqz4GBnoFzC/vZ0vYL1BvMQQBQuY=;
- b=uZ0MfFCiHUjRh2kzOnzOVBdHE/PVTUzDTu+JlJ+smjf49a6KZObg51KThQSmuqO0+SMbqBgLLH2mguOgIfPnMCfGqfNrCIimAsfRImuKNA/yk+64ZKxg/Z/p3w5syL0l8pY6IAHK2wG+H0tXL6etz8XPa/PwbS7P1q/CyT8qu0M=
-Received: from SJ0PR13CA0116.namprd13.prod.outlook.com (2603:10b6:a03:2c5::31)
- by SA1PR12MB8967.namprd12.prod.outlook.com (2603:10b6:806:38b::11)
+ bh=cwekAohhQ/d149vmOGBSxkHtg/kQ2EDgO2zuwStEuQ0=;
+ b=q7aVGLF6AFxulJ2Hiij7N0OcPC0edIIskGFr4BYfQELASK0D7vV36ihnStNYDSM/C9wJGW91nmdl9UQu5JV7GXC4RjHlqFYPHWBkSwRLz9dgL/SmaFt1Y3q8D/0gWFhXwYbCxLiaV+ITNQVzOvzHvz+nzcqKMlimqyp/3cOgZq0=
+Received: from BL1PR12MB5849.namprd12.prod.outlook.com (2603:10b6:208:384::18)
+ by IA1PR12MB6233.namprd12.prod.outlook.com (2603:10b6:208:3e7::11)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.19; Fri, 30 Jun
- 2023 07:35:34 +0000
-Received: from CO1NAM11FT046.eop-nam11.prod.protection.outlook.com
- (2603:10b6:a03:2c5:cafe::c) by SJ0PR13CA0116.outlook.office365.com
- (2603:10b6:a03:2c5::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.10 via Frontend
- Transport; Fri, 30 Jun 2023 07:35:34 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT046.mail.protection.outlook.com (10.13.174.203) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6500.49 via Frontend Transport; Fri, 30 Jun 2023 07:35:33 +0000
-Received: from cjq-desktop.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 30 Jun
- 2023 02:35:27 -0500
-From: Jiqian Chen <Jiqian.Chen@amd.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.26; Fri, 30 Jun
+ 2023 07:43:38 +0000
+Received: from BL1PR12MB5849.namprd12.prod.outlook.com
+ ([fe80::4ef5:2244:743b:9989]) by BL1PR12MB5849.namprd12.prod.outlook.com
+ ([fe80::4ef5:2244:743b:9989%4]) with mapi id 15.20.6521.023; Fri, 30 Jun 2023
+ 07:43:38 +0000
+From: "Chen, Jiqian" <Jiqian.Chen@amd.com>
 To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>, "Gurchetan
- Singh" <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, "Juergen
- Gross" <jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ =?utf-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>, Gurchetan
+ Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, Juergen
+ Gross <jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>,
  Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>, Boris Ostrovsky
- <boris.ostrovsky@oracle.com>, =?UTF-8?q?Roger=20Pau=20Monn=C3=A9?=
+ <boris.ostrovsky@oracle.com>, =?utf-8?B?Um9nZXIgUGF1IE1vbm7DqQ==?=
  <roger.pau@citrix.com>, Robert Beckett <bob.beckett@collabora.com>,
- <virtualization@lists.linux-foundation.org>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <xen-devel@lists.xenproject.org>
-Subject: [LINUX KERNEL PATCH v2 1/1] virtgpu: init vq during resume and notify
- qemu guest status
-Date: Fri, 30 Jun 2023 15:34:48 +0800
-Message-ID: <20230630073448.842767-2-Jiqian.Chen@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230630073448.842767-1-Jiqian.Chen@amd.com>
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "xen-devel@lists.xenproject.org"
+ <xen-devel@lists.xenproject.org>
+Subject: Re: [LINUX KERNEL PATCH v2 0/1] add S3 support for virtgpu
+Thread-Topic: [LINUX KERNEL PATCH v2 0/1] add S3 support for virtgpu
+Thread-Index: AQHZqyVzGB+OORTmhkSScAPReBq7D6+jfGOA
+Date: Fri, 30 Jun 2023 07:43:38 +0000
+Message-ID: <BL1PR12MB5849C88BE41A4AB34522FE86E72AA@BL1PR12MB5849.namprd12.prod.outlook.com>
 References: <20230630073448.842767-1-Jiqian.Chen@amd.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT046:EE_|SA1PR12MB8967:EE_
-X-MS-Office365-Filtering-Correlation-Id: 68660652-9aad-43da-b5b0-08db793c96f8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MFp5Fx2QL6L7YKyg+/rtpRS5QezbeiWmFLQC4AMQFI3XFH6AdjiZS/7qx6XN+YUeTRt067/pUku9eEwsTL2KwvsnBiNlT8Oa9HzaMQxEriPU6TL4dv0LUc+9fhU7uH3mUgWqLaHe5YWUUXr4vVdtgulVtxvrFbNb/g4zumNZ/VOTdDMdpiUT/oLnE2tdTRtkKd/jxG7cBnrrMoBHGHuKj1h3RKvHRwRLIBV8f/lFCsYDxaKacX5mdNAf5nO47H7te7NjCDAip3aemhC6sk7dMyp9OpGMSL14gJJ74B+beGsvRlRJIJAdTcvGWVm/HJICa2BpOjRa44uBbNnr2cMZPxzJsgvCyGkI0tDXbOAQhvfTTUYX7oM19C+6iJEzUzpau5+h18AgmGgR0S4+K+qXxGplYJxGZASSmr2PBRi6ZHdaEV3cQy+lYfxyYxCI6TDulIkwmMsNBh/GRmyzgtMkW3NBf80DarDosxuDm+TzEsfDN4P9wgZfKgKnfoTrWJk8oV7faFRL7ZX3YbgvI9MUZBO7ASQgVrtAhPn3BsMkSL6u6R0CO6jVZS3oPvVPRMV2QQXxl/RKzq2BngBL8Qp4tylJpqBA8Cwvb6My/jSLJK9hCtZ4+toalTtepTFVW1QxbN5Q6mAMfhKMeiOU09WW77+DMCySRj4nTzsaqTPgiTE0o5wBgApXh4IIwzozuvJpjmGZyDGpYArwbNSN/rTKNuMyE9tEW+jphxD7z9pLnjW5EFQOfslTi7NCceyQe9da0Mro8zSuldClCPAbbdBHZcIMrXGE7z4aH/NdeDfEysA=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(346002)(136003)(376002)(396003)(39860400002)(451199021)(40470700004)(36840700001)(46966006)(82310400005)(921005)(356005)(82740400003)(81166007)(6666004)(7696005)(426003)(336012)(83380400001)(47076005)(16526019)(2616005)(186003)(26005)(1076003)(40480700001)(36860700001)(5660300002)(86362001)(40460700003)(8676002)(36756003)(7416002)(2906002)(30864003)(70206006)(70586007)(478600001)(54906003)(110136005)(8936002)(316002)(4326008)(41300700001)(36900700001);
+In-Reply-To: <20230630073448.842767-1-Jiqian.Chen@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-imapappendstamp: MN2PR12MB3037.namprd12.prod.outlook.com
+ (15.20.6544.003)
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BL1PR12MB5849:EE_|IA1PR12MB6233:EE_
+x-ms-office365-filtering-correlation-id: bf35a828-f881-4940-9b0f-08db793db777
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: FhCxXjPrny9CziiQ8wS9xscuZrD/n8HsH5ICIYdK+hrrDYay2vC1bbciSqr9b8ZhwTH7x/Mf3wtiVEJxm7XRViEvhFgRK7qs8TeSUX+ZE9AcLVdhPyBoILZFbYBDqmU5rGuhi2YYwzObtANE8eGjQfwArJJJEl3iOYsDK9/xUNcbIgB3OXHYj808ebtvgOoH7FYByYyo8W7F8hI2RDMZcQQyJtmUzok8vpDIZRcvarDLi6zyKL8eIzolUGKvbp1ZWWGrVmOtpW1zzKflpqyrNBgIID2FXrvhfBTSvQrzInhNdC4oB8yPmDnqXQykTAwdqhRZa9AsLR2T0f8mm7Wrn3MF5UujUOy3ENJWf2Rs2EBg9izzIitQzwSHSd6NTOW2vxIOzOv+B7oVIhd3n/LFEQtcg6LY8KYN2n9vf6f7R7LPAoRv77zZfD8IxTxhnQNmCk0XFSKVEN2LSEqWTOkKS3ZMIoly/5uXeN0kjKgHrNvUvDGB3srnyebqFm+VDUILx0iAwXMcybu1QETWXO0UioF7wbCz4EQ1mQ0TgpOoDv6XkwXOXebWtwipPKirX3hIbwHI/0DSdE/GbA//EedYagIXObD02TqLKKT4gmzE9rdgoasXq6duny/y1x8QpCjS8v7Q9VCnIwFM3T989t8wVrqo3H/8N0ZUALKEOkwnHaY=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL1PR12MB5849.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(136003)(346002)(366004)(376002)(39860400002)(396003)(451199021)(2906002)(186003)(54906003)(55016003)(38070700005)(966005)(4326008)(316002)(8676002)(33656002)(478600001)(110136005)(7416002)(7696005)(921005)(122000001)(38100700002)(71200400001)(8936002)(66476007)(9686003)(5660300002)(41300700001)(66946007)(66556008)(66446008)(83380400001)(76116006)(64756008)(52536014)(53546011)(6506007);
  DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TmEwaEllME95bml0T0JXVzZLeFM2UW1IRnBwSEVtUE1GTEl0VDNoUlpoL0Mz?=
+ =?utf-8?B?aFFLME5DMEFYNDFqZ1pyd3pseUI5RGRhc3J4MUNMR0x5anNaOGZrK2NXRnFv?=
+ =?utf-8?B?VHZaaGxRaHpDeW1NWUIzWEFSZjFHUDF5Y1VrVGFIV0MrZTFlcHV5djJ1MEVZ?=
+ =?utf-8?B?V3hqTkxhYXcvYWk0Wk43bG05ajRnNzhSRGlmd3FVUXF0dWw4N2ZXRS94L3Jx?=
+ =?utf-8?B?QXdQdjZRdkhyODN6S0ErQjlob1dnTmVVNVVNdlRqSXNScldnRFdUdHpFYW5q?=
+ =?utf-8?B?Sk1iZUJYQTVmU0NYZUNIeURsdFNUOE1GbmRQUVo5c1N1K2czZzB3QlJmS3Y5?=
+ =?utf-8?B?aEJWdUV1SzJ4cE0rMUkreVBBMlc2Q3NKRmZmdG1UZ2E1Y2NOZXM0L0hvc0Uz?=
+ =?utf-8?B?ZENZbjNPQk1NQlRCeUR0UytLRjJjUS9yN1lFZWptQ0FCdEkyRHQ1elRxYldM?=
+ =?utf-8?B?Qk5oTWtlQ3A0b3MwZWtDeWU4VnVZa1E1ek5teTZ5ckI1Z3NlS0U3alkxL2Nr?=
+ =?utf-8?B?REdVV3V3aWduUzBGa3NZN3lEYTcrSC90WWpVRjlTbXZqZkVCWkRvMEhCVjdm?=
+ =?utf-8?B?SmVJS2lHZUNxK1NISko1RE1Oekg1NFpkYzc3S01lQUdFdldnWTkydkVQQnF4?=
+ =?utf-8?B?RVd3MXhCaTQ2ZHFnTmU0OVJoTjBvRTIyblUrMjZKMWxRNytMQ045Y1NvSkl3?=
+ =?utf-8?B?aytrZGJJc2NBRUFiNnpnQWsvOW5BOTYrR3d6bHhrRTYvN2srVExsWFNPVG1G?=
+ =?utf-8?B?SEw5T3REWGEybTZwa0pRMUJaSnp0YjlkM25CYWhHUTN0Sm9NZ0EvWk5oZmdu?=
+ =?utf-8?B?WnVRUGZFQW5qenFnSC9ZU1VoZFJ2Z04xcGx1bFBrUmVHVXBtVE5JQzFVSlla?=
+ =?utf-8?B?Y2hkVlVmYWtzU2JTM2pvMGMzZFdLQkg3akZYQkFZRVMyNTlXRmtJamdnd1Ry?=
+ =?utf-8?B?OHlOUDFsQWdLa0xaeXdqVzI4WlM5Z1V0RmlIanUwT0xlY1NiQityM2tWS3pV?=
+ =?utf-8?B?RVExcDMyNzQ1dHlUSGQ4clRVZFI0cFdBbTBvNW9IQUxYNThFeW45dG9pMitE?=
+ =?utf-8?B?VFBmdEFjbWRIVDh1c3U3Tlc0UHh5YUlkTmhuWUxCdk1MYjQ0N1VtOGpVYTZr?=
+ =?utf-8?B?U2x5VFJ3eFJBaVMyNUNWV0lpbkFKYUNOMFhkbzNybVA2dHcwZ0MwSXlOS1lh?=
+ =?utf-8?B?YzZkS294U041cE53TklMS05KUjFkbVJBcGFQRnNBMjhXUlkxYTVlQnhubXRG?=
+ =?utf-8?B?QVhWRjJIZTZVQnpRVHZMODNDQmo4NW53Rzk4ejJ0UGIwd2lYak1sbFM2d0dx?=
+ =?utf-8?B?dTNSK29CUGJPL2NiMHhadUo1eXJycGpxeHoydXlFcnRXNVJhMzJNazQ1SnNx?=
+ =?utf-8?B?WjRPbVBpT3VTNEVxeG1pQlNNa2NQUTIvTFZQMnh5Y3JkZWIxQWFKQmp2YjFy?=
+ =?utf-8?B?azNWdUlQczZ4NG9mUk9sQ0JDNWRTajNYY3M5S01rTXVkV2x5dEQ3U1NML25h?=
+ =?utf-8?B?dWdicXhKYzJxdWhUK2FjRlBNRnROQ1c0aTJ2QkcrL3FrSUIxVzAxaW9UOVlI?=
+ =?utf-8?B?VHJYQThFQXNicFFqRDdIa1podVgyV1UyMFp0N1ZRRTlrTEh6VUNXTlh2VURj?=
+ =?utf-8?B?SUI0d2RSZ2hnenBUSks3Nk45MEZkOGlpaUYycllLNU1BV044d0ZpenZRTHpZ?=
+ =?utf-8?B?T0J5alRwQmU0ektEMjhrbGFLaW5BYjlydzdudnlGcGVRbDdLUWdodStFMUJU?=
+ =?utf-8?B?YVEvcmxrSG1BT2g0amxRSjBlaHZXK2x4UzZ6bkJGVnpiOWxib01ta0RLdzc2?=
+ =?utf-8?B?NFBKU2xnTGpONWtza3BNY1I1cjF0c2xRVEl2WTBWZzNZNDh3MnNRY2puS01W?=
+ =?utf-8?B?WTR3aHY2Z0RMTWtBQWplKzBmNmpSc2FibC95OEh4SCsybGtNakx3RVoybFpY?=
+ =?utf-8?B?UE4vRGU2Q1JRUjJSRjNVWkNVUk5jZjZiQ2t0VVJYU2JSUSswN0dsdVFGOU1a?=
+ =?utf-8?B?Z0ZVUXBUMURNa2ExY2VhWkhmVVBQeEZNa1FjMys1U1MzM2dZSFB6RlRJMmZ4?=
+ =?utf-8?B?ZkQ2VUhMR3Y3OEFlRzVvanloK1h4WDFjTy9rUT09?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <5CCE5699A73DCA4585881E8F4245D2F5@amdcloud.onmicrosoft.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2023 07:35:33.8750 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 68660652-9aad-43da-b5b0-08db793c96f8
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT046.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8967
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5849.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf35a828-f881-4940-9b0f-08db793db777
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2023 07:43:38.0216 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: APvwVzgqnYygo5u6Gs3zOqNk6IZ9nTFFMCRWp7ZsyUrA2VFmkBtgG/ZzrG3zeHGH6cdQyZm/v4CkZhq13NxkCg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6233
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,307 +138,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Honglei Huang <Honglei1.Huang@amd.com>,
- Stewart Hildebrand <Stewart.Hildebrand@amd.com>, Huang Rui <Ray.Huang@amd.com>,
- Jiqian Chen <Jiqian.Chen@amd.com>, Xenia Ragiadakou <burzalodowa@gmail.com>,
- Alex Deucher <Alexander.Deucher@amd.com>, Julia Zhang <Julia.Zhang@amd.com>,
- Christian Koenig <Christian.Koenig@amd.com>
+Cc: "Huang, Honglei1" <Honglei1.Huang@amd.com>, "Hildebrand,
+ Stewart" <Stewart.Hildebrand@amd.com>, "Huang, Ray" <Ray.Huang@amd.com>, "Chen,
+ Jiqian" <Jiqian.Chen@amd.com>, Xenia Ragiadakou <burzalodowa@gmail.com>,
+ "Deucher, Alexander" <Alexander.Deucher@amd.com>, "Zhang,
+ Julia" <Julia.Zhang@amd.com>, "Koenig, Christian" <Christian.Koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch solves two problem:
-
-First, when we suspended guest VM, it called into Qemu to call
-virtio_reset->__virtio_queue_reset, this cleared all virtuqueue
-information of virtgpu on Qemu end. As a result, after guest
-resumed, guest sended ctrl/cursor requests to Qemu through
-virtqueue, but Qemu can't get requests from the virtqueue now.
-In function virtio_queue_notify, vq->vring.desc is NULL.
-
-So, this patch add freeze and restore function for virtgpu driver.
-In freeze function, it flushes all virtqueue works and deletes
-virtqueues. In restore function, it initializes virtqueues. And
-then, Qemu and guest can communicate normally.
-
-Second, when we suspended guest VM, it called into Qemu to call
-virtio_reset->virtio_gpu_gl_reset, this destroyed resources and
-reset renderer which were used for display. As a result, after
-guest resumed, the display can't come back and we only saw a black
-screen.
-
-So, this patch add a new ctrl message VIRTIO_GPU_CMD_STATUS_FREEZING.
-When guest is during suspending, we set freezing status to true to
-notify Qemu that guest entered suspending, and then Qemu will not
-destroy resources. When guest is during resuming, we set freezing
-status to false to notify Qemu that guest exited suspending, and then
-Qemu will keep its origin actions. As a result, the display can come
-back and everything of guest can come back to the time when guest was
-suspended.
-
-Due to this implemention needs cooperation with host Qemu, so it
-added a new feature flag VIRTIO_GPU_F_FREEZING, so that guest and
-host can negotiate whenever freezing is supported or not.
-
-Signed-off-by: Jiqian Chen <Jiqian.Chen@amd.com>
----
- drivers/gpu/drm/virtio/virtgpu_debugfs.c |  1 +
- drivers/gpu/drm/virtio/virtgpu_drv.c     | 37 ++++++++++++++++++++++++
- drivers/gpu/drm/virtio/virtgpu_drv.h     |  4 +++
- drivers/gpu/drm/virtio/virtgpu_kms.c     | 36 +++++++++++++++++------
- drivers/gpu/drm/virtio/virtgpu_vq.c      | 15 ++++++++++
- include/uapi/linux/virtio_gpu.h          | 15 ++++++++++
- 6 files changed, 99 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/virtio/virtgpu_debugfs.c b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
-index 853dd9aa397e..9cd000be521a 100644
---- a/drivers/gpu/drm/virtio/virtgpu_debugfs.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
-@@ -55,6 +55,7 @@ static int virtio_gpu_features(struct seq_file *m, void *data)
- 
- 	virtio_gpu_add_bool(m, "blob resources", vgdev->has_resource_blob);
- 	virtio_gpu_add_bool(m, "context init", vgdev->has_context_init);
-+	virtio_gpu_add_bool(m, "freezing", vgdev->has_freezing);
- 	virtio_gpu_add_int(m, "cap sets", vgdev->num_capsets);
- 	virtio_gpu_add_int(m, "scanouts", vgdev->num_scanouts);
- 	if (vgdev->host_visible_region.len) {
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-index add075681e18..e0b0abbed606 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-@@ -130,6 +130,38 @@ static void virtio_gpu_config_changed(struct virtio_device *vdev)
- 	schedule_work(&vgdev->config_changed_work);
- }
- 
-+#ifdef CONFIG_PM
-+static int virtio_gpu_freeze(struct virtio_device *dev)
-+{
-+	struct drm_device *ddev = dev->priv;
-+	struct virtio_gpu_device *vgdev = ddev->dev_private;
-+	int ret = 0;
-+
-+	if (vgdev->has_freezing) {
-+		ret = virtio_gpu_cmd_status_freezing(vgdev, 1);
-+	}
-+	if (!ret) {
-+		flush_work(&vgdev->ctrlq.dequeue_work);
-+		flush_work(&vgdev->cursorq.dequeue_work);
-+		vgdev->vdev->config->del_vqs(vgdev->vdev);
-+	}
-+	return ret;
-+}
-+
-+static int virtio_gpu_restore(struct virtio_device *dev)
-+{
-+	struct drm_device *ddev = dev->priv;
-+	struct virtio_gpu_device *vgdev = ddev->dev_private;
-+	int ret;
-+
-+	ret = virtio_gpu_init_vqs(dev);
-+	if (!ret && vgdev->has_freezing) {
-+		ret = virtio_gpu_cmd_status_freezing(vgdev, 0);
-+	}
-+	return ret;
-+}
-+#endif
-+
- static struct virtio_device_id id_table[] = {
- 	{ VIRTIO_ID_GPU, VIRTIO_DEV_ANY_ID },
- 	{ 0 },
-@@ -148,6 +180,7 @@ static unsigned int features[] = {
- 	VIRTIO_GPU_F_RESOURCE_UUID,
- 	VIRTIO_GPU_F_RESOURCE_BLOB,
- 	VIRTIO_GPU_F_CONTEXT_INIT,
-+	VIRTIO_GPU_F_FREEZING,
- };
- static struct virtio_driver virtio_gpu_driver = {
- 	.feature_table = features,
-@@ -156,6 +189,10 @@ static struct virtio_driver virtio_gpu_driver = {
- 	.driver.owner = THIS_MODULE,
- 	.id_table = id_table,
- 	.probe = virtio_gpu_probe,
-+#ifdef CONFIG_PM
-+	.freeze = virtio_gpu_freeze,
-+	.restore = virtio_gpu_restore,
-+#endif
- 	.remove = virtio_gpu_remove,
- 	.config_changed = virtio_gpu_config_changed
- };
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index af6ffb696086..f8f213a12691 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -246,6 +246,7 @@ struct virtio_gpu_device {
- 	bool has_resource_blob;
- 	bool has_host_visible;
- 	bool has_context_init;
-+	bool has_freezing;
- 	struct virtio_shm_region host_visible_region;
- 	struct drm_mm host_visible_mm;
- 
-@@ -282,6 +283,7 @@ extern struct drm_ioctl_desc virtio_gpu_ioctls[DRM_VIRTIO_NUM_IOCTLS];
- void virtio_gpu_create_context(struct drm_device *dev, struct drm_file *file);
- 
- /* virtgpu_kms.c */
-+int virtio_gpu_init_vqs(struct virtio_device *vdev);
- int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev);
- void virtio_gpu_deinit(struct drm_device *dev);
- void virtio_gpu_release(struct drm_device *dev);
-@@ -425,6 +427,8 @@ virtio_gpu_cmd_set_scanout_blob(struct virtio_gpu_device *vgdev,
- 				uint32_t width, uint32_t height,
- 				uint32_t x, uint32_t y);
- 
-+int virtio_gpu_cmd_status_freezing(struct virtio_gpu_device *vgdev, uint32_t freezing);
-+
- /* virtgpu_display.c */
- int virtio_gpu_modeset_init(struct virtio_gpu_device *vgdev);
- void virtio_gpu_modeset_fini(struct virtio_gpu_device *vgdev);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 5a3b5aaed1f3..4e245b552145 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -114,16 +114,33 @@ static void virtio_gpu_get_capsets(struct virtio_gpu_device *vgdev,
- 	vgdev->num_capsets = num_capsets;
- }
- 
--int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
-+int virtio_gpu_init_vqs(struct virtio_device *vdev)
- {
- 	static vq_callback_t *callbacks[] = {
- 		virtio_gpu_ctrl_ack, virtio_gpu_cursor_ack
- 	};
- 	static const char * const names[] = { "control", "cursor" };
-+	struct drm_device *dev = vdev->priv;
-+	struct virtio_gpu_device *vgdev = dev->dev_private;
-+	struct virtqueue *vqs[2];
-+	int ret;
-+
-+	virtio_gpu_init_vq(&vgdev->ctrlq, virtio_gpu_dequeue_ctrl_func);
-+	virtio_gpu_init_vq(&vgdev->cursorq, virtio_gpu_dequeue_cursor_func);
-+
-+	ret = virtio_find_vqs(vgdev->vdev, 2, vqs, callbacks, names, NULL);
-+	if (ret) {
-+		DRM_ERROR("failed to find virt queues\n");
-+		return ret;
-+	}
-+	vgdev->ctrlq.vq = vqs[0];
-+	vgdev->cursorq.vq = vqs[1];
-+	return 0;
-+}
- 
-+int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
-+{
- 	struct virtio_gpu_device *vgdev;
--	/* this will expand later */
--	struct virtqueue *vqs[2];
- 	u32 num_scanouts, num_capsets;
- 	int ret = 0;
- 
-@@ -144,8 +161,6 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
- 	ida_init(&vgdev->ctx_id_ida);
- 	ida_init(&vgdev->resource_ida);
- 	init_waitqueue_head(&vgdev->resp_wq);
--	virtio_gpu_init_vq(&vgdev->ctrlq, virtio_gpu_dequeue_ctrl_func);
--	virtio_gpu_init_vq(&vgdev->cursorq, virtio_gpu_dequeue_cursor_func);
- 
- 	vgdev->fence_drv.context = dma_fence_context_alloc(1);
- 	spin_lock_init(&vgdev->fence_drv.lock);
-@@ -197,6 +212,9 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
- 	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_CONTEXT_INIT)) {
- 		vgdev->has_context_init = true;
- 	}
-+	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_FREEZING)) {
-+		vgdev->has_freezing = true;
-+	}
- 
- 	DRM_INFO("features: %cvirgl %cedid %cresource_blob %chost_visible",
- 		 vgdev->has_virgl_3d    ? '+' : '-',
-@@ -207,13 +225,13 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
- 	DRM_INFO("features: %ccontext_init\n",
- 		 vgdev->has_context_init ? '+' : '-');
- 
--	ret = virtio_find_vqs(vgdev->vdev, 2, vqs, callbacks, names, NULL);
-+	DRM_INFO("features: %cfreezing\n",
-+		 vgdev->has_freezing ? '+' : '-');
-+
-+	ret = virtio_gpu_init_vqs(vdev);
- 	if (ret) {
--		DRM_ERROR("failed to find virt queues\n");
- 		goto err_vqs;
- 	}
--	vgdev->ctrlq.vq = vqs[0];
--	vgdev->cursorq.vq = vqs[1];
- 	ret = virtio_gpu_alloc_vbufs(vgdev);
- 	if (ret) {
- 		DRM_ERROR("failed to alloc vbufs\n");
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index b1a00c0c25a7..34976bccc330 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -1302,3 +1302,18 @@ void virtio_gpu_cmd_set_scanout_blob(struct virtio_gpu_device *vgdev,
- 
- 	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
- }
-+
-+int virtio_gpu_cmd_status_freezing(struct virtio_gpu_device *vgdev, uint32_t freezing)
-+{
-+	struct virtio_gpu_status_freezing *cmd_p;
-+	struct virtio_gpu_vbuffer *vbuf;
-+
-+	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
-+	memset(cmd_p, 0, sizeof(*cmd_p));
-+
-+	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_STATUS_FREEZING);
-+	cmd_p->freezing = freezing;
-+	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
-+	virtio_gpu_notify(vgdev);
-+	return 0;
-+}
-\ No newline at end of file
-diff --git a/include/uapi/linux/virtio_gpu.h b/include/uapi/linux/virtio_gpu.h
-index f556fde07b76..ae271733daef 100644
---- a/include/uapi/linux/virtio_gpu.h
-+++ b/include/uapi/linux/virtio_gpu.h
-@@ -65,6 +65,11 @@
-  */
- #define VIRTIO_GPU_F_CONTEXT_INIT        4
- 
-+/*
-+ * VIRTIO_GPU_CMD_STATUS_FREEZING
-+ */
-+#define VIRTIO_GPU_F_FREEZING            5
-+
- enum virtio_gpu_ctrl_type {
- 	VIRTIO_GPU_UNDEFINED = 0,
- 
-@@ -100,6 +105,9 @@ enum virtio_gpu_ctrl_type {
- 	VIRTIO_GPU_CMD_UPDATE_CURSOR = 0x0300,
- 	VIRTIO_GPU_CMD_MOVE_CURSOR,
- 
-+	/* status */
-+	VIRTIO_GPU_CMD_STATUS_FREEZING = 0x0400,
-+
- 	/* success responses */
- 	VIRTIO_GPU_RESP_OK_NODATA = 0x1100,
- 	VIRTIO_GPU_RESP_OK_DISPLAY_INFO,
-@@ -116,6 +124,7 @@ enum virtio_gpu_ctrl_type {
- 	VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID,
- 	VIRTIO_GPU_RESP_ERR_INVALID_CONTEXT_ID,
- 	VIRTIO_GPU_RESP_ERR_INVALID_PARAMETER,
-+
- };
- 
- enum virtio_gpu_shm_id {
-@@ -453,4 +462,10 @@ struct virtio_gpu_resource_unmap_blob {
- 	__le32 padding;
- };
- 
-+/* VIRTIO_GPU_CMD_STATUS_FREEZING */
-+struct virtio_gpu_status_freezing {
-+	struct virtio_gpu_ctrl_hdr hdr;
-+	__u32 freezing;
-+};
-+
- #endif
--- 
-2.34.1
-
+SGkgYWxsLA0KDQpWMiBwYXRjaCBvZiBrZXJuZWwgaXMgaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcv
+bGttbC8yMDIzMDYzMDA3MzQ0OC44NDI3NjctMS1KaXFpYW4uQ2hlbkBhbWQuY29tL1QvI3QuDQoN
+Ck9uIDIwMjMvNi8zMCAxNTozNCwgSmlxaWFuIENoZW4gd3JvdGU6DQo+IHYyOg0KPiANCj4gSGkg
+YWxsLA0KPiANCj4gVGhhbmtzIHRvIE1hcmMtQW5kcsOpIEx1cmVhdSwgUm9iZXJ0IEJlY2tldHQg
+YW5kIEdlcmQgSG9mZm1hbm4gZm9yDQo+IHRoZWlyIGFkdmljZSBhbmQgZ3VpZGFuY2UuIFYyIG1h
+a2VzIGJlbG93IGNoYW5nZXM6DQo+IA0KPiAqIENoYW5nZSBWSVJUSU9fQ1BVX0NNRF9TVEFUVVNf
+RlJFRVpJTkcgdG8gMHgwNDAwICg8MHgxMDAwKQ0KPiAqIEFkZCBhIG5ldyBmZWF0dXJlIGZsYWcg
+VklSVElPX0dQVV9GX0ZSRUVaSU5HLCBzbyB0aGF0IGd1ZXN0IGFuZA0KPiAgIGhvc3QgY2FuIG5l
+Z290aWF0ZSB3aGVuZXZlciBmcmVlemluZyBpcyBzdXBwb3J0ZWQgb3Igbm90Lg0KPiANCj4gVjIg
+b2YgUWVtdSBwYXRjaCBodHRwczovL2xvcmUua2VybmVsLm9yZy9xZW11LWRldmVsLzIwMjMwNjMw
+MDcwMDE2Ljg0MTQ1OS0xLUppcWlhbi5DaGVuQGFtZC5jb20vVC8jdA0KPiANCj4gQmVzdCByZWdh
+cmRzLA0KPiBKaXFpYW4gQ2hlbi4NCj4gDQo+IHYxOg0KPiANCj4gbGluazogaHR0cHM6Ly9sb3Jl
+Lmtlcm5lbC5vcmcvbGttbC8yMDIzMDYwODA2Mzg1Ny4xNjc3OTczLTEtSmlxaWFuLkNoZW5AYW1k
+LmNvbS8NCj4gDQo+IEhpIGFsbCwNCj4gDQo+IEkgYW0gd29ya2luZyB0byBpbXBsZW1lbnQgdmly
+dGdwdSBTMyBmdW5jdGlvbiBvbiBYZW4uDQo+IA0KPiBDdXJyZW50bHkgb24gWGVuLCBpZiB3ZSBz
+dGFydCBhIGd1ZXN0IHdobyBlbmFibGVzIHZpcnRncHUsIGFuZCB0aGVuDQo+IHJ1biAiZWNobyBt
+ZW0gPiAvc3lzL3Bvd2VyL3N0YXRlIiB0byBzdXNwZW5kIGd1ZXN0LiBBbmQgcnVuDQo+ICJzdWRv
+IHhsIHRyaWdnZXIgPGd1ZXN0IGlkPiBzM3Jlc3VtZSIgdG8gcmVzdW1lIGd1ZXN0LiBXZSBjYW4g
+ZmluZCB0aGF0DQo+IHRoZSBndWVzdCBrZXJuZWwgY29tZXMgYmFjaywgYnV0IHRoZSBkaXNwbGF5
+IGRvZXNuJ3QuIEl0IGp1c3Qgc2hvd3MgYQ0KPiBibGFjayBzY3JlZW4uDQo+IA0KPiBJbiByZXNw
+b25zZSB0byB0aGUgYWJvdmUgcGhlbm9tZW5vbiwgSSBoYXZlIGZvdW5kIHR3byBwcm9ibGVtcy4N
+Cj4gDQo+IEZpcnN0LCBpZiB3ZSBtb3ZlIG1vdXNlIG9uIHRoZSBibGFjayBzY3JlZW4sIGd1ZXN0
+IGtlcm5lbCBzdGlsbCBzZW5kcyBhDQo+IGN1cnNvciByZXF1ZXN0IHRvIFFlbXUsIGJ1dCBRZW11
+IGRvZXNuJ3QgcmVzcG9uc2UuIEJlY2F1c2Ugd2hlbiBndWVzdA0KPiBpcyBzdXNwZW5kaW5nLCBp
+dCBjYWxscyBkZXZpY2Vfc3VzcGVuZCwgYW5kIHRoZW4gY2FsbCBpbnRvIFFlbXUgdG8gY2FsbA0K
+PiB2aXJ0aW9fcmVzZXQtPl9fdmlydGlvX3F1ZXVlX3Jlc2V0LiBJbiBfX3ZpcnRpb19xdWV1ZV9y
+ZXNldCwgaXQgY2xlYXJzDQo+IGFsbCB2aXJ0cXVldWUgaW5mb3JtYXRpb24gb24gUWVtdSBlbmQu
+IFNvLCBhZnRlciBndWVzdCByZXN1bWVzLCBRZW11DQo+IGNhbid0IGdldCBtZXNzYWdlIGZyb20g
+dmlydHF1ZXVlLg0KPiANCj4gU2Vjb25kLCB0aGUgcmVhc29uIHdoeSBkaXNwbGF5IGNhbid0IGNv
+bWUgYmFjayBpcyB0aGF0IHdoZW4gZ3Vlc3QgaXMNCj4gc3VzcGVuZGluZywgaXQgY2FsbHMgaW50
+byBRZW11IHRvIGNhbGwgdmlydGlvX3Jlc2V0LT52aXJ0aW9fZ3B1X2dsX3Jlc2V0Lg0KPiBJbiB2
+aXJ0aW9fZ3B1X2dsX3Jlc2V0LCBpdCBkZXN0cm95cyBhbGwgcmVzb3VyY2VzIGFuZCByZXNldHMg
+cmVuZGVyZXIsDQo+IHdoaWNoIGFyZSB1c2VkIGZvciBkaXNwbGF5LiBTbyBhZnRlciBndWVzdCBy
+ZXN1bWVzLCB0aGUgZGlzcGxheSBjYW4ndA0KPiBjb21lIGJhY2sgdG8gdGhlIHN0YXR1cyB3aGVu
+IGd1ZXN0IGlzIHN1c3BlbmRlZC4NCj4gDQo+IFRoaXMgcGF0Y2ggaW5pdGlhbGl6ZXMgdmlydHF1
+ZXVlIHdoZW4gZ3Vlc3QgaXMgcmVzdW1pbmcgdG8gc29sdmUgZmlyc3QNCj4gcHJvYmxlbS4gQW5k
+IGl0IG5vdGlmaWVzIFFlbXUgdGhhdCBndWVzdCBpcyBzdXNwZW5kaW5nIHRvIHByZXZlbnQgUWVt
+dQ0KPiBkZXN0cm95aW5nIHJlc291cmNlcywgdGhpcyBpcyB0byBzb2x2ZSBzZWNvbmQgcHJvYmxl
+bS4gQW5kIHRoZW4sIEkgY2FuDQo+IGJyaW5nIHRoZSBkaXNwbGF5IGJhY2ssIGFuZCBldmVyeXRo
+aW5nIGNvbnRpbnVlcyB0aGVpciBhY3Rpb25zIGFmdGVyDQo+IGd1ZXN0IHJlc3VtZXMuDQo+IA0K
+PiBNb2RpZmljYXRpb25zIG9uIFFlbXUgZW5kIGlzOg0KPiBodHRwczovL2xvcmUua2VybmVsLm9y
+Zy9xZW11LWRldmVsLzIwMjMwNjA4MDI1NjU1LjE2NzQzNTctMi1KaXFpYW4uQ2hlbkBhbWQuY29t
+Lw0KPiANCj4gSmlxaWFuIENoZW4gKDEpOg0KPiAgIHZpcnRncHU6IGluaXQgdnEgZHVyaW5nIHJl
+c3VtZSBhbmQgbm90aWZ5IHFlbXUgZ3Vlc3Qgc3RhdHVzDQo+IA0KPiAgZHJpdmVycy9ncHUvZHJt
+L3ZpcnRpby92aXJ0Z3B1X2RlYnVnZnMuYyB8ICAxICsNCj4gIGRyaXZlcnMvZ3B1L2RybS92aXJ0
+aW8vdmlydGdwdV9kcnYuYyAgICAgfCAzNyArKysrKysrKysrKysrKysrKysrKysrKysNCj4gIGRy
+aXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9kcnYuaCAgICAgfCAgNCArKysNCj4gIGRyaXZl
+cnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9rbXMuYyAgICAgfCAzNiArKysrKysrKysrKysrKysr
+Ky0tLS0tLQ0KPiAgZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X3ZxLmMgICAgICB8IDE1
+ICsrKysrKysrKysNCj4gIGluY2x1ZGUvdWFwaS9saW51eC92aXJ0aW9fZ3B1LmggICAgICAgICAg
+fCAxNSArKysrKysrKysrDQo+ICA2IGZpbGVzIGNoYW5nZWQsIDk5IGluc2VydGlvbnMoKyksIDkg
+ZGVsZXRpb25zKC0pDQo+IA0KDQotLSANCkJlc3QgcmVnYXJkcywNCkppcWlhbiBDaGVuLg0K
