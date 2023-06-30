@@ -1,76 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D132074432C
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 22:29:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 529D9744331
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jun 2023 22:33:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8BB810E0F7;
-	Fri, 30 Jun 2023 20:29:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1632110E192;
+	Fri, 30 Jun 2023 20:33:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8FD810E0F7
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 20:29:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1688156967;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7z4+FJGtx+jfLkCNL8iZp50XQ8kawtYgJi/zo0dFBDw=;
- b=edbG5yZxViun+mAqqdJIBzYBHaBH0956r/MLAx9WZO4kMMO7medgOCLvL1kgOnLBKPkQH/
- KmvsLps2jb5Zh6kb8PwVzQdgwc9ze0JNX0vnhwIpDQzaKgwCWPhaB4A54qfP1wJRnimm7e
- 9v1qupMEcrzlrBAxdDRhrwxOg8lqvjs=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-672-h4l1TkYQM-CkcuAUL-U0zQ-1; Fri, 30 Jun 2023 16:29:23 -0400
-X-MC-Unique: h4l1TkYQM-CkcuAUL-U0zQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-3f42bcef2acso13217835e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jun 2023 13:29:23 -0700 (PDT)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51F7410E192;
+ Fri, 30 Jun 2023 20:33:12 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3fba8e2aa52so25777995e9.1; 
+ Fri, 30 Jun 2023 13:33:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1688157190; x=1690749190;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=EcdF/6fyXoCel57zXUGGjxHCncr0l7PpKqOEZtpYrpY=;
+ b=gKcKV4rdxFUMwM7EIjl97teRG1SVQYkR5e479nULRSfLuRDXcKKccntzxUkh6nEEwU
+ rqoNMTDfBnw5147B8u39Sv9pjlOSuBEZ2rz5GJdWfVQnI2Fi6k8wuO54fwXK95qyowaT
+ e2aERNIgSrwW9Ktb+FRc6hgBZI7obfDnB1f9hCRXY5//gvhec+reXFLGRk8+Ko/qe/oi
+ E27qoPGkNS9FG1tV0cM9UuNSseDlyR4ldA6WFG5gJ0KeFxPXc/iZPAbxPzX/2Z9u8uib
+ HdoK/NeUTyX5gFDlKr8hdHKSeP/PPsqlEIcN1AmFgrD39DGUPMnj2GHJT5izirgwAGLG
+ YPBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688156962; x=1690748962;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7z4+FJGtx+jfLkCNL8iZp50XQ8kawtYgJi/zo0dFBDw=;
- b=B8VOTCZ0LCO4z+hWY784c4VRA5gT8NabewQhip3JwYfVzk0D5epaGc+wEGCOzJkTba
- +eVRQ/PTLJaupoyqBllfPGlJACX0qnF18PJ5IlaEWuf1f/+J4m2C0KBvRH+6BC6tfYDW
- w6ndwAmyQfZ1nYwbl2fI2Ii4MJFx2lgk56HCtsOrSUg9KMtreAaTKarBc38zUii8r7qf
- /oybcS8aVDqi063rXYK7ag/UYr8WXqMymA/rr1vW4W/k9tYsSa6RA7EG3aS/GPTomvXM
- 22roPVIzGHOL+dXKTWNi5bLk9kj3eqxP6m8LLTuoXsR0mgauTllaIuWf9wgmrdld+HwP
- CPPQ==
-X-Gm-Message-State: AC+VfDxyr5c40h+MEaXIkrH3BsTZSbYp1nZzYJO3IpE1WDZ6onRpCPIA
- Ollcaebe8vTfN834lOrdlo071gEiTKbV3IqLBy4cJnAbs5IBgm6fGybjd/8glRj/bpshZdeVMXl
- l2LBOV76mJz/E0sbwiqlNy4t0oHrC
-X-Received: by 2002:a7b:c8c9:0:b0:3f8:fe2a:25c2 with SMTP id
- f9-20020a7bc8c9000000b003f8fe2a25c2mr2902268wml.38.1688156962805; 
- Fri, 30 Jun 2023 13:29:22 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5t8O8YZhUAlsnULK6AfHeoTDYcnWUXH+rludG0BAB8MB7qDFkZFaO5oKC6zcLL0Qt4ESi3eA==
-X-Received: by 2002:a7b:c8c9:0:b0:3f8:fe2a:25c2 with SMTP id
- f9-20020a7bc8c9000000b003f8fe2a25c2mr2902251wml.38.1688156962461; 
- Fri, 30 Jun 2023 13:29:22 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- n10-20020a1c720a000000b003fa96620b23sm15085928wmc.12.2023.06.30.13.29.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Jun 2023 13:29:21 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH 0/2] Allow disabling all native fbdev drivers and only
- keeping DRM emulation
-In-Reply-To: <ZJ8T/Fexkr9wEZoP@smile.fi.intel.com>
-References: <20230629225113.297512-1-javierm@redhat.com>
- <ZJ8RY7ZUlryrPB50@smile.fi.intel.com>
- <878rc0etqe.fsf@minerva.mail-host-address-is-not-set>
- <ZJ8T/Fexkr9wEZoP@smile.fi.intel.com>
-Date: Fri, 30 Jun 2023 22:29:20 +0200
-Message-ID: <875y74elsv.fsf@minerva.mail-host-address-is-not-set>
+ d=1e100.net; s=20221208; t=1688157190; x=1690749190;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EcdF/6fyXoCel57zXUGGjxHCncr0l7PpKqOEZtpYrpY=;
+ b=D8lduxkkhfrW/akIUgQ8raO6yn+ojDlgVijp4V+Q5EKq2+qvpm7ZRFRfbuSQy4pelf
+ ivOGahtlF5sVVQcpi+Z2Bvq7eSIZ6TWtWl798nvS6ha1olIeSRi1q/4V1YGBOmXmleye
+ udHneiDxZZxrwbiye10Z1BwM80B0ijnQ4YdVEEN5HMHzdWosBciB66/4eoRolYtF8zki
+ 1L/DTf+l9Q/fA6lWR5AyNVkO8q5zK+cCP4FV4s/yRcrhhTs419DN4tBcIJjq6mLI0YqY
+ reLwYz2D6ZqYkDiP6IowXAAeltAJL/YQqy9LKHSXcvJuJze0MVGNEuUnv5X7OzkpNhhQ
+ CzLw==
+X-Gm-Message-State: AC+VfDygrCewkkYtUHCpDmxf/pKW9XZ1FFHuksnFTuKDw9NBdVd+0Ff9
+ B6xz7COoDMYVVbTJ5i6fZJnkYkv02J/uQ7+ANWM=
+X-Google-Smtp-Source: ACHHUZ4CCRu+32eXGdZT9Eu7EW+/FQwl8xNQTdwRCFny7A9jyWFiH0CJH1AaI+fljG7stqwhf1MfZ2sgczOLmvmnoZE=
+X-Received: by 2002:a05:600c:b55:b0:3fa:8040:27f6 with SMTP id
+ k21-20020a05600c0b5500b003fa804027f6mr2916420wmr.11.1688157189959; Fri, 30
+ Jun 2023 13:33:09 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+References: <20230627132323.115440-1-andrealmeid@igalia.com>
+ <CA+hFU4z1pc=KUVVqyqfXEceUqMXQgh-qUnuB=1nkPELghvQO7w@mail.gmail.com>
+ <CADnq5_MNVdtdcWKSz6dgmsjg+kEu8p5FVE+fkw_5BaXeG3QGow@mail.gmail.com>
+ <afab1f5a-e581-3416-e2c2-238ea120655b@mailbox.org>
+In-Reply-To: <afab1f5a-e581-3416-e2c2-238ea120655b@mailbox.org>
+From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+Date: Fri, 30 Jun 2023 16:32:33 -0400
+Message-ID: <CAAxE2A5C96k5ua+r938VA_+w7gHHNTdF3n8LwDb98W0Bf9wCVA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/1] drm/doc: Document DRM device reset expectations
+To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Type: multipart/alternative; boundary="000000000000a1f3c205ff5eb93b"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,54 +69,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: x86@kernel.org, linux-fbdev@vger.kernel.org,
- Randy Dunlap <rdunlap@infradead.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Helge Deller <deller@gmx.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, dri-devel@lists.freedesktop.org,
- "H. Peter Anvin" <hpa@zytor.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Thomas Gleixner <tglx@linutronix.de>
+Cc: pierre-eric.pelloux-prayer@amd.com,
+ Sebastian Wick <sebastian.wick@redhat.com>, amd-gfx@lists.freedesktop.org,
+ =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ Pekka Paalanen <ppaalanen@gmail.com>,
+ Samuel Pitoiset <samuel.pitoiset@gmail.com>, kernel-dev@igalia.com,
+ Pekka Paalanen <pekka.paalanen@collabora.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
+--000000000000a1f3c205ff5eb93b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> On Fri, Jun 30, 2023 at 07:38:01PM +0200, Javier Martinez Canillas wrote:
->> Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
->> > On Fri, Jun 30, 2023 at 12:51:02AM +0200, Javier Martinez Canillas wrote:
->> >> This patch series splits the fbdev core support in two different Kconfig
->> >> symbols: FB and FB_CORE. The motivation for this is to allow CONFIG_FB to
->> >> be disabled, while still having the the core fbdev support needed for the
->> >> CONFIG_DRM_FBDEV_EMULATION to be enabled. The motivation is automatically
->> >> disabling all fbdev drivers instead of having to be disabled individually.
->> >> 
->> >> The reason for doing this is that now with simpledrm, there's no need for
->> >> the legacy fbdev (e.g: efifb or vesafb) drivers anymore and many distros
->> >
->> > How does simpledrm works with earlycon=efi?
->> >
->> 
->> simpledrm isn't for earlycon. For that you use a different driver (i.e:
->> drivers/firmware/efi/earlycon.c). I'm just talking about fbdev drivers
->> here that could be replaced by simpledrm.
+That's a terrible idea. Ignoring API calls would be identical to a freeze.
+You might as well disable GPU recovery because the result would be the same=
+.
+
+There are 2 scenarios:
+- robust contexts: report the GPU reset status and skip API calls; let the
+app recreate the context to recover
+- non-robust contexts: call exit(1) immediately, which is the best way to
+recover
+
+Marek
+
+On Fri, Jun 30, 2023 at 11:11=E2=80=AFAM Michel D=C3=A4nzer <michel.daenzer=
+@mailbox.org>
+wrote:
+
+> On 6/30/23 16:59, Alex Deucher wrote:
+> > On Fri, Jun 30, 2023 at 10:49=E2=80=AFAM Sebastian Wick
+> > <sebastian.wick@redhat.com> wrote:
+> >> On Tue, Jun 27, 2023 at 3:23=E2=80=AFPM Andr=C3=A9 Almeida <andrealmei=
+d@igalia.com>
+> wrote:
+> >>>
+> >>> +Robustness
+> >>> +----------
+> >>> +
+> >>> +The only way to try to keep an application working after a reset is
+> if it
+> >>> +complies with the robustness aspects of the graphical API that it is
+> using.
+> >>> +
+> >>> +Graphical APIs provide ways to applications to deal with device
+> resets. However,
+> >>> +there is no guarantee that the app will use such features correctly,
+> and the
+> >>> +UMD can implement policies to close the app if it is a repeating
+> offender,
+> >>> +likely in a broken loop. This is done to ensure that it does not kee=
+p
+> blocking
+> >>> +the user interface from being correctly displayed. This should be
+> done even if
+> >>> +the app is correct but happens to trigger some bug in the
+> hardware/driver.
+> >>
+> >> I still don't think it's good to let the kernel arbitrarily kill
+> >> processes that it thinks are not well-behaved based on some heuristics
+> >> and policy.
+> >>
+> >> Can't this be outsourced to user space? Expose the information about
+> >> processes causing a device and let e.g. systemd deal with coming up
+> >> with a policy and with killing stuff.
+> >
+> > I don't think it's the kernel doing the killing, it would be the UMD.
+> > E.g., if the app is guilty and doesn't support robustness the UMD can
+> > just call exit().
 >
-> So, efifb can't be replaced. Please, fix your cover letter to reduce false
-> impression of the scope of usage of the simpledrm.
+> It would be safer to just ignore API calls[0], similarly to what is done
+> until the application destroys the context with robustness. Calling exit(=
+)
+> likely results in losing any unsaved work, whereas at least some
+> applications might otherwise allow saving the work by other means.
+>
+>
+> [0] Possibly accompanied by a one-time message to stderr along the lines
+> of "GPU reset detected but robustness not enabled in context, ignoring
+> OpenGL API calls".
+>
+> --
+> Earthling Michel D=C3=A4nzer            |                  https://redhat=
+.com
+> Libre software enthusiast          |         Mesa and Xwayland developer
+>
 >
 
-Nothing to fixup.
+--000000000000a1f3c205ff5eb93b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-You are conflating the efifb fbdev driver (drivers/video/fbdev/efifb.c)
-with the efifb earlycon driver (drivers/firmware/efi/earlycon.c). I'm
-talking about the former (which can be replaced by simpledrm) while you
-are talking about the latter.
+<div dir=3D"ltr"><div>That&#39;s a terrible idea. Ignoring API calls would =
+be identical to a freeze. You might as well disable GPU recovery because th=
+e result would be the same.</div><div><br></div><div>There are 2 scenarios:=
+</div><div>- robust contexts: report the GPU reset status and skip API call=
+s; let the app recreate the context to recover<br></div><div>- non-robust c=
+ontexts: call exit(1) immediately, which is the best way to recover<br></di=
+v><div></div><div></div><div><br></div><div>Marek<br></div></div><br><div c=
+lass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jun 30, =
+2023 at 11:11=E2=80=AFAM Michel D=C3=A4nzer &lt;<a href=3D"mailto:michel.da=
+enzer@mailbox.org">michel.daenzer@mailbox.org</a>&gt; wrote:<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">On 6/30/23 16:59, Alex Deucher=
+ wrote:<br>
+&gt; On Fri, Jun 30, 2023 at 10:49=E2=80=AFAM Sebastian Wick<br>
+&gt; &lt;<a href=3D"mailto:sebastian.wick@redhat.com" target=3D"_blank">seb=
+astian.wick@redhat.com</a>&gt; wrote:<br>
+&gt;&gt; On Tue, Jun 27, 2023 at 3:23=E2=80=AFPM Andr=C3=A9 Almeida &lt;<a =
+href=3D"mailto:andrealmeid@igalia.com" target=3D"_blank">andrealmeid@igalia=
+.com</a>&gt; wrote:<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; +Robustness<br>
+&gt;&gt;&gt; +----------<br>
+&gt;&gt;&gt; +<br>
+&gt;&gt;&gt; +The only way to try to keep an application working after a re=
+set is if it<br>
+&gt;&gt;&gt; +complies with the robustness aspects of the graphical API tha=
+t it is using.<br>
+&gt;&gt;&gt; +<br>
+&gt;&gt;&gt; +Graphical APIs provide ways to applications to deal with devi=
+ce resets. However,<br>
+&gt;&gt;&gt; +there is no guarantee that the app will use such features cor=
+rectly, and the<br>
+&gt;&gt;&gt; +UMD can implement policies to close the app if it is a repeat=
+ing offender,<br>
+&gt;&gt;&gt; +likely in a broken loop. This is done to ensure that it does =
+not keep blocking<br>
+&gt;&gt;&gt; +the user interface from being correctly displayed. This shoul=
+d be done even if<br>
+&gt;&gt;&gt; +the app is correct but happens to trigger some bug in the har=
+dware/driver.<br>
+&gt;&gt;<br>
+&gt;&gt; I still don&#39;t think it&#39;s good to let the kernel arbitraril=
+y kill<br>
+&gt;&gt; processes that it thinks are not well-behaved based on some heuris=
+tics<br>
+&gt;&gt; and policy.<br>
+&gt;&gt;<br>
+&gt;&gt; Can&#39;t this be outsourced to user space? Expose the information=
+ about<br>
+&gt;&gt; processes causing a device and let e.g. systemd deal with coming u=
+p<br>
+&gt;&gt; with a policy and with killing stuff.<br>
+&gt; <br>
+&gt; I don&#39;t think it&#39;s the kernel doing the killing, it would be t=
+he UMD.<br>
+&gt; E.g., if the app is guilty and doesn&#39;t support robustness the UMD =
+can<br>
+&gt; just call exit().<br>
+<br>
+It would be safer to just ignore API calls[0], similarly to what is done un=
+til the application destroys the context with robustness. Calling exit() li=
+kely results in losing any unsaved work, whereas at least some applications=
+ might otherwise allow saving the work by other means.<br>
+<br>
+<br>
+[0] Possibly accompanied by a one-time message to stderr along the lines of=
+ &quot;GPU reset detected but robustness not enabled in context, ignoring O=
+penGL API calls&quot;.<br>
+<br>
+-- <br>
+Earthling Michel D=C3=A4nzer=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http=
+s://redhat.com" rel=3D"noreferrer" target=3D"_blank">https://redhat.com</a>=
+<br>
+Libre software enthusiast=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0Mesa and Xwayland developer<br>
+<br>
+</blockquote></div>
 
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+--000000000000a1f3c205ff5eb93b--
