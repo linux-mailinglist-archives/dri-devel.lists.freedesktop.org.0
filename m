@@ -2,71 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0163B7447D9
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Jul 2023 10:01:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23892744910
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Jul 2023 14:58:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AE3D10E07B;
-	Sat,  1 Jul 2023 08:01:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8882F10E091;
+	Sat,  1 Jul 2023 12:58:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A82C210E53F
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Jul 2023 08:01:47 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id
- 4fb4d7f45d1cf-51cb40f13f6so3003987a12.2
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Jul 2023 01:01:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688198504; x=1690790504;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=+/7TuI/hQwkZhyymEuytfw8tljO+CF4LNtsLy3kjnEs=;
- b=Ou/rDZBt62vQN0g6wf8sflLQ5ypZfVU4sHRXMyBJBFWIjv9gqQQLTCW8EuKRyG+NBR
- xIjScWjY5dZgKHSHb9rlP8TnNy0on9Y8TcqwZ1UzOn8GrFjI0qhSNC6opsr3C8vcxj4v
- KibRH8x4qmo93VqHlE6Dr/B1pTtee/5+fgVlV9wtt10SAMxLe1UswkSjz5eQ5BFk1rTO
- aZmeLwwNeabJtPoDohYLsGNztEwTH6mjAuDrKhZi/I4BSmNsLP4PJOIfnj8s0Cvmd383
- 8Zq2GzVGIbNP+8T/GLoqX/B0e4spM8/Pdr9htwsjSif/G/lHJM5Ig4Svo0dXK9dc/6RD
- NfKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688198504; x=1690790504;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+/7TuI/hQwkZhyymEuytfw8tljO+CF4LNtsLy3kjnEs=;
- b=K35puhcPDfW3pg5NGUAFue9DGiVqtDjRaQKATvaNtbseTWDGmaVTrQEw8XkcPOBRWl
- LcWSJIovjaXmGhrv+l2XhMgLwOVVDvE7KXGktKwf1pKQK0p4Ps1RYW3SIMbL8p8jfHhs
- 7MupaNCpQWG4+aD+zoRtAc+vigRTa77loaBntYsjJJfARRASHDqPcvOVq+6gFK0UgAIg
- oxAFDhq4pdswt3U5GkXGVfIzC5+jZRKRRVV/aBQ398XF0m3wlCFwZ4LMZ4zt8eI9ojd7
- o9SCamStm73jlBSCoky/5M5ziE2FgD1IfjGbED3FsWKXKE3ep9liIMWlEp9OLaEJyDEf
- n6rQ==
-X-Gm-Message-State: ABy/qLY/syjlozYcTwsgzUmnSz/tdjIYBm1Td1KzkfYMG5xwOiJxLX99
- hqa/JIPBYuIZGhyJMTX5CXxd9Q==
-X-Google-Smtp-Source: ACHHUZ5F8xUIAMknqjsoPu2of+I/Txby9lVW5dSl1hKwXHTjXld0F3vDjgHEZdD7r802EbZERuvF+g==
-X-Received: by 2002:a17:907:2c66:b0:991:fef4:bb7 with SMTP id
- ib6-20020a1709072c6600b00991fef40bb7mr4187077ejc.73.1688198503859; 
- Sat, 01 Jul 2023 01:01:43 -0700 (PDT)
-Received: from [192.168.10.214] ([217.169.179.6])
- by smtp.gmail.com with ESMTPSA id
- bm4-20020a170906c04400b00973ca837a68sm8996694ejb.217.2023.07.01.01.01.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 01 Jul 2023 01:01:43 -0700 (PDT)
-Message-ID: <207f70b5-e017-33bc-bf46-206b3fb69a04@linaro.org>
-Date: Sat, 1 Jul 2023 10:01:42 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1B9210E091
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Jul 2023 12:58:16 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E2F3760B09
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Jul 2023 12:58:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5779CC433C9
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Jul 2023 12:58:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1688216294;
+ bh=UshMWSFSQiG2WcRTNUO9RFFe0dI1RFyPgH686zXkcyA=;
+ h=From:To:Subject:Date:From;
+ b=uN/B/3uRuNDK/9uJe5DdCAolLE88veOIJhA9KRMkaiPwxjlmnxZvgm7JHaRncC/B5
+ obu1w8YRWh67Hijpu5U4ShFBjCk0gTngoHhu1AV7zfPdIAnIfvPaw3jKtjvT3+SofH
+ TiDubqMaR/SwhuLWAeYJBDPtxpz5hfl/+OyIkwJKRO/dpUkCZnWwTo6Egko0dySh/2
+ XJO2/ZWjeaCrQ3nsqXzfaJqCZ8ulKzuHxEpqxDodeYGLpgq98S5zLWOaCDMQZCF2Z6
+ rTBBtquW28KnuXq9JcQUn1hOlo1fdvobeKE7VTjLGLbq6Bjkrjj8yBtmrps0zEmrqD
+ cQdlZ8nsmjfOw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 406E2C53BC6; Sat,  1 Jul 2023 12:58:14 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 217621] New: AMDGPU - Internal 4K display used with 1920x1080
+ leads to screen flickering and distortion, regression from commit
+ edcfed8671ee57bb599184f2e12a1b3e11b32306
+Date: Sat, 01 Jul 2023 12:58:13 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: der.timosch@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression attachments.created
+Message-ID: <bug-217621-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] drm/exynos: fix a possible null-pointer dereference due
- to data race in exynos_drm_crtc_atomic_disable()
-Content-Language: en-US
-To: Tuo Li <islituo@gmail.com>, inki.dae@samsung.com, sw0312.kim@samsung.com, 
- kyungmin.park@samsung.com, airlied@gmail.com, daniel@ffwll.ch,
- alim.akhtar@samsung.com
-References: <20230630021906.1035115-1-islituo@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230630021906.1035115-1-islituo@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,38 +74,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, BassCheck <bass@buaa.edu.cn>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- baijiaju1990@outlook.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/06/2023 04:19, Tuo Li wrote:
-> The variable crtc->state->event is often protected by the lock 
-> crtc->dev->event_lock when is accessed. However, it is accessed as a 
-> condition of an if statement in exynos_drm_crtc_atomic_disable() without
-> holding the lock:
-> 
->   if (crtc->state->event && !crtc->state->active)
-> 
-> However, if crtc->state->event is changed to NULL by another thread right
-> after the conditions of the if statement is checked to be true, a
-> null-pointer dereference can occur in drm_crtc_send_vblank_event():
-> 
->   e->pipe = pipe;
-> 
-> To fix this possible null-pointer dereference caused by data race, the 
-> spin lock coverage is extended to protect the if statement as well as the 
-> function call to drm_crtc_send_vblank_event().
-> 
-> Reported-by: BassCheck <bass@buaa.edu.cn>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D217621
 
-I cannot find this report. This is an open source work and public
-collaboration. The "Reported-by" usually means that the issue was
-reported to us, in some way, usually in public. Can we see the report?
-Otherwise adding non-public, non-verifiable reports is useless and
-clutters our report-credit-system.
+            Bug ID: 217621
+           Summary: AMDGPU - Internal 4K display used with 1920x1080 leads
+                    to screen flickering and distortion, regression from
+                    commit edcfed8671ee57bb599184f2e12a1b3e11b32306
+           Product: Drivers
+           Version: 2.5
+          Hardware: AMD
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: der.timosch@gmail.com
+        Regression: No
 
-Best regards,
-Krzysztof
+Created attachment 304514
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D304514&action=3Dedit
+Picture showing distorted display
 
+I'm on Manjaro, using kernel 6.3 series. The following problem is also
+reprocucible with 6.1 series (tested 6.1.36) and with NixOS using >=3D6.3.9.
+
+I usually use my internal display and an external display with 3840x2160 and
+100% scaling. I use my internal display not in its native 3840x2160 resolut=
+ion
+(and 200% scaling), but with 1920x1080 and 100% scaling, to prevent scaling
+issues under Gnome when moving windows from one display to the other. That
+worked until I updated from 6.3.8 to 6.3.9 (and lately 6.3.10). I suspected=
+ the
+following commit to be responsible: edcfed8671ee57bb599184f2e12a1b3e11b3230=
+6.
+I created a patch to revert the commit and recreated the amdgpu module and
+everything is fine again.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
