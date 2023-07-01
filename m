@@ -1,78 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F039744B92
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Jul 2023 00:07:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBF01744B9E
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Jul 2023 00:20:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0537110E117;
-	Sat,  1 Jul 2023 22:07:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA4E10E122;
+	Sat,  1 Jul 2023 22:20:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
- [64.147.123.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 416A110E117
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Jul 2023 22:07:11 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.west.internal (Postfix) with ESMTP id 689A53200AAA;
- Sat,  1 Jul 2023 18:07:10 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
- by compute6.internal (MEProxy); Sat, 01 Jul 2023 18:07:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1688249229; x=1688335629; bh=kV
- GVKnBuIHX1l6ALTLY/SHtLDLdOEUzzM5SZf1Sp8Xo=; b=CHpIIZ2i4wn4xbUn9m
- 9zZbqmCR28xZWOFi6mVjHvWitYI7ASw2jR0Mw40cYfATMDL4/0tOjKsjvSsYKODm
- JW0ugQCF6Jtfe+CXssc5UXmySpMpO5dabuNjCVqsMhWrn85gyQ3WXAr1DrV3uAgG
- tazH8jJ6IQIzZwZC9C6jZMLsMo1At5gkkJWe564pdKze/jeC1l0P+80J33nbr0m6
- YTZR+10N3rCdURAo0tfyGkGMOPplLzIA81dO2IvVFiuM3r6nRb+x+LJT98pPLcXq
- WbNEfeVMtHiS0zKhcRr+gb+YauTWYkVTa/lyB2VCBqgiHitOeN6muHe2Ggl/x8EC
- MyNQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1688249229; x=1688335629; bh=kVGVKnBuIHX1l
- 6ALTLY/SHtLDLdOEUzzM5SZf1Sp8Xo=; b=K2azXMowjA85OuykdPZphJ1HUWkYg
- NoURe5epWQCQd55n9jx39YOFXEUlt+eK9HR6rJUb+ZzhCCDFfXry62A3vRf+BZJZ
- lJTJXMUpkt2scV8I8QApEW0BqJZsIBfkjogFf+5Sq1CmHZuz4ZpF4h1VOJl+e8xJ
- PE/ew5GiULriP0Bfj+nfYZ6NjLEDXrlWYK0vADkglkxcnRguheSDDLSSfu3GnYse
- SaJj1yuTOq1CsppS1GP2XNYp1EeX5Ts+QS1bsYQ/3sP8QqGQ3SxBmr9zEyFm9ojh
- /Mxun0q2Zg1jCqCAEIReFf6CygERI2ISx06S6VPBF7UpMu9p9XepRyIdA==
-X-ME-Sender: <xms:jaOgZGWXBtzsHMZKfqVhqxnmwe0FzRQVGKTrDwrIdlA3XPXS8jwDYA>
- <xme:jaOgZClQ5Qk8aUFevpvqL6BR0L0txvhI2H1sr2fVmEtqS4rq3A91wIMXH0qyPV42S
- DAcK2MfmIlrM3p3L8Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrtdelgddtiecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
- ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
- gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
- ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
- hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:jaOgZKZP1Kd_EAaYCyTnulg3-zXoCXkiTcUEa4SM2K3ombr9GMmw2w>
- <xmx:jaOgZNV54NqnZniCWUSR3IhI5COBUO_QHnY5kMnhX1Zldbz_GecmYw>
- <xmx:jaOgZAkCqSFe2gBfjn7NtFlqs-L1kBx9HaOCyIWgKX-D1H4QC4zjtA>
- <xmx:jaOgZOafDBBiS__PtiplermowfLodLUywd9vo1m7t_xAyiUIsO6yrg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 10A3BB60086; Sat,  1 Jul 2023 18:07:09 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-499-gf27bbf33e2-fm-20230619.001-gf27bbf33
-Mime-Version: 1.0
-Message-Id: <2e1af219-a31c-4284-b50a-662f65c8a736@app.fastmail.com>
-In-Reply-To: <20230701214503.550549-3-javierm@redhat.com>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:3::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E07E710E122
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Jul 2023 22:20:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=aNT+gGft12BfYIdNaF797cPbj08SwdIbd2wcB4+Y1P0=; b=2DLhD7ylKYE6Zcp7pp4P0723wG
+ ljgabZpZ4nYDZPGrv9bs3H9D32DAR2p3wv6az2uoYVjg9D+wLfeJL+kj6VSfot0pKg+GCdqAxBtKi
+ 2ROgEMqHG4HJETr+P5YwI9sB08vjN72d4A0LBWopSLwSWTRbhQaRNF2y431fdbjQBuHOmljVETueg
+ hUVqk0OOFcq8krBgEdZSoO1WKLOFXTpbsShQ4cSOBTj3w3lS1Dh3wPvbu+iXbzMr1b5tXrbF/UXNO
+ SOXq46d8bB8rRBpY6jkE4aKLFxkT3CuakwlZvUmTZMX42PlHWZz/BC6vp7x33aDQR0F4bdPu5Vqvc
+ Z+Hz5JQg==;
+Received: from [2601:1c2:980:9ec0::2764]
+ by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1qFix1-006isr-0h; Sat, 01 Jul 2023 22:20:19 +0000
+Message-ID: <4416a125-534e-345b-65a9-26b2c075890f@infradead.org>
+Date: Sat, 1 Jul 2023 15:20:15 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v2 1/2] fbdev: Split frame buffer support in FB and
+ FB_CORE symbols
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
 References: <20230701214503.550549-1-javierm@redhat.com>
- <20230701214503.550549-3-javierm@redhat.com>
-Date: Sun, 02 Jul 2023 00:06:47 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Javier Martinez Canillas" <javierm@redhat.com>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] drm: Make fbdev emulation select FB_CORE instead
- of depends on FB
-Content-Type: text/plain
+ <20230701214503.550549-2-javierm@redhat.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230701214503.550549-2-javierm@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,56 +53,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, x86@kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ "H. Peter Anvin" <hpa@zytor.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jul 1, 2023, at 23:44, Javier Martinez Canillas wrote:
-> Now that the fbdev core has been split in FB_CORE and FB, make DRM fbdev
-> emulation layer to just select the former.
->
-> This allows to disable the CONFIG_FB option if is not needed, which will
-> avoid the need to explicitly disable each of the legacy fbdev drivers.
->
+Hi,
+
+
+Does this series apply on top of the previous series or on what?
+
+
+On 7/1/23 14:44, Javier Martinez Canillas wrote:
+> Currently the CONFIG_FB option has to be enabled even if no legacy fbdev
+> drivers are needed (e.g: only to have support for framebuffer consoles).
+> 
+> The DRM subsystem has a fbdev emulation layer, but depends on CONFIG_FB
+> and so it can only be enabled if that dependency is enabled as well.
+> 
+> That means fbdev drivers have to be explicitly disabled if users want to
+> enable CONFIG_FB, only to use fbcon and/or the DRM fbdev emulation layer.
+> 
+> This patch introduces a non-visible CONFIG_FB_CORE symbol that could be
+> enabled just to have core support needed for CONFIG_DRM_FBDEV_EMULATION,
+> allowing CONFIG_FB to be disabled (and automatically disabling all the
+> fbdev drivers).
+> 
 > Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 > ---
->
+> 
 > Changes in v2:
-> - Make CONFIG_DRM_FBDEV_EMULATION to select FB_CORE (Thomas Zimmermann).
->
->  drivers/gpu/drm/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index afb3b2f5f425..d9b1710e3ad0 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -132,7 +132,7 @@ config DRM_DEBUG_MODESET_LOCK
->  config DRM_FBDEV_EMULATION
->  	bool "Enable legacy fbdev support for your modesetting driver"
->  	depends on DRM_KMS_HELPER
-> -	depends on FB=y || FB=DRM_KMS_HELPER
+> - Keep "depends on FB" for FB_DDC, FB_HECUBA, FB_SVGALIB, FB_MACMODES,
+>   FB_BACKLIGHT, FB_MODE_HELPERS and FB_TILEBLITTING (Arnd Bergmann).
+> - Don't change the fb.o object name (Arnd Bergmann).
+> - Make FB_CORE a non-visible Kconfig symbol instead (Thomas Zimmermann).
+> 
+>  arch/x86/Makefile                 |  2 +-
+>  arch/x86/video/Makefile           |  2 +-
+>  drivers/video/console/Kconfig     |  2 +-
+>  drivers/video/fbdev/Kconfig       | 40 +++++++++++++++++++------------
+>  drivers/video/fbdev/core/Makefile |  2 +-
+>  5 files changed, 29 insertions(+), 19 deletions(-)
+> 
+
+> diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+> index cecf15418632..da6f7d588f17 100644
+> --- a/drivers/video/fbdev/Kconfig
+> +++ b/drivers/video/fbdev/Kconfig
+> @@ -6,8 +6,12 @@
+>  config FB_NOTIFY
+>  	bool
+>  
+> +menuconfig FB_CORE
+> +	tristate "Core support for frame buffer devices"
+> +
+
+I could be reading this incorrectly, but FB_CORE does not appear to
+be a non-visible Kconfig symbol here.
+
+>  menuconfig FB
+> -	tristate "Support for frame buffer devices"
+> +	tristate "Support for frame buffer device drivers"
 > +	select FB_CORE
+>  	select FB_NOTIFY
+>  	select VIDEO_CMDLINE
+>  	help
 
-This will unfortunately force FB_CORE=y even with DRM=m, it would be nice
-to allow both to be loadable modules. Any of these should work:
-
-a) Add another hidden symbol like
-
-config DRM_FB_CORE
-      def_tristate DRM && DRM_FBDEV_EMULATION
-      select FB_CORE
-
-b) move the 'select' to DRM
-
-config DRM
-      tristate "Direct Rendering Manager (XFree86 4.1.0 and higher DRI support)"
-      select FB_CORE if DRM_FBDEV_EMULATION
-
-c) Remove the 'select' and instead use the default 
-
-config FB_CORE
-     def_tristate FB || (DRM && DRM_FBDEV_EMULATION)
-
-       Arnd
+thanks.
+-- 
+~Randy
