@@ -1,47 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93ABD745282
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Jul 2023 23:38:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3FD87452F6
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jul 2023 00:30:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0930310E028;
-	Sun,  2 Jul 2023 21:38:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2907510E02C;
+	Sun,  2 Jul 2023 22:30:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 872CA10E011
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Jul 2023 21:37:59 +0000 (UTC)
-Received: from fews02-sea.riseup.net (fews02-sea-pn.riseup.net [10.0.1.112])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx0.riseup.net (Postfix) with ESMTPS id 4QvMqB2GwBz9t5Y;
- Sun,  2 Jul 2023 21:37:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1688333878; bh=6tVnnCr/NRgTI2XrKgMR72c2GYox0rECGOQbpxUkHgQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=BiKvZTSbEzNNnFUBek/4Abr/v8YHug5pSgqhHiIv7B4dqxxxUNup0AI4KGftBE2UP
- uZ7RTYgs2D7WbySy7SPp2IkpYFg0J1pp1/v/5FVPuuwRwUoPQqnVC6beCiL15jTV/P
- l4mDjGtwFTm8H5T9e1dbZRaVa3PZDkdGd7MAjvzE=
-X-Riseup-User-ID: 488EDC608D654CF625029D6116884A739DED0205DA5B580724CB8E67FDB1EA2E
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews02-sea.riseup.net (Postfix) with ESMTPSA id 4QvMq40LzqzFq3Q;
- Sun,  2 Jul 2023 21:37:51 +0000 (UTC)
-Message-ID: <a58917d1-eec5-9f0f-4951-9fca97bfaf45@riseup.net>
-Date: Sun, 2 Jul 2023 18:37:49 -0300
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49A8510E02C;
+ Sun,  2 Jul 2023 22:30:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=h63n3TGFz//UZsyuKJqTNmhbmzkY3RFuUbFl5dnSDO4=; b=oIvZ9HmNAc52cl+P5YD2iA1kDo
+ ZqFgIeKxO62GQYCTsJIvci99rwDXWEYFAmuqTZp7ekewoGc5uvQ71xDOUHupaiZwCSJG0FOJNt0DX
+ a+2m2gxTF2KwOFufD0zMKuh1vgy65xkObesL/yW2PHtc42kZE9nI9LBATRTPjgKSxn29FXAOwdA/B
+ +5QySboEnkUrHtv1Cea/kKfCo/5eDRAgehreNqJoGzIWZr7d/8HbxQK/CMhPkdBizESjJrbe0LarJ
+ rmo68F+TIBpHUFx86GMGVJYmg1W23I6N4R1XslPS0WSlDhBigyaDAzJ+01d81V63s3xfnA5pn8F2O
+ 5Yc+j6aQ==;
+Received: from [187.74.70.209] (helo=[192.168.1.111])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1qG5Zx-007IRG-UZ; Mon, 03 Jul 2023 00:30:02 +0200
+Message-ID: <75cdded3-4ae3-43dd-4a0c-ad77a5b793e7@igalia.com>
+Date: Sun, 2 Jul 2023 19:29:57 -0300
 MIME-Version: 1.0
-Subject: Re: [PATCH v4] drm/vkms: Add support to 1D gamma LUT
-To: Pekka Paalanen <ppaalanen@gmail.com>
-References: <20230621194121.184552-1-arthurgrillo@riseup.net>
- <e880d5cd-a958-164e-4ba9-dd2d0e3ad903@riseup.net>
- <20230626111745.49dbbf08@eldfell>
- <91aa3ffe-edb9-d85c-c62b-49f7bf73a0ae@riseup.net>
- <20230627111231.79ed863c@eldfell>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] Revert "drm/amd/display: Program OTG vtotal min/max
+ selectors unconditionally for DCN1+"
+To: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+References: <20230702164407.6547-1-gpiccoli@igalia.com>
 Content-Language: en-US
-From: Maira Canal <mairacanal@riseup.net>
-In-Reply-To: <20230627111231.79ed863c@eldfell>
+From: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <20230702164407.6547-1-gpiccoli@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -56,148 +55,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, aleixpol@kde.org, andrealmeid@riseup.net,
- rodrigosiqueiramelo@gmail.com, xaver.hugl@gmail.com, mdaenzer@redhat.com,
- dri-devel@lists.freedesktop.org, victoria@system76.com, mwen@igalia.com,
- jadahl@redhat.com, uma.shankar@intel.com, sebastian.wick@redhat.com,
- Arthur Grillo <arthurgrillo@riseup.net>, joshua@froggi.es
+Cc: Xinhui.Pan@amd.com, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ dri-devel@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
+ cristian.ciocaltea@collabora.com, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/27/23 05:12, Pekka Paalanen wrote:
-> On Mon, 26 Jun 2023 14:35:25 -0300
-> Maira Canal <mairacanal@riseup.net> wrote:
-> 
->> Hi Pekka,
->>
->> On 6/26/23 05:17, Pekka Paalanen wrote:
->>> On Sat, 24 Jun 2023 18:48:08 -0300
->>> Maira Canal <mairacanal@riseup.net> wrote:
->>>    
->>>> Hi Arthur,
->>>>
->>>> Thanks for working on this feature for the VKMS!
->>>>
->>>> On 6/21/23 16:41, Arthur Grillo wrote:
->>>>> Support a 1D gamma LUT with interpolation for each color channel on the
->>>>> VKMS driver. Add a check for the LUT length by creating
->>>>> vkms_atomic_check().
->>>>>
->>>>> Tested with:
->>>>> igt@kms_color@gamma
->>>>> igt@kms_color@legacy-gamma
->>>>> igt@kms_color@invalid-gamma-lut-sizes
->>>>
->>>> Could you also mention that this will make it possible to run the test
->>>> igt@kms_plane@pixel-format?
->>>>
->>>> Also, you mentioned to me that the performance degraded with this new
->>>> feature, but I wasn't able to see it while running the VKMS CI. I
->>>> performed a couple of tests and I didn't see any significant performance
->>>> issue.
->>>>
->>>> Could you please run a benchmark and share the results with us? This way
->>>> we can atest that this new feature will not affect significantly the
->>>> VKMS performance. It would be nice to have a small brief of this
->>>> benchmark on the commit message as well.
->>>>
->>>> Attesting that there isn't a performance issue and adding those nits to
->>>> the commit message, you can add my
->>>>
->>>> Reviewed-by: Maíra Canal <mairacanal@riseup.net>
->>>>
->>>> on the next version.
->>>
->>> Hi,
->>>
->>> perfomance testing is good indeed. As future work, could there be a
->>> document describing how to test VKMS performance?
->>
->> I'll try to select a couple of more meaningful IGT tests to describe how
->> to test the VKMS performance and also add a document to describe how to
->> run this tests.
->>
->> Recently, I added a VKMS must-pass testlist to IGT. This testlist
->> tries to assure that regressions will not be introduced into VKMS. But,
->> I failed to introduce a documentation on the kernel side pointing to
->> this new testlist... I'll also work on it.
->>
->>>
->>> "I ran IGT@blah 100 times and it took xx seconds before and yy seconds
->>> after" does not really give someone like me an idea of what was
->>> actually measured. For example blending overhead increase could be
->>> completely lost in opaque pixel copying noise if the test case has only
->>> few pixels to blend, e.g. a cursor plane, not to mention the overhead
->>> of launching an IGT test in the first place.
->>
->> About the IGT overhead, I don't know exactly how we could escape from
->> it. Maybe writing KUnit tests to the VKMS's composition functions, such
->> as blend(). Anyway, we would have the overhead of the KUnit framework.
->> I mean, for whatever framework we choose, there'll be an overhead...
->>
->> Do you have any other ideas on how to test VKMS with less overhead?
-> 
-> Maybe put the repeat loop and time measurement inside the code of a few
-> chosen IGT tests?
-> 
-> So that it loops only the KMS programming and somehow ensures VKMS has
-> finished processing each update before doing the next cycle. I presume
-> VKMS does not have a timer-based refresh cycle that might add CPU idle
-> time? Writeback should be included in the measurement too, but inspecting
-> writeback results should not.
-> 
-> Once all that is in place, then each performance test needs to use
-> appropriate operations. E.g. if testing blending performance, use
-> almost full-screen planes.
+Hi Guilherme,
 
-^ Grillo, any chance you could work on something like this for the
-performance measurements?
+Em 02/07/2023 13:44, Guilherme G. Piccoli escreveu:
+> This reverts commit 06c3a652a787efc960af7c8816036d25c4227c6c.
+> 
+> After this commit, the Steam Deck cannot boot with graphics anymore;
+> the following message is observed on dmesg:
+> 
+> "[drm] ERROR [CRTC:67:crtc-0] flip_done timed out"
+> 
+> No other error is observed, it just stays like that. After bisecting
+> amd-staging-drm-next, we narrowed it down to this commit. Seems it
+> makes sense to revert it to have the tree bootable until a proper
+> solution is worked.
+
+Thank you for your patch, I confirm the exactly same behavior on my 
+Steam Deck.
 
 > 
-> What's the overhead of KUnit framework? Can you not do the same there,
-> put the repeat loop and time measurement inside the test to cover only
-> the interesting code?
-> 
-> Unit-testing the composition function performance might be ideal.
+> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
 > 
 
-I'll try to work on some unit tests for, at least, the composition
-section of VKMS. I believe that they will be very valuable for the
-maintenance and performance evaluation.
-
-Thanks for your valuable inputs on the VKMS!
-
-Best Regards,
-- Maíra
-
-> Depending on the type of test, if the CRTC mode and planes are big
-> enough, maybe there is no need to repeat even. But testing presumably
-> fast things like moving a cursor plane will likely need repeating in
-> order to produce stable numbers.
-> 
-> 
-> Thanks,
-> pq
-> 
->>
->> Best Regards,
->> - Maíra
->>
->>>
->>> Something that would guide new developers in running meaningful
->>> benchmarks would be nice.
->>>
->>> Should e.g. IGT have explicit (VKMS) performance tests that need to be
->>> run manually, since evaluation of the result is not feasible
->>> automatically? Or a benchmark mode in correctness tests that would run
->>> the identical operation N times and measure the time before checking
->>> for correctness?
->>>
->>> The correctness verification in IGT tests, if done by image comparison
->>> which they undoubtedly will need to be in the future, may dominate the
->>> CPU run time measurements if included.
->>>
->>>
->>> Thanks,
->>> pq
-> 
+Reviewed-by: André Almeida <andrealmeid@igalia.com>
