@@ -2,71 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26B1D744DA8
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Jul 2023 15:02:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 526C6744E18
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Jul 2023 16:31:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F5F010E0C2;
-	Sun,  2 Jul 2023 13:01:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A082C10E00B;
+	Sun,  2 Jul 2023 14:31:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7129A10E0C2
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Jul 2023 13:01:56 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- 5b1f17b1804b1-3fbc244d307so38676595e9.1
- for <dri-devel@lists.freedesktop.org>; Sun, 02 Jul 2023 06:01:56 -0700 (PDT)
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
+ [IPv6:2607:f8b0:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45AC510E00B;
+ Sun,  2 Jul 2023 14:31:40 +0000 (UTC)
+Received: by mail-ot1-x32a.google.com with SMTP id
+ 46e09a7af769-6b711c3ad1fso3067247a34.0; 
+ Sun, 02 Jul 2023 07:31:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1688302915; x=1690894915;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Zzka9CnRuiGxtiFqL9JgKk46K47spIoim848zQhRx/I=;
- b=b1WNUNT4oTwKh77H5nT3jfqCE3yGRMR6EkAhEAFqi7jR/T1jTcluVilYz655Q0pIYX
- T2+nS0EnBCIcSSafc/OxQJqxPWnGwo/JC6P82Lk9Y+ViWTeTIaVmFbB1YsyrSArw55Jp
- Q7EzB3uerrUwVEzqSXYRtc1Hx75rNfVpJAO+Yed1N5X5PhwnNJfvuoajZAZddgo589/9
- PqorW4chq2JgOvNZaWYMjFQISh+CFw/Ln+QEMnujnKV72B1XldfUSU76VI+6G39hvJOs
- coOn32UVkkeyRyID1QqcL6Ao82nPtI+qhfOVXnJgbPlxM8inX6eahd0mnV3MBG1w1nin
- Zg4A==
+ d=gmail.com; s=20221208; t=1688308299; x=1690900299;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=88WutuRFo5WgJcYE0wkhr8U2pMfpdX9vpFvhW0Euzqw=;
+ b=Q6NyYbxP2qEn2Xutl+FCmmv4u6vk4SUdd0kUp1aKMGv2lL0rWAaH/9qukZ808LJrSu
+ W0I8koTlOwYKzChZyBTYE1sdeZBOXUOhJiNiiuv8Vn/9eLvcgeCr8NyJvaxhKn5bXn3H
+ TZi83tOqNzbqK/7arYfUL9NIfvb7mHFbB+zDIvWr0pMDygLmnSzhjNTf+OMhAXDkuHh3
+ YptOeF0ontuAsHf7dGPHLkKoWNVaUSynyViGQm/B/FvldaikeWo451PxAeeLlUKnSq4y
+ RONdiCRiIrpf7LsliZP2NvVPE8ROVV18aO/EWv/FVs9mc2r5ARNsjoCQLYcdFppGpDDC
+ lbRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688302915; x=1690894915;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Zzka9CnRuiGxtiFqL9JgKk46K47spIoim848zQhRx/I=;
- b=i4CJ3vtxgZ1b1yFaRTMBTXTychbTa9x4fJ7t0uh66YjbVhl88gOLG3YYtYF2obVMmV
- IaLlHoMxWJa2ZczgfMRdbLncVVVc1tYYpeZdrswm/V+Kav942fcZq0pvkGw1firTQVMH
- j/IU9mt6e1lVmbQEzg2xemPem+wFX5lLc1WnJfvxBOKSmIgWW0GBXER4eZUyDFoq7EYv
- HsoIZoC2DQmuTg/FCXw/EH16wFK66MTu6n0xrXoIsom4pNUmRRT7OQ5Jd9jy9NmV8Qqi
- GJlTLy0v/mnTL3GhAKF9YZ0d7GRPECVXnokbWoyEgCatIP6u8201/t2PLTVi/aUuVbvx
- rfRg==
-X-Gm-Message-State: AC+VfDyd5RwO8Ul9dDomFugmvJsvB1GK/ZrpngtDPxlrl2UPpO0CcGJR
- OUP8YXkJ6m1i5DmtaHBN9P0=
-X-Google-Smtp-Source: ACHHUZ57l2NYdjFz6gnbDv5RtxHSLeNECuh+UmIbNVUXxycz4UEWnF6Th5b5Yk8FZNtDi4ojGzHT9g==
-X-Received: by 2002:a05:600c:2213:b0:3fa:e92e:7a7b with SMTP id
- z19-20020a05600c221300b003fae92e7a7bmr6995851wml.15.1688302914474; 
- Sun, 02 Jul 2023 06:01:54 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:32f:1f0:ae0b:3bc8:c743:b2d8?
- ([2a01:e0a:32f:1f0:ae0b:3bc8:c743:b2d8])
- by smtp.gmail.com with ESMTPSA id
- y17-20020a1c4b11000000b003f90a604885sm24277641wma.34.2023.07.02.06.01.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 02 Jul 2023 06:01:54 -0700 (PDT)
-Message-ID: <ae400e28-0cd4-cdf8-811d-843e62cd4a95@gmail.com>
-Date: Sun, 2 Jul 2023 15:05:25 +0200
+ d=1e100.net; s=20221208; t=1688308299; x=1690900299;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=88WutuRFo5WgJcYE0wkhr8U2pMfpdX9vpFvhW0Euzqw=;
+ b=iMs8HXG+IKI56pSB4wBEhcsJ2cZJ1u5ET3s3hYdfxxKTyY8Lhasfi5VAUi2yXYGkrJ
+ MaTcoU8SM5GIejzNQoku34PJIrva66/j2BHNWrPDmy7FsLi1fXR/3RxH0Ji9n1cbrLns
+ p4BoXLOlhwvlADg/nVmDMrrnobp0UNeVHzQTW/nGF/rLKvsH+7wk02odYuiCybL6w9aw
+ ZsRpjF0AEIvXWLpX2AAH1waAMHpQj2pxZNeCWtiVZoQWk9xhsjYITSFgiYW1RGgG4+In
+ cN3rFcFdhxCzoWfDceNQx5dK2Nuwj3hwQL+wKL/21i95sB/OU9WdyVTv07zYiQb9361l
+ paGQ==
+X-Gm-Message-State: AC+VfDyqVfx3W+sTK+Ew0lhm5hjzTyCzht455Uzk8aq/TNtNzstHV62t
+ gsuIK6EFvhl5gvqjSNUV+eDb2m/uNgK4ryKX1DY=
+X-Google-Smtp-Source: ACHHUZ70JPiogGnsvR1zJCU7ntAzo1ZSFvSXj5OfCRUvRh+KkQrmPShZS1FAwuEHFRDFaFf/8Ei7rvSLinqdYERzTrc=
+X-Received: by 2002:a9d:7b4e:0:b0:6b8:7fe2:cde5 with SMTP id
+ f14-20020a9d7b4e000000b006b87fe2cde5mr9968767oto.24.1688308299043; Sun, 02
+ Jul 2023 07:31:39 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] staging: fbtft: ili9341: use macro
- FBTFT_REGISTER_SPI_DRIVER
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20230702080324.120137-1-rgallaispou@gmail.com>
- <2023070254-embark-subplot-4dd4@gregkh>
-Content-Language: en-US, fr
-From: =?UTF-8?Q?Rapha=c3=abl_Gallais-Pou?= <rgallaispou@gmail.com>
-In-Reply-To: <2023070254-embark-subplot-4dd4@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230628-topic-a635-v2-1-5494c881b8be@linaro.org>
+ <CAF6AEGsH0BZd_yyn7UtJ3cLbbw2A5qdg8gQ6SORzQKjsMsnvHA@mail.gmail.com>
+ <CAA8EJpripp+Hf=GvCit75naGQqK8owHzPb+VuYHin393HcFPwA@mail.gmail.com>
+In-Reply-To: <CAA8EJpripp+Hf=GvCit75naGQqK8owHzPb+VuYHin393HcFPwA@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Sun, 2 Jul 2023 07:31:27 -0700
+Message-ID: <CAF6AEGsdPhWO+hw3FHiqtMfiF34_RtrvvS4apykHNBbtmdj7fQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/msm/adreno: Assign revn to A635
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,42 +70,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+ Marijn Suijten <marijn.suijten@somainline.org>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Sat, Jul 1, 2023 at 5:24=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On Sat, 1 Jul 2023 at 18:50, Rob Clark <robdclark@gmail.com> wrote:
+> >
+> > On Fri, Jun 30, 2023 at 4:12=E2=80=AFPM Konrad Dybcio <konrad.dybcio@li=
+naro.org> wrote:
+> > >
+> > > Recently, a WARN_ON() was introduced to ensure that revn is filled be=
+fore
+> > > adreno_is_aXYZ is called. This however doesn't work very well when re=
+vn is
+> > > 0 by design (such as for A635). Fill it in as a stopgap solution for
+> > > -fixes.
+> > >
+> > > Fixes: cc943f43ece7 ("drm/msm/adreno: warn if chip revn is verified b=
+efore being set")
+> > > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> > > ---
+> > > Changes in v2:
+> > > - add fixes
+> > > - Link to v1: https://lore.kernel.org/r/20230628-topic-a635-v1-1-5056=
+e09c08fb@linaro.org
+> > > ---
+> > >  drivers/gpu/drm/msm/adreno/adreno_device.c | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu=
+/drm/msm/adreno/adreno_device.c
+> > > index cb94cfd137a8..8ea7eae9fc52 100644
+> > > --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+> > > +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> > > @@ -345,6 +345,7 @@ static const struct adreno_info gpulist[] =3D {
+> > >                 .address_space_size =3D SZ_16G,
+> > >         }, {
+> > >                 .rev =3D ADRENO_REV(6, 3, 5, ANY_ID),
+> > > +               .revn =3D 635,
+> > >                 .fw =3D {
+> > >                         [ADRENO_FW_SQE] =3D "a660_sqe.fw",
+> > >                         [ADRENO_FW_GMU] =3D "a660_gmu.bin",
+> > >
+> >
+> > hmm, I realized a problem with this, it would change what
+> > MSM_PARAM_GPU_ID and more importantly MSM_PARAM_CHIP_ID return..  The
+> > former should be "harmless", although it isn't a good idea for uabi
+> > changes to be a side effect of a fix.  The latter is more problematic.
+>
+> I'd say MSM_PARAM_GPU_ID is broken for 635 anyway (won't it return 0
+> in this case)?
+> So the new value should be correct.
 
-Le 02/07/2023 à 14:02, Greg Kroah-Hartman a écrit :
-> On Sun, Jul 02, 2023 at 10:03:24AM +0200, Raphael Gallais-Pou wrote:
->> Using FBTFT_REGISTER_DRIVER resolves to a NULL struct spi_device_id. This
->> ultimately causes the module to an early exit at probe time.
-> 
-> So this doesn't work at all today?  Has it ever worked?  What commit
-> does thi fix?
+no, it is very much intentional that GPU_ID returns 0 for newer GPUs,
+userspace should be matching on CHIP_ID.  (Also, we should be moving
+away from trying to infer generation/etc from CHIP_ID.. userspace is
+farther ahead of the kernel on this.)
 
-I tested again with only a tweak in my device-tree. The early exit in 
-the driver's code is caused by a missing field. So regarding this 
-particular driver the macro works.
+> But more importantly, why are we exporting speedbin in
+> MSM_PARAM_CHIP_ID only if there is no revn? And why are we exporting
+> the speedbin at all as a part of CHIP_ID?
 
-It resolves to set spi_driver.id_table = NULL, which yields a warning in 
-__spi_register_driver(). So I guess this patch only fixes a warning.
+Basically just being paranoid about not changing uabi.  It probably
+would be ok to export the speedbin for all, but I'd have to double
+check mesa version history.
 
-> 
->> In addition the MODULE_ALIASes can be dropped.
-> 
-> Why?  When you say "also" or "in addition", that's a huge hint it should
-> be a separate patch.
-I did not find any reference to those aliases in the kernel, which led 
-me to remove those.
+BR,
+-R
 
-If you think they are still necessary, I'll split them in an upcoming v2.
-
-Thanks for your insights,
-
-Raphaël
-> 
-> thanks,
-> 
-> greg k-h
+> >
+> > I think I'm leaning more towards reverting commit cc943f43ece7
+> > ("drm/msm/adreno: warn if chip revn is verified before being set") for
+> > -fixes.  I'm still thinking about options for a longer term fix.
+> >
+> > BR,
+> > -R
+> >
+> >
+> > > ---
+> > > base-commit: 5c875096d59010cee4e00da1f9c7bdb07a025dc2
+> > > change-id: 20230628-topic-a635-1b3c2c987417
+> > >
+> > > Best regards,
+> > > --
+> > > Konrad Dybcio <konrad.dybcio@linaro.org>
+> > >
+>
+>
+>
+> --
+> With best wishes
+> Dmitry
