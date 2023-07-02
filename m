@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA84B744BC2
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Jul 2023 01:20:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA5D744BED
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Jul 2023 02:24:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5B0210E138;
-	Sat,  1 Jul 2023 23:20:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD2A710E12B;
+	Sun,  2 Jul 2023 00:24:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
- [IPv6:2607:f8b0:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BF4710E12B;
- Sat,  1 Jul 2023 23:20:02 +0000 (UTC)
-Received: by mail-oi1-x234.google.com with SMTP id
- 5614622812f47-3a0457d6b77so2597350b6e.0; 
- Sat, 01 Jul 2023 16:20:01 -0700 (PDT)
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
+ [IPv6:2607:f8b0:4864:20::b2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1446F10E11E
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Jul 2023 00:24:36 +0000 (UTC)
+Received: by mail-yb1-xb2a.google.com with SMTP id
+ 3f1490d57ef6-c4dd264359cso284480276.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Jul 2023 17:24:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1688253600; x=1690845600;
+ d=linaro.org; s=google; t=1688257476; x=1690849476;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/U4nCYPZGwhHedBfQbYSZ1VOIvKM6vipFPVBHMLBTIY=;
- b=poGo4n5K7Ll707tJbnzNyzvv6nBaMVpMHwV2FJJFju50QINAFGnN14Z99tZDJe/VCG
- T4MrZRgvCuAf2Cz3HAVTSLJSc2DPyP8yd3MSiSqmMQiOpoEiN3B6OWAe85MoP94UaxJC
- 4THp4KEzVheCugMUDUzBPMosy+X9DYopknzf3ZBgEH9vA3w7mJeDXNUCN6bemD0A7/4q
- EDXOwgwxq/2qivQXHkvsLlbzPTS4c0VdFSCp/cQEp3Kf1xnwqzqnIPcd07/cNLIoXaAz
- mF07cb1VMCcya/uudG6u0AwnlgiiMhY9uuFGRoOjbAXIhYYSz8tzWyaAfzVvUB20Ipll
- eCfA==
+ bh=urzXsrUWGcl4UyBILDjOiaiWQROp3RKTi/U4MGrtkrM=;
+ b=iZOAttD7VYAawco0QIHpxIFtGOHtWeU2LK7KpRl3l8lETQjIYGQrHH/nupFtERCd8S
+ zkd5lbE+ICbk5XImA8eLJh7042KfwpiuS0jJY5lYUyyzenvvwpeMO/eyaySb1SYiDAuX
+ fS0Wjm8+2BNzXIA7y82Gq6/1uNnAVlLECP6Wzr1JJnEB2IpKwb+ySKCiEYoMuNdz6tDU
+ Zee4eH/NRcxjCnQRLQcjz8qzaGjtT76GGz4vuSDOiXcwX9I9yMXD51vx52yephJw64Wn
+ hiPxanafedXHM9UMODNhgfwMwD9pF0CZ1oVe063Jq8PvRQmsh+wrAgwNhVKTeGTpiLU/
+ aVtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688253600; x=1690845600;
+ d=1e100.net; s=20221208; t=1688257476; x=1690849476;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/U4nCYPZGwhHedBfQbYSZ1VOIvKM6vipFPVBHMLBTIY=;
- b=OOUv6NzzUOzOxsG4DVyA4wvmn/WFfxyxoY+YpkFnKggqjExLhSHVFdUHretICcSTZR
- tG/pJgYKowBUM+XlUF9HtR77WWgRQhmCaxoIfzvhKp3oyGXAzn4tRyECjeevEm/30TnV
- YWpatveSj4IWf+WLnjEui4O2ej+MxvOQF3PEj4Mi5W7OAV/ZL5KKf7yFJthKqFXamOJ1
- XeV1m6M1nbeZi1g2d5DWjOJIctPMSU4jWSltgcWMWO6hiS3sabBu9LyiF59pxoToc/ya
- SrCxw918jKZ8LWyJDve2qoLTSNCygGg9TP3F08HRyjVGlT8HPGAB2oPpQvqdMsnQ5DuS
- A9KA==
-X-Gm-Message-State: AC+VfDzjSqBGq32Yi6z2gWZfOyitnT0a1cyAQ5pBUCPPCacSag03MvOl
- dvnO660WZK+9SZVdRf2xdZFWkBrjUhGRNgpLSZ0BlBVP
-X-Google-Smtp-Source: ACHHUZ6IB+dypPXjHA/PRYXvNUNp1HS78Y1yit4MrVLElrZVn3Iykbt4QXWx1TrXr59EwRkCqxVKcA7PjGPySdNI8YM=
-X-Received: by 2002:a05:6808:1a25:b0:3a3:6360:ffbe with SMTP id
- bk37-20020a0568081a2500b003a36360ffbemr7296054oib.24.1688253600151; Sat, 01
- Jul 2023 16:20:00 -0700 (PDT)
+ bh=urzXsrUWGcl4UyBILDjOiaiWQROp3RKTi/U4MGrtkrM=;
+ b=KSChmzqq3YQY5YbVfIw4BInazbj7zHpqPW8XMjggldHgYj2WiEv1R4Nf1HQ2Nh6EaQ
+ /pmAZpzuG73spV9QkGosjntSj18xxD8qaZLAgsCNFcprccaU8hZiH3qYLat1p/uRzFTn
+ yp25UkG8dMTT8tqh1aEqvPZShdQY3kGQ+gki8I50FWg845pvdGsFZ7yXpeC59Nh4yLLM
+ YT+FV9k2rGRoW0eNJgyv2pvR+vEzR0YnMZjG4ZmGnJC85Epf1MEpaaOQK45QjU0WIa9X
+ yS8AoBFwMF6A704GlC77k+ye7epaRscw/Iwm7oVSQuS1JLViguGEQ0JA6SoNfEzBO6KN
+ hN0g==
+X-Gm-Message-State: ABy/qLa//GKFZE30AE2YTzqCwYGbS2jqNb7oxRJsnnw0fmyz2gtsazLa
+ Uv1wV+DUAwX2tRnbNp57/S5F+qjc6MQqZeDNIbX0wA==
+X-Google-Smtp-Source: APBJJlGs2pz64z1/S2iPbXPMC9ztG90XJQHlFFYOdiHoEDy/FwFGZpceDr9gy6ZybwdrV2YU3rBeED0TUj4duHCPyd8=
+X-Received: by 2002:a25:842:0:b0:c1d:4fce:464 with SMTP id
+ 63-20020a250842000000b00c1d4fce0464mr5385642ybi.9.1688257475814; 
+ Sat, 01 Jul 2023 17:24:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230701171501.3701-1-robdclark@gmail.com>
-In-Reply-To: <20230701171501.3701-1-robdclark@gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Sat, 1 Jul 2023 16:19:48 -0700
-Message-ID: <CAF6AEGtT+b9u2ag_+8_a72mJ7ALtEmd6_EifGEH3hWE3SgGrmg@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/adreno: warn if GPU revision is not known yet
-To: dri-devel@lists.freedesktop.org
+References: <20230628-topic-a635-v2-1-5494c881b8be@linaro.org>
+ <CAF6AEGsH0BZd_yyn7UtJ3cLbbw2A5qdg8gQ6SORzQKjsMsnvHA@mail.gmail.com>
+In-Reply-To: <CAF6AEGsH0BZd_yyn7UtJ3cLbbw2A5qdg8gQ6SORzQKjsMsnvHA@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sun, 2 Jul 2023 03:24:24 +0300
+Message-ID: <CAA8EJpripp+Hf=GvCit75naGQqK8owHzPb+VuYHin393HcFPwA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/msm/adreno: Assign revn to A635
+To: Rob Clark <robdclark@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,244 +69,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+ Marijn Suijten <marijn.suijten@somainline.org>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jul 1, 2023 at 10:15=E2=80=AFAM Rob Clark <robdclark@gmail.com> wro=
-te:
+On Sat, 1 Jul 2023 at 18:50, Rob Clark <robdclark@gmail.com> wrote:
 >
-> From: Rob Clark <robdclark@chromium.org>
+> On Fri, Jun 30, 2023 at 4:12=E2=80=AFPM Konrad Dybcio <konrad.dybcio@lina=
+ro.org> wrote:
+> >
+> > Recently, a WARN_ON() was introduced to ensure that revn is filled befo=
+re
+> > adreno_is_aXYZ is called. This however doesn't work very well when revn=
+ is
+> > 0 by design (such as for A635). Fill it in as a stopgap solution for
+> > -fixes.
+> >
+> > Fixes: cc943f43ece7 ("drm/msm/adreno: warn if chip revn is verified bef=
+ore being set")
+> > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> > ---
+> > Changes in v2:
+> > - add fixes
+> > - Link to v1: https://lore.kernel.org/r/20230628-topic-a635-v1-1-5056e0=
+9c08fb@linaro.org
+> > ---
+> >  drivers/gpu/drm/msm/adreno/adreno_device.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/d=
+rm/msm/adreno/adreno_device.c
+> > index cb94cfd137a8..8ea7eae9fc52 100644
+> > --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+> > +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> > @@ -345,6 +345,7 @@ static const struct adreno_info gpulist[] =3D {
+> >                 .address_space_size =3D SZ_16G,
+> >         }, {
+> >                 .rev =3D ADRENO_REV(6, 3, 5, ANY_ID),
+> > +               .revn =3D 635,
+> >                 .fw =3D {
+> >                         [ADRENO_FW_SQE] =3D "a660_sqe.fw",
+> >                         [ADRENO_FW_GMU] =3D "a660_gmu.bin",
+> >
 >
-> The commit 010c8bbad2cb ("drm: msm: adreno: Disable preemption on Adreno
-> 510") tried to check GPU's revn before revn being set. Add WARN_ON_ONCE
-> to prevent such bugs from happening again. A separate helper is
-> necessary so that the warning is displayed really just once instead of
-> being displayed for each of comparisons.
->
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/msm/adreno/adreno_gpu.h | 70 +++++++++++++++----------
->  1 file changed, 42 insertions(+), 28 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/ms=
-m/adreno/adreno_gpu.h
-> index 506001080374..eb31c83582e6 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> @@ -145,143 +145,155 @@ struct adreno_platform_config {
->
->  bool adreno_cmp_rev(struct adreno_rev rev1, struct adreno_rev rev2);
->
-> +static inline const struct adreno_info
-> +gpu_info(struct adreno_gpu *gpu)
-> +{
-> +       if (WARN_ON_ONCE(!gpu->info))
-> +               return (struct adreno_info) {};
-> +       return *gpu->info;
-> +}
-> +
->  static inline bool adreno_is_a2xx(struct adreno_gpu *gpu)
->  {
-> -       return (gpu->revn < 300);
-> +       return (gpu_info(gpu).revn < 300);
->  }
->
->  static inline bool adreno_is_a20x(struct adreno_gpu *gpu)
->  {
-> -       return (gpu->revn < 210);
-> +       return (gpu_info(gpu).revn < 210);
->  }
->
->  static inline bool adreno_is_a225(struct adreno_gpu *gpu)
->  {
-> -       return gpu->revn =3D=3D 225;
-> +       return gpu_info(gpu).revn =3D=3D 225;
->  }
->
->  static inline bool adreno_is_a305(struct adreno_gpu *gpu)
->  {
-> -       return gpu->revn =3D=3D 305;
-> +       return gpu_info(gpu).revn =3D=3D 305;
->  }
->
->  static inline bool adreno_is_a306(struct adreno_gpu *gpu)
->  {
->         /* yes, 307, because a305c is 306 */
-> -       return gpu->revn =3D=3D 307;
-> +       return gpu_info(gpu).revn =3D=3D 307;
->  }
->
->  static inline bool adreno_is_a320(struct adreno_gpu *gpu)
->  {
-> -       return gpu->revn =3D=3D 320;
-> +       return gpu_info(gpu).revn =3D=3D 320;
->  }
->
->  static inline bool adreno_is_a330(struct adreno_gpu *gpu)
->  {
-> -       return gpu->revn =3D=3D 330;
-> +       return gpu_info(gpu).revn =3D=3D 330;
->  }
->
->  static inline bool adreno_is_a330v2(struct adreno_gpu *gpu)
->  {
-> -       return adreno_is_a330(gpu) && (gpu->rev.patchid > 0);
-> +       return adreno_is_a330(gpu) && (gpu_info(gpu).rev.patchid > 0);
+> hmm, I realized a problem with this, it would change what
+> MSM_PARAM_GPU_ID and more importantly MSM_PARAM_CHIP_ID return..  The
+> former should be "harmless", although it isn't a good idea for uabi
+> changes to be a side effect of a fix.  The latter is more problematic.
 
-This still isn't quite right, because adreno_info::rev has wildcards..
-but I think the basic idea of checking that gpu->info is already set
-is what we want..
+I'd say MSM_PARAM_GPU_ID is broken for 635 anyway (won't it return 0
+in this case)?
+So the new value should be correct.
 
-I'll might punt on this until a bigger re-work of device
-identification, since at least for now the root issue is solved
+But more importantly, why are we exporting speedbin in
+MSM_PARAM_CHIP_ID only if there is no revn? And why are we exporting
+the speedbin at all as a part of CHIP_ID?
 
-BR,
--R
+>
+> I think I'm leaning more towards reverting commit cc943f43ece7
+> ("drm/msm/adreno: warn if chip revn is verified before being set") for
+> -fixes.  I'm still thinking about options for a longer term fix.
+>
+> BR,
+> -R
+>
+>
+> > ---
+> > base-commit: 5c875096d59010cee4e00da1f9c7bdb07a025dc2
+> > change-id: 20230628-topic-a635-1b3c2c987417
+> >
+> > Best regards,
+> > --
+> > Konrad Dybcio <konrad.dybcio@linaro.org>
+> >
 
->  }
->
->  static inline int adreno_is_a405(struct adreno_gpu *gpu)
->  {
-> -       return gpu->revn =3D=3D 405;
-> +       return gpu_info(gpu).revn =3D=3D 405;
->  }
->
->  static inline int adreno_is_a420(struct adreno_gpu *gpu)
->  {
-> -       return gpu->revn =3D=3D 420;
-> +       return gpu_info(gpu).revn =3D=3D 420;
->  }
->
->  static inline int adreno_is_a430(struct adreno_gpu *gpu)
->  {
-> -       return gpu->revn =3D=3D 430;
-> +       return gpu_info(gpu).revn =3D=3D 430;
->  }
->
->  static inline int adreno_is_a506(struct adreno_gpu *gpu)
->  {
-> -       return gpu->revn =3D=3D 506;
-> +       return gpu_info(gpu).revn =3D=3D 506;
->  }
->
->  static inline int adreno_is_a508(struct adreno_gpu *gpu)
->  {
-> -       return gpu->revn =3D=3D 508;
-> +       return gpu_info(gpu).revn =3D=3D 508;
->  }
->
->  static inline int adreno_is_a509(struct adreno_gpu *gpu)
->  {
-> -       return gpu->revn =3D=3D 509;
-> +       return gpu_info(gpu).revn =3D=3D 509;
->  }
->
->  static inline int adreno_is_a510(struct adreno_gpu *gpu)
->  {
-> -       return gpu->revn =3D=3D 510;
-> +       return gpu_info(gpu).revn =3D=3D 510;
->  }
->
->  static inline int adreno_is_a512(struct adreno_gpu *gpu)
->  {
-> -       return gpu->revn =3D=3D 512;
-> +       return gpu_info(gpu).revn =3D=3D 512;
->  }
->
->  static inline int adreno_is_a530(struct adreno_gpu *gpu)
->  {
-> -       return gpu->revn =3D=3D 530;
-> +       return gpu_info(gpu).revn =3D=3D 530;
->  }
->
->  static inline int adreno_is_a540(struct adreno_gpu *gpu)
->  {
-> -       return gpu->revn =3D=3D 540;
-> +       return gpu_info(gpu).revn =3D=3D 540;
->  }
->
->  static inline int adreno_is_a618(struct adreno_gpu *gpu)
->  {
-> -       return gpu->revn =3D=3D 618;
-> +       return gpu_info(gpu).revn =3D=3D 618;
->  }
->
->  static inline int adreno_is_a619(struct adreno_gpu *gpu)
->  {
-> -       return gpu->revn =3D=3D 619;
-> +       return gpu_info(gpu).revn =3D=3D 619;
->  }
->
->  static inline int adreno_is_a630(struct adreno_gpu *gpu)
->  {
-> -       return gpu->revn =3D=3D 630;
-> +       return gpu_info(gpu).revn =3D=3D 630;
->  }
->
->  static inline int adreno_is_a640_family(struct adreno_gpu *gpu)
->  {
-> -       return (gpu->revn =3D=3D 640) || (gpu->revn =3D=3D 680);
-> +       return (gpu_info(gpu).revn =3D=3D 640) ||
-> +               (gpu_info(gpu).revn =3D=3D 680);
->  }
->
->  static inline int adreno_is_a650(struct adreno_gpu *gpu)
->  {
-> -       return gpu->revn =3D=3D 650;
-> +       return gpu_info(gpu).revn =3D=3D 650;
->  }
->
->  static inline int adreno_is_7c3(struct adreno_gpu *gpu)
->  {
->         /* The order of args is important here to handle ANY_ID correctly=
- */
-> -       return adreno_cmp_rev(ADRENO_REV(6, 3, 5, ANY_ID), gpu->rev);
-> +       return adreno_cmp_rev(ADRENO_REV(6, 3, 5, ANY_ID), gpu_info(gpu).=
-rev);
->  }
->
->  static inline int adreno_is_a660(struct adreno_gpu *gpu)
->  {
-> -       return gpu->revn =3D=3D 660;
-> +       return gpu_info(gpu).revn =3D=3D 660;
->  }
->
->  static inline int adreno_is_a690(struct adreno_gpu *gpu)
->  {
->         /* The order of args is important here to handle ANY_ID correctly=
- */
-> -       return adreno_cmp_rev(ADRENO_REV(6, 9, 0, ANY_ID), gpu->rev);
-> +       return adreno_cmp_rev(ADRENO_REV(6, 9, 0, ANY_ID), gpu_info(gpu).=
-rev);
->  };
->
->  /* check for a615, a616, a618, a619 or any derivatives */
->  static inline int adreno_is_a615_family(struct adreno_gpu *gpu)
->  {
-> -       return gpu->revn =3D=3D 615 || gpu->revn =3D=3D 616 || gpu->revn =
-=3D=3D 618 || gpu->revn =3D=3D 619;
-> +       return gpu_info(gpu).revn =3D=3D 615 ||
-> +               gpu_info(gpu).revn =3D=3D 616 ||
-> +               gpu_info(gpu).revn =3D=3D 618 ||
-> +               gpu_info(gpu).revn =3D=3D 619;
->  }
->
->  static inline int adreno_is_a660_family(struct adreno_gpu *gpu)
-> @@ -292,7 +304,9 @@ static inline int adreno_is_a660_family(struct adreno=
-_gpu *gpu)
->  /* check for a650, a660, or any derivatives */
->  static inline int adreno_is_a650_family(struct adreno_gpu *gpu)
->  {
-> -       return gpu->revn =3D=3D 650 || gpu->revn =3D=3D 620  || adreno_is=
-_a660_family(gpu);
-> +       return gpu_info(gpu).revn =3D=3D 650 ||
-> +               gpu_info(gpu).revn =3D=3D 620 ||
-> +               adreno_is_a660_family(gpu);
->  }
->
->  u64 adreno_private_address_space_size(struct msm_gpu *gpu);
-> --
-> 2.41.0
->
+
+
+--=20
+With best wishes
+Dmitry
