@@ -2,59 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CA5D744BED
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Jul 2023 02:24:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCB84744C97
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Jul 2023 10:02:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD2A710E12B;
-	Sun,  2 Jul 2023 00:24:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC50A10E089;
+	Sun,  2 Jul 2023 08:01:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
- [IPv6:2607:f8b0:4864:20::b2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1446F10E11E
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Jul 2023 00:24:36 +0000 (UTC)
-Received: by mail-yb1-xb2a.google.com with SMTP id
- 3f1490d57ef6-c4dd264359cso284480276.3
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Jul 2023 17:24:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688257476; x=1690849476;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=urzXsrUWGcl4UyBILDjOiaiWQROp3RKTi/U4MGrtkrM=;
- b=iZOAttD7VYAawco0QIHpxIFtGOHtWeU2LK7KpRl3l8lETQjIYGQrHH/nupFtERCd8S
- zkd5lbE+ICbk5XImA8eLJh7042KfwpiuS0jJY5lYUyyzenvvwpeMO/eyaySb1SYiDAuX
- fS0Wjm8+2BNzXIA7y82Gq6/1uNnAVlLECP6Wzr1JJnEB2IpKwb+ySKCiEYoMuNdz6tDU
- Zee4eH/NRcxjCnQRLQcjz8qzaGjtT76GGz4vuSDOiXcwX9I9yMXD51vx52yephJw64Wn
- hiPxanafedXHM9UMODNhgfwMwD9pF0CZ1oVe063Jq8PvRQmsh+wrAgwNhVKTeGTpiLU/
- aVtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688257476; x=1690849476;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=urzXsrUWGcl4UyBILDjOiaiWQROp3RKTi/U4MGrtkrM=;
- b=KSChmzqq3YQY5YbVfIw4BInazbj7zHpqPW8XMjggldHgYj2WiEv1R4Nf1HQ2Nh6EaQ
- /pmAZpzuG73spV9QkGosjntSj18xxD8qaZLAgsCNFcprccaU8hZiH3qYLat1p/uRzFTn
- yp25UkG8dMTT8tqh1aEqvPZShdQY3kGQ+gki8I50FWg845pvdGsFZ7yXpeC59Nh4yLLM
- YT+FV9k2rGRoW0eNJgyv2pvR+vEzR0YnMZjG4ZmGnJC85Epf1MEpaaOQK45QjU0WIa9X
- yS8AoBFwMF6A704GlC77k+ye7epaRscw/Iwm7oVSQuS1JLViguGEQ0JA6SoNfEzBO6KN
- hN0g==
-X-Gm-Message-State: ABy/qLa//GKFZE30AE2YTzqCwYGbS2jqNb7oxRJsnnw0fmyz2gtsazLa
- Uv1wV+DUAwX2tRnbNp57/S5F+qjc6MQqZeDNIbX0wA==
-X-Google-Smtp-Source: APBJJlGs2pz64z1/S2iPbXPMC9ztG90XJQHlFFYOdiHoEDy/FwFGZpceDr9gy6ZybwdrV2YU3rBeED0TUj4duHCPyd8=
-X-Received: by 2002:a25:842:0:b0:c1d:4fce:464 with SMTP id
- 63-20020a250842000000b00c1d4fce0464mr5385642ybi.9.1688257475814; 
- Sat, 01 Jul 2023 17:24:35 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DE4110E089
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Jul 2023 08:01:54 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 98A77601BE
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Jul 2023 08:01:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0970BC433CC
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Jul 2023 08:01:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1688284912;
+ bh=AGKqBcZVtUqtvMJ8Dh1+gcTfNZM2gdiklSmLMXwux7I=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=Xjk0DMbLF2rO0mvw36w3NspsZoHzJxg1ZXKVygmiDr7KmRnYY3yam0NxSCStS2ujI
+ N4CH0bnMzAljQPJWG0cn54Jr72J/w0Oqfjm4GsMxuE3yLV7xRT4ZoGQCKZu+Z3bDyq
+ CUwPm9o2UqDTXXZIqdE5cVDyE+bFqb++4EAuoC/07yKb4za7Ef/2n39TC4FXRMPKih
+ 6paXYKTbQkzc4do2iuNOu7HQkJ8yYFalmFhKCt5TXBphJw9xntLvTRLecDzg6IMNsC
+ OBQGrRBlwbZasDO/DXj7OqYZQ85hX8YJ0HK+4TIE+coip4dpM05UTCE9OMIyyzGgK3
+ zZZL6EAUCAhng==
+Received: by mail-yb1-f181.google.com with SMTP id
+ 3f1490d57ef6-c15a5ed884dso3705153276.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 Jul 2023 01:01:51 -0700 (PDT)
+X-Gm-Message-State: ABy/qLYkGvWie5Kve64hl6NPA9y6dtE9ZVobwyW5SYHfwZtfsCxjJ7uv
+ P/u93ThAMdmA2BuyoutBFwPpx5qHllzUmHRqIXE=
+X-Google-Smtp-Source: APBJJlG4lzrHr5iy8DcyCDkqnYXfI6vr0OVREPdey5QbxLbrrL8xS3Y8SB3wQ09H+WYqmrGTTSOxoFpm+TOui/fO7vs=
+X-Received: by 2002:a25:c504:0:b0:c01:dcdd:ed50 with SMTP id
+ v4-20020a25c504000000b00c01dcdded50mr7607295ybe.14.1688284911003; Sun, 02 Jul
+ 2023 01:01:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230628-topic-a635-v2-1-5494c881b8be@linaro.org>
- <CAF6AEGsH0BZd_yyn7UtJ3cLbbw2A5qdg8gQ6SORzQKjsMsnvHA@mail.gmail.com>
-In-Reply-To: <CAF6AEGsH0BZd_yyn7UtJ3cLbbw2A5qdg8gQ6SORzQKjsMsnvHA@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 2 Jul 2023 03:24:24 +0300
-Message-ID: <CAA8EJpripp+Hf=GvCit75naGQqK8owHzPb+VuYHin393HcFPwA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/msm/adreno: Assign revn to A635
-To: Rob Clark <robdclark@gmail.com>
+References: <20230627144339.144478-1-Julia.Lawall@inria.fr>
+ <20230627144339.144478-16-Julia.Lawall@inria.fr>
+In-Reply-To: <20230627144339.144478-16-Julia.Lawall@inria.fr>
+From: Oded Gabbay <ogabbay@kernel.org>
+Date: Sun, 2 Jul 2023 11:01:24 +0300
+X-Gmail-Original-Message-ID: <CAFCwf13PXmSODKeNSPOyAH08QA-ovNzW5PEgFLMtg8AVAMD0GA@mail.gmail.com>
+Message-ID: <CAFCwf13PXmSODKeNSPOyAH08QA-ovNzW5PEgFLMtg8AVAMD0GA@mail.gmail.com>
+Subject: Re: [PATCH v2 15/24] habanalabs: use vmalloc_array and vcalloc
+To: Julia Lawall <Julia.Lawall@inria.fr>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,86 +63,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- Marijn Suijten <marijn.suijten@somainline.org>, linux-kernel@vger.kernel.org
+Cc: keescook@chromium.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ christophe.jaillet@wanadoo.fr, kuba@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 1 Jul 2023 at 18:50, Rob Clark <robdclark@gmail.com> wrote:
+On Tue, Jun 27, 2023 at 5:44=E2=80=AFPM Julia Lawall <Julia.Lawall@inria.fr=
+> wrote:
 >
-> On Fri, Jun 30, 2023 at 4:12=E2=80=AFPM Konrad Dybcio <konrad.dybcio@lina=
-ro.org> wrote:
-> >
-> > Recently, a WARN_ON() was introduced to ensure that revn is filled befo=
-re
-> > adreno_is_aXYZ is called. This however doesn't work very well when revn=
- is
-> > 0 by design (such as for A635). Fill it in as a stopgap solution for
-> > -fixes.
-> >
-> > Fixes: cc943f43ece7 ("drm/msm/adreno: warn if chip revn is verified bef=
-ore being set")
-> > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> > ---
-> > Changes in v2:
-> > - add fixes
-> > - Link to v1: https://lore.kernel.org/r/20230628-topic-a635-v1-1-5056e0=
-9c08fb@linaro.org
-> > ---
-> >  drivers/gpu/drm/msm/adreno/adreno_device.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/d=
-rm/msm/adreno/adreno_device.c
-> > index cb94cfd137a8..8ea7eae9fc52 100644
-> > --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > @@ -345,6 +345,7 @@ static const struct adreno_info gpulist[] =3D {
-> >                 .address_space_size =3D SZ_16G,
-> >         }, {
-> >                 .rev =3D ADRENO_REV(6, 3, 5, ANY_ID),
-> > +               .revn =3D 635,
-> >                 .fw =3D {
-> >                         [ADRENO_FW_SQE] =3D "a660_sqe.fw",
-> >                         [ADRENO_FW_GMU] =3D "a660_gmu.bin",
-> >
+> Use vmalloc_array and vcalloc to protect against
+> multiplication overflows.
 >
-> hmm, I realized a problem with this, it would change what
-> MSM_PARAM_GPU_ID and more importantly MSM_PARAM_CHIP_ID return..  The
-> former should be "harmless", although it isn't a good idea for uabi
-> changes to be a side effect of a fix.  The latter is more problematic.
-
-I'd say MSM_PARAM_GPU_ID is broken for 635 anyway (won't it return 0
-in this case)?
-So the new value should be correct.
-
-But more importantly, why are we exporting speedbin in
-MSM_PARAM_CHIP_ID only if there is no revn? And why are we exporting
-the speedbin at all as a part of CHIP_ID?
-
+> The changes were done using the following Coccinelle
+> semantic patch:
 >
-> I think I'm leaning more towards reverting commit cc943f43ece7
-> ("drm/msm/adreno: warn if chip revn is verified before being set") for
-> -fixes.  I'm still thinking about options for a longer term fix.
+> // <smpl>
+> @initialize:ocaml@
+> @@
 >
-> BR,
-> -R
+> let rename alloc =3D
+>   match alloc with
+>     "vmalloc" -> "vmalloc_array"
+>   | "vzalloc" -> "vcalloc"
+>   | _ -> failwith "unknown"
+>
+> @@
+>     size_t e1,e2;
+>     constant C1, C2;
+>     expression E1, E2, COUNT, x1, x2, x3;
+>     typedef u8;
+>     typedef __u8;
+>     type t =3D {u8,__u8,char,unsigned char};
+>     identifier alloc =3D {vmalloc,vzalloc};
+>     fresh identifier realloc =3D script:ocaml(alloc) { rename alloc };
+> @@
+>
+> (
+>       alloc(x1*x2*x3)
+> |
+>       alloc(C1 * C2)
+> |
+>       alloc((sizeof(t)) * (COUNT), ...)
+> |
+> -     alloc((e1) * (e2))
+> +     realloc(e1, e2)
+> |
+> -     alloc((e1) * (COUNT))
+> +     realloc(COUNT, e1)
+> |
+> -     alloc((E1) * (E2))
+> +     realloc(E1, E2)
+> )
+> // </smpl>
+>
+> Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
+>
+> ---
+> v2: Use vmalloc_array and vcalloc instead of array_size.
+> This also leaves a multiplication of a constant by a sizeof
+> as is.  Two patches are thus dropped from the series.
+>
+>  drivers/accel/habanalabs/common/device.c     |    3 ++-
+>  drivers/accel/habanalabs/common/state_dump.c |    7 ++++---
+>  2 files changed, 6 insertions(+), 4 deletions(-)
+>
+> diff -u -p a/drivers/accel/habanalabs/common/device.c b/drivers/accel/hab=
+analabs/common/device.c
+> --- a/drivers/accel/habanalabs/common/device.c
+> +++ b/drivers/accel/habanalabs/common/device.c
+> @@ -2594,7 +2594,8 @@ static void hl_capture_user_mappings(str
+>          */
+>         vfree(pgf_info->user_mappings);
+>         pgf_info->user_mappings =3D
+> -                       vzalloc(pgf_info->num_of_user_mappings * sizeof(s=
+truct hl_user_mapping));
+> +                       vcalloc(pgf_info->num_of_user_mappings,
+> +                               sizeof(struct hl_user_mapping));
+>         if (!pgf_info->user_mappings) {
+>                 pgf_info->num_of_user_mappings =3D 0;
+>                 goto finish;
+> diff -u -p a/drivers/accel/habanalabs/common/state_dump.c b/drivers/accel=
+/habanalabs/common/state_dump.c
+> --- a/drivers/accel/habanalabs/common/state_dump.c
+> +++ b/drivers/accel/habanalabs/common/state_dump.c
+> @@ -272,7 +272,8 @@ static u32 *hl_state_dump_read_sync_obje
+>         base_addr =3D sds->props[SP_SYNC_OBJ_BASE_ADDR] +
+>                         sds->props[SP_NEXT_SYNC_OBJ_ADDR] * index;
+>
+> -       sync_objects =3D vmalloc(sds->props[SP_SYNC_OBJ_AMOUNT] * sizeof(=
+u32));
+> +       sync_objects =3D vmalloc_array(sds->props[SP_SYNC_OBJ_AMOUNT],
+> +                                    sizeof(u32));
+>         if (!sync_objects)
+>                 return NULL;
+>
+> @@ -453,8 +454,8 @@ hl_state_dump_alloc_read_sm_block_monito
+>         s64 base_addr; /* Base addr can be negative */
+>         int i;
+>
+> -       monitors =3D vmalloc(sds->props[SP_MONITORS_AMOUNT] *
+> -                          sizeof(struct hl_mon_state_dump));
+> +       monitors =3D vmalloc_array(sds->props[SP_MONITORS_AMOUNT],
+> +                                sizeof(struct hl_mon_state_dump));
+>         if (!monitors)
+>                 return NULL;
 >
 >
-> > ---
-> > base-commit: 5c875096d59010cee4e00da1f9c7bdb07a025dc2
-> > change-id: 20230628-topic-a635-1b3c2c987417
-> >
-> > Best regards,
-> > --
-> > Konrad Dybcio <konrad.dybcio@linaro.org>
-> >
 
-
-
---=20
-With best wishes
-Dmitry
+Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
