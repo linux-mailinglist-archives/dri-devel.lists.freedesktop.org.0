@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B30B744CE6
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Jul 2023 11:16:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D15C8744CD8
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Jul 2023 11:05:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C94D610E02F;
-	Sun,  2 Jul 2023 09:16:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A93210E008;
+	Sun,  2 Jul 2023 09:04:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DD5E10E07E
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Jul 2023 08:00:07 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- 5b1f17b1804b1-3fba5a8af2cso33491235e9.3
- for <dri-devel@lists.freedesktop.org>; Sun, 02 Jul 2023 01:00:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1688284804; x=1690876804;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=sAUhZCQsdk87kgdWEBUppph6/yxmaqqjG5LD2yozjmE=;
- b=LBRWF0qTQR1vdSojoeWP1/KHAKjxNGrEGOta35tbFekBwztv59f6JpjhB+swxUm03M
- uHYwSjcfeVZtjnG6peUR4eiZyK7foW8X8L2CF2rXFWKMoVjI120mABOGo2+Mi+zAMOqh
- ibiYMjp6XuoG02OvryQ8zxR5J/2+vvCATS69eOt3IQ2bQuNn4Y0PsfHoOUXiD9t3Q8u3
- 8CTAQuItiUyFQVWHmevHWJ3bnWdgig+MdazSHOc3Vriu24pE+6Wj2ZX82nkOR6anjNGX
- Ng/aO+61ZqZby1IcBbTTHSPHEcQR382kW760yL9mqRuieCpmpWebiymU9urthu4IHxQh
- eoAQ==
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com
+ [209.85.128.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E02E10E008
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Jul 2023 09:04:55 +0000 (UTC)
+Received: by mail-yw1-f176.google.com with SMTP id
+ 00721157ae682-570877f7838so40281057b3.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 Jul 2023 02:04:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688284804; x=1690876804;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sAUhZCQsdk87kgdWEBUppph6/yxmaqqjG5LD2yozjmE=;
- b=detbEbtOtB2JnKF5DYrE7qoiGTD6oTz8UMjfQ0T3n1dXFNppgg2fGkt9IfcK5wy/Br
- aJGpSUGkN7HIzru7XH1+bzp6MmnrKFnE8KnjFI2twrBCUsIc4sRXvOWoO83//OgjH9ZB
- y5QSz1ADWu+E/bw1UPhcjhqS5P2ipI/dEnYAaSV890MgR/SXAVZ5YQjvLwL4gphvYNaf
- 6qCYauk5PZ5/7PTLr6rXuDm/hxc3PK4Wgga5WElMxdvy/TTmHozdh8UWwBsx+O42cQTp
- PyBlT+ZlGJofiItETrS52iPoO4SedYgXukuuvs+PgOEaJfyX5Eaf+MLOKeyXcpG4fmLC
- eZmw==
-X-Gm-Message-State: AC+VfDy4u/SKw3GSaMzvA2iLPFxrd4lFpNfgGD6CPPz8DLoQ8K0HZlNT
- tAKdmfNi9PWoin8F5aq4UDU=
-X-Google-Smtp-Source: ACHHUZ51p/7W85vZ05OKRDLNDDfo8EshPrLib7+JwjGfEjbu9EJG3gx3IjKjhfuy4GzOOT5vGJX+lQ==
-X-Received: by 2002:a1c:750a:0:b0:3f5:878:c0c2 with SMTP id
- o10-20020a1c750a000000b003f50878c0c2mr4895518wmc.3.1688284803762; 
- Sun, 02 Jul 2023 01:00:03 -0700 (PDT)
-Received: from localhost ([2a01:e0a:32f:1f0:ae0b:3bc8:c743:b2d8])
- by smtp.gmail.com with ESMTPSA id
- cx16-20020a056000093000b00301a351a8d6sm22710943wrb.84.2023.07.02.01.00.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 Jul 2023 01:00:03 -0700 (PDT)
-From: Raphael Gallais-Pou <rgallaispou@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH] staging: fbtft: ili9341: use macro FBTFT_REGISTER_SPI_DRIVER
-Date: Sun,  2 Jul 2023 10:03:24 +0200
-Message-ID: <20230702080324.120137-1-rgallaispou@gmail.com>
-X-Mailer: git-send-email 2.41.0
+ d=1e100.net; s=20221208; t=1688288693; x=1690880693;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=r0rKPpyZ8Vpl4zrPLQreT82vhpL2lp3WXuUoTDayFbI=;
+ b=lx8GbA7heb+zMtWVT1f3yGapSxqWA/xA2zy1jo0kw974P5dQ24w4zaOBr6NA0yedkE
+ HWF1MhaC+VVwVXCSCgbBmntojezdxNQ3BGHhS0PIYFb1oobuA7aU3B1UwvOoanSYUGtN
+ Z654n9vn/nU/7ugOpjG6m91qoaMFwxCeQXnUkTFF0Y5jByOevS1jwL1XigWx1wdjnqB3
+ QwbOoab6XhWkB++wkmeGlHUip30T9TD0CDmP2Iuok4G1mFZkbWrjTrdyD0Ml59tD0wPJ
+ u/4JZehL/xMrfmwCEcAliq0hlvusez2smInIYIPfKsnnzEyrQgsRzOToEg9UiPPyQf3J
+ //iw==
+X-Gm-Message-State: ABy/qLZkmfWSnYXDIye/osaX/kivQd1F1P6uyoxP5u4UKSeKKw/MWeZk
+ yxFbxPImGFgqyN7hCfsEcw/e+z7pUYe3Tu4I
+X-Google-Smtp-Source: APBJJlFhqLdk+chi8PhmBAKqRCNlS50Pqt8KrF0Or4W3B1hGWFOs3E/Fb2bIT15bhLszASM6/8Ux4A==
+X-Received: by 2002:a81:4904:0:b0:577:4975:c114 with SMTP id
+ w4-20020a814904000000b005774975c114mr5664918ywa.0.1688288693573; 
+ Sun, 02 Jul 2023 02:04:53 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com.
+ [209.85.128.171]) by smtp.gmail.com with ESMTPSA id
+ w67-20020a0ded46000000b0054f83731ad2sm2858010ywe.0.2023.07.02.02.04.52
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 02 Jul 2023 02:04:52 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id
+ 00721157ae682-570877f7838so40280807b3.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 Jul 2023 02:04:52 -0700 (PDT)
+X-Received: by 2002:a0d:d649:0:b0:570:65df:21dc with SMTP id
+ y70-20020a0dd649000000b0057065df21dcmr7384264ywd.3.1688288692547; Sun, 02 Jul
+ 2023 02:04:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sun, 02 Jul 2023 09:16:23 +0000
+References: <20230701214503.550549-1-javierm@redhat.com>
+ <20230701214503.550549-3-javierm@redhat.com>
+ <2e1af219-a31c-4284-b50a-662f65c8a736@app.fastmail.com>
+In-Reply-To: <2e1af219-a31c-4284-b50a-662f65c8a736@app.fastmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Sun, 2 Jul 2023 11:04:41 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWQ3FcmyCd-mWOWVAXzgoOX8wBD8-LbRwjNkC=sz3y27g@mail.gmail.com>
+Message-ID: <CAMuHMdWQ3FcmyCd-mWOWVAXzgoOX8wBD8-LbRwjNkC=sz3y27g@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] drm: Make fbdev emulation select FB_CORE instead
+ of depends on FB
+To: Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,38 +72,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Using FBTFT_REGISTER_DRIVER resolves to a NULL struct spi_device_id. This
-ultimately causes the module to an early exit at probe time.
-In addition the MODULE_ALIASes can be dropped.
+Hi Arnd,
 
-Signed-off-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
----
- drivers/staging/fbtft/fb_ili9341.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+On Sun, Jul 2, 2023 at 12:07=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> wrote=
+:
+> On Sat, Jul 1, 2023, at 23:44, Javier Martinez Canillas wrote:
+> > Now that the fbdev core has been split in FB_CORE and FB, make DRM fbde=
+v
+> > emulation layer to just select the former.
+> >
+> > This allows to disable the CONFIG_FB option if is not needed, which wil=
+l
+> > avoid the need to explicitly disable each of the legacy fbdev drivers.
+> >
+> > Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> > ---
+> >
+> > Changes in v2:
+> > - Make CONFIG_DRM_FBDEV_EMULATION to select FB_CORE (Thomas Zimmermann)=
+.
+> >
+> >  drivers/gpu/drm/Kconfig | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> > index afb3b2f5f425..d9b1710e3ad0 100644
+> > --- a/drivers/gpu/drm/Kconfig
+> > +++ b/drivers/gpu/drm/Kconfig
+> > @@ -132,7 +132,7 @@ config DRM_DEBUG_MODESET_LOCK
+> >  config DRM_FBDEV_EMULATION
+> >       bool "Enable legacy fbdev support for your modesetting driver"
+> >       depends on DRM_KMS_HELPER
+> > -     depends on FB=3Dy || FB=3DDRM_KMS_HELPER
+> > +     select FB_CORE
+>
+> This will unfortunately force FB_CORE=3Dy even with DRM=3Dm, it would be =
+nice
+> to allow both to be loadable modules. Any of these should work:
+>
+> a) Add another hidden symbol like
+>
+> config DRM_FB_CORE
+>       def_tristate DRM && DRM_FBDEV_EMULATION
+>       select FB_CORE
 
-diff --git a/drivers/staging/fbtft/fb_ili9341.c b/drivers/staging/fbtft/fb_ili9341.c
-index 9ccd0823c3ab..9528bf3cf711 100644
---- a/drivers/staging/fbtft/fb_ili9341.c
-+++ b/drivers/staging/fbtft/fb_ili9341.c
-@@ -145,12 +145,7 @@ static struct fbtft_display display = {
- 	},
- };
- 
--FBTFT_REGISTER_DRIVER(DRVNAME, "ilitek,ili9341", &display);
--
--MODULE_ALIAS("spi:" DRVNAME);
--MODULE_ALIAS("platform:" DRVNAME);
--MODULE_ALIAS("spi:ili9341");
--MODULE_ALIAS("platform:ili9341");
-+FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "ilitek", "ili9341", &display);
- 
- MODULE_DESCRIPTION("FB driver for the ILI9341 LCD display controller");
- MODULE_AUTHOR("Christian Vogelgsang");
--- 
-2.41.0
+More complexity to keep track of...
 
+>
+> b) move the 'select' to DRM
+>
+> config DRM
+>       tristate "Direct Rendering Manager (XFree86 4.1.0 and higher DRI su=
+pport)"
+>       select FB_CORE if DRM_FBDEV_EMULATION
+
+I prefer this one, as it keeps the select close to the user.
+
+BTW, the tristate help text can use some overhaul ;-)
+
+> c) Remove the 'select' and instead use the default
+>
+> config FB_CORE
+>      def_tristate FB || (DRM && DRM_FBDEV_EMULATION)
+
+Adding it here means this patch would touch two subsystems.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
