@@ -2,74 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A99B745B37
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jul 2023 13:36:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEB8E745B8F
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jul 2023 13:49:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E88C510E0F0;
-	Mon,  3 Jul 2023 11:35:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AAE810E0E4;
+	Mon,  3 Jul 2023 11:49:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C1EF10E060
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jul 2023 11:35:52 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id
- 2adb3069b0e04-4fa48b5dc2eso6946912e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Jul 2023 04:35:52 -0700 (PDT)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0FC110E0E4
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jul 2023 11:49:47 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id
+ ffacd0b85a97d-3142ee41fd2so1760085f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Jul 2023 04:49:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688384149; x=1690976149;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=gmail.com; s=20221208; t=1688384985; x=1690976985;
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=fR6gW6QqPVhQF4uZh4Ai5jdCPhHvwhrUtKxoyIWDUPQ=;
- b=rHY1DLerRbOhYNNVRe96k8xQpd4pnTJaDLPbKTZXdOKpBuUPCnHMaTGSNfp2vFtENE
- H5Lb2yeylWzK0tBrDgScWRb4bfh2lrfSYdatkGYmNxYtSsnF6rXebe7ABGUwJosyx964
- lMS7tRPEH7717OamE00LZeeg8xWiSRKjbV4+VzAuAB+5DR+muIWcWAiGuMbO5z/DTrPk
- Ptems8E/nkk7JuCSlvfKZoNrqWg5+5Xvq9+79/gLlP+yqFbti5P5G6A0u9UYt0ts2zs/
- dFh/XafzcXrtXkDSKDBR3XZ/sgpHcnP1sAGpkOUifYfvR/qm48wgZFV4ez05mZxTG4Rh
- x9aQ==
+ bh=mUBgoT7oVrf5ARJFXEG8sPNkl4O0ByWy9s6zR1XPvdM=;
+ b=JXcdBFyM3Qs+lsRM9BvTWkrCfMWUYRpEpsGFVZXP+OgzaoH2UDXPuJsTsrEwzE+uPl
+ oYI2Mn6ybAmxtuacDn4R7AQ+10ueCO7wYM54AXOwSftk0opUXHSUHtRtOmpZBGUknuFK
+ WL/d43T1/F9kM3CrfUTvOsJcASXXIpycMrSivyIHNSDs9bpSRO946zK7wYj2hE63o6+R
+ k/L+/0Uph48VjmV+4UI58WeajixHsZRNK40nLSWejJsA2eyNl08zCl40CDrlP/8M5ABD
+ y3tJOd9B18YD5siqUQUSfdtmC9c9FXrKTA4w2PaKM4zsiIyDKmpvEEpuyWkmKCYmKAhI
+ p8gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688384149; x=1690976149;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=1e100.net; s=20221208; t=1688384985; x=1690976985;
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fR6gW6QqPVhQF4uZh4Ai5jdCPhHvwhrUtKxoyIWDUPQ=;
- b=W9JFtaw87/6FPMcPuPsaRsrmJIQ23QfknB2/+2SghYpnYUAIQnInsq7jHgwJDoXWJi
- B5SZpM6BEWn9J6ji4X5xaP5B3gObH8zi6yemesJbxvsR9e3FtdlpFQfli0eXLNXvaDt8
- oSQ1orTQA2GtCl3vWAlVmD+9CDn699CglMxxxWxWLMi2cqzWCotbzhlhpAmQ1S5IwXbi
- j/wzzGLst5UtK99VBHR4zVeo6MjmRsoaJ+UjkXdTYRROFHJW8uAeyRiefiFcdZKL6/we
- 7Voc9H27V1pD2ZNCQ3s54Ido6kYx6SICmPRgPnvmPSJhbG4O/cuctdzU7qDYb0X+hrqR
- 5+eA==
-X-Gm-Message-State: ABy/qLYYkMfjsxNQZOfRJlgptgoI4mxFpCZvgbzfwmQ5dIvOJR31Su3q
- GMg4uWzoensh6DAtnh3a5b+uCg==
-X-Google-Smtp-Source: APBJJlFYyFRmaxnd3ulQxmEgzLYB26UKCRVr7Zjj1tFIlXUhU4KJAPhpjOqh5tgH/FdV8SX0qj+xSQ==
-X-Received: by 2002:a05:6512:308a:b0:4fb:89bb:bcc4 with SMTP id
- z10-20020a056512308a00b004fb89bbbcc4mr7744687lfd.51.1688384149094; 
- Mon, 03 Jul 2023 04:35:49 -0700 (PDT)
-Received: from [192.168.1.101] (abyj26.neoplus.adsl.tpnet.pl. [83.9.29.26])
+ bh=mUBgoT7oVrf5ARJFXEG8sPNkl4O0ByWy9s6zR1XPvdM=;
+ b=bKLp4uw7LTcuT7N4OGax8t+I9QjqcBJ8OifsW2hmbFvqhYyt4/lEmFrYJ2D8/D3RCU
+ gZuX8V2tH49y7IQvmPdm+C7UodF3dowInrB6+PtDwDQohhlP0D4dslHHp5GMqZUP4X9e
+ tndQYEYC7t5DZYjN0Uga6f0nqOqtUgKiaWLtTzWK/j+th2z/+dgtpRRnGFWbtF2l930+
+ KSxwKEmnVk2Ms/irEK/RZRU5XcpJcPiYH6ypeXmE8Y0hVj3+jVA21ifYIZ7me1C247TN
+ IJIhFIRtUE5iTK0qUvGcjadHSxzIU6Qj29pyF8U4h2f3aBFVAP8DPCfJfE4LPQFicbR0
+ 4EAg==
+X-Gm-Message-State: ABy/qLa/ZEDb34DsOKL3LCx/UpWQLLw+fT4cd/wrnUzBsAVVF3UA+5ru
+ 5O4FLUN9RFEw0+95pk90F9Q=
+X-Google-Smtp-Source: APBJJlGPnPorxdrkluwOr9ke4FFLeVbf2WqMQOz3pcfjeA2LfYHKPgn/SSZ2U9KlYrIwWpv319AGYw==
+X-Received: by 2002:adf:f246:0:b0:314:13a4:f36d with SMTP id
+ b6-20020adff246000000b0031413a4f36dmr7632333wrp.12.1688384985419; 
+ Mon, 03 Jul 2023 04:49:45 -0700 (PDT)
+Received: from ?IPV6:2a00:e180:15db:7000:52d4:e05:b365:ad25?
+ ([2a00:e180:15db:7000:52d4:e05:b365:ad25])
  by smtp.gmail.com with ESMTPSA id
- q28-20020ac246fc000000b004fb96436ac7sm2623973lfo.250.2023.07.03.04.35.47
+ z3-20020a5d4c83000000b0030497b3224bsm25230391wrs.64.2023.07.03.04.49.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Jul 2023 04:35:48 -0700 (PDT)
-Message-ID: <43f16d47-3318-7a9f-ac87-8e595435b6c3@linaro.org>
-Date: Mon, 3 Jul 2023 13:35:47 +0200
+ Mon, 03 Jul 2023 04:49:44 -0700 (PDT)
+Message-ID: <c1403d54-b43a-0ecb-9046-a0b4d35215e1@gmail.com>
+Date: Mon, 3 Jul 2023 13:49:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2 08/15] drm/msm/hdmi: move the alt_iface clock to the
- hpd list
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] dma-buf: keep the signaling time of merged fences v3
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>, Vinod Koul
- <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>
-References: <20230625114222.96689-1-dmitry.baryshkov@linaro.org>
- <20230625114222.96689-9-dmitry.baryshkov@linaro.org>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20230625114222.96689-9-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Luben Tuikov <luben.tuikov@amd.com>, juan.hao@nxp.com,
+ dri-devel@lists.freedesktop.org
+References: <20230630120041.109216-1-christian.koenig@amd.com>
+ <5d7578de-13a1-35e3-f751-187d15e50b77@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <5d7578de-13a1-35e3-f751-187d15e50b77@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,41 +79,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-phy@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25.06.2023 13:42, Dmitry Baryshkov wrote:
-> According to the vendor kernel [1] , the alt_iface clock should be
-> enabled together with the rest of HPD clocks, to make HPD to work
-> properly.
-> 
-> [1] https://git.codelinaro.org/clo/la/kernel/msm-3.18/-/commit/e07a5487e521e57f76083c0a6e2f995414ac6d03
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Am 30.06.23 um 19:19 schrieb Luben Tuikov:
+> On 2023-06-30 08:00, Christian König wrote:
+> [SNIP]
 > ---
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Silly question perhaps:
+> 	Could we not have returned an existing (signalled) fence with
+> the wanted timestamp (when count == 0), as opposed to allocating a stub? Maybe
+> allocation should be avoided?
 
-Konrad
->  drivers/gpu/drm/msm/hdmi/hdmi.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> index 3132105a2a43..0fc3df43aa70 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> @@ -248,9 +248,9 @@ static const struct hdmi_platform_config hdmi_tx_8960_config = {
->  };
->  
->  static const char *pwr_reg_names_8x74[] = {"core-vdda", "core-vcc"};
-> -static const char *pwr_clk_names_8x74[] = {"extp", "alt_iface"};
-> -static const char *hpd_clk_names_8x74[] = {"iface", "core", "mdp_core"};
-> -static unsigned long hpd_clk_freq_8x74[] = {0, 19200000, 0};
-> +static const char *pwr_clk_names_8x74[] = {"extp"};
-> +static const char *hpd_clk_names_8x74[] = {"iface", "core", "mdp_core", "alt_iface"};
-> +static unsigned long hpd_clk_freq_8x74[] = {0, 19200000, 0, 0};
->  
->  static const struct hdmi_platform_config hdmi_tx_8974_config = {
->  		HDMI_CFG(pwr_reg, 8x74),
+No a silly, but a very good question.
+
+Answer is yes, that's what we have done previously. Problem with that 
+approach is that each fence reference prevents the driver who originally 
+issued this fence from being able to unload.
+
+That's especially ugly in cases of hotplug because you have to keep a 
+zombie driver instance around for potentially quite some time.
+
+Regards,
+Christian.
