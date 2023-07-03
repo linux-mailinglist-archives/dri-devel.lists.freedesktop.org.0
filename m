@@ -2,76 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59D49746591
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 00:01:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59049746618
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 01:16:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10FFC10E240;
-	Mon,  3 Jul 2023 22:01:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7D6110E24F;
+	Mon,  3 Jul 2023 23:16:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9182D10E23F;
- Mon,  3 Jul 2023 22:01:24 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 363LiHcl029908; Mon, 3 Jul 2023 22:01:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=ljB1KVebSsPGN7wNBk3bPHPPeM6lXr+P+i19DKZSqww=;
- b=bVVivjApYQjBmLzXyZeKsj/ddft44LQ+R4UcIKb66oRbL+ycP00K23NREVybsXToEEai
- 8DAKMysrgZIu7dv1uHHmuVt8ro5XeW8BQSwqcPg/UFk8Gkh1NOK6MSRIgsNoSS0xpTVp
- 49CgyVwf22t3swFlbBfC1gRDYeJyYFJcU4F+GbAU5pyOuElprn9AYhsvWquUrvD0Ct5q
- 7cB0cRvftC0th7iaJh9oPsFVlm7rsk+BUfnfvMe9hBbC1O4nH79/Ldo/pRAW3h7G8HGb
- 16fwwjEQs1NR7C2CJVxS/V0MXzKfEm3lxoWLWxyn/+VwAxTVTTjMcCqOQbsldMFVUhe8 sw== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rm0060u6e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 03 Jul 2023 22:01:19 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 363M1HQ1014305
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 3 Jul 2023 22:01:17 GMT
-Received: from [10.110.19.132] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.7; Mon, 3 Jul 2023
- 15:01:17 -0700
-Message-ID: <9188dfda-19ab-536a-540b-a7c7f753f69c@quicinc.com>
-Date: Mon, 3 Jul 2023 15:01:16 -0700
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0F9610E05D;
+ Mon,  3 Jul 2023 15:01:52 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id
+ 2adb3069b0e04-4f004cc54f4so6859770e87.3; 
+ Mon, 03 Jul 2023 08:01:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1688396509; x=1690988509;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=4ACAehRo9Teq7otTL7t1DkhIRrNmVdicT9iRzjgjAX4=;
+ b=QY3WsCZGQOiafSVgFytHNVwB+PNMpe4yuH/ejzZdUhvt3pV6/5gfBrvHh5Uf+MrXLr
+ LGp0o4oh3Y6gcImedl6Bpr+A4WNjPq5z4EgXDOyNtjfiYKZlTQ6JpqlRkqd5QPbErWDq
+ fkcot1hoh9WTuaAlTGEMdgycbmc2C1OVtSvDRNFC+55PoMXFpm1Rwe1KCRaw5Fnr154Z
+ lYDXQnL5HmIsTcwpDW6zlSWsM6KGy4JucuxUtcwpvYDUg1yCXQ/IncW4qZQsxPs92RL3
+ eLN3efPGi8DOaNn8ZtGVR2KuI7OuMIVo9C3rh0vBOHkNcy5mBN0eDEaK6MKYqY3Pfveh
+ hzSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688396509; x=1690988509;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4ACAehRo9Teq7otTL7t1DkhIRrNmVdicT9iRzjgjAX4=;
+ b=X+iSq1SKTExJdlfY5HHBsfvppvWO/W1sW649V8qopCGzYeVnPx/DHWWhhcS3396v/b
+ I6AlhPgzNTo+b1hti9Bu6fxTFoqJQHMXAtOcIbe8dXLlbOK4pyxQ4zumfKicYCfbAP6V
+ 6YsLj3wRAmqPSH+wLkO0Ff8EMSkFZSCeNC7az6CcHo+JdWUBXvA+sAnttUvO5DhUeV4Y
+ KR5LB59b8h93l9RAkVneSvmQTnUTk4n2v5WWo+77tWo9x74MZy43W4EYgK0Isp4iDH++
+ NB3IAfaN+PNsEQ2l9kG7V+oF9Mrh2PhYuqNZiFTmaUDR+S+vLeKn09Bx+CHW3NsKIy+7
+ gZUg==
+X-Gm-Message-State: ABy/qLZSWCtbp0vJQUwBdKqGZbBaRSpfmuvQdhs+sM6RrgYMPf5IFCUv
+ +ZYGKSwoeamnWRuMSApg16DnNpWIc/Fi2A==
+X-Google-Smtp-Source: APBJJlEy07zEOHrJaTz7psAlLEzG3iQ1RXU/ezZ16Gu7PUkEO1A6MG/Olvbvbk+csfjrYJudmx71uw==
+X-Received: by 2002:a05:6512:3da5:b0:4f8:6e6e:3f42 with SMTP id
+ k37-20020a0565123da500b004f86e6e3f42mr11621655lfv.14.1688396508639; 
+ Mon, 03 Jul 2023 08:01:48 -0700 (PDT)
+Received: from localhost.localdomain ([46.248.82.114])
+ by smtp.gmail.com with ESMTPSA id
+ q7-20020aa7d447000000b005183ce42da9sm10477109edr.18.2023.07.03.08.01.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Jul 2023 08:01:48 -0700 (PDT)
+From: Uros Bizjak <ubizjak@gmail.com>
+To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/amdgpu: Use local64_try_cmpxchg in amdgpu_perf_read
+Date: Mon,  3 Jul 2023 17:00:59 +0200
+Message-ID: <20230703150135.5784-1-ubizjak@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 4/8] drm/msm/dpu: rework indentation in dpu_core_perf
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20230620000846.946925-1-dmitry.baryshkov@linaro.org>
- <20230620000846.946925-5-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230620000846.946925-5-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: MFvUmrGIHkq-g3hJh5nwzOCH-DhVmVDc
-X-Proofpoint-GUID: MFvUmrGIHkq-g3hJh5nwzOCH-DhVmVDc
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-03_15,2023-06-30_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0
- priorityscore=1501 lowpriorityscore=0 bulkscore=0 mlxscore=0
- mlxlogscore=939 adultscore=0 spamscore=0 impostorscore=0 malwarescore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2307030201
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 03 Jul 2023 23:16:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,29 +73,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, Uros Bizjak <ubizjak@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Use local64_try_cmpxchg instead of local64_cmpxchg (*ptr, old, new) == old
+in amdgpu_perf_read.  x86 CMPXCHG instruction returns success in ZF flag,
+so this change saves a compare after cmpxchg (and related move instruction
+in front of cmpxchg).
 
+Also, try_cmpxchg implicitly assigns old *ptr value to "old" when cmpxchg
+fails. There is no need to re-read the value in the loop.
 
-On 6/19/2023 5:08 PM, Dmitry Baryshkov wrote:
-> dpu_core_perf.c contains several multi-line conditions which are hard to
-> comprehent because of the indentation. Rework the identation of these
-> conditions to make it easier to understand them.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
+No functional change intended.
 
-I think some of the checks were like this due to checkpatch's earlier 
-limit being 80 chars.
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Signed-off-by: Uros Bizjak <ubizjak@gmail.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-With that relaxed, this should be fine. Hence,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
+index 71ee361d0972..6e91ea1de5aa 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pmu.c
+@@ -276,9 +276,8 @@ static void amdgpu_perf_read(struct perf_event *event)
+ 	    (!pe->adev->df.funcs->pmc_get_count))
+ 		return;
+ 
++	prev = local64_read(&hwc->prev_count);
+ 	do {
+-		prev = local64_read(&hwc->prev_count);
+-
+ 		switch (hwc->config_base) {
+ 		case AMDGPU_PMU_EVENT_CONFIG_TYPE_DF:
+ 		case AMDGPU_PMU_EVENT_CONFIG_TYPE_XGMI:
+@@ -289,7 +288,7 @@ static void amdgpu_perf_read(struct perf_event *event)
+ 			count = 0;
+ 			break;
+ 		}
+-	} while (local64_cmpxchg(&hwc->prev_count, prev, count) != prev);
++	} while (!local64_try_cmpxchg(&hwc->prev_count, &prev, count));
+ 
+ 	local64_add(count - prev, &event->count);
+ }
+-- 
+2.41.0
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-
-I am unable to apply this in my branch for some reason but, hope this 
-doesnt break checkpatch now :)
