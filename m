@@ -2,76 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFE8D74535F
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jul 2023 02:53:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 707A874539A
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jul 2023 03:34:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 396AF10E023;
-	Mon,  3 Jul 2023 00:53:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D352D10E053;
+	Mon,  3 Jul 2023 01:34:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C36310E012;
- Mon,  3 Jul 2023 00:53:16 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2398810E012;
+ Mon,  3 Jul 2023 01:34:37 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3630mw8X007647; Mon, 3 Jul 2023 00:53:11 GMT
+ 3631OU9c011628; Mon, 3 Jul 2023 01:34:29 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=n0iCOUJDgpk8XI7Gi67c+nmfkeVy4BQYTWVaWHj1f54=;
- b=N+evrawG03Zj6mUDEeEH7JzFuOZPEffN+hj0b+hdb1pR102RBUk+ymyh7vHPG5ZIhW6P
- s64NnH93A3W6pTW7gEe9HZsbzcoZNxHOYjnJERd/Bv/fGJ9VfCFYCShfvbBE7auowfXt
- RlwQbKFgbdJ7rbUDe2P8vDLQFrS8LWnpdc18Ju+3phRucXjtJ3rZh5fHXo5N2NHiRESk
- wQKGSQF5LlcZ98N4xKsyRkNafEztdOHKkEE3Rg78vWxhiAUxjQzJ9uQbkJlmGBqNCLeY
- Uu15bgYCuuJvmZaQWrO0W7tV5yawAuj5/aaCk+PcaVtLdPj1zNXLy1byjhLn4WVLYHYQ rA== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=CRbw+zfAS9tpeGa7BE62UH9urKGYNVpOAbJvOlADKEg=;
+ b=REMQcUn+Mhwp8T+3s2iHnHHCc4Vwpv7tS3KwhFpaldiIlIXVERE5pBD7q8AdmINam34O
+ X3+347i2wl2IcVFpC+NQ68cADVRpfojSRB7dXow0VrqK+Y031986tCWVJ+lU5H6wvlC7
+ Uk2NuUM8/jYEkrOO9FBrBLAVavIIvc7jcn0EFRRnNYc5/tBwvXSYo7HkbvBzVyRbb01B
+ r5pfkDTjirXEQ4MQmnG0LUAkqRVMTLB1ADIqcbm4FHscjfLTIApM5tmQKM6a65TGUiC8
+ YGsoMWcX5teT2YDsPVMgI+YgoP/jckO0XCDvj6Dgk//+ACfTY/q03bcMfbjQfRg/XdDy 8g== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rjbfqjrrj-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rjday2m0u-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 03 Jul 2023 00:53:11 +0000
+ Mon, 03 Jul 2023 01:34:29 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3630r9En012138
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3631YFBD000614
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 3 Jul 2023 00:53:09 GMT
+ Mon, 3 Jul 2023 01:34:15 GMT
 Received: from [10.110.68.253] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.7; Sun, 2 Jul 2023
- 17:53:09 -0700
-Message-ID: <544f3474-afe7-a470-4b50-ea58fb8261bc@quicinc.com>
-Date: Sun, 2 Jul 2023 17:53:01 -0700
+ 18:34:15 -0700
+Message-ID: <9a5d6276-1bbd-ec65-90b0-8625671dbbae@quicinc.com>
+Date: Sun, 2 Jul 2023 18:34:14 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH v4 02/19] drm/msm/dpu: always use MSM_DP/DSI_CONTROLLER_n
+Subject: Re: [PATCH v4 03/19] drm/msm/dpu: simplify peer LM handling
 Content-Language: en-US
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
  <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
 References: <20230619212519.875673-1-dmitry.baryshkov@linaro.org>
- <20230619212519.875673-3-dmitry.baryshkov@linaro.org>
+ <20230619212519.875673-4-dmitry.baryshkov@linaro.org>
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230619212519.875673-3-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230619212519.875673-4-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: 73rD7YtN4WigCFAInRFg1Vvk5HSZiSKt
-X-Proofpoint-ORIG-GUID: 73rD7YtN4WigCFAInRFg1Vvk5HSZiSKt
+X-Proofpoint-ORIG-GUID: 8_ChSR6ve_AQhVBphvgpXwxsTjAccYwE
+X-Proofpoint-GUID: 8_ChSR6ve_AQhVBphvgpXwxsTjAccYwE
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-02_20,2023-06-30_01,2023-05-22_02
+ definitions=2023-07-03_01,2023-06-30_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0
- mlxlogscore=483 phishscore=0 clxscore=1015 impostorscore=0 mlxscore=0
- spamscore=0 lowpriorityscore=0 priorityscore=1501 malwarescore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2307030006
+ clxscore=1015 impostorscore=0
+ malwarescore=0 phishscore=0 spamscore=0 suspectscore=0 lowpriorityscore=0
+ bulkscore=0 mlxlogscore=999 mlxscore=0 priorityscore=1501 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
+ definitions=main-2307030013
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,13 +94,128 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 6/19/2023 2:25 PM, Dmitry Baryshkov wrote:
-> In several catalog entries we did not use existing MSM_DP_CONTROLLER_n
-> constants. Fill them in. Also use freshly defined MSM_DSI_CONTROLLER_n
-> for DSI interfaces.
+> For each LM there is at max 1 peer LM which can be driven by the same
+> CTL, so there no need to have a mask instead of just an ID of the peer
+> LM.
 > 
+
+The change is ok but the wording seems incorrect. Are you implying that 
+only LM0 and LM1 can be used for CTL0 and so-on? Because thats how this 
+is implying.
+
+So any LM can be used with any CTL. Its just that each LM has only one 
+peer. No need to mention anything about CTL.
+
 > Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 > Tested-by: Marijn Suijten <marijn.suijten@somainline.org>
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  2 +-
+>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  4 +--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        | 34 +++++++------------
+>   3 files changed, 15 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index 0de507d4d7b7..30fb5b1f3966 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -394,7 +394,7 @@ static const struct dpu_sspp_sub_blks qcm2290_dma_sblk_0 = _DMA_SBLK("8", 1);
+>   	.features = _fmask, \
+>   	.sblk = _sblk, \
+>   	.pingpong = _pp, \
+> -	.lm_pair_mask = (1 << _lmpair), \
+> +	.lm_pair = _lmpair, \
+>   	.dspp = _dspp \
+>   	}
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> index b860784ade72..b07caa4b867e 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> @@ -554,14 +554,14 @@ struct dpu_sspp_cfg {
+>    * @features           bit mask identifying sub-blocks/features
+>    * @sblk:              LM Sub-blocks information
+>    * @pingpong:          ID of connected PingPong, PINGPONG_NONE if unsupported
+> - * @lm_pair_mask:      Bitmask of LMs that can be controlled by same CTL
+> + * @lm_pair:           ID of LM that can be controlled by same CTL
+>    */
+>   struct dpu_lm_cfg {
+>   	DPU_HW_BLK_INFO;
+>   	const struct dpu_lm_sub_blks *sblk;
+>   	u32 pingpong;
+>   	u32 dspp;
+> -	unsigned long lm_pair_mask;
+> +	unsigned long lm_pair;
+>   };
+>   
+>   /**
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> index 471842bbb950..e333f4eeafc1 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> @@ -253,28 +253,19 @@ static bool _dpu_rm_needs_split_display(const struct msm_display_topology *top)
+>   }
+>   
+>   /**
+> - * _dpu_rm_check_lm_peer - check if a mixer is a peer of the primary
+> + * _dpu_rm_get_lm_peer - get the id of a mixer which is a peer of the primary
+>    * @rm: dpu resource manager handle
+>    * @primary_idx: index of primary mixer in rm->mixer_blks[]
+> - * @peer_idx: index of other mixer in rm->mixer_blks[]
+> - * Return: true if rm->mixer_blks[peer_idx] is a peer of
+> - *          rm->mixer_blks[primary_idx]
+>    */
+> -static bool _dpu_rm_check_lm_peer(struct dpu_rm *rm, int primary_idx,
+> -		int peer_idx)
+> +static int _dpu_rm_get_lm_peer(struct dpu_rm *rm, int primary_idx)
+>   {
+>   	const struct dpu_lm_cfg *prim_lm_cfg;
+> -	const struct dpu_lm_cfg *peer_cfg;
+>   
+>   	prim_lm_cfg = to_dpu_hw_mixer(rm->mixer_blks[primary_idx])->cap;
+> -	peer_cfg = to_dpu_hw_mixer(rm->mixer_blks[peer_idx])->cap;
+>   
+> -	if (!test_bit(peer_cfg->id, &prim_lm_cfg->lm_pair_mask)) {
+> -		DPU_DEBUG("lm %d not peer of lm %d\n", peer_cfg->id,
+> -				peer_cfg->id);
+> -		return false;
+> -	}
+> -	return true;
+> +	if (prim_lm_cfg->lm_pair >= LM_0 && prim_lm_cfg->lm_pair < LM_MAX)
+> +		return prim_lm_cfg->lm_pair - LM_0;
+> +	return -EINVAL;
+>   }
+>   
+>   /**
+> @@ -351,7 +342,7 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
+>   	int lm_idx[MAX_BLOCKS];
+>   	int pp_idx[MAX_BLOCKS];
+>   	int dspp_idx[MAX_BLOCKS] = {0};
+> -	int i, j, lm_count = 0;
+> +	int i, lm_count = 0;
+>   
+>   	if (!reqs->topology.num_lm) {
+>   		DPU_ERROR("invalid number of lm: %d\n", reqs->topology.num_lm);
+> @@ -376,16 +367,15 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
+>   		++lm_count;
+>   
+>   		/* Valid primary mixer found, find matching peers */
+> -		for (j = i + 1; j < ARRAY_SIZE(rm->mixer_blks) &&
+> -				lm_count < reqs->topology.num_lm; j++) {
+> -			if (!rm->mixer_blks[j])
+> +		if (lm_count < reqs->topology.num_lm) {
+> +			int j = _dpu_rm_get_lm_peer(rm, i);
+> +
+> +			/* ignore the peer if there is an error or if the peer was already processed */
+> +			if (j < 0 || j < i)
+>   				continue;
+>   
+> -			if (!_dpu_rm_check_lm_peer(rm, i, j)) {
+> -				DPU_DEBUG("lm %d not peer of lm %d\n", LM_0 + j,
+> -						LM_0 + i);
+> +			if (!rm->mixer_blks[j])
+>   				continue;
+> -			}
+>   
+>   			if (!_dpu_rm_check_lm_and_get_connected_blks(rm,
+>   					global_state, enc_id, j,
