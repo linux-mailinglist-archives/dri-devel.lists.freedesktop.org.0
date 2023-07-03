@@ -1,53 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A3D1745F4F
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jul 2023 17:00:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C384D746034
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jul 2023 17:58:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF3D810E042;
-	Mon,  3 Jul 2023 15:00:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3113A10E0A8;
+	Mon,  3 Jul 2023 15:58:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2364E10E042;
- Mon,  3 Jul 2023 15:00:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=lEjQPsDxtRvLE8zahWewvCEDc9M1w1GJ+mEScSJMMVI=; b=DCkVBEqraHjIzrkzpVAu1I1fMd
- x3M/MmqmMrkVCu9Ew6c43mRhieNKUGOms4QP8dpBCjOZAB0UWS8JNJcENWnCEtO/+uvs9T3VV24Xq
- NB+i1YpIkToHgtjWBn5P/VNcB3QRPnSEApYb3Gt3m+DFB1AlMRyDR6OjuPoJKq9pVl6AykNL+zf4R
- NpgK2Olt4YDPJkE0m4UsEZSwHol2ZztANfqDUJ14FhzAfzMDSqEXaFjXU39+Ek/9+rQX6/CKKbGm9
- 9hBkn1s0AKmt8gtoXeZRxNBo0Nk+iHLuJt+EC9N9OHFt+qW1Vyb3NyOgGHQdNuQr6UNq9cP0k5Zth
- EbyfCPUA==;
-Received: from [187.74.70.209] (helo=[192.168.1.111])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1qGL2R-007fhp-7K; Mon, 03 Jul 2023 17:00:27 +0200
-Message-ID: <cedc57a5-779a-3ec6-cfbd-f51dfb17f2dc@igalia.com>
-Date: Mon, 3 Jul 2023 12:00:22 -0300
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6595510E084;
+ Mon,  3 Jul 2023 15:58:20 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 363FtDbF018853; Mon, 3 Jul 2023 15:58:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=Qb+ATlfHsHv3ZFspBYMvpWOWHIVM2WZFQeNbx/eawAs=;
+ b=avBwmVM7OMCZ/eQ9cYpChALgzNVoHxaRt+y+/1pHtBbDshC75YqbW92lESXm0MQiRK/n
+ ophfMfKHUtgc1qhmkU9ILp6oA7LTwQHi6gJnf1KbiTaGYM02Xdm9d6xbm1NJfy+AnVdA
+ xPppu0NL1WBe7ioA8bZdt1I8j0PMPH5N81XLh1SUj6F09TmA4lBNGBB8EDsTpll6b5hQ
+ Lb+DhU8Tadwgvn3q10to1o/HdAZi3QKLXTRygRbTjUPLnlf0m8kmehUdTxxAi/SlXndH
+ aWi+I7YbiQRCvwKITHFy3+y0VwPaqzLAtxMUUQ4DQQ9txKJpz/ZPZqg+wwV+G9Z1/LPq qw== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rkyrr88ey-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 03 Jul 2023 15:58:10 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 363FwAaQ019368
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 3 Jul 2023 15:58:10 GMT
+Received: from [10.110.64.205] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.7; Mon, 3 Jul 2023
+ 08:58:09 -0700
+Message-ID: <1e32f665-e6c9-3f4b-c804-296323879269@quicinc.com>
+Date: Mon, 3 Jul 2023 08:58:03 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v5 1/1] drm/doc: Document DRM device reset expectations
-To: Pekka Paalanen <ppaalanen@gmail.com>
-References: <20230627132323.115440-1-andrealmeid@igalia.com>
- <CA+hFU4z1pc=KUVVqyqfXEceUqMXQgh-qUnuB=1nkPELghvQO7w@mail.gmail.com>
- <CADnq5_MNVdtdcWKSz6dgmsjg+kEu8p5FVE+fkw_5BaXeG3QGow@mail.gmail.com>
- <afab1f5a-e581-3416-e2c2-238ea120655b@mailbox.org>
- <CAAxE2A5C96k5ua+r938VA_+w7gHHNTdF3n8LwDb98W0Bf9wCVA@mail.gmail.com>
- <7c1e6df5-1ad4-be3c-b95d-92dc62a8c537@mailbox.org>
- <20230703114949.796c7498@eldfell>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v4 08/19] drm/msm/dpu: drop zero features from dpu_ctl_cfg
+ data
 Content-Language: en-US
-From: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <20230703114949.796c7498@eldfell>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20230619212519.875673-1-dmitry.baryshkov@linaro.org>
+ <20230619212519.875673-9-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230619212519.875673-9-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: ewUfgUnNBRwVXXK3qFTMUDjptbRb0cd-
+X-Proofpoint-ORIG-GUID: ewUfgUnNBRwVXXK3qFTMUDjptbRb0cd-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-03_11,2023-06-30_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 phishscore=0
+ priorityscore=1501 bulkscore=0 clxscore=1015 adultscore=0 impostorscore=0
+ mlxlogscore=627 spamscore=0 malwarescore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2307030145
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,121 +85,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- Sebastian Wick <sebastian.wick@redhat.com>,
- Randy Dunlap <rdunlap@infradead.org>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- =?UTF-8?Q?Timur_Krist=c3=b3f?= <timur.kristof@gmail.com>,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Samuel Pitoiset <samuel.pitoiset@gmail.com>, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-Em 03/07/2023 05:49, Pekka Paalanen escreveu:
-> On Mon, 3 Jul 2023 09:12:29 +0200
-> Michel Dänzer <michel.daenzer@mailbox.org> wrote:
+On 6/19/2023 2:25 PM, Dmitry Baryshkov wrote:
+> Drop useless zero assignments to the dpu_ctl_cfg::features field.
 > 
->> On 6/30/23 22:32, Marek Olšák wrote:
->>> On Fri, Jun 30, 2023 at 11:11 AM Michel Dänzer <michel.daenzer@mailbox.org <mailto:michel.daenzer@mailbox.org>> wrote:
->>>> On 6/30/23 16:59, Alex Deucher wrote:
->>>>> On Fri, Jun 30, 2023 at 10:49 AM Sebastian Wick
->>>>> <sebastian.wick@redhat.com <mailto:sebastian.wick@redhat.com>> wrote:
->>>>>> On Tue, Jun 27, 2023 at 3:23 PM André Almeida <andrealmeid@igalia.com <mailto:andrealmeid@igalia.com>> wrote:
->>>>>>>
->>>>>>> +Robustness
->>>>>>> +----------
->>>>>>> +
->>>>>>> +The only way to try to keep an application working after a reset is if it
->>>>>>> +complies with the robustness aspects of the graphical API that it is using.
->>>>>>> +
->>>>>>> +Graphical APIs provide ways to applications to deal with device resets. However,
->>>>>>> +there is no guarantee that the app will use such features correctly, and the
->>>>>>> +UMD can implement policies to close the app if it is a repeating offender,
->>>>>>> +likely in a broken loop. This is done to ensure that it does not keep blocking
->>>>>>> +the user interface from being correctly displayed. This should be done even if
->>>>>>> +the app is correct but happens to trigger some bug in the hardware/driver.
->>>>>>
->>>>>> I still don't think it's good to let the kernel arbitrarily kill
->>>>>> processes that it thinks are not well-behaved based on some heuristics
->>>>>> and policy.
->>>>>>
->>>>>> Can't this be outsourced to user space? Expose the information about
->>>>>> processes causing a device and let e.g. systemd deal with coming up
->>>>>> with a policy and with killing stuff.
->>>>>
->>>>> I don't think it's the kernel doing the killing, it would be the UMD.
->>>>> E.g., if the app is guilty and doesn't support robustness the UMD can
->>>>> just call exit().
->>>>
->>>> It would be safer to just ignore API calls[0], similarly to what
->>>> is done until the application destroys the context with
->>>> robustness. Calling exit() likely results in losing any unsaved
->>>> work, whereas at least some applications might otherwise allow
->>>> saving the work by other means.
->>>
->>> That's a terrible idea. Ignoring API calls would be identical to a
->>> freeze. You might as well disable GPU recovery because the result
->>> would be the same.
->>
->> No GPU recovery would affect everything using the GPU, whereas this
->> affects only non-robust applications.
->>
->>
->>> - non-robust contexts: call exit(1) immediately, which is the best
->>> way to recover
->>
->> That's not the UMD's call to make.
->>
->>
->>>>      [0] Possibly accompanied by a one-time message to stderr along
->>>> the lines of "GPU reset detected but robustness not enabled in
->>>> context, ignoring OpenGL API calls".
->>
-> 
-> Hi,
-> 
-> Michel does have a point. It's not just games and display servers that
-> use GPU, but productivity tools as well. They may have periodic
-> autosave in anticipation of crashes, but being able to do the final
-> save before quitting would be nice. UMD killing the process would be
-> new behaviour, right? Previously either application's GPU thread hangs
-> or various API calls return errors, but it didn't kill the process, did
-> it?
-> 
+> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+> Tested-by: Marijn Suijten <marijn.suijten@somainline.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
 
-In Intel's Iris, UMD may call abort() for the reset guilty application:
-
-https://elixir.bootlin.com/mesa/mesa-23.0.4/source/src/gallium/drivers/iris/iris_batch.c#L1063
-
-I was pretty sure this was the same for RadeonSI, but I failed to find 
-the code for this, so I might be wrong.
-
-> If an application freezes, that's "no problem"; the end user can just
-> continue using everything else. Alt-tab away etc. if the app was
-> fullscreen. I do that already with games on even Xorg.
-> 
-> If a display server freezes, that's a desktop-wide problem, but so is
-> killing it.
-> 
-
-Interesting, what GPU do you use? In my experience (AMD RX 5600 XT), 
-hanging the GPU usually means that the rest of applications/compositor 
-can't use the GPU either, freezing all user interactions. So killing the 
-guilty app is one effective solution currently, but ignoring calls may 
-help as well.
-
-> OTOH, if UMD really does need to terminate the process, then please do
-> it in a way that causes a crash report to be recorded. _exit() with an
-> error code is not it.
-> 
-
-In the "Reporting causes of resets" subsection of this document I can 
-add something for UMD as well.
-
-> 
-> Thanks,
-> pq
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
