@@ -2,70 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D80E7457A4
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jul 2023 10:49:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AFED7457A8
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jul 2023 10:49:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4162E10E1D9;
-	Mon,  3 Jul 2023 08:49:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC70110E1D6;
+	Mon,  3 Jul 2023 08:49:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA44D10E1D9
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jul 2023 08:49:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1688374177;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to; bh=+TImfC7tK2SsSjZEh/HT3vdbJQbag2Dkm/n26z7WMho=;
- b=c1VwygpOJBrOcP4j+EQ8TnhNQqSvGCHyhKAVvpmFUKrZ4gPVHnlvTvylE17UPaymiVDRrm
- 48xw7Z3FZKBeQ/Dbs9169DqMdXFL5QOSsj1fOT33/qXQT6VuSAcKC4ZZ5eLtJLCzPgf0+J
- R6yujP027rQFAH1WP/cJJsU6C9sO16s=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-214-XH80ut-_MnOn38PcH0pvJQ-1; Mon, 03 Jul 2023 04:49:34 -0400
-X-MC-Unique: XH80ut-_MnOn38PcH0pvJQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-31421c900b7so1806258f8f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Jul 2023 01:49:34 -0700 (PDT)
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAE5110E1D6;
+ Mon,  3 Jul 2023 08:49:54 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id
+ 2adb3069b0e04-4fb94b1423eso6216381e87.1; 
+ Mon, 03 Jul 2023 01:49:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1688374192; x=1690966192;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=kROqTS8zYsaLySu7JmTcNK/xxL79gYyzV7R7X4O/qGA=;
+ b=qNI/iJBjoHLQodbwGukdp+YEWxyJu+FgtY4iReU/kjJdN/2hm2zSSbELu9ewUBd75+
+ Dw6BLdlldBbmnXWFMMox6V6ZNAx6LnMG8YFCzEOSSZhPA6WxAzqXgnfrOmfHzlF7rzM4
+ uiuWwI5EllMz2xKm+MBaGDACNL6cz+Fjkjk1xk+5IJGgBsNTexLPnawJIvC3UyMxxisR
+ Zkb3BXre50yRsVdsFjjjYsuj5A6bS5JP981/r9fxMw3azP54R49xMqQb/RHmGUCeeW0l
+ SqFN1ecW4v6338Gmvtoy0ph+sQzJ+3lNu27cNE9sl7DN9/mYIEOJUJiR3Z/WOT2Vc+iq
+ dIgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688374173; x=1690966173;
- h=mime-version:message-id:date:in-reply-to:subject:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+TImfC7tK2SsSjZEh/HT3vdbJQbag2Dkm/n26z7WMho=;
- b=JTI8bUCacv/CJccWPOG39AGeb8XbxMLaKMO+yqVIGLY2NDK9d1qh3s1/4Bl/FJDIc8
- vuQvfiQwFTyX3aC1tU4paq8pFwIzDuNMAU8TFSIvf2YxFlP2+nWjH7KUs+PDqMUCe/l/
- l5POT7nYWcArt7EZyStWq+B7Gxqf/xAZaWvSX1OP6VKo+HlwLL5DjZX7Bx3UU0Ye//em
- K0HxEizag70DCvz9QGJQDH9WlXOBvj/CYUlqjJSYYFS7EZzKyNiWKm50sPXa/YhncjB+
- Jq4uyCBNm7wWmZ1TUUwhZxQdJAeslXPGwGJDo/bRgdjo9S1MEBIhwNptE6GGSTQrjzcw
- BDJg==
-X-Gm-Message-State: ABy/qLZZ1Qrk3MvCBeQAex1mrqlo/aC06+50zn4roO3SHEP434p8XFhV
- G56iluZX1q52bkFUGv3PtV8uF50pSalHgr/w7c3kbM1vFl6Qp8rYD4CpT3Kx4N5TUtGKZXiEFZW
- vOpIYM5dZ3qq3h7LJ3yU2WmyrRRov
-X-Received: by 2002:a5d:5141:0:b0:313:e88d:e6d6 with SMTP id
- u1-20020a5d5141000000b00313e88de6d6mr8286638wrt.14.1688374173214; 
- Mon, 03 Jul 2023 01:49:33 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGg6K8WUHE8euyn+3LOEa30xbblNJ36iK0ft7TSKaKSogN5/e+nUCA42ROWlI7aSWhx9VYj0A==
-X-Received: by 2002:a5d:5141:0:b0:313:e88d:e6d6 with SMTP id
- u1-20020a5d5141000000b00313e88de6d6mr8286616wrt.14.1688374172926; 
- Mon, 03 Jul 2023 01:49:32 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- da16-20020a056000197000b0031274a184d5sm25157550wrb.109.2023.07.03.01.49.32
+ d=1e100.net; s=20221208; t=1688374192; x=1690966192;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kROqTS8zYsaLySu7JmTcNK/xxL79gYyzV7R7X4O/qGA=;
+ b=kTtZqWPaFpwuTlX4jksGFuIMLTzAYlzhVRZcYfYzsCYTBo40I+A79amYK9DN0gweiC
+ Xuq/Rc6blM/szmH6Ft4O4k2KM8S86Ba9FiGGqXLmItGF8k/4mFMwoVnCEKhun5e7aYBH
+ HwLdfoSWuXVCV70I83j56I3ZhxboFZpD0kVbEaoqsZnO3GIVc4mjmi8qtTc7dbzMhPyY
+ j2GA07/SaX2filGJsxgTK6yAxdGWabHJpRDuYpU83KkwOFCLvbhuBeBFXrOgpeuZ1vPQ
+ NzDpcYJC35x4V3fYopK+3lrRO3S6OyZXstgpjykS1WxJChQsNrStlhY0huOWq11zGWHu
+ VRDA==
+X-Gm-Message-State: ABy/qLZfGpyPHBftAXU2mSzcd1iYUtaVhpJaJ6Ij56wBscRPxDdgeflK
+ Zn8Y6RbPLFLArJ/uuTX9vwg=
+X-Google-Smtp-Source: APBJJlGUF/6v05+URsfL22sCMh95xPIoDszyQLCQudZPR1JQrvxoM7qdhZKZS/23un8sGFumwgSXDA==
+X-Received: by 2002:a05:6512:34cb:b0:4f8:d385:41bd with SMTP id
+ w11-20020a05651234cb00b004f8d38541bdmr5657396lfr.8.1688374192115; 
+ Mon, 03 Jul 2023 01:49:52 -0700 (PDT)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ u27-20020a056512041b00b004fbacee6028sm1221785lfk.110.2023.07.03.01.49.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Jul 2023 01:49:32 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] fbdev: Split frame buffer support in FB and
- FB_CORE symbols
-In-Reply-To: <04fa72f3-d6ca-bd68-7ed9-57151c1877df@suse.de>
-Date: Mon, 03 Jul 2023 10:49:26 +0200
-Message-ID: <87o7ktz8fd.fsf@minerva.mail-host-address-is-not-set>
+ Mon, 03 Jul 2023 01:49:51 -0700 (PDT)
+Date: Mon, 3 Jul 2023 11:49:49 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Michel =?UTF-8?B?RMOkbnplcg==?= <michel.daenzer@mailbox.org>
+Subject: Re: [PATCH v5 1/1] drm/doc: Document DRM device reset expectations
+Message-ID: <20230703114949.796c7498@eldfell>
+In-Reply-To: <7c1e6df5-1ad4-be3c-b95d-92dc62a8c537@mailbox.org>
+References: <20230627132323.115440-1-andrealmeid@igalia.com>
+ <CA+hFU4z1pc=KUVVqyqfXEceUqMXQgh-qUnuB=1nkPELghvQO7w@mail.gmail.com>
+ <CADnq5_MNVdtdcWKSz6dgmsjg+kEu8p5FVE+fkw_5BaXeG3QGow@mail.gmail.com>
+ <afab1f5a-e581-3416-e2c2-238ea120655b@mailbox.org>
+ <CAAxE2A5C96k5ua+r938VA_+w7gHHNTdF3n8LwDb98W0Bf9wCVA@mail.gmail.com>
+ <7c1e6df5-1ad4-be3c-b95d-92dc62a8c537@mailbox.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: multipart/signed; boundary="Sig_/C4YI/5tzC5DMxCBTI_3NuKt";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,56 +76,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
- Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Helge Deller <deller@gmx.de>, x86@kernel.org, dri-devel@lists.freedesktop.org,
- Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H. Peter Anvin" <hpa@zytor.com>, Borislav Petkov <bp@alien8.de>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: pierre-eric.pelloux-prayer@amd.com,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
+ Marek =?UTF-8?B?T2zFocOhaw==?= <maraeo@gmail.com>,
+ Timur =?UTF-8?B?S3Jpc3TDs2Y=?= <timur.kristof@gmail.com>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, Samuel Pitoiset <samuel.pitoiset@gmail.com>,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+--Sig_/C4YI/5tzC5DMxCBTI_3NuKt
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-[...]
+On Mon, 3 Jul 2023 09:12:29 +0200
+Michel D=C3=A4nzer <michel.daenzer@mailbox.org> wrote:
 
->>>>    config FB_DEVICE
->>>>    	bool "Provide legacy /dev/fb* device"
->>>> -	depends on FB
->>>> +	select FB_CORE
->>>
->>> This should depend on FB_CORE.
->>>
->> 
->> Yes, already fixed in v3 too. I did a select to prevent symbol circular
->> dependencies but doing that lead to CONFIG_FB_CORE=y even if CONFIG_DRM
->> was set as a module.
->> 
->> But with the "select FB_CORE if DRM_FBDEV_EMULATION" in the DRM symbol as
->> Arnd suggested, I was able to have FB_DEVICE to depend on FB_CORE again.
->
-> BTW, where does this item now show up in the menu? It used to be in the 
-> framebuffer menu. It's now in the graphics-drivers menu?
->
+> On 6/30/23 22:32, Marek Ol=C5=A1=C3=A1k wrote:
+> > On Fri, Jun 30, 2023 at 11:11=E2=80=AFAM Michel D=C3=A4nzer <michel.dae=
+nzer@mailbox.org <mailto:michel.daenzer@mailbox.org>> wrote: =20
+> >> On 6/30/23 16:59, Alex Deucher wrote: =20
+> >>> On Fri, Jun 30, 2023 at 10:49=E2=80=AFAM Sebastian Wick
+> >>> <sebastian.wick@redhat.com <mailto:sebastian.wick@redhat.com>> wrote:=
+ =20
+> >>>> On Tue, Jun 27, 2023 at 3:23=E2=80=AFPM Andr=C3=A9 Almeida <andrealm=
+eid@igalia.com <mailto:andrealmeid@igalia.com>> wrote: =20
+> >>>>>
+> >>>>> +Robustness
+> >>>>> +----------
+> >>>>> +
+> >>>>> +The only way to try to keep an application working after a reset i=
+s if it
+> >>>>> +complies with the robustness aspects of the graphical API that it =
+is using.
+> >>>>> +
+> >>>>> +Graphical APIs provide ways to applications to deal with device re=
+sets. However,
+> >>>>> +there is no guarantee that the app will use such features correctl=
+y, and the
+> >>>>> +UMD can implement policies to close the app if it is a repeating o=
+ffender,
+> >>>>> +likely in a broken loop. This is done to ensure that it does not k=
+eep blocking
+> >>>>> +the user interface from being correctly displayed. This should be =
+done even if
+> >>>>> +the app is correct but happens to trigger some bug in the hardware=
+/driver. =20
+> >>>>
+> >>>> I still don't think it's good to let the kernel arbitrarily kill
+> >>>> processes that it thinks are not well-behaved based on some heuristi=
+cs
+> >>>> and policy.
+> >>>>
+> >>>> Can't this be outsourced to user space? Expose the information about
+> >>>> processes causing a device and let e.g. systemd deal with coming up
+> >>>> with a policy and with killing stuff. =20
+> >>>
+> >>> I don't think it's the kernel doing the killing, it would be the UMD.
+> >>> E.g., if the app is guilty and doesn't support robustness the UMD can
+> >>> just call exit(). =20
+> >>
+> >> It would be safer to just ignore API calls[0], similarly to what
+> >> is done until the application destroys the context with
+> >> robustness. Calling exit() likely results in losing any unsaved
+> >> work, whereas at least some applications might otherwise allow
+> >> saving the work by other means. =20
+> >=20
+> > That's a terrible idea. Ignoring API calls would be identical to a
+> > freeze. You might as well disable GPU recovery because the result
+> > would be the same. =20
+>=20
+> No GPU recovery would affect everything using the GPU, whereas this
+> affects only non-robust applications.
+>=20
+>=20
+> > - non-robust contexts: call exit(1) immediately, which is the best
+> > way to recover =20
+>=20
+> That's not the UMD's call to make.
+>=20
+>=20
+> >>     [0] Possibly accompanied by a one-time message to stderr along
+> >> the lines of "GPU reset detected but robustness not enabled in
+> >> context, ignoring OpenGL API calls". =20
+>=20
 
-No, it's still in the framebuffer menu. But after the FB_CORE split the
-menuconfig ends broken (no sub-level for fbdev drivers anymore).
+Hi,
 
-I was talking with Arnd and Geert about this. I think that will pause this
-series and instead first focus on cleaning up the fbdev Kconfig, then it
-should be easier to add the FB_CORE on top of that.
+Michel does have a point. It's not just games and display servers that
+use GPU, but productivity tools as well. They may have periodic
+autosave in anticipation of crashes, but being able to do the final
+save before quitting would be nice. UMD killing the process would be
+new behaviour, right? Previously either application's GPU thread hangs
+or various API calls return errors, but it didn't kill the process, did
+it?
 
-> Best regards
-> Thomas
->
+If an application freezes, that's "no problem"; the end user can just
+continue using everything else. Alt-tab away etc. if the app was
+fullscreen. I do that already with games on even Xorg.
 
--- 
-Best regards,
+If a display server freezes, that's a desktop-wide problem, but so is
+killing it.
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+OTOH, if UMD really does need to terminate the process, then please do
+it in a way that causes a crash report to be recorded. _exit() with an
+error code is not it.
 
+
+Thanks,
+pq
+
+--Sig_/C4YI/5tzC5DMxCBTI_3NuKt
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmSii60ACgkQI1/ltBGq
+qqckqQ/7BrK4wgscUoPj6/oNTGTEMmR3qF02TonW2w2/6I3KEJbAMLEJK0m/k4yk
+XjyAi66YlQNEWpyLl+pNKLKGmsVkiBmPf23Y/16X0WeEQcpFkZb07NJ+uh7TOLx5
+LokNIV+wsQMv1udl+Z/f/iRsCR6UFyJwVa+BvX2eIGPfjfn4bgNuvEIbSyEWk0sd
+aPQV2c7gAAk+tTcfO9utVNWM04tFWfrqjCqvfj5vjj5B6on74Fzz4+gAlLm8XKfP
+zDtedNCPepl7s2phZwKf1OsHa7QTTtvZHqTh3pPYbtxNbSe9oVtGbog6rRo4JfRA
+ZqibRvEGrybLMMSqapQTGkTtYMBgr5wdLL4ZbweslAawlnIpW85krFJZgCji6z3z
+Y7X8ICSDNbFlIlPETgci4lADVrgMa+BmtvQE6ecY8IWuAbsvWNBYCmYloLiikjmG
+XwK9ZGujrWjJOZ6LGYGEPxHNHxrDY5so4w6vfs62iP0OJgqoAeQhrbxBUXuYBUOS
+ZhntMMtWXfdB2M8WsVuJuKixpDBol9IDPM+m83tfV20/iwzBpKhJ5eh+CEHN9THk
+DA+0I4XPTDl45hzoOneDMP1BvJePXTKvTb6V3jwK7KGrUhaEV4N/C/33LaJXUwZp
+KUQD3KOHMn6+P9rAG1UdqscSxfQpwl857PVqHg5EpMlkZ1sIzrw=
+=n6NT
+-----END PGP SIGNATURE-----
+
+--Sig_/C4YI/5tzC5DMxCBTI_3NuKt--
