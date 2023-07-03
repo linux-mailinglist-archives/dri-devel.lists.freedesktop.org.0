@@ -1,81 +1,117 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E13E674661B
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 01:16:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B7E5746640
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 01:50:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 193A010E256;
-	Mon,  3 Jul 2023 23:16:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 081B210E0F5;
+	Mon,  3 Jul 2023 23:49:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65D1410E255;
- Mon,  3 Jul 2023 23:16:37 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 363NDHpC017271; Mon, 3 Jul 2023 23:16:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=Sg1PqDLgoo3C4TSwuuvd0OZlOkS8/qWtVIzIVpv3hyo=;
- b=HivUTvO5HTrmjRe3XznJGmNMAWLnLWFXbhYII68ATN7Xxud2FFB+H79F+qtSYNVyrRb1
- +vwFicx0VrMRi71FOf8jCCHu4j6Sul+b/x2TUbFSjKOWXr9q+yhhv9pvVgKkS2DFKoUp
- 4B0AdP0BfYx2Stzyp7MCxcr0IfrFhFipbxE3jf1auUfQstnNLJOMcj0mwam6Cet0gN/h
- VNgTtUNp6OmLq+0bcLNGdFfcrKP9fRxRuxRx5gwAMm5oun5DwOVGy+G39veSr8R88aaF
- zZmykengLYF8afzST7MRtOx/SUNKW/m1vMmhm7FIBM+9S/gCZFeuwJe9sw9N+PQABZbw /g== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rky5mh1aa-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 03 Jul 2023 23:16:32 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 363NGVTx027066
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 3 Jul 2023 23:16:31 GMT
-Received: from [10.110.19.132] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.7; Mon, 3 Jul 2023
- 16:16:31 -0700
-Message-ID: <e4e49b8a-80de-0e3a-d563-6bdd0e8f7c0e@quicinc.com>
-Date: Mon, 3 Jul 2023 16:16:30 -0700
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF5D410E0F5
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jul 2023 23:49:53 +0000 (UTC)
+Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
+ by mailout1.samsung.com (KnoxPortal) with ESMTP id
+ 20230703234950epoutp01578e6d9fa0725dc42621be3659727737~ugH5p_Y_R0593905939epoutp01j
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jul 2023 23:49:50 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
+ 20230703234950epoutp01578e6d9fa0725dc42621be3659727737~ugH5p_Y_R0593905939epoutp01j
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1688428190;
+ bh=M+PRu7t9Av84Uq/Ch0fMWh1O29jRGMDgZGtSzOc9xKM=;
+ h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+ b=aDmNxbVl5fUOBvMnLppcWNenyJRFVsKnQNTPTHRMwe3LMXrzUVWDdLEboxWO1V1Ki
+ Ebu42x7ZwillKvw55ob+Clsn/yDrxhHYq5yD9gfP7o54OH4jgoow8JT/xTZ6CrB0uy
+ ztw7TrtDKodx8RIX1DYyNzeRCoeEV3SW5OdTKQYM=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+ epcas1p3.samsung.com (KnoxPortal) with ESMTP id
+ 20230703234950epcas1p396c3d95d3081fdb4cc6a7b662b6d10a0~ugH5HwxpT2621426214epcas1p3v;
+ Mon,  3 Jul 2023 23:49:50 +0000 (GMT)
+Received: from epsmgec1p1.samsung.com (unknown [182.195.38.232]) by
+ epsnrtp1.localdomain (Postfix) with ESMTP id 4Qw2hs1sJCz4x9Q5; Mon,  3 Jul
+ 2023 23:49:49 +0000 (GMT)
+Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
+ epsmgec1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 35.2B.57829.D9E53A46; Tue,  4 Jul 2023 08:49:49 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20230703234948epcas1p135dbb5248ac8fefbe47651b0f822f4db~ugH3qBiKn3212432124epcas1p1h;
+ Mon,  3 Jul 2023 23:49:48 +0000 (GMT)
+Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20230703234948epsmtrp1ca01f9d5f8bf242bc49208fe9ad72fb8~ugH3pWq-C0142701427epsmtrp1o;
+ Mon,  3 Jul 2023 23:49:48 +0000 (GMT)
+X-AuditID: b6c32a33-635fe7000001e1e5-96-64a35e9d7c15
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
+ D6.BD.64355.C9E53A46; Tue,  4 Jul 2023 08:49:48 +0900 (KST)
+Received: from inkidae001 (unknown [10.113.221.213]) by epsmtip2.samsung.com
+ (KnoxPortal) with ESMTPA id
+ 20230703234948epsmtip224f17eb1dec36c6ebb221f4bfba05bc9~ugH3aH8S70594605946epsmtip2N;
+ Mon,  3 Jul 2023 23:49:48 +0000 (GMT)
+From: =?ks_c_5601-1987?B?tOvAzrHiL1RpemVuIFBsYXRmb3JtIExhYihTUikvu++8usD8wNo=?=
+ <inki.dae@samsung.com>
+To: "'Paul Cercueil'" <paul@crapouillou.net>, "'Krzysztof Kozlowski'"
+ <krzysztof.kozlowski+dt@linaro.org>, "'Rob Herring'" <robh+dt@kernel.org>,
+ "'Conor Dooley'" <conor+dt@kernel.org>, "'Alim Akhtar'"
+ <alim.akhtar@samsung.com>, "'Neil Armstrong'" <neil.armstrong@linaro.org>,
+ "'Sam	Ravnborg'" <sam@ravnborg.org>
+In-Reply-To: <20230703214715.623447-3-paul@crapouillou.net>
+Subject: RE: [PATCH 2/3] drm/panel: ld9040: Register a backlight device
+Date: Tue, 4 Jul 2023 08:49:48 +0900
+Message-ID: <0f0c01d9ae09$0d3a17f0$27ae47d0$@samsung.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 5/8] drm/msm/dpu: drop the dpu_core_perf_crtc_update()'s
- stop_req param
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20230620000846.946925-1-dmitry.baryshkov@linaro.org>
- <20230620000846.946925-6-dmitry.baryshkov@linaro.org>
- <61760ea5-92a4-2150-033f-7d8a9b167eb7@quicinc.com>
- <CAA8EJprDwLhVQv1peOt71t-RTDBx2k72WqS0kpOsQudav=dhtw@mail.gmail.com>
- <ecad5268-e867-c472-40d1-e22ad102ba99@quicinc.com>
- <CAA8EJpo5jy=XM8v3xVFWxHcy3s4q_a4g6GuKxaKqzgXJLH144w@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJpo5jy=XM8v3xVFWxHcy3s4q_a4g6GuKxaKqzgXJLH144w@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="ks_c_5601-1987"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 4qZMjharz-ysXaZg_qsSn6pIxm1FLuRd
-X-Proofpoint-GUID: 4qZMjharz-ysXaZg_qsSn6pIxm1FLuRd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-03_15,2023-06-30_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 adultscore=0
- spamscore=0 clxscore=1015 mlxscore=0 priorityscore=1501 phishscore=0
- bulkscore=0 lowpriorityscore=0 suspectscore=0 malwarescore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2307030211
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: ko
+Thread-Index: AQELXz3jF3oWSYlPLwE5KJCmEnZTHgIJPQsEAjYh06WxI1eC4A==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrMJsWRmVeSWpSXmKPExsWy7bCmge7cuMUpBqv+cFg8mLeNzWLN3nNM
+ FvOPnGO1uPL1PZtF34uHzBabHl9jtbi8aw6bxYzz+5gs3u+8xWjRv/gSi0Xr3iPsFit+bmV0
+ 4PFYfamdzWPTqk42jzvX9rB53O8+zuSxeUm9x5JpV9k8+rasYvT4vEkugCMq2yYjNTEltUgh
+ NS85PyUzL91WyTs43jne1MzAUNfQ0sJcSSEvMTfVVsnFJ0DXLTMH6FolhbLEnFKgUEBicbGS
+ vp1NUX5pSapCRn5xia1SakFKToFpgV5xYm5xaV66Xl5qiZWhgYGRKVBhQnbG1pP+BX0CFT2f
+ WxkbGK/wdjFyckgImEi0PdvA2MXIxSEksINRonHKYVYI5xOjxNvOu4xwzsOL21hhWs5+aYZK
+ 7GSUWHBhGxuE85JRYtmq5ywgVWwCGRJ32xeDzRIR2M8k0fTtDTOIwyywhVHi+pk57CBVnALW
+ Escv72AGsYUF3CVarvQygtgsAioSi9auZgOxeQUsJdas62CGsAUlTs58AraBWcBIYsnq+UwQ
+ trzE9rdzmCHuU5D4+XQZK0RcRGJ2ZxtQnAPoCieJI398QG6QELjAIbFsynxGiHoXiXOXnkP1
+ Cku8Or6FHcKWknjZ38YO0TCZUeLO9RUsEM4MRonDP69DdRtL7F86mQnCVpTY+XsuI8RmPol3
+ X3tYQTZLCPBKdLQJQZQoSRy7eAOqVULiwpKJbBMYlWYh+W0Wkt9mIfltFpJ/FjCyrGIUSy0o
+ zk1PTTYsMITHeHJ+7iZGcGrWMt7BeHn+P71DjEwcjIcYJTiYlUR4mx/OTxHiTUmsrEotyo8v
+ Ks1JLT7EaAoM7onMUqLJ+cDskFcSb2hiaWBiZmRsYmFoZqgkzqs4YXaKkEB6YklqdmpqQWoR
+ TB8TB6dUA1OPg3/515WHvtjnf9bxYdgtXyj5kIM3mTU2x2Vq4bm95b+rb7ukCSdIzeFijP4Q
+ yR+5lM8q0O9l5S1GKaMi7o0btyavPOik1n3jwiQOaWtRxj0KK5iS/+5asedU5fY1pzLPpC66
+ qlPwONZHOmuTt79v6IJVn2b0NGSyhZ/iu668OZpVsFDMPrJ//+n29WcPLNSq95zKFvdOqvbJ
+ ScbliY2t++LYP/M0lrXr/Zv7bdXnnAtPut7wP6uLXjJbPUdJpXPmyRrepEdbtdXVZzH3r2x7
+ dHZ3h0nj9LOGv55F/ttw55W3iYOB/kUzlW0K7+XcNxaEa6czypSXmsUohb75dWNddW1q4sHp
+ mzeLZOz7qsRSnJFoqMVcVJwIANnp/j9WBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrKIsWRmVeSWpSXmKPExsWy7bCSvO6cuMUpBs2z5SwezNvGZrFm7zkm
+ i/lHzrFaXPn6ns2i78VDZotNj6+xWlzeNYfNYsb5fUwW73feYrToX3yJxaJ17xF2ixU/tzI6
+ 8HisvtTO5rFpVSebx51re9g87ncfZ/LYvKTeY8m0q2wefVtWMXp83iQXwBHFZZOSmpNZllqk
+ b5fAlbH1pH9Bn0BFz+dWxgbGK7xdjJwcEgImEme/NDN2MXJxCAlsZ5SY1nGduYuRAyghIbFl
+ KweEKSxx+HAxRMlzRonbK48xgfSyCaRJTJq7nxUkISJwmEmia9dTJhCHWWAHo8TqU6tZIFp2
+ M0p8614O1sIpYC1x/PIOZhBbWMBdouVKLyOIzSKgIrFo7Wo2EJtXwFJizboOZghbUOLkzCcs
+ IDYz0KmNh7uhbHmJ7W/nMEO8oCDx8+kyVoi4iMTszjawD0QEnCSO/PGZwCg8C8mkWUgmzUIy
+ aRaS7gWMLKsYRVMLinPTc5MLDPWKE3OLS/PS9ZLzczcxgmNSK2gH47L1f/UOMTJxMB5ilOBg
+ VhLhbX44P0WINyWxsiq1KD++qDQntfgQozQHi5I4r3JOZ4qQQHpiSWp2ampBahFMlomDU6qB
+ SWXqLOHOU2Lrtmb93bdEIMpweeOmx0Kfp8YzqpXlcFy+dZ2plblmT/2h9QdDfl5KlLgrdXVF
+ RIzMtA0qDlmnzdi4xMTPfMpd+Umv5+F0gRl80TNzw/8vkbz18objhtiTp1Y6zW/d7F6/JjFc
+ vK81/NzhO29ORp/vqD2idXj+8f3r6vYciT505MYfjwsqVot3HpggW3bSmmX1DUsRk4lHPz5P
+ nrQk6OKVbVpa4td1nojdi+x0LflRM1ne7OA1zfvfr354mVr/pFSqxOtRuBj33/96bkdfdgfx
+ 5Kcd6ErunHJO4c/PRuGwtd8ZmdUideefyFkXtdAvsMf4kF5X9nFWWcOj+0t+SQR9jeX/y7t9
+ sZUSS3FGoqEWc1FxIgAYrp9ROAMAAA==
+X-CMS-MailID: 20230703234948epcas1p135dbb5248ac8fefbe47651b0f822f4db
+X-Msg-Generator: CA
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20230703214744epcas1p1d2763aa96e694d0e1693fabf953e83f6
+References: <20230703214715.623447-1-paul@crapouillou.net>
+ <CGME20230703214744epcas1p1d2763aa96e694d0e1693fabf953e83f6@epcas1p1.samsung.com>
+ <20230703214715.623447-3-paul@crapouillou.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,169 +124,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-
-On 7/3/2023 4:01 PM, Dmitry Baryshkov wrote:
-> On Tue, 4 Jul 2023 at 01:55, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 7/3/2023 3:53 PM, Dmitry Baryshkov wrote:
->>> On Tue, 4 Jul 2023 at 01:37, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>>>
->>>>
->>>>
->>>> On 6/19/2023 5:08 PM, Dmitry Baryshkov wrote:
->>>>> The stop_req is true only in the dpu_crtc_disable() case, when
->>>>> crtc->enable has already been set to false. This renders the stop_req
->>>>> argument useless. Remove it completely.
->>>>>
->>>>
->>>> What about the enable case?
->>>>
->>>> That time dpu_crtc->enabled  will be false but you need valid clock and
->>>> BW that time when you want to enable.
->>>
->>> Maybe I'm missing something here. The driver sets dpu_crtc->enabled in
->>> atomic_enable, while dpu_core_perf_crtc_update() is called further,
->>> during atomic_flush, or from the CRTC event handler. And both these
->>> cases have stop_req as false.
->>>
->>
->> But the first enable will happen with a commit too right?
+> -----Original Message-----
+> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
+> Paul Cercueil
+> Sent: Tuesday, July 4, 2023 6:47 AM
+> To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>; Rob Herring
+> <robh+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Alim Akhtar
+> <alim.akhtar@samsung.com>; Neil Armstrong <neil.armstrong@linaro.org>; Sam
+> Ravnborg <sam@ravnborg.org>
+> Cc: devicetree@vger.kernel.org; linux-samsung-soc@vger.kernel.org; linux-
+> kernel@vger.kernel.org; dri-devel@lists.freedesktop.org; Paul Cercueil
+> <paul@crapouillou.net>; linux-arm-kernel@lists.infradead.org
+> Subject: [PATCH 2/3] drm/panel: ld9040: Register a backlight device
 > 
-> Which one? Could you please point to it?
+> Register a backlight device to be able to switch between all the gamma
+> levels.
 > 
-
-My question was that
-
-drm_atomic_helper_commit_planes which calls 
-drm_crtc_helper_funcs::atomic_flush (which calls 
-dpu_core_perf_crtc_update) is called before 
-drm_crtc_helper_funcs::atomic_enable which gets called only during 
-drm_atomic_helper_commit_modeset_enables in msm_atomic_commit_tail
-
-Wouldnt that get broken now?
-
-
->>
->> Thats the one I am referring to.
->>
->>>>
->>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>> ---
->>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 12 ++++++------
->>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h |  3 +--
->>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      |  6 +++---
->>>>>     3 files changed, 10 insertions(+), 11 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
->>>>> index f8d5c87d0915..773e641eab28 100644
->>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
->>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
->>>>> @@ -277,7 +277,7 @@ static u64 _dpu_core_perf_get_core_clk_rate(struct dpu_kms *kms)
->>>>>     }
->>>>>
->>>>>     int dpu_core_perf_crtc_update(struct drm_crtc *crtc,
->>>>> -             int params_changed, bool stop_req)
->>>>> +                           int params_changed)
->>>>>     {
->>>>>         struct dpu_core_perf_params *new, *old;
->>>>>         bool update_bus = false, update_clk = false;
->>>>> @@ -301,13 +301,13 @@ int dpu_core_perf_crtc_update(struct drm_crtc *crtc,
->>>>>         dpu_crtc = to_dpu_crtc(crtc);
->>>>>         dpu_cstate = to_dpu_crtc_state(crtc->state);
->>>>>
->>>>> -     DRM_DEBUG_ATOMIC("crtc:%d stop_req:%d core_clk:%llu\n",
->>>>> -                     crtc->base.id, stop_req, kms->perf.core_clk_rate);
->>>>> +     DRM_DEBUG_ATOMIC("crtc:%d enabled:%d core_clk:%llu\n",
->>>>> +                     crtc->base.id, crtc->enabled, kms->perf.core_clk_rate);
->>>>>
->>>>>         old = &dpu_crtc->cur_perf;
->>>>>         new = &dpu_cstate->new_perf;
->>>>>
->>>>> -     if (crtc->enabled && !stop_req) {
->>>>> +     if (crtc->enabled) {
->>>>>                 /*
->>>>>                  * cases for bus bandwidth update.
->>>>>                  * 1. new bandwidth vote - "ab or ib vote" is higher
->>>>> @@ -337,7 +337,7 @@ int dpu_core_perf_crtc_update(struct drm_crtc *crtc,
->>>>>         }
->>>>>
->>>>>         trace_dpu_perf_crtc_update(crtc->base.id, new->bw_ctl,
->>>>> -             new->core_clk_rate, stop_req, update_bus, update_clk);
->>>>> +             new->core_clk_rate, !crtc->enabled, update_bus, update_clk);
->>>>>
->>>>>         if (update_bus) {
->>>>>                 ret = _dpu_core_perf_crtc_update_bus(kms, crtc);
->>>>> @@ -355,7 +355,7 @@ int dpu_core_perf_crtc_update(struct drm_crtc *crtc,
->>>>>         if (update_clk) {
->>>>>                 clk_rate = _dpu_core_perf_get_core_clk_rate(kms);
->>>>>
->>>>> -             trace_dpu_core_perf_update_clk(kms->dev, stop_req, clk_rate);
->>>>> +             trace_dpu_core_perf_update_clk(kms->dev, !crtc->enabled, clk_rate);
->>>>>
->>>>>                 clk_rate = min(clk_rate, kms->perf.max_core_clk_rate);
->>>>>                 ret = dev_pm_opp_set_rate(&kms->pdev->dev, clk_rate);
->>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
->>>>> index 2bf7836f79bb..c29ec72984b8 100644
->>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
->>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
->>>>> @@ -58,11 +58,10 @@ int dpu_core_perf_crtc_check(struct drm_crtc *crtc,
->>>>>      * dpu_core_perf_crtc_update - update performance of the given crtc
->>>>>      * @crtc: Pointer to crtc
->>>>>      * @params_changed: true if crtc parameters are modified
->>>>> - * @stop_req: true if this is a stop request
->>>>>      * return: zero if success, or error code otherwise
->>>>>      */
->>>>>     int dpu_core_perf_crtc_update(struct drm_crtc *crtc,
->>>>> -             int params_changed, bool stop_req);
->>>>> +                           int params_changed);
->>>>>
->>>>>     /**
->>>>>      * dpu_core_perf_crtc_release_bw - release bandwidth of the given crtc
->>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->>>>> index ff5d306b95ed..214229d11e3e 100644
->>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->>>>> @@ -718,7 +718,7 @@ static void dpu_crtc_frame_event_cb(void *data, u32 event)
->>>>>     void dpu_crtc_complete_commit(struct drm_crtc *crtc)
->>>>>     {
->>>>>         trace_dpu_crtc_complete_commit(DRMID(crtc));
->>>>> -     dpu_core_perf_crtc_update(crtc, 0, false);
->>>>> +     dpu_core_perf_crtc_update(crtc, 0);
->>>>>         _dpu_crtc_complete_flip(crtc);
->>>>>     }
->>>>>
->>>>> @@ -884,7 +884,7 @@ static void dpu_crtc_atomic_flush(struct drm_crtc *crtc,
->>>>>                 return;
->>>>>
->>>>>         /* update performance setting before crtc kickoff */
->>>>> -     dpu_core_perf_crtc_update(crtc, 1, false);
->>>>> +     dpu_core_perf_crtc_update(crtc, 1);
->>>>>
->>>>>         /*
->>>>>          * Final plane updates: Give each plane a chance to complete all
->>>>> @@ -1100,7 +1100,7 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
->>>>>                 atomic_set(&dpu_crtc->frame_pending, 0);
->>>>>         }
->>>>>
->>>>> -     dpu_core_perf_crtc_update(crtc, 0, true);
->>>>> +     dpu_core_perf_crtc_update(crtc, 0);
->>>>>
->>>>>         drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask)
->>>>>                 dpu_encoder_register_frame_event_callback(encoder, NULL, NULL);
->>>
->>>
->>>
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> ---
+>  drivers/gpu/drm/panel/panel-samsung-ld9040.c | 40 ++++++++++++++++++++
+>  1 file changed, 40 insertions(+)
 > 
+> diff --git a/drivers/gpu/drm/panel/panel-samsung-ld9040.c
+> b/drivers/gpu/drm/panel/panel-samsung-ld9040.c
+> index 7fd9444b42c5..b4f87d6244cb 100644
+> --- a/drivers/gpu/drm/panel/panel-samsung-ld9040.c
+> +++ b/drivers/gpu/drm/panel/panel-samsung-ld9040.c
+> @@ -8,6 +8,7 @@
+>   * Andrzej Hajda <a.hajda@samsung.com>
+>  */
 > 
+> +#include <linux/backlight.h>
+>  #include <linux/delay.h>
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/module.h>
+> @@ -311,8 +312,40 @@ static int ld9040_parse_dt(struct ld9040 *ctx)
+>  	return 0;
+>  }
 > 
+> +static int ld9040_bl_update_status(struct backlight_device *dev)
+> +{
+> +	struct ld9040 *ctx = dev_get_drvdata(&dev->dev);
+> +
+> +	ctx->brightness = dev->props.brightness;
+> +	ld9040_brightness_set(ctx);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ld9040_bl_get_intensity(struct backlight_device *dev)
+> +{
+> +	if (dev->props.fb_blank == FB_BLANK_UNBLANK &&
+
+fb_blank member is deprecated according to the description of backlight.h
+file so you could drop above condition I think.
+
+Thanks,
+Inki Dae
+
