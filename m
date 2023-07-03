@@ -2,62 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5B17745892
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jul 2023 11:39:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 350337458AB
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jul 2023 11:46:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31DA210E1ED;
-	Mon,  3 Jul 2023 09:39:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E144E10E1EA;
+	Mon,  3 Jul 2023 09:46:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBCAA10E1ED
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jul 2023 09:39:04 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C4BA91F8B4;
- Mon,  3 Jul 2023 09:39:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1688377142; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=V2pVxeMDN7LtO6/X6UWk1mdFAXw0ByEBF8VdgFGo7Do=;
- b=mhTSMZln8/4KTfOqBpyPB1irL0uie1Hwt6+QQRzeUq+oRckdKuRM7XoNl1a6AZZ49vXmib
- Xbska/aMITyhrHDMuIkomvs4ir0vdlEzik893EMNZARf2seMNCoL7mxq23Xa9AFEOw/r2o
- KvytKXlaC9d/4b18sh1NrRy+s6yV39Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1688377142;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=V2pVxeMDN7LtO6/X6UWk1mdFAXw0ByEBF8VdgFGo7Do=;
- b=C/2tBVDAEdh7Vh3VaY+K+w5zcmemp83J+Nuom0XXI3XTZNINeQkRMrl0QpV8o9QdAzpEOq
- zSNCWsGQn1LajJCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8DE0113276;
- Mon,  3 Jul 2023 09:39:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id nGODITaXomTcGQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 03 Jul 2023 09:39:02 +0000
-Message-ID: <96d91373-f955-2209-5cd7-7e1ecacf73f9@suse.de>
-Date: Mon, 3 Jul 2023 11:39:01 +0200
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AAC010E1EE
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jul 2023 09:46:02 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ 46e09a7af769-6b71cdb47e1so3506065a34.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Jul 2023 02:46:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1688377561; x=1690969561;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=TbmK849oZWBsIIXxzmxsrG4bxrPx0q2kPEKRNXqKLLA=;
+ b=FqaaBvfUvfBo3SBcsGzEMd1dvUZtm5NWEBpoBibAj65q9of6VirCq02/CPvzUE6J8M
+ Uhy5EVVpLr6ulJBY6fH/FRFZDHqELxw5AqluLllSTfRK8Ot+Y7fgK/B7fDdHTY0tDglk
+ aNBH29aK3CDBk7a+I6h5OtQDpqa2MgUlIAOY7TV32j+2bhe0Vnzs5nJl6906QtAMyUCT
+ GdDrC9klhyzRd3p1mIM0Q6JIf+MjdXHrTDOEwXZnZsJK+RVZA5+pBy+/iMeczLIiYMZL
+ T60ZrAExpo3e7Jl1THy4p7eU2ks0Ads/ozDYxk5B/CSAw2H6+lFHSWADkRkZd8aqZ38a
+ Dq/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688377561; x=1690969561;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=TbmK849oZWBsIIXxzmxsrG4bxrPx0q2kPEKRNXqKLLA=;
+ b=fmmLKrjZgH9Q6qIxZEdjsAtFJ5JvRNecgMUkfLTN3/nlN+5g3PUrzl//6yaK7kgr9p
+ bDX3vX5vZHjTypboZQZfb8oST4edtZYxUukkPqwH7/KDmCrtwEnSLbnOt1E5TJr7R921
+ K8XLdnGIKKhjR+I22CfqW+V6yU/J8TnxqE9dj70eGFi03dB1fqhV23NyCNkcnFmSSERr
+ 4P2j5So6cAyi36YIHWMyTZC+ez7dPI6aiZ3I691Jw/yS301DYsofwsK1Jl/+bHkAreHA
+ DUqx+jW4YG0TMtrI6w2UIWmXt7wbaTIXPXQVG4XvncTWSEYuLcBoTiq74F7f82ll0FMc
+ HWpQ==
+X-Gm-Message-State: AC+VfDzQq4yEsBfgjPTpeEUN4OM+pLEoAp25hZP8PBSH1ZgtmQnZl6rh
+ 1dB3+iuHbo8FhIDW008BCBh4TD2Em/1HpZHjikgHfw==
+X-Google-Smtp-Source: ACHHUZ7zcZZyp7iHEMoo1jOtwoGBPvK4/0F8HZmYDuVnyhpaegVixWOILIghS+RgeHmrQTN8C2D6HtJ1A50/NzsYIh8=
+X-Received: by 2002:a9d:6b19:0:b0:6b5:ee8f:73af with SMTP id
+ g25-20020a9d6b19000000b006b5ee8f73afmr10267752otp.5.1688377561413; Mon, 03
+ Jul 2023 02:46:01 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v3 1/3] drm: Improve Kconfig symbol prompt and help texts
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
-References: <20230702191529.768248-1-javierm@redhat.com>
- <20230702191529.768248-2-javierm@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230702191529.768248-2-javierm@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------lTiTWmh0EnGrt3bdrR0y3V3M"
+References: <20230702182308.7583-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230702182308.7583-1-krzysztof.kozlowski@linaro.org>
+From: Mike Leach <mike.leach@linaro.org>
+Date: Mon, 3 Jul 2023 10:45:50 +0100
+Message-ID: <CAJ9a7ViDdBeom-pBEOEySN7e78GYjPkqSXvS9Has1aA-egQdLA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: cleanup DTS example whitespaces
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,118 +66,331 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Maxime Ripard <mripard@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ linux-iio@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ coresight@lists.linaro.org, linux-usb@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-mtd@lists.infradead.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Leo Yan <leo.yan@linaro.org>, linux-phy@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-remoteproc@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------lTiTWmh0EnGrt3bdrR0y3V3M
-Content-Type: multipart/mixed; boundary="------------NdeW7CQxhq1Ohtu7DgDZeWcS";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Arnd Bergmann <arnd@arndb.de>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
-Message-ID: <96d91373-f955-2209-5cd7-7e1ecacf73f9@suse.de>
-Subject: Re: [PATCH v3 1/3] drm: Improve Kconfig symbol prompt and help texts
-References: <20230702191529.768248-1-javierm@redhat.com>
- <20230702191529.768248-2-javierm@redhat.com>
-In-Reply-To: <20230702191529.768248-2-javierm@redhat.com>
+On Sun, 2 Jul 2023 at 19:23, Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> The DTS code coding style expects spaces around '=' sign.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>
+> ---
+>
+> Rob,
+>
+> Maybe this could go via your tree? Rebased on your for-next:
+> v6.4-rc2-45-gf0ac35049606
+> ---
+>  .../bindings/arm/arm,coresight-cti.yaml        | 18 +++++++++---------
+>  .../bindings/arm/keystone/ti,sci.yaml          |  8 ++++----
+>  .../devicetree/bindings/display/msm/gmu.yaml   |  2 +-
+>  .../display/panel/samsung,s6e8aa0.yaml         |  2 +-
+>  .../display/rockchip/rockchip-vop.yaml         |  4 ++--
+>  .../bindings/iio/adc/ti,adc108s102.yaml        |  2 +-
+>  .../bindings/media/renesas,rzg2l-cru.yaml      |  4 ++--
+>  .../devicetree/bindings/media/renesas,vin.yaml |  4 ++--
+>  .../devicetree/bindings/mtd/mtd-physmap.yaml   |  2 +-
+>  .../bindings/net/mediatek-dwmac.yaml           |  2 +-
+>  .../bindings/perf/amlogic,g12-ddr-pmu.yaml     |  4 ++--
+>  .../bindings/phy/mediatek,dsi-phy.yaml         |  2 +-
+>  .../remoteproc/amlogic,meson-mx-ao-arc.yaml    |  2 +-
+>  .../devicetree/bindings/usb/mediatek,mtu3.yaml |  2 +-
+>  .../devicetree/bindings/usb/ti,am62-usb.yaml   |  2 +-
+>  15 files changed, 30 insertions(+), 30 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml b/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml
+> index 0c5b875cb654..d6c84b6e7fe6 100644
+> --- a/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml
+> +++ b/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml
+> @@ -287,7 +287,7 @@ examples:
+>              arm,trig-in-sigs = <0 1>;
+>              arm,trig-in-types = <PE_DBGTRIGGER
+>                                   PE_PMUIRQ>;
+> -            arm,trig-out-sigs=<0 1 2 >;
+> +            arm,trig-out-sigs = <0 1 2 >;
+>              arm,trig-out-types = <PE_EDBGREQ
+>                                    PE_DBGRESTART
+>                                    PE_CTIIRQ>;
+> @@ -309,24 +309,24 @@ examples:
+>
+>        trig-conns@0 {
+>          reg = <0>;
+> -        arm,trig-in-sigs=<0>;
+> -        arm,trig-in-types=<GEN_INTREQ>;
+> -        arm,trig-out-sigs=<0>;
+> -        arm,trig-out-types=<GEN_HALTREQ>;
+> +        arm,trig-in-sigs = <0>;
+> +        arm,trig-in-types = <GEN_INTREQ>;
+> +        arm,trig-out-sigs = <0>;
+> +        arm,trig-out-types = <GEN_HALTREQ>;
+>          arm,trig-conn-name = "sys_profiler";
+>        };
+>
+>        trig-conns@1 {
+>          reg = <1>;
+> -        arm,trig-out-sigs=<2 3>;
+> -        arm,trig-out-types=<GEN_HALTREQ GEN_RESTARTREQ>;
+> +        arm,trig-out-sigs = <2 3>;
+> +        arm,trig-out-types = <GEN_HALTREQ GEN_RESTARTREQ>;
+>          arm,trig-conn-name = "watchdog";
+>        };
+>
+>        trig-conns@2 {
+>          reg = <2>;
+> -        arm,trig-in-sigs=<1 6>;
+> -        arm,trig-in-types=<GEN_HALTREQ GEN_RESTARTREQ>;
+> +        arm,trig-in-sigs = <1 6>;
+> +        arm,trig-in-types = <GEN_HALTREQ GEN_RESTARTREQ>;
+>          arm,trig-conn-name = "g_counter";
+>        };
+>      };
 
---------------NdeW7CQxhq1Ohtu7DgDZeWcS
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+for above CTI chagnes
 
-SGkgSmF2aWVyDQoNCkFtIDAyLjA3LjIzIHVtIDIxOjE1IHNjaHJpZWIgSmF2aWVyIE1hcnRp
-bmV6IENhbmlsbGFzOg0KPiBUaGUgY3VycmVudCB0ZXh0IHdlcmUgbm90IGNoYW5nZWQgc2lu
-Y2UgdGhlIG9yaWdpbmFsIExpbnV4LTIuNi4xMi1yYzIgZ2l0DQo+IGltcG9ydC4gTGV0J3Mg
-aW1wcm92ZSBpdCBhbmQgbWFrZSB0aGF0IG1vcmUgYWxpZ25lZCB3aXRoIHRoZSBEUk0vS01T
-IGRvY3MuDQo+IA0KPiBTdWdnZXN0ZWQtYnk6IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnRA
-bGludXgtbTY4ay5vcmc+DQo+IFNpZ25lZC1vZmYtYnk6IEphdmllciBNYXJ0aW5leiBDYW5p
-bGxhcyA8amF2aWVybUByZWRoYXQuY29tPg0KPiAtLS0NCj4gDQo+IChubyBjaGFuZ2VzIHNp
-bmNlIHYxKQ0KPiANCj4gICBkcml2ZXJzL2dwdS9kcm0vS2NvbmZpZyB8IDIyICsrKysrKysr
-KysrKystLS0tLS0tLS0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMTMgaW5zZXJ0aW9ucygrKSwg
-OSBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vS2Nv
-bmZpZyBiL2RyaXZlcnMvZ3B1L2RybS9LY29uZmlnDQo+IGluZGV4IGFmYjNiMmY1ZjQyNS4u
-MzczZjg1ZTE3NGMyIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vS2NvbmZpZw0K
-PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vS2NvbmZpZw0KPiBAQCAtMywxMCArMywxMSBAQA0K
-PiAgICMgRHJtIGRldmljZSBjb25maWd1cmF0aW9uDQo+ICAgIw0KPiAgICMgVGhpcyBkcml2
-ZXIgcHJvdmlkZXMgc3VwcG9ydCBmb3IgdGhlDQo+IC0jIERpcmVjdCBSZW5kZXJpbmcgSW5m
-cmFzdHJ1Y3R1cmUgKERSSSkgaW4gWEZyZWU4NiA0LjEuMCBhbmQgaGlnaGVyLg0KPiArIyBE
-aXJlY3QgUmVuZGVyaW5nIEluZnJhc3RydWN0dXJlIChEUkkpIHRoYXQgaXMgY29tcG9zZWQg
-b2YgdGhlIERpcmVjdA0KPiArIyBSZW5kZXJpbmcgTWFuYWdlciAoRFJNKSBhbmQgS2VybmVs
-IE1vZGUgU2V0dGluZ3MgKEtNUykgc3Vic3lzdGVtcy4NCj4gICAjDQo+ICAgbWVudWNvbmZp
-ZyBEUk0NCj4gLQl0cmlzdGF0ZSAiRGlyZWN0IFJlbmRlcmluZyBNYW5hZ2VyIChYRnJlZTg2
-IDQuMS4wIGFuZCBoaWdoZXIgRFJJIHN1cHBvcnQpIg0KPiArCXRyaXN0YXRlICJEaXJlY3Qg
-UmVuZGVyaW5nIE1hbmFnZXIgKERSTSkgYW5kIEtlcm5lbCBNb2RlIFNldHRpbmdzIChLTVMp
-Ig0KPiAgIAlkZXBlbmRzIG9uIChBR1AgfHwgQUdQPW4pICYmICFFTVVMQVRFRF9DTVBYQ0hH
-ICYmIEhBU19ETUENCj4gICAJc2VsZWN0IERSTV9QQU5FTF9PUklFTlRBVElPTl9RVUlSS1MN
-Cj4gICAJc2VsZWN0IEhETUkNCj4gQEAgLTE5LDEzICsyMCwxNiBAQCBtZW51Y29uZmlnIERS
-TQ0KPiAgIAlzZWxlY3QgVklERU9fQ01ETElORQ0KPiAgIAlzZWxlY3QgVklERU9fTk9NT0RF
-U0VUDQo+ICAgCWhlbHANCj4gLQkgIEtlcm5lbC1sZXZlbCBzdXBwb3J0IGZvciB0aGUgRGly
-ZWN0IFJlbmRlcmluZyBJbmZyYXN0cnVjdHVyZSAoRFJJKQ0KPiAtCSAgaW50cm9kdWNlZCBp
-biBYRnJlZTg2IDQuMC4gSWYgeW91IHNheSBZIGhlcmUsIHlvdSBuZWVkIHRvIHNlbGVjdA0K
-PiAtCSAgdGhlIG1vZHVsZSB0aGF0J3MgcmlnaHQgZm9yIHlvdXIgZ3JhcGhpY3MgY2FyZCBm
-cm9tIHRoZSBsaXN0IGJlbG93Lg0KPiAtCSAgVGhlc2UgbW9kdWxlcyBwcm92aWRlIHN1cHBv
-cnQgZm9yIHN5bmNocm9uaXphdGlvbiwgc2VjdXJpdHksIGFuZA0KPiAtCSAgRE1BIHRyYW5z
-ZmVycy4gUGxlYXNlIHNlZSA8aHR0cDovL2RyaS5zb3VyY2Vmb3JnZS5uZXQvPiBmb3IgbW9y
-ZQ0KPiAtCSAgZGV0YWlscy4gIFlvdSBzaG91bGQgYWxzbyBzZWxlY3QgYW5kIGNvbmZpZ3Vy
-ZSBBR1ANCj4gLQkgICgvZGV2L2FncGdhcnQpIHN1cHBvcnQgaWYgaXQgaXMgYXZhaWxhYmxl
-IGZvciB5b3VyIHBsYXRmb3JtLg0KPiArCSAgS2VybmVsLWxldmVsIHN1cHBvcnQgZm9yIHRo
-ZSBEaXJlY3QgUmVuZGVyaW5nIEluZnJhc3RydWN0dXJlIChEUkkpLA0KPiArCSAgdGhhdCBp
-cyBjb21wb3NlZCBvZiB0aGUgRGlyZWN0IFJlbmRlcmluZyBNYW5hZ2VyIChEUk0pIGFuZCBL
-ZXJuZWwNCj4gKwkgIE1vZGUgU2V0dGluZ3MgKEtNUykgc3Vic3lzdGVtcy4NCg0KSXQncyBz
-bGlnaHRseSBvZmYsIGFzIEtNUyBpcyBwYXJ0IG9mIERSTS4gSSdkIGp1c3QgZHJvcCBhbnkg
-bWVudGlvbiBvZiBLTVMuDQoNCkJ1dCBUQkggaW5zdGVhZCBvZiB0aGVzZSBzbWFsbCBmaXhl
-cywgd2Ugc2hvdWxkIGZpcnN0IGRpc2N1c3MgaG93IHdlIA0Kb3JnYW5pemUgdGhlIG1lbnUg
-c3RydWN0dXJlcy4gRm9yIGV4YW1wbGUsIHRoZSBEUk0gZHJpdmVycyBhcmUgYWxsIA0KbGlz
-dGVkIGluIHRoZSBncmFwaGljcyBtZW51LiBUaGV5IG1pZ2h0IGFzIHdlbGwgZ28gaW50byBh
-IERSTSBtZW51Lg0KDQpUaGUgZnJhbWVidWZmZXIgd2lsbCBiZSBzcGxpdCBpbnRvIGRyaXZl
-cnMgYW5kICdjb3JlJy4gVGhlIGNvcmUgb3B0aW9ucyANCihGQl9ERVZJQ0UsIEZJUk1XQVJF
-X0VESUQsIEZCXypfRU5ESUFOKSBwcm9iYWJseSBkZXNlcnZlIGEgc2VwYXJhdGUgbWVudS4N
-Cg0KQW5kIHRoZXJlJ3MgdGhlIGZyYW1lYnVmZmVyIGNvbnNvbGUsIHdoaWNoIGhhcyBpdHMg
-b3duIG1lbnUuIFdlIG5lZWQgdG8gDQpzaG93IGl0IGV2ZW4gaWYgb25seSBEUk0gaXMgc3Vw
-cG9ydGVkLiBQbHVzIHRoZSBvdGhlciBjb25zb2xlcy4NCg0KSSdtIG5vdCBzdXJlIHdoYXQg
-ZHJpdmVycy9hdXhkaXNwbGF5IGlzLCBpdCBtaWdodCBmaXQgaGVyZSBhcyB3ZWxsLg0KDQpJ
-dCB3b3VsZCBiZSBuaWNlIHRvIHJldGhpbmsgdGhlIG92ZXJhbGwgbWVudS4NCg0KQmVzdCBy
-ZWdhcmRzDQpUaG9tYXMNCg0KPiArDQo+ICsJICBJZiB5b3Ugc2F5IFkgaGVyZSwgeW91IG5l
-ZWQgdG8gc2VsZWN0IHRoZSBtb2R1bGUgdGhhdCdzIHJpZ2h0IGZvcg0KPiArCSAgeW91ciBn
-cmFwaGljcyBjYXJkIGZyb20gdGhlIGxpc3QgYmVsb3cuIFRoZXNlIG1vZHVsZXMgcHJvdmlk
-ZSBzdXBwb3J0DQo+ICsJICBmb3Igc3luY2hyb25pemF0aW9uLCBzZWN1cml0eSwgYW5kIERN
-QSB0cmFuc2ZlcnMuDQo+ICsNCj4gKwkgIFBsZWFzZSBzZWUgPGh0dHBzOi8vd3d3Lmtlcm5l
-bC5vcmcvZG9jL2h0bWwvbGF0ZXN0L2dwdS9pbmRleC5odG1sPg0KPiArCSAgZm9yIG1vcmUg
-ZGV0YWlscyBhYm91dCB0aGUgTGludXggRFJNIGFuZCBLTVMgc3Vic3lzdGVtcy4NCj4gICAN
-Cj4gICBjb25maWcgRFJNX01JUElfREJJDQo+ICAgCXRyaXN0YXRlDQoNCi0tIA0KVGhvbWFz
-IFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUg
-U29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVy
-bmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1j
-RG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
+Acked-by: Mike Leach <mike.leach@linaro.org>
 
---------------NdeW7CQxhq1Ohtu7DgDZeWcS--
 
---------------lTiTWmh0EnGrt3bdrR0y3V3M
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> diff --git a/Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml b/Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml
+> index 91b96065f7df..86b59de7707e 100644
+> --- a/Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml
+> +++ b/Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml
+> @@ -96,8 +96,8 @@ examples:
+>        compatible = "ti,k2g-sci";
+>        ti,system-reboot-controller;
+>        mbox-names = "rx", "tx";
+> -      mboxes= <&msgmgr 5 2>,
+> -              <&msgmgr 0 0>;
+> +      mboxes = <&msgmgr 5 2>,
+> +               <&msgmgr 0 0>;
+>        reg-names = "debug_messages";
+>        reg = <0x02921800 0x800>;
+>      };
+> @@ -107,8 +107,8 @@ examples:
+>        compatible = "ti,k2g-sci";
+>        ti,host-id = <12>;
+>        mbox-names = "rx", "tx";
+> -      mboxes= <&secure_proxy_main 11>,
+> -              <&secure_proxy_main 13>;
+> +      mboxes = <&secure_proxy_main 11>,
+> +               <&secure_proxy_main 13>;
+>        reg-names = "debug_messages";
+>        reg = <0x44083000 0x1000>;
+>
+> diff --git a/Documentation/devicetree/bindings/display/msm/gmu.yaml b/Documentation/devicetree/bindings/display/msm/gmu.yaml
+> index 029d72822d8b..65b02c7a1211 100644
+> --- a/Documentation/devicetree/bindings/display/msm/gmu.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/gmu.yaml
+> @@ -225,7 +225,7 @@ examples:
+>      #include <dt-bindings/interrupt-controller/arm-gic.h>
+>
+>      gmu: gmu@506a000 {
+> -        compatible="qcom,adreno-gmu-630.2", "qcom,adreno-gmu";
+> +        compatible = "qcom,adreno-gmu-630.2", "qcom,adreno-gmu";
+>
+>          reg = <0x506a000 0x30000>,
+>                <0xb280000 0x10000>,
+> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
+> index 1cdc91b3439f..200fbf1c74a0 100644
+> --- a/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
+> @@ -74,7 +74,7 @@ examples:
+>              vdd3-supply = <&vcclcd_reg>;
+>              vci-supply = <&vlcd_reg>;
+>              reset-gpios = <&gpy4 5 0>;
+> -            power-on-delay= <50>;
+> +            power-on-delay = <50>;
+>              reset-delay = <100>;
+>              init-delay = <100>;
+>              panel-width-mm = <58>;
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
+> index 6f43d885c9b3..df61cb5f5c54 100644
+> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
+> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
+> @@ -121,11 +121,11 @@ examples:
+>          #size-cells = <0>;
+>          vopb_out_edp: endpoint@0 {
+>            reg = <0>;
+> -          remote-endpoint=<&edp_in_vopb>;
+> +          remote-endpoint = <&edp_in_vopb>;
+>          };
+>          vopb_out_hdmi: endpoint@1 {
+>            reg = <1>;
+> -          remote-endpoint=<&hdmi_in_vopb>;
+> +          remote-endpoint = <&hdmi_in_vopb>;
+>          };
+>        };
+>      };
+> diff --git a/Documentation/devicetree/bindings/iio/adc/ti,adc108s102.yaml b/Documentation/devicetree/bindings/iio/adc/ti,adc108s102.yaml
+> index 9b072b057f16..a60b1e100ee4 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/ti,adc108s102.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/ti,adc108s102.yaml
+> @@ -35,7 +35,7 @@ unevaluatedProperties: false
+>  examples:
+>    - |
+>      spi {
+> -        #address-cells= <1>;
+> +        #address-cells = <1>;
+>          #size-cells = <0>;
+>
+>          adc@0 {
+> diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
+> index 7dde7967c886..1e72b8808d24 100644
+> --- a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
+> +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
+> @@ -137,7 +137,7 @@ examples:
+>
+>                  cru_parallel_in: endpoint@0 {
+>                      reg = <0>;
+> -                    remote-endpoint= <&ov5642>;
+> +                    remote-endpoint = <&ov5642>;
+>                      hsync-active = <1>;
+>                      vsync-active = <1>;
+>                  };
+> @@ -150,7 +150,7 @@ examples:
+>
+>                  cru_csi_in: endpoint@0 {
+>                      reg = <0>;
+> -                    remote-endpoint= <&csi_cru_in>;
+> +                    remote-endpoint = <&csi_cru_in>;
+>                  };
+>              };
+>          };
+> diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> index 91e8f368fb52..324703bfb1bd 100644
+> --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> @@ -303,11 +303,11 @@ examples:
+>
+>                              vin0csi20: endpoint@0 {
+>                                      reg = <0>;
+> -                                    remote-endpoint= <&csi20vin0>;
+> +                                    remote-endpoint = <&csi20vin0>;
+>                              };
+>                              vin0csi40: endpoint@2 {
+>                                      reg = <2>;
+> -                                    remote-endpoint= <&csi40vin0>;
+> +                                    remote-endpoint = <&csi40vin0>;
+>                              };
+>                      };
+>              };
+> diff --git a/Documentation/devicetree/bindings/mtd/mtd-physmap.yaml b/Documentation/devicetree/bindings/mtd/mtd-physmap.yaml
+> index f8c976898a95..18f6733408b4 100644
+> --- a/Documentation/devicetree/bindings/mtd/mtd-physmap.yaml
+> +++ b/Documentation/devicetree/bindings/mtd/mtd-physmap.yaml
+> @@ -164,7 +164,7 @@ examples:
+>              reg = <0 0xf80000>;
+>          };
+>          firmware@f80000 {
+> -            label ="firmware";
+> +            label = "firmware";
+>              reg = <0xf80000 0x80000>;
+>              read-only;
+>          };
+> diff --git a/Documentation/devicetree/bindings/net/mediatek-dwmac.yaml b/Documentation/devicetree/bindings/net/mediatek-dwmac.yaml
+> index 0fa2132fa4f4..400aedb58205 100644
+> --- a/Documentation/devicetree/bindings/net/mediatek-dwmac.yaml
+> +++ b/Documentation/devicetree/bindings/net/mediatek-dwmac.yaml
+> @@ -156,7 +156,7 @@ examples:
+>          reg = <0x1101c000 0x1300>;
+>          interrupts = <GIC_SPI 237 IRQ_TYPE_LEVEL_LOW>;
+>          interrupt-names = "macirq";
+> -        phy-mode ="rgmii-rxid";
+> +        phy-mode = "rgmii-rxid";
+>          mac-address = [00 55 7b b5 7d f7];
+>          clock-names = "axi",
+>                        "apb",
+> diff --git a/Documentation/devicetree/bindings/perf/amlogic,g12-ddr-pmu.yaml b/Documentation/devicetree/bindings/perf/amlogic,g12-ddr-pmu.yaml
+> index 50f46a6898b1..4adab0149108 100644
+> --- a/Documentation/devicetree/bindings/perf/amlogic,g12-ddr-pmu.yaml
+> +++ b/Documentation/devicetree/bindings/perf/amlogic,g12-ddr-pmu.yaml
+> @@ -42,8 +42,8 @@ examples:
+>    - |
+>      #include <dt-bindings/interrupt-controller/arm-gic.h>
+>      pmu {
+> -        #address-cells=<2>;
+> -        #size-cells=<2>;
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+>
+>          pmu@ff638000 {
+>              compatible = "amlogic,g12a-ddr-pmu";
+> diff --git a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
+> index 26f2b887cfc1..b8d77165c4a1 100644
+> --- a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
+> +++ b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
+> @@ -83,7 +83,7 @@ examples:
+>          clocks = <&clk26m>;
+>          clock-output-names = "mipi_tx0_pll";
+>          drive-strength-microamp = <4000>;
+> -        nvmem-cells= <&mipi_tx_calibration>;
+> +        nvmem-cells = <&mipi_tx_calibration>;
+>          nvmem-cell-names = "calibration-data";
+>          #clock-cells = <0>;
+>          #phy-cells = <0>;
+> diff --git a/Documentation/devicetree/bindings/remoteproc/amlogic,meson-mx-ao-arc.yaml b/Documentation/devicetree/bindings/remoteproc/amlogic,meson-mx-ao-arc.yaml
+> index 3100cb870170..76e8ca44906a 100644
+> --- a/Documentation/devicetree/bindings/remoteproc/amlogic,meson-mx-ao-arc.yaml
+> +++ b/Documentation/devicetree/bindings/remoteproc/amlogic,meson-mx-ao-arc.yaml
+> @@ -75,7 +75,7 @@ additionalProperties: false
+>  examples:
+>    - |
+>      remoteproc@1c {
+> -      compatible= "amlogic,meson8-ao-arc", "amlogic,meson-mx-ao-arc";
+> +      compatible = "amlogic,meson8-ao-arc", "amlogic,meson-mx-ao-arc";
+>        reg = <0x1c 0x8>, <0x38 0x8>;
+>        reg-names = "remap", "cpu";
+>        resets = <&media_cpu_reset>;
+> diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
+> index 478214ab045e..a59d91243ac8 100644
+> --- a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
+> +++ b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
+> @@ -304,7 +304,7 @@ examples:
+>    # Dual role switch with type-c
+>    - |
+>      usb@11201000 {
+> -        compatible ="mediatek,mt8183-mtu3", "mediatek,mtu3";
+> +        compatible = "mediatek,mt8183-mtu3", "mediatek,mtu3";
+>          reg = <0x11201000 0x2e00>, <0x11203e00 0x0100>;
+>          reg-names = "mac", "ippc";
+>          interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_LOW>;
+> diff --git a/Documentation/devicetree/bindings/usb/ti,am62-usb.yaml b/Documentation/devicetree/bindings/usb/ti,am62-usb.yaml
+> index d25fc708e32c..fec5651f5602 100644
+> --- a/Documentation/devicetree/bindings/usb/ti,am62-usb.yaml
+> +++ b/Documentation/devicetree/bindings/usb/ti,am62-usb.yaml
+> @@ -92,7 +92,7 @@ examples:
+>
+>          usb@31100000 {
+>            compatible = "snps,dwc3";
+> -          reg =<0x00 0x31100000 0x00 0x50000>;
+> +          reg = <0x00 0x31100000 0x00 0x50000>;
+>            interrupts = <GIC_SPI 226 IRQ_TYPE_LEVEL_HIGH>, /* irq.0 */
+>                         <GIC_SPI 226 IRQ_TYPE_LEVEL_HIGH>; /* irq.0 */
+>            interrupt-names = "host", "peripheral";
+> --
+> 2.34.1
+>
+>
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
 
------BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSilzUFAwAAAAAACgkQlh/E3EQov+C+
-QRAApma/XWmHjEFI8+4C4tvo8HpiFXcxdIIPr6CqBasAShmA8ZV5N33nKfb1XVhC/Tj4lpwbFgDD
-jKQiAId5vfP9ubxldcyXz6Yo/uhO5MkO+RSsU45uY0F2+mRZ3O+Vui8oOUwlKK2NEoMZ4nNxzNbO
-BI4fQVihJWS8ZCbrATzrhBGqQPCHf+OtpAGBkcXLQPUVLhJSX2cBIqTU7qzWliHLAPoyXqkWsviI
-MTUuTp6RIIrA/aVfAm9PVIeBOISUWlqKXFJdo1BYr9a6R2EH9N+SPqBqp0Ds9jmuMU559C5igTv4
-ZtH3gAQ6praOh7KhSJydYa3cOyYkYiM7K2TMqF4sbhYqh1L72b2mFYR1DJPlUQ5wouQ4JoK3VQng
-f/ZND0HVjJHR5i9ZZFMxdwfaQQP7lNkThYOLWPoh42lpzA5f4u51Nr9ueEcr5AhLCR/z2Zf4IKAw
-WXiOXCX8u8Vh667ok0CwtYzTsZJQlQS20VmUTT166JGMKmgJfkYxBzetbePs83jgyUBM3KnXRNiU
-Q/obLlnzupTKHAscPMRaMcwbz7pKAvBlfF5T1lTQDnzcCqS5dQere/oushlZxVXk3o+R9fx/Kvc5
-lFMb+iY5/lK6SgV8cfRYv6bHJL5Unc5DpeIQ76toBCkP+9bD9Dy11MmcCPeFs1gQ/1mJpY1qRc4R
-E3c=
-=8ejt
------END PGP SIGNATURE-----
 
---------------lTiTWmh0EnGrt3bdrR0y3V3M--
+-- 
+Mike Leach
+Principal Engineer, ARM Ltd.
+Manchester Design Centre. UK
