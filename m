@@ -1,73 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F9E745B94
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jul 2023 13:50:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43835745BA5
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jul 2023 13:52:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B11F310E158;
-	Mon,  3 Jul 2023 11:50:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4446110E0E0;
+	Mon,  3 Jul 2023 11:52:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54DE210E210
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jul 2023 11:50:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1688385015;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=46Sracu/D/0a4Yd4cBQRbtvN6kMcQIjjw3Sb/7ByX0U=;
- b=T4W4aHNsiDB2za0S2WQIMEr79G5RLYwBdL36imTPEnucUm5Sxitf0/+JGpEg5C2NHdEtpL
- 8Pi2lYQJOuL8sDDT72sh42ZP6ML6IXIBQgqMMB7J5oKCNETT34axmcycOJeG0teMnkRpu0
- TWSdzbJnRTgp0gWaptPrP/UZg1XOX/4=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-449-rWj5Hd6jOmGWOox_K5DVGA-1; Mon, 03 Jul 2023 07:50:11 -0400
-X-MC-Unique: rWj5Hd6jOmGWOox_K5DVGA-1
-Received: by mail-lf1-f69.google.com with SMTP id
- 2adb3069b0e04-4f956a29f2aso4023302e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Jul 2023 04:50:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688385010; x=1690977010;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=46Sracu/D/0a4Yd4cBQRbtvN6kMcQIjjw3Sb/7ByX0U=;
- b=EounHK0cwfgY3m5/TVcVtxr837FCoS28FIvwsW6dQMSHDbKJ2J+o6CSKtgIoJVrL5p
- CFR1MDdiRpuwfmT7RHSY4MAyKInoQUKW0PQqCRL/hgtrAZuMSbCqB8xBMimX0OLc2avI
- fLDINC+PrXOU5uMz8a8mkGRlpBcqwV/wntJTOQGRPXy/jbQ+2tWb0+SV98mWdlkr9lsB
- rZRuZXai1Yabfi6NEdndpbP0T9VzCxdf5rBpw4iCK3qDPQjSwDB8mLuRp4oiRNV0VstK
- tyIiGavcJFuNoHBpD3BbZE1KqmF5W7CJt3wxbkMx12a/oVV9FSyDQLPPY2kQIZ5vMuO5
- lUkQ==
-X-Gm-Message-State: ABy/qLbpfHyIjm7bchjnG5dbayF/pfMq0nODQeQ+kScQ2Dn4Ukx76sxX
- Sw11T+ENK6RrqAanXyxQ4KWF1kXSQjC4rDlnajtQTgVV/bYSrhs59GyJyxf7SmtGB3ZVl89eE04
- pd0IYiWR7ldg0L11SuLacLyy59iT74Jx/XSeQOHGPe122
-X-Received: by 2002:a05:6512:4013:b0:4fb:8939:d962 with SMTP id
- br19-20020a056512401300b004fb8939d962mr7931348lfb.19.1688385010205; 
- Mon, 03 Jul 2023 04:50:10 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlFnpM2bSBA1XglWdQgvquuyBJkuMOOv1oRAzQrb67XquQwB6pE6yMXwU+4MHi0nmAmGO5Fu7XqqEiBMmqUTJDs=
-X-Received: by 2002:a05:6512:4013:b0:4fb:8939:d962 with SMTP id
- br19-20020a056512401300b004fb8939d962mr7931319lfb.19.1688385009760; Mon, 03
- Jul 2023 04:50:09 -0700 (PDT)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68E4C10E0E0;
+ Mon,  3 Jul 2023 11:52:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1688385155; x=1719921155;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=ic6+PP3y3UYBH9ql/YN2B+IgDt46H6JwveUJapJtnck=;
+ b=nR/9ljRcie3lBTgTM6yBtcih7eq/aI+5M7jYWE8mwmm5fmtmB3oOuEVX
+ Njac+xf2PRHCD4zE8ZCoqBnJ34WriuEoW7+mZYZ6CLXjmYxJF02oPCw3k
+ aex/aJVQxSYlybhRfjAoWJJW0kUu9PXRtVSD5SWPmEVhyPZNL+RE+EZPm
+ ID3iBe1J6UGBNw8pNIf23tdTw1c78fuKhh/nPgP0dYoPPbmwtu8ipnmJx
+ NCDIpQvDWYi0ScYDN8uJErHuloM+LbF1tY955dYBUIMdhwLizJ+zTPDkK
+ 5RDfEQDwj+f2sRkGRxOPxKXdUZMK85n2vr4c2NqkvWXGeWMg2WedCBnvG Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="360340091"
+X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; d="scan'208";a="360340091"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jul 2023 04:52:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="788505085"
+X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; d="scan'208";a="788505085"
+Received: from dryan13-mobl.ger.corp.intel.com (HELO [10.213.232.206])
+ ([10.213.232.206])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jul 2023 04:52:30 -0700
+Message-ID: <6fcb91a4-5e93-4964-e4b1-45bf965b0011@linux.intel.com>
+Date: Mon, 3 Jul 2023 12:52:28 +0100
 MIME-Version: 1.0
-References: <20230404-solid-fill-v4-0-f4ec0caa742d@quicinc.com>
- <20230404-solid-fill-v4-2-f4ec0caa742d@quicinc.com>
- <CA+hFU4zQFkbi8BjFdWDBDMPR7cC8UqJg0udu7MJYOFac1J8XsQ@mail.gmail.com>
- <68629132-b77a-bfbc-20f7-92a76cf24953@quicinc.com>
-In-Reply-To: <68629132-b77a-bfbc-20f7-92a76cf24953@quicinc.com>
-From: Sebastian Wick <sebastian.wick@redhat.com>
-Date: Mon, 3 Jul 2023 13:49:58 +0200
-Message-ID: <CA+hFU4whcUq_0KEPrgk39tL29vsaW4v9MRXjGrPYBKWcVH7hFw@mail.gmail.com>
-Subject: Re: [PATCH RFC v4 2/7] drm: Introduce pixel_source DRM plane property
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2] drm/i915: Refactor PAT/cache handling
+Content-Language: en-US
+To: "Yang, Fei" <fei.yang@intel.com>,
+ "Intel-gfx@lists.freedesktop.org" <Intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+References: <20230629141509.3194090-1-tvrtko.ursulin@linux.intel.com>
+ <BYAPR11MB256721AE29EBF133E60D7CD19A2AA@BYAPR11MB2567.namprd11.prod.outlook.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <BYAPR11MB256721AE29EBF133E60D7CD19A2AA@BYAPR11MB2567.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,286 +65,2567 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, ppaalanen@gmail.com,
- Thomas Zimmermann <tzimmermann@suse.de>, Sean Paul <sean@poorly.run>,
- quic_abhinavk@quicinc.com, Maxime Ripard <mripard@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- wayland-devel@lists.freedesktop.org, laurent.pinchart@ideasonboard.com
+Cc: "Ursulin, Tvrtko" <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 30, 2023 at 11:27=E2=80=AFPM Jessica Zhang
-<quic_jesszhan@quicinc.com> wrote:
->
->
->
-> On 6/30/2023 7:43 AM, Sebastian Wick wrote:
-> > On Fri, Jun 30, 2023 at 2:26=E2=80=AFAM Jessica Zhang <quic_jesszhan@qu=
-icinc.com> wrote:
-> >>
-> >> Add support for pixel_source property to drm_plane and related
-> >> documentation.
-> >>
-> >> This enum property will allow user to specify a pixel source for the
-> >> plane. Possible pixel sources will be defined in the
-> >> drm_plane_pixel_source enum.
-> >>
-> >> The current possible pixel sources are DRM_PLANE_PIXEL_SOURCE_FB and
-> >> DRM_PLANE_PIXEL_SOURCE_COLOR. The default value is *_SOURCE_FB.
-> >>
-> >> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> >> ---
-> >>   drivers/gpu/drm/drm_atomic_state_helper.c |  1 +
-> >>   drivers/gpu/drm/drm_atomic_uapi.c         |  4 ++
-> >>   drivers/gpu/drm/drm_blend.c               | 81 +++++++++++++++++++++=
-++++++++++
-> >>   include/drm/drm_blend.h                   |  2 +
-> >>   include/drm/drm_plane.h                   | 21 ++++++++
-> >>   5 files changed, 109 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/d=
-rm/drm_atomic_state_helper.c
-> >> index fe14be2bd2b2..86fb876efbe6 100644
-> >> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> >> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> >> @@ -252,6 +252,7 @@ void __drm_atomic_helper_plane_state_reset(struct =
-drm_plane_state *plane_state,
-> >>
-> >>          plane_state->alpha =3D DRM_BLEND_ALPHA_OPAQUE;
-> >>          plane_state->pixel_blend_mode =3D DRM_MODE_BLEND_PREMULTI;
-> >> +       plane_state->pixel_source =3D DRM_PLANE_PIXEL_SOURCE_FB;
-> >>
-> >>          if (plane_state->solid_fill_blob) {
-> >>                  drm_property_blob_put(plane_state->solid_fill_blob);
-> >> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_a=
-tomic_uapi.c
-> >> index a28b4ee79444..6e59c21af66b 100644
-> >> --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> >> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> >> @@ -596,6 +596,8 @@ static int drm_atomic_plane_set_property(struct dr=
-m_plane *plane,
-> >>                  drm_property_blob_put(solid_fill);
-> >>
-> >>                  return ret;
-> >> +       } else if (property =3D=3D plane->pixel_source_property) {
-> >> +               state->pixel_source =3D val;
-> >>          } else if (property =3D=3D plane->alpha_property) {
-> >>                  state->alpha =3D val;
-> >>          } else if (property =3D=3D plane->blend_mode_property) {
-> >> @@ -671,6 +673,8 @@ drm_atomic_plane_get_property(struct drm_plane *pl=
-ane,
-> >>          } else if (property =3D=3D plane->solid_fill_property) {
-> >>                  *val =3D state->solid_fill_blob ?
-> >>                          state->solid_fill_blob->base.id : 0;
-> >> +       } else if (property =3D=3D plane->pixel_source_property) {
-> >> +               *val =3D state->pixel_source;
-> >>          } else if (property =3D=3D plane->alpha_property) {
-> >>                  *val =3D state->alpha;
-> >>          } else if (property =3D=3D plane->blend_mode_property) {
-> >> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
-> >> index 38c3c5d6453a..8c100a957ee2 100644
-> >> --- a/drivers/gpu/drm/drm_blend.c
-> >> +++ b/drivers/gpu/drm/drm_blend.c
-> >> @@ -189,6 +189,18 @@
-> >>    *     solid_fill is set up with drm_plane_create_solid_fill_propert=
-y(). It
-> >>    *     contains pixel data that drivers can use to fill a plane.
-> >>    *
-> >> + * pixel_source:
-> >> + *     pixel_source is set up with drm_plane_create_pixel_source_prop=
-erty().
-> >> + *     It is used to toggle the source of pixel data for the plane.
-> >> + *
-> >> + *     Possible values:
-> >> + *
-> >> + *     "FB":
-> >> + *             Framebuffer source
-> >> + *
-> >> + *     "COLOR":
-> >> + *             solid_fill source
-> >> + *
-> >>    * Note that all the property extensions described here apply either=
- to the
-> >>    * plane or the CRTC (e.g. for the background color, which currently=
- is not
-> >>    * exposed and assumed to be black).
-> >> @@ -648,3 +660,72 @@ int drm_plane_create_solid_fill_property(struct d=
-rm_plane *plane)
-> >>          return 0;
-> >>   }
-> >>   EXPORT_SYMBOL(drm_plane_create_solid_fill_property);
-> >> +
-> >> +/**
-> >> + * drm_plane_create_pixel_source_property - create a new pixel source=
- property
-> >> + * @plane: drm plane
-> >> + * @supported_sources: bitmask of supported pixel_sources for the dri=
-ver (NOT
-> >> + *                     including DRM_PLANE_PIXEL_SOURCE_FB, as it wil=
-l be supported
-> >> + *                     by default).
-> >> + *
-> >> + * This creates a new property describing the current source of pixel=
- data for the
-> >> + * plane.
-> >> + *
-> >> + * The property is exposed to userspace as an enumeration property ca=
-lled
-> >> + * "pixel_source" and has the following enumeration values:
-> >> + *
-> >> + * "FB":
-> >> + *     Framebuffer pixel source
-> >> + *
-> >> + * "COLOR":
-> >> + *     Solid fill color pixel source
-> >
-> > Can we add a "NONE" value?
-> >
-> > I know it has been discussed earlier if we *need*  this and I don't
-> > think we do. I just think it would be better API design to disable
-> > planes this way than having to know that a framebuffer pixel source
-> > with a NULL framebuffer disables the plane. Obviously also keep the
-> > old behavior for backwards compatibility.
->
-> Hi Sebastian,
->
-> Sounds good.
->
-> So if pixel_source =3D=3D NONE disables the planes, would that mean cases
-> where pixel_source =3D=3D COLOR && solid_fill_blob =3D=3D NULL, the atomi=
-c
-> commit should throw an error?
 
-I would say so, yes.
+On 30/06/2023 07:55, Yang, Fei wrote:
+>  > From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>  >
+>  > Informal commit message for now.
+>  >
+>  > I got a bit impatient and curious to see if the idea we discussed would
+>  > work so sketched something out. I think it is what I was describing back
+>  > then..
+>  >
+>  > So high level idea is to teach the driver what caching modes are hidden
+>  > behind PAT indices. Given you already had that in static tables, if we
+>  > just turn the tables a bit around and add a driver abstraction of caching
+>  > modes this is what happens:
+>  >
+>  >  * We can lose the ugly runtime i915_gem_get_pat_index.
+>  >
+>  >  * We can have a smarter i915_gem_object_has_cache_level, which now can
+>  >    use the above mentioned table to understand the caching modes and so
+>  >    does not have to pessimistically return true for _any_ input when user
+>  >    has set the PAT index. This may improve things even for MTL.
+>  >
+>  >  * We can simplify the debugfs printout to be platform agnostic.
+>  >
+>  >  * We are perhaps opening the door to un-regress the dodgy addition
+>  >    made to i915_gem_object_can_bypass_llc? See QQQ/FIXME in the patch.
+>  >
+>  > I hope I did not forget anything, but anyway, please have a read and see
+>  > what you think. I think it has potential.
+>  >
+>  > Proper commit message can come later.
+>  >
+>  > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>  > Cc: Fei Yang <fei.yang@intel.com>
+>  > ---
+>  >  drivers/gpu/drm/i915/Makefile                 |   1 +
+>  >  drivers/gpu/drm/i915/display/intel_dpt.c      |   2 +-
+>  >  drivers/gpu/drm/i915/display/intel_fb_pin.c   |   2 +-
+>  >  .../drm/i915/display/intel_plane_initial.c    |   4 +-
+>  >  drivers/gpu/drm/i915/gem/i915_gem_domain.c    |  66 +++++-----
+>  >  drivers/gpu/drm/i915/gem/i915_gem_domain.h    |   7 +-
+>  >  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  13 +-
+>  >  drivers/gpu/drm/i915/gem/i915_gem_internal.c  |   6 +-
+>  >  drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  10 +-
+>  >  drivers/gpu/drm/i915/gem/i915_gem_object.c    | 116 +++++++++--------
+>  >  drivers/gpu/drm/i915/gem/i915_gem_object.h    |   9 +-
+>  >  .../gpu/drm/i915/gem/i915_gem_object_types.h  | 117 +++---------------
+>  >  drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  10 +-
+>  >  drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |  13 +-
+>  >  drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  |  43 ++++---
+>  >  drivers/gpu/drm/i915/gem/i915_gem_userptr.c   |   2 +-
+>  >  .../drm/i915/gem/selftests/huge_gem_object.c  |   6 +-
+>  >  .../gpu/drm/i915/gem/selftests/huge_pages.c   |   8 +-
+>  >  drivers/gpu/drm/i915/gt/gen6_ppgtt.c          |   4 +-
+>  >  drivers/gpu/drm/i915/gt/gen8_ppgtt.c          |  19 +--
+>  >  drivers/gpu/drm/i915/gt/intel_engine_cs.c     |   2 +-
+>  >  drivers/gpu/drm/i915/gt/intel_ggtt.c          |  33 ++---
+>  >  drivers/gpu/drm/i915/gt/intel_ggtt_gmch.c     |   4 +-
+>  >  drivers/gpu/drm/i915/gt/intel_gtt.c           |   2 +-
+>  >  drivers/gpu/drm/i915/gt/intel_gtt.h           |   3 +-
+>  >  drivers/gpu/drm/i915/gt/intel_migrate.c       |  11 +-
+>  >  drivers/gpu/drm/i915/gt/intel_ppgtt.c         |   6 +-
+>  >  .../gpu/drm/i915/gt/intel_ring_submission.c   |   2 +-
+>  >  drivers/gpu/drm/i915/gt/intel_timeline.c      |   2 +-
+>  >  drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |   2 +-
+>  >  drivers/gpu/drm/i915/gt/selftest_migrate.c    |   9 +-
+>  >  drivers/gpu/drm/i915/gt/selftest_reset.c      |  14 +--
+>  >  drivers/gpu/drm/i915/gt/selftest_timeline.c   |   1 +
+>  >  drivers/gpu/drm/i915/gt/selftest_tlb.c        |   5 +-
+>  >  .../gpu/drm/i915/gt/selftest_workarounds.c    |   2 +-
+>  >  drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   2 +-
+>  >  drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |   8 +-
+>  >  drivers/gpu/drm/i915/i915_cache.c             |  72 +++++++++++
+>  >  drivers/gpu/drm/i915/i915_cache.h             |  49 ++++++++
+>  >  drivers/gpu/drm/i915/i915_debugfs.c           |  65 +++-------
+>  >  drivers/gpu/drm/i915/i915_driver.c            |   5 +
+>  >  drivers/gpu/drm/i915/i915_drv.h               |   3 +
+>  >  drivers/gpu/drm/i915/i915_gem.c               |  21 +---
+>  >  drivers/gpu/drm/i915/i915_gpu_error.c         |   7 +-
+>  >  drivers/gpu/drm/i915/i915_pci.c               |  83 +++++++------
+>  >  drivers/gpu/drm/i915/i915_perf.c              |   2 +-
+>  >  drivers/gpu/drm/i915/intel_device_info.h      |   6 +-
+>  >  drivers/gpu/drm/i915/selftests/i915_gem.c     |   5 +-
+>  >  .../gpu/drm/i915/selftests/i915_gem_evict.c   |   8 +-
+>  >  drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |  13 +-
+>  >  drivers/gpu/drm/i915/selftests/igt_spinner.c  |   2 +-
+>  >  .../drm/i915/selftests/intel_memory_region.c  |   4 +-
+>  >  .../gpu/drm/i915/selftests/mock_gem_device.c  |  12 +-
+>  >  drivers/gpu/drm/i915/selftests/mock_region.c  |   2 +-
+>  >  54 files changed, 440 insertions(+), 485 deletions(-)
+>  >  create mode 100644 drivers/gpu/drm/i915/i915_cache.c
+>  >  create mode 100644 drivers/gpu/drm/i915/i915_cache.h
+>  >
+>  > diff --git a/drivers/gpu/drm/i915/Makefile 
+> b/drivers/gpu/drm/i915/Makefile
+>  > index 2be9dd960540..2c3da8f0c78e 100644
+>  > --- a/drivers/gpu/drm/i915/Makefile
+>  > +++ b/drivers/gpu/drm/i915/Makefile
+>  > @@ -30,6 +30,7 @@ subdir-ccflags-y += -I$(srctree)/$(src)
+>  >  # core driver code
+>  >  i915-y += i915_driver.o \
+>  >            i915_drm_client.o \
+>  > +         i915_cache.o \
+>  >            i915_config.o \
+>  >            i915_getparam.o \
+>  >            i915_ioctl.o \
+>  > diff --git a/drivers/gpu/drm/i915/display/intel_dpt.c 
+> b/drivers/gpu/drm/i915/display/intel_dpt.c
+>  > index 7c5fddb203ba..5baf0d27a288 100644
+>  > --- a/drivers/gpu/drm/i915/display/intel_dpt.c
+>  > +++ b/drivers/gpu/drm/i915/display/intel_dpt.c
+>  > @@ -268,7 +268,7 @@ intel_dpt_create(struct intel_framebuffer *fb)
+>  >
+>  >          ret = i915_gem_object_lock_interruptible(dpt_obj, NULL);
+>  >          if (!ret) {
+>  > -               ret = i915_gem_object_set_cache_level(dpt_obj, 
+> I915_CACHE_NONE);
+>  > +               ret = i915_gem_object_set_cache(dpt_obj, I915_CACHE(UC));
+>  >                  i915_gem_object_unlock(dpt_obj);
+>  >          }
+>  >          if (ret) {
+>  > diff --git a/drivers/gpu/drm/i915/display/intel_fb_pin.c 
+> b/drivers/gpu/drm/i915/display/intel_fb_pin.c
+>  > index fffd568070d4..dcf54b354a74 100644
+>  > --- a/drivers/gpu/drm/i915/display/intel_fb_pin.c
+>  > +++ b/drivers/gpu/drm/i915/display/intel_fb_pin.c
+>  > @@ -66,7 +66,7 @@ intel_pin_fb_obj_dpt(struct drm_framebuffer *fb,
+>  >                                  continue;
+>  >                  }
+>  >
+>  > -               ret = i915_gem_object_set_cache_level(obj, 
+> I915_CACHE_NONE);
+>  > +               ret = i915_gem_object_set_cache(obj, I915_CACHE(UC));
+>  >                  if (ret)
+>  >                          continue;
+>  >
+>  > diff --git a/drivers/gpu/drm/i915/display/intel_plane_initial.c 
+> b/drivers/gpu/drm/i915/display/intel_plane_initial.c
+>  > index 736072a8b2b0..9988f6562392 100644
+>  > --- a/drivers/gpu/drm/i915/display/intel_plane_initial.c
+>  > +++ b/drivers/gpu/drm/i915/display/intel_plane_initial.c
+>  > @@ -121,8 +121,8 @@ initial_plane_vma(struct drm_i915_private *i915,
+>  >           * cache_level during fbdev initialization. The
+>  >           * unbind there would get stuck waiting for rcu.
+>  >           */
+>  > -       i915_gem_object_set_cache_coherency(obj, HAS_WT(i915) ?
+>  > -                                           I915_CACHE_WT : 
+> I915_CACHE_NONE);
+>  > +       i915_gem_object_set_cache_coherency(obj, HAS_WT(i915) ? 
+> I915_CACHE(WT) :
+>  > +                                                               
+> I915_CACHE(UC));
+>  >
+>  >          switch (plane_config->tiling) {
+>  >          case I915_TILING_NONE:
+>  > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_domain.c 
+> b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+>  > index dfaaa8b66ac3..f899da2c622a 100644
+>  > --- a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+>  > +++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
+>  > @@ -8,6 +8,7 @@
+>  >  #include "display/intel_frontbuffer.h"
+>  >  #include "gt/intel_gt.h"
+>  >
+>  > +#include "i915_cache.h"
+>  >  #include "i915_drv.h"
+>  >  #include "i915_gem_clflush.h"
+>  >  #include "i915_gem_domain.h"
+>  > @@ -27,15 +28,8 @@ static bool gpu_write_needs_clflush(struct 
+> drm_i915_gem_object *obj)
+>  >          if (IS_DGFX(i915))
+>  >                  return false;
+>  >
+>  > -       /*
+>  > -        * For objects created by userspace through GEM_CREATE with 
+> pat_index
+>  > -        * set by set_pat extension, 
+> i915_gem_object_has_cache_level() will
+>  > -        * always return true, because the coherency of such object 
+> is managed
+>  > -        * by userspace. Othereise the call here would fall back to 
+> checking
+>  > -        * whether the object is un-cached or write-through.
+>  > -        */
+>  > -       return !(i915_gem_object_has_cache_level(obj, I915_CACHE_NONE) ||
+>  > -                i915_gem_object_has_cache_level(obj, I915_CACHE_WT));
+>  > +       return i915_gem_object_has_cache_mode(obj, 
+> I915_CACHE_MODE_UC) != 1 &&
+>  > +              i915_gem_object_has_cache_mode(obj, 
+> I915_CACHE_MODE_WT) != 1;
+> 
+> This logic was changed for objects with pat index set by user here. It 
+> used to return false
+> regardless the cache mode. But now it returns true if its cache mode is 
+> neither UC nor WT.
 
-> Thanks,
->
-> Jessica Zhang
->
-> >
-> >> + *
-> >> + * Returns:
-> >> + * Zero on success, negative errno on failure.
-> >> + */
-> >> +int drm_plane_create_pixel_source_property(struct drm_plane *plane,
-> >> +                                          unsigned int supported_sour=
-ces)
-> >> +{
-> >> +       struct drm_device *dev =3D plane->dev;
-> >> +       struct drm_property *prop;
-> >> +       const struct drm_prop_enum_list enum_list[] =3D {
-> >> +               { DRM_PLANE_PIXEL_SOURCE_FB, "FB" },
-> >> +               { DRM_PLANE_PIXEL_SOURCE_COLOR, "COLOR" },
-> >> +       };
-> >> +       unsigned int valid_source_mask =3D BIT(DRM_PLANE_PIXEL_SOURCE_=
-FB) |
-> >> +                                      BIT(DRM_PLANE_PIXEL_SOURCE_COLO=
-R);
-> >> +       int i;
-> >> +
-> >> +       /* FB is supported by default */
-> >> +       supported_sources |=3D BIT(DRM_PLANE_PIXEL_SOURCE_FB);
-> >> +
-> >> +       if (WARN_ON(supported_sources & ~valid_source_mask))
-> >> +               return -EINVAL;
-> >> +
-> >> +       prop =3D drm_property_create(dev, DRM_MODE_PROP_ENUM, "pixel_s=
-ource",
-> >> +                       hweight32(supported_sources));
-> >> +
-> >> +       if (!prop)
-> >> +               return -ENOMEM;
-> >> +
-> >> +       for (i =3D 0; i < ARRAY_SIZE(enum_list); i++) {
-> >> +               int ret;
-> >> +
-> >> +               if (!(BIT(enum_list[i].type) & supported_sources))
-> >> +                       continue;
-> >> +
-> >> +               ret =3D drm_property_add_enum(prop, enum_list[i].type,=
- enum_list[i].name);
-> >> +
-> >> +               if (ret) {
-> >> +                       drm_property_destroy(dev, prop);
-> >> +
-> >> +                       return ret;
-> >> +               }
-> >> +       }
-> >> +
-> >> +       drm_object_attach_property(&plane->base, prop, DRM_PLANE_PIXEL=
-_SOURCE_FB);
-> >> +       plane->pixel_source_property =3D prop;
-> >> +
-> >> +       return 0;
-> >> +}
-> >> +EXPORT_SYMBOL(drm_plane_create_pixel_source_property);
-> >> diff --git a/include/drm/drm_blend.h b/include/drm/drm_blend.h
-> >> index 0338a860b9c8..31af7cfa5b1b 100644
-> >> --- a/include/drm/drm_blend.h
-> >> +++ b/include/drm/drm_blend.h
-> >> @@ -59,4 +59,6 @@ int drm_atomic_normalize_zpos(struct drm_device *dev=
-,
-> >>   int drm_plane_create_blend_mode_property(struct drm_plane *plane,
-> >>                                           unsigned int supported_modes=
-);
-> >>   int drm_plane_create_solid_fill_property(struct drm_plane *plane);
-> >> +int drm_plane_create_pixel_source_property(struct drm_plane *plane,
-> >> +                                          unsigned int supported_sour=
-ces);
-> >>   #endif
-> >> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
-> >> index f6ab313cb83e..73fb6cf8a5d9 100644
-> >> --- a/include/drm/drm_plane.h
-> >> +++ b/include/drm/drm_plane.h
-> >> @@ -59,6 +59,12 @@ struct drm_solid_fill {
-> >>          uint32_t b;
-> >>   };
-> >>
-> >> +enum drm_plane_pixel_source {
-> >> +       DRM_PLANE_PIXEL_SOURCE_FB,
-> >> +       DRM_PLANE_PIXEL_SOURCE_COLOR,
-> >> +       DRM_PLANE_PIXEL_SOURCE_MAX
-> >> +};
-> >> +
-> >>   /**
-> >>    * struct drm_plane_state - mutable plane state
-> >>    *
-> >> @@ -152,6 +158,14 @@ struct drm_plane_state {
-> >>           */
-> >>          struct drm_solid_fill solid_fill;
-> >>
-> >> +       /*
-> >> +        * @pixel_source:
-> >> +        *
-> >> +        * Source of pixel information for the plane. See
-> >> +        * drm_plane_create_pixel_source_property() for more details.
-> >> +        */
-> >> +       enum drm_plane_pixel_source pixel_source;
-> >> +
-> >>          /**
-> >>           * @alpha:
-> >>           * Opacity of the plane with 0 as completely transparent and =
-0xffff as
-> >> @@ -742,6 +756,13 @@ struct drm_plane {
-> >>           */
-> >>          struct drm_property *solid_fill_property;
-> >>
-> >> +       /*
-> >> +        * @pixel_source_property:
-> >> +        * Optional pixel_source property for this plane. See
-> >> +        * drm_plane_create_pixel_source_property().
-> >> +        */
-> >> +       struct drm_property *pixel_source_property;
-> >> +
-> >>          /**
-> >>           * @alpha_property:
-> >>           * Optional alpha property for this plane. See
-> >>
-> >> --
-> >> 2.41.0
-> >>
-> >
->
+Yes, that was half of the motivation of the refactory. Before the PAT index series code was like this:
 
+        return !(obj->cache_level == I915_CACHE_NONE ||
+                 obj->cache_level == I915_CACHE_WT);
+
+So kernel knew it needs to flush only if caching mode is neither UC or WT. With the PAT index series you changed it to:
+
+        return !(i915_gem_object_has_cache_level(obj, I915_CACHE_NONE) ||
+                 i915_gem_object_has_cache_level(obj, I915_CACHE_WT));
+
+And as i915_gem_object_has_cache_level was changed to always return true if PAT was set by user, that made the check meaningless for such objects.
+
+With my refactoring it becomes meaningful again and restores to the original behaviour. That's the intent at least.
+
+>  >  bool i915_gem_cpu_write_needs_clflush(struct drm_i915_gem_object *obj)
+>  > @@ -255,9 +249,9 @@ i915_gem_object_set_to_gtt_domain(struct 
+> drm_i915_gem_object *obj, bool write)
+>  >  }
+>  >
+>  >  /**
+>  > - * i915_gem_object_set_cache_level - Changes the cache-level of an 
+> object across all VMA.
+>  > + * i915_gem_object_set_cache - Changes the cache-level of an object 
+> across all VMA.
+>  >   * @obj: object to act on
+>  > - * @cache_level: new cache level to set for the object
+>  > + * @cache: new caching mode to set for the object
+>  >   *
+>  >   * After this function returns, the object will be in the new 
+> cache-level
+>  >   * across all GTT and the contents of the backing storage will be 
+> coherent,
+>  > @@ -269,19 +263,28 @@ i915_gem_object_set_to_gtt_domain(struct 
+> drm_i915_gem_object *obj, bool write)
+>  >   * cache coherency) and all non-MOCS GPU access will also be uncached so
+>  >   * that all direct access to the scanout remains coherent.
+>  >   */
+>  > -int i915_gem_object_set_cache_level(struct drm_i915_gem_object *obj,
+>  > -                                   enum i915_cache_level cache_level)
+>  > +int i915_gem_object_set_cache(struct drm_i915_gem_object *obj,
+>  > +                             i915_cache_t cache)
+>  >  {
+>  > +       struct drm_i915_private *i915 = to_i915(obj->base.dev);
+>  >          int ret;
+>  >
+>  > -       /*
+>  > -        * For objects created by userspace through GEM_CREATE with 
+> pat_index
+>  > -        * set by set_pat extension, simply return 0 here without 
+> touching
+>  > -        * the cache setting, because such objects should have an 
+> immutable
+>  > -        * cache setting by desgin and always managed by userspace.
+>  > -        */
+>  > -       if (i915_gem_object_has_cache_level(obj, cache_level))
+>  > +       ret = i915_cache_find_pat(i915, cache);
+>  > +       if (ret < 0) {
+>  > +               struct drm_printer p =
+>  > +                       drm_err_printer("Attempting to use unknown 
+> caching mode ");
+>  > +
+>  > +               i915_cache_print(&p, cache);
+>  > +               drm_puts(&p, "!\n");
+>  > +
+>  > +               return -EINVAL;
+>  > +       } else if (ret == obj->pat_index) {
+>  >                  return 0;
+> 
+> We will have to do this conversion and checking again later in this
+> function when calling i915_gem_object_set_cache_coherency().
+
+Yes the double lookup part is a bit naff. It is not super required apart for validating internal callers (could be a debug build only feature perhaps) and to see if PAT index has changed and so whether it needs to call i915_gem_object_wait before proceeding to i915_gem_object_set_cache_coherency...
+
+> My thought was to simply remove the use of cache_level/cache and replace
+> it with pat_idex. Conversion from cache modes to pat index should be done
+> before calling any function used to consume cache_level/cache.
+
+... I could probably call the setter which takes PAT index instead of i915_gem_object_set_cache_coherency few lines below. That would skip the double lookup and make you happy(-ier)?
+
+> 
+>  > +       } else if (obj->pat_set_by_user) {
+> 
+> Shouldn't this if-statement be placed at the beginning of this function? 
+> the original
+> i915_gem_object_has_cache_level() would return true if 
+> (obj->pat_set_by_user), so the
+> function returns right away.
+> 
+>  > +               drm_notice_once(&i915->drm,
+>  > +                               "Attempting to change caching mode on 
+> an object with fixed PAT!\n");
+>  > +               return -EINVAL;
+>  > +       }
+>  >
+>  >          ret = i915_gem_object_wait(obj,
+>  >                                     I915_WAIT_INTERRUPTIBLE |
+>  > @@ -291,7 +294,7 @@ int i915_gem_object_set_cache_level(struct 
+> drm_i915_gem_object *obj,
+>  >                  return ret;
+>  >
+>  >          /* Always invalidate stale cachelines */
+>  > -       i915_gem_object_set_cache_coherency(obj, cache_level);
+>  > +       i915_gem_object_set_cache_coherency(obj, cache);
+>  >          obj->cache_dirty = true;
+>  >
+>  >          /* The cache-level will be applied when each vma is rebound. */
+>  > @@ -326,10 +329,9 @@ int i915_gem_get_caching_ioctl(struct drm_device 
+> *dev, void *data,
+>  >                  goto out;
+>  >          }
+>  >
+>  > -       if (i915_gem_object_has_cache_level(obj, I915_CACHE_LLC) ||
+>  > -           i915_gem_object_has_cache_level(obj, I915_CACHE_L3_LLC))
+>  > +       if (i915_gem_object_has_cache_mode(obj, I915_CACHE_MODE_WB))
+> 
+> This looks wrong, at least for MTL. Prior to MTL the GPU automatically snoop
+> CPU cache, but from MTL onward you have to specify if WB or WB + 1-WAY 
+> COH is
+> needed. And for KMD, cacheable mode means WB + 1-WAY COH for MTL to keep the
+> behavior consistent.
+> 
+> This used to be taken care of by i915_gem_get_pat_index() call. With 
+> that being
+> replaced by i915_cache_find_pat(), you would need to do something there. 
+> But,
+> without cachelevel_to_pat[], you might end up hard coding something 
+> directly in
+> the function, and that is platform dependent. hmm..., I don't really 
+> like this idea.
+> 
+> That's why I commented in v1 that we should use 
+> INTEL_INFO(i915)->pat_uc/wb/wt
+> instead of enum i915_cache_level or i915_cache_t.
+
+I think I get it. I hope so.. So if I made the tables like this:
+
+#define LEGACY_CACHE_MODES \
+	.cache_modes = { \
+		[0] = I915_CACHE(UC), \
+		[1] = _I915_CACHE(WB, COH1W), \
+		[2] = _I915_CACHE(WB, COH1W | L3), \ // 2way??
+		[3] = I915_CACHE(WT), \
+  	}
+  
+#define GEN12_CACHE_MODES \
+	.cache_modes = { \
+		[0] = _I915_CACHE(WB, COH1W), \
+		[1] = I915_CACHE(WC), \
+		[2] = I915_CACHE(WT), \
+		[3] = I915_CACHE(UC), \
+  	}
+  
+#define MTL_CACHE_MODES \
+	.cache_modes = { \
+		[0] = _I915_CACHE(WB, COH1W), \
+		[1] = I915_CACHE(WT), \
+		[2] = I915_CACHE(UC), \
+		[3] = _I915_CACHE(WB, COH1W), \
+		[4] = _I915_CACHE(WB, COH2W), \
+
+And made i915->pat_wc look up _I915_CACHE(WB, COH1W) would that work? Hmm and also all "has cache level" call sites would need to look not just for WB but WB+COH1W.
+
+Would it work? Too ugly?
+
+> 
+>  >                  args->caching = I915_CACHING_CACHED;
+>  > -       else if (i915_gem_object_has_cache_level(obj, I915_CACHE_WT))
+>  > +       else if (i915_gem_object_has_cache_mode(obj, I915_CACHE_MODE_WT))
+>  >                  args->caching = I915_CACHING_DISPLAY;
+>  >          else
+>  >                  args->caching = I915_CACHING_NONE;
+>  > @@ -344,7 +346,7 @@ int i915_gem_set_caching_ioctl(struct drm_device 
+> *dev, void *data,
+>  >          struct drm_i915_private *i915 = to_i915(dev);
+>  >          struct drm_i915_gem_caching *args = data;
+>  >          struct drm_i915_gem_object *obj;
+>  > -       enum i915_cache_level level;
+>  > +       i915_cache_t cache;
+>  >          int ret = 0;
+>  >
+>  >          if (IS_DGFX(i915))
+>  > @@ -355,7 +357,7 @@ int i915_gem_set_caching_ioctl(struct drm_device 
+> *dev, void *data,
+>  >
+>  >          switch (args->caching) {
+>  >          case I915_CACHING_NONE:
+>  > -               level = I915_CACHE_NONE;
+>  > +               cache = I915_CACHE(UC);
+> 
+> For code like this, my thought was
+> 
+> -               level = I915_CACHE_NONE;
+> +               pat_index = INTEL_INFO(i915)->pat_uc;
+> 
+> And later the set_cache call should take pat_index as argument instead 
+> of cache mode.
+> 
+>  >                  break;
+>  >          case I915_CACHING_CACHED:
+>  >                  /*
+>  > @@ -367,10 +369,10 @@ int i915_gem_set_caching_ioctl(struct 
+> drm_device *dev, void *data,
+>  >                  if (!HAS_LLC(i915) && !HAS_SNOOP(i915))
+>  >                          return -ENODEV;
+>  >
+>  > -               level = I915_CACHE_LLC;
+>  > +               cache = I915_CACHE(WB);
+> 
+> -               level = I915_CACHE_LLC;
+> +               pat_index = INTEL_INFO(i915)->pat_wb;
+> 
+> This should take care of the WB + 1-WAY COH issue for MTL mentioned above,
+> assuming the i915_cache_init() set pat_wb properly, and the
+> i915_gem_object_set_cache() consumes pat_index instead of cache mode.
+
+That works too yes.
+
+> 
+>  >                  break;
+>  >          case I915_CACHING_DISPLAY:
+>  > -               level = HAS_WT(i915) ? I915_CACHE_WT : I915_CACHE_NONE;
+>  > +               cache = HAS_WT(i915) ? I915_CACHE(WT) : I915_CACHE(UC);
+>  >                  break;
+>  >          default:
+>  >                  return -EINVAL;
+>  > @@ -409,7 +411,7 @@ int i915_gem_set_caching_ioctl(struct drm_device 
+> *dev, void *data,
+>  >          if (ret)
+>  >                  goto out;
+>  >
+>  > -       ret = i915_gem_object_set_cache_level(obj, level);
+>  > +       ret = i915_gem_object_set_cache(obj, cache);
+>  >          i915_gem_object_unlock(obj);
+>  >
+>  >  out:
+>  > @@ -448,9 +450,9 @@ i915_gem_object_pin_to_display_plane(struct 
+> drm_i915_gem_object *obj,
+>  >           * of uncaching, which would allow us to flush all the 
+> LLC-cached data
+>  >           * with that bit in the PTE to main memory with just one 
+> PIPE_CONTROL.
+>  >           */
+>  > -       ret = i915_gem_object_set_cache_level(obj,
+>  > -                                             HAS_WT(i915) ?
+>  > -                                             I915_CACHE_WT : 
+> I915_CACHE_NONE);
+>  > +       ret = i915_gem_object_set_cache(obj,
+>  > +                                       HAS_WT(i915) ?
+>  > +                                       I915_CACHE(WT) : I915_CACHE(UC));
+>  >          if (ret)
+>  >                  return ERR_PTR(ret);
+>  >
+>  > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_domain.h 
+> b/drivers/gpu/drm/i915/gem/i915_gem_domain.h
+>  > index 9622df962bfc..d07926758b36 100644
+>  > --- a/drivers/gpu/drm/i915/gem/i915_gem_domain.h
+>  > +++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.h
+>  > @@ -6,10 +6,11 @@
+>  >  #ifndef __I915_GEM_DOMAIN_H__
+>  >  #define __I915_GEM_DOMAIN_H__
+>  >
+>  > +#include "i915_cache.h"
+>  > +
+>  >  struct drm_i915_gem_object;
+>  > -enum i915_cache_level;
+>  >
+>  > -int i915_gem_object_set_cache_level(struct drm_i915_gem_object *obj,
+>  > -                                   enum i915_cache_level cache_level);
+>  > +int i915_gem_object_set_cache(struct drm_i915_gem_object *obj,
+>  > +                             i915_cache_t cache);
+>  >
+>  >  #endif /* __I915_GEM_DOMAIN_H__ */
+>  > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c 
+> b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>  > index d3208a325614..ee85221fa6eb 100644
+>  > --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>  > +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>  > @@ -640,15 +640,9 @@ static inline int use_cpu_reloc(const struct 
+> reloc_cache *cache,
+>  >          if (DBG_FORCE_RELOC == FORCE_GTT_RELOC)
+>  >                  return false;
+>  >
+>  > -       /*
+>  > -        * For objects created by userspace through GEM_CREATE with 
+> pat_index
+>  > -        * set by set_pat extension, 
+> i915_gem_object_has_cache_level() always
+>  > -        * return true, otherwise the call would fall back to 
+> checking whether
+>  > -        * the object is un-cached.
+>  > -        */
+>  >          return (cache->has_llc ||
+>  >                  obj->cache_dirty ||
+>  > -               !i915_gem_object_has_cache_level(obj, I915_CACHE_NONE));
+>  > +               i915_gem_object_has_cache_mode(obj, 
+> I915_CACHE_MODE_UC) != 1);
+>  >  }
+>  >
+>  >  static int eb_reserve_vma(struct i915_execbuffer *eb,
+>  > @@ -1329,10 +1323,7 @@ static void *reloc_iomap(struct i915_vma *batch,
+>  >          if (drm_mm_node_allocated(&cache->node)) {
+>  >                  ggtt->vm.insert_page(&ggtt->vm,
+>  >                                       
+> i915_gem_object_get_dma_address(obj, page),
+>  > -                                    offset,
+>  > -                                   
+>   i915_gem_get_pat_index(ggtt->vm.i915,
+>  > -                                                           
+> I915_CACHE_NONE),
+>  > -                                    0);
+>  > +                                    offset, eb->i915->pat_uc, 0);
+>  >          } else {
+>  >                  offset += page << PAGE_SHIFT;
+>  >          }
+>  > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_internal.c 
+> b/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+>  > index 6bc26b4b06b8..7e7bfe7da76f 100644
+>  > --- a/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+>  > +++ b/drivers/gpu/drm/i915/gem/i915_gem_internal.c
+>  > @@ -142,7 +142,6 @@ __i915_gem_object_create_internal(struct 
+> drm_i915_private *i915,
+>  >  {
+>  >          static struct lock_class_key lock_class;
+>  >          struct drm_i915_gem_object *obj;
+>  > -       unsigned int cache_level;
+>  >
+>  >          GEM_BUG_ON(!size);
+>  >          GEM_BUG_ON(!IS_ALIGNED(size, PAGE_SIZE));
+>  > @@ -170,8 +169,9 @@ __i915_gem_object_create_internal(struct 
+> drm_i915_private *i915,
+>  >          obj->read_domains = I915_GEM_DOMAIN_CPU;
+>  >          obj->write_domain = I915_GEM_DOMAIN_CPU;
+>  >
+>  > -       cache_level = HAS_LLC(i915) ? I915_CACHE_LLC : I915_CACHE_NONE;
+>  > -       i915_gem_object_set_cache_coherency(obj, cache_level);
+>  > +       i915_gem_object_set_cache_coherency(obj, HAS_LLC(i915) ?
+>  > +                                                I915_CACHE(WB) :
+>  > +                                                I915_CACHE(UC));
+>  >
+>  >          return obj;
+>  >  }
+>  > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c 
+> b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>  > index aa4d842d4c5a..5e21aedb02d2 100644
+>  > --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>  > +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>  > @@ -386,13 +386,11 @@ static vm_fault_t vm_fault_gtt(struct vm_fault 
+> *vmf)
+>  >          /*
+>  >           * For objects created by userspace through GEM_CREATE with 
+> pat_index
+>  >           * set by set_pat extension, coherency is managed by 
+> userspace, make
+>  > -        * sure we don't fail handling the vm fault by calling
+>  > -        * i915_gem_object_has_cache_level() which always return true 
+> for such
+>  > -        * objects. Otherwise this helper function would fall back to 
+> checking
+>  > -        * whether the object is un-cached.
+>  > +        * sure we don't fail handling the vm fault by making sure 
+> that we
+>  > +        * know the object is uncached or that we have LLC.
+>  >           */
+>  > -       if (!(i915_gem_object_has_cache_level(obj, I915_CACHE_NONE) ||
+>  > -             HAS_LLC(i915))) {
+>  > +       if (i915_gem_object_has_cache_mode(obj, I915_CACHE_MODE_UC) 
+> != 1 &&
+>  > +           !HAS_LLC(i915)) {
+>  >                  ret = -EFAULT;
+>  >                  goto err_unpin;
+>  >          }
+>  > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c 
+> b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>  > index d77a375871b7..2d3a58c62122 100644
+>  > --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>  > +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>  > @@ -45,33 +45,6 @@ static struct kmem_cache *slab_objects;
+>  >
+>  >  static const struct drm_gem_object_funcs i915_gem_object_funcs;
+>  >
+>  > -unsigned int i915_gem_get_pat_index(struct drm_i915_private *i915,
+>  > -                                   enum i915_cache_level level)
+>  > -{
+>  > -       if (drm_WARN_ON(&i915->drm, level >= I915_MAX_CACHE_LEVEL))
+>  > -               return 0;
+>  > -
+>  > -       return INTEL_INFO(i915)->cachelevel_to_pat[level];
+>  > -}
+>  > -
+>  > -bool i915_gem_object_has_cache_level(const struct 
+> drm_i915_gem_object *obj,
+>  > -                                    enum i915_cache_level lvl)
+>  > -{
+>  > -       /*
+>  > -        * In case the pat_index is set by user space, this kernel mode
+>  > -        * driver should leave the coherency to be managed by user space,
+>  > -        * simply return true here.
+>  > -        */
+>  > -       if (obj->pat_set_by_user)
+>  > -               return true;
+>  > -
+>  > -       /*
+>  > -        * Otherwise the pat_index should have been converted from 
+> cache_level
+>  > -        * so that the following comparison is valid.
+>  > -        */
+>  > -       return obj->pat_index == 
+> i915_gem_get_pat_index(obj_to_i915(obj), lvl);
+>  > -}
+>  > -
+>  >  struct drm_i915_gem_object *i915_gem_object_alloc(void)
+>  >  {
+>  >          struct drm_i915_gem_object *obj;
+>  > @@ -144,30 +117,70 @@ void __i915_gem_object_fini(struct 
+> drm_i915_gem_object *obj)
+>  >          dma_resv_fini(&obj->base._resv);
+>  >  }
+>  >
+>  > +int i915_gem_object_has_cache_mode(const struct drm_i915_gem_object 
+> *obj,
+>  > +                                  enum i915_cache_mode mode)
+>  > +{
+>  > +       struct drm_i915_private *i915 = obj_to_i915(obj);
+>  > +       i915_cache_t cache = 
+> INTEL_INFO(i915)->cache_modes[obj->pat_index];
+>  > +
+>  > +       if (I915_CACHE_MODE(cache) == mode)
+>  > +               return 1;
+>  > +       else if (obj->pat_set_by_user)
+>  > +               return -1; /* Unknown, callers should assume no. */
+>  > +       else
+>  > +               return 0;
+>  > +}
+>  > +
+>  > +static void __i915_gem_object_update_coherency(struct 
+> drm_i915_gem_object *obj)
+>  > +{
+>  > +       struct drm_i915_private *i915 = obj_to_i915(obj);
+>  > +       i915_cache_t cache = 
+> INTEL_INFO(i915)->cache_modes[obj->pat_index];
+>  > +       unsigned int mode = I915_CACHE_MODE(cache);
+>  > +
+>  > +       if (mode == I915_CACHE_MODE_UNKNOWN) {
+>  > +               drm_notice_once(&i915->drm, "Undefined PAT index %u!\n",
+>  > +                               obj->pat_index);
+>  > +               obj->cache_coherent = 0;
+>  > +       } else  if (mode != I915_CACHE_MODE_UC) {
+>  > +               obj->cache_coherent = I915_BO_CACHE_COHERENT_FOR_READ |
+>  > +                                     I915_BO_CACHE_COHERENT_FOR_WRITE;
+>  > +       } else if (HAS_LLC(i915)) {
+>  > +               obj->cache_coherent = I915_BO_CACHE_COHERENT_FOR_READ;
+>  > +       } else {
+>  > +               obj->cache_coherent = 0;
+>  > +       }
+>  > +
+>  > +       obj->cache_dirty =
+>  > +               !(obj->cache_coherent & 
+> I915_BO_CACHE_COHERENT_FOR_WRITE) &&
+>  > +               !IS_DGFX(i915);
+>  > +}
+>  > +
+>  >  /**
+>  >   * i915_gem_object_set_cache_coherency - Mark up the object's 
+> coherency levels
+>  > - * for a given cache_level
+>  > + * for a given caching mode
+>  >   * @obj: #drm_i915_gem_object
+>  > - * @cache_level: cache level
+>  > + * @cache: cache mode
+>  >   */
+>  >  void i915_gem_object_set_cache_coherency(struct drm_i915_gem_object 
+> *obj,
+>  > -                                        unsigned int cache_level)
+>  > +                                        i915_cache_t cache)
+>  >  {
+>  > -       struct drm_i915_private *i915 = to_i915(obj->base.dev);
+>  > +       struct drm_i915_private *i915 = obj_to_i915(obj);
+>  > +       int found;
+>  >
+>  > -       obj->pat_index = i915_gem_get_pat_index(i915, cache_level);
+>  > +       found = i915_cache_find_pat(i915, cache);
+>  > +       if (found < 0) {
+>  > +               struct drm_printer p =
+>  > +                       drm_err_printer("Unknown cache mode ");
+>  >
+>  > -       if (cache_level != I915_CACHE_NONE)
+>  > -               obj->cache_coherent = (I915_BO_CACHE_COHERENT_FOR_READ |
+>  > -                                      I915_BO_CACHE_COHERENT_FOR_WRITE);
+>  > -       else if (HAS_LLC(i915))
+>  > -               obj->cache_coherent = I915_BO_CACHE_COHERENT_FOR_READ;
+>  > -       else
+>  > -               obj->cache_coherent = 0;
+>  > +               i915_cache_print(&p, cache);
+>  > +               drm_puts(&p, "!\n");
+>  >
+>  > -       obj->cache_dirty =
+>  > -               !(obj->cache_coherent & 
+> I915_BO_CACHE_COHERENT_FOR_WRITE) &&
+>  > -               !IS_DGFX(i915);
+>  > +               found = i915->pat_uc;
+>  > +       }
+>  > +
+>  > +       obj->pat_index = found;
+>  > +
+>  > +       __i915_gem_object_update_coherency(obj);
+>  >  }
+>  >
+>  >  /**
+>  > @@ -181,24 +194,18 @@ void i915_gem_object_set_cache_coherency(struct 
+> drm_i915_gem_object *obj,
+>  >  void i915_gem_object_set_pat_index(struct drm_i915_gem_object *obj,
+>  >                                     unsigned int pat_index)
+>  >  {
+>  > -       struct drm_i915_private *i915 = to_i915(obj->base.dev);
+>  > +       struct drm_i915_private *i915 = obj_to_i915(obj);
+>  >
+>  >          if (obj->pat_index == pat_index)
+>  >                  return;
+>  >
+>  > +       if (drm_WARN_ON_ONCE(&i915->drm,
+>  > +                            pat_index > 
+> INTEL_INFO(i915)->max_pat_index))
+>  > +               return;
+>  > +
+>  >          obj->pat_index = pat_index;
+>  >
+>  > -       if (pat_index != i915_gem_get_pat_index(i915, I915_CACHE_NONE))
+>  > -               obj->cache_coherent = (I915_BO_CACHE_COHERENT_FOR_READ |
+>  > -                                      I915_BO_CACHE_COHERENT_FOR_WRITE);
+>  > -       else if (HAS_LLC(i915))
+>  > -               obj->cache_coherent = I915_BO_CACHE_COHERENT_FOR_READ;
+>  > -       else
+>  > -               obj->cache_coherent = 0;
+>  > -
+>  > -       obj->cache_dirty =
+>  > -               !(obj->cache_coherent & 
+> I915_BO_CACHE_COHERENT_FOR_WRITE) &&
+>  > -               !IS_DGFX(i915);
+>  > +       __i915_gem_object_update_coherency(obj);
+>  >  }
+>  >
+>  >  bool i915_gem_object_can_bypass_llc(struct drm_i915_gem_object *obj)
+>  > @@ -215,6 +222,7 @@ bool i915_gem_object_can_bypass_llc(struct 
+> drm_i915_gem_object *obj)
+>  >          /*
+>  >           * Always flush cache for UMD objects at creation time.
+>  >           */
+>  > +       /* QQQ/FIXME why? avoidable performance penalty? */
+>  >          if (obj->pat_set_by_user)
+>  >                  return true;
+>  >
+>  > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h 
+> b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>  > index 884a17275b3a..c852e59aeef9 100644
+>  > --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>  > +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>  > @@ -13,6 +13,7 @@
+>  >
+>  >  #include "display/intel_frontbuffer.h"
+>  >  #include "intel_memory_region.h"
+>  > +#include "i915_cache.h"
+>  >  #include "i915_gem_object_types.h"
+>  >  #include "i915_gem_gtt.h"
+>  >  #include "i915_gem_ww.h"
+>  > @@ -32,10 +33,6 @@ static inline bool i915_gem_object_size_2big(u64 size)
+>  >          return false;
+>  >  }
+>  >
+>  > -unsigned int i915_gem_get_pat_index(struct drm_i915_private *i915,
+>  > -                                   enum i915_cache_level level);
+>  > -bool i915_gem_object_has_cache_level(const struct 
+> drm_i915_gem_object *obj,
+>  > -                                    enum i915_cache_level lvl);
+>  >  void i915_gem_init__objects(struct drm_i915_private *i915);
+>  >
+>  >  void i915_objects_module_exit(void);
+>  > @@ -764,8 +761,10 @@ int i915_gem_object_wait_moving_fence(struct 
+> drm_i915_gem_object *obj,
+>  >                                        bool intr);
+>  >  bool i915_gem_object_has_unknown_state(struct drm_i915_gem_object *obj);
+>  >
+>  > +int i915_gem_object_has_cache_mode(const struct drm_i915_gem_object 
+> *obj,
+>  > +                                  enum i915_cache_mode mode);
+>  >  void i915_gem_object_set_cache_coherency(struct drm_i915_gem_object 
+> *obj,
+>  > -                                        unsigned int cache_level);
+>  > +                                        i915_cache_t cache);
+>  >  void i915_gem_object_set_pat_index(struct drm_i915_gem_object *obj,
+>  >                                     unsigned int pat_index);
+>  >  bool i915_gem_object_can_bypass_llc(struct drm_i915_gem_object *obj);
+>  > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h 
+> b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+>  > index 8de2b91b3edf..a136d137b980 100644
+>  > --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+>  > +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+>  > @@ -14,6 +14,7 @@
+>  >  #include <uapi/drm/i915_drm.h>
+>  >
+>  >  #include "i915_active.h"
+>  > +#include "i915_cache.h"
+>  >  #include "i915_selftest.h"
+>  >  #include "i915_vma_resource.h"
+>  >
+>  > @@ -116,93 +117,6 @@ struct drm_i915_gem_object_ops {
+>  >          const char *name; /* friendly name for debug, e.g. lockdep 
+> classes */
+>  >  };
+>  >
+>  > -/**
+>  > - * enum i915_cache_level - The supported GTT caching values for 
+> system memory
+>  > - * pages.
+>  > - *
+>  > - * These translate to some special GTT PTE bits when binding pages 
+> into some
+>  > - * address space. It also determines whether an object, or rather 
+> its pages are
+>  > - * coherent with the GPU, when also reading or writing through the 
+> CPU cache
+>  > - * with those pages.
+>  > - *
+>  > - * Userspace can also control this through struct drm_i915_gem_caching.
+>  > - */
+>  > -enum i915_cache_level {
+>  > -       /**
+>  > -        * @I915_CACHE_NONE:
+>  > -        *
+>  > -        * GPU access is not coherent with the CPU cache. If the 
+> cache is dirty
+>  > -        * and we need the underlying pages to be coherent with some 
+> later GPU
+>  > -        * access then we need to manually flush the pages.
+>  > -        *
+>  > -        * On shared LLC platforms reads and writes through the CPU 
+> cache are
+>  > -        * still coherent even with this setting. See also
+>  > -        * &drm_i915_gem_object.cache_coherent for more details. Due 
+> to this we
+>  > -        * should only ever use uncached for scanout surfaces, 
+> otherwise we end
+>  > -        * up over-flushing in some places.
+>  > -        *
+>  > -        * This is the default on non-LLC platforms.
+>  > -        */
+>  > -       I915_CACHE_NONE = 0,
+>  > -       /**
+>  > -        * @I915_CACHE_LLC:
+>  > -        *
+>  > -        * GPU access is coherent with the CPU cache. If the cache is 
+> dirty,
+>  > -        * then the GPU will ensure that access remains coherent, 
+> when both
+>  > -        * reading and writing through the CPU cache. GPU writes can 
+> dirty the
+>  > -        * CPU cache.
+>  > -        *
+>  > -        * Not used for scanout surfaces.
+>  > -        *
+>  > -        * Applies to both platforms with shared LLC(HAS_LLC), and 
+> snooping
+>  > -        * based platforms(HAS_SNOOP).
+>  > -        *
+>  > -        * This is the default on shared LLC platforms.  The only 
+> exception is
+>  > -        * scanout objects, where the display engine is not coherent 
+> with the
+>  > -        * CPU cache. For such objects I915_CACHE_NONE or 
+> I915_CACHE_WT is
+>  > -        * automatically applied by the kernel in pin_for_display, if 
+> userspace
+>  > -        * has not done so already.
+>  > -        */
+>  > -       I915_CACHE_LLC,
+>  > -       /**
+>  > -        * @I915_CACHE_L3_LLC:
+>  > -        *
+>  > -        * Explicitly enable the Gfx L3 cache, with coherent LLC.
+>  > -        *
+>  > -        * The Gfx L3 sits between the domain specific caches, e.g
+>  > -        * sampler/render caches, and the larger LLC. LLC is coherent 
+> with the
+>  > -        * GPU, but L3 is only visible to the GPU, so likely needs to 
+> be flushed
+>  > -        * when the workload completes.
+>  > -        *
+>  > -        * Not used for scanout surfaces.
+>  > -        *
+>  > -        * Only exposed on some gen7 + GGTT. More recent hardware has 
+> dropped
+>  > -        * this explicit setting, where it should now be enabled by 
+> default.
+>  > -        */
+>  > -       I915_CACHE_L3_LLC,
+>  > -       /**
+>  > -        * @I915_CACHE_WT:
+>  > -        *
+>  > -        * Write-through. Used for scanout surfaces.
+>  > -        *
+>  > -        * The GPU can utilise the caches, while still having the 
+> display engine
+>  > -        * be coherent with GPU writes, as a result we don't need to 
+> flush the
+>  > -        * CPU caches when moving out of the render domain. This is 
+> the default
+>  > -        * setting chosen by the kernel, if supported by the HW, 
+> otherwise we
+>  > -        * fallback to I915_CACHE_NONE. On the CPU side writes 
+> through the CPU
+>  > -        * cache still need to be flushed, to remain coherent with 
+> the display
+>  > -        * engine.
+>  > -        */
+>  > -       I915_CACHE_WT,
+>  > -       /**
+>  > -        * @I915_MAX_CACHE_LEVEL:
+>  > -        *
+>  > -        * Mark the last entry in the enum. Used for defining 
+> cachelevel_to_pat
+>  > -        * array for cache_level to pat translation table.
+>  > -        */
+>  > -       I915_MAX_CACHE_LEVEL,
+>  > -};
+>  > -
+>  >  enum i915_map_type {
+>  >          I915_MAP_WB = 0,
+>  >          I915_MAP_WC,
+>  > @@ -409,9 +323,7 @@ struct drm_i915_gem_object {
+>  >           * Check for @pat_set_by_user to find out if an object has 
+> pat index set
+>  >           * by userspace. The ioctl's to change cache settings have 
+> also been
+>  >           * disabled for the objects with pat index set by userspace. 
+> Please don't
+>  > -        * assume @cache_coherent having the flags set as describe 
+> here. A helper
+>  > -        * function i915_gem_object_has_cache_level() provides one 
+> way to bypass
+>  > -        * the use of this field.
+>  > +        * assume @cache_coherent having the flags set as describe here.
+>  >           *
+>  >           * Track whether the pages are coherent with the GPU if 
+> reading or
+>  >           * writing through the CPU caches. The largely depends on the
+>  > @@ -426,7 +338,8 @@ struct drm_i915_gem_object {
+>  >           * i.e @cache_coherent is zero.
+>  >           *
+>  >           * On platforms that share the LLC with the CPU(HAS_LLC), 
+> all GT memory
+>  > -        * access will automatically snoop the CPU caches(even with 
+> CACHE_NONE).
+>  > +        * access will automatically snoop the CPU caches (even with
+>  > +        * I915_CACHE(UC)).
+>  >           * The one exception is when dealing with the display 
+> engine, like with
+>  >           * scanout surfaces. To handle this the kernel will always 
+> flush the
+>  >           * surface out of the CPU caches when preparing it for 
+> scanout.  Also
+>  > @@ -437,8 +350,8 @@ struct drm_i915_gem_object {
+>  >           * Something strange here is why @cache_coherent is not a simple
+>  >           * boolean, i.e coherent vs non-coherent. The reasoning for 
+> this is back
+>  >           * to the display engine not being fully coherent. As a 
+> result scanout
+>  > -        * surfaces will either be marked as I915_CACHE_NONE or 
+> I915_CACHE_WT.
+>  > -        * In the case of seeing I915_CACHE_NONE the kernel makes the 
+> assumption
+>  > +        * surfaces will either be marked as I915_CACHE(UC) or 
+> I915_CACHE(WT).
+>  > +        * In the case of seeing I915_CACHE(UC) the kernel makes the 
+> assumption
+>  >           * that this is likely a scanout surface, and will set 
+> @cache_coherent
+>  >           * as only I915_BO_CACHE_COHERENT_FOR_READ, on platforms 
+> with the shared
+>  >           * LLC. The kernel uses this to always flush writes through 
+> the CPU
+>  > @@ -447,7 +360,7 @@ struct drm_i915_gem_object {
+>  >           * flushing the surface just before doing the scanout.  This 
+> does mean
+>  >           * we might unnecessarily flush non-scanout objects in some 
+> places, but
+>  >           * the default assumption is that all normal objects should 
+> be using
+>  > -        * I915_CACHE_LLC, at least on platforms with the shared LLC.
+>  > +        * I915_CACHE(WB), at least on platforms with the shared LLC.
+>  >           *
+>  >           * Supported values:
+>  >           *
+>  > @@ -459,13 +372,13 @@ struct drm_i915_gem_object {
+>  >           * optimisation we try to flush any writes as early as 
+> possible to avoid
+>  >           * stalling later.
+>  >           *
+>  > -        * Thus for scanout surfaces using I915_CACHE_NONE, on shared LLC
+>  > +        * Thus for scanout surfaces using I915_CACHE(UC), on shared LLC
+>  >           * platforms, we use:
+>  >           *
+>  >           *       cache_coherent = I915_BO_CACHE_COHERENT_FOR_READ
+>  >           *
+>  >           * While for normal objects that are fully coherent, 
+> including special
+>  > -        * scanout surfaces marked as I915_CACHE_WT, we use:
+>  > +        * scanout surfaces marked as I915_CACHE(WT), we use:
+>  >           *
+>  >           *       cache_coherent = I915_BO_CACHE_COHERENT_FOR_READ |
+>  >           *                        I915_BO_CACHE_COHERENT_FOR_WRITE
+>  > @@ -492,9 +405,7 @@ struct drm_i915_gem_object {
+>  >           * Check for @pat_set_by_user to find out if an object has 
+> pat index set
+>  >           * by userspace. The ioctl's to change cache settings have 
+> also been
+>  >           * disabled for the objects with pat_index set by userspace. 
+> Please don't
+>  > -        * assume @cache_dirty is set as describe here. Also see 
+> helper function
+>  > -        * i915_gem_object_has_cache_level() for possible ways to 
+> bypass the use
+>  > -        * of this field.
+>  > +        * assume @cache_dirty is set as describe here.
+>  >           *
+>  >           * Track if we are we dirty with writes through the CPU 
+> cache for this
+>  >           * object. As a result reading directly from main memory 
+> might yield
+>  > @@ -517,7 +428,7 @@ struct drm_i915_gem_object {
+>  >           * for both reads and writes though the CPU cache.
+>  >           *
+>  >           * Note that on shared LLC platforms we still apply the 
+> heavy flush for
+>  > -        * I915_CACHE_NONE objects, under the assumption that this is 
+> going to
+>  > +        * I915_CACHE(UC) objects, under the assumption that this is 
+> going to
+>  >           * be used for scanout.
+>  >           *
+>  >           * Update: On some hardware there is now also the 'Bypass 
+> LLC' MOCS
+>  > @@ -530,15 +441,15 @@ struct drm_i915_gem_object {
+>  >           * information leak. The driver currently ensures:
+>  >           *
+>  >           *   1. All userspace objects, by default, have @cache_level 
+> set as
+>  > -        *   I915_CACHE_NONE. The only exception is userptr objects, 
+> where we
+>  > -        *   instead force I915_CACHE_LLC, but we also don't allow 
+> userspace to
+>  > +        *   I915_CACHE(UC). The only exception is userptr objects, 
+> where we
+>  > +        *   instead force I915_CACHE(WB), but we also don't allow 
+> userspace to
+>  >           *   ever change the @cache_level for such objects. Another 
+> special case
+>  >           *   is dma-buf, which doesn't rely on @cache_dirty,  but 
+> there we
+>  >           *   always do a forced flush when acquiring the pages, if 
+> there is a
+>  >           *   chance that the pages can be read directly from main 
+> memory with
+>  >           *   the GPU.
+>  >           *
+>  > -        *   2. All I915_CACHE_NONE objects have @cache_dirty 
+> initially true.
+>  > +        *   2. All I915_CACHE(UC) objects have @cache_dirty 
+> initially true.
+>  >           *
+>  >           *   3. All swapped-out objects(i.e shmem) have @cache_dirty 
+> set to
+>  >           *   true.
+>  > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c 
+> b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+>  > index 33d5d5178103..538b3029de35 100644
+>  > --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+>  > +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+>  > @@ -375,7 +375,7 @@ __i915_gem_object_release_shmem(struct 
+> drm_i915_gem_object *obj,
+>  >           * On non-LLC igfx platforms, force the flush-on-acquire if 
+> this is ever
+>  >           * swapped-in. Our async flush path is not trust worthy 
+> enough yet(and
+>  >           * happens in the wrong order), and with some tricks it's 
+> conceivable
+>  > -        * for userspace to change the cache-level to I915_CACHE_NONE 
+> after the
+>  > +        * for userspace to change the cache-level to I915_CACHE(UC) 
+> after the
+>  >           * pages are swapped-in, and since execbuf binds the object 
+> before doing
+>  >           * the async flush, we have a race window.
+>  >           */
+>  > @@ -577,7 +577,7 @@ static int shmem_object_init(struct 
+> intel_memory_region *mem,
+>  >          static struct lock_class_key lock_class;
+>  >          struct drm_i915_private *i915 = mem->i915;
+>  >          struct address_space *mapping;
+>  > -       unsigned int cache_level;
+>  > +       i915_cache_t cache;
+>  >          gfp_t mask;
+>  >          int ret;
+>  >
+>  > @@ -621,11 +621,11 @@ static int shmem_object_init(struct 
+> intel_memory_region *mem,
+>  >                   * However, we maintain the display planes as UC, and so
+>  >                   * need to rebind when first used as such.
+>  >                   */
+>  > -               cache_level = I915_CACHE_LLC;
+>  > +               cache = I915_CACHE(WB);
+>  >          else
+>  > -               cache_level = I915_CACHE_NONE;
+>  > +               cache = I915_CACHE(UC);
+>  >
+>  > -       i915_gem_object_set_cache_coherency(obj, cache_level);
+>  > +       i915_gem_object_set_cache_coherency(obj, cache);
+>  >
+>  >          i915_gem_object_init_memory_region(obj, mem);
+>  >
+>  > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c 
+> b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+>  > index 3b094d36a0b0..e3a3b824a536 100644
+>  > --- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+>  > +++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+>  > @@ -563,11 +563,8 @@ static void dbg_poison(struct i915_ggtt *ggtt,
+>  >          while (size) {
+>  >                  void __iomem *s;
+>  >
+>  > -               ggtt->vm.insert_page(&ggtt->vm, addr,
+>  > -                                    ggtt->error_capture.start,
+>  > -                                   
+>   i915_gem_get_pat_index(ggtt->vm.i915,
+>  > -                                                           
+> I915_CACHE_NONE),
+>  > -                                    0);
+>  > +               ggtt->vm.insert_page(&ggtt->vm, addr, 
+> ggtt->error_capture.start,
+>  > +                                    ggtt->vm.i915->pat_uc, 0);
+>  >                  mb();
+>  >
+>  >                  s = io_mapping_map_wc(&ggtt->iomap,
+>  > @@ -679,7 +676,6 @@ static int __i915_gem_object_create_stolen(struct 
+> intel_memory_region *mem,
+>  >                                             struct drm_mm_node *stolen)
+>  >  {
+>  >          static struct lock_class_key lock_class;
+>  > -       unsigned int cache_level;
+>  >          unsigned int flags;
+>  >          int err;
+>  >
+>  > @@ -694,8 +690,9 @@ static int __i915_gem_object_create_stolen(struct 
+> intel_memory_region *mem,
+>  >
+>  >          obj->stolen = stolen;
+>  >          obj->read_domains = I915_GEM_DOMAIN_CPU | I915_GEM_DOMAIN_GTT;
+>  > -       cache_level = HAS_LLC(mem->i915) ? I915_CACHE_LLC : 
+> I915_CACHE_NONE;
+>  > -       i915_gem_object_set_cache_coherency(obj, cache_level);
+>  > +       i915_gem_object_set_cache_coherency(obj, HAS_LLC(mem->i915) ?
+>  > +                                                I915_CACHE(WB) :
+>  > +                                                I915_CACHE(UC));
+>  >
+>  >          if (WARN_ON(!i915_gem_object_trylock(obj, NULL)))
+>  >                  return -EBUSY;
+>  > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c 
+> b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+>  > index 7078af2f8f79..52c0273001b2 100644
+>  > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+>  > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+>  > @@ -48,14 +48,23 @@ void i915_ttm_migrate_set_ban_memcpy(bool ban)
+>  >  }
+>  >  #endif
+>  >
+>  > -static enum i915_cache_level
+>  > -i915_ttm_cache_level(struct drm_i915_private *i915, struct 
+> ttm_resource *res,
+>  > +static i915_cache_t
+>  > +i915_ttm_cache(struct drm_i915_private *i915, struct ttm_resource *res,
+>  > +              struct ttm_tt *ttm)
+>  > +{
+>  > +       return ((HAS_LLC(i915) || HAS_SNOOP(i915)) &&
+>  > +               !i915_ttm_gtt_binds_lmem(res) &&
+>  > +               ttm->caching == ttm_cached) ? I915_CACHE(WB) : 
+> I915_CACHE(UC);
+>  > +}
+>  > +
+>  > +static unsigned int
+>  > +i915_ttm_cache_pat(struct drm_i915_private *i915, struct 
+> ttm_resource *res,
+>  >                       struct ttm_tt *ttm)
+>  >  {
+>  >          return ((HAS_LLC(i915) || HAS_SNOOP(i915)) &&
+>  >                  !i915_ttm_gtt_binds_lmem(res) &&
+>  > -               ttm->caching == ttm_cached) ? I915_CACHE_LLC :
+>  > -               I915_CACHE_NONE;
+>  > +               ttm->caching == ttm_cached) ? i915->pat_wb :
+>  > +               i915->pat_uc;
+>  >  }
+>  >
+>  >  static struct intel_memory_region *
+>  > @@ -102,8 +111,8 @@ void i915_ttm_adjust_domains_after_move(struct 
+> drm_i915_gem_object *obj)
+>  >  void i915_ttm_adjust_gem_after_move(struct drm_i915_gem_object *obj)
+>  >  {
+>  >          struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
+>  > -       unsigned int cache_level;
+>  >          unsigned int mem_flags;
+>  > +       i915_cache_t cache;
+>  >          unsigned int i;
+>  >          int mem_type;
+>  >
+>  > @@ -116,13 +125,13 @@ void i915_ttm_adjust_gem_after_move(struct 
+> drm_i915_gem_object *obj)
+>  >          if (!bo->resource) {
+>  >                  mem_flags = I915_BO_FLAG_STRUCT_PAGE;
+>  >                  mem_type = I915_PL_SYSTEM;
+>  > -               cache_level = I915_CACHE_NONE;
+>  > +               cache = I915_CACHE(UC);
+>  >          } else {
+>  >                  mem_flags = i915_ttm_cpu_maps_iomem(bo->resource) ? 
+> I915_BO_FLAG_IOMEM :
+>  >                          I915_BO_FLAG_STRUCT_PAGE;
+>  >                  mem_type = bo->resource->mem_type;
+>  > -               cache_level = 
+> i915_ttm_cache_level(to_i915(bo->base.dev), bo->resource,
+>  > -                                                  bo->ttm);
+>  > +               cache = i915_ttm_cache(to_i915(bo->base.dev), 
+> bo->resource,
+>  > +                                      bo->ttm);
+>  >          }
+>  >
+>  >          /*
+>  > @@ -147,7 +156,7 @@ void i915_ttm_adjust_gem_after_move(struct 
+> drm_i915_gem_object *obj)
+>  >          obj->mem_flags &= ~(I915_BO_FLAG_STRUCT_PAGE | 
+> I915_BO_FLAG_IOMEM);
+>  >          obj->mem_flags |= mem_flags;
+>  >
+>  > -       i915_gem_object_set_cache_coherency(obj, cache_level);
+>  > +       i915_gem_object_set_cache_coherency(obj, cache);
+>  >  }
+>  >
+>  >  /**
+>  > @@ -196,7 +205,7 @@ static struct dma_fence 
+> *i915_ttm_accel_move(struct ttm_buffer_object *bo,
+>  >          struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+>  >          struct i915_request *rq;
+>  >          struct ttm_tt *src_ttm = bo->ttm;
+>  > -       enum i915_cache_level src_level, dst_level;
+>  > +       unsigned int src_pat, dst_pat;
+>  >          int ret;
+>  >
+>  >          if (!to_gt(i915)->migrate.context || 
+> intel_gt_is_wedged(to_gt(i915)))
+>  > @@ -206,16 +215,15 @@ static struct dma_fence 
+> *i915_ttm_accel_move(struct ttm_buffer_object *bo,
+>  >          if (I915_SELFTEST_ONLY(fail_gpu_migration))
+>  >                  clear = true;
+>  >
+>  > -       dst_level = i915_ttm_cache_level(i915, dst_mem, dst_ttm);
+>  > +       dst_pat = i915_ttm_cache_pat(i915, dst_mem, dst_ttm);
+>  >          if (clear) {
+>  >                  if (bo->type == ttm_bo_type_kernel &&
+>  >                      !I915_SELFTEST_ONLY(fail_gpu_migration))
+>  >                          return ERR_PTR(-EINVAL);
+>  >
+>  >                 
+>   intel_engine_pm_get(to_gt(i915)->migrate.context->engine);
+>  > -               ret = 
+> intel_context_migrate_clear(to_gt(i915)->migrate.context, deps,
+>  > -                                                 dst_st->sgl,
+>  > -                                                 
+> i915_gem_get_pat_index(i915, dst_level),
+>  > +               ret = 
+> intel_context_migrate_clear(to_gt(i915)->migrate.context,
+>  > +                                                 deps, dst_st->sgl, 
+> dst_pat,
+>  >                                                   
+>   i915_ttm_gtt_binds_lmem(dst_mem),
+>  >                                                    0, &rq);
+>  >          } else {
+>  > @@ -225,14 +233,13 @@ static struct dma_fence 
+> *i915_ttm_accel_move(struct ttm_buffer_object *bo,
+>  >                  if (IS_ERR(src_rsgt))
+>  >                          return ERR_CAST(src_rsgt);
+>  >
+>  > -               src_level = i915_ttm_cache_level(i915, bo->resource, 
+> src_ttm);
+>  > +               src_pat = i915_ttm_cache_pat(i915, bo->resource, 
+> src_ttm);
+>  >                 
+>   intel_engine_pm_get(to_gt(i915)->migrate.context->engine);
+>  >                  ret = 
+> intel_context_migrate_copy(to_gt(i915)->migrate.context,
+>  >                                                   deps, 
+> src_rsgt->table.sgl,
+>  > -                                               
+>   i915_gem_get_pat_index(i915, src_level),
+>  > +                                                src_pat,
+>  >                                                   
+> i915_ttm_gtt_binds_lmem(bo->resource),
+>  > -                                                dst_st->sgl,
+>  > -                                               
+>   i915_gem_get_pat_index(i915, dst_level),
+>  > +                                                dst_st->sgl, dst_pat,
+>  >                                                   
+> i915_ttm_gtt_binds_lmem(dst_mem),
+>  >                                                   &rq);
+>  >
+>  > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c 
+> b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+>  > index 1d3ebdf4069b..7d50d43dfbfa 100644
+>  > --- a/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+>  > +++ b/drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+>  > @@ -553,7 +553,7 @@ i915_gem_userptr_ioctl(struct drm_device *dev,
+>  >          obj->mem_flags = I915_BO_FLAG_STRUCT_PAGE;
+>  >          obj->read_domains = I915_GEM_DOMAIN_CPU;
+>  >          obj->write_domain = I915_GEM_DOMAIN_CPU;
+>  > -       i915_gem_object_set_cache_coherency(obj, I915_CACHE_LLC);
+>  > +       i915_gem_object_set_cache_coherency(obj, I915_CACHE(WB));
+>  >
+>  >          obj->userptr.ptr = args->user_ptr;
+>  >          obj->userptr.notifier_seq = ULONG_MAX;
+>  > diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_gem_object.c 
+> b/drivers/gpu/drm/i915/gem/selftests/huge_gem_object.c
+>  > index bac957755068..ad7798d34c74 100644
+>  > --- a/drivers/gpu/drm/i915/gem/selftests/huge_gem_object.c
+>  > +++ b/drivers/gpu/drm/i915/gem/selftests/huge_gem_object.c
+>  > @@ -104,7 +104,6 @@ huge_gem_object(struct drm_i915_private *i915,
+>  >  {
+>  >          static struct lock_class_key lock_class;
+>  >          struct drm_i915_gem_object *obj;
+>  > -       unsigned int cache_level;
+>  >
+>  >          GEM_BUG_ON(!phys_size || phys_size > dma_size);
+>  >          GEM_BUG_ON(!IS_ALIGNED(phys_size, PAGE_SIZE));
+>  > @@ -123,8 +122,9 @@ huge_gem_object(struct drm_i915_private *i915,
+>  >
+>  >          obj->read_domains = I915_GEM_DOMAIN_CPU;
+>  >          obj->write_domain = I915_GEM_DOMAIN_CPU;
+>  > -       cache_level = HAS_LLC(i915) ? I915_CACHE_LLC : I915_CACHE_NONE;
+>  > -       i915_gem_object_set_cache_coherency(obj, cache_level);
+>  > +       i915_gem_object_set_cache_coherency(obj, HAS_LLC(i915) ?
+>  > +                                                I915_CACHE(WB) :
+>  > +                                                I915_CACHE(UC));
+>  >          obj->scratch = phys_size;
+>  >
+>  >          return obj;
+>  > diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c 
+> b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+>  > index df6c9a84252c..060830c51c2f 100644
+>  > --- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+>  > +++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+>  > @@ -177,7 +177,6 @@ huge_pages_object(struct drm_i915_private *i915,
+>  >  {
+>  >          static struct lock_class_key lock_class;
+>  >          struct drm_i915_gem_object *obj;
+>  > -       unsigned int cache_level;
+>  >
+>  >          GEM_BUG_ON(!size);
+>  >          GEM_BUG_ON(!IS_ALIGNED(size, BIT(__ffs(page_mask))));
+>  > @@ -200,8 +199,9 @@ huge_pages_object(struct drm_i915_private *i915,
+>  >          obj->write_domain = I915_GEM_DOMAIN_CPU;
+>  >          obj->read_domains = I915_GEM_DOMAIN_CPU;
+>  >
+>  > -       cache_level = HAS_LLC(i915) ? I915_CACHE_LLC : I915_CACHE_NONE;
+>  > -       i915_gem_object_set_cache_coherency(obj, cache_level);
+>  > +       i915_gem_object_set_cache_coherency(obj, HAS_LLC(i915) ?
+>  > +                                                I915_CACHE(WB) :
+>  > +                                                I915_CACHE(UC));
+>  >
+>  >          obj->mm.page_mask = page_mask;
+>  >
+>  > @@ -354,7 +354,7 @@ fake_huge_pages_object(struct drm_i915_private 
+> *i915, u64 size, bool single)
+>  >
+>  >          obj->write_domain = I915_GEM_DOMAIN_CPU;
+>  >          obj->read_domains = I915_GEM_DOMAIN_CPU;
+>  > -       obj->pat_index = i915_gem_get_pat_index(i915, I915_CACHE_NONE);
+>  > +       i915_gem_object_set_cache_coherency(obj, I915_CACHE(UC));
+>  >
+>  >          return obj;
+>  >  }
+>  > diff --git a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c 
+> b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+>  > index c2bdc133c89a..fb69f667652a 100644
+>  > --- a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+>  > +++ b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+>  > @@ -226,9 +226,7 @@ static int gen6_ppgtt_init_scratch(struct 
+> gen6_ppgtt *ppgtt)
+>  >                  return ret;
+>  >
+>  >          vm->scratch[0]->encode =
+>  > -               vm->pte_encode(px_dma(vm->scratch[0]),
+>  > -                              i915_gem_get_pat_index(vm->i915,
+>  > -                                                     I915_CACHE_NONE),
+>  > +               vm->pte_encode(px_dma(vm->scratch[0]), vm->i915->pat_uc,
+>  >                                 PTE_READ_ONLY);
+>  >
+>  >          vm->scratch[1] = vm->alloc_pt_dma(vm, I915_GTT_PAGE_SIZE_4K);
+>  > diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c 
+> b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+>  > index f948d33e5ec5..bd5a7d295251 100644
+>  > --- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+>  > +++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+>  > @@ -16,11 +16,11 @@
+>  >  #include "intel_gtt.h"
+>  >
+>  >  static u64 gen8_pde_encode(const dma_addr_t addr,
+>  > -                          const enum i915_cache_level level)
+>  > +                          const enum i915_cache_mode cache_mode)
+>  >  {
+>  >          u64 pde = addr | GEN8_PAGE_PRESENT | GEN8_PAGE_RW;
+>  >
+>  > -       if (level != I915_CACHE_NONE)
+>  > +       if (cache_mode != I915_CACHE_MODE_UC)
+>  >                  pde |= PPAT_CACHED_PDE;
+>  >          else
+>  >                  pde |= PPAT_UNCACHED;
+>  > @@ -40,16 +40,11 @@ static u64 gen8_pte_encode(dma_addr_t addr,
+>  >          if (flags & PTE_LM)
+>  >                  pte |= GEN12_PPGTT_PTE_LM;
+>  >
+>  > -       /*
+>  > -        * For pre-gen12 platforms pat_index is the same as enum
+>  > -        * i915_cache_level, so the switch-case here is still valid.
+>  > -        * See translation table defined by LEGACY_CACHELEVEL.
+>  > -        */
+>  >          switch (pat_index) {
+>  > -       case I915_CACHE_NONE:
+>  > +       case 0:
+>  >                  pte |= PPAT_UNCACHED;
+>  >                  break;
+>  > -       case I915_CACHE_WT:
+>  > +       case 3:
+>  >                  pte |= PPAT_DISPLAY_ELLC;
+>  >                  break;
+>  >          default:
+>  > @@ -853,9 +848,7 @@ static int gen8_init_scratch(struct 
+> i915_address_space *vm)
+>  >                  pte_flags |= PTE_LM;
+>  >
+>  >          vm->scratch[0]->encode =
+>  > -               vm->pte_encode(px_dma(vm->scratch[0]),
+>  > -                              i915_gem_get_pat_index(vm->i915,
+>  > -                                                     I915_CACHE_NONE),
+>  > +               vm->pte_encode(px_dma(vm->scratch[0]), vm->i915->pat_uc,
+>  >                                 pte_flags);
+>  >
+>  >          for (i = 1; i <= vm->top; i++) {
+>  > @@ -874,7 +867,7 @@ static int gen8_init_scratch(struct 
+> i915_address_space *vm)
+>  >                  }
+>  >
+>  >                  fill_px(obj, vm->scratch[i - 1]->encode);
+>  > -               obj->encode = gen8_pde_encode(px_dma(obj), 
+> I915_CACHE_NONE);
+>  > +               obj->encode = gen8_pde_encode(px_dma(obj), 
+> I915_CACHE_MODE_UC);
+>  >
+>  >                  vm->scratch[i] = obj;
+>  >          }
+>  > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c 
+> b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>  > index 0aff5bb13c53..b1e846682cd9 100644
+>  > --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>  > +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>  > @@ -1103,7 +1103,7 @@ static int init_status_page(struct 
+> intel_engine_cs *engine)
+>  >                  return PTR_ERR(obj);
+>  >          }
+>  >
+>  > -       i915_gem_object_set_cache_coherency(obj, I915_CACHE_LLC);
+>  > +       i915_gem_object_set_cache_coherency(obj, I915_CACHE(WB));
+>  >
+>  >          vma = i915_vma_instance(obj, &engine->gt->ggtt->vm, NULL);
+>  >          if (IS_ERR(vma)) {
+>  > diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c 
+> b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+>  > index dd0ed941441a..05fafb076556 100644
+>  > --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
+>  > +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+>  > @@ -921,9 +921,7 @@ static int ggtt_probe_common(struct i915_ggtt 
+> *ggtt, u64 size)
+>  >                  pte_flags |= PTE_LM;
+>  >
+>  >          ggtt->vm.scratch[0]->encode =
+>  > -               ggtt->vm.pte_encode(px_dma(ggtt->vm.scratch[0]),
+>  > -                                   i915_gem_get_pat_index(i915,
+>  > -                                                         
+>   I915_CACHE_NONE),
+>  > +               ggtt->vm.pte_encode(px_dma(ggtt->vm.scratch[0]), 
+> i915->pat_uc,
+>  >                                      pte_flags);
+>  >
+>  >          return 0;
+>  > @@ -1013,11 +1011,6 @@ static int gen8_gmch_probe(struct i915_ggtt *ggtt)
+>  >          return ggtt_probe_common(ggtt, size);
+>  >  }
+>  >
+>  > -/*
+>  > - * For pre-gen8 platforms pat_index is the same as enum 
+> i915_cache_level,
+>  > - * so the switch-case statements in these PTE encode functions are 
+> still valid.
+>  > - * See translation table LEGACY_CACHELEVEL.
+>  > - */
+>  >  static u64 snb_pte_encode(dma_addr_t addr,
+>  >                            unsigned int pat_index,
+>  >                            u32 flags)
+>  > @@ -1025,11 +1018,11 @@ static u64 snb_pte_encode(dma_addr_t addr,
+>  >          gen6_pte_t pte = GEN6_PTE_ADDR_ENCODE(addr) | GEN6_PTE_VALID;
+>  >
+>  >          switch (pat_index) {
+>  > -       case I915_CACHE_L3_LLC:
+>  > -       case I915_CACHE_LLC:
+>  > +       case 1:
+>  > +       case 2:
+>  >                  pte |= GEN6_PTE_CACHE_LLC;
+>  >                  break;
+>  > -       case I915_CACHE_NONE:
+>  > +       case 0:
+>  >                  pte |= GEN6_PTE_UNCACHED;
+>  >                  break;
+>  >          default:
+>  > @@ -1046,13 +1039,13 @@ static u64 ivb_pte_encode(dma_addr_t addr,
+>  >          gen6_pte_t pte = GEN6_PTE_ADDR_ENCODE(addr) | GEN6_PTE_VALID;
+>  >
+>  >          switch (pat_index) {
+>  > -       case I915_CACHE_L3_LLC:
+>  > +       case 2:
+>  >                  pte |= GEN7_PTE_CACHE_L3_LLC;
+>  >                  break;
+>  > -       case I915_CACHE_LLC:
+>  > +       case 1:
+>  >                  pte |= GEN6_PTE_CACHE_LLC;
+>  >                  break;
+>  > -       case I915_CACHE_NONE:
+>  > +       case 0:
+>  >                  pte |= GEN6_PTE_UNCACHED;
+>  >                  break;
+>  >          default:
+>  > @@ -1071,7 +1064,7 @@ static u64 byt_pte_encode(dma_addr_t addr,
+>  >          if (!(flags & PTE_READ_ONLY))
+>  >                  pte |= BYT_PTE_WRITEABLE;
+>  >
+>  > -       if (pat_index != I915_CACHE_NONE)
+>  > +       if (pat_index)
+>  >                  pte |= BYT_PTE_SNOOPED_BY_CPU_CACHES;
+>  >
+>  >          return pte;
+>  > @@ -1083,7 +1076,7 @@ static u64 hsw_pte_encode(dma_addr_t addr,
+>  >  {
+>  >          gen6_pte_t pte = HSW_PTE_ADDR_ENCODE(addr) | GEN6_PTE_VALID;
+>  >
+>  > -       if (pat_index != I915_CACHE_NONE)
+>  > +       if (pat_index)
+>  >                  pte |= HSW_WB_LLC_AGE3;
+>  >
+>  >          return pte;
+>  > @@ -1096,9 +1089,9 @@ static u64 iris_pte_encode(dma_addr_t addr,
+>  >          gen6_pte_t pte = HSW_PTE_ADDR_ENCODE(addr) | GEN6_PTE_VALID;
+>  >
+>  >          switch (pat_index) {
+>  > -       case I915_CACHE_NONE:
+>  > +       case 0:
+>  >                  break;
+>  > -       case I915_CACHE_WT:
+>  > +       case 3:
+>  >                  pte |= HSW_WT_ELLC_LLC_AGE3;
+>  >                  break;
+>  >          default:
+>  > @@ -1298,9 +1291,7 @@ bool i915_ggtt_resume_vm(struct 
+> i915_address_space *vm)
+>  >                   */
+>  >                  vma->resource->bound_flags = 0;
+>  >                  vma->ops->bind_vma(vm, NULL, vma->resource,
+>  > -                                  obj ? obj->pat_index :
+>  > -                                        i915_gem_get_pat_index(vm->i915,
+>  > -                                                               
+> I915_CACHE_NONE),
+>  > +                                  obj ? obj->pat_index : 
+> vm->i915->pat_uc,
+>  >                                     was_bound);
+>  >
+>  >                  if (obj) { /* only used during resume => exclusive 
+> access */
+>  > diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt_gmch.c 
+> b/drivers/gpu/drm/i915/gt/intel_ggtt_gmch.c
+>  > index 866c416afb73..fedf02c9ecb6 100644
+>  > --- a/drivers/gpu/drm/i915/gt/intel_ggtt_gmch.c
+>  > +++ b/drivers/gpu/drm/i915/gt/intel_ggtt_gmch.c
+>  > @@ -21,7 +21,7 @@ static void gmch_ggtt_insert_page(struct 
+> i915_address_space *vm,
+>  >                                    unsigned int pat_index,
+>  >                                    u32 unused)
+>  >  {
+>  > -       unsigned int flags = (pat_index == I915_CACHE_NONE) ?
+>  > +       unsigned int flags = (pat_index == 0) ?
+>  >                  AGP_USER_MEMORY : AGP_USER_CACHED_MEMORY;
+>  >
+>  >          intel_gmch_gtt_insert_page(addr, offset >> PAGE_SHIFT, flags);
+>  > @@ -32,7 +32,7 @@ static void gmch_ggtt_insert_entries(struct 
+> i915_address_space *vm,
+>  >                                       unsigned int pat_index,
+>  >                                       u32 unused)
+>  >  {
+>  > -       unsigned int flags = (pat_index == I915_CACHE_NONE) ?
+>  > +       unsigned int flags = (pat_index == 0) ?
+>  >                  AGP_USER_MEMORY : AGP_USER_CACHED_MEMORY;
+>  >
+>  >          intel_gmch_gtt_insert_sg_entries(vma_res->bi.pages, 
+> vma_res->start >> PAGE_SHIFT,
+>  > diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c 
+> b/drivers/gpu/drm/i915/gt/intel_gtt.c
+>  > index 126269a0d728..8729eb244d28 100644
+>  > --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
+>  > +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
+>  > @@ -676,7 +676,7 @@ __vm_create_scratch_for_read(struct 
+> i915_address_space *vm, unsigned long size)
+>  >          if (IS_ERR(obj))
+>  >                  return ERR_CAST(obj);
+>  >
+>  > -       i915_gem_object_set_cache_coherency(obj, I915_CACHING_CACHED);
+>  > +       i915_gem_object_set_cache_coherency(obj, I915_CACHE(WB));
+>  >
+>  >          vma = i915_vma_instance(obj, vm, NULL);
+>  >          if (IS_ERR(vma)) {
+>  > diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h 
+> b/drivers/gpu/drm/i915/gt/intel_gtt.h
+>  > index 7192a534a654..af4277c1d577 100644
+>  > --- a/drivers/gpu/drm/i915/gt/intel_gtt.h
+>  > +++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
+>  > @@ -636,7 +636,8 @@ void
+>  >  __set_pd_entry(struct i915_page_directory * const pd,
+>  >                 const unsigned short idx,
+>  >                 struct i915_page_table *pt,
+>  > -              u64 (*encode)(const dma_addr_t, const enum 
+> i915_cache_level));
+>  > +              u64 (*encode)(const dma_addr_t,
+>  > +                            const enum i915_cache_mode cache_mode));
+>  >
+>  >  #define set_pd_entry(pd, idx, to) \
+>  >          __set_pd_entry((pd), (idx), px_pt(to), gen8_pde_encode)
+>  > diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c 
+> b/drivers/gpu/drm/i915/gt/intel_migrate.c
+>  > index 6023288b0e2d..81f7834cc2db 100644
+>  > --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
+>  > +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+>  > @@ -45,9 +45,7 @@ static void xehpsdv_toggle_pdes(struct 
+> i915_address_space *vm,
+>  >           * Insert a dummy PTE into every PT that will map to LMEM to 
+> ensure
+>  >           * we have a correctly setup PDE structure for later use.
+>  >           */
+>  > -       vm->insert_page(vm, 0, d->offset,
+>  > -                       i915_gem_get_pat_index(vm->i915, 
+> I915_CACHE_NONE),
+>  > -                       PTE_LM);
+>  > +       vm->insert_page(vm, 0, d->offset, vm->i915->pat_uc, PTE_LM);
+>  >          GEM_BUG_ON(!pt->is_compact);
+>  >          d->offset += SZ_2M;
+>  >  }
+>  > @@ -65,9 +63,7 @@ static void xehpsdv_insert_pte(struct 
+> i915_address_space *vm,
+>  >           * alignment is 64K underneath for the pt, and we are careful
+>  >           * not to access the space in the void.
+>  >           */
+>  > -       vm->insert_page(vm, px_dma(pt), d->offset,
+>  > -                       i915_gem_get_pat_index(vm->i915, 
+> I915_CACHE_NONE),
+>  > -                       PTE_LM);
+>  > +       vm->insert_page(vm, px_dma(pt), d->offset, vm->i915->pat_uc, 
+> PTE_LM);
+>  >          d->offset += SZ_64K;
+>  >  }
+>  >
+>  > @@ -77,8 +73,7 @@ static void insert_pte(struct i915_address_space *vm,
+>  >  {
+>  >          struct insert_pte_data *d = data;
+>  >
+>  > -       vm->insert_page(vm, px_dma(pt), d->offset,
+>  > -                       i915_gem_get_pat_index(vm->i915, 
+> I915_CACHE_NONE),
+>  > +       vm->insert_page(vm, px_dma(pt), d->offset, vm->i915->pat_uc,
+>  >                          i915_gem_object_is_lmem(pt->base) ? PTE_LM : 0);
+>  >          d->offset += PAGE_SIZE;
+>  >  }
+>  > diff --git a/drivers/gpu/drm/i915/gt/intel_ppgtt.c 
+> b/drivers/gpu/drm/i915/gt/intel_ppgtt.c
+>  > index 436756bfbb1a..3e461d4f3693 100644
+>  > --- a/drivers/gpu/drm/i915/gt/intel_ppgtt.c
+>  > +++ b/drivers/gpu/drm/i915/gt/intel_ppgtt.c
+>  > @@ -98,14 +98,16 @@ void
+>  >  __set_pd_entry(struct i915_page_directory * const pd,
+>  >                 const unsigned short idx,
+>  >                 struct i915_page_table * const to,
+>  > -              u64 (*encode)(const dma_addr_t, const enum 
+> i915_cache_level))
+>  > +              u64 (*encode)(const dma_addr_t,
+>  > +                            const enum i915_cache_mode cache_mode))
+>  >  {
+>  >          /* Each thread pre-pins the pd, and we may have a thread per 
+> pde. */
+>  >          GEM_BUG_ON(atomic_read(px_used(pd)) > NALLOC * I915_PDES);
+>  >
+>  >          atomic_inc(px_used(pd));
+>  >          pd->entry[idx] = to;
+>  > -       write_dma_entry(px_base(pd), idx, encode(px_dma(to), 
+> I915_CACHE_LLC));
+>  > +       write_dma_entry(px_base(pd), idx,
+>  > +                       encode(px_dma(to), I915_CACHE_MODE_WB));
+>  >  }
+>  >
+>  >  void
+>  > diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c 
+> b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+>  > index 3fd795c3263f..fc7781b47bbf 100644
+>  > --- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+>  > +++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+>  > @@ -551,7 +551,7 @@ alloc_context_vma(struct intel_engine_cs *engine)
+>  >           * later platforms don't have L3 control bits in the PTE.
+>  >           */
+>  >          if (IS_IVYBRIDGE(i915))
+>  > -               i915_gem_object_set_cache_coherency(obj, 
+> I915_CACHE_L3_LLC);
+>  > +               i915_gem_object_set_cache_coherency(obj, 
+> _I915_CACHE(WB, L3));
+>  >
+>  >          vma = i915_vma_instance(obj, &engine->gt->ggtt->vm, NULL);
+>  >          if (IS_ERR(vma)) {
+>  > diff --git a/drivers/gpu/drm/i915/gt/intel_timeline.c 
+> b/drivers/gpu/drm/i915/gt/intel_timeline.c
+>  > index b9640212d659..ceb2616fb8d9 100644
+>  > --- a/drivers/gpu/drm/i915/gt/intel_timeline.c
+>  > +++ b/drivers/gpu/drm/i915/gt/intel_timeline.c
+>  > @@ -26,7 +26,7 @@ static struct i915_vma *hwsp_alloc(struct intel_gt *gt)
+>  >          if (IS_ERR(obj))
+>  >                  return ERR_CAST(obj);
+>  >
+>  > -       i915_gem_object_set_cache_coherency(obj, I915_CACHE_LLC);
+>  > +       i915_gem_object_set_cache_coherency(obj, I915_CACHE(WB));
+>  >
+>  >          vma = i915_vma_instance(obj, &gt->ggtt->vm, NULL);
+>  >          if (IS_ERR(vma))
+>  > diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c 
+> b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+>  > index 8b0d84f2aad2..f0baf86b6848 100644
+>  > --- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+>  > +++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+>  > @@ -64,7 +64,7 @@ static int hang_init(struct hang *h, struct 
+> intel_gt *gt)
+>  >                  goto err_hws;
+>  >          }
+>  >
+>  > -       i915_gem_object_set_cache_coherency(h->hws, I915_CACHE_LLC);
+>  > +       i915_gem_object_set_cache_coherency(h->hws, I915_CACHE(WB));
+>  >          vaddr = i915_gem_object_pin_map_unlocked(h->hws, I915_MAP_WB);
+>  >          if (IS_ERR(vaddr)) {
+>  >                  err = PTR_ERR(vaddr);
+>  > diff --git a/drivers/gpu/drm/i915/gt/selftest_migrate.c 
+> b/drivers/gpu/drm/i915/gt/selftest_migrate.c
+>  > index 3def5ca72dec..a67ede65d816 100644
+>  > --- a/drivers/gpu/drm/i915/gt/selftest_migrate.c
+>  > +++ b/drivers/gpu/drm/i915/gt/selftest_migrate.c
+>  > @@ -904,8 +904,7 @@ static int perf_clear_blt(void *arg)
+>  >
+>  >                  err = __perf_clear_blt(gt->migrate.context,
+>  >                                         dst->mm.pages->sgl,
+>  > -                                      i915_gem_get_pat_index(gt->i915,
+>  > -                                                             
+> I915_CACHE_NONE),
+>  > +                                      gt->i915->pat_uc,
+>  >                                         i915_gem_object_is_lmem(dst),
+>  >                                         sizes[i]);
+>  >
+>  > @@ -995,12 +994,10 @@ static int perf_copy_blt(void *arg)
+>  >
+>  >                  err = __perf_copy_blt(gt->migrate.context,
+>  >                                        src->mm.pages->sgl,
+>  > -                                     i915_gem_get_pat_index(gt->i915,
+>  > -                                                           
+>   I915_CACHE_NONE),
+>  > +                                     gt->i915->pat_uc,
+>  >                                        i915_gem_object_is_lmem(src),
+>  >                                        dst->mm.pages->sgl,
+>  > -                                     i915_gem_get_pat_index(gt->i915,
+>  > -                                                           
+>   I915_CACHE_NONE),
+>  > +                                     gt->i915->pat_uc,
+>  >                                        i915_gem_object_is_lmem(dst),
+>  >                                        sz);
+>  >
+>  > diff --git a/drivers/gpu/drm/i915/gt/selftest_reset.c 
+> b/drivers/gpu/drm/i915/gt/selftest_reset.c
+>  > index 79aa6ac66ad2..327dc9294e0f 100644
+>  > --- a/drivers/gpu/drm/i915/gt/selftest_reset.c
+>  > +++ b/drivers/gpu/drm/i915/gt/selftest_reset.c
+>  > @@ -84,11 +84,8 @@ __igt_reset_stolen(struct intel_gt *gt,
+>  >                  void __iomem *s;
+>  >                  void *in;
+>  >
+>  > -               ggtt->vm.insert_page(&ggtt->vm, dma,
+>  > -                                    ggtt->error_capture.start,
+>  > -                                    i915_gem_get_pat_index(gt->i915,
+>  > -                                                           
+> I915_CACHE_NONE),
+>  > -                                    0);
+>  > +               ggtt->vm.insert_page(&ggtt->vm, dma, 
+> ggtt->error_capture.start,
+>  > +                                    gt->i915->pat_uc, 0);
+>  >                  mb();
+>  >
+>  >                  s = io_mapping_map_wc(&ggtt->iomap,
+>  > @@ -127,11 +124,8 @@ __igt_reset_stolen(struct intel_gt *gt,
+>  >                  void *in;
+>  >                  u32 x;
+>  >
+>  > -               ggtt->vm.insert_page(&ggtt->vm, dma,
+>  > -                                    ggtt->error_capture.start,
+>  > -                                    i915_gem_get_pat_index(gt->i915,
+>  > -                                                           
+> I915_CACHE_NONE),
+>  > -                                    0);
+>  > +               ggtt->vm.insert_page(&ggtt->vm, dma, 
+> ggtt->error_capture.start,
+>  > +                                    gt->i915->pat_uc, 0);
+>  >                  mb();
+>  >
+>  >                  s = io_mapping_map_wc(&ggtt->iomap,
+>  > diff --git a/drivers/gpu/drm/i915/gt/selftest_timeline.c 
+> b/drivers/gpu/drm/i915/gt/selftest_timeline.c
+>  > index 39c3ec12df1a..87299158815f 100644
+>  > --- a/drivers/gpu/drm/i915/gt/selftest_timeline.c
+>  > +++ b/drivers/gpu/drm/i915/gt/selftest_timeline.c
+>  > @@ -837,6 +837,7 @@ static int setup_watcher(struct hwsp_watcher *w, 
+> struct intel_gt *gt,
+>  >
+>  >          /* keep the same cache settings as timeline */
+>  >          i915_gem_object_set_pat_index(obj, 
+> tl->hwsp_ggtt->obj->pat_index);
+>  > +
+>  >          w->map = i915_gem_object_pin_map_unlocked(obj,
+>  >                                                   
+>   page_unmask_bits(tl->hwsp_ggtt->obj->mm.mapping));
+>  >          if (IS_ERR(w->map)) {
+>  > diff --git a/drivers/gpu/drm/i915/gt/selftest_tlb.c 
+> b/drivers/gpu/drm/i915/gt/selftest_tlb.c
+>  > index 3bd6b540257b..6049f01be219 100644
+>  > --- a/drivers/gpu/drm/i915/gt/selftest_tlb.c
+>  > +++ b/drivers/gpu/drm/i915/gt/selftest_tlb.c
+>  > @@ -36,8 +36,6 @@ pte_tlbinv(struct intel_context *ce,
+>  >             u64 length,
+>  >             struct rnd_state *prng)
+>  >  {
+>  > -       const unsigned int pat_index =
+>  > -               i915_gem_get_pat_index(ce->vm->i915, I915_CACHE_NONE);
+>  >          struct drm_i915_gem_object *batch;
+>  >          struct drm_mm_node vb_node;
+>  >          struct i915_request *rq;
+>  > @@ -157,7 +155,8 @@ pte_tlbinv(struct intel_context *ce,
+>  >                  /* Flip the PTE between A and B */
+>  >                  if (i915_gem_object_is_lmem(vb->obj))
+>  >                          pte_flags |= PTE_LM;
+>  > -               ce->vm->insert_entries(ce->vm, &vb_res, pat_index, 
+> pte_flags);
+>  > +               ce->vm->insert_entries(ce->vm, &vb_res, 
+> ce->vm->i915->pat_uc,
+>  > +                                      pte_flags);
+>  >
+>  >                  /* Flush the PTE update to concurrent HW */
+>  >                  tlbinv(ce->vm, addr & -length, length);
+>  > diff --git a/drivers/gpu/drm/i915/gt/selftest_workarounds.c 
+> b/drivers/gpu/drm/i915/gt/selftest_workarounds.c
+>  > index 14a8b25b6204..900b4e19087f 100644
+>  > --- a/drivers/gpu/drm/i915/gt/selftest_workarounds.c
+>  > +++ b/drivers/gpu/drm/i915/gt/selftest_workarounds.c
+>  > @@ -111,7 +111,7 @@ read_nonprivs(struct intel_context *ce)
+>  >          if (IS_ERR(result))
+>  >                  return result;
+>  >
+>  > -       i915_gem_object_set_cache_coherency(result, I915_CACHE_LLC);
+>  > +       i915_gem_object_set_cache_coherency(result, I915_CACHE(WB));
+>  >
+>  >          cs = i915_gem_object_pin_map_unlocked(result, I915_MAP_WB);
+>  >          if (IS_ERR(cs)) {
+>  > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c 
+> b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+>  > index 2eb891b270ae..3a862051423c 100644
+>  > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+>  > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+>  > @@ -749,7 +749,7 @@ struct i915_vma *intel_guc_allocate_vma(struct 
+> intel_guc *guc, u32 size)
+>  >           * as WC on CPU side and UC (PAT index 2) on GPU side
+>  >           */
+>  >          if (IS_METEORLAKE(gt->i915))
+>  > -               i915_gem_object_set_cache_coherency(obj, 
+> I915_CACHE_NONE);
+>  > +               i915_gem_object_set_cache_coherency(obj, I915_CACHE(UC));
+>  >
+>  >          vma = i915_vma_instance(obj, &gt->ggtt->vm, NULL);
+>  >          if (IS_ERR(vma))
+>  > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c 
+> b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+>  > index d408856ae4c0..e099414d624d 100644
+>  > --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+>  > +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+>  > @@ -991,14 +991,10 @@ static void uc_fw_bind_ggtt(struct intel_uc_fw 
+> *uc_fw)
+>  >
+>  >          if (ggtt->vm.raw_insert_entries)
+>  >                  ggtt->vm.raw_insert_entries(&ggtt->vm, vma_res,
+>  > -                                           
+> i915_gem_get_pat_index(ggtt->vm.i915,
+>  > -                                                                 
+>   I915_CACHE_NONE),
+>  > -                                           pte_flags);
+>  > +                                           ggtt->vm.i915->pat_uc, 
+> pte_flags);
+>  >          else
+>  >                  ggtt->vm.insert_entries(&ggtt->vm, vma_res,
+>  > -                                       
+> i915_gem_get_pat_index(ggtt->vm.i915,
+>  > -                                                             
+>   I915_CACHE_NONE),
+>  > -                                       pte_flags);
+>  > +                                       ggtt->vm.i915->pat_uc, 
+> pte_flags);
+>  >  }
+>  >
+>  >  static void uc_fw_unbind_ggtt(struct intel_uc_fw *uc_fw)
+>  > diff --git a/drivers/gpu/drm/i915/i915_cache.c 
+> b/drivers/gpu/drm/i915/i915_cache.c
+>  > new file mode 100644
+>  > index 000000000000..4d0033bf1658
+>  > --- /dev/null
+>  > +++ b/drivers/gpu/drm/i915/i915_cache.c
+>  > @@ -0,0 +1,72 @@
+>  > +/*
+>  > + * SPDX-License-Identifier: MIT
+>  > + *
+>  > + * Copyright © 2023 Intel Corporation
+>  > + */
+>  > +
+>  > +#include <drm/drm_print.h>
+>  > +
+>  > +#include "i915_cache.h"
+>  > +#include "i915_drv.h"
+>  > +
+>  > +int i915_cache_init(struct drm_i915_private *i915)
+>  > +{
+>  > +       int ret;
+>  > +
+>  > +       ret = i915_cache_find_pat(i915, I915_CACHE(UC));
+>  > +       if (ret < 0)
+>  > +               return -ENODEV;
+>  > +       drm_info(&i915->drm, "Using PAT index %u for uncached 
+> access\n", ret);
+>  > +       i915->pat_uc = ret;
+>  > +
+>  > +       ret = i915_cache_find_pat(i915, I915_CACHE(WB));
+> 
+> For MTL, this would find pat index 0, but KMD wants pat index 3.
+> 
+>  > +       if (ret < 0)
+>  > +               return -ENODEV;
+>  > +       drm_info(&i915->drm, "Using PAT index %u for write-back 
+> access\n", ret);
+>  > +       i915->pat_wb = ret;
+>  > +
+>  > +       return 0;
+>  > +}
+>  > +
+>  > +int i915_cache_find_pat(struct drm_i915_private *i915, i915_cache_t 
+> cache)
+>  > +{
+>  > +       const struct intel_device_info *info = INTEL_INFO(i915);
+>  > +       int i;
+>  > +
+>  > +       for (i = 0; i < ARRAY_SIZE(info->cache_modes); i++) {
+>  > +               if (info->cache_modes[i] == cache)
+>  > +                       return i;
+>  > +       }
+>  > +
+>  > +       return -1;
+>  > +}
+>  > +
+>  > +void i915_cache_print(struct drm_printer *p, i915_cache_t cache)
+>  > +{
+>  > +       const enum i915_cache_mode mode = I915_CACHE_MODE(cache);
+>  > +       const unsigned long flags = I915_CACHE_FLAGS(cache);
+>  > +       static const char *mode_str[] = {
+>  > +               [I915_CACHE_MODE_UC] = "UC",
+>  > +               [I915_CACHE_MODE_WB] = "WB",
+>  > +               [I915_CACHE_MODE_WT] = "WT",
+>  > +               [I915_CACHE_MODE_WC] = "WC",
+>  > +       };
+>  > +       static const char *flag_str[] = {
+>  > +               [I915_CACHE_FLAG_L3] = "L3",
+>  > +               [I915_CACHE_FLAG_COH1W] = "1-Way-Coherent",
+>  > +               [I915_CACHE_FLAG_COH2W] = "2-Way-Coherent",
+>  > +               [I915_CACHE_FLAG_CLOS1] = "CLOS1",
+>  > +               [I915_CACHE_FLAG_CLOS2] = "CLOS2",
+>  > +       };
+>  > +
+>  > +       if (mode == I915_CACHE_MODE_UNKNOWN || mode > 
+> ARRAY_SIZE(mode_str)) {
+>  > +               drm_printf(p, "0x%x", cache);
+>  > +       } else {
+>  > +               unsigned long bit;
+>  > +
+>  > +               drm_printf(p, "%s", mode_str[mode]);
+>  > +
+>  > +               for_each_set_bit(bit, &flags, sizeof(i915_cache_t))
+>  > +                       drm_printf(p, "-%s", flag_str[bit]);
+>  > +       }
+>  > +}
+>  > diff --git a/drivers/gpu/drm/i915/i915_cache.h 
+> b/drivers/gpu/drm/i915/i915_cache.h
+>  > new file mode 100644
+>  > index 000000000000..ffb621d8a8a0
+>  > --- /dev/null
+>  > +++ b/drivers/gpu/drm/i915/i915_cache.h
+>  > @@ -0,0 +1,49 @@
+>  > +/* SPDX-License-Identifier: MIT */
+>  > +/*
+>  > + * Copyright © 2023 Intel Corporation
+>  > + */
+>  > +
+>  > +#ifndef __I915_CACHE_H__
+>  > +#define __I915_CACHE_H__
+>  > +
+>  > +#include <linux/types.h>
+>  > +
+>  > +struct drm_printer;
+>  > +
+>  > +struct drm_i915_private;
+>  > +
+>  > +typedef u16 i915_cache_t;
+>  > +
+>  > +#define I915_CACHE(mode) \
+>  > +       (i915_cache_t)(I915_CACHE_MODE_##mode)
+>  > +
+>  > +#define _I915_CACHE(mode, flag) \
+>  > +       (i915_cache_t)((I915_CACHE_MODE_##mode) | \
+>  > +                      (BIT(8 + I915_CACHE_FLAG_##flag)))
+>  > +
+>  > +#define I915_CACHE_MODE(cache) \
+>  > +       (enum i915_cache_mode)(((i915_cache_t)(cache)) & 0xff)
+>  > +#define I915_CACHE_FLAGS(cache) \
+>  > +       (unsigned int)((((i915_cache_t)(cache) & 0xff00)) >> 16)
+>  > +
+>  > +/* Cache modes */
+>  > +enum i915_cache_mode {
+>  > +       I915_CACHE_MODE_UNKNOWN = 0,
+>  > +       I915_CACHE_MODE_UC,
+>  > +       I915_CACHE_MODE_WB,
+>  > +       I915_CACHE_MODE_WT,
+>  > +       I915_CACHE_MODE_WC
+>  > +};
+>  > +
+>  > +/* Cache mode flag bits */
+>  > +#define I915_CACHE_FLAG_L3     (0)
+>  > +#define I915_CACHE_FLAG_COH1W  (1)
+>  > +#define I915_CACHE_FLAG_COH2W  (2)
+>  > +#define I915_CACHE_FLAG_CLOS1  (3)
+>  > +#define I915_CACHE_FLAG_CLOS2  (4)
+>  > +
+>  > +int i915_cache_init(struct drm_i915_private *i915);
+>  > +int i915_cache_find_pat(struct drm_i915_private *i915, i915_cache_t 
+> cache);
+>  > +void i915_cache_print(struct drm_printer *p, i915_cache_t cache);
+>  > +
+>  > +#endif /* __I915_CACHE_H__ */
+>  > diff --git a/drivers/gpu/drm/i915/i915_debugfs.c 
+> b/drivers/gpu/drm/i915/i915_debugfs.c
+>  > index 4de44cf1026d..03d366e0bdf7 100644
+>  > --- a/drivers/gpu/drm/i915/i915_debugfs.c
+>  > +++ b/drivers/gpu/drm/i915/i915_debugfs.c
+>  > @@ -140,68 +140,33 @@ static const char *stringify_vma_type(const 
+> struct i915_vma *vma)
+>  >          return "ppgtt";
+>  >  }
+>  >
+>  > -static const char *i915_cache_level_str(struct drm_i915_gem_object *obj)
+>  > -{
+>  > -       struct drm_i915_private *i915 = obj_to_i915(obj);
+>  > -
+>  > -       if (IS_METEORLAKE(i915)) {
+>  > -               switch (obj->pat_index) {
+>  > -               case 0: return " WB";
+>  > -               case 1: return " WT";
+>  > -               case 2: return " UC";
+>  > -               case 3: return " WB (1-Way Coh)";
+>  > -               case 4: return " WB (2-Way Coh)";
+>  > -               default: return " not defined";
+>  > -               }
+>  > -       } else if (IS_PONTEVECCHIO(i915)) {
+>  > -               switch (obj->pat_index) {
+>  > -               case 0: return " UC";
+>  > -               case 1: return " WC";
+>  > -               case 2: return " WT";
+>  > -               case 3: return " WB";
+>  > -               case 4: return " WT (CLOS1)";
+>  > -               case 5: return " WB (CLOS1)";
+>  > -               case 6: return " WT (CLOS2)";
+>  > -               case 7: return " WT (CLOS2)";
+>  > -               default: return " not defined";
+>  > -               }
+>  > -       } else if (GRAPHICS_VER(i915) >= 12) {
+>  > -               switch (obj->pat_index) {
+>  > -               case 0: return " WB";
+>  > -               case 1: return " WC";
+>  > -               case 2: return " WT";
+>  > -               case 3: return " UC";
+>  > -               default: return " not defined";
+>  > -               }
+>  > -       } else {
+>  > -               switch (obj->pat_index) {
+>  > -               case 0: return " UC";
+>  > -               case 1: return HAS_LLC(i915) ?
+>  > -                              " LLC" : " snooped";
+>  > -               case 2: return " L3+LLC";
+>  > -               case 3: return " WT";
+>  > -               default: return " not defined";
+>  > -               }
+>  > -       }
+>  > -}
+>  > -
+>  >  void
+>  >  i915_debugfs_describe_obj(struct seq_file *m, struct 
+> drm_i915_gem_object *obj)
+>  >  {
+>  > +       struct drm_i915_private *i915 = to_i915(obj->base.dev);
+>  > +       struct drm_printer p = drm_seq_file_printer(m);
+>  >          struct i915_vma *vma;
+>  >          int pin_count = 0;
+>  >
+>  > -       seq_printf(m, "%pK: %c%c%c %8zdKiB %02x %02x %s%s%s",
+>  > +       seq_printf(m, "%pK: %c%c%c %8zdKiB %02x %02x ",
+>  >                     &obj->base,
+>  >                     get_tiling_flag(obj),
+>  >                     get_global_flag(obj),
+>  >                     get_pin_mapped_flag(obj),
+>  >                     obj->base.size / 1024,
+>  >                     obj->read_domains,
+>  > -                  obj->write_domain,
+>  > -                  i915_cache_level_str(obj),
+>  > -                  obj->mm.dirty ? " dirty" : "",
+>  > -                  obj->mm.madv == I915_MADV_DONTNEED ? " purgeable" 
+> : "");
+>  > +                  obj->write_domain);
+>  > +
+>  > +        i915_cache_print(&p, 
+> INTEL_INFO(i915)->cache_modes[obj->pat_index]);
+>  > +       if (obj->pat_set_by_user)
+>  > +               drm_puts(&p, "!");
+>  > +
+>  > +       if (obj->mm.dirty)
+>  > +               seq_puts(m, " dirty");
+>  > +
+>  > +       if (obj->mm.madv == I915_MADV_DONTNEED)
+>  > +               seq_puts(m, " purgeable");
+>  > +
+>  >          if (obj->base.name)
+>  >                  seq_printf(m, " (name: %d)", obj->base.name);
+>  >
+>  > diff --git a/drivers/gpu/drm/i915/i915_driver.c 
+> b/drivers/gpu/drm/i915/i915_driver.c
+>  > index 294b022de22b..8663388a524f 100644
+>  > --- a/drivers/gpu/drm/i915/i915_driver.c
+>  > +++ b/drivers/gpu/drm/i915/i915_driver.c
+>  > @@ -80,6 +80,7 @@
+>  >  #include "soc/intel_dram.h"
+>  >  #include "soc/intel_gmch.h"
+>  >
+>  > +#include "i915_cache.h"
+>  >  #include "i915_debugfs.h"
+>  >  #include "i915_driver.h"
+>  >  #include "i915_drm_client.h"
+>  > @@ -240,6 +241,10 @@ static int i915_driver_early_probe(struct 
+> drm_i915_private *dev_priv)
+>  >          i915_memcpy_init_early(dev_priv);
+>  >          intel_runtime_pm_init_early(&dev_priv->runtime_pm);
+>  >
+>  > +       ret = i915_cache_init(dev_priv);
+>  > +       if (ret < 0)
+>  > +               return ret;
+>  > +
+>  >          ret = i915_workqueues_init(dev_priv);
+>  >          if (ret < 0)
+>  >                  return ret;
+>  > diff --git a/drivers/gpu/drm/i915/i915_drv.h 
+> b/drivers/gpu/drm/i915/i915_drv.h
+>  > index a18013787c9f..462b076e2650 100644
+>  > --- a/drivers/gpu/drm/i915/i915_drv.h
+>  > +++ b/drivers/gpu/drm/i915/i915_drv.h
+>  > @@ -250,6 +250,9 @@ struct drm_i915_private {
+>  >          unsigned int hpll_freq;
+>  >          unsigned int czclk_freq;
+>  >
+>  > +       unsigned int pat_uc;
+>  > +       unsigned int pat_wb;
+>  > +
+>  >          /**
+>  >           * wq - Driver workqueue for GEM.
+>  >           *
+>  > diff --git a/drivers/gpu/drm/i915/i915_gem.c 
+> b/drivers/gpu/drm/i915/i915_gem.c
+>  > index b46d7a2dab1a..ef6d33c2c288 100644
+>  > --- a/drivers/gpu/drm/i915/i915_gem.c
+>  > +++ b/drivers/gpu/drm/i915/i915_gem.c
+>  > @@ -422,9 +422,7 @@ i915_gem_gtt_pread(struct drm_i915_gem_object *obj,
+>  >                          ggtt->vm.insert_page(&ggtt->vm,
+>  >                                               
+> i915_gem_object_get_dma_address(obj,
+>  >                                                                       
+>          offset >> PAGE_SHIFT),
+>  > -                                            node.start,
+>  > -                                            i915_gem_get_pat_index(i915,
+>  > -                                                                   
+> I915_CACHE_NONE), 0);
+>  > +                                            node.start, 
+> i915->pat_uc, 0);
+>  >                  } else {
+>  >                          page_base += offset & PAGE_MASK;
+>  >                  }
+>  > @@ -603,9 +601,7 @@ i915_gem_gtt_pwrite_fast(struct 
+> drm_i915_gem_object *obj,
+>  >                          ggtt->vm.insert_page(&ggtt->vm,
+>  >                                               
+> i915_gem_object_get_dma_address(obj,
+>  >                                                                       
+>          offset >> PAGE_SHIFT),
+>  > -                                            node.start,
+>  > -                                            i915_gem_get_pat_index(i915,
+>  > -                                                                   
+> I915_CACHE_NONE), 0);
+>  > +                                            node.start, 
+> i915->pat_uc, 0);
+>  >                          wmb(); /* flush modifications to the GGTT 
+> (insert_page) */
+>  >                  } else {
+>  >                          page_base += offset & PAGE_MASK;
+>  > @@ -1148,19 +1144,6 @@ int i915_gem_init(struct drm_i915_private 
+> *dev_priv)
+>  >          unsigned int i;
+>  >          int ret;
+>  >
+>  > -       /*
+>  > -        * In the proccess of replacing cache_level with pat_index a 
+> tricky
+>  > -        * dependency is created on the definition of the enum 
+> i915_cache_level.
+>  > -        * in case this enum is changed, PTE encode would be broken.
+>  > -        * Add a WARNING here. And remove when we completely quit 
+> using this
+>  > -        * enum
+>  > -        */
+>  > -       BUILD_BUG_ON(I915_CACHE_NONE != 0 ||
+>  > -                    I915_CACHE_LLC != 1 ||
+>  > -                    I915_CACHE_L3_LLC != 2 ||
+>  > -                    I915_CACHE_WT != 3 ||
+>  > -                    I915_MAX_CACHE_LEVEL != 4);
+>  > -
+>  >          /* We need to fallback to 4K pages if host doesn't support 
+> huge gtt. */
+>  >          if (intel_vgpu_active(dev_priv) && 
+> !intel_vgpu_has_huge_gtt(dev_priv))
+>  >                  RUNTIME_INFO(dev_priv)->page_sizes = 
+> I915_GTT_PAGE_SIZE_4K;
+>  > diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c 
+> b/drivers/gpu/drm/i915/i915_gpu_error.c
+>  > index 92ca81f9feab..6a6f97aaec60 100644
+>  > --- a/drivers/gpu/drm/i915/i915_gpu_error.c
+>  > +++ b/drivers/gpu/drm/i915/i915_gpu_error.c
+>  > @@ -1124,14 +1124,11 @@ i915_vma_coredump_create(const struct 
+> intel_gt *gt,
+>  >                          mutex_lock(&ggtt->error_mutex);
+>  >                          if (ggtt->vm.raw_insert_page)
+>  >                                  ggtt->vm.raw_insert_page(&ggtt->vm, 
+> dma, slot,
+>  > -                                                       
+>   i915_gem_get_pat_index(gt->i915,
+>  > -                                                                     
+>            I915_CACHE_NONE),
+>  > +                                                       
+>   ggtt->vm.i915->pat_uc,
+>  >                                                           0);
+>  >                          else
+>  >                                  ggtt->vm.insert_page(&ggtt->vm, dma, 
+> slot,
+>  > -                                                   
+>   i915_gem_get_pat_index(gt->i915,
+>  > -                                                                     
+>        I915_CACHE_NONE),
+>  > -                                                    0);
+>  > +                                                   
+>   ggtt->vm.i915->pat_uc, 0);
+>  >                          mb();
+>  >
+>  >                          s = io_mapping_map_wc(&ggtt->iomap, slot, 
+> PAGE_SIZE);
+>  > diff --git a/drivers/gpu/drm/i915/i915_pci.c 
+> b/drivers/gpu/drm/i915/i915_pci.c
+>  > index dea3609fc496..c0c6248fbc78 100644
+>  > --- a/drivers/gpu/drm/i915/i915_pci.c
+>  > +++ b/drivers/gpu/drm/i915/i915_pci.c
+>  > @@ -32,6 +32,7 @@
+>  >  #include "gt/intel_sa_media.h"
+>  >  #include "gem/i915_gem_object_types.h"
+>  >
+>  > +#include "i915_cache.h"
+>  >  #include "i915_driver.h"
+>  >  #include "i915_drv.h"
+>  >  #include "i915_pci.h"
+>  > @@ -46,36 +47,42 @@ __diag_ignore_all("-Woverride-init", "Allow 
+> overriding inherited members");
+>  >          .__runtime.graphics.ip.ver = (x), \
+>  >          .__runtime.media.ip.ver = (x)
+>  >
+>  > -#define LEGACY_CACHELEVEL \
+>  > -       .cachelevel_to_pat = { \
+>  > -               [I915_CACHE_NONE]   = 0, \
+>  > -               [I915_CACHE_LLC]    = 1, \
+>  > -               [I915_CACHE_L3_LLC] = 2, \
+>  > -               [I915_CACHE_WT]     = 3, \
+>  > +/* TODO/QQQ index 1 & 2 */
+>  > +#define LEGACY_CACHE_MODES \
+>  > +       .cache_modes = { \
+>  > +               [0] = I915_CACHE(UC), \
+>  > +               [1] = I915_CACHE(WB), \
+>  > +               [2] = _I915_CACHE(WB, L3), \
+>  > +               [3] = I915_CACHE(WT), \
+>  >          }
+>  >
+>  > -#define TGL_CACHELEVEL \
+>  > -       .cachelevel_to_pat = { \
+>  > -               [I915_CACHE_NONE]   = 3, \
+>  > -               [I915_CACHE_LLC]    = 0, \
+>  > -               [I915_CACHE_L3_LLC] = 0, \
+>  > -               [I915_CACHE_WT]     = 2, \
+>  > +#define GEN12_CACHE_MODES \
+>  > +       .cache_modes = { \
+>  > +               [0] = I915_CACHE(WB), \
+>  > +               [1] = I915_CACHE(WC), \
+>  > +               [2] = I915_CACHE(WT), \
+>  > +               [3] = I915_CACHE(UC), \
+>  >          }
+>  >
+>  > -#define PVC_CACHELEVEL \
+>  > -       .cachelevel_to_pat = { \
+>  > -               [I915_CACHE_NONE]   = 0, \
+>  > -               [I915_CACHE_LLC]    = 3, \
+>  > -               [I915_CACHE_L3_LLC] = 3, \
+>  > -               [I915_CACHE_WT]     = 2, \
+>  > +#define PVC_CACHE_MODES \
+>  > +       .cache_modes = { \
+>  > +               [0] = I915_CACHE(UC), \
+>  > +               [1] = I915_CACHE(WC), \
+>  > +               [2] = I915_CACHE(WT), \
+>  > +               [3] = I915_CACHE(WB), \
+>  > +               [4] = _I915_CACHE(WT, CLOS1), \
+>  > +               [5] = _I915_CACHE(WB, CLOS1), \
+>  > +               [6] = _I915_CACHE(WT, CLOS2), \
+>  > +               [7] = _I915_CACHE(WB, CLOS2), \
+>  >          }
+>  >
+>  > -#define MTL_CACHELEVEL \
+>  > -       .cachelevel_to_pat = { \
+>  > -               [I915_CACHE_NONE]   = 2, \
+>  > -               [I915_CACHE_LLC]    = 3, \
+>  > -               [I915_CACHE_L3_LLC] = 3, \
+>  > -               [I915_CACHE_WT]     = 1, \
+>  > +#define MTL_CACHE_MODES \
+>  > +       .cache_modes = { \
+>  > +               [0] = I915_CACHE(WB), \
+>  > +               [1] = I915_CACHE(WT), \
+>  > +               [2] = I915_CACHE(UC), \
+>  > +               [3] = _I915_CACHE(WB, COH1W), \
+>  > +               [4] = _I915_CACHE(WB, COH2W), \
+>  >          }
+>  >
+>  >  /* Keep in gen based order, and chronological order within a gen */
+>  > @@ -100,7 +107,7 @@ __diag_ignore_all("-Woverride-init", "Allow 
+> overriding inherited members");
+>  >          .max_pat_index = 3, \
+>  >          GEN_DEFAULT_PAGE_SIZES, \
+>  >          GEN_DEFAULT_REGIONS, \
+>  > -       LEGACY_CACHELEVEL
+>  > +       LEGACY_CACHE_MODES
+>  >
+>  >  #define I845_FEATURES \
+>  >          GEN(2), \
+>  > @@ -115,7 +122,7 @@ __diag_ignore_all("-Woverride-init", "Allow 
+> overriding inherited members");
+>  >          .max_pat_index = 3, \
+>  >          GEN_DEFAULT_PAGE_SIZES, \
+>  >          GEN_DEFAULT_REGIONS, \
+>  > -       LEGACY_CACHELEVEL
+>  > +       LEGACY_CACHE_MODES
+>  >
+>  >  static const struct intel_device_info i830_info = {
+>  >          I830_FEATURES,
+>  > @@ -148,7 +155,7 @@ static const struct intel_device_info i865g_info = {
+>  >          .max_pat_index = 3, \
+>  >          GEN_DEFAULT_PAGE_SIZES, \
+>  >          GEN_DEFAULT_REGIONS, \
+>  > -       LEGACY_CACHELEVEL
+>  > +       LEGACY_CACHE_MODES
+>  >
+>  >  static const struct intel_device_info i915g_info = {
+>  >          GEN3_FEATURES,
+>  > @@ -211,7 +218,7 @@ static const struct intel_device_info pnv_m_info = {
+>  >          .max_pat_index = 3, \
+>  >          GEN_DEFAULT_PAGE_SIZES, \
+>  >          GEN_DEFAULT_REGIONS, \
+>  > -       LEGACY_CACHELEVEL
+>  > +       LEGACY_CACHE_MODES
+>  >
+>  >  static const struct intel_device_info i965g_info = {
+>  >          GEN4_FEATURES,
+>  > @@ -255,7 +262,7 @@ static const struct intel_device_info gm45_info = {
+>  >          .max_pat_index = 3, \
+>  >          GEN_DEFAULT_PAGE_SIZES, \
+>  >          GEN_DEFAULT_REGIONS, \
+>  > -       LEGACY_CACHELEVEL
+>  > +       LEGACY_CACHE_MODES
+>  >
+>  >  static const struct intel_device_info ilk_d_info = {
+>  >          GEN5_FEATURES,
+>  > @@ -285,7 +292,7 @@ static const struct intel_device_info ilk_m_info = {
+>  >          .__runtime.ppgtt_size = 31, \
+>  >          GEN_DEFAULT_PAGE_SIZES, \
+>  >          GEN_DEFAULT_REGIONS, \
+>  > -       LEGACY_CACHELEVEL
+>  > +       LEGACY_CACHE_MODES
+>  >
+>  >  #define SNB_D_PLATFORM \
+>  >          GEN6_FEATURES, \
+>  > @@ -333,7 +340,7 @@ static const struct intel_device_info 
+> snb_m_gt2_info = {
+>  >          .__runtime.ppgtt_size = 31, \
+>  >          GEN_DEFAULT_PAGE_SIZES, \
+>  >          GEN_DEFAULT_REGIONS, \
+>  > -       LEGACY_CACHELEVEL
+>  > +       LEGACY_CACHE_MODES
+>  >
+>  >  #define IVB_D_PLATFORM \
+>  >          GEN7_FEATURES, \
+>  > @@ -390,7 +397,7 @@ static const struct intel_device_info vlv_info = {
+>  >          .platform_engine_mask = BIT(RCS0) | BIT(VCS0) | BIT(BCS0),
+>  >          GEN_DEFAULT_PAGE_SIZES,
+>  >          GEN_DEFAULT_REGIONS,
+>  > -       LEGACY_CACHELEVEL,
+>  > +       LEGACY_CACHE_MODES
+>  >  };
+>  >
+>  >  #define G75_FEATURES  \
+>  > @@ -476,7 +483,7 @@ static const struct intel_device_info chv_info = {
+>  >          .has_coherent_ggtt = false,
+>  >          GEN_DEFAULT_PAGE_SIZES,
+>  >          GEN_DEFAULT_REGIONS,
+>  > -       LEGACY_CACHELEVEL,
+>  > +       LEGACY_CACHE_MODES
+>  >  };
+>  >
+>  >  #define GEN9_DEFAULT_PAGE_SIZES \
+>  > @@ -539,7 +546,7 @@ static const struct intel_device_info 
+> skl_gt4_info = {
+>  >          .max_pat_index = 3, \
+>  >          GEN9_DEFAULT_PAGE_SIZES, \
+>  >          GEN_DEFAULT_REGIONS, \
+>  > -       LEGACY_CACHELEVEL
+>  > +       LEGACY_CACHE_MODES
+>  >
+>  >  static const struct intel_device_info bxt_info = {
+>  >          GEN9_LP_FEATURES,
+>  > @@ -643,7 +650,7 @@ static const struct intel_device_info jsl_info = {
+>  >  #define GEN12_FEATURES \
+>  >          GEN11_FEATURES, \
+>  >          GEN(12), \
+>  > -       TGL_CACHELEVEL, \
+>  > +       GEN12_CACHE_MODES, \
+>  >          .has_global_mocs = 1, \
+>  >          .has_pxp = 1, \
+>  >          .max_pat_index = 3
+>  > @@ -711,7 +718,7 @@ static const struct intel_device_info adl_p_info = {
+>  >          .__runtime.graphics.ip.ver = 12, \
+>  >          .__runtime.graphics.ip.rel = 50, \
+>  >          XE_HP_PAGE_SIZES, \
+>  > -       TGL_CACHELEVEL, \
+>  > +       GEN12_CACHE_MODES, \
+>  >          .dma_mask_size = 46, \
+>  >          .has_3d_pipeline = 1, \
+>  >          .has_64bit_reloc = 1, \
+>  > @@ -806,7 +813,7 @@ static const struct intel_device_info pvc_info = {
+>  >                  BIT(VCS0) |
+>  >                  BIT(CCS0) | BIT(CCS1) | BIT(CCS2) | BIT(CCS3),
+>  >          .require_force_probe = 1,
+>  > -       PVC_CACHELEVEL,
+>  > +       PVC_CACHE_MODES
+>  >  };
+>  >
+>  >  static const struct intel_gt_definition xelpmp_extra_gt[] = {
+>  > @@ -841,7 +848,7 @@ static const struct intel_device_info mtl_info = {
+>  >          .memory_regions = REGION_SMEM | REGION_STOLEN_LMEM,
+>  >          .platform_engine_mask = BIT(RCS0) | BIT(BCS0) | BIT(CCS0),
+>  >          .require_force_probe = 1,
+>  > -       MTL_CACHELEVEL,
+>  > +       MTL_CACHE_MODES
+>  >  };
+>  >
+>  >  #undef PLATFORM
+>  > diff --git a/drivers/gpu/drm/i915/i915_perf.c 
+> b/drivers/gpu/drm/i915/i915_perf.c
+>  > index 0a111b281578..1b8e067f37dd 100644
+>  > --- a/drivers/gpu/drm/i915/i915_perf.c
+>  > +++ b/drivers/gpu/drm/i915/i915_perf.c
+>  > @@ -1861,7 +1861,7 @@ static int alloc_oa_buffer(struct 
+> i915_perf_stream *stream)
+>  >                  return PTR_ERR(bo);
+>  >          }
+>  >
+>  > -       i915_gem_object_set_cache_coherency(bo, I915_CACHE_LLC);
+>  > +       i915_gem_object_set_cache_coherency(bo, I915_CACHE(WB));
+>  >
+>  >          /* PreHSW required 512K alignment, HSW requires 16M */
+>  >          vma = i915_vma_instance(bo, &gt->ggtt->vm, NULL);
+>  > diff --git a/drivers/gpu/drm/i915/intel_device_info.h 
+> b/drivers/gpu/drm/i915/intel_device_info.h
+>  > index dbfe6443457b..f48a21895a85 100644
+>  > --- a/drivers/gpu/drm/i915/intel_device_info.h
+>  > +++ b/drivers/gpu/drm/i915/intel_device_info.h
+>  > @@ -27,6 +27,8 @@
+>  >
+>  >  #include <uapi/drm/i915_drm.h>
+>  >
+>  > +#include "i915_cache.h"
+>  > +
+>  >  #include "intel_step.h"
+>  >
+>  >  #include "gt/intel_engine_types.h"
+>  > @@ -243,8 +245,8 @@ struct intel_device_info {
+>  >           */
+>  >          const struct intel_runtime_info __runtime;
+>  >
+>  > -       u32 cachelevel_to_pat[I915_MAX_CACHE_LEVEL];
+>  > -       u32 max_pat_index;
+>  > +       i915_cache_t cache_modes[9];
+> 
+> I was commenting on the array size here. It's probably better to make it 16
+> because there are 4 PAT index bits defined in the PTE. Indices above 
+> max_pat_index
+> are not used, but theoretically new mode could be added. Well, it's up 
+> to you,
+> not likely to happen anyway.
+
+Ah okay. I am not too concerned. Compiler will let us know if it happens.
+
+Unrelated to this comment - what about i915_gem_object_can_bypass_llc? Could we do better (less pessimistic) with something like my approach and so maybe penalize MTL less?
+
+Regards,
+
+Tvrtko
