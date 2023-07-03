@@ -1,60 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE945745921
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jul 2023 11:50:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D4A745A15
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jul 2023 12:22:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80FB910E208;
-	Mon,  3 Jul 2023 09:49:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 844A610E0DB;
+	Mon,  3 Jul 2023 10:22:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
- by gabe.freedesktop.org (Postfix) with ESMTP id E084710E1FA
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jul 2023 09:49:45 +0000 (UTC)
-X-AuditID: a67dfc5b-d85ff70000001748-6b-64a299b4c184
-From: Byungchul Park <byungchul@sk.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v10 rebased on v6.4 25/25] dept: Track the potential waits of
- PG_{locked, writeback}
-Date: Mon,  3 Jul 2023 18:47:52 +0900
-Message-Id: <20230703094752.79269-26-byungchul@sk.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20230703094752.79269-1-byungchul@sk.com>
-References: <20230703094752.79269-1-byungchul@sk.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSbUxTZxiGfc/Hew7FmrNq9Kg/po0MUzIFI/rEODXR6JsYE42JJjqj1Z7Y
- ZoDaIoofsVoUrYJg5EsQKc6uaTvBgqZTwA4URaJUQS0EiBAEG760rISvTSlmf55cue/c16+H
- pxVudh6vS0iU9AnqOCWWMbL+6Zaf7+cVa6J9xoWQeSUagv9cZKCgxInBe9eBwFl+lgL/003w
- frgPwfjLBhpysrwILB1tNJTXtiOotJ3D0Ng1A5qCgxjqsi5jMN0uwfC6d4KC1uxrFDhcW6A+
- o5gCz2gPAzl+DPk5JmryfKJg1GrnwGqMgE7bDQ4mOmKgrv0dC5UtUZBX2IqhorKOgVp3JwWN
- DwswtDu/slBf+5wBb2YaC38OFGPoHbbSYA0OcvDGU0RBacqk6MLQfyw8S/NQcOH3exQ0NT9C
- UHXxAwUu5zsMNcE+CspcWTSM/fEUQWd6Pwfnr4xykH82HcHl89kMNPz7jIWU1lgYHynA61aR
- mr5BmqSUHSOVw0UMeVEskr9utHEkpaqFI0Wuo6TMpiK3K/wUsQSCLHHZL2HiClzjiLm/iSID
- r15x5HnuOEO6mnKorfN3yVZrpDhdkqRfumafTPvevONw287jQ4UrjCiXmBHPi8JyscF/xozC
- prA5cJULMRYiRZ9vlA7xLGGBWJbWzZqRjKeF1HDR9vklDhUzhQOixTMwNWCECLHq0ecplgsr
- xIeNQ+x36Y+io9QzJQqbzD+OpKMQK4RYsTWvHYekomAKE8f68unvg7ni3zYfk4HkRWiaHSl0
- CUnxal3c8iXa5ATd8SUHDsW70OQ/WU9P7HajgHd7NRJ4pJwu9520aBSsOsmQHF+NRJ5WzpKb
- Om5pFHKNOvmEpD+0V380TjJUo/k8o5wjXzZ8TKMQDqoTpd8k6bCk/7+l+LB5RrTYsWFmT8XI
- Ro1w5+vsJ0NH9rcw3frrO2r2TWxS1RqdJr+9xdmgLWm+1+OO/rjdcVKMcC/y1melRvpK7apf
- E3N/0fZmZyoN/Xnxp2PXM4tqvoR3wVj3qYyYhaqVdunLDzOchbbNFWtL3Tgy6W1U4HH4T4XJ
- 7AO7a2/qNsm552a4kjFo1TEqWm9QfwNgMMjtSwMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSa0iTYRiGe9/vNFeLryX0UVEx6GxmmPaAYRGVL4HVDymKoEb7yOGcspVp
- UVhT85CHWWqmmdOYonaa0mlpQ1Ez8VAzM1PJdVI8lTpxaQc1+vNwcd/c169HQslzmKUStfa0
- qNMqNQpWSkv3+xk2VWQXqLxSx73BeNULnOPxNOTeL2Oh9V4pgrKKSxj6awPg3cQggqmmFgqy
- MloRmHq7Kaio60FQWXyZBfvnhdDmHGGhISOJBUPhfRZeD0xj6MpMx1BqCYTGtAIMNtc3GrL6
- WcjJMuCZ04fBZS7hwBy9GhzFNzmY7t0CDT3tDNTcamCgsnMjZOd1sfC8soGGuicODPZnuSz0
- lP1hoLHuJQ2txmQG7g4XsDAwYabA7Bzh4I0tH8ODmBlb3NhvBuqTbRji7jzE0PbeiqAq/iMG
- S1k7CzXOQQzllgwKfhbVInCkDHEQe9XFQc6lFARJsZk0tPyqZyCmywemJnPZnX6kZnCEIjHl
- Z0nlRD5NXhUI5OnNbo7EVHVyJN9yhpQXbyCFz/sxMY06GWIpSWCJZTSdI4lDbZgMNzdz5OWN
- KZp8bsvCB5cflW5XiRp1hKjb7H9CGvwu8VB49+HIsTzfaHSDJCI3icBvFd6PpnKzzPJrhY4O
- FzXL7vwqoTz5K5OIpBKKvzJfKP7exM4Wi/mTgsk2PDeg+dVClfX7HMt4X+GZfYz5J10plD6w
- zYncZvIvkyloluW8j9CV3cOmIWk+mleC3NXaiFClWuPjqQ8JjtKqIz1PhoVa0MzLmC9MG5+g
- cXtANeIlSLFA1nHepJIzygh9VGg1EiSUwl1m6L2tkstUyqhzoi7suO6MRtRXo2USWrFEtu+w
- eELOn1KeFkNEMVzU/W+xxG1pNDricXH3nseu2rg1CZ3dfS/q431/HDfXmUiRdVeNMPRoYJu3
- wvg2Muit3ZFRmrAoemIFSa0/1Woscnj7EQ+PuLPXA7E6hB9qWrj+wLrhyL5fj0ZeHcu+vVG7
- ffneTzs0tH+sq/FDs7/sTmbarjef1gZ6BJgHPYMMk4esP661i4vNVgWtD1Zu2UDp9Mq/vizu
- 8S4DAAA=
-X-CFilter-Loop: Reflected
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8240210E0DB
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jul 2023 10:22:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1688379759;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9C2RMLRxqz8xCGPW/3kYCo8ryFv6XlXc805SzxrtvIY=;
+ b=HallKzrHpNssMleq29bR5GSASGU92ToMQSlLWs08DDiJPOnjRa90OVbmj66R7ipX929UQH
+ 2cTffyvhAbMvCABSrO6yBz0Pw/pIMtf/95KWruoluFCijaV29hpUgb83290X7IJyxww48M
+ O/Qq3lGLv3oozRY0F9SpQGfkowpI6LY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-94-h3_tR4XxNPW0X2WHu0SOAw-1; Mon, 03 Jul 2023 06:22:38 -0400
+X-MC-Unique: h3_tR4XxNPW0X2WHu0SOAw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-31400956ce8so2425540f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Jul 2023 03:22:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688379756; x=1690971756;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9C2RMLRxqz8xCGPW/3kYCo8ryFv6XlXc805SzxrtvIY=;
+ b=lLcVtCnUA6Ay0S+bmbUQ5PE5CQj342qLhB7HtVuL7ehPSwamqAJ/913CRtBHticSlk
+ Jls7e+RBhijn8GUAqiiuK9XA6xOP+lKl1KqgRG20ayRQSJ/LL+MM5dwRGtPk8M9Qs7SC
+ ngYCKC3+T0q07+kI5ylrzRjwQVksmKZ+pxVHZFMTCB32whRQMDAun2wNuiecsYvVeIHn
+ 6P5+OuEN5CEKRb6KQdSYfoCxbJyT8WtJwiNJUXs3DbuAk1u5/DcMTH6SSR/7nmC0lWDW
+ 6K6yDXc1md8wrRc6D1m0ah8U9Df7TMSZ2qwuKiuhS8J5zEqj0byRmf2POaFHMxX4tP20
+ j2yg==
+X-Gm-Message-State: ABy/qLaw35YjcLbtDWYkXpybs/epPj5ErygtWGqjTJLJ8dMuLv6j2wWn
+ TaqQ7sZzVsFnALuLEppUvfhx6yFwPNi9V0xYjp9pvsu7c8G82fKzeYOhqgKTCLwPF0/1pb9gdU6
+ oqTbl7eftnYCdmLtS2HSfrc0vt3cq
+X-Received: by 2002:adf:ead2:0:b0:30d:d85c:4472 with SMTP id
+ o18-20020adfead2000000b0030dd85c4472mr7300337wrn.62.1688379756584; 
+ Mon, 03 Jul 2023 03:22:36 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlFusIqaDYNwJ7zdp2LOmDO3ru54swJO9LlBSopqgpGzuXOiCWzAzEM7ggHFZnoimVpgX4J5RQ==
+X-Received: by 2002:adf:ead2:0:b0:30d:d85c:4472 with SMTP id
+ o18-20020adfead2000000b0030dd85c4472mr7300326wrn.62.1688379756249; 
+ Mon, 03 Jul 2023 03:22:36 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:d5:a000:57d9:6996:9558:341b?
+ ([2a01:e0a:d5:a000:57d9:6996:9558:341b])
+ by smtp.gmail.com with ESMTPSA id
+ z11-20020adfe54b000000b0031128382ed0sm6149771wrm.83.2023.07.03.03.22.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 Jul 2023 03:22:35 -0700 (PDT)
+Message-ID: <d6fba128-f93c-2189-229d-ec4b55d62d19@redhat.com>
+Date: Mon, 3 Jul 2023 12:22:34 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v2 4/4] drm/mgag200: Use DMA to copy the framebuffer to
+ the VRAM
+To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ airlied@redhat.com, javierm@redhat.com, lyude@redhat.com
+References: <20230531092110.140564-1-jfalempe@redhat.com>
+ <20230531092110.140564-5-jfalempe@redhat.com>
+ <d610d6ee-cf53-6357-b25d-5a396859cc45@suse.de>
+ <15b08823-f2c2-5836-2421-f3bc25d51e11@redhat.com>
+ <98ebc72a-813a-aaf9-23db-f93b3986f21e@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <98ebc72a-813a-aaf9-23db-f93b3986f21e@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,327 +92,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, hdanton@sina.com, jack@suse.cz,
- peterz@infradead.org, daniel.vetter@ffwll.ch, amir73il@gmail.com,
- david@fromorbit.com, dri-devel@lists.freedesktop.org, mhocko@kernel.org,
- linux-mm@kvack.org, linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
- chris.p.wilson@intel.com, joel@joelfernandes.org, 42.hyeyoo@gmail.com,
- cl@linux.com, will@kernel.org, duyuyang@gmail.com, sashal@kernel.org,
- her0gyugyu@gmail.com, kernel_team@skhynix.com,
- damien.lemoal@opensource.wdc.com, willy@infradead.org, hch@infradead.org,
- mingo@redhat.com, djwong@kernel.org, vdavydov.dev@gmail.com,
- rientjes@google.com, dennis@kernel.org, linux-ext4@vger.kernel.org,
- ngupta@vflare.org, johannes.berg@intel.com, boqun.feng@gmail.com,
- dan.j.williams@intel.com, josef@toxicpanda.com, rostedt@goodmis.org,
- gwan-gyeong.mun@intel.com, linux-block@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, jglisse@redhat.com, viro@zeniv.linux.org.uk,
- longman@redhat.com, tglx@linutronix.de, vbabka@suse.cz, melissa.srw@gmail.com,
- sj@kernel.org, tytso@mit.edu, rodrigosiqueiramelo@gmail.com,
- kernel-team@lge.com, gregkh@linuxfoundation.org, jlayton@kernel.org,
- penberg@kernel.org, minchan@kernel.org, max.byungchul.park@gmail.com,
- hannes@cmpxchg.org, tj@kernel.org, akpm@linux-foundation.org,
- torvalds@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, Dept only tracks the real waits of PG_{locked,writeback} that
-actually happened having gone through __schedule() to avoid false
-positives. However, it ends in limited capacity for deadlock detection,
-because anyway there might be still way more potential dependencies by
-the waits that have yet to happen but may happen in the future so as to
-cause a deadlock.
+On 16/06/2023 10:08, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 15.06.23 um 19:15 schrieb Jocelyn Falempe:
+>> On 15/06/2023 16:24, Thomas Zimmermann wrote:
+>>> Hi Jocelyn
+>>>
+>>> Am 31.05.23 um 11:21 schrieb Jocelyn Falempe:
+>>>> Even if the transfer is not faster, it brings significant
+>>>> improvement in latencies and CPU usage.
+>>>>
+>>>> CPU usage drops from 100% of one core to 3% when continuously
+>>>> refreshing the screen.
+>>>
+>>> I tried your patchset on a HP Proliant server with a G200EH. I can 
+>>> see that the CPU usage goes down, but the time until the screen 
+>>> update reaches the hardware's video memory has increased significantly.
+>>
+>> Thanks for taking time to test it.
+>> Can you check if there is something in the dmesg ?
+>>
+>> The 1s looks suspicious, if the IRQ is not working, there is a 1s 
+>> timeout, which can explain why it will display only one frame per 
+>> second. (logs should be filled with "DMA transfer timed out")
+> 
+> No, I don't see that error. I also verified that the IRQ handler is 
+> running. It runs on each update AFAICT.
+> 
+> When I'm doing full-screen scrolling on the kernel console I can see the 
+> scanlines being updated from top to bottom. This indicates to me that 
+> the actual copying takes time or interferes with the scanout.
+> 
+> Best regards
+> Thomas
+> 
+>>
+>> I will see if I can get access to a G200EH, and if I can reproduce this.
+>>
+>> Best regards,
+>>
+> 
 
-So let Dept assume that when PG_{locked,writeback} bit gets cleared,
-there might be waits on the bit to be woken up.
+I reproduced the issue on G200EH, and there is the same problem on 
+G200eR2 [102b:0534], G200eW3 [102b:0536], G200eH3 [102b:0538]
+On these severs, DMA is between 2x and 10x slower than memcpy().
+I didn't find a setting in Matrox register, that has an effect on this.
+At this point, I think the problem may lie in the PCIe <-> PCI bridge.
 
-Even though false positives may increase with the aggressive tracking,
-it's worth doing it because it's going to be useful in practice. See the
-following link for instance:
+I also tested on a MGA G200e [102b:0522] where the IRQ is not working at 
+all.
 
-   https://lore.kernel.org/lkml/1674268856-31807-1-git-send-email-byungchul.park@lge.com/
+So it looks like I've done the development on one of the few models, 
+where the DMA is not completely broken.
 
-Signed-off-by: Byungchul Park <byungchul@sk.com>
----
- include/linux/mm_types.h   |   3 +
- include/linux/page-flags.h | 112 +++++++++++++++++++++++++++++++++----
- include/linux/pagemap.h    |   7 ++-
- mm/filemap.c               |  11 +++-
- mm/mm_init.c               |   3 +
- 5 files changed, 121 insertions(+), 15 deletions(-)
+So let's abandon this, as most hardware can't handle DMA with acceptable 
+performance, and some have even broken IRQ.
 
-diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index 306a3d1a0fa6..ac5048b66e5c 100644
---- a/include/linux/mm_types.h
-+++ b/include/linux/mm_types.h
-@@ -19,6 +19,7 @@
- #include <linux/workqueue.h>
- #include <linux/seqlock.h>
- #include <linux/percpu_counter.h>
-+#include <linux/dept.h>
- 
- #include <asm/mmu.h>
- 
-@@ -228,6 +229,8 @@ struct page {
- #ifdef LAST_CPUPID_NOT_IN_PAGE_FLAGS
- 	int _last_cpupid;
- #endif
-+	struct dept_ext_wgen PG_locked_wgen;
-+	struct dept_ext_wgen PG_writeback_wgen;
- } _struct_page_alignment;
- 
- /*
-diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-index 92a2063a0a23..d91e67ed194c 100644
---- a/include/linux/page-flags.h
-+++ b/include/linux/page-flags.h
-@@ -196,6 +196,50 @@ enum pageflags {
- 
- #ifndef __GENERATING_BOUNDS_H
- 
-+#ifdef CONFIG_DEPT
-+#include <linux/kernel.h>
-+#include <linux/dept.h>
-+
-+extern struct dept_map PG_locked_map;
-+extern struct dept_map PG_writeback_map;
-+
-+/*
-+ * Place the following annotations in its suitable point in code:
-+ *
-+ *	Annotate dept_page_set_bit() around firstly set_bit*()
-+ *	Annotate dept_page_clear_bit() around clear_bit*()
-+ *	Annotate dept_page_wait_on_bit() around wait_on_bit*()
-+ */
-+
-+static inline void dept_page_set_bit(struct page *p, int bit_nr)
-+{
-+	if (bit_nr == PG_locked)
-+		dept_request_event(&PG_locked_map, &p->PG_locked_wgen);
-+	else if (bit_nr == PG_writeback)
-+		dept_request_event(&PG_writeback_map, &p->PG_writeback_wgen);
-+}
-+
-+static inline void dept_page_clear_bit(struct page *p, int bit_nr)
-+{
-+	if (bit_nr == PG_locked)
-+		dept_event(&PG_locked_map, 1UL, _RET_IP_, __func__, &p->PG_locked_wgen);
-+	else if (bit_nr == PG_writeback)
-+		dept_event(&PG_writeback_map, 1UL, _RET_IP_, __func__, &p->PG_writeback_wgen);
-+}
-+
-+static inline void dept_page_wait_on_bit(struct page *p, int bit_nr)
-+{
-+	if (bit_nr == PG_locked)
-+		dept_wait(&PG_locked_map, 1UL, _RET_IP_, __func__, 0, -1L);
-+	else if (bit_nr == PG_writeback)
-+		dept_wait(&PG_writeback_map, 1UL, _RET_IP_, __func__, 0, -1L);
-+}
-+#else
-+#define dept_page_set_bit(p, bit_nr)		do { } while (0)
-+#define dept_page_clear_bit(p, bit_nr)		do { } while (0)
-+#define dept_page_wait_on_bit(p, bit_nr)	do { } while (0)
-+#endif
-+
- #ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
- DECLARE_STATIC_KEY_FALSE(hugetlb_optimize_vmemmap_key);
- 
-@@ -377,44 +421,88 @@ static __always_inline int Page##uname(struct page *page)		\
- #define SETPAGEFLAG(uname, lname, policy)				\
- static __always_inline							\
- void folio_set_##lname(struct folio *folio)				\
--{ set_bit(PG_##lname, folio_flags(folio, FOLIO_##policy)); }		\
-+{									\
-+	set_bit(PG_##lname, folio_flags(folio, FOLIO_##policy));	\
-+	dept_page_set_bit(&folio->page, PG_##lname);			\
-+}									\
- static __always_inline void SetPage##uname(struct page *page)		\
--{ set_bit(PG_##lname, &policy(page, 1)->flags); }
-+{									\
-+	set_bit(PG_##lname, &policy(page, 1)->flags);			\
-+	dept_page_set_bit(page, PG_##lname);				\
-+}
- 
- #define CLEARPAGEFLAG(uname, lname, policy)				\
- static __always_inline							\
- void folio_clear_##lname(struct folio *folio)				\
--{ clear_bit(PG_##lname, folio_flags(folio, FOLIO_##policy)); }		\
-+{									\
-+	clear_bit(PG_##lname, folio_flags(folio, FOLIO_##policy));	\
-+	dept_page_clear_bit(&folio->page, PG_##lname);			\
-+}									\
- static __always_inline void ClearPage##uname(struct page *page)		\
--{ clear_bit(PG_##lname, &policy(page, 1)->flags); }
-+{									\
-+	clear_bit(PG_##lname, &policy(page, 1)->flags);			\
-+	dept_page_clear_bit(page, PG_##lname);				\
-+}
- 
- #define __SETPAGEFLAG(uname, lname, policy)				\
- static __always_inline							\
- void __folio_set_##lname(struct folio *folio)				\
--{ __set_bit(PG_##lname, folio_flags(folio, FOLIO_##policy)); }		\
-+{									\
-+	__set_bit(PG_##lname, folio_flags(folio, FOLIO_##policy));	\
-+	dept_page_set_bit(&folio->page, PG_##lname);			\
-+}									\
- static __always_inline void __SetPage##uname(struct page *page)		\
--{ __set_bit(PG_##lname, &policy(page, 1)->flags); }
-+{									\
-+	__set_bit(PG_##lname, &policy(page, 1)->flags);			\
-+	dept_page_set_bit(page, PG_##lname);				\
-+}
- 
- #define __CLEARPAGEFLAG(uname, lname, policy)				\
- static __always_inline							\
- void __folio_clear_##lname(struct folio *folio)				\
--{ __clear_bit(PG_##lname, folio_flags(folio, FOLIO_##policy)); }	\
-+{									\
-+	__clear_bit(PG_##lname, folio_flags(folio, FOLIO_##policy));	\
-+	dept_page_clear_bit(&folio->page, PG_##lname);			\
-+}									\
- static __always_inline void __ClearPage##uname(struct page *page)	\
--{ __clear_bit(PG_##lname, &policy(page, 1)->flags); }
-+{									\
-+	__clear_bit(PG_##lname, &policy(page, 1)->flags);		\
-+	dept_page_clear_bit(page, PG_##lname);				\
-+}
- 
- #define TESTSETFLAG(uname, lname, policy)				\
- static __always_inline							\
- bool folio_test_set_##lname(struct folio *folio)			\
--{ return test_and_set_bit(PG_##lname, folio_flags(folio, FOLIO_##policy)); } \
-+{									\
-+	bool ret = test_and_set_bit(PG_##lname, folio_flags(folio, FOLIO_##policy));\
-+	if (!ret)							\
-+		dept_page_set_bit(&folio->page, PG_##lname);		\
-+	return ret;							\
-+}									\
- static __always_inline int TestSetPage##uname(struct page *page)	\
--{ return test_and_set_bit(PG_##lname, &policy(page, 1)->flags); }
-+{									\
-+	bool ret = test_and_set_bit(PG_##lname, &policy(page, 1)->flags);\
-+	if (!ret)							\
-+		dept_page_set_bit(page, PG_##lname);			\
-+	return ret;							\
-+}
- 
- #define TESTCLEARFLAG(uname, lname, policy)				\
- static __always_inline							\
- bool folio_test_clear_##lname(struct folio *folio)			\
--{ return test_and_clear_bit(PG_##lname, folio_flags(folio, FOLIO_##policy)); } \
-+{									\
-+	bool ret = test_and_clear_bit(PG_##lname, folio_flags(folio, FOLIO_##policy));\
-+	if (ret)							\
-+		dept_page_clear_bit(&folio->page, PG_##lname);		\
-+	return ret;							\
-+}									\
- static __always_inline int TestClearPage##uname(struct page *page)	\
--{ return test_and_clear_bit(PG_##lname, &policy(page, 1)->flags); }
-+{									\
-+	bool ret = test_and_clear_bit(PG_##lname, &policy(page, 1)->flags);\
-+	if (ret)							\
-+		dept_page_clear_bit(page, PG_##lname);			\
-+	return ret;							\
-+}
- 
- #define PAGEFLAG(uname, lname, policy)					\
- 	TESTPAGEFLAG(uname, lname, policy)				\
-diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-index a56308a9d1a4..a88e2430f415 100644
---- a/include/linux/pagemap.h
-+++ b/include/linux/pagemap.h
-@@ -915,7 +915,12 @@ void folio_unlock(struct folio *folio);
-  */
- static inline bool folio_trylock(struct folio *folio)
- {
--	return likely(!test_and_set_bit_lock(PG_locked, folio_flags(folio, 0)));
-+	bool ret = !test_and_set_bit_lock(PG_locked, folio_flags(folio, 0));
-+
-+	if (ret)
-+		dept_page_set_bit(&folio->page, PG_locked);
-+
-+	return likely(ret);
- }
- 
- /*
-diff --git a/mm/filemap.c b/mm/filemap.c
-index eed64dc88e43..f05208bb50dc 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -1101,6 +1101,7 @@ static int wake_page_function(wait_queue_entry_t *wait, unsigned mode, int sync,
- 		if (flags & WQ_FLAG_CUSTOM) {
- 			if (test_and_set_bit(key->bit_nr, &key->folio->flags))
- 				return -1;
-+			dept_page_set_bit(&key->folio->page, key->bit_nr);
- 			flags |= WQ_FLAG_DONE;
- 		}
- 	}
-@@ -1210,6 +1211,7 @@ static inline bool folio_trylock_flag(struct folio *folio, int bit_nr,
- 	if (wait->flags & WQ_FLAG_EXCLUSIVE) {
- 		if (test_and_set_bit(bit_nr, &folio->flags))
- 			return false;
-+		dept_page_set_bit(&folio->page, bit_nr);
- 	} else if (test_bit(bit_nr, &folio->flags))
- 		return false;
- 
-@@ -1220,8 +1222,10 @@ static inline bool folio_trylock_flag(struct folio *folio, int bit_nr,
- /* How many times do we accept lock stealing from under a waiter? */
- int sysctl_page_lock_unfairness = 5;
- 
--static struct dept_map __maybe_unused PG_locked_map = DEPT_MAP_INITIALIZER(PG_locked_map, NULL);
--static struct dept_map __maybe_unused PG_writeback_map = DEPT_MAP_INITIALIZER(PG_writeback_map, NULL);
-+struct dept_map __maybe_unused PG_locked_map = DEPT_MAP_INITIALIZER(PG_locked_map, NULL);
-+struct dept_map __maybe_unused PG_writeback_map = DEPT_MAP_INITIALIZER(PG_writeback_map, NULL);
-+EXPORT_SYMBOL(PG_locked_map);
-+EXPORT_SYMBOL(PG_writeback_map);
- 
- static inline int folio_wait_bit_common(struct folio *folio, int bit_nr,
- 		int state, enum behavior behavior)
-@@ -1234,6 +1238,7 @@ static inline int folio_wait_bit_common(struct folio *folio, int bit_nr,
- 	unsigned long pflags;
- 	bool in_thrashing;
- 
-+	dept_page_wait_on_bit(&folio->page, bit_nr);
- 	if (bit_nr == PG_locked)
- 		sdt_might_sleep_start(&PG_locked_map);
- 	else if (bit_nr == PG_writeback)
-@@ -1331,6 +1336,7 @@ static inline int folio_wait_bit_common(struct folio *folio, int bit_nr,
- 		wait->flags |= WQ_FLAG_DONE;
- 		break;
- 	}
-+	dept_page_set_bit(&folio->page, bit_nr);
- 
- 	/*
- 	 * If a signal happened, this 'finish_wait()' may remove the last
-@@ -1538,6 +1544,7 @@ void folio_unlock(struct folio *folio)
- 	BUILD_BUG_ON(PG_waiters != 7);
- 	BUILD_BUG_ON(PG_locked > 7);
- 	VM_BUG_ON_FOLIO(!folio_test_locked(folio), folio);
-+	dept_page_clear_bit(&folio->page, PG_locked);
- 	if (clear_bit_unlock_is_negative_byte(PG_locked, folio_flags(folio, 0)))
- 		folio_wake_bit(folio, PG_locked);
- }
-diff --git a/mm/mm_init.c b/mm/mm_init.c
-index 7f7f9c677854..a339f0cbe1b2 100644
---- a/mm/mm_init.c
-+++ b/mm/mm_init.c
-@@ -26,6 +26,7 @@
- #include <linux/pgtable.h>
- #include <linux/swap.h>
- #include <linux/cma.h>
-+#include <linux/dept.h>
- #include "internal.h"
- #include "slab.h"
- #include "shuffle.h"
-@@ -558,6 +559,8 @@ static void __meminit __init_single_page(struct page *page, unsigned long pfn,
- 	page_mapcount_reset(page);
- 	page_cpupid_reset_last(page);
- 	page_kasan_tag_reset(page);
-+	dept_ext_wgen_init(&page->PG_locked_wgen);
-+	dept_ext_wgen_init(&page->PG_writeback_wgen);
- 
- 	INIT_LIST_HEAD(&page->lru);
- #ifdef WANT_PAGE_VIRTUAL
+Here is my complete test results:
+
+Dell T310 G200WB [102b:0532]:
+MGA memcpy: x 1280, y 1024, time: 124832 us
+MGA iload: x 1280, y 1024, time: 123794 us
+With PCI burst enabled (OPTION enhmemacc set to 1 and HEADER cacheline 
+set to 0x08)
+MGA iload: x 1280, y 1024, time : 51880 us
+
+HP dl160 Gen8 G200EH [102b:0533]:
+MGA memcpy: x 1024, y 768, time: 31542 us
+MGA iload: x 1024, y 768, time: 312638 us
+
+Dell pem520  G200eR2 [102b:0534]:
+MGA memcpy: x 1280, y 1024, time : 30156 us
+IRQ not working
+
+Dell per640 G200eW3 [102b:0536]:
+MGA memcpy: x 1024, y 768, time : 15586 us
+MGA iload: x 1024, y 768, time : 60900 us
+
+HP dl120 gen10 G200eH3 [102b:0538] (rev 02):
+MGA memcpy: x 1024, y 768, time : 22539 us
+MGA iload: x 1024, y 768, time : 38324 us
+
+HP dl180 G200e [102b:0522] (rev 02)
+MGA memcpy: x 1024, y 768, time : 35749 us
+MGA iload busywait: x 1024, y 768, time : 137079 us
+IRQ not working
+
+Best regards,
+
 -- 
-2.17.1
+
+Jocelyn
+
 
