@@ -1,69 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AFED7457A8
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jul 2023 10:49:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5B17745892
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jul 2023 11:39:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC70110E1D6;
-	Mon,  3 Jul 2023 08:49:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31DA210E1ED;
+	Mon,  3 Jul 2023 09:39:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAE5110E1D6;
- Mon,  3 Jul 2023 08:49:54 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id
- 2adb3069b0e04-4fb94b1423eso6216381e87.1; 
- Mon, 03 Jul 2023 01:49:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1688374192; x=1690966192;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=kROqTS8zYsaLySu7JmTcNK/xxL79gYyzV7R7X4O/qGA=;
- b=qNI/iJBjoHLQodbwGukdp+YEWxyJu+FgtY4iReU/kjJdN/2hm2zSSbELu9ewUBd75+
- Dw6BLdlldBbmnXWFMMox6V6ZNAx6LnMG8YFCzEOSSZhPA6WxAzqXgnfrOmfHzlF7rzM4
- uiuWwI5EllMz2xKm+MBaGDACNL6cz+Fjkjk1xk+5IJGgBsNTexLPnawJIvC3UyMxxisR
- Zkb3BXre50yRsVdsFjjjYsuj5A6bS5JP981/r9fxMw3azP54R49xMqQb/RHmGUCeeW0l
- SqFN1ecW4v6338Gmvtoy0ph+sQzJ+3lNu27cNE9sl7DN9/mYIEOJUJiR3Z/WOT2Vc+iq
- dIgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688374192; x=1690966192;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kROqTS8zYsaLySu7JmTcNK/xxL79gYyzV7R7X4O/qGA=;
- b=kTtZqWPaFpwuTlX4jksGFuIMLTzAYlzhVRZcYfYzsCYTBo40I+A79amYK9DN0gweiC
- Xuq/Rc6blM/szmH6Ft4O4k2KM8S86Ba9FiGGqXLmItGF8k/4mFMwoVnCEKhun5e7aYBH
- HwLdfoSWuXVCV70I83j56I3ZhxboFZpD0kVbEaoqsZnO3GIVc4mjmi8qtTc7dbzMhPyY
- j2GA07/SaX2filGJsxgTK6yAxdGWabHJpRDuYpU83KkwOFCLvbhuBeBFXrOgpeuZ1vPQ
- NzDpcYJC35x4V3fYopK+3lrRO3S6OyZXstgpjykS1WxJChQsNrStlhY0huOWq11zGWHu
- VRDA==
-X-Gm-Message-State: ABy/qLZfGpyPHBftAXU2mSzcd1iYUtaVhpJaJ6Ij56wBscRPxDdgeflK
- Zn8Y6RbPLFLArJ/uuTX9vwg=
-X-Google-Smtp-Source: APBJJlGUF/6v05+URsfL22sCMh95xPIoDszyQLCQudZPR1JQrvxoM7qdhZKZS/23un8sGFumwgSXDA==
-X-Received: by 2002:a05:6512:34cb:b0:4f8:d385:41bd with SMTP id
- w11-20020a05651234cb00b004f8d38541bdmr5657396lfr.8.1688374192115; 
- Mon, 03 Jul 2023 01:49:52 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- u27-20020a056512041b00b004fbacee6028sm1221785lfk.110.2023.07.03.01.49.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Jul 2023 01:49:51 -0700 (PDT)
-Date: Mon, 3 Jul 2023 11:49:49 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Michel =?UTF-8?B?RMOkbnplcg==?= <michel.daenzer@mailbox.org>
-Subject: Re: [PATCH v5 1/1] drm/doc: Document DRM device reset expectations
-Message-ID: <20230703114949.796c7498@eldfell>
-In-Reply-To: <7c1e6df5-1ad4-be3c-b95d-92dc62a8c537@mailbox.org>
-References: <20230627132323.115440-1-andrealmeid@igalia.com>
- <CA+hFU4z1pc=KUVVqyqfXEceUqMXQgh-qUnuB=1nkPELghvQO7w@mail.gmail.com>
- <CADnq5_MNVdtdcWKSz6dgmsjg+kEu8p5FVE+fkw_5BaXeG3QGow@mail.gmail.com>
- <afab1f5a-e581-3416-e2c2-238ea120655b@mailbox.org>
- <CAAxE2A5C96k5ua+r938VA_+w7gHHNTdF3n8LwDb98W0Bf9wCVA@mail.gmail.com>
- <7c1e6df5-1ad4-be3c-b95d-92dc62a8c537@mailbox.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBCAA10E1ED
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jul 2023 09:39:04 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C4BA91F8B4;
+ Mon,  3 Jul 2023 09:39:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1688377142; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=V2pVxeMDN7LtO6/X6UWk1mdFAXw0ByEBF8VdgFGo7Do=;
+ b=mhTSMZln8/4KTfOqBpyPB1irL0uie1Hwt6+QQRzeUq+oRckdKuRM7XoNl1a6AZZ49vXmib
+ Xbska/aMITyhrHDMuIkomvs4ir0vdlEzik893EMNZARf2seMNCoL7mxq23Xa9AFEOw/r2o
+ KvytKXlaC9d/4b18sh1NrRy+s6yV39Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1688377142;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=V2pVxeMDN7LtO6/X6UWk1mdFAXw0ByEBF8VdgFGo7Do=;
+ b=C/2tBVDAEdh7Vh3VaY+K+w5zcmemp83J+Nuom0XXI3XTZNINeQkRMrl0QpV8o9QdAzpEOq
+ zSNCWsGQn1LajJCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8DE0113276;
+ Mon,  3 Jul 2023 09:39:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id nGODITaXomTcGQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 03 Jul 2023 09:39:02 +0000
+Message-ID: <96d91373-f955-2209-5cd7-7e1ecacf73f9@suse.de>
+Date: Mon, 3 Jul 2023 11:39:01 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/C4YI/5tzC5DMxCBTI_3NuKt";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v3 1/3] drm: Improve Kconfig symbol prompt and help texts
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+References: <20230702191529.768248-1-javierm@redhat.com>
+ <20230702191529.768248-2-javierm@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230702191529.768248-2-javierm@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------lTiTWmh0EnGrt3bdrR0y3V3M"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,138 +70,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- Sebastian Wick <sebastian.wick@redhat.com>,
- =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
- Marek =?UTF-8?B?T2zFocOhaw==?= <maraeo@gmail.com>,
- Timur =?UTF-8?B?S3Jpc3TDs2Y=?= <timur.kristof@gmail.com>,
- Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Samuel Pitoiset <samuel.pitoiset@gmail.com>,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: Arnd Bergmann <arnd@arndb.de>, Maxime Ripard <mripard@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/C4YI/5tzC5DMxCBTI_3NuKt
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------lTiTWmh0EnGrt3bdrR0y3V3M
+Content-Type: multipart/mixed; boundary="------------NdeW7CQxhq1Ohtu7DgDZeWcS";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Arnd Bergmann <arnd@arndb.de>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
+Message-ID: <96d91373-f955-2209-5cd7-7e1ecacf73f9@suse.de>
+Subject: Re: [PATCH v3 1/3] drm: Improve Kconfig symbol prompt and help texts
+References: <20230702191529.768248-1-javierm@redhat.com>
+ <20230702191529.768248-2-javierm@redhat.com>
+In-Reply-To: <20230702191529.768248-2-javierm@redhat.com>
 
-On Mon, 3 Jul 2023 09:12:29 +0200
-Michel D=C3=A4nzer <michel.daenzer@mailbox.org> wrote:
+--------------NdeW7CQxhq1Ohtu7DgDZeWcS
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> On 6/30/23 22:32, Marek Ol=C5=A1=C3=A1k wrote:
-> > On Fri, Jun 30, 2023 at 11:11=E2=80=AFAM Michel D=C3=A4nzer <michel.dae=
-nzer@mailbox.org <mailto:michel.daenzer@mailbox.org>> wrote: =20
-> >> On 6/30/23 16:59, Alex Deucher wrote: =20
-> >>> On Fri, Jun 30, 2023 at 10:49=E2=80=AFAM Sebastian Wick
-> >>> <sebastian.wick@redhat.com <mailto:sebastian.wick@redhat.com>> wrote:=
- =20
-> >>>> On Tue, Jun 27, 2023 at 3:23=E2=80=AFPM Andr=C3=A9 Almeida <andrealm=
-eid@igalia.com <mailto:andrealmeid@igalia.com>> wrote: =20
-> >>>>>
-> >>>>> +Robustness
-> >>>>> +----------
-> >>>>> +
-> >>>>> +The only way to try to keep an application working after a reset i=
-s if it
-> >>>>> +complies with the robustness aspects of the graphical API that it =
-is using.
-> >>>>> +
-> >>>>> +Graphical APIs provide ways to applications to deal with device re=
-sets. However,
-> >>>>> +there is no guarantee that the app will use such features correctl=
-y, and the
-> >>>>> +UMD can implement policies to close the app if it is a repeating o=
-ffender,
-> >>>>> +likely in a broken loop. This is done to ensure that it does not k=
-eep blocking
-> >>>>> +the user interface from being correctly displayed. This should be =
-done even if
-> >>>>> +the app is correct but happens to trigger some bug in the hardware=
-/driver. =20
-> >>>>
-> >>>> I still don't think it's good to let the kernel arbitrarily kill
-> >>>> processes that it thinks are not well-behaved based on some heuristi=
-cs
-> >>>> and policy.
-> >>>>
-> >>>> Can't this be outsourced to user space? Expose the information about
-> >>>> processes causing a device and let e.g. systemd deal with coming up
-> >>>> with a policy and with killing stuff. =20
-> >>>
-> >>> I don't think it's the kernel doing the killing, it would be the UMD.
-> >>> E.g., if the app is guilty and doesn't support robustness the UMD can
-> >>> just call exit(). =20
-> >>
-> >> It would be safer to just ignore API calls[0], similarly to what
-> >> is done until the application destroys the context with
-> >> robustness. Calling exit() likely results in losing any unsaved
-> >> work, whereas at least some applications might otherwise allow
-> >> saving the work by other means. =20
-> >=20
-> > That's a terrible idea. Ignoring API calls would be identical to a
-> > freeze. You might as well disable GPU recovery because the result
-> > would be the same. =20
->=20
-> No GPU recovery would affect everything using the GPU, whereas this
-> affects only non-robust applications.
->=20
->=20
-> > - non-robust contexts: call exit(1) immediately, which is the best
-> > way to recover =20
->=20
-> That's not the UMD's call to make.
->=20
->=20
-> >>     [0] Possibly accompanied by a one-time message to stderr along
-> >> the lines of "GPU reset detected but robustness not enabled in
-> >> context, ignoring OpenGL API calls". =20
->=20
+SGkgSmF2aWVyDQoNCkFtIDAyLjA3LjIzIHVtIDIxOjE1IHNjaHJpZWIgSmF2aWVyIE1hcnRp
+bmV6IENhbmlsbGFzOg0KPiBUaGUgY3VycmVudCB0ZXh0IHdlcmUgbm90IGNoYW5nZWQgc2lu
+Y2UgdGhlIG9yaWdpbmFsIExpbnV4LTIuNi4xMi1yYzIgZ2l0DQo+IGltcG9ydC4gTGV0J3Mg
+aW1wcm92ZSBpdCBhbmQgbWFrZSB0aGF0IG1vcmUgYWxpZ25lZCB3aXRoIHRoZSBEUk0vS01T
+IGRvY3MuDQo+IA0KPiBTdWdnZXN0ZWQtYnk6IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnRA
+bGludXgtbTY4ay5vcmc+DQo+IFNpZ25lZC1vZmYtYnk6IEphdmllciBNYXJ0aW5leiBDYW5p
+bGxhcyA8amF2aWVybUByZWRoYXQuY29tPg0KPiAtLS0NCj4gDQo+IChubyBjaGFuZ2VzIHNp
+bmNlIHYxKQ0KPiANCj4gICBkcml2ZXJzL2dwdS9kcm0vS2NvbmZpZyB8IDIyICsrKysrKysr
+KysrKystLS0tLS0tLS0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMTMgaW5zZXJ0aW9ucygrKSwg
+OSBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vS2Nv
+bmZpZyBiL2RyaXZlcnMvZ3B1L2RybS9LY29uZmlnDQo+IGluZGV4IGFmYjNiMmY1ZjQyNS4u
+MzczZjg1ZTE3NGMyIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vS2NvbmZpZw0K
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vS2NvbmZpZw0KPiBAQCAtMywxMCArMywxMSBAQA0K
+PiAgICMgRHJtIGRldmljZSBjb25maWd1cmF0aW9uDQo+ICAgIw0KPiAgICMgVGhpcyBkcml2
+ZXIgcHJvdmlkZXMgc3VwcG9ydCBmb3IgdGhlDQo+IC0jIERpcmVjdCBSZW5kZXJpbmcgSW5m
+cmFzdHJ1Y3R1cmUgKERSSSkgaW4gWEZyZWU4NiA0LjEuMCBhbmQgaGlnaGVyLg0KPiArIyBE
+aXJlY3QgUmVuZGVyaW5nIEluZnJhc3RydWN0dXJlIChEUkkpIHRoYXQgaXMgY29tcG9zZWQg
+b2YgdGhlIERpcmVjdA0KPiArIyBSZW5kZXJpbmcgTWFuYWdlciAoRFJNKSBhbmQgS2VybmVs
+IE1vZGUgU2V0dGluZ3MgKEtNUykgc3Vic3lzdGVtcy4NCj4gICAjDQo+ICAgbWVudWNvbmZp
+ZyBEUk0NCj4gLQl0cmlzdGF0ZSAiRGlyZWN0IFJlbmRlcmluZyBNYW5hZ2VyIChYRnJlZTg2
+IDQuMS4wIGFuZCBoaWdoZXIgRFJJIHN1cHBvcnQpIg0KPiArCXRyaXN0YXRlICJEaXJlY3Qg
+UmVuZGVyaW5nIE1hbmFnZXIgKERSTSkgYW5kIEtlcm5lbCBNb2RlIFNldHRpbmdzIChLTVMp
+Ig0KPiAgIAlkZXBlbmRzIG9uIChBR1AgfHwgQUdQPW4pICYmICFFTVVMQVRFRF9DTVBYQ0hH
+ICYmIEhBU19ETUENCj4gICAJc2VsZWN0IERSTV9QQU5FTF9PUklFTlRBVElPTl9RVUlSS1MN
+Cj4gICAJc2VsZWN0IEhETUkNCj4gQEAgLTE5LDEzICsyMCwxNiBAQCBtZW51Y29uZmlnIERS
+TQ0KPiAgIAlzZWxlY3QgVklERU9fQ01ETElORQ0KPiAgIAlzZWxlY3QgVklERU9fTk9NT0RF
+U0VUDQo+ICAgCWhlbHANCj4gLQkgIEtlcm5lbC1sZXZlbCBzdXBwb3J0IGZvciB0aGUgRGly
+ZWN0IFJlbmRlcmluZyBJbmZyYXN0cnVjdHVyZSAoRFJJKQ0KPiAtCSAgaW50cm9kdWNlZCBp
+biBYRnJlZTg2IDQuMC4gSWYgeW91IHNheSBZIGhlcmUsIHlvdSBuZWVkIHRvIHNlbGVjdA0K
+PiAtCSAgdGhlIG1vZHVsZSB0aGF0J3MgcmlnaHQgZm9yIHlvdXIgZ3JhcGhpY3MgY2FyZCBm
+cm9tIHRoZSBsaXN0IGJlbG93Lg0KPiAtCSAgVGhlc2UgbW9kdWxlcyBwcm92aWRlIHN1cHBv
+cnQgZm9yIHN5bmNocm9uaXphdGlvbiwgc2VjdXJpdHksIGFuZA0KPiAtCSAgRE1BIHRyYW5z
+ZmVycy4gUGxlYXNlIHNlZSA8aHR0cDovL2RyaS5zb3VyY2Vmb3JnZS5uZXQvPiBmb3IgbW9y
+ZQ0KPiAtCSAgZGV0YWlscy4gIFlvdSBzaG91bGQgYWxzbyBzZWxlY3QgYW5kIGNvbmZpZ3Vy
+ZSBBR1ANCj4gLQkgICgvZGV2L2FncGdhcnQpIHN1cHBvcnQgaWYgaXQgaXMgYXZhaWxhYmxl
+IGZvciB5b3VyIHBsYXRmb3JtLg0KPiArCSAgS2VybmVsLWxldmVsIHN1cHBvcnQgZm9yIHRo
+ZSBEaXJlY3QgUmVuZGVyaW5nIEluZnJhc3RydWN0dXJlIChEUkkpLA0KPiArCSAgdGhhdCBp
+cyBjb21wb3NlZCBvZiB0aGUgRGlyZWN0IFJlbmRlcmluZyBNYW5hZ2VyIChEUk0pIGFuZCBL
+ZXJuZWwNCj4gKwkgIE1vZGUgU2V0dGluZ3MgKEtNUykgc3Vic3lzdGVtcy4NCg0KSXQncyBz
+bGlnaHRseSBvZmYsIGFzIEtNUyBpcyBwYXJ0IG9mIERSTS4gSSdkIGp1c3QgZHJvcCBhbnkg
+bWVudGlvbiBvZiBLTVMuDQoNCkJ1dCBUQkggaW5zdGVhZCBvZiB0aGVzZSBzbWFsbCBmaXhl
+cywgd2Ugc2hvdWxkIGZpcnN0IGRpc2N1c3MgaG93IHdlIA0Kb3JnYW5pemUgdGhlIG1lbnUg
+c3RydWN0dXJlcy4gRm9yIGV4YW1wbGUsIHRoZSBEUk0gZHJpdmVycyBhcmUgYWxsIA0KbGlz
+dGVkIGluIHRoZSBncmFwaGljcyBtZW51LiBUaGV5IG1pZ2h0IGFzIHdlbGwgZ28gaW50byBh
+IERSTSBtZW51Lg0KDQpUaGUgZnJhbWVidWZmZXIgd2lsbCBiZSBzcGxpdCBpbnRvIGRyaXZl
+cnMgYW5kICdjb3JlJy4gVGhlIGNvcmUgb3B0aW9ucyANCihGQl9ERVZJQ0UsIEZJUk1XQVJF
+X0VESUQsIEZCXypfRU5ESUFOKSBwcm9iYWJseSBkZXNlcnZlIGEgc2VwYXJhdGUgbWVudS4N
+Cg0KQW5kIHRoZXJlJ3MgdGhlIGZyYW1lYnVmZmVyIGNvbnNvbGUsIHdoaWNoIGhhcyBpdHMg
+b3duIG1lbnUuIFdlIG5lZWQgdG8gDQpzaG93IGl0IGV2ZW4gaWYgb25seSBEUk0gaXMgc3Vw
+cG9ydGVkLiBQbHVzIHRoZSBvdGhlciBjb25zb2xlcy4NCg0KSSdtIG5vdCBzdXJlIHdoYXQg
+ZHJpdmVycy9hdXhkaXNwbGF5IGlzLCBpdCBtaWdodCBmaXQgaGVyZSBhcyB3ZWxsLg0KDQpJ
+dCB3b3VsZCBiZSBuaWNlIHRvIHJldGhpbmsgdGhlIG92ZXJhbGwgbWVudS4NCg0KQmVzdCBy
+ZWdhcmRzDQpUaG9tYXMNCg0KPiArDQo+ICsJICBJZiB5b3Ugc2F5IFkgaGVyZSwgeW91IG5l
+ZWQgdG8gc2VsZWN0IHRoZSBtb2R1bGUgdGhhdCdzIHJpZ2h0IGZvcg0KPiArCSAgeW91ciBn
+cmFwaGljcyBjYXJkIGZyb20gdGhlIGxpc3QgYmVsb3cuIFRoZXNlIG1vZHVsZXMgcHJvdmlk
+ZSBzdXBwb3J0DQo+ICsJICBmb3Igc3luY2hyb25pemF0aW9uLCBzZWN1cml0eSwgYW5kIERN
+QSB0cmFuc2ZlcnMuDQo+ICsNCj4gKwkgIFBsZWFzZSBzZWUgPGh0dHBzOi8vd3d3Lmtlcm5l
+bC5vcmcvZG9jL2h0bWwvbGF0ZXN0L2dwdS9pbmRleC5odG1sPg0KPiArCSAgZm9yIG1vcmUg
+ZGV0YWlscyBhYm91dCB0aGUgTGludXggRFJNIGFuZCBLTVMgc3Vic3lzdGVtcy4NCj4gICAN
+Cj4gICBjb25maWcgRFJNX01JUElfREJJDQo+ICAgCXRyaXN0YXRlDQoNCi0tIA0KVGhvbWFz
+IFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUg
+U29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVy
+bmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1j
+RG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
 
-Hi,
+--------------NdeW7CQxhq1Ohtu7DgDZeWcS--
 
-Michel does have a point. It's not just games and display servers that
-use GPU, but productivity tools as well. They may have periodic
-autosave in anticipation of crashes, but being able to do the final
-save before quitting would be nice. UMD killing the process would be
-new behaviour, right? Previously either application's GPU thread hangs
-or various API calls return errors, but it didn't kill the process, did
-it?
-
-If an application freezes, that's "no problem"; the end user can just
-continue using everything else. Alt-tab away etc. if the app was
-fullscreen. I do that already with games on even Xorg.
-
-If a display server freezes, that's a desktop-wide problem, but so is
-killing it.
-
-OTOH, if UMD really does need to terminate the process, then please do
-it in a way that causes a crash report to be recorded. _exit() with an
-error code is not it.
-
-
-Thanks,
-pq
-
---Sig_/C4YI/5tzC5DMxCBTI_3NuKt
-Content-Type: application/pgp-signature
+--------------lTiTWmh0EnGrt3bdrR0y3V3M
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmSii60ACgkQI1/ltBGq
-qqckqQ/7BrK4wgscUoPj6/oNTGTEMmR3qF02TonW2w2/6I3KEJbAMLEJK0m/k4yk
-XjyAi66YlQNEWpyLl+pNKLKGmsVkiBmPf23Y/16X0WeEQcpFkZb07NJ+uh7TOLx5
-LokNIV+wsQMv1udl+Z/f/iRsCR6UFyJwVa+BvX2eIGPfjfn4bgNuvEIbSyEWk0sd
-aPQV2c7gAAk+tTcfO9utVNWM04tFWfrqjCqvfj5vjj5B6on74Fzz4+gAlLm8XKfP
-zDtedNCPepl7s2phZwKf1OsHa7QTTtvZHqTh3pPYbtxNbSe9oVtGbog6rRo4JfRA
-ZqibRvEGrybLMMSqapQTGkTtYMBgr5wdLL4ZbweslAawlnIpW85krFJZgCji6z3z
-Y7X8ICSDNbFlIlPETgci4lADVrgMa+BmtvQE6ecY8IWuAbsvWNBYCmYloLiikjmG
-XwK9ZGujrWjJOZ6LGYGEPxHNHxrDY5so4w6vfs62iP0OJgqoAeQhrbxBUXuYBUOS
-ZhntMMtWXfdB2M8WsVuJuKixpDBol9IDPM+m83tfV20/iwzBpKhJ5eh+CEHN9THk
-DA+0I4XPTDl45hzoOneDMP1BvJePXTKvTb6V3jwK7KGrUhaEV4N/C/33LaJXUwZp
-KUQD3KOHMn6+P9rAG1UdqscSxfQpwl857PVqHg5EpMlkZ1sIzrw=
-=n6NT
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSilzUFAwAAAAAACgkQlh/E3EQov+C+
+QRAApma/XWmHjEFI8+4C4tvo8HpiFXcxdIIPr6CqBasAShmA8ZV5N33nKfb1XVhC/Tj4lpwbFgDD
+jKQiAId5vfP9ubxldcyXz6Yo/uhO5MkO+RSsU45uY0F2+mRZ3O+Vui8oOUwlKK2NEoMZ4nNxzNbO
+BI4fQVihJWS8ZCbrATzrhBGqQPCHf+OtpAGBkcXLQPUVLhJSX2cBIqTU7qzWliHLAPoyXqkWsviI
+MTUuTp6RIIrA/aVfAm9PVIeBOISUWlqKXFJdo1BYr9a6R2EH9N+SPqBqp0Ds9jmuMU559C5igTv4
+ZtH3gAQ6praOh7KhSJydYa3cOyYkYiM7K2TMqF4sbhYqh1L72b2mFYR1DJPlUQ5wouQ4JoK3VQng
+f/ZND0HVjJHR5i9ZZFMxdwfaQQP7lNkThYOLWPoh42lpzA5f4u51Nr9ueEcr5AhLCR/z2Zf4IKAw
+WXiOXCX8u8Vh667ok0CwtYzTsZJQlQS20VmUTT166JGMKmgJfkYxBzetbePs83jgyUBM3KnXRNiU
+Q/obLlnzupTKHAscPMRaMcwbz7pKAvBlfF5T1lTQDnzcCqS5dQere/oushlZxVXk3o+R9fx/Kvc5
+lFMb+iY5/lK6SgV8cfRYv6bHJL5Unc5DpeIQ76toBCkP+9bD9Dy11MmcCPeFs1gQ/1mJpY1qRc4R
+E3c=
+=8ejt
 -----END PGP SIGNATURE-----
 
---Sig_/C4YI/5tzC5DMxCBTI_3NuKt--
+--------------lTiTWmh0EnGrt3bdrR0y3V3M--
