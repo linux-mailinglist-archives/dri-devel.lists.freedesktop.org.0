@@ -1,48 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ACCB745C52
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jul 2023 14:36:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D05AF745D02
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jul 2023 15:22:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AECD410E216;
-	Mon,  3 Jul 2023 12:36:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DE2E891C0;
+	Mon,  3 Jul 2023 13:22:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D17E10E216;
- Mon,  3 Jul 2023 12:36:06 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 8716260C99;
- Mon,  3 Jul 2023 12:36:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51115C433D9;
- Mon,  3 Jul 2023 12:36:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1688387765;
- bh=8pRVnz7l/AWZY8R6a2pMc6+C9qMNZAMoJ59TR8NJIO0=;
- h=From:To:Cc:Subject:Date:From;
- b=DZLcDDKvSxSTlWD4URjmpKjyoA7HRwAyBFPaqyTHxpjhmm3nUChEjL5c73BbXSp33
- QWU+n/0gPMEpL9fceFAujDyjMffuS1hzoQJsVI6j6ImASFy8SO0oSGq69uotxEhMCw
- ag4fpWtODUz+PLLJX+iZRIdjp0lph64ubJnFcNprRVbBcpQVLXrecePaqIlJmUPnfw
- kphGwx6UiNShSXEIjGtmuqJE45gnBCUlonNvSferCdcIOvHM3jSvheiwJ5nO8/WP9L
- OPC5FB3WoWvY9d4MpwPSA9qKv9YqPYDl5D7+yuF+9GeX9Alj0lZw2kAr/lF6dyPc2S
- S0J5j13mbhkmQ==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/amdgpu: avoid integer overflow warning in
- amdgpu_device_resize_fb_bar()
-Date: Mon,  3 Jul 2023 14:35:49 +0200
-Message-Id: <20230703123557.3355657-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B27C1890BE
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jul 2023 13:21:57 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id
+ 38308e7fff4ca-2b6994a8ce3so65304721fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Jul 2023 06:21:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1688390515; x=1690982515;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=tinG0/XqkHHzI3FCP2o6G+zrStuwejYrOQFggB4/KKI=;
+ b=Akv376SiheqT7/HD212s99wJLv9JXMTr9kmlGBpWnI4y8zKrM2IHTYMQIj3nB2iNhK
+ VBSi/XV1bivCL1R1B9yFgxz2ShMDnaySOMEIwphtfvcBnY/hbhodRtGxpErpQgytv9kh
+ lqs/Lc1VGxRR/s/Tr8nnNsoiPfpP4v88P++WA955l79d2vhnLm2tGUofBe7uGlntf/Ul
+ xzyk42q7Uk/yLiUKZGwgCzOJFOINeaMdCbqOJC1lhohTZ8vfoRHmDUMez/ZiHxBzEYjQ
+ 6Yrd0JyCXg2SB/6bLJKa/iAWUtVxf9qr4QDktVY15KbKymPXL6cN15pJ1/aKDmthWE1r
+ HI1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688390515; x=1690982515;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=tinG0/XqkHHzI3FCP2o6G+zrStuwejYrOQFggB4/KKI=;
+ b=MJK7tY/PtUjdyg7uUA/K5yNgvHikdqxHky72YFCf++bHydiu5WO6DsLx+i3xdJOJ7E
+ vERbtTzZtPMmKABdWg/kmtPPZmhSfHLl1+h6UA6GOO/n/xKOUZI0Yay01t0Tf6OCHY5w
+ 0+XiVuK96EiTlOOIH4C9iZ937PImcmDPVJjp874/PaiSJXBIrS6Zj3Onfzj1da7lFDax
+ e33QCr9g2Z9YOPzGJQG+gjSHY/JcwR01affZ8NdEVv8gwcC5pOhbosZ2CcAQ4P9g+n6a
+ QuR0anPWHcrYv4mrXl1B0bj1IPb3GLEBuAOopfe4PX1T+qVNxmRYiY+ikUWxG8T5BR4L
+ 5iwQ==
+X-Gm-Message-State: ABy/qLZgYGcRLIcGpFyuggU5m1SMGKkvcnYzlZcnPo8GrRhQD47gI/pm
+ hpYXdrwBVYzqAkqH12r1XQFibw==
+X-Google-Smtp-Source: APBJJlHyfemJUeV2FAvERXLUeaCPUSlvq4XuIXhD6FBKsVkUD/9X+Reh8IAmeeY48HFE1sybjSdCQA==
+X-Received: by 2002:a2e:90c7:0:b0:2b6:cf5e:5da0 with SMTP id
+ o7-20020a2e90c7000000b002b6cf5e5da0mr5791563ljg.40.1688390515464; 
+ Mon, 03 Jul 2023 06:21:55 -0700 (PDT)
+Received: from [127.0.1.1] ([85.235.12.238]) by smtp.gmail.com with ESMTPSA id
+ u10-20020a2e9f0a000000b002b6b7a98c4bsm3535238ljk.77.2023.07.03.06.21.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Jul 2023 06:21:54 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH v3 0/4] Fix up the boe-tv101wum-nl6 panel driver
+Date: Mon, 03 Jul 2023 15:21:48 +0200
+Message-Id: <20230703-fix-boe-tv101wum-nl6-v3-0-bd6e9432c755@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGzLomQC/42NzQ6CMBAGX4X07Jq2lB89+R7GwxYWaAKtabFqC
+ O9u4eZJj7Obb2ZhgbyhwM7ZwjxFE4yzCfJDxpoBbU9g2sRMcpnzUhTQmRdoRzBHwcXzMYEdSyg
+ R8w61lFoplqYaA4H2aJthG08YZvLb4+4pCfbe9ZZ4MGF2/r3no9iuP0pRAIcam7yqFS86XV1GY
+ 9G7o/M924xR/mORyaKKqq2oIVWc+JdlXdcP7DD+LBgBAAA=
+To: Ruihai Zhou <zhouruihai@huaqin.corp-partner.google.com>, 
+ Stephen Boyd <swboyd@chromium.org>, 
+ Douglas Anderson <dianders@chromium.org>, 
+ Cong Yang <yangcong5@huaqin.corp-partner.google.com>, 
+ Jitao Shi <jitao.shi@mediatek.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+X-Mailer: b4 0.12.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,48 +80,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org,
- Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
- Arnd Bergmann <arnd@arndb.de>, Bokun Zhang <Bokun.Zhang@amd.com>,
- dri-devel@lists.freedesktop.org, Lijo Lazar <lijo.lazar@amd.com>,
- linux-kernel@vger.kernel.org, Shiwu Zhang <shiwu.zhang@amd.com>,
- Le Ma <le.ma@amd.com>, YiPeng Chai <YiPeng.Chai@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+This is two patches fixing things I would normally complain about
+in reviews, but alas I missed this one, so I go in and fix it up
+myself.
 
-On 32-bit architectures comparing a resource against a value larger than
-U32_MAX can cause a warning:
+Discovering that a completely unrelated driver has been merged
+into this panel driver I had to bite the bullet and break it out.
+I am pretty suspicious of the other recently added panel as well.
 
-drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:1344:18: error: result of comparison of constant 4294967296 with expression of type 'resource_size_t' (aka 'unsigned int') is always false [-Werror,-Wtautological-constant-out-of-range-compare]
-                    res->start > 0x100000000ull)
-                    ~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
+I am surprised that contributors from manufacturers do not seem
+to have datasheets for the display controllers embedded in the
+panels of their products. Can you take a second look?
 
-The compiler is right that this cannot happen in this configuration, which
-is ok, so just add a cast to shut up the warning.
-
-Fixes: 31b8adab3247e ("drm/amdgpu: require a root bus window above 4GB for BAR resize")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v3:
+- Rebase on drm-misc-next
+- Convert the two newly added Starry panels as well.
+- Break out the obvious ILI9882t-based panel into its own driver.
+- Link to v2: https://lore.kernel.org/r/20230615-fix-boe-tv101wum-nl6-v2-0-457d7ece4590@linaro.org
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 7f069e1731fee..abd13942aac5d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -1341,7 +1341,7 @@ int amdgpu_device_resize_fb_bar(struct amdgpu_device *adev)
- 
- 	pci_bus_for_each_resource(root, res, i) {
- 		if (res && res->flags & (IORESOURCE_MEM | IORESOURCE_MEM_64) &&
--		    res->start > 0x100000000ull)
-+		    (u64)res->start > 0x100000000ull)
- 			break;
- 	}
- 
+Changes in v2:
+- Fix a missed static keyword
+- Link to v1: https://lore.kernel.org/r/20230615-fix-boe-tv101wum-nl6-v1-0-8ac378405fb7@linaro.org
+
+---
+Linus Walleij (4):
+      drm/panel: boe-tv101wum-nl6: Drop macros and open code sequences
+      drm/panel: boe-tv101wum-nl6: Drop surplus prepare tracking
+      drm/panel: ili9882t: Break out as separate driver
+      drm/panel: ili9882t: Break out function for switching page
+
+ drivers/gpu/drm/panel/Kconfig                  |    9 +
+ drivers/gpu/drm/panel/Makefile                 |    1 +
+ drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 3037 ++++++++++--------------
+ drivers/gpu/drm/panel/panel-ilitek-ili9882t.c  |  759 ++++++
+ 4 files changed, 2067 insertions(+), 1739 deletions(-)
+---
+base-commit: 14806c6415820b1c4bc317655c40784d050a2edb
+change-id: 20230615-fix-boe-tv101wum-nl6-6aa3fab22b44
+
+Best regards,
 -- 
-2.39.2
+Linus Walleij <linus.walleij@linaro.org>
 
