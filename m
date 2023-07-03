@@ -1,40 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14896746513
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jul 2023 23:47:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22285746528
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jul 2023 23:53:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4767F10E23A;
-	Mon,  3 Jul 2023 21:47:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7474310E23C;
+	Mon,  3 Jul 2023 21:53:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42CA610E23A
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jul 2023 21:47:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1688420849;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZIBH0iqPa4JrF/ybKqeSFFr0n/xkJ271cTM5K0p5/cQ=;
- b=yjzkFAfybAOqo8D0wjdvvR35hNMpwMN104L2Nj+j98H/tBAVpfcZl9/0Vzqp0pXcBoiKaN
- kVE8T07f35X6Q0nN7OqKsjFwTXb6SB4qtZ0zr8S7r2y8wU+tZbWeFui3Rh4F6ISab4jdgI
- 99wBXtCm30nD5B93k3jAWghuPQWeQ3o=
-From: Paul Cercueil <paul@crapouillou.net>
-To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH 3/3] ARM: dts: exynos/i9100: Fix LCD screen's physical size
-Date: Mon,  3 Jul 2023 23:47:15 +0200
-Message-Id: <20230703214715.623447-4-paul@crapouillou.net>
-In-Reply-To: <20230703214715.623447-1-paul@crapouillou.net>
-References: <20230703214715.623447-1-paul@crapouillou.net>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD8F610E23C;
+ Mon,  3 Jul 2023 21:53:26 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 363Lfj3i027697; Mon, 3 Jul 2023 21:53:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=SAZsEmZ8rN57kKxRFzuww54mKK+MtKHrzhF4Y8lF/+E=;
+ b=P7b3mAAyPcpn/FjlxO2eSdyLZk30AqMJ+BBg05ytmBu2x0n1kOWIy+XXsfK9GZFcACz8
+ yLK+89DlIO+ZZsEqe5gqxSre+xTKpXX2WgMcdM50ryX8eDQdPauzXG6d/k1xcT23nG6m
+ u6k45c8YPXfIcSt8asnVLeNv0KseYT079LnqmA8wXDxKv8V82Sk9vatcCRjNO1pIp+CM
+ t56MXuugWX8ksYbTWHf/N0w4OcSAluRRGpA5EluIsBnIX26cbaN9HKbEZCigJrPOgthM
+ fMK8AWBg18oFL0yErVCaPLxKa0Lfeo8RdZ0BmPKa03VFGChBoIQbDE1lGBs8PsbHJcMy Zw== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rkw8s16ur-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 03 Jul 2023 21:53:21 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 363LrKJZ005749
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 3 Jul 2023 21:53:20 GMT
+Received: from [10.110.19.132] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.7; Mon, 3 Jul 2023
+ 14:53:19 -0700
+Message-ID: <e7effc38-7621-1eaf-cdd1-674064ef4d98@quicinc.com>
+Date: Mon, 3 Jul 2023 14:53:19 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam: Yes
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 3/8] drm/msm/dpu: drop
+ dpu_core_perf_params::max_per_pipe_ib
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20230620000846.946925-1-dmitry.baryshkov@linaro.org>
+ <20230620000846.946925-4-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230620000846.946925-4-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: KkfISdTsaP9VSkdtkGsnNz5oA7-g6v2Z
+X-Proofpoint-GUID: KkfISdTsaP9VSkdtkGsnNz5oA7-g6v2Z
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-03_15,2023-06-30_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 phishscore=0
+ malwarescore=0 spamscore=0 priorityscore=1501 mlxscore=0 suspectscore=0
+ clxscore=1015 bulkscore=0 lowpriorityscore=0 mlxlogscore=866
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2307030200
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,39 +85,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Paul Cercueil <paul@crapouillou.net>, stable@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The previous values were completely bogus, and resulted in the computed
-DPI ratio being much lower than reality, causing applications and UIs to
-misbehave.
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-Fixes: 8620cc2f99b7 ("ARM: dts: exynos: Add devicetree file for the Galaxy S2")
-Cc: <stable@vger.kernel.org> # v5.8+
----
- arch/arm/boot/dts/exynos4210-i9100.dts | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm/boot/dts/exynos4210-i9100.dts b/arch/arm/boot/dts/exynos4210-i9100.dts
-index 37cd4dde53e4..a9ec1f6c1dea 100644
---- a/arch/arm/boot/dts/exynos4210-i9100.dts
-+++ b/arch/arm/boot/dts/exynos4210-i9100.dts
-@@ -207,8 +207,8 @@ lcd@0 {
- 			power-on-delay = <10>;
- 			reset-delay = <10>;
- 
--			panel-width-mm = <90>;
--			panel-height-mm = <154>;
-+			panel-width-mm = <56>;
-+			panel-height-mm = <93>;
- 
- 			display-timings {
- 				timing {
--- 
-2.40.1
+On 6/19/2023 5:08 PM, Dmitry Baryshkov wrote:
+> The max_per_pipe_ib is a constant across all CRTCs and is read from the
+> catalog. Drop corresponding calculations and read the value directly at
+> icc_set_bw() time.
+> 
+> Suggested-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
 
+This will need to be dropped as well as we cannot use patch 2 of this 
+series. Because with the perf mode, this can be tweaked.
