@@ -2,68 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D097F747579
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 17:41:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CED97475EA
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 18:01:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DA6310E12A;
-	Tue,  4 Jul 2023 15:40:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D6B310E2E3;
+	Tue,  4 Jul 2023 16:01:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D31D10E12A
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 15:40:55 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id
- 5b1f17b1804b1-3fbc0981755so65122795e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jul 2023 08:40:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688485253; x=1691077253;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=dETgL6aN2zUTbUFg9iSwg8ejNwrd0bWe6o9LAE1dT5I=;
- b=J2qE6//r39TaBSH1KbiE1TIqH0WGur8hFgV+NsAXGceRzRytpyUoQEnWPq7O7iM2i5
- XCezzp9pWxTI2EvHkCTGwaTg6AidfN9Ig54m2M/KUNFSzOt2APlJ0CVFyfSiKC5uQBIY
- O2Hr95lpg8ZWt7ErOZLe34Zt59EpDyCP3Bl+4xYBjNw3bc2mGqRA5PaGI1HhQYIez9Ql
- wU2QA2cRvxKlc5I5mvPOTJpnKIxmAS6uLZ8P7RRULyNpRlaCQ8CqRsewlDFn1DwutleX
- PCqgvF97jifPV6zaDvZFDRdKy7eAJLlNCcSOnNoy/t4bvplC9uVR7eYtjF7l+dFgTJpX
- gHcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688485253; x=1691077253;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dETgL6aN2zUTbUFg9iSwg8ejNwrd0bWe6o9LAE1dT5I=;
- b=JMc+5JfvK5YDJZr4K/lvna+VgW/V0qEVjH6G/7tA1LaRtPrOsdAVq6VKkWYQinWq6D
- 3zOaheRIsI4lZZy2ynvN9qfJNcgwDtHPiqb/QaWbEP0zfOcSMUUBsT+knaiC8R67Lq98
- 7AU+lmrz2doAy50mZxk2HMhNnIkz6011zcFm+dx1ry1t4ro9JetoCVM/nNU6fEH6zRK8
- IcCPBTB5UkkOKZCFEu/JAQuYKKE7Dmx4vJ1JrIl9gLGW37UYInMMQy/mjEDEPK7qBKx2
- fiXv3bFHkDpkpz2VGL3LkcD5wCta+nbqV4xp8vPTUTftmhU540O8hd45oh3ngvZwMeo1
- aLOg==
-X-Gm-Message-State: AC+VfDw0sr6sNbWhb9j+XawJbxVnimy75zxY1Z++bi4fPTwyIc+44J7q
- jfzhWQVm+bZw/F6M2aWcfNuAErlEYrqJ7SmAKCmJ4Q==
-X-Google-Smtp-Source: ACHHUZ5/+GjNc3y08OaN0unpphSTEbHVkt9PK6i+z80YL2bJvVkOutHzeXGXyxPs5woWSj5oQdQKug==
-X-Received: by 2002:a1c:7c05:0:b0:3f6:2ae:230e with SMTP id
- x5-20020a1c7c05000000b003f602ae230emr11643583wmc.3.1688485253234; 
- Tue, 04 Jul 2023 08:40:53 -0700 (PDT)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
- by smtp.gmail.com with ESMTPSA id
- f10-20020a7bcd0a000000b003fa99969e61sm24767384wmj.45.2023.07.04.08.40.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jul 2023 08:40:52 -0700 (PDT)
-Date: Tue, 4 Jul 2023 16:40:51 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: =?iso-8859-1?Q?M=E5ns_Rullg=E5rd?= <mans@mansr.com>
-Subject: Re: [PATCH] backlight: led_bl: fix initial power state
-Message-ID: <20230704154051.GC385243@aspen.lan>
-References: <20230704140750.25799-1-mans@mansr.com>
- <20230704150310.GA385243@aspen.lan> <yw1xo7krzo9k.fsf@mansr.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 106F310E2E1
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 16:01:36 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 308C21FDCD;
+ Tue,  4 Jul 2023 16:01:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1688486495; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=q3o6HH10epfUBbyVpQ2BjTaq6/Z7q4pOKDMZHDJhhrk=;
+ b=W3dCjljN3niN6goKeJiHVZjW6m+M0xhxyiv3x7nxsgQvkvWZ2KJd0H2o7qU4eNv9Qt2yIK
+ x+KkxD9UE4m01BU5HHI/AXflTlw40YSrrZXn/3AR0nhrODhm624un8ct/w134s8MFG3pFc
+ W9TDrEwYKwYiBvfGun19kVFo9CHanuc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1688486495;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=q3o6HH10epfUBbyVpQ2BjTaq6/Z7q4pOKDMZHDJhhrk=;
+ b=rCPwnYlgRA+jYT0G3ht5V7WgaqmVR4hIt5yTlLtWfDk0ZMptYxxMUJ4V5yf00bI19BBpBD
+ 77x/kr/CkBPjwdAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EE42B133F7;
+ Tue,  4 Jul 2023 16:01:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id LMYvOV5CpGTzLwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 04 Jul 2023 16:01:34 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org
+Subject: [PATCH 00/10] drm: Improve fbdev emulation for DMA-able framebuffers
+Date: Tue,  4 Jul 2023 17:49:57 +0200
+Message-ID: <20230704160133.20261-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <yw1xo7krzo9k.fsf@mansr.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,68 +61,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 04, 2023 at 04:31:51PM +0100, Måns Rullgård wrote:
-> Daniel Thompson <daniel.thompson@linaro.org> writes:
->
-> > On Tue, Jul 04, 2023 at 03:07:50PM +0100, Mans Rullgard wrote:
-> >> The condition for the initial power state based on the default
-> >> brightness value is reversed.  Fix it.
-> >>
-> >> Fixes: ae232e45acf9 ("backlight: add led-backlight driver")
-> >> Signed-off-by: Mans Rullgard <mans@mansr.com>
-> >> ---
-> >>  drivers/video/backlight/led_bl.c | 4 ++--
-> >>  1 file changed, 2 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/drivers/video/backlight/led_bl.c b/drivers/video/backlight/led_bl.c
-> >> index 3259292fda76..28e83618a296 100644
-> >> --- a/drivers/video/backlight/led_bl.c
-> >> +++ b/drivers/video/backlight/led_bl.c
-> >> @@ -200,8 +200,8 @@ static int led_bl_probe(struct platform_device *pdev)
-> >>  	props.type = BACKLIGHT_RAW;
-> >>  	props.max_brightness = priv->max_brightness;
-> >>  	props.brightness = priv->default_brightness;
-> >> -	props.power = (priv->default_brightness > 0) ? FB_BLANK_POWERDOWN :
-> >> -		      FB_BLANK_UNBLANK;
-> >> +	props.power = (priv->default_brightness > 0) ? FB_BLANK_UNBLANK :
-> >> +		      FB_BLANK_POWERDOWN;
-> >
-> > The logic was wrong before but I think will still be wrong after the
-> > change too (e.g. the bogus logic is probably avoiding backlight flicker
-> > in some use cases).
-> >
-> > The logic here needs to be similar to what pwm_bl.c implements in
-> > pwm_backlight_initial_power_state(). Whilst it might be better
-> > to implement this in led_bl_get_leds() let me show what I mean
-> > in code that fits in the current line:
-> >
-> > 	/*
-> > 	 * Activate the backlight if the LEDs are already lit *or*
-> > 	 * there is no phandle link (meaning the backlight power
-> > 	 * state cannot be synced with the display state).
-> > 	 */
-> > 	props.power = (active_at_boot || !dev->node->phandle) ?
-> > 			FB_BLANK_UNBLANK : FB_BLANK_POWERDOWN;
-> >
-> > Note that active_at_boot is not the same as (priv->default_brightness > 0)
-> > since the value read by led_bl_get_leds() can be clobbered when we
-> > parse the properties.
->
-> Am I understanding correctly that the code should be using the
-> default_brightness value as set by led_bl_get_leds() to determine the
-> initial power state, not whatever default value the devicetree provides?
+Add fbdev helpers for framebuffers in DMA-able memory and update
+fbdev emulation in the respective DRM drivers. DMA memory used to
+handled as system memory. Improve this and prepare for possible
+future changes.
 
-Yes.
+Patch 1 adds initializer macros for struct fb_ops and a Kconfig
+token for framebuffers in DMA memory.
 
-The devicetree allows us to specify a default brightness but the DT
-value cannot not be used to decide if the backlight has already been
-lit up.
+Patches 2 to 4 update fbdev-dma and tegra. No functional changes
+are expected as both used system memory before.
 
+Patches 5 and 6 update exynos to use DMA helpers. Exynos incorrectly
+used fbdev's I/O-memory helpers. Fix this.
 
-Daniel.
+Patches 7 to 9 update omapdrm to use DMA helpers. Patch 7 first
+reworks the driver's mmap to current best practices. This also makes
+it suitable for use with fbdev, which patches 8 and 9 implement.
+
+Patch 10 removes some fbdev macros for system memory that are now
+unused.
+
+The patchset would ideally go through drm-misc-next. Future patches
+can build upon it and update fbdev drivers in similar ways.
+
+Thomas Zimmermann (10):
+  fbdev: Add fb_ops init macros for framebuffers in DMA-able memory
+  drm/fbdev-dma: Use fbdev DMA helpers
+  drm/tegra: Use fbdev DMA helpers
+  drm/tegra: Set fbdev flags
+  drm/exynos: Use fbdev DMA helpers
+  drm/exynos: Set fbdev flags
+  drm/omapdrm: Set VM flags in GEM-object mmap function
+  drm/omapdrm: Use GEM mmap for fbdev emulation
+  drm/omapdrm: Set fbdev flags
+  fbdev: Remove FB_DEFAULT_SYS_OPS
+
+ drivers/gpu/drm/Kconfig                   |  2 +-
+ drivers/gpu/drm/drm_fbdev_dma.c           |  4 ++--
+ drivers/gpu/drm/exynos/Kconfig            |  2 +-
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c |  6 ++++--
+ drivers/gpu/drm/omapdrm/Kconfig           |  2 +-
+ drivers/gpu/drm/omapdrm/omap_drv.c        | 12 +-----------
+ drivers/gpu/drm/omapdrm/omap_fbdev.c      | 17 ++++++++++++++--
+ drivers/gpu/drm/omapdrm/omap_gem.c        | 24 ++++++-----------------
+ drivers/gpu/drm/omapdrm/omap_gem.h        |  3 ---
+ drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c |  7 +------
+ drivers/gpu/drm/tegra/Kconfig             |  2 +-
+ drivers/gpu/drm/tegra/fbdev.c             |  7 +++++--
+ drivers/video/fbdev/Kconfig               |  8 ++++++++
+ include/linux/fb.h                        | 17 ++++++++++------
+ 14 files changed, 57 insertions(+), 56 deletions(-)
+
+-- 
+2.41.0
+
