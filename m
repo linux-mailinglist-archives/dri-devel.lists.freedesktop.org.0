@@ -1,72 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FB02746ABC
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 09:36:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E9F7746AC5
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 09:37:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1B8210E29E;
-	Tue,  4 Jul 2023 07:35:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E052F10E002;
+	Tue,  4 Jul 2023 07:37:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10EAA10E002
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 07:35:54 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id
- a640c23a62f3a-9926623e367so607391266b.0
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jul 2023 00:35:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688456153; x=1691048153;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=JgkFjDmJN4L2mqgKB/0BaH17v6L6ydu/UCB0MlAoBco=;
- b=XbB2CLRM6WmaMSTNEHIOJpeVYs4bCWJglJGn6V25auCeVm/GMm7BQ+zHJDDIuAoUoP
- EtBS1J62jz6pz3PEc4w8Lkw+tnRAHpF0Wvw7+Be3x1jMgWZ70up0ou0i5WzRYhYGr0+L
- kykn+LoNoRGk1ijBZrBNq+i5xKOKgJszEmyWgxNDtYImT/SKoDvlNqExo+495CilRhLK
- +Ok/X/pxJPZyh6NpNaJ/Pv0zbri5fyNQlF/p1vRhlNnOoaBoXOAvrxZR/uyWDBI4aCoa
- VwKX1lqhkIQONhRSle5dM4ROKmMoAyl8eOFZU79d0QTmF8Q2a/aWhCwZviVvmKtIViQ7
- G+rA==
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
+ [209.85.128.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8FE510E002
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 07:37:23 +0000 (UTC)
+Received: by mail-yw1-f170.google.com with SMTP id
+ 00721157ae682-57012b2973eso66013107b3.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Jul 2023 00:37:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688456153; x=1691048153;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JgkFjDmJN4L2mqgKB/0BaH17v6L6ydu/UCB0MlAoBco=;
- b=N5+qxESCaOvt/qOslwResYDbeLQdskL3/D91uYqBttPf5PQ574+3B2s8itbDKShSMw
- BxNEUp16aWiaOvlQx2WvvO5U0mEztpxhaXE63RCAfo9EOVDQ12Lze/OcjUFPW9dYyzc6
- Ra/TXTFuVb6iEQpTKH2YytdD6FpIgPgzQqDHUR6+njwgq8tr7smT2VhtaM50/LrpV6tT
- jsfMbiH5BT2OVsTXz54ICbGgh3Yy+kNAk73kK/wGZ9u8F/uD8/zAmKPXnlDvY5Q0AHFI
- N5uKXTyBLxjf6HDy8fBKQ67B51U2eV+F16G+8+XJvg7iNeJS/oA0X6mLrNKrdNkbSXA3
- uo0Q==
-X-Gm-Message-State: ABy/qLYiPjNkUCMi6YJ49PDixPMbxHrprD+gfUPp+3d3nlm6pQNHocIk
- ikzJT72qg+zxqYcB6DD81Nozwg==
-X-Google-Smtp-Source: APBJJlF8KCRzGhgGld7oGDnmBvSCdNcyLsFRT7uwR9ICZAIjQ65DHVppLpZmPi1mo/hvSiAXP/RX5Q==
-X-Received: by 2002:a17:906:ae51:b0:966:471c:2565 with SMTP id
- lf17-20020a170906ae5100b00966471c2565mr8331205ejb.48.1688456152720; 
- Tue, 04 Jul 2023 00:35:52 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
- by smtp.gmail.com with ESMTPSA id
- x26-20020a1709065ada00b00992025654c1sm9721649ejs.179.2023.07.04.00.35.51
+ d=1e100.net; s=20221208; t=1688456242; x=1691048242;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ttaFFJ0r0f9jhzySfvd5lZ1LEwbKcvVHje2Xigt05e4=;
+ b=iN2a5gmWqJ3utEhPcl1onVwrOy8TaNvidc0YnGflxe8paJm3/OoKMV8MFelh6Zk17c
+ VnnPmWREU5lqEPzTseZ9YhSqNsKpIsf6rzkd0y27jLJVGdSk39kahd7+MEfxnIOuOlJi
+ /6M9/lSBTKcxdAEBDXuGP+SZi40b8ls9/Qa/r7oByKyCr0K4eNI9xrzgpIUsZijIg9z8
+ LGS/F6InLlb7fMdrqIh3OuItN16KEwyfDnuT5DQnmx1nqiXwpOg7/I7PB2yCceygXFKv
+ wdSzTelplrXh1aV72ZNewxpiN4GWl3zwDLP1hTqLX4n3hJKXZPpP+j7nv85YrqhmZRKi
+ 3jeA==
+X-Gm-Message-State: ABy/qLaYkS3MdTRC+XUa+3+mar/k4In4jJl8VJB6NUShMZt5Bgvu3dqO
+ e0nIRz3SVUZ58fxGoMDgpkg2Lo5ozW3PLg==
+X-Google-Smtp-Source: APBJJlHNiaUD7BFC7fwZqqCKAcga0RJgwfjcA5TWnXKe/5NYkP5tkbGKMgAFoPOawgeZHF6QzofIAw==
+X-Received: by 2002:a81:4f17:0:b0:56c:e2c1:6695 with SMTP id
+ d23-20020a814f17000000b0056ce2c16695mr10913650ywb.50.1688456242086; 
+ Tue, 04 Jul 2023 00:37:22 -0700 (PDT)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com.
+ [209.85.219.171]) by smtp.gmail.com with ESMTPSA id
+ m11-20020a0dca0b000000b0055aafcef659sm5488960ywd.5.2023.07.04.00.37.21
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Jul 2023 00:35:52 -0700 (PDT)
-Message-ID: <88edab79-5f9a-007d-f2e9-d264178fe80b@linaro.org>
-Date: Tue, 4 Jul 2023 09:35:50 +0200
+ Tue, 04 Jul 2023 00:37:21 -0700 (PDT)
+Received: by mail-yb1-f171.google.com with SMTP id
+ 3f1490d57ef6-c2cf29195f8so6083600276.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Jul 2023 00:37:21 -0700 (PDT)
+X-Received: by 2002:a5b:412:0:b0:ba8:7122:2917 with SMTP id
+ m18-20020a5b0412000000b00ba871222917mr12316676ybp.0.1688456241685; Tue, 04
+ Jul 2023 00:37:21 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] drm/exynos: fix a possible null-pointer dereference due
- to data race in exynos_drm_crtc_atomic_disable()
-Content-Language: en-US
-To: Tuo Li <islituo@gmail.com>, inki.dae@samsung.com, sw0312.kim@samsung.com, 
- kyungmin.park@samsung.com, airlied@gmail.com, daniel@ffwll.ch,
- alim.akhtar@samsung.com
-References: <20230630021906.1035115-1-islituo@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230630021906.1035115-1-islituo@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230703230534.997525-1-javierm@redhat.com>
+ <20230703230534.997525-2-javierm@redhat.com>
+In-Reply-To: <20230703230534.997525-2-javierm@redhat.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 4 Jul 2023 09:37:10 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXRg1OUy6UHuH4H+qkK-qO+jTKdVoG_SRM3q_PkyD+Bbw@mail.gmail.com>
+Message-ID: <CAMuHMdXRg1OUy6UHuH4H+qkK-qO+jTKdVoG_SRM3q_PkyD+Bbw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/5] video: Add auxiliary display drivers to Graphics
+ support menu
+To: Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,35 +71,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, BassCheck <bass@buaa.edu.cn>,
+Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ Nipun Gupta <nipun.gupta@amd.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- baijiaju1990@outlook.com, linux-arm-kernel@lists.infradead.org
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Oded Gabbay <ogabbay@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/06/2023 04:19, Tuo Li wrote:
-> The variable crtc->state->event is often protected by the lock 
-> crtc->dev->event_lock when is accessed. However, it is accessed as a 
-> condition of an if statement in exynos_drm_crtc_atomic_disable() without
-> holding the lock:
-> 
->   if (crtc->state->event && !crtc->state->active)
-> 
-> However, if crtc->state->event is changed to NULL by another thread right
-> after the conditions of the if statement is checked to be true, a
-> null-pointer dereference can occur in drm_crtc_send_vblank_event():
-> 
->   e->pipe = pipe;
-> 
-> To fix this possible null-pointer dereference caused by data race, the 
-> spin lock coverage is extended to protect the if statement as well as the 
-> function call to drm_crtc_send_vblank_event().
-> 
-> Reported-by: BassCheck <bass@buaa.edu.cn>
-> Signed-off-by: Tuo Li <islituo@gmail.com>
+Hi Javier,
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Tue, Jul 4, 2023 at 1:05=E2=80=AFAM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+> The drivers in this subsystem are for character-based LCD displays, which
+> can fall into the same category of the DRM/KMS and fbdev drivers that are
+> located under the "Graphics support" menu. Add auxdisplay there as well.
+>
+> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Best regards,
-Krzysztof
+Thanks for your patch!
 
+> --- a/drivers/video/Kconfig
+> +++ b/drivers/video/Kconfig
+> @@ -30,6 +30,8 @@ if HAS_IOMEM
+>  config HAVE_FB_ATMEL
+>         bool
+>
+> +source "drivers/auxdisplay/Kconfig"
+
+This is inside the "if HAS_IOMEM" section, while there was no
+such limitation before.
+
+> +
+>  source "drivers/char/agp/Kconfig"
+>
+>  source "drivers/gpu/vga/Kconfig"
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
