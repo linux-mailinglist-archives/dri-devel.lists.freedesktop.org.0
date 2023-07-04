@@ -2,36 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64078747820
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 20:05:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC71E747825
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 20:05:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B09510E30A;
-	Tue,  4 Jul 2023 18:05:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 427E110E316;
+	Tue,  4 Jul 2023 18:05:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 544 seconds by postgrey-1.36 at gabe;
- Tue, 04 Jul 2023 15:40:59 UTC
-Received: from unicorn.mansr.com (unicorn.mansr.com [81.2.72.234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F36D910E12D
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 15:40:59 +0000 (UTC)
+Received: from unicorn.mansr.com (unicorn.mansr.com [IPv6:2001:8b0:ca0d:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FB5510E2FB
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 16:30:19 +0000 (UTC)
 Received: from raven.mansr.com (raven.mansr.com [81.2.72.235])
- by unicorn.mansr.com (Postfix) with ESMTPS id 0FA9115360;
- Tue,  4 Jul 2023 16:31:52 +0100 (BST)
+ by unicorn.mansr.com (Postfix) with ESMTPS id ACE5315360;
+ Tue,  4 Jul 2023 17:30:16 +0100 (BST)
 Received: by raven.mansr.com (Postfix, from userid 51770)
- id B9EEA219FC1; Tue,  4 Jul 2023 16:31:51 +0100 (BST)
-From: =?iso-8859-1?Q?M=E5ns_Rullg=E5rd?= <mans@mansr.com>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: [PATCH] backlight: led_bl: fix initial power state
-References: <20230704140750.25799-1-mans@mansr.com>
- <20230704150310.GA385243@aspen.lan>
-Date: Tue, 04 Jul 2023 16:31:51 +0100
-In-Reply-To: <20230704150310.GA385243@aspen.lan> (Daniel Thompson's message of
- "Tue, 4 Jul 2023 16:03:10 +0100")
-Message-ID: <yw1xo7krzo9k.fsf@mansr.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ id 9E919219FC1; Tue,  4 Jul 2023 17:30:16 +0100 (BST)
+From: Mans Rullgard <mans@mansr.com>
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>
+Subject: [PATCH v2] backlight: led_bl: fix initial power state
+Date: Tue,  4 Jul 2023 17:19:52 +0100
+Message-ID: <20230704163013.21097-1-mans@mansr.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 04 Jul 2023 18:05:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,62 +39,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Daniel Thompson <daniel.thompson@linaro.org> writes:
+The condition for the initial power state based on the default
+brightness value is reversed.  Fix it.
 
-> On Tue, Jul 04, 2023 at 03:07:50PM +0100, Mans Rullgard wrote:
->> The condition for the initial power state based on the default
->> brightness value is reversed.  Fix it.
->>
->> Fixes: ae232e45acf9 ("backlight: add led-backlight driver")
->> Signed-off-by: Mans Rullgard <mans@mansr.com>
->> ---
->>  drivers/video/backlight/led_bl.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/video/backlight/led_bl.c b/drivers/video/backlight/=
-led_bl.c
->> index 3259292fda76..28e83618a296 100644
->> --- a/drivers/video/backlight/led_bl.c
->> +++ b/drivers/video/backlight/led_bl.c
->> @@ -200,8 +200,8 @@ static int led_bl_probe(struct platform_device *pdev)
->>  	props.type =3D BACKLIGHT_RAW;
->>  	props.max_brightness =3D priv->max_brightness;
->>  	props.brightness =3D priv->default_brightness;
->> -	props.power =3D (priv->default_brightness > 0) ? FB_BLANK_POWERDOWN :
->> -		      FB_BLANK_UNBLANK;
->> +	props.power =3D (priv->default_brightness > 0) ? FB_BLANK_UNBLANK :
->> +		      FB_BLANK_POWERDOWN;
->
-> The logic was wrong before but I think will still be wrong after the
-> change too (e.g. the bogus logic is probably avoiding backlight flicker
-> in some use cases).
->
-> The logic here needs to be similar to what pwm_bl.c implements in
-> pwm_backlight_initial_power_state(). Whilst it might be better
-> to implement this in led_bl_get_leds() let me show what I mean
-> in code that fits in the current line:
->
-> 	/*
-> 	 * Activate the backlight if the LEDs are already lit *or*
-> 	 * there is no phandle link (meaning the backlight power
-> 	 * state cannot be synced with the display state).
-> 	 */
-> 	props.power =3D (active_at_boot || !dev->node->phandle) ?
-> 			FB_BLANK_UNBLANK : FB_BLANK_POWERDOWN;
->
-> Note that active_at_boot is not the same as (priv->default_brightness > 0)
-> since the value read by led_bl_get_leds() can be clobbered when we
-> parse the properties.
+Furthermore, use the actual state of the LEDs rather than the default
+brightness specified in the devicetree as the latter should not cause
+the backlight to be automatically turned on.
 
-Am I understanding correctly that the code should be using the
-default_brightness value as set by led_bl_get_leds() to determine the
-initial power state, not whatever default value the devicetree provides?
+If the backlight device is not linked to any display, set the initial
+power to on unconditionally.
 
---=20
-M=E5ns Rullg=E5rd
+Fixes: ae232e45acf9 ("backlight: add led-backlight driver")
+Signed-off-by: Mans Rullgard <mans@mansr.com>
+---
+Changes in v2:
+- Use the reported LED state to set initial power state
+- Always power on if no phandle in DT
+---
+ drivers/video/backlight/led_bl.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/video/backlight/led_bl.c b/drivers/video/backlight/led_bl.c
+index 3259292fda76..bbf1673b1fb0 100644
+--- a/drivers/video/backlight/led_bl.c
++++ b/drivers/video/backlight/led_bl.c
+@@ -176,6 +176,7 @@ static int led_bl_probe(struct platform_device *pdev)
+ {
+ 	struct backlight_properties props;
+ 	struct led_bl_data *priv;
++	int init_brightness;
+ 	int ret, i;
+ 
+ 	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+@@ -190,6 +191,8 @@ static int led_bl_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
++	init_brightness = priv->default_brightness;
++
+ 	ret = led_bl_parse_levels(&pdev->dev, priv);
+ 	if (ret < 0) {
+ 		dev_err(&pdev->dev, "Failed to parse DT data\n");
+@@ -200,8 +203,8 @@ static int led_bl_probe(struct platform_device *pdev)
+ 	props.type = BACKLIGHT_RAW;
+ 	props.max_brightness = priv->max_brightness;
+ 	props.brightness = priv->default_brightness;
+-	props.power = (priv->default_brightness > 0) ? FB_BLANK_POWERDOWN :
+-		      FB_BLANK_UNBLANK;
++	props.power = (init_brightness || !pdev->dev.of_node->phandle) ?
++		FB_BLANK_UNBLANK : FB_BLANK_POWERDOWN;
+ 	priv->bl_dev = backlight_device_register(dev_name(&pdev->dev),
+ 			&pdev->dev, priv, &led_bl_ops, &props);
+ 	if (IS_ERR(priv->bl_dev)) {
+-- 
+2.41.0
+
