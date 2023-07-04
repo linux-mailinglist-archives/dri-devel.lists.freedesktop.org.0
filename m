@@ -2,58 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C979A747318
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 15:45:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C442574733B
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 15:49:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62F7E10E0F6;
-	Tue,  4 Jul 2023 13:45:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90F0010E13E;
+	Tue,  4 Jul 2023 13:49:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
- [IPv6:2607:f8b0:4864:20::b2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F15C310E0F6
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 13:45:52 +0000 (UTC)
-Received: by mail-yb1-xb2a.google.com with SMTP id
- 3f1490d57ef6-c5ffb6cda23so210495276.0
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jul 2023 06:45:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688478351; x=1691070351;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=4AMLUs9zdYkz13PYZ3sZgfaLBUzB3BRb9jZF/zG6Gy4=;
- b=f//c71F+CiiJ0nQYLNnQXUSbAHrEMuUk0nw1wwalcqczyC4cibu2CBc5Bqq1RtJtEK
- FXsYoEaQ7ltPESn8l7IvqYRBWfzWOkclLdWaPGFVrKHk+5accVNfp1ogMQeHL57mySgK
- 7REX07YJruKKEqpeJ1dFpEAhuIMJL793hsMehXu3dJIkAXpGsq2VMuqxiKntG4+N+dhi
- m1YwWB8Dp0tYJs5Z1Epaw+dcPiE1gnPCw1dfO9E/U1X/Fe4jvfwhFUGRUdFPE5QKYlk+
- j3l5fF84hhm/UUWt+erN34P6+c7IDsRD/GAzIQeE+5mP6ziVCt7nHB6EakqfCgM6laVa
- 8abw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688478351; x=1691070351;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4AMLUs9zdYkz13PYZ3sZgfaLBUzB3BRb9jZF/zG6Gy4=;
- b=AUlzbtfNTLn5H0mZzj+6eZh9n3Yn6bMRkxp9g2mTO9q5T8sa/k7at/jrxrkF+Gxnpz
- S7uxiLLjDFfPhm+u8eZTih0BzAYI4vEXDTKQy0RSbBDZrK7fOtQMp6fgFA4aCGo+tJCd
- kT9tO9pvt2U2DXlkoICPX/Nh8kfGYLqH1YRmH5GUMqFJoW5qigodfT43fQPwQ8mkpHkv
- b7OMHv2XtbC2mf8R4rlY6ir5bRL2Rv+6I6e7ig8jOH5isuI4kHYIpu8CwCSo2x8bZqRb
- 0seQbIx3zBfNGDvr3oOgNkVOKQkf/PF5RuD2YFql+o7U7Yj8lQgzD573eyRkX15p3IK3
- 1Uag==
-X-Gm-Message-State: ABy/qLYwUM1kimTG3NVu8oGsKvzQY1pW2PL1qWrMpfQP4802xEuwq1tG
- Lpsnu2Sd/nPm6h5l3FsKHxLZXtA1vPD+LK00B5PxvQRgwFJJ4vae
-X-Google-Smtp-Source: APBJJlEleHWeClZf2D74mZ0WM0CjCPjrraHn2hhQsLjcjs+MPeKaQJowGKx5dWhdHhQ6pcRJZwraIGBorgd0saV7QNw=
-X-Received: by 2002:a25:c5c3:0:b0:bc1:dfa5:83a4 with SMTP id
- v186-20020a25c5c3000000b00bc1dfa583a4mr11215700ybe.13.1688478351717; Tue, 04
- Jul 2023 06:45:51 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5E9A510E13E
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 13:49:10 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0D65614BF;
+ Tue,  4 Jul 2023 06:49:51 -0700 (PDT)
+Received: from [10.163.47.13] (unknown [10.163.47.13])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 193D03F73F;
+ Tue,  4 Jul 2023 06:49:06 -0700 (PDT)
+Message-ID: <90f386c3-b2bb-b876-80df-c67005e89a66@arm.com>
+Date: Tue, 4 Jul 2023 19:19:04 +0530
 MIME-Version: 1.0
-References: <20230702182308.7583-1-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230702182308.7583-1-krzysztof.kozlowski@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 4 Jul 2023 16:45:40 +0300
-Message-ID: <CAA8EJppVOc0_e_o3CX_U9BvDWFKaz2-0FSZsXt11kDg5SXBn5A@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: cleanup DTS example whitespaces
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] drm/arm/komeda: Remove component framework and add a
+ simple encoder
+Content-Language: en-US
+To: Liviu Dudau <liviu.dudau@arm.com>
+References: <20230621084116.26882-1-faiz.abbas@arm.com>
+ <ZJ1UJaNJese6g2Ia@e110455-lin.cambridge.arm.com>
+From: Mohammad Faiz Abbas Rizvi <faiz.abbas@arm.com>
+In-Reply-To: <ZJ1UJaNJese6g2Ia@e110455-lin.cambridge.arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,55 +45,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- linux-iio@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- coresight@lists.linaro.org, linux-usb@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-mtd@lists.infradead.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Leo Yan <leo.yan@linaro.org>, linux-phy@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-remoteproc@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 2 Jul 2023 at 21:23, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> The DTS code coding style expects spaces around '=' sign.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->
-> ---
->
-> Rob,
->
-> Maybe this could go via your tree? Rebased on your for-next:
-> v6.4-rc2-45-gf0ac35049606
-> ---
->  .../bindings/arm/arm,coresight-cti.yaml        | 18 +++++++++---------
->  .../bindings/arm/keystone/ti,sci.yaml          |  8 ++++----
->  .../devicetree/bindings/display/msm/gmu.yaml   |  2 +-
+Hi Liviu,
 
-Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> #display/msm
+On 6/29/2023 3:21 PM, Liviu Dudau wrote:
+> Hi Faiz,
+>
+> Thanks for the patch and for addressing what was at some moment on my "nice to
+> improve / cleanup" list. Sorry for the delay in responding, I had to revive
+> the bits of an old setup to be able to test this properly, with 2 encoders
+> attached.
+>
+> On Wed, Jun 21, 2023 at 02:11:16PM +0530, Faiz Abbas wrote:
+>> The Komeda driver always expects the remote connector node to initialize
+>> an encoder. It uses the component aggregator framework which consists
+>> of component->bind() calls used to initialize the remote encoder and attach
+>> it to the crtc. This is different from other drm implementations which expect
+>> the display driver to supply a crtc and connect an encoder to it.
+> I think both approaches are valid in DRM. We don't want to remove the component
+> framework because it is doing the wrong thing, but because we cannot use it
+> with drivers that implement the drm_bridge API. Given that we usually pair with
+> a component encoder that also implements a drm_bridge, dropping support for
+> component framework should not affect the users of the driver.
 
->  .../display/panel/samsung,s6e8aa0.yaml         |  2 +-
->  .../display/rockchip/rockchip-vop.yaml         |  4 ++--
->  .../bindings/iio/adc/ti,adc108s102.yaml        |  2 +-
->  .../bindings/media/renesas,rzg2l-cru.yaml      |  4 ++--
->  .../devicetree/bindings/media/renesas,vin.yaml |  4 ++--
->  .../devicetree/bindings/mtd/mtd-physmap.yaml   |  2 +-
->  .../bindings/net/mediatek-dwmac.yaml           |  2 +-
->  .../bindings/perf/amlogic,g12-ddr-pmu.yaml     |  4 ++--
->  .../bindings/phy/mediatek,dsi-phy.yaml         |  2 +-
->  .../remoteproc/amlogic,meson-mx-ao-arc.yaml    |  2 +-
->  .../devicetree/bindings/usb/mediatek,mtu3.yaml |  2 +-
->  .../devicetree/bindings/usb/ti,am62-usb.yaml   |  2 +-
->  15 files changed, 30 insertions(+), 30 deletions(-)
+Sounds good. I will update the commit message to emphasize the bridge API.
 
+>> Remove all component framework calls from the komeda driver and declare and
+>> attach an encoder inside komeda_crtc_add().
+> Unfortunately you haven't removed all component framework calls. The hint for
+> that is that you have not removed the #include <linux/component.h> line from
+> any of the files. Specifically, komeda_kms_attach()/detach() still calls
+> component_unbind_all() which will crash with your patch applied.
 
--- 
-With best wishes
-Dmitry
+Good catch. Will remove that stuff in v2.
+
+>> The remote connector driver has to implement the DRM bridge APIs which
+>> can be used to glue the encoder to the remote connector.
+>>
+>> Signed-off-by: Faiz Abbas <faiz.abbas@arm.com>
+>> ---
+>>  .../gpu/drm/arm/display/komeda/komeda_crtc.c  | 22 +++++++-
+>>  .../gpu/drm/arm/display/komeda/komeda_drv.c   | 56 ++-----------------
+>>  .../gpu/drm/arm/display/komeda/komeda_kms.c   |  4 --
+>>  .../gpu/drm/arm/display/komeda/komeda_kms.h   |  3 +
+>>  4 files changed, 30 insertions(+), 55 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+>> index cea3fd5772b57..144736a69b0ee 100644
+>> --- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+>> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+>> @@ -12,6 +12,8 @@
+>>  #include <drm/drm_atomic_helper.h>
+>>  #include <drm/drm_print.h>
+>>  #include <drm/drm_vblank.h>
+>> +#include <drm/drm_simple_kms_helper.h>
+>> +#include <drm/drm_bridge.h>
+>>  
+>>  #include "komeda_dev.h"
+>>  #include "komeda_kms.h"
+>> @@ -612,9 +614,11 @@ static int komeda_crtc_add(struct komeda_kms_dev *kms,
+>>  			   struct komeda_crtc *kcrtc)
+>>  {
+>>  	struct drm_crtc *crtc = &kcrtc->base;
+>> +	struct drm_device *base = &kms->base;
+>> +	struct drm_bridge *bridge;
+>>  	int err;
+>>  
+>> -	err = drm_crtc_init_with_planes(&kms->base, crtc,
+>> +	err = drm_crtc_init_with_planes(base, crtc,
+>>  					get_crtc_primary(kms, kcrtc), NULL,
+>>  					&komeda_crtc_funcs, NULL);
+>>  	if (err)
+>> @@ -626,6 +630,22 @@ static int komeda_crtc_add(struct komeda_kms_dev *kms,
+>>  
+>>  	drm_crtc_enable_color_mgmt(crtc, 0, true, KOMEDA_COLOR_LUT_SIZE);
+> I would move this line after the bridges are being initialised, just in case in the future
+> colour management will propagate some info down to the bridges.
+
+Sure. I'll move it down.
+
+.
+
+.
+
+.
+
+>>  };
+>>  
+>>  /**
+>> -- 
+>> 2.25.1
+>>
+> Code looks good and turns out swapping drm_bridge for component framework is not that painful. If you send v2
+> with the comments addressed I should be able to test it now and review the patch much sooner.
+>
+> One issue I have observed from my testing of your patch is that on `rmmod komeda` we fail to disable the
+> interrupts after drm_kms_helper_poll_fini() call in komeda_kms_detach(), then we NULL the drm->dev_private
+> before we get an interrupt which causes komeda_kms_irq_handler() to access the NULL pointer. This is not
+> something caused by your patch, but if you want to test module removal I think you should be aware of this.
+
+I'll keep this in mind while testing.
+
+Thanks,
+Faiz
+
