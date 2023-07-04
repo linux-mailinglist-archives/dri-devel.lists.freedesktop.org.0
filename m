@@ -1,76 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0F20746BE7
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 10:30:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF33C746C18
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 10:37:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A129510E2B1;
-	Tue,  4 Jul 2023 08:30:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E54210E09C;
+	Tue,  4 Jul 2023 08:37:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B636210E2B1
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 08:30:27 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id
- a640c23a62f3a-98df3dea907so626460666b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jul 2023 01:30:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688459425; x=1691051425;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=KFaFw3uJoDRm9laNgejEO9i+oEQ6almWqyPQQo3h6WE=;
- b=ZjbvfgYAzGqBD47D3/HU4Ni1J28WS1B5YSh1SFPyYXLkUmMDIN2E/pEoKqc/thhJnc
- EJCRBaAk8au/+WFGd77G2GE6y8PU7GEb3mRq5+f5d4AsjuTfTwRls+apoEeBWhb2H5VZ
- 8AFgoOU45puo+4H7CU4UJ2MPQgcTcn8qAw6oRkDUgYsy284cQfmjn08AWh9izQD0rcdj
- vrBWlheExtcEdjf59szC4Qahl0pCKuKwe1ImyLp1SyyTaCd9WBKmD1dzfyhusWtOzyZk
- Mu7TrkQto5OAFRBhDsAraehkOhPhhiP6UqlqXlSTelHdbK3qfoZZFOsKQymgmDzpY7rh
- wzEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688459425; x=1691051425;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KFaFw3uJoDRm9laNgejEO9i+oEQ6almWqyPQQo3h6WE=;
- b=V2mx97VxCXhYHaxP2Pje8sPHD3e42eeQPjPl1PjOZhYuLwOiIAEdfq8dcXSV3C3fNO
- glyco1/kt+E4DK5OPGa5kS7YmE8acbGc1Dw/eblMjnRqpkSxtAfbP+6rxDyJtKrFz6U2
- 0kf8iRgvTssZQPdCivZWYVpadUo+OuV0POfXHbXgIZBURYPFjL1ge4oLq/j9g0iWBmKc
- 2augbdfV634oYujoltWuq+1Xbd7ihNRhMT1ZGsYWnGogsC5TdEFuWta3FY2hF8Y1z2GV
- PxFo2P2aVGDm49X3GAAq3DI+kAGa9slfvYJMXjQKW7EbqsZ0tcLNz6cRRAaC+qHG6hky
- 3h7Q==
-X-Gm-Message-State: ABy/qLaZABg1Il81LbAcsX6MjBs1GAQtcL+He/mpjrWf2F9lVhUvxVSx
- TPXpGj9TXe0mmE1kcN90dGTTaw==
-X-Google-Smtp-Source: APBJJlEe8seu86IJuy45hmgLX9aDLTpaeFtaYyGZDUMtQ9+B79h7OgG0fN5PxW+lwAOJaVYdiyE8pw==
-X-Received: by 2002:a17:906:34c9:b0:982:9b01:a582 with SMTP id
- h9-20020a17090634c900b009829b01a582mr9389985ejb.1.1688459425722; 
- Tue, 04 Jul 2023 01:30:25 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
- by smtp.gmail.com with ESMTPSA id
- a16-20020a170906369000b009887c9b2812sm13234240ejc.8.2023.07.04.01.30.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Jul 2023 01:30:25 -0700 (PDT)
-Message-ID: <c6dc324c-2946-3af5-8ddb-11d0a0e824cb@linaro.org>
-Date: Tue, 4 Jul 2023 10:30:23 +0200
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87AFD10E09C;
+ Tue,  4 Jul 2023 08:37:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1688459830; x=1719995830;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=e8gLwcZzeO72npmU6MumfcPKN+ua5xNlilXyaSjNRac=;
+ b=RQ+I29riZZ54dBB9JJe8UiByKGI20RT5ao3y3WGeEU1b+J/SLbl/MMVD
+ YFP/ZZL4i8agmfix0oHSLQ3hHB8KmMYlDPyCZjtFIiJPKoJrZclNHF55z
+ 9cS9LX0/yJ+dBF5kT1SVx1L2HFDVQHh2ugMPovm8xfSEjojYes2WCQpSR
+ GYZTIy7FlP9VwBPcFrcrFI4KlgUr9rl/OnJkgIbyIJ53Zj8wYPi0UGZhY
+ yvRWw59zpXTkqvhPLqWLAEYKjueMc84gtiv6dm+WI9DKoj1GjBp/PGOYu
+ jgBxUAzN8k5d3gtd5OVF6P/HPGIingbV6kOTQQaEek/POH77TqtJkKp80 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="343406509"
+X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; d="scan'208";a="343406509"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jul 2023 01:37:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="669014207"
+X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; d="scan'208";a="669014207"
+Received: from jbouhlil-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.48.173])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jul 2023 01:37:06 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Uros Bizjak <ubizjak@gmail.com>
+Subject: Re: [PATCH] drm/i915/pmu: Use local64_try_cmpxchg in
+ i915_pmu_event_read
+In-Reply-To: <CAFULd4YDHqUud94Q1mbKyKqGHh==Gv7+FpNhgm5s1p=0ZwcAXg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230703150859.6176-1-ubizjak@gmail.com>
+ <87o7ks16gh.fsf@intel.com>
+ <CAFULd4YDHqUud94Q1mbKyKqGHh==Gv7+FpNhgm5s1p=0ZwcAXg@mail.gmail.com>
+Date: Tue, 04 Jul 2023 11:37:04 +0300
+Message-ID: <87lefw139r.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 03/14] dt-bindings: display/msm/gpu: Allow A7xx SKUs
-Content-Language: en-US
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-References: <20230628-topic-a7xx_drmmsm-v1-0-a7f4496e0c12@linaro.org>
- <20230628-topic-a7xx_drmmsm-v1-3-a7f4496e0c12@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230628-topic-a7xx_drmmsm-v1-3-a7f4496e0c12@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,22 +62,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/06/2023 22:35, Konrad Dybcio wrote:
-> Allow A7xx SKUs, such as the A730 GPU found on SM8450 and friends.
-> They use GMU for all things DVFS, just like most A6xx GPUs.
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
+On Tue, 04 Jul 2023, Uros Bizjak <ubizjak@gmail.com> wrote:
+> On Tue, Jul 4, 2023 at 9:28=E2=80=AFAM Jani Nikula <jani.nikula@linux.int=
+el.com> wrote:
+>> You could save everyone a lot of time by actually documenting what these
+>> functions do. Assume you don't know what local64_try_cmpxchg() does, and
+>> see how many calls you have to go through to figure it out.
+>
+> These functions are documented in Documentation/atomic_t.txt (under
+> "RMW ops:" section), and the difference is explained in a separate
+> section "CMPXCHG vs TRY_CMPXCGS" in the same file.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Thanks, but *sigh*.
 
-Best regards,
-Krzysztof
+No kernel-doc above the functions, not even a regular comment
+referencing atomic_t.txt.
 
+$ git grep local.*_try -- Documentation
+[nothing]
+
+
+BR,
+Jani.
+
+
+--=20
+
+"But the plans were on display..."
+
+"On display? I eventually had to go down to the cellar to find them."
+
+"That's the display department."
+
+"With a flashlight."
+
+"Ah, well, the lights had probably gone."
+
+"So had the stairs."
+
+"But look, you found the notice, didn't you?"
+
+"Yes," said Arthur, "yes I did. It was on display in the bottom of a
+locked filing cabinet stuck in a disused lavatory with a sign on the
+door saying 'Beware of the Leopard'."
+
+- Douglas Adams, The Hitchhiker's Guide to the Galaxy=20
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
