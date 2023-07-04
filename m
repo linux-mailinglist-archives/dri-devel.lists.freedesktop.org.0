@@ -1,55 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF33C746C18
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 10:37:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5D38746C1A
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 10:38:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E54210E09C;
-	Tue,  4 Jul 2023 08:37:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBD3710E14B;
+	Tue,  4 Jul 2023 08:38:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87AFD10E09C;
- Tue,  4 Jul 2023 08:37:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1688459830; x=1719995830;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=e8gLwcZzeO72npmU6MumfcPKN+ua5xNlilXyaSjNRac=;
- b=RQ+I29riZZ54dBB9JJe8UiByKGI20RT5ao3y3WGeEU1b+J/SLbl/MMVD
- YFP/ZZL4i8agmfix0oHSLQ3hHB8KmMYlDPyCZjtFIiJPKoJrZclNHF55z
- 9cS9LX0/yJ+dBF5kT1SVx1L2HFDVQHh2ugMPovm8xfSEjojYes2WCQpSR
- GYZTIy7FlP9VwBPcFrcrFI4KlgUr9rl/OnJkgIbyIJ53Zj8wYPi0UGZhY
- yvRWw59zpXTkqvhPLqWLAEYKjueMc84gtiv6dm+WI9DKoj1GjBp/PGOYu
- jgBxUAzN8k5d3gtd5OVF6P/HPGIingbV6kOTQQaEek/POH77TqtJkKp80 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="343406509"
-X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; d="scan'208";a="343406509"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jul 2023 01:37:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="669014207"
-X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; d="scan'208";a="669014207"
-Received: from jbouhlil-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.48.173])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jul 2023 01:37:06 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Uros Bizjak <ubizjak@gmail.com>
-Subject: Re: [PATCH] drm/i915/pmu: Use local64_try_cmpxchg in
- i915_pmu_event_read
-In-Reply-To: <CAFULd4YDHqUud94Q1mbKyKqGHh==Gv7+FpNhgm5s1p=0ZwcAXg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230703150859.6176-1-ubizjak@gmail.com>
- <87o7ks16gh.fsf@intel.com>
- <CAFULd4YDHqUud94Q1mbKyKqGHh==Gv7+FpNhgm5s1p=0ZwcAXg@mail.gmail.com>
-Date: Tue, 04 Jul 2023 11:37:04 +0300
-Message-ID: <87lefw139r.fsf@intel.com>
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4A5B10E14B
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 08:38:24 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3fbc5d5742eso53148475e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Jul 2023 01:38:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1688459902; x=1691051902;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=w0V57ruCKT8g2KRYl0872Ggc1PX88R6CmL+ReT3+2E4=;
+ b=KuahYV1kenec4FVH+QBP0nW573m7azVy/U+M4uh/82HcqTd/trNzBoKgYdN5fuSU+G
+ YnBgOYzF3iW4e5JN5b+S1DhNYgy377h+Wv5X4d1dtUcjhlv59ttycBNm65DPWVggUgAv
+ L1lSgB/kAxfFM/EknQEj+uB/V48Tl6Pds9yHBGblTCYw0C8wiUrzevSM1uNWvhGSGbAW
+ 3s5QftmSU4xelg85k1isrCKW3DX/lO4QsO/qjUUgH5zUyaAomLdjMgmQxVA02+4bHN9m
+ WjD5JEZI47QESaCd5kwvISRtXyv4dtgS5+sL+IekaTCZ9O7ZMLzPYG8PxPgaMOn1/x/6
+ cQTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688459902; x=1691051902;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=w0V57ruCKT8g2KRYl0872Ggc1PX88R6CmL+ReT3+2E4=;
+ b=FZ3dA4g7Qh3td/hoHTVkQneEov+0B7GSEGbP9UJKPw/1LTUCExoyuAAYN1uzCH3plc
+ 8DkBvM9yEyedBi8Mw9+t0Sw7VawtiNSLDxYjiudTu29A0tSs9v4Lz48YZpIwCv0wCLEy
+ adiC96c8L1V7nbZuGqlhxg7bxmFj7cEbV+RwC5w/5hBine2vUZzwpDcMU7A0ouXzkKp8
+ pFlX4cnnmHXn3nXnUXZv4jo8HjtkMxAehg40NYz3wsRkSibWN3x6Jyqr/NP74QcDriNc
+ mUWx4SaQF9n4SqgcBxhvGDC93gztOrf4As2EBQT9z2gEe/yqa/D8sDRMXv/2JO2+pYAC
+ laqg==
+X-Gm-Message-State: AC+VfDxqQBqItBBNgLIGuMxHtAtvdzsaOCMUy2OWIOGcJniyJZNSWuPl
+ GxIlOQXLMH0PHeI/ZfcmV4HGt7aUXlbiXG2u+TM=
+X-Google-Smtp-Source: ACHHUZ4CtBHTSIgBrWtDhVrUr9H6mVr1KJO7Mgb9kq8KYJhSeCz39PgYzNfD0ZElomNA3TYakMGWlg==
+X-Received: by 2002:a7b:cc87:0:b0:3fb:a917:b769 with SMTP id
+ p7-20020a7bcc87000000b003fba917b769mr11141017wma.21.1688459902605; 
+ Tue, 04 Jul 2023 01:38:22 -0700 (PDT)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ 4-20020a05600c228400b003fbc216b137sm13093446wmf.3.2023.07.04.01.38.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Jul 2023 01:38:20 -0700 (PDT)
+Date: Tue, 4 Jul 2023 11:38:17 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+Subject: Re: [PATCH 1/5] accel/qaic: tighten bounds checking in
+ encode_message()
+Message-ID: <fb5f0a0c-c46f-4eec-bfcc-50b4be44c0a7@kadam.mountain>
+References: <8dc35a68-7257-41ac-9057-7c89b9ad6e18@moroto.mountain>
+ <1d79cddc-0afb-08c2-8aac-8f3b7761d210@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1d79cddc-0afb-08c2-8aac-8f3b7761d210@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,57 +73,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ Oded Gabbay <ogabbay@kernel.org>, kernel-janitors@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Carl Vanderlip <quic_carlv@quicinc.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 04 Jul 2023, Uros Bizjak <ubizjak@gmail.com> wrote:
-> On Tue, Jul 4, 2023 at 9:28=E2=80=AFAM Jani Nikula <jani.nikula@linux.int=
-el.com> wrote:
->> You could save everyone a lot of time by actually documenting what these
->> functions do. Assume you don't know what local64_try_cmpxchg() does, and
->> see how many calls you have to go through to figure it out.
->
-> These functions are documented in Documentation/atomic_t.txt (under
-> "RMW ops:" section), and the difference is explained in a separate
-> section "CMPXCHG vs TRY_CMPXCGS" in the same file.
+On Tue, Jul 04, 2023 at 11:57:51AM +0530, Pranjal Ramajor Asha Kanojiya wrote:
+> > diff --git a/drivers/accel/qaic/qaic_control.c b/drivers/accel/qaic/qaic_control.c
+> > index 5c57f7b4494e..a51b1594dcfa 100644
+> > --- a/drivers/accel/qaic/qaic_control.c
+> > +++ b/drivers/accel/qaic/qaic_control.c
+> > @@ -748,7 +748,8 @@ static int encode_message(struct qaic_device *qdev, struct manage_msg *user_msg,
+> >   	int ret;
+> >   	int i;
+> > -	if (!user_msg->count) {
+> > +	if (!user_msg->count ||
+> > +	    user_msg->len < sizeof(*trans_hdr)) {
+> >   		ret = -EINVAL;
+> >   		goto out;
+> >   	}
+> > @@ -765,12 +766,13 @@ static int encode_message(struct qaic_device *qdev, struct manage_msg *user_msg,
+> >   	}
+> >   	for (i = 0; i < user_msg->count; ++i) {
+> > -		if (user_len >= user_msg->len) {
+> > +		if (user_len >= user_msg->len - sizeof(*trans_hdr)) {
+> If I understand correctly this check is added to verify if we are left with
+> trans_hdr size of data. In that case '>' comparison operator should be used.
 
-Thanks, but *sigh*.
+That was there in the original code and I thought about changing it but
+I don't like changing things which aren't necessary and == is also
+invalid so I decided to leave it.
 
-No kernel-doc above the functions, not even a regular comment
-referencing atomic_t.txt.
+> 
+> >   			ret = -EINVAL;
+> >   			break;
+> >   		}
+> >   		trans_hdr = (struct qaic_manage_trans_hdr *)(user_msg->data + user_len);
+> > -		if (user_len + trans_hdr->len > user_msg->len) {
+> > +		if (trans_hdr->len < sizeof(trans_hdr) ||
+> > +		    size_add(user_len, trans_hdr->len) > user_msg->len) {
 
-$ git grep local.*_try -- Documentation
-[nothing]
+If we change to > then the == will be caught by this check.  So it
+doesn't affect runtime either way.
 
+regards,
+dan carpenter
 
-BR,
-Jani.
-
-
---=20
-
-"But the plans were on display..."
-
-"On display? I eventually had to go down to the cellar to find them."
-
-"That's the display department."
-
-"With a flashlight."
-
-"Ah, well, the lights had probably gone."
-
-"So had the stairs."
-
-"But look, you found the notice, didn't you?"
-
-"Yes," said Arthur, "yes I did. It was on display in the bottom of a
-locked filing cabinet stuck in a disused lavatory with a sign on the
-door saying 'Beware of the Leopard'."
-
-- Douglas Adams, The Hitchhiker's Guide to the Galaxy=20
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
