@@ -2,62 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 600CA746FA6
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 13:14:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99E2D746FC9
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 13:22:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CBE210E0E8;
-	Tue,  4 Jul 2023 11:14:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D821910E113;
+	Tue,  4 Jul 2023 11:22:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB21310E0E8
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 11:14:25 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id
- 46e09a7af769-6b8b8de2c6bso2418586a34.0
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jul 2023 04:14:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1688469264; x=1691061264;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kmq13IpfgnAPzEDZ3MCvqyIpf9PhLjB+MPzx2szVSfk=;
- b=b7AhtMCftt+cTeOJXwBy5ITli90/x5PMA+MyE+5atctEAz5tSz0BLHemWUOzyQcU15
- arIY+E27ZqZIe8Jofdpx5wdowWEAtVadAAUP1SZ6zv3+ow6M6by33CgrIbvZHlLGyhDm
- DkLDcQmeQs3J/P4bLLOwR6DXAkv2xDG6hZZ5NCb/bSZK65D/3iwLM4fN5XUv+yE5OT4u
- zlAYg0SJyzGtyriDQwiYWRTZGMxZ3cOKYnyR8ozA5WAGyY94jUJCXAtuPD4hQuBrjH12
- aXtiuookOoYhYNSwZNVyQ+Ksn1UBRrtgFIvwrR7CX1r+p8JHZH7VImB3jjeU0ftknJ2E
- VHPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688469264; x=1691061264;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kmq13IpfgnAPzEDZ3MCvqyIpf9PhLjB+MPzx2szVSfk=;
- b=OV/SdC7aiAH8EeJCmFZVSnzn6HRDRoAcbF0OIA3TFDd/A3Mh0QFIpkcTlcnNHWR6UF
- JPsX2WCCUJvDur7stQuwxbCOBp9Ox389Mabe1DL1WJJiBMV2qlM8tTqoeL/OD5ttcY/T
- b/i72rqw1LtJrA25XkPslEQ03oTTBRTzCwfcycPPH5Guk/AdehLk7wRlS6U0gdTmbIP3
- V5FC01aPGCN/L8Ie0W1qGnvTrAKHtkBI4N1//Um80WV7noOJWLs6IXJxZn/2XZc6isD+
- /SE81T/gRA9yuMp4Nc6D7G1ZNzKSo5VyDb2hS2wSjPJkzrIldIfCW/Nsc2G8nEQ8Rl3c
- BY2w==
-X-Gm-Message-State: ABy/qLYJhzXCdE6KuiCJe6L+7+X1sFY++cmJGbCTDrQK/ZQXDFOKwrcb
- 38qisAtxpaBC65tdUnx5LK6fxJBCy/PxW0sKDxw56g==
-X-Google-Smtp-Source: APBJJlFGYPsDHhZoR1DA74LBsPfA4iDEEhLPHr4gpWDC18z6mMpX2jCRqIPh9EeoZRADFggaiWSfavywya4q4oo5xvo=
-X-Received: by 2002:a05:6359:21b:b0:134:ddad:2b4f with SMTP id
- ej27-20020a056359021b00b00134ddad2b4fmr10055345rwb.18.1688469264466; Tue, 04
- Jul 2023 04:14:24 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47F8B10E113;
+ Tue,  4 Jul 2023 11:22:30 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id AFD4B61193;
+ Tue,  4 Jul 2023 11:22:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9688BC433C9;
+ Tue,  4 Jul 2023 11:22:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1688469749;
+ bh=bWtf92i8/oO3zMlwR5SLYOrLYXhx27D67V8Iypmio+o=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rvywrCopXdg0XDl7CE9xtuwtEFzMRdFnLG5B6RMq/g6B8poPgGQYKuYTYBjDTrKo6
+ v9FRy/OxlIpGaB4cCFoX5jMvHX4Wr+2MpZFyMVuUFZyrLAdavaYzj3BWquHzMkMNfO
+ bpoOVkSkpgx3TDxSzYD0gbZTKBqVisLLyYQFePmyHaw6t9/AFj1wnNEIjQ2tUFn53w
+ xEslso4o8h/nlnGoW4LrM8lxpyVELRWR57V6NSbDR3ZlV0YOwEBmHP0hP/qUYPh+Hh
+ ZKBWoHvVOTc1pLMKNxrYL0lo4wH0bdTm1XMfQcws4vk+hw6d7u7g8cL1qy6hloVRLn
+ RD5Ww+GgHPt7Q==
+Date: Tue, 4 Jul 2023 16:52:24 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH] dt-bindings: cleanup DTS example whitespaces
+Message-ID: <ZKQA8HxGavlwq550@matsya>
+References: <20230702182308.7583-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-References: <20230703-fix-boe-tv101wum-nl6-v3-0-bd6e9432c755@linaro.org>
- <CAHwB_N+F_PQaRb+BvLmJwUSsbeCCqF3rWcLYuY_9ktrFGK5_7Q@mail.gmail.com>
- <CACRpkdYQb6MMQ7uxPF2UK4Z6UDQs2uHgpzXaeMm8BZm5i+hofQ@mail.gmail.com>
-In-Reply-To: <CACRpkdYQb6MMQ7uxPF2UK4Z6UDQs2uHgpzXaeMm8BZm5i+hofQ@mail.gmail.com>
-From: cong yang <yangcong5@huaqin.corp-partner.google.com>
-Date: Tue, 4 Jul 2023 19:14:12 +0800
-Message-ID: <CAHwB_NKD=87cgQMpegbDEQzP00qPvzViMnDSzW7BXPE7-MtfDg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] Fix up the boe-tv101wum-nl6 panel driver
-To: Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230702182308.7583-1-krzysztof.kozlowski@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,44 +53,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jitao Shi <jitao.shi@mediatek.com>, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Ruihai Zhou <zhouruihai@huaqin.corp-partner.google.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ linux-iio@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ coresight@lists.linaro.org, linux-usb@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-mtd@lists.infradead.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Leo Yan <leo.yan@linaro.org>, linux-phy@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-remoteproc@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 02-07-23, 20:23, Krzysztof Kozlowski wrote:
+> The DTS code coding style expects spaces around '=' sign.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> ---
+> 
+> Rob,
+> 
+> Maybe this could go via your tree? Rebased on your for-next:
+> v6.4-rc2-45-gf0ac35049606
+> ---
+>  .../bindings/arm/arm,coresight-cti.yaml        | 18 +++++++++---------
+>  .../bindings/arm/keystone/ti,sci.yaml          |  8 ++++----
+>  .../devicetree/bindings/display/msm/gmu.yaml   |  2 +-
+>  .../display/panel/samsung,s6e8aa0.yaml         |  2 +-
+>  .../display/rockchip/rockchip-vop.yaml         |  4 ++--
+>  .../bindings/iio/adc/ti,adc108s102.yaml        |  2 +-
+>  .../bindings/media/renesas,rzg2l-cru.yaml      |  4 ++--
+>  .../devicetree/bindings/media/renesas,vin.yaml |  4 ++--
+>  .../devicetree/bindings/mtd/mtd-physmap.yaml   |  2 +-
+>  .../bindings/net/mediatek-dwmac.yaml           |  2 +-
+>  .../bindings/perf/amlogic,g12-ddr-pmu.yaml     |  4 ++--
+>  .../bindings/phy/mediatek,dsi-phy.yaml         |  2 +-
 
-On Tue, Jul 4, 2023 at 6:16=E2=80=AFPM Linus Walleij <linus.walleij@linaro.=
-org> wrote:
->
-> On Tue, Jul 4, 2023 at 12:04=E2=80=AFPM cong yang
-> <yangcong5@huaqin.corp-partner.google.com> wrote:
-> > On Mon, Jul 3, 2023 at 9:21=E2=80=AFPM Linus Walleij <linus.walleij@lin=
-aro.org> wrote:
->
-> > > I am surprised that contributors from manufacturers do not seem
-> > > to have datasheets for the display controllers embedded in the
-> > > panels of their products. Can you take a second look?
-> >
-> > Sorry, this panel datasheet is not open source, I can't share this data=
-sheet.
->
-> Perhaps not, but you can use the knowledge in the datasheet to
-> name the commands and give better structure to the members of
-> the driver, if you know what commands mean then provide
-> #define statements to them so sequences become understandable.
-> See for example patch 4/4.
+Acked-by: Vinod Koul <vkoul@kernel.org>
 
-Patch 4/4 LGTM, from the datasheet  0XFF is EXTC Command Set Enable .
-Description: Set the register, 1 Parameter =3D 98h, 2 Parameter =3D 82h, 3
-Parameter =3D Page value to enable =E2=80=9Cpage command set=E2=80=9D avail=
-able.
-00h =3D Page 0 ,01h =3D Page 1... 0Eh =3D Page 14.
-
-Thank you for you patch.
->
-> Yours,
-> Linus Walleij
+-- 
+~Vinod
