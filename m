@@ -1,50 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1AD074777B
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 19:07:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06FA57477A9
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 19:20:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F43210E2FE;
-	Tue,  4 Jul 2023 17:07:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EFCB10E054;
+	Tue,  4 Jul 2023 17:20:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay3-1.pub.mailoutpod2-cph3.one.com
- (mailrelay3-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:402::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA54010E2FE
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 17:07:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=R1ftX/nJ28RCUlvCxqfDZHT0ym06Es3SsEj3om09Vrs=;
- b=mFMBx5NkiSByK1HMjoIkzQWNmb/ecgu4OOhkDtUvQth7NKdDRhm3aIp5s8eso3WdLAB+9xiBPbmSt
- PA3WhzFS9ZgVq2RloHgeFfgZ/NFVjPtgR+YEMQeC/6OM40w1LuQTKek+MlpIRwyDxL6tWPQAs6ZJgE
- VPloanifqZ0Kpn16QDQRettF7Yffput5jWae6HWTFbdQJ0O7HJCiR9EAWZAg2OvcA0CJtCElPD/h2c
- IEuuVxok7/fSaC2Krc7/yMkaLKGY5KaKVOIdBcI2Qckntdn8h5ZUiZFJLdCzZxdE9fXzXeToS5HZt1
- 2A8rIjpoUk4iTafFGT1fxcFbgp045ZQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=R1ftX/nJ28RCUlvCxqfDZHT0ym06Es3SsEj3om09Vrs=;
- b=toRiw7qMpH7Z7h0WvXiLqGcMRtSWVEuTV0dLMJp/Y5OSdD/HkZxSQEK+aO01h63/4SliBFN0BR4Ib
- 6F8dl2YAw==
-X-HalOne-ID: 428b86cc-1a8d-11ee-8bd0-b90637070a9d
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay3 (Halon) with ESMTPSA
- id 428b86cc-1a8d-11ee-8bd0-b90637070a9d;
- Tue, 04 Jul 2023 17:07:32 +0000 (UTC)
-Date: Tue, 4 Jul 2023 19:07:31 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: [PATCH] backlight: led_bl: fix initial power state
-Message-ID: <20230704170731.GB940443@ravnborg.org>
-References: <20230704140750.25799-1-mans@mansr.com>
- <20230704150310.GA385243@aspen.lan>
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
+ [IPv6:2607:f8b0:4864:20::b2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB9DF10E16B
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 17:20:06 +0000 (UTC)
+Received: by mail-yb1-xb2a.google.com with SMTP id
+ 3f1490d57ef6-c4e4c258ba9so3486793276.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Jul 2023 10:20:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1688491205; x=1691083205;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=yoK4H6nDlRDDhLrKCYHElhgk6WD3qdHNe/PnJeljUiQ=;
+ b=OLeYoW5tLQwUeeBmQg/YUvzkIdEFQjDWA2se+/29g2kPN9DcLL8DWA+czO0slfDbUe
+ egRIssEmEQQwMOjRBAzlRsl2mjnE4e0SsWdpzTBVvqxaTdDkaxpOTMsg92QCs0k+aM0N
+ FU5DuGePCzhNmqpN68imusx27FRmvyWO16rVs3/ge4k0EFvUToqzDUwGvlbPrpTSCGf6
+ 9bQNl/ebxpa1mKa/MM4yovs8/6ab+gUtYwGpJLm61KATkefWCqoWjCMJCpV74fokVu4X
+ oeCZ8N4pauaPMAFaRk/4J9gniu7gZWcTkXPlPZjBIH57IQCVKkRkPxntmYpjlrfEBjWm
+ TrNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688491205; x=1691083205;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yoK4H6nDlRDDhLrKCYHElhgk6WD3qdHNe/PnJeljUiQ=;
+ b=BpFhsBJ6whHo4PStk9uNc2UuyipJhMwFQd77ZDwBdGLTm+Z2IcVGWpSCGr8Rfqv4cr
+ 4S1kxd3jx7X3Us4hqo2n1yax8nSahKRg2Pu8kv7cyi4JCJXKMRFUxFH7SUdrvzetfBM6
+ ZB1cYkRxB8Xtsn4sEp4zwTZOHdjxfWWYINIzlPxynYViCYak1PcIeeiIcq0VxQbLYSrc
+ vQUFYKAy+eGt0ZRVLBip/jmj74i37TXvabz00lBVExAe/Qwwow7fclcvV+Fehfj3aErb
+ +T6BOcgAJXuoS3YBoAlhgKROHuTcUzTpEaCMGpm5f9XGQqGLk/BVYKuylPSr4JuRh5Fh
+ lLcA==
+X-Gm-Message-State: ABy/qLYz7sRnfcIsskwdSrf7Ikr3RiTkL4VtqYT5/dWNpSLClmzvwx7g
+ 6Up5j4oXYew0hs395XU8po/039pO4uHXMu7Y+yOAWYsAww3byCfJ
+X-Google-Smtp-Source: APBJJlEnJiKi2TvvTpP52xudCEw1PqsQzWEq3Xxap/aH09T5RErSQ3nB87eNWj863g3c2q2AuSGN2rLdKwdytZMdyu4=
+X-Received: by 2002:a25:a441:0:b0:c1d:6508:3083 with SMTP id
+ f59-20020a25a441000000b00c1d65083083mr14025995ybi.55.1688491205391; Tue, 04
+ Jul 2023 10:20:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230704150310.GA385243@aspen.lan>
+References: <20230704163640.6162-1-robdclark@gmail.com>
+In-Reply-To: <20230704163640.6162-1-robdclark@gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 4 Jul 2023 20:19:54 +0300
+Message-ID: <CAA8EJpoAZ7z2aURWHs1ouEuTzj2c0O-CypCHmocXO62EpuffsQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/msm/adreno: Fix warn splat for devices without
+ revn
+To: Rob Clark <robdclark@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,49 +67,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Mans Rullgard <mans@mansr.com>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+On Tue, 4 Jul 2023 at 19:36, Rob Clark <robdclark@gmail.com> wrote:
+>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> Recently, a WARN_ON() was introduced to ensure that revn is filled before
+> adreno_is_aXYZ is called. This however doesn't work very well when revn is
+> 0 by design (such as for A635).
+>
+> Cc: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Fixes: cc943f43ece7 ("drm/msm/adreno: warn if chip revn is verified before being set")
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.h | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> index 65379e4824d9..ef1bcb6b624e 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> @@ -149,7 +149,8 @@ bool adreno_cmp_rev(struct adreno_rev rev1, struct adreno_rev rev2);
+>
+>  static inline bool adreno_is_revn(const struct adreno_gpu *gpu, uint32_t revn)
+>  {
+> -       WARN_ON_ONCE(!gpu->revn);
+> +       /* revn can be zero, but if not is set at same time as info */
+> +       WARN_ON_ONCE(!gpu->info);
+>
+>         return gpu->revn == revn;
+>  }
+> @@ -161,14 +162,16 @@ static inline bool adreno_has_gmu_wrapper(const struct adreno_gpu *gpu)
+>
+>  static inline bool adreno_is_a2xx(const struct adreno_gpu *gpu)
+>  {
+> -       WARN_ON_ONCE(!gpu->revn);
+> +       /* revn can be zero, but if not is set at same time as info */
+> +       WARN_ON_ONCE(!gpu->info);
+>
+>         return (gpu->revn < 300);
 
-> > @@ -200,8 +200,8 @@ static int led_bl_probe(struct platform_device *pdev)
-> >  	props.type = BACKLIGHT_RAW;
-> >  	props.max_brightness = priv->max_brightness;
-> >  	props.brightness = priv->default_brightness;
-> > -	props.power = (priv->default_brightness > 0) ? FB_BLANK_POWERDOWN :
-> > -		      FB_BLANK_UNBLANK;
-> > +	props.power = (priv->default_brightness > 0) ? FB_BLANK_UNBLANK :
-> > +		      FB_BLANK_POWERDOWN;
-> 
-> The logic was wrong before but I think will still be wrong after the
-> change too (e.g. the bogus logic is probably avoiding backlight flicker
-> in some use cases).
-> 
-> The logic here needs to be similar to what pwm_bl.c implements in
-> pwm_backlight_initial_power_state(). Whilst it might be better
-> to implement this in led_bl_get_leds() let me show what I mean
-> in code that fits in the current line:
-> 
-> 	/*
-> 	 * Activate the backlight if the LEDs are already lit *or*
-> 	 * there is no phandle link (meaning the backlight power
-> 	 * state cannot be synced with the display state).
-> 	 */
-> 	props.power = (active_at_boot || !dev->node->phandle) ?
-> 			FB_BLANK_UNBLANK : FB_BLANK_POWERDOWN;
-> 
-The following code does the same using helpers:
+This is then incorrect for a635 / a690 if they have revn at 0.
 
-	if (active_at_boot || !dev->node->phandle))
-		backlight_enable(bd);
-	else
-		backlight_disable(bd);
+>  }
+>
+>  static inline bool adreno_is_a20x(const struct adreno_gpu *gpu)
+>  {
+> -       WARN_ON_ONCE(!gpu->revn);
+> +       /* revn can be zero, but if not is set at same time as info */
+> +       WARN_ON_ONCE(!gpu->info);
+>
+>         return (gpu->revn < 210);
 
-The code needs to execute after backlight_device_register() so maybe not
-so great an idea?!?
+And this too.
 
-	Sam
+>  }
+> --
+> 2.41.0
+>
+
+
+-- 
+With best wishes
+Dmitry
