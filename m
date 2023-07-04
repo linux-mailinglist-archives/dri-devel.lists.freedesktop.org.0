@@ -2,57 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23E8D746CB8
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 11:04:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18521746CBB
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 11:05:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 840B710E0AB;
-	Tue,  4 Jul 2023 09:04:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AD0110E0A5;
+	Tue,  4 Jul 2023 09:04:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B91E610E0A5
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 09:04:44 +0000 (UTC)
-X-UUID: cd32611e1a4911eeb20a276fd37b9834-20230704
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=EeeCzi6ljX+yHjCEA1XGs6HbrLUAR9Zd/iDelBuY6Do=; 
- b=qxx8YWwIyVDvcQqj3f1TtEd3KIYIeIob9K8lR6lolMhSy4eGiIqS7hzq1v/S425IcDxNJIKLh60ll3I6H3Alknkr4ReZmetwngzzG7pu0mOGw6qdL+i+R6zfzOxr6sVbMVeLevaNifBGM5R/1jlW9IXmBKtKhqfHSp2dXj9tDNs=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.27, REQID:b02294c7-33cf-4eb9-82f4-3ec83946058d, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:01c9525, CLOUDID:d4ded70d-c22b-45ab-8a43-3004e9216b56,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: cd32611e1a4911eeb20a276fd37b9834-20230704
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
- mailgw02.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1522435105; Tue, 04 Jul 2023 17:04:37 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Tue, 4 Jul 2023 17:04:35 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Tue, 4 Jul 2023 17:04:33 +0800
-From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, CK Hu <ck.hu@mediatek.com>,
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
+ [210.160.252.171])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A433C10E0A5
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 09:04:57 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="6.01,180,1684767600"; d="scan'208";a="166753292"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+ by relmlie5.idc.renesas.com with ESMTP; 04 Jul 2023 18:04:54 +0900
+Received: from localhost.localdomain (unknown [10.226.93.53])
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8B6A541D8BDC;
+ Tue,  4 Jul 2023 18:04:50 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Philipp Zabel <p.zabel@pengutronix.de>
-Subject: [v4, PATCH] drm/mediatek: add dma buffer control for drm plane disable
-Date: Tue, 4 Jul 2023 17:04:32 +0800
-Message-ID: <20230704090432.5844-1-yongqiang.niu@mediatek.com>
+Subject: [PATCH v10 0/4] Add RZ/{G2L,G2LC} and RZ/V2L Display Unit support
+Date: Tue,  4 Jul 2023 10:04:43 +0100
+Message-Id: <20230704090447.27420-1-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,134 +40,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Project_Global_Chrome_Upstream_Group@mediatek.com,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- linaro-mm-sig@lists.linaro.org, linux-mediatek@lists.infradead.org,
- Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-media@vger.kernel.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-dma buffer release before overlay disable, that will cause
-m4u translation fault warning.
+This path series aims to add support for RZ/G2L DU DRM driver.
 
-add dma buffer control flow in mediatek driver:
-get dma buffer when drm plane disable
-put dma buffer when overlay really disable
+RZ/G2L LCD controller composed of Frame compression Processor(FCPVD), Video
+signal processor (VSPD) and Display unit(DU). The output of LCDC is
+connected to Display parallel interface and MIPI link video interface.
+ 
+The output from DSI is connected to ADV7535.
 
-Fixes: 41016fe1028e4 ("drm: Rename plane->state variables in atomic update and disable")
-Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c  | 25 ++++++++++++++++++++++++
- drivers/gpu/drm/mediatek/mtk_drm_plane.c | 12 ++++++++++++
- drivers/gpu/drm/mediatek/mtk_drm_plane.h |  1 +
- 3 files changed, 38 insertions(+)
+Ref:
+ https://lore.kernel.org/linux-renesas-soc/OS0PR01MB5922717E4CCFE07F3C25FBC986989@OS0PR01MB5922.jpnprd01.prod.outlook.com/#t
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index d40142842f85..49d671100785 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -4,6 +4,7 @@
-  */
- 
- #include <linux/clk.h>
-+#include <linux/dma-buf.h>
- #include <linux/dma-mapping.h>
- #include <linux/mailbox_controller.h>
- #include <linux/pm_runtime.h>
-@@ -283,6 +284,23 @@ struct mtk_ddp_comp *mtk_drm_ddp_comp_for_plane(struct drm_crtc *crtc,
- 	return NULL;
- }
- 
-+static void mtk_drm_dma_buf_put(struct mtk_drm_crtc *mtk_crtc)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < mtk_crtc->layer_nr; i++) {
-+		struct drm_plane *plane = &mtk_crtc->planes[i];
-+		struct mtk_plane_state *plane_state;
-+
-+		plane_state = to_mtk_plane_state(plane->state);
-+
-+		if (plane_state && plane_state->pending.dma_buf) {
-+			dma_buf_put(plane_state->pending.dma_buf);
-+			plane_state->pending.dma_buf = NULL;
-+		}
-+	}
-+}
-+
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
- static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
- {
-@@ -323,6 +341,8 @@ static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
- 		mtk_crtc->pending_async_planes = false;
- 	}
- 
-+	mtk_drm_dma_buf_put(mtk_crtc);
-+
- 	mtk_crtc->cmdq_vblank_cnt = 0;
- 	wake_up(&mtk_crtc->cb_blocking_queue);
- }
-@@ -624,9 +644,14 @@ static void mtk_crtc_ddp_irq(void *data)
- 	else if (mtk_crtc->cmdq_vblank_cnt > 0 && --mtk_crtc->cmdq_vblank_cnt == 0)
- 		DRM_ERROR("mtk_crtc %d CMDQ execute command timeout!\n",
- 			  drm_crtc_index(&mtk_crtc->base));
-+
-+	if (!mtk_crtc->cmdq_client.chan)
-+		mtk_drm_dma_buf_put(mtk_crtc);
- #else
- 	if (!priv->data->shadow_register)
- 		mtk_crtc_ddp_config(crtc, NULL);
-+
-+	mtk_drm_dma_buf_put(mtk_crtc);
- #endif
- 	mtk_drm_finish_page_flip(mtk_crtc);
- }
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-index 31f9420aff6f..66e6393e45ee 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-@@ -12,6 +12,7 @@
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem_atomic_helper.h>
- #include <linux/align.h>
-+#include <linux/dma-buf.h>
- 
- #include "mtk_drm_crtc.h"
- #include "mtk_drm_ddp_comp.h"
-@@ -266,6 +267,17 @@ static void mtk_plane_atomic_disable(struct drm_plane *plane,
- 	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
- 									   plane);
- 	struct mtk_plane_state *mtk_plane_state = to_mtk_plane_state(new_state);
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
-+
-+	if (old_state && old_state->fb) {
-+		struct drm_gem_object *gem = old_state->fb->obj[0];
-+
-+		if (gem && gem->dma_buf) {
-+			get_dma_buf(gem->dma_buf);
-+			mtk_plane_state->pending.dma_buf = gem->dma_buf;
-+		}
-+	}
- 	mtk_plane_state->pending.enable = false;
- 	wmb(); /* Make sure the above parameter is set before update */
- 	mtk_plane_state->pending.dirty = true;
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.h b/drivers/gpu/drm/mediatek/mtk_drm_plane.h
-index 99aff7da0831..3aba0b58ef3c 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_plane.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.h
-@@ -33,6 +33,7 @@ struct mtk_plane_pending_state {
- 	bool				async_dirty;
- 	bool				async_config;
- 	enum drm_color_encoding		color_encoding;
-+	struct dma_buf			*dma_buf;
- };
- 
- struct mtk_plane_state {
+This patch series is tested with [2]
+[2] https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=742810
+
+v9->v10:
+ * patch#1 is mainlined, so dropped from this series.
+ * Added Rb tag from Laurent for the binding patch.
+ * Updated the commit description.
+ * Updated description of the port by dropping the text "specified in
+   Documentation/devicetree/bindings/graph.txt."
+ * Dropped empty endpoint from example.
+ * Dropped ARM64 dependency from Kconfig.
+ * Sorted the configs alphabetically in Kconfig.
+ * Dropped DRM_RCAR_VSP config option and make DRM_RZG2L_DU depend on
+   VIDEO_RENESAS_VSP1.
+ * On rzg2l_du_crtc_set_display_timing() replaced the setting of parent
+   clk rate with dclk rate.
+ * Added rzg2l_du_write() wrapper function.
+ * Updated the comment atomic_begin->atomic_flush.
+ * Dropped .atomic_check and .atomic_begin callback
+ * Renamed __rzg2l_du_crtc_plane_atomic_check->__rzg2l_du_vsp_plane_atomic
+   _check and moved it to rzg2l_du_vsp.c
+ * Added struct clk in rzg2l_du_crtc.h
+ * Dropped the variables mmio_offset,index,vblank_lock,vblank_wait,
+   vblank_count from struct rzg2l_du_crtc.
+ * Replaced the macro to_rzg2l_crtc with static inline functions.
+ * Dropped the unneeded header files clk.h, io.h, mm.h, pm.h, slab.h,
+   wait.h and drm_managed.h from rzg2l_du_drv.c.
+ * Replaced DRM_INFO->drm_info
+ * Dropped the callbacks prime_handle_to_fd, prime_fd_to_handle and
+   gem_prime_mmap.
+ * Replaced the callback remove->remove_new.
+ * Dropped header file wait.h and added forward declarations struct clk and
+   rzg2l_du_device from rzg2l_du_drv.h.
+ * Dropped the dsi and dpad0_source variables from struct rzg2l_du_device.
+ * Replaced the macro to_rzg2l_encoder with static inline functions.
+ * Dropped header files dma-buf.h and wait.h from rzg2l_du_kms.c.
+ * Dropped struct sg_table and added the scatterlist.h header file in
+   rzg2l_du_vsp.h
+ * Added container_of.h header file, forward declarations struct device and
+   struct rzg2l_du_device in rzg2l_du_vsp.h.
+v8->v9:
+ * Added Rb tag from Laurent and Acked-by tag from Kieran for patch#1.
+ * Added Rb tag from Laurent and Geert for patch#3.
+ * Dropped reset_control_assert() from error patch for rzg2l_du_crtc_get() as
+   suggested by Philipp Zabel.
+ * Added Rb tag from Laurent oatch#5.
+ * Updated MAINTAINERS entries for common parts(Makefile and Kconfig).
+v7->v8:
+ * Moved rcar-du and shmobile DRM drivers to renesas specific vendor directory.
+ * Fixed the typo vsp2->du in RZ/V2L DU bindings patch.
+ * Added Rb tag from Rob for RZ/V2L DU bindings patch.
+ * Dropped RCar du lib and created RZ/G2L DU DRM driver by creating rz_du folder.
+ * Updated MAINTAINERS entries.
+v6->v7:
+ * Split DU lib and  RZ/G2L du driver as separate patch series as
+   DU support added to more platforms based on RZ/G2L alike SoCs.
+ * Rebased to latest drm-tip.
+ * Added patch #2 for binding support for RZ/V2L DU
+ * Added patch #4 for driver support for RZ/V2L DU
+ * Added patch #5 for SoC DTSI support for RZ/G2L DU
+ * Added patch #6 for SoC DTSI support for RZ/V2L DU
+ * Added patch #7 for Enabling DU on SMARC EVK based on RZ/{G2L,V2L} SoCs.
+ * Added patch #8 for Enabling DU on SMARC EVK based on RZ/G2LC SoC.
+v5->v6:
+ * Merged DU lib and RZ/G2L du driver in same patch series
+ * Rebased to latest drm-misc.
+ * Merged patch#1 to RZ/G2L Driver patch.
+ * Updated KConfig dependency from ARCH_RENESAS->ARCH_RZG2L.
+ * Optimized rzg2l_du_output_name() by removing unsupported outputs.
+
+v4->v5:
+ * Added Rb tag from Rob for binding patch.
+ * Started using RCar DU libs(kms, vsp and encoder)
+ * Started using rcar_du_device, rcar_du_write, rcar_du_crtc,
+   rcar_du_format_info and rcar_du_encoder.
+v3->v4:
+ * Changed compatible name from renesas,du-r9a07g044->renesas,r9a07g044-du
+ * started using same compatible for RZ/G2{L,LC}
+ * Removed rzg2l_du_group.h and struct rzg2l_du_group
+ * Renamed __rzg2l_du_group_start_stop->rzg2l_du_start_stop
+ * Removed rzg2l_du_group_restart
+ * Updated rzg2l_du_crtc_set_display_timing
+ * Removed mode_valid callback.
+ * Updated rzg2l_du_crtc_create() parameters
+ * Updated compatible
+ * Removed RZG2L_DU_MAX_GROUPS
+V2->v3:
+ * Added new bindings for RZ/G2L DU
+ * Removed indirection and created new DRM driver based on R-Car DU
+v1->v2:
+ * Based on [1], all references to 'rzg2l_lcdc' replaced with 'rzg2l_du'
+ * Updated commit description for bindings
+ * Removed LCDC references from bindings
+ * Changed clock name from du.0->aclk from bindings
+ * Changed reset name from du.0->du from bindings
+ * Replaced crtc_helper_funcs->rcar_crtc_helper_funcs
+ * Updated macro DRM_RZG2L_LCDC->DRM_RZG2L_DU
+ * Replaced rzg2l-lcdc-drm->rzg2l-du-drm
+ * Added forward declaration for struct reset_control
+
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220312084205.31462-2-biju.das.jz@bp.renesas.com/
+
+Biju Das (4):
+  dt-bindings: display: Document Renesas RZ/G2L DU bindings
+  dt-bindings: display: renesas,rzg2l-du: Document RZ/V2L DU bindings
+  drm: renesas: Add RZ/G2L DU Support
+  MAINTAINERS: Add maintainer for RZ DU drivers
+
+ .../bindings/display/renesas,rzg2l-du.yaml    | 126 +++
+ MAINTAINERS                                   |  15 +-
+ drivers/gpu/drm/renesas/Kconfig               |   1 +
+ drivers/gpu/drm/renesas/Makefile              |   1 +
+ drivers/gpu/drm/renesas/rz-du/Kconfig         |  12 +
+ drivers/gpu/drm/renesas/rz-du/Makefile        |   8 +
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c | 599 ++++++++++++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.h |  92 +++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  | 180 +++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h  |  84 ++
+ .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.c  | 109 +++
+ .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.h  |  32 +
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c  | 741 ++++++++++++++++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h  |  43 +
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_regs.h |  67 ++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c  | 469 +++++++++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h  |  97 +++
+ 17 files changed, 2674 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/Kconfig
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/Makefile
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.h
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.h
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_regs.h
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h
+
 -- 
 2.25.1
 
