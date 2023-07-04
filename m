@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E9F7746AC5
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 09:37:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41567746AD3
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 09:39:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E052F10E002;
-	Tue,  4 Jul 2023 07:37:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9978910E29F;
+	Tue,  4 Jul 2023 07:39:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
- [209.85.128.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8FE510E002
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 07:37:23 +0000 (UTC)
-Received: by mail-yw1-f170.google.com with SMTP id
- 00721157ae682-57012b2973eso66013107b3.2
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jul 2023 00:37:23 -0700 (PDT)
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com
+ [IPv6:2607:f8b0:4864:20::b2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0090610E29F
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 07:39:51 +0000 (UTC)
+Received: by mail-yb1-xb2f.google.com with SMTP id
+ 3f1490d57ef6-c5c03379a76so682600276.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Jul 2023 00:39:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1688456390; x=1691048390;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xp+QKEk7TTS2IiTonm6ANj4/wmZQdWj2NqG5aVXpncM=;
+ b=bHYWYL8i4lzh8sEhz5VZ8+QaouZrpUmg2mnnB9W2cInPjOz7hlnDoU+HGYgvKXBVjm
+ mytGluOUKmL28Mxr3kXdWQIcLu+ZI6M1RV/LyiNYkJizaECi4u1c2HBrkYjW4UViirN1
+ ZB+kzmzWoNlT6DMXJJzMfNPahkMge+5q5qOenf8yORBDkr4oHl06HX2XEWkroMSb5TdW
+ Ha74K4JQds9cf4q4KuV+Ay1sBb+IV2zRzSEOy83eTYtyFhY5zUPjo8hy3SoOpZLF8YH+
+ 3nIA8dM07vcG7lUiwsEgxO+WmO2oM9sQhyNQXyAwU0u34iE71/eY28Eb0wHJbA0h17nU
+ ngwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688456242; x=1691048242;
+ d=1e100.net; s=20221208; t=1688456390; x=1691048390;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ttaFFJ0r0f9jhzySfvd5lZ1LEwbKcvVHje2Xigt05e4=;
- b=iN2a5gmWqJ3utEhPcl1onVwrOy8TaNvidc0YnGflxe8paJm3/OoKMV8MFelh6Zk17c
- VnnPmWREU5lqEPzTseZ9YhSqNsKpIsf6rzkd0y27jLJVGdSk39kahd7+MEfxnIOuOlJi
- /6M9/lSBTKcxdAEBDXuGP+SZi40b8ls9/Qa/r7oByKyCr0K4eNI9xrzgpIUsZijIg9z8
- LGS/F6InLlb7fMdrqIh3OuItN16KEwyfDnuT5DQnmx1nqiXwpOg7/I7PB2yCceygXFKv
- wdSzTelplrXh1aV72ZNewxpiN4GWl3zwDLP1hTqLX4n3hJKXZPpP+j7nv85YrqhmZRKi
- 3jeA==
-X-Gm-Message-State: ABy/qLaYkS3MdTRC+XUa+3+mar/k4In4jJl8VJB6NUShMZt5Bgvu3dqO
- e0nIRz3SVUZ58fxGoMDgpkg2Lo5ozW3PLg==
-X-Google-Smtp-Source: APBJJlHNiaUD7BFC7fwZqqCKAcga0RJgwfjcA5TWnXKe/5NYkP5tkbGKMgAFoPOawgeZHF6QzofIAw==
-X-Received: by 2002:a81:4f17:0:b0:56c:e2c1:6695 with SMTP id
- d23-20020a814f17000000b0056ce2c16695mr10913650ywb.50.1688456242086; 
- Tue, 04 Jul 2023 00:37:22 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com.
- [209.85.219.171]) by smtp.gmail.com with ESMTPSA id
- m11-20020a0dca0b000000b0055aafcef659sm5488960ywd.5.2023.07.04.00.37.21
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Jul 2023 00:37:21 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id
- 3f1490d57ef6-c2cf29195f8so6083600276.1
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jul 2023 00:37:21 -0700 (PDT)
-X-Received: by 2002:a5b:412:0:b0:ba8:7122:2917 with SMTP id
- m18-20020a5b0412000000b00ba871222917mr12316676ybp.0.1688456241685; Tue, 04
- Jul 2023 00:37:21 -0700 (PDT)
+ bh=xp+QKEk7TTS2IiTonm6ANj4/wmZQdWj2NqG5aVXpncM=;
+ b=PtjWpEhWndWLSJDgj/7IU5WD/rgWYqiHo2wajh2S98CCDaIex+V+I0WVv1+g8uc2Lj
+ dBcikkoVbjHoOj5Va+7s07SrkcSfj/DGC6ShMJpwfE4zeHh+2ze1b55jPWyt+rIGklt2
+ oTR4YD+nHKS4OyUQcIdnplQ8WxleWHYERyVmZp/C4iMb1XQ+6bLGJoasV4mj1ssv5uNo
+ OlDbOiJpZZameAmdzhRn6C6J9Y9wiVzROyF89K0B+y71AuFKfuBKCqhWSAqYPQR1Vk2Z
+ ejp/O3JCiSfqf1ccJodkkgosc2YkzMViVeGPRYLQiOQpT+ujeBMOkQdPA9oWoA6T7GKt
+ xFoA==
+X-Gm-Message-State: ABy/qLZXRpIckeKiA9EHZzf16bZHqpuGBU6C9tN6qwnnOHLUnz8k9pZN
+ gD0UznABi6YcLxdKQFmpJ4bHo4FDrv93W1QxQzfopA==
+X-Google-Smtp-Source: APBJJlHDKKwZ79lFPkNzLD0TjSMaB69YfKzURQNSkXUvL8aTFXOSk+TSkTezVMXogst0zaQgctBCu8vKcQH5YGpdOw8=
+X-Received: by 2002:a25:8142:0:b0:c02:e455:e2c0 with SMTP id
+ j2-20020a258142000000b00c02e455e2c0mr10207480ybm.11.1688456390657; Tue, 04
+ Jul 2023 00:39:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230703230534.997525-1-javierm@redhat.com>
- <20230703230534.997525-2-javierm@redhat.com>
-In-Reply-To: <20230703230534.997525-2-javierm@redhat.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 4 Jul 2023 09:37:10 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXRg1OUy6UHuH4H+qkK-qO+jTKdVoG_SRM3q_PkyD+Bbw@mail.gmail.com>
-Message-ID: <CAMuHMdXRg1OUy6UHuH4H+qkK-qO+jTKdVoG_SRM3q_PkyD+Bbw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/5] video: Add auxiliary display drivers to Graphics
- support menu
-To: Javier Martinez Canillas <javierm@redhat.com>
+References: <20230627050148.2045691-1-yangcong5@huaqin.corp-partner.google.com>
+ <CAD=FV=WR=fnhCxC37Eo3hinh2MV=eTNuXG+GrwgR6K_pV4Rbaw@mail.gmail.com>
+ <CAD=FV=UcFn7Wq_Ock6RCT0mPhgjpJwF7dJjcbwcoESW9nni62Q@mail.gmail.com>
+In-Reply-To: <CAD=FV=UcFn7Wq_Ock6RCT0mPhgjpJwF7dJjcbwcoESW9nni62Q@mail.gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 4 Jul 2023 09:39:39 +0200
+Message-ID: <CACRpkdb_6n+CKUHYu5nAtCEKK_VwO2hGUUCHny56oSYt_vTfLw@mail.gmail.com>
+Subject: Re: [v2] drm/panel: Fine tune Starry-ili9882t panel HFP and HBP
+To: Doug Anderson <dianders@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,54 +70,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- Nipun Gupta <nipun.gupta@amd.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+Cc: neil.armstrong@linaro.org, devicetree@vger.kernel.org,
+ Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Oded Gabbay <ogabbay@kernel.org>
+ hsinyi@google.com, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier,
+On Fri, Jun 30, 2023 at 2:42=E2=80=AFAM Doug Anderson <dianders@chromium.or=
+g> wrote:
 
-On Tue, Jul 4, 2023 at 1:05=E2=80=AFAM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
-> The drivers in this subsystem are for character-based LCD displays, which
-> can fall into the same category of the DRM/KMS and fbdev drivers that are
-> located under the "Graphics support" menu. Add auxdisplay there as well.
+> ...this means that it lands in drm-misc-next-fixes, so I've pushed it the=
+re.
 >
-> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> 59bba51ec2a5 drm/panel: Fine tune Starry-ili9882t panel HFP and HBP
 
-Thanks for your patch!
+I guess that means we need to merge drm-misc-next-fixes back to the
+drm-misc-next branch so that I can rebase my series breaking out the
+ili9882t driver to its own file?
 
-> --- a/drivers/video/Kconfig
-> +++ b/drivers/video/Kconfig
-> @@ -30,6 +30,8 @@ if HAS_IOMEM
->  config HAVE_FB_ATMEL
->         bool
->
-> +source "drivers/auxdisplay/Kconfig"
-
-This is inside the "if HAS_IOMEM" section, while there was no
-such limitation before.
-
-> +
->  source "drivers/char/agp/Kconfig"
->
->  source "drivers/gpu/vga/Kconfig"
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Yours,
+Linus Walleij
