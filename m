@@ -2,75 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5319F747650
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 18:18:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0381F747661
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 18:23:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E558810E2F5;
-	Tue,  4 Jul 2023 16:18:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08D6C10E18E;
+	Tue,  4 Jul 2023 16:23:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8E8510E2F5;
- Tue,  4 Jul 2023 16:18:30 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 36461AEF018704; Tue, 4 Jul 2023 16:18:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=ljzIr1GvFkA2L7mrh7r0rOyoGjyhjOhywAgfd8Edlz0=;
- b=hWESQYzJOuXN2zVOv/nQ3MFnLLrnLlaaG6eOSt3YNQ6BI7goy/nDMNskwSlawp0WnFMh
- vsYpJMor9p7QiWXZxHP8vsG5kmn6vIBjpJekT2ypRE/IzH4ET/3DPUhfXvfz0zHkOIum
- jzEJh6KNswnOiVGdijQNTV4QuEpGhAW4OvNzhOKcz8YO80ZoVjEH0FWrseOUf/nvjK+5
- xAhHjMTKlzpzaeeGWPcL6duldH/e59LL+x4FbwsbkFR/OfBMM83iTDtWhy3jYjTTLPmX
- 0vZAl3aFRzjmUH9R53pKtJbpyFisNQp3ByVHKwjxqdHVBK3/pPcIbkG0kH6kLNrGC/OT Aw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rm1sb2rea-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Jul 2023 16:18:28 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 364GIRTX004772
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 4 Jul 2023 16:18:27 GMT
-Received: from [10.110.19.132] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.7; Tue, 4 Jul 2023
- 09:18:25 -0700
-Message-ID: <3cc71fbc-c8f6-cff4-adf3-19013bedc98e@quicinc.com>
-Date: Tue, 4 Jul 2023 09:18:23 -0700
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22D5910E18E
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 16:23:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1688487826;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2FITFWtbRXE3gky2EO4aMziTa3J/r1+wMO4yc2vs7Pc=;
+ b=cEmRqCFJky+Y1njU1kLwe5XQcJQIdkA0lRBWm709fwb139FCHQwkjr5D9gH5Mk2w8Mj4Sw
+ G2jxdpp8xXsHYmlySxmzPHo9O2rNrOZxbuvPoenihq3JpFM8gee4oJ+uSlLrNcB+phAvqB
+ vHIBlqGnGvBQgzlBV/nodS7oIWapKBc=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-391-4t2LoqAVNp--3NO6wNd9gA-1; Tue, 04 Jul 2023 12:23:43 -0400
+X-MC-Unique: 4t2LoqAVNp--3NO6wNd9gA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-3f81dda24d3so63661805e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Jul 2023 09:23:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688487822; x=1691079822;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2FITFWtbRXE3gky2EO4aMziTa3J/r1+wMO4yc2vs7Pc=;
+ b=OCjap5t6CZBoQEq/wpJMhXvuEzXj4lgI/7R6/Wy443wsPwoeqB1XhRFeq15hGmTGdp
+ QX7M72lPKOYTC5+kaiq14bi73+Ds+hqgGpWB0Xt86fRCgLEOAIQNpW22aPLVjlGypGg4
+ z3o1YFtmcF6BiAwJaU9ewpHfblvjrEovY70ljAhyXNttcxpVZ5SyEN0N8o9fOj5cDAUn
+ ATl74PCnwUE17YryPdwHxMps/zX+QmD6nNMhVLCcF0N2Xp1lCqSjwKRYAyyZ4fmECcgV
+ 3M6f1NIHwx+HZT6GQve2ju+cXGJhY+7HUjMYzXQFicrfyPV3OfpuFjBzSW5/wxxyLYkE
+ iBAg==
+X-Gm-Message-State: AC+VfDyCJOq6tDTEU+JHMexH96kfH7lH2uhBr21PvcRs6vXIunNrW/ut
+ rbxmde5Og+ou2pUM2zocfEttGRS50xaNLq+njN2cOvvVnQMNVW5Z2n5xmiQbSGJa4YaJlNnZ5QR
+ hdNFKyDOCAydrnA3ermzg54ui2JGi
+X-Received: by 2002:a05:600c:2145:b0:3fb:415f:a85b with SMTP id
+ v5-20020a05600c214500b003fb415fa85bmr18158821wml.3.1688487822321; 
+ Tue, 04 Jul 2023 09:23:42 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7T04nL74CM9kmUBFWNxbGLn7ruUc6nb3zVFQfaw7cBAYtqvH64gACvFSpImO/HrduwXThnBg==
+X-Received: by 2002:a05:600c:2145:b0:3fb:415f:a85b with SMTP id
+ v5-20020a05600c214500b003fb415fa85bmr18158793wml.3.1688487821958; 
+ Tue, 04 Jul 2023 09:23:41 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ m21-20020a7bcb95000000b003faabd8fcb8sm24447459wmi.46.2023.07.04.09.23.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Jul 2023 09:23:41 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, arnd@arndb.de, deller@gmx.de,
+ daniel@ffwll.ch, airlied@gmail.com
+Subject: Re: [PATCH 01/12] efi: Do not include <linux/screen_info.h> from
+ EFI header
+In-Reply-To: <20230629121952.10559-2-tzimmermann@suse.de>
+References: <20230629121952.10559-1-tzimmermann@suse.de>
+ <20230629121952.10559-2-tzimmermann@suse.de>
+Date: Tue, 04 Jul 2023 18:23:40 +0200
+Message-ID: <87ilazlk6r.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/msm/dpu: add missing flush and fetch bits for
- DMA4/DMA5 planes
-Content-Language: en-US
-To: Jonathan Marek <jonathan@marek.ca>, <freedreno@lists.freedesktop.org>
-References: <20230704160106.26055-1-jonathan@marek.ca>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230704160106.26055-1-jonathan@marek.ca>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: hK60cDD_ckLgNX1mXqggon0APgjcb59-
-X-Proofpoint-ORIG-GUID: hK60cDD_ckLgNX1mXqggon0APgjcb59-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-04_10,2023-07-04_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0
- mlxlogscore=695 clxscore=1011 spamscore=0 lowpriorityscore=0 mlxscore=0
- adultscore=0 phishscore=0 malwarescore=0 impostorscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2307040141
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,25 +82,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kalyan Thota <quic_kalyant@quicinc.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Sean Paul <sean@poorly.run>, open
- list <linux-kernel@vger.kernel.org>, "open
- list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>, "open
- list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: linux-hyperv@vger.kernel.org, linux-efi@vger.kernel.org,
+ linux-ia64@vger.kernel.org, linux-sh@vger.kernel.org,
+ Catalin Marinas <catalin.marinas@arm.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
+ Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ linux-arch@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ linux-staging@lists.linux.dev, Russell King <linux@armlinux.org.uk>,
+ linux-csky@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-alpha@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-
-On 7/4/2023 9:01 AM, Jonathan Marek wrote:
-> Note that with this, DMA4/DMA5 are still non-functional, but at least
-> display *something* in modetest instead of nothing or underflow.
-> 
-> Fixes: efcd0107727c ("drm/msm/dpu: add support for SM8550")
-> Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+> The header file <linux/efi.h> does not need anything from
+> <linux/screen_info.h>. Declare struct screen_info and remove
+> the include statements. Update a number of source files that
+> require struct screen_info's definition.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Ard Biesheuvel <ardb@kernel.org>
+> Cc: Russell King <linux@armlinux.org.uk>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
 > ---
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Will pick this up for -fixes
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
