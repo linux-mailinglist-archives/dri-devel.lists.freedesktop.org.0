@@ -2,62 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77D567474B8
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 17:04:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AA7F7474C0
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 17:04:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F02610E1B0;
-	Tue,  4 Jul 2023 15:03:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 792A210E2C9;
+	Tue,  4 Jul 2023 15:04:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D88510E1B0
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 15:03:57 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id
- 38308e7fff4ca-2b699a2fe86so95196331fa.3
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jul 2023 08:03:57 -0700 (PDT)
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B88110E1B0
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 15:03:58 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id
+ 38308e7fff4ca-2b63e5f94f1so71771701fa.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Jul 2023 08:03:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688483035; x=1691075035;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=tj0LTLAfRW3eN7Hujj5ZWhl9+2Sp6toZsHXLprydla0=;
- b=Oc0Ht0ENmTOi5FbZB1qXkgsXbGSfj290T9ms1fVGyZjAf+TvXYp+/XVxkzCCIUGrSN
- EXJ8sKyrnhtEvoNXAWvuVh5zypAQ9dnK+/nrEJM0S90TWQRgERdcDwt1rJGSR3OtB1GJ
- c8HsekoMrsGgyoXLkej8cT4EiZGmXZFuy7F8Fpf+2O6unmIpqpzCA3jXn2tUvxji+tEc
- vblq4c3eF+JzahrKDenDiKVi087tZQT66kmUdvBPD+h5gbPz5Xx33t3bUqOTRXNZ/T7P
- yUQCpke/VbNqgNBt3L8JccyC0TlbqEDDFSpx9UwY2wtpdt83wBG8jIJZQo3atPTPfMRv
- h91Q==
+ d=linaro.org; s=google; t=1688483036; x=1691075036;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ZC0/5bXEsuHujngkcxb69wPizikqv0P8Uq9N9rSIaSc=;
+ b=rrDHjT1XdohbcAEb7K/I45P6WCTri8lRvdqh3U1QdxZ/OUDMVh/obCczQoyxUHIxhm
+ C4Ww9VKXvnn4H4JfqMi+mUBaYbvvemW7181yFoUzLMHW8SIk3MT7zla3qY8zpgF7MAa4
+ lUGL+5Y3JfcpTJbsoHAZO5eS9QKDA6oB0n2bU5+MWA2uYZq+uwtJxx9zo5bUSKSKnvdD
+ 7VUs5FoyCQDWEGESI5puZ8yDV1UpLbwUodPjp6igqx06YqMaMYN/B51Rx/59I+Yf9oHV
+ 6O9Jo68S7N4P/eQafgYzjlrW5B/gmWIYfRZH8PP7HzzZFNTnux+y7hkI6/+aVJ8WQPkT
+ 72nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688483035; x=1691075035;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=tj0LTLAfRW3eN7Hujj5ZWhl9+2Sp6toZsHXLprydla0=;
- b=FIqTdsV7AUYQeH5yn0iuy3BmeoQl++8WMm2IYMrbf4318gRinGqYBUAMbJAcnHUKvy
- nW2By8/vZ5j02gj0bY4xi8QqW5UDiZ6vZlDkvPbUqtnsNfQ2e38r0d+cuvSxed8Jwn93
- PoPjjXZuQeguS5yVDAsAUsS6q2NqKltGRSiRzF/jNqdSCf6HAZPE0FXC2tQFi07s2dCJ
- RxjSS10mzjeV7hqFFIgUvI3rMSYgh4fKsSbXut9dBH510c2hqp0p0nhMVYq5jdVh7Wea
- q6Z+vgvEaeFlAWjwKqvzHUkeokbzbs9232JEHYKBgr1Fqrs4ciHVqNhM2J+MBgXlPuAO
- VwcQ==
-X-Gm-Message-State: ABy/qLb/ghaNnkwCZd+gV7Ln4GxAfc5CLoa7eTi0B+p4Xkkb0KdHmJcB
- Y2JB4xAxt5hsft9cEmYaG2uSCg==
-X-Google-Smtp-Source: APBJJlH/fz7KgnfYa/G7+IktCfZ+NwjetuSkB8OLYtVtfbCSbvd92lztcnUZLLzQ8pUrqydS/i56Fg==
-X-Received: by 2002:a2e:b606:0:b0:2b6:bf9c:d025 with SMTP id
- r6-20020a2eb606000000b002b6bf9cd025mr9182116ljn.8.1688483035336; 
- Tue, 04 Jul 2023 08:03:55 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1688483036; x=1691075036;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ZC0/5bXEsuHujngkcxb69wPizikqv0P8Uq9N9rSIaSc=;
+ b=B02CIrdqgNnngSKyd7n9jSPvjgfacPlld3UoYg7s+Lj8bW3PEsgScx9sMYOb208nSS
+ QUXmGo6d0n9Al49CAvj/fSMiL5ZIwK1eGYw7xj0/cBKDk/NR5x4tskijuxxSFfrFa9oY
+ V7oOQzaS9lel2ZmhtQqVOzB4UvvM9zmMNNMFMqTbC8Y3M23v1Y+Sxcy8Aon+O9fgElaz
+ RhkXVnCUlb37qgRfL9Gjc5vL+QIycf3xWm+biitHAGh9ni3YAoQfABsLxsq5PR5cGMQn
+ r4CVTK0Eb23AZquu1edB1T+LIZhD6azs8S6F3Yltdt2ntbhxwJg6ATFHGFoRPuYFdJYy
+ O/Dg==
+X-Gm-Message-State: AC+VfDydgZJS5BK+eyNw2NAou0GVLtiDX55yNcFynp2DJhsifb0+6Nzq
+ +OWSeIMuViqBIkSI+qk3mu5xSA==
+X-Google-Smtp-Source: ACHHUZ6Z6+YzUGt6Z0XsYxLyOrcysDN2d2wGK/OHEBQBcN1Z6cxNKGbIrIhPPmdtll8oMChE0BI+tw==
+X-Received: by 2002:a05:651c:1309:b0:2b6:9f54:af9a with SMTP id
+ u9-20020a05651c130900b002b69f54af9amr6875576lja.8.1688483036141; 
+ Tue, 04 Jul 2023 08:03:56 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- j10-20020a2e850a000000b002b6ca539d92sm3337354lji.138.2023.07.04.08.03.54
+ j10-20020a2e850a000000b002b6ca539d92sm3337354lji.138.2023.07.04.08.03.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jul 2023 08:03:54 -0700 (PDT)
+ Tue, 04 Jul 2023 08:03:55 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH v2 00/14] drm/msm/dpu: cleanup dpu_core_perf module
-Date: Tue,  4 Jul 2023 18:03:40 +0300
-Message-Id: <20230704150354.159882-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 01/14] drm/msm/dpu: drop enum dpu_core_perf_data_bus_id
+Date: Tue,  4 Jul 2023 18:03:41 +0300
+Message-Id: <20230704150354.159882-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230704150354.159882-1-dmitry.baryshkov@linaro.org>
+References: <20230704150354.159882-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,39 +77,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+ Stephen Boyd <swboyd@chromium.org>, Konrad Dybcio <konrad.dybcio@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Apply several cleanups to the DPU's core_perf module.
+Drop the leftover of bus-client -> interconnect conversion, the enum
+dpu_core_perf_data_bus_id.
 
-Changes since v1:
-- Reworked overrides for the perf parameters instead of completely
-  dropping them. Abhinav described why these overrides are useful.
-- Moved max clock rate determination to dpu_kms.c
+Fixes: cb88482e2570 ("drm/msm/dpu: clean up references of DPU custom bus scaling")
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-Dmitry Baryshkov (14):
-  drm/msm/dpu: drop enum dpu_core_perf_data_bus_id
-  drm/msm/dpu: core_perf: extract bandwidth aggregation function
-  drm/msm/dpu: core_perf: bail earlier if there are no ICC paths
-  drm/msm/dpu: drop separate dpu_core_perf_tune overrides
-  drm/msm/dpu: handle perf mode in _dpu_core_perf_crtc_update_bus()
-  drm/msm/dpu: rework core_perf debugfs overrides
-  drm/msm/dpu: drop dpu_core_perf_params::max_per_pipe_ib
-  drm/msm/dpu: rework indentation in dpu_core_perf
-  drm/msm/dpu: drop the dpu_core_perf_crtc_update()'s stop_req param
-  drm/msm/dpu: use dpu_perf_cfg in DPU core_perf code
-  drm/msm/dpu: remove unused fields from struct dpu_core_perf
-  drm/msm/dpu: core_perf: remove extra clk_round_rate() call
-  drm/msm/dpu: move max clock decision to dpu_kms.
-  drm/msm/dpu: drop dpu_core_perf_destroy()
-
- drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 265 +++++-------------
- drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h |  60 +---
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      |   8 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  14 +-
- 4 files changed, 96 insertions(+), 251 deletions(-)
-
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
+index e3795995e145..29bb8ee2bc26 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
+@@ -14,19 +14,6 @@
+ 
+ #define	DPU_PERF_DEFAULT_MAX_CORE_CLK_RATE	412500000
+ 
+-/**
+- * enum dpu_core_perf_data_bus_id - data bus identifier
+- * @DPU_CORE_PERF_DATA_BUS_ID_MNOC: DPU/MNOC data bus
+- * @DPU_CORE_PERF_DATA_BUS_ID_LLCC: MNOC/LLCC data bus
+- * @DPU_CORE_PERF_DATA_BUS_ID_EBI: LLCC/EBI data bus
+- */
+-enum dpu_core_perf_data_bus_id {
+-	DPU_CORE_PERF_DATA_BUS_ID_MNOC,
+-	DPU_CORE_PERF_DATA_BUS_ID_LLCC,
+-	DPU_CORE_PERF_DATA_BUS_ID_EBI,
+-	DPU_CORE_PERF_DATA_BUS_ID_MAX,
+-};
+-
+ /**
+  * struct dpu_core_perf_params - definition of performance parameters
+  * @max_per_pipe_ib: maximum instantaneous bandwidth request
 -- 
 2.39.2
 
