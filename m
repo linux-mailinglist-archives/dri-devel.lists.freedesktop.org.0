@@ -1,49 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A120746F65
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 13:07:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 600CA746FA6
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 13:14:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA18D10E100;
-	Tue,  4 Jul 2023 11:07:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CBE210E0E8;
+	Tue,  4 Jul 2023 11:14:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FEA110E0E8;
- Tue,  4 Jul 2023 11:07:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1688468850; x=1720004850;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=2PrQdeNByVQH6XsxqHIVdlXGsS4egbyPYtxY+3GzdlY=;
- b=ZKt+F+qeUb0WnaxaqSrWUampFAOFqfm/P1KoRpcIP9iCseZK2pN7UvXg
- sw+MKDZWBd2vNTcKYkf/skJRR2KarELkVrEThfaHEGzIpNdKCROVmlps7
- ive3Bu0RmaeSKcsxm3bHZ8ve5iQueDqxL6kdMZgOfjmbP13sbdDbr5Sl/
- 1rXBd34AGj3qdB8DfXIdlaHR6MTHfR/NKiBufu2ofOVmhdWewGTj0n6dp
- eWtUY2zYUuS/I3A78k/UMzZObuYjGfxOfIBKeh/j9LIVGp4mcYVsY6Hu2
- Q99BU6pr78RkHYycJratDVdjnCPd/iFYxC8WikBmE2Lqz4Ly8BFespoCI Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="393842791"
-X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; d="scan'208";a="393842791"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jul 2023 04:07:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="696126441"
-X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; d="scan'208";a="696126441"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO
- jkrzyszt-mobl2.intranet) ([10.213.5.5])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jul 2023 04:07:05 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915: Fix premature release of request's reusable memory
-Date: Tue,  4 Jul 2023 13:06:03 +0200
-Message-ID: <20230704110602.16467-2-janusz.krzysztofik@linux.intel.com>
-X-Mailer: git-send-email 2.41.0
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB21310E0E8
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 11:14:25 +0000 (UTC)
+Received: by mail-ot1-x32e.google.com with SMTP id
+ 46e09a7af769-6b8b8de2c6bso2418586a34.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Jul 2023 04:14:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20221208; t=1688469264; x=1691061264;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kmq13IpfgnAPzEDZ3MCvqyIpf9PhLjB+MPzx2szVSfk=;
+ b=b7AhtMCftt+cTeOJXwBy5ITli90/x5PMA+MyE+5atctEAz5tSz0BLHemWUOzyQcU15
+ arIY+E27ZqZIe8Jofdpx5wdowWEAtVadAAUP1SZ6zv3+ow6M6by33CgrIbvZHlLGyhDm
+ DkLDcQmeQs3J/P4bLLOwR6DXAkv2xDG6hZZ5NCb/bSZK65D/3iwLM4fN5XUv+yE5OT4u
+ zlAYg0SJyzGtyriDQwiYWRTZGMxZ3cOKYnyR8ozA5WAGyY94jUJCXAtuPD4hQuBrjH12
+ aXtiuookOoYhYNSwZNVyQ+Ksn1UBRrtgFIvwrR7CX1r+p8JHZH7VImB3jjeU0ftknJ2E
+ VHPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688469264; x=1691061264;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kmq13IpfgnAPzEDZ3MCvqyIpf9PhLjB+MPzx2szVSfk=;
+ b=OV/SdC7aiAH8EeJCmFZVSnzn6HRDRoAcbF0OIA3TFDd/A3Mh0QFIpkcTlcnNHWR6UF
+ JPsX2WCCUJvDur7stQuwxbCOBp9Ox389Mabe1DL1WJJiBMV2qlM8tTqoeL/OD5ttcY/T
+ b/i72rqw1LtJrA25XkPslEQ03oTTBRTzCwfcycPPH5Guk/AdehLk7wRlS6U0gdTmbIP3
+ V5FC01aPGCN/L8Ie0W1qGnvTrAKHtkBI4N1//Um80WV7noOJWLs6IXJxZn/2XZc6isD+
+ /SE81T/gRA9yuMp4Nc6D7G1ZNzKSo5VyDb2hS2wSjPJkzrIldIfCW/Nsc2G8nEQ8Rl3c
+ BY2w==
+X-Gm-Message-State: ABy/qLYJhzXCdE6KuiCJe6L+7+X1sFY++cmJGbCTDrQK/ZQXDFOKwrcb
+ 38qisAtxpaBC65tdUnx5LK6fxJBCy/PxW0sKDxw56g==
+X-Google-Smtp-Source: APBJJlFGYPsDHhZoR1DA74LBsPfA4iDEEhLPHr4gpWDC18z6mMpX2jCRqIPh9EeoZRADFggaiWSfavywya4q4oo5xvo=
+X-Received: by 2002:a05:6359:21b:b0:134:ddad:2b4f with SMTP id
+ ej27-20020a056359021b00b00134ddad2b4fmr10055345rwb.18.1688469264466; Tue, 04
+ Jul 2023 04:14:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230703-fix-boe-tv101wum-nl6-v3-0-bd6e9432c755@linaro.org>
+ <CAHwB_N+F_PQaRb+BvLmJwUSsbeCCqF3rWcLYuY_9ktrFGK5_7Q@mail.gmail.com>
+ <CACRpkdYQb6MMQ7uxPF2UK4Z6UDQs2uHgpzXaeMm8BZm5i+hofQ@mail.gmail.com>
+In-Reply-To: <CACRpkdYQb6MMQ7uxPF2UK4Z6UDQs2uHgpzXaeMm8BZm5i+hofQ@mail.gmail.com>
+From: cong yang <yangcong5@huaqin.corp-partner.google.com>
+Date: Tue, 4 Jul 2023 19:14:12 +0800
+Message-ID: <CAHwB_NKD=87cgQMpegbDEQzP00qPvzViMnDSzW7BXPE7-MtfDg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] Fix up the boe-tv101wum-nl6 panel driver
+To: Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,108 +70,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jitao Shi <jitao.shi@mediatek.com>, Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Ruihai Zhou <zhouruihai@huaqin.corp-partner.google.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Infinite waits for completion of GPU activity have been observed in CI,
-mostly inside __i915_active_wait(), triggered by igt@gem_barrier_race or
-igt@perf@stress-open-close.  Root cause analysis, based of ftrace dumps
-generated with a lot of extra trace_printk() calls added to the code,
-revealed loops of request dependencies being accidentally built,
-preventing the reqests from being processed, each waiting for completion
-of another one activity.
+Hi,
 
-When we substitute a new request for a last active one tracked on a
-timeline, we set up a dependency of our new request to wait on completion
-of current activity of that previous one.  However, not all processing
-paths take care of keeping the old request still in memory until we use
-its attributes for setting up that await dependency.  As a result, we can
-happen to use attributes of a new request that already reuses the memory
-previously allocated to the old one, already released, then, set up an
-await dependency on wrong request.  Combined with perf specific kernel
-context remote requests added to user context timelines, unresolvable
-loops of dependencies can be built, leading do infinite waits.
+On Tue, Jul 4, 2023 at 6:16=E2=80=AFPM Linus Walleij <linus.walleij@linaro.=
+org> wrote:
+>
+> On Tue, Jul 4, 2023 at 12:04=E2=80=AFPM cong yang
+> <yangcong5@huaqin.corp-partner.google.com> wrote:
+> > On Mon, Jul 3, 2023 at 9:21=E2=80=AFPM Linus Walleij <linus.walleij@lin=
+aro.org> wrote:
+>
+> > > I am surprised that contributors from manufacturers do not seem
+> > > to have datasheets for the display controllers embedded in the
+> > > panels of their products. Can you take a second look?
+> >
+> > Sorry, this panel datasheet is not open source, I can't share this data=
+sheet.
+>
+> Perhaps not, but you can use the knowledge in the datasheet to
+> name the commands and give better structure to the members of
+> the driver, if you know what commands mean then provide
+> #define statements to them so sequences become understandable.
+> See for example patch 4/4.
 
-We obtain a pointer to the previous request to wait on while we substitute
-it with a pointer to our new request in an active tracker.  In some
-processing paths we protect that old request with RCU from being freed
-before we use it, but in others, e.g. __i915_request_commit() ->
-__i915_request_add_to_timeline() -> __i915_request_ensure_ordering(), we
-don't.  Moreover, memory of released i915 requests is mostly not freed but
-reused, and our RCU protection doesn't prevent that memory from being
-reused.
+Patch 4/4 LGTM, from the datasheet  0XFF is EXTC Command Set Enable .
+Description: Set the register, 1 Parameter =3D 98h, 2 Parameter =3D 82h, 3
+Parameter =3D Page value to enable =E2=80=9Cpage command set=E2=80=9D avail=
+able.
+00h =3D Page 0 ,01h =3D Page 1... 0Eh =3D Page 14.
 
-Protect memory of released i915 requests from being reused before RCU
-grace period expires.  Moreover, always protect previous active i915
-requests from being released while still accessing their memory.
-
-Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/8211
-Fixes: b1e3177bd1d8 ("drm/i915: Coordinate i915_active with its own mutex")
-Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Cc: <stable@vger.kernel.org> # v5.5+
----
- drivers/gpu/drm/i915/i915_request.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index 894068bb37b6f..7f14b6309db82 100644
---- a/drivers/gpu/drm/i915/i915_request.c
-+++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -110,13 +110,11 @@ struct kmem_cache *i915_request_slab_cache(void)
- 	return slab_requests;
- }
- 
--static void i915_fence_release(struct dma_fence *fence)
-+static void i915_fence_release_rcu_cb(struct rcu_head *rcu)
- {
-+	struct dma_fence *fence = container_of(rcu, typeof(*fence), rcu);
- 	struct i915_request *rq = to_request(fence);
- 
--	GEM_BUG_ON(rq->guc_prio != GUC_PRIO_INIT &&
--		   rq->guc_prio != GUC_PRIO_FINI);
--
- 	i915_request_free_capture_list(fetch_and_zero(&rq->capture_list));
- 	if (rq->batch_res) {
- 		i915_vma_resource_put(rq->batch_res);
-@@ -174,6 +172,16 @@ static void i915_fence_release(struct dma_fence *fence)
- 	kmem_cache_free(slab_requests, rq);
- }
- 
-+static void i915_fence_release(struct dma_fence *fence)
-+{
-+	struct i915_request *rq = to_request(fence);
-+
-+	GEM_BUG_ON(rq->guc_prio != GUC_PRIO_INIT &&
-+		   rq->guc_prio != GUC_PRIO_FINI);
-+
-+	call_rcu(&fence->rcu, i915_fence_release_rcu_cb);
-+}
-+
- const struct dma_fence_ops i915_fence_ops = {
- 	.get_driver_name = i915_fence_get_driver_name,
- 	.get_timeline_name = i915_fence_get_timeline_name,
-@@ -1673,6 +1681,7 @@ __i915_request_ensure_ordering(struct i915_request *rq,
- 
- 	GEM_BUG_ON(is_parallel_rq(rq));
- 
-+	rcu_read_lock();
- 	prev = to_request(__i915_active_fence_set(&timeline->last_request,
- 						  &rq->fence));
- 
-@@ -1706,6 +1715,7 @@ __i915_request_ensure_ordering(struct i915_request *rq,
- 							 &rq->dep,
- 							 0);
- 	}
-+	rcu_read_unlock();
- 
- 	return prev;
- }
--- 
-2.41.0
-
+Thank you for you patch.
+>
+> Yours,
+> Linus Walleij
