@@ -1,63 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4464746BE2
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 10:29:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0F20746BE7
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 10:30:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F62310E2B5;
-	Tue,  4 Jul 2023 08:29:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A129510E2B1;
+	Tue,  4 Jul 2023 08:30:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A5A610E2B4
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 08:29:48 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id
- 4fb4d7f45d1cf-51d9865b8a2so5996343a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jul 2023 01:29:48 -0700 (PDT)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B636210E2B1
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 08:30:27 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id
+ a640c23a62f3a-98df3dea907so626460666b.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Jul 2023 01:30:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688459387; x=1691051387;
+ d=linaro.org; s=google; t=1688459425; x=1691051425;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=nSydRmjgws15bedxlErnljNbotaBQn+Lbon5YDX6p44=;
- b=SwFgQHSvuSl1/DEHWu/vKT9xPNWOMD9kYSXxsFEdq2Bu1SSTPFLaYLMwBuuXv/6xU+
- TC5KnjiNEYjYPvBprtpThRKC9aeHzF2y7iEh47MBa5JRXQkVWhSVFW1qOj/s9A/dYbuz
- WdAhApzqqj6oLXLGeFcQol1FenabtCfl99Ny0f+ZvVaeSj4SfFdHEyI5i8TxwUm/DeVq
- mJkLPkD1J1zhZJH7eD7JzxP45xTDVyU/9ablIfkEDaCogUFW5ygML7q5RIRhoCLIMunX
- MIOn1NelXRZnT1ZFEfxNgVBffQKiF3SlBaU74KqzC8sz2xQzSdJ5JO5DWkSzDqeA0mZw
- QR2g==
+ bh=KFaFw3uJoDRm9laNgejEO9i+oEQ6almWqyPQQo3h6WE=;
+ b=ZjbvfgYAzGqBD47D3/HU4Ni1J28WS1B5YSh1SFPyYXLkUmMDIN2E/pEoKqc/thhJnc
+ EJCRBaAk8au/+WFGd77G2GE6y8PU7GEb3mRq5+f5d4AsjuTfTwRls+apoEeBWhb2H5VZ
+ 8AFgoOU45puo+4H7CU4UJ2MPQgcTcn8qAw6oRkDUgYsy284cQfmjn08AWh9izQD0rcdj
+ vrBWlheExtcEdjf59szC4Qahl0pCKuKwe1ImyLp1SyyTaCd9WBKmD1dzfyhusWtOzyZk
+ Mu7TrkQto5OAFRBhDsAraehkOhPhhiP6UqlqXlSTelHdbK3qfoZZFOsKQymgmDzpY7rh
+ wzEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688459387; x=1691051387;
+ d=1e100.net; s=20221208; t=1688459425; x=1691051425;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nSydRmjgws15bedxlErnljNbotaBQn+Lbon5YDX6p44=;
- b=f9lVbQ09Mlt+WAZIJ3SU/9BPuL9OzwKRg/BQPX5YQSlQA0XfnAXecWm2t1eV3+QcPT
- ri1CapwSxG/oRbo9e16FXqOPY1gfjOVTgKRt+AX8LHM5bclZMRfu+TOcRG1kIm4CYwA8
- KGV7HdObtBi74hs3Yu51TTE0IXdpsy/ip7PsdqCFnU+SfmuSaUX9lqScmXilm/k1KhmJ
- ql3jRJSqFh4sj5XQq/sM9tyxQYdoNLS1qKKQqxCxTIt3JA4gALJGeMDHqFvuRgdb+xI7
- Wm+6KhS2GJbmSjhJiNyO4+mGunAxZdzRhZUNNeEUyn6fPDFfWYfOnze6O/jDYsMjkMhC
- /maw==
-X-Gm-Message-State: ABy/qLbdwQWPW51eANol8dA/uD84Xdm5YuXv22v2/RvsnW0B1e5kinBr
- hoCKisF9L70pOA2PukKGD6j1yA==
-X-Google-Smtp-Source: APBJJlHW9oT1caeFSgmLOSMzk0XFqnO4q4Z/spxGyuonofeoCOXIDrcjbbQr+AwH54okYEESIpe43A==
-X-Received: by 2002:aa7:c711:0:b0:51d:d4c0:eea5 with SMTP id
- i17-20020aa7c711000000b0051dd4c0eea5mr7695607edq.40.1688459387051; 
- Tue, 04 Jul 2023 01:29:47 -0700 (PDT)
+ bh=KFaFw3uJoDRm9laNgejEO9i+oEQ6almWqyPQQo3h6WE=;
+ b=V2mx97VxCXhYHaxP2Pje8sPHD3e42eeQPjPl1PjOZhYuLwOiIAEdfq8dcXSV3C3fNO
+ glyco1/kt+E4DK5OPGa5kS7YmE8acbGc1Dw/eblMjnRqpkSxtAfbP+6rxDyJtKrFz6U2
+ 0kf8iRgvTssZQPdCivZWYVpadUo+OuV0POfXHbXgIZBURYPFjL1ge4oLq/j9g0iWBmKc
+ 2augbdfV634oYujoltWuq+1Xbd7ihNRhMT1ZGsYWnGogsC5TdEFuWta3FY2hF8Y1z2GV
+ PxFo2P2aVGDm49X3GAAq3DI+kAGa9slfvYJMXjQKW7EbqsZ0tcLNz6cRRAaC+qHG6hky
+ 3h7Q==
+X-Gm-Message-State: ABy/qLaZABg1Il81LbAcsX6MjBs1GAQtcL+He/mpjrWf2F9lVhUvxVSx
+ TPXpGj9TXe0mmE1kcN90dGTTaw==
+X-Google-Smtp-Source: APBJJlEe8seu86IJuy45hmgLX9aDLTpaeFtaYyGZDUMtQ9+B79h7OgG0fN5PxW+lwAOJaVYdiyE8pw==
+X-Received: by 2002:a17:906:34c9:b0:982:9b01:a582 with SMTP id
+ h9-20020a17090634c900b009829b01a582mr9389985ejb.1.1688459425722; 
+ Tue, 04 Jul 2023 01:30:25 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.26])
  by smtp.gmail.com with ESMTPSA id
- n22-20020a056402515600b0051e0f100c48sm2566127edd.22.2023.07.04.01.29.45
+ a16-20020a170906369000b009887c9b2812sm13234240ejc.8.2023.07.04.01.30.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Jul 2023 01:29:46 -0700 (PDT)
-Message-ID: <9256aa76-ded3-3fad-4564-e3451cf74065@linaro.org>
-Date: Tue, 4 Jul 2023 10:29:44 +0200
+ Tue, 04 Jul 2023 01:30:25 -0700 (PDT)
+Message-ID: <c6dc324c-2946-3af5-8ddb-11d0a0e824cb@linaro.org>
+Date: Tue, 4 Jul 2023 10:30:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH 02/14] dt-bindings: display/msm/gmu: Allow passing QMP
- handle
+Subject: Re: [PATCH 03/14] dt-bindings: display/msm/gpu: Allow A7xx SKUs
 Content-Language: en-US
 To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
  <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -67,9 +66,9 @@ To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>
 References: <20230628-topic-a7xx_drmmsm-v1-0-a7f4496e0c12@linaro.org>
- <20230628-topic-a7xx_drmmsm-v1-2-a7f4496e0c12@linaro.org>
+ <20230628-topic-a7xx_drmmsm-v1-3-a7f4496e0c12@linaro.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230628-topic-a7xx_drmmsm-v1-2-a7f4496e0c12@linaro.org>
+In-Reply-To: <20230628-topic-a7xx_drmmsm-v1-3-a7f4496e0c12@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,31 +91,13 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 28/06/2023 22:35, Konrad Dybcio wrote:
-> When booting the GMU, the QMP mailbox should be pinged about some tunables
-> (e.g. adaptive clock distribution state). To achieve that, a reference to
-> it is necessary. Allow it and require it with A730.
+> Allow A7xx SKUs, such as the A730 GPU found on SM8450 and friends.
+> They use GMU for all things DVFS, just like most A6xx GPUs.
 > 
 > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
->  Documentation/devicetree/bindings/display/msm/gmu.yaml | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/msm/gmu.yaml b/Documentation/devicetree/bindings/display/msm/gmu.yaml
-> index 20ddb89a4500..9e6c4e0ab071 100644
-> --- a/Documentation/devicetree/bindings/display/msm/gmu.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/gmu.yaml
-> @@ -64,6 +64,10 @@ properties:
->    iommus:
->      maxItems: 1
->  
-> +  qcom,qmp:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: Phandle to the QMP mailbox
 
-mailbox would suggest you should use mailbox properties. Instead maybe
-"Always On Subsystem (AOSS)" or just use existing description. I assume
-it's exactly the same.
-
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
