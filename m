@@ -1,66 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 811A87474B4
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 17:03:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77D567474B8
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 17:04:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F34C10E1A9;
-	Tue,  4 Jul 2023 15:03:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F02610E1B0;
+	Tue,  4 Jul 2023 15:03:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A77310E1A9
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 15:03:14 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id
- ffacd0b85a97d-3113da5260dso6265252f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jul 2023 08:03:14 -0700 (PDT)
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D88510E1B0
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 15:03:57 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id
+ 38308e7fff4ca-2b699a2fe86so95196331fa.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Jul 2023 08:03:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688482992; x=1691074992;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=EcaXmJ0ZrICymslbk6PHQsJRg8vS8+RojA0LAwyT/zQ=;
- b=KouPo65iu0hK7fuVBBpGDmUPRt2tU/GtFDp4hNAhFyjGhVMSOnJO3v6UetUjJ/p6pN
- N8SQknxPbCQOi66PLf7HcR5rUk41b3iuIwxQxNbtNXOqNFljVaaYzrqHRE/72sEhfIPM
- w5BUNfb19B9J+TNm12rbC8YqvK+khMGgHMxXq+5vjRVdGA7cCtuuyJYHA1UuJuIIAI3M
- D5Afj5+LBOeCDk2+TNC53DYEYHk3VXgtWQqAM4rcOZgCWGp24zcOk7P9qUgsG7Bq/Cv3
- xIlgpdiKy+I3gRN7OOKSAThu3oVLP/QMr4VVZrdYJWu7zargCQEIZ25aCQ275/O3Njct
- wELA==
+ d=linaro.org; s=google; t=1688483035; x=1691075035;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=tj0LTLAfRW3eN7Hujj5ZWhl9+2Sp6toZsHXLprydla0=;
+ b=Oc0Ht0ENmTOi5FbZB1qXkgsXbGSfj290T9ms1fVGyZjAf+TvXYp+/XVxkzCCIUGrSN
+ EXJ8sKyrnhtEvoNXAWvuVh5zypAQ9dnK+/nrEJM0S90TWQRgERdcDwt1rJGSR3OtB1GJ
+ c8HsekoMrsGgyoXLkej8cT4EiZGmXZFuy7F8Fpf+2O6unmIpqpzCA3jXn2tUvxji+tEc
+ vblq4c3eF+JzahrKDenDiKVi087tZQT66kmUdvBPD+h5gbPz5Xx33t3bUqOTRXNZ/T7P
+ yUQCpke/VbNqgNBt3L8JccyC0TlbqEDDFSpx9UwY2wtpdt83wBG8jIJZQo3atPTPfMRv
+ h91Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688482992; x=1691074992;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EcaXmJ0ZrICymslbk6PHQsJRg8vS8+RojA0LAwyT/zQ=;
- b=VuIAM0xZ6LT9d71oeL30v3XbzyRBnQjItk7yyvU1bdPOZ8ilwvIVCcpP9M+0wcGoaT
- TVz6ueZD44rUiknAKbjmGSs/XY3beJlrEYMFzTEzXb2aps2Zvongi6P40hnjHX4oSho+
- taa9KWEOvS++YcWgEzISw1wZYIfmsJ16Q3yIGtAjgG5UzbbryHuXP/DC7jEit6gbiK14
- TQHgRf5L8arBZiBSlT6xqOoRxtlmdlZyPe3763JWd2zBapSiCl1GHzcIt+fouaQbguZI
- LQgHqgBhl6FgCdVaSyLkJ2mmpF77/oafy1tB1LfHLjSGZSxai5WA7IhqiQEGVaBoougg
- 89AA==
-X-Gm-Message-State: ABy/qLb4qoZ1SMh7cAebIQyQXHbKLqTAaKKiHm/jUo0TTC1iouadTw8v
- 111cBbOyU0KLyHroRufDbWpudw==
-X-Google-Smtp-Source: APBJJlFlpjmrGdYueJJZlk/MoDzzq+L7FJYJ5eNl3AHPcCI5YjZgfpfSpd50V3Uqhy3K7ai28M4Z/Q==
-X-Received: by 2002:a5d:6850:0:b0:313:eb4d:6a0e with SMTP id
- o16-20020a5d6850000000b00313eb4d6a0emr11332569wrw.9.1688482992243; 
- Tue, 04 Jul 2023 08:03:12 -0700 (PDT)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ d=1e100.net; s=20221208; t=1688483035; x=1691075035;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=tj0LTLAfRW3eN7Hujj5ZWhl9+2Sp6toZsHXLprydla0=;
+ b=FIqTdsV7AUYQeH5yn0iuy3BmeoQl++8WMm2IYMrbf4318gRinGqYBUAMbJAcnHUKvy
+ nW2By8/vZ5j02gj0bY4xi8QqW5UDiZ6vZlDkvPbUqtnsNfQ2e38r0d+cuvSxed8Jwn93
+ PoPjjXZuQeguS5yVDAsAUsS6q2NqKltGRSiRzF/jNqdSCf6HAZPE0FXC2tQFi07s2dCJ
+ RxjSS10mzjeV7hqFFIgUvI3rMSYgh4fKsSbXut9dBH510c2hqp0p0nhMVYq5jdVh7Wea
+ q6Z+vgvEaeFlAWjwKqvzHUkeokbzbs9232JEHYKBgr1Fqrs4ciHVqNhM2J+MBgXlPuAO
+ VwcQ==
+X-Gm-Message-State: ABy/qLb/ghaNnkwCZd+gV7Ln4GxAfc5CLoa7eTi0B+p4Xkkb0KdHmJcB
+ Y2JB4xAxt5hsft9cEmYaG2uSCg==
+X-Google-Smtp-Source: APBJJlH/fz7KgnfYa/G7+IktCfZ+NwjetuSkB8OLYtVtfbCSbvd92lztcnUZLLzQ8pUrqydS/i56Fg==
+X-Received: by 2002:a2e:b606:0:b0:2b6:bf9c:d025 with SMTP id
+ r6-20020a2eb606000000b002b6bf9cd025mr9182116ljn.8.1688483035336; 
+ Tue, 04 Jul 2023 08:03:55 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- x2-20020a5d54c2000000b003142439c7bcsm11555831wrv.80.2023.07.04.08.03.11
+ j10-20020a2e850a000000b002b6ca539d92sm3337354lji.138.2023.07.04.08.03.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jul 2023 08:03:11 -0700 (PDT)
-Date: Tue, 4 Jul 2023 16:03:10 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Mans Rullgard <mans@mansr.com>
-Subject: Re: [PATCH] backlight: led_bl: fix initial power state
-Message-ID: <20230704150310.GA385243@aspen.lan>
-References: <20230704140750.25799-1-mans@mansr.com>
+ Tue, 04 Jul 2023 08:03:54 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [PATCH v2 00/14] drm/msm/dpu: cleanup dpu_core_perf module
+Date: Tue,  4 Jul 2023 18:03:40 +0300
+Message-Id: <20230704150354.159882-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230704140750.25799-1-mans@mansr.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,56 +72,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 04, 2023 at 03:07:50PM +0100, Mans Rullgard wrote:
-> The condition for the initial power state based on the default
-> brightness value is reversed.  Fix it.
->
-> Fixes: ae232e45acf9 ("backlight: add led-backlight driver")
-> Signed-off-by: Mans Rullgard <mans@mansr.com>
-> ---
->  drivers/video/backlight/led_bl.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/video/backlight/led_bl.c b/drivers/video/backlight/led_bl.c
-> index 3259292fda76..28e83618a296 100644
-> --- a/drivers/video/backlight/led_bl.c
-> +++ b/drivers/video/backlight/led_bl.c
-> @@ -200,8 +200,8 @@ static int led_bl_probe(struct platform_device *pdev)
->  	props.type = BACKLIGHT_RAW;
->  	props.max_brightness = priv->max_brightness;
->  	props.brightness = priv->default_brightness;
-> -	props.power = (priv->default_brightness > 0) ? FB_BLANK_POWERDOWN :
-> -		      FB_BLANK_UNBLANK;
-> +	props.power = (priv->default_brightness > 0) ? FB_BLANK_UNBLANK :
-> +		      FB_BLANK_POWERDOWN;
+Apply several cleanups to the DPU's core_perf module.
 
-The logic was wrong before but I think will still be wrong after the
-change too (e.g. the bogus logic is probably avoiding backlight flicker
-in some use cases).
+Changes since v1:
+- Reworked overrides for the perf parameters instead of completely
+  dropping them. Abhinav described why these overrides are useful.
+- Moved max clock rate determination to dpu_kms.c
 
-The logic here needs to be similar to what pwm_bl.c implements in
-pwm_backlight_initial_power_state(). Whilst it might be better
-to implement this in led_bl_get_leds() let me show what I mean
-in code that fits in the current line:
+Dmitry Baryshkov (14):
+  drm/msm/dpu: drop enum dpu_core_perf_data_bus_id
+  drm/msm/dpu: core_perf: extract bandwidth aggregation function
+  drm/msm/dpu: core_perf: bail earlier if there are no ICC paths
+  drm/msm/dpu: drop separate dpu_core_perf_tune overrides
+  drm/msm/dpu: handle perf mode in _dpu_core_perf_crtc_update_bus()
+  drm/msm/dpu: rework core_perf debugfs overrides
+  drm/msm/dpu: drop dpu_core_perf_params::max_per_pipe_ib
+  drm/msm/dpu: rework indentation in dpu_core_perf
+  drm/msm/dpu: drop the dpu_core_perf_crtc_update()'s stop_req param
+  drm/msm/dpu: use dpu_perf_cfg in DPU core_perf code
+  drm/msm/dpu: remove unused fields from struct dpu_core_perf
+  drm/msm/dpu: core_perf: remove extra clk_round_rate() call
+  drm/msm/dpu: move max clock decision to dpu_kms.
+  drm/msm/dpu: drop dpu_core_perf_destroy()
 
-	/*
-	 * Activate the backlight if the LEDs are already lit *or*
-	 * there is no phandle link (meaning the backlight power
-	 * state cannot be synced with the display state).
-	 */
-	props.power = (active_at_boot || !dev->node->phandle) ?
-			FB_BLANK_UNBLANK : FB_BLANK_POWERDOWN;
+ drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 265 +++++-------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h |  60 +---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      |   8 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  14 +-
+ 4 files changed, 96 insertions(+), 251 deletions(-)
 
-Note that active_at_boot is not the same as (priv->default_brightness > 0)
-since the value read by led_bl_get_leds() can be clobbered when we
-parse the properties.
+-- 
+2.39.2
 
-
-Daniel.
