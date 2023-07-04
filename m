@@ -1,82 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 377EF747728
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 18:45:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11513747750
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 18:57:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A32DF10E2FD;
-	Tue,  4 Jul 2023 16:45:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F6BB10E305;
+	Tue,  4 Jul 2023 16:57:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8F6810E2FD
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 16:45:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1688489140;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QjYqkhVNVMR4fCflFHOYJ1Y+6qB9JV4s4xx2SvhGU4E=;
- b=XlBLrakl8us0FYf77TGD9m42Mle3pEe0/CDf/0S3nyp6OHnMzmznOJ1wa9YF5hox/yTgLw
- iN1J0lIoRB4gRjxXU09QfQmaLENEhta88ese8JGkh/4V1Xwhw4OCfXPSAwOikHFJEfWpfZ
- tGsKIkSls3uquHbLWDp1szE2LHt3qAM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-647-7m2okY1KM-GTC2g7wPHKAA-1; Tue, 04 Jul 2023 12:45:36 -0400
-X-MC-Unique: 7m2okY1KM-GTC2g7wPHKAA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-3fbb0c01e71so33901945e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jul 2023 09:45:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688489135; x=1691081135;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QjYqkhVNVMR4fCflFHOYJ1Y+6qB9JV4s4xx2SvhGU4E=;
- b=SLvzRo0lmWBXz/pKwB/YkVFRGqxQnGNeoWig2440PLNBmPFG4V8ENNBNZtTPDL/cWy
- YYvTqipt5Xca8oUzTxAGO5fv6S00NyliggPNunQtUHRyfis5DL6Uh5bTe0jIcbtIRd59
- iOY4MpKyo9QB5qPVDTCtu/RscMOL7Q9rRgbNIEZVi1BVXHv1wkvPGPOPOD5UaIp/5PUh
- PhbTkdTEe8eLm1RXeIlSDaWdlsQB1X6VOKe4T8gj8brHCUlV7yxyrEagHO/AThTDnEQm
- 05VTDJI2L0PbVfa162/WQz6KbzkVwvwWuVq6k4Wg5yxxqFEm8VaEF/JX3qJBAqPB2PsQ
- VeYA==
-X-Gm-Message-State: ABy/qLYzotxYiAK3UNVDw2G6FPkxa4/iX6IJlOozutkobXSAG/ureoxL
- HFXaHXFj8qkvONXwgtPunAuqGf4XlzHpu2dKWrcZB/YI6xSZ8XkM6kiA1OqW8CD5EDRfAHQ6pCg
- yNvmJ1Yc7asyZflfDmzV9FmPTKOgf
-X-Received: by 2002:a05:600c:2041:b0:3fb:e189:3535 with SMTP id
- p1-20020a05600c204100b003fbe1893535mr2057241wmg.27.1688489135830; 
- Tue, 04 Jul 2023 09:45:35 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlFxt2PUUj0Oo2Fvwi3mT8y1TtP3eCK8ewARbXLZdjxeCGXuHER7IfgzTH6oSLrVSeSktR4vgw==
-X-Received: by 2002:a05:600c:2041:b0:3fb:e189:3535 with SMTP id
- p1-20020a05600c204100b003fbe1893535mr2057235wmg.27.1688489135543; 
- Tue, 04 Jul 2023 09:45:35 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:d5:a000:57d9:6996:9558:341b?
- ([2a01:e0a:d5:a000:57d9:6996:9558:341b])
- by smtp.gmail.com with ESMTPSA id
- h2-20020a1ccc02000000b003fa74bff02asm30345726wmb.26.2023.07.04.09.45.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Jul 2023 09:45:35 -0700 (PDT)
-Message-ID: <13e35996-914d-37a6-1697-ac0c3c75cad1@redhat.com>
-Date: Tue, 4 Jul 2023 18:45:34 +0200
+Received: from mailrelay2-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay2-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:401::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7090210E037
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 16:57:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=U5xzlvM1CTgMQBuBlj9xR3JXjLncSnb3fL2Y24Bn8nI=;
+ b=kFuVqPPr/JNrVPOQH8qYh972bjTGxXVQxYubNVs1hPYyWUk8nRBM0YmnLXgN+wMuL1zmAhq3AIex8
+ yN6WgixYD3RiR/x2Bp1Vup9rTAWJs6NiCWU+nG3vxqAuHcTG2u8aynfzAXTAE6jHBoVcaBgmRPGFu8
+ vDlpuZt5RUJJbIUQHPJEZvH2KJlUWZ4C+Fqn6N2BBuqPoAJPl4XPSumNVwj9EQwTk1OWWoEVqtpFbF
+ lFJOVB3C5nAEsing1eeIGj1sstJD3ucBMRrobW/uT/34T44aEHnqeHi5SzUychkfXWBmRFDrM9uJqt
+ YMxPiWf0KcR6u1h/Z87iXpc6p1wPwtg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=U5xzlvM1CTgMQBuBlj9xR3JXjLncSnb3fL2Y24Bn8nI=;
+ b=T8FvXph7wvVJ4YKRX/umvu5nJxow5nMHL7hihWXTcj6QNe5npygkfKVBCXC0tvGv7umijqfJ63yoJ
+ CEZGQhzBA==
+X-HalOne-ID: c73b81eb-1a8b-11ee-b83b-5ba399456a4a
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay2 (Halon) with ESMTPSA
+ id c73b81eb-1a8b-11ee-b83b-5ba399456a4a;
+ Tue, 04 Jul 2023 16:56:55 +0000 (UTC)
+Date: Tue, 4 Jul 2023 18:56:54 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Mohammad Faiz Abbas Rizvi <faiz.abbas@arm.com>
+Subject: Re: [PATCH] drm/arm/komeda: Remove component framework and add a
+ simple encoder
+Message-ID: <20230704165654.GA940443@ravnborg.org>
+References: <20230621084116.26882-1-faiz.abbas@arm.com>
+ <ZJ1UJaNJese6g2Ia@e110455-lin.cambridge.arm.com>
+ <90f386c3-b2bb-b876-80df-c67005e89a66@arm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] drm/ast: Fix default resolution when no monitor is
- connected on DP
-To: Jani Nikula <jani.nikula@linux.intel.com>, tzimmermann@suse.de,
- airlied@redhat.com, kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com
-References: <20230623094639.434293-1-jfalempe@redhat.com>
- <878rbv20dp.fsf@intel.com>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <878rbv20dp.fsf@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <90f386c3-b2bb-b876-80df-c67005e89a66@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,109 +59,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Liviu Dudau <liviu.dudau@arm.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/07/2023 16:54, Jani Nikula wrote:
-> On Fri, 23 Jun 2023, Jocelyn Falempe <jfalempe@redhat.com> wrote:
->> Since commit fae7d186403e ("drm/probe-helper: Default to 640x480 if no
->>   EDID on DP")
->> The default resolution is now 640x480 when no monitor is connected.
->> But Aspeed graphics is mostly used in servers, where no monitor
->> is attached. This also affects the "remote" resolution to 640x480, which is
->> inconvenient, and breaks the anaconda installer.
->> So when no EDID is present, set 1024x768 as preferred resolution.
-> 
-> This conflates "monitor connected" and "EDID present", which are not
-> necessarily the same thing.
-> 
-> The fallback in drm_helper_probe_single_connector_modes() is for no
-> modes, but connector status is connected or unknown.
+Hi Mohammed,
 
-When debugging the issue, I found it surprising that the status is 
-"connected" when nothing is plugged in the DP port.
+On Tue, Jul 04, 2023 at 07:19:04PM +0530, Mohammad Faiz Abbas Rizvi wrote:
+> Hi Liviu,
 > 
-> You could add a connector ->detect callback that returns disconnected
-> when there's no display, and the problem should go away. If there's no
-> ->detect callback, it'll default to connected.
+> On 6/29/2023 3:21 PM, Liviu Dudau wrote:
+> > Hi Faiz,
+> >
+> > Thanks for the patch and for addressing what was at some moment on my "nice to
+> > improve / cleanup" list. Sorry for the delay in responding, I had to revive
+> > the bits of an old setup to be able to test this properly, with 2 encoders
+> > attached.
+> >
+> > On Wed, Jun 21, 2023 at 02:11:16PM +0530, Faiz Abbas wrote:
+> >> The Komeda driver always expects the remote connector node to initialize
+> >> an encoder. It uses the component aggregator framework which consists
+> >> of component->bind() calls used to initialize the remote encoder and attach
+> >> it to the crtc. This is different from other drm implementations which expect
+> >> the display driver to supply a crtc and connect an encoder to it.
+> > I think both approaches are valid in DRM. We don't want to remove the component
+> > framework because it is doing the wrong thing, but because we cannot use it
+> > with drivers that implement the drm_bridge API. Given that we usually pair with
+> > a component encoder that also implements a drm_bridge, dropping support for
+> > component framework should not affect the users of the driver.
 
-ok, I'll try that. I don't know how the hardware detect something is 
-connected, but looking at the dp code, maybe checking 
-"AST_IO_CRTC_PORT,0xDC, ASTDP_LINK_SUCCESS" would be good enough.
+Glad to see the patch - I think this is moving things in the right
+direction.
 
-> 
->> Fixes: fae7d186403e ("drm/probe-helper: Default to 640x480 if no EDID on DP")
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->> ---
->>   drivers/gpu/drm/ast/ast_mode.c | 26 ++++++++++++++++++++++++--
->>   1 file changed, 24 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
->> index 36374828f6c8..8f7b7cc021c7 100644
->> --- a/drivers/gpu/drm/ast/ast_mode.c
->> +++ b/drivers/gpu/drm/ast/ast_mode.c
->> @@ -1589,9 +1589,31 @@ static const struct drm_connector_helper_funcs ast_dp501_connector_helper_funcs
->>   	.get_modes = ast_dp501_connector_helper_get_modes,
->>   };
->>   
->> +static int ast_dp_probe_single_connector_modes(struct drm_connector *connector,
->> +					       uint32_t maxX, uint32_t maxY)
->> +{
->> +	int ret;
->> +	struct drm_display_mode *mode;
->> +
->> +	ret = drm_helper_probe_single_connector_modes(connector, maxX, maxY);
->> +	/*
->> +	 * When no monitor are detected, DP now default to 640x480
->> +	 * As aspeed is mostly used in remote server, and DP monitors are
->> +	 * rarely attached, it's better to default to 1024x768
->> +	 */
->> +	if (!connector->edid_blob_ptr) {
-> 
-> Please try not to use connector->edid_blob_ptr for anything in
-> drivers. The logic is complicated enough as it is, with the firmware and
-> override EDIDs and everything, and makes future refactoring of EDID
-> handling harder.
 
-Ok, I will try your other suggestion, and remove this.
+While at it do you plan to support DRM_BRIDGE_ATTACH_NO_CONNECTOR?
 
-Thanks a lot for your comments.
+I did not read the patch carefully but noticed this call with no flags:
 
--- 
+> drm_bridge_attach(&kcrtc->encoder, bridge, NULL, 0);
 
-Jocelyn
-> 
-> 
-> BR,
-> Jani.
-> 
->> +		list_for_each_entry(mode, &connector->modes, head) {
->> +			if (mode->hdisplay == 1024 && mode->vdisplay == 768)
->> +				mode->type |= DRM_MODE_TYPE_PREFERRED;
->> +			drm_mode_sort(&connector->modes);
->> +		}
->> +	}
->> +	return ret;
->> +}
->> +
->>   static const struct drm_connector_funcs ast_dp501_connector_funcs = {
->>   	.reset = drm_atomic_helper_connector_reset,
->> -	.fill_modes = drm_helper_probe_single_connector_modes,
->> +	.fill_modes = ast_dp_probe_single_connector_modes,
->>   	.destroy = drm_connector_cleanup,
->>   	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
->>   	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
->> @@ -1678,7 +1700,7 @@ static const struct drm_connector_helper_funcs ast_astdp_connector_helper_funcs
->>   
->>   static const struct drm_connector_funcs ast_astdp_connector_funcs = {
->>   	.reset = drm_atomic_helper_connector_reset,
->> -	.fill_modes = drm_helper_probe_single_connector_modes,
->> +	.fill_modes = ast_dp_probe_single_connector_modes,
->>   	.destroy = drm_connector_cleanup,
->>   	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
->>   	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
->>
->> base-commit: 0adec22702d497385dbdc52abb165f379a00efba
-> 
+To add support for DRM_BRIDGE_ATTACH_NO_CONNECTOR you may need to verify
+that all relevant bridge drivers supports the flag.
+You will be told at runtime but only if the relevant bridge driver is
+used.
+
+It can be done later and is obviously a separate patch.
+
+	Sam
 
