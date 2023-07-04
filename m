@@ -2,58 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C0E7747823
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 20:05:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64078747820
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 20:05:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6906310E310;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B09510E30A;
 	Tue,  4 Jul 2023 18:05:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com
- [IPv6:2607:f8b0:4864:20::e2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E48E10E139;
- Tue,  4 Jul 2023 14:42:43 +0000 (UTC)
-Received: by mail-vs1-xe2b.google.com with SMTP id
- ada2fe7eead31-440b9d60606so1920732137.1; 
- Tue, 04 Jul 2023 07:42:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1688481762; x=1691073762;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=cxhjD7KY5JD674i+41mIILyrwvbeMopv+PbB7rT3+IE=;
- b=qXoDuKf7tijC6nBenqA4HmNXCVz12f5ddVrWo/iBC08Xy5X/GCcU43sZ0mtpwstHzz
- GGG4rED1L0Z3jHx0ObuuPnqTWgOV3lvgb0UgCTp0CeJLzQJEGAmTwNjVcNLWi2mplii/
- gTzcErjfLOJvdkMr/rbh3rwy+y80EnZd7ymGi3sD7e4+hc0QpRfU1gEicpQvVZGtzAVf
- 6EUu76BBqp0jaLUX1ZJLF1j0K7hxvYq5PwkFk8Ccvmvlcutquq7I+RgTWyWu/YG1H3fa
- w3VIu5zXhiZjEGvEfADAqF0uBRfL7T9poR368enlmGkLswEIk/idT17/IjIAC8boz7sh
- McZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688481762; x=1691073762;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=cxhjD7KY5JD674i+41mIILyrwvbeMopv+PbB7rT3+IE=;
- b=Nsz5hztDt6EuetV0OqdO+t81sWo/yHYE9ALSwu/cl56ewpHRTfLnJ6X/NlcJLUjq0L
- rkBKEG+sa1wigLR5PQ8Ipr319qDdgAR4VDy82Bbvr9qMN51AHKtkg6/FcVVg+HqJIswN
- tyXDG9Ed4IgLBCBmQlR+3aoXneZ9QASs4tHLDFxOWSavcfNzXZz9XUWoMu0xNhvgHa/k
- wWq4Zv2YcsafrtHXoKmSeLr1Iqv66OJoBoZnFdGxG1J9Nm5Lhb6ijyphxODt09nmp89i
- PFfotsmDS5r0x97E8mDIkEgYw4UaerOgu99ciujlxGvIeop7OjHeaqMKMfA/khgxNf/u
- C0Qw==
-X-Gm-Message-State: ABy/qLZzFlPRrfZSav+WjG56I71wn0eQ8Iyj3L4pkFRtOuhz7iH70rhr
- tydAlTo7225704Pu7ITYfv1cqanw+f7YtGBcrmc=
-X-Google-Smtp-Source: APBJJlEzBfrRFFxw3waM7f1ipL7WWKBgZ8jQmyUjVtnbM0TCNsn4+zGfKdFXtaZmMtcuMEXY1XjZXuAM/dQift4uNtI=
-X-Received: by 2002:a67:f3d5:0:b0:443:7170:b048 with SMTP id
- j21-20020a67f3d5000000b004437170b048mr6639880vsn.27.1688481761915; Tue, 04
- Jul 2023 07:42:41 -0700 (PDT)
+X-Greylist: delayed 544 seconds by postgrey-1.36 at gabe;
+ Tue, 04 Jul 2023 15:40:59 UTC
+Received: from unicorn.mansr.com (unicorn.mansr.com [81.2.72.234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F36D910E12D
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 15:40:59 +0000 (UTC)
+Received: from raven.mansr.com (raven.mansr.com [81.2.72.235])
+ by unicorn.mansr.com (Postfix) with ESMTPS id 0FA9115360;
+ Tue,  4 Jul 2023 16:31:52 +0100 (BST)
+Received: by raven.mansr.com (Postfix, from userid 51770)
+ id B9EEA219FC1; Tue,  4 Jul 2023 16:31:51 +0100 (BST)
+From: =?iso-8859-1?Q?M=E5ns_Rullg=E5rd?= <mans@mansr.com>
+To: Daniel Thompson <daniel.thompson@linaro.org>
+Subject: Re: [PATCH] backlight: led_bl: fix initial power state
+References: <20230704140750.25799-1-mans@mansr.com>
+ <20230704150310.GA385243@aspen.lan>
+Date: Tue, 04 Jul 2023 16:31:51 +0100
+In-Reply-To: <20230704150310.GA385243@aspen.lan> (Daniel Thompson's message of
+ "Tue, 4 Jul 2023 16:03:10 +0100")
+Message-ID: <yw1xo7krzo9k.fsf@mansr.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20230702182308.7583-1-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230702182308.7583-1-krzysztof.kozlowski@linaro.org>
-From: Jonas Gorski <jonas.gorski@gmail.com>
-Date: Tue, 4 Jul 2023 16:42:30 +0200
-Message-ID: <CAOiHx=kreUEnqssO7y_+UqAxsnXaLPbwBz8h3JRkdEq+pkdW2A@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: cleanup DTS example whitespaces
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Tue, 04 Jul 2023 18:05:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,63 +45,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- linux-iio@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- coresight@lists.linaro.org, linux-usb@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-mtd@lists.infradead.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Leo Yan <leo.yan@linaro.org>, linux-phy@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-remoteproc@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 2 Jul 2023 at 20:24, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> The DTS code coding style expects spaces around '=' sign.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->
-> ---
->
-> Rob,
->
-> Maybe this could go via your tree? Rebased on your for-next:
-> v6.4-rc2-45-gf0ac35049606
-> ---
->  .../bindings/arm/arm,coresight-cti.yaml        | 18 +++++++++---------
->  .../bindings/arm/keystone/ti,sci.yaml          |  8 ++++----
->  .../devicetree/bindings/display/msm/gmu.yaml   |  2 +-
->  .../display/panel/samsung,s6e8aa0.yaml         |  2 +-
->  .../display/rockchip/rockchip-vop.yaml         |  4 ++--
->  .../bindings/iio/adc/ti,adc108s102.yaml        |  2 +-
->  .../bindings/media/renesas,rzg2l-cru.yaml      |  4 ++--
->  .../devicetree/bindings/media/renesas,vin.yaml |  4 ++--
->  .../devicetree/bindings/mtd/mtd-physmap.yaml   |  2 +-
->  .../bindings/net/mediatek-dwmac.yaml           |  2 +-
->  .../bindings/perf/amlogic,g12-ddr-pmu.yaml     |  4 ++--
->  .../bindings/phy/mediatek,dsi-phy.yaml         |  2 +-
->  .../remoteproc/amlogic,meson-mx-ao-arc.yaml    |  2 +-
->  .../devicetree/bindings/usb/mediatek,mtu3.yaml |  2 +-
->  .../devicetree/bindings/usb/ti,am62-usb.yaml   |  2 +-
->  15 files changed, 30 insertions(+), 30 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml b/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml
-> index 0c5b875cb654..d6c84b6e7fe6 100644
-> --- a/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml
-> +++ b/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml
-> @@ -287,7 +287,7 @@ examples:
->              arm,trig-in-sigs = <0 1>;
->              arm,trig-in-types = <PE_DBGTRIGGER
->                                   PE_PMUIRQ>;
-> -            arm,trig-out-sigs=<0 1 2 >;
-> +            arm,trig-out-sigs = <0 1 2 >;
+Daniel Thompson <daniel.thompson@linaro.org> writes:
 
-There's a space before the closing > you could drop as well.
+> On Tue, Jul 04, 2023 at 03:07:50PM +0100, Mans Rullgard wrote:
+>> The condition for the initial power state based on the default
+>> brightness value is reversed.  Fix it.
+>>
+>> Fixes: ae232e45acf9 ("backlight: add led-backlight driver")
+>> Signed-off-by: Mans Rullgard <mans@mansr.com>
+>> ---
+>>  drivers/video/backlight/led_bl.c | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/video/backlight/led_bl.c b/drivers/video/backlight/=
+led_bl.c
+>> index 3259292fda76..28e83618a296 100644
+>> --- a/drivers/video/backlight/led_bl.c
+>> +++ b/drivers/video/backlight/led_bl.c
+>> @@ -200,8 +200,8 @@ static int led_bl_probe(struct platform_device *pdev)
+>>  	props.type =3D BACKLIGHT_RAW;
+>>  	props.max_brightness =3D priv->max_brightness;
+>>  	props.brightness =3D priv->default_brightness;
+>> -	props.power =3D (priv->default_brightness > 0) ? FB_BLANK_POWERDOWN :
+>> -		      FB_BLANK_UNBLANK;
+>> +	props.power =3D (priv->default_brightness > 0) ? FB_BLANK_UNBLANK :
+>> +		      FB_BLANK_POWERDOWN;
+>
+> The logic was wrong before but I think will still be wrong after the
+> change too (e.g. the bogus logic is probably avoiding backlight flicker
+> in some use cases).
+>
+> The logic here needs to be similar to what pwm_bl.c implements in
+> pwm_backlight_initial_power_state(). Whilst it might be better
+> to implement this in led_bl_get_leds() let me show what I mean
+> in code that fits in the current line:
+>
+> 	/*
+> 	 * Activate the backlight if the LEDs are already lit *or*
+> 	 * there is no phandle link (meaning the backlight power
+> 	 * state cannot be synced with the display state).
+> 	 */
+> 	props.power =3D (active_at_boot || !dev->node->phandle) ?
+> 			FB_BLANK_UNBLANK : FB_BLANK_POWERDOWN;
+>
+> Note that active_at_boot is not the same as (priv->default_brightness > 0)
+> since the value read by led_bl_get_leds() can be clobbered when we
+> parse the properties.
 
-Best Regards,
-Jonas
+Am I understanding correctly that the code should be using the
+default_brightness value as set by led_bl_get_leds() to determine the
+initial power state, not whatever default value the devicetree provides?
+
+--=20
+M=E5ns Rullg=E5rd
