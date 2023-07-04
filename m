@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C128746EED
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 12:41:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A120746F65
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 13:07:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AAB710E0F9;
-	Tue,  4 Jul 2023 10:41:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA18D10E100;
+	Tue,  4 Jul 2023 11:07:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3006::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F4D310E0F9
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 10:41:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202212;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=sZ7AiJOzzA//Q93VjRWW9dH5MOs3juSEKz6GOzqzlbU=; b=Ms6QAwFXTo5LdGGfFPGLLL364Y
- eMkI5EGIvGVoVLQj/t3fgjelBkqIw9ZFdknLVXb9+x5Q7RVUMMz/SSw8LSFug+UleFjbNV9I0AH+c
- +6hnYKRCWtn+Yz1u3CsxuEAuO888ZtZo4GICIhJ0/fQkq1Ctpv8nK/U4G46NR0ApL5fzStazM2sKI
- zhGojKLwLyeBQlOTcn9JrNG06JeFcT6t78NeqpijsJ61jvf1ZmXppX1BeLlhAlEvX7OdmQtWC/MRi
- c3EA7uLSPD5KEncjFtgwHQTd9W163T2ZoD4RiE5jnx+PIdSbOsQDzlnf8Ud/MBFwGlmCPwmTXc/aP
- viIVyfiw==;
-Received: from 65.81-166-157.customer.lyse.net ([81.166.157.65]:58144
- helo=[192.168.10.99]) by smtp.domeneshop.no with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
- (envelope-from <noralf@tronnes.org>) id 1qGdT3-00BcKD-P6;
- Tue, 04 Jul 2023 12:41:09 +0200
-Message-ID: <56f6fb34-f130-fddd-ca72-aa87362efd0c@tronnes.org>
-Date: Tue, 4 Jul 2023 12:41:08 +0200
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FEA110E0E8;
+ Tue,  4 Jul 2023 11:07:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1688468850; x=1720004850;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=2PrQdeNByVQH6XsxqHIVdlXGsS4egbyPYtxY+3GzdlY=;
+ b=ZKt+F+qeUb0WnaxaqSrWUampFAOFqfm/P1KoRpcIP9iCseZK2pN7UvXg
+ sw+MKDZWBd2vNTcKYkf/skJRR2KarELkVrEThfaHEGzIpNdKCROVmlps7
+ ive3Bu0RmaeSKcsxm3bHZ8ve5iQueDqxL6kdMZgOfjmbP13sbdDbr5Sl/
+ 1rXBd34AGj3qdB8DfXIdlaHR6MTHfR/NKiBufu2ofOVmhdWewGTj0n6dp
+ eWtUY2zYUuS/I3A78k/UMzZObuYjGfxOfIBKeh/j9LIVGp4mcYVsY6Hu2
+ Q99BU6pr78RkHYycJratDVdjnCPd/iFYxC8WikBmE2Lqz4Ly8BFespoCI Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="393842791"
+X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; d="scan'208";a="393842791"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jul 2023 04:07:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="696126441"
+X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; d="scan'208";a="696126441"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO
+ jkrzyszt-mobl2.intranet) ([10.213.5.5])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jul 2023 04:07:05 -0700
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Fix premature release of request's reusable memory
+Date: Tue,  4 Jul 2023 13:06:03 +0200
+Message-ID: <20230704110602.16467-2-janusz.krzysztofik@linux.intel.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2 03/24] drm/gud: use vmalloc_array and vcalloc
-To: Julia Lawall <Julia.Lawall@inria.fr>
-References: <20230627144339.144478-1-Julia.Lawall@inria.fr>
- <20230627144339.144478-4-Julia.Lawall@inria.fr>
-Content-Language: en-US
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20230627144339.144478-4-Julia.Lawall@inria.fr>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,85 +56,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: keescook@chromium.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- noralf@tronnes.org, christophe.jaillet@wanadoo.fr, kuba@kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Infinite waits for completion of GPU activity have been observed in CI,
+mostly inside __i915_active_wait(), triggered by igt@gem_barrier_race or
+igt@perf@stress-open-close.  Root cause analysis, based of ftrace dumps
+generated with a lot of extra trace_printk() calls added to the code,
+revealed loops of request dependencies being accidentally built,
+preventing the reqests from being processed, each waiting for completion
+of another one activity.
 
+When we substitute a new request for a last active one tracked on a
+timeline, we set up a dependency of our new request to wait on completion
+of current activity of that previous one.  However, not all processing
+paths take care of keeping the old request still in memory until we use
+its attributes for setting up that await dependency.  As a result, we can
+happen to use attributes of a new request that already reuses the memory
+previously allocated to the old one, already released, then, set up an
+await dependency on wrong request.  Combined with perf specific kernel
+context remote requests added to user context timelines, unresolvable
+loops of dependencies can be built, leading do infinite waits.
 
-On 6/27/23 16:43, Julia Lawall wrote:
-> Use vmalloc_array and vcalloc to protect against
-> multiplication overflows.
-> 
-> The changes were done using the following Coccinelle
-> semantic patch:
-> 
-> // <smpl>
-> @initialize:ocaml@
-> @@
-> 
-> let rename alloc =
->   match alloc with
->     "vmalloc" -> "vmalloc_array"
->   | "vzalloc" -> "vcalloc"
->   | _ -> failwith "unknown"
-> 
-> @@
->     size_t e1,e2;
->     constant C1, C2;
->     expression E1, E2, COUNT, x1, x2, x3;
->     typedef u8;
->     typedef __u8;
->     type t = {u8,__u8,char,unsigned char};
->     identifier alloc = {vmalloc,vzalloc};
->     fresh identifier realloc = script:ocaml(alloc) { rename alloc };
-> @@
-> 
-> (
->       alloc(x1*x2*x3)
-> |
->       alloc(C1 * C2)
-> |
->       alloc((sizeof(t)) * (COUNT), ...)
-> |
-> -     alloc((e1) * (e2))
-> +     realloc(e1, e2)
-> |
-> -     alloc((e1) * (COUNT))
-> +     realloc(COUNT, e1)
-> |
-> -     alloc((E1) * (E2))
-> +     realloc(E1, E2)
-> )
-> // </smpl>
-> 
-> Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
-> 
-> ---
+We obtain a pointer to the previous request to wait on while we substitute
+it with a pointer to our new request in an active tracker.  In some
+processing paths we protect that old request with RCU from being freed
+before we use it, but in others, e.g. __i915_request_commit() ->
+__i915_request_add_to_timeline() -> __i915_request_ensure_ordering(), we
+don't.  Moreover, memory of released i915 requests is mostly not freed but
+reused, and our RCU protection doesn't prevent that memory from being
+reused.
 
-Thanks, applied to drm-misc-next.
+Protect memory of released i915 requests from being reused before RCU
+grace period expires.  Moreover, always protect previous active i915
+requests from being released while still accessing their memory.
 
-Noralf.
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/8211
+Fixes: b1e3177bd1d8 ("drm/i915: Coordinate i915_active with its own mutex")
+Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Cc: <stable@vger.kernel.org> # v5.5+
+---
+ drivers/gpu/drm/i915/i915_request.c | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
-> v2: Use vmalloc_array and vcalloc instead of array_size.
-> This also leaves a multiplication of a constant by a sizeof
-> as is.  Two patches are thus dropped from the series.
-> 
->  drivers/gpu/drm/gud/gud_pipe.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff -u -p a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
-> --- a/drivers/gpu/drm/gud/gud_pipe.c
-> +++ b/drivers/gpu/drm/gud/gud_pipe.c
-> @@ -390,7 +390,7 @@ static int gud_fb_queue_damage(struct gu
->  	mutex_lock(&gdrm->damage_lock);
->  
->  	if (!gdrm->shadow_buf) {
-> -		gdrm->shadow_buf = vzalloc(fb->pitches[0] * fb->height);
-> +		gdrm->shadow_buf = vcalloc(fb->pitches[0], fb->height);
->  		if (!gdrm->shadow_buf) {
->  			mutex_unlock(&gdrm->damage_lock);
->  			return -ENOMEM;
-> 
+diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+index 894068bb37b6f..7f14b6309db82 100644
+--- a/drivers/gpu/drm/i915/i915_request.c
++++ b/drivers/gpu/drm/i915/i915_request.c
+@@ -110,13 +110,11 @@ struct kmem_cache *i915_request_slab_cache(void)
+ 	return slab_requests;
+ }
+ 
+-static void i915_fence_release(struct dma_fence *fence)
++static void i915_fence_release_rcu_cb(struct rcu_head *rcu)
+ {
++	struct dma_fence *fence = container_of(rcu, typeof(*fence), rcu);
+ 	struct i915_request *rq = to_request(fence);
+ 
+-	GEM_BUG_ON(rq->guc_prio != GUC_PRIO_INIT &&
+-		   rq->guc_prio != GUC_PRIO_FINI);
+-
+ 	i915_request_free_capture_list(fetch_and_zero(&rq->capture_list));
+ 	if (rq->batch_res) {
+ 		i915_vma_resource_put(rq->batch_res);
+@@ -174,6 +172,16 @@ static void i915_fence_release(struct dma_fence *fence)
+ 	kmem_cache_free(slab_requests, rq);
+ }
+ 
++static void i915_fence_release(struct dma_fence *fence)
++{
++	struct i915_request *rq = to_request(fence);
++
++	GEM_BUG_ON(rq->guc_prio != GUC_PRIO_INIT &&
++		   rq->guc_prio != GUC_PRIO_FINI);
++
++	call_rcu(&fence->rcu, i915_fence_release_rcu_cb);
++}
++
+ const struct dma_fence_ops i915_fence_ops = {
+ 	.get_driver_name = i915_fence_get_driver_name,
+ 	.get_timeline_name = i915_fence_get_timeline_name,
+@@ -1673,6 +1681,7 @@ __i915_request_ensure_ordering(struct i915_request *rq,
+ 
+ 	GEM_BUG_ON(is_parallel_rq(rq));
+ 
++	rcu_read_lock();
+ 	prev = to_request(__i915_active_fence_set(&timeline->last_request,
+ 						  &rq->fence));
+ 
+@@ -1706,6 +1715,7 @@ __i915_request_ensure_ordering(struct i915_request *rq,
+ 							 &rq->dep,
+ 							 0);
+ 	}
++	rcu_read_unlock();
+ 
+ 	return prev;
+ }
+-- 
+2.41.0
+
