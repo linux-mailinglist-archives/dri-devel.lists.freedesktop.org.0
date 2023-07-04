@@ -1,63 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6DDC74674F
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 04:21:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3B16746748
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 04:21:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A09E110E261;
-	Tue,  4 Jul 2023 02:21:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9151010E25D;
+	Tue,  4 Jul 2023 02:21:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15F1010E25D
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A622610E25B
  for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 02:21:39 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id
- 38308e7fff4ca-2b63e5f94f1so63885311fa.1
+Received: by mail-lf1-x12f.google.com with SMTP id
+ 2adb3069b0e04-4f954d7309fso6341866e87.1
  for <dri-devel@lists.freedesktop.org>; Mon, 03 Jul 2023 19:21:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1688437298; x=1691029298;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=DNaLlgqmXpehmO7hZM6HUZEY+t0g3IozFf5sOQZ0Ryc=;
- b=lNL9v3nzQ/lezoz1Gp01ZULavvis0nYvkgfThOpMJSU6Z7nOvN9e47+kPCrQDshu6G
- Yj+IqwjTYcf/XJ1/FZE44cq8QdR+vj/6eClYBb1BhwntE7+SjVSxbSAGKcSYL8y1RccW
- 3kCNUgeQvoUF+BWR/uBdWVkLVnfNqqbE3qt0PrZAO6UudvOhieCwhJYdpkDFpSN5quW2
- Csn6tQK3TsGCaZ4mfOSHR87tsorSqxX8cAtdO22UDWOj87g4zKRBnsnHlvKCtn71XNGa
- jv7m6p2hV0lA6RVE7+ru5eNzCkUdTHBTmOxVMdh3sREBaRWu1Nru1wS3QXaW3zulzXxU
- h44g==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5gFB/5Z8bifSrL3SocS7kcyTOqWiXcJYOMvj9APdBaU=;
+ b=WndeBosu/+j4iRv6gWblAif+qA5oA5faM5RMCyuz3YsRJDw61znpwGtfYAk2sIq9Wf
+ Wa+ZezIdvsDvJSeRPRaL9MwJj/xUANQqxINLU6z7xNosOoHp7GV7Tt6ANphTLA4JMK62
+ nUBlBEe/WFIcP7HYjpw+dXVtRugDNgjVM3lJ3xunud42m/d8OycRayrxl8Z2jJgzJqct
+ MJRnaPXTNAiZNs/YxSn7a82fhtmTp1JonoM0YHyzjfy49RRjCky49FlIYlFT7VmLP2gO
+ mkXxvkhgbgkaoTas4SOk/Ts+ek5e4rfG3OpGapa43QaVTub0h+C6XX/jE0myZafNrPWr
+ 8v2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1688437298; x=1691029298;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=DNaLlgqmXpehmO7hZM6HUZEY+t0g3IozFf5sOQZ0Ryc=;
- b=VJZC3ZB1vNP0EUfxXYWFBZqiPSaWkgfh1oyNNLUfmZ+Jx/+sSMP8Uu8VxEP3/4UCig
- mQLjQIKebLghzoXbtksNCgNDf5k+fOmJvP5uqsgcrhezt3Y+eSxEd5NsX4qKEeGq4K6n
- d3a9RayAB0mpfJFNrmu7K1Ei+de+2CKIMeVO6WfcG7u4UNsJ0edM5WFIdHHM8Zuu29ji
- 25yQNbOZ1qond4un2PH6g2DsIf7FIvPho1J01NTblvMJhRjmU8WSI0z62F5N+EA7nhIC
- rQyu09sspmDkxuFdSiYO0ZWIMy1LN8d/Bouu9JUoM7NZjjPpVwZeahrZkt8OooITkh5j
- +Qmw==
-X-Gm-Message-State: ABy/qLbosOjcgp7uDAWpL6CRjPvEqWj39RL/WJnXC1bo8wtiajt1QXrh
- nWnJVNF6f5g88qRT3o2F6rUBaA==
-X-Google-Smtp-Source: APBJJlFGwPZNfT8iGruH3zEpr4nbS1p+bTJ4441nfnVIgqJDUc/mp6piF1R95qKNTOIexPeWRlGasw==
-X-Received: by 2002:a05:651c:231:b0:2b4:50b8:5d3b with SMTP id
- z17-20020a05651c023100b002b450b85d3bmr4268342ljn.0.1688437297303; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5gFB/5Z8bifSrL3SocS7kcyTOqWiXcJYOMvj9APdBaU=;
+ b=EA51YGnCE6zW2EhxyZQH06ZlMhpi/23Gm2U+d7xaCP80SOev4/Nly8/0nHrf9/eFjC
+ Dhm7557UQDZHjhhD/233u1Il22RGwAaXbeCsBaVVXn8m16zitthrCngBvvqey7zzFBh3
+ m7+mH3x4pPJa7KvpPjL1L4o3aJzcFdnW3dX7gCetunfdaTxcq6yPx91zt4HL4HLLwGEm
+ f/FDD3SlhVh+z5mFhDvOLpp8E0Wm5zU72C7hx4cMPT0NmDgPCWC0I56RoPzUC/gqCwB6
+ aSJbYEuyOGmPXbqfmPYxAEJsL9K8DBXy3ORKTSragqiKzsj6EFyr+nKsihFdVtAyO+lV
+ kBDQ==
+X-Gm-Message-State: AC+VfDwsknU4VWgRwL6CFS5Cuc6TPNFxaTrVqrZVHuQMrSKWFh1hLOXS
+ fVvFdUblp87smBQmDT/ydSKcaQ==
+X-Google-Smtp-Source: APBJJlFbDoel2givIZ2zNFIQ6UbatiXt1Zfrr2x3cqqr5/7lN9HSxsRl5ibltNV83k+fHJnM+245MA==
+X-Received: by 2002:a05:6512:23a0:b0:4fb:95b0:1423 with SMTP id
+ c32-20020a05651223a000b004fb95b01423mr6308638lfv.4.1688437297993; 
  Mon, 03 Jul 2023 19:21:37 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- y16-20020a05651c021000b002b6e863108esm1137830ljn.9.2023.07.03.19.21.36
+ y16-20020a05651c021000b002b6e863108esm1137830ljn.9.2023.07.03.19.21.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Jul 2023 19:21:36 -0700 (PDT)
+ Mon, 03 Jul 2023 19:21:37 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH v5 00/19] drm/msm/dpu: another catalog rework
-Date: Tue,  4 Jul 2023 05:21:17 +0300
-Message-Id: <20230704022136.130522-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v5 01/19] drm/msm: enumerate DSI interfaces
+Date: Tue,  4 Jul 2023 05:21:18 +0300
+Message-Id: <20230704022136.130522-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230704022136.130522-1-dmitry.baryshkov@linaro.org>
+References: <20230704022136.130522-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,84 +81,42 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Having a macro with 10 arguments doesn't seem like a good idea. It makes
-it inherently harder to compare the actual structure values. Also this
-leads to adding macros covering varieties of the block.
+Follow the DP example and define MSM_DSI_CONTROLLER_n enumeration.
 
-As it was previously discussed, inline all foo_BLK macros in order to
-ease performing changes to the catalog data.
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+Tested-by: Marijn Suijten <marijn.suijten@somainline.org>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/msm_drv.h | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-Major part of the conversion was performed using vim script found at
-[1]. Then some manual cleanups were applied, like dropping fields set to
-0.
-
-Changes since v4:
- - Fixed DSC 1.1 block length for sm6350 / sm6375 (Marijn, Abhinav)
- - Fixed a comment to dpu_hw_mdptop_init (Marijn)
- - Restored dpu_mdss_cfg argument to dpu_hw_mdptop_init() (Abhinav)
- - Reworded the commit message for the 'peer LM' patch (Abhinav)
-
-Changes since v3:
- - Fixed DSC 1.1 block length to 0x140 (Marijn)
- - Fixed mdp->caps assignment in dpu_hw_mdptop_init() (Marijn)
-
-Changes since v2:
- - Rebased on top of msm-next-lumag
- - Fixed MSM_DP/DSI_CONTROLLER_n usage in sm6350 and sm6375 catalog data
-   (Abhinav, Marijn).
-
-Changes since v1:
- - Rebased on top of msm-next
- - Dropped dependency on interrupt rework
-
-[1] https://pastebin.ubuntu.com/p/K6vkjmxZdd/
-
-Dmitry Baryshkov (19):
-  drm/msm: enumerate DSI interfaces
-  drm/msm/dpu: always use MSM_DP/DSI_CONTROLLER_n
-  drm/msm/dpu: simplify peer LM handling
-  drm/msm/dpu: drop dpu_mdss_cfg::mdp_count field
-  drm/msm/dpu: drop enum dpu_mdp and MDP_TOP value
-  drm/msm/dpu: expand .clk_ctrls definitions
-  drm/msm/dpu: drop zero features from dpu_mdp_cfg data
-  drm/msm/dpu: drop zero features from dpu_ctl_cfg data
-  drm/msm/dpu: correct indentation for CTL definitions
-  drm/msm/dpu: inline SSPP_BLK macros
-  drm/msm/dpu: inline DSPP_BLK macros
-  drm/msm/dpu: inline LM_BLK macros
-  drm/msm/dpu: inline DSC_BLK and DSC_BLK_1_2 macros
-  drm/msm/dpu: inline MERGE_3D_BLK macros
-  drm/msm/dpu: inline various PP_BLK_* macros
-  drm/msm/dpu: inline WB_BLK macros
-  drm/msm/dpu: inline INTF_BLK and INTF_BLK_DSI_TE macros
-  drm/msm/dpu: drop empty features mask MERGE_3D_SM8150_MASK
-  drm/msm/dpu: drop empty features mask INTF_SDM845_MASK
-
- .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   | 327 ++++++++----
- .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    | 348 +++++++++----
- .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    | 411 ++++++++++-----
- .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   | 448 +++++++++++-----
- .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    | 430 +++++++++++-----
- .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    | 184 +++++--
- .../msm/disp/dpu1/catalog/dpu_6_3_sm6115.h    |  88 +++-
- .../msm/disp/dpu1/catalog/dpu_6_4_sm6350.h    | 188 ++++---
- .../msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h   |  88 +++-
- .../msm/disp/dpu1/catalog/dpu_6_9_sm6375.h    |  95 +++-
- .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    | 418 ++++++++++-----
- .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    | 244 ++++++---
- .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  | 484 +++++++++++++-----
- .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    | 445 +++++++++++-----
- .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    | 467 ++++++++++++-----
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 130 -----
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   5 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h   |   5 -
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c    |  34 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h    |   7 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   3 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        |  34 +-
- drivers/gpu/drm/msm/msm_drv.h                 |   8 +-
- 23 files changed, 3320 insertions(+), 1571 deletions(-)
-
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index e13a8cbd61c9..ad4fad2bcdc8 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -65,6 +65,12 @@ enum msm_dp_controller {
+ 	MSM_DP_CONTROLLER_COUNT,
+ };
+ 
++enum msm_dsi_controller {
++	MSM_DSI_CONTROLLER_0,
++	MSM_DSI_CONTROLLER_1,
++	MSM_DSI_CONTROLLER_COUNT,
++};
++
+ #define MSM_GPU_MAX_RINGS 4
+ #define MAX_H_TILES_PER_DISPLAY 2
+ 
+@@ -117,7 +123,7 @@ struct msm_drm_private {
+ 	struct hdmi *hdmi;
+ 
+ 	/* DSI is shared by mdp4 and mdp5 */
+-	struct msm_dsi *dsi[2];
++	struct msm_dsi *dsi[MSM_DSI_CONTROLLER_COUNT];
+ 
+ 	struct msm_dp *dp[MSM_DP_CONTROLLER_COUNT];
+ 
 -- 
 2.39.2
 
