@@ -1,78 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B7B77475D2
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 18:00:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1D7D747603
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 18:02:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B868B10E2D8;
-	Tue,  4 Jul 2023 16:00:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FC7810E2E0;
+	Tue,  4 Jul 2023 16:02:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3450810E2D8;
- Tue,  4 Jul 2023 16:00:43 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3647fq4i026251; Tue, 4 Jul 2023 16:00:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=FfJmuiv//B9Ey4spwjNOq9qVFQogiEOMCMGlfq5iLe8=;
- b=GVAKhcQAf3K2ujknXCwA+JCL9MyoxZxV24xlIGMSGJFCSc3dCiZlRM3BRhHPjuCzVzr6
- XiEsEuM/s6fL2/pV6ViL34ULg9S+5NomOFQQY8ij8KwlwpZ2fZnTwLw4oHieqA8KE8iP
- ZfCwKUgif2WX+odMcuPLvYaCO2kVJx2xJtO+UjqibkULolPSFTL/p0iXuOMG4+pVG51M
- 73lJ5+TKcUiDbCwBcp32hEMnq2QsIYKU51eZzGVgyCSd5ozp7RuZ+VbqW+UFPPT6j5Dj
- jJBudPt9tC24/OW6/RVVv+2aaeebWQ9CzxkRmtlPJpPauMgSk5p9ekm/H5g99k3vhl+Z 1g== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rkwepkcgr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Jul 2023 16:00:30 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 364G0TRh016890
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 4 Jul 2023 16:00:29 GMT
-Received: from [10.110.19.132] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.7; Tue, 4 Jul 2023
- 09:00:27 -0700
-Message-ID: <694033b9-31ef-3394-fbfe-2dbba6754692@quicinc.com>
-Date: Tue, 4 Jul 2023 09:00:25 -0700
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com
+ [IPv6:2607:f8b0:4864:20::72f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CCDD10E2E0
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 16:02:30 +0000 (UTC)
+Received: by mail-qk1-x72f.google.com with SMTP id
+ af79cd13be357-766fd5f9536so425214485a.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Jul 2023 09:02:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=marek-ca.20221208.gappssmtp.com; s=20221208; t=1688486550; x=1691078550;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=vGounWSX2Ta3v2i79JYImPXzwvWuhBfpeJNjehKi004=;
+ b=rc0Z7y7TRSX2d+1KPwiGFAhYt8WzwvmJqI3TYwOtVT7uvUJyHaeN5LaGt1mKP6LKnC
+ uKq/8vW9itima9B31SpAz2mexuJEkJdzIMVLK3cmvR/s+Y7cz9KbMRjSAgMJ+7VFtPVG
+ dIJu6aXSkK+O7myNN/V/OfAmFqOzWcohTDSY287Ugp/Fag9pxnuwih1IXXP6cNdp9XKK
+ lmXRumrxbC3Uemv/foXY+rq8vEePWATO3BKLYjB3LRWaqrVZhwfReNd4+XXK5P6fmFHk
+ ikG+Oh3DBXvPMPhfFoQHTQiPEtlhp2z93JMi/J6KDiEtY7ZJC7WpFdzK/n0WaokgzzGA
+ kRQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688486550; x=1691078550;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vGounWSX2Ta3v2i79JYImPXzwvWuhBfpeJNjehKi004=;
+ b=Gc3OaIvuLAc1uzGQuk11Kmco0XINmX4y1sCJGQ4QkLggpWOYysAOBCC/4MkgCTjcaD
+ MXMpVPnJApP7+8VcqYR8+TtIU3vxB8UUeF8co52ZZKt9ush6PjUbJc/RGunIiMVvpL7/
+ xV4Kfvf0ZZwt7w6SnRFt7M/bsLDgNDjNooZ9BUHv6w+Dj6xI+tewC5K0o5kUVQMM54SW
+ P72msPo/e8zypqDokkWru0jF9vDNV+a02AW2FwinYX69raBZhQZUW5ZKiNvVoD8vueBb
+ FukhZfcRClwTF5VgH5aGruqUL0Al46SokyPR7LrQAm0IJ+xKoDsJjEYz+RcjpeQAw4Dj
+ RdeQ==
+X-Gm-Message-State: ABy/qLYXl2VCV++LWFpM7TLStNqyuwAsPYtU7QIM82osI514yzA3w2UA
+ Qt2zsf+3X3XR0nfGNsg7Wu/vdw==
+X-Google-Smtp-Source: APBJJlE+NmKZaXt8xrhE1cfKOONdr0uQa7f/tA9YGQWR7rwjnOqQDPa3QaGrSLMkEeuqZM5bZwMHBg==
+X-Received: by 2002:a05:620a:4096:b0:765:575b:415 with SMTP id
+ f22-20020a05620a409600b00765575b0415mr17754462qko.24.1688486549669; 
+ Tue, 04 Jul 2023 09:02:29 -0700 (PDT)
+Received: from localhost.localdomain
+ (modemcable125.110-19-135.mc.videotron.ca. [135.19.110.125])
+ by smtp.gmail.com with ESMTPSA id
+ l15-20020ad4444f000000b0062439f05b87sm12659236qvt.45.2023.07.04.09.02.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Jul 2023 09:02:29 -0700 (PDT)
+From: Jonathan Marek <jonathan@marek.ca>
+To: freedreno@lists.freedesktop.org
+Subject: [PATCH] drm/msm/dpu: add missing flush and fetch bits for DMA4/DMA5
+ planes
+Date: Tue,  4 Jul 2023 12:01:04 -0400
+Message-Id: <20230704160106.26055-1-jonathan@marek.ca>
+X-Mailer: git-send-email 2.26.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 14/14] drm/msm/dpu: drop dpu_core_perf_destroy()
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>
-References: <20230704150354.159882-1-dmitry.baryshkov@linaro.org>
- <20230704150354.159882-15-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230704150354.159882-15-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: lCu8zaiTOKEbTQRJKRUBz7qm7kXCrclN
-X-Proofpoint-GUID: lCu8zaiTOKEbTQRJKRUBz7qm7kXCrclN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-04_10,2023-07-04_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- phishscore=0 adultscore=0 impostorscore=0 clxscore=1015 mlxlogscore=999
- spamscore=0 suspectscore=0 mlxscore=0 lowpriorityscore=0 bulkscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2307040138
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,76 +72,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: Kalyan Thota <quic_kalyant@quicinc.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Note that with this, DMA4/DMA5 are still non-functional, but at least
+display *something* in modetest instead of nothing or underflow.
 
+Fixes: efcd0107727c ("drm/msm/dpu: add support for SM8550")
+Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-On 7/4/2023 8:03 AM, Dmitry Baryshkov wrote:
-> This function does nothing, just clears several data pointers. Drop it
-> now.
-> 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+index bbdc95ce374a..52222af5975f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+@@ -51,7 +51,7 @@
+ 
+ static const u32 fetch_tbl[SSPP_MAX] = {CTL_INVALID_BIT, 16, 17, 18, 19,
+ 	CTL_INVALID_BIT, CTL_INVALID_BIT, CTL_INVALID_BIT, CTL_INVALID_BIT, 0,
+-	1, 2, 3, CTL_INVALID_BIT, CTL_INVALID_BIT};
++	1, 2, 3, 4, 5};
+ 
+ static const struct dpu_ctl_cfg *_ctl_offset(enum dpu_ctl ctl,
+ 		const struct dpu_mdss_cfg *m,
+@@ -206,6 +206,12 @@ static void dpu_hw_ctl_update_pending_flush_sspp(struct dpu_hw_ctl *ctx,
+ 	case SSPP_DMA3:
+ 		ctx->pending_flush_mask |= BIT(25);
+ 		break;
++	case SSPP_DMA4:
++		ctx->pending_flush_mask |= BIT(13);
++		break;
++	case SSPP_DMA5:
++		ctx->pending_flush_mask |= BIT(14);
++		break;
+ 	case SSPP_CURSOR0:
+ 		ctx->pending_flush_mask |= BIT(22);
+ 		break;
+-- 
+2.26.1
 
-Now, it doesnt even do that. Just resets the clk_rate to 0.
-
-> Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 10 ----------
->   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h |  6 ------
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  1 -
->   3 files changed, 17 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> index 608c915a2cab..4b8127932e13 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> @@ -408,16 +408,6 @@ int dpu_core_perf_debugfs_init(struct dpu_kms *dpu_kms, struct dentry *parent)
->   }
->   #endif
->   
-> -void dpu_core_perf_destroy(struct dpu_core_perf *perf)
-> -{
-> -	if (!perf) {
-> -		DPU_ERROR("invalid parameters\n");
-> -		return;
-> -	}
-> -
-> -	perf->max_core_clk_rate = 0;
-> -}
-> -
->   int dpu_core_perf_init(struct dpu_core_perf *perf,
->   		const struct dpu_perf_cfg *perf_cfg,
->   		unsigned long max_core_clk_rate)
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
-> index df1fcf28f2a9..a5a9c3389718 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
-> @@ -66,12 +66,6 @@ int dpu_core_perf_crtc_update(struct drm_crtc *crtc,
->    */
->   void dpu_core_perf_crtc_release_bw(struct drm_crtc *crtc);
->   
-> -/**
-> - * dpu_core_perf_destroy - destroy the given core performance context
-> - * @perf: Pointer to core performance context
-> - */
-> -void dpu_core_perf_destroy(struct dpu_core_perf *perf);
-> -
->   /**
->    * dpu_core_perf_init - initialize the given core performance context
->    * @perf: Pointer to core performance context
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index f01b2278c01a..44b0daf70c4e 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -1171,7 +1171,6 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->   	return 0;
->   
->   drm_obj_init_err:
-> -	dpu_core_perf_destroy(&dpu_kms->perf);
->   hw_intr_init_err:
->   perf_err:
->   power_error:
