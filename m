@@ -1,54 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 901EA74748C
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 16:54:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 811A87474B4
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 17:03:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE0DB10E139;
-	Tue,  4 Jul 2023 14:54:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F34C10E1A9;
+	Tue,  4 Jul 2023 15:03:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D91DC10E139
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 14:54:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1688482455; x=1720018455;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=Q45WjssFK0DvOFJoqNpQHpdQP4cL0WvjWCwGo0CgDXc=;
- b=dsWR1KbYH5Day25EWD6c3OdA/lTQXEQs4aptdOm61RuTpRf+HNSizigL
- CxcvXlChdy7xa2PiMAisR05wZqQQNsxSwDW8aLHxrXOwdVIkMC/EHwmhs
- UbZnYgGck10xPlgjmNagz5rsyX+rGND871lFfVgtfrgvUzqTs8CkMBNAZ
- NNRqketHFDZH+NIw1MfLrRx5jTx1lN6Q++i6cNBI6zbrxSsWSF6MWUIkb
- KGMSSd0ZOFf5GFQ1yhDg/gxrrrDAFlq2y+CgxAadaGdB8yS08mLFjsYQi
- qs7yREFk7ZaSX4xIjVifyLP644WYvlWWZ5B/4B10ZSkRhR5OHttHa5Cme A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="352968381"
-X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; d="scan'208";a="352968381"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jul 2023 07:54:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="1049423960"
-X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; d="scan'208";a="1049423960"
-Received: from jbouhlil-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.48.173])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jul 2023 07:54:12 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Jocelyn Falempe <jfalempe@redhat.com>, tzimmermann@suse.de,
- airlied@redhat.com, kuohsiang_chou@aspeedtech.com,
- jammy_huang@aspeedtech.com
-Subject: Re: [PATCH] drm/ast: Fix default resolution when no monitor is
- connected on DP
-In-Reply-To: <20230623094639.434293-1-jfalempe@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230623094639.434293-1-jfalempe@redhat.com>
-Date: Tue, 04 Jul 2023 17:54:10 +0300
-Message-ID: <878rbv20dp.fsf@intel.com>
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A77310E1A9
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 15:03:14 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id
+ ffacd0b85a97d-3113da5260dso6265252f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Jul 2023 08:03:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1688482992; x=1691074992;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=EcaXmJ0ZrICymslbk6PHQsJRg8vS8+RojA0LAwyT/zQ=;
+ b=KouPo65iu0hK7fuVBBpGDmUPRt2tU/GtFDp4hNAhFyjGhVMSOnJO3v6UetUjJ/p6pN
+ N8SQknxPbCQOi66PLf7HcR5rUk41b3iuIwxQxNbtNXOqNFljVaaYzrqHRE/72sEhfIPM
+ w5BUNfb19B9J+TNm12rbC8YqvK+khMGgHMxXq+5vjRVdGA7cCtuuyJYHA1UuJuIIAI3M
+ D5Afj5+LBOeCDk2+TNC53DYEYHk3VXgtWQqAM4rcOZgCWGp24zcOk7P9qUgsG7Bq/Cv3
+ xIlgpdiKy+I3gRN7OOKSAThu3oVLP/QMr4VVZrdYJWu7zargCQEIZ25aCQ275/O3Njct
+ wELA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688482992; x=1691074992;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=EcaXmJ0ZrICymslbk6PHQsJRg8vS8+RojA0LAwyT/zQ=;
+ b=VuIAM0xZ6LT9d71oeL30v3XbzyRBnQjItk7yyvU1bdPOZ8ilwvIVCcpP9M+0wcGoaT
+ TVz6ueZD44rUiknAKbjmGSs/XY3beJlrEYMFzTEzXb2aps2Zvongi6P40hnjHX4oSho+
+ taa9KWEOvS++YcWgEzISw1wZYIfmsJ16Q3yIGtAjgG5UzbbryHuXP/DC7jEit6gbiK14
+ TQHgRf5L8arBZiBSlT6xqOoRxtlmdlZyPe3763JWd2zBapSiCl1GHzcIt+fouaQbguZI
+ LQgHqgBhl6FgCdVaSyLkJ2mmpF77/oafy1tB1LfHLjSGZSxai5WA7IhqiQEGVaBoougg
+ 89AA==
+X-Gm-Message-State: ABy/qLb4qoZ1SMh7cAebIQyQXHbKLqTAaKKiHm/jUo0TTC1iouadTw8v
+ 111cBbOyU0KLyHroRufDbWpudw==
+X-Google-Smtp-Source: APBJJlFlpjmrGdYueJJZlk/MoDzzq+L7FJYJ5eNl3AHPcCI5YjZgfpfSpd50V3Uqhy3K7ai28M4Z/Q==
+X-Received: by 2002:a5d:6850:0:b0:313:eb4d:6a0e with SMTP id
+ o16-20020a5d6850000000b00313eb4d6a0emr11332569wrw.9.1688482992243; 
+ Tue, 04 Jul 2023 08:03:12 -0700 (PDT)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ x2-20020a5d54c2000000b003142439c7bcsm11555831wrv.80.2023.07.04.08.03.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Jul 2023 08:03:11 -0700 (PDT)
+Date: Tue, 4 Jul 2023 16:03:10 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Mans Rullgard <mans@mansr.com>
+Subject: Re: [PATCH] backlight: led_bl: fix initial power state
+Message-ID: <20230704150310.GA385243@aspen.lan>
+References: <20230704140750.25799-1-mans@mansr.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230704140750.25799-1-mans@mansr.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,93 +73,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 23 Jun 2023, Jocelyn Falempe <jfalempe@redhat.com> wrote:
-> Since commit fae7d186403e ("drm/probe-helper: Default to 640x480 if no
->  EDID on DP")
-> The default resolution is now 640x480 when no monitor is connected.
-> But Aspeed graphics is mostly used in servers, where no monitor
-> is attached. This also affects the "remote" resolution to 640x480, which is
-> inconvenient, and breaks the anaconda installer.
-> So when no EDID is present, set 1024x768 as preferred resolution.
-
-This conflates "monitor connected" and "EDID present", which are not
-necessarily the same thing.
-
-The fallback in drm_helper_probe_single_connector_modes() is for no
-modes, but connector status is connected or unknown.
-
-You could add a connector ->detect callback that returns disconnected
-when there's no display, and the problem should go away. If there's no
-->detect callback, it'll default to connected.
-
-> Fixes: fae7d186403e ("drm/probe-helper: Default to 640x480 if no EDID on DP")
-> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+On Tue, Jul 04, 2023 at 03:07:50PM +0100, Mans Rullgard wrote:
+> The condition for the initial power state based on the default
+> brightness value is reversed.  Fix it.
+>
+> Fixes: ae232e45acf9 ("backlight: add led-backlight driver")
+> Signed-off-by: Mans Rullgard <mans@mansr.com>
 > ---
->  drivers/gpu/drm/ast/ast_mode.c | 26 ++++++++++++++++++++++++--
->  1 file changed, 24 insertions(+), 2 deletions(-)
+>  drivers/video/backlight/led_bl.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-> index 36374828f6c8..8f7b7cc021c7 100644
-> --- a/drivers/gpu/drm/ast/ast_mode.c
-> +++ b/drivers/gpu/drm/ast/ast_mode.c
-> @@ -1589,9 +1589,31 @@ static const struct drm_connector_helper_funcs ast_dp501_connector_helper_funcs
->  	.get_modes = ast_dp501_connector_helper_get_modes,
->  };
->  
-> +static int ast_dp_probe_single_connector_modes(struct drm_connector *connector,
-> +					       uint32_t maxX, uint32_t maxY)
-> +{
-> +	int ret;
-> +	struct drm_display_mode *mode;
-> +
-> +	ret = drm_helper_probe_single_connector_modes(connector, maxX, maxY);
-> +	/*
-> +	 * When no monitor are detected, DP now default to 640x480
-> +	 * As aspeed is mostly used in remote server, and DP monitors are
-> +	 * rarely attached, it's better to default to 1024x768
-> +	 */
-> +	if (!connector->edid_blob_ptr) {
+> diff --git a/drivers/video/backlight/led_bl.c b/drivers/video/backlight/led_bl.c
+> index 3259292fda76..28e83618a296 100644
+> --- a/drivers/video/backlight/led_bl.c
+> +++ b/drivers/video/backlight/led_bl.c
+> @@ -200,8 +200,8 @@ static int led_bl_probe(struct platform_device *pdev)
+>  	props.type = BACKLIGHT_RAW;
+>  	props.max_brightness = priv->max_brightness;
+>  	props.brightness = priv->default_brightness;
+> -	props.power = (priv->default_brightness > 0) ? FB_BLANK_POWERDOWN :
+> -		      FB_BLANK_UNBLANK;
+> +	props.power = (priv->default_brightness > 0) ? FB_BLANK_UNBLANK :
+> +		      FB_BLANK_POWERDOWN;
 
-Please try not to use connector->edid_blob_ptr for anything in
-drivers. The logic is complicated enough as it is, with the firmware and
-override EDIDs and everything, and makes future refactoring of EDID
-handling harder.
+The logic was wrong before but I think will still be wrong after the
+change too (e.g. the bogus logic is probably avoiding backlight flicker
+in some use cases).
+
+The logic here needs to be similar to what pwm_bl.c implements in
+pwm_backlight_initial_power_state(). Whilst it might be better
+to implement this in led_bl_get_leds() let me show what I mean
+in code that fits in the current line:
+
+	/*
+	 * Activate the backlight if the LEDs are already lit *or*
+	 * there is no phandle link (meaning the backlight power
+	 * state cannot be synced with the display state).
+	 */
+	props.power = (active_at_boot || !dev->node->phandle) ?
+			FB_BLANK_UNBLANK : FB_BLANK_POWERDOWN;
+
+Note that active_at_boot is not the same as (priv->default_brightness > 0)
+since the value read by led_bl_get_leds() can be clobbered when we
+parse the properties.
 
 
-BR,
-Jani.
-
-> +		list_for_each_entry(mode, &connector->modes, head) {
-> +			if (mode->hdisplay == 1024 && mode->vdisplay == 768)
-> +				mode->type |= DRM_MODE_TYPE_PREFERRED;
-> +			drm_mode_sort(&connector->modes);
-> +		}
-> +	}
-> +	return ret;
-> +}
-> +
->  static const struct drm_connector_funcs ast_dp501_connector_funcs = {
->  	.reset = drm_atomic_helper_connector_reset,
-> -	.fill_modes = drm_helper_probe_single_connector_modes,
-> +	.fill_modes = ast_dp_probe_single_connector_modes,
->  	.destroy = drm_connector_cleanup,
->  	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
->  	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> @@ -1678,7 +1700,7 @@ static const struct drm_connector_helper_funcs ast_astdp_connector_helper_funcs
->  
->  static const struct drm_connector_funcs ast_astdp_connector_funcs = {
->  	.reset = drm_atomic_helper_connector_reset,
-> -	.fill_modes = drm_helper_probe_single_connector_modes,
-> +	.fill_modes = ast_dp_probe_single_connector_modes,
->  	.destroy = drm_connector_cleanup,
->  	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
->  	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
->
-> base-commit: 0adec22702d497385dbdc52abb165f379a00efba
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Daniel.
