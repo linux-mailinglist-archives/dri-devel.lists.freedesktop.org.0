@@ -2,68 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C98597473FE
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 16:22:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E88B747426
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jul 2023 16:31:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB7D010E19B;
-	Tue,  4 Jul 2023 14:21:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4259410E1A7;
+	Tue,  4 Jul 2023 14:31:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5F5B10E18F
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jul 2023 14:21:54 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 86BEA1FE9C;
- Tue,  4 Jul 2023 14:21:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1688480512; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=b6o1sW/b86g7CV+mN7kQE0L9aZEshCaws9sL5ep6Nmc=;
- b=B3vKgGTYKeRoDKEEpys3RXojtSJZcSgl7tceY8QkOHAm7AuqkCzmAI4LE+dvqMZbTqS5sa
- gaxyo2LNgEaNwzjwkjSWXNfQyC3csPiGB/Ws6a5x5KfrX69+7rwQUoj+qnGBrms3BFpLc6
- oFCx8RwBMdYRkYp1BAMSCK+ci3q6qcg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1688480512;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=b6o1sW/b86g7CV+mN7kQE0L9aZEshCaws9sL5ep6Nmc=;
- b=4tzkyH9PDtNzkHa24rpuDHT1NkkAiFKMZdpMSlLfVeTUYsTzngD3spWGnqVChvbDvmvFGT
- qKddm6eHk/GAAfBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4348C1346D;
- Tue,  4 Jul 2023 14:21:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 3c9qDwArpGROdwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 04 Jul 2023 14:21:52 +0000
-Message-ID: <320d325e-5015-2698-b6c7-ed1223841869@suse.de>
-Date: Tue, 4 Jul 2023 16:21:51 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] drm/ast: Fix default resolution when no monitor is
- connected on DP
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com,
- kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com,
- Douglas Anderson <dianders@chromium.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jani Nikula <jani.nikula@intel.com>, Sean Paul <seanpaul@chromium.org>
-References: <20230623094639.434293-1-jfalempe@redhat.com>
- <2422ef03-a309-2789-04ec-a8c4559f5024@suse.de>
-In-Reply-To: <2422ef03-a309-2789-04ec-a8c4559f5024@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------2vYUhReFD5K8fejj0nAW0TLz"
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F19910E1A8;
+ Tue,  4 Jul 2023 14:31:48 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailout.nyi.internal (Postfix) with ESMTP id 358AC5C022A;
+ Tue,  4 Jul 2023 10:31:47 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+ by compute6.internal (MEProxy); Tue, 04 Jul 2023 10:31:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to; s=fm2; t=
+ 1688481107; x=1688567507; bh=aqNsrJHVCnGS5M3xoGiJRBSxbIqtfC2tngp
+ dKmlsVZU=; b=RI/bfPN9cjPntRtrW/Dbhv9tP8VrrltI/MZdGagrm86vvoc0yef
+ NROG9VgHWAWe8NcWA0/rNzns3UCg72E4fB1KVUpbDy5OXb8AEMYx2rTC59zR2ERz
+ A+uaYnleg/oE9VVFjEBaX2szm5bvkYdnYZTQPYbhEi8f/E4IVGN75SBz82tAQkSs
+ 7pisihqSoBEZsKqTVHzm3yXOrIDLpYElPq1outbbZ8JpbBMggoYg3nsA/aN0GEWB
+ CR4qj9XPh6CbKSz3o9bg8YFBrZay3g871CZV8ZO0IRqtq3imdDxjLmtZgII+MxMi
+ LaMa/jHTqZYh4cvXDdghsGnkFZtA6mppE9w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+ 1688481107; x=1688567507; bh=aqNsrJHVCnGS5M3xoGiJRBSxbIqtfC2tngp
+ dKmlsVZU=; b=BhdV1iWlRIff/+xmjml84Pc86sgHA5/c+T5LXLSssMgArI8+Icn
+ 0Ae0+dk9C0Va5vfQ5+jOVeHh0qOmIVcJl6DWBRWNbBgSyTlMrPV578a6YSNnRaOl
+ 72B+E3R+icS3raoq2yuuuwoYLf2Tu3/Vs2qU92ta7WZVt8Gb1t+GAqYf/PYoypfG
+ Vx7VKIc91RCJsFJcRcptvsPSSOQ9+xIU4qRAm7fd0gtUVv3Iwc5f0zExjrlh2ulx
+ J2DHGmtxjDRub9f5FyrNK8RLfcsKflgDFEtnMvfJ+JmRdcTVHKj3rYIBjbK0cT7D
+ DDTHF7eDTuYmg4d6I180VCWH2hjlj7ShjpA==
+X-ME-Sender: <xms:Ui2kZK_1c2_n9pzTTo159TkOPurTHtgChsVx8aJD-eEg3BtGspCgrg>
+ <xme:Ui2kZKvxZCobXlWGuYVd7UgFUlXL_GBLc1roQekMrWi3IfSEXkDgWFaaFu0ep4ebO
+ LFW8HKexD0VI6mLNaI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudeggdejjecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedftehr
+ nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+ htvghrnhepgeefjeehvdelvdffieejieejiedvvdfhleeivdelveehjeelteegudektdfg
+ jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+ hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:Ui2kZADgHsmy1cqQ5nP4hf74j7eG8GWrvM_I7laOXOVNWJReo1WaAg>
+ <xmx:Ui2kZCfMSCTn1lTPz5DwFSqwDoZMEmV_luDH77WrUdru9YiEs0faKg>
+ <xmx:Ui2kZPO6oRx3VYRPIOhgxIcC-HZjzfMMUYvU_XAZjdbP0mgaSIrbZw>
+ <xmx:Uy2kZGnyBsK_4CgKkxnKRlzGWU-sEmSj3XnCwzNaJqWE-0mi7fXQUg>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 525ACB60089; Tue,  4 Jul 2023 10:31:46 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-527-gee7b8d90aa-fm-20230629.001-gee7b8d90
+Mime-Version: 1.0
+Message-Id: <9b03246d-b46e-4b91-968a-e9ffc2fc26db@app.fastmail.com>
+In-Reply-To: <f1b190cb-3af7-178b-baeb-b59363868779@amd.com>
+References: <20230703123557.3355657-1-arnd@kernel.org>
+ <f4bc3739-3ff1-6fa7-5d7d-890f451315bf@amd.com>
+ <788147c6-defd-496a-8174-1571b73d1a71@app.fastmail.com>
+ <f1b190cb-3af7-178b-baeb-b59363868779@amd.com>
+Date: Tue, 04 Jul 2023 16:31:25 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Arnd Bergmann" <arnd@kernel.org>,
+ "Alex Deucher" <alexander.deucher@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, "Dave Airlie" <airlied@gmail.com>,
+ "Daniel Vetter" <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm/amdgpu: avoid integer overflow warning in
+ amdgpu_device_resize_fb_bar()
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,135 +92,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Bokun Zhang <Bokun.Zhang@amd.com>, dri-devel@lists.freedesktop.org,
+ Lijo Lazar <lijo.lazar@amd.com>, linux-kernel@vger.kernel.org,
+ Shiwu Zhang <shiwu.zhang@amd.com>, Le Ma <le.ma@amd.com>,
+ YiPeng Chai <YiPeng.Chai@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------2vYUhReFD5K8fejj0nAW0TLz
-Content-Type: multipart/mixed; boundary="------------ki7P3UCgEV7f7kwe0A9fX5PA";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com,
- kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com,
- Douglas Anderson <dianders@chromium.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jani Nikula <jani.nikula@intel.com>, Sean Paul <seanpaul@chromium.org>
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <320d325e-5015-2698-b6c7-ed1223841869@suse.de>
-Subject: Re: [PATCH] drm/ast: Fix default resolution when no monitor is
- connected on DP
-References: <20230623094639.434293-1-jfalempe@redhat.com>
- <2422ef03-a309-2789-04ec-a8c4559f5024@suse.de>
-In-Reply-To: <2422ef03-a309-2789-04ec-a8c4559f5024@suse.de>
+On Tue, Jul 4, 2023, at 14:33, Christian K=C3=B6nig wrote:
+> Am 04.07.23 um 14:24 schrieb Arnd Bergmann:
+>> On Tue, Jul 4, 2023, at 08:54, Christian K=C3=B6nig wrote:
+>>> Am 03.07.23 um 14:35 schrieb Arnd Bergmann:
+>> Not sure I understand the specific requirement. Do you mean the entire
+>> amdgpu driver requires 64-bit BAR addressing, or just the bits that
+>> resize the BARs?
+>
+> Well a bit of both.
+>
+> Modern AMD GPUs have 16GiB of local memory (VRAM), making those=20
+> accessible to a CPU which can only handle 32bit addresses by resizing=20
+> the BAR is impossible to begin with.
+>
+> But going a step further even without resizing it is pretty hard to ge=
+t=20
+> that hardware working on such an architecture.
 
---------------ki7P3UCgEV7f7kwe0A9fX5PA
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+I'd still like to understand this part better, as we have a lot of
+arm64 chips with somewhat flawed PCIe implementations, often with
+a tiny 64-bit memory space, but otherwise probably capable of
+using a GPU.
 
-KGNjOiBzb21lIHBlb3BsZSBmcm9tIGNvbW1pdCBmYWU3ZDE4NjQwM2UpDQoNCkFtIDA0LjA3
-LjIzIHVtIDE2OjE5IHNjaHJpZWIgVGhvbWFzIFppbW1lcm1hbm46DQo+IEhpIEpvY2VseW4N
-Cj4gDQo+IEFtIDIzLjA2LjIzIHVtIDExOjQ2IHNjaHJpZWIgSm9jZWx5biBGYWxlbXBlOg0K
-Pj4gU2luY2UgY29tbWl0IGZhZTdkMTg2NDAzZSAoImRybS9wcm9iZS1oZWxwZXI6IERlZmF1
-bHQgdG8gNjQweDQ4MCBpZiBubw0KPj4gwqAgRURJRCBvbiBEUCIpDQo+PiBUaGUgZGVmYXVs
-dCByZXNvbHV0aW9uIGlzIG5vdyA2NDB4NDgwIHdoZW4gbm8gbW9uaXRvciBpcyBjb25uZWN0
-ZWQuDQo+PiBCdXQgQXNwZWVkIGdyYXBoaWNzIGlzIG1vc3RseSB1c2VkIGluIHNlcnZlcnMs
-IHdoZXJlIG5vIG1vbml0b3INCj4+IGlzIGF0dGFjaGVkLiBUaGlzIGFsc28gYWZmZWN0cyB0
-aGUgInJlbW90ZSIgcmVzb2x1dGlvbiB0byA2NDB4NDgwLCANCj4+IHdoaWNoIGlzDQo+PiBp
-bmNvbnZlbmllbnQsIGFuZCBicmVha3MgdGhlIGFuYWNvbmRhIGluc3RhbGxlci4NCj4gDQo+
-IEJ5ICJyZW1vdGUgcmVzb2x1dGlvbiIsIHlvdSBtZWFuIHRoZSBkaXNwbGF5IG1vZGUgdGhh
-dCB0aGUgQk1DIHVzZXM/DQo+IA0KPj4gU28gd2hlbiBubyBFRElEIGlzIHByZXNlbnQsIHNl
-dCAxMDI0eDc2OCBhcyBwcmVmZXJyZWQgcmVzb2x1dGlvbi4NCj4+DQo+PiBGaXhlczogZmFl
-N2QxODY0MDNlICgiZHJtL3Byb2JlLWhlbHBlcjogRGVmYXVsdCB0byA2NDB4NDgwIGlmIG5v
-IEVESUQgDQo+PiBvbiBEUCIpDQo+IA0KPiBUaGlzIGNvbW1pdCBzYXlzIHRoYXQgNjQweDQ4
-MCBpcyB0aGUgZGVzaWduYXRlZCBmYWlsc2FmZSBtb2RlIGlmIG5vIEVESUQgDQo+IGlzIGF2
-YWlsYWJsZS4gVGhlcmVmb3JlLCBJIHRoaW5rIHdlIHNob3VsZCBub3Qgb3ZlcnJpZGUgaXQg
-DQo+IHVuY29uZGl0aW9uYWxseS4gVGhlIGFzdCBkcml2ZXIgaXMgbm8gc3BlY2lhbCBpbiB0
-aGF0IGNhc2UuDQo+IA0KPiBCdXQgSSBzZWUgd2h5IHlvdSdyZSBkb2luZyB0aGlzIGNoYW5n
-ZS4gSSB0aGluayBhbnkgc29sdXRpb24gc2hvdWxkIGJlIA0KPiBpbXBsZW1lbnRlZCBpbiBk
-cm1faGVscGVyX3Byb2JlX3NpbmdsZV9jb25uZWN0b3JfbW9kZXMoKS4NCj4gDQo+IEJ1dCBi
-ZWZvcmUgd2Ugc29sdmUgdGhpcyBpbiB0aGUga2VybmVsLCBpcyBpdCBwb3NzaWJsZSB0byBk
-ZWxlZ2F0ZSB0aGlzIA0KPiB0byB1c2Vyc3BhY2U/IElmIG5vIEVESUQgaGFzIGJlZW4gZ2l2
-ZW4sIHVzZXJzcGFjZSBjb3VsZCB0cnkgYSANCj4gbm9uLWZhaWxzYWZlIGRpc3BsYXkgbW9k
-ZS4NCj4gDQo+IEJlc3QgcmVnYXJkcw0KPiBUaG9tYXMNCj4gDQo+PiBTaWduZWQtb2ZmLWJ5
-OiBKb2NlbHluIEZhbGVtcGUgPGpmYWxlbXBlQHJlZGhhdC5jb20+DQo+PiAtLS0NCj4+IMKg
-IGRyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUuYyB8IDI2ICsrKysrKysrKysrKysrKysr
-KysrKysrKy0tDQo+PiDCoCAxIGZpbGUgY2hhbmdlZCwgMjQgaW5zZXJ0aW9ucygrKSwgMiBk
-ZWxldGlvbnMoLSkNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FzdC9h
-c3RfbW9kZS5jIA0KPj4gYi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMNCj4+IGlu
-ZGV4IDM2Mzc0ODI4ZjZjOC4uOGY3YjdjYzAyMWM3IDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXN0
-L2FzdF9tb2RlLmMNCj4+IEBAIC0xNTg5LDkgKzE1ODksMzEgQEAgc3RhdGljIGNvbnN0IHN0
-cnVjdCBkcm1fY29ubmVjdG9yX2hlbHBlcl9mdW5jcyANCj4+IGFzdF9kcDUwMV9jb25uZWN0
-b3JfaGVscGVyX2Z1bmNzDQo+PiDCoMKgwqDCoMKgIC5nZXRfbW9kZXMgPSBhc3RfZHA1MDFf
-Y29ubmVjdG9yX2hlbHBlcl9nZXRfbW9kZXMsDQo+PiDCoCB9Ow0KPj4gK3N0YXRpYyBpbnQg
-YXN0X2RwX3Byb2JlX3NpbmdsZV9jb25uZWN0b3JfbW9kZXMoc3RydWN0IGRybV9jb25uZWN0
-b3IgDQo+PiAqY29ubmVjdG9yLA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgdWludDMyX3QgbWF4WCwgdWludDMyX3QgbWF4WSkN
-Cj4+ICt7DQo+PiArwqDCoMKgIGludCByZXQ7DQo+PiArwqDCoMKgIHN0cnVjdCBkcm1fZGlz
-cGxheV9tb2RlICptb2RlOw0KPj4gKw0KPj4gK8KgwqDCoCByZXQgPSBkcm1faGVscGVyX3By
-b2JlX3NpbmdsZV9jb25uZWN0b3JfbW9kZXMoY29ubmVjdG9yLCBtYXhYLCANCj4+IG1heFkp
-Ow0KPj4gK8KgwqDCoCAvKg0KPj4gK8KgwqDCoMKgICogV2hlbiBubyBtb25pdG9yIGFyZSBk
-ZXRlY3RlZCwgRFAgbm93IGRlZmF1bHQgdG8gNjQweDQ4MA0KPj4gK8KgwqDCoMKgICogQXMg
-YXNwZWVkIGlzIG1vc3RseSB1c2VkIGluIHJlbW90ZSBzZXJ2ZXIsIGFuZCBEUCBtb25pdG9y
-cyBhcmUNCj4+ICvCoMKgwqDCoCAqIHJhcmVseSBhdHRhY2hlZCwgaXQncyBiZXR0ZXIgdG8g
-ZGVmYXVsdCB0byAxMDI0eDc2OA0KPj4gK8KgwqDCoMKgICovDQo+PiArwqDCoMKgIGlmICgh
-Y29ubmVjdG9yLT5lZGlkX2Jsb2JfcHRyKSB7DQo+PiArwqDCoMKgwqDCoMKgwqAgbGlzdF9m
-b3JfZWFjaF9lbnRyeShtb2RlLCAmY29ubmVjdG9yLT5tb2RlcywgaGVhZCkgew0KPj4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKG1vZGUtPmhkaXNwbGF5ID09IDEwMjQgJiYgbW9k
-ZS0+dmRpc3BsYXkgPT0gNzY4KQ0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCBtb2RlLT50eXBlIHw9IERSTV9NT0RFX1RZUEVfUFJFRkVSUkVEOw0KPj4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgZHJtX21vZGVfc29ydCgmY29ubmVjdG9yLT5tb2Rlcyk7DQo+PiAr
-wqDCoMKgwqDCoMKgwqAgfQ0KPj4gK8KgwqDCoCB9DQo+PiArwqDCoMKgIHJldHVybiByZXQ7
-DQo+PiArfQ0KPj4gKw0KPj4gwqAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fY29ubmVjdG9y
-X2Z1bmNzIGFzdF9kcDUwMV9jb25uZWN0b3JfZnVuY3MgPSB7DQo+PiDCoMKgwqDCoMKgIC5y
-ZXNldCA9IGRybV9hdG9taWNfaGVscGVyX2Nvbm5lY3Rvcl9yZXNldCwNCj4+IC3CoMKgwqAg
-LmZpbGxfbW9kZXMgPSBkcm1faGVscGVyX3Byb2JlX3NpbmdsZV9jb25uZWN0b3JfbW9kZXMs
-DQo+PiArwqDCoMKgIC5maWxsX21vZGVzID0gYXN0X2RwX3Byb2JlX3NpbmdsZV9jb25uZWN0
-b3JfbW9kZXMsDQo+PiDCoMKgwqDCoMKgIC5kZXN0cm95ID0gZHJtX2Nvbm5lY3Rvcl9jbGVh
-bnVwLA0KPj4gwqDCoMKgwqDCoCAuYXRvbWljX2R1cGxpY2F0ZV9zdGF0ZSA9IA0KPj4gZHJt
-X2F0b21pY19oZWxwZXJfY29ubmVjdG9yX2R1cGxpY2F0ZV9zdGF0ZSwNCj4+IMKgwqDCoMKg
-wqAgLmF0b21pY19kZXN0cm95X3N0YXRlID0gZHJtX2F0b21pY19oZWxwZXJfY29ubmVjdG9y
-X2Rlc3Ryb3lfc3RhdGUsDQo+PiBAQCAtMTY3OCw3ICsxNzAwLDcgQEAgc3RhdGljIGNvbnN0
-IHN0cnVjdCBkcm1fY29ubmVjdG9yX2hlbHBlcl9mdW5jcyANCj4+IGFzdF9hc3RkcF9jb25u
-ZWN0b3JfaGVscGVyX2Z1bmNzDQo+PiDCoCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9jb25u
-ZWN0b3JfZnVuY3MgYXN0X2FzdGRwX2Nvbm5lY3Rvcl9mdW5jcyA9IHsNCj4+IMKgwqDCoMKg
-wqAgLnJlc2V0ID0gZHJtX2F0b21pY19oZWxwZXJfY29ubmVjdG9yX3Jlc2V0LA0KPj4gLcKg
-wqDCoCAuZmlsbF9tb2RlcyA9IGRybV9oZWxwZXJfcHJvYmVfc2luZ2xlX2Nvbm5lY3Rvcl9t
-b2RlcywNCj4+ICvCoMKgwqAgLmZpbGxfbW9kZXMgPSBhc3RfZHBfcHJvYmVfc2luZ2xlX2Nv
-bm5lY3Rvcl9tb2RlcywNCj4+IMKgwqDCoMKgwqAgLmRlc3Ryb3kgPSBkcm1fY29ubmVjdG9y
-X2NsZWFudXAsDQo+PiDCoMKgwqDCoMKgIC5hdG9taWNfZHVwbGljYXRlX3N0YXRlID0gDQo+
-PiBkcm1fYXRvbWljX2hlbHBlcl9jb25uZWN0b3JfZHVwbGljYXRlX3N0YXRlLA0KPj4gwqDC
-oMKgwqDCoCAuYXRvbWljX2Rlc3Ryb3lfc3RhdGUgPSBkcm1fYXRvbWljX2hlbHBlcl9jb25u
-ZWN0b3JfZGVzdHJveV9zdGF0ZSwNCj4+DQo+PiBiYXNlLWNvbW1pdDogMGFkZWMyMjcwMmQ0
-OTczODVkYmRjNTJhYmIxNjVmMzc5YTAwZWZiYQ0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVy
-bWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlv
-bnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywg
-R2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQs
-IEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
+What exactly do you expect to happen here?
 
---------------ki7P3UCgEV7f7kwe0A9fX5PA--
+a) Use only part of the VRAM but otherwise work as expected
+b) Access all of the VRAM, but at a performance cost for
+   bank switching?
+c) Require kernel changes to make a) or b) work, otherwise
+   fail to load
+d) have no chance of working even with driver changes
 
---------------2vYUhReFD5K8fejj0nAW0TLz
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+>>> It might be cleaner to just not build the whole driver on such syste=
+ms
+>>> or at least leave out this function.
+>> How about this version? This also addresses the build failure, but
+>> I don't know if this makes any sense:
+>>
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>> @@ -1325,6 +1325,9 @@ int amdgpu_device_resize_fb_bar(struct amdgpu_d=
+evice *adev)
+>>          u16 cmd;
+>>          int r;
+>>  =20
+>> +       if (!IS_ENABLED(CONFIG_PHYS_ADDR_T_64BIT))
+>> +               return 0;
+>> +
+>
+> Yes, if that suppresses the warning as well then that makes perfect=20
+> sense to me.
 
------BEGIN PGP SIGNATURE-----
+Ok, I'll send that as a v2 then.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSkKv8FAwAAAAAACgkQlh/E3EQov+A3
-ZQ/+Kp6s2rydmWCodtJZLlMx1JYfwX6KrQb1QBkkucPJMSl43J/jaHwuE/ek4vWNTy344hCVY2AF
-B4JbxV4b9vXYv+ppzDJctzJEe3lkvJp5RzQVuq5m/VhSTPdTBKvM4HNenuO9b6NBNsKS4IDa6NNY
-oeMyHMk7N5HXdvBLR39rBHRN6awkTlKVTxBTMXi5PWMpGPntfP7R3rCiWt4mN9/uMC0vev1HSr7P
-zLqq9xjV+SuevQVLlWIQjFv62XqeX8u5kNZZq6aBaLzGwAXoaENPzbmjIJDnqRs80N6RSeCTPU8J
-Vs+ubn1bXummd6AK4JewN/6Jg731MuPc8v2CaPZzm/XogxusquYeVzJUG12I075rPLbBCQFIFVxI
-oGU2KIsxlSmUnn1JAVVrZ6rdm7usD8kR2DfRFdWns31jdFFhq+GK6/w1raCmZbydjoNIGqihG4cN
-wb4IlmoaG8gypwqx8H3YKa+kNEUAfR2+9twlXQoB3KJOm+3Dn671cBDa7yqAGA0pxamyBitSLovJ
-c0MvtD/7WMshI0vxaRccNvM1/rao8q3DLfMxzmGnpRIALI8FTuDJ7s/oA/SsUzHaBTRweU4PP01f
-jugdvJqfSL6qxLojoEseXjwtQ8QcMUVQWZ5mQ/c4W52swkthkK5Sam3lJbp+y5+gEgUuZ2TQBGFb
-mII=
-=EV5P
------END PGP SIGNATURE-----
-
---------------2vYUhReFD5K8fejj0nAW0TLz--
+    Arnd
