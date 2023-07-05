@@ -1,66 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B820274866B
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jul 2023 16:33:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A57BB748681
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jul 2023 16:38:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B8D310E36F;
-	Wed,  5 Jul 2023 14:33:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C68D110E387;
+	Wed,  5 Jul 2023 14:38:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD50F10E382
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jul 2023 14:33:24 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- 5b1f17b1804b1-3fbc5d5742eso69872455e9.3
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Jul 2023 07:33:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688567603; x=1691159603;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=mQUXAkyiQApMq+ZE6mPnwyJ3KTToGXwRWpzxeS6gtoU=;
- b=TP49Ly4bRH4lLTT35h8wVfAwVxrJgc8Hm8iAUo+nhTxeYBA+AKk1HSKDGzn94tP3jJ
- /UIxJ4/uo8yuFDr/vJUsJmog42GwssD1cqtABp7hqCH8wmX3QJ92ttJqCTg2dGDN2OGm
- rDcsmLUR7aL3zpWnpNRYgW7Pe6E6+onYViN1i5ZyhJq+in7lkAX5KFaZr8Oiq/8tPWzz
- o0gw3qO+o6bNrEqL6giVppiT7lA/FpOF5OYwCN2/Ze7DwE+48Pb/gJXVuNiID9PkG3LS
- 4RinTWPpx4VsGESZDsQ1rXLnLtquh+aKBRLdw9D+xY1KGPufXXcKZwLrW5hr6u3akx8S
- UgJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688567603; x=1691159603;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mQUXAkyiQApMq+ZE6mPnwyJ3KTToGXwRWpzxeS6gtoU=;
- b=bZm1boSGTQJdoQSX7810O1fnqcSUN5vXpLohTSlo2H1xe5OEGxBw1gPY/+jkDAwTgQ
- mtmsGiM1lG172JkAdU0qAWPcfvqzJIaC63Pak8JvXxPBDqJcpWc2g8CZngqAGFdf3KNo
- gFv6qWO2EAZHwARRH3cVLe9Z3QmqO8htnzGIbX2u8dCTSnntxwTCOxQwJc1KKofhHFdJ
- sIzBmFBK18xnM8NaCQMfIC4YCg8KCf0wWaJn9+4u8HacPpLqt/SSqsuJKvMmAsrLrXsu
- OA2XfOU30k2CcxAcVMa9r27LIrja1rbFgs/XmYtfzE8/hHNgMkt1vKap+TdSzgDkpAYI
- I1HQ==
-X-Gm-Message-State: ABy/qLY7zIEhzB2NqwXTQiwuil2KSfUSl8hVMQxsSMN13mqmEY+mAP07
- a3B36VeL92Ba2/jbtlWfOkfFkQ==
-X-Google-Smtp-Source: APBJJlEcP9KsqrX0torxAaick855DXdlm/LSXir4ylL4od030uqLUgvwXNO/rx9wm36ZF/1GfIK8cQ==
-X-Received: by 2002:a1c:f713:0:b0:3fb:d72b:b2a0 with SMTP id
- v19-20020a1cf713000000b003fbd72bb2a0mr9242635wmh.6.1688567602750; 
- Wed, 05 Jul 2023 07:33:22 -0700 (PDT)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
- by smtp.gmail.com with ESMTPSA id
- f15-20020a7bcd0f000000b003fbda7d2d41sm2280190wmj.48.2023.07.05.07.33.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jul 2023 07:33:22 -0700 (PDT)
-Date: Wed, 5 Jul 2023 15:33:20 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Mans Rullgard <mans@mansr.com>
-Subject: Re: [PATCH] backlight: led_bl: fix initial power state
-Message-ID: <20230705143320.GE6265@aspen.lan>
-References: <20230705142447.15546-1-mans@mansr.com>
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDACE10E37D
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jul 2023 14:38:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1688567888;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SbGsdRos9lr6JUVyzk1s1zgD1oAk2OBQlPBSuytJBro=;
+ b=KTRK5PGW78Z/Tb/e8WZwyhzwo6R3Q/x6jDcjL0urvHIXutudKjCow8njoz3M49cZsvtCxr
+ /qIkZwj+RKeUvPF8QMzbQZbor9bZsB9v7XZjaEz+m8FlQLYyDDmb71Mo6rsyVhcSxxBFHS
+ hY3ZBl6jTUBFkBjvNdGdaOcWznHXHcw=
+Message-ID: <8e81dd5d9f62139e740ea123aa2087cb1bbcb04b.camel@crapouillou.net>
+Subject: Re: [PATCH 2/3] drm/panel: ld9040: Register a backlight device
+From: Paul Cercueil <paul@crapouillou.net>
+To: neil.armstrong@linaro.org, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Date: Wed, 05 Jul 2023 16:38:05 +0200
+In-Reply-To: <194ac047-b20e-04c1-1d96-67cc483bb4a1@linaro.org>
+References: <20230703214715.623447-1-paul@crapouillou.net>
+ <20230703214715.623447-3-paul@crapouillou.net>
+ <194ac047-b20e-04c1-1d96-67cc483bb4a1@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230705142447.15546-1-mans@mansr.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,33 +49,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 05, 2023 at 03:24:14PM +0100, Mans Rullgard wrote:
-> The condition for the initial power state based on the default
-> brightness value is reversed.  Fix it.
->
-> Furthermore, use the actual state of the LEDs rather than the default
-> brightness specified in the devicetree as the latter should not cause
-> the backlight to be automatically turned on.
->
-> If the backlight device is not linked to any display, set the initial
-> power to on unconditionally.
->
-> Fixes: ae232e45acf9 ("backlight: add led-backlight driver")
-> Signed-off-by: Mans Rullgard <mans@mansr.com>
-> ---
-> Changes in v3:
-> - Add comment
+SGkgTmVpbCwKCkxlIG1lcmNyZWRpIDA1IGp1aWxsZXQgMjAyMyDDoCAxNTo1NyArMDIwMCwgTmVp
+bCBBcm1zdHJvbmcgYSDDqWNyaXTCoDoKPiBPbiAwMy8wNy8yMDIzIDIzOjQ3LCBQYXVsIENlcmN1
+ZWlsIHdyb3RlOgo+ID4gUmVnaXN0ZXIgYSBiYWNrbGlnaHQgZGV2aWNlIHRvIGJlIGFibGUgdG8g
+c3dpdGNoIGJldHdlZW4gYWxsIHRoZQo+ID4gZ2FtbWEKPiA+IGxldmVscy4KPiA+IAo+ID4gU2ln
+bmVkLW9mZi1ieTogUGF1bCBDZXJjdWVpbCA8cGF1bEBjcmFwb3VpbGxvdS5uZXQ+Cj4gPiAtLS0K
+PiA+IMKgIGRyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zYW1zdW5nLWxkOTA0MC5jIHwgNDAK
+PiA+ICsrKysrKysrKysrKysrKysrKysrCj4gPiDCoCAxIGZpbGUgY2hhbmdlZCwgNDAgaW5zZXJ0
+aW9ucygrKQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVs
+LXNhbXN1bmctbGQ5MDQwLmMKPiA+IGIvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNhbXN1
+bmctbGQ5MDQwLmMKPiA+IGluZGV4IDdmZDk0NDRiNDJjNS4uYjRmODdkNjI0NGNiIDEwMDY0NAo+
+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNhbXN1bmctbGQ5MDQwLmMKPiA+
+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zYW1zdW5nLWxkOTA0MC5jCj4gPiBA
+QCAtOCw2ICs4LDcgQEAKPiA+IMKgwqAgKiBBbmRyemVqIEhhamRhIDxhLmhhamRhQHNhbXN1bmcu
+Y29tPgo+ID4gwqAgKi8KPiA+IMKgIAo+ID4gKyNpbmNsdWRlIDxsaW51eC9iYWNrbGlnaHQuaD4K
+PiA+IMKgICNpbmNsdWRlIDxsaW51eC9kZWxheS5oPgo+ID4gwqAgI2luY2x1ZGUgPGxpbnV4L2dw
+aW8vY29uc3VtZXIuaD4KPiA+IMKgICNpbmNsdWRlIDxsaW51eC9tb2R1bGUuaD4KPiA+IEBAIC0z
+MTEsOCArMzEyLDQwIEBAIHN0YXRpYyBpbnQgbGQ5MDQwX3BhcnNlX2R0KHN0cnVjdCBsZDkwNDAg
+KmN0eCkKPiA+IMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gMDsKPiA+IMKgIH0KPiA+IMKgIAo+ID4g
+K3N0YXRpYyBpbnQgbGQ5MDQwX2JsX3VwZGF0ZV9zdGF0dXMoc3RydWN0IGJhY2tsaWdodF9kZXZp
+Y2UgKmRldikKPiA+ICt7Cj4gPiArwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgbGQ5MDQwICpjdHggPSBk
+ZXZfZ2V0X2RydmRhdGEoJmRldi0+ZGV2KTsKPiA+ICsKPiA+ICvCoMKgwqDCoMKgwqDCoGN0eC0+
+YnJpZ2h0bmVzcyA9IGRldi0+cHJvcHMuYnJpZ2h0bmVzczsKPiA+ICvCoMKgwqDCoMKgwqDCoGxk
+OTA0MF9icmlnaHRuZXNzX3NldChjdHgpOwo+ID4gKwo+ID4gK8KgwqDCoMKgwqDCoMKgcmV0dXJu
+IDA7Cj4gPiArfQo+ID4gKwo+ID4gK3N0YXRpYyBpbnQgbGQ5MDQwX2JsX2dldF9pbnRlbnNpdHko
+c3RydWN0IGJhY2tsaWdodF9kZXZpY2UgKmRldikKPiA+ICt7Cj4gPiArwqDCoMKgwqDCoMKgwqBp
+ZiAoZGV2LT5wcm9wcy5mYl9ibGFuayA9PSBGQl9CTEFOS19VTkJMQU5LICYmCj4gPiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRldi0+cHJvcHMucG93ZXIg
+PT0gRkJfQkxBTktfVU5CTEFOSykKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBy
+ZXR1cm4gZGV2LT5wcm9wcy5icmlnaHRuZXNzOwo+ID4gKwo+ID4gK8KgwqDCoMKgwqDCoMKgcmV0
+dXJuIDA7Cj4gPiArfQo+IAo+IFlvdSBjYW4gdG90YWxseSBkcm9wIHRoZSBfZ2V0X2JyaWdodG5l
+c3MuCgpUaGUgY3VycmVudCBiZWhhdmlvdXIgaXMgdG8gcmV0dXJuIDAgd2hlbiB0aGUgZnJhbWVi
+dWZmZXIgaXMgYmxhbmtlZC4gQQpmZXcgZHJpdmVycyBkbyB0aGF0IHNvIEkgdGhvdWdodCBpdCB3
+YXMgdGhlIG5vcm07IGFuZCB0aGUgYmFja2xpZ2h0CmNvcmUgZG9lc24ndCBkbyB0aGF0IGJ5IGRl
+ZmF1bHQgKGFuZCBqdXN0IHVzZXMgZGV2LT5wcm9wcy5icmlnaHRuZXNzKS4KCkl0IGlzIG5vdCBj
+bGVhciB0byBtZSBpZiB0aGF0J3MgdGhlIHByZWZlcnJlZCBiZWhhdmlvdXIuIFRoZQoiYmFja2xp
+Z2h0X2dldF9icmlnaHRuZXNzIiBmdW5jdGlvbiBpbiBiYWNrbGlnaHQuaCBzZWVtcyB0byBzdWdn
+ZXN0CnRoYXQgdGhlIGN1cnJlbnQgYmVoYXZpb3VyIGlzIGNvcnJlY3QsIHVubGVzcyBpdCBpcyBu
+b3Qgc3VwcG9zZWQgdG8gYmUKdXNlZCBpbiB0aGUgYmFja2xpZ2h0X29wcy5nZXRfYnJpZ2h0bmVz
+cygpIGNhbGxiYWNrLiBUaGVuIGluIHRoYXQgY2FzZQpzb21lIG90aGVyIGRyaXZlcnMgZ2V0IGl0
+IHdyb25nIHRvby4KCkNoZWVycywKLVBhdWwKCj4gTmVpbAo+IAo+ID4gKwo+ID4gK3N0YXRpYyBj
+b25zdCBzdHJ1Y3QgYmFja2xpZ2h0X29wcyBsZDkwNDBfYmxfb3BzID0gewo+ID4gK8KgwqDCoMKg
+wqDCoMKgLmdldF9icmlnaHRuZXNzID0gbGQ5MDQwX2JsX2dldF9pbnRlbnNpdHksCj4gPiArwqDC
+oMKgwqDCoMKgwqAudXBkYXRlX3N0YXR1c8KgID0gbGQ5MDQwX2JsX3VwZGF0ZV9zdGF0dXMsCj4g
+PiArfTsKPiA+ICsKPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGJhY2tsaWdodF9wcm9wZXJ0aWVz
+IGxkOTA0MF9ibF9wcm9wcyA9IHsKPiA+ICvCoMKgwqDCoMKgwqDCoC50eXBlID0gQkFDS0xJR0hU
+X1JBVywKPiA+ICvCoMKgwqDCoMKgwqDCoC5zY2FsZSA9IEJBQ0tMSUdIVF9TQ0FMRV9OT05fTElO
+RUFSLAo+ID4gK8KgwqDCoMKgwqDCoMKgLm1heF9icmlnaHRuZXNzID0gQVJSQVlfU0laRShsZDkw
+NDBfZ2FtbWFzKSAtIDEsCj4gPiArwqDCoMKgwqDCoMKgwqAuYnJpZ2h0bmVzcyA9IEFSUkFZX1NJ
+WkUobGQ5MDQwX2dhbW1hcykgLSAxLAo+ID4gK307Cj4gPiArCj4gPiDCoCBzdGF0aWMgaW50IGxk
+OTA0MF9wcm9iZShzdHJ1Y3Qgc3BpX2RldmljZSAqc3BpKQo+ID4gwqAgewo+ID4gK8KgwqDCoMKg
+wqDCoMKgc3RydWN0IGJhY2tsaWdodF9kZXZpY2UgKmJsZGV2Owo+ID4gwqDCoMKgwqDCoMKgwqDC
+oHN0cnVjdCBkZXZpY2UgKmRldiA9ICZzcGktPmRldjsKPiA+IMKgwqDCoMKgwqDCoMKgwqBzdHJ1
+Y3QgbGQ5MDQwICpjdHg7Cj4gPiDCoMKgwqDCoMKgwqDCoMKgaW50IHJldDsKPiA+IEBAIC0zNTQs
+NiArMzg3LDEzIEBAIHN0YXRpYyBpbnQgbGQ5MDQwX3Byb2JlKHN0cnVjdCBzcGlfZGV2aWNlCj4g
+PiAqc3BpKQo+ID4gwqDCoMKgwqDCoMKgwqDCoGRybV9wYW5lbF9pbml0KCZjdHgtPnBhbmVsLCBk
+ZXYsICZsZDkwNDBfZHJtX2Z1bmNzLAo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgRFJNX01PREVfQ09OTkVDVE9SX0RQSSk7Cj4gPiDCoCAKPiA+ICsKPiA+
+ICvCoMKgwqDCoMKgwqDCoGJsZGV2ID0gZGV2bV9iYWNrbGlnaHRfZGV2aWNlX3JlZ2lzdGVyKGRl
+diwgZGV2X25hbWUoZGV2KSwKPiA+IGRldiwKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqAgY3R4LCAmbGQ5MDQwX2JsX29wcywKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgJmxkOTA0MF9ibF9wcm9wcyk7Cj4gPiArwqDCoMKgwqDCoMKgwqBpZiAoSVNf
+RVJSKGJsZGV2KSkKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gUFRS
+X0VSUihibGRldik7Cj4gPiArCj4gPiDCoMKgwqDCoMKgwqDCoMKgZHJtX3BhbmVsX2FkZCgmY3R4
+LT5wYW5lbCk7Cj4gPiDCoCAKPiA+IMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gMDsKPiAKCg==
 
-This mismatches the subject line ;-) but I can live with that if Lee
-and Jingoo can!
-
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-
-
-Daniel.
