@@ -1,84 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A4607488B0
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jul 2023 17:58:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C9677488C7
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jul 2023 18:00:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C162910E16F;
-	Wed,  5 Jul 2023 15:58:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C562010E16D;
+	Wed,  5 Jul 2023 16:00:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1399C10E392
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jul 2023 15:58:52 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id
- ffacd0b85a97d-3142970df44so5334618f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Jul 2023 08:58:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688572731; x=1691164731;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=moibl62gzAsWVTokluvPSFK/S0tyJbu/881cJb+p80o=;
- b=JSlq8CZYrL0RmBsVMhuobUhV95XMGPxVfjGNavCOWyxUgSDHCaJB4aAXpc5KoUvq40
- fykvC+WCiFXbWE5Z/OEaXbgEQO5+99cEZcZ439cMGWzd0tn/RtXvHe13K1KHd1M/7kxS
- agXTzzdaz8SDtGYRZtw+KzPgomGI6nfejQqRPgLR657DflSyEmtY9+UcMcetjEbXGOj0
- S3SDFqvZOjtSHTaVjrTDKmXS6TOaWRSwrdb5HqsIN2TlRZEbKVeQIt9vc2/DgiklaPyx
- XRzTGp9k6pT2BuWv6adsmAYFJtP1xt8B4r+oL5KMEzcv/dB7IqzPrpdKmwZ961oHLbSQ
- iZBA==
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com
+ [209.85.219.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E79110E16D;
+ Wed,  5 Jul 2023 16:00:50 +0000 (UTC)
+Received: by mail-yb1-f173.google.com with SMTP id
+ 3f1490d57ef6-c4cb4919bb9so4799451276.3; 
+ Wed, 05 Jul 2023 09:00:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688572731; x=1691164731;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=moibl62gzAsWVTokluvPSFK/S0tyJbu/881cJb+p80o=;
- b=arr6vZT1Bv18YsFUqPwqw09kMUg4rwsxZ44pB5G/sqJNYxju8sfHxmOhpZSs2ub7qZ
- xWznzhjhqO1fwDLF7pnY00QnqJBFBa2IzB4tFUgvdnnW7ywoLf/AMxpWS4Hdgqsz3H1Y
- wuErER+tyGPKyH+yIrSCJooFY4XVj+G8Ev4cck03WMGXQR2Yz/GnYLMjL0dEs4mYKesG
- zbT/PKsXBSlTiRIYJhPVjAxG+Xsl+RPYGsSNLGZEuoykdbVIaZk+NgEmPDH25pdc5SzL
- FuWrFe7/YAQ0RcGNPJxtCAP6xBywSS9T40q4owGI5mXT+MUQI4ZvfZGFHOr7nMBRJ7Xx
- KSew==
-X-Gm-Message-State: ABy/qLZ7/CLkBR/gDYGCZR+CebA/wH5sy1zQs6cwcZ7IGF5kWgjjdbVT
- limFmPAGKbToLdTyASIWVWTAXw==
-X-Google-Smtp-Source: APBJJlGx+kWWfQ+ERifBEWKHxqWBwGmPAO4EZnQin0ptwlMz0lU3sRP6zkQMsbyuoLdBaBGZMnrUZQ==
-X-Received: by 2002:a5d:4f8d:0:b0:314:11ea:480d with SMTP id
- d13-20020a5d4f8d000000b0031411ea480dmr14762913wru.9.1688572731063; 
- Wed, 05 Jul 2023 08:58:51 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:65eb:d140:2d45:ee85?
- ([2a01:e0a:982:cbb0:65eb:d140:2d45:ee85])
- by smtp.gmail.com with ESMTPSA id
- s11-20020a5d69cb000000b00313f07ccca4sm27119522wrw.117.2023.07.05.08.58.48
+ d=1e100.net; s=20221208; t=1688572849; x=1691164849;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=U4k16nrtVTp0StmZm35Nhjlm8cLixxMolvWHEm3DX98=;
+ b=Ml4FQQfqLSZjCILF8T3IwT0cChbWoQekRexsfMLImAIgFv+/z17QECJVT4aEWVVu5r
+ by8ts5HgBHKk0ivvxfzsdK/cdiKijipRbTntc3svXBNgZ621brlGQqcrBtmumtxWBoGF
+ kFs4C2a5sqdxHoDdSz66dEizOQBXi7nqaE8kG21HBj9UNvx01kSXjkkyAUlFJ2g79tpG
+ RAhad021XLoeRb0pSxA1DtuFZWAlX+vzbM3meGadmdZJzsliTOR3tFuNwVtj95YGWRHq
+ 8vJrvX+tprXsPtPm1VV/7Z2wGYQNTSAXRzMc5YEPQ+/gcORbsEjWYaH5ccvuvANyoV40
+ rDBw==
+X-Gm-Message-State: ABy/qLaavzzbHXH59lSRdE3g7X24TaBS2z5BXj8TfmwW9JUWa4voyLen
+ uMTdtItCDCKLDltZBVA5XW912yXztbosBQ==
+X-Google-Smtp-Source: APBJJlGKKew7uZVjpDRiHqS0NVIFwjcRj3OrlbB//x/++2joJOfca/IC85XIqhAT16XP3SGdvsywyw==
+X-Received: by 2002:a25:4143:0:b0:c60:3b9a:5281 with SMTP id
+ o64-20020a254143000000b00c603b9a5281mr3497516yba.32.1688572848809; 
+ Wed, 05 Jul 2023 09:00:48 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com.
+ [209.85.128.169]) by smtp.gmail.com with ESMTPSA id
+ i1-20020a25b201000000b00c4788bfe468sm2365826ybj.1.2023.07.05.09.00.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Jul 2023 08:58:49 -0700 (PDT)
-Message-ID: <bd6b9372-6eb0-c54f-9341-1dc46c4e63b0@linaro.org>
-Date: Wed, 5 Jul 2023 17:58:48 +0200
+ Wed, 05 Jul 2023 09:00:48 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-5700b15c12fso83093107b3.1; 
+ Wed, 05 Jul 2023 09:00:48 -0700 (PDT)
+X-Received: by 2002:a25:e042:0:b0:bd0:8e5:d548 with SMTP id
+ x63-20020a25e042000000b00bd008e5d548mr15284471ybg.39.1688572848445; Wed, 05
+ Jul 2023 09:00:48 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: RFC: DSI host capabilities (was: [PATCH RFC 03/10] drm/panel: Add
- LGD panel driver for Sony Xperia XZ3)
-Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <ccc97880-8e74-b85b-9679-9c12c44c4b99@linaro.org>
- <brmrqeajbq3oyp3jjwmc6tuhiftz764u6az444xw6g7pwf5fr3@5tlp375qwhed>
- <617c8f8a-1fc7-c6a0-eaa5-ce75ff2adc1b@linaro.org>
- <CAA8EJppG=MAVpK1J_8bNnkJ23y9NtgY7a2GVResXJvhEKyNsrw@mail.gmail.com>
- <739a8bd9-9ff0-5072-fdae-b64efdf86842@collabora.com>
- <e927cfcd-bf34-5daf-0e24-4dd828106968@linaro.org>
- <epds77sccy4cc5cdpoc4ir7sfz5sz3biwep6rbks2nuyqncidu@77gb4t2wy6vn>
- <47a5678c-1eb3-dfc2-a9ac-f8e497455d11@linaro.org>
- <unsithzszj7awvsmxwr7reshso5ju7u4nssil5tty6pocictf5@gwoltpgeecer>
- <6e070141-8c0e-59ed-8a08-58c3fadb17df@linaro.org>
- <lidknise4copce3vb2wth4z3fl2p4npsc4u6ajqb6zsp6lnpca@rp6wxcmy2aa4>
-Organization: Linaro Developer Services
-In-Reply-To: <lidknise4copce3vb2wth4z3fl2p4npsc4u6ajqb6zsp6lnpca@rp6wxcmy2aa4>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <e77836236dfb6724aa95a8c2305a2d63762367be.1688570228.git.geert+renesas@glider.be>
+In-Reply-To: <e77836236dfb6724aa95a8c2305a2d63762367be.1688570228.git.geert+renesas@glider.be>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 5 Jul 2023 18:00:36 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVWy4h+rCBXSwONDs7KxRY7gEx8gLNk7eXtCRDEw1piEQ@mail.gmail.com>
+Message-ID: <CAMuHMdVWy4h+rCBXSwONDs7KxRY7gEx8gLNk7eXtCRDEw1piEQ@mail.gmail.com>
+Subject: Re: [PATCH libdrm] amdgpu: Use %ll to format 64-bit integers
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,90 +68,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <dri-devel@lists.freedesktop.org>, Caleb Connolly <caleb@connolly.tech>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Sam Ravnborg <sam@ravnborg.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Andy Gross <agross@kernel.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Bjorn Andersson <andersson@kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: amd-gfx@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/07/2023 16:24, Maxime Ripard wrote:
-> On Wed, Jul 05, 2023 at 04:37:57PM +0300, Dmitry Baryshkov wrote:
->>>>>
->>>>> Either way, I'm not really sure it's a good idea to multiply the
->>>>> capabilities flags of the DSI host, and we should just stick to the
->>>>> spec. If the spec says that we have to support DSC while video is
->>>>> output, then that's what the panels should expect.
->>>>
->>>> Except some panels supports DSC & non-DSC, Video and Command mode, and
->>>> all that is runtime configurable. How do you handle that ?
->>>
->>> In this case, most of the constraints are going to be on the encoder
->>> still so it should be the one driving it. The panel will only care about
->>> which mode has been selected, but it shouldn't be the one driving it,
->>> and thus we still don't really need to expose the host capabilities.
->>
->> This is an interesting perspective. This means that we can and actually have
->> to extend the drm_display_mode with the DSI data and compression
->> information.
-> 
-> I wouldn't extend drm_display_mode, but extending one of the state
-> structures definitely.
-> 
-> We already have some extra variables in drm_connector_state for HDMI,
-> I don't think it would be a big deal to add a few for MIPI-DSI.
-> 
-> We also floated the idea for a while to create bus-specific states, with
-> helpers to match. Maybe it would be a good occasion to start doing it?
-> 
->> For example, the panel that supports all four types for the 1080p should
->> export several modes:
->>
->> 1920x1080-command
->> 1920x1080-command-DSC
->> 1920x1080-video
->> 1920x1080-video-DSC
->>
->> where video/command and DSC are some kinds of flags and/or information in
->> the drm_display_mode? Ideally DSC also has several sub-flags, which denote
->> what kind of configuration is supported by the DSC sink (e.g. bpp, yuv,
->> etc).
-> 
-> So we have two things to do, right? We need to expose what the panel can
-> take (ie, EDID for HDMI), and then we need to tell it what we picked
-> (infoframes).
-> 
-> We already express the former in mipi_dsi_device, so we could extend the
-> flags stored there.
-> 
-> And then, we need to tie what the DSI host chose to a given atomic state
-> so the panel knows what was picked and how it should set everything up.
+On Wed, Jul 5, 2023 at 5:17=E2=80=AFPM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> On 32-bit:
+>
+>     ../tests/amdgpu/amdgpu_stress.c: In function =E2=80=98alloc_bo=E2=80=
+=99:
+>     ../tests/amdgpu/amdgpu_stress.c:178:49: warning: format =E2=80=98%lx=
+=E2=80=99 expects argument of type =E2=80=98long unsigned int=E2=80=99, but=
+ argument 4 has type =E2=80=98uint64_t=E2=80=99 {aka =E2=80=98long long uns=
+igned int=E2=80=99} [-Wformat=3D]
+>       fprintf(stdout, "Allocated BO number %u at 0x%lx, domain 0x%x, size=
+ %lu\n",
+>                                                    ~~^
+>                                                    %llx
+>        num_buffers++, addr, domain, size);
+>                       ~~~~
+>     ../tests/amdgpu/amdgpu_stress.c:178:72: warning: format =E2=80=98%lu=
+=E2=80=99 expects argument of type =E2=80=98long unsigned int=E2=80=99, but=
+ argument 6 has type =E2=80=98uint64_t=E2=80=99 {aka =E2=80=98long long uns=
+igned int=E2=80=99} [-Wformat=3D]
+>       fprintf(stdout, "Allocated BO number %u at 0x%lx, domain 0x%x, size=
+ %lu\n",
+>                                                                          =
+ ~~^
+>                                                                          =
+ %llu
+>        num_buffers++, addr, domain, size);
+>                                     ~~~~
+>     ../tests/amdgpu/amdgpu_stress.c: In function =E2=80=98submit_ib=E2=80=
+=99:
+>     ../tests/amdgpu/amdgpu_stress.c:276:54: warning: format =E2=80=98%lx=
+=E2=80=99 expects argument of type =E2=80=98long unsigned int=E2=80=99, but=
+ argument 5 has type =E2=80=98uint64_t=E2=80=99 {aka =E2=80=98long long uns=
+igned int=E2=80=99} [-Wformat=3D]
+>       fprintf(stdout, "Submitted %u IBs to copy from %u(%lx) to %u(%lx) %=
+lu bytes took %lu usec\n",
+>                                                         ~~^
+>                                                         %llx
+>        count, from, virtual[from], to, virtual[to], copied, delta / 1000)=
+;
+>                     ~~~~~~~~~~~~~
+>     ../tests/amdgpu/amdgpu_stress.c:276:65: warning: format =E2=80=98%lx=
+=E2=80=99 expects argument of type =E2=80=98long unsigned int=E2=80=99, but=
+ argument 7 has type =E2=80=98uint64_t=E2=80=99 {aka =E2=80=98long long uns=
+igned int=E2=80=99} [-Wformat=3D]
+>       fprintf(stdout, "Submitted %u IBs to copy from %u(%lx) to %u(%lx) %=
+lu bytes took %lu usec\n",
+>                                                                    ~~^
+>                                                                    %llx
+>        count, from, virtual[from], to, virtual[to], copied, delta / 1000)=
+;
+>                                        ~~~~~~~~~~~
+>     ../tests/amdgpu/amdgpu_stress.c:276:70: warning: format =E2=80=98%lu=
+=E2=80=99 expects argument of type =E2=80=98long unsigned int=E2=80=99, but=
+ argument 8 has type =E2=80=98uint64_t=E2=80=99 {aka =E2=80=98long long uns=
+igned int=E2=80=99} [-Wformat=3D]
+>       fprintf(stdout, "Submitted %u IBs to copy from %u(%lx) to %u(%lx) %=
+lu bytes took %lu usec\n",
+>                                                                         ~=
+~^
+>                                                                         %=
+llu
+>        count, from, virtual[from], to, virtual[to], copied, delta / 1000)=
+;
+>                                                     ~~~~~~
+>     ../tests/amdgpu/amdgpu_stress.c:276:85: warning: format =E2=80=98%lu=
+=E2=80=99 expects argument of type =E2=80=98long unsigned int=E2=80=99, but=
+ argument 9 has type =E2=80=98uint64_t=E2=80=99 {aka =E2=80=98long long uns=
+igned int=E2=80=99} [-Wformat=3D]
+>       fprintf(stdout, "Submitted %u IBs to copy from %u(%lx) to %u(%lx) %=
+lu bytes took %lu usec\n",
+>                                                                          =
+              ~~^
+>                                                                          =
+              %llu
+>        count, from, virtual[from], to, virtual[to], copied, delta / 1000)=
+;
+>                                                             ~~~~~~~~~~~~
+>     ../tests/amdgpu/amdgpu_stress.c: In function =E2=80=98parse_size=E2=
+=80=99:
+>     ../tests/amdgpu/amdgpu_stress.c:296:24: warning: format =E2=80=98%li=
+=E2=80=99 expects argument of type =E2=80=98long int *=E2=80=99, but argume=
+nt 3 has type =E2=80=98uint64_t *=E2=80=99 {aka =E2=80=98long long unsigned=
+ int *=E2=80=99} [-Wformat=3D]
+>       if (sscanf(optarg, "%li%1[kmgKMG]", &size, ext) < 1) {
+>                           ~~^             ~~~~~
+>                           %lli
+>     ../tests/amdgpu/amdgpu_stress.c: In function =E2=80=98main=E2=80=99:
+>     ../tests/amdgpu/amdgpu_stress.c:378:45: warning: format =E2=80=98%lu=
+=E2=80=99 expects argument of type =E2=80=98long unsigned int=E2=80=99, but=
+ argument 3 has type =E2=80=98uint64_t=E2=80=99 {aka =E2=80=98long long uns=
+igned int=E2=80=99} [-Wformat=3D]
+>          fprintf(stderr, "Buffer size to small %lu\n", size);
+>                                                ~~^     ~~~~
+>                                                %llu
+>
+> Fix this by using the proper "%ll" format specifier prefix.
+>
+> Fixes: d77ccdf3ba6f5a39 ("amdgpu: add amdgpu_stress utility v2")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Yep this looks like a good plan
+Scrap it, now it fails on 64-bit :-(
 
-Neil
+> --- a/tests/amdgpu/amdgpu_stress.c
+> +++ b/tests/amdgpu/amdgpu_stress.c
+> @@ -175,7 +175,7 @@ int alloc_bo(uint32_t domain, uint64_t size)
+>
+>         resources[num_buffers] =3D bo;
+>         virtual[num_buffers] =3D addr;
+> -       fprintf(stdout, "Allocated BO number %u at 0x%lx, domain 0x%x, si=
+ze %lu\n",
+> +       fprintf(stdout, "Allocated BO number %u at 0x%llx, domain 0x%x, s=
+ize %llu\n",
+>                 num_buffers++, addr, domain, size);
+>         return 0;
+>  }
+> @@ -273,7 +273,7 @@ int submit_ib(uint32_t from, uint32_t to, uint64_t si=
+ze, uint32_t count)
+>         delta =3D stop.tv_nsec + stop.tv_sec * 1000000000UL;
+>         delta -=3D start.tv_nsec + start.tv_sec * 1000000000UL;
+>
+> -       fprintf(stdout, "Submitted %u IBs to copy from %u(%lx) to %u(%lx)=
+ %lu bytes took %lu usec\n",
+> +       fprintf(stdout, "Submitted %u IBs to copy from %u(%llx) to %u(%ll=
+x) %llu bytes took %llu usec\n",
+>                 count, from, virtual[from], to, virtual[to], copied, delt=
+a / 1000);
+>         return 0;
+>  }
+> @@ -293,7 +293,7 @@ uint64_t parse_size(void)
+>         char ext[2];
+>
+>         ext[0] =3D 0;
+> -       if (sscanf(optarg, "%li%1[kmgKMG]", &size, ext) < 1) {
+> +       if (sscanf(optarg, "%lli%1[kmgKMG]", &size, ext) < 1) {
+>                 fprintf(stderr, "Can't parse size arg: %s\n", optarg);
+>                 exit(EXIT_FAILURE);
+>         }
+> @@ -375,7 +375,7 @@ int main(int argc, char **argv)
+>                         next_arg(argc, argv, "Missing buffer size");
+>                         size =3D parse_size();
+>                         if (size < getpagesize()) {
+> -                               fprintf(stderr, "Buffer size to small %lu=
+\n", size);
+> +                               fprintf(stderr, "Buffer size to small %ll=
+u\n", size);
+>                                 exit(EXIT_FAILURE);
+>                         }
+>                         r =3D alloc_bo(domain, size);
 
-> 
->> Another option would be to get this handled via the bus format negotiation,
->> but that sounds like worse idea to me.
-> 
-> Yeah, I'm not really fond of the format negociation stuff either.
-> 
-> Maxime
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
