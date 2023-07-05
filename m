@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 949A97487A1
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jul 2023 17:16:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEA547487A7
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jul 2023 17:17:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9788310E17B;
-	Wed,  5 Jul 2023 15:16:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 311DD10E388;
+	Wed,  5 Jul 2023 15:17:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B1D810E17B
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jul 2023 15:16:45 +0000 (UTC)
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6095310E38C
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jul 2023 15:17:42 +0000 (UTC)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:5979:7b6f:39a:b9cb])
- by xavier.telenet-ops.be with bizsmtp
- id HTGi2A00M45Xpxs01TGiAL; Wed, 05 Jul 2023 17:16:42 +0200
+ by laurent.telenet-ops.be with bizsmtp
+ id HTHf2A00345Xpxs01THfTt; Wed, 05 Jul 2023 17:17:39 +0200
 Received: from rox.of.borg ([192.168.97.57] helo=rox)
  by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qH4FC-000ce1-Pe;
- Wed, 05 Jul 2023 17:16:42 +0200
+ (envelope-from <geert@linux-m68k.org>) id 1qH4G7-000ceC-Aj;
+ Wed, 05 Jul 2023 17:17:38 +0200
 Received: from geert by rox with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qH4FG-00AwRY-Bb;
- Wed, 05 Jul 2023 17:16:42 +0200
+ (envelope-from <geert@linux-m68k.org>) id 1qH4GA-00AwT1-SK;
+ Wed, 05 Jul 2023 17:17:38 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@amd.com>
-Subject: [PATCH libdrm] amdgpu: Fix pointer/integer mismatch warning
-Date: Wed,  5 Jul 2023 17:16:40 +0200
-Message-Id: <f8b4dd272f5851241addd4db51ca34d731a7ab6a.1688570180.git.geert+renesas@glider.be>
+To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH libdrm] amdgpu: Use %ll to format 64-bit integers
+Date: Wed,  5 Jul 2023 17:17:35 +0200
+Message-Id: <e77836236dfb6724aa95a8c2305a2d63762367be.1688570228.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -51,36 +51,103 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 32-bit:
 
-    ../amdgpu/amdgpu_bo.c: In function ‘amdgpu_find_bo_by_cpu_mapping’:
-    ../amdgpu/amdgpu_bo.c:554:13: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-           cpu < (void*)((uintptr_t)bo->cpu_ptr + bo->alloc_size))
-                 ^
+    ../tests/amdgpu/amdgpu_stress.c: In function ‘alloc_bo’:
+    ../tests/amdgpu/amdgpu_stress.c:178:49: warning: format ‘%lx’ expects argument of type ‘long unsigned int’, but argument 4 has type ‘uint64_t’ {aka ‘long long unsigned int’} [-Wformat=]
+      fprintf(stdout, "Allocated BO number %u at 0x%lx, domain 0x%x, size %lu\n",
+                                                   ~~^
+                                                   %llx
+       num_buffers++, addr, domain, size);
+                      ~~~~
+    ../tests/amdgpu/amdgpu_stress.c:178:72: warning: format ‘%lu’ expects argument of type ‘long unsigned int’, but argument 6 has type ‘uint64_t’ {aka ‘long long unsigned int’} [-Wformat=]
+      fprintf(stdout, "Allocated BO number %u at 0x%lx, domain 0x%x, size %lu\n",
+                                                                          ~~^
+                                                                          %llu
+       num_buffers++, addr, domain, size);
+                                    ~~~~
+    ../tests/amdgpu/amdgpu_stress.c: In function ‘submit_ib’:
+    ../tests/amdgpu/amdgpu_stress.c:276:54: warning: format ‘%lx’ expects argument of type ‘long unsigned int’, but argument 5 has type ‘uint64_t’ {aka ‘long long unsigned int’} [-Wformat=]
+      fprintf(stdout, "Submitted %u IBs to copy from %u(%lx) to %u(%lx) %lu bytes took %lu usec\n",
+                                                        ~~^
+                                                        %llx
+       count, from, virtual[from], to, virtual[to], copied, delta / 1000);
+                    ~~~~~~~~~~~~~
+    ../tests/amdgpu/amdgpu_stress.c:276:65: warning: format ‘%lx’ expects argument of type ‘long unsigned int’, but argument 7 has type ‘uint64_t’ {aka ‘long long unsigned int’} [-Wformat=]
+      fprintf(stdout, "Submitted %u IBs to copy from %u(%lx) to %u(%lx) %lu bytes took %lu usec\n",
+                                                                   ~~^
+                                                                   %llx
+       count, from, virtual[from], to, virtual[to], copied, delta / 1000);
+                                       ~~~~~~~~~~~
+    ../tests/amdgpu/amdgpu_stress.c:276:70: warning: format ‘%lu’ expects argument of type ‘long unsigned int’, but argument 8 has type ‘uint64_t’ {aka ‘long long unsigned int’} [-Wformat=]
+      fprintf(stdout, "Submitted %u IBs to copy from %u(%lx) to %u(%lx) %lu bytes took %lu usec\n",
+                                                                        ~~^
+                                                                        %llu
+       count, from, virtual[from], to, virtual[to], copied, delta / 1000);
+                                                    ~~~~~~
+    ../tests/amdgpu/amdgpu_stress.c:276:85: warning: format ‘%lu’ expects argument of type ‘long unsigned int’, but argument 9 has type ‘uint64_t’ {aka ‘long long unsigned int’} [-Wformat=]
+      fprintf(stdout, "Submitted %u IBs to copy from %u(%lx) to %u(%lx) %lu bytes took %lu usec\n",
+                                                                                       ~~^
+                                                                                       %llu
+       count, from, virtual[from], to, virtual[to], copied, delta / 1000);
+                                                            ~~~~~~~~~~~~
+    ../tests/amdgpu/amdgpu_stress.c: In function ‘parse_size’:
+    ../tests/amdgpu/amdgpu_stress.c:296:24: warning: format ‘%li’ expects argument of type ‘long int *’, but argument 3 has type ‘uint64_t *’ {aka ‘long long unsigned int *’} [-Wformat=]
+      if (sscanf(optarg, "%li%1[kmgKMG]", &size, ext) < 1) {
+                          ~~^             ~~~~~
+                          %lli
+    ../tests/amdgpu/amdgpu_stress.c: In function ‘main’:
+    ../tests/amdgpu/amdgpu_stress.c:378:45: warning: format ‘%lu’ expects argument of type ‘long unsigned int’, but argument 3 has type ‘uint64_t’ {aka ‘long long unsigned int’} [-Wformat=]
+         fprintf(stderr, "Buffer size to small %lu\n", size);
+                                               ~~^     ~~~~
+                                               %llu
 
-Indeed, as amdgpu_bo_info.alloc_size is "uint64_t", the sum is
-always 64-bit, while "void *" can be 32-bit or 64-bit.
+Fix this by using the proper "%ll" format specifier prefix.
 
-Fix this by casting bo->alloc_size to "size_t", which is either
-32-bit or 64-bit, just like "void *".
-
-Fixes: c6493f360e7529c2 ("amdgpu: Eliminate void* arithmetic in amdgpu_find_bo_by_cpu_mapping")
+Fixes: d77ccdf3ba6f5a39 ("amdgpu: add amdgpu_stress utility v2")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- amdgpu/amdgpu_bo.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/amdgpu/amdgpu_stress.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/amdgpu/amdgpu_bo.c b/amdgpu/amdgpu_bo.c
-index f4e0435254f6aa9f..672f000d64801012 100644
---- a/amdgpu/amdgpu_bo.c
-+++ b/amdgpu/amdgpu_bo.c
-@@ -551,7 +551,7 @@ drm_public int amdgpu_find_bo_by_cpu_mapping(amdgpu_device_handle dev,
- 		if (!bo || !bo->cpu_ptr || size > bo->alloc_size)
- 			continue;
- 		if (cpu >= bo->cpu_ptr &&
--		    cpu < (void*)((uintptr_t)bo->cpu_ptr + bo->alloc_size))
-+		    cpu < (void*)((uintptr_t)bo->cpu_ptr + (size_t)bo->alloc_size))
- 			break;
- 	}
+diff --git a/tests/amdgpu/amdgpu_stress.c b/tests/amdgpu/amdgpu_stress.c
+index 5c5c88c5be985eb6..7182f9005703f1a4 100644
+--- a/tests/amdgpu/amdgpu_stress.c
++++ b/tests/amdgpu/amdgpu_stress.c
+@@ -175,7 +175,7 @@ int alloc_bo(uint32_t domain, uint64_t size)
  
+ 	resources[num_buffers] = bo;
+ 	virtual[num_buffers] = addr;
+-	fprintf(stdout, "Allocated BO number %u at 0x%lx, domain 0x%x, size %lu\n",
++	fprintf(stdout, "Allocated BO number %u at 0x%llx, domain 0x%x, size %llu\n",
+ 		num_buffers++, addr, domain, size);
+ 	return 0;
+ }
+@@ -273,7 +273,7 @@ int submit_ib(uint32_t from, uint32_t to, uint64_t size, uint32_t count)
+ 	delta = stop.tv_nsec + stop.tv_sec * 1000000000UL;
+ 	delta -= start.tv_nsec + start.tv_sec * 1000000000UL;
+ 
+-	fprintf(stdout, "Submitted %u IBs to copy from %u(%lx) to %u(%lx) %lu bytes took %lu usec\n",
++	fprintf(stdout, "Submitted %u IBs to copy from %u(%llx) to %u(%llx) %llu bytes took %llu usec\n",
+ 		count, from, virtual[from], to, virtual[to], copied, delta / 1000);
+ 	return 0;
+ }
+@@ -293,7 +293,7 @@ uint64_t parse_size(void)
+ 	char ext[2];
+ 
+ 	ext[0] = 0;
+-	if (sscanf(optarg, "%li%1[kmgKMG]", &size, ext) < 1) {
++	if (sscanf(optarg, "%lli%1[kmgKMG]", &size, ext) < 1) {
+ 		fprintf(stderr, "Can't parse size arg: %s\n", optarg);
+ 		exit(EXIT_FAILURE);
+ 	}
+@@ -375,7 +375,7 @@ int main(int argc, char **argv)
+ 			next_arg(argc, argv, "Missing buffer size");
+ 			size = parse_size();
+ 			if (size < getpagesize()) {
+-				fprintf(stderr, "Buffer size to small %lu\n", size);
++				fprintf(stderr, "Buffer size to small %llu\n", size);
+ 				exit(EXIT_FAILURE);
+ 			}
+ 			r = alloc_bo(domain, size);
 -- 
 2.34.1
 
