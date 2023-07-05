@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EDE1747FD6
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jul 2023 10:38:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91A31748013
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jul 2023 10:49:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A567110E170;
-	Wed,  5 Jul 2023 08:38:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E4EC10E1A4;
+	Wed,  5 Jul 2023 08:49:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD08310E170
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jul 2023 08:38:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 053DA10E1A4
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jul 2023 08:49:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1688546320;
+ s=mimecast20190719; t=1688546984;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=0ev84vUzUh8ZH6f1TjRoMQmaeXWVKy1q8JlkhwPTuuw=;
- b=NInI7wmArFfwz87J3jkBORU7zDDuX+zaTZc3t3XJmWXWxQ/97C/vyuGBnqk1uO+E+Rmv0e
- ggHQbFbROfPYF9glGeYSe+9xhtBLiESHhwJySYIOO3v6pB+u3UgpVUIf68a5sebnbANYW9
- /u8NJqo33WUdbDZo6Acz8OT6V/7FmkI=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mygE2eC1+1F6RcP4Lm9OLsM0G/twLQqV8R8dIF6r2eA=;
+ b=J/YsifluszoJ343eM3UBt1Wy4p+tKaqfCyTi5o3g2JPs6eCM71LWJ5TF/U6pkD6uic/Ege
+ R7vAlgWY/QK5nfalTqHLcNKWMvCqXhROtTyMV8IUyLWP07Y2oIjV1QWmxsiIlDz4Frh7PG
+ Jh9oDtvY2DvxhL8JoBHbZHBkxNNng6I=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-97-XyFJ7CxsO6Wg_f40Q5Iw5g-1; Wed, 05 Jul 2023 04:38:38 -0400
-X-MC-Unique: XyFJ7CxsO6Wg_f40Q5Iw5g-1
-Received: by mail-lf1-f69.google.com with SMTP id
- 2adb3069b0e04-4fbb3c5afdbso3006242e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Jul 2023 01:38:38 -0700 (PDT)
+ us-mta-7-tUpsXhRyOWm6PsPvXjA3WQ-1; Wed, 05 Jul 2023 04:49:43 -0400
+X-MC-Unique: tUpsXhRyOWm6PsPvXjA3WQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-314256aedcbso2534465f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Jul 2023 01:49:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688546317; x=1691138317;
+ d=1e100.net; s=20221208; t=1688546982; x=1691138982;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0ev84vUzUh8ZH6f1TjRoMQmaeXWVKy1q8JlkhwPTuuw=;
- b=Z9a2iZ1XEEix5Tdk6SOplEZkN/7VVy6vR8vXr+52tMNmdaD+okaW7+M2J7L3J11SSr
- 9HTiiglMj+CaIcA+SRnqAPvscxW84HSt3L4EQWfeHZb9gMyI1sNgF/ukFwJuwV5CgFDx
- nOaH7tWDEqQwMqNveMB1JyyNdWijZLrzJXAdxP34xyEDqvx6l6QfWkcf/+go60aXmi6/
- CEYwDARRytIP7KZG2wDG/FkSscnoN9NRZa3AKA7rd2OQWYsFLvy86jH5FwfEfD/CV+i1
- aH6FtMYuRJH4bfKCx44yhDCLAsPRk1Ro9tJeSJHiM0gIO65Cg7afTF4YGpkllmzSZPoX
- eu2A==
-X-Gm-Message-State: ABy/qLapG4KHdeaGGltxseQh73st7/tHhBNWiYh03A2TLNxTR/KaO7bU
- 7RMPLsKebREJadHdZz1oDP9AxsZF6La+GrWrurCurYaGMyB6UK8kre8PcJxinRG0Xu7F18GykjD
- +Ac4HH0QTSDegovamjqh+QMwPdcz5R5JDPa4IeIY=
-X-Received: by 2002:a05:6512:2211:b0:4fb:8948:2b2b with SMTP id
- h17-20020a056512221100b004fb89482b2bmr14099218lfu.48.1688546317009; 
- Wed, 05 Jul 2023 01:38:37 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlHw/8+9xxPRw7DNATPC6lakSSCvVuMDKfqLB9aRt/ZUrBO5oK9Z8Als1e5OzgdL2qBEpY21lQ==
-X-Received: by 2002:a05:6512:2211:b0:4fb:8948:2b2b with SMTP id
- h17-20020a056512221100b004fb89482b2bmr14099194lfu.48.1688546316638; 
- Wed, 05 Jul 2023 01:38:36 -0700 (PDT)
+ bh=mygE2eC1+1F6RcP4Lm9OLsM0G/twLQqV8R8dIF6r2eA=;
+ b=Bvl2dVkyQYdQ/SyL5N0HCqGCeNd0w++G8b7QDZjeytsTUPQHkbZANi0zqefRmbl8O1
+ e6M0NOyLqEM6zpDrV67WD2iNMHhfOMfd/+tpRJX+cGf3bdFiPhXsTeyRpd2GUA4KYHtJ
+ RoSTWQ++bIbNyOWP3iaIrNswAW7NeO7Q/ln28M3PTjSFZhaXXRcQ5HRG6lN9LK+nf/An
+ E7Hs0/Dl7uuuF2YHJk8hyu8Ek+d0OqaWu6dHrEN5D5Q2u4UQo9uYItuF6K1rbK/9OIcp
+ X298TkTPaotQS1+Fb7ahp4vH/UJ2CpLqXRPJuCbs5sDg+qLw1bYJulyLK8oCVX1iJAdH
+ 0edw==
+X-Gm-Message-State: ABy/qLb8aI6XBDHogeR5z8EFyKmstIttZgXu6C4KXdaZwr953SrCX3/T
+ G4YdtLz8tOmAaGWgPslJx5m3IZ2BrcRRhcpS596phcl6Dggi91g15R5agQvdjnwj9MwFoGAceBU
+ RklbiYd6r2+p+YnMygJtxMvaq6sic
+X-Received: by 2002:adf:e44d:0:b0:313:f97c:d87f with SMTP id
+ t13-20020adfe44d000000b00313f97cd87fmr12842669wrm.67.1688546982144; 
+ Wed, 05 Jul 2023 01:49:42 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlHiFHQIX6+LSUFE4lngdNXwrF3KteEAZwZqL0tALqI5G9uCMk9AA+C1J9hJqpvVRrGAzg2C2Q==
+X-Received: by 2002:adf:e44d:0:b0:313:f97c:d87f with SMTP id
+ t13-20020adfe44d000000b00313f97cd87fmr12842658wrm.67.1688546981884; 
+ Wed, 05 Jul 2023 01:49:41 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- m3-20020a056000180300b003141e9e2f81sm14564718wrh.4.2023.07.05.01.38.36
+ x18-20020adff0d2000000b003141e86e751sm14564867wro.5.2023.07.05.01.49.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jul 2023 01:38:36 -0700 (PDT)
+ Wed, 05 Jul 2023 01:49:41 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Subject: Re: [PATCH 05/10] drm/exynos: Use fbdev DMA helpers
-In-Reply-To: <20230704160133.20261-6-tzimmermann@suse.de>
+Subject: Re: [PATCH 06/10] drm/exynos: Set fbdev flags
+In-Reply-To: <20230704160133.20261-7-tzimmermann@suse.de>
 References: <20230704160133.20261-1-tzimmermann@suse.de>
- <20230704160133.20261-6-tzimmermann@suse.de>
-Date: Wed, 05 Jul 2023 10:38:35 +0200
-Message-ID: <87ttuirbw4.fsf@minerva.mail-host-address-is-not-set>
+ <20230704160133.20261-7-tzimmermann@suse.de>
+Date: Wed, 05 Jul 2023 10:49:40 +0200
+Message-ID: <87r0pmrbdn.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -92,25 +92,47 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Use fbdev's DMA helpers for fbdev emulation. They drivers previously
+> Set fbdev default flags FBNFO_DEFAULT and mark the framebuffer with
 
-s/They/The
+FBINFO_DEFAULT, or did you meand FBINFO_FLAG_DEFAULT (the flag your patch
+is actually using) ?
 
-> used the I/O-memory helpers, while allocating DMA-able system memory.
-> This could (in theory) result in bus errors from accessing the memory
-> range.
->
-> This bug has been present since the exynos driver was first added.
+I just noticed that are the same... and in patch 04/10 you used the former
+for the tegra driver, but here you are using the latter. Is on purpose or
+just a mistake ?
+
+> FBINFO_VIRTFB. The framebuffer range is in DMA-able memory and should
+> be accessed with the CPU's regular memory ops.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 1c248b7d2960 ("DRM: add DRM Driver for Samsung SoC EXYNOS4210.")
+> Cc: Inki Dae <inki.dae@samsung.com>
+> Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+> Cc: Kyungmin Park <kyungmin.park@samsung.com>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Cc: Alim Akhtar <alim.akhtar@samsung.com>
+> ---
+>  drivers/gpu/drm/exynos/exynos_drm_fbdev.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
+> index 7ca3424b59ce..28dc398d6e10 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
+> @@ -72,6 +72,7 @@ static int exynos_drm_fbdev_update(struct drm_fb_helper *helper,
+>  		return PTR_ERR(fbi);
+>  	}
+>  
+> +	fbi->flags = FBINFO_FLAG_DEFAULT;
 
-Wonder the value of this "Fixes:" tag since this patch depends on the DMA
-helpers introduced in 1/10?  I would just drop it, since it might confuse
-the different kernel stable scripts that attempt to backport by looking at
-this tag.
+The #define FBINFO_FLAG_DEFAULT	FBINFO_DEFAULT seems to be there since the
+original v2.6.12-rc2 git import in commit 1da177e4c3f4, so is hard to know
+why was introduced. FBINFO_DEFAULT is more used, I will just stick to that:
 
-As you said, it has been present from the beginning of this driver.
+$ git grep FBINFO_DEFAULT | wc -l
+92
+
+$ git grep FBINFO_FLAG_DEFAULT | wc -l
+38
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
