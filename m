@@ -1,91 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D918748E7F
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jul 2023 21:57:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 817B4748E95
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jul 2023 22:09:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6681E10E22B;
-	Wed,  5 Jul 2023 19:57:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 029AD10E3B9;
+	Wed,  5 Jul 2023 20:09:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on20600.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7eae::600])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B811410E085;
- Wed,  5 Jul 2023 19:57:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aHTrNJjDXs4v+j6SF9Ife8ka1HaZkoG8M9u1L1jfwATbjVe8Kz27B5xbTLPyYvivcax8JancXR4ciIGlh3wLlnGsJCYMSCa9VCCwzj2BHbhbkuivo03bwHJQdR+TvrpcleCBev5OGA4SVzBEmIGPiwQWWZXX93G4S7lOz6hiGlV+SGhvrHFTUJn0NS2idWjnGizrGR/c0HMnhsXM0HYlGNbdzlWEw8cEvZLL2a8yUHjwzetvr3eRf86nlQ2LZ43MO+XEk3K6G1kbWofoASpvPLgQyaMkjRC+D4P1XWarb/Wp/3+zGXdhCFQpOjAgpWgI036FlM1gT+v/Ozfk2qHdww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D/Y/u0TZlbl9xphP1g/L1TMvxjfSTyGUygVz3nu4V6s=;
- b=JGFctDFbUdKks+flFUFf80PIagTRYScR26UqeWuTNdaCyG45Ishhf6reVR3jaPE5/DJz+CBNa+M3o12f9Uq92xJ3OXJ6RnTjhen6mqawJ7hgecumre2AuEtzUoSGksWSxgEaITrL9RjrIQzCCjw24rLKGs9tPiDFziQZcqwQHMEHsfpQAJaHczOXoOwihDfqehSonJTX/AB1Mlaq1gTkD3bfZArLX1b1e1pNFzunjeyPticc5dwn088wrXwIyLMIczjaDX/vlzF0big8YGc28D5bbS9JP348GiY8PVuLG6rzXP4HQ2ETaZoZ+JIu02JJZNXtyxGb7kuHmtow1engLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D/Y/u0TZlbl9xphP1g/L1TMvxjfSTyGUygVz3nu4V6s=;
- b=bpT6xMoia1XtGUzsnj+/QOS/loG6fUy6rBpKMuCaIARsb7z44dFe8LgXeOYQI9nduvGLok5CpuHH+ZSJYi2HDzfm9aLQ9+tZgVpxCuXmjwM5W2Nut5TRakdaEm5UdT1zl/UvsFv4iQb9RV5PLZ+dF6M0ZqiA0sX0QEM00mvckT0=
-Received: from MW4PR03CA0274.namprd03.prod.outlook.com (2603:10b6:303:b5::9)
- by BY5PR12MB4098.namprd12.prod.outlook.com (2603:10b6:a03:205::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.17; Wed, 5 Jul
- 2023 19:57:24 +0000
-Received: from CO1NAM11FT096.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:b5:cafe::d2) by MW4PR03CA0274.outlook.office365.com
- (2603:10b6:303:b5::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.18 via Frontend
- Transport; Wed, 5 Jul 2023 19:57:24 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT096.mail.protection.outlook.com (10.13.175.84) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6521.45 via Frontend Transport; Wed, 5 Jul 2023 19:57:24 +0000
-Received: from rajneesh-desk.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Wed, 5 Jul
- 2023 14:57:21 -0500
-From: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
-To: <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH] drm/ttm: Use init_on_free to early release TTM BOs
-Date: Wed, 5 Jul 2023 15:57:01 -0400
-Message-ID: <20230705195701.30141-1-rajneesh.bhardwaj@amd.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 943A810E3B7
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jul 2023 20:09:45 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id
+ 38308e7fff4ca-2b6afc1ceffso118223701fa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Jul 2023 13:09:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1688587782; x=1691179782;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=QedvqYyJQViKyDdMD30O1M4fPDEkDaVf9Y43Xrvhkbs=;
+ b=gT9o+qi7q8GI67qc4H1S3zeZyOR3NCtEjmK0kMBoZOTeO4eBGtk6kqTc+1ashkwQ4g
+ GQVIp1YvHYbKOlHdL5mAsdfcLO/RGERkQTLW0IfvDcrRWKwVkAvr0CmU8an6E82KjVW6
+ Ucj9ymEzDo7uDP33JNxTLDI9R22B3AeH8O6HGYoSJA4yz43ZseJkxwt51XIT3TSmNI1n
+ vOkWp+ZH42ubdsgyAVft+AF3xzr2r269xq4FQvq9HjdwNgAdx/Wkmki0UyxiXhrKxQu/
+ mANCf5VBOihpSsQnOFfrROEzMY0EXY059H57mHKkudw/2UEgv0Qyh3kUffcYG9JXaU4f
+ Dc3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688587782; x=1691179782;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=QedvqYyJQViKyDdMD30O1M4fPDEkDaVf9Y43Xrvhkbs=;
+ b=ewY77LO3qXwcMRltYo9yfljsV+nhaWwsTaKcKQX7iEVJF8WRFwKk5cmKIArMbEqBgf
+ yo+vFkkCb4MI+AMUuOHLorrCawkNnEYTgJjU2nAbAs9IlaJFW38f18KVY96O7YlGIs11
+ AdhcKjSkYnkaatNLayGI2nMx/SBeAtpCHxjs3bGMS7wW32+0Xv7uTmS1eZQKCGNzrpo5
+ ED4G1lZclOvYskbbURjFNGd41pcvo8y85lpbbQufmWQbeyT/s/QlOXxNJ1Mc5q0UjtpS
+ 6ZuUPM4Gw6r/z5NUsHbj/8+r72x7QQFgq6mrOII9YQ3JgjkJ/aZKIysCqVRbb6LkcjDo
+ GD1g==
+X-Gm-Message-State: ABy/qLbAoQHKGCMXBmVwzw8GGeI9uRocA/v4XyNY6ls09Sq+0FiHFX9Q
+ +po/+jDJFLYkkQKJy+JtIRgLnw==
+X-Google-Smtp-Source: APBJJlHHNVJDZhY4e/En6E7OEuxyXThgyg1SBCxz7UAziGWfAUAugUI9omkfweqDp8gyvViv/f1ycw==
+X-Received: by 2002:a2e:8e8d:0:b0:2b6:cf18:7397 with SMTP id
+ z13-20020a2e8e8d000000b002b6cf187397mr10609414ljk.5.1688587782244; 
+ Wed, 05 Jul 2023 13:09:42 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ j10-20020a2e850a000000b002b6ca539d92sm3957501lji.138.2023.07.05.13.09.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Jul 2023 13:09:41 -0700 (PDT)
+Message-ID: <a718f7c1-4ef1-18c8-33c7-c5da22e92c89@linaro.org>
+Date: Wed, 5 Jul 2023 23:09:40 +0300
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT096:EE_|BY5PR12MB4098:EE_
-X-MS-Office365-Filtering-Correlation-Id: d0fd6298-6bcc-4fd3-dc0c-08db7d920d45
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: khnCM7tnU/k2FwSMHjJptkfpKMG7rJxBOX4BsRVeUk3y1a/LCMASmMSLs+MKujsVWNvXqh0rTP6aTavYWCOeqtIahrnD0dxvM2A1xYOG1zdSr+GxSVdwZD5yCA6qHkWKUba9QtttgxqdIJmePUovUbWeU78O9wdCRb8kQzsUZvmAO6kNKQNsBufHjjJ58G38WAJOphZN2SlAFZt3usk0nrA3fBqfpkx38w8E/umRLyhoPcM8t5v7gV0FQnHvbBIJyy0Fiea3h3BoDzZGIN1Dw5fD3gOKe5CbeTfz6/tQAvYd7JcZQKv71AJRcDf0gI4Qy6+1OcSPVlCjrbTKi4/nxPAqFIjVnfT8ryOm6KMcuAp4ewtCQzU08rTRKOkwRh9HqWZLc+MQddv0+7khMKJakUuB4qNWMdnHEwWVPKxWcbFveaYKknA2zR1/xQabLCJqh0R+//oPDdlDOMqpy92d76Kr725M+oVNJA+1VxDPMk0tUw5nXCkm/G5HXsQmgp2tyDHJL8Ux0deMLyVj+fsqToaR/6o6gVTX/JPbQHz3/TJLRXVLa5nxmLeYaw6X1QziUVVnqfZVb+QlAy5nc+/GKmkG2rcj5TajMrBzDJySG0Ob/yMB56fN+jW1im5qqVCYESMDIZLwe/LbPenptuP/HboMomymVRq0kafS3WWq1sYKGlku5LdhJs/UNFMSjqGoIZzlsLYn9fWzfEGquetLaWJ5bYkaUTjXosDcChZ5Ej9OS898wNzA+kYOadXcW3hfUoDYgMYIUK/cDfbuBfgDkQ==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(346002)(39860400002)(136003)(396003)(376002)(451199021)(46966006)(36840700001)(40470700004)(40460700003)(450100002)(70206006)(4326008)(6916009)(70586007)(2616005)(356005)(81166007)(82310400005)(186003)(86362001)(36860700001)(16526019)(1076003)(26005)(47076005)(83380400001)(426003)(6666004)(336012)(82740400003)(478600001)(7696005)(40480700001)(54906003)(36756003)(4744005)(41300700001)(8936002)(8676002)(2906002)(5660300002)(316002)(44832011)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2023 19:57:24.2874 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d0fd6298-6bcc-4fd3-dc0c-08db7d920d45
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT096.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4098
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: RFC: DSI host capabilities (was: [PATCH RFC 03/10] drm/panel: Add
+ LGD panel driver for Sony Xperia XZ3)
+Content-Language: en-GB
+To: Maxime Ripard <mripard@kernel.org>
+References: <617c8f8a-1fc7-c6a0-eaa5-ce75ff2adc1b@linaro.org>
+ <CAA8EJppG=MAVpK1J_8bNnkJ23y9NtgY7a2GVResXJvhEKyNsrw@mail.gmail.com>
+ <739a8bd9-9ff0-5072-fdae-b64efdf86842@collabora.com>
+ <e927cfcd-bf34-5daf-0e24-4dd828106968@linaro.org>
+ <epds77sccy4cc5cdpoc4ir7sfz5sz3biwep6rbks2nuyqncidu@77gb4t2wy6vn>
+ <47a5678c-1eb3-dfc2-a9ac-f8e497455d11@linaro.org>
+ <unsithzszj7awvsmxwr7reshso5ju7u4nssil5tty6pocictf5@gwoltpgeecer>
+ <6e070141-8c0e-59ed-8a08-58c3fadb17df@linaro.org>
+ <lidknise4copce3vb2wth4z3fl2p4npsc4u6ajqb6zsp6lnpca@rp6wxcmy2aa4>
+ <CAA8EJpq_VeY=44FqYm7QAT32AR=rmMOV0RtAfNFkb1hpSp29dw@mail.gmail.com>
+ <djrx34qwb7yen47dmlsym4mg2pib4syncvdy52ma3sin7uhs7j@gi3znayuucnj>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <djrx34qwb7yen47dmlsym4mg2pib4syncvdy52ma3sin7uhs7j@gi3znayuucnj>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,33 +88,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: felix.kuehling@amd.com, Christian.Koenig@amd.com,
- dri-devel@lists.freedesktop.org, Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
+Cc: "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <dri-devel@lists.freedesktop.org>, Caleb Connolly <caleb@connolly.tech>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Andy Gross <agross@kernel.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Early release TTM BOs when the kernel default setting is init_on_free to
-wipe out and reinitialize system memory chunks. This could potentially
-optimize performance when an application does a lot of malloc/free style
-allocations with unified system memory.
+On 05/07/2023 19:53, Maxime Ripard wrote:
+> On Wed, Jul 05, 2023 at 06:20:13PM +0300, Dmitry Baryshkov wrote:
+>> On Wed, 5 Jul 2023 at 17:24, Maxime Ripard <mripard@kernel.org> wrote:
+>>>
+>>> On Wed, Jul 05, 2023 at 04:37:57PM +0300, Dmitry Baryshkov wrote:
+>>>>>>>
+>>>>>>> Either way, I'm not really sure it's a good idea to multiply the
+>>>>>>> capabilities flags of the DSI host, and we should just stick to the
+>>>>>>> spec. If the spec says that we have to support DSC while video is
+>>>>>>> output, then that's what the panels should expect.
+>>>>>>
+>>>>>> Except some panels supports DSC & non-DSC, Video and Command mode, and
+>>>>>> all that is runtime configurable. How do you handle that ?
+>>>>>
+>>>>> In this case, most of the constraints are going to be on the encoder
+>>>>> still so it should be the one driving it. The panel will only care about
+>>>>> which mode has been selected, but it shouldn't be the one driving it,
+>>>>> and thus we still don't really need to expose the host capabilities.
+>>>>
+>>>> This is an interesting perspective. This means that we can and actually have
+>>>> to extend the drm_display_mode with the DSI data and compression
+>>>> information.
+>>>
+>>> I wouldn't extend drm_display_mode, but extending one of the state
+>>> structures definitely.
+>>>
+>>> We already have some extra variables in drm_connector_state for HDMI,
+>>> I don't think it would be a big deal to add a few for MIPI-DSI.
+>>>
+>>> We also floated the idea for a while to create bus-specific states, with
+>>> helpers to match. Maybe it would be a good occasion to start doing it?
+>>>
+>>>> For example, the panel that supports all four types for the 1080p should
+>>>> export several modes:
+>>>>
+>>>> 1920x1080-command
+>>>> 1920x1080-command-DSC
+>>>> 1920x1080-video
+>>>> 1920x1080-video-DSC
+>>>>
+>>>> where video/command and DSC are some kinds of flags and/or information in
+>>>> the drm_display_mode? Ideally DSC also has several sub-flags, which denote
+>>>> what kind of configuration is supported by the DSC sink (e.g. bpp, yuv,
+>>>> etc).
+>>>
+>>> So we have two things to do, right? We need to expose what the panel can
+>>> take (ie, EDID for HDMI), and then we need to tell it what we picked
+>>> (infoframes).
+>>>
+>>> We already express the former in mipi_dsi_device, so we could extend the
+>>> flags stored there.
+>>>
+>>> And then, we need to tie what the DSI host chose to a given atomic state
+>>> so the panel knows what was picked and how it should set everything up.
+>>
+>> This is definitely something we need. Marijn has been stuck with the
+>> panels that support different models ([1]).
+>>
+>> Would you prefer a separate API for this kind of information or
+>> abusing atomic_enable() is fine from your point of view?
+>>
+>> My vote would be for going with existing operations, with the slight
+>> fear of ending up with another DSI-specific hack (like
+>> pre_enable_prev_first).
+> 
+> I don't think we can get away without getting access to the atomic_state
+> from the panel at least.
+> 
+> Choosing one setup over another is likely going to depend on the mode,
+> and that's only available in the state.
+> 
+> We don't have to go the whole way though and create the sub-classes of
+> drm_connector_state, but I think we should at least provide it to the
+> panel.
+> 
+> What do you think of creating a new set of atomic_* callbacks for
+> panels, call that new set of functions from msm and start from there?
 
-Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
----
- drivers/gpu/drm/ttm/ttm_bo.c | 1 +
- 1 file changed, 1 insertion(+)
+We are (somewhat) bound by the panel_bridge, but yeah, it seems possible.
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 326a3d13a829..bd2e7e4f497a 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -347,6 +347,7 @@ static void ttm_bo_release(struct kref *kref)
- 
- 		if (!dma_resv_test_signaled(bo->base.resv,
- 					    DMA_RESV_USAGE_BOOKKEEP) ||
-+		    (want_init_on_free() && (bo->ttm != NULL)) ||
- 		    !dma_resv_trylock(bo->base.resv)) {
- 			/* The BO is not idle, resurrect it for delayed destroy */
- 			ttm_bo_flush_all_fences(bo);
 -- 
-2.17.1
+With best wishes
+Dmitry
 
