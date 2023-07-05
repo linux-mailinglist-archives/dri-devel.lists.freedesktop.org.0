@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4F1A74806E
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jul 2023 11:07:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B44374806F
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jul 2023 11:07:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2B5810E326;
-	Wed,  5 Jul 2023 09:07:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBD9110E28E;
+	Wed,  5 Jul 2023 09:07:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F55810E326
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jul 2023 09:07:16 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09EF710E28E
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jul 2023 09:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1688548036;
+ s=mimecast20190719; t=1688548071;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=a06dM4DVhOWie+29y5OH6RTZsrC7pthC/bnsJb9dU4k=;
- b=TkctYdfkaG7vg82cKjocujjyNN5f97SGBL0O8qElhImGEztSuHPnXfne6t5x5MRb0EwqZp
- bX+PYReIO2No8v9pat+IOLaqHDow16jV/JVa0mEsQbq7YQIC/4jcGvumAG/r4yGdfqjIMi
- vNcelHt24pWiqCavtCB1LAIZSBf5pZg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qr/C5LtRvrDZoQId+bjsOh/ZaHhOujfRlisJ/yVhSwY=;
+ b=UkLADN8es5IicEimAEAQzF1P1WWuT+db92nJR1xZAFcvaMLDLTmGTNW0dyaZ79cVFzw+62
+ kdHrmhxntk8gn2NFiJJ7k+g5Qc/7P2a0Fz2ZWETjSbtXuirPdkYul6FuzKy4WDlTMWZEnE
+ ia51HoWfR+5Le0LY6B2o155X3LxWUsI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-224-d1_ajFZ8Pd29qrUYsUAkgA-1; Wed, 05 Jul 2023 05:07:15 -0400
-X-MC-Unique: d1_ajFZ8Pd29qrUYsUAkgA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-3143ac4a562so1483676f8f.2
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Jul 2023 02:07:14 -0700 (PDT)
+ us-mta-497-6zxSiP9JOASnc1qs2hnWJg-1; Wed, 05 Jul 2023 05:07:50 -0400
+X-MC-Unique: 6zxSiP9JOASnc1qs2hnWJg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-2f2981b8364so3685753f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Jul 2023 02:07:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688548034; x=1691140034;
+ d=1e100.net; s=20221208; t=1688548069; x=1691140069;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=a06dM4DVhOWie+29y5OH6RTZsrC7pthC/bnsJb9dU4k=;
- b=LY+S3/DvR4ZzoPyit3pbDXpej95LpZLjzIIlQytuNtx7YfezxRI/pHCXiU05ZFT9IV
- ptIZ1HyFWtlaVlvGsC0Ovrah2C3IFNwYNPoYIl+GCFMU0Ejz6MOD6OtjZJ4Q154gV6r6
- ukblXJDW9LOw+9CdkqVQbm3dMtusrlgXPddACVA51XcoQTGCPP1RWpk7kihU20FvSO7k
- 6E7OwPfM/aEO2QkhxQCHKCh9zxTJCWVeiyI+4/y28TgnBjI5YXFDPBO0deqt9NGGCjy6
- Fyooxv1UQqtJ9DlNu916gORC1Y+PBw/ALwzSZXh43x3ntHNdXaPLNB/yK9XUOS7mLMDX
- 8Upw==
-X-Gm-Message-State: ABy/qLZi5g6B13jECanRzacpuf8RgtkXrSgrzgebXgYnpCvePRbUvFUc
- BnrTAex+hKcEaJwL83kD2/ipXXoWy8gp+tazXw/sb/nowFjnb3vQ9OlTp0Sw3kYEinJcbCUmsT4
- ZjVKttcHVDWbLSh8FpsYU+HyAyysb
-X-Received: by 2002:adf:f3c4:0:b0:313:ebf3:850e with SMTP id
- g4-20020adff3c4000000b00313ebf3850emr13765066wrp.37.1688548033939; 
- Wed, 05 Jul 2023 02:07:13 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlHGcT0p8hhCDRF3h+9mFlbkiFbzXDC8/ZzlCbbtfV1aXJy0eKEzcQDMciMIa3WCioCrYV9vdg==
-X-Received: by 2002:adf:f3c4:0:b0:313:ebf3:850e with SMTP id
- g4-20020adff3c4000000b00313ebf3850emr13765052wrp.37.1688548033678; 
- Wed, 05 Jul 2023 02:07:13 -0700 (PDT)
+ bh=qr/C5LtRvrDZoQId+bjsOh/ZaHhOujfRlisJ/yVhSwY=;
+ b=c0+zx04soUO8is1setV6T7qpYq99n5P7S6bo4990/UNi9PyAPPYs+cNxAPS5rLC1MU
+ B66HLxWqDM25yoPrPNX2AGzWq2czCHh+m63WdJ9QbJJ9XFUIYvAQqxO5ynV8slsUEwYN
+ lLUbm5eTJqlJ/xv8cAEhYGb4SHBLFM6TZFb2+6ihxAYKUKl2A6E3Lsj8h2T7HXlk80Sl
+ WCYoVpbd+fu2MYy4h+XCnCfvyJrNoO0a4ryh4zCAOWqQbPQSAHGp6lFt7V31jTXSxaU+
+ YlA0MvI04G7oGZxcN8OWcZ0YN5/zcrXEhr8I/C8RHNQCk2ho+r25x9I28OJ9lINm9pK1
+ kHLg==
+X-Gm-Message-State: ABy/qLYuBQqRfECpKUv8TzLgpDGPbknqcJX62aoZQ1RldgQSAul2UlDw
+ zNzC1Gu1mOzq6dzE3tBRckx2tdqujEOBg3icbZkO55A/eG5HIuO0BqBCRg6CFk/6EABuFEfc5zC
+ flXSr845M36qmvE0AV8CmS4Y5ad+s
+X-Received: by 2002:adf:f504:0:b0:30f:d12a:d0b5 with SMTP id
+ q4-20020adff504000000b0030fd12ad0b5mr13084514wro.55.1688548069027; 
+ Wed, 05 Jul 2023 02:07:49 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlHf2mlJzkynZeRnACKLZDj8dpbPaRQo1oHTkYMNq2t7OkGieb7M7VOESlbgxnGoXEMWu20AzQ==
+X-Received: by 2002:adf:f504:0:b0:30f:d12a:d0b5 with SMTP id
+ q4-20020adff504000000b0030fd12ad0b5mr13084501wro.55.1688548068811; 
+ Wed, 05 Jul 2023 02:07:48 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- m3-20020adff383000000b0031417b0d338sm16044699wro.87.2023.07.05.02.07.13
+ n5-20020adfe345000000b0030e5bd253aasm30417562wrj.39.2023.07.05.02.07.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jul 2023 02:07:13 -0700 (PDT)
+ Wed, 05 Jul 2023 02:07:48 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Subject: Re: [PATCH 09/10] drm/omapdrm: Set fbdev flags
-In-Reply-To: <20230704160133.20261-10-tzimmermann@suse.de>
+Subject: Re: [PATCH 10/10] fbdev: Remove FB_DEFAULT_SYS_OPS
+In-Reply-To: <20230704160133.20261-11-tzimmermann@suse.de>
 References: <20230704160133.20261-1-tzimmermann@suse.de>
- <20230704160133.20261-10-tzimmermann@suse.de>
-Date: Wed, 05 Jul 2023 11:07:12 +0200
-Message-ID: <87ilayrakf.fsf@minerva.mail-host-address-is-not-set>
+ <20230704160133.20261-11-tzimmermann@suse.de>
+Date: Wed, 05 Jul 2023 11:07:47 +0200
+Message-ID: <87fs62rajg.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -82,17 +82,20 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-fbdev@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Set fbdev default flags FBNFO_DEFAULT and mark the framebuffer with
-
-FBINFO_DEFAULT. I noticed that the same typo is in patch 04/10 as well.
+> Remove the initializer macro FB_DEFAULT_SYS_OPS and its helper macro
+> __FB_DEFAULT_SYS_OPS_MMAP. There are no users.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Helge Deller <deller@gmx.de> (maintainer:FRAMEBUFFER LAYER)
+> ---
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
