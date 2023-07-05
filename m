@@ -2,55 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEE6074898B
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jul 2023 18:54:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23CC67489EF
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jul 2023 19:14:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6ED5210E180;
-	Wed,  5 Jul 2023 16:54:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2576F10E182;
+	Wed,  5 Jul 2023 17:14:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91FD110E180;
- Wed,  5 Jul 2023 16:54:01 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 8EEE761628;
- Wed,  5 Jul 2023 16:54:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70C1BC433C7;
- Wed,  5 Jul 2023 16:53:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1688576039;
- bh=zpe36HvtOC/2p5wIUyWgUxwi/FgRT6PIqt/x3SW+BlU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Lhcjd5O0YYRww4U/sAWx3osP7tPsKy2GtadQHpt8Xvd68qxHov1MBqb1hvExtYqmu
- 57pCmTMtoeH7+YoKCjhGqsrRwf3AuApbNcSOi2IuKIDkLlPqCgBKrrcQVY3BbkNDBl
- 7fE6teIAijQKdKAFQkay4mC1IMCS9wgNUBQIgd0k4PoYbeoNRIuSxBC9Lf3t08ZeSK
- QY0GzCPdtabD0qZxBHcefUWAgp4FSjPNMFflYi9BasI5oPFwwAC1lO89UwdNP/hd9S
- aNOpsq+nn+dYqke0EHIJDsIkS8SKct8S9SJRKMjFaioHyndCXqukQNDCgwE0xlwhuL
- bE0J0klj4h8oA==
-Date: Wed, 5 Jul 2023 18:53:57 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: RFC: DSI host capabilities (was: [PATCH RFC 03/10] drm/panel:
- Add LGD panel driver for Sony Xperia XZ3)
-Message-ID: <djrx34qwb7yen47dmlsym4mg2pib4syncvdy52ma3sin7uhs7j@gi3znayuucnj>
-References: <617c8f8a-1fc7-c6a0-eaa5-ce75ff2adc1b@linaro.org>
- <CAA8EJppG=MAVpK1J_8bNnkJ23y9NtgY7a2GVResXJvhEKyNsrw@mail.gmail.com>
- <739a8bd9-9ff0-5072-fdae-b64efdf86842@collabora.com>
- <e927cfcd-bf34-5daf-0e24-4dd828106968@linaro.org>
- <epds77sccy4cc5cdpoc4ir7sfz5sz3biwep6rbks2nuyqncidu@77gb4t2wy6vn>
- <47a5678c-1eb3-dfc2-a9ac-f8e497455d11@linaro.org>
- <unsithzszj7awvsmxwr7reshso5ju7u4nssil5tty6pocictf5@gwoltpgeecer>
- <6e070141-8c0e-59ed-8a08-58c3fadb17df@linaro.org>
- <lidknise4copce3vb2wth4z3fl2p4npsc4u6ajqb6zsp6lnpca@rp6wxcmy2aa4>
- <CAA8EJpq_VeY=44FqYm7QAT32AR=rmMOV0RtAfNFkb1hpSp29dw@mail.gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 075BE10E182
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jul 2023 17:14:13 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A8E461762
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jul 2023 10:14:54 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5A2BE3F762
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jul 2023 10:14:12 -0700 (PDT)
+Date: Wed, 5 Jul 2023 18:14:05 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Faiz Abbas <faiz.abbas@arm.com>
+Subject: Re: [PATCH v2] drm/arm/komeda: Remove component framework and add a
+ simple encoder
+Message-ID: <ZKWk3YkM7jI304uv@e110455-lin.cambridge.arm.com>
+References: <20230704163454.5138-1-faiz.abbas@arm.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="a5bose7t54notcfz"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAA8EJpq_VeY=44FqYm7QAT32AR=rmMOV0RtAfNFkb1hpSp29dw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230704163454.5138-1-faiz.abbas@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,133 +43,268 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <dri-devel@lists.freedesktop.org>, Caleb Connolly <caleb@connolly.tech>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Sam Ravnborg <sam@ravnborg.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Andy Gross <agross@kernel.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Bjorn Andersson <andersson@kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Faiz,
 
---a5bose7t54notcfz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, Jul 04, 2023 at 10:04:54PM +0530, Faiz Abbas wrote:
+> The Komeda driver always expects the remote connector node to initialize
+> an encoder. It uses the component aggregator framework which consists
+> of component->bind() calls used to initialize the remote encoder and attach
+> it to the crtc. This makes it incompatible with connector drivers which
+> implement drm_bridge APIs.
+> 
+> Remove all component framework calls from the komeda driver and declare and
+> attach an encoder inside komeda_crtc_add().
+> 
+> The remote connector driver has to implement the DRM bridge APIs which
+> can be used to glue the encoder to the remote connector. Since we
+> usually pair this with a component encoder that also implements a
+> drm_bridge, dropping support is not expected to affect users of this
+> driver.
 
-On Wed, Jul 05, 2023 at 06:20:13PM +0300, Dmitry Baryshkov wrote:
-> On Wed, 5 Jul 2023 at 17:24, Maxime Ripard <mripard@kernel.org> wrote:
-> >
-> > On Wed, Jul 05, 2023 at 04:37:57PM +0300, Dmitry Baryshkov wrote:
-> > > > > >
-> > > > > > Either way, I'm not really sure it's a good idea to multiply the
-> > > > > > capabilities flags of the DSI host, and we should just stick to=
- the
-> > > > > > spec. If the spec says that we have to support DSC while video =
-is
-> > > > > > output, then that's what the panels should expect.
-> > > > >
-> > > > > Except some panels supports DSC & non-DSC, Video and Command mode=
-, and
-> > > > > all that is runtime configurable. How do you handle that ?
-> > > >
-> > > > In this case, most of the constraints are going to be on the encoder
-> > > > still so it should be the one driving it. The panel will only care =
-about
-> > > > which mode has been selected, but it shouldn't be the one driving i=
-t,
-> > > > and thus we still don't really need to expose the host capabilities.
-> > >
-> > > This is an interesting perspective. This means that we can and actual=
-ly have
-> > > to extend the drm_display_mode with the DSI data and compression
-> > > information.
-> >
-> > I wouldn't extend drm_display_mode, but extending one of the state
-> > structures definitely.
-> >
-> > We already have some extra variables in drm_connector_state for HDMI,
-> > I don't think it would be a big deal to add a few for MIPI-DSI.
-> >
-> > We also floated the idea for a while to create bus-specific states, with
-> > helpers to match. Maybe it would be a good occasion to start doing it?
-> >
-> > > For example, the panel that supports all four types for the 1080p sho=
-uld
-> > > export several modes:
-> > >
-> > > 1920x1080-command
-> > > 1920x1080-command-DSC
-> > > 1920x1080-video
-> > > 1920x1080-video-DSC
-> > >
-> > > where video/command and DSC are some kinds of flags and/or informatio=
-n in
-> > > the drm_display_mode? Ideally DSC also has several sub-flags, which d=
-enote
-> > > what kind of configuration is supported by the DSC sink (e.g. bpp, yu=
-v,
-> > > etc).
-> >
-> > So we have two things to do, right? We need to expose what the panel can
-> > take (ie, EDID for HDMI), and then we need to tell it what we picked
-> > (infoframes).
-> >
-> > We already express the former in mipi_dsi_device, so we could extend the
-> > flags stored there.
-> >
-> > And then, we need to tie what the DSI host chose to a given atomic state
-> > so the panel knows what was picked and how it should set everything up.
->=20
-> This is definitely something we need. Marijn has been stuck with the
-> panels that support different models ([1]).
->=20
-> Would you prefer a separate API for this kind of information or
-> abusing atomic_enable() is fine from your point of view?
->=20
-> My vote would be for going with existing operations, with the slight
-> fear of ending up with another DSI-specific hack (like
-> pre_enable_prev_first).
+Thanks for updating the commit description, I think it shows the intent better.
 
-I don't think we can get away without getting access to the atomic_state
-=66rom the panel at least.
+When I'm trying to apply your patch to drm-misc next (or any branch that matters)
+it fails because ...
 
-Choosing one setup over another is likely going to depend on the mode,
-and that's only available in the state.
+> 
+> Signed-off-by: Faiz Abbas <faiz.abbas@arm.com>
+> ---
+>  .../gpu/drm/arm/display/komeda/komeda_crtc.c  | 23 +++++++-
+>  .../gpu/drm/arm/display/komeda/komeda_drv.c   | 57 ++-----------------
+>  .../gpu/drm/arm/display/komeda/komeda_kms.c   | 10 +---
+>  .../gpu/drm/arm/display/komeda/komeda_kms.h   |  3 +
+>  4 files changed, 32 insertions(+), 61 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> index 4cc07d6bb9d82..e5a8a80b173f4 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> @@ -13,6 +13,8 @@
+>  #include <drm/drm_crtc_helper.h>
 
-We don't have to go the whole way though and create the sub-classes of
-drm_connector_state, but I think we should at least provide it to the
-panel.
+... this line is different in my tree. It looks like your tree is missing
+commit e3b63718827880 ("drm/arm/komeda: Remove unnecessary include
+statements for drm_crtc_helper.h"), which has been applied in early January.
 
-What do you think of creating a new set of atomic_* callbacks for
-panels, call that new set of functions from msm and start from there?
+Best regards,
+Liviu
 
-Maxime
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_vblank.h>
+> +#include <drm/drm_simple_kms_helper.h>
+> +#include <drm/drm_bridge.h>
+>  
+>  #include "komeda_dev.h"
+>  #include "komeda_kms.h"
+> @@ -613,9 +615,11 @@ static int komeda_crtc_add(struct komeda_kms_dev *kms,
+>  			   struct komeda_crtc *kcrtc)
+>  {
+>  	struct drm_crtc *crtc = &kcrtc->base;
+> +	struct drm_device *base = &kms->base;
+> +	struct drm_bridge *bridge;
+>  	int err;
+>  
+> -	err = drm_crtc_init_with_planes(&kms->base, crtc,
+> +	err = drm_crtc_init_with_planes(base, crtc,
+>  					get_crtc_primary(kms, kcrtc), NULL,
+>  					&komeda_crtc_funcs, NULL);
+>  	if (err)
+> @@ -625,6 +629,23 @@ static int komeda_crtc_add(struct komeda_kms_dev *kms,
+>  
+>  	crtc->port = kcrtc->master->of_output_port;
+>  
+> +
+> +	/* Construct an encoder for each pipeline and attach it to the remote
+> +	 * bridge
+> +	 */
+> +	kcrtc->encoder.possible_crtcs = drm_crtc_mask(crtc);
+> +	err = drm_simple_encoder_init(base, &kcrtc->encoder,
+> +				      DRM_MODE_ENCODER_TMDS);
+> +	if (err)
+> +		return err;
+> +
+> +	bridge = devm_drm_of_get_bridge(base->dev, kcrtc->master->of_node,
+> +					KOMEDA_OF_PORT_OUTPUT, 0);
+> +	if (IS_ERR(bridge))
+> +		return PTR_ERR(bridge);
+> +
+> +	err = drm_bridge_attach(&kcrtc->encoder, bridge, NULL, 0);
+> +
+>  	drm_crtc_enable_color_mgmt(crtc, 0, true, KOMEDA_COLOR_LUT_SIZE);
+>  
+>  	return err;
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
+> index 9fce4239d4ad4..98e7ca1ad8fe7 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_drv.c
+> @@ -7,7 +7,6 @@
+>  #include <linux/module.h>
+>  #include <linux/kernel.h>
+>  #include <linux/platform_device.h>
+> -#include <linux/component.h>
+>  #include <linux/pm_runtime.h>
+>  #include <drm/drm_fb_helper.h>
+>  #include <drm/drm_module.h>
+> @@ -27,13 +26,11 @@ struct komeda_dev *dev_to_mdev(struct device *dev)
+>  	return mdrv ? mdrv->mdev : NULL;
+>  }
+>  
+> -static void komeda_unbind(struct device *dev)
+> +static int komeda_platform_remove(struct platform_device *pdev)
+>  {
+> +	struct device *dev = &pdev->dev;
+>  	struct komeda_drv *mdrv = dev_get_drvdata(dev);
+>  
+> -	if (!mdrv)
+> -		return;
+> -
+>  	komeda_kms_detach(mdrv->kms);
+>  
+>  	if (pm_runtime_enabled(dev))
+> @@ -45,10 +42,13 @@ static void komeda_unbind(struct device *dev)
+>  
+>  	dev_set_drvdata(dev, NULL);
+>  	devm_kfree(dev, mdrv);
+> +
+> +	return 0;
+>  }
+>  
+> -static int komeda_bind(struct device *dev)
+> +static int komeda_platform_probe(struct platform_device *pdev)
+>  {
+> +	struct device *dev = &pdev->dev;
+>  	struct komeda_drv *mdrv;
+>  	int err;
+>  
+> @@ -88,52 +88,7 @@ static int komeda_bind(struct device *dev)
+>  free_mdrv:
+>  	devm_kfree(dev, mdrv);
+>  	return err;
+> -}
+> -
+> -static const struct component_master_ops komeda_master_ops = {
+> -	.bind	= komeda_bind,
+> -	.unbind	= komeda_unbind,
+> -};
+>  
+> -static void komeda_add_slave(struct device *master,
+> -			     struct component_match **match,
+> -			     struct device_node *np,
+> -			     u32 port, u32 endpoint)
+> -{
+> -	struct device_node *remote;
+> -
+> -	remote = of_graph_get_remote_node(np, port, endpoint);
+> -	if (remote) {
+> -		drm_of_component_match_add(master, match, component_compare_of, remote);
+> -		of_node_put(remote);
+> -	}
+> -}
+> -
+> -static int komeda_platform_probe(struct platform_device *pdev)
+> -{
+> -	struct device *dev = &pdev->dev;
+> -	struct component_match *match = NULL;
+> -	struct device_node *child;
+> -
+> -	if (!dev->of_node)
+> -		return -ENODEV;
+> -
+> -	for_each_available_child_of_node(dev->of_node, child) {
+> -		if (of_node_cmp(child->name, "pipeline") != 0)
+> -			continue;
+> -
+> -		/* add connector */
+> -		komeda_add_slave(dev, &match, child, KOMEDA_OF_PORT_OUTPUT, 0);
+> -		komeda_add_slave(dev, &match, child, KOMEDA_OF_PORT_OUTPUT, 1);
+> -	}
+> -
+> -	return component_master_add_with_match(dev, &komeda_master_ops, match);
+> -}
+> -
+> -static int komeda_platform_remove(struct platform_device *pdev)
+> -{
+> -	component_master_del(&pdev->dev, &komeda_master_ops);
+> -	return 0;
+>  }
+>  
+>  static const struct of_device_id komeda_of_match[] = {
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> index 451746ebbe713..95eb53c284366 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> @@ -4,7 +4,6 @@
+>   * Author: James.Qian.Wang <james.qian.wang@arm.com>
+>   *
+>   */
+> -#include <linux/component.h>
+>  #include <linux/interrupt.h>
+>  
+>  #include <drm/drm_atomic.h>
+> @@ -307,17 +306,13 @@ struct komeda_kms_dev *komeda_kms_attach(struct komeda_dev *mdev)
+>  	if (err)
+>  		goto cleanup_mode_config;
+>  
+> -	err = component_bind_all(mdev->dev, kms);
+> -	if (err)
+> -		goto cleanup_mode_config;
+> -
+>  	drm_mode_config_reset(drm);
+>  
+>  	err = devm_request_irq(drm->dev, mdev->irq,
+>  			       komeda_kms_irq_handler, IRQF_SHARED,
+>  			       drm->driver->name, drm);
+>  	if (err)
+> -		goto free_component_binding;
+> +		goto cleanup_mode_config;
+>  
+>  	drm_kms_helper_poll_init(drm);
+>  
+> @@ -329,8 +324,6 @@ struct komeda_kms_dev *komeda_kms_attach(struct komeda_dev *mdev)
+>  
+>  free_interrupts:
+>  	drm_kms_helper_poll_fini(drm);
+> -free_component_binding:
+> -	component_unbind_all(mdev->dev, drm);
+>  cleanup_mode_config:
+>  	drm_mode_config_cleanup(drm);
+>  	komeda_kms_cleanup_private_objs(kms);
+> @@ -346,7 +339,6 @@ void komeda_kms_detach(struct komeda_kms_dev *kms)
+>  	drm_dev_unregister(drm);
+>  	drm_kms_helper_poll_fini(drm);
+>  	drm_atomic_helper_shutdown(drm);
+> -	component_unbind_all(mdev->dev, drm);
+>  	drm_mode_config_cleanup(drm);
+>  	komeda_kms_cleanup_private_objs(kms);
+>  	drm->dev_private = NULL;
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.h b/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
+> index 7339339ef6b87..9b070d504f4ad 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
+> @@ -85,6 +85,9 @@ struct komeda_crtc {
+>  
+>  	/** @disable_done: this flip_done is for tracing the disable */
+>  	struct completion *disable_done;
+> +
+> +	/** @encoder: encoder at the end of the pipeline */
+> +	struct drm_encoder encoder;
+>  };
+>  
+>  /**
+> -- 
+> 2.25.1
+> 
 
---a5bose7t54notcfz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZKWgJQAKCRDj7w1vZxhR
-xQatAP90pD1NWuIrbVbvIO18HW7Hgb8Mr+kSmow/0XcZKKtjowEA01wiFrcPQBdZ
-3zxMfQ8Rm5KcDNCKe6hW3cZCvQ+t+gw=
-=EWmy
------END PGP SIGNATURE-----
-
---a5bose7t54notcfz--
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
