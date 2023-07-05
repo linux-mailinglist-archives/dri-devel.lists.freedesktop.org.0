@@ -1,46 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18F0E74811C
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jul 2023 11:38:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38E43748137
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jul 2023 11:42:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C0B810E172;
-	Wed,  5 Jul 2023 09:38:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ACC710E344;
+	Wed,  5 Jul 2023 09:42:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68F3F10E172
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jul 2023 09:38:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1688549901;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oXLsTS7KaoyUn3o3Li2lCti5SQIdGRyASkhZ/jCo3J4=;
- b=yXsvFk2x0L31gpfHefOp6MZcJRAUdCiZMsvz/dSYZSfdG68trY+SzYsk34D7vDxIqT+w2d
- 9Pm6fmbjeAnnSuIg5mxZN00qBgMqW659gmNkeVvcpSlJELRbJERfoJom8wqLdHeoCEa5C4
- huetSgKD9HB33Kev/uAlIt/cz9sCGAE=
-Message-ID: <efc14246bd9613e4f0cb579e2dd14d64d715d829.camel@crapouillou.net>
-Subject: Re: [PATCH 2/3] drm/panel: ld9040: Register a backlight device
-From: Paul Cercueil <paul@crapouillou.net>
-To: =?UTF-8?Q?=EB=8C=80=EC=9D=B8=EA=B8=B0/Tizen?= Platform
- =?UTF-8?Q?Lab=28SR=29/=EC=82=BC=EC=84=B1=EC=A0=84=EC=9E=90?=
- <inki.dae@samsung.com>, 'Krzysztof Kozlowski'
- <krzysztof.kozlowski+dt@linaro.org>, 'Rob Herring' <robh+dt@kernel.org>, 
- 'Conor Dooley' <conor+dt@kernel.org>, 'Alim Akhtar'
- <alim.akhtar@samsung.com>, 'Neil Armstrong' <neil.armstrong@linaro.org>,
- 'Sam Ravnborg' <sam@ravnborg.org>
-Date: Wed, 05 Jul 2023 11:38:19 +0200
-In-Reply-To: <0f0c01d9ae09$0d3a17f0$27ae47d0$@samsung.com>
-References: <20230703214715.623447-1-paul@crapouillou.net>
- <CGME20230703214744epcas1p1d2763aa96e694d0e1693fabf953e83f6@epcas1p1.samsung.com>
- <20230703214715.623447-3-paul@crapouillou.net>
- <0f0c01d9ae09$0d3a17f0$27ae47d0$@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA03110E362
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jul 2023 09:42:41 +0000 (UTC)
+Received: from IcarusMOD.eternityproject.eu (unknown
+ [IPv6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id F2C3D660087A;
+ Wed,  5 Jul 2023 10:42:38 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1688550159;
+ bh=zINDDL4xiGK/8luSkmKXT+SCyjHKCbbr1Sc9XWyTjCM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=GuCdJlW0aAu+LpdTEmm5X87DRUudiBJENtp6Ld0vjQY7EaPja74qJ2fQ7MK4Wewo1
+ ksoE7FJQ5+LMx2McHb8JCxk8hPnYTHI5JrRp6GwWwNSV4HReFc3RLG3noT3uV4rn58
+ 8Asj6s/x/gIUZudjq1oEBO2BCh9xClWkYOtDdB+t7PAAvnZDPy+/HCNeDaqO7XAfn5
+ M0+1z3NaUV63Tu3J/aV+5JXOwLNI6QKQAe2zDCWiYxKx8kV+TF43iMt6TgtScMgZeL
+ 1mlDAL0SYMMGKK7VbUcZ/8T1Mnzgb3sKs3o+TnEG1kSXO8BdA8V40LnJdQQm8PmQLG
+ KxZoYMbGr4wZA==
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: chunkuang.hu@kernel.org
+Subject: [PATCH v2 0/3] drm/mediatek: General cleanups
+Date: Wed,  5 Jul 2023 11:42:29 +0200
+Message-Id: <20230705094232.75904-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,87 +49,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
+ angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Inki,
+This series performs some cleanups in drm/mediatek; specifically, changes
+it to use devm_platform_ioremap_resource(), dev_err_probe() and
+devm_pm_runtime_enable, hence harmonizing log formats and removing some
+unneeded lines of code.
 
-Le mardi 04 juillet 2023 =C3=A0 08:49 +0900, =EB=8C=80=EC=9D=B8=EA=B8=B0/Ti=
-zen Platform Lab(SR)/=EC=82=BC=EC=84=B1=EC=A0=84=EC=9E=90
-a =C3=A9crit=C2=A0:
-> Hi,
->=20
-> > -----Original Message-----
-> > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf
-> > Of
-> > Paul Cercueil
-> > Sent: Tuesday, July 4, 2023 6:47 AM
-> > To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>; Rob
-> > Herring
-> > <robh+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Alim
-> > Akhtar
-> > <alim.akhtar@samsung.com>; Neil Armstrong
-> > <neil.armstrong@linaro.org>; Sam
-> > Ravnborg <sam@ravnborg.org>
-> > Cc: devicetree@vger.kernel.org; linux-samsung-soc@vger.kernel.org;
-> > linux-
-> > kernel@vger.kernel.org; dri-devel@lists.freedesktop.org; Paul
-> > Cercueil
-> > <paul@crapouillou.net>; linux-arm-kernel@lists.infradead.org
-> > Subject: [PATCH 2/3] drm/panel: ld9040: Register a backlight device
-> >=20
-> > Register a backlight device to be able to switch between all the
-> > gamma
-> > levels.
-> >=20
-> > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> > ---
-> > =C2=A0drivers/gpu/drm/panel/panel-samsung-ld9040.c | 40
-> > ++++++++++++++++++++
-> > =C2=A01 file changed, 40 insertions(+)
-> >=20
-> > diff --git a/drivers/gpu/drm/panel/panel-samsung-ld9040.c
-> > b/drivers/gpu/drm/panel/panel-samsung-ld9040.c
-> > index 7fd9444b42c5..b4f87d6244cb 100644
-> > --- a/drivers/gpu/drm/panel/panel-samsung-ld9040.c
-> > +++ b/drivers/gpu/drm/panel/panel-samsung-ld9040.c
-> > @@ -8,6 +8,7 @@
-> > =C2=A0 * Andrzej Hajda <a.hajda@samsung.com>
-> > =C2=A0*/
-> >=20
-> > +#include <linux/backlight.h>
-> > =C2=A0#include <linux/delay.h>
-> > =C2=A0#include <linux/gpio/consumer.h>
-> > =C2=A0#include <linux/module.h>
-> > @@ -311,8 +312,40 @@ static int ld9040_parse_dt(struct ld9040 *ctx)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return 0;
-> > =C2=A0}
-> >=20
-> > +static int ld9040_bl_update_status(struct backlight_device *dev)
-> > +{
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct ld9040 *ctx =3D dev_g=
-et_drvdata(&dev->dev);
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ctx->brightness =3D dev->pro=
-ps.brightness;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ld9040_brightness_set(ctx);
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return 0;
-> > +}
-> > +
-> > +static int ld9040_bl_get_intensity(struct backlight_device *dev)
-> > +{
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (dev->props.fb_blank =3D=
-=3D FB_BLANK_UNBLANK &&
->=20
-> fb_blank member is deprecated according to the description of
-> backlight.h
-> file so you could drop above condition I think.
+Changes in v2:
+ - Switched from devm_platform_get_and_ioremap_resource() to dropping
+   struct resource pointer with using devm_platform_ioremap_resource()
 
-Thanks. I'll send a V2.
+AngeloGioacchino Del Regno (3):
+  drm/mediatek: Use devm_platform_ioremap_resource()
+  drm/mediatek: Use dev_err_probe() in probe functions
+  drm/mediatek: Use devm variant for pm_runtime_enable() when possible
 
-Cheers,
--Paul
+ drivers/gpu/drm/mediatek/mtk_cec.c            | 29 ++++--------
+ drivers/gpu/drm/mediatek/mtk_disp_aal.c       | 22 ++++------
+ drivers/gpu/drm/mediatek/mtk_disp_ccorr.c     | 20 +++------
+ drivers/gpu/drm/mediatek/mtk_disp_color.c     | 23 ++++------
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c     | 20 +++------
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c     | 29 +++++-------
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c       | 27 +++++-------
+ .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   | 13 +++---
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c      | 44 +++++++------------
+ drivers/gpu/drm/mediatek/mtk_dpi.c            |  3 +-
+ drivers/gpu/drm/mediatek/mtk_dsi.c            | 22 ++++------
+ drivers/gpu/drm/mediatek/mtk_ethdr.c          | 18 ++++----
+ drivers/gpu/drm/mediatek/mtk_hdmi.c           | 18 +++-----
+ drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c       | 18 +++-----
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c       | 30 +++++--------
+ 15 files changed, 122 insertions(+), 214 deletions(-)
+
+-- 
+2.40.1
+
