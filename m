@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C3C2747E46
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jul 2023 09:32:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 254C0747E49
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jul 2023 09:32:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E50110E10F;
-	Wed,  5 Jul 2023 07:32:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 953B810E331;
+	Wed,  5 Jul 2023 07:32:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C825610E10F
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jul 2023 07:32:03 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 21F6885241;
- Wed,  5 Jul 2023 09:31:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1688542319;
- bh=NsgHjHOtkMUFlzu/DAehFea6k3vOfcJfJ2pn8Oy6jmw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=iibcjsyndHS6YsbCOJG8wfHKBJxzFPkcWJAF4LH3pAmy1Ak+bOWkFoIifBlXaNA96
- QLD1WC8DFkvBo/t6KZHwV0IIC8HVP6Qq/sIdq6AToRy5gtwiYCq8X49drt2VVEWcIl
- +3Tbex9gba1cU3qJ7f8pi74tZlVsHFW6Vzh2RLiDcbIIfbxOpGziGo5D1OVUUydUMP
- srfKG7ikJ/loPcb1Buo152RyuDeIRLvyxVl6jdJdFs5v5uOO8zgrmq/IYAUJicY5tx
- v2WWiSoSzqQ5s0krgZ9tSFzqfZi9Sqj40tmvwHrVv4meFxnU+t4eAbXpyx67dT0OPb
- Vxsj2OCQet4OQ==
-Message-ID: <707c8123-f2be-a803-f4d7-5406c8f32a6b@denx.de>
-Date: Wed, 5 Jul 2023 09:31:57 +0200
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org
+ [IPv6:2001:67c:2050:0:465::202])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 978C210E32F;
+ Wed,  5 Jul 2023 07:32:21 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Qwrvv6xkyz9sV2;
+ Wed,  5 Jul 2023 09:32:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1688542332;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AI3DGocrXf4ttby1kzh2+9/oP52TyrsDM0oPFJNnpR0=;
+ b=sgewxDbBdS996EyKm8U6X/8anuMRbQ8VjPnqprCXd4dyVeRJOLG13jnSxMIVnaeAVDsdss
+ VBoCThwuBa64zHroQXzWXF87f5IAG/RsP0CAHvcOad128Pp8MX+BJRipAicFg4Gam5fMzf
+ 8FfKGn0nEOj24pu04SdK5MhrZ/zF+ipk+JqMqpkz275mWKv5OqqzfgUokf5m+ABbACNUBu
+ fnczHN/s2/mt9CQTGTqV/YiSftKH74/kJbnwWXBRK21+UkmocQ3ccr08edwmEHkkIwIxbC
+ e3PWVgUxKrdWQKOYXCcUmmmJRYouthQkZ9quoIFHyjIVkBP7szPKRj8b+D26ew==
+Message-ID: <2f993fe4-8e95-4a67-c2f1-6adc2c431834@mailbox.org>
+Date: Wed, 5 Jul 2023 09:32:07 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 2/2] drm/bridge: lt9611: Do not generate HFP/HBP/HSA and
- EOT packet
-Content-Language: en-US
-To: Jagan Teki <jagan@amarulasolutions.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20230403221233.500485-1-marex@denx.de>
- <20230403221233.500485-2-marex@denx.de>
- <CAMi1Hd0TD=2z_=bcDrht3H_wiLvAFcv8Z-U_r_KUOoeMc6UMjw@mail.gmail.com>
- <CAMty3ZBNFu=f-FS4YFN4wfmiTuk=48nna-vub1eMYwidDt+msg@mail.gmail.com>
- <CAA8EJppbdiUz5m+9EAPnFb916DaS_VKWd30c7_EPWjuid8rtqQ@mail.gmail.com>
- <CAMty3ZBQajyg0SNz+AjQzth_O_EmrZ9cUyfM--0ptJQ5F0MRfg@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAMty3ZBQajyg0SNz+AjQzth_O_EmrZ9cUyfM--0ptJQ5F0MRfg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v5 1/1] drm/doc: Document DRM device reset expectations
+To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+References: <20230627132323.115440-1-andrealmeid@igalia.com>
+ <CA+hFU4z1pc=KUVVqyqfXEceUqMXQgh-qUnuB=1nkPELghvQO7w@mail.gmail.com>
+ <CADnq5_MNVdtdcWKSz6dgmsjg+kEu8p5FVE+fkw_5BaXeG3QGow@mail.gmail.com>
+ <afab1f5a-e581-3416-e2c2-238ea120655b@mailbox.org>
+ <CAAxE2A5C96k5ua+r938VA_+w7gHHNTdF3n8LwDb98W0Bf9wCVA@mail.gmail.com>
+ <7c1e6df5-1ad4-be3c-b95d-92dc62a8c537@mailbox.org>
+ <CAAxE2A7RGDY4eRC85CsqfszNzyKvMU2MX1wa+3HZ1hgNeAw3cQ@mail.gmail.com>
+ <cb0b6b51-3a94-481b-26a1-89ff398d7835@mailbox.org>
+ <CAAxE2A7tNCWkL_M2YcE=RN+nqqcokgBR4hcD2sR3fGAY2t4uLg@mail.gmail.com>
+Content-Language: de-CH-frami, en-CA
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
+In-Reply-To: <CAAxE2A7tNCWkL_M2YcE=RN+nqqcokgBR4hcD2sR3fGAY2t4uLg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+X-MBO-RS-META: c89kr5mge4ooe33mb7f4cpob9d4ckzwh
+X-MBO-RS-ID: a9c4f1c5cb80503d0a6
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,56 +65,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Amit Pundir <amit.pundir@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Linux regressions mailing list <regressions@lists.linux.dev>,
- Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Michael Walle <michael@walle.cc>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- freedreno <freedreno@lists.freedesktop.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
+ =?UTF-8?Q?Timur_Krist=c3=b3f?= <timur.kristof@gmail.com>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Pekka Paalanen <ppaalanen@gmail.com>,
+ Samuel Pitoiset <samuel.pitoiset@gmail.com>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>, kernel-dev@igalia.com,
+ "Deucher, Alexander" <alexander.deucher@amd.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/5/23 07:46, Jagan Teki wrote:
-> On Wed, Jul 5, 2023 at 11:09 AM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
->>
->> [Adding freedreno@ to cc list]
->>
->> On Wed, 5 Jul 2023 at 08:31, Jagan Teki <jagan@amarulasolutions.com> wrote:
->>>
->>> Hi Amit,
->>>
->>> On Wed, Jul 5, 2023 at 10:15 AM Amit Pundir <amit.pundir@linaro.org> wrote:
->>>>
->>>> Hi Marek,
->>>>
->>>> On Wed, 5 Jul 2023 at 01:48, Marek Vasut <marex@denx.de> wrote:
->>>>>
->>>>> Do not generate the HS front and back porch gaps, the HSA gap and
->>>>> EOT packet, as these packets are not required. This makes the bridge
->>>>> work with Samsung DSIM on i.MX8MM and i.MX8MP.
->>>>
->>>> This patch broke display on Dragonboard 845c (SDM845) devboard running
->>>> AOSP. This is what I see
->>>> https://people.linaro.org/~amit.pundir/db845c-userdebug/v6.5-broken-display/PXL_20230704_150156326.jpg.
->>>> Reverting this patch fixes this regression for me.
->>>
->>> Might be msm dsi host require proper handling on these updated
->>> mode_flags? did they?
->>
->> The msm DSI host supports those flags. Also, I'd like to point out
->> that the patch didn't change the rest of the driver code. So even if
->> drm/msm ignored some of the flags, it should not have caused the
->> issue. Most likely the issue is on the lt9611 side. I's suspect that
->> additional programming is required to make it work with these flags.
+On 7/5/23 08:30, Marek Olšák wrote:
+> On Tue, Jul 4, 2023, 03:55 Michel Dänzer <michel.daenzer@mailbox.org> wrote:
+>     On 7/4/23 04:34, Marek Olšák wrote:
+>     > On Mon, Jul 3, 2023, 03:12 Michel Dänzer <michel.daenzer@mailbox.org > wrote:
+>     >     On 6/30/23 22:32, Marek Olšák wrote:
+>     >     > On Fri, Jun 30, 2023 at 11:11 AM Michel Dänzer <michel.daenzer@mailbox.org> wrote:
+>     >     >> On 6/30/23 16:59, Alex Deucher wrote:
+>     >     >>> On Fri, Jun 30, 2023 at 10:49 AM Sebastian Wick
+>     >     >>> <sebastian.wick@redhat.com <mailto:sebastian.wick@redhat.com> wrote:
+>     >     >>>> On Tue, Jun 27, 2023 at 3:23 PM André Almeida <andrealmeid@igalia.com> wrote:
+>     >     >>>>>
+>     >     >>>>> +Robustness
+>     >     >>>>> +----------
+>     >     >>>>> +
+>     >     >>>>> +The only way to try to keep an application working after a reset is if it
+>     >     >>>>> +complies with the robustness aspects of the graphical API that it is using.
+>     >     >>>>> +
+>     >     >>>>> +Graphical APIs provide ways to applications to deal with device resets. However,
+>     >     >>>>> +there is no guarantee that the app will use such features correctly, and the
+>     >     >>>>> +UMD can implement policies to close the app if it is a repeating offender,
+>     >     >>>>> +likely in a broken loop. This is done to ensure that it does not keep blocking
+>     >     >>>>> +the user interface from being correctly displayed. This should be done even if
+>     >     >>>>> +the app is correct but happens to trigger some bug in the hardware/driver.
+>     >     >>>>
+>     >     >>>> I still don't think it's good to let the kernel arbitrarily kill
+>     >     >>>> processes that it thinks are not well-behaved based on some heuristics
+>     >     >>>> and policy.
+>     >     >>>>
+>     >     >>>> Can't this be outsourced to user space? Expose the information about
+>     >     >>>> processes causing a device and let e.g. systemd deal with coming up
+>     >     >>>> with a policy and with killing stuff.
+>     >     >>>
+>     >     >>> I don't think it's the kernel doing the killing, it would be the UMD.
+>     >     >>> E.g., if the app is guilty and doesn't support robustness the UMD can
+>     >     >>> just call exit().
+>     >     >>
+>     >     >> It would be safer to just ignore API calls[0], similarly to what is done until the application destroys the context with robustness. Calling exit() likely results in losing any unsaved work, whereas at least some applications might otherwise allow saving the work by other means.
+>     >     >
+>     >     > That's a terrible idea. Ignoring API calls would be identical to a freeze. You might as well disable GPU recovery because the result would be the same.
+>     >
+>     >     No GPU recovery would affect everything using the GPU, whereas this affects only non-robust applications.
+>     >
+>     > which is currently the majority.
 > 
-> True, But I'm not quite sure, most of these mode_flags were handled
-> more on the host. Maybe Marek can comment on this.
+>     Not sure where you're going with this. Applications need to use robustness to be able to recover from a GPU hang, and the GPU needs to be reset for that. So disabling GPU reset is not the same as what we're discussing here.
+> 
+> 
+>     >     > - non-robust contexts: call exit(1) immediately, which is the best way to recover
+>     >
+>     >     That's not the UMD's call to make.
+>     >
+>     > That's absolutely the UMD's call to make because that's mandated by the hw and API design
+> 
+>     Can you point us to a spec which mandates that the process must be killed in this case?
+> 
+> 
+>     > and only driver devs know this, which this thread is a proof of. The default behavior is to skip all command submission if a non-robust context is lost, which looks like a freeze. That's required to prevent infinite hangs from the same context and can be caused by the side effects of the GPU reset itself, not by the cause of the previous hang. The only way out of that is killing the process.
+> 
+>     The UMD killing the process is not the only way out of that, and doing so is overreach on its part. The UMD is but one out of many components in a process, not the main one or a special one. It doesn't get to decide when the process must die, certainly not under circumstances where it must be able to continue while ignoring API calls (that's required for robustness).
+> 
+> 
+> You're mixing things up. Robust apps don't any special action from a UMD. Only non-robust apps need to be killed for proper recovery with the only other alternative being not updating the window/screen,
 
-So, we have the same flags, but two different controllers produce 
-different DSI streams ? Do we have any way to analyze the stream 
-produced by each controller, to figure out which one is wrong and which 
-one is right ?
+I'm saying they don't "need" to be killed, since the UMD must be able to keep going while ignoring API calls (or it couldn't support robustness). It's a choice, one which is not for the UMD to make.
+
+
+> Also it's already used and required by our customers on Android because killing a process returns the user to the desktop screen and can generate a crash dump instead of keeping the app output frozen, and they agree that this is the best user experience given the circumstances.
+
+Then some appropriate Android component needs to make that call. The UMD is not it.
+
+
+>     >     >>     [0] Possibly accompanied by a one-time message to stderr along the lines of "GPU reset detected but robustness not enabled in context, ignoring OpenGL API calls".
+
+
+-- 
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
+
