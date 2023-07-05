@@ -1,42 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A57BB748681
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jul 2023 16:38:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B666174869B
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jul 2023 16:43:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C68D110E387;
-	Wed,  5 Jul 2023 14:38:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEFF510E381;
+	Wed,  5 Jul 2023 14:43:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDACE10E37D
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jul 2023 14:38:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1688567888;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SbGsdRos9lr6JUVyzk1s1zgD1oAk2OBQlPBSuytJBro=;
- b=KTRK5PGW78Z/Tb/e8WZwyhzwo6R3Q/x6jDcjL0urvHIXutudKjCow8njoz3M49cZsvtCxr
- /qIkZwj+RKeUvPF8QMzbQZbor9bZsB9v7XZjaEz+m8FlQLYyDDmb71Mo6rsyVhcSxxBFHS
- hY3ZBl6jTUBFkBjvNdGdaOcWznHXHcw=
-Message-ID: <8e81dd5d9f62139e740ea123aa2087cb1bbcb04b.camel@crapouillou.net>
-Subject: Re: [PATCH 2/3] drm/panel: ld9040: Register a backlight device
-From: Paul Cercueil <paul@crapouillou.net>
-To: neil.armstrong@linaro.org, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Date: Wed, 05 Jul 2023 16:38:05 +0200
-In-Reply-To: <194ac047-b20e-04c1-1d96-67cc483bb4a1@linaro.org>
-References: <20230703214715.623447-1-paul@crapouillou.net>
- <20230703214715.623447-3-paul@crapouillou.net>
- <194ac047-b20e-04c1-1d96-67cc483bb4a1@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
+ [IPv6:2607:f8b0:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22A7710E381;
+ Wed,  5 Jul 2023 14:43:11 +0000 (UTC)
+Received: by mail-oi1-x232.google.com with SMTP id
+ 5614622812f47-3a36b309524so5394609b6e.3; 
+ Wed, 05 Jul 2023 07:43:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1688568190; x=1691160190;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=A14fZKmtNXyFXPY9J+wKEhzDJ4Yasz3lPL7wl3xXT9o=;
+ b=FIi4zGZzJBDn8pZYMtFbQmJtUX0w1mBSjt1CFCfchGzflvfxL8Wc4DBsmeLraczciA
+ c9iMzPtumc7Xwtwy2kxuNtLi8CN/ZTHn6+yoFE2fLEt/S2pr4x8KiX0ZE8vsEy6atGZh
+ nQOJqfMtd1ISqII0qF6v6HwxnxRPyfEjtPKfSrLXcRJUCTheyMsYzTDWLnFXKu1IiGHc
+ RrYKuSULFzNBEjUS1BX/8p66q7y2EKq34iA0HkSwjamLEyAfT1ehovgrDTS6tXrYWaK9
+ vxPzZxEg2GmESH4tLOX8DUX/tYf9P+VGYcDH9R5iOcJYalbTup24ABetIf9ghr2PGPPV
+ gGwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688568190; x=1691160190;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=A14fZKmtNXyFXPY9J+wKEhzDJ4Yasz3lPL7wl3xXT9o=;
+ b=RhuzhdIsos5+CuONM4G/67GPFYo5vYHnnyIztFC5qM/JhKsu2F+1+05yee/30AmhnB
+ WRkzYVSEp59XXONCaoCZQfwfTNcayGR63a/dx8oWJbKsprcs6W7CunDdc2gk1z+Ad0A6
+ T7x29tmcFK/j72FXTUi4o5nPEiKYiYDJ0IT0LG0QE+BcAtulK+WqtmjE4Lrma6w/KCgF
+ SxrWvpEpFIIZMRxTlfhSh2epIt6JesvmzMdae81mkO+4n1MX4wv1lKJeCZSGQM+Qw7w0
+ l08UqcOgismO4pnFsVVizfsq+vcCULMqg5bWGj9csqrW9hd+KWfDSoeK3ZT+2lrDnp1j
+ 62Wg==
+X-Gm-Message-State: AC+VfDyUaHnnclJPvXu3cPpHOZs/KQ6WCwFkEFwvifk0YEJL3M1WOvZm
+ FcsvXSIjVFc75RIbba6g2tjyzYO+/PfJ0KxOoPC8vY7Q
+X-Google-Smtp-Source: ACHHUZ7wimCD6cHiqgUUi7EIyKNS4Oju/YJSxp80yq2fiPDdvKbbukpLa9lMbEkKnQdf8CYYXHcb5acmpO4Y3of/RI0=
+X-Received: by 2002:a05:6808:164e:b0:39d:adbe:fa29 with SMTP id
+ az14-20020a056808164e00b0039dadbefa29mr17369355oib.4.1688568190086; Wed, 05
+ Jul 2023 07:43:10 -0700 (PDT)
 MIME-Version: 1.0
+References: <20230704163640.6162-1-robdclark@gmail.com>
+ <CAA8EJpoAZ7z2aURWHs1ouEuTzj2c0O-CypCHmocXO62EpuffsQ@mail.gmail.com>
+In-Reply-To: <CAA8EJpoAZ7z2aURWHs1ouEuTzj2c0O-CypCHmocXO62EpuffsQ@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 5 Jul 2023 07:42:58 -0700
+Message-ID: <CAF6AEGtUq3Y3YjTt1qazWcP4NcH2q_k4p2pfzEcrJMP34n_L+Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/msm/adreno: Fix warn splat for devices without
+ revn
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,76 +70,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTmVpbCwKCkxlIG1lcmNyZWRpIDA1IGp1aWxsZXQgMjAyMyDDoCAxNTo1NyArMDIwMCwgTmVp
-bCBBcm1zdHJvbmcgYSDDqWNyaXTCoDoKPiBPbiAwMy8wNy8yMDIzIDIzOjQ3LCBQYXVsIENlcmN1
-ZWlsIHdyb3RlOgo+ID4gUmVnaXN0ZXIgYSBiYWNrbGlnaHQgZGV2aWNlIHRvIGJlIGFibGUgdG8g
-c3dpdGNoIGJldHdlZW4gYWxsIHRoZQo+ID4gZ2FtbWEKPiA+IGxldmVscy4KPiA+IAo+ID4gU2ln
-bmVkLW9mZi1ieTogUGF1bCBDZXJjdWVpbCA8cGF1bEBjcmFwb3VpbGxvdS5uZXQ+Cj4gPiAtLS0K
-PiA+IMKgIGRyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zYW1zdW5nLWxkOTA0MC5jIHwgNDAK
-PiA+ICsrKysrKysrKysrKysrKysrKysrCj4gPiDCoCAxIGZpbGUgY2hhbmdlZCwgNDAgaW5zZXJ0
-aW9ucygrKQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVs
-LXNhbXN1bmctbGQ5MDQwLmMKPiA+IGIvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNhbXN1
-bmctbGQ5MDQwLmMKPiA+IGluZGV4IDdmZDk0NDRiNDJjNS4uYjRmODdkNjI0NGNiIDEwMDY0NAo+
-ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNhbXN1bmctbGQ5MDQwLmMKPiA+
-ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zYW1zdW5nLWxkOTA0MC5jCj4gPiBA
-QCAtOCw2ICs4LDcgQEAKPiA+IMKgwqAgKiBBbmRyemVqIEhhamRhIDxhLmhhamRhQHNhbXN1bmcu
-Y29tPgo+ID4gwqAgKi8KPiA+IMKgIAo+ID4gKyNpbmNsdWRlIDxsaW51eC9iYWNrbGlnaHQuaD4K
-PiA+IMKgICNpbmNsdWRlIDxsaW51eC9kZWxheS5oPgo+ID4gwqAgI2luY2x1ZGUgPGxpbnV4L2dw
-aW8vY29uc3VtZXIuaD4KPiA+IMKgICNpbmNsdWRlIDxsaW51eC9tb2R1bGUuaD4KPiA+IEBAIC0z
-MTEsOCArMzEyLDQwIEBAIHN0YXRpYyBpbnQgbGQ5MDQwX3BhcnNlX2R0KHN0cnVjdCBsZDkwNDAg
-KmN0eCkKPiA+IMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gMDsKPiA+IMKgIH0KPiA+IMKgIAo+ID4g
-K3N0YXRpYyBpbnQgbGQ5MDQwX2JsX3VwZGF0ZV9zdGF0dXMoc3RydWN0IGJhY2tsaWdodF9kZXZp
-Y2UgKmRldikKPiA+ICt7Cj4gPiArwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgbGQ5MDQwICpjdHggPSBk
-ZXZfZ2V0X2RydmRhdGEoJmRldi0+ZGV2KTsKPiA+ICsKPiA+ICvCoMKgwqDCoMKgwqDCoGN0eC0+
-YnJpZ2h0bmVzcyA9IGRldi0+cHJvcHMuYnJpZ2h0bmVzczsKPiA+ICvCoMKgwqDCoMKgwqDCoGxk
-OTA0MF9icmlnaHRuZXNzX3NldChjdHgpOwo+ID4gKwo+ID4gK8KgwqDCoMKgwqDCoMKgcmV0dXJu
-IDA7Cj4gPiArfQo+ID4gKwo+ID4gK3N0YXRpYyBpbnQgbGQ5MDQwX2JsX2dldF9pbnRlbnNpdHko
-c3RydWN0IGJhY2tsaWdodF9kZXZpY2UgKmRldikKPiA+ICt7Cj4gPiArwqDCoMKgwqDCoMKgwqBp
-ZiAoZGV2LT5wcm9wcy5mYl9ibGFuayA9PSBGQl9CTEFOS19VTkJMQU5LICYmCj4gPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRldi0+cHJvcHMucG93ZXIg
-PT0gRkJfQkxBTktfVU5CTEFOSykKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBy
-ZXR1cm4gZGV2LT5wcm9wcy5icmlnaHRuZXNzOwo+ID4gKwo+ID4gK8KgwqDCoMKgwqDCoMKgcmV0
-dXJuIDA7Cj4gPiArfQo+IAo+IFlvdSBjYW4gdG90YWxseSBkcm9wIHRoZSBfZ2V0X2JyaWdodG5l
-c3MuCgpUaGUgY3VycmVudCBiZWhhdmlvdXIgaXMgdG8gcmV0dXJuIDAgd2hlbiB0aGUgZnJhbWVi
-dWZmZXIgaXMgYmxhbmtlZC4gQQpmZXcgZHJpdmVycyBkbyB0aGF0IHNvIEkgdGhvdWdodCBpdCB3
-YXMgdGhlIG5vcm07IGFuZCB0aGUgYmFja2xpZ2h0CmNvcmUgZG9lc24ndCBkbyB0aGF0IGJ5IGRl
-ZmF1bHQgKGFuZCBqdXN0IHVzZXMgZGV2LT5wcm9wcy5icmlnaHRuZXNzKS4KCkl0IGlzIG5vdCBj
-bGVhciB0byBtZSBpZiB0aGF0J3MgdGhlIHByZWZlcnJlZCBiZWhhdmlvdXIuIFRoZQoiYmFja2xp
-Z2h0X2dldF9icmlnaHRuZXNzIiBmdW5jdGlvbiBpbiBiYWNrbGlnaHQuaCBzZWVtcyB0byBzdWdn
-ZXN0CnRoYXQgdGhlIGN1cnJlbnQgYmVoYXZpb3VyIGlzIGNvcnJlY3QsIHVubGVzcyBpdCBpcyBu
-b3Qgc3VwcG9zZWQgdG8gYmUKdXNlZCBpbiB0aGUgYmFja2xpZ2h0X29wcy5nZXRfYnJpZ2h0bmVz
-cygpIGNhbGxiYWNrLiBUaGVuIGluIHRoYXQgY2FzZQpzb21lIG90aGVyIGRyaXZlcnMgZ2V0IGl0
-IHdyb25nIHRvby4KCkNoZWVycywKLVBhdWwKCj4gTmVpbAo+IAo+ID4gKwo+ID4gK3N0YXRpYyBj
-b25zdCBzdHJ1Y3QgYmFja2xpZ2h0X29wcyBsZDkwNDBfYmxfb3BzID0gewo+ID4gK8KgwqDCoMKg
-wqDCoMKgLmdldF9icmlnaHRuZXNzID0gbGQ5MDQwX2JsX2dldF9pbnRlbnNpdHksCj4gPiArwqDC
-oMKgwqDCoMKgwqAudXBkYXRlX3N0YXR1c8KgID0gbGQ5MDQwX2JsX3VwZGF0ZV9zdGF0dXMsCj4g
-PiArfTsKPiA+ICsKPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGJhY2tsaWdodF9wcm9wZXJ0aWVz
-IGxkOTA0MF9ibF9wcm9wcyA9IHsKPiA+ICvCoMKgwqDCoMKgwqDCoC50eXBlID0gQkFDS0xJR0hU
-X1JBVywKPiA+ICvCoMKgwqDCoMKgwqDCoC5zY2FsZSA9IEJBQ0tMSUdIVF9TQ0FMRV9OT05fTElO
-RUFSLAo+ID4gK8KgwqDCoMKgwqDCoMKgLm1heF9icmlnaHRuZXNzID0gQVJSQVlfU0laRShsZDkw
-NDBfZ2FtbWFzKSAtIDEsCj4gPiArwqDCoMKgwqDCoMKgwqAuYnJpZ2h0bmVzcyA9IEFSUkFZX1NJ
-WkUobGQ5MDQwX2dhbW1hcykgLSAxLAo+ID4gK307Cj4gPiArCj4gPiDCoCBzdGF0aWMgaW50IGxk
-OTA0MF9wcm9iZShzdHJ1Y3Qgc3BpX2RldmljZSAqc3BpKQo+ID4gwqAgewo+ID4gK8KgwqDCoMKg
-wqDCoMKgc3RydWN0IGJhY2tsaWdodF9kZXZpY2UgKmJsZGV2Owo+ID4gwqDCoMKgwqDCoMKgwqDC
-oHN0cnVjdCBkZXZpY2UgKmRldiA9ICZzcGktPmRldjsKPiA+IMKgwqDCoMKgwqDCoMKgwqBzdHJ1
-Y3QgbGQ5MDQwICpjdHg7Cj4gPiDCoMKgwqDCoMKgwqDCoMKgaW50IHJldDsKPiA+IEBAIC0zNTQs
-NiArMzg3LDEzIEBAIHN0YXRpYyBpbnQgbGQ5MDQwX3Byb2JlKHN0cnVjdCBzcGlfZGV2aWNlCj4g
-PiAqc3BpKQo+ID4gwqDCoMKgwqDCoMKgwqDCoGRybV9wYW5lbF9pbml0KCZjdHgtPnBhbmVsLCBk
-ZXYsICZsZDkwNDBfZHJtX2Z1bmNzLAo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgRFJNX01PREVfQ09OTkVDVE9SX0RQSSk7Cj4gPiDCoCAKPiA+ICsKPiA+
-ICvCoMKgwqDCoMKgwqDCoGJsZGV2ID0gZGV2bV9iYWNrbGlnaHRfZGV2aWNlX3JlZ2lzdGVyKGRl
-diwgZGV2X25hbWUoZGV2KSwKPiA+IGRldiwKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgY3R4LCAmbGQ5MDQwX2JsX29wcywKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgJmxkOTA0MF9ibF9wcm9wcyk7Cj4gPiArwqDCoMKgwqDCoMKgwqBpZiAoSVNf
-RVJSKGJsZGV2KSkKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gUFRS
-X0VSUihibGRldik7Cj4gPiArCj4gPiDCoMKgwqDCoMKgwqDCoMKgZHJtX3BhbmVsX2FkZCgmY3R4
-LT5wYW5lbCk7Cj4gPiDCoCAKPiA+IMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gMDsKPiAKCg==
+On Tue, Jul 4, 2023 at 10:20=E2=80=AFAM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On Tue, 4 Jul 2023 at 19:36, Rob Clark <robdclark@gmail.com> wrote:
+> >
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > Recently, a WARN_ON() was introduced to ensure that revn is filled befo=
+re
+> > adreno_is_aXYZ is called. This however doesn't work very well when revn=
+ is
+> > 0 by design (such as for A635).
+> >
+> > Cc: Konrad Dybcio <konrad.dybcio@linaro.org>
+> > Fixes: cc943f43ece7 ("drm/msm/adreno: warn if chip revn is verified bef=
+ore being set")
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> >  drivers/gpu/drm/msm/adreno/adreno_gpu.h | 9 ++++++---
+> >  1 file changed, 6 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/=
+msm/adreno/adreno_gpu.h
+> > index 65379e4824d9..ef1bcb6b624e 100644
+> > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> > @@ -149,7 +149,8 @@ bool adreno_cmp_rev(struct adreno_rev rev1, struct =
+adreno_rev rev2);
+> >
+> >  static inline bool adreno_is_revn(const struct adreno_gpu *gpu, uint32=
+_t revn)
+> >  {
+> > -       WARN_ON_ONCE(!gpu->revn);
+> > +       /* revn can be zero, but if not is set at same time as info */
+> > +       WARN_ON_ONCE(!gpu->info);
+> >
+> >         return gpu->revn =3D=3D revn;
+> >  }
+> > @@ -161,14 +162,16 @@ static inline bool adreno_has_gmu_wrapper(const s=
+truct adreno_gpu *gpu)
+> >
+> >  static inline bool adreno_is_a2xx(const struct adreno_gpu *gpu)
+> >  {
+> > -       WARN_ON_ONCE(!gpu->revn);
+> > +       /* revn can be zero, but if not is set at same time as info */
+> > +       WARN_ON_ONCE(!gpu->info);
+> >
+> >         return (gpu->revn < 300);
+>
+> This is then incorrect for a635 / a690 if they have revn at 0.
 
+Fortunately not any more broken that it has ever been.  But as long as
+sc7280/sc8280 have GPU OPP tables, you'd never hit this.  I'm working
+on a better solution for next merge window.
+
+BR,
+-R
+
+> >  }
+> >
+> >  static inline bool adreno_is_a20x(const struct adreno_gpu *gpu)
+> >  {
+> > -       WARN_ON_ONCE(!gpu->revn);
+> > +       /* revn can be zero, but if not is set at same time as info */
+> > +       WARN_ON_ONCE(!gpu->info);
+> >
+> >         return (gpu->revn < 210);
+>
+> And this too.
+>
+> >  }
+> > --
+> > 2.41.0
+> >
+>
+>
+> --
+> With best wishes
+> Dmitry
