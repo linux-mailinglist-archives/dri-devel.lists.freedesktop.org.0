@@ -2,65 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AFFB7485AC
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jul 2023 16:09:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF6D674863C
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jul 2023 16:24:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A58E10E368;
-	Wed,  5 Jul 2023 14:09:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBEB410E375;
+	Wed,  5 Jul 2023 14:24:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 300CC10E368
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jul 2023 14:09:47 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id
- 5b1f17b1804b1-3fbc77e769cso65592495e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Jul 2023 07:09:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688566185; x=1691158185;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Izz7ihe7+cPV8NfKfF0xuM/ZXdOZCR9uthmt7NZp1VA=;
- b=mTtlv8+nZvnL92HQWPsRJTB05DIhfhfELlpD2EDBYSb0MJ8tI/emN1nJKIUPn3cuRS
- YCejqc3xaIyC0bMfc+RPkAP2wAlvY1omsda8SNPbTMqUJto5GlROzx9GU2KHf6uT0sJx
- ILeRngMRHIlGAh9kx6durc/VMQ2hVoXyh9PnW2Olx3kSw3tn8fX7+zGo3oglw4+yvpgo
- Sw4tPXRd5TkSQhYBM9RUnONf1+OYgBAmRSzTpxh5IVdUpLlRXYfp+mlXYYijT0S62nNg
- SJ0BhOq4+vhv+xrdM/EOI/BcLpGDy9Zzzf5SYHOJan1XUkm2/NrfbmyYT0oNVX6k2nan
- 9Apw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688566185; x=1691158185;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Izz7ihe7+cPV8NfKfF0xuM/ZXdOZCR9uthmt7NZp1VA=;
- b=RyXsIesDz0vhSbnUJ6M+GBaeltg7mH/xlg+fPFhCOKlrISY0BorZa1Ox/7nBMTBQvW
- eoAgf5/F+QRQGb/hBpxAe2Uq5nvAVd7Zj48ESM9CzjKQHe1P5N6+QqLnmN0bpiK75s7o
- 6UqXwNEACFJiu2O0muJPmqshuEzKxvWfWeK5U4PXqsV8oDO1WL6sNDej78ZxNUqrbKOM
- DVfk1D2piYohXUlFD/L/7q9WeDl4y24MgQi+Avo7mzUBNLLoLdnOsThOnukjII52JQZg
- WOD1MvufcZ6g9dt17OpYFfBroTKoWUinzbW8JbcI5Ys+harerOjUGJIAISHZ8tu0H3yF
- l50w==
-X-Gm-Message-State: AC+VfDwa5QvxJbMaqH21fyAOSXH0X0yyUiG4WbLrS9Z+oT9Y7/Ss0f3j
- xfyEFI/BFFR+2E+4YiTePbATfA==
-X-Google-Smtp-Source: ACHHUZ6IS2TiOtorETud8FSgZjhyqs6fHCpyhU040q30QB6W7Fho8aNZcui+S/8puhB0PsO+VzM0wQ==
-X-Received: by 2002:a1c:7412:0:b0:3fa:98c3:7db6 with SMTP id
- p18-20020a1c7412000000b003fa98c37db6mr14857204wmc.38.1688566185061; 
- Wed, 05 Jul 2023 07:09:45 -0700 (PDT)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
- by smtp.gmail.com with ESMTPSA id
- n23-20020a1c7217000000b003fae92e7a8dsm2244468wmc.27.2023.07.05.07.09.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jul 2023 07:09:44 -0700 (PDT)
-Date: Wed, 5 Jul 2023 15:09:43 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Mans Rullgard <mans@mansr.com>
-Subject: Re: [PATCH v2] backlight: led_bl: fix initial power state
-Message-ID: <20230705140943.GC6265@aspen.lan>
-References: <20230704163013.21097-1-mans@mansr.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBF2610E375;
+ Wed,  5 Jul 2023 14:24:53 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 132C76159F;
+ Wed,  5 Jul 2023 14:24:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F4061C433C8;
+ Wed,  5 Jul 2023 14:24:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1688567092;
+ bh=b4T3vn8kUIesSYDyBrDxM+Xd4flNAla2ptcHctnOz3M=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kL3h2m+KfHxmeb+EDxQeM6WzEklBm9lA8n9NV/hKmczejEZaDq0P3LKU+3/vLI15P
+ 9OHzCa9VxKsubz4dd/Y0C89/upnfVqBNV7H5l8qZ0HnKlLe/kerspdmAwVCG0x917q
+ lAirmN5Tzao7sBNDfiC4mOkOGL5d1ZI5j/rr1SBqyF+wlPDn2YmDD9NBRqtOt7CwVG
+ 4/Pp7pU2vlaYx6ljtM+5w3p6YrPzTgyEBE5kU92VVaJilSYJyuVGRGscwb/uTVo2S6
+ KiTMTasEY5z+GnI+xJ73tTLgBJPH8WQVVSUiXE6su5JEN0Xs67sEUXN0HTLyZVz4yP
+ +sX8rmG6eStig==
+Date: Wed, 5 Jul 2023 16:24:49 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: RFC: DSI host capabilities (was: [PATCH RFC 03/10] drm/panel:
+ Add LGD panel driver for Sony Xperia XZ3)
+Message-ID: <lidknise4copce3vb2wth4z3fl2p4npsc4u6ajqb6zsp6lnpca@rp6wxcmy2aa4>
+References: <ccc97880-8e74-b85b-9679-9c12c44c4b99@linaro.org>
+ <brmrqeajbq3oyp3jjwmc6tuhiftz764u6az444xw6g7pwf5fr3@5tlp375qwhed>
+ <617c8f8a-1fc7-c6a0-eaa5-ce75ff2adc1b@linaro.org>
+ <CAA8EJppG=MAVpK1J_8bNnkJ23y9NtgY7a2GVResXJvhEKyNsrw@mail.gmail.com>
+ <739a8bd9-9ff0-5072-fdae-b64efdf86842@collabora.com>
+ <e927cfcd-bf34-5daf-0e24-4dd828106968@linaro.org>
+ <epds77sccy4cc5cdpoc4ir7sfz5sz3biwep6rbks2nuyqncidu@77gb4t2wy6vn>
+ <47a5678c-1eb3-dfc2-a9ac-f8e497455d11@linaro.org>
+ <unsithzszj7awvsmxwr7reshso5ju7u4nssil5tty6pocictf5@gwoltpgeecer>
+ <6e070141-8c0e-59ed-8a08-58c3fadb17df@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ee54vq7zgkfrit3g"
 Content-Disposition: inline
-In-Reply-To: <20230704163013.21097-1-mans@mansr.com>
+In-Reply-To: <6e070141-8c0e-59ed-8a08-58c3fadb17df@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,65 +63,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <dri-devel@lists.freedesktop.org>, Caleb Connolly <caleb@connolly.tech>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Andy Gross <agross@kernel.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 04, 2023 at 05:19:52PM +0100, Mans Rullgard wrote:
-> The condition for the initial power state based on the default
-> brightness value is reversed.  Fix it.
->
-> Furthermore, use the actual state of the LEDs rather than the default
-> brightness specified in the devicetree as the latter should not cause
-> the backlight to be automatically turned on.
->
-> If the backlight device is not linked to any display, set the initial
-> power to on unconditionally.
->
-> Fixes: ae232e45acf9 ("backlight: add led-backlight driver")
-> Signed-off-by: Mans Rullgard <mans@mansr.com>
-> ---
-> Changes in v2:
-> - Use the reported LED state to set initial power state
-> - Always power on if no phandle in DT
-> ---
->  drivers/video/backlight/led_bl.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/video/backlight/led_bl.c b/drivers/video/backlight/led_bl.c
-> index 3259292fda76..bbf1673b1fb0 100644
-> --- a/drivers/video/backlight/led_bl.c
-> +++ b/drivers/video/backlight/led_bl.c
-> @@ -176,6 +176,7 @@ static int led_bl_probe(struct platform_device *pdev)
->  {
->  	struct backlight_properties props;
->  	struct led_bl_data *priv;
-> +	int init_brightness;
->  	int ret, i;
->
->  	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-> @@ -190,6 +191,8 @@ static int led_bl_probe(struct platform_device *pdev)
->  	if (ret)
->  		return ret;
->
-> +	init_brightness = priv->default_brightness;
-> +
->  	ret = led_bl_parse_levels(&pdev->dev, priv);
->  	if (ret < 0) {
->  		dev_err(&pdev->dev, "Failed to parse DT data\n");
-> @@ -200,8 +203,8 @@ static int led_bl_probe(struct platform_device *pdev)
->  	props.type = BACKLIGHT_RAW;
->  	props.max_brightness = priv->max_brightness;
->  	props.brightness = priv->default_brightness;
-> -	props.power = (priv->default_brightness > 0) ? FB_BLANK_POWERDOWN :
-> -		      FB_BLANK_UNBLANK;
-> +	props.power = (init_brightness || !pdev->dev.of_node->phandle) ?
-> +		FB_BLANK_UNBLANK : FB_BLANK_POWERDOWN;
 
-I was rather expecting to see a comment in the code here... it's super
-hard to figure out the purpose of the phandle check otherwise.
+--ee54vq7zgkfrit3g
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Jul 05, 2023 at 04:37:57PM +0300, Dmitry Baryshkov wrote:
+> > > >
+> > > > Either way, I'm not really sure it's a good idea to multiply the
+> > > > capabilities flags of the DSI host, and we should just stick to the
+> > > > spec. If the spec says that we have to support DSC while video is
+> > > > output, then that's what the panels should expect.
+> > >=20
+> > > Except some panels supports DSC & non-DSC, Video and Command mode, and
+> > > all that is runtime configurable. How do you handle that ?
+> >=20
+> > In this case, most of the constraints are going to be on the encoder
+> > still so it should be the one driving it. The panel will only care about
+> > which mode has been selected, but it shouldn't be the one driving it,
+> > and thus we still don't really need to expose the host capabilities.
+>=20
+> This is an interesting perspective. This means that we can and actually h=
+ave
+> to extend the drm_display_mode with the DSI data and compression
+> information.
 
-Daniel.
+I wouldn't extend drm_display_mode, but extending one of the state
+structures definitely.
+
+We already have some extra variables in drm_connector_state for HDMI,
+I don't think it would be a big deal to add a few for MIPI-DSI.
+
+We also floated the idea for a while to create bus-specific states, with
+helpers to match. Maybe it would be a good occasion to start doing it?
+
+> For example, the panel that supports all four types for the 1080p should
+> export several modes:
+>=20
+> 1920x1080-command
+> 1920x1080-command-DSC
+> 1920x1080-video
+> 1920x1080-video-DSC
+>
+> where video/command and DSC are some kinds of flags and/or information in
+> the drm_display_mode? Ideally DSC also has several sub-flags, which denote
+> what kind of configuration is supported by the DSC sink (e.g. bpp, yuv,
+> etc).
+
+So we have two things to do, right? We need to expose what the panel can
+take (ie, EDID for HDMI), and then we need to tell it what we picked
+(infoframes).
+
+We already express the former in mipi_dsi_device, so we could extend the
+flags stored there.
+
+And then, we need to tie what the DSI host chose to a given atomic state
+so the panel knows what was picked and how it should set everything up.
+
+> Another option would be to get this handled via the bus format negotiatio=
+n,
+> but that sounds like worse idea to me.
+
+Yeah, I'm not really fond of the format negociation stuff either.
+
+Maxime
+
+--ee54vq7zgkfrit3g
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZKV9MQAKCRDj7w1vZxhR
+xSs7AQCC8eWrt4gxYNxVJGe1FnjK6alg2IQI4jyWNyUnc7bBNgD+PJHSXUPBnb+n
++z33D23kQsS5sBnGpgFWmyznIOmGJA0=
+=evV5
+-----END PGP SIGNATURE-----
+
+--ee54vq7zgkfrit3g--
