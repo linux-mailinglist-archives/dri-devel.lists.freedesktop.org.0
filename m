@@ -1,46 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E60574813C
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jul 2023 11:42:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6282474817A
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jul 2023 11:53:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A706810E345;
-	Wed,  5 Jul 2023 09:42:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1E4E10E349;
+	Wed,  5 Jul 2023 09:53:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B2DE10E347
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jul 2023 09:42:44 +0000 (UTC)
-Received: from IcarusMOD.eternityproject.eu (unknown
- [IPv6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 8EA8C6606FAF;
- Wed,  5 Jul 2023 10:42:41 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1688550162;
- bh=ZA49h1P49IwOFaurPRFCaUbkBJXDbiP3QFwn/8w9YXY=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mV4KH6Tik3DJS6rQUo6x4eQBUvBlEjRnSNfVO1frmedsbfOBDMoo2yxZK0XyKrfdt
- lYTtOyvhF3QKiYdLAHENTAEMBmU1tcWRJi+VWgda/IyKk1aDeRunniLePfLUpNz3op
- alYtJ0kzCTgh0xRek8LIexewmkpnf8dWwhrc+x3WSchMIKG/P1gZMl5UuTua+0YxvV
- YrezsM7OTDUARq6baWioqk9TM2w/tFLb2rM7bntHXP35Nkgh792soERTl2XlSYwlia
- IKFRxUKrYcuTe66eXCsogXK3DP+90qICQ7Y6RRA4GmNDo3W7eQbJEAzPYLyaa2jMZ/
- ELOF2YTBuf7xQ==
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: chunkuang.hu@kernel.org
-Subject: [PATCH v2 3/3] drm/mediatek: Use devm variant for pm_runtime_enable()
- when possible
-Date: Wed,  5 Jul 2023 11:42:32 +0200
-Message-Id: <20230705094232.75904-4-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230705094232.75904-1-angelogioacchino.delregno@collabora.com>
-References: <20230705094232.75904-1-angelogioacchino.delregno@collabora.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E944210E349
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jul 2023 09:53:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1688550802;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DRNRYYR3em1ug3SJuQFxKqDHhttEDU94J84H5e4z6eY=;
+ b=DbCMNgBqUuPGYVWaNkP6yTrkxq4OBOT135lr3urH0bzLn6dip8ttFY+dt0pdnVVffH+DYI
+ rRzFQfxhythU+d0vIrRKGnuRpyyXSXPJJFJsAAg0SOCfZgc6aG42liaq27/2xl83E+f510
+ ViU7HFeS5SaDvUkhD03m6THTG4L4Dd8=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-28-IM8it2LaO5K0s1OlPRg2jA-1; Wed, 05 Jul 2023 05:53:19 -0400
+X-MC-Unique: IM8it2LaO5K0s1OlPRg2jA-1
+Received: by mail-lf1-f69.google.com with SMTP id
+ 2adb3069b0e04-4fb9c4b7020so5547327e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Jul 2023 02:53:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688550798; x=1691142798;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=DRNRYYR3em1ug3SJuQFxKqDHhttEDU94J84H5e4z6eY=;
+ b=VTp+RI/jGjfIY9CFfH19hhaHPAaXbjVmXtrdfqCosKJlJwbY1AYd0EhWlqu3nPpruD
+ gVB2IdjTNIUjhurRdRDb1BDSVfEVrY2s1TE4tMZQ4O7ExG3MhZu9v14dpq/EYZpIEq7a
+ VT9D3t43KwdgsImsHG1sgBkV5Hb9iCH1INIqHQ2F0kG6MIb57MQwRg7B84305PjBN6Yr
+ Z4rxzjJc6Fz10zWYGh0CSRIehsycH9Zzy+wrmQ4B0ypFN6Dc1fJDC4tSiNnNfsNUihX1
+ 7aGsbyFUlMtKJ9McbUj05bKZF+W8A+a7mWDZdMTYPAX5eDvEI/9kHlvuR3ZeE8hm3cN8
+ 2xFQ==
+X-Gm-Message-State: ABy/qLYaXsnxhobD3J0ys9A4QsaPfQ1OPbgzhpIJ+k6fQnpDL3BLYpSE
+ t75UWWsW+BKF+WqaQNP5UXx2YsxG3eEQ/Ln14GfWTQu6uE9UZu1+f2qekmNhmJS8TzdRS6kdYgt
+ ycVSxC0ajIwg+tu9DTPUvbF8bRYgf
+X-Received: by 2002:a05:6512:68c:b0:4fb:897e:21cc with SMTP id
+ t12-20020a056512068c00b004fb897e21ccmr16115764lfe.67.1688550798482; 
+ Wed, 05 Jul 2023 02:53:18 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlGfRPzFk83Dq4TRvBUdnBTYWW72Dkqa6fZSxS4fGVLTYvFLeND2XwmxN1ZysjO2uVZDU0mefw==
+X-Received: by 2002:a05:6512:68c:b0:4fb:897e:21cc with SMTP id
+ t12-20020a056512068c00b004fb897e21ccmr16115751lfe.67.1688550798187; 
+ Wed, 05 Jul 2023 02:53:18 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ z9-20020a05600c220900b003fbdf8292a7sm1606487wml.46.2023.07.05.02.53.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Jul 2023 02:53:17 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org
+Subject: Re: [PATCH 06/10] drm/exynos: Set fbdev flags
+In-Reply-To: <a69f00d6-d6f9-377a-a4a6-fc6cc4bd6b7f@suse.de>
+References: <20230704160133.20261-1-tzimmermann@suse.de>
+ <20230704160133.20261-7-tzimmermann@suse.de>
+ <87r0pmrbdn.fsf@minerva.mail-host-address-is-not-set>
+ <a69f00d6-d6f9-377a-a4a6-fc6cc4bd6b7f@suse.de>
+Date: Wed, 05 Jul 2023 11:53:17 +0200
+Message-ID: <877crer8fm.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,118 +83,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Mergnat <amergnat@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- matthias.bgg@gmail.com, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: linux-fbdev@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ dri-devel@lists.freedesktop.org, Kyungmin Park <kyungmin.park@samsung.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Simplify the error path of return functions and drop the call to
-pm_runtime_disable() in remove functions by switching to
-devm_pm_runtime_enable() where possible.
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c |  9 ++++-----
- drivers/gpu/drm/mediatek/mtk_disp_rdma.c        | 11 ++++-------
- drivers/gpu/drm/mediatek/mtk_mdp_rdma.c         | 10 +++++-----
- 3 files changed, 13 insertions(+), 17 deletions(-)
+> Hi
+>
+> Am 05.07.23 um 10:49 schrieb Javier Martinez Canillas:
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-index 1993b688befa..14e8ad6c78c3 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-@@ -519,13 +519,13 @@ static int mtk_disp_ovl_adaptor_probe(struct platform_device *pdev)
- 
- 	component_master_add_with_match(dev, &mtk_disp_ovl_adaptor_master_ops, match);
- 
--	pm_runtime_enable(dev);
-+	ret = devm_pm_runtime_enable(dev);
-+	if (ret)
-+		return ret;
- 
- 	ret = component_add(dev, &mtk_disp_ovl_adaptor_comp_ops);
--	if (ret) {
--		pm_runtime_disable(dev);
-+	if (ret)
- 		return dev_err_probe(dev, ret, "Failed to add component\n");
--	}
- 
- 	return 0;
- }
-@@ -533,7 +533,6 @@ static int mtk_disp_ovl_adaptor_probe(struct platform_device *pdev)
- static int mtk_disp_ovl_adaptor_remove(struct platform_device *pdev)
- {
- 	component_master_del(&pdev->dev, &mtk_disp_ovl_adaptor_master_ops);
--	pm_runtime_disable(&pdev->dev);
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-index cfbc037a0f6d..0469076cf715 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-@@ -360,13 +360,13 @@ static int mtk_disp_rdma_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, priv);
- 
--	pm_runtime_enable(dev);
-+	ret = devm_pm_runtime_enable(dev);
-+	if (ret)
-+		return ret;
- 
- 	ret = component_add(dev, &mtk_disp_rdma_component_ops);
--	if (ret) {
--		pm_runtime_disable(dev);
-+	if (ret)
- 		return dev_err_probe(dev, ret, "Failed to add component\n");
--	}
- 
- 	return 0;
- }
-@@ -374,9 +374,6 @@ static int mtk_disp_rdma_probe(struct platform_device *pdev)
- static int mtk_disp_rdma_remove(struct platform_device *pdev)
- {
- 	component_del(&pdev->dev, &mtk_disp_rdma_component_ops);
--
--	pm_runtime_disable(&pdev->dev);
--
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c b/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
-index ae05d9660592..a5d811c37207 100644
---- a/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
-+++ b/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
-@@ -299,20 +299,20 @@ static int mtk_mdp_rdma_probe(struct platform_device *pdev)
- #endif
- 	platform_set_drvdata(pdev, priv);
- 
--	pm_runtime_enable(dev);
-+	ret = devm_pm_runtime_enable(dev);
-+	if (ret)
-+		return ret;
- 
- 	ret = component_add(dev, &mtk_mdp_rdma_component_ops);
--	if (ret) {
--		pm_runtime_disable(dev);
-+	if (ret)
- 		return dev_err_probe(dev, ret, "Failed to add component\n");
--	}
-+
- 	return 0;
- }
- 
- static int mtk_mdp_rdma_remove(struct platform_device *pdev)
- {
- 	component_del(&pdev->dev, &mtk_mdp_rdma_component_ops);
--	pm_runtime_disable(&pdev->dev);
- 	return 0;
- }
- 
+[...]
+
+>> 
+>> The #define FBINFO_FLAG_DEFAULT	FBINFO_DEFAULT seems to be there since the
+>> original v2.6.12-rc2 git import in commit 1da177e4c3f4, so is hard to know
+>> why was introduced. FBINFO_DEFAULT is more used, I will just stick to that:
+>
+> Thanks for commenting on this issue. I didn't notice that.
+>
+> I think I'll just remove these _DEFAULT assignments from the patchset.
+>
+> And I think we should nuke them entirely everywhere. The _DEFAULT values 
+> are just 0 after commit 376b3ff54c9a1. So there's no value in assigning 
+> them at all.
+>
+
+Agreed.
+
 -- 
-2.40.1
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
