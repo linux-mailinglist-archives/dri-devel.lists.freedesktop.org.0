@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B691749BF7
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 14:38:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A044E749C25
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 14:44:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E33310E496;
-	Thu,  6 Jul 2023 12:38:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5799710E3F2;
+	Thu,  6 Jul 2023 12:44:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 372A510E496
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 12:38:19 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id
- 2adb3069b0e04-4fb94b1423eso850416e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jul 2023 05:38:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688647097; x=1691239097;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=+g5JOoGl8L8DXw0neDwErTp0xK2oXN7bvn2LD/LXr3M=;
- b=jykPrMUJAY4xBJwbGQgO7s7ViTgCEdjaK8p8r2Hl31f/ME81nnrE/qSUvaYDs3GbCr
- INRyrEdsVpysqBZs5wiJiqbcqwckhRRknydKNYKrnZEcWk1h3fMMLHHsIeI6LzztFReE
- wp3ExGqP7Rv7GbrrYqG8yUTxrSw2fbJQ5BXkzXUmJwDbG839K+prDf3VKbcHmNZ0rCkS
- S/2XxhGghDnDJT/J+XpXk4ChuISHxazpOGEganlOb+rViR2g8kLLCCZVzTIOe8zbI45w
- AMSdB6z/sVGEyN05Mc4nxMAj21opnQYAzzlKRX0lAhov6DNcH7i7yhyNQuejDj15w8UH
- tz2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688647097; x=1691239097;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+g5JOoGl8L8DXw0neDwErTp0xK2oXN7bvn2LD/LXr3M=;
- b=cIy2q7DGpaH+9UcxEi8HknJWGWL7tiIZV5WMkuWSBcTq1KNSUVE5bOc+QM4oXIRrzH
- 8ihkh5MPAjrXsGpJJ3arbqDCKs6L0rWNVI4RxgxGOZOJf/bkq6lOfoAVEcM3s2Q6rogK
- NUpwHiEjtexqxFQBVSeaQQ8088Z9ZQQz4to0SRQNI3ZF8zCQN76qv/mQz8Noj+WXXWRY
- sissqSFWWwtZgrhgmfz8VPhH+tOQzMQ3I1RIzNU3PI3ijz1YbsUeY+Uasl+/n7xqv5qM
- ltPjIG3nMRhFUce5YoaUQwHzlPAnMbqfhI/WotAmQheAEoQVbY1qRQODAOhuTMj108Ch
- /3PA==
-X-Gm-Message-State: ABy/qLYTwB5MgUZ0reEo0UOepIBiSlnTYaACPpyROl4Kb46lbNO1bie/
- YzVTWk+rlEMoLOtOtf6M5OYcXQ==
-X-Google-Smtp-Source: APBJJlF7wnRSHF3/ATn3A9Kl9VBqBuZ1BW8ExsnFLaT6PZ0SXIHbr52DrsYzDXswnOwKrpEZC0n+4g==
-X-Received: by 2002:a19:434a:0:b0:4f8:6833:b13c with SMTP id
- m10-20020a19434a000000b004f86833b13cmr1275916lfj.14.1688647096863; 
- Thu, 06 Jul 2023 05:38:16 -0700 (PDT)
-Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- l25-20020a1ced19000000b003faef96ee78sm5006920wmh.33.2023.07.06.05.38.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jul 2023 05:38:15 -0700 (PDT)
-Date: Thu, 6 Jul 2023 15:38:11 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH] dma-buf: fix an error pointer vs NULL bug
-Message-ID: <534fcba2-2303-4e53-aafd-9668413fbf9d@kadam.mountain>
-References: <694691bf-f591-4286-a615-df91d2ebab93@moroto.mountain>
- <0f52b97d-0a67-3795-c9d7-3eaac9003aa8@amd.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7942F10E3F1
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 12:44:23 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 286591FE6D;
+ Thu,  6 Jul 2023 12:44:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1688647461; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Rez+t/cz9CKyN/38VFk9tu5ZqWuRS5ScM+thjGOJuig=;
+ b=1ETDg5NqSjyf9i/Br3thlZUyvaF5U5WDvpwvuwT9eBqUe64nIPQybzJaEnuUoID5Z660Zg
+ SDog7Jbnby2Jb6was8XIu/n2MuZu7O9CUu64NV/n4kkT4wHW3rFmiRqWg50dYXoE6K2UJp
+ a1nVGYbF8UaF/v0cMFLnoU5bRkCNu9A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1688647461;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Rez+t/cz9CKyN/38VFk9tu5ZqWuRS5ScM+thjGOJuig=;
+ b=Ipe4z56fppT6rauLuZ3QFZpXsQh+FyXsjt8ZNM/X1iXYNINlw6QYjl33GWsnKOpVtUaWGJ
+ sCs2naQZ6jKM7gBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E7A38138FC;
+ Thu,  6 Jul 2023 12:44:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id MPidNyS3pmQUQAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 06 Jul 2023 12:44:20 +0000
+Message-ID: <5555bc4d-14bb-c59b-728f-4e91a24f9a73@suse.de>
+Date: Thu, 6 Jul 2023 14:44:20 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0f52b97d-0a67-3795-c9d7-3eaac9003aa8@amd.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 04/10] drm/tegra: Set fbdev flags
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org
+References: <20230704160133.20261-1-tzimmermann@suse.de>
+ <20230704160133.20261-5-tzimmermann@suse.de>
+ <87wmzerc2s.fsf@minerva.mail-host-address-is-not-set>
+ <f82635d8-4500-d420-f6ba-65aa515017e4@suse.de>
+ <87a5war9b2.fsf@minerva.mail-host-address-is-not-set>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <87a5war9b2.fsf@minerva.mail-host-address-is-not-set>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------92fr0P30faZJglhuhuUQZMxz"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,29 +74,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Gustavo Padovan <gustavo@padovan.org>, kernel-janitors@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Luben Tuikov <luben.tuikov@amd.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 06, 2023 at 08:21:35AM +0200, Christian König wrote:
-> Am 06.07.23 um 07:52 schrieb Dan Carpenter:
-> > The __dma_fence_unwrap_merge() function is supposed to return NULL on
-> > error.  But the dma_fence_allocate_private_stub() returns error pointers
-> > so check for that and covert the error pointers to NULL returns.
-> > Otherwise, the callers do not expect error pointers and it leads to an
-> > Oops.
-> 
-> Oh, good catch.
-> 
-> But I think we should probably change dma_fence_allocate_private_stub()
-> instead, that this function returns an ERR_PTR doesn't seem to make to much
-> sense.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------92fr0P30faZJglhuhuUQZMxz
+Content-Type: multipart/mixed; boundary="------------19Vd7cn9nFaJpJuQADTH0WVV";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>
+Message-ID: <5555bc4d-14bb-c59b-728f-4e91a24f9a73@suse.de>
+Subject: Re: [PATCH 04/10] drm/tegra: Set fbdev flags
+References: <20230704160133.20261-1-tzimmermann@suse.de>
+ <20230704160133.20261-5-tzimmermann@suse.de>
+ <87wmzerc2s.fsf@minerva.mail-host-address-is-not-set>
+ <f82635d8-4500-d420-f6ba-65aa515017e4@suse.de>
+ <87a5war9b2.fsf@minerva.mail-host-address-is-not-set>
+In-Reply-To: <87a5war9b2.fsf@minerva.mail-host-address-is-not-set>
 
-Sure, I've sent v2.
+--------------19Vd7cn9nFaJpJuQADTH0WVV
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-regards,
-dan carpenter
+SGkNCg0KQW0gMDUuMDcuMjMgdW0gMTE6MzQgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
+aWxsYXM6DQo+IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPiB3cml0
+ZXM6DQo+IA0KPiBbLi4uXQ0KPiAgICAgDQo+Pj4+ICsJaW5mby0+ZmxhZ3MgfD0gRkJJTkZP
+X1ZJUlRGQjsNCj4+Pg0KPj4+IEkgc2VlIHRoYXQgYWxsIGZiZGV2IGRyaXZlcnMganVzdCBk
+bzogaW5mby0+ZmxhZ3MgPSBGQklORk9fRkxBR19ERUZBVUxUIHwgRkJJTkZPX1ZJUlRGQg0K
+Pj4+DQo+Pj4gR3Vlc3MgeW91IGFyZSBkb2luZyBpbiB0d28gYXNzaWdubWVudHMgdG8gYmUg
+Y29uc2lzdGVudCB3aXRoIGRybV9mYmRldl9kbWEuYyA/DQo+Pj4gSSB3YXMganVzdCBjdXJp
+b3VzIGFib3V0IHRoZSByYXRpb25hbGUgZm9yIHNldHRpbmcgdGhlIGZsYWdzIGluIHR3byBz
+dGVwcy4NCj4+DQo+PiBUaGUgX0RFRkFVTFQgZmxhZyBpcyByZWFsbHkganVzdCBhIHplcm8u
+IEFuZCB0aGUgb3RoZXIgZmxhZ3MgZGVzY3JpYmUNCj4+IGRpZmZlcmVudCBhc3BlY3RzIG9m
+IHRoZSBmcmFtZWJ1ZmZlci4gIEkgdGhpbmsgaXQgbWFrZXMgc2Vuc2UgdG8gc2V0IHRoZQ0K
+Pj4gZmxhZ3MgdG9nZXRoZXIgd2l0aCB0aGUgcmVzcGVjdGl2ZSBzdGF0ZS4gRm9yIGV4YW1w
+bGUsIF9WSVJURkIgaXMgc2V0DQo+PiBuZXh0IHRvIC0+c2NyZWVuX2J1ZmZlciwgYmVjYXVz
+ZSB0aGV5IGJlbG9uZyB0b2dldGhlci4NCj4+DQo+IA0KPiBZZXMsIHRoYXQgbWFrZXMgc2Vu
+c2UuDQo+IA0KPj4gX1ZJUlRGQiBpcyBjdXJyZW50bHkgb25seSB1c2VkIGluIGRlZmlvIGNv
+ZGUgYXQNCj4+DQo+PiBodHRwczovL2VsaXhpci5ib290bGluLmNvbS9saW51eC9sYXRlc3Qv
+c291cmNlL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYl9kZWZpby5jI0wyMzINCj4+DQo+
+PiBJIHRoaW5rIHRoZSBmYmRldiBJL08gaGVscGVycyBzaG91bGQgYWxzbyB0ZXN0IHRoaXMg
+ZmxhZyBhZnRlciBhbGwNCj4+IGRyaXZlcnMgaGF2ZSBiZWVuIGFubm90YXRlZCBjb3JyZWN0
+bHkuIEZvciBleGFtcGxlLCBmYl9pb19yZWFkKCkgd291bGQNCj4+IFdBUk5fT05DRSBpZiB0
+aGUgX1ZJUlRGQiBmbGFnIGhhcyBiZWVuIHNldDsgYW5kIGZiX3N5c19yZWFkKCkgd291bGQg
+d2Fybg0KPj4gaWYgaXQgaGFzbid0IGJlZW4gc2V0LiAgRm9yIHRoZSByZWFkIGhlbHBlcnMs
+IGl0IGFsc28gbWFrZXMgc2Vuc2UgdG8NCj4+IFdBUk5fT05DRSBpZiB0aGUgX1JFQURTX0ZB
+U1QgZmxhZyBoYXMgbm90IGJlZW4gc2V0Lg0KPj4NCj4gDQo+IEFncmVlZC4gTWF5YmUgeW91
+IGNvdWxkIGFkZCB0aG9zZSB3YXJuIChvciBhdCBsZWFzdCBpbmZvIG9yIGRlYnVnPykgZXZl
+bg0KPiBpZiBub3QgYWxsIGRyaXZlcnMgaGF2ZSBiZWVuIGFubm90YXRlZCBjb3JyZWN0bHku
+IFRoYXQgd2F5IHBlb3BsZSBjYW4gYmUNCj4gYXdhcmUgdGhhdCBpcyBtaXNzaW5nIGFuZCBm
+aXggaWYgdGhlcmUgYXJlIHJlbWFpbmluZyBkcml2ZXJzLg0KDQpZZXMsIHdlIGNvdWxkIGRv
+IHRoYXQuIEkgd2FudCB0byBnbyB0aHJvdWdoIGRyaXZlcnMgZmlyc3QgYW5kIGZpeCB0aGUg
+DQpsb3ctaGFuZ2luZyBmcnVpdHMuIFNvbWUgb2YgdGhlIG9sZCBmYmRldiBkcml2ZXJzIHVz
+ZSBlaXRoZXIgRE1BIG9yIEkvTyANCm1lbW9yeS4gVGhleSB3b3VsZCBvbmx5IGJlIGZpeC13
+b3J0aHkgaWYgc29tZW9uZSBjb21wbGFpbnMuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoN
+Cj4gDQo+PiBCZXN0IHJlZ2FyZHMNCj4+IFRob21hcw0KPj4NCj4gDQoNCi0tIA0KVGhvbWFz
+IFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUg
+U29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVy
+bmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1j
+RG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
 
+--------------19Vd7cn9nFaJpJuQADTH0WVV--
+
+--------------92fr0P30faZJglhuhuUQZMxz
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSmtyQFAwAAAAAACgkQlh/E3EQov+As
+6A//UyRKRwH44s8E7eViZYmCVyjBk6RElYXS4ZYsslGdCi73Ko+cxder/WeUYXIPJhevscWAF3mP
+MPpIIYcyYW6v6wt5H4M9d75LqX3CQjW5CObDfk0f+iKzzcTpTZNHMxzrpKiL/QUFTYrqlNXfvfus
+iunQ4JnIiu47YgB4XcK/XqXIPLTHLabn/yjC5EjlZDBRfQBIhEa/QWJL1P2GYfs3/O9beMhRGACH
+DyhRcLcPb2cARld01b1qxE3ytVZnbdUw+E7S2wpyDDRKBoMSmEfh0AeEmfo5MUrycjl0DQHXVpQg
+9kqiJfNzk+tq2rG+XtW8jPyeMLQDBQAymcXiMaDHYB4WZ/zFdpMHVBiV0jgLKP8CdPB6zLmbBSqP
+Dm97lImYPVYEIHpuoQD/hNf1KM0rJHpAR/+bYMrTF9ept4m7iLRhXYSZWtokDtZwnn3zvmZ+HQ0W
+6DDmVsNzv9PV1UiOmeg7SFeZCefaMPV4D7666DVu8/zJA9FIwlXrS+1yX9FnWuU2viiYGwPki6/T
+s9zzaiDEhcOOYVF0ASIUQ2zwf2vec4cxqDRxdONffGUeMHo9cC+a4kTSJ774enjF+pUvK/6MemKA
+DAecF7Em0/q1C3usSlWaoXSiyYz0KISr39Me2sXRcqV3QeWVZ06bzsFxrGIMlAesuFS5vSaTF6+7
+5L0=
+=Bknk
+-----END PGP SIGNATURE-----
+
+--------------92fr0P30faZJglhuhuUQZMxz--
