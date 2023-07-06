@@ -2,81 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84F44749816
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 11:16:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A56BB749835
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 11:21:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E06910E49E;
-	Thu,  6 Jul 2023 09:16:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 055AC10E4A2;
+	Thu,  6 Jul 2023 09:21:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69AC710E49E
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 09:16:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1688634997;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cm1dhxsavU7u1DrG0J9Xk7KPMVnjK1cspOaMg0/ZR2Y=;
- b=SyWzjnkiyUITaHFVKzYn4ijGnarB8rAiumYRACWIbh3Dx4WBU8MOPRj3T0cscEiYocWBtx
- 8Cui2weAiUKRa9zeaYV2hjzsOZEWQx13kO5cmxK4RFTffQWwPAbkNLXrJxjl7s+7tzyU0Q
- TJ94wYjfEs1nfmKnCLVRdVMHCLBYL60=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-202-Ctupr8D7MnmRBuB9e4xukA-1; Thu, 06 Jul 2023 05:16:35 -0400
-X-MC-Unique: Ctupr8D7MnmRBuB9e4xukA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-3fbcae05906so3218745e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jul 2023 02:16:35 -0700 (PDT)
+Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
+ [IPv6:2607:f8b0:4864:20::1131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 475D910E4A3
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 09:21:17 +0000 (UTC)
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-5774098f16eso6346997b3.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jul 2023 02:21:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1688635276; x=1691227276;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=EQWzcD3kqn8nreTy0mrng4rT6iwYUcI+uurtyt3qorY=;
+ b=Y0sbKb2NnyAPxRj+0+x8JguFUZO5WFrhXwqakpgMdFRYBqlml9hkb6M3HfU0rOO33C
+ U4obMaT4BDTrA1rQyROiMNr1cJ817QwlpgVVVHCrOPXN41hFH45C4gC60zzTxz+GpSGC
+ cNYCIh3FMmSAlc2su56i7B0V6nAxzEfF0VSYfmJlY1CZJhnDfRZsp37E2nJquet2kxD4
+ cxRjEPJaOl3J+l/2bXoi+RpNgRvboAM3SCbRV1Q9mxfBJvco/y2GDppOeDyw/tFDnwZL
+ o31Ym9788Bde9XUO460KMf5i7dO84flldyPa+Jmc7r9DUe10TLIiHloxAxARO5KZWqRt
+ RoZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688634994; x=1691226994;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cm1dhxsavU7u1DrG0J9Xk7KPMVnjK1cspOaMg0/ZR2Y=;
- b=LIjt4yvTh/9g/22gcv3AT5XziOp4MzCo/9cvlF8wDvl242dK7DEXpxXlUrJE72YSeO
- JpCbTOr+y8DtOITOoXzrtLVJvfP2CFTY4Mbl/JdnclA+nacp1P4OSXFb70J8AXhw1x6Z
- 69gKwc0pNHUQ4U+krwn5XKVasNqt0Aotc9BtGqA9+waMhCv8wBsIvUNKCxoQdUvHj+HS
- 6XeR5q3EHPmWNfMsE5xM4tElhh3bPmqaO4ge1IML++YtMWGeNZ5coNQ6F76vjuQZRBjW
- vNjLPhmzOhzYkxdNn5bzi+Z/byAeFbwWjs25BBbDS/120vn84rUirAOUxw3gbmMZ34OG
- 9NUQ==
-X-Gm-Message-State: ABy/qLZN/i+cAoSC47EtDrED5AEBmUTS+WO5gCciLJzjw2+u7e6irJRm
- /Q3JiojupeQchXT/uYrgpDJgmOsPvxF+C6HmgD2K0MPwF8r+j4UfwTtJp3xCXds/LNRyatC1mFO
- D2w+I6W8s+mi8Get74G55ipz92hz1
-X-Received: by 2002:a7b:c847:0:b0:3fb:a1d9:ede8 with SMTP id
- c7-20020a7bc847000000b003fba1d9ede8mr867941wml.10.1688634994494; 
- Thu, 06 Jul 2023 02:16:34 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlHbXbexIX3tP0FuC2nqzVQiUNVBLl6HhHC6nvimyGqIXUjvvp4Lmp9aGAVpuW1n1cSmviab0Q==
-X-Received: by 2002:a7b:c847:0:b0:3fb:a1d9:ede8 with SMTP id
- c7-20020a7bc847000000b003fba1d9ede8mr867929wml.10.1688634994212; 
- Thu, 06 Jul 2023 02:16:34 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:d5:a000:57d9:6996:9558:341b?
- ([2a01:e0a:d5:a000:57d9:6996:9558:341b])
- by smtp.gmail.com with ESMTPSA id
- z10-20020a05600c220a00b003fbb2c0fce5sm4474329wml.25.2023.07.06.02.16.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Jul 2023 02:16:33 -0700 (PDT)
-Message-ID: <ed075f2f-861d-74d1-efc0-5baa2cd601fd@redhat.com>
-Date: Thu, 6 Jul 2023 11:16:33 +0200
+ d=1e100.net; s=20221208; t=1688635276; x=1691227276;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=EQWzcD3kqn8nreTy0mrng4rT6iwYUcI+uurtyt3qorY=;
+ b=GH8Lt2nGeEh3lEyNGe57n/jspchyT56EnKC/xpukKnFp3lq8MZZC5h5v8TOg7ji04O
+ +Ty1vHCKOHGsseoHO8VKYA+MG1wV42EtLdWoUkqXAA+vUDffaPPiWGP94J1whGQzohil
+ HO+EwNAKSILXJyuFG7Jh4GIt8HLMF/Q0aFmjbl0s2jGpc5R+H0A2tnvb/hkYVHJcDknw
+ XBZG03KdEynVu78OJMdruQoJ9+ZL6l4dHgtTFDq/tlu9KVVnAmjxOrNGMNiqPmh/MmJa
+ 9AJDZzzxJlR5/kyTOhYGUOxCfC+WfC/GR21JmAaoG4g3XJlQF1q/ZZQUqsOHB64Cx/3O
+ xgLA==
+X-Gm-Message-State: ABy/qLZmpxvKfRh8J6exICp1ezKoRAd/dz02kg/WWzPFAkmfXJcWBbUS
+ b9iaeER/wQiKRaK4dU3AyYi6IQKqY1bNuRaX5129og==
+X-Google-Smtp-Source: APBJJlH8WWeq5kYBpRj2qTCCg6+xWryUE16/8ZT11zqW50unDPyeXAusZhm9QvDKMY3hKC+f14TX/1RciBvLo4WLwd4=
+X-Received: by 2002:a0d:d409:0:b0:56d:1747:5bde with SMTP id
+ w9-20020a0dd409000000b0056d17475bdemr1266852ywd.32.1688635275824; Thu, 06 Jul
+ 2023 02:21:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] drm/ast: Fix default resolution when no monitor is
- connected on DP
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>, tzimmermann@suse.de,
- airlied@redhat.com, kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com
-References: <20230623094639.434293-1-jfalempe@redhat.com>
- <878rbv20dp.fsf@intel.com> <13e35996-914d-37a6-1697-ac0c3c75cad1@redhat.com>
-In-Reply-To: <13e35996-914d-37a6-1697-ac0c3c75cad1@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230403221233.500485-1-marex@denx.de>
+ <20230403221233.500485-2-marex@denx.de>
+ <CAMi1Hd0TD=2z_=bcDrht3H_wiLvAFcv8Z-U_r_KUOoeMc6UMjw@mail.gmail.com>
+ <CAMty3ZBNFu=f-FS4YFN4wfmiTuk=48nna-vub1eMYwidDt+msg@mail.gmail.com>
+ <CAA8EJppbdiUz5m+9EAPnFb916DaS_VKWd30c7_EPWjuid8rtqQ@mail.gmail.com>
+In-Reply-To: <CAA8EJppbdiUz5m+9EAPnFb916DaS_VKWd30c7_EPWjuid8rtqQ@mail.gmail.com>
+From: Amit Pundir <amit.pundir@linaro.org>
+Date: Thu, 6 Jul 2023 14:50:39 +0530
+Message-ID: <CAMi1Hd2G5PJmz4wpO1wbdqKd0FA8LBgvRDv2u5ZYAMb5s6Kt0A@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/bridge: lt9611: Do not generate HFP/HBP/HSA and
+ EOT packet
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,98 +73,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Linux regressions mailing list <regressions@lists.linux.dev>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, Michael Walle <michael@walle.cc>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/07/2023 18:45, Jocelyn Falempe wrote:
-> On 04/07/2023 16:54, Jani Nikula wrote:
->> On Fri, 23 Jun 2023, Jocelyn Falempe <jfalempe@redhat.com> wrote:
->>> Since commit fae7d186403e ("drm/probe-helper: Default to 640x480 if no
->>>   EDID on DP")
->>> The default resolution is now 640x480 when no monitor is connected.
->>> But Aspeed graphics is mostly used in servers, where no monitor
->>> is attached. This also affects the "remote" resolution to 640x480, 
->>> which is
->>> inconvenient, and breaks the anaconda installer.
->>> So when no EDID is present, set 1024x768 as preferred resolution.
->>
->> This conflates "monitor connected" and "EDID present", which are not
->> necessarily the same thing.
->>
->> The fallback in drm_helper_probe_single_connector_modes() is for no
->> modes, but connector status is connected or unknown.
-> 
-> When debugging the issue, I found it surprising that the status is 
-> "connected" when nothing is plugged in the DP port.
->>
->> You could add a connector ->detect callback that returns disconnected
->> when there's no display, and the problem should go away. If there's no
->> ->detect callback, it'll default to connected.
-> 
-> ok, I'll try that. I don't know how the hardware detect something is 
-> connected, but looking at the dp code, maybe checking 
-> "AST_IO_CRTC_PORT,0xDC, ASTDP_LINK_SUCCESS" would be good enough.
+On Wed, 5 Jul 2023 at 11:09, Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> [Adding freedreno@ to cc list]
+>
+> On Wed, 5 Jul 2023 at 08:31, Jagan Teki <jagan@amarulasolutions.com> wrot=
+e:
+> >
+> > Hi Amit,
+> >
+> > On Wed, Jul 5, 2023 at 10:15=E2=80=AFAM Amit Pundir <amit.pundir@linaro=
+.org> wrote:
+> > >
+> > > Hi Marek,
+> > >
+> > > On Wed, 5 Jul 2023 at 01:48, Marek Vasut <marex@denx.de> wrote:
+> > > >
+> > > > Do not generate the HS front and back porch gaps, the HSA gap and
+> > > > EOT packet, as these packets are not required. This makes the bridg=
+e
+> > > > work with Samsung DSIM on i.MX8MM and i.MX8MP.
+> > >
+> > > This patch broke display on Dragonboard 845c (SDM845) devboard runnin=
+g
+> > > AOSP. This is what I see
+> > > https://people.linaro.org/~amit.pundir/db845c-userdebug/v6.5-broken-d=
+isplay/PXL_20230704_150156326.jpg.
+> > > Reverting this patch fixes this regression for me.
+> >
+> > Might be msm dsi host require proper handling on these updated
+> > mode_flags? did they?
+>
+> The msm DSI host supports those flags. Also, I'd like to point out
+> that the patch didn't change the rest of the driver code. So even if
+> drm/msm ignored some of the flags, it should not have caused the
+> issue. Most likely the issue is on the lt9611 side. I's suspect that
+> additional programming is required to make it work with these flags.
 
-I've tested this approach, and it works. But on the server I'm testing, 
-there are VGA and DP output. I think on a server that has only one DP 
-output, if no monitor is connected, then no modes will be reported to 
-userspace, and the remote BMC may not work ?
+I spent some time today on smoke testing these flags (individually and
+in limited combination) on DB845c, to narrow down this breakage to one
+or more flag(s) triggering it. Here are my observations in limited
+testing done so far.
 
-Also I don't have physical access to the server, so I only tested when 
-no monitor is plugged.
+There is no regression with MIPI_DSI_MODE_NO_EOT_PACKET when enabled
+alone and system boots to UI as usual.
 
-I will send shortly a v2 with this change, so others can help me test 
-this case.
+MIPI_DSI_MODE_VIDEO_NO_HFP always trigger the broken display as in the
+screenshot[1] shared earlier as well.
 
-Best regards,
+Adding either of MIPI_DSI_MODE_VIDEO_NO_HSA and
+MIPI_DSI_MODE_VIDEO_NO_HBP always result in no display, unless paired
+with MIPI_DSI_MODE_VIDEO_NO_HFP and in that case we get the broken
+display as reported.
 
--- 
+In short other than MIPI_DSI_MODE_NO_EOT_PACKET flag, all other flags
+added in this commit break the display on DB845c one way or another.
 
-Jocelyn
+Regards,
+Amit Pundir
+[1] https://people.linaro.org/~amit.pundir/db845c-userdebug/v6.5-broken-dis=
+play/PXL_20230704_150156326.jpg
 
-
-> 
->>
->>> Fixes: fae7d186403e ("drm/probe-helper: Default to 640x480 if no EDID 
->>> on DP")
->>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->>> ---
->>>   drivers/gpu/drm/ast/ast_mode.c | 26 ++++++++++++++++++++++++--
->>>   1 file changed, 24 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/ast/ast_mode.c 
->>> b/drivers/gpu/drm/ast/ast_mode.c
->>> index 36374828f6c8..8f7b7cc021c7 100644
->>> --- a/drivers/gpu/drm/ast/ast_mode.c
->>> +++ b/drivers/gpu/drm/ast/ast_mode.c
->>> @@ -1589,9 +1589,31 @@ static const struct drm_connector_helper_funcs 
->>> ast_dp501_connector_helper_funcs
->>>       .get_modes = ast_dp501_connector_helper_get_modes,
->>>   };
->>> +static int ast_dp_probe_single_connector_modes(struct drm_connector 
->>> *connector,
->>> +                           uint32_t maxX, uint32_t maxY)
->>> +{
->>> +    int ret;
->>> +    struct drm_display_mode *mode;
->>> +
->>> +    ret = drm_helper_probe_single_connector_modes(connector, maxX, 
->>> maxY);
->>> +    /*
->>> +     * When no monitor are detected, DP now default to 640x480
->>> +     * As aspeed is mostly used in remote server, and DP monitors are
->>> +     * rarely attached, it's better to default to 1024x768
->>> +     */
->>> +    if (!connector->edid_blob_ptr) {
->>
->> Please try not to use connector->edid_blob_ptr for anything in
->> drivers. The logic is complicated enough as it is, with the firmware and
->> override EDIDs and everything, and makes future refactoring of EDID
->> handling harder.
-> 
-> Ok, I will try your other suggestion, and remove this.
-> 
-> Thanks a lot for your comments.
-> 
-
+>
+> --
+> With best wishes
+> Dmitry
