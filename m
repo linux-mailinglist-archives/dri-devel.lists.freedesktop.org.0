@@ -1,69 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E131474A5C9
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 23:15:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF71C74A5CC
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 23:16:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6A5F10E4B5;
-	Thu,  6 Jul 2023 21:14:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E839F10E4B3;
+	Thu,  6 Jul 2023 21:16:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58C6510E4B5
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 21:14:55 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id
- a640c23a62f3a-98934f000a5so148879066b.2
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jul 2023 14:14:55 -0700 (PDT)
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49EAA10E4B3
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 21:16:40 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id
+ 38308e7fff4ca-2b6a6f224a1so18310751fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jul 2023 14:16:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1688678092; x=1691270092;
+ d=chromium.org; s=google; t=1688678195; x=1691270195;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=JLaQczdD7KeTXk4DDv/J61xDEsmIdzEy/EqXxRGJCq0=;
- b=AQZYQkWa9CIfOPfWKekTzdiT8eXjPTkZYlrI45cYBma1pak53T1buzaqOKRY3+wyDW
- Mi1Zyuvhw/VvPvgGd1rHar6oJvNQGrKpt7zOjtVikXX5taWuccqhiAVEMTFWZHoTmf/+
- k5VSDbKTDaRDuHDai/HAf0aH4v8qMbGMF6eWs=
+ bh=pSqkWwImnB4/tT82n7a07m0rVEFuEASlgb/xLJ5s/v4=;
+ b=dciEL14CoNqgy0XvKZaeGcEAL1W1DNKg7bQ1usZ0N/miY3r5SJ/vXMXIW7JVmlnVfJ
+ I5vxpKloI1HStUPzADtCXYGzAsdAIxgEcclC0ud2h5/qPokxlZrgQDBIlEaK0IWWiyIn
+ dy62Wo7wG4M8W8q0Kn+CELSLk5GXjs6sMSm7c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688678092; x=1691270092;
+ d=1e100.net; s=20221208; t=1688678195; x=1691270195;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=JLaQczdD7KeTXk4DDv/J61xDEsmIdzEy/EqXxRGJCq0=;
- b=ke3VjnJIO/7X6v5CeZWhxrABfmaDg2YebeyRXvfrKO/8EBmb9pUYxuD7yf2HwOuCE/
- X29Zj9rPCpPDa4qLViX0cFq0iaOZIgTB0A0F4ct54XzykRU2SpR0Z2sWp6niojNFAEfz
- 7osJGMbhLiVN6GSw6x/mGVoDaneabzg4h+vOv4Hc6NTtzkzASvu8unfpBcWifOEPJPMv
- ozA+KkZsqd4qFExByQ3W9G4tILbnpRR5mMt0U/r4evIQYGIAeYRZLyEOIyQCbx2O0Pz+
- BRHMvZOUNYwaVpRX2aIj37o5rQz5Da0QA2jIYmnnKpduAVdQv9zFsB4DWI4MqMx7yUiA
- OjiQ==
-X-Gm-Message-State: ABy/qLaeUGlQUL6mWkXs0/WKFpgw4oNZgluQBXf9M4jkyhaJBCDu+xZH
- ruAcs+ihtZTAZcoR/oh7F1zLCkSOnsnE34QoIHBcvBTM
-X-Google-Smtp-Source: APBJJlET/iyUQq2Vo0UIgbncRB42aU9VcthJhu5SUtE/2C5sV23zaHrvNAxWaUJnVGzOJZZIBat/Rw==
-X-Received: by 2002:a17:906:314c:b0:988:aeb7:2a37 with SMTP id
- e12-20020a170906314c00b00988aeb72a37mr1566092eje.33.1688678092299; 
- Thu, 06 Jul 2023 14:14:52 -0700 (PDT)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com.
- [209.85.208.45]) by smtp.gmail.com with ESMTPSA id
- ay26-20020a170906d29a00b009887f4e0291sm1281202ejb.27.2023.07.06.14.14.51
+ bh=pSqkWwImnB4/tT82n7a07m0rVEFuEASlgb/xLJ5s/v4=;
+ b=dz3Y719yY/2f17D1FbD/XKJo8ochufE3rsl6AMAZwA2jfKKgFMNthTAtCTLMZ8GHKU
+ CDvTsxrp7fwCKNO/svCH9rsdeKw0WD49HKz+rm3I2LiOWdj/wz3dx4wZCNoPIMgoZYWh
+ dfHkvVGwlE+BRFfHHSRY4GJMeU637790xS/8XRBdg3KOhD53WjwUy+2WNfBlhnaGIsiy
+ 7BM1LO/mNY3H2QJ9PNJssFnE/J+EAY0edPDh1FR869SCxqqLVt0Yl98l1y7hSjNyplUL
+ hBp1fwP+ZelA6nBxh7F77PXoUWcTqUu7VLTrYVVEYrTd4EY6fqQRqBHZ83I6CJrU+7jK
+ wdOg==
+X-Gm-Message-State: ABy/qLbI/tL8/8cuVWd67OtbFOo8hY0EHpGqJyBFf4KWrmgYqrNXEM6r
+ 1i9VFgnc64soGKH9tJgsskRl8A7/dzVAMm2l0pbSjErI
+X-Google-Smtp-Source: APBJJlHWQe1lC1yFiGZnM5RTuhmKlMtPFcvpnoC3IjZf2z2xVB7Y/WVq31u8gGIMaEZmYAetWKBrAQ==
+X-Received: by 2002:a05:6512:70f:b0:4fb:889a:b410 with SMTP id
+ b15-20020a056512070f00b004fb889ab410mr2199703lfs.65.1688678195405; 
+ Thu, 06 Jul 2023 14:16:35 -0700 (PDT)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com.
+ [209.85.208.48]) by smtp.gmail.com with ESMTPSA id
+ q3-20020aa7da83000000b0051e0ea53eaasm1169302eds.97.2023.07.06.14.16.34
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Jul 2023 14:14:52 -0700 (PDT)
-Received: by mail-ed1-f45.google.com with SMTP id
- 4fb4d7f45d1cf-516500163b2so1081a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jul 2023 14:14:51 -0700 (PDT)
+ Thu, 06 Jul 2023 14:16:35 -0700 (PDT)
+Received: by mail-ed1-f48.google.com with SMTP id
+ 4fb4d7f45d1cf-51ddbf83ff9so3268a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jul 2023 14:16:34 -0700 (PDT)
 X-Received: by 2002:a50:ab56:0:b0:51a:2012:5b34 with SMTP id
- t22-20020a50ab56000000b0051a20125b34mr29385edc.4.1688678091505; Thu, 06 Jul
- 2023 14:14:51 -0700 (PDT)
+ t22-20020a50ab56000000b0051a20125b34mr29571edc.4.1688678194287; Thu, 06 Jul
+ 2023 14:16:34 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230703-fix-boe-tv101wum-nl6-v3-0-bd6e9432c755@linaro.org>
- <20230703-fix-boe-tv101wum-nl6-v3-3-bd6e9432c755@linaro.org>
-In-Reply-To: <20230703-fix-boe-tv101wum-nl6-v3-3-bd6e9432c755@linaro.org>
+ <20230703-fix-boe-tv101wum-nl6-v3-4-bd6e9432c755@linaro.org>
+In-Reply-To: <20230703-fix-boe-tv101wum-nl6-v3-4-bd6e9432c755@linaro.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 6 Jul 2023 14:14:39 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Xkr3Qpd8m_6Xta_2jL_ezbxsmMyarbKXTXL+UJLG9xNw@mail.gmail.com>
-Message-ID: <CAD=FV=Xkr3Qpd8m_6Xta_2jL_ezbxsmMyarbKXTXL+UJLG9xNw@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] drm/panel: ili9882t: Break out as separate driver
+Date: Thu, 6 Jul 2023 14:16:22 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UvobraoZELdLmCmuu1u1RpFbzEuobyWRuCn45n1b4-XA@mail.gmail.com>
+Message-ID: <CAD=FV=UvobraoZELdLmCmuu1u1RpFbzEuobyWRuCn45n1b4-XA@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] drm/panel: ili9882t: Break out function for
+ switching page
 To: Linus Walleij <linus.walleij@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -94,104 +95,104 @@ Hi,
 On Mon, Jul 3, 2023 at 6:22=E2=80=AFAM Linus Walleij <linus.walleij@linaro.=
 org> wrote:
 >
-> The Starry ILI9882t-based panel should never have been part of the boe
-> tv101wum driver, it is clearly based on the Ilitek ILI9882t display
-> controller and if you look at the custom command sequences for the
-> panel these clearly contain the signature Ilitek page switch (0xff)
-> commands. The hardware has nothing in common with the other panels
-> supported by this driver.
+> The ILI9882t has similarities with other Ilitek panels, such
+> as the characteristic internal page switching code that uses
+> the model number (0x98, 0x82) as parameter.
 >
-> Break this out into a separate driver and config symbol instead.
->
-> If the placement here is out of convenience for using similar code,
-> we should consider creating a helper library instead.
+> We can clearly abstract out the page switching sequence from
+> the initialization code.
 >
 > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 > ---
->  drivers/gpu/drm/panel/Kconfig                  |   9 +
->  drivers/gpu/drm/panel/Makefile                 |   1 +
->  drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 386 -------------
->  drivers/gpu/drm/panel/panel-ilitek-ili9882t.c  | 739 +++++++++++++++++++=
-++++++
->  4 files changed, 749 insertions(+), 386 deletions(-)
+>  drivers/gpu/drm/panel/panel-ilitek-ili9882t.c | 54 ++++++++++++++++++---=
+------
+>  1 file changed, 37 insertions(+), 17 deletions(-)
 
-I have no real objection here and am happy to let others argue about
-bikeshed color. I think the "panel-boe-tv101wum-nl6.c" driver ended up
-becoming a dumping ground for a bunch of panels in response to Sam's
-feedback originally [1].
-
-[1] https://lore.kernel.org/all/YSPAseE6WD8dDRuz@ravnborg.org/
-
-...so it would be good to get Sam's feedback here.
+This is nice, thanks!
 
 
-> +/*
-> + * Use this descriptor struct to describe different panels using the
-> + * Ilitek ILI9882T display controller.
-> + */
-> +struct panel_desc {
-> +       const struct drm_display_mode *modes;
-> +       unsigned int bpc;
+> diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c b/drivers/gpu/=
+drm/panel/panel-ilitek-ili9882t.c
+> index 20f3cc37fa83..c1a0f10fbaf7 100644
+> --- a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
+> +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
+> @@ -55,13 +55,33 @@ struct ili9882t {
+>         struct gpio_desc *enable_gpio;
+>  };
+>
+> +/* ILI9882-specific commands, add new commands as you decode them */
+> +#define ILI9882T_DCS_SWITCH_PAGE       0xFF
 > +
-> +       /**
-> +        * @width_mm: width of the panel's active display area
-> +        * @height_mm: height of the panel's active display area
-> +        */
-> +       struct {
-> +               unsigned int width_mm;
-> +               unsigned int height_mm;
-> +       } size;
-> +
-> +       unsigned long mode_flags;
-> +       enum mipi_dsi_pixel_format format;
-> +       int (*init)(struct mipi_dsi_device *dsi);
-> +       unsigned int lanes;
-> +       bool discharge_on_disable;
-
-IMO "discharge_on_disable" should be removed since the one panel
-supported by this driver doesn't use it. If later we find that some
-ili9882t panels need this logic then we can add it back in, but it
-seems hard to believe it would use the same code.
-
-
-> +       bool lp11_before_reset;
-
-IMO "lp11_before_reset" should be removed. The one panel supported by
-this driver _always_ needs lp11_before_reset. If we later find that
-some ili9882t panels want different behavior then we can add it back
-in. It doesn't feel like the kind of thing that would be different on
-different drivers using the same chip.
-
-
-> +static int ili9882t_get_modes(struct drm_panel *panel,
-> +                              struct drm_connector *connector)
+> +static int ili9882t_switch_page(struct mipi_dsi_device *dsi, u8 page)
 > +{
-> +       struct ili9882t *ili =3D to_ili9882t(panel);
-> +       const struct drm_display_mode *m =3D ili->desc->modes;
-> +       struct drm_display_mode *mode;
+> +       u8 switch_cmd[] =3D {0x98, 0x82, 0x00};
+> +       int ret;
 > +
-> +       mode =3D drm_mode_duplicate(connector->dev, m);
-> +       if (!mode) {
-> +               dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
-> +                       m->hdisplay, m->vdisplay, drm_mode_vrefresh(m));
-> +               return -ENOMEM;
+> +       switch_cmd[2] =3D page;
+> +
+> +       ret =3D mipi_dsi_dcs_write(dsi, ILI9882T_DCS_SWITCH_PAGE, switch_=
+cmd, 3);
+
+nit: Instead of "3", "ARRAY_SIZE(switch_cmd)" would be more documenting.
+
+
+> +       if (ret) {
+> +               dev_err(&dsi->dev,
+> +                       "error switching panel controller page (%d)\n", r=
+et);
+> +               return ret;
 > +       }
 > +
-> +       mode->type =3D DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> +       drm_mode_set_name(mode);
-> +       drm_mode_probed_add(connector, mode);
-> +
-> +       connector->display_info.width_mm =3D ili->desc->size.width_mm;
-> +       connector->display_info.height_mm =3D ili->desc->size.height_mm;
-> +       connector->display_info.bpc =3D ili->desc->bpc;
-> +       /*
-> +        * TODO: Remove once all drm drivers call
-> +        * drm_connector_set_orientation_from_panel()
-> +        */
-> +       drm_connector_set_panel_orientation(connector, ili->orientation);
+> +       return 0;
 
-I'd be inclined to take the above call out and assume anyone using
-this new panel has a DRM driver that's working properly...
+This is a static function and you don't check the error code anywhere.
+Why bother returning it?
 
+...although in patch #1 I'm suggesting adding to the core the ability
+to have a "sequence of sequences". If that makes sense then perhaps
+the code below that uses this will be short enough that it won't look
+bad to error check each call?
+
+
+>  static int starry_ili9882t_init(struct mipi_dsi_device *dsi)
+>  {
+>         int ret;
+>
+>         msleep(5);
+>
+> -       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x01);
+> +       ili9882t_switch_page(dsi, 0x01);
+>         mipi_dsi_dcs_write_seq(dsi, 0x00, 0x42);
+>         mipi_dsi_dcs_write_seq(dsi, 0x01, 0x11);
+>         mipi_dsi_dcs_write_seq(dsi, 0x02, 0x00);
+> @@ -192,7 +212,7 @@ static int starry_ili9882t_init(struct mipi_dsi_devic=
+e *dsi)
+>         mipi_dsi_dcs_write_seq(dsi, 0x8B, 0x07);
+>         mipi_dsi_dcs_write_seq(dsi, 0x8C, 0x07);
+>
+> -       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x02);
+> +       ili9882t_switch_page(dsi, 0x02);
+>         mipi_dsi_dcs_write_seq(dsi, 0x29, 0x3A);
+>         mipi_dsi_dcs_write_seq(dsi, 0x2A, 0x3B);
+>
+> @@ -211,12 +231,12 @@ static int starry_ili9882t_init(struct mipi_dsi_dev=
+ice *dsi)
+>         mipi_dsi_dcs_write_seq(dsi, 0x5E, 0x40);
+>         mipi_dsi_dcs_write_seq(dsi, 0x84, 0x00);
+>
+> -       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x03);
+> +       ili9882t_switch_page(dsi, 0x03);
+>         mipi_dsi_dcs_write_seq(dsi, 0x20, 0x01);
+>         mipi_dsi_dcs_write_seq(dsi, 0x21, 0x3C);
+>         mipi_dsi_dcs_write_seq(dsi, 0x22, 0xFA);
+>
+> -       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x98, 0x82, 0x0A);
+> +       ili9882t_switch_page(dsi, 0x0a);
+
+Super nitty: Even though Linux in general has hex constants in
+lowercase, this driver seems to consistently use uppercase. You've
+introduced a few inconsistencies here (and a few more below). Can you
+make this consistent? Maybe do the upper-to-lower conversion as part
+of your efforts to break the driver out?
 
 -Doug
