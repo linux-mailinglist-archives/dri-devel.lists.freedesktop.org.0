@@ -1,62 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6764C7499BB
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 12:49:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D67B749A16
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 12:59:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A38210E4D0;
-	Thu,  6 Jul 2023 10:48:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6864710E4D9;
+	Thu,  6 Jul 2023 10:58:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FE2710E4CF
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 10:48:57 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C5F9120527;
- Thu,  6 Jul 2023 10:48:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1688640535; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6IQse9Ci+6BuJu92+Tlb4VQ/loHLj6fZX2PSRhDLRfs=;
- b=rPiQO52hmp/q6FguwE88lYtcvI1sL9Nta/vMBo2Oc9eISn+vWsTbL+XMOe9N9SofDdiygZ
- w01dH8jLKkkuJzfkC8VKGtLq2cF7LyWshdb5oTTTcyFiqhyo3+N9sUGodHZuUYMq6Ho8MR
- rklpliiQDVjGRVnJqnnY8DbYjLM8txc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1688640535;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6IQse9Ci+6BuJu92+Tlb4VQ/loHLj6fZX2PSRhDLRfs=;
- b=4IBVpZARJrETGFFUgtTFeYGsq3n4Y0+wJgPKohJ7VUGz4fmN2NSPLil1ZsPhVcHnNYxSmF
- yDcG2dfMZuiSRYCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 88862138EE;
- Thu,  6 Jul 2023 10:48:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 6Bh1IBecpmSDAQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 06 Jul 2023 10:48:55 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com,
-	suijingfeng@loongson.cn,
-	arnd@arndb.de
-Subject: [PATCH v2 4/4] staging/sm750fb: Do not include <linux/screen_info.h>
-Date: Thu,  6 Jul 2023 12:42:17 +0200
-Message-ID: <20230706104852.27451-5-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230706104852.27451-1-tzimmermann@suse.de>
-References: <20230706104852.27451-1-tzimmermann@suse.de>
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51E9B10E4D9;
+ Thu,  6 Jul 2023 10:58:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1688641134; x=1720177134;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=MgpQu2YpWw8zmTMQT+ZnA3T6OoirYfmnywEr3nMLhx8=;
+ b=YWdA4je+h5JjSr2B8qV44CO6SkO99NotFDcGadQQDFu2Y74M40T5KNp3
+ gbm/LwVrYTpX5XgwZjF5mo0mkHMsUieo+LShdQboGuogf3dEA8tGcJX+3
+ aMkrkMsEMIRTnLn+gR0rYflrwCAcKrvhMIZ7cghaZJlvzK8U52hR2+6iM
+ CdmG1IeI1yVHgmz4t1ekhDITq8dVZ6nSLzZDlXrLtE6rMUpcz3dQwSZfP
+ mXimdewFnl+d190q1R/9iMC7YHkziXmOMKsRhDmDsI4dYteaabuIkJTVy
+ jxe05YhvFvLrweRFlfey5yHkRa+6OLFFGflwHHrDnQvxqjaP0ebBgEQK6 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="427252286"
+X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; d="scan'208";a="427252286"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jul 2023 03:58:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="722753442"
+X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; d="scan'208";a="722753442"
+Received: from dnatta1-mobl1.ger.corp.intel.com (HELO [10.213.201.247])
+ ([10.213.201.247])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jul 2023 03:58:51 -0700
+Message-ID: <0f29877f-f21b-3854-e9c0-06cbd26d20ed@linux.intel.com>
+Date: Thu, 6 Jul 2023 11:58:49 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm/i915: Remove some dead "code"
+Content-Language: en-US
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20230705095518.3690951-1-tvrtko.ursulin@linux.intel.com>
+ <87r0pmzhky.fsf@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <87r0pmzhky.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,77 +64,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-efi@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- loongarch@lists.linux.dev, Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- Teddy Wang <teddy.wang@siliconmotion.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The sm750fb driver does not need anything from <linux/screen_info.h>.
-Remove the include statements.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Cc: Teddy Wang <teddy.wang@siliconmotion.com>
----
- drivers/staging/sm750fb/sm750.c        | 1 -
- drivers/staging/sm750fb/sm750_accel.c  | 1 -
- drivers/staging/sm750fb/sm750_cursor.c | 1 -
- drivers/staging/sm750fb/sm750_hw.c     | 1 -
- 4 files changed, 4 deletions(-)
+On 05/07/2023 13:08, Jani Nikula wrote:
+> On Wed, 05 Jul 2023, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> Commit 2caffbf11762 ("drm/i915: Revoke mmaps and prevent access to fence
+>> registers across reset") removed the temporary implementation of a reset
+>> under stop machine but forgot to remove this one commented out define.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> 
+> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 55e302a27847..c260f73cf570 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -14,7 +14,6 @@
- #include <linux/mm_types.h>
- #include <linux/vmalloc.h>
- #include <linux/pagemap.h>
--#include <linux/screen_info.h>
- #include <linux/console.h>
- 
- #include "sm750.h"
-diff --git a/drivers/staging/sm750fb/sm750_accel.c b/drivers/staging/sm750fb/sm750_accel.c
-index 24b9077a634a..44b9e3fe3a41 100644
---- a/drivers/staging/sm750fb/sm750_accel.c
-+++ b/drivers/staging/sm750fb/sm750_accel.c
-@@ -14,7 +14,6 @@
- #include <linux/pagemap.h>
- #include <linux/console.h>
- #include <linux/platform_device.h>
--#include <linux/screen_info.h>
- 
- #include "sm750.h"
- #include "sm750_accel.h"
-diff --git a/drivers/staging/sm750fb/sm750_cursor.c b/drivers/staging/sm750fb/sm750_cursor.c
-index 43e6f52c2551..eea4d1bd36ce 100644
---- a/drivers/staging/sm750fb/sm750_cursor.c
-+++ b/drivers/staging/sm750fb/sm750_cursor.c
-@@ -14,7 +14,6 @@
- #include <linux/pagemap.h>
- #include <linux/console.h>
- #include <linux/platform_device.h>
--#include <linux/screen_info.h>
- 
- #include "sm750.h"
- #include "sm750_cursor.h"
-diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
-index 55cb00e8b0d1..71247eaf26ee 100644
---- a/drivers/staging/sm750fb/sm750_hw.c
-+++ b/drivers/staging/sm750fb/sm750_hw.c
-@@ -17,7 +17,6 @@
- #include <asm/mtrr.h>
- #endif
- #include <linux/platform_device.h>
--#include <linux/screen_info.h>
- #include <linux/sizes.h>
- 
- #include "sm750.h"
--- 
-2.41.0
+Thanks, pushed!
 
+Regards,
+
+Tvrtko
+
+>> ---
+>>   drivers/gpu/drm/i915/gt/intel_reset.c | 3 ---
+>>   1 file changed, 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
+>> index 6916eba3bd33..cdbc08dad7ae 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_reset.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
+>> @@ -35,9 +35,6 @@
+>>   
+>>   #define RESET_MAX_RETRIES 3
+>>   
+>> -/* XXX How to handle concurrent GGTT updates using tiling registers? */
+>> -#define RESET_UNDER_STOP_MACHINE 0
+>> -
+>>   static void client_mark_guilty(struct i915_gem_context *ctx, bool banned)
+>>   {
+>>   	struct drm_i915_file_private *file_priv = ctx->file_priv;
+> 
