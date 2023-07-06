@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D67B749A16
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 12:59:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6241B749AA1
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 13:31:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6864710E4D9;
-	Thu,  6 Jul 2023 10:58:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22D6810E4E5;
+	Thu,  6 Jul 2023 11:31:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51E9B10E4D9;
- Thu,  6 Jul 2023 10:58:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1688641134; x=1720177134;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=MgpQu2YpWw8zmTMQT+ZnA3T6OoirYfmnywEr3nMLhx8=;
- b=YWdA4je+h5JjSr2B8qV44CO6SkO99NotFDcGadQQDFu2Y74M40T5KNp3
- gbm/LwVrYTpX5XgwZjF5mo0mkHMsUieo+LShdQboGuogf3dEA8tGcJX+3
- aMkrkMsEMIRTnLn+gR0rYflrwCAcKrvhMIZ7cghaZJlvzK8U52hR2+6iM
- CdmG1IeI1yVHgmz4t1ekhDITq8dVZ6nSLzZDlXrLtE6rMUpcz3dQwSZfP
- mXimdewFnl+d190q1R/9iMC7YHkziXmOMKsRhDmDsI4dYteaabuIkJTVy
- jxe05YhvFvLrweRFlfey5yHkRa+6OLFFGflwHHrDnQvxqjaP0ebBgEQK6 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="427252286"
-X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; d="scan'208";a="427252286"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2023 03:58:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="722753442"
-X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; d="scan'208";a="722753442"
-Received: from dnatta1-mobl1.ger.corp.intel.com (HELO [10.213.201.247])
- ([10.213.201.247])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2023 03:58:51 -0700
-Message-ID: <0f29877f-f21b-3854-e9c0-06cbd26d20ed@linux.intel.com>
-Date: Thu, 6 Jul 2023 11:58:49 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCD8F10E4E4;
+ Thu,  6 Jul 2023 11:31:17 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 59A0B21EAB;
+ Thu,  6 Jul 2023 11:31:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1688643076; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1mm03RUE1dzDQGfclJZ8k25krGorDfnWO9NAoIuigJg=;
+ b=JJ7UDKP9YHCl5PrI/4/bRuhG+faWjZLJgkPC6IsP5ZpW0wV/8HFySOuCeFAf9xxOYC58pv
+ FBw7sfs6GjBBr9l+t4r1iCP9VPjcdg90ec7Tsbm5rDalTVPCO2ZdcEGyOrJY20uhxGLxZc
+ Dy8cBDZI8mkQw8qTDg8JMKB+ROMi1hw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1688643076;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1mm03RUE1dzDQGfclJZ8k25krGorDfnWO9NAoIuigJg=;
+ b=6lqiIRt8sPuq6aaCjvWS+l7ud1LUN1wvaEMH6U9afq8D8F3jSKBbEhqLGs9WpQ2Si2de40
+ KWZ8LDPeo08vmJDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 15C3C138EE;
+ Thu,  6 Jul 2023 11:31:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id mXw0BASmpmQ2GQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 06 Jul 2023 11:31:16 +0000
+Date: Thu, 6 Jul 2023 13:31:14 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-next-fixes
+Message-ID: <20230706112203.GA30555@linux-uq9g>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/i915: Remove some dead "code"
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20230705095518.3690951-1-tvrtko.ursulin@linux.intel.com>
- <87r0pmzhky.fsf@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <87r0pmzhky.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,45 +64,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dave and Daniel,
 
-On 05/07/2023 13:08, Jani Nikula wrote:
-> On Wed, 05 Jul 2023, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
->> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>
->> Commit 2caffbf11762 ("drm/i915: Revoke mmaps and prevent access to fence
->> registers across reset") removed the temporary implementation of a reset
->> under stop machine but forgot to remove this one commented out define.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> 
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+here's the weekly PR for drm-misc-next-fixes.
 
-Thanks, pushed!
+Best regards
+Thomas
 
-Regards,
+drm-misc-next-fixes-2023-07-06:
+Short summary of fixes pull:
 
-Tvrtko
+ * panel: Fix mode on Starry-ili9882t
+The following changes since commit 861c249cd782cb9f2d5a881bbb32e8da7f0c1192:
 
->> ---
->>   drivers/gpu/drm/i915/gt/intel_reset.c | 3 ---
->>   1 file changed, 3 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
->> index 6916eba3bd33..cdbc08dad7ae 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_reset.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
->> @@ -35,9 +35,6 @@
->>   
->>   #define RESET_MAX_RETRIES 3
->>   
->> -/* XXX How to handle concurrent GGTT updates using tiling registers? */
->> -#define RESET_UNDER_STOP_MACHINE 0
->> -
->>   static void client_mark_guilty(struct i915_gem_context *ctx, bool banned)
->>   {
->>   	struct drm_i915_file_private *file_priv = ctx->file_priv;
-> 
+  arch/sparc: Add module license and description for fbdev helpers (2023-06-29 13:30:02 +0200)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2023-07-06
+
+for you to fetch changes up to 59bba51ec2a50e3dc5c3ee80f0a23207346303ff:
+
+  drm/panel: Fine tune Starry-ili9882t panel HFP and HBP (2023-06-29 17:35:34 -0700)
+
+----------------------------------------------------------------
+Short summary of fixes pull:
+
+ * panel: Fix mode on Starry-ili9882t
+
+----------------------------------------------------------------
+Cong Yang (1):
+      drm/panel: Fine tune Starry-ili9882t panel HFP and HBP
+
+ drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+-- 
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 Nürnberg, Germany
+(HRB 36809, AG Nürnberg)
+Geschäftsführer: Felix Imendörffer
