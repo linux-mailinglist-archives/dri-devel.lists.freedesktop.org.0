@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE05174A0A1
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 17:15:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 060B674A09A
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 17:14:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D399810E465;
-	Thu,  6 Jul 2023 15:14:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECFAE10E43A;
+	Thu,  6 Jul 2023 15:14:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAD0110E435
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 960D110E436
  for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 15:14:36 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id CC7E91FD65;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id EFEF21FDDE;
  Thu,  6 Jul 2023 15:14:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1688656474; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0LAe03vb9IhXaEKz5mFi8+dV6xovZ5LeTsmRknDA0M4=;
- b=ds+VtJ776NQqFdrtbOU4lPKg2Qra8vwur88Yg7N2uGzHgW3dIXK+sRfKHluJnRa2A1pz8A
- KUWHlSLRrtptF2Brajo6ob54qX+FVuUnD6KuHy2+VAiGsbwSLT2tFygerGwwsGuFf6wAfh
- M5qL4Xjy/55edevHHcWQ3Uv85u3zbyA=
+ bh=jQo6aolElvvRcJn1/52a83zykwUTIrP8B81NEDQhyik=;
+ b=q9swbigEJyWiCEsvcIKmYNw86mQlweyGII4bQQzfZ4eTzm8SKCK1Uk/rs8GmWy9wVWVFOV
+ o9nqpco7g6G6q5J/PixCV3+i2eR0T/Ijp7oVQ0GJ1x7yv1Z7qWakzvbfaJUIvqkJ6dAvxn
+ IZQ/zGarRKLT/yOhbG/JNpUd694Cr8I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1688656474;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0LAe03vb9IhXaEKz5mFi8+dV6xovZ5LeTsmRknDA0M4=;
- b=jxn2l9cLay5aCsU230g+pUua3qH3ZQGr0N21TSHmrKmK1BX1ifGeTEyLWbolFcWbGwyV9V
- 3CqgJz1ERQtaLSCA==
+ bh=jQo6aolElvvRcJn1/52a83zykwUTIrP8B81NEDQhyik=;
+ b=D7iCDoiDtjNyCSe1bA/zXML6m16xHIkRShmiYBDqA6rFClS+h8xnReCgOxtonp1AqDG/FY
+ IWPYUwhXlWlbwDCg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A6D6B138FC;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CE1311390F;
  Thu,  6 Jul 2023 15:14:34 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ODvOJ1rapmRvDgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id +HJFMVrapmRvDgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 06 Jul 2023 15:14:34 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com,
 	deller@gmx.de
-Subject: [PATCH 01/10] fbdev/broadsheetfb: Select FB_SYS_HELPERS_DEFERRED
-Date: Thu,  6 Jul 2023 17:08:44 +0200
-Message-ID: <20230706151432.20674-2-tzimmermann@suse.de>
+Subject: [PATCH 02/10] fbdev/broadsheetfb: Generate deferred I/O ops
+Date: Thu,  6 Jul 2023 17:08:45 +0200
+Message-ID: <20230706151432.20674-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230706151432.20674-1-tzimmermann@suse.de>
 References: <20230706151432.20674-1-tzimmermann@suse.de>
@@ -73,32 +73,126 @@ Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Kconfig token FB_SYS_HELPERS_DEFERRED selects everything that
-is required for deferred I/O on system-memory framebuffers. Select
-it from FB_BROADSHEET in favor of the existing identical selection.
+Use the existing generator macros to create deferred-I/O helpers
+for broadsheetfb and set them in the fb_ops structure. Functions
+for damage handling on memory ranges and areas are provided by
+the driver.
+
+Broadsheedfb's implementation of fb_write writes to system memory,
+so the generated code can use the respective helper internally.
+This also fixes a long-standing bug where fb_write returned an
+errno code instead of the number of written bytes. See the commit
+message of commit 921b7383f348 ("fbdev: Return number of bytes
+read or written") for more details.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/Kconfig | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ drivers/video/fbdev/broadsheetfb.c | 78 +++---------------------------
+ 1 file changed, 8 insertions(+), 70 deletions(-)
 
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index f14229757311..fd862faafe66 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -2179,11 +2179,7 @@ config FB_MX3
- config FB_BROADSHEET
- 	tristate "E-Ink Broadsheet/Epson S1D13521 controller support"
- 	depends on FB && (ARCH_PXA || COMPILE_TEST)
--	select FB_SYS_FILLRECT
--	select FB_SYS_COPYAREA
--	select FB_SYS_IMAGEBLIT
--	select FB_SYS_FOPS
--	select FB_DEFERRED_IO
-+	select FB_SYS_HELPERS_DEFERRED
- 	help
- 	  This driver implements support for the E-Ink Broadsheet
- 	  controller. The release name for this device was Epson S1D13521
+diff --git a/drivers/video/fbdev/broadsheetfb.c b/drivers/video/fbdev/broadsheetfb.c
+index 5a5fe4bbc10b..cb725a91b6bb 100644
+--- a/drivers/video/fbdev/broadsheetfb.c
++++ b/drivers/video/fbdev/broadsheetfb.c
+@@ -970,90 +970,28 @@ static void broadsheetfb_dpy_deferred_io(struct fb_info *info, struct list_head
+ 	}
+ }
+ 
+-static void broadsheetfb_fillrect(struct fb_info *info,
+-				   const struct fb_fillrect *rect)
++static void broadsheetfb_defio_damage_range(struct fb_info *info, off_t off, size_t len)
+ {
+ 	struct broadsheetfb_par *par = info->par;
+ 
+-	sys_fillrect(info, rect);
+-
+ 	broadsheetfb_dpy_update(par);
+ }
+ 
+-static void broadsheetfb_copyarea(struct fb_info *info,
+-				   const struct fb_copyarea *area)
++static void broadsheetfb_defio_damage_area(struct fb_info *info, u32 x, u32 y,
++					   u32 width, u32 height)
+ {
+ 	struct broadsheetfb_par *par = info->par;
+ 
+-	sys_copyarea(info, area);
+-
+ 	broadsheetfb_dpy_update(par);
+ }
+ 
+-static void broadsheetfb_imageblit(struct fb_info *info,
+-				const struct fb_image *image)
+-{
+-	struct broadsheetfb_par *par = info->par;
+-
+-	sys_imageblit(info, image);
+-
+-	broadsheetfb_dpy_update(par);
+-}
+-
+-/*
+- * this is the slow path from userspace. they can seek and write to
+- * the fb. it's inefficient to do anything less than a full screen draw
+- */
+-static ssize_t broadsheetfb_write(struct fb_info *info, const char __user *buf,
+-				size_t count, loff_t *ppos)
+-{
+-	struct broadsheetfb_par *par = info->par;
+-	unsigned long p = *ppos;
+-	void *dst;
+-	int err = 0;
+-	unsigned long total_size;
+-
+-	if (!info->screen_buffer)
+-		return -ENODEV;
+-
+-	total_size = info->fix.smem_len;
+-
+-	if (p > total_size)
+-		return -EFBIG;
+-
+-	if (count > total_size) {
+-		err = -EFBIG;
+-		count = total_size;
+-	}
+-
+-	if (count + p > total_size) {
+-		if (!err)
+-			err = -ENOSPC;
+-
+-		count = total_size - p;
+-	}
+-
+-	dst = info->screen_buffer + p;
+-
+-	if (copy_from_user(dst, buf, count))
+-		err = -EFAULT;
+-
+-	if  (!err)
+-		*ppos += count;
+-
+-	broadsheetfb_dpy_update(par);
+-
+-	return (err) ? err : count;
+-}
++FB_GEN_DEFAULT_DEFERRED_SYS_OPS(broadsheetfb,
++				broadsheetfb_defio_damage_range,
++				broadsheetfb_defio_damage_area)
+ 
+ static const struct fb_ops broadsheetfb_ops = {
+-	.owner		= THIS_MODULE,
+-	.fb_read        = fb_sys_read,
+-	.fb_write	= broadsheetfb_write,
+-	.fb_fillrect	= broadsheetfb_fillrect,
+-	.fb_copyarea	= broadsheetfb_copyarea,
+-	.fb_imageblit	= broadsheetfb_imageblit,
+-	.fb_mmap	= fb_deferred_io_mmap,
++	.owner	= THIS_MODULE,
++	FB_DEFAULT_DEFERRED_OPS(broadsheetfb),
+ };
+ 
+ static struct fb_deferred_io broadsheetfb_defio = {
 -- 
 2.41.0
 
