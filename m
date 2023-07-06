@@ -2,56 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8C7A749727
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 10:13:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C1CC749770
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 10:25:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 631F610E088;
-	Thu,  6 Jul 2023 08:13:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E508010E475;
+	Thu,  6 Jul 2023 08:25:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 748BD10E088
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 08:13:37 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55D8D10E473;
+ Thu,  6 Jul 2023 08:24:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1688631217; x=1720167217;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=9Y4RKqquLT3bLD39/xyJkPPz/58Je7W/hNpP2VEk0Fk=;
- b=Ok0dZh804aO8fLcgoO/xnsyI+4rESA1mGm+fpeHrQftajSdTQ68A/zD+
- gIMs/Hz63flTtCb8tiGMKUdxRyI/76u1rvhzKmYcVvOxdz6HRiQQA2Ktw
- uyuR1wA1BA4/9RVmqZcyQSrgoIgNtpP50QnxSIPuVs4nW6Su3S7eiuQ3/
- Vlvb25ObCltvXGKBDH3I0qEAe2t35Z6GU82o22CAdZ9AVPnvTwZV4G2IG
- rkM92upypM2wVg5qHiuZ9la5MDrAM7WHrpCoATJPP91f2052ugQ85zrV9
- Ip6IWB6seYm+Yrmbz46BBLYbpanHmK5iJsH/NTaPP9+/7+kwJAGnWzctQ A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="367026121"
-X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; d="scan'208";a="367026121"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2023 01:13:36 -0700
+ t=1688631899; x=1720167899;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=OsGmHaR/5g8kc4cXhdJcJfObUwVgdzNtkM/QGVAF1MY=;
+ b=LDxcNOTfe1tt7jIXER774zw7dMzoj9z5RgxDIhZ5dS1lGVShAvHHFaBx
+ mPC3S3rS63Cog2qo1R2yVruDlwsa1s7p0tqbZhS6S7apxauY0fjewETZJ
+ dDVxy1CeUlnCYQKDKFezgj9juoQbi91dCIdOzB2GyTkSvr/V288HHAHjq
+ ANlR7s6ylq7qIH9JVbAvkOSZZWSZdeAPY+S9wijqAaxpouiiSTONQ4cxB
+ JwfjxRKpFZXU71YSHU/hYAzHP6qIegCWxfJK18sZn/N2nkgSvWwZ9UZc1
+ K3/Ykn99jJHpR4Nf6nqQqCyuYyhEfqZ7Lfj4cYV0d53kJC/6A0jCaWzUV w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="429583973"
+X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; d="scan'208";a="429583973"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jul 2023 01:24:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="789461616"
-X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; d="scan'208";a="789461616"
-Received: from jmvuilla-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.41.105])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2023 01:13:32 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Minjie Du <duminjie@vivo.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Minjie Du
- <duminjie@vivo.com>, Stephen Rothwell <sfr@canb.auug.org.au>, "open
- list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>, open list
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1] gpu: i915: display: Replace define function
-In-Reply-To: <20230706072902.4845-1-duminjie@vivo.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230706072902.4845-1-duminjie@vivo.com>
-Date: Thu, 06 Jul 2023 11:13:30 +0300
-Message-ID: <87fs61zcd1.fsf@intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="864019242"
+X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; d="scan'208";a="864019242"
+Received: from dnatta1-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.213.201.247])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jul 2023 01:24:55 -0700
+Date: Thu, 6 Jul 2023 09:24:52 +0100
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-next-fixes
+Message-ID: <ZKZ6VIeInBYrBuph@tursulin-desk>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,44 +57,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 06 Jul 2023, Minjie Du <duminjie@vivo.com> wrote:
-> Replace DEFINE_SIMPLE_ATTRIBUTE with DEFINE_DEBUGFS_ATTRIBUTE.
+Hi Dave, Daniel,
 
-The subject prefix should be "drm/i915/psr: ". Please try git log on the
-file to see what is commonly used.
+A weekly collection of fixes for the drm-next/6.5 merge window.
 
-The subject should say what's being done. "Replace define function" is
-way too generic to be useful. Even "Prefer DEFINE_DEBUGFS_ATTRIBUTE" is
-better.
+Mostly small display fixups, one for GuC/SLPC and one header file tidy.
 
-Finally, the commit message itself should say *why*. Why are we
-replacing DEFINE_SIMPLE_ATTRIBUTE with DEFINE_DEBUGFS_ATTRIBUTE?
+I see last week did not get pulled so this week contains those ones plus
+two more fixups - one code tidy actually and one fixup.
 
-BR,
-Jani.
+Regards,
 
->
-> Signed-off-by: Minjie Du <duminjie@vivo.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_psr.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
-> index 56c17283b..822858f3e 100644
-> --- a/drivers/gpu/drm/i915/display/intel_psr.c
-> +++ b/drivers/gpu/drm/i915/display/intel_psr.c
-> @@ -2998,7 +2998,7 @@ i915_edp_psr_debug_get(void *data, u64 *val)
->  	return -ENODEV;
->  }
->  
-> -DEFINE_SIMPLE_ATTRIBUTE(i915_edp_psr_debug_fops,
-> +DEFINE_DEBUGFS_ATTRIBUTE(i915_edp_psr_debug_fops,
->  			i915_edp_psr_debug_get, i915_edp_psr_debug_set,
->  			"%llu\n");
+Tvrtko
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+drm-intel-next-fixes-2023-06-29:
+- Allow DC states along with PW2 only for PWB functionality [adlp+] (Imre Deak)
+- Fix SSC selection for MPLLA [mtl] (Radhakrishna Sripada)
+- Use hw.adjusted mode when calculating io/fast wake times [psr] (Jouni Högander)
+- Apply min softlimit correctly [guc/slpc] (Vinay Belgaumkar)
+- Assign correct hdcp content type [hdcp] (Suraj Kandpal)
+- Add missing forward declarations/includes to display power headers (Imre Deak)
+
+drm-intel-next-fixes-2023-07-06:
+- Fix BDW PSR AUX CH data register offsets [psr] (Ville Syrjälä)
+- Use mock device info for creating mock device (Jani Nikula)
+The following changes since commit 274d4b96b12f78cef4f72a97a4967032233f6cae:
+
+  drm/i915: Fix a NULL vs IS_ERR() bug (2023-06-20 08:54:47 +0100)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-fixes-2023-07-06
+
+for you to fetch changes up to f6cf3883df471abbcf1553127681dc244c8ff8dd:
+
+  drm/i915: use mock device info for creating mock device (2023-07-04 10:40:29 +0100)
+
+----------------------------------------------------------------
+drm-intel-next-fixes-2023-06-29:
+- Allow DC states along with PW2 only for PWB functionality [adlp+] (Imre Deak)
+- Fix SSC selection for MPLLA [mtl] (Radhakrishna Sripada)
+- Use hw.adjusted mode when calculating io/fast wake times [psr] (Jouni Högander)
+- Apply min softlimit correctly [guc/slpc] (Vinay Belgaumkar)
+- Assign correct hdcp content type [hdcp] (Suraj Kandpal)
+- Add missing forward declarations/includes to display power headers (Imre Deak)
+
+drm-intel-next-fixes-2023-07-06:
+- Fix BDW PSR AUX CH data register offsets [psr] (Ville Syrjälä)
+- Use mock device info for creating mock device (Jani Nikula)
+
+----------------------------------------------------------------
+Imre Deak (2):
+      drm/i915/adlp+: Allow DC states along with PW2 only for PWB functionality
+      drm/i915: Add missing forward declarations/includes to display power headers
+
+Jani Nikula (1):
+      drm/i915: use mock device info for creating mock device
+
+Jouni Högander (1):
+      drm/i915/psr: Use hw.adjusted mode when calculating io/fast wake times
+
+Radhakrishna Sripada (1):
+      drm/i915/mtl: Fix SSC selection for MPLLA
+
+Suraj Kandpal (1):
+      drm/i915/hdcp: Assign correct hdcp content type
+
+Ville Syrjälä (1):
+      drm/i915/psr: Fix BDW PSR AUX CH data register offsets
+
+Vinay Belgaumkar (1):
+      drm/i915/guc/slpc: Apply min softlimit correctly
+
+ drivers/gpu/drm/i915/display/intel_cx0_phy.c       |  3 +-
+ drivers/gpu/drm/i915/display/intel_display_power.h |  4 ++
+ .../gpu/drm/i915/display/intel_display_power_map.c | 16 ++++----
+ .../drm/i915/display/intel_display_power_well.h    |  2 +
+ drivers/gpu/drm/i915/display/intel_hdcp.c          |  2 +-
+ drivers/gpu/drm/i915/display/intel_psr.c           |  4 +-
+ drivers/gpu/drm/i915/display/intel_psr_regs.h      |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c        |  2 +-
+ drivers/gpu/drm/i915/selftests/mock_gem_device.c   | 45 ++++++++++++----------
+ 9 files changed, 45 insertions(+), 35 deletions(-)
