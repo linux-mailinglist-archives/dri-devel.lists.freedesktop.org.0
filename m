@@ -1,56 +1,112 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 674D874964F
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 09:24:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DAE9749678
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 09:37:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5A8010E43F;
-	Thu,  6 Jul 2023 07:24:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64D8910E44D;
+	Thu,  6 Jul 2023 07:37:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A2E910E43D;
- Thu,  6 Jul 2023 07:24:36 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 19C17618A2;
- Thu,  6 Jul 2023 07:24:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00539C433C7;
- Thu,  6 Jul 2023 07:24:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1688628274;
- bh=9YXus58HFCYWUgF7WtrOWJhmbffOAFniPNX7tWAUfxo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tDH99pEA6Fd2mbUppE/ZRMF5kkfzrmNwbrf5813UjgZuLjKhkbnOipsupdOj5+iye
- SaSxr3F2i4cyJpW13kGIclP9h3VXOI+TxlD1tAdfZ5C8JSjdj1DYxONWVZuNF4xzDG
- v5XVG1HC9PzEAl3NU0gkw9P0KfzS3Zt3khkpUWkj65DaMfBNJ/7AOLlQdAFMr0Qh0H
- rxH/0Q1Thzshs/2dx1pElSqMPidv9wx2Pj13PBtgWJH1Pkcak2Iz4Vhhz5RfIzJKgY
- 11bAYUFtPch/mF5pn18dTt9D5nF4m/1k4/zfbrC1tnm6RlRySlqzRGijS5Th3MRcsX
- hqjJQdW1+zQ3Q==
-Date: Thu, 6 Jul 2023 09:24:31 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: RFC: DSI host capabilities (was: [PATCH RFC 03/10] drm/panel:
- Add LGD panel driver for Sony Xperia XZ3)
-Message-ID: <q7wrbmdhdy2d3gqig3j34lqxdcwzbom7djlncfznxsa6ktm7j2@i5x4ngi7p2ia>
-References: <739a8bd9-9ff0-5072-fdae-b64efdf86842@collabora.com>
- <e927cfcd-bf34-5daf-0e24-4dd828106968@linaro.org>
- <epds77sccy4cc5cdpoc4ir7sfz5sz3biwep6rbks2nuyqncidu@77gb4t2wy6vn>
- <47a5678c-1eb3-dfc2-a9ac-f8e497455d11@linaro.org>
- <unsithzszj7awvsmxwr7reshso5ju7u4nssil5tty6pocictf5@gwoltpgeecer>
- <6e070141-8c0e-59ed-8a08-58c3fadb17df@linaro.org>
- <lidknise4copce3vb2wth4z3fl2p4npsc4u6ajqb6zsp6lnpca@rp6wxcmy2aa4>
- <CAA8EJpq_VeY=44FqYm7QAT32AR=rmMOV0RtAfNFkb1hpSp29dw@mail.gmail.com>
- <djrx34qwb7yen47dmlsym4mg2pib4syncvdy52ma3sin7uhs7j@gi3znayuucnj>
- <a718f7c1-4ef1-18c8-33c7-c5da22e92c89@linaro.org>
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com
+ (mail-tyzapc01on2138.outbound.protection.outlook.com [40.107.117.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43EA810E445
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 07:29:17 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jMx5zXUgoKocmCmqrUFCE1X1gFDT8qdA3qaIlVkHjdXGZE4MTwyQ/gsLrw4YFmnj4JiSlAX2kEJ2jotVMFffamOXP02VQ02WEU3Ufup/RjWwnPLLJ+N+Qn8QotuH3bMrbJ40OxE9/Oq3s7Hf7+3qJeT1YLNbMBZ2qbAyd4c+KlW7ymh47fJThT6j0evLvuXFkqMJ18XjVyPgcEFMvDZLmXbuO6w25ZB9UbZie3MHXPnG7O9fFMjVQeWvHq53SrqHEAlYqomIyfr4bbokKiK+BqGVF+egJOhuJjPugOko8Kuwlqf2LR8y8OskNreFtVru6BSKqvH3DkOlYuLGFEEjng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oIArpoztvLmwof0IqHw6DFvFFgtAcQlgNVZCMR8hHkM=;
+ b=e5cgeVNVR2h+nuZKei0692+8CX8/FW9pcWkD2EUpjEIKR4LZLQoWMAPDBcClXHm5wP8jpp3BEjZxpT+vGuCMubwaer7qEBV0Aqe6fsC4mUxk+z2HSFZYVSKB0hsbocbIvRWyqZSW34k8+JkJn/RD1rZwDJRdr2UpyW6qTLZjfF8EkHKz1BEOy/b/fMAYR8vyEBYbehnbrTuqlrkq8+UmffPFAYl9hbWw1g1RnJyRmnJ6v0V/es0XLnD7Cfeea5vYN97byONwOezqxFiPr5qLqX03l5UZIQGCPynRIDctZtGHJiNclm/B7VnSgDjd00uexgxHpQ0Hr1GtJdoIULS+nw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oIArpoztvLmwof0IqHw6DFvFFgtAcQlgNVZCMR8hHkM=;
+ b=WNFgNZAzwdSSC4H3GlWeQ2fTN80DldwEs7ySRPm6v7ZMRPZQOwScxhrWyIatPJm6IAaEoaIhbSe76qoNkZLHpgTfas4QaHjOIne2OdaNAV/qJg1nbamCv6EurAvI7acPWrmoEgQUE0RQdiKWr5xcgMGiLsb/qPPtWs9REJr+mVgdkIAig3710B/zP/zFJIdK+VO0wnNQsnEhiqZE6E3BHdqUOlRcLb322vBMbPBTgX9pcQ16NSSJGT3kji9ypbyieIyDVLCfhl4vo01U4195m6msrD87xDHeUVrYvwABffxhloT2oB6dEwBOm/4oPYGSOxvNu+BeWzV93sD/OlfKMg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SG2PR06MB5288.apcprd06.prod.outlook.com (2603:1096:4:1dc::9) by
+ SI2PR06MB4316.apcprd06.prod.outlook.com (2603:1096:4:155::14) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6565.17; Thu, 6 Jul 2023 07:29:11 +0000
+Received: from SG2PR06MB5288.apcprd06.prod.outlook.com
+ ([fe80::c2b:41ab:3b14:f920]) by SG2PR06MB5288.apcprd06.prod.outlook.com
+ ([fe80::c2b:41ab:3b14:f920%7]) with mapi id 15.20.6565.016; Thu, 6 Jul 2023
+ 07:29:11 +0000
+From: Minjie Du <duminjie@vivo.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Minjie Du <duminjie@vivo.com>, Stephen Rothwell <sfr@canb.auug.org.au>,
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v1] gpu: i915: display: Replace define function
+Date: Thu,  6 Jul 2023 15:28:59 +0800
+Message-Id: <20230706072902.4845-1-duminjie@vivo.com>
+X-Mailer: git-send-email 2.39.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI1PR02CA0038.apcprd02.prod.outlook.com
+ (2603:1096:4:1f6::15) To SG2PR06MB5288.apcprd06.prod.outlook.com
+ (2603:1096:4:1dc::9)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ta6lyqgdkmvaizdf"
-Content-Disposition: inline
-In-Reply-To: <a718f7c1-4ef1-18c8-33c7-c5da22e92c89@linaro.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SG2PR06MB5288:EE_|SI2PR06MB4316:EE_
+X-MS-Office365-Filtering-Correlation-Id: 16e44b62-9600-44a8-a7d1-08db7df2b11d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0EjXvCImAqksnQ6zn7tnhHGcw8E7buh/QRhqY+vkrNB7J6HYiZmA65mg0P72kckwXK5rKlwYauSs5yQ9GHIGz49f5JRJchSNBwUZ4/xIZHvOYur5fZwjfzkDmSIO15YThKN/qP4C7WjvE7Owa9omHbirHC1Df77phAza5wAtyxH1Hwpf3NdMnogjJOLwilVhBywF+QQX8YzqKggMYtfyvTaFnCgkGysgw1Md6bmm8KUu+Y+mVrk9c5v9JVhPdHKHQ/lpAOpWOxjAHIwmKSPP7cM4Cd4j+ikmQ3fHtUX+s/B6srSrYoHWAQlzLDUYTcfEtg9kd03tg+fyWl4PQaWFxLxsw7KkXoZOTDoLOe/f6j65QmjLFkC1Y/F47FEqpUV/jS+HoWsbVfAy/MnNKnmNxCVceF6Oz8OyjA1LK1mBkLkPqQXalpuuIlIJHWUEz+N4GK2WBBiOBCDGFhq9XBaDFLgdINXkKsbnlSx47xCVbPrDC6zUsK1aNAlLUIZ3f989nVUbhRIzzNreH5hssmEzYH8VWgrh3aLiyvOH7pcentPZw6ntvNu8lFl9lOTb5VGvr7NUfxMP8+w3qZH41g/KXW/0fJ8iEI00SbN09kUKF8DfGnCEbs9+lbNhOyBhrGX41Uy8bhewrAEihYtfPAgKPQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SG2PR06MB5288.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(376002)(136003)(39860400002)(366004)(346002)(451199021)(38100700002)(38350700002)(66556008)(921005)(66476007)(2616005)(316002)(66946007)(5660300002)(8936002)(41300700001)(4326008)(86362001)(8676002)(2906002)(4744005)(6506007)(52116002)(186003)(107886003)(1076003)(6666004)(6486002)(83380400001)(26005)(478600001)(6512007)(36756003)(110136005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?J+6b7doOBhm5dNSXahmcZ1n6NgFlae+K/a5cPb0zezIcokv8GTu2W33rzh85?=
+ =?us-ascii?Q?l/MIXq7gQ0G4gLe+YxAwtqmkqJVCkU6L0wuwdervYjlM3FNLlQnqs/j2Nw8f?=
+ =?us-ascii?Q?gsYbO2Fyt+hbi6lrDpWHfKw+EddRnnUJzv6RNPInNVallUfqar+jIRXzxyEf?=
+ =?us-ascii?Q?jnKxCKCZQt7sXhtLEfQzQfjNxfsT3AY7Ep7NrXaz4KyEBC/pck59/d3LYNS9?=
+ =?us-ascii?Q?1Q+f6SP6Nav3tQ7y1BOvqCLWCAOkSsVbWi6EtiF6M0rnq/gnEuSHqsw3tOGJ?=
+ =?us-ascii?Q?DBzD1iGQlbiax2ktRSnHqIdpwa8C/214cBqSkq+WZMd/LuQbtbRd3uXoAyMk?=
+ =?us-ascii?Q?HdsOMwiEHSaemlVJjC2mrDY4AUabOawriuLYOfoLKmXd7Y9P2Lhuo5clo+w4?=
+ =?us-ascii?Q?X5mX492NsTYmPJ7hB+WR/WjDqxGTvvmURZ3mUR5i9a65dlafvL4foH7WDBov?=
+ =?us-ascii?Q?/VgoAgPsNRGPcqkSU3uAG9uo8h/JrM6wr4fZLp4DkMmJJqOIFrJyxDBC+uop?=
+ =?us-ascii?Q?udDmxglTOt9uLySgFn0N9DDy+Jb+yWr/pIDjxK7sUFpIxYUHMZ2WQPZwKFyk?=
+ =?us-ascii?Q?PfQsOQ/kjKEIOlLPyyGpFkO0OO57R0xadb7Mhyj1y1GBeCTjXMqxeHFxwqcS?=
+ =?us-ascii?Q?6GWf1dtxdFN9JtjoDUC/m8/p40wjP+djXlYT7ZUmQuWpZ2p129YFU9Tk3i9O?=
+ =?us-ascii?Q?ktwgFfkxSEne3i0pQ4No8gQ/ctwT2q86vcs2m59zFvdclGjszsJ70XiJgkJJ?=
+ =?us-ascii?Q?Fx0+zSkX1kO7Qe0YrNzdcds9JmF1IrCA1FAcd1RAZdGD2EpWT3Atw2pevYoD?=
+ =?us-ascii?Q?kdvobe+5m6R3tQiTfG4HfuyRUkaWMEytak0RRjuMQDMPOU/ltDVq42AgCLGE?=
+ =?us-ascii?Q?j1zWGc4INbu+cA7M8Xy+agQLg818xhJM7gOtYofakYUGyvHGoQun80mxVCiz?=
+ =?us-ascii?Q?8KrQb6yxFdP8lHQt8KJ0CMlmwETshf+45vJVgFHduPSiR43ho6uFDdGW0wH6?=
+ =?us-ascii?Q?mAC6wuc6uFrSQTpZ9M/ZhbLvE4DxGjP+tVrKVTBxjZFHqo03mlzEsWTlfyEa?=
+ =?us-ascii?Q?r5HXlD9Aph5XuSSgU51a0Rk3w/Bj/kCLEs6GDLfDXXtW+iC1pMovhONg5/Cn?=
+ =?us-ascii?Q?itq63oiURWkn1FNPiZQNBv6dubNBfmrsm/NWSSbTxBDmvj0GMwwtaQMn9RXA?=
+ =?us-ascii?Q?CrZEkRGTq5Wy1qwBXMgfQTOFbDZ96bNJjE/Emmz+rXq873noqqGt0OK9Tqri?=
+ =?us-ascii?Q?pUiX1iuOEtHv7LCinUagkI7E4uHQBaoW5BT8SkxRti09dbr5rqjJ1jHPaW6x?=
+ =?us-ascii?Q?fsB9I0UerBtpccUM0emwvGAgkOtY9MFIdEDKvX6s8wdX131GlS8v15Hf482K?=
+ =?us-ascii?Q?HkPyk3QN3Fy5X1yYeUM+nqcStvkq7nx7WI77d9rirtihvfrqgLnXClsW0+yN?=
+ =?us-ascii?Q?VjbE9GBd97wjl4cv1jPX1Nq6O1SD89A/uCUVAxbXidDPwY61VpKyLhRSrYch?=
+ =?us-ascii?Q?xtbB09LGiO5zEgE5YBqDdWQfL08cW7DH5RudTx+lW84FuJJCar/HIiJIHFPd?=
+ =?us-ascii?Q?aNBXj/yzk+LN71AUoCcoQ9gKj/QS9TH3Py0MwIMm?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 16e44b62-9600-44a8-a7d1-08db7df2b11d
+X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB5288.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2023 07:29:11.2780 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: K1P9QWRIoJ9QYDAX6P7tovgzNcJiuVzEbT9Gj858p8bhCgvcE/biF33PZCAj1NVl9wBPHSZpPMxY6gpPNPI7Sw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR06MB4316
+X-Mailman-Approved-At: Thu, 06 Jul 2023 07:37:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,150 +119,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <dri-devel@lists.freedesktop.org>, Caleb Connolly <caleb@connolly.tech>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Sam Ravnborg <sam@ravnborg.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Andy Gross <agross@kernel.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Bjorn Andersson <andersson@kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: opensource.kernel@vivo.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Replace DEFINE_SIMPLE_ATTRIBUTE with DEFINE_DEBUGFS_ATTRIBUTE.
 
---ta6lyqgdkmvaizdf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Minjie Du <duminjie@vivo.com>
+---
+ drivers/gpu/drm/i915/display/intel_psr.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Wed, Jul 05, 2023 at 11:09:40PM +0300, Dmitry Baryshkov wrote:
-> On 05/07/2023 19:53, Maxime Ripard wrote:
-> > On Wed, Jul 05, 2023 at 06:20:13PM +0300, Dmitry Baryshkov wrote:
-> > > On Wed, 5 Jul 2023 at 17:24, Maxime Ripard <mripard@kernel.org> wrote:
-> > > >=20
-> > > > On Wed, Jul 05, 2023 at 04:37:57PM +0300, Dmitry Baryshkov wrote:
-> > > > > > > >=20
-> > > > > > > > Either way, I'm not really sure it's a good idea to multipl=
-y the
-> > > > > > > > capabilities flags of the DSI host, and we should just stic=
-k to the
-> > > > > > > > spec. If the spec says that we have to support DSC while vi=
-deo is
-> > > > > > > > output, then that's what the panels should expect.
-> > > > > > >=20
-> > > > > > > Except some panels supports DSC & non-DSC, Video and Command =
-mode, and
-> > > > > > > all that is runtime configurable. How do you handle that ?
-> > > > > >=20
-> > > > > > In this case, most of the constraints are going to be on the en=
-coder
-> > > > > > still so it should be the one driving it. The panel will only c=
-are about
-> > > > > > which mode has been selected, but it shouldn't be the one drivi=
-ng it,
-> > > > > > and thus we still don't really need to expose the host capabili=
-ties.
-> > > > >=20
-> > > > > This is an interesting perspective. This means that we can and ac=
-tually have
-> > > > > to extend the drm_display_mode with the DSI data and compression
-> > > > > information.
-> > > >=20
-> > > > I wouldn't extend drm_display_mode, but extending one of the state
-> > > > structures definitely.
-> > > >=20
-> > > > We already have some extra variables in drm_connector_state for HDM=
-I,
-> > > > I don't think it would be a big deal to add a few for MIPI-DSI.
-> > > >=20
-> > > > We also floated the idea for a while to create bus-specific states,=
- with
-> > > > helpers to match. Maybe it would be a good occasion to start doing =
-it?
-> > > >=20
-> > > > > For example, the panel that supports all four types for the 1080p=
- should
-> > > > > export several modes:
-> > > > >=20
-> > > > > 1920x1080-command
-> > > > > 1920x1080-command-DSC
-> > > > > 1920x1080-video
-> > > > > 1920x1080-video-DSC
-> > > > >=20
-> > > > > where video/command and DSC are some kinds of flags and/or inform=
-ation in
-> > > > > the drm_display_mode? Ideally DSC also has several sub-flags, whi=
-ch denote
-> > > > > what kind of configuration is supported by the DSC sink (e.g. bpp=
-, yuv,
-> > > > > etc).
-> > > >=20
-> > > > So we have two things to do, right? We need to expose what the pane=
-l can
-> > > > take (ie, EDID for HDMI), and then we need to tell it what we picked
-> > > > (infoframes).
-> > > >=20
-> > > > We already express the former in mipi_dsi_device, so we could exten=
-d the
-> > > > flags stored there.
-> > > >=20
-> > > > And then, we need to tie what the DSI host chose to a given atomic =
-state
-> > > > so the panel knows what was picked and how it should set everything=
- up.
-> > >=20
-> > > This is definitely something we need. Marijn has been stuck with the
-> > > panels that support different models ([1]).
-> > >=20
-> > > Would you prefer a separate API for this kind of information or
-> > > abusing atomic_enable() is fine from your point of view?
-> > >=20
-> > > My vote would be for going with existing operations, with the slight
-> > > fear of ending up with another DSI-specific hack (like
-> > > pre_enable_prev_first).
-> >=20
-> > I don't think we can get away without getting access to the atomic_state
-> > from the panel at least.
-> >=20
-> > Choosing one setup over another is likely going to depend on the mode,
-> > and that's only available in the state.
-> >=20
-> > We don't have to go the whole way though and create the sub-classes of
-> > drm_connector_state, but I think we should at least provide it to the
-> > panel.
-> >=20
-> > What do you think of creating a new set of atomic_* callbacks for
-> > panels, call that new set of functions from msm and start from there?
->=20
-> We are (somewhat) bound by the panel_bridge, but yeah, it seems possible.
+diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
+index 56c17283b..822858f3e 100644
+--- a/drivers/gpu/drm/i915/display/intel_psr.c
++++ b/drivers/gpu/drm/i915/display/intel_psr.c
+@@ -2998,7 +2998,7 @@ i915_edp_psr_debug_get(void *data, u64 *val)
+ 	return -ENODEV;
+ }
+ 
+-DEFINE_SIMPLE_ATTRIBUTE(i915_edp_psr_debug_fops,
++DEFINE_DEBUGFS_ATTRIBUTE(i915_edp_psr_debug_fops,
+ 			i915_edp_psr_debug_get, i915_edp_psr_debug_set,
+ 			"%llu\n");
+ 
+-- 
+2.39.0
 
-Bridges have access to the atomic state already, so it's another place
-to plumb this through but I guess it would still be doable?
-
-Maxime
-
---ta6lyqgdkmvaizdf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZKZsLwAKCRDj7w1vZxhR
-xQYLAQDrdn9drGvi55zx4P3Y2raA/CnwNgRdfA3IyCWJWHEDAgEAhpDQWL3p2wMq
-vhnP9QUdDtDLVJB0QOPAk5w1qMBU4w0=
-=CHew
------END PGP SIGNATURE-----
-
---ta6lyqgdkmvaizdf--
