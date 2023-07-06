@@ -1,62 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24F7D74A46A
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 21:32:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 056BE74A4EA
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 22:28:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B54E10E4A0;
-	Thu,  6 Jul 2023 19:32:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE34010E4BE;
+	Thu,  6 Jul 2023 20:27:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B79C110E4A0
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 19:32:40 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- 5b1f17b1804b1-3fbb07e7155so25305e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jul 2023 12:32:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1688671958; x=1691263958;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NUuKYRwlFUzABWSf5+6iBwx53UilJyfRZ0D3hmTP1sA=;
- b=wwjvOn7ZtmjHXgig4UwagIJ2tdWzskYb8d3pwKOsLO3XQC2hMvKfVEbHlAxbQquyfg
- XTssqv0UZAgHXIlofBZLjxpvJPK0bsuBxSZbBJ2gsTnopXsodSdtrgDiHJNDvUSH17SG
- fhSEn9sWYW4GtB4xe1P1MDS8PcSbCpTBgPMaBI8b1qZjY5XuLSoFLNVuEdgrzhV32NeM
- Q3QOE/jbOZoA2oHTEwJzlOczHylD6fav6AkRWAbveqGF7qOGfsyz9aKvn4D9sCc1CTuN
- fhtkgTIbrHC20wj4UnstqCYgbTu9x2V8YFQ2FyZsZlJ34A3ee9MoHh2iUxpsfzitgXlm
- qYJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688671958; x=1691263958;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=NUuKYRwlFUzABWSf5+6iBwx53UilJyfRZ0D3hmTP1sA=;
- b=d0dPqnIGI32dQ335NN1J07kSEjLJ3QrkPmkjY6CyML7AcoT9GD4QtEHtupgbS1VjUb
- K6KK5/Ftd7pEfBd9R5UwjZur4qhd37kxckADlOuO+NmHuUywEejzh3EdpW6I7X3oE2Jr
- YzkGVDWieZUs04Bs0ePetburmM8akDHkcQd/2aiH38sid/DVs9hOvRdc23n1fPjIO7wH
- zkwo6MfRb3HZkmhch3ZRqnVyuB1uwO2y9ZPQ4Hva+O3DWaHZRnDHaC8OWxdsbNGTbwKV
- gNIlKHMUBFioaZUydifotKY+saLw9wQ8Q2EFY1TgN8v7d0wbEAuqUjD0ro/bBnvg1LY6
- B44w==
-X-Gm-Message-State: ABy/qLZwKawjvaaAWg48Yv9F4foHpyJ8DH6dDpC2CUUy7lRMIwW/teU4
- MGctpVq4p3LJHP1WBd/drA93nGkoUiXwqekJlj36tw==
-X-Google-Smtp-Source: APBJJlHL9PYr9dSGpbA5exBVajFz1DtuA0DPX5OnGxYtitt5MLyRP/w2oVbM0cmmOZJi3LU8MBO8oJvWu1d71aomjrk=
-X-Received: by 2002:a05:600c:5204:b0:3f1:73b8:b5fe with SMTP id
- fb4-20020a05600c520400b003f173b8b5femr16756wmb.3.1688671958285; Thu, 06 Jul
- 2023 12:32:38 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F6BF10E4A8;
+ Thu,  6 Jul 2023 20:27:54 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 366JXVLJ001122; Thu, 6 Jul 2023 20:27:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : subject :
+ date : message-id : mime-version : content-type :
+ content-transfer-encoding : to : cc; s=qcppdkim1;
+ bh=q21Hkg1SeAFZRghhSdVTbU3w1zuvGv0Lntvgsg8ofxI=;
+ b=jDyK+IcNcZIo2ck6whOCzJc8DiQQPZnVr2BX4V7VHKg0so/e1lBkIoG6E17dPbiB7Re1
+ pHaxZa3XhFXOEUPWpDxf8PAy1LCVygx2PPEHkZYilpH2SzsV+nRgXnDnVIaCm6FajM3N
+ xmuDdQdfvji/0UH+AMUFx3YvGM0IB9bXCEn4XRcM/yrVR8bau+xjBAmaERf81YGr8GMu
+ uKA61xMlIyP9otuaQsD2OhFuV5QdXGhIZbBZP9Aw+GcFRPfZPjkJsXQBlw497tphfHq9
+ +RMNGeNngqtZn/047oIA87fHDEZu9mcMIcqlRRiG+KoOyJIJV7RL7o9mzGEqwwqimmfW oA== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rnx4x0x5a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 06 Jul 2023 20:27:46 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 366KRj2j026329
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 6 Jul 2023 20:27:46 GMT
+Received: from hu-rmccann-lv.qualcomm.com (10.49.16.6) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.30; Thu, 6 Jul 2023 13:27:45 -0700
+From: Ryan McCann <quic_rmccann@quicinc.com>
+Subject: [PATCH v3 0/6] Add support to print sub-block registers in dpu hw
+ catalog
+Date: Thu, 6 Jul 2023 13:26:46 -0700
+Message-ID: <20230622-devcoredump_patch-v3-0-83601b72eb67@quicinc.com>
 MIME-Version: 1.0
-References: <20230704050744.1196293-1-yangcong5@huaqin.corp-partner.google.com>
-In-Reply-To: <20230704050744.1196293-1-yangcong5@huaqin.corp-partner.google.com>
-From: Doug Anderson <dianders@google.com>
-Date: Thu, 6 Jul 2023 12:32:26 -0700
-Message-ID: <CAD=FV=WNLcw2JbMf7tfob2KgjB8eXTC0p1J4OYnQL4k3Mz3mgA@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: Add avdd/avee delay for Starry-himax83102-j02
- and Starry-ili9882t panel
-To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIcjp2QC/4WOQQ7CIBBFr2JYO6ZCpK0r1x5BYwwdBksitEJLN
+ KZ3l3bnRpfvZ/7782aRgqXI9qs3C5RstJ3PINYrhq3yNwKrMzNecFFIzkFTwi6QHl1/7dWALWh
+ TUmWk0VJwlnuNigRNUB7buXk8gYsOPD0HuI9O3eabPpCxz2X3fMnc2jh04bW8kbZz+msxbaEA0
+ XDUiFLtSnl4jBatxw12js2+xP86eHbUVBeqKrWohfl2TNP0AeFSmtQcAQAA
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+X-Mailer: b4 0.13-dev-8a804
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1688675265; l=2395;
+ i=quic_rmccann@quicinc.com; s=20230622; h=from:subject:message-id;
+ bh=i+TPACK4IRxgParuA6RqZUve2po/P32gxGzH3K7rF94=;
+ b=QmFtMLmzhUdV8VplJ3Okj3UVuqjqOf5kzHf4Pilgemk5zUzGhvu/C3ssYN8IK4K0uBfuEvCMO
+ lplDPWc4BP+CqWy5/YnwVglEf5vr3fd2uyv++lC7qLpoxag/0tn5evL
+X-Developer-Key: i=quic_rmccann@quicinc.com; a=ed25519;
+ pk=d/uP3OwPGpj/bTtiHvV1RBZ2S6q4AL6j1+A5y+dmbTI=
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: zunmeKmo_uNf7zMVf_Cp29IksrC9gHAD
+X-Proofpoint-GUID: zunmeKmo_uNf7zMVf_Cp29IksrC9gHAD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-06_15,2023-07-06_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0
+ priorityscore=1501 impostorscore=0 bulkscore=0 mlxscore=0 malwarescore=0
+ suspectscore=0 clxscore=1015 spamscore=0 mlxlogscore=987 adultscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2307060179
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,34 +94,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, devicetree@vger.kernel.org, sam@ravnborg.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- hsinyi@google.com
+Cc: Rob Clark <robdclark@chromium.org>, Ryan McCann <quic_rmccann@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, quic_jesszhan@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The purpose of this patch series is to add support to print the registers
+of sub-blocks in the DPU hardware catalog and fix the order in which all
+hardware blocks are dumped for a device core dump. This involves:
 
-On Mon, Jul 3, 2023 at 10:07=E2=80=AFPM Cong Yang
-<yangcong5@huaqin.corp-partner.google.com> wrote:
->
-> From power on/off sequence for panel data sheet[1], T2 timing VSP to VSN
-> needs 1ms delay when power on, and VSN to VSP also needs 1ms delay when
-> power off. Some pmic may not be able to adjust the delay internally, so
-> let's add a delay between avdd/avee regulator gpio to meet the timing of
-> panel.
+1. Changing data structure from stack to queue to fix the printing order
+of the device core dump.
 
-Unless I'm mistaken, all of this is best handled via regulator
-constraints in the device tree. See the file:
+2. Removing redundant suffix of sub-block names.
 
-Documentation/devicetree/bindings/regulator/regulator.yaml
+3. Removing redundant prefix of sub-block names.
 
-Specifically, any delays related to actually ramping up / down the
-regulator can be specified in the device tree. Nominally, you could
-argue that the 1 ms delay actually _does_ belong in the driver, but
-IMO the 1 ms number there is really just there because someone thought
-it was weird to specify a delay of 0 ms. Given that you already need
-remp delays in the device tree, it feels OK to me to just include the
-1 ms there.
+4. Eliminating unused variable from relevant macros.
 
--Doug
+5. Defining names for sub-blocks that have not yet been defined.
+
+6. Implementing wrapper function that prints the registers of sub-blocks
+when there is a need.
+
+Sample Output of the sspp_0 block and its sub-blocks for devcore dump:
+======sspp_0======
+...registers
+...
+====sspp_0_scaler====
+...
+...
+====sspp_0_csc====
+...
+...
+====next_block====
+...
+
+---
+Changes in v3:
+- Split sub-block changes and main block changes into two commits
+- Corrected typo in comment located in DSC for loop block
+- Eliminated variables mmio and base
+- Dropped unnecessary "%s"
+- Link to v2: https://lore.kernel.org/r/20230622-devcoredump_patch-v2-0-9e90a87d393f@quicinc.com
+
+Changes in v2:
+- Changed spelling "sub block" to "sub-block" or "sblk".
+- Capitalized DPU.
+- Eliminated multiplexer/wrapper function. Inlined instead.
+- Changed if statements from feature checks to length checks.
+- Squashed prefix and suffix patch into one.
+- Link to v1: https://lore.kernel.org/r/20230622-devcoredump_patch-v1-0-3b2cdcc6a576@quicinc.com
+
+---
+Ryan McCann (6):
+      drm/msm: Update dev core dump to not print backwards
+      drm/msm/dpu: Drop unused num argument from relevant macros
+      drm/msm/dpu: Define names for unnamed sblks
+      drm/msm/dpu: Remove redundant prefix/suffix in name of sub-blocks
+      drm/msm/dpu: Refactor printing of main blocks in device core dump
+      drm/msm/dpu: Update dev core dump to dump registers of sub-blocks
+
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 90 +++++++++++-----------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c           | 94 ++++++++++++++++++-----
+ drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c |  2 +-
+ 3 files changed, 120 insertions(+), 66 deletions(-)
+---
+base-commit: a0364260213c96f6817f7e85cdce293cb743460f
+change-id: 20230622-devcoredump_patch-df7e8f6fd632
+
+Best regards,
+-- 
+Ryan McCann <quic_rmccann@quicinc.com>
+
