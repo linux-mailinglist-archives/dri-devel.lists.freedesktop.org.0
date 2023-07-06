@@ -1,59 +1,124 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AA60749677
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 09:37:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BD4774967E
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 09:37:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5351910E44C;
-	Thu,  6 Jul 2023 07:37:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 560F310E450;
+	Thu,  6 Jul 2023 07:37:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 481 seconds by postgrey-1.36 at gabe;
- Wed, 05 Jul 2023 18:18:56 UTC
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org
- [IPv6:2001:67c:2050:0:465::201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DC5510E0A4
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jul 2023 18:18:56 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4Qx74j4Q8mz9t3C;
- Wed,  5 Jul 2023 20:10:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1688580645;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jgDQ8yBo/JIQ9nabFXz7PbiSlCXBn916dNYyzxZZE90=;
- b=hZYQ1PmQ4+UCPQb4lG/g/0VGatmUxKvCMtbdOuJVp19k2VFE+jBsiAovklW2S1p+R4avk3
- T6fRT2lnS6Pzt2Jfcavp9fPvSeD/ej71k5aHWo7qNChsp9/ooPe4MAQ0tXaLw3QfVdRURk
- BaV1FUYAooSLKBy3Aii7IdqYj3YyL6KTpVg4bTa0ELn/HagfWCbLV+HGp5gmVfXE+pceSp
- UB+ftUMPpPfT3f1IauPvilT8m/Tdw7/D6W/pmr/UHGbWpOlcvmpZ1Zf3o+4osQnr3H4PdP
- yqwuE8hIroccAJFVx80qTou6/A2l/TGJIf0RgRwMyAgWk9Kk1SwYcvflJZXJTA==
-Message-ID: <072d786b-f10d-a7d6-163c-e70be4bad1f3@mailbox.org>
-Date: Wed, 5 Jul 2023 20:10:40 +0200
+Received: from APC01-PSA-obe.outbound.protection.outlook.com
+ (mail-psaapc01on20726.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:feae::726])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A1A310E1C6;
+ Thu,  6 Jul 2023 02:11:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HqyDwqrJDcpO5AaCSOlkBWDQbbIPNpxs3im2cIZKDeB4ZYKgzi6pPEM4OJSv/LinCUs8aPXJlAcBHH22I0lZBN0ImHkRu9YI8WSG9cQNNck/xlYFCq6MUJzVkI+3XpdJkrkkDMe8aPvnPrCxjZpCB1QMWuPnv+2fBaXBOE8Mxh0FL43m+OdCaC3d1/u3/KV/TAQ99FYWWYA7N4hUlo8n/SCdj6st4X1S2lTrjbYBlf5F6hk2dmSCbWHRBUbp0p3TybgRuPukvFo9f9U1qWBWvVUj0DSsojxeJmBGF60FAYxAGSuVDP9OUjFjfRiCOtgN/cu1WTf4l1oT9bcZ8wLXpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1ugY+1ShlS7IIZZCnoXdEsWUabJWbbkhTdKnJL8m15c=;
+ b=OJ8KBxvMceNIaQszYil5561rmue0YqEr6Q0wQxocBCdio2HinpMY0/7qX1A2qMvIEGya72KzNewrNzOu38Dax5Kv5FZrDzWeiGK8yeWgVagdncQzAbL0vlTecun1Uvzu1nA2+RIJ6mpQ2fRF664r9wn8qm5TW2LEtmUpdo0jQNpYrc+WGtGwLtEtw9/T5MbilYsUbeTfc78zg/xWbLkTwh3bnG68c4uIjgUt36mGiE71QVCE47W8n5ZUtb3px5YkVXgk8vCFX/2+vaGTsLwpYJY4e/1LwEiloUPDLX77124cSYLzLDKwW5kDdQXmluvQIZFTZbL3oKBzkg2bt3pLGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1ugY+1ShlS7IIZZCnoXdEsWUabJWbbkhTdKnJL8m15c=;
+ b=FCsCO8RVzaJtXdkGzix83nnuP4AvSBPhVJsvN/cq+fdD7qet47XH9TFRA3wh5WBe51uhIniuSX13mh0wNiwAN8NCw33vnQZHuUzXT4q7+YM4/EX9ZqnK4TJy+3KTGZnfIL/p+/qrnyWGN1RRD5yZarvvOAJJmxJYRefXp/pj5sbmpL8isrQqNPx7Y3tOuo/0/RKmmn6X9wWX8UWJuUqiJH4nvytAQyoXn3JnzdUjcygeRe6CEI6mjdwfTFXdaURVGoD0Pv5Kg53718TlciEOFHabqW/zrXGYt+mQWJ9Iz2Q8aXhWp1ibWCzQ3KHltXCPLR/zAlTUnpnphxlMXEoigg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SEYPR06MB6615.apcprd06.prod.outlook.com (2603:1096:101:172::11)
+ by SEZPR06MB6206.apcprd06.prod.outlook.com (2603:1096:101:e8::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.17; Thu, 6 Jul
+ 2023 02:11:24 +0000
+Received: from SEYPR06MB6615.apcprd06.prod.outlook.com
+ ([fe80::c817:d237:dc0d:576]) by SEYPR06MB6615.apcprd06.prod.outlook.com
+ ([fe80::c817:d237:dc0d:576%4]) with mapi id 15.20.6565.016; Thu, 6 Jul 2023
+ 02:11:24 +0000
+From: Yang Rong <yangrong@vivo.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+ Pavel Begunkov <asml.silence@gmail.com>, Alvin Lee <Alvin.Lee2@amd.com>,
+ Jun Lei <Jun.Lei@amd.com>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ Max Tseng <Max.Tseng@amd.com>, Josip Pavic <Josip.Pavic@amd.com>,
+ Cruise Hung <cruise.hung@amd.com>,
+ amd-gfx@lists.freedesktop.org (open list:AMD DISPLAY CORE),
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+ linux-kernel@vger.kernel.org (open list),
+ virtualization@lists.linux-foundation.org (open list:VIRTIO CORE AND NET
+ DRIVERS), netdev@vger.kernel.org (open list:NETWORKING DRIVERS),
+ io-uring@vger.kernel.org (open list:IO_URING)
+Subject: [PATCH] Fix max/min warnings in virtio_net, amd/display, and io_uring
+Date: Thu,  6 Jul 2023 10:06:16 +0800
+Message-ID: <20230706021102.2066-1-yangrong@vivo.com>
+X-Mailer: git-send-email 2.41.0.windows.1
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-ClientProxiedBy: TYWPR01CA0021.jpnprd01.prod.outlook.com
+ (2603:1096:400:aa::8) To SEYPR06MB6615.apcprd06.prod.outlook.com
+ (2603:1096:101:172::11)
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 07/17] drm/imagination: Add GPU ID parsing and firmware
- loading
-Content-Language: en-US
-To: Frank Binns <Frank.Binns@imgtec.com>,
- "aford173@gmail.com" <aford173@gmail.com>
-References: <20230613144800.52657-1-sarah.walker@imgtec.com>
- <20230613144800.52657-8-sarah.walker@imgtec.com>
- <CAHCN7xK9rDyeTCFz3nonvEnKWyFeqsPpvzHcoPA6SCXSbTYGkw@mail.gmail.com>
- <1863de9e89872a0330dea51afbef5efaa6a4b831.camel@imgtec.com>
- <CAHCN7x+Fep209VCBfaa8C8Q9sG5wZ==GHt2OGhfhLBRxpMX3kw@mail.gmail.com>
- <9c11a1afd5e568b3daebc0aff1cf71650adf3dca.camel@imgtec.com>
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <9c11a1afd5e568b3daebc0aff1cf71650adf3dca.camel@imgtec.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 4xof4eydc8ya4h56jmc7d63rgtny66ja
-X-MBO-RS-ID: 3b7ad94815a380cb663
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEYPR06MB6615:EE_|SEZPR06MB6206:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0665b1c4-1ffd-4c98-ffd7-08db7dc64be3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9h/oybtn2Ol+7Afg+l2R70jkdGdhTrOmwcUg/Pyf+2hmB0lH/VB4ff/AHFCRwRKOypVC4beBOUr8BMTZGB1H2y8d8qQfFhWoVZekrXeI6OtZGkG748KUYtNicKuUS22gbrIeU5CIB1meeA4McOx8urqbnY1SvtCoo8AYPMuV4si0Z/XlId1OET/WnPZ+tNX9ikI/+BMkmYtge5qXKQJDaJuP3n1XUIfAINQsgrlTkxO75LqAxZgAVM9rpvV9N11ssd7ul2BNQ/FzGLChk0mENozAtgx1elD0oNKvNNPiVMYqGh+k4wi7k+Zw3xltAZM1dlP0wvfwzgbhXJ7CbNMrblZvmFd49F+I06InV151OLT6DUuTLRudKZbYhSFtjTtBYNDFKzKl8Zh/sTTZ08DQmC4Fr+e9W2Iot7M5j7T+rccva8XYMeuDgu9QIEMbjg9dGX1TTqbt6/WsgLVIt9vu9/yU0y86PPWwIjz1RUq7FOiNwJWSljiooYkX9zNs6qwMf2uXOj4Anw7SR3+aiGFj7qRnTaVn7Q4NTc6bdtQWZG5X1q3z/LzbPXvqjjTBTkmfty8HUCtw6NEN8CiXmSZO1d8O6XmfD6K7UqaCMwC6rKk93C1L14mh7FaV3QuQ6ZOGwP2zR0h7WX7v9nupFXtEqQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SEYPR06MB6615.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(346002)(366004)(376002)(136003)(39860400002)(396003)(451199021)(110136005)(921005)(6486002)(52116002)(6666004)(478600001)(41300700001)(8936002)(8676002)(38100700002)(38350700002)(2616005)(4326008)(66556008)(66476007)(316002)(66946007)(186003)(83380400001)(6512007)(107886003)(26005)(1076003)(6506007)(86362001)(5660300002)(7416002)(2906002)(36756003);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xThDpyZ962z9nuD5jE8UpZfDeGujqMBlH9gr+d3+F9bgOytALtIh5DwMpdP3?=
+ =?us-ascii?Q?QwZJQ75hMZNZxZ4IVQlXHzvyHfyXJNXGry3I/0BYsnz7rz9+o02Blh11CBc2?=
+ =?us-ascii?Q?FPyvt4PRrV03GxTVKAlyFv70JDdgBavfHyvgPvqCEUy37UzelH7CdzHkJuEq?=
+ =?us-ascii?Q?5P3Utd9Kt01n5k4tK8mcOQJbeY610uKvj7UOXPLOXQSMWPwETblN2FUbahSp?=
+ =?us-ascii?Q?LL8spaUiZpepkCg+lWSPV3AtJ3nYrdSY/t3nDnXEBFUBfn/VaW/yT9o++hFX?=
+ =?us-ascii?Q?iOFS2Oa9XSjHiyX2r9KHeKSBDFaVdqtWUl7+WgfECxTb/YK7ymHupwshGzTL?=
+ =?us-ascii?Q?OpW45BpucGkbC43cCkQwQY2SkLpdcIKHuNGq+u+prnXTojXQSHgPfTxIyr+K?=
+ =?us-ascii?Q?Y78EALA2bVNA7tZuCfub86g8Vt5ssCZUY/RD3b8MtnHDG53SGeMaER46Pump?=
+ =?us-ascii?Q?kHHQw5Tv3ghBHpLTbWaRbo47pQLs3IlNsWeaaT4CVbCDtlSPBJgb9Baa9TEz?=
+ =?us-ascii?Q?+sBBGITuKLIg/Htg/ShfIsh98BVZLqoiG8wXHERxNMBTWE6TINXquw6usFLx?=
+ =?us-ascii?Q?QHHKtCwpttSA6vap69uBhSPCN0MqvlvSpRg7NEhOMS1HboVQIvRAjczkG0I2?=
+ =?us-ascii?Q?JgovUP0KfJYratEwsWZDkiOsy28eTlO58af32JktwA4fvyKkPS2G7Rm3L0Fm?=
+ =?us-ascii?Q?0CvifsRzawl14ThcQsQSdvUCfxSy5+dC+0ctI3GmukSdcoNFf08E+N/kMoC0?=
+ =?us-ascii?Q?iS6absxos4Ve6W8a8qYfwhlvt69sdWq/BtQV6SQLOOOF3UXlg6echoKvzVGi?=
+ =?us-ascii?Q?Q+FtxFQ9OGF5K13XEwDemVmz5VFYdrwY/srVzjbhs+3Thc/Bk9lh/UUNRaAm?=
+ =?us-ascii?Q?PWg2KLY95152V8iutmb9rC6iKe8nzN9Uf2gYnMJl0p6tE3u3H8QguscUNh2N?=
+ =?us-ascii?Q?zd1z3CyS7UimSF99SeRyQ0sz7BW3RiCp20/v9N+0CTUc63vC2hMqtaMpz2W5?=
+ =?us-ascii?Q?CZGMPhtBrXl6XKEj0vipbUB7STtsJDsgSE+XRVZph18jVcbP+XK/TK+Ky5NW?=
+ =?us-ascii?Q?faa4B5qzMlGV4yzn9EJDxZgoRT0RNwKiti9QeXl+o+unbN0wOybM+2J2KSG8?=
+ =?us-ascii?Q?lD/+5TI3wrNB7107G7rWhSYP55AaFdBcgW6r87Rb7jgsPELhjfCz12APns8W?=
+ =?us-ascii?Q?DXeFxQIt4c9lYkYrsEN1rGzraMokPefvqBUfNCJ4N6UOPDGgVjr6Jy+50pvL?=
+ =?us-ascii?Q?4pfH3HF/M7aTvkStud0VOh+s3m7suZ1/nij+tHuKvnB+vFm88Ea9+SorSPbU?=
+ =?us-ascii?Q?ugKBSrwOTWPQXaeaLaG6s4tMiTkTQYt5TjADTMPGugm3dIwFcvUg1RS45QGH?=
+ =?us-ascii?Q?9kBIWHwxjdSCVtaS0g9WTjIx4NEuhrmLCc1CBouuGHMejP0gpz4CW5DJ1Ze0?=
+ =?us-ascii?Q?5Xw0CZEfCGIHa/C87g4IZVs16dyZuhNxqvv8+Gp10im5Se6r86kMX6ro7xY9?=
+ =?us-ascii?Q?/fb/bxa296mJM0ftUmUIgjOoPmIvuaR1KWLPWvGAyOT0/v8hZOE6i9/gj+F9?=
+ =?us-ascii?Q?wPCWUaxa7+/0E+z1CsJklibbfaFF6OMsH3/Iv2GY?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0665b1c4-1ffd-4c98-ffd7-08db7dc64be3
+X-MS-Exchange-CrossTenant-AuthSource: SEYPR06MB6615.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2023 02:11:23.7184 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 60ruQpxSbu1kpyIyypa5KYoL9pBgwWl8keuWbdOtE66ykcEqGnufZHlrr1yY4R/hYyHB4ymcM0zidWvjEz6Yuw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB6206
 X-Mailman-Approved-At: Thu, 06 Jul 2023 07:37:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,126 +132,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "matthew.brost@intel.com" <matthew.brost@intel.com>,
- Sarah Walker <Sarah.Walker@imgtec.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "luben.tuikov@amd.com" <luben.tuikov@amd.com>,
- "dakr@redhat.com" <dakr@redhat.com>, Donald Robson <Donald.Robson@imgtec.com>,
- "boris.brezillon@collabora.com" <boris.brezillon@collabora.com>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "faith.ekstrand@collabora.com" <faith.ekstrand@collabora.com>
+Cc: opensource.kernel@vivo.com, luhongfei@vivo.com,
+ Yang Rong <yangrong@vivo.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/5/23 15:13, Frank Binns wrote:
-> On Mon, 2023-06-26 at 10:38 -0500, Adam Ford wrote:
->> On Mon, Jun 26, 2023 at 8:22 AM Frank Binns <Frank.Binns@imgtec.com> wrote:
->>> Hi Adam,
->>>
->>> On Sat, 2023-06-17 at 07:48 -0500, Adam Ford wrote:
->>>> On Tue, Jun 13, 2023 at 10:20 AM Sarah Walker <sarah.walker@imgtec.com> wrote:
->>>>> Read the GPU ID register at probe time and select the correct
->>>>> features/quirks/enhancements. Use the GPU ID to form the firmware
->>>>> file name and load the firmware.
->>>>
->>>> I have a Rogue 6250 variant, but the BVNC is returning a slightly
->>>> different revision than the firmware that's currently available, and
->>>> the older firmware for the vendor driver doesn't work with this new
->>>> code.
->>>>
->>>> Linux responds with Unsupported BVNC: 4.45.2.58.  From what I can
->>>> tell, the closest available firmware is 4.40.2.51.
->>>>
->>>> Will there be more firmware variants in the future or will there be
->>>> some options to build the firmware somehow?
->>>
->>> We don't plan to support the SoC vendor provided firmware binaries as this will
->>> mean having to deal with many different versions of the firmware and its
->>> interface. Specifically, the interface can change in backwards incompatible ways
->>> between releases, it changes based on the hardware feature set & bugs and it's
->>> split across userspace & the kernel. This makes these SoC provided firmware
->>> binaries very difficult to support in this new driver.
->>
->> Thanks for the response.
->>
->> That makes sense.  I would hope that various SoC vendors would jump on
->> the bandwagon to work with your group to get their hardware supported.
->>> As an alternative, we'll be releasing firmware binaries as we add support for
->>> more Rogue GPUs. We'll also release binaries upon request, in case others in the
->>> community want to work on support in the meantime - we're just getting things
->>> set up for this at the moment.
->>
->> The Mesa side of things appears to be missing some documentation, and
->> the power VR stuff still appears listed as experimental.  Is there
->> some documentation somewhere that would explain to someone how to go
->> about porting the Rogue 6250 to a different hardware variant of the
->> 6250?  I don't really know the difference between BVNC of 4.45.2.58
->> and 4.40.2.51, but I can't imagine they are drastically different.
-> 
-> One thing I forgot to mention is that, alongside the firmware binaries, we'll
-> also provide the corresponding device info, e.g. for Mesa:
-> https://gitlab.freedesktop.org/mesa/mesa/-/blob/e714b35301a33145399f8939ca864ffd14b49de9/src/imagination/common/pvr_device_info.c#L32-125
-> 
-> We don't have any specific porting documentation, but we did just send out a
-> Mesa MR adding some initial (basic) documentation:
-> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/23992
-> 
-> In terms of differences between the two GX6250 variants, it doesn't seem that
-> there's anything feature-wise that will require any driver changes that are
-> specific to the 4.45.2.58 variant (the different firmware should in theory be
-> sufficient). There are still some driver changes required, however.
-> 
-> Assuming the SoC you're interested in is already well supported upstream and the
-> clocks, power controllers, etc needed by the GPU are also already supported then
-> the following changes will be required at a minimum:
-> 
-> 1. A GPU node will need adding to the device tree source file for your specific
->     board
-> 2. The compatible string for the GPU node will need adding to the list of
->     supported devices in the kernel driver (grep for "dt_match" in the driver
->     code)
-> 3. The device info we provide alongside the firmware binary will need adding to
->     the kernel driver and Mesa
-> 4. The compatible string for the GPU and display controller device tree nodes
->     will need adding to the Vulkan driver (grep for "pvr_drm_configs" in the Mesa
->     code to see existing examples)
->     
-> Hopefully that covers everything, but no doubt I missed something!
-> 
-> With respect to the experimental status of the driver, I think there are three
-> things that need to happen before we can drop this tag. Firstly, the kernel
-> driver needs to be merged to the kernel. Secondly, we need to pass Khronos
-> conformance on at least one of the devices we support (our current focus is on
-> the AXE-1-16M). Finally, we need to upstream all our Mesa changes. This is
-> something that we've been chipping away at, but we do have a big backlog in our
-> public branch [1]. I expect it's going to be quite some time until all of this
-> work is complete.
-> 
-> While so much code is sitting in downstream branches I think it's going to be
-> somewhat painful for people to meaningfully contribute to the driver itself.
-> Effort is probably best spent on getting the other drivers, which the GPU driver
-> depends on, upstream for the platform(s) you're interested in.
-> 
-> Just to say that I'm by no means trying to put you off from contributing, but
-> simply trying to warn you that until the driver is out of its experimental
-> state, a lot of things are going to be in flux and the development process is
-> currently a lot more complicated.
-> 
-> It's also worth highlighting that we're a small team tackling a very large job!
-> We're doing our best to do things in the proper way and to lay good foundations
-> for the future. We're also learning along the way, so please bear with us :-)
+The files drivers/net/virtio_net.c, drivers/gpu/drm/amd/display/dc/dc_dmub_=
+srv.c, and io_uring/io_uring.c were modified to fix warnings.
+Specifically, the opportunities for max() and min() were utilized to addres=
+s the warnings.
 
-Last year I spent considerable amount of time trying to bring this up on 
-R-Car M3-W, but that all failed due to unavailable firmware for this GPU 
-revision. The GPU is also GX6250 , so supporting it should be basically 
-trivial, considering how the R-Car Gen3 upstream support is all there 
-and the driver already supports GX6250 .
+Signed-off-by: Yang Rong <yangrong@vivo.com>
+---
+ drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c | 6 +++---
+ drivers/net/virtio_net.c                     | 3 ++-
+ io_uring/io_uring.c                          | 3 ++-
+ 3 files changed, 7 insertions(+), 5 deletions(-)
 
-Would it be possible for imgtec to provide suitable firmware for this 
-GX6250 revision, so the bring up effort could be resumed ?
+diff --git a/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c b/drivers/gpu/drm=
+/amd/display/dc/dc_dmub_srv.c
+index c753c6f30dd7..df79aea49a3c 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
++++ b/drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c
+@@ -22,7 +22,7 @@
+  * Authors: AMD
+  *
+  */
+-
++#include <linux/minmax.h>
+ #include "dc.h"
+ #include "dc_dmub_srv.h"
+ #include "../dmub/dmub_srv.h"
+@@ -481,7 +481,7 @@ static void populate_subvp_cmd_drr_info(struct dc *dc,
+        max_drr_vblank_us =3D div64_u64((subvp_active_us - prefetch_us -
+                        dc->caps.subvp_fw_processing_delay_us - drr_active_=
+us), 2) + drr_active_us;
+        max_drr_mallregion_us =3D subvp_active_us - prefetch_us - mall_regi=
+on_us - dc->caps.subvp_fw_processing_delay_us;
+-       max_drr_supported_us =3D max_drr_vblank_us > max_drr_mallregion_us =
+? max_drr_vblank_us : max_drr_mallregion_us;
++       max_drr_supported_us =3D max(max_drr_vblank_us, max_drr_mallregion_=
+us);
+        max_vtotal_supported =3D div64_u64(((uint64_t)drr_timing->pix_clk_1=
+00hz * 100 * max_drr_supported_us),
+                        (((uint64_t)drr_timing->h_total * 1000000)));
 
-I think that would also yield a couple more reviewers of this driver, 
-since without a suitable firmware, the kernel driver and user space 
-stack can not be tested, so there is no point in reviewing or even 
-merging such untestable code.
+@@ -771,7 +771,7 @@ void dc_dmub_setup_subvp_dmub_command(struct dc *dc,
+                wm_val_refclk =3D context->bw_ctx.bw.dcn.watermarks.a.cstat=
+e_pstate.pstate_change_ns *
+                                (dc->res_pool->ref_clocks.dchub_ref_clock_i=
+nKhz / 1000) / 1000;
+
+-               cmd.fw_assisted_mclk_switch_v2.config_data.watermark_a_cach=
+e =3D wm_val_refclk < 0xFFFF ? wm_val_refclk : 0xFFFF;
++               cmd.fw_assisted_mclk_switch_v2.config_data.watermark_a_cach=
+e =3D min(wm_val_refclk, 0xFFFF);
+        }
+
+        dm_execute_dmub_cmd(dc->ctx, &cmd, DM_DMUB_WAIT_TYPE_WAIT);
+diff --git a/drivers/net/virtio_net.c b/drivers/net/virtio_net.c
+index 9b3721424e71..5bb7da885f00 100644
+--- a/drivers/net/virtio_net.c
++++ b/drivers/net/virtio_net.c
+@@ -22,6 +22,7 @@
+ #include <net/route.h>
+ #include <net/xdp.h>
+ #include <net/net_failover.h>
++#include <linux/minmax.h>
+
+ static int napi_weight =3D NAPI_POLL_WEIGHT;
+ module_param(napi_weight, int, 0444);
+@@ -1291,7 +1292,7 @@ static struct sk_buff *build_skb_from_xdp_buff(struct=
+ net_device *dev,
+        __skb_put(skb, data_len);
+
+        metasize =3D xdp->data - xdp->data_meta;
+-       metasize =3D metasize > 0 ? metasize : 0;
++       metasize =3D max(metasize, 0);
+        if (metasize)
+                skb_metadata_set(skb, metasize);
+
+diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
+index e8096d502a7c..875ca657227d 100644
+--- a/io_uring/io_uring.c
++++ b/io_uring/io_uring.c
+@@ -47,6 +47,7 @@
+ #include <linux/refcount.h>
+ #include <linux/uio.h>
+ #include <linux/bits.h>
++#include <linux/minmax.h>
+
+ #include <linux/sched/signal.h>
+ #include <linux/fs.h>
+@@ -2660,7 +2661,7 @@ static void *__io_uaddr_map(struct page ***pages, uns=
+igned short *npages,
+                                        page_array);
+        if (ret !=3D nr_pages) {
+ err:
+-               io_pages_free(&page_array, ret > 0 ? ret : 0);
++               io_pages_free(&page_array, max(ret, 0));
+                return ret < 0 ? ERR_PTR(ret) : ERR_PTR(-EFAULT);
+        }
+        /*
+--
+2.35.3
+
+
+________________________________
+=E6=9C=AC=E9=82=AE=E4=BB=B6=E5=8F=8A=E5=85=B6=E9=99=84=E4=BB=B6=E5=86=85=E5=
+=AE=B9=E5=8F=AF=E8=83=BD=E5=90=AB=E6=9C=89=E6=9C=BA=E5=AF=86=E5=92=8C/=E6=
+=88=96=E9=9A=90=E7=A7=81=E4=BF=A1=E6=81=AF=EF=BC=8C=E4=BB=85=E4=BE=9B=E6=8C=
+=87=E5=AE=9A=E4=B8=AA=E4=BA=BA=E6=88=96=E6=9C=BA=E6=9E=84=E4=BD=BF=E7=94=A8=
+=E3=80=82=E8=8B=A5=E6=82=A8=E9=9D=9E=E5=8F=91=E4=BB=B6=E4=BA=BA=E6=8C=87=E5=
+=AE=9A=E6=94=B6=E4=BB=B6=E4=BA=BA=E6=88=96=E5=85=B6=E4=BB=A3=E7=90=86=E4=BA=
+=BA=EF=BC=8C=E8=AF=B7=E5=8B=BF=E4=BD=BF=E7=94=A8=E3=80=81=E4=BC=A0=E6=92=AD=
+=E3=80=81=E5=A4=8D=E5=88=B6=E6=88=96=E5=AD=98=E5=82=A8=E6=AD=A4=E9=82=AE=E4=
+=BB=B6=E4=B9=8B=E4=BB=BB=E4=BD=95=E5=86=85=E5=AE=B9=E6=88=96=E5=85=B6=E9=99=
+=84=E4=BB=B6=E3=80=82=E5=A6=82=E6=82=A8=E8=AF=AF=E6=94=B6=E6=9C=AC=E9=82=AE=
+=E4=BB=B6=EF=BC=8C=E8=AF=B7=E5=8D=B3=E4=BB=A5=E5=9B=9E=E5=A4=8D=E6=88=96=E7=
+=94=B5=E8=AF=9D=E6=96=B9=E5=BC=8F=E9=80=9A=E7=9F=A5=E5=8F=91=E4=BB=B6=E4=BA=
+=BA=EF=BC=8C=E5=B9=B6=E5=B0=86=E5=8E=9F=E5=A7=8B=E9=82=AE=E4=BB=B6=E3=80=81=
+=E9=99=84=E4=BB=B6=E5=8F=8A=E5=85=B6=E6=89=80=E6=9C=89=E5=A4=8D=E6=9C=AC=E5=
+=88=A0=E9=99=A4=E3=80=82=E8=B0=A2=E8=B0=A2=E3=80=82
+The contents of this message and any attachments may contain confidential a=
+nd/or privileged information and are intended exclusively for the addressee=
+(s). If you are not the intended recipient of this message or their agent, =
+please note that any use, dissemination, copying, or storage of this messag=
+e or its attachments is not allowed. If you receive this message in error, =
+please notify the sender by reply the message or phone and delete this mess=
+age, any attachments and any copies immediately.
+Thank you
