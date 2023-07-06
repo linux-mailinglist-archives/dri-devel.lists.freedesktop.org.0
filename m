@@ -1,69 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DDD374A6D4
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 00:22:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 779B474A785
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 01:21:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 625B910E107;
-	Thu,  6 Jul 2023 22:22:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E28A10E117;
+	Thu,  6 Jul 2023 23:21:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
- [IPv6:2607:f8b0:4864:20::b31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 089F010E107
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 22:22:07 +0000 (UTC)
-Received: by mail-yb1-xb31.google.com with SMTP id
- 3f1490d57ef6-c2cf4e61bc6so1442425276.3
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jul 2023 15:22:07 -0700 (PDT)
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E03010E043
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 23:21:17 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id
+ 38308e7fff4ca-2b63e5f94f1so15801271fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jul 2023 16:21:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688682126; x=1691274126;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=u3ZnLWYda5s0Z078Xc8xlFfay4f1nZm55XtpErGsqnI=;
- b=J0xYFGJIHP1aeu1ek9eG6XIflCT3/NG5yzgBPxYBMizXOBO6SzfvC8tP6I15LvmIyd
- 0/diWULwbjQ+pfs84WKRci9q6gNUy690OJ5bQxf9A0iUP86G1a2NW6Rsh335QFw4SHrg
- QeEZg3tfQ6RrkGkLW40v5FL8L8RPmgAomh9KQTHghpFGgAi1wSA7vnm65RByZrKHjuyA
- Mu41CqWfjXSP5Z3ymsrnEDQw2bdhsL4P+0d1m2aGKX6s2dl5EgV73G3hSw+1i67ecDDu
- mqEASUR4Sgg+gZMDouNoM1kRp4yLc4SJlTNYZHiQGwzBBWmekZfuUGwqEFnXUwROF7U7
- od0g==
+ d=linaro.org; s=google; t=1688685675; x=1691277675;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=eHrUtEEGgILOI5mEdHCSitrHO24/cMaqcjfdzWxD7p8=;
+ b=uC35L9ExDc/bK4YEsE0j6nLInTvfijmxi6LKAa03/t2dpuxisZJinaePDDy7/a6Oau
+ zQrG5rZ6Infda2CgCuLnQrYOIIaG+IEC7fVhLNmXvTciG2Rbo50/n9kOV54D/Ubg8DSp
+ IdM+vvJuy9ePGwyFUAUbyg1AOQD6pKMpjspigPFUUaaPo+xq7+1+1DvYCS7zjMHjlJZf
+ 2ABTeMATs+BFqMfS7gHazfsGByaUomAi67vL+sou5nYZvvWyCZBUH0s7GPK1vplBLw3v
+ oxMz27FaKVFvJwqI3fFjWwF0A5DK8/e+v0SoC/9otdQ03EHn5PgDwjE8uDStxWZVFK1T
+ L3vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688682126; x=1691274126;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=u3ZnLWYda5s0Z078Xc8xlFfay4f1nZm55XtpErGsqnI=;
- b=RNejrrhEo5+TukxX5heDO82wkaTwxU2m7YX0igPwL6C92BWfQ0qaRaIoZJzwg5Ixnz
- RephNKJBc89sksHprg3c6ivh800WwTuRanguWutCkDA4B7OUa1iL56Y0IIKaH6F1jKZG
- CA6CzEyNw4F09PeG7NI/bRI6idOG8iBZlUf5spi6Q/5ljsqPgt5go/Zb0SnjBKrxE07+
- r0majAV9isW9wUqB4YzZm7k99G06qxk4kVUIGulXZxkHnwkjotgNgkhYW8tMByf3p0HF
- 8meithLxnl/l+1IFoYwxUTZ0ZaKrOFqaOI1YevPdvST0wPITYhnFDV5krJJ70KZ2r58C
- 8FDQ==
-X-Gm-Message-State: ABy/qLYw2DXJIkFF5Q8CzMoBPx8Fa7/O7EMm5Mn+gM+ey4WXk3LB4MaS
- yaCqiVHx2LiiZnz0IiPIKf8CfJ5pQjD0F/FMSMjSmQ==
-X-Google-Smtp-Source: APBJJlHrD0uZZQ/A/cUft82Lh9JCBJX/moY+JJATbzzD92duMgZi6yTWphFsvwNzjoMvOd6ujc0JNbgYNkCWWuDeuO4=
-X-Received: by 2002:a25:9cc6:0:b0:bfe:d93a:8f2b with SMTP id
- z6-20020a259cc6000000b00bfed93a8f2bmr4069609ybo.60.1688682126451; Thu, 06 Jul
- 2023 15:22:06 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1688685675; x=1691277675;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=eHrUtEEGgILOI5mEdHCSitrHO24/cMaqcjfdzWxD7p8=;
+ b=D3neG7NmDQuTtmJaJU1M6etwPS9CCeYQLZpEzDsgfIw5JfoF1ZDgE4powm8uE6n/GK
+ dzU6i0SakacyiBGLz4XiUA6JduHHkfSe3zZj+Ak8MFbNyEvpwsMkG+2QCA31ju71N8i+
+ Mugo4z2+pX/evVDHxsHUw5mYJsE3Vn6z6vbtFxnI+NCJAfUTa2dhi35ALrXoTd2OSh6k
+ FvuF+eJHTKcZ3NUva2XH5K7adPny7kdLgM8VKseeMrvksSsGDj4ojBisRAQqRlKQq/x2
+ 1srvM/OGheE215vzEj+oFmPx867u9UDa2Fx8gTgM6qCHfw7aB9myqSJ8jpH7lnE59yRO
+ r0IQ==
+X-Gm-Message-State: ABy/qLbD4l4cJQ+0MZXrtv/Z4TJS7XePd8dcOEv++nL+/HpdFiEx7tcN
+ 7Z419YXzHNQt6B8b51/U0X8VQGrB4bFc22G9KhGQEw==
+X-Google-Smtp-Source: APBJJlFmzQz27h2D7FyX9IHdloaS8l7VIZn38s/RUHOkPzmFAtI2iw3LtCjKZOq0CXmkWh9nvxOgsg==
+X-Received: by 2002:a2e:990b:0:b0:2b4:6a06:4c26 with SMTP id
+ v11-20020a2e990b000000b002b46a064c26mr1356525lji.2.1688685675139; 
+ Thu, 06 Jul 2023 16:21:15 -0700 (PDT)
+Received: from [192.168.1.101] (abyj26.neoplus.adsl.tpnet.pl. [83.9.29.26])
+ by smtp.gmail.com with ESMTPSA id
+ y11-20020a05651c020b00b002b6e7f3a3eesm500778ljn.62.2023.07.06.16.21.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Jul 2023 16:21:14 -0700 (PDT)
+Message-ID: <c5246b95-ab88-d99e-f099-18c0ea1ab712@linaro.org>
+Date: Fri, 7 Jul 2023 01:21:13 +0200
 MIME-Version: 1.0
-References: <1adda828-cf35-fb2c-6db5-f9ca91b5b62a@linaro.org>
- <20230525093151.2338370-1-yangcong5@huaqin.corp-partner.google.com>
- <20230525093151.2338370-5-yangcong5@huaqin.corp-partner.google.com>
- <CAD=FV=W_Vw=WTuap60PtzU8Jc58T1PsEhJfY96NmFFgmC1DB9w@mail.gmail.com>
- <CACRpkdZkNio99zS+ttEXncOtS1TcYbfunKSKddErRDV1gTY43w@mail.gmail.com>
- <CAD=FV=Xx_Bf=Fr1aCmmcjXAv1CyMYwEFba7C6k_HRE1VPtTtHQ@mail.gmail.com>
- <CACRpkdYif_h38TYDuSjY-0WkWNknFOe8n2Xe7zBydKxySrdZHA@mail.gmail.com>
- <CAD=FV=WNgAr=YaMu9+KSxZSHpG9Z31Pbka1N3E-OYR1-WKHiaQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=WNgAr=YaMu9+KSxZSHpG9Z31Pbka1N3E-OYR1-WKHiaQ@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 7 Jul 2023 00:21:55 +0200
-Message-ID: <CACRpkdZLgf15Ao6CPym6q2yC17XcA3kjtDCQ3F2-aa-XwZJ=xg@mail.gmail.com>
-Subject: Re: [v4 4/4] drm/panel: Support for Starry-ili9882t TDDI MIPI-DSI
- panel
-To: Doug Anderson <dianders@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 01/12] drm/msm/adreno: Remove GPU name
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20230706211045.204925-1-robdclark@gmail.com>
+ <20230706211045.204925-2-robdclark@gmail.com>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20230706211045.204925-2-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,67 +77,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, hsinyi@google.com,
- sam@ravnborg.org
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 6, 2023 at 11:58=E2=80=AFPM Doug Anderson <dianders@google.com>=
- wrote:
+On 6.07.2023 23:10, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> No real need to have marketing names in the kernel.
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-> > So the Ilitek ILI9882t is an obvious break-out.
->
-> I guess. To me it feels like the concept of breaking the driver into
-> multiple sub-drivers and the idea of supporting ILI9882t more cleanly
-> are orthogonal. You could still do your patch #4 and break out the
-> page switching function without breaking up the driver.
+[...]
 
-Yeah that's true. But with Ilitek in particular we have these nice
-precedents:
-drivers/gpu/drm/panel/panel-ilitek-ili9322.c
-drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
+> -	gpu_name = adreno_gpu->info->name;
+> -	if (!gpu_name) {
+> -		gpu_name = devm_kasprintf(dev, GFP_KERNEL, "%d.%d.%d.%d",
+> -				rev->core, rev->major, rev->minor,
+> -				rev->patchid);
+> -		if (!gpu_name)
+> -			return -ENOMEM;
+> -	}
+> +	gpu_name = devm_kasprintf(dev, GFP_KERNEL, "%d.%d.%d.%d",
+> +			rev->core, rev->major, rev->minor,
+> +			rev->patchid);
+nit: great opportunity to align indentation with the opening brace
 
-So it looks disorganized to me if this one Ilitek panel controller
-now goes inside another driver with other completely unrelated
-drivers.
-
-> It feels to me fairly likely that many of the panels here are just as
-> different from each other as the ILI9882t is from them. I guess it's
-> not a dozen, but it feels like using the same "how different are they
-> from each other" metric we'd end up with at least 5-6 new drivers. It
-> seems clear to me that the panel that Sam first commented on is as
-> different from the others in the BOE driver as the ILI9882t is.
-> Certainly it has a pretty darn big unique command sequence for init...
-
-It doesn't really matter until we can say certainly what display controller
-each of them is. It seems we can't, but for this one we can.
-
-> The problem is that it's hard for me to make a strong argument here
-> when there is prior art of panels being supported with blob-sequences.
-> In this case, I think you as an upstream developer have more leverage.
-> I can help put pressure to make sure that upstream concerns are
-> addressed, but I think it's on upstream to put their foot down and say
-> that these blob sequences are not OK for new panels. In each case I
-> landed a patch with a new blob sequence I tried to give the community
-> time to respond and I tried to telegraph what I was going to do to
-> make sure nobody was surprised...
-
-I would say it is not fair to block driver coming from hobbyists or minor
-vendors just trying to make something work. In general I think a working
-something is better than nothing so I wouldn't block anything.
-
-But with big companies who actually talk to Ilitek, Novotek and the other
-companies ending with -tek that make these display controllers I would
-certainly like to send the message that datasheets and proper
-defines would be appreciated, and say it is also for their best, because
-I mentioned proper gamma correction is possible if the driver author
-just invest time and works with the DRM community and that should
-be in their best interest. Feel free to pass this along the supply
-chain if you can.
-
-Yours,
-Linus Walleij
+Konrad
+> +	if (!gpu_name)
+> +		return -ENOMEM;
+>  
+>  	adreno_gpu_config.ioname = "kgsl_3d0_reg_memory";
+>  
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> index cf45007400c8..6830c3776c2d 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> @@ -61,7 +61,6 @@ extern const struct adreno_reglist a660_hwcg[], a690_hwcg[];
+>  struct adreno_info {
+>  	struct adreno_rev rev;
+>  	uint32_t revn;
+> -	const char *name;
+>  	const char *fw[ADRENO_FW_MAX];
+>  	uint32_t gmem;
+>  	u64 quirks;
