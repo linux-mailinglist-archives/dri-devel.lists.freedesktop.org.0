@@ -1,85 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CBD3749AA8
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 13:32:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62DBA749AC7
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 13:36:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5AB010E4E8;
-	Thu,  6 Jul 2023 11:32:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4E4310E4EC;
+	Thu,  6 Jul 2023 11:36:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7182010E4E8
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 11:32:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1688643119;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hx4ikHLkguuqxeZYFkKsn+v0PANTFIpKgvR5A11guvw=;
- b=YafJV6drIFhIjGzxRUCAqAZ0lCa5B1hpvIzvKUTQt5joinbOYXIMOj8cFHHJkBHx6O3YL/
- XJ7A835CNugUqezdbcVd1g88Sfn3IpC0ty+FtGNlrAQH7vQiz+bwg/6Bkj+siZiskiqkI3
- RmGsxZWN8ZtXu0fOXhCoadNGDCK4tlo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-558-Nzwzea2gO7KtjTIjLxGEGg-1; Thu, 06 Jul 2023 07:31:58 -0400
-X-MC-Unique: Nzwzea2gO7KtjTIjLxGEGg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-3113da8b778so274446f8f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jul 2023 04:31:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688643117; x=1691235117;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hx4ikHLkguuqxeZYFkKsn+v0PANTFIpKgvR5A11guvw=;
- b=k9BHksxcdzOUuBKIJDv/9tdaTVsqqqBQ52Ka0QWyQ3E9eqZ4cSoVNuf+oVyc7UVWk0
- ZnoX2zfd9ZG0j5dIx5npx7TOD/IsflVDm54WqDxT6vbDikSYQd6yawsVn4eCtUTKlGtK
- 30MIIFCBMr7ceptW3pBEekpTDOwwGA9cpEtjkgkkwEgTWh4rbYfJgRxmsOLD5p7h4sRU
- USy2c6eSY7Pa8z1X3qi9a8t9dbE6SXtv9r2g4qJg/gFbq7NNNvAdAr6O1tPLQ1ilZ2SX
- AkxgXnloOA/FDWyfrz8zFP4zgO926Kih9J8QNmUi9OPSDXzj/9gYBiOIRqgqPOVlSakK
- +w2Q==
-X-Gm-Message-State: ABy/qLbSBbxy3AM8PjEnmsnMrLU0U5g0VvSEtaJecqlgYlaVwrz0CXeR
- NDWa+VkzPPAlNtUc3Cs+xQ0Kd8KyNIORTTJpLuoxS2epPIKMY0TnyEAmwn7XkG1katPmfdeQxWD
- Lg6EK+Ad9XJH8mFGkDnE7YOqCAgsP
-X-Received: by 2002:adf:f008:0:b0:314:13e7:b8b with SMTP id
- j8-20020adff008000000b0031413e70b8bmr1288687wro.18.1688643117538; 
- Thu, 06 Jul 2023 04:31:57 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlHO//xQLXuThu1svCtvOXCLdXWx9y2r/ydpGWxU5jk8IZhmiBdVJvfvL0Mn21Ukt879rk+J4Q==
-X-Received: by 2002:adf:f008:0:b0:314:13e7:b8b with SMTP id
- j8-20020adff008000000b0031413e70b8bmr1288677wro.18.1688643117268; 
- Thu, 06 Jul 2023 04:31:57 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:d5:a000:57d9:6996:9558:341b?
- ([2a01:e0a:d5:a000:57d9:6996:9558:341b])
- by smtp.gmail.com with ESMTPSA id
- bl1-20020adfe241000000b003143c9beeaesm1647517wrb.44.2023.07.06.04.31.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Jul 2023 04:31:56 -0700 (PDT)
-Message-ID: <f4b4ab09-5f03-af3c-0e7f-44a248678be8@redhat.com>
-Date: Thu, 6 Jul 2023 13:31:55 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] drm/ast: Fix default resolution when no monitor is
- connected on DP
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@linux.intel.com>, airlied@redhat.com,
- kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com
-References: <20230623094639.434293-1-jfalempe@redhat.com>
- <878rbv20dp.fsf@intel.com> <13e35996-914d-37a6-1697-ac0c3c75cad1@redhat.com>
- <ed075f2f-861d-74d1-efc0-5baa2cd601fd@redhat.com>
- <43d12606-9c81-99f8-f13c-14338fcd7a28@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <43d12606-9c81-99f8-f13c-14338fcd7a28@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3215E10E4EC
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 11:36:28 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailout.nyi.internal (Postfix) with ESMTP id 6973E5C00CF;
+ Thu,  6 Jul 2023 07:36:26 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+ by compute6.internal (MEProxy); Thu, 06 Jul 2023 07:36:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1688643386; x=1688729786; bh=C6
+ FVmoTeWIWnJ398pRC/XE6TyNj7Ymf62dAsmaGtmb0=; b=BGdluiom3ggcRnDdxp
+ oee0FvzfxpIvCY638tQFktcGhwOwhI/XrlJsyp2RiY/jp66a0kp0i4kzB50Nqzj+
+ m/GNGAiPe1F+41dKNx0j9TXocBWXc2ufXklfxDDTcKLAr8QK90fpbFQYooSOvxNY
+ squbxC2U9VEEYoab/tsz66VHwP4qpRaAybj3RyetmVcABnDy35/H4PhNI537HMMl
+ Alp905FYz+MUPF+uTBorshIxPxn5GXogQUBG7RsNU+9iKDeCBgTAeOPPsIdsHR+A
+ iqE5oUzoC6eNOhKT+ggsZELNRm9QR+bdKDO4Z1RA640NTcaNlR2u6h+PPS/STnPy
+ 6fvA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; t=1688643386; x=1688729786; bh=C6FVmoTeWIWnJ
+ 398pRC/XE6TyNj7Ymf62dAsmaGtmb0=; b=HgJL/+GrbgeA+YFm5wY12KsV+XMlf
+ I27AR7t2G64hgj9h3LHJ9JHL/p0fuYvHGoBUFQmnExZEw15FQu3X5vrkOiZITQfT
+ aAR4LFGeGQWIFunHDDZSbhA/B79sOx1cKVUBvih/BhOyCK0kKIW1E+lKx03BWFK+
+ 9hHhJrL2sNGDfTWAuQIO8zbQkPeKCZmCNsmUCEz9HHfVM9gOkUMVo8hf+hS0kFxx
+ Kxo7Nt2rTl+DdncvRl3sbXo18vOFay3Y9mwGu8/xBannx8AdWSuUTc6aikJwg8oY
+ UtMXxykZEzyYo1vLbYLvGIemQHhNvC9ILdHpvLo72fsANwPNPbyi9birw==
+X-ME-Sender: <xms:OaemZOVlx0154p7bocZZlUeBHpdW82c0XY_NdXki0MG0Ou92E5XCjg>
+ <xme:OaemZKk8hBBmwpHJ3NcYpX4zrZ9G4zOa33jY7F_gmcq-MWcaY1DeaKYxVIJVkEIns
+ rNPrzavq1Io0MH0aFk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudelgdegvdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+ ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+ gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+ ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+ hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:OaemZCYC-kcNVGyv9tbkCRAZgzbXAnZNjIdYX4lmWN2MRrQEyK-GoQ>
+ <xmx:OaemZFV6THc4JH7aD5rBuPCk8TpjQpy6zynjY4ckYHEcPWFLG86o2A>
+ <xmx:OaemZIk4GDpiUC1IRM-thG41fdAQ8w_42nIr51vo8Fq_AXoedROxQg>
+ <xmx:OqemZBf_EX86cWlRl9fbPwVaJYQVWvnoMpDF7tXummLoJFIh-O-IMg>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 8E56CB60089; Thu,  6 Jul 2023 07:36:25 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-531-gfdfa13a06d-fm-20230703.001-gfdfa13a0
+Mime-Version: 1.0
+Message-Id: <97ae7c3d-3eeb-4bd5-bac3-64a1605d48e2@app.fastmail.com>
+In-Reply-To: <20230706104852.27451-3-tzimmermann@suse.de>
+References: <20230706104852.27451-1-tzimmermann@suse.de>
+ <20230706104852.27451-3-tzimmermann@suse.de>
+Date: Thu, 06 Jul 2023 13:36:05 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "Javier Martinez Canillas" <javierm@redhat.com>,
+ "Sui Jingfeng" <suijingfeng@loongson.cn>
+Subject: Re: [PATCH v2 2/4] fbdev/sm712fb: Do not include <linux/screen_info.h>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,67 +85,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, linux-efi@vger.kernel.org,
+ Teddy Wang <teddy.wang@siliconmotion.com>, Helge Deller <deller@gmx.de>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, loongarch@lists.linux.dev,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/07/2023 12:26, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 06.07.23 um 11:16 schrieb Jocelyn Falempe:
->> On 04/07/2023 18:45, Jocelyn Falempe wrote:
->>> On 04/07/2023 16:54, Jani Nikula wrote:
->>>> On Fri, 23 Jun 2023, Jocelyn Falempe <jfalempe@redhat.com> wrote:
->>>>> Since commit fae7d186403e ("drm/probe-helper: Default to 640x480 if no
->>>>>   EDID on DP")
->>>>> The default resolution is now 640x480 when no monitor is connected.
->>>>> But Aspeed graphics is mostly used in servers, where no monitor
->>>>> is attached. This also affects the "remote" resolution to 640x480, 
->>>>> which is
->>>>> inconvenient, and breaks the anaconda installer.
->>>>> So when no EDID is present, set 1024x768 as preferred resolution.
->>>>
->>>> This conflates "monitor connected" and "EDID present", which are not
->>>> necessarily the same thing.
->>>>
->>>> The fallback in drm_helper_probe_single_connector_modes() is for no
->>>> modes, but connector status is connected or unknown.
->>>
->>> When debugging the issue, I found it surprising that the status is 
->>> "connected" when nothing is plugged in the DP port.
->>>>
->>>> You could add a connector ->detect callback that returns disconnected
->>>> when there's no display, and the problem should go away. If there's no
->>>> ->detect callback, it'll default to connected.
->>>
->>> ok, I'll try that. I don't know how the hardware detect something is 
->>> connected, but looking at the dp code, maybe checking 
->>> "AST_IO_CRTC_PORT,0xDC, ASTDP_LINK_SUCCESS" would be good enough.
->>
->> I've tested this approach, and it works. But on the server I'm 
->> testing, there are VGA and DP output. I think on a server that has 
->> only one DP output, if no monitor is connected, then no modes will be 
->> reported to userspace, and the remote BMC may not work ?
-> 
-> You could out-comment the VGA code in the ast driver for testing.
+On Thu, Jul 6, 2023, at 12:42, Thomas Zimmermann wrote:
+> Sm712fb's dependency on <linux/screen_info.h> is artificial in that
+> it only uses struct screen_info for its internals. Replace the use of
+> struct screen_info with a custom data structure and remove the include
+> of <linux/screen_info.h>.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+> Cc: Teddy Wang <teddy.wang@siliconmotion.com>
+> Cc: Helge Deller <deller@gmx.de>
 
-Oh, Thanks for the idea, I will try that.
-
--- 
-
-Jocelyn
-> 
-> Best regards
-> Thomas
-> 
->>
->> Also I don't have physical access to the server, so I only tested when 
->> no monitor is plugged.
->>
->> I will send shortly a v2 with this change, so others can help me test 
->> this case.
->>
->> Best regards,
->>
-> 
-
+Reviewed-by: Arnd Bergmann <arnd@arndb.de>
