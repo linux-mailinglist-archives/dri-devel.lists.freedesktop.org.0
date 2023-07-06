@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4326574A351
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 19:43:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41D7274A366
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 19:47:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1067310E485;
-	Thu,  6 Jul 2023 17:43:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 802CD10E483;
+	Thu,  6 Jul 2023 17:47:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay6-1.pub.mailoutpod2-cph3.one.com
- (mailrelay6-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:405::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60BB910E483
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 17:43:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=bp7torwHPDd5eLPJe0WGi7efdWJvnoEKvs296k74Pf0=;
- b=aXlfRn9oO/QjRv5h6ryHLEbKiV2TMQyffeHBSueAJ3fOaseobTu/Yj0qttWfaNPaEVHIHc97AKiE0
- ZgUPPZYnOmJYhvL4cpu+0duR9V4dkBIuVV7DSEN6IPkKr43Jc1V0VGvyrww3zzgxgztg4SSmbpyFp/
- FilYpIFVVKTv5XR36vyeFv1lhAN5JOmsQtkzh9zRe78uK3yOHALj3gaTOzHl84YHf1toy5Q90EGJOf
- esNH3n1+/byr3aI0nldBXYnNZTX88SlOkxjRvZIokktgTxLpSrYGSD+v3eud6qaPYRh+4O/T6AgWNZ
- +uvWDqRctl69cF0T9JcxK28CbN5aFyA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=bp7torwHPDd5eLPJe0WGi7efdWJvnoEKvs296k74Pf0=;
- b=KZJrKC62SkbFOADYDfY2lTdet1592aTNhxb5/yVQSoMLhFd9jWNHmPN6GyCzA4P16zXfNSBF7YZny
- mqKXCMkAA==
-X-HalOne-ID: 950f486c-1c24-11ee-b2ac-6f01c1d0a443
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay6 (Halon) with ESMTPSA
- id 950f486c-1c24-11ee-b2ac-6f01c1d0a443;
- Thu, 06 Jul 2023 17:43:16 +0000 (UTC)
-Date: Thu, 6 Jul 2023 19:43:15 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 00/10] fbdev: Generate deferred-I/O helpers
-Message-ID: <20230706174315.GB226645@ravnborg.org>
-References: <20230706151432.20674-1-tzimmermann@suse.de>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E26510E483;
+ Thu,  6 Jul 2023 17:47:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1688665629; x=1720201629;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=8EKGoFB6J0u1Xl6F2YIO8B8EFDZjRzo8QrLCi4hvoO4=;
+ b=bSwDKzI6qHJ2YvjWnh0GvNE9Trqu0UggFoFqLLI9EW0zdrriCBkMcCs9
+ E5cWJAI9S/Cmjrfd3h8wjQS2kjNHoczfAYJmJYzcP0/o6bNXoQV4eHjD5
+ hW/q1Oryf2XAkZPqH3/B4J2XwtCZd5VdR8+CPC4KWb6EnpvUbJk2V64+p
+ ursgGKkwMRoRJX4KHdpWUKEx0luYj93uTNnYGztnn+6R5dc/VDm6A+/u6
+ 06K1lPQRWxas6AVZJICuwkom2IT405zW7OAskjl1Y4nTbd27enmNgQP+r
+ AvDAo4IJXd8vMX/4gDOzAiPcKbpRexZZbgPUrKAvng8hRThN4v0LV6uWP A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="344005403"
+X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; d="scan'208";a="344005403"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jul 2023 10:47:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="754835608"
+X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; d="scan'208";a="754835608"
+Received: from guc-pnp-dev-box-1.fm.intel.com ([10.1.27.12])
+ by orsmga001.jf.intel.com with ESMTP; 06 Jul 2023 10:47:07 -0700
+From: Zhanjun Dong <zhanjun.dong@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915/mtl: Update cache coherency setting for context
+ structure
+Date: Thu,  6 Jul 2023 10:47:04 -0700
+Message-Id: <20230706174704.177929-1-zhanjun.dong@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230706151432.20674-1-tzimmermann@suse.de>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,35 +56,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, deller@gmx.de, javierm@redhat.com,
- linux-fbdev@vger.kernel.org
+Cc: Zhanjun Dong <zhanjun.dong@intel.com>, Fei Yang <fei.yang@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+As context structure is shared memory for CPU/GPU, Wa_22016122933 is
+needed for this memory block as well.
 
-On Thu, Jul 06, 2023 at 05:08:43PM +0200, Thomas Zimmermann wrote:
-> Generate the I/O callbacks for drivers with deferred I/O. As in
-> the old, opencoded functions, the generated functions operate on
-> system memory and trigger damage handling if necessary. Also bring
-> the drivers' Kconfig options up to date.
-> 
-> Generating and initializing via helpers macros will later allow for
-> a fine-grained setup, depending on Kconfig options. For example, it
-> will be possible to leave out file I/O if FB_DEVICE has not been set.
-> 
-> Thomas Zimmermann (10):
->   fbdev/broadsheetfb: Select FB_SYS_HELPERS_DEFERRED
->   fbdev/broadsheetfb: Generate deferred I/O ops
->   fbdev/hecubafb: Select FB_SYS_HELPERS_DEFERRED
->   fbdev/hecubafb: Generate deferred I/O ops
->   fbdev/metronomefb: Select FB_SYS_HELPERS_DEFERRED
->   fbdev/metronomefb: Generate deferred I/O ops
->   fbdev/ssd1307fb: Select FB_SYS_HELPERS_DEFERRED
->   fbdev/ssd1307fb: Generate deferred I/O ops
->   fbdev/xen-fbfront: Select FB_SYS_HELPERS_DEFERRED
->   fbdev/xen-fbfront: Generate deferred I/O ops
+Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
+CC: Fei Yang <fei.yang@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_lrc.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-Browsed the full series - nice reduction in complexity all over.
-Everything looked good so:
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
+index a4ec20aaafe2..1b710102390b 100644
+--- a/drivers/gpu/drm/i915/gt/intel_lrc.c
++++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
+@@ -1092,8 +1092,15 @@ __lrc_alloc_state(struct intel_context *ce, struct intel_engine_cs *engine)
+ 
+ 	obj = i915_gem_object_create_lmem(engine->i915, context_size,
+ 					  I915_BO_ALLOC_PM_VOLATILE);
+-	if (IS_ERR(obj))
++	if (IS_ERR(obj)) {
+ 		obj = i915_gem_object_create_shmem(engine->i915, context_size);
++		/*
++		 * Wa_22016122933: For MTL the shared memory needs to be mapped
++		 * as WC on CPU side and UC (PAT index 2) on GPU side
++		 */
++		if (IS_METEORLAKE(engine->i915))
++			i915_gem_object_set_cache_coherency(obj, I915_CACHE_NONE);
++	}
+ 	if (IS_ERR(obj))
+ 		return ERR_CAST(obj);
+ 
+-- 
+2.34.1
+
