@@ -1,66 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5443474A5A9
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 23:11:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF51B74A5BB
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 23:11:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7335010E4E9;
-	Thu,  6 Jul 2023 21:11:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D485F10E111;
+	Thu,  6 Jul 2023 21:11:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
- [IPv6:2607:f8b0:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B73D910E4E0;
- Thu,  6 Jul 2023 21:11:20 +0000 (UTC)
-Received: by mail-pl1-x629.google.com with SMTP id
- d9443c01a7336-1b88e5b3834so5424545ad.3; 
- Thu, 06 Jul 2023 14:11:20 -0700 (PDT)
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D5CF10E111
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 21:11:55 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id
+ 38308e7fff4ca-2b700e85950so17446831fa.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jul 2023 14:11:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1688677879; x=1691269879;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=chromium.org; s=google; t=1688677909; x=1691269909;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QUuWDztebEu2Omk0ucmuFO9Lxf/Yb0Y9YvQjWXnI3n0=;
- b=QRqr2ClJK1BrfgxO36QfF4T0lpMna1JEB4ShJvvqDMO1ka8e7UnPC6EfoKvxazMxaK
- d+YpNE5fu3yHa7OUhv0sYCHXxH84FAsg7ukxjNJ5GuWvuGmcpEfEC4uU5Ce01uAvWAB6
- i0W3Ojz7WLrLp4fTjOtrIWuLHXj2KIM1MQTlpnatfAJToC8xW9qaAg1lXshce7pBQUFV
- s53LFd5RcqhfyhqZe0F3qmg9hK6Wgjl0PXmy02jtnGxJUlSFFbjG4hQvTVb9eBfCmaD6
- Afg4MbVLBRm9NjQPpuovjb4v26C3VtdecCCJCoDMIeondlArZtCBNs7KQKTXQl2fd2C6
- Fgkw==
+ bh=kGO8LXPFOC05OH1b6bVd+tBSMQRMmrpbZNvLLPxoXdU=;
+ b=S1xJ95eVwYQ6Y4rDN/Ilt/q81mxarIljoLh1JFx09oZ+ZMpd/PRh4iE5YWcHbA4PAS
+ IaoYSsnPSenvSw/9nGdM1aEEkJWlFgmuVnsrvxqS/89Y+uGz8kQwW+Dh2hE0jtZRoEgG
+ /D6W8j/9nU5FGC7uR8gkS799jKCyCh/uxeuxE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688677879; x=1691269879;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20221208; t=1688677909; x=1691269909;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QUuWDztebEu2Omk0ucmuFO9Lxf/Yb0Y9YvQjWXnI3n0=;
- b=iJGy49CvQHDVh9mji/XJ9kJyhtw5tpkMJ50U8IvkKagqy2tCA2zZW+bpWIUIId/U5e
- PNeam8AcUzS3OA4bx2QSoyqkqHHnNemIioepUU0Js8vLqc2tj/PzMA+4XgWr8moTz8e0
- NxnVVbOP3jYb0YfPGJ8asI1GUUV5JpcGU33iWnDztWnuoUPjxMTmnp7CgUtrq2pg7K8R
- r4Y7pglqLP8NlAtfCNH31uSTlLhGA1tv6irXc+Jox9GDaPf0FnwHjqAeG4zkLLd/FF5H
- /2UHH/pgGOe+AqPIofi+QJ7W3giKNxuQM/lnjDRbF+J8aX2WfnNJuX6UNObPapdYSFsM
- jWpA==
-X-Gm-Message-State: ABy/qLZBCbJ54i5OerNXvfpYqKtlu+QAa1T7ydlZad3BOqCsOoHOtGPd
- SECclLAe/V8i75InsFbQ3o2KefMguZI=
-X-Google-Smtp-Source: APBJJlHCs0JULry+OlsC9J0C5y8mL5oANef/AFPhtiyh7b6LtnDgWhpswrTIW1ZXZCRsRv/whzX1wA==
-X-Received: by 2002:a17:90a:3842:b0:262:e742:f419 with SMTP id
- l2-20020a17090a384200b00262e742f419mr2377393pjf.47.1688677879422; 
- Thu, 06 Jul 2023 14:11:19 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:6c80:7c10:75a0:44f4])
- by smtp.gmail.com with ESMTPSA id
- b6-20020a17090acc0600b00263b4b1255esm200531pju.51.2023.07.06.14.11.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jul 2023 14:11:19 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 12/12] drm/msm/adreno: Switch to chip-id for identifying GPU
-Date: Thu,  6 Jul 2023 14:10:45 -0700
-Message-ID: <20230706211045.204925-13-robdclark@gmail.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230706211045.204925-1-robdclark@gmail.com>
-References: <20230706211045.204925-1-robdclark@gmail.com>
+ bh=kGO8LXPFOC05OH1b6bVd+tBSMQRMmrpbZNvLLPxoXdU=;
+ b=PzjzWkrXD5W5rhcuysOjLsVqE0LbAy7QsBELjPAk3aRpsP9hrb78b4W0iUl+q39U11
+ BD4M3Jiv6tz+fqJK1HVkraRrgoRoJXfMXIGW5MqKuUwR1pI4nUb1rpMUPTBAhZt9yXfN
+ wtuKjve3WLNQc25BnitH4MJ5rtZfV66ZWAlFFnGUuiDJZxzq8ptqh3KEflULRYwS0BA4
+ inrrIn4w83LmfUd61sAUN/JrNXrAFc+GgYfDVQo/kKXyTYmqWzRg0mjO1DIYE2ovDz/1
+ 5tfBZbHrIXPaIYLjPCvPpCw3xlQKlqNnbrGCAIv4KFtJzoPug1IiMAeOI/sZTLs3epvT
+ WrxQ==
+X-Gm-Message-State: ABy/qLbZjvlLrWoCorz7YR7DvZl6uNNv2/mpG21JpQ1fyf67y+guVt1K
+ Ev08ly0pSuKZVKLXmqWwn4XB1rrvAzAVP+JL9sbi3Py0
+X-Google-Smtp-Source: APBJJlEzB0FJE1XYSMEKeLG0itdV8ju17nA24rz61DqfbWU6VFOa4inakHQvGUDV6cvHeDa9VyX/yw==
+X-Received: by 2002:a2e:9658:0:b0:2b5:68ad:291f with SMTP id
+ z24-20020a2e9658000000b002b568ad291fmr2182079ljh.19.1688677908950; 
+ Thu, 06 Jul 2023 14:11:48 -0700 (PDT)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com.
+ [209.85.208.54]) by smtp.gmail.com with ESMTPSA id
+ i26-20020a17090671da00b009931a3adf64sm1312250ejk.17.2023.07.06.14.11.48
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Jul 2023 14:11:48 -0700 (PDT)
+Received: by mail-ed1-f54.google.com with SMTP id
+ 4fb4d7f45d1cf-51db8a4dc60so1076a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jul 2023 14:11:48 -0700 (PDT)
+X-Received: by 2002:a50:f608:0:b0:514:95d4:c2bb with SMTP id
+ c8-20020a50f608000000b0051495d4c2bbmr24630edn.2.1688677907801; Thu, 06 Jul
+ 2023 14:11:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230703-fix-boe-tv101wum-nl6-v3-0-bd6e9432c755@linaro.org>
+ <20230703-fix-boe-tv101wum-nl6-v3-1-bd6e9432c755@linaro.org>
+In-Reply-To: <20230703-fix-boe-tv101wum-nl6-v3-1-bd6e9432c755@linaro.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 6 Jul 2023 14:11:35 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Wju3WS45=EpXMUg7FjYDh3-=mvm_jS7TF1tsaAzbb4Uw@mail.gmail.com>
+Message-ID: <CAD=FV=Wju3WS45=EpXMUg7FjYDh3-=mvm_jS7TF1tsaAzbb4Uw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] drm/panel: boe-tv101wum-nl6: Drop macros and open
+ code sequences
+To: Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,714 +80,424 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jitao Shi <jitao.shi@mediatek.com>,
+ Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>,
+ Ruihai Zhou <zhouruihai@huaqin.corp-partner.google.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Hi,
 
-Since the revision becomes an opaque identifier with future GPUs, move
-away from treating different ranges of bits as having a given meaning.
-This means that we need to explicitly list different patch revisions in
-the device table.
+On Mon, Jul 3, 2023 at 6:22=E2=80=AFAM Linus Walleij <linus.walleij@linaro.=
+org> wrote:
+>
+> The boe-tv101wum-nl6 is reinventing the mechanism to send command
+> sequences that we usually nix during review, but I missed this one
+> so fixing it up myself.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/adreno/a4xx_gpu.c      |   2 +-
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c      |  11 +-
- drivers/gpu/drm/msm/adreno/a5xx_power.c    |   2 +-
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c      |  13 ++-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c      |   9 +-
- drivers/gpu/drm/msm/adreno/adreno_device.c | 128 ++++++++++-----------
- drivers/gpu/drm/msm/adreno/adreno_gpu.c    |  16 +--
- drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  51 ++++----
- 8 files changed, 122 insertions(+), 110 deletions(-)
+Sorry for this. :( I know I've reviewed/applied several of the patches
+that made this worse, but I believe that the whole array/sequence
+scheme predated my involvement in the driver. I've never been a huge
+fan of these black box sequences and try to make it a point to grumble
+about them each time through the review, though again their use
+predated my involvement...
 
-diff --git a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
-index 715436cb3996..8b4cdf95f445 100644
---- a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
-@@ -145,7 +145,7 @@ static void a4xx_enable_hwcg(struct msm_gpu *gpu)
- 	gpu_write(gpu, REG_A4XX_RBBM_CLOCK_DELAY_HLSQ, 0x00220000);
- 	/* Early A430's have a timing issue with SP/TP power collapse;
- 	   disabling HW clock gating prevents it. */
--	if (adreno_is_a430(adreno_gpu) && adreno_gpu->rev.patchid < 2)
-+	if (adreno_is_a430(adreno_gpu) && adreno_patchid(adreno_gpu) < 2)
- 		gpu_write(gpu, REG_A4XX_RBBM_CLOCK_CTL, 0);
- 	else
- 		gpu_write(gpu, REG_A4XX_RBBM_CLOCK_CTL, 0xAAAAAAAA);
-diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-index f0803e94ebe5..70d2b5342cd9 100644
---- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-@@ -1744,6 +1744,7 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
- 	struct msm_drm_private *priv = dev->dev_private;
- 	struct platform_device *pdev = priv->gpu_pdev;
- 	struct adreno_platform_config *config = pdev->dev.platform_data;
-+	const struct adreno_info *info;
- 	struct a5xx_gpu *a5xx_gpu = NULL;
- 	struct adreno_gpu *adreno_gpu;
- 	struct msm_gpu *gpu;
-@@ -1770,7 +1771,15 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
- 
- 	nr_rings = 4;
- 
--	if (adreno_cmp_rev(ADRENO_REV(5, 1, 0, ANY_ID), config->rev))
-+	/*
-+	 * Note that we wouldn't have been able to get this far if there is not
-+	 * a device table entry for this chip_id
-+	 */
-+	info = adreno_find_info(config->chip_id);
-+	if (WARN_ON(!info))
-+		return ERR_PTR(-EINVAL);
-+
-+	if (info->revn == 510)
- 		nr_rings = 1;
- 
- 	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, nr_rings);
-diff --git a/drivers/gpu/drm/msm/adreno/a5xx_power.c b/drivers/gpu/drm/msm/adreno/a5xx_power.c
-index 0e63a1429189..7705f8010484 100644
---- a/drivers/gpu/drm/msm/adreno/a5xx_power.c
-+++ b/drivers/gpu/drm/msm/adreno/a5xx_power.c
-@@ -179,7 +179,7 @@ static void a540_lm_setup(struct msm_gpu *gpu)
- 
- 	/* The battery current limiter isn't enabled for A540 */
- 	config = AGC_LM_CONFIG_BCL_DISABLED;
--	config |= adreno_gpu->rev.patchid << AGC_LM_CONFIG_GPU_VERSION_SHIFT;
-+	config |= adreno_patchid(adreno_gpu) << AGC_LM_CONFIG_GPU_VERSION_SHIFT;
- 
- 	/* For now disable GPMU side throttling */
- 	config |= AGC_LM_CONFIG_THROTTLE_DISABLE;
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-index f1bb20574018..a9ba547a120c 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-@@ -790,10 +790,15 @@ static int a6xx_gmu_fw_start(struct a6xx_gmu *gmu, unsigned int state)
- 	gmu_write(gmu, REG_A6XX_GMU_AHB_FENCE_RANGE_0,
- 		(1 << 31) | (0xa << 18) | (0xa0));
- 
--	chipid = adreno_gpu->rev.core << 24;
--	chipid |= adreno_gpu->rev.major << 16;
--	chipid |= adreno_gpu->rev.minor << 12;
--	chipid |= adreno_gpu->rev.patchid << 8;
-+	/* Note that the GMU has a slightly different layout for
-+	 * chip_id, for whatever reason, so a bit of massaging
-+	 * is needed.  The upper 16b are the same, but minor and
-+	 * patchid are packed in four bits each with the lower
-+	 * 8b unused:
-+	 */
-+	chipid  = adreno_gpu->chip_id & 0xffff0000;
-+	chipid |= (adreno_gpu->chip_id << 4) & 0xf000; /* minor */
-+	chipid |= (adreno_gpu->chip_id << 8) & 0x0f00; /* patchid */
- 
- 	gmu_write(gmu, REG_A6XX_GMU_HFI_SFR_ADDR, chipid);
- 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 77b23c004b94..ed075729ca09 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -2344,10 +2344,13 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
- 	/*
- 	 * We need to know the platform type before calling into adreno_gpu_init
- 	 * so that the hw_apriv flag can be correctly set. Snoop into the info
--	 * and grab the revision number
-+	 * and grab the revision number.
-+	 *
-+	 * Note that we wouldn't have been able to get this far if there is not
-+	 * a device table entry for this chip_id
- 	 */
--	info = adreno_info(config->rev);
--	if (!info)
-+	info = adreno_find_info(config->chip_id);
-+	if (WARN_ON(!info))
- 		return ERR_PTR(-EINVAL);
- 
- 	adreno_gpu->base.hw_apriv = !!(info->quirks & ADRENO_QUIRK_HAS_HW_APRIV);
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-index fd2e183bce60..4a718ff33635 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-@@ -22,7 +22,7 @@ module_param_named(allow_vram_carveout, allow_vram_carveout, bool, 0600);
- 
- static const struct adreno_info gpulist[] = {
- 	{
--		.rev   = ADRENO_REV(2, 0, 0, 0),
-+		.chip_ids = ADRENO_CHIP_IDS(0x02000000),
- 		.family = ADRENO_2XX_GEN1,
- 		.revn  = 200,
- 		.fw = {
-@@ -33,7 +33,7 @@ static const struct adreno_info gpulist[] = {
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
- 		.init  = a2xx_gpu_init,
- 	}, { /* a200 on i.mx51 has only 128kib gmem */
--		.rev   = ADRENO_REV(2, 0, 0, 1),
-+		.chip_ids = ADRENO_CHIP_IDS(0x02000001),
- 		.family = ADRENO_2XX_GEN1,
- 		.revn  = 201,
- 		.fw = {
-@@ -44,7 +44,7 @@ static const struct adreno_info gpulist[] = {
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
- 		.init  = a2xx_gpu_init,
- 	}, {
--		.rev   = ADRENO_REV(2, 2, 0, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(0x02020000),
- 		.family = ADRENO_2XX_GEN2,
- 		.revn  = 220,
- 		.fw = {
-@@ -55,7 +55,7 @@ static const struct adreno_info gpulist[] = {
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
- 		.init  = a2xx_gpu_init,
- 	}, {
--		.rev   = ADRENO_REV(3, 0, 5, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(0x03000500),
- 		.family = ADRENO_3XX,
- 		.revn  = 305,
- 		.fw = {
-@@ -66,7 +66,7 @@ static const struct adreno_info gpulist[] = {
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
- 		.init  = a3xx_gpu_init,
- 	}, {
--		.rev   = ADRENO_REV(3, 0, 6, 0),
-+		.chip_ids = ADRENO_CHIP_IDS(0x03000600),
- 		.family = ADRENO_3XX,
- 		.revn  = 307,        /* because a305c is revn==306 */
- 		.fw = {
-@@ -77,7 +77,11 @@ static const struct adreno_info gpulist[] = {
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
- 		.init  = a3xx_gpu_init,
- 	}, {
--		.rev   = ADRENO_REV(3, 2, ANY_ID, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(
-+			0x03020000,
-+			0x03020001,
-+			0x03020002
-+		),
- 		.family = ADRENO_3XX,
- 		.revn  = 320,
- 		.fw = {
-@@ -88,7 +92,11 @@ static const struct adreno_info gpulist[] = {
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
- 		.init  = a3xx_gpu_init,
- 	}, {
--		.rev   = ADRENO_REV(3, 3, 0, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(
-+			0x03030000,
-+			0x03030001,
-+			0x03030002
-+		),
- 		.family = ADRENO_3XX,
- 		.revn  = 330,
- 		.fw = {
-@@ -99,7 +107,7 @@ static const struct adreno_info gpulist[] = {
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
- 		.init  = a3xx_gpu_init,
- 	}, {
--		.rev   = ADRENO_REV(4, 0, 5, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(0x04000500),
- 		.family = ADRENO_4XX,
- 		.revn  = 405,
- 		.fw = {
-@@ -110,7 +118,7 @@ static const struct adreno_info gpulist[] = {
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
- 		.init  = a4xx_gpu_init,
- 	}, {
--		.rev   = ADRENO_REV(4, 2, 0, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(0x04020000),
- 		.family = ADRENO_4XX,
- 		.revn  = 420,
- 		.fw = {
-@@ -121,7 +129,7 @@ static const struct adreno_info gpulist[] = {
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
- 		.init  = a4xx_gpu_init,
- 	}, {
--		.rev   = ADRENO_REV(4, 3, 0, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(0x04030000),
- 		.family = ADRENO_4XX,
- 		.revn  = 430,
- 		.fw = {
-@@ -132,7 +140,7 @@ static const struct adreno_info gpulist[] = {
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
- 		.init  = a4xx_gpu_init,
- 	}, {
--		.rev   = ADRENO_REV(5, 0, 6, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(0x05000600),
- 		.family = ADRENO_5XX,
- 		.revn = 506,
- 		.fw = {
-@@ -150,7 +158,7 @@ static const struct adreno_info gpulist[] = {
- 		.init = a5xx_gpu_init,
- 		.zapfw = "a506_zap.mdt",
- 	}, {
--		.rev   = ADRENO_REV(5, 0, 8, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(0x05000800),
- 		.family = ADRENO_5XX,
- 		.revn = 508,
- 		.fw = {
-@@ -167,7 +175,7 @@ static const struct adreno_info gpulist[] = {
- 		.init = a5xx_gpu_init,
- 		.zapfw = "a508_zap.mdt",
- 	}, {
--		.rev   = ADRENO_REV(5, 0, 9, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(0x05000900),
- 		.family = ADRENO_5XX,
- 		.revn = 509,
- 		.fw = {
-@@ -185,7 +193,7 @@ static const struct adreno_info gpulist[] = {
- 		/* Adreno 509 uses the same ZAP as 512 */
- 		.zapfw = "a512_zap.mdt",
- 	}, {
--		.rev   = ADRENO_REV(5, 1, 0, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(0x05010000),
- 		.family = ADRENO_5XX,
- 		.revn = 510,
- 		.fw = {
-@@ -200,7 +208,7 @@ static const struct adreno_info gpulist[] = {
- 		.inactive_period = 250,
- 		.init = a5xx_gpu_init,
- 	}, {
--		.rev   = ADRENO_REV(5, 1, 2, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(0x05010200),
- 		.family = ADRENO_5XX,
- 		.revn = 512,
- 		.fw = {
-@@ -217,7 +225,7 @@ static const struct adreno_info gpulist[] = {
- 		.init = a5xx_gpu_init,
- 		.zapfw = "a512_zap.mdt",
- 	}, {
--		.rev = ADRENO_REV(5, 3, 0, 2),
-+		.chip_ids = ADRENO_CHIP_IDS(0x05030002),
- 		.family = ADRENO_5XX,
- 		.revn = 530,
- 		.fw = {
-@@ -236,7 +244,7 @@ static const struct adreno_info gpulist[] = {
- 		.init = a5xx_gpu_init,
- 		.zapfw = "a530_zap.mdt",
- 	}, {
--		.rev = ADRENO_REV(5, 4, 0, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(0x05040001),
- 		.family = ADRENO_5XX,
- 		.revn = 540,
- 		.fw = {
-@@ -254,7 +262,7 @@ static const struct adreno_info gpulist[] = {
- 		.init = a5xx_gpu_init,
- 		.zapfw = "a540_zap.mdt",
- 	}, {
--		.rev = ADRENO_REV(6, 1, 0, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(0x06010000),
- 		.family = ADRENO_6XX_GEN1,
- 		.revn = 610,
- 		.fw = {
-@@ -280,7 +288,7 @@ static const struct adreno_info gpulist[] = {
- 			127, 4
- 		),
- 	}, {
--		.rev = ADRENO_REV(6, 1, 8, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(0x06010800),
- 		.family = ADRENO_6XX_GEN1,
- 		.revn = 618,
- 		.fw = {
-@@ -298,7 +306,7 @@ static const struct adreno_info gpulist[] = {
- 		),
- 	}, {
- 		.machine = "qcom,sm4350",
--		.rev = ADRENO_REV(6, 1, 9, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(0x06010900),
- 		.family = ADRENO_6XX_GEN1,
- 		.revn = 619,
- 		.fw = {
-@@ -317,7 +325,7 @@ static const struct adreno_info gpulist[] = {
- 		),
- 	}, {
- 		.machine = "qcom,sm6375",
--		.rev = ADRENO_REV(6, 1, 9, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(0x06010900),
- 		.family = ADRENO_6XX_GEN1,
- 		.revn = 619,
- 		.fw = {
-@@ -335,7 +343,7 @@ static const struct adreno_info gpulist[] = {
- 			177, 2
- 		),
- 	}, {
--		.rev = ADRENO_REV(6, 1, 9, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(0x06010900),
- 		.family = ADRENO_6XX_GEN1,
- 		.revn = 619,
- 		.fw = {
-@@ -356,7 +364,7 @@ static const struct adreno_info gpulist[] = {
- 			180, 1
- 		),
- 	}, {
--		.rev = ADRENO_REV(6, 3, 0, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(0x06030002),
- 		.family = ADRENO_6XX_GEN1,
- 		.revn = 630,
- 		.fw = {
-@@ -370,7 +378,7 @@ static const struct adreno_info gpulist[] = {
- 		.zapfw = "a630_zap.mdt",
- 		.hwcg = a630_hwcg,
- 	}, {
--		.rev = ADRENO_REV(6, 4, 0, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(0x06040001),
- 		.family = ADRENO_6XX_GEN2,
- 		.revn = 640,
- 		.fw = {
-@@ -388,7 +396,7 @@ static const struct adreno_info gpulist[] = {
- 			1, 1
- 		),
- 	}, {
--		.rev = ADRENO_REV(6, 5, 0, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(0x06050002),
- 		.family = ADRENO_6XX_GEN3,
- 		.revn = 650,
- 		.fw = {
-@@ -410,7 +418,7 @@ static const struct adreno_info gpulist[] = {
- 			3, 2
- 		),
- 	}, {
--		.rev = ADRENO_REV(6, 6, 0, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(0x06060001),
- 		.family = ADRENO_6XX_GEN4,
- 		.revn = 660,
- 		.fw = {
-@@ -426,7 +434,7 @@ static const struct adreno_info gpulist[] = {
- 		.hwcg = a660_hwcg,
- 		.address_space_size = SZ_16G,
- 	}, {
--		.rev = ADRENO_REV(6, 3, 5, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(0x06030500),
- 		.family = ADRENO_6XX_GEN4,
- 		.fw = {
- 			[ADRENO_FW_SQE] = "a660_sqe.fw",
-@@ -445,7 +453,7 @@ static const struct adreno_info gpulist[] = {
- 			190, 1
- 		),
- 	}, {
--		.rev = ADRENO_REV(6, 8, 0, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(0x06080000),
- 		.family = ADRENO_6XX_GEN2,
- 		.revn = 680,
- 		.fw = {
-@@ -459,7 +467,7 @@ static const struct adreno_info gpulist[] = {
- 		.zapfw = "a640_zap.mdt",
- 		.hwcg = a640_hwcg,
- 	}, {
--		.rev = ADRENO_REV(6, 9, 0, ANY_ID),
-+		.chip_ids = ADRENO_CHIP_IDS(0x06090000),
- 		.family = ADRENO_6XX_GEN4,
- 		.fw = {
- 			[ADRENO_FW_SQE] = "a660_sqe.fw",
-@@ -494,31 +502,16 @@ MODULE_FIRMWARE("qcom/a630_sqe.fw");
- MODULE_FIRMWARE("qcom/a630_gmu.bin");
- MODULE_FIRMWARE("qcom/a630_zap.mbn");
- 
--static inline bool _rev_match(uint8_t entry, uint8_t id)
--{
--	return (entry == ANY_ID) || (entry == id);
--}
--
--bool adreno_cmp_rev(struct adreno_rev rev1, struct adreno_rev rev2)
--{
--
--	return _rev_match(rev1.core, rev2.core) &&
--		_rev_match(rev1.major, rev2.major) &&
--		_rev_match(rev1.minor, rev2.minor) &&
--		_rev_match(rev1.patchid, rev2.patchid);
--}
--
--const struct adreno_info *adreno_info(struct adreno_rev rev)
-+const struct adreno_info *adreno_find_info(uint32_t chip_id)
- {
--	int i;
--
- 	/* identify gpu: */
--	for (i = 0; i < ARRAY_SIZE(gpulist); i++) {
-+	for (int i = 0; i < ARRAY_SIZE(gpulist); i++) {
- 		const struct adreno_info *info = &gpulist[i];
- 		if (info->machine && !of_machine_is_compatible(info->machine))
- 			continue;
--		if (adreno_cmp_rev(info->rev, rev))
--			return info;
-+		for (int j = 0; info->chip_ids[j]; j++)
-+			if (info->chip_ids[j] == chip_id)
-+				return info;
- 	}
- 
- 	return NULL;
-@@ -598,12 +591,11 @@ struct msm_gpu *adreno_load_gpu(struct drm_device *dev)
- 	return NULL;
- }
- 
--static int find_chipid(struct device *dev, struct adreno_rev *rev)
-+static int find_chipid(struct device *dev, uint32_t *chipid)
- {
- 	struct device_node *node = dev->of_node;
- 	const char *compat;
- 	int ret;
--	u32 chipid;
- 
- 	/* first search the compat strings for qcom,adreno-XYZ.W: */
- 	ret = of_property_read_string_index(node, "compatible", 0, &compat);
-@@ -612,32 +604,34 @@ static int find_chipid(struct device *dev, struct adreno_rev *rev)
- 
- 		if (sscanf(compat, "qcom,adreno-%u.%u", &r, &patch) == 2 ||
- 		    sscanf(compat, "amd,imageon-%u.%u", &r, &patch) == 2) {
--			rev->core = r / 100;
-+			uint32_t core, major, minor;
-+
-+			core = r / 100;
- 			r %= 100;
--			rev->major = r / 10;
-+			major = r / 10;
- 			r %= 10;
--			rev->minor = r;
--			rev->patchid = patch;
-+			minor = r;
-+
-+			*chipid = (core << 24) |
-+				(major << 16) |
-+				(minor << 8) |
-+				patch;
- 
- 			return 0;
- 		}
-+
-+		if (sscanf(compat, "qcom,adreno-%08x", chipid) == 1)
-+			return 0;
- 	}
- 
- 	/* and if that fails, fall back to legacy "qcom,chipid" property: */
--	ret = of_property_read_u32(node, "qcom,chipid", &chipid);
-+	ret = of_property_read_u32(node, "qcom,chipid", chipid);
- 	if (ret) {
- 		DRM_DEV_ERROR(dev, "could not parse qcom,chipid: %d\n", ret);
- 		return ret;
- 	}
- 
--	rev->core = (chipid >> 24) & 0xff;
--	rev->major = (chipid >> 16) & 0xff;
--	rev->minor = (chipid >> 8) & 0xff;
--	rev->patchid = (chipid & 0xff);
--
- 	dev_warn(dev, "Using legacy qcom,chipid binding!\n");
--	dev_warn(dev, "Use compatible qcom,adreno-%u%u%u.%u instead.\n",
--		rev->core, rev->major, rev->minor, rev->patchid);
- 
- 	return 0;
- }
-@@ -651,22 +645,22 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
- 	struct msm_gpu *gpu;
- 	int ret;
- 
--	ret = find_chipid(dev, &config.rev);
-+	ret = find_chipid(dev, &config.chip_id);
- 	if (ret)
- 		return ret;
- 
- 	dev->platform_data = &config;
- 	priv->gpu_pdev = to_platform_device(dev);
- 
--	info = adreno_info(config.rev);
-+	info = adreno_find_info(config.chip_id);
- 
- 	if (!info) {
- 		dev_warn(drm->dev, "Unknown GPU revision: %"ADRENO_CHIPID_FMT"\n",
--			ADRENO_CHIPID_ARGS(config.rev));
-+			ADRENO_CHIPID_ARGS(config.chip_id));
- 		return -ENXIO;
- 	}
- 
--	DBG("Found GPU: %"ADRENO_CHIPID_FMT, ADRENO_CHIPID_ARGS(config.rev));
-+	DBG("Found GPU: %"ADRENO_CHIPID_FMT, ADRENO_CHIPID_ARGS(config.chip_id));
- 
- 	priv->is_a2xx = info->family < ADRENO_3XX;
- 	priv->has_cached_coherent =
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index 1a982a926f21..1274609a74b1 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -326,10 +326,7 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
- 		*value = !adreno_is_a650_family(adreno_gpu) ? 0x100000 : 0;
- 		return 0;
- 	case MSM_PARAM_CHIP_ID:
--		*value =  (uint64_t)adreno_gpu->rev.patchid |
--			 ((uint64_t)adreno_gpu->rev.minor << 8) |
--			 ((uint64_t)adreno_gpu->rev.major << 16) |
--			 ((uint64_t)adreno_gpu->rev.core  << 24);
-+		*value = adreno_gpu->chip_id;
- 		if (!adreno_gpu->info->revn)
- 			*value |= ((uint64_t) adreno_gpu->speedbin) << 32;
- 		return 0;
-@@ -849,7 +846,7 @@ void adreno_show(struct msm_gpu *gpu, struct msm_gpu_state *state,
- 
- 	drm_printf(p, "revision: %u (%"ADRENO_CHIPID_FMT")\n",
- 			adreno_gpu->info->revn,
--			ADRENO_CHIPID_ARGS(adreno_gpu->rev));
-+			ADRENO_CHIPID_ARGS(adreno_gpu->chip_id));
- 	/*
- 	 * If this is state collected due to iova fault, so fault related info
- 	 *
-@@ -922,7 +919,7 @@ void adreno_dump_info(struct msm_gpu *gpu)
- 
- 	printk("revision: %u (%"ADRENO_CHIPID_FMT")\n",
- 			adreno_gpu->info->revn,
--			ADRENO_CHIPID_ARGS(adreno_gpu->rev));
-+			ADRENO_CHIPID_ARGS(adreno_gpu->chip_id));
- 
- 	for (i = 0; i < gpu->nr_rings; i++) {
- 		struct msm_ringbuffer *ring = gpu->rb[i];
-@@ -1072,14 +1069,13 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
- 	struct adreno_platform_config *config = dev->platform_data;
- 	struct msm_gpu_config adreno_gpu_config  = { 0 };
- 	struct msm_gpu *gpu = &adreno_gpu->base;
--	struct adreno_rev *rev = &config->rev;
- 	const char *gpu_name;
- 	u32 speedbin;
- 	int ret;
- 
- 	adreno_gpu->funcs = funcs;
--	adreno_gpu->info = adreno_info(config->rev);
--	adreno_gpu->rev = *rev;
-+	adreno_gpu->info = adreno_find_info(config->chip_id);
-+	adreno_gpu->chip_id = config->chip_id;
- 
- 	/* Only handle the core clock when GMU is not in use (or is absent). */
- 	if (adreno_has_gmu_wrapper(adreno_gpu) ||
-@@ -1104,7 +1100,7 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
- 	adreno_gpu->speedbin = (uint16_t) (0xffff & speedbin);
- 
- 	gpu_name = devm_kasprintf(dev, GFP_KERNEL, "%"ADRENO_CHIPID_FMT,
--			ADRENO_CHIPID_ARGS(config->rev));
-+			ADRENO_CHIPID_ARGS(config->chip_id));
- 	if (!gpu_name)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-index 73e7155f164c..18f53c7ab589 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-@@ -54,23 +54,15 @@ enum adreno_family {
- #define ADRENO_QUIRK_HAS_HW_APRIV		BIT(3)
- #define ADRENO_QUIRK_HAS_CACHED_COHERENT	BIT(4)
- 
--struct adreno_rev {
--	uint8_t  core;
--	uint8_t  major;
--	uint8_t  minor;
--	uint8_t  patchid;
--};
--
--#define ANY_ID 0xff
--
--#define ADRENO_REV(core, major, minor, patchid) \
--	((struct adreno_rev){ core, major, minor, patchid })
--
- /* Helper for formating the chip_id in the way that userspace tools like
-  * crashdec expect.
-  */
- #define ADRENO_CHIPID_FMT "u.%u.%u.%u"
--#define ADRENO_CHIPID_ARGS(_r) (_r).core, (_r).major, (_r).minor, (_r).patchid
-+#define ADRENO_CHIPID_ARGS(_c) \
-+	(((_c) >> 24) & 0xff), \
-+	(((_c) >> 16) & 0xff), \
-+	(((_c) >> 8)  & 0xff), \
-+	((_c) & 0xff)
- 
- struct adreno_gpu_funcs {
- 	struct msm_gpu_funcs base;
-@@ -87,7 +79,12 @@ extern const struct adreno_reglist a660_hwcg[], a690_hwcg[];
- 
- struct adreno_info {
- 	const char *machine;
--	struct adreno_rev rev;
-+	/**
-+	 * @chipids: Table of matching chip-ids
-+	 *
-+	 * Terminated with 0 sentinal
-+	 */
-+	uint32_t *chip_ids;
- 	enum adreno_family family;
- 	uint32_t revn;
- 	const char *fw[ADRENO_FW_MAX];
-@@ -107,6 +104,8 @@ struct adreno_info {
- 	uint32_t *speedbins;
- };
- 
-+#define ADRENO_CHIP_IDS(tbl...) (uint32_t[]) { tbl, 0 }
-+
- /*
-  * Helper to build a speedbin table, ie. the table:
-  *      fuse | speedbin
-@@ -125,12 +124,12 @@ struct adreno_info {
-  */
- #define ADRENO_SPEEDBINS(tbl...) (uint32_t[]) { tbl, UINT_MAX }
- 
--const struct adreno_info *adreno_info(struct adreno_rev rev);
-+const struct adreno_info *adreno_find_info(uint32_t chip_id);
- 
- struct adreno_gpu {
- 	struct msm_gpu base;
--	struct adreno_rev rev;
- 	const struct adreno_info *info;
-+	uint32_t chip_id;
- 	uint16_t speedbin;
- 	const struct adreno_gpu_funcs *funcs;
- 
-@@ -179,7 +178,7 @@ struct adreno_ocmem {
- 
- /* platform config data (ie. from DT, or pdata) */
- struct adreno_platform_config {
--	struct adreno_rev rev;
-+	uint32_t chip_id;
- };
- 
- #define ADRENO_IDLE_TIMEOUT msecs_to_jiffies(1000)
-@@ -196,7 +195,15 @@ struct adreno_platform_config {
- 	__ret;                                             \
- })
- 
--bool adreno_cmp_rev(struct adreno_rev rev1, struct adreno_rev rev2);
-+static inline uint8_t adreno_patchid(const struct adreno_gpu *gpu)
-+{
-+	/* It is probably ok to assume legacy "adreno_rev" format
-+	 * for all a6xx devices, but probably best to limit this
-+	 * to older things.
-+	 */
-+	WARN_ON_ONCE(gpu->info->family >= ADRENO_6XX_GEN1);
-+	return gpu->chip_id & 0xff;
-+}
- 
- static inline bool adreno_is_revn(const struct adreno_gpu *gpu, uint32_t revn)
- {
-@@ -252,7 +259,7 @@ static inline bool adreno_is_a330(const struct adreno_gpu *gpu)
- 
- static inline bool adreno_is_a330v2(const struct adreno_gpu *gpu)
- {
--	return adreno_is_a330(gpu) && (gpu->rev.patchid > 0);
-+	return adreno_is_a330(gpu) && (adreno_patchid(gpu) > 0);
- }
- 
- static inline int adreno_is_a405(const struct adreno_gpu *gpu)
-@@ -342,8 +349,7 @@ static inline int adreno_is_a650(const struct adreno_gpu *gpu)
- 
- static inline int adreno_is_7c3(const struct adreno_gpu *gpu)
- {
--	/* The order of args is important here to handle ANY_ID correctly */
--	return adreno_cmp_rev(ADRENO_REV(6, 3, 5, ANY_ID), gpu->rev);
-+	return gpu->info->chip_ids[0] == 0x06030500;
- }
- 
- static inline int adreno_is_a660(const struct adreno_gpu *gpu)
-@@ -358,8 +364,7 @@ static inline int adreno_is_a680(const struct adreno_gpu *gpu)
- 
- static inline int adreno_is_a690(const struct adreno_gpu *gpu)
- {
--	/* The order of args is important here to handle ANY_ID correctly */
--	return adreno_cmp_rev(ADRENO_REV(6, 9, 0, ANY_ID), gpu->rev);
-+	return gpu->info->chip_ids[0] == 0x06090000;
- };
- /* check for a615, a616, a618, a619 or any a630 derivatives */
- static inline int adreno_is_a630_family(const struct adreno_gpu *gpu)
--- 
-2.41.0
 
+> Also use the explicit function calls to mipi_dsi_dcs_exit_sleep_mode()
+> and mipi_dsi_dcs_set_display_on() instead of reimplementing them
+> with homegrown sequences.
+
+Yeah, this is nice, thanks!
+
+
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+> ChangeLog v2->v3:
+> - Convert the two newly added Starry displays as well.
+> ---
+>  drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 3351 ++++++++++++------=
+------
+>  1 file changed, 1654 insertions(+), 1697 deletions(-)
+
+I'm at least moderately curious if you did size comparisons in the
+resulting binary before and after. Given that mipi_dsi_dcs_write_seq()
+is currently implemented as a macro this seems like it has the
+potential of massively exploding the size of the compiled object size.
+Even if it wasn't a macro, I'd wonder if the compiler is really smart
+enough to generate code that's as good for these long sequences. The
+call sequences for several hundred function calls could be enough
+overhead to justify adding a function to the core that handles an
+array of sequences. Would that be a good compromise? Add to the core
+handling of a sequence of sequences but don't add the extra special
+case for delays (each time you need a delay you need to start a new
+sequence of sequences).
+
+Aside from the potential binary size bloat, I guess this also has the
+downside of not considering it a true error if one of these init steps
+fails for some reason. The new code will just spit out a ratelimited
+error and continue trying to init whereas the old code would have
+stopped immediately. The new way is probably OK, but the difference in
+behavior should be noted in the commit message in case this is causing
+problems for anyone.
+
+
+> +static int inx_hj110iz_init(struct mipi_dsi_device *dsi)
+> +{
+> +       int ret;
+>
+> -static const struct panel_init_cmd auo_kd101n80_45na_init_cmd[] =3D {
+> -       _INIT_DELAY_CMD(24),
+> -       _INIT_DCS_CMD(0x11),
+> -       _INIT_DELAY_CMD(120),
+> -       _INIT_DCS_CMD(0x29),
+> -       _INIT_DELAY_CMD(120),
+> -       {},
+> -};
+> +       mipi_dsi_dcs_write_seq(dsi, 0xFF, 0x20);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xFB, 0x01);
+> +       mipi_dsi_dcs_write_seq(dsi, 0x05, 0xD1);
+
+The sequence of init commands for inx_hj110iz_init() is quite
+different before and after your patch. The first such difference is
+right here. The old code used to have "0x06, 0xC0" right after the
+"0x05, 0xD1"
+
+Is this on purpose? If so, can you please move that change to a
+separate patch and have this patch be _just_ a no-op.
+
+
+> +static int boe_init(struct mipi_dsi_device *dsi)
+> +{
+> +       msleep(24);
+
+Where did the msleep(24) come from? It wasn't there before your patch,
+right? Please make this patch a no-op and add the 24ms sleep in a
+separate patch if it's needed.
+
+
+> +static int starry_qfh032011_53g_init(struct mipi_dsi_device *dsi)
+>  {
+> -       struct mipi_dsi_device *dsi =3D boe->dsi;
+> -       struct drm_panel *panel =3D &boe->base;
+> -       int i, err =3D 0;
+> -
+> -       if (boe->desc->init_cmds) {
+> -               const struct panel_init_cmd *init_cmds =3D boe->desc->ini=
+t_cmds;
+> -
+> -               for (i =3D 0; init_cmds[i].len !=3D 0; i++) {
+> -                       const struct panel_init_cmd *cmd =3D &init_cmds[i=
+];
+> -
+> -                       switch (cmd->type) {
+> -                       case DELAY_CMD:
+> -                               msleep(cmd->data[0]);
+> -                               err =3D 0;
+> -                               break;
+> -
+> -                       case INIT_DCS_CMD:
+> -                               err =3D mipi_dsi_dcs_write(dsi, cmd->data=
+[0],
+> -                                                        cmd->len <=3D 1 =
+? NULL :
+> -                                                        &cmd->data[1],
+> -                                                        cmd->len - 1);
+> -                               break;
+> -
+> -                       default:
+> -                               err =3D -EINVAL;
+> -                       }
+> -
+> -                       if (err < 0) {
+> -                               dev_err(panel->dev,
+> -                                       "failed to write command %u\n", i=
+);
+> -                               return err;
+> -                       }
+> -               }
+> -       }
+> +       int ret;
+> +
+> +       mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x01);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC3, 0x4F);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC4, 0x40);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC5, 0x40);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC6, 0x40);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC7, 0x40);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC8, 0x4D);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC9, 0x52);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xCA, 0x51);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xCD, 0x5D);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xCE, 0x5B);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xCF, 0x4B);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD0, 0x49);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD1, 0x47);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD2, 0x45);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD3, 0x41);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD7, 0x50);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD8, 0x40);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD9, 0x40);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xDA, 0x40);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xDB, 0x40);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xDC, 0x4E);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xDD, 0x52);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xDE, 0x51);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE1, 0x5E);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE2, 0x5C);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE3, 0x4C);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE4, 0x4A);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE5, 0x48);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE6, 0x46);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE7, 0x42);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x03);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xBE, 0x03);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xCC, 0x44);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC8, 0x07);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC9, 0x05);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xCA, 0x42);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xCD, 0x3E);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xCF, 0x60);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD2, 0x04);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD3, 0x04);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD4, 0x01);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD5, 0x00);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD6, 0x03);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD7, 0x04);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD9, 0x01);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xDB, 0x01);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE4, 0xF0);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE5, 0x0A);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x00);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xCC, 0x08);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC2, 0x08);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC4, 0x10);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x02);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC0, 0x00);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC1, 0x0A);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC2, 0x20);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC3, 0x24);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC4, 0x23);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC5, 0x29);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC6, 0x23);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC7, 0x1C);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC8, 0x19);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC9, 0x17);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xCA, 0x17);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xCB, 0x18);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xCC, 0x1A);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xCD, 0x1E);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xCE, 0x20);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xCF, 0x23);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD0, 0x07);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD1, 0x00);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD2, 0x00);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD3, 0x0A);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD4, 0x13);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD5, 0x1C);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD6, 0x1A);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD7, 0x13);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD8, 0x17);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD9, 0x1C);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xDA, 0x19);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xDB, 0x17);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xDC, 0x17);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xDD, 0x18);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xDE, 0x1A);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xDF, 0x1E);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE0, 0x20);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE1, 0x23);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE2, 0x07);
+> +
+> +       ret =3D mipi_dsi_dcs_exit_sleep_mode(dsi);
+> +       if (ret)
+> +               return ret;
+> +       msleep(120);
+> +       ret =3D mipi_dsi_dcs_set_display_on(dsi);
+> +       if (ret)
+> +               return ret;
+> +       msleep(80);
+> +
+>         return 0;
+>  }
+>
+> +
+> +static int starry_himax83102_j02_init(struct mipi_dsi_device *dsi)
+
+nit: don't need two blank lines between functions. ...and if you do,
+for some reason, you should be consistent and have two blank lines
+between _all_ of them, not just some.
+
+
+> +{
+> +       int ret;
+> +
+> +       mipi_dsi_dcs_write_seq(dsi, 0xB9, 0x83, 0x10, 0x21, 0x55, 0x00);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xB1, 0x2C, 0xB5, 0xB5, 0x31, 0xF1, 0=
+x31, 0xD7, 0x2F, 0x36, 0x36,
+> +                              0x36, 0x36, 0x1A, 0x8B, 0x11, 0x65, 0x00, =
+0x88, 0xFA, 0xFF, 0xFF, 0x8F,
+> +                              0xFF, 0x08, 0x74, 0x33);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xB2, 0x00, 0x47, 0xB0, 0x80, 0x00, 0=
+x12, 0x72, 0x3C, 0xA3, 0x03,
+> +                              0x03, 0x00, 0x00, 0x88, 0xF5);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xB4, 0x76, 0x76, 0x76, 0x76, 0x76, 0=
+x76, 0x63, 0x5C, 0x63, 0x5C,
+> +                              0x01, 0x9E);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE9, 0xCD);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xBA, 0x84);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE9, 0x3F);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xBC, 0x1B, 0x04);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xBE, 0x20);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xBF, 0xFC, 0xC4);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC0, 0x36, 0x36, 0x22, 0x11, 0x22, 0=
+xA0, 0x61, 0x08, 0xF5, 0x03);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE9, 0xCC);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC7, 0x80);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE9, 0x3F);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE9, 0xC6);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC8, 0x97);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE9, 0x3F);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xC9, 0x00, 0x1E, 0x13, 0x88, 0x01);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xCB, 0x08, 0x13, 0x07, 0x00, 0x0F, 0=
+x33);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xCC, 0x02);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE9, 0xC4);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD0, 0x03);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE9, 0x3F);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD1, 0x37, 0x06, 0x00, 0x02, 0x04, 0=
+x0C, 0xFF);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD2, 0x1F, 0x11, 0x1F);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD3, 0x06, 0x00, 0x00, 0x00, 0x00, 0=
+x00, 0x08, 0x00, 0x08,
+> +                              0x37, 0x47, 0x34, 0x3B, 0x12, 0x12, 0x03, =
+0x03, 0x32, 0x10, 0x10,
+> +                              0x00, 0x10, 0x32, 0x10, 0x08, 0x00, 0x08, =
+0x32, 0x17, 0x94, 0x07,
+> +                              0x94, 0x00, 0x00);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD5, 0x18, 0x18, 0x18, 0x18, 0x18, 0=
+x18, 0x18, 0x18, 0x18,
+> +                              0x18, 0x19, 0x19, 0x40, 0x40, 0x1A, 0x1A, =
+0x1B, 0x1B, 0x00, 0x01,
+> +                              0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x20, =
+0x21, 0x28, 0x29, 0x18,
+> +                              0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, =
+0x18, 0x18, 0x18, 0x18,
+> +                              0x18, 0x18);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD6, 0x18, 0x18, 0x18, 0x18, 0x18, 0=
+x18, 0x18, 0x18, 0x18,
+> +                              0x18, 0x40, 0x40, 0x19, 0x19, 0x1A, 0x1A, =
+0x1B, 0x1B, 0x07, 0x06,
+> +                              0x05, 0x04, 0x03, 0x02, 0x01, 0x00, 0x29, =
+0x28, 0x21, 0x20, 0x18,
+> +                              0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, =
+0x18, 0x18, 0x18, 0x18,
+> +                              0x18, 0x18);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD8, 0xAA, 0xBA, 0xEA, 0xAA, 0xAA, 0=
+xA0, 0xAA, 0xBA, 0xEA,
+> +                              0xAA, 0xAA, 0xA0, 0xAA, 0xBA, 0xEA, 0xAA, =
+0xAA, 0xA0, 0xAA, 0xBA,
+> +                              0xEA, 0xAA, 0xAA, 0xA0, 0xAA, 0xBA, 0xEA, =
+0xAA, 0xAA, 0xA0, 0xAA,
+> +                              0xBA, 0xEA, 0xAA, 0xAA, 0xA0);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE0, 0x00, 0x09, 0x14, 0x1E, 0x26, 0=
+x48, 0x61, 0x67, 0x6C,
+> +                              0x67, 0x7D, 0x7F, 0x80, 0x8B, 0x87, 0x8F, =
+0x98, 0xAB, 0xAB, 0x55,
+> +                              0x5C, 0x68, 0x73, 0x00, 0x09, 0x14, 0x1E, =
+0x26, 0x48, 0x61, 0x67,
+> +                              0x6C, 0x67, 0x7D, 0x7F, 0x80, 0x8B, 0x87, =
+0x8F, 0x98, 0xAB, 0xAB,
+> +                              0x55, 0x5C, 0x68, 0x73);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE7, 0x0E, 0x10, 0x10, 0x21, 0x2B, 0=
+x9A, 0x02, 0x54, 0x9A,
+> +                              0x14, 0x14, 0x00, 0x00, 0x00, 0x00, 0x12, =
+0x05, 0x02, 0x02, 0x10);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xBD, 0x01);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xB1, 0x01, 0xBF, 0x11);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xCB, 0x86);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD2, 0x3C, 0xFA);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE9, 0xC5);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD3, 0x00, 0x00, 0x00, 0x00, 0x80, 0=
+x0C, 0x01);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE9, 0x3F);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE7, 0x02, 0x00, 0x28, 0x01, 0x7E, 0=
+x0F, 0x7E, 0x10, 0xA0,
+> +                              0x00, 0x00, 0x20, 0x40, 0x50, 0x40);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xBD, 0x02);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD8, 0xFF, 0xFF, 0xBF, 0xFE, 0xAA, 0=
+xA0, 0xFF, 0xFF, 0xBF,
+> +                              0xFE, 0xAA, 0xA0);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE7, 0xFE, 0x04, 0xFE, 0x04, 0xFE, 0=
+x04, 0x03, 0x03, 0x03,
+> +                              0x26, 0x00, 0x26, 0x81, 0x02, 0x40, 0x00, =
+0x20, 0x9E, 0x04, 0x03,
+> +                              0x02, 0x01, 0x00, 0x00, 0x00, 0x00, 0x01, =
+0x00);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xBD, 0x03);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE9, 0xC6);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xB4, 0x03, 0xFF, 0xF8);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE9, 0x3F);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xD8, 0x00, 0x2A, 0xAA, 0xA8, 0x00, 0=
+x00, 0x00, 0x2A, 0xAA,
+> +                              0xA8, 0x00, 0x00, 0x00, 0x3F, 0xFF, 0xFC, =
+0x00, 0x00, 0x00, 0x3F,
+> +                              0xFF, 0xFC, 0x00, 0x00, 0x00, 0x2A, 0xAA, =
+0xA8, 0x00, 0x00, 0x00,
+> +                              0x2A, 0xAA, 0xA8, 0x00, 0x00);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xBD, 0x00);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE9, 0xC4);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xBA, 0x96);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE9, 0x3F);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xBD, 0x01);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE9, 0xC5);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xBA, 0x4F);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xE9, 0x3F);
+> +       mipi_dsi_dcs_write_seq(dsi, 0xBD, 0x00);
+> +
+> +
+> +       ret =3D mipi_dsi_dcs_exit_sleep_mode(dsi);
+
+nit: why two blank lines above?
+
+
+> +       if (ret)
+> +               return ret;
+> +       msleep(120);
+> +       ret =3D mipi_dsi_dcs_set_display_on(dsi);
+> +       if (ret)
+> +               return ret;
+> +       msleep(80);
+
+Where did the "msleep(80)" come from? I don't see this in the code
+you're replacing. If the "msleep(80)" is needed, please introduce it
+in a separate patch.
+
+
+> +
+> +       return 0;
+> +};
+> +
+> +
+> +static int starry_ili9882t_init(struct mipi_dsi_device *dsi)
+
+nit: don't need two blank lines between functions
+
+
+> +{
+> +       int ret;
+> +
+> +       msleep(5);
+
+I know it was doing a msleep(5) before, but I guess it's now more
+obvious that (according to the docs) this should be a usleep_range()
+or a delay, since delays < 20 ms are documented as not being super
+appropriate for msleep(). I guess it doesn't _really_ matter,
+though...
+
+
+-Doug
