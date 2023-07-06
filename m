@@ -1,71 +1,120 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F6197496FA
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 10:02:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16DC77497F0
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 11:07:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E006710E461;
-	Thu,  6 Jul 2023 08:02:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7469410E498;
+	Thu,  6 Jul 2023 09:07:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 993A010E461
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 08:02:00 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id
- 2adb3069b0e04-4f9fdb0ef35so474392e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jul 2023 01:02:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1688630516; x=1691222516;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=vyp/9XA3VeIwo5vQ7cCyAzz/r1gWic6MPkKz9UeIw+E=;
- b=pckOCiwvSFJdPSywrL07QtFMj/VRIVVZIyETx4qKUnFtK+zJWvgiHBEYorOxf2e5bU
- qWo660jvOdN++HAIkiWE00DG9ycoO3Fq3Psz5ie/PT4tFM3cn/sWBZVt+GgWcwvxtFAy
- 9v76o1qg7d+KEVfkGLeMST+MnHs7a7FvhVBMMtozTXpynRcFtxn6qYEypw0D7/a+k/QN
- ce5tAl1LlHY03I1hdcQzheXI4fdV0hR5npyGix/aH0NCKmEJzvXSsy/8rgWb394HvHnX
- JXi1PUdHW91PIuWK/Q/eihC3F7qrFd6bgfkw9/a9LkH9Kwc84D7BeR/GHK7IgaPZbX0y
- HBgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688630516; x=1691222516;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vyp/9XA3VeIwo5vQ7cCyAzz/r1gWic6MPkKz9UeIw+E=;
- b=FTQLIJqhJNNU44DQfvNkIbuff/6rReVKdTSP+WG6H290mwwM29b9MBLxm9PkTxbHk1
- EyzWSvlohqDumbjI7Venjb9YipHXF1+bykNTEs22Fl7Ku5bjGyD/9cOZEaNAF4GFguCP
- CcRArQabxk88yoSVRI0bpfLFCAY2UpJ0oHr9ZU766J+fO9zd0SQe8qrv3Lb4KcdOWSkm
- cJ4qQa2lnqvVOwc/a0jcgxeNk1eHVHhpzXS19ARmJ3jB5i18+QmSQICnkzkfD3ya9tMo
- sUEvefqkcbl7I6FjNoCoR2pGTWpRyhHvAJxBSzLqeqGYv/tf0ROZIw+omrQByFY6VnvG
- xdAQ==
-X-Gm-Message-State: ABy/qLbTJhio9MNErG7+VCAO8wOKS0XUCKz/fcLrfJGgDVvNNAKDPlO/
- k+taecxNCyWFwknvvbODy/8=
-X-Google-Smtp-Source: APBJJlF5RjWA4GTXUWCaFELyL9DiEfvK0nGmLGMqQud3MfABSgq7em4Asg5YktZHh9FFoQTcaFAtMQ==
-X-Received: by 2002:a19:644a:0:b0:4f8:7524:8431 with SMTP id
- b10-20020a19644a000000b004f875248431mr864725lfj.44.1688630515958; 
- Thu, 06 Jul 2023 01:01:55 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- r13-20020ac25a4d000000b004cc9042c9cfsm150761lfn.158.2023.07.06.01.01.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jul 2023 01:01:55 -0700 (PDT)
-Date: Thu, 6 Jul 2023 11:01:46 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Michael Banack <banackm@vmware.com>
-Subject: Re: [PATCH v4 2/8] drm/atomic: Add support for mouse hotspots
-Message-ID: <20230706110146.0abeda0a@eldfell>
-In-Reply-To: <ce7754be-8085-ffd1-93f3-a774f7fcdb87@vmware.com>
-References: <20230628052133.553154-1-zack@kde.org>
- <20230628052133.553154-3-zack@kde.org>
- <20230628104106.30360b55@eldfell> <20230628105424.11eb45ec@eldfell>
- <2fb2f3985df4d6710e5ad33f6e618a52004714df.camel@vmware.com>
- <20230629110348.3530f427@eldfell>
- <6c5449cf-b7a6-1125-9493-0fe968166915@vmware.com>
- <20230704110845.490344f5@eldfell>
- <ce7754be-8085-ffd1-93f3-a774f7fcdb87@vmware.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
+Received: from APC01-PSA-obe.outbound.protection.outlook.com
+ (mail-psaapc01on2134.outbound.protection.outlook.com [40.107.255.134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29F6310E455;
+ Thu,  6 Jul 2023 07:41:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IquwfArR2TuLGkjVHQJG+YM1R+jPfJ9oxiGoWYEKrOeRK/iCk2jjuYTTXyahlOskcQakqs7kw6k23m8Aa8CZ8x1TnGuqiCyGTtjoLvQ7Xz30LHDNxxGvMWwTan5XOGJgNurmvh909ekJO3u48TDvcVZQ8KOpB5Nx2n2V2evYdlK6pa7Uj8B0MziUIgBTxWwPGgXng0+9CLm7SAPAooZZVFMc07uCVcJQeAdk6Wkq25bpZFC/Qi9siruCXfPyOVyts0H7jgxNC2jJJ5qQxi0WNO/A4WzZyQ3e7gCyNSmxSTjeLmKynU6Ms4Vu871+fnlS3wm/xyV+hZgsnm67uji6Tg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AU/S1RWFTVxjPFZLm8LcZEqgDwvuS0geQfTvBvWwqA8=;
+ b=Mv/PvvhGu6zIsHNkxDmOJ9NqKpbFkSDqoaF5mnsoetuB+FJ0J0n4dlnydHKj42BOemoDPv68msCKM/UjU9h9K92OhAf21GNwP3/mqHfC0UgcMec2rREP6WuYj+gxz5lOzWZC4RmnPbmA5+++//hvf0he+BpUEWV7f7jfJYZfGcJQ3MRdr9b3OmHy4VN4i+wn58pIbwXv7Avj29Jgh7Gqqn+vAEUarnzh4KXInkKn4/7rP+MnqWQVXvi2OmNtxUhQ1zCPJ2JhFOjX0txx3KpLplj/FvKZCYMewXjH8eoYh6JD3XD5sl67ZB3aDPnpIpi9VuTM/ZWJYRbKcx1P82I37A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AU/S1RWFTVxjPFZLm8LcZEqgDwvuS0geQfTvBvWwqA8=;
+ b=RqLlx1GDgQy1Mkfcymrv+P1Zqa8rfwO3qUNiZ4UMlWLzy0bzjbO8VdSHBdZ538CZsXMDdZKH6lB2FgCur7f6kORknIrqSsYdXg4C2o9JSHnhtkcQ6SiAIRcu+LKTO9EWaC1KuVUe9HfIoXsk8MiKofiRA33JqJ2Vo5jZbvHYF22RWEK1G8u7H9jrrMEWrxKI3PwEFYllXcUw4gdJE4EfDN0O7FoX9EcGA2m+zNQJvjPZZ4A5sEBdV69G1SpRHN+hGe4nMv9GsSToROQbr+6nCOzm0kT9nh6cb9CwCpwmb4vY/OOoeYVMHNShfJi4DVuGvLWwl8H3PxXsblW5vWXpVA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from TY0PR06MB5706.apcprd06.prod.outlook.com (2603:1096:400:272::6)
+ by SEZPR06MB6037.apcprd06.prod.outlook.com (2603:1096:101:ee::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.17; Thu, 6 Jul
+ 2023 07:41:00 +0000
+Received: from TY0PR06MB5706.apcprd06.prod.outlook.com
+ ([fe80::d6ff:1295:38d7:a019]) by TY0PR06MB5706.apcprd06.prod.outlook.com
+ ([fe80::d6ff:1295:38d7:a019%7]) with mapi id 15.20.6565.016; Thu, 6 Jul 2023
+ 07:41:00 +0000
+Content-Type: multipart/alternative;
+ boundary="------------0Ua8p00VKL80vW5ZFt7MxecM"
+Message-ID: <59751b3c-4102-d9b9-d785-c082ba4dbd40@vivo.com>
+Date: Thu, 6 Jul 2023 15:39:30 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] Covert to use time_before macro
+To: Zehao Zhang <zhangzehao@vivo.com>, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+ tvrtko.ursulin@linux.intel.com, airlied@gmail.com, daniel@ffwll.ch,
+ luciano.coelho@intel.com
+References: <20230706064641.2296-1-zhangzehao@vivo.com>
+From: Zehao Zhang <11162513@vivo.com>
+In-Reply-To: <20230706064641.2296-1-zhangzehao@vivo.com>
+X-ClientProxiedBy: SI2P153CA0014.APCP153.PROD.OUTLOOK.COM (2603:1096:4:140::6)
+ To TY0PR06MB5706.apcprd06.prod.outlook.com
+ (2603:1096:400:272::6)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/QywG=US0h+xqCr5nio6mF+P";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY0PR06MB5706:EE_|SEZPR06MB6037:EE_
+X-MS-Office365-Filtering-Correlation-Id: b15e3672-ca2f-4c40-e8ee-08db7df45805
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BpDfUzjAKzmrrWzUbfcw0j3biQ2fRUupwBKHy/d5cfabD09GsxErkaQ9ffmW8+M4a6OrjTNPP0aoMonpefOoTT0WxK6En0rqbnCB44b8oBltjbSloBlYAMjaf2p7d/ndUUul88d4keu6tJ48otQTx4plGTKfe64mjbCy8sQGZEg2dVyi/kwPtVWMxK4RpxaSvum8nqbbowqjt0jqH7d6l6ZDo28Gz4/rE185s9c0lzcfNvjIz59VYlmAGgudvqCKKvV4IuctMhWdvQyeWaa7YRt+BhxsCtI6fhkGYL5ZqklPSUU8NtmBZXfFRPqqrv7OhLCueq8xl7WlCKFdLAXyMLA2lIPjJT4nMIYilJNELLFo+MBDiYB7eltHJkIO0UfMUYAK2oiO4yMd5/ZXcjpjj3UsbZ/+RD+r7s1u9gGRw4Rri+LijfzgCeWP7LhDYb1D+qkKndTTpO4hEwm7ksAJIe56YqYyBXM+GZvrMZXmqx0cNyf38LXbMAC6mjfXSZCOsOde2Jqk2XYN45qy/K0p5ja8NyVCpcnYZq37WbDcK+AJLUAXlshDY0rJmrPkk8dPC9ocyoZloXPKDw75P/MPBSJ//c7INtUYZAylZELSg0x8kfa43lkFq0bLw0/joYAcYkcGKeG150EG8Tg1k6xkImcYx2GftCt0RVe3zd98pYT9T9RGVhkeDrqJX9017zH4
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TY0PR06MB5706.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(366004)(396003)(39860400002)(136003)(376002)(346002)(451199021)(52116002)(33964004)(6486002)(6666004)(478600001)(564344004)(2616005)(31696002)(36756003)(31686004)(2906002)(66946007)(6506007)(26005)(186003)(6512007)(966005)(38100700002)(166002)(38350700002)(4326008)(316002)(66476007)(66556008)(41300700001)(8936002)(8676002)(5660300002)(7416002)(45980500001)(81742002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZzZCSDZzL0VaQy95ekhPOWtUTVlyK1lkL1JiK0VwUUQyZkU3V3MwcGpwbDN2?=
+ =?utf-8?B?V3luN2Y3SElGZmUzM0FUYTBta2pFMkkxZXg0dmlpWWlWWmhGaGg2ZFA0WUtw?=
+ =?utf-8?B?NWYzbmlTaSt2aWNWQ0FWSE4wT0dnY1UyVWRZMCtoV1FaN3RXQW1xdHJoMDlT?=
+ =?utf-8?B?c3ZPVmFhYnVybCszYzRyZEp1STFjdnNFYjRUOE1iaDlVOE16RHRweVpDV3VJ?=
+ =?utf-8?B?WkEwMDJTREtybnR4dnljN0ZFQ1FQOUxyOU0rY05iK2YwR3FIb3pBUHBud0l3?=
+ =?utf-8?B?V3JFYXNBUzJ1S0ZLcGU0VUE5VVhqVy9hMml0Rkl4emhCNWFWbTJISW40K0Fh?=
+ =?utf-8?B?c3gzNHRqM3loTkYydlkrZXdUMktkVmw3ME02c1ErbVgxVU5xcXhRcXFXWGJT?=
+ =?utf-8?B?ZFd3SnNiNGY3RWcwU0JaM2xEN2Y0UkZFYkpPV1h5VHZuSjQwck43Tlh5UnFx?=
+ =?utf-8?B?V2p4SHRkaW45aHBJbmhLc0p1bnJTakk2U05MOE54bGxOUG10NUJhM2RwNXNm?=
+ =?utf-8?B?S0lSWE5vcVd6UW9LMVhWWXBkT0RXdnZhVngzc0N1YU56eEdBZnJpZGxxLzVs?=
+ =?utf-8?B?b3FFVTFLcHlRNlJ0VUdldUhQWXg4UStHMVcvVTYxQjJ4dXdDRUEzazlBRVFZ?=
+ =?utf-8?B?YWdMK3dOVVM3dWJmYXo1aFVJVHhpWnJ3QWFnNERncUltYloxRG1hSGltTmcz?=
+ =?utf-8?B?NngyNlNielp2OFU5b0hDajZxdFRXSjhaOXB4UjJLbjgvYUxGYi9ReXZReVFr?=
+ =?utf-8?B?WGhnMGl4Um50WEgxT21FamZ1SU1ySHZzMGtBdlYwTDNtNERsdnhOY203eHhu?=
+ =?utf-8?B?SjF4ZTdQVm5uS3IrYWxEWllYd01KWklBUU5KTmtlQVJoUlhNRi9iQXZrdEZ6?=
+ =?utf-8?B?M2s1SFVUYWlyQkREWGNlbjRsRGdkSFZ5bEUzNFMwTXM5eWVBY0JDYTZCNUNh?=
+ =?utf-8?B?TnJzWHcwdzF4TjFwaXFuNEc0Zm9oRXB6OEd6K3JmMDJ1TE5tNGozcUpZK0c2?=
+ =?utf-8?B?YThQNjF6TnZHa2ExazFIamJwdUhEVHp5OCtwdkZ0MndsWWNDbkFlak5ZWFM0?=
+ =?utf-8?B?RFRvQ1lwMDBQcWkzMElIMlVFUU9tY05ab3ZIV1A0cjRVbm81elBnYkp3dE43?=
+ =?utf-8?B?RjdtT09WRVRGendIU1N5NlVDcnlKNG0vS0VCcXk4WHVMaFFDaUV3MHJoc2kz?=
+ =?utf-8?B?QmRhVVQ1NWhxcmxqeWY5QVFoY0VhdzdKdUI2d3JRbXA3Vm00bVpXYVhXcHZB?=
+ =?utf-8?B?VGR1MjloY1NwQWxSY2NPZDNBSkZ6dGQ2c0JqUWpkUDBsbnMybmdUZ3dlbGdR?=
+ =?utf-8?B?dnYyMk8wakRpZitvdkIxUGhvdlQ3S2FxdldHZUNLMTh1a1I0d250QlVBWTFQ?=
+ =?utf-8?B?eEx6NXZ3Sm5tbUFIZ1BWellxZXJtb1ZLdVdqdnpJOEt5bitNYVRwRE1RSit4?=
+ =?utf-8?B?MEpCSTBJdFNtUjdyMHpycnYzUktuN1htSU9abHFMY2xJdTBUMEFWUlExUUZE?=
+ =?utf-8?B?T0FvNkVGYyt6V21oL3VWUW84U241TEQrcEZZNEFhSlhnbWpwZjhlajVvNmZ6?=
+ =?utf-8?B?WUprSU1FV3IrNEpIRDRXQ2JWSHZ2bHdyVWQrOEp0M1R3RUd1b0gya2RHRHVO?=
+ =?utf-8?B?SUo5ak1kMjk1aHMxSkNhYjZ4OGlINzBFOXZ0VFRuWFl6L01USlZMUkpsTFFu?=
+ =?utf-8?B?eDcyMi94WnhFcnVPa0Z4akQwNlRuV3MxUGoyZ0g0QXBBSm1KMEwrcXYvSksy?=
+ =?utf-8?B?RHdVTU13RE8rd2FTaDNjRHlxQmNqUkF3NFFoRW4zR3F4anpicWthWEV6OWR4?=
+ =?utf-8?B?S3FKVkVzR0JpZ3RNS0RGeXl1TUlEVkUwalJPUmxEVURiWXU1UUExdytaOC8v?=
+ =?utf-8?B?YkxrMVZsaVpzdEgzTGk0WTVUVXVXbjVkcDhFcE1DbkltM1VGWk4yeUZtWGlr?=
+ =?utf-8?B?UlpxZEtkbXNnVUdGNWpSZGlhTCs0Zm1vUFFuV2lXdXdhV2hzWTNnZERQMWF0?=
+ =?utf-8?B?bjQ4KzVLMHZ2b0ltNmVIL0pKdWduVWdQeWhZV3kyaDdmbDRybHgybWhQOHNJ?=
+ =?utf-8?B?Z3Nhbm5ZeGQ3Vjh0c1hjZGlBR0VySFRwUDcvMDB6ejV3S1I4T0hxMDZwZTNJ?=
+ =?utf-8?Q?FhbpfTXb9XLwsXtTq437zUgQI?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b15e3672-ca2f-4c40-e8ee-08db7df45805
+X-MS-Exchange-CrossTenant-AuthSource: TY0PR06MB5706.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2023 07:41:00.7004 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SaSjKc05Q1LIl5bP0Or0SJI26Siqt53EHRGaH4eJDy5F8qsY/vQYDrWOZxjxyoVqrx0LFyPJ+zPJffIcMQHobw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB6037
+X-Mailman-Approved-At: Thu, 06 Jul 2023 09:07:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,252 +127,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "mripard@kernel.org" <mripard@kernel.org>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "javierm@redhat.com" <javierm@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Martin Krastev <krastevm@vmware.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>, Ian Forbes <iforbes@vmware.com>,
- Maaz Mombasawala <mombasawalam@vmware.com>, "zack@kde.org" <zack@kde.org>
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/QywG=US0h+xqCr5nio6mF+P
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+--------------0Ua8p00VKL80vW5ZFt7MxecM
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 5 Jul 2023 09:08:07 -0700
-Michael Banack <banackm@vmware.com> wrote:
+Correct the format of the Subject in v2:
+https://lore.kernel.org/all/20230706072924.2562-1-zhangzehao@vivo.com/
 
-> On 7/4/23 01:08, Pekka Paalanen wrote:
-> > On Mon, 3 Jul 2023 14:06:56 -0700
-> > Michael Banack <banackm@vmware.com> wrote:
-> > =20
-> >> Hi, I can speak to the virtual mouse/console half of this from the
-> >> VMware-side.
-> >>
-> >> I believe Zack's preparing a new set of comments here that can speak to
-> >> most of your concerns, but I'll answer some of the other questions dir=
-ectly.
-> >>
-> >> On 6/29/23 01:03, Pekka Paalanen wrote: =20
-> >>> Is it really required that the hotspot coordinates fall inside the
-> >>> cursor plane? Will the atomic commit be rejected otherwise? =20
-> >> Most console systems require the hotspot to get within the cursor imag=
-e,
-> >> but in theory it's semantically meaningful to have it extend outside t=
-he
-> >> image.
-> >>
-> >> VMware's clients in particular will clamp the hotspot to the dimension
-> >> of the cursor image if we receive one that's out of bounds.
-> >>
-> >> So I would assume the right thing to do here would be to allow it and
-> >> let the clients figure out how to best handle it. =20
-> > Hi,
-> >
-> > if it is normal that clients clamp the hotspot to inside the cursor
-> > image, then I would come to the opposite conclusion: KMS UAPI needs to
-> > require the hotspot to be within the cursor image. Otherwise the
-> > results would be unpredictable, if clients still continue to clamp it
-> > anyway. I would assume that clients in use today are not prepared to
-> > handle hotspot outside the cursor image.
-> >
-> > It is also not a big deal to require that. I think it would be very rare
-> > to not have hotspot inside the cursor image, and even if it happened,
-> > the only consequence would be that the guest display server falls back
-> > to rendered cursor instead of a cursor plane. That may happen any time
-> > anyway, if an application sets e.g. a huge cursor that exceeds cursor
-> > plane size limits. =20
-> Hypervisors are normally more privileged than the kernel, so any=20
-> hypervisor/remoting client here really should be dealing with this case=20
-> rather than trusting the kernel to handle it for them.
+--------------0Ua8p00VKL80vW5ZFt7MxecM
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Sorry, handle what? Trust the guest kernel to do what?
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <pre>Correct the format of the Subject in v2:
+<a class="moz-txt-link-freetext" href="https://lore.kernel.org/all/20230706072924.2562-1-zhangzehao@vivo.com/">https://lore.kernel.org/all/20230706072924.2562-1-zhangzehao@vivo.com/</a>
 
-Personally I'm only interested in the KMS UAPI the guest kernel offers
-to guest userspace, and requiring hotspot to be inside the cursor image
-is fine. I don't think it needs even a strong justification, it's what
-most would likely expect, and expectations are good to record in spec.
+</pre>
+  </body>
+</html>
 
-The UAPI contract is between (guest) kernel and (guest) userspace, and
-I expect the kernel to fully enforce that towards the userspace.
-
-I understand that hypervisors cannot trust guest kernels for security,
-but I also think that's a different matter.
-
->  From that perspective, we would normally try to preserve the=20
-> application/guest semantics as much as possible, and then that gives us=20
-> the ability to deal with this on the hypervisor side if it turns out=20
-> that there's a critical case with the hotspot outside the image that we=20
-> need to handle.
->=20
-> But that said, while I've seen real Guests do this in the past, I don't=20
-> recall seeing this from any modern operating systems, so I don't think=20
-> it's a big deal for us either way.
->=20
-> >
-> > What I'm after with the question is that the requirement must be spelled
-> > out clearly if it is there, or not even hinted at if it's not there. =20
-> Agreed.
->=20
-> >>> The question of which input device corresponds to which cursor plane
-> >>> might be good to answer too. I presume the VM runner is configured to
-> >>> expose exactly one of each, so there can be only one association? =20
-> >> As far as I know, all of the VM consoles are written as though they
-> >> taking the place of what would the the physical monitors and input
-> >> devices on a native machine.=C2=A0 So they assume that there is one us=
-er,
-> >> sitting in front of one console, and all monitors/input devices are
-> >> being used by that user. =20
-> > Ok, but having a single user does not mean that there cannot be
-> > multiple independent pointers, especially on Wayland. The same with
-> > keyboards. =20
->=20
-> True, and if the userspace is doing anything complicated here, the=20
-> hypervisor has to be responsible for ensuring that whatever it's doing=20
-> works with that, or else this system won't work.=C2=A0 I don't know that =
-the=20
-> kernel is in a good position to police that.
-
-What do you mean by policing here?
-
-Isn't it the hypervisor that determines what virtual input devices will
-be available to the guest OS? Therefore, the hypervisor is in a
-position to expose exactly one pointer device and exactly one
-cursor plane to guest OS which means the guest OS cannot get the
-association wrong. If that's the general and expected hypervisor
-policy, then there is no need to design explicit device association in
-the guest kernel UAPI. If so, I'd like it to be mentioned in the kernel
-docs, too.
-
-> > =20
-> >> Any more complicated multi-user/multi-cursor setup would have to be
-> >> coordinated through a lot of layers (ie from the VM's userspace/kernel
-> >> and then through hypervisor/client-consoles), and as far as I know
-> >> nobody has tried to plumb that all the way through.=C2=A0 Even physical
-> >> multi-user/multi-console configurations like that are rare. =20
-> > Right.
-> >
-> > So if there a VM viewer client running on a Wayland system, that viewer
-> > client may be presented with an arbitrary number of independent
-> > pointer/keyboard/touchscreen input devices. Then it is up to the client
-> > to pick one at a time to pass through to the VM.
-> >
-> > That's fine.
-> >
-> > I just think it would be good to document, that VM/viewer systems
-> > expect to expose just a single pointer to the guest, hence it is
-> > obvious which input device in the guest is associated with all the
-> > cursor planes in the guest. =20
->=20
-> I don't have a problem adding something that suggests what we think the=20
-> hypervisors are doing, but I would be a little cautious trying to=20
-> prescribe what the hypervisors should be doing here.
-
-If the UAPI has been designed to cater for specific hypervisor
-configurations, then I think the assumptions should definitely be
-documented in the UAPI. Hypervisor developers can look at the UAPI and
-see what it caters for and what it doesn't. It's not a spec for what
-hypervisors must or must not do, but an explanation of what works and
-what doesn't given that guest userspace is forced to follow the UAPI.
-
-If there is no record of how the input vs. output device association is
-expected to be handled, I will be raising questions about it until it
-is.
-
-Having limitations is fine, but they need to be documented.
-
-> I certainly can't speak for all of them, but we at least do a lot of odd=
-=20
-> tricks to keep this coordinated that violate what would normally be=20
-> abstraction layers in a physical system such as having the mouse and the=
-=20
-> display adapter collude.=C2=A0 Ultimately it's the hypervisor that is=20
-> responsible for doing the synchronization correctly, and the kernel=20
-> really isn't involved there besides ferrying the right information down.
-
-Are you happy with that, having to chase and special-case guest OS quirks?
-
-Or would you rather know how a guest Linux kernel expects and enforces
-guest userspace to behave, and develop for that, making all Linux OSs
-look fairly similar?
-
-You have a golden opportunity here to define how a Linux guest OS needs
-to behave. When it's enshrined in Linux UAPI, it will hold for decades,
-too.
-
-> >
-> > Btw. what do you do if a guest display server simultaneously uses
-> > multiple cursor planes, assuming there are multiple outputs each with a
-> > cursor plane? Or does the VM/viewer system limit the number of outputs
-> > to one for the guest? =20
->=20
-> Zack would have to confirm what the vmwgfx driver does, but the VMware=20
-> virtual display hardware at least only has one cursor position.=C2=A0 So =
-I=20
-> would assume that vmwgfx tries to only expose one plane and the rest get=
-=20
-> emulated, or else it just picks one to set live, but I'm not an expert=20
-> on vmwgfx.
-
-Right. I would not expect a guest driver to invent more virtual devices
-than what the hypervisor exposes.
-
-I believe that using universal planes KMS UAPI, a guest display driver
-can also expose a single cursor plane that can migrate between CRTCs.
-
-> Normally we try to run a userspace agent in the Guest that also helps=20
-> coordinate screen positions/resolutions to match what the user wanted on=
-=20
-> their client.=C2=A0 So when a user connects and requests from our UI that=
-=20
-> they want the screens to be a particular configuration, we then send a=20
-> message to the userspace agent which coordinates with the display=20
-> manager to request that setup.=C2=A0 You can certainly manually configure=
-=20
-> modes with things like rotation/topologies that break the console mouse,=
-=20
-> but we try not to put the user into that state as much as possible.=C2=A0=
-=20
-> Multiple cursors in the Guest display manager probably fall into that=20
-> category.
-
-That sounds like something that only works with Xorg as the guest
-display server, as X11 allows you to do that, and Wayland does not.
-
-You could do similar things through the guest kernel display driver by
-manufacturing hotplug events and changing read-only KMS properties
-accordingly, at least to some degree.
-
-At some point, extending KMS for virtualized use cases stops being
-reasonable and it would be better to connect to the guest using VNC,
-RDP, or such. But I think adding hotspot properties is on the
-reasonable side and far from that line.
-
-
-Thanks,
-pq
-
---Sig_/QywG=US0h+xqCr5nio6mF+P
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmSmdOoACgkQI1/ltBGq
-qqclhhAAhpDZYUvpA0R4YRDhTLqNPuMbpC168+ykYvnr660auL+lwZoauNizAYA4
-klc59eXm95/YbfY5mRNI6IGyscSRoCQHNlUEC5CGLEhpvdRnjc4pBtI6tucNKgd9
-bSXJJBEwZF1a5rN21pftwB37p+nMVLRMF/pS5u7mcfUafwTsEO3yJxziX3LUoIch
-niK4VYesreKg7S7Lfm2cdoF7ohlyA6FzV2xuc1xl80ZKPHsxavgnD1UjdYHRUG8J
-D6/U+qFoxzXwgpSBHCKirWi3QAAxMmAVawOv6ZPotVPJHJI4o8INbhflq4CQA2Ek
-HthpPFTt3WB7SgSAmjfQnNOL86bCKCHgrc8ODlE43ipKDrSiu99gm8GG5I5No7tk
-vYvp1c/d0vLF/3KYjTkFbuFt2fVI0Ecc8N30Nl9mvs6EX23g8PQ9YGgZKStHKf41
-gBooXW+zTSzJnceI6vrvFMxsmhuTiBBynUKAEJ+kCa/W2U9OWd7NtL0EggwrEEtI
-dfJj7nP6aF3pora3uYbNDnzI8PXvmTTlBu/a9mnhAx7IuyjXytjp0hraE4bbLGk6
-E0lgdeYB8aBqqpIvFzud5t+0zbp1hZtiJwb/D/v89uaBFxvZY3LPIIEfK4HjUKSc
-mArH2UNpErBJQZfpMCv796Fh5742hpoK4FlAWQIkd897IrIM654=
-=AhGl
------END PGP SIGNATURE-----
-
---Sig_/QywG=US0h+xqCr5nio6mF+P--
+--------------0Ua8p00VKL80vW5ZFt7MxecM--
