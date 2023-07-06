@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A8F674A596
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 23:11:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 009B574A598
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 23:11:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50C8F10E4BC;
-	Thu,  6 Jul 2023 21:11:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D783410E4C6;
+	Thu,  6 Jul 2023 21:11:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
- [IPv6:2607:f8b0:4864:20::1032])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D722210E4AC;
- Thu,  6 Jul 2023 21:11:04 +0000 (UTC)
-Received: by mail-pj1-x1032.google.com with SMTP id
- 98e67ed59e1d1-262b213eddfso1686971a91.0; 
- Thu, 06 Jul 2023 14:11:04 -0700 (PDT)
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
+ [IPv6:2607:f8b0:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FF4510E4B3;
+ Thu,  6 Jul 2023 21:11:06 +0000 (UTC)
+Received: by mail-pf1-x42f.google.com with SMTP id
+ d2e1a72fcca58-66c729f5618so1003248b3a.1; 
+ Thu, 06 Jul 2023 14:11:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1688677864; x=1691269864;
+ d=gmail.com; s=20221208; t=1688677865; x=1691269865;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YQnN829O1lAOpEHGj2SRxckFk9YAJvOeNQ8or0cs/+c=;
- b=dLbZB0alBGG9X9K4r4xMGfQjuKH4vzeWUhFfbqMN9hhDU494AN6pH+ziHxSULWBHZB
- 2nbAkU5jryqWDNBiLHtPmdQ8S9X2DNcPx19gJ75X8AlumlVKZN6CzyuGUgJqNISfQ2p7
- 34L+T5mED0Dqy4BMd/0RSskL0tIYzHok5Y9QJw8zR1l7auNRCeRVTZUHGzVWqHPC1jRm
- LMuD90wRQD1wBqDL5bQSk735DuBbDVRWdPusGOFYNYbebFqzkj/6gB6JBsA154SGA8Rp
- gQN3lakDrpGeAjyIWE4QmDhBfdRSTrpzJTx3hLmlaml88vOSeml5GsNRYMX26jsnREWR
- 9Ecg==
+ bh=c/LKr4NvPMbCvi0D9usVxvRWmWQvsOjG4NG+cTraaNs=;
+ b=Wbc9yvkyQ4T9wyDXEqUEd2lOpZ0elnplp4ZSoz0sSjycNIlGHY/GasGFw315MZ4Uob
+ kTz8PAHsRbxfpCRi8qFIep6qtzDdh+R5UQffTF8diII5o43vFQ/of07xqpH7C98HJsb9
+ he6LegwmVnclfSJerS48kj5mOhRad2UUofbguTrM8KKmWwkMBEUBUg6OYkET8RaSnQYh
+ +FZPbgImWQ/8yVOcOP1ajzNGrTJyZCx88ekA5/9E1ZaxE3ib/XGgcOhTkfof6dcl1sb0
+ WbPt2Qo4sSZGJ5p41EE/0m6GF006J3sPYVzhQ9+oXhS2YGtFKRq+uuNfh8s88GBlP/aN
+ IRIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688677864; x=1691269864;
+ d=1e100.net; s=20221208; t=1688677865; x=1691269865;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YQnN829O1lAOpEHGj2SRxckFk9YAJvOeNQ8or0cs/+c=;
- b=kjQLvnFTgFw05Hayd05r7xZTyv+gFWM575Dmvf7Yv94XE8jjFZWA55Yi4lbxtO/K8t
- 9Y7m/jppXFLOfTBETUbJNqN6OyDL8ncH2nGP2FqyjZCsVwZIIxgBwnMwYnjQ0UhR/IKb
- nhJvoS9R8DiR7eSVwPggd8iPqQ1vAi1Stkwot5ZDV81iFSzCjl2myQjrdI/WrHUFe5S1
- 00p+5SoaR/LuRsEMtiUOfDQXf7lWeTo+VV55nVpre7HEmProi/Nus5A+yvBzV4plXcCS
- hBPIwayfmsow/ae55FcFB9WJ7xPIlF4xfNbzcyi1VKYhB4bTizW8zxooI+4Xi1wA7gIV
- sSJQ==
-X-Gm-Message-State: ABy/qLai7+5Qn9n2KwvMSCmWAuYHyRMZT74dOS8DGAalLegJAyaxHDRR
- 7UcIyBKvVWIanZaR5xw9Nx6BZFN69qA=
-X-Google-Smtp-Source: APBJJlFHAh9+le0qFXEZH+KPlE6cQwRonzAqFixkDlWN+lhqtYm6SXxl2FI3IyK6liholOWKpPTpqg==
-X-Received: by 2002:a17:90a:fe07:b0:262:ca9c:edcb with SMTP id
- ck7-20020a17090afe0700b00262ca9cedcbmr4929640pjb.9.1688677863834; 
- Thu, 06 Jul 2023 14:11:03 -0700 (PDT)
+ bh=c/LKr4NvPMbCvi0D9usVxvRWmWQvsOjG4NG+cTraaNs=;
+ b=fiD753Lo6/xj36hZVVXUst53NbV55wuxyB8+AiHbiC8DscBtAA50VF/ogzK1LQgcGL
+ lqImkhlQEgxTLpwfFFqKV8ZAZ8l/79ba8zdhlRCHwu6h5UH7vA+QllAFbfV2bAXOK5l6
+ 9ndfwbjhbDfK93CQQQ/f7GJv+uwHm9YKCpMtyKHKvtLDTLtb1sa1jGeslywlNDJSnCAz
+ pCpMF11ldhKaaJHikI4zcMeRTyQ7jwS6H2vToxQlYBnTEN6IcM2enJtK6EmeuUyXySXR
+ QZO5ed3K1+n2oXiwSnTZnoDCYXLeLqdIgJQrOKE/jSey2lYe39N7XYmjyXie78ZRUApb
+ gbww==
+X-Gm-Message-State: ABy/qLY3FUD/DP7agC3VqAnWCSjcglXOI6LL57tSiAF614DPyLtFN0Nh
+ mQJczKVQw5vzK/16MHeP9CW8gocnqDs=
+X-Google-Smtp-Source: APBJJlGpZrW3c4xwKJ8/TZ3Pdq91mO2tcn3ofYNPz4yM3ODR1I5LR8gFZyAVtXS3akYxEJUDLjrgOw==
+X-Received: by 2002:a05:6a20:a11a:b0:11f:c1a1:8c with SMTP id
+ q26-20020a056a20a11a00b0011fc1a1008cmr3602428pzk.54.1688677865358; 
+ Thu, 06 Jul 2023 14:11:05 -0700 (PDT)
 Received: from localhost ([2a00:79e1:abd:4a00:6c80:7c10:75a0:44f4])
  by smtp.gmail.com with ESMTPSA id
- 16-20020a631750000000b0055386b1415dsm1704942pgx.51.2023.07.06.14.11.03
+ fe16-20020a056a002f1000b0066ebaeb149dsm1667933pfb.88.2023.07.06.14.11.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jul 2023 14:11:03 -0700 (PDT)
+ Thu, 06 Jul 2023 14:11:05 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 02/12] drm/msm/adreno: Remove redundant gmem size param
-Date: Thu,  6 Jul 2023 14:10:35 -0700
-Message-ID: <20230706211045.204925-3-robdclark@gmail.com>
+Subject: [PATCH 03/12] drm/msm/adreno: Remove redundant revn param
+Date: Thu,  6 Jul 2023 14:10:36 -0700
+Message-ID: <20230706211045.204925-4-robdclark@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230706211045.204925-1-robdclark@gmail.com>
 References: <20230706211045.204925-1-robdclark@gmail.com>
@@ -80,121 +80,92 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Even in the ocmem case, the allocated ocmem buffer size should match the
-requested size.
+This just duplicates what is in adreno_info, and can cause confusion if
+used before it is set.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/adreno/a2xx_gpu.c      | 2 +-
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c      | 2 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 2 +-
- drivers/gpu/drm/msm/adreno/adreno_device.c | 1 -
- drivers/gpu/drm/msm/adreno/adreno_gpu.c    | 8 ++++----
- drivers/gpu/drm/msm/adreno/adreno_gpu.h    | 1 -
- 6 files changed, 7 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c   |  2 --
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c |  1 -
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h | 22 +++++++++-------------
+ 3 files changed, 9 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a2xx_gpu.c b/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
-index c67089a7ebc1..50ee03bc94b4 100644
---- a/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
-@@ -205,7 +205,7 @@ static int a2xx_hw_init(struct msm_gpu *gpu)
- 		A2XX_MH_INTERRUPT_MASK_MMU_PAGE_FAULT);
- 
- 	for (i = 3; i <= 5; i++)
--		if ((SZ_16K << i) == adreno_gpu->gmem)
-+		if ((SZ_16K << i) == adreno_gpu->info->gmem)
- 			break;
- 	gpu_write(gpu, REG_A2XX_RB_EDRAM_INFO, i);
- 
-diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-index a99310b68793..f0803e94ebe5 100644
---- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-@@ -749,7 +749,7 @@ static int a5xx_hw_init(struct msm_gpu *gpu)
- 	gpu_write(gpu, REG_A5XX_UCHE_GMEM_RANGE_MIN_LO, 0x00100000);
- 	gpu_write(gpu, REG_A5XX_UCHE_GMEM_RANGE_MIN_HI, 0x00000000);
- 	gpu_write(gpu, REG_A5XX_UCHE_GMEM_RANGE_MAX_LO,
--		0x00100000 + adreno_gpu->gmem - 1);
-+		0x00100000 + adreno_gpu->info->gmem - 1);
- 	gpu_write(gpu, REG_A5XX_UCHE_GMEM_RANGE_MAX_HI, 0x00000000);
- 
- 	if (adreno_is_a506(adreno_gpu) || adreno_is_a508(adreno_gpu) ||
 diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index b3ada1e7b598..edbade75020f 100644
+index edbade75020f..5ba8b5aca502 100644
 --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
 +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -1270,7 +1270,7 @@ static int hw_init(struct msm_gpu *gpu)
- 		gpu_write64(gpu, REG_A6XX_UCHE_GMEM_RANGE_MIN, 0x00100000);
+@@ -2484,8 +2484,6 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+ 		return ERR_PTR(-EINVAL);
  
- 		gpu_write64(gpu, REG_A6XX_UCHE_GMEM_RANGE_MAX,
--			0x00100000 + adreno_gpu->gmem - 1);
-+			0x00100000 + adreno_gpu->info->gmem - 1);
- 	}
- 
- 	gpu_write(gpu, REG_A6XX_UCHE_FILTER_CNTL, 0x804);
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-index 5eba0ae5c9a7..326912284a95 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-@@ -239,7 +239,6 @@ static const struct adreno_info gpulist[] = {
- 	}, {
- 		.rev = ADRENO_REV(6, 1, 0, ANY_ID),
- 		.revn = 610,
--		.name = "A610",
- 		.fw = {
- 			[ADRENO_FW_SQE] = "a630_sqe.fw",
- 		},
+ 	/* Assign these early so that we can use the is_aXYZ helpers */
+-	/* Numeric revision IDs (e.g. 630) */
+-	adreno_gpu->revn = info->revn;
+ 	/* New-style ADRENO_REV()-only */
+ 	adreno_gpu->rev = info->rev;
+ 	/* Quirk data */
 diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index e3cd9ff6ff1d..4f59682f585e 100644
+index 4f59682f585e..2e62a7ce9f13 100644
 --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
 +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -320,7 +320,7 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
- 		*value = adreno_gpu->info->revn;
- 		return 0;
- 	case MSM_PARAM_GMEM_SIZE:
--		*value = adreno_gpu->gmem;
-+		*value = adreno_gpu->info->gmem;
- 		return 0;
- 	case MSM_PARAM_GMEM_BASE:
- 		*value = !adreno_is_a650_family(adreno_gpu) ? 0x100000 : 0;
-@@ -1041,14 +1041,15 @@ int adreno_gpu_ocmem_init(struct device *dev, struct adreno_gpu *adreno_gpu,
- 		return PTR_ERR(ocmem);
- 	}
- 
--	ocmem_hdl = ocmem_allocate(ocmem, OCMEM_GRAPHICS, adreno_gpu->gmem);
-+	ocmem_hdl = ocmem_allocate(ocmem, OCMEM_GRAPHICS, adreno_gpu->info->gmem);
- 	if (IS_ERR(ocmem_hdl))
- 		return PTR_ERR(ocmem_hdl);
- 
- 	adreno_ocmem->ocmem = ocmem;
- 	adreno_ocmem->base = ocmem_hdl->addr;
- 	adreno_ocmem->hdl = ocmem_hdl;
--	adreno_gpu->gmem = ocmem_hdl->len;
-+
-+	WARN_ON(ocmem_hdl->len != adreno_gpu->info->gmem);
- 
- 	return 0;
- }
-@@ -1097,7 +1098,6 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+@@ -1098,7 +1098,6 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
  
  	adreno_gpu->funcs = funcs;
  	adreno_gpu->info = adreno_info(config->rev);
--	adreno_gpu->gmem = adreno_gpu->info->gmem;
- 	adreno_gpu->revn = adreno_gpu->info->revn;
+-	adreno_gpu->revn = adreno_gpu->info->revn;
  	adreno_gpu->rev = *rev;
  
+ 	if (adreno_read_speedbin(dev, &speedbin) || !speedbin)
 diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-index 6830c3776c2d..aaf09c642dc6 100644
+index aaf09c642dc6..d31e2d37c61b 100644
 --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
 +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
 @@ -77,7 +77,6 @@ struct adreno_gpu {
  	struct msm_gpu base;
  	struct adreno_rev rev;
  	const struct adreno_info *info;
--	uint32_t gmem;  /* actual gmem size */
- 	uint32_t revn;  /* numeric revision name */
+-	uint32_t revn;  /* numeric revision name */
  	uint16_t speedbin;
  	const struct adreno_gpu_funcs *funcs;
+ 
+@@ -147,10 +146,9 @@ bool adreno_cmp_rev(struct adreno_rev rev1, struct adreno_rev rev2);
+ 
+ static inline bool adreno_is_revn(const struct adreno_gpu *gpu, uint32_t revn)
+ {
+-	/* revn can be zero, but if not is set at same time as info */
+-	WARN_ON_ONCE(!gpu->info);
+-
+-	return gpu->revn == revn;
++	if (WARN_ON_ONCE(!gpu->info))
++		return false;
++	return gpu->info->revn == revn;
+ }
+ 
+ static inline bool adreno_has_gmu_wrapper(const struct adreno_gpu *gpu)
+@@ -160,18 +158,16 @@ static inline bool adreno_has_gmu_wrapper(const struct adreno_gpu *gpu)
+ 
+ static inline bool adreno_is_a2xx(const struct adreno_gpu *gpu)
+ {
+-	/* revn can be zero, but if not is set at same time as info */
+-	WARN_ON_ONCE(!gpu->info);
+-
+-	return (gpu->revn < 300);
++	if (WARN_ON_ONCE(!gpu->info))
++		return false;
++	return (gpu->info->revn < 300);
+ }
+ 
+ static inline bool adreno_is_a20x(const struct adreno_gpu *gpu)
+ {
+-	/* revn can be zero, but if not is set at same time as info */
+-	WARN_ON_ONCE(!gpu->info);
+-
+-	return (gpu->revn < 210);
++	if (WARN_ON_ONCE(!gpu->info))
++		return false;
++	return (gpu->info->revn < 210);
+ }
+ 
+ static inline bool adreno_is_a225(const struct adreno_gpu *gpu)
 -- 
 2.41.0
 
