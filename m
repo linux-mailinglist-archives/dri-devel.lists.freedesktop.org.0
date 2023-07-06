@@ -1,120 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16DC77497F0
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 11:07:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAA6F749704
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 10:03:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7469410E498;
-	Thu,  6 Jul 2023 09:07:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DFC010E462;
+	Thu,  6 Jul 2023 08:03:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from APC01-PSA-obe.outbound.protection.outlook.com
- (mail-psaapc01on2134.outbound.protection.outlook.com [40.107.255.134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29F6310E455;
- Thu,  6 Jul 2023 07:41:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IquwfArR2TuLGkjVHQJG+YM1R+jPfJ9oxiGoWYEKrOeRK/iCk2jjuYTTXyahlOskcQakqs7kw6k23m8Aa8CZ8x1TnGuqiCyGTtjoLvQ7Xz30LHDNxxGvMWwTan5XOGJgNurmvh909ekJO3u48TDvcVZQ8KOpB5Nx2n2V2evYdlK6pa7Uj8B0MziUIgBTxWwPGgXng0+9CLm7SAPAooZZVFMc07uCVcJQeAdk6Wkq25bpZFC/Qi9siruCXfPyOVyts0H7jgxNC2jJJ5qQxi0WNO/A4WzZyQ3e7gCyNSmxSTjeLmKynU6Ms4Vu871+fnlS3wm/xyV+hZgsnm67uji6Tg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AU/S1RWFTVxjPFZLm8LcZEqgDwvuS0geQfTvBvWwqA8=;
- b=Mv/PvvhGu6zIsHNkxDmOJ9NqKpbFkSDqoaF5mnsoetuB+FJ0J0n4dlnydHKj42BOemoDPv68msCKM/UjU9h9K92OhAf21GNwP3/mqHfC0UgcMec2rREP6WuYj+gxz5lOzWZC4RmnPbmA5+++//hvf0he+BpUEWV7f7jfJYZfGcJQ3MRdr9b3OmHy4VN4i+wn58pIbwXv7Avj29Jgh7Gqqn+vAEUarnzh4KXInkKn4/7rP+MnqWQVXvi2OmNtxUhQ1zCPJ2JhFOjX0txx3KpLplj/FvKZCYMewXjH8eoYh6JD3XD5sl67ZB3aDPnpIpi9VuTM/ZWJYRbKcx1P82I37A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AU/S1RWFTVxjPFZLm8LcZEqgDwvuS0geQfTvBvWwqA8=;
- b=RqLlx1GDgQy1Mkfcymrv+P1Zqa8rfwO3qUNiZ4UMlWLzy0bzjbO8VdSHBdZ538CZsXMDdZKH6lB2FgCur7f6kORknIrqSsYdXg4C2o9JSHnhtkcQ6SiAIRcu+LKTO9EWaC1KuVUe9HfIoXsk8MiKofiRA33JqJ2Vo5jZbvHYF22RWEK1G8u7H9jrrMEWrxKI3PwEFYllXcUw4gdJE4EfDN0O7FoX9EcGA2m+zNQJvjPZZ4A5sEBdV69G1SpRHN+hGe4nMv9GsSToROQbr+6nCOzm0kT9nh6cb9CwCpwmb4vY/OOoeYVMHNShfJi4DVuGvLWwl8H3PxXsblW5vWXpVA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from TY0PR06MB5706.apcprd06.prod.outlook.com (2603:1096:400:272::6)
- by SEZPR06MB6037.apcprd06.prod.outlook.com (2603:1096:101:ee::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.17; Thu, 6 Jul
- 2023 07:41:00 +0000
-Received: from TY0PR06MB5706.apcprd06.prod.outlook.com
- ([fe80::d6ff:1295:38d7:a019]) by TY0PR06MB5706.apcprd06.prod.outlook.com
- ([fe80::d6ff:1295:38d7:a019%7]) with mapi id 15.20.6565.016; Thu, 6 Jul 2023
- 07:41:00 +0000
-Content-Type: multipart/alternative;
- boundary="------------0Ua8p00VKL80vW5ZFt7MxecM"
-Message-ID: <59751b3c-4102-d9b9-d785-c082ba4dbd40@vivo.com>
-Date: Thu, 6 Jul 2023 15:39:30 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] Covert to use time_before macro
-To: Zehao Zhang <zhangzehao@vivo.com>, jani.nikula@linux.intel.com,
- joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
- tvrtko.ursulin@linux.intel.com, airlied@gmail.com, daniel@ffwll.ch,
- luciano.coelho@intel.com
-References: <20230706064641.2296-1-zhangzehao@vivo.com>
-From: Zehao Zhang <11162513@vivo.com>
-In-Reply-To: <20230706064641.2296-1-zhangzehao@vivo.com>
-X-ClientProxiedBy: SI2P153CA0014.APCP153.PROD.OUTLOOK.COM (2603:1096:4:140::6)
- To TY0PR06MB5706.apcprd06.prod.outlook.com
- (2603:1096:400:272::6)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8471110E462
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 08:03:19 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3fbd33a573cso3799005e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jul 2023 01:03:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1688630597; x=1691222597;
+ h=content-transfer-encoding:in-reply-to:organization:content-language
+ :references:cc:to:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=qlbbFgac1/Ja02xC/p+4IB4p9VIZ8NXZch+0Qc/D5z8=;
+ b=FQZQzQS4ICl8IGihWJT5Qjdh0/3GCDGCfqPSewteN2SQk7+2qZt5NiEsj/cflk604x
+ 9IAc1/MCGcDAIAlJRf+fkhYnRwSKy3GkiTMXoFSsPJDL4rXTOqzZcWWvKl++JHB5muqF
+ JZ89G9vZLxm5d8H/6YYn//ZgcF9Rtd/ZXPlM2twsASSrX+WcZGybtz5o380opb2pFwOh
+ rK2TmgSyEjvHfWKs3tZU7eH2E3nloJjSltGJnTW5fwzXM0HGTCfQ7Y5eZFERL8wG94d3
+ vRCsgRop6L8t+rcAmCvA1TcEYn91jPoof4B9xdFVoLrzxiwxk+rdm/hFRYqoBl9n+oL/
+ A4ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688630597; x=1691222597;
+ h=content-transfer-encoding:in-reply-to:organization:content-language
+ :references:cc:to:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qlbbFgac1/Ja02xC/p+4IB4p9VIZ8NXZch+0Qc/D5z8=;
+ b=Y5blmZjmDnhynRDv3Ail0elyr1uiTqjhBi2V1zFtrcB2EYlOY69WwHN6QInmlUvLDV
+ ZEDO9ZckAH6y1byZdIwGATCwmHtflaBP9huh1wASZIz1i+71jjwSFcWSopuEoFG5uzSb
+ O9wKkVouF2Ut6xdceTRdSGeA99RM9b96fowKItsvLdLrW8x+YMIkVPoKhTUQ300hj4W5
+ PGT1qKFf3dgjOaW27evMPCNUJp+26mkCrCfKi3DmVTo8Izw1X3VICqvFOZaVpvUNyNB8
+ k4ppE3VkgnW7xx0rE4NyML1JRfdT6iOPfzUHY/tCClEL3QTyPDiDMmyrvYV1aoLxnfoT
+ nFrA==
+X-Gm-Message-State: ABy/qLYJrGN1iAUFSmRYsRjVJwHBD1AdO3BDejojy8H1pwwIriUE38Rp
+ 7V403tgbQBg8iPb/41BLUxHYqg==
+X-Google-Smtp-Source: APBJJlH3H7iv9EeKrV3bNZOSnPe7hFcBCKi00DBiYy4qv5WWAJRzgEOhhaRZPxCDwVWhUB7/AnC9UA==
+X-Received: by 2002:a1c:f70a:0:b0:3fa:d167:5348 with SMTP id
+ v10-20020a1cf70a000000b003fad1675348mr721447wmh.1.1688630597224; 
+ Thu, 06 Jul 2023 01:03:17 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:15d1:2748:ead4:bdff?
+ ([2a01:e0a:982:cbb0:15d1:2748:ead4:bdff])
+ by smtp.gmail.com with ESMTPSA id
+ z9-20020a05600c220900b003fbdbd0a7desm4303559wml.27.2023.07.06.01.03.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Jul 2023 01:03:16 -0700 (PDT)
+Message-ID: <230a8df6-f057-413f-dbd0-da33403359c4@linaro.org>
+Date: Thu, 6 Jul 2023 10:03:15 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY0PR06MB5706:EE_|SEZPR06MB6037:EE_
-X-MS-Office365-Filtering-Correlation-Id: b15e3672-ca2f-4c40-e8ee-08db7df45805
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BpDfUzjAKzmrrWzUbfcw0j3biQ2fRUupwBKHy/d5cfabD09GsxErkaQ9ffmW8+M4a6OrjTNPP0aoMonpefOoTT0WxK6En0rqbnCB44b8oBltjbSloBlYAMjaf2p7d/ndUUul88d4keu6tJ48otQTx4plGTKfe64mjbCy8sQGZEg2dVyi/kwPtVWMxK4RpxaSvum8nqbbowqjt0jqH7d6l6ZDo28Gz4/rE185s9c0lzcfNvjIz59VYlmAGgudvqCKKvV4IuctMhWdvQyeWaa7YRt+BhxsCtI6fhkGYL5ZqklPSUU8NtmBZXfFRPqqrv7OhLCueq8xl7WlCKFdLAXyMLA2lIPjJT4nMIYilJNELLFo+MBDiYB7eltHJkIO0UfMUYAK2oiO4yMd5/ZXcjpjj3UsbZ/+RD+r7s1u9gGRw4Rri+LijfzgCeWP7LhDYb1D+qkKndTTpO4hEwm7ksAJIe56YqYyBXM+GZvrMZXmqx0cNyf38LXbMAC6mjfXSZCOsOde2Jqk2XYN45qy/K0p5ja8NyVCpcnYZq37WbDcK+AJLUAXlshDY0rJmrPkk8dPC9ocyoZloXPKDw75P/MPBSJ//c7INtUYZAylZELSg0x8kfa43lkFq0bLw0/joYAcYkcGKeG150EG8Tg1k6xkImcYx2GftCt0RVe3zd98pYT9T9RGVhkeDrqJX9017zH4
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TY0PR06MB5706.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(366004)(396003)(39860400002)(136003)(376002)(346002)(451199021)(52116002)(33964004)(6486002)(6666004)(478600001)(564344004)(2616005)(31696002)(36756003)(31686004)(2906002)(66946007)(6506007)(26005)(186003)(6512007)(966005)(38100700002)(166002)(38350700002)(4326008)(316002)(66476007)(66556008)(41300700001)(8936002)(8676002)(5660300002)(7416002)(45980500001)(81742002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZzZCSDZzL0VaQy95ekhPOWtUTVlyK1lkL1JiK0VwUUQyZkU3V3MwcGpwbDN2?=
- =?utf-8?B?V3luN2Y3SElGZmUzM0FUYTBta2pFMkkxZXg0dmlpWWlWWmhGaGg2ZFA0WUtw?=
- =?utf-8?B?NWYzbmlTaSt2aWNWQ0FWSE4wT0dnY1UyVWRZMCtoV1FaN3RXQW1xdHJoMDlT?=
- =?utf-8?B?c3ZPVmFhYnVybCszYzRyZEp1STFjdnNFYjRUOE1iaDlVOE16RHRweVpDV3VJ?=
- =?utf-8?B?WkEwMDJTREtybnR4dnljN0ZFQ1FQOUxyOU0rY05iK2YwR3FIb3pBUHBud0l3?=
- =?utf-8?B?V3JFYXNBUzJ1S0ZLcGU0VUE5VVhqVy9hMml0Rkl4emhCNWFWbTJISW40K0Fh?=
- =?utf-8?B?c3gzNHRqM3loTkYydlkrZXdUMktkVmw3ME02c1ErbVgxVU5xcXhRcXFXWGJT?=
- =?utf-8?B?ZFd3SnNiNGY3RWcwU0JaM2xEN2Y0UkZFYkpPV1h5VHZuSjQwck43Tlh5UnFx?=
- =?utf-8?B?V2p4SHRkaW45aHBJbmhLc0p1bnJTakk2U05MOE54bGxOUG10NUJhM2RwNXNm?=
- =?utf-8?B?S0lSWE5vcVd6UW9LMVhWWXBkT0RXdnZhVngzc0N1YU56eEdBZnJpZGxxLzVs?=
- =?utf-8?B?b3FFVTFLcHlRNlJ0VUdldUhQWXg4UStHMVcvVTYxQjJ4dXdDRUEzazlBRVFZ?=
- =?utf-8?B?YWdMK3dOVVM3dWJmYXo1aFVJVHhpWnJ3QWFnNERncUltYloxRG1hSGltTmcz?=
- =?utf-8?B?NngyNlNielp2OFU5b0hDajZxdFRXSjhaOXB4UjJLbjgvYUxGYi9ReXZReVFr?=
- =?utf-8?B?WGhnMGl4Um50WEgxT21FamZ1SU1ySHZzMGtBdlYwTDNtNERsdnhOY203eHhu?=
- =?utf-8?B?SjF4ZTdQVm5uS3IrYWxEWllYd01KWklBUU5KTmtlQVJoUlhNRi9iQXZrdEZ6?=
- =?utf-8?B?M2s1SFVUYWlyQkREWGNlbjRsRGdkSFZ5bEUzNFMwTXM5eWVBY0JDYTZCNUNh?=
- =?utf-8?B?TnJzWHcwdzF4TjFwaXFuNEc0Zm9oRXB6OEd6K3JmMDJ1TE5tNGozcUpZK0c2?=
- =?utf-8?B?YThQNjF6TnZHa2ExazFIamJwdUhEVHp5OCtwdkZ0MndsWWNDbkFlak5ZWFM0?=
- =?utf-8?B?RFRvQ1lwMDBQcWkzMElIMlVFUU9tY05ab3ZIV1A0cjRVbm81elBnYkp3dE43?=
- =?utf-8?B?RjdtT09WRVRGendIU1N5NlVDcnlKNG0vS0VCcXk4WHVMaFFDaUV3MHJoc2kz?=
- =?utf-8?B?QmRhVVQ1NWhxcmxqeWY5QVFoY0VhdzdKdUI2d3JRbXA3Vm00bVpXYVhXcHZB?=
- =?utf-8?B?VGR1MjloY1NwQWxSY2NPZDNBSkZ6dGQ2c0JqUWpkUDBsbnMybmdUZ3dlbGdR?=
- =?utf-8?B?dnYyMk8wakRpZitvdkIxUGhvdlQ3S2FxdldHZUNLMTh1a1I0d250QlVBWTFQ?=
- =?utf-8?B?eEx6NXZ3Sm5tbUFIZ1BWellxZXJtb1ZLdVdqdnpJOEt5bitNYVRwRE1RSit4?=
- =?utf-8?B?MEpCSTBJdFNtUjdyMHpycnYzUktuN1htSU9abHFMY2xJdTBUMEFWUlExUUZE?=
- =?utf-8?B?T0FvNkVGYyt6V21oL3VWUW84U241TEQrcEZZNEFhSlhnbWpwZjhlajVvNmZ6?=
- =?utf-8?B?WUprSU1FV3IrNEpIRDRXQ2JWSHZ2bHdyVWQrOEp0M1R3RUd1b0gya2RHRHVO?=
- =?utf-8?B?SUo5ak1kMjk1aHMxSkNhYjZ4OGlINzBFOXZ0VFRuWFl6L01USlZMUkpsTFFu?=
- =?utf-8?B?eDcyMi94WnhFcnVPa0Z4akQwNlRuV3MxUGoyZ0g0QXBBSm1KMEwrcXYvSksy?=
- =?utf-8?B?RHdVTU13RE8rd2FTaDNjRHlxQmNqUkF3NFFoRW4zR3F4anpicWthWEV6OWR4?=
- =?utf-8?B?S3FKVkVzR0JpZ3RNS0RGeXl1TUlEVkUwalJPUmxEVURiWXU1UUExdytaOC8v?=
- =?utf-8?B?YkxrMVZsaVpzdEgzTGk0WTVUVXVXbjVkcDhFcE1DbkltM1VGWk4yeUZtWGlr?=
- =?utf-8?B?UlpxZEtkbXNnVUdGNWpSZGlhTCs0Zm1vUFFuV2lXdXdhV2hzWTNnZERQMWF0?=
- =?utf-8?B?bjQ4KzVLMHZ2b0ltNmVIL0pKdWduVWdQeWhZV3kyaDdmbDRybHgybWhQOHNJ?=
- =?utf-8?B?Z3Nhbm5ZeGQ3Vjh0c1hjZGlBR0VySFRwUDcvMDB6ejV3S1I4T0hxMDZwZTNJ?=
- =?utf-8?Q?FhbpfTXb9XLwsXtTq437zUgQI?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b15e3672-ca2f-4c40-e8ee-08db7df45805
-X-MS-Exchange-CrossTenant-AuthSource: TY0PR06MB5706.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2023 07:41:00.7004 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SaSjKc05Q1LIl5bP0Or0SJI26Siqt53EHRGaH4eJDy5F8qsY/vQYDrWOZxjxyoVqrx0LFyPJ+zPJffIcMQHobw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB6037
-X-Mailman-Approved-At: Thu, 06 Jul 2023 09:07:31 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: RFC: DSI host capabilities (was: [PATCH RFC 03/10] drm/panel: Add
+ LGD panel driver for Sony Xperia XZ3)
+To: Maxime Ripard <mripard@kernel.org>
+References: <epds77sccy4cc5cdpoc4ir7sfz5sz3biwep6rbks2nuyqncidu@77gb4t2wy6vn>
+ <47a5678c-1eb3-dfc2-a9ac-f8e497455d11@linaro.org>
+ <unsithzszj7awvsmxwr7reshso5ju7u4nssil5tty6pocictf5@gwoltpgeecer>
+ <6e070141-8c0e-59ed-8a08-58c3fadb17df@linaro.org>
+ <lidknise4copce3vb2wth4z3fl2p4npsc4u6ajqb6zsp6lnpca@rp6wxcmy2aa4>
+ <CAA8EJpq_VeY=44FqYm7QAT32AR=rmMOV0RtAfNFkb1hpSp29dw@mail.gmail.com>
+ <djrx34qwb7yen47dmlsym4mg2pib4syncvdy52ma3sin7uhs7j@gi3znayuucnj>
+ <a718f7c1-4ef1-18c8-33c7-c5da22e92c89@linaro.org>
+ <q7wrbmdhdy2d3gqig3j34lqxdcwzbom7djlncfznxsa6ktm7j2@i5x4ngi7p2ia>
+ <9e071beb-9d9d-c6dc-8196-a3e23ea73713@linaro.org>
+ <nfc6ih43gjpi5u67fpkkxgwwygv53grdldq7tfp5iiukrkiy2u@53fsrtezzkyt>
+Content-Language: en-US
+Organization: Linaro Developer Services
+In-Reply-To: <nfc6ih43gjpi5u67fpkkxgwwygv53grdldq7tfp5iiukrkiy2u@53fsrtezzkyt>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,31 +90,184 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Reply-To: neil.armstrong@linaro.org
+Cc: "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <dri-devel@lists.freedesktop.org>, Caleb Connolly <caleb@connolly.tech>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Andy Gross <agross@kernel.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------0Ua8p00VKL80vW5ZFt7MxecM
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+On 06/07/2023 09:59, Maxime Ripard wrote:
+> On Thu, Jul 06, 2023 at 09:33:15AM +0200, Neil Armstrong wrote:
+>> On 06/07/2023 09:24, Maxime Ripard wrote:
+>>> On Wed, Jul 05, 2023 at 11:09:40PM +0300, Dmitry Baryshkov wrote:
+>>>> On 05/07/2023 19:53, Maxime Ripard wrote:
+>>>>> On Wed, Jul 05, 2023 at 06:20:13PM +0300, Dmitry Baryshkov wrote:
+>>>>>> On Wed, 5 Jul 2023 at 17:24, Maxime Ripard <mripard@kernel.org> wrote:
+>>>>>>>
+>>>>>>> On Wed, Jul 05, 2023 at 04:37:57PM +0300, Dmitry Baryshkov wrote:
+>>>>>>>>>>>
+>>>>>>>>>>> Either way, I'm not really sure it's a good idea to multiply the
+>>>>>>>>>>> capabilities flags of the DSI host, and we should just stick to the
+>>>>>>>>>>> spec. If the spec says that we have to support DSC while video is
+>>>>>>>>>>> output, then that's what the panels should expect.
+>>>>>>>>>>
+>>>>>>>>>> Except some panels supports DSC & non-DSC, Video and Command mode, and
+>>>>>>>>>> all that is runtime configurable. How do you handle that ?
+>>>>>>>>>
+>>>>>>>>> In this case, most of the constraints are going to be on the encoder
+>>>>>>>>> still so it should be the one driving it. The panel will only care about
+>>>>>>>>> which mode has been selected, but it shouldn't be the one driving it,
+>>>>>>>>> and thus we still don't really need to expose the host capabilities.
+>>>>>>>>
+>>>>>>>> This is an interesting perspective. This means that we can and actually have
+>>>>>>>> to extend the drm_display_mode with the DSI data and compression
+>>>>>>>> information.
+>>>>>>>
+>>>>>>> I wouldn't extend drm_display_mode, but extending one of the state
+>>>>>>> structures definitely.
+>>>>>>>
+>>>>>>> We already have some extra variables in drm_connector_state for HDMI,
+>>>>>>> I don't think it would be a big deal to add a few for MIPI-DSI.
+>>>>>>>
+>>>>>>> We also floated the idea for a while to create bus-specific states, with
+>>>>>>> helpers to match. Maybe it would be a good occasion to start doing it?
+>>>>>>>
+>>>>>>>> For example, the panel that supports all four types for the 1080p should
+>>>>>>>> export several modes:
+>>>>>>>>
+>>>>>>>> 1920x1080-command
+>>>>>>>> 1920x1080-command-DSC
+>>>>>>>> 1920x1080-video
+>>>>>>>> 1920x1080-video-DSC
+>>>>>>>>
+>>>>>>>> where video/command and DSC are some kinds of flags and/or information in
+>>>>>>>> the drm_display_mode? Ideally DSC also has several sub-flags, which denote
+>>>>>>>> what kind of configuration is supported by the DSC sink (e.g. bpp, yuv,
+>>>>>>>> etc).
+>>>>>>>
+>>>>>>> So we have two things to do, right? We need to expose what the panel can
+>>>>>>> take (ie, EDID for HDMI), and then we need to tell it what we picked
+>>>>>>> (infoframes).
+>>>>>>>
+>>>>>>> We already express the former in mipi_dsi_device, so we could extend the
+>>>>>>> flags stored there.
+>>>>>>>
+>>>>>>> And then, we need to tie what the DSI host chose to a given atomic state
+>>>>>>> so the panel knows what was picked and how it should set everything up.
+>>>>>>
+>>>>>> This is definitely something we need. Marijn has been stuck with the
+>>>>>> panels that support different models ([1]).
+>>>>>>
+>>>>>> Would you prefer a separate API for this kind of information or
+>>>>>> abusing atomic_enable() is fine from your point of view?
+>>>>>>
+>>>>>> My vote would be for going with existing operations, with the slight
+>>>>>> fear of ending up with another DSI-specific hack (like
+>>>>>> pre_enable_prev_first).
+>>>>>
+>>>>> I don't think we can get away without getting access to the atomic_state
+>>>>> from the panel at least.
+>>>>>
+>>>>> Choosing one setup over another is likely going to depend on the mode,
+>>>>> and that's only available in the state.
+>>>>>
+>>>>> We don't have to go the whole way though and create the sub-classes of
+>>>>> drm_connector_state, but I think we should at least provide it to the
+>>>>> panel.
+>>>>>
+>>>>> What do you think of creating a new set of atomic_* callbacks for
+>>>>> panels, call that new set of functions from msm and start from there?
+>>>>
+>>>> We are (somewhat) bound by the panel_bridge, but yeah, it seems possible.
+>>>
+>>> Bridges have access to the atomic state already, so it's another place
+>>> to plumb this through but I guess it would still be doable?
+>>
+>> It's definitely doable, but I fear we won't be able to test most of the
+>> panel drivers, should we introduce a new atomic set of panel callbacks ?
+> 
+> That was my original intent yeah :)
+> 
+> Creating an atomic_enable/disable/ etc. and then switch
+> drm_panel_enable() to take the state (and fixing up all the callers), or
+> create a drm_panel_enable_atomic() function.
+> 
+> The latter is probably simpler, something like:
+> 
+> int drm_panel_enable_atomic(struct drm_panel *panel,
+>      			    struct drm_atomic_state *state)
+> {
+> 	struct drm_panel_funcs *funcs = panel->funcs;
+> 
+> 	if (funcs->atomic_enable)
+> 		return funcs->atomic_enable(panel, state);
+> 
+> 	return funcs->enable(panel);
+> }
+> 
+> And we should probably mention that it supersedes/deprecates
+> drm_panel_enable.
+> 
+> We've switched most of the other atomic hooks to take the full
+> drm_atomic_state so I'd prefer to use it. However, for it to be somewhat
+> useful we'd need to have access to the connector assigned to that panel.
+> 
+> drm_panel doesn't store the drm_connector it's connected to at all, and
+> of_drm_find_panel() doesn't take it as an argument so we can't fill it
+> when we retrieve it either.
+> 
+> So I guess we can go for:
+> 
+>   - Create a new set of atomic hooks
+> 
+>   - Create a new set of functions to call those hooks, that we would
+>     document as deprecating the former functions. Those functions would
+>     take a pointer to the drm_connector_state of the drm_connector it's
+>     connected to.
+> 
+>   - We add a TODO item to add a pointer to the connector in drm_panel
+> 
+>   - We add a TODO item that depend on the first one to switch the new
+>     functions and hooks to drm_atomic_state
+> 
+>   - We add a TODO item to convert callers of drm_panel_enable et al. to
+>     our new functions.
+> 
+> It should work in all setups, paves a nice way forward and documents the
+> trade-offs we had to take and eventually address. And without creating a
+> dependency on 30+ patches series.
+> 
+> Does it sound like a plan?
 
-Correct the format of the Subject in v2:
-https://lore.kernel.org/all/20230706072924.2562-1-zhangzehao@vivo.com/
+Yep that looks a fine plan to start of
 
---------------0Ua8p00VKL80vW5ZFt7MxecM
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+> 
+>> Or shall be simply move the "new" panel driver supporting atomic to bridge
+>> and only use panel_bridge for basic panels ?
+> 
+> I don't think we can expect panel_bridge to be used all the time any
+> time soon, so I'd rather avoid to rely on it.
 
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <pre>Correct the format of the Subject in v2:
-<a class="moz-txt-link-freetext" href="https://lore.kernel.org/all/20230706072924.2562-1-zhangzehao@vivo.com/">https://lore.kernel.org/all/20230706072924.2562-1-zhangzehao@vivo.com/</a>
+Ack
 
-</pre>
-  </body>
-</html>
+> 
+> Maxime
 
---------------0Ua8p00VKL80vW5ZFt7MxecM--
