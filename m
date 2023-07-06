@@ -2,52 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A73597498DC
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 12:01:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42CDD7498FE
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 12:07:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 423FE10E4C0;
-	Thu,  6 Jul 2023 10:01:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCEFB10E4C3;
+	Thu,  6 Jul 2023 10:07:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72CB210E4C0
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 10:01:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6001410E4C3
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 10:07:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1688637692;
+ s=mimecast20190719; t=1688638024;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=corwgVGyYcNB96CJKCi0rOk04IZRSazqcIEjefoKIsE=;
- b=LonSM+foLYIJeKnPblT0GAdKUJDXmPN5UGejH6fzcWUnbY8xSm3qYq1hmC7rjn8rlqEAx+
- wYzNaUqHn6reR0sWC4JHlF8Cwijo0BP+K+tEPC34IYN6fxGVgvyh7kHFov8xGKs8OrEkaF
- CkfjPXX9fVeDy7u7U1iLTG2fOuhbmb4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-637-jv_wig3sNhy5Ah8quHsdpg-1; Thu, 06 Jul 2023 06:01:29 -0400
-X-MC-Unique: jv_wig3sNhy5Ah8quHsdpg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CC3DD280D200;
- Thu,  6 Jul 2023 10:01:28 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.39.194.196])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F1839492B01;
- Thu,  6 Jul 2023 10:01:25 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: tzimmermann@suse.de, airlied@redhat.com, kuohsiang_chou@aspeedtech.com,
- jammy_huang@aspeedtech.com, jani.nikula@linux.intel.com
-Subject: [PATCH v2] drm/ast: report connection status on Display Port.
-Date: Thu,  6 Jul 2023 11:58:41 +0200
-Message-ID: <20230706100102.563458-1-jfalempe@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oEtFgP4jV8QdPMyzqT8C2mnvY6qTublxY+UCyt9JYXE=;
+ b=SJ1Irx7ctX5IP99BokPO0DW8Ty34U7uMcnF1NeQrrivBOI37zgAMp57qUX2CpuD1f2sQwC
+ nlJ9jad8PgNQXVJpDzG0Ls9AWiBV/EXwqsRPK1ixYGF9UlDOF/uzm7aI5tStD8gBEwIsgn
+ sKG2HaF7J2kXRuADRX6rzW31jnb73T0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-99-QJXZJsKPN-mcIZqE_Y4cEw-1; Thu, 06 Jul 2023 06:07:03 -0400
+X-MC-Unique: QJXZJsKPN-mcIZqE_Y4cEw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-3f5fa06debcso3746375e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jul 2023 03:07:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688638022; x=1691230022;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oEtFgP4jV8QdPMyzqT8C2mnvY6qTublxY+UCyt9JYXE=;
+ b=fZwiecWMfB1cAEoh9NOsN4rlKCCGsxeivxmJSJT2lijQuoHkoBWu7rlWv2DB8D6XsI
+ hmLnAawuR9P51rWxTOvYr0tcKGnJKn1bHc30ZjS5Ms5BwuVnRZfQPe/1hkCIXAAwv/jh
+ WM5indfGW70s/F5jbSX1U2l5Aj66EIAtxCKuHFbhfaBNrf1fTUxo5Z6SAJDfsqS9Rmax
+ GsQZgR6BQZj7wC1ThWSvqfo5pBEvJnJODCBMFuLPfOuEeXVAAHLtu2UMO5WmdBmZkEZC
+ v1oNWVsz60rAJG8UA1/hxX+PSlTtLXrAzzM9NqkjsyD2HSbEXU9aClDMRLcjiKGX0NwV
+ DMKQ==
+X-Gm-Message-State: ABy/qLb7JLpS/UKJOruUHPfq4ebHDOnkj2FwW68GpiSIEsxocKARvAsK
+ iPxwzrH+x9Y6ID7MKi17Z+3JXXIDSCyzOQDtgqX+GQ2pRbixowVtSQHFOwljDFQRVRc+5YLIpto
+ vKFSRp3zXe+E4KxYOUEMfPLAWa7G/ZmxIdL8L
+X-Received: by 2002:a1c:7417:0:b0:3fb:e573:4172 with SMTP id
+ p23-20020a1c7417000000b003fbe5734172mr1078766wmc.31.1688638021936; 
+ Thu, 06 Jul 2023 03:07:01 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlEfpe2QRHDV2UBIWJ6Gfx3RlqibOgmBP3DTEhvgT5ej3+u/7NhtYS7ubKRWNbwoTBzs9s10kw==
+X-Received: by 2002:a1c:7417:0:b0:3fb:e573:4172 with SMTP id
+ p23-20020a1c7417000000b003fbe5734172mr1078756wmc.31.1688638021560; 
+ Thu, 06 Jul 2023 03:07:01 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:d5:a000:57d9:6996:9558:341b?
+ ([2a01:e0a:d5:a000:57d9:6996:9558:341b])
+ by smtp.gmail.com with ESMTPSA id
+ y10-20020a7bcd8a000000b003fb9ebb6b88sm4641193wmj.39.2023.07.06.03.07.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Jul 2023 03:07:01 -0700 (PDT)
+Message-ID: <fdb25b67-92fa-d010-39b4-a14ab3fa4edc@redhat.com>
+Date: Thu, 6 Jul 2023 12:07:00 +0200
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] drm/ast: Fix default resolution when no monitor is
+ connected on DP
+To: Jani Nikula <jani.nikula@linux.intel.com>, tzimmermann@suse.de,
+ airlied@redhat.com, kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com
+References: <20230623094639.434293-1-jfalempe@redhat.com>
+ <878rbv20dp.fsf@intel.com> <13e35996-914d-37a6-1697-ac0c3c75cad1@redhat.com>
+ <ed075f2f-861d-74d1-efc0-5baa2cd601fd@redhat.com> <87h6qhxu4h.fsf@intel.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <87h6qhxu4h.fsf@intel.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,192 +90,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Aspeed always report the display port as "connected", because it
-doesn't set a .detect callback.
-Fix this by providing the proper detect callback for astdp and dp501.
+On 06/07/2023 11:32, Jani Nikula wrote:
+> On Thu, 06 Jul 2023, Jocelyn Falempe <jfalempe@redhat.com> wrote:
+>> On 04/07/2023 18:45, Jocelyn Falempe wrote:
+>>> On 04/07/2023 16:54, Jani Nikula wrote:
+>>>> On Fri, 23 Jun 2023, Jocelyn Falempe <jfalempe@redhat.com> wrote:
+>>>>> Since commit fae7d186403e ("drm/probe-helper: Default to 640x480 if no
+>>>>>    EDID on DP")
+>>>>> The default resolution is now 640x480 when no monitor is connected.
+>>>>> But Aspeed graphics is mostly used in servers, where no monitor
+>>>>> is attached. This also affects the "remote" resolution to 640x480,
+>>>>> which is
+>>>>> inconvenient, and breaks the anaconda installer.
+>>>>> So when no EDID is present, set 1024x768 as preferred resolution.
+>>>>
+>>>> This conflates "monitor connected" and "EDID present", which are not
+>>>> necessarily the same thing.
+>>>>
+>>>> The fallback in drm_helper_probe_single_connector_modes() is for no
+>>>> modes, but connector status is connected or unknown.
+>>>
+>>> When debugging the issue, I found it surprising that the status is
+>>> "connected" when nothing is plugged in the DP port.
+>>>>
+>>>> You could add a connector ->detect callback that returns disconnected
+>>>> when there's no display, and the problem should go away. If there's no
+>>>> ->detect callback, it'll default to connected.
+>>>
+>>> ok, I'll try that. I don't know how the hardware detect something is
+>>> connected, but looking at the dp code, maybe checking
+>>> "AST_IO_CRTC_PORT,0xDC, ASTDP_LINK_SUCCESS" would be good enough.
+>>
+>> I've tested this approach, and it works.
+> 
+> \o/
+> 
+>> But on the server I'm testing,
+>> there are VGA and DP output. I think on a server that has only one DP
+>> output, if no monitor is connected, then no modes will be reported to
+>> userspace, and the remote BMC may not work ?
+> 
+> I couldn't say, but having the driver lie about the connected status to
+> make it work feels wrong.
 
-This also fixes the following regression:
-Since commit fae7d186403e ("drm/probe-helper: Default to 640x480 if no
- EDID on DP")
-The default resolution is now 640x480 when no monitor is connected.
-But Aspeed graphics is mostly used in servers, where no monitor
-is attached. This also affects the remote BMC resolution to 640x480,
-which is inconvenient, and breaks the anaconda installer.
+Yes, so maybe a better way would be to add a remote/bmc connector, with 
+proper default resolution ?
+That will better reflect what the hardware does.
 
-v2: Add .detect callback to the dp/dp501 connector (Jani Nikula)
-
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- drivers/gpu/drm/ast/ast_dp.c    |  9 ++++++++
- drivers/gpu/drm/ast/ast_dp501.c | 37 ++++++++++++++++++++++-----------
- drivers/gpu/drm/ast/ast_drv.h   |  2 ++
- drivers/gpu/drm/ast/ast_mode.c  | 24 +++++++++++++++++++++
- 4 files changed, 60 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
-index 6dc1a09504e1..fbc154930fdf 100644
---- a/drivers/gpu/drm/ast/ast_dp.c
-+++ b/drivers/gpu/drm/ast/ast_dp.c
-@@ -7,6 +7,15 @@
- #include <drm/drm_print.h>
- #include "ast_drv.h"
- 
-+bool ast_astdp_is_connected(struct ast_device *ast)
-+{
-+	if (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, ASTDP_MCU_FW_EXECUTING) &&
-+		ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDC, ASTDP_LINK_SUCCESS) &&
-+		ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDF, ASTDP_HPD))
-+		return true;
-+	return false;
-+}
-+
- int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
- {
- 	struct ast_device *ast = to_ast_device(dev);
-diff --git a/drivers/gpu/drm/ast/ast_dp501.c b/drivers/gpu/drm/ast/ast_dp501.c
-index a5d285850ffb..f10d53b0c94f 100644
---- a/drivers/gpu/drm/ast/ast_dp501.c
-+++ b/drivers/gpu/drm/ast/ast_dp501.c
-@@ -272,11 +272,9 @@ static bool ast_launch_m68k(struct drm_device *dev)
- 	return true;
- }
- 
--bool ast_dp501_read_edid(struct drm_device *dev, u8 *ediddata)
-+bool ast_dp501_is_connected(struct ast_device *ast)
- {
--	struct ast_device *ast = to_ast_device(dev);
--	u32 i, boot_address, offset, data;
--	u32 *pEDIDidx;
-+	u32 boot_address, offset, data;
- 
- 	if (ast->config_mode == ast_use_p2a) {
- 		boot_address = get_fw_base(ast);
-@@ -292,14 +290,6 @@ bool ast_dp501_read_edid(struct drm_device *dev, u8 *ediddata)
- 		data = ast_mindwm(ast, boot_address + offset);
- 		if (!(data & AST_DP501_PNP_CONNECTED))
- 			return false;
--
--		/* Read EDID */
--		offset = AST_DP501_EDID_DATA;
--		for (i = 0; i < 128; i += 4) {
--			data = ast_mindwm(ast, boot_address + offset + i);
--			pEDIDidx = (u32 *)(ediddata + i);
--			*pEDIDidx = data;
--		}
- 	} else {
- 		if (!ast->dp501_fw_buf)
- 			return false;
-@@ -319,7 +309,30 @@ bool ast_dp501_read_edid(struct drm_device *dev, u8 *ediddata)
- 		data = readl(ast->dp501_fw_buf + offset);
- 		if (!(data & AST_DP501_PNP_CONNECTED))
- 			return false;
-+	}
-+	return true;
-+}
-+
-+bool ast_dp501_read_edid(struct drm_device *dev, u8 *ediddata)
-+{
-+	struct ast_device *ast = to_ast_device(dev);
-+	u32 i, boot_address, offset, data;
-+	u32 *pEDIDidx;
-+
-+	if (!ast_dp501_is_connected(ast))
-+		return false;
-+
-+	if (ast->config_mode == ast_use_p2a) {
-+		boot_address = get_fw_base(ast);
- 
-+		/* Read EDID */
-+		offset = AST_DP501_EDID_DATA;
-+		for (i = 0; i < 128; i += 4) {
-+			data = ast_mindwm(ast, boot_address + offset + i);
-+			pEDIDidx = (u32 *)(ediddata + i);
-+			*pEDIDidx = data;
-+		}
-+	} else {
- 		/* Read EDID */
- 		offset = AST_DP501_EDID_DATA;
- 		for (i = 0; i < 128; i += 4) {
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 3f6e0c984523..99a24d779b9c 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -510,6 +510,7 @@ void ast_patch_ahb_2500(struct ast_device *ast);
- /* ast dp501 */
- void ast_set_dp501_video_output(struct drm_device *dev, u8 mode);
- bool ast_backup_fw(struct drm_device *dev, u8 *addr, u32 size);
-+bool ast_dp501_is_connected(struct ast_device *ast);
- bool ast_dp501_read_edid(struct drm_device *dev, u8 *ediddata);
- u8 ast_get_dp501_max_clk(struct drm_device *dev);
- void ast_init_3rdtx(struct drm_device *dev);
-@@ -518,6 +519,7 @@ void ast_init_3rdtx(struct drm_device *dev);
- struct ast_i2c_chan *ast_i2c_create(struct drm_device *dev);
- 
- /* aspeed DP */
-+bool ast_astdp_is_connected(struct ast_device *ast);
- int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata);
- void ast_dp_launch(struct drm_device *dev);
- void ast_dp_power_on_off(struct drm_device *dev, bool no);
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index f711d592da52..ccf48d57d239 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -1586,12 +1586,24 @@ static const struct drm_connector_helper_funcs ast_dp501_connector_helper_funcs
- 	.get_modes = ast_dp501_connector_helper_get_modes,
- };
- 
-+static enum drm_connector_status ast_dp501_connector_helper_detect(
-+	struct drm_connector *connector,
-+	bool force)
-+{
-+	struct ast_device *ast = to_ast_device(connector->dev);
-+
-+	if (ast_dp501_is_connected(ast))
-+		return connector_status_connected;
-+	return connector_status_disconnected;
-+}
-+
- static const struct drm_connector_funcs ast_dp501_connector_funcs = {
- 	.reset = drm_atomic_helper_connector_reset,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
- 	.destroy = drm_connector_cleanup,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-+	.detect = ast_dp501_connector_helper_detect,
- };
- 
- static int ast_dp501_connector_init(struct drm_device *dev, struct drm_connector *connector)
-@@ -1684,12 +1696,24 @@ static const struct drm_connector_helper_funcs ast_astdp_connector_helper_funcs
- 	.get_modes = ast_astdp_connector_helper_get_modes,
- };
- 
-+static enum drm_connector_status ast_astdp_connector_helper_detect(
-+	struct drm_connector *connector,
-+	bool force)
-+{
-+	struct ast_device *ast = to_ast_device(connector->dev);
-+
-+	if (ast_astdp_is_connected(ast))
-+		return connector_status_connected;
-+	return connector_status_disconnected;
-+}
-+
- static const struct drm_connector_funcs ast_astdp_connector_funcs = {
- 	.reset = drm_atomic_helper_connector_reset,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
- 	.destroy = drm_connector_cleanup,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-+	.detect = ast_astdp_connector_helper_detect,
- };
- 
- static int ast_astdp_connector_init(struct drm_device *dev, struct drm_connector *connector)
-
-base-commit: b32d5a51f3c21843011d68a58e6ac0b897bce9f2
 -- 
-2.41.0
+
+Jocelyn
+
+> 
+>> Also I don't have physical access to the server, so I only tested when
+>> no monitor is plugged.
+>>
+>> I will send shortly a v2 with this change, so others can help me test
+>> this case.
+> 
+> Thanks,
+> Jani.
+> 
+> 
+>>
+>> Best regards,
+> 
+
 
