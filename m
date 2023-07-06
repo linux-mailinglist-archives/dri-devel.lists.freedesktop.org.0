@@ -1,74 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F790749D02
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 15:08:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E3C9749DF8
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 15:40:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4032710E07B;
-	Thu,  6 Jul 2023 13:07:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89DBD10E3E7;
+	Thu,  6 Jul 2023 13:40:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF61110E07B
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 13:07:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1688648873;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LeNjy3+keWlsOvLTTvuNBq4v2wzKbZwn++nVg8XqFBY=;
- b=W0uAdGEHqr3A7gcb3jUbe7QuIK2MVuGJu05DIrSmbcPMIcZD0i5lGX711susCm5xqIHBNz
- 7z3U7RRxbkeVGFjSkSTgL4XrSCOWq1YZyvtVcizXdfBfeEm+AFd3nfWdtCcEt0BbMer2yN
- zMe0hPWMEQOeKToHNEuJMEeBUjP6yHc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-146-dZIU_tRmNESRy7DmDTheqg-1; Thu, 06 Jul 2023 09:07:52 -0400
-X-MC-Unique: dZIU_tRmNESRy7DmDTheqg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-3fb40ec952bso4060965e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jul 2023 06:07:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688648871; x=1691240871;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LeNjy3+keWlsOvLTTvuNBq4v2wzKbZwn++nVg8XqFBY=;
- b=IIiXE1UqV/ZPFkLuBXJCdOSfEjGyc66TDsTlba8hgiQ4mH2YqLwuCPjXc3MFpbpV4U
- iDE+yQ0xPVT23Vqm8eetiCcYIjLrmwgxwVMwV120pr6lvbMzcFh28VomZOS/oFWx9c56
- FLVvz9wSIExZefJHKlOBojrMo79s5nGICSNAll4+pD70vzmX6SAI4suUiNXKuKz2xxHz
- aeyqg7nQwVOnrquwc2JzKTuhWfSBaOr/uX56mk1PWtJfjbRty7rTe5TW0/c4mgO3wYQT
- DF2XwaN+tPCxgeaDMbfb31enkt/bRi42PmNyeW3t2PCPkjNAnMDMTEezBofZLgOKzNAN
- jLzA==
-X-Gm-Message-State: ABy/qLaDzpvAJ/RWfA6Xn9DQKXMlZIdrGzzbRsBx2jnH862ymSNPzkac
- fW8akH6r0H5hNglSriiBUUjZb39nz3TiTxNxN+n3yjLb2JpbcyhnjM5IOXlY5LZRww7LCIPw9Gp
- ccTGdW9bOWgqVvCqg7RJv6X9SNQTS
-X-Received: by 2002:adf:f805:0:b0:314:4c78:8b84 with SMTP id
- s5-20020adff805000000b003144c788b84mr1326692wrp.17.1688648871140; 
- Thu, 06 Jul 2023 06:07:51 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlEaxocSJQPDHbM+Bf8WPoQwbvLcXg68bXBbqp/OOFiEKQL+7RK5UP/6wE2wZ9Vp1LmHB/VY4Q==
-X-Received: by 2002:adf:f805:0:b0:314:4c78:8b84 with SMTP id
- s5-20020adff805000000b003144c788b84mr1326675wrp.17.1688648870795; 
- Thu, 06 Jul 2023 06:07:50 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- l7-20020a5d4807000000b003143aa0ca8asm1885374wrq.13.2023.07.06.06.07.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jul 2023 06:07:50 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Subject: Re: [PATCH v2 11/11] fbdev: Harmonize some comments in <linux/fb.h>
-In-Reply-To: <20230706124905.15134-12-tzimmermann@suse.de>
-References: <20230706124905.15134-1-tzimmermann@suse.de>
- <20230706124905.15134-12-tzimmermann@suse.de>
-Date: Thu, 06 Jul 2023 15:07:37 +0200
-Message-ID: <87sfa1xk6e.fsf@minerva.mail-host-address-is-not-set>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6B12110E3E7
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 13:40:05 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8Ax1fAzxKZkFfgAAA--.3798S3;
+ Thu, 06 Jul 2023 21:40:03 +0800 (CST)
+Received: from openarena.loongson.cn (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Dx5swyxKZkoPYeAA--.5921S2; 
+ Thu, 06 Jul 2023 21:40:02 +0800 (CST)
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ CK Hu <ck.hu@mediatek.com>
+Subject: [PATCH v2] drm/mediatek: Fix potential memory leak if vmap() fail
+Date: Thu,  6 Jul 2023 21:40:00 +0800
+Message-Id: <20230706134000.130098-1-suijingfeng@loongson.cn>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Dx5swyxKZkoPYeAA--.5921S2
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj9xXoWruryruF4ktw18JFWUKr1fKrX_yoWkWwcEka
+ n2vr17Wrs7Gr98Aa12kw1avFWSyFWruF48Ja95K34ft3yUGr1UXry29rn8WFnxJ3Z29FyD
+ twn8XF95ZFnrZosvyTuYvTs0mTUanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvT
+ s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+ cSsGvfJTRUUUb28YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
+ vaj40_Wr0E3s1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+ w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+ WUJVW8JwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+ 6r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
+ Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE
+ 14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x
+ 0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
+ 7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcV
+ C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF
+ 04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7
+ CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j5WrAUUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,31 +61,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Alexandre Mergnat <amergnat@baylibre.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+Also return -ENOMEM if such a failure happens, the implement should take
+responsibility for the error handling.
 
-Hello Thomas,
+Fixes: 3df64d7b0a4f ("drm/mediatek: Implement gem prime vmap/vunmap function")
+Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
+Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+---
+ drivers/gpu/drm/mediatek/mtk_drm_gem.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-> Make the comments for I/O, system and DMA memory say the same.
-> Makes the header file's structure more obvious.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Suggested-by: Javier Martinez Canillas <javierm@redhat.com>
-> ---
-
-Looks good to me. Thanks!
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_gem.c b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
+index a25b28d3ee90..9f364df52478 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_gem.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_gem.c
+@@ -247,7 +247,11 @@ int mtk_drm_gem_prime_vmap(struct drm_gem_object *obj, struct iosys_map *map)
+ 
+ 	mtk_gem->kvaddr = vmap(mtk_gem->pages, npages, VM_MAP,
+ 			       pgprot_writecombine(PAGE_KERNEL));
+-
++	if (!mtk_gem->kvaddr) {
++		kfree(sgt);
++		kfree(mtk_gem->pages);
++		return -ENOMEM;
++	}
+ out:
+ 	kfree(sgt);
+ 	iosys_map_set_vaddr(map, mtk_gem->kvaddr);
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.34.1
 
