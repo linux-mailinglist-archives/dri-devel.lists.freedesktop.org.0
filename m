@@ -2,72 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0780F749B7F
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 14:13:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F39B3749BBD
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jul 2023 14:30:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 535BC10E4FF;
-	Thu,  6 Jul 2023 12:13:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B84210E3FE;
+	Thu,  6 Jul 2023 12:30:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2458410E4FF
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 12:13:35 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-3fbd33a57b6so7786945e9.2
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jul 2023 05:13:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1688645613; x=1691237613; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=0/5wxHDy6mL4FcPapG0NJLXj6++vEZT2MS33NrQ/lTQ=;
- b=IbzlafQusCaKto71OXk4bPoXEo7+FCrn+i1Hk7cATXwj6jD0FU8RZdq5IA1kP7kLfv
- 3wa2qn53DE926m9gNw+SaXT8iilPDkuOnkdWh3rudUNg4TkmKbsep4bvf6f4ina/mf0n
- DRzQ5WErugGScBJuVhHq5WnqfJ+sbM8TC8wciV21yFhQIkvdpuXBfsE0yBYDKWNEyEzu
- lpnbDPWvcKk1agZbeYhhPixhkIwdNkyTBaE4WrvBvWEH7byJOAeR7mDKtmdQTgGRv1FI
- o1xazO6BOLl8JRFEvxnms30i4deFFBhipFbK+xh41OKOpj6wb+fGF1re4lHoK4boQTQD
- xVYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688645613; x=1691237613;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0/5wxHDy6mL4FcPapG0NJLXj6++vEZT2MS33NrQ/lTQ=;
- b=PexDxsy1OJC21dx19z4UR6jTC0Eq7HNcAlHRcrlywRZ9Su4+tBlSARhYNbsFun+ZFn
- T920jbPCSa199SdQYpbeQnpnXQw8P+jyAehDBwnxQBNmRN4jGLEs/BrnY5Ux9p47pPKz
- SHdq9SdixN29fFNs+urkBLVWU0EY+BUyXV+P6gicJSygD4PDhd3Jt6e+L0ccvu/r46j8
- 69P7T7Tt9QA2bJyFjvW+wJ9ZcgBWjCJcT2nyPi94NTicXkVdBFoABK32jb4qc39Sd5Kv
- TaS+E0NXGXrPEDTA1OSGk0i+tONstK5ngRLQMyB5a4HKhsqxBKA3l0RNqelW+Yj+DaKm
- jFAQ==
-X-Gm-Message-State: ABy/qLYu3eQ0ukWDH49PZVhbCroa++eN0NFDp8k+rBs4GAR+dsbA/dtw
- VrU39aGQblBaoJ2On3jOarBCkQ==
-X-Google-Smtp-Source: APBJJlHrBYvDJNnzrZAW/qWNal0XP+4b2h86axDo0FU4omajc4qpoygiGFAh45R45C+UW4rrqkg3cQ==
-X-Received: by 2002:a1c:f709:0:b0:3f5:fff8:d4f3 with SMTP id
- v9-20020a1cf709000000b003f5fff8d4f3mr1994310wmh.7.1688645613660; 
- Thu, 06 Jul 2023 05:13:33 -0700 (PDT)
-Received: from [192.168.1.172] ([93.5.22.158])
- by smtp.gmail.com with ESMTPSA id
- z10-20020a05600c220a00b003fbb2c0fce5sm4911847wml.25.2023.07.06.05.13.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Jul 2023 05:13:33 -0700 (PDT)
-Message-ID: <4f493bc2-45b3-13b8-f1b1-1729a803c74c@baylibre.com>
-Date: Thu, 6 Jul 2023 14:13:32 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E19010E0B0
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jul 2023 12:30:33 +0000 (UTC)
+Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 6B7B76606FBA;
+ Thu,  6 Jul 2023 13:30:29 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1688646630;
+ bh=pHMJmwNbtSKYMy6i3xzbiDAPsbITJLjZDpeNrBax1WY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=HNIsmBblHxjvSoYlmth1zpKe3gbr8lume50N9BA8jGKtenz9T81nLWPrcbAKI8be8
+ itLehFcqyTZZbeOZ2/WT+KqmFWOPj6z1vp3bCf9oqsLkZ9izj1K3+nZG7ICWEQQp4Y
+ RIPJb7fjovW77FpQZ38wt5P7gqGTv1UPYCoKUV1JfbjRUG/JXF9XMuOOuupSjSXQ9c
+ GWK/MD3Lal7TDvj8qx9lnmQG8VV4UnpRiVcKuPJAGOPwfUALqbFST7/PZzF5TTm6bB
+ i04Mm1bVuNwMW+0irwbQDZ/wruRlLQgDlMMRvD8UcoqoOvFoSBtqdczXYAQHoMgjCZ
+ s+sM/Y2gE9g/A==
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: chunkuang.hu@kernel.org
+Subject: [PATCH v4 0/9] MediaTek DisplayPort: support eDP and aux-bus
+Date: Thu,  6 Jul 2023 14:30:16 +0200
+Message-Id: <20230706123025.208408-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/mediatek: Fix potential memory leak if vmap() fail
-To: Sui Jingfeng <suijingfeng@loongson.cn>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-References: <20230626185801.684451-1-suijingfeng@loongson.cn>
-Content-Language: en-US
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <20230626185801.684451-1-suijingfeng@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,19 +50,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: nfraprado@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ wenst@chromium.org, matthias.bgg@gmail.com, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Changes in v4:
+ - Set data lanes to idle to prevent stalls if bootloader didn't
+   properly close the eDP port
+ - Now using the .done_probing() callback for AUX bus to prevent
+   probe deferral loops in case the panel-edp driver is a module
+   as previously seen with another bridge driver (ANX7625) on
+   some other SoCs (MT8192 and others)
+ - Rebased over next-20230706
+ - Dropped Chen-Yu's T-b tag on last patch as some logic changed
+   (before, I wasn't using the .done_probing() callback).
+
+Changes in v3:
+ - Added DPTX AUX block initialization before trying to communicate
+   to stop relying on the bootloader keeping it initialized before
+   booting Linux.
+ - Fixed commit description for patch [09/09] and removed commented
+   out code (that slipped from dev phase.. sorry!).
+
+This series adds "real" support for eDP in the mtk-dp DisplayPort driver.
+
+Explaining the "real":
+Before this change, the DisplayPort driver did support eDP to some
+extent, but it was treating it entirely like a regular DP interface
+which is partially fine, after all, embedded DisplayPort *is* actually
+DisplayPort, but there might be some differences to account for... and
+this is for both small performance improvements and, more importantly,
+for correct functionality in some systems.
+
+Functionality first:
+
+One of the common differences found in various boards implementing eDP
+and machines using an eDP panel is that many times the HPD line is not
+connected. This *must* be accounted for: at startup, this specific IP
+will raise a HPD interrupt (which should maybe be ignored... as it does
+not appear to be a "real" event...) that will make the eDP panel to be
+detected and to actually work but, after a suspend-resume cycle, there
+will be no HPD interrupt (as there's no HPD line in my case!) producing
+a functionality issue - specifically, the DP Link Training fails because
+the panel doesn't get powered up, then it stays black and won't work
+until rebooting the machine (or removing and reinserting the module I
+think, but I haven't tried that).
+
+Now for.. both:
+eDP panels are *e*DP because they are *not* removable (in the sense that
+you can't unplug the cable without disassembling the machine, in which
+case, the machine shall be powered down..!): this (correct) assumption
+makes us able to solve some issues and to also gain a little performance
+during PM operations.
+
+What was done here is:
+ - Caching the EDID if the panel is eDP: we're always going to read the
+   same data everytime, so we can just cache that (as it's small enough)
+   shortening PM resume times for the eDP driver instance;
+ - Always return connector_status_connected if it's eDP: non-removable
+   means connector_status_disconnected can't happen during runtime...
+   this also saves us some time and even power, as we won't have to
+   perform yet another power cycle of the HW;
+ - Added aux-bus support!
+   This makes us able to rely on panel autodetection from the EDID,
+   avoiding to add more and more panel timings to panel-edp and, even
+   better, allowing to use one panel node in devicetrees for multiple
+   variants of the same machine since, at that point, it's not important
+   to "preventively know" what panel we have (eh, it's autodetected...!).
+
+This was tested on a MT8195 Cherry Tomato Chromebook (panel-edp on aux-bus)
 
 
-On 26/06/2023 20:58, Sui Jingfeng wrote:
-> Also return -ENOMEM if such a failure happens, the implement should take
-> responsibility for the error handling.
+P.S.: For your own testing commodity, here's a reference devicetree:
+&edp_tx {
+	status = "okay";
 
-Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+	pinctrl-names = "default";
+	pinctrl-0 = <&edptx_pins_default>;
+
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		port@0 {
+			reg = <0>;
+			edp_in: endpoint {
+				remote-endpoint = <&dp_intf0_out>;
+			};
+		};
+
+		port@1 {
+			reg = <1>;
+			edp_out: endpoint {
+				data-lanes = <0 1 2 3>;
+				remote-endpoint = <&panel_in>;
+			};
+		};
+	};
+
+	aux-bus {
+		panel: panel {
+			compatible = "edp-panel";
+			power-supply = <&pp3300_disp_x>;
+			backlight = <&backlight_lcd0>;
+			port {
+				panel_in: endpoint {
+					remote-endpoint = <&edp_out>;
+				};
+			};
+		};
+	};
+};
+
+
+AngeloGioacchino Del Regno (9):
+  drm/mediatek: dp: Cache EDID for eDP panel
+  drm/mediatek: dp: Move AUX and panel poweron/off sequence to function
+  drm/mediatek: dp: Always return connected status for eDP in .detect()
+  drm/mediatek: dp: Always set cable_plugged_in at resume for eDP panel
+  drm/mediatek: dp: Change logging to dev for mtk_dp_aux_transfer()
+  drm/mediatek: dp: Enable event interrupt only when bridge attached
+  drm/mediatek: dp: Use devm variant of drm_bridge_add()
+  drm/mediatek: dp: Move AUX_P0 setting to
+    mtk_dp_initialize_aux_settings()
+  drm/mediatek: dp: Add support for embedded DisplayPort aux-bus
+
+ drivers/gpu/drm/mediatek/mtk_dp.c | 197 +++++++++++++++++++-----------
+ 1 file changed, 127 insertions(+), 70 deletions(-)
 
 -- 
-Regards,
-Alexandre
+2.40.1
+
