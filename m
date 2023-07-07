@@ -2,65 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C18E874AC1B
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 09:44:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D00474AC5B
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 09:58:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8424E10E520;
-	Fri,  7 Jul 2023 07:44:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0673B10E524;
+	Fri,  7 Jul 2023 07:58:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23FC010E520
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 07:44:27 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B01D10E524;
+ Fri,  7 Jul 2023 07:57:59 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 92F951FDC8;
- Fri,  7 Jul 2023 07:44:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1688715865; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WUox90kNbHGDz0cSQfHjWRs53Yp892D2brDRNpzZUVg=;
- b=osr2LlfxpS1y5w1uTxpMZExb/1Mo/XHJjybtkXJatTNRQS7NUEdxkgJlkzC6auvrsxLBWq
- 1SiE6Zx4KM7/JTS++DIiPZyU6tpltf0vHpX9vwu8Tea0chFq12PkaaTc4uOXIaFgRRd5YW
- jev7Kv+ip0IuoUBSS5NJCOUHsYnZ4Ws=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1688715865;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WUox90kNbHGDz0cSQfHjWRs53Yp892D2brDRNpzZUVg=;
- b=DE4EZSmQzAXIOO1Tyvpno7Vp59tlJ8+D6vqWmCGYp4A0NHseRqjvHpXYdMeYC7NS/993QL
- AH/zmQGQ24WyOYBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6660A139E0;
- Fri,  7 Jul 2023 07:44:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id IWX/F1nCp2QZJQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 07 Jul 2023 07:44:25 +0000
-Message-ID: <15b9cfd1-c0ae-3fcf-0108-0f617505903c@suse.de>
-Date: Fri, 7 Jul 2023 09:44:24 +0200
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 0A0326606FC2;
+ Fri,  7 Jul 2023 08:57:57 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1688716677;
+ bh=wpCN2MraqfrjwJNiynUV8KannPzTI4X03gyxmC+JkbM=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Bln0ofoSbwYZi76ZLY/bi4m1Bkkzy6uV7ZhtDIUIdW2k9uufm+y6h1EL3aR4tIAnP
+ b6GiA+LpLHHcig2xie60TXlwPFdAVbTOujWjaLdpgqcDhpmksI9aAGLjWAFXnG64i6
+ ZrQwM8aDpMKX8/pBfcQ4gYKzUcJcs5D/hRls41mnOIPqygGF/gkS6Z0pizbTQYIFhu
+ 2Ay3jTeJP1UIfJFJWs/Ue8rfV8sC3U1ZA8/PrqWvuJMqzRdmqajtb5emwIbxJVpxhb
+ lyivE4xprOkWk3r7sUAvd60nManAiGZTRGPnuD8KFP38A0YdIKVh3+7/UBYbASRRDe
+ zI+gYJRGHcaUQ==
+Date: Fri, 7 Jul 2023 09:57:54 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH drm-next v6 02/13] drm: manager to keep track of GPUs VA
+ mappings
+Message-ID: <20230707095754.5d365f8e@collabora.com>
+In-Reply-To: <20230706202642.4cbc7227@collabora.com>
+References: <20230629222651.3196-1-dakr@redhat.com>
+ <20230629222651.3196-3-dakr@redhat.com>
+ <20230706202642.4cbc7227@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] drm/fbdev-dma: Fix documented default preferred_bpp value
-Content-Language: en-US
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>
-References: <91f093ffe436a9f94d58fb2bfbc1407f1ebe8bb0.1688656591.git.geert+renesas@glider.be>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <91f093ffe436a9f94d58fb2bfbc1407f1ebe8bb0.1688656591.git.geert+renesas@glider.be>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------3wgPayiDQJR3n92656d8p0uL"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,85 +55,274 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: matthew.brost@intel.com, willy@infradead.org,
+ dri-devel@lists.freedesktop.org, corbet@lwn.net, nouveau@lists.freedesktop.org,
+ ogabbay@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mripard@kernel.org, bskeggs@redhat.com, tzimmermann@suse.de,
+ Liam.Howlett@oracle.com, Dave Airlie <airlied@redhat.com>,
+ bagasdotme@gmail.com, christian.koenig@amd.com, jason@jlekstrand.net,
+ Donald Robson <donald.robson@imgtec.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------3wgPayiDQJR3n92656d8p0uL
-Content-Type: multipart/mixed; boundary="------------YLMrCrwKsYbM2J6JK3E5O45r";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-ID: <15b9cfd1-c0ae-3fcf-0108-0f617505903c@suse.de>
-Subject: Re: [PATCH] drm/fbdev-dma: Fix documented default preferred_bpp value
-References: <91f093ffe436a9f94d58fb2bfbc1407f1ebe8bb0.1688656591.git.geert+renesas@glider.be>
-In-Reply-To: <91f093ffe436a9f94d58fb2bfbc1407f1ebe8bb0.1688656591.git.geert+renesas@glider.be>
+On Thu, 6 Jul 2023 20:26:42 +0200
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
---------------YLMrCrwKsYbM2J6JK3E5O45r
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+> On Fri, 30 Jun 2023 00:25:18 +0200
+> Danilo Krummrich <dakr@redhat.com> wrote:
+> 
+> > +#ifdef CONFIG_LOCKDEP
+> > +typedef struct lockdep_map *lockdep_map_p;
+> > +#define drm_gpuva_manager_ext_assert_held(mgr)		\
+> > +	lockdep_assert(lock_is_held((mgr)->ext_lock) != LOCK_STATE_NOT_HELD)
+> > +/**
+> > + * drm_gpuva_manager_set_ext_lock - set the external lock according to
+> > + * @DRM_GPUVA_MANAGER_LOCK_EXTERN
+> > + * @mgr: the &drm_gpuva_manager to set the lock for
+> > + * @lock: the lock to set
+> > + *
+> > + * If @DRM_GPUVA_MANAGER_LOCK_EXTERN is set, drivers need to call this function
+> > + * to provide the lock used to lock linking and unlinking of &drm_gpuvas to the
+> > + * &drm_gem_objects GPUVA list.
+> > + */
+> > +#define drm_gpuva_manager_set_ext_lock(mgr, lock)	\
+> > +	(mgr)->ext_lock = &(lock)->dep_map  
+> 
+> Okay, so, IIUC, this is the lock protecting the GEM's active mappings
+> list, meaning the lock is likely to be attached to the GEM object. Are
+> we expected to call drm_gpuva_manager_set_ext_lock() every time we call
+> drm_gpuva_[un]link(), or are we supposed to have some lock at the
+> device level serializing all drm_gpuva_[un]link() calls across VMs? The
+> later doesn't sound like a good option to me, and the former feels a bit
+> weird. I'm wondering if we shouldn't just drop this assert_held() check
+> when DRM_GPUVA_MANAGER_LOCK_EXTERN is set. Alternatively, we could say
+> that any driver wanting to use a custom lock (which is basically all
+> drivers modifying the VA space asynchronously in the ::run_job() path)
+> has to provide its own variant of drm_gpuva_[un]link() (maybe with its
+> own VA list too), which doesn't sound like a good idea either.
 
-SGkNCg0KQW0gMDYuMDcuMjMgdW0gMTc6MzAgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
-DQo+IEFzIG9mIGNvbW1pdCA2YzgwYTkzYmU2MmQzOThlICgiZHJtL2ZiLWhlbHBlcjogSW5p
-dGlhbGl6ZSBmYi1oZWxwZXIncw0KPiBwcmVmZXJyZWQgQlBQIGluIHByZXBhcmUgZnVuY3Rp
-b24iKSwgdGhlIHByZWZlcnJlZF9icHAgcGFyYW1ldGVyIG9mDQo+IGRybV9mYl9oZWxwZXJf
-cHJlcGFyZSgpIGRlZmF1bHRzIHRvIDMyIGluc3RlYWQgb2YNCj4gZHJtX21vZGVfY29uZmln
-LnByZWZlcnJlZF9kZXB0aC4gIEhlbmNlIHRoaXMgYWxzbyBhcHBsaWVzIHRvDQo+IGRybV9m
-YmRldl9kbWFfc2V0dXAoKSwgd2hpY2gganVzdCBwYXNzZXMgaXRzIG93biBwcmVmZXJyZWRf
-YnBwDQo+IHBhcmFtZXRlci4NCj4gDQo+IEZpeGVzOiBiNzlmZTlhYmQ1OGJhYjczICgiZHJt
-L2ZiZGV2LWRtYTogSW1wbGVtZW50IGZiZGV2IGVtdWxhdGlvbiBmb3IgR0VNIERNQSBoZWxw
-ZXJzIikNCj4gU2lnbmVkLW9mZi1ieTogR2VlcnQgVXl0dGVyaG9ldmVuIDxnZWVydCtyZW5l
-c2FzQGdsaWRlci5iZT4NCg0KUmV2aWV3ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emlt
-bWVybWFubkBzdXNlLmRlPg0KDQpUaGFua3MgYSBsb3QuIEknbGwgYWRkIGl0IHRvIC1taXNj
-LW5leHQuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gLS0tDQo+ICAgZHJpdmVycy9n
-cHUvZHJtL2RybV9mYmRldl9kbWEuYyB8IDIgKy0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMSBp
-bnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vZHJtX2ZiZGV2X2RtYS5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9mYmRldl9k
-bWEuYw0KPiBpbmRleCBkODY3NzNmYThhYjAwZjQ5Li43NmFhNTJiMzhhMTNlZDYzIDEwMDY0
-NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiZGV2X2RtYS5jDQo+ICsrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS9kcm1fZmJkZXZfZG1hLmMNCj4gQEAgLTIxNyw3ICsyMTcsNyBAQCBz
-dGF0aWMgY29uc3Qgc3RydWN0IGRybV9jbGllbnRfZnVuY3MgZHJtX2ZiZGV2X2RtYV9jbGll
-bnRfZnVuY3MgPSB7DQo+ICAgICogZHJtX2ZiZGV2X2RtYV9zZXR1cCgpIC0gU2V0dXAgZmJk
-ZXYgZW11bGF0aW9uIGZvciBHRU0gRE1BIGhlbHBlcnMNCj4gICAgKiBAZGV2OiBEUk0gZGV2
-aWNlDQo+ICAgICogQHByZWZlcnJlZF9icHA6IFByZWZlcnJlZCBiaXRzIHBlciBwaXhlbCBm
-b3IgdGhlIGRldmljZS4NCj4gLSAqICAgICAgICAgICAgICAgICBAZGV2LT5tb2RlX2NvbmZp
-Zy5wcmVmZXJyZWRfZGVwdGggaXMgdXNlZCBpZiB0aGlzIGlzIHplcm8uDQo+ICsgKiAgICAg
-ICAgICAgICAgICAgMzIgaXMgdXNlZCBpZiB0aGlzIGlzIHplcm8uDQo+ICAgICoNCj4gICAg
-KiBUaGlzIGZ1bmN0aW9uIHNldHMgdXAgZmJkZXYgZW11bGF0aW9uIGZvciBHRU0gRE1BIGRy
-aXZlcnMgdGhhdCBzdXBwb3J0DQo+ICAgICogZHVtYiBidWZmZXJzIHdpdGggYSB2aXJ0dWFs
-IGFkZHJlc3MgYW5kIHRoYXQgY2FuIGJlIG1tYXAnZWQuDQoNCi0tIA0KVGhvbWFzIFppbW1l
-cm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRp
-b25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcs
-IEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxk
-LCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
+Or we could just attach the dep_map to drm_gem_object::gpuva::lock, and
+let drivers overload the default lock in their GEM creation function if
+they want to use a custom lock (see the following diff).
 
---------------YLMrCrwKsYbM2J6JK3E5O45r--
+---
 
---------------3wgPayiDQJR3n92656d8p0uL
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSnwlgFAwAAAAAACgkQlh/E3EQov+DT
-xA/7Blngxp2foeiqsys5x8PdAHlvIlNUlVJZ56WP6B9wSxjLa7NU1XFTDDqQd5BMML9/Hylp1vtC
-FykcLSuXnpuxYkMPYEMY7aQ3HItIj+BPcg9r6YpZ7/TLX7toKIh/fCCs30bCJE5OEwvTMI6sBteJ
-xrVHJgWTLl3tFy8Ec2kgNrJicmvfKo6mRkl2TzG5W5fT+2AUGsjS33Rc3GBwMUZKqGH3tuMHLkUi
-HpK+JrrrM8G4U0Hkiw7vYA74xEvDCj29952cT/bLFXN+sZhJFreT2CNhbUQrpql8dFfWPvzQ4KQz
-zo0wUXdhb/dCVoaATDVyIwcRBDroIIL7HrlH06UA+V2SMZOmXI+oX5itOE1Pa53Ydq8PwqtoyYae
-grWRGnOPX3C6rqytF2Ya2xoP0IVqYZ8oqOUD/Mj03F4gU2bR87tX3MYdsxpqqU5x62ORaC31nBSe
-qK6CCrgdXfC5eOIyVXksBQAMh6HN0AY9VYO6zVrhqsiLBchF1m8PQHfPE81Jc66+VkZs8XXahUTn
-BO0c7mtTN3v3Ho6IcKq8RS1AUz6ODgQ+nzRAAqTHBxTflCLmyAc2cvbBGQ2tcGGGI/htQo73QGLK
-G8N0W2CLJV9WIlciC4ZT/vDdQ+svrEyO3VeE/Tq+X7/exgfvjAIIWELiIs8UWKJ1KnmyOZmO1iR6
-R40=
-=eu8E
------END PGP SIGNATURE-----
-
---------------3wgPayiDQJR3n92656d8p0uL--
+diff --git a/drivers/gpu/drm/drm_gpuva_mgr.c b/drivers/gpu/drm/drm_gpuva_mgr.c
+index e47747f22126..6427c88c22ba 100644
+--- a/drivers/gpu/drm/drm_gpuva_mgr.c
++++ b/drivers/gpu/drm/drm_gpuva_mgr.c
+@@ -675,8 +675,7 @@ drm_gpuva_manager_init(struct drm_gpuva_manager *mgr,
+ 		       const char *name,
+ 		       u64 start_offset, u64 range,
+ 		       u64 reserve_offset, u64 reserve_range,
+-		       const struct drm_gpuva_fn_ops *ops,
+-		       enum drm_gpuva_manager_flags flags)
++		       const struct drm_gpuva_fn_ops *ops)
+ {
+ 	mgr->rb.tree = RB_ROOT_CACHED;
+ 	INIT_LIST_HEAD(&mgr->rb.list);
+@@ -686,7 +685,6 @@ drm_gpuva_manager_init(struct drm_gpuva_manager *mgr,
+ 	mgr->mm_range = range;
+ 
+ 	mgr->name = name ? name : "unknown";
+-	mgr->flags = flags;
+ 	mgr->ops = ops;
+ 
+ 	memset(&mgr->kernel_alloc_node, 0, sizeof(struct drm_gpuva));
+@@ -822,16 +820,12 @@ EXPORT_SYMBOL(drm_gpuva_remove);
+ void
+ drm_gpuva_link(struct drm_gpuva *va)
+ {
+-	struct drm_gpuva_manager *mgr = va->mgr;
+ 	struct drm_gem_object *obj = va->gem.obj;
+ 
+ 	if (unlikely(!obj))
+ 		return;
+ 
+-	if (drm_gpuva_manager_external_lock(mgr))
+-		drm_gpuva_manager_ext_assert_held(mgr);
+-	else
+-		dma_resv_assert_held(obj->resv);
++	drm_gem_gpuva_assert_lock_held(obj);
+ 
+ 	list_add_tail(&va->gem.entry, &obj->gpuva.list);
+ }
+@@ -850,16 +844,12 @@ EXPORT_SYMBOL(drm_gpuva_link);
+ void
+ drm_gpuva_unlink(struct drm_gpuva *va)
+ {
+-	struct drm_gpuva_manager *mgr = va->mgr;
+ 	struct drm_gem_object *obj = va->gem.obj;
+ 
+ 	if (unlikely(!obj))
+ 		return;
+ 
+-	if (drm_gpuva_manager_external_lock(mgr))
+-		drm_gpuva_manager_ext_assert_held(mgr);
+-	else
+-		dma_resv_assert_held(obj->resv);
++	drm_gem_gpuva_assert_lock_held(obj);
+ 
+ 	list_del_init(&va->gem.entry);
+ }
+@@ -1680,10 +1670,7 @@ drm_gpuva_gem_unmap_ops_create(struct drm_gpuva_manager *mgr,
+ 	struct drm_gpuva *va;
+ 	int ret;
+ 
+-	if (drm_gpuva_manager_external_lock(mgr))
+-		drm_gpuva_manager_ext_assert_held(mgr);
+-	else
+-		dma_resv_assert_held(obj->resv);
++	drm_gem_gpuva_assert_lock_held(obj);
+ 
+ 	ops = kzalloc(sizeof(*ops), GFP_KERNEL);
+ 	if (!ops)
+diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+index 5ec8148a30ee..572d7a538324 100644
+--- a/include/drm/drm_gem.h
++++ b/include/drm/drm_gem.h
+@@ -387,10 +387,14 @@ struct drm_gem_object {
+ 	 * Provides the list of GPU VAs attached to this GEM object.
+ 	 *
+ 	 * Drivers should lock list accesses with the GEMs &dma_resv lock
+-	 * (&drm_gem_object.resv).
++	 * (&drm_gem_object.resv) or a custom lock if one is provided.
+ 	 */
+ 	struct {
+ 		struct list_head list;
++
++#ifdef CONFIG_LOCKDEP
++		struct lockdep_map *lock_dep_map;
++#endif
+ 	} gpuva;
+ 
+ 	/**
+@@ -540,6 +544,26 @@ unsigned long drm_gem_lru_scan(struct drm_gem_lru *lru,
+ 
+ int drm_gem_evict(struct drm_gem_object *obj);
+ 
++#ifdef CONFIG_LOCKDEP
++/*
++ * drm_gem_gpuva_set_lock() - Set the lock protecting accesses to the gpuva list.
++ * @obj: the &drm_gem_object
++ * @lock: the lock used to protect the gpuva list. The locking primitive
++ * must contain a dep_map field.
++ *
++ * Call this if you're not proctecting access to the gpuva list
++ * with the resv lock, otherwise, drm_gem_gpuva_init() takes case
++ * of initializing the lock_dep_map for you.
++ */
++#define drm_gem_gpuva_set_lock(obj, lock) \
++	obj->gpuva.lock_dep_map = &(lock)->dep_map
++#define drm_gem_gpuva_assert_lock_held(obj) \
++	lockdep_assert(lock_is_held(obj->gpuva.lock_dep_map))
++#else
++#define drm_gem_gpuva_set_lock(obj, lock) do {} while(0)
++#define drm_gem_gpuva_assert_lock_held(obj) do {} while(0)
++#endif
++
+ /**
+  * drm_gem_gpuva_init - initialize the gpuva list of a GEM object
+  * @obj: the &drm_gem_object
+@@ -552,6 +576,7 @@ int drm_gem_evict(struct drm_gem_object *obj);
+ static inline void drm_gem_gpuva_init(struct drm_gem_object *obj)
+ {
+ 	INIT_LIST_HEAD(&obj->gpuva.list);
++	drm_gem_gpuva_set_lock(obj, &obj->resv->lock.base);
+ }
+ 
+ /**
+diff --git a/include/drm/drm_gpuva_mgr.h b/include/drm/drm_gpuva_mgr.h
+index 4f23aaf726dd..4ad56b67e244 100644
+--- a/include/drm/drm_gpuva_mgr.h
++++ b/include/drm/drm_gpuva_mgr.h
+@@ -185,44 +185,6 @@ static inline bool drm_gpuva_invalidated(struct drm_gpuva *va)
+ 	return va->flags & DRM_GPUVA_INVALIDATED;
+ }
+ 
+-#ifdef CONFIG_LOCKDEP
+-typedef struct lockdep_map *lockdep_map_p;
+-#define drm_gpuva_manager_ext_assert_held(mgr)		\
+-	lockdep_assert(lock_is_held((mgr)->ext_lock) != LOCK_STATE_NOT_HELD)
+-/**
+- * drm_gpuva_manager_set_ext_lock - set the external lock according to
+- * @DRM_GPUVA_MANAGER_LOCK_EXTERN
+- * @mgr: the &drm_gpuva_manager to set the lock for
+- * @lock: the lock to set
+- *
+- * If @DRM_GPUVA_MANAGER_LOCK_EXTERN is set, drivers need to call this function
+- * to provide the lock used to lock linking and unlinking of &drm_gpuvas to the
+- * &drm_gem_objects GPUVA list.
+- */
+-#define drm_gpuva_manager_set_ext_lock(mgr, lock)	\
+-	(mgr)->ext_lock = &(lock)->dep_map
+-#else
+-typedef struct { /* nothing */ } lockdep_map_p;
+-#define drm_gpuva_manager_ext_assert_held(mgr)		do { (void)(mgr); } while (0)
+-#define drm_gpuva_manager_set_ext_lock(mgr, lock)	do { } while (0)
+-#endif
+-
+-/**
+- * enum drm_gpuva_manager_flags - the feature flags for the &drm_gpuva_manager
+- */
+-enum drm_gpuva_manager_flags {
+-	/**
+-	 * @DRM_GPUVA_MANAGER_LOCK_EXTERN:
+-	 *
+-	 * Indicates the driver has it's own external lock for linking and
+-	 * unlinking &drm_gpuvas to the &drm_gem_objects GPUVA list.
+-	 *
+-	 * When setting this flag it is rquired to set a lock via
+-	 * drm_gpuva_set_ext_lock().
+-	 */
+-	DRM_GPUVA_MANAGER_LOCK_EXTERN = (1 << 0),
+-};
+-
+ /**
+  * struct drm_gpuva_manager - DRM GPU VA Manager
+  *
+@@ -241,11 +203,6 @@ struct drm_gpuva_manager {
+ 	 */
+ 	const char *name;
+ 
+-	/**
+-	 * @flags: the feature flags of the &drm_gpuva_manager
+-	 */
+-	enum drm_gpuva_manager_flags flags;
+-
+ 	/**
+ 	 * @mm_start: start of the VA space
+ 	 */
+@@ -283,31 +240,15 @@ struct drm_gpuva_manager {
+ 	 * @ops: &drm_gpuva_fn_ops providing the split/merge steps to drivers
+ 	 */
+ 	const struct drm_gpuva_fn_ops *ops;
+-
+-	/**
+-	 * @ext_lock: &lockdep_map according to @DRM_GPUVA_MANAGER_LOCK_EXTERN
+-	 */
+-	lockdep_map_p ext_lock;
+ };
+ 
+ void drm_gpuva_manager_init(struct drm_gpuva_manager *mgr,
+ 			    const char *name,
+ 			    u64 start_offset, u64 range,
+ 			    u64 reserve_offset, u64 reserve_range,
+-			    const struct drm_gpuva_fn_ops *ops,
+-			    enum drm_gpuva_manager_flags flags);
++			    const struct drm_gpuva_fn_ops *ops);
+ void drm_gpuva_manager_destroy(struct drm_gpuva_manager *mgr);
+ 
+-/**
+- * drm_gpuva_manager_external_lock - indicates whether the
+- * @DRM_GPUVA_MANAGER_LOCK_EXTERN flag is set
+- * @mgr: the &drm_gpuva_manager to check the flag for
+- */
+-static inline bool drm_gpuva_manager_external_lock(struct drm_gpuva_manager *mgr)
+-{
+-	return mgr->flags & DRM_GPUVA_MANAGER_LOCK_EXTERN;
+-}
+-
+ /**
+  * drm_gpuva_for_each_va_range - iternator to walk over a range of &drm_gpuvas
+  * @va__: &drm_gpuva structure to assign to in each iteration step
