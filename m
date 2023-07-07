@@ -2,113 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B954A74A8B6
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 04:01:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E065174A8D9
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 04:20:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 504AF10E4EB;
-	Fri,  7 Jul 2023 02:01:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B89910E4EF;
+	Fri,  7 Jul 2023 02:20:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4787910E4EB
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 02:01:34 +0000 (UTC)
-Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
- by mailout4.samsung.com (KnoxPortal) with ESMTP id
- 20230707020130epoutp04c8539f628ccbc9690c2999fe88f1a1dd~vc2uIGf7m0310303103epoutp04x
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 02:01:30 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
- 20230707020130epoutp04c8539f628ccbc9690c2999fe88f1a1dd~vc2uIGf7m0310303103epoutp04x
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1688695291;
- bh=PelmqNjPk6oGqr+lcQscDDbKwoYt8iFv7lsSXZ03UmI=;
- h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
- b=luyfCIl3bXzuI5QT1nWtKOisZrTtU+AP598MGtr7llexDzg7QLTvlu51sbumiqhyl
- r9EvnSkkUGBvXRKdEceZ2WR7RJqlisYMHPwBtWvPfQVztcSQUTaDXrCKhH5lC/Kl2V
- PxCNZlkf+2rWEf/RcxxBktdYu4cr1DfG8gXNeIe8=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20230707020130epcas1p23da995d70977a4d1729186a5652aa9c5~vc2tr7BDm2743927439epcas1p2u;
- Fri,  7 Jul 2023 02:01:30 +0000 (GMT)
-Received: from epsmges1p5.samsung.com (unknown [182.195.36.135]) by
- epsnrtp1.localdomain (Postfix) with ESMTP id 4QxxTP33qWz4x9Pv; Fri,  7 Jul
- 2023 02:01:29 +0000 (GMT)
-Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
- epsmges1p5.samsung.com (Symantec Messaging Gateway) with SMTP id
- FA.9C.22933.7F177A46; Fri,  7 Jul 2023 11:01:27 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
- 20230707020127epcas1p328fc9539cb01bf314f569e676c277f86~vc2q4MKf_1856118561epcas1p3b;
- Fri,  7 Jul 2023 02:01:27 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20230707020127epsmtrp12d135f5243a3857ae29611840fcd0c98~vc2q3S9-R0210602106epsmtrp1E;
- Fri,  7 Jul 2023 02:01:27 +0000 (GMT)
-X-AuditID: b6c32a39-a83ff70000005995-51-64a771f7a53e
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 83.16.34491.7F177A46; Fri,  7 Jul 2023 11:01:27 +0900 (KST)
-Received: from inkidae001 (unknown [10.113.221.213]) by epsmtip2.samsung.com
- (KnoxPortal) with ESMTPA id
- 20230707020127epsmtip20f142e261c01eca40e56dc0c4330cec4~vc2qmQ3cU0804308043epsmtip2j;
- Fri,  7 Jul 2023 02:01:27 +0000 (GMT)
-From: =?ks_c_5601-1987?B?tOvAzrHiL1RpemVuIFBsYXRmb3JtIExhYihTUikvu++8usD8wNo=?=
- <inki.dae@samsung.com>
-To: "'Thomas Zimmermann'" <tzimmermann@suse.de>, <javierm@redhat.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>
-In-Reply-To: <20230706124905.15134-7-tzimmermann@suse.de>
-Subject: RE: [PATCH v2 06/11] drm/exynos: Set fbdev FBINFO_VIRTFB flag
-Date: Fri, 7 Jul 2023 11:01:27 +0900
-Message-ID: <026c01d9b076$f090ef00$d1b2cd00$@samsung.com>
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C56210E063
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 02:20:00 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id
+ 2adb3069b0e04-4f954d7309fso1704907e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jul 2023 19:20:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1688696398; x=1691288398;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=tWbvWe+wSPpAfUuNVCuRaGwVFU2OOSKw8sDylC+/9ng=;
+ b=vw4y9fB1R04uqObICIbb69PADoZ+3DDeXGN55GlLzH7uFxQY+cZSypMdOA+GX3BbZB
+ QAMuaN7H9j/xyhtuzMQi7Vi5YVCJzgZpC38onAmDoqnGxNB5+unBSSOPdPCZdZQaIKoZ
+ MQ1psFgz1B4JMV03yurACg/KBtTXD2lbsjBb56ZxY1cWrUx8JLIYFfE1Ge6pK/xj8dtx
+ AF2ebNqyQB49MVCLyLO44PRCHj1Svgma/mjMWzpyDqhG0PQKpzCWi0ePzwGOHwGyWUbw
+ QElOiQLJvTndEZ6g0QzlxaEJAjIrUQjeaZWCO0EqJHHaC8hBiROnFJZChr1cW9p6dFdQ
+ hTeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688696398; x=1691288398;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tWbvWe+wSPpAfUuNVCuRaGwVFU2OOSKw8sDylC+/9ng=;
+ b=EQfFlQlvkScVPtQclRQ8nyC28p0Rp2HTB7QP7+W32CbRZyDE7CbgVPuzWe0wwVYHAs
+ cRAZ31+rLJ7ThBVSPUOWzoIY+ZFcoqjZqGaY0ndnP41XM69JyMW773RAyqkNNAVO+vLy
+ +Q6ka+IyO3RAoI5lD4we7ty5tQAfBJM4u0l+jisxqkPmmmsblvzo3uEm0gMcjiWI03PJ
+ rYLT/t0Z42j1fFJFwxKSOUYHVplno5KgyvliLlY/LQKRG127XMdvXbKb2JvTXl25TXyB
+ aARzm3jddzBRGn4FVrbt7ZHe5K/GNJD7vNsUcD0rAC77VLwhbjXiVots5AbKUxvHtyyh
+ c6Dg==
+X-Gm-Message-State: ABy/qLYGo/Dks9NUnf+IdntoKrp8z8u0TOU4ODv2R4gwmfONJlV2J2Wi
+ I3fQrhzr96zYUGy7d8Kgwv9AYg==
+X-Google-Smtp-Source: APBJJlHk2zZh/rSPQ2vvGPduKoXp+HDbbEegqAUjUdE8Yj9pQfmDCdPP4rQ+d736yonYTnqVAXEaTg==
+X-Received: by 2002:a05:6512:b8b:b0:4fb:bd93:b239 with SMTP id
+ b11-20020a0565120b8b00b004fbbd93b239mr2874790lfv.13.1688696398511; 
+ Thu, 06 Jul 2023 19:19:58 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ l11-20020ac2430b000000b004fb99da37e3sm474865lfh.220.2023.07.06.19.19.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Jul 2023 19:19:58 -0700 (PDT)
+Message-ID: <dc937077-91bd-8c4f-b220-82df11efd215@linaro.org>
+Date: Fri, 7 Jul 2023 05:19:57 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ks_c_5601-1987"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: ko
-Thread-Index: AQGcl+T1wpybQEf0N9BGhueYe3tDCQE/Zq+0Ao2EXCuwCVaXQA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrLJsWRmVeSWpSXmKPExsWy7bCmnu73wuUpBhPbDS0ezNvGZnHl63s2
- i4XTljNa7H29ld3ibNMbdotNj6+xWpzo+8BqMeP8PiaLzi+zgEo+bmWxaOtcBhSb/JLNYsub
- iawOvB6bVnWyedy5tofNY97JQI/73ceZPDYvqfd4v+8qm0ffllWMHptPV3t83iQXwBmVbZOR
- mpiSWqSQmpecn5KZl26r5B0c7xxvamZgqGtoaWGupJCXmJtqq+TiE6DrlpkDdLWSQlliTilQ
- KCCxuFhJ386mKL+0JFUhI7+4xFYptSAlp8C0QK84Mbe4NC9dLy+1xMrQwMDIFKgwITtj7v2/
- jAV7BCra7v1ibmDs4uti5OSQEDCRuPXrCWMXIxeHkMAORontV6+yQzifGCUmfZ/LCuF8Y5To
- ufeJGablw+O/bBCJvYwSm1d+YYFwXjJKHFw8lx2kik0gQ+Ju+2KwdhGBJkaJGe/bwRxmgV9M
- Ej8OrQWbxSlgKbHrwBEmEFtYwE2ibeEzsDiLgIrEry17wOK8QDVvTu5nhbAFJU7OfMICYjML
- GEksWT2fCcKWl9j+dg7UfQoSP58uY4WIi0jM7mwDi4sIOEncuf8R7FUJgTscEh+WdUA1uEjc
- X/gPyhaWeHV8CzuELSXxsr+NHaJhMqPEnesrWCCcGYwSh39eZ4SoMpbYv3QyE4StKLHz91xG
- iNV8Eu++9gCdwQEU55XoaBOCKFGSOHbxBlSrhMSFJRPZJjAqzULy3Cwkz81C8twsJA8tYGRZ
- xSiWWlCcm55abFhgCo/z5PzcTYzgdK1luYNx+tsPeocYmTgYDzFKcDArifAeO7MsRYg3JbGy
- KrUoP76oNCe1+BCjKTC8JzJLiSbnAzNGXkm8oYmlgYmZkbGJhaGZoZI477m3vSlCAumJJanZ
- qakFqUUwfUwcnFINTEqua06xiRRErXnivOXJ6V3BXZmM295VLiyd8qsrXyV3woLKH843e0UE
- etTvMOt3T3RYofdG99XrPRO5bsTcMby4ylooqW/CAkOBIvnFwXZzuorcl4h9Fnidu//2IqfT
- qp+KH0nob/omu8n+o1h4bqL/kt6UGoWHqw9fyn9+Ovd0f/D5D7OFT35jt/CevX/1l2DejTv3
- at0+5vFAg810n6dX7tx5oXJpR9NNhafyKq+Jn6gQ+V+udU9asjjf0mCTGpVeDu5T3Q/VZzPb
- cVvbzfW3kl3YEHzOYQfLiRWr4zjWB9sI3/q4Pl5neqyptpVfVli60qctPfr6Plpv9ly1r+AJ
- EZlqz+f5yONS86ODSizFGYmGWsxFxYkAXJUZb2AEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrEIsWRmVeSWpSXmKPExsWy7bCSvO73wuUpBju7JCwezNvGZnHl63s2
- i4XTljNa7H29ld3ibNMbdotNj6+xWpzo+8BqMeP8PiaLzi+zgEo+bmWxaOtcBhSb/JLNYsub
- iawOvB6bVnWyedy5tofNY97JQI/73ceZPDYvqfd4v+8qm0ffllWMHptPV3t83iQXwBnFZZOS
- mpNZllqkb5fAlTH3/l/Ggj0CFW33fjE3MHbxdTFyckgImEh8ePyXrYuRi0NIYDejxML+Pcxd
- jBxACQmJLVs5IExhicOHi0HKhQSeM0rMO6ELYrMJpElMmrufFaRVRKCNUeLRx/9gDrNAA7PE
- wlOr2SGGbmeU2Nx5jQWkhVPAUmLXgSNMILawgJtE28JnzCA2i4CKxK8te8DivEA1b06CjAWx
- BSVOznwC1ssMdGnj4W4oW15i+9s5zBAfKEj8fLqMFSIuIjG7sw0sLiLgJHHn/kfGCYzCs5CM
- moVk1Cwko2YhaV/AyLKKUTK1oDg3PbfYsMAwL7Vcrzgxt7g0L10vOT93EyM4WrU0dzBuX/VB
- 7xAjEwfjIUYJDmYlEd5jZ5alCPGmJFZWpRblxxeV5qQWH2KU5mBREucVf9GbIiSQnliSmp2a
- WpBaBJNl4uCUamDq5Vv+IuLKUY8d3xhu2BgyCjJkvrxX9O+kT/bXT7JFX60XG3x6vSNg/szA
- eM95F87Nmi3w1CzrllnjM4PnQp+rJC4/Tz3d8emCVIvKknjjZb2XpBadFb2RfuvVpapfvwXN
- 4+4xqH/dO31x8hqDmdkdyQ8Y0v6LPMjnfNK/XYZzwUXD1qdSff/85KZnmt9sjmzZveD4+Zd2
- mx7pV27a8V+4YoPWy+o4HWnx1q4/797u1erb/WDCVIHfvqbf76w4MumC0SJhoZWHY3zntbxa
- kZC51vnGLwmnm/NLZbgq79hx7A3uu6SlraJ16uFFxpjyBheuLaWyFmJ2U/6dqC7c8MPGOlHk
- U5GPjuWOiuRGWY7dSizFGYmGWsxFxYkANMGVdUUDAAA=
-X-CMS-MailID: 20230707020127epcas1p328fc9539cb01bf314f569e676c277f86
-X-Msg-Generator: CA
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230706125011epcas1p437211c1555189b16614f13aa212688db
-References: <20230706124905.15134-1-tzimmermann@suse.de>
- <CGME20230706125011epcas1p437211c1555189b16614f13aa212688db@epcas1p4.samsung.com>
- <20230706124905.15134-7-tzimmermann@suse.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v4 5/6] drm/msm/dpu: Refactor printing of main blocks in
+ device core dump
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Ryan McCann <quic_rmccann@quicinc.com>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230622-devcoredump_patch-v4-0-e304ddbe9648@quicinc.com>
+ <20230622-devcoredump_patch-v4-5-e304ddbe9648@quicinc.com>
+ <deb38d54-bf7f-f42a-8b61-f6c8f46370b0@linaro.org>
+ <da04a824-b44c-d6a0-3dfc-f1b8e8272195@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <da04a824-b44c-d6a0-3dfc-f1b8e8272195@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,70 +84,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 'Seung-Woo
- Kim' <sw0312.kim@samsung.com>,
- 'Krzysztof Kozlowski' <krzysztof.kozlowski@linaro.org>,
- dri-devel@lists.freedesktop.org, 'Kyungmin	Park' <kyungmin.park@samsung.com>,
- 'Alim Akhtar' <alim.akhtar@samsung.com>, linux-tegra@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ quic_jesszhan@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-> -----Original Message-----
-> From: Thomas Zimmermann <tzimmermann@suse.de>
-> Sent: Thursday, July 6, 2023 9:47 PM
-> To: javierm@redhat.com; maarten.lankhorst@linux.intel.com;
-> mripard@kernel.org
-> Cc: dri-devel@lists.freedesktop.org; linux-arm-kernel@lists.infradead.org;
-> linux-samsung-soc@vger.kernel.org; linux-tegra@vger.kernel.org; linux-
-> fbdev@vger.kernel.org; Thomas Zimmermann <tzimmermann@suse.de>; Inki Dae
-> <inki.dae@samsung.com>; Seung-Woo Kim <sw0312.kim@samsung.com>; Kyungmin
-> Park <kyungmin.park@samsung.com>; Krzysztof Kozlowski
-> <krzysztof.kozlowski@linaro.org>; Alim Akhtar <alim.akhtar@samsung.com>
-> Subject: [PATCH v2 06/11] drm/exynos: Set fbdev FBINFO_VIRTFB flag
+On 07/07/2023 03:16, Abhinav Kumar wrote:
 > 
-> Mark the framebuffer with FBINFO_VIRTFB. The framebuffer range is
-> in DMA-able memory and should be accessed with the CPU's regular
-> memory ops.
 > 
-> v2:
-> 	* drop FBINFO_FLAG_DEFAULT
+> On 7/6/2023 5:07 PM, Dmitry Baryshkov wrote:
+>> On 06/07/2023 23:48, Ryan McCann wrote:
+>>> Currently, the names of main blocks are hardcoded into the
+>>> msm_disp_snapshot_add_block function rather than using the name that
+>>> already exists in the catalog. Change this to take the name directly 
+>>> from
+>>> the catalog instead of hardcoding it.
+>>>
+>>> Signed-off-by: Ryan McCann <quic_rmccann@quicinc.com>
+>>> ---
+>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 32 
+>>> ++++++++++++++++----------------
+>>>   1 file changed, 16 insertions(+), 16 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c 
+>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>>> index aa8499de1b9f..70dbb1204e6c 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>>> @@ -899,38 +899,38 @@ static void dpu_kms_mdp_snapshot(struct 
+>>> msm_disp_state *disp_state, struct msm_k
+>>>       /* dump CTL sub-blocks HW regs info */
+>>>       for (i = 0; i < cat->ctl_count; i++)
+>>> -        msm_disp_snapshot_add_block(disp_state, cat->ctl[i].len,
+>>> -                dpu_kms->mmio + cat->ctl[i].base, "ctl_%d", i);
+>>> +        msm_disp_snapshot_add_block(disp_state, cat->ctl[i].len, 
+>>> dpu_kms->mmio +
+>>> +                        cat->ctl[i].base, cat->ctl[i].name);
+>>
+>> Splitting on the `+' sign is a bad idea. It makes it harder to read 
+>> the code. Please keep the first line as is, it is perfectly fine on 
+>> its own, and do just what you have stated in the commit message: 
+>> change printed block name.
+>>
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> Acked-by: Maxime Ripard <mripard@kernel.org>
-
-Acked-by : Inki Dae <inki.dae@samsung.com>
-
-Thanks,
-Inki Dae
-
-> Cc: Inki Dae <inki.dae@samsung.com>
-> Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
-> Cc: Kyungmin Park <kyungmin.park@samsung.com>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Cc: Alim Akhtar <alim.akhtar@samsung.com>
-> ---
->  drivers/gpu/drm/exynos/exynos_drm_fbdev.c | 1 +
->  1 file changed, 1 insertion(+)
+> Actually, I asked Ryan to fix the indent here in the same patch as he 
+> was touching this code anyway.
 > 
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-> b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-> index 7ca3424b59ce..828318de8529 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-> @@ -79,6 +79,7 @@ static int exynos_drm_fbdev_update(struct drm_fb_helper
-> *helper,
->  	offset = fbi->var.xoffset * fb->format->cpp[0];
->  	offset += fbi->var.yoffset * fb->pitches[0];
-> 
-> +	fbi->flags |= FBINFO_VIRTFB;
->  	fbi->screen_buffer = exynos_gem->kvaddr + offset;
->  	fbi->screen_size = size;
->  	fbi->fix.smem_len = size;
-> --
-> 2.41.0
+> So you would prefer thats left untouched?
 
+Yes. The current one was definitely better than splitting in the middle 
+of a statement.
+
+> 
+>>>       /* dump DSPP sub-blocks HW regs info */
+>>>       for (i = 0; i < cat->dspp_count; i++)
+>>> -        msm_disp_snapshot_add_block(disp_state, cat->dspp[i].len,
+>>> -                dpu_kms->mmio + cat->dspp[i].base, "dspp_%d", i);
+>>> +        msm_disp_snapshot_add_block(disp_state, cat->dspp[i].len, 
+>>> dpu_kms->mmio +
+>>> +                        cat->dspp[i].base, cat->dspp[i].name);
+>>>       /* dump INTF sub-blocks HW regs info */
+>>>       for (i = 0; i < cat->intf_count; i++)
+>>> -        msm_disp_snapshot_add_block(disp_state, cat->intf[i].len,
+>>> -                dpu_kms->mmio + cat->intf[i].base, "intf_%d", i);
+>>> +        msm_disp_snapshot_add_block(disp_state, cat->intf[i].len, 
+>>> dpu_kms->mmio +
+>>> +                        cat->intf[i].base, cat->intf[i].name);
+>>>       /* dump PP sub-blocks HW regs info */
+>>>       for (i = 0; i < cat->pingpong_count; i++)
+>>> -        msm_disp_snapshot_add_block(disp_state, cat->pingpong[i].len,
+>>> -                dpu_kms->mmio + cat->pingpong[i].base, 
+>>> "pingpong_%d", i);
+>>> +        msm_disp_snapshot_add_block(disp_state, 
+>>> cat->pingpong[i].len, dpu_kms->mmio +
+>>> +                        cat->pingpong[i].base, cat->pingpong[i].name);
+>>>       /* dump SSPP sub-blocks HW regs info */
+>>>       for (i = 0; i < cat->sspp_count; i++)
+>>> -        msm_disp_snapshot_add_block(disp_state, cat->sspp[i].len,
+>>> -                dpu_kms->mmio + cat->sspp[i].base, "sspp_%d", i);
+>>> +        msm_disp_snapshot_add_block(disp_state, cat->sspp[i].len, 
+>>> dpu_kms->mmio +
+>>> +                        cat->sspp[i].base, cat->sspp[i].name);
+>>>       /* dump LM sub-blocks HW regs info */
+>>>       for (i = 0; i < cat->mixer_count; i++)
+>>> -        msm_disp_snapshot_add_block(disp_state, cat->mixer[i].len,
+>>> -                dpu_kms->mmio + cat->mixer[i].base, "lm_%d", i);
+>>> +        msm_disp_snapshot_add_block(disp_state, cat->mixer[i].len, 
+>>> dpu_kms->mmio +
+>>> +                        cat->mixer[i].base, cat->mixer[i].name);
+>>>       /* dump WB sub-blocks HW regs info */
+>>>       for (i = 0; i < cat->wb_count; i++)
+>>> -        msm_disp_snapshot_add_block(disp_state, cat->wb[i].len,
+>>> -                dpu_kms->mmio + cat->wb[i].base, "wb_%d", i);
+>>> +        msm_disp_snapshot_add_block(disp_state, cat->wb[i].len, 
+>>> dpu_kms->mmio +
+>>> +                        cat->wb[i].base, cat->wb[i].name);
+>>>       if (cat->mdp[0].features & BIT(DPU_MDP_PERIPH_0_REMOVED)) {
+>>>           msm_disp_snapshot_add_block(disp_state, MDP_PERIPH_TOP0,
+>>> @@ -944,8 +944,8 @@ static void dpu_kms_mdp_snapshot(struct 
+>>> msm_disp_state *disp_state, struct msm_k
+>>>       /* dump DSC sub-blocks HW regs info */
+>>>       for (i = 0; i < cat->dsc_count; i++)
+>>> -        msm_disp_snapshot_add_block(disp_state, cat->dsc[i].len,
+>>> -                dpu_kms->mmio + cat->dsc[i].base, "dsc_%d", i);
+>>> +        msm_disp_snapshot_add_block(disp_state, cat->dsc[i].len, 
+>>> dpu_kms->mmio +
+>>> +                        cat->dsc[i].base, cat->dsc[i].name);
+>>>       pm_runtime_put_sync(&dpu_kms->pdev->dev);
+>>>   }
+>>>
+>>
+
+-- 
+With best wishes
+Dmitry
 
