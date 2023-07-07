@@ -1,45 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A43C174B9AB
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 00:41:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 561BC74B9D8
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 01:13:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D426E10E613;
-	Fri,  7 Jul 2023 22:41:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07C1510E60F;
+	Fri,  7 Jul 2023 23:12:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D993E10E60F;
- Fri,  7 Jul 2023 22:41:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=ILhK3ntOSguFvvoL3dtIQ/0orxl4TRRaxUfEny2T4hQ=; b=luAS5a/ov3Z7w1pwXMMISdcq0X
- CmkBLudpjLqOfv+LJLAAHgZSMAOwntplymB5St0mZV6gheeahYHsf0oKk1dEbckva2adI1sAtldg0
- zSAfkyB5qESAnGy93JB4hhHc7vEiAIq1eGRa5uuHhV8Ye1zRG/hGSONknqFrN7KJDUsh41ixqVhCn
- 7pEMfWtuB6/0Rb4vY44mVDt1yIc9YleiwG15e+Ed80YgxVvmPu+KiZZx1W017yqrMNixeQtYjnRJr
- 5oOG8jA6fnQ2CMTbxf5k92qZOx0ViYm1r5jHbNCXCuZSKJ8sQ4SM5777oDp3S9kiK0I4V0eDj8DvU
- bbpZeGCQ==;
-Received: from [187.74.70.209] (helo=steammachine.lan)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qHu8z-00AP6e-SZ; Sat, 08 Jul 2023 00:41:42 +0200
-From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, wayland-devel@lists.freedesktop.org
-Subject: [PATCH v5 6/6] drm/doc: Define KMS atomic state set
-Date: Fri,  7 Jul 2023 19:40:59 -0300
-Message-ID: <20230707224059.305474-7-andrealmeid@igalia.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230707224059.305474-1-andrealmeid@igalia.com>
-References: <20230707224059.305474-1-andrealmeid@igalia.com>
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D145B10E60F
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 23:12:54 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id
+ 2adb3069b0e04-4fb96e2b573so3966579e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Jul 2023 16:12:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1688771573; x=1691363573;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=2n/H2No59Vs8LK9WsAaarYGCaij4epyQSN1PdTEfblI=;
+ b=Dla03EkKNz919pj9om1kw3yNUe83gMpfMMk7prnS2fq6OxdIOi0pnAfT8Tw/SoS0vc
+ mHOagzXXHLE6k6Z2hFCGwmhbOGPnSuZf/82RkP3L1qe9h7VqhbDAVbRypCk4YU4vAXlI
+ B7nMDeQ+xjdnZ1oUeR/hUG7NKr3aR8yt3GSo//FKcVdF8L5vJA1JuU8C4gFt4vS8xfmt
+ 6v36kZSoZw/PNEPIE+9sLH9ZS8d/aN1gwyrkVW0H59xIQeEL7dO9VRsOObleauXa3rYa
+ ymRioYk5GIyRVwcSPelmy9+upuwVZRNwsvf7E/OdMj3a5Lg8yZkKHFKF5pMb+2aWRKYG
+ afVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688771573; x=1691363573;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2n/H2No59Vs8LK9WsAaarYGCaij4epyQSN1PdTEfblI=;
+ b=WkdbYnp5k9P3eHiF4b6yJDgWbe5EMSq14DippGOTs61ZqSMTg1g9w57TrpPgtdETXJ
+ SZSwoBMp1ZMVek0Ck+YN7+RwxjCRNNeezRW0zbGf0Tc8+cHQz6AYS7nHr2prXb56BptO
+ eyqnXtbqEBv7w6JwHVmi4X6v5UzME6HrA0RfyKh0Uahf2u8Z8wVFrfejo82l3O/8S3pp
+ dvnpNy3PVkzOboLiJvZ3ETqYSlThiDqq1Z/phSobuQFxwlKtbUwRdfIagCxO4XNLxSLa
+ I1UUgXnyOoXtaPyWUdBHe4ol0Zk/FKhDIE5QzbTfGjU0L9xaIjAK5E5zNCHPX4TQUSNU
+ TRRA==
+X-Gm-Message-State: ABy/qLaUnm0HP30usC050Kpj5X//hd7a7geogMM6IBdLND5KZ7IH2xVD
+ jXR91sL9IZTc893LMtef5K18DQ==
+X-Google-Smtp-Source: APBJJlHaSNkPJSckPK3AAkcQy9zW4vvooecLgJWL8z8f9yFYqF9oVcu6N208L/2isuZAq1kMddZLaQ==
+X-Received: by 2002:ac2:5b9b:0:b0:4fb:79b5:5512 with SMTP id
+ o27-20020ac25b9b000000b004fb79b55512mr4309889lfn.66.1688771572596; 
+ Fri, 07 Jul 2023 16:12:52 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ d1-20020ac25441000000b004fb7388360esm841643lfn.188.2023.07.07.16.12.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Jul 2023 16:12:52 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [PATCH v2 00/13] drm/msm/dpu: use managed memory allocations
+Date: Sat,  8 Jul 2023 02:12:38 +0300
+Message-Id: <20230707231251.3849701-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,79 +72,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- =?UTF-8?q?=27Marek=20Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
- =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- Randy Dunlap <rdunlap@infradead.org>, Pekka Paalanen <ppaalanen@gmail.com>,
- hwentlan@amd.com, kernel-dev@igalia.com, alexander.deucher@amd.com,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- christian.koenig@amd.com, joshua@froggi.es
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
+Please excuse me for sending v2 on the same day, it fixes erorr paths
+for drmm allocation code.
 
-Specify how the atomic state is maintained between userspace and
-kernel, plus the special case for async flips.
+In a lots of places in DPU driver memory is allocated by using the
+kzalloc and then manually freed using kfree. However thes memory chunks
+have a well-defined life cycle. They are either a part of the driver's
+runtime and can be devm_kzalloc'ed or are exposed to userspace via the
+DRM objects and thus can be drmm_alloc'ed. Implement corresponding
+runtime resource manangement for the DPU driver.
 
-Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-Signed-off-by: André Almeida <andrealmeid@igalia.com>
----
-v4: total rework by Pekka
----
- Documentation/gpu/drm-uapi.rst | 41 ++++++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+Dependencies: [1].
 
-diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-index 65fb3036a580..6a1662c08901 100644
---- a/Documentation/gpu/drm-uapi.rst
-+++ b/Documentation/gpu/drm-uapi.rst
-@@ -486,3 +486,44 @@ and the CRTC index is its position in this array.
- 
- .. kernel-doc:: include/uapi/drm/drm_mode.h
-    :internal:
-+
-+KMS atomic state
-+================
-+
-+An atomic commit can change multiple KMS properties in an atomic fashion,
-+without ever applying intermediate or partial state changes.  Either the whole
-+commit succeeds or fails, and it will never be applied partially. This is the
-+fundamental improvement of the atomic API over the older non-atomic API which is
-+referred to as the "legacy API".  Applying intermediate state could unexpectedly
-+fail, cause visible glitches, or delay reaching the final state.
-+
-+An atomic commit can be flagged with DRM_MODE_ATOMIC_TEST_ONLY, which means the
-+complete state change is validated but not applied.  Userspace should use this
-+flag to validate any state change before asking to apply it. If validation fails
-+for any reason, userspace should attempt to fall back to another, perhaps
-+simpler, final state.  This allows userspace to probe for various configurations
-+without causing visible glitches on screen and without the need to undo a
-+probing change.
-+
-+The changes recorded in an atomic commit apply on top the current KMS state in
-+the kernel. Hence, the complete new KMS state is the complete old KMS state with
-+the committed property settings done on top. The kernel will automatically avoid
-+no-operation changes, so it is safe and even expected for userspace to send
-+redundant property settings.  No-operation changes do not count towards actually
-+needed changes, e.g.  setting MODE_ID to a different blob with identical
-+contents as the current KMS state shall not be a modeset on its own.
-+
-+A "modeset" is a change in KMS state that might enable, disable, or temporarily
-+disrupt the emitted video signal, possibly causing visible glitches on screen. A
-+modeset may also take considerably more time to complete than other kinds of
-+changes, and the video sink might also need time to adapt to the new signal
-+properties. Therefore a modeset must be explicitly allowed with the flag
-+DRM_MODE_ATOMIC_ALLOW_MODESET.  This in combination with
-+DRM_MODE_ATOMIC_TEST_ONLY allows userspace to determine if a state change is
-+likely to cause visible disruption on screen and avoid such changes when end
-+users do not expect them.
-+
-+An atomic commit with the flag DRM_MODE_PAGE_FLIP_ASYNC is allowed to
-+effectively change only the FB_ID property on any planes. No-operation changes
-+are ignored as always. Changing any other property will cause the commit to be
-+rejected.
+[1] https://patchwork.freedesktop.org/series/118839/
+
+Changes since v1:
+- Fix error handling for some of drmm_foo_alloc() functions, which
+  return error pointer in case of an error rather than typical NULL.
+
+Dmitry Baryshkov (13):
+  drm/msm/dpu: cleanup dpu_kms_hw_init error path
+  drm/msm/dpu: remove IS_ERR_OR_NULL for dpu_hw_intr_init() error
+    handling
+  drm/msm/dpu: use devres-managed allocation for interrupts data
+  drm/msm/dpu: use devres-managed allocation for VBIF data
+  drm/msm/dpu: use devres-managed allocation for MDP TOP
+  drm/msm/dpu: use devres-managed allocation for HW blocks
+  drm/msm/dpu: drop unused dpu_plane::lock
+  drm/msm/dpu: remove QoS teardown on plane destruction
+  drm/msm/dpu: use drmm-managed allocation for dpu_plane
+  drm/msm/dpu: use drmm-managed allocation for dpu_crtc
+  drm/msm/dpu: use drmm-managed allocation for dpu_encoder_phys
+  drm/msm/dpu: drop dpu_encoder_phys_ops::destroy
+  drm/msm/dpu: use drmm-managed allocation for dpu_encoder_virt
+
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      | 25 ++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 77 ++++------------
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  | 10 +--
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  | 15 +---
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  | 13 +--
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   | 21 +----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    | 19 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h    | 16 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c    | 12 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h    | 10 ++-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c    |  7 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c   | 16 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h   | 12 +--
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 14 ++-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h | 11 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c   | 15 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h   | 12 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c     | 14 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h     | 12 +--
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c    | 14 ++-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.h    | 13 +--
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   | 14 ++-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h   | 13 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   | 15 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h   |  7 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c    | 17 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h    |  8 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c   | 14 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h   |  8 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c     | 14 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h     | 12 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       | 51 ++++-------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |  1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     | 59 +++---------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        | 90 +++----------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h        | 11 +--
+ 36 files changed, 216 insertions(+), 476 deletions(-)
+
 -- 
-2.41.0
+2.39.2
 
