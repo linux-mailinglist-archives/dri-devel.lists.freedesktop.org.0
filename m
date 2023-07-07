@@ -2,46 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D82774AF88
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 13:12:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8489A74AFE4
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 13:33:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D475C10E55F;
-	Fri,  7 Jul 2023 11:12:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E69FD10E564;
+	Fri,  7 Jul 2023 11:33:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8677F10E55E;
- Fri,  7 Jul 2023 11:12:05 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C511D61275;
- Fri,  7 Jul 2023 11:12:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B13DFC433CB;
- Fri,  7 Jul 2023 11:12:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1688728324;
- bh=2NoIPMcY+haGQrbKaoQREEDgCnwtLhX96He1p8v4ak8=;
- h=From:To:Cc:Subject:Date:From;
- b=ne/2Rigj0ihkn2iVY9+viD5p8iMAXpVc9E3dlZdOVtcXs6tKHWaPAxUXywTlHrQIl
- dd52dv83urUzoftcpY+Y9y3orCGvxcKMJpjyq3171ghvBkwxjVkNvXMiSbR8kl1i+J
- ycLULiSs0XXlgdTuzPqeWqr/2Jw2jj0V+zNQ9Ff2EZzoCynUCCGOuoyYrusrbeTOK2
- U7HeOQffHtSz05nEtiRe/S8Gcv7G6JqioP1pI/Hu2gu3pqzMNrsx5qRmq0TVZ0bGcZ
- PeisAzbZft2H19BkDqExDo6QAtxfrQ/8BZNOZafhT4RT1IbTJY8QZ2Wwz/coHQChZP
- xMKuLcpBf7QiA==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] [v2] drm/amdgpu: avoid integer overflow warning in
- amdgpu_device_resize_fb_bar()
-Date: Fri,  7 Jul 2023 13:11:51 +0200
-Message-Id: <20230707111157.209432-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
+ [IPv6:2607:f8b0:4864:20::b2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0569E10E563
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 11:33:37 +0000 (UTC)
+Received: by mail-yb1-xb2d.google.com with SMTP id
+ 3f1490d57ef6-c6833e6e326so1954195276.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Jul 2023 04:33:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1688729617; x=1691321617;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RMDmR1AyUqqSLlrR4dAl1mTPWPJqJms7W4GVYjDPIGA=;
+ b=xiiQaYZq3bDHw91HWI3fRO9UDkLX7hyAFNYDmTVBWHFjkvIZjxGpJ9Ucr1pqYcfkCy
+ mZ8qVZI4gHIQAjBqmvS/E0Lu5McUUZMuarBruPYB3Z5vRsXtxYrhontrBigkgUOWMcTh
+ AcX/Q+4iYvqSQQhP4CqYV5lOm749u86MZwzKYr+PWH5I2o2upjOC8iQKoaLsHS4ZmX9i
+ wduX5j7NLHNyM6waY5iUjI7MOSAgIh63hRMWL+VCYtcrsbS3S8OPN70xEFgGPBQFGdi1
+ qUGifkUwapGATJFhAkRv9er8DG50uEop5Wi7WKN1Ync5B+2EBdQZ+fNxjctFco+oSLIX
+ sYaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688729617; x=1691321617;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=RMDmR1AyUqqSLlrR4dAl1mTPWPJqJms7W4GVYjDPIGA=;
+ b=AOEci0GLrYd3lMrloJ99u/Z2PM2SQ3kzhK0+UwSml3cMYyTLzKSN57fTxU87351DuY
+ QxQPNYsW5Q/k/QaoiH71x1X9f10OYGskD4qxNQrv/qAWsSb6BBB0v1b1ZXZ8adyETXrw
+ Sup2l1IpwH7gZdcLus0Kz1Sge/3rSrRIBm5oZZn2gyEPTEEoHFqxyLrxE8fvdq0MScjm
+ 1PFsq4TsgDHwxn2sI9zCra6eEOV6xYSB1a55NeVeWpd8ZG7OfW2aEpTerjHgvHDukJGd
+ XVfyoD62329S7cfSg0i9a1F0hYhK/o8l95s9dtHSQO595rfBjtmeWtUWzjUmtf1HH3W2
+ GaGA==
+X-Gm-Message-State: ABy/qLYV1ncZS1G4R7SEWOygjoGtIzGBkKy8TLD8xu3Rgx3vhFHdjavl
+ Ku1OTRZ0Kovf2kDwfEoBs98UrASr4Ghpc2HU1hHFFw==
+X-Google-Smtp-Source: APBJJlEQSj9eXj+7lnzyovN+ytLh/4DHueGCx30NZ+9pdKgvYoJ0FyPX7RpPM7SVjIqI/EaQCzqVM+GieMin6C25zn0=
+X-Received: by 2002:a25:604:0:b0:c5f:d493:c91f with SMTP id
+ 4-20020a250604000000b00c5fd493c91fmr3740950ybg.61.1688729616893; Fri, 07 Jul
+ 2023 04:33:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230707095415.1449376-1-arnd@kernel.org>
+ <20230707095415.1449376-3-arnd@kernel.org>
+In-Reply-To: <20230707095415.1449376-3-arnd@kernel.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 7 Jul 2023 13:33:24 +0200
+Message-ID: <CACRpkdbiDUomH8HLkk_jyJZYc+mEmRaFL8-JasDmd=ooSB62Qw@mail.gmail.com>
+Subject: Re: [PATCH 3/4] dummycon: limit Arm console size hack to footbridge
+To: Arnd Bergmann <arnd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,55 +69,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org,
- Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
- Arnd Bergmann <arnd@arndb.de>, Bokun Zhang <Bokun.Zhang@amd.com>,
- dri-devel@lists.freedesktop.org, Lijo Lazar <lijo.lazar@amd.com>,
- linux-kernel@vger.kernel.org, Shiwu Zhang <shiwu.zhang@amd.com>,
- Le Ma <le.ma@amd.com>, YiPeng Chai <YiPeng.Chai@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ linux-kernel@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ Russell King <linux@armlinux.org.uk>, dri-devel@lists.freedesktop.org,
+ javierm@redhat.com, "Russell King \(Oracle\)" <rmk+kernel@armlinux.org.uk>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Ard Biesheuvel <ardb@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Fri, Jul 7, 2023 at 11:56=E2=80=AFAM Arnd Bergmann <arnd@kernel.org> wro=
+te:
 
-On 32-bit architectures comparing a resource against a value larger than
-U32_MAX can cause a warning:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> The dummycon default console size used to be determined by architecture,
+> but now this is a Kconfig setting on everything except ARM. Tracing this
+> back in the historic git trees, this was used to match the size of VGA
+> console or VGA framebuffer on early machines, but nowadays that code is
+> no longer used, except probably on the old footbridge/netwinder since
+> that is the only one that supports vgacon.
+>
+> On machines with a framebuffer, booting with DT so far results in always
+> using the hardcoded 80x30 size in dummycon, while on ATAGS the setting
+> can come from a bootloader specific override. Both seem to be worse
+> choices than the Kconfig setting, since the actual text size for fbcon
+> also depends on the selected font.
+>
+> Make this work the same way as everywhere else and use the normal
+> Kconfig setting, except for the footbridge with vgacon, which keeps
+> using the traditional code. If vgacon is disabled, footbridge can
+> also ignore the setting. This means the screen_info only has to be
+> provided when either vgacon or EFI are enabled now.
+>
+> To limit the amount of surprises on Arm, change the Kconfig default
+> to the previously used 80x30 setting instead of the usual 80x25.
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:1344:18: error: result of comparison of constant 4294967296 with expression of type 'resource_size_t' (aka 'unsigned int') is always false [-Werror,-Wtautological-constant-out-of-range-compare]
-                    res->start > 0x100000000ull)
-                    ~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
+Tested this before and after patch and it looks the same on the NetWinder.
+Tested-by: Linus Walleij <linus.walleij@linaro.org>
 
-As gcc does not warn about this in dead code, add an IS_ENABLED() check at
-the start of the function. This will always return success but not actually resize
-the BAR on 32-bit architectures without high memory, which is exactly what
-we want here, as the driver can fall back to bank switching the VRAM
-access.
+The legacy in the cyber2000 FB driver supports pseudocolor which
+makes it a bit hard to rewrite into a simple DRM driver, which is something
+I could otherwise look into, it's not a very big or complex driver
+after all.
 
-Fixes: 31b8adab3247e ("drm/amdgpu: require a root bus window above 4GB for BAR resize")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
-v2: return early instead of shutting up the warning with a cast and
-running into a failure
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 7f069e1731fee..fcf5f07c47751 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -1325,6 +1325,9 @@ int amdgpu_device_resize_fb_bar(struct amdgpu_device *adev)
- 	u16 cmd;
- 	int r;
- 
-+	if (!IS_ENABLED(CONFIG_PHYS_ADDR_T_64BIT))
-+		return 0;
-+
- 	/* Bypass for VF */
- 	if (amdgpu_sriov_vf(adev))
- 		return 0;
--- 
-2.39.2
-
+Yours,
+Linus Walleij
