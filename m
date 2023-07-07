@@ -2,70 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D88B74A92C
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 04:54:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50AC074A933
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 05:04:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A7C210E500;
-	Fri,  7 Jul 2023 02:54:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE77810E503;
+	Fri,  7 Jul 2023 03:04:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
- [IPv6:2a00:1450:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE42410E500
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 02:54:28 +0000 (UTC)
-Received: by mail-lj1-x22b.google.com with SMTP id
- 38308e7fff4ca-2b6a6f224a1so21657291fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jul 2023 19:54:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688698466; x=1691290466;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=BshhhQJqIsAHeX3pfDZU1Y6/saVTrDYYJ1jx8K4CJvk=;
- b=VAKZeceR51k6lGUnID51VBm2wNPfhEUnayBwD3mDy2P9J5Bn1dQbsTcavEtaCobfpz
- w5jxdsnOiYUV+fhWkOVOrfXoDdPb/kGJB8fNK//h7lpIs1sQ+Gm3KH+8bB6CMfuE0FFq
- yF71y/l5cUIyipnmETIMEB5i/hLLaQ7nK4scVsGqNrMPf4ToG5++d2jBB8ZSDfxOM3ob
- 52idXcuxxmhXwjQbfwKOJe4+ZdlKYup6O03GFh/7rq6S/dGyfKk6x4Hw9LqAt1NstvMr
- dyLRVVtyDIKSP/Kv2DcBIUJaizUJ67Fzxtdgy6NPPGfuO1As0lVXZL/bsLPGDYIvUDms
- 7eQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688698466; x=1691290466;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BshhhQJqIsAHeX3pfDZU1Y6/saVTrDYYJ1jx8K4CJvk=;
- b=dbhTSJuSmc7kGi375O9aOKUaXBaH6pMuwqK9aN0YZHVrZhdI07Y5v2do2Vg7Ej4hfn
- AS/ACu5G6pk5DW+QxKjm1VP2K2C9TDe9gJxTuaiADxxfOA48yBH7jMWv+x/E2VPIm5kL
- YvnSg5GKPRgASG0r0w9lXsyiMVNYQX/1wuLkNmj6WldHy2NVPeTz80wpkm4QwOT9RzH8
- f32oSOxxNoCJBun7wnVpMrFTeyWlPWdNIRfb7vlUVSFzi0Nl0Omj5nd98+qlarZVPnjK
- VG13u/fSNzZsZLWq030cWwBRbwqq5JbrNHgGtx7FeRYB+Hod6WrnvwSUQ3tjm9zQsVAP
- ZMnA==
-X-Gm-Message-State: ABy/qLYeSfS5r1UY/xnG6cVIfya0DHEDDsuUs64VT8Hkwv42GZDU9Pc2
- 33UUCl+FFUo/WEliqAsYNfwsXA==
-X-Google-Smtp-Source: APBJJlHE9dYDz/MGiLwUpu1uwr7H2NMzt9Ce9ojtDAH7oIff0b4Syt5fwSS723G9EAV9/Yd+4/Rcug==
-X-Received: by 2002:a2e:3c0a:0:b0:2b6:d77b:92b8 with SMTP id
- j10-20020a2e3c0a000000b002b6d77b92b8mr2603943lja.16.1688698466471; 
- Thu, 06 Jul 2023 19:54:26 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- h19-20020a2eb0f3000000b002b6a85a7292sm575076ljl.19.2023.07.06.19.54.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Jul 2023 19:54:26 -0700 (PDT)
-Message-ID: <fa8f72dd-8d74-e941-1b4e-2464a9034424@linaro.org>
-Date: Fri, 7 Jul 2023 05:54:25 +0300
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F4D110E503
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 03:04:20 +0000 (UTC)
+Received: from [192.168.2.30] (109-252-155-235.dynamic.spd-mgts.ru
+ [109.252.155.235])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 97D456606FD3;
+ Fri,  7 Jul 2023 04:04:18 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1688699058;
+ bh=WlPyb9wIxpGCEB+59+FdDYT9Htdmlii/t2gcpGZKEpk=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=UyVUewJR3GpXemdeQaqNItouLGQhC1DRnhwV3q6rUalfSqb95KgUbL/FS0uGOQ/dq
+ Fa9ChTtQ1E/iVZNEV+1adadA7J0QZNQZr7ZADaNiZbKrhr/7c3j0/VquRKaEXkHG1o
+ 8sjtvI+sizrmjDWUF8JBKNtNP9e/R1A26v8quq8pSGDymhOrnB/Y8F/d6wxbFItTdD
+ ScLo4ogS/4tM6U3efCXplzhUdfc4453asPpbWHbHL4Xo1gKzJwg9bc640qhlIuSamK
+ 3UeuvKIxnRjeAfYm3QnIGKBQgsYgNFldI/BB987U6jmuFZF/2qUHZg5zw3+wHNnPc1
+ 7166VDhXu0XRA==
+Message-ID: <77c241ff-b3b6-d399-59db-0291dc9d2812@collabora.com>
+Date: Fri, 7 Jul 2023 06:04:16 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [Freedreno] [PATCH 07/12] drm/msm/adreno: Move speedbin mapping
- to device table
-Content-Language: en-GB
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20230706211045.204925-1-robdclark@gmail.com>
- <20230706211045.204925-8-robdclark@gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230706211045.204925-8-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Thunderbird/102.11.1
+Subject: Re: [PATCH v2] drm/virtio: conditionally allocate virtio_gpu_fence
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: Gurchetan Singh <gurchetansingh@chromium.org>,
+ dri-devel@lists.freedesktop.org
+References: <20230628155838.589-1-gurchetansingh@chromium.org>
+ <0b96a5cc-1855-1d83-a559-f87a1556f137@collabora.com>
+ <b3392f4d-a9f7-9ef9-4201-38575fc758c0@collabora.com>
+In-Reply-To: <b3392f4d-a9f7-9ef9-4201-38575fc758c0@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,76 +59,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org
+Cc: kraxel@redhat.com, acourbot@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/07/2023 00:10, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
+On 7/7/23 05:53, Dmitry Osipenko wrote:
+> On 7/7/23 05:49, Dmitry Osipenko wrote:
+>> On 6/28/23 18:58, Gurchetan Singh wrote:
+>>> @@ -168,9 +168,13 @@ static int virtio_gpu_init_submit(struct virtio_gpu_submit *submit,
+>>>  
+>>>  	memset(submit, 0, sizeof(*submit));
+>>>  
+>>> -	out_fence = virtio_gpu_fence_alloc(vgdev, fence_ctx, ring_idx);
+>>> -	if (!out_fence)
+>>> -		return -ENOMEM;
+>>> +	if ((exbuf->flags & VIRTGPU_EXECBUF_FENCE_FD_OUT) ||
+>>> +	    ((exbuf->flags & VIRTGPU_EXECBUF_RING_IDX) &&
+>>> +	    (vfpriv->ring_idx_mask & BIT_ULL(ring_idx))) ||
+>>
+>> Looks like there is a problem here. The virtio_gpu_fence_event_create()
+>> doesn't check whether VIRTGPU_EXECBUF_RING_IDX flag is set, so it's
+>> possible to trigger NULL-deref in that function if userspace will set
+>> ring_idx_mask=1. Perhaps virtio_gpu_fence_event_create() need to be
+>> changed to check the flag presence.
 > 
-> This simplifies the code.
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->   drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 171 ++-------------------
->   drivers/gpu/drm/msm/adreno/adreno_device.c |  51 ++++++
->   drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  25 +++
->   3 files changed, 92 insertions(+), 155 deletions(-)
+> Or check whether fence is NULL
 
-
-Interesting hack, I'd say.
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-Minor nit below.
-
-> 
-
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> index d5335b99c64c..994ac26ce731 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> @@ -72,8 +72,33 @@ struct adreno_info {
->   	u32 inactive_period;
->   	const struct adreno_reglist *hwcg;
->   	u64 address_space_size;
-> +	/**
-> +	 * @speedbins: Optional table of fuse to speedbin mappings
-> +	 *
-> +	 * Consists of pairs of fuse, index mappings, terminated with
-> +	 * UINT_MAX sentinal.
-> +	 */
-> +	uint32_t *speedbins;
-
-Would it be better to explicitly list this as pairs of uint32_t? And 
-then use braces in ADRENO_SPEEDBIN initialisation.
-
->   };
->   
-> +/*
-> + * Helper to build a speedbin table, ie. the table:
-> + *      fuse | speedbin
-> + *      -----+---------
-> + *        0  |   0
-> + *       169 |   1
-> + *       174 |   2
-> + *
-> + * would be declared as:
-> + *
-> + *     .speedbins = ADRENO_SPEEDBINS(
-> + *                      0,   0,
-> + *                      169, 1,
-> + *                      174, 2
-> + *                  ),
-> + */
-> +#define ADRENO_SPEEDBINS(tbl...) (uint32_t[]) { tbl, UINT_MAX }
-> +
->   const struct adreno_info *adreno_info(struct adreno_rev rev);
->   
->   struct adreno_gpu {
+Actually, maybe this code shouldn't check VIRTGPU_EXECBUF_RING_IDX flag
+at all. This flag tells which ring to use fo submission, but not which
+ring to poll. Please check and correct it in v3.
 
 -- 
-With best wishes
+Best regards,
 Dmitry
 
