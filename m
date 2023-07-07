@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61F6974B0B4
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 14:27:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3947274B0B5
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 14:27:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4122210E082;
-	Fri,  7 Jul 2023 12:27:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9380D10E563;
+	Fri,  7 Jul 2023 12:27:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA65410E082
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 12:27:05 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-3fbc244d384so20023075e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Jul 2023 05:27:05 -0700 (PDT)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E7FC10E563
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 12:27:24 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-3fbfcc6dae4so8931795e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Jul 2023 05:27:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1688732824; x=1691324824;
+ d=gmail.com; s=20221208; t=1688732842; x=1691324842;
  h=user-agent:in-reply-to:content-disposition:mime-version:references
  :message-id:subject:cc:to:from:date:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nciTqFzq3m83C37bVuS25/vbGoA9jD+37yyxJfMtABw=;
- b=ZNIHElwkb0VEXSHoF0tGuHcp1TVifo58gxj5pt5t6hd0iqJUb6JD2ugaZdUNiEKeHP
- Putj1KHdjJFh9rxJLYktjlUirzCROnaJNFs93GCLVYv1+qerITfgn2VkTwnp0ID2gmmC
- zzvD3TiQ9GqUfgL9o8TAlB9SPIeVEu6ph+aQ3lY61FlRVDDxLQVuJOJlCTIhDcL0tJ6+
- kaMiCxDFGphUaqkYlWQufcA/+v711O7RHzcIVoxe5mCpFJvQDOwsp2qUh6Ys+1hQUMJU
- St3j/5j9fPEmDSPdC2tnSRFE999WBcD0c9afnKBT9koaKtVfVrpG1uh7mw5q/HJbhL4d
- QEwA==
+ bh=miiLkM0CrGFVGmHvIpnji0OMSUMh4Pbjaf/A3Rfnl5o=;
+ b=Vu5HWx9u3V9rXjZ4b4cB27G2d1VvXosrTKjM62C0xR+Vm1RTEjQfsWlLhODdnfh+tA
+ NB3rn89cWz4qLytgjearKzt0ClfhXfJXOJbnfO/iFeEgZvk8pxVUUnjyIw83CYflUfLl
+ DD5J8sYd1Qe5cyuYg4DSfwfYG4eurGDn8/X42i+kCBp4m9jhmUBEEM5i0bS4xukKzwD3
+ hTqZTPjM2DaiNfyEbUk8TRaerLnlcF2ftVtmkhsx9PGW86QFBsnn6nCasIfEqjesNfnx
+ bbyRddGR1ejbebLA3tT3JdUtF3RG+tCCBzSkD+dvKTOFKaFudZ51V4MHlORZNPpyiexf
+ /yAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688732824; x=1691324824;
+ d=1e100.net; s=20221208; t=1688732842; x=1691324842;
  h=user-agent:in-reply-to:content-disposition:mime-version:references
  :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nciTqFzq3m83C37bVuS25/vbGoA9jD+37yyxJfMtABw=;
- b=Zn2ixERvYgxMcxW7IEzsga6sF3vOygSx0X+PA8lziC2O36rXDbYolZzU2PRvB66cs2
- c/bPwZUq+8sT1h3tZj8V/fCrmr18wJCNr7qA05ISYL3IgQDs++Hh/esTTRg9oipZmrZg
- vTfEFCdu5EJRmvcOxi++4tVRkgqRheCfJP/M7RiIw72liLeJM7nYxa7AFQOR+lSrNHTu
- KvKjWWSY0yHqZPqLJH/oXdUuV+9pHDWOBGYLhSAlYzPlp/iZVS328xBS27CtP2cdtD6c
- SFW6A+0P3hk640FWdLBer8ktmSr68hJdQt5GOaMy6h9+mczENYDtqeT5ytHh8FbPBJIA
- DZJA==
-X-Gm-Message-State: ABy/qLZ0zO4LzflVrfOibM8IWvyyi+gpkZ84t+GYPKvFBW7ph//9LmSo
- 42TB7V6cxqr442s0pimOuJY=
-X-Google-Smtp-Source: APBJJlG4wejAtuzFwuAno7AbNiD6c/xCroAdDwnXIE0jz7PtmMPhUKO4Rc5+t/vC7H7oMYbYpfu0iw==
-X-Received: by 2002:a7b:cc9a:0:b0:3f9:c0f2:e1a4 with SMTP id
- p26-20020a7bcc9a000000b003f9c0f2e1a4mr3680341wma.34.1688732823578; 
- Fri, 07 Jul 2023 05:27:03 -0700 (PDT)
+ bh=miiLkM0CrGFVGmHvIpnji0OMSUMh4Pbjaf/A3Rfnl5o=;
+ b=BwxtT5162RS6FfWLbO3gWNEFis9XUrGLGkGxE6EgyCJ6DNVKIz/VWb38HiSgPAHUkB
+ 3vVo5oXGyr0hJaRac6Uqr2N3/f6dichQXOYKKwXAPwt+qQ8QD7CK5wdAdLRYzrcG4S9R
+ je1YOPdR4tr/R7KHnmZ2emz7FlTA0/a7SJJl1TPP/CUE05RoiYlnzfV4FsVha2Eg8LKJ
+ j9H24DbHVABJhO/G5w2gvjO6y9LPEMaQH0fNsH7zC7g3orSIonz0mWxkBLFGfFP8oj9S
+ yDHQEuDHJVTer4+fGSJgQssMcbeKL3ilmNtUQRIT1KG0Jx1b0Pb9TIJg8jaagibDyWFB
+ vGpQ==
+X-Gm-Message-State: ABy/qLb9RB+72SgDtvCRdnb2cGYPcszv4dpc0wvX3YUPP3EijSLY8SMP
+ 4wrwlDiGOFTbhf/VQMHsLwg=
+X-Google-Smtp-Source: APBJJlF7fR1W+pHh1Mzn9BUQbJN/Uj+O9uypICWZaJN5U8ZkOD+qBbjYftweSghkV2agxYEfbczIIQ==
+X-Received: by 2002:a05:600c:3654:b0:3fb:b3aa:1c8a with SMTP id
+ y20-20020a05600c365400b003fbb3aa1c8amr4260905wmq.16.1688732842067; 
+ Fri, 07 Jul 2023 05:27:22 -0700 (PDT)
 Received: from orome (p200300e41f4b7100f22f74fffe1f3a53.dip0.t-ipconnect.de.
  [2003:e4:1f4b:7100:f22f:74ff:fe1f:3a53])
  by smtp.gmail.com with ESMTPSA id
- x4-20020a05600c21c400b003fa74bff02asm2328318wmj.26.2023.07.07.05.27.02
+ c16-20020a7bc850000000b003fbb06af219sm2363613wml.32.2023.07.07.05.27.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jul 2023 05:27:03 -0700 (PDT)
-Date: Fri, 7 Jul 2023 14:27:01 +0200
+ Fri, 07 Jul 2023 05:27:21 -0700 (PDT)
+Date: Fri, 7 Jul 2023 14:27:20 +0200
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 03/12] drm/tegra: Use fbdev DMA helpers
-Message-ID: <ZKgElQ7E3jN4gZv2@orome>
+Subject: Re: [PATCH v3 04/12] drm/tegra: Set fbdev FBINFO_VIRTFB flag
+Message-ID: <ZKgEqBVCkCpGyFI7@orome>
 References: <20230707083422.18691-1-tzimmermann@suse.de>
- <20230707083422.18691-4-tzimmermann@suse.de>
+ <20230707083422.18691-5-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="b6kExiNv+/vFdEiT"
+ protocol="application/pgp-signature"; boundary="ts1b/mYBCw25ZidD"
 Content-Disposition: inline
-In-Reply-To: <20230707083422.18691-4-tzimmermann@suse.de>
+In-Reply-To: <20230707083422.18691-5-tzimmermann@suse.de>
 User-Agent: Mutt/2.2.10 (2023-03-25)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,14 +85,18 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---b6kExiNv+/vFdEiT
+--ts1b/mYBCw25ZidD
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 07, 2023 at 10:31:54AM +0200, Thomas Zimmermann wrote:
-> Use fbdev's DMA helpers for fbdev emulation. They are equivalent to the
-> previously used system-memory helpers, so no functional changes here.
+On Fri, Jul 07, 2023 at 10:31:55AM +0200, Thomas Zimmermann wrote:
+> Mark the framebuffer with FBINFO_VIRTFB. The framebuffer range is
+> in DMA-able memory and should be accessed with the CPU's regular
+> memory ops.
+>=20
+> v2:
+> 	* drop FBINFO_DEFAULT
 >=20
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
@@ -100,30 +104,29 @@ On Fri, Jul 07, 2023 at 10:31:54AM +0200, Thomas Zimmermann wrote:
 > Cc: Thierry Reding <thierry.reding@gmail.com>
 > Cc: Mikko Perttunen <mperttunen@nvidia.com>
 > ---
->  drivers/gpu/drm/tegra/Kconfig | 2 +-
->  drivers/gpu/drm/tegra/fbdev.c | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/tegra/fbdev.c | 1 +
+>  1 file changed, 1 insertion(+)
 
 Acked-by: Thierry Reding <treding@nvidia.com>
 
---b6kExiNv+/vFdEiT
+--ts1b/mYBCw25ZidD
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmSoBJUACgkQ3SOs138+
-s6GxAg/9FUZU5bvbmvYmw09JA2QTqFtvZ7EfyPB2eYDw9cyXBHv3+N+JxLHYyUUM
-PVsoWw/szCPU9rvFRcm+MmakHkpxuoBlrB29uB8TSdKDzyYdSUFkRMdugKAcz78L
-zjXIXooqgZbObY/kVQzMHcp9411++fwAv2jcB/DtlzrZii/0aNug6TduPIxxltm0
-OPe4kESRnb+pR+ikU5+OQ2WHdDDxINoYzrJbHf5zfHWclseshrWG9ERttjgL9usE
-7pthMg02TSpbQOI34O3z7DUZvA2/HgrqQFY0RvMuJ2MqmBpjY32b2R/WAf6FZ8Rv
-5yFsb/3fo5UbHZiYTuY2lWo3zJ8AFYT5cgHviyBXqFbAqYwmLM6L5jUrNO0j69OW
-d2KUNHiCPkUpx/vqHWUB6Aw1BHkUnNy4r4jamCwR4gcvsJKkdV8+dRA1B7Eh9jac
-Obb9gVb0JL9ukBrGOGTTh0tGI1WvkwEeVmEkNEhCvLMfK1S8PJoBcLIdvdWcZznU
-JQxHJ3u0R0IZmzo2VhhHs1h7EbGNmHStvKFWlEIDNqh9xAv+zMiADzr/D8bX4db6
-wuqbLsRAkedumpk1TjN55hgz88Mhc5LVyqMjSxJXzvH7+LeBvX3KOauwi1GYoTO4
-e6UWuA8iMN5+WpskFdl96BjlRYjfpCLEYnhMalMJFUKOFdzIqrE=
-=CXji
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmSoBKcACgkQ3SOs138+
+s6GeKg//UisIKLJ5ssVJTPCXmJuMbWZch/UGKG7Zu3f04RzbsdSVXFaPDCOgDyQJ
+gBZafMU0tRBU7fDa+0HCqcD9ojEDAz1QvsrjSrkmONRrh6LrOHCt4LUsia7jvXq/
+dk4apSMa5apZSxNpDj8JxQtKjuYSu6kyZRHU7xLskuZf+Tm/YfxQUeKcVhgCRWWf
+s3Gwnpzb5dORUnYa24l3mZYkCv2aXmv+C4/dBd3nYZ7HwWFlIr+TLKLo765BbEKe
+8BUA0uQYTK5hrJap32b6x6r+Qr9LYInwYFfFqucXc2L8f36kpDJtLGbMetYKWsXK
+YKI+gXRtYD/BvPf2BlPNKx4fpSrrHnv91U71pcsY1Y2N+dj2PSt3gZbuRH/q2IYa
+sqmFaDKfm+Y9asUP6oZ5IrKOK4Z1Jy8jy/RN3ll06elD6EFlF9gYchuJ6b0dx40u
+hNiLSOI0yQ8h1S+8D1NdeFJ8WtExkLuImoIf/I/h2Aw8zp3pnl+if2tRzm5k2UmH
+3w/QpxbkqzRGmKnfQIPPQQnFJ3h7JtBX1i+EE0BxOBm0oXDPUJFUmU/rTeHWy6PI
+joVQF8R7AJhj08s+7d/jJVbVn1QHV9v1ff40XD6V+5Ankg48cKlwEJCeOL0GEYoR
+QbknvsvKNaGObh+/1LOkqr1qOj+jhXr1WLEhZdEzN0W9OrUDULU=
+=vRiE
 -----END PGP SIGNATURE-----
 
---b6kExiNv+/vFdEiT--
+--ts1b/mYBCw25ZidD--
