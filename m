@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DF5B74B47B
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 17:43:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EFE174B4AC
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 17:53:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CADEE10E5B9;
-	Fri,  7 Jul 2023 15:43:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AF1A10E5B8;
+	Fri,  7 Jul 2023 15:53:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
- [IPv6:2607:f8b0:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E130410E5B5
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 15:43:41 +0000 (UTC)
-Received: by mail-pf1-x42a.google.com with SMTP id
- d2e1a72fcca58-666e5f0d60bso1260244b3a.3
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Jul 2023 08:43:41 -0700 (PDT)
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
+ [IPv6:2607:f8b0:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 666DD10E5B8;
+ Fri,  7 Jul 2023 15:53:33 +0000 (UTC)
+Received: by mail-oi1-x233.google.com with SMTP id
+ 5614622812f47-3a3a8d21208so1882768b6e.0; 
+ Fri, 07 Jul 2023 08:53:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1688744621; x=1691336621;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=4+2aqhdyJ9CC3HhRBHLYi6gjI+QLGM2TOWGh+d6Y1FI=;
- b=WEsBuN8tWNaZZ/GsTWcW8mH2Q0A/+H+UQYENqbJfh5tZ52uu90ztK9wGFgVERn0C4W
- Kyf6WgNoYhK46gGDX2BR+fVGPVwphjTz5HPVf3PJolKg3/lMKmbDI66WY8YYnUOB+RJr
- zXvfxKm1JXyy67WdbB0nUAV5UWcFOHD+uSBXQ=
+ d=gmail.com; s=20221208; t=1688745212; x=1691337212;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nCL53aP+hS7tciKjFD7blcuEy36DSLX5ukiouHjZxlI=;
+ b=MD0SFOGCQwWl8ocgrw6iXF5GRCdimdJN1uKsubkVald2jn73QqUSrs2jfiZ9sW2j3D
+ ebk7TnC9/dCgGGz5BGLEmEa3vKzJzE37uk+57QETK52SlEJ7SnFYfjj6hGgN2ytCUgYa
+ QpU7ZRFBU30/aL3xfLrxhqyciH8GCvA7ZYjSQhAZTtazVOAmbMkaUOFm11QnGfhYUUGU
+ dHhnfS0m2oIOQOPIdGKq+UF8Vl00Z4R+4g6jynhIT3nCyB2YAmvWWQDj+seEDf61Lc4d
+ 95xJhRVU6K9C2maYkCKXfR4M4z4ON1tKB78m4ZEg8/VgxmHr+9KNL+q41AiN8ewg9ljk
+ uk0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688744621; x=1691336621;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20221208; t=1688745212; x=1691337212;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4+2aqhdyJ9CC3HhRBHLYi6gjI+QLGM2TOWGh+d6Y1FI=;
- b=gjWN4+rlLAtiXnK6Z3EDvFCwcHYyGZdjc69FdlslJpaFAJdsEQ/md23r03UmlTjozB
- 1vdM+h73iAUdubkV5s8gc6ut+2pmPLWNpXK3NPEPXxaywc94O+ETpequRH7s89i0vQ2x
- psh/P992tgedWH+1QomHRAhccHN83sO5Rz2mUoMPUQKxwNvITSmx4tGmoF3l39+Xh3dJ
- W48Xp8sdh2+7k6+U3BoD5lqQniCc/e15ZlgFf9v8j9wp1bzg5/xG3G3DgJ/zPOkUECcD
- bRJFJQ88dSQtsbV3AVHAOppJOsjtsfi2i/jlORh0YIojLi8RyEpG0k9lcyqfSVxv1TCc
- S47A==
-X-Gm-Message-State: ABy/qLY8ahvrMqHlL8DpT+Lxv03lCPCuUkijlJbtmufcc4D2MVMTILsz
- YDjBtJ8FVcxFUilJyS3gdPQNdPSW7Zb1z8IsN64=
-X-Google-Smtp-Source: APBJJlH+tkZIzc+Xb6PFR0rPyJqNzxX2OyJp9oGB+tDDpnqTJXpX8mZcFx6Sf47xGNbAFvxdtWb+/g==
-X-Received: by 2002:a05:6a00:230b:b0:662:f0d0:a77d with SMTP id
- h11-20020a056a00230b00b00662f0d0a77dmr5514959pfh.30.1688744620722; 
- Fri, 07 Jul 2023 08:43:40 -0700 (PDT)
-Received: from gurchetansingh0.mtv.corp.google.com
- ([2620:15c:a7:2:dbc3:2cd5:1afc:3f78])
- by smtp.gmail.com with ESMTPSA id
- t24-20020aa79398000000b00675701f456csm3032397pfe.54.2023.07.07.08.43.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jul 2023 08:43:40 -0700 (PDT)
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-To: dri-devel@lists.freedesktop.org,
-	dmitry.osipenko@collabora.com
-Subject: [PATCH v3] drm/virtio: conditionally allocate virtio_gpu_fence
-Date: Fri,  7 Jul 2023 08:43:37 -0700
-Message-Id: <20230707154337.620-1-gurchetansingh@chromium.org>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <77c241ff-b3b6-d399-59db-0291dc9d2812@collabora.com>
-References: <77c241ff-b3b6-d399-59db-0291dc9d2812@collabora.com>
+ bh=nCL53aP+hS7tciKjFD7blcuEy36DSLX5ukiouHjZxlI=;
+ b=HSxAcGQC1vCXqwKM3l6/FKOAJ2aEVjW4deqQSA+bvY1huaUKnYtNREMrGhyzFCsAqE
+ W50x+CSBJAU0mkv9tfm+eHs/jf7jRl48xMQ5EQ2rhALfC0tY8+e8eMW2y7cevrYHJQQw
+ xNtSf36Rf8djs2hbslsamoN4wSlClSI8IxmmfRpCiLVZV/0CU9vq+APA7kKqDT++qJhc
+ x3TSIghW03AFwD/hptYQ5JM5SuvvYiHI3XKxwluBXaomEzCCFo64Qwm2K49wPdc3+1yF
+ ZDBKalZcuJPfPP6WX6ODvj+Q4u7bGQlO2HExfNMUKVIkXqTiUWZ6fZ08R6kFMTefsJCB
+ aPFw==
+X-Gm-Message-State: ABy/qLY4BHCAdcFgWK/9Ms2ayWefLwYYVZBH3rucoeIqtsjEHEdNi+NX
+ zJ9UVhDXeOuLH+6cQt0/UKVZK8KBjTRi4EJWeXA=
+X-Google-Smtp-Source: APBJJlEMVoC5fgJnH4032EslDGIrvj1PozPWtG1GU/u4PiOj3BGo1Mq7H5JFzTWtaNqWO+MPSYBtw7CN6so33VTDo0g=
+X-Received: by 2002:a05:6808:2126:b0:3a3:e61a:c7d8 with SMTP id
+ r38-20020a056808212600b003a3e61ac7d8mr4008620oiw.59.1688745212194; Fri, 07
+ Jul 2023 08:53:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230706211045.204925-1-robdclark@gmail.com>
+ <20230706211045.204925-6-robdclark@gmail.com>
+ <60df0f9e-9a9c-e55b-6cab-3d89dd90bcdb@linaro.org>
+In-Reply-To: <60df0f9e-9a9c-e55b-6cab-3d89dd90bcdb@linaro.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 7 Jul 2023 08:53:21 -0700
+Message-ID: <CAF6AEGs2EGpEaA-sP1Y8cNS5uCyL9gXbe0U3H-jPWSQt1njokw@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH 05/12] drm/msm/adreno: Use quirk to identify
+ cached-coherent support
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,90 +71,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We don't want to create a fence for every command submission.  It's
-only necessary when userspace provides a waitable token for submission.
-This could be:
+On Thu, Jul 6, 2023 at 7:29=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On 07/07/2023 00:10, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > It is better to explicitly list it.  With the move to opaque chip-id's
+> > for future devices, we should avoid trying to infer things like
+> > generation from the numerical value.
+>
+> Would it be better to push this to DT? I mean, we already have a
+> 'dma-cache-coherent' property for it.
 
-1) bo_handles, to be used with VIRTGPU_WAIT
-2) out_fence_fd, to be used with dma_fence apis
-3) a ring_idx provided with VIRTGPU_CONTEXT_PARAM_POLL_RINGS_MASK
-   + DRM event API
-4) syncobjs in the future
+I suppose that would also handle the case where some a6xy are coherent
+but others aren't..  OTOH it isn't the case that dma operations are
+coherent, just that they can be.  It depends on smmu pte bits.  Maybe
+that bit of pedanticism doesn't matter since we mostly bypass the dma
+api, but we still do need to (ab)use dma_map_sgtable/dma_unmap_sgtable
+for cache ops
 
-The use case for just submitting a command to the host, and expecting
-no response.  For example, gfxstream has GFXSTREAM_CONTEXT_PING that
-just wakes up the host side worker threads.  There's also
-CROSS_DOMAIN_CMD_SEND which just sends data to the Wayland server.
+BR,
+-R
 
-This prevents the need to signal the automatically created
-virtio_gpu_fence.
-
-Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
----
- v2: Fix indent (Dmitry)
- v3: Refactor drm fence event checks to avoid possible NULL deref (Dmitry)
-
- drivers/gpu/drm/virtio/virtgpu_submit.c | 28 +++++++++++++------------
- 1 file changed, 15 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/gpu/drm/virtio/virtgpu_submit.c b/drivers/gpu/drm/virtio/virtgpu_submit.c
-index cf3c04b16a7a..004364cf86d7 100644
---- a/drivers/gpu/drm/virtio/virtgpu_submit.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_submit.c
-@@ -64,13 +64,9 @@ static int virtio_gpu_fence_event_create(struct drm_device *dev,
- 					 struct virtio_gpu_fence *fence,
- 					 u32 ring_idx)
- {
--	struct virtio_gpu_fpriv *vfpriv = file->driver_priv;
- 	struct virtio_gpu_fence_event *e = NULL;
- 	int ret;
- 
--	if (!(vfpriv->ring_idx_mask & BIT_ULL(ring_idx)))
--		return 0;
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> >   drivers/gpu/drm/msm/adreno/adreno_device.c | 23 +++++++++++++++------=
 -
- 	e = kzalloc(sizeof(*e), GFP_KERNEL);
- 	if (!e)
- 		return -ENOMEM;
-@@ -161,21 +157,27 @@ static int virtio_gpu_init_submit(struct virtio_gpu_submit *submit,
- 				  struct drm_file *file,
- 				  u64 fence_ctx, u32 ring_idx)
- {
-+	int err;
-+	struct virtio_gpu_fence *out_fence;
- 	struct virtio_gpu_fpriv *vfpriv = file->driver_priv;
- 	struct virtio_gpu_device *vgdev = dev->dev_private;
--	struct virtio_gpu_fence *out_fence;
--	int err;
-+	bool drm_fence_event = (exbuf->flags & VIRTGPU_EXECBUF_RING_IDX) &&
-+			       (vfpriv->ring_idx_mask & BIT_ULL(ring_idx));
- 
- 	memset(submit, 0, sizeof(*submit));
- 
--	out_fence = virtio_gpu_fence_alloc(vgdev, fence_ctx, ring_idx);
--	if (!out_fence)
--		return -ENOMEM;
-+	if ((exbuf->flags & VIRTGPU_EXECBUF_FENCE_FD_OUT) || drm_fence_event ||
-+	     exbuf->num_bo_handles)
-+		out_fence = virtio_gpu_fence_alloc(vgdev, fence_ctx, ring_idx);
-+	else
-+		out_fence = NULL;
- 
--	err = virtio_gpu_fence_event_create(dev, file, out_fence, ring_idx);
--	if (err) {
--		dma_fence_put(&out_fence->f);
--		return err;
-+	if (drm_fence_event) {
-+		err = virtio_gpu_fence_event_create(dev, file, out_fence, ring_idx);
-+		if (err) {
-+			dma_fence_put(&out_fence->f);
-+			return err;
-+		}
- 	}
- 
- 	submit->out_fence = out_fence;
--- 
-2.41.0.255.g8b1d071c50-goog
-
+> >   drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  1 +
+> >   2 files changed, 17 insertions(+), 7 deletions(-)
+> >
+>
+> --
+> With best wishes
+> Dmitry
+>
