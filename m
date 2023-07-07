@@ -2,76 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E271A74ABB7
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 09:18:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9FB774ABD5
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 09:23:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC70010E517;
-	Fri,  7 Jul 2023 07:18:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 672CD10E518;
+	Fri,  7 Jul 2023 07:23:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E56F710E517
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 07:18:13 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id
- ffacd0b85a97d-3144098df56so1680609f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Jul 2023 00:18:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688714292; x=1691306292;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=bCwoi876EKAecpckR+Py42F8u1vBxeSlNz7kEWIyaPc=;
- b=YLKJOTomKcga8LSNNYm85p5UwI/HaFsuSIZCISBbizjNSIKpY9hx4rkXXuKCZpntpf
- QUlXQ4+E+qj6AxUyZN9dntFfLu1W629l5zcjyC8miXsC1Y2mCefx77iYdYXAmbiAVP9U
- FKiAF+NeYGlIVMSTBKC5yAeuGyICL0O2dAW7pqDiLZC6RR9X9JrxMXA9Kquyx0zXJsxg
- UQS/ERBrOcdah16s/MInX5npjzhXKmoLsOurH+8Xz+dWaXa+Ue7ryXLlb437owv2Hncv
- hmJ6XiXtkP8qdilVXTO4lYmDOeSSrUb4F9dS1999wmJO0P13RJGDLhxLjy7NCEc350Sn
- fDLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688714292; x=1691306292;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=bCwoi876EKAecpckR+Py42F8u1vBxeSlNz7kEWIyaPc=;
- b=PZ5VN0YpAqFSxMXc36dM760UJgnoCNXVnLGb+7/vweZsXhLUoo9GQzY7wl3dBjXGNH
- Jst0na73V1zUkuARun49TWg95LC5NHfMHSdJg+gn7zF5iqE/bnpCtiMoTEf87erhj6nE
- 9yXMv4sBSTd0vzXt3mAKXdAcXb3ct+YAg6crg3F6Su/rWmfOEvV63DFeYYxiWpK4Xc7f
- A27DJsl2Ws5+m4a2ZpMxBngjZ/7CzWDLwCTk/Cnb/fsqkIH5lV2k516ZQHnraiyXabsQ
- yFEElrVkw5hhHYUkIpw4fq9nS6dFbFavTSLUELlBjhRSXrc3MYaJpTV3XEKnhxZt6qGS
- x9Yw==
-X-Gm-Message-State: ABy/qLbmPf9ApHnuTpB2/bHco2Nf9KYf1da/j1BybKYtIjpuC1YftUqB
- y0G7N2gCl3V4163jegxIvIjKpA==
-X-Google-Smtp-Source: APBJJlG3Ohe9X+Ts1DuAivOoFi5TO38wSn/K9J8fgqQll2hX5uulv+S6/VxxHVszDAStVbcil2+KVA==
-X-Received: by 2002:adf:e550:0:b0:314:2e77:afec with SMTP id
- z16-20020adfe550000000b003142e77afecmr3593733wrm.57.1688714292009; 
- Fri, 07 Jul 2023 00:18:12 -0700 (PDT)
-Received: from [192.168.27.65] (home.beaume.starnux.net. [82.66.176.246])
- by smtp.gmail.com with ESMTPSA id
- k6-20020adfd846000000b00314315071bbsm3699097wrl.38.2023.07.07.00.18.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Jul 2023 00:18:11 -0700 (PDT)
-Message-ID: <d5fb8106-b8f3-0acf-1267-d4d6d0860e25@linaro.org>
-Date: Fri, 7 Jul 2023 09:18:09 +0200
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4E0610E516;
+ Fri,  7 Jul 2023 07:23:18 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 9977D1FE7B;
+ Fri,  7 Jul 2023 07:23:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1688714595; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vCCnhZV0wEJpff3h3x/Ypcli1t4YjDj3+AqnyUyyuv8=;
+ b=ENq70gwRS5IiT1DppbmNNakHKnwY7451FwTwVFsxVwbmQWglrzyiLwUf+7FWmKoHgPDtX5
+ ss8oOIp+WbAlKR2OT/7kwSyxFo8zqHQ6gu9sQLktxlLDr/G+RXBaxsC4GRBVGBQlbbS7ry
+ NUC/Yo93Fgu8iACfMw3XH6VYME9lZZA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1688714595;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vCCnhZV0wEJpff3h3x/Ypcli1t4YjDj3+AqnyUyyuv8=;
+ b=NLtwsXhUWyJa1MAmykOTHpBONJjpyA1fL93Mf/l8/OIMsJwVnJMfJSQU6zCbA2C2dXJShX
+ SSLBy6Z8yLiCyXBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5CB6C139E0;
+ Fri,  7 Jul 2023 07:23:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 09SUFWO9p2RNGwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 07 Jul 2023 07:23:15 +0000
+Date: Fri, 7 Jul 2023 09:23:13 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20230707072313.GA7529@linux-uq9g>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 2/2] drm/bridge: lt9611: Do not generate HFP/HBP/HSA and
- EOT packet
-Content-Language: en-US
-To: Amit Pundir <amit.pundir@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20230403221233.500485-1-marex@denx.de>
- <20230403221233.500485-2-marex@denx.de>
- <CAMi1Hd0TD=2z_=bcDrht3H_wiLvAFcv8Z-U_r_KUOoeMc6UMjw@mail.gmail.com>
- <CAMty3ZBNFu=f-FS4YFN4wfmiTuk=48nna-vub1eMYwidDt+msg@mail.gmail.com>
- <CAA8EJppbdiUz5m+9EAPnFb916DaS_VKWd30c7_EPWjuid8rtqQ@mail.gmail.com>
- <CAMi1Hd2G5PJmz4wpO1wbdqKd0FA8LBgvRDv2u5ZYAMb5s6Kt0A@mail.gmail.com>
-Organization: Linaro Developer Services
-In-Reply-To: <CAMi1Hd2G5PJmz4wpO1wbdqKd0FA8LBgvRDv2u5ZYAMb5s6Kt0A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,90 +64,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: Marek Vasut <marex@denx.de>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Robert Foss <rfoss@kernel.org>,
- Linux regressions mailing list <regressions@lists.linux.dev>,
- Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Michael Walle <michael@walle.cc>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- freedreno <freedreno@lists.freedesktop.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Dave and Daniel,
 
-On 06/07/2023 11:20, Amit Pundir wrote:
-> On Wed, 5 Jul 2023 at 11:09, Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
->>
->> [Adding freedreno@ to cc list]
->>
->> On Wed, 5 Jul 2023 at 08:31, Jagan Teki <jagan@amarulasolutions.com> wrote:
->>>
->>> Hi Amit,
->>>
->>> On Wed, Jul 5, 2023 at 10:15â€¯AM Amit Pundir <amit.pundir@linaro.org> wrote:
->>>>
->>>> Hi Marek,
->>>>
->>>> On Wed, 5 Jul 2023 at 01:48, Marek Vasut <marex@denx.de> wrote:
->>>>>
->>>>> Do not generate the HS front and back porch gaps, the HSA gap and
->>>>> EOT packet, as these packets are not required. This makes the bridge
->>>>> work with Samsung DSIM on i.MX8MM and i.MX8MP.
->>>>
->>>> This patch broke display on Dragonboard 845c (SDM845) devboard running
->>>> AOSP. This is what I see
->>>> https://people.linaro.org/~amit.pundir/db845c-userdebug/v6.5-broken-display/PXL_20230704_150156326.jpg.
->>>> Reverting this patch fixes this regression for me.
->>>
->>> Might be msm dsi host require proper handling on these updated
->>> mode_flags? did they?
->>
->> The msm DSI host supports those flags. Also, I'd like to point out
->> that the patch didn't change the rest of the driver code. So even if
->> drm/msm ignored some of the flags, it should not have caused the
->> issue. Most likely the issue is on the lt9611 side. I's suspect that
->> additional programming is required to make it work with these flags.
-> 
-> I spent some time today on smoke testing these flags (individually and
-> in limited combination) on DB845c, to narrow down this breakage to one
-> or more flag(s) triggering it. Here are my observations in limited
-> testing done so far.
-> 
-> There is no regression with MIPI_DSI_MODE_NO_EOT_PACKET when enabled
-> alone and system boots to UI as usual.
-> 
-> MIPI_DSI_MODE_VIDEO_NO_HFP always trigger the broken display as in the
-> screenshot[1] shared earlier as well.
-> 
-> Adding either of MIPI_DSI_MODE_VIDEO_NO_HSA and
-> MIPI_DSI_MODE_VIDEO_NO_HBP always result in no display, unless paired
-> with MIPI_DSI_MODE_VIDEO_NO_HFP and in that case we get the broken
-> display as reported.
-> 
-> In short other than MIPI_DSI_MODE_NO_EOT_PACKET flag, all other flags
-> added in this commit break the display on DB845c one way or another.
+I just noticed that there hasn't been a fixes PR for drm-misc for
+some time. So here's the overdue update.
 
-I think the investigation would be to understand why samsung-dsim requires
-such flags and/or what are the difference in behavior between MSM DSI and samsung DSIM
-for those flags ?
+Best regards
+Thomas
 
-If someone has access to the lt9611 datasheet, so it requires HSA/HFP/HBP to be
-skipped ? and does MSM DSI and samsung DSIM skip them in the same way ?
+drm-misc-fixes-2023-07-07:
+Short summary of fixes pull:
 
-Neil
+ * bridge:
+   * dw_hdmi: Connector fixes
 
-> 
-> Regards,
-> Amit Pundir
-> [1] https://people.linaro.org/~amit.pundir/db845c-userdebug/v6.5-broken-display/PXL_20230704_150156326.jpg
-> 
->>
->> --
->> With best wishes
->> Dmitry
+ * ti-sn65dsi86: Fix possible use-after-free
+   * dma_buf:
 
+ * Fix signalling time
+   * Return errno pointers
+
+ * ipu: IRQ fixes
+
+ * nouveau: Fix usage of drm_dp_remove_payload()
+
+ * panel:
+   * simple: Fix connector type for Innolux At043tn24; Fix display
+             mode for Powertip PH800480T013
+
+ * scheduler:
+   * Wait for dependencies
+   * Fencing fixes
+
+ * ttm:
+   * Fix bulk move
+   * Fix resource leaks
+The following changes since commit 54d217406afe250d7a768783baaa79a035f21d38:
+
+  drm: use mgr->dev in drm_dbg_kms in drm_dp_add_payload_part2 (2023-06-20 16:00:09 -0400)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2023-07-07
+
+for you to fetch changes up to 00ae1491f970acc454be0df63f50942d94825860:
+
+  dma-buf: fix an error pointer vs NULL bug (2023-07-06 19:50:23 +0530)
+
+----------------------------------------------------------------
+Short summary of fixes pull:
+
+ * bridge:
+   * dw_hdmi: Connector fixes
+
+ * ti-sn65dsi86: Fix possible use-after-free
+   * dma_buf:
+
+ * Fix signalling time
+   * Return errno pointers
+
+ * ipu: IRQ fixes
+
+ * nouveau: Fix usage of drm_dp_remove_payload()
+
+ * panel:
+   * simple: Fix connector type for Innolux At043tn24; Fix display
+             mode for Powertip PH800480T013
+
+ * scheduler:
+   * Wait for dependencies
+   * Fencing fixes
+
+ * ttm:
+   * Fix bulk move
+   * Fix resource leaks
+
+----------------------------------------------------------------
+Adrián Larumbe (1):
+      drm: bridge: dw_hdmi: fix connector access for scdc
+
+Boris Brezillon (2):
+      drm/sched: Make sure we wait for all dependencies in kill_jobs_cb()
+      drm/sched: Call drm_sched_fence_set_parent() from drm_sched_fence_scheduled()
+
+Christian König (2):
+      drm/ttm: fix warning that we shouldn't mix && and ||
+      dma-buf: keep the signaling time of merged fences v3
+
+Dan Carpenter (1):
+      dma-buf: fix an error pointer vs NULL bug
+
+Douglas Anderson (1):
+      drm/bridge: ti-sn65dsi86: Fix auxiliary bus lifetime
+
+Fabio Estevam (1):
+      drm/panel: simple: Add connector_type for innolux_at043tn24
+
+Karol Wachowski (2):
+      accel/ivpu: Fix VPU register access in irq disable
+      accel/ivpu: Clear specific interrupt status bits on C0
+
+Lyude Paul (1):
+      drm/nouveau/kms/nv50-: Fix drm_dp_remove_payload() invocation
+
+Marek Vasut (1):
+      drm/panel: simple: Add Powertip PH800480T013 drm_display_mode flags
+
+Thomas Hellström (2):
+      drm/ttm: Don't leak a resource on eviction error
+      drm/ttm: Don't leak a resource on swapout move error
+
+Yunxiang Li (1):
+      drm/ttm: fix bulk_move corruption when adding a entry
+
+ drivers/accel/ivpu/ivpu_drv.h             |  1 +
+ drivers/accel/ivpu/ivpu_hw_mtl.c          | 20 +++++++++------
+ drivers/dma-buf/dma-fence-unwrap.c        | 26 +++++++++++++++++---
+ drivers/dma-buf/dma-fence.c               |  7 +++---
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c |  9 ++++---
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c     | 35 ++++++++++++++++----------
+ drivers/gpu/drm/drm_syncobj.c             |  6 ++---
+ drivers/gpu/drm/nouveau/dispnv50/disp.c   |  8 ++++--
+ drivers/gpu/drm/panel/panel-simple.c      |  2 ++
+ drivers/gpu/drm/scheduler/sched_entity.c  | 41 +++++++++++++++++++++++++------
+ drivers/gpu/drm/scheduler/sched_fence.c   | 40 +++++++++++++++++++-----------
+ drivers/gpu/drm/scheduler/sched_main.c    |  3 +--
+ drivers/gpu/drm/ttm/ttm_bo.c              | 23 ++++++++---------
+ drivers/gpu/drm/ttm/ttm_resource.c        |  5 +++-
+ include/drm/gpu_scheduler.h               |  5 ++--
+ include/linux/dma-fence.h                 |  2 +-
+ 16 files changed, 156 insertions(+), 77 deletions(-)
+
+-- 
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
