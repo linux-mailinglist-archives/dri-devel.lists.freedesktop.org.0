@@ -1,73 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF4E274B1FE
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 15:42:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FE6774B245
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 15:55:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33FC210E590;
-	Fri,  7 Jul 2023 13:42:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A567810E596;
+	Fri,  7 Jul 2023 13:55:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED85010E59D
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 13:42:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1688737371;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=I+owWNOWvEK7SZ1O/p9+BsoqrhRbp6l42ZVJTUZNbK4=;
- b=Xenq6UJn1NOjOXjCES7jHFGT/GcGEaFHCGMStAD82DrXhd5y8Z70KEr7NfwqiMKYLf/7x8
- 9jJVGvY3DGYHdkQGwDHfE2yXPoevEDJYff4qbWOjz7zONPmCGISKMyWQCT37lkCXA6Qbis
- YJ9qm6LAUgdjYpt7dhG4b/I44RiCuPw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-558-vWNp35T-M0SyFXxDq3i5ng-1; Fri, 07 Jul 2023 09:42:49 -0400
-X-MC-Unique: vWNp35T-M0SyFXxDq3i5ng-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-3faabd8fd33so11445895e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Jul 2023 06:42:49 -0700 (PDT)
+Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com
+ [IPv6:2607:f8b0:4864:20::c2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6497810E596
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 13:55:39 +0000 (UTC)
+Received: by mail-oo1-xc2f.google.com with SMTP id
+ 006d021491bc7-5634808e16eso1388393eaf.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Jul 2023 06:55:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1688738138; x=1691330138;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=n/+wx5GgG3eThZaJ2KMWHrOvcJKJp2TQJ+qHl7/vC6c=;
+ b=OkdR85yaD0eana5sji3+MrZv4YRcuVYvIvvxVXon4o/1y/YcxZxsTL9mGc4iQRA9QB
+ ovC1mBZZihMpNt3d9k8HHeYmnBPJZeKM+sYDZetsr0cxoL2bV7DM4BlyLdzfBDV8dJty
+ tFw6p1ud/vVSOuHTvKIilp1HzwctPvhtjSU0h/qwG2fHrcthVfk9ptTuygordz93aVZE
+ N69Vtl9CDZJTgrucybq0joTjxFMRBk4DO8V5XXwE8qIa/Ci277tYn4K451tf98IdiUEc
+ 5Jm8ai95LP4esve2yn7o0rpxlGFkhpBgLTrp+n5uxMYI0uOslbBptTENczJwNqyNad9O
+ LhIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688737368; x=1691329368;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=I+owWNOWvEK7SZ1O/p9+BsoqrhRbp6l42ZVJTUZNbK4=;
- b=WYxDkzGlgAj8XwW9C8QnRmvhxQtDE+AA8imBg0Cjvj3533QnXK30zpJzhiIP0w8Gvd
- TUi7kkMdCYR1Byct+yvBf9a+sUaHCX3pVS0E3Cv6tr5iWXtLyL3tawjARTRIsz5xGvig
- P+/6lWk2x3nzNUZxSBs1lq3jQNF4eXKlR42dhC8vkp4uIuVSpkkNiFyUXOBh4/YVbQt0
- 6bfIqf+LE2tjczIFM6hG6HNPCGtQ8oU8oL7PgZl1mWrILJUlZS8fUNUl5bAaPsvi30Hl
- FCh4MV7fq/Gl61AZn5/Idtz8oJWDDjkNfUlOQldw+JikTNoQHFCPdECM+Nm/woG4b9mg
- 4YSg==
-X-Gm-Message-State: ABy/qLZEUDmqbQJBdXdyPAz3RnYpopLfV7ZBigiASOxf4656jZKn/cXH
- 0XN3wooXsob9K3ZUSb2JWZ9+nwcLrfFUV1baRyumQO3aNoMx3SxXIxt7UTGXB/OaFvFh8nDXO5s
- QIDv3Q9B1Z/LqCI9blRNvnhVarI/lFETQj+tj
-X-Received: by 2002:a7b:cd85:0:b0:3fb:5dad:1392 with SMTP id
- y5-20020a7bcd85000000b003fb5dad1392mr3824011wmj.17.1688737367976; 
- Fri, 07 Jul 2023 06:42:47 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlEZxhfEH8UwFPHB4pXOYFja3GHddFsOU/EgTb58z7K38wBQ2x+vg0IaPSVH4aXqur2PYGn+xA==
-X-Received: by 2002:a7b:cd85:0:b0:3fb:5dad:1392 with SMTP id
- y5-20020a7bcd85000000b003fb5dad1392mr3823993wmj.17.1688737367817; 
- Fri, 07 Jul 2023 06:42:47 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- k12-20020a7bc30c000000b003fba92fad35sm2498874wmj.26.2023.07.07.06.42.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jul 2023 06:42:47 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Arnd Bergmann <arnd@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 4/4] vgacon, arch/*: remove unused screen_info definitions
-In-Reply-To: <20230707095415.1449376-4-arnd@kernel.org>
-References: <20230707095415.1449376-1-arnd@kernel.org>
- <20230707095415.1449376-4-arnd@kernel.org>
-Date: Fri, 07 Jul 2023 15:42:46 +0200
-Message-ID: <87edljyh0p.fsf@minerva.mail-host-address-is-not-set>
+ d=1e100.net; s=20221208; t=1688738138; x=1691330138;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=n/+wx5GgG3eThZaJ2KMWHrOvcJKJp2TQJ+qHl7/vC6c=;
+ b=gQh2H7FO9Tg/GxiRIApygxsF7uGBV/dqzj8WNAoCrqyeFRj/j6ugkPD0gUPkAe7BhL
+ /BAqvHUhU/YhGu3uw2Sxt9849vUQZ1LC5ctwE0D+glshMVcbr5dW10kPpcBJ0rq8e7k2
+ p4WKmmCVQfAmvdBzRUuFg1w0bA1kd/CYmdC+brMBGzaKIJ8IHpRsWixej2qS19DX6BpS
+ vNw1IiyGLHwwj8FPeBN5YQ6hp1os/T12Vz6twvm8Y0/YbXbIsZnInA0pZnbP2xxpH1/Z
+ l3J2iqxHrFQE06hDBiSOKd0hT5mPQXIho+xdab/fQqPbngmF+WQwkty9IoC1cLPjQr7s
+ n1Zw==
+X-Gm-Message-State: ABy/qLZyI+tmn/dHYOKv5wQqe8csh2nGCduIAnAGlM4QFWYo/qSGc+d8
+ g2R8O1QptKe3K34pvQMMchbFuLJY72os76xYcSE=
+X-Google-Smtp-Source: APBJJlEvhhCzsK5j/g5kFzJhK0SN5/p7AFs3MZYo52P9eIhCjtI8spMcnpRaZTiJYkVA+/CbfSnsbK1Ta+GTcbvii/k=
+X-Received: by 2002:a4a:4942:0:b0:566:669d:bed0 with SMTP id
+ z63-20020a4a4942000000b00566669dbed0mr4200555ooa.3.1688738138183; Fri, 07 Jul
+ 2023 06:55:38 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+References: <20230707120826.3701-1-christian.koenig@amd.com>
+In-Reply-To: <20230707120826.3701-1-christian.koenig@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 7 Jul 2023 09:55:26 -0400
+Message-ID: <CADnq5_PoZwx+qtHJXcVL3amWoJLn5OJ5GTG3vd8dP63Btdgk2w@mail.gmail.com>
+Subject: Re: [PATCH] drm/ttm: never consider pinned BOs for eviction&swap
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,43 +68,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Brian Cain <bcain@quicinc.com>, linux-fbdev@vger.kernel.org,
- Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
- "David S. Miller" <davem@davemloft.net>, Max Filippov <jcmvbkbc@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
- linux-sh@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Russell King <linux@armlinux.org.uk>,
- Dinh Nguyen <dinguyen@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
- Guo Ren <guoren@kernel.org>, linux-csky@vger.kernel.org,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- sparclinux@vger.kernel.org, linux-hexagon@vger.kernel.org,
- Chris Zankel <chris@zankel.net>, Ard Biesheuvel <ardb@kernel.org>
+Cc: Pierre-eric.Pelloux-prayer@amd.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Arnd Bergmann <arnd@kernel.org> writes:
+On Fri, Jul 7, 2023 at 8:08=E2=80=AFAM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> There is a small window where we have already incremented the pin count
+> but not yet moved the bo from the lru to the pinned list.
+>
+> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
 
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> A number of architectures either kept the screen_info definition for
-> historical purposes as it used to be required by the generic VT code, or
-> they copied it from another architecture in order to build the VGA
-> console driver in an allmodconfig build.
->
-> Now that vgacon no longer builds on these architectures, remove the
-> stale definitions.
->
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
+
 > ---
-
-Nice cleanup!
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+>  drivers/gpu/drm/ttm/ttm_bo.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 1a1cfd675cc4..7139a522b2f3 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -517,6 +517,12 @@ static bool ttm_bo_evict_swapout_allowable(struct tt=
+m_buffer_object *bo,
+>  {
+>         bool ret =3D false;
+>
+> +       if (bo->pin_count) {
+> +               *locked =3D false;
+> +               *busy =3D false;
+> +               return false;
+> +       }
+> +
+>         if (bo->base.resv =3D=3D ctx->resv) {
+>                 dma_resv_assert_held(bo->base.resv);
+>                 if (ctx->allow_res_evict)
+> --
+> 2.34.1
+>
