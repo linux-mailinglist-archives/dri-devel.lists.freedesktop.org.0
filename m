@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 666BA74AB9B
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 09:10:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06BAD74AB9C
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 09:11:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 892B910E511;
-	Fri,  7 Jul 2023 07:10:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB99E10E512;
+	Fri,  7 Jul 2023 07:11:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68F8910E50B
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 07:10:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72E9110E50B
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 07:11:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1688713831; x=1720249831;
+ t=1688713870; x=1720249870;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=sa3q5rMpkrDSRTxr4a/vbwrNQJi0BDKB4dQ8vw//x2A=;
- b=kyhwFOXLhqVFyQApfbTWmaUTTz+JBd4iWaxvnBHnD85LVtncupOr2EbM
- VfN1YTr9GXoNiMKoEbPCP84TMb2rrE/DQi0BY+MjR2pr4LNMNdtYWrmVo
- ZS02TM1ipREsd8kRtvb/6am78R2/bex/6isp7HsSWt1u6nf4v6NLoFriF
- t8LpMuO6+Oj7YvQFvTs8+NPTywQVwUYn4d8VfUu2ArrLNwxkElNFd0+N5
- FF6/AWasOmiCC5vHa6SrxT2werOiUmkTb2M32or6GjOXokbj/bLGFcwUX
- 0Lt2JwpajsgLdKQMjHBSvHvRI26/K3dSyd8K6nPjGW+olrQ0s9jzXA5PY Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="427506838"
-X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; d="scan'208";a="427506838"
+ bh=PrSo32vZ5jq9asCco6p8K9rnKJFWrbJt08PgSwQ3oBI=;
+ b=MAGgCUEtzcVreA+UTihZWwIjNNakFsJkSwpvBuHHaksMdrZDF6hcbFD/
+ 47Bdf8ur0s0Th4CnrVEpu4wHixsWCiP0gn4fqQ1H9Qco5kjI71gNhyDFk
+ 8+oL8wPVgUUrHyQy52gB5omLpMVRXUEB8kGv1MXcZYjJpW0lBhdf0uEtU
+ c6gRA8PwbRX1symQw/uiOG5t5yYzwd/nm0pb/Yc1ytgZpJQw4HZa/efGy
+ BaoV7mXmEpTRtKpcsDniN7bCnJZnDH7BnMuj1AEcy6ofEd3eHXY9JBTm4
+ C9oMwoPaaGeO9yyyi0J3LBPd6x2i1/slToedcirtB/jtrGdzB51kOGuj1 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="427507031"
+X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; d="scan'208";a="427507031"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2023 00:10:30 -0700
+ 07 Jul 2023 00:11:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="789849132"
-X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; d="scan'208";a="789849132"
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="789849411"
+X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; d="scan'208";a="789849411"
 Received: from apaszkie-mobl1.ger.corp.intel.com (HELO [10.249.151.57])
  ([10.249.151.57])
  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2023 00:10:27 -0700
-Message-ID: <a1d2cd0b-57ee-2156-60e8-6978b0aecbe3@linux.intel.com>
-Date: Fri, 7 Jul 2023 09:10:24 +0200
+ 07 Jul 2023 00:11:08 -0700
+Message-ID: <99e9328e-bd44-759d-c659-7116621afa5f@linux.intel.com>
+Date: Fri, 7 Jul 2023 09:11:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH 3/5] accel/ivpu: Add debugfs files for testing device reset
+Subject: Re: [PATCH 2/5] accel/ivpu: Add firmware tracing support
+Content-Language: en-US
 To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
  dri-devel@lists.freedesktop.org
 References: <20230524074847.866711-1-stanislaw.gruszka@linux.intel.com>
- <20230524074847.866711-4-stanislaw.gruszka@linux.intel.com>
-Content-Language: en-US
+ <20230524074847.866711-3-stanislaw.gruszka@linux.intel.com>
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
  Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20230524074847.866711-4-stanislaw.gruszka@linux.intel.com>
+In-Reply-To: <20230524074847.866711-3-stanislaw.gruszka@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,107 +72,554 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
 On 24.05.2023 09:48, Stanislaw Gruszka wrote:
-> Add new debugfs files to validate device recovery functionality.
+> Add support for firmware tracing and logging via debugfs.
 > 
 > Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 > ---
->  drivers/accel/ivpu/ivpu_debugfs.c | 41 +++++++++++++++++++++++++++++++
->  drivers/accel/ivpu/ivpu_pm.c      |  1 +
->  drivers/accel/ivpu/ivpu_pm.h      |  1 +
->  3 files changed, 43 insertions(+)
+>  drivers/accel/ivpu/Makefile       |   3 +-
+>  drivers/accel/ivpu/ivpu_debugfs.c | 169 ++++++++++++++++++++++++++++++
+>  drivers/accel/ivpu/ivpu_fw.c      |  52 ++++++++-
+>  drivers/accel/ivpu/ivpu_fw.h      |   3 +
+>  drivers/accel/ivpu/ivpu_fw_log.c  | 142 +++++++++++++++++++++++++
+>  drivers/accel/ivpu/ivpu_fw_log.h  |  38 +++++++
+>  6 files changed, 404 insertions(+), 3 deletions(-)
+>  create mode 100644 drivers/accel/ivpu/ivpu_fw_log.c
+>  create mode 100644 drivers/accel/ivpu/ivpu_fw_log.h
 > 
+> diff --git a/drivers/accel/ivpu/Makefile b/drivers/accel/ivpu/Makefile
+> index 3ca2fb3936f6..9858d9fea36e 100644
+> --- a/drivers/accel/ivpu/Makefile
+> +++ b/drivers/accel/ivpu/Makefile
+> @@ -5,6 +5,7 @@ intel_vpu-y := \
+>  	ivpu_debugfs.o \
+>  	ivpu_drv.o \
+>  	ivpu_fw.o \
+> +	ivpu_fw_log.o \
+>  	ivpu_gem.o \
+>  	ivpu_hw_mtl.o \
+>  	ivpu_ipc.o \
+> @@ -14,4 +15,4 @@ intel_vpu-y := \
+>  	ivpu_mmu_context.o \
+>  	ivpu_pm.o
+>  
+> -obj-$(CONFIG_DRM_ACCEL_IVPU) += intel_vpu.o
+> \ No newline at end of file
+> +obj-$(CONFIG_DRM_ACCEL_IVPU) += intel_vpu.o
 > diff --git a/drivers/accel/ivpu/ivpu_debugfs.c b/drivers/accel/ivpu/ivpu_debugfs.c
-> index a9180fae43b6..e2502d2b53c0 100644
+> index df51ec008fb5..a9180fae43b6 100644
 > --- a/drivers/accel/ivpu/ivpu_debugfs.c
 > +++ b/drivers/accel/ivpu/ivpu_debugfs.c
-> @@ -77,11 +77,31 @@ static int last_bootmode_show(struct seq_file *s, void *v)
+> @@ -11,6 +11,8 @@
+>  
+>  #include "ivpu_debugfs.h"
+>  #include "ivpu_drv.h"
+> +#include "ivpu_fw.h"
+> +#include "ivpu_fw_log.h"
+>  #include "ivpu_gem.h"
+>  #include "ivpu_jsm_msg.h"
+>  #include "ivpu_pm.h"
+> @@ -25,6 +27,46 @@ static int bo_list_show(struct seq_file *s, void *v)
 >  	return 0;
 >  }
 >  
-> +static int reset_counter_show(struct seq_file *s, void *v)
+> +static int fw_trace_capability_show(struct seq_file *s, void *v)
 > +{
 > +	struct drm_info_node *node = (struct drm_info_node *)s->private;
 > +	struct ivpu_device *vdev = to_ivpu_device(node->minor->dev);
+> +	u64 trace_hw_component_mask;
+> +	u32 trace_destination_mask;
+> +	int ret;
 > +
-> +	seq_printf(s, "%d\n", atomic_read(&vdev->pm->reset_counter));
+> +	ret = ivpu_jsm_trace_get_capability(vdev, &trace_destination_mask,
+> +					    &trace_hw_component_mask);
+> +	if (!ret) {
+> +		seq_printf(s,
+> +			   "trace_destination_mask:  %#18x\n"
+> +			   "trace_hw_component_mask: %#18llx\n",
+> +			   trace_destination_mask, trace_hw_component_mask);
+> +	}
 > +	return 0;
 > +}
 > +
-> +static int reset_pending_show(struct seq_file *s, void *v)
+> +static int fw_trace_config_show(struct seq_file *s, void *v)
 > +{
 > +	struct drm_info_node *node = (struct drm_info_node *)s->private;
 > +	struct ivpu_device *vdev = to_ivpu_device(node->minor->dev);
+> +	/**
+> +	 * WA: VPU_JSM_MSG_TRACE_GET_CONFIG command is not working yet,
+> +	 * so we use values from vdev->fw instead of calling ivpu_jsm_trace_get_config()
+> +	 */
+> +	u32 trace_level = vdev->fw->trace_level;
+> +	u32 trace_destination_mask = vdev->fw->trace_destination_mask;
+> +	u64 trace_hw_component_mask = vdev->fw->trace_hw_component_mask;
 > +
-> +	seq_printf(s, "%d\n", atomic_read(&vdev->pm->in_reset));
+> +	seq_printf(s,
+> +		   "trace_level:             %#18x\n"
+> +		   "trace_destination_mask:  %#18x\n"
+> +		   "trace_hw_component_mask: %#18llx\n",
+> +		   trace_level, trace_destination_mask, trace_hw_component_mask);
+> +
 > +	return 0;
 > +}
 > +
+>  static int last_bootmode_show(struct seq_file *s, void *v)
+>  {
+>  	struct drm_info_node *node = (struct drm_info_node *)s->private;
+> @@ -37,9 +79,127 @@ static int last_bootmode_show(struct seq_file *s, void *v)
+>  
 >  static const struct drm_info_list vdev_debugfs_list[] = {
 >  	{"bo_list", bo_list_show, 0},
->  	{"fw_trace_capability", fw_trace_capability_show, 0},
->  	{"fw_trace_config", fw_trace_config_show, 0},
+> +	{"fw_trace_capability", fw_trace_capability_show, 0},
+> +	{"fw_trace_config", fw_trace_config_show, 0},
 >  	{"last_bootmode", last_bootmode_show, 0},
-> +	{"reset_counter", reset_counter_show, 0},
-> +	{"reset_pending", reset_pending_show, 0},
 >  };
 >  
->  static int fw_log_show(struct seq_file *s, void *v)
-> @@ -216,6 +236,24 @@ ivpu_reset_engine_fn(struct file *file, const char __user *user_buf, size_t size
->  	return size;
->  }
->  
-> +static ssize_t
-> +ivpu_force_recovery_fn(struct file *file, const char __user *user_buf, size_t size, loff_t *pos)
+> +static int fw_log_show(struct seq_file *s, void *v)
 > +{
-> +	struct ivpu_device *vdev = file->private_data;
+> +	struct ivpu_device *vdev = s->private;
+> +	struct drm_printer p = drm_seq_file_printer(s);
+> +
+> +	ivpu_fw_log_print(vdev, true, &p);
+> +	return 0;
+> +}
+> +
+> +static int fw_log_fops_open(struct inode *inode, struct file *file)
+> +{
+> +	return single_open(file, fw_log_show, inode->i_private);
+> +}
+> +
+> +static ssize_t
+> +fw_log_fops_write(struct file *file, const char __user *user_buf, size_t size, loff_t *pos)
+> +{
+> +	struct seq_file *s = file->private_data;
+> +	struct ivpu_device *vdev = s->private;
 > +
 > +	if (!size)
 > +		return -EINVAL;
 > +
-> +	ivpu_pm_schedule_recovery(vdev);
+> +	ivpu_fw_log_clear(vdev);
 > +	return size;
 > +}
 > +
-> +static const struct file_operations ivpu_force_recovery_fops = {
+> +static const struct file_operations fw_log_fops = {
 > +	.owner = THIS_MODULE,
-> +	.open = simple_open,
-> +	.write = ivpu_force_recovery_fn,
+> +	.open = fw_log_fops_open,
+> +	.write = fw_log_fops_write,
+> +	.read = seq_read,
+> +	.llseek = seq_lseek,
+> +	.release = single_release,
 > +};
 > +
->  static const struct file_operations ivpu_reset_engine_fops = {
->  	.owner = THIS_MODULE,
->  	.open = simple_open,
-> @@ -229,6 +267,9 @@ void ivpu_debugfs_init(struct drm_minor *minor)
+> +static ssize_t
+> +fw_trace_destination_mask_fops_write(struct file *file, const char __user *user_buf,
+> +				     size_t size, loff_t *pos)
+> +{
+> +	struct ivpu_device *vdev = file->private_data;
+> +	struct ivpu_fw_info *fw = vdev->fw;
+> +	u32 trace_destination_mask;
+> +	int ret;
+> +
+> +	ret = kstrtou32_from_user(user_buf, size, 0, &trace_destination_mask);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	fw->trace_destination_mask = trace_destination_mask;
+> +
+> +	ivpu_jsm_trace_set_config(vdev, fw->trace_level, trace_destination_mask,
+> +				  fw->trace_hw_component_mask);
+> +
+> +	return size;
+> +}
+> +
+> +static const struct file_operations fw_trace_destination_mask_fops = {
+> +	.owner = THIS_MODULE,
+> +	.open = simple_open,
+> +	.write = fw_trace_destination_mask_fops_write,
+> +};
+> +
+> +static ssize_t
+> +fw_trace_hw_comp_mask_fops_write(struct file *file, const char __user *user_buf,
+> +				 size_t size, loff_t *pos)
+> +{
+> +	struct ivpu_device *vdev = file->private_data;
+> +	struct ivpu_fw_info *fw = vdev->fw;
+> +	u64 trace_hw_component_mask;
+> +	int ret;
+> +
+> +	ret = kstrtou64_from_user(user_buf, size, 0, &trace_hw_component_mask);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	fw->trace_hw_component_mask = trace_hw_component_mask;
+> +
+> +	ivpu_jsm_trace_set_config(vdev, fw->trace_level, fw->trace_destination_mask,
+> +				  trace_hw_component_mask);
+> +
+> +	return size;
+> +}
+> +
+> +static const struct file_operations fw_trace_hw_comp_mask_fops = {
+> +	.owner = THIS_MODULE,
+> +	.open = simple_open,
+> +	.write = fw_trace_hw_comp_mask_fops_write,
+> +};
+> +
+> +static ssize_t
+> +fw_trace_level_fops_write(struct file *file, const char __user *user_buf, size_t size, loff_t *pos)
+> +{
+> +	struct ivpu_device *vdev = file->private_data;
+> +	struct ivpu_fw_info *fw = vdev->fw;
+> +	u32 trace_level;
+> +	int ret;
+> +
+> +	ret = kstrtou32_from_user(user_buf, size, 0, &trace_level);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	fw->trace_level = trace_level;
+> +
+> +	ivpu_jsm_trace_set_config(vdev, trace_level, fw->trace_destination_mask,
+> +				  fw->trace_hw_component_mask);
+> +
+> +	return size;
+> +}
+> +
+> +static const struct file_operations fw_trace_level_fops = {
+> +	.owner = THIS_MODULE,
+> +	.open = simple_open,
+> +	.write = fw_trace_level_fops_write,
+> +};
+> +
+>  static ssize_t
+>  ivpu_reset_engine_fn(struct file *file, const char __user *user_buf, size_t size, loff_t *pos)
+>  {
+> @@ -69,6 +229,15 @@ void ivpu_debugfs_init(struct drm_minor *minor)
 >  	drm_debugfs_create_files(vdev_debugfs_list, ARRAY_SIZE(vdev_debugfs_list),
 >  				 minor->debugfs_root, minor);
 >  
-> +	debugfs_create_file("force_recovery", 0200, minor->debugfs_root, vdev,
-> +			    &ivpu_force_recovery_fops);
+> +	debugfs_create_file("fw_log", 0644, minor->debugfs_root, vdev,
+> +			    &fw_log_fops);
+> +	debugfs_create_file("fw_trace_destination_mask", 0200, minor->debugfs_root, vdev,
+> +			    &fw_trace_destination_mask_fops);
+> +	debugfs_create_file("fw_trace_hw_comp_mask", 0200, minor->debugfs_root, vdev,
+> +			    &fw_trace_hw_comp_mask_fops);
+> +	debugfs_create_file("fw_trace_level", 0200, minor->debugfs_root, vdev,
+> +			    &fw_trace_level_fops);
 > +
->  	debugfs_create_file("fw_log", 0644, minor->debugfs_root, vdev,
->  			    &fw_log_fops);
->  	debugfs_create_file("fw_trace_destination_mask", 0200, minor->debugfs_root, vdev,
-> diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-> index aa4d56dc52b3..e6f27daf5560 100644
-> --- a/drivers/accel/ivpu/ivpu_pm.c
-> +++ b/drivers/accel/ivpu/ivpu_pm.c
-> @@ -259,6 +259,7 @@ void ivpu_pm_reset_prepare_cb(struct pci_dev *pdev)
->  	pm_runtime_get_sync(vdev->drm.dev);
+>  	debugfs_create_file("reset_engine", 0200, minor->debugfs_root, vdev,
+>  			    &ivpu_reset_engine_fops);
+>  }
+> diff --git a/drivers/accel/ivpu/ivpu_fw.c b/drivers/accel/ivpu/ivpu_fw.c
+> index f58951a0d81b..3599bb8706eb 100644
+> --- a/drivers/accel/ivpu/ivpu_fw.c
+> +++ b/drivers/accel/ivpu/ivpu_fw.c
+> @@ -11,6 +11,7 @@
+>  #include "vpu_boot_api.h"
+>  #include "ivpu_drv.h"
+>  #include "ivpu_fw.h"
+> +#include "ivpu_fw_log.h"
+>  #include "ivpu_gem.h"
+>  #include "ivpu_hw.h"
+>  #include "ivpu_ipc.h"
+> @@ -158,6 +159,10 @@ static int ivpu_fw_parse(struct ivpu_device *vdev)
+>  	fw->cold_boot_entry_point = fw_hdr->entry_point;
+>  	fw->entry_point = fw->cold_boot_entry_point;
 >  
->  	ivpu_dbg(vdev, PM, "Pre-reset..\n");
-> +	atomic_inc(&vdev->pm->reset_counter);
->  	atomic_set(&vdev->pm->in_reset, 1);
->  	ivpu_shutdown(vdev);
->  	ivpu_pm_prepare_cold_boot(vdev);
-> diff --git a/drivers/accel/ivpu/ivpu_pm.h b/drivers/accel/ivpu/ivpu_pm.h
-> index baca98187255..fd4eada1290f 100644
-> --- a/drivers/accel/ivpu/ivpu_pm.h
-> +++ b/drivers/accel/ivpu/ivpu_pm.h
-> @@ -14,6 +14,7 @@ struct ivpu_pm_info {
->  	struct ivpu_device *vdev;
->  	struct work_struct recovery_work;
->  	atomic_t in_reset;
-> +	atomic_t reset_counter;
->  	bool is_warmboot;
->  	u32 suspend_reschedule_counter;
+> +	fw->trace_level = min_t(u32, ivpu_log_level, IVPU_FW_LOG_FATAL);
+> +	fw->trace_destination_mask = VPU_TRACE_DESTINATION_VERBOSE_TRACING;
+> +	fw->trace_hw_component_mask = -1;
+> +
+>  	ivpu_dbg(vdev, FW_BOOT, "Size: file %lu image %u runtime %u shavenn %u\n",
+>  		 fw->file->size, fw->image_size, fw->runtime_size, fw->shave_nn_size);
+>  	ivpu_dbg(vdev, FW_BOOT, "Address: runtime 0x%llx, load 0x%llx, entry point 0x%llx\n",
+> @@ -189,6 +194,7 @@ static int ivpu_fw_update_global_range(struct ivpu_device *vdev)
+>  static int ivpu_fw_mem_init(struct ivpu_device *vdev)
+>  {
+>  	struct ivpu_fw_info *fw = vdev->fw;
+> +	int log_verb_size;
+>  	int ret;
+>  
+>  	ret = ivpu_fw_update_global_range(vdev);
+> @@ -201,17 +207,45 @@ static int ivpu_fw_mem_init(struct ivpu_device *vdev)
+>  		return -ENOMEM;
+>  	}
+>  
+> +	fw->mem_log_crit = ivpu_bo_alloc_internal(vdev, 0, IVPU_FW_CRITICAL_BUFFER_SIZE,
+> +						  DRM_IVPU_BO_CACHED);
+> +	if (!fw->mem_log_crit) {
+> +		ivpu_err(vdev, "Failed to allocate critical log buffer\n");
+> +		ret = -ENOMEM;
+> +		goto err_free_fw_mem;
+> +	}
+> +
+> +	if (ivpu_log_level <= IVPU_FW_LOG_INFO)
+> +		log_verb_size = IVPU_FW_VERBOSE_BUFFER_LARGE_SIZE;
+> +	else
+> +		log_verb_size = IVPU_FW_VERBOSE_BUFFER_SMALL_SIZE;
+> +
+> +	fw->mem_log_verb = ivpu_bo_alloc_internal(vdev, 0, log_verb_size, DRM_IVPU_BO_CACHED);
+> +	if (!fw->mem_log_verb) {
+> +		ivpu_err(vdev, "Failed to allocate verbose log buffer\n");
+> +		ret = -ENOMEM;
+> +		goto err_free_log_crit;
+> +	}
+> +
+>  	if (fw->shave_nn_size) {
+>  		fw->mem_shave_nn = ivpu_bo_alloc_internal(vdev, vdev->hw->ranges.global_high.start,
+>  							  fw->shave_nn_size, DRM_IVPU_BO_UNCACHED);
+>  		if (!fw->mem_shave_nn) {
+>  			ivpu_err(vdev, "Failed to allocate shavenn buffer\n");
+> -			ivpu_bo_free_internal(fw->mem);
+> -			return -ENOMEM;
+> +			ret = -ENOMEM;
+> +			goto err_free_log_verb;
+>  		}
+>  	}
+>  
+>  	return 0;
+> +
+> +err_free_log_verb:
+> +	ivpu_bo_free_internal(fw->mem_log_verb);
+> +err_free_log_crit:
+> +	ivpu_bo_free_internal(fw->mem_log_crit);
+> +err_free_fw_mem:
+> +	ivpu_bo_free_internal(fw->mem);
+> +	return ret;
+>  }
+>  
+>  static void ivpu_fw_mem_fini(struct ivpu_device *vdev)
+> @@ -223,7 +257,12 @@ static void ivpu_fw_mem_fini(struct ivpu_device *vdev)
+>  		fw->mem_shave_nn = NULL;
+>  	}
+>  
+> +	ivpu_bo_free_internal(fw->mem_log_verb);
+> +	ivpu_bo_free_internal(fw->mem_log_crit);
+>  	ivpu_bo_free_internal(fw->mem);
+> +
+> +	fw->mem_log_verb = NULL;
+> +	fw->mem_log_crit = NULL;
+>  	fw->mem = NULL;
+>  }
+>  
+> @@ -424,6 +463,15 @@ void ivpu_fw_boot_params_setup(struct ivpu_device *vdev, struct vpu_boot_params
+>  	boot_params->pn_freq_pll_ratio = vdev->hw->pll.pn_ratio;
+>  	boot_params->max_freq_pll_ratio = vdev->hw->pll.max_ratio;
+>  
+> +	boot_params->default_trace_level = vdev->fw->trace_level;
+> +	boot_params->tracing_buff_message_format_mask = BIT(VPU_TRACING_FORMAT_STRING);
+> +	boot_params->trace_destination_mask = vdev->fw->trace_destination_mask;
+> +	boot_params->trace_hw_component_mask = vdev->fw->trace_hw_component_mask;
+> +	boot_params->crit_tracing_buff_addr = vdev->fw->mem_log_crit->vpu_addr;
+> +	boot_params->crit_tracing_buff_size = vdev->fw->mem_log_crit->base.size;
+> +	boot_params->verbose_tracing_buff_addr = vdev->fw->mem_log_verb->vpu_addr;
+> +	boot_params->verbose_tracing_buff_size = vdev->fw->mem_log_verb->base.size;
+> +
+>  	boot_params->punit_telemetry_sram_base = ivpu_hw_reg_telemetry_offset_get(vdev);
+>  	boot_params->punit_telemetry_sram_size = ivpu_hw_reg_telemetry_size_get(vdev);
+>  	boot_params->vpu_telemetry_enable = ivpu_hw_reg_telemetry_enable_get(vdev);
+> diff --git a/drivers/accel/ivpu/ivpu_fw.h b/drivers/accel/ivpu/ivpu_fw.h
+> index 8d275c802d1c..3cc3a1497a4a 100644
+> --- a/drivers/accel/ivpu/ivpu_fw.h
+> +++ b/drivers/accel/ivpu/ivpu_fw.h
+> @@ -23,6 +23,9 @@ struct ivpu_fw_info {
+>  	u32 shave_nn_size;
+>  	u64 entry_point; /* Cold or warm boot entry point for next boot */
+>  	u64 cold_boot_entry_point;
+> +	u32 trace_level;
+> +	u32 trace_destination_mask;
+> +	u64 trace_hw_component_mask;
 >  };
+>  
+>  int ivpu_fw_init(struct ivpu_device *vdev);
+> diff --git a/drivers/accel/ivpu/ivpu_fw_log.c b/drivers/accel/ivpu/ivpu_fw_log.c
+> new file mode 100644
+> index 000000000000..95065cac9fbd
+> --- /dev/null
+> +++ b/drivers/accel/ivpu/ivpu_fw_log.c
+> @@ -0,0 +1,142 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (C) 2020-2023 Intel Corporation
+> + */
+> +
+> +#include <linux/ctype.h>
+> +#include <linux/highmem.h>
+> +#include <linux/fs.h>
+> +#include <linux/slab.h>
+> +#include <linux/moduleparam.h>
+> +
+> +#include "vpu_boot_api.h"
+> +#include "ivpu_drv.h"
+> +#include "ivpu_fw.h"
+> +#include "ivpu_fw_log.h"
+> +#include "ivpu_gem.h"
+> +
+> +#define IVPU_FW_LOG_LINE_LENGTH	  256
+> +
+> +unsigned int ivpu_log_level = IVPU_FW_LOG_ERROR;
+> +module_param(ivpu_log_level, uint, 0444);
+> +MODULE_PARM_DESC(ivpu_log_level,
+> +		 "VPU firmware default trace level: debug=" __stringify(IVPU_FW_LOG_DEBUG)
+> +		 " info=" __stringify(IVPU_FW_LOG_INFO)
+> +		 " warn=" __stringify(IVPU_FW_LOG_WARN)
+> +		 " error=" __stringify(IVPU_FW_LOG_ERROR)
+> +		 " fatal=" __stringify(IVPU_FW_LOG_FATAL));
+> +
+> +static int fw_log_ptr(struct ivpu_device *vdev, struct ivpu_bo *bo, u32 *offset,
+> +		      struct vpu_tracing_buffer_header **log_header)
+> +{
+> +	struct vpu_tracing_buffer_header *log;
+> +
+> +	if ((*offset + sizeof(*log)) > bo->base.size)
+> +		return -EINVAL;
+> +
+> +	log = bo->kvaddr + *offset;
+> +
+> +	if (log->vpu_canary_start != VPU_TRACING_BUFFER_CANARY)
+> +		return -EINVAL;
+> +
+> +	if (log->header_size < sizeof(*log) || log->header_size > 1024) {
+> +		ivpu_dbg(vdev, FW_BOOT, "Invalid header size 0x%x\n", log->header_size);
+> +		return -EINVAL;
+> +	}
+> +	if ((char *)log + log->size > (char *)bo->kvaddr + bo->base.size) {
+> +		ivpu_dbg(vdev, FW_BOOT, "Invalid log size 0x%x\n", log->size);
+> +		return -EINVAL;
+> +	}
+> +
+> +	*log_header = log;
+> +	*offset += log->size;
+> +
+> +	ivpu_dbg(vdev, FW_BOOT,
+> +		 "FW log name \"%s\", write offset 0x%x size 0x%x, wrap count %d, hdr version %d size %d format %d, alignment %d",
+> +		 log->name, log->write_index, log->size, log->wrap_count, log->header_version,
+> +		 log->header_size, log->format, log->alignment);
+> +
+> +	return 0;
+> +}
+> +
+> +static void buffer_print(char *buffer, u32 size, struct drm_printer *p)
+> +{
+> +	char line[IVPU_FW_LOG_LINE_LENGTH];
+> +	u32 index = 0;
+> +
+> +	if (!size || !buffer)
+> +		return;
+> +
+> +	while (size--) {
+> +		if (*buffer == '\n' || *buffer == 0) {
+> +			line[index] = 0;
+> +			if (index != 0)
+> +				drm_printf(p, "%s\n", line);
+> +			index = 0;
+> +			buffer++;
+> +			continue;
+> +		}
+> +		if (index == IVPU_FW_LOG_LINE_LENGTH - 1) {
+> +			line[index] = 0;
+> +			index = 0;
+> +			drm_printf(p, "%s\n", line);
+> +		}
+> +		if (*buffer != '\r' && (isprint(*buffer) || iscntrl(*buffer)))
+> +			line[index++] = *buffer;
+> +		buffer++;
+> +	}
+> +	line[index] = 0;
+> +	if (index != 0)
+> +		drm_printf(p, "%s\n", line);
+> +}
+> +
+> +static void fw_log_print_buffer(struct ivpu_device *vdev, struct vpu_tracing_buffer_header *log,
+> +				const char *prefix, bool only_new_msgs, struct drm_printer *p)
+> +{
+> +	char *log_buffer = (void *)log + log->header_size;
+> +	u32 log_size = log->size - log->header_size;
+> +	u32 log_start = log->read_index;
+> +	u32 log_end = log->write_index;
+> +
+> +	if (!(log->write_index || log->wrap_count) ||
+> +	    (log->write_index == log->read_index && only_new_msgs)) {
+> +		drm_printf(p, "==== %s \"%s\" log empty ====\n", prefix, log->name);
+> +		return;
+> +	}
+> +
+> +	drm_printf(p, "==== %s \"%s\" log start ====\n", prefix, log->name);
+> +	if (log->write_index > log->read_index) {
+> +		buffer_print(log_buffer + log_start, log_end - log_start, p);
+> +	} else {
+> +		buffer_print(log_buffer + log_end, log_size - log_end, p);
+> +		buffer_print(log_buffer, log_end, p);
+> +	}
+> +	drm_printf(p, "\x1b[0m");
+> +	drm_printf(p, "==== %s \"%s\" log end   ====\n", prefix, log->name);
+> +}
+> +
+> +void ivpu_fw_log_print(struct ivpu_device *vdev, bool only_new_msgs, struct drm_printer *p)
+> +{
+> +	struct vpu_tracing_buffer_header *log_header;
+> +	u32 next = 0;
+> +
+> +	while (fw_log_ptr(vdev, vdev->fw->mem_log_crit, &next, &log_header) == 0)
+> +		fw_log_print_buffer(vdev, log_header, "VPU critical", only_new_msgs, p);
+> +
+> +	next = 0;
+> +	while (fw_log_ptr(vdev, vdev->fw->mem_log_verb, &next, &log_header) == 0)
+> +		fw_log_print_buffer(vdev, log_header, "VPU verbose", only_new_msgs, p);
+> +}
+> +
+> +void ivpu_fw_log_clear(struct ivpu_device *vdev)
+> +{
+> +	struct vpu_tracing_buffer_header *log_header;
+> +	u32 next = 0;
+> +
+> +	while (fw_log_ptr(vdev, vdev->fw->mem_log_crit, &next, &log_header) == 0)
+> +		log_header->read_index = log_header->write_index;
+> +
+> +	next = 0;
+> +	while (fw_log_ptr(vdev, vdev->fw->mem_log_verb, &next, &log_header) == 0)
+> +		log_header->read_index = log_header->write_index;
+> +}
+> diff --git a/drivers/accel/ivpu/ivpu_fw_log.h b/drivers/accel/ivpu/ivpu_fw_log.h
+> new file mode 100644
+> index 000000000000..0b2573f6f315
+> --- /dev/null
+> +++ b/drivers/accel/ivpu/ivpu_fw_log.h
+> @@ -0,0 +1,38 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (C) 2020-2023 Intel Corporation
+> + */
+> +
+> +#ifndef __IVPU_FW_LOG_H__
+> +#define __IVPU_FW_LOG_H__
+> +
+> +#include <linux/types.h>
+> +
+> +#include <drm/drm_print.h>
+> +
+> +#include "ivpu_drv.h"
+> +
+> +#define IVPU_FW_LOG_DEFAULT 0
+> +#define IVPU_FW_LOG_DEBUG   1
+> +#define IVPU_FW_LOG_INFO    2
+> +#define IVPU_FW_LOG_WARN    3
+> +#define IVPU_FW_LOG_ERROR   4
+> +#define IVPU_FW_LOG_FATAL   5
+> +
+> +extern unsigned int ivpu_log_level;
+> +
+> +#define IVPU_FW_VERBOSE_BUFFER_SMALL_SIZE	SZ_1M
+> +#define IVPU_FW_VERBOSE_BUFFER_LARGE_SIZE	SZ_8M
+> +#define IVPU_FW_CRITICAL_BUFFER_SIZE		SZ_512K
+> +
+> +void ivpu_fw_log_print(struct ivpu_device *vdev, bool only_new_msgs, struct drm_printer *p);
+> +void ivpu_fw_log_clear(struct ivpu_device *vdev);
+> +
+> +static inline void ivpu_fw_log_dump(struct ivpu_device *vdev)
+> +{
+> +	struct drm_printer p = drm_info_printer(vdev->drm.dev);
+> +
+> +	ivpu_fw_log_print(vdev, false, &p);
+> +}
+> +
+> +#endif /* __IVPU_FW_LOG_H__ */
