@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A6E74B9AA
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 00:41:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A43C174B9AB
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 00:41:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D241F10E60C;
-	Fri,  7 Jul 2023 22:41:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D426E10E613;
+	Fri,  7 Jul 2023 22:41:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9B6810E60B;
- Fri,  7 Jul 2023 22:41:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D993E10E60F;
+ Fri,  7 Jul 2023 22:41:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -19,22 +19,22 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=de0EjBF+hzGDM+i69O+/YEHpbFntjniyjiLFzME0BgQ=; b=pr7i6ElhPBq4hMwP1RxSfNRX3w
- FhHG0ElDBsFZbPU01vkXlK9eefxtD4SfCwMUHWmB3apmHAY2qXSWmqP6jXYEmUNror8Fdw6zJx/cK
- AE85Rdafqq/WLNl/+UrMeQRtOEq28/mvF/GKJpXGNvCGhAxGHEd0czxQvd6H1nKvay0zQrJLwf5sO
- RQm93ORQZY2JeJsRM2iWh1X9nV+rU9ZehYloxyf6vk+hq1/gqsFSqnlSw+I2FHBHiP0wweZZu/eY/
- w6VFWVeV8SZA/iAMWB1yN8k6KS8yfSUZN3IPo0e+k/komiehe4FoMM/Vv8lmfXRKnnAym+OsmiUi3
- T0DG+0eg==;
+ bh=ILhK3ntOSguFvvoL3dtIQ/0orxl4TRRaxUfEny2T4hQ=; b=luAS5a/ov3Z7w1pwXMMISdcq0X
+ CmkBLudpjLqOfv+LJLAAHgZSMAOwntplymB5St0mZV6gheeahYHsf0oKk1dEbckva2adI1sAtldg0
+ zSAfkyB5qESAnGy93JB4hhHc7vEiAIq1eGRa5uuHhV8Ye1zRG/hGSONknqFrN7KJDUsh41ixqVhCn
+ 7pEMfWtuB6/0Rb4vY44mVDt1yIc9YleiwG15e+Ed80YgxVvmPu+KiZZx1W017yqrMNixeQtYjnRJr
+ 5oOG8jA6fnQ2CMTbxf5k92qZOx0ViYm1r5jHbNCXCuZSKJ8sQ4SM5777oDp3S9kiK0I4V0eDj8DvU
+ bbpZeGCQ==;
 Received: from [187.74.70.209] (helo=steammachine.lan)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qHu8u-00AP6e-RH; Sat, 08 Jul 2023 00:41:37 +0200
+ id 1qHu8z-00AP6e-SZ; Sat, 08 Jul 2023 00:41:42 +0200
 From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
 To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, wayland-devel@lists.freedesktop.org
-Subject: [PATCH v5 5/6] drm: Refuse to async flip with atomic prop changes
-Date: Fri,  7 Jul 2023 19:40:58 -0300
-Message-ID: <20230707224059.305474-6-andrealmeid@igalia.com>
+Subject: [PATCH v5 6/6] drm/doc: Define KMS atomic state set
+Date: Fri,  7 Jul 2023 19:40:59 -0300
+Message-ID: <20230707224059.305474-7-andrealmeid@igalia.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230707224059.305474-1-andrealmeid@igalia.com>
 References: <20230707224059.305474-1-andrealmeid@igalia.com>
@@ -54,197 +54,78 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: pierre-eric.pelloux-prayer@amd.com,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
  =?UTF-8?q?=27Marek=20Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
  =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
  Randy Dunlap <rdunlap@infradead.org>, Pekka Paalanen <ppaalanen@gmail.com>,
  hwentlan@amd.com, kernel-dev@igalia.com, alexander.deucher@amd.com,
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
  christian.koenig@amd.com, joshua@froggi.es
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Given that prop changes may lead to modesetting, which would defeat the
-fast path of the async flip, refuse any atomic prop change for async
-flips in atomic API. The only exceptions are the framebuffer ID to flip
-to and the mode ID, that could be referring to an identical mode.
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
 
+Specify how the atomic state is maintained between userspace and
+kernel, plus the special case for async flips.
+
+Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 Signed-off-by: André Almeida <andrealmeid@igalia.com>
 ---
-v4: new patch
+v4: total rework by Pekka
 ---
- drivers/gpu/drm/drm_atomic_helper.c |  5 +++
- drivers/gpu/drm/drm_atomic_uapi.c   | 52 +++++++++++++++++++++++++++--
- drivers/gpu/drm/drm_crtc_internal.h |  2 +-
- drivers/gpu/drm/drm_mode_object.c   |  2 +-
- 4 files changed, 56 insertions(+), 5 deletions(-)
+ Documentation/gpu/drm-uapi.rst | 41 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 2c2c9caf0be5..1e2973f0e1f6 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -629,6 +629,11 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
- 		WARN_ON(!drm_modeset_is_locked(&crtc->mutex));
+diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+index 65fb3036a580..6a1662c08901 100644
+--- a/Documentation/gpu/drm-uapi.rst
++++ b/Documentation/gpu/drm-uapi.rst
+@@ -486,3 +486,44 @@ and the CRTC index is its position in this array.
  
- 		if (!drm_mode_equal(&old_crtc_state->mode, &new_crtc_state->mode)) {
-+			if (new_crtc_state->async_flip) {
-+				drm_dbg_atomic(dev, "[CRTC:%d:%s] no mode changes allowed during async flip\n",
-+					       crtc->base.id, crtc->name);
-+				return -EINVAL;
-+			}
- 			drm_dbg_atomic(dev, "[CRTC:%d:%s] mode changed\n",
- 				       crtc->base.id, crtc->name);
- 			new_crtc_state->mode_changed = true;
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index dfd4cf7169df..536c21f53b5f 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -972,13 +972,28 @@ int drm_atomic_connector_commit_dpms(struct drm_atomic_state *state,
- 	return ret;
- }
- 
-+static int drm_atomic_check_prop_changes(int ret, uint64_t old_val, uint64_t prop_value,
-+					 struct drm_property *prop)
-+{
-+	if (ret != 0 || old_val != prop_value) {
-+		drm_dbg_atomic(prop->dev,
-+			       "[PROP:%d:%s] No prop can be changed during async flip\n",
-+			       prop->base.id, prop->name);
-+		return -EINVAL;
-+	}
+ .. kernel-doc:: include/uapi/drm/drm_mode.h
+    :internal:
 +
-+	return 0;
-+}
++KMS atomic state
++================
 +
- int drm_atomic_set_property(struct drm_atomic_state *state,
- 			    struct drm_file *file_priv,
- 			    struct drm_mode_object *obj,
- 			    struct drm_property *prop,
--			    uint64_t prop_value)
-+			    uint64_t prop_value,
-+			    bool async_flip)
- {
- 	struct drm_mode_object *ref;
-+	uint64_t old_val;
- 	int ret;
- 
- 	if (!drm_property_change_valid_get(prop, prop_value, &ref))
-@@ -995,6 +1010,13 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
- 			break;
- 		}
- 
-+		if (async_flip) {
-+			ret = drm_atomic_connector_get_property(connector, connector_state,
-+								prop, &old_val);
-+			ret = drm_atomic_check_prop_changes(ret, old_val, prop_value, prop);
-+			break;
-+		}
++An atomic commit can change multiple KMS properties in an atomic fashion,
++without ever applying intermediate or partial state changes.  Either the whole
++commit succeeds or fails, and it will never be applied partially. This is the
++fundamental improvement of the atomic API over the older non-atomic API which is
++referred to as the "legacy API".  Applying intermediate state could unexpectedly
++fail, cause visible glitches, or delay reaching the final state.
 +
- 		ret = drm_atomic_connector_set_property(connector,
- 				connector_state, file_priv,
- 				prop, prop_value);
-@@ -1003,6 +1025,7 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
- 	case DRM_MODE_OBJECT_CRTC: {
- 		struct drm_crtc *crtc = obj_to_crtc(obj);
- 		struct drm_crtc_state *crtc_state;
-+		struct drm_mode_config *config = &crtc->dev->mode_config;
- 
- 		crtc_state = drm_atomic_get_crtc_state(state, crtc);
- 		if (IS_ERR(crtc_state)) {
-@@ -1010,6 +1033,18 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
- 			break;
- 		}
- 
-+		/*
-+		 * We allow mode_id changes here for async flips, because we
-+		 * check later on drm_atomic_helper_check_modeset() callers if
-+		 * there are modeset changes or they are equal
-+		 */
-+		if (async_flip && prop != config->prop_mode_id) {
-+			ret = drm_atomic_crtc_get_property(crtc, crtc_state,
-+							   prop, &old_val);
-+			ret = drm_atomic_check_prop_changes(ret, old_val, prop_value, prop);
-+			break;
-+		}
++An atomic commit can be flagged with DRM_MODE_ATOMIC_TEST_ONLY, which means the
++complete state change is validated but not applied.  Userspace should use this
++flag to validate any state change before asking to apply it. If validation fails
++for any reason, userspace should attempt to fall back to another, perhaps
++simpler, final state.  This allows userspace to probe for various configurations
++without causing visible glitches on screen and without the need to undo a
++probing change.
 +
- 		ret = drm_atomic_crtc_set_property(crtc,
- 				crtc_state, prop, prop_value);
- 		break;
-@@ -1017,6 +1052,7 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
- 	case DRM_MODE_OBJECT_PLANE: {
- 		struct drm_plane *plane = obj_to_plane(obj);
- 		struct drm_plane_state *plane_state;
-+		struct drm_mode_config *config = &plane->dev->mode_config;
- 
- 		plane_state = drm_atomic_get_plane_state(state, plane);
- 		if (IS_ERR(plane_state)) {
-@@ -1024,6 +1060,13 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
- 			break;
- 		}
- 
-+		if (async_flip && prop != config->prop_fb_id) {
-+			ret = drm_atomic_plane_get_property(plane, plane_state,
-+							    prop, &old_val);
-+			ret = drm_atomic_check_prop_changes(ret, old_val, prop_value, prop);
-+			break;
-+		}
++The changes recorded in an atomic commit apply on top the current KMS state in
++the kernel. Hence, the complete new KMS state is the complete old KMS state with
++the committed property settings done on top. The kernel will automatically avoid
++no-operation changes, so it is safe and even expected for userspace to send
++redundant property settings.  No-operation changes do not count towards actually
++needed changes, e.g.  setting MODE_ID to a different blob with identical
++contents as the current KMS state shall not be a modeset on its own.
 +
- 		ret = drm_atomic_plane_set_property(plane,
- 				plane_state, file_priv,
- 				prop, prop_value);
-@@ -1312,6 +1355,7 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
- 	struct drm_out_fence_state *fence_state;
- 	int ret = 0;
- 	unsigned int i, j, num_fences;
-+	bool async_flip = false;
- 
- 	/* disallow for drivers not supporting atomic: */
- 	if (!drm_core_check_feature(dev, DRIVER_ATOMIC))
-@@ -1348,6 +1392,8 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
- 				       "commit failed: DRM_MODE_PAGE_FLIP_ASYNC not supported with atomic\n");
- 			return -EINVAL;
- 		}
++A "modeset" is a change in KMS state that might enable, disable, or temporarily
++disrupt the emitted video signal, possibly causing visible glitches on screen. A
++modeset may also take considerably more time to complete than other kinds of
++changes, and the video sink might also need time to adapt to the new signal
++properties. Therefore a modeset must be explicitly allowed with the flag
++DRM_MODE_ATOMIC_ALLOW_MODESET.  This in combination with
++DRM_MODE_ATOMIC_TEST_ONLY allows userspace to determine if a state change is
++likely to cause visible disruption on screen and avoid such changes when end
++users do not expect them.
 +
-+		async_flip = true;
- 	}
- 
- 	/* can't test and expect an event at the same time. */
-@@ -1427,8 +1473,8 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
- 				goto out;
- 			}
- 
--			ret = drm_atomic_set_property(state, file_priv,
--						      obj, prop, prop_value);
-+			ret = drm_atomic_set_property(state, file_priv, obj,
-+						      prop, prop_value, async_flip);
- 			if (ret) {
- 				drm_mode_object_put(obj);
- 				goto out;
-diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc_internal.h
-index 501a10edd0e1..381130cebe81 100644
---- a/drivers/gpu/drm/drm_crtc_internal.h
-+++ b/drivers/gpu/drm/drm_crtc_internal.h
-@@ -251,7 +251,7 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
- 			    struct drm_file *file_priv,
- 			    struct drm_mode_object *obj,
- 			    struct drm_property *prop,
--			    uint64_t prop_value);
-+			    uint64_t prop_value, bool async_flip);
- int drm_atomic_get_property(struct drm_mode_object *obj,
- 			    struct drm_property *property, uint64_t *val);
- 
-diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
-index ba1608effc0f..64f519254895 100644
---- a/drivers/gpu/drm/drm_mode_object.c
-+++ b/drivers/gpu/drm/drm_mode_object.c
-@@ -536,7 +536,7 @@ static int set_property_atomic(struct drm_mode_object *obj,
- 						       obj_to_connector(obj),
- 						       prop_value);
- 	} else {
--		ret = drm_atomic_set_property(state, file_priv, obj, prop, prop_value);
-+		ret = drm_atomic_set_property(state, file_priv, obj, prop, prop_value, false);
- 		if (ret)
- 			goto out;
- 		ret = drm_atomic_commit(state);
++An atomic commit with the flag DRM_MODE_PAGE_FLIP_ASYNC is allowed to
++effectively change only the FB_ID property on any planes. No-operation changes
++are ignored as always. Changing any other property will cause the commit to be
++rejected.
 -- 
 2.41.0
 
