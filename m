@@ -1,73 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A7B474B393
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 17:03:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB64874B3A4
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 17:07:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E05A10E5AA;
-	Fri,  7 Jul 2023 15:03:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC2FE10E5B6;
+	Fri,  7 Jul 2023 15:07:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-fw-80008.amazon.com (smtp-fw-80008.amazon.com
- [99.78.197.219])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05B3C10E5AA;
- Fri,  7 Jul 2023 15:03:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
- t=1688742194; x=1720278194;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=4zMRrGRQ9dofsSjrjKdEiubhrk+NqzyaExLwV19ZqVg=;
- b=BHMHSoz9sbWppq/k8+U3do25K5zSgYNtSxrluZQhKB7y7dZ4RBwfs3vx
- 03RnbspDLVXx52wdHxVJF7x4w0X2m2fyUh5+1KZGPimmNURjkkAPCp9WI
- d3OYsMOXg25V8jSL1PkQzpc/6V3uWlrA8yx8Im4akL43sK1ohf4WxUC9Y Y=;
-X-IronPort-AV: E=Sophos;i="6.01,189,1684800000"; d="scan'208";a="14932592"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO
- email-inbound-relay-pdx-2b-m6i4x-cadc3fbd.us-west-2.amazon.com)
- ([10.25.36.210]) by smtp-border-fw-80008.pdx80.corp.amazon.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2023 15:03:12 +0000
-Received: from EX19MTAUWC001.ant.amazon.com
- (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
- by email-inbound-relay-pdx-2b-m6i4x-cadc3fbd.us-west-2.amazon.com (Postfix)
- with ESMTPS id ADCA8A0B25; Fri,  7 Jul 2023 15:03:11 +0000 (UTC)
-Received: from EX19D047UWB002.ant.amazon.com (10.13.138.34) by
- EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.30; Fri, 7 Jul 2023 15:03:11 +0000
-Received: from amazon.com (10.187.171.27) by EX19D047UWB002.ant.amazon.com
- (10.13.138.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Fri, 7 Jul
- 2023 15:03:10 +0000
-Date: Fri, 7 Jul 2023 09:03:07 -0600
-From: Jordan Crouse <jorcrous@amazon.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [Freedreno] [PATCH] drm/msm: Check for the GPU IOMMU during bind
-Message-ID: <20230707150307.vb4otu5e6hwoadyf@amazon.com>
-Mail-Followup-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org,
- Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Nathan Chancellor <nathan@kernel.org>,
- Rob Clark <robdclark@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Ricardo Ribalda <ribalda@chromium.org>,
- "Joel Fernandes (Google)" <joel@joelfernandes.org>,
- David Airlie <airlied@gmail.com>
-References: <20230309222049.4180579-1-jorcrous@amazon.com>
- <d73f6733-e605-0cf8-7909-8cced6e3b70d@linaro.org>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B95A10E5C1
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 15:07:27 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 17FEA22119;
+ Fri,  7 Jul 2023 15:07:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1688742444; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0jBwtBpLbUYf3LM/NKeO7/tkOZqs6OnE7Weht0MWPrI=;
+ b=xluMGhDdEdmQeD+p/G424NqPsXOIlT+3mv1x6X1osGvJ3UtYv4eR8Z9hvEMK4sSu263i+g
+ jkks3cMZtj9usi/sIIKk20R8Z0rtbdVeDu3vNktGWsUrquU2KNkiCIRB4lzFDN0pSGHy0j
+ GTn/XAkEe+MEk8QAChmQrjEuByk2Yho=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1688742444;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0jBwtBpLbUYf3LM/NKeO7/tkOZqs6OnE7Weht0MWPrI=;
+ b=rEfCQ/agpsvog4ZlEopmxTzX/5gj+tQq+MPw6XcBUGsKTZBazGjAtwumTYwD/3VE44eS3j
+ HlhwcMHTkD3kOBBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BCA60139E0;
+ Fri,  7 Jul 2023 15:07:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id Uff6LCsqqGTDCQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 07 Jul 2023 15:07:23 +0000
+Message-ID: <6a6baea8-c7ca-1399-97d8-b6cb8263829c@suse.de>
+Date: Fri, 7 Jul 2023 17:07:22 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <d73f6733-e605-0cf8-7909-8cced6e3b70d@linaro.org>
-X-Originating-IP: [10.187.171.27]
-X-ClientProxiedBy: EX19D032UWB002.ant.amazon.com (10.13.139.190) To
- EX19D047UWB002.ant.amazon.com (10.13.138.34)
-Precedence: Bulk
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 1/4] vgacon: rework Kconfig dependencies
+Content-Language: en-US
+To: Arnd Bergmann <arnd@kernel.org>
+References: <20230707095415.1449376-1-arnd@kernel.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230707095415.1449376-1-arnd@kernel.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------c0jLEo3DrAkPUh5E8Wczlh0f"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: Direct Rendering Infrastructure - Development
  <dri-devel.lists.freedesktop.org>
 List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/dri-devel>,
@@ -77,132 +69,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>, freedreno@lists.freedesktop.org,
- Ricardo Ribalda <ribalda@chromium.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Nathan
- Chancellor <nathan@kernel.org>, linux-arm-msm@vger.kernel.org, "Joel
- Fernandes \(Google\)" <joel@joelfernandes.org>, Sean Paul <sean@poorly.run>
+Cc: linux-fbdev@vger.kernel.org, Albert Ou <aou@eecs.berkeley.edu>,
+ Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Russell King <linux@armlinux.org.uk>, dri-devel@lists.freedesktop.org,
+ javierm@redhat.com, Palmer Dabbelt <palmer@dabbelt.com>,
+ linux-csky@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Guo Ren <guoren@kernel.org>, linux-riscv@lists.infradead.org,
+ Ard Biesheuvel <ardb@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 06, 2023 at 09:55:13PM +0300, Dmitry Baryshkov wrote:
-> 
-> On 10/03/2023 00:20, Jordan Crouse wrote:
-> > While booting with amd,imageon on a headless target the GPU probe was
-> > failing with -ENOSPC in get_pages() from msm_gem.c.
-> > 
-> > Investigation showed that the driver was using the default 16MB VRAM
-> > carveout because msm_use_mmu() was returning false since headless devices
-> > use a dummy parent device. Avoid this by extending the existing is_a2xx
-> > priv member to check the GPU IOMMU state on all platforms and use that
-> > check in msm_use_mmu().
-> > 
-> > This works for memory allocations but it doesn't prevent the VRAM carveout
-> > from being created because that happens before we have a chance to check
-> > the GPU IOMMU state in adreno_bind.
-> > 
-> > There are a number of possible options to resolve this but none of them are
-> > very clean. The easiest way is to likely specify vram=0 as module parameter
-> > on headless devices so that the memory doesn't get wasted.
-> 
-> This patch was on my plate for quite a while, please excuse me for
-> taking it so long.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------c0jLEo3DrAkPUh5E8Wczlh0f
+Content-Type: multipart/mixed; boundary="------------9S6fOdJUZ2bMs72BaYhzIUVD";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: javierm@redhat.com, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+ dri-devel@lists.freedesktop.org, Ard Biesheuvel <ardb@kernel.org>,
+ Helge Deller <deller@gmx.de>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Guo Ren <guoren@kernel.org>, linux-riscv@lists.infradead.org,
+ linux-csky@vger.kernel.org
+Message-ID: <6a6baea8-c7ca-1399-97d8-b6cb8263829c@suse.de>
+Subject: Re: [PATCH 1/4] vgacon: rework Kconfig dependencies
+References: <20230707095415.1449376-1-arnd@kernel.org>
+In-Reply-To: <20230707095415.1449376-1-arnd@kernel.org>
 
-No worries. I'm also chasing a bunch of other stuff too.
+--------------9S6fOdJUZ2bMs72BaYhzIUVD
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> I see the following problem with the current code. We have two different
-> instances than can access memory: MDP/DPU and GPU. And each of them can
-> either have or miss the MMU.
-> 
-> For some time I toyed with the idea of determining whether the allocated
-> BO is going to be used by display or by GPU, but then I abandoned it. We
-> can have display BOs being filled by GPU, so handling it this way would
-> complicate things a lot.
-> 
-> This actually rings a tiny bell in my head with the idea of splitting
-> the display and GPU parts to two different drivers, but I'm not sure
-> what would be the overall impact.
+SGksDQoNCmZvciB0aGUgd2hvbGUgc2VyaWVzOg0KDQpSZXZpZXdlZC1ieTogVGhvbWFzIFpp
+bW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFz
+DQoNCkFtIDA3LjA3LjIzIHVtIDExOjUyIHNjaHJpZWIgQXJuZCBCZXJnbWFubjoNCj4gRnJv
+bTogQXJuZCBCZXJnbWFubiA8YXJuZEBhcm5kYi5kZT4NCj4gDQo+IFRoZSBsaXN0IG9mIGRl
+cGVuZGVuY2llcyBoZXJlIGlzIHBocmFzZWQgYXMgYW4gb3B0LW91dCwgYnV0IHRoaXMgaXMg
+bWlzc2luZw0KPiBhIGxvdCBvZiBhcmNoaXRlY3R1cmVzIHRoYXQgZG9uJ3QgYWN0dWFsbHkg
+c3VwcG9ydCBWR0EgY29uc29sZXMsIGFuZCBzb21lDQo+IG9mIHRoZSBlbnRyaWVzIGFyZSBz
+dGFsZToNCj4gDQo+ICAgLSBwb3dlcnBjIHVzZWQgdG8gc3VwcG9ydCBWR0EgY29uc29sZXMg
+aW4gdGhlIG9sZCBhcmNoL3BwYyBjb2RlYmFzZSwgYnV0DQo+ICAgICB0aGUgbWVyZ2VkIGFy
+Y2gvcG93ZXJwYyBuZXZlciBkaWQNCj4gDQo+ICAgLSBhcm0gbGlzdHMgZm9vdGJyaWRnZSwg
+aW50ZWdyYXRvciBhbmQgbmV0d2luZGVyLCBidXQgbmV0d2luZGVyIGlzIGFjdHVhbGx5DQo+
+ICAgICBwYXJ0IG9mIGZvb3RicmlkZ2UsIGFuZCBpbnRlZ3JhdG9yIGRvZXMgbm90IGFwcGVh
+ciB0byBoYXZlIGFuIGFjdHVhbA0KPiAgICAgVkdBIGhhcmR3YXJlLCBvciBsaXN0IGl0IGlu
+IGl0cyBBVEFHIG9yIERULg0KPiANCj4gICAtIG1pcHMgaGFzIGEgZmV3IHBsYXRmb3JtcyAo
+amF6eiwgc2lieXRlLCBhbmQgc25pKSB0aGF0IGluaXRpYWxpemUNCj4gICAgIHNjcmVlbl9p
+bmZvLCBvbiBldmVyeXRoaW5nIGVsc2UgdGhlIGNvbnNvbGUgaXMgc2VsZWN0ZWQgYnV0IGNh
+bm5vdA0KPiAgICAgYWN0dWFsbHkgd29yay4NCj4gDQo+ICAgLSBjc2t5LCBoZXhnYWdvbiwg
+bG9vbmdhcmNoLCBuaW9zMiwgcmlzY3YgYW5kIHh0ZW5zYSBhcmUgbm90IGxpc3RlZA0KPiAg
+ICAgaW4gdGhlIG9wdC1vdXQgdGFibGUgYW5kIGRlY2xhcmUgYSBzY3JlZW5faW5mbyB0byBh
+bGxvdyBidWlsZGluZw0KPiAgICAgdmdhX2NvbiwgYnV0IHRoaXMgY2Fubm90IHdvcmsgYmVj
+YXVzZSB0aGUgY29uc29sZSBpcyBuZXZlciBzZWxlY3RlZC4NCj4gDQo+IFJlcGxhY2UgdGhp
+cyB3aXRoIGFuIG9wdC1pbiB0YWJsZSB0aGF0IGxpc3RzIG9ubHkgdGhlIHBsYXRmb3JtcyB0
+aGF0DQo+IHJlbWFpbi4gVGhpcyBpcyBlZmZlY3RpdmVseSB4ODYsIHBsdXMgYSBjb3VwbGUg
+b2YgaGlzdG9yaWMgd29ya3N0YXRpb24NCj4gYW5kIHNlcnZlciBtYWNoaW5lcyB0aGF0IHJl
+dXNlZCBwYXJ0cyBvZiB0aGUgeDg2IHN5c3RlbSBhcmNoaXRlY3R1cmUuDQo+IA0KPiBTaWdu
+ZWQtb2ZmLWJ5OiBBcm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRlPg0KPiAtLS0NCj4gICBk
+cml2ZXJzL3ZpZGVvL2NvbnNvbGUvS2NvbmZpZyB8IDYgKysrLS0tDQo+ICAgMSBmaWxlIGNo
+YW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1n
+aXQgYS9kcml2ZXJzL3ZpZGVvL2NvbnNvbGUvS2NvbmZpZyBiL2RyaXZlcnMvdmlkZW8vY29u
+c29sZS9LY29uZmlnDQo+IGluZGV4IGEyYTg4ZDQyZWRmMGMuLjQ3YzQ5OGRlZmMyMTEgMTAw
+NjQ0DQo+IC0tLSBhL2RyaXZlcnMvdmlkZW8vY29uc29sZS9LY29uZmlnDQo+ICsrKyBiL2Ry
+aXZlcnMvdmlkZW8vY29uc29sZS9LY29uZmlnDQo+IEBAIC03LDkgKzcsOSBAQCBtZW51ICJD
+b25zb2xlIGRpc3BsYXkgZHJpdmVyIHN1cHBvcnQiDQo+ICAgDQo+ICAgY29uZmlnIFZHQV9D
+T05TT0xFDQo+ICAgCWJvb2wgIlZHQSB0ZXh0IGNvbnNvbGUiIGlmIEVYUEVSVCB8fCAhWDg2
+DQo+IC0JZGVwZW5kcyBvbiAhNHh4ICYmICFQUENfOHh4ICYmICFTUEFSQyAmJiAhTTY4SyAm
+JiAhUEFSSVNDICYmICAhU1VQRVJIICYmIFwNCj4gLQkJKCFBUk0gfHwgQVJDSF9GT09UQlJJ
+REdFIHx8IEFSQ0hfSU5URUdSQVRPUiB8fCBBUkNIX05FVFdJTkRFUikgJiYgXA0KPiAtCQkh
+QVJNNjQgJiYgIUFSQyAmJiAhTUlDUk9CTEFaRSAmJiAhT1BFTlJJU0MgJiYgIVMzOTAgJiYg
+IVVNTA0KPiArCWRlcGVuZHMgb24gQUxQSEEgfHwgSUE2NCB8fCBYODYgfHwgXA0KPiArCQko
+QVJNICYmIEFSQ0hfRk9PVEJSSURHRSkgfHwgXA0KPiArCQkoTUlQUyAmJiAoTUlQU19NQUxU
+QSB8fCBTSUJZVEVfQkNNMTEyWCB8fCBTSUJZVEVfU0IxMjUwIHx8IFNJQllURV9CQ00xeDgw
+IHx8IFNOSV9STSkpDQo+ICAgCXNlbGVjdCBBUEVSVFVSRV9IRUxQRVJTIGlmIChEUk0gfHwg
+RkIgfHwgVkZJT19QQ0lfQ09SRSkNCj4gICAJZGVmYXVsdCB5DQo+ICAgCWhlbHANCg0KLS0g
+DQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBT
+b2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkw
+NDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBB
+bmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJl
+cmcpDQo=
 
-As I now exclusively work on headless devices I would be 100% for this,
-but I'm sure that our laptop friends might not agree :)
+--------------9S6fOdJUZ2bMs72BaYhzIUVD--
 
-> More on the msm_use_mmu() below.
-> 
-> > 
-> > Signed-off-by: Jordan Crouse <jorcrous@amazon.com>
-> > ---
-> > 
-> >   drivers/gpu/drm/msm/adreno/adreno_device.c | 6 +++++-
-> >   drivers/gpu/drm/msm/msm_drv.c              | 7 +++----
-> >   drivers/gpu/drm/msm/msm_drv.h              | 2 +-
-> >   3 files changed, 9 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > index 36f062c7582f..4f19da28f80f 100644
-> > --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > @@ -539,7 +539,11 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
-> >       DBG("Found GPU: %u.%u.%u.%u", config.rev.core, config.rev.major,
-> >               config.rev.minor, config.rev.patchid);
-> > 
-> > -     priv->is_a2xx = config.rev.core == 2;
-> > +     /*
-> > +      * A2xx has a built in IOMMU and all other IOMMU enabled targets will
-> > +      * have an ARM IOMMU attached
-> > +      */
-> > +     priv->has_gpu_iommu = config.rev.core == 2 || device_iommu_mapped(dev);
-> >       priv->has_cached_coherent = config.rev.core >= 6;
-> > 
-> >       gpu = info->init(drm);
-> > diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> > index aca48c868c14..a125a351ec90 100644
-> > --- a/drivers/gpu/drm/msm/msm_drv.c
-> > +++ b/drivers/gpu/drm/msm/msm_drv.c
-> > @@ -318,11 +318,10 @@ bool msm_use_mmu(struct drm_device *dev)
-> >       struct msm_drm_private *priv = dev->dev_private;
-> > 
-> >       /*
-> > -      * a2xx comes with its own MMU
-> > -      * On other platforms IOMMU can be declared specified either for the
-> > -      * MDP/DPU device or for its parent, MDSS device.
-> > +      * Return true if the GPU or the MDP/DPU or parent MDSS device has an
-> > +      * IOMMU
-> >        */
-> > -     return priv->is_a2xx ||
-> > +     return priv->has_gpu_iommu ||
-> >               device_iommu_mapped(dev->dev) ||
-> >               device_iommu_mapped(dev->dev->parent);
-> 
-> I have a generic feeling that both old an new code is not fully correct.
-> Please correct me if I'm wrong:
-> 
-> We should be using VRAM, if either of the blocks can not use remapped
-> memory. So this should have been:
-> 
-> bool msm_use_mmu()
-> {
->  if (!gpu_has_iommu)
->    return false;
-> 
->  if (have_display_part && !display_has_mmu())
->    return false;
-> 
->  return true;
-> }
-> 
-> What do you think.
+--------------c0jLEo3DrAkPUh5E8Wczlh0f
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-I would have to see (and try) the real code but that seems like it might
-be reasonable. I would like to hear from some of the a2xx users too
-because this mostly affects them. On 3xx and newer you've always had the
-option of not having a MMU for GPU or display but I can't think of any
-use cases where you wouldn't want it.
+-----BEGIN PGP SIGNATURE-----
 
-> --
-> With best wishes
-> Dmitry
-> 
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSoKioFAwAAAAAACgkQlh/E3EQov+Av
+JA//QnTJ1dwQAnEXlldiURfrGPorNI75lYqV20fxNajAJDwvWnl6pHkB0LPysSaQYiJEf5nAwcjm
+2OX8nkHJUQSvTGlaeaBElhEXluMbxzFiMLP9zoWfPh0AiyXG7NB8HunNlEB7fCIdlBvStTXz5Pfs
+KaA+GshCKd7cOvp0LMOTZzY5kERZAq7uyc4E9AIrj4FSQHdaTeASdsiThgni7135x3hJ01/JS8qo
+nHlDFNEbWSpGf7Oz+0TKqwEMRa4zL9najM/OllMTRQMKWirHthfNTgY//JVTh1HADoKBkUtmjGSc
+oybH3jzaGjTvnNk+NbMpefoth5DDDrLAjzkF6PAzVnZVPIE0b674sdlA5Z99lEWA8uDsR96dWScf
+SFzxZxITrYahaiJ3feSci43aeZDyOn/DSFwgo4+cPKdPd1DDAQ2pbpUkeB8tHVfZH7FZoWRcX+5J
+zT2xzoXSVOuE19KfVW/AVGwTYgPgdlFOH77PwNlfVAqwGVQQXfwhDQQ7uURtV6OjavOi3EcAqOFr
+JJBTH2xUn5zgyuLw9IFwssw6gIdafn0nuaWsYOmJUjPsfiXRiMKZG96t6AJtNwcxYQh/mcUPF1FG
+RmOE423rFG9clEQIAR2NcOaI+vcjMJ4kUAnUzIFCoisTkmUAT9YZAEN+5K1f9NbXnPhpgQgKcQt4
+EDg=
+=YXVc
+-----END PGP SIGNATURE-----
 
-Jordan
+--------------c0jLEo3DrAkPUh5E8Wczlh0f--
