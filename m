@@ -1,53 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23C7274AD0B
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 10:34:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6911674AD25
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 10:34:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2886310E52D;
-	Fri,  7 Jul 2023 08:34:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BC1A10E535;
+	Fri,  7 Jul 2023 08:34:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E347710E528
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 08:34:27 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48CBD10E528
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 08:34:29 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 7989C227B0;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B3905227BD;
  Fri,  7 Jul 2023 08:34:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1688718866; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=Pvfj/OY6eCHI5adzX5a09+e+OBxPRPHmLMKqJIGthDI=;
- b=1GFi3pIGlBjSZkCD/VYvTY5TMcveaTo2LhruYtHhaMYNkMV8bjN6ZvuZScTeBSuIj1N951
- S3p7n9wct/WmCXVSVsJwYTbsHbMY7Ph3loJvwC9HKAfMc99osCFJJ0uLMtoDdTQAxL57JT
- Kgy4uydqkc5Ah9uaFHeNHY9ziHw1P8c=
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cKR3ZnbG7MMz5F4/vJcdpyoOxU6C2g5Dy4H9g3Ktz+0=;
+ b=Nbcs7L2X8dIrZ+pjQOetdl5EkQ4rA1yUjdmIj0aEumWkNisY4c6iuwVlm4OR9RFP06ww7d
+ Exd+QdNTTqYEi8x1GLb8QJblP6+pmWAHraagp5/la2v9YIVrYyL/NnwMTRM5IWl6DA+UcN
+ 4rgfrhQc9Fddsv5Ke4IwoY4gmCKxKjM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1688718866;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=Pvfj/OY6eCHI5adzX5a09+e+OBxPRPHmLMKqJIGthDI=;
- b=3ZFfdrcNBnX0QGiMOP/uCo/tK0c3jzRLvVLQMdkCfhlkjQGhUmk/NQ1hsItKS5pHpbvyme
- 02tuatFhYQSDuQCg==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cKR3ZnbG7MMz5F4/vJcdpyoOxU6C2g5Dy4H9g3Ktz+0=;
+ b=yV+s2SQuvmnMWfG30ZwHvxeNO7ITtmJ8CzxOX04kJDO0NagLNxnKxD8XCrfU+ew+AhhCs3
+ 9WVRmDOsaeHNnzDA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4697B1346D;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7EC0813A18;
  Fri,  7 Jul 2023 08:34:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 0qwgEBLOp2RdQAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id sA8OHhLOp2RdQAAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Fri, 07 Jul 2023 08:34:26 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Subject: [PATCH v3 00/12] drm: Improve fbdev emulation for DMA-able
- framebuffers
-Date: Fri,  7 Jul 2023 10:31:51 +0200
-Message-ID: <20230707083422.18691-1-tzimmermann@suse.de>
+Subject: [PATCH v3 01/12] fbdev: Add fb_ops init macros for framebuffers in
+ DMA-able memory
+Date: Fri,  7 Jul 2023 10:31:52 +0200
+Message-ID: <20230707083422.18691-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230707083422.18691-1-tzimmermann@suse.de>
+References: <20230707083422.18691-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,72 +69,72 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-fbdev@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add fbdev helpers for framebuffers in DMA-able memory and update
-fbdev emulation in the respective DRM drivers. DMA memory used to
-handled as system memory. Improve this and prepare for possible
-future changes.
+Add initializer macros for struct fb_ops for framebuffers in DMA-able
+memory areas. Also add a corresponding Kconfig token. As of now, this
+is equivalent to system framebuffers and mostly useful for labeling
+drivers correctly.
 
-Patch 1 adds initializer macros for struct fb_ops and a Kconfig
-token for framebuffers in DMA memory.
+A later patch may add a generic DMA-specific mmap operation. Linux
+offers a number of dma_mmap_*() helpers for different use cases.
 
-Patches 2 to 5 update fbdev-dma and tegra. No functional changes
-are expected as both used system memory before.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Acked-by: Maxime Ripard <mripard@kernel.org>
+Cc: Helge Deller <deller@gmx.de>
+---
+ drivers/video/fbdev/Kconfig |  8 ++++++++
+ include/linux/fb.h          | 13 +++++++++++++
+ 2 files changed, 21 insertions(+)
 
-Patches 6 and 7 update exynos to use DMA helpers. Exynos incorrectly
-used fbdev's I/O-memory helpers. Fix this.
-
-Patches 8 to 10 update omapdrm to use DMA helpers. Patch 7 first
-reworks the driver's mmap to current best practices. This also makes
-it suitable for use with fbdev, which patches 8 and 9 implement.
-
-Patchies 11 removes some fbdev macros for system memory that are now
-unused; patch 12 fixes some comments.
-
-The patchset would ideally go through drm-misc-next. Future patches
-can build upon it and update fbdev drivers in similar ways.
-
-v3:
-	* set screen_buffer in tegra (Thierry)
-v2:
-	* fix omap mmap flags
-	* drop FBINFO_DEFAULT from patches
-	* minor cleanups
-
-Thomas Zimmermann (12):
-  fbdev: Add fb_ops init macros for framebuffers in DMA-able memory
-  drm/fbdev-dma: Use fbdev DMA helpers
-  drm/tegra: Use fbdev DMA helpers
-  drm/tegra: Set fbdev FBINFO_VIRTFB flag
-  drm/tegra: Store pointer to vmap'ed framebuffer in screen_buffer
-  drm/exynos: Use fbdev DMA helpers
-  drm/exynos: Set fbdev FBINFO_VIRTFB flag
-  drm/omapdrm: Set VM flags in GEM-object mmap function
-  drm/omapdrm: Use GEM mmap for fbdev emulation
-  drm/omapdrm: Set fbdev FBINFO_VIRTFB flag
-  fbdev: Remove FB_DEFAULT_SYS_OPS
-  fbdev: Harmonize some comments in <linux/fb.h>
-
- drivers/gpu/drm/Kconfig                   |  2 +-
- drivers/gpu/drm/drm_fbdev_dma.c           |  4 ++--
- drivers/gpu/drm/exynos/Kconfig            |  2 +-
- drivers/gpu/drm/exynos/exynos_drm_fbdev.c |  5 ++--
- drivers/gpu/drm/omapdrm/Kconfig           |  2 +-
- drivers/gpu/drm/omapdrm/omap_drv.c        | 12 +---------
- drivers/gpu/drm/omapdrm/omap_fbdev.c      | 16 +++++++++++--
- drivers/gpu/drm/omapdrm/omap_gem.c        | 24 +++++--------------
- drivers/gpu/drm/omapdrm/omap_gem.h        |  3 ---
- drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c |  7 +-----
- drivers/gpu/drm/tegra/Kconfig             |  2 +-
- drivers/gpu/drm/tegra/fbdev.c             |  7 +++---
- drivers/video/fbdev/Kconfig               |  8 +++++++
- include/linux/fb.h                        | 29 ++++++++++-------------
- 14 files changed, 56 insertions(+), 67 deletions(-)
-
+diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+index cecf15418632..f14229757311 100644
+--- a/drivers/video/fbdev/Kconfig
++++ b/drivers/video/fbdev/Kconfig
+@@ -168,6 +168,14 @@ config FB_DEFERRED_IO
+ 	bool
+ 	depends on FB
+ 
++config FB_DMA_HELPERS
++	bool
++	depends on FB
++	select FB_SYS_COPYAREA
++	select FB_SYS_FILLRECT
++	select FB_SYS_FOPS
++	select FB_SYS_IMAGEBLIT
++
+ config FB_IO_HELPERS
+ 	bool
+ 	depends on FB
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index 1d5c13f34b09..1191a78c5289 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -594,6 +594,19 @@ extern ssize_t fb_sys_write(struct fb_info *info, const char __user *buf,
+ 	__FB_DEFAULT_SYS_OPS_DRAW, \
+ 	__FB_DEFAULT_SYS_OPS_MMAP
+ 
++/*
++ * Helpers for framebuffers in DMA-able memory
++ */
++
++#define __FB_DEFAULT_DMA_OPS_RDWR \
++	.fb_read	= fb_sys_read, \
++	.fb_write	= fb_sys_write
++
++#define __FB_DEFAULT_DMA_OPS_DRAW \
++	.fb_fillrect	= sys_fillrect, \
++	.fb_copyarea	= sys_copyarea, \
++	.fb_imageblit	= sys_imageblit
++
+ /* drivers/video/fbmem.c */
+ extern int register_framebuffer(struct fb_info *fb_info);
+ extern void unregister_framebuffer(struct fb_info *fb_info);
 -- 
 2.41.0
 
