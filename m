@@ -1,61 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7E9B74B730
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 21:35:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B28074B739
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 21:37:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B0EA10E5DF;
-	Fri,  7 Jul 2023 19:35:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19D5510E030;
+	Fri,  7 Jul 2023 19:37:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 248A310E5DF
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 19:35:16 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- 5b1f17b1804b1-3fbda07675fso05e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Jul 2023 12:35:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1688758513; x=1691350513;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NjTTuy3pR7yCwxc+ymqk+V4QgNVJ/yG4vdogUTF+H08=;
- b=nmCtPhlm928yluJDW7fvKvZ/+zzYDWY9FE3v70mZ+XNsB2fApZMKLaudto7gm1ZkPY
- tIBUBEtfY9THz82uKOIZKKSy87kT8hPbIkOaKH09qTPPfYTY5RtDgxAKL1XV4o2I3mi5
- zR0RuJ5WTdwSTsu1AK+gJI9GEiFuY9bO7MhN8gwsRkm0icR2oDo1u19AKofExxZM8jtS
- vvaLJg6x0rJIQ+9gjcXWNdGVFC/ZcRJcycmXuoYPLoO1rNJ0Y8l/2rYrG11ELU5m0IPY
- gSrLa6GyW7UNHev4K/72o0DyFnbRPTJB95x075l0qWTISPAgBRdQaL1Us5K3mSv+RAS8
- W8CQ==
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
+ [209.85.219.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 338AF10E030;
+ Fri,  7 Jul 2023 19:37:12 +0000 (UTC)
+Received: by mail-yb1-f171.google.com with SMTP id
+ 3f1490d57ef6-c4e4c258ba9so2507268276.1; 
+ Fri, 07 Jul 2023 12:37:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688758513; x=1691350513;
+ d=1e100.net; s=20221208; t=1688758630; x=1691350630;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NjTTuy3pR7yCwxc+ymqk+V4QgNVJ/yG4vdogUTF+H08=;
- b=OKYBx19fnyP1VpLrK5nbkN0x+fwZ9vIZ3hPIZSijju97eAthywmWQI3aOKSz6E+a1+
- UtGbjFWhM05QZ9cSh4Sugqyw+ygTpllon1WX9VymDYBiIu2XJh/tynqII+hT/7Hc8mia
- GO2t+doy82MEzAGLKtFMzRWuJREYMEQIvzWx0GApi6fDuT0U/vXCwYZ/25FEs0lkpFrx
- AvIzhkofKVxV8RbS31Gv7GFKw/MqIx2cvPzE3/mmAdHD3DDFRYtUFrKupqVhMGUHZcA1
- FsoZqEX1WcjGM5pg96tureezOgA5rf4An9uDq8OpcomWnIQomxckFErWDxtYg73hjnko
- wP2w==
-X-Gm-Message-State: ABy/qLZAn/rkv6hfwa78dvr8yOg8DxMI/FOfeyvVDEK5xUXknt+oF5aQ
- D9AO1HT5+aB6zuAc/QIuiAITnnpv4j2JIOt8aLc9AA==
-X-Google-Smtp-Source: APBJJlHoDXrVRzZplAIxqvP5BGfmN0a1MoLsMFcOWAv9R9XEIWj3t/JVPls4FKxp06zmHVe2bjdVm98ZFJcGPedDjsk=
-X-Received: by 2002:a05:600c:3c97:b0:3f9:738:4efe with SMTP id
- bg23-20020a05600c3c9700b003f907384efemr4804wmb.1.1688758512599; Fri, 07 Jul
- 2023 12:35:12 -0700 (PDT)
+ bh=OWQQd+QTfcKD61lhZj5te5p5tmq1PqejPqHsprM5Iyw=;
+ b=BpE0i/gma4W0+2IHlhR/ljxvndX77lGW+6PMOrhFASmVssFfp2Wgp3J6IEllIe5sVC
+ cjBppEQmbSQI6oKlUe1vw9R71+6vJ1GqNPFredyskQfNpyfbTdd9iyEFBG1WmSpjxaFh
+ 1lzCjhEHo/LIkhD2w/RFujmKDbxe+9Ho1ZKIM3UOna8ukYPtt6aTNmULpsD/5qxH4J2J
+ H8Awj9TTUEWodjcm6Dw17FHRkmhf4K214PpHj37OFwoETV0DlS/Lx5z0vrVrbsEoeTWh
+ fxHAlnqUTYF9+B6epiC5yGQeyUXxWXaOSislKfYY9jJNcDd4SYSjosEgu8r0Fa7YnM+e
+ eSDg==
+X-Gm-Message-State: ABy/qLam36EGGqN1n6h3lPm0d+iWQufPpXzXxP+isXaaEWKB5odTKzZ0
+ I43ygeKeNMnKK5n5QloEEZy8vDQCAl4dqQ==
+X-Google-Smtp-Source: APBJJlEFL76/c7L3kZubN4A0PKPIktnKSabDsMNS6hcsd6+BmXWGMeMYvWKxW6upxlcdDTUzrqbGAA==
+X-Received: by 2002:a25:c092:0:b0:bca:efc4:2ccf with SMTP id
+ c140-20020a25c092000000b00bcaefc42ccfmr4965954ybf.44.1688758629978; 
+ Fri, 07 Jul 2023 12:37:09 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com.
+ [209.85.219.179]) by smtp.gmail.com with ESMTPSA id
+ n76-20020a25d64f000000b00be45a29d440sm1113484ybg.12.2023.07.07.12.37.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Jul 2023 12:37:09 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id
+ 3f1490d57ef6-c4e4c258ba9so2507253276.1; 
+ Fri, 07 Jul 2023 12:37:09 -0700 (PDT)
+X-Received: by 2002:a25:a128:0:b0:c60:982f:680b with SMTP id
+ z37-20020a25a128000000b00c60982f680bmr5226669ybh.46.1688758629284; Fri, 07
+ Jul 2023 12:37:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230614235452.3765265-1-pceballos@google.com>
- <6b49563d-e9e7-ae8e-582e-f4aead06de0a@intel.com>
-In-Reply-To: <6b49563d-e9e7-ae8e-582e-f4aead06de0a@intel.com>
-From: Pablo Ceballos <pceballos@google.com>
-Date: Fri, 7 Jul 2023 12:34:59 -0700
-Message-ID: <CAO9JgFx2i=S5P6_ndO85k3GFnggyJW1pXavc1emmSC3yjO8M7A@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH v2] drm/i915/display/lspcon: Increase LSPCON
- mode settle timeout
-To: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
+References: <8ffa3be3dc7b27345dde3bb32498c4cd3af050fa.1688632590.git.geert+renesas@glider.be>
+ <c13c9974-8903-904a-55a8-4065b43a437b@gmail.com>
+In-Reply-To: <c13c9974-8903-904a-55a8-4065b43a437b@gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 7 Jul 2023 21:36:57 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW226aZY_Nx9nfbS-ivsW2oarbNAjZB10O60W0SUQzmYg@mail.gmail.com>
+Message-ID: <CAMuHMdW226aZY_Nx9nfbS-ivsW2oarbNAjZB10O60W0SUQzmYg@mail.gmail.com>
+Subject: Re: [PATCH libdrm v2] amdgpu: Use PRI?64 to format uint64_t
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,33 +69,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 14, 2023 at 9:35=E2=80=AFPM Nautiyal, Ankit K
-<ankit.k.nautiyal@intel.com> wrote:
-> I was wondering if trying to set LS/PCON mode multiple time will have
-> any effect.
+Hi Christian,
+
+On Fri, Jul 7, 2023 at 2:06=E2=80=AFPM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+> Am 06.07.23 um 10:36 schrieb Geert Uytterhoeven:
+> > On 32-bit:
+> >
+> >      ../tests/amdgpu/amdgpu_stress.c: In function =E2=80=98alloc_bo=E2=
+=80=99:
+> >      ../tests/amdgpu/amdgpu_stress.c:178:49: warning: format =E2=80=98%=
+lx=E2=80=99 expects argument of type =E2=80=98long unsigned int=E2=80=99, b=
+ut argument 4 has type =E2=80=98uint64_t=E2=80=99 {aka =E2=80=98long long u=
+nsigned int=E2=80=99} [-Wformat=3D]
+> >        fprintf(stdout, "Allocated BO number %u at 0x%lx, domain 0x%x, s=
+ize %lu\n",
+> >                                                     ~~^
+> >                                                     %llx
+> >         num_buffers++, addr, domain, size);
+> >                        ~~~~
+
+[...]
+
+> > Fix this by using the proper "PRI?64" format specifiers.
+> >
+> > Fixes: d77ccdf3ba6f5a39 ("amdgpu: add amdgpu_stress utility v2")
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 >
-> Unfortunately I do not have access to machine with Parade LSPCON chip,
-> had suggested in yet another git lab issue [2].
->
-> I have a patch for this, sent to try-bot, though not sent to intel-gfx
-> yet [3].
+> Well generally good patch, but libdrm changes are now reviewed by merge
+> request and not on the mailing list any more.
 
-I tested this patch and it did not resolve the problem. The error log
-was repeated multiple times and there were still link training issues
-afterwards.
+I heard such a rumor, too ;-)
 
-> The timeout value was already increased from 100 ms to 400 ms earlier too=
-.
->
-> If there is indeed no other way, perhaps need to have this solution.
+Unfortunately one year later, that process is still not documented in
+https://gitlab.freedesktop.org/mesa/drm/-/blob/main/CONTRIBUTING.rst
+which still instructs me (a casual drive-by developer) to just submit
+my patches to the mailing list...
 
-Yes, can this please be merged?
+Thanks!
 
-Regards,
-Pablo
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
