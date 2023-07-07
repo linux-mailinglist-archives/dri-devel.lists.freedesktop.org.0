@@ -2,57 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A5874AB9F
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 09:11:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E271A74ABB7
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 09:18:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2DD910E50B;
-	Fri,  7 Jul 2023 07:11:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC70010E517;
+	Fri,  7 Jul 2023 07:18:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEECA10E50B
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 07:11:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1688713900; x=1720249900;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=d6ggIXwITiqY7HTbBGGZ+pYRmSceATHqodYjbC3p9JY=;
- b=TOrOtwtdX/OCvMrhbNoBzagNAtYGjuoWOVKiM9x/2cPAsVvRkV7HDeEj
- JwSl5JBWT2Y67ohnFwGq4DqTb55YG11jGIF5xwffseUd/72Hy7h1zFVO9
- r5TBqkLuUfwHy186fpGLPFMDOaY1+zKbnh3hyENemNZwesywGuLA0kQmv
- f5dJ4fIXSKIX1pVMQZeBDf89z86YeXUfKatoMDh817JAoWMcgyFCyYvVp
- SZ2AZBg+RmhCW6y/AL19/uX6kEY7GJZ6mt7W9Lh2wKPb+uNUp9MmKN9Se
- lRdSRznkB9tyr1f9F6xNhekacF+OtdLg6Z7Tv4YwDZgWuinwSvrvBuoSz Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="344155441"
-X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; d="scan'208";a="344155441"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2023 00:11:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="755051550"
-X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; d="scan'208";a="755051550"
-Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.249.151.57])
- ([10.249.151.57])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2023 00:11:36 -0700
-Message-ID: <1e20d490-ff0a-25db-214c-b4e98b620286@linux.intel.com>
-Date: Fri, 7 Jul 2023 09:11:34 +0200
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E56F710E517
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 07:18:13 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id
+ ffacd0b85a97d-3144098df56so1680609f8f.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Jul 2023 00:18:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1688714292; x=1691306292;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=bCwoi876EKAecpckR+Py42F8u1vBxeSlNz7kEWIyaPc=;
+ b=YLKJOTomKcga8LSNNYm85p5UwI/HaFsuSIZCISBbizjNSIKpY9hx4rkXXuKCZpntpf
+ QUlXQ4+E+qj6AxUyZN9dntFfLu1W629l5zcjyC8miXsC1Y2mCefx77iYdYXAmbiAVP9U
+ FKiAF+NeYGlIVMSTBKC5yAeuGyICL0O2dAW7pqDiLZC6RR9X9JrxMXA9Kquyx0zXJsxg
+ UQS/ERBrOcdah16s/MInX5npjzhXKmoLsOurH+8Xz+dWaXa+Ue7ryXLlb437owv2Hncv
+ hmJ6XiXtkP8qdilVXTO4lYmDOeSSrUb4F9dS1999wmJO0P13RJGDLhxLjy7NCEc350Sn
+ fDLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688714292; x=1691306292;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bCwoi876EKAecpckR+Py42F8u1vBxeSlNz7kEWIyaPc=;
+ b=PZ5VN0YpAqFSxMXc36dM760UJgnoCNXVnLGb+7/vweZsXhLUoo9GQzY7wl3dBjXGNH
+ Jst0na73V1zUkuARun49TWg95LC5NHfMHSdJg+gn7zF5iqE/bnpCtiMoTEf87erhj6nE
+ 9yXMv4sBSTd0vzXt3mAKXdAcXb3ct+YAg6crg3F6Su/rWmfOEvV63DFeYYxiWpK4Xc7f
+ A27DJsl2Ws5+m4a2ZpMxBngjZ/7CzWDLwCTk/Cnb/fsqkIH5lV2k516ZQHnraiyXabsQ
+ yFEElrVkw5hhHYUkIpw4fq9nS6dFbFavTSLUELlBjhRSXrc3MYaJpTV3XEKnhxZt6qGS
+ x9Yw==
+X-Gm-Message-State: ABy/qLbmPf9ApHnuTpB2/bHco2Nf9KYf1da/j1BybKYtIjpuC1YftUqB
+ y0G7N2gCl3V4163jegxIvIjKpA==
+X-Google-Smtp-Source: APBJJlG3Ohe9X+Ts1DuAivOoFi5TO38wSn/K9J8fgqQll2hX5uulv+S6/VxxHVszDAStVbcil2+KVA==
+X-Received: by 2002:adf:e550:0:b0:314:2e77:afec with SMTP id
+ z16-20020adfe550000000b003142e77afecmr3593733wrm.57.1688714292009; 
+ Fri, 07 Jul 2023 00:18:12 -0700 (PDT)
+Received: from [192.168.27.65] (home.beaume.starnux.net. [82.66.176.246])
+ by smtp.gmail.com with ESMTPSA id
+ k6-20020adfd846000000b00314315071bbsm3699097wrl.38.2023.07.07.00.18.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Jul 2023 00:18:11 -0700 (PDT)
+Message-ID: <d5fb8106-b8f3-0acf-1267-d4d6d0860e25@linaro.org>
+Date: Fri, 7 Jul 2023 09:18:09 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH 1/5] accel/ivpu: Initial debugfs support
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 2/2] drm/bridge: lt9611: Do not generate HFP/HBP/HSA and
+ EOT packet
 Content-Language: en-US
-To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-References: <20230524074847.866711-1-stanislaw.gruszka@linux.intel.com>
- <20230524074847.866711-2-stanislaw.gruszka@linux.intel.com>
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20230524074847.866711-2-stanislaw.gruszka@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Amit Pundir <amit.pundir@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20230403221233.500485-1-marex@denx.de>
+ <20230403221233.500485-2-marex@denx.de>
+ <CAMi1Hd0TD=2z_=bcDrht3H_wiLvAFcv8Z-U_r_KUOoeMc6UMjw@mail.gmail.com>
+ <CAMty3ZBNFu=f-FS4YFN4wfmiTuk=48nna-vub1eMYwidDt+msg@mail.gmail.com>
+ <CAA8EJppbdiUz5m+9EAPnFb916DaS_VKWd30c7_EPWjuid8rtqQ@mail.gmail.com>
+ <CAMi1Hd2G5PJmz4wpO1wbdqKd0FA8LBgvRDv2u5ZYAMb5s6Kt0A@mail.gmail.com>
+Organization: Linaro Developer Services
+In-Reply-To: <CAMi1Hd2G5PJmz4wpO1wbdqKd0FA8LBgvRDv2u5ZYAMb5s6Kt0A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,160 +85,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>
+Reply-To: neil.armstrong@linaro.org
+Cc: Marek Vasut <marex@denx.de>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Robert Foss <rfoss@kernel.org>,
+ Linux regressions mailing list <regressions@lists.linux.dev>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, Michael Walle <michael@walle.cc>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Hi,
 
-On 24.05.2023 09:48, Stanislaw Gruszka wrote:
-> Add initial debugfs support. Provide below functionality:
+On 06/07/2023 11:20, Amit Pundir wrote:
+> On Wed, 5 Jul 2023 at 11:09, Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+>>
+>> [Adding freedreno@ to cc list]
+>>
+>> On Wed, 5 Jul 2023 at 08:31, Jagan Teki <jagan@amarulasolutions.com> wrote:
+>>>
+>>> Hi Amit,
+>>>
+>>> On Wed, Jul 5, 2023 at 10:15 AM Amit Pundir <amit.pundir@linaro.org> wrote:
+>>>>
+>>>> Hi Marek,
+>>>>
+>>>> On Wed, 5 Jul 2023 at 01:48, Marek Vasut <marex@denx.de> wrote:
+>>>>>
+>>>>> Do not generate the HS front and back porch gaps, the HSA gap and
+>>>>> EOT packet, as these packets are not required. This makes the bridge
+>>>>> work with Samsung DSIM on i.MX8MM and i.MX8MP.
+>>>>
+>>>> This patch broke display on Dragonboard 845c (SDM845) devboard running
+>>>> AOSP. This is what I see
+>>>> https://people.linaro.org/~amit.pundir/db845c-userdebug/v6.5-broken-display/PXL_20230704_150156326.jpg.
+>>>> Reverting this patch fixes this regression for me.
+>>>
+>>> Might be msm dsi host require proper handling on these updated
+>>> mode_flags? did they?
+>>
+>> The msm DSI host supports those flags. Also, I'd like to point out
+>> that the patch didn't change the rest of the driver code. So even if
+>> drm/msm ignored some of the flags, it should not have caused the
+>> issue. Most likely the issue is on the lt9611 side. I's suspect that
+>> additional programming is required to make it work with these flags.
 > 
-> - print buffer objects
-> - print latest boot mode
-> - trigger vpu engine reset
+> I spent some time today on smoke testing these flags (individually and
+> in limited combination) on DB845c, to narrow down this breakage to one
+> or more flag(s) triggering it. Here are my observations in limited
+> testing done so far.
 > 
-> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-> ---
->  drivers/accel/ivpu/Makefile       |  1 +
->  drivers/accel/ivpu/ivpu_debugfs.c | 74 +++++++++++++++++++++++++++++++
->  drivers/accel/ivpu/ivpu_debugfs.h | 13 ++++++
->  drivers/accel/ivpu/ivpu_drv.c     |  5 +++
->  4 files changed, 93 insertions(+)
->  create mode 100644 drivers/accel/ivpu/ivpu_debugfs.c
->  create mode 100644 drivers/accel/ivpu/ivpu_debugfs.h
+> There is no regression with MIPI_DSI_MODE_NO_EOT_PACKET when enabled
+> alone and system boots to UI as usual.
 > 
-> diff --git a/drivers/accel/ivpu/Makefile b/drivers/accel/ivpu/Makefile
-> index 80f1fb3548ae..3ca2fb3936f6 100644
-> --- a/drivers/accel/ivpu/Makefile
-> +++ b/drivers/accel/ivpu/Makefile
-> @@ -2,6 +2,7 @@
->  # Copyright (C) 2023 Intel Corporation
->  
->  intel_vpu-y := \
-> +	ivpu_debugfs.o \
->  	ivpu_drv.o \
->  	ivpu_fw.o \
->  	ivpu_gem.o \
-> diff --git a/drivers/accel/ivpu/ivpu_debugfs.c b/drivers/accel/ivpu/ivpu_debugfs.c
-> new file mode 100644
-> index 000000000000..df51ec008fb5
-> --- /dev/null
-> +++ b/drivers/accel/ivpu/ivpu_debugfs.c
-> @@ -0,0 +1,74 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (C) 2020-2023 Intel Corporation
-> + */
-> +
-> +#include <drm/drm_debugfs.h>
-> +#include <drm/drm_file.h>
-> +#include <drm/drm_print.h>
-> +
-> +#include <uapi/drm/ivpu_accel.h>
-> +
-> +#include "ivpu_debugfs.h"
-> +#include "ivpu_drv.h"
-> +#include "ivpu_gem.h"
-> +#include "ivpu_jsm_msg.h"
-> +#include "ivpu_pm.h"
-> +
-> +static int bo_list_show(struct seq_file *s, void *v)
-> +{
-> +	struct drm_info_node *node = (struct drm_info_node *)s->private;
-> +	struct drm_printer p = drm_seq_file_printer(s);
-> +
-> +	ivpu_bo_list(node->minor->dev, &p);
-> +
-> +	return 0;
-> +}
-> +
-> +static int last_bootmode_show(struct seq_file *s, void *v)
-> +{
-> +	struct drm_info_node *node = (struct drm_info_node *)s->private;
-> +	struct ivpu_device *vdev = to_ivpu_device(node->minor->dev);
-> +
-> +	seq_printf(s, "%s\n", (vdev->pm->is_warmboot) ? "warmboot" : "coldboot");
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct drm_info_list vdev_debugfs_list[] = {
-> +	{"bo_list", bo_list_show, 0},
-> +	{"last_bootmode", last_bootmode_show, 0},
-> +};
-> +
-> +static ssize_t
-> +ivpu_reset_engine_fn(struct file *file, const char __user *user_buf, size_t size, loff_t *pos)
-> +{
-> +	struct ivpu_device *vdev = file->private_data;
-> +
-> +	if (!size)
-> +		return -EINVAL;
-> +
-> +	if (ivpu_jsm_reset_engine(vdev, DRM_IVPU_ENGINE_COMPUTE))
-> +		return -ENODEV;
-> +	if (ivpu_jsm_reset_engine(vdev, DRM_IVPU_ENGINE_COPY))
-> +		return -ENODEV;
-> +
-> +	return size;
-> +}
-> +
-> +static const struct file_operations ivpu_reset_engine_fops = {
-> +	.owner = THIS_MODULE,
-> +	.open = simple_open,
-> +	.write = ivpu_reset_engine_fn,
-> +};
-> +
-> +void ivpu_debugfs_init(struct drm_minor *minor)
-> +{
-> +	struct ivpu_device *vdev = to_ivpu_device(minor->dev);
-> +
-> +	drm_debugfs_create_files(vdev_debugfs_list, ARRAY_SIZE(vdev_debugfs_list),
-> +				 minor->debugfs_root, minor);
-> +
-> +	debugfs_create_file("reset_engine", 0200, minor->debugfs_root, vdev,
-> +			    &ivpu_reset_engine_fops);
-> +}
-> diff --git a/drivers/accel/ivpu/ivpu_debugfs.h b/drivers/accel/ivpu/ivpu_debugfs.h
-> new file mode 100644
-> index 000000000000..78f80c1e00e4
-> --- /dev/null
-> +++ b/drivers/accel/ivpu/ivpu_debugfs.h
-> @@ -0,0 +1,13 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2020-2023 Intel Corporation
-> + */
-> +
-> +#ifndef __IVPU_DEBUGFS_H__
-> +#define __IVPU_DEBUGFS_H__
-> +
-> +struct drm_minor;
-> +
-> +void ivpu_debugfs_init(struct drm_minor *minor);
-> +
-> +#endif /* __IVPU_DEBUGFS_H__ */
-> diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-> index 2df7643b843d..4c0345417c14 100644
-> --- a/drivers/accel/ivpu/ivpu_drv.c
-> +++ b/drivers/accel/ivpu/ivpu_drv.c
-> @@ -14,6 +14,7 @@
->  #include <drm/drm_prime.h>
->  
->  #include "vpu_boot_api.h"
-> +#include "ivpu_debugfs.h"
->  #include "ivpu_drv.h"
->  #include "ivpu_fw.h"
->  #include "ivpu_gem.h"
-> @@ -378,6 +379,10 @@ static const struct drm_driver driver = {
->  	.gem_prime_import = ivpu_gem_prime_import,
->  	.gem_prime_mmap = drm_gem_prime_mmap,
->  
-> +#if defined(CONFIG_DEBUG_FS)
-> +	.debugfs_init = ivpu_debugfs_init,
-> +#endif
-> +
->  	.ioctls = ivpu_drm_ioctls,
->  	.num_ioctls = ARRAY_SIZE(ivpu_drm_ioctls),
->  	.fops = &ivpu_fops,
+> MIPI_DSI_MODE_VIDEO_NO_HFP always trigger the broken display as in the
+> screenshot[1] shared earlier as well.
+> 
+> Adding either of MIPI_DSI_MODE_VIDEO_NO_HSA and
+> MIPI_DSI_MODE_VIDEO_NO_HBP always result in no display, unless paired
+> with MIPI_DSI_MODE_VIDEO_NO_HFP and in that case we get the broken
+> display as reported.
+> 
+> In short other than MIPI_DSI_MODE_NO_EOT_PACKET flag, all other flags
+> added in this commit break the display on DB845c one way or another.
+
+I think the investigation would be to understand why samsung-dsim requires
+such flags and/or what are the difference in behavior between MSM DSI and samsung DSIM
+for those flags ?
+
+If someone has access to the lt9611 datasheet, so it requires HSA/HFP/HBP to be
+skipped ? and does MSM DSI and samsung DSIM skip them in the same way ?
+
+Neil
+
+> 
+> Regards,
+> Amit Pundir
+> [1] https://people.linaro.org/~amit.pundir/db845c-userdebug/v6.5-broken-display/PXL_20230704_150156326.jpg
+> 
+>>
+>> --
+>> With best wishes
+>> Dmitry
+
