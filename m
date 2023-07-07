@@ -2,51 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D098B74B774
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 21:46:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0361B74B7F5
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 22:37:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7B1210E048;
-	Fri,  7 Jul 2023 19:46:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56F2E10E04E;
+	Fri,  7 Jul 2023 20:37:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33D4210E048
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 19:46:53 +0000 (UTC)
-Received: from [192.168.2.30] (109-252-155-235.dynamic.spd-mgts.ru
- [109.252.155.235])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id A49AD6606FF1;
- Fri,  7 Jul 2023 20:46:51 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1688759211;
- bh=Hrdc2Bh3sC2wZ+4iekQsGRMWYj9QbpXzoacoXKXCQmM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Erc7LoDFCJIb5qPwvCnotsw9i/AF1M4UWRWwttlFpQPUvR8MEXKwhpdytq1JiuZuK
- c1Yp96/8XHPcADeyqXf8m6iqWFqnz/L+ugtpYC+9MFBmX7BpXbKryRwW3iao48XIdd
- AJRswIHt8+wyh90IWQPvHMwotpT8b8R/TVaJlyT3MAMO6b2oblwrsioWD3oOGfN/3g
- DPaZApbrGZZoXfYqLbTV83IUC3cHwG3v8rlN1QnbrNTMNjfPkwJ9Xf5Qj+VSD6xQeD
- EfLQK80o8FE4We83zf27Zzlijceb+4zuXd/9hIVrsqVHy1/ZRXwp15FG+pbnQ2sa5+
- U+CZ2NdzQimWA==
-Message-ID: <2cc27163-c8d2-45bc-abd7-26ea567c4aea@collabora.com>
-Date: Fri, 7 Jul 2023 22:46:49 +0300
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 203E710E04E
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 20:37:26 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id
+ 2adb3069b0e04-4f9fdb0ef35so3838524e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Jul 2023 13:37:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1688762245; x=1691354245;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=q8qhnZKqQ6do3LcTcDToOBVUXXaj8gtF73nVysM5ZYM=;
+ b=K55vl62KIo97j4ODPUvirSc4gssIAME5zKn5/nNaHwK4S5sRTDTTVN13ci2IkXYyMV
+ NqB+NZKGhfBxSliF1Mj+gLAbM3tE99RvpYPvyUvLnCnQIW4JRxvbM88FI+Uwjwm/3OQ6
+ 8v6bTFFfjdGXSxS9ievI2JEZkTYJ27xOyIzV3TfYVLMaWYFoC/sRpfYf6AKroogGV2sf
+ 8P9FDTdIZ0lbC1+n5B70LbcrzmWyXUNs2T8poJCQ3ZkRU5o7XvO6HxOf4kK/ojW2CxR4
+ jZ5aNrpv6S1o9Y5MXeJRQpo5dqa08b/JeaYTB75ZAtA5o0lH7lq/WHuPbhLarW5rzDtH
+ 2/VQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688762245; x=1691354245;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=q8qhnZKqQ6do3LcTcDToOBVUXXaj8gtF73nVysM5ZYM=;
+ b=BGttyWE84nMVusMxSskRLItdlIK0iQDqjX2IFw19Y5w3pWMlrpxiCbrNUrRzSvf69K
+ 0eoX0RWdyMvi0+JFu5oC/wUrRaISVrZCjzZgA07aTs8lIhGvjQairzgXJf0jGRfaKr9m
+ nscpDqbwA2qkej9wFGjxT6k2wkb5t16JN1SwjwZqmtKuuz9myP2F5CxCYPYgxZbwDZYE
+ Nv4F8+8EjrCwT/o3hKZ9fZYPDGcmxUwanBhXzRRInGnSbhfdtWl8Y3/PiCVk6VH/C3VP
+ amKjXycdr7C2FU3THe9bl9ym8ZoRa3OOT9zFncv9OHKpXEIRl+dxCgVnvQ47VRxWhlRh
+ +MUQ==
+X-Gm-Message-State: ABy/qLZFjvz4LpczT1PgoegwfPY+kGVXdY4xSUOjackepAemTm6ftNOW
+ qhGTIoQI4YRGoQatO8rXI32AKg==
+X-Google-Smtp-Source: APBJJlGINdp7FwAACK4MNOP6ZsigyR1EN6T+xkvMHjF2Eh6cfgXBI7foVeZAukleVXK5bfI7KIJHPA==
+X-Received: by 2002:ac2:4f0d:0:b0:4fa:21d5:8ed8 with SMTP id
+ k13-20020ac24f0d000000b004fa21d58ed8mr5294616lfr.4.1688762245047; 
+ Fri, 07 Jul 2023 13:37:25 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ d4-20020ac244c4000000b004fb738796casm808899lfm.40.2023.07.07.13.37.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Jul 2023 13:37:24 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+Subject: [PATCH 00/13] drm/msm/dpu: use managed memory allocations
+Date: Fri,  7 Jul 2023 23:37:11 +0300
+Message-Id: <20230707203724.3820757-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.1
-Subject: Re: [PATCH v3] drm/virtio: conditionally allocate virtio_gpu_fence
-Content-Language: en-US
-To: Gurchetan Singh <gurchetansingh@chromium.org>
-References: <77c241ff-b3b6-d399-59db-0291dc9d2812@collabora.com>
- <20230707154337.620-1-gurchetansingh@chromium.org>
- <2be0ec9f-5e40-1b23-48ed-e284e97a93d1@collabora.com>
- <0a581623-1241-5bc3-aed9-c355053131bc@collabora.com>
- <CAAfnVBmON-0Jb+3YFtP5vkjHUion7pWWzckEF+e7=VNE6hrd=w@mail.gmail.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <CAAfnVBmON-0Jb+3YFtP5vkjHUion7pWWzckEF+e7=VNE6hrd=w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,68 +72,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/7/23 20:59, Gurchetan Singh wrote:
-///
->>> Previously, when VIRTGPU_EXECBUF_RING_IDX flag wasn't specified, the
->>> fence event was created for a default ring_idx=0. Now you changed this
->>> behaviour and event will never be created without
->>> VIRTGPU_EXECBUF_RING_IDX flag being set.
-> 
-> ring_idx = 0 is fine, but without VIRTGPU_EXECBUF_RING_IDX that means
-> the global timeline.
-> 
-> It's an additional check for where the userspace specifies they want
-> to use per-context fencing and polling, but actually uses the global
-> timeline.  Userspace never does this since it wouldn't work, so it's a
-> bit of a pathological edge case check than any UAPI change.
-> 
->>>
->>> Could you please point me at the corresponding userspace code that polls
->>> DRM FD fence event?
-> 
-> https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/vm_tools/sommelier/virtualization/virtgpu_channel.cc#216
-> 
-> Used with the following flow:
-> 
-> https://crosvm.dev/book/devices/wayland.html
-> 
-> If you wish to test, please do apply this change:
-> 
-> https://chromium-review.googlesource.com/c/chromiumos/platform2/+/4605854
+In a lots of places in DPU driver memory is allocated by using the
+kzalloc and then manually freed using kfree. However thes memory chunks
+have a well-defined life cycle. They are either a part of the driver's
+runtime and can be devm_kzalloc'ed or are exposed to userspace via the
+DRM objects and thus can be drmm_alloc'ed. Implement corresponding
+runtime resource manangement for the DPU driver.
 
-Thanks for the links! I tested v2 with sommelier, though wasn't aware
-about CL4605854 and alternatives to sommelier
+Dependencies: [1].
 
->>> It's unclear whether there is a possible userspace regression here or
->>> not. If there is no regression, then in general such behavioural changes
->>> should be done in a separate commit having detailed description
->>> explaining why behaviour changes.
-> 
-> Sommelier isn't formally packaged yet in the Linux distro style and it
-> always specifies RING_IDX when polling, so no regressions here.  Maybe
-> a separate commit is overkill (since the 2nd commit would delete the
-> newly added checks), what about just more detail in the commit
-> message?
+[1] https://patchwork.freedesktop.org/series/118839/
 
-More detail will be fine
+Dmitry Baryshkov (13):
+  drm/msm/dpu: cleanup dpu_kms_hw_init error path
+  drm/msm/dpu: remove IS_ERR_OR_NULL for dpu_hw_intr_init() error
+    handling
+  drm/msm/dpu: use devres-managed allocation for interrupts data
+  drm/msm/dpu: use devres-managed allocation for VBIF data
+  drm/msm/dpu: use devres-managed allocation for MDP TOP
+  drm/msm/dpu: use devres-managed allocation for HW blocks
+  drm/msm/dpu: drop unused dpu_plane::lock
+  drm/msm/dpu: remove QoS teardown on plane destruction
+  drm/msm/dpu: use drmm-managed allocation for dpu_plane
+  drm/msm/dpu: use drmm-managed allocation for dpu_crtc
+  drm/msm/dpu: use drmm-managed allocation for dpu_encoder_phys
+  drm/msm/dpu: drop dpu_encoder_phys_ops::destroy
+  drm/msm/dpu: use drmm-managed allocation for dpu_encoder_virt
 
->> I see that venus does the polling and ring_idx_mask is a
->> context-specific param, hence it's irrelevant to a generic ctx 0. Still
->> it's now necessary to specify the EXECBUF_RING_IDX flag even if ctx has
->> one ring, which is UAPI change.
-> 
-> It doesn't seem like venus enables POLL_RINGS_MASK to poll since that
-> param is zero?
-> 
-> https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/virtio/vulkan/vn_renderer_virtgpu.c#L617
-
-Indeed, good catch
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      | 21 ++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 71 +++------------
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  | 10 +--
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  | 15 +---
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_vid.c  | 13 +--
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   | 21 +----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    | 19 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h    | 16 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c    | 12 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h    | 10 ++-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c    |  7 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c   | 16 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h   | 12 +--
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 14 ++-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h | 11 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c   | 15 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h   | 12 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c     | 14 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h     | 12 +--
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c    | 14 ++-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.h    | 13 +--
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   | 14 ++-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h   | 13 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   | 15 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h   |  7 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c    | 17 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h    |  8 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c   | 14 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h   |  8 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c     | 14 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h     | 12 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       | 51 ++++-------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |  1 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     | 57 ++----------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        | 90 +++----------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h        | 11 +--
+ 36 files changed, 210 insertions(+), 470 deletions(-)
 
 -- 
-Best regards,
-Dmitry
+2.39.2
 
