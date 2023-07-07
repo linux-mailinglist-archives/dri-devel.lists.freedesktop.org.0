@@ -1,64 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D40C74B803
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 22:37:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDA9D74B805
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 22:37:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 687F210E5F2;
-	Fri,  7 Jul 2023 20:37:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65F3310E5E9;
+	Fri,  7 Jul 2023 20:37:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD03910E07C
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 20:37:28 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id
- 2adb3069b0e04-4fbcbf4375dso2706602e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Jul 2023 13:37:28 -0700 (PDT)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51FBF10E5F1
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 20:37:31 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id
+ 2adb3069b0e04-4fb96e2b573so3785241e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Jul 2023 13:37:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688762247; x=1691354247;
+ d=linaro.org; s=google; t=1688762248; x=1691354248;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QVNUqRxGSvqZGhfUwezGpm5aWkk2unbiIok3/DPMWHk=;
- b=Cw7DbQ+exWThzz4VkPpX5E/sLH//s6l21a73QaBM6njIFcVFlQQ7apaKHRfrd92Yq2
- T/iKbBR11tnnocKGPwQIv36zKvP+VQI10QH0UfZBtLQAL/zRaEC1pRfdYfJV25/Rj3ZM
- tYSJQj+YW5YsGoynnuxLzDdjkYFOvV3PeQBFAIYkaPpYwwMlYj/LQUwukl8/1Ua00V7j
- aWDjtg9U6QSQWvj451pNU4TUggjj8c2oaIbLx9Inq1GrBYDdMHfs8GeabeKGKS4qHZAe
- nvzWbMJeN7xWogsSSJ1GiLxPTOKrVXrPtTs62vrZJiKt337JND0s/GFcOVT+Y9o/RSP2
- G0Sw==
+ bh=axm03dDWl1OT6XtpYCbLVcsPiVDnTCWolvbvQzZd1B0=;
+ b=wutI/1jhNRWkxrFXEBMNrvg7piYBvyWp9CyiF7H7/Eirm4MT/IjQsTKRdY/EbZt6T0
+ FWfhn6dbyCEjJukYM4BQ9+W22uVMxgXmHNhwI9br8AiEMTMDSk2mUHtkjmn5Rxc41VdH
+ 3bvYKDV2B8t5wsq4slM5Q025nK8unHR30oCGY4FVuVNWJbkuHdmvW9rhSJy58ygefpBg
+ f1d864kBCacPutTjTam+9oKKHFtBrWFIwOn2Ea6cTkJwlMO+wAS8cA+qwoD6mPujmZto
+ 0F/eOreakHuLecjPAhgkBNUTFnDQTDqti2f6g9Z0586OH/s87mQTtl24ZCnWwBxvxo4r
+ B2Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688762247; x=1691354247;
+ d=1e100.net; s=20221208; t=1688762248; x=1691354248;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QVNUqRxGSvqZGhfUwezGpm5aWkk2unbiIok3/DPMWHk=;
- b=JOTeWJoqJMxNDTTJomH+6An1gdtRsdQm9uz4cQJI+5ORIElR6v1CFXECzvvWXefj9v
- nRMG0b1mL1YNsn0tWXbDtZX51Ioo8SUtaaer+p0Si05oPxWjN+pouLZeOUAmea/pp4D6
- xjtq8Xc3OPfdZBdnulZnrdqgxFT2HjFc+BJ2ETlmxfdOsBXf2xwvucDxq9yjMG7n/hGr
- C5NQoTfrhCJbr9ry8Vo9XplRX0S3lu0bXhhF5kMoaSUAMADdzrY+A/2E3xkcfTjLZ2Ur
- Ji4DS5zhqA89+U3Y63vzIa4bij+1h0QNdiey8cdsFR2a1NiHYc6/YepA1lGjqvWdzOHm
- PcxA==
-X-Gm-Message-State: ABy/qLbIBAMS8kCj0V0zldY0qlvNqwuF9sMZMUH29GDwS9YbBswJRPjd
- 4ITBGXlkJ86yMBl1zxefzsM0AA==
-X-Google-Smtp-Source: APBJJlHRAT7NBD93kQ4JaTf3hfiIrKgHXC6VAhcG56WhpT6ayg3RO3b8QJg9f4EMD/gb0dT+QSpe9Q==
-X-Received: by 2002:a05:6512:3111:b0:4f8:52a8:d123 with SMTP id
- n17-20020a056512311100b004f852a8d123mr2133303lfb.12.1688762247008; 
+ bh=axm03dDWl1OT6XtpYCbLVcsPiVDnTCWolvbvQzZd1B0=;
+ b=Ro7fc495fyeNt065SMaJ9yQ0iqWDW2U8K9d5PzCZ7cPQB5NRzQ1vXwkegMj94RU1M3
+ TPF+kA07yXinWX3y2WIz8iiCMXxbBW6XP/1IczeO+JUi6foekq7OffGo5QCTvZ0FIRi3
+ iX90o9Kqv09p3Mh66b4UcSasR90np1VcU19+QxxKS5r3xGMuol+GFUfL6SG9X1uIpigq
+ Hu1huOBbwZ+jjMdNRhi3/heRMvdDmn+0dObeIO3xK/0KU4rYpBUOZnUpFhvLi0dTbc/o
+ L18xaty+0U9dzLZcqZDIF+P8nt8mrXGRDp1B3lcRU+ixwLD3kuM8h9S36TyTmmMHIcP+
+ nntw==
+X-Gm-Message-State: ABy/qLaLnl4/sLvjOb8jENnry/Wkrra8eokGXsxDp04iZpRoXxQxNjRC
+ J9Bx28XS58vVcIULdVL2u+LeEQ==
+X-Google-Smtp-Source: APBJJlGSZlQqgn13r3gmqf5prCswCXrzIduEJbC3JTwvSdqCE+r3FqG5kSsdZXH/Hk18nxtny18Yvw==
+X-Received: by 2002:a05:6512:ac4:b0:4f9:5ff6:c06a with SMTP id
+ n4-20020a0565120ac400b004f95ff6c06amr5112208lfu.67.1688762247722; 
  Fri, 07 Jul 2023 13:37:27 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- d4-20020ac244c4000000b004fb738796casm808899lfm.40.2023.07.07.13.37.26
+ d4-20020ac244c4000000b004fb738796casm808899lfm.40.2023.07.07.13.37.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jul 2023 13:37:26 -0700 (PDT)
+ Fri, 07 Jul 2023 13:37:27 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH 03/13] drm/msm/dpu: use devres-managed allocation for
- interrupts data
-Date: Fri,  7 Jul 2023 23:37:14 +0300
-Message-Id: <20230707203724.3820757-4-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 04/13] drm/msm/dpu: use devres-managed allocation for VBIF data
+Date: Fri,  7 Jul 2023 23:37:15 +0300
+Message-Id: <20230707203724.3820757-5-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230707203724.3820757-1-dmitry.baryshkov@linaro.org>
 References: <20230707203724.3820757-1-dmitry.baryshkov@linaro.org>
@@ -82,108 +81,105 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use devm_kzalloc to create interrupts data structure. This allows us to
+Use devm_kzalloc to create VBIF data structure. This allows us to
 remove corresponding kfree and drop dpu_hw_intr_destroy() function.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 14 ++++++--------
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h | 11 ++++-------
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c           |  4 +---
- 3 files changed, 11 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c | 14 ++++++--------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h |  8 ++++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 11 +++--------
+ 3 files changed, 13 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-index 5e2d68ebb113..945f34736206 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
-@@ -6,6 +6,8 @@
- #include <linux/debugfs.h>
- #include <linux/slab.h>
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c
+index a5121a50b2bb..98e34afde2d2 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c
+@@ -2,6 +2,8 @@
+ /* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
+  */
  
 +#include <drm/drm_managed.h>
 +
- #include "dpu_core_irq.h"
- #include "dpu_kms.h"
- #include "dpu_hw_interrupts.h"
-@@ -441,8 +443,9 @@ static void __intr_offset(const struct dpu_mdss_cfg *m,
- 	hw->blk_addr = addr + m->mdp[0].base;
+ #include "dpu_hwio.h"
+ #include "dpu_hw_catalog.h"
+ #include "dpu_hw_vbif.h"
+@@ -211,12 +213,13 @@ static void _setup_vbif_ops(struct dpu_hw_vbif_ops *ops,
+ 	ops->set_write_gather_en = dpu_hw_set_write_gather_en;
  }
  
--struct dpu_hw_intr *dpu_hw_intr_init(void __iomem *addr,
--		const struct dpu_mdss_cfg *m)
-+struct dpu_hw_intr *dpu_hw_intr_init(struct drm_device *dev,
-+				     void __iomem *addr,
-+				     const struct dpu_mdss_cfg *m)
+-struct dpu_hw_vbif *dpu_hw_vbif_init(const struct dpu_vbif_cfg *cfg,
+-		void __iomem *addr)
++struct dpu_hw_vbif *dpu_hw_vbif_init(struct drm_device *dev,
++				     const struct dpu_vbif_cfg *cfg,
++				     void __iomem *addr)
  {
- 	struct dpu_hw_intr *intr;
- 	int nirq = MDP_INTR_MAX * 32;
-@@ -450,7 +453,7 @@ struct dpu_hw_intr *dpu_hw_intr_init(void __iomem *addr,
- 	if (!addr || !m)
- 		return ERR_PTR(-EINVAL);
+ 	struct dpu_hw_vbif *c;
  
--	intr = kzalloc(struct_size(intr, irq_tbl, nirq), GFP_KERNEL);
-+	intr = drmm_kzalloc(dev, struct_size(intr, irq_tbl, nirq), GFP_KERNEL);
- 	if (!intr)
+-	c = kzalloc(sizeof(*c), GFP_KERNEL);
++	c = drmm_kzalloc(dev, sizeof(*c), GFP_KERNEL);
+ 	if (!c)
  		return ERR_PTR(-ENOMEM);
  
-@@ -465,11 +468,6 @@ struct dpu_hw_intr *dpu_hw_intr_init(void __iomem *addr,
- 	return intr;
+@@ -234,8 +237,3 @@ struct dpu_hw_vbif *dpu_hw_vbif_init(const struct dpu_vbif_cfg *cfg,
+ 
+ 	return c;
  }
- 
--void dpu_hw_intr_destroy(struct dpu_hw_intr *intr)
--{
--	kfree(intr);
--}
 -
- int dpu_core_irq_register_callback(struct dpu_kms *dpu_kms, int irq_idx,
- 		void (*irq_cb)(void *arg, int irq_idx),
- 		void *irq_arg)
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
-index 1f2dabc54c22..b0d7bb073203 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h
-@@ -70,15 +70,12 @@ struct dpu_hw_intr {
- 
+-void dpu_hw_vbif_destroy(struct dpu_hw_vbif *vbif)
+-{
+-	kfree(vbif);
+-}
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h
+index 7e10d2a172b4..e2b4307500e4 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.h
+@@ -108,12 +108,12 @@ struct dpu_hw_vbif {
  /**
-  * dpu_hw_intr_init(): Initializes the interrupts hw object
+  * dpu_hw_vbif_init() - Initializes the VBIF driver for the passed
+  * VBIF catalog entry.
 + * @dev:  Corresponding device for devres management
-  * @addr: mapped register io address of MDP
-  * @m:    pointer to MDSS catalog data
+  * @cfg:  VBIF catalog entry for which driver object is required
+  * @addr: Mapped register io address of MDSS
   */
--struct dpu_hw_intr *dpu_hw_intr_init(void __iomem *addr,
--		const struct dpu_mdss_cfg *m);
-+struct dpu_hw_intr *dpu_hw_intr_init(struct drm_device *dev,
-+				     void __iomem *addr,
-+				     const struct dpu_mdss_cfg *m);
+-struct dpu_hw_vbif *dpu_hw_vbif_init(const struct dpu_vbif_cfg *cfg,
+-		void __iomem *addr);
+-
+-void dpu_hw_vbif_destroy(struct dpu_hw_vbif *vbif);
++struct dpu_hw_vbif *dpu_hw_vbif_init(struct drm_device *dev,
++				     const struct dpu_vbif_cfg *cfg,
++				     void __iomem *addr);
  
--/**
-- * dpu_hw_intr_destroy(): Cleanup interrutps hw object
-- * @intr: pointer to interrupts hw object
-- */
--void dpu_hw_intr_destroy(struct dpu_hw_intr *intr);
- #endif
+ #endif /*_DPU_HW_VBIF_H */
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 85b8c9cc99ef..ef232dc838c7 100644
+index ef232dc838c7..f7723f89cbbc 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -807,8 +807,6 @@ static void _dpu_kms_hw_destroy(struct dpu_kms *dpu_kms)
- {
- 	int i;
- 
--	if (dpu_kms->hw_intr)
--		dpu_hw_intr_destroy(dpu_kms->hw_intr);
- 	dpu_kms->hw_intr = NULL;
- 
+@@ -812,13 +812,8 @@ static void _dpu_kms_hw_destroy(struct dpu_kms *dpu_kms)
  	/* safe to call these more than once during shutdown */
-@@ -1095,7 +1093,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
- 		goto err_pm_put;
+ 	_dpu_kms_mmu_destroy(dpu_kms);
+ 
+-	if (dpu_kms->catalog) {
+-		for (i = 0; i < ARRAY_SIZE(dpu_kms->hw_vbif); i++) {
+-			if (dpu_kms->hw_vbif[i]) {
+-				dpu_hw_vbif_destroy(dpu_kms->hw_vbif[i]);
+-				dpu_kms->hw_vbif[i] = NULL;
+-			}
+-		}
++	for (i = 0; i < ARRAY_SIZE(dpu_kms->hw_vbif); i++) {
++		dpu_kms->hw_vbif[i] = NULL;
  	}
  
--	dpu_kms->hw_intr = dpu_hw_intr_init(dpu_kms->mmio, dpu_kms->catalog);
-+	dpu_kms->hw_intr = dpu_hw_intr_init(dev, dpu_kms->mmio, dpu_kms->catalog);
- 	if (IS_ERR(dpu_kms->hw_intr)) {
- 		rc = PTR_ERR(dpu_kms->hw_intr);
- 		DPU_ERROR("hw_intr init failed: %d\n", rc);
+ 	if (dpu_kms->rm_init)
+@@ -1070,7 +1065,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+ 		struct dpu_hw_vbif *hw;
+ 		const struct dpu_vbif_cfg *vbif = &dpu_kms->catalog->vbif[i];
+ 
+-		hw = dpu_hw_vbif_init(vbif, dpu_kms->vbif[vbif->id]);
++		hw = dpu_hw_vbif_init(dev, vbif, dpu_kms->vbif[vbif->id]);
+ 		if (IS_ERR(hw)) {
+ 			rc = PTR_ERR(hw);
+ 			DPU_ERROR("failed to init vbif %d: %d\n", vbif->id, rc);
 -- 
 2.39.2
 
