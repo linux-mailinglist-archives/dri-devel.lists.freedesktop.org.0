@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CED074B14F
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 14:52:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B200074B153
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 14:55:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C276110E581;
-	Fri,  7 Jul 2023 12:52:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F4FB10E08C;
+	Fri,  7 Jul 2023 12:55:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C1B210E581;
- Fri,  7 Jul 2023 12:52:49 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id DFB866606FCA;
- Fri,  7 Jul 2023 13:52:44 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1688734365;
- bh=qDwANLQ61icK21USCiych8PHXsbfyaAg3fQVfsTFR0E=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=boT51Xa27cuR67WqrDMmww5kmVhzhlbknsmSumNKNe2IMGQNPOAPwayNQiMid4Arm
- PCTi9I1uDsmSeinZi5hJgv1iZVciUExuTV8atQOoC/yizk9RwVG6MyE3ruNem4HUBk
- 3FX5ogGMBHTxJBk92bd3zAhDwPTeLWhIBsTO1nUnmEjs4eDm2K5Xldn/ave9FEr57N
- vUukeiXBD0H9dTTUeWBRS38RYnx6MPjdWayiXBGCVurLNPe3gPAm8C/jtCWbTuPVnW
- 53rsS7H9wLon79o5Pk63NH0cw74yWoqIISnsT1HUnJiwOlOkS0w5SGQzStyPMmjjZv
- Oth6cqLZl2npw==
-Date: Fri, 7 Jul 2023 14:52:41 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [PATCH drm-next v6 02/13] drm: manager to keep track of GPUs VA
- mappings
-Message-ID: <20230707145241.6ea73643@collabora.com>
-In-Reply-To: <e92219d7-77f7-a40a-39d9-ea7afc5f3687@redhat.com>
-References: <20230629222651.3196-1-dakr@redhat.com>
- <20230629222651.3196-3-dakr@redhat.com>
- <20230707130010.1bd5d41b@collabora.com>
- <e92219d7-77f7-a40a-39d9-ea7afc5f3687@redhat.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAEB610E08C;
+ Fri,  7 Jul 2023 12:55:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1688734510; x=1720270510;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=NcVKWbQrWWZ7ACP241GvLvVuhTC9NIuhdymQc/vUvWs=;
+ b=GUt4twIsYwvjsOaijNidTQqZNvw14aPzVUxRBYUb2A58VDCH1MfRb3sF
+ YBXKWVamjR9ArB0ltuFthydzOG7uQfdix2rUZO0cQ1JoMcT2jw2BwdoJe
+ +duk/yLXUPAB23JYoJO2EXJNsUSzuBvBVjbItqpBaqIr3I3fovqA76hZ/
+ KdjGQjrxIHPdRH8KLfsdK5w9RWpumlG5DMRvqwHOoU0upqitfjEkWrU/0
+ H0p883rpJFQLrkNL73G0bVKTo9mUvN543Bwc2bwAgS8W8rlzfj5GWWH94
+ +MJlXJTjWVPpYV+hRQifFI93ZxxnrCMAzr7/Ct2Xwvpcb/qoyIzgpRTGI A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="450237605"
+X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; d="scan'208";a="450237605"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jul 2023 05:55:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="1050533706"
+X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; d="scan'208";a="1050533706"
+Received: from gjmurphy-mobl.ger.corp.intel.com (HELO localhost.localdomain)
+ ([10.213.202.50])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jul 2023 05:55:07 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Fix one wrong caching mode enum usage
+Date: Fri,  7 Jul 2023 13:55:03 +0100
+Message-Id: <20230707125503.3965817-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,87 +57,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, willy@infradead.org,
- dri-devel@lists.freedesktop.org, corbet@lwn.net, nouveau@lists.freedesktop.org,
- ogabbay@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- mripard@kernel.org, bskeggs@redhat.com, tzimmermann@suse.de,
- Liam.Howlett@oracle.com, Dave Airlie <airlied@redhat.com>,
- bagasdotme@gmail.com, christian.koenig@amd.com, jason@jlekstrand.net,
- Donald Robson <donald.robson@imgtec.com>
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 7 Jul 2023 14:41:23 +0200
-Danilo Krummrich <dakr@redhat.com> wrote:
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-> >> +	     va__ && (va__->va.addr < (end__)) && \
-> >> +	     !list_entry_is_head(va__, &(mgr__)->rb.list, rb.entry); \
-> >> +	     va__ = list_next_entry(va__, rb.entry))  
-> > 
-> > If you define:
-> > 
-> > static inline struct drm_gpuva *
-> > drm_gpuva_next(struct drm_gpuva *va)
-> > {
-> > 	if (va && !list_is_last(&va->rb.entry, &va->mgr->rb.list))
-> > 		return list_next_entry(va, rb.entry);
-> > 
-> > 	return NULL;
-> > } >
-> > the for loop becomes a bit more readable:  
-> 
-> Yes, it would. However, I don't want it to be confused with 
-> drm_gpuva_find_next(). Maybe I should rename the latter to something 
-> like drm_gpuva_find_next_neighbor() then.
+Commit a4d86249c773 ("drm/i915/gt: Provide a utility to create a scratch
+buffer") mistakenly passed in uapi I915_CACHING_CACHED as argument to
+i915_gem_object_set_cache_coherency(), which actually takes internal
+enum i915_cache_level.
 
-If you want to keep drm_gpuva_find_next(), feel free to rename/prefix
-the drm_gpuva_next() function. I was just posting it as a reference.
+No functional issue since the value matches I915_CACHE_LLC (1 == 1), which
+is the intended caching mode, but lets clean it up nevertheless.
 
-> 
-> > 
-> > 	for (va__ = drm_gpuva_find_first((mgr__), (start__), (end__) - (start__)); \
-> > 	     va__ && (va__->va.addr < (end__)); \
-> > 	     va__ = drm_gpuva_next(va__))
-> >   
-> >> +
-> >> +/**
-> >> + * drm_gpuva_for_each_va_range_safe - iternator to safely walk over a range of
-> >> + * &drm_gpuvas
-> >> + * @va__: &drm_gpuva to assign to in each iteration step
-> >> + * @next__: another &drm_gpuva to use as temporary storage
-> >> + * @mgr__: &drm_gpuva_manager to walk over
-> >> + * @start__: starting offset, the first gpuva will overlap this
-> >> + * @end__: ending offset, the last gpuva will start before this (but may
-> >> + * overlap)
-> >> + *
-> >> + * This iterator walks over all &drm_gpuvas in the &drm_gpuva_manager that lie
-> >> + * between @start__ and @end__. It is implemented similarly to
-> >> + * list_for_each_safe(), but is using the &drm_gpuva_manager's internal interval
-> >> + * tree to accelerate the search for the starting &drm_gpuva, and hence is safe
-> >> + * against removal of elements. It assumes that @end__ is within (or is the
-> >> + * upper limit of) the &drm_gpuva_manager. This iterator does not skip over the
-> >> + * &drm_gpuva_manager's @kernel_alloc_node.
-> >> + */
-> >> +#define drm_gpuva_for_each_va_range_safe(va__, next__, mgr__, start__, end__) \
-> >> +	for (va__ = drm_gpuva_find_first((mgr__), (start__), (end__)), \
-> >> +	     next__ = va ? list_next_entry(va__, rb.entry) : NULL; \
-> >> +	     va__ && (va__->va.addr < (end__)) && \
-> >> +	     !list_entry_is_head(va__, &(mgr__)->rb.list, rb.entry); \
-> >> +	     va__ = next__, next__ = list_next_entry(va__, rb.entry))  
-> > 
-> > And this is the safe version using the drm_gpuva_next() helper:
-> > 
-> > 	for (va__ = drm_gpuva_find_first((mgr__), (start__), (end__) - (start__)), \
-> > 	     next__ = drm_gpuva_next(va__); \
-> > 	     va__ && (va__->va.addr < (end__)); \
-> > 	     va__ = next__, next__ = drm_gpuva_next(va__))
-> > 
-> > Those changes fixed an invalid pointer access I had in the sm_unmap()
-> > path.
-> >   
-> 
-> Sorry you did run into this bug.
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Fixes: a4d86249c773 ("drm/i915/gt: Provide a utility to create a scratch buffer")
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_gtt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-No worries, that's what testing/debugging/reviewing is for. And I'm glad
-someone decided to work on this gpuva stuff so I don't have to code it
-myself, so that's the least I can do.
+diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
+index 126269a0d728..065099362a98 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gtt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
+@@ -676,7 +676,7 @@ __vm_create_scratch_for_read(struct i915_address_space *vm, unsigned long size)
+ 	if (IS_ERR(obj))
+ 		return ERR_CAST(obj);
+ 
+-	i915_gem_object_set_cache_coherency(obj, I915_CACHING_CACHED);
++	i915_gem_object_set_cache_coherency(obj, I915_CACHE_LLC);
+ 
+ 	vma = i915_vma_instance(obj, vm, NULL);
+ 	if (IS_ERR(vma)) {
+-- 
+2.39.2
+
