@@ -1,74 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34C1074B144
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 14:48:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CED074B14F
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jul 2023 14:52:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4133810E583;
-	Fri,  7 Jul 2023 12:48:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C276110E581;
+	Fri,  7 Jul 2023 12:52:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE49710E594
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jul 2023 12:48:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1688734090;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EfMknrC6+9RxXRyZ9sQNTUp5Tpq7QFsIJMh+iSfMYow=;
- b=YGYkvtaLzTHdYxT20pBi4NVjh/bZ8UfU4jFXX0NSpYJ1m08PwvLRLxnAGPJ6PRbwKaMiPE
- C0ezPnuvATFkIHekv9y5GVKESREk8Lv5jtL1/TEYUiPb3zwCyRRMm1ix3RMf3SSk1OGH8U
- TD6wY1PWOrdVXEwkYXfPww0WpdEJFT8=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-225-T8OFoMtZNEOyBsE7TqpK0w-1; Fri, 07 Jul 2023 08:48:08 -0400
-X-MC-Unique: T8OFoMtZNEOyBsE7TqpK0w-1
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-636073f0ebfso20271976d6.1
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Jul 2023 05:48:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688734088; x=1691326088;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EfMknrC6+9RxXRyZ9sQNTUp5Tpq7QFsIJMh+iSfMYow=;
- b=kf5kkN54MDI+Gcj6MEkLcugmhCXE2StlBpUrP0iNNYu1kSLIAOUM0abDjbcu1lqE85
- gEpEIwSvrNY3P0Jz9ZuSTsqxcCyYRMeK9PerJZ01hlrcAfJSiNQBT2Upwf88PrHyEsGK
- vh1cDzzhEClivkC77yOT6xeVMqByivMUHRU0G/9tTkc2INggE0SaBCb0QhSVyDKz4Hpj
- o7y9xcTvdpXfl+Bp1GBtDwJKYgj1PRLJw4Ue5fCjDyx+HKLSnuY6879pZHa+xsmkyHDV
- M2LaB1NZNI8T03D2fj2SNFXhyxQ8qDO6N281PXhS6JT0rM63QPFGohkwGUe1vHyJPrFQ
- Kglw==
-X-Gm-Message-State: ABy/qLadpACH8yYDx+4lBipleZGzCANmDON+LZgntrSy2u8Ckq9xAjpU
- RdmIw5pqagblCchDHth9pcXbg1PQhGDXv7Bjanr1I+ER9YCOoAGkmUlBvyhHtah26XZ2DeIB9Pz
- 2CP5XsloM0xBXCTqxAUh+YPyJ7mmt
-X-Received: by 2002:a0c:f2cb:0:b0:62d:e82a:1146 with SMTP id
- c11-20020a0cf2cb000000b0062de82a1146mr4261589qvm.42.1688734088252; 
- Fri, 07 Jul 2023 05:48:08 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlHKtXeUmAgSYAOgMsdgG0hLtctIuZVB3AQrB3lZ+KFKvH41Tw9xxtTSlJLqa99h2TibwwLdeQ==
-X-Received: by 2002:a0c:f2cb:0:b0:62d:e82a:1146 with SMTP id
- c11-20020a0cf2cb000000b0062de82a1146mr4261577qvm.42.1688734087992; 
- Fri, 07 Jul 2023 05:48:07 -0700 (PDT)
-Received: from localhost ([2a01:e0a:b25:f902::5bb])
- by smtp.gmail.com with ESMTPSA id
- z20-20020a0cda94000000b006362d4eeb6esm2022148qvj.144.2023.07.07.05.48.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jul 2023 05:48:07 -0700 (PDT)
-Date: Fri, 7 Jul 2023 14:48:06 +0200
-From: Maxime Ripard <mripard@redhat.com>
-To: Sarah Walker <sarah.walker@imgtec.com>
-Subject: Re: [PATCH v3 09/17] drm/imagination: Implement power management
-Message-ID: <twmetot6wcg5j7wnqy2gqohhrwhsgaizz5psou5etur6cavjjj@fwky6irlxubt>
-References: <20230613144800.52657-1-sarah.walker@imgtec.com>
- <20230613144800.52657-10-sarah.walker@imgtec.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C1B210E581;
+ Fri,  7 Jul 2023 12:52:49 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id DFB866606FCA;
+ Fri,  7 Jul 2023 13:52:44 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1688734365;
+ bh=qDwANLQ61icK21USCiych8PHXsbfyaAg3fQVfsTFR0E=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=boT51Xa27cuR67WqrDMmww5kmVhzhlbknsmSumNKNe2IMGQNPOAPwayNQiMid4Arm
+ PCTi9I1uDsmSeinZi5hJgv1iZVciUExuTV8atQOoC/yizk9RwVG6MyE3ruNem4HUBk
+ 3FX5ogGMBHTxJBk92bd3zAhDwPTeLWhIBsTO1nUnmEjs4eDm2K5Xldn/ave9FEr57N
+ vUukeiXBD0H9dTTUeWBRS38RYnx6MPjdWayiXBGCVurLNPe3gPAm8C/jtCWbTuPVnW
+ 53rsS7H9wLon79o5Pk63NH0cw74yWoqIISnsT1HUnJiwOlOkS0w5SGQzStyPMmjjZv
+ Oth6cqLZl2npw==
+Date: Fri, 7 Jul 2023 14:52:41 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH drm-next v6 02/13] drm: manager to keep track of GPUs VA
+ mappings
+Message-ID: <20230707145241.6ea73643@collabora.com>
+In-Reply-To: <e92219d7-77f7-a40a-39d9-ea7afc5f3687@redhat.com>
+References: <20230629222651.3196-1-dakr@redhat.com>
+ <20230629222651.3196-3-dakr@redhat.com>
+ <20230707130010.1bd5d41b@collabora.com>
+ <e92219d7-77f7-a40a-39d9-ea7afc5f3687@redhat.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="eeov7a3u5ndf364o"
-Content-Disposition: inline
-In-Reply-To: <20230613144800.52657-10-sarah.walker@imgtec.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,113 +57,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, dri-devel@lists.freedesktop.org,
- christian.koenig@amd.com, luben.tuikov@amd.com, dakr@redhat.com,
- donald.robson@imgtec.com, boris.brezillon@collabora.com,
- sumit.semwal@linaro.org, faith.ekstrand@collabora.com
+Cc: matthew.brost@intel.com, willy@infradead.org,
+ dri-devel@lists.freedesktop.org, corbet@lwn.net, nouveau@lists.freedesktop.org,
+ ogabbay@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mripard@kernel.org, bskeggs@redhat.com, tzimmermann@suse.de,
+ Liam.Howlett@oracle.com, Dave Airlie <airlied@redhat.com>,
+ bagasdotme@gmail.com, christian.koenig@amd.com, jason@jlekstrand.net,
+ Donald Robson <donald.robson@imgtec.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 7 Jul 2023 14:41:23 +0200
+Danilo Krummrich <dakr@redhat.com> wrote:
 
---eeov7a3u5ndf364o
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> >> +	     va__ && (va__->va.addr < (end__)) && \
+> >> +	     !list_entry_is_head(va__, &(mgr__)->rb.list, rb.entry); \
+> >> +	     va__ = list_next_entry(va__, rb.entry))  
+> > 
+> > If you define:
+> > 
+> > static inline struct drm_gpuva *
+> > drm_gpuva_next(struct drm_gpuva *va)
+> > {
+> > 	if (va && !list_is_last(&va->rb.entry, &va->mgr->rb.list))
+> > 		return list_next_entry(va, rb.entry);
+> > 
+> > 	return NULL;
+> > } >
+> > the for loop becomes a bit more readable:  
+> 
+> Yes, it would. However, I don't want it to be confused with 
+> drm_gpuva_find_next(). Maybe I should rename the latter to something 
+> like drm_gpuva_find_next_neighbor() then.
 
-On Tue, Jun 13, 2023 at 03:47:52PM +0100, Sarah Walker wrote:
-> @@ -503,21 +506,31 @@ pvr_device_init(struct pvr_device *pvr_dev)
->       if (err)
->               goto err_device_clk_fini;
->
-> +     /* Explicitly power the GPU so we can access control registers before the FW is booted. */
-> +     err = pm_runtime_resume_and_get(dev);
-> +     if (err)
-> +             goto err_device_clk_fini;
-> +
->       /* Map the control registers into memory. */
->       err = pvr_device_reg_init(pvr_dev);
->       if (err)
-> -             goto err_device_clk_fini;
-> +             goto err_pm_runtime_put;
->
->       /* Perform GPU-specific initialization steps. */
->       err = pvr_device_gpu_init(pvr_dev);
->       if (err)
->               goto err_device_reg_fini;
->
-> +     pm_runtime_put_autosuspend(dev);
-> +
+If you want to keep drm_gpuva_find_next(), feel free to rename/prefix
+the drm_gpuva_next() function. I was just posting it as a reference.
 
-You probably can use pm_runtime_put here
+> 
+> > 
+> > 	for (va__ = drm_gpuva_find_first((mgr__), (start__), (end__) - (start__)); \
+> > 	     va__ && (va__->va.addr < (end__)); \
+> > 	     va__ = drm_gpuva_next(va__))
+> >   
+> >> +
+> >> +/**
+> >> + * drm_gpuva_for_each_va_range_safe - iternator to safely walk over a range of
+> >> + * &drm_gpuvas
+> >> + * @va__: &drm_gpuva to assign to in each iteration step
+> >> + * @next__: another &drm_gpuva to use as temporary storage
+> >> + * @mgr__: &drm_gpuva_manager to walk over
+> >> + * @start__: starting offset, the first gpuva will overlap this
+> >> + * @end__: ending offset, the last gpuva will start before this (but may
+> >> + * overlap)
+> >> + *
+> >> + * This iterator walks over all &drm_gpuvas in the &drm_gpuva_manager that lie
+> >> + * between @start__ and @end__. It is implemented similarly to
+> >> + * list_for_each_safe(), but is using the &drm_gpuva_manager's internal interval
+> >> + * tree to accelerate the search for the starting &drm_gpuva, and hence is safe
+> >> + * against removal of elements. It assumes that @end__ is within (or is the
+> >> + * upper limit of) the &drm_gpuva_manager. This iterator does not skip over the
+> >> + * &drm_gpuva_manager's @kernel_alloc_node.
+> >> + */
+> >> +#define drm_gpuva_for_each_va_range_safe(va__, next__, mgr__, start__, end__) \
+> >> +	for (va__ = drm_gpuva_find_first((mgr__), (start__), (end__)), \
+> >> +	     next__ = va ? list_next_entry(va__, rb.entry) : NULL; \
+> >> +	     va__ && (va__->va.addr < (end__)) && \
+> >> +	     !list_entry_is_head(va__, &(mgr__)->rb.list, rb.entry); \
+> >> +	     va__ = next__, next__ = list_next_entry(va__, rb.entry))  
+> > 
+> > And this is the safe version using the drm_gpuva_next() helper:
+> > 
+> > 	for (va__ = drm_gpuva_find_first((mgr__), (start__), (end__) - (start__)), \
+> > 	     next__ = drm_gpuva_next(va__); \
+> > 	     va__ && (va__->va.addr < (end__)); \
+> > 	     va__ = next__, next__ = drm_gpuva_next(va__))
+> > 
+> > Those changes fixed an invalid pointer access I had in the sm_unmap()
+> > path.
+> >   
+> 
+> Sorry you did run into this bug.
 
-> @@ -532,12 +545,17 @@ pvr_device_init(struct pvr_device *pvr_dev)
->  void
->  pvr_device_fini(struct pvr_device *pvr_dev)
->  {
-> +     struct drm_device *drm_dev = from_pvr_device(pvr_dev);
-> +     struct device *dev = drm_dev->dev;
-> +
->       /*
->        * Deinitialization stages are performed in reverse order compared to
->        * the initialization stages in pvr_device_init().
->        */
-> +     pm_runtime_get_sync(dev);
->       pvr_device_gpu_fini(pvr_dev);
->       pvr_device_reg_fini(pvr_dev);
-
-AFAIK gpu_fini releases the firmware and reg_fini drops the register
-mapping address, I don't think you need the device powered up for that.
-
-> @@ -130,6 +133,20 @@ struct pvr_device {
->
->       /** @fw_dev: Firmware related data. */
->       struct pvr_fw_device fw_dev;
-> +
-> +     struct {
-> +             /** @work: Work item for watchdog callback. */
-> +             struct delayed_work work;
-> +
-> +             /** @old_kccb_cmds_executed: KCCB command execution count at last watchdog poll. */
-> +             u32 old_kccb_cmds_executed;
-> +
-> +             /** @kccb_stall_count: Number of watchdog polls KCCB has been stalled for. */
-> +             u32 kccb_stall_count;
-> +     } watchdog;
-> +
-> +     /** @lost: %true if the device has been lost. */
-> +     bool lost;
-
-The device being "lost" isn't clear to me. Does it mean it's
-unresponsive or stuck somehow?
-
-> @@ -1285,9 +1303,15 @@ pvr_probe(struct platform_device *plat_dev)
->
->       platform_set_drvdata(plat_dev, drm_dev);
->
-> +     devm_pm_runtime_enable(&plat_dev->dev);
-> +
-> +     pm_runtime_set_autosuspend_delay(&plat_dev->dev, 50);
-> +     pm_runtime_use_autosuspend(&plat_dev->dev);
-> +     pvr_power_init(pvr_dev);
-
-The name threw me off a bit. It doesn't look like it's power related but
-you init the watchdog timer?
-
-I can't really tell from that patch, but if it's not done in a later
-patch you'll probably need a call to sprinkle your driver with a few
-_mark_last_busy calls (at least in the job submission path?)
-
-Maxime
-
---eeov7a3u5ndf364o
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZKgJhgAKCRDj7w1vZxhR
-xWlxAP9D4Z4qOGvU2FtRpZpUt4Hz149PslgzoR0Wzlkqufy29wEA3zRhOPu50wal
-ryLC73sbR2uA3Nk4wcepMlW7vYRIkQs=
-=YkOD
------END PGP SIGNATURE-----
-
---eeov7a3u5ndf364o--
-
+No worries, that's what testing/debugging/reviewing is for. And I'm glad
+someone decided to work on this gpuva stuff so I don't have to code it
+myself, so that's the least I can do.
