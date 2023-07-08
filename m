@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CABB574BABF
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 03:04:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 684FA74BAC7
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 03:04:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25D3510E05C;
-	Sat,  8 Jul 2023 01:04:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B052510E189;
+	Sat,  8 Jul 2023 01:04:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FDAE10E052
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Jul 2023 01:04:13 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id
- 38308e7fff4ca-2b6fdaf6eefso38892681fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Jul 2023 18:04:13 -0700 (PDT)
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86A2710E05B
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Jul 2023 01:04:14 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id
+ 38308e7fff4ca-2b701dee4bfso41054011fa.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Jul 2023 18:04:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688778251; x=1691370251;
+ d=linaro.org; s=google; t=1688778252; x=1691370252;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cqj1zfTkSVBVi5MTMAUdf4BIRwAJVp5IKDlTTrfyBVo=;
- b=kJ1yMhnV18HiwIf59EEaYuVZdW/ZrgVW406HaxuPFBCSbJKBdkIpvYQoYGMrVbyWC7
- 9aQkNT1KTxPu6m3txMr4Uq8shX/rXIaguisxKHg85LLz/hca5T6AIstl7+8yVuai08xh
- f+CuaqwsG9CvnkB0s/Hvi+o5qj+87M6+Hf7oPe9t289hMs+0yU6ffAnXBk/A3fBjVre9
- 91/NWiqS48DKaIz8cl7oCMMZRYUDfIJHwaubUml4pMCXIhxnST/RVdlFx8OP8gutC29f
- 7AsiaibzmkmuhPqnhwKa6l/fd/JlW7LSIkeP+i4dYVMfKJS/8dRvBDvJQCWtC7T6HLal
- bF0g==
+ bh=c67ZCjzlNdx/XIvJplLRs/ovo3gUYzy9Nna9L/Wnj3A=;
+ b=jw7J2xd9PvXrph2i+P2M9+qXmQ/Ynow26KULw3kswytzVbu7kb+vXN/FiNeZ7OMUX5
+ utnNEkUz9Ud/74abFHIEz4HjYqW1X+rxv7jvUCtrAYTzLi3zQXDQYfoo0hQtul0RBomh
+ eAFpkH5VlVatCf8XtdHWcCi4VFAe+bhDHicDSV7uo3kYr6uil6nvqAuQTOya4SHzMHRk
+ wteyEA10l8YwX8Jce56YK6rTPfWlAJ/L9b9zxgZg5BmvwxDzXY53pCmLXYa+0oZjueGc
+ JxNhLyaXV+UF73vXdiB/d2mxgj8nHMZv4ZHVT73zRgk7ocYTfZeHR/wWc361V373oA+w
+ ZPbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688778251; x=1691370251;
+ d=1e100.net; s=20221208; t=1688778252; x=1691370252;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cqj1zfTkSVBVi5MTMAUdf4BIRwAJVp5IKDlTTrfyBVo=;
- b=OyiDege4zC7pWMu/k98Z4rZEMuu6azTV6VJGXCwiCIbUoOgqsArRZl0Lj5HrbzORFz
- 4u8Z5F2zP73UmPDJexKtjeFvsygrUDLfkfyC2HR1/NX+AdG/PQMk8kWGmvDyWxhHSc8p
- 4gmS4oXaPJlow9mjv4ADPOka7wNSeFcYL6OZwW2lg2pDcSq6qzVhjb1uX0XrTNmy4PKO
- xWLXLPlDpDtTd5QYbaQEfRNQRMJdS0WxSxI6GEYKxPwA/p9sX7mO9DK6sbCSu9LNecF4
- oXwUyEuF+kWXPxynNf0IiQZ6ebRUOb1P0RYgo1kIhztEG9QMbGBlGNQsUSGyPE9Tz8Vm
- d2Pg==
-X-Gm-Message-State: ABy/qLaZlIRmyXdaYvN4GjSapmxo61ZilVD5sQEIJZAtfj3PkI7l+ujF
- OmeEHnydb6usqIJXIpmjeUPOaQ==
-X-Google-Smtp-Source: APBJJlHEdzppfaTBCM4pe0IaFvABpePK2NwTjEKLk1Fm2g3Lzzn4Q+O2ehaPn7/LWOwWPkV2Oh/TGg==
-X-Received: by 2002:a2e:960a:0:b0:2b6:d733:b580 with SMTP id
- v10-20020a2e960a000000b002b6d733b580mr4605078ljh.37.1688778251621; 
- Fri, 07 Jul 2023 18:04:11 -0700 (PDT)
+ bh=c67ZCjzlNdx/XIvJplLRs/ovo3gUYzy9Nna9L/Wnj3A=;
+ b=ZMeCCH6sJfsh/Eu0dwh1ihbsjlwHuUi2Ia4I1P7HHMTXGjTUB+nqb1QmcADSUH5qSk
+ 4NchpaytWmnFNDIBVHMBU/Lf85UsEgNMyhzMaqRLPyJxCKXYXawWibcxjwZo47SHawiZ
+ S4PVIssoL8bYDo8eJkerkQAxne1fMwp7BPP6NXU2eGaz4+bHGmHkPZjJ4+ng3Ned7eLF
+ oHwPapbr66dT0PbAjILMENc4cW1bpEo5ZorRlQ2Ck5l0OBzMufRoLEV6n6Z2GxnW1MHI
+ lfApvIBCMwqJf38FzcbAsqbJ6IdHRbJNroo5OVSmrygYztYivWLThgp0fTYkJrnTX5bO
+ a9Fg==
+X-Gm-Message-State: ABy/qLZ4Rq7oaPfBmYpjWdM3N/eANIZANztPgyrvBqtXu0ZSFOBDIIRo
+ mKdptjfh7LphyX+7jZZV2hr4ug==
+X-Google-Smtp-Source: APBJJlF1Ryz032/WTELXYwFoL+c0PZSZueJpHIwzNpRH1emr8OH5jk/1/aQS3dKc0vLLz0PzQ2vVwA==
+X-Received: by 2002:a2e:7802:0:b0:2b6:d576:a25b with SMTP id
+ t2-20020a2e7802000000b002b6d576a25bmr5043109ljc.28.1688778252284; 
+ Fri, 07 Jul 2023 18:04:12 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- l5-20020a2e8685000000b002b6ee99fff2sm1012807lji.34.2023.07.07.18.04.10
+ l5-20020a2e8685000000b002b6ee99fff2sm1012807lji.34.2023.07.07.18.04.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 07 Jul 2023 18:04:11 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH 04/17] drm/msm/mdp5: use devres-managed allocation for mixer
+Subject: [PATCH 05/17] drm/msm/mdp5: use devres-managed allocation for pipe
  data
-Date: Sat,  8 Jul 2023 04:03:54 +0300
-Message-Id: <20230708010407.3871346-5-dmitry.baryshkov@linaro.org>
+Date: Sat,  8 Jul 2023 04:03:55 +0300
+Message-Id: <20230708010407.3871346-6-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230708010407.3871346-1-dmitry.baryshkov@linaro.org>
 References: <20230708010407.3871346-1-dmitry.baryshkov@linaro.org>
@@ -82,82 +82,80 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use devm_kzalloc to create mixer data structure. This allows us
-to remove corresponding kfree and drop mdp5_mixer_destroy() function.
+Use devm_kzalloc to create pipe data structure. This allows us
+to remove corresponding kfree and drop mdp5_pipe_destroy() function.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c   |  5 +----
- drivers/gpu/drm/msm/disp/mdp5/mdp5_mixer.c | 10 +++-------
- drivers/gpu/drm/msm/disp/mdp5/mdp5_mixer.h |  4 ++--
- 3 files changed, 6 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c  |  6 +-----
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c | 10 +++-------
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.h |  4 ++--
+ 3 files changed, 6 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-index e20ead138602..b4a49d369f0d 100644
+index b4a49d369f0d..be4338a48e52 100644
 --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
 +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-@@ -211,9 +211,6 @@ static void mdp5_kms_destroy(struct msm_kms *kms)
+@@ -209,10 +209,6 @@ static void mdp5_kms_destroy(struct msm_kms *kms)
+ {
+ 	struct mdp5_kms *mdp5_kms = to_mdp5_kms(to_mdp_kms(kms));
  	struct msm_gem_address_space *aspace = kms->aspace;
- 	int i;
- 
--	for (i = 0; i < mdp5_kms->num_hwmixers; i++)
--		mdp5_mixer_destroy(mdp5_kms->hwmixers[i]);
+-	int i;
 -
- 	for (i = 0; i < mdp5_kms->num_hwpipes; i++)
- 		mdp5_pipe_destroy(mdp5_kms->hwpipes[i]);
+-	for (i = 0; i < mdp5_kms->num_hwpipes; i++)
+-		mdp5_pipe_destroy(mdp5_kms->hwpipes[i]);
  
-@@ -720,7 +717,7 @@ static int hwmixer_init(struct mdp5_kms *mdp5_kms)
- 	for (i = 0; i < hw_cfg->lm.count; i++) {
- 		struct mdp5_hw_mixer *mixer;
+ 	if (aspace) {
+ 		aspace->mmu->funcs->detach(aspace->mmu);
+@@ -645,7 +641,7 @@ static int construct_pipes(struct mdp5_kms *mdp5_kms, int cnt,
+ 	for (i = 0; i < cnt; i++) {
+ 		struct mdp5_hw_pipe *hwpipe;
  
--		mixer = mdp5_mixer_init(&hw_cfg->lm.instances[i]);
-+		mixer = mdp5_mixer_init(dev, &hw_cfg->lm.instances[i]);
- 		if (IS_ERR(mixer)) {
- 			ret = PTR_ERR(mixer);
- 			DRM_DEV_ERROR(dev->dev, "failed to construct LM%d (%d)\n",
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_mixer.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_mixer.c
-index 2536def2a000..2822b533f807 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_mixer.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_mixer.c
-@@ -140,20 +140,16 @@ int mdp5_mixer_release(struct drm_atomic_state *s, struct mdp5_hw_mixer *mixer)
+-		hwpipe = mdp5_pipe_init(pipes[i], offsets[i], caps);
++		hwpipe = mdp5_pipe_init(dev, pipes[i], offsets[i], caps);
+ 		if (IS_ERR(hwpipe)) {
+ 			ret = PTR_ERR(hwpipe);
+ 			DRM_DEV_ERROR(dev->dev, "failed to construct pipe for %s (%d)\n",
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c
+index e4b8a789835a..99b2c30b1d48 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c
+@@ -151,17 +151,13 @@ int mdp5_pipe_release(struct drm_atomic_state *s, struct mdp5_hw_pipe *hwpipe)
  	return 0;
  }
  
--void mdp5_mixer_destroy(struct mdp5_hw_mixer *mixer)
+-void mdp5_pipe_destroy(struct mdp5_hw_pipe *hwpipe)
 -{
--	kfree(mixer);
+-	kfree(hwpipe);
 -}
 -
- static const char * const mixer_names[] = {
- 	"LM0", "LM1", "LM2", "LM3", "LM4", "LM5",
- };
- 
--struct mdp5_hw_mixer *mdp5_mixer_init(const struct mdp5_lm_instance *lm)
-+struct mdp5_hw_mixer *mdp5_mixer_init(struct drm_device *dev,
-+				      const struct mdp5_lm_instance *lm)
+-struct mdp5_hw_pipe *mdp5_pipe_init(enum mdp5_pipe pipe,
++struct mdp5_hw_pipe *mdp5_pipe_init(struct drm_device *dev,
++		enum mdp5_pipe pipe,
+ 		uint32_t reg_offset, uint32_t caps)
  {
- 	struct mdp5_hw_mixer *mixer;
+ 	struct mdp5_hw_pipe *hwpipe;
  
--	mixer = kzalloc(sizeof(*mixer), GFP_KERNEL);
-+	mixer = devm_kzalloc(dev->dev, sizeof(*mixer), GFP_KERNEL);
- 	if (!mixer)
+-	hwpipe = kzalloc(sizeof(*hwpipe), GFP_KERNEL);
++	hwpipe = devm_kzalloc(dev->dev, sizeof(*hwpipe), GFP_KERNEL);
+ 	if (!hwpipe)
  		return ERR_PTR(-ENOMEM);
  
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_mixer.h b/drivers/gpu/drm/msm/disp/mdp5/mdp5_mixer.h
-index 545ee223b9d7..2bedd75835bc 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_mixer.h
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_mixer.h
-@@ -25,8 +25,8 @@ struct mdp5_hw_mixer_state {
- 	struct drm_crtc *hwmixer_to_crtc[8];
- };
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.h b/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.h
+index cca67938cab2..452138821f60 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.h
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.h
+@@ -39,8 +39,8 @@ int mdp5_pipe_assign(struct drm_atomic_state *s, struct drm_plane *plane,
+ 		     struct mdp5_hw_pipe **r_hwpipe);
+ int mdp5_pipe_release(struct drm_atomic_state *s, struct mdp5_hw_pipe *hwpipe);
  
--struct mdp5_hw_mixer *mdp5_mixer_init(const struct mdp5_lm_instance *lm);
--void mdp5_mixer_destroy(struct mdp5_hw_mixer *lm);
-+struct mdp5_hw_mixer *mdp5_mixer_init(struct drm_device *dev,
-+				      const struct mdp5_lm_instance *lm);
- int mdp5_mixer_assign(struct drm_atomic_state *s, struct drm_crtc *crtc,
- 		      uint32_t caps, struct mdp5_hw_mixer **mixer,
- 		      struct mdp5_hw_mixer **r_mixer);
+-struct mdp5_hw_pipe *mdp5_pipe_init(enum mdp5_pipe pipe,
++struct mdp5_hw_pipe *mdp5_pipe_init(struct drm_device *dev,
++		enum mdp5_pipe pipe,
+ 		uint32_t reg_offset, uint32_t caps);
+-void mdp5_pipe_destroy(struct mdp5_hw_pipe *hwpipe);
+ 
+ #endif /* __MDP5_PIPE_H__ */
 -- 
 2.39.2
 
