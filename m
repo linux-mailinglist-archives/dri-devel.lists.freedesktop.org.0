@@ -2,73 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 737EE74BA62
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 02:06:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EC9174BA6A
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 02:06:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 356E210E61F;
-	Sat,  8 Jul 2023 00:06:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4100810E626;
+	Sat,  8 Jul 2023 00:06:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
- [IPv6:2a00:1450:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13A4D10E61F
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Jul 2023 00:06:15 +0000 (UTC)
-Received: by mail-lj1-x22b.google.com with SMTP id
- 38308e7fff4ca-2b6ff1ad155so44897841fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Jul 2023 17:06:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688774773; x=1691366773;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=uOm6ONPFmI/dV+4chdGjJVecrD5MmlD4Ahx6W6/8yEc=;
- b=sFzALzpLbJoMKAhx/sceY4MghcwmclKzQE27quEyVSGyYGdsbRROO24OlDOhvq9hq8
- 8sxzqii+IY7IHuS2vEbXUn6uCeIbOUFte0tXGKEFfHGU8wPVu7wADNRanEG+o6drAds3
- Q4/Uy/J/Bo1tbDWvdqi+2n5Y5ww91fvi6sKyt5qEQZ2SOylx5TzIHXQ5BWmi1FaZ3Rrl
- IIwdu/LTc53jbRwVlk9DB8w7prWdm4cYFcKk/ipoZjGMzLFnfe+iEUqDIkaIV032/8/D
- L+mMiXtsJQsD8YYmVnJl6lKZhOJg/teks6r7P+gVVoY+S+/Nb4O6HLy8nFinbWagjAWL
- vH/A==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E6B910E626
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Jul 2023 00:06:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1688774810;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ClNl+J5kZre4g9U4Ilh/C86VTLXimbatUVRVhRP/EmY=;
+ b=K4+uD5dugJ5qlg2ymE4QggX1VqesB4TTxY4GBESrG4VuWbYEWJJHfjDKyNSqcICfWaity1
+ dasYi6W/so3yMF+7ZXR7ty3purys5FECh2MiAejuXk+27sptozaDwzVyNDdsNFrdmQcZue
+ r/Z+zcgYUdr1mqE5umrNFm42sTi57dg=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-282-iY1So6mZMwOQLFblMA9hcg-1; Fri, 07 Jul 2023 20:06:48 -0400
+X-MC-Unique: iY1So6mZMwOQLFblMA9hcg-1
+Received: by mail-lj1-f197.google.com with SMTP id
+ 38308e7fff4ca-2a7a6393ba6so4286001fa.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Jul 2023 17:06:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688774773; x=1691366773;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uOm6ONPFmI/dV+4chdGjJVecrD5MmlD4Ahx6W6/8yEc=;
- b=AjlCWWd/H+i89AMIhuBF5YdF5F1ZHc2APCqXgU0DPUvLO7gmKZCUkyRhEVZdVhsk6d
- jiPoPr9mCl2kxoogKuoEX+KMqERKYdGNKTOxpMMLyooZ3IrNnboRV4485UD0exqv5VFp
- pkPUxEOhSvmss3UKLc/w64k8IxUDx/Lrwno+rcwQWFMoRLvY5Dc2NscEYpzbOwGo6jm0
- 1WbJyo3kyqbNMid/nrisEK9i6PGEi5EaTRLxBYxyc+4n1MdH4Axp+zuH22XMKDQg+nCN
- Zalep37aGjbApYe8Wt/7TmzR9UBScGL5o7TVQc/GdtZ8yCogsKU9QSDUjGcWyhbnuaoT
- JUqQ==
-X-Gm-Message-State: ABy/qLZ0N3lwgrjKAI7coYdhoMiptc2RrAwWaYfnNrNGzLNmXGvOAYVJ
- jfxkUZIIuIx+BBWge/kKYOMHSA==
-X-Google-Smtp-Source: APBJJlHOik++wv/6w70KRSrv0bT3G7Snk21fU2xY9sNvvffzWq/fv3vPH6Vbrndhf8+kCMQIlNUieA==
-X-Received: by 2002:a2e:2e17:0:b0:2b6:cd70:2781 with SMTP id
- u23-20020a2e2e17000000b002b6cd702781mr2298551lju.12.1688774773242; 
- Fri, 07 Jul 2023 17:06:13 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- u20-20020a2e2e14000000b002b6c61bac2esm988436lju.92.2023.07.07.17.06.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Jul 2023 17:06:12 -0700 (PDT)
-Message-ID: <fc5501cf-c335-81f7-1ad7-26fdc1b6922d@linaro.org>
-Date: Sat, 8 Jul 2023 03:06:12 +0300
+ d=1e100.net; s=20221208; t=1688774807; x=1691366807;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ClNl+J5kZre4g9U4Ilh/C86VTLXimbatUVRVhRP/EmY=;
+ b=AZCuoK7nvV9iMaonmfivAa7vs2pYcXWIdnernCjQDZMjaie5GuF2YIAkck19+o3R/i
+ Fnsh3o3kCzx+yOY47FQjPXcedUo6AepUtZ0bipcHSqt2QCLm6FmHLzfXuYpmTE4u9VKn
+ F3Bwcn3fae/8WLmjRqj4WnA4vlRwb1OxYsEsRqg5x90pH39mCJYo+IwjfUOeaF3G3Hbi
+ 5IJruabybgWW+OCwnVm79zaw8T1mIKrUWVxkBv8O5uFMMMUtNTwmE8iRaKG/T/VEb3Lc
+ ssWYGGd1kKDRnytxcUS8l64mHzLytk+gtamhRNq+Sye3gobLN8ykCYfbpDm7lI6Y2v9+
+ ygug==
+X-Gm-Message-State: ABy/qLbizDN6xm4B7c7vjQDmqotidNQEDI6fuzqdQUSdlvdqcsaEuxwI
+ tMoQgQkqpjm1mdQhApWnpT8zqpFJlg3XjSMIrgBJJuHlh0YNQzG/QQ6Llw0kW/GOWcJU88DqSwh
+ 5khCB4DUnGw8aOZc2oB5Bx35m7ISdYohpzWepo+ur3LQO
+X-Received: by 2002:a2e:a4af:0:b0:2b6:cd7f:5ea8 with SMTP id
+ g15-20020a2ea4af000000b002b6cd7f5ea8mr3974263ljm.1.1688774807530; 
+ Fri, 07 Jul 2023 17:06:47 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlFpPr6r6JoBVvnvb4DwD31nWTUtEWSpKheU8SGmCkexh44pjRQR6+zxMEjOSNetT8JZmG/XoPxNZG9/X8BANUg=
+X-Received: by 2002:a2e:a4af:0:b0:2b6:cd7f:5ea8 with SMTP id
+ g15-20020a2ea4af000000b002b6cd7f5ea8mr3974256ljm.1.1688774807136; Fri, 07 Jul
+ 2023 17:06:47 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v1 1/5] drm/msm/dp: remove pm_runtime_xxx() from dp_power.c
-Content-Language: en-GB
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
- robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
- dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@gmail.com,
- agross@kernel.org, andersson@kernel.org
-References: <1688773943-3887-1-git-send-email-quic_khsieh@quicinc.com>
- <1688773943-3887-2-git-send-email-quic_khsieh@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1688773943-3887-2-git-send-email-quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230630160645.3984596-1-kherbst@redhat.com>
+ <14f2b03302c07a62cce1ec272f54727b2ad39721.camel@redhat.com>
+In-Reply-To: <14f2b03302c07a62cce1ec272f54727b2ad39721.camel@redhat.com>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Sat, 8 Jul 2023 02:06:36 +0200
+Message-ID: <CACO55tv_2Oisgkm+FqQ6xz91zJ8KidwFV6hMoCxHS-JYMkiFxQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/nouveau/disp/g94: enable HDMI
+To: Lyude Paul <lyude@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,76 +78,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- freedreno@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/07/2023 02:52, Kuogee Hsieh wrote:
-> Since both pm_runtime_resume() and pm_runtime_suspend() are not
-> populated at dp_pm_ops. Those pm_runtime_get/put() functions within
-> dp_power.c will not have any effects in addition to increase/decrease
-> power counter.
+On Fri, Jul 7, 2023 at 11:03=E2=80=AFPM Lyude Paul <lyude@redhat.com> wrote=
+:
+>
+> Reviewed-by: Lyude Paul <lyude@redhat.com>
+>
+> But seeing as I looked at this + some other patches yesterday I assume th=
+ere's
+> still more to this?
+>
 
-Lie.
+not really. All those patches are all independent and just a bunch of
+fixes. I just figured this one out a bit later.
 
-> Also pm_runtime_xxx() should be executed at top
-> layer.
-
-Why?
-
-> 
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/dp/dp_power.c | 9 ---------
->   1 file changed, 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_power.c b/drivers/gpu/drm/msm/dp/dp_power.c
-> index 5cb84ca..ed2f62a 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_power.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_power.c
-> @@ -152,8 +152,6 @@ int dp_power_client_init(struct dp_power *dp_power)
->   
->   	power = container_of(dp_power, struct dp_power_private, dp_power);
->   
-> -	pm_runtime_enable(power->dev);
-> -
->   	return dp_power_clk_init(power);
->   }
->   
-> @@ -162,8 +160,6 @@ void dp_power_client_deinit(struct dp_power *dp_power)
->   	struct dp_power_private *power;
->   
->   	power = container_of(dp_power, struct dp_power_private, dp_power);
-> -
-> -	pm_runtime_disable(power->dev);
->   }
->   
->   int dp_power_init(struct dp_power *dp_power)
-> @@ -173,11 +169,7 @@ int dp_power_init(struct dp_power *dp_power)
->   
->   	power = container_of(dp_power, struct dp_power_private, dp_power);
->   
-> -	pm_runtime_get_sync(power->dev);
-> -
->   	rc = dp_power_clk_enable(dp_power, DP_CORE_PM, true);
-> -	if (rc)
-> -		pm_runtime_put_sync(power->dev);
->   
->   	return rc;
->   }
-> @@ -189,7 +181,6 @@ int dp_power_deinit(struct dp_power *dp_power)
->   	power = container_of(dp_power, struct dp_power_private, dp_power);
->   
->   	dp_power_clk_enable(dp_power, DP_CORE_PM, false);
-> -	pm_runtime_put_sync(power->dev);
->   	return 0;
->   }
->   
-
--- 
-With best wishes
-Dmitry
+> On Fri, 2023-06-30 at 18:06 +0200, Karol Herbst wrote:
+> > Cc: Ben Skeggs <bskeggs@redhat.com>
+> > Cc: Lyude Paul <lyude@redhat.com>
+> > Fixes: f530bc60a30b ("drm/nouveau/disp: move HDMI config into acquire +=
+ infoframe methods")
+> > Signed-off-by: Karol Herbst <kherbst@redhat.com>
+> > ---
+> >  drivers/gpu/drm/nouveau/nvkm/engine/disp/g94.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/g94.c b/drivers/g=
+pu/drm/nouveau/nvkm/engine/disp/g94.c
+> > index a4853c4e5ee3..67ef889a0c5f 100644
+> > --- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/g94.c
+> > +++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/g94.c
+> > @@ -295,6 +295,7 @@ g94_sor =3D {
+> >       .clock =3D nv50_sor_clock,
+> >       .war_2 =3D g94_sor_war_2,
+> >       .war_3 =3D g94_sor_war_3,
+> > +     .hdmi =3D &g84_sor_hdmi,
+> >       .dp =3D &g94_sor_dp,
+> >  };
+> >
+>
+> --
+> Cheers,
+>  Lyude Paul (she/her)
+>  Software Engineer at Red Hat
+>
 
