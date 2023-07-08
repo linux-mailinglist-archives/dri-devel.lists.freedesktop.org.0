@@ -2,76 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35F1574BF56
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 23:43:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D17FF74C005
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Jul 2023 01:42:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8408110E06C;
-	Sat,  8 Jul 2023 21:43:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DC6110E0BF;
+	Sat,  8 Jul 2023 23:42:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A4D710E06C;
- Sat,  8 Jul 2023 21:43:39 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 368LhXrL020710; Sat, 8 Jul 2023 21:43:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=SULz5JVGk6CdYg6mpcNq8lheCf5wpuJvRKkpgpyDkmM=;
- b=TbcqmtOSg6PNLViwAkjy4fAubTA6A/3U6MtHSDfrLX8567HCnYq1IOAOmLlEf6rkJWQY
- t9q0zA934A2ql12rqkRVYSDjJv2BfJSlZl8hhK33K6UNVmv6ZHVGZ1xqWBcv82Y28lsD
- DbiPu4L08XQ3am6Mct4NgejxJBeQDzwl/L7OTPaifQWUSDQUuTA4VYE+8SOrFPa82uyv
- R9bo3I8BLxIx+fkH+5zgWJNOpe/e0NAjort3QF/iR1kpkXtr25TlrQWBFH/5b3o5rAUQ
- hoBGwGqcbGpe7PnUJKOVtdWmKLag7T1AlggCDZ8fp1M5g30/O9msBUH1nfxJ7aTFK+N5 3w== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rpy4rryav-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 08 Jul 2023 21:43:33 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 368LhWel009772
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 8 Jul 2023 21:43:32 GMT
-Received: from [10.110.47.185] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Sat, 8 Jul
- 2023 14:43:31 -0700
-Message-ID: <cab9bef8-0281-913b-bb2b-f54cc4c1f68c@quicinc.com>
-Date: Sat, 8 Jul 2023 14:43:31 -0700
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3482F10E0AD
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Jul 2023 23:42:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1688859746;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zuXUWar5it67xzTLsfG6dq75MzwcYYcoVnZ3Qa6+OwQ=;
+ b=PKr0KnBTegGuOk9QOHkuSmAqRC4uj9GrrWpLoTHwHQ5yN/9xe/5z8F+lbFYPZqMVqcjD7C
+ hyW2VVfRHy3sKjesJ/Mz09YWQyr6EB8gN1YFupMkwdzVTWP2w1wVNA1ZiCBK+P8Bs96mRI
+ qtJ17GBKkfg2qQL97V4Nz2U3/CKb+Ug=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-163-XcHvvztoMpipyC5og5EHjw-1; Sat, 08 Jul 2023 19:42:24 -0400
+X-MC-Unique: XcHvvztoMpipyC5og5EHjw-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ 38308e7fff4ca-2b04d5ed394so5412991fa.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 08 Jul 2023 16:42:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688859742; x=1691451742;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=zuXUWar5it67xzTLsfG6dq75MzwcYYcoVnZ3Qa6+OwQ=;
+ b=b/mNXDnabkHdzjx4x24db4dXhKAhgL3NX8xiDS1L0whipFt75BwTnqe9uL02A3PvAZ
+ 1tbvgYZswdQJI9jDPoI8ScDTe3BaYu7uhtiK3kUSxxYVox5tG+BpNeZsmc29epQUMcw7
+ qFwQtMIwN/BnEUpiaPve/ENxKNcsbTowNuuk6JbZn+zgCHl9Tb0tGIGryi4S8wVoCVkw
+ zFWh/uFLtTi4ElaqtXHEdK1szfdvjVp5f+ALX5nzRWbRCYPLXkx4bIDEsi+jn91jPuzR
+ PYwIHzULRq14T9e3JFHJ5eXLaDH/xL52Ge2w9GQ46M0uoCglRZqwHgUwqZLh+xaOXNjt
+ Hyww==
+X-Gm-Message-State: ABy/qLYpgo2nkxXgd4m/XzkAdYh/44dOJi/s/QFXjXeR3QTo+4pzdITu
+ fZDRhaLcqc6rDtdRr52RaRn4JWkd9qUW+O/gTXKFfabmwUwwLVDIv+R0L7OdlWoY7IPmWKacDRV
+ rC3QJ8gpE3LUHEmob/i64rLJtm+GjYKxAepjaf5gPFB3h
+X-Received: by 2002:a2e:a10b:0:b0:2b6:9a47:c4bd with SMTP id
+ s11-20020a2ea10b000000b002b69a47c4bdmr7458203ljl.1.1688859742161; 
+ Sat, 08 Jul 2023 16:42:22 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlE5X3CBQWtiEdrj3rZYiIrmAV14yV6EXlVIUUteCnODFqXHRUw2+sSlSUsqusjTgXVX8PP6eFgmtiIYHbhX8EI=
+X-Received: by 2002:a2e:a10b:0:b0:2b6:9a47:c4bd with SMTP id
+ s11-20020a2ea10b000000b002b69a47c4bdmr7458188ljl.1.1688859741870; Sat, 08 Jul
+ 2023 16:42:21 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 1/2] drm/msm/dpu: fix DSC 1.2 block lengths
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>
-References: <20230708130039.1596599-1-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230708130039.1596599-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 7jof_g2PAgT6C7F3aEDxRQmjo_KsRSCc
-X-Proofpoint-GUID: 7jof_g2PAgT6C7F3aEDxRQmjo_KsRSCc
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-08_15,2023-07-06_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 mlxscore=0
- bulkscore=0 impostorscore=0 adultscore=0 mlxlogscore=945 spamscore=0
- phishscore=0 lowpriorityscore=0 priorityscore=1501 clxscore=1015
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2307080204
+References: <20230707215851.590754-1-lyude@redhat.com>
+In-Reply-To: <20230707215851.590754-1-lyude@redhat.com>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Sun, 9 Jul 2023 01:42:10 +0200
+Message-ID: <CACO55tvfTDu8XcKowWXcSRqp8OMLb8Q4jnPG_Fn5y=yJy-Dqbw@mail.gmail.com>
+Subject: Re: [PATCH] drm/nouveau/nvkm/dp: Add hack to fix DP 1.3+ DPCD issues
+To: Lyude Paul <lyude@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,35 +77,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Ryan McCann <quic_rmccann@quicinc.com>,
- linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
+Cc: nouveau@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
+ Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Jul 7, 2023 at 11:58=E2=80=AFPM Lyude Paul <lyude@redhat.com> wrote=
+:
+>
+> Currently we use the drm_dp_dpcd_read_caps() helper in the DRM side of
+> nouveau in order to read the DPCD of a DP connector, which makes sure we =
+do
+> the right thing and also check for extended DPCD caps. However, it turns
+> out we're not currently doing this on the nvkm side since we don't have
+> access to the drm_dp_aux structure there - which means that the DRM side =
+of
+> the driver and the NVKM side can end up with different DPCD capabilities
+> for the same connector.
+>
+> Ideally to fix this, we want to start setting up the drm_dp_aux device in
+> NVKM before we've made contact with the DRM side - which should be pretty
+> easy to accomplish (I'm already working on it!). Until then however, let'=
+s
+> workaround this problem by porting a copy of drm_dp_read_dpcd_caps() into
+> NVKM - which should fix this issue.
+>
+> Issue: https://gitlab.freedesktop.org/drm/nouveau/-/issues/211
 
+Should a Fixes: or Cc: stable tag be added so it gets backported?
 
-On 7/8/2023 6:00 AM, Dmitry Baryshkov wrote:
-> All DSC_BLK_1_2 declarations incorrectly pass 0x29c as the block length.
-> This includes the common block itself, enc subblocks and some empty
-> space around. Change that to pass 0x4 instead, the length of common
-> register block itself.
-> 
-> Fixes: 0d1b10c63346 ("drm/msm/dpu: add DSC 1.2 hw blocks for relevant chipsets")
-> Reported-by: Ryan McCann <quic_rmccann@quicinc.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
 > ---
-> 
-> Changes since v2:
->   - Added Reported-by tag.
-> 
-> ---
->   .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h   |  8 ++++----
->   .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h   |  2 +-
->   .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h | 12 ++++++------
->   .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h   |  8 ++++----
->   .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h   |  8 ++++----
->   5 files changed, 19 insertions(+), 19 deletions(-)
-> 
+>  drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c | 48 ++++++++++++++++++-
+>  1 file changed, 47 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c b/drivers/gpu/=
+drm/nouveau/nvkm/engine/disp/dp.c
+> index 40c8ea43c42f..b8ac66b4a2c4 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/dp.c
+> @@ -26,6 +26,8 @@
+>  #include "head.h"
+>  #include "ior.h"
+>
+> +#include <drm/display/drm_dp.h>
+> +
+>  #include <subdev/bios.h>
+>  #include <subdev/bios/init.h>
+>  #include <subdev/gpio.h>
+> @@ -634,6 +636,50 @@ nvkm_dp_enable_supported_link_rates(struct nvkm_outp=
+ *outp)
+>         return outp->dp.rates !=3D 0;
+>  }
+>
+> +/* XXX: This is a big fat hack, and this is just drm_dp_read_dpcd_caps()
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Well.. maybe we should rephrase that _if_ we want to see it
+backported. But is this code really that bad? It kinda looks
+reasonable enough.
+
+> + * converted to work inside nvkm. This is a temporary holdover until we =
+start
+> + * passing the drm_dp_aux device through NVKM
+> + */
+> +static int
+> +nvkm_dp_read_dpcd_caps(struct nvkm_outp *outp)
+> +{
+> +       struct nvkm_i2c_aux *aux =3D outp->dp.aux;
+> +       u8 dpcd_ext[DP_RECEIVER_CAP_SIZE];
+> +       int ret;
+> +
+> +       ret =3D nvkm_rdaux(aux, DPCD_RC00_DPCD_REV, outp->dp.dpcd, DP_REC=
+EIVER_CAP_SIZE);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       /*
+> +        * Prior to DP1.3 the bit represented by
+> +        * DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT was reserved.
+> +        * If it is set DP_DPCD_REV at 0000h could be at a value less tha=
+n
+> +        * the true capability of the panel. The only way to check is to
+> +        * then compare 0000h and 2200h.
+> +        */
+> +       if (!(outp->dp.dpcd[DP_TRAINING_AUX_RD_INTERVAL] &
+> +             DP_EXTENDED_RECEIVER_CAP_FIELD_PRESENT))
+> +               return 0;
+> +
+> +       ret =3D nvkm_rdaux(aux, DP_DP13_DPCD_REV, dpcd_ext, sizeof(dpcd_e=
+xt));
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       if (outp->dp.dpcd[DP_DPCD_REV] > dpcd_ext[DP_DPCD_REV]) {
+> +               OUTP_DBG(outp, "Extended DPCD rev less than base DPCD rev=
+ (%d > %d)\n",
+> +                        outp->dp.dpcd[DP_DPCD_REV], dpcd_ext[DP_DPCD_REV=
+]);
+> +               return 0;
+> +       }
+> +
+> +       if (!memcmp(outp->dp.dpcd, dpcd_ext, sizeof(dpcd_ext)))
+> +               return 0;
+> +
+> +       memcpy(outp->dp.dpcd, dpcd_ext, sizeof(dpcd_ext));
+> +
+> +       return 0;
+> +}
+> +
+>  void
+>  nvkm_dp_enable(struct nvkm_outp *outp, bool auxpwr)
+>  {
+> @@ -689,7 +735,7 @@ nvkm_dp_enable(struct nvkm_outp *outp, bool auxpwr)
+>                         memset(outp->dp.lttpr, 0x00, sizeof(outp->dp.lttp=
+r));
+>                 }
+>
+> -               if (!nvkm_rdaux(aux, DPCD_RC00_DPCD_REV, outp->dp.dpcd, s=
+izeof(outp->dp.dpcd))) {
+> +               if (!nvkm_dp_read_dpcd_caps(outp)) {
+>                         const u8 rates[] =3D { 0x1e, 0x14, 0x0a, 0x06, 0 =
+};
+>                         const u8 *rate;
+>                         int rate_max;
+> --
+> 2.40.1
+>
+
