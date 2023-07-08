@@ -1,72 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 442CA74BA6C
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 02:07:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F9EB74BA79
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 02:11:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96F5310E62E;
-	Sat,  8 Jul 2023 00:07:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 741CD10E621;
+	Sat,  8 Jul 2023 00:11:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6F7310E62E
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Jul 2023 00:07:24 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-4f4b2bc1565so4008181e87.2
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Jul 2023 17:07:24 -0700 (PDT)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 736FE10E621
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Jul 2023 00:11:28 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id
+ 2adb3069b0e04-4fbb281eec6so3832229e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Jul 2023 17:11:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688774843; x=1691366843;
+ d=linaro.org; s=google; t=1688775086; x=1691367086;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=CLt63cNfTOHwnk/8YjxdfGjECIo1obJeTRgBrDNQw4g=;
- b=TsMiWw57CK/WW1zqiQCs0o34jJvhwKzckDpp5bJRVvuXb8/gcLg2g2BuMsMiIS3u8H
- XtsNZvF2SiMjNifAvdpoZI1pAOleYRqddKVHMMzc6MPYaAzbRIsREnEt7ifoMeYld2hH
- nNt7pzmP1rd/P5ovrP7fiVZjBoRDBBgihyjvmCML0ajc+Ve4EgtnR1AEa1J6i0HBWewg
- UwdZF8QrJ8LxP7tXJLlA4mb5kVlx1/q8SIaoDkqJU4LBqqbZyvCWQtdHZw3zdfUtYDtm
- XiOe6xC3gdG1glErYbzWuL9yQ4yOl8kNj+cSR/mmZh0h1xKhzOY0g/Wm1HCCPQSkRPOG
- Q34w==
+ bh=8pEhdouabvxAp9TSL2fUp0unC0H1pT0amjcsbTlGqwQ=;
+ b=oZhptRdax944AXF9E0srAwlBDKjtKLq+rWSOk6PCMNmNq7heJG1eJXmKuGUwXN9fJw
+ hQiEbnpKV+TBCW0ilQZtCFPojb+BnSWlFzmjYtDrijeZQ+x+ZhLcEWqwETFbPpYpm4F2
+ 7TufzC0ckJrPTrKLHMTIwX2P3qxycrJBXIGW/K/DIyTDig4EVeAl/NGPoY2jZm9+S2VF
+ iQdbWb6V4yqxlJl4LesaU41ltCCBlWhgLqw1dHSTDaVrd5Hr/P8ch2jgX9/KT56exoJj
+ nN/c/WMHdPR6dU46q58oMrLWy+DNw3SAkiPBA003ELiQgajXOWj4yqmD3XnqdhYnDgMu
+ TyIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688774843; x=1691366843;
+ d=1e100.net; s=20221208; t=1688775086; x=1691367086;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CLt63cNfTOHwnk/8YjxdfGjECIo1obJeTRgBrDNQw4g=;
- b=jB/LtQm480hHD0RL6+Tbrh1e4TzYI+VUaatqc7RU+SHCFCC1XA1FQ4zvklpVVGv7Bl
- A4d+Ktu7tpPtmr/iQ1sD5h59e/Hw8hi84puJ0CllqMghh1iST5RIBIK6/TG4pq/gfqPx
- N8T4s94vZrL/eSPu7X9h+PwXn3GDAL9Gs3lD20FpgyFFP+7ULJAEPvdD095eDo4WUg9s
- P3jsOwdO5hskCYenvQ6k6+H5YExlPaRLBOvC/S5ZC4cu1Jk21QHKg1PduK8/SEfwe5+q
- pB49PhehKsNmQIZQ595ONHiMM2VoPkN32O1JdWW8/a5LWN8kGGGM41Q8k0zWblqD0kah
- qFdg==
-X-Gm-Message-State: ABy/qLZHmtjaYa4BxWJlo/pjoq5miGgE26nGG0ZLa6hMR43lcFO4LBhp
- wng/S43UO++l0ZP1TG1vX5ZpGfL90OOqiXlNBb8=
-X-Google-Smtp-Source: APBJJlFiIH+YImiq0+UkzUR5N2zGiuktwPtPxkgVv/DDbfGw9WFNLBhG0plZ3szl2fD8O+goMG8VJQ==
-X-Received: by 2002:a05:6512:1310:b0:4f1:3d7d:409e with SMTP id
- x16-20020a056512131000b004f13d7d409emr5608203lfu.0.1688774842857; 
- Fri, 07 Jul 2023 17:07:22 -0700 (PDT)
+ bh=8pEhdouabvxAp9TSL2fUp0unC0H1pT0amjcsbTlGqwQ=;
+ b=EpXUdGKwY4k2bVbKIeuiap9QB6H7vr39IiAgD8wMgAGXlV7BqFbimpQ8GgAmipU7v6
+ Mnwzg+JfMbWsxN0kWhCOXQ0dCwRVMzmG8uPJ2etoAIwbBROZURKgE5Uu05VW7jflpx2b
+ 5UaKEXZwuKivzjgl9wdEj8kpQFXNTLdp826sxhNvdSjKGFp+p0ZLN2PXnzp9bL6yqv87
+ F2l7ainjRZr/WVf9dCU6m/58HeRiPRY18u3v64w0scr5fcJD22tjA6Gm/TShSP8ZbtwW
+ nIHDP5gLaP8eoZBPvaKwzSuhb4UweLEldYjH9LK7UVaghJJt07EUgMNjCXi5Y7Wa/itd
+ GUyQ==
+X-Gm-Message-State: ABy/qLbnD22AZ3kU2PO2XwRrQIIBiwew+vrvL01wkfUCxHnSRSfovW6y
+ 00XMXDdtSBBUzCMN+i+a8eVKoQ==
+X-Google-Smtp-Source: APBJJlENIbTi154YqUJ/mp+/+dX6U/m13Fpue2Y2OnxjpG0g6UDbMbW4IkaDNJ3qqPoXI3Pc+MI4Lg==
+X-Received: by 2002:a05:6512:1088:b0:4fb:8c27:4def with SMTP id
+ j8-20020a056512108800b004fb8c274defmr5508992lfg.8.1688775086410; 
+ Fri, 07 Jul 2023 17:11:26 -0700 (PDT)
 Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
  (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
  by smtp.gmail.com with ESMTPSA id
- eo25-20020a056512481900b004fb85ffc82csm853085lfb.10.2023.07.07.17.07.22
+ l8-20020ac24a88000000b004fbb094cba1sm851623lfp.43.2023.07.07.17.11.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Jul 2023 17:07:22 -0700 (PDT)
-Message-ID: <a9cb7147-613e-8b1a-14c5-bbac6bb24a1a@linaro.org>
-Date: Sat, 8 Jul 2023 03:07:21 +0300
+ Fri, 07 Jul 2023 17:11:25 -0700 (PDT)
+Message-ID: <121f82ad-9d5d-6d7f-b4ae-9a371ab49ef7@linaro.org>
+Date: Sat, 8 Jul 2023 03:11:25 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH v1 3/5] drm/msm/dp: delete EV_HPD_INIT_SETUP
+Subject: Re: [PATCH v1 4/5] drm/msm/dp: move relevant dp initialization code
+ from bind() to probe()
 Content-Language: en-GB
 To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
  robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
  dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@gmail.com,
  agross@kernel.org, andersson@kernel.org
 References: <1688773943-3887-1-git-send-email-quic_khsieh@quicinc.com>
- <1688773943-3887-4-git-send-email-quic_khsieh@quicinc.com>
+ <1688773943-3887-5-git-send-email-quic_khsieh@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1688773943-3887-4-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1688773943-3887-5-git-send-email-quic_khsieh@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,57 +90,138 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 08/07/2023 02:52, Kuogee Hsieh wrote:
-> EV_HPD_INIT_SETUP flag is used to trigger the initialization of external
-> DP host controller. Since external DP host controller initialization had
-> been incorporated into pm_runtime_resume(), this flag become obsolete.
-> Lets get rid of it.
+> In preparation of moving edp of_dp_aux_populate_bus() to
+> dp_display_probe(), move dp_display_request_irq(),
+> dp->parser->parse() and dp_power_client_init() to dp_display_probe()
+> too.
 > 
 > Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 > ---
->   drivers/gpu/drm/msm/dp/dp_display.c | 12 ------------
->   1 file changed, 12 deletions(-)
+>   drivers/gpu/drm/msm/dp/dp_display.c | 48 +++++++++++++++++--------------------
+>   drivers/gpu/drm/msm/dp/dp_display.h |  1 -
+>   2 files changed, 22 insertions(+), 27 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 2c5706a..44580c2 100644
+> index 44580c2..185f1eb 100644
 > --- a/drivers/gpu/drm/msm/dp/dp_display.c
 > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -55,7 +55,6 @@ enum {
->   enum {
->   	EV_NO_EVENT,
->   	/* hpd events */
-> -	EV_HPD_INIT_SETUP,
->   	EV_HPD_PLUG_INT,
->   	EV_IRQ_HPD_INT,
->   	EV_HPD_UNPLUG_INT,
-> @@ -1119,9 +1118,6 @@ static int hpd_event_thread(void *data)
->   		spin_unlock_irqrestore(&dp_priv->event_lock, flag);
+> @@ -290,12 +290,6 @@ static int dp_display_bind(struct device *dev, struct device *master,
+>   		goto end;
+>   	}
 >   
->   		switch (todo->event_id) {
-> -		case EV_HPD_INIT_SETUP:
-> -			dp_display_host_init(dp_priv);
-> -			break;
->   		case EV_HPD_PLUG_INT:
->   			dp_hpd_plug_handle(dp_priv, todo->data);
->   			break;
-> @@ -1483,15 +1479,7 @@ void __exit msm_dp_unregister(void)
+> -	rc = dp_power_client_init(dp->power);
+> -	if (rc) {
+> -		DRM_ERROR("Power client create failed\n");
+> -		goto end;
+> -	}
+> -
+>   	rc = dp_register_audio_driver(dev, dp->audio);
+>   	if (rc) {
+>   		DRM_ERROR("Audio registration Dp failed\n");
+> @@ -752,6 +746,12 @@ static int dp_init_sub_modules(struct dp_display_private *dp)
+>   		goto error;
+>   	}
 >   
->   void msm_dp_irq_postinstall(struct msm_dp *dp_display)
+> +	rc = dp->parser->parse(dp->parser);
+> +	if (rc) {
+> +		DRM_ERROR("device tree parsing failed\n");
+> +		goto error;
+> +	}
+> +
+>   	dp->catalog = dp_catalog_get(dev, &dp->parser->io);
+>   	if (IS_ERR(dp->catalog)) {
+>   		rc = PTR_ERR(dp->catalog);
+> @@ -768,6 +768,12 @@ static int dp_init_sub_modules(struct dp_display_private *dp)
+>   		goto error;
+>   	}
+>   
+> +	rc = dp_power_client_init(dp->power);
+> +	if (rc) {
+> +		DRM_ERROR("Power client create failed\n");
+> +		goto error;
+> +	}
+> +
+>   	dp->aux = dp_aux_get(dev, dp->catalog, dp->dp_display.is_edp);
+>   	if (IS_ERR(dp->aux)) {
+>   		rc = PTR_ERR(dp->aux);
+> @@ -1196,26 +1202,20 @@ static irqreturn_t dp_display_irq_handler(int irq, void *dev_id)
+>   	return ret;
+>   }
+>   
+> -int dp_display_request_irq(struct msm_dp *dp_display)
+> +static int dp_display_request_irq(struct dp_display_private *dp)
 >   {
+>   	int rc = 0;
 > -	struct dp_display_private *dp;
 > -
-> -	if (!dp_display)
-> -		return;
+> -	if (!dp_display) {
+> -		DRM_ERROR("invalid input\n");
+> -		return -EINVAL;
+> -	}
 > -
 > -	dp = container_of(dp_display, struct dp_display_private, dp_display);
+> +	struct device *dev = &dp->pdev->dev;
 >   
-> -	if (!dp_display->is_edp)
-> -		dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 0);
->   }
+> -	dp->irq = irq_of_parse_and_map(dp->pdev->dev.of_node, 0);
+>   	if (!dp->irq) {
+> -		DRM_ERROR("failed to get irq\n");
+> -		return -EINVAL;
+> +		dp->irq = irq_of_parse_and_map(dp->pdev->dev.of_node, 0);
+> +		if (!dp->irq) {
+> +			DRM_ERROR("failed to get irq\n");
+> +			return -EINVAL;
+> +		}
+>   	}
 
-Why do you keep an empty function?
+Use platform_get_irq() from probe() function.
 
 >   
->   bool msm_dp_wide_bus_available(const struct msm_dp *dp_display)
+> -	rc = devm_request_irq(dp_display->drm_dev->dev, dp->irq,
+> -			dp_display_irq_handler,
+> +	rc = devm_request_irq(dev, dp->irq, dp_display_irq_handler,
+>   			IRQF_TRIGGER_HIGH, "dp_display_isr", dp);
+
+
+>   	if (rc < 0) {
+>   		DRM_ERROR("failed to request IRQ%u: %d\n",
+> @@ -1290,6 +1290,8 @@ static int dp_display_probe(struct platform_device *pdev)
+>   
+>   	platform_set_drvdata(pdev, &dp->dp_display);
+>   
+> +	dp_display_request_irq(dp);
+> +
+
+Error checking?
+Are we completely ready to handle interrupts at this point?
+
+>   	rc = component_add(&pdev->dev, &dp_display_comp_ops);
+>   	if (rc) {
+>   		DRM_ERROR("component add failed, rc=%d\n", rc);
+> @@ -1574,12 +1576,6 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
+>   
+>   	dp_priv = container_of(dp_display, struct dp_display_private, dp_display);
+>   
+> -	ret = dp_display_request_irq(dp_display);
+> -	if (ret) {
+> -		DRM_ERROR("request_irq failed, ret=%d\n", ret);
+> -		return ret;
+> -	}
+> -
+>   	ret = dp_display_get_next_bridge(dp_display);
+>   	if (ret)
+>   		return ret;
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
+> index 1e9415a..b3c08de 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
+> @@ -35,7 +35,6 @@ struct msm_dp {
+>   int dp_display_set_plugged_cb(struct msm_dp *dp_display,
+>   		hdmi_codec_plugged_cb fn, struct device *codec_dev);
+>   int dp_display_get_modes(struct msm_dp *dp_display);
+> -int dp_display_request_irq(struct msm_dp *dp_display);
+>   bool dp_display_check_video_test(struct msm_dp *dp_display);
+>   int dp_display_get_test_bpp(struct msm_dp *dp_display);
+>   void dp_display_signal_audio_start(struct msm_dp *dp_display);
 
 -- 
 With best wishes
