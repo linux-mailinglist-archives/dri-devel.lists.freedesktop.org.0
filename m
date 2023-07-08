@@ -1,42 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71BE974BDB7
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 16:08:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11ACE74BDD9
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 16:32:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E422C10E0E3;
-	Sat,  8 Jul 2023 14:08:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D7DE10E02C;
+	Sat,  8 Jul 2023 14:32:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [80.237.130.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8CCB10E0E3
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Jul 2023 14:08:28 +0000 (UTC)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1qI8bn-0003vw-7w; Sat, 08 Jul 2023 16:08:23 +0200
-Message-ID: <f4693953-3894-6dd9-e061-01626883a388@leemhuis.info>
-Date: Sat, 8 Jul 2023 16:08:22 +0200
+X-Greylist: delayed 1218 seconds by postgrey-1.36 at gabe;
+ Sat, 08 Jul 2023 14:32:38 UTC
+Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3399D10E02C
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Jul 2023 14:32:38 +0000 (UTC)
+Received: from uucp by elvis.franken.de with local-rmail (Exim 3.36 #1)
+ id 1qI8fN-00023x-00; Sat, 08 Jul 2023 16:12:05 +0200
+Received: by alpha.franken.de (Postfix, from userid 1000)
+ id 11AC8C01C1; Sat,  8 Jul 2023 16:11:52 +0200 (CEST)
+Date: Sat, 8 Jul 2023 16:11:52 +0200
+From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [PATCH 2/4] vgacon: rework screen_info #ifdef checks
+Message-ID: <ZKluqG2ZqKtAmnEG@alpha.franken.de>
+References: <20230707095415.1449376-1-arnd@kernel.org>
+ <20230707095415.1449376-2-arnd@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 2/2] drm/bridge: lt9611: Do not generate HFP/HBP/HSA and
- EOT packet
-Content-Language: en-US, de-DE
-To: Amit Pundir <amit.pundir@linaro.org>, Marek Vasut <marex@denx.de>
-References: <20230403221233.500485-1-marex@denx.de>
- <20230403221233.500485-2-marex@denx.de>
- <CAMi1Hd0TD=2z_=bcDrht3H_wiLvAFcv8Z-U_r_KUOoeMc6UMjw@mail.gmail.com>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-In-Reply-To: <CAMi1Hd0TD=2z_=bcDrht3H_wiLvAFcv8Z-U_r_KUOoeMc6UMjw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1688825309;
- 13064229; 
-X-HE-SMSGID: 1qI8bn-0003vw-7w
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230707095415.1449376-2-arnd@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,58 +41,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Linux regressions mailing list <regressions@lists.linux.dev>,
- Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Michael Walle <michael@walle.cc>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, javierm@redhat.com,
+ WANG Xuerui <kernel@xen0n.name>, Ard Biesheuvel <ardb@kernel.org>,
+ Michael Ellerman <mpe@ellerman.id.au>, Helge Deller <deller@gmx.de>,
+ Huacai Chen <chenhuacai@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Matt Turner <mattst88@gmail.com>, linux-mips@vger.kernel.org,
+ Albert Ou <aou@eecs.berkeley.edu>, Arnd Bergmann <arnd@arndb.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Nicholas Piggin <npiggin@gmail.com>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, loongarch@lists.linux.dev,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org, Palmer Dabbelt <palmer@dabbelt.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-alpha@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[TLDR: I'm adding this report to the list of tracked Linux kernel
-regressions; the text you find below is based on a few templates
-paragraphs you might have encountered already in similar form.
-See link in footer if these mails annoy you.]
+On Fri, Jul 07, 2023 at 11:52:24AM +0200, Arnd Bergmann wrote:
+> diff --git a/arch/mips/jazz/setup.c b/arch/mips/jazz/setup.c
+> index ee044261eb223..3c14548353e47 100644
+> --- a/arch/mips/jazz/setup.c
+> +++ b/arch/mips/jazz/setup.c
+> @@ -76,7 +76,7 @@ void __init plat_mem_setup(void)
+>  
+>  	_machine_restart = jazz_machine_restart;
+>  
+> -#ifdef CONFIG_VT
+> +#ifdef CONFIG_VGA_CONSOLE
+>  	screen_info = (struct screen_info) {
+>  		.orig_video_cols	= 160,
+>  		.orig_video_lines	= 64,
 
-On 05.07.23 06:45, Amit Pundir wrote:
-> 
-> On Wed, 5 Jul 2023 at 01:48, Marek Vasut <marex@denx.de> wrote:
->>
->> Do not generate the HS front and back porch gaps, the HSA gap and
->> EOT packet, as these packets are not required. This makes the bridge
->> work with Samsung DSIM on i.MX8MM and i.MX8MP.
-> 
-> This patch broke display on Dragonboard 845c (SDM845) devboard running
-> AOSP. This is what I see
-> https://people.linaro.org/~amit.pundir/db845c-userdebug/v6.5-broken-display/PXL_20230704_150156326.jpg.
-> Reverting this patch fixes this regression for me.
+that wssn't intended for VGA but for fbdev/g364fb, which doesn't use
+it. So removing it is probably the best thing.
 
-Thanks for the report. To be sure the issue doesn't fall through the
-cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
-tracking bot:
+Thomas.
 
-#regzbot ^introduced 8ddce13ae69
-#regzbot title drm/bridge: lt9611: Dragonboard 845c (SDM845) devboard
-broken when running AOSP
-#regzbot ignore-activity
-
-This isn't a regression? This issue or a fix for it are already
-discussed somewhere else? It was fixed already? You want to clarify when
-the regression started to happen? Or point out I got the title or
-something else totally wrong? Then just reply and tell me -- ideally
-while also telling regzbot about it, as explained by the page listed in
-the footer of this mail.
-
-Developers: When fixing the issue, remember to add 'Link:' tags pointing
-to the report (the parent of this mail). See page linked in footer for
-details.
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-That page also explains what to do if mails like this annoy you.
+-- 
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
