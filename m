@@ -1,34 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B64F674BCD2
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 10:40:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6874174BCD7
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 10:40:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E020610E0C7;
-	Sat,  8 Jul 2023 08:40:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D17110E0E1;
+	Sat,  8 Jul 2023 08:40:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 063C210E0C7
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Jul 2023 08:40:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E03E510E0E1
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Jul 2023 08:40:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1688805636;
+ s=mail; t=1688805637;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=kZp/RuTQA9sv6le/NdMKkvZz1qlquoEfqK2QgHrlgBk=;
- b=J9y0FOqnmMfGk1BCYAQa7QaGavIpGz2/AHbajLggP+WjAmsu9+p8Byugu9B/MYr2G+altw
- 3qrac/FtnmYpqJeSU/IOFriu9y33/ZySeB4Ztquv69DXCS2BXqxv3Ln60QyvMelixdRqRv
- 2i7rcThlMWnQe2kW4gIyp2T4Y1aMFpM=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NhoqtqxyhPtY8CBHiEHyPDLJNhjPqQS0txLNegyEoqo=;
+ b=qpGNnr2XiVksOlNWj1Q+pnXybM//PE1W9vZvc0vlTKXAmf9O/Mu6NxHBtJgIsYSOz9hGLo
+ z0+Gb7Nmmq6b9V6zv4xDoUIsYoP8GPhZn47yHI6HH4x9Fn8zUaAuYW1WeHx75DTAntw1Zv
+ 5xnGtBGQtubzsAeJS38w5UhF2BWBUzA=
 From: Paul Cercueil <paul@crapouillou.net>
 To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Rob Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
  Alim Akhtar <alim.akhtar@samsung.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v2 0/3] Galaxy S2 (i9100) panel updates v2
-Date: Sat,  8 Jul 2023 10:40:24 +0200
-Message-Id: <20230708084027.18352-1-paul@crapouillou.net>
+Subject: [PATCH v2 1/3] drm/panel: ld9040: Use better magic values
+Date: Sat,  8 Jul 2023 10:40:25 +0200
+Message-Id: <20230708084027.18352-2-paul@crapouillou.net>
+In-Reply-To: <20230708084027.18352-1-paul@crapouillou.net>
+References: <20230708084027.18352-1-paul@crapouillou.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam: Yes
@@ -50,35 +53,48 @@ Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+I have no idea what the prior magic values mean, and I have no idea
+what my replacement (extracted from [1]) magic values mean.
 
-Follow-up on my patchset that fixes the display of the Samsung Galaxy S2
-when running PostmarketOS.
+What I do know, is that these new values result in a much better
+picture, where the blacks are really black (as you would expect on an
+AMOLED display) instead of grey-ish.
 
-The first two patches update the LD9040 panel driver so that it looks
-much better, and supports setting the backlight.
+[1]: https://github.com/dorimanx/Dorimanx-SG2-I9100-Kernel/blob/master-jelly-bean/arch/arm/mach-exynos/u1-panel.h
 
-The third patch fixes the size of the panel in the Device Tree. The
-previous values were completely bogus and caused Phosh (PmOS' UI) to
-display tiny icons and text as it thought the DPI was much lower.
+v2: Remove spurious new line
 
-Changes since V1:
-[1/3]: Remove spurious new line
-[2/3]: Remove .get_brightness() callback, use bl_get_data() and
-       backlight_get_brightness()
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+ drivers/gpu/drm/panel/panel-samsung-ld9040.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Cheers,
--Paul
-
-Paul Cercueil (3):
-  drm/panel: ld9040: Use better magic values
-  drm/panel: ld9040: Register a backlight device
-  ARM: dts: exynos/i9100: Fix LCD screen's physical size
-
- arch/arm/boot/dts/exynos4210-i9100.dts       |  4 +-
- drivers/gpu/drm/panel/panel-samsung-ld9040.c | 42 +++++++++++++++++---
- 2 files changed, 38 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/gpu/drm/panel/panel-samsung-ld9040.c b/drivers/gpu/drm/panel/panel-samsung-ld9040.c
+index 01eb211f32f7..f39f999c21af 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-ld9040.c
++++ b/drivers/gpu/drm/panel/panel-samsung-ld9040.c
+@@ -180,15 +180,15 @@ static void ld9040_init(struct ld9040 *ctx)
+ {
+ 	ld9040_dcs_write_seq_static(ctx, MCS_USER_SETTING, 0x5a, 0x5a);
+ 	ld9040_dcs_write_seq_static(ctx, MCS_PANEL_CONDITION,
+-		0x05, 0x65, 0x96, 0x71, 0x7d, 0x19, 0x3b, 0x0d,
+-		0x19, 0x7e, 0x0d, 0xe2, 0x00, 0x00, 0x7e, 0x7d,
+-		0x07, 0x07, 0x20, 0x20, 0x20, 0x02, 0x02);
++		0x05, 0x5e, 0x96, 0x6b, 0x7d, 0x0d, 0x3f, 0x00,
++		0x00, 0x32, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++		0x07, 0x05, 0x1f, 0x1f, 0x1f, 0x00, 0x00);
+ 	ld9040_dcs_write_seq_static(ctx, MCS_DISPCTL,
+-		0x02, 0x08, 0x08, 0x10, 0x10);
++		0x02, 0x06, 0x0a, 0x10, 0x10);
+ 	ld9040_dcs_write_seq_static(ctx, MCS_MANPWR, 0x04);
+ 	ld9040_dcs_write_seq_static(ctx, MCS_POWER_CTRL,
+ 		0x0a, 0x87, 0x25, 0x6a, 0x44, 0x02, 0x88);
+-	ld9040_dcs_write_seq_static(ctx, MCS_ELVSS_ON, 0x0d, 0x00, 0x16);
++	ld9040_dcs_write_seq_static(ctx, MCS_ELVSS_ON, 0x0f, 0x00, 0x16);
+ 	ld9040_dcs_write_seq_static(ctx, MCS_GTCON, 0x09, 0x00, 0x00);
+ 	ld9040_brightness_set(ctx);
+ 	ld9040_dcs_write_seq_static(ctx, MIPI_DCS_EXIT_SLEEP_MODE);
 -- 
 2.40.1
 
