@@ -1,59 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F203874BD83
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 14:53:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5138874BD6E
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 14:28:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE5C110E0D9;
-	Sat,  8 Jul 2023 12:53:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFCDB10E027;
+	Sat,  8 Jul 2023 12:28:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEAD610E0D9
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Jul 2023 12:53:13 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 6DA778634E;
- Sat,  8 Jul 2023 14:53:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1688820790;
- bh=j1VW+YqlIr6gMFRVJdYCG+mHS0tWNFRYQxRf8AA6Y/I=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Oxql7ehPge5nSg6NraVob/joMOb/2cAVw3vB0uEHQ1ScHrHed0M7PRSzq+sIPfV67
- R8025mKCQmdpsjSbfN/8DJ1sg5XNLXuc6e2QEpGkJI/cgNF1sKjEg33HPPouYy3K4W
- Shkb6BshWHHlHeFTDmhosGRbOeOovJsMK4hIbKDNyUrDnUuuWs7EixbfKFON/IJ/RV
- +G/oZNo2IBw/ny1zgxBqKImVocbPPbj6kz7z6fP07zTADqgoysLPbIgCUi5FfCapLA
- MGI0hqCQ/Ldt2aLEksXjL1BMNBkQDERKA4ZD2hQi4qpSB8tU2DZDg/JFGb5o+2Q32V
- tM84W++UvBCDQ==
-Message-ID: <8b0ae1d1-c769-1f55-0452-4bbc62da133b@denx.de>
-Date: Sat, 8 Jul 2023 13:07:04 +0200
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B018A10E027
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Jul 2023 12:28:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=s29768273; t=1688819300; x=1689424100; i=markus.elfring@web.de;
+ bh=VOWd3ofaOz8qqB6uuUxBjPzEMmh7MMv690c0VSPed/E=;
+ h=X-UI-Sender-Class:Date:To:Cc:References:Subject:From:In-Reply-To;
+ b=dAtPWg2zkiCCy43fN37VCT30BwDltDSvfzSqd+KR+Tj4on7XZj+TMvykMd/YVkv2kGXUnno
+ Eq296gFmfKUgAVhGQU/LucAmzwleS6+2cwutbwhC3VD13FK8e2bIQrhQGFlH03/PWjkMAHxzA
+ Z+JnYzReAOJ6knAHnxW/lDX8ThlcBlMaR6wrE7Ho5JruZELGNYJ+eWvR86O+BSCYbarQ16YvJ
+ iVTSB9ec6LSfIEK43bGwRV8/WEzJduyM7kict8ZbKjQKyFG8c5fASaInq4PTJ2OfMQKzBJ9hX
+ 7PWsFSXTeno8Jgoia6+hITdkCVUEMhJJdnrUrJEbqely3XLESlMw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.90.83]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MVrg7-1qRhP43GLd-00RgA8; Sat, 08
+ Jul 2023 14:28:19 +0200
+Message-ID: <11855f14-bc3e-c947-c790-47d043ac920e@web.de>
+Date: Sat, 8 Jul 2023 14:28:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v4 3/3] drm/panel-fannal-c3004: Add fannal c3004 DSI panel
-To: Paulo Pavacic <pavacic.p@gmail.com>
-References: <20230607151127.1542024-1-pavacic.p@gmail.com>
- <20230607151127.1542024-4-pavacic.p@gmail.com>
- <CACRpkdbrEA54qmfTKSsFRG9ZS4u8hM6P5TXtOjRAiW+TD_v-fQ@mail.gmail.com>
- <CAO9szn00vRFm+iM1m7KgkW0WRuKyJEgVU4tVx4f5tF6KPnE=2w@mail.gmail.com>
- <CACRpkdaw8M3dSkmiV5QDOt3BBB7Jo6NxT0Og=zvA4REMA_7y9g@mail.gmail.com>
- <CAO9szn29A0qCABG0ACni42UGpsGKLwG7OT1y_ho3DgQ0WLvfmw@mail.gmail.com>
- <CACRpkdYXtQwmZR1u-1fwmyC_8Yq4bMkjDBcUCfuGqSz_UhXWJQ@mail.gmail.com>
- <CAO9szn0OuKW+-JZMs3TPUHiwLCe6cUPcsUq+og64K2utMyZpqQ@mail.gmail.com>
- <CACRpkdb5stXKb7FNk_FC-PKduCngRX3sZTbzcxN+kRskz78fuQ@mail.gmail.com>
- <CAO9szn3oTzrrwiyr91H14ep7OPUkA-SDST3CSQAQHvFFnkJWfA@mail.gmail.com>
- <0d43e653-32cd-b25e-40fa-6f0571048467@denx.de>
- <CAO9szn20RY3uBDceyUJ1S+gb=FN8Hd5qqMfOSbitHFyFCZ+iLg@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAO9szn20RY3uBDceyUJ1S+gb=FN8Hd5qqMfOSbitHFyFCZ+iLg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+ Thunderbird/102.13.0
+To: Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org
+References: <20230630160645.3984596-1-kherbst@redhat.com>
+Subject: Re: [PATCH] drm/nouveau/disp/g94: enable HDMI
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20230630160645.3984596-1-kherbst@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:34UcEa2++m5vsfYir2cGI1kLfUG2JHF6JCNLaW2Ky2lKO2eKwN3
+ kVME6xU8TxoCiMIkZ4KQ9u8Yn/kfbNJ9waJibf/+woDtPZNvNizS3GRuEg6hhd9fLVPvzaW
+ +huMqwqibbrddyCj5YgVYRzc3XVljUzu5YJ2EQJSCU4N1vKBVd8LyMUCLv1g2KmFSeRxb+O
+ GbU1HR8BaqedGJfdxTXNg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:xWKSVvZ8btc=;J2MbatJPoq69nuNFfHHUpRJ1IXp
+ Ewzodth2GQAaEXy99eqyEyNtVPh/ltY+C0uXLragiKyHdw4Jz0VT8HyibD6lXDZZN/GoCyXqp
+ vQtf4pa3POzqI/os50+mMnUQ4+UUsBHrrurOl6Ma/Hk6+7BThWt8Y+EDJDR1wTOmuZsgjPi/+
+ GAGaFkfvQ78PVb66uenBgDHEy7oCume1UCpN0CR69UxseXMX9SmCvJL8N/JVF9/9jFwM5yHSl
+ 6xad0bdBdH/PX/7wSjzJ5+d+grTwttbcLZFN6oiaF4PfgrLOnNmXItz+UVCwXipuGe6k2p0N6
+ 4a5vXeZ1FQ42RMQMx+VLTw00UWT3jpHcD56ZQ5U2btijPER1eSUr2mM1bMZMvKByOnm3BEA8a
+ gmE2K57YNTHkAaHNVO8fyHjwKMfDNF7atzzQllPv2Y4cV7FRZqSEhWKRDvXnH4JDTFumhePA3
+ lKDMGcTeW5FiBmbDWBZ6Hb3I+t5+mGLt/Uvx4/ryW60JHCEka94mB5e8PigdKeAIAZd1RGGZ3
+ cye4FutrzMX3yf+Hc30LljLvyJsZbzLyHk1gyr7lVbmiRDmRSS3Iqm/wWq+fm2w2n3u0sPny5
+ s6Hk+OeN5GL0KGvWuDj+zmbF6ParIlPHD9KDdjHwwVs70EPmRmAfqvHec3qSUVd4NJ4rlbqAn
+ he0TsMzISTkFz/VHDkY4md51VAtg4PpiwNG3Z4e+6bx1M1v/6aXt+mYopOLIHZO/RfvJhgUKw
+ eJvC2Q353BUIELusgg5oauSIQUqL/OdlYnX8mrH6qBHWW+eH6arRL906w1HhuqbZO2/fgaJUD
+ NL9E3TUMD+AqcqWwCx/fCyKoeKvPJ4bh450jKE14PCoRlc96yaVnmMm4X6EDTk7y1KJ9BvnVS
+ 9HfSGIGmZuK2hxwestuAz/V5cMXC7gUpCBd4ELVMXPlb38fQfa8b3RJjQ7w/zp7ClOQHcFQZC
+ HlFQfw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,77 +71,14 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, conor+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, Jagan Teki <jagan@amarulasolutions.com>, sam@ravnborg.org,
- Maya Matuszczyk <maccraft123mc@gmail.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/7/23 17:26, Paulo Pavacic wrote:
-> Hello Marek,
+Would a corresponding imperative description be helpful also for such a small change?
 
-Hi,
+See also:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.4#n94
 
-> čet, 6. srp 2023. u 17:26 Marek Vasut <marex@denx.de> napisao je:
->>
->> On 7/6/23 17:18, Paulo Pavacic wrote:
->>> Hello Linus,
->>>
->>> čet, 22. lip 2023. u 10:22 Linus Walleij <linus.walleij@linaro.org> napisao je:
->>>>
->>>> On Wed, Jun 21, 2023 at 5:09 PM Paulo Pavacic <pavacic.p@gmail.com> wrote:
->>>>
->>>>> A lot of modifications to st7701 are required. I believe it would
->>>>> result in a driver that doesn't look or work the same. e.g compare
->>>>> delays between initialization sequences of panel-fannal-c3004 and
->>>>> panel-st7701. I think it would be optimal to create st7701s driver and
->>>>> have special handling for st7701s panels. If there was a flag for
->>>>> whether panel is st7701 or st7701s it would end up looking like a
->>>>> mess.
->>>>
->>>> What matters is if the original authors of the old st7701 driver are
->>>> around and reviewing and testing patches at all. What we need is
->>>> active maintainers. (Added Jagan, Marek & Maya).
->>>>
->>>> I buy the reasoning that the st7701s is perhaps substantially different
->>>> from st7701.
->>>>
->>>> If st7701s is very different then I suppose it needs a separate driver,
->>>> then all we need to to name the driver properly, i.e.
->>>> panel-sitronix-st7701s.c.
->>>
->>> I had in person talk with Paul Kocialkowski and I have concluded that
->>> this is the best solution.
->>> I believe I should rename it to st7701s due to the hardware changes. I
->>> would like to create V5 patch with driver renamed to st7701s.
->>> Please let me know if you agree / disagree.
->>
->> If I recall it right, the ST7701 and ST7701S are basically the same
->> chip, aren't they ?
-> 
-> I'm currently exploring all the differences. There aren't a lot of
-> differences, but there are some.
-> So far I can see that default register values are different, new
-> previously unused registers are now used and there has been some
-> reordering of how info is placed in registers [1] (data bits are in
-> different order). Moreover, instructions to some commands have been
-> changed and meaning of what data bits mean [2][3]. Also, new features
-> have been added [2]; there is now PCLKS 3 for example.
-> 
-> You can see few differences in following images. Same images were
-> attached in this mail:
-> [1] https://ibb.co/NmgbZmy - GAMACTRL_st7701.png
-> [2] https://ibb.co/G79y235 - PCLKS2.png
-
-Ouch. I wonder if this is still something that can be abstracted out 
-with some helper accessor functions like:
-
-if (model == ST7701)
-   write something
-else
-   write the other layout
-
-Or whether it makes sense to outright have a separate driver. The later 
-would introduce duplication, but maybe that much duplication is OK.
+Regards,
+Markus
