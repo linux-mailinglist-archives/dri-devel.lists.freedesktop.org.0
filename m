@@ -1,91 +1,88 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FFED74BAF5
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 03:14:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CFE874BB0F
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 03:25:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6054710E023;
-	Sat,  8 Jul 2023 01:14:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B0A410E181;
+	Sat,  8 Jul 2023 01:25:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2087.outbound.protection.outlook.com [40.107.93.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9126B10E023;
- Sat,  8 Jul 2023 01:14:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HPnxdjDYV7GWdLFBKAjvgzFu8v8QgaiFzyCnkVeI6QV81+JiGf4YKG0SmJJY7+v1nFAvqeVuW+Lwp+56dragdjvwyl/Kz3EskTIRBepKxSEmwd8H0o3ADc0hYnBA2svMXNvdp1rJFt5lZI88cFCd6euNyZ85oNvJ4UQxAhSCYUx917eAVHBcqAvoYE+5I6lUVUMo6dkP2xzaKOLPGw1b0gTdOVmfJImXt3afk+6Jw5y9u+apZ8ZCQzXM6OBupxdMo181JnIPXEDaOhqYqkkONPZP7M5r2J1or5CSzvv2GqQ5Ep6EutAdrjNfbHpBdn++TvsfCu+kvDgyXOjxuYgY3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fpQeih26Wz2un1957Euk0SftecHZ2izGVaWRNzlAjBM=;
- b=Y3P0vW0Q+mVbhbKyKARj6f+JbNbATyl5DlIdKih2wmAj70xt/D6UcrmtY/Ssl/phaORIbyroxXcWrjt3LtuoPZhyQsKIJUszFIGlYRqI0amo4I+REaWi9NHrFMtSUd3FNrWFfVvKFoLjYBib14lf8TC+oG0QT8flnywP/lACTiTBkJsmBXygVVtH6gfJsCJ0+AMmIDWcW2HWnyznjADlMIbvca+RGzj5NRgdPTXpW8hr+DFgBNMbKIhiOvajyBtAvBDOcqsbP60VUmAo90j5kwYyZGC1gAmngwCovw1z5FzHlt0y4JeoDzaSkcoblyyv+R8qYpS6OYhRimLRwpXLoA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fpQeih26Wz2un1957Euk0SftecHZ2izGVaWRNzlAjBM=;
- b=1udxRiOpiVpPlHMg1tnwFvYpQw5F85ErvthmXRRoPwmia9mf8T2lZx90gGozhjZP4kGhCyzgEjuUaA52arMhaZJ2v2CFgVheGfbNSucST/Iu4cjcxj23dk1glXqu/vw4FzHHvArddZPANtCQyBuGADNKMLAuEuEn43fLrLoCe8k=
-Received: from DM6PR14CA0068.namprd14.prod.outlook.com (2603:10b6:5:18f::45)
- by SA1PR12MB7038.namprd12.prod.outlook.com (2603:10b6:806:24d::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.26; Sat, 8 Jul
- 2023 01:14:09 +0000
-Received: from DM6NAM11FT090.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:18f:cafe::d6) by DM6PR14CA0068.outlook.office365.com
- (2603:10b6:5:18f::45) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.25 via Frontend
- Transport; Sat, 8 Jul 2023 01:14:09 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT090.mail.protection.outlook.com (10.13.172.184) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6521.45 via Frontend Transport; Sat, 8 Jul 2023 01:14:08 +0000
-Received: from rajneesh-desk.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 7 Jul
- 2023 20:14:08 -0500
-From: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
-To: <amd-gfx@lists.freedesktop.org>
-Subject: [Patch v2] drm/ttm: Use init_on_free to delay release TTM BOs
-Date: Fri, 7 Jul 2023 21:13:55 -0400
-Message-ID: <20230708011355.853-1-rajneesh.bhardwaj@amd.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F36910E05B;
+ Sat,  8 Jul 2023 01:25:01 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3680xobJ023394; Sat, 8 Jul 2023 01:24:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : subject :
+ date : message-id : mime-version : content-type :
+ content-transfer-encoding : to : cc; s=qcppdkim1;
+ bh=dAUH3rNutTBRq0tBWhMCNWIlQTDnOnNFszA5XOxwwqA=;
+ b=HvFqFmjBBY5jDv7l8rUxiZ3MbANYT3DA88uoiCfexoKkS1yhyFApbgia7Q86oRkmLbNo
+ oBOaXtvXyRS7i0DHksHWKJoDMMIKmYjiK6VLGLTsNHWRy8rFS5UZfj0WcFdACmRzqfyZ
+ Ehh7SvP0Q1G7uF7R8ZruHcRE3PRduTrWFfZSAvry2z5ZzMiJFuJRzCdZZXnvF00OKYmK
+ FGJxsgMrkFo6WNOJZHjg4g7r2OEAf0YTct4m4VOuhVh5YcqZ5beFCWJaHHR1/xZ04/NH
+ ZzgpYG1LY7X+wlb3LBvaxSzjVQB+sUOdjPtbKiVfB/rMJLug4NDIhFc9GMEBmmYlvFX9 cw== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rpcxntd5h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 08 Jul 2023 01:24:58 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3681OuDY015398
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 8 Jul 2023 01:24:57 GMT
+Received: from hu-rmccann-lv.qualcomm.com (10.49.16.6) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.30; Fri, 7 Jul 2023 18:24:56 -0700
+From: Ryan McCann <quic_rmccann@quicinc.com>
+Subject: [PATCH v5 0/6] Add support to print sub-block registers in dpu hw
+ catalog
+Date: Fri, 7 Jul 2023 18:24:39 -0700
+Message-ID: <20230622-devcoredump_patch-v5-0-67e8b66c4723@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT090:EE_|SA1PR12MB7038:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5b6f2d51-4349-4ead-35df-08db7f50a1bc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0g77yM+kcBxkij4FcMb2DyVGNIgakNMsvWwWwDrhOOGMJLioBriQDmpqyIbNKwPTS7UIX/WmvCSZg25L7kNHKi42OeeAE5IkTakkGDuQD9XXRnoFChqAJ4uTY5192/gdURt48L2TZ1GuuEAs1flV/CSCDVd6wCqeXQOHhV0Mp8Xe/DWH+XDUfSCsq07vD7ekO8T4W4RGdrC1RXx4gwu9GDT6R7e95Bzmfvq3lw9lxowb4VjK6M6Wvpzb2/YGNh2NMI2ULELXnyuTnSejGeSBOzHTIV5LP5J61qUX3KKUBu60qoLrtiLFS0uL+gDzvLoNi2X7aGT35YpJ1hf116ZKj+qWhc2MCxhAqOzYgs5uVc5f5TWR08A8vIBnyrZkase33U9nuA8j8uG94wi7ls4JbOxqeaw6EAc0+IHf9GuPYQGBba51WWLddJo+DTiihmYCULoEAdEVpIMtukymBt08sHLlIlsNAm1yAnBpBNPdWtTDTOt4wjiLXd/+a2a/Io5uD1S5CdTJqtrgiiBCtwavqaZUwBThp93kwF8c0CqkrwwHDvEGFHpt82U1g3xzASs0AdOY56/hMHczyYApdH308AIwWk5XNIrAevms+1N7Mmw+Dv8iJqNKg5PRgCOL+DpY3kM8HLQVq+A5ztTDmXNkudG4oDyqbZV5yq50Jok4CKBV0Ni6Ilia3HLLwAYlSziFYfkcRLJdt36GxXKLCL5ezttdQgDAkWmYRoJZSKTHcWMWvHWFa/pBznn4+lzid6n0QGitVZO1TZOiaKpu+7fyUw==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(39860400002)(136003)(346002)(376002)(396003)(451199021)(40470700004)(46966006)(36840700001)(478600001)(7696005)(6666004)(450100002)(54906003)(1076003)(26005)(16526019)(40460700003)(186003)(70586007)(2906002)(82310400005)(70206006)(41300700001)(4326008)(316002)(5660300002)(44832011)(8936002)(8676002)(6916009)(81166007)(356005)(82740400003)(86362001)(36756003)(36860700001)(47076005)(2616005)(83380400001)(336012)(426003)(40480700001)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2023 01:14:08.9697 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b6f2d51-4349-4ead-35df-08db7f50a1bc
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT090.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7038
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANe6qGQC/4XOQW7DIBAF0KtErEuFwQG7q657hERVBcMQIwXsg
+ o1SRb57cXZVpHr5R/PfzJ1kTB4zeTvcScLisx9jDceXA4FBxwtSb2smnHHBJOfUYoExoV3C9DX
+ pGQZqncLOSWel4KT2jM5ITdIRhq35caIhBxrxNtPrEvRl25kSOn973D1/1jz4PI/p5/FGabbpf
+ xdLQxkVhoMFkPqo5Pv34sFHeIUxkM0rfNfg1eixZ7pTVvTCPRti1xDV6IRkjVEcjVTPRrtrtNV
+ AwVprDfay7f4a67r+AsF6YcWkAQAA
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+X-Mailer: b4 0.13-dev-8a804
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1688779496; l=2946;
+ i=quic_rmccann@quicinc.com; s=20230622; h=from:subject:message-id;
+ bh=UdwkB0d6HBesBoIZfhIANK0u8o/m20N6wYyPH/PPVbY=;
+ b=/U89misig/SeQGpY8arXmlDT/EwmBYbd+EQWvqrk/o/Dz6Hb8tChkzKS47BhJPo5DSeGC4bDH
+ sGvr1tYAD8FAatVVeDq2B45htpXtjjZf7vM3eGyVF1mF5UmgmQorTvL
+X-Developer-Key: i=quic_rmccann@quicinc.com; a=ed25519;
+ pk=d/uP3OwPGpj/bTtiHvV1RBZ2S6q4AL6j1+A5y+dmbTI=
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: X0lMg8W_rh5yKrTQEY_6XEVZ85gcauFk
+X-Proofpoint-ORIG-GUID: X0lMg8W_rh5yKrTQEY_6XEVZ85gcauFk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-07_16,2023-07-06_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ suspectscore=0 mlxlogscore=999 adultscore=0 clxscore=1015 mlxscore=0
+ bulkscore=0 spamscore=0 impostorscore=0 phishscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2307080010
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,38 +95,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: felix.kuehling@amd.com, Christian.Koenig@amd.com,
- dri-devel@lists.freedesktop.org, Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
+Cc: Rob Clark <robdclark@chromium.org>, Ryan McCann <quic_rmccann@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, quic_jesszhan@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Delay release TTM BOs when the kernel default setting is init_on_free.
-This offloads the overhead of clearing the system memory to the work
-item and potentially a different CPU. This could be very beneficial when
-the application does a lot of malloc/free style allocations of system
-memory.
+The purpose of this patch series is to add support to print the registers
+of sub-blocks in the DPU hardware catalog and fix the order in which all
+hardware blocks are dumped for a device core dump. This involves:
 
-Reviewed-by: Christian König <christian.koenig@amd.com>.
-Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
+1. Changing data structure from stack to queue to fix the printing order
+of the device core dump.
+
+2. Removing redundant suffix of sub-block names.
+
+3. Removing redundant prefix of sub-block names.
+
+4. Eliminating unused variable from relevant macros.
+
+5. Defining names for sub-blocks that have not yet been defined.
+
+6. Implementing wrapper function that prints the registers of sub-blocks
+when there is a need.
+
+Sample Output of the sspp_0 block and its sub-blocks for devcore dump:
+======sspp_0======
+...registers
+...
+====sspp_0_scaler====
+...
+...
+====sspp_0_csc====
+...
+...
+====next_block====
+...
+
+This series depends on https://patchwork.freedesktop.org/series/119776/.
+
 ---
+Changes in v5:
+- Fixed indentation in refactor main block printing patch
+- Fixed formatting issues to satisfy checkpatch
+- Instead of passing 0 for DSC block, used actual length thanks to https://patchwork.freedesktop.org/series/119776/
+- Link to v4: https://lore.kernel.org/r/20230622-devcoredump_patch-v4-0-e304ddbe9648@quicinc.com
+
+Changes in v4:
+- Added review tags
+- Link to v3: https://lore.kernel.org/r/20230622-devcoredump_patch-v3-0-83601b72eb67@quicinc.com
+
+Changes in v3:
+- Split sub-block changes and main block changes into two commits
+- Corrected typo in comment located in DSC for loop block
+- Eliminated variables mmio and base
+- Dropped unnecessary "%s"
+- Link to v2: https://lore.kernel.org/r/20230622-devcoredump_patch-v2-0-9e90a87d393f@quicinc.com
+
 Changes in v2:
-- Updated commit message as per Christian's feedback
+- Changed spelling "sub block" to "sub-block" or "sblk".
+- Capitalized DPU.
+- Eliminated multiplexer/wrapper function. Inlined instead.
+- Changed if statements from feature checks to length checks.
+- Squashed prefix and suffix patch into one.
+- Link to v1: https://lore.kernel.org/r/20230622-devcoredump_patch-v1-0-3b2cdcc6a576@quicinc.com
 
- drivers/gpu/drm/ttm/ttm_bo.c | 1 +
- 1 file changed, 1 insertion(+)
+---
+Ryan McCann (6):
+      drm/msm: Update dev core dump to not print backwards
+      drm/msm/dpu: Drop unused num argument from relevant macros
+      drm/msm/dpu: Define names for unnamed sblks
+      drm/msm/dpu: Remove redundant prefix/suffix in name of sub-blocks
+      drm/msm/dpu: Refactor printing of main blocks in device core dump
+      drm/msm/dpu: Update dev core dump to dump registers of sub-blocks
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 326a3d13a829..bd2e7e4f497a 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -347,6 +347,7 @@ static void ttm_bo_release(struct kref *kref)
- 
- 		if (!dma_resv_test_signaled(bo->base.resv,
- 					    DMA_RESV_USAGE_BOOKKEEP) ||
-+		    (want_init_on_free() && (bo->ttm != NULL)) ||
- 		    !dma_resv_trylock(bo->base.resv)) {
- 			/* The BO is not idle, resurrect it for delayed destroy */
- 			ttm_bo_flush_all_fences(bo);
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 90 +++++++++++------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c           | 74 +++++++++++++++----
+ drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c |  2 +-
+ 3 files changed, 104 insertions(+), 62 deletions(-)
+---
+base-commit: a92b5625851098af521cd92e4c518429b661c8f4
+change-id: 20230622-devcoredump_patch-df7e8f6fd632
+
+Best regards,
 -- 
-2.17.1
+Ryan McCann <quic_rmccann@quicinc.com>
 
