@@ -1,49 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53C0874BD31
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 12:02:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8153574BD2E
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 12:02:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EA0210E160;
-	Sat,  8 Jul 2023 10:02:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6BD110E0D8;
+	Sat,  8 Jul 2023 10:01:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay4-1.pub.mailoutpod2-cph3.one.com
- (mailrelay4-1.pub.mailoutpod2-cph3.one.com [46.30.211.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57FAA10E160
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Jul 2023 10:02:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=XAkZ6X4l+X6cWosMXu6LD/f+EfKx2L/IOaqJiF43ZK8=;
- b=NSacb9lnGAUoKO1zq8ebBzmGagQUKthQZTsu0AFWKC3b30z7MSTYiMIghp0MXY0tzifesw1E7Uzfb
- kMqcW3hI9Pf7vXlE9bUaV08+ZjqaxO+mYtWCjQeEg2Dcf+h3jt/mYGBZ7E3nrAJJuRuzvRrqisFVeo
- r+6YL01rFpH/lsqGZY59NyjFkgdCIhvOhzMLuSoDYYiGtLKNB8Z9b0/PvAUoSehTnsMsDYs/BGnTn1
- x9SKnRom59VvWtG0Im3ck6RXa8fHdxDyes6OYJMFYDovsLNTDYBiS0d7q+yysaqBsn8xP1RGI27UTq
- 7HCYnzp/gASugSkT2CJ34GmHzHqGhyA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=XAkZ6X4l+X6cWosMXu6LD/f+EfKx2L/IOaqJiF43ZK8=;
- b=Dr1OI8BOGQz0I3Hc8Um998MHZ8KTcdhoW8kR02keYfqJU6Y5+yNuGHg2Wf4T+B5G6jlZgwqSGcaIA
- jfr+YdMCQ==
-X-HalOne-ID: 5b568de5-1d76-11ee-8230-592bb1efe9dc
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay4 (Halon) with ESMTPSA
- id 5b568de5-1d76-11ee-8230-592bb1efe9dc;
- Sat, 08 Jul 2023 10:01:09 +0000 (UTC)
-Date: Sat, 8 Jul 2023 12:01:07 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v2 0/3] Galaxy S2 (i9100) panel updates v2
-Message-ID: <20230708100107.GA443750@ravnborg.org>
-References: <20230708084027.18352-1-paul@crapouillou.net>
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E9E510E0D8
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Jul 2023 10:01:56 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id
+ 2adb3069b0e04-4fb7373dd35so4943749e87.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 08 Jul 2023 03:01:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1688810514; x=1691402514;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=9rj4Z+mfXCUyYvWmdsCMEO/uJfLE2EY/r48qFdhgyH0=;
+ b=CUXDl9tiMZGH+iNUEyIY1qGILZhIZ9KyvhorLTot++kLhNw2jWrlbYOECjvgSlmHTE
+ gKhvrbp01KSJHGubXkEaVZZOAArHTnFU0NOPYulJJS2IJAj6SG/5+2qaoM9udGQNihXS
+ 6TLN1CWIBcck5b6546uaATY+9n+i9uZGy/Hzk2AcxZ3Oo4kylvU2yKetj0HXZABzicgm
+ xo7p5noonPOno28y7tLO0m2t17sIxskfUvQ/BRQvHqVraOEbq5SUX2vKTmeme+T976H0
+ 1n8Yu9FDna1wpRSQFPE+zF6or9zgjUMFHHKUU3cOJHMjZjCfIRkn7pBvcXtTwtZ0edxT
+ ug9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688810514; x=1691402514;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9rj4Z+mfXCUyYvWmdsCMEO/uJfLE2EY/r48qFdhgyH0=;
+ b=e6luWbj4K6bjTyv+LMzKWKxrWdUKUJtsOOC0jtkD6bwtPrGmh+2d3pL8xlJljSHTwj
+ 09m3cQg2EUl1Fdzw7QXReOpUMwK9keou6vb1kcEyEjkhajZkETe9tIjYB6mLf+Cj1bsh
+ Bk9RikgrjtatEhKtdkVHwSHStwA67D9q8Jw+Hhsek+clTSZ7covyUImIzGZrb7WVgMWC
+ jJawK7C3Hp8EZF9pWr6CEzjPIDBHONPZ8khEHTh1yk+tvEDdC0bvGogZIE7v7/tUMzkQ
+ SLrR5c4PlPhNiFgRMSIJ2dHDdZf4+7PLSEfmcVCed+//4LbHWwWQf5x4SVjWneTQHG+6
+ 8qjQ==
+X-Gm-Message-State: ABy/qLY9E7iLP/YgpdPvDTj3LWbdjkgmzLPjlpuaxKgyq/zmMfz3a+9Y
+ VjAqOfdq8xK1oH1mqMzedL793A==
+X-Google-Smtp-Source: APBJJlFtarhQ7GHwzpt/YmIpHZWCB8CH6BbzO3TJOLN98PLGPmi9DfQaZvOvRTZmU8hJUh560F2qRw==
+X-Received: by 2002:a19:2d10:0:b0:4f9:56a5:81d0 with SMTP id
+ k16-20020a192d10000000b004f956a581d0mr2607956lfj.24.1688810514203; 
+ Sat, 08 Jul 2023 03:01:54 -0700 (PDT)
+Received: from [192.168.1.101] (abyj26.neoplus.adsl.tpnet.pl. [83.9.29.26])
+ by smtp.gmail.com with ESMTPSA id
+ q15-20020ac246ef000000b004fac93bdaecsm973139lfo.242.2023.07.08.03.01.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 08 Jul 2023 03:01:53 -0700 (PDT)
+Message-ID: <537dfdac-9a60-34aa-ab60-e09a08792e43@linaro.org>
+Date: Sat, 8 Jul 2023 12:01:51 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230708084027.18352-1-paul@crapouillou.net>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 01/13] drm/msm/dpu: cleanup dpu_kms_hw_init error path
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230707203724.3820757-1-dmitry.baryshkov@linaro.org>
+ <20230707203724.3820757-2-dmitry.baryshkov@linaro.org>
+ <81ff3de5-4fe4-9c01-5655-78f5311f7817@linaro.org>
+ <cc312e51-e0c0-c1f9-aa56-60cf95e23b79@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <cc312e51-e0c0-c1f9-aa56-60cf95e23b79@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,52 +82,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-samsung-soc@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, linux-arm-kernel@lists.infradead.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul.
-
-On Sat, Jul 08, 2023 at 10:40:24AM +0200, Paul Cercueil wrote:
-> Hi,
+On 8.07.2023 01:48, Dmitry Baryshkov wrote:
+> On 08/07/2023 02:25, Konrad Dybcio wrote:
+>> On 7.07.2023 22:37, Dmitry Baryshkov wrote:
+>>> It was noticed that dpu_kms_hw_init()'s error path contains several
+>>> labels which point to the same code path. Replace all of them with a
+>>> single label.
+>>>
+>>> Suggested-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>> it's the first time I'm seeing this code
+>>
 > 
-> Follow-up on my patchset that fixes the display of the Samsung Galaxy S2
-> when running PostmarketOS.
+> It is Suggested-by, not something else. And you pointed it out in https://lore.kernel.org/linux-arm-msm/6d598438-f10f-8678-7878-829b8b3ae790@linaro.org/
+Oh, thanks
+
+Konrad
 > 
-> The first two patches update the LD9040 panel driver so that it looks
-> much better, and supports setting the backlight.
+>> Konrad
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>> ---
+>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 21 +++++++++------------
+>>>   1 file changed, 9 insertions(+), 12 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>>> index c11b3ab572ab..e7ac02e92f42 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>>> @@ -1037,7 +1037,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+>>>       if (!dpu_kms->catalog) {
+>>>           DPU_ERROR("device config not known!\n");
+>>>           rc = -EINVAL;
+>>> -        goto power_error;
+>>> +        goto err_pm_put;
+>>>       }
+>>>         /*
+>>> @@ -1047,13 +1047,13 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+>>>       rc = _dpu_kms_mmu_init(dpu_kms);
+>>>       if (rc) {
+>>>           DPU_ERROR("dpu_kms_mmu_init failed: %d\n", rc);
+>>> -        goto power_error;
+>>> +        goto err_pm_put;
+>>>       }
+>>>         rc = dpu_rm_init(&dpu_kms->rm, dpu_kms->catalog, dpu_kms->mmio);
+>>>       if (rc) {
+>>>           DPU_ERROR("rm init failed: %d\n", rc);
+>>> -        goto power_error;
+>>> +        goto err_pm_put;
+>>>       }
+>>>         dpu_kms->rm_init = true;
+>>> @@ -1065,7 +1065,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+>>>           rc = PTR_ERR(dpu_kms->hw_mdp);
+>>>           DPU_ERROR("failed to get hw_mdp: %d\n", rc);
+>>>           dpu_kms->hw_mdp = NULL;
+>>> -        goto power_error;
+>>> +        goto err_pm_put;
+>>>       }
+>>>         for (i = 0; i < dpu_kms->catalog->vbif_count; i++) {
+>>> @@ -1076,7 +1076,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+>>>           if (IS_ERR(hw)) {
+>>>               rc = PTR_ERR(hw);
+>>>               DPU_ERROR("failed to init vbif %d: %d\n", vbif->id, rc);
+>>> -            goto power_error;
+>>> +            goto err_pm_put;
+>>>           }
+>>>             dpu_kms->hw_vbif[vbif->id] = hw;
+>>> @@ -1092,7 +1092,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+>>>       rc = dpu_core_perf_init(&dpu_kms->perf, dpu_kms->catalog->perf, max_core_clk_rate);
+>>>       if (rc) {
+>>>           DPU_ERROR("failed to init perf %d\n", rc);
+>>> -        goto perf_err;
+>>> +        goto err_pm_put;
+>>>       }
+>>>         dpu_kms->hw_intr = dpu_hw_intr_init(dpu_kms->mmio, dpu_kms->catalog);
+>>> @@ -1100,7 +1100,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+>>>           rc = PTR_ERR(dpu_kms->hw_intr);
+>>>           DPU_ERROR("hw_intr init failed: %d\n", rc);
+>>>           dpu_kms->hw_intr = NULL;
+>>> -        goto hw_intr_init_err;
+>>> +        goto err_pm_put;
+>>>       }
+>>>         dev->mode_config.min_width = 0;
+>>> @@ -1125,7 +1125,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+>>>       rc = _dpu_kms_drm_obj_init(dpu_kms);
+>>>       if (rc) {
+>>>           DPU_ERROR("modeset init failed: %d\n", rc);
+>>> -        goto drm_obj_init_err;
+>>> +        goto err_pm_put;
+>>>       }
+>>>         dpu_vbif_init_memtypes(dpu_kms);
+>>> @@ -1134,10 +1134,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+>>>         return 0;
+>>>   -drm_obj_init_err:
+>>> -hw_intr_init_err:
+>>> -perf_err:
+>>> -power_error:
+>>> +err_pm_put:
+>>>       pm_runtime_put_sync(&dpu_kms->pdev->dev);
+>>>   error:
+>>>       _dpu_kms_hw_destroy(dpu_kms);
 > 
-> The third patch fixes the size of the panel in the Device Tree. The
-> previous values were completely bogus and caused Phosh (PmOS' UI) to
-> display tiny icons and text as it thought the DPI was much lower.
-> 
-> Changes since V1:
-> [1/3]: Remove spurious new line
-> [2/3]: Remove .get_brightness() callback, use bl_get_data() and
->        backlight_get_brightness()
-> 
-> Cheers,
-> -Paul
-> 
-> Paul Cercueil (3):
->   drm/panel: ld9040: Use better magic values
->   drm/panel: ld9040: Register a backlight device
->   ARM: dts: exynos/i9100: Fix LCD screen's physical size
-
-The series looks good.
-
-The first two patches are:
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-
-The third patch are:
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-
-(I was not sure if I could/should stamp it r-b, so decided for the a-b).
-
-	Sam
-
