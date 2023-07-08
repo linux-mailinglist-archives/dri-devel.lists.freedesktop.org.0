@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E7DB74BACC
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 03:04:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3781774BAC5
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 03:04:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0DAE10E63B;
-	Sat,  8 Jul 2023 01:04:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C2F310E175;
+	Sat,  8 Jul 2023 01:04:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6A4010E06D
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Jul 2023 01:04:14 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id
- 38308e7fff4ca-2b6afc1ceffso40739771fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Jul 2023 18:04:14 -0700 (PDT)
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5143910E064
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Jul 2023 01:04:15 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id
+ 38308e7fff4ca-2b6f0508f54so38702521fa.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Jul 2023 18:04:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1688778253; x=1691370253;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2II3eP/imOK3wgOrSDeLiLVf5Scf+gSw5v2bj8N9xHc=;
- b=RZocBjiVJprEs93xGEUXJmEZg67XQcLKV4GI9CSye+jwEprd1kpbiEBCi4dgD099JV
- YUuv3FlJPcrrk20avme4buforkmOmZqUrykOulLb8jpuqbyzt1zzox+/2G8ONG0Ayl2J
- 52RqOEF0K+eI18akuycEowccqK0k7FCGdG5IGSEq9mkN2QELYa7rHjClfupNsgdFjm9g
- j97SMUhgkLSsLgAPYUOTHGql1pwaTjtiM/oavPOu++HzYBDNh4fVc4azmCHZOPrNNemy
- F9Mip/77U5cPEGYCIof9tmCKVMOteo3JO6E85mOP/rIqlZs+WvvXorhA1lQvKyXFpldk
- 5f3A==
+ bh=1dDa09IPPKyYg+3VZJKhZ3MpuhgcB8Qzz0Yy6G9C0Hg=;
+ b=sCHFkAXRMGNLN34irJotyEcd+hn9zqPWNSmMxcrmEowScO05PBx1OEgjsErNy7P1PG
+ QXZdrUHEYIPrR+ymYAiUKG58rbU8zL1fG4r51xsbnVKXXBObMbA1X1mCUKC1bVHTQFRS
+ 8WIXJ3jMAwr09u8l6CzvDOdFFtbhf//Rub3ZZFqo3T1Qig5jq8ir73cySv3WgSduhQ6p
+ I/25LuuGClWJQrPqfM2rLJPbXDCzGsk+Tgp2/PULNlqG1po4hP2+imGEcEfAidMJoRlQ
+ IcXEeo2rIeVJgfXRzhPgADpTSQ7W/SkLfcN0e2gan23B9L/QREZIqiOTvbrasPG0ICh7
+ faOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1688778253; x=1691370253;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2II3eP/imOK3wgOrSDeLiLVf5Scf+gSw5v2bj8N9xHc=;
- b=gFH90Poe8aa+ng4OiSedLUlSEK32ZbHC5yCRPjzOcMQyIoM0Rilskl4RyRGFmcJTu0
- YFaBHXBeonn+4ScykWxfK4yQ6Qvbk6D3mGgP7IMRlVgbeWbc3I1PeMqH6LvuuJUVqm2c
- DvbHMuYADhwyh7DeD8pBBAL0beKKRLpMNBaY1Gi0qs1+Robes2ZwF4nbWdpNatyYr2fo
- BkIeDDcbls/jo93HkzCUVAQMilTXbuqcCoC0l84Drmrsd5TwZEy22Li8OCmDjdfAYgqR
- sEvBnFJIpnC9aEfco6lIR8lwpOJBK9+ZOWGCiz30R/sR/rjN235TzDE9zSuJ9Q6JYDeM
- cqIg==
-X-Gm-Message-State: ABy/qLYB+aLAthFVJM3q1pBz9UBIWL2CffiaU7zDmzGLT2ayRTWH9v2a
- Hlhm8r0P9isAWFBnw68Af54i+A==
-X-Google-Smtp-Source: APBJJlGP8VAjq6k876CRT56faHFdQfRap+fUYG9xImOyv+dOqSre58JgXws72E9dWNiKNRgoi9Q8oA==
-X-Received: by 2002:a2e:80cd:0:b0:2b6:dd9a:e1d3 with SMTP id
- r13-20020a2e80cd000000b002b6dd9ae1d3mr4753616ljg.44.1688778253013; 
+ bh=1dDa09IPPKyYg+3VZJKhZ3MpuhgcB8Qzz0Yy6G9C0Hg=;
+ b=OmJBHDZLcQLH/CFynNWgOvVMiNuulrcwEufz3wKhArUOMgov/ONE6yfP8TSoTd5Qp0
+ CfbNuY5C4P/WY0m152QdisONpvXVjwYJpGtGy4L+/0OnvcCardo7Hr+fMkkc/TFZgqKW
+ /x9y8YnfH7ifdPdPmxK9dlxuyfci0/e3w/ZYT1de0K4He5NEhYuSq4LEMyyJZtFxHlhz
+ SU4isty3IOOY+d5dJz4T1v2KbxSdT7e7jawc69+5NzXFjjiPEGdOWmZjqFp5E5q5YyLV
+ W3r85EHYk/8VnMVomzemxTQtiMkeS35oemPxatETyr9kHKWm+LjwPUFjOJSoZ7knz3M9
+ b44Q==
+X-Gm-Message-State: ABy/qLbW7IS4QMUar6Ua0ounytysFLHNKCZcoKEUNrriDHRdhL6hNj9H
+ o7LjvHlRt2Z+KiOH6GWi2BrtrQ==
+X-Google-Smtp-Source: APBJJlFZI7DJACf80E6XDfRqLGI8AxOmzj91GP7D4NEzNyhKdUniENni2CFKzVBC/CXpA+9+td2koQ==
+X-Received: by 2002:a2e:9c8f:0:b0:2b4:6f0c:4760 with SMTP id
+ x15-20020a2e9c8f000000b002b46f0c4760mr4282505lji.11.1688778253718; 
  Fri, 07 Jul 2023 18:04:13 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- l5-20020a2e8685000000b002b6ee99fff2sm1012807lji.34.2023.07.07.18.04.12
+ l5-20020a2e8685000000b002b6ee99fff2sm1012807lji.34.2023.07.07.18.04.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jul 2023 18:04:12 -0700 (PDT)
+ Fri, 07 Jul 2023 18:04:13 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Marijn Suijten <marijn.suijten@somainline.org>
-Subject: [PATCH 06/17] drm/msm/mdp5: use devres-managed allocation for SMP data
-Date: Sat,  8 Jul 2023 04:03:56 +0300
-Message-Id: <20230708010407.3871346-7-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 07/17] drm/msm/mdp5: use devres-managed allocation for INTF
+ data
+Date: Sat,  8 Jul 2023 04:03:57 +0300
+Message-Id: <20230708010407.3871346-8-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230708010407.3871346-1-dmitry.baryshkov@linaro.org>
 References: <20230708010407.3871346-1-dmitry.baryshkov@linaro.org>
@@ -81,84 +82,39 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use devm_kzalloc to create SMP data structure. This allows us
-to remove corresponding kfree and drop mdp5_smp_destroy() function.
+Use devm_kzalloc to create INTF data structure. This allows us
+to remove corresponding kfree() call.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c |  3 ---
- drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c | 19 ++++---------------
- drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.h |  1 -
- 3 files changed, 4 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-index be4338a48e52..0a85777625d3 100644
+index 0a85777625d3..fb2b3bf081ee 100644
 --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
 +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-@@ -618,9 +618,6 @@ static void mdp5_destroy(struct mdp5_kms *mdp5_kms)
+@@ -616,11 +616,6 @@ static int mdp5_kms_init(struct drm_device *dev)
+ 
+ static void mdp5_destroy(struct mdp5_kms *mdp5_kms)
  {
- 	int i;
- 
--	if (mdp5_kms->smp)
--		mdp5_smp_destroy(mdp5_kms->smp);
+-	int i;
 -
- 	for (i = 0; i < mdp5_kms->num_intfs; i++)
- 		kfree(mdp5_kms->intfs[i]);
- 
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c
-index 56a3063545ec..d7c957207255 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c
-@@ -370,23 +370,17 @@ void mdp5_smp_dump(struct mdp5_smp *smp, struct drm_printer *p)
- 		drm_modeset_unlock(&mdp5_kms->glob_state_lock);
- }
- 
--void mdp5_smp_destroy(struct mdp5_smp *smp)
--{
--	kfree(smp);
--}
- 
- struct mdp5_smp *mdp5_smp_init(struct mdp5_kms *mdp5_kms, const struct mdp5_smp_block *cfg)
- {
-+	struct drm_device *dev = mdp5_kms->dev;
- 	struct mdp5_smp_state *state;
- 	struct mdp5_global_state *global_state;
- 	struct mdp5_smp *smp = NULL;
--	int ret;
- 
--	smp = kzalloc(sizeof(*smp), GFP_KERNEL);
--	if (unlikely(!smp)) {
--		ret = -ENOMEM;
--		goto fail;
--	}
-+	smp = devm_kzalloc(dev->dev, sizeof(*smp), GFP_KERNEL);
-+	if (unlikely(!smp))
-+		return ERR_PTR(-ENOMEM);
- 
- 	smp->dev = mdp5_kms->dev;
- 	smp->blk_cnt = cfg->mmb_count;
-@@ -400,9 +394,4 @@ struct mdp5_smp *mdp5_smp_init(struct mdp5_kms *mdp5_kms, const struct mdp5_smp_
- 	memcpy(smp->reserved, cfg->reserved, sizeof(smp->reserved));
- 
- 	return smp;
--fail:
--	if (smp)
--		mdp5_smp_destroy(smp);
+-	for (i = 0; i < mdp5_kms->num_intfs; i++)
+-		kfree(mdp5_kms->intfs[i]);
 -
--	return ERR_PTR(ret);
- }
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.h b/drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.h
-index ba5618e136c3..d8b6a11413d9 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.h
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.h
-@@ -68,7 +68,6 @@ struct mdp5_smp;
+ 	if (mdp5_kms->rpm_enabled)
+ 		pm_runtime_disable(&mdp5_kms->pdev->dev);
  
- struct mdp5_smp *mdp5_smp_init(struct mdp5_kms *mdp5_kms,
- 		const struct mdp5_smp_block *cfg);
--void  mdp5_smp_destroy(struct mdp5_smp *smp);
+@@ -741,7 +736,7 @@ static int interface_init(struct mdp5_kms *mdp5_kms)
+ 		if (intf_types[i] == INTF_DISABLED)
+ 			continue;
  
- void mdp5_smp_dump(struct mdp5_smp *smp, struct drm_printer *p);
- 
+-		intf = kzalloc(sizeof(*intf), GFP_KERNEL);
++		intf = devm_kzalloc(dev->dev, sizeof(*intf), GFP_KERNEL);
+ 		if (!intf) {
+ 			DRM_DEV_ERROR(dev->dev, "failed to construct INTF%d\n", i);
+ 			return -ENOMEM;
 -- 
 2.39.2
 
