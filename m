@@ -1,75 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8153574BD2E
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 12:02:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F203874BD83
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Jul 2023 14:53:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6BD110E0D8;
-	Sat,  8 Jul 2023 10:01:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE5C110E0D9;
+	Sat,  8 Jul 2023 12:53:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E9E510E0D8
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Jul 2023 10:01:56 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id
- 2adb3069b0e04-4fb7373dd35so4943749e87.1
- for <dri-devel@lists.freedesktop.org>; Sat, 08 Jul 2023 03:01:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688810514; x=1691402514;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=9rj4Z+mfXCUyYvWmdsCMEO/uJfLE2EY/r48qFdhgyH0=;
- b=CUXDl9tiMZGH+iNUEyIY1qGILZhIZ9KyvhorLTot++kLhNw2jWrlbYOECjvgSlmHTE
- gKhvrbp01KSJHGubXkEaVZZOAArHTnFU0NOPYulJJS2IJAj6SG/5+2qaoM9udGQNihXS
- 6TLN1CWIBcck5b6546uaATY+9n+i9uZGy/Hzk2AcxZ3Oo4kylvU2yKetj0HXZABzicgm
- xo7p5noonPOno28y7tLO0m2t17sIxskfUvQ/BRQvHqVraOEbq5SUX2vKTmeme+T976H0
- 1n8Yu9FDna1wpRSQFPE+zF6or9zgjUMFHHKUU3cOJHMjZjCfIRkn7pBvcXtTwtZ0edxT
- ug9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688810514; x=1691402514;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9rj4Z+mfXCUyYvWmdsCMEO/uJfLE2EY/r48qFdhgyH0=;
- b=e6luWbj4K6bjTyv+LMzKWKxrWdUKUJtsOOC0jtkD6bwtPrGmh+2d3pL8xlJljSHTwj
- 09m3cQg2EUl1Fdzw7QXReOpUMwK9keou6vb1kcEyEjkhajZkETe9tIjYB6mLf+Cj1bsh
- Bk9RikgrjtatEhKtdkVHwSHStwA67D9q8Jw+Hhsek+clTSZ7covyUImIzGZrb7WVgMWC
- jJawK7C3Hp8EZF9pWr6CEzjPIDBHONPZ8khEHTh1yk+tvEDdC0bvGogZIE7v7/tUMzkQ
- SLrR5c4PlPhNiFgRMSIJ2dHDdZf4+7PLSEfmcVCed+//4LbHWwWQf5x4SVjWneTQHG+6
- 8qjQ==
-X-Gm-Message-State: ABy/qLY9E7iLP/YgpdPvDTj3LWbdjkgmzLPjlpuaxKgyq/zmMfz3a+9Y
- VjAqOfdq8xK1oH1mqMzedL793A==
-X-Google-Smtp-Source: APBJJlFtarhQ7GHwzpt/YmIpHZWCB8CH6BbzO3TJOLN98PLGPmi9DfQaZvOvRTZmU8hJUh560F2qRw==
-X-Received: by 2002:a19:2d10:0:b0:4f9:56a5:81d0 with SMTP id
- k16-20020a192d10000000b004f956a581d0mr2607956lfj.24.1688810514203; 
- Sat, 08 Jul 2023 03:01:54 -0700 (PDT)
-Received: from [192.168.1.101] (abyj26.neoplus.adsl.tpnet.pl. [83.9.29.26])
- by smtp.gmail.com with ESMTPSA id
- q15-20020ac246ef000000b004fac93bdaecsm973139lfo.242.2023.07.08.03.01.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 08 Jul 2023 03:01:53 -0700 (PDT)
-Message-ID: <537dfdac-9a60-34aa-ab60-e09a08792e43@linaro.org>
-Date: Sat, 8 Jul 2023 12:01:51 +0200
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEAD610E0D9
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Jul 2023 12:53:13 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 6DA778634E;
+ Sat,  8 Jul 2023 14:53:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1688820790;
+ bh=j1VW+YqlIr6gMFRVJdYCG+mHS0tWNFRYQxRf8AA6Y/I=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Oxql7ehPge5nSg6NraVob/joMOb/2cAVw3vB0uEHQ1ScHrHed0M7PRSzq+sIPfV67
+ R8025mKCQmdpsjSbfN/8DJ1sg5XNLXuc6e2QEpGkJI/cgNF1sKjEg33HPPouYy3K4W
+ Shkb6BshWHHlHeFTDmhosGRbOeOovJsMK4hIbKDNyUrDnUuuWs7EixbfKFON/IJ/RV
+ +G/oZNo2IBw/ny1zgxBqKImVocbPPbj6kz7z6fP07zTADqgoysLPbIgCUi5FfCapLA
+ MGI0hqCQ/Ldt2aLEksXjL1BMNBkQDERKA4ZD2hQi4qpSB8tU2DZDg/JFGb5o+2Q32V
+ tM84W++UvBCDQ==
+Message-ID: <8b0ae1d1-c769-1f55-0452-4bbc62da133b@denx.de>
+Date: Sat, 8 Jul 2023 13:07:04 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH 01/13] drm/msm/dpu: cleanup dpu_kms_hw_init error path
+Subject: Re: [PATCH v4 3/3] drm/panel-fannal-c3004: Add fannal c3004 DSI panel
+To: Paulo Pavacic <pavacic.p@gmail.com>
+References: <20230607151127.1542024-1-pavacic.p@gmail.com>
+ <20230607151127.1542024-4-pavacic.p@gmail.com>
+ <CACRpkdbrEA54qmfTKSsFRG9ZS4u8hM6P5TXtOjRAiW+TD_v-fQ@mail.gmail.com>
+ <CAO9szn00vRFm+iM1m7KgkW0WRuKyJEgVU4tVx4f5tF6KPnE=2w@mail.gmail.com>
+ <CACRpkdaw8M3dSkmiV5QDOt3BBB7Jo6NxT0Og=zvA4REMA_7y9g@mail.gmail.com>
+ <CAO9szn29A0qCABG0ACni42UGpsGKLwG7OT1y_ho3DgQ0WLvfmw@mail.gmail.com>
+ <CACRpkdYXtQwmZR1u-1fwmyC_8Yq4bMkjDBcUCfuGqSz_UhXWJQ@mail.gmail.com>
+ <CAO9szn0OuKW+-JZMs3TPUHiwLCe6cUPcsUq+og64K2utMyZpqQ@mail.gmail.com>
+ <CACRpkdb5stXKb7FNk_FC-PKduCngRX3sZTbzcxN+kRskz78fuQ@mail.gmail.com>
+ <CAO9szn3oTzrrwiyr91H14ep7OPUkA-SDST3CSQAQHvFFnkJWfA@mail.gmail.com>
+ <0d43e653-32cd-b25e-40fa-6f0571048467@denx.de>
+ <CAO9szn20RY3uBDceyUJ1S+gb=FN8Hd5qqMfOSbitHFyFCZ+iLg@mail.gmail.com>
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230707203724.3820757-1-dmitry.baryshkov@linaro.org>
- <20230707203724.3820757-2-dmitry.baryshkov@linaro.org>
- <81ff3de5-4fe4-9c01-5655-78f5311f7817@linaro.org>
- <cc312e51-e0c0-c1f9-aa56-60cf95e23b79@linaro.org>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <cc312e51-e0c0-c1f9-aa56-60cf95e23b79@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <CAO9szn20RY3uBDceyUJ1S+gb=FN8Hd5qqMfOSbitHFyFCZ+iLg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,108 +66,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: neil.armstrong@linaro.org, conor+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, Jagan Teki <jagan@amarulasolutions.com>, sam@ravnborg.org,
+ Maya Matuszczyk <maccraft123mc@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8.07.2023 01:48, Dmitry Baryshkov wrote:
-> On 08/07/2023 02:25, Konrad Dybcio wrote:
->> On 7.07.2023 22:37, Dmitry Baryshkov wrote:
->>> It was noticed that dpu_kms_hw_init()'s error path contains several
->>> labels which point to the same code path. Replace all of them with a
->>> single label.
->>>
->>> Suggested-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->> it's the first time I'm seeing this code
->>
-> 
-> It is Suggested-by, not something else. And you pointed it out in https://lore.kernel.org/linux-arm-msm/6d598438-f10f-8678-7878-829b8b3ae790@linaro.org/
-Oh, thanks
+On 7/7/23 17:26, Paulo Pavacic wrote:
+> Hello Marek,
 
-Konrad
-> 
->> Konrad
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 21 +++++++++------------
->>>   1 file changed, 9 insertions(+), 12 deletions(-)
+Hi,
+
+> čet, 6. srp 2023. u 17:26 Marek Vasut <marex@denx.de> napisao je:
+>>
+>> On 7/6/23 17:18, Paulo Pavacic wrote:
+>>> Hello Linus,
 >>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>> index c11b3ab572ab..e7ac02e92f42 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->>> @@ -1037,7 +1037,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->>>       if (!dpu_kms->catalog) {
->>>           DPU_ERROR("device config not known!\n");
->>>           rc = -EINVAL;
->>> -        goto power_error;
->>> +        goto err_pm_put;
->>>       }
->>>         /*
->>> @@ -1047,13 +1047,13 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->>>       rc = _dpu_kms_mmu_init(dpu_kms);
->>>       if (rc) {
->>>           DPU_ERROR("dpu_kms_mmu_init failed: %d\n", rc);
->>> -        goto power_error;
->>> +        goto err_pm_put;
->>>       }
->>>         rc = dpu_rm_init(&dpu_kms->rm, dpu_kms->catalog, dpu_kms->mmio);
->>>       if (rc) {
->>>           DPU_ERROR("rm init failed: %d\n", rc);
->>> -        goto power_error;
->>> +        goto err_pm_put;
->>>       }
->>>         dpu_kms->rm_init = true;
->>> @@ -1065,7 +1065,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->>>           rc = PTR_ERR(dpu_kms->hw_mdp);
->>>           DPU_ERROR("failed to get hw_mdp: %d\n", rc);
->>>           dpu_kms->hw_mdp = NULL;
->>> -        goto power_error;
->>> +        goto err_pm_put;
->>>       }
->>>         for (i = 0; i < dpu_kms->catalog->vbif_count; i++) {
->>> @@ -1076,7 +1076,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->>>           if (IS_ERR(hw)) {
->>>               rc = PTR_ERR(hw);
->>>               DPU_ERROR("failed to init vbif %d: %d\n", vbif->id, rc);
->>> -            goto power_error;
->>> +            goto err_pm_put;
->>>           }
->>>             dpu_kms->hw_vbif[vbif->id] = hw;
->>> @@ -1092,7 +1092,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->>>       rc = dpu_core_perf_init(&dpu_kms->perf, dpu_kms->catalog->perf, max_core_clk_rate);
->>>       if (rc) {
->>>           DPU_ERROR("failed to init perf %d\n", rc);
->>> -        goto perf_err;
->>> +        goto err_pm_put;
->>>       }
->>>         dpu_kms->hw_intr = dpu_hw_intr_init(dpu_kms->mmio, dpu_kms->catalog);
->>> @@ -1100,7 +1100,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->>>           rc = PTR_ERR(dpu_kms->hw_intr);
->>>           DPU_ERROR("hw_intr init failed: %d\n", rc);
->>>           dpu_kms->hw_intr = NULL;
->>> -        goto hw_intr_init_err;
->>> +        goto err_pm_put;
->>>       }
->>>         dev->mode_config.min_width = 0;
->>> @@ -1125,7 +1125,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->>>       rc = _dpu_kms_drm_obj_init(dpu_kms);
->>>       if (rc) {
->>>           DPU_ERROR("modeset init failed: %d\n", rc);
->>> -        goto drm_obj_init_err;
->>> +        goto err_pm_put;
->>>       }
->>>         dpu_vbif_init_memtypes(dpu_kms);
->>> @@ -1134,10 +1134,7 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
->>>         return 0;
->>>   -drm_obj_init_err:
->>> -hw_intr_init_err:
->>> -perf_err:
->>> -power_error:
->>> +err_pm_put:
->>>       pm_runtime_put_sync(&dpu_kms->pdev->dev);
->>>   error:
->>>       _dpu_kms_hw_destroy(dpu_kms);
+>>> čet, 22. lip 2023. u 10:22 Linus Walleij <linus.walleij@linaro.org> napisao je:
+>>>>
+>>>> On Wed, Jun 21, 2023 at 5:09 PM Paulo Pavacic <pavacic.p@gmail.com> wrote:
+>>>>
+>>>>> A lot of modifications to st7701 are required. I believe it would
+>>>>> result in a driver that doesn't look or work the same. e.g compare
+>>>>> delays between initialization sequences of panel-fannal-c3004 and
+>>>>> panel-st7701. I think it would be optimal to create st7701s driver and
+>>>>> have special handling for st7701s panels. If there was a flag for
+>>>>> whether panel is st7701 or st7701s it would end up looking like a
+>>>>> mess.
+>>>>
+>>>> What matters is if the original authors of the old st7701 driver are
+>>>> around and reviewing and testing patches at all. What we need is
+>>>> active maintainers. (Added Jagan, Marek & Maya).
+>>>>
+>>>> I buy the reasoning that the st7701s is perhaps substantially different
+>>>> from st7701.
+>>>>
+>>>> If st7701s is very different then I suppose it needs a separate driver,
+>>>> then all we need to to name the driver properly, i.e.
+>>>> panel-sitronix-st7701s.c.
+>>>
+>>> I had in person talk with Paul Kocialkowski and I have concluded that
+>>> this is the best solution.
+>>> I believe I should rename it to st7701s due to the hardware changes. I
+>>> would like to create V5 patch with driver renamed to st7701s.
+>>> Please let me know if you agree / disagree.
+>>
+>> If I recall it right, the ST7701 and ST7701S are basically the same
+>> chip, aren't they ?
 > 
+> I'm currently exploring all the differences. There aren't a lot of
+> differences, but there are some.
+> So far I can see that default register values are different, new
+> previously unused registers are now used and there has been some
+> reordering of how info is placed in registers [1] (data bits are in
+> different order). Moreover, instructions to some commands have been
+> changed and meaning of what data bits mean [2][3]. Also, new features
+> have been added [2]; there is now PCLKS 3 for example.
+> 
+> You can see few differences in following images. Same images were
+> attached in this mail:
+> [1] https://ibb.co/NmgbZmy - GAMACTRL_st7701.png
+> [2] https://ibb.co/G79y235 - PCLKS2.png
+
+Ouch. I wonder if this is still something that can be abstracted out 
+with some helper accessor functions like:
+
+if (model == ST7701)
+   write something
+else
+   write the other layout
+
+Or whether it makes sense to outright have a separate driver. The later 
+would introduce duplication, but maybe that much duplication is OK.
