@@ -1,50 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A34574C7EB
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Jul 2023 21:52:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A60374C828
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Jul 2023 22:25:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA5C310E156;
-	Sun,  9 Jul 2023 19:52:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81DB810E12F;
+	Sun,  9 Jul 2023 20:25:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0978A10E130
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Jul 2023 19:52:08 +0000 (UTC)
-Received: from [192.168.2.68] (109-252-154-2.dynamic.spd-mgts.ru
- [109.252.154.2])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 0D8F86606F26;
- Sun,  9 Jul 2023 20:52:05 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1688932326;
- bh=x8/MyDpd7eTcDfQL4aJHM87C+0E/jhOnVG51c+yLXQI=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=kIRYC3qIDCS1RLgHKy5b62eYB3jwGNHzioerPf+n39xbKrEWLFSjdkN66vAVL4ESm
- XZtvy2JLfKN5nb7RI5h9C09jh4jwiDC5LA6RXKTazvUZw2G2ztE66o7s8elyEofr0i
- sqiBFj8wNbqClT6J8BJiJ09fz25J9mpOQBsGI9QxE0Sja6kv7PtadgaREoAzeb9o1x
- Iy9bdh8o9yGiKniAQJjzqZlLhKMQEhwenKkLNZebxFYcuLhuu+mD85PgWIStL0aZi/
- XNQYSKZUlNM8u4D5t3ni4tiYE3UhU098mjEj9Wa79jg7L4kT8TQ7RNGAAmeM4vTzFh
- fXMp8OEd1Sa7Q==
-Message-ID: <1f6b3dd8-b12b-ab36-69a9-4eac75c6e081@collabora.com>
-Date: Sun, 9 Jul 2023 22:52:02 +0300
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03FFA10E12A
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Jul 2023 20:25:16 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id
+ 38308e7fff4ca-2b6f0508f54so57010401fa.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 09 Jul 2023 13:25:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1688934313; x=1691526313;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=7cndd2/vN8mxQVPz3p9JPigBgvvmJD7oR5tvQT/hZpo=;
+ b=BZNmcrjwoY671k6LUCulctqznIPimA0aujVzqGE1z/1Y3G7VxTKtqrOI3kN4P3bOb8
+ hCOdFh5OWC31rF8U5PmhKpVT92ITjCM/uyCc7KFXzffTpe75BpkeFPa3Be/Sv9OB8s+M
+ 8RcK3f2K8N/zlbsWwX4kBYEr2ldozCPQBX2UESN+/OLASYbhv5dwpcTWR1IGTSFAsgsQ
+ qCFcGDWBPbl0GQnRp1eqrDkHS2gGDQLg8pce6gYnx/sAY+6Mhr98X2cMO+unY1aFH0Es
+ cLC7kdLYd74Ac2xik06kVe6EOFPyfNCtcllzyIDNJniVLjjY/kSwS68X9y5oDMmIacQs
+ eeww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688934313; x=1691526313;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7cndd2/vN8mxQVPz3p9JPigBgvvmJD7oR5tvQT/hZpo=;
+ b=kN4NtvqWtONC0pky6OCUZPnUFrj0qRHDU7PXH+ojhL9sweSoSkkZNEjbb2oGhATQf5
+ YGjJtpVUF4GJOPQZNJdq0hqNqzNaQgqW2CUMkRillycJO0ViCob7TctuAGooucZyPfiZ
+ sqlmD0kybsy2Ja4mIh08gUEhDxF5Lxyhv5uGpdc+nijbsGrmDIMqnCauuoR/lH4l1PYf
+ TAPpPLG6UX5Ui5KXf0T95PvFqaKaO1XAczq1mivnZK/9JBSaQElwJKugdzywa9jUEEx5
+ +7mx84p4djZZAgfMzKSdXOLhFVg3ZEeVQ5Wto5Qmf6NYHOekjZt4a3pUlvkILodyKU3P
+ XWtQ==
+X-Gm-Message-State: ABy/qLZgZR8XxTlGVLo8pUdJCfVsy4rgyycOYJeDczuFoIYg2QvZhrOz
+ cnM+YNKdH4kU9XzzIPFs2FAUUw==
+X-Google-Smtp-Source: APBJJlGTqVrebBJDYVqNBkWa/EbTHWNbbJL+SjsdAlmpBYlGziNNTppbAc5A3pBDgoXxeQfkedRxvQ==
+X-Received: by 2002:a05:6512:6c7:b0:4fb:8eec:ce47 with SMTP id
+ u7-20020a05651206c700b004fb8eecce47mr8568506lff.58.1688934313030; 
+ Sun, 09 Jul 2023 13:25:13 -0700 (PDT)
+Received: from lothlorien.lan (dzdqv0yyyyyyyyyyybm5y-3.rev.dnainternet.fi.
+ [2001:14ba:a0db:1f00::ab2]) by smtp.gmail.com with ESMTPSA id
+ 8-20020ac24828000000b004fb771a5b2dsm1428774lft.1.2023.07.09.13.25.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 09 Jul 2023 13:25:12 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
+Subject: [PATCH v6 0/3] drm/bridge_connector: implement OOB HPD handling
+Date: Sun,  9 Jul 2023 23:25:08 +0300
+Message-Id: <20230709202511.287794-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.1
-Subject: Re: [PATCH v4] drm/virtio: conditionally allocate virtio_gpu_fence
-To: Gurchetan Singh <gurchetansingh@chromium.org>,
- dri-devel@lists.freedesktop.org
-References: <2cc27163-c8d2-45bc-abd7-26ea567c4aea@collabora.com>
- <20230707213124.494-1-gurchetansingh@chromium.org>
-Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20230707213124.494-1-gurchetansingh@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,129 +79,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, linux-usb@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/8/23 00:31, Gurchetan Singh wrote:
-> We don't want to create a fence for every command submission.  It's
-> only necessary when userspace provides a waitable token for submission.
-> This could be:
-> 
-> 1) bo_handles, to be used with VIRTGPU_WAIT
-> 2) out_fence_fd, to be used with dma_fence apis
-> 3) a ring_idx provided with VIRTGPU_CONTEXT_PARAM_POLL_RINGS_MASK
->    + DRM event API
-> 4) syncobjs in the future
-> 
-> The use case for just submitting a command to the host, and expecting
-> no response.  For example, gfxstream has GFXSTREAM_CONTEXT_PING that
-> just wakes up the host side worker threads.  There's also
-> CROSS_DOMAIN_CMD_SEND which just sends data to the Wayland server.
-> 
-> This prevents the need to signal the automatically created
-> virtio_gpu_fence.
-> 
-> In addition, VIRTGPU_EXECBUF_RING_IDX is checked when creating a
-> DRM event object.  VIRTGPU_CONTEXT_PARAM_POLL_RINGS_MASK is
-> already defined in terms of per-context rings.  It was theoretically
-> possible to create a DRM event on the global timeline (ring_idx == 0),
-> if the context enabled DRM event polling.  However, that wouldn't
-> work and userspace (Sommelier).  Explicitly disallow it for
-> clarity.
-> 
-> Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
-> ---
->  v2: Fix indent (Dmitry)
->  v3: Refactor drm fence event checks to avoid possible NULL deref (Dmitry)
->  v4: More detailed commit message about addition drm fence event checks (Dmitry)
-> 
->  drivers/gpu/drm/virtio/virtgpu_submit.c | 28 +++++++++++++------------
->  1 file changed, 15 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_submit.c b/drivers/gpu/drm/virtio/virtgpu_submit.c
-> index cf3c04b16a7a..004364cf86d7 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_submit.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_submit.c
-> @@ -64,13 +64,9 @@ static int virtio_gpu_fence_event_create(struct drm_device *dev,
->  					 struct virtio_gpu_fence *fence,
->  					 u32 ring_idx)
->  {
-> -	struct virtio_gpu_fpriv *vfpriv = file->driver_priv;
->  	struct virtio_gpu_fence_event *e = NULL;
->  	int ret;
->  
-> -	if (!(vfpriv->ring_idx_mask & BIT_ULL(ring_idx)))
-> -		return 0;
-> -
->  	e = kzalloc(sizeof(*e), GFP_KERNEL);
->  	if (!e)
->  		return -ENOMEM;
-> @@ -161,21 +157,27 @@ static int virtio_gpu_init_submit(struct virtio_gpu_submit *submit,
->  				  struct drm_file *file,
->  				  u64 fence_ctx, u32 ring_idx)
->  {
-> +	int err;
-> +	struct virtio_gpu_fence *out_fence;
->  	struct virtio_gpu_fpriv *vfpriv = file->driver_priv;
->  	struct virtio_gpu_device *vgdev = dev->dev_private;
-> -	struct virtio_gpu_fence *out_fence;
-> -	int err;
-> +	bool drm_fence_event = (exbuf->flags & VIRTGPU_EXECBUF_RING_IDX) &&
-> +			       (vfpriv->ring_idx_mask & BIT_ULL(ring_idx));
+Note, numbering for this series starts from v5, since there were several
+revisions for this patchset under a different series title ([1]).
 
-The common coding style for variables definition in kernel is a "reverse
-xmas tree". It makes code easier to read.
+USB altmodes code would send OOB notifications to the drm_connector
+specified in the device tree. However as the MSM DP driver uses
+drm_bridge_connector, there is no way to receive these event directly.
+Implement a bridge between oob_hotplug_event and drm_bridge's
+hpd_notify.
 
-*********
-******
-***
+Merge strategy: since this series touches i915 code, it might make sense
+to merge it through drm-intel.
 
-I'll change the style while applying to:
+[1] https://patchwork.freedesktop.org/series/103449/
 
-	if ((exbuf->flags & VIRTGPU_EXECBUF_RING_IDX) &&
-	    (vfpriv->ring_idx_mask & BIT_ULL(ring_idx)))
-		drm_fence_event = true;
-	else
-		drm_fence_event = false;
+Changes since v5:
+- Fixed checkpatch warning in the first patch (noted by intel-gfx CI).
 
->  	memset(submit, 0, sizeof(*submit));
->  
-> -	out_fence = virtio_gpu_fence_alloc(vgdev, fence_ctx, ring_idx);
-> -	if (!out_fence)
-> -		return -ENOMEM;
-> +	if ((exbuf->flags & VIRTGPU_EXECBUF_FENCE_FD_OUT) || drm_fence_event ||
-> +	     exbuf->num_bo_handles)
-> +		out_fence = virtio_gpu_fence_alloc(vgdev, fence_ctx, ring_idx);
-> +	else
-> +		out_fence = NULL;
->  
-> -	err = virtio_gpu_fence_event_create(dev, file, out_fence, ring_idx);
-> -	if (err) {
-> -		dma_fence_put(&out_fence->f);
-> -		return err;
-> +	if (drm_fence_event) {
-> +		err = virtio_gpu_fence_event_create(dev, file, out_fence, ring_idx);
-> +		if (err) {
-> +			dma_fence_put(&out_fence->f);
-> +			return err;
-> +		}
->  	}
->  
->  	submit->out_fence = out_fence;
+Changes since v4:
+- Picked up the patchset
+- Dropped msm-specific patches
+- Changed drm_bridge_connector_oob_hotplug_event to call connector's HPD
+  callback directly, rather than going through the last bridge's
+  hpd_notify
+- Added proper fwnode for the drm_bridge_connector
 
-Another small note for the future is that you should always start a new
-email thread for every new version of the patch, i.e. don't reply with
-new version to the old thread. This is not a problem here since it's
-just a single patch, nevertheless please take it into account later on.
-It eases patch tracking for reviewers.
+Bjorn Andersson (1):
+  drm: Add HPD state to drm_connector_oob_hotplug_event()
 
-I tested v4, including the applied CL4605854 to Sommilier. Everything
-works well as before. Thank you for addressing all the issues.
+Dmitry Baryshkov (2):
+  drm/bridge_connector: stop filtering events in
+    drm_bridge_connector_hpd_cb()
+  drm/bridge_connector: implement oob_hotplug_event
 
-Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Tested-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+ drivers/gpu/drm/drm_bridge_connector.c        | 34 ++++++++++++++-----
+ drivers/gpu/drm/drm_connector.c               |  6 ++--
+ .../gpu/drm/i915/display/intel_display_core.h |  3 ++
+ drivers/gpu/drm/i915/display/intel_dp.c       | 17 ++++++++--
+ drivers/usb/typec/altmodes/displayport.c      | 14 ++++----
+ include/drm/drm_connector.h                   |  6 ++--
+ 6 files changed, 58 insertions(+), 22 deletions(-)
 
 -- 
-Best regards,
-Dmitry
+2.39.2
 
