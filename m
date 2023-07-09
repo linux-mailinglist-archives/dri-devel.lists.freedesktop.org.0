@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F2274C068
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Jul 2023 04:30:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66F0A74C075
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Jul 2023 04:49:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C8A310E0FB;
-	Sun,  9 Jul 2023 02:30:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A10F10E106;
+	Sun,  9 Jul 2023 02:49:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9854710E0FB;
- Sun,  9 Jul 2023 02:30:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0A2910E101;
+ Sun,  9 Jul 2023 02:49:18 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4843D60B6D;
- Sun,  9 Jul 2023 02:30:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 512C8C433C7;
- Sun,  9 Jul 2023 02:30:27 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2CF7060B6D;
+ Sun,  9 Jul 2023 02:49:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D4FDC433C8;
+ Sun,  9 Jul 2023 02:49:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1688869828;
- bh=ItIXstYBIf26ydCVUwNTGQ8bzQETS0wWyOugToWg6xI=;
+ s=k20201202; t=1688870957;
+ bh=XXxhPYApISgT00+twhv22Pg27b5Mq7iSOdnj8JNFPEg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rljtrtr6N1Xg7x+eEkOzkkjBTpfqiPR4gddlslCXE5hpN5FsiP7h8xeap44eWqx7D
- jzIcl1iLR7Li9APPIOpJX3KG/0FcUGDM+/TbcejzQVXKJpZpkkyfbzC+CnHsWC15pK
- LWqkJMdMOi4wX/qzJY6ZrnGjE8x57EyFcHyWYvJeRrgZLbveMHDhpwIKIhnCaL9p9X
- F+HoGbug16qmmnB/iPxbKnCwEjJGtHnZtuc7EV35Aj8uBpNd548gdqyVa4OJICoGGf
- V8y4mEfYhbSEaRcPCYy4LzXJbnUeZeHAHEByytT01QrAm5S0EsSKac3C2bW0KJMnJZ
- ShuMY4wtatn+g==
-Date: Sat, 8 Jul 2023 19:34:05 -0700
+ b=jLv4AGeA9guJGZ/5+upi4cHlRtj1Ps2oOPFT1e2Y48jplzxDCEPEgxea9NdRJz+pY
+ SdvFaD0HIGRu2Y1/eBh01GB6RI+cQv5BazuCHpCMNGozyGxjfsHYljfyeFxpNooCUP
+ MNUIVYsLVbJeEcbSghat/ex5mUYcE7v7l4H9Vgn5NeAK4oSZCGH2O5RZhThmW2SWw8
+ 5SgKY9bCt4nBK5Uw/c+VlS+PwInlLTmNV+zkFRu5nDy/X+mXkq8GPc13jT4DgYtiIt
+ jT9m+5+/hVivc6zWump7vcO33tsuEvMvFu3NalCecgBZSWOGmict+o/+0QkrmAYqxM
+ 0N3K0xkU3DBvA==
+Date: Sat, 8 Jul 2023 19:52:54 -0700
 From: Bjorn Andersson <andersson@kernel.org>
 To: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Subject: Re: [PATCH v1 1/5] drm/msm/dp: remove pm_runtime_xxx() from dp_power.c
-Message-ID: <fiq6zjzptjdnktdcofyqpaqf2gmddvkschebp7imlmfxatew3x@iaptll3dzfuf>
+Subject: Re: [PATCH v1 2/5] drm/msm/dp: incorporate pm_runtime framework into
+ DP driver
+Message-ID: <oc6cohs6pbiuyirdxgepoharuzdra2hzy3kwfqjmdfcq36y367@ah3bal2jqncb>
 References: <1688773943-3887-1-git-send-email-quic_khsieh@quicinc.com>
- <1688773943-3887-2-git-send-email-quic_khsieh@quicinc.com>
+ <1688773943-3887-3-git-send-email-quic_khsieh@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1688773943-3887-2-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1688773943-3887-3-git-send-email-quic_khsieh@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,67 +63,222 @@ Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 07, 2023 at 04:52:19PM -0700, Kuogee Hsieh wrote:
-> Since both pm_runtime_resume() and pm_runtime_suspend() are not
-> populated at dp_pm_ops. Those pm_runtime_get/put() functions within
-> dp_power.c will not have any effects in addition to increase/decrease
-> power counter. Also pm_runtime_xxx() should be executed at top
-> layer.
+On Fri, Jul 07, 2023 at 04:52:20PM -0700, Kuogee Hsieh wrote:
+> Incorporating pm runtime framework into DP driver so that power
+> and clock resource handling can be centralized allowing easier
+> control of these resources in preparation of registering aux bus
+> uring probe.
 > 
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_aux.c     |  3 ++
+>  drivers/gpu/drm/msm/dp/dp_display.c | 75 +++++++++++++++++++++++++++++--------
+>  2 files changed, 63 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
+> index 8e3b677..c592064 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_aux.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
+> @@ -291,6 +291,7 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp_aux,
+>  		return -EINVAL;
+>  	}
+>  
+> +	pm_runtime_get_sync(dp_aux->dev);
+>  	mutex_lock(&aux->mutex);
+>  	if (!aux->initted) {
+>  		ret = -EIO;
+> @@ -364,6 +365,8 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp_aux,
+>  
+>  exit:
+>  	mutex_unlock(&aux->mutex);
+> +	pm_runtime_mark_last_busy(dp_aux->dev);
+> +	pm_runtime_put_autosuspend(dp_aux->dev);
+>  
+>  	return ret;
+>  }
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 76f1395..2c5706a 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -309,6 +309,10 @@ static int dp_display_bind(struct device *dev, struct device *master,
+>  		goto end;
+>  	}
+>  
+> +	pm_runtime_enable(dev);
+> +	pm_runtime_set_autosuspend_delay(dev, 1000);
+> +	pm_runtime_use_autosuspend(dev);
+> +
+>  	return 0;
+>  end:
+>  	return rc;
+> @@ -320,9 +324,8 @@ static void dp_display_unbind(struct device *dev, struct device *master,
+>  	struct dp_display_private *dp = dev_get_dp_display_private(dev);
+>  	struct msm_drm_private *priv = dev_get_drvdata(master);
+>  
+> -	/* disable all HPD interrupts */
+> -	if (dp->core_initialized)
+> -		dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_INT_MASK, false);
+> +	pm_runtime_dont_use_autosuspend(dev);
+> +	pm_runtime_disable(dev);
+>  
+>  	kthread_stop(dp->ev_tsk);
+>  
+> @@ -466,10 +469,12 @@ static void dp_display_host_init(struct dp_display_private *dp)
+>  		dp->dp_display.connector_type, dp->core_initialized,
+>  		dp->phy_initialized);
+>  
+> -	dp_power_init(dp->power);
+> -	dp_ctrl_reset_irq_ctrl(dp->ctrl, true);
+> -	dp_aux_init(dp->aux);
+> -	dp->core_initialized = true;
+> +	if (!dp->core_initialized) {
+> +		dp_power_init(dp->power);
+> +		dp_ctrl_reset_irq_ctrl(dp->ctrl, true);
+> +		dp_aux_init(dp->aux);
+> +		dp->core_initialized = true;
 
-Getting/putting the runtime PM state affects the vote for the GDSC. So I
-would suggest that you move this after patch 2, to not create a gap in
-the git history of lacking GDSC votes.
+There are two cases that queries core_initialized, both of those are
+done to avoid accessing the DP block without it first being powered up.
+With the introduction of runtime PM, it seems reasonable to just power
+up the block in those two code paths (and remove the variable).
+
+> +	}
+>  }
+>  
+>  static void dp_display_host_deinit(struct dp_display_private *dp)
+> @@ -478,10 +483,12 @@ static void dp_display_host_deinit(struct dp_display_private *dp)
+>  		dp->dp_display.connector_type, dp->core_initialized,
+>  		dp->phy_initialized);
+>  
+> -	dp_ctrl_reset_irq_ctrl(dp->ctrl, false);
+> -	dp_aux_deinit(dp->aux);
+> -	dp_power_deinit(dp->power);
+> -	dp->core_initialized = false;
+> +	if (dp->core_initialized) {
+> +		dp_ctrl_reset_irq_ctrl(dp->ctrl, false);
+> +		dp_aux_deinit(dp->aux);
+> +		dp_power_deinit(dp->power);
+> +		dp->core_initialized = false;
+> +	}
+>  }
+>  
+>  static int dp_display_usbpd_configure_cb(struct device *dev)
+> @@ -1304,6 +1311,39 @@ static int dp_display_remove(struct platform_device *pdev)
+>  	dp_display_deinit_sub_modules(dp);
+>  
+>  	platform_set_drvdata(pdev, NULL);
+> +	pm_runtime_put_sync_suspend(&pdev->dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static int dp_pm_runtime_suspend(struct device *dev)
+> +{
+> +	struct platform_device *pdev = to_platform_device(dev);
+> +	struct msm_dp *dp_display = platform_get_drvdata(pdev);
+
+platform_get_drvdata() is a wrapper for dev_get_drvdata(&pdev->dev), so
+there's no need to resolve the platform_device first...
+
+> +	struct dp_display_private *dp;
+> +
+> +	dp = container_of(dp_display, struct dp_display_private, dp_display);
+> +
+> +	dp_display_host_phy_exit(dp);
+> +	dp_catalog_ctrl_hpd_enable(dp->catalog);
+> +	dp_display_host_deinit(dp);
+> +
+> +	return 0;
+> +}
+> +
+> +static int dp_pm_runtime_resume(struct device *dev)
+> +{
+> +	struct platform_device *pdev = to_platform_device(dev);
+> +	struct msm_dp *dp_display = platform_get_drvdata(pdev);
+> +	struct dp_display_private *dp;
+> +
+> +	dp = container_of(dp_display, struct dp_display_private, dp_display);
+> +
+> +	dp_display_host_init(dp);
+> +	if (dp_display->is_edp) {
+> +		dp_catalog_ctrl_hpd_enable(dp->catalog);
+> +		dp_display_host_phy_init(dp);
+> +	}
+>  
+>  	return 0;
+>  }
+> @@ -1409,6 +1449,7 @@ static int dp_pm_suspend(struct device *dev)
+>  }
+>  
+>  static const struct dev_pm_ops dp_pm_ops = {
+> +	SET_RUNTIME_PM_OPS(dp_pm_runtime_suspend, dp_pm_runtime_resume, NULL)
+>  	.suspend = dp_pm_suspend,
+>  	.resume =  dp_pm_resume,
+>  };
+> @@ -1493,10 +1534,6 @@ static int dp_display_get_next_bridge(struct msm_dp *dp)
+>  	aux_bus = of_get_child_by_name(dev->of_node, "aux-bus");
+>  
+>  	if (aux_bus && dp->is_edp) {
+> -		dp_display_host_init(dp_priv);
+> -		dp_catalog_ctrl_hpd_enable(dp_priv->catalog);
+> -		dp_display_host_phy_init(dp_priv);
+
+I'm probably just missing it, but how do we get here with the host
+powered up and the phy initialized?
+
+> -
+>  		/*
+>  		 * The code below assumes that the panel will finish probing
+>  		 * by the time devm_of_dp_aux_populate_ep_devices() returns.
+> @@ -1604,6 +1641,7 @@ void dp_bridge_atomic_enable(struct drm_bridge *drm_bridge,
+>  		dp_hpd_plug_handle(dp_display, 0);
+>  
+>  	mutex_lock(&dp_display->event_mutex);
+> +	pm_runtime_get_sync(&dp_display->pdev->dev);
+>  
+>  	state = dp_display->hpd_state;
+>  	if (state != ST_DISPLAY_OFF && state != ST_MAINLINK_READY) {
+> @@ -1684,6 +1722,8 @@ void dp_bridge_atomic_post_disable(struct drm_bridge *drm_bridge,
+>  	}
+>  
+>  	drm_dbg_dp(dp->drm_dev, "type=%d Done\n", dp->connector_type);
+> +
+> +	pm_runtime_put_sync(&dp_display->pdev->dev);
+>  	mutex_unlock(&dp_display->event_mutex);
+>  }
+>  
+> @@ -1723,6 +1763,8 @@ void dp_bridge_hpd_enable(struct drm_bridge *bridge)
+>  	struct dp_display_private *dp = container_of(dp_display, struct dp_display_private, dp_display);
+>  
+>  	mutex_lock(&dp->event_mutex);
+> +	pm_runtime_get_sync(&dp->pdev->dev);
+> +
+>  	dp_catalog_ctrl_hpd_enable(dp->catalog);
+>  
+>  	/* enable HDP interrupts */
+> @@ -1744,6 +1786,9 @@ void dp_bridge_hpd_disable(struct drm_bridge *bridge)
+>  	dp_catalog_ctrl_hpd_disable(dp->catalog);
+>  
+>  	dp_display->internal_hpd = false;
+> +
+> +	pm_runtime_mark_last_busy(&dp->pdev->dev);
+> +	pm_runtime_put_autosuspend(&dp->pdev->dev);
+>  	mutex_unlock(&dp->event_mutex);
+>  }
+
+The runtime_get/put in dp_bridge_hpd_enable() and disable matches my
+expectations. But in the case that we have an external HPD source, where
+will the power be turned on?
+
+Note that you can test this on your device by routing the HPD GPIO to a
+display-connector instance and wiring this to the DP node. In the same
+way it's done here:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/boot/dts/qcom/sa8295p-adp.dts#n28
 
 Regards,
 Bjorn
 
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_power.c | 9 ---------
->  1 file changed, 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_power.c b/drivers/gpu/drm/msm/dp/dp_power.c
-> index 5cb84ca..ed2f62a 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_power.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_power.c
-> @@ -152,8 +152,6 @@ int dp_power_client_init(struct dp_power *dp_power)
->  
->  	power = container_of(dp_power, struct dp_power_private, dp_power);
->  
-> -	pm_runtime_enable(power->dev);
-> -
->  	return dp_power_clk_init(power);
->  }
->  
-> @@ -162,8 +160,6 @@ void dp_power_client_deinit(struct dp_power *dp_power)
->  	struct dp_power_private *power;
->  
->  	power = container_of(dp_power, struct dp_power_private, dp_power);
-> -
-> -	pm_runtime_disable(power->dev);
->  }
->  
->  int dp_power_init(struct dp_power *dp_power)
-> @@ -173,11 +169,7 @@ int dp_power_init(struct dp_power *dp_power)
->  
->  	power = container_of(dp_power, struct dp_power_private, dp_power);
->  
-> -	pm_runtime_get_sync(power->dev);
-> -
->  	rc = dp_power_clk_enable(dp_power, DP_CORE_PM, true);
-> -	if (rc)
-> -		pm_runtime_put_sync(power->dev);
->  
->  	return rc;
->  }
-> @@ -189,7 +181,6 @@ int dp_power_deinit(struct dp_power *dp_power)
->  	power = container_of(dp_power, struct dp_power_private, dp_power);
->  
->  	dp_power_clk_enable(dp_power, DP_CORE_PM, false);
-> -	pm_runtime_put_sync(power->dev);
->  	return 0;
->  }
 >  
 > -- 
 > 2.7.4
