@@ -1,47 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1BD174C664
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Jul 2023 18:19:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B4CB74C666
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Jul 2023 18:23:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA64F10E0F8;
-	Sun,  9 Jul 2023 16:19:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6E6910E108;
+	Sun,  9 Jul 2023 16:23:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D71F10E0F8
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Jul 2023 16:19:19 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5534310E108
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Jul 2023 16:23:03 +0000 (UTC)
+Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id B9648856A7;
- Sun,  9 Jul 2023 18:19:16 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 3593C84783;
+ Sun,  9 Jul 2023 18:23:01 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1688919557;
- bh=hwZixr7rx4yGpMOPQwiRxQYXS38RjkRsK4LZErM+XKk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=IctZS0N9Q9+KyGSW4REE9SNtfAGomYoDNL5jt+0IKSEG2KXVU2fraUD5pzONLWzMP
- 6Vy4jlP7rKmDaAxVHdmRBAwBausWEBVVm30e4xM68ITc/y7vjS5MfhTdYo1G4/g7aw
- jLKERUE1hj4kKq7Os9n+ICkXJilGP0HLwvgD50teY9JxR3xVyz6dTFay2Nn7IZvWTx
- tlADoIu+N5bNO7dL15G8KHRf/cPjIv5k6VVvBuZgYBEfw8J4rot7EsvRX9rLpbx6ka
- ztPxBxWH3997O4LG60Y+UwC1F2GG5Uma42+OiGo2rFdZ+S4OK+YhMILaQsdHvdurq9
- 2UXQ8wzNR21yw==
-Message-ID: <9e68cd40-55fd-b0f2-71ab-4e95447c6372@denx.de>
-Date: Sun, 9 Jul 2023 18:19:16 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] drm/panel: simple: Initialize unprepared_time in probe
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20230709135231.449636-1-marex@denx.de>
- <20230709150824.GA697428@ravnborg.org>
-Content-Language: en-US
+ s=phobos-20191101; t=1688919781;
+ bh=CyHVVopjKzlJEhvNoeCA7jHi0qLEWalN+3B+7eTggDc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=O0pLQUP+a2t3lfbqaY31Zl8zJSYe25ERsCAESq08YOp+IAbLoLrZ5vm12x7g3nKok
+ Uoiae7lXR03ulmOPMi2WeVe87ZVjnsi/vJsZDFhZx+RqXHazOj+O1hALrHc/B4iZv/
+ zJwSWwm0hcycGVnRagL7gB/Loc32i42BsS8HEvC3bsVD8S6xDWzz2GROO6h61sw9fF
+ Bei/e0YzlrncpIn9kxRRw8JKAaSJtN1hWgLHdHoyKeii1V3Bpqy+59hHfnNFVMq5pi
+ EVHxwHabalI8hKpLsbM3XpR44i4nzVEM3Y9DsHyTtcWp7DxhwTYaCL/JdHVZp/FLIs
+ MHKFwsnY86IMQ==
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20230709150824.GA697428@ravnborg.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/panel: simple: Drop prepared_time
+Date: Sun,  9 Jul 2023 18:22:53 +0200
+Message-Id: <20230709162253.464299-1-marex@denx.de>
+X-Mailer: git-send-email 2.40.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
 X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -56,35 +50,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Douglas Anderson <dianders@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/9/23 17:08, Sam Ravnborg wrote:
-> Hi Marek.
+This has been superseded by RPM in commit
+3235b0f20a0a ("drm/panel: panel-simple: Use runtime pm to avoid excessive unprepare / prepare")
+and the last user of the non-RPM case has been dropped in commit
+b6d5ffce11dd ("drm/panel-simple: Non-eDP panels don't need "HPD" handling")
+whatever is left in this driver is just assigned and never used.
+Drop the remaining parts.
 
-Hi,
+Signed-off-by: Marek Vasut <marex@denx.de>
+---
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/panel/panel-simple.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-> On Sun, Jul 09, 2023 at 03:52:31PM +0200, Marek Vasut wrote:
->> The unprepared_time has to be initialized during probe to probe time
->> ktime, otherwise panel_simple_resume() panel_simple_wait() call may
->> wait too short time, or no time at all, which would violate the panel
->> timing specification. Initializing the unprepared_time() to probe time
->> ktime assures the delay is at least what the panel requires from the
->> time kernel started. The unprepared_time is then updated every time
->> the panel is suspended in panel_simple_suspend() too.
->>
->> Fixes: e5e30dfcf3db ("drm: panel: simple: Defer unprepare delay till next prepare to shorten it")
->> Signed-off-by: Marek Vasut <marex@denx.de>
-> 
-> Looks OK,
-> 
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> 
-> It looks like prepared_time is not used anymore.
-> Could you dig a little into this while you are in the waiting area.
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 37afed67fea7e..e943148dd2b0c 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -141,7 +141,6 @@ struct panel_simple {
+ 
+ 	bool prepared;
+ 
+-	ktime_t prepared_time;
+ 	ktime_t unprepared_time;
+ 
+ 	const struct panel_desc *desc;
+@@ -351,8 +350,6 @@ static int panel_simple_resume(struct device *dev)
+ 	if (p->desc->delay.prepare)
+ 		msleep(p->desc->delay.prepare);
+ 
+-	p->prepared_time = ktime_get_boottime();
+-
+ 	return 0;
+ }
+ 
+@@ -566,7 +563,6 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+ 		return -ENOMEM;
+ 
+ 	panel->enabled = false;
+-	panel->prepared_time = 0;
+ 	panel->unprepared_time = ktime_get_boottime();
+ 	panel->desc = desc;
+ 
+-- 
+2.40.1
 
-Good catch, seems that has been replaced by RPM so whatever is left is 
-just a remnant and should be dropped . I can prepare a patch, but let's 
-see if Douglas has any further comment on this.
