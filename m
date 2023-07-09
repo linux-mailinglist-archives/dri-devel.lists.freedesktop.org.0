@@ -1,48 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49D8A74C08C
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Jul 2023 05:05:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1C9874C0A9
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Jul 2023 05:42:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49E8910E101;
-	Sun,  9 Jul 2023 03:05:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDCB910E114;
+	Sun,  9 Jul 2023 03:42:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD2E310E101;
- Sun,  9 Jul 2023 03:05:48 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 84E3060B65;
- Sun,  9 Jul 2023 03:05:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9551DC433C8;
- Sun,  9 Jul 2023 03:05:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1688871945;
- bh=08EVmP95gtwfBvBvf6xxIOPQOkRYHfw+hhVlKAXhPhw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=inXkCeyHCc34IDnkW4Pc0dD5aKeFLWN6Bs8x+hB+vQAaNpbXqDkUwZnTLGVl2PmsB
- jrlfSV1ZOg8U6MMd4gcc/AEDRjxZoiOa4WwqFut+fkixQS71kXlwWLJh+bQ+Gg4e0I
- baAYm/HPudMAtNqR6PxT+4AhHTVvGXNJFlwMPBWDH7fYgtZYQyAqAUeE3Se7z+GGFP
- d6AyQMLo3NQdhXMcBcI9zfQ3KAjkEU/rifgdCJDglNtU/E4riBBefi6atN3WF46CJ8
- 9GBWeEm5hg7X0yE27WOTCqqEe282KvNXEDlN7p1wN7+Sntk5ra5U8oTI2WaFwTAj0R
- xM1ahitvcNV+g==
-Date: Sat, 8 Jul 2023 20:09:22 -0700
-From: Bjorn Andersson <andersson@kernel.org>
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Subject: Re: [PATCH v1 4/5] drm/msm/dp: move relevant dp initialization code
- from bind() to probe()
-Message-ID: <n7jye2t2k3l7hxxsta6muk2fsjlufxsmtcbtna4fovpgdozlsi@qzvw6cj3ejih>
-References: <1688773943-3887-1-git-send-email-quic_khsieh@quicinc.com>
- <1688773943-3887-5-git-send-email-quic_khsieh@quicinc.com>
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D3BB10E194
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Jul 2023 03:42:17 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id
+ 38308e7fff4ca-2b702319893so50546021fa.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 08 Jul 2023 20:42:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1688874133; x=1691466133;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=RQnOLw2jy72B5d49p7EFl7RtUNtBu7jzNiDmy4d3gvw=;
+ b=aAJuz4htS1BKdTf5jaulHZxuWw59Qcz6zgxK/Yat4BgS1ZhDP98V4jFS6AiOpeSjbF
+ 3IaQtm2szazl+4/o91QCA3nHTnuf12fM2Ta8C7PkLuarkemwo/Rd6wlCgcUWNvWhOnX3
+ SqYX0u3aPtjeCynh+C1waBxT6r5b0p02Zyip7UaIvsk1lXu4EkPlFu0yE2qaYSiyPxxp
+ gH2GYZe18ll79PTPdV9sU0UIJsbNVg3YDJvz0jJSIkMOQC7d+qb2MnG2mjohw/kSO12X
+ 4E3B8ruGhfMNy/qV3Jnzoa62EkrxY9dRE/gZbmRnyl6hv+UeV3AKl2/XzHAQjgZxwTQQ
+ /jtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688874133; x=1691466133;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=RQnOLw2jy72B5d49p7EFl7RtUNtBu7jzNiDmy4d3gvw=;
+ b=AAJrquM8scIvAxJc/tzENYq9ooMPWBpWa3RmPru7eNxLEeHj7rDqWxrfS9B/j8uuMR
+ iFbhh5mlBlO6R1sTgVG28tb7KDIVI/NoaGApagwSZLZ2cEisHt+UDUIJivLIKeV6FdMh
+ cRna1L8mWL2K6wQm4WnwacFhcSLMWJWxb+K8ZjEAeiNh/q8l6g996OFsgDtrhPYrHa/k
+ WZTRtIDRdQgXzuM9NH6G9tu+5/gE4vySvO7k6MXm5YdnpYBGppj3OB7746cvNzS74uE6
+ hXGYeQ/Cgw0UWjOdd487DMW9yqShbGiIeeGKxsw4nfoYgdSz8iBdaX4k9+nTgIAMmeom
+ Idwg==
+X-Gm-Message-State: ABy/qLZRLIUt3BG+oA9ql0U4+DYrAQIc248zMPbNa8jmW1+67q69DJrW
+ Kmjc6uZtPeBT7SxrYQ0O+SSaMuLjDzLkS2qbbt8=
+X-Google-Smtp-Source: APBJJlEIUuViZXZGeg4gKvrVXN0zB+nx8HuxfmaaEW7u+bhbsBTjyxPqmkvjkEhwiYrUb2wJY7X9hw==
+X-Received: by 2002:a2e:9206:0:b0:2b5:8eae:7846 with SMTP id
+ k6-20020a2e9206000000b002b58eae7846mr6984695ljg.18.1688874132630; 
+ Sat, 08 Jul 2023 20:42:12 -0700 (PDT)
+Received: from lothlorien.lan (dzdqv0yyyyyyyyyyybm5y-3.rev.dnainternet.fi.
+ [2001:14ba:a0db:1f00::ab2]) by smtp.gmail.com with ESMTPSA id
+ y13-20020a2e9d4d000000b002b6d7682050sm1390289ljj.89.2023.07.08.20.42.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 08 Jul 2023 20:42:12 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
+Subject: [PATCH v5 0/3] drm/bridge_connector: implement OOB HPD handling
+Date: Sun,  9 Jul 2023 06:42:08 +0300
+Message-Id: <20230709034211.4045004-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1688773943-3887-5-git-send-email-quic_khsieh@quicinc.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,160 +79,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
- quic_abhinavk@quicinc.com, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
- agross@kernel.org, marijn.suijten@somainline.org, dmitry.baryshkov@linaro.org,
- quic_jesszhan@quicinc.com, swboyd@chromium.org, sean@poorly.run,
- linux-kernel@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, linux-usb@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 07, 2023 at 04:52:22PM -0700, Kuogee Hsieh wrote:
-> In preparation of moving edp of_dp_aux_populate_bus() to
-> dp_display_probe(), move dp_display_request_irq(),
-> dp->parser->parse() and dp_power_client_init() to dp_display_probe()
-> too.
-> 
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 48 +++++++++++++++++--------------------
->  drivers/gpu/drm/msm/dp/dp_display.h |  1 -
->  2 files changed, 22 insertions(+), 27 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 44580c2..185f1eb 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -290,12 +290,6 @@ static int dp_display_bind(struct device *dev, struct device *master,
->  		goto end;
->  	}
->  
-> -	rc = dp_power_client_init(dp->power);
-> -	if (rc) {
-> -		DRM_ERROR("Power client create failed\n");
-> -		goto end;
-> -	}
-> -
->  	rc = dp_register_audio_driver(dev, dp->audio);
->  	if (rc) {
->  		DRM_ERROR("Audio registration Dp failed\n");
-> @@ -752,6 +746,12 @@ static int dp_init_sub_modules(struct dp_display_private *dp)
->  		goto error;
->  	}
->  
-> +	rc = dp->parser->parse(dp->parser);
+Note, this is sent as v5, since there were several revisions for this
+patchset under a different series title ([1]).
 
-Today dp_init_sub_modules() just allocates memory for all the modules
-and ties them together. While I don't fancy this way of structuring
-device drivers in Linux, I think it's reasonable to retain that design
-for now, and perform the parsing and power initialization in
-dp_display_probe().
+USB altmodes code would send OOB notifications to the drm_connector
+specified in the device tree. However as the MSM DP driver uses
+drm_bridge_connector, there is no way to receive these event directly.
+Implement a bridge between oob_hotplug_event and drm_bridge's
+hpd_notify.
 
-> +	if (rc) {
-> +		DRM_ERROR("device tree parsing failed\n");
-> +		goto error;
-> +	}
-> +
->  	dp->catalog = dp_catalog_get(dev, &dp->parser->io);
->  	if (IS_ERR(dp->catalog)) {
->  		rc = PTR_ERR(dp->catalog);
-> @@ -768,6 +768,12 @@ static int dp_init_sub_modules(struct dp_display_private *dp)
->  		goto error;
->  	}
->  
-> +	rc = dp_power_client_init(dp->power);
-> +	if (rc) {
-> +		DRM_ERROR("Power client create failed\n");
-> +		goto error;
-> +	}
-> +
->  	dp->aux = dp_aux_get(dev, dp->catalog, dp->dp_display.is_edp);
->  	if (IS_ERR(dp->aux)) {
->  		rc = PTR_ERR(dp->aux);
-> @@ -1196,26 +1202,20 @@ static irqreturn_t dp_display_irq_handler(int irq, void *dev_id)
->  	return ret;
->  }
->  
-> -int dp_display_request_irq(struct msm_dp *dp_display)
-> +static int dp_display_request_irq(struct dp_display_private *dp)
->  {
->  	int rc = 0;
-> -	struct dp_display_private *dp;
-> -
-> -	if (!dp_display) {
-> -		DRM_ERROR("invalid input\n");
-> -		return -EINVAL;
-> -	}
+Merge strategy: since this series touches i915 code, it might make sense
+to merge it through drm-intel.
 
-Love this, but it's unrelated to the rest of the patch.
+[1] https://patchwork.freedesktop.org/series/103449/
 
-> -
-> -	dp = container_of(dp_display, struct dp_display_private, dp_display);
-> +	struct device *dev = &dp->pdev->dev;
->  
-> -	dp->irq = irq_of_parse_and_map(dp->pdev->dev.of_node, 0);
->  	if (!dp->irq) {
-> -		DRM_ERROR("failed to get irq\n");
-> -		return -EINVAL;
-> +		dp->irq = irq_of_parse_and_map(dp->pdev->dev.of_node, 0);
-> +		if (!dp->irq) {
-> +			DRM_ERROR("failed to get irq\n");
-> +			return -EINVAL;
-> +		}
->  	}
->  
-> -	rc = devm_request_irq(dp_display->drm_dev->dev, dp->irq,
-> -			dp_display_irq_handler,
-> +	rc = devm_request_irq(dev, dp->irq, dp_display_irq_handler,
+Changes since v4:
+- Picked up the patchset
+- Dropped msm-specific patches
+- Changed drm_bridge_connector_oob_hotplug_event to call connector's HPD
+  callback directly, rather than going through the last bridge's
+  hpd_notify
+- Added proper fwnode for the drm_bridge_connector
 
-This is fixing a bug where currently the dp_display_irq_handler()
-registration is tied to the DPU device's life cycle, while depending on
-resources that are released as the DP device is torn down.
+Bjorn Andersson (1):
+  drm: Add HPD state to drm_connector_oob_hotplug_event()
 
-It would be nice if this was not hidden in a patch that claims to just
-move calls around.
+Dmitry Baryshkov (2):
+  drm/bridge_connector: stop filtering events in
+    drm_bridge_connector_hpd_cb()
+  drm/bridge_connector: implement oob_hotplug_event
 
-Regards,
-Bjorn
+ drivers/gpu/drm/drm_bridge_connector.c        | 34 ++++++++++++++-----
+ drivers/gpu/drm/drm_connector.c               |  6 ++--
+ .../gpu/drm/i915/display/intel_display_core.h |  3 ++
+ drivers/gpu/drm/i915/display/intel_dp.c       | 17 ++++++++--
+ drivers/usb/typec/altmodes/displayport.c      | 13 ++++---
+ include/drm/drm_connector.h                   |  6 ++--
+ 6 files changed, 57 insertions(+), 22 deletions(-)
 
->  			IRQF_TRIGGER_HIGH, "dp_display_isr", dp);
->  	if (rc < 0) {
->  		DRM_ERROR("failed to request IRQ%u: %d\n",
-> @@ -1290,6 +1290,8 @@ static int dp_display_probe(struct platform_device *pdev)
->  
->  	platform_set_drvdata(pdev, &dp->dp_display);
->  
-> +	dp_display_request_irq(dp);
-> +
->  	rc = component_add(&pdev->dev, &dp_display_comp_ops);
->  	if (rc) {
->  		DRM_ERROR("component add failed, rc=%d\n", rc);
-> @@ -1574,12 +1576,6 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
->  
->  	dp_priv = container_of(dp_display, struct dp_display_private, dp_display);
->  
-> -	ret = dp_display_request_irq(dp_display);
-> -	if (ret) {
-> -		DRM_ERROR("request_irq failed, ret=%d\n", ret);
-> -		return ret;
-> -	}
-> -
->  	ret = dp_display_get_next_bridge(dp_display);
->  	if (ret)
->  		return ret;
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-> index 1e9415a..b3c08de 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
-> @@ -35,7 +35,6 @@ struct msm_dp {
->  int dp_display_set_plugged_cb(struct msm_dp *dp_display,
->  		hdmi_codec_plugged_cb fn, struct device *codec_dev);
->  int dp_display_get_modes(struct msm_dp *dp_display);
-> -int dp_display_request_irq(struct msm_dp *dp_display);
->  bool dp_display_check_video_test(struct msm_dp *dp_display);
->  int dp_display_get_test_bpp(struct msm_dp *dp_display);
->  void dp_display_signal_audio_start(struct msm_dp *dp_display);
-> -- 
-> 2.7.4
-> 
+-- 
+2.39.2
+
