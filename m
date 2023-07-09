@@ -1,66 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDB6874C4B2
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Jul 2023 16:31:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4F5E74C4E8
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Jul 2023 17:08:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7783B10E0D5;
-	Sun,  9 Jul 2023 14:31:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EFD810E0E2;
+	Sun,  9 Jul 2023 15:08:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2F9A10E0D5
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Jul 2023 14:31:26 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D3B131FD6B;
- Sun,  9 Jul 2023 14:31:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1688913082; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tN0LHnnSjkAP2j5EB5e8Rs6iUE+RQTShXwLNOT9BX2k=;
- b=VMQMtqEekKuXOEaMmUWOAyVxU02rFiWyuZjzlU1ng+QJdhUxKNa16D7b8D+BrQSgGI7fij
- SIOt0XGy0gEZrdD4efm55+wyXAsZDowXvyGX/D0zHKheaxD4ERzQyXiRjCqrLxnjcn6UjO
- LEhbJhaujVvEqNAsitSBWCa7I4u3WT4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1688913082;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tN0LHnnSjkAP2j5EB5e8Rs6iUE+RQTShXwLNOT9BX2k=;
- b=bW8RthYT1yR06VCNQqxJUt0YA+BfrE7iLb1j5Ni7O5dOIo5zF3g2aqIbCedNSdyunF/YnR
- OvyabsnsbDb0kMBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8C50613A63;
- Sun,  9 Jul 2023 14:31:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SBUgIbrEqmTIfwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Sun, 09 Jul 2023 14:31:22 +0000
-Message-ID: <d9c3d059-5a4a-b4d8-247a-d3aa83dd1760@suse.de>
-Date: Sun, 9 Jul 2023 16:31:20 +0200
+Received: from mailrelay3-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay3-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:402::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FA3F10E0E2
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Jul 2023 15:08:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=FJqQ5awyoXyoX3BIVPRyesKgV6+6uCkLR3Mc4OaoU84=;
+ b=eSiX/YEcFxtUx+On84AYKnyNpT+TifH2BiAHPHVKVOd63WOEaCe1zGfttG5xrx8i83k/bazbcvoZZ
+ JrERuAjENNbVYezpfEgnuRB1Q0HrXqUWnuJnF68BHQByP9UOUdITdRii72wp8d65TZTpC9oqz6cr+E
+ zyvITrf2W6IV3eMA/QTfcB40MKE9zxp6y9P0hfvU02DTSNGLHp1TIht4z3ph97+mxeu1dgNDPf70V6
+ OoipSbsCGJR6PzQmQ+tsVmPrkjIFI367EpcK9wUzo+OXC1nvKGynKdwGGuQhFOeinf/m67pbiDaoh7
+ rOk8r3EekwCBdB74o8gn4aKG5980Bpw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=FJqQ5awyoXyoX3BIVPRyesKgV6+6uCkLR3Mc4OaoU84=;
+ b=cLKN9IgMNitpolk/EEVzRoyH8szZDd0WD84jmdMVc8rtMu0xuD7RRaouwGAq8nO7/IGX+3uOV1+uM
+ WMl+W2xCQ==
+X-HalOne-ID: 727498ed-1e6a-11ee-9850-b90637070a9d
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay3 (Halon) with ESMTPSA
+ id 727498ed-1e6a-11ee-9850-b90637070a9d;
+ Sun, 09 Jul 2023 15:08:26 +0000 (UTC)
+Date: Sun, 9 Jul 2023 17:08:24 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH] drm/panel: simple: Initialize unprepared_time in probe
+Message-ID: <20230709150824.GA697428@ravnborg.org>
+References: <20230709135231.449636-1-marex@denx.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] drm/hyperv: Fix a compilation issue because of not
- including screen_info.h
-To: Sui Jingfeng <suijingfeng@loongson.cn>,
- Deepak Rawat <drawat.floss@gmail.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Michael Kelley <mikelley@microsoft.com>,
- Javier Martinez Canillas <javierm@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-References: <20230709100514.703759-1-suijingfeng@loongson.cn>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230709100514.703759-1-suijingfeng@loongson.cn>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------MqEY5s9snjkfxasjEzVl93KA"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230709135231.449636-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,96 +56,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------MqEY5s9snjkfxasjEzVl93KA
-Content-Type: multipart/mixed; boundary="------------uEbgZYOhAvN0XAFfRQcdXHRr";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sui Jingfeng <suijingfeng@loongson.cn>,
- Deepak Rawat <drawat.floss@gmail.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Michael Kelley <mikelley@microsoft.com>,
- Javier Martinez Canillas <javierm@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>
-Message-ID: <d9c3d059-5a4a-b4d8-247a-d3aa83dd1760@suse.de>
-Subject: Re: [PATCH] drm/hyperv: Fix a compilation issue because of not
- including screen_info.h
-References: <20230709100514.703759-1-suijingfeng@loongson.cn>
-In-Reply-To: <20230709100514.703759-1-suijingfeng@loongson.cn>
+Hi Marek.
 
---------------uEbgZYOhAvN0XAFfRQcdXHRr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Sun, Jul 09, 2023 at 03:52:31PM +0200, Marek Vasut wrote:
+> The unprepared_time has to be initialized during probe to probe time
+> ktime, otherwise panel_simple_resume() panel_simple_wait() call may
+> wait too short time, or no time at all, which would violate the panel
+> timing specification. Initializing the unprepared_time() to probe time
+> ktime assures the delay is at least what the panel requires from the
+> time kernel started. The unprepared_time is then updated every time
+> the panel is suspended in panel_simple_suspend() too.
+> 
+> Fixes: e5e30dfcf3db ("drm: panel: simple: Defer unprepare delay till next prepare to shorten it")
+> Signed-off-by: Marek Vasut <marex@denx.de>
 
-SGkNCg0KQW0gMDkuMDcuMjMgdW0gMTI6MDUgc2NocmllYiBTdWkgSmluZ2Zlbmc6DQo+ICAg
-ICBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2h5cGVydl9mYi5jOiBJbiBmdW5jdGlvbiAnaHZmYl9n
-ZXRtZW0nOg0KPj4+IGRyaXZlcnMvdmlkZW8vZmJkZXYvaHlwZXJ2X2ZiLmM6MTAzMzoyNDog
-ZXJyb3I6ICdzY3JlZW5faW5mbycgdW5kZWNsYXJlZCAoZmlyc3QgdXNlIGluIHRoaXMgZnVu
-Y3Rpb24pDQo+ICAgICAgMTAzMyB8ICAgICAgICAgICAgICAgICBiYXNlID0gc2NyZWVuX2lu
-Zm8ubGZiX2Jhc2U7DQo+ICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgXn5+
-fn5+fn5+fn4NCj4gICAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvaHlwZXJ2X2ZiLmM6MTAzMzoy
-NDogbm90ZTogZWFjaCB1bmRlY2xhcmVkIGlkZW50aWZpZXIgaXMgcmVwb3J0ZWQgb25seSBv
-bmNlIGZvciBlYWNoIGZ1bmN0aW9uIGl0IGFwcGVhcnMgaW4NCj4gLS0NCj4gICAgIGRyaXZl
-cnMvZ3B1L2RybS9oeXBlcnYvaHlwZXJ2X2RybV9kcnYuYzogSW4gZnVuY3Rpb24gJ2h5cGVy
-dl9zZXR1cF92cmFtJzoNCj4+PiBkcml2ZXJzL2dwdS9kcm0vaHlwZXJ2L2h5cGVydl9kcm1f
-ZHJ2LmM6NzU6NTQ6IGVycm9yOiAnc2NyZWVuX2luZm8nIHVuZGVjbGFyZWQgKGZpcnN0IHVz
-ZSBpbiB0aGlzIGZ1bmN0aW9uKQ0KPiAgICAgICAgNzUgfCAgICAgICAgIGRybV9hcGVydHVy
-ZV9yZW1vdmVfY29uZmxpY3RpbmdfZnJhbWVidWZmZXJzKHNjcmVlbl9pbmZvLmxmYl9iYXNl
-LA0KPiAgICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+DQo+ICAgICBkcml2ZXJzL2dwdS9kcm0vaHlw
-ZXJ2L2h5cGVydl9kcm1fZHJ2LmM6NzU6NTQ6IG5vdGU6IGVhY2ggdW5kZWNsYXJlZCBpZGVu
-dGlmaWVyIGlzIHJlcG9ydGVkIG9ubHkgb25jZSBmb3IgZWFjaCBmdW5jdGlvbiBpdCBhcHBl
-YXJzIGluDQo+IA0KPiBSZXBvcnRlZC1ieToga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRl
-bC5jb20+DQo+IENsb3NlczogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvb2Uta2J1aWxkLWFs
-bC8yMDIzMDcwOTA4MjMubnhuVDhLazUtbGtwQGludGVsLmNvbS8NCj4gRml4ZXM6IDgxZDIz
-OTM0ODVmMCAoImZiZGV2L2h5cGVydi1mYjogRG8gbm90IHNldCBzdHJ1Y3QgZmJfaW5mby5h
-cGVydHVyZXMiKQ0KPiBGaXhlczogOGIwZDEzNTQ1YjA5ICgiZWZpOiBEbyBub3QgaW5jbHVk
-ZSA8bGludXgvc2NyZWVuX2luZm8uaD4gZnJvbSBFRkkgaGVhZGVyIikNCj4gU2lnbmVkLW9m
-Zi1ieTogU3VpIEppbmdmZW5nIDxzdWlqaW5nZmVuZ0Bsb29uZ3Nvbi5jbj4NCg0KUmV2aWV3
-ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KDQpUaGFu
-a3MgZm9yIHRoZSBwYXRjaC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KDQo+IC0tLQ0K
-PiAgIGRyaXZlcnMvZ3B1L2RybS9oeXBlcnYvaHlwZXJ2X2RybV9kcnYuYyB8IDEgKw0KPiAg
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9oeXBlcnYvaHlwZXJ2X2RybV9kcnYuYyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9oeXBlcnYvaHlwZXJ2X2RybV9kcnYuYw0KPiBpbmRleCBhN2QyYzkyZDZjNmEuLjgwMjYx
-MThjNmUwMyAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2h5cGVydi9oeXBlcnZf
-ZHJtX2Rydi5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9oeXBlcnYvaHlwZXJ2X2RybV9k
-cnYuYw0KPiBAQCAtNyw2ICs3LDcgQEANCj4gICAjaW5jbHVkZSA8bGludXgvaHlwZXJ2Lmg+
-DQo+ICAgI2luY2x1ZGUgPGxpbnV4L21vZHVsZS5oPg0KPiAgICNpbmNsdWRlIDxsaW51eC9w
-Y2kuaD4NCj4gKyNpbmNsdWRlIDxsaW51eC9zY3JlZW5faW5mby5oPg0KPiAgIA0KPiAgICNp
-bmNsdWRlIDxkcm0vZHJtX2FwZXJ0dXJlLmg+DQo+ICAgI2luY2x1ZGUgPGRybS9kcm1fYXRv
-bWljX2hlbHBlci5oPg0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2
-ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZy
-YW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRv
-dGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpI
-UkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
+Looks OK,
 
---------------uEbgZYOhAvN0XAFfRQcdXHRr--
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 
---------------MqEY5s9snjkfxasjEzVl93KA
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+It looks like prepared_time is not used anymore.
+Could you dig a little into this while you are in the waiting area.
 
------BEGIN PGP SIGNATURE-----
+	Sam
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSqxLgFAwAAAAAACgkQlh/E3EQov+Ba
-3w//cAjZxj80zW1N7R2U3p3kK0UBxeKegaZvHyPNwA8DmWN6D+9gbsnLrxcTVQlfBNbmEBasrJMY
-0Y/eyt8iaO0hdh33mwhxu1i1pjl+jRT5xuqpcsFD7p83IXMY8daVGweju+bo4ufRi7vtPsTMVZPW
-7T5KIyR0FiAZilPsrPtOdPTHkB5sWXJTdHJTQ2ozUUG0MUvOZjZZBkDrUD15N019SO3ChtcetWrP
-XIBPrTiwyE5fZbAU4G71PIFzIuiLV6SlcJ2fmNefJWkqyb9DDTzHOfzzgAksBhDdMJHW4zKB+nrr
-HKzymY/KtS7CWVLH8gFm2y8peh5tr67/GH0yojLtch90sdkWr03onAr/kS8SXvzn8p47Hmnt5UnX
-kVHqwSyfAH/v5zlJEYLLrnQjzfpLd6v7tqvGfq6oneZOBmCCxj8q/wJRj7QPPC4rrp+Xfe1vIU1g
-gnseYrQ2HN8Diw1feQVX63vAM0Q9bRR0yLIU2jKvZSXQcWtkG5h2P8qdHQa9BHmNKAMFLfK4X1YH
-kWMSk7t1tFJZwj0cDzewvQdGnEoEA+1d9SDTXeGtihcf0C+bQYgUubltavbEEA/F2rz2cPzL+G8Z
-D//tqg8ifCObrvD7WzeU3s3tnwBBOyHl5D9WnGnf3ooK4fsGsyGF/D6qL1y9sf7oZe2d1kkCtSrx
-JvY=
-=Ee/q
------END PGP SIGNATURE-----
-
---------------MqEY5s9snjkfxasjEzVl93KA--
+> ---
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: dri-devel@lists.freedesktop.org
+> ---
+>  drivers/gpu/drm/panel/panel-simple.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index d3238088b7f80..37afed67fea7e 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -567,6 +567,7 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+>  
+>  	panel->enabled = false;
+>  	panel->prepared_time = 0;
+> +	panel->unprepared_time = ktime_get_boottime();
+>  	panel->desc = desc;
+>  
+>  	panel->supply = devm_regulator_get(dev, "power");
+> -- 
+> 2.40.1
