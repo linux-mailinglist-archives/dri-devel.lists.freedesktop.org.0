@@ -1,49 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B7EC74C684
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Jul 2023 19:13:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A2F74C69D
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Jul 2023 19:22:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC38B10E113;
-	Sun,  9 Jul 2023 17:13:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 419A610E115;
+	Sun,  9 Jul 2023 17:22:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay6-1.pub.mailoutpod2-cph3.one.com
- (mailrelay6-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:405::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12DFD10E113
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Jul 2023 17:13:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=Ggd/lz7LWxjEBLYEQntzh6HaPidJbmeC4Mam2YcQ7N8=;
- b=m8zH2rvokghm9znNhoTX5LaIlpE00fNTjuog77vyzXCHT9M2hEVmKV3ofCwlMelMZa4BjW/AYFy+t
- 7t+R7O8jknIrQQH2qX6JnSszdT/Td+UtdYnzixYadUcMyj+gVmEkdobjtvYGxqYhsVpvicIcJwPUGg
- 8rYvTcMrtvjE7wukQdjHGoSZzFjZge98R5wN9Vpd3EX3voTk+ZfYjddr5nN7bKf+ECxPJ28Amghac6
- c5751BHUmgAh22/c5WzbZffGGVyFTaBt/S4VtyX+Eu5pjXD5xrM9+jNUe+HNMXzjX9fWKGTWsRvhxQ
- xN2LgWtVZOPAg8LLPMC4a8wDaUX4mGw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=Ggd/lz7LWxjEBLYEQntzh6HaPidJbmeC4Mam2YcQ7N8=;
- b=MB5VSdY2aOj7eh78R8UefQykYykzD0OrgsepVKj1npEmOayv+bwinuh8q4iKJHf4FePhMErZWVEuB
- N/j34q2Bw==
-X-HalOne-ID: e49b0d8a-1e7b-11ee-a1b1-6f01c1d0a443
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay6 (Halon) with ESMTPSA
- id e49b0d8a-1e7b-11ee-a1b1-6f01c1d0a443;
- Sun, 09 Jul 2023 17:13:18 +0000 (UTC)
-Date: Sun, 9 Jul 2023 19:13:17 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH] drm/panel: simple: Drop prepared_time
-Message-ID: <20230709171317.GA707615@ravnborg.org>
-References: <20230709162253.464299-1-marex@denx.de>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25AA410E115;
+ Sun,  9 Jul 2023 17:22:06 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 369HLtmI031886; Sun, 9 Jul 2023 17:21:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=5d1LgLh9nuNOMR33H8pyxp1UrgRxhQg0BTYHoVJ3Cgc=;
+ b=OzWUlCRJ0jA20PW4d7zDSdX1t1ZztKIRUkcvZi7QUxREjf/AekRrcYWpfdeX4DYvHyHv
+ nx6G4uSsKbIkwMyLRwqYCEmB8SKgHEzbe7P+dlPfbJRev3SHndCHAEdzpgJkmJCbCkLV
+ QdQx+H4OfWajzRe7gz8nkkvJp6mT1UXq8IAD78j2QNSR8eq55wi2bZgx0skpE5RyvD4Q
+ gHFRMLGq1TJgXb9vSY4JJDNaIkDQ6Q/FX6kI9oq9CmbuTvoMFBt0OtD/w+Maw5Mbw18c
+ pBUx6QEcEmjrfKM1KlvZQ9jV/Z/p5LBC8hg4jeY1rWDdu0EwZdfp3Zmky3sScPGVRXAE +A== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rq01dhumt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 09 Jul 2023 17:21:55 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 369HLsho027370
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 9 Jul 2023 17:21:54 GMT
+Received: from [10.110.47.185] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Sun, 9 Jul
+ 2023 10:21:53 -0700
+Message-ID: <72cb729b-a9d3-3e5b-c70a-0761f47a6779@quicinc.com>
+Date: Sun, 9 Jul 2023 10:21:52 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230709162253.464299-1-marex@denx.de>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [Freedreno] [PATCH v1 1/5] drm/msm/dp: remove pm_runtime_xxx()
+ from dp_power.c
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Kuogee Hsieh
+ <quic_khsieh@quicinc.com>,
+ <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
+ <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
+ <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
+ <agross@kernel.org>, <andersson@kernel.org>
+References: <1688773943-3887-1-git-send-email-quic_khsieh@quicinc.com>
+ <1688773943-3887-2-git-send-email-quic_khsieh@quicinc.com>
+ <fc5501cf-c335-81f7-1ad7-26fdc1b6922d@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <fc5501cf-c335-81f7-1ad7-26fdc1b6922d@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 9CUYSeYKYggZIPaTeM2g9ggGYsSPPaJb
+X-Proofpoint-GUID: 9CUYSeYKYggZIPaTeM2g9ggGYsSPPaJb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-09_12,2023-07-06_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxscore=0
+ priorityscore=1501 clxscore=1015 adultscore=0 mlxlogscore=999
+ malwarescore=0 lowpriorityscore=0 spamscore=0 phishscore=0 suspectscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2307090163
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,27 +90,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, marijn.suijten@somainline.org,
+ quic_jesszhan@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jul 09, 2023 at 06:22:53PM +0200, Marek Vasut wrote:
-> This has been superseded by RPM in commit
-> 3235b0f20a0a ("drm/panel: panel-simple: Use runtime pm to avoid excessive unprepare / prepare")
-> and the last user of the non-RPM case has been dropped in commit
-> b6d5ffce11dd ("drm/panel-simple: Non-eDP panels don't need "HPD" handling")
-> whatever is left in this driver is just assigned and never used.
-> Drop the remaining parts.
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> ---
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: dri-devel@lists.freedesktop.org
 
-Thanks,
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+
+On 7/7/2023 5:06 PM, Dmitry Baryshkov wrote:
+> On 08/07/2023 02:52, Kuogee Hsieh wrote:
+>> Since both pm_runtime_resume() and pm_runtime_suspend() are not
+>> populated at dp_pm_ops. Those pm_runtime_get/put() functions within
+>> dp_power.c will not have any effects in addition to increase/decrease
+>> power counter.
+> 
+> Lie.
+> 
+
+Even if the commit text is incorrect, review comments like this are not 
+helping the patch nor the author and will just get ignored anyway.
+
+>> Also pm_runtime_xxx() should be executed at top
+>> layer.
+> 
+> Why?
+> 
+
+I guess he meant to centralize this around dp_display.c. Will elaborate 
+while posting the next rev.
+
+>>
+>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/dp/dp_power.c | 9 ---------
+>>   1 file changed, 9 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_power.c 
+>> b/drivers/gpu/drm/msm/dp/dp_power.c
+>> index 5cb84ca..ed2f62a 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_power.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_power.c
+>> @@ -152,8 +152,6 @@ int dp_power_client_init(struct dp_power *dp_power)
+>>       power = container_of(dp_power, struct dp_power_private, dp_power);
+>> -    pm_runtime_enable(power->dev);
+>> -
+>>       return dp_power_clk_init(power);
+>>   }
+>> @@ -162,8 +160,6 @@ void dp_power_client_deinit(struct dp_power 
+>> *dp_power)
+>>       struct dp_power_private *power;
+>>       power = container_of(dp_power, struct dp_power_private, dp_power);
+>> -
+>> -    pm_runtime_disable(power->dev);
+>>   }
+>>   int dp_power_init(struct dp_power *dp_power)
+>> @@ -173,11 +169,7 @@ int dp_power_init(struct dp_power *dp_power)
+>>       power = container_of(dp_power, struct dp_power_private, dp_power);
+>> -    pm_runtime_get_sync(power->dev);
+>> -
+>>       rc = dp_power_clk_enable(dp_power, DP_CORE_PM, true);
+>> -    if (rc)
+>> -        pm_runtime_put_sync(power->dev);
+>>       return rc;
+>>   }
+>> @@ -189,7 +181,6 @@ int dp_power_deinit(struct dp_power *dp_power)
+>>       power = container_of(dp_power, struct dp_power_private, dp_power);
+>>       dp_power_clk_enable(dp_power, DP_CORE_PM, false);
+>> -    pm_runtime_put_sync(power->dev);
+>>       return 0;
+>>   }
+> 
