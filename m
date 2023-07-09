@@ -1,50 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B469D74C02F
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Jul 2023 02:31:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0AAB74C03D
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Jul 2023 03:04:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B014E10E0DA;
-	Sun,  9 Jul 2023 00:31:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05FAC10E0DF;
+	Sun,  9 Jul 2023 01:04:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33C1710E0DA
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Jul 2023 00:31:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1688862700; x=1720398700;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=foqkk4X00LtTRc0GuhCsFB3imuJfUHGwgk6AXs4ND2M=;
- b=Xp8G3NRCLpo8Wb9mcUJrebvTrJkkl3OiGsDsdDTVqNPFFuW9J5uMcfX0
- bNjnG/POYLxzBi9QLxs3+R6gvkbuBcyeOxaoTY33ywrisRMp7yj/ftgZ3
- j2dQBPYaIjIdHbNCEqfrDXMWbky90mzYiHQH/KV4V2AbLBNYmsmzrhWZX
- bnQiIzzPbQIeJ1NlBYWv0DDKMMTJPwSFPbn757ZrL3wix/mOznMWMCsu1
- HACSvyv2mvbKLbV7VhLb3+TQhbgJfOFLM/SSHn4oMVCWOiPa4/84HbqG7
- K0OolnoJwN1Qvu/YarDm2wWSgjZsNiakP97RFRpXYVGKnlA5qoz5VnkRq Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10765"; a="343707275"
-X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; d="scan'208";a="343707275"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jul 2023 17:31:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10765"; a="864929157"
-X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; d="scan'208";a="864929157"
-Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
- by fmsmga001.fm.intel.com with ESMTP; 08 Jul 2023 17:31:37 -0700
-Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qIIKt-0002xw-37;
- Sun, 09 Jul 2023 00:31:35 +0000
-Date: Sun, 9 Jul 2023 08:30:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [drm-misc:drm-misc-next 1/14]
- drivers/video/fbdev/hyperv_fb.c:1033:24: error: 'screen_info' undeclared
-Message-ID: <202307090823.nxnT8Kk5-lkp@intel.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ABAF10E094;
+ Sun,  9 Jul 2023 01:04:12 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 36910Dvl009532; Sun, 9 Jul 2023 01:03:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=iQXB7TR04UyGGj4mBOEpT+1563r66btmPpPOk9MO784=;
+ b=VWbuUjSSCpWeLSF0AkQ3yDlfcxTgBuAMz0vsHyOOyXAdqVB2KIxB/ywyI5dCumbOHR4B
+ IS9832qiPSzBWiZ/0lTzp8Tv2B0UYLiM8qo6yayuFW6UO6fo0H+COyLQxfWhj14AFyz9
+ RofDuWWL1ZkXakl98b3jq2hJY/A4kAhssbyQB7r0qgmEaXLLxBtYbdk94unJY9yozKRF
+ Tr/Z1ovXF27UXvU8aWHcp8IKxBOE3L0cjm9GljsjBse0/vMBSIjif0bZLlPRL5ZO95b9
+ z+HakZFU2xfY9UK5/sfkZS7F3UoQ8WY2N6Anjg8fD3cVFsN/BfcGylsp9jhEwsKokqYD Jw== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rpxry15jc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 09 Jul 2023 01:03:51 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36913nnO005397
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 9 Jul 2023 01:03:50 GMT
+Received: from [10.110.47.185] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Sat, 8 Jul
+ 2023 18:03:48 -0700
+Message-ID: <4396d197-f16f-92bd-727c-eb8c78016198@quicinc.com>
+Date: Sat, 8 Jul 2023 18:03:46 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 2/2] drm/bridge: lt9611: Do not generate HFP/HBP/HSA and
+ EOT packet
+Content-Language: en-US
+To: <neil.armstrong@linaro.org>, Amit Pundir <amit.pundir@linaro.org>, Dmitry
+ Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20230403221233.500485-1-marex@denx.de>
+ <20230403221233.500485-2-marex@denx.de>
+ <CAMi1Hd0TD=2z_=bcDrht3H_wiLvAFcv8Z-U_r_KUOoeMc6UMjw@mail.gmail.com>
+ <CAMty3ZBNFu=f-FS4YFN4wfmiTuk=48nna-vub1eMYwidDt+msg@mail.gmail.com>
+ <CAA8EJppbdiUz5m+9EAPnFb916DaS_VKWd30c7_EPWjuid8rtqQ@mail.gmail.com>
+ <CAMi1Hd2G5PJmz4wpO1wbdqKd0FA8LBgvRDv2u5ZYAMb5s6Kt0A@mail.gmail.com>
+ <d5fb8106-b8f3-0acf-1267-d4d6d0860e25@linaro.org>
+ <d28b0090-bd1e-6737-d92b-348dc6c30750@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <d28b0090-bd1e-6737-d92b-348dc6c30750@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: uokp6R2nLoOmnVSUOKGhziKeZtBK6Flg
+X-Proofpoint-GUID: uokp6R2nLoOmnVSUOKGhziKeZtBK6Flg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-08_16,2023-07-06_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ priorityscore=1501 mlxscore=0 malwarescore=0 bulkscore=0 clxscore=1011
+ suspectscore=0 impostorscore=0 adultscore=0 phishscore=0
+ lowpriorityscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2305260000 definitions=main-2307090007
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,161 +91,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Sui Jingfeng <suijingfeng@loongson.cn>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- oe-kbuild-all@lists.linux.dev
+Cc: Marek Vasut <marex@denx.de>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Robert Foss <rfoss@kernel.org>,
+ Linux regressions mailing list <regressions@lists.linux.dev>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, Michael Walle <michael@walle.cc>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-head:   b63f5e5ca945e1c0341a2c3278575bb82bf8b890
-commit: 8b0d13545b091729e0aa05ff9981e2d06c1e2ee5 [1/14] efi: Do not include <linux/screen_info.h> from EFI header
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230709/202307090823.nxnT8Kk5-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230709/202307090823.nxnT8Kk5-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307090823.nxnT8Kk5-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/video/fbdev/hyperv_fb.c: In function 'hvfb_getmem':
->> drivers/video/fbdev/hyperv_fb.c:1033:24: error: 'screen_info' undeclared (first use in this function)
-    1033 |                 base = screen_info.lfb_base;
-         |                        ^~~~~~~~~~~
-   drivers/video/fbdev/hyperv_fb.c:1033:24: note: each undeclared identifier is reported only once for each function it appears in
---
-   drivers/gpu/drm/hyperv/hyperv_drm_drv.c: In function 'hyperv_setup_vram':
->> drivers/gpu/drm/hyperv/hyperv_drm_drv.c:75:54: error: 'screen_info' undeclared (first use in this function)
-      75 |         drm_aperture_remove_conflicting_framebuffers(screen_info.lfb_base,
-         |                                                      ^~~~~~~~~~~
-   drivers/gpu/drm/hyperv/hyperv_drm_drv.c:75:54: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/screen_info +1033 drivers/video/fbdev/hyperv_fb.c
+On 7/7/2023 1:47 AM, Neil Armstrong wrote:
+> On 07/07/2023 09:18, Neil Armstrong wrote:
+>> Hi,
+>>
+>> On 06/07/2023 11:20, Amit Pundir wrote:
+>>> On Wed, 5 Jul 2023 at 11:09, Dmitry Baryshkov
+>>> <dmitry.baryshkov@linaro.org> wrote:
+>>>>
+>>>> [Adding freedreno@ to cc list]
+>>>>
+>>>> On Wed, 5 Jul 2023 at 08:31, Jagan Teki <jagan@amarulasolutions.com> 
+>>>> wrote:
+>>>>>
+>>>>> Hi Amit,
+>>>>>
+>>>>> On Wed, Jul 5, 2023 at 10:15 AM Amit Pundir 
+>>>>> <amit.pundir@linaro.org> wrote:
+>>>>>>
+>>>>>> Hi Marek,
+>>>>>>
+>>>>>> On Wed, 5 Jul 2023 at 01:48, Marek Vasut <marex@denx.de> wrote:
+>>>>>>>
+>>>>>>> Do not generate the HS front and back porch gaps, the HSA gap and
+>>>>>>> EOT packet, as these packets are not required. This makes the bridge
+>>>>>>> work with Samsung DSIM on i.MX8MM and i.MX8MP.
+>>>>>>
+>>>>>> This patch broke display on Dragonboard 845c (SDM845) devboard 
+>>>>>> running
+>>>>>> AOSP. This is what I see
+>>>>>> https://people.linaro.org/~amit.pundir/db845c-userdebug/v6.5-broken-display/PXL_20230704_150156326.jpg.
+>>>>>> Reverting this patch fixes this regression for me.
+>>>>>
+>>>>> Might be msm dsi host require proper handling on these updated
+>>>>> mode_flags? did they?
+>>>>
+>>>> The msm DSI host supports those flags. Also, I'd like to point out
+>>>> that the patch didn't change the rest of the driver code. So even if
+>>>> drm/msm ignored some of the flags, it should not have caused the
+>>>> issue. Most likely the issue is on the lt9611 side. I's suspect that
+>>>> additional programming is required to make it work with these flags.
+>>>
+>>> I spent some time today on smoke testing these flags (individually and
+>>> in limited combination) on DB845c, to narrow down this breakage to one
+>>> or more flag(s) triggering it. Here are my observations in limited
+>>> testing done so far.
+>>>
+>>> There is no regression with MIPI_DSI_MODE_NO_EOT_PACKET when enabled
+>>> alone and system boots to UI as usual.
+>>>
+>>> MIPI_DSI_MODE_VIDEO_NO_HFP always trigger the broken display as in the
+>>> screenshot[1] shared earlier as well.
+>>>
+>>> Adding either of MIPI_DSI_MODE_VIDEO_NO_HSA and
+>>> MIPI_DSI_MODE_VIDEO_NO_HBP always result in no display, unless paired
+>>> with MIPI_DSI_MODE_VIDEO_NO_HFP and in that case we get the broken
+>>> display as reported.
+>>>
+>>> In short other than MIPI_DSI_MODE_NO_EOT_PACKET flag, all other flags
+>>> added in this commit break the display on DB845c one way or another.
+>>
+>> I think the investigation would be to understand why samsung-dsim 
+>> requires
+>> such flags and/or what are the difference in behavior between MSM DSI 
+>> and samsung DSIM
+>> for those flags ?
+>>
+>> If someone has access to the lt9611 datasheet, so it requires 
+>> HSA/HFP/HBP to be
+>> skipped ? and does MSM DSI and samsung DSIM skip them in the same way ?
+> 
+> I think there's a mismatch, where on one side this flags sets the link 
+> in LP-11 while
+> in HSA/HFP/HPB while on the other it completely removes those blanking 
+> packets.
+> 
+> The name MIPI_DSI_MODE_VIDEO_NO_HBP suggests removal of HPB, not LP-11 
+> while HPB.
+> the registers used in both controllers are different:
+> - samsung-dsim: DSIM_HBP_DISABLE_MODE
+> - msm dsi: DSI_VID_CFG0_HBP_POWER_STOP
+> 
+> The first one suggest removing the packet, while the second one suggests 
+> powering
+> off the line while in the blanking packet period.
+> 
+> @Abhinav, can you comment on that ?
+> 
 
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09   988  
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29   989  
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29   990  /* Get framebuffer memory from Hyper-V video pci space */
-3546448338e76a drivers/video/fbdev/hyperv_fb.c Jake Oshins       2015-08-05   991  static int hvfb_getmem(struct hv_device *hdev, struct fb_info *info)
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29   992  {
-9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26   993  	struct hvfb_par *par = info->par;
-9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26   994  	struct pci_dev *pdev  = NULL;
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29   995  	void __iomem *fb_virt;
-9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26   996  	int gen2vm = efi_enabled(EFI_BOOT);
-81d2393485f099 drivers/video/fbdev/hyperv_fb.c Thomas Zimmermann 2022-12-19   997  	resource_size_t base, size;
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09   998  	phys_addr_t paddr;
-9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26   999  	int ret;
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1000  
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1001  	if (!gen2vm) {
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1002  		pdev = pci_get_device(PCI_VENDOR_ID_MICROSOFT,
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1003  			PCI_DEVICE_ID_HYPERV_VIDEO, NULL);
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1004  		if (!pdev) {
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1005  			pr_err("Unable to find PCI Hyper-V video\n");
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1006  			return -ENODEV;
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1007  		}
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1008  
-81d2393485f099 drivers/video/fbdev/hyperv_fb.c Thomas Zimmermann 2022-12-19  1009  		base = pci_resource_start(pdev, 0);
-81d2393485f099 drivers/video/fbdev/hyperv_fb.c Thomas Zimmermann 2022-12-19  1010  		size = pci_resource_len(pdev, 0);
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1011  
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1012  		/*
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1013  		 * For Gen 1 VM, we can directly use the contiguous memory
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1014  		 * from VM. If we succeed, deferred IO happens directly
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1015  		 * on this allocated framebuffer memory, avoiding extra
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1016  		 * memory copy.
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1017  		 */
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1018  		paddr = hvfb_get_phymem(hdev, screen_fb_size);
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1019  		if (paddr != (phys_addr_t) -1) {
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1020  			par->mmio_pp = paddr;
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1021  			par->mmio_vp = par->dio_vp = __va(paddr);
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1022  
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1023  			info->fix.smem_start = paddr;
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1024  			info->fix.smem_len = screen_fb_size;
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1025  			info->screen_base = par->mmio_vp;
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1026  			info->screen_size = screen_fb_size;
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1027  
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1028  			par->need_docopy = false;
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1029  			goto getmem_done;
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1030  		}
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1031  		pr_info("Unable to allocate enough contiguous physical memory on Gen 1 VM. Using MMIO instead.\n");
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1032  	} else {
-81d2393485f099 drivers/video/fbdev/hyperv_fb.c Thomas Zimmermann 2022-12-19 @1033  		base = screen_info.lfb_base;
-81d2393485f099 drivers/video/fbdev/hyperv_fb.c Thomas Zimmermann 2022-12-19  1034  		size = screen_info.lfb_size;
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1035  	}
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1036  
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1037  	/*
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1038  	 * Cannot use the contiguous physical memory.
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1039  	 * Allocate mmio space for framebuffer.
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1040  	 */
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1041  	dio_fb_size =
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1042  		screen_width * screen_height * screen_depth / 8;
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1043  
-c4b4d7047f16a8 drivers/video/fbdev/hyperv_fb.c Saurabh Sengar    2022-04-27  1044  	ret = vmbus_allocate_mmio(&par->mem, hdev, 0, -1,
-3546448338e76a drivers/video/fbdev/hyperv_fb.c Jake Oshins       2015-08-05  1045  				  screen_fb_size, 0x100000, true);
-9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26  1046  	if (ret != 0) {
-3546448338e76a drivers/video/fbdev/hyperv_fb.c Jake Oshins       2015-08-05  1047  		pr_err("Unable to allocate framebuffer memory\n");
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1048  		goto err1;
-9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26  1049  	}
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1050  
-5f1251a48c17b5 drivers/video/fbdev/hyperv_fb.c Dexuan Cui        2020-11-17  1051  	/*
-5f1251a48c17b5 drivers/video/fbdev/hyperv_fb.c Dexuan Cui        2020-11-17  1052  	 * Map the VRAM cacheable for performance. This is also required for
-5f1251a48c17b5 drivers/video/fbdev/hyperv_fb.c Dexuan Cui        2020-11-17  1053  	 * VM Connect to display properly for ARM64 Linux VM, as the host also
-5f1251a48c17b5 drivers/video/fbdev/hyperv_fb.c Dexuan Cui        2020-11-17  1054  	 * maps the VRAM cacheable.
-5f1251a48c17b5 drivers/video/fbdev/hyperv_fb.c Dexuan Cui        2020-11-17  1055  	 */
-5f1251a48c17b5 drivers/video/fbdev/hyperv_fb.c Dexuan Cui        2020-11-17  1056  	fb_virt = ioremap_cache(par->mem->start, screen_fb_size);
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1057  	if (!fb_virt)
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1058  		goto err2;
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1059  
-d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1060  	/* Allocate memory for deferred IO */
-d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1061  	par->dio_vp = vzalloc(round_up(dio_fb_size, PAGE_SIZE));
-d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1062  	if (par->dio_vp == NULL)
-d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1063  		goto err3;
-d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1064  
-d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1065  	/* Physical address of FB device */
-d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1066  	par->mmio_pp = par->mem->start;
-d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1067  	/* Virtual address of FB device */
-d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1068  	par->mmio_vp = (unsigned char *) fb_virt;
-d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1069  
-3546448338e76a drivers/video/fbdev/hyperv_fb.c Jake Oshins       2015-08-05  1070  	info->fix.smem_start = par->mem->start;
-d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1071  	info->fix.smem_len = dio_fb_size;
-d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1072  	info->screen_base = par->dio_vp;
-d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1073  	info->screen_size = dio_fb_size;
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1074  
-3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1075  getmem_done:
-5fbcc6708fe32e drivers/video/fbdev/hyperv_fb.c Daniel Vetter     2023-04-06  1076  	aperture_remove_conflicting_devices(base, size, KBUILD_MODNAME);
-3cb73bc3fa2a3c drivers/video/fbdev/hyperv_fb.c Kairui Song       2020-10-14  1077  
-3cb73bc3fa2a3c drivers/video/fbdev/hyperv_fb.c Kairui Song       2020-10-14  1078  	if (gen2vm) {
-3cb73bc3fa2a3c drivers/video/fbdev/hyperv_fb.c Kairui Song       2020-10-14  1079  		/* framebuffer is reallocated, clear screen_info to avoid misuse from kexec */
-3cb73bc3fa2a3c drivers/video/fbdev/hyperv_fb.c Kairui Song       2020-10-14  1080  		screen_info.lfb_size = 0;
-3cb73bc3fa2a3c drivers/video/fbdev/hyperv_fb.c Kairui Song       2020-10-14  1081  		screen_info.lfb_base = 0;
-3cb73bc3fa2a3c drivers/video/fbdev/hyperv_fb.c Kairui Song       2020-10-14  1082  		screen_info.orig_video_isVGA = 0;
-3cb73bc3fa2a3c drivers/video/fbdev/hyperv_fb.c Kairui Song       2020-10-14  1083  	} else {
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1084  		pci_dev_put(pdev);
-3cb73bc3fa2a3c drivers/video/fbdev/hyperv_fb.c Kairui Song       2020-10-14  1085  	}
-9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26  1086  
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1087  	return 0;
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1088  
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1089  err3:
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1090  	iounmap(fb_virt);
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1091  err2:
-696ca5e82c057a drivers/video/fbdev/hyperv_fb.c Jake Oshins       2016-04-05  1092  	vmbus_free_mmio(par->mem->start, screen_fb_size);
-3546448338e76a drivers/video/fbdev/hyperv_fb.c Jake Oshins       2015-08-05  1093  	par->mem = NULL;
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1094  err1:
-9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26  1095  	if (!gen2vm)
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1096  		pci_dev_put(pdev);
-9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26  1097  
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1098  	return -ENOMEM;
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1099  }
-68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1100  
+I dont get what it means by completely removes blanking packets in DSIM.
 
-:::::: The code at line 1033 was first introduced by commit
-:::::: 81d2393485f0990cf6566b0c9e0697c199f68ae5 fbdev/hyperv-fb: Do not set struct fb_info.apertures
+It should be replacing those periods with LP11 too.
 
-:::::: TO: Thomas Zimmermann <tzimmermann@suse.de>
-:::::: CC: Thomas Zimmermann <tzimmermann@suse.de>
+The traffic mode being used on this bridge is 
+MIPI_DSI_MODE_VIDEO_SYNC_PULSE which is "Non-Burst Mode with Sync Pulses".
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+As per this traffic mode in the DSI spec,
+
+"Normally, periods shown as HSA (Horizontal Sync Active), HBP 
+(Horizontal Back Porch) and HFP (Horizontal Front Porch) are filled by 
+Blanking Packets, with lengths (including packet overhead)  calculated 
+to match the period specified by the peripheral’s data sheet. 
+Alternatively, if there is sufficient time to transition from HS to LP 
+mode and back again, a timed interval in LP mode may substitute for a 
+Blanking Packet, thus saving power. During HSA, HBP and HFP periods, the 
+bus should stay in the LP-11 state."
+
+So we can either send the blanking packets or transition to LP state and 
+those 3 flags are controlling exactly that during those periods for MSM 
+driver.
+
+If you stop sending the blanking packets, you need to replace that gap 
+with LP.
+
+One reason I can think of why this could break with MSM is perhaps we do 
+not have sufficient time in those periods for the LP-HS transition like 
+the spec has written.
+
+1) What is the resolution which is getting broken on db845c with this? I 
+would like to know the full drm_display_mode for it to see how much time 
+we have in those periods. Is any resolution working or all are broken.
+
+2) I also do not completely get the last line of the DSI spec on this 
+traffic mode. Is it suggesting that we *must* use only LP11 for those 
+periods in this traffic mode? I need to check little more on that. 
+Because if thats the case the change is doing just that and we need to 
+investigate the MSM failure little more. If not and its indeed optional 
+to save power like the DSI spec says, then its weird why DSIM should be 
+blank without that too.
+
+
+> @Jagan, Andrezej So you have any documentation on what 
+> DSIM_xxx_DISABLE_MODE does ?
+> 
+> @Dmitry, so you have access to the lt9611 datasheet to know what's 
+> needed here ?
+> 
+> Neil
+> 
+>>
+>> Neil
+>>
+>>>
+>>> Regards,
+>>> Amit Pundir
+>>> [1] 
+>>> https://people.linaro.org/~amit.pundir/db845c-userdebug/v6.5-broken-display/PXL_20230704_150156326.jpg
+>>>
+>>>>
+>>>> -- 
+>>>> With best wishes
+>>>> Dmitry
+>>
+> 
