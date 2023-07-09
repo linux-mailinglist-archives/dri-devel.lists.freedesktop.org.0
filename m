@@ -1,76 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1D1774C639
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Jul 2023 17:33:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDB6874C4B2
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Jul 2023 16:31:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D274F10E0E8;
-	Sun,  9 Jul 2023 15:33:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7783B10E0D5;
+	Sun,  9 Jul 2023 14:31:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic309-22.consmr.mail.gq1.yahoo.com
- (sonic309-22.consmr.mail.gq1.yahoo.com [98.137.65.148])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9749E10E0E9
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Jul 2023 01:12:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1688865145; bh=byfvI3dK6Q1sBta2Ep4RK+WFTzLm9VXgl2m9zdHE59s=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To;
- b=Thf1pplmaD/RJS27dJyNVj0Rj9vA/ZxE0RsvDzf8UI+vD1w4df5+rVQWrMXoBN4BbzBXEVbhdlnKf+zpzbAVUgiIbJ0jZub/vdzUTpmkzDyq7y88xhbT4RYhttzRyKewyFqFMY527YxZLPJqskQ7LvB7gaqI4jRK1We3RtGPmosmeWzQ+q5iFiGaxb74Aq+Blb9tn3arKsXzDHXZKamkmFvXk+ajJCF6i9YMpr/zlVKaEVKRpbZvm1lAjHmAwD2nLd3jqRbDPvfSVWjuGKHedjQ1XmtuCM5INpUfW39YAhlRHp6rlho3QWO1xZr7zTkF0zJicK6qBqLPna7g8NwK7A==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1688865145; bh=J7pNDFz6py0Xu94JPi00ZAk7TvXo6uKxSI3cloD2CZl=;
- h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=ht+Gb/AQoD8yJYxhbi298g3rPYFCWf2JnXUWZYgCxDx1pXC4oJrHFtoynAzvT87nnfy0y9LurQpYmQrQIWeN4vHXU/z/NAzagB8Z74UlISNpK+1sAkUGs8+KKr4+Kf4HwPchg2GxBENi3moepQAeQuu/wfgnPMrxC9sV4LfOLDxSTBz3SPbXV5bMkJrkoNo1DVNnu4gXu1YLklQFKgatQec9vNcM0QCKaCppjNYgxkncSWF3G7cFti3ViIZTJ9oQ52BrSR1MxGVD76HSgWNqkBcghkdFX/c9bpfoe6H0gvNAtcuHrPqiveQzuKbnEa+XGt1dgW4D8LdCQ9jdEv7nLw==
-X-YMail-OSG: zvxcANUVM1nORvtPA2MZ9lqPR0fU0TbHlWQ2AMSovuYuYhfoBxrZC_2vRdF31nH
- LlfPMcoCgQ7fM8ZVTq6Lm2cwaZcv6WQUHZgvFP_C4ZvO1lkeZ7tkpUy49KDogY1BILXvOmzo_cJe
- Fc6mMJp8XY_qMy6Hxcq0PwqgHtH7Fmemb.VnR0WXmtPvF6DtERK6A01QdQBJ_O7ZVldF6j5nNMHu
- n0eX3LO_D7U9C0fU7428yaknfyZWc0WMKxuQbYZ.srYJA..ex0MmPWnYTFxSFDnneTWFoF_fs4sZ
- zlMyw.TkfcNpt2uLqi4l5RtXC5luHW27TGLnFKjkcs_YvwpLlD_nQu4HbHdIAYgvElgdNjdmSqix
- q5g7Er.nsSPVHEcUrUDfsiZBAwjbeDOB1jy7K02O1QYu1VrAetxwr_nsTyjKXWFDIXZTM.3GQeLe
- nA5pDDewQHcXrwBzZhqwXbnlFz63ORb1KtOYFJiLTn5Qd_4dE1J2uJfpnwCFiJJes4wKfeQxSqkW
- V6BFWBYhRJ7mQIVO84NT6HhWJU212WVxLtzD.WyrIbbseMZE4tOt03WsA8S3PGlPvzrlZzc.uYX9
- nfcTFQvfVoRrV6aBfRU_ZqvTTm.pRnk74YACtg2j1yiP_muyNN3GMxt2QKKouYYa6MOwbE1xk0VL
- 3eA..w6.bIMGrRXGIGzeHQW6aSGLX48QtLF0BN7NX7DYHDSzhDj.VHbOT58p90NgIyFsnohy82aH
- AWGpU8zMGqO0ffFZl19wmeIGRR7wWbtUH0jKvhvy80epRKGpqukJmfl1buonFuFrFy8dG5GgozAs
- BxmGX6L0ZfdampdlqwcmHBAlSIw4ibpMevtEcIM9oUQqMzN9sPbk49kJKDjaNBLTLCPZ0pi_Uy7y
- VkEFVBOS2cPyKtk.VZQQMGn4KFrw1OB3moGONntHXTCktHN5rEyD019uKnVRvXD.hxSYJe18C2ml
- AiDYDgCgXncpyCnb1Bk2msKCBUyMRT2BAhdXvh_OgqLSKCZ2WjaxlLeMyA8BB7pBgHvKr.zHDbT9
- E0nSgwf_hyR7gnzHCiSvSF6F3ECa5hvu5a6MhS68nUXL.Vpqb9hcdXCjjCvhgAwVN1Je4mDVynQz
- jM7xJL2gnINeXLXzkAx9FoGh_mu9211btNzi_NpeIWgsTDeXjJuiSv0GZSfs1ZJBTl2CDa2WmO3D
- HVC8oCYZesj.JKRS24ILFQIaNIXsg7NDzycygsgmUC.Cgy4QqieOrSsAIEVhjFOdRF0ZBQrn7SCu
- GQ3oNNakvOKpgLVgeYpzjcjtBBUj7JbrUbRvvDvTmiKj4hgkpHAxTYa6BHmxE6ke8Of62FMa7zKu
- N7yO18w3bSj7xQJ2qAD96i9rpemwHct9grlCPoMqms9pcax5l2la61.BxXRRN9.UEVTFmVL2q.Hp
- SvkFe8Y21U_GS6MIIs_CbXR0KUJE_FzvrClydAqg9z7t5G5Fkv5S1WGQnd1e.IH43b2_4yO4a1Qq
- y5QxXBrgGilCMrv2qWOELQD7JF7XJdTrIkiM8.oR1DvzCxfnN8wH6xEq_WccS.Ku9zqjzLQaO1Na
- HLXDEdGY1XAkdRhnTtq_UR0gGPPZyJv2DMTkH6PvJy0vgM78mRJrt0tKJ1T6LZE4Ym6x8bRNznga
- K3WcMjIs8fp7ZCrb5YPr4AmJJE_i_f_8f_QjpNmFBaRvnESwtL4_.Vz4o63By2iiDG4T7zKUDEQB
- Rud49lRWqioZjW4hqnyN7f0nohskvxrq_wF8xjUn5qRJ8aKtE6h6UYKmO1y0f6HoM9BiQaUF6ih.
- .27mru64.vWkm4WnpTPnWuRkYWvHSXGiNqcX3EPN1i7RqDbHkM2YUF6DyWupMClz1yq.m8nEe4yK
- tmk43n_L20G3Zm6vLltYob0DDxqlQOexaj_WCpnODq1aVIV8ifMlP6YHSkF1y58Sx2f_wH2Apd75
- DR3NHBfeJnZOgEYu439C_FGmc9uCMIdOztxDnBLLP5dAfO6n54Sr0DElGP05N2R_qBg9moFTo1oB
- sGZ7_Zl1plMzztpmiUUegh1fuYKU4mHIVycK8SL7FWnILmlCa4IW75qJuVP5V.I1R0VRnfBp3zmU
- 6wQZtgbzeD0Aed6DfRCDraL7GXuz9PXcnhILsV6_dQJ486NNWjSlIo66W20RWPi9muSZgtUwVTya
- ryWhKkSo1kJunizEHwLaRxuxSJoor0Tvp_pBsykEMjjhKL6sEwmaGHAhZBX92XoRd6Jy37.SNeQw
- EWzGSfaOflo_igCpSeyRp0R6S.A--
-X-Sonic-MF: <astrajoan@yahoo.com>
-X-Sonic-ID: 50490755-52c7-49f6-8289-bc3821833cee
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic309.consmr.mail.gq1.yahoo.com with HTTP; Sun, 9 Jul 2023 01:12:25 +0000
-Received: by hermes--production-ne1-6d679867d5-nhrqn (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID e39b0b13f3ff9ca667dd084b8c3dc74e; 
- Sun, 09 Jul 2023 01:12:22 +0000 (UTC)
-From: Ziqi Zhao <astrajoan@yahoo.com>
-To: syzbot+622bba18029bcde672e1@syzkaller.appspotmail.com
-Subject: [PATCH] drm/modes: Fix division by zero error
-Date: Sat,  8 Jul 2023 18:12:13 -0700
-Message-Id: <20230709011213.17890-1-astrajoan@yahoo.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <00000000000034cf5d05fea52dd4@google.com>
-References: <00000000000034cf5d05fea52dd4@google.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2F9A10E0D5
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Jul 2023 14:31:26 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id D3B131FD6B;
+ Sun,  9 Jul 2023 14:31:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1688913082; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tN0LHnnSjkAP2j5EB5e8Rs6iUE+RQTShXwLNOT9BX2k=;
+ b=VMQMtqEekKuXOEaMmUWOAyVxU02rFiWyuZjzlU1ng+QJdhUxKNa16D7b8D+BrQSgGI7fij
+ SIOt0XGy0gEZrdD4efm55+wyXAsZDowXvyGX/D0zHKheaxD4ERzQyXiRjCqrLxnjcn6UjO
+ LEhbJhaujVvEqNAsitSBWCa7I4u3WT4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1688913082;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tN0LHnnSjkAP2j5EB5e8Rs6iUE+RQTShXwLNOT9BX2k=;
+ b=bW8RthYT1yR06VCNQqxJUt0YA+BfrE7iLb1j5Ni7O5dOIo5zF3g2aqIbCedNSdyunF/YnR
+ OvyabsnsbDb0kMBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8C50613A63;
+ Sun,  9 Jul 2023 14:31:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id SBUgIbrEqmTIfwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Sun, 09 Jul 2023 14:31:22 +0000
+Message-ID: <d9c3d059-5a4a-b4d8-247a-d3aa83dd1760@suse.de>
+Date: Sun, 9 Jul 2023 16:31:20 +0200
 MIME-Version: 1.0
-Reported-by: syzbot+622bba18029bcde672e1@syzkaller.appspotmail.com
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sun, 09 Jul 2023 15:33:16 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] drm/hyperv: Fix a compilation issue because of not
+ including screen_info.h
+To: Sui Jingfeng <suijingfeng@loongson.cn>,
+ Deepak Rawat <drawat.floss@gmail.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Michael Kelley <mikelley@microsoft.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, Arnd Bergmann <arnd@arndb.de>
+References: <20230709100514.703759-1-suijingfeng@loongson.cn>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230709100514.703759-1-suijingfeng@loongson.cn>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------MqEY5s9snjkfxasjEzVl93KA"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,68 +73,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ivan.orlov0322@gmail.com, tzimmermann@suse.de, netdev@vger.kernel.org,
- dsahern@kernel.org, skhan@linuxfoundation.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, syzkaller-bugs@googlegroups.com,
- edumazet@google.com, Ziqi Zhao <astrajoan@yahoo.com>, mripard@kernel.org,
- jiri@nvidia.com, jacob.e.keller@intel.com, kuba@kernel.org, pabeni@redhat.com,
- davem@davemloft.net
+Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the bug reported by Syzbot, the variable `den == (1 << 22)` and
-`mode->vscan == (1 << 10)`, causing the multiplication to overflow and
-accidentally make `den == 0`. To prevent any chance of overflow, we
-replace `num` and `den` with 64-bit unsigned integers, and explicitly
-check if the divisor `den` will overflow. If so, we employ full 64-bit
-division with rounding; otherwise we keep the 64-bit to 32-bit division
-that could potentially be better optimized.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------MqEY5s9snjkfxasjEzVl93KA
+Content-Type: multipart/mixed; boundary="------------uEbgZYOhAvN0XAFfRQcdXHRr";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sui Jingfeng <suijingfeng@loongson.cn>,
+ Deepak Rawat <drawat.floss@gmail.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Michael Kelley <mikelley@microsoft.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, Arnd Bergmann <arnd@arndb.de>
+Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>
+Message-ID: <d9c3d059-5a4a-b4d8-247a-d3aa83dd1760@suse.de>
+Subject: Re: [PATCH] drm/hyperv: Fix a compilation issue because of not
+ including screen_info.h
+References: <20230709100514.703759-1-suijingfeng@loongson.cn>
+In-Reply-To: <20230709100514.703759-1-suijingfeng@loongson.cn>
 
-In order to minimize the performance overhead, the overflow check for
-`den` is wrapped with an `unlikely` condition. Please let me know if
-this usage is appropriate.
+--------------uEbgZYOhAvN0XAFfRQcdXHRr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-#syz test:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+SGkNCg0KQW0gMDkuMDcuMjMgdW0gMTI6MDUgc2NocmllYiBTdWkgSmluZ2Zlbmc6DQo+ICAg
+ICBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2h5cGVydl9mYi5jOiBJbiBmdW5jdGlvbiAnaHZmYl9n
+ZXRtZW0nOg0KPj4+IGRyaXZlcnMvdmlkZW8vZmJkZXYvaHlwZXJ2X2ZiLmM6MTAzMzoyNDog
+ZXJyb3I6ICdzY3JlZW5faW5mbycgdW5kZWNsYXJlZCAoZmlyc3QgdXNlIGluIHRoaXMgZnVu
+Y3Rpb24pDQo+ICAgICAgMTAzMyB8ICAgICAgICAgICAgICAgICBiYXNlID0gc2NyZWVuX2lu
+Zm8ubGZiX2Jhc2U7DQo+ICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgXn5+
+fn5+fn5+fn4NCj4gICAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvaHlwZXJ2X2ZiLmM6MTAzMzoy
+NDogbm90ZTogZWFjaCB1bmRlY2xhcmVkIGlkZW50aWZpZXIgaXMgcmVwb3J0ZWQgb25seSBv
+bmNlIGZvciBlYWNoIGZ1bmN0aW9uIGl0IGFwcGVhcnMgaW4NCj4gLS0NCj4gICAgIGRyaXZl
+cnMvZ3B1L2RybS9oeXBlcnYvaHlwZXJ2X2RybV9kcnYuYzogSW4gZnVuY3Rpb24gJ2h5cGVy
+dl9zZXR1cF92cmFtJzoNCj4+PiBkcml2ZXJzL2dwdS9kcm0vaHlwZXJ2L2h5cGVydl9kcm1f
+ZHJ2LmM6NzU6NTQ6IGVycm9yOiAnc2NyZWVuX2luZm8nIHVuZGVjbGFyZWQgKGZpcnN0IHVz
+ZSBpbiB0aGlzIGZ1bmN0aW9uKQ0KPiAgICAgICAgNzUgfCAgICAgICAgIGRybV9hcGVydHVy
+ZV9yZW1vdmVfY29uZmxpY3RpbmdfZnJhbWVidWZmZXJzKHNjcmVlbl9pbmZvLmxmYl9iYXNl
+LA0KPiAgICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+DQo+ICAgICBkcml2ZXJzL2dwdS9kcm0vaHlw
+ZXJ2L2h5cGVydl9kcm1fZHJ2LmM6NzU6NTQ6IG5vdGU6IGVhY2ggdW5kZWNsYXJlZCBpZGVu
+dGlmaWVyIGlzIHJlcG9ydGVkIG9ubHkgb25jZSBmb3IgZWFjaCBmdW5jdGlvbiBpdCBhcHBl
+YXJzIGluDQo+IA0KPiBSZXBvcnRlZC1ieToga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRl
+bC5jb20+DQo+IENsb3NlczogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvb2Uta2J1aWxkLWFs
+bC8yMDIzMDcwOTA4MjMubnhuVDhLazUtbGtwQGludGVsLmNvbS8NCj4gRml4ZXM6IDgxZDIz
+OTM0ODVmMCAoImZiZGV2L2h5cGVydi1mYjogRG8gbm90IHNldCBzdHJ1Y3QgZmJfaW5mby5h
+cGVydHVyZXMiKQ0KPiBGaXhlczogOGIwZDEzNTQ1YjA5ICgiZWZpOiBEbyBub3QgaW5jbHVk
+ZSA8bGludXgvc2NyZWVuX2luZm8uaD4gZnJvbSBFRkkgaGVhZGVyIikNCj4gU2lnbmVkLW9m
+Zi1ieTogU3VpIEppbmdmZW5nIDxzdWlqaW5nZmVuZ0Bsb29uZ3Nvbi5jbj4NCg0KUmV2aWV3
+ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KDQpUaGFu
+a3MgZm9yIHRoZSBwYXRjaC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KDQo+IC0tLQ0K
+PiAgIGRyaXZlcnMvZ3B1L2RybS9oeXBlcnYvaHlwZXJ2X2RybV9kcnYuYyB8IDEgKw0KPiAg
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvZ3B1L2RybS9oeXBlcnYvaHlwZXJ2X2RybV9kcnYuYyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9oeXBlcnYvaHlwZXJ2X2RybV9kcnYuYw0KPiBpbmRleCBhN2QyYzkyZDZjNmEuLjgwMjYx
+MThjNmUwMyAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2h5cGVydi9oeXBlcnZf
+ZHJtX2Rydi5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9oeXBlcnYvaHlwZXJ2X2RybV9k
+cnYuYw0KPiBAQCAtNyw2ICs3LDcgQEANCj4gICAjaW5jbHVkZSA8bGludXgvaHlwZXJ2Lmg+
+DQo+ICAgI2luY2x1ZGUgPGxpbnV4L21vZHVsZS5oPg0KPiAgICNpbmNsdWRlIDxsaW51eC9w
+Y2kuaD4NCj4gKyNpbmNsdWRlIDxsaW51eC9zY3JlZW5faW5mby5oPg0KPiAgIA0KPiAgICNp
+bmNsdWRlIDxkcm0vZHJtX2FwZXJ0dXJlLmg+DQo+ICAgI2luY2x1ZGUgPGRybS9kcm1fYXRv
+bWljX2hlbHBlci5oPg0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2
+ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZy
+YW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRv
+dGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpI
+UkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
 
-Signed-off-by: Ziqi Zhao <astrajoan@yahoo.com>
----
- drivers/gpu/drm/drm_modes.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+--------------uEbgZYOhAvN0XAFfRQcdXHRr--
 
-diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index ac9a406250c5..aa98bd7b8bc9 100644
---- a/drivers/gpu/drm/drm_modes.c
-+++ b/drivers/gpu/drm/drm_modes.c
-@@ -1285,13 +1285,13 @@ EXPORT_SYMBOL(drm_mode_set_name);
-  */
- int drm_mode_vrefresh(const struct drm_display_mode *mode)
- {
--	unsigned int num, den;
-+	unsigned long long num, den;
- 
- 	if (mode->htotal == 0 || mode->vtotal == 0)
- 		return 0;
- 
--	num = mode->clock;
--	den = mode->htotal * mode->vtotal;
-+	num = mul_u32_u32(mode->clock, 1000);
-+	den = mul_u32_u32(mode->htotal, mode->vtotal);
- 
- 	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
- 		num *= 2;
-@@ -1300,7 +1300,10 @@ int drm_mode_vrefresh(const struct drm_display_mode *mode)
- 	if (mode->vscan > 1)
- 		den *= mode->vscan;
- 
--	return DIV_ROUND_CLOSEST_ULL(mul_u32_u32(num, 1000), den);
-+	if (unlikely(den >> 32))
-+		return div64_u64(num + (den >> 1), den);
-+	else
-+		return DIV_ROUND_CLOSEST_ULL(num, (unsigned int) den);
- }
- EXPORT_SYMBOL(drm_mode_vrefresh);
- 
--- 
-2.34.1
+--------------MqEY5s9snjkfxasjEzVl93KA
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSqxLgFAwAAAAAACgkQlh/E3EQov+Ba
+3w//cAjZxj80zW1N7R2U3p3kK0UBxeKegaZvHyPNwA8DmWN6D+9gbsnLrxcTVQlfBNbmEBasrJMY
+0Y/eyt8iaO0hdh33mwhxu1i1pjl+jRT5xuqpcsFD7p83IXMY8daVGweju+bo4ufRi7vtPsTMVZPW
+7T5KIyR0FiAZilPsrPtOdPTHkB5sWXJTdHJTQ2ozUUG0MUvOZjZZBkDrUD15N019SO3ChtcetWrP
+XIBPrTiwyE5fZbAU4G71PIFzIuiLV6SlcJ2fmNefJWkqyb9DDTzHOfzzgAksBhDdMJHW4zKB+nrr
+HKzymY/KtS7CWVLH8gFm2y8peh5tr67/GH0yojLtch90sdkWr03onAr/kS8SXvzn8p47Hmnt5UnX
+kVHqwSyfAH/v5zlJEYLLrnQjzfpLd6v7tqvGfq6oneZOBmCCxj8q/wJRj7QPPC4rrp+Xfe1vIU1g
+gnseYrQ2HN8Diw1feQVX63vAM0Q9bRR0yLIU2jKvZSXQcWtkG5h2P8qdHQa9BHmNKAMFLfK4X1YH
+kWMSk7t1tFJZwj0cDzewvQdGnEoEA+1d9SDTXeGtihcf0C+bQYgUubltavbEEA/F2rz2cPzL+G8Z
+D//tqg8ifCObrvD7WzeU3s3tnwBBOyHl5D9WnGnf3ooK4fsGsyGF/D6qL1y9sf7oZe2d1kkCtSrx
+JvY=
+=Ee/q
+-----END PGP SIGNATURE-----
+
+--------------MqEY5s9snjkfxasjEzVl93KA--
