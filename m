@@ -2,62 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93BD174C6E7
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Jul 2023 20:00:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD40174C730
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Jul 2023 20:37:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E91710E11F;
-	Sun,  9 Jul 2023 18:00:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE82B10E054;
+	Sun,  9 Jul 2023 18:37:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com
- [IPv6:2607:f8b0:4864:20::b34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7362E10E119
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Jul 2023 18:00:13 +0000 (UTC)
-Received: by mail-yb1-xb34.google.com with SMTP id
- 3f1490d57ef6-c6cad6a3998so3380258276.3
- for <dri-devel@lists.freedesktop.org>; Sun, 09 Jul 2023 11:00:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688925611; x=1691517611;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=u4DBsm9V7fTDvKx918DKQDmxOgvOJF74sUuwO0ox2Ec=;
- b=vxRgIcDZCdKysN9u5e/P0Mk+1qTauAmLbQGUgHGKEnTrrVjVfF8aRQgXNkdpwNKtso
- z8OW1HHfk+BP9+3b0NYGgmo1cqC1dNep8cPJs0DCf5IEpOOl2YUrPVFZ3c6yFCuGZy4i
- SVHYFmCtbVn9/s2hoZJ49WHlQH59W90pfh9lA/eb/+pugtDqnZJc/0IJahTTiqaY4Vzk
- 1WrlPZDLO5SgPrk6xtqbFrFD6MccqYfdC9JgfnhpS9uXoCHuwqdGVsGecaY9zjvID2l4
- PyqhTrEHJkApgYxcRt6QgGsaPi7YlwCJmtJ/KwTYz07w+dIONIm5ui/y8eKvNjaOtX+M
- Syrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688925611; x=1691517611;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=u4DBsm9V7fTDvKx918DKQDmxOgvOJF74sUuwO0ox2Ec=;
- b=Fed+mcMoaCflns2QIQVrqp+jrwYvAjQPdeQIiBO3MfaeRRI0X/lGWhkEaFJAe+HX3W
- ixZwbYkbVddNo1P7QRvK98g5X2Ie6r/2MEoTAukokk+5uNHR7y2kCqfMbj3q3NKtAAZ7
- VuuTarJNjJf4h5pmt4QpGWQce6MiQ9cxI6nfCOuqtnM+i8kRAgLjHdrS07jWOLTWZt36
- c8cTxr/iRVdkPEcWQ092z4qKkWXooWuR+I4K3uHaTGtzgBIf/xVd/9rf7mOVjMbwPOET
- dYmQFsbLVXWBjzGXFKEiqElUIFoNmPa7WZWcs7rMcg0M7X3YwbVJotAPpe03GVlt2awO
- NAfw==
-X-Gm-Message-State: ABy/qLZptPhi+Cqf2udkksDetCEO5L4Kflrs9xeF3OvUorQ04pAnMAJi
- WPTeZWV3i+aBujo0wTKLMdwcxVukCh8HCpcvc3lHxA==
-X-Google-Smtp-Source: APBJJlEWXBHCrZHA3JCHjoudX7Ecgk5TDBCrrA3oUgTtzhr9PEaNnulSiA1S6XZKAEopv26+3p9AtmwqEhS9liy+4l4=
-X-Received: by 2002:a81:92d3:0:b0:579:f8f2:b5b5 with SMTP id
- j202-20020a8192d3000000b00579f8f2b5b5mr9459703ywg.41.1688925611714; Sun, 09
- Jul 2023 11:00:11 -0700 (PDT)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC5F910E054
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Jul 2023 18:36:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1688927819; x=1720463819;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=WSYU3YGKOX624FTWNqkMWqURgkvhH1boXRdtcsHx9Io=;
+ b=HfcIzH7vIWzy+T5qatzN4C3JGAS6Tgg+57t2N3cwfAisWBcGtF5fGDms
+ jIif7T2xifbRs9pklnmTrZECr75gVtuU2ptBzUbxLGR4Vq2JlzY/YA85U
+ hYjbPWxmoJKwiWcRotc201ZDWw0O8/GAKZPR4rOv2VTWhAZ8bmYd+fJjJ
+ bxGnK+Q90nJFdNUnR8lmlOgz8VoVYJX0jcd4rwzp/ioGh/u5e7nrZk2wC
+ 94mp6L2EK1InNs9qXM2ioZjMbisRjK/kEEYXCHOqHC0LogELFEjGDXbPV
+ GEM0sLU0WHWUfPNzIZ8Adff3IR2zGo9tazNWIV4nf/T3mZpMYJ2nrxTZy A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10766"; a="367689194"
+X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; d="scan'208";a="367689194"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jul 2023 11:36:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10766"; a="755747012"
+X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; d="scan'208";a="755747012"
+Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
+ by orsmga001.jf.intel.com with ESMTP; 09 Jul 2023 11:36:53 -0700
+Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1qIZH9-0003L6-22;
+ Sun, 09 Jul 2023 18:36:51 +0000
+Date: Mon, 10 Jul 2023 02:36:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sui Jingfeng <suijingfeng@loongson.cn>
+Subject: [drm-misc:drm-misc-next 2/3]
+ drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse: sparse: incorrect
+ type in argument 1 (different address spaces)
+Message-ID: <202307100243.v3hv6aes-lkp@intel.com>
 MIME-Version: 1.0
-References: <1688773943-3887-1-git-send-email-quic_khsieh@quicinc.com>
- <1688773943-3887-2-git-send-email-quic_khsieh@quicinc.com>
- <fc5501cf-c335-81f7-1ad7-26fdc1b6922d@linaro.org>
- <72cb729b-a9d3-3e5b-c70a-0761f47a6779@quicinc.com>
-In-Reply-To: <72cb729b-a9d3-3e5b-c70a-0761f47a6779@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 9 Jul 2023 21:00:00 +0300
-Message-ID: <CAA8EJpqKVBKRpFs=sS2rwrJpDP22sNrd00kCYm-b_ZB96O=s5g@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH v1 1/5] drm/msm/dp: remove pm_runtime_xxx()
- from dp_power.c
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,90 +58,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vkoul@kernel.org, quic_sbillaka@quicinc.com, quic_jesszhan@quicinc.com,
- andersson@kernel.org, freedreno@lists.freedesktop.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, agross@kernel.org,
- linux-arm-msm@vger.kernel.org, marijn.suijten@somainline.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, sean@poorly.run,
- linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 9 Jul 2023 at 20:22, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 7/7/2023 5:06 PM, Dmitry Baryshkov wrote:
-> > On 08/07/2023 02:52, Kuogee Hsieh wrote:
-> >> Since both pm_runtime_resume() and pm_runtime_suspend() are not
-> >> populated at dp_pm_ops. Those pm_runtime_get/put() functions within
-> >> dp_power.c will not have any effects in addition to increase/decrease
-> >> power counter.
-> >
-> > Lie.
-> >
->
-> Even if the commit text is incorrect, review comments like this are not
-> helping the patch nor the author and will just get ignored anyway.
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   8d1077cf2e43b15fefd76ebec2b71541eb27ef2c
+commit: f39db26c54281da6a785259498ca74b5e470476f [2/3] drm: Add kms driver for loongson display controller
+config: i386-randconfig-i063-20230710 (https://download.01.org/0day-ci/archive/20230710/202307100243.v3hv6aes-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230710/202307100243.v3hv6aes-lkp@intel.com/reproduce)
 
-The review comment might be overreacting, excuse me. I was really
-impressed by the commit message, which contradicts the basic source
-code. pm_runtime_get() does a lot more than just increasing the power
-counter.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307100243.v3hv6aes-lkp@intel.com/
 
-> >> Also pm_runtime_xxx() should be executed at top
-> >> layer.
-> >
-> > Why?
-> >
->
-> I guess he meant to centralize this around dp_display.c. Will elaborate
-> while posting the next rev.
->
-> >>
-> >> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> >> ---
-> >>   drivers/gpu/drm/msm/dp/dp_power.c | 9 ---------
-> >>   1 file changed, 9 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/msm/dp/dp_power.c
-> >> b/drivers/gpu/drm/msm/dp/dp_power.c
-> >> index 5cb84ca..ed2f62a 100644
-> >> --- a/drivers/gpu/drm/msm/dp/dp_power.c
-> >> +++ b/drivers/gpu/drm/msm/dp/dp_power.c
-> >> @@ -152,8 +152,6 @@ int dp_power_client_init(struct dp_power *dp_power)
-> >>       power = container_of(dp_power, struct dp_power_private, dp_power);
-> >> -    pm_runtime_enable(power->dev);
-> >> -
-> >>       return dp_power_clk_init(power);
-> >>   }
-> >> @@ -162,8 +160,6 @@ void dp_power_client_deinit(struct dp_power
-> >> *dp_power)
-> >>       struct dp_power_private *power;
-> >>       power = container_of(dp_power, struct dp_power_private, dp_power);
-> >> -
-> >> -    pm_runtime_disable(power->dev);
-> >>   }
-> >>   int dp_power_init(struct dp_power *dp_power)
-> >> @@ -173,11 +169,7 @@ int dp_power_init(struct dp_power *dp_power)
-> >>       power = container_of(dp_power, struct dp_power_private, dp_power);
-> >> -    pm_runtime_get_sync(power->dev);
-> >> -
-> >>       rc = dp_power_clk_enable(dp_power, DP_CORE_PM, true);
-> >> -    if (rc)
-> >> -        pm_runtime_put_sync(power->dev);
-> >>       return rc;
-> >>   }
-> >> @@ -189,7 +181,6 @@ int dp_power_deinit(struct dp_power *dp_power)
-> >>       power = container_of(dp_power, struct dp_power_private, dp_power);
-> >>       dp_power_clk_enable(dp_power, DP_CORE_PM, false);
-> >> -    pm_runtime_put_sync(power->dev);
-> >>       return 0;
-> >>   }
-> >
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem * @@     got void *kptr @@
+   drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse:     expected void volatile [noderef] __iomem *
+   drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse:     got void *kptr
+>> drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem * @@     got void *kptr @@
+   drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51: sparse:     expected void const volatile [noderef] __iomem *
+   drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51: sparse:     got void *kptr
 
+vim +27 drivers/gpu/drm/loongson/lsdc_benchmark.c
 
+    12	
+    13	typedef void (*lsdc_copy_proc_t)(struct lsdc_bo *src_bo,
+    14					 struct lsdc_bo *dst_bo,
+    15					 unsigned int size,
+    16					 int n);
+    17	
+    18	static void lsdc_copy_gtt_to_vram_cpu(struct lsdc_bo *src_bo,
+    19					      struct lsdc_bo *dst_bo,
+    20					      unsigned int size,
+    21					      int n)
+    22	{
+    23		lsdc_bo_kmap(src_bo);
+    24		lsdc_bo_kmap(dst_bo);
+    25	
+    26		while (n--)
+  > 27			memcpy_toio(dst_bo->kptr, src_bo->kptr, size);
+    28	
+    29		lsdc_bo_kunmap(src_bo);
+    30		lsdc_bo_kunmap(dst_bo);
+    31	}
+    32	
+    33	static void lsdc_copy_vram_to_gtt_cpu(struct lsdc_bo *src_bo,
+    34					      struct lsdc_bo *dst_bo,
+    35					      unsigned int size,
+    36					      int n)
+    37	{
+    38		lsdc_bo_kmap(src_bo);
+    39		lsdc_bo_kmap(dst_bo);
+    40	
+    41		while (n--)
+  > 42			memcpy_fromio(dst_bo->kptr, src_bo->kptr, size);
+    43	
+    44		lsdc_bo_kunmap(src_bo);
+    45		lsdc_bo_kunmap(dst_bo);
+    46	}
+    47	
 
 -- 
-With best wishes
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
