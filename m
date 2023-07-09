@@ -1,84 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0AAB74C03D
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Jul 2023 03:04:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B30F874C052
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Jul 2023 03:39:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05FAC10E0DF;
-	Sun,  9 Jul 2023 01:04:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F359910E0F5;
+	Sun,  9 Jul 2023 01:39:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ABAF10E094;
- Sun,  9 Jul 2023 01:04:12 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 36910Dvl009532; Sun, 9 Jul 2023 01:03:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=iQXB7TR04UyGGj4mBOEpT+1563r66btmPpPOk9MO784=;
- b=VWbuUjSSCpWeLSF0AkQ3yDlfcxTgBuAMz0vsHyOOyXAdqVB2KIxB/ywyI5dCumbOHR4B
- IS9832qiPSzBWiZ/0lTzp8Tv2B0UYLiM8qo6yayuFW6UO6fo0H+COyLQxfWhj14AFyz9
- RofDuWWL1ZkXakl98b3jq2hJY/A4kAhssbyQB7r0qgmEaXLLxBtYbdk94unJY9yozKRF
- Tr/Z1ovXF27UXvU8aWHcp8IKxBOE3L0cjm9GljsjBse0/vMBSIjif0bZLlPRL5ZO95b9
- z+HakZFU2xfY9UK5/sfkZS7F3UoQ8WY2N6Anjg8fD3cVFsN/BfcGylsp9jhEwsKokqYD Jw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rpxry15jc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 09 Jul 2023 01:03:51 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36913nnO005397
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 9 Jul 2023 01:03:50 GMT
-Received: from [10.110.47.185] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Sat, 8 Jul
- 2023 18:03:48 -0700
-Message-ID: <4396d197-f16f-92bd-727c-eb8c78016198@quicinc.com>
-Date: Sat, 8 Jul 2023 18:03:46 -0700
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5012A10E013
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Jul 2023 01:39:13 +0000 (UTC)
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx0.riseup.net (Postfix) with ESMTPS id 4Qz8tl55rJz9tJv;
+ Sun,  9 Jul 2023 01:39:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1688866752; bh=iKAun4MkQGyR3Xqy2UGLho7WiyYVyJ9CL867qAuplVE=;
+ h=From:To:Cc:Subject:Date:From;
+ b=q5WpDrVWKWntPI+HTFKRelrU6xgPYxx9FwDAemauKu1xfuFoK20ZRk8WMBK0X7DbX
+ UbccB4j/JXIliN6IfY5cCwGkN6TUbmn0vsoMlctcKuecgy35DKGLMTAdPJIOItS5sy
+ 04moJrR8EWjCIkwWhEc5MyT9a8bs/unx6VoL2NX4=
+X-Riseup-User-ID: D743CD7A416445C27F07009DE7A8D4DF61D7AF3462F4CCAFD4FEC30803CD6966
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4Qz8td1TptzJmnr;
+ Sun,  9 Jul 2023 01:39:04 +0000 (UTC)
+From: Arthur Grillo <arthurgrillo@riseup.net>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v5] drm/vkms: Add support to 1D gamma LUT
+Date: Sat,  8 Jul 2023 22:38:35 -0300
+Message-ID: <20230709013835.161004-1-arthurgrillo@riseup.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 2/2] drm/bridge: lt9611: Do not generate HFP/HBP/HSA and
- EOT packet
-Content-Language: en-US
-To: <neil.armstrong@linaro.org>, Amit Pundir <amit.pundir@linaro.org>, Dmitry
- Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20230403221233.500485-1-marex@denx.de>
- <20230403221233.500485-2-marex@denx.de>
- <CAMi1Hd0TD=2z_=bcDrht3H_wiLvAFcv8Z-U_r_KUOoeMc6UMjw@mail.gmail.com>
- <CAMty3ZBNFu=f-FS4YFN4wfmiTuk=48nna-vub1eMYwidDt+msg@mail.gmail.com>
- <CAA8EJppbdiUz5m+9EAPnFb916DaS_VKWd30c7_EPWjuid8rtqQ@mail.gmail.com>
- <CAMi1Hd2G5PJmz4wpO1wbdqKd0FA8LBgvRDv2u5ZYAMb5s6Kt0A@mail.gmail.com>
- <d5fb8106-b8f3-0acf-1267-d4d6d0860e25@linaro.org>
- <d28b0090-bd1e-6737-d92b-348dc6c30750@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <d28b0090-bd1e-6737-d92b-348dc6c30750@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: uokp6R2nLoOmnVSUOKGhziKeZtBK6Flg
-X-Proofpoint-GUID: uokp6R2nLoOmnVSUOKGhziKeZtBK6Flg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-08_16,2023-07-06_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- priorityscore=1501 mlxscore=0 malwarescore=0 bulkscore=0 clxscore=1011
- suspectscore=0 impostorscore=0 adultscore=0 phishscore=0
- lowpriorityscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2305260000 definitions=main-2307090007
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,170 +49,293 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Robert Foss <rfoss@kernel.org>,
- Linux regressions mailing list <regressions@lists.linux.dev>,
- Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Michael Walle <michael@walle.cc>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- freedreno <freedreno@lists.freedesktop.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: hamohammed.sa@gmail.com, aleixpol@kde.org, andrealmeid@riseup.net,
+ pekka.paalanen@collabora.com, rodrigosiqueiramelo@gmail.com,
+ xaver.hugl@gmail.com, mdaenzer@redhat.com, victoria@system76.com,
+ mwen@igalia.com, mairacanal@riseup.net, jadahl@redhat.com,
+ uma.shankar@intel.com, sebastian.wick@redhat.com,
+ Arthur Grillo <arthurgrillo@riseup.net>, joshua@froggi.es
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Support a 1D gamma LUT with interpolation for each color channel on the
+VKMS driver. Add a check for the LUT length by creating
+vkms_atomic_check().
 
+Enable VKMS to run the test igt@kms_plane@pixel-format.
 
-On 7/7/2023 1:47 AM, Neil Armstrong wrote:
-> On 07/07/2023 09:18, Neil Armstrong wrote:
->> Hi,
->>
->> On 06/07/2023 11:20, Amit Pundir wrote:
->>> On Wed, 5 Jul 2023 at 11:09, Dmitry Baryshkov
->>> <dmitry.baryshkov@linaro.org> wrote:
->>>>
->>>> [Adding freedreno@ to cc list]
->>>>
->>>> On Wed, 5 Jul 2023 at 08:31, Jagan Teki <jagan@amarulasolutions.com> 
->>>> wrote:
->>>>>
->>>>> Hi Amit,
->>>>>
->>>>> On Wed, Jul 5, 2023 at 10:15 AM Amit Pundir 
->>>>> <amit.pundir@linaro.org> wrote:
->>>>>>
->>>>>> Hi Marek,
->>>>>>
->>>>>> On Wed, 5 Jul 2023 at 01:48, Marek Vasut <marex@denx.de> wrote:
->>>>>>>
->>>>>>> Do not generate the HS front and back porch gaps, the HSA gap and
->>>>>>> EOT packet, as these packets are not required. This makes the bridge
->>>>>>> work with Samsung DSIM on i.MX8MM and i.MX8MP.
->>>>>>
->>>>>> This patch broke display on Dragonboard 845c (SDM845) devboard 
->>>>>> running
->>>>>> AOSP. This is what I see
->>>>>> https://people.linaro.org/~amit.pundir/db845c-userdebug/v6.5-broken-display/PXL_20230704_150156326.jpg.
->>>>>> Reverting this patch fixes this regression for me.
->>>>>
->>>>> Might be msm dsi host require proper handling on these updated
->>>>> mode_flags? did they?
->>>>
->>>> The msm DSI host supports those flags. Also, I'd like to point out
->>>> that the patch didn't change the rest of the driver code. So even if
->>>> drm/msm ignored some of the flags, it should not have caused the
->>>> issue. Most likely the issue is on the lt9611 side. I's suspect that
->>>> additional programming is required to make it work with these flags.
->>>
->>> I spent some time today on smoke testing these flags (individually and
->>> in limited combination) on DB845c, to narrow down this breakage to one
->>> or more flag(s) triggering it. Here are my observations in limited
->>> testing done so far.
->>>
->>> There is no regression with MIPI_DSI_MODE_NO_EOT_PACKET when enabled
->>> alone and system boots to UI as usual.
->>>
->>> MIPI_DSI_MODE_VIDEO_NO_HFP always trigger the broken display as in the
->>> screenshot[1] shared earlier as well.
->>>
->>> Adding either of MIPI_DSI_MODE_VIDEO_NO_HSA and
->>> MIPI_DSI_MODE_VIDEO_NO_HBP always result in no display, unless paired
->>> with MIPI_DSI_MODE_VIDEO_NO_HFP and in that case we get the broken
->>> display as reported.
->>>
->>> In short other than MIPI_DSI_MODE_NO_EOT_PACKET flag, all other flags
->>> added in this commit break the display on DB845c one way or another.
->>
->> I think the investigation would be to understand why samsung-dsim 
->> requires
->> such flags and/or what are the difference in behavior between MSM DSI 
->> and samsung DSIM
->> for those flags ?
->>
->> If someone has access to the lt9611 datasheet, so it requires 
->> HSA/HFP/HBP to be
->> skipped ? and does MSM DSI and samsung DSIM skip them in the same way ?
-> 
-> I think there's a mismatch, where on one side this flags sets the link 
-> in LP-11 while
-> in HSA/HFP/HPB while on the other it completely removes those blanking 
-> packets.
-> 
-> The name MIPI_DSI_MODE_VIDEO_NO_HBP suggests removal of HPB, not LP-11 
-> while HPB.
-> the registers used in both controllers are different:
-> - samsung-dsim: DSIM_HBP_DISABLE_MODE
-> - msm dsi: DSI_VID_CFG0_HBP_POWER_STOP
-> 
-> The first one suggest removing the packet, while the second one suggests 
-> powering
-> off the line while in the blanking packet period.
-> 
-> @Abhinav, can you comment on that ?
-> 
+Tested with:
+igt@kms_color@gamma
+igt@kms_color@legacy-gamma
+igt@kms_color@invalid-gamma-lut-sizes
 
-I dont get what it means by completely removes blanking packets in DSIM.
+v2:
+    - Add interpolation between the values of the LUT (Simon Ser)
 
-It should be replacing those periods with LP11 too.
+v3:
+    - s/ratio/delta (Pekka)
+    - s/color_channel/channel_value (Pekka)
+    - s/lut_area/lut_channel
+    - Store the `drm_color_lut`, `lut_length`, and
+      `channel_value2index_ratio` inside a struct called `vkms_lut`
+      (Pekka)
+    - Pre-compute some constants values used through the LUT procedure
+      (Pekka)
+    - Change the switch statement to a cast to __u16* (Pekka)
+    - Make the apply_lut_to_channel_value return the computation result
+      (Pekka)
 
-The traffic mode being used on this bridge is 
-MIPI_DSI_MODE_VIDEO_SYNC_PULSE which is "Non-Burst Mode with Sync Pulses".
+v4:
+    - Add a comment explaining that `enum lut_area` depends on the
+      layout of `struct drm_color_lut` (Pekka)
+    - Remove unused variable (kernel test robot)
 
-As per this traffic mode in the DSI spec,
+v5:
+    - Mention that this will make it possible to run the test
+      igt@kms_plane@pixel-format (Maíra)
+    - s/had/has (Maíra)
 
-"Normally, periods shown as HSA (Horizontal Sync Active), HBP 
-(Horizontal Back Porch) and HFP (Horizontal Front Porch) are filled by 
-Blanking Packets, with lengths (including packet overhead)  calculated 
-to match the period specified by the peripheral’s data sheet. 
-Alternatively, if there is sufficient time to transition from HS to LP 
-mode and back again, a timed interval in LP mode may substitute for a 
-Blanking Packet, thus saving power. During HSA, HBP and HFP periods, the 
-bus should stay in the LP-11 state."
+Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+Reviewed-by: Maíra Canal <mairacanal@riseup.net>
+---
+Maíra asked me to run a benchmark on some IGT tests:
 
-So we can either send the blanking packets or transition to LP state and 
-those 3 flags are controlling exactly that during those periods for MSM 
-driver.
+Each test ran 100 times. The result with 'X' are tests that were not able to
+run because of the absence of gamma LUT.
 
-If you stop sending the blanking packets, you need to replace that gap 
-with LP.
++--------------------------------------------------+-----------+-----------------+---------------+
+| Test                                             |  No LUT   | Unoptimized LUT | Optimized LUT |
++ -------------------------------------------------+-----------+-----------------+---------------+
+| igt@kms_rotation@primary-rotation-180            | 174.298s  |    181.130s     |   178.800s    |
++ -------------------------------------------------+-----------+-----------------+---------------+
+| igt@kms_plane@pixel-format                       |    X      |    1420.453s    |   1218.229s   |
++ -------------------------------------------------+-----------+-----------------+---------------+
+| igt@kms_plane@pixel-format-source-clamping       |    X      |    704.236s     |   612.318s    |
++ -------------------------------------------------+-----------+-----------------+---------------+
+| igt@kms_plane@plane-position-covered             | 12.535s   |    12.864s      |   12.025s     |
++ -------------------------------------------------+-----------+-----------------+---------------+
+| igt@kms_plane@plane-position-hole                | 11.752s   |    12.873s      |   11.202s     |
++ -------------------------------------------------+-----------+-----------------+---------------+
+| igt@kms_plane@plane-position-hole-dpms           | 15.188s   |    15.238s      |   15.652s     |
++ -------------------------------------------------+-----------+-----------------+---------------+
+| igt@kms_plane@plane-panning-top-left             | 10.797s   |    11.873s      |   11.041s     |
++ -------------------------------------------------+-----------+-----------------+---------------+
+| igt@kms_plane@plane-bottom-right                 | 10.764s   |    11.613s      |   10.053s     |
++ -------------------------------------------------+-----------+-----------------+---------------+
+| igt@kms_plane@plane-panning-bottom-right-suspend | 2011.344s |    2009.410s    |   2011.496s   |
++ -------------------------------------------------+-----------+-----------------+---------------+
+| igt@kms_cursor_crc@cursor-onscreen-512x5112      | 359.209s  |    337.830s     |   308.168s    |
++ -------------------------------------------------+-----------+-----------------+---------------+
+| igt@kms_color@gamma                              |    X      |    137.702s     |   118.139s    |
++ -------------------------------------------------+-----------+-----------------+---------------+
 
-One reason I can think of why this could break with MSM is perhaps we do 
-not have sufficient time in those periods for the LP-HS transition like 
-the spec has written.
+---
+ drivers/gpu/drm/vkms/vkms_composer.c | 86 ++++++++++++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_crtc.c     |  3 +
+ drivers/gpu/drm/vkms/vkms_drv.c      | 20 ++++++-
+ drivers/gpu/drm/vkms/vkms_drv.h      |  9 +++
+ 4 files changed, 117 insertions(+), 1 deletion(-)
 
-1) What is the resolution which is getting broken on db845c with this? I 
-would like to know the full drm_display_mode for it to see how much time 
-we have in those periods. Is any resolution working or all are broken.
+diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+index 906d3df40cdb..e3a79dcd2e38 100644
+--- a/drivers/gpu/drm/vkms/vkms_composer.c
++++ b/drivers/gpu/drm/vkms/vkms_composer.c
+@@ -6,6 +6,7 @@
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_blend.h>
+ #include <drm/drm_fourcc.h>
++#include <drm/drm_fixed.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_vblank.h>
+ #include <linux/minmax.h>
+@@ -89,6 +90,73 @@ static void fill_background(const struct pixel_argb_u16 *background_color,
+ 		output_buffer->pixels[i] = *background_color;
+ }
+ 
++// lerp(a, b, t) = a + (b - a) * t
++static u16 lerp_u16(u16 a, u16 b, s64 t)
++{
++	s64 a_fp = drm_int2fixp(a);
++	s64 b_fp = drm_int2fixp(b);
++
++	s64 delta = drm_fixp_mul(b_fp - a_fp,  t);
++
++	return drm_fixp2int(a_fp + delta);
++}
++
++static s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value)
++{
++	s64 color_channel_fp = drm_int2fixp(channel_value);
++
++	return drm_fixp_mul(color_channel_fp, lut->channel_value2index_ratio);
++}
++
++/*
++ * This enum is related to the positions of the variables inside
++ * `struct drm_color_lut`, so the order of both needs to be the same.
++ */
++enum lut_channel {
++	LUT_RED = 0,
++	LUT_GREEN,
++	LUT_BLUE,
++	LUT_RESERVED
++};
++
++static u16 apply_lut_to_channel_value(const struct vkms_color_lut *lut, u16 channel_value,
++				      enum lut_channel channel)
++{
++	s64 lut_index = get_lut_index(lut, channel_value);
++
++	/*
++	 * This checks if `struct drm_color_lut` has any gap added by the compiler
++	 * between the struct fields.
++	 */
++	static_assert(sizeof(struct drm_color_lut) == sizeof(__u16) * 4);
++
++	u16 *floor_lut_value = (__u16 *)&lut->base[drm_fixp2int(lut_index)];
++	u16 *ceil_lut_value = (__u16 *)&lut->base[drm_fixp2int_ceil(lut_index)];
++
++	u16 floor_channel_value = floor_lut_value[channel];
++	u16 ceil_channel_value = ceil_lut_value[channel];
++
++	return lerp_u16(floor_channel_value, ceil_channel_value,
++			lut_index & DRM_FIXED_DECIMAL_MASK);
++}
++
++static void apply_lut(const struct vkms_crtc_state *crtc_state, struct line_buffer *output_buffer)
++{
++	if (!crtc_state->gamma_lut.base)
++		return;
++
++	if (!crtc_state->gamma_lut.lut_length)
++		return;
++
++	for (size_t x = 0; x < output_buffer->n_pixels; x++) {
++		struct pixel_argb_u16 *pixel = &output_buffer->pixels[x];
++
++		pixel->r = apply_lut_to_channel_value(&crtc_state->gamma_lut, pixel->r, LUT_RED);
++		pixel->g = apply_lut_to_channel_value(&crtc_state->gamma_lut, pixel->g, LUT_GREEN);
++		pixel->b = apply_lut_to_channel_value(&crtc_state->gamma_lut, pixel->b, LUT_BLUE);
++	}
++}
++
+ /**
+  * @wb_frame_info: The writeback frame buffer metadata
+  * @crtc_state: The crtc state
+@@ -128,6 +196,8 @@ static void blend(struct vkms_writeback_job *wb,
+ 					    output_buffer);
+ 		}
+ 
++		apply_lut(crtc_state, output_buffer);
++
+ 		*crc32 = crc32_le(*crc32, (void *)output_buffer->pixels, row_size);
+ 
+ 		if (wb)
+@@ -242,6 +312,22 @@ void vkms_composer_worker(struct work_struct *work)
+ 	crtc_state->frame_start = 0;
+ 	crtc_state->frame_end = 0;
+ 	crtc_state->crc_pending = false;
++
++	if (crtc->state->gamma_lut) {
++		s64 max_lut_index_fp;
++		s64 u16_max_fp = drm_int2fixp(0xffff);
++
++		crtc_state->gamma_lut.base = (struct drm_color_lut *)crtc->state->gamma_lut->data;
++		crtc_state->gamma_lut.lut_length =
++			crtc->state->gamma_lut->length / sizeof(struct drm_color_lut);
++		max_lut_index_fp = drm_int2fixp(crtc_state->gamma_lut.lut_length  - 1);
++		crtc_state->gamma_lut.channel_value2index_ratio = drm_fixp_div(max_lut_index_fp,
++									       u16_max_fp);
++
++	} else {
++		crtc_state->gamma_lut.base = NULL;
++	}
++
+ 	spin_unlock_irq(&out->composer_lock);
+ 
+ 	/*
+diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+index 515f6772b866..61e500b8c9da 100644
+--- a/drivers/gpu/drm/vkms/vkms_crtc.c
++++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+@@ -290,6 +290,9 @@ int vkms_crtc_init(struct drm_device *dev, struct drm_crtc *crtc,
+ 
+ 	drm_crtc_helper_add(crtc, &vkms_crtc_helper_funcs);
+ 
++	drm_mode_crtc_set_gamma_size(crtc, VKMS_LUT_SIZE);
++	drm_crtc_enable_color_mgmt(crtc, 0, false, VKMS_LUT_SIZE);
++
+ 	spin_lock_init(&vkms_out->lock);
+ 	spin_lock_init(&vkms_out->composer_lock);
+ 
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+index e3c9c9571c8d..dd0af086e7fa 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.c
++++ b/drivers/gpu/drm/vkms/vkms_drv.c
+@@ -120,9 +120,27 @@ static const struct drm_driver vkms_driver = {
+ 	.minor			= DRIVER_MINOR,
+ };
+ 
++static int vkms_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
++{
++	struct drm_crtc *crtc;
++	struct drm_crtc_state *new_crtc_state;
++	int i;
++
++	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
++		if (!new_crtc_state->gamma_lut || !new_crtc_state->color_mgmt_changed)
++			continue;
++
++		if (new_crtc_state->gamma_lut->length / sizeof(struct drm_color_lut *)
++		    > VKMS_LUT_SIZE)
++			return -EINVAL;
++	}
++
++	return drm_atomic_helper_check(dev, state);
++}
++
+ static const struct drm_mode_config_funcs vkms_mode_funcs = {
+ 	.fb_create = drm_gem_fb_create,
+-	.atomic_check = drm_atomic_helper_check,
++	.atomic_check = vkms_atomic_check,
+ 	.atomic_commit = drm_atomic_helper_commit,
+ };
+ 
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index 5f1a0a44a78c..f16b5d7b81ef 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -23,6 +23,8 @@
+ 
+ #define NUM_OVERLAY_PLANES 8
+ 
++#define VKMS_LUT_SIZE 256
++
+ struct vkms_frame_info {
+ 	struct drm_framebuffer *fb;
+ 	struct drm_rect src, dst;
+@@ -65,6 +67,12 @@ struct vkms_plane {
+ 	struct drm_plane base;
+ };
+ 
++struct vkms_color_lut {
++	struct drm_color_lut *base;
++	size_t lut_length;
++	s64 channel_value2index_ratio;
++};
++
+ /**
+  * vkms_crtc_state - Driver specific CRTC state
+  * @base: base CRTC state
+@@ -80,6 +88,7 @@ struct vkms_crtc_state {
+ 	/* stack of active planes for crc computation, should be in z order */
+ 	struct vkms_plane_state **active_planes;
+ 	struct vkms_writeback_job *active_writeback;
++	struct vkms_color_lut gamma_lut;
+ 
+ 	/* below four are protected by vkms_output.composer_lock */
+ 	bool crc_pending;
+-- 
+2.41.0
 
-2) I also do not completely get the last line of the DSI spec on this 
-traffic mode. Is it suggesting that we *must* use only LP11 for those 
-periods in this traffic mode? I need to check little more on that. 
-Because if thats the case the change is doing just that and we need to 
-investigate the MSM failure little more. If not and its indeed optional 
-to save power like the DSI spec says, then its weird why DSIM should be 
-blank without that too.
-
-
-> @Jagan, Andrezej So you have any documentation on what 
-> DSIM_xxx_DISABLE_MODE does ?
-> 
-> @Dmitry, so you have access to the lt9611 datasheet to know what's 
-> needed here ?
-> 
-> Neil
-> 
->>
->> Neil
->>
->>>
->>> Regards,
->>> Amit Pundir
->>> [1] 
->>> https://people.linaro.org/~amit.pundir/db845c-userdebug/v6.5-broken-display/PXL_20230704_150156326.jpg
->>>
->>>>
->>>> -- 
->>>> With best wishes
->>>> Dmitry
->>
-> 
