@@ -2,68 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 982DF74D120
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 11:12:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79EEF74D150
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 11:24:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C686D10E1A4;
-	Mon, 10 Jul 2023 09:12:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C92D10E1EF;
+	Mon, 10 Jul 2023 09:24:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
- [IPv6:2607:f8b0:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED1EF10E1A4
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 09:12:09 +0000 (UTC)
-Received: by mail-pf1-x42b.google.com with SMTP id
- d2e1a72fcca58-666e3b15370so2265225b3a.0
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 02:12:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1688980329; x=1691572329;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=kU6Mm9mplXh/rNIwHwAKhJYGQu+Q7/SpCWJyNAcPJ1A=;
- b=cbmC3W5c0r8kKiacXG8ia/aK1e8HTbZRDHEjiLIDGiSWvt9hK//RdDkvjBbx/S1/7/
- oFrfD8tCQT11tzzrKPz7AbRyzPsDsR+c3BbYSPcF5g4DX2Fqxsv5o4mKilNx3qjVq7Xq
- /UbaX/b5Gv7XHCXHsbkpCBtsM6tVPYHO5pzYk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688980329; x=1691572329;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=kU6Mm9mplXh/rNIwHwAKhJYGQu+Q7/SpCWJyNAcPJ1A=;
- b=WwCYU4QpSVfaRqBDhXOygu3ExPd2lxRx6Ra6zefWJfz6eBlg46/frPmZmpeN8P/xyr
- xF3ZvM/E6G/6CStRq/cq6gWcEaie0sY0y3G3B7v5I0hJx9cWRe/c3yg6uIUq2LQ51d3a
- NvYM2IpbqjhIaZ8vVY17KYmbbYOIesC44Wv4VWyqLAMRplXrlMGoBBqN/09X7xrUF2PN
- Wgfn3+txDAO7XoaN7Cgl+lPDvg6QLNDzMcXThy9LboTUjzGrj0pwMlqc/DWbr2bBfdUr
- aL4OntyOz9WfxZa52C0NVSrY5QTOsEoFBL+PPYTH+HOupenbuI34EysqCCpdsEgRvFKb
- 25TA==
-X-Gm-Message-State: ABy/qLZ77t2p09RsKOBgiX+Z7PUoCl599JJCAAnB5ohP2h9VvSJqCRhd
- LlGAsClms97Klzs8H2I8knciYw==
-X-Google-Smtp-Source: APBJJlG3bdCWRX8Ctlyd2UtPoIN5gLeqYlnJpoXjhGbIk5y6k6/CpCzBBNUSLrunyFPet8Q3pArDKw==
-X-Received: by 2002:a05:6a00:884:b0:682:a62a:ec36 with SMTP id
- q4-20020a056a00088400b00682a62aec36mr12561365pfj.15.1688980329158; 
- Mon, 10 Jul 2023 02:12:09 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com
- ([2401:fa00:1:10:be97:1d05:f9b6:36a6])
- by smtp.gmail.com with ESMTPSA id
- q21-20020a62ae15000000b00640dbbd7830sm6944589pff.18.2023.07.10.02.12.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jul 2023 02:12:08 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Xin Ji <xji@analogixsemi.com>,
- =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?=
- <nfraprado@collabora.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH] drm/bridge: anx7625: Use common macros for HDCP capabilities
-Date: Mon, 10 Jul 2023 17:12:01 +0800
-Message-ID: <20230710091203.1874317-1-wenst@chromium.org>
-X-Mailer: git-send-email 2.41.0.255.g8b1d071c50-goog
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D98910E10D;
+ Mon, 10 Jul 2023 09:24:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1688981073; x=1720517073;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=LHbaGguUTzNCxAZYVlGk0RMW62joSF3DwWTo7/3S68M=;
+ b=QleufXYghQydOCSyFNfjNBReJct9UbakT/HdlwFhsgK+c2JEXkFVItqU
+ XY14n7XzAlm4KS/Ji+mxRGqXAuTnJ1k1DZeFXhInbdzHenXLkhU/a7l68
+ Mf+wnxyj/4UopKfiB9027TM5/Oszb2ZKo5MFL5zVOuZRhRcGqRSPei1B5
+ COFKGl28pnLn4UGmD398HrKn7MTOlMxsctb/e51QLAR8pBAfiQYbBOUSV
+ NvPqE+4LgCMqCLkqOziiNuVsAP0Yyn0eHvjgJzYSW9cW2d585H6kWBUX/
+ 3iNVc/89xWdgMeOnONZg7/0k1A6RWncBIxT+BvLtWiCkz5yfYMsm2xuq9 Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10766"; a="427989419"
+X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; d="scan'208";a="427989419"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jul 2023 02:24:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10766"; a="786084712"
+X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; d="scan'208";a="786084712"
+Received: from ccgoode-mobl.ger.corp.intel.com (HELO [10.213.236.139])
+ ([10.213.236.139])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jul 2023 02:24:30 -0700
+Message-ID: <8a704149-260f-cf3c-474f-db9c83d51ee8@linux.intel.com>
+Date: Mon, 10 Jul 2023 10:24:28 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Fix one wrong caching mode enum
+ usage
+Content-Language: en-US
+To: "Upadhyay, Tejas" <tejas.upadhyay@intel.com>,
+ "Intel-gfx@lists.freedesktop.org" <Intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+References: <20230707125503.3965817-1-tvrtko.ursulin@linux.intel.com>
+ <SJ1PR11MB6204F446D83BBB894E7D53CD812DA@SJ1PR11MB6204.namprd11.prod.outlook.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <SJ1PR11MB6204F446D83BBB894E7D53CD812DA@SJ1PR11MB6204.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,39 +66,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Chen-Yu Tsai <wenst@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DRM DP code has macros for the DP HDCP capabilities. Use them in the
-anx7625 driver instead of raw numbers.
 
-Fixes: cd1637c7e480 ("drm/bridge: anx7625: add HDCP support")
-Suggested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
- drivers/gpu/drm/bridge/analogix/anx7625.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 07/07/2023 14:23, Upadhyay, Tejas wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of
+>> Tvrtko Ursulin
+>> Sent: Friday, July 7, 2023 6:25 PM
+>> To: Intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
+>> Subject: [Intel-gfx] [PATCH] drm/i915: Fix one wrong caching mode enum
+>> usage
+>>
+>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> Commit a4d86249c773 ("drm/i915/gt: Provide a utility to create a scratch
+>> buffer") mistakenly passed in uapi I915_CACHING_CACHED as argument to
+>> i915_gem_object_set_cache_coherency(), which actually takes internal enum
+>> i915_cache_level.
+>>
+>> No functional issue since the value matches I915_CACHE_LLC (1 == 1), which
+>> is the intended caching mode, but lets clean it up nevertheless.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> Fixes: a4d86249c773 ("drm/i915/gt: Provide a utility to create a scratch
+>> buffer")
+>> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/gt/intel_gtt.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c
+>> b/drivers/gpu/drm/i915/gt/intel_gtt.c
+>> index 126269a0d728..065099362a98 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
+>> @@ -676,7 +676,7 @@ __vm_create_scratch_for_read(struct
+>> i915_address_space *vm, unsigned long size)
+>>   	if (IS_ERR(obj))
+>>   		return ERR_CAST(obj);
+>>
+>> -	i915_gem_object_set_cache_coherency(obj,
+>> I915_CACHING_CACHED);
+>> +	i915_gem_object_set_cache_coherency(obj, I915_CACHE_LLC);
+> 
+> Yes.
+> Reviewed-by: Tejas Upadhyay <tejas.upadhyay@intel.com>
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 9db3784cb554..866d018f4bb1 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -872,11 +872,11 @@ static int anx7625_hdcp_enable(struct anx7625_data *ctx)
- 	}
- 
- 	/* Read downstream capability */
--	ret = anx7625_aux_trans(ctx, DP_AUX_NATIVE_READ, 0x68028, 1, &bcap);
-+	ret = anx7625_aux_trans(ctx, DP_AUX_NATIVE_READ, DP_AUX_HDCP_BCAPS, 1, &bcap);
- 	if (ret < 0)
- 		return ret;
- 
--	if (!(bcap & 0x01)) {
-+	if (!(bcap & DP_BCAPS_HDCP_CAPABLE)) {
- 		pr_warn("downstream not support HDCP 1.4, cap(%x).\n", bcap);
- 		return 0;
- 	}
--- 
-2.41.0.255.g8b1d071c50-goog
+Pushed, thanks for the review!
 
+Regards,
+
+Tvrtko
+
+> 
+>>
+>>   	vma = i915_vma_instance(obj, vm, NULL);
+>>   	if (IS_ERR(vma)) {
+>> --
+>> 2.39.2
+> 
