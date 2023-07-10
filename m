@@ -2,62 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48A7D74DF20
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 22:21:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E656C74DFD6
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 22:54:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0458810E2D4;
-	Mon, 10 Jul 2023 20:21:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D53AC10E2D3;
+	Mon, 10 Jul 2023 20:54:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
- [IPv6:2001:4860:4864:20::2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDA3010E2D3;
- Mon, 10 Jul 2023 20:21:12 +0000 (UTC)
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-1b45fe36cd9so1856607fac.2; 
- Mon, 10 Jul 2023 13:21:12 -0700 (PDT)
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F60D10E2D3
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 20:54:06 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id
+ 2adb3069b0e04-4fb77f21c63so7756924e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 13:54:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689020471; x=1691612471;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zQI7m/PWW5lx/D1YlUvsvyQDeza06QWfMVyhiJmEv7Y=;
- b=RnAddbMZgLA1Og/B+xpbcbXdBD0VrjWG1NaGXJ07JDYcAd7mttQcInm7ak3KUcgvgs
- VS/Oe21tZHO5LUJob8/k9ycA1yIIonZKDl9Tsngj9Y9j9dmgyGPmNz0T/kdFyrD/sxpu
- oa8nxCKP/L9NkWSJY76ShahPBYulQi1uuR9tUl/FqW7e7i3Z/93fPceRg8+H/CVD3Nwv
- EngiLnl6gHr2OGQKcwmma/JwnOR5EkHKRGE0Hp6iSQiuiB8uoXP7m5/bzTzCJzzSFAks
- HUlsePXzctmi0WIBbohNSjrp+UNMVnGJhKYcZYRcMGNSK8Jj3UrTV5rAp38VjhXNkDYb
- ayug==
+ d=linaro.org; s=google; t=1689022444; x=1691614444;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=G13MU++Hl725dEif28QmMqrP2IERpf/MG7YmFR/Xwy4=;
+ b=NLH+BfyIWjRPR682uKLEiGgUxBJuXKiXe08BGf4hxnCLHlIGx87daghOtT9KJ/ktDM
+ iL55X76cT2x1pJub77gKLDir3k5/fi7vJuu5BvHtVkwYmDou+f6z3SEWxGFwXGhD+48Y
+ HzIw5D3XaD88iSI3+oAtg5TVbYSDF4gA4LVTkMhOSUhu+QtnSBmu38uNzZ4vzDVLF5xp
+ PkFZtFSt/NEoA07WdIXD2NECUIS/wGNdohoXtEg7wosH5FXetRsgv1+qCATRkbBXY3fX
+ EdtLwMq13hMDsLsTuHlNeExPdw0m8k65/HAxrX0ukHuuO52Kn+Nj91Ur9M2c6Tbwo4aj
+ ibgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689020471; x=1691612471;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zQI7m/PWW5lx/D1YlUvsvyQDeza06QWfMVyhiJmEv7Y=;
- b=hVK/Y27w9996iiTckTui4Ywz1SkWQzqBFOTfhCK68KsZJB9OldZMaSjxF33mjdfTNw
- Mj9j5iPGGwmkqNEcadohJPk0mKpD/Lvc4Llv/w8p1Waz2xU/VrXVsjfzoPVJhR/cBg8u
- 2VBGDRQJKO6CPeC88zFH1PT7BfZHARxmzkutgML8hOy89bZCJsdnpqcd0lKA6iYCHY0t
- qQDAsxpw+KnmjksIQKzyeld88kVUentoQq7++l5m999NydA5DSmWHvDWyxYM1Zbe/Tmu
- N1f4XElGgRVtZO7kIwMa28x1ronPoGyb9RAO3JvTTpbLlPXMoD+0G1M3OlrVb59/5/Y6
- kPgg==
-X-Gm-Message-State: ABy/qLYFI+1fBQy7fCuMqGhDGAog73z/6cnDuHfH3M2/MJHOP5n/y8If
- c1sDxVnC/QilZQrTRoGdAtTYMMTgADDC0lz8weI=
-X-Google-Smtp-Source: APBJJlFMuBmCDJiTe5d+q61B/wbJExJt0gPJw1oc4QmfseKkn8o+8hegLmwGvAiXF6SS3Y9BxgIni1lufhYJje9rRSo=
-X-Received: by 2002:a05:6870:e2c9:b0:1b7:3065:abe with SMTP id
- w9-20020a056870e2c900b001b730650abemr3891540oad.26.1689020471456; Mon, 10 Jul
- 2023 13:21:11 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1689022444; x=1691614444;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=G13MU++Hl725dEif28QmMqrP2IERpf/MG7YmFR/Xwy4=;
+ b=U+fx2hOudAkCg7a9e1BFwIraIxGCHNqrH2AuMUG28ftebEXE43MCoo50kvoh8o4xgy
+ BWVbMGhggTidYH8TaOP7xLSHnVxYLewbjMarHN3sHFgtOaPUDeOEMAf6X7gXPcoZPV9j
+ qIy82MCmH/+fxPC6T7W2yiiTZ003a5cArjR1T/p/ynNvZyFhfjM+eA99I971toMJ+/5k
+ iExuVyv5rrbotaGn9XP8Hr0JNv3G6cLDIqN6eoebS5xsUYXMlNfmujQKCuB7M4/VP+EJ
+ m3ESXPmIiGsyOB+0bgaqBtZCk2MrfkIr/7iJLm+XySvbDxQZ2r0hoSKDn/BR+FZEGzwk
+ nUhA==
+X-Gm-Message-State: ABy/qLZIT6H/rtHPkn4wsE3qTO2R9D76XxbCmYofcave0UZJiD5fRW+E
+ 0vIle51vvRspxFvdPBihVU5klw==
+X-Google-Smtp-Source: APBJJlG84vjZD6EToeATX/q3/IrlfPeCZqyrgGIbuplyOgjCIDQQpFiAwqLDp/c7LCPj4C7FK5jvHw==
+X-Received: by 2002:a05:6512:ba1:b0:4f3:80a3:b40a with SMTP id
+ b33-20020a0565120ba100b004f380a3b40amr13107838lfv.69.1689022443890; 
+ Mon, 10 Jul 2023 13:54:03 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ p16-20020a05651211f000b004fbab80ecefsm44941lfs.145.2023.07.10.13.54.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Jul 2023 13:54:03 -0700 (PDT)
+Message-ID: <d3f5cf11-e481-2c50-b712-f8832265e897@linaro.org>
+Date: Mon, 10 Jul 2023 23:54:02 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [Freedreno] [PATCH 07/12] drm/msm/adreno: Move speedbin mapping
+ to device table
+Content-Language: en-GB
+To: Rob Clark <robdclark@gmail.com>
 References: <20230706211045.204925-1-robdclark@gmail.com>
- <20230706211045.204925-11-robdclark@gmail.com>
- <1ecc63d0-db62-c8aa-74b7-36ad2eff89a1@linaro.org>
-In-Reply-To: <1ecc63d0-db62-c8aa-74b7-36ad2eff89a1@linaro.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 10 Jul 2023 13:21:00 -0700
-Message-ID: <CAF6AEGtJifJZd94iP4n65mrcOda9L367NJGNpR8R2x1kjVZGmQ@mail.gmail.com>
-Subject: Re: [PATCH 10/12] drm/msm/adreno: Add helper for formating chip-id
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <20230706211045.204925-8-robdclark@gmail.com>
+ <fa8f72dd-8d74-e941-1b4e-2464a9034424@linaro.org>
+ <CAF6AEGv2K9Ar8=96H2_=BJc=hqFNnh2M5fvbG5p5gjoAEfR=-A@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <CAF6AEGv2K9Ar8=96H2_=BJc=hqFNnh2M5fvbG5p5gjoAEfR=-A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,133 +81,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 6, 2023 at 4:36=E2=80=AFPM Konrad Dybcio <konrad.dybcio@linaro.=
-org> wrote:
->
-> On 6.07.2023 23:10, Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > This is used in a few places, including one that is parsed by userspace
-> > tools.  So let's standardize it a bit better.
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
-> Userspace parsed this weird string instead of the hex-based chipid?
->
-> weird^2
+On 10/07/2023 22:56, Rob Clark wrote:
+> On Thu, Jul 6, 2023 at 7:54 PM Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+>>
+>> On 07/07/2023 00:10, Rob Clark wrote:
+>>> From: Rob Clark <robdclark@chromium.org>
+>>>
+>>> This simplifies the code.
+>>>
+>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>>> ---
+>>>    drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 171 ++-------------------
+>>>    drivers/gpu/drm/msm/adreno/adreno_device.c |  51 ++++++
+>>>    drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  25 +++
+>>>    3 files changed, 92 insertions(+), 155 deletions(-)
+>>
+>>
+>> Interesting hack, I'd say.
+>>
+>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>
+>> Minor nit below.
+>>
+>>>
+>>
+>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>>> index d5335b99c64c..994ac26ce731 100644
+>>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>>> @@ -72,8 +72,33 @@ struct adreno_info {
+>>>        u32 inactive_period;
+>>>        const struct adreno_reglist *hwcg;
+>>>        u64 address_space_size;
+>>> +     /**
+>>> +      * @speedbins: Optional table of fuse to speedbin mappings
+>>> +      *
+>>> +      * Consists of pairs of fuse, index mappings, terminated with
+>>> +      * UINT_MAX sentinal.
+>>> +      */
+>>> +     uint32_t *speedbins;
+>>
+>> Would it be better to explicitly list this as pairs of uint32_t? And
+>> then use braces in ADRENO_SPEEDBIN initialisation.
+> 
+> It would mean the sentinel would take 8 bytes instead of 4.. maybe
+> that is over-thinking it, but it was the reason I just stuck with a
+> flat table
 
-AFAICT it is just crashdec (the creatively named tool for parsing gpu
-devcore dumps) which parses using "%u.%u.%u.%u"..  I suppose one
-_could_ make the argument that, since userspace doesn't yet support
-any device where "%x.%x.%x.%x" parsing would be different, we could
-get away with switching to hex without it being an ABI break..
+Guessed so. But we are wasting so much memory already... I think that 
+the paired structure would better reflect the data - it's not a flat 
+list, but a list of nvmem <-> speedbin pairs.
 
-BR,
--R
+> 
+> BR,
+> -R
+> 
+>>>    };
+>>>
+>>> +/*
+>>> + * Helper to build a speedbin table, ie. the table:
+>>> + *      fuse | speedbin
+>>> + *      -----+---------
+>>> + *        0  |   0
+>>> + *       169 |   1
+>>> + *       174 |   2
+>>> + *
+>>> + * would be declared as:
+>>> + *
+>>> + *     .speedbins = ADRENO_SPEEDBINS(
+>>> + *                      0,   0,
+>>> + *                      169, 1,
+>>> + *                      174, 2
+>>> + *                  ),
+>>> + */
+>>> +#define ADRENO_SPEEDBINS(tbl...) (uint32_t[]) { tbl, UINT_MAX }
+>>> +
+>>>    const struct adreno_info *adreno_info(struct adreno_rev rev);
+>>>
+>>>    struct adreno_gpu {
+>>
+>> --
+>> With best wishes
+>> Dmitry
+>>
 
-> Konrad
-> >  drivers/gpu/drm/msm/adreno/adreno_device.c |  8 +++-----
-> >  drivers/gpu/drm/msm/adreno/adreno_gpu.c    | 19 ++++++++-----------
-> >  drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  6 ++++++
-> >  3 files changed, 17 insertions(+), 16 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/d=
-rm/msm/adreno/adreno_device.c
-> > index dcd6363ac7b0..fd2e183bce60 100644
-> > --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > @@ -661,14 +661,12 @@ static int adreno_bind(struct device *dev, struct=
- device *master, void *data)
-> >       info =3D adreno_info(config.rev);
-> >
-> >       if (!info) {
-> > -             dev_warn(drm->dev, "Unknown GPU revision: %u.%u.%u.%u\n",
-> > -                     config.rev.core, config.rev.major,
-> > -                     config.rev.minor, config.rev.patchid);
-> > +             dev_warn(drm->dev, "Unknown GPU revision: %"ADRENO_CHIPID=
-_FMT"\n",
-> > +                     ADRENO_CHIPID_ARGS(config.rev));
-> >               return -ENXIO;
-> >       }
-> >
-> > -     DBG("Found GPU: %u.%u.%u.%u", config.rev.core, config.rev.major,
-> > -             config.rev.minor, config.rev.patchid);
-> > +     DBG("Found GPU: %"ADRENO_CHIPID_FMT, ADRENO_CHIPID_ARGS(config.re=
-v));
-> >
-> >       priv->is_a2xx =3D info->family < ADRENO_3XX;
-> >       priv->has_cached_coherent =3D
-> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/=
-msm/adreno/adreno_gpu.c
-> > index 75ff7fb46099..1a982a926f21 100644
-> > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> > @@ -847,10 +847,9 @@ void adreno_show(struct msm_gpu *gpu, struct msm_g=
-pu_state *state,
-> >       if (IS_ERR_OR_NULL(state))
-> >               return;
-> >
-> > -     drm_printf(p, "revision: %d (%d.%d.%d.%d)\n",
-> > -                     adreno_gpu->info->revn, adreno_gpu->rev.core,
-> > -                     adreno_gpu->rev.major, adreno_gpu->rev.minor,
-> > -                     adreno_gpu->rev.patchid);
-> > +     drm_printf(p, "revision: %u (%"ADRENO_CHIPID_FMT")\n",
-> > +                     adreno_gpu->info->revn,
-> > +                     ADRENO_CHIPID_ARGS(adreno_gpu->rev));
-> >       /*
-> >        * If this is state collected due to iova fault, so fault related=
- info
-> >        *
-> > @@ -921,10 +920,9 @@ void adreno_dump_info(struct msm_gpu *gpu)
-> >       struct adreno_gpu *adreno_gpu =3D to_adreno_gpu(gpu);
-> >       int i;
-> >
-> > -     printk("revision: %d (%d.%d.%d.%d)\n",
-> > -                     adreno_gpu->info->revn, adreno_gpu->rev.core,
-> > -                     adreno_gpu->rev.major, adreno_gpu->rev.minor,
-> > -                     adreno_gpu->rev.patchid);
-> > +     printk("revision: %u (%"ADRENO_CHIPID_FMT")\n",
-> > +                     adreno_gpu->info->revn,
-> > +                     ADRENO_CHIPID_ARGS(adreno_gpu->rev));
-> >
-> >       for (i =3D 0; i < gpu->nr_rings; i++) {
-> >               struct msm_ringbuffer *ring =3D gpu->rb[i];
-> > @@ -1105,9 +1103,8 @@ int adreno_gpu_init(struct drm_device *drm, struc=
-t platform_device *pdev,
-> >               speedbin =3D 0xffff;
-> >       adreno_gpu->speedbin =3D (uint16_t) (0xffff & speedbin);
-> >
-> > -     gpu_name =3D devm_kasprintf(dev, GFP_KERNEL, "%d.%d.%d.%d",
-> > -                     rev->core, rev->major, rev->minor,
-> > -                     rev->patchid);
-> > +     gpu_name =3D devm_kasprintf(dev, GFP_KERNEL, "%"ADRENO_CHIPID_FMT=
-,
-> > +                     ADRENO_CHIPID_ARGS(config->rev));
-> >       if (!gpu_name)
-> >               return -ENOMEM;
-> >
-> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/=
-msm/adreno/adreno_gpu.h
-> > index 2fa14dcd4e40..73e7155f164c 100644
-> > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> > @@ -66,6 +66,12 @@ struct adreno_rev {
-> >  #define ADRENO_REV(core, major, minor, patchid) \
-> >       ((struct adreno_rev){ core, major, minor, patchid })
-> >
-> > +/* Helper for formating the chip_id in the way that userspace tools li=
-ke
-> > + * crashdec expect.
-> > + */
-> > +#define ADRENO_CHIPID_FMT "u.%u.%u.%u"
-> > +#define ADRENO_CHIPID_ARGS(_r) (_r).core, (_r).major, (_r).minor, (_r)=
-.patchid
-> > +
-> >  struct adreno_gpu_funcs {
-> >       struct msm_gpu_funcs base;
-> >       int (*get_timestamp)(struct msm_gpu *gpu, uint64_t *value);
+-- 
+With best wishes
+Dmitry
+
