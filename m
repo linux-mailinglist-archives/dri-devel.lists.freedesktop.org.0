@@ -1,62 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAC6F74DC41
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 19:22:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7C8B74DC64
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 19:25:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EFC710E2B3;
-	Mon, 10 Jul 2023 17:22:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0CEC10E2B0;
+	Mon, 10 Jul 2023 17:25:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com
- [IPv6:2607:f8b0:4864:20::c35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4109E10E2B9;
- Mon, 10 Jul 2023 17:22:09 +0000 (UTC)
-Received: by mail-oo1-xc35.google.com with SMTP id
- 006d021491bc7-56344354e2cso3358925eaf.1; 
- Mon, 10 Jul 2023 10:22:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689009728; x=1691601728;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=N2URZjHoSzSdFZGhiJ/VRg5MQG2hq7x25wO7hMvPNMM=;
- b=c1SAQjQCpoHXWp5nZdwWBuFYj+dfYWIQZ4DTW397XSdxmeJztJjOJD/zhRL3+fKhmU
- jlMElbbizYtyN7AOXhiQPQ2UWMLebWkNr48afVJoWlDcTPHV1lUyw8HIUDW49VnmpzNZ
- E579nGpBsdIsmT3uvpXshkE60VMBCPepIbsGA8MyqHnCX9GX2ZT6C9MVx2Wzsz+1SL96
- I3PAXdK/OB0rFG0v9M0kLUAPC5zRawGIINBeCBn+hSoqJywGwMtB3M+psItoynLsmGs9
- KzFZ60m0o7jPjVtPm50kf0u1daNpKSuDNJML0PWk7UO2y4ZRQaY41ivNujcHmsz6ZM1D
- 2ZcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689009728; x=1691601728;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=N2URZjHoSzSdFZGhiJ/VRg5MQG2hq7x25wO7hMvPNMM=;
- b=EnnKomCvYOQ3IYUj/7xPSKsV7r3eWRclhQKoGMuR8jHjjG4rfdGzZsEc3bbfEFW4jx
- h6A6IDuo08ICup5Y81es4MmU4zRGyGbTiqCXeMb4ae03k9P3nNLSrPmBnbyn5u0zaESx
- OLQv6tu3QCIy6AX0nzF0+7AGxSlLnnqXydtAzpSmfSF4XQdJn8I/aA1AaeTs+PkJHLXm
- B2ibpDPJQfJsZZGQmiLr9UYBubzX9iqi/Hhvjy4OP23pdJhUO6ziIp9mQ1Ya0L8BF7PX
- +n9RHlvYxoeQzJQXyqyB17+wxeZC5FOpoaNUG6uTWmNAVj6uCnCJY13dCxEAERLoF1mj
- XCZA==
-X-Gm-Message-State: ABy/qLYQPfqW+RazlnFPwd1Yk87PVaNMglyzfTSneMHEvlDYxIGnakZr
- nalSGS25iLrh2fkZbIDSALkKspur5BnxgYWKKbc=
-X-Google-Smtp-Source: APBJJlGRNm/9SaOFBDmmcSSOrC76TrdQEZJHDGjiF19hRgY5GQuIkZPqthqMvq+sqpBGG8TAM6ol9kfvIYhDP0o1W6M=
-X-Received: by 2002:a4a:d649:0:b0:565:86fa:5de6 with SMTP id
- y9-20020a4ad649000000b0056586fa5de6mr9890899oos.9.1689009727950; Mon, 10 Jul
- 2023 10:22:07 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 295B910E2AF;
+ Mon, 10 Jul 2023 17:25:25 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 36ADrMGU031144; Mon, 10 Jul 2023 17:25:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=bzEbwR0TQhwP3H6/9WLQriTZaxfPzNPwjpCekJsIpKs=;
+ b=Cu4nfM6i+MlB21q9hdoQF23AwPuNy+zdhag73EEGVgFNqDcHGu1t7cQU/M1ZUw0nqUmv
+ TQhZHYTPk2FNSUNo1dneMwoRPfRK7CkQufiy4+vk+53MXWwi9H5Hra5aqqkhNfnz7IWj
+ kHFPPibiWT/CMB1YDAxtJjKOfM3M4gVSQsQtuAsIbvjE26F2CSPg+UD21HtaB3XWvP2j
+ a8JH+uMq3reqEQxr9QDa9eq7LvM8D/K56usijoaBQPW5yeiVCWZz6Ymv8jzaSSzDuXse
+ D3dBxQfXklh82Qx6c+SDOV7KAq0qPO1bb+gbn8Q92w3lWZoKKjqe+yl1eZB0oELVAGar 3A== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rrg8193ke-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 10 Jul 2023 17:25:17 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36AHPGLg020222
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 10 Jul 2023 17:25:16 GMT
+Received: from [10.110.55.196] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Mon, 10 Jul
+ 2023 10:25:15 -0700
+Message-ID: <8a8b24ea-1abf-922c-439e-50a27cf2e5fa@quicinc.com>
+Date: Mon, 10 Jul 2023 10:25:14 -0700
 MIME-Version: 1.0
-References: <20230710074943.54300-1-xujianghui@cdjrlc.com>
- <21106d58871949c9f301c1bab81ae111@208suo.com>
-In-Reply-To: <21106d58871949c9f301c1bab81ae111@208suo.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 10 Jul 2023 13:21:57 -0400
-Message-ID: <CADnq5_NMTbJkCyttYCqrYVbaz2qXveHEk4JQiAaFaV73VP2FFw@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon: ERROR: "(foo*)" should be "(foo *)"
-To: sunran001@208suo.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [Freedreno] [PATCH v1 1/5] drm/msm/dp: remove pm_runtime_xxx()
+ from dp_power.c
+Content-Language: en-US
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>
+References: <1688773943-3887-1-git-send-email-quic_khsieh@quicinc.com>
+ <1688773943-3887-2-git-send-email-quic_khsieh@quicinc.com>
+ <fc5501cf-c335-81f7-1ad7-26fdc1b6922d@linaro.org>
+ <72cb729b-a9d3-3e5b-c70a-0761f47a6779@quicinc.com>
+ <CAA8EJpqKVBKRpFs=sS2rwrJpDP22sNrd00kCYm-b_ZB96O=s5g@mail.gmail.com>
+ <10de9309-19f9-18af-3e01-1cda7d76e73e@quicinc.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <10de9309-19f9-18af-3e01-1cda7d76e73e@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: R__4hoOypJnSLxgzPrypwS9OBHYdgWoV
+X-Proofpoint-GUID: R__4hoOypJnSLxgzPrypwS9OBHYdgWoV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-10_13,2023-07-06_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 phishscore=0
+ impostorscore=0 malwarescore=0 bulkscore=0 mlxscore=0 suspectscore=0
+ adultscore=0 priorityscore=1501 mlxlogscore=999 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2307100157
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,55 +89,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ quic_jesszhan@quicinc.com, andersson@kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
+ agross@kernel.org, linux-arm-msm@vger.kernel.org,
+ marijn.suijten@somainline.org, swboyd@chromium.org, sean@poorly.run,
  linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
 
-Alex
+On 7/9/2023 1:32 PM, Abhinav Kumar wrote:
+>
+>
+> On 7/9/2023 11:00 AM, Dmitry Baryshkov wrote:
+>> On Sun, 9 Jul 2023 at 20:22, Abhinav Kumar 
+>> <quic_abhinavk@quicinc.com> wrote:
+>>>
+>>>
+>>>
+>>> On 7/7/2023 5:06 PM, Dmitry Baryshkov wrote:
+>>>> On 08/07/2023 02:52, Kuogee Hsieh wrote:
+>>>>> Since both pm_runtime_resume() and pm_runtime_suspend() are not
+>>>>> populated at dp_pm_ops. Those pm_runtime_get/put() functions within
+>>>>> dp_power.c will not have any effects in addition to increase/decrease
+>>>>> power counter.
+>>>>
+>>>> Lie.
+>>>>
+>>>
+>>> Even if the commit text is incorrect, review comments like this are not
+>>> helping the patch nor the author and will just get ignored anyway.
+>>
+>> The review comment might be overreacting, excuse me. I was really
+>> impressed by the commit message, which contradicts the basic source
+>> code. pm_runtime_get() does a lot more than just increasing the power
+>> counter.
+>>
+>
+> It says within dp_power.c. Nonetheless, please let us know what is 
+> missing in the context of this patch like Bjorn did to make it an 
+> effective review and we can correct it. In its current form, the 
+> review comment is adding no value.
+>
+I am new in pm.
 
-On Mon, Jul 10, 2023 at 3:52=E2=80=AFAM <sunran001@208suo.com> wrote:
->
-> Fix four occurrences of the checkpatch.pl error:
-> ERROR: "(foo*)" should be "(foo *)"
->
-> Signed-off-by: Ran Sun <sunran001@208suo.com>
-> ---
->   drivers/gpu/drm/radeon/radeon_test.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/radeon/radeon_test.c
-> b/drivers/gpu/drm/radeon/radeon_test.c
-> index a5e1d2139e80..c9fef9b61ced 100644
-> --- a/drivers/gpu/drm/radeon/radeon_test.c
-> +++ b/drivers/gpu/drm/radeon/radeon_test.c
-> @@ -156,10 +156,10 @@ static void radeon_do_test_moves(struct
-> radeon_device *rdev, int flag)
->                         i, *vram_start, gtt_start,
->                         (unsigned long long)
->                         (gtt_addr - rdev->mc.gtt_start +
-> -                       (void*)gtt_start - gtt_map),
-> +                       (void *)gtt_start - gtt_map),
->                         (unsigned long long)
->                         (vram_addr - rdev->mc.vram_start +
-> -                       (void*)gtt_start - gtt_map));
-> +                       (void *)gtt_start - gtt_map));
->                   radeon_bo_kunmap(vram_obj);
->                   goto out_lclean_unpin;
->               }
-> @@ -207,10 +207,10 @@ static void radeon_do_test_moves(struct
-> radeon_device *rdev, int flag)
->                         i, *gtt_start, vram_start,
->                         (unsigned long long)
->                         (vram_addr - rdev->mc.vram_start +
-> -                       (void*)vram_start - vram_map),
-> +                       (void *)vram_start - vram_map),
->                         (unsigned long long)
->                         (gtt_addr - rdev->mc.gtt_start +
-> -                       (void*)vram_start - vram_map));
-> +                       (void *)vram_start - vram_map));
->                   radeon_bo_kunmap(gtt_obj[i]);
->                   goto out_lclean_unpin;
->               }
+Any recommendation to revise this commit test?
+
+>>>>> Also pm_runtime_xxx() should be executed at top
+>>>>> layer.
+>>>>
+>>>> Why?
+>>>>
+>>>
+>>> I guess he meant to centralize this around dp_display.c. Will elaborate
+>>> while posting the next rev.
+>>>
+>>>>>
+>>>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>>>>> ---
+>>>>>    drivers/gpu/drm/msm/dp/dp_power.c | 9 ---------
+>>>>>    1 file changed, 9 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_power.c
+>>>>> b/drivers/gpu/drm/msm/dp/dp_power.c
+>>>>> index 5cb84ca..ed2f62a 100644
+>>>>> --- a/drivers/gpu/drm/msm/dp/dp_power.c
+>>>>> +++ b/drivers/gpu/drm/msm/dp/dp_power.c
+>>>>> @@ -152,8 +152,6 @@ int dp_power_client_init(struct dp_power 
+>>>>> *dp_power)
+>>>>>        power = container_of(dp_power, struct dp_power_private, 
+>>>>> dp_power);
+>>>>> -    pm_runtime_enable(power->dev);
+>>>>> -
+>>>>>        return dp_power_clk_init(power);
+>>>>>    }
+>>>>> @@ -162,8 +160,6 @@ void dp_power_client_deinit(struct dp_power
+>>>>> *dp_power)
+>>>>>        struct dp_power_private *power;
+>>>>>        power = container_of(dp_power, struct dp_power_private, 
+>>>>> dp_power);
+>>>>> -
+>>>>> -    pm_runtime_disable(power->dev);
+>>>>>    }
+>>>>>    int dp_power_init(struct dp_power *dp_power)
+>>>>> @@ -173,11 +169,7 @@ int dp_power_init(struct dp_power *dp_power)
+>>>>>        power = container_of(dp_power, struct dp_power_private, 
+>>>>> dp_power);
+>>>>> -    pm_runtime_get_sync(power->dev);
+>>>>> -
+>>>>>        rc = dp_power_clk_enable(dp_power, DP_CORE_PM, true);
+>>>>> -    if (rc)
+>>>>> -        pm_runtime_put_sync(power->dev);
+>>>>>        return rc;
+>>>>>    }
+>>>>> @@ -189,7 +181,6 @@ int dp_power_deinit(struct dp_power *dp_power)
+>>>>>        power = container_of(dp_power, struct dp_power_private, 
+>>>>> dp_power);
+>>>>>        dp_power_clk_enable(dp_power, DP_CORE_PM, false);
+>>>>> -    pm_runtime_put_sync(power->dev);
+>>>>>        return 0;
+>>>>>    }
+>>>>
+>>
+>>
+>>
