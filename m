@@ -2,66 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 004ED74CE0C
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 09:19:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C32A474CE27
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 09:23:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F32F810E1DF;
-	Mon, 10 Jul 2023 07:19:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7252A10E1C9;
+	Mon, 10 Jul 2023 07:22:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65C9910E1B4
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 07:19:25 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 86BEC1F38D;
- Mon, 10 Jul 2023 07:19:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1688973563; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CShbLxLYLgeAfcg9l2dl1kdjePNzwuvFwqF8VwAgzuQ=;
- b=X1WR6m31E2IDkJ5Kn6WkTEbWr2burhCeyxucRKLeBIBkeeEX2F6QUS2llobGjE6bKGvVVb
- Pn4EhnyCvwJRMhrEvut4jeVF/bxL7sbUepvPJv/KWVmg/A7DDfGP7QfU/qxvM+CIuesu1C
- LSlMlBaxub5w3Ov9GTbit3X2JbY6eYo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1688973563;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CShbLxLYLgeAfcg9l2dl1kdjePNzwuvFwqF8VwAgzuQ=;
- b=x3JvWtqeQb5+N+geD70zWspfzqdf29a2WZoDwwTE2WK1DAXXi8rRXo1aGwAJYFdheKFVhn
- wVq+g1dJK9xv7BBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 62EF513A05;
- Mon, 10 Jul 2023 07:19:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id GFQOF/uwq2QxbAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 10 Jul 2023 07:19:23 +0000
-Message-ID: <91d19fa9-9749-a741-b098-8bbf91ba23e7@suse.de>
-Date: Mon, 10 Jul 2023 09:19:21 +0200
+Received: from mail.208.org (unknown [183.242.55.162])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CBEA10E1B4
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 07:22:03 +0000 (UTC)
+Received: from mail.208.org (email.208.org [127.0.0.1])
+ by mail.208.org (Postfix) with ESMTP id 4QzwRs1T4ZzBHXh4
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 15:22:01 +0800 (CST)
+Authentication-Results: mail.208.org (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)" header.d=208.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
+ content-transfer-encoding:content-type:message-id:user-agent
+ :references:in-reply-to:subject:to:from:date:mime-version; s=
+ dkim; t=1688973721; x=1691565722; bh=Gh6EO96d1xAiEk2mS1BrOEBqriM
+ 6TGQNOsWTpVDRBTg=; b=bcXuONgPFCFhEmvNus1glrMHcK66koNeg5ekp7gM+N6
+ aZ9x8twCxrYlCoAZorB9cSE99YIec0JNogEP82wX1o+lQ280CpViL8yEEVh2Wdng
+ pOKBoOsszwt+zz5XOa8rnNREz+ENXGrFCmZ1ke6twa5kwg/2kleoa4SgIcCP5kFI
+ TKJFV/l0jwrIlK6cCEXH+PcsQuzBheqpXnBkhsNsirIolDCHbmg4WITFFrGg39Vu
+ dU3H6YkvvmFj+QxE474BnnXTypk/1n77sCPzKv91yDxq6OzZewrQIVIJ0bEmqgF7
+ qSkBdqH+4bGUbcm3n0J12bMHRfTpsnS3AGyOW2HOmAQ==
+X-Virus-Scanned: amavisd-new at mail.208.org
+Received: from mail.208.org ([127.0.0.1])
+ by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id RT7_q9gfxbfE for <dri-devel@lists.freedesktop.org>;
+ Mon, 10 Jul 2023 15:22:01 +0800 (CST)
+Received: from localhost (email.208.org [127.0.0.1])
+ by mail.208.org (Postfix) with ESMTPSA id 4QzwRr6QXYzBHXgs;
+ Mon, 10 Jul 2023 15:22:00 +0800 (CST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [drm-misc:drm-misc-next 2/3]
- drivers/gpu/drm/loongson/lsdc_plane.c:199
- lsdc_cursor_plane_atomic_async_check() warn: variable dereferenced before
- check 'state' (see line 180)
-Content-Language: en-US
-To: suijingfeng <suijingfeng@loongson.cn>,
- Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
-References: <ff8f09e7-d8c3-4b02-ae76-47dbac830cdb@kadam.mountain>
- <cfaa947b-0388-2464-6379-8b7ac2c57757@loongson.cn>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <cfaa947b-0388-2464-6379-8b7ac2c57757@loongson.cn>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------Z2nWaC0q8k6Nk32T04vu4lPh"
+Date: Mon, 10 Jul 2023 15:22:00 +0800
+From: sunran001@208suo.com
+To: airlied@gmail.com, daniel@ffwll.ch
+Subject: [PATCH] drm/nouveau/pci: ERROR: "foo * bar" should be "foo *bar"
+In-Reply-To: <20230710072012.54076-1-xujianghui@cdjrlc.com>
+References: <20230710072012.54076-1-xujianghui@cdjrlc.com>
+User-Agent: Roundcube Webmail
+Message-ID: <0b4bfadaf22077b14fe579c1935058ff@208suo.com>
+X-Sender: sunran001@208suo.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Mon, 10 Jul 2023 07:22:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,189 +61,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lkp@intel.com, dri-devel@lists.freedesktop.org,
- oe-kbuild-all@lists.linux.dev
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------Z2nWaC0q8k6Nk32T04vu4lPh
-Content-Type: multipart/mixed; boundary="------------idV08D0pHLOxqZY0P7QVhILU";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: suijingfeng <suijingfeng@loongson.cn>,
- Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, dri-devel@lists.freedesktop.org,
- oe-kbuild-all@lists.linux.dev
-Message-ID: <91d19fa9-9749-a741-b098-8bbf91ba23e7@suse.de>
-Subject: Re: [drm-misc:drm-misc-next 2/3]
- drivers/gpu/drm/loongson/lsdc_plane.c:199
- lsdc_cursor_plane_atomic_async_check() warn: variable dereferenced before
- check 'state' (see line 180)
-References: <ff8f09e7-d8c3-4b02-ae76-47dbac830cdb@kadam.mountain>
- <cfaa947b-0388-2464-6379-8b7ac2c57757@loongson.cn>
-In-Reply-To: <cfaa947b-0388-2464-6379-8b7ac2c57757@loongson.cn>
+Signed-off-by: Ran Sun <sunran001@208suo.com>
+---
+  drivers/gpu/drm/nouveau/nvkm/subdev/pci/gk104.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
 
---------------idV08D0pHLOxqZY0P7QVhILU
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/pci/gk104.c 
+b/drivers/gpu/drm/nouveau/nvkm/subdev/pci/gk104.c
+index 6be87ecffc89..bc51987c5f5f 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/pci/gk104.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/pci/gk104.c
+@@ -147,7 +147,7 @@ gk104_pcie_set_link_speed(struct nvkm_pci *pci, enum 
+nvkm_pcie_speed speed)
+  }
 
-SGkNCg0KQW0gMTAuMDcuMjMgdW0gMDk6MDIgc2NocmllYiBzdWlqaW5nZmVuZzoNCj4gSGks
-DQo+IA0KPiANCj4gVGhhbmtzIGZvciB0ZXN0aW5nLA0KPiANCj4gV2hhdCBkbyB5b3UgbWVh
-bnMgYWJvdXQgdGVsbCBtZSB0aGlzPw0KPiANCj4gSSBtZWFucyB0aGF0IHdvdWxkIHlvdSBs
-aWtlIHRvIGhlbHAgZml4aW5nIHRoaXMgd2FybmluZz8NCg0KVGhlIGNvZGUgaW4gZHJtX2F0
-b21pY19nZXRfbmV3X3BsYW5lX3N0YXRlKCkgZGVyZWZlcmVuY2VzIHRoZSBzdGF0ZSANCnBh
-cmFtZXRlci4gIExhdGVyIGluIHlvdXIgZnVuY3Rpb24sIHlvdSB0ZXN0IGZvciBzdGF0ZSB0
-byBiZSBub24tTlVMTC4NClRoYXQncyB3aGF0IHRoZSB3YXJuaW5nIGlzIGFib3V0Lg0KDQpZ
-b3Ugc2hvdWxkIGJlIGFibGUgdG8gc2lsZW5jZSB0aGlzIHdhcm5pbmcgYnkgcmVtb3Zpbmcg
-dGhlIHN0YXRlIHRlc3QgDQpmcm9tIHlvdXIgZnVuY3Rpb24gKGFuZCBhbHNvIGRlbGV0ZSB0
-aGF0IGVsc2UgYnJhbmNoKS4gVGhlcmUgc2hvdWxkIA0KYWx3YXlzIGJlIGFuIGF0b21pYyBz
-dGF0ZSBwcmVzZW50IGFuZCB0aGUgYXRvbWljLWNoZWNrIGNhbGxiYWNrcyBzaG91bGQgDQpu
-b3QgYmUgY2FsbGVkIHdpdGhvdXQgYSBzdGF0ZS4gSWYgbm90LCB0aGUgZHJpdmVyIG1vc3Qg
-bGlrZWx5IGZhaWxlZCB0byANCmluaXRpYWxpemUgY29ycmVjdGx5Lg0KDQpCZXN0IHJlZ2Fy
-ZHMNClRob21hcw0KDQo+IA0KPiBPciBvdGhlcndpc2UsIEkgd2lsbCBmaXggdGhpcyBzb21l
-ZGF5Lg0KPiANCj4gDQo+IE9uIDIwMjMvNy8xMCAxNDoyOSwgRGFuIENhcnBlbnRlciB3cm90
-ZToNCj4+IHRyZWU6wqDCoCBnaXQ6Ly9hbm9uZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0vZHJt
-LW1pc2MgZHJtLW1pc2MtbmV4dA0KPj4gaGVhZDrCoMKgIDhkMTA3N2NmMmU0M2IxNWZlZmQ3
-NmViZWMyYjcxNTQxZWIyN2VmMmMNCj4+IGNvbW1pdDogZjM5ZGIyNmM1NDI4MWRhNmE3ODUy
-NTk0OThjYTc0YjVlNDcwNDc2ZiBbMi8zXSBkcm06IEFkZCBrbXMgDQo+PiBkcml2ZXIgZm9y
-IGxvb25nc29uIGRpc3BsYXkgY29udHJvbGxlcg0KPj4gY29uZmlnOiBpMzg2LXJhbmRjb25m
-aWctbTAyMS0yMDIzMDcxMCANCj4+IChodHRwczovL2Rvd25sb2FkLjAxLm9yZy8wZGF5LWNp
-L2FyY2hpdmUvMjAyMzA3MTAvMjAyMzA3MTAwNDIzLnJWN0QwNVVxLWxrcEBpbnRlbC5jb20v
-Y29uZmlnKQ0KPj4gY29tcGlsZXI6IGdjYy0xMiAoRGViaWFuIDEyLjIuMC0xNCkgMTIuMi4w
-DQo+PiByZXByb2R1Y2U6IA0KPj4gKGh0dHBzOi8vZG93bmxvYWQuMDEub3JnLzBkYXktY2kv
-YXJjaGl2ZS8yMDIzMDcxMC8yMDIzMDcxMDA0MjMuclY3RDA1VXEtbGtwQGludGVsLmNvbS9y
-ZXByb2R1Y2UpDQo+Pg0KPj4gSWYgeW91IGZpeCB0aGUgaXNzdWUgaW4gYSBzZXBhcmF0ZSBw
-YXRjaC9jb21taXQgKGkuZS4gbm90IGp1c3QgYSBuZXcgDQo+PiB2ZXJzaW9uIG9mDQo+PiB0
-aGUgc2FtZSBwYXRjaC9jb21taXQpLCBraW5kbHkgYWRkIGZvbGxvd2luZyB0YWdzDQo+PiB8
-IFJlcG9ydGVkLWJ5OiBrZXJuZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4NCj4+IHwg
-UmVwb3J0ZWQtYnk6IERhbiBDYXJwZW50ZXIgPGRhbi5jYXJwZW50ZXJAbGluYXJvLm9yZz4N
-Cj4+IHwgQ2xvc2VzOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9yLzIwMjMwNzEwMDQyMy5y
-VjdEMDVVcS1sa3BAaW50ZWwuY29tLw0KPj4NCj4+IHNtYXRjaCB3YXJuaW5nczoNCj4+IGRy
-aXZlcnMvZ3B1L2RybS9sb29uZ3Nvbi9sc2RjX3BsYW5lLmM6MTk5IA0KPj4gbHNkY19jdXJz
-b3JfcGxhbmVfYXRvbWljX2FzeW5jX2NoZWNrKCkgd2FybjogdmFyaWFibGUgZGVyZWZlcmVu
-Y2VkIA0KPj4gYmVmb3JlIGNoZWNrICdzdGF0ZScgKHNlZSBsaW5lIDE4MCkNCj4+DQo+PiB2
-aW0gKy9zdGF0ZSArMTk5IGRyaXZlcnMvZ3B1L2RybS9sb29uZ3Nvbi9sc2RjX3BsYW5lLmMN
-Cj4+DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0xNcKgIDE3NMKg
-IHN0YXRpYyBpbnQgDQo+PiBsc2RjX2N1cnNvcl9wbGFuZV9hdG9taWNfYXN5bmNfY2hlY2so
-c3RydWN0IGRybV9wbGFuZSAqcGxhbmUsDQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2Zl
-bmcgMjAyMy0wNi0xNcKgIDE3NSAgICAgICAgICAgICAgICAgICAgICAgICAgDQo+PiBzdHJ1
-Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpDQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmlu
-Z2ZlbmcgMjAyMy0wNi0xNcKgIDE3NsKgIHsNCj4+IGYzOWRiMjZjNTQyODFkIFN1aSBKaW5n
-ZmVuZyAyMDIzLTA2LTE1wqAgMTc3wqDCoMKgwqDCoCBzdHJ1Y3QgDQo+PiBkcm1fcGxhbmVf
-c3RhdGUgKm5ld19zdGF0ZTsNCj4+IGYzOWRiMjZjNTQyODFkIFN1aSBKaW5nZmVuZyAyMDIz
-LTA2LTE1wqAgMTc4wqDCoMKgwqDCoCBzdHJ1Y3QgZHJtX2NydGNfc3RhdGUgDQo+PiAqY3J0
-Y19zdGF0ZTsNCj4+IGYzOWRiMjZjNTQyODFkIFN1aSBKaW5nZmVuZyAyMDIzLTA2LTE1wqAg
-MTc5DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0xNSBAMTgwwqDC
-oMKgwqDCoCBuZXdfc3RhdGUgPSANCj4+IGRybV9hdG9taWNfZ2V0X25ld19wbGFuZV9zdGF0
-ZShzdGF0ZSwgcGxhbmUpOw0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgXl5eXl4NCj4+IHN0
-YXRlIGlzIGRlcmVmZXJlbmNlZCBpbnNpZGUgdGhpcyBmdW5jdGlvbg0KPj4NCj4+IGYzOWRi
-MjZjNTQyODFkIFN1aSBKaW5nZmVuZyAyMDIzLTA2LTE1wqAgMTgxDQo+PiBmMzlkYjI2YzU0
-MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0xNcKgIDE4MsKgwqDCoMKgwqAgaWYgKCFwbGFu
-ZS0+c3RhdGUgfHwgDQo+PiAhcGxhbmUtPnN0YXRlLT5mYikgew0KPj4gZjM5ZGIyNmM1NDI4
-MWQgU3VpIEppbmdmZW5nIDIwMjMtMDYtMTXCoCAxODMgICAgICAgICAgDQo+PiBkcm1fZGJn
-KHBsYW5lLT5kZXYsICIlczogc3RhdGUgaXMgTlVMTFxuIiwgcGxhbmUtPm5hbWUpOw0KPj4g
-ZjM5ZGIyNmM1NDI4MWQgU3VpIEppbmdmZW5nIDIwMjMtMDYtMTXCoCAxODTCoMKgwqDCoMKg
-wqDCoMKgwqAgcmV0dXJuIC1FSU5WQUw7DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2Zl
-bmcgMjAyMy0wNi0xNcKgIDE4NcKgwqDCoMKgwqAgfQ0KPj4gZjM5ZGIyNmM1NDI4MWQgU3Vp
-IEppbmdmZW5nIDIwMjMtMDYtMTXCoCAxODYNCj4+IGYzOWRiMjZjNTQyODFkIFN1aSBKaW5n
-ZmVuZyAyMDIzLTA2LTE1wqAgMTg3wqDCoMKgwqDCoCBpZiAobmV3X3N0YXRlLT5jcnRjX3cg
-DQo+PiAhPSBuZXdfc3RhdGUtPmNydGNfaCkgew0KPj4gZjM5ZGIyNmM1NDI4MWQgU3VpIEpp
-bmdmZW5nIDIwMjMtMDYtMTXCoCAxODggICAgICAgICAgDQo+PiBkcm1fZGJnKHBsYW5lLT5k
-ZXYsICJ1bnN1cHBvcnRlZCBjdXJzb3Igc2l6ZTogJXV4JXVcbiIsDQo+PiBmMzlkYjI2YzU0
-MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0xNcKgIDE4OSAgICAgICAgICAgICAgDQo+PiBu
-ZXdfc3RhdGUtPmNydGNfdywgbmV3X3N0YXRlLT5jcnRjX2gpOw0KPj4gZjM5ZGIyNmM1NDI4
-MWQgU3VpIEppbmdmZW5nIDIwMjMtMDYtMTXCoCAxOTDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0
-dXJuIC1FSU5WQUw7DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0x
-NcKgIDE5McKgwqDCoMKgwqAgfQ0KPj4gZjM5ZGIyNmM1NDI4MWQgU3VpIEppbmdmZW5nIDIw
-MjMtMDYtMTXCoCAxOTINCj4+IGYzOWRiMjZjNTQyODFkIFN1aSBKaW5nZmVuZyAyMDIzLTA2
-LTE1wqAgMTkzwqDCoMKgwqDCoCBpZiAobmV3X3N0YXRlLT5jcnRjX3cgDQo+PiAhPSA2NCAm
-JiBuZXdfc3RhdGUtPmNydGNfdyAhPSAzMikgew0KPj4gZjM5ZGIyNmM1NDI4MWQgU3VpIEpp
-bmdmZW5nIDIwMjMtMDYtMTXCoCAxOTQgICAgICAgICAgDQo+PiBkcm1fZGJnKHBsYW5lLT5k
-ZXYsICJ1bnN1cHBvcnRlZCBjdXJzb3Igc2l6ZTogJXV4JXVcbiIsDQo+PiBmMzlkYjI2YzU0
-MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0xNcKgIDE5NSAgICAgICAgICAgICAgDQo+PiBu
-ZXdfc3RhdGUtPmNydGNfdywgbmV3X3N0YXRlLT5jcnRjX2gpOw0KPj4gZjM5ZGIyNmM1NDI4
-MWQgU3VpIEppbmdmZW5nIDIwMjMtMDYtMTXCoCAxOTbCoMKgwqDCoMKgwqDCoMKgwqAgcmV0
-dXJuIC1FSU5WQUw7DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0x
-NcKgIDE5N8KgwqDCoMKgwqAgfQ0KPj4gZjM5ZGIyNmM1NDI4MWQgU3VpIEppbmdmZW5nIDIw
-MjMtMDYtMTXCoCAxOTgNCj4+IGYzOWRiMjZjNTQyODFkIFN1aSBKaW5nZmVuZyAyMDIzLTA2
-LTE1IEAxOTnCoMKgwqDCoMKgIGlmIChzdGF0ZSkgew0KPj4gwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgXl5eXl4NCj4+IENoZWNrZWQgdG9v
-IGxhdGUNCj4+DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0xNcKg
-IDIwMMKgwqDCoMKgwqDCoMKgwqDCoCBjcnRjX3N0YXRlID0gDQo+PiBkcm1fYXRvbWljX2dl
-dF9leGlzdGluZ19jcnRjX3N0YXRlKHN0YXRlLCBuZXdfc3RhdGUtPmNydGMpOw0KPj4gZjM5
-ZGIyNmM1NDI4MWQgU3VpIEppbmdmZW5nIDIwMjMtMDYtMTXCoCAyMDHCoMKgwqDCoMKgIH0g
-ZWxzZSB7DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0xNcKgIDIw
-MsKgwqDCoMKgwqDCoMKgwqDCoCBjcnRjX3N0YXRlID0gDQo+PiBwbGFuZS0+Y3J0Yy0+c3Rh
-dGU7DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0xNcKgIDIwMyAg
-ICAgICAgICANCj4+IGRybV9kYmcocGxhbmUtPmRldiwgIiVzOiBhdG9taWMgc3RhdGUgaXMg
-TlVMTFxuIiwgcGxhbmUtPm5hbWUpOw0KPj4gZjM5ZGIyNmM1NDI4MWQgU3VpIEppbmdmZW5n
-IDIwMjMtMDYtMTXCoCAyMDTCoMKgwqDCoMKgIH0NCj4+IGYzOWRiMjZjNTQyODFkIFN1aSBK
-aW5nZmVuZyAyMDIzLTA2LTE1wqAgMjA1DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2Zl
-bmcgMjAyMy0wNi0xNcKgIDIwNsKgwqDCoMKgwqAgaWYgKCFjcnRjX3N0YXRlLT5hY3RpdmUp
-DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0xNcKgIDIwN8KgwqDC
-oMKgwqDCoMKgwqDCoCByZXR1cm4gLUVJTlZBTDsNCj4+IGYzOWRiMjZjNTQyODFkIFN1aSBK
-aW5nZmVuZyAyMDIzLTA2LTE1wqAgMjA4DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2Zl
-bmcgMjAyMy0wNi0xNcKgIDIwOcKgwqDCoMKgwqAgaWYgDQo+PiAocGxhbmUtPnN0YXRlLT5j
-cnRjICE9IG5ld19zdGF0ZS0+Y3J0YyB8fA0KPj4gZjM5ZGIyNmM1NDI4MWQgU3VpIEppbmdm
-ZW5nIDIwMjMtMDYtMTXCoCAyMTAgICAgICAgICAgDQo+PiBwbGFuZS0+c3RhdGUtPnNyY193
-ICE9IG5ld19zdGF0ZS0+c3JjX3cgfHwNCj4+IGYzOWRiMjZjNTQyODFkIFN1aSBKaW5nZmVu
-ZyAyMDIzLTA2LTE1wqAgMjExICAgICAgICAgIA0KPj4gcGxhbmUtPnN0YXRlLT5zcmNfaCAh
-PSBuZXdfc3RhdGUtPnNyY19oIHx8DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2Zlbmcg
-MjAyMy0wNi0xNcKgIDIxMiAgICAgICAgICANCj4+IHBsYW5lLT5zdGF0ZS0+Y3J0Y193ICE9
-IG5ld19zdGF0ZS0+Y3J0Y193IHx8DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2Zlbmcg
-MjAyMy0wNi0xNcKgIDIxMyAgICAgICAgICANCj4+IHBsYW5lLT5zdGF0ZS0+Y3J0Y19oICE9
-IG5ld19zdGF0ZS0+Y3J0Y19oKQ0KPj4gZjM5ZGIyNmM1NDI4MWQgU3VpIEppbmdmZW5nIDIw
-MjMtMDYtMTXCoCAyMTTCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIC1FSU5WQUw7DQo+PiBm
-MzlkYjI2YzU0MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0xNcKgIDIxNQ0KPj4gZjM5ZGIy
-NmM1NDI4MWQgU3VpIEppbmdmZW5nIDIwMjMtMDYtMTXCoCAyMTbCoMKgwqDCoMKgIGlmIA0K
-Pj4gKG5ld19zdGF0ZS0+dmlzaWJsZSAhPSBwbGFuZS0+c3RhdGUtPnZpc2libGUpDQo+PiBm
-MzlkYjI2YzU0MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0xNcKgIDIxN8KgwqDCoMKgwqDC
-oMKgwqDCoCByZXR1cm4gLUVJTlZBTDsNCj4+IGYzOWRiMjZjNTQyODFkIFN1aSBKaW5nZmVu
-ZyAyMDIzLTA2LTE1wqAgMjE4DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2ZlbmcgMjAy
-My0wNi0xNcKgIDIxOcKgwqDCoMKgwqAgcmV0dXJuIA0KPj4gZHJtX2F0b21pY19oZWxwZXJf
-Y2hlY2tfcGxhbmVfc3RhdGUocGxhbmUtPnN0YXRlLA0KPj4gZjM5ZGIyNmM1NDI4MWQgU3Vp
-IEppbmdmZW5nIDIwMjMtMDYtMTUgIA0KPj4gMjIwwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY3J0Y19zdGF0ZSwNCj4+IGYzOWRi
-MjZjNTQyODFkIFN1aSBKaW5nZmVuZyAyMDIzLTA2LTE1ICANCj4+IDIyMcKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIERSTV9QTEFO
-RV9OT19TQ0FMSU5HLA0KPj4gZjM5ZGIyNmM1NDI4MWQgU3VpIEppbmdmZW5nIDIwMjMtMDYt
-MTUgIA0KPj4gMjIywqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgRFJNX1BMQU5FX05PX1NDQUxJTkcsDQo+PiBmMzlkYjI2YzU0Mjgx
-ZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0xNSAgDQo+PiAyMjPCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB0cnVlLCB0cnVlKTsNCj4+
-IGYzOWRiMjZjNTQyODFkIFN1aSBKaW5nZmVuZyAyMDIzLTA2LTE1wqAgMjI0wqAgfQ0KPj4N
-Cj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9w
-ZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFz
-c2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJl
-dyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAo
-QUcgTnVlcm5iZXJnKQ0K
-
---------------idV08D0pHLOxqZY0P7QVhILU--
-
---------------Z2nWaC0q8k6Nk32T04vu4lPh
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSrsPkFAwAAAAAACgkQlh/E3EQov+AY
-MxAAsDdqes7ZAeWsTAJULuaBauPAvRFafYHEdkBk/h8vEJIn664Go8aX+Y90g6Io+n45ncw7cm3l
-f9hi02Oc4MHSGJb/TvpaOxggNxMOeF6XpJtBwcvNQT/p8CHgqHFZ/VB8gnj2PfXS0EoJh/tXH0OC
-zx77nYQ43g5XqLtyZTFthr55a+UGbazfe8ecVc1GYOLR/TUINpQkSfMFa9I8RGikisRVNN6wO4q5
-8zTrSpwn+ueHdgeFjRjLubcicim+FvC95T/svmZL9hCDtjjXadi87hbQMF97Sf5cvP8AZdtwrLu9
-L49qXRJgWV3mHNbnsTGaPcWezm1w7JJRQ7FV/74qSkdtn+vJSFW7AOXwA7YBMvB7/6FSOrSiQelg
-OxfMmSJQqLZg63W4YfcERBdXVp1R3uVTSmrQ6/RVhB1WvzXdXY+8kJoGcuwhfnxBRubCIQ9f1dl4
-GhxuFW8H7O2bCYKzkpEMDo61xJoOM6cNDTlS1uTWxw5yepZz9R2QEEatq/NMLYxC/MWRYEoJc65G
-RW/HL64SMPp4AQOVXV4XOTTAiy8leRMVnwJhGK6c3YSi7jxxlCEqMpDyThyztOggA04WI7v8tUNc
-dNsI0HKKkUfPcGH99HpncH56MopKHUyImcTJFqjMyN5rHnRsxHyWCF4yXRgeFihaBXoBLEHwWgyw
-xR0=
-=7K8e
------END PGP SIGNATURE-----
-
---------------Z2nWaC0q8k6Nk32T04vu4lPh--
+  static int
+-gk104_pcie_init(struct nvkm_pci * pci)
++gk104_pcie_init(struct nvkm_pci *pci)
+  {
+      enum nvkm_pcie_speed lnkctl_speed, max_speed, cap_speed;
+      struct nvkm_subdev *subdev = &pci->subdev;
