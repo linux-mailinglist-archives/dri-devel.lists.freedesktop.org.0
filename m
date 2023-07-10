@@ -1,55 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B08DF74D34B
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 12:27:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67FE474D38C
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 12:32:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 841D110E10A;
-	Mon, 10 Jul 2023 10:26:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DD7A10E26D;
+	Mon, 10 Jul 2023 10:32:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4855210E10A
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 10:26:56 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B890A10E264
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 10:32:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1688984816; x=1720520816;
+ t=1688985130; x=1720521130;
  h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=lmv0G8hZetKfnEAWnNAaFa2Izy9izfDDhRQBoU/UakU=;
- b=HNTKLlj0ueJsqa/5b1QHoQBUp3y8GldUhvGlUQSb2mYWGZwHYfsf1xgP
- Fi0jeN84KajFuKXQP2tysYluN7noHLvLn5xSJs7HJMs/lrpuBFzAKvx+O
- ANk9wBn+/vID+sptqkTGFqjHC9NpFy/WO48+HCQj4JEkX6SxQDVCAl4Ff
- F1mlUpKSVB/8ZEeMDKccCwsdvAsUuk3JGzEvu9Tbl1/21maC+YCXST40B
- bSdJ80pPD2aEvk3d663xlXsoW7IEavFUOC5PLzESWoly9vIEAeSWIWdvA
- LRmleGzetftgT7std6qDCJ3hcrY5s2SnkU/tQ8CZ1bWVXFrBjSnjFmz7H A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10766"; a="344634885"
-X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; d="scan'208";a="344634885"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jul 2023 03:26:54 -0700
+ message-id:mime-version:content-transfer-encoding;
+ bh=tz2zZQ8f/yg7gZP7NI81aF7OXMQPyUOJOe7LMRyGsrg=;
+ b=mZiJt/QjqLetTNdLaaMvfxe56A13iocCZeSuFDdysBey2RgZ9X9ILu96
+ 1oIrzTn2IoVP0iYVm3u8w42a7VvekI3x9LAxxZ4K73qvOSEZ5+k5XYN/F
+ uu6CxDs35lv2lTyDwJsfOwWFv0mVuMt4wPdG1EpseltiuIrIYmoXHWEzC
+ atVNuI8wsHkcRNrKDsgwg/UjfS0vu1wMftMWYWOWV7mYNld/9ZAFJmPkx
+ NuqLsUfd5BbON7W5s3G08p54KKT4EZCvvMP+wcWeysiH+vzBsDFg5cHDF
+ bBU9HYWJyiBdOdTPNrVNTS9RRjk3JH7NhzSTfJrPFnngiaPSMImZwMXp5 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10766"; a="349110579"
+X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; d="scan'208";a="349110579"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jul 2023 03:32:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10766"; a="810771133"
-X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; d="scan'208";a="810771133"
+X-IronPort-AV: E=McAfee;i="6600,9927,10766"; a="723960814"
+X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; d="scan'208";a="723960814"
 Received: from stoicaan-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.52.170])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jul 2023 03:26:52 -0700
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jul 2023 03:32:05 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Sui Jingfeng <suijingfeng@loongson.cn>, Sui Jingfeng
- <suijingfeng@loongson.cn>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, Li Yi
- <liyi@loongson.cn>
-Subject: Re: [PATCH] drm/loongson: Fix two warnings because of passing wrong
- type
-In-Reply-To: <20230710100931.255234-1-suijingfeng@loongson.cn>
+To: Chen-Yu Tsai <wenst@chromium.org>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH RESEND] drm/bridge: anx7625: Use common macros for DP
+ power sequencing commands
+In-Reply-To: <20230710090929.1873646-1-wenst@chromium.org>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230710100931.255234-1-suijingfeng@loongson.cn>
-Date: Mon, 10 Jul 2023 13:26:49 +0300
-Message-ID: <87h6qcjc46.fsf@intel.com>
+References: <20230710090929.1873646-1-wenst@chromium.org>
+Date: Mon, 10 Jul 2023 13:32:03 +0300
+Message-ID: <87edlgjbvg.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,63 +65,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: loongson-kernel@lists.loongnix.cn, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ =?utf-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>,
+ Chen-Yu Tsai <wenst@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 10 Jul 2023, Sui Jingfeng <suijingfeng@loongson.cn> wrote:
-> When accessing I/O memory, we should pass '__iomem *' type instead of
-> 'void *' simply, otherwise sparse tests will complain. After applied
-> this patch, the following two sparse warnings got fixed.
+On Mon, 10 Jul 2023, Chen-Yu Tsai <wenst@chromium.org> wrote:
+> The DRM DP code has macros for the DP power sequencing commands. Use
+> them in the anx7625 driver instead of raw numbers.
+>
+> Fixes: 548b512e144f ("drm/bridge: anx7625: send DPCD command to downstrea=
+m")
+> Fixes: 27f26359de9b ("drm/bridge: anx7625: Set downstream sink into norma=
+l status")
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> Reviewed-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
+> ---
+> Collected tags and rebased on v6.5-rc1.
+>
+>  drivers/gpu/drm/bridge/analogix/anx7625.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/=
+bridge/analogix/anx7625.c
+> index 8b985efdc086..9db3784cb554 100644
+> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> @@ -931,8 +931,8 @@ static void anx7625_dp_start(struct anx7625_data *ctx)
+>=20=20
+>  	dev_dbg(dev, "set downstream sink into normal\n");
+>  	/* Downstream sink enter into normal mode */
+> -	data =3D 1;
+> -	ret =3D anx7625_aux_trans(ctx, DP_AUX_NATIVE_WRITE, 0x000600, 1, &data);
+> +	data =3D DP_SET_POWER_D0;
+> +	ret =3D anx7625_aux_trans(ctx, DP_AUX_NATIVE_WRITE, DP_SET_POWER, 1, &d=
+ata);
 
-Usually the commit message should explain why it's okay to cast away the
-warning.
-
-Because realistically this doesn't "fix" the warning, this merely hides
-it.
+So you have code to implement the drm dp aux abstractions, why aren't
+you using drm_dp_dpcd_writeb() and friends here?
 
 BR,
 Jani.
 
->
-> 1) drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35:
->    sparse:     expected void volatile [noderef] __iomem *
->    sparse:     got void *kptr
->
-> 2) drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51:
->    sparse:     expected void const volatile [noderef] __iomem *
->    sparse:     got void *kptr
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202307100243.v3hv6aes-lkp@intel.com/
-> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
-> ---
->  drivers/gpu/drm/loongson/lsdc_benchmark.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/loongson/lsdc_benchmark.c b/drivers/gpu/drm/loongson/lsdc_benchmark.c
-> index b088646a2ff9..36e352820bdb 100644
-> --- a/drivers/gpu/drm/loongson/lsdc_benchmark.c
-> +++ b/drivers/gpu/drm/loongson/lsdc_benchmark.c
-> @@ -24,7 +24,7 @@ static void lsdc_copy_gtt_to_vram_cpu(struct lsdc_bo *src_bo,
->  	lsdc_bo_kmap(dst_bo);
->  
->  	while (n--)
-> -		memcpy_toio(dst_bo->kptr, src_bo->kptr, size);
-> +		memcpy_toio((void __iomem *)dst_bo->kptr, src_bo->kptr, size);
->  
->  	lsdc_bo_kunmap(src_bo);
->  	lsdc_bo_kunmap(dst_bo);
-> @@ -39,7 +39,7 @@ static void lsdc_copy_vram_to_gtt_cpu(struct lsdc_bo *src_bo,
->  	lsdc_bo_kmap(dst_bo);
->  
->  	while (n--)
-> -		memcpy_fromio(dst_bo->kptr, src_bo->kptr, size);
-> +		memcpy_fromio(dst_bo->kptr, (void __iomem *)src_bo->kptr, size);
->  
->  	lsdc_bo_kunmap(src_bo);
->  	lsdc_bo_kunmap(dst_bo);
 
--- 
+>  	if (ret < 0)
+>  		dev_err(dev, "IO error : set sink into normal mode fail\n");
+>=20=20
+> @@ -971,8 +971,8 @@ static void anx7625_dp_stop(struct anx7625_data *ctx)
+>=20=20
+>  	dev_dbg(dev, "notify downstream enter into standby\n");
+>  	/* Downstream monitor enter into standby mode */
+> -	data =3D 2;
+> -	ret |=3D anx7625_aux_trans(ctx, DP_AUX_NATIVE_WRITE, 0x000600, 1, &data=
+);
+> +	data =3D DP_SET_POWER_D3;
+> +	ret |=3D anx7625_aux_trans(ctx, DP_AUX_NATIVE_WRITE, DP_SET_POWER, 1, &=
+data);
+>  	if (ret < 0)
+>  		DRM_DEV_ERROR(dev, "IO error : mute video fail\n");
+
+--=20
 Jani Nikula, Intel Open Source Graphics Center
