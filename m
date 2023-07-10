@@ -1,56 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC11774CEF5
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 09:48:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D368674CF17
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 09:52:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C26C710E215;
-	Mon, 10 Jul 2023 07:48:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6F6610E10F;
+	Mon, 10 Jul 2023 07:52:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A157710E213
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 07:48:14 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E614760EBC;
- Mon, 10 Jul 2023 07:48:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F130EC433C8;
- Mon, 10 Jul 2023 07:48:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1688975293;
- bh=16TekcNJuTfVyllw7nW85RcUQBjN4RlFG7QvXpxKfus=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=aPZ/SRybsonfjxn87sVXsQVAfm8/hSViEfIkh2um+Bu/KDfax48CyrSZgSh9NB+gp
- QLyUg2fsUPjEUwIZkiBuZHgsAKUHhVGdeYeilhiCH4e29ZizFPYcc+B1SH8k+EaSVz
- HIvjRTVca/pGZ2F9ulezJVqBti6JkxQKRBTd0wzr7jBcyJ62EK08B3qbJ4m4UloL2f
- p5AjMfOJbpGPdDCLMUiaJyY5YqZCHvb2l/9y5Ncd4/ht0A1k2lxAHCTzCPk5uG4q+N
- MdzGp3efocrXoBis6u0dIIDqBOccwJN+PLxwcD2ysVIEW3veHml8BG50wCUjRG+61Z
- PC0YCMDOPe54g==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Mon, 10 Jul 2023 09:47:42 +0200
-Subject: [PATCH 11/11] drm/vc4: tests: pv-muxing: Document test scenario
+Received: from mail.208.org (unknown [183.242.55.162])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DFCA10E10F
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 07:51:59 +0000 (UTC)
+Received: from mail.208.org (email.208.org [127.0.0.1])
+ by mail.208.org (Postfix) with ESMTP id 4Qzx6P1H4YzBHXh4
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 15:51:57 +0800 (CST)
+Authentication-Results: mail.208.org (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)" header.d=208.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
+ content-transfer-encoding:content-type:message-id:user-agent
+ :references:in-reply-to:subject:to:from:date:mime-version; s=
+ dkim; t=1688975516; x=1691567517; bh=ZsIIaEJUxDOM5c2jsdgVlh2jw5J
+ ZbRvAFii5FM/EEdQ=; b=N0Nhc4cia7dHWDPJed0PiaYkaWENxQXS6hLyXCcKkBY
+ lHIjesx+H+OxXBOKDWGGtWtYu0QkVDcqpLbZD72Q7rko2iAfKl2wz05yszEPJHu8
+ R+c2qL2HO7bGlC/wPpWzasyv3RvdIEYr3/vXH0wAT+cp/1Foi+pe/D4LsrkBulhV
+ w+nK9HOcvEFwFYnxt+/zUTKdSF0xFgfKxG+T7sM7NLNI/jbtQG/40gICfBGdCPyf
+ iAz0aTNE7HXR1ePfhfslqu6/5BL+sO5e8UO3qYqwsG1qxinefEGmgyF7Z6bs8Kdf
+ JupI2g+ig7SldCDhDwGcOuUnp/daMIla/lqEvM11acg==
+X-Virus-Scanned: amavisd-new at mail.208.org
+Received: from mail.208.org ([127.0.0.1])
+ by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id 7xNqQfHiu5Ts for <dri-devel@lists.freedesktop.org>;
+ Mon, 10 Jul 2023 15:51:56 +0800 (CST)
+Received: from localhost (email.208.org [127.0.0.1])
+ by mail.208.org (Postfix) with ESMTPSA id 4Qzx6N4GsXzBHXgs;
+ Mon, 10 Jul 2023 15:51:56 +0800 (CST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Date: Mon, 10 Jul 2023 15:51:56 +0800
+From: sunran001@208suo.com
+To: airlied@gmail.com, daniel@ffwll.ch
+Subject: [PATCH] drm/radeon: ERROR: "(foo*)" should be "(foo *)"
+In-Reply-To: <20230710074943.54300-1-xujianghui@cdjrlc.com>
+References: <20230710074943.54300-1-xujianghui@cdjrlc.com>
+User-Agent: Roundcube Webmail
+Message-ID: <21106d58871949c9f301c1bab81ae111@208suo.com>
+X-Sender: sunran001@208suo.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230710-kms-kunit-actions-rework-v1-11-722c58d72c72@kernel.org>
-References: <20230710-kms-kunit-actions-rework-v1-0-722c58d72c72@kernel.org>
-In-Reply-To: <20230710-kms-kunit-actions-rework-v1-0-722c58d72c72@kernel.org>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>
-X-Mailer: b4 0.13-dev-099c9
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2002; i=mripard@kernel.org;
- h=from:subject:message-id; bh=16TekcNJuTfVyllw7nW85RcUQBjN4RlFG7QvXpxKfus=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDCmrt8/Yo2+y5cu1UPXXup3+aVuktpco688961VxVGVn1f3q
- JxslO0pZGMS4GGTFFFlihM2XxJ2a9bqTjW8ezBxWJpAhDFycAjCRCGNGhoXMwuy3I97lPVRwyNRNar
- 14/8GelZnuk5je5E5+d8ju2gJGhg7damVj7auJfyVOvd39vHFfQn53ycu4uHqV24/zXT4wcAAA
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,61 +60,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We've had a couple of tests that weren't really obvious, nor did they
-document what they were supposed to test. Document that to make it
-hopefully more obvious.
+Fix four occurrences of the checkpatch.pl error:
+ERROR: "(foo*)" should be "(foo *)"
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Ran Sun <sunran001@208suo.com>
 ---
- drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+  drivers/gpu/drm/radeon/radeon_test.c | 8 ++++----
+  1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c b/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c
-index 5f9f5626329d..61622e951031 100644
---- a/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c
-+++ b/drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c
-@@ -845,6 +845,13 @@ static void drm_test_vc5_pv_muxing_bugs_subsequent_crtc_enable(struct kunit *tes
- 	KUNIT_EXPECT_NE(test, hdmi0_channel, hdmi1_channel);
- }
- 
-+/*
-+ * This test makes sure that we never change the FIFO of an active HVS
-+ * channel if we disable a FIFO with a lower index.
-+ *
-+ * Doing so would result in a FIFO stall and would disrupt an output
-+ * supposed to be unaffected by the commit.
-+ */
- static void drm_test_vc5_pv_muxing_bugs_stable_fifo(struct kunit *test)
- {
- 	struct drm_modeset_acquire_ctx *ctx;
-@@ -924,6 +931,21 @@ static void drm_test_vc5_pv_muxing_bugs_stable_fifo(struct kunit *test)
- 	}
- }
- 
-+/*
-+ * Test that if we affect a single output, only the CRTC state of that
-+ * output will be pulled in the global atomic state.
-+ *
-+ * This is relevant for two things:
-+ *
-+ *   - If we don't have that state at all, we are unlikely to affect the
-+ *     FIFO muxing. This is somewhat redundant with
-+ *     drm_test_vc5_pv_muxing_bugs_stable_fifo()
-+ *
-+ *   - KMS waits for page flips to occur on all the CRTC found in the
-+ *     CRTC state. Since the CRTC is unaffected, we would over-wait, but
-+ *     most importantly run into corner cases like waiting on an
-+ *     inactive CRTC that never completes.
-+ */
- static void
- drm_test_vc5_pv_muxing_bugs_subsequent_crtc_enable_too_many_crtc_state(struct kunit *test)
- {
-
--- 
-2.41.0
-
+diff --git a/drivers/gpu/drm/radeon/radeon_test.c 
+b/drivers/gpu/drm/radeon/radeon_test.c
+index a5e1d2139e80..c9fef9b61ced 100644
+--- a/drivers/gpu/drm/radeon/radeon_test.c
++++ b/drivers/gpu/drm/radeon/radeon_test.c
+@@ -156,10 +156,10 @@ static void radeon_do_test_moves(struct 
+radeon_device *rdev, int flag)
+                        i, *vram_start, gtt_start,
+                        (unsigned long long)
+                        (gtt_addr - rdev->mc.gtt_start +
+-                       (void*)gtt_start - gtt_map),
++                       (void *)gtt_start - gtt_map),
+                        (unsigned long long)
+                        (vram_addr - rdev->mc.vram_start +
+-                       (void*)gtt_start - gtt_map));
++                       (void *)gtt_start - gtt_map));
+                  radeon_bo_kunmap(vram_obj);
+                  goto out_lclean_unpin;
+              }
+@@ -207,10 +207,10 @@ static void radeon_do_test_moves(struct 
+radeon_device *rdev, int flag)
+                        i, *gtt_start, vram_start,
+                        (unsigned long long)
+                        (vram_addr - rdev->mc.vram_start +
+-                       (void*)vram_start - vram_map),
++                       (void *)vram_start - vram_map),
+                        (unsigned long long)
+                        (gtt_addr - rdev->mc.gtt_start +
+-                       (void*)vram_start - vram_map));
++                       (void *)vram_start - vram_map));
+                  radeon_bo_kunmap(gtt_obj[i]);
+                  goto out_lclean_unpin;
+              }
