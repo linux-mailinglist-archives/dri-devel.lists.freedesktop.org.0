@@ -1,53 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A281874CEA3
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 09:38:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7505074CEB1
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 09:41:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED81E10E1FD;
-	Mon, 10 Jul 2023 07:38:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B319710E1FF;
+	Mon, 10 Jul 2023 07:41:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.208.org (unknown [183.242.55.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97BF310E1FD
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 07:38:54 +0000 (UTC)
-Received: from mail.208.org (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTP id 4QzwqH2GBrzBHXhC
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 15:38:51 +0800 (CST)
-Authentication-Results: mail.208.org (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)" header.d=208.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
- content-transfer-encoding:content-type:message-id:user-agent
- :references:in-reply-to:subject:to:from:date:mime-version; s=
- dkim; t=1688974731; x=1691566732; bh=1pv9U2ejg50V6ues3fPMO0Cknci
- SgisMrIyVi0p4I4g=; b=0zDIx8qbSBbLhsZBxHNYyCIARocYe7tUU2eX2z8Ne37
- McN7z6lf6DaK7HoTfG6DGh/5Tqdnk9xDw7VocPVN1c5H+FywlOOl2VRvrIW4k2ob
- n8IOicj11yg9zMt7/kgKd8ByndZTzbSZbWAA8wsaSj8HvuXA9wvrDsb+ygzmHDC+
- 2Uvbk89MhdsBw/1mY/r4SGPwTiu/2XBpTSOL9soAM/IvQgTGrBwPKsGqFKiVsAUo
- +hRpibTUWILfpBHy81P/4ZBTu4BjDCHOKIVoqmrK+PSiY8Vsy7JdEr3DHGfEUHGH
- N+bZSQaqHzQ/5uRPNRGqyoJN/EY9hxvTKiHchq2LBQg==
-X-Virus-Scanned: amavisd-new at mail.208.org
-Received: from mail.208.org ([127.0.0.1])
- by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id fVOyFrKHE8u6 for <dri-devel@lists.freedesktop.org>;
- Mon, 10 Jul 2023 15:38:51 +0800 (CST)
-Received: from localhost (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTPSA id 4QzwqG6ZnlzBHXgs;
- Mon, 10 Jul 2023 15:38:50 +0800 (CST)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com
+ [209.85.219.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 521DE10E1FF
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 07:41:26 +0000 (UTC)
+Received: by mail-yb1-f177.google.com with SMTP id
+ 3f1490d57ef6-c5f98fc4237so3950686276.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 00:41:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688974885; x=1691566885;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=CaG+dxGLhC0WVqrix8l2g6lvQOz/XURDuBAw1AOu2T0=;
+ b=bPosFawnW641/4TT+s0xh1bUYY2Y9BCL9RS8wUHEbWzIa3J4eOUg5wLPffijVs3Bvg
+ 3zfnxsB3ehejMKnDErgV3EpUFTg1nOoTyrI8r0T13i4klUM+KPtavu+8+x9ytmxNvYDq
+ vTEIYF3iaQLR2DRCVcJJ29oUS+sbcb9Y8sePvr41+02L5zHNLUbxuscjJqT6WPXC93zL
+ 1OFXA4PWp3W1NEhj5okg5cmCQQqCgxjlJ2FLQCvKz3KD9NvadyutIyobzDVw8Akpbal1
+ 46aGmoWhrHmkMrC4NU7eFt/27l0az/EoyD8OKyyLn/jL2DbVNCiQG8Hkdbw5bYOx8UWu
+ 3big==
+X-Gm-Message-State: ABy/qLaYev33VAEYZ+BbMdNiuT3oQ3UCOpU+5wNwTK29wXmcHS27VYYh
+ RqzWVvEJnl1zA3NUT8zogvXCTF9iOJ0Iyw==
+X-Google-Smtp-Source: APBJJlGS2Cogw2BswkpCg436rOZKwk/VgocfOsmLfKhxxmSRatB7mAUsuwdOvW6CuBPij4QxbpYnwQ==
+X-Received: by 2002:a25:e7d2:0:b0:c42:2b05:17a6 with SMTP id
+ e201-20020a25e7d2000000b00c422b0517a6mr11310766ybh.5.1688974884964; 
+ Mon, 10 Jul 2023 00:41:24 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com.
+ [209.85.219.180]) by smtp.gmail.com with ESMTPSA id
+ u91-20020a25ab64000000b00be8e8772025sm2525631ybi.45.2023.07.10.00.41.24
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Jul 2023 00:41:24 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id
+ 3f1490d57ef6-c5cf26e9669so3968038276.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 00:41:24 -0700 (PDT)
+X-Received: by 2002:a25:4c07:0:b0:bc6:5d71:f820 with SMTP id
+ z7-20020a254c07000000b00bc65d71f820mr10395845yba.55.1688974884151; Mon, 10
+ Jul 2023 00:41:24 -0700 (PDT)
 MIME-Version: 1.0
-Date: Mon, 10 Jul 2023 15:38:50 +0800
-From: sunran001@208suo.com
-To: airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH] drm/radeon: ERROR: "foo * bar" should be "foo *bar"
-In-Reply-To: <20230710073659.54188-1-xujianghui@cdjrlc.com>
-References: <20230710073659.54188-1-xujianghui@cdjrlc.com>
-User-Agent: Roundcube Webmail
-Message-ID: <656c6d33a676c141ea35fadb519ccfbc@208suo.com>
-X-Sender: sunran001@208suo.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230704093652.18191-1-frank.li@vivo.com>
+ <CAMuHMdWrBY1+JDuwODyqLrwJJivt=ewCOKfK41xq+0Hpaf8akQ@mail.gmail.com>
+ <da543602-f88e-45ee-d7fd-8fddd0b0ac56@vivo.com>
+In-Reply-To: <da543602-f88e-45ee-d7fd-8fddd0b0ac56@vivo.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 10 Jul 2023 09:41:10 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVa3RmtFouTYk_rPoxO1EswGzTtt855-eFcvtTYObgUCA@mail.gmail.com>
+Message-ID: <CAMuHMdVa3RmtFouTYk_rPoxO1EswGzTtt855-eFcvtTYObgUCA@mail.gmail.com>
+Subject: Re: [PATCH] fbdev: imxfb: Convert to devm_platform_ioremap_resource()
+To: Yangtao Li <frank.li@vivo.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,81 +71,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Helge Deller <deller@gmx.de>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix nine occurrences of the checkpatch.pl error:
-ERROR: "foo * bar" should be "foo *bar"
+Hi Yangtao,
 
-Signed-off-by: Ran Sun <sunran001@208suo.com>
----
-  drivers/gpu/drm/radeon/atom.c | 14 +++++++-------
-  1 file changed, 7 insertions(+), 7 deletions(-)
+On Mon, Jul 10, 2023 at 9:25=E2=80=AFAM Yangtao Li <frank.li@vivo.com> wrot=
+e:
+> On 2023/7/10 15:10, Geert Uytterhoeven wrote:
+> > [=E4=BD=A0=E9=80=9A=E5=B8=B8=E4=B8=8D=E4=BC=9A=E6=94=B6=E5=88=B0=E6=9D=
+=A5=E8=87=AA geert@linux-m68k.org =E7=9A=84=E7=94=B5=E5=AD=90=E9=82=AE=E4=
+=BB=B6=E3=80=82=E8=AF=B7=E8=AE=BF=E9=97=AE https://aka.ms/LearnAboutSenderI=
+dentification=EF=BC=8C=E4=BB=A5=E4=BA=86=E8=A7=A3=E8=BF=99=E4=B8=80=E7=82=
+=B9=E4=B8=BA=E4=BB=80=E4=B9=88=E5=BE=88=E9=87=8D=E8=A6=81]
+> > On Tue, Jul 4, 2023 at 11:38=E2=80=AFAM Yangtao Li <frank.li@vivo.com> =
+wrote:
+> >> Use devm_platform_ioremap_resource() to simplify code.
+> >>
+> >> Signed-off-by: Yangtao Li <frank.li@vivo.com>
+> > Thanks for your patch, which is now commit c1cd7a7a231a26c6 ("fbdev:
+> > imxfb: Convert to devm_platform_ioremap_resource()") in fbdev/for-next
+> >
+> >> --- a/drivers/video/fbdev/imxfb.c
+> >> +++ b/drivers/video/fbdev/imxfb.c
+> >> @@ -868,7 +868,6 @@ static int imxfb_probe(struct platform_device *pde=
+v)
+> >>          struct imxfb_info *fbi;
+> >>          struct lcd_device *lcd;
+> >>          struct fb_info *info;
+> >> -       struct resource *res;
+> >>          struct imx_fb_videomode *m;
+> >>          const struct of_device_id *of_id;
+> >>          struct device_node *display_np;
+> >> @@ -885,10 +884,6 @@ static int imxfb_probe(struct platform_device *pd=
+ev)
+> >>          if (of_id)
+> >>                  pdev->id_entry =3D of_id->data;
+> >>
+> >> -       res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> >> -       if (!res)
+> >> -               return -ENODEV;
+> >> -
+> >>          info =3D framebuffer_alloc(sizeof(struct imxfb_info), &pdev->=
+dev);
+> >>          if (!info)
+> >>                  return -ENOMEM;
+> >> @@ -970,7 +965,7 @@ static int imxfb_probe(struct platform_device *pde=
+v)
+> >>                  goto failed_getclock;
+> >>          }
+> >>
+> >> -       fbi->regs =3D devm_ioremap_resource(&pdev->dev, res);
+> >> +       fbi->regs =3D devm_platform_ioremap_resource(pdev, 0);
+> >>          if (IS_ERR(fbi->regs)) {
+> >>                  ret =3D PTR_ERR(fbi->regs);
+> >>                  goto failed_ioremap;
+> >> @@ -1043,7 +1038,6 @@ static int imxfb_probe(struct platform_device *p=
+dev)
+> >>   failed_map:
+> >>   failed_ioremap:
+> >>   failed_getclock:
+> >> -       release_mem_region(res->start, resource_size(res));
+> > This part is not directly related, but a bug fix for commit
+> > b083c22d51148f3d ("video: fbdev: imxfb: Convert request_mem_region +
+> > ioremap to devm_ioremap_resource") in v6.0.
+>
+>
+> IIUC, split this patch into two, remove release_mem_region in one and
+>
+> mark it as Fixes: b083c22d51148f3d ("video: fbdev: imxfb: Convert
+> request_mem_region +
+>
+> ioremap to devm_ioremap_resource")?
 
-diff --git a/drivers/gpu/drm/radeon/atom.c 
-b/drivers/gpu/drm/radeon/atom.c
-index c1bbfbe28bda..11a1940bb26d 100644
---- a/drivers/gpu/drm/radeon/atom.c
-+++ b/drivers/gpu/drm/radeon/atom.c
-@@ -1156,7 +1156,7 @@ static struct {
-      atom_op_shr, ATOM_ARG_MC}, {
-  atom_op_debug, 0},};
+Exactly.  But as Helge has already applied this patch to his tree, we have
+to check with him if this is still feasible...
 
--static int atom_execute_table_locked(struct atom_context *ctx, int 
-index, uint32_t * params)
-+static int atom_execute_table_locked(struct atom_context *ctx, int 
-index, uint32_t *params)
-  {
-      int base = CU16(ctx->cmd_table + 4 + 2 * index);
-      int len, ws, ps, ptr;
-@@ -1216,7 +1216,7 @@ static int atom_execute_table_locked(struct 
-atom_context *ctx, int index, uint32
-      return ret;
-  }
+> > Please do not mix bug fixes with other changes.
+> > The stable teams want to backport only bugfixes .
+> >
+> >>   failed_of_parse:
+> >>          kfree(info->pseudo_palette);
+> >>   failed_init:
 
--int atom_execute_table_scratch_unlocked(struct atom_context *ctx, int 
-index, uint32_t * params)
-+int atom_execute_table_scratch_unlocked(struct atom_context *ctx, int 
-index, uint32_t *params)
-  {
-      int r;
+Gr{oetje,eeting}s,
 
-@@ -1237,7 +1237,7 @@ int atom_execute_table_scratch_unlocked(struct 
-atom_context *ctx, int index, uin
-      return r;
-  }
+                        Geert
 
--int atom_execute_table(struct atom_context *ctx, int index, uint32_t * 
-params)
-+int atom_execute_table(struct atom_context *ctx, int index, uint32_t 
-*params)
-  {
-      int r;
-      mutex_lock(&ctx->scratch_mutex);
-@@ -1359,8 +1359,8 @@ void atom_destroy(struct atom_context *ctx)
-  }
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-  bool atom_parse_data_header(struct atom_context *ctx, int index,
--                uint16_t * size, uint8_t * frev, uint8_t * crev,
--                uint16_t * data_start)
-+                uint16_t *size, uint8_t *frev, uint8_t *crev,
-+                uint16_t *data_start)
-  {
-      int offset = index * 2 + 4;
-      int idx = CU16(ctx->data_table + offset);
-@@ -1379,8 +1379,8 @@ bool atom_parse_data_header(struct atom_context 
-*ctx, int index,
-      return true;
-  }
-
--bool atom_parse_cmd_header(struct atom_context *ctx, int index, uint8_t 
-* frev,
--               uint8_t * crev)
-+bool atom_parse_cmd_header(struct atom_context *ctx, int index, uint8_t 
-*frev,
-+               uint8_t *crev)
-  {
-      int offset = index * 2 + 4;
-      int idx = CU16(ctx->cmd_table + offset);
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
