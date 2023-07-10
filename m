@@ -1,82 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7C8B74DC64
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 19:25:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A3AC74DC66
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 19:25:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0CEC10E2B0;
-	Mon, 10 Jul 2023 17:25:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5298310E2B4;
+	Mon, 10 Jul 2023 17:25:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 295B910E2AF;
- Mon, 10 Jul 2023 17:25:25 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 36ADrMGU031144; Mon, 10 Jul 2023 17:25:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=bzEbwR0TQhwP3H6/9WLQriTZaxfPzNPwjpCekJsIpKs=;
- b=Cu4nfM6i+MlB21q9hdoQF23AwPuNy+zdhag73EEGVgFNqDcHGu1t7cQU/M1ZUw0nqUmv
- TQhZHYTPk2FNSUNo1dneMwoRPfRK7CkQufiy4+vk+53MXWwi9H5Hra5aqqkhNfnz7IWj
- kHFPPibiWT/CMB1YDAxtJjKOfM3M4gVSQsQtuAsIbvjE26F2CSPg+UD21HtaB3XWvP2j
- a8JH+uMq3reqEQxr9QDa9eq7LvM8D/K56usijoaBQPW5yeiVCWZz6Ymv8jzaSSzDuXse
- D3dBxQfXklh82Qx6c+SDOV7KAq0qPO1bb+gbn8Q92w3lWZoKKjqe+yl1eZB0oELVAGar 3A== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rrg8193ke-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 10 Jul 2023 17:25:17 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36AHPGLg020222
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 10 Jul 2023 17:25:16 GMT
-Received: from [10.110.55.196] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Mon, 10 Jul
- 2023 10:25:15 -0700
-Message-ID: <8a8b24ea-1abf-922c-439e-50a27cf2e5fa@quicinc.com>
-Date: Mon, 10 Jul 2023 10:25:14 -0700
+Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com
+ [IPv6:2607:f8b0:4864:20::c32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3630810E2AF;
+ Mon, 10 Jul 2023 17:25:42 +0000 (UTC)
+Received: by mail-oo1-xc32.google.com with SMTP id
+ 006d021491bc7-56352146799so3700257eaf.3; 
+ Mon, 10 Jul 2023 10:25:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1689009941; x=1691601941;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=QwgPAnsoGImOTpKq/zgwf6map72bf6KrCfvboKElITA=;
+ b=DnCRB6tsdzjlZdKHrMnTb+fC53VCqYuDwixkgrKRM5vkGYDJ6nsznyKJbdq55hSYir
+ mFzCJQA1nH7WVsRT814upyrlygD8ernOA230UGe35rMY0mRqzasAH9olSl2vrbuMF7GJ
+ Hi9NqqnbgQUWtLUHVa4+cQgOxLdcucRMuFEEPCwgLMMYWFBfDAaKCESSQUqk5LLYS9rx
+ So7fu0G4QstJOO+fjRuIYdM0Ov+YkF9F3a0ycLNIcK7qqF15+UyKhpdwKyNdqA4yjjdK
+ WFqpyuTYa58MYkQT5vNszobbwT6ex9gjhFkYReikjFaICWssNy4t521UH339mhzP3S33
+ dHXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689009941; x=1691601941;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=QwgPAnsoGImOTpKq/zgwf6map72bf6KrCfvboKElITA=;
+ b=l23nVXo1RzzlgLhFOisWTSY/KzEiqTgvP2hjHAdjJcoWCbN+kEmvm4zP9EPVhUzvgv
+ 0MlOu6hcaKro78FehopdjOap005ip9LjXdl2jZep4xYhjzMLkTg9HCoTOmGCdRSVEpnE
+ agQt/dBKuUOyULZDVGjQzKuDHz9/TTE/mWQR0fqIVjlselmFWmm3E37+4LsE2rcRacJs
+ svvxnKF2ElrBPab3sZPE74OPhf3ptOFvhrwIfTPtzz9C6DUQQLSej37ZCjl8a8cicWDX
+ Y73y7WNyCj6L2JV0/76Q8pyETlgziV/Hu2gV3eT4NzlON+drrPufrh1TTVB6houFn7ZB
+ LRZQ==
+X-Gm-Message-State: ABy/qLZJMlDh5f7YQN/cF5tbm2vWC5uGInX8qXJupMR/z2NsNBm2lrQt
+ XARuBr45DMPcaO1Dn13TbSPTMyCuyKkaZwte1oU=
+X-Google-Smtp-Source: APBJJlH/RdvKZQnN1ndDfZW8FAy2oHtzFDZlusBzzOd+2kexWvU0EPGCZvfCyy3cnsNAgi5CdTrlDwOygmJybHGlQDk=
+X-Received: by 2002:aca:2308:0:b0:3a1:b638:9c2c with SMTP id
+ e8-20020aca2308000000b003a1b6389c2cmr11821118oie.55.1689009941122; Mon, 10
+ Jul 2023 10:25:41 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [Freedreno] [PATCH v1 1/5] drm/msm/dp: remove pm_runtime_xxx()
- from dp_power.c
-Content-Language: en-US
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>
-References: <1688773943-3887-1-git-send-email-quic_khsieh@quicinc.com>
- <1688773943-3887-2-git-send-email-quic_khsieh@quicinc.com>
- <fc5501cf-c335-81f7-1ad7-26fdc1b6922d@linaro.org>
- <72cb729b-a9d3-3e5b-c70a-0761f47a6779@quicinc.com>
- <CAA8EJpqKVBKRpFs=sS2rwrJpDP22sNrd00kCYm-b_ZB96O=s5g@mail.gmail.com>
- <10de9309-19f9-18af-3e01-1cda7d76e73e@quicinc.com>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <10de9309-19f9-18af-3e01-1cda7d76e73e@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: R__4hoOypJnSLxgzPrypwS9OBHYdgWoV
-X-Proofpoint-GUID: R__4hoOypJnSLxgzPrypwS9OBHYdgWoV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-10_13,2023-07-06_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0
- impostorscore=0 malwarescore=0 bulkscore=0 mlxscore=0 suspectscore=0
- adultscore=0 priorityscore=1501 mlxlogscore=999 spamscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2307100157
+References: <20230710082515.54604-1-xujianghui@cdjrlc.com>
+ <0cd737878affc60b7b34d58ea9e10e50@208suo.com>
+In-Reply-To: <0cd737878affc60b7b34d58ea9e10e50@208suo.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 10 Jul 2023 13:25:30 -0400
+Message-ID: <CADnq5_MAcyk=h8BebxrZ52n0Dsh3vj9PtjEUaD=PfDmhkej-cg@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: ERROR: "(foo*)" should be "(foo *)"
+To: sunran001@208suo.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,108 +69,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
- quic_jesszhan@quicinc.com, andersson@kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
- agross@kernel.org, linux-arm-msm@vger.kernel.org,
- marijn.suijten@somainline.org, swboyd@chromium.org, sean@poorly.run,
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Applied.  Thanks!
 
-On 7/9/2023 1:32 PM, Abhinav Kumar wrote:
+On Mon, Jul 10, 2023 at 4:27=E2=80=AFAM <sunran001@208suo.com> wrote:
 >
+> Fix four occurrences of the checkpatch.pl error:
+> ERROR: "(foo*)" should be "(foo *)"
 >
-> On 7/9/2023 11:00 AM, Dmitry Baryshkov wrote:
->> On Sun, 9 Jul 2023 at 20:22, Abhinav Kumar 
->> <quic_abhinavk@quicinc.com> wrote:
->>>
->>>
->>>
->>> On 7/7/2023 5:06 PM, Dmitry Baryshkov wrote:
->>>> On 08/07/2023 02:52, Kuogee Hsieh wrote:
->>>>> Since both pm_runtime_resume() and pm_runtime_suspend() are not
->>>>> populated at dp_pm_ops. Those pm_runtime_get/put() functions within
->>>>> dp_power.c will not have any effects in addition to increase/decrease
->>>>> power counter.
->>>>
->>>> Lie.
->>>>
->>>
->>> Even if the commit text is incorrect, review comments like this are not
->>> helping the patch nor the author and will just get ignored anyway.
->>
->> The review comment might be overreacting, excuse me. I was really
->> impressed by the commit message, which contradicts the basic source
->> code. pm_runtime_get() does a lot more than just increasing the power
->> counter.
->>
+> Signed-off-by: Ran Sun <sunran001@208suo.com>
+> ---
+>   drivers/gpu/drm/radeon/radeon_atombios.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
 >
-> It says within dp_power.c. Nonetheless, please let us know what is 
-> missing in the context of this patch like Bjorn did to make it an 
-> effective review and we can correct it. In its current form, the 
-> review comment is adding no value.
+> diff --git a/drivers/gpu/drm/radeon/radeon_atombios.c
+> b/drivers/gpu/drm/radeon/radeon_atombios.c
+> index bf3c411a55c5..85c4bb186203 100644
+> --- a/drivers/gpu/drm/radeon/radeon_atombios.c
+> +++ b/drivers/gpu/drm/radeon/radeon_atombios.c
+> @@ -1389,7 +1389,7 @@ bool radeon_atombios_get_ppll_ss_info(struct
+> radeon_device *rdev,
 >
-I am new in pm.
-
-Any recommendation to revise this commit test?
-
->>>>> Also pm_runtime_xxx() should be executed at top
->>>>> layer.
->>>>
->>>> Why?
->>>>
->>>
->>> I guess he meant to centralize this around dp_display.c. Will elaborate
->>> while posting the next rev.
->>>
->>>>>
->>>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->>>>> ---
->>>>>    drivers/gpu/drm/msm/dp/dp_power.c | 9 ---------
->>>>>    1 file changed, 9 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_power.c
->>>>> b/drivers/gpu/drm/msm/dp/dp_power.c
->>>>> index 5cb84ca..ed2f62a 100644
->>>>> --- a/drivers/gpu/drm/msm/dp/dp_power.c
->>>>> +++ b/drivers/gpu/drm/msm/dp/dp_power.c
->>>>> @@ -152,8 +152,6 @@ int dp_power_client_init(struct dp_power 
->>>>> *dp_power)
->>>>>        power = container_of(dp_power, struct dp_power_private, 
->>>>> dp_power);
->>>>> -    pm_runtime_enable(power->dev);
->>>>> -
->>>>>        return dp_power_clk_init(power);
->>>>>    }
->>>>> @@ -162,8 +160,6 @@ void dp_power_client_deinit(struct dp_power
->>>>> *dp_power)
->>>>>        struct dp_power_private *power;
->>>>>        power = container_of(dp_power, struct dp_power_private, 
->>>>> dp_power);
->>>>> -
->>>>> -    pm_runtime_disable(power->dev);
->>>>>    }
->>>>>    int dp_power_init(struct dp_power *dp_power)
->>>>> @@ -173,11 +169,7 @@ int dp_power_init(struct dp_power *dp_power)
->>>>>        power = container_of(dp_power, struct dp_power_private, 
->>>>> dp_power);
->>>>> -    pm_runtime_get_sync(power->dev);
->>>>> -
->>>>>        rc = dp_power_clk_enable(dp_power, DP_CORE_PM, true);
->>>>> -    if (rc)
->>>>> -        pm_runtime_put_sync(power->dev);
->>>>>        return rc;
->>>>>    }
->>>>> @@ -189,7 +181,6 @@ int dp_power_deinit(struct dp_power *dp_power)
->>>>>        power = container_of(dp_power, struct dp_power_private, 
->>>>> dp_power);
->>>>>        dp_power_clk_enable(dp_power, DP_CORE_PM, false);
->>>>> -    pm_runtime_put_sync(power->dev);
->>>>>        return 0;
->>>>>    }
->>>>
->>
->>
->>
+>           num_indices =3D (size - sizeof(ATOM_COMMON_TABLE_HEADER)) /
+>               sizeof(ATOM_SPREAD_SPECTRUM_ASSIGNMENT);
+> -        ss_assign =3D (struct _ATOM_SPREAD_SPECTRUM_ASSIGNMENT*)
+> +        ss_assign =3D (struct _ATOM_SPREAD_SPECTRUM_ASSIGNMENT *)
+>               ((u8 *)&ss_info->asSS_Info[0]);
+>           for (i =3D 0; i < num_indices; i++) {
+>               if (ss_assign->ucSS_Id =3D=3D id) {
+> @@ -1402,7 +1402,7 @@ bool radeon_atombios_get_ppll_ss_info(struct
+> radeon_device *rdev,
+>                   ss->refdiv =3D ss_assign->ucRecommendedRef_Div;
+>                   return true;
+>               }
+> -            ss_assign =3D (struct _ATOM_SPREAD_SPECTRUM_ASSIGNMENT*)
+> +            ss_assign =3D (struct _ATOM_SPREAD_SPECTRUM_ASSIGNMENT *)
+>                   ((u8 *)ss_assign + sizeof(struct
+> _ATOM_SPREAD_SPECTRUM_ASSIGNMENT));
+>           }
+>       }
+> @@ -3406,7 +3406,7 @@ static ATOM_VOLTAGE_OBJECT_V2
+> *atom_lookup_voltage_object_v2(ATOM_VOLTAGE_OBJECT
+>   {
+>       u32 size =3D le16_to_cpu(v2->sHeader.usStructureSize);
+>       u32 offset =3D offsetof(ATOM_VOLTAGE_OBJECT_INFO_V2,
+> asVoltageObj[0]);
+> -    u8 *start =3D (u8*)v2;
+> +    u8 *start =3D (u8 *)v2;
+>
+>       while (offset < size) {
+>           ATOM_VOLTAGE_OBJECT_V2 *vo =3D (ATOM_VOLTAGE_OBJECT_V2 *)(start=
+ +
+> offset);
+> @@ -3423,7 +3423,7 @@ static ATOM_VOLTAGE_OBJECT_V3
+> *atom_lookup_voltage_object_v3(ATOM_VOLTAGE_OBJECT
+>   {
+>       u32 size =3D le16_to_cpu(v3->sHeader.usStructureSize);
+>       u32 offset =3D offsetof(ATOM_VOLTAGE_OBJECT_INFO_V3_1,
+> asVoltageObj[0]);
+> -    u8 *start =3D (u8*)v3;
+> +    u8 *start =3D (u8 *)v3;
+>
+>       while (offset < size) {
+>           ATOM_VOLTAGE_OBJECT_V3 *vo =3D (ATOM_VOLTAGE_OBJECT_V3 *)(start=
+ +
+> offset);
