@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F01FC74D026
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 10:39:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0500174D02B
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 10:39:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 034F810E232;
-	Mon, 10 Jul 2023 08:39:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FD4010E233;
+	Mon, 10 Jul 2023 08:39:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9F6210E231;
- Mon, 10 Jul 2023 08:38:58 +0000 (UTC)
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04on2057.outbound.protection.outlook.com [40.107.102.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A87710E234;
+ Mon, 10 Jul 2023 08:39:06 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fA/b0xbuBiw0Fn3CZbPWz9GMgzR4y4jVqW4wysdzeZ/RpjTyYtZUIHdu2go09DgHAGkqKxBw6/418Fj/CJAdKZIAlwceMmhmXSU28AVZscuAFZ5P48oIa0q1VYxh/AppzB+O9Y52hvD6xvSs8S0ZS3Szo9Evl8dYBzv8BqSGTfEI2rGUnbZ4Hk/W6tGGgN+m+Ygn1DtZaSkO+xu4BIt2uVnJhF2axM7seXfCYX9apRr1gDg/wNgOj/MxcPg8yOiz7FeCmLUjZ2lipjSJqzQe3iKlIWowWJZu3PNHmm/SHonzjdxaqvsLAM3FHQCm6RMCyCMeNCcTTOKHVU423iiLOA==
+ b=cibNossU9NvmovVNz4n5LZY+oxPhK96qEmjTCq7H1AiZGiLJjouJdsXSNHIg9tnOMyKnhmsLZx2QyzlBVoddAh6wx3LMpNKH8iyKbjcw4kxmSx9vm9eYnTAaQARsk4DKnL8SQTCIKubIvzq+e+nDH/Dgh/2H3DwqBYkdgBmrxCGSPIC5Q9aPLD76gT48Q8qpgB22L9/UqA4t4cVA7he4jKQEuCgWjj6qmXp5UdtzcbzTAGnQEoRVdqkt0GDfpb4vToRYo403xa5yNxUok50X3fYHYRySJsXv1oyCVaArcsv0MzNPTuV6Rdlkt4g/T8EDGq3exdS68fmcdscJZlaxpw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V2W7MeeYoJAjHpnZBPrbz+KWPIKBQOAP/ttwqdtMG0c=;
- b=QcyuRM1scEM1Fni4a+P4z3b/Svu3cqw/Wgn5JNlfQRH+3VGa5Y0u8KvsUjqXep6e4doSqtz7FX9ehgXO7BD9Ih53HsR+Ijhjskb11m4F68QpotZD5giTMdK54O9YivaspDSo+bMiTIV5k2u8pnMj9+g+bhZ48ypPOZteuXqmwnh0H2Wb66qSnLU4qZN4aWVUNqtY+U7FoYqb5PiPjdIMTFwKiZZe+sN4d2iGtGPRxnpQiPA9h8df9vLaTJH94IC/pZuQkYl3sJLV03hi6D2YQA4rlv4kzMfpfz/0Cb8zn8mOs4Hn0s8o2wRJ9M6FeJIPlVi8WmDLED318CLYWAK3EQ==
+ bh=5J0Cz5Cadlw65Bzx+SEzLMeK7AP7NhydWrQ7o5Xd/xE=;
+ b=jjroFjayqSqgK4ajLBkCuDTHP5M6uhVtxSitBaYjXstqIQsr5pBNaajdnONpBXmGy5dPkRkRjcaUz2bEkZhKJCsQZFrytkDyJ3o4/aMCxDLdxDiWXRois5FYYq3KfKDZ62F3Nu/q2J3b/XHFtxNnznOHL9X/daJ+UaAkIkLdbN/smY4H0rJiMy5nuCWZhHdcmop0TWXmkwObv7SMKm7x6IBkKpecgcmurl5QR0aW3jkd7cGS45rrYn3QZvRfGZwzxF0f4j1UzX+ifszqR+/wZvMuMb22kzE6NCZqg2oyaip/xszU3S0bIUbCbAY55RrnfzUcMpSKhnJwZUA/RQPJ2A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V2W7MeeYoJAjHpnZBPrbz+KWPIKBQOAP/ttwqdtMG0c=;
- b=0OLXTQmXsdYdi4B7TFsrJWO6NCuuRt6kaCip5cXeEQtd5cLNn0xZvTBFl5ghx3aXieR+54n1f2v+Mhn5Wl4p2azedVzgDtUWa3qi5LgqKSiQatkhto6CPaSxDRPYRvGJ4ssBvjBp0i5ShtL5oLFgrRx3guCqfkMHktSjz3ppENM=
-Received: from MW4PR04CA0186.namprd04.prod.outlook.com (2603:10b6:303:86::11)
- by SJ0PR12MB6992.namprd12.prod.outlook.com (2603:10b6:a03:483::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.30; Mon, 10 Jul
- 2023 08:38:52 +0000
-Received: from CO1NAM11FT079.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:86:cafe::1c) by MW4PR04CA0186.outlook.office365.com
- (2603:10b6:303:86::11) with Microsoft SMTP Server (version=TLS1_2,
+ bh=5J0Cz5Cadlw65Bzx+SEzLMeK7AP7NhydWrQ7o5Xd/xE=;
+ b=GxIDZG1AIsshSsi8CwJYZwNH2Un4Eh93pAI3D1xuyHZe1WrlNlUrdOJUFKlYET9U5Yxt62M0SYIRuCMcVXU+26GJaFuNalB63oVFtBjajqoVv4OhBnz1DgYTYdMjFMQxjGHEkgPWCedCKq8uVLQ5Gl6h/bExh4A+zIxd63PkcrE=
+Received: from MW4P223CA0009.NAMP223.PROD.OUTLOOK.COM (2603:10b6:303:80::14)
+ by PH7PR12MB6610.namprd12.prod.outlook.com (2603:10b6:510:212::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.31; Mon, 10 Jul
+ 2023 08:39:02 +0000
+Received: from CO1NAM11FT103.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:80:cafe::6f) by MW4P223CA0009.outlook.office365.com
+ (2603:10b6:303:80::14) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.30 via Frontend
- Transport; Mon, 10 Jul 2023 08:38:52 +0000
+ Transport; Mon, 10 Jul 2023 08:39:02 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -45,13 +45,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT079.mail.protection.outlook.com (10.13.175.134) with Microsoft SMTP
+ CO1NAM11FT103.mail.protection.outlook.com (10.13.174.252) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6588.18 via Frontend Transport; Mon, 10 Jul 2023 08:38:52 +0000
+ 15.20.6588.18 via Frontend Transport; Mon, 10 Jul 2023 08:39:01 +0000
 Received: from equan-buildpc.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Mon, 10 Jul
- 2023 03:38:42 -0500
+ 2023 03:38:51 -0500
 From: Evan Quan <evan.quan@amd.com>
 To: <rafael@kernel.org>, <lenb@kernel.org>, <Alexander.Deucher@amd.com>,
  <Christian.Koenig@amd.com>, <Xinhui.Pan@amd.com>, <airlied@gmail.com>,
@@ -62,10 +62,9 @@ To: <rafael@kernel.org>, <lenb@kernel.org>, <Alexander.Deucher@amd.com>,
  <hdegoede@redhat.com>, <jingyuwang_vip@163.com>, <Lijo.Lazar@amd.com>,
  <jim.cromie@gmail.com>, <bellosilicio@gmail.com>, <andrealmeid@igalia.com>,
  <trix@redhat.com>, <jsg@jsg.id.au>, <arnd@arndb.de>, <andrew@lunn.ch>
-Subject: [PATCH V6 3/9] cfg80211: expose nl80211_chan_width_to_mhz for wide
- sharing
-Date: Mon, 10 Jul 2023 16:36:35 +0800
-Message-ID: <20230710083641.2132264-4-evan.quan@amd.com>
+Subject: [PATCH V6 4/9] wifi: mac80211: Add support for ACPI WBRF
+Date: Mon, 10 Jul 2023 16:36:36 +0800
+Message-ID: <20230710083641.2132264-5-evan.quan@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230710083641.2132264-1-evan.quan@amd.com>
 References: <20230710083641.2132264-1-evan.quan@amd.com>
@@ -77,26 +76,26 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT079:EE_|SJ0PR12MB6992:EE_
-X-MS-Office365-Filtering-Correlation-Id: 22a6e668-1e33-441a-84fe-08db812116f8
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT103:EE_|PH7PR12MB6610:EE_
+X-MS-Office365-Filtering-Correlation-Id: dfa167bc-dccf-4fcf-b5d2-08db81211cce
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7zIjSeS22b8aeBlhBP+2yKjV3pMs8RhwpJFO7tlMvHwFCY1r/SBd0aNV1U9QnRBl1I+OCsNQwJ6TP4eZhS5p7rA+fCKC7S0ZCaKKeQSQplGOAN5XP3bZcuARogIYnV8SpKwJXrm4LRi+7pteZCUNPKzekwTOLXSeztbL14YGlk4NGEqV2diFn/OqCTGM/bvbTDyUi097tH/QaAYzY+Zim1RHCf6A+0Ak+0rka60qc5HG9cO8nNWAFYA7EuwmLD4bn8vNpA3k65GiEVR6oKGAe/U0+ThZL/B7EuEHmzWRgqPUlloG/IxdXSQdJWAyxzld/uIa/TeGDPhx6RPRAcDmanVxnVwhriwfInziGccUj43cSmu/pwvnoHSTYdYQg8+aAQvCkTBkS/louKCIfzCJJLLgJKruHYzIWp3SP3Wui3migZGoosOddOltbL6jVmuCAn0JsEahspzrsEhqIWmLefIgtxwY9roMVoL/t53xUlSKG+IyGyvi/AkNgnWL1+ML6Gcyfe4F7++tM+mASUKzyQzUh7XW62+D0KEDb9afmR+mIdRMHvNo1rl1taBi9KV/PJJaZjsvNPFxgFkSR1pf01/bWLLH9oYDDUafzwLF4zH46neT+JQ7ileHcOufjPRTMLW6Q0l/SstFcgR669SE9f1ju+pppG0B5LeRZplapV9/oNUmWSRcUQCAfaIeMtoeZbN+V4gWKGhbGfVunMcsZclNMuyofIbRSyrRuFkh0kjHUKWELuNgoFZAYbglgElodA11jeEwOR1pDFj7IiAuDzxN4b3a5s0yXkSbyu1ZMK5FGuQ2CNv2UXh537nyTxi8EyiVBrYdjx13klGklS7QNQ==
+X-Microsoft-Antispam-Message-Info: FdGQuib2vqbUR+jxDT4W4/NZd2vVp/wnYhsMgUkFQfyUtLxRjqWKUmEsUi8nlR5Fy49Vz6nGT8GwMT3ZZGtXUDbG0vG5IE0Bc8YgRJx9DRe0FZKSnaoFJlog5PyeDA8Q5dPTEA/b3ImPlsN6uSZYmN5KWqrW9wycsp+kGqESg2SsoqQhUxDScmpiHjU2VfWBrO0iNougc1P/CbGOiGMDDvhR/dY1ABcfLPpcgRr5lAMrIS++lGSZqw5Rg8Ch9v1FBLohKeTz5xpPhktLoWXfLl3OKDvvIgUAx4Typ7gR4pEdKgM68AnovNMYygvoQddm1saN/5TR3e13u72NxNTMiUQ9kGomYth+1eiGI+DNbijgKPsWPiv1xRXXX5rN05nnjYTH9FodDosmjmoj3StpHolrDjOywc+UJnSQLiN3UzitOoFKOCNSdyEF9OqCqY1qo0+S8l7ZwFe92ml0jotfWSaM3Ggkp1gwgUcG5OrCXa+btV/LPfhWDdRiN8HCGwb6L11Ft0CUOxBKc77DRII7CCQSGkVhbTSmAvuHp0q2sTYFAs4jGBwJR3fGEULz8kDSNIOSMIIdmORC6RS3W7e4YwXHHp9OKgp7hERB3uBx/mqrS7hZlSj0/m0rga5igbqjbOu3t/wcQfbBq5qi0snNK8eJsyw63A326ePtxcteWnUkqUnPcZBBkmjHq3VJEq+mDGqOoPi/GDIXI/xRhiOu5yLZCtuq8ABtNYaBcWNINWL8k8Qaxc/+Spp555sh661qH45tUH5L4W7lfRtYSt1CwmVSy42Xo48K10lTlw1Np0o3Im2RW/JiIhYt9poKi7EF6smii0SKct4lKo96mrxn+Q==
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(39860400002)(136003)(376002)(346002)(396003)(451199021)(46966006)(40470700004)(36840700001)(6666004)(7696005)(478600001)(110136005)(54906003)(36860700001)(47076005)(426003)(83380400001)(36756003)(86362001)(40460700003)(40480700001)(2616005)(2906002)(70206006)(82310400005)(70586007)(16526019)(1076003)(26005)(186003)(336012)(81166007)(82740400003)(921005)(356005)(8676002)(4326008)(316002)(41300700001)(5660300002)(8936002)(44832011)(7416002)(83996005)(36900700001)(2101003);
+ SFS:(13230028)(4636009)(39860400002)(376002)(136003)(396003)(346002)(451199021)(36840700001)(46966006)(40470700004)(336012)(426003)(2616005)(41300700001)(26005)(1076003)(83380400001)(16526019)(186003)(36860700001)(47076005)(478600001)(82740400003)(81166007)(921005)(356005)(110136005)(54906003)(6666004)(7696005)(40460700003)(4326008)(44832011)(40480700001)(70206006)(70586007)(316002)(7416002)(86362001)(82310400005)(8676002)(8936002)(5660300002)(2906002)(36756003)(2101003)(83996005)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2023 08:38:52.0628 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 22a6e668-1e33-441a-84fe-08db812116f8
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2023 08:39:01.8551 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: dfa167bc-dccf-4fcf-b5d2-08db81211cce
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT079.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT103.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6992
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6610
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,59 +111,261 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-acpi@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Evan Quan <evan.quan@amd.com>
+ Evan Quan <evan.quan@amd.com>, Mario Limonciello <mario.limonciello@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The newly added WBRF feature needs this interface for channel
-width calculation.
+To support AMD's WBRF interference mitigation mechanism, Wifi adapters
+utilized in the system must register the frequencies in use(or unregister
+those frequencies no longer used) via the dedicated APCI calls. So that,
+other drivers responding to the frequencies can take proper actions to
+mitigate possible interference.
 
+Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+Co-developed-by: Evan Quan <evan.quan@amd.com>
 Signed-off-by: Evan Quan <evan.quan@amd.com>
+--
+v1->v2:
+  - place the new added member(`wbrf_supported`) in
+    ieee80211_local(Johannes)
+  - handle chandefs change scenario properly(Johannes)
+  - some minor fixes around code sharing and possible invalid input
+    checks(Johannes)
+v2->v3:
+  - drop unnecessary input checks and intermediate APIs(Mario)
+  - Separate some mac80211 common code(Mario, Johannes)
+v3->v4:
+  - some minor fixes around return values(Johannes)
 ---
- include/net/cfg80211.h | 8 ++++++++
- net/wireless/chan.c    | 3 ++-
- 2 files changed, 10 insertions(+), 1 deletion(-)
+ include/linux/ieee80211.h  |   1 +
+ net/mac80211/Makefile      |   2 +
+ net/mac80211/chan.c        |   9 ++++
+ net/mac80211/ieee80211_i.h |  19 +++++++
+ net/mac80211/main.c        |   2 +
+ net/mac80211/wbrf.c        | 103 +++++++++++++++++++++++++++++++++++++
+ 6 files changed, 136 insertions(+)
+ create mode 100644 net/mac80211/wbrf.c
 
-diff --git a/include/net/cfg80211.h b/include/net/cfg80211.h
-index 9e04f69712b1..c6dc337eafce 100644
---- a/include/net/cfg80211.h
-+++ b/include/net/cfg80211.h
-@@ -920,6 +920,14 @@ const struct cfg80211_chan_def *
- cfg80211_chandef_compatible(const struct cfg80211_chan_def *chandef1,
- 			    const struct cfg80211_chan_def *chandef2);
+diff --git a/include/linux/ieee80211.h b/include/linux/ieee80211.h
+index c4cf296e7eaf..0703921547f5 100644
+--- a/include/linux/ieee80211.h
++++ b/include/linux/ieee80211.h
+@@ -4319,6 +4319,7 @@ static inline int ieee80211_get_tdls_action(struct sk_buff *skb, u32 hdr_size)
+ /* convert frequencies */
+ #define MHZ_TO_KHZ(freq) ((freq) * 1000)
+ #define KHZ_TO_MHZ(freq) ((freq) / 1000)
++#define KHZ_TO_HZ(freq)  ((freq) * 1000)
+ #define PR_KHZ(f) KHZ_TO_MHZ(f), f % 1000
+ #define KHZ_F "%d.%03d"
  
-+/**
-+ * nl80211_chan_width_to_mhz - get the channel width in Mhz
-+ * @chan_width: the channel width from &enum nl80211_chan_width
-+ * Return: channel width in Mhz if the chan_width from &enum nl80211_chan_width
-+ * is valid. -1 otherwise.
-+ */
-+int nl80211_chan_width_to_mhz(enum nl80211_chan_width chan_width);
+diff --git a/net/mac80211/Makefile b/net/mac80211/Makefile
+index b8de44da1fb8..8f8ac567e7c8 100644
+--- a/net/mac80211/Makefile
++++ b/net/mac80211/Makefile
+@@ -65,4 +65,6 @@ rc80211_minstrel-$(CONFIG_MAC80211_DEBUGFS) += \
+ 
+ mac80211-$(CONFIG_MAC80211_RC_MINSTREL) += $(rc80211_minstrel-y)
+ 
++mac80211-$(CONFIG_WBRF) += wbrf.o
 +
- /**
-  * cfg80211_chandef_valid - check if a channel definition is valid
-  * @chandef: the channel definition to check
-diff --git a/net/wireless/chan.c b/net/wireless/chan.c
-index 0b7e81db383d..227db04eac42 100644
---- a/net/wireless/chan.c
-+++ b/net/wireless/chan.c
-@@ -141,7 +141,7 @@ static bool cfg80211_edmg_chandef_valid(const struct cfg80211_chan_def *chandef)
- 	return true;
- }
+ ccflags-y += -DDEBUG
+diff --git a/net/mac80211/chan.c b/net/mac80211/chan.c
+index 77c90ed8f5d7..9887471028dc 100644
+--- a/net/mac80211/chan.c
++++ b/net/mac80211/chan.c
+@@ -506,11 +506,16 @@ static void _ieee80211_change_chanctx(struct ieee80211_local *local,
  
--static int nl80211_chan_width_to_mhz(enum nl80211_chan_width chan_width)
-+int nl80211_chan_width_to_mhz(enum nl80211_chan_width chan_width)
- {
- 	int mhz;
+ 	WARN_ON(!cfg80211_chandef_compatible(&ctx->conf.def, chandef));
  
-@@ -190,6 +190,7 @@ static int nl80211_chan_width_to_mhz(enum nl80211_chan_width chan_width)
++	ieee80211_remove_wbrf(local, &ctx->conf.def);
++
+ 	ctx->conf.def = *chandef;
+ 
+ 	/* check if min chanctx also changed */
+ 	changed = IEEE80211_CHANCTX_CHANGE_WIDTH |
+ 		  _ieee80211_recalc_chanctx_min_def(local, ctx, rsvd_for);
++
++	ieee80211_add_wbrf(local, &ctx->conf.def);
++
+ 	drv_change_chanctx(local, ctx, changed);
+ 
+ 	if (!local->use_chanctx) {
+@@ -668,6 +673,8 @@ static int ieee80211_add_chanctx(struct ieee80211_local *local,
+ 	lockdep_assert_held(&local->mtx);
+ 	lockdep_assert_held(&local->chanctx_mtx);
+ 
++	ieee80211_add_wbrf(local, &ctx->conf.def);
++
+ 	if (!local->use_chanctx)
+ 		local->hw.conf.radar_enabled = ctx->conf.radar_enabled;
+ 
+@@ -748,6 +755,8 @@ static void ieee80211_del_chanctx(struct ieee80211_local *local,
  	}
- 	return mhz;
- }
-+EXPORT_SYMBOL(nl80211_chan_width_to_mhz);
  
- static int cfg80211_chandef_get_width(const struct cfg80211_chan_def *c)
- {
+ 	ieee80211_recalc_idle(local);
++
++	ieee80211_remove_wbrf(local, &ctx->conf.def);
+ }
+ 
+ static void ieee80211_free_chanctx(struct ieee80211_local *local,
+diff --git a/net/mac80211/ieee80211_i.h b/net/mac80211/ieee80211_i.h
+index 4159fb65038b..fb984ce7038c 100644
+--- a/net/mac80211/ieee80211_i.h
++++ b/net/mac80211/ieee80211_i.h
+@@ -1591,6 +1591,10 @@ struct ieee80211_local {
+ 
+ 	/* extended capabilities provided by mac80211 */
+ 	u8 ext_capa[8];
++
++#if IS_ENABLED(CONFIG_WBRF)
++	bool wbrf_supported;
++#endif
+ };
+ 
+ static inline struct ieee80211_sub_if_data *
+@@ -2615,4 +2619,19 @@ ieee80211_eht_cap_ie_to_sta_eht_cap(struct ieee80211_sub_if_data *sdata,
+ 				    const struct ieee80211_eht_cap_elem *eht_cap_ie_elem,
+ 				    u8 eht_cap_len,
+ 				    struct link_sta_info *link_sta);
++
++#if IS_ENABLED(CONFIG_WBRF)
++void ieee80211_check_wbrf_support(struct ieee80211_local *local);
++void ieee80211_add_wbrf(struct ieee80211_local *local,
++			struct cfg80211_chan_def *chandef);
++void ieee80211_remove_wbrf(struct ieee80211_local *local,
++			   struct cfg80211_chan_def *chandef);
++#else
++static inline void ieee80211_check_wbrf_support(struct ieee80211_local *local) { }
++static inline void ieee80211_add_wbrf(struct ieee80211_local *local,
++				      struct cfg80211_chan_def *chandef) { }
++static inline void ieee80211_remove_wbrf(struct ieee80211_local *local,
++					 struct cfg80211_chan_def *chandef) { }
++#endif /* CONFIG_WBRF */
++
+ #endif /* IEEE80211_I_H */
+diff --git a/net/mac80211/main.c b/net/mac80211/main.c
+index 55cdfaef0f5d..0a55626b1546 100644
+--- a/net/mac80211/main.c
++++ b/net/mac80211/main.c
+@@ -1395,6 +1395,8 @@ int ieee80211_register_hw(struct ieee80211_hw *hw)
+ 	debugfs_hw_add(local);
+ 	rate_control_add_debugfs(local);
+ 
++	ieee80211_check_wbrf_support(local);
++
+ 	rtnl_lock();
+ 	wiphy_lock(hw->wiphy);
+ 
+diff --git a/net/mac80211/wbrf.c b/net/mac80211/wbrf.c
+new file mode 100644
+index 000000000000..7ddb29d128b1
+--- /dev/null
++++ b/net/mac80211/wbrf.c
+@@ -0,0 +1,103 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Wifi Band Exclusion Interface for WWAN
++ * Copyright (C) 2023 Advanced Micro Devices
++ *
++ */
++
++#include <linux/wbrf.h>
++#include <net/cfg80211.h>
++#include "ieee80211_i.h"
++
++void ieee80211_check_wbrf_support(struct ieee80211_local *local)
++{
++	struct wiphy *wiphy = local->hw.wiphy;
++	struct device *dev;
++
++	if (!wiphy)
++		return;
++
++	dev = wiphy->dev.parent;
++	if (!dev)
++		return;
++
++	local->wbrf_supported = wbrf_supported_producer(dev);
++	dev_dbg(dev, "WBRF is %s supported\n",
++		local->wbrf_supported ? "" : "not");
++}
++
++static void get_chan_freq_boundary(u32 center_freq,
++				   u32 bandwidth,
++				   u64 *start,
++				   u64 *end)
++{
++	bandwidth = MHZ_TO_KHZ(bandwidth);
++	center_freq = MHZ_TO_KHZ(center_freq);
++
++	*start = center_freq - bandwidth / 2;
++	*end = center_freq + bandwidth / 2;
++
++	/* Frequency in HZ is expected */
++	*start = KHZ_TO_HZ(*start);
++	*end = KHZ_TO_HZ(*end);
++}
++
++static void wbrf_get_ranges_from_chandef(struct cfg80211_chan_def *chandef,
++					 struct wbrf_ranges_in *ranges_in)
++{
++	u64 start_freq1, end_freq1;
++	u64 start_freq2, end_freq2;
++	int bandwidth;
++
++	bandwidth = nl80211_chan_width_to_mhz(chandef->width);
++
++	get_chan_freq_boundary(chandef->center_freq1,
++			       bandwidth,
++			       &start_freq1,
++			       &end_freq1);
++
++	ranges_in->band_list[0].start = start_freq1;
++	ranges_in->band_list[0].end = end_freq1;
++
++	if (chandef->width == NL80211_CHAN_WIDTH_80P80) {
++		get_chan_freq_boundary(chandef->center_freq2,
++				       bandwidth,
++				       &start_freq2,
++				       &end_freq2);
++
++		ranges_in->band_list[1].start = start_freq2;
++		ranges_in->band_list[1].end = end_freq2;
++	}
++}
++
++void ieee80211_add_wbrf(struct ieee80211_local *local,
++			struct cfg80211_chan_def *chandef)
++{
++	struct wbrf_ranges_in ranges_in = {0};
++	struct device *dev;
++
++	if (!local->wbrf_supported)
++		return;
++
++	dev = local->hw.wiphy->dev.parent;
++
++	wbrf_get_ranges_from_chandef(chandef, &ranges_in);
++
++	wbrf_add_exclusion(dev, &ranges_in);
++}
++
++void ieee80211_remove_wbrf(struct ieee80211_local *local,
++			   struct cfg80211_chan_def *chandef)
++{
++	struct wbrf_ranges_in ranges_in = {0};
++	struct device *dev;
++
++	if (!local->wbrf_supported)
++		return;
++
++	dev = local->hw.wiphy->dev.parent;
++
++	wbrf_get_ranges_from_chandef(chandef, &ranges_in);
++
++	wbrf_remove_exclusion(dev, &ranges_in);
++}
 -- 
 2.34.1
 
