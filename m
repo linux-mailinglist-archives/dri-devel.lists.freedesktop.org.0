@@ -1,53 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C4674D2AF
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 12:03:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E20E74D2EB
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 12:09:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3672F10E0F1;
-	Mon, 10 Jul 2023 10:03:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAE6B10E257;
+	Mon, 10 Jul 2023 10:09:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.208.org (unknown [183.242.55.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C02EE10E1AD
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 10:03:28 +0000 (UTC)
-Received: from mail.208.org (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTP id 4R00255jwyzBHXhG
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 18:03:25 +0800 (CST)
-Authentication-Results: mail.208.org (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)" header.d=208.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
- content-transfer-encoding:content-type:message-id:user-agent
- :references:in-reply-to:subject:to:from:date:mime-version; s=
- dkim; t=1688983405; x=1691575406; bh=9eGsasZCdvlfGHZbPBuBp6LJrAr
- WhWGbB1Y1Gl7O060=; b=cMhE0ZzDYHXQtRtw2S7cGuQ+AEgRA92QIB0jpxylIQw
- v7Um2xeXdYWbxagnj8oqKVD3yQbl9wkkxhyFXfYE9JKSc92hxnyy2kqouopzyPwO
- yAzz5HqO7VDhBcMap+ckhSt3A5eOfijX5BTKhwYUIC6h6htnRQpkAsMO5iZZ9f3B
- 5JUAoAjWQQ6i9WPPp+T10cOlVETKtkTVBG68XlIywX2F1KAzpwm5FeiidKl6kf00
- PmGIOAlzr2S7tdcQ8tkv1AAwg9M2iHQNcTbP4bhrhKN/GiXy8IVQVVr17Df6WqJM
- AEX4/ZwMnWkuwHIV+DePS/03wHY8sMjot+OiDu/lRfg==
-X-Virus-Scanned: amavisd-new at mail.208.org
-Received: from mail.208.org ([127.0.0.1])
- by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id 7tl5Y2ViFXFI for <dri-devel@lists.freedesktop.org>;
- Mon, 10 Jul 2023 18:03:25 +0800 (CST)
-Received: from localhost (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTPSA id 4R00252j4hzBHXhC;
- Mon, 10 Jul 2023 18:03:25 +0800 (CST)
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 865DA10E257
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 10:09:40 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.43])
+ by gateway (Coremail) with SMTP id _____8Axjuvh2KtkvRcDAA--.6181S3;
+ Mon, 10 Jul 2023 18:09:37 +0800 (CST)
+Received: from openarena.loongson.cn (unknown [10.20.42.43])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Cx_c7g2KtknCInAA--.45834S2; 
+ Mon, 10 Jul 2023 18:09:36 +0800 (CST)
+From: Sui Jingfeng <suijingfeng@loongson.cn>
+To: Sui Jingfeng <suijingfeng@loongson.cn>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Li Yi <liyi@loongson.cn>
+Subject: [PATCH] drm/loongson: Fix two warnings because of passing wrong type
+Date: Mon, 10 Jul 2023 18:09:31 +0800
+Message-Id: <20230710100931.255234-1-suijingfeng@loongson.cn>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Date: Mon, 10 Jul 2023 18:03:25 +0800
-From: sunran001@208suo.com
-To: airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH] drm/radeon: ERROR: "(foo*)" should be "(foo *)"
-In-Reply-To: <20230710091057.64085-1-xujianghui@cdjrlc.com>
-References: <20230710091057.64085-1-xujianghui@cdjrlc.com>
-User-Agent: Roundcube Webmail
-Message-ID: <3a541f425a1ab6d2664a6d74cc4c3a51@208suo.com>
-X-Sender: sunran001@208suo.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Cx_c7g2KtknCInAA--.45834S2
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7tw4fur45Gw15KFWUXFykXrc_yoW8Ar1kpF
+ 47Ca48trZ8Jr12yr4kG3WUZ34Fv3ZaqFZa9FZ7C3Z09w1DAF1UZF1kuFW5Kry7Zay2vrWa
+ yr93G3yag3WqqwcCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
+ sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+ 0xBIdaVrnRJUUUk2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+ IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+ e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+ 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+ xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
+ 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv
+ 67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2
+ Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
+ 6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0x
+ vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE
+ 42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6x
+ kF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU2DUUUUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,64 +59,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: loongson-kernel@lists.loongnix.cn, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix five occurrences of the checkpatch.pl error:
-ERROR: "(foo*)" should be "(foo *)"
+When accessing I/O memory, we should pass '__iomem *' type instead of
+'void *' simply, otherwise sparse tests will complain. After applied
+this patch, the following two sparse warnings got fixed.
 
-Signed-off-by: Ran Sun <sunran001@208suo.com>
+1) drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35:
+   sparse:     expected void volatile [noderef] __iomem *
+   sparse:     got void *kptr
+
+2) drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51:
+   sparse:     expected void const volatile [noderef] __iomem *
+   sparse:     got void *kptr
+
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202307100243.v3hv6aes-lkp@intel.com/
+Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
 ---
-  drivers/gpu/drm/radeon/radeon_kms.c | 10 +++++-----
-  1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/loongson/lsdc_benchmark.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_kms.c 
-b/drivers/gpu/drm/radeon/radeon_kms.c
-index e0214cf1b43b..a16590c6247f 100644
---- a/drivers/gpu/drm/radeon/radeon_kms.c
-+++ b/drivers/gpu/drm/radeon/radeon_kms.c
-@@ -444,7 +444,7 @@ int radeon_info_ioctl(struct drm_device *dev, void 
-*data, struct drm_file *filp)
-              DRM_DEBUG_KMS("timestamp is r6xx+ only!\n");
-              return -EINVAL;
-          }
--        value = (uint32_t*)&value64;
-+        value = (uint32_t *)&value64;
-          value_size = sizeof(uint64_t);
-          value64 = radeon_get_gpu_clock_counter(rdev);
-          break;
-@@ -543,18 +543,18 @@ int radeon_info_ioctl(struct drm_device *dev, void 
-*data, struct drm_file *filp)
-          *value = rdev->vce.fb_version;
-          break;
-      case RADEON_INFO_NUM_BYTES_MOVED:
--        value = (uint32_t*)&value64;
-+        value = (uint32_t *)&value64;
-          value_size = sizeof(uint64_t);
-          value64 = atomic64_read(&rdev->num_bytes_moved);
-          break;
-      case RADEON_INFO_VRAM_USAGE:
--        value = (uint32_t*)&value64;
-+        value = (uint32_t *)&value64;
-          value_size = sizeof(uint64_t);
-          man = ttm_manager_type(&rdev->mman.bdev, TTM_PL_VRAM);
-          value64 = ttm_resource_manager_usage(man);
-          break;
-      case RADEON_INFO_GTT_USAGE:
--        value = (uint32_t*)&value64;
-+        value = (uint32_t *)&value64;
-          value_size = sizeof(uint64_t);
-          man = ttm_manager_type(&rdev->mman.bdev, TTM_PL_TT);
-          value64 = ttm_resource_manager_usage(man);
-@@ -614,7 +614,7 @@ int radeon_info_ioctl(struct drm_device *dev, void 
-*data, struct drm_file *filp)
-          DRM_DEBUG_KMS("Invalid request %d\n", info->request);
-          return -EINVAL;
-      }
--    if (copy_to_user(value_ptr, (char*)value, value_size)) {
-+    if (copy_to_user(value_ptr, (char *)value, value_size)) {
-          DRM_ERROR("copy_to_user %s:%u\n", __func__, __LINE__);
-          return -EFAULT;
-      }
+diff --git a/drivers/gpu/drm/loongson/lsdc_benchmark.c b/drivers/gpu/drm/loongson/lsdc_benchmark.c
+index b088646a2ff9..36e352820bdb 100644
+--- a/drivers/gpu/drm/loongson/lsdc_benchmark.c
++++ b/drivers/gpu/drm/loongson/lsdc_benchmark.c
+@@ -24,7 +24,7 @@ static void lsdc_copy_gtt_to_vram_cpu(struct lsdc_bo *src_bo,
+ 	lsdc_bo_kmap(dst_bo);
+ 
+ 	while (n--)
+-		memcpy_toio(dst_bo->kptr, src_bo->kptr, size);
++		memcpy_toio((void __iomem *)dst_bo->kptr, src_bo->kptr, size);
+ 
+ 	lsdc_bo_kunmap(src_bo);
+ 	lsdc_bo_kunmap(dst_bo);
+@@ -39,7 +39,7 @@ static void lsdc_copy_vram_to_gtt_cpu(struct lsdc_bo *src_bo,
+ 	lsdc_bo_kmap(dst_bo);
+ 
+ 	while (n--)
+-		memcpy_fromio(dst_bo->kptr, src_bo->kptr, size);
++		memcpy_fromio(dst_bo->kptr, (void __iomem *)src_bo->kptr, size);
+ 
+ 	lsdc_bo_kunmap(src_bo);
+ 	lsdc_bo_kunmap(dst_bo);
+-- 
+2.34.1
+
