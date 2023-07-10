@@ -1,57 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E68974D4E8
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 14:07:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D358374D4FB
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 14:11:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68F2910E125;
-	Mon, 10 Jul 2023 12:07:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4CA010E144;
+	Mon, 10 Jul 2023 12:11:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1822410E125
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 12:07:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1688990870; x=1720526870;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=vhQl0HD5I0/ESpqDJlfvf8LP7w3sp0fBVoVyKApq+B4=;
- b=YUeRusDdkOOj6lMqxPurlNDO+lKJzLG2DR7yOaaBlUIy+aaJIviCVHNI
- 5+Q+hopL+r+GcNfAjudqdKJgu5DiMzp6sEgFqzqf5/tC6xslD8y8K6cf8
- lGbtV2mE40bdApFdBqip+CPDbkyFgN4SWm3ti0td6kCs+RFQSiOoq1ec1
- m0oissEQxvIPMDHRxlfCShc+HbK04KJV/zrmITyJMN4ziYmVZBcIRVbSk
- nV3vGMlQ7lWXg3pN+Kgax3ZwmBbDcNbrgH7/KBTSmTIhfWwvyxaTYADS5
- DLUXYERorgUNs2I9vrSG9iRyLpX6zF79+uJlu0UaPae9PtRUE7sZJVTm/ w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10766"; a="344652538"
-X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; d="scan'208";a="344652538"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jul 2023 05:07:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10766"; a="810792645"
-X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; d="scan'208";a="810792645"
-Received: from stoicaan-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.52.170])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jul 2023 05:07:45 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, suijingfeng
- <suijingfeng@loongson.cn>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Li Yi <liyi@loongson.cn>
-Subject: Re: [PATCH] drm/loongson: Remove a useless check in
- cursor_plane_atomic_async_check()
-In-Reply-To: <13d4c853-ed7b-f0f5-dffb-a7811f2da249@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230710102411.257970-1-suijingfeng@loongson.cn>
- <6c7bbce7-5521-b868-019f-bce26f309730@suse.de>
- <8182fecd-d290-293a-d963-ddbea79dbf03@loongson.cn>
- <87r0pghtu9.fsf@intel.com> <13d4c853-ed7b-f0f5-dffb-a7811f2da249@suse.de>
-Date: Mon, 10 Jul 2023 15:07:43 +0300
-Message-ID: <87o7kkhsvk.fsf@intel.com>
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
+ [209.85.128.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF3FF10E144
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 12:11:28 +0000 (UTC)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-57764a6bf8cso55285537b3.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 05:11:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1688991087; x=1691583087;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=72Wm2+Haf42PppkDwX2AiSMrYpGiUC/lF3qyDG6asRc=;
+ b=c2qGo7Ey3zmra41lGonm/L+eDa9/QORi4gNwB7Q8QkF8g8sxejnoZbfmfm+AdsDxG6
+ ltBpwee2rxxxrEe3BCtU1elWrSS5ySTeVhpk7+sgcmaLlS3di1A9g3FQrtS1VFppMNap
+ hT35UjzG/z8ltSqh+mu514+DzQF7xdZUdIrpcpcO67hppLwoiJ2TT5Y6NCIfySW9PzC0
+ AqmWl85E8CgkR0nfYWXnNgpZhFUhYKteOfSk6/9PlkUEMroq0O0Mt3xtOaO2R1Ri8s2B
+ yT4X7Eu179hwkCvS/5z3N3aFgDkebvp4HFXSbZ5j50RaWzXwSGC6fiDgT/WIYaSehthm
+ 3jNg==
+X-Gm-Message-State: ABy/qLZ2TjSnSYpdED6Z9Q6bhCavPfphlA5PuwsQPzREqWPb093zp0dk
+ fceECBvEtw7CtmS59vYMaMyfdXwZJIHzdQ==
+X-Google-Smtp-Source: APBJJlH0QDYJj7r33MzBj/l2+2Uqb2RoFAna8AjFT/r2SNfB/06scm2h5Tqm00vknaRCvPM0oDbBYA==
+X-Received: by 2002:a0d:e403:0:b0:573:2ea0:da73 with SMTP id
+ n3-20020a0de403000000b005732ea0da73mr13001423ywe.28.1688991087190; 
+ Mon, 10 Jul 2023 05:11:27 -0700 (PDT)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com.
+ [209.85.219.173]) by smtp.gmail.com with ESMTPSA id
+ t128-20020a814686000000b0057a68b6c2f4sm1944784ywa.133.2023.07.10.05.11.26
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Jul 2023 05:11:26 -0700 (PDT)
+Received: by mail-yb1-f173.google.com with SMTP id
+ 3f1490d57ef6-c5ce57836b8so5184864276.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 05:11:26 -0700 (PDT)
+X-Received: by 2002:a25:810f:0:b0:c62:9634:d39 with SMTP id
+ o15-20020a25810f000000b00c6296340d39mr11075620ybk.52.1688991086188; Mon, 10
+ Jul 2023 05:11:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230710032355.72914-1-frank.li@vivo.com>
+In-Reply-To: <20230710032355.72914-1-frank.li@vivo.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 10 Jul 2023 14:11:13 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU=HzoBKhq3raBrE2B8XxsnJCvBKt6hEP-X7ExuuD-LUw@mail.gmail.com>
+Message-ID: <CAMuHMdU=HzoBKhq3raBrE2B8XxsnJCvBKt6hEP-X7ExuuD-LUw@mail.gmail.com>
+Subject: Re: [PATCH v2 01/19] drm/renesas: Convert to
+ devm_platform_ioremap_resource()
+To: Yangtao Li <frank.li@vivo.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,21 +70,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: loongson-kernel@lists.loongnix.cn, Dan Carpenter <dan.carpenter@linaro.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 10 Jul 2023, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Should be OK; it's an isolated driver. I did a review early on and after 
-> ~13 revisions I asked for it to be merged. It's actually a bit hard to 
-> find reviewers.
+On Mon, Jul 10, 2023 at 5:25=E2=80=AFAM Yangtao Li <frank.li@vivo.com> wrot=
+e:
+> Use devm_platform_ioremap_resource() to simplify code.
+>
+> Signed-off-by: Yangtao Li <frank.li@vivo.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Fair enough.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-BR,
-Jani.
+Gr{oetje,eeting}s,
 
+                        Geert
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
