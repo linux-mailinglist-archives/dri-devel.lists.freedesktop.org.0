@@ -1,82 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E57874DBC2
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 18:57:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E49374DC20
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 19:19:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A49610E2A9;
-	Mon, 10 Jul 2023 16:57:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E978710E180;
+	Mon, 10 Jul 2023 17:19:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61A3410E2A7;
- Mon, 10 Jul 2023 16:57:37 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 36AFe7Te025393; Mon, 10 Jul 2023 16:57:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=DKbIA33gjqsk6nz+ZEZEzCxJNQ4CzWXAhxFOzytqpJM=;
- b=VBS0Uw3Y1YedjdFlfQ1V93d29qkN6wOe6SLqBsWqYLp2aBPUjUrAJIRl+jBt1UrHK+jq
- e2vnLvJ9rY9PnzzYEBp+mRMnNCyCI614qlisbAjP60edCI0fPxF/K0UWz96KlWFutcrY
- Tyl50m9tT073Q39VN3XXBy0MrMV/XljkHJvqttUk8Z33A2B47p6ANSYg1BmqHjnjoEOV
- /Q4e8/CnBA5E/zwCLLaX9F/pjlBDZsemTxLc6hR72O81bNvlKllt7UpGJVl1n+6cbRWa
- nYnw6KNwekTMZbfEPxf2TKW/OBg5EBCeZ2XKqbNri6gknzPtF9R2Ugytwid7DKmhnR5X GA== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rrfw292mk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 10 Jul 2023 16:57:29 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36AGvSgm004749
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 10 Jul 2023 16:57:28 GMT
-Received: from [10.110.55.196] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Mon, 10 Jul
- 2023 09:57:27 -0700
-Message-ID: <9df52052-93fd-75a4-b54c-02ed9554e15f@quicinc.com>
-Date: Mon, 10 Jul 2023 09:57:25 -0700
+Received: from mailrelay6-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay6-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:405::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A2FE10E180
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 17:19:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=IgD20OUQ8wy5rFFsoBYb/VGqjIM7D6p+vuvVuio9hik=;
+ b=CcwAZRGze1nz78tsTeGG31sH+B/tjdH+6ekcCAKy3lsh8Fx6Y+YXCD/TmIei/HlJU/+CjyCRKUyPh
+ 4CUMeeNCmxnxg5WnN8WYc+Y/3TRBu3GgBHOLLMWNEmjaKunSp3X6NAJPGuB+DxEkEZX+QnanSr3FYn
+ 2wlZ5UBU9Zu+O246GL/D/HneI1rQcFtBUkUV1dNMCwn+vM9M1hVrPjLsgJxFcU87WZ4nq2Vtx30nj9
+ ArzioTOrLCz4P2HsQj4ZOuK/Fmh+TNaxaKUMNXnO1dvheypIb7/oOCjfcrCaYpZhivEpRMotLSbonb
+ DLfigJoJ7elOqxhN67CrfrrG5kpNeWw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=IgD20OUQ8wy5rFFsoBYb/VGqjIM7D6p+vuvVuio9hik=;
+ b=vxQog57Oi39/DPw2NHC1MnZmnCknkQQw5bg9fTJIlcxSuaigVTP3V2Z7GSu+tbSUPTOKht6NYG4oF
+ 2pB/Sc4AQ==
+X-HalOne-ID: de71c874-1f45-11ee-b17e-6f01c1d0a443
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay6 (Halon) with ESMTPSA
+ id de71c874-1f45-11ee-b17e-6f01c1d0a443;
+ Mon, 10 Jul 2023 17:19:05 +0000 (UTC)
+Date: Mon, 10 Jul 2023 19:19:03 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 00/17] fbdev: Remove FBINFO_DEFAULT and
+ FBINFO_FLAG_DEFAULT flags
+Message-ID: <20230710171903.GA14712@ravnborg.org>
+References: <20230710130113.14563-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v1 4/5] drm/msm/dp: move relevant dp initialization code
- from bind() to probe()
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
- <agross@kernel.org>, <andersson@kernel.org>
-References: <1688773943-3887-1-git-send-email-quic_khsieh@quicinc.com>
- <1688773943-3887-5-git-send-email-quic_khsieh@quicinc.com>
- <121f82ad-9d5d-6d7f-b4ae-9a371ab49ef7@linaro.org>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <121f82ad-9d5d-6d7f-b4ae-9a371ab49ef7@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 4iYB8ft1qYH3bK8WHo_8s9xffwdETDSQ
-X-Proofpoint-GUID: 4iYB8ft1qYH3bK8WHo_8s9xffwdETDSQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-10_12,2023-07-06_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- malwarescore=0 phishscore=0 priorityscore=1501 lowpriorityscore=0
- impostorscore=0 suspectscore=0 clxscore=1015 mlxlogscore=999 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2307100153
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230710130113.14563-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,149 +57,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
- freedreno@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
+ kvm@vger.kernel.org, linux-sh@vger.kernel.org, deller@gmx.de,
+ linux-staging@lists.linux.dev, javierm@redhat.com,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-nvidia@lists.surfsouth.com,
+ linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-geode@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Thomas,
 
-On 7/7/2023 5:11 PM, Dmitry Baryshkov wrote:
-> On 08/07/2023 02:52, Kuogee Hsieh wrote:
->> In preparation of moving edp of_dp_aux_populate_bus() to
->> dp_display_probe(), move dp_display_request_irq(),
->> dp->parser->parse() and dp_power_client_init() to dp_display_probe()
->> too.
->>
->> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/dp/dp_display.c | 48 
->> +++++++++++++++++--------------------
->>   drivers/gpu/drm/msm/dp/dp_display.h |  1 -
->>   2 files changed, 22 insertions(+), 27 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c 
->> b/drivers/gpu/drm/msm/dp/dp_display.c
->> index 44580c2..185f1eb 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->> @@ -290,12 +290,6 @@ static int dp_display_bind(struct device *dev, 
->> struct device *master,
->>           goto end;
->>       }
->>   -    rc = dp_power_client_init(dp->power);
->> -    if (rc) {
->> -        DRM_ERROR("Power client create failed\n");
->> -        goto end;
->> -    }
->> -
->>       rc = dp_register_audio_driver(dev, dp->audio);
->>       if (rc) {
->>           DRM_ERROR("Audio registration Dp failed\n");
->> @@ -752,6 +746,12 @@ static int dp_init_sub_modules(struct 
->> dp_display_private *dp)
->>           goto error;
->>       }
->>   +    rc = dp->parser->parse(dp->parser);
->> +    if (rc) {
->> +        DRM_ERROR("device tree parsing failed\n");
->> +        goto error;
->> +    }
->> +
->>       dp->catalog = dp_catalog_get(dev, &dp->parser->io);
->>       if (IS_ERR(dp->catalog)) {
->>           rc = PTR_ERR(dp->catalog);
->> @@ -768,6 +768,12 @@ static int dp_init_sub_modules(struct 
->> dp_display_private *dp)
->>           goto error;
->>       }
->>   +    rc = dp_power_client_init(dp->power);
->> +    if (rc) {
->> +        DRM_ERROR("Power client create failed\n");
->> +        goto error;
->> +    }
->> +
->>       dp->aux = dp_aux_get(dev, dp->catalog, dp->dp_display.is_edp);
->>       if (IS_ERR(dp->aux)) {
->>           rc = PTR_ERR(dp->aux);
->> @@ -1196,26 +1202,20 @@ static irqreturn_t dp_display_irq_handler(int 
->> irq, void *dev_id)
->>       return ret;
->>   }
->>   -int dp_display_request_irq(struct msm_dp *dp_display)
->> +static int dp_display_request_irq(struct dp_display_private *dp)
->>   {
->>       int rc = 0;
->> -    struct dp_display_private *dp;
->> -
->> -    if (!dp_display) {
->> -        DRM_ERROR("invalid input\n");
->> -        return -EINVAL;
->> -    }
->> -
->> -    dp = container_of(dp_display, struct dp_display_private, 
->> dp_display);
->> +    struct device *dev = &dp->pdev->dev;
->>   -    dp->irq = irq_of_parse_and_map(dp->pdev->dev.of_node, 0);
->>       if (!dp->irq) {
->> -        DRM_ERROR("failed to get irq\n");
->> -        return -EINVAL;
->> +        dp->irq = irq_of_parse_and_map(dp->pdev->dev.of_node, 0);
->> +        if (!dp->irq) {
->> +            DRM_ERROR("failed to get irq\n");
->> +            return -EINVAL;
->> +        }
->>       }
->
-> Use platform_get_irq() from probe() function.
->
->>   -    rc = devm_request_irq(dp_display->drm_dev->dev, dp->irq,
->> -            dp_display_irq_handler,
->> +    rc = devm_request_irq(dev, dp->irq, dp_display_irq_handler,
->>               IRQF_TRIGGER_HIGH, "dp_display_isr", dp);
->
->
->>       if (rc < 0) {
->>           DRM_ERROR("failed to request IRQ%u: %d\n",
->> @@ -1290,6 +1290,8 @@ static int dp_display_probe(struct 
->> platform_device *pdev)
->>         platform_set_drvdata(pdev, &dp->dp_display);
->>   +    dp_display_request_irq(dp);
->> +
->
-> Error checking?
-> Are we completely ready to handle interrupts at this point?
-not until dp_display_host_init() is called which will be called from 
-pm_runtime_resume() later.
->
->>       rc = component_add(&pdev->dev, &dp_display_comp_ops);
->>       if (rc) {
->>           DRM_ERROR("component add failed, rc=%d\n", rc);
->> @@ -1574,12 +1576,6 @@ int msm_dp_modeset_init(struct msm_dp 
->> *dp_display, struct drm_device *dev,
->>         dp_priv = container_of(dp_display, struct dp_display_private, 
->> dp_display);
->>   -    ret = dp_display_request_irq(dp_display);
->> -    if (ret) {
->> -        DRM_ERROR("request_irq failed, ret=%d\n", ret);
->> -        return ret;
->> -    }
->> -
->>       ret = dp_display_get_next_bridge(dp_display);
->>       if (ret)
->>           return ret;
->> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h 
->> b/drivers/gpu/drm/msm/dp/dp_display.h
->> index 1e9415a..b3c08de 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_display.h
->> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
->> @@ -35,7 +35,6 @@ struct msm_dp {
->>   int dp_display_set_plugged_cb(struct msm_dp *dp_display,
->>           hdmi_codec_plugged_cb fn, struct device *codec_dev);
->>   int dp_display_get_modes(struct msm_dp *dp_display);
->> -int dp_display_request_irq(struct msm_dp *dp_display);
->>   bool dp_display_check_video_test(struct msm_dp *dp_display);
->>   int dp_display_get_test_bpp(struct msm_dp *dp_display);
->>   void dp_display_signal_audio_start(struct msm_dp *dp_display);
->
+On Mon, Jul 10, 2023 at 02:50:04PM +0200, Thomas Zimmermann wrote:
+> Remove the unused flags FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT from
+> fbdev and drivers, as briefly discussed at [1]. Both flags were maybe
+> useful when fbdev had special handling for driver modules. With
+> commit 376b3ff54c9a ("fbdev: Nuke FBINFO_MODULE"), they are both 0
+> and have no further effect.
+> 
+> Patches 1 to 7 remove FBINFO_DEFAULT from drivers. Patches 2 to 5
+> split this by the way the fb_info struct is being allocated. All flags
+> are cleared to zero during the allocation.
+> 
+> Patches 8 to 16 do the same for FBINFO_FLAG_DEFAULT. Patch 8 fixes
+> an actual bug in how arch/sh uses the tokne for struct fb_videomode,
+> which is unrelated.
+> 
+> Patch 17 removes both flag constants from <linux/fb.h>
+
+We have a few more flags that are unused - should they be nuked too?
+FBINFO_HWACCEL_FILLRECT
+FBINFO_HWACCEL_ROTATE
+FBINFO_HWACCEL_XPAN
+
+Unused as in no references from fbdev/core/*
+
+I would rather see one series nuke all unused FBINFO flags in one go.
+Assuming my quick grep are right and the above can be dropped.
+
+	Sam
