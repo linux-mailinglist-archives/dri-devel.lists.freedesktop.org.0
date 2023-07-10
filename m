@@ -2,83 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E17BF74D561
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 14:28:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97ED674D649
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 15:01:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5F8410E159;
-	Mon, 10 Jul 2023 12:28:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF53310E259;
+	Mon, 10 Jul 2023 13:01:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 227C710E159
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 12:28:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1688992089;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qvML2ZTbSvNa76WH3v+ED/1x/GpVFa6SlPl50qQBVD4=;
- b=PfBQ7CcSmcCpU5K9qXNK5cSmBrpyO/wMKBVaK8KvmjKkr7+YVx314RGGspNpuMZ1vDXjHU
- SMxcdbYA8yfwRsSJAJFJEjONo93x4tyA3nyBljBnyHlf6OIqn8BhNsXBJVpxpHgizee0cQ
- uSV2VGa9Vf+5ICg34I0nnpoxHbQ50SE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-640-MtxM2pWlNzyrQ0wAT0F4lA-1; Mon, 10 Jul 2023 08:24:28 -0400
-X-MC-Unique: MtxM2pWlNzyrQ0wAT0F4lA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-31273e0507dso2814740f8f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 05:24:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688991867; x=1691583867;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qvML2ZTbSvNa76WH3v+ED/1x/GpVFa6SlPl50qQBVD4=;
- b=jkTmf2o7jW2l+nQZmTFUleKV03epGLqZ9VTFkaTzUaGvY/+A9O7gc3fGu/9f3SyUhX
- xPZSu/j42Gxu4oyvg0EgC7CFEizdjij9+bSTRCYr9NCkCBXVGEelPodu1fqXgbax0rbx
- hTqKO+S2yIAtDLbp7yUxnz9f7ulXoAjvWJ3vCkaIpGBibT8cIR+EjV1WtNQj5EOA4YPU
- OBfazNjVGaoGc28/riqTTr6o7WjinS6j/Xj7YgdAG+7EljsHhbS40ZIq7OYHe7P32HTU
- nYlmPo8Y5cSlDXU1bmyesR4OezyW+lnQakpZPqrau7TPyz9S6K3r3NsLN/t5oxRcE1z9
- e81w==
-X-Gm-Message-State: ABy/qLbvQud/x+F8EDM1r/2AbDxHPCZvQbSOUQQtoiS1qZlCjaDr8RMM
- mltu+FWd3mz1te33hF+qUpSvudXJh+6Z7i6pteGuVEyBUtGPrWDYSlAC5COTBhxLoUSrDtLAUZY
- JBttPNTx0Tb9Fcdlw/O1QgiEWZpef
-X-Received: by 2002:a5d:6992:0:b0:313:f4e2:901d with SMTP id
- g18-20020a5d6992000000b00313f4e2901dmr11318653wru.22.1688991867030; 
- Mon, 10 Jul 2023 05:24:27 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGCfHIfxXiWxsjzpJqDBImSNlKwiDDmZPDNf+ZmkYEr3xDoS7La+lATpQqDI1yIxm7fr9+CSg==
-X-Received: by 2002:a5d:6992:0:b0:313:f4e2:901d with SMTP id
- g18-20020a5d6992000000b00313f4e2901dmr11318632wru.22.1688991866762; 
- Mon, 10 Jul 2023 05:24:26 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- f17-20020adfe911000000b0031416362e23sm11618363wrm.3.2023.07.10.05.24.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jul 2023 05:24:26 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- neil.armstrong@linaro.org, Aradhya Bhatia <a-bhatia1@ti.com>, Jyri Sarha
- <jyri.sarha@iki.fi>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Swapnil Jakhade <sjakhade@cadence.com>, Boris
- Brezillon <boris.brezillon@collabora.com>, Francesco Dolcini
- <francesco@dolcini.it>
-Subject: Re: [PATCH v7 0/8] drm/tidss: Use new connector model for tidss
-In-Reply-To: <be2c4c02-43bc-5b16-2162-b8ace8d34996@ideasonboard.com>
-References: <20230606082142.23760-1-a-bhatia1@ti.com>
- <1f284e9d-5a1e-9fca-ceb0-478a413ae4ef@linaro.org>
- <1b31f36c-b1ba-43b5-9285-0f50384a78cf@ti.com>
- <42151d11-12d9-c165-0d4b-a0af80b683c3@linaro.org>
- <be2c4c02-43bc-5b16-2162-b8ace8d34996@ideasonboard.com>
-Date: Mon, 10 Jul 2023 14:24:25 +0200
-Message-ID: <87bkgkhs3q.fsf@minerva.mail-host-address-is-not-set>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D741D10E152;
+ Mon, 10 Jul 2023 13:01:18 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 0DCCA221B7;
+ Mon, 10 Jul 2023 13:01:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1688994075; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ynzR+asEmdddM2MtQxJUJQzhlQgoZE1NTlMZsErkt0w=;
+ b=e7w/Xl3Hw9wwGd1e5xnBwZ+JxFUOmymNR5fKqsDftYESWMjt9tCqJU6zrTR1MLii6b3jWl
+ Ab/erDdWMJKPJwB1cc0m1+8KkIA8r+llJxP22L1X8T64yKqz5NVHeGRj2TfRLZ4mvx6aSy
+ VjvEnoCmfKOYfENXo96rp4DBlqFfEKY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1688994075;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ynzR+asEmdddM2MtQxJUJQzhlQgoZE1NTlMZsErkt0w=;
+ b=2YmsAJmF2VZHLPUdB7v5MUFt26z8vBYO2gdre0w9vPW7oE1H5RJV14vgBDQS8LQqAHgRXW
+ rLO8r+62FjDS9ABg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9DBE013A05;
+ Mon, 10 Jul 2023 13:01:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id /BeDJRoBrGTTFAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 10 Jul 2023 13:01:14 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: deller@gmx.de,
+	javierm@redhat.com
+Subject: [PATCH 00/17] fbdev: Remove FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT
+ flags
+Date: Mon, 10 Jul 2023 14:50:04 +0200
+Message-ID: <20230710130113.14563-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,79 +66,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- Rahul T R <r-ravikumar@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Vignesh Raghavendra <vigneshr@ti.com>
+Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, linux-geode@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-input@vger.kernel.org, linux-nvidia@lists.surfsouth.com,
+ linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> writes:
+Remove the unused flags FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT from
+fbdev and drivers, as briefly discussed at [1]. Both flags were maybe
+useful when fbdev had special handling for driver modules. With
+commit 376b3ff54c9a ("fbdev: Nuke FBINFO_MODULE"), they are both 0
+and have no further effect.
 
-Hello Tomi and Neil,
+Patches 1 to 7 remove FBINFO_DEFAULT from drivers. Patches 2 to 5
+split this by the way the fb_info struct is being allocated. All flags
+are cleared to zero during the allocation.
 
-> On 06/06/2023 12:48, neil.armstrong@linaro.org wrote:
->> On 06/06/2023 11:46, Aradhya Bhatia wrote:
->>> Hi Neil,
->>>
->>> Thank you for reviewing the previous patches!
->>>
->>> On 06-Jun-23 14:37, Neil Armstrong wrote:
->>>> Hi,
->>>>
->>>> On 06/06/2023 10:21, Aradhya Bhatia wrote:
->>>>> Hi all,
->>>>>
->>>>> I have picked up this long standing series from Nikhil Devshatwar[1].
->>>>>
->>>>> This series moves the tidss to using new connectoe model, where the SoC
->>>>> driver (tidss) creates the connector and all the bridges are attached
->>>>> with the flag DRM_BRIDGE_ATTACH_NO_CONNECTOR. It also now creates 
->>>>> bridge
->>>>> to support format negotiation and and 'simple' encoder to expose it to
->>>>> the userspace.
->>>>>
->>>>> Since the bridges do not create the connector, the bus_format and
->>>>> bus_flag is set via atomic hooks.
->>>>>
->>>>> Support format negotiations in the tfp410, sii902x and mhdp-8546 bridge
->>>>> drivers as a first step before moving the connector model.
->>>>>
->>>>> These patches were tested on AM625-SK EVM, AM625 SoC based BeaglePlay,
->>>>> and J721E-SK. Display support for AM625 SoC has not been added upstream
->>>>> and is a WIP. To test this series on AM625 based platforms, basic
->>>>> display support patches, (for driver + devicetree), can be found in
->>>>> the "next_AttachNoConn-v2" branch on my github fork[2].
->>>>
->>>> I can apply all bridge patches right now so only the tidss change 
->>>> remain,
->>>> is that ok for you ?
->>>>
->>>
->>> While the bridge patches and the tidss patch can be separately built
->>> without any issue, the tidss functionality will break if only the bridge
->>> patches get picked up, and not the tidss.
->>>
->>> Would it be possible for you to pick all the patches together once Tomi
->>> acks the tidss patch?
->> 
->> Sure
->
-> I think this looks fine. For the series:
->
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->
+Patches 8 to 16 do the same for FBINFO_FLAG_DEFAULT. Patch 8 fixes
+an actual bug in how arch/sh uses the tokne for struct fb_videomode,
+which is unrelated.
 
-It seems this series fell through the cracks? Since you both already
-reviewed the patches, I've just pushed all the set to drm-misc-next.
+Patch 17 removes both flag constants from <linux/fb.h>
 
-Thanks all!
+[1] https://lore.kernel.org/dri-devel/877crer8fm.fsf@minerva.mail-host-address-is-not-set/
+
+Thomas Zimmermann (17):
+  drm: Remove flag FBINFO_DEFAULT from fbdev emulation
+  fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
+  fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
+  fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
+  fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
+  fbdev/fsl-diu-fb: Remove flag FBINFO_DEFAULT
+  vfio-mdev: Remove flag FBINFO_DEFAULT from fbdev sample driver
+  arch/sh: Do not assign FBINFO_FLAG_DEFAULT to fb_videomode.flag
+  auxdisplay: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+  hid/picolcd: Remove flag FBINFO_FLAG_DEFAULT from fbdev driver
+  media: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+  staging: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+  fbdev: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+  fbdev: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+  fbdev/atafb: Remove flag FBINFO_FLAG_DEFAULT
+  fbdev/pxafb: Remove flag FBINFO_FLAG_DEFAULT
+  fbdev: Remove FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT
+
+ arch/sh/boards/mach-sh7763rdp/setup.c          | 1 -
+ drivers/auxdisplay/cfag12864bfb.c              | 1 -
+ drivers/auxdisplay/ht16k33.c                   | 1 -
+ drivers/gpu/drm/drm_fbdev_dma.c                | 1 -
+ drivers/gpu/drm/drm_fbdev_generic.c            | 1 -
+ drivers/gpu/drm/gma500/fbdev.c                 | 2 +-
+ drivers/gpu/drm/radeon/radeon_fbdev.c          | 2 +-
+ drivers/hid/hid-picolcd_fb.c                   | 1 -
+ drivers/media/pci/ivtv/ivtvfb.c                | 1 -
+ drivers/media/test-drivers/vivid/vivid-osd.c   | 1 -
+ drivers/staging/fbtft/fbtft-core.c             | 2 +-
+ drivers/staging/sm750fb/sm750.c                | 1 -
+ drivers/video/fbdev/68328fb.c                  | 2 +-
+ drivers/video/fbdev/acornfb.c                  | 2 +-
+ drivers/video/fbdev/amba-clcd.c                | 1 -
+ drivers/video/fbdev/amifb.c                    | 5 ++---
+ drivers/video/fbdev/arcfb.c                    | 1 -
+ drivers/video/fbdev/asiliantfb.c               | 1 -
+ drivers/video/fbdev/atafb.c                    | 1 -
+ drivers/video/fbdev/atmel_lcdfb.c              | 2 +-
+ drivers/video/fbdev/aty/aty128fb.c             | 1 -
+ drivers/video/fbdev/aty/atyfb_base.c           | 3 +--
+ drivers/video/fbdev/aty/radeon_base.c          | 3 +--
+ drivers/video/fbdev/broadsheetfb.c             | 2 +-
+ drivers/video/fbdev/bw2.c                      | 1 -
+ drivers/video/fbdev/carminefb.c                | 1 -
+ drivers/video/fbdev/cg14.c                     | 2 +-
+ drivers/video/fbdev/cg3.c                      | 1 -
+ drivers/video/fbdev/cg6.c                      | 2 +-
+ drivers/video/fbdev/chipsfb.c                  | 1 -
+ drivers/video/fbdev/cirrusfb.c                 | 3 +--
+ drivers/video/fbdev/clps711x-fb.c              | 1 -
+ drivers/video/fbdev/cobalt_lcdfb.c             | 1 -
+ drivers/video/fbdev/controlfb.c                | 2 +-
+ drivers/video/fbdev/cyber2000fb.c              | 2 +-
+ drivers/video/fbdev/da8xx-fb.c                 | 1 -
+ drivers/video/fbdev/efifb.c                    | 1 -
+ drivers/video/fbdev/ep93xx-fb.c                | 1 -
+ drivers/video/fbdev/ffb.c                      | 3 +--
+ drivers/video/fbdev/fm2fb.c                    | 1 -
+ drivers/video/fbdev/fsl-diu-fb.c               | 2 +-
+ drivers/video/fbdev/g364fb.c                   | 2 +-
+ drivers/video/fbdev/gbefb.c                    | 1 -
+ drivers/video/fbdev/geode/gx1fb_core.c         | 1 -
+ drivers/video/fbdev/geode/gxfb_core.c          | 1 -
+ drivers/video/fbdev/geode/lxfb_core.c          | 1 -
+ drivers/video/fbdev/goldfishfb.c               | 1 -
+ drivers/video/fbdev/grvga.c                    | 2 +-
+ drivers/video/fbdev/gxt4500.c                  | 3 +--
+ drivers/video/fbdev/hecubafb.c                 | 2 +-
+ drivers/video/fbdev/hgafb.c                    | 2 +-
+ drivers/video/fbdev/hitfb.c                    | 2 +-
+ drivers/video/fbdev/hpfb.c                     | 1 -
+ drivers/video/fbdev/hyperv_fb.c                | 2 --
+ drivers/video/fbdev/i740fb.c                   | 2 +-
+ drivers/video/fbdev/i810/i810_main.c           | 4 ++--
+ drivers/video/fbdev/imsttfb.c                  | 3 +--
+ drivers/video/fbdev/imxfb.c                    | 3 +--
+ drivers/video/fbdev/intelfb/intelfbdrv.c       | 5 ++---
+ drivers/video/fbdev/kyro/fbdev.c               | 1 -
+ drivers/video/fbdev/leo.c                      | 1 -
+ drivers/video/fbdev/macfb.c                    | 1 -
+ drivers/video/fbdev/matrox/matroxfb_crtc2.c    | 5 ++---
+ drivers/video/fbdev/maxinefb.c                 | 1 -
+ drivers/video/fbdev/mb862xx/mb862xxfbdrv.c     | 2 +-
+ drivers/video/fbdev/metronomefb.c              | 2 +-
+ drivers/video/fbdev/mmp/fb/mmpfb.c             | 2 +-
+ drivers/video/fbdev/mx3fb.c                    | 1 -
+ drivers/video/fbdev/neofb.c                    | 2 +-
+ drivers/video/fbdev/nvidia/nvidia.c            | 4 ++--
+ drivers/video/fbdev/offb.c                     | 2 +-
+ drivers/video/fbdev/omap/omapfb_main.c         | 1 -
+ drivers/video/fbdev/omap2/omapfb/omapfb-main.c | 1 -
+ drivers/video/fbdev/p9100.c                    | 1 -
+ drivers/video/fbdev/platinumfb.c               | 1 -
+ drivers/video/fbdev/pm2fb.c                    | 3 +--
+ drivers/video/fbdev/pm3fb.c                    | 3 +--
+ drivers/video/fbdev/pmag-aa-fb.c               | 1 -
+ drivers/video/fbdev/pmag-ba-fb.c               | 1 -
+ drivers/video/fbdev/pmagb-b-fb.c               | 1 -
+ drivers/video/fbdev/ps3fb.c                    | 2 +-
+ drivers/video/fbdev/pvr2fb.c                   | 2 +-
+ drivers/video/fbdev/pxa168fb.c                 | 2 +-
+ drivers/video/fbdev/pxafb.c                    | 2 --
+ drivers/video/fbdev/q40fb.c                    | 1 -
+ drivers/video/fbdev/riva/fbdev.c               | 3 +--
+ drivers/video/fbdev/s1d13xxxfb.c               | 4 ++--
+ drivers/video/fbdev/s3c-fb.c                   | 1 -
+ drivers/video/fbdev/sa1100fb.c                 | 1 -
+ drivers/video/fbdev/savage/savagefb_driver.c   | 3 +--
+ drivers/video/fbdev/sh_mobile_lcdcfb.c         | 2 --
+ drivers/video/fbdev/simplefb.c                 | 1 -
+ drivers/video/fbdev/sis/sis_main.c             | 5 +----
+ drivers/video/fbdev/skeletonfb.c               | 2 +-
+ drivers/video/fbdev/sm501fb.c                  | 2 +-
+ drivers/video/fbdev/sm712fb.c                  | 1 -
+ drivers/video/fbdev/smscufx.c                  | 2 +-
+ drivers/video/fbdev/sstfb.c                    | 1 -
+ drivers/video/fbdev/sunxvr1000.c               | 1 -
+ drivers/video/fbdev/sunxvr2500.c               | 1 -
+ drivers/video/fbdev/sunxvr500.c                | 1 -
+ drivers/video/fbdev/tcx.c                      | 1 -
+ drivers/video/fbdev/tdfxfb.c                   | 2 +-
+ drivers/video/fbdev/tgafb.c                    | 2 +-
+ drivers/video/fbdev/tridentfb.c                | 2 +-
+ drivers/video/fbdev/udlfb.c                    | 2 +-
+ drivers/video/fbdev/uvesafb.c                  | 3 +--
+ drivers/video/fbdev/valkyriefb.c               | 1 -
+ drivers/video/fbdev/vermilion/vermilion.c      | 2 +-
+ drivers/video/fbdev/vesafb.c                   | 2 +-
+ drivers/video/fbdev/vfb.c                      | 1 -
+ drivers/video/fbdev/vga16fb.c                  | 2 +-
+ drivers/video/fbdev/via/viafbdev.c             | 2 +-
+ drivers/video/fbdev/vt8500lcdfb.c              | 3 +--
+ drivers/video/fbdev/wm8505fb.c                 | 3 +--
+ drivers/video/fbdev/xen-fbfront.c              | 2 +-
+ drivers/video/fbdev/xilinxfb.c                 | 1 -
+ include/linux/fb.h                             | 3 ---
+ samples/vfio-mdev/mdpy-fb.c                    | 1 -
+ 119 files changed, 65 insertions(+), 150 deletions(-)
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.41.0
 
