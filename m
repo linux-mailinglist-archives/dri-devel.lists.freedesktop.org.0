@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DD0C74CC4D
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 07:39:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A207174CC6D
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 07:53:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7A5D10E19E;
-	Mon, 10 Jul 2023 05:39:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E32010E1A6;
+	Mon, 10 Jul 2023 05:53:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90D1D10E19E
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 05:39:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C865010E12C
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 05:53:20 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A233960E0A;
- Mon, 10 Jul 2023 05:39:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 00F99C433CB;
- Mon, 10 Jul 2023 05:39:49 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id DD14760E73;
+ Mon, 10 Jul 2023 05:53:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3390CC433C9;
+ Mon, 10 Jul 2023 05:53:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1688967590;
- bh=O3REscTS4Ua0NMAYuLLm93hDnfz4R6BtMlgAdHbVspU=;
+ s=k20201202; t=1688968399;
+ bh=vSHUlZF1cMasn9YRdu77gltzVthY/lO7Soqy2M2BCbo=;
  h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
- b=I8auQkrUpyL1phFPN143+6nwh5o+00hS/rePp9ZqdVB8qoTzP8cqxcmM/g0Zs1azM
- lc8RYztmnezQk8TYy22daouDLh7GkZDr9b8UMcDQwj1EuShiexwAkySgfK34g2nJY6
- hW+uemNHjarhidBC9gbJvoSZaZMts1V9eFkwGPLR1Nq9zfsMRbpxZRv5Hp1WyKYKIH
- CPDLxhsyIFQk+zXit9nf5WxGsXaOaFIvqpeDG/3ASBU4e9+H1H8CgKPezVPFlDb0GH
- CNLoWNvFvtyCWxAKK5kXsuJdHxkuD7+ZO06vp77kPofWBne6mO/eomOGPelV9Mq1xr
- XvCAaJ7TFb9iw==
+ b=fgwuJQTMYvxVcvwuRkl9FdjB8DuXSIfnERjeVQPzNMvTHWGDy0KSITDFp9vZZSVWt
+ BT5d7U9DCHpzW20CplUiGePRbY/SJj2ZS6Wxro2pc9BRmUETT8rKT7m2+gDYE6jdip
+ yHi2ahZMt4qDeSRuoeDaNyFQ7KY3RPNuEgoWEz++4LgAoPP95Inj+/zxGHUUtWNO8V
+ RFRu44iA2kCumq1jXXly5EW/rJNxbOE3pESRGjYct89WpOiwnGEBO4HGCjEh7nKb5k
+ MEcMxeVU8CpG/uCKIO0RpnuVR1jqpcKQEF7BiyBK5nJnBZc+SLn0uO0J6kZessZSLJ
+ g7fDSMZvkaxIQ==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
  (localhost.localdomain [127.0.0.1])
  by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- D6895C73FE1; Mon, 10 Jul 2023 05:39:49 +0000 (UTC)
+ 13126F8370C; Mon, 10 Jul 2023 05:53:19 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Subject: Re: [PATCH v2] drm: Switch i2c drivers back to use .probe()
 From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: <168896758987.3413.10759631595788168825.git-patchwork-notify@kernel.org>
-Date: Mon, 10 Jul 2023 05:39:49 +0000
+Message-Id: <168896839907.3413.13132149372624191704.git-patchwork-notify@kernel.org>
+Date: Mon, 10 Jul 2023 05:53:19 +0000
 References: <20230526090709.1517297-1-u.kleine-koenig@pengutronix.de>
 In-Reply-To: <20230526090709.1517297-1-u.kleine-koenig@pengutronix.de>
 To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@ci.codeaurora.org
@@ -77,7 +77,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hello:
 
-This patch was applied to chrome-platform/linux.git (for-kernelci)
+This patch was applied to chrome-platform/linux.git (for-next)
 by Douglas Anderson <dianders@chromium.org>:
 
 On Fri, 26 May 2023 11:07:09 +0200 you wrote:
