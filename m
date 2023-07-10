@@ -1,65 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12D3B74E0FA
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 00:24:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A86774E139
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 00:33:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EDDB10E17E;
-	Mon, 10 Jul 2023 22:24:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B87010E18A;
+	Mon, 10 Jul 2023 22:33:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8C1B10E17E
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 22:23:58 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id
- ffacd0b85a97d-3113da5260dso4946330f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 15:23:58 -0700 (PDT)
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com
+ [IPv6:2607:f8b0:4864:20::1149])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AC3A10E18A
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 22:33:37 +0000 (UTC)
+Received: by mail-yw1-x1149.google.com with SMTP id
+ 00721157ae682-573cacf4804so55096417b3.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 15:33:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fireburn-co-uk.20221208.gappssmtp.com; s=20221208; t=1689027837; x=1691619837;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=k+uRSZaNW94drRfaP5L/VJThT+qbzWt+a4m0PC1+H4c=;
- b=BGJwtu/eYDeeRz6gd9DW/1dlrKmdKTY5LkPMrD8VqiQjMxN7JoO9VdAeSxsct2N1AA
- RHztHsO/Ag4ji7+SPc/aVGU+ioISxQDSctgi4qfPKB/qChuM1/SUco0pTqNmKQbWdbyo
- 7fDfQpW7AE7IIJpAdBuwj+QuXBAiNXIjBDr73NztsSaHYezINnldgNhJBcd0qYW5vmEY
- +4G/hVixr3YySmX+NrwspZKpNocBFDbfCCAZadUYle20SqmBqPXX91t6M23ZcsnE/P09
- wEEBJYThW/kn39pNb0v7acrw5izKLcx3fgmiSgQ3Y9cAMSokLMrSpnv6a5acp4nvaACs
- GFww==
+ d=google.com; s=20221208; t=1689028416; x=1691620416;
+ h=content-transfer-encoding:cc:to:from:subject:message-id
+ :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Vww/pYdC1DJeva2AfnXbGu4C5u6TgbMhBMBTAdXoxfg=;
+ b=tYuqkf1i1ML5V4o25T0vWw2AWYvTHmOdYjkPseY2zygasjrULUgRP0lpwslZq4BlNn
+ r1p4R05iJaCaBeDKpj43UQs0ywurMXa8xm/jLGob/nvAh3tjpHM1PVLFapsJwR/ka1YV
+ OCsLUyi/uoR6UBz4oCwsZPYuOl7NB6tSRitea5cmk6T+xQOOyfhtosCAuCmmHP3pASl3
+ FTJcJXa6DUCUieE5FhnpIjd11iJE7Eyy6HtGjsye3wuVkng9TA1g9wlYGDtVF3B0KaVO
+ 3HzZZK95D11PQUMva7mNWvWl66mMUrB5ooxHO0g24qTp1JovuF4cWpSDU4WzfBUUTKLM
+ wSig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689027837; x=1691619837;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=k+uRSZaNW94drRfaP5L/VJThT+qbzWt+a4m0PC1+H4c=;
- b=K6IwHc5gtu67lWi9leEVl+kzX3JjiWrwJF4RmZME+AdAWqFz1QN3rVX1cMVd/ZrZTT
- BGhuvdSghoQbt61XTfYDFrRGgFtUXzZEuBXrF+pzTptpp4bRKalUiFbIQBInQ4zO1ebx
- 6P34h2x01xoiUwayDTggSPYvnRugzYYUtRoT1aa3ZKvrKIsGcDN+HFDoUiXEJiSn2O9J
- Xj3l1sImwiaEHslxGhJp5gkCXezn7+phuBSRxuKHtsT9RIC7Vs4t79p3SH2oqkE7/d72
- /w8Zolds8CGyWbxLALP9+DXLpdtCuyrO0WFTo/2XrGDtGxJj98UCbXJeWJk2syxoBeWp
- m/AQ==
-X-Gm-Message-State: ABy/qLZemrO5BgYTXxLoF+5PvfV2+UIm6ueKHUO91OLABYEclSMYq1qh
- cO3YoU/k1LGwg/QmuSpBG8VpCIYSUNKepNV7p8eCCMXerq+5STiN8aE=
-X-Google-Smtp-Source: APBJJlGWtw8f4A2ctcC8tl3oCSE31f33fxmAUGJnr4OHt+wZ4ekqgW0g26gHvys0bWgym34SFWrWokUD9oDJHrFTQP0=
-X-Received: by 2002:a5d:614b:0:b0:314:7487:96a3 with SMTP id
- y11-20020a5d614b000000b00314748796a3mr10923400wrt.52.1689027836873; Mon, 10
- Jul 2023 15:23:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1681898595.git.petr.tesarik.ext@huawei.com>
- <20230426141520.0caf4386@meshulam.tesarici.cz>
- <2023042617-wobble-enlighten-9361@gregkh>
- <20230426144439.5674f8bc@meshulam.tesarici.cz>
- <20230509091635.27450bd9@meshulam.tesarici.cz>
- <2023050949-grueling-verify-a43b@gregkh>
-In-Reply-To: <2023050949-grueling-verify-a43b@gregkh>
-From: Mike Lothian <mike@fireburn.co.uk>
-Date: Mon, 10 Jul 2023 23:23:45 +0100
-Message-ID: <CAHbf0-HY0-u4MwgU39b53hjOM+bWfGmOEYQuvHARjV+6j+O7Kg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] Allow dynamic allocation of software IO TLB bounce
- buffers
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+ d=1e100.net; s=20221208; t=1689028416; x=1691620416;
+ h=content-transfer-encoding:cc:to:from:subject:message-id
+ :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Vww/pYdC1DJeva2AfnXbGu4C5u6TgbMhBMBTAdXoxfg=;
+ b=aWaFsFvb/q30NvH3NZ8r7mkYR/vjGpmFnqRd2/8p05AfBB5FUWwwbJDDwpBdoDF4cw
+ aZRKIxnuMBafcezhRwK5PtbWYw9FTl2G5n734L6NKTStBuWEpbGI4nKkKgTIiieY0MJB
+ ubZqvOuO5T2Ki3qD1DSVzT6VPzohqUKq1AtXE4+cpBK5nspjRcDvbMipYGAlhJ1QSFxQ
+ u77gYVTwM5vfilutrVEljLZBEv9A3qQZ14GRtR2BlQNngFBdMrTSjNzKFdSWK77Ykn/Q
+ Zb7y6jxXMVdMoLzX27v5TyDp2Dlt3jszi1rIFJVo/chugePMzkfHMOTSRSkjetiLK+Bm
+ hJQg==
+X-Gm-Message-State: ABy/qLYbzyg1kURwzniwM5eSOesVanon2eWHTy0GAfjz3dE7cDzjd0nV
+ VN7vdgA/nPqQcBmnT8BJwhLsEW5jNxAWbjIN4g==
+X-Google-Smtp-Source: APBJJlEO8eLcuFuH8wVnMQWAHkbzZWQHuwFwsGmDwYpzfNPSGiEWAwrAUfjiTOVp1l1HiHVrM6vyb9Q+AKeZ71Ccyg==
+X-Received: from almasrymina.svl.corp.google.com
+ ([2620:15c:2c4:200:4c0f:bfb6:9942:8c53])
+ (user=almasrymina job=sendgmr) by 2002:a81:ad44:0:b0:565:9e73:f937 with SMTP
+ id l4-20020a81ad44000000b005659e73f937mr67586ywk.4.1689028416099; Mon, 10 Jul
+ 2023 15:33:36 -0700 (PDT)
+Date: Mon, 10 Jul 2023 15:32:51 -0700
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.41.0.390.g38632f3daf-goog
+Message-ID: <20230710223304.1174642-1-almasrymina@google.com>
+Subject: [RFC PATCH 00/10] Device Memory TCP
+From: Mina Almasry <almasrymina@google.com>
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ netdev@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,129 +71,223 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Randy Dunlap <rdunlap@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Kefeng Wang <wangkefeng.wang@huawei.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Kim Phillips <kim.phillips@amd.com>, Will Deacon <will@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
- Borislav Petkov <bp@suse.de>, Won Chung <wonchung@google.com>,
- Kees Cook <keescook@chromium.org>, "Paul E. McKenney" <paulmck@kernel.org>,
- =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?= <petr@tesarici.cz>,
- "Steven Rostedt \(Google\)" <rostedt@goodmis.org>,
- Hans de Goede <hdegoede@redhat.com>, Zhen Lei <thunder.leizhen@huawei.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Petr Tesarik <petr.tesarik.ext@huawei.com>, Ondrej Zary <linux@zary.sk>,
- Robin Murphy <robin.murphy@arm.com>, Muchun Song <muchun.song@linux.dev>,
- Roberto Sassu <roberto.sassu@huawei.com>,
- open list <linux-kernel@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Petr Tesarik <petrtesarik@huaweicloud.com>
+Cc: Mina Almasry <almasrymina@google.com>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Ahern <dsahern@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, jgg@ziepe.ca,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Shuah Khan <shuah@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+* TL;DR:
 
-I was hoping this might land for 6.5-rc1, is there a new version that
-might apply against 6.5?
+Device memory TCP (devmem TCP) is a proposal for transferring data to and/o=
+r
+from device memory efficiently, without bouncing the data to a host memory
+buffer.
 
-Cheers
+* Problem:
 
-Mike
+A large amount of data transfers have device memory as the source and/or
+destination. Accelerators drastically increased the volume of such transfer=
+s.
+Some examples include:
+- ML accelerators transferring large amounts of training data from storage =
+into
+  GPU/TPU memory. In some cases ML training setup time can be as long as 50=
+% of
+  TPU compute time, improving data transfer throughput & efficiency can hel=
+p
+  improving GPU/TPU utilization.
 
-On Tue, 9 May 2023 at 08:32, Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Tue, May 09, 2023 at 09:16:35AM +0200, Petr Tesa=C5=99=C3=ADk wrote:
-> > On Wed, 26 Apr 2023 14:44:39 +0200
-> > Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz> wrote:
-> >
-> > > Hi Greg,
-> > >
-> > > On Wed, 26 Apr 2023 14:26:36 +0200
-> > > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > > On Wed, Apr 26, 2023 at 02:15:20PM +0200, Petr Tesa=C5=99=C3=ADk wr=
-ote:
-> > > > > Hi,
-> > > > >
-> > > > > On Wed, 19 Apr 2023 12:03:52 +0200
-> > > > > Petr Tesarik <petrtesarik@huaweicloud.com> wrote:
-> > > > >
-> > > > > > From: Petr Tesarik <petr.tesarik.ext@huawei.com>
-> > > > > >
-> > > > > > The goal of my work is to provide more flexibility in the sizin=
-g of
-> > > > > > SWIOTLB.
-> > > > > >
-> > > > > > The software IO TLB was designed with these assumptions:
-> > > > > >
-> > > > > > 1. It would not be used much, especially on 64-bit systems.
-> > > > > > 2. A small fixed memory area (64 MiB by default) is sufficient =
-to
-> > > > > >    handle the few cases which require a bounce buffer.
-> > > > > > 3. 64 MiB is little enough that it has no impact on the rest of=
- the
-> > > > > >    system.
-> > > > > >
-> > > > > > First, if SEV is active, all DMA must be done through shared
-> > > > > > unencrypted pages, and SWIOTLB is used to make this happen with=
-out
-> > > > > > changing device drivers. The software IO TLB size is increased =
-to
-> > > > > > 6% of total memory in sev_setup_arch(), but that is more of an
-> > > > > > approximation. The actual requirements may vary depending on th=
-e
-> > > > > > amount of I/O and which drivers are used. These factors may not=
- be
-> > > > > > know at boot time, i.e. when SWIOTLB is allocated.
-> > > > > >
-> > > > > > Second, other colleagues have noticed that they can reliably ge=
-t
-> > > > > > rid of occasional OOM kills on an Arm embedded device by reduci=
-ng
-> > > > > > the SWIOTLB size. This can be achieved with a kernel parameter,=
- but
-> > > > > > determining the right value puts additional burden on pre-relea=
-se
-> > > > > > testing, which could be avoided if SWIOTLB is allocated small a=
-nd
-> > > > > > grows only when necessary.
-> > > > >
-> > > > > Now that merging into 6.4 has begun, what about this patch series=
-? I'm
-> > > > > eager to get some feedback (positive or negative) and respin the =
-next
-> > > > > version.
-> > > >
-> > > > It's the merge window, we can't add new things that haven't been in
-> > > > linux-next already.
-> > >
-> > > This is understood. I'm not asking for immediate inclusion.
-> > >
-> > > >   Please resubmit it after -rc1 is out.
-> > >
-> > > If you can believe that rebasing to -rc1 will be enough, then I will
-> > > also try to believe I'm lucky. ;-)
-> > >
-> > > The kind of feedback I really want to get is e.g. about the extra
-> > > per-device DMA-specific fields. If they cannot be added to struct
-> > > device, then I'd rather start discussing an interim solution, because
-> > > getting all existing DMA fields out of that struct will take a lot of
-> > > time...
-> >
-> > All right, 6.4-rc1 is out now. The patch series still applies cleanly.
-> >
-> > Any comments what must be changed (if anything) to get it in?
->
-> Try resending it, it's long out of my review queue...
->
-> thanks,
->
-> greg k-h
+- Distributed training, where ML accelerators, such as GPUs on different ho=
+sts,
+  exchange data among them.
+
+- Distributed raw block storage applications transfer large amounts of data=
+ with
+  remote SSDs, much of this data does not require host processing.
+
+Today, the majority of the Device-to-Device data transfers the network are
+implemented as the following low level operations: Device-to-Host copy,
+Host-to-Host network transfer, and Host-to-Device copy.
+
+The implementation is suboptimal, especially for bulk data transfers, and c=
+an
+put significant strains on system resources, such as host memory bandwidth,
+PCIe bandwidth, etc. One important reason behind the current state is the
+kernel=E2=80=99s lack of semantics to express device to network transfers.=
+=C2=A0
+
+* Proposal:
+
+In this patch series we attempt to optimize this use case by implementing
+socket APIs that enable the user to:
+
+1. send device memory across the network directly, and
+2. receive incoming network packets directly into device memory.
+
+Packet _payloads_ go directly from the NIC to device memory for receive and=
+ from
+device memory to NIC for transmit.
+Packet _headers_ go to/from host memory and are processed by the TCP/IP sta=
+ck
+normally. The NIC _must_ support header split to achieve this.
+
+Advantages:
+
+- Alleviate host memory bandwidth pressure, compared to existing
+ network-transfer + device-copy semantics.
+
+- Alleviate PCIe BW pressure, by limiting data transfer to the lowest level
+  of the PCIe tree, compared to traditional path which sends data through t=
+he
+  root complex.
+
+With this proposal we're able to reach ~96.6% line rate speeds with data se=
+nt
+and received directly from/to device memory.
+
+* Patch overview:
+
+** Part 1: struct paged device memory
+
+Currently the standard for device memory sharing is DMABUF, which doesn't
+generate struct pages. On the other hand, networking stack (skbs, drivers, =
+and
+page pool) operate on pages. We have 2 options:
+
+1. Generate struct pages for dmabuf device memory, or,
+2. Modify the networking stack to understand a new memory type.
+
+This proposal implements option #1. We implement a small framework to gener=
+ate
+struct pages for an sg_table returned from dma_buf_map_attachment(). The su=
+pport
+added here should be generic and easily extended to other use cases interes=
+ted
+in struct paged device memory. We use this framework to generate pages that=
+ can
+be used in the networking stack.
+
+** Part 2: recvmsg() & sendmsg() APIs
+
+We define user APIs for the user to send and receive these dmabuf pages.
+
+** part 3: support for unreadable skb frags
+
+Dmabuf pages are not accessible by the host; we implement changes throughpu=
+t the
+networking stack to correctly handle skbs with unreadable frags.
+
+** part 4: page pool support
+
+We piggy back on Jakub's page pool memory providers idea:
+https://github.com/kuba-moo/linux/tree/pp-providers
+
+It allows the page pool to define a memory provider that provides the
+page allocation and freeing. It helps abstract most of the device memory TC=
+P
+changes from the driver.
+
+This is not strictly necessary, the driver can choose to allocate dmabuf pa=
+ges
+and use them directly without going through the page pool (if acceptable to
+their maintainers).
+
+Not included with this RFC is the GVE devmem TCP support, just to
+simplify the review. Code available here if desired:
+https://github.com/mina/linux/tree/tcpdevmem
+
+This RFC is built on top of v6.4-rc7 with Jakub's pp-providers changes
+cherry-picked.
+
+* NIC dependencies:
+
+1. (strict) Devmem TCP require the NIC to support header split, i.e. the
+   capability to split incoming packets into a header + payload and to put
+   each into a separate buffer. Devmem TCP works by using dmabuf pages
+   for the packet payload, and host memory for the packet headers.
+
+2. (optional) Devmem TCP works better with flow steering support & RSS supp=
+ort,
+   i.e. the NIC's ability to steer flows into certain rx queues. This allow=
+s the
+   sysadmin to enable devmem TCP on a subset of the rx queues, and steer
+   devmem TCP traffic onto these queues and non devmem TCP elsewhere.
+
+The NIC I have access to with these properties is the GVE with DQO support
+running in Google Cloud, but any NIC that supports these features would suf=
+fice.
+I may be able to help reviewers bring up devmem TCP on their NICs.
+
+* Testing:
+
+The series includes a udmabuf kselftest that show a simple use case of
+devmem TCP and validates the entire data path end to end without
+a dependency on a specific dmabuf provider.
+
+Not included in this series is our devmem TCP benchmark, which
+transfers data to/from GPU dmabufs directly.
+
+With this implementation & benchmark we're able to reach ~96.6% line rate
+speeds with 4 GPU/NIC pairs running bi-direction traffic, with all the
+packet payloads going straight to the GPU memory (no host buffer bounce).
+
+** Test Setup
+
+Kernel: v6.4-rc7, with this RFC and Jakub's memory provider API
+cherry-picked locally.
+
+Hardware: Google Cloud A3 VMs.
+
+NIC: GVE with header split & RSS & flow steering support.
+
+Benchmark: custom devmem TCP benchmark not yet open sourced.
+
+Mina Almasry (10):
+  dma-buf: add support for paged attachment mappings
+  dma-buf: add support for NET_RX pages
+  dma-buf: add support for NET_TX pages
+  net: add support for skbs with unreadable frags
+  tcp: implement recvmsg() RX path for devmem TCP
+  net: add SO_DEVMEM_DONTNEED setsockopt to release RX pages
+  tcp: implement sendmsg() TX path for for devmem tcp
+  selftests: add ncdevmem, netcat for devmem TCP
+  memory-provider: updates core provider API for devmem TCP
+  memory-provider: add dmabuf devmem provider
+
+ drivers/dma-buf/dma-buf.c              | 444 ++++++++++++++++
+ include/linux/dma-buf.h                | 142 +++++
+ include/linux/netdevice.h              |   1 +
+ include/linux/skbuff.h                 |  34 +-
+ include/linux/socket.h                 |   1 +
+ include/net/page_pool.h                |  21 +
+ include/net/sock.h                     |   4 +
+ include/net/tcp.h                      |   6 +-
+ include/uapi/asm-generic/socket.h      |   6 +
+ include/uapi/linux/dma-buf.h           |  12 +
+ include/uapi/linux/uio.h               |  10 +
+ net/core/datagram.c                    |   3 +
+ net/core/page_pool.c                   | 111 +++-
+ net/core/skbuff.c                      |  81 ++-
+ net/core/sock.c                        |  47 ++
+ net/ipv4/tcp.c                         | 262 +++++++++-
+ net/ipv4/tcp_input.c                   |  13 +-
+ net/ipv4/tcp_ipv4.c                    |   8 +
+ net/ipv4/tcp_output.c                  |   5 +-
+ net/packet/af_packet.c                 |   4 +-
+ tools/testing/selftests/net/.gitignore |   1 +
+ tools/testing/selftests/net/Makefile   |   1 +
+ tools/testing/selftests/net/ncdevmem.c | 693 +++++++++++++++++++++++++
+ 23 files changed, 1868 insertions(+), 42 deletions(-)
+ create mode 100644 tools/testing/selftests/net/ncdevmem.c
+
+--=20
+2.41.0.390.g38632f3daf-goog
+
