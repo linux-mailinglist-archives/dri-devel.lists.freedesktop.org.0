@@ -2,117 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D251D74E01C
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 23:15:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8250E74E065
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 23:45:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 320BB10E2D8;
-	Mon, 10 Jul 2023 21:15:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E833310E2DA;
+	Mon, 10 Jul 2023 21:45:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on20617.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e8a::617])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D560C10E2D8
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 21:15:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WFsK/HK9jpBT2gv5ZXZEheksHJ4Vm8PcKwHbEjCoW0E/igyIGOzvfZKWMnkImOjLxBxROargsqBoZ4EXrYEymk8bIoOa3PQHAKuzXoBdW6JGsM0XWIRvsFSsbZb1lBCiOaYSKzf6ZbHlM1tsq6bxJtv0UvqBfnRzcaFvF3uz+YhjChlRz5/zYAblXcEcMJH0ti8M5ubhHvjXAbB+D32nJu10W2+tkxR5FPRyIL0E3RA1HAOFwpcNZtim+BuICcel3VLwnhAeMBqtZD+IPcYg1h5RlzWaJTv2aq1elwN0odqKZ3Cix2MGB5fa+T9/BESJxxxPJkFkESsf1Yj3B70P6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8W0IL5Q2QrlZ5oEg2Y6BRzEPA7/Y8HjXx+VUzvj8MBI=;
- b=P2eAKsP1xbgR6soSQA2p1bV6AI5UHaotOa/eO2YM0BXZU/RWsQ4VNybYzZ39RLXBPS9DqSBR0WTpankBm9pC7KEqpKcOVf+Gt26YrOyckcpegvzeQpRB2RNKMFXJ9PJxJjPhuatul97eKGwJBrEQjG5QP7PHnOmvijKjo4EyND83gvp8nMmI+3GW+u2wUAzUyNeT90nOW5yA3U+Qrb/qDRZNUsuEVrJKmCAY/kYGIMrEq3Piwk5DEEpoHbqKEkO7033S5qn/0DPn+FNQv8KuJ+tTXors09UjuO1e/3roidgSI1eoZKFiysjyNV85a5XLN7Fsx1L4dOdgXptSNCnoEQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8W0IL5Q2QrlZ5oEg2Y6BRzEPA7/Y8HjXx+VUzvj8MBI=;
- b=qHfhMyLZkp1+NtY2uN9jsxpe5v8acnkbHIYfJ2mvvLc+AYFgz7RNSNw8UhrHvnTkyPQP8EswZwUjKZzgqYmbSoZ8b0yv6x4DZM4skZIldhVSZQ/avbt0IVmzXkrzZswkgovPVmjgovoTMZePnhP/pStGGUgePb18nV8pW84LRUw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
- SJ1PR12MB6313.namprd12.prod.outlook.com (2603:10b6:a03:458::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.30; Mon, 10 Jul
- 2023 21:15:42 +0000
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::e3dd:99bb:b742:2d48]) by DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::e3dd:99bb:b742:2d48%2]) with mapi id 15.20.6565.028; Mon, 10 Jul 2023
- 21:15:42 +0000
-Message-ID: <3bcebac5-81d8-79a5-cdfb-48db782ec206@amd.com>
-Date: Mon, 10 Jul 2023 17:15:40 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Content-Language: en-CA, en-US
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20230710205625.130664-1-robdclark@gmail.com>
-From: Luben Tuikov <luben.tuikov@amd.com>
-Subject: Re: [PATCH] drm/scheduler: Add missing RCU flag to fence slab
-In-Reply-To: <20230710205625.130664-1-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT1PR01CA0065.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2e::34) To DM6PR12MB3370.namprd12.prod.outlook.com
- (2603:10b6:5:38::25)
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
+ [IPv6:2607:f8b0:4864:20::b29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76CA310E2DA
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 21:45:08 +0000 (UTC)
+Received: by mail-yb1-xb29.google.com with SMTP id
+ 3f1490d57ef6-bcb6dbc477eso4559039276.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 14:45:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1689025506; x=1691617506;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=e4br8m75UQLAFBW55S+BMhoPzicapbO24k6v6FEOg9M=;
+ b=ncwSyUKtPtk26GVkCYe2MpRpHRyTfYbgUmlX5H8OciauhCtRH3+wOoNvyuBKJxYvk3
+ rtZink6BvMKotnMG0fs1mkjvqp2M5BAhPBfGwey0poicMedJqf+c1J+JHI4a3DqCbosO
+ LzRKmwPjQvLueHRjaIIyGytDUWQSFLvf0wB48=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689025506; x=1691617506;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=e4br8m75UQLAFBW55S+BMhoPzicapbO24k6v6FEOg9M=;
+ b=eYpPWLpbi9CdAAuS+yGSDGQujYLUCYm1p0f83xkFEHQGW+/BbNnx9icmYO8vYgcP/Z
+ N61UdNctJDnkr7Y9L8ZwnzTVA10Wp/w4AHdQ802iMdSDRKjkHEW/oT1/bJE4IAyVLcrr
+ cR6GXtKPNj5lB2QBHivNmfr0UdcsEMcuqLHwyidYZ85zpPAktted5XpYo1XRMXEnAsQu
+ BAiGKwivER/4GdAiJPkmEp3INLZhOmDV/ehyI82DvtmASFEuF57un2Onus+eJSiBob4p
+ PPUsqABTxzbw5kqB2xgVJOEb+oFHHixXtsGsBcvTIAgznya9HRLZY6m5sixHAbD8AuHk
+ TCcw==
+X-Gm-Message-State: ABy/qLbvJkFMGpVI4fml/vJBpnWuEa8sKE6QDkFZHe/ET1gnGOrM4md9
+ wEa/eCweCJreR29geTj119DKmqTerWsrTmuHGYVPiQ==
+X-Google-Smtp-Source: APBJJlETfSHdSEzh5Ly+6+PqJhj7LbMYBgMfHO133PBN/obyHsnTHJuBTADBy1P1X+s2bGg4v21UZA==
+X-Received: by 2002:a25:abae:0:b0:c1b:4347:b3d4 with SMTP id
+ v43-20020a25abae000000b00c1b4347b3d4mr11153120ybi.7.1689025506195; 
+ Mon, 10 Jul 2023 14:45:06 -0700 (PDT)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com.
+ [209.85.128.180]) by smtp.gmail.com with ESMTPSA id
+ a1-20020a25bac1000000b00c6051b16f8bsm155995ybk.8.2023.07.10.14.45.05
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Jul 2023 14:45:05 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id
+ 00721157ae682-579de633419so56653687b3.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 14:45:05 -0700 (PDT)
+X-Received: by 2002:a0d:ef42:0:b0:576:888e:6219 with SMTP id
+ y63-20020a0def42000000b00576888e6219mr12392088ywe.34.1689025504785; Mon, 10
+ Jul 2023 14:45:04 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|SJ1PR12MB6313:EE_
-X-MS-Office365-Filtering-Correlation-Id: 94758251-73a4-4c1d-d820-08db818ad160
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: r9pLdXI1cuN3uIwdGQjJccjk7UbI5jFYn4JfkfmA4kQceP6yYGvglBEaL9tHm4YiRAoORA43gc8rvJsnNPWaZ3rGs8Pi6NkKZMRnu8w1FWxPLpcASrRTaACLQr/YFx2zXTl1C+WkcAE1IWVXx7BAAbqXq0W1EEmwuw0FPBIDqyWSfrTgZnh966Or+H8xa4DPI0D0+YmZmsVJjyXrpK5CP8QaMqOGr2hnCZFLvWAEB+t9b4YzyIh2F0e6IxSw4B1wM5KsNUN6qWgiu2OMZOq8l75NyskEZ1ZoRU9sCdibHPp2UItXL8Koo2CIJI4liH5ENi3vg7O5RBGSg+tAASgfPD9kCfBZZmXy4qIZbZpOF9r2rKoWHv6rTU/4pUkiArrDjPN+a+FGShK2wAvLO6LQkm1uEL8zuMindXV6gYZlbjzId5EVDWkPmOQkGGTVgqk1L2lYC1zA8lu3StzsyJqGQ+ps12LK2L5bMR4HAPBShjO8BuRq258MjImuhBp/sSS6K77xsOuW1N7UrA/mn1SCulv6VpoCqfhtzf5RxuB88wZzV02CUg62X39CBTPZFzsm9wYa1GscnQMJ/trVX3RvuXl3+JSKs7D8r/skmLFd96IEbpAfgbTvHhvMQExGTd902fBznS+0LuVTG3DkEcSZAOU+QPJxw12zcHkqc1wGv7sizkK1n45mr2/zZntGXanw
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(39860400002)(136003)(346002)(366004)(396003)(376002)(451199021)(186003)(6506007)(53546011)(6512007)(2616005)(26005)(44832011)(83380400001)(41300700001)(4326008)(2906002)(66556008)(316002)(5660300002)(8936002)(8676002)(66476007)(478600001)(66946007)(6486002)(54906003)(36756003)(38100700002)(86362001)(31696002)(31686004)(43740500002)(45980500001)(505234007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WEhLTGxQWjFEUFpTakQ5aHBUMVE1Yk41TkNYc25GVmRUeTlwMUZGNG4zVW9j?=
- =?utf-8?B?ekI1Q1M1M3VBcndhdWxUVExwa2gvNHJGT0xYcmQ5Z1luL1J5cGtaRlRNeU4z?=
- =?utf-8?B?ZUcrN21MK200V2p3MTV0ZnNXZkJuOG1CdHQ0RDlINWxJbWNLVkJ5VUJHdXRn?=
- =?utf-8?B?NTNUeGcyTEs4YkdUQldEU2N0ZjJabXpGMTkrdXRlUXlKVnNralRac1BTWlFP?=
- =?utf-8?B?ZlVYcG5lekNVcG5BdEpKS0l6MWhqQnlza2V2SzZpU1FUR1k0TDNVb211bFdY?=
- =?utf-8?B?VzhuVm9qY0czaDc4blJKWjJ2V0dNbTJhMlRUWGhkMmlTTjJCQUhrOXNrVVdN?=
- =?utf-8?B?eTlXWWlUNjM0OWtLQ29Dd0luRS91TnNkUmtxRWdWb2lnVzk1bCtsVjF2VWkw?=
- =?utf-8?B?UVFzM2F2eCtCNnBXcnBmQU0rSmNGL0VWRk9KUWlyVmNxZjRXNHFnMU1zU01Z?=
- =?utf-8?B?MmNHeGpzVFZ2eGIvM2cyOEhndmh3Y2d2TU9VcDl4RzVwUjd0YWFET0o2dFN5?=
- =?utf-8?B?UGJjcXVYYWhhR3M2dVJFLzRRdzRQNGQvWWlNMWJxT3RRTlJ1OUNnOHJPU29D?=
- =?utf-8?B?N1JvZzdhYUZMNHJVaFpMRlNyQVpEbERDNW1TNjBqaGZRVHV2NzNqbDdCWCth?=
- =?utf-8?B?bWxITU5GZjhSWkZJNWFpZGdhVEFOSUN3YW5CMzBSZEg1Y3pWYzVmZUJ1bTlj?=
- =?utf-8?B?RytHY2V5Vk5zVGlDSHhISHZvUXJ5ekhDeWNVWCs3U1FWL3FEbG5VU2g2NFRS?=
- =?utf-8?B?dk85VThyOFM4ZVlDbk0xQ3YxZWxsWmxCMm1CT1JJdHdNYTZlNWVvZG55NDNi?=
- =?utf-8?B?bi9US3dMRTdONlBvNXdrOFh4VHBOS3JrL3puM2JBQnp6MldZcG9XaFgrbmlN?=
- =?utf-8?B?OWdQbGdLMmtkUmZaNkFCdXhqOE95a042OWlIV29oWnpkQXR0bWpFQ2ZIU1RW?=
- =?utf-8?B?TlpReW9FenM3SXJ4RnpZbDVraGcvbmRSM09pakhHL3JKcE1scmpTUWVkOXVp?=
- =?utf-8?B?Q2lKQXczdnFKVHR0S0NkcFBKSlM0d0ZRYVUwQ24vZDhkUHhWMEJrOGtadnZw?=
- =?utf-8?B?TU95YmN1OEI2ZnBUcW1FeVhrUUxpTFRNWCtNbzdrM0cwNUNxWnMrUnBnZjdW?=
- =?utf-8?B?U3ArM3hRK2oyeVhKenVSaXpPQ1dTdHRCRDcrU2RUS3J0UlcvbFZrNndKN3U5?=
- =?utf-8?B?cTg1M3ZyQm5hMEVpOEExRmRJeWdHNTdZTm5VbEJuOGIyVlN0Ti9wR2V6ZFQw?=
- =?utf-8?B?MjRUZU1zTTZQTHMxWUEzSUwzWGNUcXdRaHE3VjF5aU02WnNZQklWWWpUMVJw?=
- =?utf-8?B?d2xVYzR6NHY1NWJaTytaNGNJYVBtQy9iVFpyNkNnTVRsek9oTDArSW9COSsv?=
- =?utf-8?B?QVJuTDNzSDFsMjcwdXBzMzlGYUJuYUY3VnVmbG4xR2xBZi9QbjUveFVISDhh?=
- =?utf-8?B?SFVDZFYwdjlEWjJkbFRYRGRPNEN4L0d5NW4rbjlKTGhENWxMcHhienFrRlZG?=
- =?utf-8?B?bnRoRHp3SmJrVnh2bmxxdmVGUVJWRkUzVEEycXhTTEJZcU1Kb1RVS2NkZTVT?=
- =?utf-8?B?eVNWYzcxQk9CVWFVZy9RZGlnUlNGMHZ5OHB4Z2hPdURkYWl5MTdxdTZhV1JS?=
- =?utf-8?B?TWd2TFkwZTFyR09QSVFIbXM2NmhmRjZHb3loY3hkQ1M3aDRMay9sMjJGYXAw?=
- =?utf-8?B?b3dJaWZnSDRpck1HL0wwR1IrWGZKQXMvTlNYTzV2MW1CRVA1SzNiT291THN2?=
- =?utf-8?B?cFlXdGpqNmlRNk5GQ3lHZXdqUnQ0QTVibHZzcEh1U0lTcE9rbEtEeEZ5aEYz?=
- =?utf-8?B?WHl5Tmg3Q1hwejRvZ3dSV2d5ZU0zZ0xxTXpkWkJtNDlRT0h5RFdicUtianhi?=
- =?utf-8?B?Q1VSMDliN3U1MmdBVmFXeFgrYkVxWTR0dDdKTjZSbGJSM0F5L2prZUtZMEg2?=
- =?utf-8?B?S051VTJpc2tua3g3aVlrZFpHOUhROEZ3SCtBZzRKSkxFNVpBaTRKeVhwbkYw?=
- =?utf-8?B?R2NEMlpmVjVaNUNqTHhlU0psQXI0RjY3QUswSmNHMjc3MU5ON1pTei81VU1F?=
- =?utf-8?B?K1p4ZE93QXdBbUUwWWR4STJYa3lVNWhzRGxWd0d2THNTYU5SVU9XZ2VCLzlG?=
- =?utf-8?Q?HUCCojsyLSCIiz8jDiN4ZNXEC?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 94758251-73a4-4c1d-d820-08db818ad160
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2023 21:15:42.2996 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oBh6wNwp5cEJPV2UaBbmpuvCiLmD/dKn4H58a1WyIoxG907luenAPc7QhTgInQYi
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6313
+References: <20230623222353.97283-1-jshargo@chromium.org>
+ <20230706050820.3853824-1-brpol@chromium.org>
+In-Reply-To: <20230706050820.3853824-1-brpol@chromium.org>
+From: Jim Shargo <jshargo@chromium.org>
+Date: Mon, 10 Jul 2023 17:44:51 -0400
+X-Gmail-Original-Message-ID: <CACmi3jEfrbJR53vjY33t4VrLjDxejcnLJGiV_QiHP5ZfNJDm0A@mail.gmail.com>
+Message-ID: <CACmi3jEfrbJR53vjY33t4VrLjDxejcnLJGiV_QiHP5ZfNJDm0A@mail.gmail.com>
+Subject: Re: [PATCH] drm/vkms Add hotplug support via configfs to VKMS.
+To: Brandon Pollack <brpol@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,144 +79,474 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- open list <linux-kernel@vger.kernel.org>,
- Alexander Potapenko <glider@google.com>, "Koenig,
- Christian" <Christian.Koenig@amd.com>
+Cc: hamohammed.sa@gmail.com, tzimmermann@suse.de, rodrigosiqueiramelo@gmail.com,
+ corbet@lwn.net, yixie@chromium.org, mripard@kernel.org, melissa.srw@gmail.com,
+ mairacanal@riseup.net, dri-devel@lists.freedesktop.org, jshargo@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-07-10 16:56, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> Fixes the KASAN splat:
-> 
->    ==================================================================
->    BUG: KASAN: use-after-free in msm_ioctl_wait_fence+0x31c/0x7b0
->    Read of size 4 at addr ffffff808cb7c2f8 by task syz-executor/12236
->    CPU: 6 PID: 12236 Comm: syz-executor Tainted: G        W         5.15.119-lockdep-19932-g4a017c53fe63 #1 b15455e5b94c63032dd99eb0190c27e582b357ed
->    Hardware name: Google Homestar (rev3) (DT)
->    Call trace:
->     dump_backtrace+0x0/0x4e8
->     show_stack+0x34/0x50
->     dump_stack_lvl+0xdc/0x11c
->     print_address_description+0x30/0x2d8
->     kasan_report+0x178/0x1e4
->     kasan_check_range+0x1b0/0x1b8
->     __kasan_check_read+0x44/0x54
->     msm_ioctl_wait_fence+0x31c/0x7b0
->     drm_ioctl_kernel+0x214/0x418
->     drm_ioctl+0x524/0xbe8
->     __arm64_sys_ioctl+0x154/0x1d0
->     invoke_syscall+0x98/0x278
->     el0_svc_common+0x214/0x274
->     do_el0_svc+0x9c/0x19c
->     el0_svc+0x5c/0xc0
->     el0t_64_sync_handler+0x78/0x108
->     el0t_64_sync+0x1a4/0x1a8
->    Allocated by task 12224:
->     kasan_save_stack+0x38/0x68
->     __kasan_slab_alloc+0x6c/0x88
->     kmem_cache_alloc+0x1b8/0x428
->     drm_sched_fence_alloc+0x30/0x94
->     drm_sched_job_init+0x7c/0x178
->     msm_ioctl_gem_submit+0x2b8/0x5ac4
->     drm_ioctl_kernel+0x214/0x418
->     drm_ioctl+0x524/0xbe8
->     __arm64_sys_ioctl+0x154/0x1d0
->     invoke_syscall+0x98/0x278
->     el0_svc_common+0x214/0x274
->     do_el0_svc+0x9c/0x19c
->     el0_svc+0x5c/0xc0
->     el0t_64_sync_handler+0x78/0x108
->     el0t_64_sync+0x1a4/0x1a8
->    Freed by task 32:
->     kasan_save_stack+0x38/0x68
->     kasan_set_track+0x28/0x3c
->     kasan_set_free_info+0x28/0x4c
->     ____kasan_slab_free+0x110/0x164
->     __kasan_slab_free+0x18/0x28
->     kmem_cache_free+0x1e0/0x904
->     drm_sched_fence_free_rcu+0x80/0x9c
->     rcu_do_batch+0x318/0xcf0
->     rcu_nocb_cb_kthread+0x1a0/0xc4c
->     kthread+0x2e4/0x3a0
->     ret_from_fork+0x10/0x20
->    Last potentially related work creation:
->     kasan_save_stack+0x38/0x68
->     kasan_record_aux_stack+0xd4/0x114
->     __call_rcu_common+0xd4/0x1478
->     call_rcu+0x1c/0x28
->     drm_sched_fence_release_scheduled+0x108/0x158
->     dma_fence_release+0x178/0x564
->     drm_sched_fence_release_finished+0xb4/0x124
->     dma_fence_release+0x178/0x564
->     __msm_gem_submit_destroy+0x150/0x488
->     msm_job_free+0x9c/0xdc
->     drm_sched_main+0xec/0x9ac
->     kthread+0x2e4/0x3a0
->     ret_from_fork+0x10/0x20
->    Second to last potentially related work creation:
->     kasan_save_stack+0x38/0x68
->     kasan_record_aux_stack+0xd4/0x114
->     __call_rcu_common+0xd4/0x1478
->     call_rcu+0x1c/0x28
->     drm_sched_fence_release_scheduled+0x108/0x158
->     dma_fence_release+0x178/0x564
->     drm_sched_fence_release_finished+0xb4/0x124
->     dma_fence_release+0x178/0x564
->     drm_sched_entity_fini+0x170/0x238
->     drm_sched_entity_destroy+0x34/0x44
->     __msm_file_private_destroy+0x60/0x118
->     msm_submitqueue_destroy+0xd0/0x110
->     __msm_gem_submit_destroy+0x384/0x488
->     retire_submits+0x6a8/0xa14
->     recover_worker+0x764/0xa50
->     kthread_worker_fn+0x3f4/0x9ec
->     kthread+0x2e4/0x3a0
->     ret_from_fork+0x10/0x20
->    The buggy address belongs to the object at ffffff808cb7c280
->    The buggy address is located 120 bytes inside of
->    The buggy address belongs to the page:
->    page:000000008b01d27d refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x10cb7c
->    head:000000008b01d27d order:1 compound_mapcount:0
->    flags: 0x8000000000010200(slab|head|zone=2)
->    raw: 8000000000010200 fffffffe06844d80 0000000300000003 ffffff80860dca00
->    raw: 0000000000000000 0000000000190019 00000001ffffffff 0000000000000000
->    page dumped because: kasan: bad access detected
->    Memory state around the buggy address:
->     ffffff808cb7c180: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->     ffffff808cb7c200: 00 00 00 00 00 fc fc fc fc fc fc fc fc fc fc fc
->    >ffffff808cb7c280: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->                                                                    ^
->     ffffff808cb7c300: fb fb fb fb fb fb fb fb fb fb fb fb fb fc fc fc
->     ffffff808cb7c380: fc fc fc fc fc fc fc fc 00 00 00 00 00 00 00 00
->    ==================================================================
-> 
-> Suggested-by: Alexander Potapenko <glider@google.com>
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+Yay! Glad to see the configfs stuff being extended!
+
+Overall I don't see anything of major concern. Great stuff!
+
+I'd be curious about how the IGT tests would look for this. Creating
+before and after registration would be sufficient until removal is
+added.
+
+On Thu, Jul 6, 2023 at 1:08=E2=80=AFAM Brandon Pollack <brpol@chromium.org>=
+ wrote:
+>
+> This change adds the ability to read or write a "1" or a "0" to the
+> newly added "connected" attribute of a connector in the vkms entry in
+> configfs.
+>
+> A write will trigger a call to drm_kms_helper_hotplug_event, causing a
+> hotplug uevent.
+>
+> With this we can write virtualized multidisplay tests that involve
+> hotplugging displays (eg recompositing windows when a monitor is turned
+> off).
+>
 > ---
->  drivers/gpu/drm/scheduler/sched_fence.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
-> index ef120475e7c6..b624711c6e03 100644
-> --- a/drivers/gpu/drm/scheduler/sched_fence.c
-> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
-> @@ -35,7 +35,7 @@ static int __init drm_sched_fence_slab_init(void)
->  {
->  	sched_fence_slab = kmem_cache_create(
->  		"drm_sched_fence", sizeof(struct drm_sched_fence), 0,
-> -		SLAB_HWCACHE_ALIGN, NULL);
-> +		SLAB_HWCACHE_ALIGN | SLAB_TYPESAFE_BY_RCU, NULL);
->  	if (!sched_fence_slab)
->  		return -ENOMEM;
->  
+>
+> This is a first attempt and I am sure I could use some feedback.  I have
+> this working locally and I'm continuing to develop the test framework
+> around this prototype, but I'm ready to switch gears back to addressing
+> your feedback!
+>
+> This is also only my second patch ever to the kernel, so if my patch
+> sending process is a little strange or I'm missing something feedback is
+> appreciated.
+>
+> I also am basing these off of jshargo's not yet submitted configFS
+> changes so I added an in-reply-to to that series.  Not sure if that is
+> alright.
+>
+> Signed-off-by: Brandon Pollack <brpol@chromium.org>
+> ---
+>  Documentation/gpu/vkms.rst            |  2 +-
+>  drivers/gpu/drm/vkms/vkms_configfs.c  | 96 ++++++++++++++++++++++-----
+>  drivers/gpu/drm/vkms/vkms_drv.h       | 11 +++
+>  drivers/gpu/drm/vkms/vkms_output.c    | 47 ++++++++++++-
+>  drivers/gpu/drm/vkms/vkms_writeback.c |  2 +-
+>  5 files changed, 138 insertions(+), 20 deletions(-)
+>
+> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+> index 2c342ef0fb7b..1eaae9f48693 100644
+> --- a/Documentation/gpu/vkms.rst
+> +++ b/Documentation/gpu/vkms.rst
+> @@ -144,7 +144,7 @@ Runtime Configuration
+>  We want to vkms instances without having to reload the module. Such
+>  configuration can be added as extensions to vkms's ConfigFS support. Use=
+-cases:
+>
+> -- Hotplug/hotremove connectors on the fly (to be able to test DP MST han=
+dling
+> +- Hotremove connectors on the fly (to be able to test DP MST handling
+>    of compositors).
+>
+>  - Change output configuration: Plug/unplug screens, change EDID, allow c=
+hanging
+> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/=
+vkms_configfs.c
+> index f5eed6d23dcd..84cdb8d02ee7 100644
+> --- a/drivers/gpu/drm/vkms/vkms_configfs.c
+> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
+> @@ -1,5 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0+
+>
+> +#include "drm/drm_probe_helper.h"
+>  #include <linux/configfs.h>
+>  #include <linux/mutex.h>
+>  #include <linux/platform_device.h>
+> @@ -30,7 +31,7 @@
+>   *
+>   *   mkdir /config/vkms/test
+>   *
+> - * With your device created you'll find an new directory ready to be
+> + * With your device created you'll find an new directory ready to be
+>   * configured::
+>   *
+>   *   /config
+> @@ -39,6 +40,7 @@
+>   *       |   `-- enabled
+>   *       `-- test
+>   *           |-- connectors
+> + *                `-- connected
+>   *           |-- crtcs
+>   *           |-- encoders
+>   *           |-- planes
+> @@ -48,25 +50,25 @@
+>   * directories will let you configure a new object of that type. Adding =
+new
+>   * objects will automatically create a set of default files and folders =
+you can
+>   * use to configure that object.
+> - *
+> + *
+>   * For instance, we can set up a two-output device like so::
+> - *
+> + *
+>   *   DRM_PLANE_TYPE_PRIMARY=3D1
+>   *   DRM_PLANE_TYPE_CURSOR=3D2
+>   *   DRM_PLANE_TYPE_OVERLAY=3D0
+> - *
+> + *
+>   *   mkdir /config/vkms/test/planes/primary
+>   *   echo $DRM_PLANE_TYPE_PRIMARY > /config/vkms/test/planes/primary/typ=
+e
+> - *
+> + *
+>   *   mkdir /config/vkms/test/planes/other_primary
+>   *   echo $DRM_PLANE_TYPE_PRIMARY > /config/vkms/test/planes/other_prima=
+ry/type
+> - *
+> + *
+>   *   mkdir /config/vkms/test/planes/cursor
+>   *   echo $DRM_PLANE_TYPE_CURSOR > /config/vkms/test/planes/cursor/type
+> - *
+> + *
+>   *   mkdir /config/vkms/test/planes/overlay
+>   *   echo $DRM_PLANE_TYPE_OVERLAY > /config/vkms/test/planes/overlay/typ=
+e
+> - *
+> + *
+>   *   mkdir /config/vkms/test/crtcs/crtc
+>   *   mkdir /config/vkms/test/crtcs/crtc_other
+>   *   mkdir /config/vkms/test/encoders/encoder
+> @@ -75,25 +77,33 @@
+>   * You can see that specific attributes, such as ``.../<plane>/type``, c=
+an be
+>   * configured by writing into them. Associating objects together can be =
+done via
+>   * symlinks::
+> - *
+> + *
+>   *   ln -s /config/vkms/test/encoders/encoder /config/vkms/test/connecto=
+rs/connector/possible_encoders
+> - *
+> + *
+>   *   ln -s /config/vkms/test/crtcs/crtc /config/vkms/test/encoders/encod=
+er/possible_crtcs/
+>   *   ln -s /config/vkms/test/crtcs/crtc /config/vkms/test/planes/primary=
+/possible_crtcs/
+>   *   ln -s /config/vkms/test/crtcs/crtc /config/vkms/test/planes/cursor/=
+possible_crtcs/
+>   *   ln -s /config/vkms/test/crtcs/crtc /config/vkms/test/planes/overlay=
+/possible_crtcs/
+> - *
+> + *
+>   *   ln -s /config/vkms/test/crtcs/crtc_other /config/vkms/test/planes/o=
+verlay/possible_crtcs/
+>   *   ln -s /config/vkms/test/crtcs/crtc_other /config/vkms/test/planes/o=
+ther_primary/possible_crtcs/
+> - *
+> + *
+>   * Finally, to enable your configured device, just write 1 to the ``enab=
+led``
+>   * file::
+> - *
+> + *
+>   *   echo 1 > /config/vkms/test/enabled
+>   *
+> + * By default no display is "connected" so to connect a connector you'll=
+ also
+> + * have to write 1 to a connectors "connected" attribute::
+> + *
+> + *   echo 1 > /config/vkms/test/connectors/connector/connected
+> + *
 
-Reviewed-by: Luben Tuikov <luben.tuikov@amd.com>
+[nit] I think it'd be nice to note in the docs that this can be set
+before enabling
 
-But let it simmer for 24 hours so Christian can see it too (CC-ed).
--- 
-Regards,
-Luben
+> + * One an verify that this is worked using the `modetest` utility or the
 
+can
+
+> + * equivalent for your platform.
+> + *
+>   * When you're done with the virtual device, you can clean up the device=
+ like
+>   * so::
+> - *
+> + *
+>   *   echo 0 > /config/vkms/test/enabled
+>   *
+>   *   rm /config/vkms/test/connectors/connector/possible_encoders/encoder
+> @@ -236,7 +246,58 @@ static void add_possible_encoders(struct config_grou=
+p *parent,
+>
+>  /*  Connector item, e.g. /config/vkms/device/connectors/ID */
+>
+> +static ssize_t connector_connected_show(struct config_item *item, char *=
+buf)
+> +{
+> +       struct vkms_config_connector *connector =3D
+> +               item_to_config_connector(item);
+> +       struct vkms_configfs *configfs =3D connector_item_to_configfs(ite=
+m);
+> +       bool connected =3D false;
+> +
+> +       mutex_lock(&configfs->lock);
+> +       connected =3D connector->connected;
+> +       mutex_unlock(&configfs->lock);
+> +
+> +       return sprintf(buf, "%d\n", connected);
+> +}
+> +
+> +static ssize_t connector_connected_store(struct config_item *item,
+> +                                        const char *buf, size_t len)
+> +{
+> +       struct vkms_config_connector *connector =3D
+> +               item_to_config_connector(item);
+> +       struct vkms_configfs *configfs =3D connector_item_to_configfs(ite=
+m);
+> +       int val, ret;
+> +
+> +       ret =3D kstrtouint(buf, 10, &val);
+> +       if (ret)
+> +               return ret;
+> +
+> +       if (val !=3D 1 && val !=3D 0)
+> +               return -EINVAL;
+> +
+> +       mutex_lock(&configfs->lock);
+> +       connector->connected =3D val;
+> +       if (!connector->connector) {
+> +               pr_warn("VKMS Device %s is not yet enabled, connector wil=
+l be enabled on start",
+> +                       configfs->device_group.cg_item.ci_name);
+
+IMO I don't think that this rises to warning, since many usecases
+might set it by default. INFO if anything?
+
+This also slightly changes the behavior of the API--configs that would
+have been connected in the past now aren't. The changes aren't merged
+yet, so IDK how much of an actual concern that is for now.
+
+> +       }
+> +       mutex_unlock(&configfs->lock);
+> +
+> +       if (connector->connector)
+> +               drm_kms_helper_hotplug_event(connector->connector->dev);
+> +
+> +       return len;
+> +}
+> +
+> +CONFIGFS_ATTR(connector_, connected);
+> +
+> +static struct configfs_attribute *connector_attrs[] =3D {
+> +       &connector_attr_connected,
+> +       NULL,
+> +};
+> +
+>  static struct config_item_type connector_type =3D {
+> +       .ct_attrs =3D connector_attrs,
+>         .ct_owner =3D THIS_MODULE,
+>  };
+>
+> @@ -264,7 +325,7 @@ static ssize_t plane_type_show(struct config_item *it=
+em, char *buf)
+>         plane_type =3D plane->type;
+>         mutex_unlock(&configfs->lock);
+>
+> -       return sprintf(buf, "%u", plane_type);
+> +       return sprintf(buf, "%u\n", plane_type);
+>  }
+>
+>  static ssize_t plane_type_store(struct config_item *item, const char *bu=
+f,
+> @@ -319,6 +380,7 @@ static struct config_group *connectors_group_make(str=
+uct config_group *group,
+>                                     &connector_type);
+>         add_possible_encoders(&connector->config_group,
+>                               &connector->possible_encoders.group);
+> +       connector->connected =3D false;
+>
+>         return &connector->config_group;
+>  }
+> @@ -496,7 +558,7 @@ static ssize_t device_enabled_show(struct config_item=
+ *item, char *buf)
+>         is_enabled =3D configfs->vkms_device !=3D NULL;
+>         mutex_unlock(&configfs->lock);
+>
+> -       return sprintf(buf, "%d", is_enabled);
+> +       return sprintf(buf, "%d\n", is_enabled);
+>  }
+>
+>  static ssize_t device_enabled_store(struct config_item *item, const char=
+ *buf,
+> @@ -553,7 +615,7 @@ static ssize_t device_id_show(struct config_item *ite=
+m, char *buf)
+>         }
+>         mutex_unlock(&configfs->lock);
+>
+> -       return sprintf(buf, "%d", id);
+> +       return sprintf(buf, "%d\n", id);
+>  }
+>
+>  CONFIGFS_ATTR_RO(device_, id);
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_=
+drv.h
+> index 8f476ef4009b..7b9b189511c2 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -3,6 +3,7 @@
+>  #ifndef _VKMS_DRV_H_
+>  #define _VKMS_DRV_H_
+>
+> +#include "drm/drm_connector.h"
+>  #include <linux/configfs.h>
+>  #include <linux/hrtimer.h>
+>
+> @@ -135,7 +136,9 @@ struct vkms_config_links {
+>
+>  struct vkms_config_connector {
+>         struct config_group config_group;
+> +       struct drm_connector *connector;
+>         struct vkms_config_links possible_encoders;
+> +       bool connected;
+>  };
+>
+>  struct vkms_config_crtc {
+> @@ -208,6 +211,10 @@ struct vkms_device {
+>  #define item_to_configfs(item) \
+>         container_of(to_config_group(item), struct vkms_configfs, device_=
+group)
+>
+> +#define connector_item_to_configfs(item)                                =
+     \
+> +       container_of(to_config_group(item->ci_parent), struct vkms_config=
+fs, \
+> +                    connectors_group)
+> +
+>  #define item_to_config_connector(item)                                  =
+  \
+>         container_of(to_config_group(item), struct vkms_config_connector,=
+ \
+>                      config_group)
+> @@ -267,4 +274,8 @@ int vkms_enable_writeback_connector(struct vkms_devic=
+e *vkmsdev,
+>  int vkms_init_configfs(void);
+>  void vkms_unregister_configfs(void);
+>
+> +/* Connector hotplugging */
+> +enum drm_connector_status vkms_connector_detect(struct drm_connector *co=
+nnector,
+> +                                               bool force);
+> +
+>  #endif /* _VKMS_DRV_H_ */
+> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vk=
+ms_output.c
+> index 806ff01954ad..28a50d2149f5 100644
+> --- a/drivers/gpu/drm/vkms/vkms_output.c
+> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> @@ -1,5 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0+
+>
+> +#include <drm/drm_print.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_connector.h>
+>  #include <drm/drm_crtc.h>
+> @@ -8,10 +9,12 @@
+>  #include <drm/drm_plane.h>
+>  #include <drm/drm_probe_helper.h>
+>  #include <drm/drm_simple_kms_helper.h>
+> +#include <linux/printk.h>
+>
+>  #include "vkms_drv.h"
+>
+>  static const struct drm_connector_funcs vkms_connector_funcs =3D {
+> +       .detect =3D vkms_connector_detect,
+>         .fill_modes =3D drm_helper_probe_single_connector_modes,
+>         .destroy =3D drm_connector_cleanup,
+>         .reset =3D drm_atomic_helper_connector_reset,
+> @@ -19,6 +22,48 @@ static const struct drm_connector_funcs vkms_connector=
+_funcs =3D {
+>         .atomic_destroy_state =3D drm_atomic_helper_connector_destroy_sta=
+te,
+>  };
+>
+> +static const struct vkms_config_connector *
+> +find_config_for_connector(struct drm_connector *connector)
+> +{
+> +       struct vkms_device *vkms =3D drm_device_to_vkms_device(connector-=
+>dev);
+> +       struct vkms_configfs *configfs =3D vkms->configfs;
+> +       struct config_item *item;
+> +
+> +       if (!configfs) {
+> +               pr_info("Default connector has no configfs entry");
+> +               return NULL;
+> +       }
+> +
+> +       list_for_each_entry(item, &configfs->connectors_group.cg_children=
+,
+> +                           ci_entry) {
+> +               struct vkms_config_connector *config_connector =3D
+> +                       item_to_config_connector(item);
+> +               if (config_connector->connector =3D=3D connector)
+> +                       return config_connector;
+> +       }
+> +
+> +       pr_warn("Could not find config to match connector %s, but configf=
+s was initialized",
+> +               connector->name);
+> +
+> +       return NULL;
+> +}
+> +
+> +enum drm_connector_status vkms_connector_detect(struct drm_connector *co=
+nnector,
+> +                                               bool force)
+> +{
+> +       enum drm_connector_status status =3D connector_status_connected;
+> +       const struct vkms_config_connector *config_connector =3D
+> +               find_config_for_connector(connector);
+> +
+> +       if (!config_connector)
+> +               return connector_status_connected;
+> +
+> +       if (!config_connector->connected)
+> +               status =3D connector_status_disconnected;
+> +
+> +       return status;
+> +}
+> +
+>  static const struct drm_encoder_funcs vkms_encoder_funcs =3D {
+>         .destroy =3D drm_encoder_cleanup,
+>  };
+> @@ -218,12 +263,12 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+>                 struct vkms_config_connector *config_connector =3D
+>                         item_to_config_connector(item);
+>                 struct drm_connector *connector =3D vkms_connector_init(v=
+kmsdev);
+> -
+>                 if (IS_ERR(connector)) {
+>                         DRM_ERROR("Failed to init connector from config: =
+%s",
+>                                   item->ci_name);
+>                         return PTR_ERR(connector);
+>                 }
+> +               config_connector->connector =3D connector;
+>
+>                 for (int j =3D 0; j < output->num_connectors; j++) {
+>                         struct encoder_map *encoder =3D &encoder_map[j];
+> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms=
+/vkms_writeback.c
+> index a77d9a6c9b74..47449979c564 100644
+> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
+> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+> @@ -145,7 +145,7 @@ static void vkms_wb_atomic_commit(struct drm_connecto=
+r *conn,
+>         spin_lock_irq(&vkms_crtc->composer_lock);
+>         crtc_state->active_writeback =3D active_wb;
+>         crtc_state->wb_pending =3D true;
+> -       spin_unlock_irq(&output->composer_lock);
+> +       spin_unlock_irq(&vkms_crtc->composer_lock);
+>
+>         wb_frame_info->offset =3D fb->offsets[0];
+>         wb_frame_info->pitch =3D fb->pitches[0];
+> --
+> 2.41.0.255.g8b1d071c50-goog
+>
