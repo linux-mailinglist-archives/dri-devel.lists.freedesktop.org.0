@@ -1,65 +1,99 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDB2C74CFEE
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 10:31:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABED474D01E
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 10:38:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9795310E221;
-	Mon, 10 Jul 2023 08:31:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA83F10E22C;
+	Mon, 10 Jul 2023 08:38:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4C7910E22E;
- Mon, 10 Jul 2023 08:31:01 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id
- 38308e7fff4ca-2b6fdaf6eefso63278621fa.0; 
- Mon, 10 Jul 2023 01:31:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1688977858; x=1691569858;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=U+wwP6BZLzF4aBD+iXkaOcxcJALLks32tIeZUMT3jig=;
- b=LUI5nhWNqI9r+4yE8lFZyyJsSVi0Bao3yiv/RMb6OBnuPaUXqKLz2xA14FApN2TndE
- +2a379MRuZAGcVBAnWhchUXI/8qEWlAAmTcFhbED9GrOZ3o2OtYokGICA42KLx6A+pgD
- 6Coze1rBwsd0EF6R1iVBGha4vqgvRbu6+6mzrFVJA3Louc66HVHKZTurrJHtUNIuG3Iy
- g2xvwAb68boZmKgOBfBInM65ZB19LfjeblgpEXw8kVyRJZ8e5pKODI6IU7g9rKo9B1ug
- Rcrm66K3+urS1CRYhZe4841jjpL7/PE0/IY2dLv8Pkhzagii7Mx4K54uQ/x/TKXhMpIt
- 23BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688977858; x=1691569858;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=U+wwP6BZLzF4aBD+iXkaOcxcJALLks32tIeZUMT3jig=;
- b=XLwr3XGxfJfmAuc2iE2Qr7+AUdPY+bJ1LzO9zPWudOIozJznd+ZY2s/lGu6iT4Gnqn
- CpWROzfZWrue+ehO/AfLj5TsCceMqEepYb0o540gbpDiedV/gbgdRUodAsqBY9zhckmC
- +1IaUTgDeAhezhvTy4Eya7ypliiHcTgbt5YBtUlw3g5FXSaQXhH0+AUfzXxCvzBXMOZ4
- a1LfsGDBqjQ3IL9OkS7eJ28GF/b/lYxshbds4808ySgoLy2ROab30TwQ8gDFgqLMdHy6
- RLCxAVWKaoEos9swlnY3doZj1gwiQtRQ9zhOmiDqPkmBd2uwe99EHdFSyha7PwH8Tbmj
- LHrw==
-X-Gm-Message-State: ABy/qLZdiuTzv9sKeUzueKABEZGNlkU+o7vEzyaDmoKzV917D8fFEDYH
- oBITZpZBNzwBzF/xcyG2Am0=
-X-Google-Smtp-Source: APBJJlFNweCwSbQM+3RSfPGHeoFrTm2G6HK8bCTnODC5rLeGIzrVrtgh6QGcgh1+yObWGKnGBjZ+mw==
-X-Received: by 2002:a2e:88cf:0:b0:2b6:a804:4cc with SMTP id
- a15-20020a2e88cf000000b002b6a80404ccmr8805171ljk.53.1688977857370; 
- Mon, 10 Jul 2023 01:30:57 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- c24-20020a05651c015800b002b6fed37b18sm1843654ljd.101.2023.07.10.01.30.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jul 2023 01:30:57 -0700 (PDT)
-Date: Mon, 10 Jul 2023 11:30:54 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>
-Subject: Re: [PATCH v5 6/6] drm/doc: Define KMS atomic state set
-Message-ID: <20230710113054.316a9f31@eldfell>
-In-Reply-To: <20230707224059.305474-7-andrealmeid@igalia.com>
-References: <20230707224059.305474-1-andrealmeid@igalia.com>
- <20230707224059.305474-7-andrealmeid@igalia.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3DD710E228;
+ Mon, 10 Jul 2023 08:38:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=g/HM83Vpr9DONnqFZx/gqx3Xzr5d5B1XHqH5p0to18/SwrZRZuM0CW+pgIzJutHPpZKOgFAyaR/6zyhGL+kr69fRgCzEOVRPrSaj0DykEH5nP/Ntk1WVoo2YGCQjJBCbN81yrm2WlPl4yXejUUGI4JeYYCS04Uqy8I8aX4zSbJUKN1kbzvp79q2vkXUkFsnSYWFBBtlkI3wamAyW6zdlXz9dv0Hucv0E6RWwOXr0+9+74YWIoowpYZRWXyktBm5FiqyTZ/Xmi1zHwLSVX+Nyx4nZxWmD8u6pb86Nwb8LwK+QyfJgv10HTPmn1lo8TKeitwEYZBF4ckgUTHLwx/VFCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=b1ZLqjyGsEfXdeQl6wdnj0y+tZzPHKhAmMCjn2mDj8I=;
+ b=YmAjdSfTkyeSQww+hm8FtgU9GilpuY7A/nb508LmQTyXD/lXK83UzENDewBMPUPp05gLEu7qqfdc7RK/sNXOmMCRPI3XDlPxYNckyGUFNyaUSOY+LZUjbGKc3HBmt5T1pM4Cp4/2AD6DJkgkbKJmdAWlozMcovr3Gl34Qk9C+eSPpgdLWTF/+n8agBCcfvLVbolWHsIeRdijn/m9uGeRULJ3TMDzuLpvcv98G0hsDPQu+wvvkX0kNFphHd9UHzb4d7p4arAoNs+pLhR6dX7r5S0hSJHxEjyXETYeTgURcs/O5QohcEpxBXvVpmuGfgJGNLpgg4fslnI0PBlbkUOi7Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=b1ZLqjyGsEfXdeQl6wdnj0y+tZzPHKhAmMCjn2mDj8I=;
+ b=19dD0zvy82HOl/2cd/0DHOoSOZVtYB0/lRsWCSoUMKDfZo93UEVf2f2oDClPLmG4XivxA+oxKeeYRb+2xbU2ZcS+tgWrNjSpDRBX9zk1QvgxddttUBgFjXTB8606k6vikXyiK/0dNoesFXU1i80/qVFM9K8v5pTzIbo+bkcZzfc=
+Received: from MW4PR03CA0004.namprd03.prod.outlook.com (2603:10b6:303:8f::9)
+ by MN2PR12MB4303.namprd12.prod.outlook.com (2603:10b6:208:198::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.30; Mon, 10 Jul
+ 2023 08:38:26 +0000
+Received: from CO1NAM11FT003.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:8f:cafe::ad) by MW4PR03CA0004.outlook.office365.com
+ (2603:10b6:303:8f::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.31 via Frontend
+ Transport; Mon, 10 Jul 2023 08:38:26 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT003.mail.protection.outlook.com (10.13.175.93) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6588.18 via Frontend Transport; Mon, 10 Jul 2023 08:38:26 +0000
+Received: from equan-buildpc.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Mon, 10 Jul
+ 2023 03:38:17 -0500
+From: Evan Quan <evan.quan@amd.com>
+To: <rafael@kernel.org>, <lenb@kernel.org>, <Alexander.Deucher@amd.com>,
+ <Christian.Koenig@amd.com>, <Xinhui.Pan@amd.com>, <airlied@gmail.com>,
+ <daniel@ffwll.ch>, <johannes@sipsolutions.net>, <davem@davemloft.net>,
+ <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+ <Mario.Limonciello@amd.com>, <mdaenzer@redhat.com>,
+ <maarten.lankhorst@linux.intel.com>, <tzimmermann@suse.de>,
+ <hdegoede@redhat.com>, <jingyuwang_vip@163.com>, <Lijo.Lazar@amd.com>,
+ <jim.cromie@gmail.com>, <bellosilicio@gmail.com>, <andrealmeid@igalia.com>,
+ <trix@redhat.com>, <jsg@jsg.id.au>, <arnd@arndb.de>, <andrew@lunn.ch>
+Subject: [PATCH V6 0/9] Enable Wifi RFI interference mitigation feature support
+Date: Mon, 10 Jul 2023 16:36:32 +0800
+Message-ID: <20230710083641.2132264-1-evan.quan@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/_cBaQ_yD9IwDg/Rsy2Dl+2I";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT003:EE_|MN2PR12MB4303:EE_
+X-MS-Office365-Filtering-Correlation-Id: d2d5f2cf-71cd-4416-0117-08db8121079e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: TIyrvubnZbCFJjUTrfSXcNkLYsunFNUz1XPu1zHj7py6ty+oODmYeciF7/TRBgaXkH2AlcDHiNsmrr1b4t6U/T88N6tM3PimHqQzSXNyJZml+RJirbl6VF9/4rGqNcJEg68GTdNY4Bn2EsXBrBS+CIwpmhJGweUXRnFx20qa5xnWPgj5RFRVmrC/c+c5bQls0+JejzX8YJZuQX3kf2+zj082XIlsyT69117PpfcQ7xwdib/Ba5ZlRwWXwc0VK/X4v6MPMKgto7lfF/VsjYtDiRu1JrUTXmw+dq6ysE7hUGzyAqFt3oiu26FNTp/FLgoMaH/xReFM3nrkVF5KFLF13VDZGL+HVWlffX4tcFm83O72WUMMqP3mkvLcnWOUKDaHxkUxF+lXiKjU5WYY4aWe3iJsHophZOgfkb5lIALZE+TDYGt8Yy0/PLj3z2S5lIudY8tuU5lIQpHX2cTPVToP9MWrStLd7rCfquR0MvWZzfJC9m0U9muJpr6NDh1fEUve8UVQY9WhNTZxLkGj2n2qy2WmH6oLPgKgQnXsSMVA0qL7K+OzPRRvKAAjECZ04sFCJsUB7na3XdIfiUfw4ehoiKCH9zY2e5+24Yt8oM0zb2oOJJE8+2hVQrfQrIvSHq1b+B6aLnUWzhK3iKY5TLA3lxKGGKDlTM7LCHGB3i2qume4TDITQGksy2YGz/022QQECuO/MuiHZ8k2mKLZxuONN/mJieLx+el+Ffq48XAx0fZss8XgvU8HYnUmTwHY6MkrVJxsOn00sojqLwsoX7jtUHvCbcJzloD5y69ZO4D+jVLjo5r3DpvI0SZfwMEsZZM6cdRfngCxvvP/bPNWK/RYkA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(346002)(136003)(376002)(39860400002)(451199021)(40470700004)(46966006)(36840700001)(86362001)(82310400005)(82740400003)(40460700003)(40480700001)(36756003)(6666004)(7696005)(110136005)(54906003)(70206006)(70586007)(81166007)(356005)(921005)(36860700001)(16526019)(26005)(186003)(1076003)(2616005)(44832011)(7416002)(5660300002)(316002)(2906002)(478600001)(8676002)(8936002)(47076005)(336012)(426003)(83380400001)(4326008)(41300700001)(36900700001)(83996005)(2101003);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2023 08:38:26.3194 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2d5f2cf-71cd-4416-0117-08db8121079e
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT003.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4303
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,137 +106,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- 'Marek =?UTF-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <michel.daenzer@mailbox.org>,
- Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
- hwentlan@amd.com, dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, joshua@froggi.es
+Cc: netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-acpi@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Evan Quan <evan.quan@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/_cBaQ_yD9IwDg/Rsy2Dl+2I
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Due to electrical and mechanical constraints in certain platform designs there may
+be likely interference of relatively high-powered harmonics of the (G-)DDR memory
+clocks with local radio module frequency bands used by Wifi 6/6e/7. To mitigate
+possible RFI interference producers can advertise the frequencies in use and
+consumers can use this information to avoid using these frequencies for
+sensitive features.
 
-On Fri,  7 Jul 2023 19:40:59 -0300
-Andr=C3=A9 Almeida <andrealmeid@igalia.com> wrote:
-
-> From: Pekka Paalanen <pekka.paalanen@collabora.com>
->=20
-> Specify how the atomic state is maintained between userspace and
-> kernel, plus the special case for async flips.
->=20
-> Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
-> ---
-> v4: total rework by Pekka
-> ---
->  Documentation/gpu/drm-uapi.rst | 41 ++++++++++++++++++++++++++++++++++
->  1 file changed, 41 insertions(+)
-
-Thank you for polishing that email into a proper patch!
-
-For patches 1 and 2:
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+The whole patch set is based on Linux 6.4. With some brief introductions as below:
+Patch1 - 2:  Core functionality setup for WBRF feature support
+Patch3 - 4:  Bring WBRF support to wifi subsystem.
+Patch5 - 9:  Bring WBRF support to AMD graphics driver.
 
 
-Thanks,
-pq
+Evan Quan (9):
+  drivers core: Add support for Wifi band RF mitigations
+  driver core: add ACPI based WBRF mechanism introduced by AMD
+  cfg80211: expose nl80211_chan_width_to_mhz for wide sharing
+  wifi: mac80211: Add support for ACPI WBRF
+  drm/amd/pm: update driver_if and ppsmc headers for coming wbrf feature
+  drm/amd/pm: setup the framework to support Wifi RFI mitigation feature
+  drm/amd/pm: add flood detection for wbrf events
+  drm/amd/pm: enable Wifi RFI mitigation feature support for SMU13.0.0
+  drm/amd/pm: enable Wifi RFI mitigation feature support for SMU13.0.7
 
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.=
-rst
-> index 65fb3036a580..6a1662c08901 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -486,3 +486,44 @@ and the CRTC index is its position in this array.
-> =20
->  .. kernel-doc:: include/uapi/drm/drm_mode.h
->     :internal:
-> +
-> +KMS atomic state
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +An atomic commit can change multiple KMS properties in an atomic fashion,
-> +without ever applying intermediate or partial state changes.  Either the=
- whole
-> +commit succeeds or fails, and it will never be applied partially. This i=
-s the
-> +fundamental improvement of the atomic API over the older non-atomic API =
-which is
-> +referred to as the "legacy API".  Applying intermediate state could unex=
-pectedly
-> +fail, cause visible glitches, or delay reaching the final state.
-> +
-> +An atomic commit can be flagged with DRM_MODE_ATOMIC_TEST_ONLY, which me=
-ans the
-> +complete state change is validated but not applied.  Userspace should us=
-e this
-> +flag to validate any state change before asking to apply it. If validati=
-on fails
-> +for any reason, userspace should attempt to fall back to another, perhaps
-> +simpler, final state.  This allows userspace to probe for various config=
-urations
-> +without causing visible glitches on screen and without the need to undo a
-> +probing change.
-> +
-> +The changes recorded in an atomic commit apply on top the current KMS st=
-ate in
-> +the kernel. Hence, the complete new KMS state is the complete old KMS st=
-ate with
-> +the committed property settings done on top. The kernel will automatical=
-ly avoid
-> +no-operation changes, so it is safe and even expected for userspace to s=
-end
-> +redundant property settings.  No-operation changes do not count towards =
-actually
-> +needed changes, e.g.  setting MODE_ID to a different blob with identical
-> +contents as the current KMS state shall not be a modeset on its own.
-> +
-> +A "modeset" is a change in KMS state that might enable, disable, or temp=
-orarily
-> +disrupt the emitted video signal, possibly causing visible glitches on s=
-creen. A
-> +modeset may also take considerably more time to complete than other kind=
-s of
-> +changes, and the video sink might also need time to adapt to the new sig=
-nal
-> +properties. Therefore a modeset must be explicitly allowed with the flag
-> +DRM_MODE_ATOMIC_ALLOW_MODESET.  This in combination with
-> +DRM_MODE_ATOMIC_TEST_ONLY allows userspace to determine if a state chang=
-e is
-> +likely to cause visible disruption on screen and avoid such changes when=
- end
-> +users do not expect them.
-> +
-> +An atomic commit with the flag DRM_MODE_PAGE_FLIP_ASYNC is allowed to
-> +effectively change only the FB_ID property on any planes. No-operation c=
-hanges
-> +are ignored as always. Changing any other property will cause the commit=
- to be
-> +rejected.
+ drivers/acpi/Makefile                         |   2 +
+ drivers/acpi/amd_wbrf.c                       | 269 ++++++++++++++++++
+ drivers/base/Kconfig                          |  37 +++
+ drivers/base/Makefile                         |   1 +
+ drivers/base/wbrf.c                           | 250 ++++++++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h           |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  19 ++
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c     | 213 ++++++++++++++
+ drivers/gpu/drm/amd/pm/swsmu/inc/amdgpu_smu.h |  33 +++
+ .../inc/pmfw_if/smu13_driver_if_v13_0_0.h     |  14 +-
+ .../inc/pmfw_if/smu13_driver_if_v13_0_7.h     |  14 +-
+ .../pm/swsmu/inc/pmfw_if/smu_v13_0_0_ppsmc.h  |   3 +-
+ .../pm/swsmu/inc/pmfw_if/smu_v13_0_7_ppsmc.h  |   3 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h  |   3 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h  |   3 +
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c    |   9 +
+ .../drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c  |  60 ++++
+ .../drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c  |  59 ++++
+ drivers/gpu/drm/amd/pm/swsmu/smu_internal.h   |   3 +
+ include/linux/acpi_amd_wbrf.h                 |  24 ++
+ include/linux/ieee80211.h                     |   1 +
+ include/linux/wbrf.h                          |  72 +++++
+ include/net/cfg80211.h                        |   8 +
+ net/mac80211/Makefile                         |   2 +
+ net/mac80211/chan.c                           |   9 +
+ net/mac80211/ieee80211_i.h                    |  19 ++
+ net/mac80211/main.c                           |   2 +
+ net/mac80211/wbrf.c                           | 103 +++++++
+ net/wireless/chan.c                           |   3 +-
+ 29 files changed, 1233 insertions(+), 6 deletions(-)
+ create mode 100644 drivers/acpi/amd_wbrf.c
+ create mode 100644 drivers/base/wbrf.c
+ create mode 100644 include/linux/acpi_amd_wbrf.h
+ create mode 100644 include/linux/wbrf.h
+ create mode 100644 net/mac80211/wbrf.c
 
+-- 
+2.34.1
 
---Sig_/_cBaQ_yD9IwDg/Rsy2Dl+2I
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmSrwb4ACgkQI1/ltBGq
-qqcBAg//RoZa8NlDML/orFXTdrRJYvLDZ4R3Cek3ssDoj7yBDQy6HnXaLJwHwkf9
-WhkN28UTOu00/CsmgAVT2P3Cuz5ebS7zJsLkBqS7OzLqWx+8+WodZW8BswZvRilo
-EhrDGDDd+/8LFd57y2XFyuIMiwfDkK3ME17zl0s0fiGXtOixe4O3Q/vHajdBTp84
-JpLJ+fxnD2T4/R7mva7YxPPNbSxX/rTwkmcedf16MEfk6KX3LIVrGWQ+6jIyXMKQ
-ztC+R9R9SQ17WKMVck70nq82NwfF+VaFf78szBGnBkVTIn7jTRoyCPLn5mtLxzxT
-AS9/5y4JUbtb8d7Q/pG6eOdr25oUhJjSqhGBz83qicAn2U+dcwi9QzehyD9Kqd9S
-9NUjc8WN8mZSzt+8Pef528m3Ts7JrF57HJ4BTehuFhqXl/taJSJVGF8uBj4ZHiMk
-JUT4d/VUfsUnfWv59S8I9AyupcpvEFQnMW7r/RGJL3M9vNV3YVo4SEAlllmtTnA0
-l9Gi9o78iAc8vCdu5s+BWLyOe0rGkER1yAHJq+5LYWRpB+FWVIjcwS24JoBs9P15
-6Ba2dhHeN2/mljk/QD8HQrGrvWJPj+x9jY/YyZYETnwRQaFZnCtZeldoFh2WIvZb
-4YVxdUuDvOSuzYwIXWWaV+t17+iWBkk6yTyWzC1hO4vDosoMtQw=
-=LMkp
------END PGP SIGNATURE-----
-
---Sig_/_cBaQ_yD9IwDg/Rsy2Dl+2I--
