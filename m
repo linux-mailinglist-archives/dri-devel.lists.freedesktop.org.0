@@ -2,91 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7085974CEC5
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 09:44:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 771BB74CECB
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 09:45:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5681510E202;
-	Mon, 10 Jul 2023 07:44:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE3A410E207;
+	Mon, 10 Jul 2023 07:45:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B470410E202
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 07:44:21 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id
- 38308e7fff4ca-2b71ae5fa2fso13526371fa.0
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 00:44:21 -0700 (PDT)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 159B310E204
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 07:45:05 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id
+ a640c23a62f3a-992dcae74e0so549768666b.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 00:45:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688975059; x=1691567059;
+ d=linaro.org; s=google; t=1688975103; x=1691567103;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=6XrmlGPg2875uNjm6boMUV/4SOLisp7J98OyN2fD1Tw=;
- b=pPrTTLBnGur5kN4+tW9BpSR3CRK1iLs2xQ5LA2jYbG3ZnCOdgiR7x3rbMWZL0wIKcY
- ONovt9MrvNp/PSjRLm1unFrsXKnzjZzi//nZT3gxyU50a24CvIN5RidEKkSt+GVbrZp9
- vZH80Y9T28gpopOKUjPEFZ8Vs3K2XDFsxTf2j+dtOdnKfFY9e6/Q0oKGetam1di2/X1y
- rt0YDTle3h8GKRvd70ctpI4X4Y8ZJHZvei8eceydWn7zMwZLNa6G34HqPTUTrwt3FpWx
- LnQz5pA0SadArrSv9a1CJYdaiP88Al05514dB6CU9x+4dPjdZZDS0q5iDfUjqrPToFHx
- VH+Q==
+ bh=2MNKvxKhU5E3UfL1yykCL9W6AhB6g7MU09MxNEWDvB0=;
+ b=Z5O9WCbpFEAEEX7ipSOm5t/0clVvwUC6C1Pysrl5LNHPr8d252uBkYx24L5kenOgj8
+ d/okzdRXK45OgldGAb7iP3KIB5LrGWiH3ZJu1XvRmV5e2Xo9KlYE8p4XWrXCHxjrF5fT
+ GvKf+Rgg8OcFAHQhzgaOon1JhYhau5BlztjxTFtvCamoM99I3NcuaEsEq/9jumfgNOZn
+ mtoc0YtVNohyOtGhvPKiV7KOxij2wK0BzVl8S2godl+Ue8YEXSDZucUZb4gD2F4ckP8w
+ ftVPVFqnOxKCzyVLnwM/3U07Awi2UKBgTBHzKX/64qn/o3ZFbWDz7yREO3xoGU9PhHmi
+ fsXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688975059; x=1691567059;
+ d=1e100.net; s=20221208; t=1688975103; x=1691567103;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6XrmlGPg2875uNjm6boMUV/4SOLisp7J98OyN2fD1Tw=;
- b=N6pBcO+zjBmUBsaJD4/zl+OLYdD9OgrcEkQn8SehIEgw7Y7CxZwKzdhE8jKGgkgJaa
- pTPeotiRkl6jJHedFsb7NAQbR7oSp43GYK+Czs9+ISSDr+Mc6+alHfQ8y2Pcn2n+he7Z
- F5R94VXy2CD1rHk79F76D//ygImquKB/oEv66WXTjHC+7klO20hUED4xYi02N6v1jSeK
- Z1emhWnnOyzBsnZ6vEMDBZ42qMcyX/xD72DLrglZ9n6hPrKEYsKGzVZHnHZSMBFDsCUx
- NpSnoiJmgOYEKDJBCmPPEYyTkFmoTGeT+Dd7c1fZ+rXlboEmf8NgJFhgL/Dlk9MGXBD8
- Ma6A==
-X-Gm-Message-State: ABy/qLba/Yr16UkJbAgytkMPMmNQ+JTHkR5h/tmZRCSKBlhN8tHsOiy2
- ghiHy2McXjlX3lQVPleFtyXR9g==
-X-Google-Smtp-Source: APBJJlG9EwwBqMxbwjIJnMoPkWXpbz49k2oZ4zzVaR1jVwtsSlECY1RtVLmIAi3Z49JKpD4MBMXLZg==
-X-Received: by 2002:a2e:7013:0:b0:2b6:d536:1bba with SMTP id
- l19-20020a2e7013000000b002b6d5361bbamr9641213ljc.18.1688975059356; 
- Mon, 10 Jul 2023 00:44:19 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ bh=2MNKvxKhU5E3UfL1yykCL9W6AhB6g7MU09MxNEWDvB0=;
+ b=dtVrFJKsYDuguHVfMkNKTUYBJf6bSt7TZaOdIpxj7iFunUnn/toOQ0LlQZ1ph24Xmd
+ OIeuZCH2e8YAehxHE9eUcCHoXGwoNsiQOF7/iOn2c+/NpH95ZAVKbrzPZjkEzcQXjOAW
+ 1Ft6qMbPAWJwTNSq6JWP81Tz4pUGGMMeR/KBysJzlRK8sGZfBPmdQw/1IBprWRoInwnj
+ RT2OkdWbMH6JKrnnRUKthP1HaMhX6h3Txjt829QjMx2KGFXbsRBgVlLIOQOrVVjnMkna
+ r0EVPbzj1qlGYKqrbXsqcNS5UYZ2eGEEAjkEJGOwPlveJH3peFFV6I9HXWYU63lvP6fw
+ 7WRg==
+X-Gm-Message-State: ABy/qLb1p066rYi7mfbOEcOm+4/ZnyXgtWJCqSAN8jooI0/iZyudRXuF
+ zp5HwKe1qWHBeWH1O22LgvPbiA==
+X-Google-Smtp-Source: APBJJlHEWjZH7QcFgJVsbgRVy1gCD4+9E6PvXub3qGjdk22ca0yCMxJ77I0SGdcFF0cZjF/dDmDUQQ==
+X-Received: by 2002:a17:906:20dd:b0:993:ec0b:1a27 with SMTP id
+ c29-20020a17090620dd00b00993ec0b1a27mr7106837ejc.24.1688975103071; 
+ Mon, 10 Jul 2023 00:45:03 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.104])
  by smtp.gmail.com with ESMTPSA id
- n25-20020a2e86d9000000b002b6cc17add3sm1886857ljj.25.2023.07.10.00.44.18
+ ay26-20020a170906d29a00b009887f4e0291sm5717231ejb.27.2023.07.10.00.45.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Jul 2023 00:44:18 -0700 (PDT)
-Message-ID: <8966feba-eef9-2ea3-dbec-13fc53232a6b@linaro.org>
-Date: Mon, 10 Jul 2023 10:44:18 +0300
+ Mon, 10 Jul 2023 00:45:02 -0700 (PDT)
+Message-ID: <48d345c2-c5fe-08e9-b8c2-8d83f826e45a@linaro.org>
+Date: Mon, 10 Jul 2023 09:45:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [EXT] Re: [PATCH v6 4/8] phy: Add HDMI configuration options
-Content-Language: en-GB
-To: Sandor Yu <sandor.yu@nxp.com>,
- "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- "robert.foss@linaro.org" <robert.foss@linaro.org>,
- "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
- "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
- "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch"
- <daniel@ffwll.ch>, "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "shawnguo@kernel.org" <shawnguo@kernel.org>,
- "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
- "festevam@gmail.com" <festevam@gmail.com>,
- "vkoul@kernel.org" <vkoul@kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>
-References: <cover.1686729444.git.Sandor.yu@nxp.com>
- <cec469206a166c4b070fd7d7bbf89a8df656ccc6.1686729444.git.Sandor.yu@nxp.com>
- <6f590bb6-7d17-3ae8-684d-2d4403d6ff55@linaro.org>
- <PAXPR04MB9448598256524162A74F0311F430A@PAXPR04MB9448.eurprd04.prod.outlook.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <PAXPR04MB9448598256524162A74F0311F430A@PAXPR04MB9448.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2 3/3] ARM: dts: exynos/i9100: Fix LCD screen's physical
+ size
+Content-Language: en-US
+To: Paul Cercueil <paul@crapouillou.net>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>
+References: <20230708084027.18352-1-paul@crapouillou.net>
+ <20230708084027.18352-4-paul@crapouillou.net>
+ <98b39071-cbfa-bc58-032e-56f6e9dd5c2a@linaro.org>
+ <7672f0b65cf7d2a1bb81019417aa3fa98fbac5e3.camel@crapouillou.net>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <7672f0b65cf7d2a1bb81019417aa3fa98fbac5e3.camel@crapouillou.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,99 +84,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Oliver Brown <oliver.brown@nxp.com>, dl-linux-imx <linux-imx@nxp.com>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>
+Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ stable@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/07/2023 10:28, Sandor Yu wrote:
-> Hi Dmitry,
+On 10/07/2023 09:35, Paul Cercueil wrote:
+> Hi Krzysztof,
 > 
-> Thanks for your comments,
-> 
->> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> On 15/06/2023 04:38, Sandor Yu wrote:
->>> Allow HDMI PHYs to be configured through the generic functions through
->>> a custom structure added to the generic union.
+> Le lundi 10 juillet 2023 à 08:59 +0200, Krzysztof Kozlowski a écrit :
+>> On 08/07/2023 10:40, Paul Cercueil wrote:
+>>> The previous values were completely bogus, and resulted in the
+>>> computed
+>>> DPI ratio being much lower than reality, causing applications and
+>>> UIs to
+>>> misbehave.
 >>>
->>> The parameters added here are based on HDMI PHY implementation
->>> practices.  The current set of parameters should cover the potential
->>> users.
+>>> The new values were measured by myself with a ruler.
 >>>
->>> Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
+>>> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>>> Fixes: 8620cc2f99b7 ("ARM: dts: exynos: Add devicetree file for the
+>>> Galaxy S2")
+>>> Cc: <stable@vger.kernel.org> # v5.8+
 >>> ---
->>>    include/linux/phy/phy-hdmi.h | 38
->> ++++++++++++++++++++++++++++++++++++
->>>    include/linux/phy/phy.h      |  7 ++++++-
->>>    2 files changed, 44 insertions(+), 1 deletion(-)
->>>    create mode 100644 include/linux/phy/phy-hdmi.h
->>>
->>> diff --git a/include/linux/phy/phy-hdmi.h
->>> b/include/linux/phy/phy-hdmi.h new file mode 100644 index
->>> 000000000000..5765aa5bc175
->>> --- /dev/null
->>> +++ b/include/linux/phy/phy-hdmi.h
->>> @@ -0,0 +1,38 @@
->>> +/* SPDX-License-Identifier: GPL-2.0 */
->>> +/*
->>> + * Copyright 2022 NXP
->>> + */
->>> +
->>> +#ifndef __PHY_HDMI_H_
->>> +#define __PHY_HDMI_H_
->>> +
->>> +/**
->>> + * Pixel Encoding as HDMI Specification
->>> + * RGB, YUV422, YUV444:HDMI Specification 1.4a Section 6.5
->>> + * YUV420: HDMI Specification 2.a Section 7.1  */ enum
->>> +hdmi_phy_colorspace {
->>> +     HDMI_PHY_COLORSPACE_RGB,        /* RGB 4:4:4 */
->>> +     HDMI_PHY_COLORSPACE_YUV422,     /* YCbCr 4:2:2 */
->>> +     HDMI_PHY_COLORSPACE_YUV444,     /* YCbCr 4:4:4 */
->>> +     HDMI_PHY_COLORSPACE_YUV420,     /* YCbCr 4:2:0 */
->>> +     HDMI_PHY_COLORSPACE_RESERVED4,
->>> +     HDMI_PHY_COLORSPACE_RESERVED5,
->>> +     HDMI_PHY_COLORSPACE_RESERVED6,
->>> +};
 >>
->> This enum duplicates enum hdmi_colorspace from <linux/hdmi.h> HDMI 2.0
->> defines '7' to be IDO-defined.
->>
->> Would it be better to use that enum instead?
-> Accept. I will create head file hdmi_colorspace.h to reuse enum hdmi_colorspace in <linux/hdmi.h>.
-
-Excuse me, it was supposed to be a question.
-
-Do you need another header file to reuse this enum?
-
+>> This does not apply. You rebased your work on some older
+>> version/tree,
+>> without new layout. Please work on linux-next.
 > 
-> B.R
-> Sandor
->>
->>> +
->>> +/**
->>> + * struct phy_configure_opts_hdmi - HDMI configuration set
->>> + * @pixel_clk_rate:  Pixel clock of video modes in KHz.
->>> + * @bpc: Maximum bits per color channel.
->>> + * @color_space: Colorspace in enum hdmi_phy_colorspace.
->>> + *
->>> + * This structure is used to represent the configuration state of a HDMI phy.
->>> + */
->>> +struct phy_configure_opts_hdmi {
->>> +     unsigned int pixel_clk_rate;
->>> +     unsigned int bpc;
->>> +     enum hdmi_phy_colorspace color_space; };
->>> +
->>> +#endif /* __PHY_HDMI_H_ */
->>
->> [skipped the rest]
->>
->> --
->> With best wishes
->> Dmitry
+> This patchset was based on drm-misc-next, because that's where I was
+> planning to apply it; and it was extremely unlikely (but not
+> impossible, apparently) that the i9100.dts would be modified in the
+> meantime.
 > 
+> I can rebase on linux-next, the problem then is that I then don't know
+> how/where to apply the patchset.
 
--- 
-With best wishes
-Dmitry
+DTS cannot go via drm-misc-next, so if that's your intention please
+always split the patchset into separate ones. *Always*.
+
+Best regards,
+Krzysztof
 
