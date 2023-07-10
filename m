@@ -1,62 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA9E474CE91
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 09:36:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 328F874CE9E
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 09:38:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 072FD10E1F4;
-	Mon, 10 Jul 2023 07:36:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DB0C10E1FC;
+	Mon, 10 Jul 2023 07:38:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8E79210E1F4
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 07:36:29 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8Cxc_D6tKtkFwADAA--.8707S3;
- Mon, 10 Jul 2023 15:36:26 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxJ834tKtkW+smAA--.43572S3; 
- Mon, 10 Jul 2023 15:36:25 +0800 (CST)
-Message-ID: <b9c69249-7a79-836f-b673-a81965e2e9df@loongson.cn>
-Date: Mon, 10 Jul 2023 15:36:24 +0800
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30CAE10E1FC
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 07:38:38 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id B81236606FF3;
+ Mon, 10 Jul 2023 08:38:34 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1688974715;
+ bh=LOXc+6Sqq2SjuM4ZCBO1k8rnrrk3ScMPXrSUxS0CCuE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=iNE1sJ53UJG7JThYzk3vZyGbX3LodamTt5AcFLXPDLZtowxiXEgaeH4JdralBhJPp
+ XugpSEzAqLSOrwg3ORcljgb8vJIk90v8Pc7pny3Z0E6w55h+DHac3pDQbTh70+JZ5f
+ si2VcCK0bzBONTIAsWq2tN3LQPXdQ+6bRbxfjIZIpMHBhMTYE9XoTwqJ5utxJsw0v2
+ 7E8FwkkufVJatjHiJnJ7F8dILMLB8aw4NA7N70ryufi4hprpNePY9XT3k1Kzc8ynmr
+ 7aI38MKT9IwbuZnla3AwTW5IIK1+OboP8oUG6XXSSX8NvjFdlCzSm3413bLNWRwo7x
+ zuJ6z1l/ljQEQ==
+Message-ID: <da4847bb-d4b1-7810-3b5f-1200596b19fd@collabora.com>
+Date: Mon, 10 Jul 2023 09:38:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [drm-misc:drm-misc-next 2/3]
- drivers/gpu/drm/loongson/lsdc_plane.c:199
- lsdc_cursor_plane_atomic_async_check() warn: variable dereferenced before
- check 'state' (see line 180)
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v4 0/9] MediaTek DisplayPort: support eDP and aux-bus
+To: Chen-Yu Tsai <wenst@chromium.org>
+References: <20230706123025.208408-1-angelogioacchino.delregno@collabora.com>
+ <CAGXv+5HzQhoz0OUhifQC0vr44O5VwvuYnsHSA2jK0FjwJT3OBA@mail.gmail.com>
 Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
-References: <ff8f09e7-d8c3-4b02-ae76-47dbac830cdb@kadam.mountain>
- <cfaa947b-0388-2464-6379-8b7ac2c57757@loongson.cn>
- <91d19fa9-9749-a741-b098-8bbf91ba23e7@suse.de>
-From: suijingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <91d19fa9-9749-a741-b098-8bbf91ba23e7@suse.de>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <CAGXv+5HzQhoz0OUhifQC0vr44O5VwvuYnsHSA2jK0FjwJT3OBA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxJ834tKtkW+smAA--.43572S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW3Gr1kCr43JFWrKw4DXrWfXrc_yoW3Gr1rpF
- W8t3W5Ary7K3WkAr4jyr42kFy5uw1rt3Wjkr1qvF1UKFyUtry2vr4DW34a9F43JrW8Cw43
- CF48XrsI9r17KrcCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUU9Sb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
- xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
- 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r126r1DMcIj6I8E87Iv
- 67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07
- AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C2
- 67AKxVWUtVW8ZwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI
- 8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWU
- CwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r
- 1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBI
- daVFxhVjvjDU0xZFpf9x07jOb18UUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,163 +55,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lkp@intel.com, dri-devel@lists.freedesktop.org,
- oe-kbuild-all@lists.linux.dev
+Cc: chunkuang.hu@kernel.org, nfraprado@collabora.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Il 07/07/23 10:23, Chen-Yu Tsai ha scritto:
+> On Thu, Jul 6, 2023 at 8:30 PM AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@collabora.com> wrote:
+>>
+>> Changes in v4:
+>>   - Set data lanes to idle to prevent stalls if bootloader didn't
+>>     properly close the eDP port
+>>   - Now using the .done_probing() callback for AUX bus to prevent
+>>     probe deferral loops in case the panel-edp driver is a module
+>>     as previously seen with another bridge driver (ANX7625) on
+>>     some other SoCs (MT8192 and others)
+>>   - Rebased over next-20230706
+>>   - Dropped Chen-Yu's T-b tag on last patch as some logic changed
+>>     (before, I wasn't using the .done_probing() callback).
+>>
+>> Changes in v3:
+>>   - Added DPTX AUX block initialization before trying to communicate
+>>     to stop relying on the bootloader keeping it initialized before
+>>     booting Linux.
+>>   - Fixed commit description for patch [09/09] and removed commented
+>>     out code (that slipped from dev phase.. sorry!).
+>>
+>> This series adds "real" support for eDP in the mtk-dp DisplayPort driver.
+>>
+>> Explaining the "real":
+>> Before this change, the DisplayPort driver did support eDP to some
+>> extent, but it was treating it entirely like a regular DP interface
+>> which is partially fine, after all, embedded DisplayPort *is* actually
+>> DisplayPort, but there might be some differences to account for... and
+>> this is for both small performance improvements and, more importantly,
+>> for correct functionality in some systems.
+>>
+>> Functionality first:
+>>
+>> One of the common differences found in various boards implementing eDP
+>> and machines using an eDP panel is that many times the HPD line is not
+>> connected. This *must* be accounted for: at startup, this specific IP
+>> will raise a HPD interrupt (which should maybe be ignored... as it does
+>> not appear to be a "real" event...) that will make the eDP panel to be
+>> detected and to actually work but, after a suspend-resume cycle, there
+>> will be no HPD interrupt (as there's no HPD line in my case!) producing
+>> a functionality issue - specifically, the DP Link Training fails because
+>> the panel doesn't get powered up, then it stays black and won't work
+>> until rebooting the machine (or removing and reinserting the module I
+>> think, but I haven't tried that).
+>>
+>> Now for.. both:
+>> eDP panels are *e*DP because they are *not* removable (in the sense that
+>> you can't unplug the cable without disassembling the machine, in which
+>> case, the machine shall be powered down..!): this (correct) assumption
+>> makes us able to solve some issues and to also gain a little performance
+>> during PM operations.
+>>
+>> What was done here is:
+>>   - Caching the EDID if the panel is eDP: we're always going to read the
+>>     same data everytime, so we can just cache that (as it's small enough)
+>>     shortening PM resume times for the eDP driver instance;
+>>   - Always return connector_status_connected if it's eDP: non-removable
+>>     means connector_status_disconnected can't happen during runtime...
+>>     this also saves us some time and even power, as we won't have to
+>>     perform yet another power cycle of the HW;
+>>   - Added aux-bus support!
+>>     This makes us able to rely on panel autodetection from the EDID,
+>>     avoiding to add more and more panel timings to panel-edp and, even
+>>     better, allowing to use one panel node in devicetrees for multiple
+>>     variants of the same machine since, at that point, it's not important
+>>     to "preventively know" what panel we have (eh, it's autodetected...!).
+>>
+>> This was tested on a MT8195 Cherry Tomato Chromebook (panel-edp on aux-bus)
+> 
+> Do you have panel-edp built as a module? If I have it built in, the panel
+> can correctly display stuff. If I have it built as a module, the panel is
+> correctly detected, but the panel stays black even if DRM thinks it is
+> displaying stuff.
+> 
 
-On 2023/7/10 15:19, Thomas Zimmermann wrote:
-> Hi
->
-> Am 10.07.23 um 09:02 schrieb suijingfeng:
->> Hi,
->>
->>
->> Thanks for testing,
->>
->> What do you means about tell me this?
->>
->> I means that would you like to help fixing this warning?
->
-> The code in drm_atomic_get_new_plane_state() dereferences the state 
-> parameter.  Later in your function, you test for state to be non-NULL.
-> That's what the warning is about.
->
-> You should be able to silence this warning by removing the state test 
-> from your function (and also delete that else branch). There should 
-> always be an atomic state present and the atomic-check callbacks 
-> should not be called without a state. If not, the driver most likely 
-> failed to initialize correctly.
->
+I tested both. I'll recheck on a clean tree just to be sure...
 
-Yes, I will create a patch to fix this warning before tonight.
+> And it looks like EDID reading and panel power sequencing is still not
+> working correctly, i.e. needs regulator-always-on?
 
-The driver works very well, it never print with kernel 'cmd drm.debug=0x02'.
+Yeah that's still needed with this version, I'm still trying to get *at least*
+some support upstreamed before refining it.
 
-I just feel interesting,  thanks.
+Cheers,
+Angelo
+
+> 
+> ChenYu
+> 
+>> P.S.: For your own testing commodity, here's a reference devicetree:
+>> &edp_tx {
+>>          status = "okay";
+>>
+>>          pinctrl-names = "default";
+>>          pinctrl-0 = <&edptx_pins_default>;
+>>
+>>          ports {
+>>                  #address-cells = <1>;
+>>                  #size-cells = <0>;
+>>
+>>                  port@0 {
+>>                          reg = <0>;
+>>                          edp_in: endpoint {
+>>                                  remote-endpoint = <&dp_intf0_out>;
+>>                          };
+>>                  };
+>>
+>>                  port@1 {
+>>                          reg = <1>;
+>>                          edp_out: endpoint {
+>>                                  data-lanes = <0 1 2 3>;
+>>                                  remote-endpoint = <&panel_in>;
+>>                          };
+>>                  };
+>>          };
+>>
+>>          aux-bus {
+>>                  panel: panel {
+>>                          compatible = "edp-panel";
+>>                          power-supply = <&pp3300_disp_x>;
+>>                          backlight = <&backlight_lcd0>;
+>>                          port {
+>>                                  panel_in: endpoint {
+>>                                          remote-endpoint = <&edp_out>;
+>>                                  };
+>>                          };
+>>                  };
+>>          };
+>> };
+>>
+>>
+>> AngeloGioacchino Del Regno (9):
+>>    drm/mediatek: dp: Cache EDID for eDP panel
+>>    drm/mediatek: dp: Move AUX and panel poweron/off sequence to function
+>>    drm/mediatek: dp: Always return connected status for eDP in .detect()
+>>    drm/mediatek: dp: Always set cable_plugged_in at resume for eDP panel
+>>    drm/mediatek: dp: Change logging to dev for mtk_dp_aux_transfer()
+>>    drm/mediatek: dp: Enable event interrupt only when bridge attached
+>>    drm/mediatek: dp: Use devm variant of drm_bridge_add()
+>>    drm/mediatek: dp: Move AUX_P0 setting to
+>>      mtk_dp_initialize_aux_settings()
+>>    drm/mediatek: dp: Add support for embedded DisplayPort aux-bus
+>>
+>>   drivers/gpu/drm/mediatek/mtk_dp.c | 197 +++++++++++++++++++-----------
+>>   1 file changed, 127 insertions(+), 70 deletions(-)
+>>
+>> --
+>> 2.40.1
+>>
 
 
-> Best regards
-> Thomas
->
->>
->> Or otherwise, I will fix this someday.
->>
->>
->> On 2023/7/10 14:29, Dan Carpenter wrote:
->>> tree: git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
->>> head:   8d1077cf2e43b15fefd76ebec2b71541eb27ef2c
->>> commit: f39db26c54281da6a785259498ca74b5e470476f [2/3] drm: Add kms 
->>> driver for loongson display controller
->>> config: i386-randconfig-m021-20230710 
->>> (https://download.01.org/0day-ci/archive/20230710/202307100423.rV7D05Uq-lkp@intel.com/config)
->>> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
->>> reproduce: 
->>> (https://download.01.org/0day-ci/archive/20230710/202307100423.rV7D05Uq-lkp@intel.com/reproduce)
->>>
->>> If you fix the issue in a separate patch/commit (i.e. not just a new 
->>> version of
->>> the same patch/commit), kindly add following tags
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
->>> | Closes: 
->>> https://lore.kernel.org/r/202307100423.rV7D05Uq-lkp@intel.com/
->>>
->>> smatch warnings:
->>> drivers/gpu/drm/loongson/lsdc_plane.c:199 
->>> lsdc_cursor_plane_atomic_async_check() warn: variable dereferenced 
->>> before check 'state' (see line 180)
->>>
->>> vim +/state +199 drivers/gpu/drm/loongson/lsdc_plane.c
->>>
->>> f39db26c54281d Sui Jingfeng 2023-06-15  174  static int 
->>> lsdc_cursor_plane_atomic_async_check(struct drm_plane *plane,
->>> f39db26c54281d Sui Jingfeng 2023-06-15 175                          
->>> struct drm_atomic_state *state)
->>> f39db26c54281d Sui Jingfeng 2023-06-15  176  {
->>> f39db26c54281d Sui Jingfeng 2023-06-15  177      struct 
->>> drm_plane_state *new_state;
->>> f39db26c54281d Sui Jingfeng 2023-06-15  178      struct 
->>> drm_crtc_state *crtc_state;
->>> f39db26c54281d Sui Jingfeng 2023-06-15  179
->>> f39db26c54281d Sui Jingfeng 2023-06-15 @180      new_state = 
->>> drm_atomic_get_new_plane_state(state, plane);
->>> ^^^^^
->>> state is dereferenced inside this function
->>>
->>> f39db26c54281d Sui Jingfeng 2023-06-15  181
->>> f39db26c54281d Sui Jingfeng 2023-06-15  182      if (!plane->state 
->>> || !plane->state->fb) {
->>> f39db26c54281d Sui Jingfeng 2023-06-15  183 drm_dbg(plane->dev, "%s: 
->>> state is NULL\n", plane->name);
->>> f39db26c54281d Sui Jingfeng 2023-06-15  184          return -EINVAL;
->>> f39db26c54281d Sui Jingfeng 2023-06-15  185      }
->>> f39db26c54281d Sui Jingfeng 2023-06-15  186
->>> f39db26c54281d Sui Jingfeng 2023-06-15  187      if 
->>> (new_state->crtc_w != new_state->crtc_h) {
->>> f39db26c54281d Sui Jingfeng 2023-06-15  188 drm_dbg(plane->dev, 
->>> "unsupported cursor size: %ux%u\n",
->>> f39db26c54281d Sui Jingfeng 2023-06-15  189 new_state->crtc_w, 
->>> new_state->crtc_h);
->>> f39db26c54281d Sui Jingfeng 2023-06-15  190          return -EINVAL;
->>> f39db26c54281d Sui Jingfeng 2023-06-15  191      }
->>> f39db26c54281d Sui Jingfeng 2023-06-15  192
->>> f39db26c54281d Sui Jingfeng 2023-06-15  193      if 
->>> (new_state->crtc_w != 64 && new_state->crtc_w != 32) {
->>> f39db26c54281d Sui Jingfeng 2023-06-15  194 drm_dbg(plane->dev, 
->>> "unsupported cursor size: %ux%u\n",
->>> f39db26c54281d Sui Jingfeng 2023-06-15  195 new_state->crtc_w, 
->>> new_state->crtc_h);
->>> f39db26c54281d Sui Jingfeng 2023-06-15  196          return -EINVAL;
->>> f39db26c54281d Sui Jingfeng 2023-06-15  197      }
->>> f39db26c54281d Sui Jingfeng 2023-06-15  198
->>> f39db26c54281d Sui Jingfeng 2023-06-15 @199      if (state) {
->>>                                                      ^^^^^
->>> Checked too late
->>>
->>> f39db26c54281d Sui Jingfeng 2023-06-15  200 crtc_state = 
->>> drm_atomic_get_existing_crtc_state(state, new_state->crtc);
->>> f39db26c54281d Sui Jingfeng 2023-06-15  201      } else {
->>> f39db26c54281d Sui Jingfeng 2023-06-15  202 crtc_state = 
->>> plane->crtc->state;
->>> f39db26c54281d Sui Jingfeng 2023-06-15  203 drm_dbg(plane->dev, "%s: 
->>> atomic state is NULL\n", plane->name);
->>> f39db26c54281d Sui Jingfeng 2023-06-15  204      }
->>> f39db26c54281d Sui Jingfeng 2023-06-15  205
->>> f39db26c54281d Sui Jingfeng 2023-06-15  206      if 
->>> (!crtc_state->active)
->>> f39db26c54281d Sui Jingfeng 2023-06-15  207          return -EINVAL;
->>> f39db26c54281d Sui Jingfeng 2023-06-15  208
->>> f39db26c54281d Sui Jingfeng 2023-06-15  209      if 
->>> (plane->state->crtc != new_state->crtc ||
->>> f39db26c54281d Sui Jingfeng 2023-06-15  210 plane->state->src_w != 
->>> new_state->src_w ||
->>> f39db26c54281d Sui Jingfeng 2023-06-15  211 plane->state->src_h != 
->>> new_state->src_h ||
->>> f39db26c54281d Sui Jingfeng 2023-06-15  212 plane->state->crtc_w != 
->>> new_state->crtc_w ||
->>> f39db26c54281d Sui Jingfeng 2023-06-15  213 plane->state->crtc_h != 
->>> new_state->crtc_h)
->>> f39db26c54281d Sui Jingfeng 2023-06-15  214          return -EINVAL;
->>> f39db26c54281d Sui Jingfeng 2023-06-15  215
->>> f39db26c54281d Sui Jingfeng 2023-06-15  216      if 
->>> (new_state->visible != plane->state->visible)
->>> f39db26c54281d Sui Jingfeng 2023-06-15  217          return -EINVAL;
->>> f39db26c54281d Sui Jingfeng 2023-06-15  218
->>> f39db26c54281d Sui Jingfeng 2023-06-15  219      return 
->>> drm_atomic_helper_check_plane_state(plane->state,
->>> f39db26c54281d Sui Jingfeng 2023-06-15 
->>> 220                             crtc_state,
->>> f39db26c54281d Sui Jingfeng 2023-06-15 
->>> 221                             DRM_PLANE_NO_SCALING,
->>> f39db26c54281d Sui Jingfeng 2023-06-15 
->>> 222                             DRM_PLANE_NO_SCALING,
->>> f39db26c54281d Sui Jingfeng 2023-06-15 
->>> 223                             true, true);
->>> f39db26c54281d Sui Jingfeng 2023-06-15  224  }
->>>
->>
->
 
