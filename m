@@ -2,107 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A74174DB69
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 18:46:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D6BA74DB9C
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 18:53:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD52F10E177;
-	Mon, 10 Jul 2023 16:46:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32A5F10E2A0;
+	Mon, 10 Jul 2023 16:53:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com
- (mail-os0jpn01olkn2072.outbound.protection.outlook.com [40.92.98.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C66D510E177
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 16:46:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aLdFMV2kDdRRFwMVZ061TsZ9MSlnxSZNx54I0jvVaNJhK6lLYU9BzJzkLxFDfygJax3l+HjY1WDTHN+efX6BCi0htyi2aekPDoqezMauBr7+1X7vj7c8wc8uJPM2d7qbNz3v8ctHNVOKX330n1rPcacTCagimXgmbSJgmEXBqHzl9gTiLr/S0Za1ueq0GaRqVlqrJ/4lgalT3a6/DcwuCnU89hHhb7UXB5ppRSPoT/jB4armd35Rk+KClwigWhFpnvqVt3VH2O1fkik0ZU+Gpbo16Mwz4beSfkrgYebfO1/kcfr2fm/t/Uo2+cPHRLxkBcSiDmPEZpJ1lHtETOuAZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OtXbyaTR1eSXD3IOgjkAQzVYxlRNgHriDX/4FLu8tx8=;
- b=WaUJXkc2OALY4LIjbenXgB9XH0USomtAtvx8WcPzoab3xdnYfnMdgon7Auq1bU2l2NCzwKr0I/Oa9vh2Hwh7wEy6S56hXHIIlgzzHVSyiE8sEyf+ge8YE7jF8ixXdI1TOmZqjLkMmQfpf+T7GermrTAJOUPmPp1AB8AUMGhukb3DOh63hmTXZe0/sNmvYzCrLqroKR4xxGDG5jW8v6Vt3qfQPjrNJErLH3D0r7D5GL4/RynoDSjhwyDnVS9Tv3yicLAlLpfv5tCJwVxNFPBhd5MxU97MtgL8+XrDzeU71GTO2riZx4tKTWUs2UVsYO+NQ9x0fG7rGFNsCqJXPd9m9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OtXbyaTR1eSXD3IOgjkAQzVYxlRNgHriDX/4FLu8tx8=;
- b=qaqHPJfsiTy03A7+Ch3Jy5WQ2ke7jZbYxl58Crnah2yZiLPzcgfQD+dgqaYgmIxq3SNBxYoNP4lE6oxvfemGCEIzOqHlg1NF2g8KJkNjDxFF7231P31l8PFlR50rCw6uk7cucXfG9HLDV90ki/yGzDRDWh7AT9AzSYytDmVzkbM65EjQZ5wwzV5Ef3t0gMtdKwjmCYegi/LA1xcH4kEJviGSNSCaIIAJGCWbWF866c3NTd736m1o213NsNKyLjqSD+OlkkMwBaa6QTs/caEkRl1Rt4tHYRNJypBe68F1ccn4tPUeyHWXxNLJPqNgxe4mUN7uFJgs7BM1yI14C01d+w==
-Received: from TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:23e::10)
- by OS3P286MB3386.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:214::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.31; Mon, 10 Jul
- 2023 16:46:13 +0000
-Received: from TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM
- ([fe80::3794:d6cb:1aa2:342e]) by TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM
- ([fe80::3794:d6cb:1aa2:342e%7]) with mapi id 15.20.6565.028; Mon, 10 Jul 2023
- 16:46:13 +0000
-Message-ID: <TY3P286MB261191B29FB384110094181C9830A@TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM>
-Date: Tue, 11 Jul 2023 00:46:01 +0800
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2912110E26E;
+ Mon, 10 Jul 2023 16:53:09 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 36AGSd40021649; Mon, 10 Jul 2023 16:53:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=E9e+S4RTkTmosg86zIZupvfEJdyllZyc0Xf2MkrqOZw=;
+ b=Ay5VLjm+Hgo0O1eWfngPTKmTY4GK/VHcySc8qhlc8/50lbzxjYew/BWL+i4BpyzP6isk
+ wR2seSoW4fmiKfdFdH1TPTFK7WhmkMKux/JsYvidUbfTVI5ohjMiFUr/sLs8/M0ukj7a
+ E7hNV/bE5uvzKnQYkPTpH9ewxj2j+l6t2Of6aRzLXSok1rxfXbdZEwHEX3+8+n2eZTBC
+ NU4COAAJdbxHiQIp2Jqfxb8KPOL5iQQmQMoazrCvWDx7yt0o2O7A0lNKDp1IlZJR84pf
+ b47015ndJ/H7sDZnH1xUPCmYLpChJ5ooEmlTrFpfl/KStmAOxH4SJYDXmxihjvxLgorh tQ== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rrg5mh290-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 10 Jul 2023 16:53:02 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36AGr1Z8015118
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 10 Jul 2023 16:53:01 GMT
+Received: from [10.110.55.196] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Mon, 10 Jul
+ 2023 09:53:00 -0700
+Message-ID: <c1a6f23d-17d9-6f4b-407a-142913e88a35@quicinc.com>
+Date: Mon, 10 Jul 2023 09:52:59 -0700
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH 7/9] drm/verisilicon: Add drm plane funcs
-To: Keith Zhao <keith.zhao@starfivetech.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20230602074043.33872-1-keith.zhao@starfivetech.com>
- <20230602074043.33872-8-keith.zhao@starfivetech.com>
-From: Shengyu Qu <wiagn233@outlook.com>
-In-Reply-To: <20230602074043.33872-8-keith.zhao@starfivetech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TMN: [ckAf4fRsxL5VXSkCBt9Dec8pYHmYIjKPXdK6cpxYssf8QtV8xRsCWP8qdmovhcE1]
-X-ClientProxiedBy: SI2PR01CA0026.apcprd01.prod.exchangelabs.com
- (2603:1096:4:192::16) To TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:23e::10)
-X-Microsoft-Original-Message-ID: <828bb5bd-5399-d862-da50-777a18abb1ae@outlook.com>
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3P286MB2611:EE_|OS3P286MB3386:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2f4cd8b4-d2cd-4069-232c-08db81652ba3
-X-MS-Exchange-SLBlob-MailProps: YfhX3sd/0TXxo7p6a+r8y0O/enmghtvt/7B0XQiDFw97JQYi4R3wn0/kvzOy2dBq5acmuwq27m8KXLAofj2BZWX7YxIKQ+GWUfrh043IYOGP+V57W8/xVPBHIVFjlCrnDgtrcYE7Iei4LYfcpcIkJu42h8vcVCKNJ3U4TvKvGRHG52XVy0gwFm0DQPws+ymXyF8BO9NHo9J74TNq0ICYiZ1G8Azs0Jkxb3icTk8dn+AIVVnJsRR/YJPPmHTZ16QLbX42PTRtvE2OCgf+C9/SP5g8CtQK6PGsbLptVZo/OzAEt0qhckomt0D9PO1PBQSB8sOMnqHMXl5BPfm3WlonmnwzNjJaQwg2YMjfBBZXPA0jkiNafRUouSd8W3FH8ihBwrlOfFzMAd7J99kSfDZB0/H7ANumP/qPMzYTzYJ2aIqnRPDer11W6BdeubfccviVcXmTNv/ofmY5ssRsHINccmcMNCNMh0sHgSZjlIqXu5PXCOcFTwPRiucEy0RvCuMrdO89Tk6HUcxd+4RGs+CwiX0s5uMYCA5suvcgmpo92RWRjK4en0e0Zg6PJid2LS0yY0uz6bSk3obEYcWvj/6jYWcoZefqMj7qb+saqYAVihee/uFaRGsWKhuJye3MVA+6zZk4yfwcrtgw7mH6POItXWZZnOnDdVcwXQzVb7ZAUi2ptVa4uDY4kjuDlvXFYZCBSaDHHYg5z/C5sf+9SEb5HP28nsclTJLJIkbpvYZxvbm/yqyTTWnSfnr+KhmMzsRG+PN2345ZhR7E8gsp+eJkdgkMiqrg9l1Jsl1QHVS9d5Y=
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: isM5A7bCylkw6gTy7PmxXGzJuYDahYQj7e1eU99ITvsklzRYvcJev0aAGj45f+w9vNY2PEUnakjE0oSj0v1RjLUNA01QAeo7bcH7CeDukTFRhpwY1RxQubKFarixEtnsMz+1YMc/Y0uw9I3IICmfvWg5Zo1IRnJ611/E6mpiXAe2bn9BfJMAbZk7IerKpaqMN305T7a9pLpefFjZEVWFDq8Eu+kmsbF7wGYZH+kwWD4vNwD3gy4I6NLBocwmSxOqZTrSTGh9th/hThMffGn1AqvNhf1p2yAss1SuSiVBBP/Ddf9y8NNkX/rnehHq1KZBHqFSNh9dvXrsPpBg+gN8NBrvg0p6fliFi5LyC6XNIpvjdrgNqdIR26b6SR9TDkVniw5kzucmygEPuXbcPuO3ci7WLAuiHMSyVgkV2UvqH9cZ02oaa7n7scwLXA9llu7k3ELQqxhU1KhCIZAmy5BrCdYhB3gVeFDTJSxHvAo2yuk1Z5WWerVV/k3wEmNOU26vrJ3dETjTIF0gjlGwP/1do7oLfuiEUrd/gbOJ+PoP8g0aEHojyqpF6FssBpWIPS/uJFnWCiTWvz81pBazrJnsyNpmnfadGpVYg8lqFpkIAb4XP2qrsdpuo0qpZ2C+jGrd
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RytNQ1EzUDVRbnhYK3Q4R0xieVlVY3ZRRFFGaktjMzB0OFJMSEpKQ1A4S0JQ?=
- =?utf-8?B?ZlBDaXJhclBwU05KUGdBdDZHVnZxNVcxZGJGTTg1RGxYYWhxTTRUMUNnSDV3?=
- =?utf-8?B?ZnhpdEZLK2FPZnBid1ZSSDFnUHFURW1UQUVVdWtvSDZUWXZKczh1WFhDN2Jv?=
- =?utf-8?B?N3dRRVhTK2N2S1RDVUZuUzFYU29GRndwWHBXaUZMNHRRYTFHdHFEd3R6d09Y?=
- =?utf-8?B?UlpWUHJWbWQzSHAwaXlyRmp3UW5SV2JnMEloajZjOHJVU0pBclZNY0U3Zm9X?=
- =?utf-8?B?alhzalpxTUltV3MwOE0zYWcwQUpPK2tUMGpHMXJmcVZDYkQzTlRpOWlEaU9t?=
- =?utf-8?B?Z0duTlJYUXRrS3pKVUZkNktvdHdTdHVEdUJ4dE9oRzFMU3lFZzZ4UVRxZFZ3?=
- =?utf-8?B?N0Z0TGQvbEpYZWZGN0I2WjhXMy9xa1I4WXA2cG1jV21FQ2h0QmtBOE5mZ1l6?=
- =?utf-8?B?SjcvcDZRLzdoM1IxOWQ4dkxhaHByajVGL0ZicWtCbmt0NjVtd3JSWU9YUEc5?=
- =?utf-8?B?U25lYUxyZ3EzTWFQd2xlT3J6cllSazNaanpOaFY2Y052MWdFUUJxajhiK1B2?=
- =?utf-8?B?YnVndFM5ZDQrcEJ1WlZ2b3ZFMGZiUTBWRzlPYnJacDZiSVhsY3gyU2tMbllP?=
- =?utf-8?B?R2JJc2N0Ym5IMFNHOUFQQVBZTFFkM0hxQnlnb1ZOVjA3WXcvYWovNFZ3UEpo?=
- =?utf-8?B?V0U1eVI2YmdJdldBdTBYckJ4Qjk2UjBOYTVDcFI5ZlltaE9xdUMxYVM1MS9B?=
- =?utf-8?B?SWNiS2NLSk5mUm9nT0E2d1FtcjF2UGd6a0FvZUJxbmxzNlI0UjBNL3B0bTFR?=
- =?utf-8?B?aFd3dnpTWjJsZmRTMzRFaTcwNFVaanpXVjZ5Y1greUw2TWhPUUF1U3lkTkRw?=
- =?utf-8?B?cFNmQXNQWEJkeTZteUNjRk1uUS9jRjhpUTVrQ213UU9XU01wTHhEa05DcEg3?=
- =?utf-8?B?cEk3cGVTRENJWStacTlBYmhYaGNNM3VtMmJjWHZKTVBobDVlNTBJNktvWGVi?=
- =?utf-8?B?Ri9aM1NDNzlaSGVSWmxrYU8xeG9rS1YvNGV4cE4za1pEcVJjbytQcWh2Y0VP?=
- =?utf-8?B?UVh5ZFJMZ09OZTNDQ2NVdyttbXJNSmZSblNwM3BTSmVuZk5rSUZ5WHVTUFRV?=
- =?utf-8?B?R1dTM0tsMVV2Ry83Y1gwb0Zydmk3dWhUNGVHVjMyenZsS3Z5bWNhOFYxOVBv?=
- =?utf-8?B?dmU2aUtMOVRyQUxxVE1GZ3ZxNXVBQ1FhNHIrbHVZbExGK05FNWtyQVpjQUZI?=
- =?utf-8?B?Z2NQT2dBWXpjZTNkQWhiZzJLOHZzMEhZN0pSd0ZyOVNFR2pZRGEyL2tqYzdV?=
- =?utf-8?B?QXpOVnVwQUQwMUtPWkJnQkNpUlFVeS8vVm9ONE5VazhoVzB1ZDJDVFpFVndW?=
- =?utf-8?B?RDNoQlNFNHdwRWJsbXVWSHZpY0I0dGxJQzJrSWgyaC84am8xMHJNNmQrSXk1?=
- =?utf-8?B?UEswSEhoYW1RQ1Q3M25ab09MYTd5cXc5TVI1ek1Pc0t3REpUSWVTNERvZC8w?=
- =?utf-8?B?dkZZVE04czBheGxNVWwyS3BIMlJ4azVObEJ4bnk3S3JzQlpsNFZ5b2dvME1Y?=
- =?utf-8?B?bnhydWd6MXRpbWhwMVdyNlgxVjRCZFJjUS9QbG5PY0tJZnpROEV5T3BzRGJq?=
- =?utf-8?B?NDhsbmNIbWw4dXRxSFlCTzRmanc2blJ0cTdZMmhaUGFJM012Z1BFRldKSFZi?=
- =?utf-8?B?SStuYWNpTXFPTFhYbFhUWlVOdTRKK0ljaVFZbG16M00wVXJxYm0yWk5RPT0=?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2f4cd8b4-d2cd-4069-232c-08db81652ba3
-X-MS-Exchange-CrossTenant-AuthSource: TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2023 16:46:13.1212 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3P286MB3386
+Subject: Re: [PATCH v1 3/5] drm/msm/dp: delete EV_HPD_INIT_SETUP
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
+ <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
+ <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
+ <agross@kernel.org>, <andersson@kernel.org>
+References: <1688773943-3887-1-git-send-email-quic_khsieh@quicinc.com>
+ <1688773943-3887-4-git-send-email-quic_khsieh@quicinc.com>
+ <b70e6e98-e5a8-71d7-891a-889c268a7e06@linaro.org>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <b70e6e98-e5a8-71d7-891a-889c268a7e06@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: Bki10N1UghQumq-vGKZ8Q-beFnD87KIi
+X-Proofpoint-ORIG-GUID: Bki10N1UghQumq-vGKZ8Q-beFnD87KIi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-10_12,2023-07-06_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ malwarescore=0 phishscore=0 adultscore=0 spamscore=0 priorityscore=1501
+ mlxlogscore=999 clxscore=1015 mlxscore=0 suspectscore=0 lowpriorityscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2307100152
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,62 +88,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wiagn233@outlook.com,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Emil Renner Berthing <kernel@esmil.dk>,
- Shengyang Chen <shengyang.chen@starfivetech.com>,
- Conor Dooley <conor+dt@kernel.org>, Albert Ou <aou@eecs.berkeley.edu>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>,
- Jagan Teki <jagan@edgeble.ai>, Rob Herring <robh+dt@kernel.org>,
- Chris Morgan <macromorgan@hotmail.com>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Changhuang Liang <changhuang.liang@starfivetech.com>,
- Jack Zhu <jack.zhu@starfivetech.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Shawn Guo <shawnguo@kernel.org>, christian.koenig@amd.com
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ marijn.suijten@somainline.org, quic_jesszhan@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Keith,
-> +
-> +static void vs_plane_atomic_update(struct drm_plane *plane,
-> +				   struct drm_atomic_state *state)
-> +{
-> +	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
-> +									   plane);
-> +	unsigned char i, num_planes;
-> +	struct drm_framebuffer *fb;
-> +	struct vs_plane *vs_plane = to_vs_plane(plane);
-> +	//struct drm_plane_state *state = plane->state;
-> +	struct vs_crtc *vs_crtc = to_vs_crtc(new_state->crtc);
-> +	struct vs_plane_state *plane_state = to_vs_plane_state(new_state);
-> +	//struct drm_format_name_buf *name = &plane_state->status.format_name;
-> +
-> +	if (!new_state->fb || !new_state->crtc)
-> +		return;
-> +
-> +	fb = new_state->fb;
-> +
-> +	num_planes = vs_get_plane_number(fb);
-> +
-> +	for (i = 0; i < num_planes; i++) {
-> +		struct vs_gem_object *vs_obj;
-> +
-> +		vs_obj = vs_fb_get_gem_obj(fb, i);
-> +		vs_plane->dma_addr[i] = vs_obj->iova + fb->offsets[i];
 
-There is a dcache flush operation here in downstream driver. Is that a 
-cache coherence problem?
+On 7/7/2023 5:34 PM, Dmitry Baryshkov wrote:
+> On 08/07/2023 02:52, Kuogee Hsieh wrote:
+>> EV_HPD_INIT_SETUP flag is used to trigger the initialization of external
+>> DP host controller. Since external DP host controller initialization had
+>> been incorporated into pm_runtime_resume(), this flag become obsolete.
+>> Lets get rid of it.
+>
+> And another question. Between patches #2 and #3 we have both 
+> INIT_SETUP event and the PM doing dp_display_host_init(). Will it work 
+> correctly?
 
-Best regards,
+yes,  i had added  if (!dp->core_initialized)  into dp_display_host_init().
 
-Shengyu
+should I merge this patch into patch #2?
 
-> +	}
-> +
-> +	plane_state->status.src = drm_plane_state_src(new_state);
-> +	plane_state->status.dest = drm_plane_state_dest(new_state);
-> +
-> +	vs_plane->funcs->update(vs_crtc->dev, vs_plane, plane, state);
-> +}
+>
+>>
+>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/dp/dp_display.c | 12 ------------
+>>   1 file changed, 12 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c 
+>> b/drivers/gpu/drm/msm/dp/dp_display.c
+>> index 2c5706a..44580c2 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>> @@ -55,7 +55,6 @@ enum {
+>>   enum {
+>>       EV_NO_EVENT,
+>>       /* hpd events */
+>> -    EV_HPD_INIT_SETUP,
+>>       EV_HPD_PLUG_INT,
+>>       EV_IRQ_HPD_INT,
+>>       EV_HPD_UNPLUG_INT,
+>> @@ -1119,9 +1118,6 @@ static int hpd_event_thread(void *data)
+>>           spin_unlock_irqrestore(&dp_priv->event_lock, flag);
+>>             switch (todo->event_id) {
+>> -        case EV_HPD_INIT_SETUP:
+>> -            dp_display_host_init(dp_priv);
+>> -            break;
+>>           case EV_HPD_PLUG_INT:
+>>               dp_hpd_plug_handle(dp_priv, todo->data);
+>>               break;
+>> @@ -1483,15 +1479,7 @@ void __exit msm_dp_unregister(void)
+>>     void msm_dp_irq_postinstall(struct msm_dp *dp_display)
+>>   {
+>> -    struct dp_display_private *dp;
+>> -
+>> -    if (!dp_display)
+>> -        return;
+>> -
+>> -    dp = container_of(dp_display, struct dp_display_private, 
+>> dp_display);
+>>   -    if (!dp_display->is_edp)
+>> -        dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 0);
+>>   }
+>>     bool msm_dp_wide_bus_available(const struct msm_dp *dp_display)
 >
