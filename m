@@ -1,77 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5FD874D0B8
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 10:58:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2849C74D0BA
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 10:59:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE72D10E23E;
-	Mon, 10 Jul 2023 08:58:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54BD410E23A;
+	Mon, 10 Jul 2023 08:59:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49FD910E23A
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 08:58:41 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id
- 38308e7fff4ca-2b700e85950so61624921fa.3
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 01:58:41 -0700 (PDT)
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
+ [IPv6:2607:f8b0:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E1BB10E23A
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 08:59:28 +0000 (UTC)
+Received: by mail-pf1-x42a.google.com with SMTP id
+ d2e1a72fcca58-666e6ecb52dso2162091b3a.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 01:59:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1688979519; x=1691571519;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=u1UIiLg+gT8qOjGtWi3Tbab4/yTpTJvmt9y9TmQ5/zA=;
- b=EQKuXWGbXfD9YroxK3ye/LIBLgh8YRx5MkDCKqZXONhJuzG8BXXQYniZadZGY4K5ho
- RDEeah0l91/2rkYjwDeRRXf3dy/9k90efi0Tq86lx/V83eJ1bqeuDWx1EVkGoqwlcyrn
- N8frMSSbQdl5q9wfS2nyJSaYEt7W1GcFj+5mR2qSa+qhTGvmn/f/l+Db9e6N3hcisjaq
- dx75ofebgpR9tpbI1BPpGBwdsnVqzA+SIQebZG4ho7lFOW69eMGpKtjnWhVQ7ntPOdHF
- 9RWm0S7zYjWTpU76mU4kILQchki9fH4qSpGGyhPho+qEX1V2FW7QJaeUjgwI7i4egQ7Q
- 7leg==
+ d=chromium.org; s=google; t=1688979567; x=1691571567;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=2OanSTpq1Hu+eB1tq8Ra7sloAy2DlkjuZwNNKykIg+Y=;
+ b=N80NZ44X0t7thJJ0vLDqvr4zKutEVaCwMMFAPELtgteYsbDVFii3DI0Cx8z9T7Aacg
+ +qdAnK579GkxHladVU00spflDJwR44Mdob9ep2ghfszyHQrUZiZzbDd+9J5A7fvaDZN9
+ LIoqCRPzLjQw0Avyf6rcTyZs01pPkLs9Os4Jc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688979519; x=1691571519;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=u1UIiLg+gT8qOjGtWi3Tbab4/yTpTJvmt9y9TmQ5/zA=;
- b=dYuWQT6Ns1hnAK7ypGAZO4ptLDOBpAsc7kgmuiaplGRsXURVx5jcLGnYyXYWpKuND7
- fFACr5xRsOWhSfKB3PaW7JDOlv5LE+ZnIySC71vl+mfkTcslSu/BRIszycJQ4BVMt9Z1
- zIivMVmb4zQVZQWy1DS1EA6d/NJYeFy8rVgj6vZW3QjQwhq7bCMNNp3v90deYNlHBnce
- lClLpgCcWyj07FzDW/sOeZNnKTqWwYYyUxs5LuimqhN5DskIbdIWIWv5QApnpRHK4pSF
- YCneSSAJ85QyvP+/h1sjAP76DFKrXMQcitL7dNE14qbR1r6gL4ayq3MHL7OTr0nLQRg5
- C9eQ==
-X-Gm-Message-State: ABy/qLYCWcvywiK2hsyusI6a3jmjL2iDFrnMdSlN35vV8H6asopt7PW7
- j01oOJ98oJqyYHF44ecWZcTRAQ==
-X-Google-Smtp-Source: APBJJlERlzwAqBH/Uv5aSLjcEewODCu8JlenZIe3+3H6pzXx2WIrny8mnU1JjbuxVqM8sFJI3AhPwQ==
-X-Received: by 2002:a2e:9497:0:b0:2b6:decf:5cbd with SMTP id
- c23-20020a2e9497000000b002b6decf5cbdmr8633024ljh.36.1688979519283; 
- Mon, 10 Jul 2023 01:58:39 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.104])
+ d=1e100.net; s=20221208; t=1688979567; x=1691571567;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2OanSTpq1Hu+eB1tq8Ra7sloAy2DlkjuZwNNKykIg+Y=;
+ b=ecURDBiMjRaVkEAdvyGa3pY1fGT/JQFhrhO+NXypKmTZgyYEt/jsJ0WWVobsrmDqkc
+ BYjwe69cSZMH45PbS1Z9rJ0KXQxntkm2IUZIFvcY+kEs0/s9IfCpa0oELZrxT6CiibMI
+ s3JEnUqR8EOhU91Ib784kBybJD/Z6M/qaPYbUlr9r9tddaPQxFePLkl8RTMIyGj9KMVg
+ Gei8Wc5krZJEyl+hz8mHvjHTn1kzc2/HFljrkPjq9NKVATKTOUSdN+hstEvM3lSCmNt9
+ +u4NXJUAaNzJ2EsGkpijtC7ReOZ7mYr7RDNtmBLI052p39KWneH4rfPuAVU4oUGzJchV
+ ncwg==
+X-Gm-Message-State: ABy/qLaZnrjocjLwfmd3vrj9wETpMFNyvaIO9g0GW4lVOG7TZnTnMKh3
+ sb0hEHqQrI6+sPCWvDonWgAFOQ==
+X-Google-Smtp-Source: APBJJlFY3VjxNMecfVD5N/oZbTxkxOx3DlD/D4Wh64sajE5X05MzrcSz0Ig3kMHdNwy6WaRwDMTCQw==
+X-Received: by 2002:a05:6a20:a11f:b0:12c:dac0:a9a4 with SMTP id
+ q31-20020a056a20a11f00b0012cdac0a9a4mr11924214pzk.5.1688979567468; 
+ Mon, 10 Jul 2023 01:59:27 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com
+ ([2401:fa00:1:10:be97:1d05:f9b6:36a6])
  by smtp.gmail.com with ESMTPSA id
- ay26-20020a170906d29a00b009887f4e0291sm5800767ejb.27.2023.07.10.01.58.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Jul 2023 01:58:38 -0700 (PDT)
-Message-ID: <db81d100-1ed6-19a1-14f6-8cacf71bb1bd@linaro.org>
-Date: Mon, 10 Jul 2023 10:58:36 +0200
+ o7-20020a170902778700b001b8b3108292sm7750701pll.12.2023.07.10.01.59.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Jul 2023 01:59:27 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Xin Ji <xji@analogixsemi.com>,
+ =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?=
+ <nfraprado@collabora.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v2] drm/bridge: anx7625: Drop device lock before
+ drm_helper_hpd_irq_event()
+Date: Mon, 10 Jul 2023 16:59:21 +0800
+Message-ID: <20230710085922.1871465-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.41.0.255.g8b1d071c50-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 1/5] dt-bindings: display: msm: dp-controller: document
- SM8250 compatible
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20230709041926.4052245-1-dmitry.baryshkov@linaro.org>
- <20230709041926.4052245-2-dmitry.baryshkov@linaro.org>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230709041926.4052245-2-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,22 +76,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Chen-Yu Tsai <wenst@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/07/2023 06:19, Dmitry Baryshkov wrote:
-> It looks like DP controlled on SM8250 is the same as DP controller on
-> SM8350. Use the SM8350 compatible as fallback for SM8250.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
+The device lock is used to serialize the low level power sequencing
+operations. Since drm_helper_hpd_irq_event() could end up calling
+.atomic_enable, which also calls power sequencing functions through
+runtime PM, this results in a real deadlock. This was observed on an
+MT8192-based Chromebook's external display (with appropriate patches [1]
+and DT changes applied).
 
+Move the drm_helper_hpd_irq_event() call outside of the lock range. The
+lock only needs to be held so that the device status can be read back.
+This is the bare minimum change to avoid the deadlock. The lock could
+be dropped completely and have pm_runtime_get_if_in_use() increase the
+reference count, but this is not the same as pm_runtime_suspended().
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Dropping the lock completely also causes the internal display of the
+same device to not function correctly if the internal bridge's
+interrupt line is added in the device tree. Both the internal and
+external display of said device each use one anx7625 bridge.
 
-Best regards,
-Krzysztof
+[1] https://lore.kernel.org/dri-devel/20230112042104.4107253-1-treapking@chromium.org/
+
+Fixes: 60487584a79a ("drm/bridge: anx7625: refactor power control to use runtime PM framework")
+Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+---
+Changes since v1:
+- restore early return if event < 0
+
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index 866d018f4bb1..e93eba89d5ee 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -1593,18 +1593,20 @@ static void anx7625_work_func(struct work_struct *work)
+ 
+ 	mutex_lock(&ctx->lock);
+ 
+-	if (pm_runtime_suspended(&ctx->client->dev))
+-		goto unlock;
++	if (pm_runtime_suspended(&ctx->client->dev)) {
++		mutex_unlock(&ctx->lock);
++		return;
++	}
+ 
+ 	event = anx7625_hpd_change_detect(ctx);
++
++	mutex_unlock(&ctx->lock);
++
+ 	if (event < 0)
+-		goto unlock;
++		return;
+ 
+ 	if (ctx->bridge_attached)
+ 		drm_helper_hpd_irq_event(ctx->bridge.dev);
+-
+-unlock:
+-	mutex_unlock(&ctx->lock);
+ }
+ 
+ static irqreturn_t anx7625_intr_hpd_isr(int irq, void *data)
+-- 
+2.41.0.255.g8b1d071c50-goog
 
