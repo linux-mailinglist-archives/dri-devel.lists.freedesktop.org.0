@@ -1,44 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11B1F74CFE4
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 10:26:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFC7274CFE5
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 10:27:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 987D810E141;
-	Mon, 10 Jul 2023 08:26:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AB6B10E21E;
+	Mon, 10 Jul 2023 08:26:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [80.237.130.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0179210E141
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 08:26:37 +0000 (UTC)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1qImE2-0006H7-Ei; Mon, 10 Jul 2023 10:26:30 +0200
-Message-ID: <97f15a3a-9a35-7f02-25fb-53a32def3193@leemhuis.info>
-Date: Mon, 10 Jul 2023 10:26:29 +0200
+Received: from mail.208.org (unknown [183.242.55.162])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B15B10E21E
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 08:26:56 +0000 (UTC)
+Received: from mail.208.org (email.208.org [127.0.0.1])
+ by mail.208.org (Postfix) with ESMTP id 4Qzxtj3VH8zBHXhF
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 16:26:53 +0800 (CST)
+Authentication-Results: mail.208.org (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)" header.d=208.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
+ content-transfer-encoding:content-type:message-id:user-agent
+ :references:in-reply-to:subject:to:from:date:mime-version; s=
+ dkim; t=1688977613; x=1691569614; bh=5Vej+dXMd1ZoKmxJ2xQ73LD2u5v
+ 65N0RUybJgRNbepE=; b=PU50xK1vmhNd6ANYnwm68oL8AGrTs00gHkm458ai71P
+ 2XcQxiMyhua1stxu0sv4Zt2ocNrD63DZrDEENwU5XMKgMQPUtVO8fj2mMeEWO3qb
+ z5+36ufFc0eGfpGxcI0u2PsccqjzT2MtTR8eCUiSJsEutz3Y6aplmMIf7l34xGTI
+ hKtHQtDTC2hb/5jxkmzxv2AQJtry12t7wWT4HVcwPt4r1f6bDh0McDxEA1/aUqN6
+ 1PKhHx4sj1aJdPmjpggal0Nm16VrOhPG0x30RoWvD+jX2PJe1G7nzTyCGiXeVn9c
+ PrkiKxnTzVW3hoM4rAZk52AT0AJu4p6xro8VDKuUblA==
+X-Virus-Scanned: amavisd-new at mail.208.org
+Received: from mail.208.org ([127.0.0.1])
+ by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id Y4LYSu2nmXxR for <dri-devel@lists.freedesktop.org>;
+ Mon, 10 Jul 2023 16:26:53 +0800 (CST)
+Received: from localhost (email.208.org [127.0.0.1])
+ by mail.208.org (Postfix) with ESMTPSA id 4Qzxtj14DnzBHXgt;
+ Mon, 10 Jul 2023 16:26:53 +0800 (CST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2] drm/ast: report connection status on Display Port.
-Content-Language: en-US, de-DE
-To: Jocelyn Falempe <jfalempe@redhat.com>,
- Linux regressions mailing list <regressions@lists.linux.dev>,
- tzimmermann@suse.de, airlied@redhat.com, kuohsiang_chou@aspeedtech.com,
- jammy_huang@aspeedtech.com, jani.nikula@linux.intel.com
-References: <20230706100102.563458-1-jfalempe@redhat.com>
- <62460153-04b1-b1aa-7966-45be16f3ec43@leemhuis.info>
- <d4ca4cab-fed3-0b3e-5563-800bed43e5b2@redhat.com>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-In-Reply-To: <d4ca4cab-fed3-0b3e-5563-800bed43e5b2@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1688977598;
- 9260f2cf; 
-X-HE-SMSGID: 1qImE2-0006H7-Ei
+Date: Mon, 10 Jul 2023 16:26:53 +0800
+From: sunran001@208suo.com
+To: airlied@gmail.com, daniel@ffwll.ch
+Subject: [PATCH] drm/radeon: ERROR: "(foo*)" should be "(foo *)"
+In-Reply-To: <20230710082515.54604-1-xujianghui@cdjrlc.com>
+References: <20230710082515.54604-1-xujianghui@cdjrlc.com>
+User-Agent: Roundcube Webmail
+Message-ID: <0cd737878affc60b7b34d58ea9e10e50@208suo.com>
+X-Sender: sunran001@208suo.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,49 +60,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Cc: dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10.07.23 10:12, Jocelyn Falempe wrote:
-> On 06/07/2023 15:03, Linux regression tracking (Thorsten Leemhuis) wrote:
->> On 06.07.23 11:58, Jocelyn Falempe wrote:
->>> Aspeed always report the display port as "connected", because it
->>> doesn't set a .detect callback.
->>> Fix this by providing the proper detect callback for astdp and dp501.
->>>
->>> This also fixes the following regression:
->>> Since commit fae7d186403e ("drm/probe-helper: Default to 640x480 if no
->>>   EDID on DP")
->>> The default resolution is now 640x480 when no monitor is connected.
->>> But Aspeed graphics is mostly used in servers, where no monitor
->>> is attached. This also affects the remote BMC resolution to 640x480,
->>> which is inconvenient, and breaks the anaconda installer.
->>>
->>> v2: Add .detect callback to the dp/dp501 connector (Jani Nikula)
->>>
->>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->>
->> So if this "also fixes a regression" how about a Fixes: tag and a CC:
->> <stable tag to ensure this is not only fixed in latest mainline, but
->> also in all affected stable and longterm kernels?
-> 
-> In this case, the regression only affect one userspace program
-> (anaconda),
+Fix four occurrences of the checkpatch.pl error:
+ERROR: "(foo*)" should be "(foo *)"
 
-That is (mostly) irrelevant when it comes to regressions.
+Signed-off-by: Ran Sun <sunran001@208suo.com>
+---
+  drivers/gpu/drm/radeon/radeon_atombios.c | 8 ++++----
+  1 file changed, 4 insertions(+), 4 deletions(-)
 
-> and the fix looks too risky to backport to all stable kernels.
+diff --git a/drivers/gpu/drm/radeon/radeon_atombios.c 
+b/drivers/gpu/drm/radeon/radeon_atombios.c
+index bf3c411a55c5..85c4bb186203 100644
+--- a/drivers/gpu/drm/radeon/radeon_atombios.c
++++ b/drivers/gpu/drm/radeon/radeon_atombios.c
+@@ -1389,7 +1389,7 @@ bool radeon_atombios_get_ppll_ss_info(struct 
+radeon_device *rdev,
 
-Not sure, but I tend to thing that decision would better be left to the
-stable team. Each developer will have a different opinion about what's
-too risky or not and they might be in the better position to judge what
-they want for their trees. A "Fixes:" tag thus still seems appropriate
-here; will also tell downstream distros that might want to pick this up.
+          num_indices = (size - sizeof(ATOM_COMMON_TABLE_HEADER)) /
+              sizeof(ATOM_SPREAD_SPECTRUM_ASSIGNMENT);
+-        ss_assign = (struct _ATOM_SPREAD_SPECTRUM_ASSIGNMENT*)
++        ss_assign = (struct _ATOM_SPREAD_SPECTRUM_ASSIGNMENT *)
+              ((u8 *)&ss_info->asSS_Info[0]);
+          for (i = 0; i < num_indices; i++) {
+              if (ss_assign->ucSS_Id == id) {
+@@ -1402,7 +1402,7 @@ bool radeon_atombios_get_ppll_ss_info(struct 
+radeon_device *rdev,
+                  ss->refdiv = ss_assign->ucRecommendedRef_Div;
+                  return true;
+              }
+-            ss_assign = (struct _ATOM_SPREAD_SPECTRUM_ASSIGNMENT*)
++            ss_assign = (struct _ATOM_SPREAD_SPECTRUM_ASSIGNMENT *)
+                  ((u8 *)ss_assign + sizeof(struct 
+_ATOM_SPREAD_SPECTRUM_ASSIGNMENT));
+          }
+      }
+@@ -3406,7 +3406,7 @@ static ATOM_VOLTAGE_OBJECT_V2 
+*atom_lookup_voltage_object_v2(ATOM_VOLTAGE_OBJECT
+  {
+      u32 size = le16_to_cpu(v2->sHeader.usStructureSize);
+      u32 offset = offsetof(ATOM_VOLTAGE_OBJECT_INFO_V2, 
+asVoltageObj[0]);
+-    u8 *start = (u8*)v2;
++    u8 *start = (u8 *)v2;
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+      while (offset < size) {
+          ATOM_VOLTAGE_OBJECT_V2 *vo = (ATOM_VOLTAGE_OBJECT_V2 *)(start + 
+offset);
+@@ -3423,7 +3423,7 @@ static ATOM_VOLTAGE_OBJECT_V3 
+*atom_lookup_voltage_object_v3(ATOM_VOLTAGE_OBJECT
+  {
+      u32 size = le16_to_cpu(v3->sHeader.usStructureSize);
+      u32 offset = offsetof(ATOM_VOLTAGE_OBJECT_INFO_V3_1, 
+asVoltageObj[0]);
+-    u8 *start = (u8*)v3;
++    u8 *start = (u8 *)v3;
+
+      while (offset < size) {
+          ATOM_VOLTAGE_OBJECT_V3 *vo = (ATOM_VOLTAGE_OBJECT_V3 *)(start + 
+offset);
