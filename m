@@ -2,71 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 846FA74CA41
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 05:14:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6664174CA5F
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 05:24:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 836C210E0AE;
-	Mon, 10 Jul 2023 03:13:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3223D10E0B1;
+	Mon, 10 Jul 2023 03:24:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com
- [IPv6:2607:f8b0:4864:20::d2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AC5210E0AE
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 03:13:55 +0000 (UTC)
-Received: by mail-io1-xd2e.google.com with SMTP id
- ca18e2360f4ac-76c64da0e46so122172039f.0
- for <dri-devel@lists.freedesktop.org>; Sun, 09 Jul 2023 20:13:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1688958834; x=1691550834;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=N0f/movtZorEjzM+r+LRTHIo16m8aSFE9mANkKWC//k=;
- b=DCu8m6Lgc3fN0s/umvG5QaoJejb15A7VhtGNn26yIUaP9CbiHAO6VhMIjCjM/NAbYt
- soZzFtvp/tERAWjE2/CROXgSbcmahjxIWXdH59dgHCGBawCTgANsfqHUTlOnssHQgMxI
- 1F0rLYp/xA4XFeD1Pu1bpB69S1z7GYvNG/XR8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688958834; x=1691550834;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=N0f/movtZorEjzM+r+LRTHIo16m8aSFE9mANkKWC//k=;
- b=IIt9Eul8HC/r/bflKzsYUYu2l16In6Lk7lbG0flEbSlTzD2PvWoaFaRSpOmZ3K9xVt
- YOXgz81zrKskIONO6GCeRu1UJSAcxrjDJoFMh4BnhGriuLo/7kCAxIv5IAlkDQfSXwju
- C3hgg+jXKnC8p4ouVpoErk2AnSaT1HMktPAwOO11gK364NJUhsNsrLjhdHF24VKRKPWG
- wu7i1JmoXz4X2xqVHhns03vI+F3VUwCZk73NGz0vgMFFejg3lXqBvy77vy/6ACkcDY+F
- c8+FtavNDEIC1nRHHkCYVP/F5/wgTuXZGgeRgd1ERYJd00oqRhrVgtoeCdr6hqWZpNEi
- /7/A==
-X-Gm-Message-State: ABy/qLbw0qm4SpkGX0RiIxWAGK+Kh8ybfyXpcBh2guG4MjSC3mdzL9u8
- pUDVnFDqtXPvlIoIE3/FtovEgHx1EkH8yNwsEjg=
-X-Google-Smtp-Source: APBJJlEstU8eaM8HhdRC+BBgKRH2klPl7zQgpOlxWra+fq0/Zdu4iybTB5Whl5JgJ7+ovmrDEl0ZWg==
-X-Received: by 2002:a6b:7941:0:b0:766:454e:3cdd with SMTP id
- j1-20020a6b7941000000b00766454e3cddmr9862706iop.20.1688958834067; 
- Sun, 09 Jul 2023 20:13:54 -0700 (PDT)
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com.
- [209.85.166.41]) by smtp.gmail.com with ESMTPSA id
- s11-20020a5eaa0b000000b00785cd25010esm3321961ioe.11.2023.07.09.20.13.52
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 09 Jul 2023 20:13:52 -0700 (PDT)
-Received: by mail-io1-f41.google.com with SMTP id
- ca18e2360f4ac-7837329a00aso121502639f.2
- for <dri-devel@lists.freedesktop.org>; Sun, 09 Jul 2023 20:13:52 -0700 (PDT)
-X-Received: by 2002:a5d:8f89:0:b0:783:63d6:4c5 with SMTP id
- l9-20020a5d8f89000000b0078363d604c5mr436352iol.12.1688958832360; Sun, 09 Jul
- 2023 20:13:52 -0700 (PDT)
+Received: from APC01-PSA-obe.outbound.protection.outlook.com
+ (mail-psaapc01on20701.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:feae::701])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 533A010E0B1
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 03:24:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UDH4EPMUcp8HWhe8SszUgpQwifY/ps4X3oj7yVPclLMRllJY8coKMw/eyhf1WqQXgJXAoLBqNhR3nHEpPFTzeHdXcpflQjX0o0vfJDiKc7bTAmQYCjE3wdjBGDloY5/TaraGvGrl97FliLYstHBlwnxi0d0oi3bUrZqyiMX6b1GvB18JSsN1rEc9km9ydGUH0X6c0lOgRtdJccASxmkWtdz7UpTQ06glnAJuSkEgk9VyzM64ZmaC31csEU0l2fYv/UqAZQbtbZVr8KDD9f1lZjANS+OJxQXP6zJe39e0BoPbzBdKxleQP7Rx65QXFb9rcQkjDNdup892PUixZtQcxQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+ubNA55ot4g9uV8DnDaa0Wk8oto8gA0f3+jKufnOzYg=;
+ b=ivHI6/sk1Cd835jJE/ldAPR7G9FwlECF4kYR9FSAPc65KOzU2egSvzNxkWZ3ePEUdmzo4M1fwdz6e1Bwjjubr6XL7BESnKDp3xZBQcqFkr46nSYlGE4JwsTiEf/ULQPnJlj7/rzG2U/vNXmzI96x0GKv8Oy4JJByRpwX8xRQgymXleIMu7+q2gUM2c846eoHbDE58kNDqFXi+wc+0rbNmOKl2840r9yAsLtFOwtJZiSXH2kM0B0GD5Wf/TqIqIO7QQ+JoJW/mOcWaIpIRzzYbRDmqPm99uex/1QDc7uMqZFIXeOvUvrASAgOGI8mRU9WV+dWrMiVqH6NweFaISuiAA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+ubNA55ot4g9uV8DnDaa0Wk8oto8gA0f3+jKufnOzYg=;
+ b=i12DTCZt1+eZqzaZ1CfMyZCJ6xWI+b1+kuNuvkJ+dTHMtJVrF1+DDC72PKUPhw3YzrYBBJu8PHZghT3i+m1QmXcNsNkgu6RXO4Y9hwhiePQkf6mYPiPfu07XJgNbJv7v1Vqqh0IGxklOtxy+Tqj/YiNpJ1wH2HTWSJhlLhtW6YrOS/6O9Nzi0oLpuUegzJWrkvqZt5EpNba76YZWb2pvSz1aCVCM30Og5ArRmLba8N8HtZ1yaNeUqhi8+sVppEB+pg6NAlN7geHG/D9Dpd2lcbVH+/cRGW+qFH6rXxPKPnnH26e3moHGyQWZedpwcSg8zF4ksLLsjlg0ct5Mi2j0FQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
+ by PSAPR06MB4488.apcprd06.prod.outlook.com (2603:1096:301:81::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.30; Mon, 10 Jul
+ 2023 03:24:10 +0000
+Received: from SEZPR06MB5269.apcprd06.prod.outlook.com
+ ([fe80::fa0e:6c06:7474:285c]) by SEZPR06MB5269.apcprd06.prod.outlook.com
+ ([fe80::fa0e:6c06:7474:285c%5]) with mapi id 15.20.6565.028; Mon, 10 Jul 2023
+ 03:24:10 +0000
+From: Yangtao Li <frank.li@vivo.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2 01/19] drm/renesas: Convert to
+ devm_platform_ioremap_resource()
+Date: Mon, 10 Jul 2023 11:23:37 +0800
+Message-Id: <20230710032355.72914-1-frank.li@vivo.com>
+X-Mailer: git-send-email 2.39.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SGXP274CA0020.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b8::32)
+ To SEZPR06MB5269.apcprd06.prod.outlook.com
+ (2603:1096:101:78::6)
 MIME-Version: 1.0
-References: <20230709162641.6405-1-jason-jh.lin@mediatek.com>
- <20230709162641.6405-3-jason-jh.lin@mediatek.com>
-In-Reply-To: <20230709162641.6405-3-jason-jh.lin@mediatek.com>
-From: Fei Shao <fshao@chromium.org>
-Date: Mon, 10 Jul 2023 11:13:16 +0800
-X-Gmail-Original-Message-ID: <CAC=S1njmD1+12dS5x20XLR650nkRpkyM-dKjaierSLknuTPRuw@mail.gmail.com>
-Message-ID: <CAC=S1njmD1+12dS5x20XLR650nkRpkyM-dKjaierSLknuTPRuw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/mediatek: Fix iommu fault during crtc enabling
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEZPR06MB5269:EE_|PSAPR06MB4488:EE_
+X-MS-Office365-Filtering-Correlation-Id: dc53c45c-1e74-4db1-d679-08db80f52059
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7k2C6znyJX4BfwjAVlocYqDfoZkP3lj1dMohYqvFZ1i/zS+EEEfB0y5aK4uuBxoR0pnXd3+hsIzAVc/em055RUOY2ERsUTUv8w7BU7oVScvDy0eZqUL3IAeQtKiLyoLGWhnVl6AwbeV6E7zqapjSpHbjIlJf9ZLdwdaD5fuhU0ruDRKTDRTnzQ7jJahLHMe9fmAi6dtzAzWFg2Bzt89Xs7O2zrA+yf4HgWsFBjhKNcQms/oHi54z3EV1V8FgsdcmKIjBuFwjlD9Esw5BGIqSdJYipQi2sVJ/0/IUt4LrzI0B6XxnUoPoJKhNrQezIHlY3QHYAbxQKuR2yfW5NzzpBlv6Lyusf9/rG/L+IoKB5CfGoIqDPK6mQXDuYav4WHj/duPeS6PkzONYYrApYZrCeyNVMRETI0T4AdoTw/V0SM2I/YnfkqwchiCS1mBEtQvUBU1eQ/HDyaRd3PweUclX4fTI0gnDbZJZ4rPciRi7SiZF4Ht//qYpGhJjYBiVE9WvaxLSWPfWaDzCkyOU9hCS54zMs6/ST6cbL7lcrjvVlgy6uOZFgG8Kp3t/2Bxhze7viDdtept9nXVk6z7Ra8IfiSYwMWAFesk0foIgGVqm2Wn4xEeq3I7lMwYsivj1QFMa
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SEZPR06MB5269.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(346002)(136003)(376002)(366004)(396003)(39850400004)(451199021)(186003)(6506007)(26005)(2616005)(6512007)(1076003)(83380400001)(41300700001)(4326008)(2906002)(66556008)(316002)(5660300002)(8676002)(8936002)(66476007)(478600001)(66946007)(6486002)(52116002)(6666004)(110136005)(54906003)(36756003)(86362001)(38350700002)(38100700002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yDGp9p5EijFC6ppkzcVD+TsDK7RaGZDGDgkuNiEnEiIrgwEXSCEtRteNyetq?=
+ =?us-ascii?Q?QImExoWX3lr9zpXz95ebM8Vp3xyPa6ClUgF+uvqk+jLYdqGbcyorZJiJ7MLW?=
+ =?us-ascii?Q?xjJGIQi9VJ0kwBY98m1pZ1bUfJGeBidt8OV9Ltx92VOoH5omlYqizWFVXCh9?=
+ =?us-ascii?Q?h43LbVklUfV2Tr2B/Z4knLw55uGVnCLM1rnsxS2F4pQ5jUWlvHTQNx3XMRWk?=
+ =?us-ascii?Q?pfS8lGkJU69OC2Wtogt7B6+EfxLcFZMVpFrII/ChhzLzpd8uAtNj6/XPfvEO?=
+ =?us-ascii?Q?kOGgF/muN6MAXhJBm7hIJpknHnEsv5gygVil7e0AgzllmRFtL8CL6O7ovxBV?=
+ =?us-ascii?Q?TrizycCPEmgH5wm5IJy0tIgzysQhb7+EGuvd/GS9vXVYcpZ4NA290GKJBnwQ?=
+ =?us-ascii?Q?a02NJBR5EEYM2oFDdiGJP+dUOF3wdzBqAbctruhOAXdUw/1I1kJRh0S6TZgc?=
+ =?us-ascii?Q?EecrEvrQ6XwWWX3PfSpj9aS0zec7W8axsABXrGX395zot52jNsO0xCPOG4ID?=
+ =?us-ascii?Q?QMLfWnSPUbZvYWccuqs0I5V6PNG1VbWdf79nTznIRadR6OaCln2s6WJyUURb?=
+ =?us-ascii?Q?JWDVTPLIKQPXl5bG5FBp46cP3ucUFpqOs0MDwy3XjORvNmMQgeA87yPDFhma?=
+ =?us-ascii?Q?MnMsD17em0/lZJ1pwGxOTYblxU6U62i3ry/QP/7Pmkt4JDycaIdh9QqXYoN7?=
+ =?us-ascii?Q?wP1po8F/SUfqvD4r8mJ/+h85+wc3VoTICRYsh9Hi25EpmAJQW3pt3DB+X+Gg?=
+ =?us-ascii?Q?AgN035g4klQaMgO7vYU4iUBCMdmI7RW/+dEpr07cOX/rTLVtD+1rvi5yxFf2?=
+ =?us-ascii?Q?7sBOa6sGqdgJVdV7AON/En+pRQA/GOUWbtt4B2zIx5dpdSHLOFygRP72F0mT?=
+ =?us-ascii?Q?HMTEzQxlf3xntpL9mHNGICECTnI1pdmEUcsl8uir9nCBXwZforKTv79/hTKa?=
+ =?us-ascii?Q?KMCkXNH0MK9MGT4j4f/d0Pce7dqYJuhP5YrUROA22FUHkdqLFqQHd8XAIto9?=
+ =?us-ascii?Q?9O8eiii3IUMDxxOjdSIIuwFcmC6Ti3vMSAOclkX1/weEdzpNCjnrxMw/TQLk?=
+ =?us-ascii?Q?nIcbF6iG4Yc31f+9pUfaze9NtwBIcMOcr31n9jsunt5L380/MT0zPyAbq6iN?=
+ =?us-ascii?Q?FgO9LtQR3oiJ2m7gNt9Xoa4A2iI44LV+abTM+dgXypzq46D3F7nUyxBW/d3Q?=
+ =?us-ascii?Q?4UJT73o1f2Ce6bCuI95tcQfKimMxxo4ly64AWDssE5yGK5+sdKKr4JELSLDM?=
+ =?us-ascii?Q?xofWizmV5MWEEQVQCkLSlatodGnwzww59arFboFtDRNhnrP+le3rtfnHsk6G?=
+ =?us-ascii?Q?j4h9aEFuVQfUn1Rek4qcGf275EsqNH7MZf27kCt1rBpryj8PAIGYGSmbsFJJ?=
+ =?us-ascii?Q?PJVH5DZoBZMsFhHazEmEJVxAo2DUBY8/Vk+fRwr1aqICtBcO2xDV8yhCAjfn?=
+ =?us-ascii?Q?NiHl/w6XPR10RydW6HaojS2WCmB1WW4D6qLU+A2oaSX1/MnqM4eeOHL3J6wC?=
+ =?us-ascii?Q?3QepGhpPyR/d6MaVSqQOkuVZA+O5VB2qGO+T3U44sfXq5dbgDJGq+Am12jvJ?=
+ =?us-ascii?Q?WJcHkeQujLsxDjok8tW7cwku5Vw8g+4QgBkmEv20?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc53c45c-1e74-4db1-d679-08db80f52059
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5269.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2023 03:24:10.4239 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: C1QWMJieevsbX4JIMAZs0VT5eR+BbZTb5qzd2RADqVllfyM77FowKi48AZIEMmsBGlM9+VZiU9puAdQueFDZsA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PSAPR06MB4488
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,56 +115,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Alexandre Mergnat <amergnat@baylibre.com>,
- Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Jason-ch Chen <jason-ch.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- Johnson Wang <johnson.wang@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Yangtao Li <frank.li@vivo.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jason,
+Use devm_platform_ioremap_resource() to simplify code.
 
-On Mon, Jul 10, 2023 at 12:27=E2=80=AFAM Jason-JH.Lin <jason-jh.lin@mediate=
-k.com> wrote:
->
-> OVL layer should not be enabled before crtc is enabled.
-> The plane_state of drm_atomic_state is not sync to
-> the plane_state stored in mtk_crtc during crtc enabling,
-> so just set all planes to disabled.
->
-Please add the "Fixes" tag before your S-o-b.
+Signed-off-by: Yangtao Li <frank.li@vivo.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+ drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Regards,
-Fei
-> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/me=
-diatek/mtk_drm_crtc.c
-> index d40142842f85..51d10e65004e 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> @@ -410,6 +410,9 @@ static int mtk_crtc_ddp_hw_init(struct mtk_drm_crtc *=
-mtk_crtc)
->                 unsigned int local_layer;
->
->                 plane_state =3D to_mtk_plane_state(plane->state);
-> +
-> +               /* should not enable layer before crtc enabled */
-> +               plane_state->pending.enable =3D false;
->                 comp =3D mtk_drm_ddp_comp_for_plane(crtc, plane, &local_l=
-ayer);
->                 if (comp)
->                         mtk_ddp_comp_layer_config(comp, local_layer,
-> --
-> 2.18.0
->
->
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+index e10e4d4b89a2..4bf9f5d15fa8 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+@@ -1002,7 +1002,6 @@ static int rcar_mipi_dsi_get_clocks(struct rcar_mipi_dsi *dsi)
+ static int rcar_mipi_dsi_probe(struct platform_device *pdev)
+ {
+ 	struct rcar_mipi_dsi *dsi;
+-	struct resource *mem;
+ 	int ret;
+ 
+ 	dsi = devm_kzalloc(&pdev->dev, sizeof(*dsi), GFP_KERNEL);
+@@ -1019,8 +1018,7 @@ static int rcar_mipi_dsi_probe(struct platform_device *pdev)
+ 		return ret;
+ 
+ 	/* Acquire resources. */
+-	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	dsi->mmio = devm_ioremap_resource(dsi->dev, mem);
++	dsi->mmio = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(dsi->mmio))
+ 		return PTR_ERR(dsi->mmio);
+ 
+-- 
+2.39.0
+
