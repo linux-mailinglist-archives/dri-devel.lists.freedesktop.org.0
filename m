@@ -2,59 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D5FC74D826
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 15:50:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31A6574D835
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 15:52:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB4DB10E11B;
-	Mon, 10 Jul 2023 13:50:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2DDA10E17C;
+	Mon, 10 Jul 2023 13:52:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id E00CD10E11B
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 13:50:33 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
- by gateway (Coremail) with SMTP id _____8CxtPCoDKxkgTEDAA--.9412S3;
- Mon, 10 Jul 2023 21:50:32 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxxsyYDKxkUGYnAA--.24416S3; 
- Mon, 10 Jul 2023 21:50:31 +0800 (CST)
-Message-ID: <425f7fb4-265f-2d71-9554-eabafdd227d2@loongson.cn>
-Date: Mon, 10 Jul 2023 21:50:15 +0800
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09A2A10E163;
+ Mon, 10 Jul 2023 13:52:14 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id A3A391FFD8;
+ Mon, 10 Jul 2023 13:52:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1688997133; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4v5LeT3wEH/C9m2+W9XtcTPFhOIw+YSARWF0KgYWOtU=;
+ b=Oi9TRHgWi+luule3ABD/ucSz147ye4oeC2K/JMDAOmAYTcgUWwXxeVPSKpDjXHpYa11W1b
+ 8C8Bt5/wUHu0a0OA32pmcll5SgGi043elwFxPW+2k+HMXFbILx2HOWYjXc6HGezxJD9KXX
+ FIAJ8QgYE8tryF9ig8pdWfFgJafJlOQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1688997133;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4v5LeT3wEH/C9m2+W9XtcTPFhOIw+YSARWF0KgYWOtU=;
+ b=jbYxkndX4Ti6Gn7nfRuP5KqH7ubZaqVqLQV4PJNSTcJTuw6/+68QjeWVEL52sklq3WE3DB
+ U2LYGNcP3Dc/M0BA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 38D491361C;
+ Mon, 10 Jul 2023 13:52:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id L6LYDA0NrGQpMAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 10 Jul 2023 13:52:13 +0000
+Message-ID: <54e3e070-52fb-9ccb-bc47-0f41690f6bfa@suse.de>
+Date: Mon, 10 Jul 2023 15:52:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/loongson: Fix two warnings because of passing wrong
- type
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 08/17] arch/sh: Do not assign FBINFO_FLAG_DEFAULT to
+ fb_videomode.flag
 Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, Li Yi <liyi@loongson.cn>
-References: <20230710100931.255234-1-suijingfeng@loongson.cn>
- <87h6qcjc46.fsf@intel.com>
-From: suijingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <87h6qcjc46.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8BxxsyYDKxkUGYnAA--.24416S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxZr47KFWrKr48Zr43tw13trc_yoW5WrWrpF
- 45CF1jkr4DJF12yws7GF42q34Sva1SqFZaqrZrJ3Zxuw1DAF1UXF1kWFW5Kry3ZFWjy3WS
- vrs3Gay3K3WqvwcCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
- sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
- 0xBIdaVrnRJUUU9vb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
- IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
- e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
- xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
- 1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv
- 67AKxVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2
- xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xF
- xVAFwI0_Jw0_GFylx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWw
- C2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_
- JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJV
- WUCwCI42IY6I8E87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUv
- cSsGvfC2KfnxnUUI43ZEXa7IU14lk7UUUUU==
+To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, deller@gmx.de,
+ javierm@redhat.com
+References: <20230710130113.14563-1-tzimmermann@suse.de>
+ <20230710130113.14563-9-tzimmermann@suse.de>
+ <0a47ed93fe90a77180533f8c2e42e402827e8f1c.camel@physik.fu-berlin.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <0a47ed93fe90a77180533f8c2e42e402827e8f1c.camel@physik.fu-berlin.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------ObI0DIYuPayIMER65keWCwGm"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,90 +73,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: loongson-kernel@lists.loongnix.cn, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>
+Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
+ kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, linux-geode@lists.infradead.org,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, dri-devel@lists.freedesktop.org,
+ linux-input@vger.kernel.org, linux-nvidia@lists.surfsouth.com,
+ linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------ObI0DIYuPayIMER65keWCwGm
+Content-Type: multipart/mixed; boundary="------------y6Z9f06cQd6qaNtFSEQ4zER5";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, deller@gmx.de,
+ javierm@redhat.com
+Cc: linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-geode@lists.infradead.org,
+ linux-nvidia@lists.surfsouth.com, linux-hyperv@vger.kernel.org,
+ linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ kvm@vger.kernel.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Rich Felker <dalias@libc.org>
+Message-ID: <54e3e070-52fb-9ccb-bc47-0f41690f6bfa@suse.de>
+Subject: Re: [PATCH 08/17] arch/sh: Do not assign FBINFO_FLAG_DEFAULT to
+ fb_videomode.flag
+References: <20230710130113.14563-1-tzimmermann@suse.de>
+ <20230710130113.14563-9-tzimmermann@suse.de>
+ <0a47ed93fe90a77180533f8c2e42e402827e8f1c.camel@physik.fu-berlin.de>
+In-Reply-To: <0a47ed93fe90a77180533f8c2e42e402827e8f1c.camel@physik.fu-berlin.de>
 
-On 2023/7/10 18:26, Jani Nikula wrote:
-> On Mon, 10 Jul 2023, Sui Jingfeng <suijingfeng@loongson.cn> wrote:
->> When accessing I/O memory, we should pass '__iomem *' type instead of
->> 'void *' simply, otherwise sparse tests will complain. After applied
->> this patch, the following two sparse warnings got fixed.
-> Usually the commit message should explain why it's okay to cast away the
-> warning.
->
-> Because realistically this doesn't "fix" the warning, this merely hides
-> it.
+--------------y6Z9f06cQd6qaNtFSEQ4zER5
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
+SGkNCg0KQW0gMTAuMDcuMjMgdW0gMTU6NDIgc2NocmllYiBKb2huIFBhdWwgQWRyaWFuIEds
+YXViaXR6Og0KPiBIaSBUaG9tYXMhDQo+IA0KPiBPbiBNb24sIDIwMjMtMDctMTAgYXQgMTQ6
+NTAgKzAyMDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gRkJJTkZPX0ZMQUdfREVG
+QVVMVCBpcyBhIGZsYWcgZm9yIGEgZnJhbWVidWZmZXIgaW4gc3RydWN0IGZiX2luZm8uDQo+
+PiBGbGFncyBmb3IgdmlkZW9tb2RlcyBhcmUgcHJlZml4ZWQgd2l0aCBGQl9NT0RFXy4gRkJJ
+TkZPX0ZMQUdfREVGQVVMVA0KPj4gaXMgMCBhbmQgdGhlIHN0YXRpYyBkZWNsYXJhdGlvbiBh
+bHJlYWR5IGNsZWFycyB0aGUgbWVtb3J5IGFyZWEgb2YNCj4+IHNoNzc2M2ZiX3ZpZGVvbW9k
+ZS4gU28gcmVtb3ZlIHRoZSBhc3NpZ25tZW50Lg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFRo
+b21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4gQ2M6IFlvc2hpbm9y
+aSBTYXRvIDx5c2F0b0B1c2Vycy5zb3VyY2Vmb3JnZS5qcD4NCj4+IENjOiBSaWNoIEZlbGtl
+ciA8ZGFsaWFzQGxpYmMub3JnPg0KPj4gQ2M6IEpvaG4gUGF1bCBBZHJpYW4gR2xhdWJpdHog
+PGdsYXViaXR6QHBoeXNpay5mdS1iZXJsaW4uZGU+DQo+PiAtLS0NCj4+ICAgYXJjaC9zaC9i
+b2FyZHMvbWFjaC1zaDc3NjNyZHAvc2V0dXAuYyB8IDEgLQ0KPj4gICAxIGZpbGUgY2hhbmdl
+ZCwgMSBkZWxldGlvbigtKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9hcmNoL3NoL2JvYXJkcy9t
+YWNoLXNoNzc2M3JkcC9zZXR1cC5jIGIvYXJjaC9zaC9ib2FyZHMvbWFjaC1zaDc3NjNyZHAv
+c2V0dXAuYw0KPj4gaW5kZXggOTdlNzE1ZTRlOWIzLi4zNDVmMmI3NmM4NWEgMTAwNjQ0DQo+
+PiAtLS0gYS9hcmNoL3NoL2JvYXJkcy9tYWNoLXNoNzc2M3JkcC9zZXR1cC5jDQo+PiArKysg
+Yi9hcmNoL3NoL2JvYXJkcy9tYWNoLXNoNzc2M3JkcC9zZXR1cC5jDQo+PiBAQCAtMTE5LDcg
+KzExOSw2IEBAIHN0YXRpYyBzdHJ1Y3QgZmJfdmlkZW9tb2RlIHNoNzc2M2ZiX3ZpZGVvbW9k
+ZSA9IHsNCj4+ICAgCS52c3luY19sZW4gPSAxLA0KPj4gICAJLnN5bmMgPSAwLA0KPj4gICAJ
+LnZtb2RlID0gRkJfVk1PREVfTk9OSU5URVJMQUNFRCwNCj4+IC0JLmZsYWcgPSBGQklORk9f
+RkxBR19ERUZBVUxULA0KPj4gICB9Ow0KPj4gICANCj4+ICAgc3RhdGljIHN0cnVjdCBzaDc3
+NjBmYl9wbGF0ZGF0YSBzaDc3NjNmYl9kZWZfcGRhdGEgPSB7DQo+IA0KPiBJIHdvdWxkIGFy
+Z3VlIHRoYXQgdGhlIGN1cnJlbnQgY29kZSBpcyBtb3JlIHJlYWRhYmxlIHRoYXQgeW91ciBw
+cm9wb3NlZCBjaGFuZ2UuDQo+IA0KPiBJIGFncmVlIHRoYXQgaXQncyBhIG5vLW9wLCBidXQg
+Y29kZSBpcyBub3QganVzdCBhYm91dCBmdW5jdGlvbmFsaXR5IGJ1dCBhbHNvDQo+IHJlYWRh
+YmlsaXR5LCBpc24ndCBpdD8NCg0KSSB3b24ndCBhcmd1ZSB3aXRoIHRoYXQsIGJ1dCB0aGUg
+ZmxhZyBpdHNlbGYgaXMgd3JvbmcuIA0KRkJJTkZPX0ZMQUdfREVGQVVMVCBpcy93YXMgZm9y
+IHN0cnVjdCBmYl9pbmZvLmZsYWdzLiBZb3UgaGF2ZSBzdHJ1Y3QgDQpmYl92aWRlb21vZGUu
+ZmxhZy4gVGhlIHZhbGlkIGZsYWdzIGZvciB0aGlzIGZpZWxkIGFyZSBhdCBbMV0uIElmIA0K
+YW55dGhpbmcsIHRoZSBmaWVsZCBjb3VsZCBiZSBpbml0aWFsaXplZCB0byBGQl9NT0RFX0lT
+X1VOS05PV04sIHdoaWNoIA0KaGFzIHRoZSBzYW1lIHZhbHVlLg0KDQpbMV0gaHR0cHM6Ly9l
+bGl4aXIuYm9vdGxpbi5jb20vbGludXgvbGF0ZXN0L3NvdXJjZS9pbmNsdWRlL2xpbnV4L2Zi
+LmgjTDY4MQ0KDQo+IA0KPiBBbHNvLCBJIHByZWZlciAic2g6IiBhcyB0aGUgYXJjaGl0ZWN0
+dXJlIHByZWZpeCwgbm90ICJhcmNoL3NoOiIuDQoNCk9rLg0KDQpCZXN0IHJlZ2FyZHMNClRo
+b21hcw0KPiANCj4gVGhhbmtzLA0KPiBBZHJpYW4NCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1l
+cm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRp
+b25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcs
+IEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxk
+LCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
 
-The reason why we don't fix this at the very beginning is that
+--------------y6Z9f06cQd6qaNtFSEQ4zER5--
 
-we are following the ttm_kmap_obj_virtual() and the ttm_bo_kmap() function.
+--------------ObI0DIYuPayIMER65keWCwGm
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Our lsdc_bo_kmap() is implemented with the ttm_bo_kmap() function.
+-----BEGIN PGP SIGNATURE-----
 
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSsDQwFAwAAAAAACgkQlh/E3EQov+Dq
+UxAAgxMgxU6Vr1M0nKcJyYj4sBGwi4F9uEC7pJWH9/enjSUh+BceCBIJjCWRNv6aEUdyY0PT5sdz
+dYTeYaX+5Wm02K1aKeDauyMFsWlLCopJjZMbXgEaUTAqSWCnWSZR3G8S/+crcCG7HNMrNrL3cMPn
+azjGASDNtOZNOjcei6o2k1mEzVy/no+UPAP6VUY2PD3lfpd+1qXm7bNpsGrK7vJJYZQPfPa2NpSe
+aslguDTa278xr+dD9Rf2qJbNt/USGI/Nn8jHi+IW9FigyKiG/tKLu5vf8zYYUihidWYe2YuV1zl5
+ALOxcb0CK+KW1htlRCGyOe+YPmY67Qd7iWSQQ4Q/ljzuXy3BfCAZhoTLLhs/26Ne1Gtg/o1Ey59i
+v5KC77N8Y41+VgnUuTdjT6vFeIgaZQxTvq/8OTsJ5eAmteQqyUTFZ/Ls+ohLOOtyT7Stjfbv9z8w
+/mdVDcfD5sVho5w4yOnVPl1/yNY+WAM9amQq3vJaPwD03CgAYhc/LsfMUKlVsxvPZIpYScmxK0Vg
+NugH4iNcFKdkVQxhuwXH7bcINQj7y9TfBTQnG51LfaBrtldkMzbO5IN/m10bkS42GiBQpSNBL6NR
++4AlANALC2HzJi0pctl2TXlRuVJHBQpwyukgc06o5FMJfF6w8fZ3jOU2wxODUTat8spdC/CORdgv
+of4=
+=M2aI
+-----END PGP SIGNATURE-----
 
-Another reason is that this warning don't emerge when compile with W=1,
-
-at least this is true on our platform.
-
-
-We don't think this warning is harmful, because implicit cast will do 
-the cast for us.
-
-It is just that we need eliminate the noise as a programmer.
-
-
-Again, for the code at here, before you do the de-reference operation,
-
-As long as a address is really(originally) point to the I/O memory, cast 
-it to 'void __iomem *' is OK.
-
-As long as a address is really(originally) point to the system memory, 
-cast it to 'void *' is OK.
-
-
-> BR,
-> Jani.
->
->> 1) drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35:
->>     sparse:     expected void volatile [noderef] __iomem *
->>     sparse:     got void *kptr
->>
->> 2) drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51:
->>     sparse:     expected void const volatile [noderef] __iomem *
->>     sparse:     got void *kptr
->>
->> Reported-by: kernel test robot <lkp@intel.com>
->> Closes: https://lore.kernel.org/oe-kbuild-all/202307100243.v3hv6aes-lkp@intel.com/
->> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->> ---
->>   drivers/gpu/drm/loongson/lsdc_benchmark.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/loongson/lsdc_benchmark.c b/drivers/gpu/drm/loongson/lsdc_benchmark.c
->> index b088646a2ff9..36e352820bdb 100644
->> --- a/drivers/gpu/drm/loongson/lsdc_benchmark.c
->> +++ b/drivers/gpu/drm/loongson/lsdc_benchmark.c
->> @@ -24,7 +24,7 @@ static void lsdc_copy_gtt_to_vram_cpu(struct lsdc_bo *src_bo,
->>   	lsdc_bo_kmap(dst_bo);
->>   
->>   	while (n--)
->> -		memcpy_toio(dst_bo->kptr, src_bo->kptr, size);
->> +		memcpy_toio((void __iomem *)dst_bo->kptr, src_bo->kptr, size);
->>   
->>   	lsdc_bo_kunmap(src_bo);
->>   	lsdc_bo_kunmap(dst_bo);
->> @@ -39,7 +39,7 @@ static void lsdc_copy_vram_to_gtt_cpu(struct lsdc_bo *src_bo,
->>   	lsdc_bo_kmap(dst_bo);
->>   
->>   	while (n--)
->> -		memcpy_fromio(dst_bo->kptr, src_bo->kptr, size);
->> +		memcpy_fromio(dst_bo->kptr, (void __iomem *)src_bo->kptr, size);
->>   
->>   	lsdc_bo_kunmap(src_bo);
->>   	lsdc_bo_kunmap(dst_bo);
-
+--------------ObI0DIYuPayIMER65keWCwGm--
