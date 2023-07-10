@@ -1,82 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FF0974D08E
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 10:48:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37A3374D0B1
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jul 2023 10:57:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AB1910E239;
-	Mon, 10 Jul 2023 08:48:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D928310E23C;
+	Mon, 10 Jul 2023 08:57:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFC5310E239
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 08:48:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1688978928;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VnT1tPuR/VUaxYcwdc5fja6B+nVCta9u8R8VI7JBzTU=;
- b=eHdCClxV2F71FlfgwH62KcyxTfu+qKAlKGfXi+yJWOr+HRW/2mr8CHmPPFoki4fKOhYps/
- 6+YNdqxjIjguE3LIub4AtkmH+eCPtlr+VQPehXhDuMgu4wmnDdk36tlRrX5fifwKc467ZK
- Zd6cY0CCJRO8xYpHKyrsE/KTuVHuUXI=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-149-LkLDkT2qOH-ip04OMwL5FA-1; Mon, 10 Jul 2023 04:48:47 -0400
-X-MC-Unique: LkLDkT2qOH-ip04OMwL5FA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-314291caa91so2294531f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 01:48:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688978926; x=1691570926;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VnT1tPuR/VUaxYcwdc5fja6B+nVCta9u8R8VI7JBzTU=;
- b=QNlo+iJylumP3WV7sla8jeywQhU0aDYYUzHibbKOGVV61UH80cNJAY3rRew9rlZF2T
- 6lMLxeWg1ryGIn6G2VltMali/Ztv/fKf/1/tQQI8o25X6yBM66OjG/suJW1kOXGllZ5F
- n3bN5JIdyzY8iZmUb3z6s4cE+Tfi13lrb/9Wj8xe2x6NASTu8rZZ3w4K2GzBpI5m8bnD
- LPh60mg29vXgOvVK/ULxqAgMixu6xOTl6d+IhgT7jfm3LTx9d2RHhA7LEPS6dLqk7Q1N
- Hlby+YexFcPXQ6O/3BQZ3PHEkGFRNGVGY/b8oAYbY4LB7/f+yg6PllsBbciOM7IHuuxJ
- mFhw==
-X-Gm-Message-State: ABy/qLZMI4t2Am99RQw7ojZk5KyOZHXFngvlmlAI9t+pFwAlDX5AWZ+9
- ZMLtJ3Ov/jkHrDKqhopD/L9NOjx1C8L2ok/oMJLxgOk6uWIdWjXKLiPMMx7mSVwO0EIutDlTeXZ
- ry37pYDgmp7YzxeJL3IJb2dproK05
-X-Received: by 2002:a5d:5142:0:b0:313:eeb3:c57a with SMTP id
- u2-20020a5d5142000000b00313eeb3c57amr10583157wrt.15.1688978926321; 
- Mon, 10 Jul 2023 01:48:46 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlEl0Ilw0F0+BPI0872WaPo4+iStmZh/KToecW4TsTdIu8X5u+tYgKyHVbjgWTkl4gKbZOFrug==
-X-Received: by 2002:a5d:5142:0:b0:313:eeb3:c57a with SMTP id
- u2-20020a5d5142000000b00313eeb3c57amr10583145wrt.15.1688978925976; 
- Mon, 10 Jul 2023 01:48:45 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- t18-20020adff052000000b0031433443265sm11173875wro.53.2023.07.10.01.48.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Jul 2023 01:48:45 -0700 (PDT)
-Message-ID: <f5a4229f-2543-d6e2-1845-5d24ab462cf8@redhat.com>
-Date: Mon, 10 Jul 2023 10:48:44 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EEA310E23C
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 08:57:33 +0000 (UTC)
+Received: from eldfell (unknown [194.136.85.206])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested) (Authenticated sender: pq)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id D59626606FF7;
+ Mon, 10 Jul 2023 09:57:29 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1688979450;
+ bh=FnvpISxdVnRNhrwPhxC+0k4bLKZXdcNEO4ygcToLl4k=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=lQ6Ano0wZyo/0ea6eiF7yfssoz0pBpgJA2cbeN8OOEXyLDDU27bOQHOxls1JILeAh
+ Qmd4X8u6yL2LququxRfH02en4cYpF5j/G++5OhdOGCrEiMDXgJonEySFyz9krEgryZ
+ UIWVKX0/jZqwwIJd0giS8pcYE+aFM6Vj+1nrCrFxuW+K1n1D2oBLozpCOEu8OkS706
+ N0hgoqedUVSgP+nI7V4SBRjvd/hG62Cx6OiGxI2C4wHbHHijevJhqf9ren2X2Qqcxp
+ ccn3ncP/ZirQZl1RvVI1gh4TnuM0kblWhqbNpIDrBJ+b0lcc58kqQ8sOUdray60c9R
+ 5bFyewUd8ADCQ==
+Date: Mon, 10 Jul 2023 11:57:26 +0300
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Arthur Grillo <arthurgrillo@riseup.net>
+Subject: Re: [PATCH v5] drm/vkms: Add support to 1D gamma LUT
+Message-ID: <20230710115726.5962ae97.pekka.paalanen@collabora.com>
+In-Reply-To: <20230709013835.161004-1-arthurgrillo@riseup.net>
+References: <20230709013835.161004-1-arthurgrillo@riseup.net>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2] drm/ast: report connection status on Display Port.
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com,
- jani.nikula@linux.intel.com
-References: <20230706100102.563458-1-jfalempe@redhat.com>
- <adbab7c1-2dee-1f00-dbf9-ef63bd9b51c9@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <adbab7c1-2dee-1f00-dbf9-ef63bd9b51c9@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,259 +52,362 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: hamohammed.sa@gmail.com, aleixpol@kde.org, andrealmeid@riseup.net,
+ rodrigosiqueiramelo@gmail.com, xaver.hugl@gmail.com, mdaenzer@redhat.com,
+ dri-devel@lists.freedesktop.org, victoria@system76.com, mwen@igalia.com,
+ mairacanal@riseup.net, jadahl@redhat.com, uma.shankar@intel.com,
+ sebastian.wick@redhat.com, joshua@froggi.es
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/07/2023 08:57, Thomas Zimmermann wrote:
-> Hi Jocelyn
-> 
-> Am 06.07.23 um 11:58 schrieb Jocelyn Falempe:
->> Aspeed always report the display port as "connected", because it
->> doesn't set a .detect callback.
->> Fix this by providing the proper detect callback for astdp and dp501.
->>
->> This also fixes the following regression:
->> Since commit fae7d186403e ("drm/probe-helper: Default to 640x480 if no
->>   EDID on DP")
->> The default resolution is now 640x480 when no monitor is connected.
->> But Aspeed graphics is mostly used in servers, where no monitor
->> is attached. This also affects the remote BMC resolution to 640x480,
->> which is inconvenient, and breaks the anaconda installer.
-> 
-> The formating of these paraghraphs looks off.
+On Sat,  8 Jul 2023 22:38:35 -0300
+Arthur Grillo <arthurgrillo@riseup.net> wrote:
 
-Ok
+> Support a 1D gamma LUT with interpolation for each color channel on the
+> VKMS driver. Add a check for the LUT length by creating
+> vkms_atomic_check().
+>=20
+> Enable VKMS to run the test igt@kms_plane@pixel-format.
+>=20
+> Tested with:
+> igt@kms_color@gamma
+> igt@kms_color@legacy-gamma
+> igt@kms_color@invalid-gamma-lut-sizes
+>=20
+> v2:
+>     - Add interpolation between the values of the LUT (Simon Ser)
+>=20
+> v3:
+>     - s/ratio/delta (Pekka)
+>     - s/color_channel/channel_value (Pekka)
+>     - s/lut_area/lut_channel
+>     - Store the `drm_color_lut`, `lut_length`, and
+>       `channel_value2index_ratio` inside a struct called `vkms_lut`
+>       (Pekka)
+>     - Pre-compute some constants values used through the LUT procedure
+>       (Pekka)
+>     - Change the switch statement to a cast to __u16* (Pekka)
+>     - Make the apply_lut_to_channel_value return the computation result
+>       (Pekka)
+>=20
+> v4:
+>     - Add a comment explaining that `enum lut_area` depends on the
+>       layout of `struct drm_color_lut` (Pekka)
+>     - Remove unused variable (kernel test robot)
+>=20
+> v5:
+>     - Mention that this will make it possible to run the test
+>       igt@kms_plane@pixel-format (Ma=C3=ADra)
+>     - s/had/has (Ma=C3=ADra)
+>=20
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> Reviewed-by: Ma=C3=ADra Canal <mairacanal@riseup.net>
+> ---
+> Ma=C3=ADra asked me to run a benchmark on some IGT tests:
+>=20
+> Each test ran 100 times. The result with 'X' are tests that were not able=
+ to
+> run because of the absence of gamma LUT.
+>=20
+> +--------------------------------------------------+-----------+---------=
+--------+---------------+
+> | Test                                             |  No LUT   | Unoptimi=
+zed LUT | Optimized LUT |
+> + -------------------------------------------------+-----------+---------=
+--------+---------------+
+> | igt@kms_rotation@primary-rotation-180            | 174.298s  |    181.1=
+30s     |   178.800s    |
+> + -------------------------------------------------+-----------+---------=
+--------+---------------+
+> | igt@kms_plane@pixel-format                       |    X      |    1420.=
+453s    |   1218.229s   |
+> + -------------------------------------------------+-----------+---------=
+--------+---------------+
+> | igt@kms_plane@pixel-format-source-clamping       |    X      |    704.2=
+36s     |   612.318s    |
+> + -------------------------------------------------+-----------+---------=
+--------+---------------+
+> | igt@kms_plane@plane-position-covered             | 12.535s   |    12.86=
+4s      |   12.025s     |
+> + -------------------------------------------------+-----------+---------=
+--------+---------------+
+> | igt@kms_plane@plane-position-hole                | 11.752s   |    12.87=
+3s      |   11.202s     |
+> + -------------------------------------------------+-----------+---------=
+--------+---------------+
+> | igt@kms_plane@plane-position-hole-dpms           | 15.188s   |    15.23=
+8s      |   15.652s     |
+> + -------------------------------------------------+-----------+---------=
+--------+---------------+
+> | igt@kms_plane@plane-panning-top-left             | 10.797s   |    11.87=
+3s      |   11.041s     |
+> + -------------------------------------------------+-----------+---------=
+--------+---------------+
+> | igt@kms_plane@plane-bottom-right                 | 10.764s   |    11.61=
+3s      |   10.053s     |
+> + -------------------------------------------------+-----------+---------=
+--------+---------------+
+> | igt@kms_plane@plane-panning-bottom-right-suspend | 2011.344s |    2009.=
+410s    |   2011.496s   |
+> + -------------------------------------------------+-----------+---------=
+--------+---------------+
+> | igt@kms_cursor_crc@cursor-onscreen-512x5112      | 359.209s  |    337.8=
+30s     |   308.168s    |
+> + -------------------------------------------------+-----------+---------=
+--------+---------------+
+> | igt@kms_color@gamma                              |    X      |    137.7=
+02s     |   118.139s    |
+> + -------------------------------------------------+-----------+---------=
+--------+---------------+
 
-> 
->>
->> v2: Add .detect callback to the dp/dp501 connector (Jani Nikula)
->>
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-> 
-> Maybe add Fixes with the patch that added the DP default resolution. 
-> It's not really correct, but at least tells people to consider your patch.
-> 
-> I assume that you'll send another patch with the BMC connector?
+Hi Arthur,
 
-Yes, this patch alone will break more systems than what it tries to fix.
+comparing "No LUT" with "Optimized LUT", both have essentially the same
+numbers where "No LUT" has a number to begin with. This is good,
+because it means that adding the new feature does not penalize cases
+where the new feature is not used. On the other hand, there is a small
+chance that these measurements could be dominated by something we do
+not expect, meaning that they are not measuring what we are interested
+in. The cases where "Optimized LUT" is faster than "No LUT" hint that
+there could be significant overhead and variance included in the
+measurements, because adding this feature should not make anything
+faster AFAICT.
 
-> 
->> ---
->>   drivers/gpu/drm/ast/ast_dp.c    |  9 ++++++++
->>   drivers/gpu/drm/ast/ast_dp501.c | 37 ++++++++++++++++++++++-----------
->>   drivers/gpu/drm/ast/ast_drv.h   |  2 ++
->>   drivers/gpu/drm/ast/ast_mode.c  | 24 +++++++++++++++++++++
->>   4 files changed, 60 insertions(+), 12 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
->> index 6dc1a09504e1..fbc154930fdf 100644
->> --- a/drivers/gpu/drm/ast/ast_dp.c
->> +++ b/drivers/gpu/drm/ast/ast_dp.c
->> @@ -7,6 +7,15 @@
->>   #include <drm/drm_print.h>
->>   #include "ast_drv.h"
->> +bool ast_astdp_is_connected(struct ast_device *ast)
->> +{
->> +    if (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, 
->> ASTDP_MCU_FW_EXECUTING) &&
->> +        ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDC, 
->> ASTDP_LINK_SUCCESS) &&
->> +        ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDF, ASTDP_HPD))
-> 
-> The indention of those two lines is off.
-> 
-> You could also rewrite this as
-> 
->   if (!a)
->     return false;
->   if (!b)
->     return false;
->   if (!c)
->     return false;
->   return true;
+It's impossible to evalute the difference between "Unoptimized LUT" vs.
+"Optimized LUT" other than it is in the right direction at least,
+because we have no idea how much of the total time is spent doing
+unrelated work like initializing IGT for example.
 
-ok
+In summary, this looks good, even though one cannot say how good.
 
-> 
->> +        return true;
->> +    return false;
->> +}
->> +
->>   int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
->>   {
->>       struct ast_device *ast = to_ast_device(dev);
->> diff --git a/drivers/gpu/drm/ast/ast_dp501.c 
->> b/drivers/gpu/drm/ast/ast_dp501.c
->> index a5d285850ffb..f10d53b0c94f 100644
->> --- a/drivers/gpu/drm/ast/ast_dp501.c
->> +++ b/drivers/gpu/drm/ast/ast_dp501.c
->> @@ -272,11 +272,9 @@ static bool ast_launch_m68k(struct drm_device *dev)
->>       return true;
->>   }
->> -bool ast_dp501_read_edid(struct drm_device *dev, u8 *ediddata)
->> +bool ast_dp501_is_connected(struct ast_device *ast)
->>   {
->> -    struct ast_device *ast = to_ast_device(dev);
->> -    u32 i, boot_address, offset, data;
->> -    u32 *pEDIDidx;
->> +    u32 boot_address, offset, data;
->>       if (ast->config_mode == ast_use_p2a) {
->>           boot_address = get_fw_base(ast);
->> @@ -292,14 +290,6 @@ bool ast_dp501_read_edid(struct drm_device *dev, 
->> u8 *ediddata)
->>           data = ast_mindwm(ast, boot_address + offset);
->>           if (!(data & AST_DP501_PNP_CONNECTED))
->>               return false;
->> -
->> -        /* Read EDID */
->> -        offset = AST_DP501_EDID_DATA;
->> -        for (i = 0; i < 128; i += 4) {
->> -            data = ast_mindwm(ast, boot_address + offset + i);
->> -            pEDIDidx = (u32 *)(ediddata + i);
->> -            *pEDIDidx = data;
->> -        }
->>       } else {
->>           if (!ast->dp501_fw_buf)
->>               return false;
->> @@ -319,7 +309,30 @@ bool ast_dp501_read_edid(struct drm_device *dev, 
->> u8 *ediddata)
->>           data = readl(ast->dp501_fw_buf + offset);
->>           if (!(data & AST_DP501_PNP_CONNECTED))
->>               return false;
->> +    }
->> +    return true;
->> +}
->> +
->> +bool ast_dp501_read_edid(struct drm_device *dev, u8 *ediddata)
->> +{
->> +    struct ast_device *ast = to_ast_device(dev);
->> +    u32 i, boot_address, offset, data;
->> +    u32 *pEDIDidx;
->> +
->> +    if (!ast_dp501_is_connected(ast))
->> +        return false;
->> +
->> +    if (ast->config_mode == ast_use_p2a) {
->> +        boot_address = get_fw_base(ast);
->> +        /* Read EDID */
->> +        offset = AST_DP501_EDID_DATA;
->> +        for (i = 0; i < 128; i += 4) {
->> +            data = ast_mindwm(ast, boot_address + offset + i);
->> +            pEDIDidx = (u32 *)(ediddata + i);
->> +            *pEDIDidx = data;
->> +        }
->> +    } else {
->>           /* Read EDID */
->>           offset = AST_DP501_EDID_DATA;
->>           for (i = 0; i < 128; i += 4) {
->> diff --git a/drivers/gpu/drm/ast/ast_drv.h 
->> b/drivers/gpu/drm/ast/ast_drv.h
->> index 3f6e0c984523..99a24d779b9c 100644
->> --- a/drivers/gpu/drm/ast/ast_drv.h
->> +++ b/drivers/gpu/drm/ast/ast_drv.h
->> @@ -510,6 +510,7 @@ void ast_patch_ahb_2500(struct ast_device *ast);
->>   /* ast dp501 */
->>   void ast_set_dp501_video_output(struct drm_device *dev, u8 mode);
->>   bool ast_backup_fw(struct drm_device *dev, u8 *addr, u32 size);
->> +bool ast_dp501_is_connected(struct ast_device *ast);
->>   bool ast_dp501_read_edid(struct drm_device *dev, u8 *ediddata);
->>   u8 ast_get_dp501_max_clk(struct drm_device *dev);
->>   void ast_init_3rdtx(struct drm_device *dev);
->> @@ -518,6 +519,7 @@ void ast_init_3rdtx(struct drm_device *dev);
->>   struct ast_i2c_chan *ast_i2c_create(struct drm_device *dev);
->>   /* aspeed DP */
->> +bool ast_astdp_is_connected(struct ast_device *ast);
->>   int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata);
->>   void ast_dp_launch(struct drm_device *dev);
->>   void ast_dp_power_on_off(struct drm_device *dev, bool no);
->> diff --git a/drivers/gpu/drm/ast/ast_mode.c 
->> b/drivers/gpu/drm/ast/ast_mode.c
->> index f711d592da52..ccf48d57d239 100644
->> --- a/drivers/gpu/drm/ast/ast_mode.c
->> +++ b/drivers/gpu/drm/ast/ast_mode.c
->> @@ -1586,12 +1586,24 @@ static const struct drm_connector_helper_funcs 
->> ast_dp501_connector_helper_funcs
->>       .get_modes = ast_dp501_connector_helper_get_modes,
->>   };
->> +static enum drm_connector_status ast_dp501_connector_helper_detect(
->> +    struct drm_connector *connector,
->> +    bool force)
->> +{
->> +    struct ast_device *ast = to_ast_device(connector->dev);
->> +
->> +    if (ast_dp501_is_connected(ast))
->> +        return connector_status_connected;
->> +    return connector_status_disconnected;
->> +}
-> 
-> It seems more appropriate to implement this as connector helper func 
-> detect_ctx. It does the same in practice, but the detect funtionality is 
-> rather part of the helpers.
 
-ok, it looks easy to switch to detect_ctx().
+Thanks,
+pq
 
-> 
->> +
->>   static const struct drm_connector_funcs ast_dp501_connector_funcs = {
->>       .reset = drm_atomic_helper_connector_reset,
->>       .fill_modes = drm_helper_probe_single_connector_modes,
->>       .destroy = drm_connector_cleanup,
->>       .atomic_duplicate_state = 
->> drm_atomic_helper_connector_duplicate_state,
->>       .atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
->> +    .detect = ast_dp501_connector_helper_detect,
-> 
-> That might sound pedantic, but I'd prefer to have the assignments sorted 
-> as in the struct's definiation. :) So .detect would be set just below 
-> .reset.
-
-ok, I was wondering what the order was, as it was not alphabetically.
-
-> 
->>   };
->>   static int ast_dp501_connector_init(struct drm_device *dev, struct 
->> drm_connector *connector)
->> @@ -1684,12 +1696,24 @@ static const struct drm_connector_helper_funcs 
->> ast_astdp_connector_helper_funcs
->>       .get_modes = ast_astdp_connector_helper_get_modes,
->>   };
->> +static enum drm_connector_status ast_astdp_connector_helper_detect(
->> +    struct drm_connector *connector,
->> +    bool force)
->> +{
->> +    struct ast_device *ast = to_ast_device(connector->dev);
->> +
->> +    if (ast_astdp_is_connected(ast))
->> +        return connector_status_connected;
->> +    return connector_status_disconnected;
->> +}
->> +
->>   static const struct drm_connector_funcs ast_astdp_connector_funcs = {
->>       .reset = drm_atomic_helper_connector_reset,
->>       .fill_modes = drm_helper_probe_single_connector_modes,
->>       .destroy = drm_connector_cleanup,
->>       .atomic_duplicate_state = 
->> drm_atomic_helper_connector_duplicate_state,
->>       .atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
->> +    .detect = ast_astdp_connector_helper_detect,
-> 
-> Same here.
-> 
-> Best regards
-> Thomas
-> 
->>   };
->>   static int ast_astdp_connector_init(struct drm_device *dev, struct 
->> drm_connector *connector)
->>
->> base-commit: b32d5a51f3c21843011d68a58e6ac0b897bce9f2
-> 
-
-Thanks for your review.
-I will try to add a virtual BMC connector, and send a v3.
-
--- 
-
-Jocelyn
+>=20
+> ---
+>  drivers/gpu/drm/vkms/vkms_composer.c | 86 ++++++++++++++++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_crtc.c     |  3 +
+>  drivers/gpu/drm/vkms/vkms_drv.c      | 20 ++++++-
+>  drivers/gpu/drm/vkms/vkms_drv.h      |  9 +++
+>  4 files changed, 117 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/=
+vkms_composer.c
+> index 906d3df40cdb..e3a79dcd2e38 100644
+> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> @@ -6,6 +6,7 @@
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_blend.h>
+>  #include <drm/drm_fourcc.h>
+> +#include <drm/drm_fixed.h>
+>  #include <drm/drm_gem_framebuffer_helper.h>
+>  #include <drm/drm_vblank.h>
+>  #include <linux/minmax.h>
+> @@ -89,6 +90,73 @@ static void fill_background(const struct pixel_argb_u1=
+6 *background_color,
+>  		output_buffer->pixels[i] =3D *background_color;
+>  }
+> =20
+> +// lerp(a, b, t) =3D a + (b - a) * t
+> +static u16 lerp_u16(u16 a, u16 b, s64 t)
+> +{
+> +	s64 a_fp =3D drm_int2fixp(a);
+> +	s64 b_fp =3D drm_int2fixp(b);
+> +
+> +	s64 delta =3D drm_fixp_mul(b_fp - a_fp,  t);
+> +
+> +	return drm_fixp2int(a_fp + delta);
+> +}
+> +
+> +static s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_v=
+alue)
+> +{
+> +	s64 color_channel_fp =3D drm_int2fixp(channel_value);
+> +
+> +	return drm_fixp_mul(color_channel_fp, lut->channel_value2index_ratio);
+> +}
+> +
+> +/*
+> + * This enum is related to the positions of the variables inside
+> + * `struct drm_color_lut`, so the order of both needs to be the same.
+> + */
+> +enum lut_channel {
+> +	LUT_RED =3D 0,
+> +	LUT_GREEN,
+> +	LUT_BLUE,
+> +	LUT_RESERVED
+> +};
+> +
+> +static u16 apply_lut_to_channel_value(const struct vkms_color_lut *lut, =
+u16 channel_value,
+> +				      enum lut_channel channel)
+> +{
+> +	s64 lut_index =3D get_lut_index(lut, channel_value);
+> +
+> +	/*
+> +	 * This checks if `struct drm_color_lut` has any gap added by the compi=
+ler
+> +	 * between the struct fields.
+> +	 */
+> +	static_assert(sizeof(struct drm_color_lut) =3D=3D sizeof(__u16) * 4);
+> +
+> +	u16 *floor_lut_value =3D (__u16 *)&lut->base[drm_fixp2int(lut_index)];
+> +	u16 *ceil_lut_value =3D (__u16 *)&lut->base[drm_fixp2int_ceil(lut_index=
+)];
+> +
+> +	u16 floor_channel_value =3D floor_lut_value[channel];
+> +	u16 ceil_channel_value =3D ceil_lut_value[channel];
+> +
+> +	return lerp_u16(floor_channel_value, ceil_channel_value,
+> +			lut_index & DRM_FIXED_DECIMAL_MASK);
+> +}
+> +
+> +static void apply_lut(const struct vkms_crtc_state *crtc_state, struct l=
+ine_buffer *output_buffer)
+> +{
+> +	if (!crtc_state->gamma_lut.base)
+> +		return;
+> +
+> +	if (!crtc_state->gamma_lut.lut_length)
+> +		return;
+> +
+> +	for (size_t x =3D 0; x < output_buffer->n_pixels; x++) {
+> +		struct pixel_argb_u16 *pixel =3D &output_buffer->pixels[x];
+> +
+> +		pixel->r =3D apply_lut_to_channel_value(&crtc_state->gamma_lut, pixel-=
+>r, LUT_RED);
+> +		pixel->g =3D apply_lut_to_channel_value(&crtc_state->gamma_lut, pixel-=
+>g, LUT_GREEN);
+> +		pixel->b =3D apply_lut_to_channel_value(&crtc_state->gamma_lut, pixel-=
+>b, LUT_BLUE);
+> +	}
+> +}
+> +
+>  /**
+>   * @wb_frame_info: The writeback frame buffer metadata
+>   * @crtc_state: The crtc state
+> @@ -128,6 +196,8 @@ static void blend(struct vkms_writeback_job *wb,
+>  					    output_buffer);
+>  		}
+> =20
+> +		apply_lut(crtc_state, output_buffer);
+> +
+>  		*crc32 =3D crc32_le(*crc32, (void *)output_buffer->pixels, row_size);
+> =20
+>  		if (wb)
+> @@ -242,6 +312,22 @@ void vkms_composer_worker(struct work_struct *work)
+>  	crtc_state->frame_start =3D 0;
+>  	crtc_state->frame_end =3D 0;
+>  	crtc_state->crc_pending =3D false;
+> +
+> +	if (crtc->state->gamma_lut) {
+> +		s64 max_lut_index_fp;
+> +		s64 u16_max_fp =3D drm_int2fixp(0xffff);
+> +
+> +		crtc_state->gamma_lut.base =3D (struct drm_color_lut *)crtc->state->ga=
+mma_lut->data;
+> +		crtc_state->gamma_lut.lut_length =3D
+> +			crtc->state->gamma_lut->length / sizeof(struct drm_color_lut);
+> +		max_lut_index_fp =3D drm_int2fixp(crtc_state->gamma_lut.lut_length  - =
+1);
+> +		crtc_state->gamma_lut.channel_value2index_ratio =3D drm_fixp_div(max_l=
+ut_index_fp,
+> +									       u16_max_fp);
+> +
+> +	} else {
+> +		crtc_state->gamma_lut.base =3D NULL;
+> +	}
+> +
+>  	spin_unlock_irq(&out->composer_lock);
+> =20
+>  	/*
+> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms=
+_crtc.c
+> index 515f6772b866..61e500b8c9da 100644
+> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
+> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+> @@ -290,6 +290,9 @@ int vkms_crtc_init(struct drm_device *dev, struct drm=
+_crtc *crtc,
+> =20
+>  	drm_crtc_helper_add(crtc, &vkms_crtc_helper_funcs);
+> =20
+> +	drm_mode_crtc_set_gamma_size(crtc, VKMS_LUT_SIZE);
+> +	drm_crtc_enable_color_mgmt(crtc, 0, false, VKMS_LUT_SIZE);
+> +
+>  	spin_lock_init(&vkms_out->lock);
+>  	spin_lock_init(&vkms_out->composer_lock);
+> =20
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_=
+drv.c
+> index e3c9c9571c8d..dd0af086e7fa 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -120,9 +120,27 @@ static const struct drm_driver vkms_driver =3D {
+>  	.minor			=3D DRIVER_MINOR,
+>  };
+> =20
+> +static int vkms_atomic_check(struct drm_device *dev, struct drm_atomic_s=
+tate *state)
+> +{
+> +	struct drm_crtc *crtc;
+> +	struct drm_crtc_state *new_crtc_state;
+> +	int i;
+> +
+> +	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
+> +		if (!new_crtc_state->gamma_lut || !new_crtc_state->color_mgmt_changed)
+> +			continue;
+> +
+> +		if (new_crtc_state->gamma_lut->length / sizeof(struct drm_color_lut *)
+> +		    > VKMS_LUT_SIZE)
+> +			return -EINVAL;
+> +	}
+> +
+> +	return drm_atomic_helper_check(dev, state);
+> +}
+> +
+>  static const struct drm_mode_config_funcs vkms_mode_funcs =3D {
+>  	.fb_create =3D drm_gem_fb_create,
+> -	.atomic_check =3D drm_atomic_helper_check,
+> +	.atomic_check =3D vkms_atomic_check,
+>  	.atomic_commit =3D drm_atomic_helper_commit,
+>  };
+> =20
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_=
+drv.h
+> index 5f1a0a44a78c..f16b5d7b81ef 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -23,6 +23,8 @@
+> =20
+>  #define NUM_OVERLAY_PLANES 8
+> =20
+> +#define VKMS_LUT_SIZE 256
+> +
+>  struct vkms_frame_info {
+>  	struct drm_framebuffer *fb;
+>  	struct drm_rect src, dst;
+> @@ -65,6 +67,12 @@ struct vkms_plane {
+>  	struct drm_plane base;
+>  };
+> =20
+> +struct vkms_color_lut {
+> +	struct drm_color_lut *base;
+> +	size_t lut_length;
+> +	s64 channel_value2index_ratio;
+> +};
+> +
+>  /**
+>   * vkms_crtc_state - Driver specific CRTC state
+>   * @base: base CRTC state
+> @@ -80,6 +88,7 @@ struct vkms_crtc_state {
+>  	/* stack of active planes for crc computation, should be in z order */
+>  	struct vkms_plane_state **active_planes;
+>  	struct vkms_writeback_job *active_writeback;
+> +	struct vkms_color_lut gamma_lut;
+> =20
+>  	/* below four are protected by vkms_output.composer_lock */
+>  	bool crc_pending;
 
