@@ -1,120 +1,152 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C112274E851
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 09:46:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBD1B74E856
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 09:48:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1900910E32B;
-	Tue, 11 Jul 2023 07:46:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5B0810E32C;
+	Tue, 11 Jul 2023 07:48:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2063.outbound.protection.outlook.com [40.107.223.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB10C10E32B
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 07:46:47 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AEB310E32C;
+ Tue, 11 Jul 2023 07:48:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1689061701; x=1720597701;
+ h=message-id:date:subject:to:references:from:in-reply-to:
+ content-transfer-encoding:mime-version;
+ bh=TL46lbfymL/17BBMKPyWXX5e5qXNf0nkmzCJFUEPULI=;
+ b=Ugjqh1fE6IG7YmO24cCCUJ5YbAEhLdq3mW23Xg+sizUELDzV+33+VZF4
+ qkpSBJdPSM3tn/QEbPuAlMl64bJ79QsFKMGV3kazdRu3h5OTmnCw7qMrC
+ nLUOitSwb8OvpgobvL2C07NhB4Emug2Pk5ZEsBHcgLC6qsAzIe2FCtAtD
+ gYxO2NvZp0tSNgrHsFtcgJy9Hu7qklXDmRn62V1QZVQk1tSpGemk5baQE
+ 1eVy+Y5hnTsvy9xkTMm+9tQBlI0QzzXywISTSzwH8jmOLYHelARVG/4VJ
+ YyanzJn6uXr6O6xyzbP6d8uzT+oO/Dz9TdHzIcJt5vOlVXd3ZxqdVPt5B A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="428249846"
+X-IronPort-AV: E=Sophos;i="6.01,196,1684825200"; d="scan'208";a="428249846"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jul 2023 00:48:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="865666778"
+X-IronPort-AV: E=Sophos;i="6.01,196,1684825200"; d="scan'208";a="865666778"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmsmga001.fm.intel.com with ESMTP; 11 Jul 2023 00:48:19 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27; Tue, 11 Jul 2023 00:48:19 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Tue, 11 Jul 2023 00:48:19 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.27; Tue, 11 Jul 2023 00:48:18 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kjOTEOs77A0APk2DOpZEqWGbhI2MzDr2aoBM9UmywkwUn6us5vz9ghMrWce6GePkALLasZCNUv53DhzlK5STxkDhh1WHGyq+n7mCUsB6fJFDQasYiLL6iD/U/GfsxP9xDyViAKy1ly9T4eGiSqju46yfgLVIiy1H/y4QPTcyUOCut5pFQrUB/BRe5Y6TL10t9vYL9mMvNHLyGWPKJrKwc/CdmM76j/9sutLDod2LUje9m0G34voGBn/yIy3XRWRjMfXcZmFOba/0oHzjGxTxJ0yk60xj9bi/CMcOOgvL6OxSqQYLN8x1ezNL51RNAIGosjMm7q5yFgTcqzoSimd2JA==
+ b=N5D8oB9K9sMIovsV4TyYblTVMcZLOzpdFXQCD4rip0ESdWnSVOsbOL7R6ZnbExt7gp1uqNIaAgpzy7K/AmRgFZ5tb8NWWfqkkJwfbor3+X4g0sn2N7wBtKRuOEms15/grKqeApN7sMykUNXJT/FY702vWXbw2hNzP6Z00UZ93DrSem4ddNxsZrtJtWPWvqnjK09/vtH0N1mhMaklHbh+n1vDhdamBIemFmL+mun07uRiGK89at12+texjzPqg74w0OUFnrz42RNa1a6jPjLGVnh4gborvCAgYi/1CJuzhRBGiiNEE4mAJ1b7gE7EIz+26O1nJDLHDITSbCBLJy8VMQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V8LW+siAm8IOGtqsWmSXdh4k15lvWGp/CPYLi47ORXs=;
- b=j2HkyGGqlzdUqDPqaTLPgySNxHLTCN0zmexeUCvLNwufq43bEnu00ryQBa99MtmVETmS5ihprFtYLZ4IRZvel9uxOFCMs24m/4jPm0aVK+LR76hkNgY7wgiN+rgCfPhIx+XYZgdKeyyLvFb795qqCpsxWiV6qBZTvu2TQfwr5VLeNsAeEJCwBqKrEL1VyvJmpNQzSONjj+CIMMQQBKgExOzW7RRJ+CtHlFkKLtPCPDgs36lR30M/2ndgfEUNy4qoqlHzNNGR1Oe7M5Asy3e6E4a1KGCzwDiqJFj+KEy7DFvMGdwmz1VCy2WTrMCv6U4g3oo/+ff80Dvolja8z3jwBQ==
+ bh=/sq1ZE+rnDCl6m0f7cs05KeOrB1lYBVlW5axAZuTIlo=;
+ b=HNdwYudPXl9PPO6q7/jcxUSaIh1idnX3ZbbG6EupMmpgT88K0x3co5EC+jCXxXZcmeqJvpjAd6bH39gLUTKRgLz7WKzv20mirjStlSHCe2t1p+pIiPg8MFxi9Hpi2mIAc9mnzAuU9rwOixZwSL0SNtj4ajgCGIJ1Fj0nVmb+N0MPlYQDx8h3fdjgFVKHewMkjX1gM94Ure9RyctUTtPtt/HMfL2FZZxOROyeHlp5ouJS4zJijXueugEZOHbvZwlA1dCQBnNEIbtYfrdc0qvPxjz+yW/HQnbfRDOat1Xo/iMgXCaU6Qgi0/kzsuNuxbfGTjtW22lDeEtzX0N6T0/F4A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V8LW+siAm8IOGtqsWmSXdh4k15lvWGp/CPYLi47ORXs=;
- b=YKLYwcceGL6RZGbrUrCMR2TULVkeTHgM3DRusSuP6m34LC9klcLdTVIWlgjeJBbNHOFrk8nwEmf92PaNsLNYpxWONcupWh/p0+IsQu9uiRudadCorH/pkAw0L97osmD/TVu8LFCkAWHT+WzYA1O+of0k5uYYELg5YwNC5EGxjD4=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by SA3PR12MB7904.namprd12.prod.outlook.com (2603:10b6:806:320::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.30; Tue, 11 Jul
- 2023 07:46:45 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::669f:5dca:d38a:9921]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::669f:5dca:d38a:9921%4]) with mapi id 15.20.6565.028; Tue, 11 Jul 2023
- 07:46:45 +0000
-Message-ID: <501a3dd6-d313-a03c-4bd1-74f4d27d0487@amd.com>
-Date: Tue, 11 Jul 2023 09:46:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/scheduler: Add missing RCU flag to fence slab
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CH0PR11MB5474.namprd11.prod.outlook.com (2603:10b6:610:d5::8)
+ by PH8PR11MB7096.namprd11.prod.outlook.com (2603:10b6:510:214::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.17; Tue, 11 Jul
+ 2023 07:48:11 +0000
+Received: from CH0PR11MB5474.namprd11.prod.outlook.com
+ ([fe80::2ead:623d:b273:bd8f]) by CH0PR11MB5474.namprd11.prod.outlook.com
+ ([fe80::2ead:623d:b273:bd8f%4]) with mapi id 15.20.6565.028; Tue, 11 Jul 2023
+ 07:48:10 +0000
+Message-ID: <4dfc48d3-1111-1d3b-c03e-7c5820f2274d@intel.com>
+Date: Tue, 11 Jul 2023 13:18:00 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.12.0
+Subject: Re: [Intel-gfx] [PATCH 1/5] drm/i915: Add ability for tracking buffer
+ objects per client
 Content-Language: en-US
-To: Luben Tuikov <luben.tuikov@amd.com>, Rob Clark <robdclark@gmail.com>,
- dri-devel@lists.freedesktop.org
-References: <20230710205625.130664-1-robdclark@gmail.com>
- <3bcebac5-81d8-79a5-cdfb-48db782ec206@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <3bcebac5-81d8-79a5-cdfb-48db782ec206@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ <Intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+References: <20230707130220.3966836-1-tvrtko.ursulin@linux.intel.com>
+ <20230707130220.3966836-2-tvrtko.ursulin@linux.intel.com>
+ <261b6cd8-3978-05ea-1348-c63e4599c518@intel.com>
+ <e116c96f-e21c-255f-695a-a98a64fdb00f@linux.intel.com>
+From: "Iddamsetty, Aravind" <aravind.iddamsetty@intel.com>
+In-Reply-To: <e116c96f-e21c-255f-695a-a98a64fdb00f@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0027.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:14::14) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+X-ClientProxiedBy: BM1P287CA0001.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:b00:40::21) To CH0PR11MB5474.namprd11.prod.outlook.com
+ (2603:10b6:610:d5::8)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SA3PR12MB7904:EE_
-X-MS-Office365-Filtering-Correlation-Id: 39aba24b-90f4-4300-7902-08db81e2f94c
+X-MS-TrafficTypeDiagnostic: CH0PR11MB5474:EE_|PH8PR11MB7096:EE_
+X-MS-Office365-Filtering-Correlation-Id: a21f4023-802d-45ab-8f01-08db81e32c11
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7K2ZZMICbdjBvsiCBM4pP+Y/QssNo/G1Qovq+OrDv6k3s7zNNoniFUJDKGXV+Ccn1yAEM8MRn89bMbP7QaATI5cJJ2C7itfqaMTNs7/KuYE/DB9Z9iPupgBAKhvE9R0sXBIk8T0HWC3DVZJ4xBYhljj4jqVkYE6IsInCSOfEjBDayZTkvasQ1TGRegxDZch1nZmIcwP/zur6ra6xAXWqfd47QiAv/WZARNwKxm/K7Hy+qTJ35wqlby/EDj3DFiaQVDgJqMYNshBxXDVp5u0zzI86fgo4DeKvy8wHHHeGbfa8pNFT+r4SZuHuRlxj2D8r49tedr1T/++bFu2bmADVVzn9IjQwnNOmMA5ibgSnAOifcGdt3CXLJYk0GPr7ngy774yfKb/twBAFve+LsENvUdftkYqfUFjlJduBeUmypT6o0Pn7uR7WOqMX8KNFjaM7qkYxKDgKgcrWfMQsRWaZtlUOjTUn2WutW/HcAV8gWiOLULW3wgyk2d/hmThDIU98Ple6Ie00RVkSAdP9KCnuxgPfGg3XSJIQwIZbNmWAR5jDlVammIPUnmHpO0qLTX1/bnqwwE760HdCGHC5LA5CrhtxgWlC8iBkWCB8tRajkp6QO4R7waCz6TFyHCw4kNlFMWsxY433FsuBSJt3I4pBQzqqQufco2KRL5bEo1dDjvwpUP6hl2K6yngTKHfINTUG
+X-Microsoft-Antispam-Message-Info: NTk4eCpCRgcKVqNVuM+deAs8lvAjYnJ8dWMH6oio90p/WibRO26BPvs4NKAlTn+Cj7UjeRnZqyGqQn8qkJWnscCIBOyiP7ZeuVIhYoVUxbOdY+uP7AWR99Y8iH5zDTw9QD2HYI7JRmVE8ZAY60W09eXF55Red+u+7XG9tiMInzgzeaVCuwCbm7+QNpmMKIM88twjRMEvWPC0zkq/SsYE/89YbeSzDyAm/NtSI1QP01kcyycM9VSHcJzwr3LipGAuRa+7wwbsjhN3u5HCX9fS9B7kcZT//TmTVswM/Tc/yEZAubSYHCDLI/1RGSkj2i/8Fq/6bFkjtI40VeDw7qrssx2M2faphUDO2nBVeBMlbfL+ckrrQklW3bU/hTW0rVB+diWYGB7mQG3I/HQIhX+fPwCIb3TBMQCX74Tvh7IxVwUbDr3lBP/OqFOY1kEVfLZ2zYIJk/0AAI88IHTWVMbZhKBzsZE53ylz5atl0me5ezoRciMVRX3UpSJ7xdvdrNUKuVGzL+Q73mdiXURkWSyPnLH8zwYxlvZZ6TI1WePPLo6t3uhyB27oihdEn1xLyYFCxiVgSdz8f9TD6Bm3brKEO7P6KgBtYI2H4XbGDRktstmoF9BAjRZWXdNyxzOhmYKNgCOGtzUaRzXcPJpm2Iv/sw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(346002)(136003)(396003)(376002)(39860400002)(366004)(451199021)(86362001)(31696002)(38100700002)(31686004)(36756003)(6666004)(6486002)(54906003)(110136005)(6506007)(186003)(6512007)(53546011)(2616005)(5660300002)(66556008)(316002)(2906002)(66946007)(8936002)(8676002)(66476007)(83380400001)(4326008)(478600001)(41300700001)(45980500001)(43740500002)(505234007);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:CH0PR11MB5474.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(136003)(376002)(366004)(346002)(39860400002)(396003)(451199021)(2906002)(41300700001)(5660300002)(8936002)(8676002)(36756003)(31696002)(86362001)(82960400001)(2616005)(31686004)(6486002)(6666004)(478600001)(53546011)(6506007)(26005)(6512007)(66476007)(186003)(66946007)(66556008)(316002)(83380400001)(38100700002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NU1JV2VkV0J2Wmw4RVNCNjVvZW1ZOEVWK3krc29GMUJQaEI1dFZkRy9BWkM1?=
- =?utf-8?B?UWw5UGV6ZWplZzZqOTFjLzRMNFdKZmEzenI5Zy9ZNlQwb3MzczhaSEYyTWVa?=
- =?utf-8?B?WEtwZEp3VFBRYTdWOE5acHlvOWNIUWFYQnllYkZpaDVnOEdqRnN2YXB2WFAv?=
- =?utf-8?B?M0lxY2VhdkNJOSthUzhKUDVnaEFWVE1xYXFjVk5hdVlldmYyR0lROTRLS0N5?=
- =?utf-8?B?b0dva3QrSXZzbzNVRWhVRzI1TE5HREFmT0tvbUcxbDZONXQ5a21jWGJIWHA4?=
- =?utf-8?B?VVBuaDBxUkl3bDlNYm4zL2ZqNm8xbUY0MEFEa0N1d1NLVDVKOEQrMEtlRzBM?=
- =?utf-8?B?bCtpR2tKSkpCVUcvLzhIOGtiSjg4K1p3TTZqb1haNnVRZjhWMHd3SnE3NEk4?=
- =?utf-8?B?dklOdkJSUHU4OFRBR1hjemRLTmdsUFhQMDRSd0tPZ1VZYlBxcDVLOG5DVzNy?=
- =?utf-8?B?Qy9NeVpKYXVwcEl1V1R1eGQxT1pjejUrNVN4NlYva1RPTW1SRUxUWTBrRm04?=
- =?utf-8?B?RXRGWWJqNi92VFdxWnpta3dwTGdRUzkzeVppZ3kyTkFmWmhNQWFNdzJ5SDEv?=
- =?utf-8?B?eXBMTHFMQnpJaDVTODVBVnFzU0J4RFRkVWJ4T3VkZzRpUkZTQ25NSDFydkI2?=
- =?utf-8?B?dVlIUExocFVMVHRLQ1ZvcVNRaDJYQXJRTUh6L0s0L1hob09pZ3pZendmQ2J6?=
- =?utf-8?B?OGxaSXFXOU5lejRXZGZOUktCS1JiSmZiVVJBN1MwOWpacXFGU1lDNDZhcW1n?=
- =?utf-8?B?NjhzSU1LT1dNKzd6bEd3enhuVjh2eUxyY01uYzhjelRVRTJDZk9HTG5ESWtj?=
- =?utf-8?B?dVpiSXFuWnY3bjZRUHB4bmh2ODNXbjd6RlVEZ29PV3dQZzJ4WGwyVFd1WlVJ?=
- =?utf-8?B?S3pzNUhWQ21LMGR1eEZzVFh5SEpwejFoQ0hCbHkzam5QRVVIMkl3OUNkSjV1?=
- =?utf-8?B?cWFmeUFlYXY5N0lTZXBNZFBZSWdQTVZmUmwwb1lIdzNpV1dUZjVaeThERVFJ?=
- =?utf-8?B?bmVkQnRQYlF1cExjTktHdVZjMVpSenF5ek9RMzV2S2JtaEFyVWVkYWM5TmR2?=
- =?utf-8?B?enJnK2ZYTkl0c2pFY1EraW41czB6cWpGaTBzMEQwSG9KbXlFaG54dDNyTytu?=
- =?utf-8?B?UHlEdExENWt6Wkp1YURDZzJOWXEyNEc1elZYbnczd3hiV2pQWWhNd2RZR08y?=
- =?utf-8?B?MFJQZ1hETTI1QUxoa2RFRS92WmVITnFxTDJtLy9JN3dFU1ZxQmpWQXBaQWww?=
- =?utf-8?B?MzRNS2c1bDBmUHBWcVZLMVBUWFlINDhYYWpEY3hmTFlBZXcvTU9PQk8wNENS?=
- =?utf-8?B?cnRPZ0pna0phR2diZW5Ga042ME5aUnVNMUM2V09ja2FIZnRFSjFzNCs3SlRB?=
- =?utf-8?B?ZWRYVWZBNUZwaGh1QW1LTXhuZUM0WnFpLzZoNkxsaVk5UXgwS0tpUzR0V3Nm?=
- =?utf-8?B?eUNoQXErWHd3VXJVMnE1aFVsVnZMUDFDYkZnNDlqTHJLYnNXbDlld3NuN2J1?=
- =?utf-8?B?c3R6eU14SVhUUnIrL2hoMUYyZW9oZ2hjT2pUTW5iRzNwelV2MzBLcjMzbmdN?=
- =?utf-8?B?MWZrbkwxb3lwL2NEY25JVjMvdHNyYXlOdCt1VlBDSFRxY09TVmYySFd6T0Zs?=
- =?utf-8?B?MWFvdXRlSGpFZnloOU5sV2h0cHVCZUQrV1JXYlJUY2xUVkpaK1hsTXpiQmdH?=
- =?utf-8?B?RHNDbmI4Sll5aTdVdm50ekZaTWxRYU80SHlzZTB3UmFqTWI3ZnFjQ2pTbm1o?=
- =?utf-8?B?VnBJL1B1eTdGWnFwSnBTeUtaZWNUSUl3eG9ra2l1RWhTalR2V2piUU1YQTZN?=
- =?utf-8?B?Q2NscTNYVzFSeUhnRXhRRytST3lNcWNXWjIvUkpPcnMvaHA0bVE4aHkxT1B4?=
- =?utf-8?B?SW5xZmZEUjM0Z3NnWGRxakd3QTBPNlNMZ1F0cXJIY25rL2NXR2hCMW9UdEN5?=
- =?utf-8?B?cGs4Q2xodU9IVEhkZWVoQUVyb2xwRW1WRXpiNmwwSUt5elIrUGhaekNwaW96?=
- =?utf-8?B?ODFscE5UNzdQZzdEMy9wQmxXTGtvS1pTN1cxZzVMZnZpazVjcUc5bGJNQ1l6?=
- =?utf-8?B?aEVxU1Q3VGFUVDJpQXVwRm5rUFpRWjBNNm9TYUFrNEVJMm90Tlc0WmF4SEVE?=
- =?utf-8?B?TU5pdDlrV3B6S21mNGU2Rk9iQ0s0MlorajlEMjBkRVdyQmRaMDVQSm1Yejdx?=
- =?utf-8?Q?f20fzHvtFM9VXkiXzhpLfpCup0zl17VCNWgtoh21hmfU?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39aba24b-90f4-4300-7902-08db81e2f94c
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bVA4MTFta1lBa081UTduQWxzWDVSMmg3UjVDVGM2ZFVxOXBMeW02VXFUL3R5?=
+ =?utf-8?B?YWNaNEZRVmlTVW44RGIxMUN6Y0ZFdFRsOUJoODI5MG1BS2lpcWVDdkx3Vkx0?=
+ =?utf-8?B?eFBuMURGQU5MeEJNRXAxVVlUd083OXJPQ0hDcGszNEU3MG1vc2ZzMmNSOHFW?=
+ =?utf-8?B?YllTNEN2bXhXaU1tK2t4MjVZd3MwYnNISWNVSi83T0JOdHliZ2VneGNjandl?=
+ =?utf-8?B?Z2E2a3FpamxlK0xpY2NtUzhyQnhCQU16MGNMNXlWWldFVjFrNjc0YVF3ZjIv?=
+ =?utf-8?B?YnZZeUhZZmJnb3dEcHFld1NQc1JndlFUT3VWdHRUcGVidkhpYUVINHNBLzAw?=
+ =?utf-8?B?dXh0VGE4ZzhlY2V2Qm9pZks0L2txbWR0ZmlyYjU5NFFyekgvalNPY0YrZGF5?=
+ =?utf-8?B?NCtNZnd6anphdjNsa1p6V29YLzhJU3EzekZ4cDVWcTJhcnBMS2krd0ZqNkdQ?=
+ =?utf-8?B?UXdiaUt1clNnakNQUklkQmRNQ0tKd2tFTGIzVTYrL3R3anU3TEgyWDd0ZFdw?=
+ =?utf-8?B?S2p3L2JYWGoweW90eXoyR2ppcDJpaytzbWdYVkdDdW1FTm43TUtpY2dtTUtI?=
+ =?utf-8?B?N0lDdnRENzlqY2N4QlBvdVlscVZxcWZ3K1pCNHFORkJOSUppWkMycmliSElE?=
+ =?utf-8?B?NHQyTXA1VW12WmNlOEhIbml4OGxDaGVoVU9kMXBFaDRhdVBjOHJEczJpTlU4?=
+ =?utf-8?B?aTNZcDFOMGdNbmtxRkVMRm9jOUs0Rm1IVXN6ekN1TmNzSzR6L3hrSnU3RXE4?=
+ =?utf-8?B?dlB4RTBKdVhwMW1vb2lnbHc3UjUyUUJESXJrZHAzaXoyT2EzL0ZlOWp5T0Fw?=
+ =?utf-8?B?YWh0MjhnNCtYUmNTR2I0NU9ra2hrbXhWL1dIRWZwRXVMclBLOUdlMFdYUTNZ?=
+ =?utf-8?B?NlF4ajBUVjZ4Q3ZTVFR6N3NWU0N1Z1BPak5tSHF2SlR6OGJBeU9xUUFCeWJQ?=
+ =?utf-8?B?My9Ta2dxZXdVVVZRbWRhWFoyK24rUE1CR2NxYlpLK3FBT2wyWEJvbCsyaFkr?=
+ =?utf-8?B?TTlKMkFhdzJqUTNyRk9RVlVITmJVbFdaSTloZUVXYlhOcHFyQUlRZXFaM3RP?=
+ =?utf-8?B?QWxKMmxDWFpQOWsvcDh5VWd3MzJHenMyTU4wN1Z3a1JiK1JsU0VGOVpBaVZr?=
+ =?utf-8?B?WVRNVFlvU05kZFBGUmE5aSs0RDNIbG9wT1NuZEl2NndRUk03MW5pWlYzN3Zl?=
+ =?utf-8?B?UFNPVEdFb3lZTlJTOXBubFFEYnhWd0lvQ3UyYVJBNUxpdDNlN0oydzhJeVBn?=
+ =?utf-8?B?RnY1bjRxenFUYnVYRVd4NWY2YXIwL2QyWUJQMm1iaUlSdHBZaUdWYnRUSGNQ?=
+ =?utf-8?B?SzE4OVJ4clBBalB1em8xdVkrMGRvamNZKzl0MFR1dDBORVptR25kQmxKa1k2?=
+ =?utf-8?B?c2grTVZINVliUkpweDlPSDFHTXJlQ2xxZjQ5anh3UEtYWmN1Yk93UmFXc1Zt?=
+ =?utf-8?B?VTdwUWwyYmk1SUMxbU5CN2xUUTl6SXFTd2tBYnlwdCsxbFAyeEEwRVhGSVU0?=
+ =?utf-8?B?ZDFUaGI3eHMvVTQvZnlaQXFFelNvWWZ1SEI3dXZwVVFEc0RIcFdGWE14UzQ4?=
+ =?utf-8?B?ZkNJa0xtdTB0VUtyZXBwTkt3UWZWV0FoMjE5UURvYmtBTTlZeTZOTThOdis3?=
+ =?utf-8?B?TVAxOVg3aDl1cEwrbWk5YzNsU0FxNlVxV0s4YXFHWjFJV3B1eUpCWkVIeEdN?=
+ =?utf-8?B?ME5FeWNnQnJ2THVBYkJNeFpKZ2ZUVmUwSVVJZTNVbXRjM1NUd0gxOVdUVnQw?=
+ =?utf-8?B?ZDZDUjczTEkzNDdsL2RVek9NZHJGVWdrMmxBSmU3YlBMakJuL1locDBTbktH?=
+ =?utf-8?B?dWVEaFhiUk52dVFlWnZpbzlkcXNCNFBEU1dEaVY2OVYzZDVqVXVWSm1ueFhn?=
+ =?utf-8?B?aERIVDJHTG1DOG9OQXNIVklxRWFJVmU3Nmd5T0NSYXV2cjR5Q3JiTnpURTN1?=
+ =?utf-8?B?dEdCSk1TaWRpMGwrZU9lc2hZY0lFbHBNMHd6cGNRWkR3M3NWWTVKemg5eU05?=
+ =?utf-8?B?SEhFbWk5QlF3eDVBd1JteEdJeDI3WmNEZklURElsd0lKS1dWWS84SStCeG1q?=
+ =?utf-8?B?Vm0xVVlQZEFHMW1Eb3U5aER0QjdrdVhBd2NZVVRqa1E4N2xDSS9EUXJWZU5p?=
+ =?utf-8?B?ckJuUmlNRVRuc3lvK1RNbVl0aDU2VzhETVZwSDhOZlFmQmNBenZ2b2o2S0Nq?=
+ =?utf-8?B?WGc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a21f4023-802d-45ab-8f01-08db81e32c11
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5474.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2023 07:46:45.0047 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2023 07:48:10.3768 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9vNz2pZclEBacMkvG+Y3xujfNj2J3WQYwrS9BzPI5kQSGF1SODU4YgiEZSkySg2T
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7904
+X-MS-Exchange-CrossTenant-UserPrincipalName: SEAEy1VART/WwjOcnmYC1EI0+VhvK6itCjuJx74fVf/2ZWhuVT58Tmkg6pclody+TAFekEs8SByVM9B8heR11dmJ0VW/OajeRQa/Ei+u47Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB7096
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,162 +159,231 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Alexander Potapenko <glider@google.com>,
- open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 10.07.23 um 23:15 schrieb Luben Tuikov:
-> On 2023-07-10 16:56, Rob Clark wrote:
->> From: Rob Clark <robdclark@chromium.org>
+
+
+On 10-07-2023 18:50, Tvrtko Ursulin wrote:
+> 
+> On 10/07/2023 11:44, Iddamsetty, Aravind wrote:
+>> On 07-07-2023 18:32, Tvrtko Ursulin wrote:
+>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>
+>>> In order to show per client memory usage lets add some infrastructure
+>>> which enables tracking buffer objects owned by clients.
+>>>
+>>> We add a per client list protected by a new per client lock and to
+>>> support
+>>> delayed destruction (post client exit) we make tracked objects hold
+>>> references to the owning client.
+>>>
+>>> Also, object memory region teardown is moved to the existing RCU free
+>>> callback to allow safe dereference from the fdinfo RCU read section.
+>>>
+>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>> ---
+>>>   drivers/gpu/drm/i915/gem/i915_gem_object.c    | 13 +++++--
+>>>   .../gpu/drm/i915/gem/i915_gem_object_types.h  | 12 +++++++
+>>>   drivers/gpu/drm/i915/i915_drm_client.c        | 36 +++++++++++++++++++
+>>>   drivers/gpu/drm/i915/i915_drm_client.h        | 32 +++++++++++++++++
+>>>   4 files changed, 90 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>>> b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>>> index 97ac6fb37958..3dc4fbb67d2b 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>>> @@ -105,6 +105,10 @@ void i915_gem_object_init(struct
+>>> drm_i915_gem_object *obj,
+>>>         INIT_LIST_HEAD(&obj->mm.link);
+>>>   +#ifdef CONFIG_PROC_FS
+>>> +    INIT_LIST_HEAD(&obj->client_link);
+>>> +#endif
+>>> +
+>>>       INIT_LIST_HEAD(&obj->lut_list);
+>>>       spin_lock_init(&obj->lut_lock);
+>>>   @@ -292,6 +296,10 @@ void __i915_gem_free_object_rcu(struct
+>>> rcu_head *head)
+>>>           container_of(head, typeof(*obj), rcu);
+>>>       struct drm_i915_private *i915 = to_i915(obj->base.dev);
+>>>   +    /* We need to keep this alive for RCU read access from fdinfo. */
+>>> +    if (obj->mm.n_placements > 1)
+>>> +        kfree(obj->mm.placements);
+>>> +
+>>>       i915_gem_object_free(obj);
+>>>         GEM_BUG_ON(!atomic_read(&i915->mm.free_count));
+>>> @@ -388,9 +396,6 @@ void __i915_gem_free_object(struct
+>>> drm_i915_gem_object *obj)
+>>>       if (obj->ops->release)
+>>>           obj->ops->release(obj);
+>>>   -    if (obj->mm.n_placements > 1)
+>>> -        kfree(obj->mm.placements);
+>>> -
+>>>       if (obj->shares_resv_from)
+>>>           i915_vm_resv_put(obj->shares_resv_from);
+>>>   @@ -441,6 +446,8 @@ static void i915_gem_free_object(struct
+>>> drm_gem_object *gem_obj)
+>>>         GEM_BUG_ON(i915_gem_object_is_framebuffer(obj));
+>>>   +    i915_drm_client_remove_object(obj);
+>>> +
+>>>       /*
+>>>        * Before we free the object, make sure any pure RCU-only
+>>>        * read-side critical sections are complete, e.g.
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+>>> b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+>>> index e72c57716bee..8de2b91b3edf 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+>>> @@ -300,6 +300,18 @@ struct drm_i915_gem_object {
+>>>        */
+>>>       struct i915_address_space *shares_resv_from;
+>>>   +#ifdef CONFIG_PROC_FS
+>>> +    /**
+>>> +     * @client: @i915_drm_client which created the object
+>>> +     */
+>>> +    struct i915_drm_client *client;
+>>> +
+>>> +    /**
+>>> +     * @client_link: Link into @i915_drm_client.objects_list
+>>> +     */
+>>> +    struct list_head client_link;
+>>> +#endif
+>>> +
+>>>       union {
+>>>           struct rcu_head rcu;
+>>>           struct llist_node freed;
+>>> diff --git a/drivers/gpu/drm/i915/i915_drm_client.c
+>>> b/drivers/gpu/drm/i915/i915_drm_client.c
+>>> index 2a44b3876cb5..2e5e69edc0f9 100644
+>>> --- a/drivers/gpu/drm/i915/i915_drm_client.c
+>>> +++ b/drivers/gpu/drm/i915/i915_drm_client.c
+>>> @@ -28,6 +28,10 @@ struct i915_drm_client *i915_drm_client_alloc(void)
+>>>       kref_init(&client->kref);
+>>>       spin_lock_init(&client->ctx_lock);
+>>>       INIT_LIST_HEAD(&client->ctx_list);
+>>> +#ifdef CONFIG_PROC_FS
+>>> +    spin_lock_init(&client->objects_lock);
+>>> +    INIT_LIST_HEAD(&client->objects_list);
+>>> +#endif
+>>>         return client;
+>>>   }
+>>> @@ -108,4 +112,36 @@ void i915_drm_client_fdinfo(struct drm_printer
+>>> *p, struct drm_file *file)
+>>>       for (i = 0; i < ARRAY_SIZE(uabi_class_names); i++)
+>>>           show_client_class(p, i915, file_priv->client, i);
+>>>   }
+>>> +
+>>> +void i915_drm_client_add_object(struct i915_drm_client *client,
+>>> +                struct drm_i915_gem_object *obj)
+>>> +{
+>>> +    unsigned long flags;
+>>> +
+>>> +    GEM_WARN_ON(obj->client);
+>>> +    GEM_WARN_ON(!list_empty(&obj->client_link));
+>>> +
+>>> +    spin_lock_irqsave(&client->objects_lock, flags);
+>>> +    obj->client = i915_drm_client_get(client);
+>>> +    list_add_tail_rcu(&obj->client_link, &client->objects_list);
+>>> +    spin_unlock_irqrestore(&client->objects_lock, flags);
+>>> +}
 >>
->> Fixes the KASAN splat:
->>
->>     ==================================================================
->>     BUG: KASAN: use-after-free in msm_ioctl_wait_fence+0x31c/0x7b0
->>     Read of size 4 at addr ffffff808cb7c2f8 by task syz-executor/12236
->>     CPU: 6 PID: 12236 Comm: syz-executor Tainted: G        W         5.15.119-lockdep-19932-g4a017c53fe63 #1 b15455e5b94c63032dd99eb0190c27e582b357ed
->>     Hardware name: Google Homestar (rev3) (DT)
->>     Call trace:
->>      dump_backtrace+0x0/0x4e8
->>      show_stack+0x34/0x50
->>      dump_stack_lvl+0xdc/0x11c
->>      print_address_description+0x30/0x2d8
->>      kasan_report+0x178/0x1e4
->>      kasan_check_range+0x1b0/0x1b8
->>      __kasan_check_read+0x44/0x54
->>      msm_ioctl_wait_fence+0x31c/0x7b0
->>      drm_ioctl_kernel+0x214/0x418
->>      drm_ioctl+0x524/0xbe8
->>      __arm64_sys_ioctl+0x154/0x1d0
->>      invoke_syscall+0x98/0x278
->>      el0_svc_common+0x214/0x274
->>      do_el0_svc+0x9c/0x19c
->>      el0_svc+0x5c/0xc0
->>      el0t_64_sync_handler+0x78/0x108
->>      el0t_64_sync+0x1a4/0x1a8
->>     Allocated by task 12224:
->>      kasan_save_stack+0x38/0x68
->>      __kasan_slab_alloc+0x6c/0x88
->>      kmem_cache_alloc+0x1b8/0x428
->>      drm_sched_fence_alloc+0x30/0x94
->>      drm_sched_job_init+0x7c/0x178
->>      msm_ioctl_gem_submit+0x2b8/0x5ac4
->>      drm_ioctl_kernel+0x214/0x418
->>      drm_ioctl+0x524/0xbe8
->>      __arm64_sys_ioctl+0x154/0x1d0
->>      invoke_syscall+0x98/0x278
->>      el0_svc_common+0x214/0x274
->>      do_el0_svc+0x9c/0x19c
->>      el0_svc+0x5c/0xc0
->>      el0t_64_sync_handler+0x78/0x108
->>      el0t_64_sync+0x1a4/0x1a8
->>     Freed by task 32:
->>      kasan_save_stack+0x38/0x68
->>      kasan_set_track+0x28/0x3c
->>      kasan_set_free_info+0x28/0x4c
->>      ____kasan_slab_free+0x110/0x164
->>      __kasan_slab_free+0x18/0x28
->>      kmem_cache_free+0x1e0/0x904
->>      drm_sched_fence_free_rcu+0x80/0x9c
->>      rcu_do_batch+0x318/0xcf0
->>      rcu_nocb_cb_kthread+0x1a0/0xc4c
->>      kthread+0x2e4/0x3a0
->>      ret_from_fork+0x10/0x20
->>     Last potentially related work creation:
->>      kasan_save_stack+0x38/0x68
->>      kasan_record_aux_stack+0xd4/0x114
->>      __call_rcu_common+0xd4/0x1478
->>      call_rcu+0x1c/0x28
->>      drm_sched_fence_release_scheduled+0x108/0x158
->>      dma_fence_release+0x178/0x564
->>      drm_sched_fence_release_finished+0xb4/0x124
->>      dma_fence_release+0x178/0x564
->>      __msm_gem_submit_destroy+0x150/0x488
->>      msm_job_free+0x9c/0xdc
->>      drm_sched_main+0xec/0x9ac
->>      kthread+0x2e4/0x3a0
->>      ret_from_fork+0x10/0x20
->>     Second to last potentially related work creation:
->>      kasan_save_stack+0x38/0x68
->>      kasan_record_aux_stack+0xd4/0x114
->>      __call_rcu_common+0xd4/0x1478
->>      call_rcu+0x1c/0x28
->>      drm_sched_fence_release_scheduled+0x108/0x158
->>      dma_fence_release+0x178/0x564
->>      drm_sched_fence_release_finished+0xb4/0x124
->>      dma_fence_release+0x178/0x564
->>      drm_sched_entity_fini+0x170/0x238
->>      drm_sched_entity_destroy+0x34/0x44
->>      __msm_file_private_destroy+0x60/0x118
->>      msm_submitqueue_destroy+0xd0/0x110
->>      __msm_gem_submit_destroy+0x384/0x488
->>      retire_submits+0x6a8/0xa14
->>      recover_worker+0x764/0xa50
->>      kthread_worker_fn+0x3f4/0x9ec
->>      kthread+0x2e4/0x3a0
->>      ret_from_fork+0x10/0x20
->>     The buggy address belongs to the object at ffffff808cb7c280
->>     The buggy address is located 120 bytes inside of
->>     The buggy address belongs to the page:
->>     page:000000008b01d27d refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x10cb7c
->>     head:000000008b01d27d order:1 compound_mapcount:0
->>     flags: 0x8000000000010200(slab|head|zone=2)
->>     raw: 8000000000010200 fffffffe06844d80 0000000300000003 ffffff80860dca00
->>     raw: 0000000000000000 0000000000190019 00000001ffffffff 0000000000000000
->>     page dumped because: kasan: bad access detected
->>     Memory state around the buggy address:
->>      ffffff808cb7c180: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->>      ffffff808cb7c200: 00 00 00 00 00 fc fc fc fc fc fc fc fc fc fc fc
->>     >ffffff808cb7c280: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>                                                                     ^
->>      ffffff808cb7c300: fb fb fb fb fb fb fb fb fb fb fb fb fb fc fc fc
->>      ffffff808cb7c380: fc fc fc fc fc fc fc fc 00 00 00 00 00 00 00 00
->>     ==================================================================
->>
->> Suggested-by: Alexander Potapenko <glider@google.com>
->> Signed-off-by: Rob Clark <robdclark@chromium.org>
->> ---
->>   drivers/gpu/drm/scheduler/sched_fence.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
->> index ef120475e7c6..b624711c6e03 100644
->> --- a/drivers/gpu/drm/scheduler/sched_fence.c
->> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
->> @@ -35,7 +35,7 @@ static int __init drm_sched_fence_slab_init(void)
->>   {
->>   	sched_fence_slab = kmem_cache_create(
->>   		"drm_sched_fence", sizeof(struct drm_sched_fence), 0,
->> -		SLAB_HWCACHE_ALIGN, NULL);
->> +		SLAB_HWCACHE_ALIGN | SLAB_TYPESAFE_BY_RCU, NULL);
->>   	if (!sched_fence_slab)
->>   		return -ENOMEM;
->>   
-> Reviewed-by: Luben Tuikov <luben.tuikov@amd.com>
->
-> But let it simmer for 24 hours so Christian can see it too (CC-ed).
+>> would it be nice to mention that we use this client infra only to track
+>> internal objects. While the user created through file->object_idr added
+>> during handle creation time.
+> 
+> In this series it is indeed only used for that.
+> 
+> But it would be nicer to use it to track everything, so fdinfo readers
+> would not be hitting the idr lock, which would avoid injecting latency
+> to real DRM clients.
+> 
+> The only fly in the ointment IMO is that I needed that drm core helper
+> to be able to track dmabuf imports. Possibly something for flink too,
+> did not look into that yet.
 
-Well that won't work like this, using the the SLAB_TYPESAFE_BY_RCU flag 
-was suggested before and is not allowed for dma_fence objects.
+wouldn't dmabuf be tracked via object_idr as a new handle is created for it.
 
-The flag SLAB_TYPESAFE_BY_RCU can only be used if the objects in the 
-slab can't be reused within an RCU time period or if that reuse doesn't 
-matter for the logic. And exactly that is not guaranteed for dma_fence 
-objects.
-
-It should also not be necessary because the scheduler fences are 
-released using call_rcu:
-
-static void drm_sched_fence_release_scheduled(struct dma_fence *f)
-{
-         struct drm_sched_fence *fence = to_drm_sched_fence(f);
-
-         dma_fence_put(fence->parent);
-         call_rcu(&fence->finished.rcu, drm_sched_fence_free_rcu);
-}
-
-That looks more like you have a reference count problem in MSM.
-
-Regards,
-Christian.
+Thanks,
+Aravind.
+> 
+> In the light of all that I can mention in the cover letter next time
+> round. It is a bit stale anyway (the cover letter).
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+>>> +bool i915_drm_client_remove_object(struct drm_i915_gem_object *obj)
+>>> +{
+>>> +    struct i915_drm_client *client = fetch_and_zero(&obj->client);
+>>> +    unsigned long flags;
+>>> +
+>>> +    /* Object may not be associated with a client. */
+>>> +    if (!client)
+>>> +        return false;
+>>> +
+>>> +    spin_lock_irqsave(&client->objects_lock, flags);
+>>> +    list_del_rcu(&obj->client_link);
+>>> +    spin_unlock_irqrestore(&client->objects_lock, flags);
+>>> +
+>>> +    i915_drm_client_put(client);
+>>> +
+>>> +    return true;
+>>> +}
+>>>   #endif
+>>> diff --git a/drivers/gpu/drm/i915/i915_drm_client.h
+>>> b/drivers/gpu/drm/i915/i915_drm_client.h
+>>> index 67816c912bca..5f58fdf7dcb8 100644
+>>> --- a/drivers/gpu/drm/i915/i915_drm_client.h
+>>> +++ b/drivers/gpu/drm/i915/i915_drm_client.h
+>>> @@ -12,6 +12,9 @@
+>>>     #include <uapi/drm/i915_drm.h>
+>>>   +#include "i915_file_private.h"
+>>> +#include "gem/i915_gem_object_types.h"
+>>> +
+>>>   #define I915_LAST_UABI_ENGINE_CLASS I915_ENGINE_CLASS_COMPUTE
+>>>     struct drm_file;
+>>> @@ -25,6 +28,20 @@ struct i915_drm_client {
+>>>       spinlock_t ctx_lock; /* For add/remove from ctx_list. */
+>>>       struct list_head ctx_list; /* List of contexts belonging to
+>>> client. */
+>>>   +#ifdef CONFIG_PROC_FS
+>>> +    /**
+>>> +     * @objects_lock: lock protecting @objects_list
+>>> +     */
+>>> +    spinlock_t objects_lock;
+>>> +
+>>> +    /**
+>>> +     * @objects_list: list of objects created by this client
+>>> +     *
+>>> +     * Protected by @objects_lock.
+>>> +     */
+>>> +    struct list_head objects_list;
+>>> +#endif
+>>> +
+>>>       /**
+>>>        * @past_runtime: Accumulation of pphwsp runtimes from closed
+>>> contexts.
+>>>        */
+>>> @@ -49,4 +66,19 @@ struct i915_drm_client *i915_drm_client_alloc(void);
+>>>     void i915_drm_client_fdinfo(struct drm_printer *p, struct
+>>> drm_file *file);
+>>>   +#ifdef CONFIG_PROC_FS
+>>> +void i915_drm_client_add_object(struct i915_drm_client *client,
+>>> +                struct drm_i915_gem_object *obj);
+>>> +bool i915_drm_client_remove_object(struct drm_i915_gem_object *obj);
+>>> +#else
+>>> +static inline void i915_drm_client_add_object(struct i915_drm_client
+>>> *client,
+>>> +                          struct drm_i915_gem_object *obj)
+>>> +{
+>>> +}
+>>> +
+>>> +static inline bool i915_drm_client_remove_object(struct
+>>> drm_i915_gem_object *obj)
+>>> +{
+>>> +}
+>>> +#endif
+>>> +
+>>>   #endif /* !__I915_DRM_CLIENT_H__ */
