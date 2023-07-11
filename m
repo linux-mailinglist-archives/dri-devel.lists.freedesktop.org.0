@@ -2,74 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7751174FBB2
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 01:05:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2F7174FBB7
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 01:09:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92D5910E453;
-	Tue, 11 Jul 2023 23:05:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92A4E10E45B;
+	Tue, 11 Jul 2023 23:09:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C3B410E45B
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 23:05:00 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id
- 38308e7fff4ca-2b6f97c7115so97003511fa.2
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 16:05:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689116698; x=1691708698;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=HrPGRPC6HG0U2FML7Fsc9fdI4MG3WoxSDfYEpjLufj4=;
- b=hyk6BzvMm+cF73GKAxkljHynA3RbjXkc1rW5YudTd/1PQubEtGU7RFbes5TqouW+pO
- PJX7UaUQXG43XULLItyQw2ALn4u/scZ+32rJExJvDfG0NF2DBywIiErLkiZ5XoWqk3Y7
- OpqzA6Wz+IJ/5xG/SecPt2VcTuN+92k+QbyBlBAy2Hj/ac1u4V4rh/RgOjHsj7m7K+bz
- OI5CntiUFwnh/PQx1JJ56hNpKC6853HHS/kjAzBqotYh47YxREZTHRSugxDQgyRdqZ/R
- LhQNxKkp5QI5/Mp9LF2RYmmXecqqekoWGLj4QHC7in2b32STxJ/eQfL9eBaiCXHsnp1G
- TJ0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689116698; x=1691708698;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HrPGRPC6HG0U2FML7Fsc9fdI4MG3WoxSDfYEpjLufj4=;
- b=eO4mvO0hrvzTobHLv970Vd5hEELDOvMPJ01WcVXd0kxZoPlzQx0MPvLFlBDSEHUW3f
- XCSWDKrbq3gdXo5mHu1g+2fPhPckbJiyVHTrzhMz1mtN67xuqE83ldUBMbi+BNsnpcYE
- k9YrGBkOL6tpbAGPP3zNN/gj726uPETgciPuF+2nfavTaq8vpwL/tU3Zfedxbi9hbrW2
- pFVchX98ZEMLbVLV5ikXNUdairiajOgDHJoXSTpOTib0sWKTaEggZHZ1xlvljEoE/pib
- QQqLzMDn2YcAU4p+pMki0KRhT7Tzu6pcM7iiArVlce7nJi72Vwj6TjwUOE3cpTXHwXqy
- uA6g==
-X-Gm-Message-State: ABy/qLYdB40PpOjlC1RBGqRx5kSI2wFdXjTLviu7bjZNvZkoK7RThF2M
- Jh7icvq6fi7zXGCjIxkdVdFQPA==
-X-Google-Smtp-Source: APBJJlEg2hw+MBpZNNOeJN2GtjgzeJrhXA9r4AsOhwLh9cl0w2ck9Kf3KdlFd+1EhzlAggXvIfxSJQ==
-X-Received: by 2002:a05:651c:201:b0:2b6:dbc5:5ca4 with SMTP id
- y1-20020a05651c020100b002b6dbc55ca4mr13049709ljn.16.1689116697997; 
- Tue, 11 Jul 2023 16:04:57 -0700 (PDT)
-Received: from [192.168.1.101] (abyl96.neoplus.adsl.tpnet.pl. [83.9.31.96])
- by smtp.gmail.com with ESMTPSA id
- u4-20020a2ea164000000b002b6e973f8cfsm648369ljl.36.2023.07.11.16.04.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Jul 2023 16:04:57 -0700 (PDT)
-Message-ID: <2c9d4d18-48c8-12b0-a971-62138b318c5b@linaro.org>
-Date: Wed, 12 Jul 2023 01:04:56 +0200
+X-Greylist: delayed 78707 seconds by postgrey-1.36 at gabe;
+ Tue, 11 Jul 2023 23:09:02 UTC
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9332B10E45B
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 23:09:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1689116938;
+ bh=QF3UE42JL66pnZ2EnmCWXb2r2JIlvaXs+AQW+Z9Oaac=;
+ h=Date:From:To:Cc:Subject:From;
+ b=s//BeEFjDIkAsnFPJqg38YbNjzaesCIWdaPYn3VbI2qjwh5qiinz6iAFYgLBp1O/a
+ QhymqIfzbcQqpWSklobbGG8kxJABhwlX9Lj4qA/gbpSrzb15EVhI2KuJQabH+MJcF1
+ cSqASrhTw89E36cZzBqh2xgRBLybrlumHtkoLBBughy1hk8EKAbIxbWKvRx+NAi4Cz
+ XKWd1CfVggI4y0Ev85Isx5Iq23SR4iSIZoUXYuwjCxuF1tQjBfxqnp2hXfgaBs7j5B
+ WUgXWg1VAWfE7qf7cR7gY7aTfRqw2XG0acuOpKrM0fYYWeL1Uw9KOn+Urm7ucMA1rJ
+ qGbioWgSRoorA==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4R0xQ13NQBz4wxx;
+ Wed, 12 Jul 2023 09:08:57 +1000 (AEST)
+Date: Wed, 12 Jul 2023 09:08:56 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Alex Deucher <alexdeucher@gmail.com>
+Subject: linux-next: build warnings after merge of the amdgpu tree
+Message-ID: <20230712090856.776a48c8@canb.auug.org.au>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 3/5] arm64: dts: qcom: qrb5165-rb5: add onboard USB-C
- redriver
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20230709041926.4052245-1-dmitry.baryshkov@linaro.org>
- <20230709041926.4052245-4-dmitry.baryshkov@linaro.org>
- <d80fab4d-f581-f6fa-4aa8-f8952f0c710c@linaro.org>
- <6968f4a5-fc5d-e166-3262-dc83762eeec1@linaro.org>
- <766ade98-f3c7-89a3-d3e0-63c8d01a8498@linaro.org>
- <CAA8EJpqxuziMGqkCZsE18K6z=WyQ44nxo3+-He=SZhH7Gfggkg@mail.gmail.com>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <CAA8EJpqxuziMGqkCZsE18K6z=WyQ44nxo3+-He=SZhH7Gfggkg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_//x5NSV8mfo_RyzIL8=dMAvR";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,93 +50,342 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Stephen Boyd <swboyd@chromium.org>, Andy Gross <agross@kernel.org>,
- dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: Dave Airlie <airlied@redhat.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12.07.2023 01:01, Dmitry Baryshkov wrote:
-> On Wed, 12 Jul 2023 at 01:59, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
->>
->> On 12.07.2023 00:39, Dmitry Baryshkov wrote:
->>> On 12/07/2023 00:36, Konrad Dybcio wrote:
->>>> On 9.07.2023 06:19, Dmitry Baryshkov wrote:
->>>>> Add the nb7vpq904m, onboard USB-C redriver / retimer.
->>>>>
->>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>> ---
->>>> [...]
->>>>
->>>>> +            port@1 {
->>>>> +                reg = <1>;
->>>>> +
->>>>> +                redriver_phy_con_ss: endpoint {
->>>>> +                    remote-endpoint = <&usb_1_qmpphy_typec_mux_in>;
->>>>> +                    data-lanes = <0 1 2 3>;
->>>> That's USB+DP lines combined, or how does it work? I'm confused :/
->>>
->>> 4 generic purpose SS lanes, which can be purposed for USB or for DP.
->> Okay, so my gut did better than my brain.
->>
->> Other than that, I'm reading the bindings and it looks like ports 0 and
->> 1 may possibly be swapped?
-> 
-> Yes. But if I get schematics right, the lanes are not swapped in this case.
-I'm not talking about the 0123-3210 swap, but rather in/out being swapped.
-Unless I'm reading the bindings wrong (or they may be written in a
-confusing way).
+--Sig_//x5NSV8mfo_RyzIL8=dMAvR
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Konrad
-> 
->>
->> Konrad
->>>
->>>>
->>>> Konrad
->>>>> +                };
->>>>> +            };
->>>>> +
->>>>> +            port@2 {
->>>>> +                reg = <2>;
->>>>> +
->>>>> +                redriver_usb_con_sbu: endpoint {
->>>>> +                    remote-endpoint = <&pm8150b_typec_sbu_out>;
->>>>> +                };
->>>>> +            };
->>>>> +        };
->>>>> +    };
->>>>>   };
->>>>>     &mdss {
->>>>> @@ -1294,7 +1334,7 @@ &usb_1_qmpphy {
->>>>>   };
->>>>>     &usb_1_qmpphy_typec_mux_in {
->>>>> -    remote-endpoint = <&pm8150b_typec_mux_out>;
->>>>> +    remote-endpoint = <&redriver_phy_con_ss>;
->>>>>   };
->>>>>     &usb_2 {
->>>>> @@ -1382,7 +1422,15 @@ pm8150b_role_switch_out: endpoint {
->>>>>               port@1 {
->>>>>                   reg = <1>;
->>>>>                   pm8150b_typec_mux_out: endpoint {
->>>>> -                    remote-endpoint = <&usb_1_qmpphy_typec_mux_in>;
->>>>> +                    remote-endpoint = <&redriver_usb_con_ss>;
->>>>> +                };
->>>>> +            };
->>>>> +
->>>>> +            port@2 {
->>>>> +                reg = <2>;
->>>>> +
->>>>> +                pm8150b_typec_sbu_out: endpoint {
->>>>> +                    remote-endpoint = <&redriver_usb_con_sbu>;
->>>>>                   };
->>>>>               };
->>>>>           };
->>>
-> 
-> 
-> 
+Hi all,
+
+[This consolidates a while lot of warnings I have reported over the past
+year ... these are now produced whe building Linus' tree]
+
+After merging the amdgpu tree, today's linux-next build (htmldocs)
+produced these warnings:
+
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'native422_support' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_dsc' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'visual_confirm' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'visual_confirm_rect_height' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'sanity_checks' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'max_disp_clk' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'surface_trace' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'timing_trace' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'clock_trace' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'validation_trace' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'bandwidth_calcs_trace' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'max_downscale_src_width' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_stutter' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'use_max_lb' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_dcc' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'force_single_disp_pipe_split' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'voltage_align_fclk' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_min_fclk' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_dfs_bypass' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_dpp_power_gate' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_hubp_power_gate' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_dsc_power_gate' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'dsc_min_slice_height_override' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'dsc_bpp_increment_div' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_pplib_wm_range' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'pplib_wm_report_mode' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'min_disp_clk_khz' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'min_dpp_clk_khz' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'min_dram_clk_khz' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'sr_exit_time_dpm0_ns' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'sr_enter_plus_exit_time_dpm0_ns' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'sr_exit_time_ns' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'sr_enter_plus_exit_time_ns' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'sr_exit_z8_time_ns' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'sr_enter_plus_exit_z8_time_ns' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'urgent_latency_ns' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'underflow_assert_delay_us' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'percent_of_ideal_drambw' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'dram_clock_change_latency_ns' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'optimized_watermark' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'always_scale' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_pplib_clock_request' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_clock_gate' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_mem_low_power' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'pstate_enabled' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_dmcu' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'force_abm_enable' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_stereo_support' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'vsr_support' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'performance_trace' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'az_endpoint_mute_only' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'always_use_regamma' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'recovery_enabled' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'avoid_vbios_exec_table' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'scl_reset_length10' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'hdmi20_disable' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'skip_detection_link_training' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'edid_read_retry_times' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'force_odm_combine' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'seamless_boot_odm_combine' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'force_odm_combine_4to1' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'minimum_z8_residency_time' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_z9_mpc' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'force_fclk_khz' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'enable_tri_buf' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'dmub_offload_enabled' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'dmcub_emulation' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_idle_power_optimizations' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'mall_size_override' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'mall_additional_timer_percent' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'mall_error_as_fatal' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'dmub_command_table' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'bw_val_profile' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_fec' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_48mhz_pwrdwn' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'force_min_dcfclk_mhz' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'dwb_fi_phase' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_timing_sync' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'cm_in_bypass' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'force_clock_mode' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_dram_clock_change_vactive_support' not described in 'dc_debug_=
+options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'validate_dml_output' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'enable_dmcub_surface_flip' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'usbc_combo_phy_reset_wa' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'enable_dram_clock_change_one_display_vactive' not described in 'dc_deb=
+ug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'legacy_dp2_lt' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'set_mst_en_for_sst' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_uhbr' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'force_dp2_lt_fallback_method' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'ignore_cable_id' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'enable_mem_low_power' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'root_clock_optimization' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'hpo_optimization' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'force_vblank_alignment' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'enable_dmub_aux_for_legacy_ddc' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_fams' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_fams_gaming' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'fec_enable_delay_in100us' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'enable_driver_sequence_debug' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'crb_alloc_policy' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'crb_alloc_policy_min_disp_count' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_z10' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'enable_z9_disable_interface' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'psr_skip_crtc_disable' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'dpia_debug' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_fixed_vs_aux_timeout_wa' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'force_disable_subvp' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'force_subvp_mclk_switch' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'allow_sw_cursor_fallback' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'force_subvp_num_ways' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'force_mall_ss_num_ways' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'alloc_extra_way_for_cursor' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'subvp_extra_lines' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'force_usr_allow' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_dtb_ref_clk_switch' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'extended_blank_optimization' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'aux_wake_wa' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'mst_start_top_delay' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'psr_power_use_phy_fsm' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'dml_hostvm_override' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'dml_disallow_alternate_prefetch_modes' not described in 'dc_debug_opti=
+ons'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'use_legacy_soc_bb_mechanism' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'exit_idle_opt_for_cursor_updates' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'enable_single_display_2to1_odm_policy' not described in 'dc_debug_opti=
+ons'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'enable_double_buffered_dsc_pg_support' not described in 'dc_debug_opti=
+ons'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'enable_dp_dig_pixel_rate_div_policy' not described in 'dc_debug_option=
+s'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'lttpr_mode_override' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'dsc_delay_factor_wa_x1000' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'min_prefetch_in_strobe_ns' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_unbounded_requesting' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'dig_fifo_off_in_blank' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'temp_mst_deallocation_sequence' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'override_dispclk_programming' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_fpo_optimizations' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'support_eDP1_5' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'fpo_vactive_margin_us' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_fpo_vactive' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_boot_optimizations' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'override_odm_optimization' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'minimize_dispclk_using_odm' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_subvp_high_refresh' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_dp_plus_plus_wa' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'fpo_vactive_min_active_margin_us' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'fpo_vactive_max_blank_us' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'enable_legacy_fast_update' not described in 'dc_debug_options'
+drivers/gpu/drm/amd/display/dc/dc.h:905: warning: Function parameter or mem=
+ber 'disable_dc_mode_overwrite' not described in 'dc_debug_options'
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_//x5NSV8mfo_RyzIL8=dMAvR
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmSt4QgACgkQAVBC80lX
+0Gzvrgf/aaxDmuLJy+eYUr9Zgq4bd227xQ95LKC0UTRiX8JFpCejyRVJbw/MgMxX
+k9SIX7PeOydWfuMCBxSo2ZwjnE2719x+lNtzNBxXcLvFDBV/T3zubDABAReVVvNB
+wshS51Fs+woIxmqPFijNZ2heCDIfygR5XPlXfDOmkhhjuYKshptW2P/jyXPV9wZJ
+iNIBOuOFzp8JhhBBXYh2BoPiVrgxBfy2lnrd0GbwJW2GLBkYv8sst0W4xZxMJU3c
+R5Y9wQ7iW87qe2QVgDQ4mapzffoMS2DRxlqS8sBg96lkRyXrn6Lk6syJJq+HwbSb
+1wht6cMkovG2CqV7wMEWLGNTSgc9eA==
+=TiCV
+-----END PGP SIGNATURE-----
+
+--Sig_//x5NSV8mfo_RyzIL8=dMAvR--
