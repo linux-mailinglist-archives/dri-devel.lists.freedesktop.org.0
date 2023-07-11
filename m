@@ -1,41 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A62274EC6D
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 13:13:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DABD74EC6F
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 13:13:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECC6610E378;
-	Tue, 11 Jul 2023 11:12:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 635F910E380;
+	Tue, 11 Jul 2023 11:12:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9D6C10E372
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 11:12:45 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4829910E372
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 11:12:47 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 573C161449;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id AD20B6147B;
+ Tue, 11 Jul 2023 11:12:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48005C433C8;
  Tue, 11 Jul 2023 11:12:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEFA2C433C9;
- Tue, 11 Jul 2023 11:12:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689073964;
- bh=6d19aDsLtYFM8VeUHkMIF7rlggscWhxUPEKwy2hpD18=;
+ s=k20201202; t=1689073966;
+ bh=xX2uTRftD9EqHwWo8crdxO8fyhXNQxRxsD1FXxeuaFQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YxPw+6/GIIkegNmq+0W1lSa3l/zaLS18NIm7rRq/HzFk5eW3s+J3KwDIutRNfoS+o
- YJLpg3Aq9Y2gc7vkvOGTh4PiNj9qqwGfICnku8S1QGoBFx/CjVCTqTBTl3Z4qw1+9F
- NVc8bLdm+Ey3HdE5/9Ri6x6xCozADo8cVsyP+TVCMJcupeG4uDZ6vKCPMPXsAgLi3t
- OhOAet7lpPk/TyYkz50oTOw8HeirMhnhphUSE0FdS+THU12DNhPeCijUpX7951A3go
- B7Uw+v1iPc69dCYHIsL8oGDToN3OY+qvwJ431QFyzuoiAhKKkNXjrSbVwdWsZEdLSX
- fTrgoCz5W5vgg==
+ b=pgqzkOhmHNncLUHMwcWsMWFGlnOq9tDburUB//w5R0ZqL+SrLcswn9HrDZwm+aE9X
+ GwjhWYKOWeCJKsEdxjj0VORBX0NwkA8Op8jL3IcYPl6Y9jBbIqs+ggmRy5z+Maj0F+
+ 5gycyr/iNr0TAeqXjXpjsDNEvGAla8sezPiOsBG1no5gfPjZ4W/sVV0PIrvb6FaT6Q
+ Z/1RcoojxtWVHrGfNs42XF0ZQrKqP8va+49AeHihOhfzZnl0ET3wcrxZNvbM9l6EX0
+ wuc9tyPETrBre1YazryEgZm7Am5qkISXCuWks2gyxQAvkk+3r+v0PedTqyxWCeqzFV
+ U0t6TEi4dtZ8Q==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 10/12] accel/habanalabs: update debugfs-driver-habanalabs with
- the accel path
-Date: Tue, 11 Jul 2023 14:12:24 +0300
-Message-Id: <20230711111226.163670-10-ogabbay@kernel.org>
+Subject: [PATCH 11/12] accel/habanalabs: Move ioctls to the device specific
+ ioctls range
+Date: Tue, 11 Jul 2023 14:12:25 +0300
+Message-Id: <20230711111226.163670-11-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230711111226.163670-1-ogabbay@kernel.org>
 References: <20230711111226.163670-1-ogabbay@kernel.org>
@@ -59,341 +60,353 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tomer Tayar <ttayar@habana.ai>
 
-Replace "/sys/kernel/debug/habanalabs/hl<n>/..." with
-"/sys/kernel/debug/accel/<n>/...".
+To use drm_ioctl(), move the ioctls to the device specific ioctls
+range at [DRM_COMMAND_BASE, DRM_COMMAND_END).
 
 Signed-off-by: Tomer Tayar <ttayar@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- .../ABI/testing/debugfs-driver-habanalabs     | 84 +++++++++----------
- 1 file changed, 42 insertions(+), 42 deletions(-)
+ .../accel/habanalabs/common/command_buffer.c  |  5 +-
+ .../habanalabs/common/command_submission.c    |  6 ++-
+ drivers/accel/habanalabs/common/habanalabs.h  | 11 ++--
+ .../accel/habanalabs/common/habanalabs_drv.c  | 18 +++++--
+ .../habanalabs/common/habanalabs_ioctl.c      | 53 ++++---------------
+ drivers/accel/habanalabs/common/memory.c      |  3 +-
+ include/uapi/drm/habanalabs_accel.h           | 39 +++++++-------
+ 7 files changed, 59 insertions(+), 76 deletions(-)
 
-diff --git a/Documentation/ABI/testing/debugfs-driver-habanalabs b/Documentation/ABI/testing/debugfs-driver-habanalabs
-index 85f6d04f528b..042fd125fbc9 100644
---- a/Documentation/ABI/testing/debugfs-driver-habanalabs
-+++ b/Documentation/ABI/testing/debugfs-driver-habanalabs
-@@ -1,4 +1,4 @@
--What:           /sys/kernel/debug/habanalabs/hl<n>/addr
-+What:           /sys/kernel/debug/accel/<n>/addr
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
-@@ -8,34 +8,34 @@ Description:    Sets the device address to be used for read or write through
-                 only when the IOMMU is disabled.
-                 The acceptable value is a string that starts with "0x"
+diff --git a/drivers/accel/habanalabs/common/command_buffer.c b/drivers/accel/habanalabs/common/command_buffer.c
+index 08f7aee42624..0f0d295116e7 100644
+--- a/drivers/accel/habanalabs/common/command_buffer.c
++++ b/drivers/accel/habanalabs/common/command_buffer.c
+@@ -361,10 +361,11 @@ static int hl_cb_info(struct hl_mem_mgr *mmg,
+ 	return rc;
+ }
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/clk_gate
-+What:           /sys/kernel/debug/accel/<n>/clk_gate
- Date:           May 2020
- KernelVersion:  5.8
- Contact:        ogabbay@kernel.org
- Description:    This setting is now deprecated as clock gating is handled solely by the f/w
+-int hl_cb_ioctl(struct hl_fpriv *hpriv, void *data)
++int hl_cb_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv)
+ {
+-	union hl_cb_args *args = data;
++	struct hl_fpriv *hpriv = file_priv->driver_priv;
+ 	struct hl_device *hdev = hpriv->hdev;
++	union hl_cb_args *args = data;
+ 	u64 handle = 0, device_va = 0;
+ 	enum hl_device_status status;
+ 	u32 usage_cnt = 0;
+diff --git a/drivers/accel/habanalabs/common/command_submission.c b/drivers/accel/habanalabs/common/command_submission.c
+index cfbf5fe72bb1..0291a79c06ab 100644
+--- a/drivers/accel/habanalabs/common/command_submission.c
++++ b/drivers/accel/habanalabs/common/command_submission.c
+@@ -2557,8 +2557,9 @@ static int cs_ioctl_flush_pci_hbw_writes(struct hl_fpriv *hpriv)
+ 	return 0;
+ }
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/command_buffers
-+What:           /sys/kernel/debug/accel/<n>/command_buffers
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
- Description:    Displays a list with information about the currently allocated
-                 command buffers
+-int hl_cs_ioctl(struct hl_fpriv *hpriv, void *data)
++int hl_cs_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv)
+ {
++	struct hl_fpriv *hpriv = file_priv->driver_priv;
+ 	union hl_cs_args *args = data;
+ 	enum hl_cs_type cs_type = 0;
+ 	u64 cs_seq = ULONG_MAX;
+@@ -3718,8 +3719,9 @@ static int hl_interrupt_wait_ioctl(struct hl_fpriv *hpriv, void *data)
+ 	return 0;
+ }
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/command_submission
-+What:           /sys/kernel/debug/accel/<n>/command_submission
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
- Description:    Displays a list with information about the currently active
-                 command submissions
+-int hl_wait_ioctl(struct hl_fpriv *hpriv, void *data)
++int hl_wait_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv)
+ {
++	struct hl_fpriv *hpriv = file_priv->driver_priv;
+ 	struct hl_device *hdev = hpriv->hdev;
+ 	union hl_wait_cs_args *args = data;
+ 	u32 flags = args->in.flags;
+diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
+index 58948044ad16..834f8cbf080a 100644
+--- a/drivers/accel/habanalabs/common/habanalabs.h
++++ b/drivers/accel/habanalabs/common/habanalabs.h
+@@ -4117,11 +4117,12 @@ void hl_ack_pb_single_dcore(struct hl_device *hdev, u32 dcore_offset,
+ 		const u32 pb_blocks[], u32 blocks_array_size);
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/command_submission_jobs
-+What:           /sys/kernel/debug/accel/<n>/command_submission_jobs
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
- Description:    Displays a list with detailed information about each JOB (CB) of
-                 each active command submission
+ /* IOCTLs */
+-long hl_ioctl(struct file *filep, unsigned int cmd, unsigned long arg);
+ long hl_ioctl_control(struct file *filep, unsigned int cmd, unsigned long arg);
+-int hl_cb_ioctl(struct hl_fpriv *hpriv, void *data);
+-int hl_cs_ioctl(struct hl_fpriv *hpriv, void *data);
+-int hl_wait_ioctl(struct hl_fpriv *hpriv, void *data);
+-int hl_mem_ioctl(struct hl_fpriv *hpriv, void *data);
++int hl_info_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv);
++int hl_cb_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv);
++int hl_cs_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv);
++int hl_wait_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv);
++int hl_mem_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv);
++int hl_debug_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv);
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/data32
-+What:           /sys/kernel/debug/accel/<n>/data32
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
-@@ -50,7 +50,7 @@ Description:    Allows the root user to read or write directly through the
-                 If the IOMMU is disabled, it also allows the root user to read
-                 or write from the host a device VA of a host mapped memory
+ #endif /* HABANALABSP_H_ */
+diff --git a/drivers/accel/habanalabs/common/habanalabs_drv.c b/drivers/accel/habanalabs/common/habanalabs_drv.c
+index 6341b8362b3e..7e66f623f350 100644
+--- a/drivers/accel/habanalabs/common/habanalabs_drv.c
++++ b/drivers/accel/habanalabs/common/habanalabs_drv.c
+@@ -18,6 +18,7 @@
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/data64
-+What:           /sys/kernel/debug/accel/<n>/data64
- Date:           Jan 2020
- KernelVersion:  5.6
- Contact:        ogabbay@kernel.org
-@@ -65,7 +65,7 @@ Description:    Allows the root user to read or write 64 bit data directly
-                 If the IOMMU is disabled, it also allows the root user to read
-                 or write from the host a device VA of a host mapped memory
+ #include <drm/drm_accel.h>
+ #include <drm/drm_drv.h>
++#include <drm/drm_ioctl.h>
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/data_dma
-+What:           /sys/kernel/debug/accel/<n>/data_dma
- Date:           Apr 2021
- KernelVersion:  5.13
- Contact:        ogabbay@kernel.org
-@@ -79,11 +79,11 @@ Description:    Allows the root user to read from the device's internal
-                 a very long time.
-                 This interface doesn't support concurrency in the same device.
-                 In GAUDI and GOYA, this action can cause undefined behavior
--                in case the it is done while the device is executing user
-+                in case it is done while the device is executing user
-                 workloads.
-                 Only supported on GAUDI at this stage.
+ #define CREATE_TRACE_POINTS
+ #include <trace/events/habanalabs.h>
+@@ -73,12 +74,21 @@ static const struct pci_device_id ids[] = {
+ };
+ MODULE_DEVICE_TABLE(pci, ids);
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/device
-+What:           /sys/kernel/debug/accel/<n>/device
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
-@@ -91,14 +91,14 @@ Description:    Enables the root user to set the device to specific state.
-                 Valid values are "disable", "enable", "suspend", "resume".
-                 User can read this property to see the valid values
++static const struct drm_ioctl_desc hl_drm_ioctls[] = {
++	DRM_IOCTL_DEF_DRV(HL_INFO, hl_info_ioctl, 0),
++	DRM_IOCTL_DEF_DRV(HL_CB, hl_cb_ioctl, 0),
++	DRM_IOCTL_DEF_DRV(HL_CS, hl_cs_ioctl, 0),
++	DRM_IOCTL_DEF_DRV(HL_WAIT_CS, hl_wait_ioctl, 0),
++	DRM_IOCTL_DEF_DRV(HL_MEMORY, hl_mem_ioctl, 0),
++	DRM_IOCTL_DEF_DRV(HL_DEBUG, hl_debug_ioctl, 0),
++};
++
+ static const struct file_operations hl_fops = {
+ 	.owner = THIS_MODULE,
+ 	.open = accel_open,
+ 	.release = drm_release,
+-	.unlocked_ioctl = hl_ioctl,
+-	.compat_ioctl = hl_ioctl,
++	.unlocked_ioctl = drm_ioctl,
++	.compat_ioctl = drm_compat_ioctl,
+ 	.llseek = noop_llseek,
+ 	.mmap = hl_mmap
+ };
+@@ -95,7 +105,9 @@ static const struct drm_driver hl_driver = {
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/device_release_watchdog_timeout
-+What:           /sys/kernel/debug/accel/<n>/device_release_watchdog_timeout
- Date:           Oct 2022
- KernelVersion:  6.2
- Contact:        ttayar@habana.ai
--Description:    The watchdog timeout value in seconds for a device relese upon
-+Description:    The watchdog timeout value in seconds for a device release upon
-                 certain error cases, after which the device is reset.
+ 	.fops = &hl_fops,
+ 	.open = hl_device_open,
+-	.postclose = hl_device_release
++	.postclose = hl_device_release,
++	.ioctls = hl_drm_ioctls,
++	.num_ioctls = ARRAY_SIZE(hl_drm_ioctls)
+ };
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/dma_size
-+What:           /sys/kernel/debug/accel/<n>/dma_size
- Date:           Apr 2021
- KernelVersion:  5.13
- Contact:        ogabbay@kernel.org
-@@ -108,7 +108,7 @@ Description:    Specify the size of the DMA transaction when using DMA to read
-                 When the write is finished, the user can read the "data_dma"
-                 blob
+ /*
+diff --git a/drivers/accel/habanalabs/common/habanalabs_ioctl.c b/drivers/accel/habanalabs/common/habanalabs_ioctl.c
+index 28c3793e802f..87a6a0c0c48a 100644
+--- a/drivers/accel/habanalabs/common/habanalabs_ioctl.c
++++ b/drivers/accel/habanalabs/common/habanalabs_ioctl.c
+@@ -1095,8 +1095,10 @@ static int _hl_info_ioctl(struct hl_fpriv *hpriv, void *data,
+ 	return rc;
+ }
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/dump_razwi_events
-+What:           /sys/kernel/debug/accel/<n>/dump_razwi_events
- Date:           Aug 2022
- KernelVersion:  5.20
- Contact:        fkassabri@habana.ai
-@@ -117,7 +117,7 @@ Description:    Dumps all razwi events to dmesg if exist.
-                 the routine will clear the status register.
-                 Usage: cat dump_razwi_events
+-static int hl_info_ioctl(struct hl_fpriv *hpriv, void *data)
++int hl_info_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv)
+ {
++	struct hl_fpriv *hpriv = file_priv->driver_priv;
++
+ 	return _hl_info_ioctl(hpriv, data, hpriv->hdev->dev);
+ }
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/dump_security_violations
-+What:           /sys/kernel/debug/accel/<n>/dump_security_violations
- Date:           Jan 2021
- KernelVersion:  5.12
- Contact:        ogabbay@kernel.org
-@@ -125,14 +125,14 @@ Description:    Dumps all security violations to dmesg. This will also ack
-                 all security violations meanings those violations will not be
-                 dumped next time user calls this API
+@@ -1105,10 +1107,11 @@ static int hl_info_ioctl_control(struct hl_fpriv *hpriv, void *data)
+ 	return _hl_info_ioctl(hpriv, data, hpriv->hdev->dev_ctrl);
+ }
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/engines
-+What:           /sys/kernel/debug/accel/<n>/engines
- Date:           Jul 2019
- KernelVersion:  5.3
- Contact:        ogabbay@kernel.org
- Description:    Displays the status registers values of the device engines and
-                 their derived idle status
+-static int hl_debug_ioctl(struct hl_fpriv *hpriv, void *data)
++int hl_debug_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv)
+ {
+-	struct hl_debug_args *args = data;
++	struct hl_fpriv *hpriv = file_priv->driver_priv;
+ 	struct hl_device *hdev = hpriv->hdev;
++	struct hl_debug_args *args = data;
+ 	enum hl_device_status status;
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/i2c_addr
-+What:           /sys/kernel/debug/accel/<n>/i2c_addr
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
-@@ -140,7 +140,7 @@ Description:    Sets I2C device address for I2C transaction that is generated
-                 by the device's CPU, Not available when device is loaded with secured
-                 firmware
+ 	int rc = 0;
+@@ -1151,19 +1154,10 @@ static int hl_debug_ioctl(struct hl_fpriv *hpriv, void *data)
+ }
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/i2c_bus
-+What:           /sys/kernel/debug/accel/<n>/i2c_bus
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
-@@ -148,7 +148,7 @@ Description:    Sets I2C bus address for I2C transaction that is generated by
-                 the device's CPU, Not available when device is loaded with secured
-                 firmware
+ #define HL_IOCTL_DEF(ioctl, _func) \
+-	[_IOC_NR(ioctl)] = {.cmd = ioctl, .func = _func}
+-
+-static const struct hl_ioctl_desc hl_ioctls[] = {
+-	HL_IOCTL_DEF(HL_IOCTL_INFO, hl_info_ioctl),
+-	HL_IOCTL_DEF(HL_IOCTL_CB, hl_cb_ioctl),
+-	HL_IOCTL_DEF(HL_IOCTL_CS, hl_cs_ioctl),
+-	HL_IOCTL_DEF(HL_IOCTL_WAIT_CS, hl_wait_ioctl),
+-	HL_IOCTL_DEF(HL_IOCTL_MEMORY, hl_mem_ioctl),
+-	HL_IOCTL_DEF(HL_IOCTL_DEBUG, hl_debug_ioctl)
+-};
++	[_IOC_NR(ioctl) - HL_COMMAND_START] = {.cmd = ioctl, .func = _func}
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/i2c_data
-+What:           /sys/kernel/debug/accel/<n>/i2c_data
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
-@@ -157,7 +157,7 @@ Description:    Triggers an I2C transaction that is generated by the device's
-                 reading from the file generates a read transaction, Not available
-                 when device is loaded with secured firmware
+ static const struct hl_ioctl_desc hl_ioctls_control[] = {
+-	HL_IOCTL_DEF(HL_IOCTL_INFO, hl_info_ioctl_control)
++	HL_IOCTL_DEF(DRM_IOCTL_HL_INFO, hl_info_ioctl_control)
+ };
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/i2c_len
-+What:           /sys/kernel/debug/accel/<n>/i2c_len
- Date:           Dec 2021
- KernelVersion:  5.17
- Contact:        obitton@habana.ai
-@@ -165,7 +165,7 @@ Description:    Sets I2C length in bytes for I2C transaction that is generated b
-                 the device's CPU, Not available when device is loaded with secured
-                 firmware
+ static long _hl_ioctl(struct hl_fpriv *hpriv, unsigned int cmd, unsigned long arg,
+@@ -1232,33 +1226,6 @@ static long _hl_ioctl(struct hl_fpriv *hpriv, unsigned int cmd, unsigned long ar
+ 	return retcode;
+ }
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/i2c_reg
-+What:           /sys/kernel/debug/accel/<n>/i2c_reg
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
-@@ -173,35 +173,35 @@ Description:    Sets I2C register id for I2C transaction that is generated by
-                 the device's CPU, Not available when device is loaded with secured
-                 firmware
+-long hl_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+-{
+-	struct drm_file *file_priv = filep->private_data;
+-	struct hl_fpriv *hpriv = file_priv->driver_priv;
+-	struct hl_device *hdev = hpriv->hdev;
+-	const struct hl_ioctl_desc *ioctl = NULL;
+-	unsigned int nr = _IOC_NR(cmd);
+-
+-	if (!hdev) {
+-		pr_err_ratelimited("Sending ioctl after device was removed! Please close FD\n");
+-		return -ENODEV;
+-	}
+-
+-	if ((nr >= HL_COMMAND_START) && (nr < HL_COMMAND_END)) {
+-		ioctl = &hl_ioctls[nr];
+-	} else {
+-		char task_comm[TASK_COMM_LEN];
+-
+-		dev_dbg_ratelimited(hdev->dev,
+-				"invalid ioctl: pid=%d, comm=\"%s\", cmd=%#010x, nr=%#04x\n",
+-				task_pid_nr(current), get_task_comm(task_comm, current), cmd, nr);
+-		return -ENOTTY;
+-	}
+-
+-	return _hl_ioctl(hpriv, cmd, arg, ioctl, hdev->dev);
+-}
+-
+ long hl_ioctl_control(struct file *filep, unsigned int cmd, unsigned long arg)
+ {
+ 	struct hl_fpriv *hpriv = filep->private_data;
+@@ -1271,8 +1238,8 @@ long hl_ioctl_control(struct file *filep, unsigned int cmd, unsigned long arg)
+ 		return -ENODEV;
+ 	}
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/led0
-+What:           /sys/kernel/debug/accel/<n>/led0
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
- Description:    Sets the state of the first S/W led on the device, Not available
-                 when device is loaded with secured firmware
+-	if (nr == _IOC_NR(HL_IOCTL_INFO)) {
+-		ioctl = &hl_ioctls_control[nr];
++	if (nr == _IOC_NR(DRM_IOCTL_HL_INFO)) {
++		ioctl = &hl_ioctls_control[nr - HL_COMMAND_START];
+ 	} else {
+ 		char task_comm[TASK_COMM_LEN];
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/led1
-+What:           /sys/kernel/debug/accel/<n>/led1
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
- Description:    Sets the state of the second S/W led on the device, Not available
-                 when device is loaded with secured firmware
+diff --git a/drivers/accel/habanalabs/common/memory.c b/drivers/accel/habanalabs/common/memory.c
+index 45fdf39bfc8c..1b1b4256b011 100644
+--- a/drivers/accel/habanalabs/common/memory.c
++++ b/drivers/accel/habanalabs/common/memory.c
+@@ -2171,8 +2171,9 @@ static int allocate_timestamps_buffers(struct hl_fpriv *hpriv, struct hl_mem_in
+ 	return 0;
+ }
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/led2
-+What:           /sys/kernel/debug/accel/<n>/led2
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
- Description:    Sets the state of the third S/W led on the device, Not available
-                 when device is loaded with secured firmware
+-int hl_mem_ioctl(struct hl_fpriv *hpriv, void *data)
++int hl_mem_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv)
+ {
++	struct hl_fpriv *hpriv = file_priv->driver_priv;
+ 	enum hl_device_status status;
+ 	union hl_mem_args *args = data;
+ 	struct hl_device *hdev = hpriv->hdev;
+diff --git a/include/uapi/drm/habanalabs_accel.h b/include/uapi/drm/habanalabs_accel.h
+index f912869b151e..e7893b082bf8 100644
+--- a/include/uapi/drm/habanalabs_accel.h
++++ b/include/uapi/drm/habanalabs_accel.h
+@@ -8,8 +8,7 @@
+ #ifndef HABANALABS_H_
+ #define HABANALABS_H_
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/memory_scrub
-+What:           /sys/kernel/debug/accel/<n>/memory_scrub
- Date:           May 2022
- KernelVersion:  5.19
- Contact:        dhirschfeld@habana.ai
- Description:    Allows the root user to scrub the dram memory. The scrubbing
-                 value can be set using the debugfs file memory_scrub_val.
+-#include <linux/types.h>
+-#include <linux/ioctl.h>
++#include <drm/drm.h>
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/memory_scrub_val
-+What:           /sys/kernel/debug/accel/<n>/memory_scrub_val
- Date:           May 2022
- KernelVersion:  5.19
- Contact:        dhirschfeld@habana.ai
-@@ -209,7 +209,7 @@ Description:    The value to which the dram will be set to when the user
-                 scrubs the dram using 'memory_scrub' debugfs file and
-                 the scrubbing value when using module param 'memory_scrub'
+ /*
+  * Defines that are asic-specific but constitutes as ABI between kernel driver
+@@ -607,9 +606,9 @@ enum gaudi2_engine_id {
+ /*
+  * ASIC specific PLL index
+  *
+- * Used to retrieve in frequency info of different IPs via
+- * HL_INFO_PLL_FREQUENCY under HL_IOCTL_INFO IOCTL. The enums need to be
+- * used as an index in struct hl_pll_frequency_info
++ * Used to retrieve in frequency info of different IPs via HL_INFO_PLL_FREQUENCY under
++ * DRM_IOCTL_HL_INFO IOCTL.
++ * The enums need to be used as an index in struct hl_pll_frequency_info.
+  */
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/mmu
-+What:           /sys/kernel/debug/accel/<n>/mmu
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
-@@ -217,19 +217,19 @@ Description:    Displays the hop values and physical address for a given ASID
-                 and virtual address. The user should write the ASID and VA into
-                 the file and then read the file to get the result.
-                 e.g. to display info about VA 0x1000 for ASID 1 you need to do:
--                echo "1 0x1000" > /sys/kernel/debug/habanalabs/hl0/mmu
-+                echo "1 0x1000" > /sys/kernel/debug/accel/0/mmu
+ enum hl_goya_pll_index {
+@@ -2163,6 +2162,13 @@ struct hl_debug_args {
+ 	__u32 ctx_id;
+ };
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/mmu_error
-+What:           /sys/kernel/debug/accel/<n>/mmu_error
- Date:           Mar 2021
- KernelVersion:  5.12
- Contact:        fkassabri@habana.ai
- Description:    Check and display page fault or access violation mmu errors for
-                 all MMUs specified in mmu_cap_mask.
-                 e.g. to display error info for MMU hw cap bit 9, you need to do:
--                echo "0x200" > /sys/kernel/debug/habanalabs/hl0/mmu_error
--                cat /sys/kernel/debug/habanalabs/hl0/mmu_error
-+                echo "0x200" > /sys/kernel/debug/accel/0/mmu_error
-+                cat /sys/kernel/debug/accel/0/mmu_error
++#define HL_IOCTL_INFO		0x00
++#define HL_IOCTL_CB		0x01
++#define HL_IOCTL_CS		0x02
++#define HL_IOCTL_WAIT_CS	0x03
++#define HL_IOCTL_MEMORY		0x04
++#define HL_IOCTL_DEBUG		0x05
++
+ /*
+  * Various information operations such as:
+  * - H/W IP information
+@@ -2177,8 +2183,7 @@ struct hl_debug_args {
+  * definitions of structures in kernel and userspace, e.g. in case of old
+  * userspace and new kernel driver
+  */
+-#define HL_IOCTL_INFO	\
+-		_IOWR('H', 0x01, struct hl_info_args)
++#define DRM_IOCTL_HL_INFO	DRM_IOWR(DRM_COMMAND_BASE + HL_IOCTL_INFO, struct hl_info_args)
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/monitor_dump
-+What:           /sys/kernel/debug/accel/<n>/monitor_dump
- Date:           Mar 2022
- KernelVersion:  5.19
- Contact:        osharabi@habana.ai
-@@ -243,7 +243,7 @@ Description:    Allows the root user to dump monitors status from the device's
-                 This interface doesn't support concurrency in the same device.
-                 Only supported on GAUDI.
+ /*
+  * Command Buffer
+@@ -2199,8 +2204,7 @@ struct hl_debug_args {
+  * and won't be returned to user.
+  *
+  */
+-#define HL_IOCTL_CB		\
+-		_IOWR('H', 0x02, union hl_cb_args)
++#define DRM_IOCTL_HL_CB		DRM_IOWR(DRM_COMMAND_BASE + HL_IOCTL_CB, union hl_cb_args)
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/monitor_dump_trig
-+What:           /sys/kernel/debug/accel/<n>/monitor_dump_trig
- Date:           Mar 2022
- KernelVersion:  5.19
- Contact:        osharabi@habana.ai
-@@ -253,14 +253,14 @@ Description:    Triggers dump of monitor data. The value to trigger the operatio
-                 When the write is finished, the user can read the "monitor_dump"
-                 blob
+ /*
+  * Command Submission
+@@ -2252,8 +2256,7 @@ struct hl_debug_args {
+  * and only if CS N and CS N-1 are exactly the same (same CBs for the same
+  * queues).
+  */
+-#define HL_IOCTL_CS			\
+-		_IOWR('H', 0x03, union hl_cs_args)
++#define DRM_IOCTL_HL_CS		DRM_IOWR(DRM_COMMAND_BASE + HL_IOCTL_CS, union hl_cs_args)
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/set_power_state
-+What:           /sys/kernel/debug/accel/<n>/set_power_state
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
- Description:    Sets the PCI power state. Valid values are "1" for D0 and "2"
-                 for D3Hot
+ /*
+  * Wait for Command Submission
+@@ -2285,9 +2288,7 @@ struct hl_debug_args {
+  * HL_WAIT_CS_STATUS_ABORTED     - The CS was aborted, usually because the
+  *                                 device was reset (EIO)
+  */
+-
+-#define HL_IOCTL_WAIT_CS			\
+-		_IOWR('H', 0x04, union hl_wait_cs_args)
++#define DRM_IOCTL_HL_WAIT_CS	DRM_IOWR(DRM_COMMAND_BASE + HL_IOCTL_WAIT_CS, union hl_wait_cs_args)
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/skip_reset_on_timeout
-+What:           /sys/kernel/debug/accel/<n>/skip_reset_on_timeout
- Date:           Jun 2021
- KernelVersion:  5.13
- Contact:        ynudelman@habana.ai
-@@ -268,7 +268,7 @@ Description:    Sets the skip reset on timeout option for the device. Value of
-                 "0" means device will be reset in case some CS has timed out,
-                 otherwise it will not be reset.
+ /*
+  * Memory
+@@ -2304,8 +2305,7 @@ struct hl_debug_args {
+  * There is an option for the user to specify the requested virtual address.
+  *
+  */
+-#define HL_IOCTL_MEMORY		\
+-		_IOWR('H', 0x05, union hl_mem_args)
++#define DRM_IOCTL_HL_MEMORY	DRM_IOWR(DRM_COMMAND_BASE + HL_IOCTL_MEMORY, union hl_mem_args)
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/state_dump
-+What:           /sys/kernel/debug/accel/<n>/state_dump
- Date:           Oct 2021
- KernelVersion:  5.15
- Contact:        ynudelman@habana.ai
-@@ -279,7 +279,7 @@ Description:    Gets the state dump occurring on a CS timeout or failure.
-                 Writing an integer X discards X state dumps, so that the
-                 next read would return X+1-st newest state dump.
+ /*
+  * Debug
+@@ -2331,10 +2331,9 @@ struct hl_debug_args {
+  * The driver can decide to "kick out" the user if he abuses this interface.
+  *
+  */
+-#define HL_IOCTL_DEBUG		\
+-		_IOWR('H', 0x06, struct hl_debug_args)
++#define DRM_IOCTL_HL_DEBUG	DRM_IOWR(DRM_COMMAND_BASE + HL_IOCTL_DEBUG, struct hl_debug_args)
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/stop_on_err
-+What:           /sys/kernel/debug/accel/<n>/stop_on_err
- Date:           Mar 2020
- KernelVersion:  5.6
- Contact:        ogabbay@kernel.org
-@@ -287,21 +287,21 @@ Description:    Sets the stop-on_error option for the device engines. Value of
-                 "0" is for disable, otherwise enable.
-                 Relevant only for GOYA and GAUDI.
+-#define HL_COMMAND_START	0x01
+-#define HL_COMMAND_END		0x07
++#define HL_COMMAND_START	(DRM_COMMAND_BASE + HL_IOCTL_INFO)
++#define HL_COMMAND_END		(DRM_COMMAND_BASE + HL_IOCTL_DEBUG + 1)
  
--What:           /sys/kernel/debug/habanalabs/hl<n>/timeout_locked
-+What:           /sys/kernel/debug/accel/<n>/timeout_locked
- Date:           Sep 2021
- KernelVersion:  5.16
- Contact:        obitton@habana.ai
- Description:    Sets the command submission timeout value in seconds.
- 
--What:           /sys/kernel/debug/habanalabs/hl<n>/userptr
-+What:           /sys/kernel/debug/accel/<n>/userptr
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
--Description:    Displays a list with information about the currently user
-+Description:    Displays a list with information about the current user
-                 pointers (user virtual addresses) that are pinned and mapped
-                 to DMA addresses
- 
--What:           /sys/kernel/debug/habanalabs/hl<n>/userptr_lookup
-+What:           /sys/kernel/debug/accel/<n>/userptr_lookup
- Date:           Oct 2021
- KernelVersion:  5.15
- Contact:        ogabbay@kernel.org
-@@ -309,7 +309,7 @@ Description:    Allows to search for specific user pointers (user virtual
-                 addresses) that are pinned and mapped to DMA addresses, and see
-                 their resolution to the specific dma address.
- 
--What:           /sys/kernel/debug/habanalabs/hl<n>/vm
-+What:           /sys/kernel/debug/accel/<n>/vm
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
+ #endif /* HABANALABS_H_ */
 -- 
 2.34.1
 
