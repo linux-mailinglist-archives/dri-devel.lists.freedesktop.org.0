@@ -2,34 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A19774F62C
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 18:53:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A413D74F629
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 18:53:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D91810E407;
-	Tue, 11 Jul 2023 16:53:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDB4E10E3FF;
+	Tue, 11 Jul 2023 16:53:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-51.mta1.migadu.com (out-51.mta1.migadu.com [95.215.58.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 775E210E3FD
+X-Greylist: delayed 604 seconds by postgrey-1.36 at gabe;
+ Tue, 11 Jul 2023 16:53:32 UTC
+Received: from out-25.mta1.migadu.com (out-25.mta1.migadu.com [95.215.58.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 198D310E3FD
  for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 16:53:32 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1689093834;
+ t=1689093837;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iVEqfzU8LKaeTCpd0iTjGV1loy12NrUravzVWeb1zk8=;
- b=H3VPH7tc08QQlw2h5nbl1lpqKBm+1PGywtLormVFLl9T0Bl6ppxX8pZfolXuvzfQorxg1H
- /L2uyQ6b68f3NY/OM/G+v4+IsWmf3aM/9tRax3B/Gphu9fd9i4aHg5iRxClevu+H1Lvr/T
- ZGpawz4uQZx+ixsSXOPb3VhDlhvWY94=
+ bh=JsW608w9Icre+eeXWiPepSjKi7cGG5If1vSETO465rs=;
+ b=QF9u5YarQ3XzlTFgOQ75cikl4e7GNbilk51J/EF5FT5P17CXSbsJhIZPn2v2xfDNiD3iPg
+ OL2K7w14/U1uqKbPrZ+SREEjfjWxoRcLu+YoI4CCjBNUfs96b9Eb/rlpz4+aGHn7BvrvUg
+ A5l4s7aCH2f1LJn0RlazEQQwuZEJWso=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: David Airlie <airlied@gmail.com>
-Subject: [PATCH v3 8/9] drm/ast: Register as a vga client to vgaarb by calling
- vga_client_register()
-Date: Wed, 12 Jul 2023 00:43:09 +0800
-Message-Id: <20230711164310.791756-9-sui.jingfeng@linux.dev>
+Subject: [PATCH v3 9/9] drm/loongson: Add an implement for the is_primary_gpu
+ function callback
+Date: Wed, 12 Jul 2023 00:43:10 +0800
+Message-Id: <20230711164310.791756-10-sui.jingfeng@linux.dev>
 In-Reply-To: <20230711164310.791756-1-sui.jingfeng@linux.dev>
 References: <20230711164310.791756-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
@@ -50,80 +52,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: linux-fbdev@vger.kernel.org, Sui Jingfeng <suijingfeng@loongson.cn>,
  kvm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jocelyn Falempe <jfalempe@redhat.com>, amd-gfx@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+ amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sui Jingfeng <suijingfeng@loongson.cn>
 
-Becasuse the VGA Display Controller in the ASpeed BMC chip is also a PCIe
-device, the Software Programming guide of AST2400 say that it is Fully
-IBM VGA compliant, thus, it should also particiate in the arbitration.
-
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
 Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
 ---
- drivers/gpu/drm/ast/ast_drv.c | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ drivers/gpu/drm/loongson/lsdc_drv.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-index e1224ef4ad83..0e53b0cd3f09 100644
---- a/drivers/gpu/drm/ast/ast_drv.c
-+++ b/drivers/gpu/drm/ast/ast_drv.c
-@@ -28,6 +28,7 @@
+diff --git a/drivers/gpu/drm/loongson/lsdc_drv.c b/drivers/gpu/drm/loongson/lsdc_drv.c
+index d10a28c2c494..92ef07d6a534 100644
+--- a/drivers/gpu/drm/loongson/lsdc_drv.c
++++ b/drivers/gpu/drm/loongson/lsdc_drv.c
+@@ -257,6 +257,14 @@ static unsigned int lsdc_vga_set_decode(struct pci_dev *pdev, bool state)
+ 	return VGA_RSRC_NORMAL_IO | VGA_RSRC_NORMAL_MEM;
+ }
  
- #include <linux/module.h>
- #include <linux/pci.h>
-+#include <linux/vgaarb.h>
- 
- #include <drm/drm_aperture.h>
- #include <drm/drm_atomic_helper.h>
-@@ -89,6 +90,32 @@ static const struct pci_device_id ast_pciidlist[] = {
- 
- MODULE_DEVICE_TABLE(pci, ast_pciidlist);
- 
-+static bool ast_vga_is_primary_gpu(struct pci_dev *pdev)
++static bool lsdc_is_primary_gpu(struct pci_dev *pdev)
 +{
-+	struct drm_device *drm = pci_get_drvdata(pdev);
-+	struct ast_device *ast = to_ast_device(drm);
++	struct drm_device *ddev = pci_get_drvdata(pdev);
++	struct lsdc_device *ldev = to_lsdc(ddev);
 +
-+	return drm_aperture_contain_firmware_fb(ast->vram_base, ast->vram_size);
++	return drm_aperture_contain_firmware_fb(ldev->vram_base, ldev->vram_size);
 +}
 +
-+static unsigned int ast_vga_set_decode(struct pci_dev *pdev, bool state)
-+{
-+	struct drm_device *drm = pci_get_drvdata(pdev);
-+	struct ast_device *ast = to_ast_device(drm);
-+
-+	if (state) {
-+		/* Enable standard VGA decode and Enable normal VGA decode */
-+		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa1, 0x04);
-+
-+		return VGA_RSRC_LEGACY_IO | VGA_RSRC_LEGACY_MEM |
-+		       VGA_RSRC_NORMAL_IO | VGA_RSRC_NORMAL_MEM;
-+	}
-+
-+	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa1, 0x07);
-+
-+	return VGA_RSRC_NORMAL_IO | VGA_RSRC_NORMAL_MEM;
-+}
-+
- static int ast_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ static int lsdc_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
  {
- 	struct ast_device *ast;
-@@ -112,6 +139,8 @@ static int ast_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	if (ret)
- 		return ret;
+ 	const struct lsdc_desc *descp;
+@@ -289,7 +297,7 @@ static int lsdc_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
  
-+	vga_client_register(pdev, ast_vga_set_decode, ast_vga_is_primary_gpu);
-+
- 	drm_fbdev_generic_setup(dev, 32);
+ 	pci_set_drvdata(pdev, ddev);
  
- 	return 0;
+-	vga_client_register(pdev, lsdc_vga_set_decode, NULL);
++	vga_client_register(pdev, lsdc_vga_set_decode, lsdc_is_primary_gpu);
+ 
+ 	drm_kms_helper_poll_init(ddev);
+ 
 -- 
 2.25.1
 
