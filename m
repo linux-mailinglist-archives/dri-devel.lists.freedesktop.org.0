@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5886174FB04
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 00:38:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5C0274FB09
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 00:39:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 707A210E44C;
-	Tue, 11 Jul 2023 22:38:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03D7010E454;
+	Tue, 11 Jul 2023 22:39:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1940510E44C
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 22:38:24 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id
- 2adb3069b0e04-4fb960b7c9dso10131268e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 15:38:24 -0700 (PDT)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0663810E453
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 22:39:08 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id
+ 2adb3069b0e04-4fba74870abso9535067e87.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 15:39:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689115103; x=1691707103;
+ d=linaro.org; s=google; t=1689115147; x=1691707147;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Oopt9erZoUG2dizfs7Owm/xRql9gq++ePXLLqwiHV8A=;
- b=tyKULaBlK5XrfbFwGoXhn+M4ot8tb3G6f4XXaU4jXcKcu2CB5oIl+Di3FQyZ0kOZ4z
- Dy3TebhmZH6OWqjlDt9t2TPIsXn+tcJMVopCvitY/ArzQvuO7gJHowcY+kRW8a3YVhbL
- K0tVohEcJKMW9mA7Noo4hYWvg/DJtTm6wGz+PIX62yf15Ho5W4xBjPURWLZhpZrI//AK
- Tr8TWsy5m1M6dfy0tg1sSwCLkbbRlHzz1RcOG/sbrL7tILQqcxix825QoAJGX3WGf6nF
- 55zot4JQdww2ZjpW469olLo9ANDwiqcByB/vIaqtnB/ZDucX8s3/kgKJQmRelbCb2aMw
- eh4A==
+ bh=P0bn8rwIJ27GiGioGfo1byioWdbBdTl+i2BZlsOSFxk=;
+ b=oqe+r0GguKOzk9SdLcGLtkzAWK44wdBNDH850OzjfBTeEpjFuuYb8nyigVZJEODyuG
+ jsODqFEJUULdQqDaccq3k64GF9UhAfg7dytLCdno62UL/WL7wwk8xZ7ok4EmVDOTNM5C
+ pb/6u96oyjNiBXEX0ACoyB9s3JwvUqn5xnj6KWUX5LgkH9zN+Wo7Z2ZwkDp04lrOlwGQ
+ +hftQPg2hw8oGmIuyQoem2ashypkl2uNPX5XhORGEpuh/Es8r10wVN3ecwKzZt0TCPMa
+ QItYuwHbSV2rrv4+UMQ3mZEvzPdYgCYzpfB/+WOUGJ8KXZdPFg5hgjSr+xhmel5EtfUP
+ IFpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689115103; x=1691707103;
+ d=1e100.net; s=20221208; t=1689115147; x=1691707147;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Oopt9erZoUG2dizfs7Owm/xRql9gq++ePXLLqwiHV8A=;
- b=QhgKYhZuV5TUZ0h3IfD+HhfNxdwJkkgth6iRA+9kdSjye9fPoe7lZfzlacwAqmUGJ4
- FwIQSnscg725l/yx+nRClCbFf4rLvVa8SHfKOEf7agKDAPR8MDu6puJimBIqMhMSZuNi
- uRI3rpzh9dJupHNAILermJ74cQ5h0G04BhoNXbaewpGuykkTYy+NcPIuceOenqwABXoj
- 5FBdAENETaC34qUrom8ktzy+vjW1CFwZD0G8ydrhyky8Dt5xfyN7w527mjUyj9q1sfpe
- 2u929kbV6DHRQfgZGO/zxtsDtf1lwA1iEESRJfMkVF/Wr6xuRa0WjWsYLu4Rh68pHnVU
- PdGQ==
-X-Gm-Message-State: ABy/qLZ9NWEu9M9sFU6C0YCJ5YInIB76RH5rgWgRBAFJ+JKf8NesXs2Q
- 9a4a3zfcYakUTFlLjx9qYlUw8g==
-X-Google-Smtp-Source: APBJJlHZcrBfnaxu6wbfavyBNnhRHUabHpZntt6MxNUWvmQldCJw2Ge+GSBZ/PjAjdEs6Ps30+OvyQ==
-X-Received: by 2002:a05:6512:451:b0:4f9:5ac3:4133 with SMTP id
- y17-20020a056512045100b004f95ac34133mr12649630lfk.25.1689115102732; 
- Tue, 11 Jul 2023 15:38:22 -0700 (PDT)
+ bh=P0bn8rwIJ27GiGioGfo1byioWdbBdTl+i2BZlsOSFxk=;
+ b=MXuuIkVPOGU40a96N9dQ20jnVCqpMyJSaAYXrN2/8RJAJg3LVgRF3L+d/eKti7Gbce
+ htY472riWzpsPNaTgsZA+Fv18+T/0klbZrIcm6UmbomJzm484apCmSHBWymHC9q/RhLt
+ jayCXzN78lGAjqpVX2cGuX7fqYNneAQmxPIiS6ATF/thB/B8GxncZV7bywXDUbIkld9v
+ xEJNjUpY4qctls570d8zy7eNcKfU1tMQcUvD6uCjq9eB32qe2yLiAT3Vn111kevOaOYO
+ shDS0ylqIwRa+vACNptg6tl4t8po5QLwDp8BkbnK0wNCvFCnSxY3SaolMrEoy6/QCEFU
+ mlYA==
+X-Gm-Message-State: ABy/qLajYIFCYCv5YR8TNvVMPh/Md7k6El9t4sBqjtEkeH3e63+7nWIh
+ iG/N/BSH9Tw7a+qmTBYeJwacgw==
+X-Google-Smtp-Source: APBJJlGKbiNBJNdCieqpqx2ESCXbMqLf0EQvxyZdBv07b1AeCFWbrat1ZnIw+t6HvTanUHdGD13aDw==
+X-Received: by 2002:a19:e054:0:b0:4f8:7055:6f7e with SMTP id
+ g20-20020a19e054000000b004f870556f7emr13511852lfj.44.1689115147257; 
+ Tue, 11 Jul 2023 15:39:07 -0700 (PDT)
 Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
  (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
  by smtp.gmail.com with ESMTPSA id
- x7-20020ac259c7000000b004f84b36a24fsm469763lfn.51.2023.07.11.15.38.22
+ x14-20020a19f60e000000b004fbae60b970sm468143lfe.68.2023.07.11.15.39.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Jul 2023 15:38:22 -0700 (PDT)
-Message-ID: <fdc3cec2-b6e2-a6f4-ef68-94d3a1fe3689@linaro.org>
-Date: Wed, 12 Jul 2023 01:38:21 +0300
+ Tue, 11 Jul 2023 15:39:06 -0700 (PDT)
+Message-ID: <6968f4a5-fc5d-e166-3262-dc83762eeec1@linaro.org>
+Date: Wed, 12 Jul 2023 01:39:06 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH 2/5] arm64: dts: qcom: sm8250: Add DisplayPort device node
+Subject: Re: [PATCH 3/5] arm64: dts: qcom: qrb5165-rb5: add onboard USB-C
+ redriver
 Content-Language: en-GB
 To: Konrad Dybcio <konrad.dybcio@linaro.org>, Andy Gross <agross@kernel.org>, 
  Bjorn Andersson <andersson@kernel.org>, Rob Clark <robdclark@gmail.com>,
@@ -66,10 +67,10 @@ To: Konrad Dybcio <konrad.dybcio@linaro.org>, Andy Gross <agross@kernel.org>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 References: <20230709041926.4052245-1-dmitry.baryshkov@linaro.org>
- <20230709041926.4052245-3-dmitry.baryshkov@linaro.org>
- <da7cf83c-8026-c6dc-e3cb-c632c1b59d96@linaro.org>
+ <20230709041926.4052245-4-dmitry.baryshkov@linaro.org>
+ <d80fab4d-f581-f6fa-4aa8-f8952f0c710c@linaro.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <da7cf83c-8026-c6dc-e3cb-c632c1b59d96@linaro.org>
+In-Reply-To: <d80fab4d-f581-f6fa-4aa8-f8952f0c710c@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,67 +91,67 @@ Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/07/2023 00:34, Konrad Dybcio wrote:
+On 12/07/2023 00:36, Konrad Dybcio wrote:
 > On 9.07.2023 06:19, Dmitry Baryshkov wrote:
->> Declare the displayport controller present on the Qualcomm SM8250 SoC.
+>> Add the nb7vpq904m, onboard USB-C redriver / retimer.
 >>
 >> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 >> ---
 > [...]
 > 
->> +				dp_opp_table: opp-table {
->> +					compatible = "operating-points-v2";
+>> +			port@1 {
+>> +				reg = <1>;
 >> +
->> +					opp-160000000 {
->> +						opp-hz = /bits/ 64 <160000000>;
->> +						required-opps = <&rpmhpd_opp_low_svs>;
-> 19.2 MHz, VDD_MIN
+>> +				redriver_phy_con_ss: endpoint {
+>> +					remote-endpoint = <&usb_1_qmpphy_typec_mux_in>;
+>> +					data-lanes = <0 1 2 3>;
+> That's USB+DP lines combined, or how does it work? I'm confused :/
 
-I don't think so, the lowest working point is 162 MHz for RBR. 19.2 is 
-just just artificial. I'll check, maybe it would be better to drop this 
-completely.
-
-> 
->> +					};
->> +
->> +					opp-270000000 {
->> +						opp-hz = /bits/ 64 <270000000>;
->> +						required-opps = <&rpmhpd_opp_svs>;
-> 270 MHz, LOW_SVS
-
-Ack. Which probably means that we should fix all existing DP opp tables. 
-They all should be using low_svs here.
-
->> +					};
->> +
->> +					opp-540000000 {
->> +						opp-hz = /bits/ 64 <540000000>;
->> +						required-opps = <&rpmhpd_opp_svs_l1>;
-> 540 MHz, SVS_L1 (ok)
->> +					};
->> +
->> +					opp-810000000 {
->> +						opp-hz = /bits/ 64 <810000000>;
->> +						required-opps = <&rpmhpd_opp_nom>;
-> 810 MHz, NOM (also ok)
-> 
-> (but then - there's qcom,max-pclk-frequency-khz = <675000>;)
-> 
-> also, what's up with the PIXEL1 clocks etc.?
-> they are capped at the aforementioned 675 Mhz but I have no idea
-> what they're for
-
-I think PIXEL1 is used for DP MST.
+4 generic purpose SS lanes, which can be purposed for USB or for DP.
 
 > 
 > Konrad
->> +					};
 >> +				};
 >> +			};
 >> +
->>   			mdss_dsi0: dsi@ae94000 {
->>   				compatible = "qcom,sm8250-dsi-ctrl",
->>   					     "qcom,mdss-dsi-ctrl";
+>> +			port@2 {
+>> +				reg = <2>;
+>> +
+>> +				redriver_usb_con_sbu: endpoint {
+>> +					remote-endpoint = <&pm8150b_typec_sbu_out>;
+>> +				};
+>> +			};
+>> +		};
+>> +	};
+>>   };
+>>   
+>>   &mdss {
+>> @@ -1294,7 +1334,7 @@ &usb_1_qmpphy {
+>>   };
+>>   
+>>   &usb_1_qmpphy_typec_mux_in {
+>> -	remote-endpoint = <&pm8150b_typec_mux_out>;
+>> +	remote-endpoint = <&redriver_phy_con_ss>;
+>>   };
+>>   
+>>   &usb_2 {
+>> @@ -1382,7 +1422,15 @@ pm8150b_role_switch_out: endpoint {
+>>   			port@1 {
+>>   				reg = <1>;
+>>   				pm8150b_typec_mux_out: endpoint {
+>> -					remote-endpoint = <&usb_1_qmpphy_typec_mux_in>;
+>> +					remote-endpoint = <&redriver_usb_con_ss>;
+>> +				};
+>> +			};
+>> +
+>> +			port@2 {
+>> +				reg = <2>;
+>> +
+>> +				pm8150b_typec_sbu_out: endpoint {
+>> +					remote-endpoint = <&redriver_usb_con_sbu>;
+>>   				};
+>>   			};
+>>   		};
 
 -- 
 With best wishes
