@@ -1,30 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16CCB74F087
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 15:44:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1151574F088
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 15:44:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C16B710E39A;
-	Tue, 11 Jul 2023 13:44:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8314D10E39F;
+	Tue, 11 Jul 2023 13:44:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-52.mta0.migadu.com (out-52.mta0.migadu.com
- [IPv6:2001:41d0:1004:224b::34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F2D510E39A
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 13:44:22 +0000 (UTC)
+Received: from out-62.mta0.migadu.com (out-62.mta0.migadu.com [91.218.175.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACAD710E39A
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 13:44:25 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1689083060;
+ t=1689083063;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nSELRnxi3WNW936UlC8GM9d7GKkUecfY1U1Y7wjl+uY=;
- b=xJyYazfcQNg5BkenFjHDBatlKKm0dhriClEVMtpSJ0VFseaNKgOJNiTxOUYiKr2cnh7/um
- z5uVCpJIXf9DPBH/tnLaP7PP4CYkNlRcgiB8Sgp3cf9dk1Aovox2BT0Ky6waQnsC7ENo6V
- Tlv9Vq/fuRA085J2lVe38D/l0AOB6/M=
+ bh=NIy4iyC9nuH2OGqIfvEGjD1H7yPmKE3hN2OnCkSSwos=;
+ b=M5PbJsEas/pXLhY4bwrSzQ/fEGUVORpMVmQVcHLy3OjgNETQPgCHeJLRfbT1A5TZr4ofaV
+ dciq2+E7wwBjI1+3/pnGDRSITsSwsg8a3lf3w7+pXO+C1xXKSp248NOmqPKXo1bWwUIb/l
+ Vf2D+/G31gJ7u+EAJbM2VTSEsHDQm6s=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: Bjorn Helgaas <bhelgaas@google.com>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -32,10 +31,9 @@ To: Bjorn Helgaas <bhelgaas@google.com>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
 	Sui@freedesktop.org, Jingfeng@loongson.cn
-Subject: [PATCH 3/6] PCI/VGA: drop the inline of vga_update_device_decodes()
- function
-Date: Tue, 11 Jul 2023 21:43:51 +0800
-Message-Id: <20230711134354.755966-4-sui.jingfeng@linux.dev>
+Subject: [PATCH 4/6] PCI/VGA: Move the new_state assignment out the loop
+Date: Tue, 11 Jul 2023 21:43:52 +0800
+Message-Id: <20230711134354.755966-5-sui.jingfeng@linux.dev>
 In-Reply-To: <20230711134354.755966-1-sui.jingfeng@linux.dev>
 References: <20230711134354.755966-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
@@ -61,59 +59,54 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sui Jingfeng <suijingfeng@loongson.cn>
 
-The vga_update_device_decodes() function is NOT a trivial function, It is
-not performance critical either. So, drop the inline.
+In the vga_arbiter_notify_clients() function, the value of the 'new_state'
+variable will be 'false' on systems that have more than one PCI VGA card.
+Its value will be 'true' on systems that have one or no PCI VGA compatible
+card. In other words, its value is not relevant to the iteration, so move
+the assignment () out of the loop.
 
-This patch also make the parameter and argument consistent, use unsigned
-int type instead of the signed type to store the decode. Change the second
-argument of vga_update_device_decodes() function as 'unsigned int' type.
+For a system with multiple video cards, this patch saves the redundant
+assignment.
 
 Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
 ---
- drivers/pci/vgaarb.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ drivers/pci/vgaarb.c | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
-index 021116ed61cb..668139f7c247 100644
+index 668139f7c247..4c448c758bab 100644
 --- a/drivers/pci/vgaarb.c
 +++ b/drivers/pci/vgaarb.c
-@@ -860,24 +860,24 @@ static bool vga_arbiter_del_pci_device(struct pci_dev *pdev)
- 	return ret;
- }
- 
--/* this is called with the lock */
--static inline void vga_update_device_decodes(struct vga_device *vgadev,
--					     int new_decodes)
-+/* This is called with the lock */
-+static void vga_update_device_decodes(struct vga_device *vgadev,
-+				      unsigned int new_decodes)
+@@ -1468,22 +1468,20 @@ static void vga_arbiter_notify_clients(void)
  {
- 	struct device *dev = &vgadev->pdev->dev;
--	int old_decodes, decodes_removed, decodes_unlocked;
-+	unsigned int old_decodes = vgadev->decodes;
-+	unsigned int decodes_removed = ~new_decodes & old_decodes;
-+	unsigned int decodes_unlocked = vgadev->locks & decodes_removed;
+ 	struct vga_device *vgadev;
+ 	unsigned long flags;
+-	uint32_t new_decodes;
+-	bool new_state;
++	bool state;
  
--	old_decodes = vgadev->decodes;
--	decodes_removed = ~new_decodes & old_decodes;
--	decodes_unlocked = vgadev->locks & decodes_removed;
- 	vgadev->decodes = new_decodes;
+ 	if (!vga_arbiter_used)
+ 		return;
  
--	vgaarb_info(dev, "changed VGA decodes: olddecodes=%s,decodes=%s:owns=%s\n",
--		vga_iostate_to_str(old_decodes),
--		vga_iostate_to_str(vgadev->decodes),
--		vga_iostate_to_str(vgadev->owns));
-+	vgaarb_info(dev,
-+		    "VGA decodes changed: olddecodes=%s,decodes=%s:owns=%s\n",
-+		    vga_iostate_to_str(old_decodes),
-+		    vga_iostate_to_str(vgadev->decodes),
-+		    vga_iostate_to_str(vgadev->owns));
- 
--	/* if we removed locked decodes, lock count goes to zero, and release */
-+	/* If we removed locked decodes, lock count goes to zero, and release */
- 	if (decodes_unlocked) {
- 		if (decodes_unlocked & VGA_RSRC_LEGACY_IO)
- 			vgadev->io_lock_cnt = 0;
++	state = (vga_count > 1) ? false : true;
++
+ 	spin_lock_irqsave(&vga_lock, flags);
+ 	list_for_each_entry(vgadev, &vga_list, list) {
+-		if (vga_count > 1)
+-			new_state = false;
+-		else
+-			new_state = true;
+ 		if (vgadev->set_decode) {
+-			new_decodes = vgadev->set_decode(vgadev->pdev,
+-							 new_state);
+-			vga_update_device_decodes(vgadev, new_decodes);
++			unsigned int decodes;
++
++			decodes = vgadev->set_decode(vgadev->pdev, state);
++			vga_update_device_decodes(vgadev, decodes);
+ 		}
+ 	}
+ 	spin_unlock_irqrestore(&vga_lock, flags);
 -- 
 2.25.1
 
