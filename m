@@ -1,66 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAE5C74E6D0
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 08:08:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A00EE74E6D4
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 08:08:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1631810E307;
-	Tue, 11 Jul 2023 06:08:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D611210E308;
+	Tue, 11 Jul 2023 06:08:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 722FD10E307
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 06:08:03 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- 5b1f17b1804b1-3fbc656873eso66394845e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 23:08:03 -0700 (PDT)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2634D10E308
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 06:08:45 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id
+ ffacd0b85a97d-3159d75606dso1617832f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 23:08:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689055681; x=1691647681;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ylMkhP5iApXqUlg2Qp54MKEXiwYX+p46Gaz2A+cIsD0=;
- b=FsgY1ZT2rRl+7zR2oyCxnQKtF8FkyOuc3KiCGv+HxNmd9b8YJvv2nR3YdABt+GQXDm
- D6fkbZrTxLjPduhuM8/J10pt74OBHR29awp2zygJtnpWbjRWKq9NbsEunWfEKTxqO/vl
- 0CH1DVov289fSxjVCsqS2fCo9srbIGc08/f3lmE9uEmew89VBl0SRqspVYa3/Uj69l9S
- yUC7TX/sb2K11xvQMgXWutueqg1OAtvgZGhifykhwgaqoDfnH+AHMPxDsKNXn8Tl60K9
- L5ZGe7+P2n/sHO9J749RASjwdD5FVzlEfWb6cPbAjv/zxg8bmUn5nvoZXYVO0DFJl4PZ
- sEPQ==
+ d=linaro.org; s=google; t=1689055723; x=1691647723;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=8werb2SBWZr7v/sXzjx6gnxExhvkujqij807vJmKy30=;
+ b=pwQgrr3VfqsIgF/yJ9EbzF2OfgeC6Kk4wADko02rM0LorUIA27+Ha3kMJunYExsAHp
+ /4lsB08oS/IAr8GtrR+eZcR6LuS7x6a7s8KSxXB+1JKNhPeT068p58oK/dY6rqN3zHJ3
+ CReWuhFXLVqk8UBZODqoGHRgLsAu51i+i12gHkSJI0pAKmHX9nyd2KRNrH17ter1e5Mp
+ qpKrfP+jE43bNmqtEJKVNZ/xCqTIHlz86unr9juLo6T/ECDGE/YsbM3YiTs5KQDxY/Ir
+ qguM3gjnEzREAeoYzQ5AUmN2ShnmdcTEaOUPhBmoKh7WL6A5EYZzCPV7Bx8pPjm5S7wA
+ NHng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689055681; x=1691647681;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ylMkhP5iApXqUlg2Qp54MKEXiwYX+p46Gaz2A+cIsD0=;
- b=E49RJ9XaVrNzswXLFTVcaJU3kjXPqxVQ+Ivg0v7Y5fIVRABwlZKEbO9gylEn2Ywve+
- 3vxf8ejOeP1TnMLIJ1cIAGKVH/rDXnUPKGxanOVCPjf9XBbm1dSfep+3geUgaikslV5r
- j8uglJ7bm0w75PN7A3nkgTYZrlqPd/AckBRqWcsWtsasWVFzr4yLfailR8gFdkgBSuhc
- lL2OtUEUC1wTuStWxgup36unH2uMdt48H2PIHXocKiS+eN6Q5OM7Qe8ju3uKEBFlv7pr
- MfoasnbbSBD9C8LTb/cW38DCWj/dnLfxqd2CjppLfjZ4c0QlTOAffKTxfdWuxWMpkvuW
- 9U5g==
-X-Gm-Message-State: ABy/qLbmAdAeNpsjcXNFp/KgQCoiTcujp5sCewBCfMY7hOYIVBEPcYPn
- FfcMQ4BXWY8PZXOEKd66cNI1zQ==
-X-Google-Smtp-Source: APBJJlEu3vGunYmloCnFe4G0ic4Cf6SKC/3Yc++PBYxfbIesl5w5Avpv1N3JTMG4cUKE8qkhSw6F+g==
-X-Received: by 2002:a1c:6a04:0:b0:3fb:b9b7:fb0c with SMTP id
- f4-20020a1c6a04000000b003fbb9b7fb0cmr18270975wmc.31.1689055681338; 
- Mon, 10 Jul 2023 23:08:01 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1689055723; x=1691647723;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8werb2SBWZr7v/sXzjx6gnxExhvkujqij807vJmKy30=;
+ b=QqqiJR1xAG6E60qHfxUkheey67JfyjslpBMNUehwzpSo6gfVw+hsLaoR7hwU9E+mKg
+ 2T9Tw5QS7NdOarU5JiOMgcinKgUUduU6loRjxPLeyzMpFZmD7oNtDlDeU1tlWoRhZAnR
+ evn5j1D2/QgK7J+WF0Kqhtnr3P4wZwpPhYCyLLtJEuFFny4+LQF5jYewQt0rX7hsUPIj
+ MUbvMAFMJHvi4L33ALSxaoqfGXUIoetUw1cc0YORafoDJCjvpNRAwRsMxr2S/PP/IoBT
+ hg2Vfvht402s3674p3UPRlgQ9CLSVs8H42YUl0+1zVTvixnkgsNpSlSvkv0Nq3P81QVl
+ ASJQ==
+X-Gm-Message-State: ABy/qLbKhhhPBuLxjlPaqtWYunlJJDt3YZ3B7Pt6SXUIYO/GuEBlhfdl
+ ptruz8mHYOpiEfyGeHeul6sTlA==
+X-Google-Smtp-Source: APBJJlFnfJolRPMMeoYKAGfu5dCjeSnPio4DalzndKJ3lrBfZ4HJWeBfTMi4c1ww8WbLyIRRzLI9iw==
+X-Received: by 2002:a5d:4b87:0:b0:313:e3a8:b47c with SMTP id
+ b7-20020a5d4b87000000b00313e3a8b47cmr12330315wrt.8.1689055723407; 
+ Mon, 10 Jul 2023 23:08:43 -0700 (PDT)
 Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- u9-20020a7bc049000000b003fbc681c8d1sm12043925wmc.36.2023.07.10.23.07.58
+ b2-20020a5d4b82000000b0031432c2fb95sm1251399wrt.88.2023.07.10.23.08.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jul 2023 23:07:58 -0700 (PDT)
-Date: Tue, 11 Jul 2023 09:07:56 +0300
+ Mon, 10 Jul 2023 23:08:41 -0700 (PDT)
+Date: Tue, 11 Jul 2023 09:08:38 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: Re: [PATCH 1/5] accel/qaic: tighten bounds checking in
- encode_message()
-Message-ID: <627f10fc-6f09-44ab-9c2e-f5615a86f080@kadam.mountain>
-References: <ZKzxP8iX8Op0lYvh@moroto>
- <ZKzxXhtwqYvoat8B@moroto>
+Subject: [PATCH 0/5 v3] accel/qaic: Improve bounds checking in encode/decode
+Message-ID: <ZKzx5nA6Z/0yhBJj@moroto>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZKzxXhtwqYvoat8B@moroto>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,16 +71,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: linux-arm-msm@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
  kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- Carl Vanderlip <quic_carlv@quicinc.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+ Carl Vanderlip <quic_carlv@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Oops.  Left the v2 out of the subject.
+Fixed in v3: Redo messed up threading
 
-Let me start this whole thread over...
+Fixed two things in v2:  Include the <linux/overflow.h> file.  Change
+the >= in encode and decode to >.
 
 regards,
 dan carpenter
-
