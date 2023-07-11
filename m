@@ -1,44 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 507E774E828
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 09:37:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B4E574E829
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 09:37:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7510B10E326;
-	Tue, 11 Jul 2023 07:37:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D063410E327;
+	Tue, 11 Jul 2023 07:37:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2DCE10E326
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 07:36:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1945210E327
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 07:37:03 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id EA32E61354;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 81F9F61356;
+ Tue, 11 Jul 2023 07:37:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A4AFC433CB;
  Tue, 11 Jul 2023 07:36:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D294CC433C7;
- Tue, 11 Jul 2023 07:36:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689061017;
- bh=sp9FUz7vFWMOXim7BOi9FhfXePdR8iwcHRlNLjmbrE0=;
+ s=k20201202; t=1689061021;
+ bh=sEqwyC3FyD2dOA4vxfiDWqxyPw9GpNWDE8xdL9GWS8k=;
  h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=o+KWj9bXmQa6HfWyip5V0qnUuXxShVLYk5hJdPLFMtnIUrLDrJNGA3OoPRiDgXTo3
- 8FLQU5yRGDau/XKm0ZH75oQzVIYnmb3fo19Gl5s3xGoxgEXTHVDYPrzPLuUSt/q+9Q
- e/iSLt9vgfmnvBblKjaVQWM3iSHxXvTYglKEHMwglEsiW0ZdNudN+fAts5ARukzu2E
- RYWhdZxjxt5mGhE00CK34425ADah9caNJ1RVpLS3DC08xZz9lARxQ629iUtCs7LuE5
- 2mjaY0lCjRz2MqsjDCdwolr2zwa/evxOVdRKjdU1X/cC/LKG/NN4Q7yVsTPtc27QHI
- SjiMhH5BwXtFQ==
+ b=lzWAGfwJ3WXJRoJqVVRC2LoK90eGLluOqf9+gyAmFoLR3DayjC5FLLMNlkmHja7uM
+ 9ZWJOelSTbJ0ZKnwYTdNkmbkTLLjhX0dI5jitBr+OSxLtXmSaP2K/qmbBqpa3y2wOL
+ E9mhSfXV5f6KBMr7h2H84hxLwTh1DiQ/WGJnMy4W+tmUGedpwSegYHWT40zNVlEuat
+ j80R0N3i6MZHoe4xxgFAy/MOh0PWwg8D1ayd3F78ksjtKXKRgdWromIW+gsro99ms3
+ aMcCDOGhjwRaCRcZnQorRHcgMDjYsvBm+tqOYy3phQUoHjTl2H9TmWUNP5d4TNcnzi
+ xsA5R313fOuZQ==
 From: Vinod Koul <vkoul@kernel.org>
-To: Markus Schneider-Pargmann <msp@baylibre.com>, 
- Dan Carpenter <dan.carpenter@linaro.org>
-In-Reply-To: <3c699e00-2883-40d9-92c3-0da1dc38fdd4@moroto.mountain>
-References: <3c699e00-2883-40d9-92c3-0da1dc38fdd4@moroto.mountain>
-Subject: Re: [PATCH] phy: phy-mtk-dp: Fix an error code in probe()
-Message-Id: <168906101241.188690.9773925204562641483.b4-ty@kernel.org>
-Date: Tue, 11 Jul 2023 13:06:52 +0530
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Chunfeng Yun <chunfeng.yun@mediatek.com>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Guillaume Ranquet <granquet@baylibre.com>
+In-Reply-To: <20230529-hdmi_phy_fix-v1-1-bf65f53af533@baylibre.com>
+References: <20230529-hdmi_phy_fix-v1-1-bf65f53af533@baylibre.com>
+Subject: Re: [PATCH] phy: mediatek: hdmi: mt8195: fix prediv bad upper
+ limit test
+Message-Id: <168906101764.188690.7974991611736783323.b4-ty@kernel.org>
+Date: Tue, 11 Jul 2023 13:06:57 +0530
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -55,27 +61,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kishon Vijay Abraham I <kishon@kernel.org>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Bo-Chen Chen <rex-bc.chen@mediatek.com>, linux-phy@lists.infradead.org,
- kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Guillaume Ranquet <granquet@baylibre.com>, linux-mediatek@lists.infradead.org,
- Chunfeng Yun <chunfeng.yun@mediatek.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-phy@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Tue, 11 Jul 2023 09:13:25 +0300, Dan Carpenter wrote:
-> Negative -EINVAL was intended instead of positive EINVAL.
+On Tue, 30 May 2023 10:43:07 +0200, Guillaume Ranquet wrote:
+> The pll prediv calculus searchs for the smallest prediv that gets
+> the ns_hdmipll_ck in the range of 5 GHz to 12 GHz.
+> 
+> A typo in the upper bound test was testing for 5Ghz to 1Ghz
 > 
 > 
 
 Applied, thanks!
 
-[1/1] phy: phy-mtk-dp: Fix an error code in probe()
-      commit: 03966c3950d36d6b671158be3794eb7211434faa
+[1/1] phy: mediatek: hdmi: mt8195: fix prediv bad upper limit test
+      commit: 059c78ebf1e94a825e27cc3ef8a9d77cef06827e
 
 Best regards,
 -- 
