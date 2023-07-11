@@ -2,47 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D593574F917
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 22:32:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F6AB74F9C6
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 23:35:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F37F10E42D;
-	Tue, 11 Jul 2023 20:32:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB1F910E068;
+	Tue, 11 Jul 2023 21:34:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7F7C10E42C;
- Tue, 11 Jul 2023 20:32:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689107521; x=1720643521;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=MquciJ6QKsOAYAFsVwDCxdfeWAquYL/aDPRdcCPxUKs=;
- b=R3k1pMw8vvZXcQ8BF7T2zB5hqyAPeK+B5IZx00AvChggVymjmgyD4He6
- gN9NJQi/TiHbIKR+RHjKEuiL0ypBp1MbTFPn7TZYC9bQzM1bAmS5Z4t6R
- mlvsnzEwpeY90pfbb+bgJMBsmoC21Y0/fuCAdwdHpOg0jR7tBb99F2sDK
- TyvGLZ+ju8nrZN89FzU32y2U7efjUDV7HjCUw69beHc9LJQuB9IVaRXhr
- GD+MY4cQ5KiKfSRP0beusPlazVy2rFhHAXuUp1xCKWgQGvo6Nuk6oEfzH
- F2arr/rgrcwiHBG0C7okH6DKaRr8EVlR12BR6jyMzGGKBaP9EpPsNxkhf w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="451090331"
-X-IronPort-AV: E=Sophos;i="6.01,197,1684825200"; d="scan'208";a="451090331"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jul 2023 13:31:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="715313364"
-X-IronPort-AV: E=Sophos;i="6.01,197,1684825200"; d="scan'208";a="715313364"
-Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jul 2023 13:31:58 -0700
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/huc: check HuC and GuC version compatibility on MTL
-Date: Tue, 11 Jul 2023 13:31:50 -0700
-Message-ID: <20230711203150.4140313-1-daniele.ceraolospurio@intel.com>
-X-Mailer: git-send-email 2.41.0
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CE3710E068
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 21:34:58 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id
+ 38308e7fff4ca-2b6f97c7115so95987361fa.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 14:34:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1689111296; x=1691703296;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5kdVuwXm6t95AcBuBM8m7iArVjotqNWDs0Iyq3HVAYg=;
+ b=NkqZys+bin9V5fVkkxHI6QhlxChpa/RkNbEBdYOBEEEo9ee0ztANjJ9JvOD41diumx
+ w7VZ/PzElygPNgUCjrnj9k7EyE4i9w+WAIv6IT2776fuExrUtDcjq39qyRMHIE2/frEa
+ AWvN9zMI3J10jBIlBjqSSJJO+aaLzubQCvqfWyRy5MYa0ApR3cYx9huE/xfecmG7snik
+ bTFJTaE6SeuAMT/+LXCqhOqoUfz2gZXyciEe1ZtQmw8N1I+gh9r/znni0PHun0d4ohYS
+ yR6cltNg96DS2y4zjsX8j6skn9gJd16Z9dTXPWl5400p2c2xDOauvG30BRSHuLcxJA19
+ tR7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689111296; x=1691703296;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5kdVuwXm6t95AcBuBM8m7iArVjotqNWDs0Iyq3HVAYg=;
+ b=hixA9/QCMUIXhEruweJnTJs0IvkTmojqHB61zxJJuulxqBSxvL+u6x990n6EIiHY+e
+ kB9x96yCmoIGESwF1tFzsvPgZ/Bki6EiAbii1tvFVhZGvJs6mde7BaDxQJdtlrzTGPGR
+ Ych4YuDewSDuMzlmO84GRISAjFYEK/hEFFX16rTl1xRuVa3Z090NPDYO/N04OGOlCZ4Z
+ V1IuGkx91zv3J93h/iv5NWGp+ctJEvrUW6UKRdbRer9jAE8Fwk0h2miYx2p0VUsfmOd3
+ LDhYSOz4niXioGm5Msad2SkQ6bGv47fdbYJgBHBUIliRblhqR8ItyHIBgv2zzpz/mI3j
+ Kjrw==
+X-Gm-Message-State: ABy/qLbpoHY0+dVW3qY9hgECoNn2jPmPd9CS4LX8Rn/sHgqzASDbV9HE
+ Ndai0oVCZ+OezCIornF3oqscjw==
+X-Google-Smtp-Source: APBJJlFvpJE95MGXlJyrIpKrgbrKL35PzAVwOnW7cxv5hb1zbqpIUZgMx6jvKV++u6SvtTpjyfoWrA==
+X-Received: by 2002:a2e:a0d4:0:b0:2b5:89a6:c12b with SMTP id
+ f20-20020a2ea0d4000000b002b589a6c12bmr14055670ljm.10.1689111296389; 
+ Tue, 11 Jul 2023 14:34:56 -0700 (PDT)
+Received: from [192.168.1.101] (abyl96.neoplus.adsl.tpnet.pl. [83.9.31.96])
+ by smtp.gmail.com with ESMTPSA id
+ e16-20020a2e9310000000b002b6cb40e9aasm597832ljh.103.2023.07.11.14.34.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Jul 2023 14:34:55 -0700 (PDT)
+Message-ID: <da7cf83c-8026-c6dc-e3cb-c632c1b59d96@linaro.org>
+Date: Tue, 11 Jul 2023 23:34:54 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20230709041926.4052245-1-dmitry.baryshkov@linaro.org>
+ <20230709041926.4052245-3-dmitry.baryshkov@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH 2/5] arm64: dts: qcom: sm8250: Add DisplayPort device node
+In-Reply-To: <20230709041926.4052245-3-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,82 +83,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Due to a change in the auth flow on MTL, GuC 70.7.0 and newer will only
-be able to authenticate HuC 8.5.1 and newer. The plan is to update the 2
-binaries sinchronously in linux-firmware so that the fw repo always has
-a matching pair that works; still, it's better to check in the kernel so
-we can print an error message and abort HuC loading if the binaries are
-out of sync instead of failing the authentication.
+On 9.07.2023 06:19, Dmitry Baryshkov wrote:
+> Declare the displayport controller present on the Qualcomm SM8250 SoC.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+[...]
 
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: John Harrison <John.C.Harrison@Intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 42 ++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+> +				dp_opp_table: opp-table {
+> +					compatible = "operating-points-v2";
+> +
+> +					opp-160000000 {
+> +						opp-hz = /bits/ 64 <160000000>;
+> +						required-opps = <&rpmhpd_opp_low_svs>;
+19.2 MHz, VDD_MIN
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-index 08e16017584b..f0cc5bb47fa0 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-@@ -803,11 +803,53 @@ static int try_firmware_load(struct intel_uc_fw *uc_fw, const struct firmware **
- 	return 0;
- }
- 
-+static int check_mtl_huc_guc_compatibility(struct intel_gt *gt,
-+					   struct intel_uc_fw_file *huc_selected)
-+{
-+	struct intel_uc_fw_file *guc_selected = &gt->uc.guc.fw.file_selected;
-+	struct intel_uc_fw_ver *huc_ver = &huc_selected->ver;
-+	struct intel_uc_fw_ver *guc_ver = &guc_selected->ver;
-+	bool new_huc;
-+	bool new_guc;
-+
-+	/* we can only do this check after having fetched both GuC and HuC */
-+	GEM_BUG_ON(!huc_selected->path || !guc_selected->path);
-+
-+	/*
-+	 * Due to changes in the authentication flow for MTL, HuC 8.5.1 or newer
-+	 * requires GuC 70.7.0 or newer. Older HuC binaries will instead require
-+	 * GuC < 70.7.0.
-+	 */
-+	new_huc = huc_ver->major > 8 ||
-+		  (huc_ver->major == 8 && huc_ver->minor > 5) ||
-+		  (huc_ver->major == 8 && huc_ver->minor == 5 && huc_ver->patch >= 1);
-+
-+	new_guc = guc_ver->major > 70 ||
-+		  (guc_ver->major == 70 && guc_ver->minor >= 7);
-+
-+	if (new_huc != new_guc) {
-+		UNEXPECTED(gt, "HuC %u.%u.%u is incompatible with GuC %u.%u.%u\n",
-+			   huc_ver->major, huc_ver->minor, huc_ver->patch,
-+			   guc_ver->major, guc_ver->minor, guc_ver->patch);
-+		gt_info(gt, "MTL GuC 70.7.0+ and HuC 8.5.1+ don't work with older releases\n");
-+		return -ENOEXEC;
-+	}
-+
-+	return 0;
-+}
-+
- int intel_uc_check_file_version(struct intel_uc_fw *uc_fw, bool *old_ver)
- {
- 	struct intel_gt *gt = __uc_fw_to_gt(uc_fw);
- 	struct intel_uc_fw_file *wanted = &uc_fw->file_wanted;
- 	struct intel_uc_fw_file *selected = &uc_fw->file_selected;
-+	int ret;
-+
-+	if (IS_METEORLAKE(gt->i915) && uc_fw->type == INTEL_UC_FW_TYPE_HUC) {
-+		ret = check_mtl_huc_guc_compatibility(gt, selected);
-+		if (ret)
-+			return ret;
-+	}
- 
- 	if (!wanted->ver.major || !selected->ver.major)
- 		return 0;
--- 
-2.41.0
+> +					};
+> +
+> +					opp-270000000 {
+> +						opp-hz = /bits/ 64 <270000000>;
+> +						required-opps = <&rpmhpd_opp_svs>;
+270 MHz, LOW_SVS
+> +					};
+> +
+> +					opp-540000000 {
+> +						opp-hz = /bits/ 64 <540000000>;
+> +						required-opps = <&rpmhpd_opp_svs_l1>;
+540 MHz, SVS_L1 (ok)
+> +					};
+> +
+> +					opp-810000000 {
+> +						opp-hz = /bits/ 64 <810000000>;
+> +						required-opps = <&rpmhpd_opp_nom>;
+810 MHz, NOM (also ok)
 
+(but then - there's qcom,max-pclk-frequency-khz = <675000>;)
+
+also, what's up with the PIXEL1 clocks etc.?
+they are capped at the aforementioned 675 Mhz but I have no idea
+what they're for
+
+Konrad
+> +					};
+> +				};
+> +			};
+> +
+>  			mdss_dsi0: dsi@ae94000 {
+>  				compatible = "qcom,sm8250-dsi-ctrl",
+>  					     "qcom,mdss-dsi-ctrl";
