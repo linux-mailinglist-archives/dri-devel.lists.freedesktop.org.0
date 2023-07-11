@@ -1,65 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 254ED74E953
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 10:45:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ED9974E994
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 10:58:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7770B10E088;
-	Tue, 11 Jul 2023 08:45:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 495FC10E332;
+	Tue, 11 Jul 2023 08:58:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
- [IPv6:2607:f8b0:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08A6610E088
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 08:45:41 +0000 (UTC)
-Received: by mail-pg1-x52a.google.com with SMTP id
- 41be03b00d2f7-55b0e7efb1cso2760466a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 01:45:41 -0700 (PDT)
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5812410E332
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 08:58:02 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id
+ 2adb3069b0e04-4fb87828386so1608316e87.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 01:58:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1689065141; x=1691657141;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6rAyfFYEC54lt2EK8plIE5lUAw75Zdb2J3/mCKsVdFc=;
- b=osMyAeVS9EE7oQ72ept+nuFwXTGDZis3UCeZJLu4UFhMCl5FqF0UqU8ZGadQdmgYd1
- WBYIfLYja43fjc+Sou3CD8s0QT0hu2AVFWVCc64mXvK4AkQAFf/i41Z+SVsD5vgzGo8W
- JcywYnI+Uw26sosc1BCOQaQ5ZIK4L0LJDRyQ0aDtVpAd38m4x0MPxUB80sPshH9bD1AI
- nNsR0M1I5hFQdbxga5MBJU14uaDwnpzQZY4sZUDsi8C2e3ubUuBXnrdwOXvxNqW09C2h
- GPTEsjcspu1XSf+PutOWGbjULtlBTs6GVod+d3N0SmM/kTwfm+3OFHNnf8U9u/dHy0/Q
- hrHQ==
+ d=ffwll.ch; s=google; t=1689065880; x=1689670680;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=vU/q9F+j7T29Ov8VGxEBf0ga2x1TW8QqZSc1uPgejXw=;
+ b=ZAYLsHz1srKC6rodvE90k3M2axRg9MqOhBHiSomPBA3k80qu6tnzcZLed105eqB3mB
+ 3jfffCy/8VP9kCx5f9oP9AeHHmIFOK4jenCBSFQXP3/mWEwmJRjABLQiok/pxYTeqkpr
+ 8ssAfAR+eXCL1meiVj6KmFQ8M6F4/m2s6q2CU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689065141; x=1691657141;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6rAyfFYEC54lt2EK8plIE5lUAw75Zdb2J3/mCKsVdFc=;
- b=Vq02q2MKO6zeY6zRBokbHrhquhTw8qKqgaZSuwin4HhbkBdipZ4uhM96l//hNmLLWo
- ZVQhMjRTP+ZIBWiwvf97ZCBuj47ljVRrpzGh+bAi2p9KAiOPBeaErecx7NTHDmnTt0p8
- M8K3mRw/ghwF5h3qNN5uz5bJ1hpbOpzP7tyL05udD2lXx3GsN2e0qS/dSq/14ktGtJrh
- AUAMeCegHsOIKTjYAPWP9oVLz8CHVN4B835ssmTyiwLVELH+AIAxqC9WRMmNFJKu99nG
- SGk5wSZ4fwwIYBzyNDmeDCtuZlXtwjDpK0X7Jc5ip3I3v8jrjhzK4s4tvtAN8JYeKeeP
- lacA==
-X-Gm-Message-State: ABy/qLZzrSk1b9tx9u9/MZ4j1OkkrdlsXjaPxwOxm9jtDgG9SVHn44n9
- qcreHC/ESZloEj+3jb9bfFGqWSt0MK++IJGa9z1gfA==
-X-Google-Smtp-Source: APBJJlEEpeiJ/C75pcZKME2sORsUVGMbgtRVsaSJNvTBpYj9gubvUdJuoy+wl7zoQ6u18+207M8ubOvzyKvqaQDqYR8=
-X-Received: by 2002:a17:90a:fb93:b0:262:f06a:13e0 with SMTP id
- cp19-20020a17090afb9300b00262f06a13e0mr11892966pjb.5.1689065140955; Tue, 11
- Jul 2023 01:45:40 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1689065880; x=1689670680;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vU/q9F+j7T29Ov8VGxEBf0ga2x1TW8QqZSc1uPgejXw=;
+ b=ZlYWLRLXLIdhf9GfSG/BWmrFT61O/Rhvn1Lv1jmqZHcdbS6TtcnKE7qnA0aQfy3zIu
+ 9J49J2SaKquVtdMWuzJbX+pSeIUqjJa/6PAizbhgfyFDirpJcxO93PmgNgXpcKjllous
+ a01R4IaSjJuVQQd3oCaK6vK7x0tL++y6T9FcjvqTmVSNR1Pj4G/gONKNuYB9oBZkrcC+
+ x2CIGscOXZWb7nttmN90muaWuvXy/eyDgZ+Iad0C9bQI4+zfArdePmjwM2whJpi9yJEF
+ crONmwbk/+2443dzZOYy0HQwSDfXAWydDbymXy18zNFM4Rw4z1yFKeXcRxo8rEjpMgwv
+ XjcA==
+X-Gm-Message-State: ABy/qLad3RqYL2QC0S20EQZzT43IiY4ylqTxas6MsTJd515PV+QBVInv
+ cuG+dOY+VKLEvGEXv52iOSUsKQ==
+X-Google-Smtp-Source: APBJJlFG4pTsS/5OU08doNJkGnPN/YPs+LTOaHjyktlkkHHgWCUC0uJHQGeiOEg+95dWXGz0oSUrhw==
+X-Received: by 2002:a19:a414:0:b0:4fb:8341:43d3 with SMTP id
+ q20-20020a19a414000000b004fb834143d3mr9326203lfc.5.1689065880058; 
+ Tue, 11 Jul 2023 01:58:00 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ v6-20020aa7cd46000000b0051e3385a395sm949732edw.3.2023.07.11.01.57.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Jul 2023 01:57:59 -0700 (PDT)
+Date: Tue, 11 Jul 2023 10:57:57 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
+Subject: Re: [PATCH v5 6/6] drm/doc: Define KMS atomic state set
+Message-ID: <ZK0ZlciR66oTO+Td@phenom.ffwll.local>
+Mail-Followup-To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, wayland-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, pierre-eric.pelloux-prayer@amd.com,
+ Simon Ser <contact@emersion.fr>, Rob Clark <robdclark@gmail.com>,
+ Pekka Paalanen <ppaalanen@gmail.com>,
+ Daniel Stone <daniel@fooishbar.org>,
+ 'Marek =?utf-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
+ Dave Airlie <airlied@gmail.com>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
+ Randy Dunlap <rdunlap@infradead.org>, hwentlan@amd.com,
+ joshua@froggi.es, ville.syrjala@linux.intel.com,
+ Pekka Paalanen <pekka.paalanen@collabora.com>
+References: <20230707224059.305474-1-andrealmeid@igalia.com>
+ <20230707224059.305474-7-andrealmeid@igalia.com>
 MIME-Version: 1.0
-References: <20230704050744.1196293-1-yangcong5@huaqin.corp-partner.google.com>
- <CAD=FV=WNLcw2JbMf7tfob2KgjB8eXTC0p1J4OYnQL4k3Mz3mgA@mail.gmail.com>
- <CAHwB_NJbtvXNCFj5=NMBXWCt1S1_WrgGij2Kqdr1omno66kVUw@mail.gmail.com>
- <CAD=FV=W5adfzPkP6dJGwfGO+mcbTdg8v9A0Sd4-FozF+W7nSrA@mail.gmail.com>
-In-Reply-To: <CAD=FV=W5adfzPkP6dJGwfGO+mcbTdg8v9A0Sd4-FozF+W7nSrA@mail.gmail.com>
-From: cong yang <yangcong5@huaqin.corp-partner.google.com>
-Date: Tue, 11 Jul 2023 16:45:29 +0800
-Message-ID: <CAHwB_NLQcL7sDPAp10njng+r=UjmesHyWK6DHxJLYOatemYWLQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: Add avdd/avee delay for Starry-himax83102-j02
- and Starry-ili9882t panel
-To: Doug Anderson <dianders@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230707224059.305474-7-andrealmeid@igalia.com>
+X-Operating-System: Linux phenom 6.3.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,126 +88,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, devicetree@vger.kernel.org, sam@ravnborg.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- hsinyi@google.com
+Cc: pierre-eric.pelloux-prayer@amd.com, Pekka Paalanen <ppaalanen@gmail.com>,
+ 'Marek =?utf-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
+ hwentlan@amd.com, dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ alexander.deucher@amd.com, Pekka Paalanen <pekka.paalanen@collabora.com>,
+ christian.koenig@amd.com, joshua@froggi.es
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Fri, Jul 07, 2023 at 07:40:59PM -0300, André Almeida wrote:
+> From: Pekka Paalanen <pekka.paalanen@collabora.com>
+> 
+> Specify how the atomic state is maintained between userspace and
+> kernel, plus the special case for async flips.
+> 
+> Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+> ---
+> v4: total rework by Pekka
+> ---
+>  Documentation/gpu/drm-uapi.rst | 41 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 41 insertions(+)
+> 
+> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+> index 65fb3036a580..6a1662c08901 100644
+> --- a/Documentation/gpu/drm-uapi.rst
+> +++ b/Documentation/gpu/drm-uapi.rst
+> @@ -486,3 +486,44 @@ and the CRTC index is its position in this array.
+>  
+>  .. kernel-doc:: include/uapi/drm/drm_mode.h
+>     :internal:
+> +
+> +KMS atomic state
+> +================
+> +
+> +An atomic commit can change multiple KMS properties in an atomic fashion,
+> +without ever applying intermediate or partial state changes.  Either the whole
+> +commit succeeds or fails, and it will never be applied partially. This is the
+> +fundamental improvement of the atomic API over the older non-atomic API which is
+> +referred to as the "legacy API".  Applying intermediate state could unexpectedly
+> +fail, cause visible glitches, or delay reaching the final state.
+> +
+> +An atomic commit can be flagged with DRM_MODE_ATOMIC_TEST_ONLY, which means the
+> +complete state change is validated but not applied.  Userspace should use this
+> +flag to validate any state change before asking to apply it. If validation fails
+> +for any reason, userspace should attempt to fall back to another, perhaps
+> +simpler, final state.  This allows userspace to probe for various configurations
+> +without causing visible glitches on screen and without the need to undo a
+> +probing change.
+> +
+> +The changes recorded in an atomic commit apply on top the current KMS state in
+> +the kernel. Hence, the complete new KMS state is the complete old KMS state with
+> +the committed property settings done on top. The kernel will automatically avoid
+> +no-operation changes, so it is safe and even expected for userspace to send
+> +redundant property settings.  No-operation changes do not count towards actually
+> +needed changes, e.g.  setting MODE_ID to a different blob with identical
+> +contents as the current KMS state shall not be a modeset on its own.
 
-On Fri, Jul 7, 2023 at 11:15=E2=80=AFPM Doug Anderson <dianders@google.com>=
- wrote:
->
-> Hi,
->
-> On Thu, Jul 6, 2023 at 6:20=E2=80=AFPM cong yang
-> <yangcong5@huaqin.corp-partner.google.com> wrote:
-> >
-> > Hi,
-> >
-> > On Fri, Jul 7, 2023 at 3:32=E2=80=AFAM Doug Anderson <dianders@google.c=
-om> wrote:
-> > >
-> > > Hi,
-> > >
-> > > On Mon, Jul 3, 2023 at 10:07=E2=80=AFPM Cong Yang
-> > > <yangcong5@huaqin.corp-partner.google.com> wrote:
-> > > >
-> > > > From power on/off sequence for panel data sheet[1], T2 timing VSP t=
-o VSN
-> > > > needs 1ms delay when power on, and VSN to VSP also needs 1ms delay =
-when
-> > > > power off. Some pmic may not be able to adjust the delay internally=
-, so
-> > > > let's add a delay between avdd/avee regulator gpio to meet the timi=
-ng of
-> > > > panel.
-> > >
-> > > Unless I'm mistaken, all of this is best handled via regulator
-> > > constraints in the device tree. See the file:
-> > >
-> > > Documentation/devicetree/bindings/regulator/regulator.yaml
-> > >
-> > > Specifically, any delays related to actually ramping up / down the
-> > > regulator can be specified in the device tree. Nominally, you could
-> > > argue that the 1 ms delay actually _does_ belong in the driver, but
-> > > IMO the 1 ms number there is really just there because someone though=
-t
-> > > it was weird to specify a delay of 0 ms. Given that you already need
-> > > remp delays in the device tree, it feels OK to me to just include the
-> > > 1 ms there.
-> >
-> > The regulator device tree has only the power on attribute
-> > "regulator-enable-ramp-delay",
-> > not has power off attribute. The regulator delay looks more like the
-> > HW voltage requirement
-> > of the power ic itself, and I just want to meet the panel spec
-> > requirement. I add regulator-enable-ramp-delay
-> > in dts he can also meet my requirement, but I have no way to control
-> > the power off delays.
->
-> Hmmm, I guess the fact that the delay needed can be different for
-> different boards / PMICs still makes me think that the delay doesn't
-> belong in the panel driver. Different boards using the same panel
-> would need different delays, right?
->
-> So, thinking more...
->
-> You're saying that you _can_ specify the enable delay in the device
-> tree, but not the disable one, right? However, the timing diagram you
-> provided doesn't seem to show the "disable" part. Since that's the
-> part we're talking about now, could you provide a more complete timing
-> diagram? Can you also talk to the panel vendor and confirm that the "1
-> ms" actually matters or if they just put that there to ensure
-> ordering? In other words, is it simply important that VDD1 gets to
-> ~90% before you turn on VSP, or do they truly need a full 1 ms delay?
->
-> Can you provide any more details about the power IC you're using? Is
-> it just a discrete PMIC with a GPIO enable, or is it something
-> fancier? Correct me if I'm confused (entirely possible!), but I think
-> some PMICs have a feature where they can turn on "active discharge" so
-> that they ramp down more quickly when they're disabled. Any chance
-> your PMIC has this?
->
-> In general the fact that nobody has added
-> "regulator-disable-ramp-delay" to the regulator framework already
-> means that the problem you're facing isn't really a common problem.
-> There are lots of devices out there that have more than one regulator
-> but I don't see examples where drivers need to delay between turning
-> all their regulators off. Are you positive that this is something that
-> you really need to worry about?
->
-> The above is a bit rambling (sorry!), but I guess the summary is:
->
-> 1. Please confirm that the panel driver truly needs 1 ms between
-> regulators enabled.
->
-> 2. Please provide the power sequence diagram for disable. If there's a
-> 1 ms delay between regulators being disabled then please confirm.
->
-> 3. If the 1 ms delay isn't truly needed then we can just drop this patch,=
- right?
+Small clarification: The kernel indeed tries very hard to make redundant
+changes a no-op, and I think we should consider any issues here bugs. But
+it still has to check, which means it needs to acquire the right locks and
+put in the right (cross-crtc) synchronization points, and due to
+implmentation challenges it's very hard to try to avoid that in all cases.
+So adding redundant changes especially across crtc (and their connected
+planes/connectors) might result in some oversynchronization issues, and
+userspace should therefore avoid them if feasible.
 
-https://github.com/ILITEK-LoganLin/Document/tree/main/ILITEK_Power_Sequence
+With some sentences added to clarify this:
 
-Ask the vendor to evaluate this 1ms delay again, they think that
-current ramp time
-does not need 1ms delay, so drop this patch.
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
->
-> 4. IMO if the panel itself truly requires 1 ms between regulators
-> being enabled and/or disabled, it would be OK to put the 1 ms delay in
-> the driver but it feels wrong to be accounting for ramp time in the
-> driver. This should be specified in the device tree.
->
-> 5. If we really need to account for the ramp down time, it would at
-> least be good to submit a regulator framework patch proposing a way to
-> specify this. We'd have to figure out how to make this work since I'd
-> imagine that most regulator consumers don't care that much about ramp
-> down time. Mark would be the real person to get advice from, but
-> perhaps an API call like "regulator_wait_discharged(percent)" that a
-> client could call?
->
->
-> -Doug
+> +
+> +A "modeset" is a change in KMS state that might enable, disable, or temporarily
+> +disrupt the emitted video signal, possibly causing visible glitches on screen. A
+> +modeset may also take considerably more time to complete than other kinds of
+> +changes, and the video sink might also need time to adapt to the new signal
+> +properties. Therefore a modeset must be explicitly allowed with the flag
+> +DRM_MODE_ATOMIC_ALLOW_MODESET.  This in combination with
+> +DRM_MODE_ATOMIC_TEST_ONLY allows userspace to determine if a state change is
+> +likely to cause visible disruption on screen and avoid such changes when end
+> +users do not expect them.
+> +
+> +An atomic commit with the flag DRM_MODE_PAGE_FLIP_ASYNC is allowed to
+> +effectively change only the FB_ID property on any planes. No-operation changes
+> +are ignored as always. Changing any other property will cause the commit to be
+> +rejected.
+> -- 
+> 2.41.0
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
