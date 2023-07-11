@@ -2,56 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4744974E8A2
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 10:03:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC9474E8DC
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 10:20:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C59810E331;
-	Tue, 11 Jul 2023 08:03:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A29A310E0F2;
+	Tue, 11 Jul 2023 08:20:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D86C810E330
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 08:03:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689062597; x=1720598597;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=eyGG6dzB9CZXuAsyxkAbXw//cArH8N9tfew36H3vcQI=;
- b=XenKIbs3c8CpPK7EhUozwdZh/K1gajc2o0sV84iBKlQ2hmcmG44bKCyq
- Zm+3CbKNGv2fx7forYAUv/e1eNLU3j5VXUsowZmf/ZTveC3tKn29aFKCZ
- 14rl3OdbBcSAUQLPClLhrL+2TjYCi+VTrANkRusUYYxdSpkeMA7qC8+kd
- a0jA3oEUogT5D85x2nGmUw8CJBNeshLlNa99DMVcG/DEEhuT73axEPO4H
- s/7zgs32CNPvUPfdj23vmtMEirdwq+jWOKxpoV+5TGOrq76BvraG34k88
- KdbxmYPHM3D/tVqU3v8klfmyAVttX9Mobvmh3IdOrcSTkji3rbTb4ithF Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="430643159"
-X-IronPort-AV: E=Sophos;i="6.01,196,1684825200"; d="scan'208";a="430643159"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jul 2023 01:03:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="715108432"
-X-IronPort-AV: E=Sophos;i="6.01,196,1684825200"; d="scan'208";a="715108432"
-Received: from sneaga-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.252.52.179])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jul 2023 01:03:13 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: suijingfeng <suijingfeng@loongson.cn>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- Li Yi <liyi@loongson.cn>
-Subject: Re: [PATCH] drm/loongson: Fix two warnings because of passing wrong
- type
-In-Reply-To: <afbbda82-0635-bef3-b9ff-d5c6575631b8@loongson.cn>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230710100931.255234-1-suijingfeng@loongson.cn>
- <87h6qcjc46.fsf@intel.com>
- <afbbda82-0635-bef3-b9ff-d5c6575631b8@loongson.cn>
-Date: Tue, 11 Jul 2023 11:03:11 +0300
-Message-ID: <87edlej2o0.fsf@intel.com>
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A62410E0F2
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 08:20:46 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ 5b1f17b1804b1-3fbea147034so54558855e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 01:20:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1689063645; x=1691655645;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=W8lWjawHlVclNDSWEGq29N0b967SueKiHPqM+v2TDzE=;
+ b=R1G4aF4EVATbvhCL1DAa5FefRu2NkRIzdMHhs4yTRuatv9exyCmRluZgmuU719dwdG
+ ICuOulPDorELuHUtnF1o8xPcKJ8yNsL/D1Kjas181S3VoFyn3Mstdf8dEdanuZIxdVHl
+ Dp1hmNOVIskQOayCud5uFBNXJHvfFyj9BLija0AjxjINIKa8KP9MIEBNEhqe1oRraaL3
+ RsiOWZZoX53yk2Deu1eWgFpFTjPCJbtSO5KbmGsvN5eouOzGX2XO9nfSDwOCgC2Fn5Qs
+ kVaT112Emddn070lXfqdINzaipMC28ujLMkw7ebF8euN/f0Qbt76PJ1I59KkMZ3Zsa4V
+ LZ+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689063645; x=1691655645;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=W8lWjawHlVclNDSWEGq29N0b967SueKiHPqM+v2TDzE=;
+ b=Un1yAQy/7EeBO3xbbsmrcqT5JNeCAABvj9uwve9Q8QhZax6DyC/O5DmTs0q3x/ik1o
+ KDI9EeHtmxLogfqCalm1dWag3SxEiasQdmgHmFbCr/mkf0KknYpnJh4WgIBJQhWED7hP
+ /ZaBwqvEwgoLuI//WndeYR/bk46uy64tBaq477b+PFxP+Wi/xGGZQ6r24aDfvOBYFRsN
+ d33ycJizL/TUygMbRYCX9gCPj8DjSRMgwwV+vgZBmh7f7x5zCx0gZu/rR22EG+V3A7uW
+ xjK4kWAdWUdX8r1Gdy6XiC9SiGr3yG8z+S9wmaI/q2AJC1ljZ4laq78biNJ5J8KgGVSc
+ la0A==
+X-Gm-Message-State: ABy/qLYnbSpXgI7/j6qtpZQSN7Dsp06JIDsB4AUSRl6zyHZ8nwL7JY8U
+ qwkhP96gtQ3US6FJDAvp1oAfGiDfCedSR0QqCTQ=
+X-Google-Smtp-Source: APBJJlFxViETfwk0NPeCw6JJuzwbQOxNl4JhFOTf4b7WQw+EqA00xL4rHa31voGAKtfFRwsyqvOTVw==
+X-Received: by 2002:a05:600c:2209:b0:3fc:b86:d3fa with SMTP id
+ z9-20020a05600c220900b003fc0b86d3famr7198858wml.1.1689063645070; 
+ Tue, 11 Jul 2023 01:20:45 -0700 (PDT)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ n12-20020adff08c000000b0030ada01ca78sm1585438wro.10.2023.07.11.01.20.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Jul 2023 01:20:42 -0700 (PDT)
+Date: Tue, 11 Jul 2023 11:20:38 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: [PATCH 0/5 v4] accel/qaic: Improve bounds checking in encode/decode
+Message-ID: <6e935c70-5bd2-4808-bdd9-d664f892b0b5@moroto.mountain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,110 +68,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: loongson-kernel@lists.loongnix.cn, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>
+Cc: linux-arm-msm@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
+ Carl Vanderlip <quic_carlv@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 10 Jul 2023, suijingfeng <suijingfeng@loongson.cn> wrote:
-> Hi,
->
-> On 2023/7/10 18:26, Jani Nikula wrote:
->> On Mon, 10 Jul 2023, Sui Jingfeng <suijingfeng@loongson.cn> wrote:
->>> When accessing I/O memory, we should pass '__iomem *' type instead of
->>> 'void *' simply, otherwise sparse tests will complain. After applied
->>> this patch, the following two sparse warnings got fixed.
->> Usually the commit message should explain why it's okay to cast away the
->> warning.
->>
->> Because realistically this doesn't "fix" the warning, this merely hides
->> it.
->
->
-> My understanding is that a point itself is just a variable where store a=
-=20
-> address,
->
-> if this address originally point to I/O memory,
->
-> then, we can other cast it to u64 type, then cast it back to '__iomem *'=
-=20
-> again.
->
-> as long as the type's=C2=A0 bit-width is width enough to store this addre=
-ss,=20
-> we won't lost the information.
->
->
-> 'void *' or 'u64' is just a intermediate represent of the address.
->
-> we can other cast it to u64 type, then cast it back to 'void __iomem *'=20
-> or 'void *' again.
->
->
-> Why it's okay ? My answer is that
->
-> As long as a address is really point to the I/O memory, cast it to 'void=
-=20
-> __iomem *' is OK.
->
-> As long as a address is really point to the system memory, cast it to=20
-> 'void *' is OK.
+Fixed in v4: Send the correct [PATCH 1/5] patch.
 
-The point of __iomem is to have sparse help you in tracking that, so you
-don't accidentally mix up the two.
+Fixed in v3: Redo messed up threading
 
-BR,
-Jani.
+Fixed two things in v2:  Include the <linux/overflow.h> file.  Change
+the >= in encode and decode to >.
 
-
->
->
->> BR,
->> Jani.
->>
->>> 1) drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35:
->>>     sparse:     expected void volatile [noderef] __iomem *
->>>     sparse:     got void *kptr
->>>
->>> 2) drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51:
->>>     sparse:     expected void const volatile [noderef] __iomem *
->>>     sparse:     got void *kptr
->>>
->>> Reported-by: kernel test robot <lkp@intel.com>
->>> Closes: https://lore.kernel.org/oe-kbuild-all/202307100243.v3hv6aes-lkp=
-@intel.com/
->>> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
->>> ---
->>>   drivers/gpu/drm/loongson/lsdc_benchmark.c | 4 ++--
->>>   1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/loongson/lsdc_benchmark.c b/drivers/gpu/dr=
-m/loongson/lsdc_benchmark.c
->>> index b088646a2ff9..36e352820bdb 100644
->>> --- a/drivers/gpu/drm/loongson/lsdc_benchmark.c
->>> +++ b/drivers/gpu/drm/loongson/lsdc_benchmark.c
->>> @@ -24,7 +24,7 @@ static void lsdc_copy_gtt_to_vram_cpu(struct lsdc_bo =
-*src_bo,
->>>   	lsdc_bo_kmap(dst_bo);
->>>=20=20=20
->>>   	while (n--)
->>> -		memcpy_toio(dst_bo->kptr, src_bo->kptr, size);
->>> +		memcpy_toio((void __iomem *)dst_bo->kptr, src_bo->kptr, size);
->>>=20=20=20
->>>   	lsdc_bo_kunmap(src_bo);
->>>   	lsdc_bo_kunmap(dst_bo);
->>> @@ -39,7 +39,7 @@ static void lsdc_copy_vram_to_gtt_cpu(struct lsdc_bo =
-*src_bo,
->>>   	lsdc_bo_kmap(dst_bo);
->>>=20=20=20
->>>   	while (n--)
->>> -		memcpy_fromio(dst_bo->kptr, src_bo->kptr, size);
->>> +		memcpy_fromio(dst_bo->kptr, (void __iomem *)src_bo->kptr, size);
->>>=20=20=20
->>>   	lsdc_bo_kunmap(src_bo);
->>>   	lsdc_bo_kunmap(dst_bo);
->
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
+regards,
+dan carpenter
