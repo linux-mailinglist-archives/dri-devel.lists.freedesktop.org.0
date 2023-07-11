@@ -1,49 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A455674FBC4
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 01:15:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C8FB74FBC8
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 01:17:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1348310E461;
-	Tue, 11 Jul 2023 23:15:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE4B10E462;
+	Tue, 11 Jul 2023 23:17:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3274D10E460;
- Tue, 11 Jul 2023 23:15:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=LFHQzkFS9wSPjknxSFQJfKSFRQvdUVhns9NnhJvkFr4=; b=L9RqovJsZckhw6FiUQoaWDpXn+
- dsm13nkF8awVzv72RC+745Zx0OfiQ2AAWt9UrFNwCL1Q28sg47MBN5u+bolzkt+mFfB1Xso2WacG3
- 7tnx9S3UAq0gxne7OuMsq/1udBh+EvFPUwSFiBqVsGd970edKZR/oxjO5AQf9Xj7ieq0a77HT9E19
- 6AvjN+SCRz44pw5NobIRoO25iQ59BZ8it7ze9Jqdbtf8SKRjlZ7/O7OsLxuusruULlsMFZFiE7NlR
- 9O0MejeyrTAZAUdWu2u/dCInymE7nW2x4UNnAZHKLdUGYQfC+znNRO9ruM1UDdUzNnp7lRFRE4yWd
- EcXy7t/A==;
-Received: from 201-27-237-219.dsl.telesp.net.br ([201.27.237.219]
- helo=[192.168.1.60]) by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1qJMa2-00CnWw-Ak; Wed, 12 Jul 2023 01:15:38 +0200
-Message-ID: <3e4892a5-f8a8-805b-aaf9-c9aec64d9607@igalia.com>
-Date: Tue, 11 Jul 2023 20:15:32 -0300
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A514D10E462
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 23:17:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1689117436;
+ bh=Voycng5tZl4fvMvrRllI4DTHq2vqvF3FID/GJjuQmfw=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=pgywdPrbFHSvgsYXbZwkbENzKappkSgyVAUVqL/yn3jgqSrhACfOohR/trlHvIg9b
+ 0ipappMwktMz1xGHxkHBFEc1/gv1SGbySN+b7Sqj9wHeEhhnyMf4+wUE5+3U28zEKU
+ VpDrrUkEcE4FBgxYrq8LBrTCTyiXTiW8jTv0/YRM0bf8qBf5OO4Gwzocb43t7ZAUhq
+ 2dE35DDGvSkucZ8x7p+Xgu8Qa99BAC3cdSJVblurJQ5Z7LOh9GPPeB4M69XCcBF/kS
+ KgkUcLUDUTUOqqK80LyT7KbKM/HjoLctJb0EOmGAAWSxQcqdrPg72ue98fEwmYh+X7
+ dz432SuSsz5bA==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4R0xbb4pvFz4wxW;
+ Wed, 12 Jul 2023 09:17:15 +1000 (AEST)
+Date: Wed, 12 Jul 2023 09:17:14 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@redhat.com>
+Subject: Re: linux-next: build warning after merge of the drm tree
+Message-ID: <20230712091714.760c00c8@canb.auug.org.au>
+In-Reply-To: <CAJs_Fx67+VQwveGE3i7Nyp+5R2+Z5mEeDJ9ZMTZEY_gnYtc5Sw@mail.gmail.com>
+References: <20230330142818.7efb6d05@canb.auug.org.au>
+ <CAJs_Fx67+VQwveGE3i7Nyp+5R2+Z5mEeDJ9ZMTZEY_gnYtc5Sw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] Revert "drm/amd/display: Program OTG vtotal min/max
- selectors unconditionally for DCN1+"
-Content-Language: en-US
-To: Aurabindo Pillai <aurabindo.pillai@amd.com>, alexander.deucher@amd.com
-References: <20230702164407.6547-1-gpiccoli@igalia.com>
- <54092b91-a9c6-7276-1633-13b83a92524d@amd.com>
-From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <54092b91-a9c6-7276-1633-13b83a92524d@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/IPwrynDl08lDiJT.Ja=Mn=j";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,37 +51,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>, Xinhui.Pan@amd.com,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, dri-devel@lists.freedesktop.org,
- Melissa Wen <mwen@igalia.com>, amd-gfx@lists.freedesktop.org,
- kernel-dev@igalia.com, cristian.ciocaltea@collabora.com,
- christian.koenig@amd.com
+Cc: Rob Clark <robdclark@chromium.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Gustavo Padovan <gustavo.padovan@collabora.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/07/2023 15:22, Aurabindo Pillai wrote:
-> [...]
-> Hi,
-> 
-> Sorry for the delayed response, this patch went unnoticed. This revert would break asics. Could you try the attached patch without reverting this one ?
+--Sig_/IPwrynDl08lDiJT.Ja=Mn=j
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Aurabindo, thanks for your response!
+Hi all,
 
-I've tried kernel 6.5-rc1, and it seems the issue is present, due to the
-patch being merged on Linus tree [as 1598fc576420 ("drm/amd/display:
-Program OTG vtotal min/max selectors unconditionally for DCN1+")].
+On Thu, 30 Mar 2023 07:28:26 -0700 Rob Clark <robdclark@chromium.org> wrote:
+>
+> On Wed, Mar 29, 2023 at 8:28=E2=80=AFPM Stephen Rothwell <sfr@canb.auug.o=
+rg.au> wrote:
+> >
+> > After merging the drm tree, today's linux-next build (htmldocs) produced
+> > this warning:
+> >
+> > include/uapi/linux/sync_file.h:77: warning: Function parameter or membe=
+r 'num_fences' not described in 'sync_file_info'
+> > =20
+>=20
+> thanks, should be fixed by:
+>=20
+> https://patchwork.freedesktop.org/series/115871/
+>=20
+> > Revealed by commit
+> >
+> >   d71c11cc79d2 ("dma-buf/sync_file: Surface sync-file uABI")
+> >
+> > Introduced by commit
+> >
+> >   2d75c88fefb2 ("staging/android: refactor SYNC IOCTLs")
+> >
+> > in 2016.
 
-Then, I tried both your attached patches on top of that, and
-unfortunately, the behavior is the same: Steam Deck doesn't boot with
-graphics, and we can see the single error "amdgpu 0000:04:00.0: [drm]
-*ERROR* [CRTC:67:crtc-0] flip_done timed out" on dmesg.
+I am still getting this warning (presumably now from Linus' tree).
 
-Do you / Alex think we could get this revert for 6.5-rc2, so at least we
-could boot mainline there while the issue is handled? It would be an
-intermediate fix. You mentioned it breaks some asics, but did they work
-until now, without your patch?
+--=20
+Cheers,
+Stephen Rothwell
 
-Thanks,
+--Sig_/IPwrynDl08lDiJT.Ja=Mn=j
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
+-----BEGIN PGP SIGNATURE-----
 
-Guilherme
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmSt4voACgkQAVBC80lX
+0GzKkgf+KCDHS4286YMtNrzJXdU74fTZ8wo2CzZapGQammrSXXE4/t+0ck9vW5ov
+NO5N2WYWcMBLUCzepn0csMeb5UMC071rw5slJ0otTVdFYN5xZXAPT7K8KY8wHe/9
+bVLor5rpDzWTwLGYizGBYlyMEQyA08rAbsE64fIvQ4C4AlCSz9CfVeSoy9rp/V5/
+pu4K0cyVkhi82rwLMh5/Ups80aWkcfNog1w1fyR05M1gYB319F2J+l2tbt4C53x7
+f8acMjTYu5CbZUVK3xUve90OfaW3OQfDpku7XbiDEl+288DosozvLEAYR1F3skBv
++FuKdqz/m3d5P23Ko3xoZmNMo13www==
+=0jac
+-----END PGP SIGNATURE-----
+
+--Sig_/IPwrynDl08lDiJT.Ja=Mn=j--
