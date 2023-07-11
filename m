@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9939174F085
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 15:44:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16CCB74F087
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 15:44:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 016D910E39D;
-	Tue, 11 Jul 2023 13:44:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C16B710E39A;
+	Tue, 11 Jul 2023 13:44:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-20.mta0.migadu.com (out-20.mta0.migadu.com
- [IPv6:2001:41d0:1004:224b::14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 231E510E397
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 13:44:19 +0000 (UTC)
+Received: from out-52.mta0.migadu.com (out-52.mta0.migadu.com
+ [IPv6:2001:41d0:1004:224b::34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F2D510E39A
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 13:44:22 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1689083056;
+ t=1689083060;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EDDNh+sBHMY69JnXGN2eCCl56IIKvpnc8EX4QusViis=;
- b=WUckSHg09hEzPNeV04y0qZK1g3Jy9t7p1rUsytc1VIEpkXvlHG61+vjN0q3AnCCGgpqhSs
- Ev+jicQte07i3NBYujTu9tcXWwIGZPveSSOVVHCEoNbZomNXUMlxpmz14wyegvfITmsQed
- 7l+nv0PlzbWeGIJCvkQ9zw0SS77e7K0=
+ bh=nSELRnxi3WNW936UlC8GM9d7GKkUecfY1U1Y7wjl+uY=;
+ b=xJyYazfcQNg5BkenFjHDBatlKKm0dhriClEVMtpSJ0VFseaNKgOJNiTxOUYiKr2cnh7/um
+ z5uVCpJIXf9DPBH/tnLaP7PP4CYkNlRcgiB8Sgp3cf9dk1Aovox2BT0Ky6waQnsC7ENo6V
+ Tlv9Vq/fuRA085J2lVe38D/l0AOB6/M=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: Bjorn Helgaas <bhelgaas@google.com>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -32,9 +32,10 @@ To: Bjorn Helgaas <bhelgaas@google.com>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
 	Sui@freedesktop.org, Jingfeng@loongson.cn
-Subject: [PATCH 2/6] PCI/VGA: Deal with PCI VGA compatible devices only
-Date: Tue, 11 Jul 2023 21:43:50 +0800
-Message-Id: <20230711134354.755966-3-sui.jingfeng@linux.dev>
+Subject: [PATCH 3/6] PCI/VGA: drop the inline of vga_update_device_decodes()
+ function
+Date: Tue, 11 Jul 2023 21:43:51 +0800
+Message-Id: <20230711134354.755966-4-sui.jingfeng@linux.dev>
 In-Reply-To: <20230711134354.755966-1-sui.jingfeng@linux.dev>
 References: <20230711134354.755966-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
@@ -52,90 +53,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sui Jingfeng <suijingfeng@loongson.cn>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- loongson-kernel@lists.loongnix.cn,
- Mario Limonciello <mario.limonciello@amd.com>
+Cc: loongson-kernel@lists.loongnix.cn, linux-pci@vger.kernel.org,
+ Sui Jingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sui Jingfeng <suijingfeng@loongson.cn>
 
-Currently, vgaarb only cares about PCI VGA-compatible class devices.
+The vga_update_device_decodes() function is NOT a trivial function, It is
+not performance critical either. So, drop the inline.
 
-While vga_arbiter_del_pci_device() gets called unbalanced when some PCI
-device is about to be removed. This happens even during the boot process.
+This patch also make the parameter and argument consistent, use unsigned
+int type instead of the signed type to store the decode. Change the second
+argument of vga_update_device_decodes() function as 'unsigned int' type.
 
-Another reason is that the vga_arb_device_init() function is not efficient.
-Since we only care about VGA-compatible devices (pdev->class == 0x030000),
-We could filter the unqualified devices out in the vga_arb_device_init()
-function. While the current implementation is to search all PCI devices
-in a system, this is not necessary.
-
-Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
 ---
- drivers/pci/vgaarb.c | 25 +++++++++++++------------
- 1 file changed, 13 insertions(+), 12 deletions(-)
+ drivers/pci/vgaarb.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
-index c1bc6c983932..021116ed61cb 100644
+index 021116ed61cb..668139f7c247 100644
 --- a/drivers/pci/vgaarb.c
 +++ b/drivers/pci/vgaarb.c
-@@ -754,10 +754,6 @@ static bool vga_arbiter_add_pci_device(struct pci_dev *pdev)
- 	struct pci_dev *bridge;
- 	u16 cmd;
+@@ -860,24 +860,24 @@ static bool vga_arbiter_del_pci_device(struct pci_dev *pdev)
+ 	return ret;
+ }
  
--	/* Only deal with VGA class devices */
--	if ((pdev->class >> 8) != PCI_CLASS_DISPLAY_VGA)
--		return false;
--
- 	/* Allocate structure */
- 	vgadev = kzalloc(sizeof(struct vga_device), GFP_KERNEL);
- 	if (vgadev == NULL) {
-@@ -1502,6 +1498,10 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
- 
- 	vgaarb_dbg(dev, "%s\n", __func__);
- 
-+	/* Deal with VGA compatible devices only */
-+	if ((pdev->class >> 8) != PCI_CLASS_DISPLAY_VGA)
-+		return 0;
-+
- 	/* For now we're only intereted in devices added and removed. I didn't
- 	 * test this thing here, so someone needs to double check for the
- 	 * cases of hotplugable vga cards. */
-@@ -1534,8 +1534,8 @@ static struct miscdevice vga_arb_device = {
- 
- static int __init vga_arb_device_init(void)
+-/* this is called with the lock */
+-static inline void vga_update_device_decodes(struct vga_device *vgadev,
+-					     int new_decodes)
++/* This is called with the lock */
++static void vga_update_device_decodes(struct vga_device *vgadev,
++				      unsigned int new_decodes)
  {
-+	struct pci_dev *pdev = NULL;
- 	int rc;
--	struct pci_dev *pdev;
+ 	struct device *dev = &vgadev->pdev->dev;
+-	int old_decodes, decodes_removed, decodes_unlocked;
++	unsigned int old_decodes = vgadev->decodes;
++	unsigned int decodes_removed = ~new_decodes & old_decodes;
++	unsigned int decodes_unlocked = vgadev->locks & decodes_removed;
  
- 	rc = misc_register(&vga_arb_device);
- 	if (rc < 0)
-@@ -1543,13 +1543,14 @@ static int __init vga_arb_device_init(void)
+-	old_decodes = vgadev->decodes;
+-	decodes_removed = ~new_decodes & old_decodes;
+-	decodes_unlocked = vgadev->locks & decodes_removed;
+ 	vgadev->decodes = new_decodes;
  
- 	bus_register_notifier(&pci_bus_type, &pci_notifier);
+-	vgaarb_info(dev, "changed VGA decodes: olddecodes=%s,decodes=%s:owns=%s\n",
+-		vga_iostate_to_str(old_decodes),
+-		vga_iostate_to_str(vgadev->decodes),
+-		vga_iostate_to_str(vgadev->owns));
++	vgaarb_info(dev,
++		    "VGA decodes changed: olddecodes=%s,decodes=%s:owns=%s\n",
++		    vga_iostate_to_str(old_decodes),
++		    vga_iostate_to_str(vgadev->decodes),
++		    vga_iostate_to_str(vgadev->owns));
  
--	/* We add all PCI devices satisfying VGA class in the arbiter by
--	 * default */
--	pdev = NULL;
--	while ((pdev =
--		pci_get_subsys(PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID,
--			       PCI_ANY_ID, pdev)) != NULL)
--		vga_arbiter_add_pci_device(pdev);
-+	/*
-+	 * We add all PCI VGA compatible devices in the arbiter by default
-+	 */
-+	do {
-+		pdev = pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, pdev);
-+		if (pdev)
-+			vga_arbiter_add_pci_device(pdev);
-+	} while (pdev);
- 
- 	pr_info("loaded\n");
- 	return rc;
+-	/* if we removed locked decodes, lock count goes to zero, and release */
++	/* If we removed locked decodes, lock count goes to zero, and release */
+ 	if (decodes_unlocked) {
+ 		if (decodes_unlocked & VGA_RSRC_LEGACY_IO)
+ 			vgadev->io_lock_cnt = 0;
 -- 
 2.25.1
 
