@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D6CA74E8E1
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 10:21:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D90A274E8E4
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 10:21:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA9D710E32D;
-	Tue, 11 Jul 2023 08:21:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A5C010E330;
+	Tue, 11 Jul 2023 08:21:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1DAC10E32D
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 08:21:00 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- 5b1f17b1804b1-3fbc5d5746cso61558855e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 01:21:00 -0700 (PDT)
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9EBC10E334
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 08:21:06 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id
+ ffacd0b85a97d-3159da54e95so1631274f8f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 01:21:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689063658; x=1691655658;
+ d=linaro.org; s=google; t=1689063665; x=1691655665;
  h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
  :to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=fquwLHvnamolS/A4KcwEUnoJp9w0O66643f28CD8jzM=;
- b=mzv8741rgqYmjOsoiNDIW6+1xXPxKOF3DQEErDqsmEh0HZc8TRpBiT6mRk+EFiykz+
- m2YaIFcSQwkc/hQJzEcFYX3HKm0c+3WYFRjTRx9zmwlpLMT9Ouhab7DCbeY1xEXqttW4
- Rk5esQWuwVWH8MmsN9PwYR3zDbvzJQvrDFuPZO0JU+gsQD+0ZsCn4pjD7BZqwIlRhV0j
- Qnh+wZ/FPjKcdpSRBYHBShqJzZJd4PV4KGMMQ0vFzc3Ua/zC1KL2qD/O65VQSpOCRpgt
- hM2auTr4qr3lFt6jiupoGHy6HTUxXGi7hV+hdp9b9fCIK9Glj5HRyN6rGHoh3Lc3MXfR
- MNgg==
+ bh=p96yGLmqdrf7EnICZmRF6+JxSLRO9iWhLvWVcOetAfo=;
+ b=NoUPMC6dZeoMa8/E+BW4bns/yzCS0r1fbf8fMVW/3pn/55f1coshgfIRntvLgKepPU
+ UmXlRW5EmUaoEYdNzZ6Mrr6jQ9ST+5BL/E7VQ2BFvT0KDdAsuddaRd04URW1dGUtPi/m
+ 3IUZbKyCpU9VgMlfrTIojA5vupDmWzb/bAXOGiqesyAIUmanavE1BBAEBI8QlEm1UvrS
+ Ng3XRi6SIGi/glvJojiwZT5u3EkzxpdHlbnXCPiYUHmSwKlx/M6Yrmw16nI1QXuGHXUc
+ /upYTptuHBRUBpKAmfRpRsXNQ8xyaTRqam+j5RXAZoBisa4pHtu978I6q8ppvnCgTNeb
+ 1arQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689063658; x=1691655658;
+ d=1e100.net; s=20221208; t=1689063665; x=1691655665;
  h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
  :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=fquwLHvnamolS/A4KcwEUnoJp9w0O66643f28CD8jzM=;
- b=RsvARt/NDaZ2XKHTy05Iv0b4kjf63hdvAfazS4k7wVKVVULGYKhJ7IncDU4ZNvfM/l
- 8+jtVx/EsMeDokbXdN+5Srqvpm1c2oxRBx2QmKamSMr/LEuQfKtz4ixFwWfm3DJT5HEj
- xnFeWZsnft60/JlqCb4ZS91hqpwJWBLw877gC2MpC9b9dnlTMAYlNpNTJUvjTO4Ajmh2
- xR63IBu9ncZp9fSkFuLc/9+WkYr7p6csUpNDHejPAxSWFsMSDgSCiuulLHthHdYTq1Ho
- VQSPc4dAa2Yah1Hqo4hSO0ctAfT8PBKBwhH+NRUJXxApcb2rtXGXSAbBMNxAqqo6V7BM
- bpUg==
-X-Gm-Message-State: ABy/qLZQ6ml1Th3HIx71Ht3T2zYYEtvfj7AgsghF2dHjTsdVqgV5e4Cz
- wtmRg5fgwu9ne/W5D1xX2JI3+w==
-X-Google-Smtp-Source: APBJJlGFbfN8PFu6vBwaUFRibZsOZ+dedhaxMwqSHVuvWYjJ3E+fa9D5Z0fCd2jvkBGnSvz80HAmdg==
-X-Received: by 2002:a05:600c:21d0:b0:3f9:b17a:cb61 with SMTP id
- x16-20020a05600c21d000b003f9b17acb61mr12798362wmj.13.1689063658783; 
- Tue, 11 Jul 2023 01:20:58 -0700 (PDT)
+ bh=p96yGLmqdrf7EnICZmRF6+JxSLRO9iWhLvWVcOetAfo=;
+ b=XtZkTDc0XQ3RcsKiR/ftsK6DSkfdy74FrAYTh/HIG6WTbXlE20Il4YHJo1gdEImk81
+ X2WVC6LkB0dPqvMz4iRMPhY/pXfcJ30ZX4GEVtDjISYzyj8+CpdN8P5NcmA01VUQmuph
+ b5ug5YjW6xqnP3kppC1WoHDhoof3vrx/h4rJIgllWngBci8yQ+EOOc5vtlGsB1FC6KKT
+ twC4V8IsGpWIgIq+UMBeQfKhmiWf/WOe+IbsWDRShmXGn9/8HRxThp+fj3qjnZcIsldE
+ ga3QLbHONiSO+Q0gFAaFCXpAfOonG63zXqlpD+tLWDfO4uQyvSVTMeyIuTzbsVrJ2iyF
+ IfrA==
+X-Gm-Message-State: ABy/qLZGKi7PeVdkbsVKFVLsFIdQzBJih/sYqktacRmlqsB0c/WA6rFr
+ CNRWg18MsAVRjsX6c83CICcFGw==
+X-Google-Smtp-Source: APBJJlE9i4XhHmQv1pBhQZUzsFzcV9eFjlSxljOGejA2W9oGWgdxxGZyfxWGUnUD4oZvCT2ekuvWAg==
+X-Received: by 2002:a05:6000:1290:b0:315:a91c:1a8c with SMTP id
+ f16-20020a056000129000b00315a91c1a8cmr169842wrx.22.1689063664992; 
+ Tue, 11 Jul 2023 01:21:04 -0700 (PDT)
 Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- n22-20020a7bcbd6000000b003fbb618f7adsm1811798wmi.15.2023.07.11.01.20.57
+ q10-20020adff50a000000b003144bfbd0b3sm1576580wro.37.2023.07.11.01.21.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jul 2023 01:20:57 -0700 (PDT)
-Date: Tue, 11 Jul 2023 11:20:54 +0300
+ Tue, 11 Jul 2023 01:21:04 -0700 (PDT)
+Date: Tue, 11 Jul 2023 11:21:00 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: [PATCH 2/5 v4] accel/qaic: tighten bounds checking in decode_message()
-Message-ID: <ZK0Q5nbLyDO7kJa+@moroto>
+Subject: [PATCH 3/5 v4] accel/qaic: Add consistent integer overflow checks
+Message-ID: <ZK0Q7IsPkj6WSCcL@moroto>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -79,71 +79,67 @@ Cc: linux-arm-msm@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Copy the bounds checking from encode_message() to decode_message().
-
-This patch addresses the following concerns.  Ensure that there is
-enough space for at least one header so that we don't have a negative
-size later.
-
-	if (msg_hdr_len < sizeof(*trans_hdr))
-
-Ensure that we have enough space to read the next header from the
-msg->data.
-
-	if (msg_len > msg_hdr_len - sizeof(*trans_hdr))
-		return -EINVAL;
-
-Check that the trans_hdr->len is not below the minimum size:
-
-	if (hdr_len < sizeof(*trans_hdr))
-
-This minimum check ensures that we don't corrupt memory in
-decode_passthrough() when we do.
-
-	memcpy(out_trans->data, in_trans->data, len - sizeof(in_trans->hdr));
-
-And finally, use size_add() to prevent an integer overflow:
-
-	if (size_add(msg_len, hdr_len) > msg_hdr_len)
+The encode_dma() function has integer overflow checks.  The
+encode_passthrough(), encode_activate() and encode_status() functions
+did not.  I added integer overflow checking everywhere.  I also
+updated the integer overflow checking in encode_dma() to use size_add()
+so everything is consistent.
 
 Fixes: 129776ac2e38 ("accel/qaic: Add control path")
 Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
-v2: Fix the >= vs > bug in "if (msg_len > msg_hdr_len - sizeof(*trans_hdr))"
----
- drivers/accel/qaic/qaic_control.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+v2: no change
+
+ drivers/accel/qaic/qaic_control.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/accel/qaic/qaic_control.c b/drivers/accel/qaic/qaic_control.c
-index 2fdd5959c52f..752b67aff777 100644
+index 752b67aff777..23680f5f1902 100644
 --- a/drivers/accel/qaic/qaic_control.c
 +++ b/drivers/accel/qaic/qaic_control.c
-@@ -956,15 +956,23 @@ static int decode_message(struct qaic_device *qdev, struct manage_msg *user_msg,
- 	int ret;
- 	int i;
- 
--	if (msg_hdr_len > QAIC_MANAGE_MAX_MSG_LENGTH)
-+	if (msg_hdr_len < sizeof(*trans_hdr) ||
-+	    msg_hdr_len > QAIC_MANAGE_MAX_MSG_LENGTH)
+@@ -367,7 +367,7 @@ static int encode_passthrough(struct qaic_device *qdev, void *trans, struct wrap
+ 	if (in_trans->hdr.len % 8 != 0)
  		return -EINVAL;
  
- 	user_msg->len = 0;
- 	user_msg->count = le32_to_cpu(msg->hdr.count);
+-	if (msg_hdr_len + in_trans->hdr.len > QAIC_MANAGE_EXT_MSG_LENGTH)
++	if (size_add(msg_hdr_len, in_trans->hdr.len) > QAIC_MANAGE_EXT_MSG_LENGTH)
+ 		return -ENOSPC;
  
- 	for (i = 0; i < user_msg->count; ++i) {
-+		u32 hdr_len;
-+
-+		if (msg_len > msg_hdr_len - sizeof(*trans_hdr))
-+			return -EINVAL;
-+
- 		trans_hdr = (struct wire_trans_hdr *)(msg->data + msg_len);
--		if (msg_len + le32_to_cpu(trans_hdr->len) > msg_hdr_len)
-+		hdr_len = le32_to_cpu(trans_hdr->len);
-+		if (hdr_len < sizeof(*trans_hdr) ||
-+		    size_add(msg_len, hdr_len) > msg_hdr_len)
- 			return -EINVAL;
+ 	trans_wrapper = add_wrapper(wrappers,
+@@ -558,12 +558,10 @@ static int encode_dma(struct qaic_device *qdev, void *trans, struct wrapper_list
+ 	msg = &wrapper->msg;
+ 	msg_hdr_len = le32_to_cpu(msg->hdr.len);
  
- 		switch (le32_to_cpu(trans_hdr->type)) {
+-	if (msg_hdr_len > (UINT_MAX - QAIC_MANAGE_EXT_MSG_LENGTH))
+-		return -EINVAL;
+-
+ 	/* There should be enough space to hold at least one ASP entry. */
+-	if (msg_hdr_len + sizeof(*out_trans) + sizeof(struct wire_addr_size_pair) >
+-	    QAIC_MANAGE_EXT_MSG_LENGTH)
++	if (size_add(msg_hdr_len,
++		     sizeof(*out_trans) + sizeof(struct wire_addr_size_pair)) >
++		     QAIC_MANAGE_EXT_MSG_LENGTH)
+ 		return -ENOMEM;
+ 
+ 	if (in_trans->addr + in_trans->size < in_trans->addr || !in_trans->size)
+@@ -635,7 +633,7 @@ static int encode_activate(struct qaic_device *qdev, void *trans, struct wrapper
+ 	msg = &wrapper->msg;
+ 	msg_hdr_len = le32_to_cpu(msg->hdr.len);
+ 
+-	if (msg_hdr_len + sizeof(*out_trans) > QAIC_MANAGE_MAX_MSG_LENGTH)
++	if (size_add(msg_hdr_len, sizeof(*out_trans)) > QAIC_MANAGE_MAX_MSG_LENGTH)
+ 		return -ENOSPC;
+ 
+ 	if (!in_trans->queue_size)
+@@ -719,7 +717,7 @@ static int encode_status(struct qaic_device *qdev, void *trans, struct wrapper_l
+ 	msg = &wrapper->msg;
+ 	msg_hdr_len = le32_to_cpu(msg->hdr.len);
+ 
+-	if (msg_hdr_len + in_trans->hdr.len > QAIC_MANAGE_MAX_MSG_LENGTH)
++	if (size_add(msg_hdr_len, in_trans->hdr.len) > QAIC_MANAGE_MAX_MSG_LENGTH)
+ 		return -ENOSPC;
+ 
+ 	trans_wrapper = add_wrapper(wrappers, sizeof(*trans_wrapper));
 -- 
 2.39.2
 
