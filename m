@@ -1,62 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FDAB74E6FA
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 08:13:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F8ED74E724
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 08:22:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B81D510E312;
-	Tue, 11 Jul 2023 06:13:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9E1C10E313;
+	Tue, 11 Jul 2023 06:22:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30CF510E312
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 06:13:32 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- 5b1f17b1804b1-3fbc244d307so60749265e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 23:13:31 -0700 (PDT)
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4DC010E313
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 06:22:34 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id
+ 5b1f17b1804b1-3fbf1b82de7so38023145e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 23:22:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689056010; x=1691648010;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=o42Ks/tCHx59zpvkkxrFyhauoCCL1U7JUVEYu4RWWvs=;
- b=z8inQ+8MaqEzGKghYbTWt23tvZEQzsRbXLm7xauCjIH2NLhP0I3qVQSwTtGjwyLvrm
- xQ9bT7gT7LcA1bLwQyLOak1ybj9Z/QkM6HMKkFyNAMBBIsL1fREXvXYtH2IOmjZ62s7f
- 8P4NpAkj5Kc/JR4uiF3A+d/Z+g+wB3ZXIvdO6nT1E99yHbQHEYY4Asd5fvJQU1gLvms0
- 2Z/xX5af6r/vsvasoFMoVNK/G67xCRmzopDm0hePRoy1kwrYSPNwo9UQnM7bW33Vs5oX
- sp+8ChSIMKNfefGBojcBp+GNNAsEiGQ0YSduEIp+bWDc3VEBdsJ4C+KUSMlnPzRS0RBs
- LpbQ==
+ d=linaro.org; s=google; t=1689056552; x=1691648552;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=zU1H95+JdGa0jLKaOOBSIowzO/e5Eobe9bWmmv0ie58=;
+ b=mCwwQh58+I6Vg1tWHZXgWb1BDWqLVOuhY7rprGezPQXcAgvpFycJaGnvK3NGUWCDoQ
+ ytVTghV/qznmFMwVx/3zgIC4ZtTlEWb5AiKLLYfsGCFtw/uVArS8+KwWxEO9LzB0Jd4d
+ 1xOYUT6To1Iji9qHRike1ZnsHJEKWSbFeJtektcZm+KopE0l5cn3Uw6MaXkaKoTlJ3v0
+ LQFN6V8PKLvhM4hXioTtZKXyvFdGzEPmqutoSPSoL7Ka47h+LhowR1+E/NI80O/zcYSA
+ 9hBvHtgT+ekDu22Zgpc0LYkr7w2KrJThweBfgsLRRbDZkc3xZmFAwFnQxyCNqHHoZxiC
+ oUyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689056010; x=1691648010;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=o42Ks/tCHx59zpvkkxrFyhauoCCL1U7JUVEYu4RWWvs=;
- b=WT057/weGl8/luprHuLbyBcsJd8OMPgfJYxQQeg1abB40F/QX8q1n96Ca9FyeiXtlT
- LJ43KzteqxCnCrg3QVTKLIwSFoUwJ7Hb8qWHP06QmwkuGAkX1lRbUnAkKFSnm94DhkHq
- 6PLMSdP+EqLqdav5Qbt1jS2afMDB1cMLirLCqeSjFW5kzipHArl8DR4eWmjkN4hQtARb
- 8wZW3IX5focQXSEPL2PSRbAStpkyFQGPBZcVd2A9+17hTr9vZF6SJ5w9JMZbIe89WDpa
- LTcPjHnwjphmqyU/uA9j1pU/u9Vd1HZBeJVv3fFKxo2zoSg+KR26fn1kBrf/vSeG5T47
- fwiA==
-X-Gm-Message-State: ABy/qLbwt9JgjIQe5Dy0rcUKzME9lxR4HVDGqCdk0ihP+1OdZGoDIWBH
- pAg2UMKJTf7FZw7WqM/5wbFmyA==
-X-Google-Smtp-Source: APBJJlHE2lKKPaUynutVNkXNfVhKn5DdgxT7YI1AidUkNO+4JOc3NtprI1IvH5G5uV7tFh1/jMariQ==
-X-Received: by 2002:a05:600c:c8:b0:3fa:95c7:e891 with SMTP id
- u8-20020a05600c00c800b003fa95c7e891mr16791835wmm.35.1689056010209; 
- Mon, 10 Jul 2023 23:13:30 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1689056552; x=1691648552;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=zU1H95+JdGa0jLKaOOBSIowzO/e5Eobe9bWmmv0ie58=;
+ b=CuC6TBViM03sjhiZLqw/JoCFoHNXlqvI6MuRO0Ik99tfV7rEmkh7yjthwMdp4bI1bl
+ f9MZPSLF8PsZmVLy+huA54amf8H0Yub6KG/SUTAsAQh6R3HYLNJMtKDc3NO3xpeMqkKb
+ 9bZkGiCCTJHEBOrA4pJCR62Nz3G9IYdMMlk9F8GbDBFaTfee4cjM72/snMdhQdWsRBow
+ kKA0VackT0L3OsRlhEeSMtkYR+nfZNdIt+Sr/cAue2+qvy7cx/Ak4HTHf9DaGdu8Hqmc
+ D5IDjcq6l/ItH5dxWmy313SRjWnnS8c3H3B3OkqCn0Qq4wyXidxXNqkDPJ/tSQAgrecF
+ QXzQ==
+X-Gm-Message-State: ABy/qLaByDlIQEOMLzJr02IK5QmIAuYMHzTMauvEyPV7LrzNrdCzJ0g6
+ WxfOGbcfyEaAkkLJZGROGFF5iQ==
+X-Google-Smtp-Source: APBJJlGHAqGinu5QiM0MBt8JJ7Qkz0GLqDgkZt5uCZPsLKj+wgA2Y0+e1RzUBir6Dr0MAbYmFbvaBw==
+X-Received: by 2002:a1c:770b:0:b0:3f7:c92:57a0 with SMTP id
+ t11-20020a1c770b000000b003f70c9257a0mr13580551wmi.14.1689056552667; 
+ Mon, 10 Jul 2023 23:22:32 -0700 (PDT)
 Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- 11-20020a05600c230b00b003fbaade0735sm11944239wmo.19.2023.07.10.23.13.28
+ s21-20020a7bc395000000b003fbc89af035sm1566982wmj.17.2023.07.10.23.22.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jul 2023 23:13:29 -0700 (PDT)
-Date: Tue, 11 Jul 2023 09:13:25 +0300
+ Mon, 10 Jul 2023 23:22:31 -0700 (PDT)
+Date: Tue, 11 Jul 2023 09:20:17 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Markus Schneider-Pargmann <msp@baylibre.com>
-Subject: [PATCH] phy: phy-mtk-dp: Fix an error code in probe()
-Message-ID: <3c699e00-2883-40d9-92c3-0da1dc38fdd4@moroto.mountain>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: Re: [PATCH 1/5 v3] accel/qaic: tighten bounds checking in
+ encode_message()
+Message-ID: <a40baccf-2b9f-4a20-a353-8e470fc5b45c@kadam.mountain>
+References: <ZKzx5nA6Z/0yhBJj@moroto>
+ <ZKzyXx0z1gWDDJII@moroto>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+In-Reply-To: <ZKzyXx0z1gWDDJII@moroto>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,38 +73,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kishon Vijay Abraham I <kishon@kernel.org>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Bo-Chen Chen <rex-bc.chen@mediatek.com>, linux-phy@lists.infradead.org,
+Cc: linux-arm-msm@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
  kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Matthias Brugger <matthias.bgg@gmail.com>, Vinod Koul <vkoul@kernel.org>,
- Guillaume Ranquet <granquet@baylibre.com>, linux-mediatek@lists.infradead.org,
- Chunfeng Yun <chunfeng.yun@mediatek.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+ Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Carl Vanderlip <quic_carlv@quicinc.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Negative -EINVAL was intended instead of positive EINVAL.
+NAK.
 
-Fixes: 6a23afad443a ("phy: phy-mtk-dp: Add driver for DP phy")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/phy/mediatek/phy-mtk-dp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Wow.  I really screwed this up.  I didn't mean to send this patch.  I
+have a correct patch still sitting in my postponed messages.
 
-diff --git a/drivers/phy/mediatek/phy-mtk-dp.c b/drivers/phy/mediatek/phy-mtk-dp.c
-index 232fd3f1ff1b..d7024a144335 100644
---- a/drivers/phy/mediatek/phy-mtk-dp.c
-+++ b/drivers/phy/mediatek/phy-mtk-dp.c
-@@ -169,7 +169,7 @@ static int mtk_dp_phy_probe(struct platform_device *pdev)
- 
- 	regs = *(struct regmap **)dev->platform_data;
- 	if (!regs)
--		return dev_err_probe(dev, EINVAL,
-+		return dev_err_probe(dev, -EINVAL,
- 				     "No data passed, requires struct regmap**\n");
- 
- 	dp_phy = devm_kzalloc(dev, sizeof(*dp_phy), GFP_KERNEL);
--- 
-2.39.2
+I will send v4 in twenty minutes.
+
+regards,
+dan carpenter
 
