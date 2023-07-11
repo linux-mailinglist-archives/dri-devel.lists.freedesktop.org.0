@@ -1,53 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1999574E734
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 08:24:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E7A574E73A
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 08:24:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB45A10E316;
-	Tue, 11 Jul 2023 06:24:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B81E210E319;
+	Tue, 11 Jul 2023 06:24:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.208.org (unknown [183.242.55.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D87F610E316
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 06:24:14 +0000 (UTC)
-Received: from mail.208.org (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTP id 4R0W6g2zV0zBJJhp
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 14:24:11 +0800 (CST)
-Authentication-Results: mail.208.org (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)" header.d=208.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
- content-transfer-encoding:content-type:message-id:user-agent
- :references:in-reply-to:subject:to:from:date:mime-version; s=
- dkim; t=1689056651; x=1691648652; bh=fHSC6h1jLLQ0Gt6st2IMiN0SdnW
- 4qTWCjSS9rRbdEV8=; b=cCmY3bz4EXGvSxOrtx8rS1T1yQJNYFt//QQhGACDJDG
- FNKBNFNtbh4vPPQE/z/RRO1sSucYtecEZrhMzfg0wrYMMJAsWS5DI+4NM51zQhJK
- BDi8JAqBLyT765zwXQURefoXjThTL6mtgvilAey/514bNqZDbaSeg2gxU9lkZnRk
- +vErT0ebgcOx9fXi/6hqSudEJGwXBwo2bqfBAqjZ/OMxbikYWNs761veKfUhP66x
- VKRaT/rMD+C5XodKqBDiH24PwoHQiN3CCxIN7SDm6UhKlCs1ALHjSuM/FuoUDKEA
- xgT8iFl4TK1PSANiIL/Sq24e1siZlMyBH5MyoAi64IQ==
-X-Virus-Scanned: amavisd-new at mail.208.org
-Received: from mail.208.org ([127.0.0.1])
- by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id W_1JaZt8KdZZ for <dri-devel@lists.freedesktop.org>;
- Tue, 11 Jul 2023 14:24:11 +0800 (CST)
-Received: from localhost (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTPSA id 4R0W6g0Vp0zBHXkY;
- Tue, 11 Jul 2023 14:24:11 +0800 (CST)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C88E10E317;
+ Tue, 11 Jul 2023 06:24:42 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 514E3203BA;
+ Tue, 11 Jul 2023 06:24:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1689056681; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9UTTOR73oFSTJb3AbCxsf/F9LdMKM9PZMaPQ/y7iNe8=;
+ b=kY8IJQi52EAVSaT9ihZdWh9AIenGqqZW7o/VDyXKIo95sEj0zTocTTbZ5oqRKUhZ7ttiAb
+ AL5duw/r4GZa1Ru0oA3tKwkrwxRbRq1J2ZaWw2Nco0R99OaW1BO3q4ejrbuQOJh0bXbYzp
+ 1oc+CPRVF4Ih0rdJoFwEsGalxINRdl4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1689056681;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9UTTOR73oFSTJb3AbCxsf/F9LdMKM9PZMaPQ/y7iNe8=;
+ b=mBrGbWs91Pszsd5aoyT8MQRVbY/AEmZfCCJn2mneDCk4xuW4EAJkuRBEh8pfBtPp4mzC0g
+ Vrfx9S5JE1dymjDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EF5D91390F;
+ Tue, 11 Jul 2023 06:24:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id VlmOOaj1rGSTDQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 11 Jul 2023 06:24:40 +0000
+Message-ID: <ab92f8d9-36ab-06bc-b85b-d52b7a1bfe9a@suse.de>
+Date: Tue, 11 Jul 2023 08:24:40 +0200
 MIME-Version: 1.0
-Date: Tue, 11 Jul 2023 14:24:11 +0800
-From: sunran001@208suo.com
-To: airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH] drm/nouveau: add missing spaces after ',' and before '('
-In-Reply-To: <20230711062231.79778-1-xujianghui@cdjrlc.com>
-References: <20230711062231.79778-1-xujianghui@cdjrlc.com>
-User-Agent: Roundcube Webmail
-Message-ID: <06a42364d7f22ab01d90c0c3308deaf4@208suo.com>
-X-Sender: sunran001@208suo.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 00/17] fbdev: Remove FBINFO_DEFAULT and
+ FBINFO_FLAG_DEFAULT flags
+Content-Language: en-US
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20230710130113.14563-1-tzimmermann@suse.de>
+ <20230710171903.GA14712@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230710171903.GA14712@ravnborg.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------N0aJus0T6gb70e5IfP9AME4R"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,86 +71,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
+ kvm@vger.kernel.org, linux-sh@vger.kernel.org, deller@gmx.de,
+ linux-staging@lists.linux.dev, javierm@redhat.com,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-nvidia@lists.surfsouth.com,
+ linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-geode@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add missing spaces to clear checkpatch errors.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------N0aJus0T6gb70e5IfP9AME4R
+Content-Type: multipart/mixed; boundary="------------rTbcb6wQVBeV2BUB8IDvgzl0";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: deller@gmx.de, javierm@redhat.com, linux-fbdev@vger.kernel.org,
+ kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, linux-geode@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+ linux-nvidia@lists.surfsouth.com, linux-omap@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
+Message-ID: <ab92f8d9-36ab-06bc-b85b-d52b7a1bfe9a@suse.de>
+Subject: Re: [PATCH 00/17] fbdev: Remove FBINFO_DEFAULT and
+ FBINFO_FLAG_DEFAULT flags
+References: <20230710130113.14563-1-tzimmermann@suse.de>
+ <20230710171903.GA14712@ravnborg.org>
+In-Reply-To: <20230710171903.GA14712@ravnborg.org>
 
-ERROR: space required after that ',' (ctx:VxV)
-ERROR: space required before the open parenthesis '('
+--------------rTbcb6wQVBeV2BUB8IDvgzl0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Ran Sun <sunran001@208suo.com>
----
-  drivers/gpu/drm/nouveau/nouveau_drv.h | 28 +++++++++++++--------------
-  1 file changed, 14 insertions(+), 14 deletions(-)
+SGkgU2FtDQoNCkFtIDEwLjA3LjIzIHVtIDE5OjE5IHNjaHJpZWIgU2FtIFJhdm5ib3JnOg0K
+PiBIaSBUaG9tYXMsDQo+IA0KPiBPbiBNb24sIEp1bCAxMCwgMjAyMyBhdCAwMjo1MDowNFBN
+ICswMjAwLCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4+IFJlbW92ZSB0aGUgdW51c2Vk
+IGZsYWdzIEZCSU5GT19ERUZBVUxUIGFuZCBGQklORk9fRkxBR19ERUZBVUxUIGZyb20NCj4+
+IGZiZGV2IGFuZCBkcml2ZXJzLCBhcyBicmllZmx5IGRpc2N1c3NlZCBhdCBbMV0uIEJvdGgg
+ZmxhZ3Mgd2VyZSBtYXliZQ0KPj4gdXNlZnVsIHdoZW4gZmJkZXYgaGFkIHNwZWNpYWwgaGFu
+ZGxpbmcgZm9yIGRyaXZlciBtb2R1bGVzLiBXaXRoDQo+PiBjb21taXQgMzc2YjNmZjU0Yzlh
+ICgiZmJkZXY6IE51a2UgRkJJTkZPX01PRFVMRSIpLCB0aGV5IGFyZSBib3RoIDANCj4+IGFu
+ZCBoYXZlIG5vIGZ1cnRoZXIgZWZmZWN0Lg0KPj4NCj4+IFBhdGNoZXMgMSB0byA3IHJlbW92
+ZSBGQklORk9fREVGQVVMVCBmcm9tIGRyaXZlcnMuIFBhdGNoZXMgMiB0byA1DQo+PiBzcGxp
+dCB0aGlzIGJ5IHRoZSB3YXkgdGhlIGZiX2luZm8gc3RydWN0IGlzIGJlaW5nIGFsbG9jYXRl
+ZC4gQWxsIGZsYWdzDQo+PiBhcmUgY2xlYXJlZCB0byB6ZXJvIGR1cmluZyB0aGUgYWxsb2Nh
+dGlvbi4NCj4+DQo+PiBQYXRjaGVzIDggdG8gMTYgZG8gdGhlIHNhbWUgZm9yIEZCSU5GT19G
+TEFHX0RFRkFVTFQuIFBhdGNoIDggZml4ZXMNCj4+IGFuIGFjdHVhbCBidWcgaW4gaG93IGFy
+Y2gvc2ggdXNlcyB0aGUgdG9rbmUgZm9yIHN0cnVjdCBmYl92aWRlb21vZGUsDQo+PiB3aGlj
+aCBpcyB1bnJlbGF0ZWQuDQo+Pg0KPj4gUGF0Y2ggMTcgcmVtb3ZlcyBib3RoIGZsYWcgY29u
+c3RhbnRzIGZyb20gPGxpbnV4L2ZiLmg+DQo+IA0KPiBXZSBoYXZlIGEgZmV3IG1vcmUgZmxh
+Z3MgdGhhdCBhcmUgdW51c2VkIC0gc2hvdWxkIHRoZXkgYmUgbnVrZWQgdG9vPw0KPiBGQklO
+Rk9fSFdBQ0NFTF9GSUxMUkVDVA0KPiBGQklORk9fSFdBQ0NFTF9ST1RBVEUNCj4gRkJJTkZP
+X0hXQUNDRUxfWFBBTg0KDQpJdCBzZWVtcyB0aG9zZSBhcmUgdGhlcmUgZm9yIGNvbXBsZXRl
+bmVzcy4gTm90aGluZyBzZXRzIF9ST1RBVEUsIHRoZSANCm90aGVycyBhcmUgc2ltcGx5IG5l
+dmVyIGNoZWNrZWQuIEFjY29yZGluZyB0byB0aGUgY29tbWVudHMsIHNvbWUgYXJlIA0KcmVx
+dWlyZWQsIHNvbWUgYXJlIG9wdGlvbmFsLiBJIGRvbid0IGtub3cgd2hhdCB0aGF0IG1lYW5z
+Lg0KDQpJSVJDIHRoZXJlIHdlcmUgY29tcGxhaW5zIGFib3V0IHBlcmZvcm1hbmNlIHdoZW4g
+RGFuaWVsIHRyaWVkIHRvIHJlbW92ZSANCmZiY29uIGFjY2VsZXJhdGlvbiwgc28gbm90IGFs
+bCBfSFdBQ0NFTF8gZmxhZ3MgYXJlIHVubmVlZGVkLg0KDQpMZWF2aW5nIHRoZW0gaW4gZm9y
+IHJlZmVyZW5jZS9jb21wbGV0ZW5lc3MgbWlnaHQgYmUgYW4gb3B0aW9uOyBvciBub3QuIEkg
+DQpoYXZlIG5vIHN0cm9uZyBmZWVsaW5ncyBhYm91dCB0aG9zZSBmbGFncy4NCg0KPiANCj4g
+VW51c2VkIGFzIGluIG5vIHJlZmVyZW5jZXMgZnJvbSBmYmRldi9jb3JlLyoNCj4gDQo+IEkg
+d291bGQgcmF0aGVyIHNlZSBvbmUgc2VyaWVzIG51a2UgYWxsIHVudXNlZCBGQklORk8gZmxh
+Z3MgaW4gb25lIGdvLg0KPiBBc3N1bWluZyBteSBxdWljayBncmVwIGFyZSByaWdodCBhbmQg
+dGhlIGFib3ZlIGNhbiBiZSBkcm9wcGVkLg0KDQpJIHdvdWxkIG5vdCB3YW50IHRvIGV4dGVu
+ZCB0aGlzIHNlcmllcy4gSSdtIHJlbW92aW5nIF9ERUZBVUxUIGFzIGl0J3MgDQphYnNvbHV0
+ZWx5IHBvaW50bGVzcyBhbmQgY29uZnVzaW5nLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0K
+DQo+IA0KPiAJU2FtDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZl
+ciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJh
+bmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90
+ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhS
+QiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h 
-b/drivers/gpu/drm/nouveau/nouveau_drv.h
-index b5de312a523f..89ee6cba0ad6 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drv.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
-@@ -248,30 +248,30 @@ nouveau_platform_device_create(const struct 
-nvkm_device_tegra_func *,
-                     struct platform_device *, struct nvkm_device **);
-  void nouveau_drm_device_remove(struct drm_device *dev);
+--------------rTbcb6wQVBeV2BUB8IDvgzl0--
 
--#define NV_PRINTK(l,c,f,a...) do {                                      
-        \
-+#define NV_PRINTK(l, c, f, a...) do {                                   
-           \
-      struct nouveau_cli *_cli = (c);                                     
-    \
-      dev_##l(_cli->drm->dev->dev, "%s: "f, _cli->name, ##a);             
-    \
--} while(0)
-+} while (0)
+--------------N0aJus0T6gb70e5IfP9AME4R
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
--#define NV_FATAL(drm,f,a...) NV_PRINTK(crit, &(drm)->client, f, ##a)
--#define NV_ERROR(drm,f,a...) NV_PRINTK(err, &(drm)->client, f, ##a)
--#define NV_WARN(drm,f,a...) NV_PRINTK(warn, &(drm)->client, f, ##a)
--#define NV_INFO(drm,f,a...) NV_PRINTK(info, &(drm)->client, f, ##a)
-+#define NV_FATAL(drm, f, a...) NV_PRINTK(crit, &(drm)->client, f, ##a)
-+#define NV_ERROR(drm, f, a...) NV_PRINTK(err, &(drm)->client, f, ##a)
-+#define NV_WARN(drm, f, a...) NV_PRINTK(warn, &(drm)->client, f, ##a)
-+#define NV_INFO(drm, f, a...) NV_PRINTK(info, &(drm)->client, f, ##a)
+-----BEGIN PGP SIGNATURE-----
 
--#define NV_DEBUG(drm,f,a...) do {                                       
-        \
-+#define NV_DEBUG(drm, f, a...) do {                                     
-          \
-      if (drm_debug_enabled(DRM_UT_DRIVER))                               
-    \
-          NV_PRINTK(info, &(drm)->client, f, ##a);                       
-\
--} while(0)
--#define NV_ATOMIC(drm,f,a...) do {                                      
-        \
-+} while (0)
-+#define NV_ATOMIC(drm, f, a...) do {                                    
-          \
-      if (drm_debug_enabled(DRM_UT_ATOMIC))                               
-    \
-          NV_PRINTK(info, &(drm)->client, f, ##a);                       
-\
--} while(0)
-+} while (0)
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSs9agFAwAAAAAACgkQlh/E3EQov+AA
+FBAAjEgZXRfNoPCjdkqDPZ9chxzmBV6i2k8QgPiwpivUyCN4sbTShTC2sd08UmqKeXqfcHV0P8qX
+q2NMiTtOfyBZuLqTlMRPbztbYOJIbkUfmc/SI1q+SIj8nYi3SzvE/+TI4TM1jmV8RvykfdN4y9tv
+z4C7BQhfVarR4AERMeSCuI+zicQ/WjGi9XmkKU1LPJq9sz20/9BonVFG3XYGwrH+wxRKQH51em7r
+U/rN+cWCG0/q/mHGzsXc4RfqK140jAczQS4SbY0tCBStdmvoKG6Ps7xdeJnHwXKGn6gnKmCGmstK
+W5QWG2q8UU+X1eppqvQ3t0zYdRkCDvETlHoTlsfHkSgjkf+EyFPP2hf9QpIyOFChPDRmo7vXFero
+XEdAojaSKM037GABmhkXl64d0LgOGy3YHmRPAMNhwMgkfESyQtok89ygiAR3mol9Sk+VH1lmIAiy
+t6iIBhSJG8FRb4k9MRtU+nmCVKwWeu6cI/gYnYk23ENEdErvo12aT79WuoWGJbXp4KyW81n8j6Dx
+ducg1+wueRxDVWQsz1iAbcm4Gdt94VirZ5/FL6Ds/s7D7GumFCtd394TazkGz32fIyL5csJljH+I
+ooEtrvaAJO+jmP7TPAxh1rXcKkIhn2rUPuhutzvOguAikyxcBL/TShsJUv572OYGUcd67xOnfcbM
++14=
+=3Opk
+-----END PGP SIGNATURE-----
 
--#define NV_PRINTK_ONCE(l,c,f,a...) NV_PRINTK(l##_once,c,f, ##a)
-+#define NV_PRINTK_ONCE(l, c, f, a...) NV_PRINTK(l##_once, c, f, ##a)
-
--#define NV_ERROR_ONCE(drm,f,a...) NV_PRINTK_ONCE(err, &(drm)->client, 
-f, ##a)
--#define NV_WARN_ONCE(drm,f,a...) NV_PRINTK_ONCE(warn, &(drm)->client, 
-f, ##a)
--#define NV_INFO_ONCE(drm,f,a...) NV_PRINTK_ONCE(info, &(drm)->client, 
-f, ##a)
-+#define NV_ERROR_ONCE(drm, f, a...) NV_PRINTK_ONCE(err, &(drm)->client, 
-f, ##a)
-+#define NV_WARN_ONCE(drm, f, a...) NV_PRINTK_ONCE(warn, &(drm)->client, 
-f, ##a)
-+#define NV_INFO_ONCE(drm, f, a...) NV_PRINTK_ONCE(info, &(drm)->client, 
-f, ##a)
-
-  extern int nouveau_modeset;
+--------------N0aJus0T6gb70e5IfP9AME4R--
