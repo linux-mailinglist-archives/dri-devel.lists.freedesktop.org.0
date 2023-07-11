@@ -1,54 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1849B74EC37
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 13:05:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 533F674EC64
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 13:12:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB8EF10E365;
-	Tue, 11 Jul 2023 11:05:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 338F910E370;
+	Tue, 11 Jul 2023 11:12:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B114C10E365;
- Tue, 11 Jul 2023 11:05:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689073542; x=1720609542;
- h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version; bh=u4G29Csk0GISlcJVq1vZJ1qdOszOnxbulO/hys6vaGw=;
- b=PGh00Yfx53GBcM3s0kM5pbBlja767cYMyB3VMt4X5yk8LQqjtwitlptU
- B1KPx3t5sRUmAix+26e3f1ZnK9sH11h0bpRhCnxmnZRfnJ4CnTz6FGSj2
- cuzVXvzlNMNACNQQK9KdUa8MOmmcN8XRZWIg81q9NEeOoMmNNpfTCqz+i
- 5gI7KhWWyWFWyumM8K75FTTsvqQHHMewDu8feqQYy25U06dmDJN4ARk5e
- UhxLSD2RLu2u63oz3eHbn3i3fcffd512prDeGSJjjqyiHsnQu8Z9cCurj
- sswu0BrpAL6VJYbB5I/HBM1cTqgtBFulQx0QmW6fwxFvHWYY3M6S7qAhk w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="362052376"
-X-IronPort-AV: E=Sophos;i="6.01,196,1684825200"; d="scan'208";a="362052376"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jul 2023 04:05:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="811152524"
-X-IronPort-AV: E=Sophos;i="6.01,196,1684825200"; d="scan'208";a="811152524"
-Received: from sneaga-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.252.52.179])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jul 2023 04:05:11 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: John Garry <john.g.garry@oracle.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com
-Subject: Re: i915 build issue
-In-Reply-To: <4bec2735-d501-5359-2ac1-ed0d1fca1cd1@oracle.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <ad2601c0-84bb-c574-3702-a83ff8faf98c@oracle.com>
- <878rbmixbn.fsf@intel.com>
- <4bec2735-d501-5359-2ac1-ed0d1fca1cd1@oracle.com>
-Date: Tue, 11 Jul 2023 14:05:09 +0300
-Message-ID: <87ttuahfoa.fsf@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E707510E371
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 11:12:34 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A48866142E;
+ Tue, 11 Jul 2023 11:12:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D450C433C8;
+ Tue, 11 Jul 2023 11:12:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1689073952;
+ bh=GbAVVXenpzEwyGaNST7Zo4SNR1X2b2Sx/2R8j6HsGtU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ZgSyAZxyaZ+Wg8DlhMfUWSBvl8vm667bsCaZ2g0dc5Fxq2idl+UoabzEgawIXaUF6
+ atZzM5Bc+gU07w1IFg6hm6aRNK0n4BI9jJZJ64bRO5GmCPPzlioDb3CsWg1UXmrW3S
+ qNV0W2gTkITqO2l19aqXkdnbJA+g40vWowuWCR/Nf26ibvJsYuc/4Qh0rjZB41yOM3
+ enKbZzPZH+mylKkDgZMZSq85CDf0OqwFsqGP925scPAOgN1I03xas5Wh0Z1JfKUCse
+ 2COyHik7NuR+TF5fnH8smKGVOpW1YnB2NCAsybamTlRpDU5tmsH0D+F1tpiomXgN60
+ pgYye4pVEQk5Q==
+From: Oded Gabbay <ogabbay@kernel.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 01/12] accel/habanalabs/gaudi2: un-secure register for engine
+ cores interrupt
+Date: Tue, 11 Jul 2023 14:12:15 +0300
+Message-Id: <20230711111226.163670-1-ogabbay@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,34 +52,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Tomer Tayar <ttayar@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 11 Jul 2023, John Garry <john.g.garry@oracle.com> wrote:
-> On 11/07/2023 10:58, Jani Nikula wrote:
->>> I didn't notice anything on dri-devel mailing list about this.
->> I presume you're using CONFIG_WERROR=y or W=e.
->
-> I'm just using whatever vanilla x86_64_defconfig gives.
->
->> 
->> See [1] and [2]. I'm undecided how we should treat this.
+From: Tomer Tayar <ttayar@habana.ai>
 
-Seeing that the x86 defconfigs enable CONFIG_WERROR=y, we're probably
-going to have to roll this back.
+The F/W dynamically allocates one of the PSOC scratchpad registers for
+the engine cores, so they can raise events towards the F/W.
+To allow the engine cores to access this register, this register must be
+non-secured.
 
-https://patchwork.freedesktop.org/patch/msgid/20230711110214.25093-1-jani.nikula@intel.com
+Signed-off-by: Tomer Tayar <ttayar@habana.ai>
+Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
+Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
+---
+ .../accel/habanalabs/gaudi2/gaudi2_security.c | 20 ++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
 
-BR,
-Jani.
-
-
->
-> Ok.
->
-> Thanks,
-> John
->
-
+diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2_security.c b/drivers/accel/habanalabs/gaudi2/gaudi2_security.c
+index 2742b1f801eb..d08267e59303 100644
+--- a/drivers/accel/habanalabs/gaudi2/gaudi2_security.c
++++ b/drivers/accel/habanalabs/gaudi2/gaudi2_security.c
+@@ -2907,7 +2907,7 @@ static void gaudi2_init_lbw_range_registers_secure(struct hl_device *hdev)
+ 	 * - range 11: NIC11_CFG + *_DBG (not including TPC_DBG)
+ 	 *
+ 	 * If F/W security is not enabled:
+-	 * - ranges 12,13: PSOC_CFG (excluding PSOC_TIMESTAMP)
++	 * - ranges 12,13: PSOC_CFG (excluding PSOC_TIMESTAMP, PSOC_EFUSE and PSOC_GLOBAL_CONF)
+ 	 */
+ 	u64 lbw_range_min_short[] = {
+ 		mmNIC0_TX_AXUSER_BASE,
+@@ -2923,7 +2923,7 @@ static void gaudi2_init_lbw_range_registers_secure(struct hl_device *hdev)
+ 		mmNIC10_TX_AXUSER_BASE,
+ 		mmNIC11_TX_AXUSER_BASE,
+ 		mmPSOC_I2C_M0_BASE,
+-		mmPSOC_EFUSE_BASE
++		mmPSOC_GPIO0_BASE
+ 	};
+ 	u64 lbw_range_max_short[] = {
+ 		mmNIC0_MAC_CH3_MAC_PCS_BASE + HL_BLOCK_SIZE,
+@@ -3219,6 +3219,7 @@ static void gaudi2_init_range_registers(struct hl_device *hdev)
+  */
+ static int gaudi2_init_protection_bits(struct hl_device *hdev)
+ {
++	u32 *user_regs_array = NULL, user_regs_array_size = 0, engine_core_intr_reg;
+ 	struct asic_fixed_properties *prop = &hdev->asic_prop;
+ 	u32 instance_offset;
+ 	int rc = 0;
+@@ -3389,11 +3390,24 @@ static int gaudi2_init_protection_bits(struct hl_device *hdev)
+ 	/* PSOC.
+ 	 * Except for PSOC_GLOBAL_CONF, skip when security is enabled in F/W, because the blocks are
+ 	 * protected by privileged RR.
++	 * For PSOC_GLOBAL_CONF, need to un-secure the scratchpad register which is used for engine
++	 * cores to raise events towards F/W.
+ 	 */
++	engine_core_intr_reg = (u32) (hdev->asic_prop.engine_core_interrupt_reg_addr - CFG_BASE);
++	if (engine_core_intr_reg >= mmPSOC_GLOBAL_CONF_SCRATCHPAD_0 &&
++			engine_core_intr_reg <= mmPSOC_GLOBAL_CONF_SCRATCHPAD_31) {
++		user_regs_array = &engine_core_intr_reg;
++		user_regs_array_size = 1;
++	} else {
++		dev_err(hdev->dev,
++			"Engine cores register for interrupts (%#x) is not a PSOC scratchpad register\n",
++			engine_core_intr_reg);
++	}
++
+ 	rc |= hl_init_pb(hdev, HL_PB_SHARED, HL_PB_NA,
+ 			HL_PB_SINGLE_INSTANCE, HL_PB_NA,
+ 			gaudi2_pb_psoc_global_conf, ARRAY_SIZE(gaudi2_pb_psoc_global_conf),
+-			NULL, HL_PB_NA);
++			user_regs_array, user_regs_array_size);
+ 
+ 	if (!hdev->asic_prop.fw_security_enabled)
+ 		rc |= hl_init_pb(hdev, HL_PB_SHARED, HL_PB_NA,
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.34.1
+
