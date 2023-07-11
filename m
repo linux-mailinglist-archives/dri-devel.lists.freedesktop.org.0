@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DABD74EC6F
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 13:13:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC1D974EC70
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 13:13:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 635F910E380;
-	Tue, 11 Jul 2023 11:12:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3806110E37B;
+	Tue, 11 Jul 2023 11:12:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4829910E372
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 11:12:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 389E010E379
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 11:12:48 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id AD20B6147B;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id AB66861485;
+ Tue, 11 Jul 2023 11:12:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4D34C433CA;
  Tue, 11 Jul 2023 11:12:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48005C433C8;
- Tue, 11 Jul 2023 11:12:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689073966;
- bh=xX2uTRftD9EqHwWo8crdxO8fyhXNQxRxsD1FXxeuaFQ=;
+ s=k20201202; t=1689073967;
+ bh=hQA5QLicVgrPAVk0QXpv8p873QJnrbqy0dif3WEwaXo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pgqzkOhmHNncLUHMwcWsMWFGlnOq9tDburUB//w5R0ZqL+SrLcswn9HrDZwm+aE9X
- GwjhWYKOWeCJKsEdxjj0VORBX0NwkA8Op8jL3IcYPl6Y9jBbIqs+ggmRy5z+Maj0F+
- 5gycyr/iNr0TAeqXjXpjsDNEvGAla8sezPiOsBG1no5gfPjZ4W/sVV0PIrvb6FaT6Q
- Z/1RcoojxtWVHrGfNs42XF0ZQrKqP8va+49AeHihOhfzZnl0ET3wcrxZNvbM9l6EX0
- wuc9tyPETrBre1YazryEgZm7Am5qkISXCuWks2gyxQAvkk+3r+v0PedTqyxWCeqzFV
- U0t6TEi4dtZ8Q==
+ b=oGnz2BtfpUyRpjNvs3eY/eLgfp1VMXQqiS2CwxVfJcOjqYVF53jdP9u3luZv5nszp
+ QmyFxUV1Zhqx36OFfeGyjdzO2+9tzM94X0efrP53tfeGwtRqfLSUUatdeRHNfTLdb7
+ qGddOfWS2EP05BbGpkdtj6l3uxGkAxJpy1AvasTQKjvzfLxp0Q6RjRDv81V655tGyl
+ 0drcnT/OojQaT3TFhAxmBEReVm34H2/S93eDutPeFl95xHK5zm6UGOh9LFxiSSyCbh
+ K+zstMtM4hf383FMSl58UGSZlMfgUWo0GgMsTEu7tUbX4TmXN376QBtP1WR5zfH6vn
+ +ZNJxdJs0SJkw==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 11/12] accel/habanalabs: Move ioctls to the device specific
- ioctls range
-Date: Tue, 11 Jul 2023 14:12:25 +0300
-Message-Id: <20230711111226.163670-11-ogabbay@kernel.org>
+Subject: [PATCH 12/12] accel/habanalabs: release user interfaces earlier in
+ device fini
+Date: Tue, 11 Jul 2023 14:12:26 +0300
+Message-Id: <20230711111226.163670-12-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230711111226.163670-1-ogabbay@kernel.org>
 References: <20230711111226.163670-1-ogabbay@kernel.org>
@@ -60,353 +60,51 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tomer Tayar <ttayar@habana.ai>
 
-To use drm_ioctl(), move the ioctls to the device specific ioctls
-range at [DRM_COMMAND_BASE, DRM_COMMAND_END).
+Currently the sysfs/debugfs interfaces and device un-registration are
+done as the last thing in hl_device_fini(), after several finalizations
+and releases are done.
+While a disabled flag is set at the beginning of hl_device_fini(), and
+it is being checked when handling user accesses to these interfaces,
+this check is not hermetic and it is better to just reverse the order
+of the code in hl_device_fini().
 
 Signed-off-by: Tomer Tayar <ttayar@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- .../accel/habanalabs/common/command_buffer.c  |  5 +-
- .../habanalabs/common/command_submission.c    |  6 ++-
- drivers/accel/habanalabs/common/habanalabs.h  | 11 ++--
- .../accel/habanalabs/common/habanalabs_drv.c  | 18 +++++--
- .../habanalabs/common/habanalabs_ioctl.c      | 53 ++++---------------
- drivers/accel/habanalabs/common/memory.c      |  3 +-
- include/uapi/drm/habanalabs_accel.h           | 39 +++++++-------
- 7 files changed, 59 insertions(+), 76 deletions(-)
+ drivers/accel/habanalabs/common/device.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/common/command_buffer.c b/drivers/accel/habanalabs/common/command_buffer.c
-index 08f7aee42624..0f0d295116e7 100644
---- a/drivers/accel/habanalabs/common/command_buffer.c
-+++ b/drivers/accel/habanalabs/common/command_buffer.c
-@@ -361,10 +361,11 @@ static int hl_cb_info(struct hl_mem_mgr *mmg,
- 	return rc;
- }
+diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
+index c0c9e9504672..5293ac3c7988 100644
+--- a/drivers/accel/habanalabs/common/device.c
++++ b/drivers/accel/habanalabs/common/device.c
+@@ -2408,6 +2408,12 @@ void hl_device_fini(struct hl_device *hdev)
  
--int hl_cb_ioctl(struct hl_fpriv *hpriv, void *data)
-+int hl_cb_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv)
- {
--	union hl_cb_args *args = data;
-+	struct hl_fpriv *hpriv = file_priv->driver_priv;
- 	struct hl_device *hdev = hpriv->hdev;
-+	union hl_cb_args *args = data;
- 	u64 handle = 0, device_va = 0;
- 	enum hl_device_status status;
- 	u32 usage_cnt = 0;
-diff --git a/drivers/accel/habanalabs/common/command_submission.c b/drivers/accel/habanalabs/common/command_submission.c
-index cfbf5fe72bb1..0291a79c06ab 100644
---- a/drivers/accel/habanalabs/common/command_submission.c
-+++ b/drivers/accel/habanalabs/common/command_submission.c
-@@ -2557,8 +2557,9 @@ static int cs_ioctl_flush_pci_hbw_writes(struct hl_fpriv *hpriv)
- 	return 0;
- }
+ 	hdev->fw_loader.fw_comp_loaded = FW_TYPE_NONE;
  
--int hl_cs_ioctl(struct hl_fpriv *hpriv, void *data)
-+int hl_cs_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv)
- {
-+	struct hl_fpriv *hpriv = file_priv->driver_priv;
- 	union hl_cs_args *args = data;
- 	enum hl_cs_type cs_type = 0;
- 	u64 cs_seq = ULONG_MAX;
-@@ -3718,8 +3719,9 @@ static int hl_interrupt_wait_ioctl(struct hl_fpriv *hpriv, void *data)
- 	return 0;
- }
- 
--int hl_wait_ioctl(struct hl_fpriv *hpriv, void *data)
-+int hl_wait_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv)
- {
-+	struct hl_fpriv *hpriv = file_priv->driver_priv;
- 	struct hl_device *hdev = hpriv->hdev;
- 	union hl_wait_cs_args *args = data;
- 	u32 flags = args->in.flags;
-diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
-index 58948044ad16..834f8cbf080a 100644
---- a/drivers/accel/habanalabs/common/habanalabs.h
-+++ b/drivers/accel/habanalabs/common/habanalabs.h
-@@ -4117,11 +4117,12 @@ void hl_ack_pb_single_dcore(struct hl_device *hdev, u32 dcore_offset,
- 		const u32 pb_blocks[], u32 blocks_array_size);
- 
- /* IOCTLs */
--long hl_ioctl(struct file *filep, unsigned int cmd, unsigned long arg);
- long hl_ioctl_control(struct file *filep, unsigned int cmd, unsigned long arg);
--int hl_cb_ioctl(struct hl_fpriv *hpriv, void *data);
--int hl_cs_ioctl(struct hl_fpriv *hpriv, void *data);
--int hl_wait_ioctl(struct hl_fpriv *hpriv, void *data);
--int hl_mem_ioctl(struct hl_fpriv *hpriv, void *data);
-+int hl_info_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv);
-+int hl_cb_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv);
-+int hl_cs_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv);
-+int hl_wait_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv);
-+int hl_mem_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv);
-+int hl_debug_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv);
- 
- #endif /* HABANALABSP_H_ */
-diff --git a/drivers/accel/habanalabs/common/habanalabs_drv.c b/drivers/accel/habanalabs/common/habanalabs_drv.c
-index 6341b8362b3e..7e66f623f350 100644
---- a/drivers/accel/habanalabs/common/habanalabs_drv.c
-+++ b/drivers/accel/habanalabs/common/habanalabs_drv.c
-@@ -18,6 +18,7 @@
- 
- #include <drm/drm_accel.h>
- #include <drm/drm_drv.h>
-+#include <drm/drm_ioctl.h>
- 
- #define CREATE_TRACE_POINTS
- #include <trace/events/habanalabs.h>
-@@ -73,12 +74,21 @@ static const struct pci_device_id ids[] = {
- };
- MODULE_DEVICE_TABLE(pci, ids);
- 
-+static const struct drm_ioctl_desc hl_drm_ioctls[] = {
-+	DRM_IOCTL_DEF_DRV(HL_INFO, hl_info_ioctl, 0),
-+	DRM_IOCTL_DEF_DRV(HL_CB, hl_cb_ioctl, 0),
-+	DRM_IOCTL_DEF_DRV(HL_CS, hl_cs_ioctl, 0),
-+	DRM_IOCTL_DEF_DRV(HL_WAIT_CS, hl_wait_ioctl, 0),
-+	DRM_IOCTL_DEF_DRV(HL_MEMORY, hl_mem_ioctl, 0),
-+	DRM_IOCTL_DEF_DRV(HL_DEBUG, hl_debug_ioctl, 0),
-+};
++	/* Hide devices and sysfs/debugfs files from user */
++	cdev_sysfs_debugfs_remove(hdev);
++	drm_dev_unregister(&hdev->drm);
 +
- static const struct file_operations hl_fops = {
- 	.owner = THIS_MODULE,
- 	.open = accel_open,
- 	.release = drm_release,
--	.unlocked_ioctl = hl_ioctl,
--	.compat_ioctl = hl_ioctl,
-+	.unlocked_ioctl = drm_ioctl,
-+	.compat_ioctl = drm_compat_ioctl,
- 	.llseek = noop_llseek,
- 	.mmap = hl_mmap
- };
-@@ -95,7 +105,9 @@ static const struct drm_driver hl_driver = {
- 
- 	.fops = &hl_fops,
- 	.open = hl_device_open,
--	.postclose = hl_device_release
-+	.postclose = hl_device_release,
-+	.ioctls = hl_drm_ioctls,
-+	.num_ioctls = ARRAY_SIZE(hl_drm_ioctls)
- };
- 
- /*
-diff --git a/drivers/accel/habanalabs/common/habanalabs_ioctl.c b/drivers/accel/habanalabs/common/habanalabs_ioctl.c
-index 28c3793e802f..87a6a0c0c48a 100644
---- a/drivers/accel/habanalabs/common/habanalabs_ioctl.c
-+++ b/drivers/accel/habanalabs/common/habanalabs_ioctl.c
-@@ -1095,8 +1095,10 @@ static int _hl_info_ioctl(struct hl_fpriv *hpriv, void *data,
- 	return rc;
- }
- 
--static int hl_info_ioctl(struct hl_fpriv *hpriv, void *data)
-+int hl_info_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv)
- {
-+	struct hl_fpriv *hpriv = file_priv->driver_priv;
++	hl_debugfs_device_fini(hdev);
 +
- 	return _hl_info_ioctl(hpriv, data, hpriv->hdev->dev);
+ 	/* Release kernel context */
+ 	if ((hdev->kernel_ctx) && (hl_ctx_put(hdev->kernel_ctx) != 1))
+ 		dev_err(hdev->dev, "kernel ctx is still alive\n");
+@@ -2436,12 +2442,6 @@ void hl_device_fini(struct hl_device *hdev)
+ 
+ 	device_early_fini(hdev);
+ 
+-	/* Hide devices and sysfs/debugfs files from user */
+-	cdev_sysfs_debugfs_remove(hdev);
+-	drm_dev_unregister(&hdev->drm);
+-
+-	hl_debugfs_device_fini(hdev);
+-
+ 	pr_info("removed device successfully\n");
  }
  
-@@ -1105,10 +1107,11 @@ static int hl_info_ioctl_control(struct hl_fpriv *hpriv, void *data)
- 	return _hl_info_ioctl(hpriv, data, hpriv->hdev->dev_ctrl);
- }
- 
--static int hl_debug_ioctl(struct hl_fpriv *hpriv, void *data)
-+int hl_debug_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv)
- {
--	struct hl_debug_args *args = data;
-+	struct hl_fpriv *hpriv = file_priv->driver_priv;
- 	struct hl_device *hdev = hpriv->hdev;
-+	struct hl_debug_args *args = data;
- 	enum hl_device_status status;
- 
- 	int rc = 0;
-@@ -1151,19 +1154,10 @@ static int hl_debug_ioctl(struct hl_fpriv *hpriv, void *data)
- }
- 
- #define HL_IOCTL_DEF(ioctl, _func) \
--	[_IOC_NR(ioctl)] = {.cmd = ioctl, .func = _func}
--
--static const struct hl_ioctl_desc hl_ioctls[] = {
--	HL_IOCTL_DEF(HL_IOCTL_INFO, hl_info_ioctl),
--	HL_IOCTL_DEF(HL_IOCTL_CB, hl_cb_ioctl),
--	HL_IOCTL_DEF(HL_IOCTL_CS, hl_cs_ioctl),
--	HL_IOCTL_DEF(HL_IOCTL_WAIT_CS, hl_wait_ioctl),
--	HL_IOCTL_DEF(HL_IOCTL_MEMORY, hl_mem_ioctl),
--	HL_IOCTL_DEF(HL_IOCTL_DEBUG, hl_debug_ioctl)
--};
-+	[_IOC_NR(ioctl) - HL_COMMAND_START] = {.cmd = ioctl, .func = _func}
- 
- static const struct hl_ioctl_desc hl_ioctls_control[] = {
--	HL_IOCTL_DEF(HL_IOCTL_INFO, hl_info_ioctl_control)
-+	HL_IOCTL_DEF(DRM_IOCTL_HL_INFO, hl_info_ioctl_control)
- };
- 
- static long _hl_ioctl(struct hl_fpriv *hpriv, unsigned int cmd, unsigned long arg,
-@@ -1232,33 +1226,6 @@ static long _hl_ioctl(struct hl_fpriv *hpriv, unsigned int cmd, unsigned long ar
- 	return retcode;
- }
- 
--long hl_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
--{
--	struct drm_file *file_priv = filep->private_data;
--	struct hl_fpriv *hpriv = file_priv->driver_priv;
--	struct hl_device *hdev = hpriv->hdev;
--	const struct hl_ioctl_desc *ioctl = NULL;
--	unsigned int nr = _IOC_NR(cmd);
--
--	if (!hdev) {
--		pr_err_ratelimited("Sending ioctl after device was removed! Please close FD\n");
--		return -ENODEV;
--	}
--
--	if ((nr >= HL_COMMAND_START) && (nr < HL_COMMAND_END)) {
--		ioctl = &hl_ioctls[nr];
--	} else {
--		char task_comm[TASK_COMM_LEN];
--
--		dev_dbg_ratelimited(hdev->dev,
--				"invalid ioctl: pid=%d, comm=\"%s\", cmd=%#010x, nr=%#04x\n",
--				task_pid_nr(current), get_task_comm(task_comm, current), cmd, nr);
--		return -ENOTTY;
--	}
--
--	return _hl_ioctl(hpriv, cmd, arg, ioctl, hdev->dev);
--}
--
- long hl_ioctl_control(struct file *filep, unsigned int cmd, unsigned long arg)
- {
- 	struct hl_fpriv *hpriv = filep->private_data;
-@@ -1271,8 +1238,8 @@ long hl_ioctl_control(struct file *filep, unsigned int cmd, unsigned long arg)
- 		return -ENODEV;
- 	}
- 
--	if (nr == _IOC_NR(HL_IOCTL_INFO)) {
--		ioctl = &hl_ioctls_control[nr];
-+	if (nr == _IOC_NR(DRM_IOCTL_HL_INFO)) {
-+		ioctl = &hl_ioctls_control[nr - HL_COMMAND_START];
- 	} else {
- 		char task_comm[TASK_COMM_LEN];
- 
-diff --git a/drivers/accel/habanalabs/common/memory.c b/drivers/accel/habanalabs/common/memory.c
-index 45fdf39bfc8c..1b1b4256b011 100644
---- a/drivers/accel/habanalabs/common/memory.c
-+++ b/drivers/accel/habanalabs/common/memory.c
-@@ -2171,8 +2171,9 @@ static int allocate_timestamps_buffers(struct hl_fpriv *hpriv, struct hl_mem_in
- 	return 0;
- }
- 
--int hl_mem_ioctl(struct hl_fpriv *hpriv, void *data)
-+int hl_mem_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv)
- {
-+	struct hl_fpriv *hpriv = file_priv->driver_priv;
- 	enum hl_device_status status;
- 	union hl_mem_args *args = data;
- 	struct hl_device *hdev = hpriv->hdev;
-diff --git a/include/uapi/drm/habanalabs_accel.h b/include/uapi/drm/habanalabs_accel.h
-index f912869b151e..e7893b082bf8 100644
---- a/include/uapi/drm/habanalabs_accel.h
-+++ b/include/uapi/drm/habanalabs_accel.h
-@@ -8,8 +8,7 @@
- #ifndef HABANALABS_H_
- #define HABANALABS_H_
- 
--#include <linux/types.h>
--#include <linux/ioctl.h>
-+#include <drm/drm.h>
- 
- /*
-  * Defines that are asic-specific but constitutes as ABI between kernel driver
-@@ -607,9 +606,9 @@ enum gaudi2_engine_id {
- /*
-  * ASIC specific PLL index
-  *
-- * Used to retrieve in frequency info of different IPs via
-- * HL_INFO_PLL_FREQUENCY under HL_IOCTL_INFO IOCTL. The enums need to be
-- * used as an index in struct hl_pll_frequency_info
-+ * Used to retrieve in frequency info of different IPs via HL_INFO_PLL_FREQUENCY under
-+ * DRM_IOCTL_HL_INFO IOCTL.
-+ * The enums need to be used as an index in struct hl_pll_frequency_info.
-  */
- 
- enum hl_goya_pll_index {
-@@ -2163,6 +2162,13 @@ struct hl_debug_args {
- 	__u32 ctx_id;
- };
- 
-+#define HL_IOCTL_INFO		0x00
-+#define HL_IOCTL_CB		0x01
-+#define HL_IOCTL_CS		0x02
-+#define HL_IOCTL_WAIT_CS	0x03
-+#define HL_IOCTL_MEMORY		0x04
-+#define HL_IOCTL_DEBUG		0x05
-+
- /*
-  * Various information operations such as:
-  * - H/W IP information
-@@ -2177,8 +2183,7 @@ struct hl_debug_args {
-  * definitions of structures in kernel and userspace, e.g. in case of old
-  * userspace and new kernel driver
-  */
--#define HL_IOCTL_INFO	\
--		_IOWR('H', 0x01, struct hl_info_args)
-+#define DRM_IOCTL_HL_INFO	DRM_IOWR(DRM_COMMAND_BASE + HL_IOCTL_INFO, struct hl_info_args)
- 
- /*
-  * Command Buffer
-@@ -2199,8 +2204,7 @@ struct hl_debug_args {
-  * and won't be returned to user.
-  *
-  */
--#define HL_IOCTL_CB		\
--		_IOWR('H', 0x02, union hl_cb_args)
-+#define DRM_IOCTL_HL_CB		DRM_IOWR(DRM_COMMAND_BASE + HL_IOCTL_CB, union hl_cb_args)
- 
- /*
-  * Command Submission
-@@ -2252,8 +2256,7 @@ struct hl_debug_args {
-  * and only if CS N and CS N-1 are exactly the same (same CBs for the same
-  * queues).
-  */
--#define HL_IOCTL_CS			\
--		_IOWR('H', 0x03, union hl_cs_args)
-+#define DRM_IOCTL_HL_CS		DRM_IOWR(DRM_COMMAND_BASE + HL_IOCTL_CS, union hl_cs_args)
- 
- /*
-  * Wait for Command Submission
-@@ -2285,9 +2288,7 @@ struct hl_debug_args {
-  * HL_WAIT_CS_STATUS_ABORTED     - The CS was aborted, usually because the
-  *                                 device was reset (EIO)
-  */
--
--#define HL_IOCTL_WAIT_CS			\
--		_IOWR('H', 0x04, union hl_wait_cs_args)
-+#define DRM_IOCTL_HL_WAIT_CS	DRM_IOWR(DRM_COMMAND_BASE + HL_IOCTL_WAIT_CS, union hl_wait_cs_args)
- 
- /*
-  * Memory
-@@ -2304,8 +2305,7 @@ struct hl_debug_args {
-  * There is an option for the user to specify the requested virtual address.
-  *
-  */
--#define HL_IOCTL_MEMORY		\
--		_IOWR('H', 0x05, union hl_mem_args)
-+#define DRM_IOCTL_HL_MEMORY	DRM_IOWR(DRM_COMMAND_BASE + HL_IOCTL_MEMORY, union hl_mem_args)
- 
- /*
-  * Debug
-@@ -2331,10 +2331,9 @@ struct hl_debug_args {
-  * The driver can decide to "kick out" the user if he abuses this interface.
-  *
-  */
--#define HL_IOCTL_DEBUG		\
--		_IOWR('H', 0x06, struct hl_debug_args)
-+#define DRM_IOCTL_HL_DEBUG	DRM_IOWR(DRM_COMMAND_BASE + HL_IOCTL_DEBUG, struct hl_debug_args)
- 
--#define HL_COMMAND_START	0x01
--#define HL_COMMAND_END		0x07
-+#define HL_COMMAND_START	(DRM_COMMAND_BASE + HL_IOCTL_INFO)
-+#define HL_COMMAND_END		(DRM_COMMAND_BASE + HL_IOCTL_DEBUG + 1)
- 
- #endif /* HABANALABS_H_ */
 -- 
 2.34.1
 
