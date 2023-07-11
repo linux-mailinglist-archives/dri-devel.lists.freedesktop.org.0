@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DA4574F0CC
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 15:55:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A51374F110
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 16:04:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEF2710E05F;
-	Tue, 11 Jul 2023 13:55:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01E4E10E3A6;
+	Tue, 11 Jul 2023 14:04:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com
- [209.85.161.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16DAF10E05F
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 13:55:40 +0000 (UTC)
-Received: by mail-oo1-f51.google.com with SMTP id
- 006d021491bc7-5634db21a58so4404781eaf.0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 06:55:40 -0700 (PDT)
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B06010E3A3
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 14:04:23 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id
+ 38308e7fff4ca-2b734aea34aso810091fa.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 07:04:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1689084261; x=1691676261;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=BdpcIEYUUdihFpwpm2ca3DrV3eAkUJoAgB4GuGHv5rI=;
+ b=LQ0NHomTxnvfiwW0cuYITuJEOccgUOW9OWjMZIQkHm2WQqTJTLqPTJxOHkMzmvrx1s
+ jXtMQfSaCbqkuE5EVpSL46bQWAJFh50SYx8YlCTYT1tRIK7opWlZhuzmw+02KhedWLF9
+ Hdk5+7EJrDNjJUh7OEKdBd+kQ08DDMoEaPpVQeDsQLafIdQ1mxS0n2TUyu6+J8Aufjwu
+ lNVaOIn4i58WPDw6/wjujpbQ3rljpmiWd9WgyJNMYuLOu8Gz9iuSoNi4lyuy2RybQJho
+ TbSkdMlQrjueCa+7aylhCWa6L4WTnm+4ZLutvi8ZDk2N6qnIwQK9+zxav7lnOLubeOff
+ QdrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689083739; x=1691675739;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ZXQMJc+mkFZtu2vLefW5Re8NpovkJxJKped5EUiUKOE=;
- b=fRxfuuE8O86balda0vv3eWcgnNJjOx5NeKAOnZ0iDnDmGErnPpW5mzEkhZUj+Uc0hH
- xwdIsmUKNevzrr0iZo17N0P3Ldz1OHmF5eWV/To/qPsGMUye0J7meRiraxOxnjvJWqVO
- boti5Bv4s9gxx9Xr4jmyz3VUbFi5WL0D5TuMaygfwMwrXwl7OFBWxrwkpt0PD7l5aaHP
- 5OZlUB0m95cWGiETdkohs4OjIQRcIstbitPhfSy6jncWhPOfZIfnupmowNgnlYIr7bzt
- Za7kI9NJGeCPynX0z9uDcy0Ip075H3gugWnBh0bDLzi4SoQYSf2NIr+YOs03htkRPli3
- WCaw==
-X-Gm-Message-State: ABy/qLY42uGA93frcGSual6GiA/Go72CX1gacCDWAD1srLqbR70o8njp
- FU6xLkW/1NPuEO71VqayDSYMEj5kxl8DBg==
-X-Google-Smtp-Source: APBJJlEP8xBkkwc/XmdTuhHqmsTTm1I+dD3xIsfOdNfF/gEhQTgKrDa5atHYHP0hqvwoa7Q0tmJ7Lg==
-X-Received: by 2002:aca:2308:0:b0:3a1:b638:9c2c with SMTP id
- e8-20020aca2308000000b003a1b6389c2cmr14364088oie.55.1689083739643; 
- Tue, 11 Jul 2023 06:55:39 -0700 (PDT)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com.
- [209.85.128.171]) by smtp.gmail.com with ESMTPSA id
- o206-20020a815ad7000000b005771d1c7756sm573995ywb.51.2023.07.11.06.55.39
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Jul 2023 06:55:39 -0700 (PDT)
-Received: by mail-yw1-f171.google.com with SMTP id
- 00721157ae682-5703cb4bcb4so61090837b3.3
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 06:55:39 -0700 (PDT)
-X-Received: by 2002:a81:6e8b:0:b0:570:85b2:e6dd with SMTP id
- j133-20020a816e8b000000b0057085b2e6ddmr17111816ywc.17.1689083738977; Tue, 11
- Jul 2023 06:55:38 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1689084261; x=1691676261;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BdpcIEYUUdihFpwpm2ca3DrV3eAkUJoAgB4GuGHv5rI=;
+ b=KLAkw3OKtY63KRv/LoSKqUnJH9Rps7RS7bZZx5W+X4rxT/zAa1JJhgfupJwczwse5v
+ tJDs+ZPtnSUmatPZuOnA07UMTgr19b/v9HTY+/evbINhdQ27cudnUIFkWpqbKUeRgM/0
+ o71MAF1P/VDR1tkIZNRwKO01gNCFf9SaoxIjNJSyU5jbp2WOy3C8V7sW52g69W54ze3L
+ DcmucngfzqJqCs7RVOPthQgVPsXl5ThgIMPIxrQDCF/tG5FBkUnVSAB0bR8XoYOfEXWj
+ qXDBJSKUfkY7osxxyhrPThOnxqo6MYJ/iV7LcD37UOqPb5BPLlwURE37HZb2EPrJ5izt
+ ngaw==
+X-Gm-Message-State: ABy/qLYiMWlsWhD52qGHYc2jjSjpXf1zqjg44H9048WMxOGJVwqGG9iD
+ MxOdrU98Q/fNmfFSABXTrgo=
+X-Google-Smtp-Source: APBJJlGvU4WSIU0hK8h8ujqbyffxl+1oVIt17piGu73JBXJBzoJS6YWxTNyF9yqqxXrZlLEuAh01zg==
+X-Received: by 2002:a2e:8085:0:b0:2b6:d9b0:875d with SMTP id
+ i5-20020a2e8085000000b002b6d9b0875dmr13576003ljg.34.1689084260952; 
+ Tue, 11 Jul 2023 07:04:20 -0700 (PDT)
+Received: from able.fritz.box ([2a00:e180:154b:c600:dcae:ab99:6259:7e2b])
+ by smtp.gmail.com with ESMTPSA id
+ e18-20020a170906505200b00989257be620sm1199006ejk.200.2023.07.11.07.04.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Jul 2023 07:04:20 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: ogabbay@kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: DRM debugfs cleanup take 5 (resend)
+Date: Tue, 11 Jul 2023 16:04:13 +0200
+Message-Id: <20230711140418.3059-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230511181931.869812-1-tj@kernel.org>
- <20230511181931.869812-7-tj@kernel.org>
- <ZF6WsSVGX3O1d0pL@slm.duckdns.org>
-In-Reply-To: <ZF6WsSVGX3O1d0pL@slm.duckdns.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 11 Jul 2023 15:55:26 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVCQmh6V182q4g---jvsWiTOP2hBPZKvma6oUN6535LEg@mail.gmail.com>
-Message-ID: <CAMuHMdVCQmh6V182q4g---jvsWiTOP2hBPZKvma6oUN6535LEg@mail.gmail.com>
-Subject: Consider switching to WQ_UNBOUND messages (was: Re: [PATCH v2 6/7]
- workqueue: Report work funcs that trigger automatic CPU_INTENSIVE mechanism)
-To: Tejun Heo <tj@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,113 +73,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rtc@vger.kernel.org,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Linux PM list <linux-pm@vger.kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, netdev <netdev@vger.kernel.org>,
- kernel-team@meta.com, Lai Jiangshan <jiangshanlai@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- "open list:LIBATA SUBSYSTEM \(Serial and Parallel ATA drivers\)"
- <linux-ide@vger.kernel.org>, Linux MMC List <linux-mmc@vger.kernel.org>,
- linux-riscv <linux-riscv@lists.infradead.org>,
- "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tejun,
+Hi guys,
 
-On Fri, May 12, 2023 at 9:54=E2=80=AFPM Tejun Heo <tj@kernel.org> wrote:
-> Workqueue now automatically marks per-cpu work items that hog CPU for too
-> long as CPU_INTENSIVE, which excludes them from concurrency management an=
-d
-> prevents stalling other concurrency-managed work items. If a work functio=
-n
-> keeps running over the thershold, it likely needs to be switched to use a=
-n
-> unbound workqueue.
->
-> This patch adds a debug mechanism which tracks the work functions which
-> trigger the automatic CPU_INTENSIVE mechanism and report them using
-> pr_warn() with exponential backoff.
->
-> v2: Drop bouncing through kthread_worker for printing messages. It was to
->     avoid introducing circular locking dependency but wasn't effective as=
- it
->     still had pool lock -> wci_lock -> printk -> pool lock loop. Let's ju=
-st
->     print directly using printk_deferred().
->
-> Signed-off-by: Tejun Heo <tj@kernel.org>
-> Suggested-by: Peter Zijlstra <peterz@infradead.org>
+sorry for the delay, just sending it out to the list once more to get
+some acks and rbs.
 
-Thanks for your patch, which is now commit 6363845005202148
-("workqueue: Report work funcs that trigger automatic CPU_INTENSIVE
-mechanism") in v6.5-rc1.
+Apart from that the CI systems seems to be happy with that and I think
+it can get merged now.
 
-I guess you are interested to know where this triggers.
-I enabled CONFIG_WQ_CPU_INTENSIVE_REPORT=3Dy, and tested
-the result on various machines...
-
-SH/R-Mobile:
-
-  workqueue: genpd_power_off_work_fn hogged CPU for >10000us 4 times,
-consider switching to WQ_UNBOUND
-
-Atmark Techno Armadillo800-EVA with shmob_drm:
-
-  workqueue: drm_fb_helper_damage_work hogged CPU for >10000us 16
-times, consider switching to WQ_UNBOUND
-
-R-Car Gen2:
-
-  workqueue: rtc_timer_do_work hogged CPU for >10000us 4 times,
-consider switching to WQ_UNBOUND
-
-R-Car Gen2/Gen3:
-
-  workqueue: pm_runtime_work hogged CPU for >10000us 4 times, consider
-switching to WQ_UNBOUND
-
-R-Car Gen3:
-
-  workqueue: kfree_rcu_work hogged CPU for >10000us 4 times, consider
-switching to WQ_UNBOUND
-
-OrangeCrab/Linux-on-LiteX-VexRiscV with ht16k33 14-seg display and ssd130xd=
-rmfb:
-
-  workqueue: check_lifetime hogged CPU for >10000us 4 times, consider
-switching to WQ_UNBOUND
-  workqueue: drm_fb_helper_damage_work hogged CPU for >10000us 1024
-times, consider switching to WQ_UNBOUND
-  workqueue: fb_flashcursor hogged CPU for >10000us 128 times,
-consider switching to WQ_UNBOUND
-  workqueue: ht16k33_seg14_update hogged CPU for >10000us 128 times,
-consider switching to WQ_UNBOUND
-  workqueue: mmc_rescan hogged CPU for >10000us 128 times, consider
-switching to WQ_UNBOUND
-
-Atari (ARAnyM):
-
-  workqueue: ata_sff_pio_task hogged CPU for >10000us 64 times,
-consider switching to WQ_UNBOUND
-
-The OrangeCrab is a slow machine, so it's not that surprising to see these
-messages...
-
-Gr{oetje,eeting}s,
-
-                        Geert
+Regards,
+Christian.
 
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
