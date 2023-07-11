@@ -2,45 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBAA974F9D9
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 23:36:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B21874F9DD
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 23:36:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D86B810E441;
-	Tue, 11 Jul 2023 21:36:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1769210E442;
+	Tue, 11 Jul 2023 21:36:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCBB010E43E;
- Tue, 11 Jul 2023 21:36:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=ejZZEKDMhXw4j4IEg03PtvfMno8w3phoXuomv3p/hio=; b=QndCUJKuerndBPoYHtUjBNEcos
- GQ7EXlnjZy4EXgWbIjj8nfcxW3mC1bRxp1kYNq6sIxSNSWYdnCtGIXuxHDqNKY6UIKRGwNubxO01s
- ptcPNA3QnDDmaLn/DWoD+xqEIXBBPl+6UECjVZh2xYqSH96BnkdySGfaNC62C3eMEbAXynN8Pt3h2
- Se+CyKHmMFfaStfnYJhcxTkMWa8ZcfVL3D6V8+PmpDTrpi8t07INoGsaKBp3HsKyd39lyqhruGjKN
- 3oZDedRAohu3tn8QbB021EvmxQjnaHfz5hWyy7Ziski5TQPpZZeom/tO0UjESD4VKBr+yKcud6QbF
- H35d/Uhw==;
-Received: from [187.74.70.209] (helo=steammachine.lan)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qJL1b-00Cl0M-DU; Tue, 11 Jul 2023 23:35:59 +0200
-From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH 6/6] drm/amdgpu: Create version number for coredumps
-Date: Tue, 11 Jul 2023 18:35:01 -0300
-Message-ID: <20230711213501.526237-7-andrealmeid@igalia.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230711213501.526237-1-andrealmeid@igalia.com>
-References: <20230711213501.526237-1-andrealmeid@igalia.com>
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F7BF10E442
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 21:36:31 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id
+ 2adb3069b0e04-4fb7dc16ff0so9694439e87.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 14:36:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1689111389; x=1691703389;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=NrSX7PhPKOGnA92pPm2YdNBTlBhRtkFT2QjTzX6SGZI=;
+ b=rtPZbS4PGX83gYcAKsGtXuy7/HFRYvxeEKew1hmWfVgNZ5jtsyvTcvqu9uZ0nwB8C8
+ sy9Wncq0GfGluYHEnwcwt1oREemNWxvdGtV5rATUhZisrtLmLf6+thIxGsyjEXSUCyXv
+ FswX3LlRToL2g0U700lFE6maQEupl82vZZp9lOQCGBUjNqKyhZTpwQffLZ7z5zE6g8BP
+ s21GkOZv7PnLCT05hCJwIQX5QGW+QvmyiMafr3dFFwuVfvj/fSnVNXyRsoW0ete/Cmm0
+ s37jxOstrvIE0VWbnoM6FDskalvRIbmQuUqRsS2TBNafIdf0rdeEXhsfxjK+7E1eNlzN
+ VEIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689111389; x=1691703389;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NrSX7PhPKOGnA92pPm2YdNBTlBhRtkFT2QjTzX6SGZI=;
+ b=DSEH6KijL0Gea1zc31lJxal1duu6zmUm8wpYxzAs2eIecMI2zPzK8i3cC6AAUp5LEO
+ tVt/DcYmahcs1OsBitlmjamnhzSQFKu91a5qWF3kYGGRlI2/xHuPPx/MXe/TYwnAPo44
+ k28AcyEMQayicuErpqEPlvdjiZb01HvtDaAvJHuKALQDNEASv1oEwg4GgWgg+W5wUkAe
+ SIuuh8aw8T9BZXi7qjZOp4YZ3+nackuvrDHr6M8Ko0UO5hQZX6miT789aljwcd0bEx+t
+ NbYecVdtDV5zgG81mDM8yKu0Vun3AfL/WJXRuhOj1WM8xTLWnEFas5Jowe+bJp0GZe6W
+ 87RA==
+X-Gm-Message-State: ABy/qLYlUtkvi2/IjgLbBe7CmRpnLwYzcXeUkIrMxleM4RTnvVZ9uFmt
+ hOmMs6lK1zI8HXB8Vm/Z+Hov5A==
+X-Google-Smtp-Source: APBJJlFUOSi8MCkUH+Y0rUL8y5Im/qUftlZYctWGmBHInd6hTEn4AKz8A/LXxDZ5a/Ta/o2gsyLoCw==
+X-Received: by 2002:ac2:5b9c:0:b0:4f8:6800:86f6 with SMTP id
+ o28-20020ac25b9c000000b004f8680086f6mr13412888lfn.49.1689111389300; 
+ Tue, 11 Jul 2023 14:36:29 -0700 (PDT)
+Received: from [192.168.1.101] (abyl96.neoplus.adsl.tpnet.pl. [83.9.31.96])
+ by smtp.gmail.com with ESMTPSA id
+ t3-20020ac24c03000000b004f8730eecf4sm453442lfq.184.2023.07.11.14.36.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Jul 2023 14:36:28 -0700 (PDT)
+Message-ID: <d80fab4d-f581-f6fa-4aa8-f8952f0c710c@linaro.org>
+Date: Tue, 11 Jul 2023 23:36:27 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 3/5] arm64: dts: qcom: qrb5165-rb5: add onboard USB-C
+ redriver
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20230709041926.4052245-1-dmitry.baryshkov@linaro.org>
+ <20230709041926.4052245-4-dmitry.baryshkov@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20230709041926.4052245-4-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,54 +84,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- =?UTF-8?q?=27Marek=20Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
- =?UTF-8?q?Timur=20Krist=C3=B3f?= <timur.kristof@gmail.com>,
- michel.daenzer@mailbox.org, Samuel Pitoiset <samuel.pitoiset@gmail.com>,
- kernel-dev@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Even if there's nothing currently parsing amdgpu's coredump files, if
-we eventually have such tools they will be glad to find a version field
-to properly read the file.
+On 9.07.2023 06:19, Dmitry Baryshkov wrote:
+> Add the nb7vpq904m, onboard USB-C redriver / retimer.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+[...]
 
-Create a version number to be displayed on top of coredump file, to be
-incremented when the file format or content get changed.
+> +			port@1 {
+> +				reg = <1>;
+> +
+> +				redriver_phy_con_ss: endpoint {
+> +					remote-endpoint = <&usb_1_qmpphy_typec_mux_in>;
+> +					data-lanes = <0 1 2 3>;
+That's USB+DP lines combined, or how does it work? I'm confused :/
 
-Signed-off-by: André Almeida <andrealmeid@igalia.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu.h        | 3 +++
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 1 +
- 2 files changed, 4 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index cfeaf93934fd..905574acf3a0 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -1081,6 +1081,9 @@ struct amdgpu_device {
- };
- 
- #ifdef CONFIG_DEV_COREDUMP
-+
-+#define AMDGPU_COREDUMP_VERSION "1"
-+
- struct amdgpu_coredump_info {
- 	struct amdgpu_device		*adev;
- 	struct amdgpu_task_info         reset_task_info;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 38d03ca7a9fc..7b448e189717 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -4985,6 +4985,7 @@ static ssize_t amdgpu_devcoredump_read(char *buffer, loff_t offset,
- 	p = drm_coredump_printer(&iter);
- 
- 	drm_printf(&p, "**** AMDGPU Device Coredump ****\n");
-+	drm_printf(&p, "version: " AMDGPU_COREDUMP_VERSION "\n");
- 	drm_printf(&p, "kernel: " UTS_RELEASE "\n");
- 	drm_printf(&p, "module: " KBUILD_MODNAME "\n");
- 	drm_printf(&p, "time: %lld.%09ld\n", coredump->reset_time.tv_sec, coredump->reset_time.tv_nsec);
--- 
-2.41.0
-
+Konrad
+> +				};
+> +			};
+> +
+> +			port@2 {
+> +				reg = <2>;
+> +
+> +				redriver_usb_con_sbu: endpoint {
+> +					remote-endpoint = <&pm8150b_typec_sbu_out>;
+> +				};
+> +			};
+> +		};
+> +	};
+>  };
+>  
+>  &mdss {
+> @@ -1294,7 +1334,7 @@ &usb_1_qmpphy {
+>  };
+>  
+>  &usb_1_qmpphy_typec_mux_in {
+> -	remote-endpoint = <&pm8150b_typec_mux_out>;
+> +	remote-endpoint = <&redriver_phy_con_ss>;
+>  };
+>  
+>  &usb_2 {
+> @@ -1382,7 +1422,15 @@ pm8150b_role_switch_out: endpoint {
+>  			port@1 {
+>  				reg = <1>;
+>  				pm8150b_typec_mux_out: endpoint {
+> -					remote-endpoint = <&usb_1_qmpphy_typec_mux_in>;
+> +					remote-endpoint = <&redriver_usb_con_ss>;
+> +				};
+> +			};
+> +
+> +			port@2 {
+> +				reg = <2>;
+> +
+> +				pm8150b_typec_sbu_out: endpoint {
+> +					remote-endpoint = <&redriver_usb_con_sbu>;
+>  				};
+>  			};
+>  		};
