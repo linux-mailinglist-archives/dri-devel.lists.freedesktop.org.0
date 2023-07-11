@@ -1,76 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D99C74F742
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 19:33:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFFA274F795
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 19:54:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1478510E41D;
-	Tue, 11 Jul 2023 17:33:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FB8F10E3E5;
+	Tue, 11 Jul 2023 17:54:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F1BC10E41D
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 17:33:38 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 36BHOVtn013908; Tue, 11 Jul 2023 17:33:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=z7T5oV2DSUOFNxiqNqHYOl+TjOXCp7JIjpEtX1OTqqc=;
- b=FQX9VR/ND/opMw9sn20u3e/ScqmCrG22fLoySjY/Al8wGnez0DSnx3tokepGIdT+VI4S
- uc0j7iw3aBplIL59iKQXuDKCv+lvTvQlE0xxGy7SfbG9lRh4gUsNWt/SQwJuwlLZ2VNV
- sI8vYg0UOw3QksKZhCHU2lL1WpDNRVw0tgeDNqaVn/MXA+oUHIAz6Z4ylFZy/xfeH3Ss
- j6rZmrLny7ehN06GJit9AIS3bqonbafAmqPg57ybD4sqByXMc5PLD0T55gKfycF7N0eb
- 8k84OrV/9iX20aA0BgVWqHH+w7yCu++2y1URmeZZJSz8JYsies8rj9/HitugzGV2hYJe Gg== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rsben80u3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Jul 2023 17:33:33 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36BHXWl6001819
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Jul 2023 17:33:32 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Tue, 11 Jul
- 2023 10:33:31 -0700
-Message-ID: <0919d2f7-dbb3-2e8b-adb7-f836b21e6482@quicinc.com>
-Date: Tue, 11 Jul 2023 11:33:25 -0600
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
+ [IPv6:2607:f8b0:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF7FC10E0F4;
+ Tue, 11 Jul 2023 17:54:19 +0000 (UTC)
+Received: by mail-pl1-x62b.google.com with SMTP id
+ d9443c01a7336-1b89600a37fso30691645ad.2; 
+ Tue, 11 Jul 2023 10:54:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1689098058; x=1691690058;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=51D9c0yVqzyFZCZkTJ0kt3i/VPXv4eay4HZNWC1auNY=;
+ b=Gcs0mnql8X3fsKI4gmoydVQVgblWa79bdy2+0+otEJiCi1adxEiy9VHGCNDkKW8YgL
+ 6Tt4mVCfrwo+Xatv5kG92nimpb5P60z2S93KR3RYlAvisz1GWKFOg6YorffdFlFMDDOJ
+ pp/XRTTmTQ1jHfu/tgDyNpMc0wg8iCiurHDY60lrPMVMu0BTYD7oO+BIZP/mWORRAYBa
+ yKYa+i5BQVwpyqPFx2ihW0gtMLfuTNwSVN/XUtxaHT3xsoFO60hB1dnHH7sJ4bGBO2PY
+ X41+jBiiHzyQsx1XITHYpYrLHA65bjv/X2UQqfBt0J4wkWATpMj38zKnDmeMI4HMWJq5
+ o4gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689098058; x=1691690058;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=51D9c0yVqzyFZCZkTJ0kt3i/VPXv4eay4HZNWC1auNY=;
+ b=O1QSOiHaVJr8ZP+hBsZ9FbgwcP7BhBIsMbjbHpVv8PjfjLJ/JcrN3LT/LGlg2svGDW
+ CMh8SEplx+Vg9QBRzWmPGH9+7ayCbgabMibITniB69hHpjK7f2DqTA0Xur549/hO8uzO
+ cprcqbWCmK3N7TwTJaJUPUR6tsGs9OZqHHlUqP2uCP27Rc/cUuSjk6PA9eDYIcHsi1jM
+ /YR+YvJxRO3gG/ouiJOkCqnHzzyJp9IVtaxhBTAgASt4sF5q3BiCs58Ur5u+tgPu0oxm
+ Me4HdSMGUOsRWg0YNgyKPzO+mUZ52BuS6HTsaHUe2JdTR3ginQ6H4VGokCTVGgCFMEeT
+ kaKA==
+X-Gm-Message-State: ABy/qLYc2MuAHvWtMM1aFrvjRUDT1wIngOlNWuy4z2zadr5vh4f0D8zI
+ /fXLLjKqGP5u2+tP1QZBIvBYRuSpevM=
+X-Google-Smtp-Source: APBJJlFiqtZa561h/NtpWyoYGEjlQjCnGiocVAnOqtntgECALUFn5OzNYw/w9eCMwwNevLA/drwf9A==
+X-Received: by 2002:a17:902:e54a:b0:1b7:f99f:63c9 with SMTP id
+ n10-20020a170902e54a00b001b7f99f63c9mr16862415plf.67.1689098058301; 
+ Tue, 11 Jul 2023 10:54:18 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:6c80:7c10:75a0:44f4])
+ by smtp.gmail.com with ESMTPSA id
+ x11-20020a170902820b00b001b8a85489a3sm2191062pln.262.2023.07.11.10.54.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Jul 2023 10:54:17 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/msm/adreno: Fix snapshot BINDLESS_DATA size
+Date: Tue, 11 Jul 2023 10:54:07 -0700
+Message-ID: <20230711175409.157800-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 0/5 v4] accel/qaic: Improve bounds checking in
- encode/decode
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>
-References: <6e935c70-5bd2-4808-bdd9-d664f892b0b5@moroto.mountain>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <6e935c70-5bd2-4808-bdd9-d664f892b0b5@moroto.mountain>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: ex0lXBaBMBx5IRz3bO-EgbtPMoALOYQx
-X-Proofpoint-ORIG-GUID: ex0lXBaBMBx5IRz3bO-EgbtPMoALOYQx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-11_10,2023-07-11_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0
- priorityscore=1501 mlxscore=0 phishscore=0 adultscore=0 mlxlogscore=528
- malwarescore=0 suspectscore=0 impostorscore=0 spamscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2307110157
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,37 +70,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
- kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
- Carl Vanderlip <quic_carlv@quicinc.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/11/2023 2:20 AM, Dan Carpenter wrote:
-> Fixed in v4: Send the correct [PATCH 1/5] patch.
-> 
-> Fixed in v3: Redo messed up threading
-> 
-> Fixed two things in v2:  Include the <linux/overflow.h> file.  Change
-> the >= in encode and decode to >.
-> 
-> regards,
-> dan carpenter
+From: Rob Clark <robdclark@chromium.org>
 
-Did you intentionally drop tags from previous versions?
+The incorrect size was causing "CP | AHB bus error" when snapshotting
+the GPU state on a6xx gen4 (a660 family).
 
-For 1-3, 5
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/26
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Looks like 3,5 are reviewed by Pranjal and also good. I see 5 is also 
-reviewed by Dafna.  Expect those to be merged.  1,2 need a review from 
-Pranjal, but I expect all is good and will be merged.
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
+index 790f55e24533..e788ed72eb0d 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
+@@ -206,7 +206,7 @@ static const struct a6xx_shader_block {
+ 	SHADER(A6XX_SP_LB_3_DATA, 0x800),
+ 	SHADER(A6XX_SP_LB_4_DATA, 0x800),
+ 	SHADER(A6XX_SP_LB_5_DATA, 0x200),
+-	SHADER(A6XX_SP_CB_BINDLESS_DATA, 0x2000),
++	SHADER(A6XX_SP_CB_BINDLESS_DATA, 0x800),
+ 	SHADER(A6XX_SP_CB_LEGACY_DATA, 0x280),
+ 	SHADER(A6XX_SP_UAV_DATA, 0x80),
+ 	SHADER(A6XX_SP_INST_TAG, 0x80),
+-- 
+2.41.0
 
-I did not see feedback on my question for 4.  Would like your feedback 
-before queuing that one up.
-
-Overall, thanks for your work.  I think we are pretty close to wrapping 
-this up.
-
--Jeff
