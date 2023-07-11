@@ -1,47 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC1D974EC70
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 13:13:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EFB074EC73
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 13:13:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3806110E37B;
-	Tue, 11 Jul 2023 11:12:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5451910E374;
+	Tue, 11 Jul 2023 11:13:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 389E010E379
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 11:12:48 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id AB66861485;
- Tue, 11 Jul 2023 11:12:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4D34C433CA;
- Tue, 11 Jul 2023 11:12:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689073967;
- bh=hQA5QLicVgrPAVk0QXpv8p873QJnrbqy0dif3WEwaXo=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oGnz2BtfpUyRpjNvs3eY/eLgfp1VMXQqiS2CwxVfJcOjqYVF53jdP9u3luZv5nszp
- QmyFxUV1Zhqx36OFfeGyjdzO2+9tzM94X0efrP53tfeGwtRqfLSUUatdeRHNfTLdb7
- qGddOfWS2EP05BbGpkdtj6l3uxGkAxJpy1AvasTQKjvzfLxp0Q6RjRDv81V655tGyl
- 0drcnT/OojQaT3TFhAxmBEReVm34H2/S93eDutPeFl95xHK5zm6UGOh9LFxiSSyCbh
- K+zstMtM4hf383FMSl58UGSZlMfgUWo0GgMsTEu7tUbX4TmXN376QBtP1WR5zfH6vn
- +ZNJxdJs0SJkw==
-From: Oded Gabbay <ogabbay@kernel.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 12/12] accel/habanalabs: release user interfaces earlier in
- device fini
-Date: Tue, 11 Jul 2023 14:12:26 +0300
-Message-Id: <20230711111226.163670-12-ogabbay@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230711111226.163670-1-ogabbay@kernel.org>
-References: <20230711111226.163670-1-ogabbay@kernel.org>
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D2BB10E37F
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 11:13:27 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 5b1f17b1804b1-3fbc1218262so63128555e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 04:13:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1689074005; x=1691666005;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=dLCSxIig1E6lDTEDhD9ibzAe8m3WEahllr3ouLgYn1c=;
+ b=nzLVIA+PTb3SSi7DlWsGUsWL0rkRaezLG67wZ9+BrJp3AN5vFhk9E0dU6Vk52JEQKR
+ 2vLUlE/D2AteRhGj4dkHYehNCRxLhFq+LUlYcCZRPHvbm7eEpmU7fLT2U9Csc3sEues6
+ t05grkaVvaeeg8n1TVm5MNd9z8nH1MAqcyU2CaWLXISalkxxjV7Xe5gxUKR9QmNOlkk+
+ h+XoqvVHH6LnqoYvxTnbG9LNgn0+TDx0w9g8VedeMKOc+HEFDuU9xw36PM00it1+SSCA
+ n5zaeQuoXryACKo6BTsqMOjcASK3ca8qDzOvq31ASaP592CcVNBYtvPlMOA4eKVY6img
+ jBuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689074005; x=1691666005;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=dLCSxIig1E6lDTEDhD9ibzAe8m3WEahllr3ouLgYn1c=;
+ b=DMR2PS+TGCtpOz70kk2cNRbRAHObn0asUAhTylU7imZdDa8UGGLoNoBuQMwz5XxxKN
+ nyGNso/wHoebaRYcyd+tPZhXCbVErcibWFAoucbNSJ8d0p6dLN5BlgVoShjS/BkMmDhP
+ XnR1AYMtVFNItBQI+K/zwsdWG2zDIBoJJrzq/7d2MZUTS6/+0JuIaMOsNGWCgwCZWzxK
+ KBH64OMVCK9xXisdi+zIXMsNQ2DVHjv9lHKvPTZETIqVwGis/l+QgSz6ZQrYbwtON1zu
+ 2A74APw6VpfwPnlxbSToZei048YthDDo9uRkliYWOLzmsJ68GncAScsXL0v2FBW52c5U
+ +7tw==
+X-Gm-Message-State: ABy/qLbs9AUkj6GCMQ7PlJXHFfVm6UN8r7rkMnXnEP5bQqRnSCj9eeEa
+ lZ8H3SN9zsaeTSJ5oxkEg/2piw==
+X-Google-Smtp-Source: APBJJlHUs43WSGSKNzoDZD3KQlU5rLMuF/7dsLdNmMbgfPJIjEa2I2xQi/A5h+V8aI33ZuQwpwX8Uw==
+X-Received: by 2002:a1c:f706:0:b0:3fb:b637:22a7 with SMTP id
+ v6-20020a1cf706000000b003fbb63722a7mr16506974wmh.4.1689074004968; 
+ Tue, 11 Jul 2023 04:13:24 -0700 (PDT)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ a19-20020a05600c225300b003fbb0c01d4bsm2259571wmm.16.2023.07.11.04.13.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Jul 2023 04:13:23 -0700 (PDT)
+Date: Tue, 11 Jul 2023 14:13:19 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Su Hui <suhui@nfschina.com>
+Subject: Re: [PATCH] drm/virtio: remove some redundant code
+Message-ID: <7f67ed65-647a-44d7-a262-d3f1f48d90b9@kadam.mountain>
+References: <20230711090030.692551-1-suhui@nfschina.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230711090030.692551-1-suhui@nfschina.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,57 +71,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomer Tayar <ttayar@habana.ai>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, gurchetansingh@chromium.org,
+ kraxel@redhat.com, airlied@redhat.com,
+ virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomer Tayar <ttayar@habana.ai>
+On Tue, Jul 11, 2023 at 05:00:31PM +0800, Su Hui wrote:
+> virtio_gpu_get_vbuf always be successful,
+> so remove the error judgment.
+> 
 
-Currently the sysfs/debugfs interfaces and device un-registration are
-done as the last thing in hl_device_fini(), after several finalizations
-and releases are done.
-While a disabled flag is set at the beginning of hl_device_fini(), and
-it is being checked when handling user accesses to these interfaces,
-this check is not hermetic and it is better to just reverse the order
-of the code in hl_device_fini().
+No, just ignore the static checker false positive in this case.  The
+intent of the code is clear that if it did have an error it should
+return an error pointer.
 
-Signed-off-by: Tomer Tayar <ttayar@habana.ai>
-Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
-Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
----
- drivers/accel/habanalabs/common/device.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
-index c0c9e9504672..5293ac3c7988 100644
---- a/drivers/accel/habanalabs/common/device.c
-+++ b/drivers/accel/habanalabs/common/device.c
-@@ -2408,6 +2408,12 @@ void hl_device_fini(struct hl_device *hdev)
- 
- 	hdev->fw_loader.fw_comp_loaded = FW_TYPE_NONE;
- 
-+	/* Hide devices and sysfs/debugfs files from user */
-+	cdev_sysfs_debugfs_remove(hdev);
-+	drm_dev_unregister(&hdev->drm);
-+
-+	hl_debugfs_device_fini(hdev);
-+
- 	/* Release kernel context */
- 	if ((hdev->kernel_ctx) && (hl_ctx_put(hdev->kernel_ctx) != 1))
- 		dev_err(hdev->dev, "kernel ctx is still alive\n");
-@@ -2436,12 +2442,6 @@ void hl_device_fini(struct hl_device *hdev)
- 
- 	device_early_fini(hdev);
- 
--	/* Hide devices and sysfs/debugfs files from user */
--	cdev_sysfs_debugfs_remove(hdev);
--	drm_dev_unregister(&hdev->drm);
--
--	hl_debugfs_device_fini(hdev);
--
- 	pr_info("removed device successfully\n");
- }
- 
--- 
-2.34.1
+regards,
+dan carpenter
 
