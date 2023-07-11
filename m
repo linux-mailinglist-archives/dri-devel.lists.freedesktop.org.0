@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C36F174EC6A
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 13:12:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A62274EC6D
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 13:13:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61DE210E377;
-	Tue, 11 Jul 2023 11:12:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECC6610E378;
+	Tue, 11 Jul 2023 11:12:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85BD810E372
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 11:12:44 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9D6C10E372
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 11:12:45 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id EB3836142E;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 573C161449;
+ Tue, 11 Jul 2023 11:12:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEFA2C433C9;
  Tue, 11 Jul 2023 11:12:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8167FC433C7;
- Tue, 11 Jul 2023 11:12:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689073963;
- bh=QhY36kuJ1eBWFDNRej0vvqSDIeII5A0xVmZCjQWBy3I=;
+ s=k20201202; t=1689073964;
+ bh=6d19aDsLtYFM8VeUHkMIF7rlggscWhxUPEKwy2hpD18=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QLQBzIPL5pPJrIyigZmY23y9/s3qU6+lAWgiieVcAUcAtGwDT4H/hSL1ulNFaARwE
- NZV/eSWnjf5k13ypTOqBdGYD5LY+J5biPCpB0oFjAve/SqIXdfSAhKygPxTHOT2jgq
- 33hxKmjrRKYjhtDHzXSuZ2ssCAdjoFHs1xRR5XxyICJ+oDXi9Tp+IxtUiSAc/p/2rG
- KXKIerbPM/8Xow6vYmVZ66pv+wfer7JYXLKxiL/2UVzUpLmUxVR5UJ7DY2oJCFYvHh
- +5aVVyl55yHEd8zaI73uLZRpuJB4dLqUTsE2kOtaVNmPu+QoM/Tuw/dZFFwjpEDl0l
- a9gyD+xsV8FZA==
+ b=YxPw+6/GIIkegNmq+0W1lSa3l/zaLS18NIm7rRq/HzFk5eW3s+J3KwDIutRNfoS+o
+ YJLpg3Aq9Y2gc7vkvOGTh4PiNj9qqwGfICnku8S1QGoBFx/CjVCTqTBTl3Z4qw1+9F
+ NVc8bLdm+Ey3HdE5/9Ri6x6xCozADo8cVsyP+TVCMJcupeG4uDZ6vKCPMPXsAgLi3t
+ OhOAet7lpPk/TyYkz50oTOw8HeirMhnhphUSE0FdS+THU12DNhPeCijUpX7951A3go
+ B7Uw+v1iPc69dCYHIsL8oGDToN3OY+qvwJ431QFyzuoiAhKKkNXjrSbVwdWsZEdLSX
+ fTrgoCz5W5vgg==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 09/12] accel/habanalabs: update sysfs-driver-habanalabs with
+Subject: [PATCH 10/12] accel/habanalabs: update debugfs-driver-habanalabs with
  the accel path
-Date: Tue, 11 Jul 2023 14:12:23 +0300
-Message-Id: <20230711111226.163670-9-ogabbay@kernel.org>
+Date: Tue, 11 Jul 2023 14:12:24 +0300
+Message-Id: <20230711111226.163670-10-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230711111226.163670-1-ogabbay@kernel.org>
 References: <20230711111226.163670-1-ogabbay@kernel.org>
@@ -60,274 +59,340 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tomer Tayar <ttayar@habana.ai>
 
-Replace "/sys/class/habanalabs/hl<n>/..." with
-"/sys/class/accel/accel<n>/device/...".
+Replace "/sys/kernel/debug/habanalabs/hl<n>/..." with
+"/sys/kernel/debug/accel/<n>/...".
 
 Signed-off-by: Tomer Tayar <ttayar@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- .../ABI/testing/sysfs-driver-habanalabs       | 64 +++++++++----------
- 1 file changed, 32 insertions(+), 32 deletions(-)
+ .../ABI/testing/debugfs-driver-habanalabs     | 84 +++++++++----------
+ 1 file changed, 42 insertions(+), 42 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-driver-habanalabs b/Documentation/ABI/testing/sysfs-driver-habanalabs
-index 1b98b6503b23..c63ca1ad500d 100644
---- a/Documentation/ABI/testing/sysfs-driver-habanalabs
-+++ b/Documentation/ABI/testing/sysfs-driver-habanalabs
+diff --git a/Documentation/ABI/testing/debugfs-driver-habanalabs b/Documentation/ABI/testing/debugfs-driver-habanalabs
+index 85f6d04f528b..042fd125fbc9 100644
+--- a/Documentation/ABI/testing/debugfs-driver-habanalabs
++++ b/Documentation/ABI/testing/debugfs-driver-habanalabs
 @@ -1,4 +1,4 @@
--What:           /sys/class/habanalabs/hl<n>/armcp_kernel_ver
-+What:           /sys/class/accel/accel<n>/device/armcp_kernel_ver
+-What:           /sys/kernel/debug/habanalabs/hl<n>/addr
++What:           /sys/kernel/debug/accel/<n>/addr
  Date:           Jan 2019
  KernelVersion:  5.1
  Contact:        ogabbay@kernel.org
-@@ -6,7 +6,7 @@ Description:    Version of the Linux kernel running on the device's CPU.
-                 Will be DEPRECATED in Linux kernel version 5.10, and be
-                 replaced with cpucp_kernel_ver
+@@ -8,34 +8,34 @@ Description:    Sets the device address to be used for read or write through
+                 only when the IOMMU is disabled.
+                 The acceptable value is a string that starts with "0x"
  
--What:           /sys/class/habanalabs/hl<n>/armcp_ver
-+What:           /sys/class/accel/accel<n>/device/armcp_ver
+-What:           /sys/kernel/debug/habanalabs/hl<n>/clk_gate
++What:           /sys/kernel/debug/accel/<n>/clk_gate
+ Date:           May 2020
+ KernelVersion:  5.8
+ Contact:        ogabbay@kernel.org
+ Description:    This setting is now deprecated as clock gating is handled solely by the f/w
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/command_buffers
++What:           /sys/kernel/debug/accel/<n>/command_buffers
  Date:           Jan 2019
  KernelVersion:  5.1
  Contact:        ogabbay@kernel.org
-@@ -14,7 +14,7 @@ Description:    Version of the application running on the device's CPU
-                 Will be DEPRECATED in Linux kernel version 5.10, and be
-                 replaced with cpucp_ver
+ Description:    Displays a list with information about the currently allocated
+                 command buffers
  
--What:           /sys/class/habanalabs/hl<n>/clk_max_freq_mhz
-+What:           /sys/class/accel/accel<n>/device/clk_max_freq_mhz
- Date:           Jun 2019
- KernelVersion:  5.7
- Contact:        ogabbay@kernel.org
-@@ -24,58 +24,58 @@ Description:    Allows the user to set the maximum clock frequency, in MHz.
-                 frequency value of the device clock. This property is valid
-                 only for the Gaudi ASIC family
- 
--What:           /sys/class/habanalabs/hl<n>/clk_cur_freq_mhz
-+What:           /sys/class/accel/accel<n>/device/clk_cur_freq_mhz
- Date:           Jun 2019
- KernelVersion:  5.7
- Contact:        ogabbay@kernel.org
- Description:    Displays the current frequency, in MHz, of the device clock.
-                 This property is valid only for the Gaudi ASIC family
- 
--What:           /sys/class/habanalabs/hl<n>/cpld_ver
-+What:           /sys/class/accel/accel<n>/device/cpld_ver
+-What:           /sys/kernel/debug/habanalabs/hl<n>/command_submission
++What:           /sys/kernel/debug/accel/<n>/command_submission
  Date:           Jan 2019
  KernelVersion:  5.1
  Contact:        ogabbay@kernel.org
- Description:    Version of the Device's CPLD F/W
+ Description:    Displays a list with information about the currently active
+                 command submissions
  
--What:           /sys/class/habanalabs/hl<n>/cpucp_kernel_ver
-+What:           /sys/class/accel/accel<n>/device/cpucp_kernel_ver
- Date:           Oct 2020
- KernelVersion:  5.10
- Contact:        ogabbay@kernel.org
- Description:    Version of the Linux kernel running on the device's CPU
- 
--What:           /sys/class/habanalabs/hl<n>/cpucp_ver
-+What:           /sys/class/accel/accel<n>/device/cpucp_ver
- Date:           Oct 2020
- KernelVersion:  5.10
- Contact:        ogabbay@kernel.org
- Description:    Version of the application running on the device's CPU
- 
--What:           /sys/class/habanalabs/hl<n>/device_type
-+What:           /sys/class/accel/accel<n>/device/device_type
+-What:           /sys/kernel/debug/habanalabs/hl<n>/command_submission_jobs
++What:           /sys/kernel/debug/accel/<n>/command_submission_jobs
  Date:           Jan 2019
  KernelVersion:  5.1
  Contact:        ogabbay@kernel.org
- Description:    Displays the code name of the device according to its type.
-                 The supported values are: "GOYA"
+ Description:    Displays a list with detailed information about each JOB (CB) of
+                 each active command submission
  
--What:           /sys/class/habanalabs/hl<n>/eeprom
-+What:           /sys/class/accel/accel<n>/device/eeprom
+-What:           /sys/kernel/debug/habanalabs/hl<n>/data32
++What:           /sys/kernel/debug/accel/<n>/data32
  Date:           Jan 2019
  KernelVersion:  5.1
  Contact:        ogabbay@kernel.org
- Description:    A binary file attribute that contains the contents of the
-                 on-board EEPROM
+@@ -50,7 +50,7 @@ Description:    Allows the root user to read or write directly through the
+                 If the IOMMU is disabled, it also allows the root user to read
+                 or write from the host a device VA of a host mapped memory
  
--What:           /sys/class/habanalabs/hl<n>/fuse_ver
-+What:           /sys/class/accel/accel<n>/device/fuse_ver
+-What:           /sys/kernel/debug/habanalabs/hl<n>/data64
++What:           /sys/kernel/debug/accel/<n>/data64
+ Date:           Jan 2020
+ KernelVersion:  5.6
+ Contact:        ogabbay@kernel.org
+@@ -65,7 +65,7 @@ Description:    Allows the root user to read or write 64 bit data directly
+                 If the IOMMU is disabled, it also allows the root user to read
+                 or write from the host a device VA of a host mapped memory
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/data_dma
++What:           /sys/kernel/debug/accel/<n>/data_dma
+ Date:           Apr 2021
+ KernelVersion:  5.13
+ Contact:        ogabbay@kernel.org
+@@ -79,11 +79,11 @@ Description:    Allows the root user to read from the device's internal
+                 a very long time.
+                 This interface doesn't support concurrency in the same device.
+                 In GAUDI and GOYA, this action can cause undefined behavior
+-                in case the it is done while the device is executing user
++                in case it is done while the device is executing user
+                 workloads.
+                 Only supported on GAUDI at this stage.
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/device
++What:           /sys/kernel/debug/accel/<n>/device
  Date:           Jan 2019
  KernelVersion:  5.1
  Contact:        ogabbay@kernel.org
- Description:    Displays the device's version from the eFuse
+@@ -91,14 +91,14 @@ Description:    Enables the root user to set the device to specific state.
+                 Valid values are "disable", "enable", "suspend", "resume".
+                 User can read this property to see the valid values
  
--What:           /sys/class/habanalabs/hl<n>/fw_os_ver
-+What:           /sys/class/accel/accel<n>/device/fw_os_ver
- Date:           Dec 2021
- KernelVersion:  5.18
- Contact:        ogabbay@kernel.org
- Description:    Version of the firmware OS running on the device's CPU
- 
--What:           /sys/class/habanalabs/hl<n>/hard_reset
-+What:           /sys/class/accel/accel<n>/device/hard_reset
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
-@@ -83,14 +83,14 @@ Description:    Interface to trigger a hard-reset operation for the device.
-                 Hard-reset will reset ALL internal components of the device
-                 except for the PCI interface and the internal PLLs
- 
--What:           /sys/class/habanalabs/hl<n>/hard_reset_cnt
-+What:           /sys/class/accel/accel<n>/device/hard_reset_cnt
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
- Description:    Displays how many times the device have undergone a hard-reset
-                 operation since the driver was loaded
- 
--What:           /sys/class/habanalabs/hl<n>/high_pll
-+What:           /sys/class/accel/accel<n>/device/high_pll
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
-@@ -98,7 +98,7 @@ Description:    Allows the user to set the maximum clock frequency for MME, TPC
-                 and IC when the power management profile is set to "automatic".
-                 This property is valid only for the Goya ASIC family
- 
--What:           /sys/class/habanalabs/hl<n>/ic_clk
-+What:           /sys/class/accel/accel<n>/device/ic_clk
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
-@@ -110,27 +110,27 @@ Description:    Allows the user to set the maximum clock frequency, in Hz, of
-                 frequency value of the IC. This property is valid only for the
-                 Goya ASIC family
- 
--What:           /sys/class/habanalabs/hl<n>/ic_clk_curr
-+What:           /sys/class/accel/accel<n>/device/ic_clk_curr
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
- Description:    Displays the current clock frequency, in Hz, of the Interconnect
-                 fabric. This property is valid only for the Goya ASIC family
- 
--What:           /sys/class/habanalabs/hl<n>/infineon_ver
-+What:           /sys/class/accel/accel<n>/device/infineon_ver
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
- Description:    Version of the Device's power supply F/W code. Relevant only to GOYA and GAUDI
- 
--What:           /sys/class/habanalabs/hl<n>/max_power
-+What:           /sys/class/accel/accel<n>/device/max_power
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
- Description:    Allows the user to set the maximum power consumption of the
-                 device in milliwatts.
- 
--What:           /sys/class/habanalabs/hl<n>/mme_clk
-+What:           /sys/class/accel/accel<n>/device/mme_clk
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
-@@ -142,21 +142,21 @@ Description:    Allows the user to set the maximum clock frequency, in Hz, of
-                 frequency value of the MME. This property is valid only for the
-                 Goya ASIC family
- 
--What:           /sys/class/habanalabs/hl<n>/mme_clk_curr
-+What:           /sys/class/accel/accel<n>/device/mme_clk_curr
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
- Description:    Displays the current clock frequency, in Hz, of the MME compute
-                 engine. This property is valid only for the Goya ASIC family
- 
--What:           /sys/class/habanalabs/hl<n>/pci_addr
-+What:           /sys/class/accel/accel<n>/device/pci_addr
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
- Description:    Displays the PCI address of the device. This is needed so the
-                 user would be able to open a device based on its PCI address
- 
--What:           /sys/class/habanalabs/hl<n>/pm_mng_profile
-+What:           /sys/class/accel/accel<n>/device/pm_mng_profile
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
-@@ -170,19 +170,19 @@ Description:    Power management profile. Values are "auto", "manual". In "auto"
-                 ic_clk, mme_clk and tpc_clk. This property is valid only for
-                 the Goya ASIC family
- 
--What:           /sys/class/habanalabs/hl<n>/preboot_btl_ver
-+What:           /sys/class/accel/accel<n>/device/preboot_btl_ver
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
- Description:    Version of the device's preboot F/W code
- 
--What:           /sys/class/habanalabs/hl<n>/security_enabled
-+What:           /sys/class/accel/accel<n>/device/security_enabled
+-What:           /sys/kernel/debug/habanalabs/hl<n>/device_release_watchdog_timeout
++What:           /sys/kernel/debug/accel/<n>/device_release_watchdog_timeout
  Date:           Oct 2022
- KernelVersion:  6.1
- Contact:        obitton@habana.ai
- Description:    Displays the device's security status
+ KernelVersion:  6.2
+ Contact:        ttayar@habana.ai
+-Description:    The watchdog timeout value in seconds for a device relese upon
++Description:    The watchdog timeout value in seconds for a device release upon
+                 certain error cases, after which the device is reset.
  
--What:           /sys/class/habanalabs/hl<n>/soft_reset
-+What:           /sys/class/accel/accel<n>/device/soft_reset
+-What:           /sys/kernel/debug/habanalabs/hl<n>/dma_size
++What:           /sys/kernel/debug/accel/<n>/dma_size
+ Date:           Apr 2021
+ KernelVersion:  5.13
+ Contact:        ogabbay@kernel.org
+@@ -108,7 +108,7 @@ Description:    Specify the size of the DMA transaction when using DMA to read
+                 When the write is finished, the user can read the "data_dma"
+                 blob
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/dump_razwi_events
++What:           /sys/kernel/debug/accel/<n>/dump_razwi_events
+ Date:           Aug 2022
+ KernelVersion:  5.20
+ Contact:        fkassabri@habana.ai
+@@ -117,7 +117,7 @@ Description:    Dumps all razwi events to dmesg if exist.
+                 the routine will clear the status register.
+                 Usage: cat dump_razwi_events
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/dump_security_violations
++What:           /sys/kernel/debug/accel/<n>/dump_security_violations
+ Date:           Jan 2021
+ KernelVersion:  5.12
+ Contact:        ogabbay@kernel.org
+@@ -125,14 +125,14 @@ Description:    Dumps all security violations to dmesg. This will also ack
+                 all security violations meanings those violations will not be
+                 dumped next time user calls this API
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/engines
++What:           /sys/kernel/debug/accel/<n>/engines
+ Date:           Jul 2019
+ KernelVersion:  5.3
+ Contact:        ogabbay@kernel.org
+ Description:    Displays the status registers values of the device engines and
+                 their derived idle status
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/i2c_addr
++What:           /sys/kernel/debug/accel/<n>/i2c_addr
  Date:           Jan 2019
  KernelVersion:  5.1
  Contact:        ogabbay@kernel.org
-@@ -190,14 +190,14 @@ Description:    Interface to trigger a soft-reset operation for the device.
-                 Soft-reset will reset only the compute and DMA engines of the
-                 device
+@@ -140,7 +140,7 @@ Description:    Sets I2C device address for I2C transaction that is generated
+                 by the device's CPU, Not available when device is loaded with secured
+                 firmware
  
--What:           /sys/class/habanalabs/hl<n>/soft_reset_cnt
-+What:           /sys/class/accel/accel<n>/device/soft_reset_cnt
+-What:           /sys/kernel/debug/habanalabs/hl<n>/i2c_bus
++What:           /sys/kernel/debug/accel/<n>/i2c_bus
  Date:           Jan 2019
  KernelVersion:  5.1
  Contact:        ogabbay@kernel.org
- Description:    Displays how many times the device have undergone a soft-reset
-                 operation since the driver was loaded
+@@ -148,7 +148,7 @@ Description:    Sets I2C bus address for I2C transaction that is generated by
+                 the device's CPU, Not available when device is loaded with secured
+                 firmware
  
--What:           /sys/class/habanalabs/hl<n>/status
-+What:           /sys/class/accel/accel<n>/device/status
+-What:           /sys/kernel/debug/habanalabs/hl<n>/i2c_data
++What:           /sys/kernel/debug/accel/<n>/i2c_data
  Date:           Jan 2019
  KernelVersion:  5.1
  Contact:        ogabbay@kernel.org
-@@ -215,13 +215,13 @@ Description:    Status of the card:
-                     a compute-reset which is executed after a device release
-                     (relevant for Gaudi2 only).
+@@ -157,7 +157,7 @@ Description:    Triggers an I2C transaction that is generated by the device's
+                 reading from the file generates a read transaction, Not available
+                 when device is loaded with secured firmware
  
--What:           /sys/class/habanalabs/hl<n>/thermal_ver
-+What:           /sys/class/accel/accel<n>/device/thermal_ver
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
- Description:    Version of the Device's thermal daemon
- 
--What:           /sys/class/habanalabs/hl<n>/tpc_clk
-+What:           /sys/class/accel/accel<n>/device/tpc_clk
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
-@@ -233,20 +233,20 @@ Description:    Allows the user to set the maximum clock frequency, in Hz, of
-                 frequency value of the TPC. This property is valid only for
-                 Goya ASIC family
- 
--What:           /sys/class/habanalabs/hl<n>/tpc_clk_curr
-+What:           /sys/class/accel/accel<n>/device/tpc_clk_curr
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
- Description:    Displays the current clock frequency, in Hz, of the TPC compute
-                 engines. This property is valid only for the Goya ASIC family
- 
--What:           /sys/class/habanalabs/hl<n>/uboot_ver
-+What:           /sys/class/accel/accel<n>/device/uboot_ver
- Date:           Jan 2019
- KernelVersion:  5.1
- Contact:        ogabbay@kernel.org
- Description:    Version of the u-boot running on the device's CPU
- 
--What:           /sys/class/habanalabs/hl<n>/vrm_ver
-+What:           /sys/class/accel/accel<n>/device/vrm_ver
- Date:           Jan 2022
+-What:           /sys/kernel/debug/habanalabs/hl<n>/i2c_len
++What:           /sys/kernel/debug/accel/<n>/i2c_len
+ Date:           Dec 2021
  KernelVersion:  5.17
+ Contact:        obitton@habana.ai
+@@ -165,7 +165,7 @@ Description:    Sets I2C length in bytes for I2C transaction that is generated b
+                 the device's CPU, Not available when device is loaded with secured
+                 firmware
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/i2c_reg
++What:           /sys/kernel/debug/accel/<n>/i2c_reg
+ Date:           Jan 2019
+ KernelVersion:  5.1
+ Contact:        ogabbay@kernel.org
+@@ -173,35 +173,35 @@ Description:    Sets I2C register id for I2C transaction that is generated by
+                 the device's CPU, Not available when device is loaded with secured
+                 firmware
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/led0
++What:           /sys/kernel/debug/accel/<n>/led0
+ Date:           Jan 2019
+ KernelVersion:  5.1
+ Contact:        ogabbay@kernel.org
+ Description:    Sets the state of the first S/W led on the device, Not available
+                 when device is loaded with secured firmware
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/led1
++What:           /sys/kernel/debug/accel/<n>/led1
+ Date:           Jan 2019
+ KernelVersion:  5.1
+ Contact:        ogabbay@kernel.org
+ Description:    Sets the state of the second S/W led on the device, Not available
+                 when device is loaded with secured firmware
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/led2
++What:           /sys/kernel/debug/accel/<n>/led2
+ Date:           Jan 2019
+ KernelVersion:  5.1
+ Contact:        ogabbay@kernel.org
+ Description:    Sets the state of the third S/W led on the device, Not available
+                 when device is loaded with secured firmware
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/memory_scrub
++What:           /sys/kernel/debug/accel/<n>/memory_scrub
+ Date:           May 2022
+ KernelVersion:  5.19
+ Contact:        dhirschfeld@habana.ai
+ Description:    Allows the root user to scrub the dram memory. The scrubbing
+                 value can be set using the debugfs file memory_scrub_val.
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/memory_scrub_val
++What:           /sys/kernel/debug/accel/<n>/memory_scrub_val
+ Date:           May 2022
+ KernelVersion:  5.19
+ Contact:        dhirschfeld@habana.ai
+@@ -209,7 +209,7 @@ Description:    The value to which the dram will be set to when the user
+                 scrubs the dram using 'memory_scrub' debugfs file and
+                 the scrubbing value when using module param 'memory_scrub'
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/mmu
++What:           /sys/kernel/debug/accel/<n>/mmu
+ Date:           Jan 2019
+ KernelVersion:  5.1
+ Contact:        ogabbay@kernel.org
+@@ -217,19 +217,19 @@ Description:    Displays the hop values and physical address for a given ASID
+                 and virtual address. The user should write the ASID and VA into
+                 the file and then read the file to get the result.
+                 e.g. to display info about VA 0x1000 for ASID 1 you need to do:
+-                echo "1 0x1000" > /sys/kernel/debug/habanalabs/hl0/mmu
++                echo "1 0x1000" > /sys/kernel/debug/accel/0/mmu
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/mmu_error
++What:           /sys/kernel/debug/accel/<n>/mmu_error
+ Date:           Mar 2021
+ KernelVersion:  5.12
+ Contact:        fkassabri@habana.ai
+ Description:    Check and display page fault or access violation mmu errors for
+                 all MMUs specified in mmu_cap_mask.
+                 e.g. to display error info for MMU hw cap bit 9, you need to do:
+-                echo "0x200" > /sys/kernel/debug/habanalabs/hl0/mmu_error
+-                cat /sys/kernel/debug/habanalabs/hl0/mmu_error
++                echo "0x200" > /sys/kernel/debug/accel/0/mmu_error
++                cat /sys/kernel/debug/accel/0/mmu_error
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/monitor_dump
++What:           /sys/kernel/debug/accel/<n>/monitor_dump
+ Date:           Mar 2022
+ KernelVersion:  5.19
+ Contact:        osharabi@habana.ai
+@@ -243,7 +243,7 @@ Description:    Allows the root user to dump monitors status from the device's
+                 This interface doesn't support concurrency in the same device.
+                 Only supported on GAUDI.
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/monitor_dump_trig
++What:           /sys/kernel/debug/accel/<n>/monitor_dump_trig
+ Date:           Mar 2022
+ KernelVersion:  5.19
+ Contact:        osharabi@habana.ai
+@@ -253,14 +253,14 @@ Description:    Triggers dump of monitor data. The value to trigger the operatio
+                 When the write is finished, the user can read the "monitor_dump"
+                 blob
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/set_power_state
++What:           /sys/kernel/debug/accel/<n>/set_power_state
+ Date:           Jan 2019
+ KernelVersion:  5.1
+ Contact:        ogabbay@kernel.org
+ Description:    Sets the PCI power state. Valid values are "1" for D0 and "2"
+                 for D3Hot
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/skip_reset_on_timeout
++What:           /sys/kernel/debug/accel/<n>/skip_reset_on_timeout
+ Date:           Jun 2021
+ KernelVersion:  5.13
+ Contact:        ynudelman@habana.ai
+@@ -268,7 +268,7 @@ Description:    Sets the skip reset on timeout option for the device. Value of
+                 "0" means device will be reset in case some CS has timed out,
+                 otherwise it will not be reset.
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/state_dump
++What:           /sys/kernel/debug/accel/<n>/state_dump
+ Date:           Oct 2021
+ KernelVersion:  5.15
+ Contact:        ynudelman@habana.ai
+@@ -279,7 +279,7 @@ Description:    Gets the state dump occurring on a CS timeout or failure.
+                 Writing an integer X discards X state dumps, so that the
+                 next read would return X+1-st newest state dump.
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/stop_on_err
++What:           /sys/kernel/debug/accel/<n>/stop_on_err
+ Date:           Mar 2020
+ KernelVersion:  5.6
+ Contact:        ogabbay@kernel.org
+@@ -287,21 +287,21 @@ Description:    Sets the stop-on_error option for the device engines. Value of
+                 "0" is for disable, otherwise enable.
+                 Relevant only for GOYA and GAUDI.
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/timeout_locked
++What:           /sys/kernel/debug/accel/<n>/timeout_locked
+ Date:           Sep 2021
+ KernelVersion:  5.16
+ Contact:        obitton@habana.ai
+ Description:    Sets the command submission timeout value in seconds.
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/userptr
++What:           /sys/kernel/debug/accel/<n>/userptr
+ Date:           Jan 2019
+ KernelVersion:  5.1
+ Contact:        ogabbay@kernel.org
+-Description:    Displays a list with information about the currently user
++Description:    Displays a list with information about the current user
+                 pointers (user virtual addresses) that are pinned and mapped
+                 to DMA addresses
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/userptr_lookup
++What:           /sys/kernel/debug/accel/<n>/userptr_lookup
+ Date:           Oct 2021
+ KernelVersion:  5.15
+ Contact:        ogabbay@kernel.org
+@@ -309,7 +309,7 @@ Description:    Allows to search for specific user pointers (user virtual
+                 addresses) that are pinned and mapped to DMA addresses, and see
+                 their resolution to the specific dma address.
+ 
+-What:           /sys/kernel/debug/habanalabs/hl<n>/vm
++What:           /sys/kernel/debug/accel/<n>/vm
+ Date:           Jan 2019
+ KernelVersion:  5.1
  Contact:        ogabbay@kernel.org
 -- 
 2.34.1
