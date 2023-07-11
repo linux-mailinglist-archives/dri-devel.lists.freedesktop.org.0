@@ -1,53 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C07ED74E3A0
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 03:43:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F32374E3A6
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 03:44:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29BA710E198;
-	Tue, 11 Jul 2023 01:42:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B9A510E199;
+	Tue, 11 Jul 2023 01:44:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.208.org (unknown [183.242.55.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB1AF10E192
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 01:42:48 +0000 (UTC)
-Received: from mail.208.org (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTP id 4R0Nsw3fxszBHXhh
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 09:42:44 +0800 (CST)
-Authentication-Results: mail.208.org (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)" header.d=208.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
- content-transfer-encoding:content-type:message-id:user-agent
- :references:in-reply-to:subject:to:from:date:mime-version; s=
- dkim; t=1689039763; x=1691631764; bh=lSZQXAxYJar3o8ZAu0tDXbav933
- mwLp+FmKH8/B8NRk=; b=K1ZC69LGdxsYnBbBxRoYnYfQo2JF8gzVzXPzYlX0bmq
- c7m3oHyTcPQXJhAVEKD9bRqKYHiODZ2MEWsl2kiswkz4HejO0Tf8enHA48NK8lLt
- RMMRyH5EgmlZCrv1LmEfaYvfXX4J5OI7Iwoi56NLvlXR+XKkGVz+Qf+pWsYDM0T+
- gh968rb45p0orS240Yjk24ea93+FkihbFvhr3l3zvRwHNW7fGb3054eGlFWz2UEQ
- 6AdjpS0qRxni+yYirKPwGpCIrJK1mCi2kyXs01p7BGUnTTMfY7uKXrmlOxCG/GM1
- I9FzZfD+i3ytOnLh7mRU2Mw9vG04mNCA6q2IwTbQhaA==
-X-Virus-Scanned: amavisd-new at mail.208.org
-Received: from mail.208.org ([127.0.0.1])
- by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id ldzMZFUaCuqu for <dri-devel@lists.freedesktop.org>;
- Tue, 11 Jul 2023 09:42:43 +0800 (CST)
-Received: from localhost (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTPSA id 4R0Nsv4xPmzBHXh5;
- Tue, 11 Jul 2023 09:42:43 +0800 (CST)
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com
+ [61.152.239.71])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9127210E199
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 01:44:26 +0000 (UTC)
+Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
+ (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+ (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
+ by fd01.gateway.ufhost.com (Postfix) with ESMTP id 5D45A24DE03;
+ Tue, 11 Jul 2023 09:44:16 +0800 (CST)
+Received: from EXMBX061.cuchost.com (172.16.6.61) by EXMBX166.cuchost.com
+ (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 11 Jul
+ 2023 09:44:16 +0800
+Received: from [192.168.60.133] (180.164.60.184) by EXMBX061.cuchost.com
+ (172.16.6.61) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 11 Jul
+ 2023 09:44:15 +0800
+Message-ID: <560ca37f-74c3-8f36-c118-eb17f92e20b3@starfivetech.com>
+Date: Tue, 11 Jul 2023 09:44:15 +0800
 MIME-Version: 1.0
-Date: Tue, 11 Jul 2023 09:42:43 +0800
-From: sunran001@208suo.com
-To: airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH] drm/nouveau/pmu: add spaces around '='
-In-Reply-To: <20230711013754.77743-1-xujianghui@cdjrlc.com>
-References: <20230711013754.77743-1-xujianghui@cdjrlc.com>
-User-Agent: Roundcube Webmail
-Message-ID: <9d43392febad17411b442e39e729ca4b@208suo.com>
-X-Sender: sunran001@208suo.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 7/9] drm/verisilicon: Add drm plane funcs
+Content-Language: en-US
+To: Shengyu Qu <wiagn233@outlook.com>, <dri-devel@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-riscv@lists.infradead.org>, <linux-media@vger.kernel.org>,
+ <linaro-mm-sig@lists.linaro.org>
+References: <20230602074043.33872-1-keith.zhao@starfivetech.com>
+ <20230602074043.33872-8-keith.zhao@starfivetech.com>
+ <TY3P286MB261191B29FB384110094181C9830A@TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM>
+From: Keith Zhao <keith.zhao@starfivetech.com>
+In-Reply-To: <TY3P286MB261191B29FB384110094181C9830A@TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX061.cuchost.com
+ (172.16.6.61)
+X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,42 +58,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Emil Renner Berthing <kernel@esmil.dk>,
+ Shengyang Chen <shengyang.chen@starfivetech.com>,
+ Conor Dooley <conor+dt@kernel.org>, Albert Ou <aou@eecs.berkeley.edu>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>,
+ Jagan Teki <jagan@edgeble.ai>, Rob
+ Herring <robh+dt@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Changhuang Liang <changhuang.liang@starfivetech.com>,
+ Jack Zhu <jack.zhu@starfivetech.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Shawn Guo <shawnguo@kernel.org>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This fixes the checkpatch.pl errors:
 
-ERROR: spaces required around that '=' (ctx:VxW)
 
-Signed-off-by: Ran Sun <sunran001@208suo.com>
----
-  drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gk20a.c | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gk20a.c 
-b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gk20a.c
-index b5e52b35f5d0..d3e67c41560d 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gk20a.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gk20a.c
-@@ -98,7 +98,7 @@ gk20a_pmu_dvfs_get_dev_status(struct gk20a_pmu *pmu,
-      struct nvkm_falcon *falcon = &pmu->base.falcon;
-
-      status->busy = nvkm_falcon_rd32(falcon, 0x508 + (BUSY_SLOT * 
-0x10));
--    status->total= nvkm_falcon_rd32(falcon, 0x508 + (CLK_SLOT * 0x10));
-+    status->total = nvkm_falcon_rd32(falcon, 0x508 + (CLK_SLOT * 
-0x10));
-  }
-
-  static void
-@@ -188,7 +188,7 @@ gk20a_pmu_init(struct nvkm_pmu *pmu)
-  }
-
-  static struct gk20a_pmu_dvfs_data
--gk20a_dvfs_data= {
-+gk20a_dvfs_data = {
-      .p_load_target = 70,
-      .p_load_max = 90,
-      .p_smooth = 1,
+On 2023/7/11 0:46, Shengyu Qu wrote:
+> Hello Keith,
+>> +
+>> +static void vs_plane_atomic_update(struct drm_plane *plane,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_atomic_state *state)
+>> +{
+>> +=C2=A0=C2=A0=C2=A0 struct drm_plane_state *new_state =3D drm_atomic_g=
+et_new_plane_state(state,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 plane);
+>> +=C2=A0=C2=A0=C2=A0 unsigned char i, num_planes;
+>> +=C2=A0=C2=A0=C2=A0 struct drm_framebuffer *fb;
+>> +=C2=A0=C2=A0=C2=A0 struct vs_plane *vs_plane =3D to_vs_plane(plane);
+>> +=C2=A0=C2=A0=C2=A0 //struct drm_plane_state *state =3D plane->state;
+>> +=C2=A0=C2=A0=C2=A0 struct vs_crtc *vs_crtc =3D to_vs_crtc(new_state->=
+crtc);
+>> +=C2=A0=C2=A0=C2=A0 struct vs_plane_state *plane_state =3D to_vs_plane=
+_state(new_state);
+>> +=C2=A0=C2=A0=C2=A0 //struct drm_format_name_buf *name =3D &plane_stat=
+e->status.format_name;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 if (!new_state->fb || !new_state->crtc)
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 fb =3D new_state->fb;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 num_planes =3D vs_get_plane_number(fb);
+>> +
+>> +=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < num_planes; i++) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct vs_gem_object *vs_o=
+bj;
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vs_obj =3D vs_fb_get_gem_o=
+bj(fb, i);
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vs_plane->dma_addr[i] =3D =
+vs_obj->iova + fb->offsets[i];
+>=20
+> There is a dcache flush operation here in downstream driver. Is that a =
+cache coherence problem?
+>=20
+> Best regards,
+>=20
+> Shengyu
+>=20
+>> +=C2=A0=C2=A0=C2=A0 }
+>> +
+>> +=C2=A0=C2=A0=C2=A0 plane_state->status.src =3D drm_plane_state_src(ne=
+w_state);
+>> +=C2=A0=C2=A0=C2=A0 plane_state->status.dest =3D drm_plane_state_dest(=
+new_state);
+>> +
+>> +=C2=A0=C2=A0=C2=A0 vs_plane->funcs->update(vs_crtc->dev, vs_plane, pl=
+ane, state);
+>> +}
+>>yes , You can find that the current situation is very professional.=20
+This problem exists at present, but the dma interface is not perfect at n=
+ow,=20
+and the dma_sync_single_for_device interface needs to be implemented late=
+r.=20
+I will consider repairing this problem in the form of patch
