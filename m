@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36B2374F10F
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 16:04:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BF6574F113
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 16:04:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA53410E3A3;
-	Tue, 11 Jul 2023 14:04:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AB1C10E3AD;
+	Tue, 11 Jul 2023 14:04:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFEC210E3A3
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 14:04:23 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id
- a640c23a62f3a-9928abc11deso724026666b.1
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26E5C10E3A3
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 14:04:24 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id
+ a640c23a62f3a-992af8b3b1bso745799466b.1
  for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 07:04:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20221208; t=1689084262; x=1691676262;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=igxnjybBl9nRhvD39E9bq9tTp/UCx9mEEqgWgst1jfY=;
- b=Yuuk+19uhNTOL7XK+v1UqOkEzOlwusBc0HIKFzZ0Km+HrrL7jE3MV1/GwHNCvSnOet
- 8yFtSKYI9LRfy2q0x5B28JRrepflY7Zvq0GWIOz/FDCQbM0TuAtwOXOsPX4NmiN/m+Zs
- IabrXgtR1UqPWGpb7KNJUUWWBW9QQdE/sMAzmHqYAGlWlVp0VdeAep1jkp4AC+CKDF7G
- 4+Pkxi/xWBsosrt25nQYcJPPpJzbrY6SsHbTCha9kGetpGxPfU5e5T6yyQ8XBIJSW1Rq
- tswbH6dwzdhzOU+uEUzwuL6xsf4Yucm0PeF9afFrIPc4H/C48mqT0o+EBSLYzHK6HmFU
- trDg==
+ :reply-to; bh=N9Uuouz6BCzdOfJmpXCASsGruHU4kdCFVbUUrlmsthg=;
+ b=sUCJwZIPqfPEIgbrssAxaDRYd1iBASCwR+WRVu7xg6W3HKbWV4YzdBLyYvFldOTO26
+ APVLJIzBYUArZQ8lP6pHtgpRl4AxOGUK+PibMF7WKRBOE9QV8WdVfP6zCf0rNDMdQ8bh
+ dXTq2OzhvteZqOGSWgjPvPACZgIWtBZOjfHjuoTm+tpDykEB0C7cAyu4MEbeCg19Wwnr
+ yOuyVhvqUekjWYwFt70e4KxaowtS6I57VZyqZ4Cw1f6aAKlz8I/m6r7CiIVYrBDRGUYS
+ leVBQ3uJbrGf5aI01pudtOGfim3ocIQ67ooZ/5sYCmq6eP3oB44va7Zf4aRjb8H+ycLE
+ FbFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1689084262; x=1691676262;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=igxnjybBl9nRhvD39E9bq9tTp/UCx9mEEqgWgst1jfY=;
- b=aJTyHy7J8eTnbPKrGU5k5nP6qPogPbMLvXLho3zWbNo0Z5L7LNWw/lOZPC23QgvMw1
- 95qvsrDpWt/3uwgrnTfTU/gw0lxIG8g//nKZWJrtwkqpe6sXm5zdoK2o3po/mDIQrkgY
- jX+SUlpXRh5bnn3U4T5jyHTG9+IFY2+ykzKdTLhbE4U0y+yjDH2HW5e269sFYbzRJ1aw
- mZhpKNiSgRnmJgnTz4YG/GJvEcw3mTB8jkKrIhqZauJ4vB3aQJypW2V+tS61Zvv0bRQm
- GRly98+B/gV/ST/agz+qvT5ghg5CUDYiN627dd4pcoZOy2ywxIoa1TQXWTC/4hPU0bNZ
- 7GMw==
-X-Gm-Message-State: ABy/qLaLq69cVhIq6gbAWwGRJKoPmjWUeWfaqHO+5QAafQET8tuCF7Tx
- O8inY51XIbcNA103r8VoV9Xwsweukw8=
-X-Google-Smtp-Source: APBJJlGuLDME0AvXeNgZg4NtLwvHnoQzxTyFol6ViP1JWSh84R8T7MW8ccoCgLV78CP6ndzmvfotUg==
-X-Received: by 2002:a17:906:aac6:b0:992:345e:8319 with SMTP id
- kt6-20020a170906aac600b00992345e8319mr13091593ejb.58.1689084261850; 
- Tue, 11 Jul 2023 07:04:21 -0700 (PDT)
+ bh=N9Uuouz6BCzdOfJmpXCASsGruHU4kdCFVbUUrlmsthg=;
+ b=CR/B5berMp2IBVHrzdohENN/hV5UWw0CfiHrDgA/GGO8z3wh4y7sS+9BpX4LZXJ5pC
+ 7Omytuyvg7dEII6I8dZU4zAhxj7DfHJAFW4EOBUdF2/ekAFhIeDIfGOdlfte2Do0kr4a
+ SIhdwINCIub8fMb7co5gBvc4QmCw2fDfv/05VWQ0j9B47ata5R+HR/pfm1jENIh2i+3+
+ fRAwN21FZYYkcCfu/WE+SFHRcOA1puaj8f6hyzoaM0ok6FIAriwzzjnOWxVOdABKUXB0
+ sknpvnzWXFVc92PPw6sxypQdx5zcFR6MrJlniqvF9BDG5jZnI/yjX9D+BkJ8f68U43Ch
+ Anow==
+X-Gm-Message-State: ABy/qLaRHj5kGsH6cpdcfvPQzKGVB0VnvZ6kEneXAwjmxf+mR/1mO/qs
+ mah+MBnLS/xlqT71uAgKeRo=
+X-Google-Smtp-Source: APBJJlFDS1LhDgJBJGZjxZU0rh9MSXIOgHe1xDolv2i04YW9kU7GjIyqpmZEmM8uB2zusnPieGzEvQ==
+X-Received: by 2002:a17:906:2205:b0:992:a618:c3c4 with SMTP id
+ s5-20020a170906220500b00992a618c3c4mr17488829ejs.66.1689084262532; 
+ Tue, 11 Jul 2023 07:04:22 -0700 (PDT)
 Received: from able.fritz.box ([2a00:e180:154b:c600:dcae:ab99:6259:7e2b])
  by smtp.gmail.com with ESMTPSA id
  e18-20020a170906505200b00989257be620sm1199006ejk.200.2023.07.11.07.04.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jul 2023 07:04:21 -0700 (PDT)
+ Tue, 11 Jul 2023 07:04:22 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: ogabbay@kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/5] drm/debugfs: drop debugfs_init() for the render and accel
- node v2
-Date: Tue, 11 Jul 2023 16:04:14 +0200
-Message-Id: <20230711140418.3059-2-christian.koenig@amd.com>
+Subject: [PATCH 2/5] drm/debugfs: disallow debugfs access when device isn't
+ registered
+Date: Tue, 11 Jul 2023 16:04:15 +0200
+Message-Id: <20230711140418.3059-3-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230711140418.3059-1-christian.koenig@amd.com>
 References: <20230711140418.3059-1-christian.koenig@amd.com>
@@ -80,45 +80,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We want to remove per minor debugfs directories. Start by stopping
-drivers from adding anything inside of those in the mid layer callback.
-
-v2: drop it for the accel node as well
+During device bringup it might be that we can't access the debugfs files.
+Return -ENODEV until the registration is completed on access.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
-Tested-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 ---
- drivers/accel/drm_accel.c     | 3 ---
- drivers/gpu/drm/drm_debugfs.c | 2 +-
- 2 files changed, 1 insertion(+), 4 deletions(-)
+ drivers/gpu/drm/drm_debugfs.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/accel/drm_accel.c b/drivers/accel/drm_accel.c
-index 4a9baf02439e..01edf2c00b5a 100644
---- a/drivers/accel/drm_accel.c
-+++ b/drivers/accel/drm_accel.c
-@@ -99,9 +99,6 @@ void accel_debugfs_init(struct drm_minor *minor, int minor_id)
- 
- 	drm_debugfs_create_files(accel_debugfs_list, ACCEL_DEBUGFS_ENTRIES,
- 				 minor->debugfs_root, minor);
--
--	if (dev->driver->debugfs_init)
--		dev->driver->debugfs_init(minor);
- }
- 
- /**
 diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index 4855230ba2c6..54376e2400bb 100644
+index 54376e2400bb..796cda62ad12 100644
 --- a/drivers/gpu/drm/drm_debugfs.c
 +++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -242,7 +242,7 @@ int drm_debugfs_init(struct drm_minor *minor, int minor_id,
- 		drm_client_debugfs_init(minor);
- 	}
+@@ -148,6 +148,9 @@ static int drm_debugfs_open(struct inode *inode, struct file *file)
+ {
+ 	struct drm_info_node *node = inode->i_private;
  
--	if (dev->driver->debugfs_init)
-+	if (dev->driver->debugfs_init && dev->render != minor)
- 		dev->driver->debugfs_init(minor);
++	if (!device_is_registered(node->minor->kdev))
++		return -ENODEV;
++
+ 	return single_open(file, node->info_ent->show, node);
+ }
  
- 	list_for_each_entry_safe(entry, tmp, &dev->debugfs_list, list) {
+@@ -155,6 +158,10 @@ static int drm_debugfs_entry_open(struct inode *inode, struct file *file)
+ {
+ 	struct drm_debugfs_entry *entry = inode->i_private;
+ 	struct drm_debugfs_info *node = &entry->file;
++	struct drm_minor *minor = entry->dev->primary ?: entry->dev->accel;
++
++	if (!device_is_registered(minor->kdev))
++		return -ENODEV;
+ 
+ 	return single_open(file, node->show, entry);
+ }
 -- 
 2.34.1
 
