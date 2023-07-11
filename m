@@ -2,54 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D4F074E7F0
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 09:26:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 507E774E828
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 09:37:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 419B810E322;
-	Tue, 11 Jul 2023 07:26:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7510B10E326;
+	Tue, 11 Jul 2023 07:37:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97F3510E322;
- Tue, 11 Jul 2023 07:26:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689060375; x=1720596375;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=tlxW14yxQCRsTxE0fJAZH/pu3WS4pYDWMfrIU0UEUcA=;
- b=iD/C9LJfa+EuJGWpIFohmVKnSScmjvvL//NPurUhb0bb9HcOTO6JIK+4
- EcXRENrDqTAmQhYQIWkd6t6iQ4VMKc2jfsPzuvNOlTllVDxjIjamDyKcC
- yQKJUEN62qp8PfqYRDHd0muzocY5IEpaV/44EWxie8zHBP8QsMbWHBnqr
- hzkXE3i7JMOANbLEH2P98pasDs/cYjE5Pz0MCKW0aH0p3XSeIdNbbiYPh
- 23P2NxK5SboLZ1T9+jl6m41U7HdUJkBwMkm1yva0CA+T7X24anQtMCzmH
- uuMgzxHX377Yqfv0SdolyGRmQNHitGbUMVHC61Wc8MEgPXaZypShhrhL/ w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="344869069"
-X-IronPort-AV: E=Sophos;i="6.01,196,1684825200"; d="scan'208";a="344869069"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jul 2023 00:26:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="698335426"
-X-IronPort-AV: E=Sophos;i="6.01,196,1684825200"; d="scan'208";a="698335426"
-Received: from sneaga-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.252.52.179])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jul 2023 00:26:10 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: zhangshida <starzhangzsd@gmail.com>, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com, airlied@gmail.com,
- daniel@ffwll.ch, ville.syrjala@linux.intel.com
-Subject: Re: [PATCH] drm/i915/gmch: fix not used warning in
- intel_alloc_mchbar_resource
-In-Reply-To: <20230711032940.901797-1-zhangshida@kylinos.cn>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230711032940.901797-1-zhangshida@kylinos.cn>
-Date: Tue, 11 Jul 2023 10:26:08 +0300
-Message-ID: <87ilaqj4dr.fsf@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2DCE10E326
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 07:36:58 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id EA32E61354;
+ Tue, 11 Jul 2023 07:36:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D294CC433C7;
+ Tue, 11 Jul 2023 07:36:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1689061017;
+ bh=sp9FUz7vFWMOXim7BOi9FhfXePdR8iwcHRlNLjmbrE0=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=o+KWj9bXmQa6HfWyip5V0qnUuXxShVLYk5hJdPLFMtnIUrLDrJNGA3OoPRiDgXTo3
+ 8FLQU5yRGDau/XKm0ZH75oQzVIYnmb3fo19Gl5s3xGoxgEXTHVDYPrzPLuUSt/q+9Q
+ e/iSLt9vgfmnvBblKjaVQWM3iSHxXvTYglKEHMwglEsiW0ZdNudN+fAts5ARukzu2E
+ RYWhdZxjxt5mGhE00CK34425ADah9caNJ1RVpLS3DC08xZz9lARxQ629iUtCs7LuE5
+ 2mjaY0lCjRz2MqsjDCdwolr2zwa/evxOVdRKjdU1X/cC/LKG/NN4Q7yVsTPtc27QHI
+ SjiMhH5BwXtFQ==
+From: Vinod Koul <vkoul@kernel.org>
+To: Markus Schneider-Pargmann <msp@baylibre.com>, 
+ Dan Carpenter <dan.carpenter@linaro.org>
+In-Reply-To: <3c699e00-2883-40d9-92c3-0da1dc38fdd4@moroto.mountain>
+References: <3c699e00-2883-40d9-92c3-0da1dc38fdd4@moroto.mountain>
+Subject: Re: [PATCH] phy: phy-mtk-dp: Fix an error code in probe()
+Message-Id: <168906101241.188690.9773925204562641483.b4-ty@kernel.org>
+Date: Tue, 11 Jul 2023 13:06:52 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,64 +55,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: k2ci <kernel-bot@kylinos.cn>, intel-gfx@lists.freedesktop.org,
- starzhangzsd@gmail.com, zhangshida@kylinos.cn, dri-devel@lists.freedesktop.org
+Cc: Kishon Vijay Abraham I <kishon@kernel.org>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Bo-Chen Chen <rex-bc.chen@mediatek.com>, linux-phy@lists.infradead.org,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Guillaume Ranquet <granquet@baylibre.com>, linux-mediatek@lists.infradead.org,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 11 Jul 2023, zhangshida <starzhangzsd@gmail.com> wrote:
-> From: Shida Zhang <zhangshida@kylinos.cn>
->
-> Quiet down this gcc warning generated by
-> gcc (Debian 10.2.1-6) 10.2.1 20210110:
->
-> ../drivers/gpu/drm/i915/soc/intel_gmch.c: In function =E2=80=98intel_allo=
-c_mchbar_resource=E2=80=99:
-> ../drivers/gpu/drm/i915/soc/intel_gmch.c:41:6: error: variable =E2=80=98m=
-chbar_addr=E2=80=99 set but not used [-Werror=3Dunused-but-set-variable]
->    41 |  u64 mchbar_addr;
->       |      ^~~~~~~~~~~
->
-> Reported-by: k2ci <kernel-bot@kylinos.cn>
-> Signed-off-by: Shida Zhang <zhangshida@kylinos.cn>
 
-Thanks, but this is already fixed by commit b02a9a0c6cb3
-("drm/i915/gmch: avoid unused variable warning").
+On Tue, 11 Jul 2023 09:13:25 +0300, Dan Carpenter wrote:
+> Negative -EINVAL was intended instead of positive EINVAL.
+> 
+> 
 
-BR,
-Jani.
+Applied, thanks!
+
+[1/1] phy: phy-mtk-dp: Fix an error code in probe()
+      commit: 03966c3950d36d6b671158be3794eb7211434faa
+
+Best regards,
+-- 
+~Vinod
 
 
-> ---
->  drivers/gpu/drm/i915/soc/intel_gmch.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/soc/intel_gmch.c b/drivers/gpu/drm/i915=
-/soc/intel_gmch.c
-> index 6d0204942f7a..f7db6cb3f828 100644
-> --- a/drivers/gpu/drm/i915/soc/intel_gmch.c
-> +++ b/drivers/gpu/drm/i915/soc/intel_gmch.c
-> @@ -38,16 +38,18 @@ intel_alloc_mchbar_resource(struct drm_i915_private *=
-i915)
->  {
->  	int reg =3D GRAPHICS_VER(i915) >=3D 4 ? MCHBAR_I965 : MCHBAR_I915;
->  	u32 temp_lo, temp_hi =3D 0;
-> +#ifdef CONFIG_PNP
->  	u64 mchbar_addr;
-> +#endif
->  	int ret;
->=20=20
->  	if (GRAPHICS_VER(i915) >=3D 4)
->  		pci_read_config_dword(i915->gmch.pdev, reg + 4, &temp_hi);
->  	pci_read_config_dword(i915->gmch.pdev, reg, &temp_lo);
-> -	mchbar_addr =3D ((u64)temp_hi << 32) | temp_lo;
->=20=20
->  	/* If ACPI doesn't have it, assume we need to allocate it ourselves */
->  #ifdef CONFIG_PNP
-> +	mchbar_addr =3D ((u64)temp_hi << 32) | temp_lo;
->  	if (mchbar_addr &&
->  	    pnp_range_reserved(mchbar_addr, mchbar_addr + MCHBAR_SIZE))
->  		return 0;
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
