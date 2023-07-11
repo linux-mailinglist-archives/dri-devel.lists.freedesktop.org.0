@@ -1,29 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B602C74F540
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 18:32:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A86E74F545
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 18:32:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 925A810E3E1;
-	Tue, 11 Jul 2023 16:32:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACFCE10E3E7;
+	Tue, 11 Jul 2023 16:32:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-50.mta0.migadu.com (out-50.mta0.migadu.com
- [IPv6:2001:41d0:1004:224b::32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5639510E0D0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 16:32:17 +0000 (UTC)
+Received: from out-45.mta0.migadu.com (out-45.mta0.migadu.com
+ [IPv6:2001:41d0:1004:224b::2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F7BC10E3E2
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 16:32:20 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1689093133;
+ t=1689093138;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=AOe2sK5corMJVr8s18spKTEHFO7S6COQNSRgsjkc54A=;
- b=ixKAhLu28/nq1vazDkLtGsR/XEiVHt1ra2tNTmdDLo9BPHekHQ7OViZ9PZCadSk3DSxHL1
- 6Md7s5pSxG/rbDPk5WiAXKGCJ9q1jxF9DVPaEOAcGbdFMUXTFAqhY+mtay7NocxBghXDdE
- nl8Q8HRCQmWsB+O7po7KrEn9IlnkOKE=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=s3RR0NYHlYchGZfrgsz7DmY+bKmfwkFHz2pu3a35dQQ=;
+ b=WozqtjMVmgFuC4Asnp2YwVthzxT8OwpiQ0LadMHgEQxaZrlUFJ72re4kuVfXCgPLjOFZ3i
+ 6mJ090nchTsgXH9ZfBOZZhJ23oa0knENxqlBzpwcIF7ZLqLaRQbw4oMg7dJq8mcHK4Bl8k
+ GuWrnM9EO7Y8unOLvVKV3YVb4cK7Jro=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: Alex Deucher <alexander.deucher@amd.com>,
  Christian Koenig <christian.koenig@amd.com>,
@@ -37,9 +38,12 @@ To: Alex Deucher <alexander.deucher@amd.com>,
  Ben Skeggs <bskeggs@redhat.com>, Lyude Paul <lyude@redhat.com>,
  Bjorn Helgaas <bhelgaas@google.com>, Helge Deller <deller@gmx.de>,
  Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH v3 0/9] PCI/VGA: Improve the default VGA device selection
-Date: Wed, 12 Jul 2023 00:31:46 +0800
-Message-Id: <20230711163155.791522-1-sui.jingfeng@linux.dev>
+Subject: [PATCH v3 1/9] video/aperture: Add a helper to detect if an aperture
+ contains firmware FB
+Date: Wed, 12 Jul 2023 00:31:47 +0800
+Message-Id: <20230711163155.791522-2-sui.jingfeng@linux.dev>
+In-Reply-To: <20230711163155.791522-1-sui.jingfeng@linux.dev>
+References: <20230711163155.791522-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -66,74 +70,143 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sui Jingfeng <suijingfeng@loongson.cn>
 
-Currently, the default VGA device selection is not perfect. Potential
-problems are:
+This patch adds the aperture_contain_firmware_fb() function to do the
+determination. Unfortunately, due to the fact that the apertures list
+will be freed dynamically, the location and size information of the
+firmware FB will be lost after dedicated drivers call
+aperture_remove_conflicting_devices(),
+aperture_remove_conflicting_pci_devices() or
+aperture_remove_all_conflicting_devices() functions
+    
+We solve this problem by introducing two static variables that record the
+firmware framebuffer's start addrness and end addrness. It assumes that the
+system has only one active firmware framebuffer driver at a time. We don't
+use the global structure screen_info here, because PCI resources may get
+reallocated (the VRAM BAR could be moved) during the kernel boot stage.
 
-1) This function is a no-op on non-x86 architectures.
-2) It does not take the PCI Bar may get relocated into consideration.
-3) It is not effective for the PCI device without a dedicated VRAM Bar.
-4) It is device-agnostic, thus it has to waste the effort to iterate all
-   of the PCI Bar to find the VRAM aperture.
-5) It has invented lots of methods to determine which one is the default
-   boot device on a multiple video card coexistence system. But this is
-   still a policy because it doesn't give the user a choice to override.
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Helge Deller <deller@gmx.de>
+Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+---
+ drivers/gpu/drm/drm_aperture.c | 16 ++++++++++++++++
+ drivers/video/aperture.c       | 29 +++++++++++++++++++++++++++++
+ include/drm/drm_aperture.h     |  2 ++
+ include/linux/aperture.h       |  7 +++++++
+ 4 files changed, 54 insertions(+)
 
-With the observation that device drivers or video aperture helpers may
-have better knowledge about which PCI bar contains the firmware FB,
-
-This patch tries to solve the above problems by introducing a function
-callback to the vga_client_register() function interface. DRM device
-drivers for the PCI device need to register the is_boot_device() function
-callback during the driver loading time. Once the driver binds the device
-successfully, VRAARB will call back to the driver. This gives the device
-drivers a chance to provide accurate boot device identification. Which in
-turn unlock the abitration service to non-x86 architectures. A device
-driver can also pass a NULL pointer to keep the original behavior.
-
-This series is applied on the drm-tip branch (with a cleanup patch set[1]
-applied beforehand)
-
-[1] https://patchwork.freedesktop.org/series/120548/
-
-v2:
-	* Add a simple implemment for drm/i915 and drm/ast
-	* Pick up all tags (Mario)
-v3:
-	* Fix a mistake for drm/i915 implement
-	* Fix patch can not be applied problem because of drm/amdgpu merged
-          other people's patch.
-
-Sui Jingfeng (9):
-  video/aperture: Add a helper to detect if an aperture contains
-    firmware FB
-  video/aperture: Add a helper for determining if an unmoved aperture
-    contain FB
-  PCI/VGA: Switch to aperture_contain_firmware_fb_nonreloc()
-  PCI/VGA: Improve the default VGA device selection
-  drm/amdgpu: Implement the is_primary_gpu callback of
-    vga_client_register()
-  drm/radeon: Add an implement for the is_primary_gpu function callback
-  drm/i915: Add an implement for the is_primary_gpu hook
-  drm/ast: Register as a vga client to vgaarb by calling
-    vga_client_register()
-  drm/loongson: Add an implement for the is_primary_gpu function
-    callback
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 12 +++-
- drivers/gpu/drm/ast/ast_drv.c              | 29 +++++++++
- drivers/gpu/drm/drm_aperture.c             | 16 +++++
- drivers/gpu/drm/i915/display/intel_vga.c   | 31 ++++++++-
- drivers/gpu/drm/loongson/lsdc_drv.c        | 10 ++-
- drivers/gpu/drm/nouveau/nouveau_vga.c      |  2 +-
- drivers/gpu/drm/radeon/radeon_device.c     | 12 +++-
- drivers/pci/vgaarb.c                       | 74 ++++++++++++++++------
- drivers/vfio/pci/vfio_pci_core.c           |  2 +-
- drivers/video/aperture.c                   | 65 +++++++++++++++++++
- include/drm/drm_aperture.h                 |  2 +
- include/linux/aperture.h                   | 14 ++++
- include/linux/vgaarb.h                     |  8 ++-
- 13 files changed, 247 insertions(+), 30 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_aperture.c b/drivers/gpu/drm/drm_aperture.c
+index 5729f3bb4398..f9c957aa5874 100644
+--- a/drivers/gpu/drm/drm_aperture.c
++++ b/drivers/gpu/drm/drm_aperture.c
+@@ -190,3 +190,19 @@ int drm_aperture_remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
+ 	return aperture_remove_conflicting_pci_devices(pdev, req_driver->name);
+ }
+ EXPORT_SYMBOL(drm_aperture_remove_conflicting_pci_framebuffers);
++
++/**
++ * drm_aperture_contain_firmware_fb - Determine if a aperture contains firmware framebuffer
++ *
++ * @base: the aperture's base address in physical memory
++ * @size: aperture size in bytes
++ *
++ * Returns:
++ * true if there exist a firmware framebuffer inside of the aperture passed in,
++ * or false otherwise.
++ */
++bool drm_aperture_contain_firmware_fb(resource_size_t base, resource_size_t size)
++{
++	return aperture_contain_firmware_fb(base, base + size);
++}
++EXPORT_SYMBOL(drm_aperture_contain_firmware_fb);
+diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
+index 561be8feca96..34eb962cfae8 100644
+--- a/drivers/video/aperture.c
++++ b/drivers/video/aperture.c
+@@ -141,6 +141,9 @@ struct aperture_range {
+ static LIST_HEAD(apertures);
+ static DEFINE_MUTEX(apertures_lock);
+ 
++static resource_size_t firm_fb_start;
++static resource_size_t firm_fb_end;
++
+ static bool overlap(resource_size_t base1, resource_size_t end1,
+ 		    resource_size_t base2, resource_size_t end2)
+ {
+@@ -170,6 +173,9 @@ static int devm_aperture_acquire(struct device *dev,
+ 
+ 	mutex_lock(&apertures_lock);
+ 
++	firm_fb_start = base;
++	firm_fb_end = end;
++
+ 	list_for_each(pos, &apertures) {
+ 		ap = container_of(pos, struct aperture_range, lh);
+ 		if (overlap(base, end, ap->base, ap->base + ap->size)) {
+@@ -377,3 +383,26 @@ int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *na
+ 
+ }
+ EXPORT_SYMBOL(aperture_remove_conflicting_pci_devices);
++
++/**
++ * aperture_contain_firmware_fb - Detect if the firmware framebuffer belong to
++ *                                a aperture.
++ * @ap_start: the aperture's start address in physical memory
++ * @ap_end: the aperture's end address in physical memory
++ *
++ * Returns:
++ * true if there is a firmware framebuffer belong to the aperture passed in,
++ * or false otherwise.
++ */
++bool aperture_contain_firmware_fb(resource_size_t ap_start, resource_size_t ap_end)
++{
++	/* No firmware framebuffer support */
++	if (!firm_fb_start || !firm_fb_end)
++		return false;
++
++	if (firm_fb_start >= ap_start && firm_fb_end <= ap_end)
++		return true;
++
++	return false;
++}
++EXPORT_SYMBOL(aperture_contain_firmware_fb);
+diff --git a/include/drm/drm_aperture.h b/include/drm/drm_aperture.h
+index cbe33b49fd5d..6a0b9bacb081 100644
+--- a/include/drm/drm_aperture.h
++++ b/include/drm/drm_aperture.h
+@@ -35,4 +35,6 @@ drm_aperture_remove_framebuffers(const struct drm_driver *req_driver)
+ 							    req_driver);
+ }
+ 
++bool drm_aperture_contain_firmware_fb(resource_size_t base, resource_size_t size);
++
+ #endif
+diff --git a/include/linux/aperture.h b/include/linux/aperture.h
+index 1a9a88b11584..d4dc5917c49b 100644
+--- a/include/linux/aperture.h
++++ b/include/linux/aperture.h
+@@ -19,6 +19,8 @@ int aperture_remove_conflicting_devices(resource_size_t base, resource_size_t si
+ int __aperture_remove_legacy_vga_devices(struct pci_dev *pdev);
+ 
+ int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *name);
++
++bool aperture_contain_firmware_fb(resource_size_t ap_start, resource_size_t ap_end);
+ #else
+ static inline int devm_aperture_acquire_for_platform_device(struct platform_device *pdev,
+ 							    resource_size_t base,
+@@ -42,6 +44,11 @@ static inline int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev,
+ {
+ 	return 0;
+ }
++
++static inline bool aperture_contain_firmware_fb(resource_size_t ap_start, resource_size_t ap_end)
++{
++	return false;
++}
+ #endif
+ 
+ /**
 -- 
 2.25.1
 
