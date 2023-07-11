@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4711A74F54D
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 18:32:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A38E74F550
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 18:32:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22EA510E3ED;
-	Tue, 11 Jul 2023 16:32:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09CD810E3F2;
+	Tue, 11 Jul 2023 16:32:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-61.mta0.migadu.com (out-61.mta0.migadu.com [91.218.175.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE53A10E3EF
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 16:32:25 +0000 (UTC)
+Received: from out-24.mta0.migadu.com (out-24.mta0.migadu.com [91.218.175.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1282510E3F0
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 16:32:30 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1689093143;
+ t=1689093148;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GBy5pJ1hlnJ55l3+0FoW8CoU4fx5kPQd0O17NeAPNiY=;
- b=KYZlRghveBlPMMdTqgJuH2AOo5abl3+OkOVDjyy45nGSjfPLiaDVmnhOlljKyx8oMCa60y
- d7BFmREY8tPS1z9BIqw+xfPILjT53tOeW9fmTmFDOC4vkTkMTAw4mABB/S2iui/+v/n05V
- 4vY56OUQGLAxs6SUJ/Lz8uxkPskosok=
+ bh=qerYEjJsYQa89wBNUybGoMjyzLMs27H7zUPn+Dcw/G0=;
+ b=Guu9GWOLPIQdkgo6IRvQX7zSkVsf7DNZDKM8AeogWr5E6rpQEYaIWbmNDJLcGU6Fen+QLD
+ 9RIN+CGIDpMCU7gRAg76N6VsCw8OMavcu0tA+en7SF2lOR2aMCsxFl2WxdHYKo8LFblL7F
+ uBqREnG+4qj40UxbrWCEHB6XPKqAuvc=
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
 To: Alex Deucher <alexander.deucher@amd.com>,
  Christian Koenig <christian.koenig@amd.com>,
@@ -37,10 +37,10 @@ To: Alex Deucher <alexander.deucher@amd.com>,
  Ben Skeggs <bskeggs@redhat.com>, Lyude Paul <lyude@redhat.com>,
  Bjorn Helgaas <bhelgaas@google.com>, Helge Deller <deller@gmx.de>,
  Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH v3 2/9] video/aperture: Add a helper for determining if an
- unmoved aperture contain FB
-Date: Wed, 12 Jul 2023 00:31:48 +0800
-Message-Id: <20230711163155.791522-3-sui.jingfeng@linux.dev>
+Subject: [PATCH v3 3/9] PCI/VGA: Switch to
+ aperture_contain_firmware_fb_nonreloc()
+Date: Wed, 12 Jul 2023 00:31:49 +0800
+Message-Id: <20230711163155.791522-4-sui.jingfeng@linux.dev>
 In-Reply-To: <20230711163155.791522-1-sui.jingfeng@linux.dev>
 References: <20230711163155.791522-1-sui.jingfeng@linux.dev>
 MIME-Version: 1.0
@@ -68,97 +68,77 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sui Jingfeng <suijingfeng@loongson.cn>
 
-This patch is intended to form a uniform approach to determining if an
-unmoved aperture contains the firmware FB. I believe that the global
-screen_info is more about video-specific things.
+The observation behind this is that we should avoid accessing the global
+screen_info directly. Call the aperture_contain_firmware_fb_nonreloc()
+function to implement the detection of whether an aperture contains the
+firmware FB.
 
-Putting it in video/aperture.c helps form a uniform approach.
+This patch helps to decouple the determination from the implementation.
+Or, in other words, we intend to make the determination opaque to the
+caller. The determination may choose to be arch-dependent or
+arch-independent. But vgaarb, as a consumer of the determination,
+shouldn't care how the does determination is implemented.
 
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Helge Deller <deller@gmx.de>
 Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
 ---
- drivers/video/aperture.c | 36 ++++++++++++++++++++++++++++++++++++
- include/linux/aperture.h |  7 +++++++
- 2 files changed, 43 insertions(+)
+ drivers/pci/vgaarb.c | 19 ++++---------------
+ 1 file changed, 4 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
-index 34eb962cfae8..f03dfcabc303 100644
---- a/drivers/video/aperture.c
-+++ b/drivers/video/aperture.c
-@@ -6,6 +6,7 @@
- #include <linux/mutex.h>
+diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+index bf96e085751d..953daf731b2c 100644
+--- a/drivers/pci/vgaarb.c
++++ b/drivers/pci/vgaarb.c
+@@ -14,6 +14,7 @@
+ #define vgaarb_info(dev, fmt, arg...)	dev_info(dev, "vgaarb: " fmt, ##arg)
+ #define vgaarb_err(dev, fmt, arg...)	dev_err(dev, "vgaarb: " fmt, ##arg)
+ 
++#include <linux/aperture.h>
+ #include <linux/module.h>
+ #include <linux/kernel.h>
  #include <linux/pci.h>
- #include <linux/platform_device.h>
-+#include <linux/screen_info.h>
+@@ -26,7 +27,6 @@
+ #include <linux/poll.h>
+ #include <linux/miscdevice.h>
  #include <linux/slab.h>
- #include <linux/sysfb.h>
- #include <linux/types.h>
-@@ -406,3 +407,38 @@ bool aperture_contain_firmware_fb(resource_size_t ap_start, resource_size_t ap_e
- 	return false;
+-#include <linux/screen_info.h>
+ #include <linux/vt.h>
+ #include <linux/console.h>
+ #include <linux/acpi.h>
+@@ -558,20 +558,11 @@ void vga_put(struct pci_dev *pdev, unsigned int rsrc)
  }
- EXPORT_SYMBOL(aperture_contain_firmware_fb);
-+
-+/**
-+ * aperture_contain_firmware_fb_nonreloc - Detect if the firmware framebuffer
-+ * belong to a non-relocatable aperture, such as the aperture of platform
-+ * device. Note that this function relay on the global screen info.
-+ * @ap_start: the aperture's start address in physical memory
-+ * @ap_end: the aperture's end address in physical memory
-+ *
-+ * Returns:
-+ * true if there is a firmware framebuffer belong to the aperture passed in,
-+ * or false otherwise.
-+ */
-+bool aperture_contain_firmware_fb_nonreloc(resource_size_t ap_start, resource_size_t ap_end)
-+{
-+	u64 fb_start;
-+	u64 fb_end;
-+
-+	if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE) {
-+		fb_start = (u64)screen_info.ext_lfb_base << 32 | screen_info.lfb_base;
-+		fb_end = fb_start + screen_info.lfb_size;
-+	} else {
-+		fb_start = screen_info.lfb_base;
-+		fb_end = fb_start + screen_info.lfb_size;
-+	}
-+
-+	/* No firmware framebuffer support */
-+	if (!fb_start || !fb_end)
-+		return false;
-+
-+	if (fb_start >= ap_start && fb_end <= ap_end)
-+		return true;
-+
-+	return false;
-+}
-+EXPORT_SYMBOL(aperture_contain_firmware_fb_nonreloc);
-diff --git a/include/linux/aperture.h b/include/linux/aperture.h
-index d4dc5917c49b..906d23532b56 100644
---- a/include/linux/aperture.h
-+++ b/include/linux/aperture.h
-@@ -21,6 +21,8 @@ int __aperture_remove_legacy_vga_devices(struct pci_dev *pdev);
- int aperture_remove_conflicting_pci_devices(struct pci_dev *pdev, const char *name);
+ EXPORT_SYMBOL(vga_put);
  
- bool aperture_contain_firmware_fb(resource_size_t ap_start, resource_size_t ap_end);
-+
-+bool aperture_contain_firmware_fb_nonreloc(resource_size_t ap_start, resource_size_t ap_end);
- #else
- static inline int devm_aperture_acquire_for_platform_device(struct platform_device *pdev,
- 							    resource_size_t base,
-@@ -49,6 +51,11 @@ static inline bool aperture_contain_firmware_fb(resource_size_t ap_start, resour
++/* Select the device owning the boot framebuffer if there is one */
+ static bool vga_is_firmware_default(struct pci_dev *pdev)
  {
- 	return false;
- }
-+
-+static bool aperture_contain_firmware_fb_nonreloc(resource_size_t ap_start, resource_size_t ap_end)
-+{
-+	return false;
-+}
- #endif
+ #if defined(CONFIG_X86) || defined(CONFIG_IA64)
+-	u64 base = screen_info.lfb_base;
+-	u64 size = screen_info.lfb_size;
+ 	struct resource *r;
+-	u64 limit;
+-
+-	/* Select the device owning the boot framebuffer if there is one */
+-
+-	if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
+-		base |= (u64)screen_info.ext_lfb_base << 32;
+-
+-	limit = base + size;
  
- /**
+ 	/* Does firmware framebuffer belong to us? */
+ 	pci_dev_for_each_resource(pdev, r) {
+@@ -581,10 +572,8 @@ static bool vga_is_firmware_default(struct pci_dev *pdev)
+ 		if (!r->start || !r->end)
+ 			continue;
+ 
+-		if (base < r->start || limit >= r->end)
+-			continue;
+-
+-		return true;
++		if (aperture_contain_firmware_fb_nonreloc(r->start, r->end))
++			return true;
+ 	}
+ #endif
+ 	return false;
 -- 
 2.25.1
 
