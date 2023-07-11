@@ -1,37 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C92A374F23B
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 16:28:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D64F674F290
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 16:47:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3336910E3C0;
-	Tue, 11 Jul 2023 14:28:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39F4310E3AB;
+	Tue, 11 Jul 2023 14:47:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2036210E3B1
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 14:28:26 +0000 (UTC)
-Date: Tue, 11 Jul 2023 14:28:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1689085703; x=1689344903;
- bh=P18F6gUS6YKax1FyRROPOknZdEGlvVJJsF5Z7nOUdN4=;
- h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
- Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
- b=FreYEdhzF7uWZoc26gh+jz0fJYdkfiBTBIuykCGvlGCSXt2EXrnafwgffXb+aqGpS
- LMyFiJPOh8PVPP/wYpRs1s/zWYR7w4vi2M4BzRVgJZVmrvdpuTM0aemR16n9S3rGxk
- Q/AJtXeW0mawnuesuxqa8nMyqOY8eIuzlYS7zLoRI7VaY6N3oYO7gpoENLvWXay2r0
- b8nz/XP1z+W5WdxI4BxQ3gSadLDGcvKuGyLC6PzqAdynrGgUQh4W0AwcBng7ft+emE
- zhaPbFGpFK4EYP+bI5bbRYABtuEDndOJJ8nWICGR3CgrnvBcobtakyAnIWZoXoMl7j
- lEErmZvaOOFRQ==
-To: dri-devel@lists.freedesktop.org
-From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH v3] drm/syncobj: add IOCTL to register an eventfd
-Message-ID: <20230711142803.4054-1-contact@emersion.fr>
-Feedback-ID: 1358184:user:proton
+Received: from mailrelay6-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay6-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:405::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A3C910E090
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 14:47:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=IzJnH7tearuxnA6Z+6SlVNN7/HpdHXO6OvjidkyffDc=;
+ b=t1UZoY+OgZB4qloOKAGoPzdxKiYC17C9++ltdd9VkKKSSJf/R5HyAsdaxr5chXo+LcqtCqMpEj2TA
+ b8Z7yF6JHKQOlU7blN+narui79FThKq8hj2VwanKmhandBBtpyfKAhsU889SFEdFbXrVkiKx3hcR7H
+ QKjso83LwxpCtsl1H23jeJIFNxLM2fJZpqpYaWgVJBzgpvhQLjm/hOp65N2Nj7rNyOZMvrxGPI6czh
+ YS0MtrmIYLsQmwRyf7YF8HR5nxe+n7cXTvsKENehLpNtWPbi2L0wAhskoQ5ZCvD2WrQtbyYxsEJ/AP
+ CUbin2WAzk67odxeRHKtnqDopCvMHJA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=IzJnH7tearuxnA6Z+6SlVNN7/HpdHXO6OvjidkyffDc=;
+ b=KzzqHm8tLnuEHjgNWidySCjTk6o2+jW4abV9LJjbJcqDWTbuxi74O9whyYkZn2CXMR1EK8Adpr0Tp
+ 1xeW/n7CQ==
+X-HalOne-ID: e4c9d52a-1ff9-11ee-be66-6f01c1d0a443
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay6 (Halon) with ESMTPSA
+ id e4c9d52a-1ff9-11ee-be66-6f01c1d0a443;
+ Tue, 11 Jul 2023 14:47:46 +0000 (UTC)
+Date: Tue, 11 Jul 2023 16:47:44 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 00/17] fbdev: Remove FBINFO_DEFAULT and
+ FBINFO_FLAG_DEFAULT flags
+Message-ID: <20230711144744.GA117276@ravnborg.org>
+References: <20230710130113.14563-1-tzimmermann@suse.de>
+ <20230710171903.GA14712@ravnborg.org>
+ <ab92f8d9-36ab-06bc-b85b-d52b7a1bfe9a@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ab92f8d9-36ab-06bc-b85b-d52b7a1bfe9a@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,392 +59,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- Jason Ekstrand <jason@jlekstrand.net>, James Jones <jajones@nvidia.com>,
- Austin Shafer <ashafer@nvidia.com>,
- =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
+ kvm@vger.kernel.org, linux-sh@vger.kernel.org, deller@gmx.de,
+ linux-staging@lists.linux.dev, javierm@redhat.com,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-nvidia@lists.surfsouth.com,
+ linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-geode@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce a new DRM_IOCTL_SYNCOBJ_EVENTFD IOCTL which signals an
-eventfd from a syncobj.
+Hi Thomas,
 
-This is useful for Wayland compositors to handle wait-before-submit.
-Wayland clients can send a timeline point to the compositor
-before the point has materialized yet, then compositors can wait
-for the point to materialize via this new IOCTL.
+On Tue, Jul 11, 2023 at 08:24:40AM +0200, Thomas Zimmermann wrote:
+> Hi Sam
+> 
+> Am 10.07.23 um 19:19 schrieb Sam Ravnborg:
+> > Hi Thomas,
+> > 
+> > On Mon, Jul 10, 2023 at 02:50:04PM +0200, Thomas Zimmermann wrote:
+> > > Remove the unused flags FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT from
+> > > fbdev and drivers, as briefly discussed at [1]. Both flags were maybe
+> > > useful when fbdev had special handling for driver modules. With
+> > > commit 376b3ff54c9a ("fbdev: Nuke FBINFO_MODULE"), they are both 0
+> > > and have no further effect.
+> > > 
+> > > Patches 1 to 7 remove FBINFO_DEFAULT from drivers. Patches 2 to 5
+> > > split this by the way the fb_info struct is being allocated. All flags
+> > > are cleared to zero during the allocation.
+> > > 
+> > > Patches 8 to 16 do the same for FBINFO_FLAG_DEFAULT. Patch 8 fixes
+> > > an actual bug in how arch/sh uses the tokne for struct fb_videomode,
+> > > which is unrelated.
+> > > 
+> > > Patch 17 removes both flag constants from <linux/fb.h>
+> > 
+> > We have a few more flags that are unused - should they be nuked too?
+> > FBINFO_HWACCEL_FILLRECT
+> > FBINFO_HWACCEL_ROTATE
+> > FBINFO_HWACCEL_XPAN
+> 
+> It seems those are there for completeness. Nothing sets _ROTATE, the others
+> are simply never checked. According to the comments, some are required, some
+> are optional. I don't know what that means.
+> 
+> IIRC there were complains about performance when Daniel tried to remove
+> fbcon acceleration, so not all _HWACCEL_ flags are unneeded.
+> 
+> Leaving them in for reference/completeness might be an option; or not. I
+> have no strong feelings about those flags.
+> 
+> > 
+> > Unused as in no references from fbdev/core/*
+> > 
+> > I would rather see one series nuke all unused FBINFO flags in one go.
+> > Assuming my quick grep are right and the above can be dropped.
+> 
+> I would not want to extend this series. I'm removing _DEFAULT as it's
+> absolutely pointless and confusing.
 
-The existing DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT IOCTL is not suitable
-because it blocks. Compositors want to integrate the wait with
-their poll(2)-based event loop.
+OK, makes sense and thanks for the explanation.
 
-Requirements for new uAPI:
-
-- User-space patch: https://gitlab.freedesktop.org/wlroots/wlroots/-/merge_=
-requests/4262
-- IGT: https://lists.freedesktop.org/archives/igt-dev/2023-July/057866.html
-
-v2:
-- Wait for fence when flags is zero
-- Improve documentation (Pekka)
-- Rename IOCTL (Christian)
-- Fix typo in drm_syncobj_add_eventfd() (Christian)
-
-v3:
-- Link user-space + IGT patches
-- Add reference from overview docs
-
-Signed-off-by: Simon Ser <contact@emersion.fr>
-Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-Cc: Jason Ekstrand <jason@jlekstrand.net>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-Cc: Daniel Stone <daniel@fooishbar.org>
-Cc: James Jones <jajones@nvidia.com>
-Cc: Austin Shafer <ashafer@nvidia.com>
----
- drivers/gpu/drm/drm_internal.h |   2 +
- drivers/gpu/drm/drm_ioctl.c    |   2 +
- drivers/gpu/drm/drm_syncobj.c  | 147 +++++++++++++++++++++++++++++++--
- include/drm/drm_syncobj.h      |   6 +-
- include/uapi/drm/drm.h         |  22 +++++
- 5 files changed, 172 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.=
-h
-index d7e023bbb0d5..ba12acd55139 100644
---- a/drivers/gpu/drm/drm_internal.h
-+++ b/drivers/gpu/drm/drm_internal.h
-@@ -245,6 +245,8 @@ int drm_syncobj_wait_ioctl(struct drm_device *dev, void=
- *data,
- =09=09=09   struct drm_file *file_private);
- int drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
- =09=09=09=09    struct drm_file *file_private);
-+int drm_syncobj_eventfd_ioctl(struct drm_device *dev, void *data,
-+=09=09=09      struct drm_file *file_private);
- int drm_syncobj_reset_ioctl(struct drm_device *dev, void *data,
- =09=09=09    struct drm_file *file_private);
- int drm_syncobj_signal_ioctl(struct drm_device *dev, void *data,
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index 8e9afe7af19c..f03ffbacfe9b 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -701,6 +701,8 @@ static const struct drm_ioctl_desc drm_ioctls[] =3D {
- =09=09      DRM_RENDER_ALLOW),
- =09DRM_IOCTL_DEF(DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT, drm_syncobj_timeline_wai=
-t_ioctl,
- =09=09      DRM_RENDER_ALLOW),
-+=09DRM_IOCTL_DEF(DRM_IOCTL_SYNCOBJ_EVENTFD, drm_syncobj_eventfd_ioctl,
-+=09=09      DRM_RENDER_ALLOW),
- =09DRM_IOCTL_DEF(DRM_IOCTL_SYNCOBJ_RESET, drm_syncobj_reset_ioctl,
- =09=09      DRM_RENDER_ALLOW),
- =09DRM_IOCTL_DEF(DRM_IOCTL_SYNCOBJ_SIGNAL, drm_syncobj_signal_ioctl,
-diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-index 0c2be8360525..0f1cb70413af 100644
---- a/drivers/gpu/drm/drm_syncobj.c
-+++ b/drivers/gpu/drm/drm_syncobj.c
-@@ -136,6 +136,10 @@
-  * requirement is inherited from the wait-before-signal behavior required =
-by
-  * the Vulkan timeline semaphore API.
-  *
-+ * Alternatively, &DRM_IOCTL_SYNCOBJ_EVENTFD can be used to wait without
-+ * blocking: an eventfd will be signaled when the syncobj is. This is usef=
-ul to
-+ * integrate the wait in an event loop.
-+ *
-  *
-  * Import/export of syncobjs
-  * -------------------------
-@@ -185,6 +189,7 @@
-=20
- #include <linux/anon_inodes.h>
- #include <linux/dma-fence-unwrap.h>
-+#include <linux/eventfd.h>
- #include <linux/file.h>
- #include <linux/fs.h>
- #include <linux/sched/signal.h>
-@@ -212,6 +217,20 @@ struct syncobj_wait_entry {
- static void syncobj_wait_syncobj_func(struct drm_syncobj *syncobj,
- =09=09=09=09      struct syncobj_wait_entry *wait);
-=20
-+struct syncobj_eventfd_entry {
-+=09struct list_head node;
-+=09struct dma_fence *fence;
-+=09struct dma_fence_cb fence_cb;
-+=09struct drm_syncobj *syncobj;
-+=09struct eventfd_ctx *ev_fd_ctx;
-+=09u64 point;
-+=09u32 flags;
-+};
-+
-+static void
-+syncobj_eventfd_entry_func(struct drm_syncobj *syncobj,
-+=09=09=09   struct syncobj_eventfd_entry *entry);
-+
- /**
-  * drm_syncobj_find - lookup and reference a sync object.
-  * @file_private: drm file private pointer
-@@ -274,6 +293,27 @@ static void drm_syncobj_remove_wait(struct drm_syncobj=
- *syncobj,
- =09spin_unlock(&syncobj->lock);
- }
-=20
-+static void
-+syncobj_eventfd_entry_free(struct syncobj_eventfd_entry *entry)
-+{
-+=09eventfd_ctx_put(entry->ev_fd_ctx);
-+=09dma_fence_put(entry->fence);
-+=09/* This happens either inside the syncobj lock, or after the node has
-+=09 * already been removed from the list */
-+=09list_del(&entry->node);
-+=09kfree(entry);
-+}
-+
-+static void
-+drm_syncobj_add_eventfd(struct drm_syncobj *syncobj,
-+=09=09=09struct syncobj_eventfd_entry *entry)
-+{
-+=09spin_lock(&syncobj->lock);
-+=09list_add_tail(&entry->node, &syncobj->ev_fd_list);
-+=09syncobj_eventfd_entry_func(syncobj, entry);
-+=09spin_unlock(&syncobj->lock);
-+}
-+
- /**
-  * drm_syncobj_add_point - add new timeline point to the syncobj
-  * @syncobj: sync object to add timeline point do
-@@ -288,7 +328,8 @@ void drm_syncobj_add_point(struct drm_syncobj *syncobj,
- =09=09=09   struct dma_fence *fence,
- =09=09=09   uint64_t point)
- {
--=09struct syncobj_wait_entry *cur, *tmp;
-+=09struct syncobj_wait_entry *wait_cur, *wait_tmp;
-+=09struct syncobj_eventfd_entry *ev_fd_cur, *ev_fd_tmp;
- =09struct dma_fence *prev;
-=20
- =09dma_fence_get(fence);
-@@ -302,8 +343,10 @@ void drm_syncobj_add_point(struct drm_syncobj *syncobj=
-,
- =09dma_fence_chain_init(chain, prev, fence, point);
- =09rcu_assign_pointer(syncobj->fence, &chain->base);
-=20
--=09list_for_each_entry_safe(cur, tmp, &syncobj->cb_list, node)
--=09=09syncobj_wait_syncobj_func(syncobj, cur);
-+=09list_for_each_entry_safe(wait_cur, wait_tmp, &syncobj->cb_list, node)
-+=09=09syncobj_wait_syncobj_func(syncobj, wait_cur);
-+=09list_for_each_entry_safe(ev_fd_cur, ev_fd_tmp, &syncobj->ev_fd_list, no=
-de)
-+=09=09syncobj_eventfd_entry_func(syncobj, ev_fd_cur);
- =09spin_unlock(&syncobj->lock);
-=20
- =09/* Walk the chain once to trigger garbage collection */
-@@ -323,7 +366,8 @@ void drm_syncobj_replace_fence(struct drm_syncobj *sync=
-obj,
- =09=09=09       struct dma_fence *fence)
- {
- =09struct dma_fence *old_fence;
--=09struct syncobj_wait_entry *cur, *tmp;
-+=09struct syncobj_wait_entry *wait_cur, *wait_tmp;
-+=09struct syncobj_eventfd_entry *ev_fd_cur, *ev_fd_tmp;
-=20
- =09if (fence)
- =09=09dma_fence_get(fence);
-@@ -335,8 +379,10 @@ void drm_syncobj_replace_fence(struct drm_syncobj *syn=
-cobj,
- =09rcu_assign_pointer(syncobj->fence, fence);
-=20
- =09if (fence !=3D old_fence) {
--=09=09list_for_each_entry_safe(cur, tmp, &syncobj->cb_list, node)
--=09=09=09syncobj_wait_syncobj_func(syncobj, cur);
-+=09=09list_for_each_entry_safe(wait_cur, wait_tmp, &syncobj->cb_list, node=
-)
-+=09=09=09syncobj_wait_syncobj_func(syncobj, wait_cur);
-+=09=09list_for_each_entry_safe(ev_fd_cur, ev_fd_tmp, &syncobj->ev_fd_list,=
- node)
-+=09=09=09syncobj_eventfd_entry_func(syncobj, ev_fd_cur);
- =09}
-=20
- =09spin_unlock(&syncobj->lock);
-@@ -472,7 +518,13 @@ void drm_syncobj_free(struct kref *kref)
- =09struct drm_syncobj *syncobj =3D container_of(kref,
- =09=09=09=09=09=09   struct drm_syncobj,
- =09=09=09=09=09=09   refcount);
-+=09struct syncobj_eventfd_entry *ev_fd_cur, *ev_fd_tmp;
-+
- =09drm_syncobj_replace_fence(syncobj, NULL);
-+
-+=09list_for_each_entry_safe(ev_fd_cur, ev_fd_tmp, &syncobj->ev_fd_list, no=
-de)
-+=09=09syncobj_eventfd_entry_free(ev_fd_cur);
-+
- =09kfree(syncobj);
- }
- EXPORT_SYMBOL(drm_syncobj_free);
-@@ -501,6 +553,7 @@ int drm_syncobj_create(struct drm_syncobj **out_syncobj=
-, uint32_t flags,
-=20
- =09kref_init(&syncobj->refcount);
- =09INIT_LIST_HEAD(&syncobj->cb_list);
-+=09INIT_LIST_HEAD(&syncobj->ev_fd_list);
- =09spin_lock_init(&syncobj->lock);
-=20
- =09if (flags & DRM_SYNCOBJ_CREATE_SIGNALED) {
-@@ -1304,6 +1357,88 @@ drm_syncobj_timeline_wait_ioctl(struct drm_device *d=
-ev, void *data,
- =09return ret;
- }
-=20
-+static void syncobj_eventfd_entry_fence_func(struct dma_fence *fence,
-+=09=09=09=09=09     struct dma_fence_cb *cb)
-+{
-+=09struct syncobj_eventfd_entry *entry =3D
-+=09=09container_of(cb, struct syncobj_eventfd_entry, fence_cb);
-+
-+=09eventfd_signal(entry->ev_fd_ctx, 1);
-+=09syncobj_eventfd_entry_free(entry);
-+}
-+
-+static void
-+syncobj_eventfd_entry_func(struct drm_syncobj *syncobj,
-+=09=09=09   struct syncobj_eventfd_entry *entry)
-+{
-+=09int ret;
-+=09struct dma_fence *fence;
-+
-+=09/* This happens inside the syncobj lock */
-+=09fence =3D dma_fence_get(rcu_dereference_protected(syncobj->fence, 1));
-+=09ret =3D dma_fence_chain_find_seqno(&fence, entry->point);
-+=09if (ret !=3D 0 || !fence) {
-+=09=09dma_fence_put(fence);
-+=09=09return;
-+=09}
-+
-+=09list_del_init(&entry->node);
-+=09entry->fence =3D fence;
-+
-+=09if (entry->flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE) {
-+=09=09eventfd_signal(entry->ev_fd_ctx, 1);
-+=09=09syncobj_eventfd_entry_free(entry);
-+=09} else {
-+=09=09ret =3D dma_fence_add_callback(fence, &entry->fence_cb,
-+=09=09=09=09=09     syncobj_eventfd_entry_fence_func);
-+=09=09if (ret =3D=3D -ENOENT) {
-+=09=09=09eventfd_signal(entry->ev_fd_ctx, 1);
-+=09=09=09syncobj_eventfd_entry_free(entry);
-+=09=09}
-+=09}
-+}
-+
-+int
-+drm_syncobj_eventfd_ioctl(struct drm_device *dev, void *data,
-+=09=09=09  struct drm_file *file_private)
-+{
-+=09struct drm_syncobj_eventfd *args =3D data;
-+=09struct drm_syncobj *syncobj;
-+=09struct eventfd_ctx *ev_fd_ctx;
-+=09struct syncobj_eventfd_entry *entry;
-+
-+=09if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ_TIMELINE))
-+=09=09return -EOPNOTSUPP;
-+
-+=09if (args->flags & ~DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE)
-+=09=09return -EINVAL;
-+
-+=09if (args->pad)
-+=09=09return -EINVAL;
-+
-+=09syncobj =3D drm_syncobj_find(file_private, args->handle);
-+=09if (!syncobj)
-+=09=09return -ENOENT;
-+
-+=09ev_fd_ctx =3D eventfd_ctx_fdget(args->fd);
-+=09if (IS_ERR(ev_fd_ctx))
-+=09=09return PTR_ERR(ev_fd_ctx);
-+
-+=09entry =3D kzalloc(sizeof(*entry), GFP_KERNEL);
-+=09if (!entry) {
-+=09=09eventfd_ctx_put(ev_fd_ctx);
-+=09=09return -ENOMEM;
-+=09}
-+=09entry->syncobj =3D syncobj;
-+=09entry->ev_fd_ctx =3D ev_fd_ctx;
-+=09entry->point =3D args->point;
-+=09entry->flags =3D args->flags;
-+
-+=09drm_syncobj_add_eventfd(syncobj, entry);
-+=09drm_syncobj_put(syncobj);
-+
-+=09return 0;
-+}
-=20
- int
- drm_syncobj_reset_ioctl(struct drm_device *dev, void *data,
-diff --git a/include/drm/drm_syncobj.h b/include/drm/drm_syncobj.h
-index 6cf7243a1dc5..b40052132e52 100644
---- a/include/drm/drm_syncobj.h
-+++ b/include/drm/drm_syncobj.h
-@@ -54,7 +54,11 @@ struct drm_syncobj {
- =09 */
- =09struct list_head cb_list;
- =09/**
--=09 * @lock: Protects &cb_list and write-locks &fence.
-+=09 * @ev_fd_list: List of registered eventfd.
-+=09 */
-+=09struct list_head ev_fd_list;
-+=09/**
-+=09 * @lock: Protects &cb_list and &ev_fd_list, and write-locks &fence.
- =09 */
- =09spinlock_t lock;
- =09/**
-diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-index a87bbbbca2d4..73fc43e100bf 100644
---- a/include/uapi/drm/drm.h
-+++ b/include/uapi/drm/drm.h
-@@ -909,6 +909,27 @@ struct drm_syncobj_timeline_wait {
- =09__u32 pad;
- };
-=20
-+/**
-+ * struct drm_syncobj_eventfd
-+ * @handle: syncobj handle.
-+ * @flags: Zero to wait for the point to be signalled, or
-+ *         &DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE to wait for a fence to b=
-e
-+ *         available for the point.
-+ * @point: syncobj timeline point (set to zero for binary syncobjs).
-+ * @fd: Existing eventfd to sent events to.
-+ * @pad: Must be zero.
-+ *
-+ * Register an eventfd to be signalled by a syncobj. The eventfd counter w=
-ill
-+ * be incremented by one.
-+ */
-+struct drm_syncobj_eventfd {
-+=09__u32 handle;
-+=09__u32 flags;
-+=09__u64 point;
-+=09__s32 fd;
-+=09__u32 pad;
-+};
-+
-=20
- struct drm_syncobj_array {
- =09__u64 handles;
-@@ -1138,6 +1159,7 @@ extern "C" {
- #define DRM_IOCTL_SYNCOBJ_QUERY=09=09DRM_IOWR(0xCB, struct drm_syncobj_tim=
-eline_array)
- #define DRM_IOCTL_SYNCOBJ_TRANSFER=09DRM_IOWR(0xCC, struct drm_syncobj_tra=
-nsfer)
- #define DRM_IOCTL_SYNCOBJ_TIMELINE_SIGNAL=09DRM_IOWR(0xCD, struct drm_sync=
-obj_timeline_array)
-+#define DRM_IOCTL_SYNCOBJ_EVENTFD=09DRM_IOWR(0xCE, struct drm_syncobj_even=
-tfd)
-=20
- /**
-  * DRM_IOCTL_MODE_GETFB2 - Get framebuffer metadata.
---=20
-2.41.0
-
+The series is:
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
