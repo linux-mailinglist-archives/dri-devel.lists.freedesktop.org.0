@@ -1,76 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F6AB74F9C6
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 23:35:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F75074F9CA
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 23:35:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB1F910E068;
-	Tue, 11 Jul 2023 21:34:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01BB010E432;
+	Tue, 11 Jul 2023 21:35:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CE3710E068
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 21:34:58 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id
- 38308e7fff4ca-2b6f97c7115so95987361fa.2
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 14:34:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689111296; x=1691703296;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5kdVuwXm6t95AcBuBM8m7iArVjotqNWDs0Iyq3HVAYg=;
- b=NkqZys+bin9V5fVkkxHI6QhlxChpa/RkNbEBdYOBEEEo9ee0ztANjJ9JvOD41diumx
- w7VZ/PzElygPNgUCjrnj9k7EyE4i9w+WAIv6IT2776fuExrUtDcjq39qyRMHIE2/frEa
- AWvN9zMI3J10jBIlBjqSSJJO+aaLzubQCvqfWyRy5MYa0ApR3cYx9huE/xfecmG7snik
- bTFJTaE6SeuAMT/+LXCqhOqoUfz2gZXyciEe1ZtQmw8N1I+gh9r/znni0PHun0d4ohYS
- yR6cltNg96DS2y4zjsX8j6skn9gJd16Z9dTXPWl5400p2c2xDOauvG30BRSHuLcxJA19
- tR7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689111296; x=1691703296;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5kdVuwXm6t95AcBuBM8m7iArVjotqNWDs0Iyq3HVAYg=;
- b=hixA9/QCMUIXhEruweJnTJs0IvkTmojqHB61zxJJuulxqBSxvL+u6x990n6EIiHY+e
- kB9x96yCmoIGESwF1tFzsvPgZ/Bki6EiAbii1tvFVhZGvJs6mde7BaDxQJdtlrzTGPGR
- Ych4YuDewSDuMzlmO84GRISAjFYEK/hEFFX16rTl1xRuVa3Z090NPDYO/N04OGOlCZ4Z
- V1IuGkx91zv3J93h/iv5NWGp+ctJEvrUW6UKRdbRer9jAE8Fwk0h2miYx2p0VUsfmOd3
- LDhYSOz4niXioGm5Msad2SkQ6bGv47fdbYJgBHBUIliRblhqR8ItyHIBgv2zzpz/mI3j
- Kjrw==
-X-Gm-Message-State: ABy/qLbpoHY0+dVW3qY9hgECoNn2jPmPd9CS4LX8Rn/sHgqzASDbV9HE
- Ndai0oVCZ+OezCIornF3oqscjw==
-X-Google-Smtp-Source: APBJJlFvpJE95MGXlJyrIpKrgbrKL35PzAVwOnW7cxv5hb1zbqpIUZgMx6jvKV++u6SvtTpjyfoWrA==
-X-Received: by 2002:a2e:a0d4:0:b0:2b5:89a6:c12b with SMTP id
- f20-20020a2ea0d4000000b002b589a6c12bmr14055670ljm.10.1689111296389; 
- Tue, 11 Jul 2023 14:34:56 -0700 (PDT)
-Received: from [192.168.1.101] (abyl96.neoplus.adsl.tpnet.pl. [83.9.31.96])
- by smtp.gmail.com with ESMTPSA id
- e16-20020a2e9310000000b002b6cb40e9aasm597832ljh.103.2023.07.11.14.34.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Jul 2023 14:34:55 -0700 (PDT)
-Message-ID: <da7cf83c-8026-c6dc-e3cb-c632c1b59d96@linaro.org>
-Date: Tue, 11 Jul 2023 23:34:54 +0200
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB50010E036;
+ Tue, 11 Jul 2023 21:35:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=zxO2JUIk0+qcytPvORKjR4DXSclXMm1DGFD/RYtrULs=; b=hXyqhIfbhMl1hyi6fpooEVg7aG
+ vc0Jq3WEj44nQhxddDYXuY1tI9OMYqU4WMBWGnxDcktpU6Fh4k0A7gRZ+6H+racLX+nDrolqEaMyl
+ XNc+tgEgEnx8t90fDMLEprhMR1alVokirVMLzTmQXJFWOYbhmdboiJWnr25knb510mE5sVShcAeo+
+ 5JVZeaIzo2XvWEOUSkfbJL8mRnHWK1ezp/ETAUkiauFJW8Oeqcp7GXx+wbcJ6uLB7VaSdTVogLbAL
+ a8uqc4zDcDVjDqDHx5awi49ACoCZHwcGAWUP4HEMM5gEtdHZY73W4XoA3UsREznZfMIGui4ZPE7Jj
+ don4WyOg==;
+Received: from [187.74.70.209] (helo=steammachine.lan)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1qJL1H-00Cl0M-N0; Tue, 11 Jul 2023 23:35:40 +0200
+From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH 0/6] drm/amdgpu: Add new reset option and rework coredump
+Date: Tue, 11 Jul 2023 18:34:55 -0300
+Message-ID: <20230711213501.526237-1-andrealmeid@igalia.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20230709041926.4052245-1-dmitry.baryshkov@linaro.org>
- <20230709041926.4052245-3-dmitry.baryshkov@linaro.org>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH 2/5] arm64: dts: qcom: sm8250: Add DisplayPort device node
-In-Reply-To: <20230709041926.4052245-3-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,57 +51,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: pierre-eric.pelloux-prayer@amd.com,
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+ =?UTF-8?q?=27Marek=20Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
+ =?UTF-8?q?Timur=20Krist=C3=B3f?= <timur.kristof@gmail.com>,
+ michel.daenzer@mailbox.org, Samuel Pitoiset <samuel.pitoiset@gmail.com>,
+ kernel-dev@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9.07.2023 06:19, Dmitry Baryshkov wrote:
-> Declare the displayport controller present on the Qualcomm SM8250 SoC.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
-[...]
+Hi,
 
-> +				dp_opp_table: opp-table {
-> +					compatible = "operating-points-v2";
-> +
-> +					opp-160000000 {
-> +						opp-hz = /bits/ 64 <160000000>;
-> +						required-opps = <&rpmhpd_opp_low_svs>;
-19.2 MHz, VDD_MIN
+The goal of this patchset is to improve debugging device resets on amdgpu.
 
-> +					};
-> +
-> +					opp-270000000 {
-> +						opp-hz = /bits/ 64 <270000000>;
-> +						required-opps = <&rpmhpd_opp_svs>;
-270 MHz, LOW_SVS
-> +					};
-> +
-> +					opp-540000000 {
-> +						opp-hz = /bits/ 64 <540000000>;
-> +						required-opps = <&rpmhpd_opp_svs_l1>;
-540 MHz, SVS_L1 (ok)
-> +					};
-> +
-> +					opp-810000000 {
-> +						opp-hz = /bits/ 64 <810000000>;
-> +						required-opps = <&rpmhpd_opp_nom>;
-810 MHz, NOM (also ok)
+The first patch creates a new module parameter to disable soft recoveries,
+ensuring every recovery go through the full device reset, making easier to
+generate resets from userspace tools like [0] and [1]. This is important to
+validate how the stack behaves on resets, from end-to-end.
 
-(but then - there's qcom,max-pclk-frequency-khz = <675000>;)
+The second patch is a small addition to mark guilty jobs that causes soft
+recoveries for API consistency.
 
-also, what's up with the PIXEL1 clocks etc.?
-they are capped at the aforementioned 675 Mhz but I have no idea
-what they're for
+The last patches are a rework to store more information at devcoredump files,
+making it more useful to be attached to bug reports.
 
-Konrad
-> +					};
-> +				};
-> +			};
-> +
->  			mdss_dsi0: dsi@ae94000 {
->  				compatible = "qcom,sm8250-dsi-ctrl",
->  					     "qcom,mdss-dsi-ctrl";
+The new coredump content look like this:
+
+   **** AMDGPU Device Coredump ****
+   version: 1
+   kernel: 6.4.0-rc7-tony+
+   module: amdgpu
+   time: 702.743534320
+   process_name: vulkan-triangle PID: 4561
+   IBs:
+   	[0] 0xffff800100545000
+   	[1] 0xffff800100001000
+   ring name: gfx_0.0.0
+
+Due to nested IBs, this may not be the one that really caused the hang, but it
+gives some direction.
+
+Thanks,
+	André
+
+[0] https://gitlab.freedesktop.org/andrealmeid/gpu-timeout
+[1] https://github.com/andrealmeid/vulkan-triangle-v1
+
+André Almeida (6):
+  drm/amdgpu: Create a module param to disable soft recovery
+  drm/amdgpu: Mark contexts guilty for causing soft recoveries
+  drm/amdgpu: Rework coredump to use memory dynamically
+  drm/amdgpu: Limit info in coredump for kernel threads
+  drm/amdgpu: Log IBs and ring name at coredump
+  drm/amdgpu: Create version number for coredumps
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h        | 21 +++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c    |  6 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 99 +++++++++++++++++-----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |  9 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c   |  6 +-
+ 5 files changed, 112 insertions(+), 29 deletions(-)
+
+-- 
+2.41.0
+
