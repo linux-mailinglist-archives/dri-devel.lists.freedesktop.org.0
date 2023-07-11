@@ -1,52 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8BA574E6B1
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 08:02:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F42774E7BC
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 09:14:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BBEF10E2FF;
-	Tue, 11 Jul 2023 06:02:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EE2110E321;
+	Tue, 11 Jul 2023 07:14:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.208.org (unknown [183.242.55.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF53B10E300
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 06:02:24 +0000 (UTC)
-Received: from mail.208.org (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTP id 4R0VdT4WwhzBHXhj
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 14:02:21 +0800 (CST)
-Authentication-Results: mail.208.org (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)" header.d=208.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
- content-type:message-id:user-agent:references:in-reply-to
- :subject:to:from:date:mime-version; s=dkim; t=1689055341; x=
- 1691647342; bh=b8hHmnhwvioMharC+I07LYQUBP9wCvt66s8t620cj4Q=; b=w
- dbJGMo0nVLe2DWkBtDsi8YtwM3YH6gPv6HcGhtYzzW/EWyMnpWHVpalIFqIgv29z
- SXrKueWZZ5BR2XU5ttgkXHxofMbj7ZKwo3vPDqOUYmyeIlWIPBeVdyFF5vjyuqIG
- Xy3NTTwBAwDjlVolprl3yN91NL7qPxeGIaZ7chE7ebIbc3jmeiz91Kqfqi6WqSGB
- r4aHpUKd2mDrzm1vZQ/QriOOO3/Z7yOohbF7bIYuJwni/T+bYFIHKguefIqS0z0B
- Si0GkWML2+wIr6p3ppWiLxFx/KpQTIqXGY1If779s2N+59BrFC/1n+dMlnMrnhrH
- 99Res6epkSnE3Nv630+pQ==
-X-Virus-Scanned: amavisd-new at mail.208.org
-Received: from mail.208.org ([127.0.0.1])
- by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id KyXL1JV7nA_W for <dri-devel@lists.freedesktop.org>;
- Tue, 11 Jul 2023 14:02:21 +0800 (CST)
-Received: from localhost (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTPSA id 4R0VdT21Z1zBHXgj;
- Tue, 11 Jul 2023 14:02:21 +0800 (CST)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4305210E2F1;
+ Tue, 11 Jul 2023 03:29:56 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-3fbc5d5746cso59652515e9.2; 
+ Mon, 10 Jul 2023 20:29:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1689046191; x=1691638191;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=NIA1evLsFIG/d/BciMyieA3NRV49yLIoqEJJuDBlYaE=;
+ b=rxdmtG3igEMBUtvy4AOmssEH0wfRxsb6ymp/QwRMujz+LOJ7sQhoyon0BKo5iYPM3C
+ vvzg9/1A3HwLvvaXUsO488/UOVvvzTunW5vpXmI/qUReYS6UgHUkEsCeV5SKsSn+OeE3
+ To366J795JPA8ZrqOsYdOA01LYJD1w95dSr0k+1zuA2eLFNRvMsmFVGObddnqfUBHqXs
+ 7bY/K8fefBz2KsIpGItrgkW4pKITj5QMOyTWR1t6OBB5PVHVxzHeH+l7rfMVQN6y7+5x
+ JvoHWXHqerCTBw3Znr4NafxxwSx0kZGdgz+7oAy1Fq1o+Za4ZQome/sYiWN9AOzemKZl
+ 4fPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689046191; x=1691638191;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NIA1evLsFIG/d/BciMyieA3NRV49yLIoqEJJuDBlYaE=;
+ b=QxLnkBu8R9wE8FzBC0hJDHp+fuzwbYh+lthZWkmrSExvoU35W5fG8wIoxhLr554R3C
+ Tn7IbjnYFz7UH24RJ5r/T7nNK2bHDGHi9an1+W4UrBt7HTI1g9FaGDSOTggUrm5cFHED
+ AWU4/xXIRfMj0EJPj5dGB8ssal5T87wrB7Br45UN9sa6lGyxR0kMzBsyJRWRYsbecRii
+ XMRY3EgjEJB1tTVY+EwNluY+ZHVhDP5HjOmN5eb7J2PZ6ivUl3hDcLkxU+sWFc+B+aB9
+ Oi63M2INrUarETckmAyVLfUFcn0iNtuJSO1pZ8eVr6FoEy1KfKy7Gj5gQvNzyvffLWgE
+ V8eg==
+X-Gm-Message-State: ABy/qLZvGwfjFwjuGyHusxN72+6UdtSuPdyGgx6vNQpFljUmfP1nOC9L
+ 9PWIo38Y3/OQbXcFKIatlUY=
+X-Google-Smtp-Source: APBJJlEtcLQ35KkQPdh0ZyVQNhO4j35UEGhwGDSQsnZ0b+jETRrDX8NdbpbeIj/gDk8UD38PgbGDEA==
+X-Received: by 2002:a05:600c:378c:b0:3f9:b748:ff3f with SMTP id
+ o12-20020a05600c378c00b003f9b748ff3fmr14479766wmr.1.1689046191141; 
+ Mon, 10 Jul 2023 20:29:51 -0700 (PDT)
+Received: from localhost.localdomain ([2a05:f480:1000:b09:5400:4ff:fe6f:7099])
+ by smtp.gmail.com with ESMTPSA id
+ u18-20020a05600c211200b003fbbe41fd78sm1290715wml.10.2023.07.10.20.29.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Jul 2023 20:29:50 -0700 (PDT)
+From: zhangshida <starzhangzsd@gmail.com>
+X-Google-Original-From: zhangshida <zhangshida@kylinos.cn>
+To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com, airlied@gmail.com,
+ daniel@ffwll.ch, ville.syrjala@linux.intel.com
+Subject: [PATCH] drm/i915/gmch: fix not used warning in
+ intel_alloc_mchbar_resource
+Date: Tue, 11 Jul 2023 11:29:40 +0800
+Message-Id: <20230711032940.901797-1-zhangshida@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Date: Tue, 11 Jul 2023 14:02:21 +0800
-From: sunran001@208suo.com
-To: airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH] drm/nouveau/flcn/qmgr: add missing spaces after ','
-In-Reply-To: <20230711060037.79553-1-xujianghui@cdjrlc.com>
-References: <20230711060037.79553-1-xujianghui@cdjrlc.com>
-User-Agent: Roundcube Webmail
-Message-ID: <508482277025753b619a7595d7ff7e2e@208suo.com>
-X-Sender: sunran001@208suo.com
-Content-Type: multipart/alternative;
- boundary="=_03b51b7bf49e88ad5069713b3d20b154"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 11 Jul 2023 07:14:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,70 +76,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: k2ci <kernel-bot@kylinos.cn>, intel-gfx@lists.freedesktop.org,
+ starzhangzsd@gmail.com, zhangshida@kylinos.cn, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---=_03b51b7bf49e88ad5069713b3d20b154
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+From: Shida Zhang <zhangshida@kylinos.cn>
 
+Quiet down this gcc warning generated by
+gcc (Debian 10.2.1-6) 10.2.1 20210110:
 
-Add missing spaces to clear checkpatch errors.
+../drivers/gpu/drm/i915/soc/intel_gmch.c: In function ‘intel_alloc_mchbar_resource’:
+../drivers/gpu/drm/i915/soc/intel_gmch.c:41:6: error: variable ‘mchbar_addr’ set but not used [-Werror=unused-but-set-variable]
+   41 |  u64 mchbar_addr;
+      |      ^~~~~~~~~~~
 
-ERROR: space required before the open brace ','
-
-Signed-off-by: Ran Sun <sunran001@208suo.com>
+Reported-by: k2ci <kernel-bot@kylinos.cn>
+Signed-off-by: Shida Zhang <zhangshida@kylinos.cn>
 ---
-  drivers/gpu/drm/nouveau/nvkm/falcon/qmgr.h | 6 +++---
-  1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/soc/intel_gmch.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/falcon/qmgr.h 
-b/drivers/gpu/drm/nouveau/nvkm/falcon/qmgr.h
-index 79f0da9e749f..0503183d7ca8 100644
---- a/drivers/gpu/drm/nouveau/nvkm/falcon/qmgr.h
-+++ b/drivers/gpu/drm/nouveau/nvkm/falcon/qmgr.h
-@@ -82,7 +82,7 @@ struct nvkm_falcon_msgq {
-      u32 position;
-  };
+diff --git a/drivers/gpu/drm/i915/soc/intel_gmch.c b/drivers/gpu/drm/i915/soc/intel_gmch.c
+index 6d0204942f7a..f7db6cb3f828 100644
+--- a/drivers/gpu/drm/i915/soc/intel_gmch.c
++++ b/drivers/gpu/drm/i915/soc/intel_gmch.c
+@@ -38,16 +38,18 @@ intel_alloc_mchbar_resource(struct drm_i915_private *i915)
+ {
+ 	int reg = GRAPHICS_VER(i915) >= 4 ? MCHBAR_I965 : MCHBAR_I915;
+ 	u32 temp_lo, temp_hi = 0;
++#ifdef CONFIG_PNP
+ 	u64 mchbar_addr;
++#endif
+ 	int ret;
+ 
+ 	if (GRAPHICS_VER(i915) >= 4)
+ 		pci_read_config_dword(i915->gmch.pdev, reg + 4, &temp_hi);
+ 	pci_read_config_dword(i915->gmch.pdev, reg, &temp_lo);
+-	mchbar_addr = ((u64)temp_hi << 32) | temp_lo;
+ 
+ 	/* If ACPI doesn't have it, assume we need to allocate it ourselves */
+ #ifdef CONFIG_PNP
++	mchbar_addr = ((u64)temp_hi << 32) | temp_lo;
+ 	if (mchbar_addr &&
+ 	    pnp_range_reserved(mchbar_addr, mchbar_addr + MCHBAR_SIZE))
+ 		return 0;
+-- 
+2.27.0
 
--#define FLCNQ_PRINTK(q,l,p,f,a...) FLCN_PRINTK((q)->qmgr->falcon, l, p, 
-"%s: "f, (q)->name, ##a)
--#define FLCNQ_DBG(q,f,a...) FLCNQ_PRINTK((q), DEBUG, info, f, ##a)
--#define FLCNQ_ERR(q,f,a...) FLCNQ_PRINTK((q), ERROR, err, f, ##a)
-+#define FLCNQ_PRINTK(q, l, p, f, a...) FLCN_PRINTK((q)->qmgr->falcon, 
-l, p, "%s: "f, (q)->name, ##a)
-+#define FLCNQ_DBG(q, f, a...) FLCNQ_PRINTK((q), DEBUG, info, f, ##a)
-+#define FLCNQ_ERR(q, f, a...) FLCNQ_PRINTK((q), ERROR, err, f, ##a)
-  #endif
---=_03b51b7bf49e88ad5069713b3d20b154
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html; charset=UTF-8
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; charset=
-=3DUTF-8" /></head><body style=3D'font-size: 12pt; font-family: Verdana,Gen=
-eva,sans-serif'>
-<div class=3D"pre" style=3D"margin: 0; padding: 0; font-family: monospace">=
-Add missing spaces to clear checkpatch errors.<br /><br />ERROR: space requ=
-ired before the open brace ','<br /><br />Signed-off-by: Ran Sun &lt;sunran=
-001@208suo.com&gt;<br />---<br />&nbsp;drivers/gpu/drm/nouveau/nvkm/falcon/=
-qmgr.h | 6 +++---<br />&nbsp;1 file changed, 3 insertions(+), 3 deletions(-=
-)<br /><br />diff --git a/drivers/gpu/drm/nouveau/nvkm/falcon/qmgr.h b/driv=
-ers/gpu/drm/nouveau/nvkm/falcon/qmgr.h<br />index 79f0da9e749f..0503183d7ca=
-8 100644<br />--- a/drivers/gpu/drm/nouveau/nvkm/falcon/qmgr.h<br />+++ b/d=
-rivers/gpu/drm/nouveau/nvkm/falcon/qmgr.h<br />@@ -82,7 +82,7 @@ struct nvk=
-m_falcon_msgq {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;u32 position;<br />&nbsp=
-;};<br />&nbsp;<br />-#define FLCNQ_PRINTK(q,l,p,f,a...) FLCN_PRINTK((q)-&g=
-t;qmgr-&gt;falcon, l, p, "%s: "f, (q)-&gt;name, ##a)<br />-#define FLCNQ_DB=
-G(q,f,a...) FLCNQ_PRINTK((q), DEBUG, info, f, ##a)<br />-#define FLCNQ_ERR(=
-q,f,a...) FLCNQ_PRINTK((q), ERROR, err, f, ##a)<br />+#define FLCNQ_PRINTK(=
-q, l, p, f, a...) FLCN_PRINTK((q)-&gt;qmgr-&gt;falcon, l, p, "%s: "f, (q)-&=
-gt;name, ##a)<br />+#define FLCNQ_DBG(q, f, a...) FLCNQ_PRINTK((q), DEBUG, =
-info, f, ##a)<br />+#define FLCNQ_ERR(q, f, a...) FLCNQ_PRINTK((q), ERROR, =
-err, f, ##a)<br />&nbsp;#endif</div>
-
-</body></html>
-
---=_03b51b7bf49e88ad5069713b3d20b154--
