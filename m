@@ -2,42 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FA2A74FBC2
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 01:15:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A455674FBC4
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 01:15:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D987E10E45F;
-	Tue, 11 Jul 2023 23:15:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1348310E461;
+	Tue, 11 Jul 2023 23:15:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13ED310E45F
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 23:15:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1689117311;
- bh=7EmUJJ6QfZLss1Mdil6Tl1TauaGf33Y1rfrV6vxUPBE=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=UvnJwTuI3h/QlAFkTp8bQ2Hql99MYdnBoRc0BvYDEpWl87Iq8C1HKS/UwYACElsbJ
- KPMbc4C5GWbv4MBoWebkvJdOoL7fwY/K8CcPjK+TO7OsUMmlDTqMFAeqKnXqX6Kg6S
- bgO8l09adxvtFtazRSRgxcyMWQNWytH9XLBXJLaEwiKGsGSVmMIaLEcMKIyg9UDKzz
- Bm2TezlRQXA5ZTZLrKV1n9WHcmbyKaJ4AqFAWGGt9QdfVWPrZx0rqxSzVJWYDD/bda
- W5ZNzWh8ciLOPkKjmrycatLV6lOuYQn7uUBY8dBL/0bAQay7Ii9Ly2xhEs98OQNR3j
- yRXKScCNozO7Q==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4R0xYC0Bhyz4wxx;
- Wed, 12 Jul 2023 09:15:10 +1000 (AEST)
-Date: Wed, 12 Jul 2023 09:15:09 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Alex Deucher <alexdeucher@gmail.com>, Dave Airlie <airlied@redhat.com>
-Subject: Re: linux-next: build warnings after merge of the amdgpu tree
-Message-ID: <20230712091509.4f6f7a19@canb.auug.org.au>
-In-Reply-To: <20221118175545.762d1a20@canb.auug.org.au>
-References: <20221118175545.762d1a20@canb.auug.org.au>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3274D10E460;
+ Tue, 11 Jul 2023 23:15:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=LFHQzkFS9wSPjknxSFQJfKSFRQvdUVhns9NnhJvkFr4=; b=L9RqovJsZckhw6FiUQoaWDpXn+
+ dsm13nkF8awVzv72RC+745Zx0OfiQ2AAWt9UrFNwCL1Q28sg47MBN5u+bolzkt+mFfB1Xso2WacG3
+ 7tnx9S3UAq0gxne7OuMsq/1udBh+EvFPUwSFiBqVsGd970edKZR/oxjO5AQf9Xj7ieq0a77HT9E19
+ 6AvjN+SCRz44pw5NobIRoO25iQ59BZ8it7ze9Jqdbtf8SKRjlZ7/O7OsLxuusruULlsMFZFiE7NlR
+ 9O0MejeyrTAZAUdWu2u/dCInymE7nW2x4UNnAZHKLdUGYQfC+znNRO9ruM1UDdUzNnp7lRFRE4yWd
+ EcXy7t/A==;
+Received: from 201-27-237-219.dsl.telesp.net.br ([201.27.237.219]
+ helo=[192.168.1.60]) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1qJMa2-00CnWw-Ak; Wed, 12 Jul 2023 01:15:38 +0200
+Message-ID: <3e4892a5-f8a8-805b-aaf9-c9aec64d9607@igalia.com>
+Date: Tue, 11 Jul 2023 20:15:32 -0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/zAyimXdKaV=bjBL.tJPRxxH";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] Revert "drm/amd/display: Program OTG vtotal min/max
+ selectors unconditionally for DCN1+"
+Content-Language: en-US
+To: Aurabindo Pillai <aurabindo.pillai@amd.com>, alexander.deucher@amd.com
+References: <20230702164407.6547-1-gpiccoli@igalia.com>
+ <54092b91-a9c6-7276-1633-13b83a92524d@amd.com>
+From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <54092b91-a9c6-7276-1633-13b83a92524d@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,112 +56,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>
+Cc: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>, Xinhui.Pan@amd.com,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, dri-devel@lists.freedesktop.org,
+ Melissa Wen <mwen@igalia.com>, amd-gfx@lists.freedesktop.org,
+ kernel-dev@igalia.com, cristian.ciocaltea@collabora.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/zAyimXdKaV=bjBL.tJPRxxH
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 11/07/2023 15:22, Aurabindo Pillai wrote:
+> [...]
+> Hi,
+> 
+> Sorry for the delayed response, this patch went unnoticed. This revert would break asics. Could you try the attached patch without reverting this one ?
 
-Hi all,
+Hi Aurabindo, thanks for your response!
 
-On Fri, 18 Nov 2022 17:55:45 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
-wrote:
->
-> After merging the amdgpu tree, today's linux-next build (htmldocs)
-> produced these warnings:
->=20
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'dispclk_khz' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'actual_dispclk_khz' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'dppclk_khz' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'actual_dppclk_khz' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'disp_dpp_voltage_level_khz' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'dcfclk_khz' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'socclk_khz' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'dcfclk_deep_sleep_khz' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'fclk_khz' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'phyclk_khz' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'dramclk_khz' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'p_state_change_support' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'zstate_support' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'dtbclk_en' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'ref_dtbclk_khz' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'fclk_p_state_change_support' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'pwr_state' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'prev_p_state_change_support' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'fclk_prev_p_state_change_support' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'num_ways' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'fw_based_mclk_switching' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'fw_based_mclk_switching_shut_down' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'prev_num_ways' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'dtm_level' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'max_supported_dppclk_khz' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'max_supported_dispclk_khz' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'bw_dppclk_khz' not described in 'dc_clocks'
-> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter or m=
-ember 'bw_dispclk_khz' not described in 'dc_clocks'
->=20
-> Introduced by commit
->=20
->   1682bd1a6b5f ("drm/amd/display: Expand kernel doc for DC")
->=20
-> (now also in the drm tree) but revealed by commit
->=20
->   ef8d147fd442 ("drm/amd/display: fix kernel-doc issues in dc.h")
+I've tried kernel 6.5-rc1, and it seems the issue is present, due to the
+patch being merged on Linus tree [as 1598fc576420 ("drm/amd/display:
+Program OTG vtotal min/max selectors unconditionally for DCN1+")].
 
-I am still getting these warnings (presumably now from Linus' tree).
-The line number has changed to 558.
+Then, I tried both your attached patches on top of that, and
+unfortunately, the behavior is the same: Steam Deck doesn't boot with
+graphics, and we can see the single error "amdgpu 0000:04:00.0: [drm]
+*ERROR* [CRTC:67:crtc-0] flip_done timed out" on dmesg.
 
---=20
-Cheers,
-Stephen Rothwell
+Do you / Alex think we could get this revert for 6.5-rc2, so at least we
+could boot mainline there while the issue is handled? It would be an
+intermediate fix. You mentioned it breaks some asics, but did they work
+until now, without your patch?
 
---Sig_/zAyimXdKaV=bjBL.tJPRxxH
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Thanks,
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmSt4n0ACgkQAVBC80lX
-0GzS9Af/fAr8505kTtFwrbfX+7ec/rLvR1chBIYqGHRZqa/2hEcbijpl4MOsjcaK
-zlppGaWDGpk0h6ZTyZaOEvS/YgFIRQ40kbUv12itx8kMdS8X+0X18rFomdk2e39Z
-w9yD1bCtR0T9Q7c62SH7gTmFSUJI4Noz51rXVQrQgcZmDJ6PPaFKOlLq7+qFj4r7
-vn1eZZtP0Dbk2ChHAwQhAbyKIHg7lmHb3H1+mfZVP4dW8m5T+alyLtWp7KziP1+n
-mw0jLvu6bHdA5ckuCaaNl8RErbsQr5AhQLcGwFvvhWsIvxK2RA/+5RTCee/xNRUC
-faGQux7ZYJq52naCkG/pQ9i3FJBL4g==
-=me1t
------END PGP SIGNATURE-----
-
---Sig_/zAyimXdKaV=bjBL.tJPRxxH--
+Guilherme
