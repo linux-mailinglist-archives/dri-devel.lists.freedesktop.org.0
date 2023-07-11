@@ -1,66 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE3DC74F1D8
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 16:22:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6197074F1D6
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 16:22:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E51E310E3B3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EF6010E3AF;
 	Tue, 11 Jul 2023 14:22:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
- [IPv6:2a00:1450:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1563510E096
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 14:21:59 +0000 (UTC)
-Received: by mail-lj1-x22b.google.com with SMTP id
- 38308e7fff4ca-2b6a084a34cso88281611fa.1
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 07:21:59 -0700 (PDT)
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B110E10E091
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 14:22:00 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id
+ 38308e7fff4ca-2b70bfc8db5so77615051fa.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 07:22:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689085318; x=1691677318;
+ d=linaro.org; s=google; t=1689085319; x=1691677319;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=3W+xlIL+92+mtc++eFiUk2X+gdyaS8tS745CS5vqzOs=;
- b=pSWajOYHz+yJb3wDqA1JfnJsu5NUfy2QnvR0mrgsbuDq4vNQVKZ8GG9nkVwb/1Vyb3
- G55ePchLyqxCoW/5qgX9PFOqT8CZDZOY4MxGBkjT9ZbMQqejNdUDOMmNuSzjIxBC6E9n
- e6Ws4FAukID5i+oQ9TuVm2mCbXrvfWQjKfqPZ5UAnkv2RrF22zL0VMt6nwEPMyj+gF7F
- yOtOLxWt27Ch5W1OWIznR3G4NVj8KZuPEdpxwzBUXit2zI3fomzLulGy82QLOQBv8ztB
- cmoJ/6UB6Y+7F5nvklhM4MJEsjRejIywSc3WvbEDQDX6sP/LZNc/mbm782Z15DQ78q2M
- 46rg==
+ bh=jIVN6C53juP0Q5iDUT1F1HeifUyBCNpXBYhLUGADz7A=;
+ b=F2KzE1D9nWBzFgZ6+NFkRYupZLL5otNkqPs5j74tUMqGFtIH/k6+yxbz3wsFhHgEma
+ UQOyUHR7EBb2QRfNeZY9n0/dYZXteFQ5jyBuou0afKMNm9jxtPAzTTXd94dolct3VKAE
+ lQ+L1XYD9v4zr4K009AUW/5tNT978pAwwexQH4Y7Rxx2OluCPLu0NUfeORF//HxYhVIZ
+ gYnF03fI1nfRck5C2qZ7MAOTTjs5SXcFvC9iTi3ayiSKU5pPavZHgHPoKfE2vNQRhJ5U
+ eICAIEnmrI1lyHGmYp6yq1tLnBscBgNxRz4KM0hceuKH8WR64Qj/b5baDRaM5petQucG
+ HBgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689085318; x=1691677318;
+ d=1e100.net; s=20221208; t=1689085319; x=1691677319;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3W+xlIL+92+mtc++eFiUk2X+gdyaS8tS745CS5vqzOs=;
- b=QFSOVoExRTQPFEqCPyCtSoIK6wPkAO3SGZ55YrL9DewVnGRZlAikyomzTi5+W1JQY+
- eT/Gyy7MCZvd1ozxKOGYUc2maz0JpWeg7b1Y9kOSVAGRwaPA4McPL94o50L8BZRQJrTX
- kbzwS8yZKg7CIkT1DdQalKVQmjUJ82UhwBcMloqt9neRhF/cicrNUM85n8hdjMJWIyjC
- hFI79TmVwCAnImHrvdTvmwa684HR3usG6QRu6w7aDQNWZOy0G76raQQLuuA0w/o/4XGD
- TGwhj22fiJpHDENLSIDM9abBQYpk9pMykZPzadk5PHy7QfKdKlzGO8M+DnomVXxTyQz6
- nGZg==
-X-Gm-Message-State: ABy/qLZjV6zuWm6ZQPYkhnX5gUsUtlYlxkF9IUDuGpZlPDDqrXQLOh9y
- skxIx/qx8GdFFZqqzX5GE1qN1g==
-X-Google-Smtp-Source: APBJJlG3UheJ5PjWmq8p+u1ZohyLsO6cGtjSYMuPOe2sR7renrjFhF1N9uvXWi64yWQa6e+5+vztGg==
-X-Received: by 2002:a2e:9b15:0:b0:2b1:a89a:5f2b with SMTP id
- u21-20020a2e9b15000000b002b1a89a5f2bmr13320689lji.2.1689085318180; 
- Tue, 11 Jul 2023 07:21:58 -0700 (PDT)
+ bh=jIVN6C53juP0Q5iDUT1F1HeifUyBCNpXBYhLUGADz7A=;
+ b=SPFdY/ktadA7NjiH4Zkg8emRSI4xEtEIlC1vfaOdR44eFhnkXQ93amCpoKcp1Fk9ot
+ tlZ7YmbIc60XanydUmlU4/Pvydtoj4brgYIUWL+KkSxMuNMBABUyQf8+kTaMtsYoF9Xh
+ PrpIENQA7VM1w2znA3DZUB0W3T+39i1pmd6z7Pl+i4AUYcc+I1YfJg1eJ0XzH6AL2Yso
+ gBwEDWy/eM/9nyrTVsKQZ6ErOomC7DXoZYOrKSBeT8j4LojzXdFjqaJiKHFKxJP/MdtJ
+ Q6qDoHVNZNkAnbq2BgvN5pOelUN8pmYEBWmEJlxyx1rt8WeYXTQ3MFkbp3DXva8VvEMh
+ r/lQ==
+X-Gm-Message-State: ABy/qLYMQ/uQKHGQRpBjAfsK5StQwJbDNCCjsjxg8UGSXNPyV0WqbgqT
+ mTViH1g9GiblPTfbPkR68WEGSQ==
+X-Google-Smtp-Source: APBJJlEnEc2yw26sZg7r3jOg61IenC2emKJQYboIRLUpgluHvcSybr2bOGCJPNanGdpVVqAUd96rxQ==
+X-Received: by 2002:a2e:a170:0:b0:2b6:e958:d03 with SMTP id
+ u16-20020a2ea170000000b002b6e9580d03mr12795430ljl.30.1689085319029; 
+ Tue, 11 Jul 2023 07:21:59 -0700 (PDT)
 Received: from eriador.lan (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a0db:1f00::8a5]) by smtp.gmail.com with ESMTPSA id
- v9-20020a2e87c9000000b002b6b4424a28sm487934ljj.13.2023.07.11.07.21.57
+ v9-20020a2e87c9000000b002b6b4424a28sm487934ljj.13.2023.07.11.07.21.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jul 2023 07:21:57 -0700 (PDT)
+ Tue, 11 Jul 2023 07:21:58 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH 0/2] DPU1 GC1.8 wiring-up
-Date: Tue, 11 Jul 2023 17:21:47 +0300
-Message-Id: <168908465046.1869384.9699263240973946904.b4-ty@linaro.org>
+Subject: Re: [PATCH v2 0/2] DSIPHY RPM
+Date: Tue, 11 Jul 2023 17:21:48 +0300
+Message-Id: <168908465045.1869384.1893558597710112842.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230420-topic-dpu_gc-v1-0-d9d1a5e40917@linaro.org>
-References: <20230420-topic-dpu_gc-v1-0-d9d1a5e40917@linaro.org>
+In-Reply-To: <20230620-topic-dsiphy_rpm-v2-0-a11a751f34f0@linaro.org>
+References: <20230620-topic-dsiphy_rpm-v2-0-a11a751f34f0@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -83,20 +83,20 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Thu, 20 Apr 2023 03:14:53 +0200, Konrad Dybcio wrote:
-> Almost all SoCs from SDM845 to SM8550 inclusive feature a GC1.8
-> dspp sub-block in addition to PCCv4. The other block differ a bit
-> more, but none of them are supported upstream.
+On Tue, 20 Jun 2023 13:43:19 +0200, Konrad Dybcio wrote:
+> Some recent SoCs use power rails that we model as GENPDs to power the
+> DSIPHY. This series attempts to make such configurations suspendable.
 > 
-> This series adds configures the GCv1.8 on all the relevant SoCs.
+> Tested on SM6375.
 > 
 > 
-> [...]
 
 Applied, thanks!
 
-[1/2] drm/msm/dpu1: Rename sm8150_dspp_blk to sdm845_dspp_blk
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/9891b3df2b43
+[1/2] drm/msm/dsi: Use pm_runtime_resume_and_get to prevent refcnt leaks
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/a402e0e61b75
+[2/2] drm/msm/dsi: Enable runtime PM
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/4e905c2acc9d
 
 Best regards,
 -- 
