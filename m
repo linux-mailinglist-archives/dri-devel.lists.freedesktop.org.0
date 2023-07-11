@@ -1,55 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C74E74F66B
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 19:05:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FD3F74F699
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 19:09:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3548110E0D6;
-	Tue, 11 Jul 2023 17:05:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F147010E40F;
+	Tue, 11 Jul 2023 17:09:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E72EB10E0D6
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 17:05:40 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7444161589
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 17:05:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7252C433C9
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 17:05:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689095138;
- bh=ffeJIapA2i8KtpkaQDaRRzVDC4qeHx8KurMrQFWzP7g=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=la3HOtHvy0XM/f2Y4iTCps1/Ti4qRFo+7rh5KcklI3mtDVdSM3SrCeQr+ZvTu3Hbo
- zSpeSXhIIAT3AlrPPkw2+oymssLz8lCmLikDCttV1Y+1D7GUySlfUq57J23rzSbfnk
- r8IFpBqbGZ6Hntuxk246q4e9H9/UFZnpCNMeUTwbuxZoZu1yhSSPhfHhMmdBHCQPio
- nj8efEDaWTf3FdFrVe4NvM3l8UfrCZaWB3FjuaiPOr9X/IEiGybno2x9bRKyeKn/53
- 2IsxxjksJxxQQfldC3UBRzTw/NbQZKNBAeUssPxK1UQYYeuNJwWupQKWgnaj0Balk/
- EMiFfAMwnCb2Q==
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-2b703c900e3so93373241fa.1
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 10:05:38 -0700 (PDT)
-X-Gm-Message-State: ABy/qLbh8d09/nGJ5+JcWk8LOUP5UWnXTMlzZrGn72617BFU6JCIwjYP
- SGu3kMqFo3M72ifsoxwCTJ0drIJD0O7U88vHzg==
-X-Google-Smtp-Source: APBJJlHoS1FcFxGwFPJ/ewPGABck5kWIkACfr8013AsyHvluCY8e0O92fpKWd7fFdLAfImxRrLkI27/ePXUc6RRhShw=
-X-Received: by 2002:a2e:9d9a:0:b0:2b6:c4cf:76a8 with SMTP id
- c26-20020a2e9d9a000000b002b6c4cf76a8mr13182327ljj.10.1689095136927; Tue, 11
- Jul 2023 10:05:36 -0700 (PDT)
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
+ [IPv6:2607:f8b0:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8496610E40C;
+ Tue, 11 Jul 2023 17:09:25 +0000 (UTC)
+Received: by mail-oi1-x231.google.com with SMTP id
+ 5614622812f47-3a337ddff16so4560820b6e.0; 
+ Tue, 11 Jul 2023 10:09:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1689095364; x=1691687364;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hV73qAM5jf9inKvx6csq0KqHjwvvDMcIY0RseRx4sHw=;
+ b=KsnguWp1cL02BOOOoJ1TaTf8Y0SafDGcsBF5GfTf6pumKDoV9KOB0sXU2v+Bhhh5BH
+ WJHTTADm9CJU58zMfwF3UemrqZc5RZatpYy6a6SdG5IKkQHyL/z5ggzAQQx4/6njGDo/
+ XqghiRvyFULKM2LCrRfrpLv3a/TJ/SbevxzYfup+8Px4XYB7l489NuGj9HKdUqUlMS+E
+ 5NzB8eF7AbmPKWdqzS3KL/DlySqUzi7jkR8+ZgK8XttrYJ12nJxBjTxnMF6xLaX2AXqq
+ ZgFlciYcpFEt3gju1mEhxoIrZx7Lyol5bWJV2+2tyBq4/dJhB0q4hSU+yVl1oAsfmOAs
+ 7a0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689095364; x=1691687364;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=hV73qAM5jf9inKvx6csq0KqHjwvvDMcIY0RseRx4sHw=;
+ b=VUdTgk4QHhzL6ho3nE+5WXcx5ZuIWUjM8bMOfoBoKErCowm6Fifn8k/vtGrMnrMkiN
+ oJSL3TKx7IxD1J20WJDfJONRTrhmKBv20CbXsaO40djhTpXKm3CMR2Fiiv2fZFvMYecC
+ cDm0vT/d8VzzTQ6EUqWwstfkLlC+s0qUPuaF+6ORc2eMWx6/w/5Kx03toZW70FYx92oI
+ o4rRAAk6g5IC4aTlIu/7MxunbUpS+tekE/8bzXOsdzaPRYQMiDg3xblDbwYrjfuwrsPD
+ 2bd9qx4O5ZVCDq3wdzRYuEPv7ojvsmGCH8zvD1dNKWuKj8r1YutiT608GA73mIb7tTL9
+ hgLA==
+X-Gm-Message-State: ABy/qLZOKyYRDEpiX4KCOzwaXn6YQmk0KsZyTOxaB7cB2e0XeFFvDK1x
+ vIER+Ps5CK5UnQ0FPEP2g4mZfabpKw7x2FIKlGs=
+X-Google-Smtp-Source: APBJJlFcGmgXTywqVKLKdpeTp/QyH1M6Jm5sM4BnLQk42aLUECLGYLnq5nAd87yE/9rrzgT2kkOqb0gmmexb9nhmbyo=
+X-Received: by 2002:a54:4d9a:0:b0:3a4:12ba:fde4 with SMTP id
+ y26-20020a544d9a000000b003a412bafde4mr2718510oix.33.1689095364314; Tue, 11
+ Jul 2023 10:09:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230710174007.2291013-1-robh@kernel.org>
- <a0aa122d-38a1-d4be-edc1-a49b4e5e9b6b@suse.de>
- <4de35c35-c00d-d21a-bcd1-dc878137eb94@gmx.de>
-In-Reply-To: <4de35c35-c00d-d21a-bcd1-dc878137eb94@gmx.de>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 11 Jul 2023 11:05:24 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJmQ+70CkqPDT3vhs0bYJ_e6fuQrSOkNwCj7i0JQA4-EA@mail.gmail.com>
-Message-ID: <CAL_JsqJmQ+70CkqPDT3vhs0bYJ_e6fuQrSOkNwCj7i0JQA4-EA@mail.gmail.com>
-Subject: Re: [PATCH] of: Preserve "of-display" device name for compatibility
-To: Helge Deller <deller@gmx.de>
+References: <20230711133122.3710-1-christian.koenig@amd.com>
+In-Reply-To: <20230711133122.3710-1-christian.koenig@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 11 Jul 2023 13:09:13 -0400
+Message-ID: <CADnq5_Mr-Fnt7H=SDxYSFcLSYxSyWeCK8At7QDtJh3CJLA09cA@mail.gmail.com>
+Subject: Re: drm_exec context for amdgpu
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,52 +68,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Cyril Brulebois <cyril@debamax.com>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Michal Suchanek <msuchanek@suse.de>,
- Frank Rowand <frowand.list@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 11, 2023 at 9:46=E2=80=AFAM Helge Deller <deller@gmx.de> wrote:
+On Tue, Jul 11, 2023 at 9:31=E2=80=AFAM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
 >
-> On 7/11/23 08:00, Thomas Zimmermann wrote:
-> >
-> >
-> > Am 10.07.23 um 19:40 schrieb Rob Herring:
-> >> Since commit 241d2fb56a18 ("of: Make OF framebuffer device names uniqu=
-e"),
-> >> as spotted by Fr=C3=A9d=C3=A9ric Bonnard, the historical "of-display" =
-device is
-> >> gone: the updated logic creates "of-display.0" instead, then as many
-> >> "of-display.N" as required.
-> >>
-> >> This means that offb no longer finds the expected device, which preven=
-ts
-> >> the Debian Installer from setting up its interface, at least on ppc64e=
-l.
-> >>
-> >> Fix this by keeping "of-display" for the first device and "of-display.=
-N"
-> >> for subsequent devices.
-> >>
-> >> Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D217328
-> >> Link: https://bugs.debian.org/1033058
-> >> Fixes: 241d2fb56a18 ("of: Make OF framebuffer device names unique")
-> >> Cc: stable@vger.kernel.org
-> >> Cc: Cyril Brulebois <cyril@debamax.com>
-> >> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> >> Cc: Helge Deller <deller@gmx.de>
-> >> Signed-off-by: Rob Herring <robh@kernel.org>
-> >
-> > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Hi Alex,
 >
-> Acked-by: Helge Deller <deller@gmx.de>
+> so apart from some RADV semaphore issue which seems to be unrelated to
+> this changes our CI systems are happy with the changes.
 >
-> Who will pick up that patch?
-> Shall I take it via fbdev git tree?
+> Can I get some ack to push them through drm-misc-next?
 
-I'll take it. I've got other fixes queued up already.
-
-Rob
+For the series:
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
