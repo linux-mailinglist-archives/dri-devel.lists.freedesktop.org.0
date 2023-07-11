@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A49174E6C0
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 08:06:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F89174E6C9
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 08:07:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C0C410E302;
-	Tue, 11 Jul 2023 06:06:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D685F10E304;
+	Tue, 11 Jul 2023 06:07:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8C4F10E302
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 06:06:29 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- 5b1f17b1804b1-3fbea14700bso54266875e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 23:06:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689055588; x=1691647588;
- h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
- :to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=W89qn4/C8LoZMhk8A7/gIp60EbovNS/dN8Aiz2Yljxw=;
- b=UWvshBxL0dwNaKnStGzpGy5sP+MKrwDvUjH2ehZ5yOAS+R7ZjSaR4XHOiIF76htWy0
- ec3G9N50OM5WkOdlcn0+PcaqCsg07fSKuh0JNChD7wRbBRzfZTERKSlxa3NPgXU2Ceyx
- jrzK8IQDOBbkjehY9ZduyNRQueETUssIU7q8Emv7UxKwoYGf5OdfTdwv7nHPj2XjAktW
- niYQ3HsB7MGjEe5hNCJvUqo7h1++klO77ca3QH8ey2Gw0ukC4zLAeBw5V5w8P64Botl0
- Y2CIQIgRr+XxGxyJI3R5gN6tBOy5U+201JKWoT3c59jMNFUzfMvTgGVYWHIgsfXAV4Bl
- JiKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689055588; x=1691647588;
- h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
- :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=W89qn4/C8LoZMhk8A7/gIp60EbovNS/dN8Aiz2Yljxw=;
- b=P5ZV8vLFtvpY5vVXUAkX2EUzyHH/mnfgplegOlGrl8Q3JDliAdTsWHdyRY6ddK+hkp
- rAmtcBOR72pxYLe3Ga7v5Rslb2LGVMWCT3lW6y9yol1iKb786JxY5zsf05HaoD3fNRnk
- /+JSXZvRAG3PM6n8CMGHBA5JB6itWyRbdI4pmc6AQGMSOEnxNfLo3nFk+F7dnOYuhkMc
- SoGwsdLw78rmmXrYeVQaX/HtnrMJfsojqAOkmGuXEQ2AdpjqK+yIhKHEB9Jvjx1W8k/W
- PYUsscn1R9mYCsTVlMNHKL0c5R42C2TtiCCSYKWO3Mfboi+IGNXvBxdN/YJvutgkdK36
- wpUg==
-X-Gm-Message-State: ABy/qLaXJ9AjZ7Tnb8oHvi0P9Y6VxN31zfsCrnwsyNtQJNEe8/4uqUKR
- dA8n8kZ0tebnB9n5bFlWp7qtjA==
-X-Google-Smtp-Source: APBJJlH6Uyh/1/5BFQjexIK2gp2w+2myZZC//JVH6HN9EUWM2BnLZS54hMfa9PyGbdR2jb1exDPmeA==
-X-Received: by 2002:a7b:c356:0:b0:3fb:abd0:2b4b with SMTP id
- l22-20020a7bc356000000b003fbabd02b4bmr12143473wmj.26.1689055587959; 
- Mon, 10 Jul 2023 23:06:27 -0700 (PDT)
-Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- v24-20020a05600c215800b003fa95f328afsm11969157wml.29.2023.07.10.23.06.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jul 2023 23:06:26 -0700 (PDT)
-Date: Tue, 11 Jul 2023 09:06:22 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: [PATCH 1/5] accel/qaic: tighten bounds checking in encode_message()
-Message-ID: <ZKzxXhtwqYvoat8B@moroto>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8F0A10E304;
+ Tue, 11 Jul 2023 06:07:27 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7EC6C20462;
+ Tue, 11 Jul 2023 06:07:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1689055646; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SNB82qjZdLZ7yUY3NNXPS6LIosP+r/Oq/i6spbJvFKk=;
+ b=uGwAmGri6HCVTDVupX3AnI3pntTkCdCYgBe4MXKpKqrFFM9L58lddK9Gt4ijMk4oe12EKn
+ wkZlNhXoT6cUArvw8yZhpNIa/MdNQ2aoLAzzkOX+GJZ8zZTBVtIho0NqepELBnDZss5J1q
+ Qz4ED8AO8IXfoitx78CrV1zzRaCsFFs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1689055646;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SNB82qjZdLZ7yUY3NNXPS6LIosP+r/Oq/i6spbJvFKk=;
+ b=GIPxzBl4JRtB2A6zRvJSVOga3qJTO27JVaOO67Q1PDgWQ8Q7AxmxjwVP1QcGLy5J5JrJYb
+ 2W+F1yRrdWlZNaBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F20F21391C;
+ Tue, 11 Jul 2023 06:07:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id fIv0OZ3xrGRCBwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 11 Jul 2023 06:07:25 +0000
+Message-ID: <117aea3d-c316-509d-7be7-ade155b4ae85@suse.de>
+Date: Tue, 11 Jul 2023 08:07:25 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZKzxP8iX8Op0lYvh@moroto>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] drm/client: Send hotplug event after registering a client
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, javierm@redhat.com,
+ noralf@tronnes.org
+References: <20230710091029.27503-1-tzimmermann@suse.de>
+ <325dad0e-38ff-9f60-efc9-0fd711d63267@linaro.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <325dad0e-38ff-9f60-efc9-0fd711d63267@linaro.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------kv6LGauRuWxMfjHq4DW99D2e"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,84 +71,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
- kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- Carl Vanderlip <quic_carlv@quicinc.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-samsung-soc@vger.kernel.org,
+ Russell King <linux@armlinux.org.uk>, amd-gfx@lists.freedesktop.org,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Paul Schyska <pschyska@gmail.com>,
+ Torsten Krah <krah.tm@gmail.com>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Maxime Ripard <mripard@kernel.org>,
+ linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Moritz Duge <MoritzDuge@kolahilft.de>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are several issues in this code.  The check at the start of the
-loop:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------kv6LGauRuWxMfjHq4DW99D2e
+Content-Type: multipart/mixed; boundary="------------0zZdJ0TsnxmlWUefzoq8m39A";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, javierm@redhat.com,
+ noralf@tronnes.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>, amd-gfx@lists.freedesktop.org,
+ linux-samsung-soc@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Paul Schyska
+ <pschyska@gmail.com>, Torsten Krah <krah.tm@gmail.com>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Maxime Ripard <mripard@kernel.org>, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, freedreno@lists.freedesktop.org,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Moritz Duge <MoritzDuge@kolahilft.de>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <117aea3d-c316-509d-7be7-ade155b4ae85@suse.de>
+Subject: Re: [PATCH] drm/client: Send hotplug event after registering a client
+References: <20230710091029.27503-1-tzimmermann@suse.de>
+ <325dad0e-38ff-9f60-efc9-0fd711d63267@linaro.org>
+In-Reply-To: <325dad0e-38ff-9f60-efc9-0fd711d63267@linaro.org>
 
-	if (user_len >= user_msg->len) {
+--------------0zZdJ0TsnxmlWUefzoq8m39A
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-This check does not ensure that we have enough space for the trans_hdr
-(8 bytes).  Instead the check needs to be:
+SGkNCg0KQW0gMTAuMDcuMjMgdW0gMjM6MTEgc2NocmllYiBEbWl0cnkgQmFyeXNoa292Og0K
+Wy4uLl0NCj4+IC0tLQ0KPj4gwqAgZHJpdmVycy9ncHUvZHJtL2FybWFkYS9hcm1hZGFfZmJk
+ZXYuY8KgwqDCoMKgIHzCoCA0IC0tLS0NCj4+IMKgIGRyaXZlcnMvZ3B1L2RybS9kcm1fY2xp
+ZW50LmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8IDIxICsrKysrKysrKysrKysrKysr
+KysrKw0KPj4gwqAgZHJpdmVycy9ncHUvZHJtL2RybV9mYmRldl9kbWEuY8KgwqDCoMKgwqDC
+oMKgwqDCoMKgIHzCoCA0IC0tLS0NCj4+IMKgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZmJkZXZf
+Z2VuZXJpYy5jwqDCoMKgwqDCoMKgIHzCoCA0IC0tLS0NCj4+IMKgIGRyaXZlcnMvZ3B1L2Ry
+bS9leHlub3MvZXh5bm9zX2RybV9mYmRldi5jIHzCoCA0IC0tLS0NCj4+IMKgIGRyaXZlcnMv
+Z3B1L2RybS9nbWE1MDAvZmJkZXYuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDQgLS0t
+LQ0KPj4gwqAgZHJpdmVycy9ncHUvZHJtL21zbS9tc21fZmJkZXYuY8KgwqDCoMKgwqDCoMKg
+wqDCoMKgIHzCoCA0IC0tLS0NCj4gDQo+IFJldmlld2VkLWJ5OiBEbWl0cnkgQmFyeXNoa292
+IDxkbWl0cnkuYmFyeXNoa292QGxpbmFyby5vcmc+ICMgbXNtDQoNClRoYW5rcy4NCg0KPiAN
+Cj4+IMKgIGRyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL29tYXBfZmJkZXYuY8KgwqDCoMKgwqAg
+fMKgIDQgLS0tLQ0KPj4gwqAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fZmJkZXYu
+Y8KgwqDCoMKgIHzCoCA0IC0tLS0NCj4+IMKgIGRyaXZlcnMvZ3B1L2RybS90ZWdyYS9mYmRl
+di5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCA0IC0tLS0NCj4+IMKgIDEwIGZpbGVz
+IGNoYW5nZWQsIDIxIGluc2VydGlvbnMoKyksIDM2IGRlbGV0aW9ucygtKQ0KPiANCj4gQlRX
+OiBBcyB5b3UgaGF2ZSBiZWVuIGNsZWFyaW5nIHRoaXMgYXJlYS4gSSBzZWUgdGhhdCBzaWdu
+aWZpY2FudCBhbW91bnQgDQo+IG9mIERSTSBkcml2ZXJzIHVzZSBleGFjdGx5IHRoZSBzYW1l
+IGNvZGUgZm9yIG1zbV9mYmRldl9jbGllbnRfZnVuY3MgYW5kIA0KPiBmb3IgdGhlIHNpZ25p
+ZmljYW50IHBhcnQgb2YgZm9vX2ZiZGV2X3NldHVwKCkuIERvIHlvdSBoYXZlIGFueSBwbGFu
+cyBmb3IgDQo+IG1vdmluZyB0aGF0IGludG8gYSBsaWJyYXJ5IC8gZ2VuZXJpYyBjb2RlPyBJ
+ZiBub3QsIEkgY2FuIHRha2UgYSBsb29rIGF0IA0KPiBjcmFmdGluZyB0aGUgcGF0Y2guDQo+
+IA0KDQpZb3UncmUgbm90IHRoZSBmaXJzdCB0byBhc2suIDopIEkndmUgc28gZmFyIG5vdCBh
+dHRlbXB0ZWQgdG8gYWRkcmVzcyANCnRoaXMgZHVwbGljYXRpb24uIEkndmUgYmVlbiBiaXR0
+ZW4gYnkgcHJlbWF0dXJlIGhlbHBlcml6YXRpb24gYmVmb3JlLCBzbyANCkkgd2FudGVkIHRv
+IHdhaXQgYSBiaXQgbG9uZ2VyLiBBIGxvdCBvZiB0aGUgZmJkZXYgYW5kIGNsaWVudCBjb2Rl
+IGlzIA0KY2hhbmdpbmcgcXVpdGUgYSBiaXQuIEFmdGVyIHRoaW5ncyBzdGFiaWxpemVkLCBJ
+IHdhbnQgdG8gdG8gdHJ5IHRvIGRvIA0Kc29tZSBtb3JlIGNvZGUgc2hhcmluZy4NCg0KQmVz
+dCByZWdhcmRzDQpUaG9tYXMNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3Mg
+RHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJI
+DQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2
+byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1h
+bg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
 
-	if (user_len >= user_msg->len - sizeof(*trans_hdr)) {
+--------------0zZdJ0TsnxmlWUefzoq8m39A--
 
-That subtraction is done as an unsigned long we want to avoid
-negatives.  Add a lower bound to the start of the function.
+--------------kv6LGauRuWxMfjHq4DW99D2e
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-	if (user_msg->len < sizeof(*trans_hdr))
+-----BEGIN PGP SIGNATURE-----
 
-There is a second integer underflow which can happen if
-trans_hdr->len is zero inside the encode_passthrough() function.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSs8Z0FAwAAAAAACgkQlh/E3EQov+Cd
+3RAAplv7WxkxYt9N5gWJ/rlj3B0OIploEOnOdhJzsoMpnmg5IExLL5tbSbEydTMAZy4OV1UbFNlu
+gB4XDUfES5IOfn/YMVl8L5uC+FXRrnZfbLqjBKsfycA6CdbMg3GEpiW0u/OUquqkTx7mT4+iICLD
+IrLoigA9AHh5KCeXC8aj9TTntbujd8PNfrP0QbBdjOm/81BEVpQTRwHNaqnJcvKXiq9kxARrnZ/1
+4TUkPXNiMLdVUX42yN5pEdnUESTsYu6aDCDGN2e67l86wZ4v2Wt5Pi2Y+F3Z5rRLVe0XU1vak1be
+vDHhEM5ZSvnJhI/jfJWnx+025vHZ0JqX1jTZ+OrMlREn13ktSJ1R6lQwLSSEMAXAscvvhWEejSGj
+xtWwmQ/bzfjuQ7/1TWZDu3MRqKby9U0LOcyOkUakhTKUX8VbZ3Rih7HFxZiEvloiYGVT68sfEyg+
+e4z0ahGgZ7gOKpSuIoN6iFfIFg3BfOoGe1UqJKcQLzhmUCv+FutskpJ8ZVZZ+5JeOCFF0Kfe/0AT
+kru8rxC7cOVpFqtUEtaX+PwdBAqM5sRLKBx4k+PpoqXzOSAfXgAQUk9Ga53GRQHgW3ekTBedj50a
+uGhCCyQHr0fj7qlDjwAbv9hBQ4eN4cDTeeRaHj81jnEeDTldB5P0QZIa+HjgCA8NUHSUEWQJ74zS
+dXk=
+=E/ok
+-----END PGP SIGNATURE-----
 
-	memcpy(out_trans->data, in_trans->data, in_trans->hdr.len - sizeof(in_trans->hdr));
-
-Instead of adding a check to encode_passthrough() it's better to check
-in this central place.  Add that check:
-
-	if (trans_hdr->len < sizeof(trans_hdr)
-
-The final concern is that the "user_len + trans_hdr->len" might have an
-integer overflow bug.  Use size_add() to prevent that.
-
--	if (user_len + trans_hdr->len > user_msg->len) {
-+	if (size_add(user_len, trans_hdr->len) > user_msg->len) {
-
-Fixes: 129776ac2e38 ("accel/qaic: Add control path")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
-This is based on code review and not tested.
-
- drivers/accel/qaic/qaic_control.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/accel/qaic/qaic_control.c b/drivers/accel/qaic/qaic_control.c
-index 5c57f7b4494e..a51b1594dcfa 100644
---- a/drivers/accel/qaic/qaic_control.c
-+++ b/drivers/accel/qaic/qaic_control.c
-@@ -748,7 +748,8 @@ static int encode_message(struct qaic_device *qdev, struct manage_msg *user_msg,
- 	int ret;
- 	int i;
- 
--	if (!user_msg->count) {
-+	if (!user_msg->count ||
-+	    user_msg->len < sizeof(*trans_hdr)) {
- 		ret = -EINVAL;
- 		goto out;
- 	}
-@@ -765,12 +766,13 @@ static int encode_message(struct qaic_device *qdev, struct manage_msg *user_msg,
- 	}
- 
- 	for (i = 0; i < user_msg->count; ++i) {
--		if (user_len >= user_msg->len) {
-+		if (user_len >= user_msg->len - sizeof(*trans_hdr)) {
- 			ret = -EINVAL;
- 			break;
- 		}
- 		trans_hdr = (struct qaic_manage_trans_hdr *)(user_msg->data + user_len);
--		if (user_len + trans_hdr->len > user_msg->len) {
-+		if (trans_hdr->len < sizeof(trans_hdr) ||
-+		    size_add(user_len, trans_hdr->len) > user_msg->len) {
- 			ret = -EINVAL;
- 			break;
- 		}
--- 
-2.39.2
-
+--------------kv6LGauRuWxMfjHq4DW99D2e--
