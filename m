@@ -1,68 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5E0D74E266
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 02:02:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F72A74E26B
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 02:04:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9A3710E0A4;
-	Tue, 11 Jul 2023 00:02:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93DB910E193;
+	Tue, 11 Jul 2023 00:04:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 587EB10E0A4
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 00:02:46 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id
- 2adb3069b0e04-4f122ff663eso8079033e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 17:02:46 -0700 (PDT)
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
+ [IPv6:2a00:1450:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2A6110E16D
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 00:04:03 +0000 (UTC)
+Received: by mail-lj1-x22d.google.com with SMTP id
+ 38308e7fff4ca-2b69f958ef3so80767841fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jul 2023 17:04:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689033764; x=1691625764;
+ d=linaro.org; s=google; t=1689033842; x=1691625842;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=1w9yY+8SJhlthUMjNjEuOabsBHcswYGEE9IOl91tE7U=;
- b=iWg0XysXVpJWPAvKE7E/yUY6ad9SXRWwGl7JucDBPnXb/3/l8dm4P30HWKpBxrcm9R
- uAiHlrejTG688wUEICg3S+681TmPcO2Y2LoKpJSnUo5GvjPphvmESHjsXKGccJswJcn7
- Unw4+VQ6qhXeKBeTwoocyJiLEqzIED5X+By0cpVwLq4lfjtfhcd6e+N10ssGj73icPZQ
- MjSFv5VPAqUe2KYLL48z1cquEJ86Jh75WulC0KMf4itlLMMBVVrW4Ufn3GNxW76ptMnl
- 5DyHDhZx4zAznYxnVfoQ4xdtGUEqDcLJL1Gw2OQrl2dG5XnB3qBtATg+HNQrV6CR+Tok
- 3fFQ==
+ bh=V/dX5K/ss3x0ciVNd3aGlR4JXcHpqL/PpCCOLWFx+LU=;
+ b=bff2RHeCIczRdsZbNq2tUaXQiFpucPzuUmWWOXPGQ4SAr6olSBCt7WL2nUpZzrF1gt
+ gSZ5+lUbOASJpXJ7IOfH4AFidBOgj6GWWYBt11VauuiijYUhlF5WfrY7wSo/OxxeDNc6
+ xRVL5RXhcVFwIlByLXbXlxUmm92OXePSiiOIzo0nWCKvww3YXP09N1ZkyvNCI3s99k+3
+ /iqXTuI7JeiDVN9e2Rm3Y9BqzR9g1BEeGNtqi/XqjG2y4FYwQ5WxL7Mz5lw931ZCyU0+
+ qkrWyozbhuySBBMS+nsM3Ok7XruduIOm5IOquzTEVTlFWfgtVtMKTxf0GbIrdCeaw08k
+ nfKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689033764; x=1691625764;
+ d=1e100.net; s=20221208; t=1689033842; x=1691625842;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1w9yY+8SJhlthUMjNjEuOabsBHcswYGEE9IOl91tE7U=;
- b=B7rygF5itXZFozpREWFdHnNdocCoxuqVmKUy4nnvrsXBN/eBStws21loUrzxlKdMsI
- nZd3mgFRcw54hEjvMF/ZnH/ucA2KcV+4Y17CfXCGj4OlGNkeYHTysF54Nkpwc9QcXQMZ
- DMKCriKCMRLA9zsx+O3TAVSOf/lILf2tjmbvkr9aKt6Gp/UlfRLf3Uqn+wFlvP3DkGqT
- bJZlZKb2ISru44PMNrY9e3bWNK/HDICGZCUUCeIVpFu+QYANnvXFrbcf6QPKbaBJyewb
- cuEuvEGOPib8LCk1v2DpmfPWVCMlAY25Uvj3m0jaD+omSJzM1egSUXB14cIUtqyV0iRr
- UYKA==
-X-Gm-Message-State: ABy/qLbXF4itRHoB/KBvjAA2Z5aIRWusmRGIq/gajSHRNRc+Zp9zeV1+
- Q+narwJAV8TOOZApQPrkc6BruA==
-X-Google-Smtp-Source: APBJJlF2aGhXsDEq8UI9+Fwzc8VwxH2xtVNNn2DRPsCOVB4FeKX3y1lpJ+okehUHP717ty1KSKJjLg==
-X-Received: by 2002:a05:6512:693:b0:4f9:51b7:a19c with SMTP id
- t19-20020a056512069300b004f951b7a19cmr13092264lfe.19.1689033763612; 
- Mon, 10 Jul 2023 17:02:43 -0700 (PDT)
+ bh=V/dX5K/ss3x0ciVNd3aGlR4JXcHpqL/PpCCOLWFx+LU=;
+ b=ajYcYYagBDSnHySNRYhuNlEs3RytwydPEvQMCW5Sa0pSSHOgDBWaVORvVpF+6kIKlz
+ pDvic7jvCz/mOU4TmRWX/WLRrl9YBvuJd53hj74JB8aTkL5pidkK+Zxl1CLu1JA3MFr4
+ qzWz5nQDKPbBpRUQWQ7qJ2lOvME0eymZbpdT28Gjg0j4AwNz5ua1QepPpdLvV1O2JPhB
+ hCgFZpmH3woMmTsBd2+rloLx2P6YXP9OLd3HqfR5af7Hrx/DQAmMQOOmtHjhyziPIxPB
+ +QZi7gHJC6PcZsCi0XGl9JmWYl1+D37tQH99PQPh2VHMVwpEKTd5TVY0klZEAf+T5Ka+
+ SCZg==
+X-Gm-Message-State: ABy/qLaiiY2Wz1dSORfHEoPZPwok0RNS1OJMv83rqflbhIz8uiTSoE22
+ KhpgSXchHSMJPsC0W107Llthxg==
+X-Google-Smtp-Source: APBJJlEuKphZX/mQW/8zaQsAfg/oLoPfdo42uJwdfWTi2a1CBy9Un701xs1VX++nJ0yk9il+OIo1vw==
+X-Received: by 2002:a2e:8eca:0:b0:2b6:a827:164f with SMTP id
+ e10-20020a2e8eca000000b002b6a827164fmr11447647ljl.10.1689033841931; 
+ Mon, 10 Jul 2023 17:04:01 -0700 (PDT)
 Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
  (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
  by smtp.gmail.com with ESMTPSA id
- r12-20020a19ac4c000000b004f87893ce21sm91760lfc.3.2023.07.10.17.02.42
+ n24-20020a2e86d8000000b002b6cde9f325sm173232ljj.105.2023.07.10.17.04.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Jul 2023 17:02:43 -0700 (PDT)
-Message-ID: <1f991319-f276-1097-475a-7e95175cbf4f@linaro.org>
-Date: Tue, 11 Jul 2023 03:02:42 +0300
+ Mon, 10 Jul 2023 17:04:01 -0700 (PDT)
+Message-ID: <25c12da7-e79d-af19-fbc9-47ebf7041406@linaro.org>
+Date: Tue, 11 Jul 2023 03:04:00 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [Freedreno] [PATCH] drm/msm/a6xx: Fix misleading comment
+Subject: Re: [PATCH v2] drm/msm/dsi: Enable BURST_MODE for command mode for
+ DSI 6G v1.3+
 Content-Language: en-GB
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20230630162043.79198-1-robdclark@gmail.com>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230608-b4-add-burst-mode-v2-1-2ff468457d46@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230630162043.79198-1-robdclark@gmail.com>
+In-Reply-To: <20230608-b4-add-burst-mode-v2-1-2ff468457d46@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,22 +81,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/06/2023 19:20, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
+On 27/06/2023 23:31, Jessica Zhang wrote:
+> During a frame transfer in command mode, there could be frequent
+> LP11 <-> HS transitions when multiple DCS commands are sent mid-frame or
+> if the DSI controller is running on slow clock and is throttled. To
+> minimize frame latency due to these transitions, it is recommended to
+> send the frame in a single burst.
 > 
-> The range is actually len+1.
+> This feature is supported for DSI 6G 1.3 and above, thus enable burst
+> mode if supported.
 > 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 > ---
->   drivers/gpu/drm/msm/adreno/a6xx_gpu.h | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> Changes in v2:
+> - Moved MDP_CTRL2 register setting to dsi_ctrl_config() (Dmitry/Marijn)
+> - Read previous value of MDP_CTRL2 register before writing to it
+>    (Dmitry)
+> - Link to v1: https://lore.kernel.org/r/20230608-b4-add-burst-mode-v1-1-55dfbcfada55@quicinc.com
+> ---
+>   drivers/gpu/drm/msm/dsi/dsi_host.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index 3f6dfb4f9d5a..cdb404885f3c 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -752,6 +752,13 @@ static void dsi_ctrl_enable(struct msm_dsi_host *msm_host,
+>   		/* Always insert DCS command */
+>   		data |= DSI_CMD_CFG1_INSERT_DCS_COMMAND;
+>   		dsi_write(msm_host, REG_DSI_CMD_CFG1, data);
+> +
+> +		if (msm_host->cfg_hnd->major == MSM_DSI_VER_MAJOR_6G &&
+> +				msm_host->cfg_hnd->minor >= MSM_DSI_6G_VER_MINOR_V1_3) {
+
+Nit: please intent in future to the same level (vim: "set cino=(0").
+
+> +			data = dsi_read(msm_host, REG_DSI_CMD_MODE_MDP_CTRL2);
+> +			data |= DSI_CMD_MODE_MDP_CTRL2_BURST_MODE;
+> +			dsi_write(msm_host, REG_DSI_CMD_MODE_MDP_CTRL2, data);
+> +		}
+>   	}
+>   
+>   	dsi_write(msm_host, REG_DSI_CMD_DMA_CTRL,
+> 
+> ---
+> base-commit: a0364260213c96f6817f7e85cdce293cb743460f
+> change-id: 20230608-b4-add-burst-mode-a5bb144069fa
+> 
+> Best regards,
 
 -- 
 With best wishes
