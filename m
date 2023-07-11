@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF6F74EC6C
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 13:12:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C275B74EC6B
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 13:12:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BC0010E372;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A1CA10E37A;
 	Tue, 11 Jul 2023 11:12:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC91A10E375
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 11:12:41 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2355310E372
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 11:12:43 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2CE846147F;
- Tue, 11 Jul 2023 11:12:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4856BC433C7;
- Tue, 11 Jul 2023 11:12:39 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9042A61449;
+ Tue, 11 Jul 2023 11:12:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD6AAC433C8;
+ Tue, 11 Jul 2023 11:12:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689073960;
- bh=k272oihJyhtSq0n26bDpI0T6S4Z9QshNoBiJkl4neSY=;
+ s=k20201202; t=1689073962;
+ bh=ty6Mv606cD3N/DazACN8sW3ZtDjr1kepG9LHg4ukQWc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=sIxNAulY94NC715NjWV/leW0d1qWBYaHpztjuwml8VO07D/eC7G6xCuEB5dJjURPv
- qfdlnf3KJEcf+XpR5L7lNO8bnflfK4QY1STMqI5pttXwwf+Xl+4+YLIaNK+1rqS7/j
- jXesX+hhUbiSq+awnB2oWqW/JEE7bddY+FaoPp8NsbKj4IaqHbuWYaMTFfotL0nSVL
- zn+q4mQGM4eN52j0FfI+OVl22c4m/eMIWO0PFAKuffqDUv0o7rPZcxIVX9GfcyS7P7
- ZyESrXithdgU8RlBRofRvco235BrwxTqCixtXT+c4hXIwBvdbxuo+nbEOd+tFiK22G
- 7k7XhVRxhtXNw==
+ b=DJykXqix5M9mFgfK3jt5eCBxKGsQowdQan0DZP/ByVSld/n/F5bcWN0Fy+wnznuhn
+ T3gnqdLD/iOdtyTI5Xo5j22MUE5QIjNrJBCtms/gWMrQhhPhHyHJbk1k3ZFFza+t1D
+ gIZIZDgH58nTHrlNZzYpDraIVF6Q942+ieOCOD/D7mGYE9WLu0J8SHJgjulAgBfYYa
+ DIOK9o4n9anLnUUuytBqsf0axCDzcnjqt7msnzvJ2TMGTWYsuHXFbH4dKShlx/ucPu
+ 47s7WJghr3LlGZt+i9EJXtAjV4NIDfWDYXslQskq0nZYQ35jgS503tiiCaQgqQ07Zf
+ TmYFK5qvRdO8g==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 07/12] accel/habanalabs: add info ioctl for engine error
- reports
-Date: Tue, 11 Jul 2023 14:12:21 +0300
-Message-Id: <20230711111226.163670-7-ogabbay@kernel.org>
+Subject: [PATCH 08/12] accel/habanalabs: register compute device as an accel
+ device
+Date: Tue, 11 Jul 2023 14:12:22 +0300
+Message-Id: <20230711111226.163670-8-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230711111226.163670-1-ogabbay@kernel.org>
 References: <20230711111226.163670-1-ogabbay@kernel.org>
@@ -54,371 +53,872 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ofir Bitton <obitton@habana.ai>
+Cc: Tomer Tayar <ttayar@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ofir Bitton <obitton@habana.ai>
+From: Tomer Tayar <ttayar@habana.ai>
 
-User gets notification for every engine error report, but he still
-lacks the exact engine information. Hence, we allow user to query
-for the exact engine reported an error.
+Register the compute device as an accel device, and remove the creation
+of the habanalabs compute char device.
 
-Signed-off-by: Ofir Bitton <obitton@habana.ai>
+The IOCTLs in this patch are still handled by the current driver
+handler. Moving to DRM IOCTL handling requires moving the IOCTLs
+numbers to a specific range, so it will be handled in subsequent
+patches.
+
+Signed-off-by: Tomer Tayar <ttayar@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/common/device.c      |  14 ++
- drivers/accel/habanalabs/common/habanalabs.h  |  17 ++
- .../habanalabs/common/habanalabs_ioctl.c      |  25 +++
- drivers/accel/habanalabs/gaudi2/gaudi2.c      | 168 ++++++++++++++++++
- include/uapi/drm/habanalabs_accel.h           |  16 ++
- 5 files changed, 240 insertions(+)
+ drivers/accel/habanalabs/common/debugfs.c     |  22 +--
+ drivers/accel/habanalabs/common/device.c      | 163 +++++++-----------
+ drivers/accel/habanalabs/common/habanalabs.h  |  44 ++---
+ .../accel/habanalabs/common/habanalabs_drv.c  | 157 ++++++++---------
+ .../habanalabs/common/habanalabs_ioctl.c      |  12 +-
+ drivers/accel/habanalabs/common/memory.c      |   4 +-
+ 6 files changed, 161 insertions(+), 241 deletions(-)
 
+diff --git a/drivers/accel/habanalabs/common/debugfs.c b/drivers/accel/habanalabs/common/debugfs.c
+index 9e84a47a21dc..01f071d52570 100644
+--- a/drivers/accel/habanalabs/common/debugfs.c
++++ b/drivers/accel/habanalabs/common/debugfs.c
+@@ -18,8 +18,6 @@
+ #define MMU_KBUF_SIZE		(MMU_ADDR_BUF_SIZE + MMU_ASID_BUF_SIZE)
+ #define I2C_MAX_TRANSACTION_LEN	8
+ 
+-static struct dentry *hl_debug_root;
+-
+ static int hl_debugfs_i2c_read(struct hl_device *hdev, u8 i2c_bus, u8 i2c_addr,
+ 				u8 i2c_reg, u8 i2c_len, u64 *val)
+ {
+@@ -1788,20 +1786,14 @@ void hl_debugfs_add_device(struct hl_device *hdev)
+ {
+ 	struct hl_dbg_device_entry *dev_entry = &hdev->hl_debugfs;
+ 
+-	dev_entry->root = debugfs_create_dir(dev_name(hdev->dev), hl_debug_root);
++	dev_entry->root = hdev->drm.accel->debugfs_root;
+ 
+ 	add_files_to_device(hdev, dev_entry, dev_entry->root);
++
+ 	if (!hdev->asic_prop.fw_security_enabled)
+ 		add_secured_nodes(dev_entry, dev_entry->root);
+ }
+ 
+-void hl_debugfs_remove_device(struct hl_device *hdev)
+-{
+-	struct hl_dbg_device_entry *entry = &hdev->hl_debugfs;
+-
+-	debugfs_remove_recursive(entry->root);
+-}
+-
+ void hl_debugfs_add_file(struct hl_fpriv *hpriv)
+ {
+ 	struct hl_dbg_device_entry *dev_entry = &hpriv->hdev->hl_debugfs;
+@@ -1932,13 +1924,3 @@ void hl_debugfs_set_state_dump(struct hl_device *hdev, char *data,
+ 
+ 	up_write(&dev_entry->state_dump_sem);
+ }
+-
+-void __init hl_debugfs_init(void)
+-{
+-	hl_debug_root = debugfs_create_dir("habanalabs", NULL);
+-}
+-
+-void hl_debugfs_fini(void)
+-{
+-	debugfs_remove_recursive(hl_debug_root);
+-}
 diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
-index 28be0fc325ea..80cce6b74d05 100644
+index 80cce6b74d05..c0c9e9504672 100644
 --- a/drivers/accel/habanalabs/common/device.c
 +++ b/drivers/accel/habanalabs/common/device.c
-@@ -2701,6 +2701,20 @@ void hl_handle_fw_err(struct hl_device *hdev, struct hl_info_fw_err_info *info)
- 		*info->event_mask |= HL_NOTIFIER_EVENT_CRITICL_FW_ERR;
+@@ -14,6 +14,9 @@
+ #include <linux/hwmon.h>
+ #include <linux/vmalloc.h>
+ 
++#include <drm/drm_accel.h>
++#include <drm/drm_drv.h>
++
+ #include <trace/events/habanalabs.h>
+ 
+ #define HL_RESET_DELAY_USEC			10000	/* 10ms */
+@@ -520,24 +523,20 @@ static void print_device_in_use_info(struct hl_device *hdev, const char *message
  }
  
-+void hl_capture_engine_err(struct hl_device *hdev, u16 engine_id, u16 error_count)
-+{
-+	struct engine_err_info *info = &hdev->captured_err_info.engine_err;
-+
-+	/* Capture only the first engine error */
-+	if (atomic_cmpxchg(&info->event_detected, 0, 1))
-+		return;
-+
-+	info->event.timestamp = ktime_to_ns(ktime_get());
-+	info->event.engine_id = engine_id;
-+	info->event.error_count = error_count;
-+	info->event_info_available = true;
-+}
-+
- void hl_enable_err_info_capture(struct hl_error_info *captured_err_info)
+ /*
+- * hl_device_release - release function for habanalabs device
+- *
+- * @inode: pointer to inode structure
+- * @filp: pointer to file structure
++ * hl_device_release() - release function for habanalabs device.
++ * @ddev: pointer to DRM device structure.
++ * @file: pointer to DRM file private data structure.
+  *
+  * Called when process closes an habanalabs device
+  */
+-static int hl_device_release(struct inode *inode, struct file *filp)
++void hl_device_release(struct drm_device *ddev, struct drm_file *file_priv)
  {
- 	vfree(captured_err_info->page_fault_info.user_mappings);
+-	struct hl_fpriv *hpriv = filp->private_data;
+-	struct hl_device *hdev = hpriv->hdev;
+-
+-	filp->private_data = NULL;
++	struct hl_fpriv *hpriv = file_priv->driver_priv;
++	struct hl_device *hdev = to_hl_device(ddev);
+ 
+ 	if (!hdev) {
+ 		pr_crit("Closing FD after device was removed. Memory leak will occur and it is advised to reboot.\n");
+ 		put_pid(hpriv->taskpid);
+-		return 0;
+ 	}
+ 
+ 	hl_ctx_mgr_fini(hdev, &hpriv->ctx_mgr);
+@@ -555,8 +554,6 @@ static int hl_device_release(struct inode *inode, struct file *filp)
+ 	}
+ 
+ 	hdev->last_open_session_duration_jif = jiffies - hdev->last_successful_open_jif;
+-
+-	return 0;
+ }
+ 
+ static int hl_device_release_ctrl(struct inode *inode, struct file *filp)
+@@ -587,18 +584,8 @@ static int hl_device_release_ctrl(struct inode *inode, struct file *filp)
+ 	return 0;
+ }
+ 
+-/*
+- * hl_mmap - mmap function for habanalabs device
+- *
+- * @*filp: pointer to file structure
+- * @*vma: pointer to vm_area_struct of the process
+- *
+- * Called when process does an mmap on habanalabs device. Call the relevant mmap
+- * function at the end of the common code.
+- */
+-static int hl_mmap(struct file *filp, struct vm_area_struct *vma)
++static int __hl_mmap(struct hl_fpriv *hpriv, struct vm_area_struct *vma)
+ {
+-	struct hl_fpriv *hpriv = filp->private_data;
+ 	struct hl_device *hdev = hpriv->hdev;
+ 	unsigned long vm_pgoff;
+ 
+@@ -621,14 +608,22 @@ static int hl_mmap(struct file *filp, struct vm_area_struct *vma)
+ 	return -EINVAL;
+ }
+ 
+-static const struct file_operations hl_ops = {
+-	.owner = THIS_MODULE,
+-	.open = hl_device_open,
+-	.release = hl_device_release,
+-	.mmap = hl_mmap,
+-	.unlocked_ioctl = hl_ioctl,
+-	.compat_ioctl = hl_ioctl
+-};
++/*
++ * hl_mmap - mmap function for habanalabs device
++ *
++ * @*filp: pointer to file structure
++ * @*vma: pointer to vm_area_struct of the process
++ *
++ * Called when process does an mmap on habanalabs device. Call the relevant mmap
++ * function at the end of the common code.
++ */
++int hl_mmap(struct file *filp, struct vm_area_struct *vma)
++{
++	struct drm_file *file_priv = filp->private_data;
++	struct hl_fpriv *hpriv = file_priv->driver_priv;
++
++	return __hl_mmap(hpriv, vma);
++}
+ 
+ static const struct file_operations hl_ctrl_ops = {
+ 	.owner = THIS_MODULE,
+@@ -656,7 +651,7 @@ static void device_release_func(struct device *dev)
+  *
+  * Initialize a cdev and a Linux device for habanalabs's device.
+  */
+-static int device_init_cdev(struct hl_device *hdev, struct class *class,
++static int device_init_cdev(struct hl_device *hdev, const struct class *class,
+ 				int minor, const struct file_operations *fops,
+ 				char *name, struct cdev *cdev,
+ 				struct device **dev)
+@@ -680,23 +675,26 @@ static int device_init_cdev(struct hl_device *hdev, struct class *class,
+ 
+ static int cdev_sysfs_debugfs_add(struct hl_device *hdev)
+ {
++	const struct class *accel_class = hdev->drm.accel->kdev->class;
++	char name[32];
+ 	int rc;
+ 
+-	rc = cdev_device_add(&hdev->cdev, hdev->dev);
+-	if (rc) {
+-		dev_err(hdev->dev,
+-			"failed to add a char device to the system\n");
++	hdev->cdev_idx = hdev->drm.accel->index;
++
++	/* Initialize cdev and device structures for the control device */
++	snprintf(name, sizeof(name), "accel_controlD%d", hdev->cdev_idx);
++	rc = device_init_cdev(hdev, accel_class, hdev->cdev_idx, &hl_ctrl_ops, name,
++				&hdev->cdev_ctrl, &hdev->dev_ctrl);
++	if (rc)
+ 		return rc;
+-	}
+ 
+ 	rc = cdev_device_add(&hdev->cdev_ctrl, hdev->dev_ctrl);
+ 	if (rc) {
+-		dev_err(hdev->dev,
+-			"failed to add a control char device to the system\n");
+-		goto delete_cdev_device;
++		dev_err(hdev->dev_ctrl,
++			"failed to add an accel control char device to the system\n");
++		goto free_ctrl_device;
+ 	}
+ 
+-	/* hl_sysfs_init() must be done after adding the device to the system */
+ 	rc = hl_sysfs_init(hdev);
+ 	if (rc) {
+ 		dev_err(hdev->dev, "failed to initialize sysfs\n");
+@@ -711,23 +709,19 @@ static int cdev_sysfs_debugfs_add(struct hl_device *hdev)
+ 
+ delete_ctrl_cdev_device:
+ 	cdev_device_del(&hdev->cdev_ctrl, hdev->dev_ctrl);
+-delete_cdev_device:
+-	cdev_device_del(&hdev->cdev, hdev->dev);
++free_ctrl_device:
++	put_device(hdev->dev_ctrl);
+ 	return rc;
+ }
+ 
+ static void cdev_sysfs_debugfs_remove(struct hl_device *hdev)
+ {
+ 	if (!hdev->cdev_sysfs_debugfs_created)
+-		goto put_devices;
++		return;
+ 
+-	hl_debugfs_remove_device(hdev);
+ 	hl_sysfs_fini(hdev);
+-	cdev_device_del(&hdev->cdev_ctrl, hdev->dev_ctrl);
+-	cdev_device_del(&hdev->cdev, hdev->dev);
+ 
+-put_devices:
+-	put_device(hdev->dev);
++	cdev_device_del(&hdev->cdev_ctrl, hdev->dev_ctrl);
+ 	put_device(hdev->dev_ctrl);
+ }
+ 
+@@ -2011,51 +2005,6 @@ void hl_notifier_event_send_all(struct hl_device *hdev, u64 event_mask)
+ 	mutex_unlock(&hdev->fpriv_ctrl_list_lock);
+ }
+ 
+-static int create_cdev(struct hl_device *hdev)
+-{
+-	char *name;
+-	int rc;
+-
+-	hdev->cdev_idx = hdev->id / 2;
+-
+-	name = kasprintf(GFP_KERNEL, "hl%d", hdev->cdev_idx);
+-	if (!name) {
+-		rc = -ENOMEM;
+-		goto out_err;
+-	}
+-
+-	/* Initialize cdev and device structures */
+-	rc = device_init_cdev(hdev, hdev->hclass, hdev->id, &hl_ops, name,
+-				&hdev->cdev, &hdev->dev);
+-
+-	kfree(name);
+-
+-	if (rc)
+-		goto out_err;
+-
+-	name = kasprintf(GFP_KERNEL, "hl_controlD%d", hdev->cdev_idx);
+-	if (!name) {
+-		rc = -ENOMEM;
+-		goto free_dev;
+-	}
+-
+-	/* Initialize cdev and device structures for control device */
+-	rc = device_init_cdev(hdev, hdev->hclass, hdev->id_control, &hl_ctrl_ops,
+-				name, &hdev->cdev_ctrl, &hdev->dev_ctrl);
+-
+-	kfree(name);
+-
+-	if (rc)
+-		goto free_dev;
+-
+-	return 0;
+-
+-free_dev:
+-	put_device(hdev->dev);
+-out_err:
+-	return rc;
+-}
+-
+ /*
+  * hl_device_init - main initialization function for habanalabs device
+  *
+@@ -2070,14 +2019,10 @@ int hl_device_init(struct hl_device *hdev)
+ 	int i, rc, cq_cnt, user_interrupt_cnt, cq_ready_cnt;
+ 	bool expose_interfaces_on_err = false;
+ 
+-	rc = create_cdev(hdev);
+-	if (rc)
+-		goto out_disabled;
+-
+ 	/* Initialize ASIC function pointers and perform early init */
+ 	rc = device_early_init(hdev);
+ 	if (rc)
+-		goto free_dev;
++		goto out_disabled;
+ 
+ 	user_interrupt_cnt = hdev->asic_prop.user_dec_intr_count +
+ 				hdev->asic_prop.user_interrupt_count;
+@@ -2264,6 +2209,14 @@ int hl_device_init(struct hl_device *hdev)
+ 	 * From here there is no need to expose them in case of an error.
+ 	 */
+ 	expose_interfaces_on_err = false;
++
++	rc = drm_dev_register(&hdev->drm, 0);
++	if (rc) {
++		dev_err(hdev->dev, "Failed to register DRM device, rc %d\n", rc);
++		rc = 0;
++		goto out_disabled;
++	}
++
+ 	rc = cdev_sysfs_debugfs_add(hdev);
+ 	if (rc) {
+ 		dev_err(hdev->dev, "Failed to add char devices and sysfs/debugfs files\n");
+@@ -2332,15 +2285,14 @@ int hl_device_init(struct hl_device *hdev)
+ 	kfree(hdev->user_interrupt);
+ early_fini:
+ 	device_early_fini(hdev);
+-free_dev:
+-	put_device(hdev->dev_ctrl);
+-	put_device(hdev->dev);
+ out_disabled:
+ 	hdev->disabled = true;
+-	if (expose_interfaces_on_err)
++	if (expose_interfaces_on_err) {
++		drm_dev_register(&hdev->drm, 0);
+ 		cdev_sysfs_debugfs_add(hdev);
+-	dev_err(&hdev->pdev->dev,
+-		"Failed to initialize hl%d. Device %s is NOT usable !\n",
++	}
++
++	pr_err("Failed to initialize accel%d. Device %s is NOT usable!\n",
+ 		hdev->cdev_idx, dev_name(&hdev->pdev->dev));
+ 
+ 	return rc;
+@@ -2486,6 +2438,7 @@ void hl_device_fini(struct hl_device *hdev)
+ 
+ 	/* Hide devices and sysfs/debugfs files from user */
+ 	cdev_sysfs_debugfs_remove(hdev);
++	drm_dev_unregister(&hdev->drm);
+ 
+ 	hl_debugfs_device_fini(hdev);
+ 
 diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
-index 4fecd300b8dd..201d826b0fb7 100644
+index 201d826b0fb7..58948044ad16 100644
 --- a/drivers/accel/habanalabs/common/habanalabs.h
 +++ b/drivers/accel/habanalabs/common/habanalabs.h
-@@ -3062,6 +3062,20 @@ struct fw_err_info {
- 	bool				event_info_available;
- };
+@@ -29,6 +29,9 @@
+ #include <linux/coresight.h>
+ #include <linux/dma-buf.h>
  
-+/**
-+ * struct engine_err_info - engine error information.
-+ * @event: holds information on the event.
-+ * @event_detected: if set as 1, then an engine event was discovered for the
-+ *                  first time after the driver has finished booting-up.
-+ * @event_info_available: indicates that an engine event info is now available.
-+ */
-+struct engine_err_info {
-+	struct hl_info_engine_err_event	event;
-+	atomic_t			event_detected;
-+	bool				event_info_available;
-+};
++#include <drm/drm_device.h>
++#include <drm/drm_file.h>
 +
-+
+ #include "security.h"
+ 
+ #define HL_NAME				"habanalabs"
+@@ -2258,7 +2261,7 @@ struct hl_notifier_event {
  /**
-  * struct hl_error_info - holds information collected during an error.
-  * @cs_timeout: CS timeout error information.
-@@ -3070,6 +3084,7 @@ struct fw_err_info {
-  * @page_fault_info: page fault information.
-  * @hw_err: (fatal) hardware error information.
-  * @fw_err: firmware error information.
-+ * @engine_err: engine error information.
+  * struct hl_fpriv - process information stored in FD private data.
+  * @hdev: habanalabs device structure.
+- * @filp: pointer to the given file structure.
++ * @filp: pointer to the DRM file private data structure.
+  * @taskpid: current process ID.
+  * @ctx: current executing context. TODO: remove for multiple ctx per process
+  * @ctx_mgr: context manager to handle multiple context for this FD.
+@@ -2273,7 +2276,7 @@ struct hl_notifier_event {
   */
- struct hl_error_info {
- 	struct cs_timeout_info		cs_timeout;
-@@ -3078,6 +3093,7 @@ struct hl_error_info {
- 	struct page_fault_info		page_fault_info;
- 	struct hw_err_info		hw_err;
- 	struct fw_err_info		fw_err;
-+	struct engine_err_info		engine_err;
- };
+ struct hl_fpriv {
+ 	struct hl_device		*hdev;
+-	struct file			*filp;
++	struct drm_file			*file_priv;
+ 	struct pid			*taskpid;
+ 	struct hl_ctx			*ctx;
+ 	struct hl_ctx_mgr		ctx_mgr;
+@@ -3141,8 +3144,7 @@ struct hl_reset_info {
+  *		   (required only for PCI address match mode)
+  * @pcie_bar: array of available PCIe bars virtual addresses.
+  * @rmmio: configuration area address on SRAM.
+- * @hclass: pointer to the habanalabs class.
+- * @cdev: related char device.
++ * @drm: related DRM device.
+  * @cdev_ctrl: char device for control operations only (INFO IOCTL)
+  * @dev: related kernel basic device structure.
+  * @dev_ctrl: related kernel device structure for the control device
+@@ -3269,8 +3271,7 @@ struct hl_reset_info {
+  * @rotator_binning: contains mask of rotators engines that is received from the f/w
+  *			which indicates which rotator engines are binned-out(Gaudi3 and above).
+  * @id: device minor.
+- * @id_control: minor of the control device.
+- * @cdev_idx: char device index. Used for setting its name.
++ * @cdev_idx: char device index.
+  * @cpu_pci_msb_addr: 50-bit extension bits for the device CPU's 40-bit
+  *                    addresses.
+  * @is_in_dram_scrub: true if dram scrub operation is on going.
+@@ -3332,8 +3333,7 @@ struct hl_device {
+ 	u64				pcie_bar_phys[HL_PCI_NUM_BARS];
+ 	void __iomem			*pcie_bar[HL_PCI_NUM_BARS];
+ 	void __iomem			*rmmio;
+-	struct class			*hclass;
+-	struct cdev			cdev;
++	struct drm_device		drm;
+ 	struct cdev			cdev_ctrl;
+ 	struct device			*dev;
+ 	struct device			*dev_ctrl;
+@@ -3442,7 +3442,6 @@ struct hl_device {
+ 	u32				device_release_watchdog_timeout_sec;
+ 	u32				rotator_binning;
+ 	u16				id;
+-	u16				id_control;
+ 	u16				cdev_idx;
+ 	u16				cpu_pci_msb_addr;
+ 	u8				is_in_dram_scrub;
+@@ -3606,6 +3605,11 @@ static inline bool hl_mem_area_inside_range(u64 address, u64 size,
+ 	return false;
+ }
  
++static inline struct hl_device *to_hl_device(struct drm_device *ddev)
++{
++	return container_of(ddev, struct hl_device, drm);
++}
++
  /**
-@@ -3951,6 +3967,7 @@ void hl_handle_page_fault(struct hl_device *hdev, u64 addr, u16 eng_id, bool is_
- 				u64 *event_mask);
- void hl_handle_critical_hw_err(struct hl_device *hdev, u16 event_id, u64 *event_mask);
- void hl_handle_fw_err(struct hl_device *hdev, struct hl_info_fw_err_info *info);
-+void hl_capture_engine_err(struct hl_device *hdev, u16 engine_id, u16 error_count);
- void hl_enable_err_info_capture(struct hl_error_info *captured_err_info);
+  * hl_mem_area_crosses_range() - Checks whether address+size crossing a range.
+  * @address: The start address of the area we want to validate.
+@@ -3644,7 +3648,12 @@ int hl_access_cfg_region(struct hl_device *hdev, u64 addr, u64 *val,
+ 	enum debugfs_access_type acc_type);
+ int hl_access_dev_mem(struct hl_device *hdev, enum pci_region region_type,
+ 			u64 addr, u64 *val, enum debugfs_access_type acc_type);
+-int hl_device_open(struct inode *inode, struct file *filp);
++
++int hl_mmap(struct file *filp, struct vm_area_struct *vma);
++
++int hl_device_open(struct drm_device *drm, struct drm_file *file_priv);
++void hl_device_release(struct drm_device *ddev, struct drm_file *file_priv);
++
+ int hl_device_open_ctrl(struct inode *inode, struct file *filp);
+ bool hl_device_operational(struct hl_device *hdev,
+ 		enum hl_device_status *status);
+@@ -3972,12 +3981,9 @@ void hl_enable_err_info_capture(struct hl_error_info *captured_err_info);
  
  #ifdef CONFIG_DEBUG_FS
-diff --git a/drivers/accel/habanalabs/common/habanalabs_ioctl.c b/drivers/accel/habanalabs/common/habanalabs_ioctl.c
-index 549b2518fae0..097d65e493c8 100644
---- a/drivers/accel/habanalabs/common/habanalabs_ioctl.c
-+++ b/drivers/accel/habanalabs/common/habanalabs_ioctl.c
-@@ -875,6 +875,28 @@ static int fw_err_info(struct hl_fpriv *hpriv, struct hl_info_args *args)
- 	return rc ? -EFAULT : 0;
+ 
+-void hl_debugfs_init(void);
+-void hl_debugfs_fini(void);
+ int hl_debugfs_device_init(struct hl_device *hdev);
+ void hl_debugfs_device_fini(struct hl_device *hdev);
+ void hl_debugfs_add_device(struct hl_device *hdev);
+-void hl_debugfs_remove_device(struct hl_device *hdev);
+ void hl_debugfs_add_file(struct hl_fpriv *hpriv);
+ void hl_debugfs_remove_file(struct hl_fpriv *hpriv);
+ void hl_debugfs_add_cb(struct hl_cb *cb);
+@@ -3996,22 +4002,10 @@ void hl_debugfs_set_state_dump(struct hl_device *hdev, char *data,
+ 
+ #else
+ 
+-static inline void __init hl_debugfs_init(void)
+-{
+-}
+-
+-static inline void hl_debugfs_fini(void)
+-{
+-}
+-
+ static inline void hl_debugfs_add_device(struct hl_device *hdev)
+ {
  }
  
-+static int engine_err_info(struct hl_fpriv *hpriv, struct hl_info_args *args)
-+{
-+	void __user *user_buf = (void __user *) (uintptr_t) args->return_pointer;
-+	struct hl_device *hdev = hpriv->hdev;
-+	u32 user_buf_size = args->return_size;
-+	struct engine_err_info *info;
-+	int rc;
-+
-+	if (!user_buf)
-+		return -EINVAL;
-+
-+	info = &hdev->captured_err_info.engine_err;
-+	if (!info->event_info_available)
-+		return 0;
-+
-+	if (user_buf_size < sizeof(struct hl_info_engine_err_event))
-+		return -ENOMEM;
-+
-+	rc = copy_to_user(user_buf, &info->event, sizeof(struct hl_info_engine_err_event));
-+	return rc ? -EFAULT : 0;
-+}
-+
- static int send_fw_generic_request(struct hl_device *hdev, struct hl_info_args *info_args)
+-static inline void hl_debugfs_remove_device(struct hl_device *hdev)
+-{
+-}
+-
+ static inline void hl_debugfs_add_file(struct hl_fpriv *hpriv)
  {
- 	void __user *buff = (void __user *) (uintptr_t) info_args->return_pointer;
-@@ -1001,6 +1023,9 @@ static int _hl_info_ioctl(struct hl_fpriv *hpriv, void *data,
- 	case HL_INFO_FW_ERR_EVENT:
- 		return fw_err_info(hpriv, args);
- 
-+	case HL_INFO_USER_ENGINE_ERR_EVENT:
-+		return engine_err_info(hpriv, args);
-+
- 	case HL_INFO_DRAM_USAGE:
- 		return dram_usage_info(hpriv, args);
- 	default:
-diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-index 70b8f744cd73..222310bf1098 100644
---- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
-+++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-@@ -9588,6 +9588,171 @@ static int hl_arc_event_handle(struct hl_device *hdev, u16 event_type,
- 	}
  }
+diff --git a/drivers/accel/habanalabs/common/habanalabs_drv.c b/drivers/accel/habanalabs/common/habanalabs_drv.c
+index 7263e84c1a4d..6341b8362b3e 100644
+--- a/drivers/accel/habanalabs/common/habanalabs_drv.c
++++ b/drivers/accel/habanalabs/common/habanalabs_drv.c
+@@ -14,6 +14,10 @@
+ #include <linux/pci.h>
+ #include <linux/module.h>
+ #include <linux/vmalloc.h>
++#include <linux/version.h>
++
++#include <drm/drm_accel.h>
++#include <drm/drm_drv.h>
  
-+static u16 event_id_to_engine_id(struct hl_device *hdev, u16 event_type)
-+{
-+	enum gaudi2_block_types type = GAUDI2_BLOCK_TYPE_MAX;
-+	u16 index;
-+
-+	switch (event_type) {
-+	case GAUDI2_EVENT_TPC0_AXI_ERR_RSP ... GAUDI2_EVENT_TPC24_AXI_ERR_RSP:
-+		index = event_type - GAUDI2_EVENT_TPC0_AXI_ERR_RSP;
-+		type = GAUDI2_BLOCK_TYPE_TPC;
-+		break;
-+	case GAUDI2_EVENT_TPC0_QM ... GAUDI2_EVENT_TPC24_QM:
-+		index = event_type - GAUDI2_EVENT_TPC0_QM;
-+		type = GAUDI2_BLOCK_TYPE_TPC;
-+		break;
-+	case GAUDI2_EVENT_MME0_SBTE0_AXI_ERR_RSP ... GAUDI2_EVENT_MME0_CTRL_AXI_ERROR_RESPONSE:
-+	case GAUDI2_EVENT_MME0_SPI_BASE ... GAUDI2_EVENT_MME0_WAP_SOURCE_RESULT_INVALID:
-+	case GAUDI2_EVENT_MME0_QM:
-+		index = 0;
-+		type = GAUDI2_BLOCK_TYPE_MME;
-+		break;
-+	case GAUDI2_EVENT_MME1_SBTE0_AXI_ERR_RSP ... GAUDI2_EVENT_MME1_CTRL_AXI_ERROR_RESPONSE:
-+	case GAUDI2_EVENT_MME1_SPI_BASE ... GAUDI2_EVENT_MME1_WAP_SOURCE_RESULT_INVALID:
-+	case GAUDI2_EVENT_MME1_QM:
-+		index = 1;
-+		type = GAUDI2_BLOCK_TYPE_MME;
-+		break;
-+	case GAUDI2_EVENT_MME2_SBTE0_AXI_ERR_RSP ... GAUDI2_EVENT_MME2_CTRL_AXI_ERROR_RESPONSE:
-+	case GAUDI2_EVENT_MME2_SPI_BASE ... GAUDI2_EVENT_MME2_WAP_SOURCE_RESULT_INVALID:
-+	case GAUDI2_EVENT_MME2_QM:
-+		index = 2;
-+		type = GAUDI2_BLOCK_TYPE_MME;
-+		break;
-+	case GAUDI2_EVENT_MME3_SBTE0_AXI_ERR_RSP ... GAUDI2_EVENT_MME3_CTRL_AXI_ERROR_RESPONSE:
-+	case GAUDI2_EVENT_MME3_SPI_BASE ... GAUDI2_EVENT_MME3_WAP_SOURCE_RESULT_INVALID:
-+	case GAUDI2_EVENT_MME3_QM:
-+		index = 3;
-+		type = GAUDI2_BLOCK_TYPE_MME;
-+		break;
-+	case GAUDI2_EVENT_KDMA_CH0_AXI_ERR_RSP:
-+	case GAUDI2_EVENT_KDMA_BM_SPMU:
-+	case GAUDI2_EVENT_KDMA0_CORE:
-+		return GAUDI2_ENGINE_ID_KDMA;
-+	case GAUDI2_EVENT_PDMA_CH0_AXI_ERR_RSP:
-+	case GAUDI2_EVENT_PDMA0_CORE:
-+	case GAUDI2_EVENT_PDMA0_BM_SPMU:
-+	case GAUDI2_EVENT_PDMA0_QM:
-+		return GAUDI2_ENGINE_ID_PDMA_0;
-+	case GAUDI2_EVENT_PDMA_CH1_AXI_ERR_RSP:
-+	case GAUDI2_EVENT_PDMA1_CORE:
-+	case GAUDI2_EVENT_PDMA1_BM_SPMU:
-+	case GAUDI2_EVENT_PDMA1_QM:
-+		return GAUDI2_ENGINE_ID_PDMA_1;
-+	case GAUDI2_EVENT_DEC0_AXI_ERR_RSPONSE ... GAUDI2_EVENT_DEC9_AXI_ERR_RSPONSE:
-+		index = event_type - GAUDI2_EVENT_DEC0_AXI_ERR_RSPONSE;
-+		type = GAUDI2_BLOCK_TYPE_DEC;
-+		break;
-+	case GAUDI2_EVENT_DEC0_SPI ... GAUDI2_EVENT_DEC9_BMON_SPMU:
-+		index = (event_type - GAUDI2_EVENT_DEC0_SPI) >> 1;
-+		type = GAUDI2_BLOCK_TYPE_DEC;
-+		break;
-+	case GAUDI2_EVENT_NIC0_AXI_ERROR_RESPONSE ... GAUDI2_EVENT_NIC11_AXI_ERROR_RESPONSE:
-+		index = event_type - GAUDI2_EVENT_NIC0_AXI_ERROR_RESPONSE;
-+		return GAUDI2_ENGINE_ID_NIC0_0 + (index * 2);
-+	case GAUDI2_EVENT_NIC0_QM0 ... GAUDI2_EVENT_NIC11_QM1:
-+		index = event_type - GAUDI2_EVENT_NIC0_QM0;
-+		return GAUDI2_ENGINE_ID_NIC0_0 + index;
-+	case GAUDI2_EVENT_NIC0_BMON_SPMU ... GAUDI2_EVENT_NIC11_SW_ERROR:
-+		index = event_type - GAUDI2_EVENT_NIC0_BMON_SPMU;
-+		return GAUDI2_ENGINE_ID_NIC0_0 + (index * 2);
-+	case GAUDI2_EVENT_TPC0_BMON_SPMU ... GAUDI2_EVENT_TPC24_KERNEL_ERR:
-+		index = (event_type - GAUDI2_EVENT_TPC0_BMON_SPMU) >> 1;
-+		type = GAUDI2_BLOCK_TYPE_TPC;
-+		break;
-+	case GAUDI2_EVENT_ROTATOR0_AXI_ERROR_RESPONSE:
-+	case GAUDI2_EVENT_ROTATOR0_BMON_SPMU:
-+	case GAUDI2_EVENT_ROTATOR0_ROT0_QM:
-+		return GAUDI2_ENGINE_ID_ROT_0;
-+	case GAUDI2_EVENT_ROTATOR1_AXI_ERROR_RESPONSE:
-+	case GAUDI2_EVENT_ROTATOR1_BMON_SPMU:
-+	case GAUDI2_EVENT_ROTATOR1_ROT1_QM:
-+		return GAUDI2_ENGINE_ID_ROT_1;
-+	case GAUDI2_EVENT_HDMA0_BM_SPMU:
-+	case GAUDI2_EVENT_HDMA0_QM:
-+	case GAUDI2_EVENT_HDMA0_CORE:
-+		return GAUDI2_DCORE0_ENGINE_ID_EDMA_0;
-+	case GAUDI2_EVENT_HDMA1_BM_SPMU:
-+	case GAUDI2_EVENT_HDMA1_QM:
-+	case GAUDI2_EVENT_HDMA1_CORE:
-+		return GAUDI2_DCORE0_ENGINE_ID_EDMA_1;
-+	case GAUDI2_EVENT_HDMA2_BM_SPMU:
-+	case GAUDI2_EVENT_HDMA2_QM:
-+	case GAUDI2_EVENT_HDMA2_CORE:
-+		return GAUDI2_DCORE1_ENGINE_ID_EDMA_0;
-+	case GAUDI2_EVENT_HDMA3_BM_SPMU:
-+	case GAUDI2_EVENT_HDMA3_QM:
-+	case GAUDI2_EVENT_HDMA3_CORE:
-+		return GAUDI2_DCORE1_ENGINE_ID_EDMA_1;
-+	case GAUDI2_EVENT_HDMA4_BM_SPMU:
-+	case GAUDI2_EVENT_HDMA4_QM:
-+	case GAUDI2_EVENT_HDMA4_CORE:
-+		return GAUDI2_DCORE2_ENGINE_ID_EDMA_0;
-+	case GAUDI2_EVENT_HDMA5_BM_SPMU:
-+	case GAUDI2_EVENT_HDMA5_QM:
-+	case GAUDI2_EVENT_HDMA5_CORE:
-+		return GAUDI2_DCORE2_ENGINE_ID_EDMA_1;
-+	case GAUDI2_EVENT_HDMA6_BM_SPMU:
-+	case GAUDI2_EVENT_HDMA6_QM:
-+	case GAUDI2_EVENT_HDMA6_CORE:
-+		return GAUDI2_DCORE3_ENGINE_ID_EDMA_0;
-+	case GAUDI2_EVENT_HDMA7_BM_SPMU:
-+	case GAUDI2_EVENT_HDMA7_QM:
-+	case GAUDI2_EVENT_HDMA7_CORE:
-+		return GAUDI2_DCORE3_ENGINE_ID_EDMA_1;
-+	default:
-+		break;
-+	}
-+
-+	switch (type) {
-+	case GAUDI2_BLOCK_TYPE_TPC:
-+		switch (index) {
-+		case TPC_ID_DCORE0_TPC0 ... TPC_ID_DCORE0_TPC5:
-+			return GAUDI2_DCORE0_ENGINE_ID_TPC_0 + index;
-+		case TPC_ID_DCORE1_TPC0 ... TPC_ID_DCORE1_TPC5:
-+			return GAUDI2_DCORE1_ENGINE_ID_TPC_0 + index - TPC_ID_DCORE1_TPC0;
-+		case TPC_ID_DCORE2_TPC0 ... TPC_ID_DCORE2_TPC5:
-+			return GAUDI2_DCORE2_ENGINE_ID_TPC_0 + index - TPC_ID_DCORE2_TPC0;
-+		case TPC_ID_DCORE3_TPC0 ... TPC_ID_DCORE3_TPC5:
-+			return GAUDI2_DCORE3_ENGINE_ID_TPC_0 + index - TPC_ID_DCORE3_TPC0;
-+		default:
-+			break;
-+		}
-+		break;
-+	case GAUDI2_BLOCK_TYPE_MME:
-+		switch (index) {
-+		case MME_ID_DCORE0: return GAUDI2_DCORE0_ENGINE_ID_MME;
-+		case MME_ID_DCORE1: return GAUDI2_DCORE1_ENGINE_ID_MME;
-+		case MME_ID_DCORE2: return GAUDI2_DCORE2_ENGINE_ID_MME;
-+		case MME_ID_DCORE3: return GAUDI2_DCORE3_ENGINE_ID_MME;
-+		default:
-+			break;
-+		}
-+		break;
-+	case GAUDI2_BLOCK_TYPE_DEC:
-+		switch (index) {
-+		case DEC_ID_DCORE0_DEC0: return GAUDI2_DCORE0_ENGINE_ID_DEC_0;
-+		case DEC_ID_DCORE0_DEC1: return GAUDI2_DCORE0_ENGINE_ID_DEC_1;
-+		case DEC_ID_DCORE1_DEC0: return GAUDI2_DCORE1_ENGINE_ID_DEC_0;
-+		case DEC_ID_DCORE1_DEC1: return GAUDI2_DCORE1_ENGINE_ID_DEC_1;
-+		case DEC_ID_DCORE2_DEC0: return GAUDI2_DCORE2_ENGINE_ID_DEC_0;
-+		case DEC_ID_DCORE2_DEC1: return GAUDI2_DCORE2_ENGINE_ID_DEC_1;
-+		case DEC_ID_DCORE3_DEC0: return GAUDI2_DCORE3_ENGINE_ID_DEC_0;
-+		case DEC_ID_DCORE3_DEC1: return GAUDI2_DCORE3_ENGINE_ID_DEC_1;
-+		case DEC_ID_PCIE_VDEC0: return GAUDI2_PCIE_ENGINE_ID_DEC_0;
-+		case DEC_ID_PCIE_VDEC1: return GAUDI2_PCIE_ENGINE_ID_DEC_1;
-+		default:
-+			break;
-+		}
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	return U16_MAX;
-+}
-+
- static void gaudi2_handle_eqe(struct hl_device *hdev, struct hl_eq_entry *eq_entry)
- {
- 	struct gaudi2_device *gaudi2 = hdev->asic_specific;
-@@ -10010,6 +10175,9 @@ static void gaudi2_handle_eqe(struct hl_device *hdev, struct hl_eq_entry *eq_ent
- 		}
- 	}
+ #define CREATE_TRACE_POINTS
+ #include <trace/events/habanalabs.h>
+@@ -27,7 +31,6 @@ MODULE_DESCRIPTION(HL_DRIVER_DESC);
+ MODULE_LICENSE("GPL v2");
  
-+	if (event_mask & HL_NOTIFIER_EVENT_USER_ENGINE_ERR)
-+		hl_capture_engine_err(hdev, event_id_to_engine_id(hdev, event_type), error_count);
-+
- 	/* Make sure to dump an error in case no error cause was printed so far.
- 	 * Note that although we have counted the errors, we use this number as
- 	 * a boolean.
-diff --git a/include/uapi/drm/habanalabs_accel.h b/include/uapi/drm/habanalabs_accel.h
-index e6436f3e8ea6..f912869b151e 100644
---- a/include/uapi/drm/habanalabs_accel.h
-+++ b/include/uapi/drm/habanalabs_accel.h
-@@ -809,6 +809,7 @@ enum hl_server_type {
-  * HL_INFO_FW_ERR_EVENT   - Retrieve information on the reported FW error.
-  *                          May return 0 even though no new data is available, in that case
-  *                          timestamp will be 0.
-+ * HL_INFO_USER_ENGINE_ERR_EVENT - Retrieve the last engine id that reported an error.
-  */
- #define HL_INFO_HW_IP_INFO			0
- #define HL_INFO_HW_EVENTS			1
-@@ -845,6 +846,7 @@ enum hl_server_type {
- #define HL_INFO_FW_GENERIC_REQ			35
- #define HL_INFO_HW_ERR_EVENT			36
- #define HL_INFO_FW_ERR_EVENT			37
-+#define HL_INFO_USER_ENGINE_ERR_EVENT		38
+ static int hl_major;
+-static struct class *hl_class;
+ static DEFINE_IDR(hl_devs_idr);
+ static DEFINE_MUTEX(hl_devs_idr_lock);
  
- #define HL_INFO_VERSION_MAX_LEN			128
- #define HL_INFO_CARD_NAME_MAX_LEN		16
-@@ -1226,6 +1228,20 @@ struct hl_info_fw_err_event {
- 	__u32 pad;
+@@ -70,6 +73,31 @@ static const struct pci_device_id ids[] = {
  };
+ MODULE_DEVICE_TABLE(pci, ids);
  
-+/**
-+ * struct hl_info_engine_err_event - engine error info
-+ * @timestamp: time-stamp of error occurrence
-+ * @engine_id: engine id who reported the error.
-+ * @error_count: Amount of errors reported.
-+ * @pad: size padding for u64 granularity.
-+ */
-+struct hl_info_engine_err_event {
-+	__s64 timestamp;
-+	__u16 engine_id;
-+	__u16 error_count;
-+	__u32 pad;
++static const struct file_operations hl_fops = {
++	.owner = THIS_MODULE,
++	.open = accel_open,
++	.release = drm_release,
++	.unlocked_ioctl = hl_ioctl,
++	.compat_ioctl = hl_ioctl,
++	.llseek = noop_llseek,
++	.mmap = hl_mmap
 +};
 +
++static const struct drm_driver hl_driver = {
++	.driver_features = DRIVER_COMPUTE_ACCEL,
++
++	.name = HL_NAME,
++	.desc = HL_DRIVER_DESC,
++	.major = LINUX_VERSION_MAJOR,
++	.minor = LINUX_VERSION_PATCHLEVEL,
++	.patchlevel = LINUX_VERSION_SUBLEVEL,
++	.date = "20190505",
++
++	.fops = &hl_fops,
++	.open = hl_device_open,
++	.postclose = hl_device_release
++};
++
+ /*
+  * get_asic_type - translate device id to asic type
+  *
+@@ -123,43 +151,28 @@ static bool is_asic_secured(enum hl_asic_type asic_type)
+ }
+ 
+ /*
+- * hl_device_open - open function for habanalabs device
+- *
+- * @inode: pointer to inode structure
+- * @filp: pointer to file structure
++ * hl_device_open() - open function for habanalabs device.
++ * @ddev: pointer to DRM device structure.
++ * @file: pointer to DRM file private data structure.
+  *
+  * Called when process opens an habanalabs device.
+  */
+-int hl_device_open(struct inode *inode, struct file *filp)
++int hl_device_open(struct drm_device *ddev, struct drm_file *file_priv)
+ {
++	struct hl_device *hdev = to_hl_device(ddev);
+ 	enum hl_device_status status;
+-	struct hl_device *hdev;
+ 	struct hl_fpriv *hpriv;
+ 	int rc;
+ 
+-	mutex_lock(&hl_devs_idr_lock);
+-	hdev = idr_find(&hl_devs_idr, iminor(inode));
+-	mutex_unlock(&hl_devs_idr_lock);
+-
+-	if (!hdev) {
+-		pr_err("Couldn't find device %d:%d\n",
+-			imajor(inode), iminor(inode));
+-		return -ENXIO;
+-	}
+-
+ 	hpriv = kzalloc(sizeof(*hpriv), GFP_KERNEL);
+ 	if (!hpriv)
+ 		return -ENOMEM;
+ 
+ 	hpriv->hdev = hdev;
+-	filp->private_data = hpriv;
+-	hpriv->filp = filp;
+-
+ 	mutex_init(&hpriv->notifier_event.lock);
+ 	mutex_init(&hpriv->restore_phase_mutex);
+ 	mutex_init(&hpriv->ctx_lock);
+ 	kref_init(&hpriv->refcount);
+-	nonseekable_open(inode, filp);
+ 
+ 	hl_ctx_mgr_init(&hpriv->ctx_mgr);
+ 	hl_mem_mgr_init(hpriv->hdev->dev, &hpriv->mem_mgr);
+@@ -225,6 +238,9 @@ int hl_device_open(struct inode *inode, struct file *filp)
+ 	hdev->last_successful_open_jif = jiffies;
+ 	hdev->last_successful_open_ktime = ktime_get();
+ 
++	file_priv->driver_priv = hpriv;
++	hpriv->file_priv = file_priv;
++
+ 	return 0;
+ 
+ out_err:
+@@ -232,7 +248,6 @@ int hl_device_open(struct inode *inode, struct file *filp)
+ 	hl_mem_mgr_fini(&hpriv->mem_mgr);
+ 	hl_mem_mgr_idr_destroy(&hpriv->mem_mgr);
+ 	hl_ctx_mgr_fini(hpriv->hdev, &hpriv->ctx_mgr);
+-	filp->private_data = NULL;
+ 	mutex_destroy(&hpriv->ctx_lock);
+ 	mutex_destroy(&hpriv->restore_phase_mutex);
+ 	mutex_destroy(&hpriv->notifier_event.lock);
+@@ -268,7 +283,6 @@ int hl_device_open_ctrl(struct inode *inode, struct file *filp)
+ 	 */
+ 	hpriv->hdev = hdev;
+ 	filp->private_data = hpriv;
+-	hpriv->filp = filp;
+ 
+ 	mutex_init(&hpriv->notifier_event.lock);
+ 	nonseekable_open(inode, filp);
+@@ -317,7 +331,6 @@ static void copy_kernel_module_params_to_device(struct hl_device *hdev)
+ 	hdev->asic_prop.fw_security_enabled = is_asic_secured(hdev->asic_type);
+ 
+ 	hdev->major = hl_major;
+-	hdev->hclass = hl_class;
+ 	hdev->memory_scrub = memory_scrub;
+ 	hdev->reset_on_lockup = reset_on_lockup;
+ 	hdev->boot_error_status_mask = boot_error_status_mask;
+@@ -383,6 +396,31 @@ static int fixup_device_params(struct hl_device *hdev)
+ 	return 0;
+ }
+ 
++static int allocate_device_id(struct hl_device *hdev)
++{
++	int id;
++
++	mutex_lock(&hl_devs_idr_lock);
++	id = idr_alloc(&hl_devs_idr, hdev, 0, HL_MAX_MINORS, GFP_KERNEL);
++	mutex_unlock(&hl_devs_idr_lock);
++
++	if (id < 0) {
++		if (id == -ENOSPC)
++			pr_err("too many devices in the system\n");
++		return -EBUSY;
++	}
++
++	hdev->id = id;
++
++	/*
++	 * Firstly initialized with the internal device ID.
++	 * Will be updated later after the DRM device registration to hold the minor ID.
++	 */
++	hdev->cdev_idx = hdev->id;
++
++	return 0;
++}
++
  /**
-  * struct hl_info_dev_memalloc_page_sizes - valid page sizes in device mem alloc information.
-  * @page_order_bitmask: bitmap in which a set bit represents the order of the supported page size
+  * create_hdev - create habanalabs device instance
+  *
+@@ -395,14 +433,16 @@ static int fixup_device_params(struct hl_device *hdev)
+  */
+ static int create_hdev(struct hl_device **dev, struct pci_dev *pdev)
+ {
+-	int main_id, ctrl_id = 0, rc = 0;
+ 	struct hl_device *hdev;
++	int rc;
+ 
+ 	*dev = NULL;
+ 
+-	hdev = kzalloc(sizeof(*hdev), GFP_KERNEL);
+-	if (!hdev)
+-		return -ENOMEM;
++	hdev = devm_drm_dev_alloc(&pdev->dev, &hl_driver, struct hl_device, drm);
++	if (IS_ERR(hdev))
++		return PTR_ERR(hdev);
++
++	hdev->dev = hdev->drm.dev;
+ 
+ 	/* Will be NULL in case of simulator device */
+ 	hdev->pdev = pdev;
+@@ -425,7 +465,7 @@ static int create_hdev(struct hl_device **dev, struct pci_dev *pdev)
+ 	if (hdev->asic_type == ASIC_INVALID) {
+ 		dev_err(&pdev->dev, "Unsupported ASIC\n");
+ 		rc = -ENODEV;
+-		goto free_hdev;
++		goto out_err;
+ 	}
+ 
+ 	copy_kernel_module_params_to_device(hdev);
+@@ -434,42 +474,15 @@ static int create_hdev(struct hl_device **dev, struct pci_dev *pdev)
+ 
+ 	fixup_device_params(hdev);
+ 
+-	mutex_lock(&hl_devs_idr_lock);
+-
+-	/* Always save 2 numbers, 1 for main device and 1 for control.
+-	 * They must be consecutive
+-	 */
+-	main_id = idr_alloc(&hl_devs_idr, hdev, 0, HL_MAX_MINORS, GFP_KERNEL);
+-
+-	if (main_id >= 0)
+-		ctrl_id = idr_alloc(&hl_devs_idr, hdev, main_id + 1,
+-					main_id + 2, GFP_KERNEL);
+-
+-	mutex_unlock(&hl_devs_idr_lock);
+-
+-	if ((main_id < 0) || (ctrl_id < 0)) {
+-		if ((main_id == -ENOSPC) || (ctrl_id == -ENOSPC))
+-			pr_err("too many devices in the system\n");
+-
+-		if (main_id >= 0) {
+-			mutex_lock(&hl_devs_idr_lock);
+-			idr_remove(&hl_devs_idr, main_id);
+-			mutex_unlock(&hl_devs_idr_lock);
+-		}
+-
+-		rc = -EBUSY;
+-		goto free_hdev;
+-	}
+-
+-	hdev->id = main_id;
+-	hdev->id_control = ctrl_id;
++	rc = allocate_device_id(hdev);
++	if (rc)
++		goto out_err;
+ 
+ 	*dev = hdev;
+ 
+ 	return 0;
+ 
+-free_hdev:
+-	kfree(hdev);
++out_err:
+ 	return rc;
+ }
+ 
+@@ -484,10 +497,8 @@ static void destroy_hdev(struct hl_device *hdev)
+ 	/* Remove device from the device list */
+ 	mutex_lock(&hl_devs_idr_lock);
+ 	idr_remove(&hl_devs_idr, hdev->id);
+-	idr_remove(&hl_devs_idr, hdev->id_control);
+ 	mutex_unlock(&hl_devs_idr_lock);
+ 
+-	kfree(hdev);
+ }
+ 
+ static int hl_pmops_suspend(struct device *dev)
+@@ -691,28 +702,16 @@ static int __init hl_init(void)
+ 
+ 	hl_major = MAJOR(dev);
+ 
+-	hl_class = class_create(HL_NAME);
+-	if (IS_ERR(hl_class)) {
+-		pr_err("failed to allocate class\n");
+-		rc = PTR_ERR(hl_class);
+-		goto remove_major;
+-	}
+-
+-	hl_debugfs_init();
+-
+ 	rc = pci_register_driver(&hl_pci_driver);
+ 	if (rc) {
+ 		pr_err("failed to register pci device\n");
+-		goto remove_debugfs;
++		goto remove_major;
+ 	}
+ 
+ 	pr_debug("driver loaded\n");
+ 
+ 	return 0;
+ 
+-remove_debugfs:
+-	hl_debugfs_fini();
+-	class_destroy(hl_class);
+ remove_major:
+ 	unregister_chrdev_region(MKDEV(hl_major, 0), HL_MAX_MINORS);
+ 	return rc;
+@@ -725,14 +724,6 @@ static void __exit hl_exit(void)
+ {
+ 	pci_unregister_driver(&hl_pci_driver);
+ 
+-	/*
+-	 * Removing debugfs must be after all devices or simulator devices
+-	 * have been removed because otherwise we get a bug in the
+-	 * debugfs module for referencing NULL objects
+-	 */
+-	hl_debugfs_fini();
+-
+-	class_destroy(hl_class);
+ 	unregister_chrdev_region(MKDEV(hl_major, 0), HL_MAX_MINORS);
+ 
+ 	idr_destroy(&hl_devs_idr);
+diff --git a/drivers/accel/habanalabs/common/habanalabs_ioctl.c b/drivers/accel/habanalabs/common/habanalabs_ioctl.c
+index 097d65e493c8..28c3793e802f 100644
+--- a/drivers/accel/habanalabs/common/habanalabs_ioctl.c
++++ b/drivers/accel/habanalabs/common/habanalabs_ioctl.c
+@@ -1166,10 +1166,9 @@ static const struct hl_ioctl_desc hl_ioctls_control[] = {
+ 	HL_IOCTL_DEF(HL_IOCTL_INFO, hl_info_ioctl_control)
+ };
+ 
+-static long _hl_ioctl(struct file *filep, unsigned int cmd, unsigned long arg,
+-		const struct hl_ioctl_desc *ioctl, struct device *dev)
++static long _hl_ioctl(struct hl_fpriv *hpriv, unsigned int cmd, unsigned long arg,
++			const struct hl_ioctl_desc *ioctl, struct device *dev)
+ {
+-	struct hl_fpriv *hpriv = filep->private_data;
+ 	unsigned int nr = _IOC_NR(cmd);
+ 	char stack_kdata[128] = {0};
+ 	char *kdata = NULL;
+@@ -1235,7 +1234,8 @@ static long _hl_ioctl(struct file *filep, unsigned int cmd, unsigned long arg,
+ 
+ long hl_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+ {
+-	struct hl_fpriv *hpriv = filep->private_data;
++	struct drm_file *file_priv = filep->private_data;
++	struct hl_fpriv *hpriv = file_priv->driver_priv;
+ 	struct hl_device *hdev = hpriv->hdev;
+ 	const struct hl_ioctl_desc *ioctl = NULL;
+ 	unsigned int nr = _IOC_NR(cmd);
+@@ -1256,7 +1256,7 @@ long hl_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
+ 		return -ENOTTY;
+ 	}
+ 
+-	return _hl_ioctl(filep, cmd, arg, ioctl, hdev->dev);
++	return _hl_ioctl(hpriv, cmd, arg, ioctl, hdev->dev);
+ }
+ 
+ long hl_ioctl_control(struct file *filep, unsigned int cmd, unsigned long arg)
+@@ -1282,5 +1282,5 @@ long hl_ioctl_control(struct file *filep, unsigned int cmd, unsigned long arg)
+ 		return -ENOTTY;
+ 	}
+ 
+-	return _hl_ioctl(filep, cmd, arg, ioctl, hdev->dev_ctrl);
++	return _hl_ioctl(hpriv, cmd, arg, ioctl, hdev->dev_ctrl);
+ }
+diff --git a/drivers/accel/habanalabs/common/memory.c b/drivers/accel/habanalabs/common/memory.c
+index 4fc72a07d2f5..45fdf39bfc8c 100644
+--- a/drivers/accel/habanalabs/common/memory.c
++++ b/drivers/accel/habanalabs/common/memory.c
+@@ -1818,7 +1818,7 @@ static void hl_release_dmabuf(struct dma_buf *dmabuf)
+ 	hl_ctx_put(ctx);
+ 
+ 	/* Paired with get_file() in export_dmabuf() */
+-	fput(ctx->hpriv->filp);
++	fput(ctx->hpriv->file_priv->filp);
+ 
+ 	kfree(hl_dmabuf);
+ }
+@@ -1864,7 +1864,7 @@ static int export_dmabuf(struct hl_ctx *ctx,
+ 	 * released first and only then the compute device.
+ 	 * Paired with fput() in hl_release_dmabuf().
+ 	 */
+-	get_file(ctx->hpriv->filp);
++	get_file(ctx->hpriv->file_priv->filp);
+ 
+ 	*dmabuf_fd = fd;
+ 
 -- 
 2.34.1
 
