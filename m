@@ -2,76 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6635974E7BD
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 09:15:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B28B74E7DB
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jul 2023 09:23:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 576EC10E323;
-	Tue, 11 Jul 2023 07:14:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40DD310E320;
+	Tue, 11 Jul 2023 07:23:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A41910E323
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 07:14:58 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id
- 38308e7fff4ca-2b6f52e1c5cso83402281fa.1
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 00:14:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689059693; x=1691651693;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=vDg8sBlchWM3bGmJZ4eUSQrMp+GAsnjEmLK/PUblJwU=;
- b=ZrN1G7DC5BfDRw21wfHnDiFNvxDHn0lRQHmbqM5Otsjz4MtES7HfeQeEr5CNo2R7P9
- NWg/OajfaTR+Mj1SkxlfEWJ6pUGXIteqdbjg0yIi8GEiX8aHP46k5cQq4bwaA4/UJLfS
- 6eOLoORO8ZZKrDQRQ+HfumYewr8gX8RV8B3AtCsFmDPv0HTKze+DyG4wXbHmpxOxgao0
- yluXXhrCI2sh/S59+8q3lHvDd+Gnp+YtBGeweppx9JWe16O5Rq9+5H4bYRHPh5CCGTpX
- +gBjJ3tagEUyo/tTUwi/90a/tsZnNkHOfqXiUQ4iXzx0r42LHrlQLVufWioYjjCBLSoo
- lAww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689059693; x=1691651693;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vDg8sBlchWM3bGmJZ4eUSQrMp+GAsnjEmLK/PUblJwU=;
- b=Fn0/sFhWtqpsqJ9wj3Qm42tvYPmnsj7X0/MVmIrDRG1wsWfiBBJdJIchla3uE4tT7F
- hJeKTxRcod6jzU9XXqaUCrbCMupi9dynJJZTKAv8DuhDB/3o6fd6aW2UR/W/0geVeXG3
- zxoepaZqIa2jZsHSoKVHDWIay7EbYdxOymVnTHCQoKy20HG4HS0N1WznOQ1V5++T/x0U
- 5WayzGN8L202w/gBEXhoorTuyTJd6flZRtJhLQ4U6ejYiUGclp0VLgG2vIZDC/YXHgwa
- Yyrn6VSK+1C69MJZ+pFsQ6nksbAmYq12+/0kpp28WW3gGpQs9MwrHrxcSqF+ZXQ8TqCc
- 4QjA==
-X-Gm-Message-State: ABy/qLbWX99Q/lmrOgSSd+4PBMTq5d/Ro0dkEumwos6UfBpuh5jha7XC
- cguhgdbWd5nYIxn/9dqpvQI=
-X-Google-Smtp-Source: APBJJlHnYYO4Rs02Xy3J+Kf/A6Wwj+8XuUH9uMwW9lRDn30XMANlUXeG2i2HUPCBgHpJPHgF4/EuHw==
-X-Received: by 2002:a2e:7a06:0:b0:2b6:bd82:80b1 with SMTP id
- v6-20020a2e7a06000000b002b6bd8280b1mr13113428ljc.37.1689059692443; 
- Tue, 11 Jul 2023 00:14:52 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- f9-20020a2e3809000000b002b6ca141b6fsm313570lja.87.2023.07.11.00.14.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jul 2023 00:14:52 -0700 (PDT)
-Date: Tue, 11 Jul 2023 10:14:42 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Michael Banack <banackm@vmware.com>
-Subject: Re: [PATCH v4 2/8] drm/atomic: Add support for mouse hotspots
-Message-ID: <20230711101442.72530df5@eldfell>
-In-Reply-To: <9768c00d-536b-dd7b-c8e2-e9d920cd6959@vmware.com>
-References: <20230628052133.553154-1-zack@kde.org>
- <20230628052133.553154-3-zack@kde.org>
- <20230628104106.30360b55@eldfell> <20230628105424.11eb45ec@eldfell>
- <2fb2f3985df4d6710e5ad33f6e618a52004714df.camel@vmware.com>
- <20230629110348.3530f427@eldfell>
- <6c5449cf-b7a6-1125-9493-0fe968166915@vmware.com>
- <20230704110845.490344f5@eldfell>
- <ce7754be-8085-ffd1-93f3-a774f7fcdb87@vmware.com>
- <20230706110146.0abeda0a@eldfell>
- <247b630c-8b16-7c33-987e-8b3451be3c70@vmware.com>
- <20230707113837.1a9d31e9@eldfell>
- <6be74496-f14e-302c-329e-d865f5ee3c36@vmware.com>
- <20230710111706.209cfd55@eldfell>
- <9768c00d-536b-dd7b-c8e2-e9d920cd6959@vmware.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 704DC10E320
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 07:23:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1689060192; x=1720596192;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=Y0/zOB9UbBv1wCcPDfqbK7qzMXd4kMqleyT13B7lePQ=;
+ b=ftRdaoklpMOhCyMDTAaraVfWcvKFpg3dzpzQrlRINQwA/qF9aZMAdl/3
+ ItGXtvYPD0jfJtsdbgJiHdvpO44K+8a5KzRl3geLcK1DB0hi5Sq8HgdHz
+ Eyc7o2gzUn2YnT/eB6uZ5sQRBDlMjry/VZKTR+JSXLjMCqcLDvuNpPHVG
+ g/a3jtnqZ6kJ2TTPJXhIDIurjSXhAmBhNiytF1WBsO0XqchBoVq2gMWC5
+ Z5icjI08TCwYkgAJIbn8CVFXMZ97EMkKH+OCbXZpNnwCb762UivLpilGF
+ r13bwmhvNOiR1d7lIQsojkcpHuuvaH5HTji1QU37eUWOh/TDbJXUhESP6 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="395333214"
+X-IronPort-AV: E=Sophos;i="6.01,196,1684825200"; d="scan'208";a="395333214"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jul 2023 00:23:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="811093001"
+X-IronPort-AV: E=Sophos;i="6.01,196,1684825200"; d="scan'208";a="811093001"
+Received: from sneaga-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.252.52.179])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jul 2023 00:23:07 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Subject: Re: [PATCH RESEND] drm/bridge: anx7625: Use common macros for DP
+ power sequencing commands
+In-Reply-To: <CAGXv+5HPaJf_M0nAgaGsUZ3mG=BFhTkS-ASbMwjL4K8CRkxChA@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230710090929.1873646-1-wenst@chromium.org>
+ <87edlgjbvg.fsf@intel.com>
+ <CAGXv+5HPaJf_M0nAgaGsUZ3mG=BFhTkS-ASbMwjL4K8CRkxChA@mail.gmail.com>
+Date: Tue, 11 Jul 2023 10:23:05 +0300
+Message-ID: <87lefmj4iu.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Jzlvc_IC7v0R8=9nj2Cj/i0";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,67 +62,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "mripard@kernel.org" <mripard@kernel.org>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "javierm@redhat.com" <javierm@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Martin Krastev <krastevm@vmware.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>, Ian Forbes <iforbes@vmware.com>,
- Maaz Mombasawala <mombasawalam@vmware.com>, "zack@kde.org" <zack@kde.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ =?utf-8?Q?N=C3=ADcolas_F=2E_R?= =?utf-8?Q?=2E_A=2E_Prado?=
+ <nfraprado@collabora.com>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/Jzlvc_IC7v0R8=9nj2Cj/i0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Tue, 11 Jul 2023, Chen-Yu Tsai <wenst@chromium.org> wrote:
+> On Mon, Jul 10, 2023 at 6:32=E2=80=AFPM Jani Nikula <jani.nikula@linux.in=
+tel.com> wrote:
+>>
+>> On Mon, 10 Jul 2023, Chen-Yu Tsai <wenst@chromium.org> wrote:
+>> > The DRM DP code has macros for the DP power sequencing commands. Use
+>> > them in the anx7625 driver instead of raw numbers.
+>> >
+>> > Fixes: 548b512e144f ("drm/bridge: anx7625: send DPCD command to downst=
+ream")
+>> > Fixes: 27f26359de9b ("drm/bridge: anx7625: Set downstream sink into no=
+rmal status")
+>> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+>> > Reviewed-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
+>> > ---
+>> > Collected tags and rebased on v6.5-rc1.
+>> >
+>> >  drivers/gpu/drm/bridge/analogix/anx7625.c | 8 ++++----
+>> >  1 file changed, 4 insertions(+), 4 deletions(-)
+>> >
+>> > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/d=
+rm/bridge/analogix/anx7625.c
+>> > index 8b985efdc086..9db3784cb554 100644
+>> > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+>> > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+>> > @@ -931,8 +931,8 @@ static void anx7625_dp_start(struct anx7625_data *=
+ctx)
+>> >
+>> >       dev_dbg(dev, "set downstream sink into normal\n");
+>> >       /* Downstream sink enter into normal mode */
+>> > -     data =3D 1;
+>> > -     ret =3D anx7625_aux_trans(ctx, DP_AUX_NATIVE_WRITE, 0x000600, 1,=
+ &data);
+>> > +     data =3D DP_SET_POWER_D0;
+>> > +     ret =3D anx7625_aux_trans(ctx, DP_AUX_NATIVE_WRITE, DP_SET_POWER=
+, 1, &data);
+>>
+>> So you have code to implement the drm dp aux abstractions, why aren't
+>> you using drm_dp_dpcd_writeb() and friends here?
+>
+> I didn't write the original code. Nor do I do much DP stuff. IIRC someone
+> pointed out to me these had proper macros, so I converted them.
+>
+> Would you accept a follow-up patch to convert the AUX transfers to the
+> DRM abstractions?
 
-On Mon, 10 Jul 2023 10:46:56 -0700
-Michael Banack <banackm@vmware.com> wrote:
+I believe they would be welcome, but I'm personally not familiar with
+the driver in question.
 
-> On 7/10/23 01:17, Pekka Paalanen wrote:
-> > On Fri, 7 Jul 2023 13:54:21 -0700
-> > Michael Banack <banackm@vmware.com> wrote:
-
-...
-
-> >> So I guess I would vote for trying to include something to that effect
-> >> as context or explanation, but not try to strictly define how that wor=
-ks? =20
-> > Yes, exactly. =20
->=20
-> Okay, if we can keep the mouse/input stuff on the fuzzy side then I=20
-> think we're on the same page.
-
-Very much of the fuzzy side, yes! All I am saying is that one cannot
-explain the hotspot property without saying anything about it being
-connected with input devices in some way. The very key I want to see
-documented is that all cursor-needing pointing input devices and all
-KMS cursor planes exposed to the guest OS are meant to be associated
-with the same single conceptual pointer. That is all.
+BR,
+Jani.
 
 
-Thanks,
-pq
-
---Sig_/Jzlvc_IC7v0R8=9nj2Cj/i0
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmStAWIACgkQI1/ltBGq
-qqcHCg//Xelh45WxQgsjoO+A9vRCr0WKE9gW0iyYbqXumT94B5lFQUvBUi1IYS/s
-hvOXkt2DVhMptE4h3xmKraeez9AfTD//Ff2muwm0SvZcuJTNUc0dplAY7iVqeMc7
-Xwn9M0ojLzgTw4TxQN0r24799ggyv3bKFMqPufVGvFjZj+mB8K+bf14cv42DVu/s
-HJ0JjthijoyEb/b7/X0n0iF6fHRIO4u/TgyHaFUuxeYDY7bnEc0svril8gmXHosT
-hKN1l72EwRlWfTqyan0+AlXeOUMcowGN4w/NZPB5R/IdkrRVBdzaQPCdzbUEB1VI
-Zcz2WX1sN5UAyOXTXzSHcTkORDcywj5YsiFQnHfteWGUWWQnVhnGwklpIqO9Srf4
-KaY2BxP7VWEU+GKdEVXKTCPVZvrEa5YTSs5m8232HDRJ8VTi8ik8kC8OKxlp6LOl
-b+Nj5vbvgXfpbBxcxUU7yL0dk/a9JrAcXXz1JRqSe1n5YrvN/6PQW/E3WugzXJ3Z
-kVnaK5KxxtIDWC1op0EZXTAKojb8qyySo3N1KjJP/EOC3PVmIkHFeeEwA2fbikyj
-ZpvVDKcFks9C1wmYqK5rMH1uHz4uHUBtKwUZ7x9xLrq6OMFpkuGy5e11tpjYxxzj
-lqF7mGv/lf6A5g/Pz0dinkmwQPIII/O0O2UeKZS/nK7BlonlvCo=
-=0jVw
------END PGP SIGNATURE-----
-
---Sig_/Jzlvc_IC7v0R8=9nj2Cj/i0--
+--=20
+Jani Nikula, Intel Open Source Graphics Center
