@@ -2,63 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4401275045C
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 12:24:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A19E7504B4
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 12:36:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8255D10E4C8;
-	Wed, 12 Jul 2023 10:24:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C70410E4CE;
+	Wed, 12 Jul 2023 10:36:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com
- [209.85.128.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA49D10E4C8
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 10:24:29 +0000 (UTC)
-Received: by mail-yw1-f178.google.com with SMTP id
- 00721157ae682-579e212668fso8787457b3.1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 03:24:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689157468; x=1691749468;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+AfbwBwJNjshQnNKOif9aDI46gRnwtqlbKQaRDBJ9bU=;
- b=UdDAcATrvgKzHbFqj1OsQvPMw8G2E0eoMjQc8wAWLCsvpktLe8iKd3/Oj1K+izQAEE
- W8KEgosbhQMmBILSzLaS/i5NXTMpIYBTzcarKj6PQgbg3EPLzVi4oL9hnsKVTgCBIlnI
- Q0ovo0Z+SEIAUZ7lqbpk7eoZ1KbKUMI4WYG8yW6f5UOjcB96OTDq+8Q9iOqx4OsUVvzQ
- idb8DTGqQPuMyYMRUwy+r5ZGttTtmACY/VckShUSFRr4QS/sYYNS2CZrm2Fc2uPn7/tq
- GxBdJGdn69J3u33Busp+QBb+dgCOdcf5xS1cc75UXTQ2MNcyMCB40kOIoN9Ci8NGpbJp
- fKTA==
-X-Gm-Message-State: ABy/qLZ737MwSv/5QeXvRJfDbDUpIcBRoFfJSA4OGPgy0C9rO5cbqbdH
- 5xdtmN7nObslPzMXzIhBtkonPfuLHBBdBw==
-X-Google-Smtp-Source: APBJJlFnHxU7CkyCklIgNGmO+vcviB9EZnQ5YWV4vyibITNddjKEP+y1w4KJp9Ca6+cC6n0HmW2Rlg==
-X-Received: by 2002:a81:6d8e:0:b0:579:fd23:504b with SMTP id
- i136-20020a816d8e000000b00579fd23504bmr1866334ywc.4.1689157468538; 
- Wed, 12 Jul 2023 03:24:28 -0700 (PDT)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com.
- [209.85.128.180]) by smtp.gmail.com with ESMTPSA id
- p203-20020a815bd4000000b00579f1c5ebdasm1096512ywb.15.2023.07.12.03.24.28
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Jul 2023 03:24:28 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id
- 00721157ae682-577ddda6ab1so8949147b3.0
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 03:24:28 -0700 (PDT)
-X-Received: by 2002:a81:92d3:0:b0:56f:f83f:618 with SMTP id
- j202-20020a8192d3000000b0056ff83f0618mr1642975ywg.19.1689157467952; Wed, 12
- Jul 2023 03:24:27 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 627A310E4CD;
+ Wed, 12 Jul 2023 10:36:00 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 89FC66173B;
+ Wed, 12 Jul 2023 10:35:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9964EC433C9;
+ Wed, 12 Jul 2023 10:35:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1689158158;
+ bh=1ZR/RKV2DlzbR3SX6BTWRQmsK1bpq2+ZztUMiAfbqKc=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=R9SLZ09m1Rh3AEsPeUTnzP3pcQtwTY1lZJL2z1st0pNXkxRqvxcn/Nmx9tV4p9OF0
+ dfh1or+wnApHIvgivfrqFfPCjcdleJk3HlTrT544ztJCqGqpe7xYEc/sQdCzTcr9uW
+ HDZkEZxfUJR4t/ZezHV8ZmrbzE+sknAXDs+Pf+X9rWmVNtR70N5X9iYYz0+S6vWhXd
+ XWP0U61oJttz8YxhSwptD2oXxk+s22duHZAL11/mNC8Gul82BU/V9jiwNdfZzcL0fW
+ fDG+96uazkTSKaZ9A2UQtBOryEDfydBGaMzMhI+8+Xyp0KR3MUMFyQC7OqBA+tS+KH
+ iipaGVMPqQP7g==
+From: Mark Brown <broonie@kernel.org>
+To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20230628-topic-refgen-v3-0-9fbf0e605d23@linaro.org>
+References: <20230628-topic-refgen-v3-0-9fbf0e605d23@linaro.org>
+Subject: Re: (subset) [PATCH v3 0/4] Qualcomm REFGEN regulator
+Message-Id: <168915815219.10612.17171163066599783994.b4-ty@kernel.org>
+Date: Wed, 12 Jul 2023 11:35:52 +0100
 MIME-Version: 1.0
-References: <20230609170941.1150941-1-javierm@redhat.com>
- <20230609170941.1150941-6-javierm@redhat.com>
-In-Reply-To: <20230609170941.1150941-6-javierm@redhat.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 12 Jul 2023 12:24:16 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWbQ8VAVPdLLpgV97=uY85-PfKWMmzyXpFZ6d=iJ2JOAQ@mail.gmail.com>
-Message-ID: <CAMuHMdWbQ8VAVPdLLpgV97=uY85-PfKWMmzyXpFZ6d=iJ2JOAQ@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] drm/ssd130x: Remove hardcoded bits-per-pixel in
- ssd130x_buf_alloc()
-To: Javier Martinez Canillas <javierm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-099c9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,71 +61,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org, Konrad Dybcio <konradybcio@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier,
+On Mon, 03 Jul 2023 20:15:53 +0200, Konrad Dybcio wrote:
+> Recent Qualcomm SoCs have a REFGEN (reference voltage generator) regulator
+> responsible for providing a reference voltage to some on-SoC IPs (like DSI
+> or PHYs). It can be turned off when unused to save power.
+> 
+> This series introduces the driver for it and lets the DSI driver
+> consume it.
+> 
+> [...]
 
-Thanks for your patch!
+Applied to
 
-On Fri, Jun 9, 2023 at 7:09=E2=80=AFPM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
-> The driver only supports OLED controllers that have a native DRM_FORMAT_C=
-1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
 
-DRM_FORMAT_R1 (colormap is fixed to white-on-black).
+Thanks!
 
-> pixel format and that is why it has harcoded a division of the width by 8=
-.
+[1/4] dt-bindings: regulator: Describe Qualcomm REFGEN regulator
+      commit: d16db38c2a66060ee25c6b86ee7b6d66d40fc8e0
+[2/4] regulator: Introduce Qualcomm REFGEN regulator driver
+      commit: 7cbfbe23796086fdb72b681e2c182b02acd36a04
 
-hardcoded.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-> But the driver might be extended to support devices that have a different
-> pixel format. So it's better to use the struct drm_format_info helpers to
-> compute the size of the buffer, used to store the pixels in native format=
-.
->
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-> --- a/drivers/gpu/drm/solomon/ssd130x.c
-> +++ b/drivers/gpu/drm/solomon/ssd130x.c
-> @@ -150,9 +150,16 @@ static int ssd130x_buf_alloc(struct ssd130x_device *=
-ssd130x)
->  {
->         unsigned int page_height =3D ssd130x->device_info->page_height;
->         unsigned int pages =3D DIV_ROUND_UP(ssd130x->height, page_height)=
-;
-> +       const struct drm_format_info *fi;
-> +       unsigned int pitch;
->
-> -       ssd130x->buffer =3D kcalloc(DIV_ROUND_UP(ssd130x->width, 8),
-> -                                 ssd130x->height, GFP_KERNEL);
-> +       fi =3D drm_format_info(DRM_FORMAT_C1);
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-DRM_FORMAT_R1.
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-> +       if (!fi)
-> +               return -EINVAL;
-> +
-> +       pitch =3D drm_format_info_min_pitch(fi, 0, ssd130x->width);
-> +
-> +       ssd130x->buffer =3D kcalloc(pitch, ssd130x->height, GFP_KERNEL);
->         if (!ssd130x->buffer)
->                 return -ENOMEM;
+Thanks,
+Mark
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
