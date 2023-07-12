@@ -1,52 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41ABC75110A
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 21:14:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6FD9751121
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 21:24:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAF3910E5C6;
-	Wed, 12 Jul 2023 19:14:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27C9810E5CD;
+	Wed, 12 Jul 2023 19:24:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk
- [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 343DC10E5CD
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 19:14:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
- Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=jxqXvAC8am2xBAdjIuW5z+SIHl/eAGt+oRSNUuYSdIY=; b=fPGmAOKDFs89A6q7RZSt8JMcVL
- I8YH61ODZosFPTSfjr+sA984ucZ2opP9VlFwKzcwAFj6xz2aYo7kYKWO0XfUg0+JhFBrZR6vQ/1AA
- 8moRr3ru5pahWMred1L8Ldb9EL/LIDEoW/RFJgFgy71VHHF4D62TcwDUR77+QZcQNhZyZ9iRdxWcO
- EVqDxr0MOYMv8LCOc5FVCCNjkDbT5TLY4r6KLCXk81GHiW7rrg7fM2ODF7QEUobwNEdkjCIiVO6lA
- /n+qb2j6FDLKYBSXkUVago8CsJzUmhcFC0TG0uDNvsPZDu2GeBUY38Z4cZhEpwp6seC/AHJfPMn//
- NZxG2N9Q==;
-Received: from shell.armlinux.org.uk
- ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:38882)
- by pandora.armlinux.org.uk with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <linux@armlinux.org.uk>) id 1qJfHi-0004NM-3C;
- Wed, 12 Jul 2023 20:13:59 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
- (envelope-from <linux@shell.armlinux.org.uk>)
- id 1qJfHh-0005Kc-Qs; Wed, 12 Jul 2023 20:13:57 +0100
-Date: Wed, 12 Jul 2023 20:13:57 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH RFC v1 04/52] drm/armada: Use struct drm_crtc::drm_dev
- instead of struct drm_crtc::dev
-Message-ID: <ZK77dVQ3U+en6sza@shell.armlinux.org.uk>
-References: <20230712094702.1770121-1-u.kleine-koenig@pengutronix.de>
- <20230712094702.1770121-5-u.kleine-koenig@pengutronix.de>
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
+ [IPv6:2607:f8b0:4864:20::b2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4765C10E5CD
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 19:24:22 +0000 (UTC)
+Received: by mail-yb1-xb2d.google.com with SMTP id
+ 3f1490d57ef6-cae693192d1so136186276.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 12:24:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google; t=1689189861; x=1691781861;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vzEAwC9syN8fFX9a1JfdVvYlRZJDamLyw5HuxJ6nTMU=;
+ b=BPUe+U5zIYQ+u+mXdjEKspCFo0T0vbiL9X9zizwUslTXGiQe37RSjJl6hn7QI72sbt
+ RT3p5Nemctsqp8OlMLTupzhD0LdthGzXL66eR79INOPre26f/iRHpaUOEb9FA0Fhxret
+ TQtPNWYfzXbDITeza93S8TCTAhxSt82iEZYhE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689189861; x=1691781861;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vzEAwC9syN8fFX9a1JfdVvYlRZJDamLyw5HuxJ6nTMU=;
+ b=SufOmvGcWPv31Xc6N4OqQjX6uZwy/jL9IeRo0sz1VBtKWDh4XTI+dyB0HG3zo82WZh
+ uPL/CQGy1IJ+ub1kM0+8k/IPk2SPkL3o7zZ54aaNvW4TKwq78AxXcuNzJmRURFSXtX0q
+ VZThsHr+0q+PzyBdU+u/Vr5O02ayQ3wR67Aa2IBch0hMWgRW/zGh/zlvmWSAdrTp0j0Z
+ hS3fy+x1oDC5XWynRhKASZpENV49d/sA1P+KmD58DoIBtNJA4W9KHHM9sM6IzdBCFt8B
+ /gqwd/edzpr58FeQ5yMVmyv1wpOJZvLxxF9JLtuLUuYXSwBfbZEkqQFYCe/QZqGg2YY/
+ bXdw==
+X-Gm-Message-State: ABy/qLZ/Q2Z6TQeWf2qoVfgUFrMiQsclm+5t6Mar9TEOLHgRi4hiQMg0
+ /HbkFST07zuB3HjhdKLVPcikTq5ifyTNFTOd6IkXHw==
+X-Google-Smtp-Source: APBJJlEb6pZ2wBXIvJM5JvufTwOVdM7M4Xo/PN3IlFufqBUYzc/SA2/QgAsfaNmRSOA7rXtrxb6nMfg5r6FC0EiCo0A=
+X-Received: by 2002:a25:7a05:0:b0:bd0:8e5:d548 with SMTP id
+ v5-20020a257a05000000b00bd008e5d548mr17084710ybc.39.1689189860943; Wed, 12
+ Jul 2023 12:24:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230712094702.1770121-5-u.kleine-koenig@pengutronix.de>
+References: <CAJ+vNU2Nb58wOdm9yROzSceSJgwR0pqfVFDiJWGUG6YN87ZdaQ@mail.gmail.com>
+In-Reply-To: <CAJ+vNU2Nb58wOdm9yROzSceSJgwR0pqfVFDiJWGUG6YN87ZdaQ@mail.gmail.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Thu, 13 Jul 2023 00:54:08 +0530
+Message-ID: <CAMty3ZBxjs5o=j1ZonSwURbX+uBTOTpop__4XMAqNKmF+11AyA@mail.gmail.com>
+Subject: Re: 6.5-rc1 breakage in samsung-dsim
+To: Tim Harvey <tharvey@gateworks.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,22 +65,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Adam Ford <aford173@gmail.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 12, 2023 at 11:46:14AM +0200, Uwe Kleine-König wrote:
-> Prepare dropping the alias "dev" for struct drm_crtc::drm_dev. "drm_dev"
-> is the better name as "dev" is usually a struct device pointer.
-> 
-> No semantic changes.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+On Thu, Jul 13, 2023 at 12:22=E2=80=AFAM Tim Harvey <tharvey@gateworks.com>=
+ wrote:
+>
+> Greetings,
+>
+> I've noticed a regression in 6.5-rc1 that I'm having trouble bisecting
+> between 6.4 with regards to imx8mm MIPI DSI.
+>
+> I'm testing on an imx8mm-venice-gw72xx-0x with the following display:
+>  - Powertip PH800480T013-IDF02 compatible panel
+>  - Toshiba TC358762 compatible DSI to DBI bridge
+>  - ATTINY based regulator used for backlight controller and panel enable
+>
+> I'm using a dt overlay to support this [1] which works on 6.4 but on
+> 6.5-rc1 I get the following error:
+> [    6.110585] samsung-dsim 32e60000.dsi: xfer timed out: 29 06 00 00
+> 64 01 05 00 00 00
+> [    6.326588] tc358762 32e60000.dsi.0: error initializing bridge (-110)
+>
+> I'm trying to bisect this for some reason. Does anyone have any idea
+> what may be causing this or how I can debug it?
 
-Reviewed-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+What if you can revert or drop the dynamic PHY configuration (HEAD ...
+a617b33f7e51)? can you check it?
 
-Thanks!
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+Thanks,
+Jagan.
