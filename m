@@ -1,64 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AD3F7504FF
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 12:44:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A78D0750507
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 12:46:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3568E10E4CC;
-	Wed, 12 Jul 2023 10:44:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 629F910E4D5;
+	Wed, 12 Jul 2023 10:46:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD7EE10E4CC
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 10:44:17 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 84CA71FECA;
- Wed, 12 Jul 2023 10:44:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1689158655; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3pbP7NRrovh3msgP6E5AFfMLVN0Yrx846HgMmCs1VzM=;
- b=xik21io1nJtybc4u+VLEPHwJkLcN02Gwgggdm8Hay4Pl99325q2E/1+TUoGnviJm5itcTx
- 8PeXMuFC/Na2dRiL8gfd97mu3fWl/iAauaITbLjDpZbyc0yB+0u4VkSaeHS4rQ6rQelv4Y
- EKkR6p1JSZZIWYCZSjV0qCIck7MUD20=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1689158655;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3pbP7NRrovh3msgP6E5AFfMLVN0Yrx846HgMmCs1VzM=;
- b=vyBJx0m8VDvO6zJZyvl/5sJBxHATKs1+IfuYMlxzMZT0khKZdGxqWj93YhpTghI4pLtfCK
- 6FkBcoFzXUt2bnAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5A54313336;
- Wed, 12 Jul 2023 10:44:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id QQS+FP+DrmSCEwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 12 Jul 2023 10:44:15 +0000
-Message-ID: <964a01c5-5db3-7fe0-a8fa-7f6bbbbba8a3@suse.de>
-Date: Wed, 12 Jul 2023 12:44:14 +0200
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7FAC10E4D0
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 10:46:27 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1qJXMU-0004Hy-Ge; Wed, 12 Jul 2023 12:46:22 +0200
+Message-ID: <1a3f07cb473c520dcd23c4d214f3503441cd7a71.camel@pengutronix.de>
+Subject: Re: [PATCH 3/6] drm/amdgpu: Rework coredump to use memory dynamically
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
+ =?ISO-8859-1?Q?Andr=E9?= Almeida
+ <andrealmeid@igalia.com>, dri-devel@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Wed, 12 Jul 2023 12:46:20 +0200
+In-Reply-To: <3764d627-d632-5754-0bcc-a150c157d9f9@amd.com>
+References: <20230711213501.526237-1-andrealmeid@igalia.com>
+ <20230711213501.526237-4-andrealmeid@igalia.com>
+ <e488da74-af52-62eb-d601-0e8a13cf0e87@amd.com>
+ <0e7f2b0cc29ac77d4a55d0de6a66c477d867fbf7.camel@pengutronix.de>
+ <3764d627-d632-5754-0bcc-a150c157d9f9@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v3 1/2] drm/ast: Add BMC virtual connector
-Content-Language: en-US
-To: Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com,
- kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com,
- jani.nikula@linux.intel.com, dianders@chromium.org
-References: <20230712083733.223275-1-jfalempe@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230712083733.223275-1-jfalempe@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------497J24gZsc0N1E7JsT9OQLYV"
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,138 +53,239 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: pierre-eric.pelloux-prayer@amd.com,
+ 'Marek =?UTF-8?Q?Ol=C5=A1=C3=A1k=27?= <maraeo@gmail.com>,
+ michel.daenzer@mailbox.org,
+ Timur =?ISO-8859-1?Q?Krist=F3f?= <timur.kristof@gmail.com>,
+ Samuel Pitoiset <samuel.pitoiset@gmail.com>, kernel-dev@igalia.com,
+ alexander.deucher@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------497J24gZsc0N1E7JsT9OQLYV
-Content-Type: multipart/mixed; boundary="------------Tz0Tv1Gw8Jxe5HEEROBFNv0T";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com,
- kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com,
- jani.nikula@linux.intel.com, dianders@chromium.org
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <964a01c5-5db3-7fe0-a8fa-7f6bbbbba8a3@suse.de>
-Subject: Re: [PATCH v3 1/2] drm/ast: Add BMC virtual connector
-References: <20230712083733.223275-1-jfalempe@redhat.com>
-In-Reply-To: <20230712083733.223275-1-jfalempe@redhat.com>
+Am Mittwoch, dem 12.07.2023 um 12:39 +0200 schrieb Christian K=C3=B6nig:
+> Am 12.07.23 um 10:59 schrieb Lucas Stach:
+> > Am Mittwoch, dem 12.07.2023 um 10:37 +0200 schrieb Christian K=C3=B6nig=
+:
+> > > Am 11.07.23 um 23:34 schrieb Andr=C3=A9 Almeida:
+> > > > Instead of storing coredump information inside amdgpu_device struct=
+,
+> > > > move if to a proper separated struct and allocate it dynamically. T=
+his
+> > > > will make it easier to further expand the logged information.
+> > > Verry big NAK to this. The problem is that memory allocation isn't
+> > > allowed during a GPU reset.
+> > >=20
+> > > What you could do is to allocate the memory with GFP_ATOMIC or simila=
+r,
+> > > but for a large structure that might not be possible.
+> > >=20
+> > I'm still not fully clear on what the rules are here. In etnaviv we do
+> > devcoredump allocation in the GPU reset path with __GFP_NOWARN |
+> > __GFP_NORETRY, which means the allocation will kick memory reclaim if
+> > necessary, but will just give up if no memory could be made available
+> > easily. This satisfies the forward progress guarantee in the absence of
+> > successful memory allocation, which is the most important property in
+> > this path, I think.
+> >=20
+> > However, I'm not sure if the reclaim could lead to locking issues or
+> > something like that with the more complex use-cases with MMU notifiers
+> > and stuff like that. Christian, do you have any experience or
+> > information that would be good to share in this regard?
+>=20
+> Yeah, very good question.
+>=20
+> __GFP_NORETRY isn't sufficient as far as I know. Reclaim must be=20
+> completely suppressed to be able to allocate in a GPU reset handler.
+>=20
+> Daniel added lockdep annotation to some of the dma-fence signaling paths=
+=20
+> and this yielded quite a bunch of potential deadlocks.
+>=20
+> It's not even that reclaim itself waits for dma_fences (that can happen,=
+=20
+> but is quite unlikely), but rather that reclaim needs locks and under=20
+> those locks we then wait for dma_fences.
+>=20
+> We should probably add a define somewhere which documents that=20
+> (GFP_ATOMIC | __NO_WARN) should be used in the GPU reset handlers when=
+=20
+> allocating memory for coredumps.
+>=20
+> Regards,
+> Christian.
+>=20
+> >=20
+> > Regards,
+> > Lucas
+> >=20
+> > > Regards,
+> > > Christian.
+> > >=20
+> > > > Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
+> > > > ---
+> > > >    drivers/gpu/drm/amd/amdgpu/amdgpu.h        | 14 +++--
+> > > >    drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 65 ++++++++++++++--=
+------
+> > > >    2 files changed, 51 insertions(+), 28 deletions(-)
+> > > >=20
+> > > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/=
+amd/amdgpu/amdgpu.h
+> > > > index dbe062a087c5..e1cc83a89d46 100644
+> > > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> > > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> > > > @@ -1068,11 +1068,6 @@ struct amdgpu_device {
+> > > >    	uint32_t                        *reset_dump_reg_list;
+> > > >    	uint32_t			*reset_dump_reg_value;
+> > > >    	int                             num_regs;
+> > > > -#ifdef CONFIG_DEV_COREDUMP
+> > > > -	struct amdgpu_task_info         reset_task_info;
+> > > > -	bool                            reset_vram_lost;
+> > > > -	struct timespec64               reset_time;
+> > > > -#endif
+> > > >   =20
+> > > >    	bool                            scpm_enabled;
+> > > >    	uint32_t                        scpm_status;
+> > > > @@ -1085,6 +1080,15 @@ struct amdgpu_device {
+> > > >    	uint32_t			aid_mask;
+> > > >    };
+> > > >   =20
+> > > > +#ifdef CONFIG_DEV_COREDUMP
+> > > > +struct amdgpu_coredump_info {
+> > > > +	struct amdgpu_device		*adev;
+> > > > +	struct amdgpu_task_info         reset_task_info;
+> > > > +	struct timespec64               reset_time;
+> > > > +	bool                            reset_vram_lost;
+> > > > +};
+> > > > +#endif
+> > > > +
+> > > >    static inline struct amdgpu_device *drm_to_adev(struct drm_devic=
+e *ddev)
+> > > >    {
+> > > >    	return container_of(ddev, struct amdgpu_device, ddev);
+> > > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/g=
+pu/drm/amd/amdgpu/amdgpu_device.c
+> > > > index e25f085ee886..23b9784e9787 100644
+> > > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> > > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> > > > @@ -4963,12 +4963,17 @@ static int amdgpu_reset_reg_dumps(struct am=
+dgpu_device *adev)
+> > > >    	return 0;
+> > > >    }
+> > > >   =20
+> > > > -#ifdef CONFIG_DEV_COREDUMP
+> > > > +#ifndef CONFIG_DEV_COREDUMP
+> > > > +static void amdgpu_coredump(struct amdgpu_device *adev, bool vram_=
+lost,
+> > > > +			    struct amdgpu_reset_context *reset_context)
+> > > > +{
+> > > > +}
+> > > > +#else
+> > > >    static ssize_t amdgpu_devcoredump_read(char *buffer, loff_t offs=
+et,
+> > > >    		size_t count, void *data, size_t datalen)
+> > > >    {
+> > > >    	struct drm_printer p;
+> > > > -	struct amdgpu_device *adev =3D data;
+> > > > +	struct amdgpu_coredump_info *coredump =3D data;
+> > > >    	struct drm_print_iterator iter;
+> > > >    	int i;
+> > > >   =20
+> > > > @@ -4982,21 +4987,21 @@ static ssize_t amdgpu_devcoredump_read(char=
+ *buffer, loff_t offset,
+> > > >    	drm_printf(&p, "**** AMDGPU Device Coredump ****\n");
+> > > >    	drm_printf(&p, "kernel: " UTS_RELEASE "\n");
+> > > >    	drm_printf(&p, "module: " KBUILD_MODNAME "\n");
+> > > > -	drm_printf(&p, "time: %lld.%09ld\n", adev->reset_time.tv_sec, ade=
+v->reset_time.tv_nsec);
+> > > > -	if (adev->reset_task_info.pid)
+> > > > +	drm_printf(&p, "time: %lld.%09ld\n", coredump->reset_time.tv_sec,=
+ coredump->reset_time.tv_nsec);
+> > > > +	if (coredump->reset_task_info.pid)
+> > > >    		drm_printf(&p, "process_name: %s PID: %d\n",
+> > > > -			   adev->reset_task_info.process_name,
+> > > > -			   adev->reset_task_info.pid);
+> > > > +			   coredump->reset_task_info.process_name,
+> > > > +			   coredump->reset_task_info.pid);
+> > > >   =20
+> > > > -	if (adev->reset_vram_lost)
+> > > > +	if (coredump->reset_vram_lost)
+> > > >    		drm_printf(&p, "VRAM is lost due to GPU reset!\n");
+> > > > -	if (adev->num_regs) {
+> > > > +	if (coredump->adev->num_regs) {
+> > > >    		drm_printf(&p, "AMDGPU register dumps:\nOffset:     Value:\n")=
+;
+> > > >   =20
+> > > > -		for (i =3D 0; i < adev->num_regs; i++)
+> > > > +		for (i =3D 0; i < coredump->adev->num_regs; i++)
+> > > >    			drm_printf(&p, "0x%08x: 0x%08x\n",
+> > > > -				   adev->reset_dump_reg_list[i],
+> > > > -				   adev->reset_dump_reg_value[i]);
+> > > > +				   coredump->adev->reset_dump_reg_list[i],
+> > > > +				   coredump->adev->reset_dump_reg_value[i]);
+> > > >    	}
+> > > >   =20
+> > > >    	return count - iter.remain;
+> > > > @@ -5004,14 +5009,34 @@ static ssize_t amdgpu_devcoredump_read(char=
+ *buffer, loff_t offset,
+> > > >   =20
+> > > >    static void amdgpu_devcoredump_free(void *data)
+> > > >    {
+> > > > +	kfree(data);
+> > > >    }
+> > > >   =20
+> > > > -static void amdgpu_reset_capture_coredumpm(struct amdgpu_device *a=
+dev)
+> > > > +static void amdgpu_coredump(struct amdgpu_device *adev, bool vram_=
+lost,
+> > > > +			    struct amdgpu_reset_context *reset_context)
+> > > >    {
+> > > > +	struct amdgpu_coredump_info *coredump;
+> > > >    	struct drm_device *dev =3D adev_to_drm(adev);
+> > > >   =20
+> > > > -	ktime_get_ts64(&adev->reset_time);
+> > > > -	dev_coredumpm(dev->dev, THIS_MODULE, adev, 0, GFP_KERNEL,
+> > > > +	coredump =3D kmalloc(sizeof(*coredump), GFP_KERNEL);
+> > > > +
+> > > > +	if (!coredump) {
+> > > > +		DRM_ERROR("%s: failed to allocate memory for coredump\n", __func=
+__);
+> > > > +		return;
+> > > > +	}
+> > > > +
+> > > > +	memset(coredump, 0, sizeof(*coredump));
+> > > > +
+> > > > +	coredump->reset_vram_lost =3D vram_lost;
+> > > > +
+> > > > +	if (reset_context->job && reset_context->job->vm)
+> > > > +		coredump->reset_task_info =3D reset_context->job->vm->task_info;
+> > > > +
+> > > > +	coredump->adev =3D adev;
+> > > > +
+> > > > +	ktime_get_ts64(&coredump->reset_time);
+> > > > +
+> > > > +	dev_coredumpm(dev->dev, THIS_MODULE, coredump, 0, GFP_KERNEL,
+> > > >    		      amdgpu_devcoredump_read, amdgpu_devcoredump_free);
+> > > >    }
+> > > >    #endif
+> > > > @@ -5119,15 +5144,9 @@ int amdgpu_do_asic_reset(struct list_head *d=
+evice_list_handle,
+> > > >    					goto out;
+> > > >   =20
+> > > >    				vram_lost =3D amdgpu_device_check_vram_lost(tmp_adev);
+> > > > -#ifdef CONFIG_DEV_COREDUMP
+> > > > -				tmp_adev->reset_vram_lost =3D vram_lost;
+> > > > -				memset(&tmp_adev->reset_task_info, 0,
+> > > > -						sizeof(tmp_adev->reset_task_info));
+> > > > -				if (reset_context->job && reset_context->job->vm)
+> > > > -					tmp_adev->reset_task_info =3D
+> > > > -						reset_context->job->vm->task_info;
+> > > > -				amdgpu_reset_capture_coredumpm(tmp_adev);
+> > > > -#endif
+> > > > +
+> > > > +				amdgpu_coredump(tmp_adev, vram_lost, reset_context);
+> > > > +
+> > > >    				if (vram_lost) {
+> > > >    					DRM_INFO("VRAM is lost due to GPU reset!\n");
+> > > >    					amdgpu_inc_vram_lost(tmp_adev);
+>=20
 
---------------Tz0Tv1Gw8Jxe5HEEROBFNv0T
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-
-SGksDQoNCnRoYW5rcyBmb3IgdGhpcyBwYXRjaC4NCg0KQW0gMTIuMDcuMjMgdW0gMTA6MzUg
-c2NocmllYiBKb2NlbHluIEZhbGVtcGU6DQo+IE1vc3QgYXNwZWVkIGRldmljZXMgaGF2ZSBh
-IEJNQywgd2hpY2ggYWxsb3dzIHRvIHJlbW90ZWx5IHNlZSB0aGUgc2NyZWVuLg0KPiBBbHNv
-IGluIHRoZSBjb21tb24gdXNlIGNhc2UsIHRob3NlIHNlcnZlcnMgZG9uJ3QgaGF2ZSBhIGRp
-c3BsYXkgY29ubmVjdGVkLg0KPiBTbyBhZGQgYSBWaXJ0dWFsIGNvbm5lY3RvciwgdG8gcmVm
-bGVjdCB0aGF0IGV2ZW4gaWYgbm8gZGlzcGxheSBpcw0KPiBjb25uZWN0ZWQsIHRoZSBmcmFt
-ZWJ1ZmZlciBjYW4gc3RpbGwgYmUgc2VlbiByZW1vdGVseS4NCj4gVGhpcyBwcmVwYXJlcyB0
-aGUgd29yayB0byBpbXBsZW1lbnQgYSBkZXRlY3RfY3R4KCkgZm9yIHRoZSBEaXNwbGF5IHBv
-cnQNCj4gY29ubmVjdG9yLg0KPiANCj4gRml4ZXM6IGZhZTdkMTg2NDAzZSAoImRybS9wcm9i
-ZS1oZWxwZXI6IERlZmF1bHQgdG8gNjQweDQ4MCBpZiBubyBFRElEIG9uIERQIikNCj4gU2ln
-bmVkLW9mZi1ieTogSm9jZWx5biBGYWxlbXBlIDxqZmFsZW1wZUByZWRoYXQuY29tPg0KPiAt
-LS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuaCAgfCAgNCArKw0KPiAgIGRy
-aXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUuYyB8IDY3ICsrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysNCj4gICAyIGZpbGVzIGNoYW5nZWQsIDcxIGluc2VydGlvbnMoKykN
-Cj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuaCBiL2Ry
-aXZlcnMvZ3B1L2RybS9hc3QvYXN0X2Rydi5oDQo+IGluZGV4IDNmNmUwYzk4NDUyMy4uYzk2
-NTllNzIwMDJmIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYu
-aA0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuaA0KPiBAQCAtMjE0LDYg
-KzIxNCwxMCBAQCBzdHJ1Y3QgYXN0X2RldmljZSB7DQo+ICAgCQkJc3RydWN0IGRybV9lbmNv
-ZGVyIGVuY29kZXI7DQo+ICAgCQkJc3RydWN0IGRybV9jb25uZWN0b3IgY29ubmVjdG9yOw0K
-PiAgIAkJfSBhc3RkcDsNCj4gKwkJc3RydWN0IHsNCj4gKwkJCXN0cnVjdCBkcm1fZW5jb2Rl
-ciBlbmNvZGVyOw0KPiArCQkJc3RydWN0IGRybV9jb25uZWN0b3IgY29ubmVjdG9yOw0KPiAr
-CQl9IGJtYzsNCj4gICAJfSBvdXRwdXQ7DQo+ICAgDQo+ICAgCWJvb2wgc3VwcG9ydF93aWRl
-X3NjcmVlbjsNCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUu
-YyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUuYw0KPiBpbmRleCBmNzExZDU5MmRh
-NTIuLjg4OTZiMjJlYjVjZiAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FzdC9h
-c3RfbW9kZS5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUuYw0KPiBA
-QCAtMTczNSw2ICsxNzM1LDcwIEBAIHN0YXRpYyBpbnQgYXN0X2FzdGRwX291dHB1dF9pbml0
-KHN0cnVjdCBhc3RfZGV2aWNlICphc3QpDQo+ICAgCXJldHVybiAwOw0KPiAgIH0NCj4gICAN
-Cj4gKy8qDQo+ICsgKiBCTUMgdmlydHVhbCBDb25uZWN0b3INCj4gKyAqLw0KPiArDQo+ICtz
-dGF0aWMgaW50IGFzdF9ibWNfY29ubmVjdG9yX2hlbHBlcl9nZXRfbW9kZXMoc3RydWN0IGRy
-bV9jb25uZWN0b3IgKmNvbm5lY3RvcikNCj4gK3sNCj4gKwlyZXR1cm4gZHJtX2FkZF9tb2Rl
-c19ub2VkaWQoY29ubmVjdG9yLCAxMDI0LCA3NjgpOw0KDQpUaGF0J3MgcHJvYmFibHkgdG9v
-IHNtYWxsLiBUaGUgQ1JUQyBsaXN0cyByZXNvbHV0aW9ucyB1cCB0byAxOTIweDEyMDAuIA0K
-UmV0dXJuaW5nIDEwMjR4NzY4IGNvdWxkIGVhc2lseSBmaWx0ZXIgb3V0IHRob3NlIGhpZ2hl
-ci1yZXMgbW9kZXMuDQoNClRoZSBCTUMgY2FuIHByb2JhYmx5IGp1c3QgdXNlIHdoYXRldmVy
-IHRoZSBDUlRDIG9mZmVycy4gU28gcmF0aGVyIGNhbGwgDQpkcm1fYWRkX21vZGVzX25vZWRp
-ZCgpIHdpdGggNDA5Nng0MDk2LiBBdCAzMiBicHAsIHRoaXMgY292ZXJzIHRoZSBtYXggDQpt
-ZW1vcnkgb2YgNjQgTWlCLiAgVGhlIENSVEMgd2lsbCBmaWx0ZXIgb3V0IHVuc3VwcG9ydGVk
-IG1vZGVzLg0KDQoNCj4gK30NCj4gKw0KPiArc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fY29u
-bmVjdG9yX2hlbHBlcl9mdW5jcyBhc3RfYm1jX2Nvbm5lY3Rvcl9oZWxwZXJfZnVuY3MgPSB7
-DQo+ICsJLmdldF9tb2RlcyA9IGFzdF9ibWNfY29ubmVjdG9yX2hlbHBlcl9nZXRfbW9kZXMs
-DQo+ICt9Ow0KPiArDQo+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9jb25uZWN0b3JfZnVu
-Y3MgYXN0X2JtY19jb25uZWN0b3JfZnVuY3MgPSB7DQo+ICsJLnJlc2V0ID0gZHJtX2F0b21p
-Y19oZWxwZXJfY29ubmVjdG9yX3Jlc2V0LA0KPiArCS5maWxsX21vZGVzID0gZHJtX2hlbHBl
-cl9wcm9iZV9zaW5nbGVfY29ubmVjdG9yX21vZGVzLA0KPiArCS5kZXN0cm95ID0gZHJtX2Nv
-bm5lY3Rvcl9jbGVhbnVwLA0KPiArCS5hdG9taWNfZHVwbGljYXRlX3N0YXRlID0gZHJtX2F0
-b21pY19oZWxwZXJfY29ubmVjdG9yX2R1cGxpY2F0ZV9zdGF0ZSwNCj4gKwkuYXRvbWljX2Rl
-c3Ryb3lfc3RhdGUgPSBkcm1fYXRvbWljX2hlbHBlcl9jb25uZWN0b3JfZGVzdHJveV9zdGF0
-ZSwNCj4gK307DQo+ICsNCj4gK3N0YXRpYyBpbnQgYXN0X2JtY19jb25uZWN0b3JfaW5pdChz
-dHJ1Y3QgZHJtX2RldmljZSAqZGV2LA0KPiArCQkJCSAgc3RydWN0IGRybV9jb25uZWN0b3Ig
-KmNvbm5lY3RvcikNCj4gK3sNCj4gKwlpbnQgcmV0Ow0KPiArDQo+ICsJcmV0ID0gZHJtX2Nv
-bm5lY3Rvcl9pbml0KGRldiwgY29ubmVjdG9yLCAmYXN0X2JtY19jb25uZWN0b3JfZnVuY3Ms
-DQo+ICsJCQkJIERSTV9NT0RFX0NPTk5FQ1RPUl9WSVJUVUFMKTsNCj4gKwlpZiAocmV0KQ0K
-PiArCQlyZXR1cm4gcmV0Ow0KPiArDQo+ICsJZHJtX2Nvbm5lY3Rvcl9oZWxwZXJfYWRkKGNv
-bm5lY3RvciwgJmFzdF9ibWNfY29ubmVjdG9yX2hlbHBlcl9mdW5jcyk7DQo+ICsNCj4gKwlj
-b25uZWN0b3ItPmludGVybGFjZV9hbGxvd2VkID0gMDsNCj4gKwljb25uZWN0b3ItPmRvdWJs
-ZXNjYW5fYWxsb3dlZCA9IDA7DQo+ICsJY29ubmVjdG9yLT5wb2xsZWQgPSAwOw0KDQpJdCdz
-IHplcm8tYWxsb2NhdGVkIG1lbW9yeS4gUGxlYXNlIGRvbid0IGNsZWFyIHRoZXNlIGZpZWxk
-cyBtYW51YWxseS4gKEkgDQprbm93IHRoYXQgYXN0IGRvZXNuJ3QgZ2V0IHRoaXMgcmlnaHQu
-KQ0KDQo+ICsNCj4gKwlyZXR1cm4gMDsNCj4gK30NCj4gKw0KPiArc3RhdGljIGludCBhc3Rf
-Ym1jX291dHB1dF9pbml0KHN0cnVjdCBhc3RfZGV2aWNlICphc3QpDQo+ICt7DQo+ICsJc3Ry
-dWN0IGRybV9kZXZpY2UgKmRldiA9ICZhc3QtPmJhc2U7DQo+ICsJc3RydWN0IGRybV9jcnRj
-ICpjcnRjID0gJmFzdC0+Y3J0YzsNCj4gKwlzdHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29kZXIg
-PSAmYXN0LT5vdXRwdXQuYm1jLmVuY29kZXI7DQo+ICsJc3RydWN0IGRybV9jb25uZWN0b3Ig
-KmNvbm5lY3RvciA9ICZhc3QtPm91dHB1dC5ibWMuY29ubmVjdG9yOw0KPiArCWludCByZXQ7
-DQo+ICsNCj4gKwlyZXQgPSBkcm1fc2ltcGxlX2VuY29kZXJfaW5pdChkZXYsIGVuY29kZXIs
-IERSTV9NT0RFX0VOQ09ERVJfVklSVFVBTCk7DQoNCkFkZGluZyB0aGUgc2ltcGxlX2VuY29k
-ZXIgaGVscGVyIHdhcyBhIG1pc3Rha2UuIFBsZWFzZSBvcGVuLWNvZGUgaXRzIA0KZnVuY3Rp
-b25hbGl0eSBpbiBhc3QuIChBbHNvIHNvbWV0aGluZyB0aGF0IGFzdCBjdXJyZW50bHkgZG9l
-cyBub3QuKQ0KDQo+ICsJaWYgKHJldCkNCj4gKwkJcmV0dXJuIHJldDsNCj4gKwllbmNvZGVy
-LT5wb3NzaWJsZV9jcnRjcyA9IGRybV9jcnRjX21hc2soY3J0Yyk7DQo+ICsNCj4gKwlyZXQg
-PSBhc3RfYm1jX2Nvbm5lY3Rvcl9pbml0KGRldiwgY29ubmVjdG9yKTsNCg0KTWF5YmUganVz
-dCBpbmxpbmUgdGhpcyBjYWxsLiBJdCdzIHNpbXBsZSBlbm91Z2guDQoNCkJlc3QgcmVnYXJk
-cw0KVGhvbWFzDQoNCj4gKwlpZiAocmV0KQ0KPiArCQlyZXR1cm4gcmV0Ow0KPiArDQo+ICsJ
-cmV0ID0gZHJtX2Nvbm5lY3Rvcl9hdHRhY2hfZW5jb2Rlcihjb25uZWN0b3IsIGVuY29kZXIp
-Ow0KPiArCWlmIChyZXQpDQo+ICsJCXJldHVybiByZXQ7DQo+ICsNCj4gKwlyZXR1cm4gMDsN
-Cj4gK30NCj4gKw0KPiAgIC8qDQo+ICAgICogTW9kZSBjb25maWcNCj4gICAgKi8NCj4gQEAg
-LTE4NDIsNiArMTkwNiw5IEBAIGludCBhc3RfbW9kZV9jb25maWdfaW5pdChzdHJ1Y3QgYXN0
-X2RldmljZSAqYXN0KQ0KPiAgIAkJaWYgKHJldCkNCj4gICAJCQlyZXR1cm4gcmV0Ow0KPiAg
-IAl9DQo+ICsJcmV0ID0gYXN0X2JtY19vdXRwdXRfaW5pdChhc3QpOw0KPiArCWlmIChyZXQp
-DQo+ICsJCXJldHVybiByZXQ7DQo+ICAgDQo+ICAgCWRybV9tb2RlX2NvbmZpZ19yZXNldChk
-ZXYpOw0KPiAgIA0KPiANCj4gYmFzZS1jb21taXQ6IGIzMmQ1YTUxZjNjMjE4NDMwMTFkNjhh
-NThlNmFjMGI4OTdiY2U5ZjINCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3Mg
-RHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJI
-DQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2
-byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1h
-bg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
-
---------------Tz0Tv1Gw8Jxe5HEEROBFNv0T--
-
---------------497J24gZsc0N1E7JsT9OQLYV
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSug/4FAwAAAAAACgkQlh/E3EQov+CU
-Qg/+NteOuBzlGAKZNTnFOKueBILfZLB4jaM9BUyCqQgmGbfwxUMRIVOC9Odko4WdCC68Ek8n5Llr
-qAwpGksUDsXiHKgN8A9ssBXE4zxGnCldBP6krVzpDlHekKA6lSU3U7tViM+idHR1UH2B8y/XqEF1
-t7A1e2O262Mg/dxct8efsp+Y5dIqwpenxbyFsleZDUlcO8jJbTgkGUGozIMemXpH8KySEYIdHFKk
-FNocYuZTevYQ02geKc63/E7iNLVlE3se/Mb9+gHLoBNX1xdGvlSqfWXxG4tC6HMyNWGg15REfBiK
-qNVMSVr5U16APZ85kbYJRGwwI+DaScd1uFew1tfQyjBofokvcDGQmxYMJQJyrfu/pLl0/R20wHk0
-mr/i+gQtoZHej8qmXwd1LPi4odImznTRTcljPsptLgR6bgQbhYzHGSZFuAr5KSMXJmjhWjQFmH8y
-JhnQkW8z6MnUndPgNhaBx2/HGLbwwi0DOgfYcDYJw5151nhRAA/cJu357Jr5Li+657H0I8qkhAXj
-UCp0CuchJulSjyxPR4FN2hO9T+hyk/9ujbpx5nhx53n6Jv/obwkFLndMUhj1sdCdPclvF5uKMwbe
-VZxqLPFWFheC65kWvf2CGr1WSDWrI4QMAl4y6HsOXEi3f9wPvA6P/92iHkElj1jvpZCw1JsSho0i
-Oy4=
-=pMbM
------END PGP SIGNATURE-----
-
---------------497J24gZsc0N1E7JsT9OQLYV--
