@@ -1,49 +1,120 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 459E7750E68
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 18:24:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0546750E6C
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 18:25:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BD2110E58E;
-	Wed, 12 Jul 2023 16:24:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 175E510E03F;
+	Wed, 12 Jul 2023 16:25:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC81410E58E;
- Wed, 12 Jul 2023 16:24:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=2QjyHyWJBhLG4cpg/e0hytT+hb2i9rzXXaD4rzaFeiY=; b=DaYSlLxqkiS6QABe3zzC4aVg1H
- pqBwmtUS/T4K2s5WJHqbQ8Gd3BueiHebeMXZyXj2jk+SmlQFa42SlDsZhg/uVCmG4U3CaK38N5dbz
- nueypKGH+KGUHO9MCkXK+NJlqmgFvaykH/Cnowm0/7PLADlOibWyBTJiv3e75KGooXdOjM6ybtRPc
- YcV9J+kosyCQ1LHg/X590U9tkZo1rR3B8dMOJabGgzA/qVALLtr0aUUZY1sXs/w46P9UXwI5jdFMT
- LDOGWLbWbhA++UgwQdahRBZU0HCbzVKoEhtR9H7kFZPYmcUf78+rJ/LcJm/+131cx9YBMARv7qeCN
- r0Y3rMaQ==;
-Received: from [38.44.68.151] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1qJcdm-00DCga-Qr; Wed, 12 Jul 2023 18:24:34 +0200
-Date: Wed, 12 Jul 2023 15:24:24 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: "Pillai, Aurabindo" <Aurabindo.Pillai@amd.com>
-Subject: Re: [PATCH] Revert "drm/amd/display: Program OTG vtotal min/max
- selectors unconditionally for DCN1+"
-Message-ID: <20230712162424.z3yncg4ijoyvthqr@mail.igalia.com>
-References: <20230702164407.6547-1-gpiccoli@igalia.com>
- <54092b91-a9c6-7276-1633-13b83a92524d@amd.com>
- <3e4892a5-f8a8-805b-aaf9-c9aec64d9607@igalia.com>
- <CH0PR12MB52846616C04D37205DD1B70C8B36A@CH0PR12MB5284.namprd12.prod.outlook.com>
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2056.outbound.protection.outlook.com [40.107.244.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03BEA10E03F;
+ Wed, 12 Jul 2023 16:25:09 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oMQY69OsbHpYa8pdE2U0rC6WHGhZe/guMD/qRM/yzjmEeVpE226KswZ4lpWNvY3qyPs5ZiO+shWV4/pX17WSKRGkYW+Pjfu+fxmad8GzXuHXpBdG3uwmO2jpe//zhHwFA7/rGtrDiXFb54Q+HT/hVz3mT+rMpcZnySXi1u5XL/UCpoN5BZkZ2VohoIofY2YIGrEYJKn4dyIUhuTJ6yBD0yQhLTwWWRY1dZUUetipNUiLwNARNTXkobfP2DWm+1elelycVg1KjPzjWt1hDF3sGZWo0gBalaLm8DYh+xnhddR9xskiaT589YJks3R5MRssF4u+fwxa4N/UU28T7La8Tw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/3/47gkvMH55/0CMpRSovEUXrZ/vEpWrsM9f3h0jkD4=;
+ b=WSztg56+BI7hLJOvNlhO7fWZsctji2JzCErEhsSR43Agh1WKN5IuBUiAAEFHLwC9KTetS5LueozC8iiH3KsumjfcI01eGXE9/cjO9+ZQKVSYSUpH1eXumncOsKcdz0Q3Rx7nL7VBfQDnryc9q/D6uN8d0TYDA0xSaauSMcUIHDuuoWAZ6ykelru3fK2hOadRLyg8+m+fPXTWab1TCj/7sd4tcUCgFv1tUlfv+Kw5pwrkcMKPuYPLv6lxFYUbU5uNBNEB72ybrndExjyLmO71xf/fzeiRNQQCY8iJjOAxWQ2Zeh8+Pfz+cOS5QOM3Lbgkkxvezl0S7OF1Q/PCWfNhpg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/3/47gkvMH55/0CMpRSovEUXrZ/vEpWrsM9f3h0jkD4=;
+ b=nmP0PBH9CMjr7HUHzTS0M6Qlb2T3j2VcFqwUjXoiZCnbQ6TjLGGdInTY/P5tAk5FcNr7Fbw7cYqQcV0DvDIVdBdV/AcNmTLw3LofU6RDO+4tOuNznBgrzeIGbiucGPtdvEgOb9OcHKaNton06mzHJ9qLeF4UV2leme4ck9kslkg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by SJ0PR12MB5405.namprd12.prod.outlook.com (2603:10b6:a03:3af::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.30; Wed, 12 Jul
+ 2023 16:25:01 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::2dc3:c1:e72d:55bc]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::2dc3:c1:e72d:55bc%7]) with mapi id 15.20.6588.022; Wed, 12 Jul 2023
+ 16:25:01 +0000
+Message-ID: <83f11260-cd26-5b46-e9d4-1ca97565a1d0@amd.com>
+Date: Wed, 12 Jul 2023 12:24:57 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 3/5] drm/amdkfd: use vma_is_stack() and vma_is_heap()
+Content-Language: en-US
+To: Christoph Hellwig <hch@infradead.org>,
+ Kefeng Wang <wangkefeng.wang@huawei.com>
+References: <20230712143831.120701-1-wangkefeng.wang@huawei.com>
+ <20230712143831.120701-4-wangkefeng.wang@huawei.com>
+ <ZK671bHU1QLYagj8@infradead.org>
+From: Felix Kuehling <felix.kuehling@amd.com>
+In-Reply-To: <ZK671bHU1QLYagj8@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YQBPR0101CA0048.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c00:1::25) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ksrthnjicoglqnzi"
-Content-Disposition: inline
-In-Reply-To: <CH0PR12MB52846616C04D37205DD1B70C8B36A@CH0PR12MB5284.namprd12.prod.outlook.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|SJ0PR12MB5405:EE_
+X-MS-Office365-Filtering-Correlation-Id: 54d2cf1a-4060-42c6-f067-08db82f48a53
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: DdS/k/UyI757s5MIVZCkAnaiewmbp9b9MhABMbpSasgeLFu+dl+cRwaDZ6j501gaswKmBIhVv/3D0xWQcsKXbXvQtcHDbTX3kBzaPmoLYP7Qb6vX3uyCdVaPZaD8yuZZFUq+xCdZ+FziuSHce91BeZlZGB7uEtSW4aTJU1ohNIK+F7HYz8AhXpCtadbA8NL+OmajUF6q7YE/687Be48OK9imbGNdWy04mDUvOWOySO6/5TI1zXB1vCTG3nX+dDFRJWmAjoiA16gbTmTWPMswGszLFFNw86eOyHuzvnrMcn+7SqmmpizYtOscSvvddU1RNAhVSFDvtjjou1GHlbFisSV22K3/suW37Ji3frPD+uxZs6JB9R09cUctI6ftQeeb/zmc8OY5v014qpgaUt/yLpN0JZPfhjq8tKVV3yKCXc9gni2VxT3zfg2FNggzW8U2v0/ZU61rbUP5Uy/93xtLEN1R/WMDLkGIsDfQvKDuOvQOhynwrP7K8qTQNzU24QRwaCnMRvOOSg8sUvexe4PLnTIlDroX8er1DaVD84z3Pss3NjD793FpmqCMSATJPAtecp8OSZ6YsM5gnOiTXd9HKorVrWErsxA0zAsKBQo0LWvy1vVBc0TsuzzlQzvP6aGW47OryX3tbXuSKMGI32Qqhw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(346002)(366004)(39860400002)(136003)(376002)(396003)(451199021)(38100700002)(31696002)(86362001)(31686004)(186003)(6666004)(36756003)(110136005)(6486002)(6506007)(26005)(5660300002)(2616005)(6512007)(66946007)(2906002)(66556008)(316002)(4744005)(66476007)(7416002)(8676002)(44832011)(8936002)(478600001)(83380400001)(4326008)(41300700001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U0V0cy96UU1JUitoMURIQ3RkZG5sbFNFT3FPbTROeCs5VDllYWYrZzdwNjBR?=
+ =?utf-8?B?djNCL1VzQUd6WXRHUGxqQmNoZ2J2VTcvNkRNT2ZyK1FQMUFKOXdGOFFpWTd4?=
+ =?utf-8?B?cFo3YTh1cmtCVTBReGdZdTFaK092SkRsbTlXSG4vVFliTXVjdGpxZyt5WW15?=
+ =?utf-8?B?SStxMXVvZ1NWaXk2T0VSVStySHRzT1FCeFkyS09JL3JHTm9WRGYxZnlTZFpI?=
+ =?utf-8?B?SkJsckFNYnFXNjF1N1FoeTZYNGJ5cXUvdVZkWGZJUjV0RzFOL2FLQ2MzdE1V?=
+ =?utf-8?B?d0dHYUJRL3VDbDB2TjRQMlZVRDB5cnpUYVhsdzB3NkVnWW9RWXJhSnJGY3hK?=
+ =?utf-8?B?RUpXMEsrSElxL2FRLzVGdis1MVBsSmtoaG5jcytzZDJmeUV2bzd3UUJ2d2VL?=
+ =?utf-8?B?eCttakhkUWdpSlZPazNZY0dBWlphZ20yK3dwckEzaFRoWU1MNUFrOU5zKzhp?=
+ =?utf-8?B?YU5FMWFjcFJHaEIyZU5USnJiaW9VUXpRK3JhWDIyOHRsZ29OQldmNG1ibWwz?=
+ =?utf-8?B?ZkNWUHQ4dk9ycUdkVlY2SkloUlpHMzg0bjZkRUxMaXBSVDRQZkEwSmNpV2xa?=
+ =?utf-8?B?Qy85bk94enVjTmQ4ZmN2Mml0bFU0M0VtTytVKzV6My9qeTVqVUVkTnU5Y0RC?=
+ =?utf-8?B?d2RlTG9xUHJrcTlvTlo1M0hSV3Y1aFFvMVhzZmh6UlVncTBWZC9zSC9MQ29B?=
+ =?utf-8?B?aDl2NEVuNHpwSTkxZXdBZWdwVGdQWHNYWkdvbjlVeHNoMHRScms3amc5ckhj?=
+ =?utf-8?B?MDNFWHMxQmJXNVhwdGFtZHR6dklPMTdBUDFONUtITm8vem5YM3hEQ25OeDhZ?=
+ =?utf-8?B?ZmtnL25XN2pOS0JSVmdIQmZsUC93SDRQempaK2Z3VUpCM3R2cE1jRTZFdHlQ?=
+ =?utf-8?B?TndBTXROeFJuc0RhR2dVVmtPaEh4QUxIN1Q3Q0QwakJVQ3FNUlV0YjNSVllF?=
+ =?utf-8?B?RWIzSzZHR1ZETFZ0ZEtMRzRVMkVyVFdaR3pVNStkWXFxOUtaNnRNVEx6QXQ4?=
+ =?utf-8?B?RnlFMklaYlNwRW41K3cxU3dDVVZibTBpcmhOTkpRMFplWFBnL3RvZlUxdU5J?=
+ =?utf-8?B?NWlvdGZvL3gwRWtxeVFSeGFnWVpqOU5CUWhQM3ZMSlE2eHNLNGhjZjJoNzIx?=
+ =?utf-8?B?R2l4alQvb0NkcjlnRzB5UCtiMlVGdk9SajlQV3EvY01CSVRFeFNBbXpzUExG?=
+ =?utf-8?B?QVlSWTRGWThHZkNKdER2MHd4d0l3S1Y4L040bDFXc1NrYlU3Qnl4VnBaNU03?=
+ =?utf-8?B?UGVaN1IvWi9ZWVRISjVrZkJHeFZvc2k4b3FFNUtCU3BKVTRQNFgrcjdWemQx?=
+ =?utf-8?B?WFNXd0dNenpiTlJpNkkvMTF1V2ZQZ21oK0tXQlZLMUVyRitveENoOURDN0p0?=
+ =?utf-8?B?Wi9ObWlLdU5iS1hPN2VzVmMzVW5SRko4anZVRE9tUlhYU0t2R0dweWZ4VmZR?=
+ =?utf-8?B?c1dGc3BEbkEyOWVuRy9pQ0dtUzBvcmRkZkp6SHpDNDVaZXVHY1krTkRkdkVN?=
+ =?utf-8?B?OCtpblNZK3lvODJFcGZoUDJaNS9NNmRJRll6ellwdTJIU0lYd3NnVzIzQ3hO?=
+ =?utf-8?B?emYxZHVkV2VES0c2N0gwKzhQcHFCaEd4Y1BVc1B5N0lUZnI0QXFHenhEY2Jp?=
+ =?utf-8?B?TXdZZVNRcTBHeElwVWhSS2x6WGttR29oaWJadTkvSDVvYTFqQ1N3UFJCcTNz?=
+ =?utf-8?B?cCs1aHZicjJXbWZIa0pUZElmWCt4NFZRZ0pjOUlMK2g5MFhscWF3MnpNQW5T?=
+ =?utf-8?B?YnRMeVlSVFBUN2NyZ29yVVovUkJGWlNjR3RJRjArNVVTNVBtV1dqR0FDaWs5?=
+ =?utf-8?B?WmxLeVh1QU04Y2VnM2pNYnViTlJBdUlsUlhTeXE4bjYzaEd4L2xrRTJSOE1Y?=
+ =?utf-8?B?czd3WnRwRFdrMzJBT1lma0ZjUThjbllOTmhTalpsVDBmWEdLRUZMZkNSb2RS?=
+ =?utf-8?B?VjFlUk10UnhZUzVxMWlWT05Na0FrSUwrQ3JJMTg5cHFzQjVOTGhodlN1MkVs?=
+ =?utf-8?B?ekpEOHlneE9FZGhQWnhNbWxIT2NxVnpPTjZjTHRZYjlpREJSQ3Q1VnB6cmRo?=
+ =?utf-8?B?ekRTUU4zNERQZXJKVzZBeGZYcHpQbS9YQkhES0VDbElFVVdxbHpGYk5aMzFR?=
+ =?utf-8?Q?k6zPpGmn6hJnz4s4tpRnwbJVg?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 54d2cf1a-4060-42c6-f067-08db82f48a53
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2023 16:25:00.8883 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: C1zh1/k5wDb4P/oLtfnufCF8yl68ug1VUFVZPmHwO/NuQxu1Q3mWaf+9JHW8ifrz3c+Ggr0EtkKciPcpuSSyIA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5405
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,123 +127,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "cristian.ciocaltea@collabora.com" <cristian.ciocaltea@collabora.com>,
- =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>, "Patel,
- Swapnil" <Swapnil.Patel@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- "Siqueira, Rodrigo" <Rodrigo.Siqueira@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "kernel-dev@igalia.com" <kernel-dev@igalia.com>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Koenig,
- Christian" <Christian.Koenig@amd.com>
+Cc: selinux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-perf-users@vger.kernel.org,
+ linux-mm@kvack.org, amd-gfx@lists.freedesktop.org,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Allocations in the heap and stack tend to be small, with several 
+allocations sharing the same page. Sharing the same page for different 
+allocations with different access patterns leads to thrashing when we 
+migrate data back and forth on GPU and CPU access. To avoid this we 
+disable HMM migrations for head and stack VMAs.
 
---ksrthnjicoglqnzi
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 07/12, Pillai, Aurabindo wrote:
-> [Public]
->=20
-> Hi Guilherme,
->=20
-> Sorry there was one more patch which I missed to attach. Please add this =
-3rd patch and retry.
->=20
-> Reverting that patch would cause high power consumption on Navi2x GPU als=
-o cause hangs on certain multi monitor configurations. With these 3 patches=
-, you're getting the same effect as reverting the aforementioned patches, b=
-ut it makes the reverted sequence available only for Steam deck hardware.
->=20
-
-Hi Jay,
-
-Thanks for looking at this issue.
-
-You mention power consumption and multi-monitor configuration issues
-that can affect a driver if we revert this OTG change, and both sounds
-quite relevant to me. Can they not affect DCN301 too? Is there something
-that needs further work so the DCN301 can benefit from this improvement
-as well?
-
-Also, let us know if we can contribute in any way.
-
-Best Regards,
-
-Melissa
+Regards,
+   Felix
 
 
-> --
->=20
-> Regards,
-> Jay
-> ________________________________
-> From: Guilherme G. Piccoli <gpiccoli@igalia.com>
-> Sent: Tuesday, July 11, 2023 7:15 PM
-> To: Pillai, Aurabindo <Aurabindo.Pillai@amd.com>; Deucher, Alexander <Ale=
-xander.Deucher@amd.com>
-> Cc: amd-gfx@lists.freedesktop.org <amd-gfx@lists.freedesktop.org>; Koenig=
-, Christian <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>; d=
-ri-devel@lists.freedesktop.org <dri-devel@lists.freedesktop.org>; kernel-de=
-v@igalia.com <kernel-dev@igalia.com>; cristian.ciocaltea@collabora.com <cri=
-stian.ciocaltea@collabora.com>; Andr=E9 Almeida <andrealmeid@igalia.com>; M=
-elissa Wen <mwen@igalia.com>; Siqueira, Rodrigo <Rodrigo.Siqueira@amd.com>
-> Subject: Re: [PATCH] Revert "drm/amd/display: Program OTG vtotal min/max =
-selectors unconditionally for DCN1+"
->=20
-> On 11/07/2023 15:22, Aurabindo Pillai wrote:
-> > [...]
-> > Hi,
-> >
-> > Sorry for the delayed response, this patch went unnoticed. This revert =
-would break asics. Could you try the attached patch without reverting this =
-one ?
->=20
-> Hi Aurabindo, thanks for your response!
->=20
-> I've tried kernel 6.5-rc1, and it seems the issue is present, due to the
-> patch being merged on Linus tree [as 1598fc576420 ("drm/amd/display:
-> Program OTG vtotal min/max selectors unconditionally for DCN1+")].
->=20
-> Then, I tried both your attached patches on top of that, and
-> unfortunately, the behavior is the same: Steam Deck doesn't boot with
-> graphics, and we can see the single error "amdgpu 0000:04:00.0: [drm]
-> *ERROR* [CRTC:67:crtc-0] flip_done timed out" on dmesg.
->=20
-> Do you / Alex think we could get this revert for 6.5-rc2, so at least we
-> could boot mainline there while the issue is handled? It would be an
-> intermediate fix. You mentioned it breaks some asics, but did they work
-> until now, without your patch?
->=20
-> Thanks,
->=20
->=20
-> Guilherme
-
-
-
---ksrthnjicoglqnzi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmSu07EACgkQwqF3j0dL
-ehxjjg/9GL442XCry+AcD00QF8O/9h2SnQSFoxWSNMSnfUhunzfBR56s4MMWneqf
-bw//3dpq3BCN1tV9Y/4NUBgNB+ELYrHQX2J0wSZ+D6hySf8TqAJKvyAgiZyjAAo9
-mE2OUF9GHquBAesNtm6ZA7Q7da8QqzNyruWB83/udZN9iIbvtoT//5AH2jb/pM+M
-x7taAwH6+BcBsI6ef7VZ/Sa1Sx80j7fe3lIa9WACVILnfD3I6F9NEF2Qo4dwjg9f
-jIj+yN3SnO+pVOw4y/VL3RVPGetglD/lJU3voh4p5oIZUerw5RHJqZUK0897j3Sg
-px20Xa3IBP8RpsyeVyltCxv/AvMl/v7HV9ZBAZQl3MhyZL6uGDMLiO+IwryHRziI
-fnpbEL+nV+XmwQUpr7Tozc+8Gz2YmrcWIQXGifg1/KzzXUnDXiYfzUJir+5/EnNI
-OHQ4p4Poud3zf35OdFlc8yEpaQ/tZj4CisDjVNFhA/oAuApVK04n5zw6sJkVWwyO
-+WV+oHIfK6n4AiZBMsR7OgpiYlddE6baJXixC0cB8msTF0fntfums7vEzYWArVr6
-gLULewGeWzQ2qRUa/fq6F0B4Sth6ZxaiLSjJ8j/E6GrTEfRhLvbtt0oIhJBPNlp2
-hmKb7IIZ3dT8gP3Keb7cRSHNZhfopFVeb2hP62RXJ+DsaRwYb0U=
-=vrj0
------END PGP SIGNATURE-----
-
---ksrthnjicoglqnzi--
+Am 2023-07-12 um 10:42 schrieb Christoph Hellwig:
+> On Wed, Jul 12, 2023 at 10:38:29PM +0800, Kefeng Wang wrote:
+>> Use the helpers to simplify code.
+> Nothing against your addition of a helper, but a GPU driver really
+> should have no business even looking at this information..
+>
+>
