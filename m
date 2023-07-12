@@ -2,84 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66C5574FC45
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 02:41:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A82874FC4A
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 02:42:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 941F210E46C;
-	Wed, 12 Jul 2023 00:41:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13F7810E46F;
+	Wed, 12 Jul 2023 00:42:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F75810E46C;
- Wed, 12 Jul 2023 00:41:21 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 36C0cXuj006044; Wed, 12 Jul 2023 00:41:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=HGrpoIb5cX3H4beNosLmCuJWQWBE69cGa39NZUmHoMs=;
- b=cndsCgdVSaDVb2JyFdOpSvuyWcWFSs/2fv4/Sl6L19c4QtGt2fgKky98+SC5cPPDD6T5
- 79/8tSzE/bra8Kx9H8BTXkqROwhN+h0xGnrpf2N922FBctaug6EvRKSI0n1W9igDl8cR
- k84NDeuxIPdxPj70baCW5JTzTUFswT7UQE3hHaE1otr/ZHnkyNC5k0tmUKlX5Ye8WueO
- 7uQwX/pfSKzLmFmZWfLjuJ7udSCqkkVNdmwWVAs1zuniLNzpYIHZCqKiZEjemMEk2CoE
- UivIewC8fKZw43u1boM1CiEcFgkHSBHES/RFYzv0vB/6IjOtFaENsXMMHnmVC8BWU4hX Gg== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rsetdr97a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jul 2023 00:41:12 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36C0fCA3021952
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jul 2023 00:41:12 GMT
-Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Tue, 11 Jul
- 2023 17:41:11 -0700
-Message-ID: <b738bf91-3d20-6b9e-e2c6-d257c468921c@quicinc.com>
-Date: Tue, 11 Jul 2023 17:41:11 -0700
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9484810E46E
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 00:42:49 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id
+ 38308e7fff4ca-2b6f52e1c5cso100958681fa.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 17:42:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1689122567; x=1691714567;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=1rGc1tm7GtQ9oseOAmnScr9Dmh0EaIn4ENjW72qzptE=;
+ b=y90DZR/OYavpJ7AB3SkumVvJlwJb9hEwYEA1Nq1lYP5Atfc2POukJYrs/EqaC2czKk
+ ujMk1cEhcmQhP/ddcDSFN1e0nePB7wRK2UlCyJMfBEUYtqT/4f9eCvEwUjFrejSnYLNd
+ dh3MwhsYrK+A1Ag1srNbMeWLdF3J0YsLxBzIEdXoLmWjMIS1001UbyN/qKSIeIfDoYM1
+ NXxmqYUl8wVfYmRcIrJUqB0FWhKZv/n3dMlrR/ee+A5uUHIkiuo+lciwMp/1MEaIB2wX
+ f5vd8teQhlaCbdNxbtd/XeuVMdm11KhY1vtMBl9Uf4Gdqcb3upKRlrPtp/Dd2tuquSNP
+ C4ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689122567; x=1691714567;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1rGc1tm7GtQ9oseOAmnScr9Dmh0EaIn4ENjW72qzptE=;
+ b=cf3cEf+U8kK4yq9+cACHyMtK/ddzc3o14wGAqNH2dIQH1qO8K16Sadjzun0hXFD59H
+ hKVnwGtNBlEvArAz9gEiGqLsqS2oZgvwLDki8gA+Q9oOI/wjpZlE2BvX/Os0ZROUa5z0
+ 3lgD0EBb1xqVstYm+k/nTXwaAKiVEzm3jbRWxA3R2UymOpbFx4KLIjuFuUXM30zF2GM4
+ wsSWe8ieGwA2Bj4XrSXDsZGf1E+81JX4svy4/pp5tLBTkgrdv2VcYKF3PxNiy0TOCJJs
+ xNkdOD03F3O3L5VeDcATDBUEFDpc4RqkavvuLUVxZkFs1Gy5OzA58ySyF8YGIDX5CEba
+ SJXg==
+X-Gm-Message-State: ABy/qLZKSdGDg08N9qfeRDxkEB+kNL0B6nsEA+xBMyjHGDfl9qUV2EN6
+ weyj0bcoMRiy17zNBqtQQZKr6A==
+X-Google-Smtp-Source: APBJJlGsKz9klozJT9LbRFQsti8avzmEUmUVowzw9G+BQT1Ec+22gyxCh5g6h/EZzI200AJJIC68Ng==
+X-Received: by 2002:a2e:9188:0:b0:2b6:cdfb:fe36 with SMTP id
+ f8-20020a2e9188000000b002b6cdfbfe36mr16334928ljg.39.1689122567186; 
+ Tue, 11 Jul 2023 17:42:47 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
+ (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ q7-20020a2e8747000000b002b6ea4ed1f0sm678818ljj.14.2023.07.11.17.42.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Jul 2023 17:42:46 -0700 (PDT)
+Message-ID: <b834fc46-80c8-b75d-d7e9-e525ac27077e@linaro.org>
+Date: Wed, 12 Jul 2023 03:42:46 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [Freedreno] [PATCH v4 04/19] drm/msm/dpu: drop
- dpu_mdss_cfg::mdp_count field
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20230619212519.875673-1-dmitry.baryshkov@linaro.org>
- <20230619212519.875673-5-dmitry.baryshkov@linaro.org>
- <0aafbba0-52dd-96d9-94a6-0452996e1eba@quicinc.com>
- <974a294c-d85d-a79f-5b83-bbbac12ff7a2@linaro.org>
- <50855184-1fbf-8e36-f0eb-a46be70b1eca@quicinc.com>
- <CAA8EJprQLpRNHShWWWZeSyKx3erat3Q7WUXhVV1pYp9UtQEgng@mail.gmail.com>
- <CAA8EJpqysGpZzEs1QGDec9Jian6gDy+SG6a_VormPF_cdq47hA@mail.gmail.com>
- <99ec07f7-8892-9cfe-e843-c0f2d9eef658@quicinc.com>
- <CAA8EJprnPzQz2Nj+iA-M63YeE=esdPZs5dYrnkNEmH1wdMn-Xg@mail.gmail.com>
- <f2722ecc-6ad7-a2ea-111a-96e665385849@quicinc.com>
-In-Reply-To: <f2722ecc-6ad7-a2ea-111a-96e665385849@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: bIScI5O0otQ8lp76W4lpKpTrHEVqrKab
-X-Proofpoint-GUID: bIScI5O0otQ8lp76W4lpKpTrHEVqrKab
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-11_14,2023-07-11_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=0
- lowpriorityscore=0 impostorscore=0 clxscore=1015 priorityscore=1501
- mlxlogscore=999 spamscore=0 mlxscore=0 adultscore=0 malwarescore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2307120003
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v4 3/4] drm/msm/dpu: rename enable_compression() to
+ program_intf_cmd_cfg()
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230712003310.31961-1-quic_abhinavk@quicinc.com>
+ <20230712003310.31961-4-quic_abhinavk@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230712003310.31961-4-quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,140 +82,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
- Marijn Suijten <marijn.suijten@somainline.org>
+Cc: quic_jesszhan@quicinc.com, andersson@kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 7/4/2023 12:01 PM, Abhinav Kumar wrote:
+On 12/07/2023 03:33, Abhinav Kumar wrote:
+> Rename the intf's enable_compression() op to program_intf_cmd_cfg()
+> and allow it to accept a struct intf_cmd_mode_cfg to program
+> all the bits at once. This can be re-used by widebus later on as
+> well as it touches the same register.
 > 
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c |  8 ++++++--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c          |  8 +++++---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h          | 11 +++++++++--
+>   3 files changed, 20 insertions(+), 7 deletions(-)
 > 
-> On 7/4/2023 10:28 AM, Dmitry Baryshkov wrote:
->> On Tue, 4 Jul 2023 at 19:10, Abhinav Kumar <quic_abhinavk@quicinc.com> 
->> wrote:
->>>
->>>
->>>
->>> On 7/4/2023 4:52 AM, Dmitry Baryshkov wrote:
->>>> On Tue, 4 Jul 2023 at 13:06, Dmitry Baryshkov
->>>> <dmitry.baryshkov@linaro.org> wrote:
->>>>>
->>>>> On Tue, 4 Jul 2023 at 07:04, Abhinav Kumar 
->>>>> <quic_abhinavk@quicinc.com> wrote:
->>>>>>
->>>>>>
->>>>>>
->>>>>> On 7/3/2023 7:20 PM, Dmitry Baryshkov wrote:
->>>>>>> On 03/07/2023 05:01, Abhinav Kumar wrote:
->>>>>>>>
->>>>>>>>
->>>>>>>> On 6/19/2023 2:25 PM, Dmitry Baryshkov wrote:
->>>>>>>>> There is always a single MDP TOP block. Drop the mdp_count 
->>>>>>>>> field and
->>>>>>>>> stop declaring dpu_mdp_cfg instances as arrays.
->>>>>>>>>
->>>>>>>>> Tested-by: Marijn Suijten <marijn.suijten@somainline.org>
->>>>>>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>>>>>> ---
->>>>>>>>
->>>>>>>> The change drops mdp_count and stops using the array which is 
->>>>>>>> fine and
->>>>>>>> I will support that.
->>>>>>>>
->>>>>>>> But looking at the pattern I saw while using core_revision, both
->>>>>>>> DPU_MDP_VSYNC_SEL and DPU_MDP_AUDIO_SELECT can also be dropped from
->>>>>>>> the catalog in favor of using core_revision.
->>>>>>>>
->>>>>>>> Hence for that, I request you not to stop passing dpu_mdss_cfg to
->>>>>>>> dpu_hw_mdptop_init as that has the necessary information of
->>>>>>>> core_revision.
->>>>>>>
->>>>>>> Sure, I'll restore it. Please note, however, that it might be 
->>>>>>> better to
->>>>>>> pass struct dpu_caps instead of the full struct dpu_mdss_cfg.
->>>>>>>
->>>>>>
->>>>>> Thanks for restoring.
->>>>>>
->>>>>> Can you pls explain this better? dpu_core_rev is part of 
->>>>>> dpu_mdss_cfg,
->>>>>> so dpu_caps wont be enough for this one.
->>>>>
->>>>> Oh, true. For some reason I thought that version is a part of 
->>>>> dpu_caps.
->>>>
->>>> And after additional thought. Maybe it would be better to add a
->>>> separate struct dpu_mdss_version and pass it to the hw block init
->>>> functions?
->>>>
->>>
->>> I would like to see this evolve. Today, we are assuming that only the hw
->>> block init functions are the places we would use those.
->>>
->>>   From what I recall, the DSC over DP series needed the core_revision in
->>> the timing gen code somewhere.
->>
->> I hope you are talking about the DPU driver here, not about the DP
->> driver. For the DP driver please use struct msm_dp_desc.
->>
-> 
-> Yes DPU driver.
-> 
->>>
->>> If we see that pattern is possible once that lands, why not.
->>>
->>> Right now, I would leave it at dpu_mdss_cfg.
->>>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> index b856c6286c85..052824eac9f3 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> @@ -50,6 +50,7 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
+>   			to_dpu_encoder_phys_cmd(phys_enc);
+>   	struct dpu_hw_ctl *ctl;
+>   	struct dpu_hw_intf_cfg intf_cfg = { 0 };
+> +	struct intf_cmd_mode_cfg cmd_mode_cfg = {};
+>   
+>   	ctl = phys_enc->hw_ctl;
+>   	if (!ctl->ops.setup_intf_cfg)
+> @@ -68,8 +69,11 @@ static void _dpu_encoder_phys_cmd_update_intf_cfg(
+>   				phys_enc->hw_intf,
+>   				phys_enc->hw_pp->idx);
+>   
+> -	if (intf_cfg.dsc != 0 && phys_enc->hw_intf->ops.enable_compression)
+> -		phys_enc->hw_intf->ops.enable_compression(phys_enc->hw_intf);
+> +	if (intf_cfg.dsc != 0)
+> +		cmd_mode_cfg.data_compress = true;
+> +
+> +	if (phys_enc->hw_intf->ops.program_intf_cmd_cfg)
+> +		phys_enc->hw_intf->ops.program_intf_cmd_cfg(phys_enc->hw_intf, &cmd_mode_cfg);
+>   }
+>   
+>   static void dpu_encoder_phys_cmd_pp_tx_done_irq(void *arg, int irq_idx)
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> index d766791438e7..7323c713dad1 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> @@ -513,11 +513,13 @@ static void dpu_hw_intf_disable_autorefresh(struct dpu_hw_intf *intf,
+>   
+>   }
+>   
+> -static void dpu_hw_intf_enable_compression(struct dpu_hw_intf *ctx)
+> +static void dpu_hw_intf_program_intf_cmd_cfg(struct dpu_hw_intf *ctx,
+> +					     struct intf_cmd_mode_cfg *cmd_mode_cfg)
+>   {
+>   	u32 intf_cfg2 = DPU_REG_READ(&ctx->hw, INTF_CONFIG2);
+>   
+> -	intf_cfg2 |= INTF_CFG2_DCE_DATA_COMPRESS;
+> +	if (cmd_mode_cfg->data_compress)
+> +		intf_cfg2 |= INTF_CFG2_DCE_DATA_COMPRESS;
+>   
+>   	DPU_REG_WRITE(&ctx->hw, INTF_CONFIG2, intf_cfg2);
+>   }
+> @@ -544,7 +546,7 @@ static void _setup_intf_ops(struct dpu_hw_intf_ops *ops,
+>   	}
+>   
+>   	if (mdss_rev->core_major_ver >= 7)
+> -		ops->enable_compression = dpu_hw_intf_enable_compression;
+> +		ops->program_intf_cmd_cfg = dpu_hw_intf_program_intf_cmd_cfg;
+>   }
+>   
+>   struct dpu_hw_intf *dpu_hw_intf_init(const struct dpu_intf_cfg *cfg,
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+> index 3b5f18dbcb4b..c15f4973de5e 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+> @@ -48,6 +48,11 @@ struct intf_status {
+>   	u32 line_count;		/* current line count including blanking */
+>   };
+>   
+> +struct intf_cmd_mode_cfg {
 
-Changed my mind on this due to two reasons:
+My first reaction was that usually all DPU structure names start with 
+dpu_. Then I discovered that dpu_hw_intf.h diverges from this useful 
+custom. Could you please: fix existing structure struct intf_* names to 
+bear the dpu_ prefix. Then this structure can also be named as struct 
+dpu_intf_cmd_mode_cfg.
 
-1) the earlier agreement was to pass dpu_mdss_cfg but passing that will 
-be against the design of dpu_hw_*** functions because they have stopped 
-passing the index and as dpu_intf_cfg is encapsulated within 
-dpu_mdss_cfg, passing both is duplicated information.
+> +	u8 data_compress;	/* enable data compress between dpu and dsi */
+> +	/* can be expanded for other programmable bits */
 
-2) I have cross-checked that even for DSC over DP, we should be able to 
-pass dpu_kms->catalog->mdss_rev with this approach like I have posted now
+Please drop this comment.
 
+> +};
+> +
+>   /**
+>    * struct dpu_hw_intf_ops : Interface to the interface Hw driver functions
+>    *  Assumption is these functions will be called after clocks are enabled
+> @@ -70,7 +75,7 @@ struct intf_status {
+>    * @get_autorefresh:            Retrieve autorefresh config from hardware
+>    *                              Return: 0 on success, -ETIMEDOUT on timeout
+>    * @vsync_sel:                  Select vsync signal for tear-effect configuration
+> - * @enable_compression:         Enable data compression
+> + * @program_intf_cmd_cfg:       Program the DPU to interface datapath for command mode
+>    */
+>   struct dpu_hw_intf_ops {
+>   	void (*setup_timing_gen)(struct dpu_hw_intf *intf,
+> @@ -108,7 +113,9 @@ struct dpu_hw_intf_ops {
+>   	 */
+>   	void (*disable_autorefresh)(struct dpu_hw_intf *intf, uint32_t encoder_id, u16 vdisplay);
+>   
+> -	void (*enable_compression)(struct dpu_hw_intf *intf);
+> +	// Program the datapath between DPU and intf for command mode
 
->>>>>
->>>>>>
->>>>>>>>
->>>>>>>>>     .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   |  7 +---
->>>>>>>>>     .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    |  7 +---
->>>>>>>>>     .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    |  7 +---
->>>>>>>>>     .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   |  7 +---
->>>>>>>>>     .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |  7 +---
->>>>>>>>>     .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |  7 +---
->>>>>>>>>     .../msm/disp/dpu1/catalog/dpu_6_3_sm6115.h    |  7 +---
->>>>>>>>>     .../msm/disp/dpu1/catalog/dpu_6_4_sm6350.h    |  7 +---
->>>>>>>>>     .../msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h   |  7 +---
->>>>>>>>>     .../msm/disp/dpu1/catalog/dpu_6_9_sm6375.h    |  7 +---
->>>>>>>>>     .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    |  7 +---
->>>>>>>>>     .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |  7 +---
->>>>>>>>>     .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  |  7 +---
->>>>>>>>>     .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    |  7 +---
->>>>>>>>>     .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |  7 +---
->>>>>>>>>     .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  1 -
->>>>>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c    | 38 
->>>>>>>>> +++----------------
->>>>>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h    |  8 ++--
->>>>>>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  4 +-
->>>>>>>>>     19 files changed, 41 insertions(+), 115 deletions(-)
->>>>>>>
->>>>>
->>>>>
->>>>>
->>>>> -- 
->>>>> With best wishes
->>>>> Dmitry
->>>>
->>>>
->>>>
->>
->>
->>
+We have been using c99 comments in the code, Moreover, there is already 
+description for this field in the comment above, so it can be dropped too.
+
+> +	void (*program_intf_cmd_cfg)(struct dpu_hw_intf *intf,
+> +				     struct intf_cmd_mode_cfg *cmd_mode_cfg);
+>   };
+>   
+>   struct dpu_hw_intf {
+
+-- 
+With best wishes
+Dmitry
+
