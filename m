@@ -2,45 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7499B74FD4B
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 04:51:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90B8174FDCC
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 05:32:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21D9A10E481;
-	Wed, 12 Jul 2023 02:51:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BFC610E487;
+	Wed, 12 Jul 2023 03:32:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EF6F10E481
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 02:51:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1689130277;
- bh=hbvmqUn4K5h0Wmr7Y3QeUu0Gk9RV14VVpCTT5uZbzZo=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=labvdQMB1LkMEbLPFcdz0hY2+b1lJgSMpmiLbjxz+0j1lIwHFySM/MNxDBNi4P78w
- C2c8u2WjVemqP8lkWi79PNecg8dpDO44xBjTN57XPxFoE8+5bu25h5of7qAK+WK3Gx
- R/IjvgIVIXqPP1Xy1HJ1swdRpcOJTrb2gwGeypq2cG6K3+h8a9QTagCnI0otRxge6W
- SG9A4zBAi+/JKyL3cJZxeZWed28g4kGW49gGkPT+I+lWbE11kiQBZR3lPGr/OQH1Tq
- 8ZXvjgMIk0z8txgGWlJmJWbId/y+/Ctiw0nvvGAFqGLl0eldNuv00Oz4ZsiyVxCd0w
- 2eQI3iiyu3KfA==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4R12LX4KfJz4wy8;
- Wed, 12 Jul 2023 12:51:16 +1000 (AEST)
-Date: Wed, 12 Jul 2023 12:51:15 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: linux-next: build warnings after merge of the amdgpu tree
-Message-ID: <20230712125115.06caf01f@canb.auug.org.au>
-In-Reply-To: <53602f8f-c37b-6570-d76d-5dd3c3329280@infradead.org>
-References: <20221118175545.762d1a20@canb.auug.org.au>
- <20230712091509.4f6f7a19@canb.auug.org.au>
- <53602f8f-c37b-6570-d76d-5dd3c3329280@infradead.org>
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com
+ [IPv6:2607:f8b0:4864:20::72f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3632E10E487;
+ Wed, 12 Jul 2023 03:32:15 +0000 (UTC)
+Received: by mail-qk1-x72f.google.com with SMTP id
+ af79cd13be357-7653bd3ff2fso711840485a.3; 
+ Tue, 11 Jul 2023 20:32:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1689132734; x=1691724734;
+ h=content-transfer-encoding:in-reply-to:from:content-language:subject
+ :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=jvf0nF5ZRGZZqWs6AfvhMZd8lPGLYxeXrzMNbCUatcI=;
+ b=SxWs7+NhmtFmcBIYeyB0DJkbyihTJ/eJTVplhF1PBnu+7xoaTjCtrLQrHuwdLeFQ78
+ I3V+0ZV93yvXSyymfW23KSm49bdG2+cDQerjn3yUo7EY7/0mneaPnyICynnwfA41jpPA
+ naFsV9h5672637AMbpuI5rKyDIB3JNrSXE1gmfIjsGRnHmGmIJya6kl1cK7Au5vlJ+o0
+ qZ4wu7MQKjX1Qw9kEVfq2Uud8SykO3pPpDbkvH9aneGl/oxs8a+Tgu/ldl1ny5gWRfIK
+ X1leUhBEIbA2PIMJjep3EInbKA1GWE9b1EsAy8+gD8hJkhSi7o6o9657r4Mm0u2QiaZh
+ LL3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689132734; x=1691724734;
+ h=content-transfer-encoding:in-reply-to:from:content-language:subject
+ :references:cc:to:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jvf0nF5ZRGZZqWs6AfvhMZd8lPGLYxeXrzMNbCUatcI=;
+ b=NAsQMsbOZKDyjx+k3vYhQCCLbeEN97ayEL74AZTwWOZPpJVyKl6eMIRi0fjnk+wOtk
+ lDbt4aJv1IjlQ1N4LnGQ8TfLXsitYbGmo/fSRZOHURYf8D9G4OsGFgsZqb0g6z+PVZiq
+ Bszdkq/iwvnxB88Y7DiWMuZ1C7fKTPOMrrxv5vFJMn3RCEqBGtYukWz+18/vdo7nNuKY
+ 2LgH/N3uL8P6RCp8ZERXUGBiulNN0guaywzD60KkV7TpAIOceB5Rj7aJu/ZCMBXSmvT1
+ XCWGCC735P3tfiGRMvb5X3dwHVswIn54LSnnZloxOGFr1Ua64vRniLHQvhCq82SurV88
+ 3OJg==
+X-Gm-Message-State: ABy/qLbnhOSxiPZlpv/GrOKbENCdrDE/Yh9fkE9C3NdLUPXQ3Spzhz71
+ 3f39sKkhugnoZzGEW1P/yac=
+X-Google-Smtp-Source: APBJJlEi9cxhyg3FYQSwltq1b2CBfAz1F+0jG2fDBkJz+XscIpuisGIVjUha+zJXqw5Cv3MbLPDerw==
+X-Received: by 2002:ac8:5cc8:0:b0:403:a770:e15a with SMTP id
+ s8-20020ac85cc8000000b00403a770e15amr17034785qta.56.1689132733918; 
+ Tue, 11 Jul 2023 20:32:13 -0700 (PDT)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp.
+ [106.167.171.201]) by smtp.gmail.com with ESMTPSA id
+ d7-20020aa78147000000b0067ea048cf83sm2419276pfn.186.2023.07.11.20.32.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Jul 2023 20:32:13 -0700 (PDT)
+Message-ID: <0475d177-4c01-0988-0b34-3099dd703498@gmail.com>
+Date: Wed, 12 Jul 2023 12:32:10 +0900
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/RLftZouG86vvxK3dKWG+aE/";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+To: rdunlap@infradead.org
+References: <b5ebc891-ee63-1638-0377-7b512d34b823@infradead.org>
+Subject: Re: scripts/kernel-doc does not handle duplicate struct & function
+ names (e.g., in amdgpu)
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <b5ebc891-ee63-1638-0377-7b512d34b823@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,60 +77,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Dave Airlie <airlied@redhat.com>
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org,
+ Akira Yokosawa <akiyks@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/RLftZouG86vvxK3dKWG+aE/
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
 Hi Randy,
 
-On Tue, 11 Jul 2023 19:26:33 -0700 Randy Dunlap <rdunlap@infradead.org> wro=
-te:
->
-> On 7/11/23 16:15, Stephen Rothwell wrote:
-> >=20
-> > On Fri, 18 Nov 2022 17:55:45 +1100 Stephen Rothwell <sfr@canb.auug.org.=
-au> wrote: =20
-> >>
-> >> After merging the amdgpu tree, today's linux-next build (htmldocs)
-> >> produced these warnings:
-> >>
-> >> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter o=
-r member 'dispclk_khz' not described in 'dc_clocks'
->=20
-> This patch:
-> https://lore.kernel.org/lkml/20230712022339.17902-1-rdunlap@infradead.org=
-/T/#u
->=20
-> removes all 175 kernel-doc warnings from dc.h.
+> [just documenting this for posterity or in case someone wants to fix it.]
+> 
+> In drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c, one can find both
+> 
+> struct amdgpu_vm_tlb_seq_cb {...};
+> 
+> and
+> static void amdgpu_vm_tlb_seq_cb(...)
+> 
+> Of course C has no problem with this, but kernel-doc reports:
+> 
+> drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:833: WARNING: Duplicate C declaration, also defined at gpu/amdgpu/driver-core:115.
+> 
+> And of course, if the name of one of them is changed, kernel-doc is all happy...
+> not that I am suggesting that one of them should be changed.
+> 
+> I just want to make people aware of this. (or maybe people are already aware of this?)
 
-Excellent, thanks.
+The duplicate warning is emitted from Sphinx, not kernel-doc.
 
---=20
-Cheers,
-Stephen Rothwell
+This is a bug of Sphinx >=3.1, first reported by Mauro back in September 2020 at:
 
---Sig_/RLftZouG86vvxK3dKWG+aE/
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+    https://github.com/sphinx-doc/sphinx/issues/8241
 
------BEGIN PGP SIGNATURE-----
+It was closed when a local fix was presented.  Unfortunately, it was not
+merged at the time and a subsequent pull request was opened at:
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmSuFSMACgkQAVBC80lX
-0GwJewgAiwtZZDn286quU9xHc8wOpV5e1CWWKMjAq02PigCohZ8wRAaImk8T5KAH
-D8xHPXgnMdTlQ2QvUuzmRxwP1Yps7Pt0wqWkUH+5G0apk8lZQhN9cNBwhR873Tug
-EVnpWwudK+ON/Pnj/LM3iWP+h6ixdpNj468AE59H+0/Rz6yiPeieyS/qN0uUpnDE
-IVOfxDfXoofh5NLNj8zoMQD7IhoWJ+cxvn3dTInFJzm4+In3WKyUil590EgQuHe3
-LZFo0tjr98ruy+QRB2TGLc1R/AwayXhqD9YOMA1/d5MVLLe1d3LRvVjHfWz/4Le2
-q2qIYWHtToCgUjatIB04R95HUG1ruQ==
-=2E1H
------END PGP SIGNATURE-----
+    https://github.com/sphinx-doc/sphinx/pull/8313
 
---Sig_/RLftZouG86vvxK3dKWG+aE/--
+It is not merged yet and carries a milestone of Sphinx 7.x.
+
+Looks like we need to wait patiently.
+
+        Thanks, Akira
+
+> 
+> -- 
+> ~Randy
+
