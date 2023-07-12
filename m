@@ -2,63 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76C467503F8
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 11:59:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9878175040E
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 12:03:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0DC810E4C7;
-	Wed, 12 Jul 2023 09:59:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5745910E4CA;
+	Wed, 12 Jul 2023 10:03:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CB2E10E4BB
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 09:59:16 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2237A616EA
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 09:59:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8BF54C433C7
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 09:59:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689155954;
- bh=WMhCENP84NxKQJIOraBekTx43nQ0QeTVrbLddzhOPRI=;
- h=From:To:Subject:Date:From;
- b=XraTMmLblFOqad6Ois+hFZKGQQ62cnE+FJQYl7ZEyZoL/GuhKXi2mSrxv3AQdjaez
- 45566IWaksn7uP+6TS6U1+BBELv73I1kyEqtt4BMOWUQikJMrfn2hpTsIiiHyORReh
- wfBLur62fuPO0YOhCq3/Xq9inkB4f5JbZmxkgmMS5u5zBJBc7Wmugj5twy4vwxPkz/
- mRZ062jQyI6okBRnTPd1+so3cSgtqH1UTBt/PhcuN5/DIuJYGI+2QtY7kmIdZ581L+
- WUlqsYtTnsJt4tYtDIrqtpvlIisgAF+gXYpULlC6T3+h53Ci/z2Q1SSe2H+J+uPvlX
- md8QDUQ/eahOA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 7AB96C53BD0; Wed, 12 Jul 2023 09:59:14 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 217664] New: Laptop doesnt wake up from suspend mode.
-Date: Wed, 12 Jul 2023 09:59:14 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: penteljapan@o2.pl
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression
-Message-ID: <bug-217664-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3530D10E4BB;
+ Wed, 12 Jul 2023 10:03:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1689156187; x=1720692187;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=jjBYupbDnYR+DL1FMgiB0E8uYCbK8bAAwazn7OuIEyo=;
+ b=JZE4DiuzTJLHQQomSHUA+MQfi9DJv4L+zl8z2PJA/1pxW6jy3K4tUUqT
+ wOpe1kkUYckbP0Wp/5gGEGXwhMAYqCifrS7YtlT8O3SGflgnj0zWHI5NP
+ U95iY9vRfXSQaEL1JeTuQvMIlHFc1ENEwF8ihh+o9VcAd1YGW0J2m9pUJ
+ kGrEBy6V/6jIu5QDNFaeaijIS2N+SxKrA2FQuyBb7WCI9xYvbDgZ2W3zd
+ 4LhhEA5AwDZeA7FnIXQsvEIYWR+qrEdqhUrzuettsJ4umrySoVEHEp+d2
+ NyEovYLtz2ATqfkj2jFPK0ukdN00SxWwVMrfbYQcwD2yQGKTVcKz/2suR Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="349705002"
+X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; d="scan'208";a="349705002"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jul 2023 03:03:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="786983840"
+X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; d="scan'208";a="786983840"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.31.249])
+ ([10.213.31.249])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jul 2023 03:03:04 -0700
+Message-ID: <39c15fad-92fa-4414-11f5-b7a8e60ac5d2@intel.com>
+Date: Wed, 12 Jul 2023 12:03:02 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.13.0
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/huc: check HuC and GuC version
+ compatibility on MTL
+Content-Language: en-US
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20230711203150.4140313-1-daniele.ceraolospurio@intel.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20230711203150.4140313-1-daniele.ceraolospurio@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,87 +65,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D217664
+On 11.07.2023 22:31, Daniele Ceraolo Spurio wrote:
+> Due to a change in the auth flow on MTL, GuC 70.7.0 and newer will only
+> be able to authenticate HuC 8.5.1 and newer. The plan is to update the 2
+> binaries sinchronously in linux-firmware so that the fw repo always has
+> a matching pair that works; still, it's better to check in the kernel so
+> we can print an error message and abort HuC loading if the binaries are
+> out of sync instead of failing the authentication.
+> 
+> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: John Harrison <John.C.Harrison@Intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 42 ++++++++++++++++++++++++
+>   1 file changed, 42 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> index 08e16017584b..f0cc5bb47fa0 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> @@ -803,11 +803,53 @@ static int try_firmware_load(struct intel_uc_fw *uc_fw, const struct firmware **
+>   	return 0;
+>   }
+>   
+> +static int check_mtl_huc_guc_compatibility(struct intel_gt *gt,
+> +					   struct intel_uc_fw_file *huc_selected)
+> +{
+> +	struct intel_uc_fw_file *guc_selected = &gt->uc.guc.fw.file_selected;
+> +	struct intel_uc_fw_ver *huc_ver = &huc_selected->ver;
+> +	struct intel_uc_fw_ver *guc_ver = &guc_selected->ver;
+> +	bool new_huc;
+> +	bool new_guc;
+> +
+> +	/* we can only do this check after having fetched both GuC and HuC */
+> +	GEM_BUG_ON(!huc_selected->path || !guc_selected->path);
+> +
+> +	/*
+> +	 * Due to changes in the authentication flow for MTL, HuC 8.5.1 or newer
+> +	 * requires GuC 70.7.0 or newer. Older HuC binaries will instead require
+> +	 * GuC < 70.7.0.
+> +	 */
+> +	new_huc = huc_ver->major > 8 ||
+> +		  (huc_ver->major == 8 && huc_ver->minor > 5) ||
+> +		  (huc_ver->major == 8 && huc_ver->minor == 5 && huc_ver->patch >= 1);
+> +
+> +	new_guc = guc_ver->major > 70 ||
+> +		  (guc_ver->major == 70 && guc_ver->minor >= 7);
 
-            Bug ID: 217664
-           Summary: Laptop doesnt wake up from suspend mode.
-           Product: Drivers
-           Version: 2.5
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: penteljapan@o2.pl
-        Regression: No
-
-Operating System: Kubuntu 23.04
-KDE Plasma Version: 5.27.4
-KDE Frameworks Version: 5.104.0
-Qt Version: 5.15.8
-Kernel Version: 6.2.0-25-generic (64-bit)
-Graphics Platform: X11
-Processors: 12 =C3=97 AMD Ryzen 5 5600H with Radeon Graphics
-Memory: 22.8 GiB of RAM
-Graphics Processor: AMD Radeon Graphics
-Manufacturer: MEDION
-Product Name: Crawler E25
-System Version: Not Applicable
-
-
-05:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI]
-Cezanne [Radeon Vega Series / Radeon Vega Mobile Series] (rev c6) (prog-if =
-00
-[VGA controller])
-        Subsystem: CLEVO/KAPOK Computer Cezanne [Radeon Vega Series / Radeon
-Vega Mobile Series]
-        Flags: bus master, fast devsel, latency 0, IRQ 50, IOMMU group 6
-        Memory at fc10000000 (64-bit, prefetchable) [size=3D256M]
-        Memory at fc20000000 (64-bit, prefetchable) [size=3D2M]
-        I/O ports at 1000 [size=3D256]
-        Memory at d1500000 (32-bit, non-prefetchable) [size=3D512K]
-        Capabilities: [48] Vendor Specific Information: Len=3D08 <?>
-        Capabilities: [50] Power Management version 3
-        Capabilities: [64] Express Legacy Endpoint, MSI 00
-        Capabilities: [a0] MSI: Enable- Count=3D1/4 Maskable- 64bit+
-        Capabilities: [c0] MSI-X: Enable+ Count=3D4 Masked-
-        Capabilities: [100] Vendor Specific Information: ID=3D0001 Rev=3D1 =
-Len=3D010
-<?>
-        Capabilities: [270] Secondary PCI Express
-        Capabilities: [2b0] Address Translation Service (ATS)
-        Capabilities: [2c0] Page Request Interface (PRI)
-        Capabilities: [2d0] Process Address Space ID (PASID)
-        Capabilities: [400] Data Link Feature <?>
-        Capabilities: [410] Physical Layer 16.0 GT/s <?>
-        Capabilities: [440] Lane Margining at the Receiver <?>
-        Kernel driver in use: amdgpu
-        Kernel modules: amdgpu
-```````````````
-
-dmesg --> https://pastebin.com/SXmYX9NL
-
-`````````````````````
+Wouldn't be more readable to define sth like UC_VER_FULL(v)
+then use UC_VER_FULL(huc_ver) >= IP_VER_FULL(8, 5, 1).
+I am not sure if it is worth for two checks.
 
 
+> +
+> +	if (new_huc != new_guc) {
+> +		UNEXPECTED(gt, "HuC %u.%u.%u is incompatible with GuC %u.%u.%u\n",
+> +			   huc_ver->major, huc_ver->minor, huc_ver->patch,
+> +			   guc_ver->major, guc_ver->minor, guc_ver->patch);
+> +		gt_info(gt, "MTL GuC 70.7.0+ and HuC 8.5.1+ don't work with older releases\n");
+> +		return -ENOEXEC;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>   int intel_uc_check_file_version(struct intel_uc_fw *uc_fw, bool *old_ver)
+>   {
+>   	struct intel_gt *gt = __uc_fw_to_gt(uc_fw);
+>   	struct intel_uc_fw_file *wanted = &uc_fw->file_wanted;
+>   	struct intel_uc_fw_file *selected = &uc_fw->file_selected;
+> +	int ret;
+> +
+> +	if (IS_METEORLAKE(gt->i915) && uc_fw->type == INTEL_UC_FW_TYPE_HUC) {
 
-Since closing lid is a basic thing of laptops and only sense it would be go=
-od
-to use this functionality. Many people having same problem, ignored for many
-years. Dont know which section it should be reported: X11, drivers or ACPI.
-dmesg saying nothing.
-Opening lid doenst turn on screen but fans still are alive. Hard shutdown w=
-orks
-(power button for few seconds), in general system works ( i suspect) beyond
-main feature - display
+Moving this check inside check function would make it more generic, up 
+to you.
 
---=20
-You may reply to this email to add a comment.
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Regards
+Andrzej
+
+
+> +		ret = check_mtl_huc_guc_compatibility(gt, selected);
+> +		if (ret)
+> +			return ret;
+> +	}
+>   
+>   	if (!wanted->ver.major || !selected->ver.major)
+>   		return 0;
+
