@@ -2,59 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A3A97511EA
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 22:40:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B648C75120F
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 22:59:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54D8710E14E;
-	Wed, 12 Jul 2023 20:40:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B084910E04E;
+	Wed, 12 Jul 2023 20:59:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
- [IPv6:2a00:1450:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AE0B10E14E;
- Wed, 12 Jul 2023 20:40:13 +0000 (UTC)
-Received: by mail-lj1-x22b.google.com with SMTP id
- 38308e7fff4ca-2b71ae5fa2fso68276741fa.0; 
- Wed, 12 Jul 2023 13:40:13 -0700 (PDT)
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
+ [IPv6:2a00:1450:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1736310E04E
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 20:59:29 +0000 (UTC)
+Received: by mail-lj1-x22d.google.com with SMTP id
+ 38308e7fff4ca-2b702319893so120699911fa.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 13:59:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689194411; x=1691786411;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Cb7REX25ihGsi9NwAVFjKMBpYTxy+Tpy2z9YDG2DrUQ=;
- b=KZmAKonaBRhlKHpLudMe+VioF1dWuyaJKm5+U6Yp2D7Rin9mudUsXqQGd6lEhxk7lo
- zaVXs/etTUCK6bLDrrTay5yQbAnYphyFB4xK0OXAIxlfZdQ/hpC/L8PLnBb9i5TjJnVC
- lYfJ84aDeOlBkmYSjE/LZFKidcnAmtfWrLOcaGpPnCU73+9cTIpi5+HkWHEIs3Z9sF0c
- PanXJK9TdkTCIVi1l501AK0u7uB+/n5JPpQQWQjYD7ULY7phyRGoHqZnhtUYYTm2qM0w
- bQgrgL6PfSDdl3ZktrKOB+tj8T+U07dkUUyiJKdUp1ubqMObPW6OHfUUB2K58/HHy8sw
- VIzA==
+ d=gateworks-com.20221208.gappssmtp.com; s=20221208; t=1689195566; x=1691787566;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+AEsbGdfN3MuNx68WB4g17a5UEFOfCJDLcaCrckPk3A=;
+ b=gptzumbq2Rm5Ne5irBMvPZl3sy8+xJR+isSXENmvTHETSp2X4eEsescMJxSNlKHpKo
+ EX7vaS5I7Y7iYCZJiA9iXLYjqsstXDZknBLIfXhNpSLkVu1q094Nvq6GEZ+HFXw/elE5
+ r8klIriIQ0YGyL3Aa9HahV7V7OJuK0Nj3eDElAhqqeHYMGtdeEbQc+SfL9g2KHQs15p4
+ thBWDfkIkaPp9e9bxhlN30yjM7NirSC4opdSAMvMIRdWUIjUbgFKHIsryGKsTLznwEYr
+ dK1UCFojACxT63QIwRVPwZpJb2iwxjidFtjlIV+mjkqBPFllTSut0Kbog/dU9ep2tqiD
+ T7YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689194411; x=1691786411;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Cb7REX25ihGsi9NwAVFjKMBpYTxy+Tpy2z9YDG2DrUQ=;
- b=E1YyfbOCbMXmFQEwLWomljDZVykrgUUTE7uTUlI5dEJRmYJTVGrfnLahlKRYlQ6hbO
- mI6PTGN0h8J1Bi0DL9XWHwFsIRZM1ZgvG0k3xaORJKPiGuHnYlVirjIbbp7+fQ1Q4q++
- GiA6KkJzZMIoV1LOcmSqPAIg14vvVhLm7LVYPQ6N9w+ZxACXlD6fgFCSNDdDQbrvgnX4
- 06bsWo6ySe1a/3SF7WwQ+LXFMp6DT3M4Nyiw5iczU73DIjfFvrX92S3va3OMlMIgPzXe
- 6e4m2gr3vNqFckUzxmtbpvsWa/+uEy/uGMd9pRqACG09caYYv2v7vh899ofALR/wu7d5
- 2WGA==
-X-Gm-Message-State: ABy/qLZE5UHtPWeA1qbf4RBabFxVA3jEgXKo251yeX6aJwnBWf/mYLgR
- UGwNOVRuoVh7aej4Il38NkwtxGZQy6FR/ujAMXQ=
-X-Google-Smtp-Source: APBJJlHJB1H8w3zvgGfX75TocAy24yIenkwzbczqn0FqjF7UskV/7KgpemLLo1pwJdEkcwRO1e4GyvNNjQWJtjQYqFo=
-X-Received: by 2002:a2e:9807:0:b0:2b6:e2aa:8fc2 with SMTP id
- a7-20020a2e9807000000b002b6e2aa8fc2mr15795067ljj.46.1689194410815; Wed, 12
- Jul 2023 13:40:10 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1689195566; x=1691787566;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+AEsbGdfN3MuNx68WB4g17a5UEFOfCJDLcaCrckPk3A=;
+ b=AP2EtP8/3ocq0tVaTTbzjKTJw9H0zKOEO82JxR8Ha8UyCcMoXpx3eknmZiQ9AkknGD
+ JbIOXZNr1AFlXRR/2veN9+1btYOrZRwsAgJ8xR1ZlaUAPl/YN57HLVKGhBWy0p5+WHfD
+ BnE0r4Ny5wmiWW6/8dVAmoJ5BejtF/ok7+qYNNHTu8bl4A5ITisbNthJb02r0yYRQwgl
+ 6uFLUGCsSqW1YWMWG7BS4EFG6u4XThKisCBEMG9BoKE0H/lEiNfVMMvidiFuxaD7j10v
+ uLNiElfmghF+lUfTtOXl3j8ecHWg0qquMB0vKWaFkIMwX2s07uKBzpnPWkZFtjMqc4Yt
+ 2Wcw==
+X-Gm-Message-State: ABy/qLZahK6HaXDzj2rrqDCPc8DApwfvhs0kQpxp9Aav0l6uKnDh0bQw
+ UM4O23Ql6j8kqZQscv/chGYMtgpcAjQib7eYFi9Dpw==
+X-Google-Smtp-Source: APBJJlEgTGIDuCr9SbZSA5dmQsGKCCMezfj4mnTcMYDNlikLS+zUQwxYk/0qFQf/zmTqnSHxw6ZU3c0T5gSq+mqSEis=
+X-Received: by 2002:a2e:8e8f:0:b0:2b6:cb55:72cb with SMTP id
+ z15-20020a2e8e8f000000b002b6cb5572cbmr17494380ljk.39.1689195566624; Wed, 12
+ Jul 2023 13:59:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230526091052.2169044-1-kherbst@redhat.com>
-In-Reply-To: <20230526091052.2169044-1-kherbst@redhat.com>
-From: Ben Skeggs <skeggsb@gmail.com>
-Date: Thu, 13 Jul 2023 06:39:59 +1000
-Message-ID: <CACAvsv7aGU0nkj-_HuGHFcX0STLNYHU5vHtnrrnfJvJqo=d-_w@mail.gmail.com>
-Subject: Re: [Nouveau] [PATCH v2] drm/nouveau: bring back blit subchannel for
- pre nv50 GPUs
-To: Karol Herbst <kherbst@redhat.com>
+References: <CAJ+vNU2Nb58wOdm9yROzSceSJgwR0pqfVFDiJWGUG6YN87ZdaQ@mail.gmail.com>
+ <CAMty3ZBxjs5o=j1ZonSwURbX+uBTOTpop__4XMAqNKmF+11AyA@mail.gmail.com>
+In-Reply-To: <CAMty3ZBxjs5o=j1ZonSwURbX+uBTOTpop__4XMAqNKmF+11AyA@mail.gmail.com>
+From: Tim Harvey <tharvey@gateworks.com>
+Date: Wed, 12 Jul 2023 13:59:14 -0700
+Message-ID: <CAJ+vNU1tQnKFYMiKJ=+RacFSjE2r_kR2G11CJSNdWKMFH7Hd3g@mail.gmail.com>
+Subject: Re: 6.5-rc1 breakage in samsung-dsim
+To: Jagan Teki <jagan@amarulasolutions.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,93 +69,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Adam Ford <aford173@gmail.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 26 May 2023 at 19:11, Karol Herbst <kherbst@redhat.com> wrote:
+On Wed, Jul 12, 2023 at 12:24=E2=80=AFPM Jagan Teki <jagan@amarulasolutions=
+.com> wrote:
 >
-> 1ba6113a90a0 removed a lot of the kernel GPU channel, but method 0x128
-> was important as otherwise the GPU spams us with `CACHE_ERROR` messages.
+> On Thu, Jul 13, 2023 at 12:22=E2=80=AFAM Tim Harvey <tharvey@gateworks.co=
+m> wrote:
+> >
+> > Greetings,
+> >
+> > I've noticed a regression in 6.5-rc1 that I'm having trouble bisecting
+> > between 6.4 with regards to imx8mm MIPI DSI.
+> >
+> > I'm testing on an imx8mm-venice-gw72xx-0x with the following display:
+> >  - Powertip PH800480T013-IDF02 compatible panel
+> >  - Toshiba TC358762 compatible DSI to DBI bridge
+> >  - ATTINY based regulator used for backlight controller and panel enabl=
+e
+> >
+> > I'm using a dt overlay to support this [1] which works on 6.4 but on
+> > 6.5-rc1 I get the following error:
+> > [    6.110585] samsung-dsim 32e60000.dsi: xfer timed out: 29 06 00 00
+> > 64 01 05 00 00 00
+> > [    6.326588] tc358762 32e60000.dsi.0: error initializing bridge (-110=
+)
+> >
+> > I'm trying to bisect this for some reason. Does anyone have any idea
+> > what may be causing this or how I can debug it?
 >
-> We use the blit subchannel inside our vblank handling, so we should keep
-> at least this part.
+> What if you can revert or drop the dynamic PHY configuration (HEAD ...
+> a617b33f7e51)? can you check it?
 >
-> v2: Only do it for NV11+ GPUs
->
-> Closes: https://gitlab.freedesktop.org/drm/nouveau/-/issues/201
-> Fixes: 4a16dd9d18a0 ("drm/nouveau/kms: switch to drm fbdev helpers")
-> Signed-off-by: Karol Herbst <kherbst@redhat.com>
-Reviewed-by: Ben Skeggs <bskeggs@redhat.com>
+> Thanks,
+> Jagan.
 
-> ---
->  drivers/gpu/drm/nouveau/nouveau_chan.c |  1 +
->  drivers/gpu/drm/nouveau/nouveau_chan.h |  1 +
->  drivers/gpu/drm/nouveau/nouveau_drm.c  | 20 +++++++++++++++++---
->  3 files changed, 19 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_chan.c b/drivers/gpu/drm/nouveau/nouveau_chan.c
-> index e648ecd0c1a0..3dfbc374478e 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_chan.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_chan.c
-> @@ -90,6 +90,7 @@ nouveau_channel_del(struct nouveau_channel **pchan)
->                 if (cli)
->                         nouveau_svmm_part(chan->vmm->svmm, chan->inst);
->
-> +               nvif_object_dtor(&chan->blit);
->                 nvif_object_dtor(&chan->nvsw);
->                 nvif_object_dtor(&chan->gart);
->                 nvif_object_dtor(&chan->vram);
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_chan.h b/drivers/gpu/drm/nouveau/nouveau_chan.h
-> index e06a8ffed31a..bad7466bd0d5 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_chan.h
-> +++ b/drivers/gpu/drm/nouveau/nouveau_chan.h
-> @@ -53,6 +53,7 @@ struct nouveau_channel {
->         u32 user_put;
->
->         struct nvif_object user;
-> +       struct nvif_object blit;
->
->         struct nvif_event kill;
->         atomic_t killed;
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-> index cc7c5b4a05fd..9512f1c2f871 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-> @@ -369,15 +369,29 @@ nouveau_accel_gr_init(struct nouveau_drm *drm)
->                 ret = nvif_object_ctor(&drm->channel->user, "drmNvsw",
->                                        NVDRM_NVSW, nouveau_abi16_swclass(drm),
->                                        NULL, 0, &drm->channel->nvsw);
-> +
-> +               if (ret == 0 && device->info.chipset >= 0x11) {
-> +                       ret = nvif_object_ctor(&drm->channel->user, "drmBlit",
-> +                                              0x005f, 0x009f,
-> +                                              NULL, 0, &drm->channel->blit);
-> +               }
-> +
->                 if (ret == 0) {
->                         struct nvif_push *push = drm->channel->chan.push;
-> -                       ret = PUSH_WAIT(push, 2);
-> -                       if (ret == 0)
-> +                       ret = PUSH_WAIT(push, 8);
-> +                       if (ret == 0) {
-> +                               if (device->info.chipset >= 0x11) {
-> +                                       PUSH_NVSQ(push, NV05F, 0x0000, drm->channel->blit.handle);
-> +                                       PUSH_NVSQ(push, NV09F, 0x0120, 0,
-> +                                                              0x0124, 1,
-> +                                                              0x0128, 2);
-> +                               }
->                                 PUSH_NVSQ(push, NV_SW, 0x0000, drm->channel->nvsw.handle);
-> +                       }
->                 }
->
->                 if (ret) {
-> -                       NV_ERROR(drm, "failed to allocate sw class, %d\n", ret);
-> +                       NV_ERROR(drm, "failed to allocate sw or blit class, %d\n", ret);
->                         nouveau_accel_gr_fini(drm);
->                         return;
->                 }
-> --
-> 2.40.1
->
+Hi Jagan,
+
+That's one of the first things I tried but it didn't revert cleanly so
+I simply did a git checkout of 1a56fcf08ae4 (the patch before
+a617b33f7e51) as that was the before the 6 samsung-dsim patches I
+suspected. This version also failed but then I did a git log and
+noticed only 90 patches before the Linux 6.4-rc1 tag. This of course
+predates Linux 6.4 yet a617b33f7e51 was not in 6.4 which is why I got
+confused when a git bisect between v6.4 and v6.5-rc1 started bisecting
+to patches that pre-dated v6.4. I'm so confused at this point :)
+
+best regards,
+
+Tim
