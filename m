@@ -1,62 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93CF6750A4C
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 16:01:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65CCA750A4B
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 16:01:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C888B10E53A;
-	Wed, 12 Jul 2023 14:01:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96AFD10E541;
+	Wed, 12 Jul 2023 14:01:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com
- [IPv6:2607:f8b0:4864:20::c32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 858D810E53A;
- Wed, 12 Jul 2023 14:01:23 +0000 (UTC)
-Received: by mail-oo1-xc32.google.com with SMTP id
- 006d021491bc7-564e4656fecso4371687eaf.0; 
- Wed, 12 Jul 2023 07:01:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689170482; x=1691762482;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RLsiJY8/ea7O7yxQWYP4ePh8E4N69Kqkk8kigk+qX6M=;
- b=FgMJpQ/pj6kNs5c+c1c2Aoew9MESIoDfn7VsaHwFNnCkWeL9ITu9C6cQXikR43hLwB
- 5frncd2GabZBWeYbWOFh/ffCiy5zngdNCyIB+jVdOw6fJAgw0oI/Pv1Lwf/x1lIS5H13
- dzTeWPQ1pwSeFaH30v4Uzmd3os2Bqp4kKIkHIuh135YwvSrQQOJ4ypgiVDuOLIqRkFhI
- qdZV7dWL3P6l8j1fkjylu4jv8+hZJfsWrbm6J+fXZ6ehoJlbrXc9M8m+S7dBv0TzACJG
- MGzNiCTjDuJ/C1Swt406BDxagOH9HawRbvVpveLtnPN/w0oI/ea8LgZU4mi8/dZZWBJa
- q8sA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689170482; x=1691762482;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RLsiJY8/ea7O7yxQWYP4ePh8E4N69Kqkk8kigk+qX6M=;
- b=NtDRjJO1SacQz2Yq6Tga9lFZOFT2TvsZiYTcfiZw+tgQI6QbHvFEFf5OVV/m9My1m4
- QmaFpqaRUbYD5VLZIOx/vf1lMUuGbq5wzNITjrNLWCV5h03wwyxRlja9YqpQ83TJDGSX
- 5bSyeSRLi30cWH+uxTabpNNtuvGBVcODSlhZO78cPm67IElDl+nXpVnLWVFkDIhTb4qr
- mNwJNxV1CnkZbMQQ04KambyODsJhvzdfqzkBIbQbXLWSTgUUDQQhkpBsagVgy2wKM+kx
- Oz84WNWxtklIszcRWx6kuY3/hJxTSCx1Vm18b2RKUzRPn565jnpkLaGrOtciT+V3Eg83
- Cclg==
-X-Gm-Message-State: ABy/qLanbk3deAIQ+m88Mn5lHk9kggnOZCt3Hv0THeR2kpOivEFvdCYg
- 9IYrQDeFBuwot+WeQnd7R4RINTuY6uiUqFm+PkE=
-X-Google-Smtp-Source: APBJJlH6CZA350YNzNxZYIEobwacjGj4qVtyjqAlR8TRHYmxX+4F4sp0Q6BykIOS556IpkJ7Dzh0rd4ydTv/7vipWmA=
-X-Received: by 2002:a4a:6243:0:b0:566:f51f:bbd3 with SMTP id
- y3-20020a4a6243000000b00566f51fbbd3mr691848oog.2.1689170482529; Wed, 12 Jul
- 2023 07:01:22 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F253C10E53A
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 14:01:21 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 29A451FDA2;
+ Wed, 12 Jul 2023 14:01:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1689170480; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=71bsqRrpI75eb4hLcpTJVpTZ3P0WLAVfHpiZmg+38eo=;
+ b=uEUVFi90Py5Hdtsm6N/lmlDZNtlK546uM+woKEm3u85Vr3ElrMPZBmb09031KbAnzvPNxV
+ JYjq0SImPzFTWNT0CHwXiuYttMMwP3CfQ0kShDWcoYYQXQZsJ74v9FRyr5p7apww5bfGzY
+ ROiuYExibjw2QEa103cKM3sdU1Qyybc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1689170480;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=71bsqRrpI75eb4hLcpTJVpTZ3P0WLAVfHpiZmg+38eo=;
+ b=YTO/8myYCCbwuJB0eyC2OmvKLOG/YiK+yKDu+mUpp5YCy8rqUQQ8tJpFQJuKY7gJivbUx0
+ zMF0ljbbeInmeCDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E6DDA133DD;
+ Wed, 12 Jul 2023 14:01:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id nsNYNy+yrmRiAQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 12 Jul 2023 14:01:19 +0000
+Message-ID: <eed24ade-2912-7764-a006-ca2ed302273c@suse.de>
+Date: Wed, 12 Jul 2023 16:01:19 +0200
 MIME-Version: 1.0
-References: <20230712022339.17902-1-rdunlap@infradead.org>
- <acee82a2-d5f9-9bf1-5138-44db14c079d1@amd.com>
-In-Reply-To: <acee82a2-d5f9-9bf1-5138-44db14c079d1@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 12 Jul 2023 10:01:10 -0400
-Message-ID: <CADnq5_Pnqiz+KK6S_8rhm9K3RgMi3RLAt2u1jrM7m_ucSNvo8g@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: dc.h: eliminate kernel-doc warnings
-To: Harry Wentland <harry.wentland@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] drm/gem-fb-helper: Consistenly use drm_dbg_kms()
+Content-Language: en-US
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <7c2182b365c5b0a574744a2832e0209aa1fc009e.1689169087.git.geert+renesas@glider.be>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <7c2182b365c5b0a574744a2832e0209aa1fc009e.1689169087.git.geert+renesas@glider.be>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------wDW1QzVWh0h5ND5Ds0Le1js1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,92 +74,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Leo Li <sunpeng.li@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------wDW1QzVWh0h5ND5Ds0Le1js1
+Content-Type: multipart/mixed; boundary="------------ZzGoxZTD7qYOewANJPcZyXr5";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Message-ID: <eed24ade-2912-7764-a006-ca2ed302273c@suse.de>
+Subject: Re: [PATCH] drm/gem-fb-helper: Consistenly use drm_dbg_kms()
+References: <7c2182b365c5b0a574744a2832e0209aa1fc009e.1689169087.git.geert+renesas@glider.be>
+In-Reply-To: <7c2182b365c5b0a574744a2832e0209aa1fc009e.1689169087.git.geert+renesas@glider.be>
 
-Alex
+--------------ZzGoxZTD7qYOewANJPcZyXr5
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-On Wed, Jul 12, 2023 at 9:58=E2=80=AFAM Harry Wentland <harry.wentland@amd.=
-com> wrote:
->
-> On 2023-07-11 22:23, Randy Dunlap wrote:
-> > Quash 175 kernel-doc warnings in dc.h by unmarking 2 struct
-> > comments as containing kernel-doc notation and by spelling one
-> > struct field correctly in a kernel-doc comment.
-> >
-> > Fixes: 1682bd1a6b5f ("drm/amd/display: Expand kernel doc for DC")
-> > Fixes: ea76895ffab1 ("drm/amd/display: Document pipe split policy")
-> > Fixes: f6ae69f49fcf ("drm/amd/display: Include surface of unaffected st=
-reams")
-> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> > Cc: Harry Wentland <harry.wentland@amd.com>
-> > Cc: Leo Li <sunpeng.li@amd.com>
-> > Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> > Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Cc: amd-gfx@lists.freedesktop.org
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-> > Cc: dri-devel@lists.freedesktop.org
->
-> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
->
-> Harry
->
-> > ---
-> >  drivers/gpu/drm/amd/display/dc/dc.h |    8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff -- a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/dis=
-play/dc/dc.h
-> > --- a/drivers/gpu/drm/amd/display/dc/dc.h
-> > +++ b/drivers/gpu/drm/amd/display/dc/dc.h
-> > @@ -506,7 +506,7 @@ enum dcn_zstate_support_state {
-> >       DCN_ZSTATE_SUPPORT_DISALLOW,
-> >  };
-> >
-> > -/**
-> > +/*
-> >   * struct dc_clocks - DC pipe clocks
-> >   *
-> >   * For any clocks that may differ per pipe only the max is stored in t=
-his
-> > @@ -728,7 +728,7 @@ struct resource_pool;
-> >  struct dce_hwseq;
-> >  struct link_service;
-> >
-> > -/**
-> > +/*
-> >   * struct dc_debug_options - DC debug struct
-> >   *
-> >   * This struct provides a simple mechanism for developers to change so=
-me
-> > @@ -756,7 +756,7 @@ struct dc_debug_options {
-> >       bool use_max_lb;
-> >       enum dcc_option disable_dcc;
-> >
-> > -     /**
-> > +     /*
-> >        * @pipe_split_policy: Define which pipe split policy is used by =
-the
-> >        * display core.
-> >        */
-> > @@ -1334,7 +1334,7 @@ struct dc_validation_set {
-> >       struct dc_stream_state *stream;
-> >
-> >       /**
-> > -      * @plane_state: Surface state
-> > +      * @plane_states: Surface state
-> >        */
-> >       struct dc_plane_state *plane_states[MAX_SURFACES];
-> >
->
+SGkNCg0KQW0gMTIuMDcuMjMgdW0gMTU6NDIgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
+DQo+IEFsbCBkZWJ1ZyBtZXNzYWdlcyBpbiBkcm1fZ2VtX2ZyYW1lYnVmZmVyX2hlbHBlci5j
+IHVzZSBkcm1fZGJnX2ttcygpLA0KPiBleGNlcHQgZm9yIG9uZSwgd2hpY2ggdXNlcyBkcm1f
+ZGJnKCkuDQo+IFJlcGxhY2UgdGhlIG91dGxpZXIgYnkgZHJtX2RiZ19rbXMoKSB0byByZXN0
+b3JlIGNvbnNpc3RlbmN5Lg0KPiANCj4gRml4ZXM6IGM5MWFjZGEzYTM4MGJjYWYgKCJkcm0v
+Z2VtOiBDaGVjayBmb3IgdmFsaWQgZm9ybWF0cyIpDQo+IFNpZ25lZC1vZmYtYnk6IEdlZXJ0
+IFV5dHRlcmhvZXZlbiA8Z2VlcnQrcmVuZXNhc0BnbGlkZXIuYmU+DQoNClJldmlld2VkLWJ5
+OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCg0KVGhhbmtzLiBJ
+SVJDIGRybV9kYmcoKSBpcyBmb3IgZHJpdmVycy4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMN
+Cg0KPiAtLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9mcmFtZWJ1ZmZlcl9oZWxw
+ZXIuYyB8IDQgKystLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIg
+ZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9n
+ZW1fZnJhbWVidWZmZXJfaGVscGVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9mcmFt
+ZWJ1ZmZlcl9oZWxwZXIuYw0KPiBpbmRleCBiOGE2MTVhMTM4Y2Q2NzVmLi4zYmRiNmJhMzdm
+ZjQyZmI2IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9mcmFtZWJ1
+ZmZlcl9oZWxwZXIuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9mcmFtZWJ1
+ZmZlcl9oZWxwZXIuYw0KPiBAQCAtMTY4LDggKzE2OCw4IEBAIGludCBkcm1fZ2VtX2ZiX2lu
+aXRfd2l0aF9mdW5jcyhzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LA0KPiAgIAlpZiAoZHJtX2Ry
+dl91c2VzX2F0b21pY19tb2Rlc2V0KGRldikgJiYNCj4gICAJICAgICFkcm1fYW55X3BsYW5l
+X2hhc19mb3JtYXQoZGV2LCBtb2RlX2NtZC0+cGl4ZWxfZm9ybWF0LA0KPiAgIAkJCQkgICAg
+ICBtb2RlX2NtZC0+bW9kaWZpZXJbMF0pKSB7DQo+IC0JCWRybV9kYmcoZGV2LCAiVW5zdXBw
+b3J0ZWQgcGl4ZWwgZm9ybWF0ICVwNGNjIC8gbW9kaWZpZXIgMHglbGx4XG4iLA0KPiAtCQkJ
+Jm1vZGVfY21kLT5waXhlbF9mb3JtYXQsIG1vZGVfY21kLT5tb2RpZmllclswXSk7DQo+ICsJ
+CWRybV9kYmdfa21zKGRldiwgIlVuc3VwcG9ydGVkIHBpeGVsIGZvcm1hdCAlcDRjYyAvIG1v
+ZGlmaWVyIDB4JWxseFxuIiwNCj4gKwkJCSAgICAmbW9kZV9jbWQtPnBpeGVsX2Zvcm1hdCwg
+bW9kZV9jbWQtPm1vZGlmaWVyWzBdKTsNCj4gICAJCXJldHVybiAtRUlOVkFMOw0KPiAgIAl9
+DQo+ICAgDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZl
+bG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0
+cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFu
+ZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgw
+OSAoQUcgTnVlcm5iZXJnKQ0K
+
+--------------ZzGoxZTD7qYOewANJPcZyXr5--
+
+--------------wDW1QzVWh0h5ND5Ds0Le1js1
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSusi8FAwAAAAAACgkQlh/E3EQov+Bc
+Qw//RjYJT6jmL2tAAmqxdVDMsm0tJBROkTv5bdgQOmVllBGPKX8lW+akhiipPXZsBJYdgbLMiEqE
+biXfTv7LLbH6/RewWk0UCWkKlFknt8G50nmPQJGDhPO7NfpTg+cbEHZuCY5hdX81R1uIY0+CJHDs
+9P9Jo0gOppGeeDZ8MblZ1NVN44HfKe38g8/5oFi347RQ7qd68af15GiHa3cCtxK/q+8TYn+g0mE+
+DC/hZaQFjaj2zCaMCogKL0U3SutfNOIYIXAGphe6h8AFra0S4iS5tyBxOKrsQGfISFIMz2ihywWn
+R3o504cHgmRnlIsNV0ytlegnMCah2VdbLXLlWjRl96wk/yaEUS51mJQSsZyPB6QU7NqFKF2JslPW
+3HfGC2yjFxoJUrWhvsocHctDKSUVe5OyuMK3vAIUMjQgzDGRmTew2ekoBAgwctxy6lJouqul6fGZ
+ieiavaaL8kkCY0c8Gyp6Scw/3AVd90NKZBl9Qf6KucuLNyzyGhJOIub7YF9+lXbocXAMy7eOMDwm
+6NRcFt0i66k5sdxim+z3X+HAPAvFe3a6cjcg7FuyaesiCRD38k4vi48cJnG0ZJNm1DpiI42bj2/8
+gyHqMrRWU07iymHJ8j3ZBIYnTkZ4i9F462KUk8Zfbrzhn9Q/9o4hmE8icz/J/QMbVgxEoNwf7sRb
+ZL0=
+=EeNu
+-----END PGP SIGNATURE-----
+
+--------------wDW1QzVWh0h5ND5Ds0Le1js1--
