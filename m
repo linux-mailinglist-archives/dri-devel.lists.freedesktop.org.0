@@ -2,65 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4339750B7E
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 16:57:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E64E4750BBA
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 17:04:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BF7010E55F;
-	Wed, 12 Jul 2023 14:57:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 868FC10E560;
+	Wed, 12 Jul 2023 15:04:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4574210E55F
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 14:57:06 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- 5b1f17b1804b1-3fbc244d307so78899695e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 07:57:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689173824; x=1691765824;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=mJrp5y7emiUiskxEtT6O6KgXmyIwXxE+Vf82XYcN9+M=;
- b=JTg3PenSA7B5nNFlCA58eU1/tZgLP+HbTzZnZfzLeesLFXId098mracvvveoKZsy/6
- qnz4yYIVrns/sirnaeejvVQAHzzIKOuWJpRa4BtNBSJgab/DuqwdNubePsJLjkYN4gFn
- oAQujP9oyLm9G+KMLm0FWFulJO7gFkuIO6tif1T++UChWQvgO3IvXfgtK8yQyYHbUAqC
- /lwjlDIOzD2mZdPCRonqAeIqgy8kNgR6lPNLMyaicx7DlOb4fP3HYtP7+SWiZC1/zoIT
- efl+zNV1Elzbacv8spNoNmDmgoHWbSJKJmghh6f9eG9USLacVijw3Nx7X7P2MTYJJYCe
- z+Zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689173824; x=1691765824;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=mJrp5y7emiUiskxEtT6O6KgXmyIwXxE+Vf82XYcN9+M=;
- b=jWvpRvoaBBGQtj+CTBspSyZ8mfYW/c/I8BamCDQiCp3tbzsBfbqGD1G26iEGBDDohF
- z6VWXJVbN9kZKPuUVsaRlve3yvW7QOhDpthoGGDmxUEu2IONh7WiAz69z4qQ+H9wpJum
- ZC77WNPHXKztzuNYeHWhkn/eC2LeF7C+Qiu2Fe1ieZE122ri9/si6KepE+disir0PFOA
- NSDIHTW85bIT67Ken59jf64Qib+dbkbzenOrVVOpvvPhdejrWaD92Hkm6EHTWjvC1rvF
- puiyzhoH8gFd6a9N04grLyAE2OEX9Xwa7UOHKrnwZJGfAdKoBVRfzDeAHKqOX53xqeF8
- Y64Q==
-X-Gm-Message-State: ABy/qLbXMN4L6BZzQZavT0r8ta+uVwc/gz998tgOomeReOFKrpFFisxp
- LVawj5mwWZpAlWysnoBmBl8=
-X-Google-Smtp-Source: APBJJlEtqBWVxQSl/4H18KOnasubDV3RZX1lpfd0V0GgtfogkuEuhDaqwDNb5GOA4PlOBrdZ84kGiQ==
-X-Received: by 2002:a05:600c:220e:b0:3fb:9ea6:7a73 with SMTP id
- z14-20020a05600c220e00b003fb9ea67a73mr17101879wml.23.1689173823609; 
- Wed, 12 Jul 2023 07:57:03 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
- [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
- n2-20020a05600c294200b003fbe791a0e8sm5379371wmd.0.2023.07.12.07.57.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jul 2023 07:57:02 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH][next] video: fbdev: kyro: make some const read-only arrays
- static
-Date: Wed, 12 Jul 2023 15:57:02 +0100
-Message-Id: <20230712145702.460690-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.2
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2437110E561
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 15:04:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1689174290; x=1720710290;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=aiwddmkP4PvW8dS8z+RC6OFpPF11mDhvLdw3CU4YY8s=;
+ b=TRDcCIW65v7KGOz+n0IyDjkdzhvWLvTb4IvwEulvGffD4zdBWd3oVSlb
+ bWl6dqlDy2TrGijXpX6gJFOzJmMwvl6fx9Hw2gvLoEjc7dXHc42rSsQyA
+ uQnlmFhsvxLj2/rObfBz9sbYMdtH7TOlk8fmCQfI9lF1lhZLmWbW6+PJa
+ /xtmlYTdQp3po/TXA4/X9vWwIo4okGMbJQ+4SbsOuMAmhg2soIFgyu3JO
+ V9+FIrKRDg/aUzxE2nslbH20SpobYFBwayZVU7+ekQpAgEHooPeKN41M1
+ kbL4YmhWuJMQpjhefayhlN9lrILMzrORDVm2Gyj4EXeRXWB43UAkHfIlc g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="354824304"
+X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; d="scan'208";a="354824304"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jul 2023 08:03:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="751192661"
+X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; d="scan'208";a="751192661"
+Received: from pmessina-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.42.186])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jul 2023 08:03:02 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH RFC 2/2] drm: add documentation for drm_buddy_test kUnit
+ test
+In-Reply-To: <0e5f68ab045965292fee1748254bf9b91db9039a.1689171160.git.mchehab@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1689171160.git.mchehab@kernel.org>
+ <0e5f68ab045965292fee1748254bf9b91db9039a.1689171160.git.mchehab@kernel.org>
+Date: Wed, 12 Jul 2023 18:03:00 +0300
+Message-ID: <87cz0xgokb.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,39 +60,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: linux-kselftest@vger.kernel.org, "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Kees Cook <keescook@chromium.org>, Nikolai Kondrashov <spbnick@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, "Darrick J. Wong" <djwong@kernel.org>,
+ linux-doc@vger.kernel.org, Brendan Higgins <brendanhiggins@google.com>,
+ Rae Moar <rmoar@google.com>, dri-devel@lists.freedesktop.org,
+ Arthur Grillo <arthurgrillo@riseup.net>,
+ =?utf-8?Q?Ma=C3=ADra?= Canal <mairacanal@riseup.net>, mauro.chehab@intel.com,
+ David Gow <davidgow@google.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Don't populate the const read-only arrays on the stack but instead
-make them static const. Also makes the object code a little smaller.
+On Wed, 12 Jul 2023, Mauro Carvalho Chehab <mchehab@kernel.org> wrote:
+> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
+> index 09ee6f6af896..dd6c5afd6cd6 100644
+> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
+> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
+> @@ -737,6 +737,18 @@ static int drm_buddy_suite_init(struct kunit_suite *suite)
+>  	return 0;
+>  }
+>  
+> +/**
+> + * KTEST_SUITE: set of tests for drm buddy alloc
+> + * Scope: drm subsystem
+> + * Mega feature: drm
+> + * Feature: buddy_alloc
+> + *
+> + * KTEST_TEST: drm_test_buddy_alloc_%s
+> + * Description: Run DRM buddy allocation %arg[1] test
+> + *
+> + * arg[1].values: limit, range, optimistic, smoke, pathological
+> + */
+> +
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/video/fbdev/kyro/STG4000InitDevice.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+"/**" indicates a kernel-doc comment, and this is not a kernel-doc
+comment.
 
-diff --git a/drivers/video/fbdev/kyro/STG4000InitDevice.c b/drivers/video/fbdev/kyro/STG4000InitDevice.c
-index edfa0a04854d..bf1ee3addbd0 100644
---- a/drivers/video/fbdev/kyro/STG4000InitDevice.c
-+++ b/drivers/video/fbdev/kyro/STG4000InitDevice.c
-@@ -83,11 +83,11 @@ volatile u32 i,count=0; \
- static u32 InitSDRAMRegisters(volatile STG4000REG __iomem *pSTGReg,
- 			      u32 dwSubSysID, u32 dwRevID)
- {
--	u32 adwSDRAMArgCfg0[] = { 0xa0, 0x80, 0xa0, 0xa0, 0xa0 };
--	u32 adwSDRAMCfg1[] = { 0x8732, 0x8732, 0xa732, 0xa732, 0x8732 };
--	u32 adwSDRAMCfg2[] = { 0x87d2, 0x87d2, 0xa7d2, 0x87d2, 0xa7d2 };
--	u32 adwSDRAMRsh[] = { 36, 39, 40 };
--	u32 adwChipSpeed[] = { 110, 120, 125 };
-+	static const u32 adwSDRAMArgCfg0[] = { 0xa0, 0x80, 0xa0, 0xa0, 0xa0 };
-+	static const u32 adwSDRAMCfg1[] = { 0x8732, 0x8732, 0xa732, 0xa732, 0x8732 };
-+	static const u32 adwSDRAMCfg2[] = { 0x87d2, 0x87d2, 0xa7d2, 0x87d2, 0xa7d2 };
-+	static const u32 adwSDRAMRsh[] = { 36, 39, 40 };
-+	static const u32 adwChipSpeed[] = { 110, 120, 125 };
- 	u32 dwMemTypeIdx;
- 	u32 dwChipSpeedIdx;
- 
+$ scripts/kernel-doc -none drivers/gpu/drm/tests/drm_buddy_test.c 
+drivers/gpu/drm/tests/drm_buddy_test.c:752: warning: cannot understand
+function prototype: 'struct kunit_case drm_buddy_tests[] = '
+
+Nowadays kernel-doc is part of W=1 builds.
+
+
+BR,
+Jani.
+
+
+>  static struct kunit_case drm_buddy_tests[] = {
+>  	KUNIT_CASE(drm_test_buddy_alloc_limit),
+>  	KUNIT_CASE(drm_test_buddy_alloc_range),
+
 -- 
-2.39.2
-
+Jani Nikula, Intel Open Source Graphics Center
