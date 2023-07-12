@@ -1,81 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D46475095E
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 15:16:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4254F750995
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 15:28:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE31210E52A;
-	Wed, 12 Jul 2023 13:16:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFB5F10E08C;
+	Wed, 12 Jul 2023 13:28:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5B8110E529
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 13:15:58 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id
- 38308e7fff4ca-2b63e5f94f1so9709311fa.1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 06:15:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689167757; x=1691759757;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=dn4rYyKdwTQMplFvM1YHg3Gp1VPxwOyOuPdjDZ4oTQs=;
- b=MjXeUH9brINWRIL75SFSSvwFmVJG2jUS3gyV+2SmtbAKX/SQCvWGhRcT87fnTJmuiE
- yMG3yUecRAAinZBdsfwGWunFL90IVP7OCaKSigAJzC66J5dq7lKbBHSjx0ts327vTI79
- R6FrVsk6YWv4AUH45Vs+/hBbxAW4p9zlnVgkrsZCdNnZ2D2Rx4CM/y6xd3AyNpSg2Ghk
- ViLO6OpihgDYF0R6FVEYVrhdXeOw0bOWgdZlkK+WA7ZX8c5gpscpLSWQhMOtt1yEaBUA
- PfmaYmejlQt3Bhy0/On7Mv5QoUuB82vM32cdVkduN+DbKN3fPzntcD8r3hBE8SqLn4vS
- Z4YQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689167757; x=1691759757;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dn4rYyKdwTQMplFvM1YHg3Gp1VPxwOyOuPdjDZ4oTQs=;
- b=X6owCBax3kMx60Oi+biL2DDaaxRA5DwonIBuL80FWxvZ1Zd2z3UXBjIuBW0O/CXBLy
- vNfq/59HN6/6mjgu/DALOmQV3IVlAFi+kpIb2q1K7KmTgZQ0kOIwiqil5vBcEfUqBzkt
- dJOR5jE3yZuVh2d7wpeRFlHX5jO1uHxH5a91via+1gw0S3s0t1BisqIH9DL0I8mla7Om
- ipXUwMPRibAajm3ocNMPNo+YLiag/rf8M8952ISnO7/khOtyW2uTBSXD+/3SCb0hcF9o
- dGgzsjZZoM2aZGvsha+yRSSdybeUUAMO9sgbwoPyXk3cnQUwu1OKbia6jxR/GydgxyBN
- oWxg==
-X-Gm-Message-State: ABy/qLaFf4BKNNEfoOCS23mxPXHfjN6CvGgUlmXxjtNGq7pPPhbcr1ZY
- cMZHmuQ99TBDyF8g+rNWexGDTQ==
-X-Google-Smtp-Source: APBJJlF3SgFBdLW73ntgGd2gci24bmcZ/SHaaJOixefWrDQ+G8QUUfyYVuY0X5Z36wtyT5cVzOllFQ==
-X-Received: by 2002:a2e:7d14:0:b0:2b6:d0fa:7023 with SMTP id
- y20-20020a2e7d14000000b002b6d0fa7023mr792416ljc.24.1689167757034; 
- Wed, 12 Jul 2023 06:15:57 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5?
- (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
- by smtp.gmail.com with ESMTPSA id
- p9-20020a2e8049000000b002b6ebc61e85sm962698ljg.54.2023.07.12.06.15.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Jul 2023 06:15:56 -0700 (PDT)
-Message-ID: <3b677200-a201-680b-391f-fbf73064496a@linaro.org>
-Date: Wed, 12 Jul 2023 16:15:56 +0300
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D87C110E52C
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 13:28:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1689168515;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=njviNuUYhMhHX25+mP7+WvQU22dyAqbmOtUfBhTjQHs=;
+ b=d/mvjjdfBwzLzzWGuj6yrOk8i4ut+HIwrScfWeZC6NPIRe9d/VqT7+Sq8vJ13lJZ+B3923
+ qCd/eqnIirc6o7h2+WcT6XwqhvPb2OeJBOw03gxDBWTy6v8FFrXm5E1BY3e4ZTTe6V22TJ
+ KDd07aXd4wLUn4jOt5rfK6JmKFpniko=
+Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-281-VEu9SxyUO1O5rYbx5VQ-Yg-1; Wed, 12 Jul 2023 09:28:31 -0400
+X-MC-Unique: VEu9SxyUO1O5rYbx5VQ-Yg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D5181293248A;
+ Wed, 12 Jul 2023 13:28:30 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.192.87])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 66E8AC1ED96;
+ Wed, 12 Jul 2023 13:28:29 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: tzimmermann@suse.de, airlied@redhat.com, kuohsiang_chou@aspeedtech.com,
+ jammy_huang@aspeedtech.com, jani.nikula@linux.intel.com,
+ dianders@chromium.org
+Subject: [PATCH v4 1/2] drm/ast: Add BMC virtual connector
+Date: Wed, 12 Jul 2023 15:27:16 +0200
+Message-ID: <20230712132826.287126-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 1/2] dt-bindings: display/msm: qcom,sdm845-mdss: add
- memory-region property
-Content-Language: en-GB
-To: Amit Pundir <amit.pundir@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>, Andy Gross <agross@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Caleb Connolly <caleb.connolly@linaro.org>,
- Bryan Donoghue <bryan.odonoghue@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>
-References: <20230712130215.666924-1-amit.pundir@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230712130215.666924-1-amit.pundir@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,43 +61,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, dt <devicetree@vger.kernel.org>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/07/2023 16:02, Amit Pundir wrote:
-> Add and document the reserved memory region property
-> in the qcom,sdm845-mdss schema.
-> 
-> Signed-off-by: Amit Pundir <amit.pundir@linaro.org>
-> ---
->   .../devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml    | 5 +++++
->   1 file changed, 5 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
-> index 6ecb00920d7f..3ea1dbd7e317 100644
-> --- a/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
-> @@ -39,6 +39,11 @@ properties:
->     interconnect-names:
->       maxItems: 2
->   
-> +  memory-region:
-> +    maxItems: 1
-> +    description:
-> +      Phandle to a node describing a reserved memory region.
-> +
+Most aspeed devices have a BMC, which allows to remotely see the screen.
+Also in the common use case, those servers don't have a display connected.
+So add a Virtual connector, to reflect that even if no display is
+connected, the framebuffer can still be seen remotely.
+This prepares the work to implement a detect_ctx() for the Display port
+connector.
 
-Please add it to mdss-common.yaml instead
+v4: call drm_add_modes_noedid() with 4096x4096 (Thomas Zimmermann)
+    remove useless struct field init to 0 (Thomas Zimmermann)
+    don't use drm_simple_encoder_init() (Thomas Zimmermann)
+    inline ast_bmc_connector_init() (Thomas Zimmermann)
 
->   patternProperties:
->     "^display-controller@[0-9a-f]+$":
->       type: object
+Fixes: fae7d186403e ("drm/probe-helper: Default to 640x480 if no EDID on DP")
+Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+---
+ drivers/gpu/drm/ast/ast_drv.h  |  4 +++
+ drivers/gpu/drm/ast/ast_mode.c | 58 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 62 insertions(+)
 
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index 3f6e0c984523..c9659e72002f 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -214,6 +214,10 @@ struct ast_device {
+ 			struct drm_encoder encoder;
+ 			struct drm_connector connector;
+ 		} astdp;
++		struct {
++			struct drm_encoder encoder;
++			struct drm_connector connector;
++		} bmc;
+ 	} output;
+ 
+ 	bool support_wide_screen;
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index f711d592da52..1a8293162fec 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -1735,6 +1735,61 @@ static int ast_astdp_output_init(struct ast_device *ast)
+ 	return 0;
+ }
+ 
++/*
++ * BMC virtual Connector
++ */
++
++static int ast_bmc_connector_helper_get_modes(struct drm_connector *connector)
++{
++	return drm_add_modes_noedid(connector, 4096, 4096);
++}
++
++static const struct drm_connector_helper_funcs ast_bmc_connector_helper_funcs = {
++	.get_modes = ast_bmc_connector_helper_get_modes,
++};
++
++static const struct drm_connector_funcs ast_bmc_connector_funcs = {
++	.reset = drm_atomic_helper_connector_reset,
++	.fill_modes = drm_helper_probe_single_connector_modes,
++	.destroy = drm_connector_cleanup,
++	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
++};
++
++static const struct drm_encoder_funcs ast_bmc_encoder_funcs = {
++	.destroy = drm_encoder_cleanup,
++};
++
++static int ast_bmc_output_init(struct ast_device *ast)
++{
++	struct drm_device *dev = &ast->base;
++	struct drm_crtc *crtc = &ast->crtc;
++	struct drm_encoder *encoder = &ast->output.bmc.encoder;
++	struct drm_connector *connector = &ast->output.bmc.connector;
++	int ret;
++
++
++	ret = drm_encoder_init(dev, encoder,
++				&ast_bmc_encoder_funcs,
++				DRM_MODE_ENCODER_VIRTUAL, "ast_bmc");
++	if (ret)
++		return ret;
++	encoder->possible_crtcs = drm_crtc_mask(crtc);
++
++	ret = drm_connector_init(dev, connector, &ast_bmc_connector_funcs,
++				 DRM_MODE_CONNECTOR_VIRTUAL);
++	if (ret)
++		return ret;
++
++	drm_connector_helper_add(connector, &ast_bmc_connector_helper_funcs);
++
++	ret = drm_connector_attach_encoder(connector, encoder);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
+ /*
+  * Mode config
+  */
+@@ -1842,6 +1897,9 @@ int ast_mode_config_init(struct ast_device *ast)
+ 		if (ret)
+ 			return ret;
+ 	}
++	ret = ast_bmc_output_init(ast);
++	if (ret)
++		return ret;
+ 
+ 	drm_mode_config_reset(dev);
+ 
+
+base-commit: b32d5a51f3c21843011d68a58e6ac0b897bce9f2
 -- 
-With best wishes
-Dmitry
+2.41.0
 
