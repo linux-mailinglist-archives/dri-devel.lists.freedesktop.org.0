@@ -2,67 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07AE07508A3
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 14:47:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA2717508AE
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 14:49:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 639D810E51C;
-	Wed, 12 Jul 2023 12:47:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0442810E51A;
+	Wed, 12 Jul 2023 12:49:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53DFF10E517
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 12:47:14 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id
- ffacd0b85a97d-31297125334so461414f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 05:47:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689166033; x=1691758033;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yD3KxKBEcA4joV+km9J8x0kE8plOrThcT8QkdqJYGow=;
- b=GPVJPH0Z1Wa5KDMmIbRUkZJ1Yp2ZN4dRjvwuy1Kn1omKGAn7y6Gv11UIYpsY59tfIl
- oposggtZcf9C9B3UmZqR79aPON1t5OBW+grsLIniXo2YhhjjHCgTcpl+wuLxUMXZIvdy
- XwlGhgCiEvJ16dtGrBo8adcdIOTaBA18VCLjxPdLb9lywUdPowZbx4JQv139ds9l+ZLF
- H/nJq/Ievdk/S+2V/a2drJZn/BiD3iX22GRkqjHXC2kGmenSr3I6fF9bb+LTEImC5wsG
- tZUpQ3xwkkW6dyKVpKOJqvMrYM8h5HUAb3PWRQDh52rmqDQHmtO/ceCr6R+QGtgc0Csy
- 7nxw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8081E10E51D
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 12:49:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1689166166;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bsEKIkqQHk+U1Y9jLGhgytlgEjXqEJP6AFszekpVuq4=;
+ b=aHO043RbtmBYGPpV/ad+ynAVTC2naf5OhI2y+cQH4RWQwf5Md6XJZDzRAaVmipfcUjxUgc
+ 4roSKMvVZKfaipiMioMnwClUhfOelnz/WHlgS5tnTkjOZ45SkYVuKPskLjuFgJZQLiK69C
+ 0680UNmxFCvlR36ALuParuk6RR+Strc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-570-81g7HmFwO--YD9-gmO7d5Q-1; Wed, 12 Jul 2023 08:49:19 -0400
+X-MC-Unique: 81g7HmFwO--YD9-gmO7d5Q-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-3f42bcef2acso42540845e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 05:49:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689166033; x=1691758033;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yD3KxKBEcA4joV+km9J8x0kE8plOrThcT8QkdqJYGow=;
- b=AHllZ7OHLnFf+9vVhBooKej44HnTY4LY/pNrUUMvLC+4JUwU7HWf1j1/GmjNAKKcP1
- kuWqhvljWkaVJIChkJcFD2vWrrqh6WeGgLNtAN4JiJKnMwTtrzU/WobuqImQKp7xkh3a
- FCGh9BEl22tjYz2Rj5fRN+JZ8QUR075+BB2jkXcZylukDsyAPykKosXQSAy5wcMi4FdT
- kctbuXDpkZbhmW+0hsUgEKYOcgxqZ6C4QyLYwQkL1d8rLXexFN4UCKpol98PshOYzBdk
- LkxKPPIeTBsmz5hjoDn4uge3ToVkiiJsIgJ017Ixsrks8EZ3QSmwp6j0hg3vp2JGofp1
- LC5w==
-X-Gm-Message-State: ABy/qLbWnTw+S8nR2kML6cQArTtvnsLHCqGhNXXBWWAt2f229x24rCU+
- APCySyTg8rB8Z922+h2DmP1i7ca87vg=
-X-Google-Smtp-Source: APBJJlGjpwQEpt6vpgDnJuO0ZRkdj8bOWKnNgAnButWgsiqY3NXqgStxbCTihUI4tLMK62wwFsO58Q==
-X-Received: by 2002:a5d:6b45:0:b0:314:385d:3f32 with SMTP id
- x5-20020a5d6b45000000b00314385d3f32mr1676498wrw.29.1689166032789; 
- Wed, 12 Jul 2023 05:47:12 -0700 (PDT)
-Received: from EliteBook.fritz.box ([2a00:e180:1557:4100:d4c4:2bb7:77d6:6d86])
+ d=1e100.net; s=20221208; t=1689166158; x=1691758158;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bsEKIkqQHk+U1Y9jLGhgytlgEjXqEJP6AFszekpVuq4=;
+ b=E2DAOl0FvIHtno83gqV7nmQhg553Wk7DXjeSOfgsOwtxKWNXTbef06zPH3k13/ZZkS
+ 2D95t0tPJ9KGJcSQo832Nzk16YW7AJiyhJCksuezodEEQOZaRD+tECCTZjfeHbEAlepu
+ gz7rTNlMy35HSXuZ93bE/R5EEP6skdOxkH431PcJHDRKFdFbHM90sH2xOLwzWIB2/0sc
+ 2lzT8y+HcPZ0mGxzH9iHhgacf/79zlcaEerbxCSO1qxFSn9dNjeDMqI/k8wLClSBPKcm
+ NMwtTShIifRw8uZ4XgJhmS8KcB1I1oSyRsX0IYri1rIGCTSzuY9o8NWTjz9y4P8QBmlT
+ 2VLA==
+X-Gm-Message-State: ABy/qLaPMH3sy5GHbQKerM7iKYANuOMLpwvzH88oaneD7QUzSoQujNwq
+ 7TairCMdcd8Vhsma27T5X9VCBzVuy+8yRrU5QUL3q+48SE9CMmDUU0nUUKQydtytC/Lp32HOx0k
+ Uz4h+ouFxaFzDDb56krSdKnCXT8D4
+X-Received: by 2002:a1c:ed14:0:b0:3fb:4149:b816 with SMTP id
+ l20-20020a1ced14000000b003fb4149b816mr17233556wmh.8.1689166158342; 
+ Wed, 12 Jul 2023 05:49:18 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlGKyi86cAluxp17f8UlvPyxPzuLBuL8BU6nxyZOatgeE/2M7ehQjzLYAWhX5Cp1Hc3LE1kZtw==
+X-Received: by 2002:a1c:ed14:0:b0:3fb:4149:b816 with SMTP id
+ l20-20020a1ced14000000b003fb4149b816mr17233541wmh.8.1689166157955; 
+ Wed, 12 Jul 2023 05:49:17 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- j8-20020adfe508000000b0031424950a99sm4989225wrm.81.2023.07.12.05.47.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Jul 2023 05:47:12 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 7/7] drm: remove drm_gem_(un)lock_reservations
-Date: Wed, 12 Jul 2023 14:47:04 +0200
-Message-Id: <20230712124704.333004-8-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230712124704.333004-1-christian.koenig@amd.com>
-References: <20230712124704.333004-1-christian.koenig@amd.com>
+ u10-20020a7bcb0a000000b003fb739d27aesm15356728wmj.35.2023.07.12.05.49.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Jul 2023 05:49:17 -0700 (PDT)
+Message-ID: <c17d3f9b-dbe9-3398-1edc-05afb57a5929@redhat.com>
+Date: Wed, 12 Jul 2023 14:49:16 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v3 1/2] drm/ast: Add BMC virtual connector
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com,
+ jani.nikula@linux.intel.com, dianders@chromium.org
+References: <20230712083733.223275-1-jfalempe@redhat.com>
+ <964a01c5-5db3-7fe0-a8fa-7f6bbbbba8a3@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <964a01c5-5db3-7fe0-a8fa-7f6bbbbba8a3@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,143 +89,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Not used any more.
+On 12/07/2023 12:44, Thomas Zimmermann wrote:
+> Hi,
+> 
+> thanks for this patch.
+> 
+> Am 12.07.23 um 10:35 schrieb Jocelyn Falempe:
+>> Most aspeed devices have a BMC, which allows to remotely see the screen.
+>> Also in the common use case, those servers don't have a display 
+>> connected.
+>> So add a Virtual connector, to reflect that even if no display is
+>> connected, the framebuffer can still be seen remotely.
+>> This prepares the work to implement a detect_ctx() for the Display port
+>> connector.
+>>
+>> Fixes: fae7d186403e ("drm/probe-helper: Default to 640x480 if no EDID 
+>> on DP")
+>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>> ---
+>>   drivers/gpu/drm/ast/ast_drv.h  |  4 ++
+>>   drivers/gpu/drm/ast/ast_mode.c | 67 ++++++++++++++++++++++++++++++++++
+>>   2 files changed, 71 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/ast/ast_drv.h 
+>> b/drivers/gpu/drm/ast/ast_drv.h
+>> index 3f6e0c984523..c9659e72002f 100644
+>> --- a/drivers/gpu/drm/ast/ast_drv.h
+>> +++ b/drivers/gpu/drm/ast/ast_drv.h
+>> @@ -214,6 +214,10 @@ struct ast_device {
+>>               struct drm_encoder encoder;
+>>               struct drm_connector connector;
+>>           } astdp;
+>> +        struct {
+>> +            struct drm_encoder encoder;
+>> +            struct drm_connector connector;
+>> +        } bmc;
+>>       } output;
+>>       bool support_wide_screen;
+>> diff --git a/drivers/gpu/drm/ast/ast_mode.c 
+>> b/drivers/gpu/drm/ast/ast_mode.c
+>> index f711d592da52..8896b22eb5cf 100644
+>> --- a/drivers/gpu/drm/ast/ast_mode.c
+>> +++ b/drivers/gpu/drm/ast/ast_mode.c
+>> @@ -1735,6 +1735,70 @@ static int ast_astdp_output_init(struct 
+>> ast_device *ast)
+>>       return 0;
+>>   }
+>> +/*
+>> + * BMC virtual Connector
+>> + */
+>> +
+>> +static int ast_bmc_connector_helper_get_modes(struct drm_connector 
+>> *connector)
+>> +{
+>> +    return drm_add_modes_noedid(connector, 1024, 768);
+> 
+> That's probably too small. The CRTC lists resolutions up to 1920x1200. 
+> Returning 1024x768 could easily filter out those higher-res modes.
+> 
+> The BMC can probably just use whatever the CRTC offers. So rather call 
+> drm_add_modes_noedid() with 4096x4096. At 32 bpp, this covers the max 
+> memory of 64 MiB.  The CRTC will filter out unsupported modes.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_gem.c              | 78 --------------------------
- drivers/gpu/drm/scheduler/sched_main.c |  5 +-
- include/drm/drm_gem.h                  |  4 --
- 3 files changed, 2 insertions(+), 85 deletions(-)
+Thanks for pointing this, I didn't realize it will prevent higher 
+resolutions. With this change, the bmc resolution becomes 1920x1200 
+(with "disabled vga" and no DP connected), which is much nicer.
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index c18686f434d4..2753926c74db 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -1214,84 +1214,6 @@ void drm_gem_vunmap_unlocked(struct drm_gem_object *obj, struct iosys_map *map)
- }
- EXPORT_SYMBOL(drm_gem_vunmap_unlocked);
- 
--/**
-- * drm_gem_lock_reservations - Sets up the ww context and acquires
-- * the lock on an array of GEM objects.
-- *
-- * Once you've locked your reservations, you'll want to set up space
-- * for your shared fences (if applicable), submit your job, then
-- * drm_gem_unlock_reservations().
-- *
-- * @objs: drm_gem_objects to lock
-- * @count: Number of objects in @objs
-- * @acquire_ctx: struct ww_acquire_ctx that will be initialized as
-- * part of tracking this set of locked reservations.
-- */
--int
--drm_gem_lock_reservations(struct drm_gem_object **objs, int count,
--			  struct ww_acquire_ctx *acquire_ctx)
--{
--	int contended = -1;
--	int i, ret;
--
--	ww_acquire_init(acquire_ctx, &reservation_ww_class);
--
--retry:
--	if (contended != -1) {
--		struct drm_gem_object *obj = objs[contended];
--
--		ret = dma_resv_lock_slow_interruptible(obj->resv,
--								 acquire_ctx);
--		if (ret) {
--			ww_acquire_fini(acquire_ctx);
--			return ret;
--		}
--	}
--
--	for (i = 0; i < count; i++) {
--		if (i == contended)
--			continue;
--
--		ret = dma_resv_lock_interruptible(objs[i]->resv,
--							    acquire_ctx);
--		if (ret) {
--			int j;
--
--			for (j = 0; j < i; j++)
--				dma_resv_unlock(objs[j]->resv);
--
--			if (contended != -1 && contended >= i)
--				dma_resv_unlock(objs[contended]->resv);
--
--			if (ret == -EDEADLK) {
--				contended = i;
--				goto retry;
--			}
--
--			ww_acquire_fini(acquire_ctx);
--			return ret;
--		}
--	}
--
--	ww_acquire_done(acquire_ctx);
--
--	return 0;
--}
--EXPORT_SYMBOL(drm_gem_lock_reservations);
--
--void
--drm_gem_unlock_reservations(struct drm_gem_object **objs, int count,
--			    struct ww_acquire_ctx *acquire_ctx)
--{
--	int i;
--
--	for (i = 0; i < count; i++)
--		dma_resv_unlock(objs[i]->resv);
--
--	ww_acquire_fini(acquire_ctx);
--}
--EXPORT_SYMBOL(drm_gem_unlock_reservations);
--
- /**
-  * drm_gem_lru_init - initialize a LRU
-  *
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 7b2bfc10c1a5..335640369a0f 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -795,9 +795,8 @@ EXPORT_SYMBOL(drm_sched_job_add_resv_dependencies);
-  * @write: whether the job might write the object (so we need to depend on
-  * shared fences in the reservation object).
-  *
-- * This should be called after drm_gem_lock_reservations() on your array of
-- * GEM objects used in the job but before updating the reservations with your
-- * own fences.
-+ * This should be called after locking your GEM objects used in the job but
-+ * before updating the reservations with your own fences.
-  *
-  * Returns:
-  * 0 on success, or an error on failing to expand the array.
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index bbc721870c13..35ffa5aa7b96 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -508,10 +508,6 @@ int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
- struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
- long drm_gem_dma_resv_wait(struct drm_file *filep, u32 handle,
- 				    bool wait_all, unsigned long timeout);
--int drm_gem_lock_reservations(struct drm_gem_object **objs, int count,
--			      struct ww_acquire_ctx *acquire_ctx);
--void drm_gem_unlock_reservations(struct drm_gem_object **objs, int count,
--				 struct ww_acquire_ctx *acquire_ctx);
- int drm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
- 			    u32 handle, u64 *offset);
- 
+With vga, it stays at 1024x768. So maybe adding a .detect_ctx() for vga 
+too would be worth it. But that's for another series.
+
+> 
+> 
+>> +}
+>> +
+>> +static const struct drm_connector_helper_funcs 
+>> ast_bmc_connector_helper_funcs = {
+>> +    .get_modes = ast_bmc_connector_helper_get_modes,
+>> +};
+>> +
+>> +static const struct drm_connector_funcs ast_bmc_connector_funcs = {
+>> +    .reset = drm_atomic_helper_connector_reset,
+>> +    .fill_modes = drm_helper_probe_single_connector_modes,
+>> +    .destroy = drm_connector_cleanup,
+>> +    .atomic_duplicate_state = 
+>> drm_atomic_helper_connector_duplicate_state,
+>> +    .atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+>> +};
+>> +
+>> +static int ast_bmc_connector_init(struct drm_device *dev,
+>> +                  struct drm_connector *connector)
+>> +{
+>> +    int ret;
+>> +
+>> +    ret = drm_connector_init(dev, connector, &ast_bmc_connector_funcs,
+>> +                 DRM_MODE_CONNECTOR_VIRTUAL);
+>> +    if (ret)
+>> +        return ret;
+>> +
+>> +    drm_connector_helper_add(connector, 
+>> &ast_bmc_connector_helper_funcs);
+>> +
+>> +    connector->interlace_allowed = 0;
+>> +    connector->doublescan_allowed = 0;
+>> +    connector->polled = 0;
+> 
+> It's zero-allocated memory. Please don't clear these fields manually. (I 
+> know that ast doesn't get this right.)
+
+Done
+
+> 
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static int ast_bmc_output_init(struct ast_device *ast)
+>> +{
+>> +    struct drm_device *dev = &ast->base;
+>> +    struct drm_crtc *crtc = &ast->crtc;
+>> +    struct drm_encoder *encoder = &ast->output.bmc.encoder;
+>> +    struct drm_connector *connector = &ast->output.bmc.connector;
+>> +    int ret;
+>> +
+>> +    ret = drm_simple_encoder_init(dev, encoder, 
+>> DRM_MODE_ENCODER_VIRTUAL);
+> 
+> Adding the simple_encoder helper was a mistake. Please open-code its 
+> functionality in ast. (Also something that ast currently does not.)
+
+ok, it's simple enough to call drm_encoder_init() directly.
+
+> 
+>> +    if (ret)
+>> +        return ret;
+>> +    encoder->possible_crtcs = drm_crtc_mask(crtc);
+>> +
+>> +    ret = ast_bmc_connector_init(dev, connector);
+> 
+> Maybe just inline this call. It's simple enough.
+Done
+
+> 
+> Best regards
+> Thomas
+
+Thanks for the review, I will push a v4 shortly.
+
 -- 
-2.34.1
+
+Jocelyn
+
+> 
+>> +    if (ret)
+>> +        return ret;
+>> +
+>> +    ret = drm_connector_attach_encoder(connector, encoder);
+>> +    if (ret)
+>> +        return ret;
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>   /*
+>>    * Mode config
+>>    */
+>> @@ -1842,6 +1906,9 @@ int ast_mode_config_init(struct ast_device *ast)
+>>           if (ret)
+>>               return ret;
+>>       }
+>> +    ret = ast_bmc_output_init(ast);
+>> +    if (ret)
+>> +        return ret;
+>>       drm_mode_config_reset(dev);
+>>
+>> base-commit: b32d5a51f3c21843011d68a58e6ac0b897bce9f2
+> 
 
