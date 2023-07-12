@@ -1,61 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CB0C750838
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 14:28:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D576075089B
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 14:47:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8283210E4FF;
-	Wed, 12 Jul 2023 12:27:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 834FE10E082;
+	Wed, 12 Jul 2023 12:47:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from desiato.infradead.org (desiato.infradead.org
- [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 082D410E4FF
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 12:27:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Transfer-Encoding:
- Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
- Sender:Reply-To:Content-ID:Content-Description;
- bh=ZXR+7zHmkWbyYVaIYilEixXpel3+ET8rhBNIy+I7sKc=; b=burEIjw7Ax9oR6XyYXgzDOhcuF
- Xhtc5KYLObU41T0IENhk9G9qohZmC0Yvpb0wRw7l1oWGurx+n06gfe89pV9j1He1PowmLd8jJyW8G
- 6zVp1GF2gkOuSfQqmnXwyuzEsSHJpzBzRoDcraZR5u1o/H5XlxRZYWJLxZ3Q2LE0UHn9fNAfiTk55
- AwKLj1j/r+rbJ4LHiTTJZlao2GGhqWJsjFEZodtwqDNEFYvFkQ0yagZeMU8KXrBVYKFvCwlCCX60H
- AgkXU1Hco0bnyVOotp2bryNT8o+jpABaFGlsKFzTpw66wm7t7tRLyXKz9AmKG+OeMgsd4mE9EXCCa
- pxRUvSiw==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84]
- helo=noisy.programming.kicks-ass.net)
- by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1qJYwd-003e8q-0G; Wed, 12 Jul 2023 12:27:47 +0000
-Received: from hirez.programming.kicks-ass.net
- (hirez.programming.kicks-ass.net [192.168.1.225])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (Client did not present a certificate)
- by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id AB77B30036B;
- Wed, 12 Jul 2023 14:27:45 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
- id 8E54B243429D2; Wed, 12 Jul 2023 14:27:45 +0200 (CEST)
-Date: Wed, 12 Jul 2023 14:27:45 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: Consider switching to WQ_UNBOUND messages (was: Re: [PATCH v2
- 6/7] workqueue: Report work funcs that trigger automatic CPU_INTENSIVE
- mechanism)
-Message-ID: <20230712122745.GH3100107@hirez.programming.kicks-ass.net>
-References: <20230511181931.869812-1-tj@kernel.org>
- <20230511181931.869812-7-tj@kernel.org>
- <ZF6WsSVGX3O1d0pL@slm.duckdns.org>
- <CAMuHMdVCQmh6V182q4g---jvsWiTOP2hBPZKvma6oUN6535LEg@mail.gmail.com>
- <CAMuHMdW1kxZ1RHKTRVRqDNAbj1Df2=v0fPn5KYK3kfX_kiXR6A@mail.gmail.com>
- <ZK3MBfPS-3-tJgjO@slm.duckdns.org>
- <20230712080504.GA3100107@hirez.programming.kicks-ass.net>
- <CAMuHMdUMRS9_nJXp3rrWQrODRQcBQggze0k=0GjSScCknFmmgQ@mail.gmail.com>
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB3FE10E082
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 12:47:08 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id
+ ffacd0b85a97d-31438512cafso7475488f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 05:47:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1689166027; x=1691758027;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=U3ZCk3eAmtscaWlsOqqn77IMDd+zWNzYSst4sakZn0U=;
+ b=HfmZoDU0bHio+KNDZG1qEu7OgR1UZ7Fcpj+lHfxSeeTlfDI2Dl8/76U5vXnGCgtzec
+ 7Rbe2nH5cVmTzRIQFYJUN08ldnuCzpLeewUFKP2MhjoGzbb/FYG7pQsFxJmRpO/YAU6+
+ i/aorodrSb/h1xx/sQR86Lj7jBPuZ13SLwsRR8PcVqZOjg42fZ3kzfiFfGan0pi6XTwX
+ Tast76XIUZRIL6DMN6h0StfucxevaVAZcEUeJI9tLft9hCqOWesEplHGcrW5Ys1Zuayq
+ 2JgxVXuFaCH3D2M4fm9+EBhUg6aobL2fRKHO0jwO/1fQquz587DDxFfcDTpzUDnoIpMu
+ 9zkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689166027; x=1691758027;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=U3ZCk3eAmtscaWlsOqqn77IMDd+zWNzYSst4sakZn0U=;
+ b=UM9rLK4UMr7eO9R7dh4B6ouAlF4tias4kZi67M/0PVp0O5QJTzii6IN1FH7oBU8ocr
+ 8HHvNGzAN6j45W49fXX8NCRTm7I9Otovce4tDJIX7Ugf4UfIXDMmzqjHFZCD39MrXYEr
+ zFb+XUmRCXYuDsmM3whCKlGVWA78Qf+iNLNIP4qDaEB1OAW347zdfbbrjUwKuZoJhaq7
+ HdtjO8k2hQOeB8N0ddqyKKmH6oeZvWutaIgpHnJwejUnKkbbAGSycojn7Ygm8oXXn85B
+ 4kZGbkdNtVVTyqBGrsjM0Q861Y1wJJ0KQ3alIKQxkSk/XokxSRf+1QdE/3f4Q7SHOJF+
+ faXg==
+X-Gm-Message-State: ABy/qLbdim6HZUtBKbZZARvairCvUVZZPComBtpvz9yGTI9SCS2WznC+
+ wh7g1apBwjiDd3/23PCEfwEcLC+G2t0=
+X-Google-Smtp-Source: APBJJlHeu3pfG/5Bg4WrJ3Z+wByypdDZ2dyszjkCejJuNNKNPRvLedz4FjZuL53XpED6TAODVfylOw==
+X-Received: by 2002:a5d:6902:0:b0:315:8f4f:81b2 with SMTP id
+ t2-20020a5d6902000000b003158f4f81b2mr14115524wru.64.1689166026707; 
+ Wed, 12 Jul 2023 05:47:06 -0700 (PDT)
+Received: from EliteBook.fritz.box ([2a00:e180:1557:4100:d4c4:2bb7:77d6:6d86])
+ by smtp.gmail.com with ESMTPSA id
+ j8-20020adfe508000000b0031424950a99sm4989225wrm.81.2023.07.12.05.47.05
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Jul 2023 05:47:06 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org
+Subject: Switching more drivers to use drm_exec
+Date: Wed, 12 Jul 2023 14:46:57 +0200
+Message-Id: <20230712124704.333004-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdUMRS9_nJXp3rrWQrODRQcBQggze0k=0GjSScCknFmmgQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,41 +73,14 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rtc@vger.kernel.org,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Linux PM list <linux-pm@vger.kernel.org>, netdev <netdev@vger.kernel.org>,
- kernel-team@meta.com, Lai Jiangshan <jiangshanlai@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- "open list:LIBATA SUBSYSTEM \(Serial and Parallel ATA drivers\)"
- <linux-ide@vger.kernel.org>, Tejun Heo <tj@kernel.org>,
- Linux MMC List <linux-mmc@vger.kernel.org>,
- linux-riscv <linux-riscv@lists.infradead.org>,
- "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 12, 2023 at 11:04:16AM +0200, Geert Uytterhoeven wrote:
-> Hoi Peter,
-> 
-> On Wed, Jul 12, 2023 at 10:05 AM Peter Zijlstra <peterz@infradead.org> wrote:
-> > On Tue, Jul 11, 2023 at 11:39:17AM -1000, Tejun Heo wrote:
-> > > I wonder whether the right thing to do here is somehow scaling the threshold
-> > > according to the relative processing power. It's difficult to come up with a
-> > > threshold which works well across the latest & fastest and really tiny CPUs.
-> > > I'll think about it some more but if you have some ideas, please feel free
-> > > to suggest.
-> >
-> > We could scale by BogoMIPS I suppose, it's a bogus measurement, as per
-> > the name, but it does have some relation to how fast the machine is.
-> 
-> That's gonna fail miserably on e.g. ARM and RISC-V, where BogoMIPS
-> depends on some timer frequency.
-> 
-> R-Car M2-W with 1.5 GHz Cortex-A15: 40.00 BogoMIPS
-> R-Car V4H with 1.8 GHz Cortex-A76: 33.33 BogoMIPS
-> 
-> while the real slow 48 MHz VexRiscV gets 128 BogoMIPS.
+Hi guys,
 
-Hehe, OK, really bogus then. Lets file this idea in the bit-bucket then.
+with the exception of VMWGFX this moves over all the drivers to using the new drm_exec object.
+
+Please review and/or comment,
+Christian.
+
+
