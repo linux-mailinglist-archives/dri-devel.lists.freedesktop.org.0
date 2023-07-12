@@ -2,37 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4A38750C7D
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 17:31:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00AAF750CCB
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 17:41:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C69BC10E575;
-	Wed, 12 Jul 2023 15:31:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99A7710E03C;
+	Wed, 12 Jul 2023 15:41:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id C8E1710E575
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 15:31:03 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0A57B12FC;
- Wed, 12 Jul 2023 08:31:45 -0700 (PDT)
-Received: from [10.57.35.132] (unknown [10.57.35.132])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3828A3F67D;
- Wed, 12 Jul 2023 08:31:01 -0700 (PDT)
-Message-ID: <1f6272fb-dd16-0d39-8e67-f4a6069a2507@arm.com>
-Date: Wed, 12 Jul 2023 16:31:03 +0100
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02C0410E03C
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 15:41:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
+ s=s31663417; t=1689176471; x=1689781271; i=deller@gmx.de;
+ bh=zq79MRO+i5G9UPifz9mJl9vnVEcX8oaeEPaIBJmbcYU=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=GqgASp9f/TiJrqE+U0Mr5/GR1CVPM2LydwrYAMsft69JsVV4ZBdqpqOrd9h0GUJkZBr76BX
+ vVsRO9MMdcYw5od8BDsnw/rxyy/KJq/AjN/q1tkbap9tIT9F3yBm3Y3I5IQvg8/EOPTAvzmf/
+ +1+JIh4+dtJgFfWqm3Zooc6nj5cU6KT0Df6dUNo3zLu2Qq7vjWjfdeT6b/+t/b4vK6RJBYtE/
+ KnHiq4HNtutaujrroAUrLj5PPGTPEkX2Pl+tCFy0e9yRlCeAjDPnAM1PozdLYGmQbNVLoruuA
+ xtzPU7r2adY2FL5zEdV+3MlTgwBKcJTsehkKTUssBNfi4dZedjGA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([94.134.144.114]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MEV3C-1qCVUj3H8U-00Fxxz; Wed, 12
+ Jul 2023 17:41:11 +0200
+Message-ID: <fb040564-eccd-0ef7-ff73-df3f3d20533f@gmx.de>
+Date: Wed, 12 Jul 2023 17:41:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 5/7] drm/panfrost: switch to using drm_exec
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Thunderbird/102.12.0
+Subject: Re: [PATCH][next] video: fbdev: kyro: make some const read-only
+ arrays static
+Content-Language: en-US
+To: Colin Ian King <colin.i.king@gmail.com>, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-References: <20230712124704.333004-1-christian.koenig@amd.com>
- <20230712124704.333004-6-christian.koenig@amd.com>
-Content-Language: en-GB
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20230712124704.333004-6-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230712145702.460690-1-colin.i.king@gmail.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <20230712145702.460690-1-colin.i.king@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:mQ/cfZnJ29UYE4XxJE0HeQ0bntrNcIgEtlcy7t/pFl2MOSTxQZm
+ dy4UsPXflxXm3Jn8cvoGst8Pwt0xpM3KwQ2+oCGPrSQlAPj+OsSWO/4nrxQQj9UbOaZItI1
+ UyShhqdgtpLxb/V4MC+xtDe5PGRfmuunjK3+a8VYQTZpT3YogMX7A13nLUOCg3s/Hz+DC/0
+ ATP+sPlLEflBFNAsZj16w==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:0/poKF7wRdI=;+nmGHnHVTQbY8QRsP5e83JpfUBQ
+ kWc3ht9X1T0oq0tvPI3IDgh3ZoRstzyi0dYBLxnXEh0iZBYx5/J594Dm7elZYQbEwtRdRv3vP
+ Q2hbORsR2ZXpk63cepj1wGtYAvCvSAR9GDHqkM4gBtVQ2NxDmWXqjLM6Yg4s/1n5xDShfQrpF
+ fYdCllVnX6ddftk7aQlKMaE5RDygmTLtWfbRjlIgp9PjMjXTJpxW+bg8WjvQzZhp8isVxl+X/
+ q5v/+OcrljUUBqqRJixctoWIJ3AQYDn1uPQUqDEHVEHNahVygoMaVyuT2oBW2tOXd13ck/WnK
+ lblgjMcdm1jKiiLCg1Bh2wQNuVClC/5dnVVjHPACtLvKoRr0wr4ySCtllmciid5j1sm5ojMWO
+ UQk7LH/j1JDsd+smo5ifu5j0ts2ZiXs1nrb8IVxBR6ywmNd0OwbvgGvD82vc2x5njJ5T0oRAI
+ 9bicvWzUIqiE5add4PubYPr+SG5LCfgnniqnhpiiJCb7baW0hM00nRVku67P2iD4oFUNLqhtV
+ Wazf2DZG9sVcQhhVvjhuJkAeIKPbZXI8csvz/H5Vltiy7YxNiQqhQc5fVaoEScyEjdHeW6UXQ
+ vVdQO2qZWjlicFTOIy6OKutSOqFOf4rnLnLpKN7e/KrDEjjNVyJiGqUriObD0ZMIEiRAFCT1l
+ 7bRhIrmhAhI4SMskaRaPMbnbUsAwr00+SzMxfHjJrRQaSizTgThz7LHM9XkwjHlfj10WA08po
+ JV2KTpI1hZ3Cw5GmX8IajNQy4C3KWIQB4xxI51WXd0eKnz4fOyYRzhfY9lIdIKNsMxkrPqGJI
+ FyFArIOJAf2kQhCHn9nrQuV7z2RjWIdBPI72brCqzNViPIzjEc5KValqzYgL6ngVNWdNlWgys
+ GzsBvTbppGX/4vVDm2jympGMNqXr8HZW/fsNm3jM8LaQVBja90PKmCHqq/OaC6lGJyWYxlIDm
+ 49GilA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,102 +72,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/07/2023 13:47, Christian König wrote:
-> Just a straightforward conversion without any optimization.
-> 
-> Only compile tested for now.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-> Cc: Steven Price <steven.price@arm.com>
-> Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+On 7/12/23 16:57, Colin Ian King wrote:
+> Don't populate the const read-only arrays on the stack but instead
+> make them static const. Also makes the object code a little smaller.
+
+Looks good, but you can optimze even further...
+
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 > ---
->  drivers/gpu/drm/panfrost/Kconfig        |  1 +
->  drivers/gpu/drm/panfrost/panfrost_job.c | 12 +++++++-----
->  2 files changed, 8 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/Kconfig b/drivers/gpu/drm/panfrost/Kconfig
-> index e6403a9d66ad..e86a1a2fd8e1 100644
-> --- a/drivers/gpu/drm/panfrost/Kconfig
-> +++ b/drivers/gpu/drm/panfrost/Kconfig
-> @@ -7,6 +7,7 @@ config DRM_PANFROST
->  	depends on !GENERIC_ATOMIC64    # for IOMMU_IO_PGTABLE_LPAE
->  	depends on MMU
->  	select DRM_SCHED
-> +	select DRM_EXEC
->  	select IOMMU_SUPPORT
->  	select IOMMU_IO_PGTABLE_LPAE
->  	select DRM_GEM_SHMEM_HELPER
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index dbc597ab46fb..8b9206e910b5 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -8,6 +8,7 @@
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/dma-resv.h>
-> +#include <drm/drm_exec.h>
->  #include <drm/gpu_scheduler.h>
->  #include <drm/panfrost_drm.h>
->  
-> @@ -275,13 +276,14 @@ static void panfrost_attach_object_fences(struct drm_gem_object **bos,
->  int panfrost_job_push(struct panfrost_job *job)
->  {
->  	struct panfrost_device *pfdev = job->pfdev;
-> -	struct ww_acquire_ctx acquire_ctx;
-> +	struct drm_exec exec;
->  	int ret = 0;
->  
-> -	ret = drm_gem_lock_reservations(job->bos, job->bo_count,
-> -					    &acquire_ctx);
-> +	drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
-> +	drm_exec_until_all_locked(&exec)
-> +		ret = drm_exec_prepare_array(&exec, job->bos, job->bo_count, 1);
+>   drivers/video/fbdev/kyro/STG4000InitDevice.c | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/video/fbdev/kyro/STG4000InitDevice.c b/drivers/vide=
+o/fbdev/kyro/STG4000InitDevice.c
+> index edfa0a04854d..bf1ee3addbd0 100644
+> --- a/drivers/video/fbdev/kyro/STG4000InitDevice.c
+> +++ b/drivers/video/fbdev/kyro/STG4000InitDevice.c
+> @@ -83,11 +83,11 @@ volatile u32 i,count=3D0; \
+>   static u32 InitSDRAMRegisters(volatile STG4000REG __iomem *pSTGReg,
+>   			      u32 dwSubSysID, u32 dwRevID)
+>   {
+> -	u32 adwSDRAMArgCfg0[] =3D { 0xa0, 0x80, 0xa0, 0xa0, 0xa0 };
+> -	u32 adwSDRAMCfg1[] =3D { 0x8732, 0x8732, 0xa732, 0xa732, 0x8732 };
+> -	u32 adwSDRAMCfg2[] =3D { 0x87d2, 0x87d2, 0xa7d2, 0x87d2, 0xa7d2 };
+> -	u32 adwSDRAMRsh[] =3D { 36, 39, 40 };
+> -	u32 adwChipSpeed[] =3D { 110, 120, 125 };> +	static const u32 adwSDRAM=
+ArgCfg0[] =3D { 0xa0, 0x80, 0xa0, 0xa0, 0xa0 };
 
-This loop bothers me - the return value is ignored until
-drm_exec_until_all_locked() decides we can exit. It also reads badly
-without the braces and with the "if" unindented below. The documentation
-("a typical usage pattern") suggests this should be something like:
+Make this u8 instead of u32 (saves 5*3 =3D 15 bytes):
++	static const u8 adwSDRAMArgCfg0[] =3D { 0xa0, 0x80, 0xa0, 0xa0, 0xa0 };
 
-	drm_exec_until_all_locked(&exec) {
-		ret = drm_exec_prepare_array(...);
-		drm_exec_retry_on_contention(&exec);
-		if (ret)
-			goto unlock;
-	}
+> +	static const u32 adwSDRAMCfg1[] =3D { 0x8732, 0x8732, 0xa732, 0xa732, =
+0x8732 };
 
-Although I'm not sure if that's actually different because if there's no
-contention that drm_exec_until_all_locked() looks like it should exit.
+u16
 
-Perhaps it's just the name drm_exec_until_all_locked() which perhaps
-should be drm_exec_until_not_contended()...?
+> +	static const u32 adwSDRAMCfg2[] =3D { 0x87d2, 0x87d2, 0xa7d2, 0x87d2, =
+0xa7d2 };
 
-Anyway I gave it a quick spin on a Firefly-RK3288 and didn't see any
-problems, but I don't think I've got any tests which would create
-contention on the BOs.
+u16
 
-Steve
+> +	static const u32 adwSDRAMRsh[] =3D { 36, 39, 40 };
 
->  	if (ret)
-> -		return ret;
-> +		goto unlock;
->  
->  	mutex_lock(&pfdev->sched_lock);
->  	drm_sched_job_arm(&job->base);
-> @@ -305,7 +307,7 @@ int panfrost_job_push(struct panfrost_job *job)
->  				      job->render_done_fence);
->  
->  unlock:
-> -	drm_gem_unlock_reservations(job->bos, job->bo_count, &acquire_ctx);
-> +	drm_exec_fini(&exec);
->  
->  	return ret;
->  }
+u8
 
+> +	static const u32 adwChipSpeed[] =3D { 110, 120, 125 };
+
+u8...
+
+Can you change that (test compile) and resend?
+
+Helge
