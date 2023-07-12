@@ -1,47 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E57F750D4C
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 17:58:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68394750DA9
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 18:11:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63A4C10E584;
-	Wed, 12 Jul 2023 15:58:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FBC810E58D;
+	Wed, 12 Jul 2023 16:11:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [IPv6:2001:4b98:dc4:8::225])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F41910E584
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 15:58:48 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2B7791C0007;
- Wed, 12 Jul 2023 15:58:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1689177525;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+1Zhaf288c6QgZc0cVQIG/zrggMJajpMOeOYvAdfLSs=;
- b=LHBnv7EoIEQqNpbXaWGGJm61J1W/U840LsDsteL3KiaM7v6/HH3Ow4nzlXntEOWUPvMicw
- DsgR33JyIlfh5z9LDKunk0dP9O/zximA/8B99hQ8mBjpso3iL64R4DU2GBnbM5SwA5gq7X
- C17ApIcYqsc1HofddyEiw44mT3tba9UFtwC80jRUsnKDUscnDVsOcEmYmLf5iKXf97nGH/
- eR9PC//du22kMhBXweLn3GS/pIYGKGWHzLgVTaCcW+T4FEEkRI/QmHodQiqfnhF27orrMh
- lm0+CckLvqLMbspIx3qKYRArOTdKHjzPwlMu6haVUtwjMsSkLYTFNcakkc94SA==
-Date: Wed, 12 Jul 2023 17:58:42 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>
-Subject: Re: [PATCH v3 0/2] Small of/device cleanup
-Message-ID: <20230712175842.12ee7e8c@xps-13>
-In-Reply-To: <20230622213214.3586530-1-miquel.raynal@bootlin.com>
-References: <20230622213214.3586530-1-miquel.raynal@bootlin.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CDCC10E58C
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 16:11:26 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ 5b1f17b1804b1-3fbc0609cd6so72749665e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 09:11:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1689178284; x=1691770284;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=D7rjo35UIzSXVZvg5cEHUOQSz9DEtkcx5oJGhm9KZwE=;
+ b=lBNLMn7HVT8fTNlN4An+bJtVBswDAUOa+cgwnrKi7ykcJCX4En1Vy4pmGfR8Bnf9Qb
+ eP/M7ygOZ72MEAT2ysEpCWi13UuWK3yM8CAhCAWdQd8fUk48TW47yapFzgThguOOuBae
+ qjt6+Oa5WWn2exNaaQq2tVaSusLJFmlsCl2y1wGKIgWkKoEgwzn4vWNMlbEw7h0YiZ8t
+ PBGszpP+JcGSgMyS8LXUqMWSU3r/6OlW0wcCfxgTOOM/HKD4o2FsSsp/YsiCxf+vs5xF
+ xRBvczKu3zfy5g4QsNz9WFeSTcOXb32UWnZ3gRXtI6NhrgvzdHXaF26YCdXMNqMBWB6n
+ J6Pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689178284; x=1691770284;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=D7rjo35UIzSXVZvg5cEHUOQSz9DEtkcx5oJGhm9KZwE=;
+ b=UtHFliR4Tl8IqBfQFZxOiQVVwifMRtjHczukz9Zfy+lx9w+PwbBvx6ycVkbBpTGJsj
+ EGMfsOvEEGT2lfpcikmJVna+eGp5Ubq0Ke7YOnynpckL+NM8+P9syemWcVe9MTSKbKm+
+ 1bAJtO8XS76y4X3Qsm7OCU/5NCQ2fePy5LBoxhNXlw5IOqRebzRRFtJVJENXSIAj7E5u
+ t7yIFfevtOIOstV9LiEH1e4p+azsgi6Gso+mIoY2kYgPEbPdQK2ZSfcKgV4ANzgVad9T
+ BNyxYZ+Njo792NDxroDPQQt1gkIAfamd/5pZqwqkCfHRHLeacCCsUC3gG6Ww2DlI9ZZl
+ N0IA==
+X-Gm-Message-State: ABy/qLaKRXkpSprWnQiUwYV1zi//hvboE/LKJFGhm8ZoxknxHeXiaUfr
+ iymZYrwfyahBuHOyBu747bY=
+X-Google-Smtp-Source: APBJJlGRxOLC0PmFRbKVGnXl+kzSvEqYTfgQtUH9mpCaZI0BkH2j9sJDz1UI9UGbu7ZsPDru7YhrDA==
+X-Received: by 2002:a5d:5603:0:b0:314:37e7:efb4 with SMTP id
+ l3-20020a5d5603000000b0031437e7efb4mr15099694wrv.11.1689178284496; 
+ Wed, 12 Jul 2023 09:11:24 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
+ f17-20020adffcd1000000b003140fff4f75sm5460604wrs.17.2023.07.12.09.11.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Jul 2023 09:11:23 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH][next][V2] video: fbdev: kyro: make some const read-only
+ arrays static and reduce type size
+Date: Wed, 12 Jul 2023 17:11:23 +0100
+Message-Id: <20230712161123.465713-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,55 +73,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Don't populate the const read-only arrays on the stack but instead
+make them static const. Use smaller types to use less storage for
+the arrays.  Also makes the object code a little smaller.
 
-miquel.raynal@bootlin.com wrote on Thu, 22 Jun 2023 23:32:12 +0200:
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
 
-> My previous attempt to slightly clean the OF core wrt device structures
-> was rather unsuccessful as the idea behind the discussed cleanup was
-> more impacting than what I thought, leading to most of the previous
-> series to be dropped. However, aside, two patches seemed actually
-> relevant, so here they are, alone.
->=20
-> Link: https://lore.kernel.org/all/20230608184903.GA3200973-robh@kernel.or=
-g/
+V2: Use smaller int types, kudos to Helge Deller for suggesting this
 
-I expect this small series to go through the drm tree, but as I actually
-sent it right before the beginning of the merge window and because I am
-not an experienced drm contributor, I would like to know if I am
-required to resend the patches or if they are fine as-is (I don't
-expect any conflicts with v6.5-rc1).
+---
+ drivers/video/fbdev/kyro/STG4000InitDevice.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Just let me know if a re-send is expected.
-
-Cheers,
-Miqu=C3=A8l
-
->=20
-> Thanks,
-> Miqu=C3=A8l
->=20
-> Changes in v3:
-> * Fixed the dev->parent referencing in the host1x driver.
-> * Collected Rob's Acked-by.
->=20
-> Changes in v2:
-> * Dropped all the of_device.h/of_module.h changes
-> * Directly used of_device_uevent() from the host1x driver
->=20
->=20
-> Miquel Raynal (2):
->   of: module: Export of_device_uevent()
->   gpu: host1x: Stop open-coding of_device_uevent()
->=20
->  drivers/gpu/host1x/bus.c | 29 ++++++-----------------------
->  drivers/of/device.c      |  1 +
->  2 files changed, 7 insertions(+), 23 deletions(-)
->=20
+diff --git a/drivers/video/fbdev/kyro/STG4000InitDevice.c b/drivers/video/fbdev/kyro/STG4000InitDevice.c
+index edfa0a04854d..79886a246638 100644
+--- a/drivers/video/fbdev/kyro/STG4000InitDevice.c
++++ b/drivers/video/fbdev/kyro/STG4000InitDevice.c
+@@ -83,11 +83,11 @@ volatile u32 i,count=0; \
+ static u32 InitSDRAMRegisters(volatile STG4000REG __iomem *pSTGReg,
+ 			      u32 dwSubSysID, u32 dwRevID)
+ {
+-	u32 adwSDRAMArgCfg0[] = { 0xa0, 0x80, 0xa0, 0xa0, 0xa0 };
+-	u32 adwSDRAMCfg1[] = { 0x8732, 0x8732, 0xa732, 0xa732, 0x8732 };
+-	u32 adwSDRAMCfg2[] = { 0x87d2, 0x87d2, 0xa7d2, 0x87d2, 0xa7d2 };
+-	u32 adwSDRAMRsh[] = { 36, 39, 40 };
+-	u32 adwChipSpeed[] = { 110, 120, 125 };
++	static const u8 adwSDRAMArgCfg0[] = { 0xa0, 0x80, 0xa0, 0xa0, 0xa0 };
++	static const u16 adwSDRAMCfg1[] = { 0x8732, 0x8732, 0xa732, 0xa732, 0x8732 };
++	static const u16 adwSDRAMCfg2[] = { 0x87d2, 0x87d2, 0xa7d2, 0x87d2, 0xa7d2 };
++	static const u8 adwSDRAMRsh[] = { 36, 39, 40 };
++	static const u8 adwChipSpeed[] = { 110, 120, 125 };
+ 	u32 dwMemTypeIdx;
+ 	u32 dwChipSpeedIdx;
+ 
+-- 
+2.39.2
 
