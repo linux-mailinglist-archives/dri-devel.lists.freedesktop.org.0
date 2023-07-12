@@ -1,45 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81D4B750AFB
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 16:29:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 795BA750AFF
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 16:29:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B75FD10E54D;
-	Wed, 12 Jul 2023 14:29:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A87510E54E;
+	Wed, 12 Jul 2023 14:29:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 168A310E54E
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1070B10E54D
  for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 14:29:02 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6ABD061820;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 63BCF617FB;
  Wed, 12 Jul 2023 14:29:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7056C433CA;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C456FC433C8;
  Wed, 12 Jul 2023 14:29:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1689172140;
- bh=HQ7aGbV4C7uaZAHLezNUkQSJsAkwtDjgQS3l2fLDv8g=;
- h=From:To:Cc:Subject:Date:From;
- b=uRpRe2FBwR2ytkiG/aO3Bgltf6Rdz5u2Hx/03RuV00p8Npi4EuH/K0928b5lJ9oF2
- RmzOqo+2LMt6zjoDLTjyEwk3SHpJSSq/K4PwkpYk8GRpw2p6oBBeaya0FEt0YM7OXu
- OKltFvcyQrcfuXzCbVYENGQQvcDJvO8idxR92BNmXt50jz/lHK34Tu2IKAbfo31pG7
- h5itJpBHiK+TzHHO2zuHsylG65j9wV7cpHkqW7IeFs58fSIuH6nKcuhMew8FdnSWax
- jUbccFbSCDs6uTd8yLMxYeN+UFu4JFntosz8h7ij9pKeF7lLgDQoQkgQ+FUL2IDcYU
- QHQH2PQWCwQsA==
+ bh=ymDSmyQE+1VjD+F72bagnnqt4nfj752WMEBt5dK+Lf8=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=S0R/RaIUJMVH5qRd3pz5jBpfJ9HajmRwajHprZjx4FJo8VuMyk11Gzoauc+8Oi1r5
+ RQ2UbSV+xn9cGThw1Vao2W57lLkhyQA5D+CQOCbVK84AW8FxOjF2XPMX6RQ0DgjwZ/
+ jKV5Jm9v78U1GUyTpweDIgXj88SVHlVaARwtMzRBsVrVADMtIDU84GljlX7E+QlKD/
+ M8WW1BFb9+TmxctYDtMpsQodux4nSlCGfhhv0AErc+zZALvp5htxNuE03oT0aU6OeS
+ PVEQdEhyiFBTAhYwcqHTsaMtAwz1NTuh8Jq+BpovEjAZnyOVOFAeo/LbbU5M+QGL+p
+ e1LeC3DzwOAhA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.96)
- (envelope-from <mchehab@kernel.org>) id 1qJapt-003bek-1S;
+ (envelope-from <mchehab@kernel.org>) id 1qJapt-003beq-1r;
  Wed, 12 Jul 2023 16:28:57 +0200
 From: Mauro Carvalho Chehab <mchehab@kernel.org>
 To: 
-Subject: [PATCH RFC 0/2] Add support for inlined documentation for kunit and
- kselftests
-Date: Wed, 12 Jul 2023 16:28:53 +0200
-Message-Id: <cover.1689171160.git.mchehab@kernel.org>
+Subject: [PATCH RFC 2/2] drm: add documentation for drm_buddy_test kUnit test
+Date: Wed, 12 Jul 2023 16:28:55 +0200
+Message-Id: <0e5f68ab045965292fee1748254bf9b91db9039a.1689171160.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <cover.1689171160.git.mchehab@kernel.org>
+References: <cover.1689171160.git.mchehab@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -54,66 +55,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Gow <davidgow@google.com>, Nikolai Kondrashov <spbnick@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- Brendan Higgins <brendanhiggins@google.com>, Rae Moar <rmoar@google.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- mauro.chehab@intel.com, linux-kselftest@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, kunit-dev@googlegroups.com
+Cc: linux-kselftest@vger.kernel.org, "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Kees Cook <keescook@chromium.org>, Nikolai Kondrashov <spbnick@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, "Darrick J. Wong" <djwong@kernel.org>,
+ linux-doc@vger.kernel.org, Brendan Higgins <brendanhiggins@google.com>,
+ Rae Moar <rmoar@google.com>, dri-devel@lists.freedesktop.org,
+ Arthur Grillo <arthurgrillo@riseup.net>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>, mauro.chehab@intel.com,
+ David Gow <davidgow@google.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This RFC is a follow-up of the discussions taken here:
+As an example for the new documentation tool, add a documentation
+for drm_buddy_test.
 
-   https://lore.kernel.org/linux-doc/20230704132812.02ba97ba@maurocar-mobl2/T/#t
+I opted to place this on a completely different directory, in order
+to make easier to test the feature with:
 
-It adds a new extension that allows documenting tests using the same tool we're
-using for DRM unit tests at IGT GPU tools: https://gitlab.freedesktop.org/drm/igt-gpu-tools.
+	$ make SPHINXDIRS="tests" htmldocs
 
-While kernel-doc has provided documentation for in-lined functions/struct comments,
-it was not meant to document tests.
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+---
 
-Tests need to be grouped by the test functions. It should also be possible to produce
-other outputs from the documentation, to integrate it with test suites. For instance, 
-Internally at Intel, we use the comments to generate DOT files hierarchically grouped
-per feature categories.
+To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+See [PATCH RFC 0/2] at: https://lore.kernel.org/all/cover.1689171160.git.mchehab@kernel.org/
 
-This is just an initial RFC to start discussions around the solution. Before being merged
-upstream, we need to define what tags will be used to identify test markups and add
-a simple change at kernel-doc to let it ignore such markups.
-
-On this series, we have:
-
-- patch 1:
-  adding test_list.py as present at the IGT tree, after a patch series to make it
-  more generic: https://patchwork.freedesktop.org/series/120622/
-- patch 2:
-  adds an example about how tests could be documented. This is a really simple
-  example, just to test the feature, specially designed to make easy to build just
-  the test documentation from a single DRM kunit file.
-
-After discussions, my plan is to send a new version addressing the issues, and add
-some documentation for DRM and/or i915 kunit tests.
-
-Mauro Carvalho Chehab (2):
-  docs: add support for documenting kUnit and kSelftests
-  drm: add documentation for drm_buddy_test kUnit test
-
- Documentation/conf.py                  |    2 +-
- Documentation/index.rst                |    2 +-
- Documentation/sphinx/test_kdoc.py      |  108 ++
- Documentation/sphinx/test_list.py      | 1288 ++++++++++++++++++++++++
- Documentation/tests/index.rst          |    6 +
- Documentation/tests/kunit.rst          |    5 +
- drivers/gpu/drm/tests/drm_buddy_test.c |   12 +
- 7 files changed, 1421 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/sphinx/test_kdoc.py
- create mode 100644 Documentation/sphinx/test_list.py
+ Documentation/index.rst                |  2 +-
+ Documentation/tests/index.rst          |  6 ++++++
+ Documentation/tests/kunit.rst          |  5 +++++
+ drivers/gpu/drm/tests/drm_buddy_test.c | 12 ++++++++++++
+ 4 files changed, 24 insertions(+), 1 deletion(-)
  create mode 100644 Documentation/tests/index.rst
  create mode 100644 Documentation/tests/kunit.rst
 
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index 9dfdc826618c..80a6ce14a61a 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -60,7 +60,7 @@ Various other manuals with useful information for all kernel developers.
+    fault-injection/index
+    livepatch/index
+    rust/index
+-
++   test/index
+ 
+ User-oriented documentation
+ ===========================
+diff --git a/Documentation/tests/index.rst b/Documentation/tests/index.rst
+new file mode 100644
+index 000000000000..bfc39eb5c0aa
+--- /dev/null
++++ b/Documentation/tests/index.rst
+@@ -0,0 +1,6 @@
++========================
++Kunit documentation test
++========================
++
++.. toctree::
++   kunit
+diff --git a/Documentation/tests/kunit.rst b/Documentation/tests/kunit.rst
+new file mode 100644
+index 000000000000..6ffc151988a0
+--- /dev/null
++++ b/Documentation/tests/kunit.rst
+@@ -0,0 +1,5 @@
++Kunit tests
++-----------
++
++.. include-test:: drivers/gpu/drm/tests/drm_buddy_test.c
++
+diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
+index 09ee6f6af896..dd6c5afd6cd6 100644
+--- a/drivers/gpu/drm/tests/drm_buddy_test.c
++++ b/drivers/gpu/drm/tests/drm_buddy_test.c
+@@ -737,6 +737,18 @@ static int drm_buddy_suite_init(struct kunit_suite *suite)
+ 	return 0;
+ }
+ 
++/**
++ * KTEST_SUITE: set of tests for drm buddy alloc
++ * Scope: drm subsystem
++ * Mega feature: drm
++ * Feature: buddy_alloc
++ *
++ * KTEST_TEST: drm_test_buddy_alloc_%s
++ * Description: Run DRM buddy allocation %arg[1] test
++ *
++ * arg[1].values: limit, range, optimistic, smoke, pathological
++ */
++
+ static struct kunit_case drm_buddy_tests[] = {
+ 	KUNIT_CASE(drm_test_buddy_alloc_limit),
+ 	KUNIT_CASE(drm_test_buddy_alloc_range),
 -- 
 2.40.1
-
 
