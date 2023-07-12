@@ -1,73 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D27275078C
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 14:07:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AFB07507BD
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 14:12:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F31410E4EE;
-	Wed, 12 Jul 2023 12:07:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D88510E509;
+	Wed, 12 Jul 2023 12:11:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com
- [IPv6:2607:f8b0:4864:20::d2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE6AE10E4EE
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 12:07:22 +0000 (UTC)
-Received: by mail-io1-xd2b.google.com with SMTP id
- ca18e2360f4ac-783549ef058so307666939f.2
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 05:07:22 -0700 (PDT)
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 536DA10E500
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 12:11:50 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id
+ 38308e7fff4ca-2b701e41cd3so113234941fa.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 05:11:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689163641; x=1691755641;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=js9A+LroJpKyjly1c+m3wIj1/hOhy81EZTbGk7lLc9w=;
- b=QJDFf6a2qcjPXjiPm97eZlxkt0nwP+Cy792/OnHUSjEnI5bVgRJOZlFiDEhc9oPi6V
- 8Ukf3UAhhORVbhHiJLowqUCvznS3tlqmqp+oI2JYlf1FRg/EVkPBXdub7EjPGyE8LFcQ
- vJY4YUMoSH/dFomzmMcsTFyx0k/FBuivXQWCR9tm6o33eGWo8GmiSO8lRHiZDWPKVnc1
- 34Kl8LzDooi5FS626w9o36EXvlrHFUt4EOMEg3wWkSxeC7szYcDl6zD0/II0YC5WkiLP
- eLrjT4FAVw7NGfD33CKrdeg86PxkCNS24anRmf7ctv8V9cgolZXJlFBrEDyeLw+TMIBz
- Al9w==
+ d=linaro.org; s=google; t=1689163906; x=1691755906;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=3K3L1z6H/Jl14Mmz6QekO68wz73mQz13XTIjAHvmQqA=;
+ b=VfOcQGXFNbLoNG983UM9HHP01DkcBXp/hPNXk78DCABNBrDBeu1ydogeBsb4rh3ZLV
+ EMQtfpm83rlOYCWbb79fxeT7QwLQmPMUHmTCCv8M4ungyXPAi3kTun03fG2gtB2C6Zhr
+ G8ADegoFsiRmOyAlfsndo9P6JGSjBJ8eDkbulDLi6stmR2Ta+LhMj+dEADhUkAwoNSNW
+ 9MbnZCwsfX0UpaQ2y/7p9jYLbFhF6LC0b/IJFJqMPm9Y2VwOBM5c3HC9Gcp1qsDw3xhZ
+ GG4RAs2ZikHkCOfpVb6TTDl3tRcwEcIVbcIPr/zXxyhPL/HokQWKqjJilMZPALcOru0u
+ Orsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689163641; x=1691755641;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=js9A+LroJpKyjly1c+m3wIj1/hOhy81EZTbGk7lLc9w=;
- b=KJkv2KgxLH+YNdhG8694R7016k43JCvIM8oPXpx1c2FFJufYcE1/oFF5pMgh+rZrfQ
- VDUU6vfzqL5A46TShLJmSwuNAmDCMAWb9x/Lz8HuJPkA5wMVSkj14rfKrSxdHB6YFTWi
- CiIwwSrETd5mx1bUiCebEL17Ykl39iizebPkoCDgCZjRvonP1F01GsbgdcHiFSwEBNer
- 27io4ESXnx4KeINOQY1Lg/ABHDzx7doRSJyUiWL2Nb+Qpszm6BpX2XiasgDY1MRvqpiY
- lS/c1bX9X1qlIZVsc1mKBy0uKn3BSCjL/j/+VeLu2hnts3rtgoki0j8fagDuR0akSDf+
- wlCA==
-X-Gm-Message-State: ABy/qLYGRSCPwJcNhlgVeAuVUXEVsv9Uy+V3jMOm8xMSGWDWWeTpGpyg
- 1mvB/m/xoKieMnDdsghllpwJfXNwgh8pVU2QIdg=
-X-Google-Smtp-Source: APBJJlETKzUMF2OAd9kTWv7lkEdSNYU4Mqa9EYSDW3Wz3B8ikNrnIT5lFXObmJx47ZNPP7nh7b1m66J9NjVwYTQm1Zg=
-X-Received: by 2002:a5d:8848:0:b0:783:606b:740f with SMTP id
- t8-20020a5d8848000000b00783606b740fmr18734048ios.15.1689163641507; Wed, 12
- Jul 2023 05:07:21 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1689163906; x=1691755906;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3K3L1z6H/Jl14Mmz6QekO68wz73mQz13XTIjAHvmQqA=;
+ b=Y4nJJjMnxzOvzWXC5+E+YeOPdl9VihDpIpdz/hwotKAEB0oVwx7q8jQlYqB9zCOJtI
+ 6/B3wnNLrjMJFQkggNHB1gMyJ5tLKrHRiM7nBLTG3UNxNDnpG9gVxaNSXR3HW3jsx9It
+ BResOls9xkvPCgVKm9coJQPi6owXE8IUMEcwTIMQfeIZ87Q2pE/JtYn+0viwulx/zZUv
+ gTsAAFixroSzszC6mg6Y+oiflRdGPn0Y8UnLZm5tuqGf5yjMiUHR3SpesV1mxRT8c+NH
+ pIn/QinLyP0hW9gE6b7HXCNV+n+Ti4b39TSYips9QMbUAANnS8aYJM0uP/geKYnuGV8x
+ oamQ==
+X-Gm-Message-State: ABy/qLZkw7FpuOqNoUL6jQ9HvBPXICfYCFdZ575ti+iKRZdVwA4MV5Qk
+ tCXSEvWBlOSj0rUS5Z82OaVKSw==
+X-Google-Smtp-Source: APBJJlFIvTTTpjP6vYotlLnUf/OtRjwWQVGnYkZgtEomA+mnUxdLIwbX/0a5xcbGFJmaK44tw6980A==
+X-Received: by 2002:a2e:980b:0:b0:2b6:dc55:c3c7 with SMTP id
+ a11-20020a2e980b000000b002b6dc55c3c7mr17011894ljj.20.1689163906493; 
+ Wed, 12 Jul 2023 05:11:46 -0700 (PDT)
+Received: from eriador.lan (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
+ [2001:14ba:a0db:1f00::8a5]) by smtp.gmail.com with ESMTPSA id
+ p14-20020a2ea40e000000b002b6c8cf48bfsm913135ljn.104.2023.07.12.05.11.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Jul 2023 05:11:46 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: [PATCH v2 0/8] MDSS reg bus interconnect
+Date: Wed, 12 Jul 2023 15:11:37 +0300
+Message-Id: <20230712121145.1994830-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <20230607151127.1542024-1-pavacic.p@gmail.com>
- <20230607151127.1542024-4-pavacic.p@gmail.com>
- <CACRpkdbrEA54qmfTKSsFRG9ZS4u8hM6P5TXtOjRAiW+TD_v-fQ@mail.gmail.com>
- <CAO9szn00vRFm+iM1m7KgkW0WRuKyJEgVU4tVx4f5tF6KPnE=2w@mail.gmail.com>
- <CACRpkdaw8M3dSkmiV5QDOt3BBB7Jo6NxT0Og=zvA4REMA_7y9g@mail.gmail.com>
- <CAO9szn29A0qCABG0ACni42UGpsGKLwG7OT1y_ho3DgQ0WLvfmw@mail.gmail.com>
- <CACRpkdYXtQwmZR1u-1fwmyC_8Yq4bMkjDBcUCfuGqSz_UhXWJQ@mail.gmail.com>
- <CAO9szn0OuKW+-JZMs3TPUHiwLCe6cUPcsUq+og64K2utMyZpqQ@mail.gmail.com>
- <CACRpkdb5stXKb7FNk_FC-PKduCngRX3sZTbzcxN+kRskz78fuQ@mail.gmail.com>
- <CAO9szn3oTzrrwiyr91H14ep7OPUkA-SDST3CSQAQHvFFnkJWfA@mail.gmail.com>
- <0d43e653-32cd-b25e-40fa-6f0571048467@denx.de>
- <CAO9szn20RY3uBDceyUJ1S+gb=FN8Hd5qqMfOSbitHFyFCZ+iLg@mail.gmail.com>
- <8b0ae1d1-c769-1f55-0452-4bbc62da133b@denx.de>
-In-Reply-To: <8b0ae1d1-c769-1f55-0452-4bbc62da133b@denx.de>
-From: Paulo Pavacic <pavacic.p@gmail.com>
-Date: Wed, 12 Jul 2023 14:07:10 +0200
-Message-ID: <CAO9szn1QdB5WGshuyCOGqb0qbBWHqoikeiMkk+bNGhAF5TX5ew@mail.gmail.com>
-Subject: Re: [PATCH v4 3/3] drm/panel-fannal-c3004: Add fannal c3004 DSI panel
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,95 +75,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, conor+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, Jagan Teki <jagan@amarulasolutions.com>, sam@ravnborg.org,
- Maya Matuszczyk <maccraft123mc@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello all,
+Per agreement with Konrad, picked up this patch series.
 
-sub, 8. srp 2023. u 14:53 Marek Vasut <marex@denx.de> napisao je:
->
-> On 7/7/23 17:26, Paulo Pavacic wrote:
-> > Hello Marek,
->
-> Hi,
->
-> > =C4=8Det, 6. srp 2023. u 17:26 Marek Vasut <marex@denx.de> napisao je:
-> >>
-> >> On 7/6/23 17:18, Paulo Pavacic wrote:
-> >>> Hello Linus,
-> >>>
-> >>> =C4=8Det, 22. lip 2023. u 10:22 Linus Walleij <linus.walleij@linaro.o=
-rg> napisao je:
-> >>>>
-> >>>> On Wed, Jun 21, 2023 at 5:09=E2=80=AFPM Paulo Pavacic <pavacic.p@gma=
-il.com> wrote:
-> >>>>
-> >>>>> A lot of modifications to st7701 are required. I believe it would
-> >>>>> result in a driver that doesn't look or work the same. e.g compare
-> >>>>> delays between initialization sequences of panel-fannal-c3004 and
-> >>>>> panel-st7701. I think it would be optimal to create st7701s driver =
-and
-> >>>>> have special handling for st7701s panels. If there was a flag for
-> >>>>> whether panel is st7701 or st7701s it would end up looking like a
-> >>>>> mess.
-> >>>>
-> >>>> What matters is if the original authors of the old st7701 driver are
-> >>>> around and reviewing and testing patches at all. What we need is
-> >>>> active maintainers. (Added Jagan, Marek & Maya).
-> >>>>
-> >>>> I buy the reasoning that the st7701s is perhaps substantially differ=
-ent
-> >>>> from st7701.
-> >>>>
-> >>>> If st7701s is very different then I suppose it needs a separate driv=
-er,
-> >>>> then all we need to to name the driver properly, i.e.
-> >>>> panel-sitronix-st7701s.c.
-> >>>
-> >>> I had in person talk with Paul Kocialkowski and I have concluded that
-> >>> this is the best solution.
-> >>> I believe I should rename it to st7701s due to the hardware changes. =
-I
-> >>> would like to create V5 patch with driver renamed to st7701s.
-> >>> Please let me know if you agree / disagree.
-> >>
-> >> If I recall it right, the ST7701 and ST7701S are basically the same
-> >> chip, aren't they ?
-> >
-> > I'm currently exploring all the differences. There aren't a lot of
-> > differences, but there are some.
-> > So far I can see that default register values are different, new
-> > previously unused registers are now used and there has been some
-> > reordering of how info is placed in registers [1] (data bits are in
-> > different order). Moreover, instructions to some commands have been
-> > changed and meaning of what data bits mean [2][3]. Also, new features
-> > have been added [2]; there is now PCLKS 3 for example.
-> >
-> > You can see few differences in following images. Same images were
-> > attached in this mail:
-> > [1] https://ibb.co/NmgbZmy - GAMACTRL_st7701.png
-> > [2] https://ibb.co/G79y235 - PCLKS2.png
->
-> Ouch. I wonder if this is still something that can be abstracted out
-> with some helper accessor functions like:
->
-> if (model =3D=3D ST7701)
->    write something
-> else
->    write the other layout
->
-> Or whether it makes sense to outright have a separate driver. The later
-> would introduce duplication, but maybe that much duplication is OK.
+Apart from the already handled data bus (MAS_MDP_Pn<->DDR), there's
+another path that needs to be handled to ensure MDSS functions properly,
+namely the "reg bus", a.k.a the CPU-MDSS interconnect.
 
-I would like to create new driver because panel-st7701 seems to be
-outdated and is using non-standard macro (ST7701_WRITE()) and for me
-it is crashing kernel 5.15.
-Does anyone have similar issues with it?
+Gating that path may have a variety of effects. from none to otherwise
+inexplicable DSI timeouts.
 
-Br,
-Paulo
+This series tries to address the lack of that.
+
+Changes since v1:
+- Dropped the DPU part, the MDSS vote seems to be enough
+- Reworked MDSS voting patch. Replaced static bw value with the
+  per-platform confgurable values.
+- Added sm8450 DT patch.
+
+Dmitry Baryshkov (6):
+  drm/msm/mdss: correct UBWC programming for SM8550
+  drm/msm/mdss: switch mdss to use devm_of_icc_get()
+  drm/msm/mdss: inline msm_mdss_icc_request_bw()
+  drm/msm/mdss: populate missing data
+  drm/msm/mdss: Handle the reg bus ICC path
+  arm64: dts: qcom: sm8450: provide MDSS cfg interconnect
+
+Konrad Dybcio (2):
+  dt-bindings: display/msm: Add reg bus and rotator interconnects
+  drm/msm/mdss: Rename path references to mdp_path
+
+ .../bindings/display/msm/mdss-common.yaml     |   2 +
+ arch/arm64/boot/dts/qcom/sm8450.dtsi          |   9 +-
+ drivers/gpu/drm/msm/msm_mdss.c                | 138 +++++++++++++-----
+ 3 files changed, 108 insertions(+), 41 deletions(-)
+
+-- 
+2.40.1
+
