@@ -2,59 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0E80750162
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 10:24:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42280750156
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 10:23:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 381E410E138;
-	Wed, 12 Jul 2023 08:24:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2348D10E06E;
+	Wed, 12 Jul 2023 08:23:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1162 seconds by postgrey-1.36 at gabe;
- Wed, 12 Jul 2023 08:24:38 UTC
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F37BF10E0B9
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 08:24:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=5TWVCjFGRExPcN05bVzne/2B6BKN45D6agRtviLb2cw=; b=ifUBNQvneXGD6J7waajKoLIn5D
- pG2U4BC29xw3bvWK+iSa+gOc5fps12nyXisO8GUjZ8wBkPcELGpNAi8PTuiQj86VL0sCdJPtz7/SJ
- xDuH43rN8cRQBY3ejlqYEvDoSWs/I9KWpHX7l4ReCDlLbCJaKIVUiQ9cJY3maD4eCUpWtv19dQc9v
- 4jLvvZZcrFyGbrozGDxTtRXwc6xqFTZdD2LdxXi8stUAEqMLCPZuf/VMl13F1s0oHfVPzh5xGfpnq
- 2A2xfm09toEHq4IIK/6YuxkSg15wVtz4ZkfBoKGkw+JRBLJPojBFi0ryZN9ICESH+dDlfa0WzYGH0
- ztv3GCvQ==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84]
- helo=noisy.programming.kicks-ass.net)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1qJUqQ-00GTmW-3M; Wed, 12 Jul 2023 08:05:06 +0000
-Received: from hirez.programming.kicks-ass.net
- (hirez.programming.kicks-ass.net [192.168.1.225])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id BABA33001E7;
- Wed, 12 Jul 2023 10:05:04 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
- id A1024243A2F82; Wed, 12 Jul 2023 10:05:04 +0200 (CEST)
-Date: Wed, 12 Jul 2023 10:05:04 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Tejun Heo <tj@kernel.org>
-Subject: Re: Consider switching to WQ_UNBOUND messages (was: Re: [PATCH v2
- 6/7] workqueue: Report work funcs that trigger automatic CPU_INTENSIVE
- mechanism)
-Message-ID: <20230712080504.GA3100107@hirez.programming.kicks-ass.net>
-References: <20230511181931.869812-1-tj@kernel.org>
- <20230511181931.869812-7-tj@kernel.org>
- <ZF6WsSVGX3O1d0pL@slm.duckdns.org>
- <CAMuHMdVCQmh6V182q4g---jvsWiTOP2hBPZKvma6oUN6535LEg@mail.gmail.com>
- <CAMuHMdW1kxZ1RHKTRVRqDNAbj1Df2=v0fPn5KYK3kfX_kiXR6A@mail.gmail.com>
- <ZK3MBfPS-3-tJgjO@slm.duckdns.org>
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01A5C10E06E
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 08:23:35 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id
+ 4fb4d7f45d1cf-51bece5d935so8986112a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 01:23:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1689150214; x=1691742214;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=+l7Eh/4LbWJYT13FkXK40Kaxv90ph3PwBtFUGakssuM=;
+ b=gY1mIb5/n1pqlE1aMjQxtSn2wYBAYIFreAP6dmX1CNHRwQVQxrWeUWD9Vj9fZNow/v
+ KvfPzfFlLgHxHgyGnvD5iuK+n/Zi7Ccy5EvSbKG75ZG5FBiWlEvMVCHMkgq+l30e/uP8
+ 7/qnoQhoyy1dd5VbbncyTVe9sHVZuD5IlBt5Oj5S3NbgWUAGXSEa+m8y5buZMD4bojeU
+ Fg5rHRH562DT/q8YzBWLcgNCADZZXoihcGrDD0aWL2nNnFRVJRwNprI8Jj8diN9+ZhfE
+ PW1uGlRaSsvSICCkuPYroTpXKG7FtG2yeDEj1d3epSn90Woch6gUpNYB5XBcv6w5aWhC
+ H9kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689150214; x=1691742214;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+l7Eh/4LbWJYT13FkXK40Kaxv90ph3PwBtFUGakssuM=;
+ b=Js8Zm9RTH0sJ95bw7EjNI4ZiO6wmpxLbhkjz/3mV+FlUoixa5l668myZZ6y2D0Gt7+
+ XCdbm00hdnKoJtiLhaQM6W6GstquT3nGjhK8dR8CLDKD2emZnG/MV8ftmvqJTmQX+8p1
+ 7hnZb5iKgPQ3hC5kT002gToAVIy68p0NgQXoiqsfKL/hoT59DYmr1KwcuUxep44KSzfH
+ /6CtispQ7+IyHdwAguihaIwXtRbj8WtZ4pPRs7h8Kq3hX3BygUh4s51mYZhv5VJSBhLI
+ YiH5rn+4JXHwK8hKfDNPMW7HLHIvTOXxncacBaeFdW+y+7LMe6154WZDiBPLQDAqDEam
+ hy0A==
+X-Gm-Message-State: ABy/qLYkgeJ4ljboXsMck5WEVgLSafp9O0f7Rb87/f0zHJAab21Mzxv6
+ xSnj+0dAlpH3HliUbZT1O6YrMg==
+X-Google-Smtp-Source: APBJJlE0v3CXAkyC+5VJ+owfFI5aeQXSTjTk+636i1V+fangwfHic7+Ga5nX19+DcFN5Gs2F6jPv5Q==
+X-Received: by 2002:aa7:c75a:0:b0:519:6a6a:7659 with SMTP id
+ c26-20020aa7c75a000000b005196a6a7659mr18612920eds.18.1689150214048; 
+ Wed, 12 Jul 2023 01:23:34 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.104])
+ by smtp.gmail.com with ESMTPSA id
+ i9-20020aa7dd09000000b0051e249f3dc6sm2403812edv.72.2023.07.12.01.23.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Jul 2023 01:23:33 -0700 (PDT)
+Message-ID: <b58b6c23-1771-6e93-eb1e-a5038cf55c30@linaro.org>
+Date: Wed, 12 Jul 2023 10:23:30 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZK3MBfPS-3-tJgjO@slm.duckdns.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 1/3] dt-bindings: display: panel: add startek
+ kd070fhfid015 support
+To: Alexandre Mergnat <amergnat@baylibre.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Catalin Marinas
+ <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+References: <20230711-startek_display-v1-0-163917bed385@baylibre.com>
+ <20230711-startek_display-v1-1-163917bed385@baylibre.com>
+ <14bed951-22ae-4aa8-5fcb-b2cd92ebdbef@linaro.org>
+ <a335efdc-2ecb-c25a-7507-5ef2e19c5ca1@baylibre.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <a335efdc-2ecb-c25a-7507-5ef2e19c5ca1@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,28 +86,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rtc@vger.kernel.org,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Linux PM list <linux-pm@vger.kernel.org>, netdev <netdev@vger.kernel.org>,
- kernel-team@meta.com, Lai Jiangshan <jiangshanlai@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- "open list:LIBATA SUBSYSTEM \(Serial and Parallel ATA drivers\)"
- <linux-ide@vger.kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Linux MMC List <linux-mmc@vger.kernel.org>,
- linux-riscv <linux-riscv@lists.infradead.org>,
- "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ Guillaume La Roque <glaroque@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 11, 2023 at 11:39:17AM -1000, Tejun Heo wrote:
+On 12/07/2023 10:01, Alexandre Mergnat wrote:
+> Hi Krzysztof,
+> 
+> Thanks for your review
+> 
+> On 12/07/2023 07:32, Krzysztof Kozlowski wrote:
+>> On 11/07/2023 17:36, Alexandre Mergnat wrote:
+>>> The Startek KD070FHFID015 is a 7-inch TFT LCD display with a resolution
+> 
+> snip
+> 
+>>> +
+>>> +  dcdc-gpios: true
+>>
+>>  From where does this come? Which schema defines it?
+> 
+> It's a miss. I will fix it and reset-gpios too by adding a maxItems and 
+> a description.
 
-> I wonder whether the right thing to do here is somehow scaling the threshold
-> according to the relative processing power. It's difficult to come up with a
-> threshold which works well across the latest & fastest and really tiny CPUs.
-> I'll think about it some more but if you have some ideas, please feel free
-> to suggest.
+reset-gpios come from panel-common, so they are fine.
 
-We could scale by BogoMIPS I suppose, it's a bogus measurement, as per
-the name, but it does have some relation to how fast the machine is.
+Best regards,
+Krzysztof
+
