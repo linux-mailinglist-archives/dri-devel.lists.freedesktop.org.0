@@ -2,53 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 083C87503AB
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 11:47:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA4637503C6
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 11:48:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1F4C10E4A6;
-	Wed, 12 Jul 2023 09:47:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D693110E4C0;
+	Wed, 12 Jul 2023 09:48:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BBE010E3F0
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 09:47:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11D6C10E431
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 09:48:38 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1qJWR9-0001G9-4m; Wed, 12 Jul 2023 11:47:07 +0200
+ id 1qJWRJ-0001GB-8m; Wed, 12 Jul 2023 11:47:17 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1qJWR8-00Dr3C-2z; Wed, 12 Jul 2023 11:47:06 +0200
+ id 1qJWR8-00Dr3H-Ny; Wed, 12 Jul 2023 11:47:06 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1qJWR7-004GS3-8E; Wed, 12 Jul 2023 11:47:05 +0200
+ id 1qJWR7-004GS6-Io; Wed, 12 Jul 2023 11:47:05 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH RFC v1 02/52] drm/core: Use struct drm_crtc::drm_dev instead
- of struct drm_crtc::dev
-Date: Wed, 12 Jul 2023 11:46:12 +0200
-Message-Id: <20230712094702.1770121-3-u.kleine-koenig@pengutronix.de>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Guchun Chen <guchun.chen@amd.com>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Evan Quan <evan.quan@amd.com>, Likun Gao <Likun.Gao@amd.com>,
+ =?utf-8?b?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
+ David Francis <David.Francis@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>, Graham Sider <Graham.Sider@amd.com>,
+ Lang Yu <Lang.Yu@amd.com>, Philip Yang <Philip.Yang@amd.com>,
+ Yifan Zhang <yifan1.zhang@amd.com>, Tim Huang <Tim.Huang@amd.com>,
+ Zack Rusin <zackr@vmware.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jani Nikula <jani.nikula@intel.com>, xurui <xurui@kylinos.cn>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>,
+ =?utf-8?q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Hersen Wu <hersenxs.wu@amd.com>, Fangzhi Zuo <jerry.zuo@amd.com>,
+ Stylon Wang <stylon.wang@amd.com>, Alan Liu <haoping.liu@amd.com>,
+ Wayne Lin <Wayne.Lin@amd.com>, Aaron Liu <aaron.liu@amd.com>,
+ Melissa Wen <mwen@igalia.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ David Tadokoro <davidbtadokoro@usp.br>, Wenjing Liu <wenjing.liu@amd.com>,
+ Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Alexey Kodanev <aleksei.kodanev@bell-sw.com>, Roman Li <roman.li@amd.com>,
+ =?utf-8?q?Joaqu=C3=ADn_Ignacio_Aramend=C3=ADa?= <samsagax@gmail.com>,
+ Dave Airlie <airlied@redhat.com>
+Subject: [PATCH RFC v1 03/52] drm/amd: Use struct drm_crtc::drm_dev instead of
+ struct drm_crtc::dev
+Date: Wed, 12 Jul 2023 11:46:13 +0200
+Message-Id: <20230712094702.1770121-4-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230712094702.1770121-1-u.kleine-koenig@pengutronix.de>
 References: <20230712094702.1770121-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=32105;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=49428;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=F2xeomIh3MIHMZw/oYiHfznLxwAI/YoNvTp2zqpkzlo=;
- b=owGbwMvMwMXY3/A7olbonx/jabUkhpR1ZRF6u26wlFn3KLY68jVvdA3/ZG8e581l9KX9mGZNs
- N6N1NxORmMWBkYuBlkxRRb7xjWZVlVykZ1r/12GGcTKBDKFgYtTACaSXsn+P6vw0JFLkz9uP3/0
- /4vw56tvcW7S52jLbKmdE9hluC6/5fl5B7vsZnXLvLbQhau6Dh1vrW+tDaoqSo4Oe6RcIL/EXbX
- XSupJ9faNP5JmXZocUv83wNalsqU6wFfrnGoa2+Fd1mbnf2re+Vp3dbqOPstU/pqdsz5YTjkyr2
- hH1Mqbl69527pap8lLHXrds65cIaPN3Tgu7viejvu6ptu9uz53XWczrmh5LpXzWbZTuoe9P7al4
- 5izv4yp0cTHx22iUix3bIqaNfPmpulWm9Mr8l74/fv4mGPt1WWrbA8rpC7h/ZZq/9lF2y3wscek
- 7vny9Znrd5j+6RW4veBHvrnxks0mSzm9f1zyMvOWvtcPAA==
+ bh=AgXrC8HZMHNCwk279ieRH2XbWbVSSGC7Hqvw0FA6Lx8=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkrnZZUrwT3suBU8Te/9pzCwag5aAj6itkbTuoV
+ 65+xYATZtmJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZK52WQAKCRCPgPtYfRL+
+ TgJVCACGO1ejvxd0fVQRSn+USohu8x/1Q1yW4h/seS0cP6TmZZRItrr/NNs1Q5lbTNHl2yRofTH
+ mAdfE2D9U/xzyPgxaDc1d0/X+nsqMBsjhKXyoq4/0pZniZIX1t7gX+WDEbfacZzM62mQz6gwfS1
+ Y+fe8Atn6NUxEa23mBVcUxJS2BV3KQ9wKkwUzf+gLSAe+k5q3TwA26cnnhnvIyylGlcuGOLkf59
+ pensZPkwqfWWAS6JpN9DrSFCM9XodHSpjFlWmXsTS0iA6Hva/IdL3zGxG01KgyBFRQZ8t1w5B+g
+ FLH/Mup0fj47Rk2beK30yvewLnomCekZDN76O9iNdrY3vjh4
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -69,7 +99,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org
+Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -80,814 +111,1149 @@ No semantic changes.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/gpu/drm/drm_atomic.c              | 22 ++++++-------
- drivers/gpu/drm/drm_atomic_helper.c       | 20 +++++++-----
- drivers/gpu/drm/drm_atomic_state_helper.c |  2 +-
- drivers/gpu/drm/drm_atomic_uapi.c         | 22 ++++++-------
- drivers/gpu/drm/drm_blend.c               |  2 +-
- drivers/gpu/drm/drm_color_mgmt.c          | 10 +++---
- drivers/gpu/drm/drm_crtc.c                | 19 ++++++-----
- drivers/gpu/drm/drm_crtc_helper.c         | 10 +++---
- drivers/gpu/drm/drm_debugfs.c             |  2 +-
- drivers/gpu/drm/drm_debugfs_crc.c         |  2 +-
- drivers/gpu/drm/drm_fb_helper.c           |  6 ++--
- drivers/gpu/drm/drm_mipi_dbi.c            |  4 +--
- drivers/gpu/drm/drm_plane.c               |  2 +-
- drivers/gpu/drm/drm_plane_helper.c        |  2 +-
- drivers/gpu/drm/drm_self_refresh_helper.c |  2 +-
- drivers/gpu/drm/drm_vblank.c              | 40 +++++++++++------------
- drivers/gpu/drm/drm_vblank_work.c         |  2 +-
- include/drm/drm_atomic_helper.h           |  2 +-
- 18 files changed, 87 insertions(+), 84 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   | 18 ++++++------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c       |  6 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_pll.c       |  6 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c      |  8 ++---
+ drivers/gpu/drm/amd/amdgpu/atombios_crtc.c    | 22 +++++++-------
+ drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        | 26 ++++++++---------
+ drivers/gpu/drm/amd/amdgpu/dce_v11_0.c        | 28 +++++++++---------
+ drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         | 26 ++++++++---------
+ drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         | 26 ++++++++---------
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 29 ++++++++++---------
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c | 20 ++++++-------
+ .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    |  8 ++---
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 22 +++++++-------
+ .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   |  2 +-
+ 14 files changed, 125 insertions(+), 122 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index 2c454568a607..b607bcfdb616 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -76,7 +76,7 @@ int drm_crtc_commit_wait(struct drm_crtc_commit *commit)
- 
- 	ret = wait_for_completion_timeout(&commit->hw_done, timeout);
- 	if (!ret) {
--		drm_err(commit->crtc->dev, "hw_done timed out\n");
-+		drm_err(commit->crtc->drm_dev, "hw_done timed out\n");
- 		return -ETIMEDOUT;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+index b702f499f5fb..cc796e56c3d7 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+@@ -147,14 +147,14 @@ static void amdgpu_display_flip_work_func(struct work_struct *__work)
  	}
  
-@@ -86,7 +86,7 @@ int drm_crtc_commit_wait(struct drm_crtc_commit *commit)
- 	 */
- 	ret = wait_for_completion_timeout(&commit->flip_done, timeout);
- 	if (!ret) {
--		drm_err(commit->crtc->dev, "flip_done timed out\n");
-+		drm_err(commit->crtc->drm_dev, "flip_done timed out\n");
- 		return -ETIMEDOUT;
+ 	/* We borrow the event spin lock for protecting flip_status */
+-	spin_lock_irqsave(&crtc->dev->event_lock, flags);
++	spin_lock_irqsave(&crtc->drm_dev->event_lock, flags);
+ 
+ 	/* Do the flip (mmio) */
+ 	adev->mode_info.funcs->page_flip(adev, work->crtc_id, work->base, work->async);
+ 
+ 	/* Set the flip status */
+ 	amdgpu_crtc->pflip_status = AMDGPU_FLIP_SUBMITTED;
+-	spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++	spin_unlock_irqrestore(&crtc->drm_dev->event_lock, flags);
+ 
+ 
+ 	drm_dbg_vbl(adev_to_drm(adev),
+@@ -191,7 +191,7 @@ int amdgpu_display_crtc_page_flip_target(struct drm_crtc *crtc,
+ 				uint32_t page_flip_flags, uint32_t target,
+ 				struct drm_modeset_acquire_ctx *ctx)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	struct drm_gem_object *obj;
+@@ -262,10 +262,10 @@ int amdgpu_display_crtc_page_flip_target(struct drm_crtc *crtc,
+ 		amdgpu_get_vblank_counter_kms(crtc);
+ 
+ 	/* we borrow the event spin lock for protecting flip_wrok */
+-	spin_lock_irqsave(&crtc->dev->event_lock, flags);
++	spin_lock_irqsave(&crtc->drm_dev->event_lock, flags);
+ 	if (amdgpu_crtc->pflip_status != AMDGPU_FLIP_NONE) {
+ 		DRM_DEBUG_DRIVER("flip queue: crtc already busy\n");
+-		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++		spin_unlock_irqrestore(&crtc->drm_dev->event_lock, flags);
+ 		r = -EBUSY;
+ 		goto pflip_cleanup;
  	}
+@@ -278,7 +278,7 @@ int amdgpu_display_crtc_page_flip_target(struct drm_crtc *crtc,
+ 					 amdgpu_crtc->crtc_id, amdgpu_crtc, work);
+ 	/* update crtc fb */
+ 	crtc->primary->fb = fb;
+-	spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++	spin_unlock_irqrestore(&crtc->drm_dev->event_lock, flags);
+ 	amdgpu_display_flip_work_func(&work->flip_work.work);
+ 	return 0;
  
-@@ -381,7 +381,7 @@ static int drm_atomic_crtc_check(const struct drm_crtc_state *old_crtc_state,
- 	 */
- 
- 	if (new_crtc_state->active && !new_crtc_state->enable) {
--		drm_dbg_atomic(crtc->dev,
-+		drm_dbg_atomic(crtc->drm_dev,
- 			       "[CRTC:%d:%s] active without enabled\n",
- 			       crtc->base.id, crtc->name);
+@@ -316,7 +316,7 @@ int amdgpu_display_crtc_set_config(struct drm_mode_set *set,
+ 	if (!set || !set->crtc)
  		return -EINVAL;
-@@ -391,17 +391,17 @@ static int drm_atomic_crtc_check(const struct drm_crtc_state *old_crtc_state,
- 	 * as this is a kernel-internal detail that userspace should never
- 	 * be able to trigger.
- 	 */
--	if (drm_core_check_feature(crtc->dev, DRIVER_ATOMIC) &&
-+	if (drm_core_check_feature(crtc->drm_dev, DRIVER_ATOMIC) &&
- 	    WARN_ON(new_crtc_state->enable && !new_crtc_state->mode_blob)) {
--		drm_dbg_atomic(crtc->dev,
-+		drm_dbg_atomic(crtc->drm_dev,
- 			       "[CRTC:%d:%s] enabled without mode blob\n",
- 			       crtc->base.id, crtc->name);
- 		return -EINVAL;
- 	}
- 
--	if (drm_core_check_feature(crtc->dev, DRIVER_ATOMIC) &&
-+	if (drm_core_check_feature(crtc->drm_dev, DRIVER_ATOMIC) &&
- 	    WARN_ON(!new_crtc_state->enable && new_crtc_state->mode_blob)) {
--		drm_dbg_atomic(crtc->dev,
-+		drm_dbg_atomic(crtc->drm_dev,
- 			       "[CRTC:%d:%s] disabled with mode blob\n",
- 			       crtc->base.id, crtc->name);
- 		return -EINVAL;
-@@ -419,7 +419,7 @@ static int drm_atomic_crtc_check(const struct drm_crtc_state *old_crtc_state,
- 	 */
- 	if (new_crtc_state->event &&
- 	    !new_crtc_state->active && !old_crtc_state->active) {
--		drm_dbg_atomic(crtc->dev,
-+		drm_dbg_atomic(crtc->drm_dev,
- 			       "[CRTC:%d:%s] requesting event but off\n",
- 			       crtc->base.id, crtc->name);
- 		return -EINVAL;
-@@ -1294,7 +1294,7 @@ drm_atomic_add_affected_connectors(struct drm_atomic_state *state,
- 	if (ret)
- 		return ret;
- 
--	drm_dbg_atomic(crtc->dev,
-+	drm_dbg_atomic(crtc->drm_dev,
- 		       "Adding all current connectors for [CRTC:%d:%s] to %p\n",
- 		       crtc->base.id, crtc->name, state);
- 
-@@ -1349,7 +1349,7 @@ drm_atomic_add_affected_planes(struct drm_atomic_state *state,
- 
- 	WARN_ON(!drm_atomic_get_new_crtc_state(state, crtc));
- 
--	drm_dbg_atomic(crtc->dev,
-+	drm_dbg_atomic(crtc->drm_dev,
- 		       "Adding all current planes for [CRTC:%d:%s] to %p\n",
- 		       crtc->base.id, crtc->name, state);
- 
-@@ -1561,7 +1561,7 @@ EXPORT_SYMBOL(__drm_atomic_helper_disable_plane);
- static int update_output_state(struct drm_atomic_state *state,
- 			       struct drm_mode_set *set)
- {
--	struct drm_device *dev = set->crtc->dev;
-+	struct drm_device *dev = set->crtc->drm_dev;
- 	struct drm_crtc *crtc;
- 	struct drm_crtc_state *new_crtc_state;
- 	struct drm_connector *connector;
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 41b8066f61ff..d6a375393b63 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -492,7 +492,8 @@ mode_fixup(struct drm_atomic_state *state)
- 		ret = funcs->mode_fixup(crtc, &new_crtc_state->mode,
- 					&new_crtc_state->adjusted_mode);
- 		if (!ret) {
--			drm_dbg_atomic(crtc->dev, "[CRTC:%d:%s] fixup failed\n",
-+			drm_dbg_atomic(crtc->drm_dev,
-+				       "[CRTC:%d:%s] fixup failed\n",
- 				       crtc->base.id, crtc->name);
- 			return -EINVAL;
- 		}
-@@ -939,7 +940,7 @@ EXPORT_SYMBOL(drm_atomic_helper_check_plane_state);
- int drm_atomic_helper_check_crtc_primary_plane(struct drm_crtc_state *crtc_state)
- {
- 	struct drm_crtc *crtc = crtc_state->crtc;
--	struct drm_device *dev = crtc->dev;
-+	struct drm_device *dev = crtc->drm_dev;
- 	struct drm_plane *plane;
- 
- 	/* needs at least one primary plane to be enabled */
-@@ -1013,7 +1014,7 @@ drm_atomic_helper_check_planes(struct drm_device *dev,
- 
- 		ret = funcs->atomic_check(crtc, state);
- 		if (ret) {
--			drm_dbg_atomic(crtc->dev,
-+			drm_dbg_atomic(crtc->drm_dev,
- 				       "[CRTC:%d:%s] atomic driver check failed\n",
- 				       crtc->base.id, crtc->name);
- 			return ret;
-@@ -2139,7 +2140,7 @@ static int stall_checks(struct drm_crtc *crtc, bool nonblock)
- 			 */
- 			if (!completed && nonblock) {
- 				spin_unlock(&crtc->commit_lock);
--				drm_dbg_atomic(crtc->dev,
-+				drm_dbg_atomic(crtc->drm_dev,
- 					       "[CRTC:%d:%s] busy with a previous commit\n",
- 					       crtc->base.id, crtc->name);
- 
-@@ -2163,7 +2164,8 @@ static int stall_checks(struct drm_crtc *crtc, bool nonblock)
- 	ret = wait_for_completion_interruptible_timeout(&stall_commit->cleanup_done,
- 							10*HZ);
- 	if (ret == 0)
--		drm_err(crtc->dev, "[CRTC:%d:%s] cleanup_done timed out\n",
-+		drm_err(crtc->drm_dev,
-+			"[CRTC:%d:%s] cleanup_done timed out\n",
- 			crtc->base.id, crtc->name);
- 
- 	drm_crtc_commit_put(stall_commit);
-@@ -2398,7 +2400,7 @@ void drm_atomic_helper_wait_for_dependencies(struct drm_atomic_state *old_state)
- 	for_each_old_crtc_in_state(old_state, crtc, old_crtc_state, i) {
- 		ret = drm_crtc_commit_wait(old_crtc_state->commit);
- 		if (ret)
--			drm_err(crtc->dev,
-+			drm_err(crtc->drm_dev,
- 				"[CRTC:%d:%s] commit wait timed out\n",
- 				crtc->base.id, crtc->name);
- 	}
-@@ -2813,7 +2815,7 @@ drm_atomic_helper_commit_planes_on_crtc(struct drm_crtc_state *old_crtc_state)
- 	if (crtc_funcs && crtc_funcs->atomic_begin)
- 		crtc_funcs->atomic_begin(crtc, old_state);
- 
--	drm_for_each_plane_mask(plane, crtc->dev, plane_mask) {
-+	drm_for_each_plane_mask(plane, crtc->drm_dev, plane_mask) {
- 		struct drm_plane_state *old_plane_state =
- 			drm_atomic_get_old_plane_state(old_state, plane);
- 		struct drm_plane_state *new_plane_state =
-@@ -3218,7 +3220,7 @@ int drm_atomic_helper_set_config(struct drm_mode_set *set,
- 	struct drm_crtc *crtc = set->crtc;
- 	int ret = 0;
- 
--	state = drm_atomic_state_alloc(crtc->dev);
-+	state = drm_atomic_state_alloc(crtc->drm_dev);
- 	if (!state)
- 		return -ENOMEM;
- 
-@@ -3605,7 +3607,7 @@ static int page_flip_common(struct drm_atomic_state *state,
- 	/* Make sure we don't accidentally do a full modeset. */
- 	state->allow_modeset = false;
- 	if (!crtc_state->active) {
--		drm_dbg_atomic(crtc->dev,
-+		drm_dbg_atomic(crtc->drm_dev,
- 			       "[CRTC:%d:%s] disabled, rejecting legacy flip\n",
- 			       crtc->base.id, crtc->name);
- 		return -EINVAL;
-diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-index 784e63d70a42..ec8eb6c959c9 100644
---- a/drivers/gpu/drm/drm_atomic_state_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-@@ -96,7 +96,7 @@ __drm_atomic_helper_crtc_reset(struct drm_crtc *crtc,
- 	if (crtc_state)
- 		__drm_atomic_helper_crtc_state_reset(crtc_state, crtc);
- 
--	if (drm_dev_has_vblank(crtc->dev))
-+	if (drm_dev_has_vblank(crtc->drm_dev))
- 		drm_crtc_vblank_reset(crtc);
- 
- 	crtc->state = crtc_state;
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index d867e7f9f2cd..61629369dd72 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -80,7 +80,7 @@ int drm_atomic_set_mode_for_crtc(struct drm_crtc_state *state,
- 		struct drm_property_blob *blob;
- 
- 		drm_mode_convert_to_umode(&umode, mode);
--		blob = drm_property_create_blob(crtc->dev,
-+		blob = drm_property_create_blob(crtc->drm_dev,
- 						sizeof(umode), &umode);
- 		if (IS_ERR(blob))
- 			return PTR_ERR(blob);
-@@ -89,13 +89,13 @@ int drm_atomic_set_mode_for_crtc(struct drm_crtc_state *state,
- 
- 		state->mode_blob = blob;
- 		state->enable = true;
--		drm_dbg_atomic(crtc->dev,
-+		drm_dbg_atomic(crtc->drm_dev,
- 			       "Set [MODE:%s] for [CRTC:%d:%s] state %p\n",
- 			       mode->name, crtc->base.id, crtc->name, state);
- 	} else {
- 		memset(&state->mode, 0, sizeof(state->mode));
- 		state->enable = false;
--		drm_dbg_atomic(crtc->dev,
-+		drm_dbg_atomic(crtc->drm_dev,
- 			       "Set [NOMODE] for [CRTC:%d:%s] state %p\n",
- 			       crtc->base.id, crtc->name, state);
- 	}
-@@ -134,17 +134,17 @@ int drm_atomic_set_mode_prop_for_crtc(struct drm_crtc_state *state,
- 		int ret;
- 
- 		if (blob->length != sizeof(struct drm_mode_modeinfo)) {
--			drm_dbg_atomic(crtc->dev,
-+			drm_dbg_atomic(crtc->drm_dev,
- 				       "[CRTC:%d:%s] bad mode blob length: %zu\n",
- 				       crtc->base.id, crtc->name,
- 				       blob->length);
- 			return -EINVAL;
- 		}
- 
--		ret = drm_mode_convert_umode(crtc->dev,
-+		ret = drm_mode_convert_umode(crtc->drm_dev,
- 					     &state->mode, blob->data);
- 		if (ret) {
--			drm_dbg_atomic(crtc->dev,
-+			drm_dbg_atomic(crtc->drm_dev,
- 				       "[CRTC:%d:%s] invalid mode (ret=%d, status=%s):\n",
- 				       crtc->base.id, crtc->name,
- 				       ret, drm_get_mode_status_name(state->mode.status));
-@@ -154,13 +154,13 @@ int drm_atomic_set_mode_prop_for_crtc(struct drm_crtc_state *state,
- 
- 		state->mode_blob = drm_property_blob_get(blob);
- 		state->enable = true;
--		drm_dbg_atomic(crtc->dev,
-+		drm_dbg_atomic(crtc->drm_dev,
- 			       "Set [MODE:%s] for [CRTC:%d:%s] state %p\n",
- 			       state->mode.name, crtc->base.id, crtc->name,
- 			       state);
- 	} else {
- 		state->enable = false;
--		drm_dbg_atomic(crtc->dev,
-+		drm_dbg_atomic(crtc->drm_dev,
- 			       "Set [NOMODE] for [CRTC:%d:%s] state %p\n",
- 			       crtc->base.id, crtc->name, state);
- 	}
-@@ -399,7 +399,7 @@ static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
- 		struct drm_crtc_state *state, struct drm_property *property,
- 		uint64_t val)
- {
--	struct drm_device *dev = crtc->dev;
-+	struct drm_device *dev = crtc->drm_dev;
- 	struct drm_mode_config *config = &dev->mode_config;
- 	bool replaced = false;
- 	int ret;
-@@ -453,7 +453,7 @@ static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
- 	} else if (crtc->funcs->atomic_set_property) {
- 		return crtc->funcs->atomic_set_property(crtc, state, property, val);
- 	} else {
--		drm_dbg_atomic(crtc->dev,
-+		drm_dbg_atomic(crtc->drm_dev,
- 			       "[CRTC:%d:%s] unknown property [PROP:%d:%s]]\n",
- 			       crtc->base.id, crtc->name,
- 			       property->base.id, property->name);
-@@ -468,7 +468,7 @@ drm_atomic_crtc_get_property(struct drm_crtc *crtc,
- 		const struct drm_crtc_state *state,
- 		struct drm_property *property, uint64_t *val)
- {
--	struct drm_device *dev = crtc->dev;
-+	struct drm_device *dev = crtc->drm_dev;
- 	struct drm_mode_config *config = &dev->mode_config;
- 
- 	if (property == config->prop_active)
-diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
-index 6e74de833466..5f7a0cb9eedd 100644
---- a/drivers/gpu/drm/drm_blend.c
-+++ b/drivers/gpu/drm/drm_blend.c
-@@ -443,7 +443,7 @@ static int drm_atomic_helper_crtc_normalize_zpos(struct drm_crtc *crtc,
- 					  struct drm_crtc_state *crtc_state)
- {
- 	struct drm_atomic_state *state = crtc_state->state;
--	struct drm_device *dev = crtc->dev;
-+	struct drm_device *dev = crtc->drm_dev;
- 	int total_planes = dev->mode_config.num_total_plane;
- 	struct drm_plane_state **states;
- 	struct drm_plane *plane;
-diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
-index d021497841b8..96c8f8fccd3b 100644
---- a/drivers/gpu/drm/drm_color_mgmt.c
-+++ b/drivers/gpu/drm/drm_color_mgmt.c
-@@ -166,7 +166,7 @@ void drm_crtc_enable_color_mgmt(struct drm_crtc *crtc,
- 				bool has_ctm,
- 				uint gamma_lut_size)
- {
--	struct drm_device *dev = crtc->dev;
-+	struct drm_device *dev = crtc->drm_dev;
- 	struct drm_mode_config *config = &dev->mode_config;
- 
- 	if (degamma_lut_size) {
-@@ -241,8 +241,8 @@ EXPORT_SYMBOL(drm_mode_crtc_set_gamma_size);
-  */
- static bool drm_crtc_supports_legacy_gamma(struct drm_crtc *crtc)
- {
--	u32 gamma_id = crtc->dev->mode_config.gamma_lut_property->base.id;
--	u32 degamma_id = crtc->dev->mode_config.degamma_lut_property->base.id;
-+	u32 gamma_id = crtc->drm_dev->mode_config.gamma_lut_property->base.id;
-+	u32 degamma_id = crtc->drm_dev->mode_config.degamma_lut_property->base.id;
- 
- 	if (!crtc->gamma_size)
- 		return false;
-@@ -277,7 +277,7 @@ static int drm_crtc_legacy_gamma_set(struct drm_crtc *crtc,
- 				     u32 size,
- 				     struct drm_modeset_acquire_ctx *ctx)
- {
--	struct drm_device *dev = crtc->dev;
-+	struct drm_device *dev = crtc->drm_dev;
- 	struct drm_atomic_state *state;
- 	struct drm_crtc_state *crtc_state;
- 	struct drm_property_blob *blob;
-@@ -298,7 +298,7 @@ static int drm_crtc_legacy_gamma_set(struct drm_crtc *crtc,
- 	else
- 		return -ENODEV;
- 
--	state = drm_atomic_state_alloc(crtc->dev);
-+	state = drm_atomic_state_alloc(crtc->drm_dev);
- 	if (!state)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
-index df9bf3c9206e..15839f2b0ddb 100644
---- a/drivers/gpu/drm/drm_crtc.c
-+++ b/drivers/gpu/drm/drm_crtc.c
-@@ -102,7 +102,7 @@ int drm_crtc_force_disable(struct drm_crtc *crtc)
- 		.crtc = crtc,
- 	};
- 
--	WARN_ON(drm_drv_uses_atomic_modeset(crtc->dev));
-+	WARN_ON(drm_drv_uses_atomic_modeset(crtc->drm_dev));
- 
- 	return drm_mode_set_config_internal(&set);
- }
-@@ -178,7 +178,7 @@ static const char *drm_crtc_fence_get_driver_name(struct dma_fence *fence)
- {
- 	struct drm_crtc *crtc = fence_to_crtc(fence);
- 
--	return crtc->dev->driver->name;
-+	return crtc->drm_dev->driver->name;
- }
- 
- static const char *drm_crtc_fence_get_timeline_name(struct dma_fence *fence)
-@@ -264,7 +264,7 @@ static int __drm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *
- 		(!funcs->atomic_destroy_state ||
- 		 !funcs->atomic_duplicate_state));
- 
--	crtc->dev = dev;
-+	crtc->drm_dev = dev;
- 	crtc->funcs = funcs;
- 
- 	INIT_LIST_HEAD(&crtc->commit_list);
-@@ -495,7 +495,7 @@ EXPORT_SYMBOL(__drmm_crtc_alloc_with_planes);
-  */
- void drm_crtc_cleanup(struct drm_crtc *crtc)
- {
--	struct drm_device *dev = crtc->dev;
-+	struct drm_device *dev = crtc->drm_dev;
- 
- 	/* Note that the crtc_list is considered to be static; should we
- 	 * remove the drm_crtc at runtime we would have to decrement all
-@@ -603,14 +603,14 @@ static int __drm_mode_set_config_internal(struct drm_mode_set *set,
- 	struct drm_crtc *tmp;
- 	int ret;
- 
--	WARN_ON(drm_drv_uses_atomic_modeset(crtc->dev));
-+	WARN_ON(drm_drv_uses_atomic_modeset(crtc->drm_dev));
- 
- 	/*
- 	 * NOTE: ->set_config can also disable other crtcs (if we steal all
- 	 * connectors from it), hence we need to refcount the fbs across all
- 	 * crtcs. Atomic modeset will have saner semantics ...
- 	 */
--	drm_for_each_crtc(tmp, crtc->dev) {
-+	drm_for_each_crtc(tmp, crtc->drm_dev) {
- 		struct drm_plane *plane = tmp->primary;
- 
- 		plane->old_fb = plane->fb;
-@@ -626,7 +626,7 @@ static int __drm_mode_set_config_internal(struct drm_mode_set *set,
- 		plane->fb = fb;
- 	}
- 
--	drm_for_each_crtc(tmp, crtc->dev) {
-+	drm_for_each_crtc(tmp, crtc->drm_dev) {
- 		struct drm_plane *plane = tmp->primary;
- 
- 		if (plane->fb)
-@@ -654,7 +654,7 @@ static int __drm_mode_set_config_internal(struct drm_mode_set *set,
-  */
- int drm_mode_set_config_internal(struct drm_mode_set *set)
- {
--	WARN_ON(drm_drv_uses_atomic_modeset(set->crtc->dev));
-+	WARN_ON(drm_drv_uses_atomic_modeset(set->crtc->drm_dev));
- 
- 	return __drm_mode_set_config_internal(set, NULL);
- }
-@@ -943,7 +943,8 @@ int drm_crtc_create_scaling_filter_property(struct drm_crtc *crtc,
- 					    unsigned int supported_filters)
- {
- 	struct drm_property *prop =
--		drm_create_scaling_filter_prop(crtc->dev, supported_filters);
-+		drm_create_scaling_filter_prop(crtc->drm_dev,
-+					       supported_filters);
- 
- 	if (IS_ERR(prop))
- 		return PTR_ERR(prop);
-diff --git a/drivers/gpu/drm/drm_crtc_helper.c b/drivers/gpu/drm/drm_crtc_helper.c
-index a209659a996c..e61742fd5866 100644
---- a/drivers/gpu/drm/drm_crtc_helper.c
-+++ b/drivers/gpu/drm/drm_crtc_helper.c
-@@ -148,7 +148,7 @@ EXPORT_SYMBOL(drm_helper_encoder_in_use);
- bool drm_helper_crtc_in_use(struct drm_crtc *crtc)
- {
- 	struct drm_encoder *encoder;
--	struct drm_device *dev = crtc->dev;
-+	struct drm_device *dev = crtc->drm_dev;
- 
- 	WARN_ON(drm_drv_uses_atomic_modeset(dev));
- 
-@@ -285,7 +285,7 @@ bool drm_crtc_helper_set_mode(struct drm_crtc *crtc,
- 			      int x, int y,
- 			      struct drm_framebuffer *old_fb)
- {
--	struct drm_device *dev = crtc->dev;
-+	struct drm_device *dev = crtc->drm_dev;
- 	struct drm_display_mode *adjusted_mode, saved_mode, saved_hwmode;
- 	const struct drm_crtc_helper_funcs *crtc_funcs = crtc->helper_private;
- 	const struct drm_encoder_helper_funcs *encoder_funcs;
-@@ -462,7 +462,7 @@ EXPORT_SYMBOL(drm_crtc_helper_atomic_check);
- static void
- drm_crtc_helper_disable(struct drm_crtc *crtc)
- {
--	struct drm_device *dev = crtc->dev;
-+	struct drm_device *dev = crtc->drm_dev;
- 	struct drm_connector *connector;
- 	struct drm_encoder *encoder;
- 
-@@ -579,7 +579,7 @@ int drm_crtc_helper_set_config(struct drm_mode_set *set,
- 
- 	crtc_funcs = set->crtc->helper_private;
  
 -	dev = set->crtc->dev;
 +	dev = set->crtc->drm_dev;
- 	WARN_ON(drm_drv_uses_atomic_modeset(dev));
  
- 	if (!set->mode)
-@@ -869,7 +869,7 @@ static int drm_helper_choose_crtc_dpms(struct drm_crtc *crtc)
- 	int dpms = DRM_MODE_DPMS_OFF;
- 	struct drm_connector *connector;
- 	struct drm_connector_list_iter conn_iter;
--	struct drm_device *dev = crtc->dev;
-+	struct drm_device *dev = crtc->drm_dev;
- 
- 	drm_connector_list_iter_begin(dev, &conn_iter);
- 	drm_for_each_connector_iter(connector, &conn_iter)
-diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index 4855230ba2c6..b7172681b36e 100644
---- a/drivers/gpu/drm/drm_debugfs.c
-+++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -539,7 +539,7 @@ void drm_debugfs_connector_remove(struct drm_connector *connector)
- 
- void drm_debugfs_crtc_add(struct drm_crtc *crtc)
- {
--	struct drm_minor *minor = crtc->dev->primary;
-+	struct drm_minor *minor = crtc->drm_dev->primary;
- 	struct dentry *root;
- 	char *name;
- 
-diff --git a/drivers/gpu/drm/drm_debugfs_crc.c b/drivers/gpu/drm/drm_debugfs_crc.c
-index bbc3bc4ba844..736cb71de6f3 100644
---- a/drivers/gpu/drm/drm_debugfs_crc.c
-+++ b/drivers/gpu/drm/drm_debugfs_crc.c
-@@ -200,7 +200,7 @@ static int crtc_crc_open(struct inode *inode, struct file *filep)
- 	size_t values_cnt;
- 	int ret = 0;
- 
--	if (drm_drv_uses_atomic_modeset(crtc->dev)) {
-+	if (drm_drv_uses_atomic_modeset(crtc->drm_dev)) {
- 		ret = drm_modeset_lock_single_interruptible(&crtc->mutex);
- 		if (ret)
- 			return ret;
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 61a5d450cc20..5035554488f2 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -166,7 +166,7 @@ int drm_fb_helper_debug_enter(struct fb_info *info)
- 			if (funcs->mode_set_base_atomic == NULL)
- 				continue;
- 
--			if (drm_drv_uses_atomic_modeset(mode_set->crtc->dev))
-+			if (drm_drv_uses_atomic_modeset(mode_set->crtc->drm_dev))
- 				continue;
- 
- 			funcs->mode_set_base_atomic(mode_set->crtc,
-@@ -199,7 +199,7 @@ int drm_fb_helper_debug_leave(struct fb_info *info)
- 	mutex_lock(&client->modeset_mutex);
- 	drm_client_for_each_modeset(mode_set, client) {
- 		crtc = mode_set->crtc;
--		if (drm_drv_uses_atomic_modeset(crtc->dev))
-+		if (drm_drv_uses_atomic_modeset(crtc->drm_dev))
- 			continue;
- 
- 		funcs = crtc->helper_private;
-@@ -873,7 +873,7 @@ static int setcmap_legacy(struct fb_cmap *cmap, struct fb_info *info)
- static struct drm_property_blob *setcmap_new_gamma_lut(struct drm_crtc *crtc,
- 						       struct fb_cmap *cmap)
+ 	ret = pm_runtime_get_sync(dev->dev);
+ 	if (ret < 0)
+@@ -1353,7 +1353,7 @@ bool amdgpu_display_crtc_scaling_mode_fixup(struct drm_crtc *crtc,
+ 					const struct drm_display_mode *mode,
+ 					struct drm_display_mode *adjusted_mode)
  {
 -	struct drm_device *dev = crtc->dev;
 +	struct drm_device *dev = crtc->drm_dev;
- 	struct drm_property_blob *gamma_lut;
- 	struct drm_color_lut *lut;
- 	int size = crtc->gamma_size;
-diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
-index c871d9f096b8..2075b968fa74 100644
---- a/drivers/gpu/drm/drm_mipi_dbi.c
-+++ b/drivers/gpu/drm/drm_mipi_dbi.c
-@@ -299,7 +299,7 @@ static void mipi_dbi_fb_dirty(struct iosys_map *src, struct drm_framebuffer *fb,
- enum drm_mode_status mipi_dbi_pipe_mode_valid(struct drm_simple_display_pipe *pipe,
- 					      const struct drm_display_mode *mode)
- {
--	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
-+	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.drm_dev);
- 
- 	return drm_crtc_helper_mode_valid_fixed(&pipe->crtc, mode, &dbidev->mode);
- }
-@@ -406,7 +406,7 @@ static void mipi_dbi_blank(struct mipi_dbi_dev *dbidev)
-  */
- void mipi_dbi_pipe_disable(struct drm_simple_display_pipe *pipe)
- {
--	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
-+	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.drm_dev);
- 
- 	DRM_DEBUG_KMS("\n");
- 
-diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-index 24e7998d1731..0d82e270054b 100644
---- a/drivers/gpu/drm/drm_plane.c
-+++ b/drivers/gpu/drm/drm_plane.c
-@@ -1021,7 +1021,7 @@ static int drm_mode_cursor_universal(struct drm_crtc *crtc,
- 				     struct drm_file *file_priv,
- 				     struct drm_modeset_acquire_ctx *ctx)
- {
--	struct drm_device *dev = crtc->dev;
-+	struct drm_device *dev = crtc->drm_dev;
- 	struct drm_plane *plane = crtc->cursor;
- 	struct drm_framebuffer *fb = NULL;
- 	struct drm_mode_fb_cmd2 fbreq = {
-diff --git a/drivers/gpu/drm/drm_plane_helper.c b/drivers/gpu/drm/drm_plane_helper.c
-index c91e454eba09..e0ce40313982 100644
---- a/drivers/gpu/drm/drm_plane_helper.c
-+++ b/drivers/gpu/drm/drm_plane_helper.c
-@@ -73,7 +73,7 @@ static int get_connectors_for_crtc(struct drm_crtc *crtc,
- 				   struct drm_connector **connector_list,
- 				   int num_connectors)
- {
--	struct drm_device *dev = crtc->dev;
-+	struct drm_device *dev = crtc->drm_dev;
- 	struct drm_connector *connector;
- 	struct drm_connector_list_iter conn_iter;
- 	int count = 0;
-diff --git a/drivers/gpu/drm/drm_self_refresh_helper.c b/drivers/gpu/drm/drm_self_refresh_helper.c
-index dd33fec5aabd..8331e7e6329d 100644
---- a/drivers/gpu/drm/drm_self_refresh_helper.c
-+++ b/drivers/gpu/drm/drm_self_refresh_helper.c
-@@ -70,7 +70,7 @@ static void drm_self_refresh_helper_entry_work(struct work_struct *work)
- 				to_delayed_work(work),
- 				struct drm_self_refresh_data, entry_work);
- 	struct drm_crtc *crtc = sr_data->crtc;
--	struct drm_device *dev = crtc->dev;
-+	struct drm_device *dev = crtc->drm_dev;
- 	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_atomic_state *state;
- 	struct drm_connector *conn;
-diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-index 877e2067534f..c6ed79b9cd5f 100644
---- a/drivers/gpu/drm/drm_vblank.c
-+++ b/drivers/gpu/drm/drm_vblank.c
-@@ -402,7 +402,7 @@ u64 drm_vblank_count(struct drm_device *dev, unsigned int pipe)
-  */
- u64 drm_crtc_accurate_vblank_count(struct drm_crtc *crtc)
- {
--	struct drm_device *dev = crtc->dev;
-+	struct drm_device *dev = crtc->drm_dev;
- 	unsigned int pipe = drm_crtc_index(crtc);
- 	u64 vblank;
- 	unsigned long flags;
-@@ -589,7 +589,7 @@ EXPORT_SYMBOL(drm_dev_has_vblank);
-  */
- wait_queue_head_t *drm_crtc_vblank_waitqueue(struct drm_crtc *crtc)
- {
--	return &crtc->dev->vblank[drm_crtc_index(crtc)].queue;
-+	return &crtc->drm_dev->vblank[drm_crtc_index(crtc)].queue;
- }
- EXPORT_SYMBOL(drm_crtc_vblank_waitqueue);
- 
-@@ -608,7 +608,7 @@ EXPORT_SYMBOL(drm_crtc_vblank_waitqueue);
- void drm_calc_timestamping_constants(struct drm_crtc *crtc,
- 				     const struct drm_display_mode *mode)
- {
--	struct drm_device *dev = crtc->dev;
-+	struct drm_device *dev = crtc->drm_dev;
- 	unsigned int pipe = drm_crtc_index(crtc);
- 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
- 	int linedur_ns = 0, framedur_ns = 0;
-@@ -693,7 +693,7 @@ drm_crtc_vblank_helper_get_vblank_timestamp_internal(
- 	bool in_vblank_irq,
- 	drm_vblank_get_scanout_position_func get_scanout_position)
+ 	struct drm_encoder *encoder;
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	struct amdgpu_encoder *amdgpu_encoder;
+@@ -1587,7 +1587,7 @@ bool amdgpu_crtc_get_scanout_position(struct drm_crtc *crtc,
+ 			int *hpos, ktime_t *stime, ktime_t *etime,
+ 			const struct drm_display_mode *mode)
  {
 -	struct drm_device *dev = crtc->dev;
 +	struct drm_device *dev = crtc->drm_dev;
  	unsigned int pipe = crtc->index;
- 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
- 	struct timespec64 ts_etime, ts_vblank_time;
-@@ -919,7 +919,7 @@ drm_get_last_vbltimestamp(struct drm_device *dev, unsigned int pipe,
+ 
+ 	return amdgpu_display_get_crtc_scanoutpos(dev, pipe, 0, vpos, hpos,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+index cca5a495611f..4428876461f8 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+@@ -1368,7 +1368,7 @@ void amdgpu_driver_release_kms(struct drm_device *dev)
   */
- u64 drm_crtc_vblank_count(struct drm_crtc *crtc)
- {
--	return drm_vblank_count(crtc->dev, drm_crtc_index(crtc));
-+	return drm_vblank_count(crtc->drm_dev, drm_crtc_index(crtc));
- }
- EXPORT_SYMBOL(drm_crtc_vblank_count);
- 
-@@ -980,7 +980,7 @@ static u64 drm_vblank_count_and_time(struct drm_device *dev, unsigned int pipe,
- u64 drm_crtc_vblank_count_and_time(struct drm_crtc *crtc,
- 				   ktime_t *vblanktime)
- {
--	return drm_vblank_count_and_time(crtc->dev, drm_crtc_index(crtc),
-+	return drm_vblank_count_and_time(crtc->drm_dev, drm_crtc_index(crtc),
- 					 vblanktime);
- }
- EXPORT_SYMBOL(drm_crtc_vblank_count_and_time);
-@@ -1000,10 +1000,10 @@ int drm_crtc_next_vblank_start(struct drm_crtc *crtc, ktime_t *vblanktime)
- 	struct drm_display_mode *mode;
- 	u64 vblank_start;
- 
--	if (!drm_dev_has_vblank(crtc->dev))
-+	if (!drm_dev_has_vblank(crtc->drm_dev))
- 		return -EINVAL;
- 
--	vblank = &crtc->dev->vblank[pipe];
-+	vblank = &crtc->drm_dev->vblank[pipe];
- 	mode = &vblank->hwmode;
- 
- 	if (!vblank->framedur_ns || !vblank->linedur_ns)
-@@ -1098,7 +1098,7 @@ static void send_vblank_event(struct drm_device *dev,
- void drm_crtc_arm_vblank_event(struct drm_crtc *crtc,
- 			       struct drm_pending_vblank_event *e)
+ u32 amdgpu_get_vblank_counter_kms(struct drm_crtc *crtc)
  {
 -	struct drm_device *dev = crtc->dev;
 +	struct drm_device *dev = crtc->drm_dev;
- 	unsigned int pipe = drm_crtc_index(crtc);
- 
- 	assert_spin_locked(&dev->event_lock);
-@@ -1123,7 +1123,7 @@ EXPORT_SYMBOL(drm_crtc_arm_vblank_event);
- void drm_crtc_send_vblank_event(struct drm_crtc *crtc,
- 				struct drm_pending_vblank_event *e)
+ 	unsigned int pipe = crtc->index;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	int vpos, hpos, stat;
+@@ -1436,7 +1436,7 @@ u32 amdgpu_get_vblank_counter_kms(struct drm_crtc *crtc)
+  */
+ int amdgpu_enable_vblank_kms(struct drm_crtc *crtc)
  {
 -	struct drm_device *dev = crtc->dev;
 +	struct drm_device *dev = crtc->drm_dev;
- 	u64 seq;
- 	unsigned int pipe = drm_crtc_index(crtc);
- 	ktime_t now;
-@@ -1237,7 +1237,7 @@ int drm_vblank_get(struct drm_device *dev, unsigned int pipe)
+ 	unsigned int pipe = crtc->index;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	int idx = amdgpu_display_crtc_idx_to_irq_type(adev, pipe);
+@@ -1453,7 +1453,7 @@ int amdgpu_enable_vblank_kms(struct drm_crtc *crtc)
   */
- int drm_crtc_vblank_get(struct drm_crtc *crtc)
+ void amdgpu_disable_vblank_kms(struct drm_crtc *crtc)
  {
--	return drm_vblank_get(crtc->dev, drm_crtc_index(crtc));
-+	return drm_vblank_get(crtc->drm_dev, drm_crtc_index(crtc));
- }
- EXPORT_SYMBOL(drm_crtc_vblank_get);
- 
-@@ -1272,7 +1272,7 @@ void drm_vblank_put(struct drm_device *dev, unsigned int pipe)
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	unsigned int pipe = crtc->index;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	int idx = amdgpu_display_crtc_idx_to_irq_type(adev, pipe);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pll.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_pll.c
+index 0bb2466d539a..fb06bc8d1a93 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pll.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pll.c
+@@ -268,7 +268,7 @@ void amdgpu_pll_compute(struct amdgpu_device *adev,
   */
- void drm_crtc_vblank_put(struct drm_crtc *crtc)
+ u32 amdgpu_pll_get_use_mask(struct drm_crtc *crtc)
  {
--	drm_vblank_put(crtc->dev, drm_crtc_index(crtc));
-+	drm_vblank_put(crtc->drm_dev, drm_crtc_index(crtc));
- }
- EXPORT_SYMBOL(drm_crtc_vblank_put);
- 
-@@ -1323,7 +1323,7 @@ EXPORT_SYMBOL(drm_wait_one_vblank);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct drm_crtc *test_crtc;
+ 	struct amdgpu_crtc *test_amdgpu_crtc;
+ 	u32 pll_in_use = 0;
+@@ -295,7 +295,7 @@ u32 amdgpu_pll_get_use_mask(struct drm_crtc *crtc)
   */
- void drm_crtc_wait_one_vblank(struct drm_crtc *crtc)
+ int amdgpu_pll_get_shared_dp_ppll(struct drm_crtc *crtc)
  {
--	drm_wait_one_vblank(crtc->dev, drm_crtc_index(crtc));
-+	drm_wait_one_vblank(crtc->drm_dev, drm_crtc_index(crtc));
- }
- EXPORT_SYMBOL(drm_crtc_wait_one_vblank);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct drm_crtc *test_crtc;
+ 	struct amdgpu_crtc *test_amdgpu_crtc;
  
-@@ -1340,7 +1340,7 @@ EXPORT_SYMBOL(drm_crtc_wait_one_vblank);
-  */
- void drm_crtc_vblank_off(struct drm_crtc *crtc)
+@@ -324,7 +324,7 @@ int amdgpu_pll_get_shared_dp_ppll(struct drm_crtc *crtc)
+ int amdgpu_pll_get_shared_nondp_ppll(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct drm_crtc *test_crtc;
+ 	struct amdgpu_crtc *test_amdgpu_crtc;
+ 	u32 adjusted_clock, test_adjusted_clock;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
+index 53ff91fc6cf6..bd962b17b186 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
+@@ -63,7 +63,7 @@ static enum hrtimer_restart amdgpu_vkms_vblank_simulate(struct hrtimer *timer)
+ 
+ static int amdgpu_vkms_enable_vblank(struct drm_crtc *crtc)
  {
 -	struct drm_device *dev = crtc->dev;
 +	struct drm_device *dev = crtc->drm_dev;
  	unsigned int pipe = drm_crtc_index(crtc);
  	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
- 	struct drm_pending_vblank_event *e, *t;
-@@ -1419,7 +1419,7 @@ EXPORT_SYMBOL(drm_crtc_vblank_off);
-  */
- void drm_crtc_vblank_reset(struct drm_crtc *crtc)
+ 	struct amdgpu_vkms_output *out = drm_crtc_to_amdgpu_vkms_output(crtc);
+@@ -89,7 +89,7 @@ static bool amdgpu_vkms_get_vblank_timestamp(struct drm_crtc *crtc,
+ 					     ktime_t *vblank_time,
+ 					     bool in_vblank_irq)
  {
 -	struct drm_device *dev = crtc->dev;
 +	struct drm_device *dev = crtc->drm_dev;
- 	unsigned int pipe = drm_crtc_index(crtc);
+ 	unsigned int pipe = crtc->index;
+ 	struct amdgpu_vkms_output *output = drm_crtc_to_amdgpu_vkms_output(crtc);
  	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+@@ -146,14 +146,14 @@ static void amdgpu_vkms_crtc_atomic_flush(struct drm_crtc *crtc,
+ {
+ 	unsigned long flags;
+ 	if (crtc->state->event) {
+-		spin_lock_irqsave(&crtc->dev->event_lock, flags);
++		spin_lock_irqsave(&crtc->drm_dev->event_lock, flags);
  
-@@ -1459,7 +1459,7 @@ EXPORT_SYMBOL(drm_crtc_vblank_reset);
- void drm_crtc_set_max_vblank_count(struct drm_crtc *crtc,
- 				   u32 max_vblank_count)
+ 		if (drm_crtc_vblank_get(crtc) != 0)
+ 			drm_crtc_send_vblank_event(crtc, crtc->state->event);
+ 		else
+ 			drm_crtc_arm_vblank_event(crtc, crtc->state->event);
+ 
+-		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++		spin_unlock_irqrestore(&crtc->drm_dev->event_lock, flags);
+ 
+ 		crtc->state->event = NULL;
+ 	}
+diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_crtc.c b/drivers/gpu/drm/amd/amdgpu/atombios_crtc.c
+index 10098fdd33fc..89d90c0d1b5f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/atombios_crtc.c
++++ b/drivers/gpu/drm/amd/amdgpu/atombios_crtc.c
+@@ -39,7 +39,7 @@ void amdgpu_atombios_crtc_overscan_setup(struct drm_crtc *crtc,
+ 				  struct drm_display_mode *mode,
+ 				  struct drm_display_mode *adjusted_mode)
  {
 -	struct drm_device *dev = crtc->dev;
 +	struct drm_device *dev = crtc->drm_dev;
- 	unsigned int pipe = drm_crtc_index(crtc);
- 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	SET_CRTC_OVERSCAN_PS_ALLOCATION args;
+@@ -82,7 +82,7 @@ void amdgpu_atombios_crtc_overscan_setup(struct drm_crtc *crtc,
  
-@@ -1482,7 +1482,7 @@ EXPORT_SYMBOL(drm_crtc_set_max_vblank_count);
-  */
- void drm_crtc_vblank_on(struct drm_crtc *crtc)
+ void amdgpu_atombios_crtc_scaler_setup(struct drm_crtc *crtc)
  {
 -	struct drm_device *dev = crtc->dev;
 +	struct drm_device *dev = crtc->drm_dev;
- 	unsigned int pipe = drm_crtc_index(crtc);
- 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
- 
-@@ -1568,9 +1568,9 @@ static void drm_vblank_restore(struct drm_device *dev, unsigned int pipe)
- void drm_crtc_vblank_restore(struct drm_crtc *crtc)
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	ENABLE_SCALER_PS_ALLOCATION args;
+@@ -112,7 +112,7 @@ void amdgpu_atombios_crtc_scaler_setup(struct drm_crtc *crtc)
+ void amdgpu_atombios_crtc_lock(struct drm_crtc *crtc, int lock)
  {
- 	WARN_ON_ONCE(!crtc->funcs->get_vblank_timestamp);
--	WARN_ON_ONCE(!crtc->dev->vblank_disable_immediate);
-+	WARN_ON_ONCE(!crtc->drm_dev->vblank_disable_immediate);
- 
--	drm_vblank_restore(crtc->dev, drm_crtc_index(crtc));
-+	drm_vblank_restore(crtc->drm_dev, drm_crtc_index(crtc));
- }
- EXPORT_SYMBOL(drm_crtc_vblank_restore);
- 
-@@ -2047,7 +2047,7 @@ EXPORT_SYMBOL(drm_handle_vblank);
-  */
- bool drm_crtc_handle_vblank(struct drm_crtc *crtc)
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	int index =
+ 	    GetIndexIntoMasterTable(COMMAND, UpdateCRTC_DoubleBufferRegisters);
+@@ -129,7 +129,7 @@ void amdgpu_atombios_crtc_lock(struct drm_crtc *crtc, int lock)
+ void amdgpu_atombios_crtc_enable(struct drm_crtc *crtc, int state)
  {
--	return drm_handle_vblank(crtc->dev, drm_crtc_index(crtc));
-+	return drm_handle_vblank(crtc->drm_dev, drm_crtc_index(crtc));
- }
- EXPORT_SYMBOL(drm_crtc_handle_vblank);
- 
-diff --git a/drivers/gpu/drm/drm_vblank_work.c b/drivers/gpu/drm/drm_vblank_work.c
-index bd481fdd6b87..0a483c36f9d3 100644
---- a/drivers/gpu/drm/drm_vblank_work.c
-+++ b/drivers/gpu/drm/drm_vblank_work.c
-@@ -242,7 +242,7 @@ void drm_vblank_work_init(struct drm_vblank_work *work, struct drm_crtc *crtc,
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	int index = GetIndexIntoMasterTable(COMMAND, EnableCRTC);
+ 	ENABLE_CRTC_PS_ALLOCATION args;
+@@ -145,7 +145,7 @@ void amdgpu_atombios_crtc_enable(struct drm_crtc *crtc, int state)
+ void amdgpu_atombios_crtc_blank(struct drm_crtc *crtc, int state)
  {
- 	kthread_init_work(&work->base, func);
- 	INIT_LIST_HEAD(&work->node);
--	work->vblank = &crtc->dev->vblank[drm_crtc_index(crtc)];
-+	work->vblank = &crtc->drm_dev->vblank[drm_crtc_index(crtc)];
- }
- EXPORT_SYMBOL(drm_vblank_work_init);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	int index = GetIndexIntoMasterTable(COMMAND, BlankCRTC);
+ 	BLANK_CRTC_PS_ALLOCATION args;
+@@ -161,7 +161,7 @@ void amdgpu_atombios_crtc_blank(struct drm_crtc *crtc, int state)
+ void amdgpu_atombios_crtc_powergate(struct drm_crtc *crtc, int state)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	int index = GetIndexIntoMasterTable(COMMAND, EnableDispPowerGating);
+ 	ENABLE_DISP_POWER_GATING_PS_ALLOCATION args;
+@@ -190,7 +190,7 @@ void amdgpu_atombios_crtc_set_dtd_timing(struct drm_crtc *crtc,
+ 				  struct drm_display_mode *mode)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	SET_CRTC_USING_DTD_TIMING_PARAMETERS args;
+ 	int index = GetIndexIntoMasterTable(COMMAND, SetCRTC_UsingDTDTiming);
+@@ -305,7 +305,7 @@ static u32 amdgpu_atombios_crtc_adjust_pll(struct drm_crtc *crtc,
+ 				    struct drm_display_mode *mode)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct drm_encoder *encoder = amdgpu_crtc->encoder;
+ 	struct amdgpu_encoder *amdgpu_encoder = to_amdgpu_encoder(encoder);
+@@ -586,7 +586,7 @@ void amdgpu_atombios_crtc_program_pll(struct drm_crtc *crtc,
+ 				      bool ss_enabled,
+ 				      struct amdgpu_atom_ss *ss)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u8 frev, crev;
+ 	int index = GetIndexIntoMasterTable(COMMAND, SetPixelClock);
+@@ -747,7 +747,7 @@ int amdgpu_atombios_crtc_prepare_pll(struct drm_crtc *crtc,
+ 			      struct drm_display_mode *mode)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_encoder *amdgpu_encoder =
+ 		to_amdgpu_encoder(amdgpu_crtc->encoder);
+@@ -816,7 +816,7 @@ int amdgpu_atombios_crtc_prepare_pll(struct drm_crtc *crtc,
+ void amdgpu_atombios_crtc_set_pll(struct drm_crtc *crtc, struct drm_display_mode *mode)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_encoder *amdgpu_encoder =
+ 		to_amdgpu_encoder(amdgpu_crtc->encoder);
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+index 9a24ed463abd..9f232aebb3f9 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+@@ -1824,7 +1824,7 @@ static const u32 vga_control_regs[6] =
+ static void dce_v10_0_vga_enable(struct drm_crtc *crtc, bool enable)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u32 vga_control;
  
-diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
-index 536a0b0091c3..1a9427d24fe2 100644
---- a/include/drm/drm_atomic_helper.h
-+++ b/include/drm/drm_atomic_helper.h
-@@ -173,7 +173,7 @@ int drm_atomic_helper_page_flip_target(
-  * drm_atomic_crtc_state_for_each_plane().
-  */
- #define drm_atomic_crtc_for_each_plane(plane, crtc) \
--	drm_for_each_plane_mask(plane, (crtc)->dev, (crtc)->state->plane_mask)
-+	drm_for_each_plane_mask(plane, (crtc)->drm_dev, (crtc)->state->plane_mask)
+@@ -1838,7 +1838,7 @@ static void dce_v10_0_vga_enable(struct drm_crtc *crtc, bool enable)
+ static void dce_v10_0_grph_enable(struct drm_crtc *crtc, bool enable)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
  
- /**
-  * drm_atomic_crtc_state_for_each_plane - iterate over attached planes in new state
+ 	if (enable)
+@@ -1852,7 +1852,7 @@ static int dce_v10_0_crtc_do_set_base(struct drm_crtc *crtc,
+ 				     int x, int y, int atomic)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct drm_framebuffer *target_fb;
+ 	struct drm_gem_object *obj;
+@@ -2096,7 +2096,7 @@ static int dce_v10_0_crtc_do_set_base(struct drm_crtc *crtc,
+ static void dce_v10_0_set_interleave(struct drm_crtc *crtc,
+ 				     struct drm_display_mode *mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	u32 tmp;
+@@ -2112,7 +2112,7 @@ static void dce_v10_0_set_interleave(struct drm_crtc *crtc,
+ static void dce_v10_0_crtc_load_lut(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u16 *r, *g, *b;
+ 	int i;
+@@ -2247,7 +2247,7 @@ static int dce_v10_0_pick_dig_encoder(struct drm_encoder *encoder)
+ static u32 dce_v10_0_pick_pll(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u32 pll_in_use;
+ 	int pll;
+@@ -2283,7 +2283,7 @@ static u32 dce_v10_0_pick_pll(struct drm_crtc *crtc)
+ 
+ static void dce_v10_0_lock_cursor(struct drm_crtc *crtc, bool lock)
+ {
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm_dev);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	uint32_t cur_lock;
+ 
+@@ -2298,7 +2298,7 @@ static void dce_v10_0_lock_cursor(struct drm_crtc *crtc, bool lock)
+ static void dce_v10_0_hide_cursor(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm_dev);
+ 	u32 tmp;
+ 
+ 	tmp = RREG32(mmCUR_CONTROL + amdgpu_crtc->crtc_offset);
+@@ -2309,7 +2309,7 @@ static void dce_v10_0_hide_cursor(struct drm_crtc *crtc)
+ static void dce_v10_0_show_cursor(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm_dev);
+ 	u32 tmp;
+ 
+ 	WREG32(mmCUR_SURFACE_ADDRESS_HIGH + amdgpu_crtc->crtc_offset,
+@@ -2327,7 +2327,7 @@ static int dce_v10_0_cursor_move_locked(struct drm_crtc *crtc,
+ 					int x, int y)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm_dev);
+ 	int xorigin = 0, yorigin = 0;
+ 
+ 	amdgpu_crtc->cursor_x = x;
+@@ -2500,7 +2500,7 @@ static const struct drm_crtc_funcs dce_v10_0_crtc_funcs = {
+ 
+ static void dce_v10_0_crtc_dpms(struct drm_crtc *crtc, int mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	unsigned type;
+@@ -2554,7 +2554,7 @@ static void dce_v10_0_crtc_commit(struct drm_crtc *crtc)
+ static void dce_v10_0_crtc_disable(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_atom_ss ss;
+ 	int i;
+@@ -2635,7 +2635,7 @@ static bool dce_v10_0_crtc_mode_fixup(struct drm_crtc *crtc,
+ 				     struct drm_display_mode *adjusted_mode)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct drm_encoder *encoder;
+ 
+ 	/* assign the encoder to the amdgpu crtc to avoid repeated lookups later */
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+index c14b70350a51..a9b5549614b9 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+@@ -1866,7 +1866,7 @@ static const u32 vga_control_regs[6] =
+ static void dce_v11_0_vga_enable(struct drm_crtc *crtc, bool enable)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u32 vga_control;
+ 
+@@ -1880,7 +1880,7 @@ static void dce_v11_0_vga_enable(struct drm_crtc *crtc, bool enable)
+ static void dce_v11_0_grph_enable(struct drm_crtc *crtc, bool enable)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 
+ 	if (enable)
+@@ -1894,7 +1894,7 @@ static int dce_v11_0_crtc_do_set_base(struct drm_crtc *crtc,
+ 				     int x, int y, int atomic)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct drm_framebuffer *target_fb;
+ 	struct drm_gem_object *obj;
+@@ -2138,7 +2138,7 @@ static int dce_v11_0_crtc_do_set_base(struct drm_crtc *crtc,
+ static void dce_v11_0_set_interleave(struct drm_crtc *crtc,
+ 				     struct drm_display_mode *mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	u32 tmp;
+@@ -2154,7 +2154,7 @@ static void dce_v11_0_set_interleave(struct drm_crtc *crtc,
+ static void dce_v11_0_crtc_load_lut(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u16 *r, *g, *b;
+ 	int i;
+@@ -2280,7 +2280,7 @@ static int dce_v11_0_pick_dig_encoder(struct drm_encoder *encoder)
+ static u32 dce_v11_0_pick_pll(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u32 pll_in_use;
+ 	int pll;
+@@ -2359,7 +2359,7 @@ static u32 dce_v11_0_pick_pll(struct drm_crtc *crtc)
+ 
+ static void dce_v11_0_lock_cursor(struct drm_crtc *crtc, bool lock)
+ {
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm_dev);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	uint32_t cur_lock;
+ 
+@@ -2374,7 +2374,7 @@ static void dce_v11_0_lock_cursor(struct drm_crtc *crtc, bool lock)
+ static void dce_v11_0_hide_cursor(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm_dev);
+ 	u32 tmp;
+ 
+ 	tmp = RREG32(mmCUR_CONTROL + amdgpu_crtc->crtc_offset);
+@@ -2385,7 +2385,7 @@ static void dce_v11_0_hide_cursor(struct drm_crtc *crtc)
+ static void dce_v11_0_show_cursor(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm_dev);
+ 	u32 tmp;
+ 
+ 	WREG32(mmCUR_SURFACE_ADDRESS_HIGH + amdgpu_crtc->crtc_offset,
+@@ -2403,7 +2403,7 @@ static int dce_v11_0_cursor_move_locked(struct drm_crtc *crtc,
+ 					int x, int y)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm_dev);
+ 	int xorigin = 0, yorigin = 0;
+ 
+ 	amdgpu_crtc->cursor_x = x;
+@@ -2576,7 +2576,7 @@ static const struct drm_crtc_funcs dce_v11_0_crtc_funcs = {
+ 
+ static void dce_v11_0_crtc_dpms(struct drm_crtc *crtc, int mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	unsigned type;
+@@ -2630,7 +2630,7 @@ static void dce_v11_0_crtc_commit(struct drm_crtc *crtc)
+ static void dce_v11_0_crtc_disable(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_atom_ss ss;
+ 	int i;
+@@ -2700,7 +2700,7 @@ static int dce_v11_0_crtc_mode_set(struct drm_crtc *crtc,
+ 				  int x, int y, struct drm_framebuffer *old_fb)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 
+ 	if (!amdgpu_crtc->adjusted_clock)
+@@ -2740,7 +2740,7 @@ static bool dce_v11_0_crtc_mode_fixup(struct drm_crtc *crtc,
+ 				     struct drm_display_mode *adjusted_mode)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct drm_encoder *encoder;
+ 
+ 	/* assign the encoder to the amdgpu crtc to avoid repeated lookups later */
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+index 7f85ba5b726f..4c6a4d6cae02 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+@@ -1789,7 +1789,7 @@ static const u32 vga_control_regs[6] =
+ static void dce_v6_0_vga_enable(struct drm_crtc *crtc, bool enable)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u32 vga_control;
+ 
+@@ -1800,7 +1800,7 @@ static void dce_v6_0_vga_enable(struct drm_crtc *crtc, bool enable)
+ static void dce_v6_0_grph_enable(struct drm_crtc *crtc, bool enable)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 
+ 	WREG32(mmGRPH_ENABLE + amdgpu_crtc->crtc_offset, enable ? 1 : 0);
+@@ -1811,7 +1811,7 @@ static int dce_v6_0_crtc_do_set_base(struct drm_crtc *crtc,
+ 				     int x, int y, int atomic)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct drm_framebuffer *target_fb;
+ 	struct drm_gem_object *obj;
+@@ -2033,7 +2033,7 @@ static int dce_v6_0_crtc_do_set_base(struct drm_crtc *crtc,
+ static void dce_v6_0_set_interleave(struct drm_crtc *crtc,
+ 				    struct drm_display_mode *mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 
+@@ -2048,7 +2048,7 @@ static void dce_v6_0_crtc_load_lut(struct drm_crtc *crtc)
+ {
+ 
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u16 *r, *g, *b;
+ 	int i;
+@@ -2148,7 +2148,7 @@ static int dce_v6_0_pick_dig_encoder(struct drm_encoder *encoder)
+ static u32 dce_v6_0_pick_pll(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u32 pll_in_use;
+ 	int pll;
+@@ -2178,7 +2178,7 @@ static u32 dce_v6_0_pick_pll(struct drm_crtc *crtc)
+ 
+ static void dce_v6_0_lock_cursor(struct drm_crtc *crtc, bool lock)
+ {
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm_dev);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	uint32_t cur_lock;
+ 
+@@ -2193,7 +2193,7 @@ static void dce_v6_0_lock_cursor(struct drm_crtc *crtc, bool lock)
+ static void dce_v6_0_hide_cursor(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm_dev);
+ 
+ 	WREG32(mmCUR_CONTROL + amdgpu_crtc->crtc_offset,
+ 	       (CURSOR_24_8_PRE_MULT << CUR_CONTROL__CURSOR_MODE__SHIFT) |
+@@ -2205,7 +2205,7 @@ static void dce_v6_0_hide_cursor(struct drm_crtc *crtc)
+ static void dce_v6_0_show_cursor(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm_dev);
+ 
+ 	WREG32(mmCUR_SURFACE_ADDRESS_HIGH + amdgpu_crtc->crtc_offset,
+ 	       upper_32_bits(amdgpu_crtc->cursor_addr));
+@@ -2223,7 +2223,7 @@ static int dce_v6_0_cursor_move_locked(struct drm_crtc *crtc,
+ 				       int x, int y)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm_dev);
+ 	int xorigin = 0, yorigin = 0;
+ 
+ 	int w = amdgpu_crtc->cursor_width;
+@@ -2397,7 +2397,7 @@ static const struct drm_crtc_funcs dce_v6_0_crtc_funcs = {
+ 
+ static void dce_v6_0_crtc_dpms(struct drm_crtc *crtc, int mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	unsigned type;
+@@ -2447,7 +2447,7 @@ static void dce_v6_0_crtc_disable(struct drm_crtc *crtc)
+ {
+ 
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_atom_ss ss;
+ 	int i;
+@@ -2528,7 +2528,7 @@ static bool dce_v6_0_crtc_mode_fixup(struct drm_crtc *crtc,
+ {
+ 
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct drm_encoder *encoder;
+ 
+ 	/* assign the encoder to the amdgpu crtc to avoid repeated lookups later */
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
+index d421a268c9ff..b15152265909 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
+@@ -1753,7 +1753,7 @@ static const u32 vga_control_regs[6] =
+ static void dce_v8_0_vga_enable(struct drm_crtc *crtc, bool enable)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u32 vga_control;
+ 
+@@ -1767,7 +1767,7 @@ static void dce_v8_0_vga_enable(struct drm_crtc *crtc, bool enable)
+ static void dce_v8_0_grph_enable(struct drm_crtc *crtc, bool enable)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 
+ 	if (enable)
+@@ -1781,7 +1781,7 @@ static int dce_v8_0_crtc_do_set_base(struct drm_crtc *crtc,
+ 				     int x, int y, int atomic)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct drm_framebuffer *target_fb;
+ 	struct drm_gem_object *obj;
+@@ -2005,7 +2005,7 @@ static int dce_v8_0_crtc_do_set_base(struct drm_crtc *crtc,
+ static void dce_v8_0_set_interleave(struct drm_crtc *crtc,
+ 				    struct drm_display_mode *mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 
+@@ -2019,7 +2019,7 @@ static void dce_v8_0_set_interleave(struct drm_crtc *crtc,
+ static void dce_v8_0_crtc_load_lut(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u16 *r, *g, *b;
+ 	int i;
+@@ -2137,7 +2137,7 @@ static int dce_v8_0_pick_dig_encoder(struct drm_encoder *encoder)
+ static u32 dce_v8_0_pick_pll(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u32 pll_in_use;
+ 	int pll;
+@@ -2186,7 +2186,7 @@ static u32 dce_v8_0_pick_pll(struct drm_crtc *crtc)
+ 
+ static void dce_v8_0_lock_cursor(struct drm_crtc *crtc, bool lock)
+ {
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm_dev);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	uint32_t cur_lock;
+ 
+@@ -2201,7 +2201,7 @@ static void dce_v8_0_lock_cursor(struct drm_crtc *crtc, bool lock)
+ static void dce_v8_0_hide_cursor(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm_dev);
+ 
+ 	WREG32(mmCUR_CONTROL + amdgpu_crtc->crtc_offset,
+ 	       (CURSOR_24_8_PRE_MULT << CUR_CONTROL__CURSOR_MODE__SHIFT) |
+@@ -2211,7 +2211,7 @@ static void dce_v8_0_hide_cursor(struct drm_crtc *crtc)
+ static void dce_v8_0_show_cursor(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm_dev);
+ 
+ 	WREG32(mmCUR_SURFACE_ADDRESS_HIGH + amdgpu_crtc->crtc_offset,
+ 	       upper_32_bits(amdgpu_crtc->cursor_addr));
+@@ -2228,7 +2228,7 @@ static int dce_v8_0_cursor_move_locked(struct drm_crtc *crtc,
+ 				       int x, int y)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm_dev);
+ 	int xorigin = 0, yorigin = 0;
+ 
+ 	amdgpu_crtc->cursor_x = x;
+@@ -2401,7 +2401,7 @@ static const struct drm_crtc_funcs dce_v8_0_crtc_funcs = {
+ 
+ static void dce_v8_0_crtc_dpms(struct drm_crtc *crtc, int mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	unsigned type;
+@@ -2455,7 +2455,7 @@ static void dce_v8_0_crtc_commit(struct drm_crtc *crtc)
+ static void dce_v8_0_crtc_disable(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_atom_ss ss;
+ 	int i;
+@@ -2543,7 +2543,7 @@ static bool dce_v8_0_crtc_mode_fixup(struct drm_crtc *crtc,
+ 				     struct drm_display_mode *adjusted_mode)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct drm_encoder *encoder;
+ 
+ 	/* assign the encoder to the amdgpu crtc to avoid repeated lookups later */
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index ff0a217b9d56..d4a4971b8f69 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -515,7 +515,7 @@ static void dm_vupdate_high_irq(void *interrupt_params)
+ 
+ 	if (acrtc) {
+ 		vrr_active = amdgpu_dm_crtc_vrr_active_irq(acrtc);
+-		drm_dev = acrtc->base.dev;
++		drm_dev = acrtc->base.drm_dev;
+ 		vblank = &drm_dev->vblank[acrtc->base.index];
+ 		previous_timestamp = atomic64_read(&irq_params->previous_timestamp);
+ 		frame_duration_ns = vblank->time - previous_timestamp;
+@@ -7760,7 +7760,7 @@ static void remove_stream(struct amdgpu_device *adev,
+ static void prepare_flip_isr(struct amdgpu_crtc *acrtc)
+ {
+ 
+-	assert_spin_locked(&acrtc->base.dev->event_lock);
++	assert_spin_locked(&acrtc->base.drm_dev->event_lock);
+ 	WARN_ON(acrtc->event);
+ 
+ 	acrtc->event = acrtc->base.state->event;
+@@ -8178,9 +8178,10 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+ 			 * timing control and more opportunity to avoid stutter
+ 			 * on late submission of flips.
+ 			 */
+-			spin_lock_irqsave(&pcrtc->dev->event_lock, flags);
++			spin_lock_irqsave(&pcrtc->drm_dev->event_lock, flags);
+ 			last_flip_vblank = acrtc_attach->dm_irq_params.last_flip_vblank;
+-			spin_unlock_irqrestore(&pcrtc->dev->event_lock, flags);
++			spin_unlock_irqrestore(&pcrtc->drm_dev->event_lock,
++					       flags);
+ 		}
+ 
+ 		target_vblank = last_flip_vblank + wait_for_vblank;
+@@ -8212,12 +8213,13 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+ 		    acrtc_state->active_planes > 0) {
+ 			drm_crtc_vblank_get(pcrtc);
+ 
+-			spin_lock_irqsave(&pcrtc->dev->event_lock, flags);
++			spin_lock_irqsave(&pcrtc->drm_dev->event_lock, flags);
+ 
+ 			WARN_ON(acrtc_attach->pflip_status != AMDGPU_FLIP_NONE);
+ 			prepare_flip_isr(acrtc_attach);
+ 
+-			spin_unlock_irqrestore(&pcrtc->dev->event_lock, flags);
++			spin_unlock_irqrestore(&pcrtc->drm_dev->event_lock,
++					       flags);
+ 		}
+ 
+ 		if (acrtc_state->stream) {
+@@ -8229,12 +8231,12 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+ 		   acrtc_attach->base.state->event) {
+ 		drm_crtc_vblank_get(pcrtc);
+ 
+-		spin_lock_irqsave(&pcrtc->dev->event_lock, flags);
++		spin_lock_irqsave(&pcrtc->drm_dev->event_lock, flags);
+ 
+ 		acrtc_attach->event = acrtc_attach->base.state->event;
+ 		acrtc_attach->base.state->event = NULL;
+ 
+-		spin_unlock_irqrestore(&pcrtc->dev->event_lock, flags);
++		spin_unlock_irqrestore(&pcrtc->drm_dev->event_lock, flags);
+ 	}
+ 
+ 	/* Update the planes if changed or disable if we don't have any. */
+@@ -8282,11 +8284,12 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+ 		 * as part of commit.
+ 		 */
+ 		if (is_dc_timing_adjust_needed(dm_old_crtc_state, acrtc_state)) {
+-			spin_lock_irqsave(&pcrtc->dev->event_lock, flags);
++			spin_lock_irqsave(&pcrtc->drm_dev->event_lock, flags);
+ 			dc_stream_adjust_vmin_vmax(
+ 				dm->dc, acrtc_state->stream,
+ 				&acrtc_attach->dm_irq_params.vrr_params.adjust);
+-			spin_unlock_irqrestore(&pcrtc->dev->event_lock, flags);
++			spin_unlock_irqrestore(&pcrtc->drm_dev->event_lock,
++					       flags);
+ 		}
+ 		mutex_lock(&dm->dc_lock);
+ 		update_planes_and_stream_adapter(dm->dc,
+@@ -9585,7 +9588,7 @@ static int dm_check_cursor_fb(struct amdgpu_crtc *new_acrtc,
+ 			      struct drm_plane_state *new_plane_state,
+ 			      struct drm_framebuffer *fb)
+ {
+-	struct amdgpu_device *adev = drm_to_adev(new_acrtc->base.dev);
++	struct amdgpu_device *adev = drm_to_adev(new_acrtc->base.drm_dev);
+ 	struct amdgpu_framebuffer *afb = to_amdgpu_framebuffer(fb);
+ 	unsigned int pitch;
+ 	bool linear;
+@@ -9770,7 +9773,7 @@ static int dm_update_plane_state(struct dc *dc,
+ 				 plane->base.id, new_plane_crtc->base.id);
+ 
+ 		ret = fill_dc_plane_attributes(
+-			drm_to_adev(new_plane_crtc->dev),
++			drm_to_adev(new_plane_crtc->drm_dev),
+ 			dc_new_plane_state,
+ 			new_plane_state,
+ 			new_crtc_state);
+@@ -9877,7 +9880,7 @@ static int dm_check_crtc_cursor(struct drm_atomic_state *state,
+ 
+ 		if (cursor_scale_w != underlying_scale_w ||
+ 		    cursor_scale_h != underlying_scale_h) {
+-			drm_dbg_atomic(crtc->dev,
++			drm_dbg_atomic(crtc->drm_dev,
+ 				       "Cursor [PLANE:%d:%s] scaling doesn't match underlying [PLANE:%d:%s]\n",
+ 				       cursor->base.id, cursor->name, underlying->base.id, underlying->name);
+ 			return -EINVAL;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
+index 0802f8e8fac5..502ace480b99 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
+@@ -85,7 +85,7 @@ const char *const *amdgpu_dm_crtc_get_crc_sources(struct drm_crtc *crtc,
+ #ifdef CONFIG_DRM_AMD_SECURE_DISPLAY
+ static void amdgpu_dm_set_crc_window_default(struct drm_crtc *crtc, struct dc_stream_state *stream)
+ {
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm_dev;
+ 	struct amdgpu_display_manager *dm = &drm_to_adev(drm_dev)->dm;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+ 	bool was_activated;
+@@ -127,7 +127,7 @@ static void amdgpu_dm_crtc_notify_ta_to_read(struct work_struct *work)
+ 		return;
+ 	}
+ 
+-	psp = &drm_to_adev(crtc->dev)->psp;
++	psp = &drm_to_adev(crtc->drm_dev)->psp;
+ 
+ 	if (!psp->securedisplay_context.context.initialized) {
+ 		DRM_DEBUG_DRIVER("Secure Display fails to notify PSP TA\n");
+@@ -173,7 +173,7 @@ amdgpu_dm_forward_crc_window(struct work_struct *work)
+ 	if (!crtc)
+ 		return;
+ 
+-	dm = &drm_to_adev(crtc->dev)->dm;
++	dm = &drm_to_adev(crtc->drm_dev)->dm;
+ 	stream = to_amdgpu_crtc(crtc)->dm_irq_params.stream;
+ 
+ 	mutex_lock(&dm->dc_lock);
+@@ -183,7 +183,7 @@ amdgpu_dm_forward_crc_window(struct work_struct *work)
+ 
+ bool amdgpu_dm_crc_window_is_activated(struct drm_crtc *crtc)
+ {
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm_dev;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+ 	bool ret = false;
+ 
+@@ -215,7 +215,7 @@ int amdgpu_dm_crtc_configure_crc_source(struct drm_crtc *crtc,
+ 					struct dm_crtc_state *dm_crtc_state,
+ 					enum amdgpu_dm_pipe_crc_source source)
+ {
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm_dev);
+ 	struct dc_stream_state *stream_state = dm_crtc_state->stream;
+ 	bool enable = amdgpu_dm_is_valid_crc_source(source);
+ 	int ret = 0;
+@@ -259,7 +259,7 @@ int amdgpu_dm_crtc_set_crc_source(struct drm_crtc *crtc, const char *src_name)
+ 	enum amdgpu_dm_pipe_crc_source cur_crc_src;
+ 	struct drm_crtc_commit *commit;
+ 	struct dm_crtc_state *crtc_state;
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm_dev;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+ 	struct drm_dp_aux *aux = NULL;
+ 	bool enable = false;
+@@ -323,7 +323,7 @@ int amdgpu_dm_crtc_set_crc_source(struct drm_crtc *crtc, const char *src_name)
+ 		struct drm_connector *connector;
+ 		struct drm_connector_list_iter conn_iter;
+ 
+-		drm_connector_list_iter_begin(crtc->dev, &conn_iter);
++		drm_connector_list_iter_begin(crtc->drm_dev, &conn_iter);
+ 		drm_for_each_connector_iter(connector, &conn_iter) {
+ 			if (!connector->state || connector->state->crtc != crtc)
+ 				continue;
+@@ -433,7 +433,7 @@ void amdgpu_dm_crtc_handle_crc_irq(struct drm_crtc *crtc)
+ 	crtc_state = to_dm_crtc_state(crtc->state);
+ 	stream_state = crtc_state->stream;
+ 	acrtc = to_amdgpu_crtc(crtc);
+-	drm_dev = crtc->dev;
++	drm_dev = crtc->drm_dev;
+ 
+ 	spin_lock_irqsave(&drm_dev->event_lock, flags);
+ 	cur_crc_src = acrtc->dm_irq_params.crc_src;
+@@ -478,8 +478,8 @@ void amdgpu_dm_crtc_handle_crc_window_irq(struct drm_crtc *crtc)
+ 		return;
+ 
+ 	acrtc = to_amdgpu_crtc(crtc);
+-	adev = drm_to_adev(crtc->dev);
+-	drm_dev = crtc->dev;
++	adev = drm_to_adev(crtc->drm_dev);
++	drm_dev = crtc->drm_dev;
+ 
+ 	spin_lock_irqsave(&drm_dev->event_lock, flags1);
+ 	cur_crc_src = acrtc->dm_irq_params.crc_src;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+index 440fc0869a34..791749d8bf7e 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+@@ -37,7 +37,7 @@
+ void amdgpu_dm_crtc_handle_vblank(struct amdgpu_crtc *acrtc)
+ {
+ 	struct drm_crtc *crtc = &acrtc->base;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	unsigned long flags;
+ 
+ 	drm_crtc_handle_vblank(crtc);
+@@ -74,7 +74,7 @@ int amdgpu_dm_crtc_set_vupdate_irq(struct drm_crtc *crtc, bool enable)
+ {
+ 	enum dc_irq_source irq_source;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm_dev);
+ 	int rc;
+ 
+ 	if (acrtc->otg_inst == -1)
+@@ -147,7 +147,7 @@ static void vblank_control_worker(struct work_struct *work)
+ static inline int dm_set_vblank(struct drm_crtc *crtc, bool enable)
+ {
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm_dev);
+ 	struct dm_crtc_state *acrtc_state = to_dm_crtc_state(crtc->state);
+ 	struct amdgpu_display_manager *dm = &adev->dm;
+ 	struct vblank_control_work *work;
+@@ -372,7 +372,7 @@ static int dm_crtc_helper_atomic_check(struct drm_crtc *crtc,
+ {
+ 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
+ 										crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm_dev);
+ 	struct dc *dc = adev->dm.dc;
+ 	struct dm_crtc_state *dm_crtc_state = to_dm_crtc_state(crtc_state);
+ 	int ret = -EINVAL;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+index d63ee636483b..37f619eabb59 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+@@ -1008,7 +1008,7 @@ static int psr_capability_show(struct seq_file *m, void *data)
+ static int amdgpu_current_bpc_show(struct seq_file *m, void *data)
+ {
+ 	struct drm_crtc *crtc = m->private;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct dm_crtc_state *dm_crtc_state = NULL;
+ 	int res = -ENODEV;
+ 	unsigned int bpc;
+@@ -1060,7 +1060,7 @@ DEFINE_SHOW_ATTRIBUTE(amdgpu_current_bpc);
+ static int amdgpu_current_colorspace_show(struct seq_file *m, void *data)
+ {
+ 	struct drm_crtc *crtc = m->private;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm_dev;
+ 	struct dm_crtc_state *dm_crtc_state = NULL;
+ 	int res = -ENODEV;
+ 
+@@ -3178,7 +3178,7 @@ void connector_debugfs_init(struct amdgpu_dm_connector *connector)
+ static int crc_win_x_start_set(void *data, u64 val)
+ {
+ 	struct drm_crtc *crtc = data;
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm_dev;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+ 
+ 	spin_lock_irq(&drm_dev->event_lock);
+@@ -3195,7 +3195,7 @@ static int crc_win_x_start_set(void *data, u64 val)
+ static int crc_win_x_start_get(void *data, u64 *val)
+ {
+ 	struct drm_crtc *crtc = data;
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm_dev;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+ 
+ 	spin_lock_irq(&drm_dev->event_lock);
+@@ -3215,7 +3215,7 @@ DEFINE_DEBUGFS_ATTRIBUTE(crc_win_x_start_fops, crc_win_x_start_get,
+ static int crc_win_y_start_set(void *data, u64 val)
+ {
+ 	struct drm_crtc *crtc = data;
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm_dev;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+ 
+ 	spin_lock_irq(&drm_dev->event_lock);
+@@ -3232,7 +3232,7 @@ static int crc_win_y_start_set(void *data, u64 val)
+ static int crc_win_y_start_get(void *data, u64 *val)
+ {
+ 	struct drm_crtc *crtc = data;
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm_dev;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+ 
+ 	spin_lock_irq(&drm_dev->event_lock);
+@@ -3251,7 +3251,7 @@ DEFINE_DEBUGFS_ATTRIBUTE(crc_win_y_start_fops, crc_win_y_start_get,
+ static int crc_win_x_end_set(void *data, u64 val)
+ {
+ 	struct drm_crtc *crtc = data;
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm_dev;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+ 
+ 	spin_lock_irq(&drm_dev->event_lock);
+@@ -3268,7 +3268,7 @@ static int crc_win_x_end_set(void *data, u64 val)
+ static int crc_win_x_end_get(void *data, u64 *val)
+ {
+ 	struct drm_crtc *crtc = data;
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm_dev;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+ 
+ 	spin_lock_irq(&drm_dev->event_lock);
+@@ -3287,7 +3287,7 @@ DEFINE_DEBUGFS_ATTRIBUTE(crc_win_x_end_fops, crc_win_x_end_get,
+ static int crc_win_y_end_set(void *data, u64 val)
+ {
+ 	struct drm_crtc *crtc = data;
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm_dev;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+ 
+ 	spin_lock_irq(&drm_dev->event_lock);
+@@ -3304,7 +3304,7 @@ static int crc_win_y_end_set(void *data, u64 val)
+ static int crc_win_y_end_get(void *data, u64 *val)
+ {
+ 	struct drm_crtc *crtc = data;
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm_dev;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+ 
+ 	spin_lock_irq(&drm_dev->event_lock);
+@@ -3323,7 +3323,7 @@ static int crc_win_update_set(void *data, u64 val)
+ {
+ 	struct drm_crtc *crtc = data;
+ 	struct amdgpu_crtc *acrtc;
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm_dev);
+ 
+ 	if (val) {
+ 		acrtc = to_amdgpu_crtc(crtc);
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+index 322668973747..aa286a71b6c7 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+@@ -1020,7 +1020,7 @@ int amdgpu_dm_plane_helper_check_state(struct drm_plane_state *state,
+ 		}
+ 
+ 		/* Get min/max allowed scaling factors from plane caps. */
+-		get_min_max_dc_plane_scaling(state->crtc->dev, fb,
++		get_min_max_dc_plane_scaling(state->crtc->drm_dev, fb,
+ 					     &min_downscale, &max_upscale);
+ 		/*
+ 		 * Convert to drm convention: 16.16 fixed point, instead of dc's
 -- 
 2.39.2
 
