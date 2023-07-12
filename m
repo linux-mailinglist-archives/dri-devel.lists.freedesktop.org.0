@@ -2,76 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60F2D74FBFD
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 02:02:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1389574FC1E
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 02:30:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F3D710E122;
-	Wed, 12 Jul 2023 00:02:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C732710E121;
+	Wed, 12 Jul 2023 00:30:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ED9F10E122;
- Wed, 12 Jul 2023 00:01:59 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 36BNgCZt016694; Wed, 12 Jul 2023 00:01:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=jTeqAFlCLv+oA4IEJ6lncMyInSn/hwY65e4xFEskncs=;
- b=eEFiOkbIvJwmFZVvX8HrtUagIs/ZFjwMRereS5FHcSN07k4CyNXYMkrSMXV9riZ8DEZl
- SygegICUqKTVY5dvIqe8aLRUA09c8VfxQY8VbC1bCiiUh7XlUupM0nM76C747f3X90SL
- mHw/OLebApUBZeUGI/YgNskRR1b0O4V3Is5Zmg6uLaVsYDWKMmQ7aPgqU2ed18i9U4Rp
- cSbQlqxTflg4XXvMfDXInR+s4OsMJzS1h+15U+W4tHOutbAVOxtXzZrfRzHd4g/Iicvc
- jt1Xbrx5rSmQm/tCPfcJDxJ81pZv3ruPQ4F4ujTBxOSEWfAZvwpgLd6hvHLmkN0EI0Ux PA== 
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rsgar82ky-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jul 2023 00:01:44 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36C01hC3006897
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jul 2023 00:01:43 GMT
-Received: from [10.71.109.168] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Tue, 11 Jul
- 2023 17:01:42 -0700
-Message-ID: <f2a50fb0-f9d3-d884-8f67-28591413e935@quicinc.com>
-Date: Tue, 11 Jul 2023 17:01:42 -0700
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
+ [IPv6:2607:f8b0:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B5B110E121
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 00:30:05 +0000 (UTC)
+Received: by mail-oi1-x232.google.com with SMTP id
+ 5614622812f47-3a38953c928so4791492b6e.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 17:30:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1689121804; x=1691713804;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:sender
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=AywlaY7x3Z/gX6am2crBJ9gOzJzowq37abxtBtmocQo=;
+ b=ghdEvDcr1IFDaQljt1dRUmu0HvE8cBRXow9dvmJIaaoVnpliy0H6io9/6jVjgOiCvp
+ W8ARD6eHNeqfJ+cDPA0NJgPJBqbJKcZVgnHyOUyjNKE8bjkztkk4ySHLSiUBAuECvNvG
+ mb/2DywJzkaoQruchWfaALw0QTZyIhkyMl6GdGEbXU96lEG1IIKslGtkOxNFHbPJlukV
+ cU3AAipN+IhHQaj7foFoecZ/dEzkn+h7hzibqavkPSnM3iQjwT1oNRd+xdvy8XXbjmLV
+ /C6WF+gR5Z+E29WVX3/x1rDq3OotadtwPkAl2sIQPRWVXcg0mMjVQCSxr6vu04KG1I6/
+ 7Mcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689121804; x=1691713804;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:sender
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=AywlaY7x3Z/gX6am2crBJ9gOzJzowq37abxtBtmocQo=;
+ b=I3zsHW07gm2pqCmS5whuVx0MStINxoGb6ijAsgbRNdd8aupUx2yvssGzAc4FwHtm9A
+ MPORx6AEi9N5lX14a3nPq0GGt3LIUuohdXMa3t0iw6OR+EZDB+XtDjT3KaRR5kB9w8mR
+ B37Y2jMEi/Ja70B6oTpp+1TG2rXFvGfUcoUkweKcblVhj4kZwfPj5CkyLkMqErFOykRf
+ tgQ64sYesrChSzWUA/R0koA6ni9VRDPcFJAQRyDetjH3y9XoVeLH38sZasBV2RuZXaFK
+ V7mlQfQZNkrsyMOAChL2m9B9dcQEwiL8dcfZ7E2Nelh5DKubY9J5fBxU6CAby8Wg3wHH
+ nNig==
+X-Gm-Message-State: ABy/qLZLD+rD4Pg+v4HwPAl5jzpxFC7maXhS4La0GjiyIfy70lyKTTjD
+ cjkDBv14pgTRM4FrEFTbISA=
+X-Google-Smtp-Source: APBJJlERzXloivjI5bk3/nTAyrXULoGFQYQ9HeldnM+GEDq5PgIauvtfIOYiM1H16bglc4CH0JAn3w==
+X-Received: by 2002:a05:6808:1aa6:b0:3a3:78dc:8c4c with SMTP id
+ bm38-20020a0568081aa600b003a378dc8c4cmr15877789oib.46.1689121804077; 
+ Tue, 11 Jul 2023 17:30:04 -0700 (PDT)
+Received: from localhost ([2620:10d:c090:400::5:9374])
+ by smtp.gmail.com with ESMTPSA id
+ s10-20020a62e70a000000b006687b41c4dasm2285401pfh.110.2023.07.11.17.30.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Jul 2023 17:30:03 -0700 (PDT)
+Date: Tue, 11 Jul 2023 14:30:01 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: Consider switching to WQ_UNBOUND messages (was: Re: [PATCH v2
+ 6/7] workqueue: Report work funcs that trigger automatic CPU_INTENSIVE
+ mechanism)
+Message-ID: <ZK30CR196rs-OWLq@slm.duckdns.org>
+References: <20230511181931.869812-1-tj@kernel.org>
+ <20230511181931.869812-7-tj@kernel.org>
+ <ZF6WsSVGX3O1d0pL@slm.duckdns.org>
+ <CAMuHMdVCQmh6V182q4g---jvsWiTOP2hBPZKvma6oUN6535LEg@mail.gmail.com>
+ <CAMuHMdW1kxZ1RHKTRVRqDNAbj1Df2=v0fPn5KYK3kfX_kiXR6A@mail.gmail.com>
+ <ZK3MBfPS-3-tJgjO@slm.duckdns.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH RFC v4 7/7] drm/msm/dpu: Use DRM solid_fill property
-Content-Language: en-US
-To: Pekka Paalanen <ppaalanen@gmail.com>
-References: <20230404-solid-fill-v4-0-f4ec0caa742d@quicinc.com>
- <20230404-solid-fill-v4-7-f4ec0caa742d@quicinc.com>
- <20230630112649.263331b4@eldfell> <20230703104246.7226953a@eldfell>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20230703104246.7226953a@eldfell>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: oFwOyZwqsZYVkYdAEu2o9Yhp6v4rLfha
-X-Proofpoint-ORIG-GUID: oFwOyZwqsZYVkYdAEu2o9Yhp6v4rLfha
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-11_13,2023-07-11_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- mlxlogscore=999 spamscore=0 priorityscore=1501 impostorscore=0
- phishscore=0 clxscore=1015 adultscore=0 malwarescore=0 lowpriorityscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2307110219
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZK3MBfPS-3-tJgjO@slm.duckdns.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,140 +81,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- sebastian.wick@redhat.com, Thomas Zimmermann <tzimmermann@suse.de>, Sean
- Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
- quic_abhinavk@quicinc.com, Maxime Ripard <mripard@kernel.org>,
- linux-kernel@vger.kernel.org, laurent.pinchart@ideasonboard.com,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- wayland-devel@lists.freedesktop.org
+Cc: linux-rtc@vger.kernel.org,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Linux PM list <linux-pm@vger.kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, netdev <netdev@vger.kernel.org>,
+ kernel-team@meta.com, Lai Jiangshan <jiangshanlai@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ "open list:LIBATA SUBSYSTEM \(Serial and Parallel ATA drivers\)"
+ <linux-ide@vger.kernel.org>, Linux MMC List <linux-mmc@vger.kernel.org>,
+ linux-riscv <linux-riscv@lists.infradead.org>,
+ "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 7/3/2023 12:42 AM, Pekka Paalanen wrote:
-> On Fri, 30 Jun 2023 11:26:49 +0300
-> Pekka Paalanen <ppaalanen@gmail.com> wrote:
+On Tue, Jul 11, 2023 at 11:39:17AM -1000, Tejun Heo wrote:
+> On Tue, Jul 11, 2023 at 04:06:22PM +0200, Geert Uytterhoeven wrote:
+> > On Tue, Jul 11, 2023 at 3:55 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+...
+> > workqueue: neigh_managed_work hogged CPU for >10000us 4 times,
+> > consider switching to WQ_UNBOUND
 > 
->> On Thu, 29 Jun 2023 17:25:06 -0700
->> Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
->>
->>> Drop DPU_PLANE_COLOR_FILL_FLAG and check the DRM solid_fill property to
->>> determine if the plane is solid fill. In addition drop the DPU plane
->>> color_fill field as we can now use drm_plane_state.solid_fill instead,
->>> and pass in drm_plane_state.alpha to _dpu_plane_color_fill_pipe() to
->>> allow userspace to configure the alpha value for the solid fill color.
->>>
->>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->>> ---
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 21 +++++++++++++++------
->>>   1 file changed, 15 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->>> index 4476722f03bb..11d4fb771a1f 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->>> @@ -42,7 +42,6 @@
->>>   #define SHARP_SMOOTH_THR_DEFAULT	8
->>>   #define SHARP_NOISE_THR_DEFAULT	2
->>>   
->>> -#define DPU_PLANE_COLOR_FILL_FLAG	BIT(31)
->>>   #define DPU_ZPOS_MAX 255
->>>   
->>>   /*
->>> @@ -82,7 +81,6 @@ struct dpu_plane {
->>>   
->>>   	enum dpu_sspp pipe;
->>>   
->>> -	uint32_t color_fill;
->>>   	bool is_error;
->>>   	bool is_rt_pipe;
->>>   	const struct dpu_mdss_cfg *catalog;
->>> @@ -606,6 +604,17 @@ static void _dpu_plane_color_fill_pipe(struct dpu_plane_state *pstate,
->>>   	_dpu_plane_setup_scaler(pipe, fmt, true, &pipe_cfg, pstate->rotation);
->>>   }
->>>   
->>> +static uint32_t _dpu_plane_get_fill_color(struct drm_solid_fill solid_fill)
->>> +{
->>> +	uint32_t ret = 0;
->>> +
->>> +	ret |= ((uint8_t) solid_fill.b) << 16;
->>> +	ret |= ((uint8_t) solid_fill.g) << 8;
->>> +	ret |= ((uint8_t) solid_fill.r);
->>
->> solid_fill.r, g and b are uint32_t, yes?
->>
->> What's the value encoding in the UAPI? That doc was missing.
+> I wonder whether the right thing to do here is somehow scaling the threshold
+> according to the relative processing power. It's difficult to come up with a
+> threshold which works well across the latest & fastest and really tiny CPUs.
+> I'll think about it some more but if you have some ideas, please feel free
+> to suggest.
 
-Hi Pekka,
+Geert, do you mind posting the full kernel logs for the affected machines?
 
-The solid fill blob will accept an RGB323232 value -- will document this 
-in the drm_solid_fill_info struct
+Thanks.
 
->>
->> I wouldn't expect the UAPI to use 32-bit variables if it was
->> essentially 8-bit, so this conversion looks wrong.
->>
->> Nominal color value 1.0 in u8 is 0xff. The same in u32 is probably
->> 0xffffffff? So a simple cast to u8 won't work. You'd want to take the
->> upper 8 bits instead.
-
-Acked.
-
->>
->>
->> Thanks,
->> pq
->>
->>> +
->>> +	return ret;
-> 
-> Btw. if your driver format is ABGR, then this function leaves alpha as
-> zero. That's confusing.
-> 
-> It would be nice to mention the exact pixel format in the function name
-> so the consistency is easier to check in both here and in callers.
-
-Acked.
-
-Thanks,
-
-Jessica Zhang
-
-> 
-> 
-> Thanks,
-> pq
-> 
->>> +}
->>> +
->>>   /**
->>>    * _dpu_plane_color_fill - enables color fill on plane
->>>    * @pdpu:   Pointer to DPU plane object
->>> @@ -977,9 +986,9 @@ void dpu_plane_flush(struct drm_plane *plane)
->>>   	if (pdpu->is_error)
->>>   		/* force white frame with 100% alpha pipe output on error */
->>>   		_dpu_plane_color_fill(pdpu, 0xFFFFFF, 0xFF);
->>> -	else if (pdpu->color_fill & DPU_PLANE_COLOR_FILL_FLAG)
->>> -		/* force 100% alpha */
->>> -		_dpu_plane_color_fill(pdpu, pdpu->color_fill, 0xFF);
->>> +	else if (drm_plane_solid_fill_enabled(plane->state))
->>> +		_dpu_plane_color_fill(pdpu, _dpu_plane_get_fill_color(plane->state->solid_fill),
->>> +				plane->state->alpha);
->>>   	else {
->>>   		dpu_plane_flush_csc(pdpu, &pstate->pipe);
->>>   		dpu_plane_flush_csc(pdpu, &pstate->r_pipe);
->>> @@ -1024,7 +1033,7 @@ static void dpu_plane_sspp_update_pipe(struct drm_plane *plane,
->>>   	}
->>>   
->>>   	/* override for color fill */
->>> -	if (pdpu->color_fill & DPU_PLANE_COLOR_FILL_FLAG) {
->>> +	if (drm_plane_solid_fill_enabled(plane->state)) {
->>>   		_dpu_plane_set_qos_ctrl(plane, pipe, false);
->>>   
->>>   		/* skip remaining processing on color fill */
->>>    
->>
-> 
+-- 
+tejun
