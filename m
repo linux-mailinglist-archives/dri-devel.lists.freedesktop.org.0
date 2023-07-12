@@ -1,74 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1389574FC1E
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 02:30:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A75E74FC25
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 02:34:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C732710E121;
-	Wed, 12 Jul 2023 00:30:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD8410E466;
+	Wed, 12 Jul 2023 00:34:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
- [IPv6:2607:f8b0:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B5B110E121
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 00:30:05 +0000 (UTC)
-Received: by mail-oi1-x232.google.com with SMTP id
- 5614622812f47-3a38953c928so4791492b6e.1
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jul 2023 17:30:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689121804; x=1691713804;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:sender
- :from:to:cc:subject:date:message-id:reply-to;
- bh=AywlaY7x3Z/gX6am2crBJ9gOzJzowq37abxtBtmocQo=;
- b=ghdEvDcr1IFDaQljt1dRUmu0HvE8cBRXow9dvmJIaaoVnpliy0H6io9/6jVjgOiCvp
- W8ARD6eHNeqfJ+cDPA0NJgPJBqbJKcZVgnHyOUyjNKE8bjkztkk4ySHLSiUBAuECvNvG
- mb/2DywJzkaoQruchWfaALw0QTZyIhkyMl6GdGEbXU96lEG1IIKslGtkOxNFHbPJlukV
- cU3AAipN+IhHQaj7foFoecZ/dEzkn+h7hzibqavkPSnM3iQjwT1oNRd+xdvy8XXbjmLV
- /C6WF+gR5Z+E29WVX3/x1rDq3OotadtwPkAl2sIQPRWVXcg0mMjVQCSxr6vu04KG1I6/
- 7Mcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689121804; x=1691713804;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:sender
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AywlaY7x3Z/gX6am2crBJ9gOzJzowq37abxtBtmocQo=;
- b=I3zsHW07gm2pqCmS5whuVx0MStINxoGb6ijAsgbRNdd8aupUx2yvssGzAc4FwHtm9A
- MPORx6AEi9N5lX14a3nPq0GGt3LIUuohdXMa3t0iw6OR+EZDB+XtDjT3KaRR5kB9w8mR
- B37Y2jMEi/Ja70B6oTpp+1TG2rXFvGfUcoUkweKcblVhj4kZwfPj5CkyLkMqErFOykRf
- tgQ64sYesrChSzWUA/R0koA6ni9VRDPcFJAQRyDetjH3y9XoVeLH38sZasBV2RuZXaFK
- V7mlQfQZNkrsyMOAChL2m9B9dcQEwiL8dcfZ7E2Nelh5DKubY9J5fBxU6CAby8Wg3wHH
- nNig==
-X-Gm-Message-State: ABy/qLZLD+rD4Pg+v4HwPAl5jzpxFC7maXhS4La0GjiyIfy70lyKTTjD
- cjkDBv14pgTRM4FrEFTbISA=
-X-Google-Smtp-Source: APBJJlERzXloivjI5bk3/nTAyrXULoGFQYQ9HeldnM+GEDq5PgIauvtfIOYiM1H16bglc4CH0JAn3w==
-X-Received: by 2002:a05:6808:1aa6:b0:3a3:78dc:8c4c with SMTP id
- bm38-20020a0568081aa600b003a378dc8c4cmr15877789oib.46.1689121804077; 
- Tue, 11 Jul 2023 17:30:04 -0700 (PDT)
-Received: from localhost ([2620:10d:c090:400::5:9374])
- by smtp.gmail.com with ESMTPSA id
- s10-20020a62e70a000000b006687b41c4dasm2285401pfh.110.2023.07.11.17.30.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Jul 2023 17:30:03 -0700 (PDT)
-Date: Tue, 11 Jul 2023 14:30:01 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: Consider switching to WQ_UNBOUND messages (was: Re: [PATCH v2
- 6/7] workqueue: Report work funcs that trigger automatic CPU_INTENSIVE
- mechanism)
-Message-ID: <ZK30CR196rs-OWLq@slm.duckdns.org>
-References: <20230511181931.869812-1-tj@kernel.org>
- <20230511181931.869812-7-tj@kernel.org>
- <ZF6WsSVGX3O1d0pL@slm.duckdns.org>
- <CAMuHMdVCQmh6V182q4g---jvsWiTOP2hBPZKvma6oUN6535LEg@mail.gmail.com>
- <CAMuHMdW1kxZ1RHKTRVRqDNAbj1Df2=v0fPn5KYK3kfX_kiXR6A@mail.gmail.com>
- <ZK3MBfPS-3-tJgjO@slm.duckdns.org>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F51210E463;
+ Wed, 12 Jul 2023 00:34:08 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 36C0I5R0031906; Wed, 12 Jul 2023 00:34:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=V3kOupI2+zPUUBVhvbOLc1sNnyjIW4o6i/NwgoF9m18=;
+ b=on+TXMAIqjg3xuXLShaJ/E1kzTpf48rfGm8RwanzNkXfIBOVwquw/cKXgs2d2B8Nk/b4
+ lhWagOcJX/6HE4B/aQQYhw4niEX0gU6j4XgN6sZ4FQTxxqfrMh2HmZkl0cVI0bTh+sGu
+ LNxtAGa0DxiRrEsGBwZqA8vsvo3CmRA0bt+qddzgJlCSa+HZrulPJi8DUiJgrH/8vA2Y
+ j/RzcESpbNKoUkZuw6F4lZiM/NZr/mKuOfjCjJHX15p03Np+O1YwgloWB9DjkTXYvTzi
+ NT7W5ag47/GvGQA10+K3kOLvkKO76APwNxvRB/r6wYSwGGkp8XfBquxGpaNqh7S4K4+v Hw== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rser0r9df-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Jul 2023 00:34:05 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36C0Y3Bi014320
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Jul 2023 00:34:04 GMT
+Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.30; Tue, 11 Jul 2023 17:34:03 -0700
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <freedreno@lists.freedesktop.org>
+Subject: [PATCH v4 0/4] drm/msm/dpu: Re-introduce dpu core revision
+Date: Tue, 11 Jul 2023 17:33:05 -0700
+Message-ID: <20230712003310.31961-1-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZK3MBfPS-3-tJgjO@slm.duckdns.org>
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: sPf6UEIqx4DXn3je-qkV74enGLRgzXJl
+X-Proofpoint-ORIG-GUID: sPf6UEIqx4DXn3je-qkV74enGLRgzXJl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-11_14,2023-07-11_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ priorityscore=1501 malwarescore=0 adultscore=0 impostorscore=0 mlxscore=0
+ suspectscore=0 phishscore=0 bulkscore=0 lowpriorityscore=0 mlxlogscore=999
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2307120002
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,37 +78,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rtc@vger.kernel.org,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Linux PM list <linux-pm@vger.kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, netdev <netdev@vger.kernel.org>,
- kernel-team@meta.com, Lai Jiangshan <jiangshanlai@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- "open list:LIBATA SUBSYSTEM \(Serial and Parallel ATA drivers\)"
- <linux-ide@vger.kernel.org>, Linux MMC List <linux-mmc@vger.kernel.org>,
- linux-riscv <linux-riscv@lists.infradead.org>,
- "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>
+Cc: quic_jesszhan@quicinc.com, andersson@kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 11, 2023 at 11:39:17AM -1000, Tejun Heo wrote:
-> On Tue, Jul 11, 2023 at 04:06:22PM +0200, Geert Uytterhoeven wrote:
-> > On Tue, Jul 11, 2023 at 3:55 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-...
-> > workqueue: neigh_managed_work hogged CPU for >10000us 4 times,
-> > consider switching to WQ_UNBOUND
-> 
-> I wonder whether the right thing to do here is somehow scaling the threshold
-> according to the relative processing power. It's difficult to come up with a
-> threshold which works well across the latest & fastest and really tiny CPUs.
-> I'll think about it some more but if you have some ideas, please feel free
-> to suggest.
+With commit dac76a0144d31 ("fetch DPU configuration from match data"),
+dpu core revision was dropped in favor of using the compatible string
+from the device tree to select the dpu catalog being used in the device.
 
-Geert, do you mind posting the full kernel logs for the affected machines?
+This approach works well however also necessitates adding catalog
+entries for small register level details as dpu capabilities and/or
+features bloating the catalog unnecessarily. Examples include but
+are not limited to data_compress, interrupt register set, widebus etc.
 
-Thanks.
+Introduce the dpu core revision back as an entry to the catalog so that
+we can just use dpu revision checks for setting register bits based
+on the dpu's core revision rather than catalog feature bits.
+
+changes in v4:
+        - added a cover letter explaining the feature
+        - introduce struct dpu_mdss_version to hold the core revision
+        - rebased and added support for sm6125 into this
+        - removed hex prefix from the revisions
+        - renamed enable_compression() to program_intf_cmd_cfg()
+
+Abhinav Kumar (4):
+  drm/msm/dpu: re-introduce dpu core revision to the catalog
+  drm/msm/dpu: use dpu core's major version to enable data compress
+  drm/msm/dpu: rename enable_compression() to program_intf_cmd_cfg()
+  drm/msm/dpu: drop DPU_INTF_DATA_COMPRESS from dpu catalog
+
+ .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   |  6 ++++++
+ .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    |  6 ++++++
+ .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    |  6 ++++++
+ .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   |  6 ++++++
+ .../msm/disp/dpu1/catalog/dpu_5_4_sm6125.h    |  6 ++++++
+ .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |  6 ++++++
+ .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |  6 ++++++
+ .../msm/disp/dpu1/catalog/dpu_6_3_sm6115.h    |  6 ++++++
+ .../msm/disp/dpu1/catalog/dpu_6_4_sm6350.h    |  6 ++++++
+ .../msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h   |  6 ++++++
+ .../msm/disp/dpu1/catalog/dpu_6_9_sm6375.h    |  6 ++++++
+ .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    |  6 ++++++
+ .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |  6 ++++++
+ .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  |  6 ++++++
+ .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    |  6 ++++++
+ .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |  6 ++++++
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  |  8 ++++++--
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  2 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    | 19 +++++++++++++++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c   | 16 +++++++++-------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h   | 14 +++++++++++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        |  2 +-
+ 22 files changed, 139 insertions(+), 18 deletions(-)
 
 -- 
-tejun
+2.40.1
+
