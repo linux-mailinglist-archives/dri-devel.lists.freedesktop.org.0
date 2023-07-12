@@ -2,84 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A427A751499
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 01:43:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B23A7514E1
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 01:59:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7596B10E5FB;
-	Wed, 12 Jul 2023 23:43:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4681310E5FA;
+	Wed, 12 Jul 2023 23:59:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3551310E5F9;
- Wed, 12 Jul 2023 23:43:08 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 36CNX1Tg030629; Wed, 12 Jul 2023 23:42:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=fJ7MHhQYTWb7ko2Juqp3TSzCdz39xMhEI0nHD1lAB6I=;
- b=DBhBnpp5CqdREEX8yCJClLfgStyT2VhI04Gvm4QeWdqSQQvVNhZYAIlu0r+ONXhfdP8w
- 7ycx7L1J/RHiW8SrzAMafL6juGEno9xnGs4YwfLMxpexRDpGHjpDTn0Lhvm6B4MV9yb3
- rAN0vtPKGv+MiYkdQ5IA9ONB2u6xWq1BU8XKTn9Lmhumlecd9OIW8CneS8eUkNU34C8D
- A7gRLkmK60hjIkvh4omOsaR19LOQe+/EPTXhmyWhowRa8Lep/2RHoSWSQ1GU5Cm73W0W
- n2yppc9SlEZeyghhiJR8B8el4ZephSOgH9xW+5q3p7GM/8UYRl7mEuJ53b8ahzj/LDrh YQ== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rsetdtv1y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jul 2023 23:42:46 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36CNgjp7032605
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jul 2023 23:42:46 GMT
-Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Wed, 12 Jul
- 2023 16:42:45 -0700
-Message-ID: <efaf59e0-f51a-6de9-4d12-a795ed84cbab@quicinc.com>
-Date: Wed, 12 Jul 2023 16:42:44 -0700
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD89A10E5F9;
+ Wed, 12 Jul 2023 23:59:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1689206341;
+ bh=WvD/wcqsrNHh3y8u93t1s7rTT9s8JP0V1FCKN/Chx3Q=;
+ h=Date:From:To:Cc:Subject:From;
+ b=FS50z64r3y1HGxodjKuX67NyYcwTSMw1NrtaL6+W0w3a2Rs23rXzdO/burwF18/e6
+ NP2Bp0756pPqxM2ewbfU1sxzr+CU0mzso9NoKwL49pLHeIwel1G3+GOgFFtxRq2vRp
+ bX2a5xO23EaATOj9ZX2oeqpo8YIKBziQCoBfawgPSWAvPqL8pd9lBoK5PGwaqmtKps
+ IuNnYPNTfyZfIEe6zGAT59GYEvclpDGXMNZTvGnDj1g9VunjIWLUkXjYxEIllD6muW
+ /l5zHqn7hjRGlImC1W4xRSaIe+Dc9QFo7xF2w3jXdHp9CmEde+1Kr2NBiK5fkHAjRz
+ 6u/BYX7epoxIw==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4R1ZTJ3nF1z4wZn;
+ Thu, 13 Jul 2023 09:58:59 +1000 (AEST)
+Date: Thu, 13 Jul 2023 09:58:58 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the drm-misc tree with Linus' tree
+Message-ID: <20230713095858.093fd5a4@canb.auug.org.au>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 2/5] drm/msm: Fix IS_ERR() vs NULL check in
- a5xx_submit_in_rb()
-Content-Language: en-US
-To: Gaosheng Cui <cuigaosheng1@huawei.com>, <james.qian.wang@arm.com>,
- <liviu.dudau@arm.com>, <mihail.atanassov@arm.com>,
- <brian.starkey@arm.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <robdclark@gmail.com>, <dmitry.baryshkov@linaro.org>,
- <sean@poorly.run>, <thierry.reding@gmail.com>, <sam@ravnborg.org>,
- <emma@anholt.net>, <mripard@kernel.org>, <vladimir.lypak@gmail.com>,
- <quic_akhilpo@quicinc.com>, <dianders@chromium.org>,
- <olvaffe@gmail.com>, <angelogioacchino.delregno@somainline.org>,
- <marijn.suijten@somainline.org>
-References: <20221110094445.2930509-1-cuigaosheng1@huawei.com>
- <20221110094445.2930509-3-cuigaosheng1@huawei.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20221110094445.2930509-3-cuigaosheng1@huawei.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: y9XMVHdNrXlOCJYIos_FHM2aaSJ9GO8w
-X-Proofpoint-GUID: y9XMVHdNrXlOCJYIos_FHM2aaSJ9GO8w
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-12_15,2023-07-11_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=0
- lowpriorityscore=0 impostorscore=0 clxscore=1011 priorityscore=1501
- mlxlogscore=999 spamscore=0 mlxscore=0 adultscore=0 malwarescore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2307120210
+Content-Type: multipart/signed; boundary="Sig_/pGl.vQJOhlpe_n_JyuAO4gC";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,22 +50,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--Sig_/pGl.vQJOhlpe_n_JyuAO4gC
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
+Hi all,
 
-On 11/10/2022 1:44 AM, Gaosheng Cui wrote:
-> The msm_gem_get_vaddr() returns an ERR_PTR() on failure, we should
-> use IS_ERR() to check the return value.
-> 
-> Fixes: 6a8bd08d0465 ("drm/msm: add sudo flag to submit ioctl")
-> Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
-> ---
->   drivers/gpu/drm/msm/adreno/a5xx_gpu.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+Today's linux-next merge of the drm-misc tree got a conflict in:
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+
+between commit:
+
+  570b295248b0 ("drm/amdgpu: fix number of fence calculations")
+
+from Linus' tree and commit:
+
+  ca6c1e210aa7 ("drm/amdgpu: use the new drm_exec object for CS v3")
+
+from the drm-misc tree.
+
+I fixed it up (the latter removed the lines modified by the former, so
+I just did that) and can carry the fix as necessary. This is now fixed
+as far as linux-next is concerned, but any non trivial conflicts should
+be mentioned to your upstream maintainer when your tree is submitted for
+merging.  You may also want to consider cooperating with the maintainer
+of the conflicting tree to minimise any particularly complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/pGl.vQJOhlpe_n_JyuAO4gC
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmSvPkIACgkQAVBC80lX
+0Gwe3wf/XZDmnSV6Jbj11uan8s5RJPcTMZg3GNjWxJFHMRMEISqTZ2Pd64P+7NBA
+SfXptsdpB8ug1o62KorxjVwhDE6wqFVMw9o7+OpGW/eZNnZrzdnGh9Vwdjaz6E1/
++tqTclTz+1x3ffgE+3zMuOyrpj7KrDvdzbi6CkWAwy2w6JaNdEHDwxPRToVrG3o1
+hB5LyQkFLXFCuEG83PI48xfz6E4vY1ZgO15nZimftJ0FSv9Cv/1+6w1WipotAgwj
+yitvfzKPl5lMqJpIQgysBDjw01PFdZsc78OzSjcsTmh6hFy787tgTDoYe5T8PsS4
+Po8z5PFYcSjk39BTcYJKqiEBa1pMKA==
+=Hwy+
+-----END PGP SIGNATURE-----
+
+--Sig_/pGl.vQJOhlpe_n_JyuAO4gC--
