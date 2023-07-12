@@ -1,76 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 861917510A1
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 20:38:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C5227510AB
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 20:40:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62AE910E5C4;
-	Wed, 12 Jul 2023 18:38:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A01710E5C8;
+	Wed, 12 Jul 2023 18:40:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C713E10E5C4
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 18:38:16 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 36CHYd7J032399; Wed, 12 Jul 2023 18:38:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=A6GEDOnm3cKUgqYIiizub9lvXdmFmIKKT8Gx8mWiXNM=;
- b=O7ZgvT3+E40MAfT7BARR/77UXkl91NEZzeqgU/Qu/C1cjfyPK1l66usdYOQtN4tC5tBG
- fgCJCaNdXAWXJowzS62ymSG/EPTwjYWt5tjEt3lEnKduukDYxCFA+9WJnJD6h/X2wcZp
- HXrbo69fMrJuO0K2t+ln3ykSKCDm7fCu6czoKNnTjXvXKrVB08yCpxXpEG13Gy90dtMR
- uPjiWSK0OFSRbr8mOtPrtHd21qMo4BnOMEcSH1kvxFGUiOyyonWgUUwOqJSp8o9EIy5s
- i+fe19R/F5P7L0TI5+vR0rO/mUkSV3KVZtBk0601geL2VyqYFphDSHrwyRODQnJDd5Kf Gw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rsgara5eh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jul 2023 18:38:02 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36CIc1Zm022848
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Jul 2023 18:38:01 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Wed, 12 Jul
- 2023 11:38:01 -0700
-Message-ID: <826fbe00-0e9d-7330-8762-a069ef933eaf@quicinc.com>
-Date: Wed, 12 Jul 2023 12:37:59 -0600
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2083.outbound.protection.outlook.com [40.107.220.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A972810E5C8;
+ Wed, 12 Jul 2023 18:40:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=E7fRVZUjOy2qes8Rq2WICRfCkj6HLjP7rbKcouKN46BmkVScT+fZA2giUuUwJr48T8ttHNN5UoCqLr9pslkwNEKbaTSPSzPiqa8QFHxxRXux61jnWy/WjX6IyU7JSetoAJUqcS88/AGlu5OQWrMgOUMDiWstKXmz5LHv6Q6Vngp/gLJWcTAjdh/JirOKnitxwon6mnvx0kQzKqK3CTyrLw3+Qv4Uz/uYI/R5mshdZEUzkPAYMVc5Lehhc73Ux7EchVw+5WpAEUJe6XY7a2aa05bk36YLfP4o4d1gfYa/hQjD6MwanFVrr/M4VKCDEakdCp1uAQdHjM1UNsvfH5B5ZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=99nQ4xZszaLbzvvZ9NxF6n43VdXLsp7Lu5Xduh8jhOw=;
+ b=bcc3bzVymbOBCO+xmuiK1iMdeMijsXeb4Fh3XVuwLBj2wn/oS8GP7cbTUHckC3RsYEGV+AIIXwJbwVUnKXBqv3gFne2BA/jqT4AWaoC+nt60TpMSiNWeR3OlImSXblrAn9OGGkrFe71kLTrogEMRq5u6XdEJG5gtGkR6kO8Kye9JXv5z4ygnrDESjTVrsNlfl7jm35pTOKMsQvQT1ZYNY8HMusqlPW4oyr4rXOVX1iQaMPESgE6A6GWJbETZZtAGJcm5JZyIvH/RQGo4dXDRt2gc3RfMYYg8IO4iKuQ9WjXNBHHVIkpauz986hJ6ndel3PRzgZyEXYnTQQZFXLibyw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=99nQ4xZszaLbzvvZ9NxF6n43VdXLsp7Lu5Xduh8jhOw=;
+ b=gW99uZKMem1tlxo9Buh3cavOgUQjqtEatgXo8moxlNTX/nCAIudymH/uu8KVq1HRVpgFUbbe3Cy5ge+ewb4g3s3EekvqMBsiHj4fSsuJK1xWklS9z/ffqnvSBVZiUC/+UaLbBifg5eQJ4vXV0KSfofM+GekUbbCFO1cKANsaNN8=
+Received: from MW3PR05CA0002.namprd05.prod.outlook.com (2603:10b6:303:2b::7)
+ by DM6PR12MB4877.namprd12.prod.outlook.com (2603:10b6:5:1bb::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.22; Wed, 12 Jul
+ 2023 18:40:24 +0000
+Received: from CO1NAM11FT067.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:2b:cafe::d) by MW3PR05CA0002.outlook.office365.com
+ (2603:10b6:303:2b::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.20 via Frontend
+ Transport; Wed, 12 Jul 2023 18:40:23 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT067.mail.protection.outlook.com (10.13.174.212) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6588.22 via Frontend Transport; Wed, 12 Jul 2023 18:40:23 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Wed, 12 Jul
+ 2023 13:40:22 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+Subject: [pull] amdgpu drm-fixes-6.5
+Date: Wed, 12 Jul 2023 14:40:09 -0400
+Message-ID: <20230712184009.7740-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH] drm/doc: document that PRIME import/export is always
- supported
-Content-Language: en-US
-To: Simon Ser <contact@emersion.fr>, <dri-devel@lists.freedesktop.org>
-References: <20230712183156.191445-1-contact@emersion.fr>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20230712183156.191445-1-contact@emersion.fr>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 6ohv3rt6tAMrIRfunmJobgFUi4XeqQUU
-X-Proofpoint-ORIG-GUID: 6ohv3rt6tAMrIRfunmJobgFUi4XeqQUU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-12_13,2023-07-11_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- mlxlogscore=861 spamscore=0 priorityscore=1501 impostorscore=0
- phishscore=0 clxscore=1011 adultscore=0 malwarescore=0 lowpriorityscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2307120168
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT067:EE_|DM6PR12MB4877:EE_
+X-MS-Office365-Filtering-Correlation-Id: cd8f7b2d-1968-4cb1-e5a2-08db83077404
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: gbQMhd99OTFwxv21344zPfKF/YTGg3NWt5GIsRMl9/NnYtbDegyZDLbIBcMAGYe3GS9cqA7rLqZslXiUd4BxuCndJhxAhAmL3Onvk4bQW/qh0MouFS6p9HUffsrZztKIC0GTa2wYpXXRnn9lMJ/+krqHnRVRys3FhVuRyMi/h4nyLfaOhnRetakrH/wetK/vOIXJBuge+UKuIZwAJ5SiL2DHjW45uFQtcT+U5AgpSFrBL5YHmPq1+tzdMWhQ48DHZe3Nxr/TgSX3BaPnTeUL46yqDjuRkKPTcIlI2lm7fFt7SRfD6uqcDZw6ggB/1TfZizygUULaG+Q2xHqXq/PJ44xbDB3Cw49l4ZFskTu4TkjbhWxsNsSpUOcNBEzmgw+FGQm4iPoo4/2f7rOaazhFdFE2xHkxYURvLH42tzO5VPUUvvVUYpz/loNgdfr60x9ZcioFXHgP8OhRKLAXdpLVlh4KmppQrrJRRK+CZUf+64PH5T8JP4hwcVEJUSpRKXI2VDL7TRvGuVVD4hQKrAmg4d8wijvxgXf5KDtosY91DJnmxFuS/j5EP4r42fARHMSrJmg0sn9nxLhz/AlVZ/y8cw0KGgIkCGU+IHkZ3VHR2sFmc2sFRjX2aN7Qju+i8PVjCfrl57+uiLypilfuABwl7lm/i22BXFIwzPcYHvnB5sAUti/lsyCvvs/KY3KXeejOiRrdT+VaWWnybMnO86vSBJ3PnC9085Y8KBoOj37ZGow+Vs0eFNkb3bZLsbdQH0t3
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230028)(4636009)(346002)(136003)(396003)(376002)(39860400002)(451199021)(40470700004)(36840700001)(46966006)(41300700001)(82740400003)(316002)(40460700003)(966005)(5660300002)(26005)(36756003)(1076003)(8936002)(8676002)(83380400001)(82310400005)(426003)(47076005)(36860700001)(86362001)(81166007)(16526019)(2906002)(2616005)(186003)(336012)(356005)(40480700001)(110136005)(6666004)(478600001)(70586007)(70206006)(7696005)(4326008)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2023 18:40:23.6138 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd8f7b2d-1968-4cb1-e5a2-08db83077404
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT067.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4877
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,22 +99,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/12/2023 12:32 PM, Simon Ser wrote:
-> Since commit 6b85aa68d9d5 ("drm: Enable PRIME import/export for all
-> drivers"), import/export is always supported. Document this so that
-> user-space knows what to expect.
-> 
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Hi Dave, Daniel,
 
-Seems reasonable to me.
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Fixes for 6.5.
+
+The following changes since commit 6725f33228077902ddac2a05e0ab361dee36e4ba:
+
+  Merge tag 'drm-misc-next-fixes-2023-07-06' of git://anongit.freedesktop.org/drm/drm-misc into drm-next (2023-07-07 11:05:16 +1000)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.5-2023-07-12
+
+for you to fetch changes up to e701156ccc6c7a5f104a968dda74cd6434178712:
+
+  drm/amd: Align SMU11 SMU_MSG_OverridePcieParameters implementation with SMU13 (2023-07-12 12:21:23 -0400)
+
+----------------------------------------------------------------
+amd-drm-fixes-6.5-2023-07-12:
+
+amdgpu:
+- SMU i2c locking fix
+- Fix a possible deadlock in process restoration for ROCm apps
+- Disable PCIe lane/speed switching on Intel platforms (the platforms don't support it)
+
+----------------------------------------------------------------
+Evan Quan (1):
+      drm/amd/pm: share the code around SMU13 pcie parameters update
+
+Mario Limonciello (3):
+      drm/amd/pm: conditionally disable pcie lane/speed switching for SMU13
+      drm/amd: Move helper for dynamic speed switch check out of smu13
+      drm/amd: Align SMU11 SMU_MSG_OverridePcieParameters implementation with SMU13
+
+Yang Wang (1):
+      drm/amd/pm: fix smu i2c data read risk
+
+gaba (1):
+      drm/amdgpu: avoid restore process run into dead loop.
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h                |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |  3 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         | 19 +++++
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h       |  4 +
+ drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c  |  2 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c    |  2 +-
+ .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    | 91 +++++-----------------
+ drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c |  2 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c     | 48 ++++++++++++
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   | 35 +--------
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c   |  2 +-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c   | 33 +-------
+ 12 files changed, 101 insertions(+), 141 deletions(-)
