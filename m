@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 567BF750C1C
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 17:15:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 255C9750C14
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 17:15:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2221810E57D;
-	Wed, 12 Jul 2023 15:15:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DC3710E576;
+	Wed, 12 Jul 2023 15:14:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 921D410E532
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 13:38:21 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1qJa2k-0003S9-OR; Wed, 12 Jul 2023 15:38:10 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1qJa2f-00DtzV-I0; Wed, 12 Jul 2023 15:38:05 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1qJa2e-004JeB-NH; Wed, 12 Jul 2023 15:38:04 +0200
-Date: Wed, 12 Jul 2023 15:38:03 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Maxime Ripard <mripard@kernel.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2768110E534;
+ Wed, 12 Jul 2023 13:53:06 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B9C64617D6;
+ Wed, 12 Jul 2023 13:53:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A345AC433C7;
+ Wed, 12 Jul 2023 13:53:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1689169984;
+ bh=0sbyIiczIJDnx26Ch8e9l+qxXeZZ0rwKcMQ0zWjPG2E=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hjUTKto8Ioz8iKBRqNaRabBf11Oc7eHOlmTK9M/ZTt8ltDoWCX6CFOzjIGxRlGFY3
+ Gx5jqcVwy1TF/krIPVc4UMyuHZxNLbDekq6CNc/YFW9XZuZPgy9H7AxolbKkWLgnAi
+ r9fpm9kzzSwMYN6Psfg7TVfTW8n0B+mvlh2FTRcCYAZ0ciN3u0JY7dyza48kXnOA9n
+ WMci9hbcuhVOWKEEdS8SZtYhWg6pK+ZLR69YBjxKaOmTAGDWdtxl6Adlqjo21243Qn
+ XbsKfbvDJLN7WkAM0aaNNMoLWVYfSKf0LdY3uyS6mKtDCMS2NYJoRkpPzq+x8hypZP
+ ozEduvqpUbjZw==
+Date: Wed, 12 Jul 2023 15:53:00 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 Subject: Re: [PATCH RFC v1 00/52] drm/crtc: Rename struct drm_crtc::dev to
  drm_dev
-Message-ID: <20230712133803.rf26cbg5wz7wsmgl@pengutronix.de>
+Message-ID: <a7h7uovevwdsuuwdqh7g36qgfyq3bt5sx3eba2npyduoyu2icc@pwygetstxdp3>
 References: <20230712094702.1770121-1-u.kleine-koenig@pengutronix.de>
  <94eb6e4d-9384-152f-351b-ebb217411da9@amd.com>
  <20230712110253.paoyrmcbvlhpfxbf@pengutronix.de>
  <o3dc4q27ap6rajsvpfwfvs3z3afekkwbhnclvswkaietciy2kc@unjf67gz5tur>
+ <20230712133803.rf26cbg5wz7wsmgl@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="aip3kulofrfujcj7"
+ protocol="application/pgp-signature"; boundary="jyn7gwdek3zlokhs"
 Content-Disposition: inline
-In-Reply-To: <o3dc4q27ap6rajsvpfwfvs3z3afekkwbhnclvswkaietciy2kc@unjf67gz5tur>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+In-Reply-To: <20230712133803.rf26cbg5wz7wsmgl@pengutronix.de>
 X-Mailman-Approved-At: Wed, 12 Jul 2023 15:14:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -190,87 +191,80 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---aip3kulofrfujcj7
+--jyn7gwdek3zlokhs
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hello Maxime,
-
-On Wed, Jul 12, 2023 at 02:52:38PM +0200, Maxime Ripard wrote:
-> On Wed, Jul 12, 2023 at 01:02:53PM +0200, Uwe Kleine-K=F6nig wrote:
-> > > Background is that this makes merge conflicts easier to handle and de=
-tect.
+On Wed, Jul 12, 2023 at 03:38:03PM +0200, Uwe Kleine-K=F6nig wrote:
+> Hello Maxime,
+>=20
+> On Wed, Jul 12, 2023 at 02:52:38PM +0200, Maxime Ripard wrote:
+> > On Wed, Jul 12, 2023 at 01:02:53PM +0200, Uwe Kleine-K=F6nig wrote:
+> > > > Background is that this makes merge conflicts easier to handle and =
+detect.
+> > >=20
+> > > Really?
 > >=20
-> > Really?
+> > FWIW, I agree with Christian here.
+> >=20
+> > > Each file (apart from include/drm/drm_crtc.h) is only touched once. So
+> > > unless I'm missing something you don't get less or easier conflicts by
+> > > doing it all in a single patch. But you gain the freedom to drop a
+> > > patch for one driver without having to drop the rest with it.
+> >=20
+> > Not really, because the last patch removed the union anyway. So you have
+> > to revert both the last patch, plus that driver one. And then you need
+> > to add a TODO to remove that union eventually.
 >=20
-> FWIW, I agree with Christian here.
+> Yes, with a single patch you have only one revert (but 194 files changed,
+> 1264 insertions(+), 1296 deletions(-)) instead of two (one of them: 1
+> file changed, 9 insertions(+), 1 deletion(-); the other maybe a bit
+> bigger). (And maybe you get away with just reverting the last patch.)
 >=20
-> > Each file (apart from include/drm/drm_crtc.h) is only touched once. So
-> > unless I'm missing something you don't get less or easier conflicts by
-> > doing it all in a single patch. But you gain the freedom to drop a
-> > patch for one driver without having to drop the rest with it.
+> With a single patch the TODO after a revert is "redo it all again (and
+> prepare for a different set of conflicts)" while with the split series
+> it's only "fix that one driver that was forgotten/borked" + reapply that
+> 10 line patch. As the one who gets that TODO, I prefer the latter.
 >=20
-> Not really, because the last patch removed the union anyway. So you have
-> to revert both the last patch, plus that driver one. And then you need
-> to add a TODO to remove that union eventually.
+> So in sum: If your metric is "small count of reverted commits", you're
+> right. If however your metric is: Better get 95% of this series' change
+> in than maybe 0%, the split series is the way to do it.
 
-Yes, with a single patch you have only one revert (but 194 files changed,
-1264 insertions(+), 1296 deletions(-)) instead of two (one of them: 1
-file changed, 9 insertions(+), 1 deletion(-); the other maybe a bit
-bigger). (And maybe you get away with just reverting the last patch.)
+I guess that's where we disagree: I don't see the point of having 95% of
+it, either 0 or 100.
 
-With a single patch the TODO after a revert is "redo it all again (and
-prepare for a different set of conflicts)" while with the split series
-it's only "fix that one driver that was forgotten/borked" + reapply that
-10 line patch. As the one who gets that TODO, I prefer the latter.
+> With me having spend ~3h on this series' changes, it's maybe
+> understandable that I did it the way I did.
 
-So in sum: If your metric is "small count of reverted commits", you're
-right. If however your metric is: Better get 95% of this series' change
-in than maybe 0%, the split series is the way to do it.
+I'm sorry, but that's never been an argument? I'm sure you and I both
+have had series that took much longer dropped because it wasn't the
+right approach.
 
-With me having spend ~3h on this series' changes, it's maybe
-understandable that I did it the way I did.
+> FTR: This series was created on top of v6.5-rc1. If you apply it to
+> drm-misc-next you get a (trivial) conflict in patch #2. If I consider to
+> be the responsible maintainer who applies this series, I like being able
+> to just do git am --skip then.=20
 
-FTR: This series was created on top of v6.5-rc1. If you apply it to
-drm-misc-next you get a (trivial) conflict in patch #2. If I consider to
-be the responsible maintainer who applies this series, I like being able
-to just do git am --skip then.=20
+Or we can ask that the driver is based on drm-misc-next ...
 
-FTR#2: In drm-misc-next is a new driver
-(drivers/gpu/drm/loongson/lsdc_crtc.c) so skipping the last patch for
-now might indeed be a good idea.
+> FTR#2: In drm-misc-next is a new driver
+> (drivers/gpu/drm/loongson/lsdc_crtc.c) so skipping the last patch for
+> now might indeed be a good idea.
 
-> > So I still like the split version better, but I'm open to a more
-> > verbose reasoning from your side.
->=20
-> You're doing only one thing here, really: you change the name of a
-> structure field. If it was shared between multiple maintainers, then
-> sure, splitting that up is easier for everyone, but this will go through
-> drm-misc, so I can't see the benefit it brings.
+=2E.. which is going to fix that one too.
 
-I see your argument, but I think mine weights more.
+Maxime
 
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---aip3kulofrfujcj7
+--jyn7gwdek3zlokhs
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmSurLsACgkQj4D7WH0S
-/k4sEwf/UuiwqpRpFkDoh5EhwtXKdh8XLT/EutMDLIG+CdmIF7NPxvR+ZXgiD5e9
-BaYtiZNivy0cfbUas4l0w7WekMbHw5MsVttULAGgUP4sLLJ8c2njon3k5JWJA8z4
-W3AKDPJ/uwAYPmFY0mElfTsvDoy/x4EdJqeF7fbHlwdk5NHXWh/7Csw6b4jJBLC2
-ucmM2LxhSR6awQqbXnd/MXgkIap0fsy40En7wKq6B/B3pECguPZg8cChiztq8mVa
-/8DEhoDQWgJ2YzBcMhE+nW+4G/hc51psOIylkBMhZFrvmXZMwMFv+g7UDIJ4jp/N
-4A1ksamP+GbxqozqipxuHSgGp3+6dQ==
-=UcVQ
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZK6wPAAKCRDj7w1vZxhR
+xY/cAP9MfcZQUQhgCUm7SZclTdLuVOlNrClVj1izsCv4zrFrtQD+JUUX9b9K3JdO
+tDqchM2qQCmIMTRzt6ZwyV0l4KQkjgM=
+=G8dy
 -----END PGP SIGNATURE-----
 
---aip3kulofrfujcj7--
+--jyn7gwdek3zlokhs--
