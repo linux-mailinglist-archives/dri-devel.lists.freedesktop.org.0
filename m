@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 026B475039C
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 11:47:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA8997503A7
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 11:47:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C330B10E448;
-	Wed, 12 Jul 2023 09:47:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8655610E4A4;
+	Wed, 12 Jul 2023 09:47:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2AFE10E3F0
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78A0610E3E6
  for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 09:47:21 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1qJWRI-0001fb-Hy; Wed, 12 Jul 2023 11:47:16 +0200
+ id 1qJWRI-0001ed-1L; Wed, 12 Jul 2023 11:47:16 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1qJWRG-00Dr6f-VH; Wed, 12 Jul 2023 11:47:14 +0200
+ id 1qJWRG-00Dr6M-HS; Wed, 12 Jul 2023 11:47:14 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1qJWRE-004GUN-Fq; Wed, 12 Jul 2023 11:47:12 +0200
+ id 1qJWRE-004GUS-ML; Wed, 12 Jul 2023 11:47:12 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>
-Subject: [PATCH RFC v1 39/52] drm/tegra: Use struct drm_crtc::drm_dev instead
+To: Jyri Sarha <jyri.sarha@iki.fi>, Tomi Valkeinen <tomba@kernel.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH RFC v1 40/52] drm/tidss: Use struct drm_crtc::drm_dev instead
  of struct drm_crtc::dev
-Date: Wed, 12 Jul 2023 11:46:49 +0200
-Message-Id: <20230712094702.1770121-40-u.kleine-koenig@pengutronix.de>
+Date: Wed, 12 Jul 2023 11:46:50 +0200
+Message-Id: <20230712094702.1770121-41-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230712094702.1770121-1-u.kleine-koenig@pengutronix.de>
 References: <20230712094702.1770121-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2446;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4857;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=Ax8ONDcRHv76lsDxxbFHdUOnp1kAQSD0oQKcbrCxnXg=;
- b=owGbwMvMwMXY3/A7olbonx/jabUkhpR1Zc2iV/rsl4vufry8QoNxP+MhoYldVU9fqu85L7JMw
- /LkMqeTnYzGLAyMXAyyYoos9o1rMq2q5CI71/67DDOIlQlkCgMXpwBM5CUPB8O2qIjLYYyuriYi
- utMMZmr1ls9j3GpfPifQuWPJmcofXgGL3S+fmp93Q4lNY63N5mV1pY6aN3V4XH7ci8hsuJuvdW+
- 7g3eEcfevC8HeKdn8AotWsHXc1mGzCWOqibpdEHoto8B9RTM3WzCjtw571XLnovY0je1HxF7v9j
- 4fuaLGYzlTbXpjdpiuh7aB7Z7z22ur92kl62/6KPHu/5bt/tPnfLh8fOr7JQKKD1NvttdYu73rN
- ePN2h929RDDnhfefRv7ZTYZpe+o+PXEL9Ss6TX7BCYFK7ufe46272V/GhtdsE/pqv4K8UceeRJP
- p9fGJK1fkreEW4iX40rx01NpDPtDNXa9+X5fKSJTM7cGAA==
+ bh=b2rlkeqp1bX9iOG2ZlwCT2i3BIrrDXXjZqrvU77ekdw=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkrnaEzahLUOX6J8ZYCYzzGazR035THfQj03jnL
+ gg+tjeSueOJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZK52hAAKCRCPgPtYfRL+
+ TjxiB/0QFfpjDRoKqyI1Oh/4ZAA0blN7jRYLeFbXPYP2NT4kPYMztoSiFZjYKYDmVqT3ySee2qj
+ r3CsRXbwcH0p+QPyxvG6Qh/dDbh+4eQQ9ssa0VIYxd61ottCF9KK9KfO0r4VUT6fTFNH/T6xaMY
+ jshGMODI26hI5NWcDfY5a2TWgDkHALeos1vROWxqACIuND7AuRIEAnK93CYju5PwvkKVj0wuaXH
+ WRh7Tt85P/Ya5MFq/iM0DwqICpDj3BTZK+QQJnPFgGW/tPhf1MRAB5jFBMxLagyWNya03Oo1iZN
+ SYpXpV6qh9asGOCde5/Q9ITYRo9nB9/+e+vwvGn92pP06Ozz
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -68,8 +67,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, kernel@pengutronix.de,
- dri-devel@lists.freedesktop.org
+Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -80,65 +78,118 @@ No semantic changes.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/gpu/drm/tegra/dc.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/tidss/tidss_crtc.c | 19 ++++++++++---------
+ drivers/gpu/drm/tidss/tidss_irq.c  |  4 ++--
+ 2 files changed, 12 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index 6e78416e64b0..05504fe99a77 100644
---- a/drivers/gpu/drm/tegra/dc.c
-+++ b/drivers/gpu/drm/tegra/dc.c
-@@ -1717,7 +1717,7 @@ static struct drm_info_list debugfs_files[] = {
- static int tegra_dc_late_register(struct drm_crtc *crtc)
+diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
+index 5e5e466f35d1..d3399d6ca5e5 100644
+--- a/drivers/gpu/drm/tidss/tidss_crtc.c
++++ b/drivers/gpu/drm/tidss/tidss_crtc.c
+@@ -20,7 +20,7 @@
+ 
+ static void tidss_crtc_finish_page_flip(struct tidss_crtc *tcrtc)
  {
- 	unsigned int i, count = ARRAY_SIZE(debugfs_files);
--	struct drm_minor *minor = crtc->dev->primary;
-+	struct drm_minor *minor = crtc->drm_dev->primary;
- 	struct dentry *root;
- 	struct tegra_dc *dc = to_tegra_dc(crtc);
- 
-@@ -1743,7 +1743,7 @@ static int tegra_dc_late_register(struct drm_crtc *crtc)
- static void tegra_dc_early_unregister(struct drm_crtc *crtc)
+-	struct drm_device *ddev = tcrtc->crtc.dev;
++	struct drm_device *ddev = tcrtc->crtc.drm_dev;
+ 	struct tidss_device *tidss = to_tidss(ddev);
+ 	struct drm_pending_vblank_event *event;
+ 	unsigned long flags;
+@@ -75,7 +75,8 @@ void tidss_crtc_error_irq(struct drm_crtc *crtc, u64 irqstatus)
  {
- 	unsigned int count = ARRAY_SIZE(debugfs_files);
--	struct drm_minor *minor = crtc->dev->primary;
-+	struct drm_minor *minor = crtc->drm_dev->primary;
- 	struct tegra_dc *dc = to_tegra_dc(crtc);
+ 	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
  
- 	drm_debugfs_remove_files(dc->debugfs_files, count, minor);
-@@ -2119,14 +2119,14 @@ static void tegra_crtc_atomic_disable(struct drm_crtc *crtc,
- 	tegra_dc_stats_reset(&dc->stats);
- 	drm_crtc_vblank_off(crtc);
+-	dev_err_ratelimited(crtc->dev->dev, "CRTC%u SYNC LOST: (irq %llx)\n",
++	dev_err_ratelimited(crtc->drm_dev->dev,
++			    "CRTC%u SYNC LOST: (irq %llx)\n",
+ 			    tcrtc->hw_videoport, irqstatus);
+ }
  
--	spin_lock_irq(&crtc->dev->event_lock);
-+	spin_lock_irq(&crtc->drm_dev->event_lock);
+@@ -86,7 +87,7 @@ static int tidss_crtc_atomic_check(struct drm_crtc *crtc,
+ {
+ 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
+ 									  crtc);
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm_dev;
+ 	struct tidss_device *tidss = to_tidss(ddev);
+ 	struct dispc_device *dispc = tidss->dispc;
+ 	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
+@@ -165,7 +166,7 @@ static void tidss_crtc_atomic_flush(struct drm_crtc *crtc,
+ 	struct drm_crtc_state *old_crtc_state = drm_atomic_get_old_crtc_state(state,
+ 									      crtc);
+ 	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm_dev;
+ 	struct tidss_device *tidss = to_tidss(ddev);
+ 	unsigned long flags;
  
- 	if (crtc->state->event) {
- 		drm_crtc_send_vblank_event(crtc, crtc->state->event);
- 		crtc->state->event = NULL;
- 	}
+@@ -218,7 +219,7 @@ static void tidss_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	struct drm_crtc_state *old_state = drm_atomic_get_old_crtc_state(state,
+ 									 crtc);
+ 	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm_dev;
+ 	struct tidss_device *tidss = to_tidss(ddev);
+ 	const struct drm_display_mode *mode = &crtc->state->adjusted_mode;
+ 	unsigned long flags;
+@@ -261,7 +262,7 @@ static void tidss_crtc_atomic_disable(struct drm_crtc *crtc,
+ 				      struct drm_atomic_state *state)
+ {
+ 	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm_dev;
+ 	struct tidss_device *tidss = to_tidss(ddev);
+ 	unsigned long flags;
  
--	spin_unlock_irq(&crtc->dev->event_lock);
-+	spin_unlock_irq(&crtc->drm_dev->event_lock);
+@@ -297,7 +298,7 @@ enum drm_mode_status tidss_crtc_mode_valid(struct drm_crtc *crtc,
+ 					   const struct drm_display_mode *mode)
+ {
+ 	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm_dev;
+ 	struct tidss_device *tidss = to_tidss(ddev);
  
- 	err = host1x_client_suspend(&dc->client);
- 	if (err < 0)
-@@ -2279,14 +2279,14 @@ static void tegra_crtc_atomic_begin(struct drm_crtc *crtc,
- 	tegra_crtc_update_memory_bandwidth(crtc, state, true);
+ 	return dispc_vp_mode_valid(tidss->dispc, tcrtc->hw_videoport, mode);
+@@ -316,7 +317,7 @@ static const struct drm_crtc_helper_funcs tidss_crtc_helper_funcs = {
  
- 	if (crtc->state->event) {
--		spin_lock_irqsave(&crtc->dev->event_lock, flags);
-+		spin_lock_irqsave(&crtc->drm_dev->event_lock, flags);
+ static int tidss_crtc_enable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm_dev;
+ 	struct tidss_device *tidss = to_tidss(ddev);
  
- 		if (drm_crtc_vblank_get(crtc) != 0)
- 			drm_crtc_send_vblank_event(crtc, crtc->state->event);
- 		else
- 			drm_crtc_arm_vblank_event(crtc, crtc->state->event);
+ 	dev_dbg(ddev->dev, "%s\n", __func__);
+@@ -330,7 +331,7 @@ static int tidss_crtc_enable_vblank(struct drm_crtc *crtc)
  
--		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
-+		spin_unlock_irqrestore(&crtc->drm_dev->event_lock, flags);
+ static void tidss_crtc_disable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm_dev;
+ 	struct tidss_device *tidss = to_tidss(ddev);
  
- 		crtc->state->event = NULL;
- 	}
+ 	dev_dbg(ddev->dev, "%s\n", __func__);
+diff --git a/drivers/gpu/drm/tidss/tidss_irq.c b/drivers/gpu/drm/tidss/tidss_irq.c
+index 0c681c7600bc..a30964e02a57 100644
+--- a/drivers/gpu/drm/tidss/tidss_irq.c
++++ b/drivers/gpu/drm/tidss/tidss_irq.c
+@@ -25,7 +25,7 @@ static void tidss_irq_update(struct tidss_device *tidss)
+ 
+ void tidss_irq_enable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm_dev;
+ 	struct tidss_device *tidss = to_tidss(ddev);
+ 	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
+ 	u32 hw_videoport = tcrtc->hw_videoport;
+@@ -40,7 +40,7 @@ void tidss_irq_enable_vblank(struct drm_crtc *crtc)
+ 
+ void tidss_irq_disable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm_dev;
+ 	struct tidss_device *tidss = to_tidss(ddev);
+ 	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
+ 	u32 hw_videoport = tcrtc->hw_videoport;
 -- 
 2.39.2
 
