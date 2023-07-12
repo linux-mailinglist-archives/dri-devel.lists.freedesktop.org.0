@@ -2,69 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FB37750267
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 11:04:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF0D77502BF
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 11:19:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91F0D10E3C6;
-	Wed, 12 Jul 2023 09:04:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D35A210E3D6;
+	Wed, 12 Jul 2023 09:19:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
- [209.85.222.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95A2410E3C6
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 09:04:33 +0000 (UTC)
-Received: by mail-qk1-f174.google.com with SMTP id
- af79cd13be357-76595a7b111so583187985a.2
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 02:04:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689152672; x=1691744672;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=uIF186mRaGX5BFXMSlH2BgP4u+RcqYufJt4GrXqOpCU=;
- b=JLNf+3Dz86oZ76xOz22eHcNwfsk6TRMrM3Fz56cp9+Irm8LUYG5FuVu1bmJCDP/e7h
- ifVoOJMMmlLDlK7sRqID1Dye9gyXcovdGOBJigJPRfB8aY955aTO4V8Lbt054U55iPVu
- fwL/seB5FTDlt5jzzOlwWk3uHlWHirhblaMPhBNmmdM6VOhjw5GNYGqbkazW0J0QzgB+
- xUsP3WybR7T/5cS0UYzalOBFO6P9UdGIjqgjX+MLxpg5xb2+PJ+FCpIizgfTHiUfh2qE
- IvBIyfcbzGCrYfk/COueNCDWKd0RxyvQcjHFk6BYvbOplUMd+6VSYHpAey6Q1LFDieQg
- I4SA==
-X-Gm-Message-State: ABy/qLZQnBR3krqazYWBsKuiG0BjZvpgs1ZnnisjyQkT7al7aPdnuz0K
- NBAYnQkFp2/thw6GcRoiZ9C3+Vsv+COGZQ==
-X-Google-Smtp-Source: APBJJlGeSzXfmRKanAgvIpACNHLtEKM0xfSK6/NIj3YYeJsj1EpH9gCB5a5IOEnOOI5JRbsyxGoxrA==
-X-Received: by 2002:a05:620a:1986:b0:765:aca9:1a13 with SMTP id
- bm6-20020a05620a198600b00765aca91a13mr18244298qkb.23.1689152671779; 
- Wed, 12 Jul 2023 02:04:31 -0700 (PDT)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com.
- [209.85.219.175]) by smtp.gmail.com with ESMTPSA id
- b5-20020a0dd905000000b00577632aa85esm1072196ywe.3.2023.07.12.02.04.31
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Jul 2023 02:04:31 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id
- 3f1490d57ef6-bc379e4c1cbso7766513276.2
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 02:04:31 -0700 (PDT)
-X-Received: by 2002:a05:6902:28b:b0:c4b:41ce:f68b with SMTP id
- v11-20020a056902028b00b00c4b41cef68bmr16459258ybh.41.1689152670844; Wed, 12
- Jul 2023 02:04:30 -0700 (PDT)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 070DD10E3D4;
+ Wed, 12 Jul 2023 09:19:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1689153553; x=1720689553;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=KvDCyUxkc8vO2liTj88FRR6tcaf/Wvbh4o5o9gk6U34=;
+ b=Txp0ZsZTP0U51iD/O0dVt0RK/RTyfLCKcmGE2VARZYonvrQ4wuYhrSLP
+ fodZFQGi0bcYq9gBvfzU77Z1AqlW0GPfEZysd53iAvM8G2jOZtisYMP2C
+ dWl5+8luS2H+uEWghUyBX3RnLJINJpYKc5TXSM7g4Rj37LuOwafYRJLDd
+ N8kjO7IFC04rdbITDy8MRelnH5Cem1vG12JsXmZpQ9cF7yiKXiBiHNk9i
+ zatViRjwVX1IL2NlNTDtQIQh4manj6YFEefG8d02zFWnFaq/qlmqBWdDM
+ l9BvYPXkl28BGpcG5S9QBz6suKdSiRmdf29emyMZBjcCedBBrEDmbxs+M g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="349698244"
+X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; d="scan'208";a="349698244"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jul 2023 02:19:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="866046507"
+X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; d="scan'208";a="866046507"
+Received: from eamonnob-mobl1.ger.corp.intel.com (HELO [10.213.237.202])
+ ([10.213.237.202])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jul 2023 02:19:12 -0700
+Message-ID: <564e2cfd-4597-9f90-d8df-bf028519e689@linux.intel.com>
+Date: Wed, 12 Jul 2023 10:19:10 +0100
 MIME-Version: 1.0
-References: <20230511181931.869812-1-tj@kernel.org>
- <20230511181931.869812-7-tj@kernel.org>
- <ZF6WsSVGX3O1d0pL@slm.duckdns.org>
- <CAMuHMdVCQmh6V182q4g---jvsWiTOP2hBPZKvma6oUN6535LEg@mail.gmail.com>
- <CAMuHMdW1kxZ1RHKTRVRqDNAbj1Df2=v0fPn5KYK3kfX_kiXR6A@mail.gmail.com>
- <ZK3MBfPS-3-tJgjO@slm.duckdns.org>
- <20230712080504.GA3100107@hirez.programming.kicks-ass.net>
-In-Reply-To: <20230712080504.GA3100107@hirez.programming.kicks-ass.net>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 12 Jul 2023 11:04:16 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUMRS9_nJXp3rrWQrODRQcBQggze0k=0GjSScCknFmmgQ@mail.gmail.com>
-Message-ID: <CAMuHMdUMRS9_nJXp3rrWQrODRQcBQggze0k=0GjSScCknFmmgQ@mail.gmail.com>
-Subject: Re: Consider switching to WQ_UNBOUND messages (was: Re: [PATCH v2
- 6/7] workqueue: Report work funcs that trigger automatic CPU_INTENSIVE
- mechanism)
-To: Peter Zijlstra <peterz@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [Intel-gfx] [PATCH v4] drm/i915/selftest/gsc: Ensure GSC Proxy
+ init completes before selftests
+Content-Language: en-US
+To: Alan Previn <alan.previn.teres.alexis@intel.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20230711220204.2085513-1-alan.previn.teres.alexis@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20230711220204.2085513-1-alan.previn.teres.alexis@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,57 +64,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rtc@vger.kernel.org,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Linux PM list <linux-pm@vger.kernel.org>, netdev <netdev@vger.kernel.org>,
- kernel-team@meta.com, Lai Jiangshan <jiangshanlai@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- "open list:LIBATA SUBSYSTEM \(Serial and Parallel ATA drivers\)"
- <linux-ide@vger.kernel.org>, Tejun Heo <tj@kernel.org>,
- Linux MMC List <linux-mmc@vger.kernel.org>,
- linux-riscv <linux-riscv@lists.infradead.org>,
- "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hoi Peter,
 
-On Wed, Jul 12, 2023 at 10:05=E2=80=AFAM Peter Zijlstra <peterz@infradead.o=
-rg> wrote:
-> On Tue, Jul 11, 2023 at 11:39:17AM -1000, Tejun Heo wrote:
-> > I wonder whether the right thing to do here is somehow scaling the thre=
-shold
-> > according to the relative processing power. It's difficult to come up w=
-ith a
-> > threshold which works well across the latest & fastest and really tiny =
-CPUs.
-> > I'll think about it some more but if you have some ideas, please feel f=
-ree
-> > to suggest.
->
-> We could scale by BogoMIPS I suppose, it's a bogus measurement, as per
-> the name, but it does have some relation to how fast the machine is.
+On 11/07/2023 23:02, Alan Previn wrote:
+> On MTL, if the GSC Proxy init flows haven't completed, submissions to the
+> GSC engine will fail. Those init flows are dependent on the mei's
+> gsc_proxy component that is loaded in parallel with i915 and a
+> worker that could potentially start after i915 driver init is done.
+> 
+> That said, all subsytems that access the GSC engine today does check
+> for such init flow completion before using the GSC engine. However,
+> selftests currently don't wait on anything before starting.
+> 
+> To fix this, add a waiter function at the start of __run_selftests
+> that waits for gsc-proxy init flows to complete.
+> 
+> Difference from prior versions:
+>     v4: - Remove generalized waiters function table framework (Tvrtko).
+>         - Remove mention of CI-framework-timeout from comments (Tvrtko).
+>     v3: - Rebase to latest drm-tip.
+>     v2: - Based on internal testing, increase the timeout for gsc-proxy
+>           specific case to 8 seconds.
+> 
+> Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
+> ---
+>   .../gpu/drm/i915/selftests/i915_selftest.c    | 25 +++++++++++++++++++
+>   1 file changed, 25 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/selftests/i915_selftest.c b/drivers/gpu/drm/i915/selftests/i915_selftest.c
+> index 39da0fb0d6d2..bbfaaaeef505 100644
+> --- a/drivers/gpu/drm/i915/selftests/i915_selftest.c
+> +++ b/drivers/gpu/drm/i915/selftests/i915_selftest.c
+> @@ -24,6 +24,8 @@
+>   #include <linux/random.h>
+>   
+>   #include "gt/intel_gt_pm.h"
+> +#include "gt/uc/intel_gsc_fw.h"
+> +
+>   #include "i915_driver.h"
+>   #include "i915_drv.h"
+>   #include "i915_selftest.h"
+> @@ -127,6 +129,26 @@ static void set_default_test_all(struct selftest *st, unsigned int count)
+>   		st[i].enabled = true;
+>   }
+>   
+> +static void
+> +__wait_gsc_proxy_completed(struct drm_i915_private *i915)
+> +{
+> +	bool need_to_wait = (IS_ENABLED(CONFIG_INTEL_MEI_GSC_PROXY) &&
+> +			     i915->media_gt &&
+> +			     HAS_ENGINE(i915->media_gt, GSC0) &&
+> +			     intel_uc_fw_is_loadable(&i915->media_gt->uc.gsc.fw));
+> +	/*
+> +	 * The gsc proxy component depends on the kernel component driver load ordering
+> +	 * and in corner cases (the first time after an IFWI flash), init-completion
+> +	 * firmware flows take longer.
+> +	 */
+> +	unsigned long timeout_ms = 8000;
+> +
+> +	if (need_to_wait &&
+> +	    (wait_for(intel_gsc_uc_fw_proxy_init_done(&i915->media_gt->uc.gsc, true),
+> +	    timeout_ms)))
+> +		pr_info(DRIVER_NAME "Timed out waiting for gsc_proxy_completion!\n");
 
-That's gonna fail miserably on e.g. ARM and RISC-V, where BogoMIPS
-depends on some timer frequency.
+Would it make sense to error out here? Or at least upgrade to pr_warn or 
+something?
 
-R-Car M2-W with 1.5 GHz Cortex-A15: 40.00 BogoMIPS
-R-Car V4H with 1.8 GHz Cortex-A76: 33.33 BogoMIPS
+I didn't quite understand the points Daniele raised about engine loops 
+and resets - in my mind GSC engine is this special thing exercised for 
+highly specialized operations and not touched in random for_each_engine 
+loop tests, but I also did not really look so might be totally wrong.
 
-while the real slow 48 MHz VexRiscV gets 128 BogoMIPS.
+In any case, v4 reads clear - no confusing comments and not 
+over-engineered so is acceptable to me.
 
-Gr{oetje,eeting}s,
+Regards,
 
-                        Geert
+Tvrtko
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+P.S. Maybe the check *could* be moved to i915_live_selftests, where hw 
+dependencies conceptually fit better, and maybe i915_perf_selftests 
+would need it too then (?), but it is up to you.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Maybe even in the array selftests/i915_live_selftests.h if we could add 
+a facility to make unskippable tests and add this one after the sanity 
+check. Which would then achieve the same generalized thing you had in 
+the previous version without needing to add a new array/loop.
+
+> +}
+> +
+>   static int __run_selftests(const char *name,
+>   			   struct selftest *st,
+>   			   unsigned int count,
+> @@ -134,6 +156,9 @@ static int __run_selftests(const char *name,
+>   {
+>   	int err = 0;
+>   
+> +	if (data)
+> +		__wait_gsc_proxy_completed(data);
+> +
+>   	while (!i915_selftest.random_seed)
+>   		i915_selftest.random_seed = get_random_u32();
+>   
+> 
+> base-commit: 01c4678ab6c623c621a1dea438133e39711291d4
