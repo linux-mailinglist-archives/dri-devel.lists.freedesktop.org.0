@@ -1,61 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 132D5751388
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 00:29:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC20975139D
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 00:35:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F369310E592;
-	Wed, 12 Jul 2023 22:29:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82A2A10E5E3;
+	Wed, 12 Jul 2023 22:35:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB01210E592
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 22:29:33 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id
- a640c23a62f3a-993a37b79e2so22544966b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 15:29:33 -0700 (PDT)
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BD0010E5E3
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 22:35:01 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id
+ 38308e7fff4ca-2b703d7ed3aso125047251fa.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 15:35:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gateworks-com.20221208.gappssmtp.com; s=20221208; t=1689200971; x=1691792971;
+ d=gateworks-com.20221208.gappssmtp.com; s=20221208; t=1689201299; x=1691793299;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=JpnP9i32BXeIsQmJ+YbZCcKNcJ0Q7amCcegwPc3R3ew=;
- b=XyOqwyPOkvn/Rp/GAHWuiG4NzuAebGULbXX1Jyf8wFZ6RSBDw7Y7FsLD28/jsi3YHs
- Os840Rk8JasOVsIp3RIILYZvFvv9qOA4HO1Ku+da76rUZVbw6IDUffSSVIswRgzEtCDA
- vBvJ4fn62iat6n8IIacOjKIJkgenSHz+2FulgEkCcaeD/SexLxemV7ugUUuMvB3dEsBK
- EVrNY1zOtbudXWHVsCCOT7G9o7EWu5DK3UuUKyLdhVPzem60FGHmMEOdI8equCjIbCvn
- Gqp4kDVLKT7Jf7T3zjiI3Yxw5tfid3+9P77WAFjyDWUguww2erD4gaPcB3spEMfFgyBD
- kZPg==
+ bh=Xo+AuBazBBma5lhXFCuSEUC/eob8+XeqoZeTuSTYYhw=;
+ b=v4hi5KRh5A5ELc8TWdKAsqzZDa9Yx8vwW3UODKmy5Gq8WYBBDQh16vMooOERuLMJrc
+ 5s8rk2gy/R63ujY6vhSQuZHuf9IztmP+LyiQLoPwsOesXYDIqXUvVh1YbpFKLXvpn1aU
+ DkB7hwAs1TuZ7BoJ4+UYyKOPuOMc/FKVRxDxJRqhsuWT8D04n+luB7VrozzQ574GFvR0
+ Lg08GWpkGz7uK522/sJmkCNpOdZjU4iojq2zBtylmQxVpqvyvWjfHwbLB2uOhlQVSdeb
+ NKUuR46DimA82AjlEqO+BV7sOngIRbsQKcLLeAxMM7hlv9sVcKsDw5236F9UixaVx4nP
+ p19w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689200971; x=1691792971;
+ d=1e100.net; s=20221208; t=1689201299; x=1691793299;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=JpnP9i32BXeIsQmJ+YbZCcKNcJ0Q7amCcegwPc3R3ew=;
- b=UcT+g+aNmO9iAvHwZg7J0RGjOuXYWr4P2uu0z/LljFmuz9lVXS/zus52/OwRLugf8X
- 2yea40TozjOcD+Ck7zLOzHDmwgAApVjDdDwWge9A7GicUvIsXm5WvhcwP9cHMJf+aVSr
- PA7+7KXc2GJJxz+ZHJaa/a80j4zhxtcsU8sOZb8L1CSgB7tgCkX7/Kay2O8sCvz/RfAb
- FMA5yTttRcmd7WsDlfSTBTaXW/hD4nNhUNbzR2/fW/PvfdoRdyxG3aUg2dB0NwKl2sVz
- 9RrC33TJc9N1Gqggb89tBZBjYzNSBYMCDstfMNEaTWsRR8/tX1wacPY48zUCIdKfQfy6
- xPOA==
-X-Gm-Message-State: ABy/qLbhbfR90JWVxHfjMix3jz/e678acnkhJpAMD9Zs4y67Zm+gN1E2
- UzmT4lXCgGs4YPwXtEWXgTOpMqvitekJk4hVvM2pyw==
-X-Google-Smtp-Source: APBJJlGn3IZ7nui6Gzyqafoji7m5G1289VZtbpkIj0JCx5P4lbC2/TkcLwb4Tjj+M18S1x2TgUQECVE0VM7X8dGEuUs=
-X-Received: by 2002:a17:907:c9aa:b0:992:3ac7:a2da with SMTP id
- uj42-20020a170907c9aa00b009923ac7a2damr22158040ejc.30.1689200971364; Wed, 12
- Jul 2023 15:29:31 -0700 (PDT)
+ bh=Xo+AuBazBBma5lhXFCuSEUC/eob8+XeqoZeTuSTYYhw=;
+ b=i4CDEcIVE55QoKbtHcutuG1N9mIIGAZ0BIcVKQLbU+zfwjLfNve/vJ/7V3f9D1dlNl
+ 854vahu5/mOfMFw0VoIubK3gnypjutVfrAhYlYbog5P1TPGqvmoIScsj8xMKssKg5pLU
+ 2xFuFrNoejHzyXyXFjyi6dmw6oNruQhIg4hAhDgyEI7Ec+oN2wl+/FsIXxQ/pRf9gLTK
+ fN36PDn4nLDhXaQvhCoZAfOTiEA3VcuqTNA1MDPLB6JCWznu6TeJTedRPOSJI4RmnGHA
+ 0D1/fZvu87Ym2YxHoybPfFD2aMRpDqZuoJIBLFCplDYDsB/Zsz1cMnlSoS6FvQns+Fay
+ 2Z+w==
+X-Gm-Message-State: ABy/qLYHZnHR1s5hF7YUTByz74mUicoNaHH8lznTn6A6lAv7q6AAJtL6
+ zE/Se19QU9KrMAY/u0z4jcHAw9pSmGqix+CvxGam+Q==
+X-Google-Smtp-Source: APBJJlF+VBJNI/+IW7K9oXd8Djz5buz/FV+OFOvmCkudFD+8nGsN8IP3/+jawcUcoemYUnf2LgQyHSLlDXb4jswH8rk=
+X-Received: by 2002:a2e:9f42:0:b0:2b6:d63d:cc22 with SMTP id
+ v2-20020a2e9f42000000b002b6d63dcc22mr18295756ljk.29.1689201298793; Wed, 12
+ Jul 2023 15:34:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAJ+vNU2Nb58wOdm9yROzSceSJgwR0pqfVFDiJWGUG6YN87ZdaQ@mail.gmail.com>
- <3fc5b418-8ec3-7899-9878-05e9cbf883e8@denx.de>
-In-Reply-To: <3fc5b418-8ec3-7899-9878-05e9cbf883e8@denx.de>
+References: <20230503163313.2640898-1-frieder@fris.de>
+ <20230503163313.2640898-2-frieder@fris.de>
+In-Reply-To: <20230503163313.2640898-2-frieder@fris.de>
 From: Tim Harvey <tharvey@gateworks.com>
-Date: Wed, 12 Jul 2023 15:29:19 -0700
-Message-ID: <CAJ+vNU2emW0KJvrFckeSWpu54y=qdh6tBgBS1CUW4Tqb3jPRZA@mail.gmail.com>
-Subject: Re: 6.5-rc1 breakage in samsung-dsim
-To: Marek Vasut <marex@denx.de>, Schrempf Frieder <frieder.schrempf@kontron.de>,
- Alexander Stein <alexander.stein@ew.tq-group.com>
+Date: Wed, 12 Jul 2023 15:34:47 -0700
+Message-ID: <CAJ+vNU2d969V1kTHpH+tPK1fm=Z2DUdKSOjwyzRO=9j43HhKgg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] drm: bridge: samsung-dsim: Fix i.MX8M enable flow
+ to meet spec
+To: Frieder Schrempf <frieder@fris.de>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>, Adam Ford <aford173@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,93 +72,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>,
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Adam Ford <aford173@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 12, 2023 at 2:43=E2=80=AFPM Marek Vasut <marex@denx.de> wrote:
+On Wed, May 3, 2023 at 9:33=E2=80=AFAM Frieder Schrempf <frieder@fris.de> w=
+rote:
 >
-> On 7/12/23 20:52, Tim Harvey wrote:
-> > Greetings,
+> From: Frieder Schrempf <frieder.schrempf@kontron.de>
 >
-> Tim,
+> According to the documentation [1] the proper enable flow is:
 >
-> > I've noticed a regression in 6.5-rc1 that I'm having trouble bisecting
-> > between 6.4 with regards to imx8mm MIPI DSI.
-> >
-> > I'm testing on an imx8mm-venice-gw72xx-0x with the following display:
-> >   - Powertip PH800480T013-IDF02 compatible panel
-> >   - Toshiba TC358762 compatible DSI to DBI bridge
-> >   - ATTINY based regulator used for backlight controller and panel enab=
-le
+> 1. Enable DSI link and keep data lanes in LP-11 (stop state)
+> 2. Disable stop state to bring data lanes into HS mode
 >
-> You mean RPi 7" display wired to non-RPi hardware like many people do ? ;=
--)
-
-yup.... good source of readily available cheap expansion hardware :)
-
+> Currently we do this all at once within enable(), which doesn't
+> allow to meet the requirements of some downstream bridges.
 >
-> > I'm using a dt overlay to support this [1] which works on 6.4 but on
-> > 6.5-rc1 I get the following error:
-> > [    6.110585] samsung-dsim 32e60000.dsi: xfer timed out: 29 06 00 00
-> > 64 01 05 00 00 00
-> > [    6.326588] tc358762 32e60000.dsi.0: error initializing bridge (-110=
-)
-> >
-> > I'm trying to bisect this for some reason. Does anyone have any idea
-> > what may be causing this or how I can debug it?
+> To fix this we now enable the DSI in pre_enable() and force it
+> into stop state using the FORCE_STOP_STATE bit in the ESCMODE
+> register until enable() is called where we reset the bit.
 >
-> Try and do something like ...
+> We currently do this only for i.MX8M as Exynos uses a different
+> init flow where samsung_dsim_init() is called from
+> samsung_dsim_host_transfer().
 >
-> git revert --no-edit v6.4..v6.5-rc1 -- drivers/gpu/drm/bridge/tc358762.c
-> drivers/gpu/drm/bridge/samsung-dsim.c drivers/regulator/*attiny*.c
+> [1] https://docs.kernel.org/gpu/drm-kms-helpers.html#mipi-dsi-bridge-oper=
+ation
+>
+> Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+> ---
+> Changes for v2:
+> * Drop RFC
+> ---
+>  drivers/gpu/drm/bridge/samsung-dsim.c | 25 +++++++++++++++++++++++--
+>  1 file changed, 23 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/brid=
+ge/samsung-dsim.c
+> index e0a402a85787..9775779721d9 100644
+> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> @@ -859,6 +859,10 @@ static int samsung_dsim_init_link(struct samsung_dsi=
+m *dsi)
+>         reg =3D samsung_dsim_read(dsi, DSIM_ESCMODE_REG);
+>         reg &=3D ~DSIM_STOP_STATE_CNT_MASK;
+>         reg |=3D DSIM_STOP_STATE_CNT(driver_data->reg_values[STOP_STATE_C=
+NT]);
+> +
+> +       if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type))
+> +               reg |=3D DSIM_FORCE_STOP_STATE;
+> +
+>         samsung_dsim_write(dsi, DSIM_ESCMODE_REG, reg);
+>
+>         reg =3D DSIM_BTA_TIMEOUT(0xff) | DSIM_LPDR_TIMEOUT(0xffff);
+> @@ -1340,6 +1344,9 @@ static void samsung_dsim_atomic_pre_enable(struct d=
+rm_bridge *bridge,
+>                 ret =3D samsung_dsim_init(dsi);
+>                 if (ret)
+>                         return;
+> +
+> +               samsung_dsim_set_display_mode(dsi);
+> +               samsung_dsim_set_display_enable(dsi, true);
+>         }
+>  }
+>
+> @@ -1347,9 +1354,16 @@ static void samsung_dsim_atomic_enable(struct drm_=
+bridge *bridge,
+>                                        struct drm_bridge_state *old_bridg=
+e_state)
+>  {
+>         struct samsung_dsim *dsi =3D bridge_to_dsi(bridge);
+> +       u32 reg;
+>
+> -       samsung_dsim_set_display_mode(dsi);
+> -       samsung_dsim_set_display_enable(dsi, true);
+> +       if (samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type)) {
+> +               samsung_dsim_set_display_mode(dsi);
+> +               samsung_dsim_set_display_enable(dsi, true);
+> +       } else {
+> +               reg =3D samsung_dsim_read(dsi, DSIM_ESCMODE_REG);
+> +               reg &=3D ~DSIM_FORCE_STOP_STATE;
+> +               samsung_dsim_write(dsi, DSIM_ESCMODE_REG, reg);
+> +       }
+>
+>         dsi->state |=3D DSIM_STATE_VIDOUT_AVAILABLE;
+>  }
+> @@ -1358,10 +1372,17 @@ static void samsung_dsim_atomic_disable(struct dr=
+m_bridge *bridge,
+>                                         struct drm_bridge_state *old_brid=
+ge_state)
+>  {
+>         struct samsung_dsim *dsi =3D bridge_to_dsi(bridge);
+> +       u32 reg;
+>
+>         if (!(dsi->state & DSIM_STATE_ENABLED))
+>                 return;
+>
+> +       if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type)) {
+> +               reg =3D samsung_dsim_read(dsi, DSIM_ESCMODE_REG);
+> +               reg |=3D DSIM_FORCE_STOP_STATE;
+> +               samsung_dsim_write(dsi, DSIM_ESCMODE_REG, reg);
+> +       }
+> +
+>         dsi->state &=3D ~DSIM_STATE_VIDOUT_AVAILABLE;
+>  }
+>
+> --
+> 2.40.0
+>
 
-$ git revert --no-edit v6.4...v6.5-rc1 --
-drivers/gpu/drm/bridge/tc358762.c
-drivers/gpu/drm/bridge/samsung-dsim.c drivers/regulator/*attiny*.c
-fatal: bad revision 'drivers/gpu/drm/bridge/tc358762.c'
+Hi Frieder,
 
-your filenames look correct to me however:
-$ ls drivers/gpu/drm/bridge/tc358762.c
-drivers/gpu/drm/bridge/samsung-dsim.c drivers/regulator/*attiny*.c
-drivers/gpu/drm/bridge/samsung-dsim.c
-drivers/gpu/drm/bridge/tc358762.c
-drivers/regulator/rpi-panel-attiny-regulator.c
+I found this patch to break mipi-dsi display on my board which has:
+ - FocalTech FT5406 10pt touch controller (with no interrupt)
+ - Powertip PH800480T013-IDF02 compatible panel
+ - Toshiba TC358762 compatible DSI to DBI bridge
+ - ATTINY based regulator used for backlight controller and panel enable
 
-is that intended to revert all patches between v6.4 and v6.5-rc1 in
-files matching that file pattern? That would be very useful indeed if
-I can figure out the syntax!
+I enable this via a dt overlay in a pending patch
+imx8mm-venice-gw72xx-0x-rpidsi.dtso [1] which works on 6.4 but not
+6.5-rc1 which has this patch.
 
-I did by hand revert the patches to samsung-dsim by hand and found the
-breakage to occur with commit 0c14d3130654 ("drm: bridge:
-samsung-dsim: Fix i.MX8M enable flow to meet spec"). Reverting that
-works for me.
+The issue appears as:
+[    6.110585] samsung-dsim 32e60000.dsi: xfer timed out: 29 06 00 00
+64 01 05 00 00 00
+[    6.326588] tc358762 32e60000.dsi.0: error initializing bridge (-110)
 
-I'll respond to that thread directly but I would love to know how to
-revert a patches to a series of files like you suggested if you know
-what's wrong with the syntax.
+Instead of
+[    1.011729] samsung-dsim 32e10000.dsi: supply vddcore not found,
+using dummy regulator
+[    1.019829] samsung-dsim 32e10000.dsi: supply vddio not found,
+using dummy regulator
+[    5.649928] samsung-dsim 32e10000.dsi:
+[drm:samsung_dsim_host_attach] Attached tc358762 device
 
-thanks,
+I'm curious what board/panel were you needing this for and do you have
+any ideas why it broke my setup?
+
+I'm also curious what board/panel Alexander tested this with and if
+Adam or Jagan (or others) have tested this with their hardware?
+
+best regards,
 
 Tim
-
-
-
->
-> (I might have the filenames wrong)
->
-> Does that start working afterward ?
->
-> If so, you can reverse-bisect on the reverts.
->
-> I wouldn't be surprised if this was somehow related to the non-burst
-> mode delay calculation again, sigh.
->
-> [...]
+[1] https://patchwork.kernel.org/project/linux-arm-kernel/patch/20230711221=
+124.2127186-1-tharvey@gateworks.com/
