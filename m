@@ -1,51 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CFF9750AB5
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 16:22:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ACD9750AB4
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 16:22:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 912E310E54B;
-	Wed, 12 Jul 2023 14:22:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20E9D10E54A;
+	Wed, 12 Jul 2023 14:22:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD8DF10E54B
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 14:22:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=hNojfaeHD+yrJAfrSYxA2Q8X5xc6RjcCbY6fFnfWjYM=; b=M/htLnYcOEEz6NgTH+HZW+QcUA
- x/3Mp/J1pnIq2n0pbpPrWbFvIeah8PsS71ml9hc7Ob649/zxzzSMxORszXK5KFQVtnS2rqWDJNO1z
- dzI40Vd9EQIkF+KXfbf4JuA2ZYYU1Izue4Lb2N/I9Csghpqh5z8Knh4BSO2/8Oun77HDsarSgzKms
- bAUjxUO7lmplmiTwb0V5BMdnf4jGZxPr6gnxVG84vR3RtgibMgSVdYs3cYE9sHQ9/Fp4NXeQNgOwo
- xJFnMN7tqfezvYv/QTqyIwyfuo5dy0zwNdtgfza3Ou/VITW3bcVu8DZvZsZeplfzOMKjlmjmuT/6T
- NePXFHMA==;
-Received: from [177.34.168.16] (helo=[192.168.0.8])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1qJaiz-00D93L-Iw; Wed, 12 Jul 2023 16:21:49 +0200
-Message-ID: <598d39ca-c1be-a57f-9ab5-d90403c78cd0@igalia.com>
-Date: Wed, 12 Jul 2023 11:21:42 -0300
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7035810E54A
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 14:22:18 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 36CBiVoI014762; Wed, 12 Jul 2023 14:22:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=uiOvXvWQsK7oGSOD73zC5c9T7/tY9kGTmrNQPmH8feU=;
+ b=hCZ2BgHBDaeBkGSFtin84VkTwZlKP4xKMHxW5kzddp62+G9TeeOzVTTc2svmNhtGHHrO
+ sp+Ty9btk4BkiX2QZtr7EPLpZiz4+HtdykF4NlkYrqn4o3dzbSNCkM3o73c8zAq+vn68
+ Wnf3aaB2iOJsJdRYynrqhgSDGCaVjbrO6nuMkd03Wmn+R2+0eXdm4hksC0BQB4ww47Q8
+ zJtj14zjoA5Oa/cEC1g7afJ4Z6r916cmaBZGbTSf8L8MZ8uN0l9ni5Djr7U0wAC9cREg
+ GR2hFjQegryARlKxkRylLiwXcbCGw/KeuBNmk6n6oOcbEAfi0VkDTgIfJ2YQVcOZFepw Uw== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rsf87hpqe-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Jul 2023 14:22:14 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36CEMDpR031005
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Jul 2023 14:22:13 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Wed, 12 Jul
+ 2023 07:22:12 -0700
+Message-ID: <c3f1bd05-3594-71b9-39ec-7d4b53a2d2e7@quicinc.com>
+Date: Wed, 12 Jul 2023 08:22:11 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] drm/gem-fb-helper: Consistenly use drm_dbg_kms()
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 0/5 v4] accel/qaic: Improve bounds checking in
+ encode/decode
 Content-Language: en-US
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <7c2182b365c5b0a574744a2832e0209aa1fc009e.1689169087.git.geert+renesas@glider.be>
-From: Maira Canal <mcanal@igalia.com>
-In-Reply-To: <7c2182b365c5b0a574744a2832e0209aa1fc009e.1689169087.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Dan Carpenter <dan.carpenter@linaro.org>
+References: <6e935c70-5bd2-4808-bdd9-d664f892b0b5@moroto.mountain>
+ <0919d2f7-dbb3-2e8b-adb7-f836b21e6482@quicinc.com>
+ <9af2a1c9-a59a-4f7e-a195-82cf5cbd68c9@kadam.mountain>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <9af2a1c9-a59a-4f7e-a195-82cf5cbd68c9@kadam.mountain>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: JnFiaDbBI0YaJtQ2B0jeY0MzS0LEaFAE
+X-Proofpoint-ORIG-GUID: JnFiaDbBI0YaJtQ2B0jeY0MzS0LEaFAE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-12_09,2023-07-11_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 mlxscore=0
+ lowpriorityscore=0 phishscore=0 mlxlogscore=786 malwarescore=0
+ adultscore=0 clxscore=1015 priorityscore=1501 bulkscore=0 spamscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2307120129
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,41 +85,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
+ Carl Vanderlip <quic_carlv@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/12/23 10:42, Geert Uytterhoeven wrote:
-> All debug messages in drm_gem_framebuffer_helper.c use drm_dbg_kms(),
-> except for one, which uses drm_dbg().
-> Replace the outlier by drm_dbg_kms() to restore consistency.
+On 7/12/2023 12:30 AM, Dan Carpenter wrote:
+> On Tue, Jul 11, 2023 at 11:33:25AM -0600, Jeffrey Hugo wrote:
+>> On 7/11/2023 2:20 AM, Dan Carpenter wrote:
+>>> Fixed in v4: Send the correct [PATCH 1/5] patch.
+>>>
+>>> Fixed in v3: Redo messed up threading
+>>>
+>>> Fixed two things in v2:  Include the <linux/overflow.h> file.  Change
+>>> the >= in encode and decode to >.
+>>>
+>>> regards,
+>>> dan carpenter
+>>
+>> Did you intentionally drop tags from previous versions?
 > 
-> Fixes: c91acda3a380bcaf ("drm/gem: Check for valid formats")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
-
-Thanks for sending this fix!
-
-Best Regards,
-- Maíra
-
-> ---
->   drivers/gpu/drm/drm_gem_framebuffer_helper.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> Sorry, I kept messing up the resends.
 > 
-> diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-> index b8a615a138cd675f..3bdb6ba37ff42fb6 100644
-> --- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-> @@ -168,8 +168,8 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
->   	if (drm_drv_uses_atomic_modeset(dev) &&
->   	    !drm_any_plane_has_format(dev, mode_cmd->pixel_format,
->   				      mode_cmd->modifier[0])) {
-> -		drm_dbg(dev, "Unsupported pixel format %p4cc / modifier 0x%llx\n",
-> -			&mode_cmd->pixel_format, mode_cmd->modifier[0]);
-> +		drm_dbg_kms(dev, "Unsupported pixel format %p4cc / modifier 0x%llx\n",
-> +			    &mode_cmd->pixel_format, mode_cmd->modifier[0]);
->   		return -EINVAL;
->   	}
->   
+>>
+>> For 1-3, 5
+>> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+>>
+>> Looks like 3,5 are reviewed by Pranjal and also good. I see 5 is also
+>> reviewed by Dafna.  Expect those to be merged.  1,2 need a review from
+>> Pranjal, but I expect all is good and will be merged.
+>>
+>> I did not see feedback on my question for 4.  Would like your feedback
+>> before queuing that one up.
+>>
+> 
+> Sorry, again.  Yeah.  I think you're right.  Could we queue the rest and
+> I will resend 4 separately?  I know it's a headache.  If not it's fine,
+> I can resend them all.
+
+These all seem independent enough that I don't see splitting out 4 as a 
+problem.
+
+-Jeff
