@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD96F750395
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 11:47:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A5B87503A4
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 11:47:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44B8010E42B;
-	Wed, 12 Jul 2023 09:47:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BAAE10E42C;
+	Wed, 12 Jul 2023 09:47:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 133C710E41E
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 09:47:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9232A10E3E6
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 09:47:13 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1qJWRC-0001Ln-Sc; Wed, 12 Jul 2023 11:47:10 +0200
+ id 1qJWRC-0001Lj-Sp; Wed, 12 Jul 2023 11:47:10 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1qJWRC-00Dr4b-0I; Wed, 12 Jul 2023 11:47:10 +0200
+ id 1qJWRB-00Dr4a-W4; Wed, 12 Jul 2023 11:47:10 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1qJWRA-004GT1-LJ; Wed, 12 Jul 2023 11:47:08 +0200
+ id 1qJWRA-004GT5-QC; Wed, 12 Jul 2023 11:47:08 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Edmund Dea <edmund.j.dea@intel.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH RFC v1 18/52] drm/kmb: Use struct drm_crtc::drm_dev instead of
- struct drm_crtc::dev
-Date: Wed, 12 Jul 2023 11:46:28 +0200
-Message-Id: <20230712094702.1770121-19-u.kleine-koenig@pengutronix.de>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH RFC v1 19/52] drm/logicvc: Use struct drm_crtc::drm_dev
+ instead of struct drm_crtc::dev
+Date: Wed, 12 Jul 2023 11:46:29 +0200
+Message-Id: <20230712094702.1770121-20-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230712094702.1770121-1-u.kleine-koenig@pengutronix.de>
 References: <20230712094702.1770121-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3077;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2955;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=fsr7NLbBT3wwl6n8r3U+GwOutE1imxyARsoxL6ar2cw=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkrnZrRfiqFOKIl6zCjI1kciqNWrlaDtXYkh4x4
- 2WI6minG4aJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZK52awAKCRCPgPtYfRL+
- TkQ8B/9VIG9Sf6ktD7Y9ukn/fFlrOh6afrjNJwy7/RbRFr6XuoUpku496/k3X0B93WcOZDaKzir
- mIMT/B9Zt5/MPRPWbpxSdOAKW4X6kiEdlyHyenYTOOatIooeyTOduzLxPiu5/54U4M4KBp7d0Sb
- 4o7icT6lVDI+Q3WoYkRD2RTgrZa+XUWBuKpybCirpLoboH6spa2Jiqdns5og0e1hak3RdbdtKK5
- dN5VfadjUOfFtLkJbZ07WnCdlIl5zRIrU+xAaGAULEIK9OYr3hXGdS+4HJ4fF3qePV/CvWYLk+8
- WrigIl3ebMW0efkBXTrnkQqAYBYH3sU+czQ93WHQrPrASdrj
+ bh=qNX6nz5zZaZq49UrDlkMHAcXbkXA3LXsx9rDDhvGnnw=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkrnZstHr6DeXEiqOLjtIZ5mplErAm9nYI3u1fo
+ 7e/2dGDn4+JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZK52bAAKCRCPgPtYfRL+
+ Tt3MB/0ZqPeuiTXbR+7Ym5ECbBWLJJW6w+2nk/JYLw7ih/W8JJb/LN2HZRlbZ9EpgQNHqSizZwo
+ Jzs/+rA1WaVJfAKZePuUXKN1rG9NoEB2nPrgCj3/5oTNKvgmmdtYzFfPOhUxclRSTLyj4qX0IsR
+ /i8pe7nWMd/TMCc6HM59Amcwmp59YjultF5z08at5jeZ8GvkXK0KvnbuYV/NO0JR+R105tz3GPp
+ vjndE299gqlq4CYhjj6BlR5chSZcbVVfz86PtIcVaTx4jDHGhPxMfV5TgXz/NsmeCAMbsjUWoMV
+ Fc/Y7To71yAPQm7TVvaUuBpB9WJXKkH3rBKHypRCYyBL9wol
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -79,83 +78,68 @@ No semantic changes.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/gpu/drm/kmb/kmb_crtc.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/logicvc/logicvc_crtc.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/kmb/kmb_crtc.c b/drivers/gpu/drm/kmb/kmb_crtc.c
-index 647872f65bff..5be50909d63b 100644
---- a/drivers/gpu/drm/kmb/kmb_crtc.c
-+++ b/drivers/gpu/drm/kmb/kmb_crtc.c
-@@ -28,7 +28,7 @@ struct kmb_crtc_timing {
+diff --git a/drivers/gpu/drm/logicvc/logicvc_crtc.c b/drivers/gpu/drm/logicvc/logicvc_crtc.c
+index 43a675d03808..e7e65381ab6f 100644
+--- a/drivers/gpu/drm/logicvc/logicvc_crtc.c
++++ b/drivers/gpu/drm/logicvc/logicvc_crtc.c
+@@ -41,7 +41,7 @@ static void logicvc_crtc_atomic_begin(struct drm_crtc *drm_crtc,
+ 	struct logicvc_crtc *crtc = logicvc_crtc(drm_crtc);
+ 	struct drm_crtc_state *old_state =
+ 		drm_atomic_get_old_crtc_state(state, drm_crtc);
+-	struct drm_device *drm_dev = drm_crtc->dev;
++	struct drm_device *drm_dev = drm_crtc->drm_dev;
+ 	unsigned long flags;
  
- static int kmb_crtc_enable_vblank(struct drm_crtc *crtc)
+ 	/*
+@@ -63,14 +63,14 @@ static void logicvc_crtc_atomic_enable(struct drm_crtc *drm_crtc,
+ 				       struct drm_atomic_state *state)
  {
--	struct drm_device *dev = crtc->dev;
-+	struct drm_device *dev = crtc->drm_dev;
- 	struct kmb_drm_private *kmb = to_kmb(dev);
+ 	struct logicvc_crtc *crtc = logicvc_crtc(drm_crtc);
+-	struct logicvc_drm *logicvc = logicvc_drm(drm_crtc->dev);
++	struct logicvc_drm *logicvc = logicvc_drm(drm_crtc->drm_dev);
+ 	struct drm_crtc_state *old_state =
+ 		drm_atomic_get_old_crtc_state(state, drm_crtc);
+ 	struct drm_crtc_state *new_state =
+ 		drm_atomic_get_new_crtc_state(state, drm_crtc);
+ 	struct drm_display_mode *mode = &new_state->adjusted_mode;
  
- 	/* Clear interrupt */
-@@ -44,7 +44,7 @@ static int kmb_crtc_enable_vblank(struct drm_crtc *crtc)
- 
- static void kmb_crtc_disable_vblank(struct drm_crtc *crtc)
+-	struct drm_device *drm_dev = drm_crtc->dev;
++	struct drm_device *drm_dev = drm_crtc->drm_dev;
+ 	unsigned int hact, hfp, hsl, hbp;
+ 	unsigned int vact, vfp, vsl, vbp;
+ 	unsigned long flags;
+@@ -152,8 +152,8 @@ static void logicvc_crtc_atomic_enable(struct drm_crtc *drm_crtc,
+ static void logicvc_crtc_atomic_disable(struct drm_crtc *drm_crtc,
+ 					struct drm_atomic_state *state)
  {
--	struct drm_device *dev = crtc->dev;
-+	struct drm_device *dev = crtc->drm_dev;
- 	struct kmb_drm_private *kmb = to_kmb(dev);
+-	struct logicvc_drm *logicvc = logicvc_drm(drm_crtc->dev);
+-	struct drm_device *drm_dev = drm_crtc->dev;
++	struct logicvc_drm *logicvc = logicvc_drm(drm_crtc->drm_dev);
++	struct drm_device *drm_dev = drm_crtc->drm_dev;
  
- 	/* Clear interrupt */
-@@ -68,7 +68,7 @@ static const struct drm_crtc_funcs kmb_crtc_funcs = {
- static void kmb_crtc_set_mode(struct drm_crtc *crtc,
- 			      struct drm_atomic_state *old_state)
+ 	drm_crtc_vblank_off(drm_crtc);
+ 
+@@ -190,7 +190,7 @@ static const struct drm_crtc_helper_funcs logicvc_crtc_helper_funcs = {
+ 
+ static int logicvc_crtc_enable_vblank(struct drm_crtc *drm_crtc)
  {
--	struct drm_device *dev = crtc->dev;
-+	struct drm_device *dev = crtc->drm_dev;
- 	struct drm_display_mode *m = &crtc->state->adjusted_mode;
- 	struct kmb_crtc_timing vm;
- 	struct kmb_drm_private *kmb = to_kmb(dev);
-@@ -158,7 +158,7 @@ static void kmb_crtc_atomic_disable(struct drm_crtc *crtc,
- static void kmb_crtc_atomic_begin(struct drm_crtc *crtc,
- 				  struct drm_atomic_state *state)
+-	struct logicvc_drm *logicvc = logicvc_drm(drm_crtc->dev);
++	struct logicvc_drm *logicvc = logicvc_drm(drm_crtc->drm_dev);
+ 
+ 	/* Clear any pending V_SYNC interrupt. */
+ 	regmap_write_bits(logicvc->regmap, LOGICVC_INT_STAT_REG,
+@@ -205,7 +205,7 @@ static int logicvc_crtc_enable_vblank(struct drm_crtc *drm_crtc)
+ 
+ static void logicvc_crtc_disable_vblank(struct drm_crtc *drm_crtc)
  {
--	struct drm_device *dev = crtc->dev;
-+	struct drm_device *dev = crtc->drm_dev;
- 	struct kmb_drm_private *kmb = to_kmb(dev);
+-	struct logicvc_drm *logicvc = logicvc_drm(drm_crtc->dev);
++	struct logicvc_drm *logicvc = logicvc_drm(drm_crtc->drm_dev);
  
- 	kmb_clr_bitmask_lcd(kmb, LCD_INT_ENABLE,
-@@ -168,13 +168,13 @@ static void kmb_crtc_atomic_begin(struct drm_crtc *crtc,
- static void kmb_crtc_atomic_flush(struct drm_crtc *crtc,
- 				  struct drm_atomic_state *state)
- {
--	struct drm_device *dev = crtc->dev;
-+	struct drm_device *dev = crtc->drm_dev;
- 	struct kmb_drm_private *kmb = to_kmb(dev);
- 
- 	kmb_set_bitmask_lcd(kmb, LCD_INT_ENABLE,
- 			    LCD_INT_VERT_COMP);
- 
--	spin_lock_irq(&crtc->dev->event_lock);
-+	spin_lock_irq(&crtc->drm_dev->event_lock);
- 	if (crtc->state->event) {
- 		if (drm_crtc_vblank_get(crtc) == 0)
- 			drm_crtc_arm_vblank_event(crtc, crtc->state->event);
-@@ -182,7 +182,7 @@ static void kmb_crtc_atomic_flush(struct drm_crtc *crtc,
- 			drm_crtc_send_vblank_event(crtc, crtc->state->event);
- 	}
- 	crtc->state->event = NULL;
--	spin_unlock_irq(&crtc->dev->event_lock);
-+	spin_unlock_irq(&crtc->drm_dev->event_lock);
- }
- 
- static enum drm_mode_status
-@@ -190,7 +190,7 @@ static enum drm_mode_status
- 				    const struct drm_display_mode *mode)
- {
- 	int refresh;
--	struct drm_device *dev = crtc->dev;
-+	struct drm_device *dev = crtc->drm_dev;
- 	int vfp = mode->vsync_start - mode->vdisplay;
- 
- 	if (mode->vdisplay < KMB_CRTC_MAX_HEIGHT) {
+ 	/* Mask V_SYNC interrupt. */
+ 	regmap_write_bits(logicvc->regmap, LOGICVC_INT_MASK_REG,
 -- 
 2.39.2
 
