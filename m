@@ -2,58 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6549574FD39
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 04:42:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7499B74FD4B
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 04:51:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A34010E48A;
-	Wed, 12 Jul 2023 02:42:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21D9A10E481;
+	Wed, 12 Jul 2023 02:51:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1843F10E48A
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 02:42:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1689129726; x=1720665726;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=qlhvIYFDZsRkccAuqns/tmcijlZ/1ZjDUHf/bvJuyVk=;
- b=IAcVXcdFevCCxRSlmopdsC0v5pRz89zg04PSxYDrr6XAypgRLYkLVqoO
- X0yth/uJuha3iJHUa/U3250qugfGwImm+Lu3ir/MzWb15iP+U2iwi277x
- I2jnphqMwjIAipmyc4Aju5yf5/ekf3iPxpoKdyiarXMVjUV8BBrOVDiWD
- 5q7dgVjfoZdaJp3yTUdlloryneurd33iTEirxjDw8XmybRnIEMeyuq2jj
- Oq2Q4aAJeH/ab6nuEuhfJ0UB6QhWzAOgUy+j44cSOgETh5HX+Pr6+ZGRQ
- MHHhDGkzSqYr/UzDsAqi1dCfrqEinyXaYSMXj0Aor8HeIn9y5anITu8uI g==;
-X-IronPort-AV: E=Sophos;i="6.01,198,1684825200"; d="scan'208";a="223259478"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256;
- 11 Jul 2023 19:42:06 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 11 Jul 2023 19:42:02 -0700
-Received: from che-lt-i67131.amer.actel.com (10.10.115.15) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.21 via Frontend Transport; Tue, 11 Jul 2023 19:41:54 -0700
-From: Manikandan Muralidharan <manikandan.m@microchip.com>
-To: <lee@kernel.org>, <robh+dt@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
- <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
- <claudiu.beznea@microchip.com>, <sam@ravnborg.org>, <bbrezillon@kernel.org>,
- <airlied@gmail.com>, <daniel@ffwll.ch>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v2 9/9] drm: atmel-hlcdc: add support for DSI output formats
-Date: Wed, 12 Jul 2023 08:10:17 +0530
-Message-ID: <20230712024017.218921-10-manikandan.m@microchip.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230712024017.218921-1-manikandan.m@microchip.com>
-References: <20230712024017.218921-1-manikandan.m@microchip.com>
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EF6F10E481
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 02:51:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1689130277;
+ bh=hbvmqUn4K5h0Wmr7Y3QeUu0Gk9RV14VVpCTT5uZbzZo=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=labvdQMB1LkMEbLPFcdz0hY2+b1lJgSMpmiLbjxz+0j1lIwHFySM/MNxDBNi4P78w
+ C2c8u2WjVemqP8lkWi79PNecg8dpDO44xBjTN57XPxFoE8+5bu25h5of7qAK+WK3Gx
+ R/IjvgIVIXqPP1Xy1HJ1swdRpcOJTrb2gwGeypq2cG6K3+h8a9QTagCnI0otRxge6W
+ SG9A4zBAi+/JKyL3cJZxeZWed28g4kGW49gGkPT+I+lWbE11kiQBZR3lPGr/OQH1Tq
+ 8ZXvjgMIk0z8txgGWlJmJWbId/y+/Ctiw0nvvGAFqGLl0eldNuv00Oz4ZsiyVxCd0w
+ 2eQI3iiyu3KfA==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4R12LX4KfJz4wy8;
+ Wed, 12 Jul 2023 12:51:16 +1000 (AEST)
+Date: Wed, 12 Jul 2023 12:51:15 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: linux-next: build warnings after merge of the amdgpu tree
+Message-ID: <20230712125115.06caf01f@canb.auug.org.au>
+In-Reply-To: <53602f8f-c37b-6570-d76d-5dd3c3329280@infradead.org>
+References: <20221118175545.762d1a20@canb.auug.org.au>
+ <20230712091509.4f6f7a19@canb.auug.org.au>
+ <53602f8f-c37b-6570-d76d-5dd3c3329280@infradead.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: multipart/signed; boundary="Sig_/RLftZouG86vvxK3dKWG+aE/";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,186 +53,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Balakrishnan.S@microchip.com, Nayabbasha.Sayed@microchip.com,
- Balamanikandan.Gunasundar@microchip.com,
- Manikandan Muralidharan <manikandan.m@microchip.com>,
- Varshini.Rajendran@microchip.com, Dharma.B@microchip.com,
- Durai Manickam KR <durai.manickamkr@microchip.com>,
- Hari.PrasathGE@microchip.com
+Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the following DPI mode if the encoder type
-is DSI as per the XLCDC IP datasheet:
-- 16BPPCFG1
-- 16BPPCFG2
-- 16BPPCFG3
-- 18BPPCFG1
-- 18BPPCFG2
-- 24BPP
+--Sig_/RLftZouG86vvxK3dKWG+aE/
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Manikandan Muralidharan <manikandan.m@microchip.com>
-[durai.manickamkr@microchip.com: update output format using is_xlcdc flag]
-Signed-off-by: Durai Manickam KR <durai.manickamkr@microchip.com>
----
- .../gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c    | 117 +++++++++++++-----
- 1 file changed, 86 insertions(+), 31 deletions(-)
+Hi Randy,
 
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-index c0a1d2d31ed2..4035410ba1df 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-@@ -269,11 +269,18 @@ static void atmel_hlcdc_crtc_atomic_enable(struct drm_crtc *c,
- 
- }
- 
--#define ATMEL_HLCDC_RGB444_OUTPUT	BIT(0)
--#define ATMEL_HLCDC_RGB565_OUTPUT	BIT(1)
--#define ATMEL_HLCDC_RGB666_OUTPUT	BIT(2)
--#define ATMEL_HLCDC_RGB888_OUTPUT	BIT(3)
--#define ATMEL_HLCDC_OUTPUT_MODE_MASK	GENMASK(3, 0)
-+#define ATMEL_HLCDC_RGB444_OUTPUT		BIT(0)
-+#define ATMEL_HLCDC_RGB565_OUTPUT		BIT(1)
-+#define ATMEL_HLCDC_RGB666_OUTPUT		BIT(2)
-+#define ATMEL_HLCDC_RGB888_OUTPUT		BIT(3)
-+#define ATMEL_HLCDC_DPI_RGB565C1_OUTPUT		BIT(4)
-+#define ATMEL_HLCDC_DPI_RGB565C2_OUTPUT		BIT(5)
-+#define ATMEL_HLCDC_DPI_RGB565C3_OUTPUT		BIT(6)
-+#define ATMEL_HLCDC_DPI_RGB666C1_OUTPUT		BIT(7)
-+#define ATMEL_HLCDC_DPI_RGB666C2_OUTPUT		BIT(8)
-+#define ATMEL_HLCDC_DPI_RGB888_OUTPUT		BIT(9)
-+#define ATMEL_HLCDC_OUTPUT_MODE_MASK		GENMASK(3, 0)
-+#define ATMEL_XLCDC_OUTPUT_MODE_MASK		GENMASK(9, 0)
- 
- static int atmel_hlcdc_connector_output_mode(struct drm_connector_state *state)
- {
-@@ -287,37 +294,83 @@ static int atmel_hlcdc_connector_output_mode(struct drm_connector_state *state)
- 	if (!encoder)
- 		encoder = connector->encoder;
- 
--	switch (atmel_hlcdc_encoder_get_bus_fmt(encoder)) {
--	case 0:
--		break;
--	case MEDIA_BUS_FMT_RGB444_1X12:
--		return ATMEL_HLCDC_RGB444_OUTPUT;
--	case MEDIA_BUS_FMT_RGB565_1X16:
--		return ATMEL_HLCDC_RGB565_OUTPUT;
--	case MEDIA_BUS_FMT_RGB666_1X18:
--		return ATMEL_HLCDC_RGB666_OUTPUT;
--	case MEDIA_BUS_FMT_RGB888_1X24:
--		return ATMEL_HLCDC_RGB888_OUTPUT;
--	default:
--		return -EINVAL;
--	}
--
--	for (j = 0; j < info->num_bus_formats; j++) {
--		switch (info->bus_formats[j]) {
--		case MEDIA_BUS_FMT_RGB444_1X12:
--			supported_fmts |= ATMEL_HLCDC_RGB444_OUTPUT;
-+	if (encoder->encoder_type == DRM_MODE_ENCODER_DSI) {
-+		/*
-+		 * atmel-hlcdc to support DSI formats with DSI video pipeline
-+		 * when DRM_MODE_ENCODER_DSI type is set by
-+		 * connector driver component.
-+		 */
-+		switch (atmel_hlcdc_encoder_get_bus_fmt(encoder)) {
-+		case 0:
- 			break;
- 		case MEDIA_BUS_FMT_RGB565_1X16:
--			supported_fmts |= ATMEL_HLCDC_RGB565_OUTPUT;
--			break;
-+			return ATMEL_HLCDC_DPI_RGB565C1_OUTPUT;
- 		case MEDIA_BUS_FMT_RGB666_1X18:
--			supported_fmts |= ATMEL_HLCDC_RGB666_OUTPUT;
--			break;
-+			return ATMEL_HLCDC_DPI_RGB666C1_OUTPUT;
-+		case MEDIA_BUS_FMT_RGB666_1X24_CPADHI:
-+			return ATMEL_HLCDC_DPI_RGB666C2_OUTPUT;
- 		case MEDIA_BUS_FMT_RGB888_1X24:
--			supported_fmts |= ATMEL_HLCDC_RGB888_OUTPUT;
--			break;
-+			return ATMEL_HLCDC_DPI_RGB888_OUTPUT;
- 		default:
-+			return -EINVAL;
-+		}
-+
-+		for (j = 0; j < info->num_bus_formats; j++) {
-+			switch (info->bus_formats[j]) {
-+			case MEDIA_BUS_FMT_RGB565_1X16:
-+				supported_fmts |=
-+					ATMEL_HLCDC_DPI_RGB565C1_OUTPUT;
-+				break;
-+			case MEDIA_BUS_FMT_RGB666_1X18:
-+				supported_fmts |=
-+					ATMEL_HLCDC_DPI_RGB666C1_OUTPUT;
-+				break;
-+			case MEDIA_BUS_FMT_RGB666_1X24_CPADHI:
-+				supported_fmts |=
-+					ATMEL_HLCDC_DPI_RGB666C2_OUTPUT;
-+				break;
-+			case MEDIA_BUS_FMT_RGB888_1X24:
-+				supported_fmts |=
-+					ATMEL_HLCDC_DPI_RGB888_OUTPUT;
-+				break;
-+			default:
-+				break;
-+			}
-+		}
-+
-+	} else {
-+		switch (atmel_hlcdc_encoder_get_bus_fmt(encoder)) {
-+		case 0:
- 			break;
-+		case MEDIA_BUS_FMT_RGB444_1X12:
-+			return ATMEL_HLCDC_RGB444_OUTPUT;
-+		case MEDIA_BUS_FMT_RGB565_1X16:
-+			return ATMEL_HLCDC_RGB565_OUTPUT;
-+		case MEDIA_BUS_FMT_RGB666_1X18:
-+			return ATMEL_HLCDC_RGB666_OUTPUT;
-+		case MEDIA_BUS_FMT_RGB888_1X24:
-+			return ATMEL_HLCDC_RGB888_OUTPUT;
-+		default:
-+			return -EINVAL;
-+		}
-+
-+		for (j = 0; j < info->num_bus_formats; j++) {
-+			switch (info->bus_formats[j]) {
-+			case MEDIA_BUS_FMT_RGB444_1X12:
-+				supported_fmts |= ATMEL_HLCDC_RGB444_OUTPUT;
-+				break;
-+			case MEDIA_BUS_FMT_RGB565_1X16:
-+				supported_fmts |= ATMEL_HLCDC_RGB565_OUTPUT;
-+				break;
-+			case MEDIA_BUS_FMT_RGB666_1X18:
-+				supported_fmts |= ATMEL_HLCDC_RGB666_OUTPUT;
-+				break;
-+			case MEDIA_BUS_FMT_RGB888_1X24:
-+				supported_fmts |= ATMEL_HLCDC_RGB888_OUTPUT;
-+				break;
-+			default:
-+				break;
-+			}
- 		}
- 	}
- 
-@@ -326,7 +379,7 @@ static int atmel_hlcdc_connector_output_mode(struct drm_connector_state *state)
- 
- static int atmel_hlcdc_crtc_select_output_mode(struct drm_crtc_state *state)
- {
--	unsigned int output_fmts = ATMEL_HLCDC_OUTPUT_MODE_MASK;
-+	unsigned int output_fmts;
- 	struct atmel_hlcdc_crtc_state *hstate;
- 	struct drm_connector_state *cstate;
- 	struct drm_connector *connector;
-@@ -334,6 +387,8 @@ static int atmel_hlcdc_crtc_select_output_mode(struct drm_crtc_state *state)
- 	int i;
- 
- 	crtc = drm_crtc_to_atmel_hlcdc_crtc(state->crtc);
-+	output_fmts = crtc->dc->desc->is_xlcdc ? ATMEL_XLCDC_OUTPUT_MODE_MASK :
-+		      ATMEL_HLCDC_OUTPUT_MODE_MASK;
- 
- 	for_each_new_connector_in_state(state->state, connector, cstate, i) {
- 		unsigned int supported_fmts = 0;
--- 
-2.25.1
+On Tue, 11 Jul 2023 19:26:33 -0700 Randy Dunlap <rdunlap@infradead.org> wro=
+te:
+>
+> On 7/11/23 16:15, Stephen Rothwell wrote:
+> >=20
+> > On Fri, 18 Nov 2022 17:55:45 +1100 Stephen Rothwell <sfr@canb.auug.org.=
+au> wrote: =20
+> >>
+> >> After merging the amdgpu tree, today's linux-next build (htmldocs)
+> >> produced these warnings:
+> >>
+> >> drivers/gpu/drm/amd/display/dc/dc.h:548: warning: Function parameter o=
+r member 'dispclk_khz' not described in 'dc_clocks'
+>=20
+> This patch:
+> https://lore.kernel.org/lkml/20230712022339.17902-1-rdunlap@infradead.org=
+/T/#u
+>=20
+> removes all 175 kernel-doc warnings from dc.h.
 
+Excellent, thanks.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/RLftZouG86vvxK3dKWG+aE/
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmSuFSMACgkQAVBC80lX
+0GwJewgAiwtZZDn286quU9xHc8wOpV5e1CWWKMjAq02PigCohZ8wRAaImk8T5KAH
+D8xHPXgnMdTlQ2QvUuzmRxwP1Yps7Pt0wqWkUH+5G0apk8lZQhN9cNBwhR873Tug
+EVnpWwudK+ON/Pnj/LM3iWP+h6ixdpNj468AE59H+0/Rz6yiPeieyS/qN0uUpnDE
+IVOfxDfXoofh5NLNj8zoMQD7IhoWJ+cxvn3dTInFJzm4+In3WKyUil590EgQuHe3
+LZFo0tjr98ruy+QRB2TGLc1R/AwayXhqD9YOMA1/d5MVLLe1d3LRvVjHfWz/4Le2
+q2qIYWHtToCgUjatIB04R95HUG1ruQ==
+=2E1H
+-----END PGP SIGNATURE-----
+
+--Sig_/RLftZouG86vvxK3dKWG+aE/--
