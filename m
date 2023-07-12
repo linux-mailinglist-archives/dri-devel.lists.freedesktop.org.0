@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D825750394
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 11:47:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46FB27503C2
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 11:48:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D51F10E3EC;
-	Wed, 12 Jul 2023 09:47:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4582F10E4B7;
+	Wed, 12 Jul 2023 09:47:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FD2F10E3EC
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92ADD10E3FB
  for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 09:47:20 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1qJWRI-0001gi-MR; Wed, 12 Jul 2023 11:47:16 +0200
+ id 1qJWRI-0001gY-T2; Wed, 12 Jul 2023 11:47:16 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1qJWRH-00Dr6z-B1; Wed, 12 Jul 2023 11:47:15 +0200
+ id 1qJWRH-00Dr6v-84; Wed, 12 Jul 2023 11:47:15 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1qJWRG-004GV2-E6; Wed, 12 Jul 2023 11:47:14 +0200
+ id 1qJWRG-004GV6-JC; Wed, 12 Jul 2023 11:47:14 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH RFC v1 50/52] drm/xen: Use struct drm_crtc::drm_dev instead of
- struct drm_crtc::dev
-Date: Wed, 12 Jul 2023 11:47:00 +0200
-Message-Id: <20230712094702.1770121-51-u.kleine-koenig@pengutronix.de>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Michal Simek <michal.simek@amd.com>
+Subject: [PATCH RFC v1 51/52] drm/xlnx: Use struct drm_crtc::drm_dev instead
+ of struct drm_crtc::dev
+Date: Wed, 12 Jul 2023 11:47:01 +0200
+Message-Id: <20230712094702.1770121-52-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230712094702.1770121-1-u.kleine-koenig@pengutronix.de>
 References: <20230712094702.1770121-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2234;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1447;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=4JQln/Shv9usfMfN5P2qRiulxlrxKajP/CdCtAPx/7U=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkrnaQzs1+wM39L5Obw+FywgTwC3eOlZMVvXLLy
- L6tpeE2RweJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZK52kAAKCRCPgPtYfRL+
- Tn/YCACCUWng2jWALKbLH4qxPQvGq5Z/APgLNJrfFTJf8vPpxFtMWv/NLsAXpOspDsvDwQs5snR
- PdDagtck9c/rTw5xkc+FR+kyX1c9zr7/qsl6eXXc8N/NzGpND7wHNlx/sDt2Vzu8luds3CGgUih
- AZxR1FBnBrPHlbM+2B5QqfEcACftPs8BOtUmklcZ7frvRl6e/eYmJfZMcROhue4NE3DQkWj+m5O
- 0HYPqP2HQoIZ1z2TO/0hHUA2CZJqg6B3l45aokWGHUGnZO1NB5dLVJsp0iTl1OXiPVDM6/rfLiA
- sTf3BoRj+yGkLCfOIj5lz3iyYh0Vl9STjCw0VlnEQyi0Ulxd
+ bh=JHRZ4fcH9UBW/l5ZUL2HbtKnny+MzFwu5NuITX9kfck=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkrnaRnZKgAfZldZXv47kgfzwidtAge96EN5T5g
+ YZHd+RF2oGJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZK52kQAKCRCPgPtYfRL+
+ Ts6FB/4kSbq0w/atxXIIkKBG6CBVwHIxF8dKX9Q/PtSmSTj7gZuQe7OWAJpsLLCcyylrZBMjACu
+ SBGP965GVr/NRzFLhzA7DE4np5Q/7MdnjZebLA0/dSwpCIjiOovnllxQXWGZNyD8X4G5LK3lwEr
+ asBy6I2KsRqecFPxkQOpBi43vIaiQ9oY3nIWQg83P6xORvAaY4OdbJyQKMIT1yIdGcRzh5TAE5c
+ 556KTg2krPC38nvGaGLjfn2Dy6uMF4FFzUq8TIzVnwJok2cNBnPwbuzcxtKJmdFr+VG6PmEZyH+
+ ksf9IX1FhSCLXHcFdLVTWphx61zo302o4zRS89ait71sb+mN
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -67,7 +68,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: xen-devel@lists.xenproject.org, kernel@pengutronix.de,
+Cc: kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
@@ -79,58 +80,40 @@ No semantic changes.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/gpu/drm/xen/xen_drm_front_kms.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/xlnx/zynqmp_kms.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/xen/xen_drm_front_kms.c b/drivers/gpu/drm/xen/xen_drm_front_kms.c
-index dfa78a49a6d9..72042139b73a 100644
---- a/drivers/gpu/drm/xen/xen_drm_front_kms.c
-+++ b/drivers/gpu/drm/xen/xen_drm_front_kms.c
-@@ -93,7 +93,7 @@ static const struct drm_mode_config_funcs mode_config_funcs = {
- static void send_pending_event(struct xen_drm_front_drm_pipeline *pipeline)
- {
- 	struct drm_crtc *crtc = &pipeline->pipe.crtc;
--	struct drm_device *dev = crtc->dev;
-+	struct drm_device *dev = crtc->drm_dev;
- 	unsigned long flags;
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+index a7f8611be6f4..ba12efc4b9e4 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+@@ -232,12 +232,12 @@ static void zynqmp_dpsub_crtc_atomic_disable(struct drm_crtc *crtc,
  
- 	spin_lock_irqsave(&dev->event_lock, flags);
-@@ -113,7 +113,7 @@ static void display_enable(struct drm_simple_display_pipe *pipe,
- 	struct drm_framebuffer *fb = plane_state->fb;
- 	int ret, idx;
+ 	drm_crtc_vblank_off(crtc);
  
--	if (!drm_dev_enter(pipe->crtc.dev, &idx))
-+	if (!drm_dev_enter(pipe->crtc.drm_dev, &idx))
- 		return;
- 
- 	ret = xen_drm_front_mode_set(pipeline, crtc->x, crtc->y,
-@@ -135,7 +135,7 @@ static void display_disable(struct drm_simple_display_pipe *pipe)
- 			to_xen_drm_pipeline(pipe);
- 	int ret = 0, idx;
- 
--	if (drm_dev_enter(pipe->crtc.dev, &idx)) {
-+	if (drm_dev_enter(pipe->crtc.drm_dev, &idx)) {
- 		ret = xen_drm_front_mode_set(pipeline, 0, 0, 0, 0, 0,
- 					     xen_drm_front_fb_to_cookie(NULL));
- 		drm_dev_exit(idx);
-@@ -251,7 +251,7 @@ static void display_update(struct drm_simple_display_pipe *pipe,
- 
- 	event = crtc->state->event;
- 	if (event) {
--		struct drm_device *dev = crtc->dev;
-+		struct drm_device *dev = crtc->drm_dev;
- 		unsigned long flags;
- 
- 		WARN_ON(pipeline->pending_event);
-@@ -263,7 +263,7 @@ static void display_update(struct drm_simple_display_pipe *pipe,
- 		spin_unlock_irqrestore(&dev->event_lock, flags);
+-	spin_lock_irq(&crtc->dev->event_lock);
++	spin_lock_irq(&crtc->drm_dev->event_lock);
+ 	if (crtc->state->event) {
+ 		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+ 		crtc->state->event = NULL;
  	}
+-	spin_unlock_irq(&crtc->dev->event_lock);
++	spin_unlock_irq(&crtc->drm_dev->event_lock);
  
--	if (!drm_dev_enter(pipe->crtc.dev, &idx)) {
-+	if (!drm_dev_enter(pipe->crtc.drm_dev, &idx)) {
- 		send_pending_event(pipeline);
- 		return;
+ 	clk_disable_unprepare(dpsub->vid_clk);
+ 	pm_runtime_put_sync(dpsub->dev);
+@@ -269,9 +269,9 @@ static void zynqmp_dpsub_crtc_atomic_flush(struct drm_crtc *crtc,
+ 
+ 		WARN_ON(drm_crtc_vblank_get(crtc) != 0);
+ 
+-		spin_lock_irq(&crtc->dev->event_lock);
++		spin_lock_irq(&crtc->drm_dev->event_lock);
+ 		drm_crtc_arm_vblank_event(crtc, event);
+-		spin_unlock_irq(&crtc->dev->event_lock);
++		spin_unlock_irq(&crtc->drm_dev->event_lock);
  	}
+ }
+ 
 -- 
 2.39.2
 
