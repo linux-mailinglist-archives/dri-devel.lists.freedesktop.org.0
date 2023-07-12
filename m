@@ -1,52 +1,124 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6296F7506CD
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 13:48:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AED875074F
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 13:59:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57FB810E511;
-	Wed, 12 Jul 2023 11:48:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D952810E4E6;
+	Wed, 12 Jul 2023 11:58:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75F8A10E504;
- Wed, 12 Jul 2023 11:48:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689162486; x=1720698486;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=pTDsHp5N+DNZ4FPD2rGEEDX1s4pQgY6qlebjQjJtQfU=;
- b=eAOsQh0FXfgoeG5WGOyZ0BGGxUAJhsDKihyjfMwNtelS19gfpqeLuuBp
- Z7lS5RKOIHsXHjBdTY62c/7w6HtUAR6fbBzAEouWGl6xMLOsmOheliOWk
- FiRgpFm57QXMmqhPgI9EpkyCN5CifWeQjVDQlpcrXtKCHU43n+y73zl89
- GIAiy/9n+lHpqli+BPUDjHxlsxHnOeyGjrTadLIU1O343dO5ivK4d2c5d
- RuJgN7MT/qGapS4dRIoMYbQ7ay1y1OGAB8w8r6/6cbaQigGLE8utaVFsu
- XFSVG8xRE8XkfoVULpGUF6LXAgJ4sveB7pjmOnl8iAxgFHa2+AUFZ8FF8 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="344469446"
-X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; d="scan'208";a="344469446"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jul 2023 04:47:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="866094186"
-X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; d="scan'208";a="866094186"
-Received: from eamonnob-mobl1.ger.corp.intel.com (HELO localhost.localdomain)
- ([10.213.237.202])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jul 2023 04:47:17 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 17/17] drm/i915: Wire up to the drm cgroup memory stats
-Date: Wed, 12 Jul 2023 12:46:05 +0100
-Message-Id: <20230712114605.519432-18-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230712114605.519432-1-tvrtko.ursulin@linux.intel.com>
-References: <20230712114605.519432-1-tvrtko.ursulin@linux.intel.com>
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05on2135.outbound.protection.outlook.com [40.107.21.135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27E4710E4E6
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 11:58:58 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=P3IMlAyd6qpGmFk/Yry8S6zfG4VWgz3bb3EZ37zuQES+Q2Il2SO1b6ikYp1jqCPjqhx1+Xlp3OofB9TRnxQvExHuEiaJNleum4g85DaZbLjHU8ZtxTu+hfHKzwRNGpqlJlNk0/ym6aLVHwju1ggt4ogLl9l4KMUFbS7UG/2x+DkvfPN7rfBrj95t0Ye/SUKgnEgR1xDddR8TeYTns4EZSZjWDTDhOWJ8CNGrhhQ/YIf8E/MnfaRIcCckvQ+i/dpVdh4e8YfCgrI1mrHaRkozwVja/63g5EPoRP8y3REy5OcnwIqaEujlRH3XzRmWKn/RZC00HvW98ytNW6qezbOnqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9AU/8F9AA9T+NIN3B7LK6ZHWkI3bRTMp0IEFLmO658s=;
+ b=FuvHVo4l3Ye2VyesDhQhBbIqrvTnYW9Q209TlmOzWkTf0EQJpXn9B4LsjmnXJqvnctRGNbAhCay2U3QjBs4g/yY5TxVoD3snMfRTvWNz8lXFBNSjB2/5mP3FzPEg/3oT83Jfgj2YVRFMH4lDWgd0R5gG0JmVSCetncCCIX+nQL0ScOfb+eNMKshmII2H2oaWKnK2F9eGbcxrokezirwlijsIxCY7uwSsPVJKtVpm6Hd7o43mYcLryPD3LV0AmRnOetyS+Px2+IO1nHHvVGz9rZ8fCwg/LlbLIVW7o9GP5KfMIqdbrDjb4wmUmH+O6+sGDX2KlVoXlxcZXNDpIcS0zA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=habana.ai; dmarc=pass action=none header.from=habana.ai;
+ dkim=pass header.d=habana.ai; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=habana.ai; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9AU/8F9AA9T+NIN3B7LK6ZHWkI3bRTMp0IEFLmO658s=;
+ b=NwsS0kMx1xQ+/36/UemW/4z00jr9064QaF9f+RYgDDdya9/ldHlezfRzTbJBcBFwm+PiU+udLb+qbu3SqG4/pAc6V4ZTNfKBu6V57Kpr7bpGBfh6E+Y+rKM4F/OLGHTOTa2714NqUieRzL7B9JgR7dhG/XlHMOwnihs4fkn2Xs0WYnBirrnBY1F76VHl8AxrMMlwlSE7+C6/7/+7vARXy//VWf1xEuwmFofZSVGX2Q3Q+bG+mirHfNoAcjwRjpFtKOvJEyOuGYimg8nhW78i+Z07CdMHMDyVga3lF3N+VvzBMCEnrVf6BbV2/kpR5CskM3O2SaVvFyi70YAD0i53dQ==
+Received: from DB9PR02MB6619.eurprd02.prod.outlook.com (2603:10a6:10:211::10)
+ by AM7PR02MB6225.eurprd02.prod.outlook.com (2603:10a6:20b:1c0::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.20; Wed, 12 Jul
+ 2023 11:58:55 +0000
+Received: from DB9PR02MB6619.eurprd02.prod.outlook.com
+ ([fe80::6ef:a07:db5b:10db]) by DB9PR02MB6619.eurprd02.prod.outlook.com
+ ([fe80::6ef:a07:db5b:10db%4]) with mapi id 15.20.6588.017; Wed, 12 Jul 2023
+ 11:58:55 +0000
+From: Ofir Bitton <obitton@habana.ai>
+To: Oded Gabbay <ogabbay@kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH 04/12] accel/habanalabs/gaudi2: fix missing check of
+ kernel ctx
+Thread-Topic: [PATCH 04/12] accel/habanalabs/gaudi2: fix missing check of
+ kernel ctx
+Thread-Index: AQHZs+iq//Fk2Wle/EuTfnOV6fbCGa+2CKWA
+Date: Wed, 12 Jul 2023 11:58:55 +0000
+Message-ID: <c00a0244-a750-d7ff-05e8-1e1c18beb2b1@habana.ai>
+References: <20230711111226.163670-1-ogabbay@kernel.org>
+ <20230711111226.163670-4-ogabbay@kernel.org>
+In-Reply-To: <20230711111226.163670-4-ogabbay@kernel.org>
+Accept-Language: he-IL, en-US
+Content-Language: he-IL
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=habana.ai;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB9PR02MB6619:EE_|AM7PR02MB6225:EE_
+x-ms-office365-filtering-correlation-id: 35499b65-f6ce-49eb-9203-08db82cf5e44
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: HkaZhrxdzNOLJytwsWXUVt22SLE4Qc8T8xxTtfCUYmSL2VsRbf2H2VurisgYAZpwjWW74RBjNJzASmqNYPGJBCTxVYOj/ezS8GAfSzq9PMtlAEGkE2lSusZBAD7ReQ4qQm7O/aaxQ+c9fm/1TiYcPwPjiF0bZwYlJx7JNGT2cjyZKavxSaLpDpMeQo8i54wm2qdz2xti5qHHie11/JWVrj0cmJa0NloLEprXiVKUx0CkpmMu7wx+BBJbf298kbQXPWC0kD7UifdTeqMHpxuyuqyrXdEf08Izc/flwEN8sUzr6un0UMNGhaC/1fjZ3qhFqR0EexxdL8VMeVy9iUgn5ZJVtAS0yD4Z7Apj4tzB8H+7W2B7Q+ymTz6HkaA96wrVxWZSGSulmO7wZbR+zpzDLR0gq4mlPv9VDrYMK566QIRcwy5n9Gi+kX2fReWbgfQkAj+QaTkeylkERk6SzkjjlcPwMNVNScCyMz1CaH4MfNUSo7bi2QCj9cq4Zs4O9cWuKbkVc5toQP6Cdpr63hNMR+jDMvuTesJ0vnCpNwxnOsLNTahwl1pOJR+V3i4Q3aUybX1g7jfLqiZqYOkyPHFMDSLIA/k0QBZQVN/vPAgokx3HLkuHLIFqHlwmTinpFSoYgj8NjhbLYuwQZ3r/FbB5HGLuy7ZownMYYCiykOaTtBDcJBxpwRw6uVoCwhmyxMOZ
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DB9PR02MB6619.eurprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(136003)(39840400004)(396003)(346002)(366004)(376002)(451199021)(64756008)(66556008)(66476007)(66446008)(66946007)(76116006)(91956017)(316002)(4744005)(41300700001)(2906002)(8676002)(5660300002)(8936002)(31686004)(110136005)(478600001)(71200400001)(6512007)(6486002)(122000001)(26005)(53546011)(186003)(36756003)(6506007)(38100700002)(82960400001)(2616005)(86362001)(31696002)(38070700005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TmJrNldGYkVVcUFjd0crTStxbDFPUi9VbzBYSkJ6bTVtMHMvMytkTk8xc1Bu?=
+ =?utf-8?B?WXFaaE1JUVo0Z1E0OGh1Q3VZUlY3K25lZkJlMzEzcVlrU21CNGxZZFJXdmIr?=
+ =?utf-8?B?S3pQQ0hSYnNkdGwvYy80eDVFQU43b1ZuUkhvOUJmeDk2akxYRThSNS9Lb3VI?=
+ =?utf-8?B?M0gvVDZSU2pkYkY5c0xVZDNGYXRWSzBIOWxNOG8vZnFKTzgyYjdKMXY1UWE2?=
+ =?utf-8?B?UVhKQjJreWMxbFBxVmkrdHp2eDlLbm9qOWcxRlorTFZlSTlFKzdrT0RCM0pH?=
+ =?utf-8?B?czI4SnhTQW5NaWtLSTUxbWJ2NTVIVHk4OTlkUFloMUkwaEhzdnd2a05mOVZF?=
+ =?utf-8?B?YWVrNENsaENLQng1Y1hPUDFKRndPNjdaK3pPbWZraXo4cmRLVEsrMVkrc1M4?=
+ =?utf-8?B?bnZZTG9MTC9MandRWmdERjFFaGhZRUxrNk1qbEt1SkJHMyt4Qk1vWDdiV0lD?=
+ =?utf-8?B?VGVMT0c0bWs0bTdRN1gvVDhDNk9nZGFkZUl4Wkd3c2kwVUFRTk5oVkZRTUtO?=
+ =?utf-8?B?UlNWU1dNcXJrZ1lnZFF1WnpsSENLYkcyNEpXd1JqSDA2aWxzSjd5b0RhY3pR?=
+ =?utf-8?B?bUtKZU9jWDlNakNtWjAxYWk0OWpEZVgyQ2ZVdkMxVURRNU04cGhSZEJVUUxu?=
+ =?utf-8?B?RkV5bmpVaFNCVU9QMGRvdjZBcFVzSWpYdHpHZ010VGJyYzlrcHRJTDlva2xG?=
+ =?utf-8?B?VExIbSs5bVB6aWY5Y0s2aWVpeE4yZWp0Q0JFMGpZb3A4MlZkanBweStXemls?=
+ =?utf-8?B?QW5GQ0M1OFdJMkVOdHRlNEFUUHpGa2VKNUVFVlhtOEJOSS9VdktZVVJtc09o?=
+ =?utf-8?B?WUFva3dJWVhFNElFdWVKQ2hLb1UrTWl2WDdKSkpqK1dsN213V3JWSHkxdm5l?=
+ =?utf-8?B?RHZDb3hTWUZFR09BMjRNVEp2Y0xJOVc1NVJNTGJnK1pWampGem96VmlMSU9m?=
+ =?utf-8?B?aXNxUklQWWlreWxPSTNKOHhjeHhXUFlKMzlkMW9JT1hmalZVbTArcFhJWUdF?=
+ =?utf-8?B?Q0lNUUlqcWtwVG10bzRFeXZjN2VVemxVRExqd2dCZWxydUJCcWNyQkhlbitM?=
+ =?utf-8?B?czBPaUI0NjRRVUFaMU12Q29qVEVLWkRYK2RUT0ZlaTR2ak1uaElpV0lJWGNW?=
+ =?utf-8?B?Q1p1K2k1dmczYjVCR0xVSk1CN3loNEFsWVAyUWJBajdhM3pVdm4xdU1CaUpy?=
+ =?utf-8?B?QVM5YWYwNWZRSGxCRGVYZkdWSHI0eE91MkRFczh4UW1yUmlZNmdCbVNPVXNs?=
+ =?utf-8?B?cmQ0L2R4TEEyUHloR0U0SlpFcU5HZ0tNZ1FtMEVPYzJZa3FLSjdUVUp5dmty?=
+ =?utf-8?B?bEd4NU8vcjBmWjhZNndEUHF1V2F5VSt5NWJLMXprWXk0VExaZ1pENDd4Yyts?=
+ =?utf-8?B?Qjc0UUpTOWF5M3VSSkVDblYwejY5Qzl2NnErZFdLK0twbTdycDNaYjJEMm5Y?=
+ =?utf-8?B?dlIreWpac3NNZ0svd1JBRnkyWGI1WDE4TTBTNktLV2pTSVl5ck03aG80UTBL?=
+ =?utf-8?B?Qkw4Y0xWSmd5OXQrcWgwVi9DbktQQm9BWWtySjJvL2x4Ly9vVWtmWlk4OWpM?=
+ =?utf-8?B?dC9teHhESXdYajZTWjJHMDc2L253UXBSTkpkNTJjRjMwZFczbTYzYzd4U1pC?=
+ =?utf-8?B?Q1JKQ2dSR0tjVzA1Yko1Vkh5TWZXZ3lmOS9RODB5NUNYM2hvNkw3aDFsYXdv?=
+ =?utf-8?B?NlRjYlNnMVZYMnhlQ1BqTVpNdHYxbHcrRVh0Q0FsU2loK0UxQ1g5REhDbGg2?=
+ =?utf-8?B?SjdDblBSYVNYdnNRMUxsd2FKYUxzQzV5U2JXTUV0aE9oMTc4MmV1QUJ2RXBN?=
+ =?utf-8?B?V1kwTHVSdkNYSTBEZVBGcmtIUUc1Q2ZxRjZFUjV4ZlZsaFFTRWs0MGxPQVpX?=
+ =?utf-8?B?cUhLMUwwNHErZC9oeXZuVGEyTGtuSkJuQzk4RHR3WmpsV3NnWHNyZDJJcy9X?=
+ =?utf-8?B?WjdaUWdIWmxlYzZPMk1WNTNiMk1FSWJ5RlhwSEJJaG1ZLzZudUZ1WnJSR3Vs?=
+ =?utf-8?B?RjBYLzdDTCtmUWozNVdjZTlKME02TmlpODFCSDRnR0lFemVBK2U3T2N1dk1H?=
+ =?utf-8?B?OWUzcDdwUU1pQlJKS0lyMzhyRVVEeDdSSmJzVUJmKzc5WXhHQjZ2ZXp3WUU4?=
+ =?utf-8?Q?EKFw=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <DF159A81663C584ABDE732CAECA1E540@eurprd02.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: habana.ai
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR02MB6619.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 35499b65-f6ce-49eb-9203-08db82cf5e44
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jul 2023 11:58:55.4163 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0d4d4539-213c-4ed8-a251-dc9766ba127a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 1i7nRFmcrUmPrdldP6uD1eqWeyA3g8Tkx9bTVnmmXvP3tZHOtOADV+MM0pnARuFrQMCdURiIKkKvZxNygva5iw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR02MB6225
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,306 +131,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Brian Welty <brian.welty@intel.com>,
- Kenny.Ho@amd.com, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Johannes Weiner <hannes@cmpxchg.org>,
- linux-kernel@vger.kernel.org,
- =?UTF-8?q?St=C3=A9phane=20Marchesin?= <marcheu@chromium.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Zefan Li <lizefan.x@bytedance.com>, Dave Airlie <airlied@redhat.com>,
- Tejun Heo <tj@kernel.org>, cgroups@vger.kernel.org,
- "T . J . Mercier" <tjmercier@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-
-Simply refactor the existing helpers which collate the data for fdinfo
-and share them with thin drm cgroup controller callbacks.
-
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
----
- drivers/gpu/drm/i915/i915_driver.c     |   4 +
- drivers/gpu/drm/i915/i915_drm_client.c | 183 ++++++++++++++++---------
- drivers/gpu/drm/i915/i915_drm_client.h |  11 +-
- 3 files changed, 129 insertions(+), 69 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index 3b9d47c2097b..a299edc9eb79 100644
---- a/drivers/gpu/drm/i915/i915_driver.c
-+++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -1795,6 +1795,10 @@ static const struct drm_ioctl_desc i915_ioctls[] = {
- static const struct drm_cgroup_ops i915_drm_cgroup_ops = {
- 	.active_time_us = i915_drm_cgroup_get_active_time_us,
- 	.signal_budget = i915_drm_cgroup_signal_budget,
-+
-+	.num_memory_regions	= i915_drm_cgroup_num_memory_regions,
-+	.memory_region_name	= i915_drm_cgroup_memory_region_name,
-+	.memory_stats		= i915_drm_cgroup_memory_stats,
- };
- #endif
- 
-diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
-index 9be007b10523..c54b1ac753c6 100644
---- a/drivers/gpu/drm/i915/i915_drm_client.c
-+++ b/drivers/gpu/drm/i915/i915_drm_client.c
-@@ -29,7 +29,7 @@ struct i915_drm_client *i915_drm_client_alloc(void)
- 	kref_init(&client->kref);
- 	spin_lock_init(&client->ctx_lock);
- 	INIT_LIST_HEAD(&client->ctx_list);
--#ifdef CONFIG_PROC_FS
-+#if defined(CONFIG_PROC_FS) || defined(CONFIG_CGROUP_DRM)
- 	spin_lock_init(&client->objects_lock);
- 	INIT_LIST_HEAD(&client->objects_list);
- #endif
-@@ -46,6 +46,89 @@ void __i915_drm_client_free(struct kref *kref)
- }
- 
- #if defined(CONFIG_PROC_FS) || defined(CONFIG_CGROUP_DRM)
-+static void
-+obj_meminfo(struct drm_i915_gem_object *obj,
-+	    struct drm_memory_stats *stats,
-+	    unsigned int num)
-+{
-+	struct intel_memory_region *mr;
-+	u64 sz = obj->base.size;
-+	enum intel_region_id id;
-+	unsigned int i;
-+
-+	/* Attribute size and shared to all possible memory regions. */
-+	for (i = 0; i < obj->mm.n_placements; i++) {
-+		mr = obj->mm.placements[i];
-+		id = mr->id;
-+
-+		if (WARN_ON_ONCE(id >= num))
-+			return;
-+
-+		if (obj->base.handle_count > 1)
-+			stats[id].shared += sz;
-+		else
-+			stats[id].private += sz;
-+	}
-+
-+	/* Attribute other categories to only the current region. */
-+	mr = obj->mm.region;
-+	if (mr)
-+		id = mr->id;
-+	else
-+		id = INTEL_REGION_SMEM;
-+
-+	if (WARN_ON_ONCE(id >= num))
-+		return;
-+
-+	if (!obj->mm.n_placements) {
-+		if (obj->base.handle_count > 1)
-+			stats[id].shared += sz;
-+		else
-+			stats[id].private += sz;
-+	}
-+
-+	if (i915_gem_object_has_pages(obj)) {
-+		stats[id].resident += sz;
-+
-+		if (!dma_resv_test_signaled(obj->base.resv,
-+					    dma_resv_usage_rw(true)))
-+			stats[id].active += sz;
-+		else if (i915_gem_object_is_shrinkable(obj) &&
-+			 obj->mm.madv == I915_MADV_DONTNEED)
-+			stats[id].purgeable += sz;
-+	}
-+}
-+
-+static void
-+memory_stats(struct drm_file *file,
-+	     struct drm_memory_stats *stats,
-+	     unsigned int num)
-+{
-+	struct drm_i915_file_private *fpriv = file->driver_priv;
-+	struct i915_drm_client *client = fpriv->client;
-+	struct drm_i915_gem_object *obj;
-+	struct list_head *pos;
-+	unsigned int id;
-+
-+	/* Public objects. */
-+	spin_lock(&file->table_lock);
-+	idr_for_each_entry(&file->object_idr, obj, id)
-+		obj_meminfo(obj, stats, num);
-+	spin_unlock(&file->table_lock);
-+
-+	/* Internal objects. */
-+	rcu_read_lock();
-+	list_for_each_rcu(pos, &client->objects_list) {
-+		obj = i915_gem_object_get_rcu(list_entry(pos, typeof(*obj),
-+							 client_link));
-+		if (!obj)
-+			continue;
-+		obj_meminfo(obj, stats, num);
-+		i915_gem_object_put(obj);
-+	}
-+	rcu_read_unlock();
-+}
-+
- static const char * const uabi_class_names[] = {
- 	[I915_ENGINE_CLASS_RENDER] = "render",
- 	[I915_ENGINE_CLASS_COPY] = "copy",
-@@ -255,83 +338,47 @@ int i915_drm_cgroup_signal_budget(struct drm_file *file, u64 usage, u64 budget)
- 
- 	return ret;
- }
-+
-+unsigned int i915_drm_cgroup_num_memory_regions(const struct drm_device *dev)
-+{
-+	return INTEL_REGION_UNKNOWN;
-+}
-+
-+const char *i915_drm_cgroup_memory_region_name(const struct drm_device *dev,
-+					       unsigned int index)
-+{
-+	const struct drm_i915_private *i915 = to_i915(dev);
-+
-+	if (index < ARRAY_SIZE(i915->mm.regions)) {
-+		struct intel_memory_region *mr = i915->mm.regions[index];
-+
-+		if (mr)
-+			return mr->name;
-+	}
-+
-+	return NULL;
-+}
-+
-+unsigned int i915_drm_cgroup_memory_stats(struct drm_file *file,
-+					  struct drm_memory_stats *stats,
-+					  unsigned int num)
-+{
-+	memory_stats(file, stats, num);
-+
-+	return DRM_GEM_OBJECT_RESIDENT | DRM_GEM_OBJECT_PURGEABLE;
-+}
- #endif
- 
- #ifdef CONFIG_PROC_FS
--static void
--obj_meminfo(struct drm_i915_gem_object *obj,
--	    struct drm_memory_stats stats[INTEL_REGION_UNKNOWN])
--{
--	struct intel_memory_region *mr;
--	u64 sz = obj->base.size;
--	enum intel_region_id id;
--	unsigned int i;
--
--	/* Attribute size and shared to all possible memory regions. */
--	for (i = 0; i < obj->mm.n_placements; i++) {
--		mr = obj->mm.placements[i];
--		id = mr->id;
--
--		if (obj->base.handle_count > 1)
--			stats[id].shared += sz;
--		else
--			stats[id].private += sz;
--	}
--
--	/* Attribute other categories to only the current region. */
--	mr = obj->mm.region;
--	if (mr)
--		id = mr->id;
--	else
--		id = INTEL_REGION_SMEM;
--
--	if (!obj->mm.n_placements) {
--		if (obj->base.handle_count > 1)
--			stats[id].shared += sz;
--		else
--			stats[id].private += sz;
--	}
--
--	if (i915_gem_object_has_pages(obj)) {
--		stats[id].resident += sz;
--
--		if (!dma_resv_test_signaled(obj->base.resv,
--					    dma_resv_usage_rw(true)))
--			stats[id].active += sz;
--		else if (i915_gem_object_is_shrinkable(obj) &&
--			 obj->mm.madv == I915_MADV_DONTNEED)
--			stats[id].purgeable += sz;
--	}
--}
--
- static void show_meminfo(struct drm_printer *p, struct drm_file *file)
- {
- 	struct drm_memory_stats stats[INTEL_REGION_UNKNOWN] = {};
- 	struct drm_i915_file_private *fpriv = file->driver_priv;
--	struct i915_drm_client *client = fpriv->client;
- 	struct drm_i915_private *i915 = fpriv->i915;
--	struct drm_i915_gem_object *obj;
- 	struct intel_memory_region *mr;
--	struct list_head *pos;
- 	unsigned int id;
- 
--	/* Public objects. */
--	spin_lock(&file->table_lock);
--	idr_for_each_entry(&file->object_idr, obj, id)
--		obj_meminfo(obj, stats);
--	spin_unlock(&file->table_lock);
--
--	/* Internal objects. */
--	rcu_read_lock();
--	list_for_each_rcu(pos, &client->objects_list) {
--		obj = i915_gem_object_get_rcu(list_entry(pos, typeof(*obj),
--							 client_link));
--		if (!obj)
--			continue;
--		obj_meminfo(obj, stats);
--		i915_gem_object_put(obj);
--	}
--	rcu_read_unlock();
-+	memory_stats(file, stats, ARRAY_SIZE(stats));
- 
- 	for_each_memory_region(mr, i915, id)
- 		drm_print_memory_stats(p,
-@@ -382,7 +429,9 @@ void i915_drm_client_fdinfo(struct drm_printer *p, struct drm_file *file)
- 	for (i = 0; i < ARRAY_SIZE(uabi_class_names); i++)
- 		show_client_class(p, i915, file_priv->client, i);
- }
-+#endif
- 
-+#if defined(CONFIG_PROC_FS) || defined(CONFIG_CGROUP_DRM)
- void i915_drm_client_add_object(struct i915_drm_client *client,
- 				struct drm_i915_gem_object *obj)
- {
-diff --git a/drivers/gpu/drm/i915/i915_drm_client.h b/drivers/gpu/drm/i915/i915_drm_client.h
-index 6eadc9596b8f..8b34be25e887 100644
---- a/drivers/gpu/drm/i915/i915_drm_client.h
-+++ b/drivers/gpu/drm/i915/i915_drm_client.h
-@@ -29,7 +29,7 @@ struct i915_drm_client {
- 	spinlock_t ctx_lock; /* For add/remove from ctx_list. */
- 	struct list_head ctx_list; /* List of contexts belonging to client. */
- 
--#ifdef CONFIG_PROC_FS
-+#if defined(CONFIG_PROC_FS) || defined(CONFIG_CGROUP_DRM)
- 	/**
- 	 * @objects_lock: lock protecting @objects_list
- 	 */
-@@ -74,7 +74,7 @@ struct i915_drm_client *i915_drm_client_alloc(void);
- 
- void i915_drm_client_fdinfo(struct drm_printer *p, struct drm_file *file);
- 
--#ifdef CONFIG_PROC_FS
-+#if defined(CONFIG_PROC_FS) || defined(CONFIG_CGROUP_DRM)
- void i915_drm_client_add_object(struct i915_drm_client *client,
- 				struct drm_i915_gem_object *obj);
- bool i915_drm_client_remove_object(struct drm_i915_gem_object *obj);
-@@ -101,4 +101,11 @@ u64 i915_drm_cgroup_get_active_time_us(struct drm_file *file);
- int i915_drm_cgroup_signal_budget(struct drm_file *file,
- 				  u64 usage, u64 budget);
- 
-+unsigned int i915_drm_cgroup_num_memory_regions(const struct drm_device *);
-+const char *i915_drm_cgroup_memory_region_name(const struct drm_device *,
-+					       unsigned int index);
-+unsigned int i915_drm_cgroup_memory_stats(struct drm_file *,
-+					  struct drm_memory_stats *,
-+					  unsigned int num);
-+
- #endif /* !__I915_DRM_CLIENT_H__ */
--- 
-2.39.2
-
+T24gMTEvMDcvMjAyMyAxNDoxMiwgT2RlZCBHYWJiYXkgd3JvdGU6DQo+IElmIHdlIGFyZSBpbml0
+aWFsaXppbmcgdGhlIGtlcm5lbCBjb250ZXh0IHdoZW4gd2UgaGF2ZSBhIEdhdWRpMiBkZXZpY2Us
+DQo+IHdlIGRvbid0IG5lZWQgdG8gZG8gYW55IGxhdGUgaW5pdGlhbGl6aW5nIG9mIHRoYXQgY29u
+dGV4dCB3aXRoDQo+IHNwZWNpZmljIEdhdWRpMiBjb2RlLg0KPiANCj4gU2lnbmVkLW9mZi1ieTog
+T2RlZCBHYWJiYXkgPG9nYWJiYXlAa2VybmVsLm9yZz4NCj4gLS0tDQo+ICAgZHJpdmVycy9hY2Nl
+bC9oYWJhbmFsYWJzL2dhdWRpMi9nYXVkaTIuYyB8IDMgKysrDQo+ICAgMSBmaWxlIGNoYW5nZWQs
+IDMgaW5zZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvYWNjZWwvaGFiYW5h
+bGFicy9nYXVkaTIvZ2F1ZGkyLmMgYi9kcml2ZXJzL2FjY2VsL2hhYmFuYWxhYnMvZ2F1ZGkyL2dh
+dWRpMi5jDQo+IGluZGV4IDBmOWU5NTIyMjMzZi4uNzBiOGY3NDRjZDczIDEwMDY0NA0KPiAtLS0g
+YS9kcml2ZXJzL2FjY2VsL2hhYmFuYWxhYnMvZ2F1ZGkyL2dhdWRpMi5jDQo+ICsrKyBiL2RyaXZl
+cnMvYWNjZWwvaGFiYW5hbGFicy9nYXVkaTIvZ2F1ZGkyLmMNCj4gQEAgLTEwNjUwLDYgKzEwNjUw
+LDkgQEAgc3RhdGljIGludCBnYXVkaTJfY3R4X2luaXQoc3RydWN0IGhsX2N0eCAqY3R4KQ0KPiAg
+IHsNCj4gICAJaW50IHJjOw0KPiAgIA0KPiArCWlmIChjdHgtPmFzaWQgPT0gSExfS0VSTkVMX0FT
+SURfSUQpDQo+ICsJCXJldHVybiAwOw0KPiArDQo+ICAgCXJjID0gZ2F1ZGkyX21tdV9wcmVwYXJl
+KGN0eC0+aGRldiwgY3R4LT5hc2lkKTsNCj4gICAJaWYgKHJjKQ0KPiAgIAkJcmV0dXJuIHJjOw0K
+DQpSZXZpZXdlZC1ieTogT2ZpciBCaXR0b24gPG9iaXR0b25AaGFiYW5hLmFpPg0K
