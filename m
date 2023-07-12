@@ -1,69 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDD9B7503F7
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 11:58:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76C467503F8
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jul 2023 11:59:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00DC110E4BA;
-	Wed, 12 Jul 2023 09:58:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0DC810E4C7;
+	Wed, 12 Jul 2023 09:59:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com
- [209.85.219.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99BE310E4BA
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 09:58:05 +0000 (UTC)
-Received: by mail-yb1-f172.google.com with SMTP id
- 3f1490d57ef6-bad0c4f6f50so851465276.1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 02:58:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689155884; x=1691747884;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Y6MzudJP2Fu/sGdEnelPPluUqTi475Db7xeaDmuW9Sk=;
- b=DH3L2IVWgui9s55vkgH8eT/hXXnGkBEz8GgkIqHDcQfkM6NlCI+655Ac0PaR+4XuF8
- 5VmtrU6qXSgB8W1FhgLMH9Da+3Yhdbesq2afgofzUy4gxH6ZVdqUDeFJi96xK4oOA9cX
- z6URfpg6YvqF/AeXID+IBrwX3rWxLt5PT30AFPgKQmTuXsi4esjBUyIt+1z/zf2r6QDq
- LAJLnRPmVEpHZ4pFW/e95zwi1UoA9TbcnDGPDot7ZbXfFND/j0bKv2jjPeoGWkoiQCxO
- +CivdeMyPUd6zvP0CMJku/jMuVc+IzW3Hr2ySZ8NNalwpwruSgkb4hxzb9GBmwvw7iWW
- E+FQ==
-X-Gm-Message-State: ABy/qLaIvG3aToHH+MRJQ8rAJ4IAB4LL9xeW1qQ+m85g7ro/0TBIHyI3
- ND8OOBHPqZYagzfGAchJVOFaBlyX6w3blA==
-X-Google-Smtp-Source: APBJJlHcyZ453cGS5IdEUbr3IMftZlP3HYnFuGjsII59WsHTUS/OGaI2u2f4ABvkN7sLLMBO9hsHEg==
-X-Received: by 2002:a25:b102:0:b0:c60:a101:e961 with SMTP id
- g2-20020a25b102000000b00c60a101e961mr1676149ybj.19.1689155884210; 
- Wed, 12 Jul 2023 02:58:04 -0700 (PDT)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com.
- [209.85.219.169]) by smtp.gmail.com with ESMTPSA id
- x7-20020a5b0947000000b00c5ec980da48sm838978ybq.9.2023.07.12.02.58.03
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Jul 2023 02:58:03 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id
- 3f1490d57ef6-bad0c4f6f50so851447276.1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 02:58:03 -0700 (PDT)
-X-Received: by 2002:a25:ae5d:0:b0:bd6:a97e:3597 with SMTP id
- g29-20020a25ae5d000000b00bd6a97e3597mr1632945ybe.30.1689155883328; Wed, 12
- Jul 2023 02:58:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230511181931.869812-1-tj@kernel.org>
- <20230511181931.869812-7-tj@kernel.org>
- <ZF6WsSVGX3O1d0pL@slm.duckdns.org>
- <CAMuHMdVCQmh6V182q4g---jvsWiTOP2hBPZKvma6oUN6535LEg@mail.gmail.com>
- <CAMuHMdW1kxZ1RHKTRVRqDNAbj1Df2=v0fPn5KYK3kfX_kiXR6A@mail.gmail.com>
- <ZK3MBfPS-3-tJgjO@slm.duckdns.org> <ZK30CR196rs-OWLq@slm.duckdns.org>
-In-Reply-To: <ZK30CR196rs-OWLq@slm.duckdns.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 12 Jul 2023 11:57:49 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUCXPi+aS-7bR3qRetKF9T3W9jk_HKjvaXmfHv5SEeuFg@mail.gmail.com>
-Message-ID: <CAMuHMdUCXPi+aS-7bR3qRetKF9T3W9jk_HKjvaXmfHv5SEeuFg@mail.gmail.com>
-Subject: Re: Consider switching to WQ_UNBOUND messages (was: Re: [PATCH v2
- 6/7] workqueue: Report work funcs that trigger automatic CPU_INTENSIVE
- mechanism)
-To: Tejun Heo <tj@kernel.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CB2E10E4BB
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 09:59:16 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2237A616EA
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 09:59:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8BF54C433C7
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jul 2023 09:59:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1689155954;
+ bh=WMhCENP84NxKQJIOraBekTx43nQ0QeTVrbLddzhOPRI=;
+ h=From:To:Subject:Date:From;
+ b=XraTMmLblFOqad6Ois+hFZKGQQ62cnE+FJQYl7ZEyZoL/GuhKXi2mSrxv3AQdjaez
+ 45566IWaksn7uP+6TS6U1+BBELv73I1kyEqtt4BMOWUQikJMrfn2hpTsIiiHyORReh
+ wfBLur62fuPO0YOhCq3/Xq9inkB4f5JbZmxkgmMS5u5zBJBc7Wmugj5twy4vwxPkz/
+ mRZ062jQyI6okBRnTPd1+so3cSgtqH1UTBt/PhcuN5/DIuJYGI+2QtY7kmIdZ581L+
+ WUlqsYtTnsJt4tYtDIrqtpvlIisgAF+gXYpULlC6T3+h53Ci/z2Q1SSe2H+J+uPvlX
+ md8QDUQ/eahOA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 7AB96C53BD0; Wed, 12 Jul 2023 09:59:14 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 217664] New: Laptop doesnt wake up from suspend mode.
+Date: Wed, 12 Jul 2023 09:59:14 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: penteljapan@o2.pl
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression
+Message-ID: <bug-217664-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,59 +71,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rtc@vger.kernel.org,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Linux PM list <linux-pm@vger.kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, netdev <netdev@vger.kernel.org>,
- kernel-team@meta.com, Lai Jiangshan <jiangshanlai@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- "open list:LIBATA SUBSYSTEM \(Serial and Parallel ATA drivers\)"
- <linux-ide@vger.kernel.org>, Linux MMC List <linux-mmc@vger.kernel.org>,
- linux-riscv <linux-riscv@lists.infradead.org>,
- "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tejun,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D217664
 
-On Wed, Jul 12, 2023 at 2:30=E2=80=AFAM Tejun Heo <tj@kernel.org> wrote:
-> On Tue, Jul 11, 2023 at 11:39:17AM -1000, Tejun Heo wrote:
-> > On Tue, Jul 11, 2023 at 04:06:22PM +0200, Geert Uytterhoeven wrote:
-> > > On Tue, Jul 11, 2023 at 3:55=E2=80=AFPM Geert Uytterhoeven <geert@lin=
-ux-m68k.org> wrote:
-> ...
-> > > workqueue: neigh_managed_work hogged CPU for >10000us 4 times,
-> > > consider switching to WQ_UNBOUND
-> >
-> > I wonder whether the right thing to do here is somehow scaling the thre=
-shold
-> > according to the relative processing power. It's difficult to come up w=
-ith a
-> > threshold which works well across the latest & fastest and really tiny =
-CPUs.
-> > I'll think about it some more but if you have some ideas, please feel f=
-ree
-> > to suggest.
->
-> Geert, do you mind posting the full kernel logs for the affected machines=
-?
+            Bug ID: 217664
+           Summary: Laptop doesnt wake up from suspend mode.
+           Product: Drivers
+           Version: 2.5
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: penteljapan@o2.pl
+        Regression: No
 
-https://drive.google.com/file/d/1toDs7ugZJ2eXatpdvySY4yxSsNam9xAC
-is an archive with boot and s2ram logs.  Note that my kernels do contain
-local debug code, and may be noisy.
+Operating System: Kubuntu 23.04
+KDE Plasma Version: 5.27.4
+KDE Frameworks Version: 5.104.0
+Qt Version: 5.15.8
+Kernel Version: 6.2.0-25-generic (64-bit)
+Graphics Platform: X11
+Processors: 12 =C3=97 AMD Ryzen 5 5600H with Radeon Graphics
+Memory: 22.8 GiB of RAM
+Graphics Processor: AMD Radeon Graphics
+Manufacturer: MEDION
+Product Name: Crawler E25
+System Version: Not Applicable
 
-Gr{oetje,eeting}s,
 
-                        Geert
+05:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI]
+Cezanne [Radeon Vega Series / Radeon Vega Mobile Series] (rev c6) (prog-if =
+00
+[VGA controller])
+        Subsystem: CLEVO/KAPOK Computer Cezanne [Radeon Vega Series / Radeon
+Vega Mobile Series]
+        Flags: bus master, fast devsel, latency 0, IRQ 50, IOMMU group 6
+        Memory at fc10000000 (64-bit, prefetchable) [size=3D256M]
+        Memory at fc20000000 (64-bit, prefetchable) [size=3D2M]
+        I/O ports at 1000 [size=3D256]
+        Memory at d1500000 (32-bit, non-prefetchable) [size=3D512K]
+        Capabilities: [48] Vendor Specific Information: Len=3D08 <?>
+        Capabilities: [50] Power Management version 3
+        Capabilities: [64] Express Legacy Endpoint, MSI 00
+        Capabilities: [a0] MSI: Enable- Count=3D1/4 Maskable- 64bit+
+        Capabilities: [c0] MSI-X: Enable+ Count=3D4 Masked-
+        Capabilities: [100] Vendor Specific Information: ID=3D0001 Rev=3D1 =
+Len=3D010
+<?>
+        Capabilities: [270] Secondary PCI Express
+        Capabilities: [2b0] Address Translation Service (ATS)
+        Capabilities: [2c0] Page Request Interface (PRI)
+        Capabilities: [2d0] Process Address Space ID (PASID)
+        Capabilities: [400] Data Link Feature <?>
+        Capabilities: [410] Physical Layer 16.0 GT/s <?>
+        Capabilities: [440] Lane Margining at the Receiver <?>
+        Kernel driver in use: amdgpu
+        Kernel modules: amdgpu
+```````````````
+
+dmesg --> https://pastebin.com/SXmYX9NL
+
+`````````````````````
+
+
+
+Since closing lid is a basic thing of laptops and only sense it would be go=
+od
+to use this functionality. Many people having same problem, ignored for many
+years. Dont know which section it should be reported: X11, drivers or ACPI.
+dmesg saying nothing.
+Opening lid doenst turn on screen but fans still are alive. Hard shutdown w=
+orks
+(power button for few seconds), in general system works ( i suspect) beyond
+main feature - display
 
 --=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+You may reply to this email to add a comment.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+You are receiving this mail because:
+You are watching the assignee of the bug.=
