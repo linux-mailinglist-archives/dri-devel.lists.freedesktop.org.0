@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B29EA752CFC
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 00:25:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED986752D34
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 00:49:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFBDC10E798;
-	Thu, 13 Jul 2023 22:25:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6803410E79C;
+	Thu, 13 Jul 2023 22:49:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com
- [IPv6:2607:f8b0:4864:20::c29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61A8B10E798;
- Thu, 13 Jul 2023 22:25:46 +0000 (UTC)
-Received: by mail-oo1-xc29.google.com with SMTP id
- 006d021491bc7-55b8f1c930eso869987eaf.3; 
- Thu, 13 Jul 2023 15:25:46 -0700 (PDT)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BF3910E79C
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 22:49:19 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id
+ 4fb4d7f45d1cf-516500163b2so2435a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 15:49:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689287145; x=1691879145;
+ d=google.com; s=20221208; t=1689288556; x=1691880556;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/yrMgnrOq8YoZ1fyFC4X0GmYtJswdpvDYlmQRdE3Wk8=;
- b=ULr8ROoF3EzlQKdgTM1+tdy5qL4xxCoLrep4q98bPjBMQ4J8vKxsCV0blcN2dxfwvw
- 7cTF7EjSB0V26cEDKHVBKh9PkqdVwJ7+358kEu/jCjSjRUtkcuBKkLyA+JYGHdNFg4YI
- OrZPX7sXMayO4LiZelj05x/Dcfnbcxy7MzmdSVqbn3gpz4kVF2p1AXyCA/rYq2mjkmJ1
- SDfjq3QW9MFFQZRLEGf2r193fUeyThuhP9/A+VnAxGeTkZvXjNoqNXdoOW+G26tPGgMe
- QNqroEmGmKc8yd8PMJChFdPfnMISLgdXDJpmZKms49/ZfMbWNE0WttAkrEcNYaTlJQMU
- SBjA==
+ bh=MzcnyZs6D3jZP1/90Em2wdIP94ZrD+KbkxYDRuLwWJE=;
+ b=YbSBSKEGuVEqFb+8L1xB90bbx9PAx1IFGTDlwilLvm19IfKutZMrVwaN1yOaCXRzw5
+ MZUQjJpEWVZM0DR2m5AxleVdTk2ymAh4HpgWCiWdwfTjEVXF/OpyyFu9SpllQ9lrpzdT
+ xyz9Ijr8jA8PvvDfPo4oQpv5DJikjRnpxtuIZp0ll1yB/cHvfRQFiMg+OlFSVqnBDCy6
+ XZDThvtyAqCF75ID6U6JTpxG0+cS19CczfMsQ91gOY/M4t0H+rGN+4TvSNyxeinNxePx
+ 0VjKQaZWz00m4npcN3skY9OJrbHcetRubpJbVaAiBp269Hce49FsIai61vXQji+qF6jZ
+ yGAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689287145; x=1691879145;
+ d=1e100.net; s=20221208; t=1689288556; x=1691880556;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/yrMgnrOq8YoZ1fyFC4X0GmYtJswdpvDYlmQRdE3Wk8=;
- b=TUCnxW6E/WE/obmr/lC7qCRmB2gc6ia0fPmGk/spbs7toR2Py0zTTys6xBP5QkB0Qg
- wRdscP6WTixVbj3JfwUnRNgCjiV6yFqgAkvoZbRY1m5BIORyrVAnxr+6O5HFlTfcSBTb
- jzyIg6kHuQgoVcksOlKKSc+AhGJOCUi6ZjTEZQWBZXmjcqVA3LR8IH9n5ob1GvYznYKn
- 0spHSo45sICz2izPQ6nFCG4cKmoAiDFg08A5tDA3q2MO6R8/3VmasXTJHg13IAd37RCp
- X73FdHTDTKyHNTJdcWv93Ax4O1NOMYFwUBkcV1syOxaY9zDTvauMrv/2YE/7Tw5ol0JR
- PHKQ==
-X-Gm-Message-State: ABy/qLYZe/xKdO7fE/rxMuOKJnJSCsUqJ90LPpoYFW+PczrD4Ko/G6b/
- DvM6QW97BaMkzO/yfEQiIldmFYvmK3a+rEzUOjvzQ/Ol
-X-Google-Smtp-Source: APBJJlF4GeNA7uSMYR+ZAhGDVDHH70LHyPYUnTmXGVAhOUnBYa3Enj9DVwAptUEyvE5jOXLOC5Re9jLDhrFxeeZopAs=
-X-Received: by 2002:a05:6820:51:b0:566:b483:ee00 with SMTP id
- v17-20020a056820005100b00566b483ee00mr2862635oob.5.1689287145043; Thu, 13 Jul
- 2023 15:25:45 -0700 (PDT)
+ bh=MzcnyZs6D3jZP1/90Em2wdIP94ZrD+KbkxYDRuLwWJE=;
+ b=GsT5pnA85FpUrTE5Icl4TkBEEUi8rn/zu0Rb0h465MHuJ03ONXUt2fKE/xKOV8fFSn
+ cCWX8ELKaJQCT8FU4dW3pmJHLZBtQt+gb9HPVNUkx8g9C86eNzliCTcVMFxvmdQETCob
+ iiCsktXRgs1oti7wR5oxz5r56iCqjkT3AQ6EVBNbxlMxy8flHCVCdD4aerO1pwe0s8Dx
+ f/zvdao+LbaUeBG3VQCCwpgX6mvdolI/zaBf2RiIJGxT25Qr4OKmjKT3juoykm5MDaNJ
+ XZGIEmR9DWnEy5D1l70ZBVRXcSHmkNKpQoj1hI15260buECnoZCOusCP3VWug6U7810O
+ ToFw==
+X-Gm-Message-State: ABy/qLbPUizTnr7EHvK9ctz/BnSw8PLCagTmUGzHMpwMeBO4qsSMa5nW
+ nOETVWhH3Jnt38YBN2T0GNUmQljcu6UrLvPDzPV0UQ==
+X-Google-Smtp-Source: APBJJlGqtqJFAuAxh5MPiLeVS1ew+4dt62Lqbmv37bwCVq092aGdah1wT/JBThvQYfrLGxPjsNzHlRJYNInGjgUPRpw=
+X-Received: by 2002:a50:9ea7:0:b0:514:92e4:ab9f with SMTP id
+ a36-20020a509ea7000000b0051492e4ab9fmr297828edf.7.1689288555839; Thu, 13 Jul
+ 2023 15:49:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230706211045.204925-1-robdclark@gmail.com>
- <20230706211045.204925-6-robdclark@gmail.com>
- <m2r2klrcvgs2qiywx5eetcwwjph6suzjey4hhbon3bhqdsbg7t@lvwdvbhoaqaw>
-In-Reply-To: <m2r2klrcvgs2qiywx5eetcwwjph6suzjey4hhbon3bhqdsbg7t@lvwdvbhoaqaw>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 13 Jul 2023 15:25:33 -0700
-Message-ID: <CAF6AEGt73GpN=7tdHnsytZM4=WqKXMU2WSHpdkTOxVqi+wH1zA@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH 05/12] drm/msm/adreno: Use quirk to identify
- cached-coherent support
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+References: <cover.1689171160.git.mchehab@kernel.org>
+ <0e5f68ab045965292fee1748254bf9b91db9039a.1689171160.git.mchehab@kernel.org>
+In-Reply-To: <0e5f68ab045965292fee1748254bf9b91db9039a.1689171160.git.mchehab@kernel.org>
+From: Rae Moar <rmoar@google.com>
+Date: Thu, 13 Jul 2023 18:49:02 -0400
+Message-ID: <CA+GJov7ejGbgXPJYWKpve8Cz5M5z8G2vHJ0x+LZeK19OGmuX3A@mail.gmail.com>
+Subject: Re: [PATCH RFC 2/2] drm: add documentation for drm_buddy_test kUnit
+ test
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,156 +70,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-kselftest@vger.kernel.org, "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Kees Cook <keescook@chromium.org>, Nikolai Kondrashov <spbnick@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, "Darrick J. Wong" <djwong@kernel.org>,
+ linux-doc@vger.kernel.org, Brendan Higgins <brendanhiggins@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Arthur Grillo <arthurgrillo@riseup.net>,
+ =?UTF-8?B?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>, mauro.chehab@intel.com,
+ David Gow <davidgow@google.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 13, 2023 at 1:06=E2=80=AFPM Akhil P Oommen <quic_akhilpo@quicin=
-c.com> wrote:
+On Wed, Jul 12, 2023 at 10:29=E2=80=AFAM Mauro Carvalho Chehab
+<mchehab@kernel.org> wrote:
 >
-> On Thu, Jul 06, 2023 at 02:10:38PM -0700, Rob Clark wrote:
-> >
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > It is better to explicitly list it.  With the move to opaque chip-id's
-> > for future devices, we should avoid trying to infer things like
-> > generation from the numerical value.
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
-> >  drivers/gpu/drm/msm/adreno/adreno_device.c | 23 +++++++++++++++-------
-> >  drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  1 +
-> >  2 files changed, 17 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/d=
-rm/msm/adreno/adreno_device.c
-> > index f469f951a907..3c531da417b9 100644
-> > --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> > @@ -256,6 +256,7 @@ static const struct adreno_info gpulist[] =3D {
-> >               },
-> >               .gmem =3D SZ_512K,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > +             .quirks =3D ADRENO_QUIRK_HAS_CACHED_COHERENT,
-> >               .init =3D a6xx_gpu_init,
-> >       }, {
-> >               .rev =3D ADRENO_REV(6, 1, 9, ANY_ID),
-> > @@ -266,6 +267,7 @@ static const struct adreno_info gpulist[] =3D {
-> >               },
-> >               .gmem =3D SZ_512K,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > +             .quirks =3D ADRENO_QUIRK_HAS_CACHED_COHERENT,
-> >               .init =3D a6xx_gpu_init,
-> >               .zapfw =3D "a615_zap.mdt",
-> >               .hwcg =3D a615_hwcg,
-> > @@ -278,6 +280,7 @@ static const struct adreno_info gpulist[] =3D {
-> >               },
-> >               .gmem =3D SZ_1M,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > +             .quirks =3D ADRENO_QUIRK_HAS_CACHED_COHERENT,
-> >               .init =3D a6xx_gpu_init,
-> >               .zapfw =3D "a630_zap.mdt",
-> >               .hwcg =3D a630_hwcg,
-> > @@ -290,6 +293,7 @@ static const struct adreno_info gpulist[] =3D {
-> >               },
-> >               .gmem =3D SZ_1M,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > +             .quirks =3D ADRENO_QUIRK_HAS_CACHED_COHERENT,
-> >               .init =3D a6xx_gpu_init,
-> >               .zapfw =3D "a640_zap.mdt",
-> >               .hwcg =3D a640_hwcg,
-> > @@ -302,7 +306,8 @@ static const struct adreno_info gpulist[] =3D {
-> >               },
-> >               .gmem =3D SZ_1M + SZ_128K,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > -             .quirks =3D ADRENO_QUIRK_HAS_HW_APRIV,
-> > +             .quirks =3D ADRENO_QUIRK_HAS_CACHED_COHERENT |
-> > +                     ADRENO_QUIRK_HAS_HW_APRIV,
-> >               .init =3D a6xx_gpu_init,
-> >               .zapfw =3D "a650_zap.mdt",
-> >               .hwcg =3D a650_hwcg,
-> > @@ -316,7 +321,8 @@ static const struct adreno_info gpulist[] =3D {
-> >               },
-> >               .gmem =3D SZ_1M + SZ_512K,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > -             .quirks =3D ADRENO_QUIRK_HAS_HW_APRIV,
-> > +             .quirks =3D ADRENO_QUIRK_HAS_CACHED_COHERENT |
-> > +                     ADRENO_QUIRK_HAS_HW_APRIV,
-> >               .init =3D a6xx_gpu_init,
-> >               .zapfw =3D "a660_zap.mdt",
-> >               .hwcg =3D a660_hwcg,
-> > @@ -329,7 +335,8 @@ static const struct adreno_info gpulist[] =3D {
-> >               },
-> >               .gmem =3D SZ_512K,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > -             .quirks =3D ADRENO_QUIRK_HAS_HW_APRIV,
-> > +             .quirks =3D ADRENO_QUIRK_HAS_CACHED_COHERENT |
-> > +                     ADRENO_QUIRK_HAS_HW_APRIV,
-> >               .init =3D a6xx_gpu_init,
-> >               .hwcg =3D a660_hwcg,
-> >               .address_space_size =3D SZ_16G,
-> > @@ -342,6 +349,7 @@ static const struct adreno_info gpulist[] =3D {
-> >               },
-> >               .gmem =3D SZ_2M,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > +             .quirks =3D ADRENO_QUIRK_HAS_CACHED_COHERENT,
-> >               .init =3D a6xx_gpu_init,
-> >               .zapfw =3D "a640_zap.mdt",
-> >               .hwcg =3D a640_hwcg,
-> > @@ -353,7 +361,8 @@ static const struct adreno_info gpulist[] =3D {
-> >               },
-> >               .gmem =3D SZ_4M,
-> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > -             .quirks =3D ADRENO_QUIRK_HAS_HW_APRIV,
-> > +             .quirks =3D ADRENO_QUIRK_HAS_CACHED_COHERENT |
-> > +                     ADRENO_QUIRK_HAS_HW_APRIV,
-> >               .init =3D a6xx_gpu_init,
-> >               .zapfw =3D "a690_zap.mdt",
-> >               .hwcg =3D a690_hwcg,
-> > @@ -565,9 +574,9 @@ static int adreno_bind(struct device *dev, struct d=
-evice *master, void *data)
-> >       if (ret)
-> >               return ret;
-> >
-> > -     if (config.rev.core >=3D 6)
-> > -             if (!adreno_has_gmu_wrapper(to_adreno_gpu(gpu)))
-> > -                     priv->has_cached_coherent =3D true;
-> > +     priv->has_cached_coherent =3D
-> > +             !!(info->quirks & ADRENO_QUIRK_HAS_CACHED_COHERENT) &&
-> > +             !adreno_has_gmu_wrapper(to_adreno_gpu(gpu));
-> >
-> >       return 0;
-> >  }
-> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/=
-msm/adreno/adreno_gpu.h
-> > index a7c4a2c536e3..e08d41337169 100644
-> > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> > @@ -33,6 +33,7 @@ enum {
-> >  #define ADRENO_QUIRK_FAULT_DETECT_MASK               BIT(1)
-> >  #define ADRENO_QUIRK_LMLOADKILL_DISABLE              BIT(2)
-> >  #define ADRENO_QUIRK_HAS_HW_APRIV            BIT(3)
-> > +#define ADRENO_QUIRK_HAS_CACHED_COHERENT     BIT(4)
-> a shorter ADRENO_IS_IOCOHERENT?
-
-I prefer "HAS" to "IS".. maybe it is just me but "IS" sounds to me
-like all dma is coherent, while in fact gpu mappings can be either
-coherent or not.
-
-I suppose it could be "HAS_IOCOHERENT" but we do use "CACHED_COHERENT"
-elsewhere.
-
-BR,
--R
-
+> As an example for the new documentation tool, add a documentation
+> for drm_buddy_test.
 >
-> -Akhil
+> I opted to place this on a completely different directory, in order
+> to make easier to test the feature with:
 >
-> >
-> >  struct adreno_rev {
-> >       uint8_t  core;
-> > --
-> > 2.41.0
-> >
+>         $ make SPHINXDIRS=3D"tests" htmldocs
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
+>
+> To avoid mailbombing on a large number of people, only mailing lists were=
+ C/C on the cover.
+> See [PATCH RFC 0/2] at: https://lore.kernel.org/all/cover.1689171160.git.=
+mchehab@kernel.org/
+>
+>  Documentation/index.rst                |  2 +-
+>  Documentation/tests/index.rst          |  6 ++++++
+>  Documentation/tests/kunit.rst          |  5 +++++
+>  drivers/gpu/drm/tests/drm_buddy_test.c | 12 ++++++++++++
+>  4 files changed, 24 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/tests/index.rst
+>  create mode 100644 Documentation/tests/kunit.rst
+>
+> diff --git a/Documentation/index.rst b/Documentation/index.rst
+> index 9dfdc826618c..80a6ce14a61a 100644
+> --- a/Documentation/index.rst
+> +++ b/Documentation/index.rst
+> @@ -60,7 +60,7 @@ Various other manuals with useful information for all k=
+ernel developers.
+>     fault-injection/index
+>     livepatch/index
+>     rust/index
+> -
+> +   test/index
+>
+>  User-oriented documentation
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> diff --git a/Documentation/tests/index.rst b/Documentation/tests/index.rs=
+t
+> new file mode 100644
+> index 000000000000..bfc39eb5c0aa
+> --- /dev/null
+> +++ b/Documentation/tests/index.rst
+> @@ -0,0 +1,6 @@
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Kunit documentation test
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +.. toctree::
+> +   kunit
+> diff --git a/Documentation/tests/kunit.rst b/Documentation/tests/kunit.rs=
+t
+> new file mode 100644
+> index 000000000000..6ffc151988a0
+> --- /dev/null
+> +++ b/Documentation/tests/kunit.rst
+> @@ -0,0 +1,5 @@
+> +Kunit tests
+> +-----------
+> +
+> +.. include-test:: drivers/gpu/drm/tests/drm_buddy_test.c
+> +
+> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tes=
+ts/drm_buddy_test.c
+> index 09ee6f6af896..dd6c5afd6cd6 100644
+> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
+> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
+> @@ -737,6 +737,18 @@ static int drm_buddy_suite_init(struct kunit_suite *=
+suite)
+>         return 0;
+>  }
+>
+> +/**
+> + * KTEST_SUITE: set of tests for drm buddy alloc
+> + * Scope: drm subsystem
+> + * Mega feature: drm
+> + * Feature: buddy_alloc
+> + *
+> + * KTEST_TEST: drm_test_buddy_alloc_%s
+> + * Description: Run DRM buddy allocation %arg[1] test
+> + *
+> + * arg[1].values: limit, range, optimistic, smoke, pathological
+> + */
+> +
+
+I apologize that the last email included a HTML attachment of the message.
+
+Just in case anyone was unable to receive the last email here is a
+copy of the message:
+
+Hi!
+
+This is such a cool patch series. I just have a few comments related
+to the output.
+
+In the html output the tests are listed as:
+ktest@drm_buddy_test@...
+
+I wonder if instead of using the file name of "drm_buddy_test" this
+could possibly be the suite name, "drm_buddy", as this is what users
+will call when using kunit.py to run the tests. Although
+"drm_buddy_test" is also the module name so I don't mind it too much.
+But in the future the file name and module name are not guaranteed to
+be the same for other tests.
+
+Most preferably, there would be a reference to the kunit suite name,
+file name, and the module name.
+
+This may be difficult to implement as these can all differ. I am
+currently working on the KUnit Attribute framework which saves the
+module name and I am thinking about also saving the file path as a
+future attribute. This could be a helpful framework for the KUnit
+tests specifically.
+
+I am not sure how easy it would be to access c objects/functions using
+this system.
+
+Finally, I was wondering if it is the intention to put a list of all
+KUnit tests that use this new feature into tests/kunit.rst or would
+this be broken up in some way.
+
+Thanks!
+-Rae
+
+>  static struct kunit_case drm_buddy_tests[] =3D {
+>         KUNIT_CASE(drm_test_buddy_alloc_limit),
+>         KUNIT_CASE(drm_test_buddy_alloc_range),
+> --
+> 2.40.1
+>
