@@ -2,61 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B13AE751C9C
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 11:05:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 180B2751C9D
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 11:05:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C136710E646;
-	Thu, 13 Jul 2023 09:05:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DB7010E647;
+	Thu, 13 Jul 2023 09:05:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com
- [IPv6:2607:f8b0:4864:20::b2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48DFE10E646
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 09:05:11 +0000 (UTC)
-Received: by mail-yb1-xb2f.google.com with SMTP id
- 3f1490d57ef6-c15a5ed884dso417107276.2
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 02:05:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689239108; x=1689843908;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Xn6ei9/9nS3M5OJwomJN5UPa70NekYkgBc6ibiFgkyQ=;
- b=xXXWLGivZPS53UODz4dM7TyUnoncEK5FE86gyc4bHY71qNzZeJmJb7w06cH4dFSdQR
- P0x4CQqUTz9BiB+Qglq2I7MSPbtS+dJ5ItOA7QlFES435E7+Mf3mUb2I3tiNeoybdi7L
- DqkicFGq+98dJizdYCYAz5xzgciVAWvFO2uELgtAJEfzfSwCsf8HJCf3DOeenRLzQpqr
- 9QqiWiDW3adGV24n9d4MOkj4Zzhj31CxxVZPlJcAMz2uIBY/biLf437FI+zp+L2HvZdc
- tfGxdpDL6IH4vvexo9VaKW2x2eLCLDNHNWPYV+6cpdg2jvB9cuWvfBiU2YH3FpL+uvdl
- 2NYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689239108; x=1689843908;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Xn6ei9/9nS3M5OJwomJN5UPa70NekYkgBc6ibiFgkyQ=;
- b=JuPSpFKoklRd/4kRmPEDSNqx7CsEpQSfrOBUsmHipVlL5U1B2Q+I+Bh7Q+XYJdjZ1g
- dVm1/9RDuxvZfuh1M6HBOoShYeaMG8q+m2ZTg4+lk63TNoD1oxmr0pa2ZGU0zxufo80s
- xtYe3l4DodQhHfTdJiUv/8bscKBny2f+vxG+m1PhcVR341PG0PuWp18oDPoPewLQY+3E
- bBXugR1foC8HxQvGMHV5gsv4V2ZDlCIKWTx9tYMXGTxNaMsFQNMCzD1CnZOUMuIqWW3J
- cE4pJBFRSpgMVcgdmk7UoMDmoXvvGo6oV3stitsWQmd+t/4L/UFWwPy0O8Vv5vTbs+cK
- 9eQw==
-X-Gm-Message-State: ABy/qLYkr7Ig7WDoNWrliF3osVsVLhX7D6HLfqDcnHawvvVUSn1F1twL
- VXp90TsYgsEMbchhTr5pwfSuYFxTlUPp7tSIf0y+Ng==
-X-Google-Smtp-Source: APBJJlGXJvvYoDza1StirRlGQElXF0pCyCiFnb5V8pzk8ik9XDgwvV9D9fD7+yABjfcZa47O94WvNoZjX60yu5f73II=
-X-Received: by 2002:a25:aba2:0:b0:bad:125f:9156 with SMTP id
- v31-20020a25aba2000000b00bad125f9156mr895305ybi.35.1689239108637; Thu, 13 Jul
- 2023 02:05:08 -0700 (PDT)
+Received: from mail.aspeedtech.com (mail.aspeedtech.com [211.20.114.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A13610E647
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 09:05:35 +0000 (UTC)
+Received: from [192.168.2.181] (192.168.2.181) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 13 Jul
+ 2023 17:05:31 +0800
+Message-ID: <2b1c2a6c-c912-d24f-b622-7a3f1cec89aa@aspeedtech.com>
+Date: Thu, 13 Jul 2023 17:05:31 +0800
 MIME-Version: 1.0
-References: <20230712121145.1994830-1-dmitry.baryshkov@linaro.org>
- <20230712121145.1994830-9-dmitry.baryshkov@linaro.org>
- <9587baf4-2316-494d-fbd1-73a86e742741@linaro.org>
-In-Reply-To: <9587baf4-2316-494d-fbd1-73a86e742741@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 13 Jul 2023 12:04:57 +0300
-Message-ID: <CAA8EJpqTBpUgpQSwhhLtctn=r8XwX-NwdFgUst3rARQSaGMrcg@mail.gmail.com>
-Subject: Re: [PATCH v2 8/8] arm64: dts: qcom: sm8450: provide MDSS cfg
- interconnect
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v5 2/2] drm/ast: report connection status on Display Port.
+To: Jocelyn Falempe <jfalempe@redhat.com>, <tzimmermann@suse.de>,
+ <airlied@redhat.com>, <kuohsiang_chou@aspeedtech.com>,
+ <jani.nikula@linux.intel.com>, <dianders@chromium.org>
+References: <20230713064037.315387-1-jfalempe@redhat.com>
+ <20230713064037.315387-2-jfalempe@redhat.com>
+ <f61ea042-a14c-9c8f-710d-0ba0820686fe@aspeedtech.com>
+ <a6eb098a-8ac6-7240-dddc-ba645a1931fc@redhat.com>
+Content-Language: en-US
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+In-Reply-To: <a6eb098a-8ac6-7240-dddc-ba645a1931fc@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.2.181]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,83 +48,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Stephen Boyd <swboyd@chromium.org>, Andy Gross <agross@kernel.org>,
- dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 13 Jul 2023 at 11:41, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
+Hi Jocelyn,
+
+On 2023/7/13 下午 04:17, Jocelyn Falempe wrote:
+> On 13/07/2023 09:00, Jammy Huang wrote:
+>> Hi Jocelyn,
+>>
+>> Thanks for your work.
+>>
+>> On 2023/7/13 下午 02:40, Jocelyn Falempe wrote:
+>>> Aspeed always report the display port as "connected", because it
+>>> doesn't set a .detect_ctx callback.
+>>> Fix this by providing the proper detect callback for astdp and dp501.
+>>>
+>>> This also fixes the following regression:
+>>> Since commit fae7d186403e ("drm/probe-helper: Default to 640x480 if no
+>>> EDID on DP") The default resolution is now 640x480 when no monitor is
+>>> connected. But Aspeed graphics is mostly used in servers, where no 
+>>> monitor
+>>> is attached. This also affects the remote BMC resolution to 640x480, 
+>>> which
+>>> is inconvenient, and breaks the anaconda installer.
+>>>
+>>> v2: Add .detect callback to the dp/dp501 connector (Jani Nikula)
+>>> v3: Use .detect_ctx callback, and refactors (Thomas Zimmermann)
+>>>      Add a BMC virtual connector
+>>> v4: Better indent detect_ctx() functions (Thomas Zimmermann)
+>>> v5: Enable polling of the dp and dp501 connector status
+>>>      (Thomas Zimmermann)
+>>>
+>>> Fixes: fae7d186403e ("drm/probe-helper: Default to 640x480 if no 
+>>> EDID on DP")
+>>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>>> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> ---
+>>>   drivers/gpu/drm/ast/ast_dp.c    | 11 ++++++++++
+>>>   drivers/gpu/drm/ast/ast_dp501.c | 37 
+>>> ++++++++++++++++++++++-----------
+>>>   drivers/gpu/drm/ast/ast_drv.h   |  2 ++
+>>>   drivers/gpu/drm/ast/ast_mode.c  | 31 +++++++++++++++++++++++++--
+>>>   4 files changed, 67 insertions(+), 14 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/ast/ast_dp.c 
+>>> b/drivers/gpu/drm/ast/ast_dp.c
+>>> index 6dc1a09504e1..bf78f3d4aa3f 100644
+>>> --- a/drivers/gpu/drm/ast/ast_dp.c
+>>> +++ b/drivers/gpu/drm/ast/ast_dp.c
+>>> @@ -7,6 +7,17 @@
+>>>   #include <drm/drm_print.h>
+>>>   #include "ast_drv.h"
+>>> +bool ast_astdp_is_connected(struct ast_device *ast)
+>>> +{
+>>> +    if (!ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, 
+>>> ASTDP_MCU_FW_EXECUTING))
+>>> +        return false;
+>>> +    if (!ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDC, 
+>>> ASTDP_LINK_SUCCESS))
+>>> +        return false;
+>>> +    if (!ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDF, 
+>>> ASTDP_HPD))
+>>> +        return false;
+>>> +    return true;
+>>> +}
+>>
+>> * ASPDP_LINK_SUCCESS is true, when DP link training is finished. The 
+>> DP link quality is good
+>>
+>> enough to deliver video data.
+>>
+>> * ASTDP_HPD is true, when there is DP sink pull high HPD.
+>>
+>> Thus, ASTDP_HPD is the prerequisite of ASTDP_LINK_SUCCESS. I would 
+>> suggest to remove
+>>
+>> the check for ASTDP_LINK_SUCCESS here. ASTDP_HPD is good enough for 
+>> connected status.
+>>
+>> If you want to check all these three status, please change the order, 
+>> FW_EXECUTING -> HPD ->
+>>
+>> LINK_SUCCESS.
 >
-> On 12.07.2023 14:11, Dmitry Baryshkov wrote:
-> > Add support for the MDSS cfg-cpu bus vote on the SM8450 platform.
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >  arch/arm64/boot/dts/qcom/sm8450.dtsi | 9 +++++++--
-> >  1 file changed, 7 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/arch/arm64/boot/dts/qcom/sm8450.dtsi b/arch/arm64/boot/dts/qcom/sm8450.dtsi
-> > index 595533aeafc4..0b01f3027ee3 100644
-> > --- a/arch/arm64/boot/dts/qcom/sm8450.dtsi
-> > +++ b/arch/arm64/boot/dts/qcom/sm8450.dtsi
-> > @@ -13,6 +13,7 @@
-> >  #include <dt-bindings/mailbox/qcom-ipcc.h>
-> >  #include <dt-bindings/phy/phy-qcom-qmp.h>
-> >  #include <dt-bindings/power/qcom-rpmpd.h>
-> > +#include <dt-bindings/interconnect/qcom,icc.h>
-> >  #include <dt-bindings/interconnect/qcom,sm8450.h>
-> >  #include <dt-bindings/soc/qcom,gpr.h>
-> >  #include <dt-bindings/soc/qcom,rpmh-rsc.h>
-> > @@ -2672,8 +2673,12 @@ mdss: display-subsystem@ae00000 {
-> >
-> >                       /* same path used twice */
-> >                       interconnects = <&mmss_noc MASTER_MDP_DISP 0 &mc_virt SLAVE_EBI1_DISP 0>,
-> > -                                     <&mmss_noc MASTER_MDP_DISP 0 &mc_virt SLAVE_EBI1_DISP 0>;
-> > -                     interconnect-names = "mdp0-mem", "mdp1-mem";
-> > +                                     <&mmss_noc MASTER_MDP_DISP 0 &mc_virt SLAVE_EBI1_DISP 0>,
-> > +                                     <&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE_ONLY
-> > +                                      &config_noc SLAVE_DISPLAY_CFG QCOM_ICC_TAG_ACTIVE_ONLY>;
-> Looking at icc_set_tag occurences in msm-5.10/techpack/display,
-> I *think* active-only is only possible for the data bus (MDP-EBI)
+> Thanks for the detailed explanations.
+> I looked at other drivers to see if HPD is good enough for "connected" 
+> status, but I didn't find a clear answer.
+> There is also a drm_link_status, but that looks to be mostly unused.
+> https://elixir.bootlin.com/linux/latest/source/include/drm/drm_connector.h#L331 
+>
+>
+> So I think I will follow your suggestion, and remove the check for 
+> ASTDP_LINK_SUCCESS.
+>
+>
+> For the BMC connector patch, you know if there is a register setting I 
+> can check to see if a BMC is present or not ?
 
-Here I followed the vendor mdss fbdev driver (mdss_mdp.c), which
-explicitly states:
+I think you can use VGA CRD0[7] whose definition is as below:
 
-static struct msm_bus_scale_pdata mdp_reg_bus_scale_table = {
-        .usecase = mdp_reg_bus_usecases,
-        .num_usecases = ARRAY_SIZE(mdp_reg_bus_usecases),
-        .name = "mdss_reg",
-        .active_only = true,
-};
+DRAM Initial Selection (see note 1)
+0: VBIOS Initial the DRAM
+1: SOC Firmware Initial the DRAM
+
+If CRD0[7] is 1, there is BMC.
 
 >
-> Moreover, I think Linux is supposed to cast MDSS votes through the
-> APPS RSC (so, nodes without _DISP [1][2]) and conversely, DISP_RSC is
-> supposed to active-only votes
-
-We can change this once your DISP_RSC lands. Anyway, I think we will
-have to add the LLCC-MEM vote at some point later.
-
+> Best regards,
 >
-> Konrad
->
-> [1] not that it matters today because it's not implemented yet
-> [2] https://lore.kernel.org/linux-arm-msm/20230708-topic-rpmh_icc_rsc-v1-0-b223bd2ac8dd@linaro.org
->
-> > +                     interconnect-names = "mdp0-mem",
-> > +                                          "mdp1-mem",
-> > +                                          "cpu-cfg";
-> >
-> >                       resets = <&dispcc DISP_CC_MDSS_CORE_BCR>;
-> >
-
-
-
 -- 
-With best wishes
-Dmitry
+Best Regards
+Jammy
+
