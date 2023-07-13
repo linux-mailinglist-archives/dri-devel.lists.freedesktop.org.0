@@ -1,48 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BAF375240E
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 15:40:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E99E75241D
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 15:43:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D24D910E6DE;
-	Thu, 13 Jul 2023 13:40:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DFC910E6DF;
+	Thu, 13 Jul 2023 13:43:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 98758 seconds by postgrey-1.36 at gabe;
- Thu, 13 Jul 2023 13:40:24 UTC
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
- [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 251B310E6DE
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 13:40:23 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A69E620004;
- Thu, 13 Jul 2023 13:40:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1689255621;
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA2AA10E6DF
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 13:43:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1689255811;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XGYoOaSKxY51onSk/WTE6QjV/NN/bIt7tTX8a5xgjlI=;
- b=X383JZ0gGwDL/C/U8WWETSLICmoHzgGyXYu96ZjJOyJIvGBWAhvNt+f866Av+DRxKd64w5
- uotKNMq5XfmJUIonHK51aAI3CJY6XgwDoI1Mpm4oTHH9s7eK6W28OOb3xWEbsRwPn898mw
- xdV/fGeJLoFCCSMbhqLHgYTfMgzBWdICdNkzKgx0E62f1ZwCotoOYXzY4guzDJ7mtS+sC3
- 70c7wH/I9wVyxDqGJVG05V3Fczp/FggC3XQH3m6peBJNeymwZydq7ZCFPXv0ncSMWUr20L
- ZE242guj0U+vIvIr6HfaWgnxqDfDs3JR0YonW0+xUJYC7X2V9mZAR6am7OFsYw==
-Date: Thu, 13 Jul 2023 15:40:18 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH 00/17] drm: rename various struct members "dev" -> "drm"
-Message-ID: <ZK_-wroLky0R-BWp@aptenodytes>
-References: <20230713082408.2266984-1-u.kleine-koenig@pengutronix.de>
- <874jm8go61.fsf@intel.com>
- <20230713103940.aeqgcbmcoqepvbax@pengutronix.de>
- <87v8eof4w8.fsf@intel.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=njviNuUYhMhHX25+mP7+WvQU22dyAqbmOtUfBhTjQHs=;
+ b=WrJ3/OOpCAIwjQsBKgL/H9DAHpRCQS+F9IZ1fGP7Myxckd8VtjW7cCgT+E/UYtaY4Oj9wD
+ I63G+qv/LI/DjqZTuEXl7Zjn3A4ZDHYMzPo8STqE6jNUDPCLmU+2ZbDGqTTK0h3aMBxhK8
+ nJR7UaxpvnkbrJ2upmMf/fqv4OT190U=
+Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-631-VCb4lrEePnyK6MnVnKpRjA-1; Thu, 13 Jul 2023 09:43:30 -0400
+X-MC-Unique: VCb4lrEePnyK6MnVnKpRjA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C745E28237C6;
+ Thu, 13 Jul 2023 13:43:29 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.192.87])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2530040D285E;
+ Thu, 13 Jul 2023 13:43:26 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: tzimmermann@suse.de, airlied@redhat.com, kuohsiang_chou@aspeedtech.com,
+ jammy_huang@aspeedtech.com, jani.nikula@linux.intel.com,
+ dianders@chromium.org
+Subject: [PATCH v6 1/2] drm/ast: Add BMC virtual connector
+Date: Thu, 13 Jul 2023 15:41:30 +0200
+Message-ID: <20230713134316.332502-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="mySbPAC1X1XXf4eH"
-Content-Disposition: inline
-In-Reply-To: <87v8eof4w8.fsf@intel.com>
-X-GND-Sasl: paul.kocialkowski@bootlin.com
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,85 +61,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <seanpaul@chromium.org>, kernel@pengutronix.de,
- Sui Jingfeng <suijingfeng@loongson.cn>,
- Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org,
- "Russell King \(Oracle\)" <linux@armlinux.org.uk>,
- Maxime Ripard <mripard@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Julia Lawall <julia.lawall@inria.fr>, Luben Tuikov <luben.tuikov@amd.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Most aspeed devices have a BMC, which allows to remotely see the screen.
+Also in the common use case, those servers don't have a display connected.
+So add a Virtual connector, to reflect that even if no display is
+connected, the framebuffer can still be seen remotely.
+This prepares the work to implement a detect_ctx() for the Display port
+connector.
 
---mySbPAC1X1XXf4eH
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+v4: call drm_add_modes_noedid() with 4096x4096 (Thomas Zimmermann)
+    remove useless struct field init to 0 (Thomas Zimmermann)
+    don't use drm_simple_encoder_init() (Thomas Zimmermann)
+    inline ast_bmc_connector_init() (Thomas Zimmermann)
 
-Hi,
+Fixes: fae7d186403e ("drm/probe-helper: Default to 640x480 if no EDID on DP")
+Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+---
+ drivers/gpu/drm/ast/ast_drv.h  |  4 +++
+ drivers/gpu/drm/ast/ast_mode.c | 58 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 62 insertions(+)
 
-On Thu 13 Jul 23, 14:05, Jani Nikula wrote:
-> On Thu, 13 Jul 2023, Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.d=
-e> wrote:
-> > If you say you consider the idea bad or too costly to implement, that's
-> > fine. But pointing to other areas that are bad shouldn't be a relevant
-> > reason to shoot down this effort.
->=20
-> I did not point to other places saying they're "bad". That's your
-> opinion, not mine. I don't think the drm usage of the dev name is bad,
-> and I pointed out drm is not alone in using it.
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index 3f6e0c984523..c9659e72002f 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -214,6 +214,10 @@ struct ast_device {
+ 			struct drm_encoder encoder;
+ 			struct drm_connector connector;
+ 		} astdp;
++		struct {
++			struct drm_encoder encoder;
++			struct drm_connector connector;
++		} bmc;
+ 	} output;
+ 
+ 	bool support_wide_screen;
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index f711d592da52..1a8293162fec 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -1735,6 +1735,61 @@ static int ast_astdp_output_init(struct ast_device *ast)
+ 	return 0;
+ }
+ 
++/*
++ * BMC virtual Connector
++ */
++
++static int ast_bmc_connector_helper_get_modes(struct drm_connector *connector)
++{
++	return drm_add_modes_noedid(connector, 4096, 4096);
++}
++
++static const struct drm_connector_helper_funcs ast_bmc_connector_helper_funcs = {
++	.get_modes = ast_bmc_connector_helper_get_modes,
++};
++
++static const struct drm_connector_funcs ast_bmc_connector_funcs = {
++	.reset = drm_atomic_helper_connector_reset,
++	.fill_modes = drm_helper_probe_single_connector_modes,
++	.destroy = drm_connector_cleanup,
++	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
++};
++
++static const struct drm_encoder_funcs ast_bmc_encoder_funcs = {
++	.destroy = drm_encoder_cleanup,
++};
++
++static int ast_bmc_output_init(struct ast_device *ast)
++{
++	struct drm_device *dev = &ast->base;
++	struct drm_crtc *crtc = &ast->crtc;
++	struct drm_encoder *encoder = &ast->output.bmc.encoder;
++	struct drm_connector *connector = &ast->output.bmc.connector;
++	int ret;
++
++
++	ret = drm_encoder_init(dev, encoder,
++				&ast_bmc_encoder_funcs,
++				DRM_MODE_ENCODER_VIRTUAL, "ast_bmc");
++	if (ret)
++		return ret;
++	encoder->possible_crtcs = drm_crtc_mask(crtc);
++
++	ret = drm_connector_init(dev, connector, &ast_bmc_connector_funcs,
++				 DRM_MODE_CONNECTOR_VIRTUAL);
++	if (ret)
++		return ret;
++
++	drm_connector_helper_add(connector, &ast_bmc_connector_helper_funcs);
++
++	ret = drm_connector_attach_encoder(connector, encoder);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
+ /*
+  * Mode config
+  */
+@@ -1842,6 +1897,9 @@ int ast_mode_config_init(struct ast_device *ast)
+ 		if (ret)
+ 			return ret;
+ 	}
++	ret = ast_bmc_output_init(ast);
++	if (ret)
++		return ret;
+ 
+ 	drm_mode_config_reset(dev);
+ 
 
-For what it's worth, my personal rule is to use a prefix to dev if there
-are multiple variables of a whatever-called-device type, and just call it d=
-ev if
-there is nothing else about a device.
+base-commit: b32d5a51f3c21843011d68a58e6ac0b897bce9f2
+-- 
+2.41.0
 
-So as expressed before, I also don't see the problem with drm_device being
-called dev, which I find a lot more descriptive than drm.
-
-There's a general pattern that is usually applied to devices (not just drm):
-- struct driver_specific_dev
-  - struct subsystem_specific_dev
-    - struct device
-
-So I always find it quite clear which type of device we are talking about
-when accessing a dev member of one of these. Suggesting that the name dev is
-bad for something that refers to the subsystem-specific dev in some
-subsystem-specific object kind of implies that it would make sense to have
-a struct device called dev in that structure, which adds more confusion as =
-this
-is generally not the case.
-
-So I would also be happier without this change.
-
-Cheers,
-
-Paul
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---mySbPAC1X1XXf4eH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmSv/sEACgkQ3cLmz3+f
-v9Hjlgf/Ttt85dTaFRcNvL3DQ0Ed9boyFlvkCoJw2HzJm5BXmTi0+/PovYfn6rqR
-iB22dUeh8aSqEHrrzP6BG3xz7IuADd7iB97dKTAQS/nJiZKB4JPYsIEseLb17gYx
-FTj4jBURqnwLFL23HB/pM0nJrXjrxn/HmNdNzbeAI4qkda1yIWrbWjddu9zYZet9
-avlHKy6FtZ6cYtzXpjXx87OHW09Iw6wE/1tPplabCPiyM/tB/cJM8aP3Yl1Il+A9
-hETkRlDVKBoMKDfrAsguBN28qZn1bNR9rJODSONW/eTdnX9thWccI05STFGcjtfx
-oEEk7V9lXLAkCbfRTu9rhXmmfxFYVw==
-=M6mV
------END PGP SIGNATURE-----
-
---mySbPAC1X1XXf4eH--
