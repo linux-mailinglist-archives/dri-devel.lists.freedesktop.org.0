@@ -1,77 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E15F0751BE5
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 10:41:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60153751C25
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 10:49:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9E7210E0A6;
-	Thu, 13 Jul 2023 08:41:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A48910E0C4;
+	Thu, 13 Jul 2023 08:49:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A44B310E0AA
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 08:41:52 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id
- 2adb3069b0e04-4fba74870abso834118e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 01:41:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689237708; x=1691829708;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ql1POIcuo0TsaMIUAHdPoB5L/Q0A6/AHhI/hDkQRujs=;
- b=t+TmQwgHNF5uKWW7Uxnk9AfRqeWy8tCvsF/pc9g/2NmcOXFSc5XsWxfhwihNegwkWw
- RF0LVByoXz5AUEQ+mTgX4KZvx6pvPtBijUDelJbDlWZjnEyyhx3qvgGcX6fIUzhRre4Z
- 09m+mhGwvp13v7+yzxsNopin9Do4PJ3hIi8QSdYBixlUA8RFDUjH5jKG2yeVJwSMUFOj
- tpoCjwmlL2U7U+NI5fdhQ7l4ds8AjXATovxVykfPt/PAEVF7tmQm3UuwJiSzhcR8+9zs
- E4LsBecUYzDxQrDSMjArws5hTLEZ194zHYdH+lO9jK+ciz32HWh1urgUAU0dl/J4VqKW
- 0AVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689237708; x=1691829708;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ql1POIcuo0TsaMIUAHdPoB5L/Q0A6/AHhI/hDkQRujs=;
- b=JzzWDTFgHNOjMmcmiRD/TN0vn+LlMBzTEkJ3GtByQUi8Q0IrDjy1a5mMjvRa+R8emQ
- meEz1/zHMkWfOTyV8iNUml8ZKYsZfLsaRLS+n+bt9aH6ubDxbWoRVxxpPN5lhA6R12h0
- 1J4sqKwkVjEL3KbwvhGAUsOBywLFE4lfiODuFYaxNzpskafDKJQA2089HHxdH2ig6A6P
- RKy7rnd6Iw8oy6ugdt9WMAPd/gxPSaYkHXwDk7RehrOMC6Alxm9SmDjFVHeVO33fw8fI
- 1vNxcBooRnsNNxKzeI4NwmakT9dtgr5y398Qfj9k5qRQtkHaxSzCPjSOjCLPHYShAsr3
- nQ6g==
-X-Gm-Message-State: ABy/qLZzP10UHeVDbeV+B3UE+jAlO/IVNgX5CZ6Qvk7refNXUsjGSZb8
- 46uaqPAEgkyM27hCAruIifaUuA==
-X-Google-Smtp-Source: APBJJlG2UJSxl2mpB4gj51oF6BFqZoTDX7kP9XHcu2MhIIGhV4rZTmSm0W8uOG4QvddLOulBKjPzbw==
-X-Received: by 2002:ac2:5290:0:b0:4fb:7b2a:78de with SMTP id
- q16-20020ac25290000000b004fb7b2a78demr708934lfm.45.1689237707997; 
- Thu, 13 Jul 2023 01:41:47 -0700 (PDT)
-Received: from [192.168.1.101] (abyl63.neoplus.adsl.tpnet.pl. [83.9.31.63])
- by smtp.gmail.com with ESMTPSA id
- f22-20020ac25336000000b004fba6f38f87sm1027447lfh.24.2023.07.13.01.41.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Jul 2023 01:41:47 -0700 (PDT)
-Message-ID: <9587baf4-2316-494d-fbd1-73a86e742741@linaro.org>
-Date: Thu, 13 Jul 2023 10:41:45 +0200
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7AE110E0C4
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 08:49:34 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 52FCB1F45E;
+ Thu, 13 Jul 2023 08:49:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1689238173; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sJLG2yZNZHcVlsW3FsC60sv9Udu4DHfYI3d82cAV6zI=;
+ b=fcfOwQ1bMJL1RXsnwWWWSZyNwBfzQfcaBiANhywmKK1eSgAgDEEg7K0wLY9H3XKjJFL59L
+ zcMb4XdDcKJJsp6JXlgU7pOxfWDRylWz2g0iCRHs70lVWBOSKhuR2nOR4JM26oTpU1w/IS
+ hoyV7kZ6EETCD5IEMzWQ+1Yem4Me5ko=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1689238173;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sJLG2yZNZHcVlsW3FsC60sv9Udu4DHfYI3d82cAV6zI=;
+ b=MBGMzvwP9aaaXnrawP4wCjzY0Ce/JP3WqQ5s6BtXh8Aa/HPHEHBxzNcrdENTeex0V9XjqB
+ S0IV9byOC28pi7Bw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 26CC913489;
+ Thu, 13 Jul 2023 08:49:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id MciACJ26r2R8OQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 13 Jul 2023 08:49:33 +0000
+Message-ID: <9b63ee41-13db-979f-80fd-10123da741d3@suse.de>
+Date: Thu, 13 Jul 2023 10:49:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 8/8] arm64: dts: qcom: sm8450: provide MDSS cfg
- interconnect
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20230712121145.1994830-1-dmitry.baryshkov@linaro.org>
- <20230712121145.1994830-9-dmitry.baryshkov@linaro.org>
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] drm/ast: Fix default resolution when no monitor is
+ connected on DP
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20230712121145.1994830-9-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>,
+ Jocelyn Falempe <jfalempe@redhat.com>, Sui Jingfeng
+ <suijingfeng@loongson.cn>, Jani Nikula <jani.nikula@linux.intel.com>,
+ airlied@redhat.com, kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com
+References: <20230623094639.434293-1-jfalempe@redhat.com>
+ <878rbv20dp.fsf@intel.com> <13e35996-914d-37a6-1697-ac0c3c75cad1@redhat.com>
+ <ed075f2f-861d-74d1-efc0-5baa2cd601fd@redhat.com>
+ <43d12606-9c81-99f8-f13c-14338fcd7a28@suse.de>
+ <f4b4ab09-5f03-af3c-0e7f-44a248678be8@redhat.com>
+ <23d80964-d2d0-b688-e3cd-bf25a8135e5e@redhat.com>
+ <81c57344-289d-fe41-8518-503249ea8d64@suse.de>
+ <3fc768f8-9461-c4b0-b9af-555c52294c94@redhat.com>
+ <2fb391e2-9f68-26f0-e005-a7f0f4324adc@loongson.cn>
+ <b56afc8a-5fda-3227-3ac0-5e7b7773976b@redhat.com>
+ <36e04e4c-c2ac-64cf-9503-ea43a29b66d0@mailbox.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <36e04e4c-c2ac-64cf-9503-ea43a29b66d0@mailbox.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------OyWiMY9yl79n065zz0aJIsAn"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,56 +83,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12.07.2023 14:11, Dmitry Baryshkov wrote:
-> Add support for the MDSS cfg-cpu bus vote on the SM8450 platform.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  arch/arm64/boot/dts/qcom/sm8450.dtsi | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sm8450.dtsi b/arch/arm64/boot/dts/qcom/sm8450.dtsi
-> index 595533aeafc4..0b01f3027ee3 100644
-> --- a/arch/arm64/boot/dts/qcom/sm8450.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sm8450.dtsi
-> @@ -13,6 +13,7 @@
->  #include <dt-bindings/mailbox/qcom-ipcc.h>
->  #include <dt-bindings/phy/phy-qcom-qmp.h>
->  #include <dt-bindings/power/qcom-rpmpd.h>
-> +#include <dt-bindings/interconnect/qcom,icc.h>
->  #include <dt-bindings/interconnect/qcom,sm8450.h>
->  #include <dt-bindings/soc/qcom,gpr.h>
->  #include <dt-bindings/soc/qcom,rpmh-rsc.h>
-> @@ -2672,8 +2673,12 @@ mdss: display-subsystem@ae00000 {
->  
->  			/* same path used twice */
->  			interconnects = <&mmss_noc MASTER_MDP_DISP 0 &mc_virt SLAVE_EBI1_DISP 0>,
-> -					<&mmss_noc MASTER_MDP_DISP 0 &mc_virt SLAVE_EBI1_DISP 0>;
-> -			interconnect-names = "mdp0-mem", "mdp1-mem";
-> +					<&mmss_noc MASTER_MDP_DISP 0 &mc_virt SLAVE_EBI1_DISP 0>,
-> +					<&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE_ONLY
-> +					 &config_noc SLAVE_DISPLAY_CFG QCOM_ICC_TAG_ACTIVE_ONLY>;
-Looking at icc_set_tag occurences in msm-5.10/techpack/display,
-I *think* active-only is only possible for the data bus (MDP-EBI)
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------OyWiMY9yl79n065zz0aJIsAn
+Content-Type: multipart/mixed; boundary="------------15Z3h9ZLuD8mc6s3DwvP33ud";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>,
+ Jocelyn Falempe <jfalempe@redhat.com>, Sui Jingfeng
+ <suijingfeng@loongson.cn>, Jani Nikula <jani.nikula@linux.intel.com>,
+ airlied@redhat.com, kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <9b63ee41-13db-979f-80fd-10123da741d3@suse.de>
+Subject: Re: [PATCH] drm/ast: Fix default resolution when no monitor is
+ connected on DP
+References: <20230623094639.434293-1-jfalempe@redhat.com>
+ <878rbv20dp.fsf@intel.com> <13e35996-914d-37a6-1697-ac0c3c75cad1@redhat.com>
+ <ed075f2f-861d-74d1-efc0-5baa2cd601fd@redhat.com>
+ <43d12606-9c81-99f8-f13c-14338fcd7a28@suse.de>
+ <f4b4ab09-5f03-af3c-0e7f-44a248678be8@redhat.com>
+ <23d80964-d2d0-b688-e3cd-bf25a8135e5e@redhat.com>
+ <81c57344-289d-fe41-8518-503249ea8d64@suse.de>
+ <3fc768f8-9461-c4b0-b9af-555c52294c94@redhat.com>
+ <2fb391e2-9f68-26f0-e005-a7f0f4324adc@loongson.cn>
+ <b56afc8a-5fda-3227-3ac0-5e7b7773976b@redhat.com>
+ <36e04e4c-c2ac-64cf-9503-ea43a29b66d0@mailbox.org>
+In-Reply-To: <36e04e4c-c2ac-64cf-9503-ea43a29b66d0@mailbox.org>
 
-Moreover, I think Linux is supposed to cast MDSS votes through the
-APPS RSC (so, nodes without _DISP [1][2]) and conversely, DISP_RSC is
-supposed to active-only votes
+--------------15Z3h9ZLuD8mc6s3DwvP33ud
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Konrad
+SGkNCg0KQW0gMTMuMDcuMjMgdW0gMTA6MzIgc2NocmllYiBNaWNoZWwgRMOkbnplcjoNCj4g
+T24gNy8xMi8yMyAxNzoyNSwgSm9jZWx5biBGYWxlbXBlIHdyb3RlOg0KPj4gT24gMTIvMDcv
+MjAyMyAxNzowNSwgU3VpIEppbmdmZW5nIHdyb3RlOg0KPj4+IE9uIDIwMjMvNy8xMCAxNjow
+NywgSm9jZWx5biBGYWxlbXBlIHdyb3RlOg0KPj4+DQo+Pj4+IE9uIHRoZSBvdGhlciBoYW5k
+LCBhcmUgdGhlcmUgYW55IGRyYXdiYWNrIHRvIHByZXNlbnQgYSBCTUMgY29ubmVjdG9yIGV2
+ZW4gd2hlbiB0aGUgaGFyZHdhcmUgZG9lc24ndCBoYXZlIGl0ID8NCj4+Pg0KPj4+IElmIG5v
+dCBwcm9wZXJseSBzZXR0aW5nIHVwLCBJIHRoaW5rIHlvdSB3aWxsIGNyZWF0ZSB0d28gZW5j
+b2RlciBhbmQgdHdvIGNvbm5lY3RvciBpbiB0aGUgc3lzdGVtLg0KPj4NCj4+IFllcywgYnV0
+IEkgdGhpbmsgaXQgd29uJ3QgaGF2ZSBhbnkgdmlzaWJsZSBlZmZlY3QgZm9yIHRoZSBlbmQt
+dXNlci4NCj4gDQo+IEknbSBhZnJhaWQgdXNlci1zcGFjZSBkaXNwbGF5IHNlcnZlcnMgd291
+bGQgd2FzdGUgZWZmb3J0IHByb2R1Y2luZyBjb250ZW50IGZvciBhIG5vbi1leGlzdGluZyBC
+TUMgKGFzc3VtaW5nIGl0cyBjb25uZWN0b3Igc3RhdHVzIGlzIGNvbm5lY3RlZCBvciB1bmtu
+b3duKS4NCg0KUmlnaHQgbm93LCB0aGUgQk1DIG91dHB1dCB3b3JrcyBiZWNhdXNlIHRoZSBW
+R0Egc3RhdHVzIGlzIGFsd2F5cyANCmNvbm5lY3RlZC4gU28gbm90aGluZyByZWFsbHkgY2hh
+bmdlcy4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gDQoNCi0tIA0KVGhvbWFz
+IFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUg
+U29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVy
+bmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1j
+RG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
 
-[1] not that it matters today because it's not implemented yet
-[2] https://lore.kernel.org/linux-arm-msm/20230708-topic-rpmh_icc_rsc-v1-0-b223bd2ac8dd@linaro.org
+--------------15Z3h9ZLuD8mc6s3DwvP33ud--
 
-> +			interconnect-names = "mdp0-mem",
-> +					     "mdp1-mem",
-> +					     "cpu-cfg";
->  
->  			resets = <&dispcc DISP_CC_MDSS_CORE_BCR>;
->  
+--------------OyWiMY9yl79n065zz0aJIsAn
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSvupwFAwAAAAAACgkQlh/E3EQov+Bu
+vhAAnUhOA8CNy5lQudkXlnDb0wY6r1FecBHr7m9tphCk/LGE72YD7QDHV6qtPu76RxmH+I1J9noe
+Wvp0E9FtF7ei+qk31fF1vHc9qJAl5zbiVYExc/X+EFrFPVvvIUp1Zm1aZEui+EGltybSdn6ITZqV
+KtEY0VSGxmFi6Ajcg/4nWBkjDOcLc3yhFEcIf+3a8xsRXzD2QAleY3RU8WHWcPCVHGyKjS9XuEQA
+/KqN6Jmt1yQ53/EcXHX0Q/FQexoWrRGWlI9wyVnxoqfCXGW68Em9LQ2WK5Ohg21nGVJ1nd2/DtSg
+5CxLlJFBuKPSED/B6YokL8yQWCPHvGF5i5tL/EDOYOQ4BWl8PuMpZ+GpHYb221vRWEZCtQw77OMQ
+Ek8cTUJkGsXYHBsemhDJMrSI90iuGuFd6zJJyb6r6wWnk0c+gwcSXmcoDp7JiuWZQAy2F+Wj9ZQB
+n1bVdV876/VZjrgF851NI2yJv3hjglHtbkjod9qBa+JV483akHWUbmc/Y3issW8p3QDHOg1Atlm2
+eN3UXPiZfz5LDKuReIxJ+/s7x6DAM9uhQ3/9gQCUPS7utlXQXeH1GrUk40IknryqiZiFwJhVx95m
+4XMbfF/BSry7PsvjcPThM3xV0r4jw9y2jZf5F41H/9XoTGu+G8DDxWX/1XBsN/qFOfQ06Vf+GMXJ
+jGQ=
+=P70c
+-----END PGP SIGNATURE-----
+
+--------------OyWiMY9yl79n065zz0aJIsAn--
