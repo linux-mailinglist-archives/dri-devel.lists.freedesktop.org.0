@@ -2,65 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90FCC751CB0
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 11:07:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E09F3751CAF
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 11:07:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A82F710E648;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 880B510E644;
 	Thu, 13 Jul 2023 09:07:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A1CB10E644
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 09:07:37 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id
- a640c23a62f3a-98377c5d53eso82359666b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 02:07:37 -0700 (PDT)
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1841710E644
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 09:07:39 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id
+ a640c23a62f3a-98e011f45ffso68767366b.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 02:07:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1689239256; x=1691831256; 
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=EwcL9L1d5Ep6I3OBmVEevOc5sUTVYd5D4r/f/BPtefs=;
- b=UESAu+5a5TJxeQsviLt+XkW6TqgybmnL2loLwuqcwcrZX5lgC9JBicbJwvmqupEuG6
- 4WVy4VPASqrgJTWptK1GGIzYaAr6QINZdEflWWoqwGky7IHsNZuKqRKZ4KIUSPosFVO5
- dVrzBEnugotbmyNFFbX/5FwT4s00Lq0Midakx0+D0DyqemyKzOZYjDApjbkSajvDHx0o
- YBOZGoSRFhBsCUW+CoUu++R1U/HbGqefD+cj7wd0yWIGkz8MOdMViohdIqc4x8YCd8wY
- HrNtZn/VNZz3zZ7n9YubPXwi0IydbXaN4stJZgFtTNGNvZ8L/hvrDsTVwdHU7iKqqiRd
- eDww==
+ d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1689239257; x=1691831257; 
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=8Ye7/VW9cCinL56beHP9cBXIlGvn2H6A5gltzFR9xZA=;
+ b=fWiwwbxu2tZ/kId5fwzzZGDAKUkBpJD54BFOz4Y5FvfS7va+VQho01ZEaCog9vYDLO
+ iMExqgohH4XqmqSSMtaoH4fwFgyz6PCIK21FYGs/IM2r4NKawCy+rcNp0UQsIYeNjTci
+ 5rSEReuA5FVjX8Q0ArJlSnRnFM7vtX8Ui4INJMP/ntQ4znxTd5xbgSv84cvou2UgBHL+
+ tHAlJQ3dcl1E1LqxuWp61YlNabpg7PN3LE+5ZGD6XrE5PwrO2bK2t27NGUZScesXXa58
+ KqmhsoFlaSAswcWnHT0MZzQRsJvRgkH8HvMEXahTfCCcwGdqR1EJ2usjoWucarcUNwC7
+ F3qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689239256; x=1691831256;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=EwcL9L1d5Ep6I3OBmVEevOc5sUTVYd5D4r/f/BPtefs=;
- b=FDIyp2l2KfSM+bD+t0zXWhwF7TkyAowxzhkE/djC2wQhDIcUA7hhlPM1Z0VUMyN+Qq
- 73tiYs1Qj6m8wq4eJtqhOiTVaUTBPvPygHxaJ7ffUZtkVzUgnGF8X3ty0n/lGdS9Jx1J
- EM2GbXE4womFtSXlhdC2c1HEDH6aPWyXtap/W6QaGp6O9hzN5gIkkAMqy4Tw3D2KTelc
- vZocTNINu9nQbCS61BgXeWtUX81gshrehcKH0S7dPWD2vTPkD784zKmRJy1PQU/tnKof
- GGgLiFvsbbwJDtvpz0xfpyW03ligvsIYxRv8r7A+gqvxMSDdeNKERzX82RxUILebsJRa
- ku9g==
-X-Gm-Message-State: ABy/qLbXAfXcJPnItI1FXkxj2jrtJRBE3opzW/gs9LfgseELZyLbquvU
- j6DiMgNgRYt6tGgyrJ0Nnzsl6g==
-X-Google-Smtp-Source: APBJJlG/9dWdAO+IHMennvFnx6By0szo1vvjGgfqMSsw7wupzZ+6jkd9yMZGR2+spJ8wS3e08a/IdQ==
-X-Received: by 2002:a17:906:5a45:b0:977:95f4:5cca with SMTP id
- my5-20020a1709065a4500b0097795f45ccamr911215ejc.54.1689239255685; 
- Thu, 13 Jul 2023 02:07:35 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1689239257; x=1691831257;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8Ye7/VW9cCinL56beHP9cBXIlGvn2H6A5gltzFR9xZA=;
+ b=FXbTop1xW/5TdE7r1Vzu74HiCj2TWJ6Xlx49WP4u3+Glv5PtkSUvdPnc5d7y1MsnNn
+ 1ftZ4U7sTT8WXB4jPl3CzNCJvEdU4bqxNTSmTOU/3RhMuCIuqUWhhMZlcYoIWuGMUaBN
+ V8P6n40dqot6KBGHvEZkD+PH/XrM+fb3ArFFH6LuuZSutDzYJCpI4mt9o8cVAUnU6/1G
+ YqDuOxfDjYhiNK2mOf6Mb2r73ff396vzuyGoc+JIPBykck+fUGVb0lFQfn+yaWOjijCU
+ UonarCF36+aoVNQLZbZfrOuKJ1A8qaGKR9ucf2kcAvhf2Jn3jrs2f6FdNZReFirc3kz9
+ psaw==
+X-Gm-Message-State: ABy/qLZje4sisXGNaaPVlzJb7IgkHoJK9HfBcpiDuxcFp8XgvZ/QXLCK
+ kB7o0f/5GmDNRqDFLnuD/mcflw==
+X-Google-Smtp-Source: APBJJlE4RWnu8UySeR+I/AnNMVTMcejh9JKrDElN0JzKyETRe5T2FP4ozbQk5XNxWaEvbyhRscqEPg==
+X-Received: by 2002:a17:906:30d3:b0:982:82aa:86b1 with SMTP id
+ b19-20020a17090630d300b0098282aa86b1mr726658ejb.43.1689239257081; 
+ Thu, 13 Jul 2023 02:07:37 -0700 (PDT)
 Received: from [127.0.1.1] ([93.5.22.158])
  by smtp.googlemail.com with ESMTPSA id
- p18-20020a1709060dd200b00982d0563b11sm3707352eji.197.2023.07.13.02.07.34
+ p18-20020a1709060dd200b00982d0563b11sm3707352eji.197.2023.07.13.02.07.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Jul 2023 02:07:35 -0700 (PDT)
+ Thu, 13 Jul 2023 02:07:36 -0700 (PDT)
 From: Alexandre Mergnat <amergnat@baylibre.com>
-Subject: [PATCH v2 0/3] Add startek-kd070fhfid015 display support
-Date: Thu, 13 Jul 2023 11:07:32 +0200
-Message-Id: <20230711-startek_display-v2-0-87bc7bdec6e9@baylibre.com>
+Date: Thu, 13 Jul 2023 11:07:33 +0200
+Subject: [PATCH v2 1/3] dt-bindings: display: panel: add startek
+ kd070fhfid015 support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANS+r2QC/3WNyw6CMBAAf4Xs2RpawsuT/2GI2dJFNtaWtEgkh
- H+3cvc4k0xmg0iBKcIl2yDQwpG9S6BOGfQjugcJNolB5arIaylFnDHM9LwbjpPFVbRlY1RVDpV
- GhFRpjCR0QNePqXNva5OcAg38OTa3LvHIcfZhPa6L/Nn/g0WKXMiqaGWtyRRNedW4WtaBzr1/Q
- bfv+xdLR05ZxgAAAA==
+Message-Id: <20230711-startek_display-v2-1-87bc7bdec6e9@baylibre.com>
+References: <20230711-startek_display-v2-0-87bc7bdec6e9@baylibre.com>
+In-Reply-To: <20230711-startek_display-v2-0-87bc7bdec6e9@baylibre.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
  Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
  Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
@@ -68,20 +67,20 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, 
  Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1988; i=amergnat@baylibre.com; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2211; i=amergnat@baylibre.com; 
  h=from:subject:message-id;
- bh=3y5LMZOUzphp7mX14QjhOYQXh5yv0tTAKwXAmNFnEB8=; 
- b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBkr77WCyMuAZkdsHbMMihvWnhf1LFUKBPEmnEVeSqM
- jKNcQ+OJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZK++1gAKCRArRkmdfjHURfNBD/
- wKl40srBR89jOhq8VWwgbAbUPLeM19ItclQ2y2gem8pYXOkoFhCaAeUt9c9bZet0i/TqOVG6LKQKXZ
- TmzhZJWbrJ4RJRTWjg0nfcpxO6uSxLDT1q4sYIMZ9v5d4eTXNefO1+1pE/h/Wv1h9a7JPc2rFRoc8q
- MMKCtSvr5p4jRJlTV7uRNo2IUOlamv8d9ue0Gthn/6tUTshAHPh2nkmRj4gOCD/N8cMdZI88C0aY2w
- wXhxk0A1milOKjkzjdIU0dLV5d8k3TLUYtl+Yoc1qSYbxCRhjg/I34wjAp3sUhsHdXzJFGF9A9vYPw
- POYvyR1pbONQvRAkPvhc8engSQPlUZuF7bJsjhPfJaSAePFmbWwq4sxzCJxnG7Itj+UGrr5KlEGhrM
- 7NXzlVFoZpcB5y5GnCO/jIwYu6Hz5ObI6d51BQ2xuYIvKEdXVW1LFDH4AjfgTKPSBzMzuqxHBSGadA
- 0MctXbbMxSAXaymUI7pZLr5ngn1cXSagOA8WxAHgiz4jR7NWzmmmWdW0YEiiVW+IE46uZc+LVw38MU
- btxqgXtsA2p/sgkTqy8GpmLNifE+G6UK6tuj9T6ohdnSpmrvxVwn8AdR53O8TfJdvy949eq8H+5ntQ
- nbZwcrht0BQsAfUcKBDM8SZdOE5hsCNvKuxB4wnZFRuLc/mkv/vkx0cSvAow==
+ bh=602in0caqHCjA6zQgFgfTHmUoHJFTSnnwXSt1PAlxS0=; 
+ b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBkr77WZ01MReGvODiP68t92SzPhhTQdaCvcjNlnSPb
+ u3M9RI2JAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZK++1gAKCRArRkmdfjHURQ9hD/
+ 4+x3Yzdw7Yq66K/FsTF6eEF9ZVve4NbbN8bp6Moh35esqNZ6T6tErXTZHif+nIn16rzDxqdHfGoP9L
+ m2vEMUKQMaKfoIxqKmG345Se92JawH/Rj0KJkaBXUs+p0xR4Z5tEhiHpx5DRLRKCmvA8yF7aHRPFVy
+ CocZcVs044MRcJ9UQMTLDWKOAvrwPfkyQOO+3UaPMRG3MNpet1nXbDw/UsMQ9EAgztelmxKb626fmE
+ 7/4dOBXhpmNH0Nty3gM1jxDX+Huy0B5NOC110kQGBr3cUdKlz0DLc022Fc1rkcyoyEDBmvFY28O3dM
+ 78go+FAwdBH9Qkd95fVXzDEU89z7KRgF6UZmZs2FVF1exFJtcUPDdKXisBCCSms6I53BF9Y55F+R28
+ plyBnZmBsv4TgNNgfSr8rx1xIpFaLKN5HBfVMwGnikvRkzX2PWrArPaaR0SCP+CltrZDy76cXdaqzF
+ CPIkJjICGJPOwKHHxrrGb7Ew8k0CJaw85WtWvpw8FevYymR1/sAE8c/fV14kUB32we3tkOA2RSxZxD
+ sXUxleJMcEMgA1eTEEI+AUg6CupqpU9RFjx3PnVN8OiRXvwDy2qRHRmEWQh+cDOsaFLYnD2Jf0oeVw
+ RS53/G607awTAhSQSx11xeR8JVRG4Vbw/sb8i7CSTQVqVi7JnKz8CQF4Hjgw==
 X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
  fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,53 +103,91 @@ Cc: devicetree@vger.kernel.org, Alexandre Mergnat <amergnat@baylibre.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the support of the Startek KD070FHFID015 panel.
-It's a 7-inch TFT LCD display with a resolution of 1024 x 600 pixels.
+The Startek KD070FHFID015 is a 7-inch TFT LCD display with a resolution
+of 1024 x 600 pixels.
 
-This serie come from a bigger one [1]. Then I addressed the previous
-comments for the related commits here.
-
-[1]: https://lore.kernel.org/all/20230220-display-v1-0-45cbc68e188b@baylibre.com/
-
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 ---
-Changes in v2:
-- Replace "dcdc-gpio" by "enable-gpio" because this pin enable the
-  Power IC supply. Also, this property come from panel-common.
-- Remove height-mm and width-mm since they are useless here.
-- Re-order elements in the stk_panel structure for readability.
-- Link to v1: https://lore.kernel.org/r/20230711-startek_display-v1-0-163917bed385@baylibre.com
+ .../display/panel/startek,kd070fhfid015.yaml       | 69 ++++++++++++++++++++++
+ 1 file changed, 69 insertions(+)
 
-Changes in v1:
-- Fix typos in the driver.
-- Merge 2 regulators in one bulk variable in the driver.
-- Remove backlight enable/disable from the driver because it's already
-  managed by the backlight core.
-- Move hardcoded values from function to the generic structure in the
-  driver.
-- Remove unnecessary function (stk_panel_del).
-- Replace some functions by macro to increase the readability.
-- Link to parent serie: [1]
+diff --git a/Documentation/devicetree/bindings/display/panel/startek,kd070fhfid015.yaml b/Documentation/devicetree/bindings/display/panel/startek,kd070fhfid015.yaml
+new file mode 100644
+index 000000000000..d817f998cddc
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/startek,kd070fhfid015.yaml
+@@ -0,0 +1,69 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/startek,kd070fhfid015.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Startek Electronic Technology Co. kd070fhfid015 7 inch TFT LCD panel
++
++maintainers:
++  - Alexandre Mergnat <amergnat@baylibre.com>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    const: startek,kd070fhfid015
++
++  enable-gpios: true
++
++  iovcc-supply:
++    description: Reference to the regulator powering the panel IO pins.
++
++  reg:
++    maxItems: 1
++    description: DSI virtual channel
++
++  reset-gpios: true
++
++  port: true
++
++  power-supply: true
++
++additionalProperties: false
++
++required:
++  - compatible
++  - enable-gpios
++  - iovcc-supply
++  - reg
++  - reset-gpios
++  - port
++  - power-supply
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi0 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "startek,kd070fhfid015";
++            reg = <0>;
++            enable-gpios = <&pio 67 GPIO_ACTIVE_HIGH>;
++            reset-gpios = <&pio 20 GPIO_ACTIVE_HIGH>;
++            iovcc-supply = <&mt6357_vsim1_reg>;
++            power-supply = <&vsys_lcm_reg>;
++
++            port {
++                panel_in: endpoint {
++                    remote-endpoint = <&dsi_out>;
++                };
++            };
++        };
++    };
++
++...
 
----
-Alexandre Mergnat (2):
-      dt-bindings: display: panel: add startek kd070fhfid015 support
-      arm64: defconfig: enable STARTEK KD070FHFID015 panel
-
-Guillaume La Roque (1):
-      drm/panel: Support for startek-kd070fhfid015 MIPI-DSI panel
-
- .../display/panel/startek,kd070fhfid015.yaml       |  69 ++++
- arch/arm64/configs/defconfig                       |   1 +
- drivers/gpu/drm/panel/Kconfig                      |  11 +
- drivers/gpu/drm/panel/Makefile                     |   1 +
- .../gpu/drm/panel/panel-startek-kd070fhfid015.c    | 431 +++++++++++++++++++++
- 5 files changed, 513 insertions(+)
----
-base-commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
-change-id: 20230711-startek_display-958d265f6baa
-
-Best regards,
 -- 
-Alexandre Mergnat <amergnat@baylibre.com>
+2.25.1
 
