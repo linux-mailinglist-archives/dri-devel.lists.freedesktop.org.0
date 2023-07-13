@@ -1,48 +1,124 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2689751DF4
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 11:58:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81A3F751E10
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 12:01:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D658C10E665;
-	Thu, 13 Jul 2023 09:58:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B63710E008;
+	Thu, 13 Jul 2023 10:01:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8BD810E663
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 09:57:57 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 0B14B6600357;
- Thu, 13 Jul 2023 10:57:55 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1689242275;
- bh=OsUnMN6xFiwrV7MDZ1vBbrbeI1v6NYM0LSL5IWTwHcM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=SNQNnZ6fjqW2a8RkQbknz/F5AJEifndAUx3dkB1acOVunO6VwvjbSXZmA+FHrYVrH
- EgBp50wIa4pmmHmSPpzpJD2RrH0ECOAbqhAA9y4lmYyywVQ4y3gR5BCNGb+SMY/Nc7
- NOA30epCygncCV0X+8H5mys+IB3T0Xn29cZ5Whf9Zp67M5LqpbkmuUEJpe9X9sksmA
- GmG/pR151JylpupTiQE46AoBRUIpABhLgg+lrtsyebZz5rdnM4bgepXeO5AvYW0+6U
- pdSI93jTmQdlJg14ArCh32CxU08sdszdwxzqpRtlQuk9t7e2VqynT9fq9OgEwuoehH
- Vn6nnqYOIoXJg==
-Message-ID: <f6d01998-b469-99d3-48ed-0360c9378af5@collabora.com>
-Date: Thu, 13 Jul 2023 11:57:52 +0200
-MIME-Version: 1.0
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+ (mail-db5eur01on2107.outbound.protection.outlook.com [40.107.15.107])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8CDE10E008
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 10:01:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JfFW2yWjrfcvWHvGVoh7HhARgddtBBQ+xmDvKjmx8tu9dn9t26kt+gBHc9Evvyp4jck7G4HReG0su76EhePhn3HHI13x35LbumR4g8IFXQ2OOPT1QGRcX8TPYn2Axtk5NaPO+JR7cZfN+P1108bB3BkB2kLn8tEuixOTdeTO/9U9wupmYaL0psXi5ChFMK8DohvO0LPlhfQcHmJfnUQRKlz34alQZIyS+FIblK4YQcw5gylJbQFbprqBdtnrozP/RfRmLYzCsMJioMVbVPsA0zuAoKJxXAvphXPCpfqRqTyeDUFmvz4rapuhYYRA0dPih37n/R1Xio+x6i9DAT1oNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/gQNij1Sy5mTM5AL6AtSVeP59fnPTxZRhfGHV1rUIJE=;
+ b=Sq7hCwieeeTZIE2NnjEhksxB4zN2wuO2BbZeR9JRnvS9/U8KIRGT9VpXDEzpSWRnOdvqznX1W768L1NyVAtN0QZu6am4twk/AHI7z3RMirBN03ZYzWxQgkp1mlrV+V05lbRyw1JovfOcoc89em3LvdmyiXAPMqmZ2KcQ5TZlWO0oZDD9afpsMPvR8J12VQtRiIe/E/BIsUOwh8e0YZyTej2s5b0e1MT+G0U48TNEaZjCpB3YlZ1YXvcu/xack6HdWyiRcu4XNLPLwp/wCTayX9x2Hdmri6PiMaqg4jybTj3LRdsfxUFsHMjDNZLSyg8kVVVWLmGnwnB4Ngl4PjgZXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
+ dkim=pass header.d=kontron.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com; 
+ s=selector2-mysnt-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/gQNij1Sy5mTM5AL6AtSVeP59fnPTxZRhfGHV1rUIJE=;
+ b=YXzGuqos5iMt89J/du57LIVfJHhdtah8UzWzwYGvO6l+742aV6MHeFtlCWtnbbLH/WhfrJTaT2DOjU8TB+F8+C8WFAttdEyoPR+BfLWpyfOG+KFAygNavthCQf/ERQ69jJDvZ2HKQmzumB3Cevlll0MpEEgygtnA4jx+t6IJ95w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=kontron.de;
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
+ by AS8PR10MB7522.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5ad::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.30; Thu, 13 Jul
+ 2023 10:01:44 +0000
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::1b98:7428:fb6b:3b65]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::1b98:7428:fb6b:3b65%7]) with mapi id 15.20.6588.024; Thu, 13 Jul 2023
+ 10:01:44 +0000
+Content-Type: multipart/mixed; boundary="------------ZmkQ6mz0M1TULVxmkV6e5Nbh"
+Message-ID: <a7e6611a-a147-607c-9df4-9fcc4e2cf397@kontron.de>
+Date: Thu, 13 Jul 2023 12:01:40 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v5 00/10] MediaTek DisplayPort: support eDP and aux-bus
-To: Chen-Yu Tsai <wenst@chromium.org>
-References: <20230713090152.140060-1-angelogioacchino.delregno@collabora.com>
- <CAGXv+5FFO3pDM=2eDscGnRVj34+8t6L02nt7OvPEO_FV8_POVQ@mail.gmail.com>
-Content-Language: en-US
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <CAGXv+5FFO3pDM=2eDscGnRVj34+8t6L02nt7OvPEO_FV8_POVQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 1/2] drm: bridge: samsung-dsim: Fix i.MX8M enable flow
+ to meet spec
+Content-Language: en-US, de-DE
+From: Frieder Schrempf <frieder.schrempf@kontron.de>
+To: Tim Harvey <tharvey@gateworks.com>, Frieder Schrempf <frieder@fris.de>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Adam Ford <aford173@gmail.com>
+References: <20230503163313.2640898-1-frieder@fris.de>
+ <20230503163313.2640898-2-frieder@fris.de>
+ <CAJ+vNU2d969V1kTHpH+tPK1fm=Z2DUdKSOjwyzRO=9j43HhKgg@mail.gmail.com>
+ <5dc55bcf-abec-78cd-74b8-54fa67fd1fb2@kontron.de>
+In-Reply-To: <5dc55bcf-abec-78cd-74b8-54fa67fd1fb2@kontron.de>
+X-ClientProxiedBy: BE1P281CA0202.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:89::18) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:102:263::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|AS8PR10MB7522:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6e30393b-3b12-477a-34af-08db838829b6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1thxvPbUFjiUX1SNkYb/u10cdjS9q9QsYCPVDLHUAW78qfiQgB8zdnB7FIKQoYuYm7KGSI+gqFhYwOC1q8nDPqC8vKEc9Xph8lvJOFhBFDEv+YYiNT3D9EM19sTSXdpDf2Uz35rSZwnmEVxzjjEMfj9zzNSe3qxxDWil+mIfTAa+q4bxijERhZe3Af18uiQXCHTwnW0sJ1R8dbu0dUNBG3p5F3YswLOvb0EU1IkGgv9D4hX7zjL6rw76clrkvd+W9y6znWORR3YdZF/6lR+8Y5c+0wWV0pZg+ghUjZwL5jZBMAc9eCi4fv8kXkHLnHcUq0aDod4bZtJdLy7KzA+1XkjYC4MyaRA9Q5XWy0Xry+Afhjqxz69iBOkNreaVc12lOdO07tmp32dSSuI/PlQnkinH8GZGOhBVjNr2u0k7pb4jNDRp8WgWbFXEdga2k/aXcZEOJrV/37ZLxvZKZyMl6gHK2QiVz/+TYKo7YYP+Ly9AROS+aoI3iFTki8QX61kL9xjAmgMyPzx6OdwJXX07+LQ36Bp95G7HlmkRL7dnrO2vQYF7UhwR/EDodnZnZXC9ipb+Ut1v8C5725t/Hs5RBOLI2LikRsNZ/aESXrU9hbVrdmEDmVtSqPMTDizSG/XrvIB3/b8fXD8Uz7Rnk7Ob4A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(366004)(396003)(376002)(346002)(39860400002)(136003)(451199021)(31696002)(38100700002)(86362001)(31686004)(186003)(36756003)(54906003)(33964004)(110136005)(6486002)(6666004)(966005)(6506007)(26005)(5660300002)(2616005)(53546011)(6512007)(66946007)(66556008)(45080400002)(316002)(44832011)(66476007)(8676002)(7416002)(478600001)(83380400001)(235185007)(8936002)(2906002)(4326008)(41300700001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M0c4Z0FWODZEYjlvWE5JYm1rektTbkxrZjhyd1VYSHl0NUY0WmtKQ0FFenBP?=
+ =?utf-8?B?RkNGSnNiVEtwZ08rYTVaaUg4Y0VRS1RCQmZNQTJtOHgyYi85ek9VaVRqMXl3?=
+ =?utf-8?B?RFBLbkUweFJ4MFFoNEV3QWlsMEpBK2xXWGNuS0RrdWlrditncUd4UDZCZDMx?=
+ =?utf-8?B?bXhiVkdPTFo4T0Y1ajdDSVpUVStBQkNqUkxsaXc1SFk1RTNYbE5mN3JmUXM5?=
+ =?utf-8?B?QlNNYjBBU29ldnRIamJ1c3drd1JGL1B1cEJ1d3ZzRmFtMDdBeXpRMncxVlBp?=
+ =?utf-8?B?WjltWURjdFlBR1pkdGhkYndQNzFSQlBqZ3Q3cGlvdXhPSmtWRXpyRU82SDBx?=
+ =?utf-8?B?bmNqREdJZDhhVVcwTnkxZGVXZHFWeW1tUFVpZk84cjQxalhkR2J6YlZKZW5Q?=
+ =?utf-8?B?NFV1RFMyV3puQ2hGWGJNd3VXVmw0WlRjbmpQUTZEVUl0R2ZPU1dFVmQ5WGZj?=
+ =?utf-8?B?RDZSS0NvaHhZMDYyTFlaNmJ5UEFUTjlialZjQWpYc0RlendLR01Fb2FyaUpj?=
+ =?utf-8?B?STNjZlEvZXRPRFRKWUFEOVhKU1lSVjFPaHdLd3psZFBDUGxSL0czdG1Ybzh0?=
+ =?utf-8?B?WmVRb0szYmZUK0ZQZ3FJZXl4UUZHK3hVSDBVdEZNWXZaQUR3cFU0clZxZVBk?=
+ =?utf-8?B?eDVPUkJvbXNEeG85eDZpWFVJaHVBK2E4anRNb3JJdmphQlhvVXZTS3VGT21m?=
+ =?utf-8?B?QnlCWHRGekhPd0M5ZUVYTmRXNkM2dGNkdjJzTm5aQzgybkN2RGpJWVNkclo0?=
+ =?utf-8?B?WlNDQ25TVWNtaDNLdzdYRGxtNllLNUkxMkZpT2VpZ3I2RDhPNjJQaGkxOXVO?=
+ =?utf-8?B?QU5ScTdXalVYbEJLK0NQb2NDaXc1eEtaMnNIb2V4SXNuTmtxOFh5Y1ZWWFcr?=
+ =?utf-8?B?a3ZvUVRDMDl0KzZ2Nk1FMzNvR28yckFLeWI4ZUxRdE9QRmFJRnJ2Sko5WXVL?=
+ =?utf-8?B?RFdxVlRMV203dkNqVVhGZnpZYWhyTUlNUlVuTm5JaWthK3NGUS8vc3VxNEZu?=
+ =?utf-8?B?eFV1NzdVQ3QzQnVlalp5OHh6S0dCRStMVC9ROXUzUUhvK1BsU0JVSDF2L29S?=
+ =?utf-8?B?N0dQQ2V3S0xHUzBaOWhUM3JLcGFYOWJuQVNGVDc2VFRGdGQzSm9qUXp3SStz?=
+ =?utf-8?B?Q3N0cno5OEp0aktUU2w4cHN1WkJOY1FMbjNYUnAvRG5nSkJUZnFsM1FqdVNi?=
+ =?utf-8?B?RDhCNnk1WVphZGQ3VS9jM1NVSGlpYkVyNEMyd2xoMVRzNkJmdHpqZWtoV1l4?=
+ =?utf-8?B?YURWYTJSV0RJdmIrb21zcFlBenVIYmcvQnVLQjhKcFh1WmVIOFowdmViei9y?=
+ =?utf-8?B?L3Y0WjFwY1JNU3BRazFGR0VUQXZrRWVxMWRTNGV5ejVhMkdRcXVKT1ZuRm40?=
+ =?utf-8?B?VXFaM2laS21BTWtvSWJDVUpFNjR0bDRqbFpOVEI3Zm9MUGpPZ0R2ajdvV0JK?=
+ =?utf-8?B?QjMyZnM1Nll6Q2l2UjJwQzFBdm9RNmY3eU1tc0cyZFZ0SmJxT1h3amJ6MmJR?=
+ =?utf-8?B?ZnJ3VTh1MTlNbHF1TTFuTzFTbHhESXFua09mR3FoTVY4YWI4RFJkcjU2VFAz?=
+ =?utf-8?B?akN2dGlQdEdYT1J4R1VJTlhsMWtnUTZPWXpJMmtxK0JZRUthM09qMTc1T0dh?=
+ =?utf-8?B?RkozMGEzV1p1b3BTSytpQlFHdk5uQzMzYkZTWWNOV0Joc095Z1V2OUlkK1Ar?=
+ =?utf-8?B?SEM4bnpKMXVndlJBTElobHZkWlVKRzhzRjM3aUk3UkQzZGdSbFE5YThjMkM2?=
+ =?utf-8?B?SlJ5V21jMStqYUJuSjBHbjArcGRIb0dVdzg2UVVQMEFvZjFZV09XcFRWNFkx?=
+ =?utf-8?B?dVhodHlBTGh5NVl0YUlXV1R1TmMrQmY0SXgzYTdtQzh6blMxWTZDRlVCeUF1?=
+ =?utf-8?B?MjFaMjlmbEkrSTBleCtuc0ZVRlRhYUJ3RDNoV2xyb0RVSFFTNndXTmcvbktD?=
+ =?utf-8?B?N0ZmUFZzaWZmcEtJMXhXT1J3ampRbG9LbDYzTE9YYUtiYTNUNUR2MmtBSVZT?=
+ =?utf-8?B?bHpvUmUwM250WWk2RjJ0dytlL1RBQ0dEUW8yc3k2dUVyNEd1SlUzdUFTZVVu?=
+ =?utf-8?B?Nm85UEc1UGRHNEVrTzVFbi83TllxTCszWjhTMHE1YlcxQkdXcjZQWVpBZjM3?=
+ =?utf-8?B?M3pKYURPeWRLTkg4KzQ4ak1uL3NTS29lZlA5eHZBWVpjMWRrZ3l1MXluZits?=
+ =?utf-8?B?Y0E9PQ==?=
+X-OriginatorOrg: kontron.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e30393b-3b12-477a-34af-08db838829b6
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2023 10:01:44.3195 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fFRB60DIGbwT3jxkG+PtJp22LkmbK5YItGTUfQB1dhCg1W1VKEqiWCpMLu/gxRlHtOBRlsHqOkDv+N2GBNrIPSIxZJsGNHuxwlqZ56FbJf8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR10MB7522
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,240 +131,263 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, nfraprado@collabora.com,
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- kernel@collabora.com, linux-arm-kernel@lists.infradead.org
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 13/07/23 11:54, Chen-Yu Tsai ha scritto:
-> On Thu, Jul 13, 2023 at 5:01 PM AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com> wrote:
->>
->> Changes in v5:
->>   - Added .wait_hpd_asserted() callback for aux-bus
->>   - Avoid enabling and registering HPD interrupt + handlers for
->>     eDP case only (keeps HPD interrupts enabled for full DP case)
->>   - Support not always-on eDP panels (boot with regulator off,
->>     suspend with regulator off) for power saving in PM suspend.
-> 
-> This still doesn't work when the DRM driver is builtin, and the panel
-> driver is a module. This is still with regulator-always-on.
-> 
->  From what I can tell from the kernel logs, the DRM driver is not waiting
-> for eDP panel to probe (which sort of makes sense?), and simply uses
-> the default EDID. When the panel does probe, nothing triggers the DRM
-> driver to update its connector.
-> 
-> [drm:drm_helper_probe_single_connector_modes] [CONNECTOR:32:eDP-1]
-> [drm:drm_helper_probe_single_connector_modes] [CONNECTOR:32:eDP-1]
-> status updated from unknown to connected
-> [drm:drm_mode_debug_printmodeline] Modeline "640x480": 60 25175 640
-> 656 752 800 480 490 492 525 0x40 0xa
-> [drm:drm_mode_prune_invalid] Not using 640x480 mode: CLOCK_HIGH
-> [drm:drm_mode_debug_printmodeline] Modeline "800x600": 56 36000 800
-> 824 896 1024 600 601 603 625 0x40 0x5
-> [drm:drm_mode_prune_invalid] Not using 800x600 mode: CLOCK_HIGH
-> [drm:drm_mode_debug_printmodeline] Modeline "800x600": 60 40000 800
-> 840 968 1056 600 601 605 628 0x40 0x5
-> [drm:drm_mode_prune_invalid] Not using 800x600 mode: CLOCK_HIGH
-> [drm:drm_mode_debug_printmodeline] Modeline "848x480": 60 33750 848
-> 864 976 1088 480 486 494 517 0x40 0x5
-> [drm:drm_mode_prune_invalid] Not using 848x480 mode: CLOCK_HIGH
-> [drm:drm_mode_debug_printmodeline] Modeline "1024x768": 60 65000 1024
-> 1048 1184 1344 768 771 777 806 0x40 0xa
-> [drm:drm_mode_prune_invalid] Not using 1024x768 mode: CLOCK_HIGH
-> [drm:drm_helper_probe_single_connector_modes] [CONNECTOR:34:DP-1]
-> [drm:drm_helper_probe_single_connector_modes] [CONNECTOR:34:DP-1]
-> status updated from unknown to disconnected
-> [drm:drm_helper_probe_single_connector_modes] [CONNECTOR:34:DP-1] disconnected
-> [drm:drm_client_modeset_probe] No connectors reported connected with modes
-> [drm:drm_client_modeset_probe] connector 32 enabled? yes
-> [drm:drm_client_modeset_probe] connector 34 enabled? no
-> [drm:drm_client_firmware_config.constprop.0.isra.0] Not using firmware
-> configuration
-> [drm:drm_client_modeset_probe] looking for cmdline mode on connector 32
-> [drm:drm_client_modeset_probe] looking for preferred mode on connector 32 0
-> [drm:drm_client_modeset_probe] found mode none
-> [drm:drm_client_modeset_probe] picking CRTCs for 4096x4096 config
-> mediatek-drm mediatek-drm.12.auto:
-> [drm:__drm_fb_helper_initial_config_and_unlock] test CRTC 0 primary
-> plane
-> mediatek-drm mediatek-drm.12.auto: [drm] Cannot find any crtc or sizes
-> mediatek-drm mediatek-drm.12.auto: [drm:drm_dp_dpcd_probe] aux_mtk_dp:
-> 0x00000 AUX -> (ret=  1) 14
-> mediatek-drm mediatek-drm.12.auto: [drm:drm_dp_dpcd_read] aux_mtk_dp:
-> 0x00000 AUX -> (ret= 15) 14 0a 84 41 00 00 01 80 02 00 00 00 0f 09 80
-> mediatek-drm mediatek-drm.12.auto: [drm:drm_dp_dpcd_probe] aux_mtk_dp:
-> 0x00000 AUX -> (ret=  1) 14
-> mediatek-drm mediatek-drm.12.auto: [drm:drm_dp_dpcd_read] aux_mtk_dp:
-> 0x02200 AUX -> (ret= 15) 14 0a 84 41 00 00 01 80 02 00 00 00 0f 01 80
-> mediatek-drm mediatek-drm.12.auto: [drm:drm_dp_read_dpcd_caps]
-> aux_mtk_dp: Base DPCD: 14 0a 84 41 00 00 01 80 02 00 00 00 0f 09 80
-> mediatek-drm mediatek-drm.12.auto: [drm:drm_dp_read_dpcd_caps]
-> aux_mtk_dp: DPCD: 14 0a 84 41 00 00 01 80 02 00 00 00 0f 01 80
-> mediatek-drm mediatek-drm.12.auto: [drm:drm_dp_dpcd_probe] aux_mtk_dp:
-> 0x00000 AUX -> (ret=  1) 14
-> mediatek-drm mediatek-drm.12.auto: [drm:drm_dp_dpcd_read] aux_mtk_dp:
-> 0x00021 AUX -> (ret=  1) 00
-> panel-simple-dp-aux aux-1c500000.edp-tx: Detected BOE NE135FBM-N41 v8.1 (0x095f)
-> 
-> If the panel is also built-in, then the eDP panel probe happens between
-> the drm driver adding components and binding to them, and everything seems
-> to work OK.
-> 
+--------------ZmkQ6mz0M1TULVxmkV6e5Nbh
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Argh. I actually forgot to test that case. Sorry about that.
+Hi Tim,
 
-Anyway, you don't need regulator-always-on anymore, nor regulator-boot-on...
-...I'll recheck with panel-edp as module and fix.
-
-Cheers,
-Angelo
-
+On 13.07.23 09:18, Frieder Schrempf wrote:
+> Hi Tim,
 > 
-> ChenYu
+> On 13.07.23 00:34, Tim Harvey wrote:
+>> On Wed, May 3, 2023 at 9:33 AM Frieder Schrempf <frieder@fris.de> wrote:
+>>>
+>>> From: Frieder Schrempf <frieder.schrempf@kontron.de>
+>>>
+>>> According to the documentation [1] the proper enable flow is:
+>>>
+>>> 1. Enable DSI link and keep data lanes in LP-11 (stop state)
+>>> 2. Disable stop state to bring data lanes into HS mode
+>>>
+>>> Currently we do this all at once within enable(), which doesn't
+>>> allow to meet the requirements of some downstream bridges.
+>>>
+>>> To fix this we now enable the DSI in pre_enable() and force it
+>>> into stop state using the FORCE_STOP_STATE bit in the ESCMODE
+>>> register until enable() is called where we reset the bit.
+>>>
+>>> We currently do this only for i.MX8M as Exynos uses a different
+>>> init flow where samsung_dsim_init() is called from
+>>> samsung_dsim_host_transfer().
+>>>
+>>> [1] https://docs.kernel.org/gpu/drm-kms-helpers.html#mipi-dsi-bridge-operation
+>>>
+>>> Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+>>> ---
+>>> Changes for v2:
+>>> * Drop RFC
+>>> ---
+>>>  drivers/gpu/drm/bridge/samsung-dsim.c | 25 +++++++++++++++++++++++--
+>>>  1 file changed, 23 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+>>> index e0a402a85787..9775779721d9 100644
+>>> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+>>> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+>>> @@ -859,6 +859,10 @@ static int samsung_dsim_init_link(struct samsung_dsim *dsi)
+>>>         reg = samsung_dsim_read(dsi, DSIM_ESCMODE_REG);
+>>>         reg &= ~DSIM_STOP_STATE_CNT_MASK;
+>>>         reg |= DSIM_STOP_STATE_CNT(driver_data->reg_values[STOP_STATE_CNT]);
+>>> +
+>>> +       if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type))
+>>> +               reg |= DSIM_FORCE_STOP_STATE;
+>>> +
+>>>         samsung_dsim_write(dsi, DSIM_ESCMODE_REG, reg);
+>>>
+>>>         reg = DSIM_BTA_TIMEOUT(0xff) | DSIM_LPDR_TIMEOUT(0xffff);
+>>> @@ -1340,6 +1344,9 @@ static void samsung_dsim_atomic_pre_enable(struct drm_bridge *bridge,
+>>>                 ret = samsung_dsim_init(dsi);
+>>>                 if (ret)
+>>>                         return;
+>>> +
+>>> +               samsung_dsim_set_display_mode(dsi);
+>>> +               samsung_dsim_set_display_enable(dsi, true);
+>>>         }
+>>>  }
+>>>
+>>> @@ -1347,9 +1354,16 @@ static void samsung_dsim_atomic_enable(struct drm_bridge *bridge,
+>>>                                        struct drm_bridge_state *old_bridge_state)
+>>>  {
+>>>         struct samsung_dsim *dsi = bridge_to_dsi(bridge);
+>>> +       u32 reg;
+>>>
+>>> -       samsung_dsim_set_display_mode(dsi);
+>>> -       samsung_dsim_set_display_enable(dsi, true);
+>>> +       if (samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type)) {
+>>> +               samsung_dsim_set_display_mode(dsi);
+>>> +               samsung_dsim_set_display_enable(dsi, true);
+>>> +       } else {
+>>> +               reg = samsung_dsim_read(dsi, DSIM_ESCMODE_REG);
+>>> +               reg &= ~DSIM_FORCE_STOP_STATE;
+>>> +               samsung_dsim_write(dsi, DSIM_ESCMODE_REG, reg);
+>>> +       }
+>>>
+>>>         dsi->state |= DSIM_STATE_VIDOUT_AVAILABLE;
+>>>  }
+>>> @@ -1358,10 +1372,17 @@ static void samsung_dsim_atomic_disable(struct drm_bridge *bridge,
+>>>                                         struct drm_bridge_state *old_bridge_state)
+>>>  {
+>>>         struct samsung_dsim *dsi = bridge_to_dsi(bridge);
+>>> +       u32 reg;
+>>>
+>>>         if (!(dsi->state & DSIM_STATE_ENABLED))
+>>>                 return;
+>>>
+>>> +       if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type)) {
+>>> +               reg = samsung_dsim_read(dsi, DSIM_ESCMODE_REG);
+>>> +               reg |= DSIM_FORCE_STOP_STATE;
+>>> +               samsung_dsim_write(dsi, DSIM_ESCMODE_REG, reg);
+>>> +       }
+>>> +
+>>>         dsi->state &= ~DSIM_STATE_VIDOUT_AVAILABLE;
+>>>  }
+>>>
+>>> --
+>>> 2.40.0
+>>>
+>>
+>> Hi Frieder,
+>>
+>> I found this patch to break mipi-dsi display on my board which has:
+>>  - FocalTech FT5406 10pt touch controller (with no interrupt)
+>>  - Powertip PH800480T013-IDF02 compatible panel
+>>  - Toshiba TC358762 compatible DSI to DBI bridge
+>>  - ATTINY based regulator used for backlight controller and panel enable
+>>
+>> I enable this via a dt overlay in a pending patch
+>> imx8mm-venice-gw72xx-0x-rpidsi.dtso [1] which works on 6.4 but not
+>> 6.5-rc1 which has this patch.
+>>
+>> The issue appears as:
+>> [    6.110585] samsung-dsim 32e60000.dsi: xfer timed out: 29 06 00 00
+>> 64 01 05 00 00 00
+>> [    6.326588] tc358762 32e60000.dsi.0: error initializing bridge (-110)
+>>
+>> Instead of
+>> [    1.011729] samsung-dsim 32e10000.dsi: supply vddcore not found,
+>> using dummy regulator
+>> [    1.019829] samsung-dsim 32e10000.dsi: supply vddio not found,
+>> using dummy regulator
+>> [    5.649928] samsung-dsim 32e10000.dsi:
+>> [drm:samsung_dsim_host_attach] Attached tc358762 device
+>>
+>> I'm curious what board/panel were you needing this for and do you have
+>> any ideas why it broke my setup?
+>>
+>> I'm also curious what board/panel Alexander tested this with and if
+>> Adam or Jagan (or others) have tested this with their hardware?
 > 
->> Changes in v4:
->>   - Set data lanes to idle to prevent stalls if bootloader didn't
->>     properly close the eDP port
->>   - Now using the .done_probing() callback for AUX bus to prevent
->>     probe deferral loops in case the panel-edp driver is a module
->>     as previously seen with another bridge driver (ANX7625) on
->>     some other SoCs (MT8192 and others)
->>   - Rebased over next-20230706
->>   - Dropped Chen-Yu's T-b tag on last patch as some logic changed
->>     (before, I wasn't using the .done_probing() callback).
->>
->> Changes in v3:
->>   - Added DPTX AUX block initialization before trying to communicate
->>     to stop relying on the bootloader keeping it initialized before
->>     booting Linux.
->>   - Fixed commit description for patch [09/09] and removed commented
->>     out code (that slipped from dev phase.. sorry!).
->>
->> This series adds "real" support for eDP in the mtk-dp DisplayPort driver.
->>
->> Explaining the "real":
->> Before this change, the DisplayPort driver did support eDP to some
->> extent, but it was treating it entirely like a regular DP interface
->> which is partially fine, after all, embedded DisplayPort *is* actually
->> DisplayPort, but there might be some differences to account for... and
->> this is for both small performance improvements and, more importantly,
->> for correct functionality in some systems.
->>
->> Functionality first:
->>
->> One of the common differences found in various boards implementing eDP
->> and machines using an eDP panel is that many times the HPD line is not
->> connected. This *must* be accounted for: at startup, this specific IP
->> will raise a HPD interrupt (which should maybe be ignored... as it does
->> not appear to be a "real" event...) that will make the eDP panel to be
->> detected and to actually work but, after a suspend-resume cycle, there
->> will be no HPD interrupt (as there's no HPD line in my case!) producing
->> a functionality issue - specifically, the DP Link Training fails because
->> the panel doesn't get powered up, then it stays black and won't work
->> until rebooting the machine (or removing and reinserting the module I
->> think, but I haven't tried that).
->>
->> Now for.. both:
->> eDP panels are *e*DP because they are *not* removable (in the sense that
->> you can't unplug the cable without disassembling the machine, in which
->> case, the machine shall be powered down..!): this (correct) assumption
->> makes us able to solve some issues and to also gain a little performance
->> during PM operations.
->>
->> What was done here is:
->>   - Caching the EDID if the panel is eDP: we're always going to read the
->>     same data everytime, so we can just cache that (as it's small enough)
->>     shortening PM resume times for the eDP driver instance;
->>   - Always return connector_status_connected if it's eDP: non-removable
->>     means connector_status_disconnected can't happen during runtime...
->>     this also saves us some time and even power, as we won't have to
->>     perform yet another power cycle of the HW;
->>   - Added aux-bus support!
->>     This makes us able to rely on panel autodetection from the EDID,
->>     avoiding to add more and more panel timings to panel-edp and, even
->>     better, allowing to use one panel node in devicetrees for multiple
->>     variants of the same machine since, at that point, it's not important
->>     to "preventively know" what panel we have (eh, it's autodetected...!).
->>
->> This was tested on a MT8195 Cherry Tomato Chromebook (panel-edp on aux-bus)
->>
->>
->> P.S.: For your own testing commodity, here's a reference devicetree:
->>
->> pp3300_disp_x: regulator-pp3300-disp-x {
->>          compatible = "regulator-fixed";
->>          regulator-name = "pp3300_disp_x";
->>          regulator-min-microvolt = <3300000>;
->>          regulator-max-microvolt = <3300000>;
->>          enable-active-high;
->>          gpio = <&pio 55 GPIO_ACTIVE_HIGH>;
->>          pinctrl-names = "default";
->>          pinctrl-0 = <&panel_fixed_pins>;
->> };
->>
->> &edp_tx {
->>          status = "okay";
->>
->>          pinctrl-names = "default";
->>          pinctrl-0 = <&edptx_pins_default>;
->>
->>          ports {
->>                  #address-cells = <1>;
->>                  #size-cells = <0>;
->>
->>                  port@0 {
->>                          reg = <0>;
->>                          edp_in: endpoint {
->>                                  remote-endpoint = <&dp_intf0_out>;
->>                          };
->>                  };
->>
->>                  port@1 {
->>                          reg = <1>;
->>                          edp_out: endpoint {
->>                                  data-lanes = <0 1 2 3>;
->>                                  remote-endpoint = <&panel_in>;
->>                          };
->>                  };
->>          };
->>
->>          aux-bus {
->>                  panel: panel {
->>                          compatible = "edp-panel";
->>                          power-supply = <&pp3300_disp_x>;
->>                          backlight = <&backlight_lcd0>;
->>                          port {
->>                                  panel_in: endpoint {
->>                                          remote-endpoint = <&edp_out>;
->>                                  };
->>                          };
->>                  };
->>          };
->> };
->>
->> AngeloGioacchino Del Regno (10):
->>    drm/mediatek: dp: Move AUX and panel poweron/off sequence to function
->>    drm/mediatek: dp: Change logging to dev for mtk_dp_aux_transfer()
->>    drm/mediatek: dp: Use devm variant of drm_bridge_add()
->>    drm/mediatek: dp: Move AUX_P0 setting to
->>      mtk_dp_initialize_aux_settings()
->>    drm/mediatek: dp: Enable event interrupt only when bridge attached
->>    drm/mediatek: dp: Avoid mutex locks if audio is not supported/enabled
->>    drm/mediatek: dp: Move PHY registration to new function
->>    drm/mediatek: dp: Add support for embedded DisplayPort aux-bus
->>    drm/mediatek: dp: Add .wait_hpd_asserted() for AUX bus
->>    drm/mediatek: dp: Don't register HPD interrupt handler for eDP case
->>
->>   drivers/gpu/drm/mediatek/Kconfig  |   1 +
->>   drivers/gpu/drm/mediatek/mtk_dp.c | 335 ++++++++++++++++++++----------
->>   2 files changed, 224 insertions(+), 112 deletions(-)
->>
->> --
->> 2.40.1
->>
+> Sorry for breaking your setup. My test- and use-case is the same as
+> Alexander's. I have the SN65DSI84 downstream bridge and without this
+> patch it fails to come up in some cases.
 > 
+> The failure is probably related to your downstream bridge being
+> controlled by the DSI itself using command mode. The SN65DSI84 is
+> instead controlled via I2C.
+> 
+> Actually we should have tested this with a bridge that uses command mode
+> before merging, now that I think of it. But I wasn't really aware of
+> this until now.
+> 
+> I'll have a closer look at the issue and then will get back to you. In
+> the meantime if anyone can help analyze the problem or has proposals how
+> to fix it, please let us know.
 
+With my patch samsung_dsim_init() now initializes the DSIM to stop
+state. When being called from samsung_dsim_atomic_pre_enable() this
+works as the stop state is cleared later in samsung_dsim_atomic_enable().
+
+When being called from samsung_dsim_host_transfer() to handle transfers
+before samsung_dsim_atomic_pre_enable() was called, the stop state is
+never cleared and transfers will fail.
+
+This is the case in your setup as tc358762_init() is called in
+tc358762_pre_enable().
+
+I think that requiring to initialize the DSI host during transfer could
+be avoided in this case by moving tc358762_init() from
+tc358762_pre_enable() to tc358762_enable().
+
+But at the same time according to the docs at [1] this seems to be a
+valid case that we need to support in the DSIM driver:
+
+  Whilst it is valid to call host_transfer prior to pre_enable or
+  after post_disable, the exact state of the lanes is undefined at
+  this point. The DSI host should initialise the interface, transmit
+  the data, and then disable the interface again.
+
+Therefore I would propose to try a fix like in the attachement. If you
+could test this, that would be great.
+
+Thanks
+Frieder
+
+[1]
+https://docs.kernel.org/gpu/drm-kms-helpers.html#mipi-dsi-bridge-operation
+--------------ZmkQ6mz0M1TULVxmkV6e5Nbh
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-drm-bridge-samsung-dsim-Fix-init-during-host-transfe.patch"
+Content-Disposition: attachment;
+ filename*0="0001-drm-bridge-samsung-dsim-Fix-init-during-host-transfe.pa";
+ filename*1="tch"
+Content-Transfer-Encoding: base64
+
+RnJvbSA3NzBlNDc2MzI1NWJhNWJmMDg2YWU3YjAxNDMzMDY1MWUwMDdiY2I3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBGcmllZGVyIFNjaHJlbXBmIDxmcmllZGVyLnNjaHJlbXBmQGtv
+bnRyb24uZGU+CkRhdGU6IFRodSwgMTMgSnVsIDIwMjMgMTE6NDc6NDcgKzAyMDAKU3ViamVjdDog
+W1BBVENIXSBkcm06IGJyaWRnZTogc2Ftc3VuZy1kc2ltOiBGaXggaW5pdCBkdXJpbmcgaG9zdCB0
+cmFuc2ZlcgoKSW4gY2FzZSB0aGUgZG93bnN0cmVhbSBicmlkZ2Ugb3IgcGFuZWwgdXNlcyBEU0kg
+dHJhbnNmZXJzIGJlZm9yZSB0aGUKRFNJIGhvc3Qgd2FzIGFjdHVhbGx5IGluaXRpYWxpemVkIHRo
+cm91Z2ggc2Ftc3VuZ19kc2ltX2F0b21pY19lbmFibGUoKQp3aGljaCBjbGVhcnMgdGhlIHN0b3Ag
+c3RhdGUgKExQMTEpIG1vZGUsIGFsbCB0cmFuc2ZlcnMgd2lsbCBmYWlsLgoKVGhpcyBoYXBwZW5z
+IHdpdGggZG93bnN0cmVhbSBicmlkZ2VzIHRoYXQgYXJlIGNvbnRyb2xsZWQgYnkgRFNJCmNvbW1h
+bmRzIHN1Y2ggYXMgdGhlIHRjMzU4NzYyLgoKVG8gZml4IHRoaXMgZG8gbm90IGVuYWJsZSBzdG9w
+IHN0YXRlIHdoZW4gdGhlIERTSSBob3N0IHdhcyBpbml0aWFsaXplZAp0aHJvdWdoIHNhbXN1bmdf
+ZHNpbV9ob3N0X3RyYW5zZmVyKCkgd2hpY2ggcmVzdG9yZXMgdGhlIHByZXZpb3VzCmJlaGF2aW9y
+LgoKRml4ZXM6IDBjMTRkMzEzMDY1NCAoImRybTogYnJpZGdlOiBzYW1zdW5nLWRzaW06IEZpeCBp
+Lk1YOE0gZW5hYmxlIGZsb3cgdG8gbWVldCBzcGVjIikKUmVwb3J0ZWQtYnk6IFRpbSBIYXJ2ZXkg
+PHRoYXJ2ZXlAZ2F0ZXdvcmtzLmNvbT4KU2lnbmVkLW9mZi1ieTogRnJpZWRlciBTY2hyZW1wZiA8
+ZnJpZWRlci5zY2hyZW1wZkBrb250cm9uLmRlPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2Uv
+c2Ftc3VuZy1kc2ltLmMgfCAxMiArKysrKystLS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2Vy
+dGlvbnMoKyksIDYgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2Jy
+aWRnZS9zYW1zdW5nLWRzaW0uYyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc2Ftc3VuZy1kc2lt
+LmMKaW5kZXggMDQzYjgxMDllNjRhLi40ZDM3MWVhYTRmYTIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS9icmlkZ2Uvc2Ftc3VuZy1kc2ltLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRn
+ZS9zYW1zdW5nLWRzaW0uYwpAQCAtODMzLDcgKzgzMyw3IEBAIHN0YXRpYyB2b2lkIHNhbXN1bmdf
+ZHNpbV9lbmFibGVfbGFuZShzdHJ1Y3Qgc2Ftc3VuZ19kc2ltICpkc2ksIHUzMiBsYW5lKQogCXNh
+bXN1bmdfZHNpbV93cml0ZShkc2ksIERTSU1fQ09ORklHX1JFRywgcmVnKTsKIH0KIAotc3RhdGlj
+IGludCBzYW1zdW5nX2RzaW1faW5pdF9saW5rKHN0cnVjdCBzYW1zdW5nX2RzaW0gKmRzaSkKK3N0
+YXRpYyBpbnQgc2Ftc3VuZ19kc2ltX2luaXRfbGluayhzdHJ1Y3Qgc2Ftc3VuZ19kc2ltICpkc2ks
+IGJvb2wgZm9yY2Vfc3RvcF9zdGF0ZSkKIHsKIAljb25zdCBzdHJ1Y3Qgc2Ftc3VuZ19kc2ltX2Ry
+aXZlcl9kYXRhICpkcml2ZXJfZGF0YSA9IGRzaS0+ZHJpdmVyX2RhdGE7CiAJaW50IHRpbWVvdXQ7
+CkBAIC05MzksNyArOTM5LDcgQEAgc3RhdGljIGludCBzYW1zdW5nX2RzaW1faW5pdF9saW5rKHN0
+cnVjdCBzYW1zdW5nX2RzaW0gKmRzaSkKIAlyZWcgJj0gfkRTSU1fU1RPUF9TVEFURV9DTlRfTUFT
+SzsKIAlyZWcgfD0gRFNJTV9TVE9QX1NUQVRFX0NOVChkcml2ZXJfZGF0YS0+cmVnX3ZhbHVlc1tT
+VE9QX1NUQVRFX0NOVF0pOwogCi0JaWYgKCFzYW1zdW5nX2RzaW1faHdfaXNfZXh5bm9zKGRzaS0+
+cGxhdF9kYXRhLT5od190eXBlKSkKKwlpZiAoIXNhbXN1bmdfZHNpbV9od19pc19leHlub3MoZHNp
+LT5wbGF0X2RhdGEtPmh3X3R5cGUpICYmIGZvcmNlX3N0b3Bfc3RhdGUpCiAJCXJlZyB8PSBEU0lN
+X0ZPUkNFX1NUT1BfU1RBVEU7CiAKIAlzYW1zdW5nX2RzaW1fd3JpdGUoZHNpLCBEU0lNX0VTQ01P
+REVfUkVHLCByZWcpOwpAQCAtMTM4Niw3ICsxMzg2LDcgQEAgc3RhdGljIHZvaWQgc2Ftc3VuZ19k
+c2ltX2Rpc2FibGVfaXJxKHN0cnVjdCBzYW1zdW5nX2RzaW0gKmRzaSkKIAlkaXNhYmxlX2lycShk
+c2ktPmlycSk7CiB9CiAKLXN0YXRpYyBpbnQgc2Ftc3VuZ19kc2ltX2luaXQoc3RydWN0IHNhbXN1
+bmdfZHNpbSAqZHNpKQorc3RhdGljIGludCBzYW1zdW5nX2RzaW1faW5pdChzdHJ1Y3Qgc2Ftc3Vu
+Z19kc2ltICpkc2ksIGJvb2wgZm9yY2Vfc3RvcF9zdGF0ZSkKIHsKIAljb25zdCBzdHJ1Y3Qgc2Ft
+c3VuZ19kc2ltX2RyaXZlcl9kYXRhICpkcml2ZXJfZGF0YSA9IGRzaS0+ZHJpdmVyX2RhdGE7CiAK
+QEAgLTE0MDMsNyArMTQwMyw3IEBAIHN0YXRpYyBpbnQgc2Ftc3VuZ19kc2ltX2luaXQoc3RydWN0
+IHNhbXN1bmdfZHNpbSAqZHNpKQogCWlmIChkcml2ZXJfZGF0YS0+d2FpdF9mb3JfcmVzZXQpCiAJ
+CXNhbXN1bmdfZHNpbV93YWl0X2Zvcl9yZXNldChkc2kpOwogCXNhbXN1bmdfZHNpbV9zZXRfcGh5
+X2N0cmwoZHNpKTsKLQlzYW1zdW5nX2RzaW1faW5pdF9saW5rKGRzaSk7CisJc2Ftc3VuZ19kc2lt
+X2luaXRfbGluayhkc2ksIGZvcmNlX3N0b3Bfc3RhdGUpOwogCiAJZHNpLT5zdGF0ZSB8PSBEU0lN
+X1NUQVRFX0lOSVRJQUxJWkVEOwogCkBAIC0xNDMyLDcgKzE0MzIsNyBAQCBzdGF0aWMgdm9pZCBz
+YW1zdW5nX2RzaW1fYXRvbWljX3ByZV9lbmFibGUoc3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZSwK
+IAkgKiB0aGUgaG9zdCBpbml0aWFsaXphdGlvbiBkdXJpbmcgRFNJIHRyYW5zZmVyLgogCSAqLwog
+CWlmICghc2Ftc3VuZ19kc2ltX2h3X2lzX2V4eW5vcyhkc2ktPnBsYXRfZGF0YS0+aHdfdHlwZSkp
+IHsKLQkJcmV0ID0gc2Ftc3VuZ19kc2ltX2luaXQoZHNpKTsKKwkJcmV0ID0gc2Ftc3VuZ19kc2lt
+X2luaXQoZHNpLCB0cnVlKTsKIAkJaWYgKHJldCkKIAkJCXJldHVybjsKIApAQCAtMTc3MSw3ICsx
+NzcxLDcgQEAgc3RhdGljIHNzaXplX3Qgc2Ftc3VuZ19kc2ltX2hvc3RfdHJhbnNmZXIoc3RydWN0
+IG1pcGlfZHNpX2hvc3QgKmhvc3QsCiAJaWYgKCEoZHNpLT5zdGF0ZSAmIERTSU1fU1RBVEVfRU5B
+QkxFRCkpCiAJCXJldHVybiAtRUlOVkFMOwogCi0JcmV0ID0gc2Ftc3VuZ19kc2ltX2luaXQoZHNp
+KTsKKwlyZXQgPSBzYW1zdW5nX2RzaW1faW5pdChkc2ksIGZhbHNlKTsKIAlpZiAocmV0KQogCQly
+ZXR1cm4gcmV0OwogCi0tIAoyLjQxLjAKCg==
+
+--------------ZmkQ6mz0M1TULVxmkV6e5Nbh--
