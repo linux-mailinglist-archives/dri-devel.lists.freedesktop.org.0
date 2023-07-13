@@ -1,41 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF286751B67
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 10:23:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8FC7751B69
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 10:23:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBF7410E171;
-	Thu, 13 Jul 2023 08:23:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8F0410E179;
+	Thu, 13 Jul 2023 08:23:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A87810E171
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 08:23:09 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D76A610E179
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 08:23:20 +0000 (UTC)
 Received: from eldfell (unknown [194.136.85.206])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested) (Authenticated sender: pq)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 87AE36607044;
- Thu, 13 Jul 2023 09:23:07 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id D00CC6607044;
+ Thu, 13 Jul 2023 09:23:18 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1689236587;
- bh=e51I9tKEEgnLq1idN6LKZn85wZU/KdvFqtw7LfwYbYU=;
+ s=mail; t=1689236599;
+ bh=Hdp/JGNy8f78js2uvbf0SmhsyjnwXDt1/ntdYSzEihM=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=VDNM9zYoZJPBLUB3nQJX/Gu90Lh8J2pX19seIbcUjEqcCUMrBRomkRuk8owDTahJ/
- DZcvdWCPw0WeP/lLjw4lkXd1NBA1azdRfry9phT81tAhSJnc74j29iowgCHfGL9yDE
- 3hwqdl6HsHObrBDCEzD9MIlEnpplsdQ1iyxZ1ofjWmFXC/9OvUFfbip/cz+wHcpmGY
- YzL/zpcUn1QN0myVQZGJKrmM0/GD3RDx1oUCYv54FAOm5v3lShOb21pxaqBS4EReWR
- alqRFohQIVkpNsYfGrvtNxAnXwY70r/m4woUHwQZDVccFHo8ePtCtbSJ5Zi0P0ItlR
- K8uEtfYBnWgkA==
-Date: Thu, 13 Jul 2023 11:23:04 +0300
+ b=S82dr4LwDR4LarziwBgO3XvO3dYVjr/lrDjTZJyfjqfFEDPnFRVqTHGlzvLjBDITZ
+ WcTOrUYFsJUyiy7ltz3tDQOvWKxYR/UeLDBzMAQiaurpK65RozD0rDEtlgHus3VcjB
+ GyFIJJQiGXJNQnzXRz3zT/ZQy4hdiRJdmW7Gmh9Qm/ZQeItic0reVI5vPk4vkxFQgj
+ YgdAO7BPEHRbsrKbLi2s1TX3XxrDsmNYLb74NvQj78X8psIIQzew2aGiTyhseds8J/
+ G3KS2OevqJJSnXPWvd8qpnWaohniBkM59g8cRsJAJK9uXcMk+87y5JqK7xxO6VbHj2
+ J0xw4WZDg+Nzg==
+Date: Thu, 13 Jul 2023 11:23:16 +0300
 From: Pekka Paalanen <pekka.paalanen@collabora.com>
 To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH 1/4] drm/doc: use cross-references for macros
-Message-ID: <20230713112304.5ecac194.pekka.paalanen@collabora.com>
-In-Reply-To: <20230712135723.173506-1-contact@emersion.fr>
+Subject: Re: [PATCH 2/4] drm/doc: document interactions between
+ PAGE_FLIP_EVENT and atomic
+Message-ID: <20230713112316.785fb897.pekka.paalanen@collabora.com>
+In-Reply-To: <20230712135723.173506-2-contact@emersion.fr>
 References: <20230712135723.173506-1-contact@emersion.fr>
+ <20230712135723.173506-2-contact@emersion.fr>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -56,55 +57,49 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 12 Jul 2023 13:57:26 +0000
+On Wed, 12 Jul 2023 13:57:28 +0000
 Simon Ser <contact@emersion.fr> wrote:
 
-> These will show up as monospace, and will get linkified as soon as
-> we document the macro they point to.
+> Explain which CRTCs get an event, and uAPI requirements.
 > 
 > Signed-off-by: Simon Ser <contact@emersion.fr>
 > Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
 > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 > ---
->  Documentation/gpu/drm-uapi.rst | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  include/uapi/drm/drm_mode.h | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-> index 65fb3036a580..f2fe6e8bd018 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -450,12 +450,12 @@ VBlank event handling
->  
->  The DRM core exposes two vertical blank related ioctls:
->  
-> -DRM_IOCTL_WAIT_VBLANK
-> +:c:macro:`DRM_IOCTL_WAIT_VBLANK`
->      This takes a struct drm_wait_vblank structure as its argument, and
->      it is used to block or request a signal when a specified vblank
->      event occurs.
->  
-> -DRM_IOCTL_MODESET_CTL
-> +:c:macro:`DRM_IOCTL_MODESET_CTL`
->      This was only used for user-mode-settind drivers around modesetting
->      changes to allow the kernel to update the vblank interrupt after
->      mode setting, since on many devices the vertical blank counter is
-> @@ -478,8 +478,8 @@ The index is used in cases where a densely packed identifier for a CRTC is
->  needed, for instance a bitmask of CRTC's. The member possible_crtcs of struct
->  drm_mode_get_plane is an example.
->  
-> -DRM_IOCTL_MODE_GETRESOURCES populates a structure with an array of CRTC ID's,
-> -and the CRTC index is its position in this array.
-> +:c:macro:`DRM_IOCTL_MODE_GETRESOURCES` populates a structure with an array of
-> +CRTC ID's, and the CRTC index is its position in this array.
->  
->  .. kernel-doc:: include/uapi/drm/drm.h
->     :internal:
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index 92d96a2b6763..c32b171c0ba7 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -946,6 +946,10 @@ struct hdr_output_metadata {
+>   * Request that the kernel sends back a vblank event (see
+>   * struct drm_event_vblank) with the &DRM_EVENT_FLIP_COMPLETE type when the
+>   * page-flip is done.
+> + *
+> + * When used with the atomic uAPI, vblank events will be sent for every CRTC
+> + * included in the commit. At least one CRTC must be included, and all included
+> + * CRTCs must be turned on.
+>   */
+>  #define DRM_MODE_PAGE_FLIP_EVENT 0x01
+>  /**
 
-An excellent idea, and the syntax doesn't look obviously incorrect to
-me, so
+What about interactions with DRM_CAP_CRTC_IN_VBLANK_EVENT?
 
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+Is there one event per CRTC even without the cap? And in that case
+userspace cannot see which CRTC an event is for, but it must wait for
+the correct number of events to be sure each one completed? Which is
+horribly fragile, so maybe we should recommend to not even try without
+the cap?
+
+FWIW, Weston does not use atomic without the cap, so I can't peek there.
+
+What does "including a CRTC in a commit" mean? I think a CRTC is
+included if the commit touches any plane on the CRTC, but there is no
+need to touch any CRTC property to have the CRTC included, right?
+Touching connector properties pulls in the CRTC as well?
 
 
-Thanks
+Thanks,
 pq
