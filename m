@@ -2,62 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0CC7751B96
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 10:32:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52972751BA6
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 10:34:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7268710E076;
-	Thu, 13 Jul 2023 08:32:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7785710E5F8;
+	Thu, 13 Jul 2023 08:34:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org
- [IPv6:2001:67c:2050:0:465::101])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2EE610E076
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 08:32:36 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4R1nsr0lp2z9sm6;
- Thu, 13 Jul 2023 10:32:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1689237152;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5GWXIo1zGpGc4+YQk1kYAX7K6AyUcAr0eMfBfBgGWgg=;
- b=JWiGSY3YxfS+odkmrIJzydErdjrXvQsU+qz/riosP0bEY+b3OGuaKdegYdCY0QIWxhMe25
- J66wAgScl+A0jLtsaQU3hWY2Ob4K/UU2ueMEJQena1P+D/nwC7CcjGXwl2yVRrKF8OrQJX
- i2Ebmd9l/mucyqJAWJTRbhPCkk3M5dVZVqy6Kkf6t0h6SuUAln64HWGXjRxBTN05lL3SwG
- d9GYwQrcCW6y0dBaN/8RQOIGfNVktgCerD6++qe+TyZ8ulEWNh5XfbFvuktSL5hLGHOyHz
- 6wXrvYSVzOg9pn4xKEMfyvNb+ms3r4j0otWIlcWBAUbJxInyX8OFqgpEwqPPkA==
-Message-ID: <36e04e4c-c2ac-64cf-9503-ea43a29b66d0@mailbox.org>
-Date: Thu, 13 Jul 2023 10:32:27 +0200
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com
+ [IPv6:2607:f8b0:4864:20::d2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 886BA10E5F8
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 08:34:53 +0000 (UTC)
+Received: by mail-io1-xd2f.google.com with SMTP id
+ ca18e2360f4ac-78362f57500so13207039f.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 01:34:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1689237292; x=1691829292;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=SyEkQpgIXNpGAjYikyKRrMbeGwRnjSnhMc5RNVKg7IY=;
+ b=SuN0gI3WYHAX8shoQNwqeFprlVQ8IlcjG4+vVg3/k+WlhXvoKWl8Oyqp7BzSja8Ovm
+ rflXUmOOO+A+Cbj3R1HjaMCxbrjQP8ZDFsfHR2jV5q3MQTS/n1V0JUV4KbPwR7GEzZZE
+ mzHZd9R7IuWNDglILxglP65SjFO31Vrc0dfrU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689237292; x=1691829292;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=SyEkQpgIXNpGAjYikyKRrMbeGwRnjSnhMc5RNVKg7IY=;
+ b=LwORn8uiWDWSPLqmhyRkBdeogRaqxq38gJI5/kXEBluGJ51STQgYKuHcAxKTZ2TMrQ
+ tmLwnuHg/8nGmCiA+21w1bZBe+DhVlo5lkzryPoWJ/pf5X+QpYn4Yky88fuGWde7nGv2
+ X58YBe8A+J7+6+oHhJXAPNZxx2Yjoytlv8eqqnC6+s5zPdWvBEpTcVTvIkzk8XRDMVF8
+ eLNJ/Hl2IHsGhBmd/IMSFbYk8ZAPWP0QFpzsMx+yzsFDh2xgwXHE1ggwmDKmUMJjuvY0
+ 57igDuVMzruyWdcvH2wYZFDB0fgYMZ/lCNfdhYshW5MuAtsJ+tKGJBOb62FiT9dWeg5u
+ G+SA==
+X-Gm-Message-State: ABy/qLa5yQUwnWPinbTRXBfbmfa3LO4LFZHJQmJYQCRcK0gLsjVCzgqV
+ IpcR8Fm7w+mkzWwFibuM0HKVYW6cCy64Tv1La5g=
+X-Google-Smtp-Source: APBJJlHr8CeI1isYTRQT3akjUPfUUaqQPAk902ODeTrey+kQG/xchNyuIQpPDHAoK+JvZA7SWtZbNQ==
+X-Received: by 2002:a05:6602:1c4:b0:784:e618:e6cd with SMTP id
+ w4-20020a05660201c400b00784e618e6cdmr1282946iot.20.1689237292491; 
+ Thu, 13 Jul 2023 01:34:52 -0700 (PDT)
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com.
+ [209.85.166.41]) by smtp.gmail.com with ESMTPSA id
+ t9-20020a02ab89000000b0042af7792d7dsm1682877jan.97.2023.07.13.01.34.51
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 Jul 2023 01:34:51 -0700 (PDT)
+Received: by mail-io1-f41.google.com with SMTP id
+ ca18e2360f4ac-7836164a08aso13443839f.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 01:34:51 -0700 (PDT)
+X-Received: by 2002:a5e:c918:0:b0:786:f10e:a473 with SMTP id
+ z24-20020a5ec918000000b00786f10ea473mr1591076iol.16.1689237291411; Thu, 13
+ Jul 2023 01:34:51 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/ast: Fix default resolution when no monitor is
- connected on DP
-Content-Language: en-CA
-To: Jocelyn Falempe <jfalempe@redhat.com>,
- Sui Jingfeng <suijingfeng@loongson.cn>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jani Nikula <jani.nikula@linux.intel.com>, airlied@redhat.com,
- kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com
-References: <20230623094639.434293-1-jfalempe@redhat.com>
- <878rbv20dp.fsf@intel.com> <13e35996-914d-37a6-1697-ac0c3c75cad1@redhat.com>
- <ed075f2f-861d-74d1-efc0-5baa2cd601fd@redhat.com>
- <43d12606-9c81-99f8-f13c-14338fcd7a28@suse.de>
- <f4b4ab09-5f03-af3c-0e7f-44a248678be8@redhat.com>
- <23d80964-d2d0-b688-e3cd-bf25a8135e5e@redhat.com>
- <81c57344-289d-fe41-8518-503249ea8d64@suse.de>
- <3fc768f8-9461-c4b0-b9af-555c52294c94@redhat.com>
- <2fb391e2-9f68-26f0-e005-a7f0f4324adc@loongson.cn>
- <b56afc8a-5fda-3227-3ac0-5e7b7773976b@redhat.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
-In-Reply-To: <b56afc8a-5fda-3227-3ac0-5e7b7773976b@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: zbm97m3no5uo9yma7o9p93p3eqoijops
-X-MBO-RS-ID: dbbab6b4a768849b649
+References: <20230412115250.164899-1-angelogioacchino.delregno@collabora.com>
+ <20230412115250.164899-5-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230412115250.164899-5-angelogioacchino.delregno@collabora.com>
+From: Fei Shao <fshao@chromium.org>
+Date: Thu, 13 Jul 2023 16:34:15 +0800
+X-Gmail-Original-Message-ID: <CAC=S1ngkoQJKi6AozAOQY1WKvMhMrgKfA8S7MdbqmzSD5rRmdw@mail.gmail.com>
+Message-ID: <CAC=S1ngkoQJKi6AozAOQY1WKvMhMrgKfA8S7MdbqmzSD5rRmdw@mail.gmail.com>
+Subject: Re: [PATCH 4/4] drm/mediatek: mtk_dpi: Use
+ devm_platform_get_and_ioremap_resource()
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,24 +80,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: chunkuang.hu@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ matthias.bgg@gmail.com, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/12/23 17:25, Jocelyn Falempe wrote:
-> On 12/07/2023 17:05, Sui Jingfeng wrote:
->> On 2023/7/10 16:07, Jocelyn Falempe wrote:
->>
->>> On the other hand, are there any drawback to present a BMC connector even when the hardware doesn't have it ?
->>
->> If not properly setting up, I think you will create two encoder and two connector in the system.
-> 
-> Yes, but I think it won't have any visible effect for the end-user.
+Hi Angelo,
 
-I'm afraid user-space display servers would waste effort producing content for a non-existing BMC (assuming its connector status is connected or unknown).
+On Wed, Apr 12, 2023 at 7:53=E2=80=AFPM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> Instead of the open-coded platform_get_resource, devm_ioremap_resource
+> switch to devm_platform_get_and_ioremap_resource(), doing exactly the
+> same.
+>
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
+abora.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_dpi.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediate=
+k/mtk_dpi.c
+> index 9025111013d3..45535dc7970f 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> @@ -1038,8 +1038,7 @@ static int mtk_dpi_probe(struct platform_device *pd=
+ev)
+>                         dev_dbg(&pdev->dev, "Cannot find pinctrl active!\=
+n");
+>                 }
+>         }
+> -       mem =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> -       dpi->regs =3D devm_ioremap_resource(dev, mem);
+> +       dpi->regs =3D devm_platform_get_and_ioremap_resource(pdev, 0, &me=
+m);
 
+"mem" appears to be unused elsewhere, so I assume
+devm_platform_ioremap_resource() would be a better fit.
 
--- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
+Regards,
+Fei
 
+>         if (IS_ERR(dpi->regs))
+>                 return dev_err_probe(dev, PTR_ERR(dpi->regs),
+>                                      "Failed to ioremap mem resource\n");
+> --
+> 2.40.0
+>
+>
