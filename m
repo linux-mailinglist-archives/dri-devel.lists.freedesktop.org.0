@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59480752923
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 18:52:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63DA2752925
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 18:53:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0CB710E712;
-	Thu, 13 Jul 2023 16:52:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 634F310E71B;
+	Thu, 13 Jul 2023 16:52:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com
- [IPv6:2001:4860:4864:20::2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37AFD10E70E
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 16:52:48 +0000 (UTC)
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-1b0156a1c49so713380fac.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 09:52:48 -0700 (PDT)
+Received: from mail-il1-x133.google.com (mail-il1-x133.google.com
+ [IPv6:2607:f8b0:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F237A10E717
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 16:52:54 +0000 (UTC)
+Received: by mail-il1-x133.google.com with SMTP id
+ e9e14a558f8ab-34642952736so3906915ab.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 09:52:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689267167; x=1691859167;
- h=content-transfer-encoding:author:mime-version:message-id:date
- :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=/TQQu9i4zVTx/pAbl1XLa7p043pJkUqA0em0AaQVe1Q=;
- b=EOJTZVfBLXbJ+tgLJUJRaAhYQO95hGodf9yyM3ZyJmDrHCRlhC2xTABoIUd+3Cl1Yo
- XO6MFz+wN+mKMs6tq2jcRQ64XxumnSH7k9awmG8P4d7raV506yyFNuk+QzDmoxlG7chk
- Xm8c4ZN86UiZ92TA62A3E7CqOGXkzsg58hlso09jztugiWJsrZlajfgdFEImk3AudVEl
- cx4jXLpbjX+rbI6inQvzyxatK+J3NV0dtyEMl2rdalG0LM16oQKztrzu1e9wqiv4IAZx
- OywlZGqh1gyC+BOajdMLtm5QuJcdzMOffKpKItqBLM8fiPpYEPx/vCTS+0PA28sPaCRn
- hNEA==
+ d=linaro.org; s=google; t=1689267174; x=1691859174;
+ h=content-transfer-encoding:author:mime-version:references
+ :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=dcIGYFaQfGqSRzz1TR43A9wAS36o64Mm47YNW9KhJGo=;
+ b=rNKbM43IVbuLmaY5vpRk95N0ouqDf122oy6vp3z+XqzqJdSqzEJE49uA/+LAlaTvzC
+ va80pws1oE2LFizrEocPk3POxluC+DsEHwwhMXkn9kZxztlmon0JerXhq+Rv985t9dfJ
+ izZengGZk7DseJjSpHjHc9HrswDXf08dRy2VywcwJF8q6Qj2EP66+D0f8kQxk+lCznmY
+ Kon7SzME/qoenAAUA7B2HPEHQj2HTWWhYlvOOD1kqMp2ld4hf+6qAnnpwzEdHgCNCd1Z
+ Vr0lmId459CUK8susiATSTB9UXoPJ9XogCq9WhynQ50c7Z23C+gEFoBJiGw+x6n8hdHk
+ yXHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689267167; x=1691859167;
- h=content-transfer-encoding:author:mime-version:message-id:date
- :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/TQQu9i4zVTx/pAbl1XLa7p043pJkUqA0em0AaQVe1Q=;
- b=YvOQjnXDWYCe2yX0fjNFbgqWuKWQ91CWUHEOWeMghcjZij+EG+U+ppszvPyU+OtLR1
- tk5C97JATdGA4yEffvBtwVLbhYGchEWDZ6AnwjVt4c4KkXtS0JfYtQuautE8k/mTD/xe
- L6HtsmSaI433q10KWlAQfNvxPrPKaZ93+bKZoPjHV6QjQAQb7csVNaF5WNZw3MWUES0v
- ZLPm6skT7RNykUYsk4jKzhhsEolklFVNObJAV2CKbHFjLbn0MBd4sLhLWjZtFtQJkMUY
- 1DETKFXz7kv5TIaYgqjICuwpTLzyPiF0N3oi9Ifmw8WIk8qDGUMgvIETH5WynZxRlrgC
- HJXA==
-X-Gm-Message-State: ABy/qLbiKNyxL/jsurF0pVQY7dQwW1sfCaKM8zjZLTQ8e79JuFfrk3nX
- Qp0pgKahNW2aN3WIMaX7S+TmXw==
-X-Google-Smtp-Source: APBJJlECN8Pkf5oJl1wriKAi9i7oMviETr74ANXnYL6u7bXmI8D7Lz2S54OFWvuw32qLmK8Qci/xoA==
-X-Received: by 2002:a05:6870:c188:b0:19f:5c37:abb9 with SMTP id
- h8-20020a056870c18800b0019f5c37abb9mr2495348oad.12.1689267167408; 
- Thu, 13 Jul 2023 09:52:47 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1689267174; x=1691859174;
+ h=content-transfer-encoding:author:mime-version:references
+ :in-reply-to:message-id:date:subject:cc:to:from:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=dcIGYFaQfGqSRzz1TR43A9wAS36o64Mm47YNW9KhJGo=;
+ b=VUrnhkVMnpIS/Oo/2hPnVor7+cmIbXlo0xGNnTmFks4NCxscYdrGVDcBkoTmCTYQ/5
+ 7LV7HtVubSjNoaz0/3km2lfxwtbJlFXMt6uIVlc7DC5MENFVBKqKoqz31prfHxY9+hRd
+ kCVbww4ScsvWXRW8oNehb3Z6H2NaC8czFTxQasg9VN6ieW0pvx4bLEAx2yQynsD1GVFQ
+ PC0NtuS/kMFgHwxEhvpad5SQAZAf/PlZZNORlo4MbMemrrs6iHq3uuoW7tJ0baI86CFf
+ nDmGI+hukQofC+UpnC9bxfPqm8IqB2DSi2a4K5xBB1hG1w+oVnSDqGPe32J+qMtD7KfM
+ QCpw==
+X-Gm-Message-State: ABy/qLaMcnMkxqsx7e9t+abykhRXDnpdfZ8p7ymM8hFO20LfLkIPj8Qn
+ mE3QqROaYsyx1vpingujIV/CAw==
+X-Google-Smtp-Source: APBJJlEXsdTd6Pdgx3SCjb2Ew/A5vqSryB0OA8QHjsU17e1cE61ltYcsbHB9o5es5L+hVdITQ4UnZA==
+X-Received: by 2002:a92:c6c7:0:b0:346:5813:f7f5 with SMTP id
+ v7-20020a92c6c7000000b003465813f7f5mr2120484ilm.12.1689267174022; 
+ Thu, 13 Jul 2023 09:52:54 -0700 (PDT)
 Received: from x-wing.lan ([49.207.50.231]) by smtp.gmail.com with ESMTPSA id
- d3-20020a17090abf8300b002633fa95ac2sm12009150pjs.13.2023.07.13.09.52.40
+ d3-20020a17090abf8300b002633fa95ac2sm12009150pjs.13.2023.07.13.09.52.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Jul 2023 09:52:46 -0700 (PDT)
+ Thu, 13 Jul 2023 09:52:53 -0700 (PDT)
 From: Amit Pundir <amit.pundir@linaro.org>
 To: Bjorn Andersson <andersson@kernel.org>, Andy Gross <agross@kernel.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
@@ -62,11 +63,13 @@ To: Bjorn Andersson <andersson@kernel.org>, Andy Gross <agross@kernel.org>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Krishna Manikandan <quic_mkrishn@quicinc.com>
-Subject: [PATCH v5 1/2] dt-bindings: display/msm: mdss-common: add
- memory-region property
-Date: Thu, 13 Jul 2023 22:22:37 +0530
-Message-Id: <20230713165238.2814849-1-amit.pundir@linaro.org>
+Subject: [PATCH v5 2/2] arm64: dts: qcom: sdm845-db845c: Mark cont splash
+ memory region as reserved
+Date: Thu, 13 Jul 2023 22:22:38 +0530
+Message-Id: <20230713165238.2814849-2-amit.pundir@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230713165238.2814849-1-amit.pundir@linaro.org>
+References: <20230713165238.2814849-1-amit.pundir@linaro.org>
 MIME-Version: 1.0
 Author: Amit Pundir <amit.pundir@linaro.org>
 Content-Transfer-Encoding: 8bit
@@ -89,42 +92,59 @@ Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add and document the reserved memory region property in the
-mdss-common schema.
-
-For now (sdm845-db845c), it points to a framebuffer memory
-region reserved by the bootloader for splash screen.
+Adding a reserved memory region for the framebuffer memory
+(the splash memory region set up by the bootloader).
 
 Signed-off-by: Amit Pundir <amit.pundir@linaro.org>
 ---
-v5: Moving the dt-binding to mdss-common schema with
-    updated commit message and property description.
+v5: Re-sending with updated dt-bindings patch in mdss-common
+    schema.
 
-v4: Adding this new dt-binding patch, in qcom,sdm845-mdss
-    schema, in the v4 of the follow-up patch for
-    sdm845-db845c.
-    https://lore.kernel.org/lkml/20230712130215.666924-2-amit.pundir@linaro.org/
+v4: Re-sending this along with a new dt-bindings patch to
+    document memory-region property in qcom,sdm845-mdss
+    schema and keep dtbs_check happy.
 
- .../devicetree/bindings/display/msm/mdss-common.yaml         | 5 +++++
- 1 file changed, 5 insertions(+)
+v3: Point this reserved region to MDSS.
 
-diff --git a/Documentation/devicetree/bindings/display/msm/mdss-common.yaml b/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
-index ccd7d6417523..84ed2757ded5 100644
---- a/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
-@@ -77,6 +77,12 @@ properties:
-     items:
-       - description: MDSS_CORE reset
+v2: Updated commit message.
+
+There was some dicussion on v1 but it didn't go anywhere,
+https://lore.kernel.org/linux-kernel/20230124182857.1524912-1-amit.pundir@linaro.org/T/#u.
+The general consensus is that this memory should be freed and be
+made resuable but that (releasing this piece of memory) has been
+tried before and it is not trivial to return the reserved memory
+node to the system RAM pool in this case.
+
+ arch/arm64/boot/dts/qcom/sdm845-db845c.dts | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/sdm845-db845c.dts b/arch/arm64/boot/dts/qcom/sdm845-db845c.dts
+index d6b464cb61d6..f546f6f57c1e 100644
+--- a/arch/arm64/boot/dts/qcom/sdm845-db845c.dts
++++ b/arch/arm64/boot/dts/qcom/sdm845-db845c.dts
+@@ -101,6 +101,14 @@ hdmi_con: endpoint {
+ 		};
+ 	};
  
-+  memory-region:
-+    maxItems: 1
-+    description:
-+      Phandle to a node describing a reserved framebuffer memory region.
-+      For example, the splash memory region set up by the bootloader.
++	reserved-memory {
++		/* Cont splash region set up by the bootloader */
++		cont_splash_mem: framebuffer@9d400000 {
++			reg = <0x0 0x9d400000 0x0 0x2400000>;
++			no-map;
++		};
++	};
 +
- required:
-   - reg
-   - reg-names
+ 	lt9611_1v8: lt9611-vdd18-regulator {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "LT9611_1V8";
+@@ -506,6 +514,7 @@ &i2c14 {
+ };
+ 
+ &mdss {
++	memory-region = <&cont_splash_mem>;
+ 	status = "okay";
+ };
+ 
 -- 
 2.25.1
 
