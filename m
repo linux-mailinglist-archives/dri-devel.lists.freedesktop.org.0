@@ -1,41 +1,89 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 180B2751C9D
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 11:05:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90FCC751CB0
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 11:07:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DB7010E647;
-	Thu, 13 Jul 2023 09:05:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A82F710E648;
+	Thu, 13 Jul 2023 09:07:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.aspeedtech.com (mail.aspeedtech.com [211.20.114.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A13610E647
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 09:05:35 +0000 (UTC)
-Received: from [192.168.2.181] (192.168.2.181) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 13 Jul
- 2023 17:05:31 +0800
-Message-ID: <2b1c2a6c-c912-d24f-b622-7a3f1cec89aa@aspeedtech.com>
-Date: Thu, 13 Jul 2023 17:05:31 +0800
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A1CB10E644
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 09:07:37 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id
+ a640c23a62f3a-98377c5d53eso82359666b.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 02:07:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1689239256; x=1691831256; 
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=EwcL9L1d5Ep6I3OBmVEevOc5sUTVYd5D4r/f/BPtefs=;
+ b=UESAu+5a5TJxeQsviLt+XkW6TqgybmnL2loLwuqcwcrZX5lgC9JBicbJwvmqupEuG6
+ 4WVy4VPASqrgJTWptK1GGIzYaAr6QINZdEflWWoqwGky7IHsNZuKqRKZ4KIUSPosFVO5
+ dVrzBEnugotbmyNFFbX/5FwT4s00Lq0Midakx0+D0DyqemyKzOZYjDApjbkSajvDHx0o
+ YBOZGoSRFhBsCUW+CoUu++R1U/HbGqefD+cj7wd0yWIGkz8MOdMViohdIqc4x8YCd8wY
+ HrNtZn/VNZz3zZ7n9YubPXwi0IydbXaN4stJZgFtTNGNvZ8L/hvrDsTVwdHU7iKqqiRd
+ eDww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689239256; x=1691831256;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EwcL9L1d5Ep6I3OBmVEevOc5sUTVYd5D4r/f/BPtefs=;
+ b=FDIyp2l2KfSM+bD+t0zXWhwF7TkyAowxzhkE/djC2wQhDIcUA7hhlPM1Z0VUMyN+Qq
+ 73tiYs1Qj6m8wq4eJtqhOiTVaUTBPvPygHxaJ7ffUZtkVzUgnGF8X3ty0n/lGdS9Jx1J
+ EM2GbXE4womFtSXlhdC2c1HEDH6aPWyXtap/W6QaGp6O9hzN5gIkkAMqy4Tw3D2KTelc
+ vZocTNINu9nQbCS61BgXeWtUX81gshrehcKH0S7dPWD2vTPkD784zKmRJy1PQU/tnKof
+ GGgLiFvsbbwJDtvpz0xfpyW03ligvsIYxRv8r7A+gqvxMSDdeNKERzX82RxUILebsJRa
+ ku9g==
+X-Gm-Message-State: ABy/qLbXAfXcJPnItI1FXkxj2jrtJRBE3opzW/gs9LfgseELZyLbquvU
+ j6DiMgNgRYt6tGgyrJ0Nnzsl6g==
+X-Google-Smtp-Source: APBJJlG/9dWdAO+IHMennvFnx6By0szo1vvjGgfqMSsw7wupzZ+6jkd9yMZGR2+spJ8wS3e08a/IdQ==
+X-Received: by 2002:a17:906:5a45:b0:977:95f4:5cca with SMTP id
+ my5-20020a1709065a4500b0097795f45ccamr911215ejc.54.1689239255685; 
+ Thu, 13 Jul 2023 02:07:35 -0700 (PDT)
+Received: from [127.0.1.1] ([93.5.22.158])
+ by smtp.googlemail.com with ESMTPSA id
+ p18-20020a1709060dd200b00982d0563b11sm3707352eji.197.2023.07.13.02.07.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Jul 2023 02:07:35 -0700 (PDT)
+From: Alexandre Mergnat <amergnat@baylibre.com>
+Subject: [PATCH v2 0/3] Add startek-kd070fhfid015 display support
+Date: Thu, 13 Jul 2023 11:07:32 +0200
+Message-Id: <20230711-startek_display-v2-0-87bc7bdec6e9@baylibre.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v5 2/2] drm/ast: report connection status on Display Port.
-To: Jocelyn Falempe <jfalempe@redhat.com>, <tzimmermann@suse.de>,
- <airlied@redhat.com>, <kuohsiang_chou@aspeedtech.com>,
- <jani.nikula@linux.intel.com>, <dianders@chromium.org>
-References: <20230713064037.315387-1-jfalempe@redhat.com>
- <20230713064037.315387-2-jfalempe@redhat.com>
- <f61ea042-a14c-9c8f-710d-0ba0820686fe@aspeedtech.com>
- <a6eb098a-8ac6-7240-dddc-ba645a1931fc@redhat.com>
-Content-Language: en-US
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-In-Reply-To: <a6eb098a-8ac6-7240-dddc-ba645a1931fc@redhat.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.2.181]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANS+r2QC/3WNyw6CMBAAf4Xs2RpawsuT/2GI2dJFNtaWtEgkh
+ H+3cvc4k0xmg0iBKcIl2yDQwpG9S6BOGfQjugcJNolB5arIaylFnDHM9LwbjpPFVbRlY1RVDpV
+ GhFRpjCR0QNePqXNva5OcAg38OTa3LvHIcfZhPa6L/Nn/g0WKXMiqaGWtyRRNedW4WtaBzr1/Q
+ bfv+xdLR05ZxgAAAA==
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1988; i=amergnat@baylibre.com; 
+ h=from:subject:message-id;
+ bh=3y5LMZOUzphp7mX14QjhOYQXh5yv0tTAKwXAmNFnEB8=; 
+ b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBkr77WCyMuAZkdsHbMMihvWnhf1LFUKBPEmnEVeSqM
+ jKNcQ+OJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZK++1gAKCRArRkmdfjHURfNBD/
+ wKl40srBR89jOhq8VWwgbAbUPLeM19ItclQ2y2gem8pYXOkoFhCaAeUt9c9bZet0i/TqOVG6LKQKXZ
+ TmzhZJWbrJ4RJRTWjg0nfcpxO6uSxLDT1q4sYIMZ9v5d4eTXNefO1+1pE/h/Wv1h9a7JPc2rFRoc8q
+ MMKCtSvr5p4jRJlTV7uRNo2IUOlamv8d9ue0Gthn/6tUTshAHPh2nkmRj4gOCD/N8cMdZI88C0aY2w
+ wXhxk0A1milOKjkzjdIU0dLV5d8k3TLUYtl+Yoc1qSYbxCRhjg/I34wjAp3sUhsHdXzJFGF9A9vYPw
+ POYvyR1pbONQvRAkPvhc8engSQPlUZuF7bJsjhPfJaSAePFmbWwq4sxzCJxnG7Itj+UGrr5KlEGhrM
+ 7NXzlVFoZpcB5y5GnCO/jIwYu6Hz5ObI6d51BQ2xuYIvKEdXVW1LFDH4AjfgTKPSBzMzuqxHBSGadA
+ 0MctXbbMxSAXaymUI7pZLr5ngn1cXSagOA8WxAHgiz4jR7NWzmmmWdW0YEiiVW+IE46uZc+LVw38MU
+ btxqgXtsA2p/sgkTqy8GpmLNifE+G6UK6tuj9T6ohdnSpmrvxVwn8AdR53O8TfJdvy949eq8H+5ntQ
+ nbZwcrht0BQsAfUcKBDM8SZdOE5hsCNvKuxB4wnZFRuLc/mkv/vkx0cSvAow==
+X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
+ fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,117 +96,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Alexandre Mergnat <amergnat@baylibre.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Conor Dooley <conor.dooley@microchip.com>,
+ Guillaume La Roque <glaroque@baylibre.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jocelyn,
+Add the support of the Startek KD070FHFID015 panel.
+It's a 7-inch TFT LCD display with a resolution of 1024 x 600 pixels.
 
-On 2023/7/13 下午 04:17, Jocelyn Falempe wrote:
-> On 13/07/2023 09:00, Jammy Huang wrote:
->> Hi Jocelyn,
->>
->> Thanks for your work.
->>
->> On 2023/7/13 下午 02:40, Jocelyn Falempe wrote:
->>> Aspeed always report the display port as "connected", because it
->>> doesn't set a .detect_ctx callback.
->>> Fix this by providing the proper detect callback for astdp and dp501.
->>>
->>> This also fixes the following regression:
->>> Since commit fae7d186403e ("drm/probe-helper: Default to 640x480 if no
->>> EDID on DP") The default resolution is now 640x480 when no monitor is
->>> connected. But Aspeed graphics is mostly used in servers, where no 
->>> monitor
->>> is attached. This also affects the remote BMC resolution to 640x480, 
->>> which
->>> is inconvenient, and breaks the anaconda installer.
->>>
->>> v2: Add .detect callback to the dp/dp501 connector (Jani Nikula)
->>> v3: Use .detect_ctx callback, and refactors (Thomas Zimmermann)
->>>      Add a BMC virtual connector
->>> v4: Better indent detect_ctx() functions (Thomas Zimmermann)
->>> v5: Enable polling of the dp and dp501 connector status
->>>      (Thomas Zimmermann)
->>>
->>> Fixes: fae7d186403e ("drm/probe-helper: Default to 640x480 if no 
->>> EDID on DP")
->>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->>> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> ---
->>>   drivers/gpu/drm/ast/ast_dp.c    | 11 ++++++++++
->>>   drivers/gpu/drm/ast/ast_dp501.c | 37 
->>> ++++++++++++++++++++++-----------
->>>   drivers/gpu/drm/ast/ast_drv.h   |  2 ++
->>>   drivers/gpu/drm/ast/ast_mode.c  | 31 +++++++++++++++++++++++++--
->>>   4 files changed, 67 insertions(+), 14 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/ast/ast_dp.c 
->>> b/drivers/gpu/drm/ast/ast_dp.c
->>> index 6dc1a09504e1..bf78f3d4aa3f 100644
->>> --- a/drivers/gpu/drm/ast/ast_dp.c
->>> +++ b/drivers/gpu/drm/ast/ast_dp.c
->>> @@ -7,6 +7,17 @@
->>>   #include <drm/drm_print.h>
->>>   #include "ast_drv.h"
->>> +bool ast_astdp_is_connected(struct ast_device *ast)
->>> +{
->>> +    if (!ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, 
->>> ASTDP_MCU_FW_EXECUTING))
->>> +        return false;
->>> +    if (!ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDC, 
->>> ASTDP_LINK_SUCCESS))
->>> +        return false;
->>> +    if (!ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDF, 
->>> ASTDP_HPD))
->>> +        return false;
->>> +    return true;
->>> +}
->>
->> * ASPDP_LINK_SUCCESS is true, when DP link training is finished. The 
->> DP link quality is good
->>
->> enough to deliver video data.
->>
->> * ASTDP_HPD is true, when there is DP sink pull high HPD.
->>
->> Thus, ASTDP_HPD is the prerequisite of ASTDP_LINK_SUCCESS. I would 
->> suggest to remove
->>
->> the check for ASTDP_LINK_SUCCESS here. ASTDP_HPD is good enough for 
->> connected status.
->>
->> If you want to check all these three status, please change the order, 
->> FW_EXECUTING -> HPD ->
->>
->> LINK_SUCCESS.
->
-> Thanks for the detailed explanations.
-> I looked at other drivers to see if HPD is good enough for "connected" 
-> status, but I didn't find a clear answer.
-> There is also a drm_link_status, but that looks to be mostly unused.
-> https://elixir.bootlin.com/linux/latest/source/include/drm/drm_connector.h#L331 
->
->
-> So I think I will follow your suggestion, and remove the check for 
-> ASTDP_LINK_SUCCESS.
->
->
-> For the BMC connector patch, you know if there is a register setting I 
-> can check to see if a BMC is present or not ?
+This serie come from a bigger one [1]. Then I addressed the previous
+comments for the related commits here.
 
-I think you can use VGA CRD0[7] whose definition is as below:
+[1]: https://lore.kernel.org/all/20230220-display-v1-0-45cbc68e188b@baylibre.com/
 
-DRAM Initial Selection (see note 1)
-0: VBIOS Initial the DRAM
-1: SOC Firmware Initial the DRAM
+Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+---
+Changes in v2:
+- Replace "dcdc-gpio" by "enable-gpio" because this pin enable the
+  Power IC supply. Also, this property come from panel-common.
+- Remove height-mm and width-mm since they are useless here.
+- Re-order elements in the stk_panel structure for readability.
+- Link to v1: https://lore.kernel.org/r/20230711-startek_display-v1-0-163917bed385@baylibre.com
 
-If CRD0[7] is 1, there is BMC.
+Changes in v1:
+- Fix typos in the driver.
+- Merge 2 regulators in one bulk variable in the driver.
+- Remove backlight enable/disable from the driver because it's already
+  managed by the backlight core.
+- Move hardcoded values from function to the generic structure in the
+  driver.
+- Remove unnecessary function (stk_panel_del).
+- Replace some functions by macro to increase the readability.
+- Link to parent serie: [1]
 
->
-> Best regards,
->
+---
+Alexandre Mergnat (2):
+      dt-bindings: display: panel: add startek kd070fhfid015 support
+      arm64: defconfig: enable STARTEK KD070FHFID015 panel
+
+Guillaume La Roque (1):
+      drm/panel: Support for startek-kd070fhfid015 MIPI-DSI panel
+
+ .../display/panel/startek,kd070fhfid015.yaml       |  69 ++++
+ arch/arm64/configs/defconfig                       |   1 +
+ drivers/gpu/drm/panel/Kconfig                      |  11 +
+ drivers/gpu/drm/panel/Makefile                     |   1 +
+ .../gpu/drm/panel/panel-startek-kd070fhfid015.c    | 431 +++++++++++++++++++++
+ 5 files changed, 513 insertions(+)
+---
+base-commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
+change-id: 20230711-startek_display-958d265f6baa
+
+Best regards,
 -- 
-Best Regards
-Jammy
+Alexandre Mergnat <amergnat@baylibre.com>
 
