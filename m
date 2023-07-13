@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60153751C25
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 10:49:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E49C751C3F
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 10:50:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A48910E0C4;
-	Thu, 13 Jul 2023 08:49:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3471210E18C;
+	Thu, 13 Jul 2023 08:50:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7AE110E0C4
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 08:49:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD22510E18C
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 08:50:26 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 52FCB1F45E;
- Thu, 13 Jul 2023 08:49:33 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 47D211F45E;
+ Thu, 13 Jul 2023 08:50:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1689238173; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1689238225; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=sJLG2yZNZHcVlsW3FsC60sv9Udu4DHfYI3d82cAV6zI=;
- b=fcfOwQ1bMJL1RXsnwWWWSZyNwBfzQfcaBiANhywmKK1eSgAgDEEg7K0wLY9H3XKjJFL59L
- zcMb4XdDcKJJsp6JXlgU7pOxfWDRylWz2g0iCRHs70lVWBOSKhuR2nOR4JM26oTpU1w/IS
- hoyV7kZ6EETCD5IEMzWQ+1Yem4Me5ko=
+ bh=sMuNJTtyc0QGPS1emOUPFzg2621BggGtV8ozg/R+tnQ=;
+ b=rHSwVDJUa9aEzehZFQI4dT6FTJXpwx6ZY1y3Uy2/oFr1bah0sutU0KIlPyhayQ4jhO2300
+ kv2Ff0mn4lo6/2njzmeLB00KtvXqyxDs2YOunA25z/WnAOWzIRnGqAM66wspB2wn285TGZ
+ 2pEHKmqlVy4lNO6qRFsfjocHu+KQI3c=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1689238173;
+ s=susede2_ed25519; t=1689238225;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=sJLG2yZNZHcVlsW3FsC60sv9Udu4DHfYI3d82cAV6zI=;
- b=MBGMzvwP9aaaXnrawP4wCjzY0Ce/JP3WqQ5s6BtXh8Aa/HPHEHBxzNcrdENTeex0V9XjqB
- S0IV9byOC28pi7Bw==
+ bh=sMuNJTtyc0QGPS1emOUPFzg2621BggGtV8ozg/R+tnQ=;
+ b=ZIY/EvwmHJe3p3po1uhn5MDh9hrEJlzZuUPKV8nj8Q8bsNYgAchosth+cD1uaMzCrEXP0n
+ 4RbV+4bwasl/L/Dg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 26CC913489;
- Thu, 13 Jul 2023 08:49:33 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 18FE913489;
+ Thu, 13 Jul 2023 08:50:25 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id MciACJ26r2R8OQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 13 Jul 2023 08:49:33 +0000
-Message-ID: <9b63ee41-13db-979f-80fd-10123da741d3@suse.de>
-Date: Thu, 13 Jul 2023 10:49:32 +0200
+ by imap2.suse-dmz.suse.de with ESMTPSA id IwHyBNG6r2QMOgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 13 Jul 2023 08:50:25 +0000
+Message-ID: <3f9e8ff8-e6c1-2931-51c7-df191f095549@suse.de>
+Date: Thu, 13 Jul 2023 10:50:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
 Subject: Re: [PATCH] drm/ast: Fix default resolution when no monitor is
  connected on DP
 Content-Language: en-US
-To: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>,
- Jocelyn Falempe <jfalempe@redhat.com>, Sui Jingfeng
- <suijingfeng@loongson.cn>, Jani Nikula <jani.nikula@linux.intel.com>,
- airlied@redhat.com, kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com
+To: Sui Jingfeng <suijingfeng@loongson.cn>,
+ Jocelyn Falempe <jfalempe@redhat.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, airlied@redhat.com,
+ kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com
 References: <20230623094639.434293-1-jfalempe@redhat.com>
  <878rbv20dp.fsf@intel.com> <13e35996-914d-37a6-1697-ac0c3c75cad1@redhat.com>
  <ed075f2f-861d-74d1-efc0-5baa2cd601fd@redhat.com>
@@ -64,13 +64,11 @@ References: <20230623094639.434293-1-jfalempe@redhat.com>
  <81c57344-289d-fe41-8518-503249ea8d64@suse.de>
  <3fc768f8-9461-c4b0-b9af-555c52294c94@redhat.com>
  <2fb391e2-9f68-26f0-e005-a7f0f4324adc@loongson.cn>
- <b56afc8a-5fda-3227-3ac0-5e7b7773976b@redhat.com>
- <36e04e4c-c2ac-64cf-9503-ea43a29b66d0@mailbox.org>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <36e04e4c-c2ac-64cf-9503-ea43a29b66d0@mailbox.org>
+In-Reply-To: <2fb391e2-9f68-26f0-e005-a7f0f4324adc@loongson.cn>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------OyWiMY9yl79n065zz0aJIsAn"
+ boundary="------------slHSGANgpC95Qt0yspJgSfLr"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,16 +86,16 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------OyWiMY9yl79n065zz0aJIsAn
-Content-Type: multipart/mixed; boundary="------------15Z3h9ZLuD8mc6s3DwvP33ud";
+--------------slHSGANgpC95Qt0yspJgSfLr
+Content-Type: multipart/mixed; boundary="------------jCpJMyjuXZc0QtQfFj3txrAh";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>,
- Jocelyn Falempe <jfalempe@redhat.com>, Sui Jingfeng
- <suijingfeng@loongson.cn>, Jani Nikula <jani.nikula@linux.intel.com>,
- airlied@redhat.com, kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com
+To: Sui Jingfeng <suijingfeng@loongson.cn>,
+ Jocelyn Falempe <jfalempe@redhat.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, airlied@redhat.com,
+ kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com
 Cc: dri-devel@lists.freedesktop.org
-Message-ID: <9b63ee41-13db-979f-80fd-10123da741d3@suse.de>
+Message-ID: <3f9e8ff8-e6c1-2931-51c7-df191f095549@suse.de>
 Subject: Re: [PATCH] drm/ast: Fix default resolution when no monitor is
  connected on DP
 References: <20230623094639.434293-1-jfalempe@redhat.com>
@@ -109,55 +107,83 @@ References: <20230623094639.434293-1-jfalempe@redhat.com>
  <81c57344-289d-fe41-8518-503249ea8d64@suse.de>
  <3fc768f8-9461-c4b0-b9af-555c52294c94@redhat.com>
  <2fb391e2-9f68-26f0-e005-a7f0f4324adc@loongson.cn>
- <b56afc8a-5fda-3227-3ac0-5e7b7773976b@redhat.com>
- <36e04e4c-c2ac-64cf-9503-ea43a29b66d0@mailbox.org>
-In-Reply-To: <36e04e4c-c2ac-64cf-9503-ea43a29b66d0@mailbox.org>
+In-Reply-To: <2fb391e2-9f68-26f0-e005-a7f0f4324adc@loongson.cn>
 
---------------15Z3h9ZLuD8mc6s3DwvP33ud
+--------------jCpJMyjuXZc0QtQfFj3txrAh
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: base64
 
-SGkNCg0KQW0gMTMuMDcuMjMgdW0gMTA6MzIgc2NocmllYiBNaWNoZWwgRMOkbnplcjoNCj4g
-T24gNy8xMi8yMyAxNzoyNSwgSm9jZWx5biBGYWxlbXBlIHdyb3RlOg0KPj4gT24gMTIvMDcv
-MjAyMyAxNzowNSwgU3VpIEppbmdmZW5nIHdyb3RlOg0KPj4+IE9uIDIwMjMvNy8xMCAxNjow
-NywgSm9jZWx5biBGYWxlbXBlIHdyb3RlOg0KPj4+DQo+Pj4+IE9uIHRoZSBvdGhlciBoYW5k
-LCBhcmUgdGhlcmUgYW55IGRyYXdiYWNrIHRvIHByZXNlbnQgYSBCTUMgY29ubmVjdG9yIGV2
-ZW4gd2hlbiB0aGUgaGFyZHdhcmUgZG9lc24ndCBoYXZlIGl0ID8NCj4+Pg0KPj4+IElmIG5v
-dCBwcm9wZXJseSBzZXR0aW5nIHVwLCBJIHRoaW5rIHlvdSB3aWxsIGNyZWF0ZSB0d28gZW5j
-b2RlciBhbmQgdHdvIGNvbm5lY3RvciBpbiB0aGUgc3lzdGVtLg0KPj4NCj4+IFllcywgYnV0
-IEkgdGhpbmsgaXQgd29uJ3QgaGF2ZSBhbnkgdmlzaWJsZSBlZmZlY3QgZm9yIHRoZSBlbmQt
-dXNlci4NCj4gDQo+IEknbSBhZnJhaWQgdXNlci1zcGFjZSBkaXNwbGF5IHNlcnZlcnMgd291
-bGQgd2FzdGUgZWZmb3J0IHByb2R1Y2luZyBjb250ZW50IGZvciBhIG5vbi1leGlzdGluZyBC
-TUMgKGFzc3VtaW5nIGl0cyBjb25uZWN0b3Igc3RhdHVzIGlzIGNvbm5lY3RlZCBvciB1bmtu
-b3duKS4NCg0KUmlnaHQgbm93LCB0aGUgQk1DIG91dHB1dCB3b3JrcyBiZWNhdXNlIHRoZSBW
-R0Egc3RhdHVzIGlzIGFsd2F5cyANCmNvbm5lY3RlZC4gU28gbm90aGluZyByZWFsbHkgY2hh
-bmdlcy4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gDQoNCi0tIA0KVGhvbWFz
-IFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUg
-U29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVy
-bmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1j
-RG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
+SGkNCg0KQW0gMTIuMDcuMjMgdW0gMTc6MDUgc2NocmllYiBTdWkgSmluZ2Zlbmc6DQo+IEhp
+LA0KPiANCj4gDQo+IEknbSBoZXJlIGpvaW4gdG8gdGhlIGRpc2N1c3Npb24uIEJlY2F1c2Ug
+SSBrbm93IGEgbGl0dGxlIGFib3V0IGFzcGVlZCBCTUMuDQo+IA0KPiANCj4gT24gMjAyMy83
+LzEwIDE2OjA3LCBKb2NlbHluIEZhbGVtcGUgd3JvdGU6DQo+PiBPbiAwNy8wNy8yMDIzIDA5
+OjMwLCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4+PiBIaQ0KPj4+DQo+Pj4gQW0gMDYu
+MDcuMjMgdW0gMTg6Mzcgc2NocmllYiBKb2NlbHluIEZhbGVtcGU6DQo+Pj4gWy4uLl0NCj4+
+Pj4+Pg0KPj4+Pj4+IFlvdSBjb3VsZCBvdXQtY29tbWVudCB0aGUgVkdBIGNvZGUgaW4gdGhl
+IGFzdCBkcml2ZXIgZm9yIHRlc3RpbmcuDQo+Pj4+Pg0KPj4+Pj4gT2gsIFRoYW5rcyBmb3Ig
+dGhlIGlkZWEsIEkgd2lsbCB0cnkgdGhhdC4NCj4+Pj4+DQo+Pj4+DQo+Pj4+IFRoZSByZXN1
+bHQgaXMgdGhhdCBJIGdldCBhIGJsYWNrIHNjcmVlbiBvbiB0aGUgcmVtb3RlIEJNQy4gU28g
+bWF5YmUgDQo+Pj4+IGFkZGluZyBhIHJlbW90ZS9ibWMgY29ubmVjdG9yIHdpbGwgc29sdmUg
+dGhhdC4NCj4+Pg0KPj4+IENvdWxkIHdvcmsuIFRoYXQgd291bGQgYmUgYSBjb25uZWN0b3Ig
+YW5kIGVuY29kZXIgb2YgdHlwZSAndmlydHVhbCc/DQo+Pj4NCj4+PiBOb3QgYWxsIGFzdCBk
+ZXZpY2VzIGhhdmUgYSBCTUMuIERvIHlvdSBrbm93IGhvdyB0byBkZXRlY3QgaXRzIHByZXNl
+bmNlPw0KPj4NCj4+IEh1bSwgSSB0aG91Z2ggYWxsIGFzdCBkZXZpY2VzIGhhdmUgYSBCTUMs
+IA0KPiANCj4gTm8sIFRob21hcyBpcyByaWdodCwgbm90IGFsbCBhc3QgZGV2aWNlcyBoYXZl
+IGEgQk1DLg0KPiANCj4gSSBoYXZlIHR3byBkaXNjcmV0ZSBBU1QgQk1DIGNhcmRzLCBzZWUg
+WzFdIGZvciByZWZlcmVuY2UuDQo+IA0KPiBJIGdlbmVyYWxseSB1c2luZyB0aGUgYXN0MjQw
+MCBCTUMgY2FyZHMgdG8gdGVzdGluZyBwYXRjaGVzIGFuZCBzdHVkeSANCj4gZHJtL2FzdCBk
+cml2ZXIuDQo+IA0KPiBJdCBzZWVtcyB0aGF0IHRoaXMgdHdvIGNhcmRzIGFyZSBwdXJlIDJE
+IGRpc3BsYXkgY2FyZCwgYmVjYXVzZSB0aGV5IA0KPiBkb24ndCBoYXZlIGEgbmV0IGludGVy
+ZmFjZShjYW4gbm90IHBsdWctaW4gdGhlIG5ldCBjYWJsZSkuDQo+IA0KPiANCj4gWzFdIA0K
+PiBodHRwczovL2dpdGh1Yi5jb20vbG9vbmdzb24tZ2Z4L2xvb25nc29uX2JvYXJkcy9ibG9i
+L21haW4vYXN0X2JtY19jYXJkcy9hc3QxNDAwX2FuZF9hc3QyNDAwLmpwZw0KDQpUaGFua3Mg
+Zm9yIHRoZSBpbmZvLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiANCj4+IGFu
+ZCBJIGRvbid0IHNlZSBhIHdheSB0byBkZXRlY3QgdGhhdCBCTUMgaXMgYWN0aXZlIG9yIHBy
+ZXNlbnQuDQo+IA0KPiBJIHRoaW5rIHdlIGJldHRlciBmaW5kIG9uZSwgdGhlbiBpZiB0aGUg
+Qk1DIGlzIGFjdGl2ZSAocHJlc2VudCkuDQo+IA0KPiB3ZSBjb3VsZCBjcmVhdGUgYSB2aXJ0
+dWFsIGVuY29kZXIgYW5kIGNvbm5lY3RvciBzYWZlbHkuDQo+IA0KPiANCj4+IChJdCB3b3Vs
+ZCBiZSBldmVuIGJldHRlciB0byBrbm93IHRoZSBicm93c2VyJ3Mgc2l6ZSwgYW5kIGF1dG9t
+YXRpY2FsbHkgDQo+PiByZXNpemUsIGxpa2Ugd2hlbiB1c2luZyBhIFZNLiBCdXQgSSdtIG5v
+dCBzdXJlIHRoZSBoYXJkd2FyZS9maXJtd2FyZSANCj4+IGlzIGFibGUgdG8gZG8gdGhpcyku
+DQo+Pg0KPiANCj4gSSB0aGluayBpdCBpcyBub3QgZGlmZmljdWx0LCBpdCBqdXN0IHRoYXQg
+bmVlZCB0aGUgZmlybXdhcmUgb2YgeW91ciANCj4gYm9hcmQgdG8gc2V0IGEgdmFsdWUgdG8g
+YSByZWdpc3RlciwNCj4gDQo+IChhIHNjcmF0Y2ggcmVnaXN0ZXIpIG9yIHNvbWV0aGluZyBs
+aWtlIHRoYXQuDQo+IA0KPiBCdXQgdGhpcyByZWFsbHkgbmVlZCB5b3UgaGF2ZSB0aGUgZmly
+bXdhcmUgKHNvdXJjZSBjb2RlKSB0byBzdXBwb3J0IHRoaXMuDQo+IA0KPiBPciB5b3UgYXJl
+IGx1Y2tpbHksIGlmIHRoZXJlIHNvbWVib2R5IGFscmVhZHkgZG9uZSB0aGlzIGZvciB5b3Uu
+DQo+IA0KPj4gT24gdGhlIG90aGVyIGhhbmQsIGFyZSB0aGVyZSBhbnkgZHJhd2JhY2sgdG8g
+cHJlc2VudCBhIEJNQyBjb25uZWN0b3IgDQo+PiBldmVuIHdoZW4gdGhlIGhhcmR3YXJlIGRv
+ZXNuJ3QgaGF2ZSBpdCA/DQo+IA0KPiBJZiBub3QgcHJvcGVybHkgc2V0dGluZyB1cCwgSSB0
+aGluayB5b3Ugd2lsbCBjcmVhdGUgdHdvIGVuY29kZXIgYW5kIHR3byANCj4gY29ubmVjdG9y
+IGluIHRoZSBzeXN0ZW0uDQo+IA0KPj4+DQo+Pj4gQmVzdCByZWdhcmRzDQo+Pj4gVGhvbWFz
+DQo+Pj4NCj4+Pj4NCj4+Pj4NCj4+Pg0KPj4NCj4+IEJlc3QgcmVnYXJkcywNCj4+DQo+IA0K
+DQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpT
+VVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0
+NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcgTXll
+cnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFHIE51
+ZXJuYmVyZykNCg==
 
---------------15Z3h9ZLuD8mc6s3DwvP33ud--
+--------------jCpJMyjuXZc0QtQfFj3txrAh--
 
---------------OyWiMY9yl79n065zz0aJIsAn
+--------------slHSGANgpC95Qt0yspJgSfLr
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSvupwFAwAAAAAACgkQlh/E3EQov+Bu
-vhAAnUhOA8CNy5lQudkXlnDb0wY6r1FecBHr7m9tphCk/LGE72YD7QDHV6qtPu76RxmH+I1J9noe
-Wvp0E9FtF7ei+qk31fF1vHc9qJAl5zbiVYExc/X+EFrFPVvvIUp1Zm1aZEui+EGltybSdn6ITZqV
-KtEY0VSGxmFi6Ajcg/4nWBkjDOcLc3yhFEcIf+3a8xsRXzD2QAleY3RU8WHWcPCVHGyKjS9XuEQA
-/KqN6Jmt1yQ53/EcXHX0Q/FQexoWrRGWlI9wyVnxoqfCXGW68Em9LQ2WK5Ohg21nGVJ1nd2/DtSg
-5CxLlJFBuKPSED/B6YokL8yQWCPHvGF5i5tL/EDOYOQ4BWl8PuMpZ+GpHYb221vRWEZCtQw77OMQ
-Ek8cTUJkGsXYHBsemhDJMrSI90iuGuFd6zJJyb6r6wWnk0c+gwcSXmcoDp7JiuWZQAy2F+Wj9ZQB
-n1bVdV876/VZjrgF851NI2yJv3hjglHtbkjod9qBa+JV483akHWUbmc/Y3issW8p3QDHOg1Atlm2
-eN3UXPiZfz5LDKuReIxJ+/s7x6DAM9uhQ3/9gQCUPS7utlXQXeH1GrUk40IknryqiZiFwJhVx95m
-4XMbfF/BSry7PsvjcPThM3xV0r4jw9y2jZf5F41H/9XoTGu+G8DDxWX/1XBsN/qFOfQ06Vf+GMXJ
-jGQ=
-=P70c
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSvutAFAwAAAAAACgkQlh/E3EQov+CL
+8hAAvVDyTzb/6uCvl53iIOJAG1kMZnt5GI4P2RtvP2ro8QQceY8eMRKvBkXlMFgWpQv6fxIRJWD2
+YKtKAB+OmQCuZq+cVQRM166rQaVjn/X6rd8wnQPfR6mUCnm05v3sf6CBvrNi7hnUPrmA2qOVcWIv
+qKm9XK+DNQcG/IgF53yp3jiqEPnPEUHI4d3sQ0bRZMK7mtNGFFQkT9kApGXkuAG3GUHSU7l5cqS4
+GXkLk0P4ubnNLs/TrcPJNhX046ZH+uOWQ/3Diq/14tuVzQNp8Q3K6/nDtZmru4gI27R4B8GDeBiz
+3Ghf9Aq4YzjfTsZxqW5BtZQllC+IpwQLdQFKDYPfXXiXgjx3hx814oSQrsHPzjHvkW4yhZX7MjGO
+EN2/07JbHpiZS8xHsvf1cAlP/j2gbObwK01uK2yU1xNPHgTYuQL2WxgHvvUDGRZ5d3iAs3UDZq5n
+cDWILtgo/ib/X56SD78sghjR83fnt1/tCSM511G8o9F6fVQP2qtytnyYvrjzH0Sww/O+pp7tVno/
+vXDkZ5wvNBSr1oFihD275oPetOwEUsX+KJ3C3SJT9XkbXLjbRt0Tv/PSIquQzVh+g82wVAj4ab95
+aZmDkS44hYQ7qAI9KF202nuGtxUvz9MIL4Vo4VfZ+/qAQV8C+hUF+c1fNTC/lIbcGSYHguHmHyaL
+vkI=
+=UJal
 -----END PGP SIGNATURE-----
 
---------------OyWiMY9yl79n065zz0aJIsAn--
+--------------slHSGANgpC95Qt0yspJgSfLr--
