@@ -1,50 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C424B75176C
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 06:25:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 890ED7517E6
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 07:09:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2ADB510E069;
-	Thu, 13 Jul 2023 04:25:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CF4210E081;
+	Thu, 13 Jul 2023 05:09:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5896310E069
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 04:25:53 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6A3D10E08D
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 05:09:49 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6D2A160C4B;
- Thu, 13 Jul 2023 04:25:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5908C433C7;
- Thu, 13 Jul 2023 04:25:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689222350;
- bh=u4ObmBjWWEjtYN2BEoY8jv0w35xDE9vIX1JBcp1KKDc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ZndtOW2vmZgQOuJIyHHJixv7tYMcv5W7l+9b/ssfJyRFWFGQvydjk7Lo5yuvVZZRe
- hQOh3j5XdHy9IuSfE3IHP55VMQk3Rz6NIXDj3fNHylaT6ZX2l1tmT5EBi4MG/D5YUw
- zmpfD3tzoRUGyW86sHDKOAzFSToTLYIsJZQj877Gg3r5ab7XWcaLxiVsldytmBmGk0
- YltNHHsa/ttF93HkRqUgj/eB9J+MQ9MHDhvmDYEFZ+u4ETq/Sk5xD/yhlYsjU/kkRP
- AfslbxtEsGkaMj8rbO0Uxu/zsEbg6KgvJ9OugElyJzjNh718fZkDiELC10ZWbyNPU6
- ZsnsLxQ+6j0Xw==
-Date: Thu, 13 Jul 2023 06:25:42 +0200
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH RFC 2/2] drm: add documentation for drm_buddy_test kUnit
- test
-Message-ID: <20230713062542.183c0aaa@coco.lan>
-In-Reply-To: <87cz0xgokb.fsf@intel.com>
-References: <cover.1689171160.git.mchehab@kernel.org>
- <0e5f68ab045965292fee1748254bf9b91db9039a.1689171160.git.mchehab@kernel.org>
- <87cz0xgokb.fsf@intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2DD7C1F45E;
+ Thu, 13 Jul 2023 05:09:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1689224987; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xcjf2ODv0CRsbyDCjvt3ecfWATj9oRBr875dXYKNvi4=;
+ b=r62qWf9nFA53h1qlar4ncJ8VEUVdDsZY6NjAaSGxbD26bIM1zAdmayW+eo4UJ3WdgPiRd6
+ 0p/0GX9xjR96TifnycHOtwtk+L5o15sY3by4mWUUmxfsBqAP0CxUpv5hKcpq9BZn+vRJpV
+ /w0Adde6tp4AK07ynW4t//xw/kAbFVQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1689224987;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xcjf2ODv0CRsbyDCjvt3ecfWATj9oRBr875dXYKNvi4=;
+ b=buENVq5pSw2VJ+85o5mvsEeI0QLb2yhyOjjjz1iq5aKh9kmcdzNxeIrg/yfO+dAjfXzw3n
+ Aq/WI5wjUcbi6RDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0018513342;
+ Thu, 13 Jul 2023 05:09:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 3EglOhqHr2RDIgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 13 Jul 2023 05:09:46 +0000
+Message-ID: <69a71fab-2407-49ed-d445-5dccc126c64b@suse.de>
+Date: Thu, 13 Jul 2023 07:09:46 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] drm/doc: document that PRIME import/export is always
+ supported
+To: Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org
+References: <20230712183156.191445-1-contact@emersion.fr>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230712183156.191445-1-contact@emersion.fr>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------owmOYhAGlJO0P5nBjV0O9uZW"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,82 +70,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kselftest@vger.kernel.org, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Kees Cook <keescook@chromium.org>, Nikolai Kondrashov <spbnick@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, "Darrick J. Wong" <djwong@kernel.org>,
- linux-doc@vger.kernel.org, Brendan Higgins <brendanhiggins@google.com>,
- Rae Moar <rmoar@google.com>, dri-devel@lists.freedesktop.org,
- Arthur Grillo <arthurgrillo@riseup.net>,
- =?UTF-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>, mauro.chehab@intel.com,
- David Gow <davidgow@google.com>, Shuah Khan <skhan@linuxfoundation.org>,
- Christian =?UTF-8?B?S8O2?= =?UTF-8?B?bmln?= <christian.koenig@amd.com>,
- linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Jeffrey Hugo <quic_jhugo@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Em Wed, 12 Jul 2023 18:03:00 +0300
-Jani Nikula <jani.nikula@linux.intel.com> escreveu:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------owmOYhAGlJO0P5nBjV0O9uZW
+Content-Type: multipart/mixed; boundary="------------3zcqZ0AFR0vbkbHa0t9ueX93";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Jeffrey Hugo <quic_jhugo@quicinc.com>
+Message-ID: <69a71fab-2407-49ed-d445-5dccc126c64b@suse.de>
+Subject: Re: [PATCH] drm/doc: document that PRIME import/export is always
+ supported
+References: <20230712183156.191445-1-contact@emersion.fr>
+In-Reply-To: <20230712183156.191445-1-contact@emersion.fr>
 
-> On Wed, 12 Jul 2023, Mauro Carvalho Chehab <mchehab@kernel.org> wrote:
-> > diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
-> > index 09ee6f6af896..dd6c5afd6cd6 100644
-> > --- a/drivers/gpu/drm/tests/drm_buddy_test.c
-> > +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
-> > @@ -737,6 +737,18 @@ static int drm_buddy_suite_init(struct kunit_suite *suite)
-> >  	return 0;
-> >  }
-> >  
-> > +/**
-> > + * KTEST_SUITE: set of tests for drm buddy alloc
-> > + * Scope: drm subsystem
-> > + * Mega feature: drm
-> > + * Feature: buddy_alloc
-> > + *
-> > + * KTEST_TEST: drm_test_buddy_alloc_%s
-> > + * Description: Run DRM buddy allocation %arg[1] test
-> > + *
-> > + * arg[1].values: limit, range, optimistic, smoke, pathological
-> > + */
-> > +  
-> 
-> "/**" indicates a kernel-doc comment, and this is not a kernel-doc
-> comment.
-> 
-> $ scripts/kernel-doc -none drivers/gpu/drm/tests/drm_buddy_test.c 
-> drivers/gpu/drm/tests/drm_buddy_test.c:752: warning: cannot understand
-> function prototype: 'struct kunit_case drm_buddy_tests[] = '
-> 
-> Nowadays kernel-doc is part of W=1 builds.
+--------------3zcqZ0AFR0vbkbHa0t9ueX93
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-True. I already told it at patch 0. I opted to not add a patch for it on this
-RFC series, to make it simpler. A simple logic at kernel-doc is enough to 
-tell its state machine to ignore blocks that contain the KTEST_\w+: pattern:
+SGkNCg0KQW0gMTIuMDcuMjMgdW0gMjA6MzIgc2NocmllYiBTaW1vbiBTZXI6DQo+IFNpbmNl
+IGNvbW1pdCA2Yjg1YWE2OGQ5ZDUgKCJkcm06IEVuYWJsZSBQUklNRSBpbXBvcnQvZXhwb3J0
+IGZvciBhbGwNCj4gZHJpdmVycyIpLCBpbXBvcnQvZXhwb3J0IGlzIGFsd2F5cyBzdXBwb3J0
+ZWQuIERvY3VtZW50IHRoaXMgc28gdGhhdA0KPiB1c2VyLXNwYWNlIGtub3dzIHdoYXQgdG8g
+ZXhwZWN0Lg0KPiANCj4gU2lnbmVkLW9mZi1ieTogU2ltb24gU2VyIDxjb250YWN0QGVtZXJz
+aW9uLmZyPg0KPiBDYzogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+
+DQo+IENjOiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+DQo+IENj
+OiBKZWZmcmV5IEh1Z28gPHF1aWNfamh1Z29AcXVpY2luYy5jb20+DQo+IENjOiBEYW5pZWwg
+VmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPg0KPiAtLS0NCj4gICBpbmNsdWRlL3Vh
+cGkvZHJtL2RybS5oIHwgNyArKysrKysrDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDcgaW5zZXJ0
+aW9ucygrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvdWFwaS9kcm0vZHJtLmggYi9p
+bmNsdWRlL3VhcGkvZHJtL2RybS5oDQo+IGluZGV4IGE4N2JiYmJjYTJkNC4uNTZjMTk0ZGY1
+MjdlIDEwMDY0NA0KPiAtLS0gYS9pbmNsdWRlL3VhcGkvZHJtL2RybS5oDQo+ICsrKyBiL2lu
+Y2x1ZGUvdWFwaS9kcm0vZHJtLmgNCj4gQEAgLTY3Myw2ICs2NzMsOSBAQCBzdHJ1Y3QgZHJt
+X2dlbV9vcGVuIHsNCj4gICAgKiBCaXRmaWVsZCBvZiBzdXBwb3J0ZWQgUFJJTUUgc2hhcmlu
+ZyBjYXBhYmlsaXRpZXMuIFNlZSAmRFJNX1BSSU1FX0NBUF9JTVBPUlQNCj4gICAgKiBhbmQg
+JkRSTV9QUklNRV9DQVBfRVhQT1JULg0KPiAgICAqDQo+ICsgKiBTdGFydGluZyBmcm9tIGtl
+cm5lbCB2ZXJzaW9uIDYuNiwgYm90aCAmRFJNX1BSSU1FX0NBUF9JTVBPUlQgYW5kDQo+ICsg
+KiAmRFJNX1BSSU1FX0NBUF9FWFBPUlQgYXJlIGFsd2F5cyBhZHZlcnRpc2VkLg0KPiArICoN
+Cg0KV2hlbiBwZW9wbGUgcG9ydCB0aGVzZSBjaGFuZ2VzIGludG8gdGhlaXIgdHJlZXMgdGhl
+IHZlcnNpb24gYmVjb21lcyANCm1lYW5pbmdsZXNzLiBUaGVyZSBhcmUgc28gbWFueSAiZW50
+ZXJwcmlzZSBrZXJuZWxzIiB0aGF0IGNvbWJpbmUgd2hvbGUgDQpzdWJzeXN0ZW1zIGZyb20g
+ZGlmZmVyZW50IHVwc3RyZWFtIHJlbGVhc2VzLg0KDQpUaGF0IG1ha2VzIG1lIHdvbmRlciBp
+ZiBzdWNoIGRvY3VtZW50YXRpb24gbWFrZXMgc2Vuc2UuIFdlIHdhbnQgdG8gYXZvaWQgDQph
+IHNpdHVhdGlvbiB3aGVyZSB1c2Vyc3BhY2UgZG9lcw0KDQppZiAodjYuNikNCiAgIGRvKCkN
+CmVsc2UgaWYgKHRlc3RfZmxhZ3MoKSkNCiAgIGRvKCkNCg0KQmVzdCByZWdhcmRzDQpUaG9t
+YXMNCg0KPiAgICAqIFBSSU1FIGJ1ZmZlcnMgYXJlIGV4cG9zZWQgYXMgZG1hLWJ1ZiBmaWxl
+IGRlc2NyaXB0b3JzLiBTZWUNCj4gICAgKiBEb2N1bWVudGF0aW9uL2dwdS9kcm0tbW0ucnN0
+LCBzZWN0aW9uICJQUklNRSBCdWZmZXIgU2hhcmluZyIuDQo+ICAgICovDQo+IEBAIC02ODIs
+NiArNjg1LDggQEAgc3RydWN0IGRybV9nZW1fb3BlbiB7DQo+ICAgICoNCj4gICAgKiBJZiB0
+aGlzIGJpdCBpcyBzZXQgaW4gJkRSTV9DQVBfUFJJTUUsIHRoZSBkcml2ZXIgc3VwcG9ydHMg
+aW1wb3J0aW5nIFBSSU1FDQo+ICAgICogYnVmZmVycyB2aWEgdGhlICZEUk1fSU9DVExfUFJJ
+TUVfRkRfVE9fSEFORExFIGlvY3RsLg0KPiArICoNCj4gKyAqIFN0YXJ0aW5nIGZyb20ga2Vy
+bmVsIHZlcnNpb24gNi42LCB0aGlzIGJpdCBpcyBhbHdheXMgc2V0IGluICZEUk1fQ0FQX1BS
+SU1FLg0KPiAgICAqLw0KPiAgICNkZWZpbmUgIERSTV9QUklNRV9DQVBfSU1QT1JUCQkweDEN
+Cj4gICAvKioNCj4gQEAgLTY4OSw2ICs2OTQsOCBAQCBzdHJ1Y3QgZHJtX2dlbV9vcGVuIHsN
+Cj4gICAgKg0KPiAgICAqIElmIHRoaXMgYml0IGlzIHNldCBpbiAmRFJNX0NBUF9QUklNRSwg
+dGhlIGRyaXZlciBzdXBwb3J0cyBleHBvcnRpbmcgUFJJTUUNCj4gICAgKiBidWZmZXJzIHZp
+YSB0aGUgJkRSTV9JT0NUTF9QUklNRV9IQU5ETEVfVE9fRkQgaW9jdGwuDQo+ICsgKg0KPiAr
+ICogU3RhcnRpbmcgZnJvbSBrZXJuZWwgdmVyc2lvbiA2LjYsIHRoaXMgYml0IGlzIGFsd2F5
+cyBzZXQgaW4gJkRSTV9DQVBfUFJJTUUuDQo+ICAgICovDQo+ICAgI2RlZmluZSAgRFJNX1BS
+SU1FX0NBUF9FWFBPUlQJCTB4Mg0KPiAgIC8qKg0KDQotLSANClRob21hcyBaaW1tZXJtYW5u
+DQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBH
+ZXJtYW55IEdtYkgNCkZyYW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJt
+YW55DQpHRjogSXZvIFRvdGV2LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91
+ZGllbiBNb2VybWFuDQpIUkIgMzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index d0116c6939dc..bf386460691f 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -259,6 +259,7 @@ my $doc_sect = $doc_com .
-     '\s*(\@[.\w]+|\@\.\.\.|description|context|returns?|notes?|examples?)\s*:([^:].*)?$';
- my $doc_content = $doc_com_body . '(.*)';
- my $doc_block = $doc_com . 'DOC:\s*(.*)?';
-+my $ktest_block = $doc_com . 'KTEST_\w+:\s*(.*)?';
- my $doc_inline_start = '^\s*/\*\*\s*$';
- my $doc_inline_sect = '\s*\*\s*(@\s*[\w][\w\.]*\s*):(.*)';
- my $doc_inline_end = '^\s*\*/\s*$';
-@@ -2015,6 +2016,10 @@ sub process_name($$) {
-     my $file = shift;
-     my $descr;
- 
-+    if (/$ktest_block/o) {
-+	$state = STATE_NORMAL;
-+	return;
-+    }
-     if (/$doc_block/o) {
- 	$state = STATE_DOCBLOCK;
- 	$contents = "";
+--------------3zcqZ0AFR0vbkbHa0t9ueX93--
 
+--------------owmOYhAGlJO0P5nBjV0O9uZW
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
+-----BEGIN PGP SIGNATURE-----
 
-Thanks,
-Mauro
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSvhxoFAwAAAAAACgkQlh/E3EQov+Ai
+Yw/9EdmVh+FfpLegAz7fg/c+DmB3Aj4IY/2N4F/0QyiNa8nzic6Ezc0+imlbHP/JqNRvYP1mWgs5
+BfEIqKyDNVn77IdNRqSvsZTbPcCKv2ul9FxUZOJUF1KH7kzvpILBq3Lp1RsNUMxoLFzRBLoLa4Wg
+u3EBpd+qsPnGal1R8DhLfHGte3uYfLiAEMlu5CMjP2WbxxolewX11YhBbLpn+u6j/L8pApP7BfsP
+klJIoiJAfvcKZAbMR4eMjnEydYZA9Hiz9pcRfzOEk8W6h9YOARCy7w0c8s/cHgxcfMv0yG6gr+TX
+tumn1n5b8ak3HLhalgIEB8iy3PgI+YeC9WQdlTHfRBcieBgmtGcL74hzdWvjSYGRogj0wPxt2LZS
+IKqBEOAMDleTEs/weUZBpXrLM1PnU5uMMU6+rHiz+G0xA4gaQHQWVS8rWT8IcF4xsfUUJIQtuiQm
+B1PZQ07xRKV+xjLgGULF12h5hmQHHbCCqMsIb0fGxpT7q6W5YZpI9RnTL0vaVSqlkC0GZpYIQgz9
+LImF0kmRbQ8BWSmTreF4taLR76CLie3mT1Qgfu77PfkrpvQ/s6d8EDKIL2PT+0qqqFSyNFw8TP11
+85PFUMefKpqKBlJiC6DblNCEOkFDYLrHzkgu5cxSoGX2EUOZrGGgxlYrzsz7Ucbi6UxrmVa/Rmtq
+5+Q=
+=EYcE
+-----END PGP SIGNATURE-----
+
+--------------owmOYhAGlJO0P5nBjV0O9uZW--
