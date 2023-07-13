@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E61C751A33
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 09:45:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 907C0751A56
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 09:51:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8304810E611;
-	Thu, 13 Jul 2023 07:45:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA5D710E620;
+	Thu, 13 Jul 2023 07:51:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EE2610E611
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 07:45:32 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 67C761F893;
- Thu, 13 Jul 2023 07:45:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1689234329; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tX5LvjGDgH5yI9x+uQh+A5rsQGjO0pMY4DIdtHxlXgA=;
- b=LMaa6mh3CUR4mrqmjrK4y90tlhqA0BGdZXnm4kYAeW0sKluV0zWaXjgSZsKYfr6NKrX6AO
- TPCae0jzJcw+ieKlks74CpV92uBMUeyw7EFJKJpKWKHcThC3KAZrmAblmEo7YawrAhfUUU
- ZGRm/Z0pNWriR0jEYlMTDaexZDiWTgU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1689234329;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tX5LvjGDgH5yI9x+uQh+A5rsQGjO0pMY4DIdtHxlXgA=;
- b=wK4cL3+OM98QOGPQonh1BVtm2ZZ4+kxl16d6p8rstVQKc2j/60+sGz5Z2wcv1suu91oFa7
- dK9swqDySluvQ/DA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4BB34133D6;
- Thu, 13 Jul 2023 07:45:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Yj9YEZmrr2R+FgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 13 Jul 2023 07:45:29 +0000
-Message-ID: <ecb43bcd-6907-e1e8-3c8c-63bde258c739@suse.de>
-Date: Thu, 13 Jul 2023 09:45:28 +0200
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA0E610E620;
+ Thu, 13 Jul 2023 07:51:56 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id
+ 38308e7fff4ca-2b70bfc8db5so5048911fa.2; 
+ Thu, 13 Jul 2023 00:51:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1689234714; x=1691826714;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=4oZ68SaUqVH0D2Zc2sc1Hk+yQM9B+LeCSgmzfoPq70g=;
+ b=oLIosKjpSzUdO2vaCQ859Xx47UjYRIJS9O0weHTp9nHxlFc4so+UTfBg0hxgvcsq4B
+ dBQz5S0k8c2TUeWyFCks8AMzoHnKUoSEV4nGq2D9uRST09/hj5WIeGhQQTl7TbU0tkKp
+ jusb4g3wdGG9PgclqInX9tSEDpsHh9Jk6q8XgZpLcqbsy17Balj019pXJRmF2Nllg6ue
+ jiooqz3sfYbUqLs3zYsHg28FPRgrWoJG9WSvfnRyJlH5XZ9d5E1U3DfPIIjNO5AffJV5
+ NA/gZPlKYPF4aF5ei2vqwsxk4GV3imoe4GGWVQ49rzChwdgxzfioDjwPSrtKndURVcfw
+ cXdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689234714; x=1691826714;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4oZ68SaUqVH0D2Zc2sc1Hk+yQM9B+LeCSgmzfoPq70g=;
+ b=FV20IJdNn1v1qDxfh07LhUp+S3Wm8WsQjZvyYXloyX3DffMgKRdVnzCWY3mKDam00Y
+ 6mgeVin271lWD48zQTtQu3vsHzYB73eOrXdICMO7fXRXmmEQs2HKcNI299Gj21DPLlFj
+ ygFWTA4uTrMM7hVtBWJTi2pDeYJcX6/k9wHZ6khM7TqUw1azTwLLU6h3+F1YIOtO1Evi
+ IISyy9pYiIbkvLW/dcGa3mgFd92rsOlISV9E9j4D7olPdtPHWdJiVK/BqKW81uc8kLiR
+ hCFdf2wxVQDpYVdvoktoU8X/zPOnZOzCNf7cA8g7kuzO7VpHjLI3q8jaaFDBLNVlwaey
+ Sk3Q==
+X-Gm-Message-State: ABy/qLZh/oA0mjpNr9SUVTYvWqxZ3pdV+r9NdLt7+6XUdZYkZv+KOSSd
+ zp24vELbwwWrVY3e0RrJZIU=
+X-Google-Smtp-Source: APBJJlFWdpdNCZjmxfbdUWTl4ESYDoRy84nBwhykBkLHk0plqvI1FvsVLw49fzew1qmRJ8dp0wfs5g==
+X-Received: by 2002:a2e:9f17:0:b0:2b6:cb0d:56ae with SMTP id
+ u23-20020a2e9f17000000b002b6cb0d56aemr635204ljk.11.1689234713822; 
+ Thu, 13 Jul 2023 00:51:53 -0700 (PDT)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ l18-20020a2e7012000000b002b6c61bac2esm1374734ljc.92.2023.07.13.00.51.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Jul 2023 00:51:53 -0700 (PDT)
+Date: Thu, 13 Jul 2023 10:51:42 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>
+Subject: Re: [PATCH v5 6/6] drm/doc: Define KMS atomic state set
+Message-ID: <20230713105142.122a0cc1@eldfell>
+In-Reply-To: <ZK0ZlciR66oTO+Td@phenom.ffwll.local>
+References: <20230707224059.305474-1-andrealmeid@igalia.com>
+ <20230707224059.305474-7-andrealmeid@igalia.com>
+ <ZK0ZlciR66oTO+Td@phenom.ffwll.local>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] drm/doc: document that PRIME import/export is always
- supported
-Content-Language: en-US
-To: Simon Ser <contact@emersion.fr>
-References: <20230712183156.191445-1-contact@emersion.fr>
- <69a71fab-2407-49ed-d445-5dccc126c64b@suse.de>
- <F07F7XO3_lxljay8DZbVRbLevY3p4np8Pt11PsA_RWIV9Hkc1QKGlby5uBZPcCiQtEdLFBOjG0c2Sy528P3G3yNreQckRzFjWkNuPa-CNKY=@emersion.fr>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <F07F7XO3_lxljay8DZbVRbLevY3p4np8Pt11PsA_RWIV9Hkc1QKGlby5uBZPcCiQtEdLFBOjG0c2Sy528P3G3yNreQckRzFjWkNuPa-CNKY=@emersion.fr>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------ZEPpfudtK9BHsdUBXTi8Qxdb"
+Content-Type: multipart/signed; boundary="Sig_/s775lQ2oUepIq0FO_JB10fu";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,76 +73,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
- dri-devel@lists.freedesktop.org
+Cc: pierre-eric.pelloux-prayer@amd.com,
+ 'Marek =?UTF-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
+ Michel =?UTF-8?B?RMOkbnplcg==?= <michel.daenzer@mailbox.org>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
+ hwentlan@amd.com, dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, joshua@froggi.es
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------ZEPpfudtK9BHsdUBXTi8Qxdb
-Content-Type: multipart/mixed; boundary="------------nWA9KGEdzPGlGVRSQSs0i3x8";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Simon Ser <contact@emersion.fr>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Jeffrey Hugo
- <quic_jhugo@quicinc.com>, dri-devel@lists.freedesktop.org
-Message-ID: <ecb43bcd-6907-e1e8-3c8c-63bde258c739@suse.de>
-Subject: Re: [PATCH] drm/doc: document that PRIME import/export is always
- supported
-References: <20230712183156.191445-1-contact@emersion.fr>
- <69a71fab-2407-49ed-d445-5dccc126c64b@suse.de>
- <F07F7XO3_lxljay8DZbVRbLevY3p4np8Pt11PsA_RWIV9Hkc1QKGlby5uBZPcCiQtEdLFBOjG0c2Sy528P3G3yNreQckRzFjWkNuPa-CNKY=@emersion.fr>
-In-Reply-To: <F07F7XO3_lxljay8DZbVRbLevY3p4np8Pt11PsA_RWIV9Hkc1QKGlby5uBZPcCiQtEdLFBOjG0c2Sy528P3G3yNreQckRzFjWkNuPa-CNKY=@emersion.fr>
+--Sig_/s775lQ2oUepIq0FO_JB10fu
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---------------nWA9KGEdzPGlGVRSQSs0i3x8
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Tue, 11 Jul 2023 10:57:57 +0200
+Daniel Vetter <daniel@ffwll.ch> wrote:
 
-DQoNCkFtIDEzLjA3LjIzIHVtIDA5OjE3IHNjaHJpZWIgU2ltb24gU2VyOg0KPiBPbiBUaHVy
-c2RheSwgSnVseSAxM3RoLCAyMDIzIGF0IDA3OjA5LCBUaG9tYXMgWmltbWVybWFubiA8dHpp
-bW1lcm1hbm5Ac3VzZS5kZT4gd3JvdGU6DQo+IA0KPj4+ICsgKiBTdGFydGluZyBmcm9tIGtl
-cm5lbCB2ZXJzaW9uIDYuNiwgYm90aCAmRFJNX1BSSU1FX0NBUF9JTVBPUlQgYW5kDQo+Pj4g
-KyAqICZEUk1fUFJJTUVfQ0FQX0VYUE9SVCBhcmUgYWx3YXlzIGFkdmVydGlzZWQuDQo+Pj4g
-KyAqDQo+Pg0KPj4gV2hlbiBwZW9wbGUgcG9ydCB0aGVzZSBjaGFuZ2VzIGludG8gdGhlaXIg
-dHJlZXMgdGhlIHZlcnNpb24gYmVjb21lcw0KPj4gbWVhbmluZ2xlc3MuIFRoZXJlIGFyZSBz
-byBtYW55ICJlbnRlcnByaXNlIGtlcm5lbHMiIHRoYXQgY29tYmluZSB3aG9sZQ0KPj4gc3Vi
-c3lzdGVtcyBmcm9tIGRpZmZlcmVudCB1cHN0cmVhbSByZWxlYXNlcy4NCj4+DQo+PiBUaGF0
-IG1ha2VzIG1lIHdvbmRlciBpZiBzdWNoIGRvY3VtZW50YXRpb24gbWFrZXMgc2Vuc2UuIFdl
-IHdhbnQgdG8gYXZvaWQNCj4+IGEgc2l0dWF0aW9uIHdoZXJlIHVzZXJzcGFjZSBkb2VzDQo+
-Pg0KPj4gaWYgKHY2LjYpDQo+PiBkbygpDQo+PiBlbHNlIGlmICh0ZXN0X2ZsYWdzKCkpDQo+
-PiBkbygpDQo+IA0KPiBEYW5pZWwgVmV0dGVyIGFza2VkIGZvciBzcGVjaWZpYyBrZXJuZWwg
-dmVyc2lvbnMgaW4gYjYwM2U4MTBmNzQwDQo+ICgiZHJtL3VhcGk6IGRvY3VtZW50IGtlcm5l
-bCBjYXBhYmlsaXRpZXMiKS4gSXQgYWxsb3dzIHVzZXItc3BhY2UgdG8NCj4gZmlndXJlIG91
-dCBob3cgd2lkZXNwcmVhZCBhIGNhcCBpcy4NCg0KV2VsbCwgT0sgdGhlbi4uLiA6KQ0KDQoN
-Ci0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNV
-U0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2
-LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVy
-cywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVl
-cm5iZXJnKQ0K
+> On Fri, Jul 07, 2023 at 07:40:59PM -0300, Andr=C3=A9 Almeida wrote:
+> > From: Pekka Paalanen <pekka.paalanen@collabora.com>
+> >=20
+> > Specify how the atomic state is maintained between userspace and
+> > kernel, plus the special case for async flips.
+> >=20
+> > Signed-off-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
+> > ---
+> > v4: total rework by Pekka
+> > ---
+> >  Documentation/gpu/drm-uapi.rst | 41 ++++++++++++++++++++++++++++++++++
+> >  1 file changed, 41 insertions(+)
+> >=20
+> > diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uap=
+i.rst
+> > index 65fb3036a580..6a1662c08901 100644
+> > --- a/Documentation/gpu/drm-uapi.rst
+> > +++ b/Documentation/gpu/drm-uapi.rst
+> > @@ -486,3 +486,44 @@ and the CRTC index is its position in this array.
+> > =20
+> >  .. kernel-doc:: include/uapi/drm/drm_mode.h
+> >     :internal:
+> > +
+> > +KMS atomic state
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +An atomic commit can change multiple KMS properties in an atomic fashi=
+on,
+> > +without ever applying intermediate or partial state changes.  Either t=
+he whole
+> > +commit succeeds or fails, and it will never be applied partially. This=
+ is the
+> > +fundamental improvement of the atomic API over the older non-atomic AP=
+I which is
+> > +referred to as the "legacy API".  Applying intermediate state could un=
+expectedly
+> > +fail, cause visible glitches, or delay reaching the final state.
+> > +
+> > +An atomic commit can be flagged with DRM_MODE_ATOMIC_TEST_ONLY, which =
+means the
+> > +complete state change is validated but not applied.  Userspace should =
+use this
+> > +flag to validate any state change before asking to apply it. If valida=
+tion fails
+> > +for any reason, userspace should attempt to fall back to another, perh=
+aps
+> > +simpler, final state.  This allows userspace to probe for various conf=
+igurations
+> > +without causing visible glitches on screen and without the need to und=
+o a
+> > +probing change.
+> > +
+> > +The changes recorded in an atomic commit apply on top the current KMS =
+state in
+> > +the kernel. Hence, the complete new KMS state is the complete old KMS =
+state with
+> > +the committed property settings done on top. The kernel will automatic=
+ally avoid
+> > +no-operation changes, so it is safe and even expected for userspace to=
+ send
+> > +redundant property settings.  No-operation changes do not count toward=
+s actually
+> > +needed changes, e.g.  setting MODE_ID to a different blob with identic=
+al
+> > +contents as the current KMS state shall not be a modeset on its own. =
+=20
+>=20
+> Small clarification: The kernel indeed tries very hard to make redundant
+> changes a no-op, and I think we should consider any issues here bugs. But
+> it still has to check, which means it needs to acquire the right locks and
+> put in the right (cross-crtc) synchronization points, and due to
+> implmentation challenges it's very hard to try to avoid that in all cases.
+> So adding redundant changes especially across crtc (and their connected
+> planes/connectors) might result in some oversynchronization issues, and
+> userspace should therefore avoid them if feasible.
+>=20
+> With some sentences added to clarify this:
+>=20
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
---------------nWA9KGEdzPGlGVRSQSs0i3x8--
+After talking on IRC yesterday, we realized that the no-op rule is
+nowhere near as generic as I have believed. Roughly:
+https://oftc.irclog.whitequark.org/dri-devel/2023-07-12#1689152446-16891572=
+91;
 
---------------ZEPpfudtK9BHsdUBXTi8Qxdb
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+
+Thanks,
+pq
+
+> > +
+> > +A "modeset" is a change in KMS state that might enable, disable, or te=
+mporarily
+> > +disrupt the emitted video signal, possibly causing visible glitches on=
+ screen. A
+> > +modeset may also take considerably more time to complete than other ki=
+nds of
+> > +changes, and the video sink might also need time to adapt to the new s=
+ignal
+> > +properties. Therefore a modeset must be explicitly allowed with the fl=
+ag
+> > +DRM_MODE_ATOMIC_ALLOW_MODESET.  This in combination with
+> > +DRM_MODE_ATOMIC_TEST_ONLY allows userspace to determine if a state cha=
+nge is
+> > +likely to cause visible disruption on screen and avoid such changes wh=
+en end
+> > +users do not expect them.
+> > +
+> > +An atomic commit with the flag DRM_MODE_PAGE_FLIP_ASYNC is allowed to
+> > +effectively change only the FB_ID property on any planes. No-operation=
+ changes
+> > +are ignored as always. Changing any other property will cause the comm=
+it to be
+> > +rejected.
+> > --=20
+> > 2.41.0
+> >  =20
+>=20
+
+
+--Sig_/s775lQ2oUepIq0FO_JB10fu
+Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSvq5gFAwAAAAAACgkQlh/E3EQov+C9
-ihAAodYIUZnNEDSgF2h8ZgbYrHOWErxdgQWZ96ZAp+2WCb2VbSghHF3tddTvNgGFp+xaLYQ2yGzH
-Aq5uRkMLvsovbaIB2RMW4PvLvyV8vzuWWGAZ6pVJ+2xJVdcrRieA5KER0AkxKP1bVyKAyPzwS6EM
-vVVm12lEKM+U0WsJ1SIFaqomns3Y1NpWYzk+Qs30gOMVWVst3v6kX3V6oWpcc+Fq3aRVltVR3RX8
-EcKsyYRxNnOSo6IaaVcWYoJPUBfhMGe+MtKx/HdOOiMPQKov6UcFEVq1G4faOLzJtOijET1C8WGh
-N0AwpnW5N6NOidRTqXgFTkR++GptqEbEGfozPZGj5VUbjpQGBbojfKnETsNUwkziw6X2z791fjrJ
-6iLOJoGuo+sxO02v5vhrA7wtDJDO1FNpagY1ou78eWUwK1PglTKjun3HCqKnnhdyWetuwsi9RDit
-Yohu9hj5lb34VQVNcOKSFETAqmVeOfmi8ymX67FJIL61xASlhMgryqiY56CH/kGu/wXo/lxUlest
-fbXU9c4apX1K6NIZOlmuOtH2wXdE+ta5lYN/KNTXcKw3DuZyWCW9xvKLIe4AoXg66UF0bwB7Vn8o
-uNtzMXbDL4sMCFJZ926+Xw0KfOXP1Mod/POUnNCf4H89lTrh7teH5xvnednx3A1B885RvEVW5FKo
-P8A=
-=Dw5J
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmSvrQ8ACgkQI1/ltBGq
+qqf1OA//fJK8h1tp8IR/16mqP3HqQeX16D7e0MdvIHc/y7KianjdxUSxVL33S2Q/
+vwnUlRT5XM6YFyMel8lqXj9W/kXQKFWKc4dZ32FV4nRKH7/Mq1T29qLbcuo72f4a
+toACgRxJuAxFuevU27PPH9CVNrxcBB8713PXVlwigRsM1csCokppguU6Kt5Gh5Hu
+YnS/oNhDzNbNfZhyX58epE38G3zdp9oUp0lgsx6k11Oe2ASEPX7mTTjNqLE5nQii
+JxsvoAv81RNqe4SvGDLex9pweeyXSItESL7lMJWXZFyIzFxu1H1CzImwtp+Zn3w5
+FuRheSx7WYlw/V+/M0dWr+uyZu9Tc49epPdQOfHjY40sKIMPJ7U4IMoxtLaJEHNp
+79Ghi5u0LuvqlS82ZdbrYLZzULau9gLUnM4kKi37W0m2NqBNbjBE8Oqrc4JyC3yj
+uvxB6kQa9679q7JC5q+um9qvTwFUjWy0JnK9RgMNgHTBDYjtj+O0k2V8jvxPMLXL
+Y+GrMq7jsJJmu35m6dpPtfLczX920qozJyiomkqDTvPD7oASF5NK0wn2QdjTvMjg
+hSm6HvG6CydwwszFVC/kFLDYXW0r1ErHMaV0wpqIQTsAVmQiER58oWX1k1+HtVyL
+UTr1gfmUhoEipv0DClFSWXntolF7QRFe2Z5jmO6fVWTLp1paKic=
+=hqk3
 -----END PGP SIGNATURE-----
 
---------------ZEPpfudtK9BHsdUBXTi8Qxdb--
+--Sig_/s775lQ2oUepIq0FO_JB10fu--
