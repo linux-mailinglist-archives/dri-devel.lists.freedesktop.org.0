@@ -1,49 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E58457524B2
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 16:11:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD2BD7524BC
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 16:13:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F384710E6E8;
-	Thu, 13 Jul 2023 14:11:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CFC610E6E9;
+	Thu, 13 Jul 2023 14:13:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B956610E6E8
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 14:11:09 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1qJx1c-0007fw-8f; Thu, 13 Jul 2023 16:10:32 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1qJx1V-00E8dn-6F; Thu, 13 Jul 2023 16:10:25 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1qJx1U-004ZOk-Ff; Thu, 13 Jul 2023 16:10:24 +0200
-Date: Thu, 13 Jul 2023 16:10:23 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH 00/17] drm: rename various struct members "dev" -> "drm"
-Message-ID: <20230713141023.52dkz5ezicwev74w@pengutronix.de>
-References: <20230713082408.2266984-1-u.kleine-koenig@pengutronix.de>
- <874jm8go61.fsf@intel.com>
- <20230713103940.aeqgcbmcoqepvbax@pengutronix.de>
- <2ypl3btshoovedyyq7jaohjgmwr7egnhazuxuffbxudlljktml@syv5u27skpqr>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 195EA10E6E9
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 14:13:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1689257587;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ATYcu61NcKBFBZNjA8FHDlmR2BmhqC05nng2Fk5LQdk=;
+ b=IJEOI+Ym71dgPW+eGo4J9V52a62g/Xvzop+ibeFbZ6/7sb/UoRwJ10khKAgkU9Rnm9Or+I
+ Q5g9AW0Bn/qIGLcUZUFYSDVQSWU5kXI00dcTyF8n8Mo27AgC2yMZ6Vp6JflWmykzhO+MRI
+ siXAWWfZHE9iWt6wMMjhD5UclhGBqMo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-440-msiSVqAeO_izTOBcori3Ow-1; Thu, 13 Jul 2023 10:13:01 -0400
+X-MC-Unique: msiSVqAeO_izTOBcori3Ow-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-3fc00d7d62cso4238915e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 07:12:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689257564; x=1691849564;
+ h=content-transfer-encoding:mime-version:message-id:date:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ATYcu61NcKBFBZNjA8FHDlmR2BmhqC05nng2Fk5LQdk=;
+ b=ljxS5N0ufNjjpNTFock8rXTMsDlLsplvT2l88QPnZJAKI1q+5NfXqO7sbXF3gyQaqW
+ Zmd2lMPC5eoFnHWlZ/lP7F9GLUE/ekl+X8d4tB0iKzpz8o3LxCCQlh8aQ3PJYSKRRbIW
+ b3WZGLXebVVu/wGT7KBN+mmUqS97y6kc2YMXlT2KYtaVOhbpMs5y//FPLA/8IQRH0T9I
+ gAKuhZENCZQD5U+6arllGRia/xWnXZSXa7Q93PZk6Pa00NWoSx0yo8v0SFF2hXDzu5kr
+ R+7MNSbA5m0hh2gy1dfJwm0OiNMrO0ZLUxkASP2ZMxhkW1amPaauzzEmeZ65hipAnV5l
+ hxAw==
+X-Gm-Message-State: ABy/qLZMoVXIMYtQsIuThHSN7ErQJZmbGp+H+YDUBfBWIQ0SPivA3yLP
+ dcKVVizhALOYeQ0Mq9nCbxlCh730p6wGde4nW9sGuPd6ZcVujW5p6A88Qc+TaxAMACwn2ke0m/k
+ EOOmpJOjNFAsSU/873qlsUwCKA4AE
+X-Received: by 2002:a05:600c:20c4:b0:3fb:e054:903f with SMTP id
+ y4-20020a05600c20c400b003fbe054903fmr1518660wmm.36.1689257563793; 
+ Thu, 13 Jul 2023 07:12:43 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlGTO8tKXWD2Nu2+1I1N2SiNyFhI/CQYeIdOuzfASSUpHgauIrg4LbcsK8lqHcU5wl1qnbOXhg==
+X-Received: by 2002:a05:600c:20c4:b0:3fb:e054:903f with SMTP id
+ y4-20020a05600c20c400b003fbe054903fmr1518639wmm.36.1689257563446; 
+ Thu, 13 Jul 2023 07:12:43 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ q4-20020adfcd84000000b0031134bcdacdsm8140605wrj.42.2023.07.13.07.12.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Jul 2023 07:12:43 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v2 4/5] drm/ssd130x: Don't allocate buffers on each
+ plane update
+In-Reply-To: <CAMuHMdWmJjGX+s=z0bBMDz0=zqZJHrGhkzWyRkmstS0eW9aiTg@mail.gmail.com>
+References: <20230609170941.1150941-1-javierm@redhat.com>
+ <20230609170941.1150941-5-javierm@redhat.com>
+ <CAMuHMdVXhi52KfpCmnum+9t74UWP+AOLE95xQU6VV6Nz=VHk1Q@mail.gmail.com>
+ <87fs5sgdfh.fsf@minerva.mail-host-address-is-not-set>
+ <CAMuHMdWmJjGX+s=z0bBMDz0=zqZJHrGhkzWyRkmstS0eW9aiTg@mail.gmail.com>
+Date: Thu, 13 Jul 2023 16:12:42 +0200
+Message-ID: <87cz0vhpd1.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="eytq45gyqdlpfjx7"
-Content-Disposition: inline
-In-Reply-To: <2ypl3btshoovedyyq7jaohjgmwr7egnhazuxuffbxudlljktml@syv5u27skpqr>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,146 +87,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Sui Jingfeng <suijingfeng@loongson.cn>, kernel@pengutronix.de,
- Jani Nikula <jani.nikula@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- "Russell King \(Oracle\)" <linux@armlinux.org.uk>,
- Julia Lawall <julia.lawall@inria.fr>, Luben Tuikov <luben.tuikov@amd.com>,
- Sean Paul <seanpaul@chromium.org>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Geert Uytterhoeven <geert@linux-m68k.org> writes:
 
---eytq45gyqdlpfjx7
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello Geert,
 
-Hello Maxime,=20
+> Hi Javier,
+>
+> On Thu, Jul 13, 2023 at 3:21=E2=80=AFPM Javier Martinez Canillas
+> <javierm@redhat.com> wrote:
+>> Geert Uytterhoeven <geert@linux-m68k.org> writes:
+>> > On Fri, Jun 9, 2023 at 7:09=E2=80=AFPM Javier Martinez Canillas
+>> > <javierm@redhat.com> wrote:
+>> >> The resolutions for these panels are fixed and defined in the Device =
+Tree,
+>> >> so there's no point to allocate the buffers on each plane update and =
+that
+>> >> can just be done once.
+>> >>
+>> >> Let's do the allocation and free on the encoder enable and disable he=
+lpers
+>> >> since that's where others initialization and teardown operations are =
+done.
+>> >>
+>> >> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+>> >> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> >> ---
+>> >>
+>> >> (no changes since v1)
+>> >
+>> > Thanks for your patch, which is now commit 49d7d581ceaf4cf8
+>> > ("drm/ssd130x: Don't allocate buffers on each plane update") in
+>> > drm-misc/for-linux-next.
+>> >
+>> >> --- a/drivers/gpu/drm/solomon/ssd130x.c
+>> >> +++ b/drivers/gpu/drm/solomon/ssd130x.c
+>> >> @@ -701,14 +709,22 @@ static void ssd130x_encoder_helper_atomic_enabl=
+e(struct drm_encoder *encoder,
+>> >>                 return;
+>> >>
+>> >>         ret =3D ssd130x_init(ssd130x);
+>> >> -       if (ret) {
+>> >> -               ssd130x_power_off(ssd130x);
+>> >> -               return;
+>> >> -       }
+>> >> +       if (ret)
+>> >> +               goto power_off;
+>> >> +
+>> >> +       ret =3D ssd130x_buf_alloc(ssd130x);
+>> >
+>> > This appears to be too late, causing a NULL pointer dereference:
+>> >
+>>
+>> Thanks for reporting this issue.
+>>
+>> > [   59.302761] [<c0303d90>] ssd130x_update_rect.isra.0+0x13c/0x340
+>> > [   59.304231] [<c0304200>]
+>> > ssd130x_primary_plane_helper_atomic_update+0x26c/0x284
+>> > [   59.305716] [<c02f8d54>] drm_atomic_helper_commit_planes+0xfc/0x27c
+>> >
+>>
+>> I wonder how this could be too late. I thought that the encoder
+>> .atomic_enable callback would be called before any plane .atomic_update.
+>>
+>> > Bailing out from ssd130x_update_rect() when data_array is still NULL
+>> > fixes that.
+>> >
+>>
+>> Maybe we can add that with a drm_WARN() ? I still want to understand how
+>> a plane update can happen before an encoder enable.
+>
+> Full log is:
+>
+>     ssd130x-i2c 0-003c: supply vcc not found, using dummy regulator
+>     [drm] Initialized ssd130x 1.0.0 20220131 for 0-003c on minor 0
+>     ssd130x-i2c 0-003c: [drm] surface width(128), height(32), bpp(1)
+> and format(R1   little-endian (0x20203152))
+>     Unable to handle kernel NULL pointer dereference at virtual address 0=
+0000000
+>     Oops [#1]
+>     CPU: 0 PID: 1 Comm: swapper Not tainted
+> 6.5.0-rc1-orangecrab-02219-g0a529a1e4bf4 #565
+>     epc : ssd130x_update_rect.isra.0+0x13c/0x340
+>      ra : ssd130x_update_rect.isra.0+0x2bc/0x340
+>     epc : c0303d90 ra : c0303f10 sp : c182b5b0
+>      gp : c06d37f0 tp : c1828000 t0 : 00000064
+>      t1 : 00000000 t2 : 00000000 s0 : c182b600
+>      s1 : c2044000 a0 : 00000000 a1 : 00000000
+>      a2 : 00000008 a3 : a040f080 a4 : 00000000
+>      a5 : 00000000 a6 : 00001000 a7 : 00000008
+>      s2 : 00000004 s3 : 00000080 s4 : c2045000
+>      s5 : 00000010 s6 : 00000080 s7 : 00000000
+>      s8 : 00000000 s9 : a040f000 s10: 00000008
+>      s11: 00000000 t3 : 00000153 t4 : c2050ef4
+>      t5 : c20447a0 t6 : 00000080
+>     status: 00000120 badaddr: 00000000 cause: 0000000f
+>     [<c0303d90>] ssd130x_update_rect.isra.0+0x13c/0x340
+>     [<c0304200>] ssd130x_primary_plane_helper_atomic_update+0x26c/0x284
+>     [<c02f8d54>] drm_atomic_helper_commit_planes+0xfc/0x27c
+>     [<c02f9314>] drm_atomic_helper_commit_tail+0x5c/0xb4
+>     [<c02f94fc>] commit_tail+0x190/0x1b8
+>     [<c02f99fc>] drm_atomic_helper_commit+0x194/0x1c0
 
-On Thu, Jul 13, 2023 at 01:17:43PM +0200, Maxime Ripard wrote:
-> On Thu, Jul 13, 2023 at 12:39:40PM +0200, Uwe Kleine-K=F6nig wrote:
-> > On Thu, Jul 13, 2023 at 12:23:50PM +0300, Jani Nikula wrote:
-> > > On Thu, 13 Jul 2023, Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.=
-de> wrote:
-> > > > after most feedback for my series "drm/crtc: Rename struct drm_crtc=
-::dev
-> > > > to drm_dev"[1] was positive in principle, here comes a new series.
-> > >=20
-> > > I find it obnoxious to send a new series within 24 hours of the first,
-> > > while the discussion is still in progress, and it's a misrepresentati=
-on
-> > > of the in-progress dicussion to say most of the feedback was positive.
-> > >=20
-> > > This is not the way to reach consensus.
-> >=20
-> > Let me tell you I didn't had any obnoxious intentions when sending this
-> > new series. I honestly still think that the feedback was mostly positive
-> > to the idea to get rid of struct drm_device *dev. Most discussion was
-> > about splitting the series and the right name to use instead of "dev".
->=20
-> And then you have a former and current maintainers that tell you that
-> they'd prefer not to merge it at all.
+Thanks for the log, so I think the problem is that the default struct
+drm_mode_config_helper_funcs .atomic_commit_tail is
+drm_atomic_helper_commit_tail():
 
-I went back to the previous thread rereading the replies I got yesterday
-(i.e. the ones I was aware when I started to respin the series). By then
-following people stated their opinion:
+https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_atomic_h=
+elper.c#L1710
 
- - Paul Kocialkowski
-   Is happy with the status quo
-   naming: drm_dev > { drmdev, drm }
- - Thomas Zimmermann
-   All data structures should be converted
-   naming: drm > *
- - Javier Martinez Canillas
-   Generally in favour (also via irc)
-   Wants a single patch
-   naming: drm > drm_dev > dev
- - Russell King
-   Sent a "Reviewed-by, Thanks"
- - Christan K=F6nig
-   Wants a single patch
-   naming: don't care
- - Maxime Ripard
-   Wants a single patch
- - Sui Jingfeng
-   no union
-   naming: { drm, ddev } > drm_dev > dev
- - Luben Tuikov
-   Wants a single patch
-   naming: drm_dev > { drm, dev }
- - Jani Nikula
-   unnecessary change.(is this a "no" or a "don't care"?)
-   naming: drm > *
- - Sean Paul
-   doesn't like this change
+That helper calls drm_atomic_helper_commit_planes() and attempts to commit
+the state for all planes even for CRTC that are not enabled. I see that
+there is a drm_atomic_helper_commit_tail_rpm() helper that instead calls:
 
-I admit I'm not aware about the roles here, but up to then only Sean
-Paul wrote a clear no and maybe Jani Nikula a small one. I interpreted
-Paul Kocialkowski's replay as indifferent to the renaming. All others
-were in favour or only criticised details and naming.
+drm_atomic_helper_commit_planes(dev, old_state, DRM_PLANE_COMMIT_ACTIVE_ONL=
+Y),
+which I thought that was the default behaviour.
 
-What did I miss (apart from today's replies which indeed are more
-negative:
+Can you please try the following change [0] ? If that works then I can
+propose as a proper patch.
 
- - Thierry Reding=20
-   Agreed to Jani Nikula that this change is
-   unnecessary, also understood that for non-DRM people it might be
-   confusing.
-   naming: dev > drm > *
- - Thomas Zimmermann
-   Agreed to Sean Paul about the too high downsides
- - Geert Uytterhoeven
-   In favour (also before via irc)
-)?
-
-> Ignoring those concerns
-
-I'm really surprised by this suggestion. Either I really missed
-something, or I'd like to ask these maintainers to communicate in a more
-obvious way. If I send a series and I get feedback like "If you rename
-drm_crtc.dev, you should also address *all* other data structures." (by
-Thomas Zimmermann) or "When you automatically generate the patch (with
-cocci for example) I usually prefer a single patch instead." (by
-Christan K=F6nig) then I would expect that if they oppose the underlying
-idea of the series they would say so, too. I'm sorry, I cannot read a
-concern (to the underlying idea) from these replies. And so I addressed
-the feedback about the details with a new series to have an updated base
-for the discussion.
-
-> and then sending a new version right away is, if not obnoxious,
-> definitely aggressive.
-
-If this is how you experience my submission even after I tried to
-explain my real intentions, I'm sorry. And I'm sure there is a deep
-misunderstanding somewhere.
-
-Best regards
-Uwe
-
+[0]:
+diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ss=
+d130x.c
+index afb08a8aa9fc..c543caa3ceee 100644
+--- a/drivers/gpu/drm/solomon/ssd130x.c
++++ b/drivers/gpu/drm/solomon/ssd130x.c
+@@ -795,6 +795,10 @@ static const struct drm_mode_config_funcs ssd130x_mode=
+_config_funcs =3D {
+        .atomic_commit =3D drm_atomic_helper_commit,
+ };
+=20
++static const struct drm_mode_config_helper_funcs ssd130x_mode_config_helpe=
+rs =3D {
++        .atomic_commit_tail =3D drm_atomic_helper_commit_tail_rpm,
++};
++
+ static const uint32_t ssd130x_formats[] =3D {
+        DRM_FORMAT_XRGB8888,
+ };
+@@ -923,6 +927,7 @@ static int ssd130x_init_modeset(struct ssd130x_device *=
+ssd130x)
+        drm->mode_config.max_height =3D max_height;
+        drm->mode_config.preferred_depth =3D 24;
+        drm->mode_config.funcs =3D &ssd130x_mode_config_funcs;
++       drm->mode_config.helper_private =3D &ssd130x_mode_config_helpers;
+=20
+        /* Primary plane */
+=20
 --=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Best regards,
 
---eytq45gyqdlpfjx7
-Content-Type: application/pgp-signature; name="signature.asc"
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmSwBc4ACgkQj4D7WH0S
-/k6IOgf/ZvAaUMNXAU5w+OZXYps6wa2Nv/xki0relZOppUs1f28PPzwYrzh7kdrm
-L09pU98OxQ0v/jeOWM7q5RMx2YQMqD8+zPHE2qGzVUyYOLES2ejPHOfcbYHQjMon
-zi8Syin10MaueBNTQb4o62ssaslKA+sj7yByNCaEXHK4Gxi1d+UuvUDsXRiWX6Dk
-77uYOm7/5/HU76bpYQ+gTCYSZeC6kA2tuOAc+Jumwtl15LwfsHEIKmec3N5CE4vc
-XRrAE9Zrg8mIiEVmkp4+Sl7lgGmuy1cxMiIPqNcnur51uYkSaQWSgRi+mdTk+Add
-Paem615LaN6gh8fXXC84Vv8i/IY1kA==
-=G4PD
------END PGP SIGNATURE-----
-
---eytq45gyqdlpfjx7--
