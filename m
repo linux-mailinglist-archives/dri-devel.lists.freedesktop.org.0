@@ -2,52 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 891BB7518B7
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 08:22:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE1E37518E9
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 08:40:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D4FB10E16C;
-	Thu, 13 Jul 2023 06:22:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 101B110E5A0;
+	Thu, 13 Jul 2023 06:40:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FDD410E16C
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 06:22:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1689229328; x=1720765328;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=oRD8z5/I2QiQQmKcjCasKRz8JpYpocmZfX3nkkeKWNY=;
- b=oMhYBy6eYFZepn72F8NLaUyut81Fsqg2FF3Hm6cRl8G6nCzJBCsufDXE
- xIV2k7F0TSP8Af7oHOL6tIg7zeuHOKlPdWS22F6ghGDv67Bg9YSq5Zo4o
- xe9w5ujAAM7hobt0LxueOCym+Qx9+xy2xcdOGbwBP2yMS7tofqA2eDF1T
- ULpfPFGC8GCWAZ+VndT+E9u6ADtmCSfFciotU4ASVKQepnnyyHtJMF7GY
- kPU4qv8QCnQIh1ipF0F4YOhFCCwt1PHFvlpGW37ExnOMYUmB150xwIrsC
- 31euSGhckasevDXwdib7xAkPA9CHwO9eT1F/PBIZyVz8RmG3WBZvv+mVE A==;
-X-IronPort-AV: E=Sophos;i="6.01,201,1684792800"; d="scan'208";a="31903351"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 13 Jul 2023 08:22:05 +0200
-Received: from steina-w.localnet (unknown [10.123.53.21])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id D7DC7280078;
- Thu, 13 Jul 2023 08:22:04 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Frieder Schrempf <frieder@fris.de>, Jagan Teki <jagan@amarulasolutions.com>,
- Adam Ford <aford173@gmail.com>, Tim Harvey <tharvey@gateworks.com>
-Subject: Re: [PATCH v2 1/2] drm: bridge: samsung-dsim: Fix i.MX8M enable flow
- to meet spec
-Date: Thu, 13 Jul 2023 08:22:03 +0200
-Message-ID: <15446320.O9o76ZdvQC@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <CAJ+vNU2d969V1kTHpH+tPK1fm=Z2DUdKSOjwyzRO=9j43HhKgg@mail.gmail.com>
-References: <20230503163313.2640898-1-frieder@fris.de>
- <20230503163313.2640898-2-frieder@fris.de>
- <CAJ+vNU2d969V1kTHpH+tPK1fm=Z2DUdKSOjwyzRO=9j43HhKgg@mail.gmail.com>
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2043.outbound.protection.outlook.com [40.107.94.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18CC510E5A0
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 06:40:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ag9o4Ka8nFBVudCoI4zSm0I0aGz6qjxqfqaELQnqRq0BmGvZQhRF8TLuqHBqto5MdyFC0JhhRJ7IbvZDGY2+rfi7ElPbU1ivYP/aesBp7sy+ImG7RTSlmRuoc0L0+R/aBe4E8r/BNX6B6fc/G5shiC7eiu8jEKe7byxGfQfIl2Q/3L1NyntXti6e6OnrEQo96I1B8qDkZDOELPwkeiImYbDqad2qRSepklH9GAW4hJPJbZlGl72K5lIPeapzs92ctmuHpyCbOLKbPoV8yP2VSkqE8JYv+ozaN1s+0z4AeoV2wZG696+VWrAbBKPGkGAE4/GAXsreoPB6N4IwCkN5/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aDK7/h0k9y+S3svS8/MptrwbbdL1lpsgzerhhY6a/5U=;
+ b=M9B4wRWVZ7/1gdY6We6WmErVbJZ05HlIxjd9OJ52DZdIPvdzTwFbyhR5d3tKemtIZOT8SUINNY64dpLZG7aBOX0Qi7Ryf6U20HArSga3lB8PB13znG26wqpi/tDrizIjAGNQjegnNrf/SK3rROYDARf+MZX754nZSq6s+8sXer3QGETFZ2gmEH2iDUSzgldZdtnIS4N48GTF98CYEqG4m+QPJk3H8KxyS6O3Wn8jsx/qPBw9jGNMtnYYgLLk1vULV3OKQF684mWii6mjrd3s3Z+0HWVnTbjEqJSUzEiBlM8Cf4FxilsUbh3atiJrXl+tgIpqwUpnkeWQMu3nE6w5cA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aDK7/h0k9y+S3svS8/MptrwbbdL1lpsgzerhhY6a/5U=;
+ b=jVEPn99ITO9s7r4c3mGqyGh3I/7IqoZvc0gdAoVPf8OHIddxTEggMp9eVDMWD0F8H/gPM05lkaBaf24WuieUIqyxoudYwHEnE/pcAH1wZzcVftCUW34uoGDo8nE9YNCGdJomwnF8VpIJLqx08uSOf6ZfZxP3au2KqNGLGNRVFJI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by DS0PR12MB8272.namprd12.prod.outlook.com (2603:10b6:8:fc::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6565.32; Thu, 13 Jul 2023 06:40:11 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::669f:5dca:d38a:9921]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::669f:5dca:d38a:9921%4]) with mapi id 15.20.6588.024; Thu, 13 Jul 2023
+ 06:40:10 +0000
+Message-ID: <c1d632a3-4e5b-6ab9-3ac1-cb4d696becf9@amd.com>
+Date: Thu, 13 Jul 2023 08:39:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH RFC 2/2] drm: add documentation for drm_buddy_test kUnit
+ test
+Content-Language: en-US
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <cover.1689171160.git.mchehab@kernel.org>
+ <0e5f68ab045965292fee1748254bf9b91db9039a.1689171160.git.mchehab@kernel.org>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <0e5f68ab045965292fee1748254bf9b91db9039a.1689171160.git.mchehab@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0079.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9a::19) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DS0PR12MB8272:EE_
+X-MS-Office365-Filtering-Correlation-Id: 14d515c3-951e-4c07-8ffc-08db836c00ba
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Exun5vGu1n5ICnlqcB6b1kqVulntcG7l7uk12Q0+qLViv0IB/2bN6iTgp19elTGWff5TC5bDPFGzsj6EnKvq1zX3TvW4C4IzWo5MbFmQKqlZ5IWFXtBLaeR9zc1A8xLK45SKw1Mwv6h2Q7U3dk6nmzvotI88O8bzx7u1R8jztmOUyBmQYbEbuahDVLfqaNGddO61qHClerzd5zkqpXfdSUkRlvbzrLpHkAlzI9R0lSKj8v0UdiCsZI50y+2lNSicX/Qx4DrgxtLXyIMuPHc+eFVAYnudFZMY6Hfi09Nado1xOUv3nuJwKRYNL4Xmxc2Z8iG7QrArfXQUijkV21zfMCBzfJRqiPm0z13BCrox3T1p4UFsLGNuEXsaGeY6Cz7CR2NfXz8GPzm1KQfmFU3XnklrgDY66EaqKURaJDyKNNnXFHvFWl9P4ESUhvNiW1wzxRXJnioqyMIMZPgvSNT7UEmHJN6+zyYisKGmcY6Y0ljRCNTRaeru0zwUakGWbdBzbs5CUmuKywV1joNwG4Izx+B1UpIjz9dMHZQufCPbC6pqgOJer3CAbYeSNi0DVJIf3OyBJMhdjl5L54ZwhTOPPUB2SBIz5C2TKfEzocCettYZ8bTKp20wWMGV2s63MCm2nJmcBgZcaBRTWRfHt38SRQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(376002)(396003)(346002)(136003)(39860400002)(366004)(451199021)(8936002)(8676002)(31686004)(186003)(2616005)(66574015)(83380400001)(5660300002)(7416002)(6506007)(31696002)(86362001)(41300700001)(6666004)(6486002)(966005)(316002)(6512007)(66556008)(66476007)(36756003)(2906002)(6916009)(66946007)(4326008)(54906003)(478600001)(38100700002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V2wrQWF5RkFzdUtwMkhxZm81aXlMZjlINGljK0FncjRQNEN6Y0hZWXB1RE5G?=
+ =?utf-8?B?ZUxJWEdIQWNNTkk3ZE9nTEd2T01VN1ZNL1hNY3gwRmQzd3cxK2tkZ1ErTmtU?=
+ =?utf-8?B?ZXNTMlMybE5JNHplNmFkbG5ZQnkvaXpuSHpPdkRFaU9CejJFQzFZalQ0US8y?=
+ =?utf-8?B?NUdDZ0Q4eDFRVjlmQjhaVm5McG4yYm1LOEg1YTd0cWRhNWdpSkc4b1hCOFdw?=
+ =?utf-8?B?WVJoei9INStYMHdqRW9oUTBoVlVTRWxPL1FDd1VyTm5pNG1QUk4xQTVCSy9Y?=
+ =?utf-8?B?aFJiNjNnLytMYUFRVXJTQk0wWTB3SW1PaHBzSC9hbG9uU2liQ3gyNE1qNXc3?=
+ =?utf-8?B?Y3JyWTZ0WlcxeDdURHVSOElLNTJ2UGQrR2QxZnVtT3R4Q1pzdWpJaW02bUJx?=
+ =?utf-8?B?TEhpak9sV3AvRitiWXJOQzNaaE93S3hoRHBTNmlpVHpwdmJuVXpMVkJsMkND?=
+ =?utf-8?B?V0xkcnQyQU1zRVJNdkxSTmZERWd0dGJBQ2hpWVNodjRxSmszeFZrVW5hYzhU?=
+ =?utf-8?B?OHRPM08zYUc1T3hsVHVWYys4alJXZkVjcU1WaXRBbVpOR0IzbDhTY3ozakU1?=
+ =?utf-8?B?SlBpM3phTm5QT1UyY3BBM2RkTmtudU5qdWlnMzVtTEltY1hCMWhRTUQ3Zk9K?=
+ =?utf-8?B?QzNPME52S2pqOWxLWkV4TW45UUJyNko2MkttQmdLc2lxemdsV3U3Qlc5djNC?=
+ =?utf-8?B?akQwcmZVbTNOL0p1WlJPZ05sRDdFQmxXT3Boc2Jobm5BUk81ck02WVNGdFgx?=
+ =?utf-8?B?WFBCT09FVG1ZRll0dVlqV2ZQeVdPcXFrUlZPT2d6ckxERFlyaVcxd3FSWHpp?=
+ =?utf-8?B?Vnc4aGJSQ1lvcjhzaXp3QUFhM0dCNHpMR1NPRThXY09yTSt0VVI5VUUxbGJN?=
+ =?utf-8?B?U242Q2paOVRVMVVmV3Iwb2tZeWo1cEJnWm5qWDlIUjVtc2JrYWxWekZoMjRi?=
+ =?utf-8?B?V1ZqbVFSa1pnMTlKUFNmYVVQaE8zbnd0L0ZuU1pZMWpjYjQwR25ycUxodE5z?=
+ =?utf-8?B?RTlqMVFqNnF5L2xLTlZZejExZno5Rmtvbk1DZjUwcWw3cDZEVXhVSjAyVEhO?=
+ =?utf-8?B?Z3FacVFIVERGSStxNFBaSDIyYlRNS2RxZnZpc2liZXVncVV3RUxEY21TSXQ4?=
+ =?utf-8?B?Z2ZTcXA4dzZpU3IvSXczUDY3T2o0bWk4Qy81d2V6alIzSW41M3ZrRFZhMkVk?=
+ =?utf-8?B?bVVtRHFrWkhORXg1b1k5eCtKMVRlYVJ3S2V0aHBTWllNdkRpWTk2dlgxcDN4?=
+ =?utf-8?B?SzgwMm9CSTMxZlE0c0NwNmZzU0lkRGlPa2dRcXhKSmNDejNFeVdUUjQyY1Ny?=
+ =?utf-8?B?UHFyd0plMGZBaUlScHdodWRCV1RnVUEwdnNGMC9aVEJDR2NjbXlQYVN0eE56?=
+ =?utf-8?B?bjJrR3M3RVFaSkxjUWlCOStBUGVGdUdjd1VjaDVIR2pwSWN1MGwvY3FBSGVj?=
+ =?utf-8?B?VDg5RDBHUXBZalRJM2xDb05rU2tPT082TVpXUkZ3bGx6cnJOT1VqSU51S25n?=
+ =?utf-8?B?aG9aQXpCb0xoeUJPQkJmVHlmMnd5dWNidGE1SkUwbnkvU2M0QWxOZE5zRlky?=
+ =?utf-8?B?dWFQTDdGeHNUZGI3bHVQUWNoZ2Q1bWtWYzBOQmF6UExqbXNnaWd1dDU0aWRV?=
+ =?utf-8?B?VnUyN201M3RGQ3QxcG50c3lyZ0kwZ08rNVRYMG5Jem5nU3hyUzhiUDIxSzVt?=
+ =?utf-8?B?SmdRL1hZQTdmcFB0ZHR6bEVJbnJwUDZxOENHZ2tKZFYzQUp4VmhaWVFxL3Nu?=
+ =?utf-8?B?dzA1ckY3QTNsMFE3bUIrb095TzVSSTdSWVVpb0J5T2lqUHZnd3Faekl6WHFy?=
+ =?utf-8?B?WHlJZWZ3ZWd0ek9UbG82dDlGeCs1R3F3eG4xbEdjaEd3WmpJakFDL3Y2czl0?=
+ =?utf-8?B?YWdWUHhvK2JlQlZQaU84VzV3OWVrQzBqLzJJSEhCYzlXZXQ0aHpUMUxOcmpN?=
+ =?utf-8?B?YjF1Yll4S3pHd2FhYXQzNmlSTjdoZHJqMEQ3NkFKaVlLU2NCTUV5bnBCaXl0?=
+ =?utf-8?B?NjZoM1h3OWpyQ0RST0s5cFY5NHNnaXd2amwrdTdpaXZOTy9RSlVwU0ZPUERH?=
+ =?utf-8?B?ZHBNQytMTVhyZ01aYjVyWXpOaGZmOE1SY0FLK1V2MEJTR01EZTBLdmNyN1Z4?=
+ =?utf-8?B?dEhCN0d0VHlvZ0JBNThNVkE0dDFFWndVVTB4M0QrdEppakNGU0VpUkYxU3Zs?=
+ =?utf-8?Q?VGRaio+HYoHVtp/IxaKk6gZeJ3Ycqhtq/NHfeUVQtbOU?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 14d515c3-951e-4c07-8ffc-08db836c00ba
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2023 06:40:10.0850 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ftgk/fQ4bIONa6SivRDcQ69R+10orfe1HhwsCccj95bdOf1TfN6a5zDzjruWPObZ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8272
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,206 +127,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: linux-kselftest@vger.kernel.org, "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Kees Cook <keescook@chromium.org>, Nikolai Kondrashov <spbnick@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, "Darrick J. Wong" <djwong@kernel.org>,
+ "Paneer Selvam, Arunpravin" <Arunpravin.PaneerSelvam@amd.com>,
+ linux-doc@vger.kernel.org, Brendan Higgins <brendanhiggins@google.com>,
+ Rae Moar <rmoar@google.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>, mauro.chehab@intel.com,
+ David Gow <davidgow@google.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ Arthur Grillo <arthurgrillo@riseup.net>, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+[Adding Arun]
 
-Am Donnerstag, 13. Juli 2023, 00:34:47 CEST schrieb Tim Harvey:
-> On Wed, May 3, 2023 at 9:33=E2=80=AFAM Frieder Schrempf <frieder@fris.de>=
- wrote:
-> > From: Frieder Schrempf <frieder.schrempf@kontron.de>
-> >=20
-> > According to the documentation [1] the proper enable flow is:
-> >=20
-> > 1. Enable DSI link and keep data lanes in LP-11 (stop state)
-> > 2. Disable stop state to bring data lanes into HS mode
-> >=20
-> > Currently we do this all at once within enable(), which doesn't
-> > allow to meet the requirements of some downstream bridges.
-> >=20
-> > To fix this we now enable the DSI in pre_enable() and force it
-> > into stop state using the FORCE_STOP_STATE bit in the ESCMODE
-> > register until enable() is called where we reset the bit.
-> >=20
-> > We currently do this only for i.MX8M as Exynos uses a different
-> > init flow where samsung_dsim_init() is called from
-> > samsung_dsim_host_transfer().
-> >=20
-> > [1]
-> > https://docs.kernel.org/gpu/drm-kms-helpers.html#mipi-dsi-bridge-operat=
-io
-> > n
-> >=20
-> > Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-> > ---
-> > Changes for v2:
-> > * Drop RFC
-> > ---
-> >=20
-> >  drivers/gpu/drm/bridge/samsung-dsim.c | 25 +++++++++++++++++++++++--
-> >  1 file changed, 23 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
-> > b/drivers/gpu/drm/bridge/samsung-dsim.c index e0a402a85787..9775779721d9
-> > 100644
-> > --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> > +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> > @@ -859,6 +859,10 @@ static int samsung_dsim_init_link(struct samsung_d=
-sim
-> > *dsi)>=20
-> >         reg =3D samsung_dsim_read(dsi, DSIM_ESCMODE_REG);
-> >         reg &=3D ~DSIM_STOP_STATE_CNT_MASK;
-> >         reg |=3D
-> >         DSIM_STOP_STATE_CNT(driver_data->reg_values[STOP_STATE_CNT]);
-> >=20
-> > +
-> > +       if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type))
-> > +               reg |=3D DSIM_FORCE_STOP_STATE;
-> > +
-> >=20
-> >         samsung_dsim_write(dsi, DSIM_ESCMODE_REG, reg);
-> >        =20
-> >         reg =3D DSIM_BTA_TIMEOUT(0xff) | DSIM_LPDR_TIMEOUT(0xffff);
-> >=20
-> > @@ -1340,6 +1344,9 @@ static void samsung_dsim_atomic_pre_enable(struct
-> > drm_bridge *bridge,>=20
-> >                 ret =3D samsung_dsim_init(dsi);
-> >                 if (ret)
-> >                =20
-> >                         return;
-> >=20
-> > +
-> > +               samsung_dsim_set_display_mode(dsi);
-> > +               samsung_dsim_set_display_enable(dsi, true);
-> >=20
-> >         }
-> > =20
-> >  }
-> >=20
-> > @@ -1347,9 +1354,16 @@ static void samsung_dsim_atomic_enable(struct
-> > drm_bridge *bridge,>=20
-> >                                        struct drm_bridge_state
-> >                                        *old_bridge_state)
-> > =20
-> >  {
-> > =20
-> >         struct samsung_dsim *dsi =3D bridge_to_dsi(bridge);
-> >=20
-> > +       u32 reg;
-> >=20
-> > -       samsung_dsim_set_display_mode(dsi);
-> > -       samsung_dsim_set_display_enable(dsi, true);
-> > +       if (samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type)) {
-> > +               samsung_dsim_set_display_mode(dsi);
-> > +               samsung_dsim_set_display_enable(dsi, true);
-> > +       } else {
-> > +               reg =3D samsung_dsim_read(dsi, DSIM_ESCMODE_REG);
-> > +               reg &=3D ~DSIM_FORCE_STOP_STATE;
-> > +               samsung_dsim_write(dsi, DSIM_ESCMODE_REG, reg);
-> > +       }
-> >=20
-> >         dsi->state |=3D DSIM_STATE_VIDOUT_AVAILABLE;
-> > =20
-> >  }
-> >=20
-> > @@ -1358,10 +1372,17 @@ static void samsung_dsim_atomic_disable(struct
-> > drm_bridge *bridge,>=20
-> >                                         struct drm_bridge_state
-> >                                         *old_bridge_state)
-> > =20
-> >  {
-> > =20
-> >         struct samsung_dsim *dsi =3D bridge_to_dsi(bridge);
-> >=20
-> > +       u32 reg;
-> >=20
-> >         if (!(dsi->state & DSIM_STATE_ENABLED))
-> >        =20
-> >                 return;
-> >=20
-> > +       if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type)) {
-> > +               reg =3D samsung_dsim_read(dsi, DSIM_ESCMODE_REG);
-> > +               reg |=3D DSIM_FORCE_STOP_STATE;
-> > +               samsung_dsim_write(dsi, DSIM_ESCMODE_REG, reg);
-> > +       }
-> > +
-> >=20
-> >         dsi->state &=3D ~DSIM_STATE_VIDOUT_AVAILABLE;
-> > =20
-> >  }
-> >=20
-> > --
-> > 2.40.0
->=20
-> Hi Frieder,
->=20
-> I found this patch to break mipi-dsi display on my board which has:
->  - FocalTech FT5406 10pt touch controller (with no interrupt)
->  - Powertip PH800480T013-IDF02 compatible panel
->  - Toshiba TC358762 compatible DSI to DBI bridge
->  - ATTINY based regulator used for backlight controller and panel enable
->=20
-> I enable this via a dt overlay in a pending patch
-> imx8mm-venice-gw72xx-0x-rpidsi.dtso [1] which works on 6.4 but not
-> 6.5-rc1 which has this patch.
->=20
-> The issue appears as:
-> [    6.110585] samsung-dsim 32e60000.dsi: xfer timed out: 29 06 00 00
-> 64 01 05 00 00 00
-> [    6.326588] tc358762 32e60000.dsi.0: error initializing bridge (-110)
->=20
-> Instead of
-> [    1.011729] samsung-dsim 32e10000.dsi: supply vddcore not found,
-> using dummy regulator
-> [    1.019829] samsung-dsim 32e10000.dsi: supply vddio not found,
-> using dummy regulator
-> [    5.649928] samsung-dsim 32e10000.dsi:
-> [drm:samsung_dsim_host_attach] Attached tc358762 device
->=20
-> I'm curious what board/panel were you needing this for and do you have
-> any ideas why it broke my setup?
->=20
-> I'm also curious what board/panel Alexander tested this with and if
-> Adam or Jagan (or others) have tested this with their hardware?
+Am 12.07.23 um 16:28 schrieb Mauro Carvalho Chehab:
+> As an example for the new documentation tool, add a documentation
+> for drm_buddy_test.
+>
+> I opted to place this on a completely different directory, in order
+> to make easier to test the feature with:
+>
+> 	$ make SPHINXDIRS="tests" htmldocs
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-I tested this with imx8mm and ti,sn65dsi83 DSI-LVDS bridge [1]. I don't kno=
-w=20
-anything about tc358762, but I was trying to get tc9595 (DSI-DP bridge)=20
-running on a imx8mp based board. One of my problems was that the bridge=20
-requires LP-11 before reset release, which is currently not given using=20
-samsung-dsim and tc358767 driver. Maybe this is the case for you as well.
-AFAICS there is a lot more to do to get this running properly.
+Acked-by: Christian König <christian.koenig@amd.com>
 
-Best regards,
-Alexander
+Arun please take a look as well.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tre=
-e/
-arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds.dtso
+Thanks,
+Christian.
 
-> best regards,
->=20
-> Tim
-> [1]
-> https://patchwork.kernel.org/project/linux-arm-kernel/patch/2023071122112=
-4.
-> 2127186-1-tharvey@gateworks.com/
-
-
-=2D-=20
-TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Germ=
-any
-Amtsgericht M=C3=BCnchen, HRB 105018
-Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan Sch=
-neider
-http://www.tq-group.com/
-
+> ---
+>
+> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+> See [PATCH RFC 0/2] at: https://lore.kernel.org/all/cover.1689171160.git.mchehab@kernel.org/
+>
+>   Documentation/index.rst                |  2 +-
+>   Documentation/tests/index.rst          |  6 ++++++
+>   Documentation/tests/kunit.rst          |  5 +++++
+>   drivers/gpu/drm/tests/drm_buddy_test.c | 12 ++++++++++++
+>   4 files changed, 24 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/tests/index.rst
+>   create mode 100644 Documentation/tests/kunit.rst
+>
+> diff --git a/Documentation/index.rst b/Documentation/index.rst
+> index 9dfdc826618c..80a6ce14a61a 100644
+> --- a/Documentation/index.rst
+> +++ b/Documentation/index.rst
+> @@ -60,7 +60,7 @@ Various other manuals with useful information for all kernel developers.
+>      fault-injection/index
+>      livepatch/index
+>      rust/index
+> -
+> +   test/index
+>   
+>   User-oriented documentation
+>   ===========================
+> diff --git a/Documentation/tests/index.rst b/Documentation/tests/index.rst
+> new file mode 100644
+> index 000000000000..bfc39eb5c0aa
+> --- /dev/null
+> +++ b/Documentation/tests/index.rst
+> @@ -0,0 +1,6 @@
+> +========================
+> +Kunit documentation test
+> +========================
+> +
+> +.. toctree::
+> +   kunit
+> diff --git a/Documentation/tests/kunit.rst b/Documentation/tests/kunit.rst
+> new file mode 100644
+> index 000000000000..6ffc151988a0
+> --- /dev/null
+> +++ b/Documentation/tests/kunit.rst
+> @@ -0,0 +1,5 @@
+> +Kunit tests
+> +-----------
+> +
+> +.. include-test:: drivers/gpu/drm/tests/drm_buddy_test.c
+> +
+> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
+> index 09ee6f6af896..dd6c5afd6cd6 100644
+> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
+> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
+> @@ -737,6 +737,18 @@ static int drm_buddy_suite_init(struct kunit_suite *suite)
+>   	return 0;
+>   }
+>   
+> +/**
+> + * KTEST_SUITE: set of tests for drm buddy alloc
+> + * Scope: drm subsystem
+> + * Mega feature: drm
+> + * Feature: buddy_alloc
+> + *
+> + * KTEST_TEST: drm_test_buddy_alloc_%s
+> + * Description: Run DRM buddy allocation %arg[1] test
+> + *
+> + * arg[1].values: limit, range, optimistic, smoke, pathological
+> + */
+> +
+>   static struct kunit_case drm_buddy_tests[] = {
+>   	KUNIT_CASE(drm_test_buddy_alloc_limit),
+>   	KUNIT_CASE(drm_test_buddy_alloc_range),
 
