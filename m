@@ -1,87 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89D98751D42
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 11:32:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62265751D8D
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 11:42:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BED910E0D4;
-	Thu, 13 Jul 2023 09:32:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF7E110E662;
+	Thu, 13 Jul 2023 09:41:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14FB810E0D4
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 09:32:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689240726;
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 267D010E662
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 09:41:56 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4R1qPq4sdfz9smd;
+ Thu, 13 Jul 2023 11:41:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1689241311;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A5GdB09iM4XZHi0BN8Yh2GDz37lhZWt/6hcGufYHSgY=;
- b=HL5TMhfFNAvkpBfoJipQhR57ShtD4/FxDSyq3B/wMK3InqH2DwmNIXPl7u1Ckhsl6OOGyI
- 29urMi7HnLCuVym1hsouO5KY6bWm7ZI7YvpeKCzLp9R/EIGR4wOw4qgfEdcxWfAB09eTTC
- MaAY+t2SQjTcajaucdLG1+x6a1IGMqs=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-180-UjG2ch58NyCOQY_qKIvsIQ-1; Thu, 13 Jul 2023 05:31:59 -0400
-X-MC-Unique: UjG2ch58NyCOQY_qKIvsIQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-3141c6f4173so369593f8f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 02:31:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689240718; x=1691832718;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=A5GdB09iM4XZHi0BN8Yh2GDz37lhZWt/6hcGufYHSgY=;
- b=VjKIzx26YuEAvRDetlDf2f1tgCqV1iAO92opBzTse3gIbKukSsqrKcCijWTJMcVjZ6
- h8ePn41tdKOmQXJQyVRXXUVqnAwBmVtp3V6+tu5cI2Usb62grX5kpJU2aXdVgoSIIj9E
- JZxWgNdMoww/WtNwNhTI3wpeZ//JDefjK1IaybCuqPuE9/lX/ZHXZOwX92nqZ3qymbRY
- 3cpdxeMAy8hLHH+6VpIFQrGi+MRrX40m7Hq+BKHgbuVMGWqyg5qQq+AfroxM1BRmR5FZ
- e1RPBZB+lavBrUNoYrsl429I7bAer5o3x4gwI5EZtiGN5awPJ9VnEp7Oeo91XQS7rdm7
- 0eNw==
-X-Gm-Message-State: ABy/qLbhuSEgY2rZED6ntVjtYJpEBprPxyYgX0utuhwSp27+fdP3Xc+S
- GEooJp4DlzIkZNu3Gr8OuPlyrcuV7XQhd7ACb080aCow8yQ60y4cEJZYZVrOR39zn3usfKK2skq
- NwrV8zMlIU7SnH0QoA55XdRo7Q+cb
-X-Received: by 2002:a5d:4bcc:0:b0:314:11ab:11a0 with SMTP id
- l12-20020a5d4bcc000000b0031411ab11a0mr1005729wrt.34.1689240718048; 
- Thu, 13 Jul 2023 02:31:58 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGsJPAaVtLVjdTS0ks98Nj+s9cIui+59KYPaYt9hvqB91Mq2TVht6SMRWZeyHvwIP66R48Q/w==
-X-Received: by 2002:a5d:4bcc:0:b0:314:11ab:11a0 with SMTP id
- l12-20020a5d4bcc000000b0031411ab11a0mr1005719wrt.34.1689240717798; 
- Thu, 13 Jul 2023 02:31:57 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- d17-20020adfe891000000b003143cdc5949sm7536657wrm.9.2023.07.13.02.31.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Jul 2023 02:31:57 -0700 (PDT)
-Message-ID: <078393ae-9ef3-4531-cdd5-c271b7698d0b@redhat.com>
-Date: Thu, 13 Jul 2023 11:31:56 +0200
+ bh=4nAFkiwHRDv5Scvoijrnq4nLAqvRENrI0l215YRxnvQ=;
+ b=af3h7hm5qTSj70S6mHGC8cHTBkCcWf2YoRgUHuMkkgJCp/E7r2JDuxRVeCoZa26Vm1gxce
+ 7Bbk43pOXzxpqEwOMDAfD1Wh3jgAFjjrNLKP9+YGJokEKniLmbjNOxZvbuwiq1KP8drJlB
+ QPg9yHn+cWo3iXLHr1sSHCLKw3rOyHukJ7Bwol0vTOxqUipNBIpyxArwMzdAgKQtrqA+l6
+ AqGczHcQbnk2LzdfxuKVtnJKg5vzAqAl1zb/Ql2lizYPDrfs3XrX4RdAJqUR3amtD+aB5S
+ J/DwPaBqKF856X9s4ZYSaGIJchUP1+ie0mdz7mw2+mspiOwxzsR7/HX3E7DUcw==
+Message-ID: <0e49b998-7b0c-2681-e1a6-c24f66fe69ab@mailbox.org>
+Date: Thu, 13 Jul 2023 11:41:48 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v5 2/2] drm/ast: report connection status on Display Port.
+Subject: Re: [PATCH] drm/ast: Fix default resolution when no monitor is
+ connected on DP
+Content-Language: de-CH-frami, en-CA
 To: Thomas Zimmermann <tzimmermann@suse.de>,
- Jammy Huang <jammy_huang@aspeedtech.com>, airlied@redhat.com,
- kuohsiang_chou@aspeedtech.com, jani.nikula@linux.intel.com,
- dianders@chromium.org
-References: <20230713064037.315387-1-jfalempe@redhat.com>
- <20230713064037.315387-2-jfalempe@redhat.com>
- <f61ea042-a14c-9c8f-710d-0ba0820686fe@aspeedtech.com>
- <a6eb098a-8ac6-7240-dddc-ba645a1931fc@redhat.com>
- <2b1c2a6c-c912-d24f-b622-7a3f1cec89aa@aspeedtech.com>
- <7f1ccdf6-dadf-c25f-a972-f3c8add488f9@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <7f1ccdf6-dadf-c25f-a972-f3c8add488f9@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Jocelyn Falempe <jfalempe@redhat.com>, Sui Jingfeng
+ <suijingfeng@loongson.cn>, Jani Nikula <jani.nikula@linux.intel.com>,
+ airlied@redhat.com, kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com
+References: <20230623094639.434293-1-jfalempe@redhat.com>
+ <878rbv20dp.fsf@intel.com> <13e35996-914d-37a6-1697-ac0c3c75cad1@redhat.com>
+ <ed075f2f-861d-74d1-efc0-5baa2cd601fd@redhat.com>
+ <43d12606-9c81-99f8-f13c-14338fcd7a28@suse.de>
+ <f4b4ab09-5f03-af3c-0e7f-44a248678be8@redhat.com>
+ <23d80964-d2d0-b688-e3cd-bf25a8135e5e@redhat.com>
+ <81c57344-289d-fe41-8518-503249ea8d64@suse.de>
+ <3fc768f8-9461-c4b0-b9af-555c52294c94@redhat.com>
+ <2fb391e2-9f68-26f0-e005-a7f0f4324adc@loongson.cn>
+ <b56afc8a-5fda-3227-3ac0-5e7b7773976b@redhat.com>
+ <36e04e4c-c2ac-64cf-9503-ea43a29b66d0@mailbox.org>
+ <9b63ee41-13db-979f-80fd-10123da741d3@suse.de>
+ <42e932cc-ff40-61bb-1d63-315f78fb2da2@mailbox.org>
+ <9ceee0d3-cf5f-2a10-0d1b-9f02be00058e@suse.de>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
+In-Reply-To: <9ceee0d3-cf5f-2a10-0d1b-9f02be00058e@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: nuumqrn5dq5dwob7igdz36xk57knaqxn
+X-MBO-RS-ID: e42c9a94c05cba954c2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,39 +77,32 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/07/2023 11:12, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 13.07.23 um 11:05 schrieb Jammy Huang:
-> [...]
+On 7/13/23 11:09, Thomas Zimmermann wrote:
+> Am 13.07.23 um 10:53 schrieb Michel Dänzer:
+>> On 7/13/23 10:49, Thomas Zimmermann wrote:
+>>> Am 13.07.23 um 10:32 schrieb Michel Dänzer:
+>>>> On 7/12/23 17:25, Jocelyn Falempe wrote:
+>>>>> On 12/07/2023 17:05, Sui Jingfeng wrote:
+>>>>>> On 2023/7/10 16:07, Jocelyn Falempe wrote:
+>>>>>>
+>>>>>>> On the other hand, are there any drawback to present a BMC connector even when the hardware doesn't have it ?
+>>>>>>
+>>>>>> If not properly setting up, I think you will create two encoder and two connector in the system.
+>>>>>
+>>>>> Yes, but I think it won't have any visible effect for the end-user.
+>>>>
+>>>> I'm afraid user-space display servers would waste effort producing content for a non-existing BMC (assuming its connector status is connected or unknown).
 >>>
->>>
->>> For the BMC connector patch, you know if there is a register setting 
->>> I can check to see if a BMC is present or not ?
+>>> Right now, the BMC output works because the VGA status is always connected. So nothing really changes.
 >>
->> I think you can use VGA CRD0[7] whose definition is as below:
->>
->> DRAM Initial Selection (see note 1)
->> 0: VBIOS Initial the DRAM
->> 1: SOC Firmware Initial the DRAM
->>
->> If CRD0[7] is 1, there is BMC.
+>> User-space display servers would generally produce different contents by default for the VGA & BMC connectors.
 > 
-> Thank you. That seems very helpful.
+> Can you elaborate? How would the output differ?
 
-Thank a lot, I will run some tests, and add this check in my v6.
+Per the other sub-thread, I didn't realize there's only a single CRTC.
+
 
 -- 
-
-Jocelyn
-
-> 
-> Best regards
-> Thomas
-> 
->>
->>>
->>> Best regards,
->>>
-> 
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
 
