@@ -1,46 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7253C751C85
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 11:02:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B13AE751C9C
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 11:05:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A13310E63D;
-	Thu, 13 Jul 2023 09:02:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C136710E646;
+	Thu, 13 Jul 2023 09:05:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68ACD10E638
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 09:02:07 +0000 (UTC)
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id AC8CD6607057;
- Thu, 13 Jul 2023 10:02:05 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1689238926;
- bh=NUiL26AMB0eJr1HWFXYSANZqHcBDwdZS+nF51oT6vRo=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=McFUqvt3BNIanzaeJPu66jVNu2+kAoLmDmmgBjlLVU6cT5RRKrHGu79apoVYiopvS
- Gf2DJqnktBt1HWSqEaq9VfTMSoGPY7PGIIsNQ18ENjHZyTzP7sA2MVTMp4P+/7RD8S
- nsTx+lwYltphdtDWBkwo/WnXA+LtNpAV36ahECutLieAvBDlRy6OzXIdQh4S0VB424
- OyXIMTtN1UKQtWe6PAK394mq3Szf6GbmI5Blv90YlaxHMU/WHlGLqA0YqMkxvL1DR6
- ZZ5NlfcOHTqzfF7P1lsXLCr8i0N4QwtUvpryh8KhkOns9VDOXHpzxnOaTuR5911Vnw
- 7B4g+WUsNCnTA==
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: chunkuang.hu@kernel.org
-Subject: [PATCH v5 10/10] drm/mediatek: dp: Don't register HPD interrupt
- handler for eDP case
-Date: Thu, 13 Jul 2023 11:01:52 +0200
-Message-Id: <20230713090152.140060-11-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230713090152.140060-1-angelogioacchino.delregno@collabora.com>
-References: <20230713090152.140060-1-angelogioacchino.delregno@collabora.com>
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com
+ [IPv6:2607:f8b0:4864:20::b2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48DFE10E646
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 09:05:11 +0000 (UTC)
+Received: by mail-yb1-xb2f.google.com with SMTP id
+ 3f1490d57ef6-c15a5ed884dso417107276.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 02:05:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1689239108; x=1689843908;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Xn6ei9/9nS3M5OJwomJN5UPa70NekYkgBc6ibiFgkyQ=;
+ b=xXXWLGivZPS53UODz4dM7TyUnoncEK5FE86gyc4bHY71qNzZeJmJb7w06cH4dFSdQR
+ P0x4CQqUTz9BiB+Qglq2I7MSPbtS+dJ5ItOA7QlFES435E7+Mf3mUb2I3tiNeoybdi7L
+ DqkicFGq+98dJizdYCYAz5xzgciVAWvFO2uELgtAJEfzfSwCsf8HJCf3DOeenRLzQpqr
+ 9QqiWiDW3adGV24n9d4MOkj4Zzhj31CxxVZPlJcAMz2uIBY/biLf437FI+zp+L2HvZdc
+ tfGxdpDL6IH4vvexo9VaKW2x2eLCLDNHNWPYV+6cpdg2jvB9cuWvfBiU2YH3FpL+uvdl
+ 2NYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689239108; x=1689843908;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Xn6ei9/9nS3M5OJwomJN5UPa70NekYkgBc6ibiFgkyQ=;
+ b=JuPSpFKoklRd/4kRmPEDSNqx7CsEpQSfrOBUsmHipVlL5U1B2Q+I+Bh7Q+XYJdjZ1g
+ dVm1/9RDuxvZfuh1M6HBOoShYeaMG8q+m2ZTg4+lk63TNoD1oxmr0pa2ZGU0zxufo80s
+ xtYe3l4DodQhHfTdJiUv/8bscKBny2f+vxG+m1PhcVR341PG0PuWp18oDPoPewLQY+3E
+ bBXugR1foC8HxQvGMHV5gsv4V2ZDlCIKWTx9tYMXGTxNaMsFQNMCzD1CnZOUMuIqWW3J
+ cE4pJBFRSpgMVcgdmk7UoMDmoXvvGo6oV3stitsWQmd+t/4L/UFWwPy0O8Vv5vTbs+cK
+ 9eQw==
+X-Gm-Message-State: ABy/qLYkr7Ig7WDoNWrliF3osVsVLhX7D6HLfqDcnHawvvVUSn1F1twL
+ VXp90TsYgsEMbchhTr5pwfSuYFxTlUPp7tSIf0y+Ng==
+X-Google-Smtp-Source: APBJJlGXJvvYoDza1StirRlGQElXF0pCyCiFnb5V8pzk8ik9XDgwvV9D9fD7+yABjfcZa47O94WvNoZjX60yu5f73II=
+X-Received: by 2002:a25:aba2:0:b0:bad:125f:9156 with SMTP id
+ v31-20020a25aba2000000b00bad125f9156mr895305ybi.35.1689239108637; Thu, 13 Jul
+ 2023 02:05:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230712121145.1994830-1-dmitry.baryshkov@linaro.org>
+ <20230712121145.1994830-9-dmitry.baryshkov@linaro.org>
+ <9587baf4-2316-494d-fbd1-73a86e742741@linaro.org>
+In-Reply-To: <9587baf4-2316-494d-fbd1-73a86e742741@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 13 Jul 2023 12:04:57 +0300
+Message-ID: <CAA8EJpqTBpUgpQSwhhLtctn=r8XwX-NwdFgUst3rARQSaGMrcg@mail.gmail.com>
+Subject: Re: [PATCH v2 8/8] arm64: dts: qcom: sm8450: provide MDSS cfg
+ interconnect
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,179 +69,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nfraprado@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- wenst@chromium.org, matthias.bgg@gmail.com, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: devicetree@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
+ Stephen Boyd <swboyd@chromium.org>, Andy Gross <agross@kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The interrupt handler for HPD is useful only if a display is actually
-supposed to be hotpluggable, as that manages the machinery to perform
-cable (un)plug detection, debouncing and setup for re-training.
+On Thu, 13 Jul 2023 at 11:41, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
+>
+> On 12.07.2023 14:11, Dmitry Baryshkov wrote:
+> > Add support for the MDSS cfg-cpu bus vote on the SM8450 platform.
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >  arch/arm64/boot/dts/qcom/sm8450.dtsi | 9 +++++++--
+> >  1 file changed, 7 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/arch/arm64/boot/dts/qcom/sm8450.dtsi b/arch/arm64/boot/dts/qcom/sm8450.dtsi
+> > index 595533aeafc4..0b01f3027ee3 100644
+> > --- a/arch/arm64/boot/dts/qcom/sm8450.dtsi
+> > +++ b/arch/arm64/boot/dts/qcom/sm8450.dtsi
+> > @@ -13,6 +13,7 @@
+> >  #include <dt-bindings/mailbox/qcom-ipcc.h>
+> >  #include <dt-bindings/phy/phy-qcom-qmp.h>
+> >  #include <dt-bindings/power/qcom-rpmpd.h>
+> > +#include <dt-bindings/interconnect/qcom,icc.h>
+> >  #include <dt-bindings/interconnect/qcom,sm8450.h>
+> >  #include <dt-bindings/soc/qcom,gpr.h>
+> >  #include <dt-bindings/soc/qcom,rpmh-rsc.h>
+> > @@ -2672,8 +2673,12 @@ mdss: display-subsystem@ae00000 {
+> >
+> >                       /* same path used twice */
+> >                       interconnects = <&mmss_noc MASTER_MDP_DISP 0 &mc_virt SLAVE_EBI1_DISP 0>,
+> > -                                     <&mmss_noc MASTER_MDP_DISP 0 &mc_virt SLAVE_EBI1_DISP 0>;
+> > -                     interconnect-names = "mdp0-mem", "mdp1-mem";
+> > +                                     <&mmss_noc MASTER_MDP_DISP 0 &mc_virt SLAVE_EBI1_DISP 0>,
+> > +                                     <&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE_ONLY
+> > +                                      &config_noc SLAVE_DISPLAY_CFG QCOM_ICC_TAG_ACTIVE_ONLY>;
+> Looking at icc_set_tag occurences in msm-5.10/techpack/display,
+> I *think* active-only is only possible for the data bus (MDP-EBI)
 
-Since eDP panels are not supposed to be hotpluggable we can avoid
-using the HPD interrupts altogether and rely on HPD polling only
-for the suspend/resume case, saving us some spinlocking action and
-the overhead of interrupts firing at every suspend/resume cycle,
-achieving a faster (even if just slightly) display resume.
+Here I followed the vendor mdss fbdev driver (mdss_mdp.c), which
+explicitly states:
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- drivers/gpu/drm/mediatek/mtk_dp.c | 81 ++++++++++++++++++-------------
- 1 file changed, 46 insertions(+), 35 deletions(-)
+static struct msm_bus_scale_pdata mdp_reg_bus_scale_table = {
+        .usecase = mdp_reg_bus_usecases,
+        .num_usecases = ARRAY_SIZE(mdp_reg_bus_usecases),
+        .name = "mdss_reg",
+        .active_only = true,
+};
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index a00bf6693b28..14eeb4a74191 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -2175,9 +2175,11 @@ static int mtk_dp_bridge_attach(struct drm_bridge *bridge,
- 
- 	mtk_dp->drm_dev = bridge->dev;
- 
--	irq_clear_status_flags(mtk_dp->irq, IRQ_NOAUTOEN);
--	enable_irq(mtk_dp->irq);
--	mtk_dp_hwirq_enable(mtk_dp, true);
-+	if (mtk_dp->bridge.type != DRM_MODE_CONNECTOR_eDP) {
-+		irq_clear_status_flags(mtk_dp->irq, IRQ_NOAUTOEN);
-+		enable_irq(mtk_dp->irq);
-+		mtk_dp_hwirq_enable(mtk_dp, true);
-+	}
- 
- 	return 0;
- 
-@@ -2192,8 +2194,10 @@ static void mtk_dp_bridge_detach(struct drm_bridge *bridge)
- {
- 	struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
- 
--	mtk_dp_hwirq_enable(mtk_dp, false);
--	disable_irq(mtk_dp->irq);
-+	if (mtk_dp->bridge.type != DRM_MODE_CONNECTOR_eDP) {
-+		mtk_dp_hwirq_enable(mtk_dp, false);
-+		disable_irq(mtk_dp->irq);
-+	}
- 	mtk_dp->drm_dev = NULL;
- 	mtk_dp_poweroff(mtk_dp);
- 	drm_dp_aux_unregister(&mtk_dp->aux);
-@@ -2567,40 +2571,44 @@ static int mtk_dp_probe(struct platform_device *pdev)
- 	mtk_dp->dev = dev;
- 	mtk_dp->data = (struct mtk_dp_data *)of_device_get_match_data(dev);
- 
--	mtk_dp->irq = platform_get_irq(pdev, 0);
--	if (mtk_dp->irq < 0)
--		return dev_err_probe(dev, mtk_dp->irq,
--				     "failed to request dp irq resource\n");
--
--	mtk_dp->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
--	if (IS_ERR(mtk_dp->next_bridge) &&
--	    PTR_ERR(mtk_dp->next_bridge) == -ENODEV)
--		mtk_dp->next_bridge = NULL;
--	else if (IS_ERR(mtk_dp->next_bridge))
--		return dev_err_probe(dev, PTR_ERR(mtk_dp->next_bridge),
--				     "Failed to get bridge\n");
--
- 	ret = mtk_dp_dt_parse(mtk_dp, pdev);
- 	if (ret)
- 		return dev_err_probe(dev, ret, "Failed to parse dt\n");
- 
-+	/*
-+	 * Request the interrupt and install service routine only if we are
-+	 * on full DisplayPort.
-+	 * For eDP, polling the HPD instead is more convenient because we
-+	 * don't expect any (un)plug events during runtime, hence we can
-+	 * avoid some locking.
-+	 */
-+	if (mtk_dp->data->bridge_type != DRM_MODE_CONNECTOR_eDP) {
-+		mtk_dp->irq = platform_get_irq(pdev, 0);
-+		if (mtk_dp->irq < 0)
-+			return dev_err_probe(dev, mtk_dp->irq,
-+					     "failed to request dp irq resource\n");
-+
-+		spin_lock_init(&mtk_dp->irq_thread_lock);
-+
-+		irq_set_status_flags(mtk_dp->irq, IRQ_NOAUTOEN);
-+		ret = devm_request_threaded_irq(dev, mtk_dp->irq, mtk_dp_hpd_event,
-+						mtk_dp_hpd_event_thread,
-+						IRQ_TYPE_LEVEL_HIGH, dev_name(dev),
-+						mtk_dp);
-+		if (ret)
-+			return dev_err_probe(dev, ret,
-+					     "failed to request mediatek dptx irq\n");
-+
-+		mtk_dp->need_debounce = true;
-+		timer_setup(&mtk_dp->debounce_timer, mtk_dp_debounce_timer, 0);
-+	}
-+
- 	mtk_dp->aux.name = "aux_mtk_dp";
- 	mtk_dp->aux.dev = dev;
- 	mtk_dp->aux.transfer = mtk_dp_aux_transfer;
- 	mtk_dp->aux.wait_hpd_asserted = mtk_dp_wait_hpd_asserted;
- 	drm_dp_aux_init(&mtk_dp->aux);
- 
--	spin_lock_init(&mtk_dp->irq_thread_lock);
--
--	irq_set_status_flags(mtk_dp->irq, IRQ_NOAUTOEN);
--	ret = devm_request_threaded_irq(dev, mtk_dp->irq, mtk_dp_hpd_event,
--					mtk_dp_hpd_event_thread,
--					IRQ_TYPE_LEVEL_HIGH, dev_name(dev),
--					mtk_dp);
--	if (ret)
--		return dev_err_probe(dev, ret,
--				     "failed to request mediatek dptx irq\n");
--
- 	platform_set_drvdata(pdev, mtk_dp);
- 
- 	if (mtk_dp->data->audio_supported) {
-@@ -2628,9 +2636,6 @@ static int mtk_dp_probe(struct platform_device *pdev)
- 
- 	devm_drm_bridge_add(dev, &mtk_dp->bridge);
- 
--	mtk_dp->need_debounce = true;
--	timer_setup(&mtk_dp->debounce_timer, mtk_dp_debounce_timer, 0);
--
- 	if (mtk_dp->bridge.type == DRM_MODE_CONNECTOR_eDP) {
- 		/*
- 		 * Set the data lanes to idle in case the bootloader didn't
-@@ -2641,6 +2646,9 @@ static int mtk_dp_probe(struct platform_device *pdev)
- 		mtk_dp_initialize_aux_settings(mtk_dp);
- 		mtk_dp_power_enable(mtk_dp);
- 
-+		/* Disable HW interrupts: we don't need any for eDP */
-+		mtk_dp_hwirq_enable(mtk_dp, false);
-+
- 		/*
- 		 * Power on the AUX to allow reading the EDID from aux-bus:
- 		 * please note that it is necessary to call power off in the
-@@ -2680,7 +2688,8 @@ static int mtk_dp_remove(struct platform_device *pdev)
- 
- 	pm_runtime_put(&pdev->dev);
- 	pm_runtime_disable(&pdev->dev);
--	del_timer_sync(&mtk_dp->debounce_timer);
-+	if (mtk_dp->data->bridge_type != DRM_MODE_CONNECTOR_eDP)
-+		del_timer_sync(&mtk_dp->debounce_timer);
- 	drm_bridge_remove(&mtk_dp->bridge);
- 	platform_device_unregister(mtk_dp->phy_dev);
- 	if (mtk_dp->audio_pdev)
-@@ -2695,7 +2704,8 @@ static int mtk_dp_suspend(struct device *dev)
- 	struct mtk_dp *mtk_dp = dev_get_drvdata(dev);
- 
- 	mtk_dp_power_disable(mtk_dp);
--	mtk_dp_hwirq_enable(mtk_dp, false);
-+	if (mtk_dp->bridge.type != DRM_MODE_CONNECTOR_eDP)
-+		mtk_dp_hwirq_enable(mtk_dp, false);
- 	pm_runtime_put_sync(dev);
- 
- 	return 0;
-@@ -2707,7 +2717,8 @@ static int mtk_dp_resume(struct device *dev)
- 
- 	pm_runtime_get_sync(dev);
- 	mtk_dp_init_port(mtk_dp);
--	mtk_dp_hwirq_enable(mtk_dp, true);
-+	if (mtk_dp->bridge.type != DRM_MODE_CONNECTOR_eDP)
-+		mtk_dp_hwirq_enable(mtk_dp, true);
- 	mtk_dp_power_enable(mtk_dp);
- 
- 	return 0;
+>
+> Moreover, I think Linux is supposed to cast MDSS votes through the
+> APPS RSC (so, nodes without _DISP [1][2]) and conversely, DISP_RSC is
+> supposed to active-only votes
+
+We can change this once your DISP_RSC lands. Anyway, I think we will
+have to add the LLCC-MEM vote at some point later.
+
+>
+> Konrad
+>
+> [1] not that it matters today because it's not implemented yet
+> [2] https://lore.kernel.org/linux-arm-msm/20230708-topic-rpmh_icc_rsc-v1-0-b223bd2ac8dd@linaro.org
+>
+> > +                     interconnect-names = "mdp0-mem",
+> > +                                          "mdp1-mem",
+> > +                                          "cpu-cfg";
+> >
+> >                       resets = <&dispcc DISP_CC_MDSS_CORE_BCR>;
+> >
+
+
+
 -- 
-2.40.1
-
+With best wishes
+Dmitry
