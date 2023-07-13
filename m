@@ -1,63 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F56075295D
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 19:05:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28A5B752965
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 19:05:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95F3510E738;
-	Thu, 13 Jul 2023 17:05:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C5F310E73D;
+	Thu, 13 Jul 2023 17:05:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57AF410E727
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 17:05:03 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 932D710E738
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 17:05:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689267902;
+ s=mimecast20190719; t=1689267906;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cJWbnZRk37PbyOPLbQx6TkJaNwAsU77I+1I9gnkS+kQ=;
- b=OARbj+INUeLxH0XebIpNWwqkUYLn/XW+BT09829M2EU+W4DDuEf6fCfs7uThSQibYZZsId
- BAcpq8+ffW5B+StvyvimELduJEjdj4RuLzqJxqyGvDZ4S0n4S5l56lkVBoxEMQLcXYQT3A
- U153nh1PWqbdkn+ZBPpxAnNRR0OGI5o=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=LEv7G0CEYOPGW2iDjZ4bQ7xPP+mjrUkHdLemyMCnVvw=;
+ b=HgasC+Vgr/qplUtQdG31EVBl0DAtHT4p8wUuGsJFLAY+00uMd3dvXcUnq6bGPKKI3I+ZPD
+ 84Vw0DfvFIr5u2OGSkxUJ4e+EWE3v4AzuSa6E4vAa3qpDttWHwSGeetVUTaE/vKoOdCh/C
+ e8uutCHEnFoNHSuhhQVBycZcBciAbL8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-29--rSKu98NOVqD68MSuvuvNg-1; Thu, 13 Jul 2023 13:05:00 -0400
-X-MC-Unique: -rSKu98NOVqD68MSuvuvNg-1
-Received: by mail-ej1-f69.google.com with SMTP id
- a640c23a62f3a-993d41cbc31so57468566b.1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 10:05:00 -0700 (PDT)
+ us-mta-662-2PLE2eXrNWaaA4Ue-2Po_w-1; Thu, 13 Jul 2023 13:05:05 -0400
+X-MC-Unique: 2PLE2eXrNWaaA4Ue-2Po_w-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-3143b277985so663127f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 10:05:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689267900; x=1691859900;
+ d=1e100.net; s=20221208; t=1689267904; x=1691859904;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cJWbnZRk37PbyOPLbQx6TkJaNwAsU77I+1I9gnkS+kQ=;
- b=MEbLnpsIeInDMLDdcIga5qvNloGdLSX4XgOpxJntjDQweFxo/GmAHXVG7oLgSIWpuI
- AylYGDPoVQ+AdAEEOlLtuAspmKdIeeUxjpakHTDJ0ZUuoG2WrW+Mm6H9P8mS4PLVHpjA
- LJVnBGc3UusIUff0XvaYZ/16078rWGld3VnfSR4b+gZYHFKtFdezgRWLduuNgcJ3HQ+k
- KKqYXNP9g2jxW8T0flyueRlHdT/eUfDXTsJ4d64ilZG/Xo4am/nuW9vyqgBDsp6vRbNN
- 3o3inSnJCs/Z9tTFk+Eld7jduelCKzfjO6EH+nZKiQ8ogAodwt92zoK1gbf/ydHPaG+e
- n10w==
-X-Gm-Message-State: ABy/qLZfv6kTrixngnkdjz9Gcj5Br3ehdq1o+mPhdRexiwRbaqw6xSKi
- rTGbSymUPMVqxkMpfJVt3WQkrp6jHrkUc1GVSnsw4s+WhecjlkeLq7DziDu46R5XlS0beJPdBUd
- NIV4yDjaXCS4OqGOWce91NiRK2Ba3
-X-Received: by 2002:a17:906:113:b0:987:fe18:1c56 with SMTP id
- 19-20020a170906011300b00987fe181c56mr2115243eje.47.1689267899913; 
- Thu, 13 Jul 2023 10:04:59 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlEGCyQeuogsjgxDVJKFBZEg08N1OVXBkYa73JHbS/zCbYQKSeo62Zql1FBRS0FoBHej2bCLIA==
-X-Received: by 2002:a17:906:113:b0:987:fe18:1c56 with SMTP id
- 19-20020a170906011300b00987fe181c56mr2115221eje.47.1689267899743; 
- Thu, 13 Jul 2023 10:04:59 -0700 (PDT)
+ bh=LEv7G0CEYOPGW2iDjZ4bQ7xPP+mjrUkHdLemyMCnVvw=;
+ b=CFTq98eS9+iypt4LUNMzvNAEQ4R+1giKmduRLKSisJOLpNWxiij5p8VVRLDzhoXyVp
+ KdOiCyT5zbIrSfYNIx1y1P0+iQrdWnw6TF77hDF5Alc8zy+B+YjlElnhWRXF2XR7bYfs
+ F+S6kZMQzH5IwWGhCv9IHpMgtO6uP2Vq7MAE5iFUc89m5SbNgnEwSf+N1rFDvaQbbuE4
+ pUOsaiVRvC0EyPpYGckH7A9+UZzlmq22aBQleaDXloIvHL5Blfr6P122wwV1KK+WJqZ6
+ vD6ZYWsSeQzoo44avlbM9B6FxHKPgXEaAOMv3plc5TXpJ4XhyDqC6V8BIhexV2UywDQn
+ /Tgw==
+X-Gm-Message-State: ABy/qLY5aPfOiBMYhTAp6QEKTB2Kc4w2Fcuq3FbG9EWFeqY8mZMVzRa8
+ zUN+UENN6oECNPJxOPU1EYmyDRVdhSO3aZUJkn6WBPBOXshbivU5yf6+gGYIkVSxXAC6n6BSjfy
+ FX1WetlNXCNlsCWjMJ9ogPvXZfSD/
+X-Received: by 2002:a5d:500f:0:b0:314:37a:4d2 with SMTP id
+ e15-20020a5d500f000000b00314037a04d2mr1881488wrt.60.1689267904087; 
+ Thu, 13 Jul 2023 10:05:04 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlF056mkLn94E+lKHndYR5EU4ydy3QCAICJDC86xIw557hHcn4RjCQJ4RaRlRWXwLJY/mxbcrA==
+X-Received: by 2002:a5d:500f:0:b0:314:37a:4d2 with SMTP id
+ e15-20020a5d500f000000b00314037a04d2mr1881473wrt.60.1689267903898; 
+ Thu, 13 Jul 2023 10:05:03 -0700 (PDT)
 Received: from cassiopeiae.. ([2a02:810d:4b3f:de9c:642:1aff:fe31:a19f])
  by smtp.gmail.com with ESMTPSA id
- t9-20020a1709064f0900b00992a8a54f32sm4244576eju.139.2023.07.13.10.04.58
+ r11-20020a1709067fcb00b009929d998abcsm4194749ejs.209.2023.07.13.10.05.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Jul 2023 10:04:59 -0700 (PDT)
+ Thu, 13 Jul 2023 10:05:03 -0700 (PDT)
 From: Danilo Krummrich <dakr@redhat.com>
 To: airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
  mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
@@ -65,10 +65,10 @@ To: airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
  boris.brezillon@collabora.com, alexdeucher@gmail.com, ogabbay@kernel.org,
  bagasdotme@gmail.com, willy@infradead.org, jason@jlekstrand.net,
  donald.robson@imgtec.com
-Subject: [PATCH drm-next v7 06/13] drm/nouveau: bo: initialize GEM GPU VA
- interface
-Date: Thu, 13 Jul 2023 19:04:01 +0200
-Message-ID: <20230713170429.2964-7-dakr@redhat.com>
+Subject: [PATCH drm-next v7 07/13] drm/nouveau: move usercopy helpers to
+ nouveau_drv.h
+Date: Thu, 13 Jul 2023 19:04:02 +0200
+Message-ID: <20230713170429.2964-8-dakr@redhat.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230713170429.2964-1-dakr@redhat.com>
 References: <20230713170429.2964-1-dakr@redhat.com>
@@ -95,33 +95,89 @@ Cc: nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Initialize the GEM's DRM GPU VA manager interface in preparation for the
-(u)vmm implementation, provided by subsequent commits, to make use of it.
+Move the usercopy helpers to a common driver header file to make it
+usable for the new API added in subsequent commits.
 
 Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_bo.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/nouveau/nouveau_drv.h | 26 ++++++++++++++++++++++++++
+ drivers/gpu/drm/nouveau/nouveau_gem.c | 26 --------------------------
+ 2 files changed, 26 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-index 7724fe63067d..057bc995f19b 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -215,11 +215,14 @@ nouveau_bo_alloc(struct nouveau_cli *cli, u64 *size, int *align, u32 domain,
- 	nvbo = kzalloc(sizeof(struct nouveau_bo), GFP_KERNEL);
- 	if (!nvbo)
- 		return ERR_PTR(-ENOMEM);
-+
- 	INIT_LIST_HEAD(&nvbo->head);
- 	INIT_LIST_HEAD(&nvbo->entry);
- 	INIT_LIST_HEAD(&nvbo->vma_list);
- 	nvbo->bo.bdev = &drm->ttm.bdev;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouveau/nouveau_drv.h
+index 81350e685b50..20a7f31b9082 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_drv.h
++++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
+@@ -130,6 +130,32 @@ nouveau_cli(struct drm_file *fpriv)
+ 	return fpriv ? fpriv->driver_priv : NULL;
+ }
  
-+	drm_gem_gpuva_init(&nvbo->bo.base);
++static inline void
++u_free(void *addr)
++{
++	kvfree(addr);
++}
 +
- 	/* This is confusing, and doesn't actually mean we want an uncached
- 	 * mapping, but is what NOUVEAU_GEM_DOMAIN_COHERENT gets translated
- 	 * into in nouveau_gem_new().
++static inline void *
++u_memcpya(uint64_t user, unsigned nmemb, unsigned size)
++{
++	void *mem;
++	void __user *userptr = (void __force __user *)(uintptr_t)user;
++
++	size *= nmemb;
++
++	mem = kvmalloc(size, GFP_KERNEL);
++	if (!mem)
++		return ERR_PTR(-ENOMEM);
++
++	if (copy_from_user(mem, userptr, size)) {
++		u_free(mem);
++		return ERR_PTR(-EFAULT);
++	}
++
++	return mem;
++}
++
+ #include <nvif/object.h>
+ #include <nvif/parent.h>
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
+index 45ca4eb98f54..a48f42aaeab9 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_gem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
+@@ -613,32 +613,6 @@ nouveau_gem_pushbuf_validate(struct nouveau_channel *chan,
+ 	return 0;
+ }
+ 
+-static inline void
+-u_free(void *addr)
+-{
+-	kvfree(addr);
+-}
+-
+-static inline void *
+-u_memcpya(uint64_t user, unsigned nmemb, unsigned size)
+-{
+-	void *mem;
+-	void __user *userptr = (void __force __user *)(uintptr_t)user;
+-
+-	size *= nmemb;
+-
+-	mem = kvmalloc(size, GFP_KERNEL);
+-	if (!mem)
+-		return ERR_PTR(-ENOMEM);
+-
+-	if (copy_from_user(mem, userptr, size)) {
+-		u_free(mem);
+-		return ERR_PTR(-EFAULT);
+-	}
+-
+-	return mem;
+-}
+-
+ static int
+ nouveau_gem_pushbuf_reloc_apply(struct nouveau_cli *cli,
+ 				struct drm_nouveau_gem_pushbuf *req,
 -- 
 2.41.0
 
