@@ -2,63 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 257787528C1
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 18:37:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85EC67528C5
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 18:37:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 035BE10E767;
-	Thu, 13 Jul 2023 16:37:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E817910E755;
+	Thu, 13 Jul 2023 16:37:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com
- [IPv6:2607:f8b0:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DBBB10E752;
- Thu, 13 Jul 2023 16:37:02 +0000 (UTC)
-Received: by mail-il1-x130.google.com with SMTP id
- e9e14a558f8ab-345db6c12b4so4014335ab.0; 
- Thu, 13 Jul 2023 09:37:02 -0700 (PDT)
+Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com
+ [IPv6:2607:f8b0:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF92F10E75C;
+ Thu, 13 Jul 2023 16:37:03 +0000 (UTC)
+Received: by mail-il1-x12e.google.com with SMTP id
+ e9e14a558f8ab-34642952736so3818355ab.3; 
+ Thu, 13 Jul 2023 09:37:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689266221; x=1691858221;
+ d=gmail.com; s=20221208; t=1689266222; x=1691858222;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=FH1hoS5TyoLcmhyYV0xYU1iuMulIPyQc9Z8crXbpYkA=;
- b=dZjKH4hnSpuZ3DTO53o8QKHq0NPNvgYYxlgFp+7pfxVeTTVJHEVyQ+GHQf1R2RPDaG
- dfhJXbMmM9lCQBqsbp+aZqUw4vI54B6tqh7xWJsWp5O+MP1w+ng43Y7IhhTmUj2vFYcb
- Zg2qdshNds5TRWuzHH4Xbe8bq//a2I+qyIjgPTCZIH3CBqFoog97LPA90mgd0eQ7ASyR
- VgIBqaaFrBIFK7Lcg4rEoDOwxLSBP/tdYc2QAnNSfpCSAFt4ozhZPsoD1JrcQgCP+jEI
- OfotqOaBQOSUkrlOLm1b+x/cQI0TxB7x+dsBsQ3sR76vievwTLn9ayR4KOLj8WFRJ4gu
- yJWg==
+ bh=BmUO1J5EliCxWpcWuYGhTm19HhOvYVoh1+BXohGfWSM=;
+ b=KuIuySGbHxWr2luhx6hKg1vvgvRLdtiQtr3IcR8WoH7X0Wwa0/h6fJfEd8l032wPuM
+ 1PcWBuhFRtaPc2tsH/G2q74blfh5Of1pKjzs5UrZ7/BwJ4Vr829mXVwbVoWSvhTatmpM
+ w5f39t4SCQfDcGjfKNhqVOorY0OrfhVGFb4zfUN4Toi2La7Ut33OzElFAv9ns4yn9Tg7
+ Y2TfC+zBLZKXw9iwLUmq5fG3eG4pfWnsTRK1sARQfAy/F9zhQaXv+aMK6d7xCncimosU
+ 5pNXpFMIf8zY0r5CQJK8Hozhtn15Xl05S6Bx/kvwmoy+e50OWopriS+vdrsejTq37imB
+ 0HKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689266221; x=1691858221;
+ d=1e100.net; s=20221208; t=1689266222; x=1691858222;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=FH1hoS5TyoLcmhyYV0xYU1iuMulIPyQc9Z8crXbpYkA=;
- b=FPtdhy+di2yqKUjq9VGzTpmPsJ/DLTACmhxm2WYTgjx6ihqm3ZfRuL3XcdDCwXaGRZ
- ngUYlQrEB507S9eUd9Uhh+TwBP4gynPjqRAQG5smtwTbY+sWYC3z/+gNWkgnJgMHio2t
- Enhhf/x42a0N2xeG/aL+1Ead+PX7iGx0yMSLLLnyh6SGuT0yT/tCEgiLU34krMP/PsUi
- dYUrBfHYdX70+Dw7rm7u2beoI2bWnOrNSxClqtJM7T1EHxnFZfJCi1VIUIUPQZyluN5/
- LI+1hDVXfZ+SWL+zU2ydDiYH9KVCU5wJ3pQ4qnZqZNRBQGEGJO3i9CZDevDAdoXrwTNh
- kbwg==
-X-Gm-Message-State: ABy/qLaGI9xVA+aV65VCs/vPVQk+Ja+DfQ7bHi6tpa7uaLrTu91iIVWr
- 2WO2XATJsIjuqnzv3WMLNos=
-X-Google-Smtp-Source: APBJJlFvBLi5hEov/kmv/k83zFFm7u/g7LY7tseK/2jtSQtpfiGSFRnCP0gXT9Lmz2F8s2b9Ib2K7w==
-X-Received: by 2002:a92:c803:0:b0:346:59a1:ce35 with SMTP id
- v3-20020a92c803000000b0034659a1ce35mr2334271iln.6.1689266221643; 
- Thu, 13 Jul 2023 09:37:01 -0700 (PDT)
+ bh=BmUO1J5EliCxWpcWuYGhTm19HhOvYVoh1+BXohGfWSM=;
+ b=iGMb6L5gCB94kTngSEyo4IF7rpyXY5VxwIoDSOPvVyk8zlXFguVyJPBQAIsEtSfkWf
+ fXZE4rBfQmFPgUDX5F9i+jkHpZsB7xru6H1+TlhIKgq/7HzuEYSBnad+eFCnsMlqeVdL
+ cx3W05HxtMlxLH31XGeLUmjUBi/tTLML7lqNFF5jZghxkr6pMl4ABPv+QWEipQMbj2rF
+ r3/pbFNfQdihsZf1dyKBpFbyB3nnkfzZLJOMOh+l8F4/+Rtt3A84fq2yD4PCL6/hnARx
+ rDzII3xguicmW/NU1qkbD32z6FhIGgxrzxnl9LwUd/wQ0ZyH9koi0Se7SKbLATSoVRjC
+ Y0ow==
+X-Gm-Message-State: ABy/qLailvEjon5+e5xMwE/uH9EzgyM3fCL/YWr61hYMQScfMBldee2j
+ x/WzQSvMQbOCoTzf+tujaxY=
+X-Google-Smtp-Source: APBJJlHKO7WCLEDxmaYSP3LhNmBmlPVndP0gCenFwmd4HZm4pnLqdWvaF5AZKoEED4EJ2uJ9Uqhlbw==
+X-Received: by 2002:a92:d490:0:b0:347:7399:b170 with SMTP id
+ p16-20020a92d490000000b003477399b170mr1306676ilg.32.1689266222716; 
+ Thu, 13 Jul 2023 09:37:02 -0700 (PDT)
 Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
  by smtp.googlemail.com with ESMTPSA id
- s7-20020a92d907000000b00345950d7e94sm2147571iln.20.2023.07.13.09.37.00
+ s7-20020a92d907000000b00345950d7e94sm2147571iln.20.2023.07.13.09.37.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Jul 2023 09:37:01 -0700 (PDT)
+ Thu, 13 Jul 2023 09:37:02 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com, daniel.vetter@ffwll.ch, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: [PATCH v4 16/21] dyndbg-test: make it build with just
- CONFIG_DYNAMIC_DEBUG_CORE
-Date: Thu, 13 Jul 2023 10:36:21 -0600
-Message-ID: <20230713163626.31338-17-jim.cromie@gmail.com>
+Subject: [PATCH v4 17/21] drm: restore CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
+Date: Thu, 13 Jul 2023 10:36:22 -0600
+Message-ID: <20230713163626.31338-18-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230713163626.31338-1-jim.cromie@gmail.com>
 References: <20230713163626.31338-1-jim.cromie@gmail.com>
@@ -80,51 +79,35 @@ Cc: jani.nikula@intel.com, gregkh@linuxfoundation.org, seanpaul@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To make the 2 test modules buildable with CONFIG_DYNAMIC_DEBUG_CORE,
-add CFLAGS_$ofile defns to supply -DDYNAMIC_DEBUG_MODULE to cc.
-And change the Kconfig entry to allow building with just _CORE.
+Lots of burn-in testing needed before signing, upstreaming.
+I set default Y to maximize testing by default.
+
+NOTE: without __UNIQUE_ID fix in HEAD~1, this population of
+DRM_CLASSMAP_USE()rs experienced name collisions in several different
+@lkp-robot allyes and randconfigs, probably because the macro is
+always a file-scope declarator, and is always near the top of fhe
+file.  Moving declarations around tended to fix one collision, only to
+create another collision elsewhere.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- lib/Kconfig.debug | 10 +++++-----
- lib/Makefile      |  2 ++
- 2 files changed, 7 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/Kconfig | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index ce51d4dc6803..d4fbbcc395d2 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -2695,12 +2695,12 @@ config TEST_STATIC_KEYS
- 	  If unsure, say N.
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index ba3fb04bb691..ff478fcba67e 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -52,8 +52,7 @@ config DRM_DEBUG_MM
  
- config TEST_DYNAMIC_DEBUG
--	tristate "Test DYNAMIC_DEBUG"
--	depends on DYNAMIC_DEBUG
-+	tristate "Build test-dynamic-debug module"
-+	depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
- 	help
--	  This module registers a tracer callback to count enabled
--	  pr_debugs in a 'do_debugging' function, then alters their
--	  enablements, calls the function, and compares counts.
-+	  This module works/demo's the dyndbg's classmap API, by
-+	  creating 2 classes: a DISJOINT classmap (like DRM.debug)
-+	  and a LEVELS/VERBOSE classmap (where 2>1).
- 
- 	  If unsure, say N.
- 
-diff --git a/lib/Makefile b/lib/Makefile
-index f36048371dd2..8411015a57c1 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -233,6 +233,8 @@ obj-$(CONFIG_HAVE_ARCH_TRACEHOOK) += syscall.o
- obj-$(CONFIG_DYNAMIC_DEBUG_CORE) += dynamic_debug.o
- #ensure exported functions have prototypes
- CFLAGS_dynamic_debug.o := -DDYNAMIC_DEBUG_MODULE
-+CFLAGS_test_dynamic_debug.o := -DDYNAMIC_DEBUG_MODULE
-+CFLAGS_test_dynamic_debug_submod.o := -DDYNAMIC_DEBUG_MODULE
- 
- obj-$(CONFIG_SYMBOLIC_ERRNAME) += errname.o
- 
+ config DRM_USE_DYNAMIC_DEBUG
+ 	bool "use dynamic debug to implement drm.debug"
+-	default n
+-	depends on BROKEN
++	default y
+ 	depends on DRM
+ 	depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
+ 	depends on JUMP_LABEL
 -- 
 2.41.0
 
