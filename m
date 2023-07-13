@@ -1,48 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB2D37519ED
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 09:28:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72627751A2A
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 09:44:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D19DF10E60E;
-	Thu, 13 Jul 2023 07:28:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 871DF10E61E;
+	Thu, 13 Jul 2023 07:44:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31EF710E60D;
- Thu, 13 Jul 2023 07:28:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689233296; x=1720769296;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=9NYx/YyOAo3XxlPiXm5jdCZsFrSJVXJKbqcBKmFsCQQ=;
- b=W2Ll2WTXLfyjgXgKSQYglhTZQFKCqcxHSJoM4KfMz50s5Oug3KtYGzmm
- DNA486CaR0nVWDV9xapzVsAU88wIcMPaL9hVoEUs6JARCQu1xrH4BBFKu
- Mk8hBbQeaWAAC290otMLZy2DLZBC9WZTWHQ8Y8s2pE+c0+RBXO5awuZqi
- MvQrcTGgAXrq3yaDGOy7JM9b/S6zZ+UedWECNm6a/+GrVjw0riihjKcYF
- PHkwclnR9VgiM6a3J/Rq0xEFkzVyeoeBMUaY3DCOyWZF6o6IRX5IArXVZ
- +UttX3hhaOyd5p8nFb9UxyT/lxzZFc5aRENsBqUyHpTxTlG8gHaC/rxej A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="395914972"
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; d="scan'208";a="395914972"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jul 2023 00:27:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="835468324"
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; d="scan'208";a="835468324"
-Received: from apaulaux-mobl.ger.corp.intel.com (HELO localhost)
- ([10.213.206.56])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jul 2023 00:26:51 -0700
-Date: Thu, 13 Jul 2023 08:26:49 +0100
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-fixes
-Message-ID: <ZK+nHLCltaxoxVw/@tursulin-desk>
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3A9210E60F
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 07:30:17 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id
+ 98e67ed59e1d1-262e89a3ee2so129497a91.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 00:30:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1689233416; x=1691825416;
+ h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=hehZ0jWWsd/gtz/heWZOKR4zS5zY3zOuJU632AJXifo=;
+ b=mKopxUmMOnMWEG0h5SMdyK79sxdXCfUi846oW1rAACiqEGb7DTFCtmh/8RDOXt/8Dj
+ BpXTquxXY300UBMFqnVvB3wMTbchrqpO6CKp0Y7ySzxeC7iujJm2vDhYBEUIzVJMeQeQ
+ CPZIQWYAI4f35nqhoZK6vuZ9L5pabZvS10h6EcWHs6fIfoNps1InKFilSAOFP8bjv2Z8
+ Xc16z8TkZFZE9zdt+KduuYtlrReYgXiUpI4BxS7Vo3gtDPnK1BB5xlix9Y+LDcu9TsTR
+ 3eVsBwrcioBv3hD8Hnx/9LSyBxhjEf9R8b7C7qQ1IIhrp5V0ERjqcXkpBmHQbesWGu0V
+ p9pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689233416; x=1691825416;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=hehZ0jWWsd/gtz/heWZOKR4zS5zY3zOuJU632AJXifo=;
+ b=OUSP9bC+UwEdzlje/9gHOnSecFj+nYGkB7TuUpX2L5vOxMG7vRORkMSR98rqT54jrA
+ faLh1plOlNlcOlDwnKX5WhRR+KdAvYSut3Z5hVHu+8SkgHawUGS0+kiPmTud2b+EYhNe
+ +1ZpIP+G6YSyNjexcxms+P9UufU6YOqAZfGgvWe8Te7my8YTCud9FCjTQtrwNrzs2b42
+ SWztBAGXLzngR+kVxEIGCBgHQ5T0An9LHO+f7XLYwIS1ndjVBB/aUjY8czppuHWmLh0c
+ kCdK8Q6ynJykZQ2Rlzw28xJNzLH6+NKSoOgQKBB4waxsPbW6XEmHPZYw6tXEFAcBXb1r
+ z12w==
+X-Gm-Message-State: ABy/qLaKasNZQbR1FmIMEOZVBJEHtxxOC5VlfO65RLbj0sPYZoGqPA8D
+ NCZSnnt/pqVffpTqNMotOgPUMyfvSzgK0q7i/083T0oO
+X-Google-Smtp-Source: APBJJlHsAc85A623A3YFZzm6rhOc87f3l2eLif5yqHVZgb9EmJFjfUvDbsLG83ynkZlXBmF0RXoJC942sSEkcCJt3js=
+X-Received: by 2002:a17:90a:7024:b0:262:ca69:bf9a with SMTP id
+ f33-20020a17090a702400b00262ca69bf9amr245695pjk.21.1689233416503; Thu, 13 Jul
+ 2023 00:30:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+From: SUNIDHI DIXIT <sdikshit786@gmail.com>
+Date: Thu, 13 Jul 2023 13:00:04 +0530
+Message-ID: <CAF23GwBA6R45968qDv4v-r+sKicjojVifqGsEDh8=F9RVkJ1Hw@mail.gmail.com>
+Subject: [BUG]: Getting a unique connector name when identical displays are
+ connected
+To: dri-devel@lists.freedesktop.org
+Content-Type: multipart/alternative; boundary="000000000000bbc6f70600594d60"
+X-Mailman-Approved-At: Thu, 13 Jul 2023 07:44:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,58 +65,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+--000000000000bbc6f70600594d60
+Content-Type: text/plain; charset="UTF-8"
 
-Just a few small fixes for the 6.5 RC this week - one functional fixup for
-reading of perf/OA buffers and some code cleanups elsewhere.
+Hello all,
 
-Regards,
+This is regarding an issue I have encountered recently in drm. When I
+connect two identical HDMI display(with same resolution) there is no way to
+distinguish them uniquely.
 
-Tvrtko
+I looked into that and found that the connector id, and connector_type_id
+can be changed based on which connector appears first to the kernel.
 
-drm-intel-fixes-2023-07-13:
-- Don't preserve dpll_hw_state for slave crtc in Bigjoiner (Stanislav Lisovskiy)
-- Consider OA buffer boundary when zeroing out reports [perf] (Umesh Nerlige Ramappa)
-- Remove dead code from gen8_pte_encode (Tvrtko Ursulin)
-- Fix one wrong caching mode enum usage (Tvrtko Ursulin)
-The following changes since commit 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5:
+Is there any solution already implemented for this problem?
 
-  Linux 6.5-rc1 (2023-07-09 13:53:13 -0700)
+I see following solution to this issue:
 
-are available in the Git repository at:
+Assigning a unique connector->name from drm_connector_init() and adding an
+api drmModeGetConnectorName().
 
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2023-07-13
+Please let me know what you think..
 
-for you to fetch changes up to 113899c2669dff148b2a5bea4780123811aecc13:
+Thanks in advance!
 
-  drm/i915: Fix one wrong caching mode enum usage (2023-07-11 09:21:32 +0100)
+--000000000000bbc6f70600594d60
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-----------------------------------------------------------------
-- Don't preserve dpll_hw_state for slave crtc in Bigjoiner (Stanislav Lisovskiy)
-- Consider OA buffer boundary when zeroing out reports [perf] (Umesh Nerlige Ramappa)
-- Remove dead code from gen8_pte_encode (Tvrtko Ursulin)
-- Fix one wrong caching mode enum usage (Tvrtko Ursulin)
+<div dir=3D"auto">Hello all,<div dir=3D"auto"><br></div><div dir=3D"auto">T=
+his is regarding an issue I have encountered recently in drm. When I connec=
+t two identical HDMI display(with same resolution) there is no way to disti=
+nguish them uniquely.</div><div dir=3D"auto"><br></div><div dir=3D"auto">I =
+looked into that and found that the connector id, and connector_type_id can=
+ be changed based on which connector appears first to the kernel.</div><div=
+ dir=3D"auto"><br></div><div dir=3D"auto">Is there any solution already imp=
+lemented for this problem?</div><div dir=3D"auto"><br></div><div dir=3D"aut=
+o">I see following solution to this=C2=A0issue:</div><div dir=3D"auto"><br>=
+</div><div dir=3D"auto">Assigning a unique connector-&gt;name from drm_conn=
+ector_init() and adding an api drmModeGetConnectorName().</div><div dir=3D"=
+auto"><br></div><div dir=3D"auto">Please let me know what you think..</div>=
+<div dir=3D"auto"><br></div><div dir=3D"auto">Thanks in advance!</div></div=
+>
 
-----------------------------------------------------------------
-Stanislav Lisovskiy (1):
-      drm/i915: Don't preserve dpll_hw_state for slave crtc in Bigjoiner
-
-Tvrtko Ursulin (2):
-      drm/i915: Remove dead code from gen8_pte_encode
-      drm/i915: Fix one wrong caching mode enum usage
-
-Umesh Nerlige Ramappa (1):
-      drm/i915/perf: Consider OA buffer boundary when zeroing out reports
-
- drivers/gpu/drm/i915/display/intel_display.c |  1 -
- drivers/gpu/drm/i915/gt/gen8_ppgtt.c         |  3 ---
- drivers/gpu/drm/i915/gt/intel_gtt.c          |  2 +-
- drivers/gpu/drm/i915/i915_perf.c             | 11 ++++++++++-
- 4 files changed, 11 insertions(+), 6 deletions(-)
+--000000000000bbc6f70600594d60--
