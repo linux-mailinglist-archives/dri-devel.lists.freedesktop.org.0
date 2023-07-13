@@ -2,61 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A392751C52
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 10:55:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D66EE751C6A
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 10:59:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7858510E634;
-	Thu, 13 Jul 2023 08:55:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73E7410E0B5;
+	Thu, 13 Jul 2023 08:59:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org
- [IPv6:2001:67c:2050:0:465::201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E35A810E634
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 08:55:54 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4R1pNk6KkDz9sjB;
- Thu, 13 Jul 2023 10:55:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1689238550;
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E38D10E632
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 08:59:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1689238766;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rBLdbolcwleXFuyesv/FWfqTiICKNnhIqRd0Q8rKdcU=;
- b=XOQm+c/1VBvNsC38s/PLHAf65YTtaz1YNCZVHPnd7nZYzH+0rP5kTffOUR96BybzW2Iee+
- pLJvj/DDKWaB55W5zp4Yj0X9ULognwdPx9Ms4EgUWHBNoid/EYXOlVoPShlj+D5SjiTAso
- bEWneUxV+AeybxC+zD1mH+d2AyLJYYr/Bj8hH4DXvFQ7JwLYZE2qL136HZrCKdyEKZlGrc
- modOgt/igNN602g9Y12V31QbSd3Iw7c6SV+5d9ChJ/dGJMRZ3ggnPceyMSmSiq9oUrFYIS
- s2X1yuMLg2jVc3aLVmJYYMqadv1YsViEq+08cs1Rb/v4PPZNO66QTLSOl/C5Gg==
-Message-ID: <59271d91-4e9b-fef7-c51f-61ee26e99f5c@mailbox.org>
-Date: Thu, 13 Jul 2023 10:55:49 +0200
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vnxC9yGQS3oyHtrj9CFhBKbzf8XATjvmszGm7K4qRhU=;
+ b=PqT8+lqFHyQSs5qNSZzJsAovqAmIYC+267q8Q7n/Vt3KZ87WSnEGDy8Rv85YNPFGUgLvv5
+ YXTF9t+bn4tj4Gy4fsi/S5aBKwID/YFXa2+rdwe31HyPnQwokk+FHFaK/N8AW1o5m+w5DU
+ H813or5xJUHvehM12R6b9wwW2xRRc9c=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-539-0TDqdBBWP1ynBFXg4a1pFg-1; Thu, 13 Jul 2023 04:59:25 -0400
+X-MC-Unique: 0TDqdBBWP1ynBFXg4a1pFg-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ 38308e7fff4ca-2b6cf671d94so4302361fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 01:59:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689238764; x=1691830764;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vnxC9yGQS3oyHtrj9CFhBKbzf8XATjvmszGm7K4qRhU=;
+ b=EjdwhemHMeJH0FZNH2EweVu4E5n9w1S6S/8pQlZxGcIUg5u4GEiaPm9KgRfhYMKQr0
+ FDH0OQgXkM4/IJf3brZNTOIt9Jf4OvC/blVtHmXg4y3C3Lzxg+IIW3Zhwt6NxjShJhkY
+ piJWL1tVN88rWwuPt2wZaVCsPioJzcX80cFXBIWbBnaDYONW7llWlD+pGSg/QEV2OOa3
+ 1OIx4+6wDTDkKdUKre4gUk9KxcTGGypPV7X7dMI9Ru7E+VtQZquX2mtdi6vmoeDYy9aa
+ 474wvpqSbqPPyY8xX+z6D6URS1XRcI1gxRA6SrLCstVCmq0enAvLzhj5t37QZkFwYaEU
+ fssA==
+X-Gm-Message-State: ABy/qLbtp+j6qR0mUEdi7qstEjbb5spQzADBLzjgiHozJgpud1KHr1x1
+ y/jBqbF83L5nkCOtAMO/TsZOQjG6jo39nxvCyOQOwDxTMa+YJ3WVZgUSRjih3fR/r4yt1LrX+o8
+ 6VrBFWosgDhzDe0Hnt8aaDwdkptcX
+X-Received: by 2002:ac2:4d0a:0:b0:4fb:61ea:95dc with SMTP id
+ r10-20020ac24d0a000000b004fb61ea95dcmr668297lfi.7.1689238763854; 
+ Thu, 13 Jul 2023 01:59:23 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlGc5HFE7WCmY1lT5YS/h/GV1g02JYORqPk5tgrQ7etZG94Yv7rrcroiXJTHdwIkOtIEUGSKDA==
+X-Received: by 2002:ac2:4d0a:0:b0:4fb:61ea:95dc with SMTP id
+ r10-20020ac24d0a000000b004fb61ea95dcmr668279lfi.7.1689238763561; 
+ Thu, 13 Jul 2023 01:59:23 -0700 (PDT)
+Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ a4-20020adfeec4000000b0030c4d8930b1sm7356588wrp.91.2023.07.13.01.59.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Jul 2023 01:59:23 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/ssd130x: Change pixel format used to compute the buffer
+ size
+Date: Thu, 13 Jul 2023 10:58:07 +0200
+Message-ID: <20230713085859.907127-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/ast: Fix default resolution when no monitor is
- connected on DP
-Content-Language: de-CH-frami, en-CA
-To: Jocelyn Falempe <jfalempe@redhat.com>
-References: <20230623094639.434293-1-jfalempe@redhat.com>
- <878rbv20dp.fsf@intel.com> <13e35996-914d-37a6-1697-ac0c3c75cad1@redhat.com>
- <ed075f2f-861d-74d1-efc0-5baa2cd601fd@redhat.com>
- <43d12606-9c81-99f8-f13c-14338fcd7a28@suse.de>
- <f4b4ab09-5f03-af3c-0e7f-44a248678be8@redhat.com>
- <23d80964-d2d0-b688-e3cd-bf25a8135e5e@redhat.com>
- <81c57344-289d-fe41-8518-503249ea8d64@suse.de>
- <3fc768f8-9461-c4b0-b9af-555c52294c94@redhat.com>
- <2fb391e2-9f68-26f0-e005-a7f0f4324adc@loongson.cn>
- <b56afc8a-5fda-3227-3ac0-5e7b7773976b@redhat.com>
- <36e04e4c-c2ac-64cf-9503-ea43a29b66d0@mailbox.org>
- <90f7b5f9-9805-39d3-801a-babd10f1a0cf@redhat.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
-In-Reply-To: <90f7b5f9-9805-39d3-801a-babd10f1a0cf@redhat.com>
-Content-Type: text/plain; charset=UTF-8
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: bci7fc7qjkqo5hyp951fc5zo6rm8quke
-X-MBO-RS-ID: dcc1a3e11824a90bd7c
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,31 +81,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Javier Martinez Canillas <javierm@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/13/23 10:53, Jocelyn Falempe wrote:
-> On 13/07/2023 10:32, Michel Dänzer wrote:
->> On 7/12/23 17:25, Jocelyn Falempe wrote:
->>> On 12/07/2023 17:05, Sui Jingfeng wrote:
->>>> On 2023/7/10 16:07, Jocelyn Falempe wrote:
->>>>
->>>>> On the other hand, are there any drawback to present a BMC connector even when the hardware doesn't have it ?
->>>>
->>>> If not properly setting up, I think you will create two encoder and two connector in the system.
->>>
->>> Yes, but I think it won't have any visible effect for the end-user.
->>
->> I'm afraid user-space display servers would waste effort producing content for a non-existing BMC (assuming its connector status is connected or unknown).
->>
->>
-> I think it's already the case, as AST's DP and VGA connectors currently always report "connected" status. And they all share the same crtc, so there is only one framebuffer, that is always active.
+The commit e254b584dbc0 ("drm/ssd130x: Remove hardcoded bits-per-pixel in
+ssd130x_buf_alloc()") used a pixel format info instead of a hardcoded bpp
+to calculate the size of the buffer allocated to store the native pixels.
 
-"Single CRTC" is the piece of information I was missing. Never mind then.
+But that wrongly used the DRM_FORMAT_C1 fourcc pixel format, which is for
+color-indexed frame buffer formats. While the ssd103x controllers don't
+support different single-channel colors nor a Color Lookup Table (CLUT).
 
+Both formats use eight pixels/byte, so in practice there is no functional
+changes in this patch. But still the correct pixel format should be used.
 
+Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
+
+ drivers/gpu/drm/solomon/ssd130x.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
+index b3dc1ca9dc10..afb08a8aa9fc 100644
+--- a/drivers/gpu/drm/solomon/ssd130x.c
++++ b/drivers/gpu/drm/solomon/ssd130x.c
+@@ -153,7 +153,7 @@ static int ssd130x_buf_alloc(struct ssd130x_device *ssd130x)
+ 	const struct drm_format_info *fi;
+ 	unsigned int pitch;
+ 
+-	fi = drm_format_info(DRM_FORMAT_C1);
++	fi = drm_format_info(DRM_FORMAT_R1);
+ 	if (!fi)
+ 		return -EINVAL;
+ 
 -- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
+2.41.0
 
