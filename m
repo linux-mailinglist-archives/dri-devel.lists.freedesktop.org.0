@@ -1,53 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2FFE7526E9
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 17:27:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E10DC752747
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 17:34:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB11310E6FF;
-	Thu, 13 Jul 2023 15:27:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 418CA10E6FE;
+	Thu, 13 Jul 2023 15:34:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76E2710E6FB;
- Thu, 13 Jul 2023 15:27:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689262052; x=1720798052;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=+uxhKCuDtZOgQCvUsvQc5qWpMJevnFpZVvPtFdByoRQ=;
- b=GHD0JSGrW7Qf5i9PEXJq8ihhyxXyax8GGWYC/nO6J0/P2znKjS/1RHKM
- HmN6IfbQOE8rwuYa89FF7pLtCUHrQLmbAOfYkdB0m//aT30JOyXqNglij
- Xdm/C0lIk9G5Mxci03L+si/nZXMFbBU5kJLukJ88FefsRGiW9kDy7lORj
- Zm9uWYjzkc440SAqRfaHl4GDRN6fQAS1uW1kKURSg3Ijymkb4Gz0Pv1J8
- iZtvNMC4ouDSz7KnRkwUCUAhzecIdegTIMMBVyIzD787th0U4EWIr4bYG
- 3B27keQWW7e/ySZcLbXERtwa088yBOYNZG+eEecRqf0dCzq19sjAQni3o g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="368778257"
-X-IronPort-AV: E=Sophos;i="6.01,203,1684825200"; d="scan'208";a="368778257"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jul 2023 08:27:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="835635803"
-X-IronPort-AV: E=Sophos;i="6.01,203,1684825200"; d="scan'208";a="835635803"
-Received: from apaulaux-mobl.ger.corp.intel.com (HELO localhost.localdomain)
- ([10.213.206.56])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jul 2023 08:27:30 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [RFC 2/2] drm/i915: Remove PAT hack from
- i915_gem_object_can_bypass_llc
-Date: Thu, 13 Jul 2023 16:27:18 +0100
-Message-Id: <20230713152718.645488-2-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230713152718.645488-1-tvrtko.ursulin@linux.intel.com>
-References: <20230713152718.645488-1-tvrtko.ursulin@linux.intel.com>
+Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com
+ [IPv6:2607:f8b0:4864:20::e30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AB0A10E6FE
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 15:34:34 +0000 (UTC)
+Received: by mail-vs1-xe30.google.com with SMTP id
+ ada2fe7eead31-44358c019ddso373090137.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 08:34:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1689262473; x=1691854473;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=8yGwM2jMm6HeybAOlBLR6sZSi/DPAG/Mi6HWsPsP/EI=;
+ b=lOgFlERPhwtGjicLF2QHVlqBk2xSDjijmmistC6wxT3hqdtQKIp2OgtKqSDsPAiizS
+ wYQJQbXgXaCcxecOQofQ0NQysSDneQdw+H/6NYICtdMdrXApRr/VJmoKQm7+lqxz5CU9
+ 7HKYEPG6Y7/vU/zy5asXo1RDZ57mV1rxJ4y90qbj11a79ceBVOuzDB33KSgDy0rN+mwi
+ 0a9Ii2XIlGFExp3+2n6C/bBF8rtotem8PhWb1HeJSt7j+04dznqXCjeaK4i/v9L+b0pf
+ 7gqFXvkVYT0gF2Gi1kf5amM7r4mq+0iDjg8T1vwPyROs/edZA8/yCHdovfdf9v1AbJiH
+ JfHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689262473; x=1691854473;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=8yGwM2jMm6HeybAOlBLR6sZSi/DPAG/Mi6HWsPsP/EI=;
+ b=d9ManTzue1BQCrHirBN81drycsWS522/8SewjWkjTPPZkwYzWw+j+R/TjR6Ev3r7Pz
+ kQz/7nLHJvmdvxfm8vRs8/J0wiVagl2zLn/3wGk5vnPpQ5yBseM+tqguIdoJZ7acttWB
+ advX7ioX1ZKZPpqJRDVOE1/pgVGVi1m/WfxfFTXmUkkRvdqXRYZzm0lCqqCEhUbzIA7b
+ gjVonfsfkY1DhHqdd0XCGrr4kramuJ+R69WU128GdOmW1QFN0p93ldvHpszS9rh6kg+q
+ cGYfo8aw8gUsNWJK3PwnfTRrHnQagYtsceQBEkgNW4LVNTvPSwS8Is7KSpGW/379/Et0
+ xjdg==
+X-Gm-Message-State: ABy/qLboE+PMp4PPUhKPkzJaI9sMq71Hl+TvZhkjpiNOwjXLmDS8y4x8
+ jYrDMWoPzF0j13jXlcbSRQ/ETyDpRyS9ONK2/neTaw==
+X-Google-Smtp-Source: APBJJlGb1jVO/ngXjXmOiFV9ZYbghh/vfhZZW7PYWNC1fUiGbkak2hA/lfD7wwvwjJJq8+zZv1gdSRqmyIer2LH0nno=
+X-Received: by 2002:a05:6102:389:b0:444:c7fa:1aad with SMTP id
+ m9-20020a056102038900b00444c7fa1aadmr1171134vsq.17.1689262472963; Thu, 13 Jul
+ 2023 08:34:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230712130215.666924-1-amit.pundir@linaro.org>
+ <3b677200-a201-680b-391f-fbf73064496a@linaro.org>
+In-Reply-To: <3b677200-a201-680b-391f-fbf73064496a@linaro.org>
+From: Amit Pundir <amit.pundir@linaro.org>
+Date: Thu, 13 Jul 2023 21:03:56 +0530
+Message-ID: <CAMi1Hd003r1kJ6e4r2urFtN1BEnCRatLcQ1Q7Eh5wBdj=2WDFA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: display/msm: qcom,sdm845-mdss: add
+ memory-region property
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,59 +68,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matt Roper <matthew.d.roper@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, Fei Yang <fei.yang@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ Conor Dooley <conor+dt@kernel.org>, Caleb Connolly <caleb.connolly@linaro.org>,
+ dt <devicetree@vger.kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
+ lkml <linux-kernel@vger.kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Andy Gross <agross@kernel.org>, Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Bryan Donoghue <bryan.odonoghue@linaro.org>, Sean Paul <sean@poorly.run>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+On Wed, 12 Jul 2023 at 18:45, Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On 12/07/2023 16:02, Amit Pundir wrote:
+> > Add and document the reserved memory region property
+> > in the qcom,sdm845-mdss schema.
+> >
+> > Signed-off-by: Amit Pundir <amit.pundir@linaro.org>
+> > ---
+> >   .../devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml    | 5 +++++
+> >   1 file changed, 5 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
+> > index 6ecb00920d7f..3ea1dbd7e317 100644
+> > --- a/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
+> > +++ b/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
+> > @@ -39,6 +39,11 @@ properties:
+> >     interconnect-names:
+> >       maxItems: 2
+> >
+> > +  memory-region:
+> > +    maxItems: 1
+> > +    description:
+> > +      Phandle to a node describing a reserved memory region.
+> > +
+>
+> Please add it to mdss-common.yaml instead
 
-According to the comment in i915_gem_object_can_bypass_llc the purpose of
-the function is to return false if the platform/object has a caching mode
-where GPU can bypass the LLC.
+mdss-common.yaml didn't like this property at all and
+I ran into a lot of new dtbs_check warnings:
+https://www.irccloud.com/pastebin/raw/pEYAeaB1
 
-So far the only platforms which allegedly can do this are Jasperlake and
-Elkhartlake, and that via MOCS (not PAT).
+I need some help in decoding these please.
 
-Instead of blindly assuming that objects where userspace has set the PAT
-index can (bypass the LLC), question is is there a such PAT index on a
-platform. Probably starting with Meteorlake since that one is the only one
-where set PAT extension can be currently used. Or if there is a MOCS entry
-which can achieve the same thing on Meteorlake.
+Regards,
+Amit Pundir
 
-If there is such PAT, now that i915 can be made to understand them better,
-we can make the check more fine grained. Or if there is a MOCS entry then
-we probably should apply the blanket IS_METEORLAKE condition.
-
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Fixes: 9275277d5324 ("drm/i915: use pat_index instead of cache_level")
-Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
-Cc: Fei Yang <fei.yang@intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_object.c | 6 ------
- 1 file changed, 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-index 33a1e97d18b3..1e34171c4162 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-@@ -229,12 +229,6 @@ bool i915_gem_object_can_bypass_llc(struct drm_i915_gem_object *obj)
- 	if (!(obj->flags & I915_BO_ALLOC_USER))
- 		return false;
- 
--	/*
--	 * Always flush cache for UMD objects at creation time.
--	 */
--	if (obj->pat_set_by_user)
--		return true;
--
- 	/*
- 	 * EHL and JSL add the 'Bypass LLC' MOCS entry, which should make it
- 	 * possible for userspace to bypass the GTT caching bits set by the
--- 
-2.39.2
-
+>
+> >   patternProperties:
+> >     "^display-controller@[0-9a-f]+$":
+> >       type: object
+>
+> --
+> With best wishes
+> Dmitry
+>
