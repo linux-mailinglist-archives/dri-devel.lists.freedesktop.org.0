@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3D0A752760
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 17:37:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A1C375278D
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 17:43:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67DE310E702;
-	Thu, 13 Jul 2023 15:37:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA9B710E705;
+	Thu, 13 Jul 2023 15:43:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A5FC10E6FC
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 15:37:07 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id
- 5614622812f47-3a3efee1d44so673466b6e.3
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 08:37:07 -0700 (PDT)
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com
+ [IPv6:2607:f8b0:4864:20::b2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29DE810E700
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 15:43:19 +0000 (UTC)
+Received: by mail-yb1-xb2e.google.com with SMTP id
+ 3f1490d57ef6-c2cf29195f8so824331276.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 08:43:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689262627; x=1691854627;
+ d=linaro.org; s=google; t=1689262998; x=1689867798;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=we2PYWjlXrhf7YA5e50pSB3r3uKJBwJBvyfkN3HQeHI=;
- b=jMNUKRnZu8Z9jSGLeckxay0T8TRTDjnZxzKefYi0imrqcnKVB3IhTK7zFuCr2uuEQ5
- jenRNsz1alc0k8aXcyY5Bs/btNLljJNoOVT84Gr0oPeMxSxh/HTFIsI9c/GeN8Cyx4UH
- vo3GFRDjiAt+ugCCt6dgTQ+Vcx4nuppHQlE8g7YPimWWFAlirtPvc05aRFKH45c6/sBv
- kQ3lyF7vt7epH7iWyFw7yRaNWH3jjwc+shRQXCjrYOBv/go4w6DuzpNGbygMFwSsByhW
- 8oqvBhZdd8hv+S1z/PpM9UyxfF696BM/EhBJjdyoZ9Nxy2CaIH4vHoMwupbf8Llq1/HL
- 79YA==
+ bh=91vNV3YrdzSjKOSREPIs1wSiF2NAZ5QLx0dAx8l+9Cs=;
+ b=rDxvl6mZuriokxBHc27a1IvWgQXE5WtWQswiLsM4jHgQP7vkELi7SgUvleLqEdYIIi
+ B9/qrxBoc+4j0fCZdTZIhjUHaRaf40Fse3iVbhOvpxTQxsHQgptK4AL7qbTv6mB/8g98
+ 4kd0ufDwOyI8auYr+orVFJKIBCOxqO2WwlCZwsEpqVtWc5lWRgcC3RRHlwfWeecgV38y
+ nGBAe6NgwdEV6LivipYtblUKtzZmvJtqLRDZx3WnJBwQ1N1inP+HXpt4X1iLE6Vq6wY5
+ G7s/7BE9oCLkKLnlY2c7E2dPVpBKOHQ2ES1DRWo6GHXAqteGNAQeb4eyzFFVI9vySks/
+ cdyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689262627; x=1691854627;
+ d=1e100.net; s=20221208; t=1689262998; x=1689867798;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=we2PYWjlXrhf7YA5e50pSB3r3uKJBwJBvyfkN3HQeHI=;
- b=WjwM54/AiH2oNK/yi9caI3wx0J9507CA5jV/5Oye9AMNv/doZSpSXd5k3gmY7tpAAL
- 1tPB3kN92s8WaKQRNyqTFZBxvvV/1k7WCMMT2tkb61SqE+Bv5pDkSeZhOLZckveQE/zX
- 1F2eetoFksRzIRDwk+w3b0vWyKqDyi7DECYFYoRAPQ5x9vDCqAJHPpKrLJFIdOiNviUJ
- DrJ66/ZIbPYUkSAGIlGW5yGd07gvmSvhr6HTx0+cMjKLhhfC3OdGyYwIMQm21s7ClIoA
- 8DVX/WNCZTKi2sfa3SdFlgeYMvQbWNtRI1C8TBQYznBXxyQE5ahqlrYpPHPI2TeOQieQ
- kwXw==
-X-Gm-Message-State: ABy/qLa0DHidN3KYj1xWFpMqQGm0CvdIf2p96TB53mc5oArb9p+St3Vr
- HRJd6toy6KRnanPu7/x7aeYbPnbUj8RjZSTlQNspng==
-X-Google-Smtp-Source: APBJJlFupxhatozrXXQGBsLkH0UoI4gbrCdVoIWQ8DB4C6TFi0/i/sIdPC2//Y8yr4CidadlI0nBRPG6IdE52wzL9qk=
-X-Received: by 2002:a05:6808:200f:b0:3a4:189b:53a9 with SMTP id
- q15-20020a056808200f00b003a4189b53a9mr2381742oiw.33.1689262626794; Thu, 13
- Jul 2023 08:37:06 -0700 (PDT)
+ bh=91vNV3YrdzSjKOSREPIs1wSiF2NAZ5QLx0dAx8l+9Cs=;
+ b=WVa9teWghjE3mSS0zu9DHMycNiHt3Iii4ObyZmOGf/URjTkjc7eXlsZKnrorvHyaTm
+ fILvsWOFLTN017P40NXFcYv/WG/gfEwJpdcd3reUwFS7vCGjzcZG64OSzN5nz4WQ7D14
+ fJogsD1xvK1G7MD4OM39OnfTkjkogLoG3VH92jEwWcgyJmpzcmVSc/0FRKmekoZ96Gi1
+ ylBS/UwX2+O4anKFFNq9rQygv1yZgrBVDMn55TStFqKDutHcGG7YMUyRN3Mj0T5a3SuH
+ M6LYBl1Mvh/YhlfMfKMmB5Zam0PB065a51EWFOVVS8DIprO2OsDRCLJ2p/aFHQwFqS3s
+ K35Q==
+X-Gm-Message-State: ABy/qLYhLJbgAat3iyy2TcFImcG+44RsejVvo0xqCFYy0UZXAUuc6LnN
+ R0GumwJ8h9lhORdGR8QyHisqfU3mOI3QQ5a4E7ZR3w==
+X-Google-Smtp-Source: APBJJlEzqkIycBpd/dk78rxLiZ5DOQgoh2uewJ9I1h61UlwEZbrwkONkI8ayCwX25DFG4WRdWqcFsLGGtlya5l1nooE=
+X-Received: by 2002:a25:c0c8:0:b0:c4f:43d7:7daf with SMTP id
+ c191-20020a25c0c8000000b00c4f43d77dafmr1554760ybf.1.1689262997949; Thu, 13
+ Jul 2023 08:43:17 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230712130215.666924-1-amit.pundir@linaro.org>
- <c3ea2043-5d02-3a6f-ecb7-fb90d989bc6f@linaro.org>
-In-Reply-To: <c3ea2043-5d02-3a6f-ecb7-fb90d989bc6f@linaro.org>
-From: Amit Pundir <amit.pundir@linaro.org>
-Date: Thu, 13 Jul 2023 21:06:30 +0530
-Message-ID: <CAMi1Hd1Z230Vmb1aDS4ns29y6q1c8ZmhWGHArBGJQDq6KSLoQg@mail.gmail.com>
+ <3b677200-a201-680b-391f-fbf73064496a@linaro.org>
+ <CAMi1Hd003r1kJ6e4r2urFtN1BEnCRatLcQ1Q7Eh5wBdj=2WDFA@mail.gmail.com>
+In-Reply-To: <CAMi1Hd003r1kJ6e4r2urFtN1BEnCRatLcQ1Q7Eh5wBdj=2WDFA@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 13 Jul 2023 18:43:06 +0300
+Message-ID: <CAA8EJpp6yprRL3qzM9pHt2uJ6sb-nPhwas5qm9aDthegSaw7DQ@mail.gmail.com>
 Subject: Re: [PATCH 1/2] dt-bindings: display/msm: qcom,sdm845-mdss: add
  memory-region property
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Amit Pundir <amit.pundir@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,53 +78,86 @@ Cc: freedreno <freedreno@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Marijn Suijten <marijn.suijten@somainline.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Bryan Donoghue <bryan.odonoghue@linaro.org>, Sean Paul <sean@poorly.run>,
  linux-arm-msm <linux-arm-msm@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 12 Jul 2023 at 19:46, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
+On Thu, 13 Jul 2023 at 18:34, Amit Pundir <amit.pundir@linaro.org> wrote:
 >
-> On 12/07/2023 15:02, Amit Pundir wrote:
-> > Add and document the reserved memory region property
-> > in the qcom,sdm845-mdss schema.
+> On Wed, 12 Jul 2023 at 18:45, Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
 > >
-> > Signed-off-by: Amit Pundir <amit.pundir@linaro.org>
->
-> Please keep consistent versioning, so this is new patch in v4.
-
-ACK.
-
->
-> > ---
-> >  .../devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml    | 5 +++++
-> >  1 file changed, 5 insertions(+)
+> > On 12/07/2023 16:02, Amit Pundir wrote:
+> > > Add and document the reserved memory region property
+> > > in the qcom,sdm845-mdss schema.
+> > >
+> > > Signed-off-by: Amit Pundir <amit.pundir@linaro.org>
+> > > ---
+> > >   .../devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml    | 5 +++++
+> > >   1 file changed, 5 insertions(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
+> > > index 6ecb00920d7f..3ea1dbd7e317 100644
+> > > --- a/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
+> > > +++ b/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
+> > > @@ -39,6 +39,11 @@ properties:
+> > >     interconnect-names:
+> > >       maxItems: 2
+> > >
+> > > +  memory-region:
+> > > +    maxItems: 1
+> > > +    description:
+> > > +      Phandle to a node describing a reserved memory region.
+> > > +
 > >
-> > diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
-> > index 6ecb00920d7f..3ea1dbd7e317 100644
-> > --- a/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
-> > +++ b/Documentation/devicetree/bindings/display/msm/qcom,sdm845-mdss.yaml
-> > @@ -39,6 +39,11 @@ properties:
-> >    interconnect-names:
-> >      maxItems: 2
+> > Please add it to mdss-common.yaml instead
+>
+> mdss-common.yaml didn't like this property at all and
+> I ran into a lot of new dtbs_check warnings:
+> https://www.irccloud.com/pastebin/raw/pEYAeaB1
+>
+> I need some help in decoding these please.
+
+I'm not sure what happened there (and it's hard to understand without
+seeing your patch). But after applying your patch to mdss-common.yaml,
+`make dt_binding_check' passes:
+
+diff --git a/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
+b/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
+index ccd7d6417523..924fe383e4a1 100644
+--- a/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
++++ b/Documentation/devicetree/bindings/display/msm/mdss-common.yaml
+@@ -77,6 +77,11 @@ properties:
+     items:
+       - description: MDSS_CORE reset
+
++  memory-region:
++    maxItems: 1
++    description:
++      Phandle to a node describing a reserved memory region.
++
+ required:
+   - reg
+   - reg-names
+
+
+>
+> Regards,
+> Amit Pundir
+>
 > >
-> > +  memory-region:
-> > +    maxItems: 1
-> > +    description:
-> > +      Phandle to a node describing a reserved memory region.
->
-> Your description says nothing new. It's entirely redundant/obvious.
-> Instead please describe what reserved memory is expected to be here.
+> > >   patternProperties:
+> > >     "^display-controller@[0-9a-f]+$":
+> > >       type: object
+> >
+> > --
+> > With best wishes
+> > Dmitry
+> >
 
-On it. I'll update in v5. Thanks.
 
-Regards,
-Amit Pundir
 
->
->
-> Best regards,
-> Krzysztof
->
+-- 
+With best wishes
+Dmitry
