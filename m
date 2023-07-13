@@ -1,73 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 318B3751B6C
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 10:24:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E074751B6E
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 10:24:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7122310E1A0;
-	Thu, 13 Jul 2023 08:24:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0C0410E5F5;
+	Thu, 13 Jul 2023 08:24:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x136.google.com (mail-il1-x136.google.com
- [IPv6:2607:f8b0:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B70A10E191
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 08:24:45 +0000 (UTC)
-Received: by mail-il1-x136.google.com with SMTP id
- e9e14a558f8ab-345d3c10bdfso1738725ab.2
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 01:24:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1689236684; x=1691828684;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SC8wLptS4WXWt8bW8YWC7ooVYG9MHbSN/yLxSgqam3k=;
- b=OG+cmDQ9vAuwCIb4A70FoqcL/dGFjXJGwUAeRUHDub7+E9E50ulm8eNhwS3f1ite0M
- Z5P0Y9vVlBEED+T8dA8EzXAxWoKCGvswnN70yAnH42b1NqxzjjLSNwzKII/n+6qF6Lyn
- IoS12nMis2tiwaXVNnrUbkZWJxiluxvn78Tuo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689236684; x=1691828684;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SC8wLptS4WXWt8bW8YWC7ooVYG9MHbSN/yLxSgqam3k=;
- b=USRBLADNUBCk9fwlzL7aR9zfcFNHGXX/MiJr3d6IT9R0eBE9Nr//tjJc5br5gk/t+S
- ST23uxC9KmMm9JJPXeNU8YhSuEcozdPmKeuiuTb4dPHO2WVM8Vqqal3/P+7wdyUg1Qct
- cJKo140p1Mz0Ln1RvV5f7boh6y1i2M5viq8bWINPlUi5n6eMINeLvnLIvYcCrlHr9VFx
- gR7S8UyYe/27ya0FI6Ke/0S3LuQywyeVAoj6tHyNwD+6gVzhM7epyQ5CVBDL8Cp7nPBq
- Btwt9z89gw7SuLySeacA7KxIXLfDw5Lr3X6tOauSE2lZwGv3fUQEIYGwxwut35NkQR9p
- MEHA==
-X-Gm-Message-State: ABy/qLYPFh5OtKuMkLolf8oh7AMUA/MzDNCLvty4wmOpIbW4boW2djzS
- vA0rxGO0XNQlirMfwSHtKFZdwn6RbaMwqkpuVic=
-X-Google-Smtp-Source: APBJJlHj2zGLFnoiXMXiW/B/BSEwQAg/ekuv6S2o5o6kWFMGQ8Yy0QafgA7MWGWMRXwU4nMwsEK1Mg==
-X-Received: by 2002:a92:d68c:0:b0:346:3eec:c893 with SMTP id
- p12-20020a92d68c000000b003463eecc893mr1022429iln.0.1689236684274; 
- Thu, 13 Jul 2023 01:24:44 -0700 (PDT)
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com.
- [209.85.166.45]) by smtp.gmail.com with ESMTPSA id
- f8-20020a056638022800b0042b2959e6dcsm1750686jaq.87.2023.07.13.01.24.43
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Jul 2023 01:24:43 -0700 (PDT)
-Received: by mail-io1-f45.google.com with SMTP id
- ca18e2360f4ac-78654448524so9227439f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 01:24:43 -0700 (PDT)
-X-Received: by 2002:a6b:e70c:0:b0:777:8e86:7702 with SMTP id
- b12-20020a6be70c000000b007778e867702mr1334033ioh.16.1689236683371; Thu, 13
- Jul 2023 01:24:43 -0700 (PDT)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE7D910E626
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 08:24:50 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qJrch-00060j-Vp; Thu, 13 Jul 2023 10:24:28 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qJrch-00E4kK-7Q; Thu, 13 Jul 2023 10:24:27 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qJrcg-004Vhl-I4; Thu, 13 Jul 2023 10:24:26 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "Russell King (Oracle)" <linux@armlinux.org.uk>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Julia Lawall <julia.lawall@inria.fr>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Sui Jingfeng <suijingfeng@loongson.cn>,
+ Luben Tuikov <luben.tuikov@amd.com>, Jani Nikula <jani.nikula@intel.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Sean Paul <seanpaul@chromium.org>, Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [PATCH 17/17] drm/vblank_crtc: Rename struct drm_vblank_crtc::dev to
+ drm
+Date: Thu, 13 Jul 2023 10:24:08 +0200
+Message-Id: <20230713082408.2266984-18-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230713082408.2266984-1-u.kleine-koenig@pengutronix.de>
+References: <20230713082408.2266984-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-References: <20230412115250.164899-1-angelogioacchino.delregno@collabora.com>
- <20230412115250.164899-4-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230412115250.164899-4-angelogioacchino.delregno@collabora.com>
-From: Fei Shao <fshao@chromium.org>
-Date: Thu, 13 Jul 2023 16:24:07 +0800
-X-Gmail-Original-Message-ID: <CAC=S1nhePNeKY=q3XofzPcbwvyonz-bSuSLDNgsKx088qB3ZJA@mail.gmail.com>
-Message-ID: <CAC=S1nhePNeKY=q3XofzPcbwvyonz-bSuSLDNgsKx088qB3ZJA@mail.gmail.com>
-Subject: Re: [PATCH 3/4] drm/mediatek: mtk_dpi: Switch to
- devm_drm_of_get_bridge()
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4760;
+ i=u.kleine-koenig@pengutronix.de; h=from:subject;
+ bh=Wd0xW8yHKC8uHsToF/cS2FncD5+P2cYXJskTGCcSS/Y=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkr7ShmlRZtqfUvBLyNFx4SLtQ/vZSopj69UCzQ
+ XDmyNqXWueJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZK+0oQAKCRCPgPtYfRL+
+ TnzdCACfqI26iYix7kLA5Zp2vmncVy5K1whdGLSQBwK58mjcDLShIWjWg3MtRKRxu55f62jfGLi
+ Mr4jR6XTGw/oZdXs6F01jk2GwyVh7BwV5/eoDyWyZ3IUAS5YfdWstfT2Fc44r1gbZjgDsnZdEXX
+ fmq7e5PRhJ8l0cpGO8KXZxuH/x207isQmwaw8v8k/uW00R5obyXTfEGfM4qGRjQS5kHf66M0MK/
+ KWZUyt8HkYu/aI7ZKu9BOMMV8PcO3ZpOiFF4eqXZ9MCc2qC0JZYlxzBwY+FSKe3Tj53c9QdpkTK
+ eCUGxJW4INTDOX88wMXpQ8NvLQDz/q0Uwmh7KIwt5hhfIWWs
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,63 +77,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- matthias.bgg@gmail.com, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org
+Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Angelo,
+"dev" is usually used for struct device pointers. Using it for struct
+drm_device pointers is irritating (for me at least). Replace it
+by "drm" and adapt all users.
 
-On Wed, Apr 12, 2023 at 7:53=E2=80=AFPM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> Function drm_of_find_panel_or_bridge() is marked as deprecated: since
-> the usage of that in this driver exactly corresponds to the new function
-> devm_drm_of_get_bridge(), switch to it.
->
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
-abora.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_dpi.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediate=
-k/mtk_dpi.c
-> index 6be65ea21f8f..9025111013d3 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> @@ -1063,10 +1063,9 @@ static int mtk_dpi_probe(struct platform_device *p=
-dev)
->         if (dpi->irq <=3D 0)
->                 return -EINVAL;
->
-> -       ret =3D drm_of_find_panel_or_bridge(dev->of_node, 0, 0,
-> -                                         NULL, &dpi->next_bridge);
-> -       if (ret)
-> -               return ret;
-> +       dpi->next_bridge =3D devm_drm_of_get_bridge(dev, dev->of_node, 0,=
- 0);
-> +       if (IS_ERR(dpi->next_bridge))
-> +               return PTR_ERR(dpi->next_bridge);
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/gpu/drm/drm_vblank.c      |  4 ++--
+ drivers/gpu/drm/drm_vblank_work.c | 18 +++++++++---------
+ include/drm/drm_vblank.h          |  4 ++--
+ 3 files changed, 13 insertions(+), 13 deletions(-)
 
-The original code doesn't print any log so it's probably fine, but
-given you're already at it, perhaps you want to also make use of
-dev_err_probe() here?
-devm_drm_of_get_bridge() can also pass -EPROBE_DEFER from its wrapped
-drm_of_find_panel_or_bridge(). Furthermore, that will make the code
-visually align with your previous patch.
+diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+index 87e305c8f7f6..351b0e3d1361 100644
+--- a/drivers/gpu/drm/drm_vblank.c
++++ b/drivers/gpu/drm/drm_vblank.c
+@@ -485,7 +485,7 @@ void drm_vblank_disable_and_save(struct drm_device *dev, unsigned int pipe)
+ static void vblank_disable_fn(struct timer_list *t)
+ {
+ 	struct drm_vblank_crtc *vblank = from_timer(vblank, t, disable_timer);
+-	struct drm_device *dev = vblank->dev;
++	struct drm_device *dev = vblank->drm;
+ 	unsigned int pipe = vblank->pipe;
+ 	unsigned long irqflags;
+ 
+@@ -537,7 +537,7 @@ int drm_vblank_init(struct drm_device *dev, unsigned int num_crtcs)
+ 	for (i = 0; i < num_crtcs; i++) {
+ 		struct drm_vblank_crtc *vblank = &dev->vblank[i];
+ 
+-		vblank->dev = dev;
++		vblank->drm = dev;
+ 		vblank->pipe = i;
+ 		init_waitqueue_head(&vblank->queue);
+ 		timer_setup(&vblank->disable_timer, vblank_disable_fn, 0);
+diff --git a/drivers/gpu/drm/drm_vblank_work.c b/drivers/gpu/drm/drm_vblank_work.c
+index f6e024bed6b5..acd551ff247d 100644
+--- a/drivers/gpu/drm/drm_vblank_work.c
++++ b/drivers/gpu/drm/drm_vblank_work.c
+@@ -49,14 +49,14 @@ void drm_handle_vblank_works(struct drm_vblank_crtc *vblank)
+ 	u64 count = atomic64_read(&vblank->count);
+ 	bool wake = false;
+ 
+-	assert_spin_locked(&vblank->dev->event_lock);
++	assert_spin_locked(&vblank->drm->event_lock);
+ 
+ 	list_for_each_entry_safe(work, next, &vblank->pending_work, node) {
+ 		if (!drm_vblank_passed(count, work->count))
+ 			continue;
+ 
+ 		list_del_init(&work->node);
+-		drm_vblank_put(vblank->dev, vblank->pipe);
++		drm_vblank_put(vblank->drm, vblank->pipe);
+ 		kthread_queue_work(vblank->worker, &work->base);
+ 		wake = true;
+ 	}
+@@ -71,11 +71,11 @@ void drm_vblank_cancel_pending_works(struct drm_vblank_crtc *vblank)
+ {
+ 	struct drm_vblank_work *work, *next;
+ 
+-	assert_spin_locked(&vblank->dev->event_lock);
++	assert_spin_locked(&vblank->drm->event_lock);
+ 
+ 	list_for_each_entry_safe(work, next, &vblank->pending_work, node) {
+ 		list_del_init(&work->node);
+-		drm_vblank_put(vblank->dev, vblank->pipe);
++		drm_vblank_put(vblank->drm, vblank->pipe);
+ 	}
+ 
+ 	wake_up_all(&vblank->work_wait_queue);
+@@ -107,7 +107,7 @@ int drm_vblank_work_schedule(struct drm_vblank_work *work,
+ 			     u64 count, bool nextonmiss)
+ {
+ 	struct drm_vblank_crtc *vblank = work->vblank;
+-	struct drm_device *dev = vblank->dev;
++	struct drm_device *dev = vblank->drm;
+ 	u64 cur_vbl;
+ 	unsigned long irqflags;
+ 	bool passed, inmodeset, rescheduling = false, wake = false;
+@@ -182,13 +182,13 @@ EXPORT_SYMBOL(drm_vblank_work_schedule);
+ bool drm_vblank_work_cancel_sync(struct drm_vblank_work *work)
+ {
+ 	struct drm_vblank_crtc *vblank = work->vblank;
+-	struct drm_device *dev = vblank->dev;
++	struct drm_device *dev = vblank->drm;
+ 	bool ret = false;
+ 
+ 	spin_lock_irq(&dev->event_lock);
+ 	if (!list_empty(&work->node)) {
+ 		list_del_init(&work->node);
+-		drm_vblank_put(vblank->dev, vblank->pipe);
++		drm_vblank_put(vblank->drm, vblank->pipe);
+ 		ret = true;
+ 	}
+ 
+@@ -218,7 +218,7 @@ EXPORT_SYMBOL(drm_vblank_work_cancel_sync);
+ void drm_vblank_work_flush(struct drm_vblank_work *work)
+ {
+ 	struct drm_vblank_crtc *vblank = work->vblank;
+-	struct drm_device *dev = vblank->dev;
++	struct drm_device *dev = vblank->drm;
+ 
+ 	spin_lock_irq(&dev->event_lock);
+ 	wait_event_lock_irq(vblank->work_wait_queue, list_empty(&work->node),
+@@ -253,7 +253,7 @@ int drm_vblank_worker_init(struct drm_vblank_crtc *vblank)
+ 	INIT_LIST_HEAD(&vblank->pending_work);
+ 	init_waitqueue_head(&vblank->work_wait_queue);
+ 	worker = kthread_create_worker(0, "card%d-crtc%d",
+-				       vblank->dev->primary->index,
++				       vblank->drm->primary->index,
+ 				       vblank->pipe);
+ 	if (IS_ERR(worker))
+ 		return PTR_ERR(worker);
+diff --git a/include/drm/drm_vblank.h b/include/drm/drm_vblank.h
+index 7f3957943dd1..a89fc63a94f5 100644
+--- a/include/drm/drm_vblank.h
++++ b/include/drm/drm_vblank.h
+@@ -90,9 +90,9 @@ struct drm_pending_vblank_event {
+  */
+ struct drm_vblank_crtc {
+ 	/**
+-	 * @dev: Pointer to the &drm_device.
++	 * @drm: Pointer to the &drm_device.
+ 	 */
+-	struct drm_device *dev;
++	struct drm_device *drm;
+ 	/**
+ 	 * @queue: Wait queue for vblank waiters.
+ 	 */
+-- 
+2.39.2
 
-But that's just optional, and since this patch works anyway,
-
-Reviewed-by: Fei Shao <fshao@chromium.org>
-
->
->         dev_info(dev, "Found bridge node: %pOF\n", dpi->next_bridge->of_n=
-ode);
->
-> --
-> 2.40.0
->
->
