@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6A48751CDD
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 11:11:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7AC6751CE2
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 11:11:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0753310E64E;
-	Thu, 13 Jul 2023 09:11:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D363C10E650;
+	Thu, 13 Jul 2023 09:11:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0B0510E64A
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 09:11:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACE9410E64C
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 09:11:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689239480;
+ s=mimecast20190719; t=1689239502;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wNbtyQ76nBuBqvvqrZSc6orqqyUgVCDr6u2ACe6GE7E=;
- b=fyqHJtSseBqPK45o8zEvm+fm9VWjiiIiyGXQBhTwbi0VsIGsIuBnvOcBqWCIZ/mJiCQ9Zn
- DudtGbwMm533i27doNpMh9hnUO4GrdXilfC1H9UzM/yLQzPY2k8PB0DKLLDKphYA3u7UVV
- qpb0tpSjy7RmhHjUGCO+4B0CGj1aviY=
+ bh=JgFtZUgh5go8zila2S4ZY5xFxZuToGtLb3sGveBEJbY=;
+ b=dTHaiTl1AABD4TzZVYdT6WF1Vya3G8ddDRpjtmQJUw+2YTy16kZOmopNJ01ZI1Z41a74FL
+ B4JHjtDkrGm94OiOUjGRx1CmNqeTMW8SXaxkX0Dmyv1JmEpGBa1z1TRucqbCDMAI0LkjF8
+ mKl4KPu6GT051uE6MgGNPqOA7zTwOJg=
 Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
  [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-638-1x2Q4TwGP32ZgyihPCyOww-1; Thu, 13 Jul 2023 05:11:18 -0400
-X-MC-Unique: 1x2Q4TwGP32ZgyihPCyOww-1
+ us-mta-278-g3wyFBNbNvyeI2EssDbvTQ-1; Thu, 13 Jul 2023 05:11:41 -0400
+X-MC-Unique: g3wyFBNbNvyeI2EssDbvTQ-1
 Received: by mail-lj1-f199.google.com with SMTP id
- 38308e7fff4ca-2b6a4dba654so895851fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 02:11:18 -0700 (PDT)
+ 38308e7fff4ca-2b6fdb8d0acso1260201fa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 02:11:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689239476; x=1691831476;
+ d=1e100.net; s=20221208; t=1689239499; x=1689844299;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wNbtyQ76nBuBqvvqrZSc6orqqyUgVCDr6u2ACe6GE7E=;
- b=f/lvXAtPuS96HO5pycVZRG7IzLFnZLbR4q3FFN+5yGnMWkMSivpK5fGHTz9m04LTTm
- ontqVGQcBAXMAJJbPRrT9UxHGlvR8OxLsQU12ExEZ78IvdUT4hELE77WrYGuUvgeR6Ti
- kTZqL/rv2rLlQmjDzrS4LeRPUmE4hls7RtoHrhqrCYUkB6V+xvvJgqwby4+gtmXKsTtf
- FDLWjH0O3J3ISV5VHqXrelvU6ZAWBKZuzRca2TRKc9ladu3JFuC3556e1J/4MxaP8qx0
- 3D2ePLrpDNunmlPoIpVC0MkU4lw9Mu8yiojFKT7lu6eKXJ/yLr9TlH5JUSWaa4R+hCLz
- BzaQ==
-X-Gm-Message-State: ABy/qLbXZX12G86/80hTq/UVfG9MeowjolpVRr5JZqt0Ytvy06mvQQT7
- K/vPH8JqqgWdOahOzrynVo57VwNOgKle8VAUuV8j9k0UYARZUu9WUUAOntpZ4eEy+GOQQqIAGoQ
- N5HhpFX/W8SfolMl/iYMlHb6UMaU+nBepufsgAU3+SbxB2Eceq7V57qU=
-X-Received: by 2002:a2e:be10:0:b0:2b7:2ca0:989a with SMTP id
- z16-20020a2ebe10000000b002b72ca0989amr920196ljq.5.1689239476622; 
- Thu, 13 Jul 2023 02:11:16 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlFw0DuOdoAUA01Xd1FeaBlxKLaI+Rdgpiyi8L3qD/rUV/T0VD7an8HsyTVLGisDJzNOpGN7qGOhAvSEwkaj3i8=
-X-Received: by 2002:a2e:be10:0:b0:2b7:2ca0:989a with SMTP id
- z16-20020a2ebe10000000b002b72ca0989amr920186ljq.5.1689239476330; Thu, 13 Jul
- 2023 02:11:16 -0700 (PDT)
+ bh=JgFtZUgh5go8zila2S4ZY5xFxZuToGtLb3sGveBEJbY=;
+ b=aZ/pi3NzIGqMpD/tupX2E3vlqyA463lWw6CGLrOIZI2WJyzDPElEgwTxo/PXQAHzpc
+ N8bCgfvhBi7kXVs29m4V+eadgMpEROtwhkecb3PEcLJ2YGuxEbKQxuOUgnxuhctWNfEW
+ aFTNMyj13zuWQDn7YHoaIUHosqAdECnkEfPkGGEpSKYr2igmYSGkSat++lfoYhIkDi+F
+ ie9w2ZzCjj8a34owmz0jDkOnWuLV9g4saQz226RDWBkc1bbawFC4sr5L2YOm1UUq8ogi
+ Z4SsaV613z/7SyT43nhz5R6VF3TcdjV3CYyEWT93I1TfNrC9/qJa8nTqf6YDyjTaGjBk
+ zrgA==
+X-Gm-Message-State: ABy/qLYjYI/7UWPyPMGWzNUZZdH/MoQxJiNKUpVAg6I+jw74UWUE1qFX
+ 06wjMCWMUgDu3OW1gsUD/9iAu9xkWI9vRmBsKaP+6QZl0vhcqEIVrZBsyO50CCaYLJTVPj3ynRn
+ UjlfVKh2+4GpTiLKKp2xuuBu7XPlPHJKJEdJrHirHdmo4bGBLhAGzJ4w=
+X-Received: by 2002:a2e:a790:0:b0:2b6:99a7:2fb4 with SMTP id
+ c16-20020a2ea790000000b002b699a72fb4mr1029820ljf.0.1689239499531; 
+ Thu, 13 Jul 2023 02:11:39 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlHNMXMfFllIlbsS7OgZ8tt30TUpflSFE8vHptSmh10AZhpcrU0369e6fqWHgckt6hGkADlesM/GIl6gUWcIL/8=
+X-Received: by 2002:a2e:a790:0:b0:2b6:99a7:2fb4 with SMTP id
+ c16-20020a2ea790000000b002b699a72fb4mr1029800ljf.0.1689239499293; Thu, 13 Jul
+ 2023 02:11:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230710032131.52747-1-xujianghui@cdjrlc.com>
- <decd9e6f68cbebda22d6648fa7b9b737@208suo.com>
-In-Reply-To: <decd9e6f68cbebda22d6648fa7b9b737@208suo.com>
+References: <20230710062932.53655-1-xujianghui@cdjrlc.com>
+ <7ab55aa7169d6a3bd0309b43c3de592e@208suo.com>
+In-Reply-To: <7ab55aa7169d6a3bd0309b43c3de592e@208suo.com>
 From: Karol Herbst <kherbst@redhat.com>
-Date: Thu, 13 Jul 2023 11:11:05 +0200
-Message-ID: <CACO55tut_20kwHC4-0fkkyGrh0sLrRO2e6TVCuUL_q7vuz+tPw@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau/nvkm: do not use assignment in if condition
+Date: Thu, 13 Jul 2023 11:11:28 +0200
+Message-ID: <CACO55tu=5HKnywnnV499YkVUg-o_HY8gMEQHozkLDdbNE=YQwg@mail.gmail.com>
+Subject: Re: [PATCH] drm/nouveau/i2c: do not use assignment in if condition
 To: sunran001@208suo.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -90,27 +90,27 @@ On Mon, Jul 10, 2023 at 9:23=E2=80=AFAM <sunran001@208suo.com> wrote:
 >
 > ERROR: do not use assignment in if condition
 >
-> Signed-off-by:Ran Sun <sunran001@208suo.com>
+> Signed-off-by: Ran Sun <sunran001@208suo.com>
 > ---
->   drivers/gpu/drm/nouveau/nvkm/subdev/i2c/base.c | 3 ++-
+>   drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c | 3 ++-
 >   1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/base.c
-> b/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/base.c
-> index 976539de4220..054fa42f1d04 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/base.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/base.c
-> @@ -286,7 +286,8 @@ nvkm_i2c_new_(const struct nvkm_i2c_func *func,
-> struct nvkm_device *device,
->
->           if (ccbE.share !=3D DCB_I2C_UNUSED) {
->               const int id =3D NVKM_I2C_PAD_HYBRID(ccbE.share);
-> -            if (!(pad =3D nvkm_i2c_pad_find(i2c, id)))
-> +            pad =3D nvkm_i2c_pad_find(i2c, id);
-> +            if (!pad)
->                   ret =3D func->pad_s_new(i2c, id, &pad);
->               else
->                   ret =3D 0;
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c
+> b/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c
+> index d063d0dc13c5..098051d3755c 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/i2c/aux.c
+> @@ -209,7 +209,8 @@ nvkm_i2c_aux_new_(const struct nvkm_i2c_aux_func
+> *func,
+>             struct nvkm_i2c_pad *pad, int id,
+>             struct nvkm_i2c_aux **paux)
+>   {
+> -    if (!(*paux =3D kzalloc(sizeof(**paux), GFP_KERNEL)))
+> +    *paux =3D kzalloc(sizeof(**paux), GFP_KERNEL);
+> +    if (!*paux)
+>           return -ENOMEM;
+>       return nvkm_i2c_aux_ctor(func, pad, id, *paux);
+>   }
 >
 
 Reviewed-by: Karol Herbst <kherbst@redhat.com>
