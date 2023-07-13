@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B26A5752336
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 15:17:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A5C475233B
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 15:17:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F8FC10E6CD;
-	Thu, 13 Jul 2023 13:17:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7935210E6D8;
+	Thu, 13 Jul 2023 13:17:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B94410E6D1
+Received: from michel.telenet-ops.be (michel.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30E6D10E6D7
  for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 13:17:26 +0000 (UTC)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:6264:77e5:42e2:477d])
- by baptiste.telenet-ops.be with bizsmtp
- id LdHN2A00V3wy6xv01dHPUr; Thu, 13 Jul 2023 15:17:23 +0200
+ by michel.telenet-ops.be with bizsmtp
+ id LdHN2A00d3wy6xv06dHNae; Thu, 13 Jul 2023 15:17:23 +0200
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qJwC3-001Gr8-3Z;
+ (envelope-from <geert@linux-m68k.org>) id 1qJwC3-001GrC-48;
  Thu, 13 Jul 2023 15:17:22 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1qJwCA-00GWyp-Pq;
+ (envelope-from <geert@linux-m68k.org>) id 1qJwCA-00GWyv-QU;
  Thu, 13 Jul 2023 15:17:22 +0200
 From: Geert Uytterhoeven <geert@linux-m68k.org>
 To: Javier Martinez Canillas <javierm@redhat.com>,
@@ -29,10 +29,9 @@ To: Javier Martinez Canillas <javierm@redhat.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 6/8] drm/fb-helper: Pass buffer format via
- drm_fb_helper_surface_size
-Date: Thu, 13 Jul 2023 15:17:14 +0200
-Message-Id: <00790d022752b672a28256db7b9393eca0801b99.1689252746.git.geert@linux-m68k.org>
+Subject: [PATCH 7/8] drm/fb-helper: Add support for DRM_FORMAT_R1
+Date: Thu, 13 Jul 2023 15:17:15 +0200
+Message-Id: <ea0d68ef5630fe9748a11e50f6d79f79a768ebdb.1689252746.git.geert@linux-m68k.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1689252746.git.geert@linux-m68k.org>
 References: <cover.1689252746.git.geert@linux-m68k.org>
@@ -55,80 +54,124 @@ Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_fb_helper_single_fb_probe() first calls drm_fb_helper_find_sizes(),
-followed by drm_fbdev_generic_helper_fb_probe():
-  - The former tries to find a suitable buffer format, taking into
-    account limitations of the whole display pipeline,
-  - The latter just calls drm_mode_legacy_fb_format() again.
+Add support for the monochrome light-on-dark buffer format (R1) to the
+fb helper, so this format can be used for fbdev emulation and for the
+text console.  This avoids the overhead of using XR24 and the associated
+conversions on display hardware that supports only a simple monochrome
+format.
 
-Simplify this by passing the buffer format between these functions
-via a new buffer format member in the drm_fb_helper_surface_size
-structure.
+R1 is very similar to C1 (monochrome indexed color), and shares the same
+depth and bpp.  As drm_mode_legacy_fb_format() returns a format based on
+only depth and bpp, it cannot distinguish between R1 and C1.  Hence
+drm_fb_helper_find_format() is modified to try to fall back to R1 if C1
+is not supported.
 
 Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 ---
- drivers/gpu/drm/drm_fb_helper.c     | 1 +
- drivers/gpu/drm/drm_fbdev_generic.c | 9 ++++-----
- include/drm/drm_fb_helper.h         | 2 ++
- 3 files changed, 7 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/drm_fb_helper.c | 41 ++++++++++++++++++++++++---------
+ 1 file changed, 30 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 61a5d450cc20ef0a..e870b2ce7a8625e3 100644
+index e870b2ce7a8625e3..1f1bfa764b6b9f00 100644
 --- a/drivers/gpu/drm/drm_fb_helper.c
 +++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -1564,6 +1564,7 @@ static int __drm_fb_helper_find_sizes(struct drm_fb_helper *fb_helper,
- 	info = drm_format_info(surface_format);
- 	sizes->surface_bpp = drm_format_info_bpp(info, 0);
- 	sizes->surface_depth = info->depth;
-+	sizes->surface_format = surface_format;
+@@ -1130,7 +1130,7 @@ static void drm_fb_helper_fill_pixel_fmt(struct fb_var_screeninfo *var,
+ {
+ 	u8 depth = format->depth;
  
- 	/* first up get a count of crtcs now in use and new min/maxes width/heights */
- 	crtc_count = 0;
-diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
-index 98ae703848a02fa3..953056896c1a5652 100644
---- a/drivers/gpu/drm/drm_fbdev_generic.c
-+++ b/drivers/gpu/drm/drm_fbdev_generic.c
-@@ -77,16 +77,15 @@ static int drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper *fb_helper,
- 	struct fb_info *info;
- 	size_t screen_size;
- 	void *screen_buffer;
--	u32 format;
- 	int ret;
+-	if (format->is_color_indexed) {
++	if (format->format == DRM_FORMAT_R1 || format->is_color_indexed) {
+ 		var->red.offset = 0;
+ 		var->green.offset = 0;
+ 		var->blue.offset = 0;
+@@ -1236,6 +1236,7 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
+ 	case DRM_FORMAT_C1:
+ 	case DRM_FORMAT_C2:
+ 	case DRM_FORMAT_C4:
++	case DRM_FORMAT_R1:
+ 		/* supported format with sub-byte pixels */
+ 		break;
  
--	drm_dbg_kms(dev, "surface width(%d), height(%d) and bpp(%d)\n",
-+	drm_info(dev, "surface width(%d), height(%d), bpp(%d) and format(%p4cc)\n",
- 		    sizes->surface_width, sizes->surface_height,
--		    sizes->surface_bpp);
-+		    sizes->surface_bpp, &sizes->surface_format);
+@@ -1439,12 +1440,24 @@ int drm_fb_helper_pan_display(struct fb_var_screeninfo *var,
+ }
+ EXPORT_SYMBOL(drm_fb_helper_pan_display);
  
--	format = drm_mode_legacy_fb_format(sizes->surface_bpp, sizes->surface_depth);
- 	buffer = drm_client_framebuffer_create(client, sizes->surface_width,
--					       sizes->surface_height, format);
-+					       sizes->surface_height,
-+					       sizes->surface_format);
- 	if (IS_ERR(buffer))
- 		return PTR_ERR(buffer);
++static bool is_supported_format(uint32_t format, const uint32_t *formats,
++				size_t format_count)
++{
++	size_t i;
++
++	for (i = 0; i < format_count; ++i) {
++		if (formats[i] == format)
++			return true;
++	}
++
++	return false;
++}
++
+ static uint32_t drm_fb_helper_find_format(struct drm_fb_helper *fb_helper, const uint32_t *formats,
+ 					  size_t format_count, uint32_t bpp, uint32_t depth)
+ {
+ 	struct drm_device *dev = fb_helper->dev;
+ 	uint32_t format;
+-	size_t i;
  
-diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
-index 4863b0f8299e89b6..430a17b530fa49e6 100644
---- a/include/drm/drm_fb_helper.h
-+++ b/include/drm/drm_fb_helper.h
-@@ -45,6 +45,7 @@ struct drm_fb_helper;
-  * @surface_height: scanout buffer height
-  * @surface_bpp: scanout buffer bpp
-  * @surface_depth: scanout buffer depth
-+ * @surface_format: scanout buffer format (optional)
-  *
-  * Note that the scanout surface width/height may be larger than the fbdev
-  * width/height.  In case of multiple displays, the scanout surface is sized
-@@ -61,6 +62,7 @@ struct drm_fb_helper_surface_size {
- 	u32 surface_height;
- 	u32 surface_bpp;
- 	u32 surface_depth;
-+	u32 surface_format;
- };
+ 	/*
+ 	 * Do not consider YUV or other complicated formats
+@@ -1457,10 +1470,12 @@ static uint32_t drm_fb_helper_find_format(struct drm_fb_helper *fb_helper, const
+ 	if (!format)
+ 		goto err;
  
- /**
+-	for (i = 0; i < format_count; ++i) {
+-		if (formats[i] == format)
+-			return format;
+-	}
++	if (is_supported_format(format, formats, format_count))
++		return format;
++
++	if (format == DRM_FORMAT_C1 &&
++	    is_supported_format(DRM_FORMAT_R1, formats, format_count))
++		return DRM_FORMAT_R1;
+ 
+ err:
+ 	/* We found nothing. */
+@@ -1680,11 +1695,15 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper)
+ }
+ 
+ static void drm_fb_helper_fill_fix(struct fb_info *info, uint32_t pitch,
+-				   bool is_color_indexed)
++				   const struct drm_format_info *format)
+ {
+ 	info->fix.type = FB_TYPE_PACKED_PIXELS;
+-	info->fix.visual = is_color_indexed ? FB_VISUAL_PSEUDOCOLOR
+-					    : FB_VISUAL_TRUECOLOR;
++	if (format->format == DRM_FORMAT_R1)
++		info->fix.visual = FB_VISUAL_MONO10;
++	else if (format->is_color_indexed)
++		info->fix.visual = FB_VISUAL_PSEUDOCOLOR;
++	else
++		info->fix.visual = FB_VISUAL_TRUECOLOR;
+ 	info->fix.mmio_start = 0;
+ 	info->fix.mmio_len = 0;
+ 	info->fix.type_aux = 0;
+@@ -1707,6 +1726,7 @@ static void drm_fb_helper_fill_var(struct fb_info *info,
+ 	case DRM_FORMAT_C1:
+ 	case DRM_FORMAT_C2:
+ 	case DRM_FORMAT_C4:
++	case DRM_FORMAT_R1:
+ 		/* supported format with sub-byte pixels */
+ 		break;
+ 
+@@ -1747,8 +1767,7 @@ void drm_fb_helper_fill_info(struct fb_info *info,
+ {
+ 	struct drm_framebuffer *fb = fb_helper->fb;
+ 
+-	drm_fb_helper_fill_fix(info, fb->pitches[0],
+-			       fb->format->is_color_indexed);
++	drm_fb_helper_fill_fix(info, fb->pitches[0], fb->format);
+ 	drm_fb_helper_fill_var(info, fb_helper,
+ 			       sizes->fb_width, sizes->fb_height);
+ 
 -- 
 2.34.1
 
