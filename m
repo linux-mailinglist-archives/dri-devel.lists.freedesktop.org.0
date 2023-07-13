@@ -2,68 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1357D751CE3
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 11:12:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80523751CEF
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 11:14:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63BAD10E656;
-	Thu, 13 Jul 2023 09:12:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 470D910E659;
+	Thu, 13 Jul 2023 09:14:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4171410E656
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 09:12:03 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8CB9222197;
- Thu, 13 Jul 2023 09:12:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1689239521; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB3DB10E659
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 09:14:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1689239641;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5SK1tU3mCtUYl10PBvtjxuUsf1N7qJiCckUu9OZ5iiQ=;
- b=BegtPhRulh5dJ/VKWmAc0B6jgmfjetyN3GhSEMqDbl3s3vjvusLEb+N0rgN2SOGS3aH9Of
- 6K6ydey8Xks80hCOcVU2jdgbTHg9k/7vvJFL/tOZ3Rd/tBNcqX7THgxjeVBnQoDJdGkxLw
- uNzzmsR5Dkx3A0IDOoxHHfTcVx6WxAU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1689239521;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5SK1tU3mCtUYl10PBvtjxuUsf1N7qJiCckUu9OZ5iiQ=;
- b=mLmGCTOALY3PNfR9s+BRn7sUK1okv1bHu+hAfP49qOrBpJ3/nU/uILLZvLaOHOkO2za4Pt
- pPp62IQvdavixcBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6082E13489;
- Thu, 13 Jul 2023 09:12:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 4JK0FuG/r2TCRAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 13 Jul 2023 09:12:01 +0000
-Message-ID: <7f1ccdf6-dadf-c25f-a972-f3c8add488f9@suse.de>
-Date: Thu, 13 Jul 2023 11:12:00 +0200
+ bh=EINzy8OMuu+nLPtYF3xlSMnhvtIBY4/1ybYAlD/eApY=;
+ b=brHT9VF5+hC27HdZhBQDKAsNOvAR4HygczAtGQ2k9fY86qTooSxFdXkVY6a2nULRsnKaqT
+ 3dfHAMGKjKTxgslKsH4G4ZRxCsabFWOvZHMmc5VaCVwVZiox+OtCnWACJ5AU+FcrItyyEU
+ SzehCdHbemEmicUuHt+hkP+F8JDWg+4=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-370-SRa9oMFAMiOIW1iZTsnskQ-1; Thu, 13 Jul 2023 05:14:00 -0400
+X-MC-Unique: SRa9oMFAMiOIW1iZTsnskQ-1
+Received: by mail-lj1-f198.google.com with SMTP id
+ 38308e7fff4ca-2a7a6393ba6so687961fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 02:14:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689239639; x=1691831639;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=EINzy8OMuu+nLPtYF3xlSMnhvtIBY4/1ybYAlD/eApY=;
+ b=bxGm+nVUxLugd1/75KYyoL/Mvth9R7Jg/DYMJrSh/fBlAOV4zxwXOO6jQ2LkgWeNWP
+ 0qaXFlOXQLj8TFxEWlxmAzV72VPAnRtcS9LdMStIAy2ob4Jz9nRCGDYVztP4LwxvZhKb
+ 8vpYXQIkqWzLEqGbyhvc0UPnLxRJJg/Yhx9BJ4imqzZeFgLRog+2MYPj01tK/6wKiBV0
+ jr5OSn/QNQrt9Z+4eUuQ0727zlCJZNj/YQQsORmR6tvANPrSZiGLMFeoop26Gb++JWYe
+ nGhLg9R7AWS13TWqz/nRPflWuF0aSTjwNnwW/PsFcdOa/tPrHlxaNBxw+GFMOy/FCwXJ
+ zr7w==
+X-Gm-Message-State: ABy/qLaQw2COqRvp3yT6NhF04vzO2j4UZww2Ld4G7Ec9PUlqfRws3KAZ
+ mlEBU6di4/1fg234Xbj7Zm7PRPJoSEUTkLXtAK5tABCZQepFX0KjbkJSkrYr5RzYCPDApYzjiUE
+ PRdzNPqT/FGgbjHtWcSieO+T+VsbHZMwbO7YSj23eiycc
+X-Received: by 2002:a05:651c:198a:b0:2b6:120a:af65 with SMTP id
+ bx10-20020a05651c198a00b002b6120aaf65mr1098586ljb.3.1689239639063; 
+ Thu, 13 Jul 2023 02:13:59 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlF9pWLznHO6dCvVxwuohZtwG1kEt1OdgiJxyzIeD3eMvB3IqEKi9luli955rnWYGXvh91SLOIVoA6r9lksfANY=
+X-Received: by 2002:a05:651c:198a:b0:2b6:120a:af65 with SMTP id
+ bx10-20020a05651c198a00b002b6120aaf65mr1098567ljb.3.1689239638795; Thu, 13
+ Jul 2023 02:13:58 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v5 2/2] drm/ast: report connection status on Display Port.
-Content-Language: en-US
-To: Jammy Huang <jammy_huang@aspeedtech.com>,
- Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com,
- kuohsiang_chou@aspeedtech.com, jani.nikula@linux.intel.com,
- dianders@chromium.org
-References: <20230713064037.315387-1-jfalempe@redhat.com>
- <20230713064037.315387-2-jfalempe@redhat.com>
- <f61ea042-a14c-9c8f-710d-0ba0820686fe@aspeedtech.com>
- <a6eb098a-8ac6-7240-dddc-ba645a1931fc@redhat.com>
- <2b1c2a6c-c912-d24f-b622-7a3f1cec89aa@aspeedtech.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <2b1c2a6c-c912-d24f-b622-7a3f1cec89aa@aspeedtech.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------pi2T8ZYQnS4BAUswZ3DwkzYn"
+References: <20230710070505.53916-1-xujianghui@cdjrlc.com>
+ <1ddf673283e93e83d912066f2241b976@208suo.com>
+ <ZKvK4NXzkKZTE35E@debian.me>
+In-Reply-To: <ZKvK4NXzkKZTE35E@debian.me>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Thu, 13 Jul 2023 11:13:47 +0200
+Message-ID: <CACO55tuG+4=4MTGq=FRuuP8dJaAHwtMCy3e9H8v5d8dVGsnkJw@mail.gmail.com>
+Subject: Re: [PATCH] drm/nouveau/iccsense:
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,69 +79,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: sunran001@208suo.com, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------pi2T8ZYQnS4BAUswZ3DwkzYn
-Content-Type: multipart/mixed; boundary="------------0w9N6jEmDYFGbQT3G3y2zNG4";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jammy Huang <jammy_huang@aspeedtech.com>,
- Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com,
- kuohsiang_chou@aspeedtech.com, jani.nikula@linux.intel.com,
- dianders@chromium.org
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <7f1ccdf6-dadf-c25f-a972-f3c8add488f9@suse.de>
-Subject: Re: [PATCH v5 2/2] drm/ast: report connection status on Display Port.
-References: <20230713064037.315387-1-jfalempe@redhat.com>
- <20230713064037.315387-2-jfalempe@redhat.com>
- <f61ea042-a14c-9c8f-710d-0ba0820686fe@aspeedtech.com>
- <a6eb098a-8ac6-7240-dddc-ba645a1931fc@redhat.com>
- <2b1c2a6c-c912-d24f-b622-7a3f1cec89aa@aspeedtech.com>
-In-Reply-To: <2b1c2a6c-c912-d24f-b622-7a3f1cec89aa@aspeedtech.com>
+On Mon, Jul 10, 2023 at 11:10=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.co=
+m> wrote:
+>
+> On Mon, Jul 10, 2023 at 03:06:47PM +0800, sunran001@208suo.com wrote:
+> > Fixed error: 'do not use assignment in if condition'
+> >
+> > This patch fixes error: 'do not use assignment in if condition'
+> > in drm/nouveau/iccsense
+>
+> I guess this is checkpatch fix, right?
+>
+> >
+> > Signed-off-by: Ran Sun <sunran001@208suo.com>
+> > ---
+> >  drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c
+> > b/drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c
+> > index 8f0ccd3664eb..2428f3d6e477 100644
+> > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c
+> > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c
+> > @@ -322,7 +322,8 @@ int
+> >  nvkm_iccsense_new_(struct nvkm_device *device, enum nvkm_subdev_type t=
+ype,
+> > int inst,
+> >             struct nvkm_iccsense **iccsense)
+> >  {
+> > -    if (!(*iccsense =3D kzalloc(sizeof(**iccsense), GFP_KERNEL)))
+> > +    *iccsense =3D kzalloc(sizeof(**iccsense), GFP_KERNEL);
+> > +    if (!*iccsense)
+> >          return -ENOMEM;
+> >      INIT_LIST_HEAD(&(*iccsense)->sensors);
+> >      INIT_LIST_HEAD(&(*iccsense)->rails);
+>
+> Your patch is corrupted (tabs converted to spaces) because you're using
+> Roundcube. Please use git-send-mail(1) instead.
+>
 
---------------0w9N6jEmDYFGbQT3G3y2zNG4
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+oh right, I didn't notice with the patches I reviewed already here.
+Yeah, none of them apply, please use git to send those patches.
 
-SGkNCg0KQW0gMTMuMDcuMjMgdW0gMTE6MDUgc2NocmllYiBKYW1teSBIdWFuZzoNClsuLi5d
-DQo+Pg0KPj4NCj4+IEZvciB0aGUgQk1DIGNvbm5lY3RvciBwYXRjaCwgeW91IGtub3cgaWYg
-dGhlcmUgaXMgYSByZWdpc3RlciBzZXR0aW5nIEkgDQo+PiBjYW4gY2hlY2sgdG8gc2VlIGlm
-IGEgQk1DIGlzIHByZXNlbnQgb3Igbm90ID8NCj4gDQo+IEkgdGhpbmsgeW91IGNhbiB1c2Ug
-VkdBIENSRDBbN10gd2hvc2UgZGVmaW5pdGlvbiBpcyBhcyBiZWxvdzoNCj4gDQo+IERSQU0g
-SW5pdGlhbCBTZWxlY3Rpb24gKHNlZSBub3RlIDEpDQo+IDA6IFZCSU9TIEluaXRpYWwgdGhl
-IERSQU0NCj4gMTogU09DIEZpcm13YXJlIEluaXRpYWwgdGhlIERSQU0NCj4gDQo+IElmIENS
-RDBbN10gaXMgMSwgdGhlcmUgaXMgQk1DLg0KDQpUaGFuayB5b3UuIFRoYXQgc2VlbXMgdmVy
-eSBoZWxwZnVsLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPj4NCj4+IEJlc3Qg
-cmVnYXJkcywNCj4+DQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZl
-ciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJh
-bmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90
-ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhS
-QiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
+> Thanks.
+>
+> --
+> An old man doll... just what I always wanted! - Clara
 
---------------0w9N6jEmDYFGbQT3G3y2zNG4--
-
---------------pi2T8ZYQnS4BAUswZ3DwkzYn
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSvv+AFAwAAAAAACgkQlh/E3EQov+BE
-lg//WRI8Hf2tqjYe0aCviFGODuPq1zG718tyTESOyh7VNYFYRDTtC0FJ8UiadO9EY1bX4VlwwO6q
-LPH3QL//De4a1wK9BhF8VBlnn83P1OZkSZ/qRVdv8tSxy0P2YRCB9p5hd775cE3R+6wX4jXr1eWA
-D4fDchGLAiT66YqLFQn9LUvuFBie+UEIKKfjwUfckVhpfQZwIgsw9p45zZsnNZgSmaiiH+5OYukZ
-Rto+mm+g+6qDlS/gX3kReOf+SSekV0UaxG7Pmr0kFDiEhRL7xypqMQtpeNfeBKWauHCfacZiaeOa
-FmgGHuJZNVe2PaIfZorCdIXh/EayH0h9G7dxI1IGT+gFt88YO+UOdSlcTZ9tu7bjY6XMZboX59AN
-zIl4Y65r6mlm7SMWORGtoocQRCiTuoNsRLHK8XO0SuuFsPHr2c4GVNKsmiyOmm2OJ4e88BoIiOYF
-5WESDZStEKjcN+MzFMvqGPkqWXu8EPQ0eyrClOCBriDAziTZvjXZdxr3C+gfq3GOcFWVBFr/dFtU
-o3+j/LEQcW5jYhpMfyou54LJRF3an/+DySNPxs/3U7Qi1Hn7zJGV2IfZpXXX2VEr4GD7RNdED5k1
-KfSWbAmfQ2etWs5OxKzshh2yG9M2GjixQaKFnPW9VoT9RSG8DgoO7PKnPu5RVbfe+9WiJZeX95Al
-kZE=
-=D8w1
------END PGP SIGNATURE-----
-
---------------pi2T8ZYQnS4BAUswZ3DwkzYn--
