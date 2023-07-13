@@ -1,73 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8163752ABE
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 21:08:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F18F752AC7
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 21:13:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECBE510E770;
-	Thu, 13 Jul 2023 19:08:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AC7E10E774;
+	Thu, 13 Jul 2023 19:13:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCF1810E770;
- Thu, 13 Jul 2023 19:08:43 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 36DIlKje026233; Thu, 13 Jul 2023 19:08:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=date : from : to :
- cc : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=qcppdkim1; bh=TnHCf7l6vXUqMxsQyDFpqBhLp/0PL/InN/4OikML8K0=;
- b=hK020tfprhYumNg5t7yFYxogIbY9jXtweMX7PuoQ3J2TT32G9dFTz5GHpbw7O3MNSG6Z
- X4cyJaWNPqKsQafVuBN4lsJDoWiKLQq8odcCnWKhyZ0JfuifvQOqtr9bRIZd/rfd1rni
- YHHKsJ4RmB9pHgvOHXgwHK1BmfjPrN2REpmDpPd8ZnvL+lEeOfqHCfQwHTd6zu1eYU0I
- yR2kNlGP1hYkeZRWcxzV2T+I85IosaVhrpByzs+UBHiBTPw/K1m33RPacif2x/akVLUX
- GQL4wi/7sA4xBLqyuB5ou+PhPuWvhurQTx9bsWWFfsLiftz3SANIorJLOXOoSZwIIT2H Fw== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rtpub81c6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Jul 2023 19:08:27 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36DJ8Peh016003
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Jul 2023 19:08:25 GMT
-Received: from akhilpo-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.30; Thu, 13 Jul 2023 12:08:19 -0700
-Date: Fri, 14 Jul 2023 00:38:16 +0530
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: Gaosheng Cui <cuigaosheng1@huawei.com>, <g@akhilpo-linux.qualcomm.com>
-Subject: Re: [PATCH v2 2/3] drm/msm: Fix IS_ERR() vs NULL check in
- a5xx_submit_in_rb()
-Message-ID: <gk5ttqzmz6psggq6xybpsmad63gimlwj6bsbpkhvqfd3htcddc@zveituq6siwa>
-References: <20230713020556.1956639-1-cuigaosheng1@huawei.com>
- <20230713020556.1956639-3-cuigaosheng1@huawei.com>
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7731210E774
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 19:13:25 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 36DJDIvV093725;
+ Thu, 13 Jul 2023 14:13:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1689275598;
+ bh=XH4Ljo8L46/j+/3v1jXpRnNkBOj15a8CHCxd368zirM=;
+ h=From:To:CC:Subject:Date;
+ b=vIHOlPAniBUptKbBo7NLpAKimcBIv4zdxO9LUpHD1cv6l3DHyZbNgFh5Cd8RYHqz1
+ ig3VHnS8SxUqjJGdU2y0hxV4mS5C4bKcqRHC11lj+qgpuENKb7MVx5iBg4arBuUBC9
+ /Kl7OTk5rz34bumZ/du0pxTz1xO+SwH+wPXyQQcg=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 36DJDIQR063235
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 13 Jul 2023 14:13:18 -0500
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 13
+ Jul 2023 14:13:18 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 13 Jul 2023 14:13:18 -0500
+Received: from lelv0327.itg.ti.com (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 36DJDHwl023141; 
+ Thu, 13 Jul 2023 14:13:17 -0500
+From: Andrew Davis <afd@ti.com>
+To: Arnd Bergmann <arnd@arndb.de>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, John Stultz <jstultz@google.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Subject: [PATCH v3] misc: sram: Add DMA-BUF Heap exporting of SRAM areas
+Date: Thu, 13 Jul 2023 14:13:16 -0500
+Message-ID: <20230713191316.116019-1-afd@ti.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230713020556.1956639-3-cuigaosheng1@huawei.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: XM25HRTeJyR88ftCR6A1GDGFl-zepvyU
-X-Proofpoint-GUID: XM25HRTeJyR88ftCR6A1GDGFl-zepvyU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-13_08,2023-07-13_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxscore=0
- priorityscore=1501 spamscore=0 mlxlogscore=999 bulkscore=0 phishscore=0
- suspectscore=0 adultscore=0 malwarescore=0 clxscore=1011
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2307130169
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,48 +63,354 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, quic_eberman@quicinc.com, sam@ravnborg.org,
- quic_gurus@quicinc.com, sean@poorly.run, linux-arm-msm@vger.kernel.org,
- a39.skl@gmail.com, liviu.dudau@arm.com, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, james.qian.wang@arm.com,
- angelogioacchino.delregno@somainline.org, dmitry.baryshkov@linaro.org,
- marijn.suijten@somainline.org, freedreno@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org, Andrew Davis <afd@ti.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 13, 2023 at 10:05:55AM +0800, Gaosheng Cui wrote:
-> 
-> The msm_gem_get_vaddr() returns an ERR_PTR() on failure, we should
-> use IS_ERR() to check the return value.
-> 
-> Fixes: 6a8bd08d0465 ("drm/msm: add sudo flag to submit ioctl")
-> Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
-> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/adreno/a5xx_gpu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> index a99310b68793..a499e3b350fc 100644
-> --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> @@ -89,7 +89,7 @@ static void a5xx_submit_in_rb(struct msm_gpu *gpu, struct msm_gem_submit *submit
->  			 * since we've already mapped it once in
->  			 * submit_reloc()
->  			 */
-> -			if (WARN_ON(!ptr))
-> +			if (WARN_ON(IS_ERR(ptr)))
-nit: can we make this IS_ERR_OR_NULL() check to retain the current
-validation? A null is catastrophic here. Yeah, I see that the current
-implementation of ...get_vaddr() doesn't return a NULL.
+This new export type exposes to userspace the SRAM area as a DMA-BUF Heap,
+this allows for allocations of DMA-BUFs that can be consumed by various
+DMA-BUF supporting devices.
 
-Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Signed-off-by: Andrew Davis <afd@ti.com>
+---
 
--Akhil
+Changes from v2:
+ - Make sram_dma_heap_allocate static (kernel test robot)
+ - Rebase on v6.5-rc1
 
->  				return;
->  
->  			for (i = 0; i < dwords; i++) {
-> -- 
-> 2.25.1
-> 
+ drivers/misc/Kconfig         |   7 +
+ drivers/misc/Makefile        |   1 +
+ drivers/misc/sram-dma-heap.c | 245 +++++++++++++++++++++++++++++++++++
+ drivers/misc/sram.c          |   6 +
+ drivers/misc/sram.h          |  16 +++
+ 5 files changed, 275 insertions(+)
+ create mode 100644 drivers/misc/sram-dma-heap.c
+
+diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+index 75e427f124b28..ee34dfb61605f 100644
+--- a/drivers/misc/Kconfig
++++ b/drivers/misc/Kconfig
+@@ -448,6 +448,13 @@ config SRAM
+ config SRAM_EXEC
+ 	bool
+ 
++config SRAM_DMA_HEAP
++	bool "Export on-chip SRAM pools using DMA-Heaps"
++	depends on DMABUF_HEAPS && SRAM
++	help
++	  This driver allows the export of on-chip SRAM marked as both pool
++	  and exportable to userspace using the DMA-Heaps interface.
++
+ config DW_XDATA_PCIE
+ 	depends on PCI
+ 	tristate "Synopsys DesignWare xData PCIe driver"
+diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
+index f2a4d1ff65d46..5e7516bfaa8de 100644
+--- a/drivers/misc/Makefile
++++ b/drivers/misc/Makefile
+@@ -47,6 +47,7 @@ obj-$(CONFIG_VMWARE_VMCI)	+= vmw_vmci/
+ obj-$(CONFIG_LATTICE_ECP3_CONFIG)	+= lattice-ecp3-config.o
+ obj-$(CONFIG_SRAM)		+= sram.o
+ obj-$(CONFIG_SRAM_EXEC)		+= sram-exec.o
++obj-$(CONFIG_SRAM_DMA_HEAP)	+= sram-dma-heap.o
+ obj-$(CONFIG_GENWQE)		+= genwqe/
+ obj-$(CONFIG_ECHO)		+= echo/
+ obj-$(CONFIG_CXL_BASE)		+= cxl/
+diff --git a/drivers/misc/sram-dma-heap.c b/drivers/misc/sram-dma-heap.c
+new file mode 100644
+index 0000000000000..c054c04dff33e
+--- /dev/null
++++ b/drivers/misc/sram-dma-heap.c
+@@ -0,0 +1,245 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * SRAM DMA-Heap userspace exporter
++ *
++ * Copyright (C) 2019-2022 Texas Instruments Incorporated - https://www.ti.com/
++ *	Andrew Davis <afd@ti.com>
++ */
++
++#include <linux/dma-mapping.h>
++#include <linux/err.h>
++#include <linux/genalloc.h>
++#include <linux/io.h>
++#include <linux/mm.h>
++#include <linux/scatterlist.h>
++#include <linux/slab.h>
++#include <linux/dma-buf.h>
++#include <linux/dma-heap.h>
++
++#include "sram.h"
++
++struct sram_dma_heap {
++	struct dma_heap *heap;
++	struct gen_pool *pool;
++};
++
++struct sram_dma_heap_buffer {
++	struct gen_pool *pool;
++	struct list_head attachments;
++	struct mutex attachments_lock;
++	unsigned long len;
++	void *vaddr;
++	phys_addr_t paddr;
++};
++
++struct dma_heap_attachment {
++	struct device *dev;
++	struct sg_table *table;
++	struct list_head list;
++};
++
++static int dma_heap_attach(struct dma_buf *dmabuf,
++			   struct dma_buf_attachment *attachment)
++{
++	struct sram_dma_heap_buffer *buffer = dmabuf->priv;
++	struct dma_heap_attachment *a;
++	struct sg_table *table;
++
++	a = kzalloc(sizeof(*a), GFP_KERNEL);
++	if (!a)
++		return -ENOMEM;
++
++	table = kmalloc(sizeof(*table), GFP_KERNEL);
++	if (!table) {
++		kfree(a);
++		return -ENOMEM;
++	}
++	if (sg_alloc_table(table, 1, GFP_KERNEL)) {
++		kfree(table);
++		kfree(a);
++		return -ENOMEM;
++	}
++	sg_set_page(table->sgl, pfn_to_page(PFN_DOWN(buffer->paddr)), buffer->len, 0);
++
++	a->table = table;
++	a->dev = attachment->dev;
++	INIT_LIST_HEAD(&a->list);
++
++	attachment->priv = a;
++
++	mutex_lock(&buffer->attachments_lock);
++	list_add(&a->list, &buffer->attachments);
++	mutex_unlock(&buffer->attachments_lock);
++
++	return 0;
++}
++
++static void dma_heap_detatch(struct dma_buf *dmabuf,
++			     struct dma_buf_attachment *attachment)
++{
++	struct sram_dma_heap_buffer *buffer = dmabuf->priv;
++	struct dma_heap_attachment *a = attachment->priv;
++
++	mutex_lock(&buffer->attachments_lock);
++	list_del(&a->list);
++	mutex_unlock(&buffer->attachments_lock);
++
++	sg_free_table(a->table);
++	kfree(a->table);
++	kfree(a);
++}
++
++static struct sg_table *dma_heap_map_dma_buf(struct dma_buf_attachment *attachment,
++					     enum dma_data_direction direction)
++{
++	struct dma_heap_attachment *a = attachment->priv;
++	struct sg_table *table = a->table;
++
++	/*
++	 * As this heap is backed by uncached SRAM memory we do not need to
++	 * perform any sync operations on the buffer before allowing device
++	 * domain access. For this reason we use SKIP_CPU_SYNC and also do
++	 * not use or provide begin/end_cpu_access() dma-buf functions.
++	 */
++	if (!dma_map_sg_attrs(attachment->dev, table->sgl, table->nents,
++			      direction, DMA_ATTR_SKIP_CPU_SYNC))
++		return ERR_PTR(-ENOMEM);
++
++	return table;
++}
++
++static void dma_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
++				   struct sg_table *table,
++				   enum dma_data_direction direction)
++{
++	dma_unmap_sg_attrs(attachment->dev, table->sgl, table->nents,
++			   direction, DMA_ATTR_SKIP_CPU_SYNC);
++}
++
++static void dma_heap_dma_buf_release(struct dma_buf *dmabuf)
++{
++	struct sram_dma_heap_buffer *buffer = dmabuf->priv;
++
++	gen_pool_free(buffer->pool, (unsigned long)buffer->vaddr, buffer->len);
++	kfree(buffer);
++}
++
++static int dma_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
++{
++	struct sram_dma_heap_buffer *buffer = dmabuf->priv;
++	int ret;
++
++	/* SRAM mappings are not cached */
++	vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
++
++	ret = vm_iomap_memory(vma, buffer->paddr, buffer->len);
++	if (ret)
++		pr_err("Could not map buffer to userspace\n");
++
++	return ret;
++}
++
++static int dma_heap_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
++{
++	struct sram_dma_heap_buffer *buffer = dmabuf->priv;
++
++	iosys_map_set_vaddr(map, buffer->vaddr);
++
++	return 0;
++}
++
++static const struct dma_buf_ops sram_dma_heap_buf_ops = {
++	.attach = dma_heap_attach,
++	.detach = dma_heap_detatch,
++	.map_dma_buf = dma_heap_map_dma_buf,
++	.unmap_dma_buf = dma_heap_unmap_dma_buf,
++	.release = dma_heap_dma_buf_release,
++	.mmap = dma_heap_mmap,
++	.vmap = dma_heap_vmap,
++};
++
++static struct dma_buf *sram_dma_heap_allocate(struct dma_heap *heap,
++					      unsigned long len,
++					      unsigned long fd_flags,
++					      unsigned long heap_flags)
++{
++	struct sram_dma_heap *sram_dma_heap = dma_heap_get_drvdata(heap);
++	struct sram_dma_heap_buffer *buffer;
++
++	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
++	struct dma_buf *dmabuf;
++	int ret = 0;
++
++	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
++	if (!buffer)
++		return ERR_PTR(-ENOMEM);
++	buffer->pool = sram_dma_heap->pool;
++	INIT_LIST_HEAD(&buffer->attachments);
++	mutex_init(&buffer->attachments_lock);
++	buffer->len = len;
++
++	buffer->vaddr = (void *)gen_pool_alloc(buffer->pool, buffer->len);
++	if (!buffer->vaddr) {
++		ret = -ENOMEM;
++		goto free_buffer;
++	}
++
++	buffer->paddr = gen_pool_virt_to_phys(buffer->pool, (unsigned long)buffer->vaddr);
++	if (buffer->paddr == -1) {
++		ret = -ENOMEM;
++		goto free_pool;
++	}
++
++	/* create the dmabuf */
++	exp_info.exp_name = dma_heap_get_name(heap);
++	exp_info.ops = &sram_dma_heap_buf_ops;
++	exp_info.size = buffer->len;
++	exp_info.flags = fd_flags;
++	exp_info.priv = buffer;
++	dmabuf = dma_buf_export(&exp_info);
++	if (IS_ERR(dmabuf)) {
++		ret = PTR_ERR(dmabuf);
++		goto free_pool;
++	}
++
++	return dmabuf;
++
++free_pool:
++	gen_pool_free(buffer->pool, (unsigned long)buffer->vaddr, buffer->len);
++free_buffer:
++	kfree(buffer);
++
++	return ERR_PTR(ret);
++}
++
++static struct dma_heap_ops sram_dma_heap_ops = {
++	.allocate = sram_dma_heap_allocate,
++};
++
++int sram_add_dma_heap(struct sram_dev *sram,
++		      struct sram_reserve *block,
++		      phys_addr_t start,
++		      struct sram_partition *part)
++{
++	struct sram_dma_heap *sram_dma_heap;
++	struct dma_heap_export_info exp_info;
++
++	dev_info(sram->dev, "Exporting SRAM Heap '%s'\n", block->label);
++
++	sram_dma_heap = kzalloc(sizeof(*sram_dma_heap), GFP_KERNEL);
++	if (!sram_dma_heap)
++		return -ENOMEM;
++	sram_dma_heap->pool = part->pool;
++
++	exp_info.name = kasprintf(GFP_KERNEL, "sram_%s", block->label);
++	exp_info.ops = &sram_dma_heap_ops;
++	exp_info.priv = sram_dma_heap;
++	sram_dma_heap->heap = dma_heap_add(&exp_info);
++	if (IS_ERR(sram_dma_heap->heap)) {
++		int ret = PTR_ERR(sram_dma_heap->heap);
++		kfree(sram_dma_heap);
++		return ret;
++	}
++
++	return 0;
++}
+diff --git a/drivers/misc/sram.c b/drivers/misc/sram.c
+index 5757adf418b1d..6dd173a2fba8e 100644
+--- a/drivers/misc/sram.c
++++ b/drivers/misc/sram.c
+@@ -120,6 +120,12 @@ static int sram_add_partition(struct sram_dev *sram, struct sram_reserve *block,
+ 		ret = sram_add_pool(sram, block, start, part);
+ 		if (ret)
+ 			return ret;
++
++		if (block->export) {
++			ret = sram_add_dma_heap(sram, block, start, part);
++			if (ret)
++				return ret;
++		}
+ 	}
+ 	if (block->export) {
+ 		ret = sram_add_export(sram, block, start, part);
+diff --git a/drivers/misc/sram.h b/drivers/misc/sram.h
+index 397205b8bf6ff..062bdd25fa068 100644
+--- a/drivers/misc/sram.h
++++ b/drivers/misc/sram.h
+@@ -60,4 +60,20 @@ static inline int sram_add_protect_exec(struct sram_partition *part)
+ 	return -ENODEV;
+ }
+ #endif /* CONFIG_SRAM_EXEC */
++
++#ifdef CONFIG_SRAM_DMA_HEAP
++int sram_add_dma_heap(struct sram_dev *sram,
++		      struct sram_reserve *block,
++		      phys_addr_t start,
++		      struct sram_partition *part);
++#else
++static inline int sram_add_dma_heap(struct sram_dev *sram,
++				    struct sram_reserve *block,
++				    phys_addr_t start,
++				    struct sram_partition *part)
++{
++	return 0;
++}
++#endif /* CONFIG_SRAM_DMA_HEAP */
++
+ #endif /* __SRAM_H */
+-- 
+2.39.2
+
