@@ -2,108 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E66D37521EE
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 14:54:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4815C7521ED
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 14:54:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09D4E10E695;
-	Thu, 13 Jul 2023 12:53:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28AAB10E68E;
+	Thu, 13 Jul 2023 12:53:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from APC01-PSA-obe.outbound.protection.outlook.com
- (mail-psaapc01on2116.outbound.protection.outlook.com [40.107.255.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0271710E65F
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 09:53:45 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=m6wzC2woOQJQafuwFQCeEteyTjjOUdhXqBu3bSm7ePeSl/qUT7VUXVwZy8rf5Veam9OYkBQb6jn66lbD8WCNide0U4AL3/K6WhM8WpYRJI9X7rLql/1d9jnNWP4qjaAQAtGJF3c5Nl777jyuvEn30rNapuETARLSKIQ6nA/X0JKn+qOTvu5rk6RFhFlwlrpdFm39R5Rz/K8ovsZrXHH/VLuPO6d2DrfqB8CVH6nJuj5tWTK7xKLz95SzUfXQGIjidd/ojt8ay/3i307roy0ucLA4GTsMeq41cZQFVjkzY+8Z+2fSVPZcdtkv4DZQAYBN++qdwajpYqXd7lAe9+JOMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/aB2fibnRkf9gpP0Xfogz8LqxY5FVl78xUR6gFhqv4I=;
- b=LG63bAV9KYMOvdHnyUKlZ7Gt8Cjf8kX1fubboPRNSiKVLRmQSM6dLubj+l+p/kFSC8jiXu2KrADRaNBLpelitfd9bQFVYK5nNQLTBc9kGbBRa2enT03bqVfW3Sie7Sp3Jk2lEhrqxR1FVWyTyuYiAEs8MtgjUmCu5dW6AHAkzB8RjaRsNpUz8EWn92oyuq6UUPCFyxTcvfjPS7JJli1GeR4i1qZATon7yjBgindZD7Bws0ugE9SmPxXDzd88qSuvWyJK0QMjR0gRW+q4ufyuCMQsxp9bkhT4IRf8LSow9t8avxNsm0BljxVRjeY2ZpG58yUWLZMOq9LMX/FnfYw+Hw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/aB2fibnRkf9gpP0Xfogz8LqxY5FVl78xUR6gFhqv4I=;
- b=h4+9rro67pRd9Naac8frsklDV/H6S5Sj7WHEAWjCuMuMv7m2PaZXOxKniqI7YE+ack1I7Nyx9P36r1YMunbk24ORmEhVaZYp4jadQUIeGF008Yrjiua6E8lv/4fAPSpZDdWPGQXd624XwK8d1TS7/xwK0lNp91+e0wRP18vNjYEESD26mDr7awUpQM9RZHOr9moFDc6DWrMegTcpVgBbSQpWB/Tu0sqevdktZgIcGCML6pBmVofa7x0cQOYP7b5afr3Yc3yNTe6zqNJ1nxl0rK5XaYCRiLF9iHEc+mcj1rjhNPFrq6Yp6fHuAFj57haunLCrzspMg6TFEJ//FGCdSA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SG2PR06MB5288.apcprd06.prod.outlook.com (2603:1096:4:1dc::9) by
- SEZPR06MB5592.apcprd06.prod.outlook.com (2603:1096:101:c8::6) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6565.17; Thu, 13 Jul 2023 09:53:37 +0000
-Received: from SG2PR06MB5288.apcprd06.prod.outlook.com
- ([fe80::f9b8:80b5:844e:f49a]) by SG2PR06MB5288.apcprd06.prod.outlook.com
- ([fe80::f9b8:80b5:844e:f49a%6]) with mapi id 15.20.6565.028; Thu, 13 Jul 2023
- 09:53:37 +0000
-From: Minjie Du <duminjie@vivo.com>
-To: Jianhua Lu <lujianhua000@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org (open list:DRM PANEL DRIVERS),
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v1] drm/panel: nt36523: fix parameter check in nt36523_probe()
-Date: Thu, 13 Jul 2023 17:53:27 +0800
-Message-Id: <20230713095328.13823-1-duminjie@vivo.com>
-X-Mailer: git-send-email 2.39.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TY1PR01CA0190.jpnprd01.prod.outlook.com (2603:1096:403::20)
- To SG2PR06MB5288.apcprd06.prod.outlook.com
- (2603:1096:4:1dc::9)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 827D410E663
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 09:57:38 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qJt2G-0003Tu-57; Thu, 13 Jul 2023 11:54:56 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qJt1o-00E5Pi-If; Thu, 13 Jul 2023 11:54:28 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qJt1n-004WRt-D8; Thu, 13 Jul 2023 11:54:27 +0200
+Date: Thu, 13 Jul 2023 11:54:27 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH RFC v1 00/52] drm/crtc: Rename struct drm_crtc::dev to
+ drm_dev
+Message-ID: <20230713095427.swf7unzca4ahipsk@pengutronix.de>
+References: <20230712094702.1770121-1-u.kleine-koenig@pengutronix.de>
+ <87fs5tgpvv.fsf@intel.com>
+ <20230712161025.22op3gtzgujrhytb@pengutronix.de>
+ <878rbkgp4m.fsf@intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SG2PR06MB5288:EE_|SEZPR06MB5592:EE_
-X-MS-Office365-Filtering-Correlation-Id: dae7b807-2ab8-4b93-6aa6-08db83870729
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EE772PW42vB5ok2InHmTr/ikWOUg+cygkaqE+nfb3dRA3fADtDnbFvYTls3X/qkcXvVNSkt/bKFh2GXaZmjEcY8XtSSkq8era9qh+op/v1jLYcaHs6VjU9Ixp214hK1pHRz/uVx/CpfvL6NkIklyNM5q8ZGlIgQKilsnQhAyZBZ+046mIgBR6tyF8zovbxNKBZgIXvnMUc092w24VF+sG77IqEIXFd51GodvktiggyRYFWv24WBnlaUWBBU1OXZkNzLa/oD1EA3zH8n8gW5PIzkkXT+5/t75Gj2DUo5Mz1H809U6wwk8gQnSt902qZuP7AZw1l5AzC+is2P63r7lZdR7+wi5QslrdVgn3A49pMwZQVWlZQKczHD2YAqcm65t0sgpW049ch4fv3n7EhkPV2Veq1gf7kiKMceDiQ1eYAcjpYxYYWOYsN6Y2xRQNIepIHHAVBHLi+4SqnCNtZCx4Zq/D4fxueIhAbLpqvHBF7RUj/cuxNMPe2pkSNXVyIhucUhVxx2oFaAdCK2UIKKhqB8vPBz4avQz1ldtSN84K2fxPJnbHvLGybUSLP8gMiQht8lJGt3UmFZGDK1g7xGT1FXrbxTIpHRZ1GM5S2b/JelxQcP2VUipOJKBZV+8/qaY
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SG2PR06MB5288.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(366004)(39860400002)(396003)(346002)(376002)(136003)(451199021)(66556008)(478600001)(4326008)(52116002)(36756003)(6486002)(6666004)(41300700001)(86362001)(66946007)(316002)(110136005)(66476007)(83380400001)(1076003)(2616005)(186003)(38350700002)(26005)(38100700002)(6512007)(2906002)(8936002)(5660300002)(8676002)(4744005)(6506007)(107886003);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/4C5FTMeGWTK4Pt3oy7MVu1oOH9nsEQwts4C7Z9/rGZ6OWfWvnNTNSCb46i+?=
- =?us-ascii?Q?vxANiXOQTFDM/NWqysIGc44UxtZxKamDWjBUncE1Ma4xhGRR7vCkbT5bq7zM?=
- =?us-ascii?Q?s3f5v/5lywm0Y+Tw7c5M/IOZrwVjXEPLoK0D3pZHTjDZzcyK9V1D+j+IHit9?=
- =?us-ascii?Q?Qkp3muPbeEQO9ONFSRv0CV0u4G2HL/vdACgB9C1b696Zmyv6yY0RyZLJ+ruT?=
- =?us-ascii?Q?9fkHWFH7WoEOxFNMMEcL+N5vOD2xOF4BhE0wAcaZ2KejvY98Ivh1dzYVqco6?=
- =?us-ascii?Q?DrXPKx13W/+/GLwnMOsQsYOAssuqwcRW9GBOgVLIWxBKHXeVM6c9kI6iOD+e?=
- =?us-ascii?Q?QZPtLhChQutD5a9kVVtAonK8Y8vDYFcipnMsrdvjYyfeTcTygFUmjStk3koN?=
- =?us-ascii?Q?XrMTHecDNVG7Gcz6NCcF8ZIzv7AfxS1h1Nro6eUQNOaZUHrVXIkrxgACksUM?=
- =?us-ascii?Q?dLKy/HLvFoIrE6N9ACbTiBCVGEvVC0QyIB8B5eb/FHIoBPS0j7VHC7mJavBf?=
- =?us-ascii?Q?f4SgVwJ1nLPc2vKyrUmpoym07yFnFZ3ZcBiMNURABaxV/QSi/P20NA9tnlSA?=
- =?us-ascii?Q?HiLJ7b5OC908jR3+yEpVp608pnLGT6bzWO3BUgb9aWrGYBCmXaeoE+cKE//x?=
- =?us-ascii?Q?BcSWaP5twLGpRNBF2ty2BnaMWZs1E5OMxKXRAaiB/aR/CcNWiF+eWkDQFdkC?=
- =?us-ascii?Q?ZhH9eQd9yua/ozDYanAPRivJFnFKrS9okN7cLT23HOt4KO5l/H7zKWc0NZGI?=
- =?us-ascii?Q?HOEEZxfeydtvth9Zpq/IFgUFOMETJePN+XyU2bKv0dRWAnqfUuunV38Whz+F?=
- =?us-ascii?Q?qGF7r4InZ1ov6HUnnsayzF9JSaBfqAfElTh8izLcg7z9zm4Y0JNjsf5/BU2n?=
- =?us-ascii?Q?Zd74RoVGrvWflJrJbLYpfJz7/uGMubXzcTI9xSRuct7YKfCgylJCIqkGD3hR?=
- =?us-ascii?Q?WRBQEOy4Ssp+DUM6dIOIz5LCGvc/uyUgLKo7VE5BRDsB+kKUL5Hlvt3eFH3D?=
- =?us-ascii?Q?dfsThoIESsxZKeDM1VNX20oY0AZFo/bE9d1wx/3EH7iIqA/X06eI/N/fHWPQ?=
- =?us-ascii?Q?eILXWH/SnimNFs1/mLWRz6wSQmS/PSaTgrEH5wSxQNkZrezoDjYNh2gWPg4v?=
- =?us-ascii?Q?R3BNuiAojQT4fKVFvTHyiUoJ6B4Il3ek01HzZy498GJcsfD/2WDktsbke1Z5?=
- =?us-ascii?Q?IKsvePP0wRpnHV2isTuIVHvwUxKSayUWEMYC2ICl7ZVX6QLcpPc8Oj5+s9y+?=
- =?us-ascii?Q?eR74cJkeecwxwKecgcpQwAmsqlGjEpdypqUSSgYRv0xe4mncHQHmf5r6jhv3?=
- =?us-ascii?Q?AyuK8rdxmpQNyd++/rh0dl/kWQe+fXeb7iB9t3Fmp65YzQtDHpCFIqCNcfVd?=
- =?us-ascii?Q?2NPXbsxSjaygh99uX02Tw3Sdr8o/tvPiMFBkDF5pHrvdpIDVoX+MFx7+4iH4?=
- =?us-ascii?Q?Z+AxudR1TtewlQBdLnqRFlD/1U19yP4zbW0qHliVDXWWuDlVlLIRQI0EOlEp?=
- =?us-ascii?Q?fHIjfOrEYBeiTop1wr9AxRcgE97yjRqh8PwDMnuWaBpCy998b7xc3dOiLSr0?=
- =?us-ascii?Q?R5rh9P9k8zVq9dw4K2UZbIAvoRjCePiNDeDi5Cyf?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dae7b807-2ab8-4b93-6aa6-08db83870729
-X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB5288.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2023 09:53:36.9013 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZJGYWUTABOBia/Lsguwmi/+s4KzskCDm4cxnaFa5BdoMxvOqI3SKyepGWuoCyICSIGA8pgZ1BQc07d31NjYYlg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5592
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="qeweu3qcdjoypth2"
+Content-Disposition: inline
+In-Reply-To: <878rbkgp4m.fsf@intel.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-Mailman-Approved-At: Thu, 13 Jul 2023 12:53:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -117,31 +58,293 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com, Minjie Du <duminjie@vivo.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Alexey Kodanev <aleksei.kodanev@bell-sw.com>, dri-devel@lists.freedesktop.org,
+ Vandita Kulkarni <vandita.kulkarni@intel.com>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Arun R Murthy <arun.r.murthy@intel.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Liu Shixin <liushixin2@huawei.com>, linux-samsung-soc@vger.kernel.org,
+ Drew Davenport <ddavenport@chromium.org>, Samuel Holland <samuel@sholland.org>,
+ Matt Roper <matthew.d.roper@intel.com>, Wenjing Liu <wenjing.liu@amd.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+ Danilo Krummrich <dakr@redhat.com>, NXP Linux Team <linux-imx@nxp.com>,
+ spice-devel@lists.freedesktop.org,
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ linux-sunxi@lists.linux.dev, Stylon Wang <stylon.wang@amd.com>,
+ Tim Huang <Tim.Huang@amd.com>, Suraj Kandpal <suraj.kandpal@intel.com>,
+ =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Yifan Zhang <yifan1.zhang@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Hersen Wu <hersenxs.wu@amd.com>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
+ Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+ =?utf-8?Q?=C5=81ukasz?= Bartosik <lb@semihalf.com>,
+ Radhakrishna Sripada <radhakrishna.sripada@intel.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>, kernel@pengutronix.de,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ amd-gfx@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
+ nouveau@lists.freedesktop.org,
+ Mitul Golani <mitulkumar.ajitkumar.golani@intel.com>,
+ =?utf-8?B?Sm9zw6k=?= Roberto de Souza <jose.souza@intel.com>,
+ virtualization@lists.linux-foundation.org,
+ Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Yongqin Liu <yongqin.liu@linaro.org>,
+ Mario Limonciello <mario.limonciello@amd.com>, Fei Yang <fei.yang@intel.com>,
+ Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, David Francis <David.Francis@amd.com>,
+ Aaron Liu <aaron.liu@amd.com>, Vinod Polimera <quic_vpolimer@quicinc.com>,
+ linux-rockchip@lists.infradead.org, Fangzhi Zuo <jerry.zuo@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
+ Ben Skeggs <bskeggs@redhat.com>,
+ Jouni =?utf-8?B?SMO2Z2FuZGVy?= <jouni.hogander@intel.com>,
+ Dave Airlie <airlied@redhat.com>, linux-mips@vger.kernel.org,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-arm-msm@vger.kernel.org, Animesh Manna <animesh.manna@intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>, linux-amlogic@lists.infradead.org,
+ Evan Quan <evan.quan@amd.com>, Michal Simek <michal.simek@amd.com>,
+ linux-arm-kernel@lists.infradead.org, Sean Paul <sean@poorly.run>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Boris Brezillon <bbrezillon@kernel.org>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ Sandy Huang <hjc@rock-chips.com>, Swati Sharma <swati2.sharma@intel.com>,
+ linux-renesas-soc@vger.kernel.org, Kyungmin Park <kyungmin.park@samsung.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Kevin Hilman <khilman@baylibre.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Anusha Srivatsa <anusha.srivatsa@intel.com>, Dan Carpenter <error27@gmail.com>,
+ Karol Herbst <kherbst@redhat.com>, linux-hyperv@vger.kernel.org,
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>,
+ Luca Coelho <luciano.coelho@intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Likun Gao <Likun.Gao@amd.com>,
+ "Jiri Slaby \(SUSE\)" <jirislaby@kernel.org>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Deepak Rawat <drawat.floss@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Joel Stanley <joel@jms.id.au>, Orson Zhai <orsonzhai@gmail.com>,
+ Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Alan Liu <haoping.liu@amd.com>,
+ Philip Yang <Philip.Yang@amd.com>, intel-gfx@lists.freedesktop.org,
+ Alison Wang <alison.wang@nxp.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Gustavo Sousa <gustavo.sousa@intel.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Tomi Valkeinen <tomba@kernel.org>, Deepak R Varma <drv@mailo.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Tian Tao <tiantao6@hisilicon.com>, Roman Li <roman.li@amd.com>,
+ Shawn Guo <shawnguo@kernel.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Khaled Almahallawy <khaled.almahallawy@intel.com>,
+ linux-stm32@st-md-mailman.stormreply.com, Emma Anholt <emma@anholt.net>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, Paul Cercueil <paul@crapouillou.net>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>, Marek Vasut <marex@denx.de>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ xen-devel@lists.xenproject.org, Guchun Chen <guchun.chen@amd.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Russell King <linux@armlinux.org.uk>, Uma Shankar <uma.shankar@intel.com>,
+ Mika Kahola <mika.kahola@intel.com>, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ David Lechner <david@lechnology.com>,
+ Vinod Govindapillai <vinod.govindapillai@intel.com>,
+ Marek =?utf-8?B?T2zFocOhaw==?= <marek.olsak@amd.com>,
+ =?utf-8?Q?Joaqu=C3=ADn_Ignacio_Aramend=C3=ADa?= <samsagax@gmail.com>,
+ Melissa Wen <mwen@igalia.com>, Hans de Goede <hdegoede@redhat.com>,
+ linux-mediatek@lists.infradead.org,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ David Tadokoro <davidbtadokoro@usp.br>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-tegra@vger.kernel.org, Jyri Sarha <jyri.sarha@iki.fi>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, John Stultz <jstultz@google.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Wayne Lin <Wayne.Lin@amd.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Nirmoy Das <nirmoy.das@intel.com>, Lang Yu <Lang.Yu@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make IS_ERR() judge the mipi_dsi_device_register_full() function return
-in nt36523_probe().
 
-Signed-off-by: Minjie Du <duminjie@vivo.com>
----
- drivers/gpu/drm/panel/panel-novatek-nt36523.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--qeweu3qcdjoypth2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36523.c b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
-index c3befa7f2..3823255a9 100644
---- a/drivers/gpu/drm/panel/panel-novatek-nt36523.c
-+++ b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
-@@ -1266,7 +1266,7 @@ static int nt36523_probe(struct mipi_dsi_device *dsi)
- 			return dev_err_probe(dev, -EPROBE_DEFER, "cannot get secondary DSI host\n");
- 
- 		pinfo->dsi[1] = mipi_dsi_device_register_full(dsi1_host, info);
--		if (!pinfo->dsi[1]) {
-+		if (IS_ERR(pinfo->dsi[1])) {
- 			dev_err(dev, "cannot get secondary DSI device\n");
- 			return -ENODEV;
- 		}
--- 
-2.39.0
+On Thu, Jul 13, 2023 at 12:03:05PM +0300, Jani Nikula wrote:
+> On Wed, 12 Jul 2023, Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de> =
+wrote:
+> > Hello Jani,
+> >
+> > On Wed, Jul 12, 2023 at 05:34:28PM +0300, Jani Nikula wrote:
+> >> On Wed, 12 Jul 2023, Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.d=
+e> wrote:
+> >> > Hello,
+> >> >
+> >> > while I debugged an issue in the imx-lcdc driver I was constantly
+> >> > irritated about struct drm_device pointer variables being named "dev"
+> >> > because with that name I usually expect a struct device pointer.
+> >> >
+> >> > I think there is a big benefit when these are all renamed to "drm_de=
+v".
+> >> > I have no strong preference here though, so "drmdev" or "drm" are fi=
+ne
+> >> > for me, too. Let the bikesheding begin!
+> >> >
+> >> > Some statistics:
+> >> >
+> >> > $ git grep -ohE 'struct drm_device *\* *[^ (),;]*' v6.5-rc1 | sort |=
+ uniq -c | sort -n
+> >> >       1 struct drm_device *adev_to_drm
+> >> >       1 struct drm_device *drm_
+> >> >       1 struct drm_device          *drm_dev
+> >> >       1 struct drm_device        *drm_dev
+> >> >       1 struct drm_device *pdev
+> >> >       1 struct drm_device *rdev
+> >> >       1 struct drm_device *vdev
+> >> >       2 struct drm_device *dcss_drv_dev_to_drm
+> >> >       2 struct drm_device **ddev
+> >> >       2 struct drm_device *drm_dev_alloc
+> >> >       2 struct drm_device *mock
+> >> >       2 struct drm_device *p_ddev
+> >> >       5 struct drm_device *device
+> >> >       9 struct drm_device * dev
+> >> >      25 struct drm_device *d
+> >> >      95 struct drm_device *
+> >> >     216 struct drm_device *ddev
+> >> >     234 struct drm_device *drm_dev
+> >> >     611 struct drm_device *drm
+> >> >    4190 struct drm_device *dev
+> >> >
+> >> > This series starts with renaming struct drm_crtc::dev to drm_dev. If
+> >> > it's not only me and others like the result of this effort it should=
+ be
+> >> > followed up by adapting the other structs and the individual usages =
+in
+> >> > the different drivers.
+> >>=20
+> >> I think this is an unnecessary change. In drm, a dev is usually a drm
+> >> device, i.e. struct drm_device *.
+> >
+> > Well, unless it's not. Prominently there is
+> >
+> > 	struct drm_device {
+> > 		...
+> > 		struct device *dev;
+> > 		...
+> > 	};
+> >
+> > which yields quite a few code locations using dev->dev which is
+> > IMHO unnecessary irritating:
+> >
+> > 	$ git grep '\<dev->dev' v6.5-rc1 drivers/gpu/drm | wc -l
+> > 	1633
+> >
+> > Also the functions that deal with both a struct device and a struct
+> > drm_device often use "dev" for the struct device and then "ddev" for
+> > the drm_device (see for example amdgpu_device_get_pcie_replay_count()).
+>=20
+> Why is specifically struct drm_device *dev so irritating to you?
+>=20
+> You lead us to believe it's an outlier in kernel, something that goes
+> against common kernel style, but it's really not:
+>=20
+> $ git grep -how "struct [A-Za-z0-9_]\+ \*dev" | sort | uniq -c | sort -rn=
+ | head -20
+>   38494 struct device *dev
+>   16388 struct net_device *dev
+>    4184 struct drm_device *dev
+>    2780 struct pci_dev *dev
+>    1916 struct comedi_device *dev
+>    1510 struct mlx5_core_dev *dev
+>    1057 struct mlx4_dev *dev
+>     894 struct b43_wldev *dev
+>     762 struct input_dev *dev
+>     623 struct usbnet *dev
+>     561 struct mlx5_ib_dev *dev
+>     525 struct mt76_dev *dev
+>     465 struct mt76x02_dev *dev
+>     435 struct platform_device *dev
+>     431 struct usb_device *dev
+>     411 struct mt7915_dev *dev
+>     398 struct cx231xx *dev
+>     378 struct mei_device *dev
+>     363 struct ksz_device *dev
+>     359 struct mthca_dev *dev
+>=20
+> A good portion of the above also have a dev member.
 
+Yeah, other subsystems and drivers have the same problem. You're lucky
+that I noticed drm first and invested some effort to improve it. IMHO
+other subsystems being bad shouldn't stop drm to improve here.
+
+And note that for example for pci_dev there are 5794 instances that are
+named "pdev" and there are 9971 struct platform_device that are called
+"pdev", too. So the majority for these does it better. And agreed,
+net_device and others are also inconsistent. If you want an area that is
+better, look at the naming of i2c_client or spi_device. (And take into
+account that these are spread all over the tree and so are not in
+control of a single maintainer team.)
+
+> Are you planning on changing all of the above too, or are you only
+> annoyed by drm?
+
+Would you be more welcoming if I promised to tackle some of the above,
+too? If so: I might. I hesitate a bit because I didn't suffer from the
+others. (Apart from asking ctags for "dev" is a nightmare.)
+
+And regarding the second part of your question: I was annoyed by drm
+because that was the one that offended me while researching a problem in
+a drm driver. And the variable/struct member name irritated me enough to
+believe that with consistent naming I would have found it quicker.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--qeweu3qcdjoypth2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmSvydIACgkQj4D7WH0S
+/k4hjAgAozFp653NVzmkpE7aXTRWhbDCNL3DGT9ODtF01d4F5Hj7wJVIryc1iT+i
+pKEV3mhZKNm6WpaQU9OtvO3zdC2E6lx4+fyvWXNW9JpRVgekEPJyl60rXGhU8fuN
+pghoNgpFQ2LJFVA81cUXRwu81TZBU3fMt/EUn6f4skEG0QVCIdVZNP8w5W9+5g5P
+ZTx8I6TkHDjubT+sZeYiWn1FQxah3EU9o9rk6Bj8aa61vJOuDKXo3NTSLN78Aitl
+e0aR9Ro4Vfdg3XW5b52IGHn+Sg8dzYClC4kPBBQtdUao8U6CO8hW7w9+pNraKIV8
+T5zOCDUDryMjbJbNfnD2SSquB7gVlw==
+=7d5L
+-----END PGP SIGNATURE-----
+
+--qeweu3qcdjoypth2--
