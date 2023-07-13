@@ -1,63 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3523F752CDB
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 00:19:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B29EA752CFC
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 00:25:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EB4010E7A1;
-	Thu, 13 Jul 2023 22:19:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFBDC10E798;
+	Thu, 13 Jul 2023 22:25:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com
- [IPv6:2607:f8b0:4864:20::e33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2545010E7B5
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 22:19:44 +0000 (UTC)
-Received: by mail-vs1-xe33.google.com with SMTP id
- ada2fe7eead31-440c368b4e2so533956137.2
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 15:19:43 -0700 (PDT)
+Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com
+ [IPv6:2607:f8b0:4864:20::c29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61A8B10E798;
+ Thu, 13 Jul 2023 22:25:46 +0000 (UTC)
+Received: by mail-oo1-xc29.google.com with SMTP id
+ 006d021491bc7-55b8f1c930eso869987eaf.3; 
+ Thu, 13 Jul 2023 15:25:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1689286783; x=1691878783;
- h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
- :cc:subject:date:message-id:reply-to;
- bh=BXnC2/uNEWPH8+NZzeWkMwIPTE0fai0+eyyrDF3xuXY=;
- b=FVrSRTGD+T5tmlzac1FlTaylWaCq6tKVMpkWvEKdKGJ/A+lYrPk1RTFDgHzldyvGvr
- ApaXlsdWQv2XtlNgaMScIAwZNzT9SdHTMlMI/vWZFDh3l/KX1a7dXlO9OTiaMYQDdYlt
- lBaLIJ2Vb1k//KRvBpWQc6pw9sEI0WtvHw0AQ=
+ d=gmail.com; s=20221208; t=1689287145; x=1691879145;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/yrMgnrOq8YoZ1fyFC4X0GmYtJswdpvDYlmQRdE3Wk8=;
+ b=ULr8ROoF3EzlQKdgTM1+tdy5qL4xxCoLrep4q98bPjBMQ4J8vKxsCV0blcN2dxfwvw
+ 7cTF7EjSB0V26cEDKHVBKh9PkqdVwJ7+358kEu/jCjSjRUtkcuBKkLyA+JYGHdNFg4YI
+ OrZPX7sXMayO4LiZelj05x/Dcfnbcxy7MzmdSVqbn3gpz4kVF2p1AXyCA/rYq2mjkmJ1
+ SDfjq3QW9MFFQZRLEGf2r193fUeyThuhP9/A+VnAxGeTkZvXjNoqNXdoOW+G26tPGgMe
+ QNqroEmGmKc8yd8PMJChFdPfnMISLgdXDJpmZKms49/ZfMbWNE0WttAkrEcNYaTlJQMU
+ SBjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689286783; x=1691878783;
- h=references:in-reply-to:message-id:date:subject:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BXnC2/uNEWPH8+NZzeWkMwIPTE0fai0+eyyrDF3xuXY=;
- b=KBkkAZjqcjfIYaGmlMyPQ170CurKXPR098savYLDR5cav9PzWok1mYfrE7o1knAQKI
- v/jDv8YLgao0+Qx4izHz4S8rd19pjSEb5icqCXq6RZSYxmuK0vsY3ENb3KwV3pzzJSb+
- l0wT6A/63tMrDWADTylRadorH2JcwqbZ+SSvMlg3QbBRDzMlZHmB3enkx2HPmAx3uHGk
- 0KHAiG31zqr7OdZZi49MKx8mTQE044GeVm3MXDJ5OJi8Xremzfr0dMmVl1M1DUHv0r8D
- gr79WD+bHxGCghC+Vwd26OYFwgV6Khk3+8aErBHJKzSkO6W46u6V8IqP6vnrS0H1wLUY
- KQkA==
-X-Gm-Message-State: ABy/qLYvUCGXtlolIVKGMFq7wkzt1cNM8KA7+rohPsP5Z7pYxAOcGrGM
- UiFVNaz+kxYpsbfUFSir9Ynszg==
-X-Google-Smtp-Source: APBJJlFioXY1G+Bd7UZP0nGF4r1bmLzgVdmUeN76yMd7y382vSKOp/cx1gqzbT+pvX+ZT8jfcrKSuA==
-X-Received: by 2002:a67:f50a:0:b0:444:c35d:4595 with SMTP id
- u10-20020a67f50a000000b00444c35d4595mr2223600vsn.33.1689286782897; 
- Thu, 13 Jul 2023 15:19:42 -0700 (PDT)
-Received: from stbirv-lnx-2.igp.broadcom.net ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id
- i14-20020a0cf38e000000b006262de12a8csm427623qvk.65.2023.07.13.15.19.40
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 13 Jul 2023 15:19:42 -0700 (PDT)
-From: Justin Chen <justin.chen@broadcom.com>
-To: netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- bcm-kernel-feedback-list@broadcom.com
-Subject: [net-next v9 11/11] MAINTAINERS: ASP 2.0 Ethernet driver maintainers
-Date: Thu, 13 Jul 2023 15:19:06 -0700
-Message-Id: <1689286746-43609-12-git-send-email-justin.chen@broadcom.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1689286746-43609-1-git-send-email-justin.chen@broadcom.com>
-References: <1689286746-43609-1-git-send-email-justin.chen@broadcom.com>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="000000000000a24f5e060065ba67"
+ d=1e100.net; s=20221208; t=1689287145; x=1691879145;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/yrMgnrOq8YoZ1fyFC4X0GmYtJswdpvDYlmQRdE3Wk8=;
+ b=TUCnxW6E/WE/obmr/lC7qCRmB2gc6ia0fPmGk/spbs7toR2Py0zTTys6xBP5QkB0Qg
+ wRdscP6WTixVbj3JfwUnRNgCjiV6yFqgAkvoZbRY1m5BIORyrVAnxr+6O5HFlTfcSBTb
+ jzyIg6kHuQgoVcksOlKKSc+AhGJOCUi6ZjTEZQWBZXmjcqVA3LR8IH9n5ob1GvYznYKn
+ 0spHSo45sICz2izPQ6nFCG4cKmoAiDFg08A5tDA3q2MO6R8/3VmasXTJHg13IAd37RCp
+ X73FdHTDTKyHNTJdcWv93Ax4O1NOMYFwUBkcV1syOxaY9zDTvauMrv/2YE/7Tw5ol0JR
+ PHKQ==
+X-Gm-Message-State: ABy/qLYZe/xKdO7fE/rxMuOKJnJSCsUqJ90LPpoYFW+PczrD4Ko/G6b/
+ DvM6QW97BaMkzO/yfEQiIldmFYvmK3a+rEzUOjvzQ/Ol
+X-Google-Smtp-Source: APBJJlF4GeNA7uSMYR+ZAhGDVDHH70LHyPYUnTmXGVAhOUnBYa3Enj9DVwAptUEyvE5jOXLOC5Re9jLDhrFxeeZopAs=
+X-Received: by 2002:a05:6820:51:b0:566:b483:ee00 with SMTP id
+ v17-20020a056820005100b00566b483ee00mr2862635oob.5.1689287145043; Thu, 13 Jul
+ 2023 15:25:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230706211045.204925-1-robdclark@gmail.com>
+ <20230706211045.204925-6-robdclark@gmail.com>
+ <m2r2klrcvgs2qiywx5eetcwwjph6suzjey4hhbon3bhqdsbg7t@lvwdvbhoaqaw>
+In-Reply-To: <m2r2klrcvgs2qiywx5eetcwwjph6suzjey4hhbon3bhqdsbg7t@lvwdvbhoaqaw>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 13 Jul 2023 15:25:33 -0700
+Message-ID: <CAF6AEGt73GpN=7tdHnsytZM4=WqKXMU2WSHpdkTOxVqi+wH1zA@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH 05/12] drm/msm/adreno: Use quirk to identify
+ cached-coherent support
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,131 +71,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrew@lunn.ch, conor+dt@kernel.org, opendmb@gmail.com,
- Justin Chen <justin.chen@broadcom.com>, florian.fainelli@broadcom.com,
- christian.koenig@amd.com, simon.horman@corigine.com, richardcochran@gmail.com,
- linux@armlinux.org.uk, sumit.semwal@linaro.org, edumazet@google.com,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org,
- pabeni@redhat.com, davem@davemloft.net, hkallweit1@gmail.com
+Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000a24f5e060065ba67
+On Thu, Jul 13, 2023 at 1:06=E2=80=AFPM Akhil P Oommen <quic_akhilpo@quicin=
+c.com> wrote:
+>
+> On Thu, Jul 06, 2023 at 02:10:38PM -0700, Rob Clark wrote:
+> >
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > It is better to explicitly list it.  With the move to opaque chip-id's
+> > for future devices, we should avoid trying to infer things like
+> > generation from the numerical value.
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> >  drivers/gpu/drm/msm/adreno/adreno_device.c | 23 +++++++++++++++-------
+> >  drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  1 +
+> >  2 files changed, 17 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/d=
+rm/msm/adreno/adreno_device.c
+> > index f469f951a907..3c531da417b9 100644
+> > --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+> > +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> > @@ -256,6 +256,7 @@ static const struct adreno_info gpulist[] =3D {
+> >               },
+> >               .gmem =3D SZ_512K,
+> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
+> > +             .quirks =3D ADRENO_QUIRK_HAS_CACHED_COHERENT,
+> >               .init =3D a6xx_gpu_init,
+> >       }, {
+> >               .rev =3D ADRENO_REV(6, 1, 9, ANY_ID),
+> > @@ -266,6 +267,7 @@ static const struct adreno_info gpulist[] =3D {
+> >               },
+> >               .gmem =3D SZ_512K,
+> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
+> > +             .quirks =3D ADRENO_QUIRK_HAS_CACHED_COHERENT,
+> >               .init =3D a6xx_gpu_init,
+> >               .zapfw =3D "a615_zap.mdt",
+> >               .hwcg =3D a615_hwcg,
+> > @@ -278,6 +280,7 @@ static const struct adreno_info gpulist[] =3D {
+> >               },
+> >               .gmem =3D SZ_1M,
+> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
+> > +             .quirks =3D ADRENO_QUIRK_HAS_CACHED_COHERENT,
+> >               .init =3D a6xx_gpu_init,
+> >               .zapfw =3D "a630_zap.mdt",
+> >               .hwcg =3D a630_hwcg,
+> > @@ -290,6 +293,7 @@ static const struct adreno_info gpulist[] =3D {
+> >               },
+> >               .gmem =3D SZ_1M,
+> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
+> > +             .quirks =3D ADRENO_QUIRK_HAS_CACHED_COHERENT,
+> >               .init =3D a6xx_gpu_init,
+> >               .zapfw =3D "a640_zap.mdt",
+> >               .hwcg =3D a640_hwcg,
+> > @@ -302,7 +306,8 @@ static const struct adreno_info gpulist[] =3D {
+> >               },
+> >               .gmem =3D SZ_1M + SZ_128K,
+> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
+> > -             .quirks =3D ADRENO_QUIRK_HAS_HW_APRIV,
+> > +             .quirks =3D ADRENO_QUIRK_HAS_CACHED_COHERENT |
+> > +                     ADRENO_QUIRK_HAS_HW_APRIV,
+> >               .init =3D a6xx_gpu_init,
+> >               .zapfw =3D "a650_zap.mdt",
+> >               .hwcg =3D a650_hwcg,
+> > @@ -316,7 +321,8 @@ static const struct adreno_info gpulist[] =3D {
+> >               },
+> >               .gmem =3D SZ_1M + SZ_512K,
+> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
+> > -             .quirks =3D ADRENO_QUIRK_HAS_HW_APRIV,
+> > +             .quirks =3D ADRENO_QUIRK_HAS_CACHED_COHERENT |
+> > +                     ADRENO_QUIRK_HAS_HW_APRIV,
+> >               .init =3D a6xx_gpu_init,
+> >               .zapfw =3D "a660_zap.mdt",
+> >               .hwcg =3D a660_hwcg,
+> > @@ -329,7 +335,8 @@ static const struct adreno_info gpulist[] =3D {
+> >               },
+> >               .gmem =3D SZ_512K,
+> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
+> > -             .quirks =3D ADRENO_QUIRK_HAS_HW_APRIV,
+> > +             .quirks =3D ADRENO_QUIRK_HAS_CACHED_COHERENT |
+> > +                     ADRENO_QUIRK_HAS_HW_APRIV,
+> >               .init =3D a6xx_gpu_init,
+> >               .hwcg =3D a660_hwcg,
+> >               .address_space_size =3D SZ_16G,
+> > @@ -342,6 +349,7 @@ static const struct adreno_info gpulist[] =3D {
+> >               },
+> >               .gmem =3D SZ_2M,
+> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
+> > +             .quirks =3D ADRENO_QUIRK_HAS_CACHED_COHERENT,
+> >               .init =3D a6xx_gpu_init,
+> >               .zapfw =3D "a640_zap.mdt",
+> >               .hwcg =3D a640_hwcg,
+> > @@ -353,7 +361,8 @@ static const struct adreno_info gpulist[] =3D {
+> >               },
+> >               .gmem =3D SZ_4M,
+> >               .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
+> > -             .quirks =3D ADRENO_QUIRK_HAS_HW_APRIV,
+> > +             .quirks =3D ADRENO_QUIRK_HAS_CACHED_COHERENT |
+> > +                     ADRENO_QUIRK_HAS_HW_APRIV,
+> >               .init =3D a6xx_gpu_init,
+> >               .zapfw =3D "a690_zap.mdt",
+> >               .hwcg =3D a690_hwcg,
+> > @@ -565,9 +574,9 @@ static int adreno_bind(struct device *dev, struct d=
+evice *master, void *data)
+> >       if (ret)
+> >               return ret;
+> >
+> > -     if (config.rev.core >=3D 6)
+> > -             if (!adreno_has_gmu_wrapper(to_adreno_gpu(gpu)))
+> > -                     priv->has_cached_coherent =3D true;
+> > +     priv->has_cached_coherent =3D
+> > +             !!(info->quirks & ADRENO_QUIRK_HAS_CACHED_COHERENT) &&
+> > +             !adreno_has_gmu_wrapper(to_adreno_gpu(gpu));
+> >
+> >       return 0;
+> >  }
+> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/=
+msm/adreno/adreno_gpu.h
+> > index a7c4a2c536e3..e08d41337169 100644
+> > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> > @@ -33,6 +33,7 @@ enum {
+> >  #define ADRENO_QUIRK_FAULT_DETECT_MASK               BIT(1)
+> >  #define ADRENO_QUIRK_LMLOADKILL_DISABLE              BIT(2)
+> >  #define ADRENO_QUIRK_HAS_HW_APRIV            BIT(3)
+> > +#define ADRENO_QUIRK_HAS_CACHED_COHERENT     BIT(4)
+> a shorter ADRENO_IS_IOCOHERENT?
 
-Add maintainers entry for ASP 2.0 Ethernet driver.
+I prefer "HAS" to "IS".. maybe it is just me but "IS" sounds to me
+like all dma is coherent, while in fact gpu mappings can be either
+coherent or not.
 
-Reviewed-by: Simon Horman <simon.horman@corigine.com>
-Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
-Signed-off-by: Justin Chen <justin.chen@broadcom.com>
----
-v3
-	- Change from gmail to broadcom emails
+I suppose it could be "HAS_IOCOHERENT" but we do use "CACHED_COHERENT"
+elsewhere.
 
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+BR,
+-R
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 99f18f6e8bc6..da9ab7edd507 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4215,6 +4215,15 @@ F:	drivers/net/mdio/mdio-bcm-unimac.c
- F:	include/linux/platform_data/bcmgenet.h
- F:	include/linux/platform_data/mdio-bcm-unimac.h
- 
-+BROADCOM ASP 2.0 ETHERNET DRIVER
-+M:	Justin Chen <justin.chen@broadcom.com>
-+M:	Florian Fainelli <florian.fainelli@broadcom.com>
-+L:	bcm-kernel-feedback-list@broadcom.com
-+L:	netdev@vger.kernel.org
-+S:	Supported
-+F:	Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
-+F:	drivers/net/ethernet/broadcom/asp2/
-+
- BROADCOM IPROC ARM ARCHITECTURE
- M:	Ray Jui <rjui@broadcom.com>
- M:	Scott Branden <sbranden@broadcom.com>
--- 
-2.7.4
-
-
---000000000000a24f5e060065ba67
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-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
-NhTY3E+cXCB11wty89QStajwXdhGJTYEvUgvsq1h8CwJj9w/38ldAQf5WjhPmApYeJR2ewFrBMCM
-4lHkdRJ6TDc9nXoEkypUfjJkJHe7Eal06tosh6JpAgMBAAGjggHZMIIB1TAOBgNVHQ8BAf8EBAMC
-BaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJlLmdsb2JhbHNp
-Z24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYIKwYBBQUHMAGG
-NWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwME0G
-A1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxz
-aWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqGOGh0dHA6Ly9j
-cmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3JsMCMGA1UdEQQc
-MBqBGGp1c3Rpbi5jaGVuQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNVHSME
-GDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUIWGeYuaTsnIada5Xx8TR3cheUbgw
-DQYJKoZIhvcNAQELBQADggEBAHNQlMqQOFYPYFO71A+8t+qWMmtOdd2iGswSOvpSZ/pmGlfw8ZvY
-dRTkl27m37la84AxRkiVMes14JyOZJoMh/g7fbgPlU14eBc6WQWkIA6AmNkduFWTr1pRezkjpeo6
-xVmdBLM4VY1TFDYj7S8H2adPuypd62uHMY/MZi+BIUys4uAFA+N3NuUBNjcVZXYPplYxxKEuIFq6
-sDL+OV16G+F9CkNMN3txsym8Nnx5WAYZb6+rBUIhMGz70V05xsHQfzvo2s7f0J1tJ5BoRlPPhL0h
-VOnWA3h71u9TfSsv+PXVm3P21TfOS2uc1hbzEqyENCP4i5XQ0rv0TmPW42GZ0o4xggJtMIICaQIB
-ATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhH
-bG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwj8BKLXNpALfemdRAwDQYJ
-YIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIGwZ7v2bOi6QSSxg1pEoNqfhAyLdmKui+vTI
-dlBMDlbUMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIzMDcxMzIy
-MTk0M1owaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFl
-AwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATAN
-BgkqhkiG9w0BAQEFAASCAQA1HFDYsgHBTFnKGyeG3kmGivmbJFyAyUVPAlTl93VfV4biypn86/nt
-JtMJaRcHT+/p4jtGoNRPfoRH2/2Ek3brJgTFSNp6Vahk7VoWBNRMIYZyVEFb66K/rcHIm82Pydle
-SRXr4P3zsPnEeyvjYSJvDpbh+0AEsE7wCG5ZZC8g02yQjon2Ct4WEiqJbU5+bXJao5Rv8Pc/2iJF
-K2h29UwAN7IGEZGUWlHWp0cMaO1lDNKAPZdIeoAkDOL246zb/NFb51bmE1mOIyv35ov9wXON+mwn
-shwTs/S6CZTNLeitsL5KblQAFVB+/r0Z33vXrbXPKAAWh7tUW3dHrzmzaIAV
---000000000000a24f5e060065ba67--
+>
+> -Akhil
+>
+> >
+> >  struct adreno_rev {
+> >       uint8_t  core;
+> > --
+> > 2.41.0
+> >
