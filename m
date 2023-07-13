@@ -2,77 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56443752328
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 15:15:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6476C752335
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 15:17:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D12FB10E0D9;
-	Thu, 13 Jul 2023 13:15:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 666E910E6D0;
+	Thu, 13 Jul 2023 13:17:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AFA910E0D9
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 13:15:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689254150;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xvPO9Xojgtw3Qok/szSpmL9QReDGF4Uu7/gCOdSZo3Y=;
- b=TY0XuQBgR8QGQAeVDJoHrmaPRCS0NL/1zV1zfnPrxw6AZZt0QvUgarRzHQ/L8J0CPHKT+B
- itbFJwWJfrirOL+CtllAt97uOk/eVjU1Bc6ovQE0ZgaLO5FDakJzMrwWbdBSmFlbn+qwjU
- HtwQePxhIdrpFVJbnl0FSSA5SqFU9i8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-385-dS__0FrfOz6w0YeweN0YVA-1; Thu, 13 Jul 2023 09:15:49 -0400
-X-MC-Unique: dS__0FrfOz6w0YeweN0YVA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-314256aedcbso462146f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 06:15:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689254148; x=1691846148;
- h=content-transfer-encoding:mime-version:message-id:date:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+W653bQgYnkrDlOyPaGyC+VUCI2YgiP6l1CnjaSmytU=;
- b=ehxP65zDCh6dnTFPQRLJos5UDJ7Wa8Tx7iygqsM3P0JpBVDz4c0QL0Rv3YVvrhXoN2
- FItLUdsnHwuddkc/OuBJaZjjw1lJPMMGFWdEo3u7QuUiT5YGkObxUVr4mp91b5YmgUOw
- g7kz+wwQlSaGM56i5BpuQfnpZm7k2eydbfY7wsZNL9qcNMcK1I5fC/vMJoae6HOELmhf
- TLXjxCzjY0m2boyCv4pnTVlqaSRz743gsiVfaC6GT3ClO/DbG59xeIrNL9UcWM4c8HWl
- dMJ0vWoLH3cMRTFTZLeXs8/x9sREdVclOe2ubTnP1AJMK9L/jmBTHD+81vJ19ja5npGi
- gOkQ==
-X-Gm-Message-State: ABy/qLZerw2yzKnrxX8vmf39rPqeKCJuIjPzz+bXhFDYTuGiAYJa0h5G
- e+QZ0yRYFhe6i1TaZ22ZLsRYkS1+G793BkcPDVs5crtOIuFq1k2NUKBCOYJ5heiAfJGiRTkcaa9
- K4blTOjPTnlw08NMffcSGeCiAMGdzb3cioE7m
-X-Received: by 2002:a5d:6603:0:b0:313:ee2e:dae1 with SMTP id
- n3-20020a5d6603000000b00313ee2edae1mr1377233wru.18.1689254147838; 
- Thu, 13 Jul 2023 06:15:47 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGcwH17n+61+faw0EOmRZrjFZUmAq9pqWras4eL7iwT2iWWC+qh/xr6DBkUXMGcDHuJWJH95Q==
-X-Received: by 2002:a5d:6603:0:b0:313:ee2e:dae1 with SMTP id
- n3-20020a5d6603000000b00313ee2edae1mr1377213wru.18.1689254147547; 
- Thu, 13 Jul 2023 06:15:47 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- k4-20020a056000004400b00314326c91e2sm8002635wrx.28.2023.07.13.06.15.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Jul 2023 06:15:47 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v2 4/5] drm/ssd130x: Don't allocate buffers on each
- plane update
-In-Reply-To: <CAMuHMdVXhi52KfpCmnum+9t74UWP+AOLE95xQU6VV6Nz=VHk1Q@mail.gmail.com>
-References: <20230609170941.1150941-1-javierm@redhat.com>
- <20230609170941.1150941-5-javierm@redhat.com>
- <CAMuHMdVXhi52KfpCmnum+9t74UWP+AOLE95xQU6VV6Nz=VHk1Q@mail.gmail.com>
-Date: Thu, 13 Jul 2023 15:15:46 +0200
-Message-ID: <87fs5sgdfh.fsf@minerva.mail-host-address-is-not-set>
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1123C10E6D4
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 13:17:26 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:6264:77e5:42e2:477d])
+ by laurent.telenet-ops.be with bizsmtp
+ id LdHN2A00Q3wy6xv01dHNpZ; Thu, 13 Jul 2023 15:17:23 +0200
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtp (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1qJwC3-001Gqn-0L;
+ Thu, 13 Jul 2023 15:17:22 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1qJwCA-00GWyS-LN;
+ Thu, 13 Jul 2023 15:17:22 +0200
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 0/8] drm: fb-helper/ssd130x: Add support for DRM_FORMAT_R1
+Date: Thu, 13 Jul 2023 15:17:08 +0200
+Message-Id: <cover.1689252746.git.geert@linux-m68k.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,81 +47,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Geert Uytterhoeven <geert@linux-m68k.org> writes:
+	Hi all,
 
-Hello Geert,
+The native display format of ssd1306 OLED displays is monochrome
+light-on-dark (R1).  This patch series adds support for the R1 buffer
+format to both the ssd130x DRM driver and the FB helpers, so monochrome
+applications (including fbdev emulation and the text console) can avoid
+the overhead of back-and-forth conversions between R1 and XR24.
 
-> Hi Javier,
->
-> On Fri, Jun 9, 2023 at 7:09=E2=80=AFPM Javier Martinez Canillas
-> <javierm@redhat.com> wrote:
->> The resolutions for these panels are fixed and defined in the Device Tre=
-e,
->> so there's no point to allocate the buffers on each plane update and tha=
-t
->> can just be done once.
->>
->> Let's do the allocation and free on the encoder enable and disable helpe=
-rs
->> since that's where others initialization and teardown operations are don=
-e.
->>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
->> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->>
->> (no changes since v1)
->
-> Thanks for your patch, which is now commit 49d7d581ceaf4cf8
-> ("drm/ssd130x: Don't allocate buffers on each plane update") in
-> drm-misc/for-linux-next.
->
->> --- a/drivers/gpu/drm/solomon/ssd130x.c
->> +++ b/drivers/gpu/drm/solomon/ssd130x.c
->> @@ -701,14 +709,22 @@ static void ssd130x_encoder_helper_atomic_enable(s=
-truct drm_encoder *encoder,
->>                 return;
->>
->>         ret =3D ssd130x_init(ssd130x);
->> -       if (ret) {
->> -               ssd130x_power_off(ssd130x);
->> -               return;
->> -       }
->> +       if (ret)
->> +               goto power_off;
->> +
->> +       ret =3D ssd130x_buf_alloc(ssd130x);
->
-> This appears to be too late, causing a NULL pointer dereference:
->
+This series is based on drm-misc/for-linux-next with [1] applied, and
+consists of 4 parts:
+  - Patches 1-3 contain miscellaneous fixes,
+  - Patch 4 adds R1 support to the ssd130x DRM driver,
+  - Patches 5-6 update the DRM client and FB helper code to avoid
+    calling drm_mode_legacy_fb_format() where the exact buffer format is
+    already known, to prepare for R1 support,
+  - Patch 7 adds support for R1 to fbdev emulation and the text console,
+  - Patch 8 switches ssd130x to R1 for fbdev emulation and the text
+    console.
 
-Thanks for reporting this issue.
+This has been tested on an Adafruit FeatherWing 128x32 OLED, connected
+to an OrangeCrab ECP5 FPGA board running a 64 MHz VexRiscv RISC-V
+softcore, using the fbdev text console.
 
-> [   59.302761] [<c0303d90>] ssd130x_update_rect.isra.0+0x13c/0x340
-> [   59.304231] [<c0304200>]
-> ssd130x_primary_plane_helper_atomic_update+0x26c/0x284
-> [   59.305716] [<c02f8d54>] drm_atomic_helper_commit_planes+0xfc/0x27c
->
+Thanks for your comments!
 
-I wonder how this could be too late. I thought that the encoder
-.atomic_enable callback would be called before any plane .atomic_update.
+P.S. Note that the biggest hurdle was the copious use of the
+     drm_mode_legacy_fb_format() helper in various places.  This helper
+     cannot decide between C1 and R1 without knowledge of the
+     capabilities of the full display pipeline.  Instead of
+     special-casing its return value in three callers, I did so in only
+     one place, and got rid of two of these calls in the call chain.
+     I think Thomas' grand plan is to replace preferred_{bpp,depth} by a
+     preferred fourcc format? That would simplify things a lot...
 
-> Bailing out from ssd130x_update_rect() when data_array is still NULL
-> fixes that.
->
+[1] "[PATCH] drm/ssd130x: Change pixel format used to compute the buffer
+    size"
+    https://lore.kernel.org/all/20230713085859.907127-1-javierm@redhat.com
 
-Maybe we can add that with a drm_WARN() ? I still want to understand how
-a plane update can happen before an encoder enable.
+Geert Uytterhoeven (8):
+  drm/ssd130x: Fix pitch calculation in ssd130x_fb_blit_rect()
+  drm/dumb-buffers: Fix drm_mode_create_dumb() for bpp < 8
+  [RFC] drm/ssd130x: Bail out early if data_array is not yet available
+  drm/ssd130x: Add support for DRM_FORMAT_R1
+  drm/client: Convert drm_mode_create_dumb() to drm_mode_addfb2()
+  drm/fb-helper: Pass buffer format via drm_fb_helper_surface_size
+  drm/fb-helper: Add support for DRM_FORMAT_R1
+  drm/ssd130x: Switch preferred_bpp/depth to 1
 
---=20
-Best regards,
+ drivers/gpu/drm/drm_client.c        | 13 +++---
+ drivers/gpu/drm/drm_dumb_buffers.c  |  3 +-
+ drivers/gpu/drm/drm_fb_helper.c     | 42 ++++++++++++++-----
+ drivers/gpu/drm/drm_fbdev_generic.c |  9 ++---
+ drivers/gpu/drm/solomon/ssd130x.c   | 62 ++++++++++++++++++++---------
+ include/drm/drm_fb_helper.h         |  2 +
+ 6 files changed, 87 insertions(+), 44 deletions(-)
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+-- 
+2.34.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
