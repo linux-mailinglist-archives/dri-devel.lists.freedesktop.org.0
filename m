@@ -2,62 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D63AF751E53
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 12:06:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03A82751EC3
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 12:23:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4AA810E668;
-	Thu, 13 Jul 2023 10:06:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 041C310E1C3;
+	Thu, 13 Jul 2023 10:23:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64A7E10E668
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 10:06:50 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 96AF022190;
- Thu, 13 Jul 2023 10:06:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1689242808; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mk56FONtOowVALN0q21XBKEQINE8MoiVbx53HrUlPjU=;
- b=TEADc15/9oH2caOSex97zxH9ktqYsbZ2wFXgQz0Q6IxEpgUqmqpGEa1ar1iEuf5qc+YOAt
- WrrlrPT2fJTPkBrwQYm0+0a+Hoeraz9Owk/wdysYNs/ziw3qqeiiNnPXwgwj4wOuiYyDhl
- f+BTZwRmU1AUqVkzr7JN8oKaIRR35L0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1689242808;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mk56FONtOowVALN0q21XBKEQINE8MoiVbx53HrUlPjU=;
- b=kwqXlxu+JQc2kTNAsX3PVteoF4/HE2c0tkvaAX4qjsMfJoP9omU8WS8nPyjlGjO0U+33mC
- gTKGqcACJu0Wt+DA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7B4DE133D6;
- Thu, 13 Jul 2023 10:06:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id JmULHbjMr2TWYAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 13 Jul 2023 10:06:48 +0000
-Message-ID: <340afb94-9c08-46ef-0514-9da52162b45c@suse.de>
-Date: Thu, 13 Jul 2023 12:06:47 +0200
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C2E210E1C3
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 10:23:21 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qJtTN-0000LC-Rk; Thu, 13 Jul 2023 12:22:57 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qJtTK-00E5uf-2P; Thu, 13 Jul 2023 12:22:54 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1qJtTJ-004WxU-Co; Thu, 13 Jul 2023 12:22:53 +0200
+Date: Thu, 13 Jul 2023 12:22:53 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 00/17] drm: rename various struct members "dev" -> "drm"
+Message-ID: <20230713102253.72pbt5t4dlvtexpj@pengutronix.de>
+References: <20230713082408.2266984-1-u.kleine-koenig@pengutronix.de>
+ <61999156-ab1b-d2ec-d7a4-7d957d5adab1@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] drm/ssd130x: Change pixel format used to compute the
- buffer size
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
-References: <20230713085859.907127-1-javierm@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230713085859.907127-1-javierm@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------GUEY8WDKKNuJNWEUMZsZV4cn"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="4ahcqjnol4yntdur"
+Content-Disposition: inline
+In-Reply-To: <61999156-ab1b-d2ec-d7a4-7d957d5adab1@suse.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,82 +54,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org
+Cc: Sean Paul <seanpaul@chromium.org>, Julia Lawall <julia.lawall@inria.fr>,
+ Sui Jingfeng <suijingfeng@loongson.cn>, kernel@pengutronix.de,
+ Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ "Russell King \(Oracle\)" <linux@armlinux.org.uk>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Luben Tuikov <luben.tuikov@amd.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------GUEY8WDKKNuJNWEUMZsZV4cn
-Content-Type: multipart/mixed; boundary="------------rY40G7UYCo0b9nL9RwG30f0W";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>
-Message-ID: <340afb94-9c08-46ef-0514-9da52162b45c@suse.de>
-Subject: Re: [PATCH] drm/ssd130x: Change pixel format used to compute the
- buffer size
-References: <20230713085859.907127-1-javierm@redhat.com>
-In-Reply-To: <20230713085859.907127-1-javierm@redhat.com>
 
---------------rY40G7UYCo0b9nL9RwG30f0W
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+--4ahcqjnol4yntdur
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-DQoNCkFtIDEzLjA3LjIzIHVtIDEwOjU4IHNjaHJpZWIgSmF2aWVyIE1hcnRpbmV6IENhbmls
-bGFzOg0KPiBUaGUgY29tbWl0IGUyNTRiNTg0ZGJjMCAoImRybS9zc2QxMzB4OiBSZW1vdmUg
-aGFyZGNvZGVkIGJpdHMtcGVyLXBpeGVsIGluDQo+IHNzZDEzMHhfYnVmX2FsbG9jKCkiKSB1
-c2VkIGEgcGl4ZWwgZm9ybWF0IGluZm8gaW5zdGVhZCBvZiBhIGhhcmRjb2RlZCBicHANCj4g
-dG8gY2FsY3VsYXRlIHRoZSBzaXplIG9mIHRoZSBidWZmZXIgYWxsb2NhdGVkIHRvIHN0b3Jl
-IHRoZSBuYXRpdmUgcGl4ZWxzLg0KPiANCj4gQnV0IHRoYXQgd3JvbmdseSB1c2VkIHRoZSBE
-Uk1fRk9STUFUX0MxIGZvdXJjYyBwaXhlbCBmb3JtYXQsIHdoaWNoIGlzIGZvcg0KPiBjb2xv
-ci1pbmRleGVkIGZyYW1lIGJ1ZmZlciBmb3JtYXRzLiBXaGlsZSB0aGUgc3NkMTAzeCBjb250
-cm9sbGVycyBkb24ndA0KPiBzdXBwb3J0IGRpZmZlcmVudCBzaW5nbGUtY2hhbm5lbCBjb2xv
-cnMgbm9yIGEgQ29sb3IgTG9va3VwIFRhYmxlIChDTFVUKS4NCg0KTWFrZXMgc2Vuc2UgdG8g
-bWUuDQoNClJldmlld2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3Vz
-ZS5kZT4NCg0KPiANCj4gQm90aCBmb3JtYXRzIHVzZSBlaWdodCBwaXhlbHMvYnl0ZSwgc28g
-aW4gcHJhY3RpY2UgdGhlcmUgaXMgbm8gZnVuY3Rpb25hbA0KPiBjaGFuZ2VzIGluIHRoaXMg
-cGF0Y2guIEJ1dCBzdGlsbCB0aGUgY29ycmVjdCBwaXhlbCBmb3JtYXQgc2hvdWxkIGJlIHVz
-ZWQuDQo+IA0KPiBTdWdnZXN0ZWQtYnk6IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnRAbGlu
-dXgtbTY4ay5vcmc+DQo+IFNpZ25lZC1vZmYtYnk6IEphdmllciBNYXJ0aW5leiBDYW5pbGxh
-cyA8amF2aWVybUByZWRoYXQuY29tPg0KPiAtLS0NCj4gDQo+ICAgZHJpdmVycy9ncHUvZHJt
-L3NvbG9tb24vc3NkMTMweC5jIHwgMiArLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
-dGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9zb2xvbW9uL3NzZDEzMHguYyBiL2RyaXZlcnMvZ3B1L2RybS9zb2xvbW9uL3NzZDEz
-MHguYw0KPiBpbmRleCBiM2RjMWNhOWRjMTAuLmFmYjA4YThhYTlmYyAxMDA2NDQNCj4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL3NvbG9tb24vc3NkMTMweC5jDQo+ICsrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9zb2xvbW9uL3NzZDEzMHguYw0KPiBAQCAtMTUzLDcgKzE1Myw3IEBAIHN0YXRp
-YyBpbnQgc3NkMTMweF9idWZfYWxsb2Moc3RydWN0IHNzZDEzMHhfZGV2aWNlICpzc2QxMzB4
-KQ0KPiAgIAljb25zdCBzdHJ1Y3QgZHJtX2Zvcm1hdF9pbmZvICpmaTsNCj4gICAJdW5zaWdu
-ZWQgaW50IHBpdGNoOw0KPiAgIA0KPiAtCWZpID0gZHJtX2Zvcm1hdF9pbmZvKERSTV9GT1JN
-QVRfQzEpOw0KPiArCWZpID0gZHJtX2Zvcm1hdF9pbmZvKERSTV9GT1JNQVRfUjEpOw0KPiAg
-IAlpZiAoIWZpKQ0KPiAgIAkJcmV0dXJuIC1FSU5WQUw7DQo+ICAgDQoNCi0tIA0KVGhvbWFz
-IFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUg
-U29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVy
-bmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1j
-RG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
+Hello,
 
---------------rY40G7UYCo0b9nL9RwG30f0W--
+On Thu, Jul 13, 2023 at 12:04:26PM +0200, Thomas Zimmermann wrote:
+> Am 13.07.23 um 10:23 schrieb Uwe Kleine-K=F6nig:
+> > after most feedback for my series "drm/crtc: Rename struct drm_crtc::dev
+> > to drm_dev"[1] was positive in principle, here comes a new series. I
+> > didn't call it v2 as it is different enough to stand on its own.
+>=20
+> To me, it didn't seel as if the discussion was over yet.
 
---------------GUEY8WDKKNuJNWEUMZsZV4cn
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Up to when I started preparing this series my impression was that there
+was a general acceptance that ->dev is bad and the hot topics were more
+about details like "should this be a single patch" and "What is the best
+name instead of dev?". For the first this new series is me implmenting
+what was recommended and for the latter it's what I think is what most
+people favoured.
+
+And I didn't send this series to suppress discussion about the idea of
+using a consistent name !=3D "dev".
+
+> In these patches, I find it fairly irritating that the code is now full of
+>=20
+>  dev =3D crtc->drm;
+>  dev =3D plane->drm;
+>  dev =3D fb->drm;
+>=20
+> and so on. Having these differences in naming is even worse than keeping =
+the
+> current field name 'dev'.
+
+If that helps you: I plan to tackle these in a followup. I agree that's
+ugly, but fixing these in the same series is too much and if we agree
+that
+
+	dev =3D crtc->dev;
+
+is ugly, there is then an intermediate state that either used
+
+	drm =3D crtc->dev;
+
+or
+
+	dev =3D crtc->drm;
+
+to finaly reach
+
+	drm =3D crtc->drm;
+
+If you see a better way, please let me know. I don't see any.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--4ahcqjnol4yntdur
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSvzLcFAwAAAAAACgkQlh/E3EQov+C2
-kw//dNy31ZIyF5ZLCm8ZWvlyDralfrHhgmI+96z6bwouUwZxr1Tcm81aPBMF83sq3UMBZqy05+jo
-P31AXYVNnLE8+PhFUMKjKr1Dc0/xD043qAju3CJ7xTH82NwE1duBZIqbpUc0tHjxImFvWCjrkAYQ
-j8glIC9D9XZY2XG/g2Qag9PYF7Kzf2jLKge6l1UddNiHTsGJkpP4gJ1dNzLhAHdAAMPwBVjkp7dN
-AZQFZipK43Qe7gOcN6ORGKDc9kb+L3YRUTgZjqceP2QWEL+YHeUhOOt1lxvIoiQhRUF/mvjgojkb
-JYWgO+qzwFuZ4nActcV6AFoHVTv7b/PA6b56qY4Og8bbwdxLIP49vJZDrRC9JqZS45t5oJJ4LRTb
-K0in7M10RcX715sRLGmePtR40ynZbHl4mloBue2Wn/c6Yr7RMCinxLBNv4cqseqZ3UKbGOMUbDTl
-w8xfdbPldy1BLuB8f2Jwutbf8rOz+OSwp2vCQhXJJGkqQ0fEgilp4n2pkAXXPYPBioOJ6rYpsuLi
-HBQ/P2hDZJXf3kSYXlrUGtIFU1pkkdCX7W45G29Ny8tBzmLFQCYRJ4nPqcYutjDbgcaQSu5JHPte
-2xyFRN0IYs65agiaJuF8LTjZ2AqB2U2w4sSunDjQGBB+Iur7y0sWQB9ARCH1kRysNxgdb57uy/w2
-PQg=
-=J7qb
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmSv0HwACgkQj4D7WH0S
+/k6izgf+PwZAYvn6VsfGNNfLeTQj1HmxU9svclNNbbN1rw6hc4P943M/S03rpUXv
+lYhCKdob/Jq3GKW8LTUoTgWO9uR2sATmExRjoihw6EivXBi9xkV9b1Q2eBgSdj9g
+OKkkeS9tp3QgvvYWBQd+re+Pp64TZa5jzaPft5edOusKLr5R9ZgCI/X8HsMh/nyY
+Yis4S2Cscm9NdHwrF5KJzo7/w7tYFBgdREKnbDePdp//BmDT1yhb6uyJCA9/Elpk
+fLQs66OG071KOAqAq3vrrdXDQOtG7FKR7CCGSOAjdGkpMPKkkPUjeVf5Dhx9eCx5
+AeAJcTnqDxXL3OBDInZUSE0cecOb/Q==
+=vvSr
 -----END PGP SIGNATURE-----
 
---------------GUEY8WDKKNuJNWEUMZsZV4cn--
+--4ahcqjnol4yntdur--
