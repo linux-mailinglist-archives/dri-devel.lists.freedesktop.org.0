@@ -1,47 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03A82751EC3
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 12:23:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC71751EED
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 12:37:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 041C310E1C3;
-	Thu, 13 Jul 2023 10:23:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D665910E680;
+	Thu, 13 Jul 2023 10:37:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C2E210E1C3
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 10:23:21 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1qJtTN-0000LC-Rk; Thu, 13 Jul 2023 12:22:57 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1qJtTK-00E5uf-2P; Thu, 13 Jul 2023 12:22:54 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1qJtTJ-004WxU-Co; Thu, 13 Jul 2023 12:22:53 +0200
-Date: Thu, 13 Jul 2023 12:22:53 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 00/17] drm: rename various struct members "dev" -> "drm"
-Message-ID: <20230713102253.72pbt5t4dlvtexpj@pengutronix.de>
-References: <20230713082408.2266984-1-u.kleine-koenig@pengutronix.de>
- <61999156-ab1b-d2ec-d7a4-7d957d5adab1@suse.de>
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA25410E66F;
+ Thu, 13 Jul 2023 10:37:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1689244650; x=1720780650;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=NTNA7nFPteiC5o2oQBWLwJiY0vM2uJXhNVdDMdYd2OE=;
+ b=K/frozrRRgQIx581pmcax/YIiYjzN8/l7dvU+lKPROr7kLAhcWP4/Fu1
+ hDfKS/aI9FU1KXbJsYTCnz20F7YRcoYnnzCG94wPb9l7+rL2RRpN4HHpm
+ GW0tfWnT6pF1Q0IgvCOuciclq9kIdtzpPprIrg4nMJG77s2xLJLhSBV+L
+ zOTMuWiU/5zCdSxyDecPCBznoYWE+/a0tsP8pcb6vb1GwfFeh2piBkje6
+ x69H7TlUSox55Tmk1RbC3zate02cKeaz428P8hYj/C0Flm0y4QKrvXZU/
+ 3Wyj3s3jJh1zBcCDXuo+lPKdMrGCfQE5WVzciFUg2R0ZBTYiE13MyYRtD w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="428897496"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; d="scan'208";a="428897496"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jul 2023 03:37:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="895965282"
+X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; d="scan'208";a="895965282"
+Received: from srr4-3-linux-103-aknautiy.iind.intel.com ([10.223.34.160])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jul 2023 03:37:27 -0700
+From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 00/19] DSC misc fixes
+Date: Thu, 13 Jul 2023 16:03:27 +0530
+Message-Id: <20230713103346.1163315-1-ankit.k.nautiyal@intel.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="4ahcqjnol4yntdur"
-Content-Disposition: inline
-In-Reply-To: <61999156-ab1b-d2ec-d7a4-7d957d5adab1@suse.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,96 +57,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <seanpaul@chromium.org>, Julia Lawall <julia.lawall@inria.fr>,
- Sui Jingfeng <suijingfeng@loongson.cn>, kernel@pengutronix.de,
- Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <mripard@kernel.org>,
- "Russell King \(Oracle\)" <linux@armlinux.org.uk>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Luben Tuikov <luben.tuikov@amd.com>, Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: stanislav.lisovskiy@intel.com, anusha.srivatsa@intel.com,
+ navaremanasi@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series is an attempt to address multiple issues with DSC,
+scattered in separate existing series.
 
---4ahcqjnol4yntdur
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Patches 1-3 are DSC fixes from series to Handle BPC for HDMI2.1 PCON
+https://patchwork.freedesktop.org/series/107550/
 
-Hello,
+Patches 4-5 are from series DSC fixes for Bigjoiner:
+https://patchwork.freedesktop.org/series/115773/
 
-On Thu, Jul 13, 2023 at 12:04:26PM +0200, Thomas Zimmermann wrote:
-> Am 13.07.23 um 10:23 schrieb Uwe Kleine-K=F6nig:
-> > after most feedback for my series "drm/crtc: Rename struct drm_crtc::dev
-> > to drm_dev"[1] was positive in principle, here comes a new series. I
-> > didn't call it v2 as it is different enough to stand on its own.
->=20
-> To me, it didn't seel as if the discussion was over yet.
+Patches 6-12 are from series to add DSC fractional BPP support:
+https://patchwork.freedesktop.org/series/111391/
 
-Up to when I started preparing this series my impression was that there
-was a general acceptance that ->dev is bad and the hot topics were more
-about details like "should this be a single patch" and "What is the best
-name instead of dev?". For the first this new series is me implmenting
-what was recommended and for the latter it's what I think is what most
-people favoured.
+Patch 13 is to fix compressed bpc for MST DSC, from Stan's series :
+https://patchwork.freedesktop.org/series/116179/
 
-And I didn't send this series to suppress discussion about the idea of
-using a consistent name !=3D "dev".
+Rev2: Addressed review comments from Stan, Ville.
 
-> In these patches, I find it fairly irritating that the code is now full of
->=20
->  dev =3D crtc->drm;
->  dev =3D plane->drm;
->  dev =3D fb->drm;
->=20
-> and so on. Having these differences in naming is even worse than keeping =
-the
-> current field name 'dev'.
+Rev3: Split larger patches. Separate out common helpers.
 
-If that helps you: I plan to tackle these in a followup. I agree that's
-ugly, but fixing these in the same series is too much and if we agree
-that
+Rev4: Rebased, fixed checkpatch warnings.
 
-	dev =3D crtc->dev;
+Ankit Nautiyal (18):
+  drm/i915/dp: Consider output_format while computing dsc bpp
+  drm/i915/dp: Move compressed bpp check with 420 format inside the
+    helper
+  drm/i915/dp_mst: Use output_format to get the final link bpp
+  drm/i915/dp: Use consistent name for link bpp and compressed bpp
+  drm/i915/dp: Update Bigjoiner interface bits for computing compressed
+    bpp
+  drm/i915/display: Account for DSC not split case while computing cdclk
+  drm/i915/intel_cdclk: Add vdsc with bigjoiner constraints on min_cdlck
+  drm/i915/dp: Remove extra logs for printing DSC info
+  drm/display/dp: Fix the DP DSC Receiver cap size
+  drm/i915/dp: Avoid forcing DSC BPC for MST case
+  drm/i915/dp: Add functions to get min/max src input bpc with DSC
+  drm/i915/dp: Check min bpc DSC limits for dsc_force_bpc also
+  drm/i915/dp: Avoid left shift of DSC output bpp by 4
+  drm/i915/dp: Rename helper to get DSC max pipe_bpp
+  drm/i915/dp: Separate out functions for edp/DP for computing DSC bpp
+  drm/i915/dp: Add DSC BPC/BPP constraints while selecting pipe bpp with
+    DSC
+  drm/i915/dp: Separate out function to get compressed bpp with joiner
+  drm/i915/dp: Get optimal link config to have best compressed bpp
 
-is ugly, there is then an intermediate state that either used
+Stanislav Lisovskiy (1):
+  drm/i915: Query compressed bpp properly using correct DPCD and DP Spec
+    info
 
-	drm =3D crtc->dev;
+ drivers/gpu/drm/i915/display/intel_cdclk.c    |  63 +-
+ drivers/gpu/drm/i915/display/intel_dp.c       | 611 ++++++++++++++----
+ drivers/gpu/drm/i915/display/intel_dp.h       |  20 +-
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   |  80 +--
+ drivers/gpu/drm/i915/display/intel_vdsc.c     |  12 +
+ drivers/gpu/drm/i915/display/intel_vdsc.h     |   2 +
+ .../drm/i915/display/skl_universal_plane.c    |   4 +-
+ include/drm/display/drm_dp.h                  |   2 +-
+ 8 files changed, 603 insertions(+), 191 deletions(-)
 
-or
+-- 
+2.40.1
 
-	dev =3D crtc->drm;
-
-to finaly reach
-
-	drm =3D crtc->drm;
-
-If you see a better way, please let me know. I don't see any.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---4ahcqjnol4yntdur
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmSv0HwACgkQj4D7WH0S
-/k6izgf+PwZAYvn6VsfGNNfLeTQj1HmxU9svclNNbbN1rw6hc4P943M/S03rpUXv
-lYhCKdob/Jq3GKW8LTUoTgWO9uR2sATmExRjoihw6EivXBi9xkV9b1Q2eBgSdj9g
-OKkkeS9tp3QgvvYWBQd+re+Pp64TZa5jzaPft5edOusKLr5R9ZgCI/X8HsMh/nyY
-Yis4S2Cscm9NdHwrF5KJzo7/w7tYFBgdREKnbDePdp//BmDT1yhb6uyJCA9/Elpk
-fLQs66OG071KOAqAq3vrrdXDQOtG7FKR7CCGSOAjdGkpMPKkkPUjeVf5Dhx9eCx5
-AeAJcTnqDxXL3OBDInZUSE0cecOb/Q==
-=vvSr
------END PGP SIGNATURE-----
-
---4ahcqjnol4yntdur--
