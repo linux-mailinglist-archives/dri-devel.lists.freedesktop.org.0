@@ -2,65 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F4B27523AD
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 15:26:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6E597523BD
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 15:30:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C404C10E6D9;
-	Thu, 13 Jul 2023 13:26:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E469510E6DC;
+	Thu, 13 Jul 2023 13:30:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com
- [209.85.167.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D89DC10E6D9
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 13:26:06 +0000 (UTC)
-Received: by mail-oi1-f177.google.com with SMTP id
- 5614622812f47-3a1d9b64837so659309b6e.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 06:26:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689254765; x=1691846765;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bg9WT8GiqVL500V6bD8ca2KAHdtJ4A5XuJqJli1xLtc=;
- b=Bb8rtEw6eOT6TecE/LTGOplpYwdhqtv6D9co58K0GwQHHqg1coROrx/NDvAnRkUrpp
- DRvfenqWUGXOmC4Hq9AHp3lYAz1FlCpozPhhEKMy3J5c+Ii818jxy5Vvuff/baGL+ei4
- ZoTIXn5tmJs1RLukZYeerNIqMrXd05xdxqEVkHhrxqGM3K61q6JlTqeKWSG5oGAXUx/l
- G8oafZcYm/kfOMp9jFCGzPJ17QPyi4SCfZcmWQ1m1TR9W1sQ2xKIFIpa9bFHfCUwIL3X
- HtKDxHuHd+2K7nBawvZYw+R1jgZXp8SFmPGykrGGU3yJbGnzkUk582hNfHMsmTE86t+n
- okjA==
-X-Gm-Message-State: ABy/qLYe/iZ2+Cgg4nn7azvokgBM5dgue0a/ozH2NEN/D4Zj6sq9tXOt
- ysydK89iWVP5cQYh6D12HRuBIH0AaP2us+ZY
-X-Google-Smtp-Source: APBJJlE9Udl5kw8z6+L8DlIzDBGcvXZp5gF7AOPgIPkILKy3VK681XdyenEt6z/oE4acIf+ReDrWYw==
-X-Received: by 2002:a05:6808:bca:b0:3a3:7454:e57e with SMTP id
- o10-20020a0568080bca00b003a37454e57emr2209034oik.9.1689254765391; 
- Thu, 13 Jul 2023 06:26:05 -0700 (PDT)
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com.
- [209.85.160.41]) by smtp.gmail.com with ESMTPSA id
- z8-20020a544588000000b003a43759b9cdsm243214oib.29.2023.07.13.06.26.04
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Jul 2023 06:26:04 -0700 (PDT)
-Received: by mail-oa1-f41.google.com with SMTP id
- 586e51a60fabf-1b0606bee45so581095fac.3
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 06:26:04 -0700 (PDT)
-X-Received: by 2002:a05:6870:589b:b0:1b0:40b0:114c with SMTP id
- be27-20020a056870589b00b001b040b0114cmr2014075oab.43.1689254764671; Thu, 13
- Jul 2023 06:26:04 -0700 (PDT)
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D69D810E6DB;
+ Thu, 13 Jul 2023 13:30:30 +0000 (UTC)
+Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 36DDLrkB004281; Thu, 13 Jul 2023 13:30:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=yIjAwsQR1wLZ8Bjld9sxVuIjhZ4yn9i9x6FCVBXNkdI=;
+ b=mm0EKyIJVnP3MW7HMgeWPwA9lkZ5fYaP0kpNzaCk4yxx2VM58hC6JtVLIoP9ptDoDJ+C
+ fUfj7+2LEuSNYhltq92CPGP26EEOV6n3Sx85xqmeyUAqW5PNLEZTTPMA5PwOWF8/66tO
+ g/rmtBjDGpsPOfDxraHV1HDSxx9f92lAOOf8yv0Zd1+QBa4/mgEX9V3tBM+Tjdplnbo2
+ y33ArriOuXZ5VfosxwUe6DPWU4enV5ZLeqNf/M8GHQnEz2w6GZHa2Fd9ykWbMN7NALNW
+ 3dWRXtqmGGKMzYCYy+HXCd0/fJNSfdU4lXMAhLUOfkBNbvYp1i3h98qZZB3636whGHJQ 0Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rtj3ar78m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Jul 2023 13:30:02 +0000
+Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 36DDMxou009349;
+ Thu, 13 Jul 2023 13:30:01 GMT
+Received: from ppma21.wdc07v.mail.ibm.com
+ (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rtj3ar77b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Jul 2023 13:30:01 +0000
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+ by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 36D743Jx011007; Thu, 13 Jul 2023 13:29:59 GMT
+Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
+ by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3rqk4mk1aw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Jul 2023 13:29:59 +0000
+Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com
+ [10.241.53.102])
+ by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 36DDTwut37028342
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 13 Jul 2023 13:29:58 GMT
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DE9DB58056;
+ Thu, 13 Jul 2023 13:29:57 +0000 (GMT)
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id ED4595803F;
+ Thu, 13 Jul 2023 13:29:52 +0000 (GMT)
+Received: from [9.61.158.95] (unknown [9.61.158.95])
+ by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Thu, 13 Jul 2023 13:29:52 +0000 (GMT)
+Message-ID: <c4396b70-e60d-56ca-720b-76bd406be3a7@linux.ibm.com>
+Date: Thu, 13 Jul 2023 09:29:52 -0400
 MIME-Version: 1.0
-References: <20230609170941.1150941-1-javierm@redhat.com>
- <20230609170941.1150941-5-javierm@redhat.com>
- <CAMuHMdVXhi52KfpCmnum+9t74UWP+AOLE95xQU6VV6Nz=VHk1Q@mail.gmail.com>
- <87fs5sgdfh.fsf@minerva.mail-host-address-is-not-set>
-In-Reply-To: <87fs5sgdfh.fsf@minerva.mail-host-address-is-not-set>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 13 Jul 2023 15:25:49 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWmJjGX+s=z0bBMDz0=zqZJHrGhkzWyRkmstS0eW9aiTg@mail.gmail.com>
-Message-ID: <CAMuHMdWmJjGX+s=z0bBMDz0=zqZJHrGhkzWyRkmstS0eW9aiTg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] drm/ssd130x: Don't allocate buffers on each plane
- update
-To: Javier Martinez Canillas <javierm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 1/2] eventfd: simplify eventfd_signal()
+Content-Language: en-US
+To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+References: <20230713-vfs-eventfd-signal-v1-0-7fda6c5d212b@kernel.org>
+ <20230713-vfs-eventfd-signal-v1-1-7fda6c5d212b@kernel.org>
+From: Anthony Krowiak <akrowiak@linux.ibm.com>
+In-Reply-To: <20230713-vfs-eventfd-signal-v1-1-7fda6c5d212b@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: va_EebEAOpDsN7qMG95SDcn-5a5Qwe3g
+X-Proofpoint-GUID: -ewp-fXzNQ4ITFG8EgqR2pY8ktrdWFdo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-13_05,2023-07-13_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0
+ clxscore=1011 lowpriorityscore=0 malwarescore=0 spamscore=0 suspectscore=0
+ adultscore=0 mlxlogscore=999 priorityscore=1501 impostorscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
+ definitions=main-2307130114
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,170 +98,690 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
+Cc: linux-aio@kvack.org, linux-usb@vger.kernel.org,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Paul Durrant <paul@xen.org>,
+ Tom Rix <trix@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ dri-devel@lists.freedesktop.org, Michal Hocko <mhocko@kernel.org>,
+ linux-mm@kvack.org, Kirti Wankhede <kwankhede@nvidia.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Diana Craciun <diana.craciun@oss.nxp.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Shakeel Butt <shakeelb@google.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Leon Romanovsky <leon@kernel.org>,
+ Harald Freudenberger <freude@linux.ibm.com>, Fei Li <fei1.li@intel.com>,
+ x86@kernel.org, Roman Gushchin <roman.gushchin@linux.dev>,
+ Halil Pasic <pasic@linux.ibm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Ingo Molnar <mingo@redhat.com>, intel-gfx@lists.freedesktop.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>, linux-fpga@vger.kernel.org,
+ Zhi Wang <zhi.a.wang@intel.com>, Wu Hao <hao.wu@intel.com>,
+ netdev@vger.kernel.org, Eric Farman <farman@linux.ibm.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Andrew Donnellan <ajd@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>,
+ linux-s390@vger.kernel.org, Heiko Carstens <hca@linux.ibm.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, linuxppc-dev@lists.ozlabs.org,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ kvm@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ cgroups@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ virtualization@lists.linux-foundation.org, intel-gvt-dev@lists.freedesktop.org,
+ io-uring@vger.kernel.org, Jason Herne <jjherne@linux.ibm.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Pavel Begunkov <asml.silence@gmail.com>,
+ Sean Christopherson <seanjc@google.com>, Oded Gabbay <ogabbay@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, Benjamin LaHaise <bcrl@kvack.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Sven Schnelle <svens@linux.ibm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Frederic Barrat <fbarrat@linux.ibm.com>, Moritz Fischer <mdf@kernel.org>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, David Woodhouse <dwmw2@infradead.org>,
+ Xu Yilun <yilun.xu@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier,
+For vfio_ap_ops.c:
+Reviewed-by: Tony Krowiak <akrowiak@stny.rr.com>
 
-On Thu, Jul 13, 2023 at 3:21=E2=80=AFPM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
-> Geert Uytterhoeven <geert@linux-m68k.org> writes:
-> > On Fri, Jun 9, 2023 at 7:09=E2=80=AFPM Javier Martinez Canillas
-> > <javierm@redhat.com> wrote:
-> >> The resolutions for these panels are fixed and defined in the Device T=
-ree,
-> >> so there's no point to allocate the buffers on each plane update and t=
-hat
-> >> can just be done once.
-> >>
-> >> Let's do the allocation and free on the encoder enable and disable hel=
-pers
-> >> since that's where others initialization and teardown operations are d=
-one.
-> >>
-> >> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> >> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >> ---
-> >>
-> >> (no changes since v1)
-> >
-> > Thanks for your patch, which is now commit 49d7d581ceaf4cf8
-> > ("drm/ssd130x: Don't allocate buffers on each plane update") in
-> > drm-misc/for-linux-next.
-> >
-> >> --- a/drivers/gpu/drm/solomon/ssd130x.c
-> >> +++ b/drivers/gpu/drm/solomon/ssd130x.c
-> >> @@ -701,14 +709,22 @@ static void ssd130x_encoder_helper_atomic_enable=
-(struct drm_encoder *encoder,
-> >>                 return;
-> >>
-> >>         ret =3D ssd130x_init(ssd130x);
-> >> -       if (ret) {
-> >> -               ssd130x_power_off(ssd130x);
-> >> -               return;
-> >> -       }
-> >> +       if (ret)
-> >> +               goto power_off;
-> >> +
-> >> +       ret =3D ssd130x_buf_alloc(ssd130x);
-> >
-> > This appears to be too late, causing a NULL pointer dereference:
-> >
->
-> Thanks for reporting this issue.
->
-> > [   59.302761] [<c0303d90>] ssd130x_update_rect.isra.0+0x13c/0x340
-> > [   59.304231] [<c0304200>]
-> > ssd130x_primary_plane_helper_atomic_update+0x26c/0x284
-> > [   59.305716] [<c02f8d54>] drm_atomic_helper_commit_planes+0xfc/0x27c
-> >
->
-> I wonder how this could be too late. I thought that the encoder
-> .atomic_enable callback would be called before any plane .atomic_update.
->
-> > Bailing out from ssd130x_update_rect() when data_array is still NULL
-> > fixes that.
-> >
->
-> Maybe we can add that with a drm_WARN() ? I still want to understand how
-> a plane update can happen before an encoder enable.
-
-Full log is:
-
-    ssd130x-i2c 0-003c: supply vcc not found, using dummy regulator
-    [drm] Initialized ssd130x 1.0.0 20220131 for 0-003c on minor 0
-    ssd130x-i2c 0-003c: [drm] surface width(128), height(32), bpp(1)
-and format(R1   little-endian (0x20203152))
-    Unable to handle kernel NULL pointer dereference at virtual address 000=
-00000
-    Oops [#1]
-    CPU: 0 PID: 1 Comm: swapper Not tainted
-6.5.0-rc1-orangecrab-02219-g0a529a1e4bf4 #565
-    epc : ssd130x_update_rect.isra.0+0x13c/0x340
-     ra : ssd130x_update_rect.isra.0+0x2bc/0x340
-    epc : c0303d90 ra : c0303f10 sp : c182b5b0
-     gp : c06d37f0 tp : c1828000 t0 : 00000064
-     t1 : 00000000 t2 : 00000000 s0 : c182b600
-     s1 : c2044000 a0 : 00000000 a1 : 00000000
-     a2 : 00000008 a3 : a040f080 a4 : 00000000
-     a5 : 00000000 a6 : 00001000 a7 : 00000008
-     s2 : 00000004 s3 : 00000080 s4 : c2045000
-     s5 : 00000010 s6 : 00000080 s7 : 00000000
-     s8 : 00000000 s9 : a040f000 s10: 00000008
-     s11: 00000000 t3 : 00000153 t4 : c2050ef4
-     t5 : c20447a0 t6 : 00000080
-    status: 00000120 badaddr: 00000000 cause: 0000000f
-    [<c0303d90>] ssd130x_update_rect.isra.0+0x13c/0x340
-    [<c0304200>] ssd130x_primary_plane_helper_atomic_update+0x26c/0x284
-    [<c02f8d54>] drm_atomic_helper_commit_planes+0xfc/0x27c
-    [<c02f9314>] drm_atomic_helper_commit_tail+0x5c/0xb4
-    [<c02f94fc>] commit_tail+0x190/0x1b8
-    [<c02f99fc>] drm_atomic_helper_commit+0x194/0x1c0
-    [<c02c5d00>] drm_atomic_commit+0xa4/0xe4
-    [<c02cce40>] drm_client_modeset_commit_atomic+0x244/0x278
-    [<c02ccef0>] drm_client_modeset_commit_locked+0x7c/0x1bc
-    [<c02cd064>] drm_client_modeset_commit+0x34/0x64
-    [<c0301a78>] __drm_fb_helper_restore_fbdev_mode_unlocked+0xc4/0xe8
-    [<c0303424>] drm_fb_helper_set_par+0x38/0x58
-    [<c027c410>] fbcon_init+0x294/0x534
-    [<c02af188>] visual_init+0xac/0x114
-    [<c02b1834>] do_bind_con_driver.isra.0+0x1bc/0x39c
-    [<c02b2fcc>] do_take_over_console+0x128/0x1b4
-    [<c027ad24>] do_fbcon_takeover+0x74/0xfc
-    [<c027e704>] fbcon_fb_registered+0x168/0x1b4
-    [<c0275c84>] register_framebuffer+0x180/0x238
-    [<c03017a4>] __drm_fb_helper_initial_config_and_unlock+0x328/0x538
-    [<c0303844>] drm_fb_helper_initial_config+0x40/0x54
-    [<c0300818>] drm_fbdev_generic_client_hotplug+0x98/0xdc
-    [<c0300c5c>] drm_fbdev_generic_setup+0x9c/0x178
-    [<c0304fa0>] ssd130x_probe+0x5e0/0x788
-    [<c030522c>] ssd130x_i2c_probe+0x4c/0x70
-    [<c0358464>] i2c_device_probe+0x120/0x1f0
-    [<c030e5a4>] really_probe+0xb8/0x30c
-    [<c030e974>] __driver_probe_device+0x17c/0x1c8
-    [<c030ea0c>] driver_probe_device+0x4c/0x140
-    [<c030ebe4>] __device_attach_driver+0xe4/0x150
-    [<c030ccc4>] bus_for_each_drv+0x8c/0x100
-    [<c030f034>] __device_attach+0x12c/0x1ac
-    [<c030f3e0>] device_initial_probe+0x18/0x28
-    [<c030cf14>] bus_probe_device+0xcc/0xd0
-    [<c030b274>] device_add+0x5d8/0x7b4
-    [<c030b474>] device_register+0x24/0x38
-    [<c0358f24>] i2c_new_client_device+0x1a8/0x2b8
-    [<c035b960>] of_i2c_register_devices+0xdc/0x164
-    [<c0359750>] i2c_register_adapter+0x1b8/0x56c
-    [<c0359eb0>] i2c_add_adapter+0x94/0x100
-    [<c035d47c>] __i2c_bit_add_bus+0xc0/0x460
-    [<c035d838>] i2c_bit_add_bus+0x1c/0x2c
-    [<c035da20>] litex_i2c_probe+0x108/0x164
-    [<c0310de4>] platform_probe+0x54/0xb0
-    [<c030e5a4>] really_probe+0xb8/0x30c
-    [<c030e974>] __driver_probe_device+0x17c/0x1c8
-    [<c030ea0c>] driver_probe_device+0x4c/0x140
-    [<c030ed74>] __driver_attach+0x124/0x1f4
-    [<c030c880>] bus_for_each_dev+0x84/0xf4
-    [<c030f4f8>] driver_attach+0x28/0x38
-    [<c030d174>] bus_add_driver+0x120/0x214
-    [<c030fc90>] driver_register+0x70/0x15c
-    [<c0311d98>] __platform_driver_register+0x28/0x38
-    [<c0520958>] litex_i2c_driver_init+0x24/0x34
-    [<c0507fe8>] do_one_initcall+0x80/0x238
-    [<c05083d4>] kernel_init_freeable+0x1b4/0x238
-    [<c04fdd9c>] kernel_init+0x24/0x144
-    [<c00022d8>] ret_from_fork+0x10/0x24
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+On 7/13/23 6:05 AM, Christian Brauner wrote:
+> Ever since the evenfd type was introduced back in 2007 in commit
+> e1ad7468c77d ("signal/timer/event: eventfd core") the eventfd_signal()
+> function only ever passed 1 as a value for @n. There's no point in
+> keeping that additional argument.
+> 
+> Signed-off-by: Christian Brauner <brauner@kernel.org>
+> ---
+>   arch/x86/kvm/hyperv.c                     |  2 +-
+>   arch/x86/kvm/xen.c                        |  2 +-
+>   drivers/accel/habanalabs/common/device.c  |  2 +-
+>   drivers/fpga/dfl.c                        |  2 +-
+>   drivers/gpu/drm/i915/gvt/interrupt.c      |  2 +-
+>   drivers/infiniband/hw/mlx5/devx.c         |  2 +-
+>   drivers/misc/ocxl/file.c                  |  2 +-
+>   drivers/s390/cio/vfio_ccw_chp.c           |  2 +-
+>   drivers/s390/cio/vfio_ccw_drv.c           |  4 ++--
+>   drivers/s390/cio/vfio_ccw_ops.c           |  6 +++---
+>   drivers/s390/crypto/vfio_ap_ops.c         |  2 +-
+>   drivers/usb/gadget/function/f_fs.c        |  4 ++--
+>   drivers/vdpa/vdpa_user/vduse_dev.c        |  6 +++---
+>   drivers/vfio/fsl-mc/vfio_fsl_mc_intr.c    |  2 +-
+>   drivers/vfio/pci/vfio_pci_core.c          |  6 +++---
+>   drivers/vfio/pci/vfio_pci_intrs.c         | 12 ++++++------
+>   drivers/vfio/platform/vfio_platform_irq.c |  4 ++--
+>   drivers/vhost/vdpa.c                      |  4 ++--
+>   drivers/vhost/vhost.c                     | 10 +++++-----
+>   drivers/vhost/vhost.h                     |  2 +-
+>   drivers/virt/acrn/ioeventfd.c             |  2 +-
+>   fs/aio.c                                  |  2 +-
+>   fs/eventfd.c                              |  9 +++------
+>   include/linux/eventfd.h                   |  4 ++--
+>   mm/memcontrol.c                           | 10 +++++-----
+>   mm/vmpressure.c                           |  2 +-
+>   samples/vfio-mdev/mtty.c                  |  4 ++--
+>   virt/kvm/eventfd.c                        |  4 ++--
+>   28 files changed, 56 insertions(+), 59 deletions(-)
+> 
+> diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
+> index b28fd020066f..2f4bd74b482c 100644
+> --- a/arch/x86/kvm/hyperv.c
+> +++ b/arch/x86/kvm/hyperv.c
+> @@ -2387,7 +2387,7 @@ static u16 kvm_hvcall_signal_event(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *h
+>   	if (!eventfd)
+>   		return HV_STATUS_INVALID_PORT_ID;
+>   
+> -	eventfd_signal(eventfd, 1);
+> +	eventfd_signal(eventfd);
+>   	return HV_STATUS_SUCCESS;
+>   }
+>   
+> diff --git a/arch/x86/kvm/xen.c b/arch/x86/kvm/xen.c
+> index 40edf4d1974c..a7b62bafd57b 100644
+> --- a/arch/x86/kvm/xen.c
+> +++ b/arch/x86/kvm/xen.c
+> @@ -2043,7 +2043,7 @@ static bool kvm_xen_hcall_evtchn_send(struct kvm_vcpu *vcpu, u64 param, u64 *r)
+>   		if (ret < 0 && ret != -ENOTCONN)
+>   			return false;
+>   	} else {
+> -		eventfd_signal(evtchnfd->deliver.eventfd.ctx, 1);
+> +		eventfd_signal(evtchnfd->deliver.eventfd.ctx);
+>   	}
+>   
+>   	*r = 0;
+> diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
+> index b97339d1f7c6..30357b371d61 100644
+> --- a/drivers/accel/habanalabs/common/device.c
+> +++ b/drivers/accel/habanalabs/common/device.c
+> @@ -1963,7 +1963,7 @@ static void hl_notifier_event_send(struct hl_notifier_event *notifier_event, u64
+>   	notifier_event->events_mask |= event_mask;
+>   
+>   	if (notifier_event->eventfd)
+> -		eventfd_signal(notifier_event->eventfd, 1);
+> +		eventfd_signal(notifier_event->eventfd);
+>   
+>   	mutex_unlock(&notifier_event->lock);
+>   }
+> diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
+> index dd7a783d53b5..e73f88050f08 100644
+> --- a/drivers/fpga/dfl.c
+> +++ b/drivers/fpga/dfl.c
+> @@ -1872,7 +1872,7 @@ static irqreturn_t dfl_irq_handler(int irq, void *arg)
+>   {
+>   	struct eventfd_ctx *trigger = arg;
+>   
+> -	eventfd_signal(trigger, 1);
+> +	eventfd_signal(trigger);
+>   	return IRQ_HANDLED;
+>   }
+>   
+> diff --git a/drivers/gpu/drm/i915/gvt/interrupt.c b/drivers/gpu/drm/i915/gvt/interrupt.c
+> index 68eca023bbc6..3d9e09c2add4 100644
+> --- a/drivers/gpu/drm/i915/gvt/interrupt.c
+> +++ b/drivers/gpu/drm/i915/gvt/interrupt.c
+> @@ -435,7 +435,7 @@ static int inject_virtual_interrupt(struct intel_vgpu *vgpu)
+>   	 */
+>   	if (!test_bit(INTEL_VGPU_STATUS_ATTACHED, vgpu->status))
+>   		return -ESRCH;
+> -	if (vgpu->msi_trigger && eventfd_signal(vgpu->msi_trigger, 1) != 1)
+> +	if (vgpu->msi_trigger && eventfd_signal(vgpu->msi_trigger) != 1)
+>   		return -EFAULT;
+>   	return 0;
+>   }
+> diff --git a/drivers/infiniband/hw/mlx5/devx.c b/drivers/infiniband/hw/mlx5/devx.c
+> index db5fb196c728..ad50487790ff 100644
+> --- a/drivers/infiniband/hw/mlx5/devx.c
+> +++ b/drivers/infiniband/hw/mlx5/devx.c
+> @@ -2498,7 +2498,7 @@ static void dispatch_event_fd(struct list_head *fd_list,
+>   
+>   	list_for_each_entry_rcu(item, fd_list, xa_list) {
+>   		if (item->eventfd)
+> -			eventfd_signal(item->eventfd, 1);
+> +			eventfd_signal(item->eventfd);
+>   		else
+>   			deliver_event(item, data);
+>   	}
+> diff --git a/drivers/misc/ocxl/file.c b/drivers/misc/ocxl/file.c
+> index 6e63f060e4cc..51766db296ab 100644
+> --- a/drivers/misc/ocxl/file.c
+> +++ b/drivers/misc/ocxl/file.c
+> @@ -185,7 +185,7 @@ static irqreturn_t irq_handler(void *private)
+>   {
+>   	struct eventfd_ctx *ev_ctx = private;
+>   
+> -	eventfd_signal(ev_ctx, 1);
+> +	eventfd_signal(ev_ctx);
+>   	return IRQ_HANDLED;
+>   }
+>   
+> diff --git a/drivers/s390/cio/vfio_ccw_chp.c b/drivers/s390/cio/vfio_ccw_chp.c
+> index d3f3a611f95b..38c176cf6295 100644
+> --- a/drivers/s390/cio/vfio_ccw_chp.c
+> +++ b/drivers/s390/cio/vfio_ccw_chp.c
+> @@ -115,7 +115,7 @@ static ssize_t vfio_ccw_crw_region_read(struct vfio_ccw_private *private,
+>   
+>   	/* Notify the guest if more CRWs are on our queue */
+>   	if (!list_empty(&private->crw) && private->crw_trigger)
+> -		eventfd_signal(private->crw_trigger, 1);
+> +		eventfd_signal(private->crw_trigger);
+>   
+>   	return ret;
+>   }
+> diff --git a/drivers/s390/cio/vfio_ccw_drv.c b/drivers/s390/cio/vfio_ccw_drv.c
+> index 43601816ea4e..bfb35cfce1ef 100644
+> --- a/drivers/s390/cio/vfio_ccw_drv.c
+> +++ b/drivers/s390/cio/vfio_ccw_drv.c
+> @@ -112,7 +112,7 @@ void vfio_ccw_sch_io_todo(struct work_struct *work)
+>   		private->state = VFIO_CCW_STATE_IDLE;
+>   
+>   	if (private->io_trigger)
+> -		eventfd_signal(private->io_trigger, 1);
+> +		eventfd_signal(private->io_trigger);
+>   }
+>   
+>   void vfio_ccw_crw_todo(struct work_struct *work)
+> @@ -122,7 +122,7 @@ void vfio_ccw_crw_todo(struct work_struct *work)
+>   	private = container_of(work, struct vfio_ccw_private, crw_work);
+>   
+>   	if (!list_empty(&private->crw) && private->crw_trigger)
+> -		eventfd_signal(private->crw_trigger, 1);
+> +		eventfd_signal(private->crw_trigger);
+>   }
+>   
+>   /*
+> diff --git a/drivers/s390/cio/vfio_ccw_ops.c b/drivers/s390/cio/vfio_ccw_ops.c
+> index 5b53b94f13c7..3df231f6feda 100644
+> --- a/drivers/s390/cio/vfio_ccw_ops.c
+> +++ b/drivers/s390/cio/vfio_ccw_ops.c
+> @@ -421,7 +421,7 @@ static int vfio_ccw_mdev_set_irqs(struct vfio_ccw_private *private,
+>   	case VFIO_IRQ_SET_DATA_NONE:
+>   	{
+>   		if (*ctx)
+> -			eventfd_signal(*ctx, 1);
+> +			eventfd_signal(*ctx);
+>   		return 0;
+>   	}
+>   	case VFIO_IRQ_SET_DATA_BOOL:
+> @@ -432,7 +432,7 @@ static int vfio_ccw_mdev_set_irqs(struct vfio_ccw_private *private,
+>   			return -EFAULT;
+>   
+>   		if (trigger && *ctx)
+> -			eventfd_signal(*ctx, 1);
+> +			eventfd_signal(*ctx);
+>   		return 0;
+>   	}
+>   	case VFIO_IRQ_SET_DATA_EVENTFD:
+> @@ -612,7 +612,7 @@ static void vfio_ccw_mdev_request(struct vfio_device *vdev, unsigned int count)
+>   					       "Relaying device request to user (#%u)\n",
+>   					       count);
+>   
+> -		eventfd_signal(private->req_trigger, 1);
+> +		eventfd_signal(private->req_trigger);
+>   	} else if (count == 0) {
+>   		dev_notice(dev,
+>   			   "No device request channel registered, blocked until released by user\n");
+> diff --git a/drivers/s390/crypto/vfio_ap_ops.c b/drivers/s390/crypto/vfio_ap_ops.c
+> index b441745b0418..feb88526ac9d 100644
+> --- a/drivers/s390/crypto/vfio_ap_ops.c
+> +++ b/drivers/s390/crypto/vfio_ap_ops.c
+> @@ -1749,7 +1749,7 @@ static void vfio_ap_mdev_request(struct vfio_device *vdev, unsigned int count)
+>   					       "Relaying device request to user (#%u)\n",
+>   					       count);
+>   
+> -		eventfd_signal(matrix_mdev->req_trigger, 1);
+> +		eventfd_signal(matrix_mdev->req_trigger);
+>   	} else if (count == 0) {
+>   		dev_notice(dev,
+>   			   "No device request registered, blocked until released by user\n");
+> diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+> index f41a385a5c42..ceb1aad0c5df 100644
+> --- a/drivers/usb/gadget/function/f_fs.c
+> +++ b/drivers/usb/gadget/function/f_fs.c
+> @@ -831,7 +831,7 @@ static void ffs_user_copy_worker(struct work_struct *work)
+>   	io_data->kiocb->ki_complete(io_data->kiocb, ret);
+>   
+>   	if (io_data->ffs->ffs_eventfd && !kiocb_has_eventfd)
+> -		eventfd_signal(io_data->ffs->ffs_eventfd, 1);
+> +		eventfd_signal(io_data->ffs->ffs_eventfd);
+>   
+>   	if (io_data->read)
+>   		kfree(io_data->to_free);
+> @@ -2739,7 +2739,7 @@ static void __ffs_event_add(struct ffs_data *ffs,
+>   	ffs->ev.types[ffs->ev.count++] = type;
+>   	wake_up_locked(&ffs->ev.waitq);
+>   	if (ffs->ffs_eventfd)
+> -		eventfd_signal(ffs->ffs_eventfd, 1);
+> +		eventfd_signal(ffs->ffs_eventfd);
+>   }
+>   
+>   static void ffs_event_add(struct ffs_data *ffs,
+> diff --git a/drivers/vdpa/vdpa_user/vduse_dev.c b/drivers/vdpa/vdpa_user/vduse_dev.c
+> index dc38ed21319d..99b901a9e638 100644
+> --- a/drivers/vdpa/vdpa_user/vduse_dev.c
+> +++ b/drivers/vdpa/vdpa_user/vduse_dev.c
+> @@ -494,7 +494,7 @@ static void vduse_vq_kick(struct vduse_virtqueue *vq)
+>   		goto unlock;
+>   
+>   	if (vq->kickfd)
+> -		eventfd_signal(vq->kickfd, 1);
+> +		eventfd_signal(vq->kickfd);
+>   	else
+>   		vq->kicked = true;
+>   unlock:
+> @@ -912,7 +912,7 @@ static int vduse_kickfd_setup(struct vduse_dev *dev,
+>   		eventfd_ctx_put(vq->kickfd);
+>   	vq->kickfd = ctx;
+>   	if (vq->ready && vq->kicked && vq->kickfd) {
+> -		eventfd_signal(vq->kickfd, 1);
+> +		eventfd_signal(vq->kickfd);
+>   		vq->kicked = false;
+>   	}
+>   	spin_unlock(&vq->kick_lock);
+> @@ -961,7 +961,7 @@ static bool vduse_vq_signal_irqfd(struct vduse_virtqueue *vq)
+>   
+>   	spin_lock_irq(&vq->irq_lock);
+>   	if (vq->ready && vq->cb.trigger) {
+> -		eventfd_signal(vq->cb.trigger, 1);
+> +		eventfd_signal(vq->cb.trigger);
+>   		signal = true;
+>   	}
+>   	spin_unlock_irq(&vq->irq_lock);
+> diff --git a/drivers/vfio/fsl-mc/vfio_fsl_mc_intr.c b/drivers/vfio/fsl-mc/vfio_fsl_mc_intr.c
+> index c51229fccbd6..d62fbfff20b8 100644
+> --- a/drivers/vfio/fsl-mc/vfio_fsl_mc_intr.c
+> +++ b/drivers/vfio/fsl-mc/vfio_fsl_mc_intr.c
+> @@ -54,7 +54,7 @@ static irqreturn_t vfio_fsl_mc_irq_handler(int irq_num, void *arg)
+>   {
+>   	struct vfio_fsl_mc_irq *mc_irq = (struct vfio_fsl_mc_irq *)arg;
+>   
+> -	eventfd_signal(mc_irq->trigger, 1);
+> +	eventfd_signal(mc_irq->trigger);
+>   	return IRQ_HANDLED;
+>   }
+>   
+> diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
+> index 20d7b69ea6ff..01c8e31db23b 100644
+> --- a/drivers/vfio/pci/vfio_pci_core.c
+> +++ b/drivers/vfio/pci/vfio_pci_core.c
+> @@ -441,7 +441,7 @@ static int vfio_pci_core_runtime_resume(struct device *dev)
+>   	 */
+>   	down_write(&vdev->memory_lock);
+>   	if (vdev->pm_wake_eventfd_ctx) {
+> -		eventfd_signal(vdev->pm_wake_eventfd_ctx, 1);
+> +		eventfd_signal(vdev->pm_wake_eventfd_ctx);
+>   		__vfio_pci_runtime_pm_exit(vdev);
+>   	}
+>   	up_write(&vdev->memory_lock);
+> @@ -1861,7 +1861,7 @@ void vfio_pci_core_request(struct vfio_device *core_vdev, unsigned int count)
+>   			pci_notice_ratelimited(pdev,
+>   				"Relaying device request to user (#%u)\n",
+>   				count);
+> -		eventfd_signal(vdev->req_trigger, 1);
+> +		eventfd_signal(vdev->req_trigger);
+>   	} else if (count == 0) {
+>   		pci_warn(pdev,
+>   			"No device request channel registered, blocked until released by user\n");
+> @@ -2280,7 +2280,7 @@ pci_ers_result_t vfio_pci_core_aer_err_detected(struct pci_dev *pdev,
+>   	mutex_lock(&vdev->igate);
+>   
+>   	if (vdev->err_trigger)
+> -		eventfd_signal(vdev->err_trigger, 1);
+> +		eventfd_signal(vdev->err_trigger);
+>   
+>   	mutex_unlock(&vdev->igate);
+>   
+> diff --git a/drivers/vfio/pci/vfio_pci_intrs.c b/drivers/vfio/pci/vfio_pci_intrs.c
+> index cbb4bcbfbf83..237beac83809 100644
+> --- a/drivers/vfio/pci/vfio_pci_intrs.c
+> +++ b/drivers/vfio/pci/vfio_pci_intrs.c
+> @@ -94,7 +94,7 @@ static void vfio_send_intx_eventfd(void *opaque, void *unused)
+>   		ctx = vfio_irq_ctx_get(vdev, 0);
+>   		if (WARN_ON_ONCE(!ctx))
+>   			return;
+> -		eventfd_signal(ctx->trigger, 1);
+> +		eventfd_signal(ctx->trigger);
+>   	}
+>   }
+>   
+> @@ -342,7 +342,7 @@ static irqreturn_t vfio_msihandler(int irq, void *arg)
+>   {
+>   	struct eventfd_ctx *trigger = arg;
+>   
+> -	eventfd_signal(trigger, 1);
+> +	eventfd_signal(trigger);
+>   	return IRQ_HANDLED;
+>   }
+>   
+> @@ -689,11 +689,11 @@ static int vfio_pci_set_msi_trigger(struct vfio_pci_core_device *vdev,
+>   		if (!ctx)
+>   			continue;
+>   		if (flags & VFIO_IRQ_SET_DATA_NONE) {
+> -			eventfd_signal(ctx->trigger, 1);
+> +			eventfd_signal(ctx->trigger);
+>   		} else if (flags & VFIO_IRQ_SET_DATA_BOOL) {
+>   			uint8_t *bools = data;
+>   			if (bools[i - start])
+> -				eventfd_signal(ctx->trigger, 1);
+> +				eventfd_signal(ctx->trigger);
+>   		}
+>   	}
+>   	return 0;
+> @@ -707,7 +707,7 @@ static int vfio_pci_set_ctx_trigger_single(struct eventfd_ctx **ctx,
+>   	if (flags & VFIO_IRQ_SET_DATA_NONE) {
+>   		if (*ctx) {
+>   			if (count) {
+> -				eventfd_signal(*ctx, 1);
+> +				eventfd_signal(*ctx);
+>   			} else {
+>   				eventfd_ctx_put(*ctx);
+>   				*ctx = NULL;
+> @@ -722,7 +722,7 @@ static int vfio_pci_set_ctx_trigger_single(struct eventfd_ctx **ctx,
+>   
+>   		trigger = *(uint8_t *)data;
+>   		if (trigger && *ctx)
+> -			eventfd_signal(*ctx, 1);
+> +			eventfd_signal(*ctx);
+>   
+>   		return 0;
+>   	} else if (flags & VFIO_IRQ_SET_DATA_EVENTFD) {
+> diff --git a/drivers/vfio/platform/vfio_platform_irq.c b/drivers/vfio/platform/vfio_platform_irq.c
+> index 665197caed89..61a1bfb68ac7 100644
+> --- a/drivers/vfio/platform/vfio_platform_irq.c
+> +++ b/drivers/vfio/platform/vfio_platform_irq.c
+> @@ -155,7 +155,7 @@ static irqreturn_t vfio_automasked_irq_handler(int irq, void *dev_id)
+>   	spin_unlock_irqrestore(&irq_ctx->lock, flags);
+>   
+>   	if (ret == IRQ_HANDLED)
+> -		eventfd_signal(irq_ctx->trigger, 1);
+> +		eventfd_signal(irq_ctx->trigger);
+>   
+>   	return ret;
+>   }
+> @@ -164,7 +164,7 @@ static irqreturn_t vfio_irq_handler(int irq, void *dev_id)
+>   {
+>   	struct vfio_platform_irq *irq_ctx = dev_id;
+>   
+> -	eventfd_signal(irq_ctx->trigger, 1);
+> +	eventfd_signal(irq_ctx->trigger);
+>   
+>   	return IRQ_HANDLED;
+>   }
+> diff --git a/drivers/vhost/vdpa.c b/drivers/vhost/vdpa.c
+> index b43e8680eee8..722894a0f124 100644
+> --- a/drivers/vhost/vdpa.c
+> +++ b/drivers/vhost/vdpa.c
+> @@ -161,7 +161,7 @@ static irqreturn_t vhost_vdpa_virtqueue_cb(void *private)
+>   	struct eventfd_ctx *call_ctx = vq->call_ctx.ctx;
+>   
+>   	if (call_ctx)
+> -		eventfd_signal(call_ctx, 1);
+> +		eventfd_signal(call_ctx);
+>   
+>   	return IRQ_HANDLED;
+>   }
+> @@ -172,7 +172,7 @@ static irqreturn_t vhost_vdpa_config_cb(void *private)
+>   	struct eventfd_ctx *config_ctx = v->config_ctx;
+>   
+>   	if (config_ctx)
+> -		eventfd_signal(config_ctx, 1);
+> +		eventfd_signal(config_ctx);
+>   
+>   	return IRQ_HANDLED;
+>   }
+> diff --git a/drivers/vhost/vhost.c b/drivers/vhost/vhost.c
+> index c71d573f1c94..bee50f153c8e 100644
+> --- a/drivers/vhost/vhost.c
+> +++ b/drivers/vhost/vhost.c
+> @@ -2250,7 +2250,7 @@ int vhost_log_write(struct vhost_virtqueue *vq, struct vhost_log *log,
+>   		len -= l;
+>   		if (!len) {
+>   			if (vq->log_ctx)
+> -				eventfd_signal(vq->log_ctx, 1);
+> +				eventfd_signal(vq->log_ctx);
+>   			return 0;
+>   		}
+>   	}
+> @@ -2273,7 +2273,7 @@ static int vhost_update_used_flags(struct vhost_virtqueue *vq)
+>   		log_used(vq, (used - (void __user *)vq->used),
+>   			 sizeof vq->used->flags);
+>   		if (vq->log_ctx)
+> -			eventfd_signal(vq->log_ctx, 1);
+> +			eventfd_signal(vq->log_ctx);
+>   	}
+>   	return 0;
+>   }
+> @@ -2291,7 +2291,7 @@ static int vhost_update_avail_event(struct vhost_virtqueue *vq)
+>   		log_used(vq, (used - (void __user *)vq->used),
+>   			 sizeof *vhost_avail_event(vq));
+>   		if (vq->log_ctx)
+> -			eventfd_signal(vq->log_ctx, 1);
+> +			eventfd_signal(vq->log_ctx);
+>   	}
+>   	return 0;
+>   }
+> @@ -2717,7 +2717,7 @@ int vhost_add_used_n(struct vhost_virtqueue *vq, struct vring_used_elem *heads,
+>   		log_used(vq, offsetof(struct vring_used, idx),
+>   			 sizeof vq->used->idx);
+>   		if (vq->log_ctx)
+> -			eventfd_signal(vq->log_ctx, 1);
+> +			eventfd_signal(vq->log_ctx);
+>   	}
+>   	return r;
+>   }
+> @@ -2765,7 +2765,7 @@ void vhost_signal(struct vhost_dev *dev, struct vhost_virtqueue *vq)
+>   {
+>   	/* Signal the Guest tell them we used something up. */
+>   	if (vq->call_ctx.ctx && vhost_notify(dev, vq))
+> -		eventfd_signal(vq->call_ctx.ctx, 1);
+> +		eventfd_signal(vq->call_ctx.ctx);
+>   }
+>   EXPORT_SYMBOL_GPL(vhost_signal);
+>   
+> diff --git a/drivers/vhost/vhost.h b/drivers/vhost/vhost.h
+> index f60d5f7bef94..9e942fcda5c3 100644
+> --- a/drivers/vhost/vhost.h
+> +++ b/drivers/vhost/vhost.h
+> @@ -249,7 +249,7 @@ void vhost_iotlb_map_free(struct vhost_iotlb *iotlb,
+>   #define vq_err(vq, fmt, ...) do {                                  \
+>   		pr_debug(pr_fmt(fmt), ##__VA_ARGS__);       \
+>   		if ((vq)->error_ctx)                               \
+> -				eventfd_signal((vq)->error_ctx, 1);\
+> +				eventfd_signal((vq)->error_ctx);\
+>   	} while (0)
+>   
+>   enum {
+> diff --git a/drivers/virt/acrn/ioeventfd.c b/drivers/virt/acrn/ioeventfd.c
+> index ac4037e9f947..4e845c6ca0b5 100644
+> --- a/drivers/virt/acrn/ioeventfd.c
+> +++ b/drivers/virt/acrn/ioeventfd.c
+> @@ -223,7 +223,7 @@ static int acrn_ioeventfd_handler(struct acrn_ioreq_client *client,
+>   	mutex_lock(&client->vm->ioeventfds_lock);
+>   	p = hsm_ioeventfd_match(client->vm, addr, val, size, req->type);
+>   	if (p)
+> -		eventfd_signal(p->eventfd, 1);
+> +		eventfd_signal(p->eventfd);
+>   	mutex_unlock(&client->vm->ioeventfds_lock);
+>   
+>   	return 0;
+> diff --git a/fs/aio.c b/fs/aio.c
+> index 77e33619de40..96cf97b19077 100644
+> --- a/fs/aio.c
+> +++ b/fs/aio.c
+> @@ -1166,7 +1166,7 @@ static void aio_complete(struct aio_kiocb *iocb)
+>   	 * from IRQ context.
+>   	 */
+>   	if (iocb->ki_eventfd)
+> -		eventfd_signal(iocb->ki_eventfd, 1);
+> +		eventfd_signal(iocb->ki_eventfd);
+>   
+>   	/*
+>   	 * We have to order our ring_info tail store above and test
+> diff --git a/fs/eventfd.c b/fs/eventfd.c
+> index 33a918f9566c..dc9e01053235 100644
+> --- a/fs/eventfd.c
+> +++ b/fs/eventfd.c
+> @@ -74,20 +74,17 @@ __u64 eventfd_signal_mask(struct eventfd_ctx *ctx, __u64 n, __poll_t mask)
+>   /**
+>    * eventfd_signal - Adds @n to the eventfd counter.
+>    * @ctx: [in] Pointer to the eventfd context.
+> - * @n: [in] Value of the counter to be added to the eventfd internal counter.
+> - *          The value cannot be negative.
+>    *
+>    * This function is supposed to be called by the kernel in paths that do not
+>    * allow sleeping. In this function we allow the counter to reach the ULLONG_MAX
+>    * value, and we signal this as overflow condition by returning a EPOLLERR
+>    * to poll(2).
+>    *
+> - * Returns the amount by which the counter was incremented.  This will be less
+> - * than @n if the counter has overflowed.
+> + * Returns the amount by which the counter was incremented.
+>    */
+> -__u64 eventfd_signal(struct eventfd_ctx *ctx, __u64 n)
+> +__u64 eventfd_signal(struct eventfd_ctx *ctx)
+>   {
+> -	return eventfd_signal_mask(ctx, n, 0);
+> +	return eventfd_signal_mask(ctx, 1, 0);
+>   }
+>   EXPORT_SYMBOL_GPL(eventfd_signal);
+>   
+> diff --git a/include/linux/eventfd.h b/include/linux/eventfd.h
+> index b9d83652c097..562089431551 100644
+> --- a/include/linux/eventfd.h
+> +++ b/include/linux/eventfd.h
+> @@ -35,7 +35,7 @@ void eventfd_ctx_put(struct eventfd_ctx *ctx);
+>   struct file *eventfd_fget(int fd);
+>   struct eventfd_ctx *eventfd_ctx_fdget(int fd);
+>   struct eventfd_ctx *eventfd_ctx_fileget(struct file *file);
+> -__u64 eventfd_signal(struct eventfd_ctx *ctx, __u64 n);
+> +__u64 eventfd_signal(struct eventfd_ctx *ctx);
+>   __u64 eventfd_signal_mask(struct eventfd_ctx *ctx, __u64 n, __poll_t mask);
+>   int eventfd_ctx_remove_wait_queue(struct eventfd_ctx *ctx, wait_queue_entry_t *wait,
+>   				  __u64 *cnt);
+> @@ -58,7 +58,7 @@ static inline struct eventfd_ctx *eventfd_ctx_fdget(int fd)
+>   	return ERR_PTR(-ENOSYS);
+>   }
+>   
+> -static inline int eventfd_signal(struct eventfd_ctx *ctx, __u64 n)
+> +static inline int eventfd_signal(struct eventfd_ctx *ctx)
+>   {
+>   	return -ENOSYS;
+>   }
+> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> index e8ca4bdcb03c..891550f575a1 100644
+> --- a/mm/memcontrol.c
+> +++ b/mm/memcontrol.c
+> @@ -4228,7 +4228,7 @@ static void __mem_cgroup_threshold(struct mem_cgroup *memcg, bool swap)
+>   	 * only one element of the array here.
+>   	 */
+>   	for (; i >= 0 && unlikely(t->entries[i].threshold > usage); i--)
+> -		eventfd_signal(t->entries[i].eventfd, 1);
+> +		eventfd_signal(t->entries[i].eventfd);
+>   
+>   	/* i = current_threshold + 1 */
+>   	i++;
+> @@ -4240,7 +4240,7 @@ static void __mem_cgroup_threshold(struct mem_cgroup *memcg, bool swap)
+>   	 * only one element of the array here.
+>   	 */
+>   	for (; i < t->size && unlikely(t->entries[i].threshold <= usage); i++)
+> -		eventfd_signal(t->entries[i].eventfd, 1);
+> +		eventfd_signal(t->entries[i].eventfd);
+>   
+>   	/* Update current_threshold */
+>   	t->current_threshold = i - 1;
+> @@ -4280,7 +4280,7 @@ static int mem_cgroup_oom_notify_cb(struct mem_cgroup *memcg)
+>   	spin_lock(&memcg_oom_lock);
+>   
+>   	list_for_each_entry(ev, &memcg->oom_notify, list)
+> -		eventfd_signal(ev->eventfd, 1);
+> +		eventfd_signal(ev->eventfd);
+>   
+>   	spin_unlock(&memcg_oom_lock);
+>   	return 0;
+> @@ -4499,7 +4499,7 @@ static int mem_cgroup_oom_register_event(struct mem_cgroup *memcg,
+>   
+>   	/* already in OOM ? */
+>   	if (memcg->under_oom)
+> -		eventfd_signal(eventfd, 1);
+> +		eventfd_signal(eventfd);
+>   	spin_unlock(&memcg_oom_lock);
+>   
+>   	return 0;
+> @@ -4791,7 +4791,7 @@ static void memcg_event_remove(struct work_struct *work)
+>   	event->unregister_event(memcg, event->eventfd);
+>   
+>   	/* Notify userspace the event is going away. */
+> -	eventfd_signal(event->eventfd, 1);
+> +	eventfd_signal(event->eventfd);
+>   
+>   	eventfd_ctx_put(event->eventfd);
+>   	kfree(event);
+> diff --git a/mm/vmpressure.c b/mm/vmpressure.c
+> index b52644771cc4..ba4cdef37e42 100644
+> --- a/mm/vmpressure.c
+> +++ b/mm/vmpressure.c
+> @@ -169,7 +169,7 @@ static bool vmpressure_event(struct vmpressure *vmpr,
+>   			continue;
+>   		if (level < ev->level)
+>   			continue;
+> -		eventfd_signal(ev->efd, 1);
+> +		eventfd_signal(ev->efd);
+>   		ret = true;
+>   	}
+>   	mutex_unlock(&vmpr->events_lock);
+> diff --git a/samples/vfio-mdev/mtty.c b/samples/vfio-mdev/mtty.c
+> index a60801fb8660..5edcf8d738de 100644
+> --- a/samples/vfio-mdev/mtty.c
+> +++ b/samples/vfio-mdev/mtty.c
+> @@ -1028,9 +1028,9 @@ static int mtty_trigger_interrupt(struct mdev_state *mdev_state)
+>   	}
+>   
+>   	if (mdev_state->irq_index == VFIO_PCI_MSI_IRQ_INDEX)
+> -		ret = eventfd_signal(mdev_state->msi_evtfd, 1);
+> +		ret = eventfd_signal(mdev_state->msi_evtfd);
+>   	else
+> -		ret = eventfd_signal(mdev_state->intx_evtfd, 1);
+> +		ret = eventfd_signal(mdev_state->intx_evtfd);
+>   
+>   #if defined(DEBUG_INTR)
+>   	pr_info("Intx triggered\n");
+> diff --git a/virt/kvm/eventfd.c b/virt/kvm/eventfd.c
+> index 89912a17f5d5..c0e230f4c3e9 100644
+> --- a/virt/kvm/eventfd.c
+> +++ b/virt/kvm/eventfd.c
+> @@ -61,7 +61,7 @@ static void irqfd_resampler_notify(struct kvm_kernel_irqfd_resampler *resampler)
+>   
+>   	list_for_each_entry_srcu(irqfd, &resampler->list, resampler_link,
+>   				 srcu_read_lock_held(&resampler->kvm->irq_srcu))
+> -		eventfd_signal(irqfd->resamplefd, 1);
+> +		eventfd_signal(irqfd->resamplefd);
+>   }
+>   
+>   /*
+> @@ -786,7 +786,7 @@ ioeventfd_write(struct kvm_vcpu *vcpu, struct kvm_io_device *this, gpa_t addr,
+>   	if (!ioeventfd_in_range(p, addr, len, val))
+>   		return -EOPNOTSUPP;
+>   
+> -	eventfd_signal(p->eventfd, 1);
+> +	eventfd_signal(p->eventfd);
+>   	return 0;
+>   }
+>   
+> 
