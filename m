@@ -1,83 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F5B9751B5D
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 10:17:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 061BB751B60
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 10:18:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BA0410E175;
-	Thu, 13 Jul 2023 08:17:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EA0210E023;
+	Thu, 13 Jul 2023 08:17:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 359BE10E175
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 08:17:05 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3D5210E023
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 08:17:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689236224;
+ s=mimecast20190719; t=1689236276;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SlmG1NQg8lK8BEmDhzi6aPTLUD5I0BLXufBYMxcvp0E=;
- b=ZHNbVXIgYvShBUVlRGyd7giIzIdIWxTjJzJW8nCqaWVsAZyMdqbrdy2yEthXKjpEp8ye/Q
- p3rteVZEQpJ9ISnNMA1DKXyTBruXr+KzU/nWK9EBNaYug2gms7LxVKqChXmsP8m1iUJS9k
- 84/K9N5g0pcjTxDcnPKTfHj9TEY9b3g=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=rl/uagV4whhYbT4iZd2vwBuRZ5VqINPxAE7CInS7aQE=;
+ b=h7jNFtkw+MJ/zsiQTklWelmQz/UcynQseglI+pl364RPWxV4qxwblaYNznVIufwlsLB9wT
+ alQ3MFyaPJxBtlPDIIokVyppNbM2/f684b6qcNGmnn8bKYl0NxxdvNN0xbL+NM90M7QWtv
+ Vf4hVrZee7Aekm8pNpBCtM1E8UG9H+4=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-575-HSdPU1XvNkOe0OlZ6qK3UQ-1; Thu, 13 Jul 2023 04:17:03 -0400
-X-MC-Unique: HSdPU1XvNkOe0OlZ6qK3UQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-3fbfc766a78so2179405e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 01:17:02 -0700 (PDT)
+ us-mta-618-4ccvrZpUO4yloDgS_lNypA-1; Thu, 13 Jul 2023 04:17:54 -0400
+X-MC-Unique: 4ccvrZpUO4yloDgS_lNypA-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ 6a1803df08f44-63511adcf45so5125576d6.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 01:17:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689236222; x=1691828222;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1689236274; x=1691828274;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SlmG1NQg8lK8BEmDhzi6aPTLUD5I0BLXufBYMxcvp0E=;
- b=I5YQfzNOMTvljSn2FFOANZx5CsshTUiuXTTKjk9VNdVf1d0w/BHtOikzlOr9QtnwPZ
- rGGXaFsSKLIUBwPUEsGyYtv9wQZ8klI4Geda7F860Xi+FIAhfYZBgdpy3P3dgiSTW622
- mwN6o1+Zf2zD/krc5tY69PksC77cj3bMfvf/2iJNBmZNVyXJIxCwzUdfy4eb1Tu1k7Dv
- O2JHRs3oH1r0p/ZE1ZC5ZSeW4fqas6kQ65QBJN51wVJeBQCtJDzUtJc8NKIE4CR6S3np
- Q1v68hDpcKaXSH4UA6MFOoN11rn+Wt4qtwy9+mOmlT5RevBbEr+lR2RdBZaAS5FZ72v6
- lpjg==
-X-Gm-Message-State: ABy/qLYZQfgJ6iqLp+sG/o31MbgoRwvwM/pZHdXzdzivu5892xGzxwQO
- 2zYib0SsFRZtOdsHLEERb/j/5jn8EzlNZ5RVvHTR40urxa+BfX30b4LWIDPQJ9A1tERYg80xy1q
- +EMklNWyAVzVhPvEsfjT1aKMBRQ7F
-X-Received: by 2002:a05:600c:2054:b0:3f9:b972:731b with SMTP id
- p20-20020a05600c205400b003f9b972731bmr789959wmg.11.1689236221991; 
- Thu, 13 Jul 2023 01:17:01 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGnNoMOVokHTB3Apf6SB3NykOfWpRrdAYycrTRoVWQLp6nz6nXG/l+Exg75oplzQjPV6VBPQA==
-X-Received: by 2002:a05:600c:2054:b0:3f9:b972:731b with SMTP id
- p20-20020a05600c205400b003f9b972731bmr789942wmg.11.1689236221626; 
- Thu, 13 Jul 2023 01:17:01 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ bh=rl/uagV4whhYbT4iZd2vwBuRZ5VqINPxAE7CInS7aQE=;
+ b=YfRE98eO8v+w7Z8IurtK0zBmVAmQWAp+IsJjQRja8j2d5Tc3f2cygQWC+Q/SSvsdU5
+ iz71KPCelax/DNW1Yn7ecBGMS1GANx/PkiT0/dBaQdq/lY/Tg9rlbmDpqUOvKliNhOPk
+ 8ny9Q2kSjggGhOlq1icFqI49+v22iIAka0PfKOkFmLjQd1CnTRMrRi+5v/c5Q55oQ1g8
+ WdgQ6q+QjQPuzXuLLC7XfbBbYu5W9AwBKPYFDIAIY68UlrvoYqRzrLIqlxhxYno0Kiak
+ CuSNgg0LsdPb0SmncoHCrSztcHzJlOHyz3gWIoQHWe5n/g+HNbL2+ZaX/7iTEqBv/coh
+ 5Sow==
+X-Gm-Message-State: ABy/qLZXmQYdmmeVUl6RTZW+evGBYfJTcnP19NaOwTi2Kw0GwyCpDTyT
+ d3+h7quSkWw/F1UValGh0+uynYVRxJ1RycbGwB3igQrrcfrN+NcWKxvXsCpGWzFF01tZFmzU5iP
+ nepm2KhDtv2AAipfhCtG2RW6qOdvi
+X-Received: by 2002:a0c:f501:0:b0:635:dd30:8181 with SMTP id
+ j1-20020a0cf501000000b00635dd308181mr952475qvm.56.1689236274429; 
+ Thu, 13 Jul 2023 01:17:54 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlHH2p39j0wFtvsSB9zi2aRUzFSFtVm1NLwrpq73ze+7mX70VxxYNo1zLHGV+vQsUoopgNz6UQ==
+X-Received: by 2002:a0c:f501:0:b0:635:dd30:8181 with SMTP id
+ j1-20020a0cf501000000b00635dd308181mr952459qvm.56.1689236274140; 
+ Thu, 13 Jul 2023 01:17:54 -0700 (PDT)
+Received: from localhost ([2a01:e0a:b25:f902::ff])
  by smtp.gmail.com with ESMTPSA id
- z19-20020a1c4c13000000b003fb225d414fsm17464076wmf.21.2023.07.13.01.17.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Jul 2023 01:17:01 -0700 (PDT)
-Message-ID: <a6eb098a-8ac6-7240-dddc-ba645a1931fc@redhat.com>
-Date: Thu, 13 Jul 2023 10:17:00 +0200
+ g16-20020a0ce4d0000000b00636064e3d2bsm2834609qvm.106.2023.07.13.01.17.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Jul 2023 01:17:53 -0700 (PDT)
+Date: Thu, 13 Jul 2023 10:17:52 +0200
+From: Maxime Ripard <mripard@redhat.com>
+To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <nq3ke75juephbex5acfyi5t6bxv22nhmfcpfhru55haj2nv3us@gehrlmjbqgjk>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v5 2/2] drm/ast: report connection status on Display Port.
-To: Jammy Huang <jammy_huang@aspeedtech.com>, tzimmermann@suse.de,
- airlied@redhat.com, kuohsiang_chou@aspeedtech.com,
- jani.nikula@linux.intel.com, dianders@chromium.org
-References: <20230713064037.315387-1-jfalempe@redhat.com>
- <20230713064037.315387-2-jfalempe@redhat.com>
- <f61ea042-a14c-9c8f-710d-0ba0820686fe@aspeedtech.com>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <f61ea042-a14c-9c8f-710d-0ba0820686fe@aspeedtech.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="bnp3giwzvbzynl3k"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,266 +76,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/07/2023 09:00, Jammy Huang wrote:
-> Hi Jocelyn,
-> 
-> Thanks for your work.
-> 
-> On 2023/7/13 下午 02:40, Jocelyn Falempe wrote:
->> Aspeed always report the display port as "connected", because it
->> doesn't set a .detect_ctx callback.
->> Fix this by providing the proper detect callback for astdp and dp501.
->>
->> This also fixes the following regression:
->> Since commit fae7d186403e ("drm/probe-helper: Default to 640x480 if no
->> EDID on DP") The default resolution is now 640x480 when no monitor is
->> connected. But Aspeed graphics is mostly used in servers, where no 
->> monitor
->> is attached. This also affects the remote BMC resolution to 640x480, 
->> which
->> is inconvenient, and breaks the anaconda installer.
->>
->> v2: Add .detect callback to the dp/dp501 connector (Jani Nikula)
->> v3: Use .detect_ctx callback, and refactors (Thomas Zimmermann)
->>      Add a BMC virtual connector
->> v4: Better indent detect_ctx() functions (Thomas Zimmermann)
->> v5: Enable polling of the dp and dp501 connector status
->>      (Thomas Zimmermann)
->>
->> Fixes: fae7d186403e ("drm/probe-helper: Default to 640x480 if no EDID 
->> on DP")
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->>   drivers/gpu/drm/ast/ast_dp.c    | 11 ++++++++++
->>   drivers/gpu/drm/ast/ast_dp501.c | 37 ++++++++++++++++++++++-----------
->>   drivers/gpu/drm/ast/ast_drv.h   |  2 ++
->>   drivers/gpu/drm/ast/ast_mode.c  | 31 +++++++++++++++++++++++++--
->>   4 files changed, 67 insertions(+), 14 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
->> index 6dc1a09504e1..bf78f3d4aa3f 100644
->> --- a/drivers/gpu/drm/ast/ast_dp.c
->> +++ b/drivers/gpu/drm/ast/ast_dp.c
->> @@ -7,6 +7,17 @@
->>   #include <drm/drm_print.h>
->>   #include "ast_drv.h"
->> +bool ast_astdp_is_connected(struct ast_device *ast)
->> +{
->> +    if (!ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, 
->> ASTDP_MCU_FW_EXECUTING))
->> +        return false;
->> +    if (!ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDC, 
->> ASTDP_LINK_SUCCESS))
->> +        return false;
->> +    if (!ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDF, ASTDP_HPD))
->> +        return false;
->> +    return true;
->> +}
-> 
-> * ASPDP_LINK_SUCCESS is true, when DP link training is finished. The DP 
-> link quality is good
-> 
-> enough to deliver video data.
-> 
-> * ASTDP_HPD is true, when there is DP sink pull high HPD.
-> 
-> Thus, ASTDP_HPD is the prerequisite of ASTDP_LINK_SUCCESS. I would 
-> suggest to remove
-> 
-> the check for ASTDP_LINK_SUCCESS here. ASTDP_HPD is good enough for 
-> connected status.
-> 
-> If you want to check all these three status, please change the order, 
-> FW_EXECUTING -> HPD ->
-> 
-> LINK_SUCCESS.
 
-Thanks for the detailed explanations.
-I looked at other drivers to see if HPD is good enough for "connected" 
-status, but I didn't find a clear answer.
-There is also a drm_link_status, but that looks to be mostly unused.
-https://elixir.bootlin.com/linux/latest/source/include/drm/drm_connector.h#L331
+--bnp3giwzvbzynl3k
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-So I think I will follow your suggestion, and remove the check for 
-ASTDP_LINK_SUCCESS.
+Hi,
 
+Sending again because I had to send it by hand and forgot to add all the
+recipients in Cc.
 
-For the BMC connector patch, you know if there is a register setting I 
-can check to see if a BMC is present or not ?
+Here's this week drm-misc-fixes PR, plus last week as well that got
+dropped for some reason.
 
-Best regards,
+Thanks!
+Maxime
 
--- 
+The following changes since commit 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5:
 
-Jocelyn
+  Linux 6.5-rc1 (2023-07-09 13:53:13 -0700)
 
-> 
->> +
->>   int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
->>   {
->>       struct ast_device *ast = to_ast_device(dev);
->> diff --git a/drivers/gpu/drm/ast/ast_dp501.c 
->> b/drivers/gpu/drm/ast/ast_dp501.c
->> index a5d285850ffb..f10d53b0c94f 100644
->> --- a/drivers/gpu/drm/ast/ast_dp501.c
->> +++ b/drivers/gpu/drm/ast/ast_dp501.c
->> @@ -272,11 +272,9 @@ static bool ast_launch_m68k(struct drm_device *dev)
->>       return true;
->>   }
->> -bool ast_dp501_read_edid(struct drm_device *dev, u8 *ediddata)
->> +bool ast_dp501_is_connected(struct ast_device *ast)
->>   {
->> -    struct ast_device *ast = to_ast_device(dev);
->> -    u32 i, boot_address, offset, data;
->> -    u32 *pEDIDidx;
->> +    u32 boot_address, offset, data;
->>       if (ast->config_mode == ast_use_p2a) {
->>           boot_address = get_fw_base(ast);
->> @@ -292,14 +290,6 @@ bool ast_dp501_read_edid(struct drm_device *dev, 
->> u8 *ediddata)
->>           data = ast_mindwm(ast, boot_address + offset);
->>           if (!(data & AST_DP501_PNP_CONNECTED))
->>               return false;
->> -
->> -        /* Read EDID */
->> -        offset = AST_DP501_EDID_DATA;
->> -        for (i = 0; i < 128; i += 4) {
->> -            data = ast_mindwm(ast, boot_address + offset + i);
->> -            pEDIDidx = (u32 *)(ediddata + i);
->> -            *pEDIDidx = data;
->> -        }
->>       } else {
->>           if (!ast->dp501_fw_buf)
->>               return false;
->> @@ -319,7 +309,30 @@ bool ast_dp501_read_edid(struct drm_device *dev, 
->> u8 *ediddata)
->>           data = readl(ast->dp501_fw_buf + offset);
->>           if (!(data & AST_DP501_PNP_CONNECTED))
->>               return false;
->> +    }
->> +    return true;
->> +}
->> +
->> +bool ast_dp501_read_edid(struct drm_device *dev, u8 *ediddata)
->> +{
->> +    struct ast_device *ast = to_ast_device(dev);
->> +    u32 i, boot_address, offset, data;
->> +    u32 *pEDIDidx;
->> +
->> +    if (!ast_dp501_is_connected(ast))
->> +        return false;
->> +
->> +    if (ast->config_mode == ast_use_p2a) {
->> +        boot_address = get_fw_base(ast);
->> +        /* Read EDID */
->> +        offset = AST_DP501_EDID_DATA;
->> +        for (i = 0; i < 128; i += 4) {
->> +            data = ast_mindwm(ast, boot_address + offset + i);
->> +            pEDIDidx = (u32 *)(ediddata + i);
->> +            *pEDIDidx = data;
->> +        }
->> +    } else {
->>           /* Read EDID */
->>           offset = AST_DP501_EDID_DATA;
->>           for (i = 0; i < 128; i += 4) {
->> diff --git a/drivers/gpu/drm/ast/ast_drv.h 
->> b/drivers/gpu/drm/ast/ast_drv.h
->> index c9659e72002f..848a9f1403e8 100644
->> --- a/drivers/gpu/drm/ast/ast_drv.h
->> +++ b/drivers/gpu/drm/ast/ast_drv.h
->> @@ -514,6 +514,7 @@ void ast_patch_ahb_2500(struct ast_device *ast);
->>   /* ast dp501 */
->>   void ast_set_dp501_video_output(struct drm_device *dev, u8 mode);
->>   bool ast_backup_fw(struct drm_device *dev, u8 *addr, u32 size);
->> +bool ast_dp501_is_connected(struct ast_device *ast);
->>   bool ast_dp501_read_edid(struct drm_device *dev, u8 *ediddata);
->>   u8 ast_get_dp501_max_clk(struct drm_device *dev);
->>   void ast_init_3rdtx(struct drm_device *dev);
->> @@ -522,6 +523,7 @@ void ast_init_3rdtx(struct drm_device *dev);
->>   struct ast_i2c_chan *ast_i2c_create(struct drm_device *dev);
->>   /* aspeed DP */
->> +bool ast_astdp_is_connected(struct ast_device *ast);
->>   int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata);
->>   void ast_dp_launch(struct drm_device *dev);
->>   void ast_dp_power_on_off(struct drm_device *dev, bool no);
->> diff --git a/drivers/gpu/drm/ast/ast_mode.c 
->> b/drivers/gpu/drm/ast/ast_mode.c
->> index 1a8293162fec..e7f36ec73817 100644
->> --- a/drivers/gpu/drm/ast/ast_mode.c
->> +++ b/drivers/gpu/drm/ast/ast_mode.c
->> @@ -1582,8 +1582,21 @@ static int 
->> ast_dp501_connector_helper_get_modes(struct drm_connector *connector)
->>       return 0;
->>   }
->> +static int ast_dp501_connector_helper_detect_ctx(struct drm_connector 
->> *connector,
->> +                         struct drm_modeset_acquire_ctx *ctx,
->> +                         bool force)
->> +{
->> +    struct ast_device *ast = to_ast_device(connector->dev);
->> +
->> +    if (ast_dp501_is_connected(ast))
->> +        return connector_status_connected;
->> +    return connector_status_disconnected;
->> +}
->> +
->> +
->>   static const struct drm_connector_helper_funcs 
->> ast_dp501_connector_helper_funcs = {
->>       .get_modes = ast_dp501_connector_helper_get_modes,
->> +    .detect_ctx = ast_dp501_connector_helper_detect_ctx,
->>   };
->>   static const struct drm_connector_funcs ast_dp501_connector_funcs = {
->> @@ -1608,7 +1621,7 @@ static int ast_dp501_connector_init(struct 
->> drm_device *dev, struct drm_connector
->>       connector->interlace_allowed = 0;
->>       connector->doublescan_allowed = 0;
->> -    connector->polled = DRM_CONNECTOR_POLL_CONNECT;
->> +    connector->polled = DRM_CONNECTOR_POLL_CONNECT | 
->> DRM_CONNECTOR_POLL_DISCONNECT;
->>       return 0;
->>   }
->> @@ -1680,8 +1693,20 @@ static int 
->> ast_astdp_connector_helper_get_modes(struct drm_connector *connector)
->>       return 0;
->>   }
->> +static int ast_astdp_connector_helper_detect_ctx(struct drm_connector 
->> *connector,
->> +                         struct drm_modeset_acquire_ctx *ctx,
->> +                         bool force)
->> +{
->> +    struct ast_device *ast = to_ast_device(connector->dev);
->> +
->> +    if (ast_astdp_is_connected(ast))
->> +        return connector_status_connected;
->> +    return connector_status_disconnected;
->> +}
->> +
->>   static const struct drm_connector_helper_funcs 
->> ast_astdp_connector_helper_funcs = {
->>       .get_modes = ast_astdp_connector_helper_get_modes,
->> +    .detect_ctx = ast_astdp_connector_helper_detect_ctx,
->>   };
->>   static const struct drm_connector_funcs ast_astdp_connector_funcs = {
->> @@ -1706,7 +1731,7 @@ static int ast_astdp_connector_init(struct 
->> drm_device *dev, struct drm_connector
->>       connector->interlace_allowed = 0;
->>       connector->doublescan_allowed = 0;
->> -    connector->polled = DRM_CONNECTOR_POLL_CONNECT;
->> +    connector->polled = DRM_CONNECTOR_POLL_CONNECT | 
->> DRM_CONNECTOR_POLL_DISCONNECT;
->>       return 0;
->>   }
->> @@ -1903,5 +1928,7 @@ int ast_mode_config_init(struct ast_device *ast)
->>       drm_mode_config_reset(dev);
->> +    drm_kms_helper_poll_init(dev);
->> +
->>       return 0;
->>   }
-> 
+are available in the Git repository at:
+
+  ssh://git.freedesktop.org/git/drm/drm-misc tags/drm-misc-fixes-2023-07-13
+
+for you to fetch changes up to 835a65f51790e1f72b1ab106ec89db9ac15b47d6:
+
+  drm/nouveau: bring back blit subchannel for pre nv50 GPUs (2023-07-12 22:=
+38:41 +0200)
+
+----------------------------------------------------------------
+A couple of nouveau patches addressing improving HDMI support and
+firmware handling, a fix for TTM to skip pinned BO when evicting, and a
+fix for the fbdev documentation.
+
+----------------------------------------------------------------
+Adri=E1n Larumbe (1):
+      drm: bridge: dw_hdmi: fix connector access for scdc
+
+Boris Brezillon (2):
+      drm/sched: Make sure we wait for all dependencies in kill_jobs_cb()
+      drm/sched: Call drm_sched_fence_set_parent() from drm_sched_fence_sch=
+eduled()
+
+Christian K=F6nig (3):
+      drm/ttm: fix warning that we shouldn't mix && and ||
+      dma-buf: keep the signaling time of merged fences v3
+      drm/ttm: never consider pinned BOs for eviction&swap
+
+Dan Carpenter (1):
+      dma-buf: fix an error pointer vs NULL bug
+
+Douglas Anderson (1):
+      drm/bridge: ti-sn65dsi86: Fix auxiliary bus lifetime
+
+Fabio Estevam (1):
+      drm/panel: simple: Add connector_type for innolux_at043tn24
+
+Geert Uytterhoeven (1):
+      drm/fbdev-dma: Fix documented default preferred_bpp value
+
+Karol Herbst (4):
+      drm/nouveau/disp: fix HDMI on gt215+
+      drm/nouveau/disp/g94: enable HDMI
+      drm/nouveau/acr: Abort loading ACR if no firmware was found
+      drm/nouveau: bring back blit subchannel for pre nv50 GPUs
+
+Karol Wachowski (2):
+      accel/ivpu: Fix VPU register access in irq disable
+      accel/ivpu: Clear specific interrupt status bits on C0
+
+Lyude Paul (1):
+      drm/nouveau/kms/nv50-: Fix drm_dp_remove_payload() invocation
+
+Marek Vasut (1):
+      drm/panel: simple: Add Powertip PH800480T013 drm_display_mode flags
+
+Maxime Ripard (1):
+      Merge v6.5-rc1 into drm-misc-fixes
+
+Thomas Hellstr=F6m (2):
+      drm/ttm: Don't leak a resource on eviction error
+      drm/ttm: Don't leak a resource on swapout move error
+
+Thomas Zimmermann (1):
+      drm/client: Send hotplug event after registering a client
+
+Yunxiang Li (1):
+      drm/ttm: fix bulk_move corruption when adding a entry
+
+ drivers/accel/ivpu/ivpu_drv.h                    |  1 +
+ drivers/accel/ivpu/ivpu_hw_mtl.c                 | 20 ++++++++----
+ drivers/dma-buf/dma-fence-unwrap.c               | 26 ++++++++++++---
+ drivers/dma-buf/dma-fence.c                      |  7 ++--
+ drivers/gpu/drm/armada/armada_fbdev.c            |  4 ---
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c        |  9 +++---
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c            | 35 ++++++++++++--------
+ drivers/gpu/drm/drm_client.c                     | 21 ++++++++++++
+ drivers/gpu/drm/drm_fbdev_dma.c                  |  6 +---
+ drivers/gpu/drm/drm_fbdev_generic.c              |  4 ---
+ drivers/gpu/drm/drm_syncobj.c                    |  6 ++--
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c        |  4 ---
+ drivers/gpu/drm/gma500/fbdev.c                   |  4 ---
+ drivers/gpu/drm/msm/msm_fbdev.c                  |  4 ---
+ drivers/gpu/drm/nouveau/dispnv50/disp.c          |  8 +++--
+ drivers/gpu/drm/nouveau/nouveau_chan.c           |  1 +
+ drivers/gpu/drm/nouveau/nouveau_chan.h           |  1 +
+ drivers/gpu/drm/nouveau/nouveau_drm.c            | 20 ++++++++++--
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/g94.c   |  1 +
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/gt215.c |  2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/acr/base.c   |  2 +-
+ drivers/gpu/drm/omapdrm/omap_fbdev.c             |  4 ---
+ drivers/gpu/drm/panel/panel-simple.c             |  2 ++
+ drivers/gpu/drm/radeon/radeon_fbdev.c            |  4 ---
+ drivers/gpu/drm/scheduler/sched_entity.c         | 41 +++++++++++++++++++-=
+----
+ drivers/gpu/drm/scheduler/sched_fence.c          | 40 ++++++++++++++------=
+---
+ drivers/gpu/drm/scheduler/sched_main.c           |  3 +-
+ drivers/gpu/drm/tegra/fbdev.c                    |  4 ---
+ drivers/gpu/drm/ttm/ttm_bo.c                     | 29 ++++++++++-------
+ drivers/gpu/drm/ttm/ttm_resource.c               |  5 ++-
+ include/drm/gpu_scheduler.h                      |  5 ++-
+ include/linux/dma-fence.h                        |  2 +-
+ 32 files changed, 206 insertions(+), 119 deletions(-)
+
+--bnp3giwzvbzynl3k
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZK+zMAAKCRDj7w1vZxhR
+xZ9jAP4pvnS+rNN58KkJ7QTkarg753rDDKt3O8mxCuzzfRC+dgD8CZjs7xrv2Wbv
+JyThW4ytIiFYrbBcB66ALRrwEdax3wo=
+=2xZQ
+-----END PGP SIGNATURE-----
+
+--bnp3giwzvbzynl3k--
 
