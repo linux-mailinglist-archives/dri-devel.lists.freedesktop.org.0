@@ -2,55 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9781E751DD6
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 11:54:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B67F751DE9
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 11:56:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1B8D10E65F;
-	Thu, 13 Jul 2023 09:54:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13A5F10E661;
+	Thu, 13 Jul 2023 09:56:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa35.google.com (mail-vk1-xa35.google.com
- [IPv6:2607:f8b0:4864:20::a35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C93F510E65F
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 09:54:25 +0000 (UTC)
-Received: by mail-vk1-xa35.google.com with SMTP id
- 71dfb90a1353d-47e1c7c1148so359254e0c.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 02:54:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1689242064; x=1691834064;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ez7jO3FwSNuyNsnYNkkVbBkbWTziZ+QozPC9B1QClXc=;
- b=TwWySFX65K4Kk5BaFFcJGCBnpYrBPYSB55nVGuUvT/7/6WOOFdDxXv5/qrBHW6mDkz
- iykBZ1oenDPsmZYWVD5U5/2y6TEv3r9cpW+Bz3uL+saGdI+0RNnZ5e90TpsvuLTt8znN
- FFTjM2QbiT74BVpbVut07WDKRZH4mVHRyEoOY=
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
+ [209.85.219.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DA5510E661
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 09:56:44 +0000 (UTC)
+Received: by mail-yb1-f171.google.com with SMTP id
+ 3f1490d57ef6-cabf1dbafc4so473417276.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 02:56:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689242064; x=1691834064;
+ d=1e100.net; s=20221208; t=1689242203; x=1691834203;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ez7jO3FwSNuyNsnYNkkVbBkbWTziZ+QozPC9B1QClXc=;
- b=a7M4cX++OynGxJQp4SREZvuxRt3kcsL3bKDNNromKw9ONtPxcsT5u/FChieuHJIR6F
- 8uAT8DfcXfJMYDCwqYtOF3YkORHYXpwHYMf8xDiYlOvme4cnmmpqGD/RlwL6sPfL3MPr
- 4XY0TKcZxWpUcEeZLDEXsUkpKtMwOHoNSPKawiE4uaH2D1pQFm1HLL9GRmIqRssjfak9
- jFBHmkN8iUgdhsc3mLYTx2+KieoTdAyR7JiHojnaMOdnhW4CL4PoDcbAyhrWyuUdEniH
- czXAd/WgdZxmkhfi6iK05dmtcyYoAxGM0Y6Ue+7Q7UBtF6PBAFRvfm+LqpxZnljGfDxh
- 37PA==
-X-Gm-Message-State: ABy/qLY9F/2cNaBcLaC4w97Wd+dm5O1MZAKLXANyIxcCMqX/Uay/CX/+
- cA5eATlwaOAiiCsHPgckrSpcSgIjdfXgvQcyECVXZg==
-X-Google-Smtp-Source: APBJJlG0g9o4LrYXn9i6KRU1GfTejJ2FCgLiKAmk2lqQULqSb0JVk97uYqtYXThV3P31Unv3MseiH1FrhSYUrYFZ+z0=
-X-Received: by 2002:a1f:a10a:0:b0:481:588d:90e4 with SMTP id
- k10-20020a1fa10a000000b00481588d90e4mr188535vke.7.1689242064326; Thu, 13 Jul
- 2023 02:54:24 -0700 (PDT)
+ bh=ky38aRztiJlAI5tJIApUzXIrtiO5iJsH9sjAfnvxdr8=;
+ b=IL0e0iippAWGIW3uUk9vQ73xtKp5pvVLYCy8iQXjS++9gCI+KrQRDEsYW6PdwYOEkl
+ 0AQAde8jzhJDBvLZdtLLJtZHzMmdNaXtgKNr7bDMQXV6ZIdteIUcBsjhYtuK21IDOU7f
+ 2irELYsqNNe2CoOpGt56WD6dhj0N7pnDo6mOWXo91OsnSxtsMQEnagijoWwcK7Si5voE
+ I5avaP74gBaQGsC20Re045ZxNt0ZQjJE5NrXItTbyX6bWe30N6rzTxSqmDGr+RHfgFx5
+ aQ1U6rlEBoeOCP5LFqzzaTxckk8jRJbXaFfV9ItB+57Pi5qiWaz6AKl0Cpj91L4l1Jev
+ yWvA==
+X-Gm-Message-State: ABy/qLYNFzdOYQ1NEpsbjlDXNJKn1kFLYsmcJDW0IIx8bwfO2yriVvkv
+ kgsxw5IwbXaNSlyQJkfNN1ksfb0Qpv4uCR1p
+X-Google-Smtp-Source: APBJJlF7jW7w4jyLC3TjMkYabaBLsgbEVDod65CDXZr6t+1aYmhz7DnGfHzWUt+b8yg7jT245pOciQ==
+X-Received: by 2002:a25:3253:0:b0:bc9:92c9:7fd1 with SMTP id
+ y80-20020a253253000000b00bc992c97fd1mr983787yby.3.1689242203192; 
+ Thu, 13 Jul 2023 02:56:43 -0700 (PDT)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com.
+ [209.85.128.178]) by smtp.gmail.com with ESMTPSA id
+ k16-20020a25fe10000000b00c74e24a68e8sm1289876ybe.55.2023.07.13.02.56.42
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 Jul 2023 02:56:42 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id
+ 00721157ae682-577637de4beso4377267b3.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 02:56:42 -0700 (PDT)
+X-Received: by 2002:a0d:eb14:0:b0:56c:f8f1:eed5 with SMTP id
+ u20-20020a0deb14000000b0056cf8f1eed5mr1235965ywe.6.1689242202613; Thu, 13 Jul
+ 2023 02:56:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230713090152.140060-1-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230713090152.140060-1-angelogioacchino.delregno@collabora.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Thu, 13 Jul 2023 17:54:13 +0800
-Message-ID: <CAGXv+5FFO3pDM=2eDscGnRVj34+8t6L02nt7OvPEO_FV8_POVQ@mail.gmail.com>
-Subject: Re: [PATCH v5 00/10] MediaTek DisplayPort: support eDP and aux-bus
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+References: <20230713085859.907127-1-javierm@redhat.com>
+In-Reply-To: <20230713085859.907127-1-javierm@redhat.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 13 Jul 2023 11:56:28 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXWfeX9EESbiSnJ-G-TuyFKt7ZnMKi2Y85HRG2695siTg@mail.gmail.com>
+Message-ID: <CAMuHMdXWfeX9EESbiSnJ-G-TuyFKt7ZnMKi2Y85HRG2695siTg@mail.gmail.com>
+Subject: Re: [PATCH] drm/ssd130x: Change pixel format used to compute the
+ buffer size
+To: Javier Martinez Canillas <javierm@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,231 +70,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, nfraprado@collabora.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- kernel@collabora.com, linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 13, 2023 at 5:01=E2=80=AFPM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
+On Thu, Jul 13, 2023 at 10:59=E2=80=AFAM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+> The commit e254b584dbc0 ("drm/ssd130x: Remove hardcoded bits-per-pixel in
+> ssd130x_buf_alloc()") used a pixel format info instead of a hardcoded bpp
+> to calculate the size of the buffer allocated to store the native pixels.
 >
-> Changes in v5:
->  - Added .wait_hpd_asserted() callback for aux-bus
->  - Avoid enabling and registering HPD interrupt + handlers for
->    eDP case only (keeps HPD interrupts enabled for full DP case)
->  - Support not always-on eDP panels (boot with regulator off,
->    suspend with regulator off) for power saving in PM suspend.
+> But that wrongly used the DRM_FORMAT_C1 fourcc pixel format, which is for
+> color-indexed frame buffer formats. While the ssd103x controllers don't
+> support different single-channel colors nor a Color Lookup Table (CLUT).
+>
+> Both formats use eight pixels/byte, so in practice there is no functional
+> changes in this patch. But still the correct pixel format should be used.
+>
+> Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
-This still doesn't work when the DRM driver is builtin, and the panel
-driver is a module. This is still with regulator-always-on.
+Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-From what I can tell from the kernel logs, the DRM driver is not waiting
-for eDP panel to probe (which sort of makes sense?), and simply uses
-the default EDID. When the panel does probe, nothing triggers the DRM
-driver to update its connector.
+Gr{oetje,eeting}s,
 
-[drm:drm_helper_probe_single_connector_modes] [CONNECTOR:32:eDP-1]
-[drm:drm_helper_probe_single_connector_modes] [CONNECTOR:32:eDP-1]
-status updated from unknown to connected
-[drm:drm_mode_debug_printmodeline] Modeline "640x480": 60 25175 640
-656 752 800 480 490 492 525 0x40 0xa
-[drm:drm_mode_prune_invalid] Not using 640x480 mode: CLOCK_HIGH
-[drm:drm_mode_debug_printmodeline] Modeline "800x600": 56 36000 800
-824 896 1024 600 601 603 625 0x40 0x5
-[drm:drm_mode_prune_invalid] Not using 800x600 mode: CLOCK_HIGH
-[drm:drm_mode_debug_printmodeline] Modeline "800x600": 60 40000 800
-840 968 1056 600 601 605 628 0x40 0x5
-[drm:drm_mode_prune_invalid] Not using 800x600 mode: CLOCK_HIGH
-[drm:drm_mode_debug_printmodeline] Modeline "848x480": 60 33750 848
-864 976 1088 480 486 494 517 0x40 0x5
-[drm:drm_mode_prune_invalid] Not using 848x480 mode: CLOCK_HIGH
-[drm:drm_mode_debug_printmodeline] Modeline "1024x768": 60 65000 1024
-1048 1184 1344 768 771 777 806 0x40 0xa
-[drm:drm_mode_prune_invalid] Not using 1024x768 mode: CLOCK_HIGH
-[drm:drm_helper_probe_single_connector_modes] [CONNECTOR:34:DP-1]
-[drm:drm_helper_probe_single_connector_modes] [CONNECTOR:34:DP-1]
-status updated from unknown to disconnected
-[drm:drm_helper_probe_single_connector_modes] [CONNECTOR:34:DP-1] disconnec=
-ted
-[drm:drm_client_modeset_probe] No connectors reported connected with modes
-[drm:drm_client_modeset_probe] connector 32 enabled? yes
-[drm:drm_client_modeset_probe] connector 34 enabled? no
-[drm:drm_client_firmware_config.constprop.0.isra.0] Not using firmware
-configuration
-[drm:drm_client_modeset_probe] looking for cmdline mode on connector 32
-[drm:drm_client_modeset_probe] looking for preferred mode on connector 32 0
-[drm:drm_client_modeset_probe] found mode none
-[drm:drm_client_modeset_probe] picking CRTCs for 4096x4096 config
-mediatek-drm mediatek-drm.12.auto:
-[drm:__drm_fb_helper_initial_config_and_unlock] test CRTC 0 primary
-plane
-mediatek-drm mediatek-drm.12.auto: [drm] Cannot find any crtc or sizes
-mediatek-drm mediatek-drm.12.auto: [drm:drm_dp_dpcd_probe] aux_mtk_dp:
-0x00000 AUX -> (ret=3D  1) 14
-mediatek-drm mediatek-drm.12.auto: [drm:drm_dp_dpcd_read] aux_mtk_dp:
-0x00000 AUX -> (ret=3D 15) 14 0a 84 41 00 00 01 80 02 00 00 00 0f 09 80
-mediatek-drm mediatek-drm.12.auto: [drm:drm_dp_dpcd_probe] aux_mtk_dp:
-0x00000 AUX -> (ret=3D  1) 14
-mediatek-drm mediatek-drm.12.auto: [drm:drm_dp_dpcd_read] aux_mtk_dp:
-0x02200 AUX -> (ret=3D 15) 14 0a 84 41 00 00 01 80 02 00 00 00 0f 01 80
-mediatek-drm mediatek-drm.12.auto: [drm:drm_dp_read_dpcd_caps]
-aux_mtk_dp: Base DPCD: 14 0a 84 41 00 00 01 80 02 00 00 00 0f 09 80
-mediatek-drm mediatek-drm.12.auto: [drm:drm_dp_read_dpcd_caps]
-aux_mtk_dp: DPCD: 14 0a 84 41 00 00 01 80 02 00 00 00 0f 01 80
-mediatek-drm mediatek-drm.12.auto: [drm:drm_dp_dpcd_probe] aux_mtk_dp:
-0x00000 AUX -> (ret=3D  1) 14
-mediatek-drm mediatek-drm.12.auto: [drm:drm_dp_dpcd_read] aux_mtk_dp:
-0x00021 AUX -> (ret=3D  1) 00
-panel-simple-dp-aux aux-1c500000.edp-tx: Detected BOE NE135FBM-N41 v8.1 (0x=
-095f)
+                        Geert
 
-If the panel is also built-in, then the eDP panel probe happens between
-the drm driver adding components and binding to them, and everything seems
-to work OK.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-
-ChenYu
-
-> Changes in v4:
->  - Set data lanes to idle to prevent stalls if bootloader didn't
->    properly close the eDP port
->  - Now using the .done_probing() callback for AUX bus to prevent
->    probe deferral loops in case the panel-edp driver is a module
->    as previously seen with another bridge driver (ANX7625) on
->    some other SoCs (MT8192 and others)
->  - Rebased over next-20230706
->  - Dropped Chen-Yu's T-b tag on last patch as some logic changed
->    (before, I wasn't using the .done_probing() callback).
->
-> Changes in v3:
->  - Added DPTX AUX block initialization before trying to communicate
->    to stop relying on the bootloader keeping it initialized before
->    booting Linux.
->  - Fixed commit description for patch [09/09] and removed commented
->    out code (that slipped from dev phase.. sorry!).
->
-> This series adds "real" support for eDP in the mtk-dp DisplayPort driver.
->
-> Explaining the "real":
-> Before this change, the DisplayPort driver did support eDP to some
-> extent, but it was treating it entirely like a regular DP interface
-> which is partially fine, after all, embedded DisplayPort *is* actually
-> DisplayPort, but there might be some differences to account for... and
-> this is for both small performance improvements and, more importantly,
-> for correct functionality in some systems.
->
-> Functionality first:
->
-> One of the common differences found in various boards implementing eDP
-> and machines using an eDP panel is that many times the HPD line is not
-> connected. This *must* be accounted for: at startup, this specific IP
-> will raise a HPD interrupt (which should maybe be ignored... as it does
-> not appear to be a "real" event...) that will make the eDP panel to be
-> detected and to actually work but, after a suspend-resume cycle, there
-> will be no HPD interrupt (as there's no HPD line in my case!) producing
-> a functionality issue - specifically, the DP Link Training fails because
-> the panel doesn't get powered up, then it stays black and won't work
-> until rebooting the machine (or removing and reinserting the module I
-> think, but I haven't tried that).
->
-> Now for.. both:
-> eDP panels are *e*DP because they are *not* removable (in the sense that
-> you can't unplug the cable without disassembling the machine, in which
-> case, the machine shall be powered down..!): this (correct) assumption
-> makes us able to solve some issues and to also gain a little performance
-> during PM operations.
->
-> What was done here is:
->  - Caching the EDID if the panel is eDP: we're always going to read the
->    same data everytime, so we can just cache that (as it's small enough)
->    shortening PM resume times for the eDP driver instance;
->  - Always return connector_status_connected if it's eDP: non-removable
->    means connector_status_disconnected can't happen during runtime...
->    this also saves us some time and even power, as we won't have to
->    perform yet another power cycle of the HW;
->  - Added aux-bus support!
->    This makes us able to rely on panel autodetection from the EDID,
->    avoiding to add more and more panel timings to panel-edp and, even
->    better, allowing to use one panel node in devicetrees for multiple
->    variants of the same machine since, at that point, it's not important
->    to "preventively know" what panel we have (eh, it's autodetected...!).
->
-> This was tested on a MT8195 Cherry Tomato Chromebook (panel-edp on aux-bu=
-s)
->
->
-> P.S.: For your own testing commodity, here's a reference devicetree:
->
-> pp3300_disp_x: regulator-pp3300-disp-x {
->         compatible =3D "regulator-fixed";
->         regulator-name =3D "pp3300_disp_x";
->         regulator-min-microvolt =3D <3300000>;
->         regulator-max-microvolt =3D <3300000>;
->         enable-active-high;
->         gpio =3D <&pio 55 GPIO_ACTIVE_HIGH>;
->         pinctrl-names =3D "default";
->         pinctrl-0 =3D <&panel_fixed_pins>;
-> };
->
-> &edp_tx {
->         status =3D "okay";
->
->         pinctrl-names =3D "default";
->         pinctrl-0 =3D <&edptx_pins_default>;
->
->         ports {
->                 #address-cells =3D <1>;
->                 #size-cells =3D <0>;
->
->                 port@0 {
->                         reg =3D <0>;
->                         edp_in: endpoint {
->                                 remote-endpoint =3D <&dp_intf0_out>;
->                         };
->                 };
->
->                 port@1 {
->                         reg =3D <1>;
->                         edp_out: endpoint {
->                                 data-lanes =3D <0 1 2 3>;
->                                 remote-endpoint =3D <&panel_in>;
->                         };
->                 };
->         };
->
->         aux-bus {
->                 panel: panel {
->                         compatible =3D "edp-panel";
->                         power-supply =3D <&pp3300_disp_x>;
->                         backlight =3D <&backlight_lcd0>;
->                         port {
->                                 panel_in: endpoint {
->                                         remote-endpoint =3D <&edp_out>;
->                                 };
->                         };
->                 };
->         };
-> };
->
-> AngeloGioacchino Del Regno (10):
->   drm/mediatek: dp: Move AUX and panel poweron/off sequence to function
->   drm/mediatek: dp: Change logging to dev for mtk_dp_aux_transfer()
->   drm/mediatek: dp: Use devm variant of drm_bridge_add()
->   drm/mediatek: dp: Move AUX_P0 setting to
->     mtk_dp_initialize_aux_settings()
->   drm/mediatek: dp: Enable event interrupt only when bridge attached
->   drm/mediatek: dp: Avoid mutex locks if audio is not supported/enabled
->   drm/mediatek: dp: Move PHY registration to new function
->   drm/mediatek: dp: Add support for embedded DisplayPort aux-bus
->   drm/mediatek: dp: Add .wait_hpd_asserted() for AUX bus
->   drm/mediatek: dp: Don't register HPD interrupt handler for eDP case
->
->  drivers/gpu/drm/mediatek/Kconfig  |   1 +
->  drivers/gpu/drm/mediatek/mtk_dp.c | 335 ++++++++++++++++++++----------
->  2 files changed, 224 insertions(+), 112 deletions(-)
->
-> --
-> 2.40.1
->
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
