@@ -1,71 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25C10752B19
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 21:40:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1179752B1C
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 21:40:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2450710E77A;
-	Thu, 13 Jul 2023 19:40:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A106610E77C;
+	Thu, 13 Jul 2023 19:40:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C53B10E0A8;
- Thu, 13 Jul 2023 19:40:15 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 36DIjVOu004450; Thu, 13 Jul 2023 19:40:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=date : from : to :
- cc : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=qcppdkim1; bh=jt3RhznHwuPHljelU3LuQE6YZCsogGmreeQYaKkdCpw=;
- b=cdfLuyiKEvcj32OQZIwqdqCWcmFjLVhwGiyqScuhg6tfAn8mw7gufTyiZS06/rkrqKmg
- cgmUVeHDlmyMtI7+CkV8w3R8GvogBq1VZqYOsCcNOh0Zj4L9MO1YH62scWdhY8+z/86D
- Ax4+bROsN8lJ0+Pjs/59OR3irVj+P3ywS0GwHEHs9TRgT3m4V//k37VhMCUdBrjfqpT6
- Gf+y/kpGB1vZhYYQZkvbYCZgmnk9jn6Twy50jQV7QUrXKj33xqKEXGznt40fQE68OMs6
- WguRh8ax7rN8NloBSxtXQPahtpQSWw9au0AfnyLlEm7Y/onn1RcjGow2+G3OpLZXiCvf EA== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rtpts03h5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Jul 2023 19:40:12 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36DJeCZl023395
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Jul 2023 19:40:12 GMT
-Received: from akhilpo-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.30; Thu, 13 Jul 2023 12:40:10 -0700
-Date: Fri, 14 Jul 2023 01:10:07 +0530
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [Freedreno] [PATCH] drm/msm/a6xx: Fix misleading comment
-Message-ID: <zl2agkz6rcdvocmgiyszege7evbdcboz65u3w2gypizzdqdixi@ellnjfax5qrg>
-References: <20230630162043.79198-1-robdclark@gmail.com>
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
+ [IPv6:2607:f8b0:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 823CF10E77C
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 19:40:26 +0000 (UTC)
+Received: by mail-ot1-x32f.google.com with SMTP id
+ 46e09a7af769-6b7206f106cso863521a34.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 12:40:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1689277225; x=1689882025;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=DX1Gj8EBXXoZzKq8yFIL6/gLwQcq/eP050VPNOLcr5k=;
+ b=d+3IoseYtGQOjFRFOIFKJ45KID+DSbVNElMv9SN/sZUvkets/C0mMbJPNt2jEV+nqt
+ 8OSNRc8l1e30bLkl764W0+juLXJbCATuVKHzTRi5rEHQJGXBD0rPWCu9UCyWH5pC3dbP
+ OH/0pO/+PJQzdX5aKdLJE7EovJ6J9GR5Kb2WfYPfWJkL+E6pKAwC8GTo2NiWw7mtdB4T
+ feQuRxNNlhSpsHd2I66mlyU/xVgiwYE2bj/0MNxIycMqJG0M5kusYNwJgMihPICVbYBG
+ 924Oghoi3zDnaYR51nBWkfyMBk5YbwOkSPXYXYERRaHUA2wje7cR7NBnXP/DvVP+g53N
+ 62mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689277225; x=1689882025;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=DX1Gj8EBXXoZzKq8yFIL6/gLwQcq/eP050VPNOLcr5k=;
+ b=lOxSsVEoYKaYMHey3IBXYis42ZQiJgatCQJx9Zbhan9v9qMAv5I8Dpz7BxslFbnkbX
+ 2asJ8B5f5kAEmZkBxIU1ZrqJZDaPrAWoBz0jLBKZM9tvHZy6Epc/ywdihlCXq2B6mzDi
+ Ocr+GFpo0vKjzJ0148TajKy9Q5MvBS8zWZgq2kRBEAMvdPDuCL/zSdSRsr4Fq/QmVzC6
+ jIXO3Ozuw0mNRCRh2yDxC0No3y+NYra19OLZ9FC8XMXxLQ4YBeGB9cV5QAIJ/J6Zb5CI
+ 9BfbFznaduaKjtO0awq9NKLmV9wAYedaPpJVnXzQraVIC+kJW+6uQ7DnGBPpRq17A9L0
+ pfwQ==
+X-Gm-Message-State: ABy/qLamuZTSgDEpp1hDqk9atf10eJshdhgDwOryJiToO493aFvUrN7z
+ DQIIt0C7GRwEjkWOmNAqU81WMerVLBr1ncbDa1gByw==
+X-Google-Smtp-Source: APBJJlE4geAWgF/c1eSajBp9xhwr1InENP1uaHmvwsBe5xFcZ1TuvNARD6AuNScP0D+MkTip7O/mXlKTUD7UcVFFl1k=
+X-Received: by 2002:a9d:6a50:0:b0:6b9:9288:613c with SMTP id
+ h16-20020a9d6a50000000b006b99288613cmr3086600otn.13.1689277225502; Thu, 13
+ Jul 2023 12:40:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230630162043.79198-1-robdclark@gmail.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 4jsYCokDZTRxuSgom5UlsU-rVkdzNtp1
-X-Proofpoint-ORIG-GUID: 4jsYCokDZTRxuSgom5UlsU-rVkdzNtp1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-13_08,2023-07-13_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- impostorscore=0 phishscore=0 spamscore=0 bulkscore=0 malwarescore=0
- lowpriorityscore=0 mlxscore=0 priorityscore=1501 mlxlogscore=861
- clxscore=1015 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2307130173
+References: <20230713020556.1956639-1-cuigaosheng1@huawei.com>
+ <20230713020556.1956639-3-cuigaosheng1@huawei.com>
+ <gk5ttqzmz6psggq6xybpsmad63gimlwj6bsbpkhvqfd3htcddc@zveituq6siwa>
+In-Reply-To: <gk5ttqzmz6psggq6xybpsmad63gimlwj6bsbpkhvqfd3htcddc@zveituq6siwa>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 13 Jul 2023 22:40:14 +0300
+Message-ID: <CAA8EJpou=nm54hETj3m3c75Vq9nhTdCKVviXi4C3-PGv7J8s6g@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] drm/msm: Fix IS_ERR() vs NULL check in
+ a5xx_submit_in_rb()
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,41 +69,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: sean@poorly.run, neil.armstrong@linaro.org, quic_eberman@quicinc.com,
+ sam@ravnborg.org, quic_gurus@quicinc.com, g@akhilpo-linux.qualcomm.com,
+ linux-arm-msm@vger.kernel.org, a39.skl@gmail.com, liviu.dudau@arm.com,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ james.qian.wang@arm.com, angelogioacchino.delregno@somainline.org,
+ marijn.suijten@somainline.org, freedreno@lists.freedesktop.org,
+ Gaosheng Cui <cuigaosheng1@huawei.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 30, 2023 at 09:20:43AM -0700, Rob Clark wrote:
-> 
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> The range is actually len+1.
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+On Thu, 13 Jul 2023 at 22:08, Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+>
+> On Thu, Jul 13, 2023 at 10:05:55AM +0800, Gaosheng Cui wrote:
+> >
+> > The msm_gem_get_vaddr() returns an ERR_PTR() on failure, we should
+> > use IS_ERR() to check the return value.
+> >
+> > Fixes: 6a8bd08d0465 ("drm/msm: add sudo flag to submit ioctl")
+> > Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
+> > Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> > ---
+> >  drivers/gpu/drm/msm/adreno/a5xx_gpu.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> > index a99310b68793..a499e3b350fc 100644
+> > --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> > +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> > @@ -89,7 +89,7 @@ static void a5xx_submit_in_rb(struct msm_gpu *gpu, struct msm_gem_submit *submit
+> >                        * since we've already mapped it once in
+> >                        * submit_reloc()
+> >                        */
+> > -                     if (WARN_ON(!ptr))
+> > +                     if (WARN_ON(IS_ERR(ptr)))
+> nit: can we make this IS_ERR_OR_NULL() check to retain the current
+> validation? A null is catastrophic here. Yeah, I see that the current
+> implementation of ...get_vaddr() doesn't return a NULL.
 
-Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+I generally dislike IS_ERR_OR_NULL, as it is always (incorrectly)
+paired with PTR_ERR. But in the case of void return it would be a
+perfect fit.
 
--Akhil
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> index eea2e60ce3b7..edf76a4b16bd 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> @@ -39,8 +39,8 @@ struct a6xx_gpu {
->  
->  /*
->   * Given a register and a count, return a value to program into
-> - * REG_CP_PROTECT_REG(n) - this will block both reads and writes for _len
-> - * registers starting at _reg.
-> + * REG_CP_PROTECT_REG(n) - this will block both reads and writes for
-> + * _len + 1 registers starting at _reg.
->   */
->  #define A6XX_PROTECT_NORDWR(_reg, _len) \
->  	((1 << 31) | \
-> -- 
-> 2.41.0
-> 
+>
+> Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+>
+> -Akhil
+>
+> >                               return;
+> >
+> >                       for (i = 0; i < dwords; i++) {
+> > --
+> > 2.25.1
+> >
+
+
+
+-- 
+With best wishes
+Dmitry
