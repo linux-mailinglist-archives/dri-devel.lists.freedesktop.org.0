@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D2447521F2
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 14:54:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C914C7521F4
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 14:54:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59A6910E69C;
-	Thu, 13 Jul 2023 12:54:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86D8610E6A3;
+	Thu, 13 Jul 2023 12:54:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 610F010E625
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 08:26:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFBD110E631
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 08:26:34 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1qJrcc-0005qO-Un; Thu, 13 Jul 2023 10:24:23 +0200
+ id 1qJrcd-0005qj-GN; Thu, 13 Jul 2023 10:24:23 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1qJrcc-00E4jG-7Y; Thu, 13 Jul 2023 10:24:22 +0200
+ id 1qJrcc-00E4jL-Qy; Thu, 13 Jul 2023 10:24:22 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1qJrca-004Vgw-Tu; Thu, 13 Jul 2023 10:24:21 +0200
+ id 1qJrcb-004Vh1-PK; Thu, 13 Jul 2023 10:24:22 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
@@ -38,24 +38,24 @@ To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
  Thierry Reding <thierry.reding@gmail.com>,
  Geert Uytterhoeven <geert@linux-m68k.org>,
  Sean Paul <seanpaul@chromium.org>, Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH 04/17] drm/connector: Rename struct drm_connector::dev to drm
-Date: Thu, 13 Jul 2023 10:23:55 +0200
-Message-Id: <20230713082408.2266984-5-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 05/17] drm/crtc: Rename struct drm_crtc::dev to drm
+Date: Thu, 13 Jul 2023 10:23:56 +0200
+Message-Id: <20230713082408.2266984-6-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230713082408.2266984-1-u.kleine-koenig@pengutronix.de>
 References: <20230713082408.2266984-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=351283;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=517799;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=6n0d9tZjqcSRx+5Op+FUpdpxnLGSEGLNkU8pL1BWW6o=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkr7SHPiz19OpUeKkACOTXrlxixzpeb0e1UUbch
- cPxXj5SxtOJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZK+0hwAKCRCPgPtYfRL+
- TuvxB/9R70AJvhvU9PGRD6uzeiqwsH/fUV8cCVs5mf67xyT5rQc6Bu2D2ByisAgrby1dV1d3R1C
- G33RdhYkCBlvg0K08hd/BSV4eU9Uf6a9ASBklKMXas4n3/6pBNWVdY23H8ciP1Zl77wtDd4wK5g
- sbtQteeEvqubOrDWpv/ROGA65RhcaSnzOSn8ZOlQUpyOf1Yb9EnoImIT3B0IvP/R7Dy4lW7onls
- HyOyd1aqGpcnirYlwrgfj9NTMaOABtx6mzzMG7La1ainy6quAaqPyze0zgZNqiIax31ankSh57u
- GPhG3SwEWNu6vY4d9Dz2fsAvFRXAS4sDSx2o8h7R9+8bEZ7L
+ bh=Upvl9tgr9qvbHcPWL5LKX2nGt5NiwNRJw75bqrqvp0g=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkr7SL9Ge1qnCb2j6ahUkyqJ3FRrP2b4sjst6RN
+ V+9JnSo3bOJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZK+0iwAKCRCPgPtYfRL+
+ TkRkB/sEco3Sf0VIRUYhqYkDh+E6Zp0cwz8RaUq9DYk8uUFkbENGYLj5TkKeR3WnDF49p2WuVbc
+ 4FCsXM2/+Ju1tYLkv7PJNTVwKhXYxio8UO04O3Ulwf9Hxo17i9Co6TCN1UC6ZX+9vkYu7Un4Rgh
+ rpvWjd9vAUrPzS4JkbCWbkbRX3CYy4xSPEuudbe9GlExGf13F0awMWiNDdkxuk+zvkGhUae1Fzm
+ oqmvy/wm2sdchlaUMOejDSEBvjN4C1Yxg/L2A25p6aDuxCgdQ8NPwVjbB9l1FKLw5rJxJzSJgKe
+ raPLT+Vn6VOCl1cw6eShgTfoswJhNAbOlM7JqHaD6IRe6e2i
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -87,7735 +87,11968 @@ by "drm" and adapt all users.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- .../gpu/drm/amd/amdgpu/amdgpu_connectors.c    |  52 +++----
- drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c      |   2 +-
- drivers/gpu/drm/amd/amdgpu/atombios_dp.c      |   4 +-
- .../gpu/drm/amd/amdgpu/atombios_encoders.c    |   4 +-
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  42 +++---
- .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c |  26 ++--
- .../amd/display/amdgpu_dm/amdgpu_dm_hdcp.c    |   2 +-
- .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |   6 +-
- .../arm/display/komeda/komeda_wb_connector.c  |   2 +-
- drivers/gpu/drm/arm/malidp_mw.c               |   4 +-
- drivers/gpu/drm/ast/ast_mode.c                |  10 +-
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c  |   4 +-
- .../drm/bridge/analogix/analogix-anx78xx.c    |   2 +-
- drivers/gpu/drm/bridge/analogix/anx7625.c     |   2 +-
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   |   8 +-
- .../drm/bridge/cadence/cdns-mhdp8546-hdcp.c   |   2 +-
- drivers/gpu/drm/bridge/chrontel-ch7033.c      |   2 +-
- drivers/gpu/drm/bridge/lontium-lt9611uxc.c    |   6 +-
- drivers/gpu/drm/bridge/nxp-ptn3460.c          |   2 +-
- drivers/gpu/drm/bridge/panel.c                |   2 +-
- drivers/gpu/drm/bridge/ti-tfp410.c            |   2 +-
- drivers/gpu/drm/display/drm_dp_cec.c          |   2 +-
- drivers/gpu/drm/display/drm_dp_helper.c       |   2 +-
- drivers/gpu/drm/display/drm_hdcp_helper.c     |   4 +-
- drivers/gpu/drm/display/drm_scdc_helper.c     |  10 +-
- drivers/gpu/drm/drm_atomic.c                  |  11 +-
- drivers/gpu/drm/drm_atomic_helper.c           |  26 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  18 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c       |   6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_pll.c       |   6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c      |   8 +-
+ drivers/gpu/drm/amd/amdgpu/atombios_crtc.c    |  22 +--
+ drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |  26 +--
+ drivers/gpu/drm/amd/amdgpu/dce_v11_0.c        |  28 ++--
+ drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |  26 +--
+ drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |  26 +--
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  26 +--
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c |  20 +--
+ .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    |   8 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c |  22 +--
+ .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   |   2 +-
+ .../gpu/drm/arm/display/komeda/komeda_crtc.c  |  24 +--
+ .../gpu/drm/arm/display/komeda/komeda_kms.c   |   2 +-
+ drivers/gpu/drm/arm/hdlcd_crtc.c              |   4 +-
+ drivers/gpu/drm/arm/malidp_crtc.c             |   6 +-
+ drivers/gpu/drm/armada/armada_crtc.c          |  10 +-
+ drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c      |   6 +-
+ drivers/gpu/drm/ast/ast_dp.c                  |   2 +-
+ drivers/gpu/drm/ast/ast_mode.c                |  26 +--
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c    |  10 +-
+ drivers/gpu/drm/drm_atomic.c                  |  22 +--
+ drivers/gpu/drm/drm_atomic_helper.c           |  19 ++-
  drivers/gpu/drm/drm_atomic_state_helper.c     |   2 +-
- drivers/gpu/drm/drm_atomic_uapi.c             |  14 +-
- drivers/gpu/drm/drm_bridge_connector.c        |   2 +-
- drivers/gpu/drm/drm_connector.c               |  75 +++++-----
- drivers/gpu/drm/drm_crtc_helper.c             |   2 +-
+ drivers/gpu/drm/drm_atomic_uapi.c             |  22 +--
+ drivers/gpu/drm/drm_blend.c                   |   2 +-
+ drivers/gpu/drm/drm_color_mgmt.c              |  10 +-
+ drivers/gpu/drm/drm_crtc.c                    |  18 +-
+ drivers/gpu/drm/drm_crtc_helper.c             |  10 +-
  drivers/gpu/drm/drm_debugfs.c                 |   2 +-
- drivers/gpu/drm/drm_edid.c                    | 134 ++++++++++--------
- drivers/gpu/drm/drm_edid_load.c               |  10 +-
- drivers/gpu/drm/drm_mipi_dbi.c                |   2 +-
- drivers/gpu/drm/drm_modes.c                   |   6 +-
- drivers/gpu/drm/drm_probe_helper.c            |  23 +--
- drivers/gpu/drm/drm_sysfs.c                   |  20 +--
- drivers/gpu/drm/drm_writeback.c               |   2 +-
- drivers/gpu/drm/exynos/exynos_dp.c            |   2 +-
- drivers/gpu/drm/exynos/exynos_drm_dpi.c       |   2 +-
- drivers/gpu/drm/gma500/cdv_device.c           |   4 +-
- drivers/gpu/drm/gma500/cdv_intel_crt.c        |   2 +-
- drivers/gpu/drm/gma500/cdv_intel_dp.c         |   6 +-
- drivers/gpu/drm/gma500/cdv_intel_hdmi.c       |   4 +-
- drivers/gpu/drm/gma500/cdv_intel_lvds.c       |   4 +-
- drivers/gpu/drm/gma500/oaktrail_hdmi.c        |   2 +-
- drivers/gpu/drm/gma500/psb_intel_lvds.c       |   8 +-
- drivers/gpu/drm/gma500/psb_intel_sdvo.c       |  16 +--
- drivers/gpu/drm/gud/gud_connector.c           |  22 +--
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c   |   4 +-
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c  |   4 +-
+ drivers/gpu/drm/drm_debugfs_crc.c             |   2 +-
+ drivers/gpu/drm/drm_fb_helper.c               |   6 +-
+ drivers/gpu/drm/drm_mipi_dbi.c                |   4 +-
+ drivers/gpu/drm/drm_plane.c                   |   2 +-
+ drivers/gpu/drm/drm_plane_helper.c            |   2 +-
+ drivers/gpu/drm/drm_self_refresh_helper.c     |   2 +-
+ drivers/gpu/drm/drm_vblank.c                  |  40 ++---
+ drivers/gpu/drm/drm_vblank_work.c             |   2 +-
+ drivers/gpu/drm/exynos/exynos_drm_crtc.c      |   8 +-
+ drivers/gpu/drm/exynos/exynos_drm_plane.c     |   4 +-
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_crtc.c    |  16 +-
+ drivers/gpu/drm/gma500/cdv_intel_display.c    |   2 +-
+ drivers/gpu/drm/gma500/cdv_intel_dp.c         |   2 +-
+ drivers/gpu/drm/gma500/gma_display.c          |  20 +--
+ drivers/gpu/drm/gma500/oaktrail_crtc.c        |   8 +-
+ drivers/gpu/drm/gma500/oaktrail_hdmi.c        |   4 +-
+ drivers/gpu/drm/gma500/psb_intel_display.c    |   2 +-
+ drivers/gpu/drm/gma500/psb_irq.c              |   6 +-
+ drivers/gpu/drm/gud/gud_pipe.c                |   6 +-
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_de.c    |  20 +--
+ .../gpu/drm/hisilicon/kirin/kirin_drm_ade.c   |   4 +-
  drivers/gpu/drm/hyperv/hyperv_drm_modeset.c   |   6 +-
- drivers/gpu/drm/i2c/tda998x_drv.c             |   2 +-
- drivers/gpu/drm/i915/display/intel_atomic.c   |   4 +-
- .../gpu/drm/i915/display/intel_backlight.c    | 112 +++++++--------
- .../gpu/drm/i915/display/intel_connector.c    |  14 +-
- drivers/gpu/drm/i915/display/intel_crt.c      |  14 +-
- drivers/gpu/drm/i915/display/intel_ddi.c      |   2 +-
- .../drm/i915/display/intel_display_debugfs.c  |  12 +-
- drivers/gpu/drm/i915/display/intel_dp.c       |  30 ++--
- .../drm/i915/display/intel_dp_aux_backlight.c |  12 +-
- drivers/gpu/drm/i915/display/intel_dp_hdcp.c  |   8 +-
- drivers/gpu/drm/i915/display/intel_dp_mst.c   |  16 +--
- drivers/gpu/drm/i915/display/intel_dsi.c      |   6 +-
- .../i915/display/intel_dsi_dcs_backlight.c    |   4 +-
- drivers/gpu/drm/i915/display/intel_dsi_vbt.c  |   8 +-
- drivers/gpu/drm/i915/display/intel_dvo.c      |   8 +-
- drivers/gpu/drm/i915/display/intel_hdcp.c     |  84 +++++------
- drivers/gpu/drm/i915/display/intel_hdmi.c     |  24 ++--
- drivers/gpu/drm/i915/display/intel_hotplug.c  |   2 +-
- drivers/gpu/drm/i915/display/intel_lvds.c     |   2 +-
- .../drm/i915/display/intel_modeset_verify.c   |   5 +-
- drivers/gpu/drm/i915/display/intel_opregion.c |   2 +-
- drivers/gpu/drm/i915/display/intel_panel.c    |  22 +--
- drivers/gpu/drm/i915/display/intel_pps.c      |   2 +-
- drivers/gpu/drm/i915/display/intel_psr.c      |   2 +-
- drivers/gpu/drm/i915/display/intel_sdvo.c     |  12 +-
- drivers/gpu/drm/i915/display/intel_tv.c       |  12 +-
- drivers/gpu/drm/i915/display/intel_vrr.c      |   2 +-
- drivers/gpu/drm/imx/ipuv3/imx-ldb.c           |   2 +-
- drivers/gpu/drm/imx/ipuv3/parallel-display.c  |   4 +-
- drivers/gpu/drm/loongson/lsdc_output_7a2000.c |   8 +-
- drivers/gpu/drm/mgag200/mgag200_mode.c        |   2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c |   2 +-
- drivers/gpu/drm/msm/dp/dp_display.c           |   2 +-
- drivers/gpu/drm/msm/dp/dp_drm.c               |   2 +-
- drivers/gpu/drm/nouveau/dispnv04/dac.c        |   2 +-
- drivers/gpu/drm/nouveau/dispnv04/dfp.c        |   2 +-
- drivers/gpu/drm/nouveau/dispnv04/tvnv04.c     |   2 +-
- drivers/gpu/drm/nouveau/dispnv04/tvnv17.c     |   2 +-
- drivers/gpu/drm/nouveau/dispnv50/disp.c       |  26 ++--
- drivers/gpu/drm/nouveau/nouveau_backlight.c   |   6 +-
- drivers/gpu/drm/nouveau/nouveau_connector.c   |  44 +++---
- drivers/gpu/drm/omapdrm/dss/venc.c            |   2 +-
- drivers/gpu/drm/panel/panel-abt-y030xx067a.c  |   2 +-
- drivers/gpu/drm/panel/panel-arm-versatile.c   |   2 +-
- .../drm/panel/panel-asus-z00t-tm5p5-n35596.c  |   2 +-
- drivers/gpu/drm/panel/panel-auo-a030jtn01.c   |   2 +-
- .../gpu/drm/panel/panel-boe-bf060y8m-aj0.c    |   2 +-
- drivers/gpu/drm/panel/panel-boe-himax8279d.c  |   2 +-
- .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    |   2 +-
- drivers/gpu/drm/panel/panel-dsi-cm.c          |   2 +-
- drivers/gpu/drm/panel/panel-ebbg-ft8719.c     |   2 +-
- drivers/gpu/drm/panel/panel-edp.c             |   6 +-
- drivers/gpu/drm/panel/panel-elida-kd35t133.c  |   2 +-
- .../gpu/drm/panel/panel-feixin-k101-im2ba02.c |   2 +-
- .../drm/panel/panel-feiyang-fy07024di26a30d.c |   2 +-
- drivers/gpu/drm/panel/panel-himax-hx8394.c    |   2 +-
- drivers/gpu/drm/panel/panel-ilitek-ili9322.c  |   2 +-
- drivers/gpu/drm/panel/panel-ilitek-ili9341.c  |   2 +-
- drivers/gpu/drm/panel/panel-ilitek-ili9881c.c |   2 +-
- drivers/gpu/drm/panel/panel-innolux-ej030na.c |   2 +-
- drivers/gpu/drm/panel/panel-innolux-p079zca.c |   2 +-
- .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  |   2 +-
- drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c  |   2 +-
- .../gpu/drm/panel/panel-jdi-lt070me05000.c    |   2 +-
- drivers/gpu/drm/panel/panel-khadas-ts050.c    |   2 +-
- .../drm/panel/panel-kingdisplay-kd097d04.c    |   2 +-
- .../drm/panel/panel-leadtek-ltk050h3146w.c    |   2 +-
- .../drm/panel/panel-leadtek-ltk500hd1829.c    |   2 +-
- drivers/gpu/drm/panel/panel-lg-lb035q02.c     |   2 +-
- drivers/gpu/drm/panel/panel-lg-lg4573.c       |   2 +-
- drivers/gpu/drm/panel/panel-lvds.c            |   2 +-
- .../drm/panel/panel-magnachip-d53e6ea8966.c   |   2 +-
- .../gpu/drm/panel/panel-mantix-mlaf057we51.c  |   2 +-
- drivers/gpu/drm/panel/panel-nec-nl8048hl11.c  |   2 +-
- .../gpu/drm/panel/panel-newvision-nv3051d.c   |   2 +-
- .../gpu/drm/panel/panel-newvision-nv3052c.c   |   2 +-
- drivers/gpu/drm/panel/panel-novatek-nt35510.c |   2 +-
- drivers/gpu/drm/panel/panel-novatek-nt35560.c |   4 +-
- drivers/gpu/drm/panel/panel-novatek-nt35950.c |   2 +-
- drivers/gpu/drm/panel/panel-novatek-nt36523.c |   2 +-
- .../gpu/drm/panel/panel-novatek-nt36672a.c    |   2 +-
- drivers/gpu/drm/panel/panel-novatek-nt39016.c |   2 +-
- .../drm/panel/panel-olimex-lcd-olinuxino.c    |   2 +-
- .../gpu/drm/panel/panel-orisetech-ota5601a.c  |   2 +-
- .../gpu/drm/panel/panel-orisetech-otm8009a.c  |   2 +-
- .../drm/panel/panel-osd-osd101t2587-53ts.c    |   2 +-
- .../drm/panel/panel-panasonic-vvx10f034n00.c  |   2 +-
- .../drm/panel/panel-raspberrypi-touchscreen.c |   2 +-
- drivers/gpu/drm/panel/panel-raydium-rm67191.c |   2 +-
- drivers/gpu/drm/panel/panel-raydium-rm68200.c |   2 +-
- drivers/gpu/drm/panel/panel-ronbo-rb070d30.c  |   2 +-
- drivers/gpu/drm/panel/panel-samsung-db7430.c  |   2 +-
- drivers/gpu/drm/panel/panel-samsung-ld9040.c  |   2 +-
- drivers/gpu/drm/panel/panel-samsung-s6d16d0.c |   2 +-
- drivers/gpu/drm/panel/panel-samsung-s6d27a1.c |   2 +-
- drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c |   2 +-
- drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c |   2 +-
- .../gpu/drm/panel/panel-samsung-s6e63j0x03.c  |   2 +-
- drivers/gpu/drm/panel/panel-samsung-s6e63m0.c |   2 +-
- .../panel/panel-samsung-s6e88a0-ams452ef01.c  |   2 +-
- drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c |   2 +-
- drivers/gpu/drm/panel/panel-samsung-sofef00.c |   2 +-
- drivers/gpu/drm/panel/panel-seiko-43wvf1g.c   |   4 +-
- .../gpu/drm/panel/panel-sharp-lq101r1sx01.c   |   2 +-
- .../gpu/drm/panel/panel-sharp-ls037v7dw01.c   |   2 +-
- .../gpu/drm/panel/panel-sharp-ls043t1le01.c   |   2 +-
- .../gpu/drm/panel/panel-sharp-ls060t1sx01.c   |   2 +-
- drivers/gpu/drm/panel/panel-simple.c          |   6 +-
- drivers/gpu/drm/panel/panel-sitronix-st7701.c |   2 +-
- drivers/gpu/drm/panel/panel-sitronix-st7703.c |   2 +-
- .../gpu/drm/panel/panel-sitronix-st7789v.c    |   2 +-
- drivers/gpu/drm/panel/panel-sony-acx565akm.c  |   2 +-
- drivers/gpu/drm/panel/panel-sony-td4353-jdi.c |   3 +-
- .../panel/panel-sony-tulip-truly-nt35521.c    |   2 +-
- drivers/gpu/drm/panel/panel-tdo-tl070wsh30.c  |   2 +-
- drivers/gpu/drm/panel/panel-tpo-td028ttec1.c  |   2 +-
- drivers/gpu/drm/panel/panel-tpo-td043mtea1.c  |   2 +-
- drivers/gpu/drm/panel/panel-tpo-tpg110.c      |   2 +-
- drivers/gpu/drm/panel/panel-truly-nt35597.c   |   2 +-
- .../gpu/drm/panel/panel-visionox-rm69299.c    |   2 +-
- .../gpu/drm/panel/panel-visionox-vtdr6130.c   |   2 +-
- .../gpu/drm/panel/panel-widechips-ws2401.c    |   2 +-
- .../gpu/drm/panel/panel-xinpeng-xpp055c272.c  |   2 +-
- drivers/gpu/drm/qxl/qxl_display.c             |  10 +-
- drivers/gpu/drm/radeon/atombios_dp.c          |   6 +-
- drivers/gpu/drm/radeon/atombios_encoders.c    |   2 +-
- drivers/gpu/drm/radeon/radeon_atombios.c      |   2 +-
- drivers/gpu/drm/radeon/radeon_audio.c         |   2 +-
- drivers/gpu/drm/radeon/radeon_combios.c       |   2 +-
- drivers/gpu/drm/radeon/radeon_connectors.c    |  74 +++++-----
- .../drm/renesas/rcar-du/rcar_du_writeback.c   |   2 +-
- .../renesas/shmobile/shmob_drm_backlight.c    |   8 +-
- .../gpu/drm/renesas/shmobile/shmob_drm_crtc.c |   4 +-
- drivers/gpu/drm/rockchip/inno_hdmi.c          |   2 +-
- drivers/gpu/drm/rockchip/rk3066_hdmi.c        |   2 +-
- drivers/gpu/drm/solomon/ssd130x.c             |   4 +-
- drivers/gpu/drm/tegra/dpaux.c                 |   4 +-
- drivers/gpu/drm/tegra/dsi.c                   |  12 +-
- drivers/gpu/drm/tegra/hdmi.c                  |   4 +-
- drivers/gpu/drm/tegra/output.c                |   4 +-
- drivers/gpu/drm/tegra/sor.c                   |   4 +-
- .../gpu/drm/tests/drm_client_modeset_test.c   |   4 +-
- drivers/gpu/drm/tilcdc/tilcdc_panel.c         |   2 +-
- drivers/gpu/drm/tiny/cirrus.c                 |   4 +-
- drivers/gpu/drm/tiny/ofdrm.c                  |   2 +-
- drivers/gpu/drm/tiny/repaper.c                |   2 +-
+ drivers/gpu/drm/i915/display/g4x_dp.c         |   4 +-
+ drivers/gpu/drm/i915/display/hsw_ips.c        |  16 +-
+ drivers/gpu/drm/i915/display/i9xx_plane.c     |   4 +-
+ drivers/gpu/drm/i915/display/i9xx_wm.c        |  40 ++---
+ drivers/gpu/drm/i915/display/icl_dsi.c        |   2 +-
+ drivers/gpu/drm/i915/display/intel_atomic.c   |   2 +-
+ .../gpu/drm/i915/display/intel_atomic_plane.c |   4 +-
+ drivers/gpu/drm/i915/display/intel_audio.c    |   2 +-
+ drivers/gpu/drm/i915/display/intel_bw.c       |  10 +-
+ drivers/gpu/drm/i915/display/intel_cdclk.c    |   6 +-
+ drivers/gpu/drm/i915/display/intel_color.c    | 124 +++++++-------
+ drivers/gpu/drm/i915/display/intel_crtc.c     |  20 +--
+ .../drm/i915/display/intel_crtc_state_dump.c  |   4 +-
+ drivers/gpu/drm/i915/display/intel_cursor.c   |   2 +-
+ drivers/gpu/drm/i915/display/intel_ddi.c      |  28 ++--
+ drivers/gpu/drm/i915/display/intel_display.c  | 154 +++++++++---------
+ .../gpu/drm/i915/display/intel_display_irq.c  |  22 +--
+ .../gpu/drm/i915/display/intel_display_rps.c  |   2 +-
+ .../drm/i915/display/intel_display_trace.h    |  12 +-
+ drivers/gpu/drm/i915/display/intel_dp.c       |   2 +-
+ drivers/gpu/drm/i915/display/intel_dpll.c     |  38 ++---
+ drivers/gpu/drm/i915/display/intel_dpll_mgr.c |  44 ++---
+ drivers/gpu/drm/i915/display/intel_dpt.c      |   2 +-
+ drivers/gpu/drm/i915/display/intel_drrs.c     |  10 +-
+ drivers/gpu/drm/i915/display/intel_dsb.c      |   8 +-
+ drivers/gpu/drm/i915/display/intel_fbc.c      |   2 +-
+ drivers/gpu/drm/i915/display/intel_fdi.c      |  22 +--
+ .../drm/i915/display/intel_fifo_underrun.c    |   6 +-
+ drivers/gpu/drm/i915/display/intel_hdmi.c     |   2 +-
+ .../drm/i915/display/intel_modeset_setup.c    |  22 +--
+ .../drm/i915/display/intel_modeset_verify.c   |   2 +-
+ drivers/gpu/drm/i915/display/intel_panel.c    |   4 +-
+ .../gpu/drm/i915/display/intel_pch_display.c  |  32 ++--
+ .../gpu/drm/i915/display/intel_pch_refclk.c   |   2 +-
+ drivers/gpu/drm/i915/display/intel_pipe_crc.c |  10 +-
+ .../drm/i915/display/intel_plane_initial.c    |   6 +-
+ drivers/gpu/drm/i915/display/intel_psr.c      |  14 +-
+ drivers/gpu/drm/i915/display/intel_sdvo.c     |   2 +-
+ drivers/gpu/drm/i915/display/intel_vblank.c   |  24 +--
+ drivers/gpu/drm/i915/display/intel_vdsc.c     |  18 +-
+ drivers/gpu/drm/i915/display/intel_vrr.c      |  18 +-
+ drivers/gpu/drm/i915/display/skl_scaler.c     |  10 +-
+ .../drm/i915/display/skl_universal_plane.c    |   6 +-
+ drivers/gpu/drm/i915/display/skl_watermark.c  |  42 ++---
+ drivers/gpu/drm/i915/display/vlv_dsi.c        |   2 +-
+ drivers/gpu/drm/imx/dcss/dcss-crtc.c          |  20 +--
+ drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c        |  14 +-
+ drivers/gpu/drm/imx/lcdc/imx-lcdc.c           |  19 ++-
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |   4 +-
+ drivers/gpu/drm/kmb/kmb_crtc.c                |  16 +-
+ drivers/gpu/drm/logicvc/logicvc_crtc.c        |  14 +-
+ drivers/gpu/drm/loongson/lsdc_crtc.c          |  12 +-
+ drivers/gpu/drm/mcde/mcde_display.c           |  18 +-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |  22 +--
+ drivers/gpu/drm/meson/meson_crtc.c            |  12 +-
+ drivers/gpu/drm/mgag200/mgag200_g200.c        |   4 +-
+ drivers/gpu/drm/mgag200/mgag200_g200eh.c      |   2 +-
+ drivers/gpu/drm/mgag200/mgag200_g200er.c      |   4 +-
+ drivers/gpu/drm/mgag200/mgag200_g200ev.c      |   4 +-
+ drivers/gpu/drm/mgag200/mgag200_g200se.c      |   6 +-
+ drivers/gpu/drm/mgag200/mgag200_g200wb.c      |   2 +-
+ drivers/gpu/drm/mgag200/mgag200_mode.c        |  10 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c |   6 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      |  68 ++++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   2 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c     |  12 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c     |  20 +--
+ drivers/gpu/drm/msm/msm_drv.c                 |   4 +-
+ drivers/gpu/drm/mxsfb/lcdif_kms.c             |  18 +-
+ drivers/gpu/drm/mxsfb/mxsfb_kms.c             |  16 +-
+ drivers/gpu/drm/nouveau/dispnv04/crtc.c       |  57 +++----
+ drivers/gpu/drm/nouveau/dispnv04/cursor.c     |  10 +-
+ drivers/gpu/drm/nouveau/dispnv50/atom.h       |   2 +-
+ drivers/gpu/drm/nouveau/dispnv50/crc.c        |  30 ++--
+ drivers/gpu/drm/nouveau/dispnv50/crc907d.c    |   6 +-
+ drivers/gpu/drm/nouveau/dispnv50/crcc37d.c    |   6 +-
+ drivers/gpu/drm/nouveau/dispnv50/crcc57d.c    |   2 +-
+ drivers/gpu/drm/nouveau/dispnv50/disp.c       |   4 +-
+ drivers/gpu/drm/nouveau/dispnv50/head.c       |   4 +-
+ drivers/gpu/drm/nouveau/dispnv50/head507d.c   |  26 +--
+ drivers/gpu/drm/nouveau/dispnv50/head827d.c   |  10 +-
+ drivers/gpu/drm/nouveau/dispnv50/head907d.c   |  26 +--
+ drivers/gpu/drm/nouveau/dispnv50/head917d.c   |   6 +-
+ drivers/gpu/drm/nouveau/dispnv50/headc37d.c   |  18 +-
+ drivers/gpu/drm/nouveau/dispnv50/headc57d.c   |  10 +-
+ drivers/gpu/drm/nouveau/nouveau_connector.h   |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_display.c     |   2 +-
+ drivers/gpu/drm/omapdrm/omap_crtc.c           |  56 +++----
+ drivers/gpu/drm/omapdrm/omap_irq.c            |   6 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili9341.c  |   4 +-
+ drivers/gpu/drm/pl111/pl111_display.c         |  16 +-
+ drivers/gpu/drm/qxl/qxl_display.c             |   2 +-
+ drivers/gpu/drm/radeon/atombios_crtc.c        |  54 +++---
+ drivers/gpu/drm/radeon/radeon_cursor.c        |  13 +-
+ drivers/gpu/drm/radeon/radeon_display.c       |  28 ++--
+ drivers/gpu/drm/radeon/radeon_kms.c           |   6 +-
+ drivers/gpu/drm/radeon/radeon_legacy_crtc.c   |  16 +-
+ .../gpu/drm/renesas/rcar-du/rcar_du_crtc.c    |  14 +-
+ .../gpu/drm/renesas/shmobile/shmob_drm_crtc.c |  20 +--
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c   |   8 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c  |  15 +-
+ drivers/gpu/drm/solomon/ssd130x.c             |   2 +-
+ drivers/gpu/drm/sprd/sprd_dpu.c               |   6 +-
+ drivers/gpu/drm/sti/sti_crtc.c                |  14 +-
+ drivers/gpu/drm/stm/ltdc.c                    |  12 +-
+ drivers/gpu/drm/sun4i/sun4i_crtc.c            |  12 +-
+ drivers/gpu/drm/tegra/dc.c                    |  12 +-
+ drivers/gpu/drm/tidss/tidss_crtc.c            |  18 +-
+ drivers/gpu/drm/tidss/tidss_irq.c             |   4 +-
+ drivers/gpu/drm/tilcdc/tilcdc_crtc.c          |  42 ++---
+ drivers/gpu/drm/tiny/bochs.c                  |   6 +-
+ drivers/gpu/drm/tiny/cirrus.c                 |   2 +-
+ drivers/gpu/drm/tiny/gm12u320.c               |   4 +-
+ drivers/gpu/drm/tiny/hx8357d.c                |   4 +-
+ drivers/gpu/drm/tiny/ili9163.c                |   4 +-
+ drivers/gpu/drm/tiny/ili9225.c                |   8 +-
+ drivers/gpu/drm/tiny/ili9341.c                |   4 +-
+ drivers/gpu/drm/tiny/ili9486.c                |   4 +-
+ drivers/gpu/drm/tiny/mi0283qt.c               |   4 +-
+ drivers/gpu/drm/tiny/ofdrm.c                  |   8 +-
+ drivers/gpu/drm/tiny/panel-mipi-dbi.c         |   6 +-
+ drivers/gpu/drm/tiny/repaper.c                |   8 +-
  drivers/gpu/drm/tiny/simpledrm.c              |   2 +-
- drivers/gpu/drm/udl/udl_modeset.c             |   2 +-
+ drivers/gpu/drm/tiny/st7586.c                 |   6 +-
+ drivers/gpu/drm/tiny/st7735r.c                |   4 +-
+ drivers/gpu/drm/tve200/tve200_display.c       |  14 +-
+ drivers/gpu/drm/udl/udl_modeset.c             |   4 +-
  drivers/gpu/drm/vboxvideo/vbox_mode.c         |   6 +-
- drivers/gpu/drm/vc4/vc4_hdmi.c                |  76 +++++-----
- drivers/gpu/drm/vc4/vc4_txp.c                 |   6 +-
- drivers/gpu/drm/virtio/virtgpu_display.c      |   2 +-
- drivers/gpu/drm/vkms/vkms_writeback.c         |   4 +-
+ drivers/gpu/drm/vc4/vc4_crtc.c                |  38 ++---
+ drivers/gpu/drm/vc4/vc4_hdmi.c                |   2 +-
+ drivers/gpu/drm/vc4/vc4_hvs.c                 |  12 +-
+ drivers/gpu/drm/vc4/vc4_txp.c                 |   2 +-
+ drivers/gpu/drm/virtio/virtgpu_display.c      |   4 +-
+ drivers/gpu/drm/vkms/vkms_crtc.c              |  12 +-
  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           |   4 +-
- drivers/gpu/drm/xen/xen_drm_front_conn.c      |   4 +-
- drivers/media/cec/core/cec-adap.c             |   2 +-
- include/drm/drm_connector.h                   |   6 +-
- 211 files changed, 815 insertions(+), 788 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c          |  10 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c          |   8 +-
+ drivers/gpu/drm/xen/xen_drm_front_kms.c       |  10 +-
+ drivers/gpu/drm/xlnx/zynqmp_kms.c             |   8 +-
+ include/drm/drm_atomic_helper.h               |   2 +-
+ include/drm/drm_crtc.h                        |   4 +-
+ 195 files changed, 1291 insertions(+), 1270 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-index d34037b85cf8..d8b446a64b5b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-@@ -42,7 +42,7 @@
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+index b702f499f5fb..f28090ecc603 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+@@ -147,14 +147,14 @@ static void amdgpu_display_flip_work_func(struct work_struct *__work)
+ 	}
  
- void amdgpu_connector_hotplug(struct drm_connector *connector)
+ 	/* We borrow the event spin lock for protecting flip_status */
+-	spin_lock_irqsave(&crtc->dev->event_lock, flags);
++	spin_lock_irqsave(&crtc->drm->event_lock, flags);
+ 
+ 	/* Do the flip (mmio) */
+ 	adev->mode_info.funcs->page_flip(adev, work->crtc_id, work->base, work->async);
+ 
+ 	/* Set the flip status */
+ 	amdgpu_crtc->pflip_status = AMDGPU_FLIP_SUBMITTED;
+-	spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++	spin_unlock_irqrestore(&crtc->drm->event_lock, flags);
+ 
+ 
+ 	drm_dbg_vbl(adev_to_drm(adev),
+@@ -191,7 +191,7 @@ int amdgpu_display_crtc_page_flip_target(struct drm_crtc *crtc,
+ 				uint32_t page_flip_flags, uint32_t target,
+ 				struct drm_modeset_acquire_ctx *ctx)
  {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
  	struct amdgpu_device *adev = drm_to_adev(dev);
- 	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	struct drm_gem_object *obj;
+@@ -262,10 +262,10 @@ int amdgpu_display_crtc_page_flip_target(struct drm_crtc *crtc,
+ 		amdgpu_get_vblank_counter_kms(crtc);
  
-@@ -280,7 +280,7 @@ amdgpu_connector_get_hardcoded_edid(struct amdgpu_device *adev)
+ 	/* we borrow the event spin lock for protecting flip_wrok */
+-	spin_lock_irqsave(&crtc->dev->event_lock, flags);
++	spin_lock_irqsave(&crtc->drm->event_lock, flags);
+ 	if (amdgpu_crtc->pflip_status != AMDGPU_FLIP_NONE) {
+ 		DRM_DEBUG_DRIVER("flip queue: crtc already busy\n");
+-		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++		spin_unlock_irqrestore(&crtc->drm->event_lock, flags);
+ 		r = -EBUSY;
+ 		goto pflip_cleanup;
+ 	}
+@@ -278,7 +278,7 @@ int amdgpu_display_crtc_page_flip_target(struct drm_crtc *crtc,
+ 					 amdgpu_crtc->crtc_id, amdgpu_crtc, work);
+ 	/* update crtc fb */
+ 	crtc->primary->fb = fb;
+-	spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++	spin_unlock_irqrestore(&crtc->drm->event_lock, flags);
+ 	amdgpu_display_flip_work_func(&work->flip_work.work);
+ 	return 0;
  
- static void amdgpu_connector_get_edid(struct drm_connector *connector)
+@@ -316,7 +316,7 @@ int amdgpu_display_crtc_set_config(struct drm_mode_set *set,
+ 	if (!set || !set->crtc)
+ 		return -EINVAL;
+ 
+-	dev = set->crtc->dev;
++	dev = set->crtc->drm;
+ 
+ 	ret = pm_runtime_get_sync(dev->dev);
+ 	if (ret < 0)
+@@ -1353,7 +1353,7 @@ bool amdgpu_display_crtc_scaling_mode_fixup(struct drm_crtc *crtc,
+ 					const struct drm_display_mode *mode,
+ 					struct drm_display_mode *adjusted_mode)
  {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct amdgpu_device *adev = drm_to_adev(dev);
- 	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
- 
-@@ -472,7 +472,7 @@ static int amdgpu_connector_set_property(struct drm_connector *connector,
- 					  struct drm_property *property,
- 					  uint64_t val)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct amdgpu_device *adev = drm_to_adev(dev);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
  	struct drm_encoder *encoder;
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
  	struct amdgpu_encoder *amdgpu_encoder;
-@@ -734,9 +734,9 @@ amdgpu_connector_lvds_detect(struct drm_connector *connector, bool force)
- 	int r;
- 
- 	if (!drm_kms_helper_is_poll_worker()) {
--		r = pm_runtime_get_sync(connector->dev->dev);
-+		r = pm_runtime_get_sync(connector->drm->dev);
- 		if (r < 0) {
--			pm_runtime_put_autosuspend(connector->dev->dev);
-+			pm_runtime_put_autosuspend(connector->drm->dev);
- 			return connector_status_disconnected;
- 		}
- 	}
-@@ -760,8 +760,8 @@ amdgpu_connector_lvds_detect(struct drm_connector *connector, bool force)
- 	amdgpu_connector_update_scratch_regs(connector, ret);
- 
- 	if (!drm_kms_helper_is_poll_worker()) {
--		pm_runtime_mark_last_busy(connector->dev->dev);
--		pm_runtime_put_autosuspend(connector->dev->dev);
-+		pm_runtime_mark_last_busy(connector->drm->dev);
-+		pm_runtime_put_autosuspend(connector->drm->dev);
- 	}
- 
- 	return ret;
-@@ -792,7 +792,7 @@ static int amdgpu_connector_set_lcd_property(struct drm_connector *connector,
- 					      struct drm_property *property,
- 					      uint64_t value)
+@@ -1587,7 +1587,7 @@ bool amdgpu_crtc_get_scanout_position(struct drm_crtc *crtc,
+ 			int *hpos, ktime_t *stime, ktime_t *etime,
+ 			const struct drm_display_mode *mode)
  {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct amdgpu_encoder *amdgpu_encoder;
- 	enum amdgpu_rmx_type rmx_type;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = crtc->index;
  
-@@ -862,7 +862,7 @@ static int amdgpu_connector_vga_get_modes(struct drm_connector *connector)
- static enum drm_mode_status amdgpu_connector_vga_mode_valid(struct drm_connector *connector,
- 					    struct drm_display_mode *mode)
+ 	return amdgpu_display_get_crtc_scanoutpos(dev, pipe, 0, vpos, hpos,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+index e3531aa3c8bd..26b75d05e703 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+@@ -1368,7 +1368,7 @@ void amdgpu_driver_release_kms(struct drm_device *dev)
+  */
+ u32 amdgpu_get_vblank_counter_kms(struct drm_crtc *crtc)
  {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = crtc->index;
  	struct amdgpu_device *adev = drm_to_adev(dev);
- 
- 	/* XXX check mode bandwidth */
-@@ -884,9 +884,9 @@ amdgpu_connector_vga_detect(struct drm_connector *connector, bool force)
- 	int r;
- 
- 	if (!drm_kms_helper_is_poll_worker()) {
--		r = pm_runtime_get_sync(connector->dev->dev);
-+		r = pm_runtime_get_sync(connector->drm->dev);
- 		if (r < 0) {
--			pm_runtime_put_autosuspend(connector->dev->dev);
-+			pm_runtime_put_autosuspend(connector->drm->dev);
- 			return connector_status_disconnected;
- 		}
- 	}
-@@ -944,8 +944,8 @@ amdgpu_connector_vga_detect(struct drm_connector *connector, bool force)
- 
- out:
- 	if (!drm_kms_helper_is_poll_worker()) {
--		pm_runtime_mark_last_busy(connector->dev->dev);
--		pm_runtime_put_autosuspend(connector->dev->dev);
-+		pm_runtime_mark_last_busy(connector->drm->dev);
-+		pm_runtime_put_autosuspend(connector->drm->dev);
- 	}
- 
- 	return ret;
-@@ -969,7 +969,7 @@ static const struct drm_connector_funcs amdgpu_connector_vga_funcs = {
- static bool
- amdgpu_connector_check_hpd_status_unchanged(struct drm_connector *connector)
+ 	int vpos, hpos, stat;
+@@ -1436,7 +1436,7 @@ u32 amdgpu_get_vblank_counter_kms(struct drm_crtc *crtc)
+  */
+ int amdgpu_enable_vblank_kms(struct drm_crtc *crtc)
  {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = crtc->index;
  	struct amdgpu_device *adev = drm_to_adev(dev);
- 	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
- 	enum drm_connector_status status;
-@@ -1000,7 +1000,7 @@ amdgpu_connector_check_hpd_status_unchanged(struct drm_connector *connector)
- static enum drm_connector_status
- amdgpu_connector_dvi_detect(struct drm_connector *connector, bool force)
+ 	int idx = amdgpu_display_crtc_idx_to_irq_type(adev, pipe);
+@@ -1453,7 +1453,7 @@ int amdgpu_enable_vblank_kms(struct drm_crtc *crtc)
+  */
+ void amdgpu_disable_vblank_kms(struct drm_crtc *crtc)
  {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = crtc->index;
  	struct amdgpu_device *adev = drm_to_adev(dev);
- 	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
- 	const struct drm_encoder_helper_funcs *encoder_funcs;
-@@ -1009,9 +1009,9 @@ amdgpu_connector_dvi_detect(struct drm_connector *connector, bool force)
- 	bool dret = false, broken_edid = false;
- 
- 	if (!drm_kms_helper_is_poll_worker()) {
--		r = pm_runtime_get_sync(connector->dev->dev);
-+		r = pm_runtime_get_sync(connector->drm->dev);
- 		if (r < 0) {
--			pm_runtime_put_autosuspend(connector->dev->dev);
-+			pm_runtime_put_autosuspend(connector->drm->dev);
- 			return connector_status_disconnected;
- 		}
- 	}
-@@ -1161,8 +1161,8 @@ amdgpu_connector_dvi_detect(struct drm_connector *connector, bool force)
- 
- exit:
- 	if (!drm_kms_helper_is_poll_worker()) {
--		pm_runtime_mark_last_busy(connector->dev->dev);
--		pm_runtime_put_autosuspend(connector->dev->dev);
-+		pm_runtime_mark_last_busy(connector->drm->dev);
-+		pm_runtime_put_autosuspend(connector->drm->dev);
- 	}
- 
- 	return ret;
-@@ -1208,7 +1208,7 @@ static void amdgpu_connector_dvi_force(struct drm_connector *connector)
- static enum drm_mode_status amdgpu_connector_dvi_mode_valid(struct drm_connector *connector,
- 					    struct drm_display_mode *mode)
+ 	int idx = amdgpu_display_crtc_idx_to_irq_type(adev, pipe);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_pll.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_pll.c
+index 0bb2466d539a..fb340f9a628b 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_pll.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_pll.c
+@@ -268,7 +268,7 @@ void amdgpu_pll_compute(struct amdgpu_device *adev,
+  */
+ u32 amdgpu_pll_get_use_mask(struct drm_crtc *crtc)
  {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct amdgpu_device *adev = drm_to_adev(dev);
- 	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
- 
-@@ -1360,7 +1360,7 @@ static bool amdgpu_connector_encoder_is_hbr2(struct drm_connector *connector)
- 
- bool amdgpu_connector_is_dp12_capable(struct drm_connector *connector)
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_crtc *test_crtc;
+ 	struct amdgpu_crtc *test_amdgpu_crtc;
+ 	u32 pll_in_use = 0;
+@@ -295,7 +295,7 @@ u32 amdgpu_pll_get_use_mask(struct drm_crtc *crtc)
+  */
+ int amdgpu_pll_get_shared_dp_ppll(struct drm_crtc *crtc)
  {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct amdgpu_device *adev = drm_to_adev(dev);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_crtc *test_crtc;
+ 	struct amdgpu_crtc *test_amdgpu_crtc;
  
- 	if ((adev->clock.default_dispclk >= 53900) &&
-@@ -1374,7 +1374,7 @@ bool amdgpu_connector_is_dp12_capable(struct drm_connector *connector)
- static enum drm_connector_status
- amdgpu_connector_dp_detect(struct drm_connector *connector, bool force)
+@@ -324,7 +324,7 @@ int amdgpu_pll_get_shared_dp_ppll(struct drm_crtc *crtc)
+ int amdgpu_pll_get_shared_nondp_ppll(struct drm_crtc *crtc)
  {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct amdgpu_device *adev = drm_to_adev(dev);
- 	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
- 	enum drm_connector_status ret = connector_status_disconnected;
-@@ -1383,9 +1383,9 @@ amdgpu_connector_dp_detect(struct drm_connector *connector, bool force)
- 	int r;
- 
- 	if (!drm_kms_helper_is_poll_worker()) {
--		r = pm_runtime_get_sync(connector->dev->dev);
-+		r = pm_runtime_get_sync(connector->drm->dev);
- 		if (r < 0) {
--			pm_runtime_put_autosuspend(connector->dev->dev);
-+			pm_runtime_put_autosuspend(connector->drm->dev);
- 			return connector_status_disconnected;
- 		}
- 	}
-@@ -1459,8 +1459,8 @@ amdgpu_connector_dp_detect(struct drm_connector *connector, bool force)
- 	amdgpu_connector_update_scratch_regs(connector, ret);
- out:
- 	if (!drm_kms_helper_is_poll_worker()) {
--		pm_runtime_mark_last_busy(connector->dev->dev);
--		pm_runtime_put_autosuspend(connector->dev->dev);
-+		pm_runtime_mark_last_busy(connector->drm->dev);
-+		pm_runtime_put_autosuspend(connector->drm->dev);
- 	}
- 
- 	if (connector->connector_type == DRM_MODE_CONNECTOR_DisplayPort ||
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_crtc *test_crtc;
+ 	struct amdgpu_crtc *test_amdgpu_crtc;
+ 	u32 adjusted_clock, test_adjusted_clock;
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
-index 53ff91fc6cf6..5ba42af8202a 100644
+index 5ba42af8202a..af21096696db 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
-@@ -205,7 +205,7 @@ static const struct drm_connector_funcs amdgpu_vkms_connector_funcs = {
+@@ -63,7 +63,7 @@ static enum hrtimer_restart amdgpu_vkms_vblank_simulate(struct hrtimer *timer)
  
- static int amdgpu_vkms_conn_get_modes(struct drm_connector *connector)
+ static int amdgpu_vkms_enable_vblank(struct drm_crtc *crtc)
  {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_display_mode *mode = NULL;
- 	unsigned i;
- 	static const struct mode_size {
-diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_dp.c b/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
-index 87c41e0e9b7c..968888ba326e 100644
---- a/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
-+++ b/drivers/gpu/drm/amd/amdgpu/atombios_dp.c
-@@ -189,7 +189,7 @@ void amdgpu_atombios_dp_aux_init(struct amdgpu_connector *amdgpu_connector)
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = drm_crtc_index(crtc);
+ 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+ 	struct amdgpu_vkms_output *out = drm_crtc_to_amdgpu_vkms_output(crtc);
+@@ -89,7 +89,7 @@ static bool amdgpu_vkms_get_vblank_timestamp(struct drm_crtc *crtc,
+ 					     ktime_t *vblank_time,
+ 					     bool in_vblank_irq)
  {
- 	amdgpu_connector->ddc_bus->rec.hpd = amdgpu_connector->hpd.hpd;
- 	amdgpu_connector->ddc_bus->aux.transfer = amdgpu_atombios_dp_aux_transfer;
--	amdgpu_connector->ddc_bus->aux.drm_dev = amdgpu_connector->base.dev;
-+	amdgpu_connector->ddc_bus->aux.drm_dev = amdgpu_connector->base.drm;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = crtc->index;
+ 	struct amdgpu_vkms_output *output = drm_crtc_to_amdgpu_vkms_output(crtc);
+ 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+@@ -146,14 +146,14 @@ static void amdgpu_vkms_crtc_atomic_flush(struct drm_crtc *crtc,
+ {
+ 	unsigned long flags;
+ 	if (crtc->state->event) {
+-		spin_lock_irqsave(&crtc->dev->event_lock, flags);
++		spin_lock_irqsave(&crtc->drm->event_lock, flags);
  
- 	drm_dp_aux_init(&amdgpu_connector->ddc_bus->aux);
- 	amdgpu_connector->ddc_bus->has_aux = true;
-@@ -307,7 +307,7 @@ static u8 amdgpu_atombios_dp_encoder_service(struct amdgpu_device *adev,
+ 		if (drm_crtc_vblank_get(crtc) != 0)
+ 			drm_crtc_send_vblank_event(crtc, crtc->state->event);
+ 		else
+ 			drm_crtc_arm_vblank_event(crtc, crtc->state->event);
  
- u8 amdgpu_atombios_dp_get_sinktype(struct amdgpu_connector *amdgpu_connector)
+-		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++		spin_unlock_irqrestore(&crtc->drm->event_lock, flags);
+ 
+ 		crtc->state->event = NULL;
+ 	}
+diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_crtc.c b/drivers/gpu/drm/amd/amdgpu/atombios_crtc.c
+index 10098fdd33fc..96400e5f1fb8 100644
+--- a/drivers/gpu/drm/amd/amdgpu/atombios_crtc.c
++++ b/drivers/gpu/drm/amd/amdgpu/atombios_crtc.c
+@@ -39,7 +39,7 @@ void amdgpu_atombios_crtc_overscan_setup(struct drm_crtc *crtc,
+ 				  struct drm_display_mode *mode,
+ 				  struct drm_display_mode *adjusted_mode)
  {
--	struct drm_device *dev = amdgpu_connector->base.dev;
-+	struct drm_device *dev = amdgpu_connector->base.drm;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	SET_CRTC_OVERSCAN_PS_ALLOCATION args;
+@@ -82,7 +82,7 @@ void amdgpu_atombios_crtc_overscan_setup(struct drm_crtc *crtc,
+ 
+ void amdgpu_atombios_crtc_scaler_setup(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	ENABLE_SCALER_PS_ALLOCATION args;
+@@ -112,7 +112,7 @@ void amdgpu_atombios_crtc_scaler_setup(struct drm_crtc *crtc)
+ void amdgpu_atombios_crtc_lock(struct drm_crtc *crtc, int lock)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	int index =
+ 	    GetIndexIntoMasterTable(COMMAND, UpdateCRTC_DoubleBufferRegisters);
+@@ -129,7 +129,7 @@ void amdgpu_atombios_crtc_lock(struct drm_crtc *crtc, int lock)
+ void amdgpu_atombios_crtc_enable(struct drm_crtc *crtc, int state)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	int index = GetIndexIntoMasterTable(COMMAND, EnableCRTC);
+ 	ENABLE_CRTC_PS_ALLOCATION args;
+@@ -145,7 +145,7 @@ void amdgpu_atombios_crtc_enable(struct drm_crtc *crtc, int state)
+ void amdgpu_atombios_crtc_blank(struct drm_crtc *crtc, int state)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	int index = GetIndexIntoMasterTable(COMMAND, BlankCRTC);
+ 	BLANK_CRTC_PS_ALLOCATION args;
+@@ -161,7 +161,7 @@ void amdgpu_atombios_crtc_blank(struct drm_crtc *crtc, int state)
+ void amdgpu_atombios_crtc_powergate(struct drm_crtc *crtc, int state)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	int index = GetIndexIntoMasterTable(COMMAND, EnableDispPowerGating);
+ 	ENABLE_DISP_POWER_GATING_PS_ALLOCATION args;
+@@ -190,7 +190,7 @@ void amdgpu_atombios_crtc_set_dtd_timing(struct drm_crtc *crtc,
+ 				  struct drm_display_mode *mode)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	SET_CRTC_USING_DTD_TIMING_PARAMETERS args;
+ 	int index = GetIndexIntoMasterTable(COMMAND, SetCRTC_UsingDTDTiming);
+@@ -305,7 +305,7 @@ static u32 amdgpu_atombios_crtc_adjust_pll(struct drm_crtc *crtc,
+ 				    struct drm_display_mode *mode)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct drm_encoder *encoder = amdgpu_crtc->encoder;
+ 	struct amdgpu_encoder *amdgpu_encoder = to_amdgpu_encoder(encoder);
+@@ -586,7 +586,7 @@ void amdgpu_atombios_crtc_program_pll(struct drm_crtc *crtc,
+ 				      bool ss_enabled,
+ 				      struct amdgpu_atom_ss *ss)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u8 frev, crev;
+ 	int index = GetIndexIntoMasterTable(COMMAND, SetPixelClock);
+@@ -747,7 +747,7 @@ int amdgpu_atombios_crtc_prepare_pll(struct drm_crtc *crtc,
+ 			      struct drm_display_mode *mode)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_encoder *amdgpu_encoder =
+ 		to_amdgpu_encoder(amdgpu_crtc->encoder);
+@@ -816,7 +816,7 @@ int amdgpu_atombios_crtc_prepare_pll(struct drm_crtc *crtc,
+ void amdgpu_atombios_crtc_set_pll(struct drm_crtc *crtc, struct drm_display_mode *mode)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_encoder *amdgpu_encoder =
+ 		to_amdgpu_encoder(amdgpu_crtc->encoder);
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+index 9a24ed463abd..1c745d8adb63 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+@@ -1824,7 +1824,7 @@ static const u32 vga_control_regs[6] =
+ static void dce_v10_0_vga_enable(struct drm_crtc *crtc, bool enable)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u32 vga_control;
+ 
+@@ -1838,7 +1838,7 @@ static void dce_v10_0_vga_enable(struct drm_crtc *crtc, bool enable)
+ static void dce_v10_0_grph_enable(struct drm_crtc *crtc, bool enable)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
  	struct amdgpu_device *adev = drm_to_adev(dev);
  
- 	return amdgpu_atombios_dp_encoder_service(adev, ATOM_DP_ACTION_GET_SINK_TYPE, 0,
-diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c b/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
-index d95b2dc78063..ac55c615dad0 100644
---- a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
-+++ b/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
-@@ -1144,7 +1144,7 @@ amdgpu_atombios_encoder_set_edp_panel_power(struct drm_connector *connector,
- 				     int action)
+ 	if (enable)
+@@ -1852,7 +1852,7 @@ static int dce_v10_0_crtc_do_set_base(struct drm_crtc *crtc,
+ 				     int x, int y, int atomic)
  {
- 	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
--	struct drm_device *dev = amdgpu_connector->base.dev;
-+	struct drm_device *dev = amdgpu_connector->base.drm;
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
  	struct amdgpu_device *adev = drm_to_adev(dev);
- 	union dig_transmitter_control args;
- 	int index = GetIndexIntoMasterTable(COMMAND, UNIPHYTransmitterControl);
-@@ -1814,7 +1814,7 @@ amdgpu_atombios_encoder_set_bios_scratch_regs(struct drm_connector *connector,
- 				       struct drm_encoder *encoder,
- 				       bool connected)
+ 	struct drm_framebuffer *target_fb;
+ 	struct drm_gem_object *obj;
+@@ -2096,7 +2096,7 @@ static int dce_v10_0_crtc_do_set_base(struct drm_crtc *crtc,
+ static void dce_v10_0_set_interleave(struct drm_crtc *crtc,
+ 				     struct drm_display_mode *mode)
  {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
  	struct amdgpu_device *adev = drm_to_adev(dev);
- 	struct amdgpu_connector *amdgpu_connector =
- 	    to_amdgpu_connector(connector);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	u32 tmp;
+@@ -2112,7 +2112,7 @@ static void dce_v10_0_set_interleave(struct drm_crtc *crtc,
+ static void dce_v10_0_crtc_load_lut(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u16 *r, *g, *b;
+ 	int i;
+@@ -2247,7 +2247,7 @@ static int dce_v10_0_pick_dig_encoder(struct drm_encoder *encoder)
+ static u32 dce_v10_0_pick_pll(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u32 pll_in_use;
+ 	int pll;
+@@ -2283,7 +2283,7 @@ static u32 dce_v10_0_pick_pll(struct drm_crtc *crtc)
+ 
+ static void dce_v10_0_lock_cursor(struct drm_crtc *crtc, bool lock)
+ {
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	uint32_t cur_lock;
+ 
+@@ -2298,7 +2298,7 @@ static void dce_v10_0_lock_cursor(struct drm_crtc *crtc, bool lock)
+ static void dce_v10_0_hide_cursor(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm);
+ 	u32 tmp;
+ 
+ 	tmp = RREG32(mmCUR_CONTROL + amdgpu_crtc->crtc_offset);
+@@ -2309,7 +2309,7 @@ static void dce_v10_0_hide_cursor(struct drm_crtc *crtc)
+ static void dce_v10_0_show_cursor(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm);
+ 	u32 tmp;
+ 
+ 	WREG32(mmCUR_SURFACE_ADDRESS_HIGH + amdgpu_crtc->crtc_offset,
+@@ -2327,7 +2327,7 @@ static int dce_v10_0_cursor_move_locked(struct drm_crtc *crtc,
+ 					int x, int y)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm);
+ 	int xorigin = 0, yorigin = 0;
+ 
+ 	amdgpu_crtc->cursor_x = x;
+@@ -2500,7 +2500,7 @@ static const struct drm_crtc_funcs dce_v10_0_crtc_funcs = {
+ 
+ static void dce_v10_0_crtc_dpms(struct drm_crtc *crtc, int mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	unsigned type;
+@@ -2554,7 +2554,7 @@ static void dce_v10_0_crtc_commit(struct drm_crtc *crtc)
+ static void dce_v10_0_crtc_disable(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_atom_ss ss;
+ 	int i;
+@@ -2635,7 +2635,7 @@ static bool dce_v10_0_crtc_mode_fixup(struct drm_crtc *crtc,
+ 				     struct drm_display_mode *adjusted_mode)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_encoder *encoder;
+ 
+ 	/* assign the encoder to the amdgpu crtc to avoid repeated lookups later */
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+index c14b70350a51..e9d97d7f3c38 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v11_0.c
+@@ -1866,7 +1866,7 @@ static const u32 vga_control_regs[6] =
+ static void dce_v11_0_vga_enable(struct drm_crtc *crtc, bool enable)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u32 vga_control;
+ 
+@@ -1880,7 +1880,7 @@ static void dce_v11_0_vga_enable(struct drm_crtc *crtc, bool enable)
+ static void dce_v11_0_grph_enable(struct drm_crtc *crtc, bool enable)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 
+ 	if (enable)
+@@ -1894,7 +1894,7 @@ static int dce_v11_0_crtc_do_set_base(struct drm_crtc *crtc,
+ 				     int x, int y, int atomic)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct drm_framebuffer *target_fb;
+ 	struct drm_gem_object *obj;
+@@ -2138,7 +2138,7 @@ static int dce_v11_0_crtc_do_set_base(struct drm_crtc *crtc,
+ static void dce_v11_0_set_interleave(struct drm_crtc *crtc,
+ 				     struct drm_display_mode *mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	u32 tmp;
+@@ -2154,7 +2154,7 @@ static void dce_v11_0_set_interleave(struct drm_crtc *crtc,
+ static void dce_v11_0_crtc_load_lut(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u16 *r, *g, *b;
+ 	int i;
+@@ -2280,7 +2280,7 @@ static int dce_v11_0_pick_dig_encoder(struct drm_encoder *encoder)
+ static u32 dce_v11_0_pick_pll(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u32 pll_in_use;
+ 	int pll;
+@@ -2359,7 +2359,7 @@ static u32 dce_v11_0_pick_pll(struct drm_crtc *crtc)
+ 
+ static void dce_v11_0_lock_cursor(struct drm_crtc *crtc, bool lock)
+ {
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	uint32_t cur_lock;
+ 
+@@ -2374,7 +2374,7 @@ static void dce_v11_0_lock_cursor(struct drm_crtc *crtc, bool lock)
+ static void dce_v11_0_hide_cursor(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm);
+ 	u32 tmp;
+ 
+ 	tmp = RREG32(mmCUR_CONTROL + amdgpu_crtc->crtc_offset);
+@@ -2385,7 +2385,7 @@ static void dce_v11_0_hide_cursor(struct drm_crtc *crtc)
+ static void dce_v11_0_show_cursor(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm);
+ 	u32 tmp;
+ 
+ 	WREG32(mmCUR_SURFACE_ADDRESS_HIGH + amdgpu_crtc->crtc_offset,
+@@ -2403,7 +2403,7 @@ static int dce_v11_0_cursor_move_locked(struct drm_crtc *crtc,
+ 					int x, int y)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm);
+ 	int xorigin = 0, yorigin = 0;
+ 
+ 	amdgpu_crtc->cursor_x = x;
+@@ -2576,7 +2576,7 @@ static const struct drm_crtc_funcs dce_v11_0_crtc_funcs = {
+ 
+ static void dce_v11_0_crtc_dpms(struct drm_crtc *crtc, int mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	unsigned type;
+@@ -2630,7 +2630,7 @@ static void dce_v11_0_crtc_commit(struct drm_crtc *crtc)
+ static void dce_v11_0_crtc_disable(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_atom_ss ss;
+ 	int i;
+@@ -2700,7 +2700,7 @@ static int dce_v11_0_crtc_mode_set(struct drm_crtc *crtc,
+ 				  int x, int y, struct drm_framebuffer *old_fb)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 
+ 	if (!amdgpu_crtc->adjusted_clock)
+@@ -2740,7 +2740,7 @@ static bool dce_v11_0_crtc_mode_fixup(struct drm_crtc *crtc,
+ 				     struct drm_display_mode *adjusted_mode)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_encoder *encoder;
+ 
+ 	/* assign the encoder to the amdgpu crtc to avoid repeated lookups later */
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+index 7f85ba5b726f..e226b57b8ef8 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+@@ -1789,7 +1789,7 @@ static const u32 vga_control_regs[6] =
+ static void dce_v6_0_vga_enable(struct drm_crtc *crtc, bool enable)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u32 vga_control;
+ 
+@@ -1800,7 +1800,7 @@ static void dce_v6_0_vga_enable(struct drm_crtc *crtc, bool enable)
+ static void dce_v6_0_grph_enable(struct drm_crtc *crtc, bool enable)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 
+ 	WREG32(mmGRPH_ENABLE + amdgpu_crtc->crtc_offset, enable ? 1 : 0);
+@@ -1811,7 +1811,7 @@ static int dce_v6_0_crtc_do_set_base(struct drm_crtc *crtc,
+ 				     int x, int y, int atomic)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct drm_framebuffer *target_fb;
+ 	struct drm_gem_object *obj;
+@@ -2033,7 +2033,7 @@ static int dce_v6_0_crtc_do_set_base(struct drm_crtc *crtc,
+ static void dce_v6_0_set_interleave(struct drm_crtc *crtc,
+ 				    struct drm_display_mode *mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 
+@@ -2048,7 +2048,7 @@ static void dce_v6_0_crtc_load_lut(struct drm_crtc *crtc)
+ {
+ 
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u16 *r, *g, *b;
+ 	int i;
+@@ -2148,7 +2148,7 @@ static int dce_v6_0_pick_dig_encoder(struct drm_encoder *encoder)
+ static u32 dce_v6_0_pick_pll(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u32 pll_in_use;
+ 	int pll;
+@@ -2178,7 +2178,7 @@ static u32 dce_v6_0_pick_pll(struct drm_crtc *crtc)
+ 
+ static void dce_v6_0_lock_cursor(struct drm_crtc *crtc, bool lock)
+ {
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	uint32_t cur_lock;
+ 
+@@ -2193,7 +2193,7 @@ static void dce_v6_0_lock_cursor(struct drm_crtc *crtc, bool lock)
+ static void dce_v6_0_hide_cursor(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm);
+ 
+ 	WREG32(mmCUR_CONTROL + amdgpu_crtc->crtc_offset,
+ 	       (CURSOR_24_8_PRE_MULT << CUR_CONTROL__CURSOR_MODE__SHIFT) |
+@@ -2205,7 +2205,7 @@ static void dce_v6_0_hide_cursor(struct drm_crtc *crtc)
+ static void dce_v6_0_show_cursor(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm);
+ 
+ 	WREG32(mmCUR_SURFACE_ADDRESS_HIGH + amdgpu_crtc->crtc_offset,
+ 	       upper_32_bits(amdgpu_crtc->cursor_addr));
+@@ -2223,7 +2223,7 @@ static int dce_v6_0_cursor_move_locked(struct drm_crtc *crtc,
+ 				       int x, int y)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm);
+ 	int xorigin = 0, yorigin = 0;
+ 
+ 	int w = amdgpu_crtc->cursor_width;
+@@ -2397,7 +2397,7 @@ static const struct drm_crtc_funcs dce_v6_0_crtc_funcs = {
+ 
+ static void dce_v6_0_crtc_dpms(struct drm_crtc *crtc, int mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	unsigned type;
+@@ -2447,7 +2447,7 @@ static void dce_v6_0_crtc_disable(struct drm_crtc *crtc)
+ {
+ 
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_atom_ss ss;
+ 	int i;
+@@ -2528,7 +2528,7 @@ static bool dce_v6_0_crtc_mode_fixup(struct drm_crtc *crtc,
+ {
+ 
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_encoder *encoder;
+ 
+ 	/* assign the encoder to the amdgpu crtc to avoid repeated lookups later */
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
+index d421a268c9ff..e17b9e3a21fc 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
+@@ -1753,7 +1753,7 @@ static const u32 vga_control_regs[6] =
+ static void dce_v8_0_vga_enable(struct drm_crtc *crtc, bool enable)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u32 vga_control;
+ 
+@@ -1767,7 +1767,7 @@ static void dce_v8_0_vga_enable(struct drm_crtc *crtc, bool enable)
+ static void dce_v8_0_grph_enable(struct drm_crtc *crtc, bool enable)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 
+ 	if (enable)
+@@ -1781,7 +1781,7 @@ static int dce_v8_0_crtc_do_set_base(struct drm_crtc *crtc,
+ 				     int x, int y, int atomic)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct drm_framebuffer *target_fb;
+ 	struct drm_gem_object *obj;
+@@ -2005,7 +2005,7 @@ static int dce_v8_0_crtc_do_set_base(struct drm_crtc *crtc,
+ static void dce_v8_0_set_interleave(struct drm_crtc *crtc,
+ 				    struct drm_display_mode *mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 
+@@ -2019,7 +2019,7 @@ static void dce_v8_0_set_interleave(struct drm_crtc *crtc,
+ static void dce_v8_0_crtc_load_lut(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u16 *r, *g, *b;
+ 	int i;
+@@ -2137,7 +2137,7 @@ static int dce_v8_0_pick_dig_encoder(struct drm_encoder *encoder)
+ static u32 dce_v8_0_pick_pll(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	u32 pll_in_use;
+ 	int pll;
+@@ -2186,7 +2186,7 @@ static u32 dce_v8_0_pick_pll(struct drm_crtc *crtc)
+ 
+ static void dce_v8_0_lock_cursor(struct drm_crtc *crtc, bool lock)
+ {
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	uint32_t cur_lock;
+ 
+@@ -2201,7 +2201,7 @@ static void dce_v8_0_lock_cursor(struct drm_crtc *crtc, bool lock)
+ static void dce_v8_0_hide_cursor(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm);
+ 
+ 	WREG32(mmCUR_CONTROL + amdgpu_crtc->crtc_offset,
+ 	       (CURSOR_24_8_PRE_MULT << CUR_CONTROL__CURSOR_MODE__SHIFT) |
+@@ -2211,7 +2211,7 @@ static void dce_v8_0_hide_cursor(struct drm_crtc *crtc)
+ static void dce_v8_0_show_cursor(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm);
+ 
+ 	WREG32(mmCUR_SURFACE_ADDRESS_HIGH + amdgpu_crtc->crtc_offset,
+ 	       upper_32_bits(amdgpu_crtc->cursor_addr));
+@@ -2228,7 +2228,7 @@ static int dce_v8_0_cursor_move_locked(struct drm_crtc *crtc,
+ 				       int x, int y)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm);
+ 	int xorigin = 0, yorigin = 0;
+ 
+ 	amdgpu_crtc->cursor_x = x;
+@@ -2401,7 +2401,7 @@ static const struct drm_crtc_funcs dce_v8_0_crtc_funcs = {
+ 
+ static void dce_v8_0_crtc_dpms(struct drm_crtc *crtc, int mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+ 	unsigned type;
+@@ -2455,7 +2455,7 @@ static void dce_v8_0_crtc_commit(struct drm_crtc *crtc)
+ static void dce_v8_0_crtc_disable(struct drm_crtc *crtc)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct amdgpu_atom_ss ss;
+ 	int i;
+@@ -2543,7 +2543,7 @@ static bool dce_v8_0_crtc_mode_fixup(struct drm_crtc *crtc,
+ 				     struct drm_display_mode *adjusted_mode)
+ {
+ 	struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_encoder *encoder;
+ 
+ 	/* assign the encoder to the amdgpu crtc to avoid repeated lookups later */
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 83ec2bb5c3b1..7d48fcddb6da 100644
+index 7d48fcddb6da..485a3991820f 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -194,7 +194,7 @@ static void update_subconnector_property(struct amdgpu_dm_connector *aconnector)
- 		subconnector = get_subconnector_type(link);
+@@ -515,7 +515,7 @@ static void dm_vupdate_high_irq(void *interrupt_params)
  
- 	drm_object_property_set_value(&connector->base,
--			connector->dev->mode_config.dp_subconnector_property,
-+			connector->drm->mode_config.dp_subconnector_property,
- 			subconnector);
- }
- 
-@@ -888,7 +888,7 @@ static int dm_early_init(void* handle);
- /* Allocate memory for FBC compressed data  */
- static void amdgpu_dm_fbc_init(struct drm_connector *connector)
+ 	if (acrtc) {
+ 		vrr_active = amdgpu_dm_crtc_vrr_active_irq(acrtc);
+-		drm_dev = acrtc->base.dev;
++		drm_dev = acrtc->base.drm;
+ 		vblank = &drm_dev->vblank[acrtc->base.index];
+ 		previous_timestamp = atomic64_read(&irq_params->previous_timestamp);
+ 		frame_duration_ns = vblank->time - previous_timestamp;
+@@ -7771,7 +7771,7 @@ static void remove_stream(struct amdgpu_device *adev,
+ static void prepare_flip_isr(struct amdgpu_crtc *acrtc)
  {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct amdgpu_device *adev = drm_to_adev(dev);
- 	struct dm_compressor_info *compressor = &adev->dm.compressor;
- 	struct amdgpu_dm_connector *aconn = to_amdgpu_dm_connector(connector);
-@@ -1304,9 +1304,9 @@ static void force_connector_state(
- {
- 	struct drm_connector *connector = &aconnector->base;
  
--	mutex_lock(&connector->dev->mode_config.mutex);
-+	mutex_lock(&connector->drm->mode_config.mutex);
- 	aconnector->base.force = force_state;
--	mutex_unlock(&connector->dev->mode_config.mutex);
-+	mutex_unlock(&connector->drm->mode_config.mutex);
+-	assert_spin_locked(&acrtc->base.dev->event_lock);
++	assert_spin_locked(&acrtc->base.drm->event_lock);
+ 	WARN_ON(acrtc->event);
  
- 	mutex_lock(&aconnector->hpd_lock);
- 	drm_kms_helper_connector_hotplug_event(connector);
-@@ -1333,7 +1333,7 @@ static void dm_handle_hpd_rx_offload_work(struct work_struct *work)
- 		goto skip;
+ 	acrtc->event = acrtc->base.state->event;
+@@ -8190,9 +8190,9 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+ 			 * timing control and more opportunity to avoid stutter
+ 			 * on late submission of flips.
+ 			 */
+-			spin_lock_irqsave(&pcrtc->dev->event_lock, flags);
++			spin_lock_irqsave(&pcrtc->drm->event_lock, flags);
+ 			last_flip_vblank = acrtc_attach->dm_irq_params.last_flip_vblank;
+-			spin_unlock_irqrestore(&pcrtc->dev->event_lock, flags);
++			spin_unlock_irqrestore(&pcrtc->drm->event_lock, flags);
+ 		}
+ 
+ 		target_vblank = last_flip_vblank + wait_for_vblank;
+@@ -8224,12 +8224,12 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+ 		    acrtc_state->active_planes > 0) {
+ 			drm_crtc_vblank_get(pcrtc);
+ 
+-			spin_lock_irqsave(&pcrtc->dev->event_lock, flags);
++			spin_lock_irqsave(&pcrtc->drm->event_lock, flags);
+ 
+ 			WARN_ON(acrtc_attach->pflip_status != AMDGPU_FLIP_NONE);
+ 			prepare_flip_isr(acrtc_attach);
+ 
+-			spin_unlock_irqrestore(&pcrtc->dev->event_lock, flags);
++			spin_unlock_irqrestore(&pcrtc->drm->event_lock, flags);
+ 		}
+ 
+ 		if (acrtc_state->stream) {
+@@ -8241,12 +8241,12 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+ 		   acrtc_attach->base.state->event) {
+ 		drm_crtc_vblank_get(pcrtc);
+ 
+-		spin_lock_irqsave(&pcrtc->dev->event_lock, flags);
++		spin_lock_irqsave(&pcrtc->drm->event_lock, flags);
+ 
+ 		acrtc_attach->event = acrtc_attach->base.state->event;
+ 		acrtc_attach->base.state->event = NULL;
+ 
+-		spin_unlock_irqrestore(&pcrtc->dev->event_lock, flags);
++		spin_unlock_irqrestore(&pcrtc->drm->event_lock, flags);
  	}
  
--	adev = drm_to_adev(aconnector->base.dev);
-+	adev = drm_to_adev(aconnector->base.drm);
- 	dc_link = aconnector->dc_link;
+ 	/* Update the planes if changed or disable if we don't have any. */
+@@ -8294,11 +8294,11 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+ 		 * as part of commit.
+ 		 */
+ 		if (is_dc_timing_adjust_needed(dm_old_crtc_state, acrtc_state)) {
+-			spin_lock_irqsave(&pcrtc->dev->event_lock, flags);
++			spin_lock_irqsave(&pcrtc->drm->event_lock, flags);
+ 			dc_stream_adjust_vmin_vmax(
+ 				dm->dc, acrtc_state->stream,
+ 				&acrtc_attach->dm_irq_params.vrr_params.adjust);
+-			spin_unlock_irqrestore(&pcrtc->dev->event_lock, flags);
++			spin_unlock_irqrestore(&pcrtc->drm->event_lock, flags);
+ 		}
+ 		mutex_lock(&dm->dc_lock);
+ 		update_planes_and_stream_adapter(dm->dc,
+@@ -9597,7 +9597,7 @@ static int dm_check_cursor_fb(struct amdgpu_crtc *new_acrtc,
+ 			      struct drm_plane_state *new_plane_state,
+ 			      struct drm_framebuffer *fb)
+ {
+-	struct amdgpu_device *adev = drm_to_adev(new_acrtc->base.dev);
++	struct amdgpu_device *adev = drm_to_adev(new_acrtc->base.drm);
+ 	struct amdgpu_framebuffer *afb = to_amdgpu_framebuffer(fb);
+ 	unsigned int pitch;
+ 	bool linear;
+@@ -9782,7 +9782,7 @@ static int dm_update_plane_state(struct dc *dc,
+ 				 plane->base.id, new_plane_crtc->base.id);
  
- 	mutex_lock(&aconnector->hpd_lock);
-@@ -2994,7 +2994,7 @@ static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
+ 		ret = fill_dc_plane_attributes(
+-			drm_to_adev(new_plane_crtc->dev),
++			drm_to_adev(new_plane_crtc->drm),
+ 			dc_new_plane_state,
+ 			new_plane_state,
+ 			new_crtc_state);
+@@ -9889,7 +9889,7 @@ static int dm_check_crtc_cursor(struct drm_atomic_state *state,
+ 
+ 		if (cursor_scale_w != underlying_scale_w ||
+ 		    cursor_scale_h != underlying_scale_h) {
+-			drm_dbg_atomic(crtc->dev,
++			drm_dbg_atomic(crtc->drm,
+ 				       "Cursor [PLANE:%d:%s] scaling doesn't match underlying [PLANE:%d:%s]\n",
+ 				       cursor->base.id, cursor->name, underlying->base.id, underlying->name);
+ 			return -EINVAL;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
+index 0802f8e8fac5..e073ce7b0a2b 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
+@@ -85,7 +85,7 @@ const char *const *amdgpu_dm_crtc_get_crc_sources(struct drm_crtc *crtc,
+ #ifdef CONFIG_DRM_AMD_SECURE_DISPLAY
+ static void amdgpu_dm_set_crc_window_default(struct drm_crtc *crtc, struct dc_stream_state *stream)
+ {
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm;
+ 	struct amdgpu_display_manager *dm = &drm_to_adev(drm_dev)->dm;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+ 	bool was_activated;
+@@ -127,7 +127,7 @@ static void amdgpu_dm_crtc_notify_ta_to_read(struct work_struct *work)
  		return;
- 
- 	conn_base = &aconnector->base;
--	adev = drm_to_adev(conn_base->dev);
-+	adev = drm_to_adev(conn_base->drm);
- 
- 	caps = &adev->dm.backlight_caps[aconnector->bl_idx];
- 	caps->ext_caps = &aconnector->dc_link->dpcd_sink_ext_caps;
-@@ -3025,7 +3025,7 @@ void amdgpu_dm_update_connector_after_detect(
- 		struct amdgpu_dm_connector *aconnector)
- {
- 	struct drm_connector *connector = &aconnector->base;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct dc_sink *sink;
- 
- 	/* MST handled by drm_mst framework */
-@@ -3173,7 +3173,7 @@ void amdgpu_dm_update_connector_after_detect(
- static void handle_hpd_irq_helper(struct amdgpu_dm_connector *aconnector)
- {
- 	struct drm_connector *connector = &aconnector->base;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	enum dc_connection_type new_connection_type = dc_connection_none;
- 	struct amdgpu_device *adev = drm_to_adev(dev);
- 	struct dm_connector_state *dm_con_state = to_dm_connector_state(connector->state);
-@@ -3339,7 +3339,7 @@ static void handle_hpd_rx_irq(void *param)
- {
- 	struct amdgpu_dm_connector *aconnector = (struct amdgpu_dm_connector *)param;
- 	struct drm_connector *connector = &aconnector->base;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct dc_link *dc_link = aconnector->dc_link;
- 	bool is_mst_root_connector = aconnector->mst_mgr.mst_state;
- 	bool result = false;
-@@ -4194,7 +4194,7 @@ static const struct backlight_ops amdgpu_dm_backlight_ops = {
- static void
- amdgpu_dm_register_backlight_device(struct amdgpu_dm_connector *aconnector)
- {
--	struct drm_device *drm = aconnector->base.dev;
-+	struct drm_device *drm = aconnector->base.drm;
- 	struct amdgpu_display_manager *dm = &drm_to_adev(drm)->dm;
- 	struct backlight_properties props = { 0 };
- 	char bl_name[16];
-@@ -6149,7 +6149,7 @@ int amdgpu_dm_connector_atomic_set_property(struct drm_connector *connector,
- 					    struct drm_property *property,
- 					    uint64_t val)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct amdgpu_device *adev = drm_to_adev(dev);
- 	struct dm_connector_state *dm_old_state =
- 		to_dm_connector_state(connector->state);
-@@ -6204,7 +6204,7 @@ int amdgpu_dm_connector_atomic_get_property(struct drm_connector *connector,
- 					    struct drm_property *property,
- 					    uint64_t *val)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct amdgpu_device *adev = drm_to_adev(dev);
- 	struct dm_connector_state *dm_state =
- 		to_dm_connector_state(state);
-@@ -6254,7 +6254,7 @@ static void amdgpu_dm_connector_unregister(struct drm_connector *connector)
- static void amdgpu_dm_connector_destroy(struct drm_connector *connector)
- {
- 	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
--	struct amdgpu_device *adev = drm_to_adev(connector->dev);
-+	struct amdgpu_device *adev = drm_to_adev(connector->drm);
- 	struct amdgpu_display_manager *dm = &adev->dm;
- 
- 	/*
-@@ -6537,7 +6537,7 @@ create_validate_stream_for_sink(struct amdgpu_dm_connector *aconnector,
- 				const struct dc_stream_state *old_stream)
- {
- 	struct drm_connector *connector = &aconnector->base;
--	struct amdgpu_device *adev = drm_to_adev(connector->dev);
-+	struct amdgpu_device *adev = drm_to_adev(connector->drm);
- 	struct dc_stream_state *stream;
- 	const struct drm_connector_state *drm_state = dm_state ? &dm_state->base : NULL;
- 	int requested_bpc = drm_state ? drm_state->max_requested_bpc : 8;
-@@ -7082,9 +7082,9 @@ static void amdgpu_set_panel_orientation(struct drm_connector *connector)
- 	    connector->connector_type != DRM_MODE_CONNECTOR_LVDS)
- 		return;
- 
--	mutex_lock(&connector->dev->mode_config.mutex);
-+	mutex_lock(&connector->drm->mode_config.mutex);
- 	amdgpu_dm_connector_get_modes(connector);
--	mutex_unlock(&connector->dev->mode_config.mutex);
-+	mutex_unlock(&connector->drm->mode_config.mutex);
- 
- 	encoder = amdgpu_dm_connector_to_encoder(connector);
- 	if (!encoder)
-@@ -7204,7 +7204,7 @@ static uint add_fs_modes(struct amdgpu_dm_connector *aconnector)
- 		    m->vtotal + target_vtotal_diff < m->vsync_end)
- 			continue;
- 
--		new_mode = drm_mode_duplicate(aconnector->base.dev, m);
-+		new_mode = drm_mode_duplicate(aconnector->base.drm, m);
- 		if (!new_mode)
- 			goto out;
- 
-@@ -7218,7 +7218,7 @@ static uint add_fs_modes(struct amdgpu_dm_connector *aconnector)
- 			drm_mode_probed_add(&aconnector->base, new_mode);
- 			new_modes_count += 1;
- 		} else
--			drm_mode_destroy(aconnector->base.dev, new_mode);
-+			drm_mode_destroy(aconnector->base.drm, new_mode);
  	}
-  out:
- 	return new_modes_count;
-@@ -8990,7 +8990,7 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
- static int dm_force_atomic_commit(struct drm_connector *connector)
+ 
+-	psp = &drm_to_adev(crtc->dev)->psp;
++	psp = &drm_to_adev(crtc->drm)->psp;
+ 
+ 	if (!psp->securedisplay_context.context.initialized) {
+ 		DRM_DEBUG_DRIVER("Secure Display fails to notify PSP TA\n");
+@@ -173,7 +173,7 @@ amdgpu_dm_forward_crc_window(struct work_struct *work)
+ 	if (!crtc)
+ 		return;
+ 
+-	dm = &drm_to_adev(crtc->dev)->dm;
++	dm = &drm_to_adev(crtc->drm)->dm;
+ 	stream = to_amdgpu_crtc(crtc)->dm_irq_params.stream;
+ 
+ 	mutex_lock(&dm->dc_lock);
+@@ -183,7 +183,7 @@ amdgpu_dm_forward_crc_window(struct work_struct *work)
+ 
+ bool amdgpu_dm_crc_window_is_activated(struct drm_crtc *crtc)
  {
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+ 	bool ret = false;
+ 
+@@ -215,7 +215,7 @@ int amdgpu_dm_crtc_configure_crc_source(struct drm_crtc *crtc,
+ 					struct dm_crtc_state *dm_crtc_state,
+ 					enum amdgpu_dm_pipe_crc_source source)
+ {
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm);
+ 	struct dc_stream_state *stream_state = dm_crtc_state->stream;
+ 	bool enable = amdgpu_dm_is_valid_crc_source(source);
  	int ret = 0;
--	struct drm_device *ddev = connector->dev;
-+	struct drm_device *ddev = connector->drm;
- 	struct drm_atomic_state *state = drm_atomic_state_alloc(ddev);
- 	struct amdgpu_crtc *disconnected_acrtc = to_amdgpu_crtc(connector->encoder->crtc);
- 	struct drm_plane *plane = disconnected_acrtc->base.primary;
-@@ -10513,7 +10513,7 @@ static bool parse_edid_cea(struct amdgpu_dm_connector *aconnector,
- 		u8 *edid_ext, int len,
- 		struct amdgpu_hdmi_vsdb_info *vsdb_info)
+@@ -259,7 +259,7 @@ int amdgpu_dm_crtc_set_crc_source(struct drm_crtc *crtc, const char *src_name)
+ 	enum amdgpu_dm_pipe_crc_source cur_crc_src;
+ 	struct drm_crtc_commit *commit;
+ 	struct dm_crtc_state *crtc_state;
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+ 	struct drm_dp_aux *aux = NULL;
+ 	bool enable = false;
+@@ -323,7 +323,7 @@ int amdgpu_dm_crtc_set_crc_source(struct drm_crtc *crtc, const char *src_name)
+ 		struct drm_connector *connector;
+ 		struct drm_connector_list_iter conn_iter;
+ 
+-		drm_connector_list_iter_begin(crtc->dev, &conn_iter);
++		drm_connector_list_iter_begin(crtc->drm, &conn_iter);
+ 		drm_for_each_connector_iter(connector, &conn_iter) {
+ 			if (!connector->state || connector->state->crtc != crtc)
+ 				continue;
+@@ -433,7 +433,7 @@ void amdgpu_dm_crtc_handle_crc_irq(struct drm_crtc *crtc)
+ 	crtc_state = to_dm_crtc_state(crtc->state);
+ 	stream_state = crtc_state->stream;
+ 	acrtc = to_amdgpu_crtc(crtc);
+-	drm_dev = crtc->dev;
++	drm_dev = crtc->drm;
+ 
+ 	spin_lock_irqsave(&drm_dev->event_lock, flags);
+ 	cur_crc_src = acrtc->dm_irq_params.crc_src;
+@@ -478,8 +478,8 @@ void amdgpu_dm_crtc_handle_crc_window_irq(struct drm_crtc *crtc)
+ 		return;
+ 
+ 	acrtc = to_amdgpu_crtc(crtc);
+-	adev = drm_to_adev(crtc->dev);
+-	drm_dev = crtc->dev;
++	adev = drm_to_adev(crtc->drm);
++	drm_dev = crtc->drm;
+ 
+ 	spin_lock_irqsave(&drm_dev->event_lock, flags1);
+ 	cur_crc_src = acrtc->dm_irq_params.crc_src;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+index 80684dea114e..8bf3172496c1 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+@@ -37,7 +37,7 @@
+ void amdgpu_dm_crtc_handle_vblank(struct amdgpu_crtc *acrtc)
  {
--	struct amdgpu_device *adev = drm_to_adev(aconnector->base.dev);
-+	struct amdgpu_device *adev = drm_to_adev(aconnector->base.drm);
- 	bool ret;
+ 	struct drm_crtc *crtc = &acrtc->base;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned long flags;
  
- 	mutex_lock(&adev->dm.dc_lock);
-@@ -10579,7 +10579,7 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
- 	struct dm_connector_state *dm_con_state = NULL;
- 	struct dc_sink *sink;
+ 	drm_crtc_handle_vblank(crtc);
+@@ -74,7 +74,7 @@ int amdgpu_dm_crtc_set_vupdate_irq(struct drm_crtc *crtc, bool enable)
+ {
+ 	enum dc_irq_source irq_source;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm);
+ 	int rc;
  
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct amdgpu_device *adev = drm_to_adev(dev);
- 	struct amdgpu_hdmi_vsdb_info vsdb_info = {0};
- 	bool freesync_capable = false;
+ 	if (acrtc->otg_inst == -1)
+@@ -147,7 +147,7 @@ static void vblank_control_worker(struct work_struct *work)
+ static inline int dm_set_vblank(struct drm_crtc *crtc, bool enable)
+ {
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm);
+ 	struct dm_crtc_state *acrtc_state = to_dm_crtc_state(crtc->state);
+ 	struct amdgpu_display_manager *dm = &adev->dm;
+ 	struct vblank_control_work *work;
+@@ -372,7 +372,7 @@ static int dm_crtc_helper_atomic_check(struct drm_crtc *crtc,
+ {
+ 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
+ 										crtc);
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm);
+ 	struct dc *dc = adev->dm.dc;
+ 	struct dm_crtc_state *dm_crtc_state = to_dm_crtc_state(crtc_state);
+ 	int ret = -EINVAL;
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-index 5ea3284b2b77..3b27f3c445a4 100644
+index 3b27f3c445a4..8b9b3fff74c7 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-@@ -254,7 +254,7 @@ static ssize_t dp_link_settings_write(struct file *f, const char __user *buf,
+@@ -861,7 +861,7 @@ static int psr_capability_show(struct seq_file *m, void *data)
+ static int amdgpu_current_bpc_show(struct seq_file *m, void *data)
  {
- 	struct amdgpu_dm_connector *connector = file_inode(f)->i_private;
- 	struct dc_link *link = connector->dc_link;
--	struct amdgpu_device *adev = drm_to_adev(connector->base.dev);
-+	struct amdgpu_device *adev = drm_to_adev(connector->base.drm);
- 	struct dc *dc = (struct dc *)link->dc;
- 	struct dc_link_settings prefer_link_settings;
- 	char *wr_buf = NULL;
-@@ -1107,7 +1107,7 @@ static int dp_dsc_fec_support_show(struct seq_file *m, void *data)
- {
- 	struct drm_connector *connector = m->private;
- 	struct drm_modeset_acquire_ctx ctx;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
- 	int ret = 0;
- 	bool try_again = false;
-@@ -1180,7 +1180,7 @@ static ssize_t trigger_hotplug(struct file *f, const char __user *buf,
- 	struct amdgpu_dm_connector *aconnector = file_inode(f)->i_private;
- 	struct drm_connector *connector = &aconnector->base;
- 	struct dc_link *link = NULL;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct amdgpu_device *adev = drm_to_adev(dev);
- 	enum dc_connection_type new_connection_type = dc_connection_none;
- 	char *wr_buf = NULL;
-@@ -1381,7 +1381,7 @@ static ssize_t dp_dsc_clock_en_write(struct file *f, const char __user *buf,
- {
- 	struct amdgpu_dm_connector *aconnector = file_inode(f)->i_private;
- 	struct drm_connector *connector = &aconnector->base;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_crtc *crtc = NULL;
+ 	struct drm_crtc *crtc = m->private;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
  	struct dm_crtc_state *dm_crtc_state = NULL;
- 	struct pipe_ctx *pipe_ctx;
-@@ -1566,7 +1566,7 @@ static ssize_t dp_dsc_slice_width_write(struct file *f, const char __user *buf,
- 	struct amdgpu_dm_connector *aconnector = file_inode(f)->i_private;
- 	struct pipe_ctx *pipe_ctx;
- 	struct drm_connector *connector = &aconnector->base;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_crtc *crtc = NULL;
+ 	int res = -ENODEV;
+ 	unsigned int bpc;
+@@ -913,7 +913,7 @@ DEFINE_SHOW_ATTRIBUTE(amdgpu_current_bpc);
+ static int amdgpu_current_colorspace_show(struct seq_file *m, void *data)
+ {
+ 	struct drm_crtc *crtc = m->private;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
  	struct dm_crtc_state *dm_crtc_state = NULL;
- 	int i;
-@@ -1749,7 +1749,7 @@ static ssize_t dp_dsc_slice_height_write(struct file *f, const char __user *buf,
- {
- 	struct amdgpu_dm_connector *aconnector = file_inode(f)->i_private;
- 	struct drm_connector *connector = &aconnector->base;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_crtc *crtc = NULL;
- 	struct dm_crtc_state *dm_crtc_state = NULL;
- 	struct pipe_ctx *pipe_ctx;
-@@ -1926,7 +1926,7 @@ static ssize_t dp_dsc_bits_per_pixel_write(struct file *f, const char __user *bu
- {
- 	struct amdgpu_dm_connector *aconnector = file_inode(f)->i_private;
- 	struct drm_connector *connector = &aconnector->base;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_crtc *crtc = NULL;
- 	struct dm_crtc_state *dm_crtc_state = NULL;
- 	struct pipe_ctx *pipe_ctx;
-@@ -2288,7 +2288,7 @@ static ssize_t dp_max_bpc_read(struct file *f, char __user *buf,
- {
- 	struct amdgpu_dm_connector *aconnector = file_inode(f)->i_private;
- 	struct drm_connector *connector = &aconnector->base;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct dm_connector_state *state;
- 	ssize_t result = 0;
- 	char *rd_buf = NULL;
-@@ -2364,7 +2364,7 @@ static ssize_t dp_max_bpc_write(struct file *f, const char __user *buf,
- 	struct amdgpu_dm_connector *aconnector = file_inode(f)->i_private;
- 	struct drm_connector *connector = &aconnector->base;
- 	struct dm_connector_state *state;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	char *wr_buf = NULL;
- 	uint32_t wr_buf_size = 42;
- 	int max_param_num = 1;
-@@ -2520,7 +2520,7 @@ static int dp_mst_progress_status_show(struct seq_file *m, void *unused)
- {
- 	struct drm_connector *connector = m->private;
- 	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
--	struct amdgpu_device *adev = drm_to_adev(connector->dev);
-+	struct amdgpu_device *adev = drm_to_adev(connector->drm);
- 	int i;
+ 	int res = -ENODEV;
  
- 	mutex_lock(&aconnector->hpd_lock);
-@@ -2765,7 +2765,7 @@ static int allow_edp_hotplug_detection_get(void *data, u64 *val)
+@@ -3024,7 +3024,7 @@ void connector_debugfs_init(struct amdgpu_dm_connector *connector)
+ static int crc_win_x_start_set(void *data, u64 val)
  {
- 	struct amdgpu_dm_connector *aconnector = data;
- 	struct drm_connector *connector = &aconnector->base;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct drm_crtc *crtc = data;
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
  
- 	*val = adev->dm.dc->config.allow_edp_hotplug_detection;
-@@ -2778,7 +2778,7 @@ static int allow_edp_hotplug_detection_set(void *data, u64 val)
+ 	spin_lock_irq(&drm_dev->event_lock);
+@@ -3041,7 +3041,7 @@ static int crc_win_x_start_set(void *data, u64 val)
+ static int crc_win_x_start_get(void *data, u64 *val)
  {
- 	struct amdgpu_dm_connector *aconnector = data;
- 	struct drm_connector *connector = &aconnector->base;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	struct drm_crtc *crtc = data;
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
  
- 	adev->dm.dc->config.allow_edp_hotplug_detection = (uint32_t) val;
-@@ -2888,7 +2888,7 @@ static ssize_t edp_ilr_write(struct file *f, const char __user *buf,
+ 	spin_lock_irq(&drm_dev->event_lock);
+@@ -3061,7 +3061,7 @@ DEFINE_DEBUGFS_ATTRIBUTE(crc_win_x_start_fops, crc_win_x_start_get,
+ static int crc_win_y_start_set(void *data, u64 val)
  {
- 	struct amdgpu_dm_connector *connector = file_inode(f)->i_private;
- 	struct dc_link *link = connector->dc_link;
--	struct amdgpu_device *adev = drm_to_adev(connector->base.dev);
-+	struct amdgpu_device *adev = drm_to_adev(connector->base.drm);
- 	struct dc *dc = (struct dc *)link->dc;
- 	struct dc_link_settings prefer_link_settings;
- 	char *wr_buf = NULL;
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c
-index 5536d17306d0..c63759332194 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c
-@@ -325,7 +325,7 @@ static void event_property_update(struct work_struct *work)
- 		if (!conn_state)
- 			continue;
+ 	struct drm_crtc *crtc = data;
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
  
--		dev = connector->dev;
-+		dev = connector->drm;
+ 	spin_lock_irq(&drm_dev->event_lock);
+@@ -3078,7 +3078,7 @@ static int crc_win_y_start_set(void *data, u64 val)
+ static int crc_win_y_start_get(void *data, u64 *val)
+ {
+ 	struct drm_crtc *crtc = data;
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
  
- 		if (!dev)
- 			continue;
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-index 46d0a8f57e55..b26520088e90 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-@@ -376,7 +376,7 @@ static int dm_dp_mst_get_modes(struct drm_connector *connector)
- 		 * will be retrieved from hdcp_work within dm_dp_mst_get_modes
+ 	spin_lock_irq(&drm_dev->event_lock);
+@@ -3097,7 +3097,7 @@ DEFINE_DEBUGFS_ATTRIBUTE(crc_win_y_start_fops, crc_win_y_start_get,
+ static int crc_win_x_end_set(void *data, u64 val)
+ {
+ 	struct drm_crtc *crtc = data;
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+ 
+ 	spin_lock_irq(&drm_dev->event_lock);
+@@ -3114,7 +3114,7 @@ static int crc_win_x_end_set(void *data, u64 val)
+ static int crc_win_x_end_get(void *data, u64 *val)
+ {
+ 	struct drm_crtc *crtc = data;
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+ 
+ 	spin_lock_irq(&drm_dev->event_lock);
+@@ -3133,7 +3133,7 @@ DEFINE_DEBUGFS_ATTRIBUTE(crc_win_x_end_fops, crc_win_x_end_get,
+ static int crc_win_y_end_set(void *data, u64 val)
+ {
+ 	struct drm_crtc *crtc = data;
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+ 
+ 	spin_lock_irq(&drm_dev->event_lock);
+@@ -3150,7 +3150,7 @@ static int crc_win_y_end_set(void *data, u64 val)
+ static int crc_win_y_end_get(void *data, u64 *val)
+ {
+ 	struct drm_crtc *crtc = data;
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+ 
+ 	spin_lock_irq(&drm_dev->event_lock);
+@@ -3169,7 +3169,7 @@ static int crc_win_update_set(void *data, u64 val)
+ {
+ 	struct drm_crtc *crtc = data;
+ 	struct amdgpu_crtc *acrtc;
+-	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_device *adev = drm_to_adev(crtc->drm);
+ 
+ 	if (val) {
+ 		acrtc = to_amdgpu_crtc(crtc);
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+index 322668973747..7ea95dfde4e3 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+@@ -1020,7 +1020,7 @@ int amdgpu_dm_plane_helper_check_state(struct drm_plane_state *state,
+ 		}
+ 
+ 		/* Get min/max allowed scaling factors from plane caps. */
+-		get_min_max_dc_plane_scaling(state->crtc->dev, fb,
++		get_min_max_dc_plane_scaling(state->crtc->drm, fb,
+ 					     &min_downscale, &max_upscale);
+ 		/*
+ 		 * Convert to drm convention: 16.16 fixed point, instead of dc's
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+index cea3fd5772b5..a86286035662 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+@@ -108,7 +108,7 @@ komeda_crtc_atomic_check(struct drm_crtc *crtc,
+ static int
+ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
+ {
+-	struct komeda_dev *mdev = kcrtc->base.dev->dev_private;
++	struct komeda_dev *mdev = kcrtc->base.drm->dev_private;
+ 	struct komeda_pipeline *master = kcrtc->master;
+ 	struct komeda_crtc_state *kcrtc_st = to_kcrtc_st(kcrtc->base.state);
+ 	struct drm_display_mode *mode = &kcrtc_st->base.adjusted_mode;
+@@ -161,7 +161,7 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
+ static int
+ komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
+ {
+-	struct komeda_dev *mdev = kcrtc->base.dev->dev_private;
++	struct komeda_dev *mdev = kcrtc->base.drm->dev_private;
+ 	struct komeda_pipeline *master = kcrtc->master;
+ 	u32 new_mode;
+ 	int err;
+@@ -220,7 +220,7 @@ void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
+ 		unsigned long flags;
+ 		struct drm_pending_vblank_event *event;
+ 
+-		spin_lock_irqsave(&crtc->dev->event_lock, flags);
++		spin_lock_irqsave(&crtc->drm->event_lock, flags);
+ 		if (kcrtc->disable_done) {
+ 			complete_all(kcrtc->disable_done);
+ 			kcrtc->disable_done = NULL;
+@@ -236,7 +236,7 @@ void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
+ 			DRM_WARN("CRTC[%d]: FLIP happened but no pending commit.\n",
+ 				 drm_crtc_index(&kcrtc->base));
+ 		}
+-		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++		spin_unlock_irqrestore(&crtc->drm->event_lock, flags);
+ 	}
+ }
+ 
+@@ -246,7 +246,7 @@ komeda_crtc_do_flush(struct drm_crtc *crtc,
+ {
+ 	struct komeda_crtc *kcrtc = to_kcrtc(crtc);
+ 	struct komeda_crtc_state *kcrtc_st = to_kcrtc_st(crtc->state);
+-	struct komeda_dev *mdev = kcrtc->base.dev->dev_private;
++	struct komeda_dev *mdev = kcrtc->base.drm->dev_private;
+ 	struct komeda_pipeline *master = kcrtc->master;
+ 	struct komeda_pipeline *slave = kcrtc->slave;
+ 	struct komeda_wb_connector *wb_conn = kcrtc->wb_conn;
+@@ -277,7 +277,7 @@ komeda_crtc_atomic_enable(struct drm_crtc *crtc,
+ {
+ 	struct drm_crtc_state *old = drm_atomic_get_old_crtc_state(state,
+ 								   crtc);
+-	pm_runtime_get_sync(crtc->dev->dev);
++	pm_runtime_get_sync(crtc->drm->dev);
+ 	komeda_crtc_prepare(to_kcrtc(crtc));
+ 	drm_crtc_vblank_on(crtc);
+ 	WARN_ON(drm_crtc_vblank_get(crtc));
+@@ -288,7 +288,7 @@ void
+ komeda_crtc_flush_and_wait_for_flip_done(struct komeda_crtc *kcrtc,
+ 					 struct completion *input_flip_done)
+ {
+-	struct drm_device *drm = kcrtc->base.dev;
++	struct drm_device *drm = kcrtc->base.drm;
+ 	struct komeda_dev *mdev = kcrtc->master->mdev;
+ 	struct completion *flip_done;
+ 	struct completion temp;
+@@ -378,7 +378,7 @@ komeda_crtc_atomic_disable(struct drm_crtc *crtc,
+ 	drm_crtc_vblank_put(crtc);
+ 	drm_crtc_vblank_off(crtc);
+ 	komeda_crtc_unprepare(kcrtc);
+-	pm_runtime_put(crtc->dev->dev);
++	pm_runtime_put(crtc->drm->dev);
+ }
+ 
+ static void
+@@ -414,7 +414,7 @@ komeda_calc_min_aclk_rate(struct komeda_crtc *kcrtc,
+ unsigned long komeda_crtc_get_aclk(struct komeda_crtc_state *kcrtc_st)
+ {
+ 	struct drm_crtc *crtc = kcrtc_st->base.crtc;
+-	struct komeda_dev *mdev = crtc->dev->dev_private;
++	struct komeda_dev *mdev = crtc->drm->dev_private;
+ 	unsigned long pxlclk = kcrtc_st->base.adjusted_mode.crtc_clock * 1000;
+ 	unsigned long min_aclk;
+ 
+@@ -426,7 +426,7 @@ unsigned long komeda_crtc_get_aclk(struct komeda_crtc_state *kcrtc_st)
+ static enum drm_mode_status
+ komeda_crtc_mode_valid(struct drm_crtc *crtc, const struct drm_display_mode *m)
+ {
+-	struct komeda_dev *mdev = crtc->dev->dev_private;
++	struct komeda_dev *mdev = crtc->drm->dev_private;
+ 	struct komeda_crtc *kcrtc = to_kcrtc(crtc);
+ 	struct komeda_pipeline *master = kcrtc->master;
+ 	unsigned long min_pxlclk, min_aclk;
+@@ -532,7 +532,7 @@ static void komeda_crtc_atomic_destroy_state(struct drm_crtc *crtc,
+ 
+ static int komeda_crtc_vblank_enable(struct drm_crtc *crtc)
+ {
+-	struct komeda_dev *mdev = crtc->dev->dev_private;
++	struct komeda_dev *mdev = crtc->drm->dev_private;
+ 	struct komeda_crtc *kcrtc = to_kcrtc(crtc);
+ 
+ 	mdev->funcs->on_off_vblank(mdev, kcrtc->master->id, true);
+@@ -541,7 +541,7 @@ static int komeda_crtc_vblank_enable(struct drm_crtc *crtc)
+ 
+ static void komeda_crtc_vblank_disable(struct drm_crtc *crtc)
+ {
+-	struct komeda_dev *mdev = crtc->dev->dev_private;
++	struct komeda_dev *mdev = crtc->drm->dev_private;
+ 	struct komeda_crtc *kcrtc = to_kcrtc(crtc);
+ 
+ 	mdev->funcs->on_off_vblank(mdev, kcrtc->master->id, false);
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+index dd3c455bb1bb..669d11ac34f0 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+@@ -168,7 +168,7 @@ static int komeda_crtc_normalize_zpos(struct drm_crtc *crtc,
+ 	INIT_LIST_HEAD(&zorder_list);
+ 
+ 	/* This loop also added all effected planes into the new state */
+-	drm_for_each_plane_mask(plane, crtc->dev, crtc_st->plane_mask) {
++	drm_for_each_plane_mask(plane, crtc->drm, crtc_st->plane_mask) {
+ 		plane_st = drm_atomic_get_plane_state(state, plane);
+ 		if (IS_ERR(plane_st))
+ 			return PTR_ERR(plane_st);
+diff --git a/drivers/gpu/drm/arm/hdlcd_crtc.c b/drivers/gpu/drm/arm/hdlcd_crtc.c
+index 3cfefadc7c9d..f7f2d101d476 100644
+--- a/drivers/gpu/drm/arm/hdlcd_crtc.c
++++ b/drivers/gpu/drm/arm/hdlcd_crtc.c
+@@ -211,12 +211,12 @@ static void hdlcd_crtc_atomic_begin(struct drm_crtc *crtc,
+ 	if (event) {
+ 		crtc->state->event = NULL;
+ 
+-		spin_lock_irq(&crtc->dev->event_lock);
++		spin_lock_irq(&crtc->drm->event_lock);
+ 		if (drm_crtc_vblank_get(crtc) == 0)
+ 			drm_crtc_arm_vblank_event(crtc, event);
+ 		else
+ 			drm_crtc_send_vblank_event(crtc, event);
+-		spin_unlock_irq(&crtc->dev->event_lock);
++		spin_unlock_irq(&crtc->drm->event_lock);
+ 	}
+ }
+ 
+diff --git a/drivers/gpu/drm/arm/malidp_crtc.c b/drivers/gpu/drm/arm/malidp_crtc.c
+index dc01c43f6193..f09de55d8a20 100644
+--- a/drivers/gpu/drm/arm/malidp_crtc.c
++++ b/drivers/gpu/drm/arm/malidp_crtc.c
+@@ -52,7 +52,7 @@ static void malidp_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	struct malidp_drm *malidp = crtc_to_malidp_device(crtc);
+ 	struct malidp_hw_device *hwdev = malidp->dev;
+ 	struct videomode vm;
+-	int err = pm_runtime_get_sync(crtc->dev->dev);
++	int err = pm_runtime_get_sync(crtc->drm->dev);
+ 
+ 	if (err < 0) {
+ 		DRM_DEBUG_DRIVER("Failed to enable runtime power management: %d\n", err);
+@@ -87,7 +87,7 @@ static void malidp_crtc_atomic_disable(struct drm_crtc *crtc,
+ 
+ 	clk_disable_unprepare(hwdev->pxlclk);
+ 
+-	err = pm_runtime_put(crtc->dev->dev);
++	err = pm_runtime_put(crtc->drm->dev);
+ 	if (err < 0) {
+ 		DRM_DEBUG_DRIVER("Failed to disable runtime power management: %d\n", err);
+ 	}
+@@ -186,7 +186,7 @@ static int malidp_crtc_atomic_check_gamma(struct drm_crtc *crtc,
+ 		 * changing the gamma LUT doesn't depend on any external
+ 		 * resources, it is safe to call it only once.
  		 */
- 		if (aconnector->dc_sink && connector->state) {
--			struct drm_device *dev = connector->dev;
-+			struct drm_device *dev = connector->drm;
- 			struct amdgpu_device *adev = drm_to_adev(dev);
- 
- 			if (adev->dm.hdcp_workqueue) {
-@@ -419,7 +419,7 @@ dm_mst_atomic_best_encoder(struct drm_connector *connector,
+-		ret = drm_atomic_helper_check_modeset(crtc->dev, state->state);
++		ret = drm_atomic_helper_check_modeset(crtc->drm, state->state);
+ 		if (ret)
+ 			return ret;
+ 	}
+diff --git a/drivers/gpu/drm/armada/armada_crtc.c b/drivers/gpu/drm/armada/armada_crtc.c
+index 15dd667aa2e7..6ae3e1c2f677 100644
+--- a/drivers/gpu/drm/armada/armada_crtc.c
++++ b/drivers/gpu/drm/armada/armada_crtc.c
+@@ -293,9 +293,9 @@ static void armada_drm_crtc_irq(struct armada_crtc *dcrtc, u32 stat)
+ 	if (stat & VSYNC_IRQ && !dcrtc->update_pending) {
+ 		event = xchg(&dcrtc->event, NULL);
+ 		if (event) {
+-			spin_lock(&dcrtc->crtc.dev->event_lock);
++			spin_lock(&dcrtc->crtc.drm->event_lock);
+ 			drm_crtc_send_vblank_event(&dcrtc->crtc, event);
+-			spin_unlock(&dcrtc->crtc.dev->event_lock);
++			spin_unlock(&dcrtc->crtc.drm->event_lock);
+ 			drm_crtc_vblank_put(&dcrtc->crtc);
+ 		}
+ 	}
+@@ -502,9 +502,9 @@ static void armada_drm_crtc_atomic_disable(struct drm_crtc *crtc,
+ 		event = crtc->state->event;
+ 		crtc->state->event = NULL;
+ 		if (event) {
+-			spin_lock_irq(&crtc->dev->event_lock);
++			spin_lock_irq(&crtc->drm->event_lock);
+ 			drm_crtc_send_vblank_event(crtc, event);
+-			spin_unlock_irq(&crtc->dev->event_lock);
++			spin_unlock_irq(&crtc->drm->event_lock);
+ 		}
+ 	}
+ }
+@@ -766,7 +766,7 @@ static int armada_drm_crtc_cursor_move(struct drm_crtc *crtc, int x, int y)
+ static void armada_drm_crtc_destroy(struct drm_crtc *crtc)
  {
- 	struct drm_connector_state *connector_state = drm_atomic_get_new_connector_state(state,
- 											 connector);
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct amdgpu_device *adev = drm_to_adev(dev);
- 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(connector_state->crtc);
+ 	struct armada_crtc *dcrtc = drm_to_armada_crtc(crtc);
+-	struct armada_private *priv = drm_to_armada_dev(crtc->dev);
++	struct armada_private *priv = drm_to_armada_dev(crtc->drm);
  
-@@ -551,7 +551,7 @@ dm_dp_add_mst_connector(struct drm_dp_mst_topology_mgr *mgr,
- 			const char *pathprop)
+ 	if (dcrtc->cursor_obj)
+ 		drm_gem_object_put(&dcrtc->cursor_obj->obj);
+diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
+index 7877a57b8e26..41f6454d15bf 100644
+--- a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
++++ b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
+@@ -26,7 +26,7 @@ drm_pipe_to_aspeed_gfx(struct drm_simple_display_pipe *pipe)
+ static int aspeed_gfx_set_pixel_fmt(struct aspeed_gfx *priv, u32 *bpp)
  {
- 	struct amdgpu_dm_connector *master = container_of(mgr, struct amdgpu_dm_connector, mst_mgr);
--	struct drm_device *dev = master->base.dev;
-+	struct drm_device *dev = master->base.drm;
- 	struct amdgpu_device *adev = drm_to_adev(dev);
- 	struct amdgpu_dm_connector *aconnector;
- 	struct drm_connector *connector;
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c b/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
-index ebccb74306a7..d0d24ca4a4d4 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
-@@ -90,7 +90,7 @@ static enum drm_mode_status
- komeda_wb_connector_mode_valid(struct drm_connector *connector,
- 			       struct drm_display_mode *mode)
+ 	struct drm_crtc *crtc = &priv->pipe.crtc;
+-	struct drm_device *drm = crtc->dev;
++	struct drm_device *drm = crtc->drm;
+ 	const u32 format = crtc->primary->state->fb->format->format;
+ 	u32 ctrl1;
+ 
+@@ -169,7 +169,7 @@ static void aspeed_gfx_pipe_update(struct drm_simple_display_pipe *pipe,
+ 	struct drm_pending_vblank_event *event;
+ 	struct drm_gem_dma_object *gem;
+ 
+-	spin_lock_irq(&crtc->dev->event_lock);
++	spin_lock_irq(&crtc->drm->event_lock);
+ 	event = crtc->state->event;
+ 	if (event) {
+ 		crtc->state->event = NULL;
+@@ -179,7 +179,7 @@ static void aspeed_gfx_pipe_update(struct drm_simple_display_pipe *pipe,
+ 		else
+ 			drm_crtc_send_vblank_event(crtc, event);
+ 	}
+-	spin_unlock_irq(&crtc->dev->event_lock);
++	spin_unlock_irq(&crtc->drm->event_lock);
+ 
+ 	if (!fb)
+ 		return;
+diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
+index 6dc1a09504e1..460b560ccb0f 100644
+--- a/drivers/gpu/drm/ast/ast_dp.c
++++ b/drivers/gpu/drm/ast/ast_dp.c
+@@ -187,7 +187,7 @@ void ast_dp_set_on_off(struct drm_device *dev, bool on)
+ 
+ void ast_dp_set_mode(struct drm_crtc *crtc, struct ast_vbios_mode_info *vbios_mode)
  {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_mode_config *mode_config = &dev->mode_config;
- 	int w = mode->hdisplay, h = mode->vdisplay;
+-	struct ast_device *ast = to_ast_device(crtc->dev);
++	struct ast_device *ast = to_ast_device(crtc->drm);
  
-diff --git a/drivers/gpu/drm/arm/malidp_mw.c b/drivers/gpu/drm/arm/malidp_mw.c
-index 626709bec6f5..0dd21bc77dd8 100644
---- a/drivers/gpu/drm/arm/malidp_mw.c
-+++ b/drivers/gpu/drm/arm/malidp_mw.c
-@@ -35,7 +35,7 @@ struct malidp_mw_connector_state {
- 
- static int malidp_mw_connector_get_modes(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 
- 	return drm_add_modes_noedid(connector, dev->mode_config.max_width,
- 				    dev->mode_config.max_height);
-@@ -45,7 +45,7 @@ static enum drm_mode_status
- malidp_mw_connector_mode_valid(struct drm_connector *connector,
- 			       struct drm_display_mode *mode)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_mode_config *mode_config = &dev->mode_config;
- 	int w = mode->hdisplay, h = mode->vdisplay;
- 
+ 	u32 ulRefreshRateIndex;
+ 	u8 ModeIdx;
 diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index f91ff312edfd..31a3e590395e 100644
+index 31a3e590395e..bfbdc03c1ac9 100644
 --- a/drivers/gpu/drm/ast/ast_mode.c
 +++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -1346,7 +1346,7 @@ static int ast_crtc_init(struct drm_device *dev)
- static int ast_vga_connector_helper_get_modes(struct drm_connector *connector)
+@@ -1003,7 +1003,7 @@ static int ast_cursor_plane_init(struct ast_device *ast)
+ 
+ static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
  {
- 	struct ast_vga_connector *ast_vga_connector = to_ast_vga_connector(connector);
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct ast_device *ast = to_ast_device(dev);
- 	struct edid *edid;
- 	int count;
-@@ -1452,7 +1452,7 @@ static int ast_vga_output_init(struct ast_device *ast)
- static int ast_sil164_connector_helper_get_modes(struct drm_connector *connector)
- {
- 	struct ast_sil164_connector *ast_sil164_connector = to_ast_sil164_connector(connector);
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct ast_device *ast = to_ast_device(dev);
- 	struct edid *edid;
- 	int count;
-@@ -1565,7 +1565,7 @@ static int ast_dp501_connector_helper_get_modes(struct drm_connector *connector)
- 	if (!edid)
- 		goto err_drm_connector_update_edid_property;
+-	struct ast_device *ast = to_ast_device(crtc->dev);
++	struct ast_device *ast = to_ast_device(crtc->drm);
+ 	u8 ch = AST_DPMS_VSYNC_OFF | AST_DPMS_HSYNC_OFF;
+ 	struct ast_crtc_state *ast_state;
+ 	const struct drm_format_info *format;
+@@ -1017,12 +1017,12 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
+ 		ast_set_index_reg_mask(ast, AST_IO_SEQ_PORT,  0x01, 0xdf, 0);
+ 		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb6, 0xfc, 0);
+ 		if (ast->tx_chip_types & AST_TX_DP501_BIT)
+-			ast_set_dp501_video_output(crtc->dev, 1);
++			ast_set_dp501_video_output(crtc->drm, 1);
  
--	succ = ast_dp501_read_edid(connector->dev, edid);
-+	succ = ast_dp501_read_edid(connector->drm, edid);
- 	if (!succ)
- 		goto err_kfree;
- 
-@@ -1644,7 +1644,7 @@ static int ast_dp501_output_init(struct ast_device *ast)
- static int ast_astdp_connector_helper_get_modes(struct drm_connector *connector)
- {
- 	void *edid;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct ast_device *ast = to_ast_device(dev);
- 
- 	int succ;
-@@ -1660,7 +1660,7 @@ static int ast_astdp_connector_helper_get_modes(struct drm_connector *connector)
- 	 */
- 	mutex_lock(&ast->ioregs_lock);
- 
--	succ = ast_astdp_read_edid(connector->dev, edid);
-+	succ = ast_astdp_read_edid(connector->drm, edid);
- 	if (succ < 0)
- 		goto err_mutex_unlock;
- 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index 52da4df1cc52..54001d4cf8bd 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -454,10 +454,10 @@ static void adv7511_hpd_work(struct work_struct *work)
- 	if (adv7511->connector.status != status) {
- 		adv7511->connector.status = status;
- 
--		if (adv7511->connector.dev) {
-+		if (adv7511->connector.drm) {
- 			if (status == connector_status_disconnected)
- 				cec_phys_addr_invalidate(adv7511->cec_adap);
--			drm_kms_helper_hotplug_event(adv7511->connector.dev);
-+			drm_kms_helper_hotplug_event(adv7511->connector.drm);
- 		} else {
- 			drm_bridge_hpd_notify(&adv7511->bridge, status);
+ 		if (ast->tx_chip_types & AST_TX_ASTDP_BIT) {
+-			ast_dp_power_on_off(crtc->dev, AST_DP_POWER_ON);
++			ast_dp_power_on_off(crtc->drm, AST_DP_POWER_ON);
+ 			ast_wait_for_vretrace(ast);
+-			ast_dp_set_on_off(crtc->dev, 1);
++			ast_dp_set_on_off(crtc->drm, 1);
  		}
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-index 0b66b72a5913..0f39d8807b40 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c
-@@ -1189,7 +1189,7 @@ static irqreturn_t anx78xx_intp_threaded_handler(int unused, void *data)
- 	mutex_unlock(&anx78xx->lock);
  
- 	if (event)
--		drm_helper_hpd_irq_event(anx78xx->connector.dev);
-+		drm_helper_hpd_irq_event(anx78xx->connector.drm);
+ 		ast_state = to_ast_crtc_state(crtc->state);
+@@ -1044,11 +1044,11 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
+ 	case DRM_MODE_DPMS_OFF:
+ 		ch = mode;
+ 		if (ast->tx_chip_types & AST_TX_DP501_BIT)
+-			ast_set_dp501_video_output(crtc->dev, 0);
++			ast_set_dp501_video_output(crtc->drm, 0);
  
- 	return IRQ_HANDLED;
- }
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 9156c74a7b3b..ff7ea058ca64 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -2109,7 +2109,7 @@ static void hdcp_check_work_func(struct work_struct *work)
- 		return;
+ 		if (ast->tx_chip_types & AST_TX_ASTDP_BIT) {
+-			ast_dp_set_on_off(crtc->dev, 0);
+-			ast_dp_power_on_off(crtc->dev, AST_DP_POWER_OFF);
++			ast_dp_set_on_off(crtc->drm, 0);
++			ast_dp_power_on_off(crtc->drm, AST_DP_POWER_OFF);
+ 		}
+ 
+ 		ast_set_index_reg_mask(ast, AST_IO_SEQ_PORT,  0x01, 0xdf, 0x20);
+@@ -1060,7 +1060,7 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
+ static enum drm_mode_status
+ ast_crtc_helper_mode_valid(struct drm_crtc *crtc, const struct drm_display_mode *mode)
+ {
+-	struct ast_device *ast = to_ast_device(crtc->dev);
++	struct ast_device *ast = to_ast_device(crtc->drm);
+ 	enum drm_mode_status status;
+ 	uint32_t jtemp;
+ 
+@@ -1135,7 +1135,7 @@ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
+ 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+ 	struct drm_crtc_state *old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
+ 	struct ast_crtc_state *old_ast_crtc_state = to_ast_crtc_state(old_crtc_state);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct ast_crtc_state *ast_state;
+ 	const struct drm_format_info *format;
+ 	bool succ;
+@@ -1185,7 +1185,7 @@ ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
+ {
+ 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
+ 									  crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct ast_device *ast = to_ast_device(dev);
+ 	struct ast_crtc_state *ast_crtc_state = to_ast_crtc_state(crtc_state);
+ 	struct ast_vbios_mode_info *vbios_mode_info = &ast_crtc_state->vbios_mode_info;
+@@ -1210,7 +1210,7 @@ ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
+ 
+ static void ast_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct ast_device *ast = to_ast_device(dev);
+ 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+ 	struct ast_crtc_state *ast_crtc_state = to_ast_crtc_state(crtc_state);
+@@ -1232,7 +1232,7 @@ static void ast_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atom
+ static void ast_crtc_helper_atomic_disable(struct drm_crtc *crtc, struct drm_atomic_state *state)
+ {
+ 	struct drm_crtc_state *old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct ast_device *ast = to_ast_device(dev);
+ 
+ 	ast_crtc_dpms(crtc, DRM_MODE_DPMS_OFF);
+@@ -1282,7 +1282,7 @@ static struct drm_crtc_state *
+ ast_crtc_atomic_duplicate_state(struct drm_crtc *crtc)
+ {
+ 	struct ast_crtc_state *new_ast_state, *ast_state;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 
+ 	if (drm_WARN_ON(dev, !crtc->state))
+ 		return NULL;
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+index 58184cd6ab0b..2dbdf16e4b9d 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+@@ -168,7 +168,7 @@ atmel_hlcdc_crtc_mode_valid(struct drm_crtc *c,
+ static void atmel_hlcdc_crtc_atomic_disable(struct drm_crtc *c,
+ 					    struct drm_atomic_state *state)
+ {
+-	struct drm_device *dev = c->dev;
++	struct drm_device *dev = c->drm;
+ 	struct atmel_hlcdc_crtc *crtc = drm_crtc_to_atmel_hlcdc_crtc(c);
+ 	struct regmap *regmap = crtc->dc->hlcdc->regmap;
+ 	unsigned int status;
+@@ -203,7 +203,7 @@ static void atmel_hlcdc_crtc_atomic_disable(struct drm_crtc *c,
+ static void atmel_hlcdc_crtc_atomic_enable(struct drm_crtc *c,
+ 					   struct drm_atomic_state *state)
+ {
+-	struct drm_device *dev = c->dev;
++	struct drm_device *dev = c->drm;
+ 	struct atmel_hlcdc_crtc *crtc = drm_crtc_to_atmel_hlcdc_crtc(c);
+ 	struct regmap *regmap = crtc->dc->hlcdc->regmap;
+ 	unsigned int status;
+@@ -353,7 +353,7 @@ static void atmel_hlcdc_crtc_atomic_flush(struct drm_crtc *c,
+ 	struct atmel_hlcdc_crtc *crtc = drm_crtc_to_atmel_hlcdc_crtc(c);
+ 	unsigned long flags;
+ 
+-	spin_lock_irqsave(&c->dev->event_lock, flags);
++	spin_lock_irqsave(&c->drm->event_lock, flags);
+ 
+ 	if (c->state->event) {
+ 		c->state->event->pipe = drm_crtc_index(c);
+@@ -363,7 +363,7 @@ static void atmel_hlcdc_crtc_atomic_flush(struct drm_crtc *c,
+ 		crtc->event = c->state->event;
+ 		c->state->event = NULL;
  	}
- 
--	drm_dev = ctx->connector->dev;
-+	drm_dev = ctx->connector->drm;
- 	drm_modeset_lock(&drm_dev->mode_config.connection_mutex, NULL);
- 	mutex_lock(&ctx->hdcp_wq_lock);
- 
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index d102db6d4c65..107dd0928d8e 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -811,7 +811,7 @@ static void cdns_mhdp_fw_cb(const struct firmware *fw, void *context)
- 	bridge_attached = mhdp->bridge_attached;
- 	spin_unlock(&mhdp->start_lock);
- 	if (bridge_attached) {
--		if (mhdp->connector.dev)
-+		if (mhdp->connector.drm)
- 			drm_kms_helper_hotplug_event(mhdp->bridge.drm);
- 		else
- 			drm_bridge_hpd_notify(&mhdp->bridge, cdns_mhdp_detect(mhdp));
-@@ -2367,14 +2367,14 @@ static void cdns_mhdp_modeset_retry_fn(struct work_struct *work)
- 	conn = &mhdp->connector;
- 
- 	/* Grab the locks before changing connector property */
--	mutex_lock(&conn->dev->mode_config.mutex);
-+	mutex_lock(&conn->drm->mode_config.mutex);
- 
- 	/*
- 	 * Set connector link status to BAD and send a Uevent to notify
- 	 * userspace to do a modeset.
- 	 */
- 	drm_connector_set_link_status_property(conn, DRM_MODE_LINK_STATUS_BAD);
--	mutex_unlock(&conn->dev->mode_config.mutex);
-+	mutex_unlock(&conn->drm->mode_config.mutex);
- 
- 	/* Send Hotplug uevent so userspace can reprobe */
- 	drm_kms_helper_hotplug_event(mhdp->bridge.drm);
-@@ -2441,7 +2441,7 @@ static void cdns_mhdp_hpd_work(struct work_struct *work)
- 	int ret;
- 
- 	ret = cdns_mhdp_update_link_status(mhdp);
--	if (mhdp->connector.dev) {
-+	if (mhdp->connector.drm) {
- 		if (ret < 0)
- 			schedule_work(&mhdp->modeset_retry_work);
- 		else
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
-index 946212a95598..f64d4159f6e0 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
-@@ -486,7 +486,7 @@ static void cdns_mhdp_hdcp_prop_work(struct work_struct *work)
- 	struct cdns_mhdp_device *mhdp = container_of(hdcp,
- 						     struct cdns_mhdp_device,
- 						     hdcp);
--	struct drm_device *dev = mhdp->connector.dev;
-+	struct drm_device *dev = mhdp->connector.drm;
- 	struct drm_connector_state *state;
- 
- 	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
-diff --git a/drivers/gpu/drm/bridge/chrontel-ch7033.c b/drivers/gpu/drm/bridge/chrontel-ch7033.c
-index 9c12e1652e4a..74db1305f7aa 100644
---- a/drivers/gpu/drm/bridge/chrontel-ch7033.c
-+++ b/drivers/gpu/drm/bridge/chrontel-ch7033.c
-@@ -264,7 +264,7 @@ static void ch7033_hpd_event(void *arg, enum drm_connector_status status)
- 	struct ch7033_priv *priv = arg;
- 
- 	if (priv->bridge.drm)
--		drm_helper_hpd_irq_event(priv->connector.dev);
-+		drm_helper_hpd_irq_event(priv->connector.drm);
+-	spin_unlock_irqrestore(&c->dev->event_lock, flags);
++	spin_unlock_irqrestore(&c->drm->event_lock, flags);
  }
  
- static int ch7033_bridge_attach(struct drm_bridge *bridge,
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-index 9189d2c3cdc8..84806d58aab0 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-@@ -170,9 +170,9 @@ static void lt9611uxc_hpd_work(struct work_struct *work)
- 	struct lt9611uxc *lt9611uxc = container_of(work, struct lt9611uxc, work);
- 	bool connected;
+ static const struct drm_crtc_helper_funcs lcdc_crtc_helper_funcs = {
+@@ -386,7 +386,7 @@ static void atmel_hlcdc_crtc_destroy(struct drm_crtc *c)
  
--	if (lt9611uxc->connector.dev) {
--		if (lt9611uxc->connector.dev->mode_config.funcs)
--			drm_kms_helper_hotplug_event(lt9611uxc->connector.dev);
-+	if (lt9611uxc->connector.drm) {
-+		if (lt9611uxc->connector.drm->mode_config.funcs)
-+			drm_kms_helper_hotplug_event(lt9611uxc->connector.drm);
- 	} else {
- 
- 		mutex_lock(&lt9611uxc->ocm_lock);
-diff --git a/drivers/gpu/drm/bridge/nxp-ptn3460.c b/drivers/gpu/drm/bridge/nxp-ptn3460.c
-index 27b01a2c216e..dae00374f523 100644
---- a/drivers/gpu/drm/bridge/nxp-ptn3460.c
-+++ b/drivers/gpu/drm/bridge/nxp-ptn3460.c
-@@ -246,7 +246,7 @@ static int ptn3460_bridge_attach(struct drm_bridge *bridge,
- 	drm_connector_attach_encoder(&ptn_bridge->connector,
- 							bridge->encoder);
- 
--	drm_helper_hpd_irq_event(ptn_bridge->connector.dev);
-+	drm_helper_hpd_irq_event(ptn_bridge->connector.drm);
- 
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-index d5ce29a74910..c7807543547d 100644
---- a/drivers/gpu/drm/bridge/panel.c
-+++ b/drivers/gpu/drm/bridge/panel.c
-@@ -107,7 +107,7 @@ static void panel_bridge_detach(struct drm_bridge *bridge)
- 	 * allocated with drmm_kzalloc(). This might be tricky since the
- 	 * drm_device pointer can only be retrieved when the bridge is attached.
- 	 */
--	if (connector->dev)
-+	if (connector->drm)
- 		drm_connector_cleanup(connector);
- }
- 
-diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridge/ti-tfp410.c
-index 3d8ecc6d78ef..64499fa1748a 100644
---- a/drivers/gpu/drm/bridge/ti-tfp410.c
-+++ b/drivers/gpu/drm/bridge/ti-tfp410.c
-@@ -173,7 +173,7 @@ static void tfp410_detach(struct drm_bridge *bridge)
+ static void atmel_hlcdc_crtc_finish_page_flip(struct atmel_hlcdc_crtc *crtc)
  {
- 	struct tfp410 *dvi = drm_bridge_to_tfp410(bridge);
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	unsigned long flags;
  
--	if (dvi->connector.dev && dvi->next_bridge->ops & DRM_BRIDGE_OP_HPD) {
-+	if (dvi->connector.drm && dvi->next_bridge->ops & DRM_BRIDGE_OP_HPD) {
- 		drm_bridge_hpd_disable(dvi->next_bridge);
- 		cancel_delayed_work_sync(&dvi->hpd_work);
- 	}
-diff --git a/drivers/gpu/drm/display/drm_dp_cec.c b/drivers/gpu/drm/display/drm_dp_cec.c
-index ae39dc794190..fc50faf22908 100644
---- a/drivers/gpu/drm/display/drm_dp_cec.c
-+++ b/drivers/gpu/drm/display/drm_dp_cec.c
-@@ -361,7 +361,7 @@ void drm_dp_cec_set_edid(struct drm_dp_aux *aux, const struct edid *edid)
- 	cec_fill_conn_info_from_drm(&conn_info, connector);
- 	cec_s_conn_info(aux->cec.adap, &conn_info);
- 
--	if (cec_register_adapter(aux->cec.adap, connector->dev->dev)) {
-+	if (cec_register_adapter(aux->cec.adap, connector->drm->dev)) {
- 		cec_delete_adapter(aux->cec.adap);
- 		aux->cec.adap = NULL;
- 	} else {
-diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-index 16565a0a5da6..efee04cf6edd 100644
---- a/drivers/gpu/drm/display/drm_dp_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -1519,7 +1519,7 @@ void drm_dp_set_subconnector_property(struct drm_connector *connector,
- 	if (status == connector_status_connected)
- 		subconnector = drm_dp_subconnector_type(dpcd, port_cap);
- 	drm_object_property_set_value(&connector->base,
--			connector->dev->mode_config.dp_subconnector_property,
-+			connector->drm->mode_config.dp_subconnector_property,
- 			subconnector);
- }
- EXPORT_SYMBOL(drm_dp_set_subconnector_property);
-diff --git a/drivers/gpu/drm/display/drm_hdcp_helper.c b/drivers/gpu/drm/display/drm_hdcp_helper.c
-index a3f0e6d96105..51b3ab5d0136 100644
---- a/drivers/gpu/drm/display/drm_hdcp_helper.c
-+++ b/drivers/gpu/drm/display/drm_hdcp_helper.c
-@@ -355,7 +355,7 @@ DRM_ENUM_NAME_FN(drm_get_hdcp_content_type_name,
- int drm_connector_attach_content_protection_property(
- 		struct drm_connector *connector, bool hdcp_content_type)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_property *prop =
- 			dev->mode_config.content_protection_property;
- 
-@@ -407,7 +407,7 @@ EXPORT_SYMBOL(drm_connector_attach_content_protection_property);
- void drm_hdcp_update_content_protection(struct drm_connector *connector,
- 					u64 val)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_connector_state *state = connector->state;
- 
- 	WARN_ON(!drm_modeset_is_locked(&dev->mode_config.connection_mutex));
-diff --git a/drivers/gpu/drm/display/drm_scdc_helper.c b/drivers/gpu/drm/display/drm_scdc_helper.c
-index 6d2f244e5830..25df344de565 100644
---- a/drivers/gpu/drm/display/drm_scdc_helper.c
-+++ b/drivers/gpu/drm/display/drm_scdc_helper.c
-@@ -157,7 +157,7 @@ bool drm_scdc_get_scrambling_status(struct drm_connector *connector)
- 
- 	ret = drm_scdc_readb(connector->ddc, SCDC_SCRAMBLER_STATUS, &status);
- 	if (ret < 0) {
--		drm_dbg_kms(connector->dev,
-+		drm_dbg_kms(connector->drm,
- 			    "[CONNECTOR:%d:%s] Failed to read scrambling status: %d\n",
- 			    connector->base.id, connector->name, ret);
- 		return false;
-@@ -187,7 +187,7 @@ bool drm_scdc_set_scrambling(struct drm_connector *connector,
- 
- 	ret = drm_scdc_readb(connector->ddc, SCDC_TMDS_CONFIG, &config);
- 	if (ret < 0) {
--		drm_dbg_kms(connector->dev,
-+		drm_dbg_kms(connector->drm,
- 			    "[CONNECTOR:%d:%s] Failed to read TMDS config: %d\n",
- 			    connector->base.id, connector->name, ret);
- 		return false;
-@@ -200,7 +200,7 @@ bool drm_scdc_set_scrambling(struct drm_connector *connector,
- 
- 	ret = drm_scdc_writeb(connector->ddc, SCDC_TMDS_CONFIG, config);
- 	if (ret < 0) {
--		drm_dbg_kms(connector->dev,
-+		drm_dbg_kms(connector->drm,
- 			    "[CONNECTOR:%d:%s] Failed to enable scrambling: %d\n",
- 			    connector->base.id, connector->name, ret);
- 		return false;
-@@ -247,7 +247,7 @@ bool drm_scdc_set_high_tmds_clock_ratio(struct drm_connector *connector,
- 
- 	ret = drm_scdc_readb(connector->ddc, SCDC_TMDS_CONFIG, &config);
- 	if (ret < 0) {
--		drm_dbg_kms(connector->dev,
-+		drm_dbg_kms(connector->drm,
- 			    "[CONNECTOR:%d:%s] Failed to read TMDS config: %d\n",
- 			    connector->base.id, connector->name, ret);
- 		return false;
-@@ -260,7 +260,7 @@ bool drm_scdc_set_high_tmds_clock_ratio(struct drm_connector *connector,
- 
- 	ret = drm_scdc_writeb(connector->ddc, SCDC_TMDS_CONFIG, config);
- 	if (ret < 0) {
--		drm_dbg_kms(connector->dev,
-+		drm_dbg_kms(connector->drm,
- 			    "[CONNECTOR:%d:%s] Failed to set TMDS clock ratio: %d\n",
- 			    connector->base.id, connector->name, ret);
- 		return false;
+ 	spin_lock_irqsave(&dev->event_lock, flags);
 diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index 8a07506a20a2..f473848d5ecb 100644
+index f473848d5ecb..8c2ebb982972 100644
 --- a/drivers/gpu/drm/drm_atomic.c
 +++ b/drivers/gpu/drm/drm_atomic.c
-@@ -466,7 +466,7 @@ static int drm_atomic_connector_check(struct drm_connector *connector,
- 		return 0;
+@@ -76,7 +76,7 @@ int drm_crtc_commit_wait(struct drm_crtc_commit *commit)
  
- 	if (writeback_job->fb && !state->crtc) {
--		drm_dbg_atomic(connector->dev,
-+		drm_dbg_atomic(connector->drm,
- 			       "[CONNECTOR:%d:%s] framebuffer without CRTC\n",
- 			       connector->base.id, connector->name);
- 		return -EINVAL;
-@@ -477,7 +477,7 @@ static int drm_atomic_connector_check(struct drm_connector *connector,
- 								state->crtc);
- 
- 	if (writeback_job->fb && !crtc_state->active) {
--		drm_dbg_atomic(connector->dev,
-+		drm_dbg_atomic(connector->drm,
- 			       "[CONNECTOR:%d:%s] has framebuffer, but [CRTC:%d] is off\n",
- 			       connector->base.id, connector->name,
- 			       state->crtc->base.id);
-@@ -486,7 +486,7 @@ static int drm_atomic_connector_check(struct drm_connector *connector,
- 
- 	if (!writeback_job->fb) {
- 		if (writeback_job->out_fence) {
--			drm_dbg_atomic(connector->dev,
-+			drm_dbg_atomic(connector->drm,
- 				       "[CONNECTOR:%d:%s] requesting out-fence without framebuffer\n",
- 				       connector->base.id, connector->name);
- 			return -EINVAL;
-@@ -1064,7 +1064,7 @@ drm_atomic_get_connector_state(struct drm_atomic_state *state,
- 			  struct drm_connector *connector)
- {
- 	int ret, index;
--	struct drm_mode_config *config = &connector->dev->mode_config;
-+	struct drm_mode_config *config = &connector->drm->mode_config;
- 	struct drm_connector_state *connector_state;
- 
- 	WARN_ON(!state->acquire_ctx);
-@@ -1105,7 +1105,8 @@ drm_atomic_get_connector_state(struct drm_atomic_state *state,
- 	state->connectors[index].ptr = connector;
- 	connector_state->state = state;
- 
--	drm_dbg_atomic(connector->dev, "Added [CONNECTOR:%d:%s] %p state to %p\n",
-+	drm_dbg_atomic(connector->drm,
-+			 "Added [CONNECTOR:%d:%s] %p state to %p\n",
- 			 connector->base.id, connector->name,
- 			 connector_state, state);
- 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 664d0595ea89..98c9377aeef5 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -133,7 +133,7 @@ static int handle_conflicting_encoders(struct drm_atomic_state *state,
- 
- 		if (new_encoder) {
- 			if (encoder_mask & drm_encoder_mask(new_encoder)) {
--				drm_dbg_atomic(connector->dev,
-+				drm_dbg_atomic(connector->drm,
- 					       "[ENCODER:%d:%s] on [CONNECTOR:%d:%s] already assigned\n",
- 					       new_encoder->base.id, new_encoder->name,
- 					       connector->base.id, connector->name);
-@@ -171,7 +171,7 @@ static int handle_conflicting_encoders(struct drm_atomic_state *state,
- 			continue;
- 
- 		if (!disable_conflicting_encoders) {
--			drm_dbg_atomic(connector->dev,
-+			drm_dbg_atomic(connector->drm,
- 				       "[ENCODER:%d:%s] in use on [CRTC:%d:%s] by [CONNECTOR:%d:%s]\n",
- 				       encoder->base.id, encoder->name,
- 				       connector->state->crtc->base.id,
-@@ -187,7 +187,7 @@ static int handle_conflicting_encoders(struct drm_atomic_state *state,
- 			goto out;
- 		}
- 
--		drm_dbg_atomic(connector->dev,
-+		drm_dbg_atomic(connector->drm,
- 			       "[ENCODER:%d:%s] in use on [CRTC:%d:%s], disabling [CONNECTOR:%d:%s]\n",
- 			       encoder->base.id, encoder->name,
- 			       new_conn_state->crtc->base.id, new_conn_state->crtc->name,
-@@ -296,7 +296,8 @@ update_connector_routing(struct drm_atomic_state *state,
- 	struct drm_encoder *new_encoder;
- 	struct drm_crtc_state *crtc_state;
- 
--	drm_dbg_atomic(connector->dev, "Updating routing for [CONNECTOR:%d:%s]\n",
-+	drm_dbg_atomic(connector->drm,
-+		       "Updating routing for [CONNECTOR:%d:%s]\n",
- 		       connector->base.id, connector->name);
- 
- 	if (old_connector_state->crtc != new_connector_state->crtc) {
-@@ -312,7 +313,8 @@ update_connector_routing(struct drm_atomic_state *state,
+ 	ret = wait_for_completion_timeout(&commit->hw_done, timeout);
+ 	if (!ret) {
+-		drm_err(commit->crtc->dev, "hw_done timed out\n");
++		drm_err(commit->crtc->drm, "hw_done timed out\n");
+ 		return -ETIMEDOUT;
  	}
  
- 	if (!new_connector_state->crtc) {
--		drm_dbg_atomic(connector->dev, "Disabling [CONNECTOR:%d:%s]\n",
-+		drm_dbg_atomic(connector->drm,
-+				"Disabling [CONNECTOR:%d:%s]\n",
- 				connector->base.id, connector->name);
- 
- 		set_best_encoder(state, new_connector_state, NULL);
-@@ -342,7 +344,7 @@ update_connector_routing(struct drm_atomic_state *state,
+@@ -86,7 +86,7 @@ int drm_crtc_commit_wait(struct drm_crtc_commit *commit)
  	 */
- 	if (!state->duplicated && drm_connector_is_unregistered(connector) &&
- 	    crtc_state->active) {
--		drm_dbg_atomic(connector->dev,
-+		drm_dbg_atomic(connector->drm,
- 			       "[CONNECTOR:%d:%s] is not registered\n",
- 			       connector->base.id, connector->name);
- 		return -EINVAL;
-@@ -358,14 +360,14 @@ update_connector_routing(struct drm_atomic_state *state,
- 		new_encoder = drm_connector_get_single_encoder(connector);
+ 	ret = wait_for_completion_timeout(&commit->flip_done, timeout);
+ 	if (!ret) {
+-		drm_err(commit->crtc->dev, "flip_done timed out\n");
++		drm_err(commit->crtc->drm, "flip_done timed out\n");
+ 		return -ETIMEDOUT;
+ 	}
  
- 	if (!new_encoder) {
--		drm_dbg_atomic(connector->dev,
-+		drm_dbg_atomic(connector->drm,
- 			       "No suitable encoder found for [CONNECTOR:%d:%s]\n",
- 			       connector->base.id, connector->name);
+@@ -381,7 +381,7 @@ static int drm_atomic_crtc_check(const struct drm_crtc_state *old_crtc_state,
+ 	 */
+ 
+ 	if (new_crtc_state->active && !new_crtc_state->enable) {
+-		drm_dbg_atomic(crtc->dev,
++		drm_dbg_atomic(crtc->drm,
+ 			       "[CRTC:%d:%s] active without enabled\n",
+ 			       crtc->base.id, crtc->name);
+ 		return -EINVAL;
+@@ -391,17 +391,17 @@ static int drm_atomic_crtc_check(const struct drm_crtc_state *old_crtc_state,
+ 	 * as this is a kernel-internal detail that userspace should never
+ 	 * be able to trigger.
+ 	 */
+-	if (drm_core_check_feature(crtc->dev, DRIVER_ATOMIC) &&
++	if (drm_core_check_feature(crtc->drm, DRIVER_ATOMIC) &&
+ 	    WARN_ON(new_crtc_state->enable && !new_crtc_state->mode_blob)) {
+-		drm_dbg_atomic(crtc->dev,
++		drm_dbg_atomic(crtc->drm,
+ 			       "[CRTC:%d:%s] enabled without mode blob\n",
+ 			       crtc->base.id, crtc->name);
  		return -EINVAL;
  	}
  
- 	if (!drm_encoder_crtc_ok(new_encoder, new_connector_state->crtc)) {
--		drm_dbg_atomic(connector->dev,
-+		drm_dbg_atomic(connector->drm,
- 			       "[ENCODER:%d:%s] incompatible with [CRTC:%d:%s]\n",
- 			       new_encoder->base.id,
- 			       new_encoder->name,
-@@ -377,7 +379,7 @@ update_connector_routing(struct drm_atomic_state *state,
- 	if (new_encoder == new_connector_state->best_encoder) {
- 		set_best_encoder(state, new_connector_state, new_encoder);
- 
--		drm_dbg_atomic(connector->dev,
-+		drm_dbg_atomic(connector->drm,
- 			       "[CONNECTOR:%d:%s] keeps [ENCODER:%d:%s], now on [CRTC:%d:%s]\n",
- 			       connector->base.id,
- 			       connector->name,
-@@ -395,7 +397,7 @@ update_connector_routing(struct drm_atomic_state *state,
- 
- 	crtc_state->connectors_changed = true;
- 
--	drm_dbg_atomic(connector->dev,
-+	drm_dbg_atomic(connector->drm,
- 		       "[CONNECTOR:%d:%s] using [ENCODER:%d:%s] on [CRTC:%d:%s]\n",
- 		       connector->base.id,
- 		       connector->name,
-@@ -2328,7 +2330,7 @@ int drm_atomic_helper_setup_commit(struct drm_atomic_state *state,
- 		 */
- 		if (nonblock && old_conn_state->commit &&
- 		    !try_wait_for_completion(&old_conn_state->commit->flip_done)) {
--			drm_dbg_atomic(conn->dev,
-+			drm_dbg_atomic(conn->drm,
- 				       "[CONNECTOR:%d:%s] busy with a previous commit\n",
- 				       conn->base.id, conn->name);
- 
-@@ -2406,7 +2408,7 @@ void drm_atomic_helper_wait_for_dependencies(struct drm_atomic_state *old_state)
- 	for_each_old_connector_in_state(old_state, conn, old_conn_state, i) {
- 		ret = drm_crtc_commit_wait(old_conn_state->commit);
- 		if (ret)
--			drm_err(conn->dev,
-+			drm_err(conn->drm,
- 				"[CONNECTOR:%d:%s] commit wait timed out\n",
- 				conn->base.id, conn->name);
- 	}
-diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-index 784e63d70a42..c551dad67694 100644
---- a/drivers/gpu/drm/drm_atomic_state_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-@@ -489,7 +489,7 @@ EXPORT_SYMBOL(drm_atomic_helper_connector_tv_margins_reset);
-  */
- void drm_atomic_helper_connector_tv_reset(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_cmdline_mode *cmdline = &connector->cmdline_mode;
- 	struct drm_connector_state *state = connector->state;
- 	struct drm_property *prop;
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index 44f7b5c3b2d1..84133002e46c 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -301,12 +301,12 @@ drm_atomic_set_crtc_for_connector(struct drm_connector_state *conn_state,
- 		drm_connector_get(conn_state->connector);
- 		conn_state->crtc = crtc;
- 
--		drm_dbg_atomic(connector->dev,
-+		drm_dbg_atomic(connector->drm,
- 			       "Link [CONNECTOR:%d:%s] state %p to [CRTC:%d:%s]\n",
- 			       connector->base.id, connector->name,
- 			       conn_state, crtc->base.id, crtc->name);
- 	} else {
--		drm_dbg_atomic(connector->dev,
-+		drm_dbg_atomic(connector->drm,
- 			       "Link [CONNECTOR:%d:%s] state %p to [NOCRTC]\n",
- 			       connector->base.id, connector->name,
- 			       conn_state);
-@@ -676,11 +676,11 @@ static int drm_atomic_set_writeback_fb_for_connector(
+-	if (drm_core_check_feature(crtc->dev, DRIVER_ATOMIC) &&
++	if (drm_core_check_feature(crtc->drm, DRIVER_ATOMIC) &&
+ 	    WARN_ON(!new_crtc_state->enable && new_crtc_state->mode_blob)) {
+-		drm_dbg_atomic(crtc->dev,
++		drm_dbg_atomic(crtc->drm,
+ 			       "[CRTC:%d:%s] disabled with mode blob\n",
+ 			       crtc->base.id, crtc->name);
+ 		return -EINVAL;
+@@ -419,7 +419,7 @@ static int drm_atomic_crtc_check(const struct drm_crtc_state *old_crtc_state,
+ 	 */
+ 	if (new_crtc_state->event &&
+ 	    !new_crtc_state->active && !old_crtc_state->active) {
+-		drm_dbg_atomic(crtc->dev,
++		drm_dbg_atomic(crtc->drm,
+ 			       "[CRTC:%d:%s] requesting event but off\n",
+ 			       crtc->base.id, crtc->name);
+ 		return -EINVAL;
+@@ -1295,7 +1295,7 @@ drm_atomic_add_affected_connectors(struct drm_atomic_state *state,
+ 	if (ret)
  		return ret;
  
- 	if (fb)
--		drm_dbg_atomic(conn->dev,
-+		drm_dbg_atomic(conn->drm,
- 			       "Set [FB:%d] for connector state %p\n",
- 			       fb->base.id, conn_state);
- 	else
--		drm_dbg_atomic(conn->dev,
-+		drm_dbg_atomic(conn->drm,
- 			       "Set [NOFB] for connector state %p\n",
- 			       conn_state);
+-	drm_dbg_atomic(crtc->dev,
++	drm_dbg_atomic(crtc->drm,
+ 		       "Adding all current connectors for [CRTC:%d:%s] to %p\n",
+ 		       crtc->base.id, crtc->name, state);
  
-@@ -691,7 +691,7 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
- 		struct drm_connector_state *state, struct drm_file *file_priv,
- 		struct drm_property *property, uint64_t val)
+@@ -1350,7 +1350,7 @@ drm_atomic_add_affected_planes(struct drm_atomic_state *state,
+ 
+ 	WARN_ON(!drm_atomic_get_new_crtc_state(state, crtc));
+ 
+-	drm_dbg_atomic(crtc->dev,
++	drm_dbg_atomic(crtc->drm,
+ 		       "Adding all current planes for [CRTC:%d:%s] to %p\n",
+ 		       crtc->base.id, crtc->name, state);
+ 
+@@ -1562,7 +1562,7 @@ EXPORT_SYMBOL(__drm_atomic_helper_disable_plane);
+ static int update_output_state(struct drm_atomic_state *state,
+ 			       struct drm_mode_set *set)
  {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
+-	struct drm_device *dev = set->crtc->dev;
++	struct drm_device *dev = set->crtc->drm;
+ 	struct drm_crtc *crtc;
+ 	struct drm_crtc_state *new_crtc_state;
+ 	struct drm_connector *connector;
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index 98c9377aeef5..9828f630fdd2 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -494,7 +494,8 @@ mode_fixup(struct drm_atomic_state *state)
+ 		ret = funcs->mode_fixup(crtc, &new_crtc_state->mode,
+ 					&new_crtc_state->adjusted_mode);
+ 		if (!ret) {
+-			drm_dbg_atomic(crtc->dev, "[CRTC:%d:%s] fixup failed\n",
++			drm_dbg_atomic(crtc->drm,
++				       "[CRTC:%d:%s] fixup failed\n",
+ 				       crtc->base.id, crtc->name);
+ 			return -EINVAL;
+ 		}
+@@ -941,7 +942,7 @@ EXPORT_SYMBOL(drm_atomic_helper_check_plane_state);
+ int drm_atomic_helper_check_crtc_primary_plane(struct drm_crtc_state *crtc_state)
+ {
+ 	struct drm_crtc *crtc = crtc_state->crtc;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_plane *plane;
+ 
+ 	/* needs at least one primary plane to be enabled */
+@@ -1015,7 +1016,7 @@ drm_atomic_helper_check_planes(struct drm_device *dev,
+ 
+ 		ret = funcs->atomic_check(crtc, state);
+ 		if (ret) {
+-			drm_dbg_atomic(crtc->dev,
++			drm_dbg_atomic(crtc->drm,
+ 				       "[CRTC:%d:%s] atomic driver check failed\n",
+ 				       crtc->base.id, crtc->name);
+ 			return ret;
+@@ -2141,7 +2142,7 @@ static int stall_checks(struct drm_crtc *crtc, bool nonblock)
+ 			 */
+ 			if (!completed && nonblock) {
+ 				spin_unlock(&crtc->commit_lock);
+-				drm_dbg_atomic(crtc->dev,
++				drm_dbg_atomic(crtc->drm,
+ 					       "[CRTC:%d:%s] busy with a previous commit\n",
+ 					       crtc->base.id, crtc->name);
+ 
+@@ -2165,7 +2166,7 @@ static int stall_checks(struct drm_crtc *crtc, bool nonblock)
+ 	ret = wait_for_completion_interruptible_timeout(&stall_commit->cleanup_done,
+ 							10*HZ);
+ 	if (ret == 0)
+-		drm_err(crtc->dev, "[CRTC:%d:%s] cleanup_done timed out\n",
++		drm_err(crtc->drm, "[CRTC:%d:%s] cleanup_done timed out\n",
+ 			crtc->base.id, crtc->name);
+ 
+ 	drm_crtc_commit_put(stall_commit);
+@@ -2400,7 +2401,7 @@ void drm_atomic_helper_wait_for_dependencies(struct drm_atomic_state *old_state)
+ 	for_each_old_crtc_in_state(old_state, crtc, old_crtc_state, i) {
+ 		ret = drm_crtc_commit_wait(old_crtc_state->commit);
+ 		if (ret)
+-			drm_err(crtc->dev,
++			drm_err(crtc->drm,
+ 				"[CRTC:%d:%s] commit wait timed out\n",
+ 				crtc->base.id, crtc->name);
+ 	}
+@@ -2815,7 +2816,7 @@ drm_atomic_helper_commit_planes_on_crtc(struct drm_crtc_state *old_crtc_state)
+ 	if (crtc_funcs && crtc_funcs->atomic_begin)
+ 		crtc_funcs->atomic_begin(crtc, old_state);
+ 
+-	drm_for_each_plane_mask(plane, crtc->dev, plane_mask) {
++	drm_for_each_plane_mask(plane, crtc->drm, plane_mask) {
+ 		struct drm_plane_state *old_plane_state =
+ 			drm_atomic_get_old_plane_state(old_state, plane);
+ 		struct drm_plane_state *new_plane_state =
+@@ -3220,7 +3221,7 @@ int drm_atomic_helper_set_config(struct drm_mode_set *set,
+ 	struct drm_crtc *crtc = set->crtc;
+ 	int ret = 0;
+ 
+-	state = drm_atomic_state_alloc(crtc->dev);
++	state = drm_atomic_state_alloc(crtc->drm);
+ 	if (!state)
+ 		return -ENOMEM;
+ 
+@@ -3607,7 +3608,7 @@ static int page_flip_common(struct drm_atomic_state *state,
+ 	/* Make sure we don't accidentally do a full modeset. */
+ 	state->allow_modeset = false;
+ 	if (!crtc_state->active) {
+-		drm_dbg_atomic(crtc->dev,
++		drm_dbg_atomic(crtc->drm,
+ 			       "[CRTC:%d:%s] disabled, rejecting legacy flip\n",
+ 			       crtc->base.id, crtc->name);
+ 		return -EINVAL;
+diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+index c551dad67694..38ad8c8e6216 100644
+--- a/drivers/gpu/drm/drm_atomic_state_helper.c
++++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+@@ -96,7 +96,7 @@ __drm_atomic_helper_crtc_reset(struct drm_crtc *crtc,
+ 	if (crtc_state)
+ 		__drm_atomic_helper_crtc_state_reset(crtc_state, crtc);
+ 
+-	if (drm_dev_has_vblank(crtc->dev))
++	if (drm_dev_has_vblank(crtc->drm))
+ 		drm_crtc_vblank_reset(crtc);
+ 
+ 	crtc->state = crtc_state;
+diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+index 84133002e46c..38a5f69f0c9c 100644
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -80,7 +80,7 @@ int drm_atomic_set_mode_for_crtc(struct drm_crtc_state *state,
+ 		struct drm_property_blob *blob;
+ 
+ 		drm_mode_convert_to_umode(&umode, mode);
+-		blob = drm_property_create_blob(crtc->dev,
++		blob = drm_property_create_blob(crtc->drm,
+ 						sizeof(umode), &umode);
+ 		if (IS_ERR(blob))
+ 			return PTR_ERR(blob);
+@@ -89,13 +89,13 @@ int drm_atomic_set_mode_for_crtc(struct drm_crtc_state *state,
+ 
+ 		state->mode_blob = blob;
+ 		state->enable = true;
+-		drm_dbg_atomic(crtc->dev,
++		drm_dbg_atomic(crtc->drm,
+ 			       "Set [MODE:%s] for [CRTC:%d:%s] state %p\n",
+ 			       mode->name, crtc->base.id, crtc->name, state);
+ 	} else {
+ 		memset(&state->mode, 0, sizeof(state->mode));
+ 		state->enable = false;
+-		drm_dbg_atomic(crtc->dev,
++		drm_dbg_atomic(crtc->drm,
+ 			       "Set [NOMODE] for [CRTC:%d:%s] state %p\n",
+ 			       crtc->base.id, crtc->name, state);
+ 	}
+@@ -134,17 +134,17 @@ int drm_atomic_set_mode_prop_for_crtc(struct drm_crtc_state *state,
+ 		int ret;
+ 
+ 		if (blob->length != sizeof(struct drm_mode_modeinfo)) {
+-			drm_dbg_atomic(crtc->dev,
++			drm_dbg_atomic(crtc->drm,
+ 				       "[CRTC:%d:%s] bad mode blob length: %zu\n",
+ 				       crtc->base.id, crtc->name,
+ 				       blob->length);
+ 			return -EINVAL;
+ 		}
+ 
+-		ret = drm_mode_convert_umode(crtc->dev,
++		ret = drm_mode_convert_umode(crtc->drm,
+ 					     &state->mode, blob->data);
+ 		if (ret) {
+-			drm_dbg_atomic(crtc->dev,
++			drm_dbg_atomic(crtc->drm,
+ 				       "[CRTC:%d:%s] invalid mode (ret=%d, status=%s):\n",
+ 				       crtc->base.id, crtc->name,
+ 				       ret, drm_get_mode_status_name(state->mode.status));
+@@ -154,13 +154,13 @@ int drm_atomic_set_mode_prop_for_crtc(struct drm_crtc_state *state,
+ 
+ 		state->mode_blob = drm_property_blob_get(blob);
+ 		state->enable = true;
+-		drm_dbg_atomic(crtc->dev,
++		drm_dbg_atomic(crtc->drm,
+ 			       "Set [MODE:%s] for [CRTC:%d:%s] state %p\n",
+ 			       state->mode.name, crtc->base.id, crtc->name,
+ 			       state);
+ 	} else {
+ 		state->enable = false;
+-		drm_dbg_atomic(crtc->dev,
++		drm_dbg_atomic(crtc->drm,
+ 			       "Set [NOMODE] for [CRTC:%d:%s] state %p\n",
+ 			       crtc->base.id, crtc->name, state);
+ 	}
+@@ -408,7 +408,7 @@ static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
+ 		struct drm_crtc_state *state, struct drm_property *property,
+ 		uint64_t val)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
  	struct drm_mode_config *config = &dev->mode_config;
  	bool replaced = false;
  	int ret;
-@@ -802,7 +802,7 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
- 		return connector->funcs->atomic_set_property(connector,
- 				state, property, val);
+@@ -462,7 +462,7 @@ static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
+ 	} else if (crtc->funcs->atomic_set_property) {
+ 		return crtc->funcs->atomic_set_property(crtc, state, property, val);
  	} else {
--		drm_dbg_atomic(connector->dev,
-+		drm_dbg_atomic(connector->drm,
- 			       "[CONNECTOR:%d:%s] unknown property [PROP:%d:%s]\n",
- 			       connector->base.id, connector->name,
+-		drm_dbg_atomic(crtc->dev,
++		drm_dbg_atomic(crtc->drm,
+ 			       "[CRTC:%d:%s] unknown property [PROP:%d:%s]\n",
+ 			       crtc->base.id, crtc->name,
  			       property->base.id, property->name);
-@@ -817,7 +817,7 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
- 		const struct drm_connector_state *state,
+@@ -477,7 +477,7 @@ drm_atomic_crtc_get_property(struct drm_crtc *crtc,
+ 		const struct drm_crtc_state *state,
  		struct drm_property *property, uint64_t *val)
  {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
  	struct drm_mode_config *config = &dev->mode_config;
  
- 	if (property == config->prop_crtc_id) {
-diff --git a/drivers/gpu/drm/drm_bridge_connector.c b/drivers/gpu/drm/drm_bridge_connector.c
-index fc6f16e14f36..a09be77daea1 100644
---- a/drivers/gpu/drm/drm_bridge_connector.c
-+++ b/drivers/gpu/drm/drm_bridge_connector.c
-@@ -112,7 +112,7 @@ static void drm_bridge_connector_hpd_cb(void *cb_data,
+ 	if (property == config->prop_active)
+diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
+index 6e74de833466..c390b8924e95 100644
+--- a/drivers/gpu/drm/drm_blend.c
++++ b/drivers/gpu/drm/drm_blend.c
+@@ -443,7 +443,7 @@ static int drm_atomic_helper_crtc_normalize_zpos(struct drm_crtc *crtc,
+ 					  struct drm_crtc_state *crtc_state)
  {
- 	struct drm_bridge_connector *drm_bridge_connector = cb_data;
- 	struct drm_connector *connector = &drm_bridge_connector->base;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	enum drm_connector_status old_status;
- 
- 	mutex_lock(&dev->mode_config.mutex);
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index bf8371dc2a61..c0d3bcf9f643 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -193,7 +193,7 @@ static void drm_connector_free(struct kref *kref)
+ 	struct drm_atomic_state *state = crtc_state->state;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	int total_planes = dev->mode_config.num_total_plane;
+ 	struct drm_plane_state **states;
+ 	struct drm_plane *plane;
+diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
+index d021497841b8..2a437d84e531 100644
+--- a/drivers/gpu/drm/drm_color_mgmt.c
++++ b/drivers/gpu/drm/drm_color_mgmt.c
+@@ -166,7 +166,7 @@ void drm_crtc_enable_color_mgmt(struct drm_crtc *crtc,
+ 				bool has_ctm,
+ 				uint gamma_lut_size)
  {
- 	struct drm_connector *connector =
- 		container_of(kref, struct drm_connector, base.refcount);
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_mode_config *config = &dev->mode_config;
  
- 	drm_mode_object_unregister(dev, &connector->base);
- 	connector->funcs->destroy(connector);
-@@ -240,7 +240,7 @@ static int __drm_connector_init(struct drm_device *dev,
- 		return ret;
- 
- 	connector->base.properties = &connector->properties;
--	connector->dev = dev;
-+	connector->drm = dev;
- 	connector->funcs = funcs;
- 
- 	/* connector index is used with 32bit bitmasks */
-@@ -462,7 +462,7 @@ EXPORT_SYMBOL(drmm_connector_init);
+ 	if (degamma_lut_size) {
+@@ -241,8 +241,8 @@ EXPORT_SYMBOL(drm_mode_crtc_set_gamma_size);
   */
- void drm_connector_attach_edid_property(struct drm_connector *connector)
- {
--	struct drm_mode_config *config = &connector->dev->mode_config;
-+	struct drm_mode_config *config = &connector->drm->mode_config;
- 
- 	drm_object_attach_property(&connector->base,
- 				   config->edid_property,
-@@ -525,7 +525,7 @@ static void drm_mode_remove(struct drm_connector *connector,
- 			    struct drm_display_mode *mode)
- {
- 	list_del(&mode->head);
--	drm_mode_destroy(connector->dev, mode);
-+	drm_mode_destroy(connector->drm, mode);
- }
- 
- /**
-@@ -536,7 +536,7 @@ static void drm_mode_remove(struct drm_connector *connector,
-  */
- void drm_connector_cleanup(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_display_mode *mode, *t;
- 
- 	/* The connector should have been removed from userspace long before
-@@ -612,7 +612,7 @@ int drm_connector_register(struct drm_connector *connector)
- {
- 	int ret = 0;
- 
--	if (!connector->dev->registered)
-+	if (!connector->drm->registered)
- 		return 0;
- 
- 	mutex_lock(&connector->mutex);
-@@ -631,7 +631,7 @@ int drm_connector_register(struct drm_connector *connector)
- 			goto err_debugfs;
- 	}
- 
--	drm_mode_object_register(connector->dev, &connector->base);
-+	drm_mode_object_register(connector->drm, &connector->base);
- 
- 	connector->registration_state = DRM_CONNECTOR_REGISTERED;
- 
-@@ -797,7 +797,7 @@ EXPORT_SYMBOL(drm_connector_list_iter_begin);
- static void
- __drm_connector_put_safe(struct drm_connector *conn)
- {
--	struct drm_mode_config *config = &conn->dev->mode_config;
-+	struct drm_mode_config *config = &conn->drm->mode_config;
- 
- 	lockdep_assert_held(&config->connector_list_lock);
- 
-@@ -1582,15 +1582,15 @@ EXPORT_SYMBOL(drm_mode_create_dvi_i_properties);
-  */
- void drm_connector_attach_dp_subconnector_property(struct drm_connector *connector)
- {
--	struct drm_mode_config *mode_config = &connector->dev->mode_config;
-+	struct drm_mode_config *mode_config = &connector->drm->mode_config;
- 
- 	if (!mode_config->dp_subconnector_property)
- 		mode_config->dp_subconnector_property =
--			drm_property_create_enum(connector->dev,
--				DRM_MODE_PROP_IMMUTABLE,
--				"subconnector",
--				drm_dp_subconnector_enum_list,
--				ARRAY_SIZE(drm_dp_subconnector_enum_list));
-+			drm_property_create_enum(connector->drm,
-+						 DRM_MODE_PROP_IMMUTABLE,
-+						 "subconnector",
-+						 drm_dp_subconnector_enum_list,
-+						 ARRAY_SIZE(drm_dp_subconnector_enum_list));
- 
- 	drm_object_attach_property(&connector->base,
- 				   mode_config->dp_subconnector_property,
-@@ -1696,9 +1696,9 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector_property);
-  */
- int drm_connector_attach_content_type_property(struct drm_connector *connector)
- {
--	if (!drm_mode_create_content_type_property(connector->dev))
-+	if (!drm_mode_create_content_type_property(connector->drm))
- 		drm_object_attach_property(&connector->base,
--					   connector->dev->mode_config.content_type_property,
-+					   connector->drm->mode_config.content_type_property,
- 					   DRM_MODE_CONTENT_TYPE_NO_DATA);
- 	return 0;
- }
-@@ -1714,7 +1714,7 @@ EXPORT_SYMBOL(drm_connector_attach_content_type_property);
-  */
- void drm_connector_attach_tv_margin_properties(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 
- 	drm_object_attach_property(&connector->base,
- 				   dev->mode_config.tv_left_margin_property,
-@@ -2024,7 +2024,7 @@ EXPORT_SYMBOL(drm_mode_create_scaling_mode_property);
- int drm_connector_attach_vrr_capable_property(
- 	struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_property *prop;
- 
- 	if (!connector->vrr_capable_property) {
-@@ -2058,7 +2058,7 @@ EXPORT_SYMBOL(drm_connector_attach_vrr_capable_property);
- int drm_connector_attach_scaling_mode_property(struct drm_connector *connector,
- 					       u32 scaling_mode_mask)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_property *scaling_mode_property;
- 	int i;
- 	const unsigned valid_scaling_mode_mask =
-@@ -2159,7 +2159,7 @@ EXPORT_SYMBOL(drm_mode_create_aspect_ratio_property);
- static int drm_mode_create_colorspace_property(struct drm_connector *connector,
- 					u32 supported_colorspaces)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	u32 colorspaces = supported_colorspaces | BIT(DRM_MODE_COLORIMETRY_DEFAULT);
- 	struct drm_prop_enum_list enum_list[DRM_MODE_COLORIMETRY_COUNT];
- 	int i, len;
-@@ -2318,7 +2318,7 @@ EXPORT_SYMBOL(drm_mode_create_suggested_offset_properties);
- int drm_connector_set_path_property(struct drm_connector *connector,
- 				    const char *path)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	int ret;
- 
- 	ret = drm_property_replace_global_blob(dev,
-@@ -2346,7 +2346,7 @@ EXPORT_SYMBOL(drm_connector_set_path_property);
-  */
- int drm_connector_set_tile_property(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	char tile[256];
- 	int ret;
- 
-@@ -2398,7 +2398,7 @@ EXPORT_SYMBOL(drm_connector_set_tile_property);
- void drm_connector_set_link_status_property(struct drm_connector *connector,
- 					    uint64_t link_status)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 
- 	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
- 	connector->state->link_status = link_status;
-@@ -2420,7 +2420,7 @@ EXPORT_SYMBOL(drm_connector_set_link_status_property);
- int drm_connector_attach_max_bpc_property(struct drm_connector *connector,
- 					  int min, int max)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_property *prop;
- 
- 	prop = connector->max_bpc_property;
-@@ -2452,7 +2452,7 @@ EXPORT_SYMBOL(drm_connector_attach_max_bpc_property);
-  */
- int drm_connector_attach_hdr_output_metadata_property(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_property *prop = dev->mode_config.hdr_output_metadata_property;
- 
- 	drm_object_attach_property(&connector->base, prop, 0);
-@@ -2555,7 +2555,7 @@ int drm_connector_set_panel_orientation(
- 	struct drm_connector *connector,
- 	enum drm_panel_orientation panel_orientation)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_display_info *info = &connector->display_info;
- 	struct drm_property *prop;
- 
-@@ -2667,16 +2667,16 @@ drm_connector_create_privacy_screen_properties(struct drm_connector *connector)
- 
- 	/* Note sw-state only supports the first 2 values of the enum */
- 	connector->privacy_screen_sw_state_property =
--		drm_property_create_enum(connector->dev, DRM_MODE_PROP_ENUM,
--				"privacy-screen sw-state",
--				privacy_screen_enum, 2);
-+		drm_property_create_enum(connector->drm, DRM_MODE_PROP_ENUM,
-+					 "privacy-screen sw-state",
-+					 privacy_screen_enum, 2);
- 
- 	connector->privacy_screen_hw_state_property =
--		drm_property_create_enum(connector->dev,
--				DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_ENUM,
--				"privacy-screen hw-state",
--				privacy_screen_enum,
--				ARRAY_SIZE(privacy_screen_enum));
-+		drm_property_create_enum(connector->drm,
-+					 DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_ENUM,
-+					 "privacy-screen hw-state",
-+					 privacy_screen_enum,
-+					 ARRAY_SIZE(privacy_screen_enum));
- }
- EXPORT_SYMBOL(drm_connector_create_privacy_screen_properties);
- 
-@@ -2724,7 +2724,7 @@ static int drm_connector_privacy_screen_notifier(
- {
- 	struct drm_connector *connector =
- 		container_of(nb, struct drm_connector, privacy_screen_notifier);
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 
- 	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
- 	drm_connector_update_privacy_screen_properties(connector, true);
-@@ -2783,7 +2783,8 @@ void drm_connector_update_privacy_screen(const struct drm_connector_state *conne
- 	ret = drm_privacy_screen_set_sw_state(connector->privacy_screen,
- 					      connector_state->privacy_screen_sw_state);
- 	if (ret) {
--		drm_err(connector->dev, "Error updating privacy-screen sw_state\n");
-+		drm_err(connector->drm,
-+			"Error updating privacy-screen sw_state\n");
- 		return;
- 	}
- 
-@@ -2800,7 +2801,7 @@ int drm_connector_set_obj_prop(struct drm_mode_object *obj,
- 	struct drm_connector *connector = obj_to_connector(obj);
- 
- 	/* Do DPMS ourselves */
--	if (property == connector->dev->mode_config.dpms_property) {
-+	if (property == connector->drm->mode_config.dpms_property) {
- 		ret = (*connector->funcs->dpms)(connector, (int)value);
- 	} else if (connector->funcs->set_property)
- 		ret = connector->funcs->set_property(connector, property, value);
-diff --git a/drivers/gpu/drm/drm_crtc_helper.c b/drivers/gpu/drm/drm_crtc_helper.c
-index a209659a996c..320c3f8690cb 100644
---- a/drivers/gpu/drm/drm_crtc_helper.c
-+++ b/drivers/gpu/drm/drm_crtc_helper.c
-@@ -908,7 +908,7 @@ int drm_helper_connector_dpms(struct drm_connector *connector, int mode)
- 	struct drm_crtc *crtc = encoder ? encoder->crtc : NULL;
- 	int old_dpms, encoder_dpms = DRM_MODE_DPMS_OFF;
- 
--	WARN_ON(drm_drv_uses_atomic_modeset(connector->dev));
-+	WARN_ON(drm_drv_uses_atomic_modeset(connector->drm));
- 
- 	if (mode == connector->dpms)
- 		return 0;
-diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index 4855230ba2c6..f18d2af96db7 100644
---- a/drivers/gpu/drm/drm_debugfs.c
-+++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -498,7 +498,7 @@ static const struct file_operations drm_connector_fops = {
- 
- void drm_debugfs_connector_add(struct drm_connector *connector)
- {
--	struct drm_minor *minor = connector->dev->primary;
-+	struct drm_minor *minor = connector->drm->primary;
- 	struct dentry *root;
- 
- 	if (!minor->debugfs_root)
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index f95152fac427..a148e87d8204 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -2204,7 +2204,7 @@ static void connector_bad_edid(struct drm_connector *connector,
- 	if (connector->bad_edid_counter++ && !drm_debug_enabled(DRM_UT_KMS))
- 		return;
- 
--	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] EDID is invalid:\n",
-+	drm_dbg_kms(connector->drm, "[CONNECTOR:%d:%s] EDID is invalid:\n",
- 		    connector->base.id, connector->name);
- 	for (i = 0; i < num_blocks; i++)
- 		edid_block_dump(KERN_DEBUG, edid + i, i);
-@@ -2252,13 +2252,14 @@ int drm_edid_override_set(struct drm_connector *connector, const void *edid,
- 
- 	drm_edid = drm_edid_alloc(edid, size);
- 	if (!drm_edid_valid(drm_edid)) {
--		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] EDID override invalid\n",
-+		drm_dbg_kms(connector->drm,
-+			    "[CONNECTOR:%d:%s] EDID override invalid\n",
- 			    connector->base.id, connector->name);
- 		drm_edid_free(drm_edid);
- 		return -EINVAL;
- 	}
- 
--	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] EDID override set\n",
-+	drm_dbg_kms(connector->drm, "[CONNECTOR:%d:%s] EDID override set\n",
- 		    connector->base.id, connector->name);
- 
- 	mutex_lock(&connector->edid_override_mutex);
-@@ -2274,7 +2275,7 @@ int drm_edid_override_set(struct drm_connector *connector, const void *edid,
- /* For debugfs edid_override implementation */
- int drm_edid_override_reset(struct drm_connector *connector)
- {
--	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] EDID override reset\n",
-+	drm_dbg_kms(connector->drm, "[CONNECTOR:%d:%s] EDID override reset\n",
- 		    connector->base.id, connector->name);
- 
- 	mutex_lock(&connector->edid_override_mutex);
-@@ -2309,7 +2310,7 @@ int drm_edid_override_connector_update(struct drm_connector *connector)
- 
- 		drm_edid_free(override);
- 
--		drm_dbg_kms(connector->dev,
-+		drm_dbg_kms(connector->drm,
- 			    "[CONNECTOR:%d:%s] adding %d modes via fallback override/firmware EDID\n",
- 			    connector->base.id, connector->name, num_modes);
- 	}
-@@ -2672,7 +2673,7 @@ const struct drm_edid *drm_edid_read_custom(struct drm_connector *connector,
- 		return NULL;
- 
- 	/* Sanity check for now */
--	drm_WARN_ON(connector->dev, !size);
-+	drm_WARN_ON(connector->drm, !size);
- 
- 	drm_edid = _drm_edid_alloc(edid, size);
- 	if (!drm_edid)
-@@ -2735,7 +2736,7 @@ EXPORT_SYMBOL(drm_edid_read_ddc);
-  */
- const struct drm_edid *drm_edid_read(struct drm_connector *connector)
- {
--	if (drm_WARN_ON(connector->dev, !connector->ddc))
-+	if (drm_WARN_ON(connector->drm, !connector->ddc))
- 		return NULL;
- 
- 	return drm_edid_read_ddc(connector, connector->ddc);
-@@ -2830,7 +2831,7 @@ EXPORT_SYMBOL(drm_edid_get_panel_id);
- struct edid *drm_get_edid_switcheroo(struct drm_connector *connector,
- 				     struct i2c_adapter *adapter)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	struct edid *edid;
- 
-@@ -2859,7 +2860,7 @@ EXPORT_SYMBOL(drm_get_edid_switcheroo);
- const struct drm_edid *drm_edid_read_switcheroo(struct drm_connector *connector,
- 						struct i2c_adapter *adapter)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	const struct drm_edid *drm_edid;
- 
-@@ -3294,7 +3295,7 @@ static struct drm_display_mode *drm_mode_std(struct drm_connector *connector,
- 					     const struct drm_edid *drm_edid,
- 					     const struct std_timing *t)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_display_mode *m, *mode = NULL;
- 	int hsize, vsize;
- 	int vrefresh_rate;
-@@ -3436,7 +3437,7 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_connector *connecto
- 						  const struct detailed_timing *timing)
- {
- 	const struct drm_display_info *info = &connector->display_info;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_display_mode *mode;
- 	const struct detailed_pixel_timing *pt = &timing->data.pixel_data;
- 	unsigned hactive = (pt->hactive_hblank_hi & 0xf0) << 4 | pt->hactive_lo;
-@@ -3648,7 +3649,7 @@ static int drm_dmt_modes_for_range(struct drm_connector *connector,
- {
- 	int i, modes = 0;
- 	struct drm_display_mode *newmode;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 
- 	for (i = 0; i < ARRAY_SIZE(drm_dmt_modes); i++) {
- 		if (mode_in_range(drm_dmt_modes + i, drm_edid, timing) &&
-@@ -3683,7 +3684,7 @@ static int drm_gtf_modes_for_range(struct drm_connector *connector,
- {
- 	int i, modes = 0;
- 	struct drm_display_mode *newmode;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 
- 	for (i = 0; i < ARRAY_SIZE(extra_modes); i++) {
- 		const struct minimode *m = &extra_modes[i];
-@@ -3712,7 +3713,7 @@ static int drm_gtf2_modes_for_range(struct drm_connector *connector,
- {
- 	int i, modes = 0;
- 	struct drm_display_mode *newmode;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 
- 	for (i = 0; i < ARRAY_SIZE(extra_modes); i++) {
- 		const struct minimode *m = &extra_modes[i];
-@@ -3741,7 +3742,7 @@ static int drm_cvt_modes_for_range(struct drm_connector *connector,
- {
- 	int i, modes = 0;
- 	struct drm_display_mode *newmode;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	bool rb = drm_monitor_supports_rb(drm_edid);
- 
- 	for (i = 0; i < ARRAY_SIZE(extra_modes); i++) {
-@@ -3834,7 +3835,7 @@ drm_est3_modes(struct drm_connector *connector, const struct detailed_timing *ti
- 			if (m >= ARRAY_SIZE(est3_modes))
- 				break;
- 			if (est[i] & (1 << j)) {
--				mode = drm_mode_find_dmt(connector->dev,
-+				mode = drm_mode_find_dmt(connector->drm,
- 							 est3_modes[m].w,
- 							 est3_modes[m].h,
- 							 est3_modes[m].r,
-@@ -3869,7 +3870,7 @@ do_established_modes(const struct detailed_timing *timing, void *c)
- static int add_established_modes(struct drm_connector *connector,
- 				 const struct drm_edid *drm_edid)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	const struct edid *edid = drm_edid->edid;
- 	unsigned long est_bits = edid->established_timings.t1 |
- 		(edid->established_timings.t2 << 8) |
-@@ -3961,7 +3962,7 @@ static int drm_cvt_modes(struct drm_connector *connector,
- {
- 	int i, j, modes = 0;
- 	struct drm_display_mode *newmode;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	const struct cvt_timing *cvt;
- 	static const int rates[] = { 60, 85, 75, 60, 50 };
- 	const u8 empty[3] = { 0, 0, 0 };
-@@ -4432,7 +4433,7 @@ static bool drm_valid_hdmi_vic(u8 vic)
- static int add_alternate_cea_modes(struct drm_connector *connector,
- 				   const struct drm_edid *drm_edid)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_display_mode *mode, *tmp;
- 	LIST_HEAD(list);
- 	int modes = 0;
-@@ -4518,7 +4519,7 @@ static struct drm_display_mode *
- drm_display_mode_from_vic_index(struct drm_connector *connector, int vic_index)
- {
- 	const struct drm_display_info *info = &connector->display_info;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 
- 	if (!info->vics || vic_index >= info->vics_len || !info->vics[vic_index])
- 		return NULL;
-@@ -4539,7 +4540,7 @@ drm_display_mode_from_vic_index(struct drm_connector *connector, int vic_index)
- static int do_y420vdb_modes(struct drm_connector *connector,
- 			    const u8 *svds, u8 svds_len)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	int modes = 0, i;
- 
- 	for (i = 0; i < svds_len; i++) {
-@@ -4641,7 +4642,7 @@ stereo_match_mandatory(const struct drm_display_mode *mode,
- 
- static int add_hdmi_mandatory_stereo_modes(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	const struct drm_display_mode *mode;
- 	struct list_head stereo_modes;
- 	int modes = 0, i;
-@@ -4675,11 +4676,12 @@ static int add_hdmi_mandatory_stereo_modes(struct drm_connector *connector)
- 
- static int add_hdmi_mode(struct drm_connector *connector, u8 vic)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_display_mode *newmode;
- 
- 	if (!drm_valid_hdmi_vic(vic)) {
--		drm_err(connector->dev, "[CONNECTOR:%d:%s] Unknown HDMI VIC: %d\n",
-+		drm_err(connector->drm,
-+			"[CONNECTOR:%d:%s] Unknown HDMI VIC: %d\n",
- 			connector->base.id, connector->name, vic);
- 		return 0;
- 	}
-@@ -5319,7 +5321,7 @@ static void fixup_detailed_cea_mode_clock(struct drm_connector *connector,
- 	if (mode->clock == clock)
- 		return;
- 
--	drm_dbg_kms(connector->dev,
-+	drm_dbg_kms(connector->drm,
- 		    "[CONNECTOR:%d:%s] detailed mode matches %s VIC %d, adjusting clock %d -> %d\n",
- 		    connector->base.id, connector->name,
- 		    type, vic, mode->clock, clock);
-@@ -5431,7 +5433,7 @@ drm_parse_hdmi_vsdb_audio(struct drm_connector *connector, const u8 *db)
- 		connector->audio_latency[1] = db[12];
- 	}
- 
--	drm_dbg_kms(connector->dev,
-+	drm_dbg_kms(connector->drm,
- 		    "[CONNECTOR:%d:%s] HDMI: latency present %d %d, video latency %d %d, audio latency %d %d\n",
- 		    connector->base.id, connector->name,
- 		    connector->latency_present[0], connector->latency_present[1],
-@@ -5532,7 +5534,7 @@ static void drm_edid_to_eld(struct drm_connector *connector,
- 		return;
- 
- 	mnl = get_monitor_name(drm_edid, &eld[DRM_ELD_MONITOR_NAME_STRING]);
--	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] ELD monitor %s\n",
-+	drm_dbg_kms(connector->drm, "[CONNECTOR:%d:%s] ELD monitor %s\n",
- 		    connector->base.id, connector->name,
- 		    &eld[DRM_ELD_MONITOR_NAME_STRING]);
- 
-@@ -5588,7 +5590,8 @@ static void drm_edid_to_eld(struct drm_connector *connector,
- 	eld[DRM_ELD_BASELINE_ELD_LEN] =
- 		DIV_ROUND_UP(drm_eld_calc_baseline_block_size(eld), 4);
- 
--	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] ELD size %d, SAD count %d\n",
-+	drm_dbg_kms(connector->drm,
-+		    "[CONNECTOR:%d:%s] ELD size %d, SAD count %d\n",
- 		    connector->base.id, connector->name,
- 		    drm_eld_size(eld), total_sad_count);
- }
-@@ -5947,7 +5950,7 @@ static void drm_parse_vcdb(struct drm_connector *connector, const u8 *db)
- {
- 	struct drm_display_info *info = &connector->display_info;
- 
--	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] CEA VCDB 0x%02x\n",
-+	drm_dbg_kms(connector->drm, "[CONNECTOR:%d:%s] CEA VCDB 0x%02x\n",
- 		    connector->base.id, connector->name, db[2]);
- 
- 	if (db[2] & EDID_CEA_VCDB_QS)
-@@ -6130,7 +6133,7 @@ static void drm_parse_hdmi_forum_scds(struct drm_connector *connector,
- 		dsc_support = true;
- 	}
- 
--	drm_dbg_kms(connector->dev,
-+	drm_dbg_kms(connector->drm,
- 		    "[CONNECTOR:%d:%s] HF-VSDB: max TMDS clock: %d KHz, HDMI 2.1 support: %s, DSC 1.2 support: %s\n",
- 		    connector->base.id, connector->name,
- 		    max_tmds_clock, str_yes_no(max_frl_rate), str_yes_no(dsc_support));
-@@ -6151,38 +6154,44 @@ static void drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
- 	if (hdmi[6] & DRM_EDID_HDMI_DC_30) {
- 		dc_bpc = 10;
- 		info->edid_hdmi_rgb444_dc_modes |= DRM_EDID_HDMI_DC_30;
--		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] HDMI sink does deep color 30.\n",
-+		drm_dbg_kms(connector->drm,
-+			    "[CONNECTOR:%d:%s] HDMI sink does deep color 30.\n",
- 			    connector->base.id, connector->name);
- 	}
- 
- 	if (hdmi[6] & DRM_EDID_HDMI_DC_36) {
- 		dc_bpc = 12;
- 		info->edid_hdmi_rgb444_dc_modes |= DRM_EDID_HDMI_DC_36;
--		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] HDMI sink does deep color 36.\n",
-+		drm_dbg_kms(connector->drm,
-+			    "[CONNECTOR:%d:%s] HDMI sink does deep color 36.\n",
- 			    connector->base.id, connector->name);
- 	}
- 
- 	if (hdmi[6] & DRM_EDID_HDMI_DC_48) {
- 		dc_bpc = 16;
- 		info->edid_hdmi_rgb444_dc_modes |= DRM_EDID_HDMI_DC_48;
--		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] HDMI sink does deep color 48.\n",
-+		drm_dbg_kms(connector->drm,
-+			    "[CONNECTOR:%d:%s] HDMI sink does deep color 48.\n",
- 			    connector->base.id, connector->name);
- 	}
- 
- 	if (dc_bpc == 0) {
--		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] No deep color support on this HDMI sink.\n",
-+		drm_dbg_kms(connector->drm,
-+			    "[CONNECTOR:%d:%s] No deep color support on this HDMI sink.\n",
- 			    connector->base.id, connector->name);
- 		return;
- 	}
- 
--	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Assigning HDMI sink color depth as %d bpc.\n",
-+	drm_dbg_kms(connector->drm,
-+		    "[CONNECTOR:%d:%s] Assigning HDMI sink color depth as %d bpc.\n",
- 		    connector->base.id, connector->name, dc_bpc);
- 	info->bpc = dc_bpc;
- 
- 	/* YCRCB444 is optional according to spec. */
- 	if (hdmi[6] & DRM_EDID_HDMI_DC_Y444) {
- 		info->edid_hdmi_ycbcr444_dc_modes = info->edid_hdmi_rgb444_dc_modes;
--		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] HDMI sink does YCRCB444 in deep color.\n",
-+		drm_dbg_kms(connector->drm,
-+			    "[CONNECTOR:%d:%s] HDMI sink does YCRCB444 in deep color.\n",
- 			    connector->base.id, connector->name);
- 	}
- 
-@@ -6191,7 +6200,8 @@ static void drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
- 	 * then deep color 36 bit must be supported.
- 	 */
- 	if (!(hdmi[6] & DRM_EDID_HDMI_DC_36)) {
--		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] HDMI sink should do DC_36, but does not!\n",
-+		drm_dbg_kms(connector->drm,
-+			    "[CONNECTOR:%d:%s] HDMI sink should do DC_36, but does not!\n",
- 			    connector->base.id, connector->name);
- 	}
- }
-@@ -6219,7 +6229,8 @@ drm_parse_hdmi_vsdb_video(struct drm_connector *connector, const u8 *db)
- 	if (len >= 8 && db[8] & BIT(5))
- 		info->has_hdmi_infoframe = true;
- 
--	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] HDMI: DVI dual %d, max TMDS clock %d kHz\n",
-+	drm_dbg_kms(connector->drm,
-+		    "[CONNECTOR:%d:%s] HDMI: DVI dual %d, max TMDS clock %d kHz\n",
- 		    connector->base.id, connector->name,
- 		    info->dvi_dual, info->max_tmds_clock);
- 
-@@ -6241,7 +6252,7 @@ static void drm_parse_microsoft_vsdb(struct drm_connector *connector,
- 	if (version == 1 || version == 2 || (version == 3 && !desktop_usage))
- 		info->non_desktop = true;
- 
--	drm_dbg_kms(connector->dev,
-+	drm_dbg_kms(connector->drm,
- 		    "[CONNECTOR:%d:%s] HMD or specialized display VSDB version %u: 0x%02x\n",
- 		    connector->base.id, connector->name, version, db[5]);
- }
-@@ -6265,7 +6276,7 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
- 			info->cea_rev = edid_ext[1];
- 
- 		if (info->cea_rev != edid_ext[1])
--			drm_dbg_kms(connector->dev,
-+			drm_dbg_kms(connector->drm,
- 				    "[CONNECTOR:%d:%s] CEA extension version mismatch %u != %u\n",
- 				    connector->base.id, connector->name,
- 				    info->cea_rev, edid_ext[1]);
-@@ -6366,7 +6377,7 @@ static void drm_get_monitor_range(struct drm_connector *connector,
- 
- 	drm_for_each_detailed_block(drm_edid, get_monitor_range, &closure);
- 
--	drm_dbg_kms(connector->dev,
-+	drm_dbg_kms(connector->drm,
- 		    "[CONNECTOR:%d:%s] Supported Monitor Refresh rate range is %d Hz - %d Hz\n",
- 		    connector->base.id, connector->name,
- 		    info->monitor_range.min_vfreq, info->monitor_range.max_vfreq);
-@@ -6380,7 +6391,7 @@ static void drm_parse_vesa_mso_data(struct drm_connector *connector,
- 	struct drm_display_info *info = &connector->display_info;
- 
- 	if (block->num_bytes < 3) {
--		drm_dbg_kms(connector->dev,
-+		drm_dbg_kms(connector->drm,
- 			    "[CONNECTOR:%d:%s] Unexpected vendor block size %u\n",
- 			    connector->base.id, connector->name, block->num_bytes);
- 		return;
-@@ -6390,7 +6401,7 @@ static void drm_parse_vesa_mso_data(struct drm_connector *connector,
- 		return;
- 
- 	if (sizeof(*vesa) != sizeof(*block) + block->num_bytes) {
--		drm_dbg_kms(connector->dev,
-+		drm_dbg_kms(connector->drm,
- 			    "[CONNECTOR:%d:%s] Unexpected VESA vendor block size\n",
- 			    connector->base.id, connector->name);
- 		return;
-@@ -6398,7 +6409,8 @@ static void drm_parse_vesa_mso_data(struct drm_connector *connector,
- 
- 	switch (FIELD_GET(DISPLAYID_VESA_MSO_MODE, vesa->mso)) {
- 	default:
--		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Reserved MSO mode value\n",
-+		drm_dbg_kms(connector->drm,
-+			    "[CONNECTOR:%d:%s] Reserved MSO mode value\n",
- 			    connector->base.id, connector->name);
- 		fallthrough;
- 	case 0:
-@@ -6419,14 +6431,14 @@ static void drm_parse_vesa_mso_data(struct drm_connector *connector,
- 
- 	info->mso_pixel_overlap = FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP, vesa->mso);
- 	if (info->mso_pixel_overlap > 8) {
--		drm_dbg_kms(connector->dev,
-+		drm_dbg_kms(connector->drm,
- 			    "[CONNECTOR:%d:%s] Reserved MSO pixel overlap value %u\n",
- 			    connector->base.id, connector->name,
- 			    info->mso_pixel_overlap);
- 		info->mso_pixel_overlap = 8;
- 	}
- 
--	drm_dbg_kms(connector->dev,
-+	drm_dbg_kms(connector->drm,
- 		    "[CONNECTOR:%d:%s] MSO stream count %u, pixel overlap %u\n",
- 		    connector->base.id, connector->name,
- 		    info->mso_stream_count, info->mso_pixel_overlap);
-@@ -6550,7 +6562,7 @@ static void update_display_info(struct drm_connector *connector,
- 	if (info->bpc == 0 && edid->revision == 3 &&
- 	    edid->input & DRM_EDID_DIGITAL_DFP_1_X) {
- 		info->bpc = 8;
--		drm_dbg_kms(connector->dev,
-+		drm_dbg_kms(connector->drm,
- 			    "[CONNECTOR:%d:%s] Assigning DFP sink color depth as %d bpc.\n",
- 			    connector->base.id, connector->name, info->bpc);
- 	}
-@@ -6584,7 +6596,7 @@ static void update_display_info(struct drm_connector *connector,
- 		break;
- 	}
- 
--	drm_dbg_kms(connector->dev,
-+	drm_dbg_kms(connector->drm,
- 		    "[CONNECTOR:%d:%s] Assigning EDID-1.4 digital sink color depth as %d bpc.\n",
- 		    connector->base.id, connector->name, info->bpc);
- 
-@@ -6597,7 +6609,8 @@ static void update_display_info(struct drm_connector *connector,
- 
- out:
- 	if (info->quirks & EDID_QUIRK_NON_DESKTOP) {
--		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Non-desktop display%s\n",
-+		drm_dbg_kms(connector->drm,
-+			    "[CONNECTOR:%d:%s] Non-desktop display%s\n",
- 			    connector->base.id, connector->name,
- 			    info->non_desktop ? " (redundant quirk)" : "");
- 		info->non_desktop = true;
-@@ -6686,7 +6699,8 @@ static int add_displayid_detailed_1_modes(struct drm_connector *connector,
- 	for (i = 0; i < num_timings; i++) {
- 		struct displayid_detailed_timings_1 *timings = &det->timings[i];
- 
--		newmode = drm_mode_displayid_detailed(connector->dev, timings, type_7);
-+		newmode = drm_mode_displayid_detailed(connector->drm, timings,
-+						      type_7);
- 		if (!newmode)
- 			continue;
- 
-@@ -6759,7 +6773,7 @@ static void _drm_update_tile_info(struct drm_connector *connector,
- static int _drm_edid_connector_property_update(struct drm_connector *connector,
- 					       const struct drm_edid *drm_edid)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	int ret;
- 
- 	if (connector->edid_blob_ptr) {
-@@ -6905,7 +6919,7 @@ int drm_add_edid_modes(struct drm_connector *connector, struct edid *edid)
- 	const struct drm_edid *drm_edid;
- 
- 	if (edid && !drm_edid_is_valid(edid)) {
--		drm_warn(connector->dev, "[CONNECTOR:%d:%s] EDID invalid.\n",
-+		drm_warn(connector->drm, "[CONNECTOR:%d:%s] EDID invalid.\n",
- 			 connector->base.id, connector->name);
- 		edid = NULL;
- 	}
-@@ -6934,7 +6948,7 @@ int drm_add_modes_noedid(struct drm_connector *connector,
- {
- 	int i, count, num_modes = 0;
- 	struct drm_display_mode *mode;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 
- 	count = ARRAY_SIZE(drm_dmt_modes);
- 	if (hdisplay < 0)
-@@ -7292,7 +7306,7 @@ static void drm_parse_tiled_block(struct drm_connector *connector,
- 	connector->tile_h_size = w + 1;
- 	connector->tile_v_size = h + 1;
- 
--	drm_dbg_kms(connector->dev,
-+	drm_dbg_kms(connector->drm,
- 		    "[CONNECTOR:%d:%s] tile cap 0x%x, size %dx%d, num tiles %dx%d, location %dx%d, vend %c%c%c",
- 		    connector->base.id, connector->name,
- 		    tile->tile_cap,
-@@ -7301,9 +7315,10 @@ static void drm_parse_tiled_block(struct drm_connector *connector,
- 		    connector->tile_h_loc, connector->tile_v_loc,
- 		    tile->topology_id[0], tile->topology_id[1], tile->topology_id[2]);
- 
--	tg = drm_mode_get_tile_group(connector->dev, tile->topology_id);
-+	tg = drm_mode_get_tile_group(connector->drm, tile->topology_id);
- 	if (!tg)
--		tg = drm_mode_create_tile_group(connector->dev, tile->topology_id);
-+		tg = drm_mode_create_tile_group(connector->drm,
-+						tile->topology_id);
- 	if (!tg)
- 		return;
- 
-@@ -7311,11 +7326,12 @@ static void drm_parse_tiled_block(struct drm_connector *connector,
- 		/* if we haven't got a pointer,
- 		   take the reference, drop ref to old tile group */
- 		if (connector->tile_group)
--			drm_mode_put_tile_group(connector->dev, connector->tile_group);
-+			drm_mode_put_tile_group(connector->drm,
-+						connector->tile_group);
- 		connector->tile_group = tg;
- 	} else {
- 		/* if same tile group, then release the ref we just took. */
--		drm_mode_put_tile_group(connector->dev, tg);
-+		drm_mode_put_tile_group(connector->drm, tg);
- 	}
- }
- 
-@@ -7344,7 +7360,7 @@ static void _drm_update_tile_info(struct drm_connector *connector,
- 	displayid_iter_end(&iter);
- 
- 	if (!connector->has_tile && connector->tile_group) {
--		drm_mode_put_tile_group(connector->dev, connector->tile_group);
-+		drm_mode_put_tile_group(connector->drm, connector->tile_group);
- 		connector->tile_group = NULL;
- 	}
- }
-diff --git a/drivers/gpu/drm/drm_edid_load.c b/drivers/gpu/drm/drm_edid_load.c
-index 5d9ef267ebb3..e07fb48d0d8b 100644
---- a/drivers/gpu/drm/drm_edid_load.c
-+++ b/drivers/gpu/drm/drm_edid_load.c
-@@ -174,9 +174,9 @@ static const struct drm_edid *edid_load(struct drm_connector *connector, const c
- 	} else {
- 		int err;
- 
--		err = request_firmware(&fw, name, connector->dev->dev);
-+		err = request_firmware(&fw, name, connector->drm->dev);
- 		if (err) {
--			drm_err(connector->dev,
-+			drm_err(connector->drm,
- 				"[CONNECTOR:%d:%s] Requesting EDID firmware \"%s\" failed (err=%d)\n",
- 				connector->base.id, connector->name,
- 				name, err);
-@@ -187,13 +187,15 @@ static const struct drm_edid *edid_load(struct drm_connector *connector, const c
- 		fwsize = fw->size;
- 	}
- 
--	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Loaded %s firmware EDID \"%s\"\n",
-+	drm_dbg_kms(connector->drm,
-+		    "[CONNECTOR:%d:%s] Loaded %s firmware EDID \"%s\"\n",
- 		    connector->base.id, connector->name,
- 		    builtin >= 0 ? "built-in" : "external", name);
- 
- 	drm_edid = drm_edid_alloc(fwdata, fwsize);
- 	if (!drm_edid_valid(drm_edid)) {
--		drm_err(connector->dev, "Invalid firmware EDID \"%s\"\n", name);
-+		drm_err(connector->drm, "Invalid firmware EDID \"%s\"\n",
-+			name);
- 		drm_edid_free(drm_edid);
- 		drm_edid = ERR_PTR(-EINVAL);
- 	}
-diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
-index c871d9f096b8..e13461bdb562 100644
---- a/drivers/gpu/drm/drm_mipi_dbi.c
-+++ b/drivers/gpu/drm/drm_mipi_dbi.c
-@@ -508,7 +508,7 @@ EXPORT_SYMBOL(mipi_dbi_pipe_destroy_plane_state);
- 
- static int mipi_dbi_connector_get_modes(struct drm_connector *connector)
- {
--	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(connector->dev);
-+	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(connector->drm);
- 
- 	return drm_connector_helper_get_modes_fixed(connector, &dbidev->mode);
- }
-diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index ac9a406250c5..d6f88ad14205 100644
---- a/drivers/gpu/drm/drm_modes.c
-+++ b/drivers/gpu/drm/drm_modes.c
-@@ -111,7 +111,7 @@ EXPORT_SYMBOL(drm_mode_destroy);
- void drm_mode_probed_add(struct drm_connector *connector,
- 			 struct drm_display_mode *mode)
- {
--	WARN_ON(!mutex_is_locked(&connector->dev->mode_config.mutex));
-+	WARN_ON(!mutex_is_locked(&connector->drm->mode_config.mutex));
- 
- 	list_add_tail(&mode->head, &connector->probed_modes);
- }
-@@ -1886,7 +1886,7 @@ void drm_connector_list_update(struct drm_connector *connector)
- {
- 	struct drm_display_mode *pmode, *pt;
- 
--	WARN_ON(!mutex_is_locked(&connector->dev->mode_config.mutex));
-+	WARN_ON(!mutex_is_locked(&connector->drm->mode_config.mutex));
- 
- 	list_for_each_entry_safe(pmode, pt, &connector->probed_modes, head) {
- 		struct drm_display_mode *mode;
-@@ -1922,7 +1922,7 @@ void drm_connector_list_update(struct drm_connector *connector)
- 			}
- 
- 			list_del(&pmode->head);
--			drm_mode_destroy(connector->dev, pmode);
-+			drm_mode_destroy(connector->drm, pmode);
- 			break;
- 		}
- 
-diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-index 2fb9bf901a2c..9a992f989bc4 100644
---- a/drivers/gpu/drm/drm_probe_helper.c
-+++ b/drivers/gpu/drm/drm_probe_helper.c
-@@ -91,7 +91,7 @@ drm_mode_validate_pipeline(struct drm_display_mode *mode,
- 			   struct drm_modeset_acquire_ctx *ctx,
- 			   enum drm_mode_status *status)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_encoder *encoder;
- 	int ret;
- 
-@@ -167,7 +167,7 @@ static int drm_helper_probe_add_cmdline_mode(struct drm_connector *connector)
- 		return 0;
- 	}
- 
--	mode = drm_mode_create_from_cmdline_mode(connector->dev,
-+	mode = drm_mode_create_from_cmdline_mode(connector->drm,
- 						 cmdline_mode);
- 	if (mode == NULL)
- 		return 0;
-@@ -320,7 +320,8 @@ drm_helper_probe_detect_ctx(struct drm_connector *connector, bool force)
- 	drm_modeset_acquire_init(&ctx, 0);
- 
- retry:
--	ret = drm_modeset_lock(&connector->dev->mode_config.connection_mutex, &ctx);
-+	ret = drm_modeset_lock(&connector->drm->mode_config.connection_mutex,
-+			       &ctx);
- 	if (!ret) {
- 		if (funcs->detect_ctx)
- 			ret = funcs->detect_ctx(connector, &ctx, force);
-@@ -363,7 +364,7 @@ drm_helper_probe_detect(struct drm_connector *connector,
- 			bool force)
- {
- 	const struct drm_connector_helper_funcs *funcs = connector->helper_private;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	int ret;
- 
- 	if (!ctx)
-@@ -409,7 +410,7 @@ static int __drm_helper_update_and_validate(struct drm_connector *connector,
- 					    uint32_t maxX, uint32_t maxY,
- 					    struct drm_modeset_acquire_ctx *ctx)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_display_mode *mode;
- 	int mode_flags = 0;
- 	int ret;
-@@ -522,7 +523,7 @@ static int __drm_helper_update_and_validate(struct drm_connector *connector,
- int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
- 					    uint32_t maxX, uint32_t maxY)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_display_mode *mode;
- 	int count = 0, ret;
- 	enum drm_connector_status old_status;
-@@ -708,7 +709,7 @@ EXPORT_SYMBOL(drm_kms_helper_hotplug_event);
-  */
- void drm_kms_helper_connector_hotplug_event(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 
- 	/* send a uevent + call fbdev */
- 	drm_sysfs_connector_hotplug_event(connector);
-@@ -907,7 +908,7 @@ EXPORT_SYMBOL(drm_kms_helper_poll_fini);
- 
- static bool check_connector_changed(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	enum drm_connector_status old_status;
- 	u64 old_epoch_counter;
- 
-@@ -967,7 +968,7 @@ static bool check_connector_changed(struct drm_connector *connector)
-  */
- bool drm_connector_helper_hpd_irq_event(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	bool changed;
- 
- 	mutex_lock(&dev->mode_config.mutex);
-@@ -1127,7 +1128,7 @@ EXPORT_SYMBOL(drm_connector_helper_get_modes_from_ddc);
- int drm_connector_helper_get_modes_fixed(struct drm_connector *connector,
- 					 const struct drm_display_mode *fixed_mode)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_display_mode *mode;
- 
- 	mode = drm_mode_duplicate(dev, fixed_mode);
-@@ -1203,7 +1204,7 @@ EXPORT_SYMBOL(drm_connector_helper_get_modes);
-  */
- int drm_connector_helper_tv_get_modes(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_property *tv_mode_property =
- 		dev->mode_config.tv_mode_property;
- 	struct drm_cmdline_mode *cmdline = &connector->cmdline_mode;
-diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-index b169b3e44a92..6ad7b54c8f13 100644
---- a/drivers/gpu/drm/drm_sysfs.c
-+++ b/drivers/gpu/drm/drm_sysfs.c
-@@ -187,7 +187,7 @@ static ssize_t status_store(struct device *device,
- 			   const char *buf, size_t count)
- {
- 	struct drm_connector *connector = to_drm_connector(device);
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	enum drm_connector_force old_force;
- 	int ret;
- 
-@@ -271,7 +271,7 @@ static ssize_t edid_show(struct file *filp, struct kobject *kobj,
- 	size_t size;
- 	ssize_t ret = 0;
- 
--	mutex_lock(&connector->dev->mode_config.mutex);
-+	mutex_lock(&connector->drm->mode_config.mutex);
- 	if (!connector->edid_blob_ptr)
- 		goto unlock;
- 
-@@ -289,7 +289,7 @@ static ssize_t edid_show(struct file *filp, struct kobject *kobj,
- 
- 	ret = count;
- unlock:
--	mutex_unlock(&connector->dev->mode_config.mutex);
-+	mutex_unlock(&connector->drm->mode_config.mutex);
- 
- 	return ret;
- }
-@@ -302,12 +302,12 @@ static ssize_t modes_show(struct device *device,
- 	struct drm_display_mode *mode;
- 	int written = 0;
- 
--	mutex_lock(&connector->dev->mode_config.mutex);
-+	mutex_lock(&connector->drm->mode_config.mutex);
- 	list_for_each_entry(mode, &connector->modes, head) {
- 		written += scnprintf(buf + written, PAGE_SIZE - written, "%s\n",
- 				    mode->name);
- 	}
--	mutex_unlock(&connector->dev->mode_config.mutex);
-+	mutex_unlock(&connector->drm->mode_config.mutex);
- 
- 	return written;
- }
-@@ -360,7 +360,7 @@ static const struct attribute_group *connector_dev_groups[] = {
- 
- int drm_sysfs_connector_add(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct device *kdev;
- 	int r;
- 
-@@ -471,14 +471,14 @@ EXPORT_SYMBOL(drm_sysfs_hotplug_event);
-  */
- void drm_sysfs_connector_hotplug_event(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	char hotplug_str[] = "HOTPLUG=1", conn_id[21];
- 	char *envp[] = { hotplug_str, conn_id, NULL };
- 
- 	snprintf(conn_id, sizeof(conn_id),
- 		 "CONNECTOR=%u", connector->base.id);
- 
--	drm_dbg_kms(connector->dev,
-+	drm_dbg_kms(connector->drm,
- 		    "[CONNECTOR:%d:%s] generating connector hotplug event\n",
- 		    connector->base.id, connector->name);
- 
-@@ -499,7 +499,7 @@ EXPORT_SYMBOL(drm_sysfs_connector_hotplug_event);
- void drm_sysfs_connector_property_event(struct drm_connector *connector,
- 					struct drm_property *property)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	char hotplug_str[] = "HOTPLUG=1", conn_id[21], prop_id[21];
- 	char *envp[4] = { hotplug_str, conn_id, prop_id, NULL };
- 
-@@ -511,7 +511,7 @@ void drm_sysfs_connector_property_event(struct drm_connector *connector,
- 	snprintf(prop_id, ARRAY_SIZE(prop_id),
- 		 "PROPERTY=%u", property->base.id);
- 
--	drm_dbg_kms(connector->dev,
-+	drm_dbg_kms(connector->drm,
- 		    "[CONNECTOR:%d:%s] generating connector property event for [PROP:%d:%s]\n",
- 		    connector->base.id, connector->name,
- 		    property->base.id, property->name);
-diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
-index a031c335bdb9..90982706259d 100644
---- a/drivers/gpu/drm/drm_writeback.c
-+++ b/drivers/gpu/drm/drm_writeback.c
-@@ -88,7 +88,7 @@ static const char *drm_writeback_fence_get_driver_name(struct dma_fence *fence)
- 	struct drm_writeback_connector *wb_connector =
- 		fence_to_wb_connector(fence);
- 
--	return wb_connector->base.dev->driver->name;
-+	return wb_connector->base.drm->driver->name;
- }
- 
- static const char *
-diff --git a/drivers/gpu/drm/exynos/exynos_dp.c b/drivers/gpu/drm/exynos/exynos_dp.c
-index 3404ec1367fb..b4850f4c9b01 100644
---- a/drivers/gpu/drm/exynos/exynos_dp.c
-+++ b/drivers/gpu/drm/exynos/exynos_dp.c
-@@ -79,7 +79,7 @@ static int exynos_dp_get_modes(struct analogix_dp_plat_data *plat_data,
- 	if (dp->plat_data.panel)
- 		return num_modes;
- 
--	mode = drm_mode_create(connector->dev);
-+	mode = drm_mode_create(connector->drm);
- 	if (!mode) {
- 		DRM_DEV_ERROR(dp->dev,
- 			      "failed to create a new display mode.\n");
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_dpi.c b/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-index 378e5381978f..16bef23c6a73 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-@@ -69,7 +69,7 @@ static int exynos_dpi_get_modes(struct drm_connector *connector)
- 	if (ctx->vm) {
- 		struct drm_display_mode *mode;
- 
--		mode = drm_mode_create(connector->dev);
-+		mode = drm_mode_create(connector->drm);
- 		if (!mode) {
- 			DRM_DEV_ERROR(ctx->dev,
- 				      "failed to create a new display mode\n");
-diff --git a/drivers/gpu/drm/gma500/cdv_device.c b/drivers/gpu/drm/gma500/cdv_device.c
-index 3e83299113e3..9c5b09dbe208 100644
---- a/drivers/gpu/drm/gma500/cdv_device.c
-+++ b/drivers/gpu/drm/gma500/cdv_device.c
-@@ -441,7 +441,7 @@ static const char *force_audio_names[] = {
- 
- void cdv_intel_attach_force_audio_property(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
- 	struct drm_property *prop;
- 	int i;
-@@ -470,7 +470,7 @@ static const char *broadcast_rgb_names[] = {
- 
- void cdv_intel_attach_broadcast_rgb_property(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
- 	struct drm_property *prop;
- 	int i;
-diff --git a/drivers/gpu/drm/gma500/cdv_intel_crt.c b/drivers/gpu/drm/gma500/cdv_intel_crt.c
-index 5a0acd914f76..2bb9b92aa414 100644
---- a/drivers/gpu/drm/gma500/cdv_intel_crt.c
-+++ b/drivers/gpu/drm/gma500/cdv_intel_crt.c
-@@ -138,7 +138,7 @@ static void cdv_intel_crt_mode_set(struct drm_encoder *encoder,
- static bool cdv_intel_crt_detect_hotplug(struct drm_connector *connector,
- 								bool force)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	u32 hotplug_en;
- 	int i, tries = 0, ret = false;
- 	u32 orig;
-diff --git a/drivers/gpu/drm/gma500/cdv_intel_dp.c b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-index 8992a95076f2..578d179a6017 100644
---- a/drivers/gpu/drm/gma500/cdv_intel_dp.c
-+++ b/drivers/gpu/drm/gma500/cdv_intel_dp.c
-@@ -511,7 +511,7 @@ cdv_intel_dp_mode_valid(struct drm_connector *connector,
- 	struct cdv_intel_dp *intel_dp = encoder->dev_priv;
- 	int max_link_clock = cdv_intel_dp_link_clock(cdv_intel_dp_max_link_bw(encoder));
- 	int max_lanes = cdv_intel_dp_max_lane_count(encoder);
--	struct drm_psb_private *dev_priv = to_drm_psb_private(connector->dev);
-+	struct drm_psb_private *dev_priv = to_drm_psb_private(connector->drm);
- 
- 	if (is_edp(encoder) && intel_dp->panel_fixed_mode) {
- 		if (mode->hdisplay > intel_dp->panel_fixed_mode->hdisplay)
-@@ -1739,7 +1739,7 @@ static int cdv_intel_dp_get_modes(struct drm_connector *connector)
- 	}
- 
- 	if (is_edp(intel_encoder)) {
--		struct drm_device *dev = connector->dev;
-+		struct drm_device *dev = connector->drm;
- 		struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
- 
- 		cdv_intel_edp_panel_vdd_off(intel_encoder);
-@@ -1805,7 +1805,7 @@ cdv_intel_dp_set_property(struct drm_connector *connector,
- 		      struct drm_property *property,
- 		      uint64_t val)
- {
--	struct drm_psb_private *dev_priv = to_drm_psb_private(connector->dev);
-+	struct drm_psb_private *dev_priv = to_drm_psb_private(connector->drm);
- 	struct gma_encoder *encoder = gma_attached_encoder(connector);
- 	struct cdv_intel_dp *intel_dp = encoder->dev_priv;
- 	int ret;
-diff --git a/drivers/gpu/drm/gma500/cdv_intel_hdmi.c b/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
-index 2d95e0471291..555c33d51ffe 100644
---- a/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
-+++ b/drivers/gpu/drm/gma500/cdv_intel_hdmi.c
-@@ -106,7 +106,7 @@ static void cdv_hdmi_dpms(struct drm_encoder *encoder, int mode)
- 
- static void cdv_hdmi_save(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct gma_encoder *gma_encoder = gma_attached_encoder(connector);
- 	struct mid_intel_hdmi_priv *hdmi_priv = gma_encoder->dev_priv;
- 
-@@ -115,7 +115,7 @@ static void cdv_hdmi_save(struct drm_connector *connector)
- 
- static void cdv_hdmi_restore(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct gma_encoder *gma_encoder = gma_attached_encoder(connector);
- 	struct mid_intel_hdmi_priv *hdmi_priv = gma_encoder->dev_priv;
- 
-diff --git a/drivers/gpu/drm/gma500/cdv_intel_lvds.c b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
-index f08a6803dc18..605cc7031015 100644
---- a/drivers/gpu/drm/gma500/cdv_intel_lvds.c
-+++ b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
-@@ -155,7 +155,7 @@ static void cdv_intel_lvds_restore(struct drm_connector *connector)
- static enum drm_mode_status cdv_intel_lvds_mode_valid(struct drm_connector *connector,
- 			      struct drm_display_mode *mode)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
- 	struct drm_display_mode *fixed_mode =
- 					dev_priv->mode_dev.panel_fixed_mode;
-@@ -298,7 +298,7 @@ static void cdv_intel_lvds_mode_set(struct drm_encoder *encoder,
-  */
- static int cdv_intel_lvds_get_modes(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
- 	struct psb_intel_mode_device *mode_dev = &dev_priv->mode_dev;
- 	int ret;
-diff --git a/drivers/gpu/drm/gma500/oaktrail_hdmi.c b/drivers/gpu/drm/gma500/oaktrail_hdmi.c
-index ed8626c73541..c9d1ad4c0a27 100644
---- a/drivers/gpu/drm/gma500/oaktrail_hdmi.c
-+++ b/drivers/gpu/drm/gma500/oaktrail_hdmi.c
-@@ -531,7 +531,7 @@ static enum drm_connector_status
- oaktrail_hdmi_detect(struct drm_connector *connector, bool force)
- {
- 	enum drm_connector_status status;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
- 	struct oaktrail_hdmi_dev *hdmi_dev = dev_priv->hdmi_priv;
- 	u32 temp;
-diff --git a/drivers/gpu/drm/gma500/psb_intel_lvds.c b/drivers/gpu/drm/gma500/psb_intel_lvds.c
-index 8486de230ec9..48e1a8b0d869 100644
---- a/drivers/gpu/drm/gma500/psb_intel_lvds.c
-+++ b/drivers/gpu/drm/gma500/psb_intel_lvds.c
-@@ -252,7 +252,7 @@ static void psb_intel_lvds_encoder_dpms(struct drm_encoder *encoder, int mode)
- 
- static void psb_intel_lvds_save(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
- 	struct gma_encoder *gma_encoder = gma_attached_encoder(connector);
- 	struct psb_intel_lvds_priv *lvds_priv =
-@@ -291,7 +291,7 @@ static void psb_intel_lvds_save(struct drm_connector *connector)
- 
- static void psb_intel_lvds_restore(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	u32 pp_status;
- 	struct gma_encoder *gma_encoder = gma_attached_encoder(connector);
- 	struct psb_intel_lvds_priv *lvds_priv =
-@@ -333,7 +333,7 @@ static void psb_intel_lvds_restore(struct drm_connector *connector)
- enum drm_mode_status psb_intel_lvds_mode_valid(struct drm_connector *connector,
- 				 struct drm_display_mode *mode)
- {
--	struct drm_psb_private *dev_priv = to_drm_psb_private(connector->dev);
-+	struct drm_psb_private *dev_priv = to_drm_psb_private(connector->drm);
- 	struct gma_encoder *gma_encoder = gma_attached_encoder(connector);
- 	struct drm_display_mode *fixed_mode =
- 					dev_priv->mode_dev.panel_fixed_mode;
-@@ -490,7 +490,7 @@ static void psb_intel_lvds_mode_set(struct drm_encoder *encoder,
-  */
- static int psb_intel_lvds_get_modes(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
- 	struct psb_intel_mode_device *mode_dev = &dev_priv->mode_dev;
- 	int ret = 0;
-diff --git a/drivers/gpu/drm/gma500/psb_intel_sdvo.c b/drivers/gpu/drm/gma500/psb_intel_sdvo.c
-index d6fd5d726216..91b5aa9d92ed 100644
---- a/drivers/gpu/drm/gma500/psb_intel_sdvo.c
-+++ b/drivers/gpu/drm/gma500/psb_intel_sdvo.c
-@@ -1239,7 +1239,7 @@ psb_intel_sdvo_get_edid(struct drm_connector *connector)
- static struct edid *
- psb_intel_sdvo_get_analog_edid(struct drm_connector *connector)
- {
--	struct drm_psb_private *dev_priv = to_drm_psb_private(connector->dev);
-+	struct drm_psb_private *dev_priv = to_drm_psb_private(connector->drm);
- 
- 	return drm_get_edid(connector,
- 			    &dev_priv->gmbus[dev_priv->crt_ddc_pin].adapter);
-@@ -1498,7 +1498,7 @@ static void psb_intel_sdvo_get_tv_modes(struct drm_connector *connector)
- 	for (i = 0; i < ARRAY_SIZE(sdvo_tv_modes); i++)
- 		if (reply & (1 << i)) {
- 			struct drm_display_mode *nmode;
--			nmode = drm_mode_duplicate(connector->dev,
-+			nmode = drm_mode_duplicate(connector->drm,
- 						   &sdvo_tv_modes[i]);
- 			if (nmode)
- 				drm_mode_probed_add(connector, nmode);
-@@ -1508,7 +1508,7 @@ static void psb_intel_sdvo_get_tv_modes(struct drm_connector *connector)
- static void psb_intel_sdvo_get_lvds_modes(struct drm_connector *connector)
- {
- 	struct psb_intel_sdvo *psb_intel_sdvo = intel_attached_sdvo(connector);
--	struct drm_psb_private *dev_priv = to_drm_psb_private(connector->dev);
-+	struct drm_psb_private *dev_priv = to_drm_psb_private(connector->drm);
- 	struct drm_display_mode *newmode;
- 
- 	/*
-@@ -1522,7 +1522,7 @@ static void psb_intel_sdvo_get_lvds_modes(struct drm_connector *connector)
- 
- 	/* Fetch modes from VBT */
- 	if (dev_priv->sdvo_lvds_vbt_mode != NULL) {
--		newmode = drm_mode_duplicate(connector->dev,
-+		newmode = drm_mode_duplicate(connector->drm,
- 					     dev_priv->sdvo_lvds_vbt_mode);
- 		if (newmode != NULL) {
- 			/* Guarantee the mode is preferred */
-@@ -1536,7 +1536,7 @@ static void psb_intel_sdvo_get_lvds_modes(struct drm_connector *connector)
- 	list_for_each_entry(newmode, &connector->probed_modes, head) {
- 		if (newmode->type & DRM_MODE_TYPE_PREFERRED) {
- 			psb_intel_sdvo->sdvo_lvds_fixed_mode =
--				drm_mode_duplicate(connector->dev, newmode);
-+				drm_mode_duplicate(connector->drm, newmode);
- 
- 			drm_mode_set_crtcinfo(psb_intel_sdvo->sdvo_lvds_fixed_mode,
- 					      0);
-@@ -1593,7 +1593,7 @@ psb_intel_sdvo_set_property(struct drm_connector *connector,
- {
- 	struct psb_intel_sdvo *psb_intel_sdvo = intel_attached_sdvo(connector);
- 	struct psb_intel_sdvo_connector *psb_intel_sdvo_connector = to_psb_intel_sdvo_connector(connector);
--	struct drm_psb_private *dev_priv = to_drm_psb_private(connector->dev);
-+	struct drm_psb_private *dev_priv = to_drm_psb_private(connector->drm);
- 	uint16_t temp_value;
- 	uint8_t cmd;
- 	int ret;
-@@ -1736,7 +1736,7 @@ psb_intel_sdvo_set_property(struct drm_connector *connector,
- 
- static void psb_intel_sdvo_save(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct gma_encoder *gma_encoder = gma_attached_encoder(connector);
- 	struct psb_intel_sdvo *sdvo = to_psb_intel_sdvo(&gma_encoder->base);
- 
-@@ -1745,7 +1745,7 @@ static void psb_intel_sdvo_save(struct drm_connector *connector)
- 
- static void psb_intel_sdvo_restore(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_encoder *encoder = &gma_attached_encoder(connector)->base;
- 	struct psb_intel_sdvo *sdvo = to_psb_intel_sdvo(encoder);
- 	struct drm_crtc *crtc = encoder->crtc;
-diff --git a/drivers/gpu/drm/gud/gud_connector.c b/drivers/gpu/drm/gud/gud_connector.c
-index 034e78360d4f..4a1880a0e325 100644
---- a/drivers/gpu/drm/gud/gud_connector.c
-+++ b/drivers/gpu/drm/gud/gud_connector.c
-@@ -48,7 +48,8 @@ static inline struct gud_connector *to_gud_connector(struct drm_connector *conne
- 
- static void gud_conn_err(struct drm_connector *connector, const char *msg, int ret)
- {
--	dev_err(connector->dev->dev, "%s: %s (ret=%d)\n", connector->name, msg, ret);
-+	dev_err(connector->drm->dev, "%s: %s (ret=%d)\n", connector->name,
-+		msg, ret);
- }
- 
- /*
-@@ -61,7 +62,7 @@ static void gud_connector_backlight_update_status_work(struct work_struct *work)
- 	struct gud_connector *gconn = container_of(work, struct gud_connector, backlight_work);
- 	struct drm_connector *connector = &gconn->connector;
- 	struct drm_connector_state *connector_state;
--	struct drm_device *drm = connector->dev;
-+	struct drm_device *drm = connector->drm;
- 	struct drm_modeset_acquire_ctx ctx;
+ static bool drm_crtc_supports_legacy_gamma(struct drm_crtc *crtc)
+ {
+-	u32 gamma_id = crtc->dev->mode_config.gamma_lut_property->base.id;
+-	u32 degamma_id = crtc->dev->mode_config.degamma_lut_property->base.id;
++	u32 gamma_id = crtc->drm->mode_config.gamma_lut_property->base.id;
++	u32 degamma_id = crtc->drm->mode_config.degamma_lut_property->base.id;
+ 
+ 	if (!crtc->gamma_size)
+ 		return false;
+@@ -277,7 +277,7 @@ static int drm_crtc_legacy_gamma_set(struct drm_crtc *crtc,
+ 				     u32 size,
+ 				     struct drm_modeset_acquire_ctx *ctx)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
  	struct drm_atomic_state *state;
- 	int idx, ret;
-@@ -134,7 +135,7 @@ static int gud_connector_backlight_register(struct gud_connector *gconn)
+ 	struct drm_crtc_state *crtc_state;
+ 	struct drm_property_blob *blob;
+@@ -298,7 +298,7 @@ static int drm_crtc_legacy_gamma_set(struct drm_crtc *crtc,
+ 	else
+ 		return -ENODEV;
+ 
+-	state = drm_atomic_state_alloc(crtc->dev);
++	state = drm_atomic_state_alloc(crtc->drm);
+ 	if (!state)
+ 		return -ENOMEM;
+ 
+diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+index df9bf3c9206e..9a590b13a5cc 100644
+--- a/drivers/gpu/drm/drm_crtc.c
++++ b/drivers/gpu/drm/drm_crtc.c
+@@ -102,7 +102,7 @@ int drm_crtc_force_disable(struct drm_crtc *crtc)
+ 		.crtc = crtc,
  	};
  
- 	name = kasprintf(GFP_KERNEL, "card%d-%s-backlight",
--			 connector->dev->primary->index, connector->name);
-+			 connector->drm->primary->index, connector->name);
- 	if (!name)
- 		return -ENOMEM;
+-	WARN_ON(drm_drv_uses_atomic_modeset(crtc->dev));
++	WARN_ON(drm_drv_uses_atomic_modeset(crtc->drm));
  
-@@ -152,11 +153,11 @@ static int gud_connector_backlight_register(struct gud_connector *gconn)
- static int gud_connector_detect(struct drm_connector *connector,
- 				struct drm_modeset_acquire_ctx *ctx, bool force)
+ 	return drm_mode_set_config_internal(&set);
+ }
+@@ -178,7 +178,7 @@ static const char *drm_crtc_fence_get_driver_name(struct dma_fence *fence)
  {
--	struct gud_device *gdrm = to_gud_device(connector->dev);
-+	struct gud_device *gdrm = to_gud_device(connector->drm);
- 	int idx, ret;
- 	u8 status;
+ 	struct drm_crtc *crtc = fence_to_crtc(fence);
  
--	if (!drm_dev_enter(connector->dev, &idx))
-+	if (!drm_dev_enter(connector->drm, &idx))
- 		return connector_status_disconnected;
+-	return crtc->dev->driver->name;
++	return crtc->drm->driver->name;
+ }
  
- 	if (force) {
-@@ -217,14 +218,14 @@ static int gud_connector_get_edid_block(void *data, u8 *buf, unsigned int block,
+ static const char *drm_crtc_fence_get_timeline_name(struct dma_fence *fence)
+@@ -264,7 +264,7 @@ static int __drm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *
+ 		(!funcs->atomic_destroy_state ||
+ 		 !funcs->atomic_duplicate_state));
  
- static int gud_connector_get_modes(struct drm_connector *connector)
+-	crtc->dev = dev;
++	crtc->drm = dev;
+ 	crtc->funcs = funcs;
+ 
+ 	INIT_LIST_HEAD(&crtc->commit_list);
+@@ -495,7 +495,7 @@ EXPORT_SYMBOL(__drmm_crtc_alloc_with_planes);
+  */
+ void drm_crtc_cleanup(struct drm_crtc *crtc)
  {
--	struct gud_device *gdrm = to_gud_device(connector->dev);
-+	struct gud_device *gdrm = to_gud_device(connector->drm);
- 	struct gud_display_mode_req *reqmodes = NULL;
- 	struct gud_connector_get_edid_ctx edid_ctx;
- 	unsigned int i, num_modes = 0;
- 	struct edid *edid = NULL;
- 	int idx, ret;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
  
--	if (!drm_dev_enter(connector->dev, &idx))
-+	if (!drm_dev_enter(connector->drm, &idx))
- 		return 0;
+ 	/* Note that the crtc_list is considered to be static; should we
+ 	 * remove the drm_crtc at runtime we would have to decrement all
+@@ -603,14 +603,14 @@ static int __drm_mode_set_config_internal(struct drm_mode_set *set,
+ 	struct drm_crtc *tmp;
+ 	int ret;
  
- 	edid_ctx.edid_override = true;
-@@ -265,7 +266,7 @@ static int gud_connector_get_modes(struct drm_connector *connector)
- 	for (i = 0; i < num_modes; i++) {
- 		struct drm_display_mode *mode;
+-	WARN_ON(drm_drv_uses_atomic_modeset(crtc->dev));
++	WARN_ON(drm_drv_uses_atomic_modeset(crtc->drm));
  
--		mode = drm_mode_create(connector->dev);
-+		mode = drm_mode_create(connector->drm);
- 		if (!mode) {
- 			num_modes = i;
- 			goto out;
-@@ -400,7 +401,8 @@ static int gud_connector_add_tv_mode(struct gud_device *gdrm, struct drm_connect
- 	for (i = 0; i < num_modes; i++)
- 		modes[i] = &buf[i * GUD_CONNECTOR_TV_MODE_NAME_LEN];
+ 	/*
+ 	 * NOTE: ->set_config can also disable other crtcs (if we steal all
+ 	 * connectors from it), hence we need to refcount the fbs across all
+ 	 * crtcs. Atomic modeset will have saner semantics ...
+ 	 */
+-	drm_for_each_crtc(tmp, crtc->dev) {
++	drm_for_each_crtc(tmp, crtc->drm) {
+ 		struct drm_plane *plane = tmp->primary;
  
--	ret = drm_mode_create_tv_properties_legacy(connector->dev, num_modes, modes);
-+	ret = drm_mode_create_tv_properties_legacy(connector->drm, num_modes,
-+						   modes);
- free:
- 	kfree(buf);
- 	if (ret < 0)
-@@ -412,7 +414,7 @@ static int gud_connector_add_tv_mode(struct gud_device *gdrm, struct drm_connect
- static struct drm_property *
- gud_connector_property_lookup(struct drm_connector *connector, u16 prop)
- {
--	struct drm_mode_config *config = &connector->dev->mode_config;
-+	struct drm_mode_config *config = &connector->drm->mode_config;
- 
- 	switch (prop) {
- 	case GUD_PROPERTY_TV_LEFT_MARGIN:
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c
-index 410bd019bb35..7f332da1ad32 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c
-@@ -26,7 +26,7 @@
- static void hibmc_set_i2c_signal(void *data, u32 mask, int value)
- {
- 	struct hibmc_connector *hibmc_connector = data;
--	struct hibmc_drm_private *priv = to_hibmc_drm_private(hibmc_connector->base.dev);
-+	struct hibmc_drm_private *priv = to_hibmc_drm_private(hibmc_connector->base.drm);
- 	u32 tmp_dir = readl(priv->mmio + GPIO_DATA_DIRECTION);
- 
- 	if (value) {
-@@ -46,7 +46,7 @@ static void hibmc_set_i2c_signal(void *data, u32 mask, int value)
- static int hibmc_get_i2c_signal(void *data, u32 mask)
- {
- 	struct hibmc_connector *hibmc_connector = data;
--	struct hibmc_drm_private *priv = to_hibmc_drm_private(hibmc_connector->base.dev);
-+	struct hibmc_drm_private *priv = to_hibmc_drm_private(hibmc_connector->base.drm);
- 	u32 tmp_dir = readl(priv->mmio + GPIO_DATA_DIRECTION);
- 
- 	if ((tmp_dir & mask) != mask) {
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-index 8c6d2ea2a472..380125fd8bcb 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-@@ -36,8 +36,8 @@ static int hibmc_connector_get_modes(struct drm_connector *connector)
+ 		plane->old_fb = plane->fb;
+@@ -626,7 +626,7 @@ static int __drm_mode_set_config_internal(struct drm_mode_set *set,
+ 		plane->fb = fb;
  	}
  
- 	count = drm_add_modes_noedid(connector,
--				     connector->dev->mode_config.max_width,
--				     connector->dev->mode_config.max_height);
-+				     connector->drm->mode_config.max_width,
-+				     connector->drm->mode_config.max_height);
- 	drm_set_preferred_mode(connector, 1024, 768);
+-	drm_for_each_crtc(tmp, crtc->dev) {
++	drm_for_each_crtc(tmp, crtc->drm) {
+ 		struct drm_plane *plane = tmp->primary;
  
- out:
+ 		if (plane->fb)
+@@ -654,7 +654,7 @@ static int __drm_mode_set_config_internal(struct drm_mode_set *set,
+  */
+ int drm_mode_set_config_internal(struct drm_mode_set *set)
+ {
+-	WARN_ON(drm_drv_uses_atomic_modeset(set->crtc->dev));
++	WARN_ON(drm_drv_uses_atomic_modeset(set->crtc->drm));
+ 
+ 	return __drm_mode_set_config_internal(set, NULL);
+ }
+@@ -943,7 +943,7 @@ int drm_crtc_create_scaling_filter_property(struct drm_crtc *crtc,
+ 					    unsigned int supported_filters)
+ {
+ 	struct drm_property *prop =
+-		drm_create_scaling_filter_prop(crtc->dev, supported_filters);
++		drm_create_scaling_filter_prop(crtc->drm, supported_filters);
+ 
+ 	if (IS_ERR(prop))
+ 		return PTR_ERR(prop);
+diff --git a/drivers/gpu/drm/drm_crtc_helper.c b/drivers/gpu/drm/drm_crtc_helper.c
+index 320c3f8690cb..d610c9e740d0 100644
+--- a/drivers/gpu/drm/drm_crtc_helper.c
++++ b/drivers/gpu/drm/drm_crtc_helper.c
+@@ -148,7 +148,7 @@ EXPORT_SYMBOL(drm_helper_encoder_in_use);
+ bool drm_helper_crtc_in_use(struct drm_crtc *crtc)
+ {
+ 	struct drm_encoder *encoder;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 
+ 	WARN_ON(drm_drv_uses_atomic_modeset(dev));
+ 
+@@ -285,7 +285,7 @@ bool drm_crtc_helper_set_mode(struct drm_crtc *crtc,
+ 			      int x, int y,
+ 			      struct drm_framebuffer *old_fb)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_display_mode *adjusted_mode, saved_mode, saved_hwmode;
+ 	const struct drm_crtc_helper_funcs *crtc_funcs = crtc->helper_private;
+ 	const struct drm_encoder_helper_funcs *encoder_funcs;
+@@ -462,7 +462,7 @@ EXPORT_SYMBOL(drm_crtc_helper_atomic_check);
+ static void
+ drm_crtc_helper_disable(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_connector *connector;
+ 	struct drm_encoder *encoder;
+ 
+@@ -579,7 +579,7 @@ int drm_crtc_helper_set_config(struct drm_mode_set *set,
+ 
+ 	crtc_funcs = set->crtc->helper_private;
+ 
+-	dev = set->crtc->dev;
++	dev = set->crtc->drm;
+ 	WARN_ON(drm_drv_uses_atomic_modeset(dev));
+ 
+ 	if (!set->mode)
+@@ -869,7 +869,7 @@ static int drm_helper_choose_crtc_dpms(struct drm_crtc *crtc)
+ 	int dpms = DRM_MODE_DPMS_OFF;
+ 	struct drm_connector *connector;
+ 	struct drm_connector_list_iter conn_iter;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 
+ 	drm_connector_list_iter_begin(dev, &conn_iter);
+ 	drm_for_each_connector_iter(connector, &conn_iter)
+diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+index f18d2af96db7..3a70ac678e8f 100644
+--- a/drivers/gpu/drm/drm_debugfs.c
++++ b/drivers/gpu/drm/drm_debugfs.c
+@@ -539,7 +539,7 @@ void drm_debugfs_connector_remove(struct drm_connector *connector)
+ 
+ void drm_debugfs_crtc_add(struct drm_crtc *crtc)
+ {
+-	struct drm_minor *minor = crtc->dev->primary;
++	struct drm_minor *minor = crtc->drm->primary;
+ 	struct dentry *root;
+ 	char *name;
+ 
+diff --git a/drivers/gpu/drm/drm_debugfs_crc.c b/drivers/gpu/drm/drm_debugfs_crc.c
+index bbc3bc4ba844..1a6bb8d6240f 100644
+--- a/drivers/gpu/drm/drm_debugfs_crc.c
++++ b/drivers/gpu/drm/drm_debugfs_crc.c
+@@ -200,7 +200,7 @@ static int crtc_crc_open(struct inode *inode, struct file *filep)
+ 	size_t values_cnt;
+ 	int ret = 0;
+ 
+-	if (drm_drv_uses_atomic_modeset(crtc->dev)) {
++	if (drm_drv_uses_atomic_modeset(crtc->drm)) {
+ 		ret = drm_modeset_lock_single_interruptible(&crtc->mutex);
+ 		if (ret)
+ 			return ret;
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index 61a5d450cc20..a8a307c1f40d 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -166,7 +166,7 @@ int drm_fb_helper_debug_enter(struct fb_info *info)
+ 			if (funcs->mode_set_base_atomic == NULL)
+ 				continue;
+ 
+-			if (drm_drv_uses_atomic_modeset(mode_set->crtc->dev))
++			if (drm_drv_uses_atomic_modeset(mode_set->crtc->drm))
+ 				continue;
+ 
+ 			funcs->mode_set_base_atomic(mode_set->crtc,
+@@ -199,7 +199,7 @@ int drm_fb_helper_debug_leave(struct fb_info *info)
+ 	mutex_lock(&client->modeset_mutex);
+ 	drm_client_for_each_modeset(mode_set, client) {
+ 		crtc = mode_set->crtc;
+-		if (drm_drv_uses_atomic_modeset(crtc->dev))
++		if (drm_drv_uses_atomic_modeset(crtc->drm))
+ 			continue;
+ 
+ 		funcs = crtc->helper_private;
+@@ -873,7 +873,7 @@ static int setcmap_legacy(struct fb_cmap *cmap, struct fb_info *info)
+ static struct drm_property_blob *setcmap_new_gamma_lut(struct drm_crtc *crtc,
+ 						       struct fb_cmap *cmap)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_property_blob *gamma_lut;
+ 	struct drm_color_lut *lut;
+ 	int size = crtc->gamma_size;
+diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
+index e13461bdb562..bd8a3802583f 100644
+--- a/drivers/gpu/drm/drm_mipi_dbi.c
++++ b/drivers/gpu/drm/drm_mipi_dbi.c
+@@ -299,7 +299,7 @@ static void mipi_dbi_fb_dirty(struct iosys_map *src, struct drm_framebuffer *fb,
+ enum drm_mode_status mipi_dbi_pipe_mode_valid(struct drm_simple_display_pipe *pipe,
+ 					      const struct drm_display_mode *mode)
+ {
+-	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
++	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.drm);
+ 
+ 	return drm_crtc_helper_mode_valid_fixed(&pipe->crtc, mode, &dbidev->mode);
+ }
+@@ -406,7 +406,7 @@ static void mipi_dbi_blank(struct mipi_dbi_dev *dbidev)
+  */
+ void mipi_dbi_pipe_disable(struct drm_simple_display_pipe *pipe)
+ {
+-	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
++	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.drm);
+ 
+ 	DRM_DEBUG_KMS("\n");
+ 
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index 24e7998d1731..1cff3c23c2a1 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -1021,7 +1021,7 @@ static int drm_mode_cursor_universal(struct drm_crtc *crtc,
+ 				     struct drm_file *file_priv,
+ 				     struct drm_modeset_acquire_ctx *ctx)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_plane *plane = crtc->cursor;
+ 	struct drm_framebuffer *fb = NULL;
+ 	struct drm_mode_fb_cmd2 fbreq = {
+diff --git a/drivers/gpu/drm/drm_plane_helper.c b/drivers/gpu/drm/drm_plane_helper.c
+index c91e454eba09..d26c99fa7aee 100644
+--- a/drivers/gpu/drm/drm_plane_helper.c
++++ b/drivers/gpu/drm/drm_plane_helper.c
+@@ -73,7 +73,7 @@ static int get_connectors_for_crtc(struct drm_crtc *crtc,
+ 				   struct drm_connector **connector_list,
+ 				   int num_connectors)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_connector *connector;
+ 	struct drm_connector_list_iter conn_iter;
+ 	int count = 0;
+diff --git a/drivers/gpu/drm/drm_self_refresh_helper.c b/drivers/gpu/drm/drm_self_refresh_helper.c
+index dd33fec5aabd..383488c3a4b7 100644
+--- a/drivers/gpu/drm/drm_self_refresh_helper.c
++++ b/drivers/gpu/drm/drm_self_refresh_helper.c
+@@ -70,7 +70,7 @@ static void drm_self_refresh_helper_entry_work(struct work_struct *work)
+ 				to_delayed_work(work),
+ 				struct drm_self_refresh_data, entry_work);
+ 	struct drm_crtc *crtc = sr_data->crtc;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_modeset_acquire_ctx ctx;
+ 	struct drm_atomic_state *state;
+ 	struct drm_connector *conn;
+diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+index 877e2067534f..87e305c8f7f6 100644
+--- a/drivers/gpu/drm/drm_vblank.c
++++ b/drivers/gpu/drm/drm_vblank.c
+@@ -402,7 +402,7 @@ u64 drm_vblank_count(struct drm_device *dev, unsigned int pipe)
+  */
+ u64 drm_crtc_accurate_vblank_count(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = drm_crtc_index(crtc);
+ 	u64 vblank;
+ 	unsigned long flags;
+@@ -589,7 +589,7 @@ EXPORT_SYMBOL(drm_dev_has_vblank);
+  */
+ wait_queue_head_t *drm_crtc_vblank_waitqueue(struct drm_crtc *crtc)
+ {
+-	return &crtc->dev->vblank[drm_crtc_index(crtc)].queue;
++	return &crtc->drm->vblank[drm_crtc_index(crtc)].queue;
+ }
+ EXPORT_SYMBOL(drm_crtc_vblank_waitqueue);
+ 
+@@ -608,7 +608,7 @@ EXPORT_SYMBOL(drm_crtc_vblank_waitqueue);
+ void drm_calc_timestamping_constants(struct drm_crtc *crtc,
+ 				     const struct drm_display_mode *mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = drm_crtc_index(crtc);
+ 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+ 	int linedur_ns = 0, framedur_ns = 0;
+@@ -693,7 +693,7 @@ drm_crtc_vblank_helper_get_vblank_timestamp_internal(
+ 	bool in_vblank_irq,
+ 	drm_vblank_get_scanout_position_func get_scanout_position)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = crtc->index;
+ 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+ 	struct timespec64 ts_etime, ts_vblank_time;
+@@ -919,7 +919,7 @@ drm_get_last_vbltimestamp(struct drm_device *dev, unsigned int pipe,
+  */
+ u64 drm_crtc_vblank_count(struct drm_crtc *crtc)
+ {
+-	return drm_vblank_count(crtc->dev, drm_crtc_index(crtc));
++	return drm_vblank_count(crtc->drm, drm_crtc_index(crtc));
+ }
+ EXPORT_SYMBOL(drm_crtc_vblank_count);
+ 
+@@ -980,7 +980,7 @@ static u64 drm_vblank_count_and_time(struct drm_device *dev, unsigned int pipe,
+ u64 drm_crtc_vblank_count_and_time(struct drm_crtc *crtc,
+ 				   ktime_t *vblanktime)
+ {
+-	return drm_vblank_count_and_time(crtc->dev, drm_crtc_index(crtc),
++	return drm_vblank_count_and_time(crtc->drm, drm_crtc_index(crtc),
+ 					 vblanktime);
+ }
+ EXPORT_SYMBOL(drm_crtc_vblank_count_and_time);
+@@ -1000,10 +1000,10 @@ int drm_crtc_next_vblank_start(struct drm_crtc *crtc, ktime_t *vblanktime)
+ 	struct drm_display_mode *mode;
+ 	u64 vblank_start;
+ 
+-	if (!drm_dev_has_vblank(crtc->dev))
++	if (!drm_dev_has_vblank(crtc->drm))
+ 		return -EINVAL;
+ 
+-	vblank = &crtc->dev->vblank[pipe];
++	vblank = &crtc->drm->vblank[pipe];
+ 	mode = &vblank->hwmode;
+ 
+ 	if (!vblank->framedur_ns || !vblank->linedur_ns)
+@@ -1098,7 +1098,7 @@ static void send_vblank_event(struct drm_device *dev,
+ void drm_crtc_arm_vblank_event(struct drm_crtc *crtc,
+ 			       struct drm_pending_vblank_event *e)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = drm_crtc_index(crtc);
+ 
+ 	assert_spin_locked(&dev->event_lock);
+@@ -1123,7 +1123,7 @@ EXPORT_SYMBOL(drm_crtc_arm_vblank_event);
+ void drm_crtc_send_vblank_event(struct drm_crtc *crtc,
+ 				struct drm_pending_vblank_event *e)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	u64 seq;
+ 	unsigned int pipe = drm_crtc_index(crtc);
+ 	ktime_t now;
+@@ -1237,7 +1237,7 @@ int drm_vblank_get(struct drm_device *dev, unsigned int pipe)
+  */
+ int drm_crtc_vblank_get(struct drm_crtc *crtc)
+ {
+-	return drm_vblank_get(crtc->dev, drm_crtc_index(crtc));
++	return drm_vblank_get(crtc->drm, drm_crtc_index(crtc));
+ }
+ EXPORT_SYMBOL(drm_crtc_vblank_get);
+ 
+@@ -1272,7 +1272,7 @@ void drm_vblank_put(struct drm_device *dev, unsigned int pipe)
+  */
+ void drm_crtc_vblank_put(struct drm_crtc *crtc)
+ {
+-	drm_vblank_put(crtc->dev, drm_crtc_index(crtc));
++	drm_vblank_put(crtc->drm, drm_crtc_index(crtc));
+ }
+ EXPORT_SYMBOL(drm_crtc_vblank_put);
+ 
+@@ -1323,7 +1323,7 @@ EXPORT_SYMBOL(drm_wait_one_vblank);
+  */
+ void drm_crtc_wait_one_vblank(struct drm_crtc *crtc)
+ {
+-	drm_wait_one_vblank(crtc->dev, drm_crtc_index(crtc));
++	drm_wait_one_vblank(crtc->drm, drm_crtc_index(crtc));
+ }
+ EXPORT_SYMBOL(drm_crtc_wait_one_vblank);
+ 
+@@ -1340,7 +1340,7 @@ EXPORT_SYMBOL(drm_crtc_wait_one_vblank);
+  */
+ void drm_crtc_vblank_off(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = drm_crtc_index(crtc);
+ 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+ 	struct drm_pending_vblank_event *e, *t;
+@@ -1419,7 +1419,7 @@ EXPORT_SYMBOL(drm_crtc_vblank_off);
+  */
+ void drm_crtc_vblank_reset(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = drm_crtc_index(crtc);
+ 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+ 
+@@ -1459,7 +1459,7 @@ EXPORT_SYMBOL(drm_crtc_vblank_reset);
+ void drm_crtc_set_max_vblank_count(struct drm_crtc *crtc,
+ 				   u32 max_vblank_count)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = drm_crtc_index(crtc);
+ 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+ 
+@@ -1482,7 +1482,7 @@ EXPORT_SYMBOL(drm_crtc_set_max_vblank_count);
+  */
+ void drm_crtc_vblank_on(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = drm_crtc_index(crtc);
+ 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+ 
+@@ -1568,9 +1568,9 @@ static void drm_vblank_restore(struct drm_device *dev, unsigned int pipe)
+ void drm_crtc_vblank_restore(struct drm_crtc *crtc)
+ {
+ 	WARN_ON_ONCE(!crtc->funcs->get_vblank_timestamp);
+-	WARN_ON_ONCE(!crtc->dev->vblank_disable_immediate);
++	WARN_ON_ONCE(!crtc->drm->vblank_disable_immediate);
+ 
+-	drm_vblank_restore(crtc->dev, drm_crtc_index(crtc));
++	drm_vblank_restore(crtc->drm, drm_crtc_index(crtc));
+ }
+ EXPORT_SYMBOL(drm_crtc_vblank_restore);
+ 
+@@ -2047,7 +2047,7 @@ EXPORT_SYMBOL(drm_handle_vblank);
+  */
+ bool drm_crtc_handle_vblank(struct drm_crtc *crtc)
+ {
+-	return drm_handle_vblank(crtc->dev, drm_crtc_index(crtc));
++	return drm_handle_vblank(crtc->drm, drm_crtc_index(crtc));
+ }
+ EXPORT_SYMBOL(drm_crtc_handle_vblank);
+ 
+diff --git a/drivers/gpu/drm/drm_vblank_work.c b/drivers/gpu/drm/drm_vblank_work.c
+index bd481fdd6b87..f6e024bed6b5 100644
+--- a/drivers/gpu/drm/drm_vblank_work.c
++++ b/drivers/gpu/drm/drm_vblank_work.c
+@@ -242,7 +242,7 @@ void drm_vblank_work_init(struct drm_vblank_work *work, struct drm_crtc *crtc,
+ {
+ 	kthread_init_work(&work->base, func);
+ 	INIT_LIST_HEAD(&work->node);
+-	work->vblank = &crtc->dev->vblank[drm_crtc_index(crtc)];
++	work->vblank = &crtc->drm->vblank[drm_crtc_index(crtc)];
+ }
+ EXPORT_SYMBOL(drm_vblank_work_init);
+ 
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_crtc.c b/drivers/gpu/drm/exynos/exynos_drm_crtc.c
+index 4153f302de7c..395c79eb438f 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_crtc.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_crtc.c
+@@ -40,9 +40,9 @@ static void exynos_drm_crtc_atomic_disable(struct drm_crtc *crtc,
+ 		exynos_crtc->ops->atomic_disable(exynos_crtc);
+ 
+ 	if (crtc->state->event && !crtc->state->active) {
+-		spin_lock_irq(&crtc->dev->event_lock);
++		spin_lock_irq(&crtc->drm->event_lock);
+ 		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+-		spin_unlock_irq(&crtc->dev->event_lock);
++		spin_unlock_irq(&crtc->drm->event_lock);
+ 
+ 		crtc->state->event = NULL;
+ 	}
+@@ -129,9 +129,9 @@ void exynos_crtc_handle_event(struct exynos_drm_crtc *exynos_crtc)
+ 
+ 	WARN_ON(drm_crtc_vblank_get(crtc) != 0);
+ 
+-	spin_lock_irqsave(&crtc->dev->event_lock, flags);
++	spin_lock_irqsave(&crtc->drm->event_lock, flags);
+ 	drm_crtc_arm_vblank_event(crtc, event);
+-	spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++	spin_unlock_irqrestore(&crtc->drm->event_lock, flags);
+ }
+ 
+ static void exynos_drm_crtc_destroy(struct drm_crtc *crtc)
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_plane.c b/drivers/gpu/drm/exynos/exynos_drm_plane.c
+index 7c3aa77186d3..31955e948ea2 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_plane.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_plane.c
+@@ -115,7 +115,7 @@ static void exynos_plane_mode_set(struct exynos_drm_plane_state *exynos_state)
+ 	exynos_state->crtc.w = actual_w;
+ 	exynos_state->crtc.h = actual_h;
+ 
+-	DRM_DEV_DEBUG_KMS(crtc->dev->dev,
++	DRM_DEV_DEBUG_KMS(crtc->drm->dev,
+ 			  "plane : offset_x/y(%d,%d), width/height(%d,%d)",
+ 			  exynos_state->crtc.x, exynos_state->crtc.y,
+ 			  exynos_state->crtc.w, exynos_state->crtc.h);
+@@ -224,7 +224,7 @@ exynos_drm_plane_check_size(const struct exynos_drm_plane_config *config,
+ 	if (width_ok && height_ok)
+ 		return 0;
+ 
+-	DRM_DEV_DEBUG_KMS(crtc->dev->dev, "scaling mode is not supported");
++	DRM_DEV_DEBUG_KMS(crtc->drm->dev, "scaling mode is not supported");
+ 	return -ENOTSUPP;
+ }
+ 
+diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_crtc.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_crtc.c
+index 2af60d98f48f..b765a0cfcded 100644
+--- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_crtc.c
++++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_crtc.c
+@@ -23,7 +23,7 @@
+ static void fsl_dcu_drm_crtc_atomic_flush(struct drm_crtc *crtc,
+ 					  struct drm_atomic_state *state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct fsl_dcu_drm_device *fsl_dev = dev->dev_private;
+ 	struct drm_pending_vblank_event *event = crtc->state->event;
+ 
+@@ -33,12 +33,12 @@ static void fsl_dcu_drm_crtc_atomic_flush(struct drm_crtc *crtc,
+ 	if (event) {
+ 		crtc->state->event = NULL;
+ 
+-		spin_lock_irq(&crtc->dev->event_lock);
++		spin_lock_irq(&crtc->drm->event_lock);
+ 		if (drm_crtc_vblank_get(crtc) == 0)
+ 			drm_crtc_arm_vblank_event(crtc, event);
+ 		else
+ 			drm_crtc_send_vblank_event(crtc, event);
+-		spin_unlock_irq(&crtc->dev->event_lock);
++		spin_unlock_irq(&crtc->drm->event_lock);
+ 	}
+ }
+ 
+@@ -47,7 +47,7 @@ static void fsl_dcu_drm_crtc_atomic_disable(struct drm_crtc *crtc,
+ {
+ 	struct drm_crtc_state *old_crtc_state = drm_atomic_get_old_crtc_state(state,
+ 									      crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct fsl_dcu_drm_device *fsl_dev = dev->dev_private;
+ 
+ 	/* always disable planes on the CRTC */
+@@ -66,7 +66,7 @@ static void fsl_dcu_drm_crtc_atomic_disable(struct drm_crtc *crtc,
+ static void fsl_dcu_drm_crtc_atomic_enable(struct drm_crtc *crtc,
+ 					   struct drm_atomic_state *state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct fsl_dcu_drm_device *fsl_dev = dev->dev_private;
+ 
+ 	clk_prepare_enable(fsl_dev->pix_clk);
+@@ -81,7 +81,7 @@ static void fsl_dcu_drm_crtc_atomic_enable(struct drm_crtc *crtc,
+ 
+ static void fsl_dcu_drm_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct fsl_dcu_drm_device *fsl_dev = dev->dev_private;
+ 	struct drm_connector *con = &fsl_dev->connector.base;
+ 	struct drm_display_mode *mode = &crtc->state->mode;
+@@ -134,7 +134,7 @@ static const struct drm_crtc_helper_funcs fsl_dcu_drm_crtc_helper_funcs = {
+ 
+ static int fsl_dcu_drm_crtc_enable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct fsl_dcu_drm_device *fsl_dev = dev->dev_private;
+ 	unsigned int value;
+ 
+@@ -147,7 +147,7 @@ static int fsl_dcu_drm_crtc_enable_vblank(struct drm_crtc *crtc)
+ 
+ static void fsl_dcu_drm_crtc_disable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct fsl_dcu_drm_device *fsl_dev = dev->dev_private;
+ 	unsigned int value;
+ 
+diff --git a/drivers/gpu/drm/gma500/cdv_intel_display.c b/drivers/gpu/drm/gma500/cdv_intel_display.c
+index bbd0abdd8382..a2093eeedf2a 100644
+--- a/drivers/gpu/drm/gma500/cdv_intel_display.c
++++ b/drivers/gpu/drm/gma500/cdv_intel_display.c
+@@ -574,7 +574,7 @@ static int cdv_intel_crtc_mode_set(struct drm_crtc *crtc,
+ 			       int x, int y,
+ 			       struct drm_framebuffer *old_fb)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	struct gma_crtc *gma_crtc = to_gma_crtc(crtc);
+ 	int pipe = gma_crtc->pipe;
+diff --git a/drivers/gpu/drm/gma500/cdv_intel_dp.c b/drivers/gpu/drm/gma500/cdv_intel_dp.c
+index 578d179a6017..e525a6782245 100644
+--- a/drivers/gpu/drm/gma500/cdv_intel_dp.c
++++ b/drivers/gpu/drm/gma500/cdv_intel_dp.c
+@@ -983,7 +983,7 @@ void
+ cdv_intel_dp_set_m_n(struct drm_crtc *crtc, struct drm_display_mode *mode,
+ 		 struct drm_display_mode *adjusted_mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	struct drm_mode_config *mode_config = &dev->mode_config;
+ 	struct drm_encoder *encoder;
+diff --git a/drivers/gpu/drm/gma500/gma_display.c b/drivers/gpu/drm/gma500/gma_display.c
+index f65e90d890f4..f20c6599bf51 100644
+--- a/drivers/gpu/drm/gma500/gma_display.c
++++ b/drivers/gpu/drm/gma500/gma_display.c
+@@ -29,7 +29,7 @@
+  */
+ bool gma_pipe_has_type(struct drm_crtc *crtc, int type)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_connector_list_iter conn_iter;
+ 	struct drm_connector *connector;
+ 
+@@ -58,7 +58,7 @@ void gma_wait_for_vblank(struct drm_device *dev)
+ int gma_pipe_set_base(struct drm_crtc *crtc, int x, int y,
+ 		      struct drm_framebuffer *old_fb)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	struct gma_crtc *gma_crtc = to_gma_crtc(crtc);
+ 	struct drm_framebuffer *fb = crtc->primary->fb;
+@@ -143,7 +143,7 @@ int gma_pipe_set_base(struct drm_crtc *crtc, int x, int y,
+ /* Loads the palette/gamma unit for the CRTC with the prepared values */
+ void gma_crtc_load_lut(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	struct gma_crtc *gma_crtc = to_gma_crtc(crtc);
+ 	const struct psb_offset *map = &dev_priv->regmap[gma_crtc->pipe];
+@@ -196,7 +196,7 @@ static int gma_crtc_gamma_set(struct drm_crtc *crtc, u16 *red, u16 *green,
+  */
+ void gma_crtc_dpms(struct drm_crtc *crtc, int mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	struct gma_crtc *gma_crtc = to_gma_crtc(crtc);
+ 	int pipe = gma_crtc->pipe;
+@@ -330,7 +330,7 @@ static int gma_crtc_cursor_set(struct drm_crtc *crtc,
+ 			       struct drm_file *file_priv, uint32_t handle,
+ 			       uint32_t width, uint32_t height)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	struct gma_crtc *gma_crtc = to_gma_crtc(crtc);
+ 	int pipe = gma_crtc->pipe;
+@@ -443,7 +443,7 @@ static int gma_crtc_cursor_set(struct drm_crtc *crtc,
+ 
+ static int gma_crtc_cursor_move(struct drm_crtc *crtc, int x, int y)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct gma_crtc *gma_crtc = to_gma_crtc(crtc);
+ 	int pipe = gma_crtc->pipe;
+ 	uint32_t temp = 0;
+@@ -518,7 +518,7 @@ int gma_crtc_page_flip(struct drm_crtc *crtc,
+ 	struct drm_framebuffer *current_fb = crtc->primary->fb;
+ 	struct drm_framebuffer *old_fb = crtc->primary->old_fb;
+ 	const struct drm_crtc_helper_funcs *crtc_funcs = crtc->helper_private;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned long flags;
+ 	int ret;
+ 
+@@ -574,7 +574,7 @@ const struct drm_crtc_funcs gma_crtc_funcs = {
+  */
+ void gma_crtc_save(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	struct gma_crtc *gma_crtc = to_gma_crtc(crtc);
+ 	struct psb_intel_crtc_state *crtc_state = gma_crtc->crtc_state;
+@@ -617,7 +617,7 @@ void gma_crtc_save(struct drm_crtc *crtc)
+  */
+ void gma_crtc_restore(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	struct gma_crtc *gma_crtc =  to_gma_crtc(crtc);
+ 	struct psb_intel_crtc_state *crtc_state = gma_crtc->crtc_state;
+@@ -751,7 +751,7 @@ bool gma_find_best_pll(const struct gma_limit_t *limit,
+ 		       struct drm_crtc *crtc, int target, int refclk,
+ 		       struct gma_clock_t *best_clock)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	const struct gma_clock_funcs *clock_funcs =
+ 						to_gma_crtc(crtc)->clock_funcs;
+ 	struct gma_clock_t clock;
+diff --git a/drivers/gpu/drm/gma500/oaktrail_crtc.c b/drivers/gpu/drm/gma500/oaktrail_crtc.c
+index de8ccfe9890f..d0629dc277af 100644
+--- a/drivers/gpu/drm/gma500/oaktrail_crtc.c
++++ b/drivers/gpu/drm/gma500/oaktrail_crtc.c
+@@ -84,7 +84,7 @@ static const struct gma_limit_t *mrst_limit(struct drm_crtc *crtc,
+ 					    int refclk)
+ {
+ 	const struct gma_limit_t *limit = NULL;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 
+ 	if (gma_pipe_has_type(crtc, INTEL_OUTPUT_LVDS)
+@@ -216,7 +216,7 @@ static bool mrst_lvds_find_best_pll(const struct gma_limit_t *limit,
+  */
+ static void oaktrail_crtc_dpms(struct drm_crtc *crtc, int mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	struct gma_crtc *gma_crtc = to_gma_crtc(crtc);
+ 	int pipe = gma_crtc->pipe;
+@@ -362,7 +362,7 @@ static int oaktrail_crtc_mode_set(struct drm_crtc *crtc,
+ 			      int x, int y,
+ 			      struct drm_framebuffer *old_fb)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct gma_crtc *gma_crtc = to_gma_crtc(crtc);
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	int pipe = gma_crtc->pipe;
+@@ -592,7 +592,7 @@ static int oaktrail_crtc_mode_set(struct drm_crtc *crtc,
+ static int oaktrail_pipe_set_base(struct drm_crtc *crtc,
+ 			    int x, int y, struct drm_framebuffer *old_fb)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	struct gma_crtc *gma_crtc = to_gma_crtc(crtc);
+ 	struct drm_framebuffer *fb = crtc->primary->fb;
+diff --git a/drivers/gpu/drm/gma500/oaktrail_hdmi.c b/drivers/gpu/drm/gma500/oaktrail_hdmi.c
+index c9d1ad4c0a27..e0ac4c88c762 100644
+--- a/drivers/gpu/drm/gma500/oaktrail_hdmi.c
++++ b/drivers/gpu/drm/gma500/oaktrail_hdmi.c
+@@ -266,7 +266,7 @@ int oaktrail_crtc_hdmi_mode_set(struct drm_crtc *crtc,
+ 			    int x, int y,
+ 			    struct drm_framebuffer *old_fb)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	struct oaktrail_hdmi_dev *hdmi_dev = dev_priv->hdmi_priv;
+ 	int pipe = 1;
+@@ -382,7 +382,7 @@ int oaktrail_crtc_hdmi_mode_set(struct drm_crtc *crtc,
+ 
+ void oaktrail_crtc_hdmi_dpms(struct drm_crtc *crtc, int mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	u32 temp;
+ 
+ 	DRM_DEBUG_KMS("%s %d\n", __func__, mode);
+diff --git a/drivers/gpu/drm/gma500/psb_intel_display.c b/drivers/gpu/drm/gma500/psb_intel_display.c
+index ff46e88c4768..41472e51a16d 100644
+--- a/drivers/gpu/drm/gma500/psb_intel_display.c
++++ b/drivers/gpu/drm/gma500/psb_intel_display.c
+@@ -96,7 +96,7 @@ static int psb_intel_crtc_mode_set(struct drm_crtc *crtc,
+ 			       int x, int y,
+ 			       struct drm_framebuffer *old_fb)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	struct gma_crtc *gma_crtc = to_gma_crtc(crtc);
+ 	const struct drm_crtc_helper_funcs *crtc_funcs = crtc->helper_private;
+diff --git a/drivers/gpu/drm/gma500/psb_irq.c b/drivers/gpu/drm/gma500/psb_irq.c
+index 343c51250207..23fb075ab487 100644
+--- a/drivers/gpu/drm/gma500/psb_irq.c
++++ b/drivers/gpu/drm/gma500/psb_irq.c
+@@ -370,7 +370,7 @@ void gma_irq_uninstall(struct drm_device *dev)
+ 
+ int gma_crtc_enable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = crtc->index;
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	unsigned long irqflags;
+@@ -403,7 +403,7 @@ int gma_crtc_enable_vblank(struct drm_crtc *crtc)
+ 
+ void gma_crtc_disable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = crtc->index;
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	unsigned long irqflags;
+@@ -427,7 +427,7 @@ void gma_crtc_disable_vblank(struct drm_crtc *crtc)
+  */
+ u32 gma_crtc_get_vblank_counter(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = crtc->index;
+ 	uint32_t high_frame = PIPEAFRAMEHIGH;
+ 	uint32_t low_frame = PIPEAFRAMEPIXEL;
+diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
+index d2f199ea3c11..a87997c2c043 100644
+--- a/drivers/gpu/drm/gud/gud_pipe.c
++++ b/drivers/gpu/drm/gud/gud_pipe.c
+@@ -444,7 +444,7 @@ int gud_pipe_check(struct drm_simple_display_pipe *pipe,
+ 		   struct drm_plane_state *new_plane_state,
+ 		   struct drm_crtc_state *new_crtc_state)
+ {
+-	struct gud_device *gdrm = to_gud_device(pipe->crtc.dev);
++	struct gud_device *gdrm = to_gud_device(pipe->crtc.drm);
+ 	struct drm_plane_state *old_plane_state = pipe->plane.state;
+ 	const struct drm_display_mode *mode = &new_crtc_state->mode;
+ 	struct drm_atomic_state *state = new_plane_state->state;
+@@ -489,7 +489,7 @@ int gud_pipe_check(struct drm_simple_display_pipe *pipe,
+ 	if (!connector_state) {
+ 		struct drm_connector_list_iter conn_iter;
+ 
+-		drm_connector_list_iter_begin(pipe->crtc.dev, &conn_iter);
++		drm_connector_list_iter_begin(pipe->crtc.drm, &conn_iter);
+ 		drm_for_each_connector_iter(connector, &conn_iter) {
+ 			if (connector->state->crtc) {
+ 				connector_state = connector->state;
+@@ -559,7 +559,7 @@ int gud_pipe_check(struct drm_simple_display_pipe *pipe,
+ void gud_pipe_update(struct drm_simple_display_pipe *pipe,
+ 		     struct drm_plane_state *old_state)
+ {
+-	struct drm_device *drm = pipe->crtc.dev;
++	struct drm_device *drm = pipe->crtc.drm;
+ 	struct gud_device *gdrm = to_gud_device(drm);
+ 	struct drm_plane_state *state = pipe->plane.state;
+ 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(state);
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+index 89bed78f1466..42b54119c57b 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+@@ -159,7 +159,7 @@ static const struct drm_plane_helper_funcs hibmc_plane_helper_funcs = {
+ 
+ static void hibmc_crtc_dpms(struct drm_crtc *crtc, u32 dpms)
+ {
+-	struct hibmc_drm_private *priv = to_hibmc_drm_private(crtc->dev);
++	struct hibmc_drm_private *priv = to_hibmc_drm_private(crtc->drm);
+ 	u32 reg;
+ 
+ 	reg = readl(priv->mmio + HIBMC_CRT_DISP_CTL);
+@@ -175,7 +175,7 @@ static void hibmc_crtc_atomic_enable(struct drm_crtc *crtc,
+ 				     struct drm_atomic_state *state)
+ {
+ 	u32 reg;
+-	struct hibmc_drm_private *priv = to_hibmc_drm_private(crtc->dev);
++	struct hibmc_drm_private *priv = to_hibmc_drm_private(crtc->drm);
+ 
+ 	hibmc_set_power_mode(priv, HIBMC_PW_MODE_CTL_MODE_MODE0);
+ 
+@@ -194,7 +194,7 @@ static void hibmc_crtc_atomic_disable(struct drm_crtc *crtc,
+ 				      struct drm_atomic_state *state)
+ {
+ 	u32 reg;
+-	struct hibmc_drm_private *priv = to_hibmc_drm_private(crtc->dev);
++	struct hibmc_drm_private *priv = to_hibmc_drm_private(crtc->drm);
+ 
+ 	hibmc_crtc_dpms(crtc, HIBMC_CRT_DPMS_OFF);
+ 	drm_crtc_vblank_off(crtc);
+@@ -361,7 +361,7 @@ static void hibmc_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ {
+ 	u32 val;
+ 	struct drm_display_mode *mode = &crtc->state->mode;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
+ 	u32 width = mode->hsync_end - mode->hsync_start;
+ 	u32 height = mode->vsync_end - mode->vsync_start;
+@@ -395,7 +395,7 @@ static void hibmc_crtc_atomic_begin(struct drm_crtc *crtc,
+ 				    struct drm_atomic_state *state)
+ {
+ 	u32 reg;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
+ 
+ 	hibmc_set_power_mode(priv, HIBMC_PW_MODE_CTL_MODE_MODE0);
+@@ -417,16 +417,16 @@ static void hibmc_crtc_atomic_flush(struct drm_crtc *crtc,
+ {
+ 	unsigned long flags;
+ 
+-	spin_lock_irqsave(&crtc->dev->event_lock, flags);
++	spin_lock_irqsave(&crtc->drm->event_lock, flags);
+ 	if (crtc->state->event)
+ 		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+ 	crtc->state->event = NULL;
+-	spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++	spin_unlock_irqrestore(&crtc->drm->event_lock, flags);
+ }
+ 
+ static int hibmc_crtc_enable_vblank(struct drm_crtc *crtc)
+ {
+-	struct hibmc_drm_private *priv = to_hibmc_drm_private(crtc->dev);
++	struct hibmc_drm_private *priv = to_hibmc_drm_private(crtc->drm);
+ 
+ 	writel(HIBMC_RAW_INTERRUPT_EN_VBLANK(1),
+ 	       priv->mmio + HIBMC_RAW_INTERRUPT_EN);
+@@ -436,7 +436,7 @@ static int hibmc_crtc_enable_vblank(struct drm_crtc *crtc)
+ 
+ static void hibmc_crtc_disable_vblank(struct drm_crtc *crtc)
+ {
+-	struct hibmc_drm_private *priv = to_hibmc_drm_private(crtc->dev);
++	struct hibmc_drm_private *priv = to_hibmc_drm_private(crtc->drm);
+ 
+ 	writel(HIBMC_RAW_INTERRUPT_EN_VBLANK(0),
+ 	       priv->mmio + HIBMC_RAW_INTERRUPT_EN);
+@@ -444,7 +444,7 @@ static void hibmc_crtc_disable_vblank(struct drm_crtc *crtc)
+ 
+ static void hibmc_crtc_load_lut(struct drm_crtc *crtc)
+ {
+-	struct hibmc_drm_private *priv = to_hibmc_drm_private(crtc->dev);
++	struct hibmc_drm_private *priv = to_hibmc_drm_private(crtc->drm);
+ 	void __iomem   *mmio = priv->mmio;
+ 	u16 *r, *g, *b;
+ 	u32 reg;
+diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
+index 871f79a6b17e..53f8ab3bc58a 100644
+--- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
++++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
+@@ -516,12 +516,12 @@ static void ade_crtc_atomic_flush(struct drm_crtc *crtc,
+ 	if (event) {
+ 		crtc->state->event = NULL;
+ 
+-		spin_lock_irq(&crtc->dev->event_lock);
++		spin_lock_irq(&crtc->drm->event_lock);
+ 		if (drm_crtc_vblank_get(crtc) == 0)
+ 			drm_crtc_arm_vblank_event(crtc, event);
+ 		else
+ 			drm_crtc_send_vblank_event(crtc, event);
+-		spin_unlock_irq(&crtc->dev->event_lock);
++		spin_unlock_irq(&crtc->drm->event_lock);
+ 	}
+ }
+ 
 diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-index 6c6b57298797..c61f811b74f5 100644
+index c61f811b74f5..3b614baf835f 100644
 --- a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
 +++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-@@ -52,12 +52,12 @@ static int hyperv_blit_to_vram_fullscreen(struct drm_framebuffer *fb,
- 
- static int hyperv_connector_get_modes(struct drm_connector *connector)
+@@ -102,7 +102,7 @@ static void hyperv_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 			       struct drm_crtc_state *crtc_state,
+ 			       struct drm_plane_state *plane_state)
  {
--	struct hyperv_drm_device *hv = to_hv(connector->dev);
-+	struct hyperv_drm_device *hv = to_hv(connector->drm);
- 	int count;
+-	struct hyperv_drm_device *hv = to_hv(pipe->crtc.dev);
++	struct hyperv_drm_device *hv = to_hv(pipe->crtc.drm);
+ 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
  
- 	count = drm_add_modes_noedid(connector,
--				     connector->dev->mode_config.max_width,
--				     connector->dev->mode_config.max_height);
-+				     connector->drm->mode_config.max_width,
-+				     connector->drm->mode_config.max_height);
- 	drm_set_preferred_mode(connector, hv->preferred_width,
- 			       hv->preferred_height);
- 
-diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
-index f01e28ed5831..53341c03d759 100644
---- a/drivers/gpu/drm/i2c/tda998x_drv.c
-+++ b/drivers/gpu/drm/i2c/tda998x_drv.c
-@@ -777,7 +777,7 @@ static void tda998x_detect_work(struct work_struct *work)
+ 	hyperv_hide_hw_ptr(hv->hdev);
+@@ -117,7 +117,7 @@ static int hyperv_pipe_check(struct drm_simple_display_pipe *pipe,
+ 			     struct drm_plane_state *plane_state,
+ 			     struct drm_crtc_state *crtc_state)
  {
- 	struct tda998x_priv *priv =
- 		container_of(work, struct tda998x_priv, detect_work);
--	struct drm_device *dev = priv->connector.dev;
-+	struct drm_device *dev = priv->connector.drm;
+-	struct hyperv_drm_device *hv = to_hv(pipe->crtc.dev);
++	struct hyperv_drm_device *hv = to_hv(pipe->crtc.drm);
+ 	struct drm_framebuffer *fb = plane_state->fb;
  
- 	if (dev)
- 		drm_kms_helper_hotplug_event(dev);
+ 	if (fb->format->format != DRM_FORMAT_XRGB8888)
+@@ -135,7 +135,7 @@ static int hyperv_pipe_check(struct drm_simple_display_pipe *pipe,
+ static void hyperv_pipe_update(struct drm_simple_display_pipe *pipe,
+ 			       struct drm_plane_state *old_state)
+ {
+-	struct hyperv_drm_device *hv = to_hv(pipe->crtc.dev);
++	struct hyperv_drm_device *hv = to_hv(pipe->crtc.drm);
+ 	struct drm_plane_state *state = pipe->plane.state;
+ 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(state);
+ 	struct drm_rect rect;
+diff --git a/drivers/gpu/drm/i915/display/g4x_dp.c b/drivers/gpu/drm/i915/display/g4x_dp.c
+index 112d91d81fdc..85ad8466bc81 100644
+--- a/drivers/gpu/drm/i915/display/g4x_dp.c
++++ b/drivers/gpu/drm/i915/display/g4x_dp.c
+@@ -191,7 +191,7 @@ static void ilk_edp_pll_on(struct intel_dp *intel_dp,
+ 			   const struct intel_crtc_state *pipe_config)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(pipe_config->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 
+ 	assert_transcoder_disabled(dev_priv, pipe_config->cpu_transcoder);
+ 	assert_dp_port_disabled(intel_dp);
+@@ -231,7 +231,7 @@ static void ilk_edp_pll_off(struct intel_dp *intel_dp,
+ 			    const struct intel_crtc_state *old_crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(old_crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 
+ 	assert_transcoder_disabled(dev_priv, old_crtc_state->cpu_transcoder);
+ 	assert_dp_port_disabled(intel_dp);
+diff --git a/drivers/gpu/drm/i915/display/hsw_ips.c b/drivers/gpu/drm/i915/display/hsw_ips.c
+index b052dfa21690..9e8f5e6d5766 100644
+--- a/drivers/gpu/drm/i915/display/hsw_ips.c
++++ b/drivers/gpu/drm/i915/display/hsw_ips.c
+@@ -13,7 +13,7 @@
+ static void hsw_ips_enable(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	u32 val;
+ 
+ 	if (!crtc_state->ips_enabled)
+@@ -60,7 +60,7 @@ static void hsw_ips_enable(const struct intel_crtc_state *crtc_state)
+ bool hsw_ips_disable(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	bool need_vblank_wait = false;
+ 
+ 	if (!crtc_state->ips_enabled)
+@@ -180,13 +180,13 @@ void hsw_ips_post_update(struct intel_atomic_state *state,
+ /* IPS only exists on ULT machines and is tied to pipe A. */
+ bool hsw_crtc_supports_ips(struct intel_crtc *crtc)
+ {
+-	return HAS_IPS(to_i915(crtc->base.dev)) && crtc->pipe == PIPE_A;
++	return HAS_IPS(to_i915(crtc->base.drm)) && crtc->pipe == PIPE_A;
+ }
+ 
+ bool hsw_crtc_state_ips_capable(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 
+ 	/* IPS only exists on ULT machines and is tied to pipe A. */
+ 	if (!hsw_crtc_supports_ips(crtc))
+@@ -257,7 +257,7 @@ int hsw_ips_compute_config(struct intel_atomic_state *state,
+ void hsw_ips_get_config(struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 
+ 	if (!hsw_crtc_supports_ips(crtc))
+ 		return;
+@@ -277,7 +277,7 @@ void hsw_ips_get_config(struct intel_crtc_state *crtc_state)
+ static int hsw_ips_debugfs_false_color_get(void *data, u64 *val)
+ {
+ 	struct intel_crtc *crtc = data;
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 
+ 	*val = i915->display.ips.false_color;
+ 
+@@ -287,7 +287,7 @@ static int hsw_ips_debugfs_false_color_get(void *data, u64 *val)
+ static int hsw_ips_debugfs_false_color_set(void *data, u64 val)
+ {
+ 	struct intel_crtc *crtc = data;
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	struct intel_crtc_state *crtc_state;
+ 	int ret;
+ 
+@@ -322,7 +322,7 @@ DEFINE_DEBUGFS_ATTRIBUTE(hsw_ips_debugfs_false_color_fops,
+ static int hsw_ips_debugfs_status_show(struct seq_file *m, void *unused)
+ {
+ 	struct intel_crtc *crtc = m->private;
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	intel_wakeref_t wakeref;
+ 
+ 	wakeref = intel_runtime_pm_get(&i915->runtime_pm);
+diff --git a/drivers/gpu/drm/i915/display/i9xx_plane.c b/drivers/gpu/drm/i915/display/i9xx_plane.c
+index b10488324457..d43430c4d539 100644
+--- a/drivers/gpu/drm/i915/display/i9xx_plane.c
++++ b/drivers/gpu/drm/i915/display/i9xx_plane.c
+@@ -352,7 +352,7 @@ i9xx_plane_check(struct intel_crtc_state *crtc_state,
+ static u32 i9xx_plane_ctl_crtc(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	u32 dspcntr = 0;
+ 
+ 	if (crtc_state->gamma_enable)
+@@ -975,7 +975,7 @@ void
+ i9xx_get_initial_plane_config(struct intel_crtc *crtc,
+ 			      struct intel_initial_plane_config *plane_config)
+ {
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	struct intel_plane *plane = to_intel_plane(crtc->base.primary);
+ 	enum i9xx_plane_id i9xx_plane = plane->i9xx_plane;
+diff --git a/drivers/gpu/drm/i915/display/i9xx_wm.c b/drivers/gpu/drm/i915/display/i9xx_wm.c
+index 51a896bbebc4..876ce49a3c75 100644
+--- a/drivers/gpu/drm/i915/display/i9xx_wm.c
++++ b/drivers/gpu/drm/i915/display/i9xx_wm.c
+@@ -262,7 +262,7 @@ static const int pessimal_latency_ns = 5000;
+ static void vlv_get_fifo_size(struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct vlv_fifo_state *fifo_state = &crtc_state->wm.vlv.fifo_state;
+ 	enum pipe pipe = crtc->pipe;
+ 	int sprite0_start, sprite1_start;
+@@ -929,7 +929,7 @@ static u16 g4x_compute_wm(const struct intel_crtc_state *crtc_state,
+ static bool g4x_raw_plane_wm_set(struct intel_crtc_state *crtc_state,
+ 				 int level, enum plane_id plane_id, u16 value)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 	bool dirty = false;
+ 
+ 	for (; level < dev_priv->display.wm.num_levels; level++) {
+@@ -945,7 +945,7 @@ static bool g4x_raw_plane_wm_set(struct intel_crtc_state *crtc_state,
+ static bool g4x_raw_fbc_wm_set(struct intel_crtc_state *crtc_state,
+ 			       int level, u16 value)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 	bool dirty = false;
+ 
+ 	/* NORMAL level doesn't have an FBC watermark */
+@@ -969,7 +969,7 @@ static bool g4x_raw_plane_wm_compute(struct intel_crtc_state *crtc_state,
+ 				     const struct intel_plane_state *plane_state)
+ {
+ 	struct intel_plane *plane = to_intel_plane(plane_state->uapi.plane);
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 	enum plane_id plane_id = plane->id;
+ 	bool dirty = false;
+ 	int level;
+@@ -1049,7 +1049,7 @@ static bool g4x_raw_plane_wm_is_valid(const struct intel_crtc_state *crtc_state,
+ static bool g4x_raw_crtc_wm_is_valid(const struct intel_crtc_state *crtc_state,
+ 				     int level)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 
+ 	if (level >= dev_priv->display.wm.num_levels)
+ 		return false;
+@@ -1193,7 +1193,7 @@ static int g4x_compute_pipe_wm(struct intel_atomic_state *state,
+ static int g4x_compute_intermediate_wm(struct intel_atomic_state *state,
+ 				       struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_crtc_state *new_crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+ 	const struct intel_crtc_state *old_crtc_state =
+@@ -1340,7 +1340,7 @@ static void g4x_program_watermarks(struct drm_i915_private *dev_priv)
+ static void g4x_initial_watermarks(struct intel_atomic_state *state,
+ 				   struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	const struct intel_crtc_state *crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+ 
+@@ -1353,7 +1353,7 @@ static void g4x_initial_watermarks(struct intel_atomic_state *state,
+ static void g4x_optimize_watermarks(struct intel_atomic_state *state,
+ 				    struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	const struct intel_crtc_state *crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+ 
+@@ -1443,7 +1443,7 @@ static bool vlv_need_sprite0_fifo_workaround(unsigned int active_planes)
+ static int vlv_compute_fifo(struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	const struct g4x_pipe_wm *raw =
+ 		&crtc_state->wm.vlv.raw[VLV_WM_LEVEL_PM2];
+ 	struct vlv_fifo_state *fifo_state = &crtc_state->wm.vlv.fifo_state;
+@@ -1527,7 +1527,7 @@ static int vlv_compute_fifo(struct intel_crtc_state *crtc_state)
+ static void vlv_invalidate_wms(struct intel_crtc *crtc,
+ 			       struct vlv_wm_state *wm_state, int level)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 
+ 	for (; level < dev_priv->display.wm.num_levels; level++) {
+ 		enum plane_id plane_id;
+@@ -1555,7 +1555,7 @@ static u16 vlv_invert_wm_value(u16 wm, u16 fifo_size)
+ static bool vlv_raw_plane_wm_set(struct intel_crtc_state *crtc_state,
+ 				 int level, enum plane_id plane_id, u16 value)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 	bool dirty = false;
+ 
+ 	for (; level < dev_priv->display.wm.num_levels; level++) {
+@@ -1572,7 +1572,7 @@ static bool vlv_raw_plane_wm_compute(struct intel_crtc_state *crtc_state,
+ 				     const struct intel_plane_state *plane_state)
+ {
+ 	struct intel_plane *plane = to_intel_plane(plane_state->uapi.plane);
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 	enum plane_id plane_id = plane->id;
+ 	int level;
+ 	bool dirty = false;
+@@ -1631,7 +1631,7 @@ static bool vlv_raw_crtc_wm_is_valid(const struct intel_crtc_state *crtc_state,
+ static int _vlv_compute_pipe_wm(struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct vlv_wm_state *wm_state = &crtc_state->wm.vlv.optimal;
+ 	const struct vlv_fifo_state *fifo_state =
+ 		&crtc_state->wm.vlv.fifo_state;
+@@ -1751,7 +1751,7 @@ static int vlv_compute_pipe_wm(struct intel_atomic_state *state,
+ static void vlv_atomic_update_fifo(struct intel_atomic_state *state,
+ 				   struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_uncore *uncore = &dev_priv->uncore;
+ 	const struct intel_crtc_state *crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+@@ -1977,7 +1977,7 @@ static void vlv_program_watermarks(struct drm_i915_private *dev_priv)
+ static void vlv_initial_watermarks(struct intel_atomic_state *state,
+ 				   struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	const struct intel_crtc_state *crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+ 
+@@ -1990,7 +1990,7 @@ static void vlv_initial_watermarks(struct intel_atomic_state *state,
+ static void vlv_optimize_watermarks(struct intel_atomic_state *state,
+ 				    struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	const struct intel_crtc_state *crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+ 
+@@ -2862,7 +2862,7 @@ static int ilk_compute_pipe_wm(struct intel_atomic_state *state,
+ static int ilk_compute_intermediate_wm(struct intel_atomic_state *state,
+ 				       struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_crtc_state *new_crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+ 	const struct intel_crtc_state *old_crtc_state =
+@@ -3312,7 +3312,7 @@ static void ilk_program_watermarks(struct drm_i915_private *dev_priv)
+ static void ilk_initial_watermarks(struct intel_atomic_state *state,
+ 				   struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	const struct intel_crtc_state *crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+ 
+@@ -3325,7 +3325,7 @@ static void ilk_initial_watermarks(struct intel_atomic_state *state,
+ static void ilk_optimize_watermarks(struct intel_atomic_state *state,
+ 				    struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	const struct intel_crtc_state *crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+ 
+@@ -3340,7 +3340,7 @@ static void ilk_optimize_watermarks(struct intel_atomic_state *state,
+ 
+ static void ilk_pipe_wm_get_hw_state(struct intel_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	struct ilk_wm_values *hw = &dev_priv->display.wm.hw;
+ 	struct intel_crtc_state *crtc_state = to_intel_crtc_state(crtc->base.state);
+diff --git a/drivers/gpu/drm/i915/display/icl_dsi.c b/drivers/gpu/drm/i915/display/icl_dsi.c
+index 74f2e2ed5c19..995ba2ed1e87 100644
+--- a/drivers/gpu/drm/i915/display/icl_dsi.c
++++ b/drivers/gpu/drm/i915/display/icl_dsi.c
+@@ -207,7 +207,7 @@ static int dsi_send_pkt_hdr(struct intel_dsi_host *host,
+ void icl_dsi_frame_update(struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	u32 mode_flags;
+ 	enum port port;
+ 
 diff --git a/drivers/gpu/drm/i915/display/intel_atomic.c b/drivers/gpu/drm/i915/display/intel_atomic.c
-index 7cf51dd8c056..fe573d1d520c 100644
+index fe573d1d520c..e5cac79cc211 100644
 --- a/drivers/gpu/drm/i915/display/intel_atomic.c
 +++ b/drivers/gpu/drm/i915/display/intel_atomic.c
-@@ -58,7 +58,7 @@ int intel_digital_connector_atomic_get_property(struct drm_connector *connector,
- 						struct drm_property *property,
- 						u64 *val)
+@@ -303,7 +303,7 @@ intel_crtc_destroy_state(struct drm_crtc *crtc,
  {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_i915_private *dev_priv = to_i915(dev);
- 	struct intel_digital_connector_state *intel_conn_state =
- 		to_intel_digital_connector_state(state);
-@@ -91,7 +91,7 @@ int intel_digital_connector_atomic_set_property(struct drm_connector *connector,
- 						struct drm_property *property,
- 						u64 val)
+ 	struct intel_crtc_state *crtc_state = to_intel_crtc_state(state);
+ 
+-	drm_WARN_ON(crtc->dev, crtc_state->dsb);
++	drm_WARN_ON(crtc->drm, crtc_state->dsb);
+ 
+ 	__drm_atomic_helper_crtc_destroy_state(&crtc_state->uapi);
+ 	intel_crtc_free_hw_state(crtc_state);
+diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+index 5f4ff7c19452..e66f45e25201 100644
+--- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
++++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+@@ -475,7 +475,7 @@ static int intel_plane_atomic_calc_changes(const struct intel_crtc_state *old_cr
  {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_i915_private *dev_priv = to_i915(dev);
- 	struct intel_digital_connector_state *intel_conn_state =
- 		to_intel_digital_connector_state(state);
-diff --git a/drivers/gpu/drm/i915/display/intel_backlight.c b/drivers/gpu/drm/i915/display/intel_backlight.c
-index 2e8f17c04522..19637048faba 100644
---- a/drivers/gpu/drm/i915/display/intel_backlight.c
-+++ b/drivers/gpu/drm/i915/display/intel_backlight.c
-@@ -83,7 +83,7 @@ static u32 scale_hw_to_user(struct intel_connector *connector,
- 
- u32 intel_backlight_invert_pwm_level(struct intel_connector *connector, u32 val)
+ 	struct intel_crtc *crtc = to_intel_crtc(new_crtc_state->uapi.crtc);
+ 	struct intel_plane *plane = to_intel_plane(new_plane_state->uapi.plane);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	bool mode_changed = intel_crtc_needs_modeset(new_crtc_state);
+ 	bool was_crtc_enabled = old_crtc_state->hw.active;
+ 	bool is_crtc_enabled = new_crtc_state->hw.active;
+@@ -661,7 +661,7 @@ int intel_plane_atomic_check_with_state(const struct intel_crtc_state *old_crtc_
+ static struct intel_plane *
+ intel_crtc_get_plane(struct intel_crtc *crtc, enum plane_id plane_id)
  {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	struct intel_plane *plane;
  
- 	drm_WARN_ON(&i915->drm, panel->backlight.pwm_level_max == 0);
-@@ -102,7 +102,7 @@ u32 intel_backlight_invert_pwm_level(struct intel_connector *connector, u32 val)
- void intel_backlight_set_pwm_level(const struct drm_connector_state *conn_state, u32 val)
+ 	for_each_intel_plane_on_crtc(&i915->drm, crtc, plane) {
+diff --git a/drivers/gpu/drm/i915/display/intel_audio.c b/drivers/gpu/drm/i915/display/intel_audio.c
+index 3d9c9b4f27f8..82fb23692c15 100644
+--- a/drivers/gpu/drm/i915/display/intel_audio.c
++++ b/drivers/gpu/drm/i915/display/intel_audio.c
+@@ -252,7 +252,7 @@ static const struct hdmi_aud_ncts hdmi_aud_ncts_36bpp[] = {
+ /* get AUD_CONFIG_PIXEL_CLOCK_HDMI_* value for mode */
+ static u32 audio_config_hdmi_pixel_clock(const struct intel_crtc_state *crtc_state)
  {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 
- 	drm_dbg_kms(&i915->drm, "[CONNECTOR:%d:%s] set backlight PWM = %d\n",
-@@ -112,7 +112,7 @@ void intel_backlight_set_pwm_level(const struct drm_connector_state *conn_state,
- 
- u32 intel_backlight_level_to_pwm(struct intel_connector *connector, u32 val)
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	const struct drm_display_mode *adjusted_mode =
+ 		&crtc_state->hw.adjusted_mode;
+ 	int i;
+diff --git a/drivers/gpu/drm/i915/display/intel_bw.c b/drivers/gpu/drm/i915/display/intel_bw.c
+index aee6d03eb322..7aa23b258e40 100644
+--- a/drivers/gpu/drm/i915/display/intel_bw.c
++++ b/drivers/gpu/drm/i915/display/intel_bw.c
+@@ -691,7 +691,7 @@ static unsigned int intel_bw_crtc_num_active_planes(const struct intel_crtc_stat
+ static unsigned int intel_bw_crtc_data_rate(const struct intel_crtc_state *crtc_state)
  {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	unsigned int data_rate = 0;
+ 	enum plane_id plane_id;
  
- 	drm_WARN_ON_ONCE(&i915->drm,
-@@ -126,7 +126,7 @@ u32 intel_backlight_level_to_pwm(struct intel_connector *connector, u32 val)
- 
- u32 intel_backlight_level_from_pwm(struct intel_connector *connector, u32 val)
+@@ -716,7 +716,7 @@ static unsigned int intel_bw_crtc_data_rate(const struct intel_crtc_state *crtc_
+ static int intel_bw_crtc_min_cdclk(const struct intel_crtc_state *crtc_state)
  {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
  
- 	drm_WARN_ON_ONCE(&i915->drm,
-@@ -142,21 +142,21 @@ u32 intel_backlight_level_from_pwm(struct intel_connector *connector, u32 val)
- 
- static u32 lpt_get_backlight(struct intel_connector *connector, enum pipe unused)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 
- 	return intel_de_read(i915, BLC_PWM_PCH_CTL2) & BACKLIGHT_DUTY_CYCLE_MASK;
- }
- 
- static u32 pch_get_backlight(struct intel_connector *connector, enum pipe unused)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 
- 	return intel_de_read(i915, BLC_PWM_CPU_CTL) & BACKLIGHT_DUTY_CYCLE_MASK;
- }
- 
- static u32 i9xx_get_backlight(struct intel_connector *connector, enum pipe unused)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	u32 val;
- 
-@@ -176,7 +176,7 @@ static u32 i9xx_get_backlight(struct intel_connector *connector, enum pipe unuse
- 
- static u32 vlv_get_backlight(struct intel_connector *connector, enum pipe pipe)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 
- 	if (drm_WARN_ON(&i915->drm, pipe != PIPE_A && pipe != PIPE_B))
+ 	if (DISPLAY_VER(i915) < 12)
  		return 0;
-@@ -186,7 +186,7 @@ static u32 vlv_get_backlight(struct intel_connector *connector, enum pipe pipe)
- 
- static u32 bxt_get_backlight(struct intel_connector *connector, enum pipe unused)
+@@ -728,7 +728,7 @@ void intel_bw_crtc_update(struct intel_bw_state *bw_state,
+ 			  const struct intel_crtc_state *crtc_state)
  {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
  
- 	return intel_de_read(i915, BXT_BLC_PWM_DUTY(panel->backlight.controller));
-@@ -204,7 +204,7 @@ static u32 ext_pwm_get_backlight(struct intel_connector *connector, enum pipe un
- static void lpt_set_backlight(const struct drm_connector_state *conn_state, u32 level)
+ 	bw_state->data_rate[crtc->pipe] =
+ 		intel_bw_crtc_data_rate(crtc_state);
+@@ -1039,7 +1039,7 @@ static void skl_plane_calc_dbuf_bw(struct intel_bw_state *bw_state,
+ 				   const struct skl_ddb_entry *ddb,
+ 				   unsigned int data_rate)
  {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	u32 val;
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	struct intel_dbuf_bw *crtc_bw = &bw_state->dbuf_bw[crtc->pipe];
+ 	unsigned int dbuf_mask = skl_ddb_dbuf_slice_mask(i915, ddb);
+ 	enum dbuf_slice slice;
+@@ -1058,7 +1058,7 @@ static void skl_crtc_calc_dbuf_bw(struct intel_bw_state *bw_state,
+ 				  const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	struct intel_dbuf_bw *crtc_bw = &bw_state->dbuf_bw[crtc->pipe];
+ 	enum plane_id plane_id;
  
- 	val = intel_de_read(i915, BLC_PWM_PCH_CTL2) & ~BACKLIGHT_DUTY_CYCLE_MASK;
-@@ -214,7 +214,7 @@ static void lpt_set_backlight(const struct drm_connector_state *conn_state, u32
- static void pch_set_backlight(const struct drm_connector_state *conn_state, u32 level)
+diff --git a/drivers/gpu/drm/i915/display/intel_cdclk.c b/drivers/gpu/drm/i915/display/intel_cdclk.c
+index 92a5cea8fa7f..110b0c0ac66b 100644
+--- a/drivers/gpu/drm/i915/display/intel_cdclk.c
++++ b/drivers/gpu/drm/i915/display/intel_cdclk.c
+@@ -2503,7 +2503,7 @@ intel_set_cdclk_post_plane_update(struct intel_atomic_state *state)
+ 
+ static int intel_pixel_rate_to_cdclk(const struct intel_crtc_state *crtc_state)
  {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 	int pixel_rate = crtc_state->pixel_rate;
+ 
+ 	if (DISPLAY_VER(dev_priv) >= 10)
+@@ -2522,7 +2522,7 @@ static int intel_pixel_rate_to_cdclk(const struct intel_crtc_state *crtc_state)
+ static int intel_planes_min_cdclk(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_plane *plane;
+ 	int min_cdclk = 0;
+ 
+@@ -2535,7 +2535,7 @@ static int intel_planes_min_cdclk(const struct intel_crtc_state *crtc_state)
+ int intel_crtc_compute_min_cdclk(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct drm_i915_private *dev_priv =
+-		to_i915(crtc_state->uapi.crtc->dev);
++		to_i915(crtc_state->uapi.crtc->drm);
+ 	int min_cdclk;
+ 
+ 	if (!crtc_state->hw.enable)
+diff --git a/drivers/gpu/drm/i915/display/intel_color.c b/drivers/gpu/drm/i915/display/intel_color.c
+index 8966e6560516..72b840e374e0 100644
+--- a/drivers/gpu/drm/i915/display/intel_color.c
++++ b/drivers/gpu/drm/i915/display/intel_color.c
+@@ -202,7 +202,7 @@ static u64 *ctm_mult_by_limited(u64 *result, const u64 *input)
+ static void ilk_update_pipe_csc(struct intel_crtc *crtc,
+ 				const struct intel_csc_matrix *csc)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 
+ 	intel_de_write_fw(i915, PIPE_CSC_PREOFF_HI(pipe), csc->preoff[0]);
+@@ -235,7 +235,7 @@ static void ilk_update_pipe_csc(struct intel_crtc *crtc,
+ static void ilk_read_pipe_csc(struct intel_crtc *crtc,
+ 			      struct intel_csc_matrix *csc)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
  	u32 tmp;
  
- 	tmp = intel_de_read(i915, BLC_PWM_CPU_CTL) & ~BACKLIGHT_DUTY_CYCLE_MASK;
-@@ -224,7 +224,7 @@ static void pch_set_backlight(const struct drm_connector_state *conn_state, u32
- static void i9xx_set_backlight(const struct drm_connector_state *conn_state, u32 level)
+@@ -301,7 +301,7 @@ static void skl_read_csc(struct intel_crtc_state *crtc_state)
+ static void icl_update_output_csc(struct intel_crtc *crtc,
+ 				  const struct intel_csc_matrix *csc)
  {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	u32 tmp, mask;
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
  
-@@ -252,7 +252,7 @@ static void i9xx_set_backlight(const struct drm_connector_state *conn_state, u32
- static void vlv_set_backlight(const struct drm_connector_state *conn_state, u32 level)
+ 	intel_de_write_fw(i915, PIPE_CSC_OUTPUT_PREOFF_HI(pipe), csc->preoff[0]);
+@@ -331,7 +331,7 @@ static void icl_update_output_csc(struct intel_crtc *crtc,
+ static void icl_read_output_csc(struct intel_crtc *crtc,
+ 				struct intel_csc_matrix *csc)
  {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	enum pipe pipe = to_intel_crtc(conn_state->crtc)->pipe;
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
  	u32 tmp;
  
-@@ -263,7 +263,7 @@ static void vlv_set_backlight(const struct drm_connector_state *conn_state, u32
- static void bxt_set_backlight(const struct drm_connector_state *conn_state, u32 level)
- {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
+@@ -380,7 +380,7 @@ static void icl_read_csc(struct intel_crtc_state *crtc_state)
  
- 	intel_de_write(i915, BXT_BLC_PWM_DUTY(panel->backlight.controller), level);
-@@ -281,7 +281,7 @@ static void
- intel_panel_actually_set_backlight(const struct drm_connector_state *conn_state, u32 level)
+ static bool ilk_limited_range(const struct intel_crtc_state *crtc_state)
  {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
  
- 	drm_dbg_kms(&i915->drm, "[CONNECTOR:%d:%s] set backlight level = %d\n",
-@@ -297,7 +297,7 @@ void intel_backlight_set_acpi(const struct drm_connector_state *conn_state,
- 			      u32 user_level, u32 user_max)
- {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	u32 hw_level;
+ 	/* icl+ have dedicated output CSC */
+ 	if (DISPLAY_VER(i915) >= 11)
+@@ -395,7 +395,7 @@ static bool ilk_limited_range(const struct intel_crtc_state *crtc_state)
  
-@@ -332,7 +332,7 @@ void intel_backlight_set_acpi(const struct drm_connector_state *conn_state,
- static void lpt_disable_backlight(const struct drm_connector_state *old_conn_state, u32 level)
+ static bool ilk_lut_limited_range(const struct intel_crtc_state *crtc_state)
  {
- 	struct intel_connector *connector = to_intel_connector(old_conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 
+ 	if (!ilk_limited_range(crtc_state))
+ 		return false;
+@@ -432,7 +432,7 @@ static void ilk_csc_convert_ctm(const struct intel_crtc_state *crtc_state,
+ 				struct intel_csc_matrix *csc,
+ 				bool limited_color_range)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	const struct drm_color_ctm *ctm = crtc_state->hw.ctm->data;
+ 	const u64 *input;
+ 	u64 temp[9];
+@@ -490,7 +490,7 @@ static void ilk_csc_convert_ctm(const struct intel_crtc_state *crtc_state,
+ 
+ static void ilk_assign_csc(struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	bool limited_color_range = ilk_csc_limited_range(crtc_state);
+ 
+ 	if (crtc_state->hw.ctm) {
+@@ -530,7 +530,7 @@ static void ilk_load_csc_matrix(const struct intel_crtc_state *crtc_state)
+ 
+ static void icl_assign_csc(struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 
+ 	if (crtc_state->hw.ctm) {
+ 		drm_WARN_ON(&i915->drm, (crtc_state->csc_mode & ICL_CSC_ENABLE) == 0);
+@@ -608,7 +608,7 @@ static void vlv_wgc_csc_convert_ctm(const struct intel_crtc_state *crtc_state,
+ static void vlv_load_wgc_csc(struct intel_crtc *crtc,
+ 			     const struct intel_csc_matrix *csc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 
+ 	intel_de_write_fw(dev_priv, PIPE_WGC_C01_C00(pipe),
+@@ -630,7 +630,7 @@ static void vlv_load_wgc_csc(struct intel_crtc *crtc,
+ static void vlv_read_wgc_csc(struct intel_crtc *crtc,
+ 			     struct intel_csc_matrix *csc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
  	u32 tmp;
  
- 	intel_backlight_set_pwm_level(old_conn_state, level);
-@@ -358,7 +358,7 @@ static void lpt_disable_backlight(const struct drm_connector_state *old_conn_sta
- static void pch_disable_backlight(const struct drm_connector_state *old_conn_state, u32 val)
- {
- 	struct intel_connector *connector = to_intel_connector(old_conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
+@@ -666,7 +666,7 @@ static void vlv_read_csc(struct intel_crtc_state *crtc_state)
  
- 	intel_backlight_set_pwm_level(old_conn_state, val);
+ static void vlv_assign_csc(struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
  
-@@ -374,7 +374,7 @@ static void i9xx_disable_backlight(const struct drm_connector_state *old_conn_st
+ 	if (crtc_state->hw.ctm) {
+ 		drm_WARN_ON(&i915->drm, !crtc_state->wgc_enable);
+@@ -710,7 +710,7 @@ static const struct intel_csc_matrix chv_cgm_csc_matrix_identity = {
+ static void chv_load_cgm_csc(struct intel_crtc *crtc,
+ 			     const struct intel_csc_matrix *csc)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
  
- static void i965_disable_backlight(const struct drm_connector_state *old_conn_state, u32 val)
+ 	intel_de_write_fw(i915, CGM_PIPE_CSC_COEFF01(pipe),
+@@ -728,7 +728,7 @@ static void chv_load_cgm_csc(struct intel_crtc *crtc,
+ static void chv_read_cgm_csc(struct intel_crtc *crtc,
+ 			     struct intel_csc_matrix *csc)
  {
--	struct drm_i915_private *i915 = to_i915(old_conn_state->connector->dev);
-+	struct drm_i915_private *i915 = to_i915(old_conn_state->connector->drm);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 	u32 tmp;
  
- 	intel_backlight_set_pwm_level(old_conn_state, val);
+@@ -762,7 +762,7 @@ static void chv_read_csc(struct intel_crtc_state *crtc_state)
  
-@@ -384,7 +384,7 @@ static void i965_disable_backlight(const struct drm_connector_state *old_conn_st
- static void vlv_disable_backlight(const struct drm_connector_state *old_conn_state, u32 val)
+ static void chv_assign_csc(struct intel_crtc_state *crtc_state)
  {
- 	struct intel_connector *connector = to_intel_connector(old_conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	enum pipe pipe = to_intel_crtc(old_conn_state->crtc)->pipe;
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
  
- 	intel_backlight_set_pwm_level(old_conn_state, val);
-@@ -395,7 +395,7 @@ static void vlv_disable_backlight(const struct drm_connector_state *old_conn_sta
- static void bxt_disable_backlight(const struct drm_connector_state *old_conn_state, u32 val)
- {
- 	struct intel_connector *connector = to_intel_connector(old_conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
+ 	drm_WARN_ON(&i915->drm, crtc_state->wgc_enable);
  
- 	intel_backlight_set_pwm_level(old_conn_state, val);
-@@ -410,7 +410,7 @@ static void bxt_disable_backlight(const struct drm_connector_state *old_conn_sta
- static void cnp_disable_backlight(const struct drm_connector_state *old_conn_state, u32 val)
+@@ -992,7 +992,7 @@ static void i9xx_color_commit_arm(const struct intel_crtc_state *crtc_state)
+ static void ilk_color_commit_arm(const struct intel_crtc_state *crtc_state)
  {
- 	struct intel_connector *connector = to_intel_connector(old_conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
  
- 	intel_backlight_set_pwm_level(old_conn_state, val);
-@@ -433,7 +433,7 @@ static void ext_pwm_disable_backlight(const struct drm_connector_state *old_conn
- void intel_backlight_disable(const struct drm_connector_state *old_conn_state)
+ 	/* update TRANSCONF GAMMA_MODE */
+ 	ilk_set_pipeconf(crtc_state);
+@@ -1004,7 +1004,7 @@ static void ilk_color_commit_arm(const struct intel_crtc_state *crtc_state)
+ static void hsw_color_commit_arm(const struct intel_crtc_state *crtc_state)
  {
- 	struct intel_connector *connector = to_intel_connector(old_conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
  
- 	if (!panel->backlight.present)
-@@ -465,7 +465,7 @@ static void lpt_enable_backlight(const struct intel_crtc_state *crtc_state,
- 				 const struct drm_connector_state *conn_state, u32 level)
+ 	intel_de_write(i915, GAMMA_MODE(crtc->pipe),
+ 		       crtc_state->gamma_mode);
+@@ -1016,7 +1016,7 @@ static void hsw_color_commit_arm(const struct intel_crtc_state *crtc_state)
+ static void skl_color_commit_arm(const struct intel_crtc_state *crtc_state)
  {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	u32 pch_ctl1, pch_ctl2;
- 
-@@ -509,7 +509,7 @@ static void pch_enable_backlight(const struct intel_crtc_state *crtc_state,
- 				 const struct drm_connector_state *conn_state, u32 level)
- {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
- 	u32 cpu_ctl2, pch_ctl1, pch_ctl2;
-@@ -557,7 +557,7 @@ static void i9xx_enable_backlight(const struct intel_crtc_state *crtc_state,
- 				  const struct drm_connector_state *conn_state, u32 level)
- {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	u32 ctl, freq;
- 
-@@ -597,7 +597,7 @@ static void i965_enable_backlight(const struct intel_crtc_state *crtc_state,
- 				  const struct drm_connector_state *conn_state, u32 level)
- {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	enum pipe pipe = to_intel_crtc(conn_state->crtc)->pipe;
- 	u32 ctl, ctl2, freq;
-@@ -633,7 +633,7 @@ static void vlv_enable_backlight(const struct intel_crtc_state *crtc_state,
- 				 const struct drm_connector_state *conn_state, u32 level)
- {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	enum pipe pipe = to_intel_crtc(crtc_state->uapi.crtc)->pipe;
- 	u32 ctl, ctl2;
-@@ -664,7 +664,7 @@ static void bxt_enable_backlight(const struct intel_crtc_state *crtc_state,
- 				 const struct drm_connector_state *conn_state, u32 level)
- {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	enum pipe pipe = to_intel_crtc(crtc_state->uapi.crtc)->pipe;
- 	u32 pwm_ctl, val;
-@@ -714,7 +714,7 @@ static void cnp_enable_backlight(const struct intel_crtc_state *crtc_state,
- 				 const struct drm_connector_state *conn_state, u32 level)
- {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	u32 pwm_ctl;
- 
-@@ -779,7 +779,7 @@ void intel_backlight_enable(const struct intel_crtc_state *crtc_state,
- 			    const struct drm_connector_state *conn_state)
- {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	enum pipe pipe = to_intel_crtc(crtc_state->uapi.crtc)->pipe;
- 
-@@ -798,7 +798,7 @@ void intel_backlight_enable(const struct intel_crtc_state *crtc_state,
- #if IS_ENABLED(CONFIG_BACKLIGHT_CLASS_DEVICE)
- static u32 intel_panel_get_backlight(struct intel_connector *connector)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
  	u32 val = 0;
  
-@@ -828,7 +828,7 @@ static void intel_panel_set_backlight(const struct drm_connector_state *conn_sta
- 				      u32 user_level, u32 user_max)
+@@ -1044,7 +1044,7 @@ static void skl_color_commit_arm(const struct intel_crtc_state *crtc_state)
+ static void icl_color_commit_arm(const struct intel_crtc_state *crtc_state)
  {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	u32 hw_level;
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
  
-@@ -851,7 +851,7 @@ static void intel_panel_set_backlight(const struct drm_connector_state *conn_sta
- static int intel_backlight_device_update_status(struct backlight_device *bd)
+ 	/*
+@@ -1063,7 +1063,7 @@ static void icl_color_commit_arm(const struct intel_crtc_state *crtc_state)
+ static void icl_color_post_update(const struct intel_crtc_state *crtc_state)
  {
- 	struct intel_connector *connector = bl_get_data(bd);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
  
- 	drm_modeset_lock(&i915->drm.mode_config.connection_mutex, NULL);
-@@ -885,7 +885,7 @@ static int intel_backlight_device_update_status(struct backlight_device *bd)
- static int intel_backlight_device_get_brightness(struct backlight_device *bd)
+ 	/*
+ 	 * Despite Wa_1406463849, ICL CSC is no longer disarmed by
+@@ -1154,7 +1154,7 @@ create_resized_lut(struct drm_i915_private *i915,
+ static void i9xx_load_lut_8(struct intel_crtc *crtc,
+ 			    const struct drm_property_blob *blob)
  {
- 	struct intel_connector *connector = bl_get_data(bd);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	intel_wakeref_t wakeref;
- 	int ret = 0;
- 
-@@ -911,7 +911,7 @@ static const struct backlight_ops intel_backlight_device_ops = {
- 
- int intel_backlight_device_register(struct intel_connector *connector)
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	const struct drm_color_lut *lut;
+ 	enum pipe pipe = crtc->pipe;
+ 	int i;
+@@ -1172,7 +1172,7 @@ static void i9xx_load_lut_8(struct intel_crtc *crtc,
+ static void i9xx_load_lut_10(struct intel_crtc *crtc,
+ 			     const struct drm_property_blob *blob)
  {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	struct backlight_properties props;
- 	struct backlight_device *bd;
-@@ -1008,7 +1008,7 @@ void intel_backlight_device_unregister(struct intel_connector *connector)
-  */
- static u32 cnp_hz_to_pwm(struct intel_connector *connector, u32 pwm_freq_hz)
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	const struct drm_color_lut *lut = blob->data;
+ 	int i, lut_size = drm_color_lut_size(blob);
+ 	enum pipe pipe = crtc->pipe;
+@@ -1206,7 +1206,7 @@ static void i9xx_load_luts(const struct intel_crtc_state *crtc_state)
+ static void i965_load_lut_10p6(struct intel_crtc *crtc,
+ 			       const struct drm_property_blob *blob)
  {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 
- 	return DIV_ROUND_CLOSEST(KHz(RUNTIME_INFO(i915)->rawclk_freq),
- 				 pwm_freq_hz);
-@@ -1047,7 +1047,7 @@ static u32 spt_hz_to_pwm(struct intel_connector *connector, u32 pwm_freq_hz)
-  */
- static u32 lpt_hz_to_pwm(struct intel_connector *connector, u32 pwm_freq_hz)
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	const struct drm_color_lut *lut = blob->data;
+ 	int i, lut_size = drm_color_lut_size(blob);
+ 	enum pipe pipe = crtc->pipe;
+@@ -1244,7 +1244,7 @@ static void i965_load_luts(const struct intel_crtc_state *crtc_state)
+ static void ilk_lut_write(const struct intel_crtc_state *crtc_state,
+ 			  i915_reg_t reg, u32 val)
  {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	u32 mul, clock;
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
  
-@@ -1070,7 +1070,7 @@ static u32 lpt_hz_to_pwm(struct intel_connector *connector, u32 pwm_freq_hz)
-  */
- static u32 pch_hz_to_pwm(struct intel_connector *connector, u32 pwm_freq_hz)
+ 	if (crtc_state->dsb)
+ 		intel_dsb_reg_write(crtc_state->dsb, reg, val);
+@@ -1457,7 +1457,7 @@ static void glk_load_degamma_lut(const struct intel_crtc_state *crtc_state,
+ 				 const struct drm_property_blob *blob)
  {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 
- 	return DIV_ROUND_CLOSEST(KHz(RUNTIME_INFO(i915)->rawclk_freq),
- 				 pwm_freq_hz * 128);
-@@ -1086,7 +1086,7 @@ static u32 pch_hz_to_pwm(struct intel_connector *connector, u32 pwm_freq_hz)
-  */
- static u32 i9xx_hz_to_pwm(struct intel_connector *connector, u32 pwm_freq_hz)
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	const struct drm_color_lut *lut = blob->data;
+ 	int i, lut_size = drm_color_lut_size(blob);
+ 	enum pipe pipe = crtc->pipe;
+@@ -1699,7 +1699,7 @@ static void chv_cgm_degamma_pack(struct drm_color_lut *entry, u32 ldw, u32 udw)
+ static void chv_load_cgm_degamma(struct intel_crtc *crtc,
+ 				 const struct drm_property_blob *blob)
  {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	int clock;
- 
- 	if (IS_PINEVIEW(i915))
-@@ -1104,7 +1104,7 @@ static u32 i9xx_hz_to_pwm(struct intel_connector *connector, u32 pwm_freq_hz)
-  */
- static u32 i965_hz_to_pwm(struct intel_connector *connector, u32 pwm_freq_hz)
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	const struct drm_color_lut *lut = blob->data;
+ 	int i, lut_size = drm_color_lut_size(blob);
+ 	enum pipe pipe = crtc->pipe;
+@@ -1733,7 +1733,7 @@ static void chv_cgm_gamma_pack(struct drm_color_lut *entry, u32 ldw, u32 udw)
+ static void chv_load_cgm_gamma(struct intel_crtc *crtc,
+ 			       const struct drm_property_blob *blob)
  {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	int clock;
- 
- 	if (IS_G4X(i915))
-@@ -1122,7 +1122,7 @@ static u32 i965_hz_to_pwm(struct intel_connector *connector, u32 pwm_freq_hz)
-  */
- static u32 vlv_hz_to_pwm(struct intel_connector *connector, u32 pwm_freq_hz)
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	const struct drm_color_lut *lut = blob->data;
+ 	int i, lut_size = drm_color_lut_size(blob);
+ 	enum pipe pipe = crtc->pipe;
+@@ -1749,7 +1749,7 @@ static void chv_load_cgm_gamma(struct intel_crtc *crtc,
+ static void chv_load_luts(const struct intel_crtc_state *crtc_state)
  {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	int mul, clock;
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	const struct drm_property_blob *pre_csc_lut = crtc_state->pre_csc_lut;
+ 	const struct drm_property_blob *post_csc_lut = crtc_state->post_csc_lut;
  
- 	if ((intel_de_read(i915, CBR1_VLV) & CBR_PWM_CLOCK_MUX_SELECT) == 0) {
-@@ -1141,7 +1141,7 @@ static u32 vlv_hz_to_pwm(struct intel_connector *connector, u32 pwm_freq_hz)
+@@ -1770,14 +1770,14 @@ static void chv_load_luts(const struct intel_crtc_state *crtc_state)
  
- static u16 get_vbt_pwm_freq(struct intel_connector *connector)
+ void intel_color_load_luts(const struct intel_crtc_state *crtc_state)
  {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	u16 pwm_freq_hz = connector->panel.vbt.backlight.pwm_freq_hz;
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
  
- 	if (pwm_freq_hz) {
-@@ -1160,7 +1160,7 @@ static u16 get_vbt_pwm_freq(struct intel_connector *connector)
- 
- static u32 get_backlight_max_vbt(struct intel_connector *connector)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	u16 pwm_freq_hz = get_vbt_pwm_freq(connector);
- 	u32 pwm;
-@@ -1186,7 +1186,7 @@ static u32 get_backlight_max_vbt(struct intel_connector *connector)
-  */
- static u32 get_backlight_min_vbt(struct intel_connector *connector)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	int min;
- 
-@@ -1212,7 +1212,7 @@ static u32 get_backlight_min_vbt(struct intel_connector *connector)
- 
- static int lpt_setup_backlight(struct intel_connector *connector, enum pipe unused)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	u32 cpu_ctl2, pch_ctl1, pch_ctl2, val;
- 	bool alt, cpu_mode;
-@@ -1269,7 +1269,7 @@ static int lpt_setup_backlight(struct intel_connector *connector, enum pipe unus
- 
- static int pch_setup_backlight(struct intel_connector *connector, enum pipe unused)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	u32 cpu_ctl2, pch_ctl1, pch_ctl2;
- 
-@@ -1300,7 +1300,7 @@ static int pch_setup_backlight(struct intel_connector *connector, enum pipe unus
- 
- static int i9xx_setup_backlight(struct intel_connector *connector, enum pipe unused)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	u32 ctl, val;
- 
-@@ -1342,7 +1342,7 @@ static int i9xx_setup_backlight(struct intel_connector *connector, enum pipe unu
- 
- static int i965_setup_backlight(struct intel_connector *connector, enum pipe unused)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	u32 ctl, ctl2;
- 
-@@ -1375,7 +1375,7 @@ static int i965_setup_backlight(struct intel_connector *connector, enum pipe unu
- 
- static int vlv_setup_backlight(struct intel_connector *connector, enum pipe pipe)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	u32 ctl, ctl2;
- 
-@@ -1408,7 +1408,7 @@ static int vlv_setup_backlight(struct intel_connector *connector, enum pipe pipe
- static int
- bxt_setup_backlight(struct intel_connector *connector, enum pipe unused)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	u32 pwm_ctl, val;
- 
-@@ -1473,7 +1473,7 @@ static bool cnp_backlight_controller_is_valid(struct drm_i915_private *i915, int
- static int
- cnp_setup_backlight(struct intel_connector *connector, enum pipe unused)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	u32 pwm_ctl;
- 
-@@ -1517,7 +1517,7 @@ cnp_setup_backlight(struct intel_connector *connector, enum pipe unused)
- static int ext_pwm_setup_backlight(struct intel_connector *connector,
- 				   enum pipe pipe)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	const char *desc;
- 	u32 level;
-@@ -1626,7 +1626,7 @@ void intel_backlight_update(struct intel_atomic_state *state,
- 			    const struct drm_connector_state *conn_state)
- {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 
- 	if (!panel->backlight.present)
-@@ -1641,7 +1641,7 @@ void intel_backlight_update(struct intel_atomic_state *state,
- 
- int intel_backlight_setup(struct intel_connector *connector, enum pipe pipe)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	int ret;
- 
-@@ -1787,7 +1787,7 @@ void intel_backlight_init_funcs(struct intel_panel *panel)
- {
- 	struct intel_connector *connector =
- 		container_of(panel, struct intel_connector, panel);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 
- 	if (connector->base.connector_type == DRM_MODE_CONNECTOR_DSI &&
- 	    intel_dsi_dcs_init_backlight_funcs(connector) == 0)
-diff --git a/drivers/gpu/drm/i915/display/intel_connector.c b/drivers/gpu/drm/i915/display/intel_connector.c
-index ff3bcadebe59..53d6591f1308 100644
---- a/drivers/gpu/drm/i915/display/intel_connector.c
-+++ b/drivers/gpu/drm/i915/display/intel_connector.c
-@@ -118,7 +118,7 @@ int intel_connector_register(struct drm_connector *connector)
- 	if (ret)
- 		goto err;
- 
--	if (i915_inject_probe_failure(to_i915(connector->dev))) {
-+	if (i915_inject_probe_failure(to_i915(connector->drm))) {
- 		ret = -EFAULT;
- 		goto err_backlight;
- 	}
-@@ -162,7 +162,7 @@ bool intel_connector_get_hw_state(struct intel_connector *connector)
- 
- enum pipe intel_connector_get_pipe(struct intel_connector *connector)
- {
--	struct drm_device *dev = connector->base.dev;
-+	struct drm_device *dev = connector->base.drm;
- 
- 	drm_WARN_ON(dev,
- 		    !drm_modeset_is_locked(&dev->mode_config.connection_mutex));
-@@ -222,7 +222,7 @@ static const struct drm_prop_enum_list force_audio_names[] = {
- void
- intel_attach_force_audio_property(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_i915_private *dev_priv = to_i915(dev);
- 	struct drm_property *prop;
- 
-@@ -249,7 +249,7 @@ static const struct drm_prop_enum_list broadcast_rgb_names[] = {
- void
- intel_attach_broadcast_rgb_property(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_i915_private *dev_priv = to_i915(dev);
- 	struct drm_property *prop;
- 
-@@ -271,9 +271,9 @@ intel_attach_broadcast_rgb_property(struct drm_connector *connector)
- void
- intel_attach_aspect_ratio_property(struct drm_connector *connector)
- {
--	if (!drm_mode_create_aspect_ratio_property(connector->dev))
-+	if (!drm_mode_create_aspect_ratio_property(connector->drm))
- 		drm_object_attach_property(&connector->base,
--			connector->dev->mode_config.aspect_ratio_property,
-+			connector->drm->mode_config.aspect_ratio_property,
- 			DRM_MODE_PICTURE_ASPECT_NONE);
+ 	i915->display.funcs.color->load_luts(crtc_state);
  }
  
-@@ -294,7 +294,7 @@ intel_attach_dp_colorspace_property(struct drm_connector *connector)
- void
- intel_attach_scaling_mode_property(struct drm_connector *connector)
+ void intel_color_commit_noarm(const struct intel_crtc_state *crtc_state)
  {
--	struct drm_i915_private *i915 = to_i915(connector->dev);
-+	struct drm_i915_private *i915 = to_i915(connector->drm);
- 	u32 scaling_modes;
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
  
- 	scaling_modes = BIT(DRM_MODE_SCALE_ASPECT) |
-diff --git a/drivers/gpu/drm/i915/display/intel_crt.c b/drivers/gpu/drm/i915/display/intel_crt.c
-index ab7cd5e60a0a..608ec14776d5 100644
---- a/drivers/gpu/drm/i915/display/intel_crt.c
-+++ b/drivers/gpu/drm/i915/display/intel_crt.c
-@@ -345,7 +345,7 @@ static enum drm_mode_status
- intel_crt_mode_valid(struct drm_connector *connector,
- 		     struct drm_display_mode *mode)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_i915_private *dev_priv = to_i915(dev);
- 	int max_dotclk = dev_priv->max_dotclk_freq;
- 	int max_clock;
-@@ -458,7 +458,7 @@ static int hsw_crt_compute_config(struct intel_encoder *encoder,
+ 	if (i915->display.funcs.color->color_commit_noarm)
+ 		i915->display.funcs.color->color_commit_noarm(crtc_state);
+@@ -1785,14 +1785,14 @@ void intel_color_commit_noarm(const struct intel_crtc_state *crtc_state)
  
- static bool ilk_crt_detect_hotplug(struct drm_connector *connector)
+ void intel_color_commit_arm(const struct intel_crtc_state *crtc_state)
  {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct intel_crt *crt = intel_attached_crt(to_intel_connector(connector));
- 	struct drm_i915_private *dev_priv = to_i915(dev);
- 	u32 adpa;
-@@ -508,7 +508,7 @@ static bool ilk_crt_detect_hotplug(struct drm_connector *connector)
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
  
- static bool valleyview_crt_detect_hotplug(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct intel_crt *crt = intel_attached_crt(to_intel_connector(connector));
- 	struct drm_i915_private *dev_priv = to_i915(dev);
- 	bool reenable_hpd;
-@@ -563,7 +563,7 @@ static bool valleyview_crt_detect_hotplug(struct drm_connector *connector)
+ 	i915->display.funcs.color->color_commit_arm(crtc_state);
+ }
  
- static bool intel_crt_detect_hotplug(struct drm_connector *connector)
+ void intel_color_post_update(const struct intel_crtc_state *crtc_state)
  {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_i915_private *dev_priv = to_i915(dev);
- 	u32 stat;
- 	bool ret = false;
-@@ -617,7 +617,7 @@ static const struct drm_edid *intel_crt_get_edid(struct drm_connector *connector
- 	drm_edid = drm_edid_read_ddc(connector, i2c);
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
  
- 	if (!drm_edid && !intel_gmbus_is_forced_bit(i2c)) {
--		drm_dbg_kms(connector->dev,
-+		drm_dbg_kms(connector->drm,
- 			    "CRT GMBUS EDID read failed, retry using GPIO bit-banging\n");
- 		intel_gmbus_force_bit(i2c, true);
- 		drm_edid = drm_edid_read_ddc(connector, i2c);
-@@ -823,7 +823,7 @@ intel_crt_detect(struct drm_connector *connector,
- 		 struct drm_modeset_acquire_ctx *ctx,
- 		 bool force)
- {
--	struct drm_i915_private *dev_priv = to_i915(connector->dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->drm);
- 	struct intel_crt *crt = intel_attached_crt(to_intel_connector(connector));
- 	struct intel_encoder *intel_encoder = &crt->base;
- 	struct drm_atomic_state *state;
-@@ -918,7 +918,7 @@ intel_crt_detect(struct drm_connector *connector,
+ 	if (i915->display.funcs.color->color_post_update)
+ 		i915->display.funcs.color->color_post_update(crtc_state);
+@@ -1865,14 +1865,14 @@ static bool chv_can_preload_luts(const struct intel_crtc_state *new_crtc_state)
  
- static int intel_crt_get_modes(struct drm_connector *connector)
+ int intel_color_check(struct intel_crtc_state *crtc_state)
  {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_i915_private *dev_priv = to_i915(dev);
- 	struct intel_crt *crt = intel_attached_crt(to_intel_connector(connector));
- 	struct intel_encoder *intel_encoder = &crt->base;
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 
+ 	return i915->display.funcs.color->color_check(crtc_state);
+ }
+ 
+ void intel_color_get_config(struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 
+ 	i915->display.funcs.color->read_luts(crtc_state);
+ 
+@@ -1885,7 +1885,7 @@ bool intel_color_lut_equal(const struct intel_crtc_state *crtc_state,
+ 			   const struct drm_property_blob *blob2,
+ 			   bool is_pre_csc_lut)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 
+ 	/*
+ 	 * FIXME c8_planes readout missing thus
+@@ -1917,7 +1917,7 @@ static int
+ intel_color_add_affected_planes(struct intel_crtc_state *new_crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(new_crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	struct intel_atomic_state *state =
+ 		to_intel_atomic_state(new_crtc_state->uapi.state);
+ 	const struct intel_crtc_state *old_crtc_state =
+@@ -1956,7 +1956,7 @@ intel_color_add_affected_planes(struct intel_crtc_state *new_crtc_state)
+ 
+ static u32 intel_gamma_lut_tests(const struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	const struct drm_property_blob *gamma_lut = crtc_state->hw.gamma_lut;
+ 
+ 	if (lut_is_legacy(gamma_lut))
+@@ -1967,14 +1967,14 @@ static u32 intel_gamma_lut_tests(const struct intel_crtc_state *crtc_state)
+ 
+ static u32 intel_degamma_lut_tests(const struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 
+ 	return DISPLAY_INFO(i915)->color.degamma_lut_tests;
+ }
+ 
+ static int intel_gamma_lut_size(const struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	const struct drm_property_blob *gamma_lut = crtc_state->hw.gamma_lut;
+ 
+ 	if (lut_is_legacy(gamma_lut))
+@@ -1985,7 +1985,7 @@ static int intel_gamma_lut_size(const struct intel_crtc_state *crtc_state)
+ 
+ static u32 intel_degamma_lut_size(const struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 
+ 	return DISPLAY_INFO(i915)->color.degamma_lut_size;
+ }
+@@ -2010,7 +2010,7 @@ static int check_lut_size(const struct drm_property_blob *lut, int expected)
+ static int _check_luts(const struct intel_crtc_state *crtc_state,
+ 		       u32 degamma_tests, u32 gamma_tests)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	const struct drm_property_blob *gamma_lut = crtc_state->hw.gamma_lut;
+ 	const struct drm_property_blob *degamma_lut = crtc_state->hw.degamma_lut;
+ 	int gamma_length, degamma_length;
+@@ -2078,7 +2078,7 @@ static int i9xx_check_lut_10(struct drm_i915_private *dev_priv,
+ 
+ void intel_color_assert_luts(const struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 
+ 	/* make sure {pre,post}_csc_lut were correctly assigned */
+ 	if (DISPLAY_VER(i915) >= 11 || HAS_GMCH(i915)) {
+@@ -2116,7 +2116,7 @@ static void intel_assign_luts(struct intel_crtc_state *crtc_state)
+ 
+ static int i9xx_color_check(struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	int ret;
+ 
+ 	ret = check_luts(crtc_state);
+@@ -2292,7 +2292,7 @@ static u32 ilk_csc_mode(const struct intel_crtc_state *crtc_state)
+ 
+ static int ilk_assign_luts(struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 
+ 	if (ilk_lut_limited_range(crtc_state)) {
+ 		struct drm_property_blob *gamma_lut;
+@@ -2330,7 +2330,7 @@ static int ilk_assign_luts(struct intel_crtc_state *crtc_state)
+ 
+ static int ilk_color_check(struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	int ret;
+ 
+ 	ret = check_luts(crtc_state);
+@@ -2399,7 +2399,7 @@ static u32 ivb_csc_mode(const struct intel_crtc_state *crtc_state)
+ 
+ static int ivb_assign_luts(struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	struct drm_property_blob *degamma_lut, *gamma_lut;
+ 
+ 	if (crtc_state->gamma_mode != GAMMA_MODE_MODE_SPLIT)
+@@ -2431,7 +2431,7 @@ static int ivb_assign_luts(struct intel_crtc_state *crtc_state)
+ 
+ static int ivb_color_check(struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	int ret;
+ 
+ 	ret = check_luts(crtc_state);
+@@ -2499,7 +2499,7 @@ static bool glk_use_pre_csc_lut_for_gamma(const struct intel_crtc_state *crtc_st
+ 
+ static int glk_assign_luts(struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 
+ 	if (glk_use_pre_csc_lut_for_gamma(crtc_state)) {
+ 		struct drm_property_blob *gamma_lut;
+@@ -2562,7 +2562,7 @@ static int glk_check_luts(const struct intel_crtc_state *crtc_state)
+ 
+ static int glk_color_check(struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	int ret;
+ 
+ 	ret = glk_check_luts(crtc_state);
+@@ -2617,7 +2617,7 @@ static int glk_color_check(struct intel_crtc_state *crtc_state)
+ static u32 icl_gamma_mode(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	u32 gamma_mode = 0;
+ 
+ 	if (crtc_state->hw.degamma_lut)
+@@ -3013,7 +3013,7 @@ static bool icl_lut_equal(const struct intel_crtc_state *crtc_state,
+ 
+ static struct drm_property_blob *i9xx_read_lut_8(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 	struct drm_property_blob *blob;
+ 	struct drm_color_lut *lut;
+@@ -3038,7 +3038,7 @@ static struct drm_property_blob *i9xx_read_lut_8(struct intel_crtc *crtc)
+ 
+ static struct drm_property_blob *i9xx_read_lut_10(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	u32 lut_size = DISPLAY_INFO(dev_priv)->color.gamma_lut_size;
+ 	enum pipe pipe = crtc->pipe;
+ 	struct drm_property_blob *blob;
+@@ -3087,7 +3087,7 @@ static void i9xx_read_luts(struct intel_crtc_state *crtc_state)
+ 
+ static struct drm_property_blob *i965_read_lut_10p6(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	int i, lut_size = DISPLAY_INFO(dev_priv)->color.gamma_lut_size;
+ 	enum pipe pipe = crtc->pipe;
+ 	struct drm_property_blob *blob;
+@@ -3137,7 +3137,7 @@ static void i965_read_luts(struct intel_crtc_state *crtc_state)
+ 
+ static struct drm_property_blob *chv_read_cgm_degamma(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	int i, lut_size = DISPLAY_INFO(dev_priv)->color.degamma_lut_size;
+ 	enum pipe pipe = crtc->pipe;
+ 	struct drm_property_blob *blob;
+@@ -3163,7 +3163,7 @@ static struct drm_property_blob *chv_read_cgm_degamma(struct intel_crtc *crtc)
+ 
+ static struct drm_property_blob *chv_read_cgm_gamma(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	int i, lut_size = DISPLAY_INFO(i915)->color.gamma_lut_size;
+ 	enum pipe pipe = crtc->pipe;
+ 	struct drm_property_blob *blob;
+@@ -3202,7 +3202,7 @@ static void chv_read_luts(struct intel_crtc_state *crtc_state)
+ 
+ static struct drm_property_blob *ilk_read_lut_8(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 	struct drm_property_blob *blob;
+ 	struct drm_color_lut *lut;
+@@ -3227,7 +3227,7 @@ static struct drm_property_blob *ilk_read_lut_8(struct intel_crtc *crtc)
+ 
+ static struct drm_property_blob *ilk_read_lut_10(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	int i, lut_size = DISPLAY_INFO(i915)->color.gamma_lut_size;
+ 	enum pipe pipe = crtc->pipe;
+ 	struct drm_property_blob *blob;
+@@ -3281,7 +3281,7 @@ static void ilk_read_luts(struct intel_crtc_state *crtc_state)
+ static struct drm_property_blob *ivb_read_lut_10(struct intel_crtc *crtc,
+ 						 u32 prec_index)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	int i, lut_size = ivb_lut_10_size(prec_index);
+ 	enum pipe pipe = crtc->pipe;
+ 	struct drm_property_blob *blob;
+@@ -3346,7 +3346,7 @@ static void ivb_read_luts(struct intel_crtc_state *crtc_state)
+ static struct drm_property_blob *bdw_read_lut_10(struct intel_crtc *crtc,
+ 						 u32 prec_index)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	int i, lut_size = ivb_lut_10_size(prec_index);
+ 	enum pipe pipe = crtc->pipe;
+ 	struct drm_property_blob *blob;
+@@ -3411,7 +3411,7 @@ static void bdw_read_luts(struct intel_crtc_state *crtc_state)
+ 
+ static struct drm_property_blob *glk_read_degamma_lut(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	int i, lut_size = DISPLAY_INFO(dev_priv)->color.degamma_lut_size;
+ 	enum pipe pipe = crtc->pipe;
+ 	struct drm_property_blob *blob;
+@@ -3476,7 +3476,7 @@ static void glk_read_luts(struct intel_crtc_state *crtc_state)
+ static struct drm_property_blob *
+ icl_read_lut_multi_segment(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	int i, lut_size = DISPLAY_INFO(i915)->color.gamma_lut_size;
+ 	enum pipe pipe = crtc->pipe;
+ 	struct drm_property_blob *blob;
+@@ -3658,7 +3658,7 @@ static const struct intel_color_funcs ilk_color_funcs = {
+ 
+ void intel_color_crtc_init(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	int degamma_lut_size, gamma_lut_size;
+ 	bool has_ctm;
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_crtc.c b/drivers/gpu/drm/i915/display/intel_crtc.c
+index 182c6dd64f47..5540e5d2853a 100644
+--- a/drivers/gpu/drm/i915/display/intel_crtc.c
++++ b/drivers/gpu/drm/i915/display/intel_crtc.c
+@@ -35,7 +35,7 @@
+ 
+ static void assert_vblank_disabled(struct drm_crtc *crtc)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc->drm);
+ 
+ 	if (I915_STATE_WARN(i915, drm_crtc_vblank_get(crtc) == 0,
+ 			    "[CRTC:%d:%s] vblank assertion failure (expected off, current on)\n",
+@@ -77,7 +77,7 @@ void intel_wait_for_vblank_if_active(struct drm_i915_private *i915,
+ 
+ u32 intel_crtc_get_vblank_counter(struct intel_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct drm_vblank_crtc *vblank = &dev->vblank[drm_crtc_index(&crtc->base)];
+ 
+ 	if (!crtc->active)
+@@ -91,7 +91,7 @@ u32 intel_crtc_get_vblank_counter(struct intel_crtc *crtc)
+ 
+ u32 intel_crtc_max_vblank_count(const struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 
+ 	/*
+ 	 * From Gen 11, In case of dsi cmd mode, frame counter wouldnt
+@@ -409,10 +409,10 @@ static void intel_crtc_vblank_work(struct kthread_work *base)
+ 	intel_color_load_luts(crtc_state);
+ 
+ 	if (crtc_state->uapi.event) {
+-		spin_lock_irq(&crtc->base.dev->event_lock);
++		spin_lock_irq(&crtc->base.drm->event_lock);
+ 		drm_crtc_send_vblank_event(&crtc->base, crtc_state->uapi.event);
+ 		crtc_state->uapi.event = NULL;
+-		spin_unlock_irq(&crtc->base.dev->event_lock);
++		spin_unlock_irq(&crtc->base.drm->event_lock);
+ 	}
+ 
+ 	trace_intel_crtc_vblank_work_end(crtc);
+@@ -483,7 +483,7 @@ static int intel_mode_vblank_start(const struct drm_display_mode *mode)
+ void intel_pipe_update_start(struct intel_crtc_state *new_crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(new_crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	const struct drm_display_mode *adjusted_mode = &new_crtc_state->hw.adjusted_mode;
+ 	long timeout = msecs_to_jiffies_timeout(1);
+ 	int scanline, min, max, vblank_start;
+@@ -617,7 +617,7 @@ static void dbg_vblank_evade(struct intel_crtc *crtc, ktime_t end)
+ 		crtc->debug.vbl.max = delta;
+ 
+ 	if (delta > 1000 * VBLANK_EVASION_TIME_US) {
+-		drm_dbg_kms(crtc->base.dev,
++		drm_dbg_kms(crtc->base.drm,
+ 			    "Atomic update on pipe (%c) took %lld us, max time under evasion is %u us\n",
+ 			    pipe_name(crtc->pipe),
+ 			    div_u64(delta, 1000),
+@@ -644,7 +644,7 @@ void intel_pipe_update_end(struct intel_crtc_state *new_crtc_state)
+ 	int scanline_end = intel_get_crtc_scanline(crtc);
+ 	u32 end_vbl_count = intel_crtc_get_vblank_counter(crtc);
+ 	ktime_t end_vbl_time = ktime_get();
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 
+ 	intel_psr_unlock(new_crtc_state);
+ 
+@@ -673,10 +673,10 @@ void intel_pipe_update_end(struct intel_crtc_state *new_crtc_state)
+ 		drm_WARN_ON(&dev_priv->drm,
+ 			    drm_crtc_vblank_get(&crtc->base) != 0);
+ 
+-		spin_lock(&crtc->base.dev->event_lock);
++		spin_lock(&crtc->base.drm->event_lock);
+ 		drm_crtc_arm_vblank_event(&crtc->base,
+ 					  new_crtc_state->uapi.event);
+-		spin_unlock(&crtc->base.dev->event_lock);
++		spin_unlock(&crtc->base.drm->event_lock);
+ 
+ 		new_crtc_state->uapi.event = NULL;
+ 	}
+diff --git a/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c b/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
+index 8d4640d0fd34..b3eb7c38acd9 100644
+--- a/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
++++ b/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
+@@ -31,7 +31,7 @@ intel_dump_m_n_config(const struct intel_crtc_state *pipe_config,
+ 		      const char *id, unsigned int lane_count,
+ 		      const struct intel_link_m_n *m_n)
+ {
+-	struct drm_i915_private *i915 = to_i915(pipe_config->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(pipe_config->uapi.crtc->drm);
+ 
+ 	drm_dbg_kms(&i915->drm,
+ 		    "%s: lanes: %i; data_m: %u, data_n: %u, link_m: %u, link_n: %u, tu: %u\n",
+@@ -202,7 +202,7 @@ void intel_crtc_state_dump(const struct intel_crtc_state *pipe_config,
+ 			   const char *context)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(pipe_config->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	const struct intel_plane_state *plane_state;
+ 	struct intel_plane *plane;
+ 	char buf[64];
+diff --git a/drivers/gpu/drm/i915/display/intel_cursor.c b/drivers/gpu/drm/i915/display/intel_cursor.c
+index b342fad180ca..b095fd85717f 100644
+--- a/drivers/gpu/drm/i915/display/intel_cursor.c
++++ b/drivers/gpu/drm/i915/display/intel_cursor.c
+@@ -333,7 +333,7 @@ i9xx_cursor_max_stride(struct intel_plane *plane,
+ static u32 i9xx_cursor_ctl_crtc(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	u32 cntl = 0;
+ 
+ 	if (DISPLAY_VER(dev_priv) >= 11)
 diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-index e60baa96a7ae..7ada98354b17 100644
+index 7ada98354b17..26955a3efb3e 100644
 --- a/drivers/gpu/drm/i915/display/intel_ddi.c
 +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-@@ -688,7 +688,7 @@ int intel_ddi_toggle_hdcp_bits(struct intel_encoder *intel_encoder,
+@@ -383,7 +383,7 @@ void intel_ddi_set_dp_msa(const struct intel_crtc_state *crtc_state,
+ 			  const struct drm_connector_state *conn_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
+ 	u32 temp;
  
- bool intel_ddi_connector_get_hw_state(struct intel_connector *intel_connector)
+@@ -472,7 +472,7 @@ intel_ddi_transcoder_func_reg_val_get(struct intel_encoder *encoder,
+ 				      const struct intel_crtc_state *crtc_state)
  {
--	struct drm_device *dev = intel_connector->base.dev;
-+	struct drm_device *dev = intel_connector->base.drm;
- 	struct drm_i915_private *dev_priv = to_i915(dev);
- 	struct intel_encoder *encoder = intel_attached_encoder(intel_connector);
- 	int type = intel_connector->base.connector_type;
-diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-index 165e2c7e3126..53d577a71c2b 100644
---- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-+++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-@@ -1125,7 +1125,7 @@ DEFINE_SHOW_ATTRIBUTE(i915_panel);
- static int i915_hdcp_sink_capability_show(struct seq_file *m, void *data)
- {
- 	struct drm_connector *connector = m->private;
--	struct drm_i915_private *i915 = to_i915(connector->dev);
-+	struct drm_i915_private *i915 = to_i915(connector->drm);
- 	struct intel_connector *intel_connector = to_intel_connector(connector);
- 	int ret;
- 
-@@ -1152,7 +1152,7 @@ DEFINE_SHOW_ATTRIBUTE(i915_hdcp_sink_capability);
- static int i915_lpsp_capability_show(struct seq_file *m, void *data)
- {
- 	struct drm_connector *connector = m->private;
--	struct drm_i915_private *i915 = to_i915(connector->dev);
-+	struct drm_i915_private *i915 = to_i915(connector->drm);
- 	struct intel_encoder *encoder;
- 	bool lpsp_capable = false;
- 
-@@ -1192,7 +1192,7 @@ DEFINE_SHOW_ATTRIBUTE(i915_lpsp_capability);
- static int i915_dsc_fec_support_show(struct seq_file *m, void *data)
- {
- 	struct drm_connector *connector = m->private;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_crtc *crtc;
- 	struct intel_dp *intel_dp;
- 	struct drm_modeset_acquire_ctx ctx;
-@@ -1304,7 +1304,7 @@ static const struct file_operations i915_dsc_fec_support_fops = {
- static int i915_dsc_bpc_show(struct seq_file *m, void *data)
- {
- 	struct drm_connector *connector = m->private;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_crtc *crtc;
- 	struct intel_crtc_state *crtc_state;
- 	struct intel_encoder *encoder = intel_attached_encoder(to_intel_connector(connector));
-@@ -1370,7 +1370,7 @@ static const struct file_operations i915_dsc_bpc_fops = {
- static int i915_dsc_output_format_show(struct seq_file *m, void *data)
- {
- 	struct drm_connector *connector = m->private;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_crtc *crtc;
- 	struct intel_crtc_state *crtc_state;
- 	struct intel_encoder *encoder = intel_attached_encoder(to_intel_connector(connector));
-@@ -1479,7 +1479,7 @@ void intel_connector_debugfs_add(struct intel_connector *intel_connector)
- {
- 	struct drm_connector *connector = &intel_connector->base;
- 	struct dentry *root = connector->debugfs_entry;
--	struct drm_i915_private *dev_priv = to_i915(connector->dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->drm);
- 
- 	/* The connector must have been registered beforehands. */
- 	if (!root)
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 8aec1cfd53b8..0cd561603ee1 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -1108,7 +1108,7 @@ intel_dp_mode_valid(struct drm_connector *_connector,
- {
- 	struct intel_connector *connector = to_intel_connector(_connector);
- 	struct intel_dp *intel_dp = intel_attached_dp(connector);
--	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->base.drm);
- 	const struct drm_display_mode *fixed_mode;
- 	int target_clock = mode->clock;
- 	int max_rate, mode_rate, max_lanes, max_link_clock;
-@@ -1439,7 +1439,7 @@ intel_dp_adjust_compliance_config(struct intel_dp *intel_dp,
- 
- static bool has_seamless_m_n(struct intel_connector *connector)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 
- 	/*
- 	 * Seamless M/N reprogramming only implemented
-@@ -2099,7 +2099,7 @@ static bool can_enable_drrs(struct intel_connector *connector,
- 			    const struct intel_crtc_state *pipe_config,
- 			    const struct drm_display_mode *downclock_mode)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 
- 	if (pipe_config->vrr.enable)
- 		return false;
-@@ -2129,7 +2129,7 @@ intel_dp_drrs_compute_config(struct intel_connector *connector,
- 			     struct intel_crtc_state *pipe_config,
- 			     int output_bpp)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	const struct drm_display_mode *downclock_mode =
- 		intel_panel_downclock_mode(connector, &pipe_config->hw.adjusted_mode);
- 	int pixel_clock;
-@@ -3011,7 +3011,7 @@ static void intel_edp_mso_mode_fixup(struct intel_connector *connector,
- 				     struct drm_display_mode *mode)
- {
- 	struct intel_dp *intel_dp = intel_attached_dp(connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	int n = intel_dp->mso_link_count;
- 	int overlap = intel_dp->mso_pixel_overlap;
- 
-@@ -4851,7 +4851,7 @@ intel_dp_detect(struct drm_connector *connector,
- 		struct drm_modeset_acquire_ctx *ctx,
- 		bool force)
- {
--	struct drm_i915_private *dev_priv = to_i915(connector->dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->drm);
- 	struct intel_dp *intel_dp = intel_attached_dp(to_intel_connector(connector));
- 	struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
- 	struct intel_encoder *encoder = &dig_port->base;
-@@ -5006,7 +5006,7 @@ static int intel_dp_get_modes(struct drm_connector *connector)
- 		struct intel_dp *intel_dp = intel_attached_dp(intel_connector);
- 		struct drm_display_mode *mode;
- 
--		mode = drm_dp_downstream_mode(connector->dev,
-+		mode = drm_dp_downstream_mode(connector->drm,
- 					      intel_dp->dpcd,
- 					      intel_dp->downstream_ports);
- 		if (mode) {
-@@ -5021,7 +5021,7 @@ static int intel_dp_get_modes(struct drm_connector *connector)
- static int
- intel_dp_connector_register(struct drm_connector *connector)
- {
--	struct drm_i915_private *i915 = to_i915(connector->dev);
-+	struct drm_i915_private *i915 = to_i915(connector->drm);
- 	struct intel_dp *intel_dp = intel_attached_dp(to_intel_connector(connector));
- 	struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
- 	struct intel_lspcon *lspcon = &dig_port->lspcon;
-@@ -5208,7 +5208,7 @@ static int intel_modeset_synced_crtcs(struct intel_atomic_state *state,
- static int intel_dp_connector_atomic_check(struct drm_connector *conn,
- 					   struct drm_atomic_state *_state)
- {
--	struct drm_i915_private *dev_priv = to_i915(conn->dev);
-+	struct drm_i915_private *dev_priv = to_i915(conn->drm);
- 	struct intel_atomic_state *state = to_intel_atomic_state(_state);
- 	struct drm_connector_state *conn_state = drm_atomic_get_new_connector_state(_state, conn);
- 	struct intel_connector *intel_conn = to_intel_connector(conn);
-@@ -5247,7 +5247,7 @@ static int intel_dp_connector_atomic_check(struct drm_connector *conn,
- static void intel_dp_oob_hotplug_event(struct drm_connector *connector)
- {
- 	struct intel_encoder *encoder = intel_attached_encoder(to_intel_connector(connector));
--	struct drm_i915_private *i915 = to_i915(connector->dev);
-+	struct drm_i915_private *i915 = to_i915(connector->drm);
- 
- 	spin_lock_irq(&i915->irq_lock);
- 	i915->display.hotplug.event_bits |= BIT(encoder->hpd_pin);
-@@ -5367,7 +5367,7 @@ has_gamut_metadata_dip(struct intel_encoder *encoder)
- static void
- intel_dp_add_properties(struct intel_dp *intel_dp, struct drm_connector *connector)
- {
--	struct drm_i915_private *dev_priv = to_i915(connector->dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->drm);
- 	enum port port = dp_to_dig_port(intel_dp)->base.port;
- 
- 	if (!intel_dp_is_edp(intel_dp))
-@@ -5401,7 +5401,7 @@ static void
- intel_edp_add_properties(struct intel_dp *intel_dp)
- {
- 	struct intel_connector *connector = intel_dp->attached_connector;
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	const struct drm_display_mode *fixed_mode =
- 		intel_panel_preferred_fixed_mode(connector);
- 
-@@ -5588,17 +5588,17 @@ static void intel_dp_modeset_retry_work_fn(struct work_struct *work)
- 	intel_connector = container_of(work, typeof(*intel_connector),
- 				       modeset_retry_work);
- 	connector = &intel_connector->base;
--	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s]\n", connector->base.id,
-+	drm_dbg_kms(connector->drm, "[CONNECTOR:%d:%s]\n", connector->base.id,
- 		    connector->name);
- 
- 	/* Grab the locks before changing connector property*/
--	mutex_lock(&connector->dev->mode_config.mutex);
-+	mutex_lock(&connector->drm->mode_config.mutex);
- 	/* Set connector link status to BAD and send a Uevent to notify
- 	 * userspace to do a modeset.
- 	 */
- 	drm_connector_set_link_status_property(connector,
- 					       DRM_MODE_LINK_STATUS_BAD);
--	mutex_unlock(&connector->dev->mode_config.mutex);
-+	mutex_unlock(&connector->drm->mode_config.mutex);
- 	/* Send Hotplug uevent so userspace can reprobe */
- 	drm_kms_helper_connector_hotplug_event(connector);
- }
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-index 95cc5251843e..64907a3af0cc 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-@@ -114,7 +114,7 @@ static bool is_intel_tcon_cap(const u8 tcon_cap[4])
- static bool
- intel_dp_aux_supports_hdr_backlight(struct intel_connector *connector)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
- 	struct drm_dp_aux *aux = &intel_dp->aux;
- 	struct intel_panel *panel = &connector->panel;
-@@ -165,7 +165,7 @@ intel_dp_aux_supports_hdr_backlight(struct intel_connector *connector)
- static u32
- intel_dp_aux_hdr_get_backlight(struct intel_connector *connector, enum pipe pipe)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
- 	u8 tmp;
-@@ -202,7 +202,7 @@ static void
- intel_dp_aux_hdr_set_aux_backlight(const struct drm_connector_state *conn_state, u32 level)
- {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
--	struct drm_device *dev = connector->base.dev;
-+	struct drm_device *dev = connector->base.drm;
- 	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
- 	u8 buf[4] = { 0 };
- 
-@@ -236,7 +236,7 @@ intel_dp_aux_hdr_enable_backlight(const struct intel_crtc_state *crtc_state,
- {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
- 	struct intel_panel *panel = &connector->panel;
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
- 	int ret;
- 	u8 old_ctrl, ctrl;
-@@ -290,7 +290,7 @@ static const char *dpcd_vs_pwm_str(bool aux)
- static int
- intel_dp_aux_hdr_setup_backlight(struct intel_connector *connector, enum pipe pipe)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 	struct drm_luminance_range_info *luminance_range =
- 		&connector->base.display_info.luminance_range;
-@@ -480,7 +480,7 @@ static const struct intel_panel_bl_funcs intel_dp_vesa_bl_funcs = {
- 
- int intel_dp_aux_init_backlight_funcs(struct intel_connector *connector)
- {
--	struct drm_device *dev = connector->base.dev;
-+	struct drm_device *dev = connector->base.drm;
- 	struct intel_panel *panel = &connector->panel;
- 	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-index e0c177161407..631d60184b4b 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-@@ -667,7 +667,7 @@ intel_dp_mst_toggle_hdcp_stream_select(struct intel_connector *connector,
- 				       bool enable)
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_hdcp *hdcp = &connector->hdcp;
- 	int ret;
- 
-@@ -685,7 +685,7 @@ intel_dp_mst_hdcp_stream_encryption(struct intel_connector *connector,
- 				    bool enable)
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_hdcp *hdcp = &connector->hdcp;
- 	enum port port = dig_port->base.port;
- 	enum transcoder cpu_transcoder = hdcp->stream_transcoder;
-@@ -719,7 +719,7 @@ intel_dp_mst_hdcp2_stream_encryption(struct intel_connector *connector,
- 				     bool enable)
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
- 	struct intel_hdcp *hdcp = &connector->hdcp;
- 	enum transcoder cpu_transcoder = hdcp->stream_transcoder;
-@@ -796,7 +796,7 @@ static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
- int intel_dp_hdcp_init(struct intel_digital_port *dig_port,
- 		       struct intel_connector *intel_connector)
- {
--	struct drm_device *dev = intel_connector->base.dev;
-+	struct drm_device *dev = intel_connector->base.drm;
- 	struct drm_i915_private *dev_priv = to_i915(dev);
- 	struct intel_encoder *intel_encoder = &dig_port->base;
- 	enum port port = intel_encoder->port;
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-index e4ef3833c1ed..0f327ce194bd 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-@@ -81,7 +81,7 @@ static int intel_dp_mst_find_vcpi_slots_for_bpp(struct intel_encoder *encoder,
- 	struct drm_dp_mst_topology_state *mst_state;
- 	struct intel_connector *connector =
- 		to_intel_connector(conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	const struct drm_display_mode *adjusted_mode =
- 		&crtc_state->hw.adjusted_mode;
- 	int bpp, slots = -EINVAL;
-@@ -183,7 +183,7 @@ static int intel_dp_dsc_mst_compute_link_config(struct intel_encoder *encoder,
- 	struct intel_dp *intel_dp = &intel_mst->primary->dp;
- 	struct intel_connector *connector =
- 		to_intel_connector(conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	const struct drm_display_mode *adjusted_mode =
- 		&crtc_state->hw.adjusted_mode;
- 	int slots = -EINVAL;
-@@ -565,7 +565,7 @@ static void intel_mst_disable_dp(struct intel_atomic_state *state,
- 		drm_atomic_get_mst_payload_state(old_mst_state, connector->port);
- 	struct drm_dp_mst_atomic_payload *new_payload =
- 		drm_atomic_get_mst_payload_state(new_mst_state, connector->port);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 
- 	drm_dbg_kms(&i915->drm, "active links %d\n",
- 		    intel_dp->active_mst_links);
-@@ -588,7 +588,7 @@ static void intel_mst_post_disable_dp(struct intel_atomic_state *state,
- 	struct intel_dp *intel_dp = &dig_port->dp;
- 	struct intel_connector *connector =
- 		to_intel_connector(old_conn_state->connector);
--	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->base.drm);
- 	bool last_mst_stream;
- 
- 	intel_dp->active_mst_links--;
-@@ -902,13 +902,13 @@ intel_dp_mst_mode_valid_ctx(struct drm_connector *connector,
- 			    struct drm_modeset_acquire_ctx *ctx,
- 			    enum drm_mode_status *status)
- {
--	struct drm_i915_private *dev_priv = to_i915(connector->dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->drm);
- 	struct intel_connector *intel_connector = to_intel_connector(connector);
- 	struct intel_dp *intel_dp = intel_connector->mst_port;
- 	struct drm_dp_mst_topology_mgr *mgr = &intel_dp->mst_mgr;
- 	struct drm_dp_mst_port *port = intel_connector->port;
- 	const int min_bpp = 18;
--	int max_dotclk = to_i915(connector->dev)->max_dotclk_freq;
-+	int max_dotclk = to_i915(connector->drm)->max_dotclk_freq;
- 	int max_rate, mode_rate, max_lanes, max_link_clock;
- 	int ret;
- 	bool dsc = false, bigjoiner = false;
-@@ -1014,7 +1014,7 @@ static int
- intel_dp_mst_detect(struct drm_connector *connector,
- 		    struct drm_modeset_acquire_ctx *ctx, bool force)
- {
--	struct drm_i915_private *i915 = to_i915(connector->dev);
-+	struct drm_i915_private *i915 = to_i915(connector->drm);
- 	struct intel_connector *intel_connector = to_intel_connector(connector);
- 	struct intel_dp *intel_dp = intel_connector->mst_port;
- 
-@@ -1063,7 +1063,7 @@ static int intel_dp_mst_add_properties(struct intel_dp *intel_dp,
- 				       struct drm_connector *connector,
- 				       const char *pathprop)
- {
--	struct drm_i915_private *i915 = to_i915(connector->dev);
-+	struct drm_i915_private *i915 = to_i915(connector->drm);
- 
- 	drm_object_attach_property(&connector->base,
- 				   i915->drm.mode_config.path_property, 0);
-diff --git a/drivers/gpu/drm/i915/display/intel_dsi.c b/drivers/gpu/drm/i915/display/intel_dsi.c
-index 5efdd471ac2b..728620531032 100644
---- a/drivers/gpu/drm/i915/display/intel_dsi.c
-+++ b/drivers/gpu/drm/i915/display/intel_dsi.c
-@@ -40,11 +40,11 @@ int intel_dsi_get_modes(struct drm_connector *connector)
- enum drm_mode_status intel_dsi_mode_valid(struct drm_connector *connector,
- 					  struct drm_display_mode *mode)
- {
--	struct drm_i915_private *dev_priv = to_i915(connector->dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->drm);
- 	struct intel_connector *intel_connector = to_intel_connector(connector);
- 	const struct drm_display_mode *fixed_mode =
- 		intel_panel_fixed_mode(intel_connector, mode);
--	int max_dotclk = to_i915(connector->dev)->max_dotclk_freq;
-+	int max_dotclk = to_i915(connector->drm)->max_dotclk_freq;
- 	enum drm_mode_status status;
- 
- 	drm_dbg_kms(&dev_priv->drm, "\n");
-@@ -99,7 +99,7 @@ struct intel_dsi_host *intel_dsi_host_init(struct intel_dsi *intel_dsi,
- enum drm_panel_orientation
- intel_dsi_get_panel_orientation(struct intel_connector *connector)
- {
--	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->base.drm);
- 	enum drm_panel_orientation orientation;
- 
- 	orientation = connector->panel.vbt.dsi.orientation;
-diff --git a/drivers/gpu/drm/i915/display/intel_dsi_dcs_backlight.c b/drivers/gpu/drm/i915/display/intel_dsi_dcs_backlight.c
-index 049443245310..3f2e7ccccef7 100644
---- a/drivers/gpu/drm/i915/display/intel_dsi_dcs_backlight.c
-+++ b/drivers/gpu/drm/i915/display/intel_dsi_dcs_backlight.c
-@@ -162,7 +162,7 @@ static void dcs_enable_backlight(const struct intel_crtc_state *crtc_state,
- static int dcs_setup_backlight(struct intel_connector *connector,
- 			       enum pipe unused)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_panel *panel = &connector->panel;
- 
- 	if (panel->vbt.backlight.brightness_precision_bits > 8)
-@@ -189,7 +189,7 @@ static const struct intel_panel_bl_funcs dcs_bl_funcs = {
- 
- int intel_dsi_dcs_init_backlight_funcs(struct intel_connector *intel_connector)
- {
--	struct drm_device *dev = intel_connector->base.dev;
-+	struct drm_device *dev = intel_connector->base.drm;
- 	struct intel_encoder *encoder = intel_attached_encoder(intel_connector);
- 	struct intel_panel *panel = &intel_connector->panel;
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
-index c7935ea498c4..2668362be33a 100644
---- a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
-+++ b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
-@@ -246,7 +246,7 @@ static const u8 *mipi_exec_delay(struct intel_dsi *intel_dsi, const u8 *data)
- static void vlv_exec_gpio(struct intel_connector *connector,
- 			  u8 gpio_source, u8 gpio_index, bool value)
- {
--	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->base.drm);
- 	struct gpio_map *map;
- 	u16 pconf0, padval;
- 	u32 tmp;
-@@ -294,7 +294,7 @@ static void vlv_exec_gpio(struct intel_connector *connector,
- static void chv_exec_gpio(struct intel_connector *connector,
- 			  u8 gpio_source, u8 gpio_index, bool value)
- {
--	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->base.drm);
- 	u16 cfg0, cfg1;
- 	u16 family_num;
- 	u8 port;
-@@ -348,7 +348,7 @@ static void chv_exec_gpio(struct intel_connector *connector,
- static void bxt_exec_gpio(struct intel_connector *connector,
- 			  u8 gpio_source, u8 gpio_index, bool value)
- {
--	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->base.drm);
- 	/* XXX: this table is a quick ugly hack. */
- 	static struct gpio_desc *bxt_gpio_table[U8_MAX + 1];
- 	struct gpio_desc *gpio_desc = bxt_gpio_table[gpio_index];
-@@ -375,7 +375,7 @@ static void bxt_exec_gpio(struct intel_connector *connector,
- static void icl_exec_gpio(struct intel_connector *connector,
- 			  u8 gpio_source, u8 gpio_index, bool value)
- {
--	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->base.drm);
- 
- 	drm_dbg_kms(&dev_priv->drm, "Skipping ICL GPIO element execution\n");
- }
-diff --git a/drivers/gpu/drm/i915/display/intel_dvo.c b/drivers/gpu/drm/i915/display/intel_dvo.c
-index 9884678743b6..d69f288ce644 100644
---- a/drivers/gpu/drm/i915/display/intel_dvo.c
-+++ b/drivers/gpu/drm/i915/display/intel_dvo.c
-@@ -126,7 +126,7 @@ static struct intel_dvo *intel_attached_dvo(struct intel_connector *connector)
- 
- static bool intel_dvo_connector_get_hw_state(struct intel_connector *connector)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_encoder *encoder = intel_attached_encoder(connector);
- 	struct intel_dvo *intel_dvo = enc_to_dvo(encoder);
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
  	enum port port = encoder->port;
-@@ -220,7 +220,7 @@ intel_dvo_mode_valid(struct drm_connector *_connector,
- 	struct intel_dvo *intel_dvo = intel_attached_dvo(connector);
- 	const struct drm_display_mode *fixed_mode =
- 		intel_panel_fixed_mode(connector, mode);
--	int max_dotclk = to_i915(connector->base.dev)->max_dotclk_freq;
-+	int max_dotclk = to_i915(connector->base.drm)->max_dotclk_freq;
- 	int target_clock = mode->clock;
+@@ -583,7 +583,7 @@ void intel_ddi_enable_transcoder_func(struct intel_encoder *encoder,
+ 				      const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
  
- 	if (mode->flags & DRM_MODE_FLAG_DBLSCAN)
-@@ -313,7 +313,7 @@ static enum drm_connector_status
- intel_dvo_detect(struct drm_connector *_connector, bool force)
+ 	if (DISPLAY_VER(dev_priv) >= 11) {
+@@ -616,7 +616,7 @@ intel_ddi_config_transcoder_func(struct intel_encoder *encoder,
+ 				 const struct intel_crtc_state *crtc_state)
  {
- 	struct intel_connector *connector = to_intel_connector(_connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_dvo *intel_dvo = intel_attached_dvo(connector);
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
+ 	u32 ctl;
  
- 	drm_dbg_kms(&i915->drm, "[CONNECTOR:%d:%s]\n",
-@@ -328,7 +328,7 @@ intel_dvo_detect(struct drm_connector *_connector, bool force)
- static int intel_dvo_get_modes(struct drm_connector *_connector)
+@@ -628,7 +628,7 @@ intel_ddi_config_transcoder_func(struct intel_encoder *encoder,
+ void intel_ddi_disable_transcoder_func(const struct intel_crtc_state *crtc_state)
  {
- 	struct intel_connector *connector = to_intel_connector(_connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	int num_modes;
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
+ 	u32 ctl;
  
- 	/*
-diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-index 5ed450111f77..b7cc69e5c2c3 100644
---- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-@@ -164,7 +164,7 @@ bool intel_hdcp_capable(struct intel_connector *connector)
- bool intel_hdcp2_capable(struct intel_connector *connector)
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_hdcp *hdcp = &connector->hdcp;
- 	bool capable = false;
+@@ -638,7 +638,7 @@ void intel_ddi_disable_transcoder_func(const struct intel_crtc_state *crtc_state
  
-@@ -378,7 +378,7 @@ int intel_hdcp_validate_v_prime(struct intel_connector *connector,
- 				u8 *ksv_fifo, u8 num_downstream, u8 *bstatus)
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	enum transcoder cpu_transcoder = connector->hdcp.cpu_transcoder;
- 	enum port port = dig_port->base.port;
- 	u32 vprime, sha_text, sha_leftovers, rep_ctl;
-@@ -620,7 +620,7 @@ static
- int intel_hdcp_auth_downstream(struct intel_connector *connector)
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	const struct intel_hdcp_shim *shim = connector->hdcp.shim;
- 	u8 bstatus[2], num_downstream, *ksv_fifo;
- 	int ret, i, tries = 3;
-@@ -703,7 +703,7 @@ int intel_hdcp_auth_downstream(struct intel_connector *connector)
- static int intel_hdcp_auth(struct intel_connector *connector)
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_hdcp *hdcp = &connector->hdcp;
- 	const struct intel_hdcp_shim *shim = hdcp->shim;
- 	enum transcoder cpu_transcoder = connector->hdcp.cpu_transcoder;
-@@ -875,7 +875,7 @@ static int intel_hdcp_auth(struct intel_connector *connector)
- static int _intel_hdcp_disable(struct intel_connector *connector)
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_hdcp *hdcp = &connector->hdcp;
- 	enum port port = dig_port->base.port;
- 	enum transcoder cpu_transcoder = hdcp->cpu_transcoder;
-@@ -929,7 +929,7 @@ static int _intel_hdcp_disable(struct intel_connector *connector)
+ 	ctl = intel_de_read(dev_priv, TRANS_DDI_FUNC_CTL(cpu_transcoder));
  
- static int _intel_hdcp_enable(struct intel_connector *connector)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_hdcp *hdcp = &connector->hdcp;
- 	int i, ret, tries = 3;
+-	drm_WARN_ON(crtc->base.dev, ctl & TRANS_DDI_HDCP_SIGNALLING);
++	drm_WARN_ON(crtc->base.drm, ctl & TRANS_DDI_HDCP_SIGNALLING);
  
-@@ -980,12 +980,12 @@ static struct intel_connector *intel_hdcp_to_connector(struct intel_hdcp *hdcp)
- static void intel_hdcp_update_value(struct intel_connector *connector,
- 				    u64 value, bool update_property)
- {
--	struct drm_device *dev = connector->base.dev;
-+	struct drm_device *dev = connector->base.drm;
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
- 	struct intel_hdcp *hdcp = &connector->hdcp;
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
+ 	ctl &= ~TRANS_DDI_FUNC_ENABLE;
  
--	drm_WARN_ON(connector->base.dev, !mutex_is_locked(&hdcp->mutex));
-+	drm_WARN_ON(connector->base.drm, !mutex_is_locked(&hdcp->mutex));
+@@ -977,7 +977,7 @@ void intel_ddi_enable_transcoder_clock(struct intel_encoder *encoder,
+ 				       const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
+ 	enum phy phy = intel_port_to_phy(dev_priv, encoder->port);
+ 	u32 val;
+@@ -997,7 +997,7 @@ void intel_ddi_enable_transcoder_clock(struct intel_encoder *encoder,
  
- 	if (hdcp->value == value)
- 		return;
-@@ -1010,7 +1010,7 @@ static void intel_hdcp_update_value(struct intel_connector *connector,
- static int intel_hdcp_check_link(struct intel_connector *connector)
+ void intel_ddi_disable_transcoder_clock(const struct intel_crtc_state *crtc_state)
  {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_hdcp *hdcp = &connector->hdcp;
- 	enum port port = dig_port->base.port;
- 	enum transcoder cpu_transcoder;
-@@ -1082,7 +1082,7 @@ static void intel_hdcp_prop_work(struct work_struct *work)
- 	struct intel_hdcp *hdcp = container_of(work, struct intel_hdcp,
- 					       prop_work);
- 	struct intel_connector *connector = intel_hdcp_to_connector(hdcp);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
+ 	u32 val;
  
- 	drm_modeset_lock(&i915->drm.mode_config.connection_mutex, NULL);
- 	mutex_lock(&hdcp->mutex);
-@@ -1114,7 +1114,7 @@ hdcp2_prepare_ake_init(struct intel_connector *connector,
+@@ -2276,7 +2276,7 @@ static void intel_ddi_mso_get_config(struct intel_encoder *encoder,
+ 				     struct intel_crtc_state *pipe_config)
  {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
- 	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct i915_hdcp_arbiter *arbiter;
- 	int ret;
+ 	struct intel_crtc *crtc = to_intel_crtc(pipe_config->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 	u32 dss1;
  
-@@ -1144,7 +1144,7 @@ hdcp2_verify_rx_cert_prepare_km(struct intel_connector *connector,
+@@ -2313,7 +2313,7 @@ static void intel_ddi_mso_get_config(struct intel_encoder *encoder,
+ static void intel_ddi_mso_configure(const struct intel_crtc_state *crtc_state)
  {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
- 	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct i915_hdcp_arbiter *arbiter;
- 	int ret;
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 	u32 dss1 = 0;
  
-@@ -1172,7 +1172,7 @@ static int hdcp2_verify_hprime(struct intel_connector *connector,
+@@ -2766,7 +2766,7 @@ static void intel_ddi_pre_enable(struct intel_atomic_state *state,
+ 				 const struct drm_connector_state *conn_state)
  {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
- 	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct i915_hdcp_arbiter *arbiter;
- 	int ret;
- 
-@@ -1198,7 +1198,7 @@ hdcp2_store_pairing_info(struct intel_connector *connector,
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
- 	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct i915_hdcp_arbiter *arbiter;
- 	int ret;
- 
-@@ -1225,7 +1225,7 @@ hdcp2_prepare_lc_init(struct intel_connector *connector,
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
- 	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct i915_hdcp_arbiter *arbiter;
- 	int ret;
- 
-@@ -1252,7 +1252,7 @@ hdcp2_verify_lprime(struct intel_connector *connector,
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
- 	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct i915_hdcp_arbiter *arbiter;
- 	int ret;
- 
-@@ -1278,7 +1278,7 @@ static int hdcp2_prepare_skey(struct intel_connector *connector,
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
- 	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct i915_hdcp_arbiter *arbiter;
- 	int ret;
- 
-@@ -1307,7 +1307,7 @@ hdcp2_verify_rep_topology_prepare_ack(struct intel_connector *connector,
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
- 	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct i915_hdcp_arbiter *arbiter;
- 	int ret;
- 
-@@ -1337,7 +1337,7 @@ hdcp2_verify_mprime(struct intel_connector *connector,
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
- 	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct i915_hdcp_arbiter *arbiter;
- 	int ret;
- 
-@@ -1361,7 +1361,7 @@ static int hdcp2_authenticate_port(struct intel_connector *connector)
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
- 	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct i915_hdcp_arbiter *arbiter;
- 	int ret;
- 
-@@ -1385,7 +1385,7 @@ static int hdcp2_authenticate_port(struct intel_connector *connector)
- static int hdcp2_close_session(struct intel_connector *connector)
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct i915_hdcp_arbiter *arbiter;
- 	int ret;
- 
-@@ -1413,7 +1413,7 @@ static int hdcp2_deauthenticate_port(struct intel_connector *connector)
- static int hdcp2_authentication_key_exchange(struct intel_connector *connector)
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_hdcp *hdcp = &connector->hdcp;
- 	union {
- 		struct hdcp2_ake_init ake_init;
-@@ -1608,7 +1608,7 @@ static
- int hdcp2_authenticate_repeater_topology(struct intel_connector *connector)
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_hdcp *hdcp = &connector->hdcp;
- 	union {
- 		struct hdcp2_rep_send_receiverid_list recvid_list;
-@@ -1683,7 +1683,7 @@ int hdcp2_authenticate_repeater_topology(struct intel_connector *connector)
- static int hdcp2_authenticate_sink(struct intel_connector *connector)
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_hdcp *hdcp = &connector->hdcp;
- 	const struct intel_hdcp_shim *shim = hdcp->shim;
- 	int ret;
-@@ -1730,7 +1730,7 @@ static int hdcp2_authenticate_sink(struct intel_connector *connector)
- static int hdcp2_enable_stream_encryption(struct intel_connector *connector)
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
- 	struct intel_hdcp *hdcp = &connector->hdcp;
- 	enum transcoder cpu_transcoder = hdcp->cpu_transcoder;
-@@ -1771,7 +1771,7 @@ static int hdcp2_enable_stream_encryption(struct intel_connector *connector)
- static int hdcp2_enable_encryption(struct intel_connector *connector)
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_hdcp *hdcp = &connector->hdcp;
- 	enum port port = dig_port->base.port;
- 	enum transcoder cpu_transcoder = hdcp->cpu_transcoder;
-@@ -1810,7 +1810,7 @@ static int hdcp2_enable_encryption(struct intel_connector *connector)
- static int hdcp2_disable_encryption(struct intel_connector *connector)
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_hdcp *hdcp = &connector->hdcp;
- 	enum port port = dig_port->base.port;
- 	enum transcoder cpu_transcoder = hdcp->cpu_transcoder;
-@@ -1847,7 +1847,7 @@ static int hdcp2_disable_encryption(struct intel_connector *connector)
- static int
- hdcp2_propagate_stream_management_info(struct intel_connector *connector)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	int i, tries = 3, ret;
- 
- 	if (!connector->hdcp.is_repeater)
-@@ -1876,7 +1876,7 @@ hdcp2_propagate_stream_management_info(struct intel_connector *connector)
- static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	int ret = 0, i, tries = 3;
- 
- 	for (i = 0; i < tries && !dig_port->hdcp_auth_status; i++) {
-@@ -1929,7 +1929,7 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
- 
- static int _intel_hdcp2_enable(struct intel_connector *connector)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_hdcp *hdcp = &connector->hdcp;
- 	int ret;
- 
-@@ -1956,7 +1956,7 @@ static int
- _intel_hdcp2_disable(struct intel_connector *connector, bool hdcp2_link_recovery)
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
- 	struct intel_hdcp *hdcp = &connector->hdcp;
- 	int ret;
-@@ -1994,7 +1994,7 @@ _intel_hdcp2_disable(struct intel_connector *connector, bool hdcp2_link_recovery
- static int intel_hdcp2_check_link(struct intel_connector *connector)
- {
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_hdcp *hdcp = &connector->hdcp;
- 	enum port port = dig_port->base.port;
- 	enum transcoder cpu_transcoder;
-@@ -2091,7 +2091,7 @@ static void intel_hdcp_check_work(struct work_struct *work)
- 					       struct intel_hdcp,
- 					       check_work);
- 	struct intel_connector *connector = intel_hdcp_to_connector(hdcp);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 
- 	if (drm_connector_is_unregistered(&connector->base))
- 		return;
-@@ -2160,7 +2160,7 @@ static int initialize_hdcp_port_data(struct intel_connector *connector,
- 				     struct intel_digital_port *dig_port,
- 				     const struct intel_hdcp_shim *shim)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
- 	enum port port = dig_port->base.port;
- 
-@@ -2241,7 +2241,7 @@ static void intel_hdcp2_init(struct intel_connector *connector,
- 			     struct intel_digital_port *dig_port,
- 			     const struct intel_hdcp_shim *shim)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_hdcp *hdcp = &connector->hdcp;
- 	int ret;
- 
-@@ -2258,7 +2258,7 @@ int intel_hdcp_init(struct intel_connector *connector,
- 		    struct intel_digital_port *dig_port,
- 		    const struct intel_hdcp_shim *shim)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_hdcp *hdcp = &connector->hdcp;
- 	int ret;
- 
-@@ -2450,7 +2450,7 @@ void intel_hdcp_update_pipe(struct intel_atomic_state *state,
- 				to_intel_connector(conn_state->connector);
- 	struct intel_hdcp *hdcp = &connector->hdcp;
- 	bool content_protection_type_changed, desired_and_not_enabled = false;
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 
- 	if (!connector->hdcp.shim)
- 		return;
-@@ -2530,8 +2530,8 @@ void intel_hdcp_cleanup(struct intel_connector *connector)
- 	 * If the connector is registered, it's possible userspace could kick
- 	 * off another HDCP enable, which would re-spawn the workers.
- 	 */
--	drm_WARN_ON(connector->base.dev,
--		connector->base.registration_state == DRM_CONNECTOR_REGISTERED);
-+	drm_WARN_ON(connector->base.drm,
-+		    connector->base.registration_state == DRM_CONNECTOR_REGISTERED);
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
  
  	/*
- 	 * Now that the connector is not registered, check_work won't be run,
-@@ -2548,7 +2548,7 @@ void intel_hdcp_cleanup(struct intel_connector *connector)
- 	 * function should be called), we're "guaranteed" that prop_work is not
- 	 * active (tl;dr This Should Never Happen).
- 	 */
--	drm_WARN_ON(connector->base.dev, work_pending(&hdcp->prop_work));
-+	drm_WARN_ON(connector->base.drm, work_pending(&hdcp->prop_work));
+@@ -3617,7 +3617,7 @@ static enum transcoder bdw_transcoder_master_readout(struct drm_i915_private *de
  
- 	mutex_lock(&hdcp->mutex);
- 	hdcp->shim = NULL;
-@@ -2606,7 +2606,7 @@ void intel_hdcp_atomic_check(struct drm_connector *connector,
- void intel_hdcp_handle_cp_irq(struct intel_connector *connector)
+ static void bdw_get_trans_port_sync_config(struct intel_crtc_state *crtc_state)
  {
- 	struct intel_hdcp *hdcp = &connector->hdcp;
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 
- 	if (!hdcp->shim)
- 		return;
-diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-index 4b41a58fcb03..f2d0f223ffc3 100644
---- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-@@ -1458,7 +1458,7 @@ int intel_hdmi_hdcp_read_v_prime_part(struct intel_digital_port *dig_port,
- static int kbl_repositioning_enc_en_signal(struct intel_connector *connector,
- 					   enum transcoder cpu_transcoder)
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 	u32 transcoders = BIT(TRANSCODER_A) | BIT(TRANSCODER_B) |
+ 		BIT(TRANSCODER_C) | BIT(TRANSCODER_D);
+ 	enum transcoder cpu_transcoder;
+@@ -4125,7 +4125,7 @@ intel_ddi_port_sync_transcoders(const struct intel_crtc_state *ref_crtc_state,
  {
--	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->base.drm);
- 	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
- 	struct intel_crtc *crtc = to_intel_crtc(connector->base.state->crtc);
- 	u32 scanline;
-@@ -1497,7 +1497,7 @@ int intel_hdmi_hdcp_toggle_signalling(struct intel_digital_port *dig_port,
- {
- 	struct intel_hdmi *hdmi = &dig_port->hdmi;
- 	struct intel_connector *connector = hdmi->attached_connector;
--	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->base.drm);
+ 	struct drm_connector *connector;
+ 	const struct drm_connector_state *conn_state;
+-	struct drm_i915_private *dev_priv = to_i915(ref_crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(ref_crtc_state->uapi.crtc->drm);
+ 	struct intel_atomic_state *state =
+ 		to_intel_atomic_state(ref_crtc_state->uapi.state);
+ 	u8 transcoders = 0;
+@@ -4293,7 +4293,7 @@ static int modeset_pipe(struct drm_crtc *crtc,
+ 	struct drm_crtc_state *crtc_state;
  	int ret;
  
- 	if (!enable)
-@@ -1943,7 +1943,7 @@ intel_hdmi_mode_clock_valid(struct drm_connector *connector, int clock,
- 			    bool has_hdmi_sink,
- 			    enum intel_output_format sink_format)
+-	state = drm_atomic_state_alloc(crtc->dev);
++	state = drm_atomic_state_alloc(crtc->drm);
+ 	if (!state)
+ 		return -ENOMEM;
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index 0a9774eaf9f1..5d381ca03aa2 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -275,7 +275,7 @@ static int intel_bigjoiner_num_pipes(const struct intel_crtc_state *crtc_state)
+ 
+ struct intel_crtc *intel_master_crtc(const struct intel_crtc_state *crtc_state)
  {
--	struct drm_i915_private *i915 = to_i915(connector->dev);
-+	struct drm_i915_private *i915 = to_i915(connector->drm);
- 	struct intel_hdmi *hdmi = intel_attached_hdmi(to_intel_connector(connector));
- 	enum drm_mode_status status = MODE_OK;
- 	int bpc;
-@@ -1981,7 +1981,7 @@ intel_hdmi_mode_valid(struct drm_connector *connector,
- 	struct drm_i915_private *dev_priv = intel_hdmi_to_i915(hdmi);
- 	enum drm_mode_status status;
- 	int clock = mode->clock;
--	int max_dotclk = to_i915(connector->dev)->max_dotclk_freq;
-+	int max_dotclk = to_i915(connector->drm)->max_dotclk_freq;
- 	bool has_hdmi_sink = intel_has_hdmi_sink(hdmi, connector->state);
- 	bool ycbcr_420_only;
- 	enum intel_output_format sink_format;
-@@ -2212,7 +2212,7 @@ static int intel_hdmi_compute_output_format(struct intel_encoder *encoder,
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 
+ 	if (intel_crtc_is_bigjoiner_slave(crtc_state))
+ 		return intel_crtc_for_pipe(i915, bigjoiner_master_pipe(crtc_state));
+@@ -287,7 +287,7 @@ static void
+ intel_wait_for_pipe_off(const struct intel_crtc_state *old_crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(old_crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 
+ 	if (DISPLAY_VER(dev_priv) >= 4) {
+ 		enum transcoder cpu_transcoder = old_crtc_state->cpu_transcoder;
+@@ -348,7 +348,7 @@ static void assert_plane(struct intel_plane *plane, bool state)
+ 
+ static void assert_planes_disabled(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_plane *plane;
+ 
+ 	for_each_intel_plane_on_crtc(&dev_priv->drm, crtc, plane)
+@@ -393,7 +393,7 @@ void vlv_wait_port_ready(struct drm_i915_private *dev_priv,
+ void intel_enable_transcoder(const struct intel_crtc_state *new_crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(new_crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum transcoder cpu_transcoder = new_crtc_state->cpu_transcoder;
+ 	enum pipe pipe = crtc->pipe;
+ 	i915_reg_t reg;
+@@ -454,7 +454,7 @@ void intel_enable_transcoder(const struct intel_crtc_state *new_crtc_state)
+ void intel_disable_transcoder(const struct intel_crtc_state *old_crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(old_crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum transcoder cpu_transcoder = old_crtc_state->cpu_transcoder;
+ 	enum pipe pipe = crtc->pipe;
+ 	i915_reg_t reg;
+@@ -613,7 +613,7 @@ void intel_set_plane_visible(struct intel_crtc_state *crtc_state,
+ 
+ void intel_plane_fixup_bitmasks(struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 	struct drm_plane *plane;
+ 
+ 	/*
+@@ -634,7 +634,7 @@ void intel_plane_fixup_bitmasks(struct intel_crtc_state *crtc_state)
+ void intel_plane_disable_noatomic(struct intel_crtc *crtc,
+ 				  struct intel_plane *plane)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_crtc_state *crtc_state =
+ 		to_intel_crtc_state(crtc->base.state);
+ 	struct intel_plane_state *plane_state =
+@@ -697,7 +697,7 @@ intel_plane_fence_y_offset(const struct intel_plane_state *plane_state)
+ static void icl_set_pipe_chicken(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 	u32 tmp;
+ 
+@@ -793,7 +793,7 @@ intel_get_crtc_new_encoder(const struct intel_atomic_state *state,
+ static void ilk_pfit_enable(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	const struct drm_rect *dst = &crtc_state->pch_pfit.dst;
+ 	enum pipe pipe = crtc->pipe;
+ 	int width = drm_rect_width(dst);
+@@ -832,7 +832,7 @@ static void intel_crtc_dpms_overlay_disable(struct intel_crtc *crtc)
+ 
+ static bool needs_nv12_wa(const struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 
+ 	if (!crtc_state->nv12_planes)
+ 		return false;
+@@ -846,7 +846,7 @@ static bool needs_nv12_wa(const struct intel_crtc_state *crtc_state)
+ 
+ static bool needs_scalerclk_wa(const struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 
+ 	/* Wa_2006604312:icl,ehl */
+ 	if (crtc_state->scaler_state.scaler_users > 0 && DISPLAY_VER(dev_priv) == 11)
+@@ -857,7 +857,7 @@ static bool needs_scalerclk_wa(const struct intel_crtc_state *crtc_state)
+ 
+ static bool needs_cursorclk_wa(const struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 
+ 	/* Wa_1604331009:icl,jsl,ehl */
+ 	if (is_hdr_mode(crtc_state) &&
+@@ -889,7 +889,7 @@ static void intel_async_flip_vtd_wa(struct drm_i915_private *i915,
+ 
+ static bool needs_async_flip_vtd_wa(const struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 
+ 	return crtc_state->uapi.async_flip && i915_vtd_active(i915) &&
+ 		(DISPLAY_VER(i915) == 9 || IS_BROADWELL(i915) || IS_HASWELL(i915));
+@@ -1146,7 +1146,7 @@ static void intel_pre_plane_update(struct intel_atomic_state *state,
+ static void intel_crtc_disable_planes(struct intel_atomic_state *state,
+ 				      struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	const struct intel_crtc_state *new_crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+ 	unsigned int update_mask = new_crtc_state->update_planes;
+@@ -1382,7 +1382,7 @@ static void ilk_crtc_enable(struct intel_atomic_state *state,
+ {
+ 	const struct intel_crtc_state *new_crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 
+ 	if (drm_WARN_ON(&dev_priv->drm, crtc->active))
+@@ -1472,7 +1472,7 @@ static void glk_pipe_scaler_clock_gating_wa(struct drm_i915_private *dev_priv,
+ static void hsw_set_linetime_wm(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 
+ 	intel_de_write(dev_priv, WM_LINETIME(crtc->pipe),
+ 		       HSW_LINETIME(crtc_state->linetime) |
+@@ -1482,7 +1482,7 @@ static void hsw_set_linetime_wm(const struct intel_crtc_state *crtc_state)
+ static void hsw_set_frame_start_delay(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum transcoder transcoder = crtc_state->cpu_transcoder;
+ 	i915_reg_t reg = DISPLAY_VER(dev_priv) >= 14 ? MTL_CHICKEN_TRANS(transcoder) :
+ 			 CHICKEN_TRANS(transcoder);
+@@ -1513,7 +1513,7 @@ static void icl_ddi_bigjoiner_pre_enable(struct intel_atomic_state *state,
+ static void hsw_configure_cpu_transcoder(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
+ 
+ 	if (crtc_state->has_pch_encoder) {
+@@ -1544,7 +1544,7 @@ static void hsw_crtc_enable(struct intel_atomic_state *state,
+ {
+ 	const struct intel_crtc_state *new_crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe, hsw_workaround_pipe;
+ 	enum transcoder cpu_transcoder = new_crtc_state->cpu_transcoder;
+ 	bool psl_clkgate_wa;
+@@ -1635,7 +1635,7 @@ static void hsw_crtc_enable(struct intel_atomic_state *state,
+ void ilk_pfit_disable(const struct intel_crtc_state *old_crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(old_crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 
+ 	/* To avoid upsetting the power well on haswell only disable the pfit if
+@@ -1653,7 +1653,7 @@ static void ilk_crtc_disable(struct intel_atomic_state *state,
+ {
+ 	const struct intel_crtc_state *old_crtc_state =
+ 		intel_atomic_get_old_crtc_state(state, crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 
+ 	/*
+@@ -1691,7 +1691,7 @@ static void hsw_crtc_disable(struct intel_atomic_state *state,
+ {
+ 	const struct intel_crtc_state *old_crtc_state =
+ 		intel_atomic_get_old_crtc_state(state, crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 
+ 	/*
+ 	 * FIXME collapse everything to one hook.
+@@ -1720,7 +1720,7 @@ static void hsw_crtc_disable(struct intel_atomic_state *state,
+ static void i9xx_pfit_enable(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 
+ 	if (!crtc_state->gmch_pfit.control)
+ 		return;
+@@ -1834,7 +1834,7 @@ static void get_crtc_power_domains(struct intel_crtc_state *crtc_state,
+ 				   struct intel_power_domain_mask *mask)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
+ 	struct drm_encoder *encoder;
+ 	enum pipe pipe = crtc->pipe;
+@@ -1871,7 +1871,7 @@ void intel_modeset_get_crtc_power_domains(struct intel_crtc_state *crtc_state,
+ 					  struct intel_power_domain_mask *old_domains)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum intel_display_power_domain domain;
+ 	struct intel_power_domain_mask domains, new_domains;
+ 
+@@ -1895,7 +1895,7 @@ void intel_modeset_get_crtc_power_domains(struct intel_crtc_state *crtc_state,
+ void intel_modeset_put_crtc_power_domains(struct intel_crtc *crtc,
+ 					  struct intel_power_domain_mask *domains)
+ {
+-	intel_display_power_put_mask_in_set(to_i915(crtc->base.dev),
++	intel_display_power_put_mask_in_set(to_i915(crtc->base.drm),
+ 					    &crtc->enabled_power_domains,
+ 					    domains);
+ }
+@@ -1922,7 +1922,7 @@ static void valleyview_crtc_enable(struct intel_atomic_state *state,
+ {
+ 	const struct intel_crtc_state *new_crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 
+ 	if (drm_WARN_ON(&dev_priv->drm, crtc->active))
+@@ -1973,7 +1973,7 @@ static void i9xx_crtc_enable(struct intel_atomic_state *state,
+ {
+ 	const struct intel_crtc_state *new_crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 
+ 	if (drm_WARN_ON(&dev_priv->drm, crtc->active))
+@@ -2016,7 +2016,7 @@ static void i9xx_crtc_enable(struct intel_atomic_state *state,
+ static void i9xx_pfit_disable(const struct intel_crtc_state *old_crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(old_crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 
+ 	if (!old_crtc_state->gmch_pfit.control)
+ 		return;
+@@ -2033,7 +2033,7 @@ static void i9xx_crtc_disable(struct intel_atomic_state *state,
+ {
+ 	struct intel_crtc_state *old_crtc_state =
+ 		intel_atomic_get_old_crtc_state(state, crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 
+ 	/*
+@@ -2085,7 +2085,7 @@ void intel_encoder_destroy(struct drm_encoder *encoder)
+ 
+ static bool intel_crtc_supports_double_wide(const struct intel_crtc *crtc)
+ {
+-	const struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	const struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 
+ 	/* GDG double wide on either pipe, otherwise pipe A only */
+ 	return DISPLAY_VER(dev_priv) < 4 &&
+@@ -2136,7 +2136,7 @@ static void intel_mode_from_crtc_timings(struct drm_display_mode *mode,
+ 
+ static void intel_crtc_compute_pixel_rate(struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 
+ 	if (HAS_GMCH(dev_priv))
+ 		/* FIXME calculate proper pipe pixel rate for GMCH pfit */
+@@ -2250,7 +2250,7 @@ static void intel_bigjoiner_compute_pipe_src(struct intel_crtc_state *crtc_state
+ static int intel_crtc_compute_pipe_src(struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 
+ 	intel_bigjoiner_compute_pipe_src(crtc_state);
+ 
+@@ -2283,7 +2283,7 @@ static int intel_crtc_compute_pipe_src(struct intel_crtc_state *crtc_state)
+ static int intel_crtc_compute_pipe_mode(struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	struct drm_display_mode *adjusted_mode = &crtc_state->hw.adjusted_mode;
+ 	struct drm_display_mode *pipe_mode = &crtc_state->hw.pipe_mode;
+ 	int clock_limit = i915->max_dotclk_freq;
+@@ -2462,7 +2462,7 @@ void intel_cpu_transcoder_set_m1_n1(struct intel_crtc *crtc,
+ 				    enum transcoder transcoder,
+ 				    const struct intel_link_m_n *m_n)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 
+ 	if (DISPLAY_VER(dev_priv) >= 5)
+@@ -2479,7 +2479,7 @@ void intel_cpu_transcoder_set_m2_n2(struct intel_crtc *crtc,
+ 				    enum transcoder transcoder,
+ 				    const struct intel_link_m_n *m_n)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 
+ 	if (!intel_cpu_transcoder_has_m2_n2(dev_priv, transcoder))
+ 		return;
+@@ -2492,7 +2492,7 @@ void intel_cpu_transcoder_set_m2_n2(struct intel_crtc *crtc,
+ static void intel_set_transcoder_timings(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
  	const struct drm_display_mode *adjusted_mode = &crtc_state->hw.adjusted_mode;
- 	const struct drm_display_info *info = &connector->base.display_info;
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	bool ycbcr_420_only = drm_mode_is_420_only(info, adjusted_mode);
- 	int ret;
- 
-@@ -2397,7 +2397,7 @@ intel_hdmi_unset_edid(struct drm_connector *connector)
- static void
- intel_hdmi_dp_dual_mode_detect(struct drm_connector *connector)
+@@ -2573,7 +2573,7 @@ static void intel_set_transcoder_timings(const struct intel_crtc_state *crtc_sta
+ static void intel_set_pipe_src_size(const struct intel_crtc_state *crtc_state)
  {
--	struct drm_i915_private *dev_priv = to_i915(connector->dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->drm);
- 	struct intel_hdmi *hdmi = intel_attached_hdmi(to_intel_connector(connector));
- 	struct intel_encoder *encoder = &hdmi_to_dig_port(hdmi)->base;
- 	struct i2c_adapter *adapter =
-@@ -2448,7 +2448,7 @@ intel_hdmi_dp_dual_mode_detect(struct drm_connector *connector)
- static bool
- intel_hdmi_set_edid(struct drm_connector *connector)
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	int width = drm_rect_width(&crtc_state->pipe_src);
+ 	int height = drm_rect_height(&crtc_state->pipe_src);
+ 	enum pipe pipe = crtc->pipe;
+@@ -2587,7 +2587,7 @@ static void intel_set_pipe_src_size(const struct intel_crtc_state *crtc_state)
+ 
+ static bool intel_pipe_is_interlaced(const struct intel_crtc_state *crtc_state)
  {
--	struct drm_i915_private *dev_priv = to_i915(connector->dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->drm);
- 	struct intel_hdmi *intel_hdmi = intel_attached_hdmi(to_intel_connector(connector));
- 	intel_wakeref_t wakeref;
- 	const struct drm_edid *drm_edid;
-@@ -2494,7 +2494,7 @@ static enum drm_connector_status
- intel_hdmi_detect(struct drm_connector *connector, bool force)
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
+ 
+ 	if (DISPLAY_VER(dev_priv) == 2)
+@@ -2603,7 +2603,7 @@ static bool intel_pipe_is_interlaced(const struct intel_crtc_state *crtc_state)
+ static void intel_get_transcoder_timings(struct intel_crtc *crtc,
+ 					 struct intel_crtc_state *pipe_config)
  {
- 	enum drm_connector_status status = connector_status_disconnected;
--	struct drm_i915_private *dev_priv = to_i915(connector->dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->drm);
- 	struct intel_hdmi *intel_hdmi = intel_attached_hdmi(to_intel_connector(connector));
- 	struct intel_encoder *encoder = &hdmi_to_dig_port(intel_hdmi)->base;
- 	intel_wakeref_t wakeref;
-@@ -2534,7 +2534,7 @@ intel_hdmi_detect(struct drm_connector *connector, bool force)
- static void
- intel_hdmi_force(struct drm_connector *connector)
- {
--	struct drm_i915_private *i915 = to_i915(connector->dev);
-+	struct drm_i915_private *i915 = to_i915(connector->drm);
- 
- 	drm_dbg_kms(&i915->drm, "[CONNECTOR:%d:%s]\n",
- 		    connector->base.id, connector->name);
-@@ -2556,7 +2556,7 @@ static int intel_hdmi_get_modes(struct drm_connector *connector)
- static struct i2c_adapter *
- intel_hdmi_get_i2c_adapter(struct drm_connector *connector)
- {
--	struct drm_i915_private *dev_priv = to_i915(connector->dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->drm);
- 	struct intel_hdmi *intel_hdmi = intel_attached_hdmi(to_intel_connector(connector));
- 
- 	return intel_gmbus_get_adapter(dev_priv, intel_hdmi->ddc_bus);
-@@ -2564,7 +2564,7 @@ intel_hdmi_get_i2c_adapter(struct drm_connector *connector)
- 
- static void intel_hdmi_create_i2c_symlink(struct drm_connector *connector)
- {
--	struct drm_i915_private *i915 = to_i915(connector->dev);
-+	struct drm_i915_private *i915 = to_i915(connector->drm);
- 	struct i2c_adapter *adapter = intel_hdmi_get_i2c_adapter(connector);
- 	struct kobject *i2c_kobj = &adapter->dev.kobj;
- 	struct kobject *connector_kobj = &connector->kdev->kobj;
-@@ -2641,7 +2641,7 @@ static const struct drm_connector_helper_funcs intel_hdmi_connector_helper_funcs
- static void
- intel_hdmi_add_properties(struct intel_hdmi *intel_hdmi, struct drm_connector *connector)
- {
--	struct drm_i915_private *dev_priv = to_i915(connector->dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->drm);
- 
- 	intel_attach_force_audio_property(connector);
- 	intel_attach_broadcast_rgb_property(connector);
-diff --git a/drivers/gpu/drm/i915/display/intel_hotplug.c b/drivers/gpu/drm/i915/display/intel_hotplug.c
-index 1160fa20433b..bec50f2d6650 100644
---- a/drivers/gpu/drm/i915/display/intel_hotplug.c
-+++ b/drivers/gpu/drm/i915/display/intel_hotplug.c
-@@ -263,7 +263,7 @@ enum intel_hotplug_state
- intel_encoder_hotplug(struct intel_encoder *encoder,
- 		      struct intel_connector *connector)
- {
--	struct drm_device *dev = connector->base.dev;
-+	struct drm_device *dev = connector->base.drm;
- 	enum drm_connector_status old_status;
- 	u64 old_epoch_counter;
- 	bool ret = false;
-diff --git a/drivers/gpu/drm/i915/display/intel_lvds.c b/drivers/gpu/drm/i915/display/intel_lvds.c
-index 3ace56979b70..c7b96ea7666c 100644
---- a/drivers/gpu/drm/i915/display/intel_lvds.c
-+++ b/drivers/gpu/drm/i915/display/intel_lvds.c
-@@ -391,7 +391,7 @@ intel_lvds_mode_valid(struct drm_connector *_connector,
- 	struct intel_connector *connector = to_intel_connector(_connector);
- 	const struct drm_display_mode *fixed_mode =
- 		intel_panel_fixed_mode(connector, mode);
--	int max_pixclk = to_i915(connector->base.dev)->max_dotclk_freq;
-+	int max_pixclk = to_i915(connector->base.drm)->max_dotclk_freq;
- 	enum drm_mode_status status;
- 
- 	if (mode->flags & DRM_MODE_FLAG_DBLSCAN)
-diff --git a/drivers/gpu/drm/i915/display/intel_modeset_verify.c b/drivers/gpu/drm/i915/display/intel_modeset_verify.c
-index 138144a65a45..418b8526a081 100644
---- a/drivers/gpu/drm/i915/display/intel_modeset_verify.c
-+++ b/drivers/gpu/drm/i915/display/intel_modeset_verify.c
-@@ -27,7 +27,7 @@ static void intel_connector_verify_state(struct intel_crtc_state *crtc_state,
- 					 struct drm_connector_state *conn_state)
- {
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 
- 	drm_dbg_kms(&i915->drm, "[CONNECTOR:%d:%s]\n",
- 		    connector->base.base.id, connector->base.name);
-@@ -81,7 +81,8 @@ verify_connector_state(struct intel_atomic_state *state,
- 
- 		intel_connector_verify_state(crtc_state, new_conn_state);
- 
--		I915_STATE_WARN(to_i915(connector->dev), new_conn_state->best_encoder != encoder,
-+		I915_STATE_WARN(to_i915(connector->drm),
-+				new_conn_state->best_encoder != encoder,
- 				"connector's atomic encoder doesn't match legacy encoder\n");
- 	}
- }
-diff --git a/drivers/gpu/drm/i915/display/intel_opregion.c b/drivers/gpu/drm/i915/display/intel_opregion.c
-index 84078fb82b2f..246002019175 100644
---- a/drivers/gpu/drm/i915/display/intel_opregion.c
-+++ b/drivers/gpu/drm/i915/display/intel_opregion.c
-@@ -1105,7 +1105,7 @@ intel_opregion_get_panel_type(struct drm_i915_private *dev_priv)
- const struct drm_edid *intel_opregion_get_edid(struct intel_connector *intel_connector)
- {
- 	struct drm_connector *connector = &intel_connector->base;
--	struct drm_i915_private *i915 = to_i915(connector->dev);
-+	struct drm_i915_private *i915 = to_i915(connector->drm);
- 	struct intel_opregion *opregion = &i915->display.opregion;
- 	const struct drm_edid *drm_edid;
- 	const void *edid;
-diff --git a/drivers/gpu/drm/i915/display/intel_panel.c b/drivers/gpu/drm/i915/display/intel_panel.c
-index 9232a305b1e6..172c78777130 100644
---- a/drivers/gpu/drm/i915/display/intel_panel.c
-+++ b/drivers/gpu/drm/i915/display/intel_panel.c
-@@ -175,7 +175,7 @@ int intel_panel_get_modes(struct intel_connector *connector)
- 	list_for_each_entry(fixed_mode, &connector->panel.fixed_modes, head) {
- 		struct drm_display_mode *mode;
- 
--		mode = drm_mode_duplicate(connector->base.dev, fixed_mode);
-+		mode = drm_mode_duplicate(connector->base.drm, fixed_mode);
- 		if (mode) {
- 			drm_mode_probed_add(&connector->base, mode);
- 			num_modes++;
-@@ -235,7 +235,7 @@ int intel_panel_compute_config(struct intel_connector *connector,
- 		 * off refresh rates.
- 		 */
- 		if (abs(vrefresh - fixed_mode_vrefresh) > 1) {
--			drm_dbg_kms(connector->base.dev,
-+			drm_dbg_kms(connector->base.drm,
- 				    "[CONNECTOR:%d:%s] Requested mode vrefresh (%d Hz) does not match fixed mode vrefresh (%d Hz)\n",
- 				    connector->base.base.id, connector->base.name,
- 				    vrefresh, fixed_mode_vrefresh);
-@@ -258,7 +258,7 @@ int intel_panel_compute_config(struct intel_connector *connector,
- 
- static void intel_panel_add_edid_alt_fixed_modes(struct intel_connector *connector)
- {
--	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->base.drm);
- 	const struct drm_display_mode *preferred_mode =
- 		intel_panel_preferred_fixed_mode(connector);
- 	struct drm_display_mode *mode, *next;
-@@ -278,7 +278,7 @@ static void intel_panel_add_edid_alt_fixed_modes(struct intel_connector *connect
- 
- static void intel_panel_add_edid_preferred_mode(struct intel_connector *connector)
- {
--	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->base.drm);
- 	struct drm_display_mode *scan, *fixed_mode = NULL;
- 
- 	if (list_empty(&connector->base.probed_modes))
-@@ -309,7 +309,7 @@ static void intel_panel_add_edid_preferred_mode(struct intel_connector *connecto
- 
- static void intel_panel_destroy_probed_modes(struct intel_connector *connector)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct drm_display_mode *mode, *next;
- 
- 	list_for_each_entry_safe(mode, next, &connector->base.probed_modes, head) {
-@@ -335,7 +335,7 @@ static void intel_panel_add_fixed_mode(struct intel_connector *connector,
- 				       struct drm_display_mode *fixed_mode,
- 				       const char *type)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct drm_display_info *info = &connector->base.display_info;
- 
- 	if (!fixed_mode)
-@@ -355,7 +355,7 @@ static void intel_panel_add_fixed_mode(struct intel_connector *connector,
- 
- void intel_panel_add_vbt_lfp_fixed_mode(struct intel_connector *connector)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	const struct drm_display_mode *mode;
- 
- 	mode = connector->panel.vbt.lfp_lvds_vbt_mode;
-@@ -369,7 +369,7 @@ void intel_panel_add_vbt_lfp_fixed_mode(struct intel_connector *connector)
- 
- void intel_panel_add_vbt_sdvo_fixed_mode(struct intel_connector *connector)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	const struct drm_display_mode *mode;
- 
- 	mode = connector->panel.vbt.sdvo_lvds_vbt_mode;
-@@ -687,7 +687,7 @@ int intel_panel_fitting(struct intel_crtc_state *crtc_state,
- enum drm_connector_status
- intel_panel_detect(struct drm_connector *connector, bool force)
- {
--	struct drm_i915_private *i915 = to_i915(connector->dev);
-+	struct drm_i915_private *i915 = to_i915(connector->drm);
- 
- 	if (!INTEL_DISPLAY_ENABLED(i915))
- 		return connector_status_disconnected;
-@@ -738,7 +738,7 @@ int intel_panel_init(struct intel_connector *connector,
- 	if (!has_drrs_modes(connector))
- 		connector->panel.vbt.drrs_type = DRRS_TYPE_NONE;
- 
--	drm_dbg_kms(connector->base.dev,
-+	drm_dbg_kms(connector->base.drm,
- 		    "[CONNECTOR:%d:%s] DRRS type: %s\n",
- 		    connector->base.base.id, connector->base.name,
- 		    intel_drrs_type_str(intel_panel_drrs_type(connector)));
-@@ -760,6 +760,6 @@ void intel_panel_fini(struct intel_connector *connector)
- 
- 	list_for_each_entry_safe(fixed_mode, next, &panel->fixed_modes, head) {
- 		list_del(&fixed_mode->head);
--		drm_mode_destroy(connector->base.dev, fixed_mode);
-+		drm_mode_destroy(connector->base.drm, fixed_mode);
- 	}
- }
-diff --git a/drivers/gpu/drm/i915/display/intel_pps.c b/drivers/gpu/drm/i915/display/intel_pps.c
-index 73f0f1714b37..efe52b20dea0 100644
---- a/drivers/gpu/drm/i915/display/intel_pps.c
-+++ b/drivers/gpu/drm/i915/display/intel_pps.c
-@@ -1087,7 +1087,7 @@ void intel_pps_backlight_off(struct intel_dp *intel_dp)
-  */
- void intel_pps_backlight_power(struct intel_connector *connector, bool enable)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_dp *intel_dp = intel_attached_dp(connector);
- 	intel_wakeref_t wakeref;
- 	bool is_enabled;
-diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
-index 27bb8914a7ad..00b4d87e4d81 100644
---- a/drivers/gpu/drm/i915/display/intel_psr.c
-+++ b/drivers/gpu/drm/i915/display/intel_psr.c
-@@ -3066,7 +3066,7 @@ DEFINE_SHOW_ATTRIBUTE(i915_psr_status);
- 
- void intel_psr_connector_debugfs_add(struct intel_connector *connector)
- {
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct dentry *root = connector->base.debugfs_entry;
- 
- 	if (connector->base.connector_type != DRM_MODE_CONNECTOR_eDP)
-diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c b/drivers/gpu/drm/i915/display/intel_sdvo.c
-index 21f92123c844..92376afc503b 100644
---- a/drivers/gpu/drm/i915/display/intel_sdvo.c
-+++ b/drivers/gpu/drm/i915/display/intel_sdvo.c
-@@ -1909,7 +1909,7 @@ intel_sdvo_mode_valid(struct drm_connector *connector,
- 	struct intel_sdvo *intel_sdvo = intel_attached_sdvo(to_intel_connector(connector));
- 	struct intel_sdvo_connector *intel_sdvo_connector =
- 		to_intel_sdvo_connector(connector);
--	int max_dotclk = to_i915(connector->dev)->max_dotclk_freq;
-+	int max_dotclk = to_i915(connector->drm)->max_dotclk_freq;
- 	bool has_hdmi_sink = intel_has_hdmi_sink(intel_sdvo_connector, connector->state);
- 	int clock = mode->clock;
- 
-@@ -2047,7 +2047,7 @@ intel_sdvo_get_edid(struct drm_connector *connector)
- static const struct drm_edid *
- intel_sdvo_get_analog_edid(struct drm_connector *connector)
- {
--	struct drm_i915_private *i915 = to_i915(connector->dev);
-+	struct drm_i915_private *i915 = to_i915(connector->drm);
- 	struct i2c_adapter *i2c;
- 
- 	i2c = intel_gmbus_get_adapter(i915, i915->display.vbt.crt_ddc_pin);
-@@ -2123,7 +2123,7 @@ intel_sdvo_connector_matches_edid(struct intel_sdvo_connector *sdvo,
- static enum drm_connector_status
- intel_sdvo_detect(struct drm_connector *connector, bool force)
- {
--	struct drm_i915_private *i915 = to_i915(connector->dev);
-+	struct drm_i915_private *i915 = to_i915(connector->drm);
- 	struct intel_sdvo *intel_sdvo = intel_attached_sdvo(to_intel_connector(connector));
- 	struct intel_sdvo_connector *intel_sdvo_connector = to_intel_sdvo_connector(connector);
- 	enum drm_connector_status ret;
-@@ -2307,7 +2307,7 @@ static int intel_sdvo_get_tv_modes(struct drm_connector *connector)
- 	for (i = 0; i < ARRAY_SIZE(sdvo_tv_modes); i++) {
- 		if (reply & (1 << i)) {
- 			struct drm_display_mode *nmode;
--			nmode = drm_mode_duplicate(connector->dev,
-+			nmode = drm_mode_duplicate(connector->drm,
- 						   &sdvo_tv_modes[i]);
- 			if (nmode) {
- 				drm_mode_probed_add(connector, nmode);
-@@ -2321,7 +2321,7 @@ static int intel_sdvo_get_tv_modes(struct drm_connector *connector)
- 
- static int intel_sdvo_get_lvds_modes(struct drm_connector *connector)
- {
--	struct drm_i915_private *dev_priv = to_i915(connector->dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->drm);
- 
- 	drm_dbg_kms(&dev_priv->drm, "[CONNECTOR:%d:%s]\n",
- 		    connector->base.id, connector->name);
-@@ -2360,7 +2360,7 @@ intel_sdvo_connector_atomic_get_property(struct drm_connector *connector,
- 				return 0;
- 			}
- 
--		drm_WARN_ON(connector->dev, 1);
-+		drm_WARN_ON(connector->drm, 1);
- 		*val = 0;
- 	} else if (property == intel_sdvo_connector->top ||
- 		   property == intel_sdvo_connector->bottom)
-diff --git a/drivers/gpu/drm/i915/display/intel_tv.c b/drivers/gpu/drm/i915/display/intel_tv.c
-index 36b479b46b60..5f2c9ba488d9 100644
---- a/drivers/gpu/drm/i915/display/intel_tv.c
-+++ b/drivers/gpu/drm/i915/display/intel_tv.c
-@@ -959,7 +959,7 @@ intel_tv_mode_valid(struct drm_connector *connector,
- 		    struct drm_display_mode *mode)
- {
- 	const struct tv_mode *tv_mode = intel_tv_mode_find(connector->state);
--	int max_dotclk = to_i915(connector->dev)->max_dotclk_freq;
-+	int max_dotclk = to_i915(connector->drm)->max_dotclk_freq;
- 
- 	if (mode->flags & DRM_MODE_FLAG_DBLSCAN)
- 		return MODE_NO_DBLESCAN;
-@@ -1586,7 +1586,7 @@ intel_tv_detect_type(struct intel_tv *intel_tv,
- 		      struct drm_connector *connector)
- {
- 	struct intel_crtc *crtc = to_intel_crtc(connector->state->crtc);
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
  	struct drm_i915_private *dev_priv = to_i915(dev);
- 	u32 tv_ctl, save_tv_ctl;
- 	u32 tv_dac, save_tv_dac;
-@@ -1712,7 +1712,7 @@ intel_tv_detect(struct drm_connector *connector,
- 		struct drm_modeset_acquire_ctx *ctx,
- 		bool force)
+ 	enum transcoder cpu_transcoder = pipe_config->cpu_transcoder;
+ 	struct drm_display_mode *adjusted_mode = &pipe_config->hw.adjusted_mode;
+@@ -2669,7 +2669,7 @@ static void intel_bigjoiner_adjust_pipe_src(struct intel_crtc_state *crtc_state)
+ static void intel_get_pipe_src_size(struct intel_crtc *crtc,
+ 				    struct intel_crtc_state *pipe_config)
  {
--	struct drm_i915_private *i915 = to_i915(connector->dev);
-+	struct drm_i915_private *i915 = to_i915(connector->drm);
- 	struct intel_tv *intel_tv = intel_attached_tv(to_intel_connector(connector));
- 	enum drm_connector_status status;
- 	int type;
-@@ -1789,7 +1789,7 @@ intel_tv_set_mode_type(struct drm_display_mode *mode,
- static int
- intel_tv_get_modes(struct drm_connector *connector)
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	u32 tmp;
+ 
+@@ -2685,7 +2685,7 @@ static void intel_get_pipe_src_size(struct intel_crtc *crtc,
+ void i9xx_set_pipeconf(const struct intel_crtc_state *crtc_state)
  {
--	struct drm_i915_private *dev_priv = to_i915(connector->dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->drm);
- 	const struct tv_mode *tv_mode = intel_tv_mode_find(connector->state);
- 	int i, count = 0;
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
+ 	u32 val = 0;
  
-@@ -1807,7 +1807,7 @@ intel_tv_get_modes(struct drm_connector *connector)
- 		    input->h > intel_tv_mode_vdisplay(tv_mode))
- 			continue;
- 
--		mode = drm_mode_create(connector->dev);
-+		mode = drm_mode_create(connector->drm);
- 		if (!mode)
- 			continue;
- 
-@@ -1885,7 +1885,7 @@ static const struct drm_encoder_funcs intel_tv_enc_funcs = {
- 
- static void intel_tv_add_properties(struct drm_connector *connector)
+@@ -2762,7 +2762,7 @@ static bool i9xx_has_pfit(struct drm_i915_private *dev_priv)
+ static void i9xx_get_pfit_config(struct intel_crtc_state *crtc_state)
  {
--	struct drm_i915_private *i915 = to_i915(connector->dev);
-+	struct drm_i915_private *i915 = to_i915(connector->drm);
- 	struct drm_connector_state *conn_state = connector->state;
- 	const char *tv_format_names[ARRAY_SIZE(tv_modes)];
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe;
+ 	u32 tmp;
+ 
+@@ -2790,7 +2790,7 @@ static void i9xx_get_pfit_config(struct intel_crtc_state *crtc_state)
+ static void vlv_crtc_clock_get(struct intel_crtc *crtc,
+ 			       struct intel_crtc_state *pipe_config)
+ {
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	enum pipe pipe = crtc->pipe;
+ 	struct dpll clock;
+@@ -2817,7 +2817,7 @@ static void vlv_crtc_clock_get(struct intel_crtc *crtc,
+ static void chv_crtc_clock_get(struct intel_crtc *crtc,
+ 			       struct intel_crtc_state *pipe_config)
+ {
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	enum pipe pipe = crtc->pipe;
+ 	enum dpio_channel port = vlv_pipe_to_channel(pipe);
+@@ -2851,7 +2851,7 @@ static void chv_crtc_clock_get(struct intel_crtc *crtc,
+ static enum intel_output_format
+ bdw_get_pipe_misc_output_format(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	u32 tmp;
+ 
+ 	tmp = intel_de_read(dev_priv, PIPE_MISC(crtc->pipe));
+@@ -2873,7 +2873,7 @@ static void i9xx_get_pipe_color_config(struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+ 	struct intel_plane *plane = to_intel_plane(crtc->base.primary);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum i9xx_plane_id i9xx_plane = plane->i9xx_plane;
+ 	u32 tmp;
+ 
+@@ -2890,7 +2890,7 @@ static void i9xx_get_pipe_color_config(struct intel_crtc_state *crtc_state)
+ static bool i9xx_get_pipe_config(struct intel_crtc *crtc,
+ 				 struct intel_crtc_state *pipe_config)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum intel_display_power_domain power_domain;
+ 	intel_wakeref_t wakeref;
+ 	u32 tmp;
+@@ -3019,7 +3019,7 @@ static bool i9xx_get_pipe_config(struct intel_crtc *crtc,
+ void ilk_set_pipeconf(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
+ 	u32 val = 0;
+ 
+@@ -3083,7 +3083,7 @@ void ilk_set_pipeconf(const struct intel_crtc_state *crtc_state)
+ static void hsw_set_transconf(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
+ 	u32 val = 0;
+ 
+@@ -3113,7 +3113,7 @@ static void hsw_set_transconf(const struct intel_crtc_state *crtc_state)
+ static void bdw_set_pipe_misc(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	u32 val = 0;
+ 
+ 	switch (crtc_state->pipe_bpp) {
+@@ -3158,7 +3158,7 @@ static void bdw_set_pipe_misc(const struct intel_crtc_state *crtc_state)
+ 
+ int bdw_get_pipe_misc_bpp(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	u32 tmp;
+ 
+ 	tmp = intel_de_read(dev_priv, PIPE_MISC(crtc->pipe));
+@@ -3217,7 +3217,7 @@ void intel_cpu_transcoder_get_m1_n1(struct intel_crtc *crtc,
+ 				    enum transcoder transcoder,
+ 				    struct intel_link_m_n *m_n)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 
+ 	if (DISPLAY_VER(dev_priv) >= 5)
+@@ -3234,7 +3234,7 @@ void intel_cpu_transcoder_get_m2_n2(struct intel_crtc *crtc,
+ 				    enum transcoder transcoder,
+ 				    struct intel_link_m_n *m_n)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 
+ 	if (!intel_cpu_transcoder_has_m2_n2(dev_priv, transcoder))
+ 		return;
+@@ -3247,7 +3247,7 @@ void intel_cpu_transcoder_get_m2_n2(struct intel_crtc *crtc,
+ static void ilk_get_pfit_config(struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	u32 ctl, pos, size;
+ 	enum pipe pipe;
+ 
+@@ -3282,7 +3282,7 @@ static void ilk_get_pfit_config(struct intel_crtc_state *crtc_state)
+ static bool ilk_get_pipe_config(struct intel_crtc *crtc,
+ 				struct intel_crtc_state *pipe_config)
+ {
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	enum intel_display_power_domain power_domain;
+ 	intel_wakeref_t wakeref;
+@@ -3482,7 +3482,7 @@ static u8 hsw_panel_transcoders(struct drm_i915_private *i915)
+ 
+ static u8 hsw_enabled_transcoders(struct intel_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	u8 panel_transcoder_mask = hsw_panel_transcoders(dev_priv);
+ 	enum transcoder cpu_transcoder;
+@@ -3586,7 +3586,7 @@ static bool hsw_get_transcoder_state(struct intel_crtc *crtc,
+ 				     struct intel_crtc_state *pipe_config,
+ 				     struct intel_display_power_domain_set *power_domain_set)
+ {
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	unsigned long enabled_transcoders;
+ 	u32 tmp;
+@@ -3624,7 +3624,7 @@ static bool bxt_get_dsi_transcoder_state(struct intel_crtc *crtc,
+ 					 struct intel_crtc_state *pipe_config,
+ 					 struct intel_display_power_domain_set *power_domain_set)
+ {
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	enum transcoder cpu_transcoder;
+ 	enum port port;
+@@ -3669,7 +3669,7 @@ static bool bxt_get_dsi_transcoder_state(struct intel_crtc *crtc,
+ static void intel_bigjoiner_get_config(struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	u8 master_pipes, slave_pipes;
+ 	enum pipe pipe = crtc->pipe;
+ 
+@@ -3686,7 +3686,7 @@ static void intel_bigjoiner_get_config(struct intel_crtc_state *crtc_state)
+ static bool hsw_get_pipe_config(struct intel_crtc *crtc,
+ 				struct intel_crtc_state *pipe_config)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	bool active;
+ 	u32 tmp;
+ 
+@@ -3799,7 +3799,7 @@ static bool hsw_get_pipe_config(struct intel_crtc *crtc,
+ bool intel_crtc_get_pipe_config(struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 
+ 	if (!i915->display.funcs.display->get_pipe_config(crtc, crtc_state))
+ 		return false;
+@@ -3831,7 +3831,7 @@ static int i9xx_pll_refclk(struct drm_device *dev,
+ void i9xx_crtc_clock_get(struct intel_crtc *crtc,
+ 			 struct intel_crtc_state *pipe_config)
+ {
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	u32 dpll = pipe_config->dpll_hw_state.dpll;
+ 	u32 fp;
+@@ -4061,7 +4061,7 @@ static int icl_add_linked_planes(struct intel_atomic_state *state)
+ static int icl_check_nv12_planes(struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_atomic_state *state = to_intel_atomic_state(crtc_state->uapi.state);
+ 	struct intel_plane *plane, *linked;
+ 	struct intel_plane_state *plane_state;
+@@ -4208,7 +4208,7 @@ static u16 hsw_ips_linetime_wm(const struct intel_crtc_state *crtc_state,
+ static u16 skl_linetime_wm(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	const struct drm_display_mode *pipe_mode =
+ 		&crtc_state->hw.pipe_mode;
+ 	int linetime_wm;
+@@ -4230,7 +4230,7 @@ static u16 skl_linetime_wm(const struct intel_crtc_state *crtc_state)
+ static int hsw_compute_linetime_wm(struct intel_atomic_state *state,
+ 				   struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_crtc_state *crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+ 	const struct intel_cdclk_state *cdclk_state;
+@@ -4256,7 +4256,7 @@ static int hsw_compute_linetime_wm(struct intel_atomic_state *state,
+ static int intel_crtc_atomic_check(struct intel_atomic_state *state,
+ 				   struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_crtc_state *crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+ 	int ret;
+@@ -4343,7 +4343,7 @@ compute_sink_pipe_bpp(const struct drm_connector_state *conn_state,
+ 		      struct intel_crtc_state *crtc_state)
+ {
+ 	struct drm_connector *connector = conn_state->connector;
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	const struct drm_display_info *info = &connector->display_info;
+ 	int bpp;
+ 
+@@ -4384,7 +4384,7 @@ static int
+ compute_baseline_pipe_bpp(struct intel_atomic_state *state,
+ 			  struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_crtc_state *crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+ 	struct drm_connector *connector;
+@@ -4601,7 +4601,7 @@ intel_crtc_prepare_cleared_state(struct intel_atomic_state *state,
+ {
+ 	struct intel_crtc_state *crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_crtc_state *saved_state;
+ 
+ 	saved_state = intel_crtc_state_alloc(crtc);
+@@ -4640,7 +4640,7 @@ static int
+ intel_modeset_pipe_config(struct intel_atomic_state *state,
+ 			  struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	struct intel_crtc_state *crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+ 	struct drm_connector *connector;
+@@ -4960,7 +4960,7 @@ static void __printf(4, 5)
+ pipe_config_mismatch(bool fastset, const struct intel_crtc *crtc,
+ 		     const char *name, const char *format, ...)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	struct va_format vaf;
+ 	va_list args;
+ 
+@@ -5001,7 +5001,7 @@ intel_pipe_config_compare(const struct intel_crtc_state *current_config,
+ 			  const struct intel_crtc_state *pipe_config,
+ 			  bool fastset)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(current_config->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(current_config->uapi.crtc->drm);
+ 	struct intel_crtc *crtc = to_intel_crtc(pipe_config->uapi.crtc);
+ 	bool ret = true;
+ 	bool fixup_inherited = fastset &&
+@@ -5559,7 +5559,7 @@ static int intel_modeset_checks(struct intel_atomic_state *state)
+ static void intel_crtc_check_fastset(const struct intel_crtc_state *old_crtc_state,
+ 				     struct intel_crtc_state *new_crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(old_crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(old_crtc_state->uapi.crtc->drm);
+ 
+ 	if (!intel_pipe_config_compare(old_crtc_state, new_crtc_state, true)) {
+ 		drm_dbg_kms(&i915->drm, "fastset requirement not met, forcing full modeset\n");
+@@ -5721,7 +5721,7 @@ static int intel_atomic_check_crtcs(struct intel_atomic_state *state)
  	int i;
-diff --git a/drivers/gpu/drm/i915/display/intel_vrr.c b/drivers/gpu/drm/i915/display/intel_vrr.c
-index 88e4759b538b..6361667d0eb1 100644
---- a/drivers/gpu/drm/i915/display/intel_vrr.c
-+++ b/drivers/gpu/drm/i915/display/intel_vrr.c
-@@ -13,7 +13,7 @@
- bool intel_vrr_is_capable(struct intel_connector *connector)
- {
- 	const struct drm_display_info *info = &connector->base.display_info;
--	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	struct drm_i915_private *i915 = to_i915(connector->base.drm);
- 	struct intel_dp *intel_dp;
  
- 	/*
-diff --git a/drivers/gpu/drm/imx/ipuv3/imx-ldb.c b/drivers/gpu/drm/imx/ipuv3/imx-ldb.c
-index c45fc8f4744d..78bf347837f8 100644
---- a/drivers/gpu/drm/imx/ipuv3/imx-ldb.c
-+++ b/drivers/gpu/drm/imx/ipuv3/imx-ldb.c
-@@ -152,7 +152,7 @@ static int imx_ldb_connector_get_modes(struct drm_connector *connector)
- 	if (imx_ldb_ch->mode_valid) {
- 		struct drm_display_mode *mode;
- 
--		mode = drm_mode_duplicate(connector->dev, &imx_ldb_ch->mode);
-+		mode = drm_mode_duplicate(connector->drm, &imx_ldb_ch->mode);
- 		if (!mode)
- 			return -EINVAL;
- 		mode->type |= DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-diff --git a/drivers/gpu/drm/imx/ipuv3/parallel-display.c b/drivers/gpu/drm/imx/ipuv3/parallel-display.c
-index 0fa0b590830b..c5602b8debcf 100644
---- a/drivers/gpu/drm/imx/ipuv3/parallel-display.c
-+++ b/drivers/gpu/drm/imx/ipuv3/parallel-display.c
-@@ -68,7 +68,7 @@ static int imx_pd_connector_get_modes(struct drm_connector *connector)
- 	}
- 
- 	if (np) {
--		struct drm_display_mode *mode = drm_mode_create(connector->dev);
-+		struct drm_display_mode *mode = drm_mode_create(connector->drm);
+ 	for_each_new_intel_crtc_in_state(state, crtc, crtc_state, i) {
+-		struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++		struct drm_i915_private *i915 = to_i915(crtc->base.drm);
  		int ret;
  
- 		if (!mode)
-@@ -78,7 +78,7 @@ static int imx_pd_connector_get_modes(struct drm_connector *connector)
- 					      &imxpd->bus_flags,
- 					      OF_USE_NATIVE_MODE);
- 		if (ret) {
--			drm_mode_destroy(connector->dev, mode);
-+			drm_mode_destroy(connector->drm, mode);
- 			return ret;
- 		}
- 
-diff --git a/drivers/gpu/drm/loongson/lsdc_output_7a2000.c b/drivers/gpu/drm/loongson/lsdc_output_7a2000.c
-index ce3dabec887e..5ef9fe52bffc 100644
---- a/drivers/gpu/drm/loongson/lsdc_output_7a2000.c
-+++ b/drivers/gpu/drm/loongson/lsdc_output_7a2000.c
-@@ -141,7 +141,7 @@ static const struct drm_info_list ls7a2000_hdmi1_debugfs_files[] = {
- static void ls7a2000_hdmi0_late_register(struct drm_connector *connector,
- 					 struct dentry *root)
+ 		ret = intel_crtc_atomic_check(state, crtc);
+@@ -6427,7 +6427,7 @@ static int intel_atomic_prepare_commit(struct intel_atomic_state *state)
+ void intel_crtc_arm_fifo_underrun(struct intel_crtc *crtc,
+ 				  struct intel_crtc_state *crtc_state)
  {
--	struct drm_device *ddev = connector->dev;
-+	struct drm_device *ddev = connector->drm;
- 	struct drm_minor *minor = ddev->primary;
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
  
- 	drm_debugfs_create_files(ls7a2000_hdmi0_debugfs_files,
-@@ -152,7 +152,7 @@ static void ls7a2000_hdmi0_late_register(struct drm_connector *connector,
- static void ls7a2000_hdmi1_late_register(struct drm_connector *connector,
- 					 struct dentry *root)
+ 	if (DISPLAY_VER(dev_priv) != 2 || crtc_state->active_planes)
+ 		intel_set_cpu_fifo_underrun_reporting(dev_priv, crtc->pipe, true);
+@@ -6444,7 +6444,7 @@ static void intel_pipe_fastset(const struct intel_crtc_state *old_crtc_state,
+ 			       const struct intel_crtc_state *new_crtc_state)
  {
--	struct drm_device *ddev = connector->dev;
-+	struct drm_device *ddev = connector->drm;
- 	struct drm_minor *minor = ddev->primary;
- 
- 	drm_debugfs_create_files(ls7a2000_hdmi1_debugfs_files,
-@@ -165,7 +165,7 @@ static void ls7a2000_hdmi1_late_register(struct drm_connector *connector,
- static enum drm_connector_status
- ls7a2000_hdmi0_vga_connector_detect(struct drm_connector *connector, bool force)
- {
--	struct drm_device *ddev = connector->dev;
-+	struct drm_device *ddev = connector->drm;
- 	struct lsdc_device *ldev = to_lsdc(ddev);
- 	u32 val;
- 
-@@ -187,7 +187,7 @@ ls7a2000_hdmi0_vga_connector_detect(struct drm_connector *connector, bool force)
- static enum drm_connector_status
- ls7a2000_hdmi1_connector_detect(struct drm_connector *connector, bool force)
- {
--	struct lsdc_device *ldev = to_lsdc(connector->dev);
-+	struct lsdc_device *ldev = to_lsdc(connector->drm);
- 	u32 val;
- 
- 	val = lsdc_rreg32(ldev, LSDC_HDMI_HPD_STATUS_REG);
-diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index 26301ccca2ff..b166e6fc1399 100644
---- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -716,7 +716,7 @@ void mgag200_crtc_atomic_destroy_state(struct drm_crtc *crtc, struct drm_crtc_st
- 
- int mgag200_vga_connector_helper_get_modes(struct drm_connector *connector)
- {
--	struct mga_device *mdev = to_mga_device(connector->dev);
-+	struct mga_device *mdev = to_mga_device(connector->drm);
- 	int ret;
+ 	struct intel_crtc *crtc = to_intel_crtc(new_crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
  
  	/*
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-index 2a5a68366582..ddbc11d83027 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-@@ -9,7 +9,7 @@
- 
- static int dpu_wb_conn_get_modes(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct msm_drm_private *priv = dev->dev_private;
- 	struct dpu_kms *dpu_kms = to_dpu_kms(priv->kms);
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 76f13954015b..84ab75196162 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -364,7 +364,7 @@ static void dp_display_send_hpd_event(struct msm_dp *dp_display)
- 	dp = container_of(dp_display, struct dp_display_private, dp_display);
- 
- 	connector = dp->dp_display.connector;
--	drm_helper_hpd_irq_event(connector->dev);
-+	drm_helper_hpd_irq_event(connector->drm);
- }
- 
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-index 785d76639497..c24e3c45ef17 100644
---- a/drivers/gpu/drm/msm/dp/dp_drm.c
-+++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-@@ -85,7 +85,7 @@ static int dp_bridge_get_modes(struct drm_bridge *bridge, struct drm_connector *
- 			return rc;
- 		}
- 	} else {
--		drm_dbg_dp(connector->dev, "No sink connected\n");
-+		drm_dbg_dp(connector->drm, "No sink connected\n");
- 	}
- 	return rc;
- }
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/dac.c b/drivers/gpu/drm/nouveau/dispnv04/dac.c
-index d6b8e0cce2ac..417de5d0b540 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/dac.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/dac.c
-@@ -529,7 +529,7 @@ nv04_dac_create(struct drm_connector *connector, struct dcb_output *entry)
- {
- 	const struct drm_encoder_helper_funcs *helper;
- 	struct nouveau_encoder *nv_encoder = NULL;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_encoder *encoder;
- 
- 	nv_encoder = kzalloc(sizeof(*nv_encoder), GFP_KERNEL);
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/dfp.c b/drivers/gpu/drm/nouveau/dispnv04/dfp.c
-index d5b129dc623b..4469e00f43ad 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/dfp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/dfp.c
-@@ -708,7 +708,7 @@ nv04_dfp_create(struct drm_connector *connector, struct dcb_output *entry)
- 	nv_encoder->dcb = entry;
- 	nv_encoder->or = ffs(entry->or) - 1;
- 
--	drm_encoder_init(connector->dev, encoder, &nv04_dfp_funcs, type, NULL);
-+	drm_encoder_init(connector->drm, encoder, &nv04_dfp_funcs, type, NULL);
- 	drm_encoder_helper_add(encoder, helper);
- 
- 	encoder->possible_crtcs = entry->heads;
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/tvnv04.c b/drivers/gpu/drm/nouveau/dispnv04/tvnv04.c
-index de3ea731d6e6..ed989f19aba6 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/tvnv04.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/tvnv04.c
-@@ -203,7 +203,7 @@ nv04_tv_create(struct drm_connector *connector, struct dcb_output *entry)
- {
- 	struct nouveau_encoder *nv_encoder;
- 	struct drm_encoder *encoder;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct nouveau_drm *drm = nouveau_drm(dev);
- 	struct nvkm_i2c *i2c = nvxx_i2c(&drm->client.device);
- 	struct nvkm_i2c_bus *bus = nvkm_i2c_bus_find(i2c, entry->i2c_index);
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-index 670c9739e5e1..315b30a3befc 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
-@@ -787,7 +787,7 @@ static const struct drm_encoder_funcs nv17_tv_funcs = {
- int
- nv17_tv_create(struct drm_connector *connector, struct dcb_output *entry)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_encoder *encoder;
- 	struct nv17_tv_encoder *tv_enc = NULL;
- 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index 02f51144d228..521bf7eeb558 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -555,8 +555,8 @@ nv50_dac_func = {
- static int
- nv50_dac_create(struct drm_connector *connector, struct dcb_output *dcbe)
- {
--	struct nouveau_drm *drm = nouveau_drm(connector->dev);
--	struct nv50_disp *disp = nv50_disp(connector->dev);
-+	struct nouveau_drm *drm = nouveau_drm(connector->drm);
-+	struct nv50_disp *disp = nv50_disp(connector->drm);
- 	struct nvkm_i2c *i2c = nvxx_i2c(&drm->client.device);
- 	struct nvkm_i2c_bus *bus;
- 	struct nouveau_encoder *nv_encoder;
-@@ -575,7 +575,7 @@ nv50_dac_create(struct drm_connector *connector, struct dcb_output *dcbe)
- 	encoder = to_drm_encoder(nv_encoder);
- 	encoder->possible_crtcs = dcbe->heads;
- 	encoder->possible_clones = 0;
--	drm_encoder_init(connector->dev, encoder, &nv50_dac_func, type,
-+	drm_encoder_init(connector->drm, encoder, &nv50_dac_func, type,
- 			 "dac-%04x-%04x", dcbe->hasht, dcbe->hashm);
- 	drm_encoder_helper_add(encoder, &nv50_dac_help);
- 
-@@ -1151,7 +1151,7 @@ nv50_mstc_get_modes(struct drm_connector *connector)
- 		connector->display_info.bpc = 8;
- 
- 	if (mstc->native)
--		drm_mode_destroy(mstc->connector.dev, mstc->native);
-+		drm_mode_destroy(mstc->connector.drm, mstc->native);
- 	mstc->native = nouveau_conn_native_mode(&mstc->connector);
- 	return ret;
- }
-@@ -1176,9 +1176,9 @@ nv50_mstc_detect(struct drm_connector *connector,
- 	if (drm_connector_is_unregistered(connector))
- 		return connector_status_disconnected;
- 
--	ret = pm_runtime_get_sync(connector->dev->dev);
-+	ret = pm_runtime_get_sync(connector->drm->dev);
- 	if (ret < 0 && ret != -EACCES) {
--		pm_runtime_put_autosuspend(connector->dev->dev);
-+		pm_runtime_put_autosuspend(connector->drm->dev);
- 		return connector_status_disconnected;
- 	}
- 
-@@ -1188,8 +1188,8 @@ nv50_mstc_detect(struct drm_connector *connector,
- 		goto out;
- 
- out:
--	pm_runtime_mark_last_busy(connector->dev->dev);
--	pm_runtime_put_autosuspend(connector->dev->dev);
-+	pm_runtime_mark_last_busy(connector->drm->dev);
-+	pm_runtime_put_autosuspend(connector->drm->dev);
- 	return ret;
- }
- 
-@@ -1717,11 +1717,11 @@ static int
- nv50_sor_create(struct drm_connector *connector, struct dcb_output *dcbe)
- {
- 	struct nouveau_connector *nv_connector = nouveau_connector(connector);
--	struct nouveau_drm *drm = nouveau_drm(connector->dev);
-+	struct nouveau_drm *drm = nouveau_drm(connector->drm);
- 	struct nvkm_i2c *i2c = nvxx_i2c(&drm->client.device);
- 	struct nouveau_encoder *nv_encoder;
- 	struct drm_encoder *encoder;
--	struct nv50_disp *disp = nv50_disp(connector->dev);
-+	struct nv50_disp *disp = nv50_disp(connector->drm);
- 	int type, ret;
- 
- 	switch (dcbe->type) {
-@@ -1742,7 +1742,7 @@ nv50_sor_create(struct drm_connector *connector, struct dcb_output *dcbe)
- 	encoder = to_drm_encoder(nv_encoder);
- 	encoder->possible_crtcs = dcbe->heads;
- 	encoder->possible_clones = 0;
--	drm_encoder_init(connector->dev, encoder, &nv50_sor_func, type,
-+	drm_encoder_init(connector->drm, encoder, &nv50_sor_func, type,
- 			 "sor-%04x-%04x", dcbe->hasht, dcbe->hashm);
- 	drm_encoder_helper_add(encoder, &nv50_sor_help);
- 
-@@ -1884,7 +1884,7 @@ nv50_pior_func = {
- static int
- nv50_pior_create(struct drm_connector *connector, struct dcb_output *dcbe)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct nouveau_drm *drm = nouveau_drm(dev);
- 	struct nv50_disp *disp = nv50_disp(dev);
- 	struct nvkm_i2c *i2c = nvxx_i2c(&drm->client.device);
-@@ -1920,7 +1920,7 @@ nv50_pior_create(struct drm_connector *connector, struct dcb_output *dcbe)
- 	encoder = to_drm_encoder(nv_encoder);
- 	encoder->possible_crtcs = dcbe->heads;
- 	encoder->possible_clones = 0;
--	drm_encoder_init(connector->dev, encoder, &nv50_pior_func, type,
-+	drm_encoder_init(connector->drm, encoder, &nv50_pior_func, type,
- 			 "pior-%04x-%04x", dcbe->hasht, dcbe->hashm);
- 	drm_encoder_helper_add(encoder, &nv50_pior_help);
- 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_backlight.c b/drivers/gpu/drm/nouveau/nouveau_backlight.c
-index 91b5ecc57538..13b40f0383f0 100644
---- a/drivers/gpu/drm/nouveau/nouveau_backlight.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_backlight.c
-@@ -153,7 +153,7 @@ static int
- nv50_edp_get_brightness(struct backlight_device *bd)
- {
- 	struct drm_connector *connector = dev_get_drvdata(bd->dev.parent);
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_crtc *crtc;
- 	struct drm_modeset_acquire_ctx ctx;
- 	int ret = 0;
-@@ -195,7 +195,7 @@ nv50_edp_set_brightness(struct backlight_device *bd)
- {
- 	struct drm_connector *connector = dev_get_drvdata(bd->dev.parent);
- 	struct nouveau_connector *nv_connector = nouveau_connector(connector);
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_crtc *crtc;
- 	struct drm_dp_aux *aux = &nv_connector->aux;
- 	struct nouveau_backlight *nv_bl = nv_connector->backlight;
-@@ -361,7 +361,7 @@ nv50_backlight_init(struct nouveau_backlight *bl,
- int
- nouveau_backlight_init(struct drm_connector *connector)
- {
--	struct nouveau_drm *drm = nouveau_drm(connector->dev);
-+	struct nouveau_drm *drm = nouveau_drm(connector->drm);
- 	struct nouveau_backlight *bl;
- 	struct nouveau_encoder *nv_encoder = NULL;
- 	struct nvif_device *device = &drm->client.device;
-diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
-index 68b4fb4bec63..d4070be752f6 100644
---- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-@@ -53,8 +53,8 @@ struct drm_display_mode *
- nouveau_conn_native_mode(struct drm_connector *connector)
- {
- 	const struct drm_connector_helper_funcs *helper = connector->helper_private;
--	struct nouveau_drm *drm = nouveau_drm(connector->dev);
--	struct drm_device *dev = connector->dev;
-+	struct nouveau_drm *drm = nouveau_drm(connector->drm);
-+	struct drm_device *dev = connector->drm;
- 	struct drm_display_mode *mode, *largest = NULL;
- 	int high_w = 0, high_h = 0, high_v = 0;
- 
-@@ -99,8 +99,8 @@ nouveau_conn_atomic_get_property(struct drm_connector *connector,
- 				 struct drm_property *property, u64 *val)
- {
- 	struct nouveau_conn_atom *asyc = nouveau_conn_atom(state);
--	struct nouveau_display *disp = nouveau_display(connector->dev);
--	struct drm_device *dev = connector->dev;
-+	struct nouveau_display *disp = nouveau_display(connector->drm);
-+	struct drm_device *dev = connector->drm;
- 
- 	if (property == dev->mode_config.scaling_mode_property)
- 		*val = asyc->scaler.mode;
-@@ -129,7 +129,7 @@ nouveau_conn_atomic_set_property(struct drm_connector *connector,
- 				 struct drm_connector_state *state,
- 				 struct drm_property *property, u64 val)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct nouveau_conn_atom *asyc = nouveau_conn_atom(state);
- 	struct nouveau_display *disp = nouveau_display(dev);
- 
-@@ -248,7 +248,7 @@ nouveau_conn_reset(struct drm_connector *connector)
- 	struct nouveau_connector *nv_connector = nouveau_connector(connector);
- 	struct nouveau_conn_atom *asyc;
- 
--	if (drm_drv_uses_atomic_modeset(connector->dev)) {
-+	if (drm_drv_uses_atomic_modeset(connector->drm)) {
- 		if (WARN_ON(!(asyc = kzalloc(sizeof(*asyc), GFP_KERNEL))))
- 			return;
- 
-@@ -268,7 +268,7 @@ nouveau_conn_reset(struct drm_connector *connector)
- 	asyc->procamp.color_vibrance = 150;
- 	asyc->procamp.vibrant_hue = 90;
- 
--	if (nouveau_display(connector->dev)->disp.object.oclass < NV50_DISP) {
-+	if (nouveau_display(connector->drm)->disp.object.oclass < NV50_DISP) {
- 		switch (connector->connector_type) {
- 		case DRM_MODE_CONNECTOR_LVDS:
- 			/* See note in nouveau_conn_atomic_set_property(). */
-@@ -283,12 +283,12 @@ nouveau_conn_reset(struct drm_connector *connector)
- void
- nouveau_conn_attach_properties(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct nouveau_display *disp = nouveau_display(dev);
- 	struct nouveau_connector *nv_connector = nouveau_connector(connector);
- 	struct nouveau_conn_atom *armc;
- 
--	if (drm_drv_uses_atomic_modeset(connector->dev))
-+	if (drm_drv_uses_atomic_modeset(connector->drm))
- 		armc = nouveau_conn_atom(connector->state);
- 	else
- 		armc = &nv_connector->properties_state;
-@@ -411,7 +411,7 @@ nouveau_connector_destroy(struct drm_connector *connector)
- static struct nouveau_encoder *
- nouveau_connector_ddc_detect(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	struct nouveau_encoder *nv_encoder = NULL, *found = NULL;
- 	struct drm_encoder *encoder;
-@@ -459,7 +459,7 @@ static struct nouveau_encoder *
- nouveau_connector_of_detect(struct drm_connector *connector)
- {
- #ifdef __powerpc__
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct nouveau_connector *nv_connector = nouveau_connector(connector);
- 	struct nouveau_encoder *nv_encoder;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
-@@ -491,8 +491,8 @@ nouveau_connector_set_encoder(struct drm_connector *connector,
- 			      struct nouveau_encoder *nv_encoder)
- {
- 	struct nouveau_connector *nv_connector = nouveau_connector(connector);
--	struct nouveau_drm *drm = nouveau_drm(connector->dev);
--	struct drm_device *dev = connector->dev;
-+	struct nouveau_drm *drm = nouveau_drm(connector->drm);
-+	struct drm_device *dev = connector->drm;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
- 	if (nv_connector->detected_encoder == nv_encoder)
-@@ -549,7 +549,7 @@ nouveau_connector_set_edid(struct nouveau_connector *nv_connector,
- static enum drm_connector_status
- nouveau_connector_detect(struct drm_connector *connector, bool force)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct nouveau_drm *drm = nouveau_drm(dev);
- 	struct nouveau_connector *nv_connector = nouveau_connector(connector);
- 	struct nouveau_encoder *nv_encoder = NULL;
-@@ -665,7 +665,7 @@ nouveau_connector_detect(struct drm_connector *connector, bool force)
- static enum drm_connector_status
- nouveau_connector_detect_lvds(struct drm_connector *connector, bool force)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct nouveau_drm *drm = nouveau_drm(dev);
- 	struct nouveau_connector *nv_connector = nouveau_connector(connector);
- 	struct nouveau_encoder *nv_encoder = NULL;
-@@ -741,7 +741,7 @@ nouveau_connector_detect_lvds(struct drm_connector *connector, bool force)
- static void
- nouveau_connector_force(struct drm_connector *connector)
- {
--	struct nouveau_drm *drm = nouveau_drm(connector->dev);
-+	struct nouveau_drm *drm = nouveau_drm(connector->drm);
- 	struct nouveau_connector *nv_connector = nouveau_connector(connector);
- 	struct nouveau_encoder *nv_encoder;
- 	int type;
-@@ -829,7 +829,7 @@ nouveau_connector_scaler_modes_add(struct drm_connector *connector)
- {
- 	struct nouveau_connector *nv_connector = nouveau_connector(connector);
- 	struct drm_display_mode *native = nv_connector->native_mode, *m;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct moderec *mode = &scaler_modes[0];
- 	int modes = 0;
- 
-@@ -860,7 +860,7 @@ nouveau_connector_scaler_modes_add(struct drm_connector *connector)
- static void
- nouveau_connector_detect_depth(struct drm_connector *connector)
- {
--	struct nouveau_drm *drm = nouveau_drm(connector->dev);
-+	struct nouveau_drm *drm = nouveau_drm(connector->drm);
- 	struct nouveau_connector *nv_connector = nouveau_connector(connector);
- 	struct nouveau_encoder *nv_encoder = nv_connector->detected_encoder;
- 	struct nvbios *bios = &drm->vbios;
-@@ -941,7 +941,7 @@ nouveau_connector_early_unregister(struct drm_connector *connector)
- static int
- nouveau_connector_get_modes(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct nouveau_drm *drm = nouveau_drm(dev);
- 	struct nouveau_connector *nv_connector = nouveau_connector(connector);
- 	struct nouveau_encoder *nv_encoder = nv_connector->detected_encoder;
-@@ -1010,7 +1010,7 @@ get_tmds_link_bandwidth(struct drm_connector *connector)
- {
- 	struct nouveau_connector *nv_connector = nouveau_connector(connector);
- 	struct nouveau_encoder *nv_encoder = nv_connector->detected_encoder;
--	struct nouveau_drm *drm = nouveau_drm(connector->dev);
-+	struct nouveau_drm *drm = nouveau_drm(connector->drm);
- 	struct dcb_output *dcb = nv_connector->detected_encoder->dcb;
- 	struct drm_display_info *info = NULL;
- 	unsigned duallink_scale =
-@@ -1117,7 +1117,7 @@ nouveau_connector_atomic_check(struct drm_connector *connector, struct drm_atomi
- 	struct drm_connector_state *conn_state =
- 		drm_atomic_get_new_connector_state(state, connector);
- 
--	if (!nv_conn->dp_encoder || !nv50_has_mst(nouveau_drm(connector->dev)))
-+	if (!nv_conn->dp_encoder || !nv50_has_mst(nouveau_drm(connector->drm)))
- 		return 0;
- 
- 	return drm_dp_mst_root_conn_atomic_check(conn_state, &nv_conn->dp_encoder->dp.mstm->mgr);
-@@ -1168,7 +1168,7 @@ nouveau_connector_funcs_lvds = {
- void
- nouveau_connector_hpd(struct nouveau_connector *nv_connector, u64 bits)
- {
--	struct nouveau_drm *drm = nouveau_drm(nv_connector->base.dev);
-+	struct nouveau_drm *drm = nouveau_drm(nv_connector->base.drm);
- 	u32 mask = drm_connector_mask(&nv_connector->base);
- 	unsigned long flags;
- 
-diff --git a/drivers/gpu/drm/omapdrm/dss/venc.c b/drivers/gpu/drm/omapdrm/dss/venc.c
-index f163d52a7c7d..7c93684b1124 100644
---- a/drivers/gpu/drm/omapdrm/dss/venc.c
-+++ b/drivers/gpu/drm/omapdrm/dss/venc.c
-@@ -639,7 +639,7 @@ static int venc_bridge_get_modes(struct drm_bridge *bridge,
- 	for (i = 0; i < ARRAY_SIZE(modes); ++i) {
- 		struct drm_display_mode *mode;
- 
--		mode = drm_mode_duplicate(connector->dev, modes[i]);
-+		mode = drm_mode_duplicate(connector->drm, modes[i]);
- 		if (!mode)
- 			return i;
- 
-diff --git a/drivers/gpu/drm/panel/panel-abt-y030xx067a.c b/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
-index 1cc0f1d09684..b1451cad648b 100644
---- a/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
-+++ b/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
-@@ -232,7 +232,7 @@ static int y030xx067a_get_modes(struct drm_panel *panel,
- 	unsigned int i;
- 
- 	for (i = 0; i < panel_info->num_modes; i++) {
--		mode = drm_mode_duplicate(connector->dev,
-+		mode = drm_mode_duplicate(connector->drm,
- 					  &panel_info->display_modes[i]);
- 		if (!mode)
- 			return -ENOMEM;
-diff --git a/drivers/gpu/drm/panel/panel-arm-versatile.c b/drivers/gpu/drm/panel/panel-arm-versatile.c
-index abb0788843c6..5bad5f77356f 100644
---- a/drivers/gpu/drm/panel/panel-arm-versatile.c
-+++ b/drivers/gpu/drm/panel/panel-arm-versatile.c
-@@ -266,7 +266,7 @@ static int versatile_panel_get_modes(struct drm_panel *panel,
- 	connector->display_info.height_mm = vpanel->panel_type->height_mm;
- 	connector->display_info.bus_flags = vpanel->panel_type->bus_flags;
- 
--	mode = drm_mode_duplicate(connector->dev, &vpanel->panel_type->mode);
-+	mode = drm_mode_duplicate(connector->drm, &vpanel->panel_type->mode);
- 	drm_mode_set_name(mode);
- 	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
- 
-diff --git a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
-index 075a7af81eff..bbe3be54250f 100644
---- a/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
-+++ b/drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c
-@@ -176,7 +176,7 @@ static int tm5p5_nt35596_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &tm5p5_nt35596_mode);
-+	mode = drm_mode_duplicate(connector->drm, &tm5p5_nt35596_mode);
- 	if (!mode)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/panel/panel-auo-a030jtn01.c b/drivers/gpu/drm/panel/panel-auo-a030jtn01.c
-index 3c976a98de6a..ba269dd26381 100644
---- a/drivers/gpu/drm/panel/panel-auo-a030jtn01.c
-+++ b/drivers/gpu/drm/panel/panel-auo-a030jtn01.c
-@@ -143,7 +143,7 @@ static int a030jtn01_get_modes(struct drm_panel *panel,
- 	unsigned int i;
- 
- 	for (i = 0; i < panel_info->num_modes; i++) {
--		mode = drm_mode_duplicate(connector->dev,
-+		mode = drm_mode_duplicate(connector->drm,
- 					  &panel_info->display_modes[i]);
- 		if (!mode)
- 			return -ENOMEM;
-diff --git a/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c b/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
-index 90098b753e3b..0093c6a0f955 100644
---- a/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
-+++ b/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
-@@ -219,7 +219,7 @@ static int boe_bf060y8m_aj0_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &boe_bf060y8m_aj0_mode);
-+	mode = drm_mode_duplicate(connector->drm, &boe_bf060y8m_aj0_mode);
- 	if (!mode)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/panel/panel-boe-himax8279d.c b/drivers/gpu/drm/panel/panel-boe-himax8279d.c
-index d879b3b14c48..f087f398dba4 100644
---- a/drivers/gpu/drm/panel/panel-boe-himax8279d.c
-+++ b/drivers/gpu/drm/panel/panel-boe-himax8279d.c
-@@ -218,7 +218,7 @@ static int boe_panel_get_modes(struct drm_panel *panel,
- 	const struct drm_display_mode *m = pinfo->desc->display_mode;
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, m);
-+	mode = drm_mode_duplicate(connector->drm, m);
- 	if (!mode) {
- 		dev_err(pinfo->base.dev, "failed to add mode %ux%u@%u\n",
- 			m->hdisplay, m->vdisplay, drm_mode_vrefresh(m));
-diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-index 3cc9fb0d4f5d..642b7e62c0bb 100644
---- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-+++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-@@ -2171,7 +2171,7 @@ static int boe_panel_get_modes(struct drm_panel *panel,
- 	const struct drm_display_mode *m = boe->desc->modes;
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, m);
-+	mode = drm_mode_duplicate(connector->drm, m);
- 	if (!mode) {
- 		dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
- 			m->hdisplay, m->vdisplay, drm_mode_vrefresh(m));
-diff --git a/drivers/gpu/drm/panel/panel-dsi-cm.c b/drivers/gpu/drm/panel/panel-dsi-cm.c
-index ba17bcc4461c..fc349928ffa0 100644
---- a/drivers/gpu/drm/panel/panel-dsi-cm.c
-+++ b/drivers/gpu/drm/panel/panel-dsi-cm.c
-@@ -433,7 +433,7 @@ static int dsicm_get_modes(struct drm_panel *panel,
- 	struct panel_drv_data *ddata = panel_to_ddata(panel);
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &ddata->mode);
-+	mode = drm_mode_duplicate(connector->drm, &ddata->mode);
- 	if (!mode) {
- 		dev_err(&ddata->dsi->dev, "failed to add mode %ux%ux@%u kHz\n",
- 			ddata->mode.hdisplay, ddata->mode.vdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-ebbg-ft8719.c b/drivers/gpu/drm/panel/panel-ebbg-ft8719.c
-index e85d63a176d0..52a248c0907f 100644
---- a/drivers/gpu/drm/panel/panel-ebbg-ft8719.c
-+++ b/drivers/gpu/drm/panel/panel-ebbg-ft8719.c
-@@ -172,7 +172,7 @@ static int ebbg_ft8719_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &ebbg_ft8719_mode);
-+	mode = drm_mode_duplicate(connector->drm, &ebbg_ft8719_mode);
- 	if (!mode)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index df7e3cff004c..3546c30cde9e 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -249,7 +249,7 @@ static unsigned int panel_edp_get_timings_modes(struct panel_edp *panel,
- 		struct videomode vm;
- 
- 		videomode_from_timing(dt, &vm);
--		mode = drm_mode_create(connector->dev);
-+		mode = drm_mode_create(connector->drm);
- 		if (!mode) {
- 			dev_err(panel->base.dev, "failed to add mode %ux%u\n",
- 				dt->hactive.typ, dt->vactive.typ);
-@@ -279,7 +279,7 @@ static unsigned int panel_edp_get_display_modes(struct panel_edp *panel,
- 	for (i = 0; i < panel->desc->num_modes; i++) {
- 		const struct drm_display_mode *m = &panel->desc->modes[i];
- 
--		mode = drm_mode_duplicate(connector->dev, m);
-+		mode = drm_mode_duplicate(connector->drm, m);
- 		if (!mode) {
- 			dev_err(panel->base.dev, "failed to add mode %ux%u@%u\n",
- 				m->hdisplay, m->vdisplay,
-@@ -312,7 +312,7 @@ static int panel_edp_get_non_edid_modes(struct panel_edp *panel,
- 		return 0;
- 
- 	if (has_override) {
--		mode = drm_mode_duplicate(connector->dev,
-+		mode = drm_mode_duplicate(connector->drm,
- 					  &panel->override_mode);
- 		if (mode) {
- 			drm_mode_probed_add(connector, mode);
-diff --git a/drivers/gpu/drm/panel/panel-elida-kd35t133.c b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-index e7be15b68102..02cba816edae 100644
---- a/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-+++ b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
-@@ -195,7 +195,7 @@ static int kd35t133_get_modes(struct drm_panel *panel,
- 	struct kd35t133 *ctx = panel_to_kd35t133(panel);
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &default_mode);
-+	mode = drm_mode_duplicate(connector->drm, &default_mode);
- 	if (!mode) {
- 		dev_err(ctx->dev, "Failed to add mode %ux%u@%u\n",
- 			default_mode.hdisplay, default_mode.vdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c b/drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c
-index 76572c922983..8042dd29536a 100644
---- a/drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c
-+++ b/drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c
-@@ -411,7 +411,7 @@ static int k101_im2ba02_get_modes(struct drm_panel *panel,
- 	struct k101_im2ba02 *ctx = panel_to_k101_im2ba02(panel);
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &k101_im2ba02_default_mode);
-+	mode = drm_mode_duplicate(connector->drm, &k101_im2ba02_default_mode);
- 	if (!mode) {
- 		dev_err(&ctx->dsi->dev, "failed to add mode %ux%u@%u\n",
- 			k101_im2ba02_default_mode.hdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c b/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
-index df493da50afe..d6cb463f08b0 100644
---- a/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
-+++ b/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
-@@ -160,7 +160,7 @@ static int feiyang_get_modes(struct drm_panel *panel,
- 	struct feiyang *ctx = panel_to_feiyang(panel);
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &feiyang_default_mode);
-+	mode = drm_mode_duplicate(connector->drm, &feiyang_default_mode);
- 	if (!mode) {
- 		dev_err(&ctx->dsi->dev, "failed to add mode %ux%u@%u\n",
- 			feiyang_default_mode.hdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-himax-hx8394.c b/drivers/gpu/drm/panel/panel-himax-hx8394.c
-index d4fb5d1b295b..46b40baa9851 100644
---- a/drivers/gpu/drm/panel/panel-himax-hx8394.c
-+++ b/drivers/gpu/drm/panel/panel-himax-hx8394.c
-@@ -317,7 +317,7 @@ static int hx8394_get_modes(struct drm_panel *panel,
- 	struct hx8394 *ctx = panel_to_hx8394(panel);
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, ctx->desc->mode);
-+	mode = drm_mode_duplicate(connector->drm, ctx->desc->mode);
- 	if (!mode) {
- 		dev_err(ctx->dev, "Failed to add mode %ux%u@%u\n",
- 			ctx->desc->mode->hdisplay, ctx->desc->mode->vdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9322.c b/drivers/gpu/drm/panel/panel-ilitek-ili9322.c
-index 3dfafa585127..825f4cae23ae 100644
---- a/drivers/gpu/drm/panel/panel-ilitek-ili9322.c
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9322.c
-@@ -637,7 +637,7 @@ static int ili9322_get_modes(struct drm_panel *panel,
- 			     struct drm_connector *connector)
- {
- 	struct ili9322 *ili = panel_to_ili9322(panel);
--	struct drm_device *drm = connector->dev;
-+	struct drm_device *drm = connector->drm;
- 	struct drm_display_mode *mode;
- 	struct drm_display_info *info;
- 
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-index 3fdf884b3257..9156a98a7218 100644
---- a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-@@ -436,7 +436,7 @@ static int ili9341_dpi_get_modes(struct drm_panel *panel,
- 				 struct drm_connector *connector)
- {
- 	struct ili9341 *ili = panel_to_ili9341(panel);
--	struct drm_device *drm = connector->dev;
-+	struct drm_device *drm = connector->drm;
- 	struct drm_display_mode *mode;
- 	struct drm_display_info *info;
- 
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-index 1ec696adf9de..f14cdbab1a39 100644
---- a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-@@ -835,7 +835,7 @@ static int ili9881c_get_modes(struct drm_panel *panel,
- 	struct ili9881c *ctx = panel_to_ili9881c(panel);
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, ctx->desc->mode);
-+	mode = drm_mode_duplicate(connector->drm, ctx->desc->mode);
- 	if (!mode) {
- 		dev_err(&ctx->dsi->dev, "failed to add mode %ux%ux@%u\n",
- 			ctx->desc->mode->hdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-innolux-ej030na.c b/drivers/gpu/drm/panel/panel-innolux-ej030na.c
-index b2b0ebc9e943..958fe6c7b2d4 100644
---- a/drivers/gpu/drm/panel/panel-innolux-ej030na.c
-+++ b/drivers/gpu/drm/panel/panel-innolux-ej030na.c
-@@ -158,7 +158,7 @@ static int ej030na_get_modes(struct drm_panel *panel,
- 	unsigned int i;
- 
- 	for (i = 0; i < panel_info->num_modes; i++) {
--		mode = drm_mode_duplicate(connector->dev,
-+		mode = drm_mode_duplicate(connector->drm,
- 					  &panel_info->display_modes[i]);
- 		if (!mode)
- 			return -ENOMEM;
-diff --git a/drivers/gpu/drm/panel/panel-innolux-p079zca.c b/drivers/gpu/drm/panel/panel-innolux-p079zca.c
-index 9992d0d4c0e5..99120a6b6a29 100644
---- a/drivers/gpu/drm/panel/panel-innolux-p079zca.c
-+++ b/drivers/gpu/drm/panel/panel-innolux-p079zca.c
-@@ -389,7 +389,7 @@ static int innolux_panel_get_modes(struct drm_panel *panel,
- 	const struct drm_display_mode *m = innolux->desc->mode;
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, m);
-+	mode = drm_mode_duplicate(connector->drm, m);
- 	if (!mode) {
- 		dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
- 			m->hdisplay, m->vdisplay, drm_mode_vrefresh(m));
-diff --git a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-index 323c33c9c37a..c4717512f229 100644
---- a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-+++ b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-@@ -142,7 +142,7 @@ static int jadard_get_modes(struct drm_panel *panel,
- 	const struct drm_display_mode *desc_mode = &jadard->desc->mode;
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, desc_mode);
-+	mode = drm_mode_duplicate(connector->drm, desc_mode);
- 	if (!mode) {
- 		DRM_DEV_ERROR(&jadard->dsi->dev, "failed to add mode %ux%ux@%u\n",
- 			      desc_mode->hdisplay, desc_mode->vdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c b/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
-index 8912757a6f42..37aeaae785a0 100644
---- a/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
-+++ b/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
-@@ -211,7 +211,7 @@ static int jdi_fhd_r63452_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &jdi_fhd_r63452_mode);
-+	mode = drm_mode_duplicate(connector->drm, &jdi_fhd_r63452_mode);
- 	if (!mode)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c b/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
-index 8f4f137a2af6..44a05119fcc5 100644
---- a/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
-+++ b/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
-@@ -306,7 +306,7 @@ static int jdi_panel_get_modes(struct drm_panel *panel,
- 	struct jdi_panel *jdi = to_jdi_panel(panel);
- 	struct device *dev = &jdi->dsi->dev;
- 
--	mode = drm_mode_duplicate(connector->dev, &default_mode);
-+	mode = drm_mode_duplicate(connector->drm, &default_mode);
- 	if (!mode) {
- 		dev_err(dev, "failed to add mode %ux%ux@%u\n",
- 			default_mode.hdisplay, default_mode.vdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-khadas-ts050.c b/drivers/gpu/drm/panel/panel-khadas-ts050.c
-index b942a0162274..05974d3da8bd 100644
---- a/drivers/gpu/drm/panel/panel-khadas-ts050.c
-+++ b/drivers/gpu/drm/panel/panel-khadas-ts050.c
-@@ -734,7 +734,7 @@ static int khadas_ts050_panel_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &default_mode);
-+	mode = drm_mode_duplicate(connector->drm, &default_mode);
- 	if (!mode) {
- 		dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
- 			default_mode.hdisplay, default_mode.vdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c b/drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c
-index 17f8d80cf2b3..cdcbd143955d 100644
---- a/drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c
-+++ b/drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c
-@@ -318,7 +318,7 @@ static int kingdisplay_panel_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &default_mode);
-+	mode = drm_mode_duplicate(connector->drm, &default_mode);
- 	if (!mode) {
- 		dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
- 			default_mode.hdisplay, default_mode.vdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c b/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c
-index d2efd887484b..d2f6390bd286 100644
---- a/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c
-+++ b/drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c
-@@ -522,7 +522,7 @@ static int ltk050h3146w_get_modes(struct drm_panel *panel,
- 	struct ltk050h3146w *ctx = panel_to_ltk050h3146w(panel);
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, ctx->panel_desc->mode);
-+	mode = drm_mode_duplicate(connector->drm, ctx->panel_desc->mode);
- 	if (!mode)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c b/drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c
-index 39e408c9f762..ef24435f990c 100644
---- a/drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c
-+++ b/drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c
-@@ -379,7 +379,7 @@ static int ltk500hd1829_get_modes(struct drm_panel *panel,
- 	struct ltk500hd1829 *ctx = panel_to_ltk500hd1829(panel);
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &default_mode);
-+	mode = drm_mode_duplicate(connector->drm, &default_mode);
- 	if (!mode) {
- 		dev_err(ctx->dev, "failed to add mode %ux%u@%u\n",
- 			default_mode.hdisplay, default_mode.vdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-lg-lb035q02.c b/drivers/gpu/drm/panel/panel-lg-lb035q02.c
-index 9d0d4faa3f58..1393ec128d82 100644
---- a/drivers/gpu/drm/panel/panel-lg-lb035q02.c
-+++ b/drivers/gpu/drm/panel/panel-lg-lb035q02.c
-@@ -145,7 +145,7 @@ static int lb035q02_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &lb035q02_mode);
-+	mode = drm_mode_duplicate(connector->drm, &lb035q02_mode);
- 	if (!mode)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/panel/panel-lg-lg4573.c b/drivers/gpu/drm/panel/panel-lg-lg4573.c
-index cf246d15b7b6..263211f6c70e 100644
---- a/drivers/gpu/drm/panel/panel-lg-lg4573.c
-+++ b/drivers/gpu/drm/panel/panel-lg-lg4573.c
-@@ -213,7 +213,7 @@ static int lg4573_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &default_mode);
-+	mode = drm_mode_duplicate(connector->drm, &default_mode);
- 	if (!mode) {
- 		dev_err(panel->dev, "failed to add mode %ux%ux@%u\n",
- 			default_mode.hdisplay, default_mode.vdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-lvds.c b/drivers/gpu/drm/panel/panel-lvds.c
-index b47c3a679be0..680b913a897d 100644
---- a/drivers/gpu/drm/panel/panel-lvds.c
-+++ b/drivers/gpu/drm/panel/panel-lvds.c
-@@ -87,7 +87,7 @@ static int panel_lvds_get_modes(struct drm_panel *panel,
- 	struct panel_lvds *lvds = to_panel_lvds(panel);
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &lvds->dmode);
-+	mode = drm_mode_duplicate(connector->drm, &lvds->dmode);
- 	if (!mode)
- 		return 0;
- 
-diff --git a/drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c b/drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c
-index 26d358b9b85a..8d50687f5a80 100644
---- a/drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c
-+++ b/drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c
-@@ -295,7 +295,7 @@ static int d53e6ea8966_get_modes(struct drm_panel *panel,
- 	unsigned int i;
- 
- 	for (i = 0; i < panel_info->num_modes; i++) {
--		mode = drm_mode_duplicate(connector->dev,
-+		mode = drm_mode_duplicate(connector->drm,
- 					  &panel_info->display_modes[i]);
- 		if (!mode)
- 			return -ENOMEM;
-diff --git a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
-index 9243b2ad828d..1d40ae7020fe 100644
---- a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
-+++ b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
-@@ -223,7 +223,7 @@ static int mantix_get_modes(struct drm_panel *panel,
- 	struct mantix *ctx = panel_to_mantix(panel);
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, ctx->default_mode);
-+	mode = drm_mode_duplicate(connector->drm, ctx->default_mode);
- 	if (!mode) {
- 		dev_err(ctx->dev, "Failed to add mode %ux%u@%u\n",
- 			ctx->default_mode->hdisplay, ctx->default_mode->vdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-nec-nl8048hl11.c b/drivers/gpu/drm/panel/panel-nec-nl8048hl11.c
-index 81c5c541a351..1b5ba997331b 100644
---- a/drivers/gpu/drm/panel/panel-nec-nl8048hl11.c
-+++ b/drivers/gpu/drm/panel/panel-nec-nl8048hl11.c
-@@ -127,7 +127,7 @@ static int nl8048_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &nl8048_mode);
-+	mode = drm_mode_duplicate(connector->drm, &nl8048_mode);
- 	if (!mode)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3051d.c b/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
-index a07958038ffd..200b1a96540b 100644
---- a/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
-+++ b/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
-@@ -323,7 +323,7 @@ static int panel_nv3051d_get_modes(struct drm_panel *panel,
- 	unsigned int i;
- 
- 	for (i = 0; i < panel_info->num_modes; i++) {
--		mode = drm_mode_duplicate(connector->dev,
-+		mode = drm_mode_duplicate(connector->drm,
- 					  &panel_info->display_modes[i]);
- 		if (!mode)
- 			return -ENOMEM;
-diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-index cf078f0d3cd3..b37358c7210e 100644
---- a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-+++ b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-@@ -339,7 +339,7 @@ static int nv3052c_get_modes(struct drm_panel *panel,
- 	unsigned int i;
- 
- 	for (i = 0; i < panel_info->num_modes; i++) {
--		mode = drm_mode_duplicate(connector->dev,
-+		mode = drm_mode_duplicate(connector->drm,
- 					  &panel_info->display_modes[i]);
- 		if (!mode)
- 			return -ENOMEM;
-diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35510.c b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-index 493c3c23f0d6..ee043fdbd316 100644
---- a/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-+++ b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
-@@ -848,7 +848,7 @@ static int nt35510_get_modes(struct drm_panel *panel,
- 	info = &connector->display_info;
- 	info->width_mm = nt->conf->width_mm;
- 	info->height_mm = nt->conf->height_mm;
--	mode = drm_mode_duplicate(connector->dev, &nt->conf->mode);
-+	mode = drm_mode_duplicate(connector->drm, &nt->conf->mode);
- 	if (!mode) {
- 		dev_err(panel->dev, "bad mode or failed to add mode\n");
- 		return -EINVAL;
-diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35560.c b/drivers/gpu/drm/panel/panel-novatek-nt35560.c
-index cc7f96d70826..304fd6495adf 100644
---- a/drivers/gpu/drm/panel/panel-novatek-nt35560.c
-+++ b/drivers/gpu/drm/panel/panel-novatek-nt35560.c
-@@ -425,10 +425,10 @@ static int nt35560_get_modes(struct drm_panel *panel,
- 	struct drm_display_mode *mode;
- 
- 	if (nt->video_mode)
--		mode = drm_mode_duplicate(connector->dev,
-+		mode = drm_mode_duplicate(connector->drm,
- 					  conf->vid_mode);
- 	else
--		mode = drm_mode_duplicate(connector->dev,
-+		mode = drm_mode_duplicate(connector->drm,
- 					  conf->cmd_mode);
- 	if (!mode) {
- 		dev_err(panel->dev, "bad mode or failed to add mode\n");
-diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35950.c b/drivers/gpu/drm/panel/panel-novatek-nt35950.c
-index 8b108ac80b55..331dcaf9d805 100644
---- a/drivers/gpu/drm/panel/panel-novatek-nt35950.c
-+++ b/drivers/gpu/drm/panel/panel-novatek-nt35950.c
-@@ -500,7 +500,7 @@ static int nt35950_get_modes(struct drm_panel *panel,
- 	for (i = 0; i < nt->desc->num_modes; i++) {
- 		struct drm_display_mode *mode;
- 
--		mode = drm_mode_duplicate(connector->dev,
-+		mode = drm_mode_duplicate(connector->drm,
- 					  &nt->desc->mode_data[i].mode);
- 		if (!mode)
- 			return -ENOMEM;
-diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36523.c b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
-index c3befa7f253d..682490580bda 100644
---- a/drivers/gpu/drm/panel/panel-novatek-nt36523.c
-+++ b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
-@@ -1135,7 +1135,7 @@ static int nt36523_get_modes(struct drm_panel *panel,
- 		const struct drm_display_mode *m = &pinfo->desc->modes[i];
- 		struct drm_display_mode *mode;
- 
--		mode = drm_mode_duplicate(connector->dev, m);
-+		mode = drm_mode_duplicate(connector->drm, m);
- 		if (!mode) {
- 			dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
- 				m->hdisplay, m->vdisplay, drm_mode_vrefresh(m));
-diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36672a.c b/drivers/gpu/drm/panel/panel-novatek-nt36672a.c
-index 73bcffa1e0c1..b36fb62dd6bb 100644
---- a/drivers/gpu/drm/panel/panel-novatek-nt36672a.c
-+++ b/drivers/gpu/drm/panel/panel-novatek-nt36672a.c
-@@ -238,7 +238,7 @@ static int nt36672a_panel_get_modes(struct drm_panel *panel,
- 	const struct drm_display_mode *m = pinfo->desc->display_mode;
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, m);
-+	mode = drm_mode_duplicate(connector->drm, m);
- 	if (!mode) {
- 		dev_err(panel->dev, "failed to add mode %ux%u@%u\n", m->hdisplay,
- 			m->vdisplay, drm_mode_vrefresh(m));
-diff --git a/drivers/gpu/drm/panel/panel-novatek-nt39016.c b/drivers/gpu/drm/panel/panel-novatek-nt39016.c
-index f58cfb10b58a..ef6f1deda453 100644
---- a/drivers/gpu/drm/panel/panel-novatek-nt39016.c
-+++ b/drivers/gpu/drm/panel/panel-novatek-nt39016.c
-@@ -208,7 +208,7 @@ static int nt39016_get_modes(struct drm_panel *drm_panel,
- 	unsigned int i;
- 
- 	for (i = 0; i < panel_info->num_modes; i++) {
--		mode = drm_mode_duplicate(connector->dev,
-+		mode = drm_mode_duplicate(connector->drm,
- 					  &panel_info->display_modes[i]);
- 		if (!mode)
- 			return -ENOMEM;
-diff --git a/drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.c b/drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.c
-index 4819ada69482..9a048dbcca22 100644
---- a/drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.c
-+++ b/drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.c
-@@ -148,7 +148,7 @@ static int lcd_olinuxino_get_modes(struct drm_panel *panel,
- 		lcd_mode = (struct lcd_olinuxino_mode *)
- 			   &lcd->eeprom.reserved[i * sizeof(*lcd_mode)];
- 
--		mode = drm_mode_create(connector->dev);
-+		mode = drm_mode_create(connector->drm);
- 		if (!mode) {
- 			dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
- 				lcd_mode->hactive,
-diff --git a/drivers/gpu/drm/panel/panel-orisetech-ota5601a.c b/drivers/gpu/drm/panel/panel-orisetech-ota5601a.c
-index e46be5014d42..b9d171e78be7 100644
---- a/drivers/gpu/drm/panel/panel-orisetech-ota5601a.c
-+++ b/drivers/gpu/drm/panel/panel-orisetech-ota5601a.c
-@@ -198,7 +198,7 @@ static int ota5601a_get_modes(struct drm_panel *drm_panel,
- 	unsigned int i;
- 
- 	for (i = 0; i < panel_info->num_modes; i++) {
--		mode = drm_mode_duplicate(connector->dev,
-+		mode = drm_mode_duplicate(connector->drm,
- 					  &panel_info->display_modes[i]);
- 		if (!mode)
- 			return -ENOMEM;
-diff --git a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
-index 898b892f1143..c7d35ad531ed 100644
---- a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
-+++ b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
-@@ -359,7 +359,7 @@ static int otm8009a_get_modes(struct drm_panel *panel,
- 	unsigned int i;
- 
- 	for (i = 0; i < num_modes; i++) {
--		mode = drm_mode_duplicate(connector->dev, &modes[i]);
-+		mode = drm_mode_duplicate(connector->drm, &modes[i]);
- 		if (!mode) {
- 			dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
- 				modes[i].hdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c b/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c
-index 493e0504f6f7..ea05b4998c3d 100644
---- a/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c
-+++ b/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c
-@@ -111,7 +111,7 @@ static int osd101t2587_panel_get_modes(struct drm_panel *panel,
- 	struct osd101t2587_panel *osd101t2587 = ti_osd_panel(panel);
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, osd101t2587->default_mode);
-+	mode = drm_mode_duplicate(connector->drm, osd101t2587->default_mode);
- 	if (!mode) {
- 		dev_err(panel->dev, "failed to add mode %ux%ux@%u\n",
- 			osd101t2587->default_mode->hdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c b/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
-index 8ba6d8287938..e5985954bd49 100644
---- a/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
-+++ b/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
-@@ -156,7 +156,7 @@ static int wuxga_nt_panel_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &default_mode);
-+	mode = drm_mode_duplicate(connector->drm, &default_mode);
- 	if (!mode) {
- 		dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
- 			default_mode.hdisplay, default_mode.vdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-index 90ea91e4311d..009e99620eb5 100644
---- a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-+++ b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-@@ -325,7 +325,7 @@ static int rpi_touchscreen_get_modes(struct drm_panel *panel,
- 		const struct drm_display_mode *m = &rpi_touchscreen_modes[i];
- 		struct drm_display_mode *mode;
- 
--		mode = drm_mode_duplicate(connector->dev, m);
-+		mode = drm_mode_duplicate(connector->drm, m);
- 		if (!mode) {
- 			dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
- 				m->hdisplay, m->vdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-raydium-rm67191.c b/drivers/gpu/drm/panel/panel-raydium-rm67191.c
-index dbb1ed4efbed..2005162167be 100644
---- a/drivers/gpu/drm/panel/panel-raydium-rm67191.c
-+++ b/drivers/gpu/drm/panel/panel-raydium-rm67191.c
-@@ -439,7 +439,7 @@ static int rad_panel_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &default_mode);
-+	mode = drm_mode_duplicate(connector->drm, &default_mode);
- 	if (!mode) {
- 		dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
- 			default_mode.hdisplay, default_mode.vdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-raydium-rm68200.c b/drivers/gpu/drm/panel/panel-raydium-rm68200.c
-index 5f9b340588fb..9550034a2a47 100644
---- a/drivers/gpu/drm/panel/panel-raydium-rm68200.c
-+++ b/drivers/gpu/drm/panel/panel-raydium-rm68200.c
-@@ -332,7 +332,7 @@ static int rm68200_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &default_mode);
-+	mode = drm_mode_duplicate(connector->drm, &default_mode);
- 	if (!mode) {
- 		dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
- 			default_mode.hdisplay, default_mode.vdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c b/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
-index 2ef5ea5eaeeb..4a082d5f54f1 100644
---- a/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
-+++ b/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
-@@ -109,7 +109,7 @@ static int rb070d30_panel_get_modes(struct drm_panel *panel,
- 	struct drm_display_mode *mode;
- 	static const u32 bus_format = MEDIA_BUS_FMT_RGB888_1X24;
- 
--	mode = drm_mode_duplicate(connector->dev, &default_mode);
-+	mode = drm_mode_duplicate(connector->drm, &default_mode);
- 	if (!mode) {
- 		dev_err(&ctx->dsi->dev, "Failed to add mode " DRM_MODE_FMT "\n",
- 			DRM_MODE_ARG(&default_mode));
-diff --git a/drivers/gpu/drm/panel/panel-samsung-db7430.c b/drivers/gpu/drm/panel/panel-samsung-db7430.c
-index 117b26845083..a8f36f175fe4 100644
---- a/drivers/gpu/drm/panel/panel-samsung-db7430.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-db7430.c
-@@ -235,7 +235,7 @@ static int db7430_get_modes(struct drm_panel *panel,
- 	struct drm_display_mode *mode;
- 	static const u32 bus_format = MEDIA_BUS_FMT_RGB888_1X24;
- 
--	mode = drm_mode_duplicate(connector->dev, &db7430_480_800_mode);
-+	mode = drm_mode_duplicate(connector->drm, &db7430_480_800_mode);
- 	if (!mode) {
- 		dev_err(db->dev, "failed to add mode\n");
- 		return -ENOMEM;
-diff --git a/drivers/gpu/drm/panel/panel-samsung-ld9040.c b/drivers/gpu/drm/panel/panel-samsung-ld9040.c
-index 01eb211f32f7..c1eec8fc5be8 100644
---- a/drivers/gpu/drm/panel/panel-samsung-ld9040.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-ld9040.c
-@@ -266,7 +266,7 @@ static int ld9040_get_modes(struct drm_panel *panel,
- 	struct ld9040 *ctx = panel_to_ld9040(panel);
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_create(connector->dev);
-+	mode = drm_mode_create(connector->drm);
- 	if (!mode) {
- 		dev_err(panel->dev, "failed to create a new display mode\n");
- 		return 0;
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c b/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c
-index 008e2b0d6652..3ef5eda5231e 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c
-@@ -136,7 +136,7 @@ static int s6d16d0_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &samsung_s6d16d0_mode);
-+	mode = drm_mode_duplicate(connector->drm, &samsung_s6d16d0_mode);
- 	if (!mode) {
- 		dev_err(panel->dev, "bad mode or failed to add mode\n");
- 		return -EINVAL;
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6d27a1.c b/drivers/gpu/drm/panel/panel-samsung-s6d27a1.c
-index 2adb223a895c..a8cf94595c7a 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6d27a1.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6d27a1.c
-@@ -211,7 +211,7 @@ static int s6d27a1_get_modes(struct drm_panel *panel,
- 	struct drm_display_mode *mode;
- 	static const u32 bus_format = MEDIA_BUS_FMT_RGB888_1X24;
- 
--	mode = drm_mode_duplicate(connector->dev, &s6d27a1_480_800_mode);
-+	mode = drm_mode_duplicate(connector->drm, &s6d27a1_480_800_mode);
- 	if (!mode) {
- 		dev_err(ctx->dev, "failed to add mode\n");
- 		return -ENOMEM;
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c b/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
-index fec0d014fd0e..70ec46d6e2c1 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
-@@ -457,7 +457,7 @@ static int s6d7aa0_get_modes(struct drm_panel *panel,
- 	if (!ctx)
- 		return -EINVAL;
- 
--	mode = drm_mode_duplicate(connector->dev, ctx->desc->drm_mode);
-+	mode = drm_mode_duplicate(connector->drm, ctx->desc->drm_mode);
- 	if (!mode)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c b/drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c
-index 39eef3dce7c9..c3485190723d 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c
-@@ -648,7 +648,7 @@ static int s6e3ha2_get_modes(struct drm_panel *panel,
- 	struct s6e3ha2 *ctx = container_of(panel, struct s6e3ha2, panel);
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, ctx->desc->mode);
-+	mode = drm_mode_duplicate(connector->drm, ctx->desc->mode);
- 	if (!mode) {
- 		dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
- 			ctx->desc->mode->hdisplay, ctx->desc->mode->vdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c b/drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c
-index 46d6f4a87bf7..49c6baf9d795 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c
-@@ -403,7 +403,7 @@ static int s6e63j0x03_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &default_mode);
-+	mode = drm_mode_duplicate(connector->drm, &default_mode);
- 	if (!mode) {
- 		dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
- 			default_mode.hdisplay, default_mode.vdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-index b34fa4d5de07..76ab8364f61b 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-@@ -599,7 +599,7 @@ static int s6e63m0_get_modes(struct drm_panel *panel,
- 	struct drm_display_mode *mode;
- 	static const u32 bus_format = MEDIA_BUS_FMT_RGB888_1X24;
- 
--	mode = drm_mode_duplicate(connector->dev, &default_mode);
-+	mode = drm_mode_duplicate(connector->drm, &default_mode);
- 	if (!mode) {
- 		dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
- 			default_mode.hdisplay, default_mode.vdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
-index 7431cae7427e..3272a9c48501 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
-@@ -178,7 +178,7 @@ static int s6e88a0_ams452ef01_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &s6e88a0_ams452ef01_mode);
-+	mode = drm_mode_duplicate(connector->drm, &s6e88a0_ams452ef01_mode);
- 	if (!mode)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c b/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c
-index c51d07ec1529..63e4dfc8a337 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c
-@@ -925,7 +925,7 @@ static int s6e8aa0_get_modes(struct drm_panel *panel,
- 	struct s6e8aa0 *ctx = panel_to_s6e8aa0(panel);
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_create(connector->dev);
-+	mode = drm_mode_create(connector->drm);
- 	if (!mode) {
- 		dev_err(panel->dev, "failed to create a new display mode\n");
- 		return 0;
-diff --git a/drivers/gpu/drm/panel/panel-samsung-sofef00.c b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-index 1ebb79e3103c..df6c7ae45ae1 100644
---- a/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-@@ -188,7 +188,7 @@ static int sofef00_panel_get_modes(struct drm_panel *panel, struct drm_connector
- 	struct drm_display_mode *mode;
- 	struct sofef00_panel *ctx = to_sofef00_panel(panel);
- 
--	mode = drm_mode_duplicate(connector->dev, ctx->mode);
-+	mode = drm_mode_duplicate(connector->drm, ctx->mode);
- 	if (!mode)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
-index 658c7c040570..d66e482e3604 100644
---- a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
-+++ b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
-@@ -71,7 +71,7 @@ static int seiko_panel_get_fixed_modes(struct seiko_panel *panel,
- 		struct videomode vm;
- 
- 		videomode_from_timing(dt, &vm);
--		mode = drm_mode_create(connector->dev);
-+		mode = drm_mode_create(connector->drm);
- 		if (!mode) {
- 			dev_err(panel->base.dev, "failed to add mode %ux%u\n",
- 				dt->hactive.typ, dt->vactive.typ);
-@@ -92,7 +92,7 @@ static int seiko_panel_get_fixed_modes(struct seiko_panel *panel,
- 	for (i = 0; i < panel->desc->num_modes; i++) {
- 		const struct drm_display_mode *m = &panel->desc->modes[i];
- 
--		mode = drm_mode_duplicate(connector->dev, m);
-+		mode = drm_mode_duplicate(connector->drm, m);
- 		if (!mode) {
- 			dev_err(panel->base.dev, "failed to add mode %ux%u@%u\n",
- 				m->hdisplay, m->vdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c b/drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c
-index 14851408a5e1..f047fe41c0c8 100644
---- a/drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c
-+++ b/drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c
-@@ -276,7 +276,7 @@ static int sharp_panel_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &default_mode);
-+	mode = drm_mode_duplicate(connector->drm, &default_mode);
- 	if (!mode) {
- 		dev_err(panel->dev, "failed to add mode %ux%ux@%u\n",
- 			default_mode.hdisplay, default_mode.vdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c b/drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c
-index 76bd9e810827..30d229b05b10 100644
---- a/drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c
-+++ b/drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c
-@@ -104,7 +104,7 @@ static int ls037v7dw01_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &ls037v7dw01_mode);
-+	mode = drm_mode_duplicate(connector->drm, &ls037v7dw01_mode);
- 	if (!mode)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c b/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
-index 855e64444daa..47dccc8b2fad 100644
---- a/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
-+++ b/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
-@@ -180,7 +180,7 @@ static int sharp_nt_panel_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &default_mode);
-+	mode = drm_mode_duplicate(connector->drm, &default_mode);
- 	if (!mode) {
- 		dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
- 			default_mode.hdisplay, default_mode.vdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c b/drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c
-index 68f52eaaf4fa..3a533415654a 100644
---- a/drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c
-+++ b/drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c
-@@ -204,7 +204,7 @@ static int sharp_ls060_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &sharp_ls060_mode);
-+	mode = drm_mode_duplicate(connector->drm, &sharp_ls060_mode);
- 	if (!mode)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 241243447b3e..5ebeab192c7f 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -174,7 +174,7 @@ static unsigned int panel_simple_get_timings_modes(struct panel_simple *panel,
- 		struct videomode vm;
- 
- 		videomode_from_timing(dt, &vm);
--		mode = drm_mode_create(connector->dev);
-+		mode = drm_mode_create(connector->drm);
- 		if (!mode) {
- 			dev_err(panel->base.dev, "failed to add mode %ux%u\n",
- 				dt->hactive.typ, dt->vactive.typ);
-@@ -204,7 +204,7 @@ static unsigned int panel_simple_get_display_modes(struct panel_simple *panel,
- 	for (i = 0; i < panel->desc->num_modes; i++) {
- 		const struct drm_display_mode *m = &panel->desc->modes[i];
- 
--		mode = drm_mode_duplicate(connector->dev, m);
-+		mode = drm_mode_duplicate(connector->drm, m);
- 		if (!mode) {
- 			dev_err(panel->base.dev, "failed to add mode %ux%u@%u\n",
- 				m->hdisplay, m->vdisplay,
-@@ -237,7 +237,7 @@ static int panel_simple_get_non_edid_modes(struct panel_simple *panel,
- 		return 0;
- 
- 	if (has_override) {
--		mode = drm_mode_duplicate(connector->dev,
-+		mode = drm_mode_duplicate(connector->drm,
- 					  &panel->override_mode);
- 		if (mode) {
- 			drm_mode_probed_add(connector, mode);
-diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7701.c b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-index 7eae83aa0ea1..5edad4a0fef5 100644
---- a/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-+++ b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-@@ -501,7 +501,7 @@ static int st7701_get_modes(struct drm_panel *panel,
- 	const struct drm_display_mode *desc_mode = st7701->desc->mode;
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, desc_mode);
-+	mode = drm_mode_duplicate(connector->drm, desc_mode);
- 	if (!mode) {
- 		dev_err(&st7701->dsi->dev, "failed to add mode %ux%u@%u\n",
- 			desc_mode->hdisplay, desc_mode->vdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-index 3aa31f3d6157..0f72bd0908fe 100644
---- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-+++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-@@ -541,7 +541,7 @@ static int st7703_get_modes(struct drm_panel *panel,
- 	struct st7703 *ctx = panel_to_st7703(panel);
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, ctx->desc->mode);
-+	mode = drm_mode_duplicate(connector->drm, ctx->desc->mode);
- 	if (!mode) {
- 		dev_err(ctx->dev, "Failed to add mode %ux%u@%u\n",
- 			ctx->desc->mode->hdisplay, ctx->desc->mode->vdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-index bbc4569cbcdc..d1866abfe511 100644
---- a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-+++ b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-@@ -172,7 +172,7 @@ static int st7789v_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &default_mode);
-+	mode = drm_mode_duplicate(connector->drm, &default_mode);
- 	if (!mode) {
- 		dev_err(panel->dev, "failed to add mode %ux%ux@%u\n",
- 			default_mode.hdisplay, default_mode.vdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-sony-acx565akm.c b/drivers/gpu/drm/panel/panel-sony-acx565akm.c
-index 3d6a286056a0..1fe64e594811 100644
---- a/drivers/gpu/drm/panel/panel-sony-acx565akm.c
-+++ b/drivers/gpu/drm/panel/panel-sony-acx565akm.c
-@@ -517,7 +517,7 @@ static int acx565akm_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &acx565akm_mode);
-+	mode = drm_mode_duplicate(connector->drm, &acx565akm_mode);
- 	if (!mode)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c b/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c
-index 8d8813dbaa45..c083e5598337 100644
---- a/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c
-+++ b/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c
-@@ -217,7 +217,8 @@ static int sony_td4353_jdi_get_modes(struct drm_panel *panel,
- 	struct drm_display_mode *mode = NULL;
- 
- 	if (ctx->type == TYPE_TAMA_60HZ)
--		mode = drm_mode_duplicate(connector->dev, &sony_td4353_jdi_mode_tama_60hz);
-+		mode = drm_mode_duplicate(connector->drm,
-+					  &sony_td4353_jdi_mode_tama_60hz);
- 	else
- 		return -EINVAL;
- 
-diff --git a/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c b/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
-index ee5d20ecc577..190fc7fe7324 100644
---- a/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
-+++ b/drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.c
-@@ -384,7 +384,7 @@ static int truly_nt35521_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &truly_nt35521_mode);
-+	mode = drm_mode_duplicate(connector->drm, &truly_nt35521_mode);
- 	if (!mode)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/panel/panel-tdo-tl070wsh30.c b/drivers/gpu/drm/panel/panel-tdo-tl070wsh30.c
-index d8487bc6d611..5296b51c8756 100644
---- a/drivers/gpu/drm/panel/panel-tdo-tl070wsh30.c
-+++ b/drivers/gpu/drm/panel/panel-tdo-tl070wsh30.c
-@@ -126,7 +126,7 @@ static int tdo_tl070wsh30_panel_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &default_mode);
-+	mode = drm_mode_duplicate(connector->drm, &default_mode);
- 	if (!mode) {
- 		dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
- 			default_mode.hdisplay, default_mode.vdisplay,
-diff --git a/drivers/gpu/drm/panel/panel-tpo-td028ttec1.c b/drivers/gpu/drm/panel/panel-tpo-td028ttec1.c
-index 4dbf8b88f264..6dc3dd650ba6 100644
---- a/drivers/gpu/drm/panel/panel-tpo-td028ttec1.c
-+++ b/drivers/gpu/drm/panel/panel-tpo-td028ttec1.c
-@@ -287,7 +287,7 @@ static int td028ttec1_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &td028ttec1_mode);
-+	mode = drm_mode_duplicate(connector->drm, &td028ttec1_mode);
- 	if (!mode)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/panel/panel-tpo-td043mtea1.c b/drivers/gpu/drm/panel/panel-tpo-td043mtea1.c
-index cf4609bb9b1d..e475de08bd4e 100644
---- a/drivers/gpu/drm/panel/panel-tpo-td043mtea1.c
-+++ b/drivers/gpu/drm/panel/panel-tpo-td043mtea1.c
-@@ -350,7 +350,7 @@ static int td043mtea1_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &td043mtea1_mode);
-+	mode = drm_mode_duplicate(connector->drm, &td043mtea1_mode);
- 	if (!mode)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/panel/panel-tpo-tpg110.c b/drivers/gpu/drm/panel/panel-tpo-tpg110.c
-index 845304435e23..1bbde68b31a6 100644
---- a/drivers/gpu/drm/panel/panel-tpo-tpg110.c
-+++ b/drivers/gpu/drm/panel/panel-tpo-tpg110.c
-@@ -378,7 +378,7 @@ static int tpg110_get_modes(struct drm_panel *panel,
- 	connector->display_info.height_mm = tpg->height;
- 	connector->display_info.bus_flags = tpg->panel_mode->bus_flags;
- 
--	mode = drm_mode_duplicate(connector->dev, &tpg->panel_mode->mode);
-+	mode = drm_mode_duplicate(connector->drm, &tpg->panel_mode->mode);
- 	drm_mode_set_name(mode);
- 	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
- 
-diff --git a/drivers/gpu/drm/panel/panel-truly-nt35597.c b/drivers/gpu/drm/panel/panel-truly-nt35597.c
-index b31cffb660a7..c2aacc58f867 100644
---- a/drivers/gpu/drm/panel/panel-truly-nt35597.c
-+++ b/drivers/gpu/drm/panel/panel-truly-nt35597.c
-@@ -446,7 +446,7 @@ static int truly_nt35597_get_modes(struct drm_panel *panel,
- 	const struct nt35597_config *config;
- 
- 	config = ctx->config;
--	mode = drm_mode_duplicate(connector->dev, config->dm);
-+	mode = drm_mode_duplicate(connector->drm, config->dm);
- 	if (!mode) {
- 		dev_err(ctx->dev, "failed to create a new display mode\n");
- 		return 0;
-diff --git a/drivers/gpu/drm/panel/panel-visionox-rm69299.c b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-index ec228c269146..6d2c5607aa52 100644
---- a/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-+++ b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-@@ -168,7 +168,7 @@ static int visionox_rm69299_get_modes(struct drm_panel *panel,
- 	struct visionox_rm69299 *ctx = panel_to_ctx(panel);
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev,
-+	mode = drm_mode_duplicate(connector->drm,
- 				  &visionox_rm69299_1080x2248_60hz);
- 	if (!mode) {
- 		dev_err(ctx->panel.dev, "failed to create a new display mode\n");
-diff --git a/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c b/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
-index bb0dfd86ea67..d4ed70c44ddb 100644
---- a/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
-+++ b/drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
-@@ -219,7 +219,7 @@ static int visionox_vtdr6130_get_modes(struct drm_panel *panel,
- {
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &visionox_vtdr6130_mode);
-+	mode = drm_mode_duplicate(connector->drm, &visionox_vtdr6130_mode);
- 	if (!mode)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/panel/panel-widechips-ws2401.c b/drivers/gpu/drm/panel/panel-widechips-ws2401.c
-index 2591ff8f0d4e..c01f8ce30361 100644
---- a/drivers/gpu/drm/panel/panel-widechips-ws2401.c
-+++ b/drivers/gpu/drm/panel/panel-widechips-ws2401.c
-@@ -285,7 +285,7 @@ static int ws2401_get_modes(struct drm_panel *panel,
- 	 * probably the custom DCS sequences needs to selected based on what
- 	 * the target panel needs.
- 	 */
--	mode = drm_mode_duplicate(connector->dev, &lms380kf01_480_800_mode);
-+	mode = drm_mode_duplicate(connector->drm, &lms380kf01_480_800_mode);
- 	if (!mode) {
- 		dev_err(ws->dev, "failed to add mode\n");
- 		return -ENOMEM;
-diff --git a/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c b/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c
-index 8670386498a4..0f54aca15f28 100644
---- a/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c
-+++ b/drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c
-@@ -240,7 +240,7 @@ static int xpp055c272_get_modes(struct drm_panel *panel,
- 	struct xpp055c272 *ctx = panel_to_xpp055c272(panel);
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_duplicate(connector->dev, &default_mode);
-+	mode = drm_mode_duplicate(connector->drm, &default_mode);
- 	if (!mode) {
- 		dev_err(ctx->dev, "Failed to add mode %ux%u@%u\n",
- 			default_mode.hdisplay, default_mode.vdisplay,
-diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
-index 6492a70e3c39..a5e0bbb014ce 100644
---- a/drivers/gpu/drm/qxl/qxl_display.c
-+++ b/drivers/gpu/drm/qxl/qxl_display.c
-@@ -226,7 +226,7 @@ static int qxl_add_mode(struct drm_connector *connector,
- 			unsigned int height,
- 			bool preferred)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct qxl_device *qdev = to_qxl(dev);
- 	struct drm_display_mode *mode = NULL;
- 	int rc;
-@@ -247,7 +247,7 @@ static int qxl_add_mode(struct drm_connector *connector,
- 
- static int qxl_add_monitors_config_modes(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct qxl_device *qdev = to_qxl(dev);
- 	struct qxl_output *output = drm_connector_to_qxl_output(connector);
- 	int h = output->index;
-@@ -1019,7 +1019,7 @@ static int qdev_crtc_init(struct drm_device *dev, int crtc_id)
- 
- static int qxl_conn_get_modes(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct qxl_device *qdev = to_qxl(dev);
- 	struct qxl_output *output = drm_connector_to_qxl_output(connector);
- 	unsigned int pwidth = 1024;
-@@ -1045,7 +1045,7 @@ static int qxl_conn_get_modes(struct drm_connector *connector)
- static enum drm_mode_status qxl_conn_mode_valid(struct drm_connector *connector,
- 			       struct drm_display_mode *mode)
- {
--	struct drm_device *ddev = connector->dev;
-+	struct drm_device *ddev = connector->drm;
- 	struct qxl_device *qdev = to_qxl(ddev);
- 
- 	if (qxl_check_mode(qdev, mode->hdisplay, mode->vdisplay) != 0)
-@@ -1075,7 +1075,7 @@ static enum drm_connector_status qxl_conn_detect(
- {
- 	struct qxl_output *output =
- 		drm_connector_to_qxl_output(connector);
--	struct drm_device *ddev = connector->dev;
-+	struct drm_device *ddev = connector->drm;
- 	struct qxl_device *qdev = to_qxl(ddev);
- 	bool connected = false;
- 
-diff --git a/drivers/gpu/drm/radeon/atombios_dp.c b/drivers/gpu/drm/radeon/atombios_dp.c
-index 009333645438..3a3fc5eee5d9 100644
---- a/drivers/gpu/drm/radeon/atombios_dp.c
-+++ b/drivers/gpu/drm/radeon/atombios_dp.c
-@@ -226,13 +226,13 @@ radeon_dp_aux_transfer_atom(struct drm_dp_aux *aux, struct drm_dp_aux_msg *msg)
- 
- void radeon_dp_aux_init(struct radeon_connector *radeon_connector)
- {
--	struct drm_device *dev = radeon_connector->base.dev;
-+	struct drm_device *dev = radeon_connector->base.drm;
- 	struct radeon_device *rdev = dev->dev_private;
- 	int ret;
- 
- 	radeon_connector->ddc_bus->rec.hpd = radeon_connector->hpd.hpd;
- 	radeon_connector->ddc_bus->aux.dev = radeon_connector->base.kdev;
--	radeon_connector->ddc_bus->aux.drm_dev = radeon_connector->base.dev;
-+	radeon_connector->ddc_bus->aux.drm_dev = radeon_connector->base.drm;
- 	if (ASIC_IS_DCE5(rdev)) {
- 		if (radeon_auxch)
- 			radeon_connector->ddc_bus->aux.transfer = radeon_dp_aux_transfer_native;
-@@ -360,7 +360,7 @@ static u8 radeon_dp_encoder_service(struct radeon_device *rdev,
- 
- u8 radeon_dp_getsinktype(struct radeon_connector *radeon_connector)
- {
--	struct drm_device *dev = radeon_connector->base.dev;
-+	struct drm_device *dev = radeon_connector->base.drm;
- 	struct radeon_device *rdev = dev->dev_private;
- 
- 	return radeon_dp_encoder_service(rdev, ATOM_DP_ACTION_GET_SINK_TYPE, 0,
-diff --git a/drivers/gpu/drm/radeon/atombios_encoders.c b/drivers/gpu/drm/radeon/atombios_encoders.c
-index 4aca09cab4b8..717cd6d71aff 100644
---- a/drivers/gpu/drm/radeon/atombios_encoders.c
-+++ b/drivers/gpu/drm/radeon/atombios_encoders.c
-@@ -1373,7 +1373,7 @@ bool
- atombios_set_edp_panel_power(struct drm_connector *connector, int action)
- {
- 	struct radeon_connector *radeon_connector = to_radeon_connector(connector);
--	struct drm_device *dev = radeon_connector->base.dev;
-+	struct drm_device *dev = radeon_connector->base.drm;
- 	struct radeon_device *rdev = dev->dev_private;
- 	union dig_transmitter_control args;
- 	int index = GetIndexIntoMasterTable(COMMAND, UNIPHYTransmitterControl);
-diff --git a/drivers/gpu/drm/radeon/radeon_atombios.c b/drivers/gpu/drm/radeon/radeon_atombios.c
-index 4ad5a328d920..96b5f55c908f 100644
---- a/drivers/gpu/drm/radeon/radeon_atombios.c
-+++ b/drivers/gpu/drm/radeon/radeon_atombios.c
-@@ -4160,7 +4160,7 @@ radeon_atombios_connected_scratch_regs(struct drm_connector *connector,
- 				       struct drm_encoder *encoder,
- 				       bool connected)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct radeon_device *rdev = dev->dev_private;
- 	struct radeon_connector *radeon_connector =
- 	    to_radeon_connector(connector);
-diff --git a/drivers/gpu/drm/radeon/radeon_audio.c b/drivers/gpu/drm/radeon/radeon_audio.c
-index d6ccaf24ee0c..fbc2ea8bcae8 100644
---- a/drivers/gpu/drm/radeon/radeon_audio.c
-+++ b/drivers/gpu/drm/radeon/radeon_audio.c
-@@ -382,7 +382,7 @@ void radeon_audio_detect(struct drm_connector *connector,
- 			 struct drm_encoder *encoder,
- 			 enum drm_connector_status status)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct radeon_device *rdev = dev->dev_private;
- 	struct radeon_encoder *radeon_encoder = to_radeon_encoder(encoder);
- 	struct radeon_encoder_atom_dig *dig;
-diff --git a/drivers/gpu/drm/radeon/radeon_combios.c b/drivers/gpu/drm/radeon/radeon_combios.c
-index 783a6b8802d5..9a0eb4130c3b 100644
---- a/drivers/gpu/drm/radeon/radeon_combios.c
-+++ b/drivers/gpu/drm/radeon/radeon_combios.c
-@@ -3458,7 +3458,7 @@ radeon_combios_connected_scratch_regs(struct drm_connector *connector,
- 				      struct drm_encoder *encoder,
- 				      bool connected)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct radeon_device *rdev = dev->dev_private;
- 	struct radeon_connector *radeon_connector =
- 	    to_radeon_connector(connector);
-diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
-index 07193cd0c417..0215f88b3b70 100644
---- a/drivers/gpu/drm/radeon/radeon_connectors.c
-+++ b/drivers/gpu/drm/radeon/radeon_connectors.c
-@@ -39,7 +39,7 @@
- 
- void radeon_connector_hotplug(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct radeon_device *rdev = dev->dev_private;
- 	struct radeon_connector *radeon_connector = to_radeon_connector(connector);
- 
-@@ -98,7 +98,7 @@ static void radeon_property_change_mode(struct drm_encoder *encoder)
- 
- int radeon_get_monitor_bpc(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct radeon_device *rdev = dev->dev_private;
- 	struct radeon_connector *radeon_connector = to_radeon_connector(connector);
- 	struct radeon_connector_atom_dig *dig_connector;
-@@ -222,7 +222,7 @@ int radeon_get_monitor_bpc(struct drm_connector *connector)
- static void
- radeon_connector_update_scratch_regs(struct drm_connector *connector, enum drm_connector_status status)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct radeon_device *rdev = dev->dev_private;
- 	struct drm_encoder *best_encoder;
- 	struct drm_encoder *encoder;
-@@ -273,7 +273,7 @@ struct edid *radeon_connector_edid(struct drm_connector *connector)
- 
- static void radeon_connector_get_edid(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct radeon_device *rdev = dev->dev_private;
- 	struct radeon_connector *radeon_connector = to_radeon_connector(connector);
- 
-@@ -398,7 +398,7 @@ radeon_connector_analog_encoder_conflict_solve(struct drm_connector *connector,
- 					       enum drm_connector_status current_status,
- 					       bool priority)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_connector *conflict;
- 	struct radeon_connector *radeon_conflict;
- 
-@@ -530,7 +530,7 @@ static void radeon_add_common_modes(struct drm_encoder *encoder, struct drm_conn
- static int radeon_connector_set_property(struct drm_connector *connector, struct drm_property *property,
- 				  uint64_t val)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct radeon_device *rdev = dev->dev_private;
- 	struct drm_encoder *encoder;
- 	struct radeon_encoder *radeon_encoder;
-@@ -853,7 +853,7 @@ static enum drm_mode_status radeon_lvds_mode_valid(struct drm_connector *connect
- static enum drm_connector_status
- radeon_lvds_detect(struct drm_connector *connector, bool force)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct radeon_device *rdev = dev->dev_private;
- 	struct radeon_connector *radeon_connector = to_radeon_connector(connector);
- 	struct drm_encoder *encoder = radeon_best_single_encoder(connector);
-@@ -861,9 +861,9 @@ radeon_lvds_detect(struct drm_connector *connector, bool force)
- 	int r;
- 
- 	if (!drm_kms_helper_is_poll_worker()) {
--		r = pm_runtime_get_sync(connector->dev->dev);
-+		r = pm_runtime_get_sync(connector->drm->dev);
- 		if (r < 0) {
--			pm_runtime_put_autosuspend(connector->dev->dev);
-+			pm_runtime_put_autosuspend(connector->drm->dev);
- 			return connector_status_disconnected;
- 		}
- 	}
-@@ -891,8 +891,8 @@ radeon_lvds_detect(struct drm_connector *connector, bool force)
- 	radeon_connector_update_scratch_regs(connector, ret);
- 
- 	if (!drm_kms_helper_is_poll_worker()) {
--		pm_runtime_mark_last_busy(connector->dev->dev);
--		pm_runtime_put_autosuspend(connector->dev->dev);
-+		pm_runtime_mark_last_busy(connector->drm->dev);
-+		pm_runtime_put_autosuspend(connector->drm->dev);
- 	}
- 
- 	return ret;
-@@ -923,7 +923,7 @@ static int radeon_lvds_set_property(struct drm_connector *connector,
- 				    struct drm_property *property,
- 				    uint64_t value)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct radeon_encoder *radeon_encoder;
- 	enum radeon_rmx_type rmx_type;
- 
-@@ -985,7 +985,7 @@ static int radeon_vga_get_modes(struct drm_connector *connector)
- static enum drm_mode_status radeon_vga_mode_valid(struct drm_connector *connector,
- 				  struct drm_display_mode *mode)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct radeon_device *rdev = dev->dev_private;
- 
- 	/* XXX check mode bandwidth */
-@@ -999,7 +999,7 @@ static enum drm_mode_status radeon_vga_mode_valid(struct drm_connector *connecto
- static enum drm_connector_status
- radeon_vga_detect(struct drm_connector *connector, bool force)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct radeon_device *rdev = dev->dev_private;
- 	struct radeon_connector *radeon_connector = to_radeon_connector(connector);
- 	struct drm_encoder *encoder;
-@@ -1009,9 +1009,9 @@ radeon_vga_detect(struct drm_connector *connector, bool force)
- 	int r;
- 
- 	if (!drm_kms_helper_is_poll_worker()) {
--		r = pm_runtime_get_sync(connector->dev->dev);
-+		r = pm_runtime_get_sync(connector->drm->dev);
- 		if (r < 0) {
--			pm_runtime_put_autosuspend(connector->dev->dev);
-+			pm_runtime_put_autosuspend(connector->drm->dev);
- 			return connector_status_disconnected;
- 		}
- 	}
-@@ -1082,8 +1082,8 @@ radeon_vga_detect(struct drm_connector *connector, bool force)
- 
- out:
- 	if (!drm_kms_helper_is_poll_worker()) {
--		pm_runtime_mark_last_busy(connector->dev->dev);
--		pm_runtime_put_autosuspend(connector->dev->dev);
-+		pm_runtime_mark_last_busy(connector->drm->dev);
-+		pm_runtime_put_autosuspend(connector->drm->dev);
- 	}
- 
- 	return ret;
-@@ -1106,7 +1106,7 @@ static const struct drm_connector_funcs radeon_vga_connector_funcs = {
- 
- static int radeon_tv_get_modes(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct radeon_device *rdev = dev->dev_private;
- 	struct drm_display_mode *tv_mode;
- 	struct drm_encoder *encoder;
-@@ -1149,9 +1149,9 @@ radeon_tv_detect(struct drm_connector *connector, bool force)
- 		return ret;
- 
- 	if (!drm_kms_helper_is_poll_worker()) {
--		r = pm_runtime_get_sync(connector->dev->dev);
-+		r = pm_runtime_get_sync(connector->drm->dev);
- 		if (r < 0) {
--			pm_runtime_put_autosuspend(connector->dev->dev);
-+			pm_runtime_put_autosuspend(connector->drm->dev);
- 			return connector_status_disconnected;
- 		}
- 	}
-@@ -1168,8 +1168,8 @@ radeon_tv_detect(struct drm_connector *connector, bool force)
- 	radeon_connector_update_scratch_regs(connector, ret);
- 
- 	if (!drm_kms_helper_is_poll_worker()) {
--		pm_runtime_mark_last_busy(connector->dev->dev);
--		pm_runtime_put_autosuspend(connector->dev->dev);
-+		pm_runtime_mark_last_busy(connector->drm->dev);
-+		pm_runtime_put_autosuspend(connector->drm->dev);
- 	}
- 
- 	return ret;
-@@ -1192,7 +1192,7 @@ static const struct drm_connector_funcs radeon_tv_connector_funcs = {
- 
- static bool radeon_check_hpd_status_unchanged(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct radeon_device *rdev = dev->dev_private;
- 	struct radeon_connector *radeon_connector = to_radeon_connector(connector);
- 	enum drm_connector_status status;
-@@ -1225,7 +1225,7 @@ static bool radeon_check_hpd_status_unchanged(struct drm_connector *connector)
- static enum drm_connector_status
- radeon_dvi_detect(struct drm_connector *connector, bool force)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct radeon_device *rdev = dev->dev_private;
- 	struct radeon_connector *radeon_connector = to_radeon_connector(connector);
- 	struct drm_encoder *encoder = NULL;
-@@ -1235,9 +1235,9 @@ radeon_dvi_detect(struct drm_connector *connector, bool force)
- 	bool dret = false, broken_edid = false;
- 
- 	if (!drm_kms_helper_is_poll_worker()) {
--		r = pm_runtime_get_sync(connector->dev->dev);
-+		r = pm_runtime_get_sync(connector->drm->dev);
- 		if (r < 0) {
--			pm_runtime_put_autosuspend(connector->dev->dev);
-+			pm_runtime_put_autosuspend(connector->drm->dev);
- 			return connector_status_disconnected;
- 		}
- 	}
-@@ -1416,8 +1416,8 @@ radeon_dvi_detect(struct drm_connector *connector, bool force)
- 
- exit:
- 	if (!drm_kms_helper_is_poll_worker()) {
--		pm_runtime_mark_last_busy(connector->dev->dev);
--		pm_runtime_put_autosuspend(connector->dev->dev);
-+		pm_runtime_mark_last_busy(connector->drm->dev);
-+		pm_runtime_put_autosuspend(connector->drm->dev);
- 	}
- 
- 	return ret;
-@@ -1462,7 +1462,7 @@ static void radeon_dvi_force(struct drm_connector *connector)
- static enum drm_mode_status radeon_dvi_mode_valid(struct drm_connector *connector,
- 				  struct drm_display_mode *mode)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct radeon_device *rdev = dev->dev_private;
- 	struct radeon_connector *radeon_connector = to_radeon_connector(connector);
- 
-@@ -1620,7 +1620,7 @@ static bool radeon_connector_encoder_is_hbr2(struct drm_connector *connector)
- 
- bool radeon_connector_is_dp12_capable(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct radeon_device *rdev = dev->dev_private;
- 
- 	if (ASIC_IS_DCE5(rdev) &&
-@@ -1635,7 +1635,7 @@ bool radeon_connector_is_dp12_capable(struct drm_connector *connector)
- static enum drm_connector_status
- radeon_dp_detect(struct drm_connector *connector, bool force)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct radeon_device *rdev = dev->dev_private;
- 	struct radeon_connector *radeon_connector = to_radeon_connector(connector);
- 	enum drm_connector_status ret = connector_status_disconnected;
-@@ -1644,9 +1644,9 @@ radeon_dp_detect(struct drm_connector *connector, bool force)
- 	int r;
- 
- 	if (!drm_kms_helper_is_poll_worker()) {
--		r = pm_runtime_get_sync(connector->dev->dev);
-+		r = pm_runtime_get_sync(connector->drm->dev);
- 		if (r < 0) {
--			pm_runtime_put_autosuspend(connector->dev->dev);
-+			pm_runtime_put_autosuspend(connector->drm->dev);
- 			return connector_status_disconnected;
- 		}
- 	}
-@@ -1728,8 +1728,8 @@ radeon_dp_detect(struct drm_connector *connector, bool force)
- 
- out:
- 	if (!drm_kms_helper_is_poll_worker()) {
--		pm_runtime_mark_last_busy(connector->dev->dev);
--		pm_runtime_put_autosuspend(connector->dev->dev);
-+		pm_runtime_mark_last_busy(connector->drm->dev);
-+		pm_runtime_put_autosuspend(connector->drm->dev);
- 	}
- 
- 	return ret;
-@@ -1738,7 +1738,7 @@ radeon_dp_detect(struct drm_connector *connector, bool force)
- static enum drm_mode_status radeon_dp_mode_valid(struct drm_connector *connector,
- 				  struct drm_display_mode *mode)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct radeon_device *rdev = dev->dev_private;
- 	struct radeon_connector *radeon_connector = to_radeon_connector(connector);
- 	struct radeon_connector_atom_dig *radeon_dig_connector = radeon_connector->con_priv;
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c
-index 8cd37d7b8ae2..3ce190c67055 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c
-@@ -41,7 +41,7 @@ struct rcar_du_wb_job {
- 
- static int rcar_du_wb_conn_get_modes(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 
- 	return drm_add_modes_noedid(connector, dev->mode_config.max_width,
- 				    dev->mode_config.max_height);
-diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.c
-index 794573badfe8..4c56524670bd 100644
---- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.c
-+++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.c
-@@ -16,7 +16,7 @@
- static int shmob_drm_backlight_update(struct backlight_device *bdev)
- {
- 	struct shmob_drm_connector *scon = bl_get_data(bdev);
--	struct shmob_drm_device *sdev = scon->connector.dev->dev_private;
-+	struct shmob_drm_device *sdev = scon->connector.drm->dev_private;
- 	const struct shmob_drm_backlight_data *bdata = &sdev->pdata->backlight;
- 	int brightness = backlight_get_brightness(bdev);
- 
-@@ -26,7 +26,7 @@ static int shmob_drm_backlight_update(struct backlight_device *bdev)
- static int shmob_drm_backlight_get_brightness(struct backlight_device *bdev)
- {
- 	struct shmob_drm_connector *scon = bl_get_data(bdev);
--	struct shmob_drm_device *sdev = scon->connector.dev->dev_private;
-+	struct shmob_drm_device *sdev = scon->connector.drm->dev_private;
- 	const struct shmob_drm_backlight_data *bdata = &sdev->pdata->backlight;
- 
- 	return bdata->get_brightness();
-@@ -50,10 +50,10 @@ void shmob_drm_backlight_dpms(struct shmob_drm_connector *scon, int mode)
- 
- int shmob_drm_backlight_init(struct shmob_drm_connector *scon)
- {
--	struct shmob_drm_device *sdev = scon->connector.dev->dev_private;
-+	struct shmob_drm_device *sdev = scon->connector.drm->dev_private;
- 	const struct shmob_drm_backlight_data *bdata = &sdev->pdata->backlight;
- 	struct drm_connector *connector = &scon->connector;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct backlight_device *backlight;
- 
- 	if (!bdata->max_brightness)
-diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-index 11dd2bc803e7..ff1bdb1a3e54 100644
---- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-+++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
-@@ -616,10 +616,10 @@ int shmob_drm_encoder_create(struct shmob_drm_device *sdev)
- 
- static int shmob_drm_connector_get_modes(struct drm_connector *connector)
- {
--	struct shmob_drm_device *sdev = connector->dev->dev_private;
-+	struct shmob_drm_device *sdev = connector->drm->dev_private;
- 	struct drm_display_mode *mode;
- 
--	mode = drm_mode_create(connector->dev);
-+	mode = drm_mode_create(connector->drm);
- 	if (mode == NULL)
- 		return 0;
- 
-diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-index 6a63952a6c84..1f38a4fffa3c 100644
---- a/drivers/gpu/drm/rockchip/inno_hdmi.c
-+++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
-@@ -679,7 +679,7 @@ static irqreturn_t inno_hdmi_irq(int irq, void *dev_id)
- {
- 	struct inno_hdmi *hdmi = dev_id;
- 
--	drm_helper_hpd_irq_event(hdmi->connector.dev);
-+	drm_helper_hpd_irq_event(hdmi->connector.drm);
- 
- 	return IRQ_HANDLED;
- }
-diff --git a/drivers/gpu/drm/rockchip/rk3066_hdmi.c b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-index 5e6ac27ea155..810f170d8ba9 100644
---- a/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-+++ b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-@@ -609,7 +609,7 @@ static irqreturn_t rk3066_hdmi_irq(int irq, void *dev_id)
- {
- 	struct rk3066_hdmi *hdmi = dev_id;
- 
--	drm_helper_hpd_irq_event(hdmi->connector.dev);
-+	drm_helper_hpd_irq_event(hdmi->connector.drm);
- 
- 	return IRQ_HANDLED;
- }
-diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-index b3dc1ca9dc10..e34750187b58 100644
---- a/drivers/gpu/drm/solomon/ssd130x.c
-+++ b/drivers/gpu/drm/solomon/ssd130x.c
-@@ -760,11 +760,11 @@ static const struct drm_encoder_funcs ssd130x_encoder_funcs = {
- 
- static int ssd130x_connector_helper_get_modes(struct drm_connector *connector)
- {
--	struct ssd130x_device *ssd130x = drm_to_ssd130x(connector->dev);
-+	struct ssd130x_device *ssd130x = drm_to_ssd130x(connector->drm);
- 	struct drm_display_mode *mode;
- 	struct device *dev = ssd130x->dev;
- 
--	mode = drm_mode_duplicate(connector->dev, &ssd130x->mode);
-+	mode = drm_mode_duplicate(connector->drm, &ssd130x->mode);
- 	if (!mode) {
- 		dev_err(dev, "Failed to duplicated mode\n");
- 		return 0;
-diff --git a/drivers/gpu/drm/tegra/dpaux.c b/drivers/gpu/drm/tegra/dpaux.c
-index 4d2677dcd831..1818d4856f87 100644
---- a/drivers/gpu/drm/tegra/dpaux.c
-+++ b/drivers/gpu/drm/tegra/dpaux.c
-@@ -274,7 +274,7 @@ static void tegra_dpaux_hotplug(struct work_struct *work)
- 	struct tegra_dpaux *dpaux = work_to_dpaux(work);
- 
- 	if (dpaux->output)
--		drm_helper_hpd_irq_event(dpaux->output->connector.dev);
-+		drm_helper_hpd_irq_event(dpaux->output->connector.drm);
- }
- 
- static irqreturn_t tegra_dpaux_irq(int irq, void *data)
-@@ -719,7 +719,7 @@ int drm_dp_aux_attach(struct drm_dp_aux *aux, struct tegra_output *output)
- 	unsigned long timeout;
- 	int err;
- 
--	aux->drm_dev = output->connector.dev;
-+	aux->drm_dev = output->connector.drm;
- 	err = drm_dp_aux_register(aux);
- 	if (err < 0)
- 		return err;
-diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
-index a9870c828374..467f797fa65a 100644
---- a/drivers/gpu/drm/tegra/dsi.c
-+++ b/drivers/gpu/drm/tegra/dsi.c
-@@ -232,7 +232,7 @@ static int tegra_dsi_late_register(struct drm_connector *connector)
- {
- 	struct tegra_output *output = connector_to_output(connector);
- 	unsigned int i, count = ARRAY_SIZE(debugfs_files);
--	struct drm_minor *minor = connector->dev->primary;
-+	struct drm_minor *minor = connector->drm->primary;
- 	struct dentry *root = connector->debugfs_entry;
- 	struct tegra_dsi *dsi = to_dsi(output);
- 
-@@ -256,7 +256,7 @@ static void tegra_dsi_early_unregister(struct drm_connector *connector)
- 	struct tegra_dsi *dsi = to_dsi(output);
- 
- 	drm_debugfs_remove_files(dsi->debugfs_files, count,
--				 connector->dev->primary);
-+				 connector->drm->primary);
- 	kfree(dsi->debugfs_files);
- 	dsi->debugfs_files = NULL;
- }
-@@ -1507,8 +1507,8 @@ static int tegra_dsi_host_attach(struct mipi_dsi_host *host,
- 		if (IS_ERR(output->panel))
- 			output->panel = NULL;
- 
--		if (output->panel && output->connector.dev)
--			drm_helper_hpd_irq_event(output->connector.dev);
-+		if (output->panel && output->connector.drm)
-+			drm_helper_hpd_irq_event(output->connector.drm);
- 	}
- 
- 	return 0;
-@@ -1523,8 +1523,8 @@ static int tegra_dsi_host_detach(struct mipi_dsi_host *host,
- 	if (output->panel && &device->dev == output->panel->dev) {
- 		output->panel = NULL;
- 
--		if (output->connector.dev)
--			drm_helper_hpd_irq_event(output->connector.dev);
-+		if (output->connector.drm)
-+			drm_helper_hpd_irq_event(output->connector.drm);
- 	}
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
-index 6eac54ae1205..7f994d79fd72 100644
---- a/drivers/gpu/drm/tegra/hdmi.c
-+++ b/drivers/gpu/drm/tegra/hdmi.c
-@@ -1090,7 +1090,7 @@ static int tegra_hdmi_late_register(struct drm_connector *connector)
- {
- 	struct tegra_output *output = connector_to_output(connector);
- 	unsigned int i, count = ARRAY_SIZE(debugfs_files);
--	struct drm_minor *minor = connector->dev->primary;
-+	struct drm_minor *minor = connector->drm->primary;
- 	struct dentry *root = connector->debugfs_entry;
- 	struct tegra_hdmi *hdmi = to_hdmi(output);
- 
-@@ -1110,7 +1110,7 @@ static int tegra_hdmi_late_register(struct drm_connector *connector)
- static void tegra_hdmi_early_unregister(struct drm_connector *connector)
- {
- 	struct tegra_output *output = connector_to_output(connector);
--	struct drm_minor *minor = connector->dev->primary;
-+	struct drm_minor *minor = connector->drm->primary;
- 	unsigned int count = ARRAY_SIZE(debugfs_files);
- 	struct tegra_hdmi *hdmi = to_hdmi(output);
- 
-diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
-index dc2dcb5ca1c8..9ebb6a551331 100644
---- a/drivers/gpu/drm/tegra/output.c
-+++ b/drivers/gpu/drm/tegra/output.c
-@@ -88,8 +88,8 @@ static irqreturn_t hpd_irq(int irq, void *data)
- {
- 	struct tegra_output *output = data;
- 
--	if (output->connector.dev)
--		drm_helper_hpd_irq_event(output->connector.dev);
-+	if (output->connector.drm)
-+		drm_helper_hpd_irq_event(output->connector.drm);
- 
- 	return IRQ_HANDLED;
- }
-diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-index fbb63d755496..2bc0f6668b30 100644
---- a/drivers/gpu/drm/tegra/sor.c
-+++ b/drivers/gpu/drm/tegra/sor.c
-@@ -1683,7 +1683,7 @@ static int tegra_sor_late_register(struct drm_connector *connector)
- {
- 	struct tegra_output *output = connector_to_output(connector);
- 	unsigned int i, count = ARRAY_SIZE(debugfs_files);
--	struct drm_minor *minor = connector->dev->primary;
-+	struct drm_minor *minor = connector->drm->primary;
- 	struct dentry *root = connector->debugfs_entry;
- 	struct tegra_sor *sor = to_sor(output);
- 
-@@ -1707,7 +1707,7 @@ static void tegra_sor_early_unregister(struct drm_connector *connector)
- 	struct tegra_sor *sor = to_sor(output);
- 
- 	drm_debugfs_remove_files(sor->debugfs_files, count,
--				 connector->dev->primary);
-+				 connector->drm->primary);
- 	kfree(sor->debugfs_files);
- 	sor->debugfs_files = NULL;
- }
-diff --git a/drivers/gpu/drm/tests/drm_client_modeset_test.c b/drivers/gpu/drm/tests/drm_client_modeset_test.c
-index 416a279b6dae..0d0ecd2a58eb 100644
---- a/drivers/gpu/drm/tests/drm_client_modeset_test.c
-+++ b/drivers/gpu/drm/tests/drm_client_modeset_test.c
-@@ -26,14 +26,14 @@ static int drm_client_modeset_connector_get_modes(struct drm_connector *connecto
- 
- 	count = drm_add_modes_noedid(connector, 1920, 1200);
- 
--	mode = drm_mode_analog_ntsc_480i(connector->dev);
-+	mode = drm_mode_analog_ntsc_480i(connector->drm);
- 	if (!mode)
- 		return count;
- 
- 	drm_mode_probed_add(connector, mode);
- 	count += 1;
- 
--	mode = drm_mode_analog_pal_576i(connector->dev);
-+	mode = drm_mode_analog_pal_576i(connector->drm);
- 	if (!mode)
- 		return count;
- 
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_panel.c b/drivers/gpu/drm/tilcdc/tilcdc_panel.c
-index 9aefd010acde..a46bfc968c74 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_panel.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_panel.c
-@@ -134,7 +134,7 @@ static void panel_connector_destroy(struct drm_connector *connector)
- 
- static int panel_connector_get_modes(struct drm_connector *connector)
+ 	 * Update pipe size and adjust fitter if needed: the reason for this is
+diff --git a/drivers/gpu/drm/i915/display/intel_display_irq.c b/drivers/gpu/drm/i915/display/intel_display_irq.c
+index ae2578741dfe..f5b127a58d12 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_irq.c
++++ b/drivers/gpu/drm/i915/display/intel_display_irq.c
+@@ -1177,7 +1177,7 @@ void gen11_display_irq_handler(struct drm_i915_private *i915)
+  */
+ int i8xx_enable_vblank(struct drm_crtc *crtc)
  {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct panel_connector *panel_connector = to_panel_connector(connector);
- 	struct display_timings *timings = panel_connector->mod->timings;
+-	struct drm_i915_private *dev_priv = to_i915(crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->drm);
+ 	enum pipe pipe = to_intel_crtc(crtc)->pipe;
+ 	unsigned long irqflags;
+ 
+@@ -1190,7 +1190,7 @@ int i8xx_enable_vblank(struct drm_crtc *crtc)
+ 
+ int i915gm_enable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->drm);
+ 
+ 	/*
+ 	 * Vblank interrupts fail to wake the device up from C2+.
+@@ -1206,7 +1206,7 @@ int i915gm_enable_vblank(struct drm_crtc *crtc)
+ 
+ int i965_enable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->drm);
+ 	enum pipe pipe = to_intel_crtc(crtc)->pipe;
+ 	unsigned long irqflags;
+ 
+@@ -1220,7 +1220,7 @@ int i965_enable_vblank(struct drm_crtc *crtc)
+ 
+ int ilk_enable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->drm);
+ 	enum pipe pipe = to_intel_crtc(crtc)->pipe;
+ 	unsigned long irqflags;
+ 	u32 bit = DISPLAY_VER(dev_priv) >= 7 ?
+@@ -1242,7 +1242,7 @@ int ilk_enable_vblank(struct drm_crtc *crtc)
+ static bool gen11_dsi_configure_te(struct intel_crtc *intel_crtc,
+ 				   bool enable)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(intel_crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(intel_crtc->base.drm);
+ 	enum port port;
+ 
+ 	if (!(intel_crtc->mode_flags &
+@@ -1266,7 +1266,7 @@ static bool gen11_dsi_configure_te(struct intel_crtc *intel_crtc,
+ int bdw_enable_vblank(struct drm_crtc *_crtc)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(_crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 	unsigned long irqflags;
+ 
+@@ -1291,7 +1291,7 @@ int bdw_enable_vblank(struct drm_crtc *_crtc)
+  */
+ void i8xx_disable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->drm);
+ 	enum pipe pipe = to_intel_crtc(crtc)->pipe;
+ 	unsigned long irqflags;
+ 
+@@ -1302,7 +1302,7 @@ void i8xx_disable_vblank(struct drm_crtc *crtc)
+ 
+ void i915gm_disable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->drm);
+ 
+ 	i8xx_disable_vblank(crtc);
+ 
+@@ -1312,7 +1312,7 @@ void i915gm_disable_vblank(struct drm_crtc *crtc)
+ 
+ void i965_disable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->drm);
+ 	enum pipe pipe = to_intel_crtc(crtc)->pipe;
+ 	unsigned long irqflags;
+ 
+@@ -1324,7 +1324,7 @@ void i965_disable_vblank(struct drm_crtc *crtc)
+ 
+ void ilk_disable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->drm);
+ 	enum pipe pipe = to_intel_crtc(crtc)->pipe;
+ 	unsigned long irqflags;
+ 	u32 bit = DISPLAY_VER(dev_priv) >= 7 ?
+@@ -1338,7 +1338,7 @@ void ilk_disable_vblank(struct drm_crtc *crtc)
+ void bdw_disable_vblank(struct drm_crtc *_crtc)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(_crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 	unsigned long irqflags;
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_display_rps.c b/drivers/gpu/drm/i915/display/intel_display_rps.c
+index 918d0327169a..9d01d6542e14 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_rps.c
++++ b/drivers/gpu/drm/i915/display/intel_display_rps.c
+@@ -48,7 +48,7 @@ void intel_display_rps_boost_after_vblank(struct drm_crtc *crtc,
+ 	if (!dma_fence_is_i915(fence))
+ 		return;
+ 
+-	if (DISPLAY_VER(to_i915(crtc->dev)) < 6)
++	if (DISPLAY_VER(to_i915(crtc->drm)) < 6)
+ 		return;
+ 
+ 	if (drm_crtc_vblank_get(crtc))
+diff --git a/drivers/gpu/drm/i915/display/intel_display_trace.h b/drivers/gpu/drm/i915/display/intel_display_trace.h
+index 99bdb833591c..dd5008dcf2fb 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_trace.h
++++ b/drivers/gpu/drm/i915/display/intel_display_trace.h
+@@ -19,7 +19,7 @@
+ #include "intel_vblank.h"
+ 
+ #define __dev_name_i915(i915) dev_name((i915)->drm.dev)
+-#define __dev_name_kms(obj) dev_name((obj)->base.dev->dev)
++#define __dev_name_kms(obj) dev_name((obj)->base.drm->dev)
+ 
+ TRACE_EVENT(intel_pipe_enable,
+ 	    TP_PROTO(struct intel_crtc *crtc),
+@@ -32,7 +32,7 @@ TRACE_EVENT(intel_pipe_enable,
+ 			     __field(enum pipe, pipe)
+ 			     ),
+ 	    TP_fast_assign(
+-			   struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++			   struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 			   struct intel_crtc *it__;
+ 			   __assign_str(dev, __dev_name_kms(crtc));
+ 			   for_each_intel_crtc(&dev_priv->drm, it__) {
+@@ -61,7 +61,7 @@ TRACE_EVENT(intel_pipe_disable,
+ 			     ),
+ 
+ 	    TP_fast_assign(
+-			   struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++			   struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 			   struct intel_crtc *it__;
+ 			   __assign_str(dev, __dev_name_kms(crtc));
+ 			   for_each_intel_crtc(&dev_priv->drm, it__) {
+@@ -308,6 +308,9 @@ TRACE_EVENT(vlv_fifo_size,
+ 		      __entry->sprite0_start, __entry->sprite1_start, __entry->fifo_size)
+ );
+ 
++#undef __dev_name_kms
++#define __dev_name_kms(obj) dev_name((obj)->base.dev->dev)
++
+ TRACE_EVENT(intel_plane_update_noarm,
+ 	    TP_PROTO(struct intel_plane *plane, struct intel_crtc *crtc),
+ 	    TP_ARGS(plane, crtc),
+@@ -476,6 +479,9 @@ TRACE_EVENT(intel_fbc_nuke,
+ 		      __entry->frame, __entry->scanline)
+ );
+ 
++#undef __dev_name_kms
++#define __dev_name_kms(obj) dev_name((obj)->base.drm->dev)
++
+ TRACE_EVENT(intel_crtc_vblank_work_start,
+ 	    TP_PROTO(struct intel_crtc *crtc),
+ 	    TP_ARGS(crtc),
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 0cd561603ee1..79d0e99a9a76 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -1935,7 +1935,7 @@ static void intel_dp_compute_vsc_colorimetry(const struct intel_crtc_state *crtc
+ 					     struct drm_dp_vsc_sdp *vsc)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 
+ 	/*
+ 	 * Prepare VSC Header for SU as per DP 1.4 spec, Table 2-118
+diff --git a/drivers/gpu/drm/i915/display/intel_dpll.c b/drivers/gpu/drm/i915/display/intel_dpll.c
+index b0fb96717932..8db5d959cb18 100644
+--- a/drivers/gpu/drm/i915/display/intel_dpll.c
++++ b/drivers/gpu/drm/i915/display/intel_dpll.c
+@@ -408,7 +408,7 @@ i9xx_select_p2_div(const struct intel_limit *limit,
+ 		   const struct intel_crtc_state *crtc_state,
+ 		   int target)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 
+ 	if (intel_crtc_has_type(crtc_state, INTEL_OUTPUT_LVDS)) {
+ 		/*
+@@ -444,7 +444,7 @@ i9xx_find_best_dpll(const struct intel_limit *limit,
+ 		    const struct dpll *match_clock,
+ 		    struct dpll *best_clock)
+ {
+-	struct drm_device *dev = crtc_state->uapi.crtc->dev;
++	struct drm_device *dev = crtc_state->uapi.crtc->drm;
+ 	struct dpll clock;
+ 	int err = target;
+ 
+@@ -502,7 +502,7 @@ pnv_find_best_dpll(const struct intel_limit *limit,
+ 		   const struct dpll *match_clock,
+ 		   struct dpll *best_clock)
+ {
+-	struct drm_device *dev = crtc_state->uapi.crtc->dev;
++	struct drm_device *dev = crtc_state->uapi.crtc->drm;
+ 	struct dpll clock;
+ 	int err = target;
+ 
+@@ -558,7 +558,7 @@ g4x_find_best_dpll(const struct intel_limit *limit,
+ 		   const struct dpll *match_clock,
+ 		   struct dpll *best_clock)
+ {
+-	struct drm_device *dev = crtc_state->uapi.crtc->dev;
++	struct drm_device *dev = crtc_state->uapi.crtc->drm;
+ 	struct dpll clock;
+ 	int max_n;
+ 	bool found = false;
+@@ -653,7 +653,7 @@ vlv_find_best_dpll(const struct intel_limit *limit,
+ 		   struct dpll *best_clock)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct dpll clock;
+ 	unsigned int bestppm = 1000000;
+ 	/* min update 19.2 MHz */
+@@ -711,7 +711,7 @@ chv_find_best_dpll(const struct intel_limit *limit,
+ 		   struct dpll *best_clock)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	unsigned int best_error_ppm;
+ 	struct dpll clock;
+ 	u64 m2;
+@@ -788,7 +788,7 @@ static void i9xx_update_pll_dividers(struct intel_crtc_state *crtc_state,
+ 				     const struct dpll *reduced_clock)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	u32 fp, fp2;
+ 
+ 	if (IS_PINEVIEW(dev_priv)) {
+@@ -808,7 +808,7 @@ static void i9xx_compute_dpll(struct intel_crtc_state *crtc_state,
+ 			      const struct dpll *reduced_clock)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	u32 dpll;
+ 
+ 	i9xx_update_pll_dividers(crtc_state, clock, reduced_clock);
+@@ -887,7 +887,7 @@ static void i8xx_compute_dpll(struct intel_crtc_state *crtc_state,
+ 			      const struct dpll *reduced_clock)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	u32 dpll;
+ 
+ 	i9xx_update_pll_dividers(crtc_state, clock, reduced_clock);
+@@ -1032,7 +1032,7 @@ static void ilk_update_pll_dividers(struct intel_crtc_state *crtc_state,
+ 				    const struct dpll *reduced_clock)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	u32 fp, fp2;
+ 	int factor;
+ 
+@@ -1065,7 +1065,7 @@ static void ilk_compute_dpll(struct intel_crtc_state *crtc_state,
+ 			     const struct dpll *reduced_clock)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	u32 dpll;
+ 
+ 	ilk_update_pll_dividers(crtc_state, clock, reduced_clock);
+@@ -1581,7 +1581,7 @@ static bool i9xx_has_pps(struct drm_i915_private *dev_priv)
+ void i9xx_enable_pll(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	u32 dpll = crtc_state->dpll_hw_state.dpll;
+ 	enum pipe pipe = crtc->pipe;
  	int i;
-diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/cirrus.c
-index 594bc472862f..3d3d6c8fd92e 100644
---- a/drivers/gpu/drm/tiny/cirrus.c
-+++ b/drivers/gpu/drm/tiny/cirrus.c
-@@ -537,8 +537,8 @@ static int cirrus_connector_helper_get_modes(struct drm_connector *connector)
- 	int count;
+@@ -1659,7 +1659,7 @@ static void vlv_pllb_recal_opamp(struct drm_i915_private *dev_priv,
+ static void vlv_prepare_pll(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 	u32 mdiv;
+ 	u32 bestn, bestm1, bestm2, bestp1, bestp2;
+@@ -1749,7 +1749,7 @@ static void vlv_prepare_pll(const struct intel_crtc_state *crtc_state)
+ static void _vlv_enable_pll(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
  
- 	count = drm_add_modes_noedid(connector,
--				     connector->dev->mode_config.max_width,
--				     connector->dev->mode_config.max_height);
-+				     connector->drm->mode_config.max_width,
-+				     connector->drm->mode_config.max_height);
- 	drm_set_preferred_mode(connector, 1024, 768);
- 	return count;
+ 	intel_de_write(dev_priv, DPLL(pipe), crtc_state->dpll_hw_state.dpll);
+@@ -1763,7 +1763,7 @@ static void _vlv_enable_pll(const struct intel_crtc_state *crtc_state)
+ void vlv_enable_pll(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 
+ 	assert_transcoder_disabled(dev_priv, crtc_state->cpu_transcoder);
+@@ -1789,7 +1789,7 @@ void vlv_enable_pll(const struct intel_crtc_state *crtc_state)
+ static void chv_prepare_pll(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 	enum dpio_channel port = vlv_pipe_to_channel(pipe);
+ 	u32 loopfilter, tribuf_calcntr;
+@@ -1883,7 +1883,7 @@ static void chv_prepare_pll(const struct intel_crtc_state *crtc_state)
+ static void _chv_enable_pll(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 	enum dpio_channel port = vlv_pipe_to_channel(pipe);
+ 	u32 tmp;
+@@ -1913,7 +1913,7 @@ static void _chv_enable_pll(const struct intel_crtc_state *crtc_state)
+ void chv_enable_pll(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 
+ 	assert_transcoder_disabled(dev_priv, crtc_state->cpu_transcoder);
+@@ -2040,7 +2040,7 @@ void chv_disable_pll(struct drm_i915_private *dev_priv, enum pipe pipe)
+ void i9xx_disable_pll(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 
+ 	/* Don't disable pipe or pipe PLLs if needed */
+diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+index ef039b1b34eb..ca96d98ac285 100644
+--- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
++++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+@@ -220,7 +220,7 @@ intel_tc_pll_enable_reg(struct drm_i915_private *i915,
+ void intel_enable_shared_dpll(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_shared_dpll *pll = crtc_state->shared_dpll;
+ 	unsigned int pipe_mask = BIT(crtc->pipe);
+ 	unsigned int old_mask;
+@@ -266,7 +266,7 @@ void intel_enable_shared_dpll(const struct intel_crtc_state *crtc_state)
+ void intel_disable_shared_dpll(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_shared_dpll *pll = crtc_state->shared_dpll;
+ 	unsigned int pipe_mask = BIT(crtc->pipe);
+ 
+@@ -309,7 +309,7 @@ intel_find_shared_dpll(struct intel_atomic_state *state,
+ 		       const struct intel_dpll_hw_state *pll_state,
+ 		       unsigned long dpll_mask)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_shared_dpll *pll, *unused_pll = NULL;
+ 	struct intel_shared_dpll_state *shared_dpll;
+ 	enum intel_dpll_id i;
+@@ -365,7 +365,7 @@ intel_reference_shared_dpll_crtc(const struct intel_crtc *crtc,
+ 				 const struct intel_shared_dpll *pll,
+ 				 struct intel_shared_dpll_state *shared_dpll_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 
+ 	drm_WARN_ON(&i915->drm, (shared_dpll_state->pipe_mask & BIT(crtc->pipe)) != 0);
+ 
+@@ -405,7 +405,7 @@ intel_unreference_shared_dpll_crtc(const struct intel_crtc *crtc,
+ 				   const struct intel_shared_dpll *pll,
+ 				   struct intel_shared_dpll_state *shared_dpll_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 
+ 	drm_WARN_ON(&i915->drm, (shared_dpll_state->pipe_mask & BIT(crtc->pipe)) == 0);
+ 
+@@ -556,7 +556,7 @@ static int ibx_get_dpll(struct intel_atomic_state *state,
+ {
+ 	struct intel_crtc_state *crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_shared_dpll *pll;
+ 	enum intel_dpll_id i;
+ 
+@@ -995,7 +995,7 @@ hsw_ddi_wrpll_get_dpll(struct intel_atomic_state *state,
+ static int
+ hsw_ddi_lcpll_compute_dpll(struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 	int clock = crtc_state->port_clock;
+ 
+ 	switch (clock / 2) {
+@@ -1013,7 +1013,7 @@ hsw_ddi_lcpll_compute_dpll(struct intel_crtc_state *crtc_state)
+ static struct intel_shared_dpll *
+ hsw_ddi_lcpll_get_dpll(struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 	struct intel_shared_dpll *pll;
+ 	enum intel_dpll_id pll_id;
+ 	int clock = crtc_state->port_clock;
+@@ -1072,7 +1072,7 @@ hsw_ddi_spll_compute_dpll(struct intel_atomic_state *state,
+ 	struct intel_crtc_state *crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+ 
+-	if (drm_WARN_ON(crtc->base.dev, crtc_state->port_clock / 2 != 135000))
++	if (drm_WARN_ON(crtc->base.drm, crtc_state->port_clock / 2 != 135000))
+ 		return -EINVAL;
+ 
+ 	crtc_state->dpll_hw_state.spll =
+@@ -1699,7 +1699,7 @@ static int skl_ddi_wrpll_get_freq(struct drm_i915_private *i915,
+ 
+ static int skl_ddi_hdmi_pll_dividers(struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	struct skl_wrpll_params wrpll_params = {};
+ 	u32 ctrl1, cfgcr1, cfgcr2;
+ 	int ret;
+@@ -2129,7 +2129,7 @@ static int
+ bxt_ddi_hdmi_pll_dividers(struct intel_crtc_state *crtc_state,
+ 			  struct dpll *clk_div)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 
+ 	/* Calculate HDMI div */
+ 	/*
+@@ -2147,7 +2147,7 @@ bxt_ddi_hdmi_pll_dividers(struct intel_crtc_state *crtc_state,
+ static void bxt_ddi_dp_pll_dividers(struct intel_crtc_state *crtc_state,
+ 				    struct dpll *clk_div)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	int i;
+ 
+ 	*clk_div = bxt_dp_clk_val[0];
+@@ -2167,7 +2167,7 @@ static void bxt_ddi_dp_pll_dividers(struct intel_crtc_state *crtc_state,
+ static int bxt_ddi_set_dpll_hw_state(struct intel_crtc_state *crtc_state,
+ 				     const struct dpll *clk_div)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	struct intel_dpll_hw_state *dpll_hw_state = &crtc_state->dpll_hw_state;
+ 	int clock = crtc_state->port_clock;
+ 	int vco = clk_div->vco;
+@@ -2262,7 +2262,7 @@ bxt_ddi_dp_set_dpll_hw_state(struct intel_crtc_state *crtc_state)
+ static int
+ bxt_ddi_hdmi_set_dpll_hw_state(struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	struct dpll clk_div = {};
+ 	int ret;
+ 
+@@ -2299,7 +2299,7 @@ static int bxt_get_dpll(struct intel_atomic_state *state,
+ {
+ 	struct intel_crtc_state *crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_shared_dpll *pll;
+ 	enum intel_dpll_id id;
+ 
+@@ -2556,7 +2556,7 @@ static const struct skl_wrpll_params tgl_tbt_pll_24MHz_values = {
+ static int icl_calc_dp_combo_pll(struct intel_crtc_state *crtc_state,
+ 				 struct skl_wrpll_params *pll_params)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 	const struct icl_combo_pll_params *params =
+ 		dev_priv->display.dpll.ref_clks.nssc == 24000 ?
+ 		icl_dp_combo_pll_24MHz_values :
+@@ -2578,7 +2578,7 @@ static int icl_calc_dp_combo_pll(struct intel_crtc_state *crtc_state,
+ static int icl_calc_tbt_pll(struct intel_crtc_state *crtc_state,
+ 			    struct skl_wrpll_params *pll_params)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 
+ 	if (DISPLAY_VER(dev_priv) >= 12) {
+ 		switch (dev_priv->display.dpll.ref_clks.nssc) {
+@@ -2642,7 +2642,7 @@ static int
+ icl_calc_wrpll(struct intel_crtc_state *crtc_state,
+ 	       struct skl_wrpll_params *wrpll_params)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	int ref_clock = icl_wrpll_ref_clock(i915);
+ 	u32 afe_clock = crtc_state->port_clock * 5;
+ 	u32 dco_min = 7998000;
+@@ -2852,7 +2852,7 @@ static int icl_mg_pll_find_divisors(int clock_khz, bool is_dp, bool use_ssc,
+ static int icl_calc_mg_pll_state(struct intel_crtc_state *crtc_state,
+ 				 struct intel_dpll_hw_state *pll_state)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 	int refclk_khz = dev_priv->display.dpll.ref_clks.nssc;
+ 	int clock = crtc_state->port_clock;
+ 	u32 dco_khz, m1div, m2div_int, m2div_rem, m2div_frac;
+@@ -3166,7 +3166,7 @@ static void icl_update_active_dpll(struct intel_atomic_state *state,
+ static int icl_compute_combo_phy_dpll(struct intel_atomic_state *state,
+ 				      struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_crtc_state *crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+ 	struct icl_port_dpll *port_dpll =
+@@ -3198,7 +3198,7 @@ static int icl_get_combo_phy_dpll(struct intel_atomic_state *state,
+ 				  struct intel_crtc *crtc,
+ 				  struct intel_encoder *encoder)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_crtc_state *crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+ 	struct icl_port_dpll *port_dpll =
+@@ -4484,7 +4484,7 @@ void intel_shared_dpll_state_verify(struct intel_crtc *crtc,
+ 				    struct intel_crtc_state *old_crtc_state,
+ 				    struct intel_crtc_state *new_crtc_state)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 
+ 	if (new_crtc_state->shared_dpll)
+ 		verify_single_dpll_state(dev_priv, new_crtc_state->shared_dpll,
+diff --git a/drivers/gpu/drm/i915/display/intel_dpt.c b/drivers/gpu/drm/i915/display/intel_dpt.c
+index 7c5fddb203ba..b70dd87ab7fb 100644
+--- a/drivers/gpu/drm/i915/display/intel_dpt.c
++++ b/drivers/gpu/drm/i915/display/intel_dpt.c
+@@ -318,7 +318,7 @@ void intel_dpt_destroy(struct i915_address_space *vm)
+ 
+ void intel_dpt_configure(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 
+ 	if (DISPLAY_VER(i915) == 14) {
+ 		enum pipe pipe = crtc->pipe;
+diff --git a/drivers/gpu/drm/i915/display/intel_drrs.c b/drivers/gpu/drm/i915/display/intel_drrs.c
+index 0d35b6be5b6a..c74dd3f95c68 100644
+--- a/drivers/gpu/drm/i915/display/intel_drrs.c
++++ b/drivers/gpu/drm/i915/display/intel_drrs.c
+@@ -66,7 +66,7 @@ static void
+ intel_drrs_set_refresh_rate_pipeconf(struct intel_crtc *crtc,
+ 				     enum drrs_refresh_rate refresh_rate)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum transcoder cpu_transcoder = crtc->drrs.cpu_transcoder;
+ 	u32 bit;
+ 
+@@ -96,7 +96,7 @@ bool intel_drrs_is_active(struct intel_crtc *crtc)
+ static void intel_drrs_set_state(struct intel_crtc *crtc,
+ 				 enum drrs_refresh_rate refresh_rate)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 
+ 	if (refresh_rate == crtc->drrs.refresh_rate)
+ 		return;
+@@ -111,7 +111,7 @@ static void intel_drrs_set_state(struct intel_crtc *crtc,
+ 
+ static void intel_drrs_schedule_work(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 
+ 	mod_delayed_work(i915->unordered_wq, &crtc->drrs.work, msecs_to_jiffies(1000));
  }
-diff --git a/drivers/gpu/drm/tiny/ofdrm.c b/drivers/gpu/drm/tiny/ofdrm.c
-index 2d999a0facde..dbf053d603af 100644
---- a/drivers/gpu/drm/tiny/ofdrm.c
-+++ b/drivers/gpu/drm/tiny/ofdrm.c
-@@ -989,7 +989,7 @@ static const struct drm_crtc_funcs ofdrm_crtc_funcs = {
- 
- static int ofdrm_connector_helper_get_modes(struct drm_connector *connector)
+@@ -119,7 +119,7 @@ static void intel_drrs_schedule_work(struct intel_crtc *crtc)
+ static unsigned int intel_drrs_frontbuffer_bits(const struct intel_crtc_state *crtc_state)
  {
--	struct ofdrm_device *odev = ofdrm_device_of_dev(connector->dev);
-+	struct ofdrm_device *odev = ofdrm_device_of_dev(connector->drm);
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	unsigned int frontbuffer_bits;
  
- 	return drm_connector_helper_get_modes_fixed(connector, &odev->mode);
+ 	frontbuffer_bits = INTEL_FRONTBUFFER_ALL_MASK(crtc->pipe);
+@@ -334,7 +334,7 @@ DEFINE_SHOW_ATTRIBUTE(intel_drrs_debugfs_status);
+ static int intel_drrs_debugfs_ctl_set(void *data, u64 val)
+ {
+ 	struct intel_crtc *crtc = data;
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	struct intel_crtc_state *crtc_state;
+ 	struct drm_crtc_commit *commit;
+ 	int ret;
+diff --git a/drivers/gpu/drm/i915/display/intel_dsb.c b/drivers/gpu/drm/i915/display/intel_dsb.c
+index bed058d2c3ac..b99384437ea0 100644
+--- a/drivers/gpu/drm/i915/display/intel_dsb.c
++++ b/drivers/gpu/drm/i915/display/intel_dsb.c
+@@ -85,7 +85,7 @@ struct intel_dsb {
+ static bool assert_dsb_has_room(struct intel_dsb *dsb)
+ {
+ 	struct intel_crtc *crtc = dsb->crtc;
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 
+ 	/* each instruction is 2 dwords */
+ 	return !drm_WARN(&i915->drm, dsb->free_pos > dsb->size - 2,
+@@ -229,7 +229,7 @@ void intel_dsb_finish(struct intel_dsb *dsb)
+ void intel_dsb_commit(struct intel_dsb *dsb, bool wait_for_vblank)
+ {
+ 	struct intel_crtc *crtc = dsb->crtc;
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 	u32 tail;
+ 
+@@ -255,7 +255,7 @@ void intel_dsb_commit(struct intel_dsb *dsb, bool wait_for_vblank)
+ void intel_dsb_wait(struct intel_dsb *dsb)
+ {
+ 	struct intel_crtc *crtc = dsb->crtc;
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 
+ 	if (wait_for(!is_dsb_busy(dev_priv, pipe, dsb->id), 1))
+@@ -283,7 +283,7 @@ void intel_dsb_wait(struct intel_dsb *dsb)
+ struct intel_dsb *intel_dsb_prepare(struct intel_crtc *crtc,
+ 				    unsigned int max_cmds)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	struct drm_i915_gem_object *obj;
+ 	intel_wakeref_t wakeref;
+ 	struct intel_dsb *dsb;
+diff --git a/drivers/gpu/drm/i915/display/intel_fbc.c b/drivers/gpu/drm/i915/display/intel_fbc.c
+index 3e43e15d50ce..851654891e19 100644
+--- a/drivers/gpu/drm/i915/display/intel_fbc.c
++++ b/drivers/gpu/drm/i915/display/intel_fbc.c
+@@ -1486,7 +1486,7 @@ static void __intel_fbc_enable(struct intel_atomic_state *state,
+  */
+ void intel_fbc_disable(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	struct intel_plane *plane;
+ 
+ 	for_each_intel_plane(&i915->drm, plane) {
+diff --git a/drivers/gpu/drm/i915/display/intel_fdi.c b/drivers/gpu/drm/i915/display/intel_fdi.c
+index e12b46a84fa1..1f89020787fc 100644
+--- a/drivers/gpu/drm/i915/display/intel_fdi.c
++++ b/drivers/gpu/drm/i915/display/intel_fdi.c
+@@ -114,7 +114,7 @@ void assert_fdi_rx_pll_disabled(struct drm_i915_private *i915, enum pipe pipe)
+ void intel_fdi_link_train(struct intel_crtc *crtc,
+ 			  const struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 
+ 	dev_priv->display.funcs.fdi->fdi_link_train(crtc, crtc_state);
  }
-diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repaper.c
-index c2677d081a7b..f884b2712bde 100644
---- a/drivers/gpu/drm/tiny/repaper.c
-+++ b/drivers/gpu/drm/tiny/repaper.c
-@@ -848,7 +848,7 @@ static const struct drm_simple_display_pipe_funcs repaper_pipe_funcs = {
- 
- static int repaper_connector_get_modes(struct drm_connector *connector)
+@@ -235,7 +235,7 @@ int intel_fdi_link_freq(struct drm_i915_private *i915,
+ int ilk_fdi_compute_config(struct intel_crtc *crtc,
+ 			   struct intel_crtc_state *pipe_config)
  {
--	struct repaper_epd *epd = drm_to_epd(connector->dev);
-+	struct repaper_epd *epd = drm_to_epd(connector->drm);
- 
- 	return drm_connector_helper_get_modes_fixed(connector, epd->mode);
- }
-diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-index ff86ba1ae1b8..fa511aff2545 100644
---- a/drivers/gpu/drm/tiny/simpledrm.c
-+++ b/drivers/gpu/drm/tiny/simpledrm.c
-@@ -578,7 +578,7 @@ static const struct drm_encoder_funcs simpledrm_encoder_funcs = {
- 
- static int simpledrm_connector_helper_get_modes(struct drm_connector *connector)
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct drm_i915_private *i915 = to_i915(dev);
+ 	const struct drm_display_mode *adjusted_mode = &pipe_config->hw.adjusted_mode;
+ 	int lane, link_bw, fdi_dotclock, ret;
+@@ -310,7 +310,7 @@ static void cpt_set_fdi_bc_bifurcation(struct drm_i915_private *dev_priv, bool e
+ static void ivb_update_fdi_bc_bifurcation(const struct intel_crtc_state *crtc_state)
  {
--	struct simpledrm_device *sdev = simpledrm_device_of_dev(connector->dev);
-+	struct simpledrm_device *sdev = simpledrm_device_of_dev(connector->drm);
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
  
- 	return drm_connector_helper_get_modes_fixed(connector, &sdev->mode);
- }
-diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
-index aa02fd2789c3..1c85223b4bdc 100644
---- a/drivers/gpu/drm/udl/udl_modeset.c
-+++ b/drivers/gpu/drm/udl/udl_modeset.c
-@@ -464,7 +464,7 @@ static int udl_get_edid_block(void *data, u8 *buf, unsigned int block, size_t le
+ 	switch (crtc->pipe) {
+ 	case PIPE_A:
+@@ -333,7 +333,7 @@ static void ivb_update_fdi_bc_bifurcation(const struct intel_crtc_state *crtc_st
  
- static enum drm_connector_status udl_connector_detect(struct drm_connector *connector, bool force)
+ void intel_fdi_normal_train(struct intel_crtc *crtc)
  {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct udl_device *udl = to_udl(dev);
- 	struct udl_connector *udl_connector = to_udl_connector(connector);
- 	enum drm_connector_status status = connector_status_disconnected;
-diff --git a/drivers/gpu/drm/vboxvideo/vbox_mode.c b/drivers/gpu/drm/vboxvideo/vbox_mode.c
-index 341edd982cb3..d7326d6b9062 100644
---- a/drivers/gpu/drm/vboxvideo/vbox_mode.c
-+++ b/drivers/gpu/drm/vboxvideo/vbox_mode.c
-@@ -712,7 +712,7 @@ static int vbox_get_modes(struct drm_connector *connector)
- 	int preferred_width, preferred_height;
- 
- 	vbox_connector = to_vbox_connector(connector);
--	vbox = to_vbox_dev(connector->dev);
-+	vbox = to_vbox_dev(connector->drm);
- 
- 	hgsmi_report_flags_location(vbox->guest_pool, GUEST_HEAP_OFFSET(vbox) +
- 				    HOST_FLAGS_OFFSET);
-@@ -724,7 +724,7 @@ static int vbox_get_modes(struct drm_connector *connector)
- 			  vbox_connector->mode_hint.width : 1024;
- 	preferred_height = vbox_connector->mode_hint.height ?
- 			   vbox_connector->mode_hint.height : 768;
--	mode = drm_cvt_mode(connector->dev, preferred_width, preferred_height,
-+	mode = drm_cvt_mode(connector->drm, preferred_width, preferred_height,
- 			    60, false, false, false);
- 	if (mode) {
- 		mode->type |= DRM_MODE_TYPE_PREFERRED;
-@@ -778,7 +778,7 @@ static int vbox_fill_modes(struct drm_connector *connector, u32 max_x,
- 	struct drm_display_mode *mode, *iterator;
- 
- 	vbox_connector = to_vbox_connector(connector);
--	dev = vbox_connector->base.dev;
-+	dev = vbox_connector->base.drm;
- 	list_for_each_entry_safe(mode, iterator, &connector->modes, head) {
- 		list_del(&mode->head);
- 		drm_mode_destroy(dev, mode);
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 56a950e6d777..5e53d4f8232d 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -172,7 +172,7 @@ static int vc4_hdmi_debugfs_regs(struct seq_file *m, void *unused)
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	enum pipe pipe = crtc->pipe;
+ 	i915_reg_t reg;
+@@ -375,7 +375,7 @@ void intel_fdi_normal_train(struct intel_crtc *crtc)
+ static void ilk_fdi_link_train(struct intel_crtc *crtc,
+ 			       const struct intel_crtc_state *crtc_state)
  {
- 	struct drm_debugfs_entry *entry = m->private;
- 	struct vc4_hdmi *vc4_hdmi = entry->file.data;
--	struct drm_device *drm = vc4_hdmi->connector.dev;
-+	struct drm_device *drm = vc4_hdmi->connector.drm;
- 	struct drm_printer p = drm_seq_file_printer(m);
- 	int idx;
- 
-@@ -195,7 +195,7 @@ static int vc4_hdmi_debugfs_regs(struct seq_file *m, void *unused)
- 
- static void vc4_hdmi_reset(struct vc4_hdmi *vc4_hdmi)
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	enum pipe pipe = crtc->pipe;
+ 	i915_reg_t reg;
+@@ -477,7 +477,7 @@ static const int snb_b_fdi_train_param[] = {
+ static void gen6_fdi_link_train(struct intel_crtc *crtc,
+ 				const struct intel_crtc_state *crtc_state)
  {
--	struct drm_device *drm = vc4_hdmi->connector.dev;
-+	struct drm_device *drm = vc4_hdmi->connector.drm;
- 	unsigned long flags;
- 	int idx;
- 
-@@ -228,7 +228,7 @@ static void vc4_hdmi_reset(struct vc4_hdmi *vc4_hdmi)
- 
- static void vc5_hdmi_reset(struct vc4_hdmi *vc4_hdmi)
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	enum pipe pipe = crtc->pipe;
+ 	i915_reg_t reg;
+@@ -613,7 +613,7 @@ static void gen6_fdi_link_train(struct intel_crtc *crtc,
+ static void ivb_manual_fdi_link_train(struct intel_crtc *crtc,
+ 				      const struct intel_crtc_state *crtc_state)
  {
--	struct drm_device *drm = vc4_hdmi->connector.dev;
-+	struct drm_device *drm = vc4_hdmi->connector.drm;
- 	unsigned long flags;
- 	int idx;
- 
-@@ -257,7 +257,7 @@ static void vc5_hdmi_reset(struct vc4_hdmi *vc4_hdmi)
- #ifdef CONFIG_DRM_VC4_HDMI_CEC
- static void vc4_hdmi_cec_update_clk_div(struct vc4_hdmi *vc4_hdmi)
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	enum pipe pipe = crtc->pipe;
+ 	i915_reg_t reg;
+@@ -750,7 +750,7 @@ void hsw_fdi_link_train(struct intel_encoder *encoder,
+ 			const struct intel_crtc_state *crtc_state)
  {
--	struct drm_device *drm = vc4_hdmi->connector.dev;
-+	struct drm_device *drm = vc4_hdmi->connector.drm;
- 	unsigned long cec_rate;
- 	unsigned long flags;
- 	u16 clk_cnt;
-@@ -340,7 +340,7 @@ static int vc4_hdmi_reset_link(struct drm_connector *connector,
- 	if (!connector)
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	u32 temp, i, rx_ctl_val;
+ 	int n_entries;
+ 
+@@ -891,7 +891,7 @@ void hsw_fdi_disable(struct intel_encoder *encoder)
+ void ilk_fdi_pll_enable(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 	i915_reg_t reg;
+ 	u32 temp;
+@@ -925,7 +925,7 @@ void ilk_fdi_pll_enable(const struct intel_crtc_state *crtc_state)
+ 
+ void ilk_fdi_pll_disable(struct intel_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	enum pipe pipe = crtc->pipe;
+ 
+@@ -945,7 +945,7 @@ void ilk_fdi_pll_disable(struct intel_crtc *crtc)
+ 
+ void ilk_fdi_disable(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 	i915_reg_t reg;
+ 	u32 temp;
+diff --git a/drivers/gpu/drm/i915/display/intel_fifo_underrun.c b/drivers/gpu/drm/i915/display/intel_fifo_underrun.c
+index 09a7fa6c0c37..c2f451b67f36 100644
+--- a/drivers/gpu/drm/i915/display/intel_fifo_underrun.c
++++ b/drivers/gpu/drm/i915/display/intel_fifo_underrun.c
+@@ -93,7 +93,7 @@ static bool cpt_can_enable_serr_int(struct drm_device *dev)
+ 
+ static void i9xx_check_fifo_underruns(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	i915_reg_t reg = PIPESTAT(crtc->pipe);
+ 	u32 enable_mask;
+ 
+@@ -147,7 +147,7 @@ static void ilk_set_fifo_underrun_reporting(struct drm_device *dev,
+ 
+ static void ivb_check_fifo_underruns(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 	u32 err_int = intel_de_read(dev_priv, GEN7_ERR_INT);
+ 
+@@ -234,7 +234,7 @@ static void ibx_set_fifo_underrun_reporting(struct drm_device *dev,
+ 
+ static void cpt_check_pch_fifo_underruns(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pch_transcoder = crtc->pipe;
+ 	u32 serr_int = intel_de_read(dev_priv, SERR_INT);
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+index f2d0f223ffc3..2c819d1b191b 100644
+--- a/drivers/gpu/drm/i915/display/intel_hdmi.c
++++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+@@ -2053,7 +2053,7 @@ bool intel_hdmi_bpc_possible(const struct intel_crtc_state *crtc_state,
+ static bool hdmi_bpc_possible(const struct intel_crtc_state *crtc_state, int bpc)
+ {
+ 	struct drm_i915_private *dev_priv =
+-		to_i915(crtc_state->uapi.crtc->dev);
++		to_i915(crtc_state->uapi.crtc->drm);
+ 	const struct drm_display_mode *adjusted_mode =
+ 		&crtc_state->hw.adjusted_mode;
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_modeset_setup.c b/drivers/gpu/drm/i915/display/intel_modeset_setup.c
+index b8f43efb0ab5..508ca534ab04 100644
+--- a/drivers/gpu/drm/i915/display/intel_modeset_setup.c
++++ b/drivers/gpu/drm/i915/display/intel_modeset_setup.c
+@@ -35,7 +35,7 @@
+ static void intel_crtc_disable_noatomic_begin(struct intel_crtc *crtc,
+ 					      struct drm_modeset_acquire_ctx *ctx)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	struct intel_crtc_state *crtc_state =
+ 		to_intel_crtc_state(crtc->base.state);
+ 	struct intel_plane *plane;
+@@ -140,7 +140,7 @@ static void reset_encoder_connector_state(struct intel_encoder *encoder)
+ 
+ static void reset_crtc_encoder_state(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	struct intel_encoder *encoder;
+ 
+ 	for_each_encoder_on_crtc(&i915->drm, &crtc->base, encoder) {
+@@ -151,7 +151,7 @@ static void reset_crtc_encoder_state(struct intel_crtc *crtc)
+ 
+ static void intel_crtc_disable_noatomic_complete(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	struct intel_bw_state *bw_state =
+ 		to_intel_bw_state(i915->display.bw.obj.state);
+ 	struct intel_cdclk_state *cdclk_state =
+@@ -221,7 +221,7 @@ static u8 get_transcoder_pipes(struct drm_i915_private *i915,
+ static void get_portsync_pipes(struct intel_crtc *crtc,
+ 			       u8 *master_pipe_mask, u8 *slave_pipes_mask)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	struct intel_crtc_state *crtc_state =
+ 		to_intel_crtc_state(crtc->base.state);
+ 	struct intel_crtc *master_crtc;
+@@ -266,7 +266,7 @@ static u8 get_bigjoiner_slave_pipes(struct drm_i915_private *i915, u8 master_pip
+ static void intel_crtc_disable_noatomic(struct intel_crtc *crtc,
+ 					struct drm_modeset_acquire_ctx *ctx)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	u8 portsync_master_mask;
+ 	u8 portsync_slaves_mask;
+ 	u8 bigjoiner_slaves_mask;
+@@ -331,7 +331,7 @@ static void intel_crtc_copy_hw_to_uapi_state(struct intel_crtc_state *crtc_state
+ 
+ 	crtc_state->uapi.enable = crtc_state->hw.enable;
+ 	crtc_state->uapi.active = crtc_state->hw.active;
+-	drm_WARN_ON(crtc_state->uapi.crtc->dev,
++	drm_WARN_ON(crtc_state->uapi.crtc->drm,
+ 		    drm_atomic_set_mode_for_crtc(&crtc_state->uapi, &crtc_state->hw.mode) < 0);
+ 
+ 	crtc_state->uapi.adjusted_mode = crtc_state->hw.adjusted_mode;
+@@ -382,7 +382,7 @@ intel_sanitize_plane_mapping(struct drm_i915_private *i915)
+ 
+ static bool intel_crtc_has_encoders(struct intel_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct intel_encoder *encoder;
+ 
+ 	for_each_encoder_on_crtc(dev, &crtc->base, encoder)
+@@ -393,7 +393,7 @@ static bool intel_crtc_has_encoders(struct intel_crtc *crtc)
+ 
+ static bool intel_crtc_needs_link_reset(struct intel_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct intel_encoder *encoder;
+ 
+ 	for_each_encoder_on_crtc(dev, &crtc->base, encoder) {
+@@ -428,7 +428,7 @@ static struct intel_connector *intel_encoder_find_connector(struct intel_encoder
+ static void intel_sanitize_fifo_underrun_reporting(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 
+ 	/*
+ 	 * We start out with underrun reporting disabled on active
+@@ -451,7 +451,7 @@ static void intel_sanitize_fifo_underrun_reporting(const struct intel_crtc_state
+ static bool intel_sanitize_crtc(struct intel_crtc *crtc,
+ 				struct drm_modeset_acquire_ctx *ctx)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	struct intel_crtc_state *crtc_state = to_intel_crtc_state(crtc->base.state);
+ 	bool needs_link_reset;
+ 
+@@ -538,7 +538,7 @@ static void intel_sanitize_all_crtcs(struct drm_i915_private *i915,
+ 
+ static bool has_bogus_dpll_config(const struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 
+ 	/*
+ 	 * Some SNB BIOSen (eg. ASUS K53SV) are known to misprogram
+diff --git a/drivers/gpu/drm/i915/display/intel_modeset_verify.c b/drivers/gpu/drm/i915/display/intel_modeset_verify.c
+index 418b8526a081..e9e87262c872 100644
+--- a/drivers/gpu/drm/i915/display/intel_modeset_verify.c
++++ b/drivers/gpu/drm/i915/display/intel_modeset_verify.c
+@@ -161,7 +161,7 @@ verify_crtc_state(struct intel_crtc *crtc,
+ 		  struct intel_crtc_state *old_crtc_state,
+ 		  struct intel_crtc_state *new_crtc_state)
+ {
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	struct intel_encoder *encoder;
+ 	struct intel_crtc_state *pipe_config = old_crtc_state;
+diff --git a/drivers/gpu/drm/i915/display/intel_panel.c b/drivers/gpu/drm/i915/display/intel_panel.c
+index 172c78777130..486f9916e8f4 100644
+--- a/drivers/gpu/drm/i915/display/intel_panel.c
++++ b/drivers/gpu/drm/i915/display/intel_panel.c
+@@ -599,7 +599,7 @@ static int gmch_panel_fitting(struct intel_crtc_state *crtc_state,
+ 			      const struct drm_connector_state *conn_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	u32 pfit_control = 0, pfit_pgm_ratios = 0, border = 0;
+ 	struct drm_display_mode *adjusted_mode = &crtc_state->hw.adjusted_mode;
+ 	int pipe_src_w = drm_rect_width(&crtc_state->pipe_src);
+@@ -676,7 +676,7 @@ int intel_panel_fitting(struct intel_crtc_state *crtc_state,
+ 			const struct drm_connector_state *conn_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 
+ 	if (HAS_GMCH(i915))
+ 		return gmch_panel_fitting(crtc_state, conn_state);
+diff --git a/drivers/gpu/drm/i915/display/intel_pch_display.c b/drivers/gpu/drm/i915/display/intel_pch_display.c
+index 866786e6b32f..79e1183a3908 100644
+--- a/drivers/gpu/drm/i915/display/intel_pch_display.c
++++ b/drivers/gpu/drm/i915/display/intel_pch_display.c
+@@ -26,7 +26,7 @@ bool intel_has_pch_trancoder(struct drm_i915_private *i915,
+ 
+ enum pipe intel_crtc_pch_transcoder(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 
+ 	if (HAS_PCH_LPT(i915))
+ 		return PIPE_A;
+@@ -174,7 +174,7 @@ static void ibx_sanitize_pch_ports(struct drm_i915_private *dev_priv)
+ static void intel_pch_transcoder_set_m1_n1(struct intel_crtc *crtc,
+ 					   const struct intel_link_m_n *m_n)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 
+ 	intel_set_m_n(dev_priv, m_n,
+@@ -185,7 +185,7 @@ static void intel_pch_transcoder_set_m1_n1(struct intel_crtc *crtc,
+ static void intel_pch_transcoder_set_m2_n2(struct intel_crtc *crtc,
+ 					   const struct intel_link_m_n *m_n)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 
+ 	intel_set_m_n(dev_priv, m_n,
+@@ -196,7 +196,7 @@ static void intel_pch_transcoder_set_m2_n2(struct intel_crtc *crtc,
+ void intel_pch_transcoder_get_m1_n1(struct intel_crtc *crtc,
+ 				    struct intel_link_m_n *m_n)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 
+ 	intel_get_m_n(dev_priv, m_n,
+@@ -207,7 +207,7 @@ void intel_pch_transcoder_get_m1_n1(struct intel_crtc *crtc,
+ void intel_pch_transcoder_get_m2_n2(struct intel_crtc *crtc,
+ 				    struct intel_link_m_n *m_n)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 
+ 	intel_get_m_n(dev_priv, m_n,
+@@ -219,7 +219,7 @@ static void ilk_pch_transcoder_set_timings(const struct intel_crtc_state *crtc_s
+ 					   enum pipe pch_transcoder)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
+ 
+ 	intel_de_write(dev_priv, PCH_TRANS_HTOTAL(pch_transcoder),
+@@ -242,7 +242,7 @@ static void ilk_pch_transcoder_set_timings(const struct intel_crtc_state *crtc_s
+ static void ilk_enable_pch_transcoder(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 	i915_reg_t reg;
+ 	u32 val, pipeconf_val;
+@@ -308,7 +308,7 @@ static void ilk_enable_pch_transcoder(const struct intel_crtc_state *crtc_state)
+ 
+ static void ilk_disable_pch_transcoder(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 	i915_reg_t reg;
+ 
+@@ -357,7 +357,7 @@ void ilk_pch_pre_enable(struct intel_atomic_state *state,
+ void ilk_pch_enable(struct intel_atomic_state *state,
+ 		    struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	const struct intel_crtc_state *crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+ 	enum pipe pipe = crtc->pipe;
+@@ -448,7 +448,7 @@ void ilk_pch_disable(struct intel_atomic_state *state,
+ void ilk_pch_post_disable(struct intel_atomic_state *state,
+ 			  struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 
+ 	ilk_disable_pch_transcoder(crtc);
+@@ -470,7 +470,7 @@ void ilk_pch_post_disable(struct intel_atomic_state *state,
+ static void ilk_pch_clock_get(struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 
+ 	/* read out port_clock from the DPLL */
+ 	i9xx_crtc_clock_get(crtc, crtc_state);
+@@ -488,7 +488,7 @@ static void ilk_pch_clock_get(struct intel_crtc_state *crtc_state)
+ void ilk_pch_get_config(struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_shared_dpll *pll;
+ 	enum pipe pipe = crtc->pipe;
+ 	enum intel_dpll_id pll_id;
+@@ -539,7 +539,7 @@ void ilk_pch_get_config(struct intel_crtc_state *crtc_state)
+ static void lpt_enable_pch_transcoder(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
+ 	u32 val, pipeconf_val;
+ 
+@@ -584,7 +584,7 @@ static void lpt_disable_pch_transcoder(struct drm_i915_private *dev_priv)
+ void lpt_pch_enable(struct intel_atomic_state *state,
+ 		    struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	const struct intel_crtc_state *crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+ 
+@@ -601,7 +601,7 @@ void lpt_pch_enable(struct intel_atomic_state *state,
+ void lpt_pch_disable(struct intel_atomic_state *state,
+ 		     struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 
+ 	lpt_disable_pch_transcoder(dev_priv);
+ 
+@@ -611,7 +611,7 @@ void lpt_pch_disable(struct intel_atomic_state *state,
+ void lpt_pch_get_config(struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	u32 tmp;
+ 
+ 	if ((intel_de_read(dev_priv, LPT_TRANSCONF) & TRANS_ENABLE) == 0)
+diff --git a/drivers/gpu/drm/i915/display/intel_pch_refclk.c b/drivers/gpu/drm/i915/display/intel_pch_refclk.c
+index f4c09cc37a5e..5415241716b8 100644
+--- a/drivers/gpu/drm/i915/display/intel_pch_refclk.c
++++ b/drivers/gpu/drm/i915/display/intel_pch_refclk.c
+@@ -175,7 +175,7 @@ int lpt_iclkip(const struct intel_crtc_state *crtc_state)
+ void lpt_program_iclkip(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	int clock = crtc_state->hw.adjusted_mode.crtc_clock;
+ 	struct iclkip_params p;
+ 	u32 temp;
+diff --git a/drivers/gpu/drm/i915/display/intel_pipe_crc.c b/drivers/gpu/drm/i915/display/intel_pipe_crc.c
+index 5a468ed6e26c..24593bfe6d31 100644
+--- a/drivers/gpu/drm/i915/display/intel_pipe_crc.c
++++ b/drivers/gpu/drm/i915/display/intel_pipe_crc.c
+@@ -278,7 +278,7 @@ static int ilk_pipe_crc_ctl_reg(enum intel_pipe_crc_source *source,
+ static void
+ intel_crtc_crc_setup_workarounds(struct intel_crtc *crtc, bool enable)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_crtc_state *pipe_config;
+ 	struct drm_atomic_state *state;
+ 	struct drm_modeset_acquire_ctx ctx;
+@@ -556,7 +556,7 @@ const char *const *intel_crtc_get_crc_sources(struct drm_crtc *crtc,
+ int intel_crtc_verify_crc_source(struct drm_crtc *crtc, const char *source_name,
+ 				 size_t *values_cnt)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->drm);
+ 	enum intel_pipe_crc_source source;
+ 
+ 	if (display_crc_ctl_parse_source(source_name, &source) < 0) {
+@@ -576,7 +576,7 @@ int intel_crtc_verify_crc_source(struct drm_crtc *crtc, const char *source_name,
+ int intel_crtc_set_crc_source(struct drm_crtc *_crtc, const char *source_name)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(_crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_pipe_crc *pipe_crc = &crtc->pipe_crc;
+ 	enum intel_display_power_domain power_domain;
+ 	enum intel_pipe_crc_source source;
+@@ -629,7 +629,7 @@ int intel_crtc_set_crc_source(struct drm_crtc *_crtc, const char *source_name)
+ 
+ void intel_crtc_enable_pipe_crc(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_pipe_crc *pipe_crc = &crtc->pipe_crc;
+ 	enum pipe pipe = crtc->pipe;
+ 	u32 val = 0;
+@@ -649,7 +649,7 @@ void intel_crtc_enable_pipe_crc(struct intel_crtc *crtc)
+ 
+ void intel_crtc_disable_pipe_crc(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_pipe_crc *pipe_crc = &crtc->pipe_crc;
+ 	enum pipe pipe = crtc->pipe;
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_plane_initial.c b/drivers/gpu/drm/i915/display/intel_plane_initial.c
+index 736072a8b2b0..cc6b1c5e7fa9 100644
+--- a/drivers/gpu/drm/i915/display/intel_plane_initial.c
++++ b/drivers/gpu/drm/i915/display/intel_plane_initial.c
+@@ -163,7 +163,7 @@ static bool
+ intel_alloc_initial_plane_obj(struct intel_crtc *crtc,
+ 			      struct intel_initial_plane_config *plane_config)
+ {
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	struct drm_mode_fb_cmd2 mode_cmd = { 0 };
+ 	struct drm_framebuffer *fb = &plane_config->fb->base;
+@@ -211,7 +211,7 @@ static void
+ intel_find_initial_plane_obj(struct intel_crtc *crtc,
+ 			     struct intel_initial_plane_config *plane_config)
+ {
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	struct intel_plane *plane =
+ 		to_intel_plane(crtc->base.primary);
+@@ -303,7 +303,7 @@ static void plane_config_fini(struct intel_initial_plane_config *plane_config)
+ 
+ void intel_crtc_initial_plane_config(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_initial_plane_config plane_config = {};
+ 
+ 	/*
+diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
+index 00b4d87e4d81..f91e4f2f926a 100644
+--- a/drivers/gpu/drm/i915/display/intel_psr.c
++++ b/drivers/gpu/drm/i915/display/intel_psr.c
+@@ -1731,7 +1731,7 @@ void intel_psr2_program_plane_sel_fetch_noarm(struct intel_plane *plane,
+ 
+ void intel_psr2_program_trans_man_trk_ctl(const struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
+ 	struct intel_encoder *encoder;
+ 
+@@ -1756,7 +1756,7 @@ static void psr2_man_trk_ctl_calc(struct intel_crtc_state *crtc_state,
+ 				  struct drm_rect *clip, bool full_update)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	u32 val = man_trk_ctl_enable_bit_get(dev_priv);
+ 
+ 	/* SF partial frame enable has to be set even on full update */
+@@ -1775,7 +1775,7 @@ static void psr2_man_trk_ctl_calc(struct intel_crtc_state *crtc_state,
+ 		val |= ADLP_PSR2_MAN_TRK_CTL_SU_REGION_START_ADDR(clip->y1);
+ 		val |= ADLP_PSR2_MAN_TRK_CTL_SU_REGION_END_ADDR(clip->y2 - 1);
+ 	} else {
+-		drm_WARN_ON(crtc_state->uapi.crtc->dev, clip->y1 % 4 || clip->y2 % 4);
++		drm_WARN_ON(crtc_state->uapi.crtc->drm, clip->y1 % 4 || clip->y2 % 4);
+ 
+ 		val |= PSR2_MAN_TRK_CTL_SU_REGION_START_ADDR(clip->y1 / 4 + 1);
+ 		val |= PSR2_MAN_TRK_CTL_SU_REGION_END_ADDR(clip->y2 / 4 + 1);
+@@ -1807,7 +1807,7 @@ static void clip_area_update(struct drm_rect *overlap_damage_area,
+ static void intel_psr2_sel_fetch_pipe_alignment(const struct intel_crtc_state *crtc_state,
+ 						struct drm_rect *pipe_clip)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 	const struct drm_dsc_config *vdsc_cfg = &crtc_state->dsc.config;
+ 	u16 y_alignment;
+ 
+@@ -2164,7 +2164,7 @@ static int _psr1_ready_for_pipe_update_locked(struct intel_dp *intel_dp)
+  */
+ void intel_psr_wait_for_idle_locked(const struct intel_crtc_state *new_crtc_state)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(new_crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(new_crtc_state->uapi.crtc->drm);
+ 	struct intel_encoder *encoder;
+ 
+ 	if (!new_crtc_state->has_psr)
+@@ -2750,7 +2750,7 @@ bool intel_psr_enabled(struct intel_dp *intel_dp)
+  */
+ void intel_psr_lock(const struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	struct intel_encoder *encoder;
+ 
+ 	if (!crtc_state->has_psr)
+@@ -2773,7 +2773,7 @@ void intel_psr_lock(const struct intel_crtc_state *crtc_state)
+  */
+ void intel_psr_unlock(const struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	struct intel_encoder *encoder;
+ 
+ 	if (!crtc_state->has_psr)
+diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c b/drivers/gpu/drm/i915/display/intel_sdvo.c
+index 92376afc503b..28d9f3654dfb 100644
+--- a/drivers/gpu/drm/i915/display/intel_sdvo.c
++++ b/drivers/gpu/drm/i915/display/intel_sdvo.c
+@@ -1272,7 +1272,7 @@ intel_sdvo_get_preferred_input_mode(struct intel_sdvo *intel_sdvo,
+ 
+ static void i9xx_adjust_sdvo_tv_clock(struct intel_crtc_state *pipe_config)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(pipe_config->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(pipe_config->uapi.crtc->drm);
+ 	unsigned dotclock = pipe_config->port_clock;
+ 	struct dpll *clock = &pipe_config->dpll;
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_vblank.c b/drivers/gpu/drm/i915/display/intel_vblank.c
+index f5659ebd08eb..5eed99dae178 100644
+--- a/drivers/gpu/drm/i915/display/intel_vblank.c
++++ b/drivers/gpu/drm/i915/display/intel_vblank.c
+@@ -65,7 +65,7 @@
+  */
+ u32 i915_get_vblank_counter(struct drm_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->drm);
+ 	struct drm_vblank_crtc *vblank = &dev_priv->drm.vblank[drm_crtc_index(crtc)];
+ 	const struct drm_display_mode *mode = &vblank->hwmode;
+ 	enum pipe pipe = to_intel_crtc(crtc)->pipe;
+@@ -118,7 +118,7 @@ u32 i915_get_vblank_counter(struct drm_crtc *crtc)
+ 
+ u32 g4x_get_vblank_counter(struct drm_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->drm);
+ 	struct drm_vblank_crtc *vblank = &dev_priv->drm.vblank[drm_crtc_index(crtc)];
+ 	enum pipe pipe = to_intel_crtc(crtc)->pipe;
+ 
+@@ -130,9 +130,9 @@ u32 g4x_get_vblank_counter(struct drm_crtc *crtc)
+ 
+ static u32 intel_crtc_scanlines_since_frame_timestamp(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct drm_vblank_crtc *vblank =
+-		&crtc->base.dev->vblank[drm_crtc_index(&crtc->base)];
++		&crtc->base.drm->vblank[drm_crtc_index(&crtc->base)];
+ 	const struct drm_display_mode *mode = &vblank->hwmode;
+ 	u32 htotal = mode->crtc_htotal;
+ 	u32 clock = mode->crtc_clock;
+@@ -178,7 +178,7 @@ static u32 intel_crtc_scanlines_since_frame_timestamp(struct intel_crtc *crtc)
+ static u32 __intel_get_crtc_scanline_from_timestamp(struct intel_crtc *crtc)
+ {
+ 	struct drm_vblank_crtc *vblank =
+-		&crtc->base.dev->vblank[drm_crtc_index(&crtc->base)];
++		&crtc->base.drm->vblank[drm_crtc_index(&crtc->base)];
+ 	const struct drm_display_mode *mode = &vblank->hwmode;
+ 	u32 vblank_start = mode->crtc_vblank_start;
+ 	u32 vtotal = mode->crtc_vtotal;
+@@ -197,7 +197,7 @@ static u32 __intel_get_crtc_scanline_from_timestamp(struct intel_crtc *crtc)
+  */
+ static int __intel_get_crtc_scanline(struct intel_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	const struct drm_display_mode *mode;
+ 	struct drm_vblank_crtc *vblank;
+@@ -207,7 +207,7 @@ static int __intel_get_crtc_scanline(struct intel_crtc *crtc)
+ 	if (!crtc->active)
  		return 0;
  
--	drm = connector->dev;
-+	drm = connector->drm;
- 	ret = drm_modeset_lock(&drm->mode_config.connection_mutex, ctx);
- 	if (ret)
- 		return ret;
-@@ -490,7 +490,7 @@ static int vc4_hdmi_connector_detect_ctx(struct drm_connector *connector,
- static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
- {
- 	struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
--	struct vc4_dev *vc4 = to_vc4_dev(connector->dev);
-+	struct vc4_dev *vc4 = to_vc4_dev(connector->drm);
- 	int ret = 0;
- 	struct edid *edid;
+-	vblank = &crtc->base.dev->vblank[drm_crtc_index(&crtc->base)];
++	vblank = &crtc->base.drm->vblank[drm_crtc_index(&crtc->base)];
+ 	mode = &vblank->hwmode;
  
-@@ -515,7 +515,7 @@ static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
- 	kfree(edid);
+ 	if (crtc->mode_flags & I915_MODE_FLAG_GET_SCANLINE_FROM_TIMESTAMP)
+@@ -257,7 +257,7 @@ static bool i915_get_crtc_scanoutpos(struct drm_crtc *_crtc,
+ 				     ktime_t *stime, ktime_t *etime,
+ 				     const struct drm_display_mode *mode)
+ {
+-	struct drm_device *dev = _crtc->dev;
++	struct drm_device *dev = _crtc->drm;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	struct intel_crtc *crtc = to_intel_crtc(_crtc);
+ 	enum pipe pipe = crtc->pipe;
+@@ -394,7 +394,7 @@ bool intel_crtc_get_vblank_timestamp(struct drm_crtc *crtc, int *max_error,
  
- 	if (!vc4->hvs->vc5_hdmi_enable_hdmi_20) {
--		struct drm_device *drm = connector->dev;
-+		struct drm_device *drm = connector->drm;
- 		const struct drm_display_mode *mode;
+ int intel_get_crtc_scanline(struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	unsigned long irqflags;
+ 	int position;
  
- 		list_for_each_entry(mode, &connector->probed_modes, head) {
-@@ -591,7 +591,7 @@ static int vc4_hdmi_connector_get_property(struct drm_connector *connector,
- 					   struct drm_property *property,
- 					   uint64_t *val)
- {
--	struct drm_device *drm = connector->dev;
-+	struct drm_device *drm = connector->drm;
- 	struct vc4_hdmi *vc4_hdmi =
- 		connector_to_vc4_hdmi(connector);
- 	const struct vc4_hdmi_connector_state *vc4_conn_state =
-@@ -613,7 +613,7 @@ static int vc4_hdmi_connector_set_property(struct drm_connector *connector,
- 					   struct drm_property *property,
- 					   uint64_t val)
- {
--	struct drm_device *drm = connector->dev;
-+	struct drm_device *drm = connector->drm;
- 	struct vc4_hdmi *vc4_hdmi =
- 		connector_to_vc4_hdmi(connector);
- 	struct vc4_hdmi_connector_state *vc4_conn_state =
-@@ -772,7 +772,7 @@ static int vc4_hdmi_stop_packet(struct drm_encoder *encoder,
- 				bool poll)
- {
- 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
--	struct drm_device *drm = vc4_hdmi->connector.dev;
-+	struct drm_device *drm = vc4_hdmi->connector.drm;
- 	u32 packet_id = type - 0x80;
- 	unsigned long flags;
- 	int ret = 0;
-@@ -799,7 +799,7 @@ static void vc4_hdmi_write_infoframe(struct drm_encoder *encoder,
- 				     union hdmi_infoframe *frame)
- {
- 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
--	struct drm_device *drm = vc4_hdmi->connector.dev;
-+	struct drm_device *drm = vc4_hdmi->connector.drm;
- 	u32 packet_id = frame->any.type - 0x80;
- 	const struct vc4_hdmi_register *ram_packet_start =
- 		&vc4_hdmi->variant->registers[HDMI_RAM_PACKET_START];
-@@ -999,7 +999,7 @@ static void vc4_hdmi_enable_scrambling(struct drm_encoder *encoder)
- {
- 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
- 	struct drm_connector *connector = &vc4_hdmi->connector;
--	struct drm_device *drm = connector->dev;
-+	struct drm_device *drm = connector->drm;
- 	const struct drm_display_mode *mode = &vc4_hdmi->saved_adjusted_mode;
- 	unsigned long flags;
- 	int idx;
-@@ -1037,7 +1037,7 @@ static void vc4_hdmi_disable_scrambling(struct drm_encoder *encoder)
- {
- 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
- 	struct drm_connector *connector = &vc4_hdmi->connector;
--	struct drm_device *drm = connector->dev;
-+	struct drm_device *drm = connector->drm;
- 	unsigned long flags;
- 	int idx;
+@@ -420,7 +420,7 @@ static bool pipe_scanline_is_moving(struct drm_i915_private *dev_priv,
  
-@@ -1086,7 +1086,7 @@ static void vc4_hdmi_encoder_post_crtc_disable(struct drm_encoder *encoder,
- 					       struct drm_atomic_state *state)
+ static void wait_for_pipe_scanline_moving(struct intel_crtc *crtc, bool state)
  {
- 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
--	struct drm_device *drm = vc4_hdmi->connector.dev;
-+	struct drm_device *drm = vc4_hdmi->connector.drm;
- 	unsigned long flags;
- 	int idx;
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
  
-@@ -1124,7 +1124,7 @@ static void vc4_hdmi_encoder_post_crtc_powerdown(struct drm_encoder *encoder,
- 						 struct drm_atomic_state *state)
+ 	/* Wait for the display line to settle/start moving */
+@@ -442,7 +442,7 @@ void intel_wait_for_pipe_scanline_moving(struct intel_crtc *crtc)
+ 
+ static int intel_crtc_scanline_offset(const struct intel_crtc_state *crtc_state)
  {
- 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
--	struct drm_device *drm = vc4_hdmi->connector.dev;
-+	struct drm_device *drm = vc4_hdmi->connector.drm;
- 	unsigned long flags;
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	const struct drm_display_mode *adjusted_mode = &crtc_state->hw.adjusted_mode;
+ 
+ 	/*
+@@ -491,7 +491,7 @@ void intel_crtc_update_active_timings(const struct intel_crtc_state *crtc_state,
+ 				      bool vrr_enable)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	u8 mode_flags = crtc_state->mode_flags;
+ 	struct drm_display_mode adjusted_mode;
+ 	int vmax_vblank_start = 0;
+diff --git a/drivers/gpu/drm/i915/display/intel_vdsc.c b/drivers/gpu/drm/i915/display/intel_vdsc.c
+index bd9116d2cd76..695ec9fc6cb2 100644
+--- a/drivers/gpu/drm/i915/display/intel_vdsc.c
++++ b/drivers/gpu/drm/i915/display/intel_vdsc.c
+@@ -22,7 +22,7 @@
+ bool intel_dsc_source_support(const struct intel_crtc_state *crtc_state)
+ {
+ 	const struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
+ 
+ 	if (!HAS_DSC(i915))
+@@ -36,7 +36,7 @@ bool intel_dsc_source_support(const struct intel_crtc_state *crtc_state)
+ 
+ static bool is_pipe_dsc(struct intel_crtc *crtc, enum transcoder cpu_transcoder)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 
+ 	if (DISPLAY_VER(i915) >= 12)
+ 		return true;
+@@ -153,7 +153,7 @@ static int intel_dsc_slice_dimensions_valid(struct intel_crtc_state *pipe_config
+ int intel_dsc_compute_params(struct intel_crtc_state *pipe_config)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(pipe_config->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct drm_dsc_config *vdsc_cfg = &pipe_config->dsc.config;
+ 	u16 compressed_bpp = pipe_config->dsc.compressed_bpp;
+ 	int err;
+@@ -271,7 +271,7 @@ int intel_dsc_compute_params(struct intel_crtc_state *pipe_config)
+ enum intel_display_power_domain
+ intel_dsc_power_domain(struct intel_crtc *crtc, enum transcoder cpu_transcoder)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 
+ 	/*
+@@ -296,7 +296,7 @@ intel_dsc_power_domain(struct intel_crtc *crtc, enum transcoder cpu_transcoder)
+ static void intel_dsc_pps_configure(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	const struct drm_dsc_config *vdsc_cfg = &crtc_state->dsc.config;
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
+ 	enum pipe pipe = crtc->pipe;
+@@ -871,7 +871,7 @@ static i915_reg_t dss_ctl2_reg(struct intel_crtc *crtc, enum transcoder cpu_tran
+ void intel_uncompressed_joiner_enable(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	u32 dss_ctl1_val = 0;
+ 
+ 	if (crtc_state->bigjoiner_pipes && !crtc_state->dsc.compression_enable) {
+@@ -887,7 +887,7 @@ void intel_uncompressed_joiner_enable(const struct intel_crtc_state *crtc_state)
+ void intel_dsc_enable(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	u32 dss_ctl1_val = 0;
+ 	u32 dss_ctl2_val = 0;
+ 
+@@ -913,7 +913,7 @@ void intel_dsc_enable(const struct intel_crtc_state *crtc_state)
+ void intel_dsc_disable(const struct intel_crtc_state *old_crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(old_crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 
+ 	/* Disable only if either of them is enabled */
+ 	if (old_crtc_state->dsc.compression_enable ||
+@@ -926,7 +926,7 @@ void intel_dsc_disable(const struct intel_crtc_state *old_crtc_state)
+ void intel_dsc_get_config(struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct drm_dsc_config *vdsc_cfg = &crtc_state->dsc.config;
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
+ 	enum pipe pipe = crtc->pipe;
+diff --git a/drivers/gpu/drm/i915/display/intel_vrr.c b/drivers/gpu/drm/i915/display/intel_vrr.c
+index 6361667d0eb1..60722c452071 100644
+--- a/drivers/gpu/drm/i915/display/intel_vrr.c
++++ b/drivers/gpu/drm/i915/display/intel_vrr.c
+@@ -76,7 +76,7 @@ intel_vrr_check_modeset(struct intel_atomic_state *state)
+ static int intel_vrr_vblank_exit_length(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 
+ 	if (DISPLAY_VER(i915) >= 13)
+ 		return crtc_state->vrr.guardband;
+@@ -101,7 +101,7 @@ intel_vrr_compute_config(struct intel_crtc_state *crtc_state,
+ 			 struct drm_connector_state *conn_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	struct intel_connector *connector =
+ 		to_intel_connector(conn_state->connector);
+ 	struct drm_display_mode *adjusted_mode = &crtc_state->hw.adjusted_mode;
+@@ -156,7 +156,7 @@ intel_vrr_compute_config(struct intel_crtc_state *crtc_state,
+ 
+ static u32 trans_vrr_ctl(const struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 
+ 	if (DISPLAY_VER(i915) >= 13)
+ 		return VRR_CTL_IGN_MAX_SHIFT | VRR_CTL_FLIP_LINE_EN |
+@@ -169,7 +169,7 @@ static u32 trans_vrr_ctl(const struct intel_crtc_state *crtc_state)
+ 
+ void intel_vrr_set_transcoder_timings(const struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
+ 
+ 	/*
+@@ -194,7 +194,7 @@ void intel_vrr_set_transcoder_timings(const struct intel_crtc_state *crtc_state)
+ void intel_vrr_send_push(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
+ 
+ 	if (!crtc_state->vrr.enable)
+@@ -207,7 +207,7 @@ void intel_vrr_send_push(const struct intel_crtc_state *crtc_state)
+ bool intel_vrr_is_push_sent(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
+ 
+ 	if (!crtc_state->vrr.enable)
+@@ -218,7 +218,7 @@ bool intel_vrr_is_push_sent(const struct intel_crtc_state *crtc_state)
+ 
+ void intel_vrr_enable(const struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
+ 
+ 	if (!crtc_state->vrr.enable)
+@@ -232,7 +232,7 @@ void intel_vrr_enable(const struct intel_crtc_state *crtc_state)
+ void intel_vrr_disable(const struct intel_crtc_state *old_crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(old_crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum transcoder cpu_transcoder = old_crtc_state->cpu_transcoder;
+ 
+ 	if (!old_crtc_state->vrr.enable)
+@@ -247,7 +247,7 @@ void intel_vrr_disable(const struct intel_crtc_state *old_crtc_state)
+ 
+ void intel_vrr_get_config(struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
+ 	u32 trans_vrr_ctl;
+ 
+diff --git a/drivers/gpu/drm/i915/display/skl_scaler.c b/drivers/gpu/drm/i915/display/skl_scaler.c
+index 1e7c97243fcf..0d6c26d4453d 100644
+--- a/drivers/gpu/drm/i915/display/skl_scaler.c
++++ b/drivers/gpu/drm/i915/display/skl_scaler.c
+@@ -108,7 +108,7 @@ skl_update_scaler(struct intel_crtc_state *crtc_state, bool force_detach,
+ 	struct intel_crtc_scaler_state *scaler_state =
+ 		&crtc_state->scaler_state;
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	const struct drm_display_mode *adjusted_mode =
+ 		&crtc_state->hw.adjusted_mode;
+ 	int pipe_src_w = drm_rect_width(&crtc_state->pipe_src);
+@@ -354,7 +354,7 @@ static int intel_atomic_setup_scaler(struct intel_crtc_scaler_state *scaler_stat
+ 				     struct intel_plane_state *plane_state,
+ 				     int *scaler_id)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(intel_crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(intel_crtc->base.drm);
+ 	int j;
+ 	u32 mode;
+ 
+@@ -707,7 +707,7 @@ static void skl_scaler_setup_filter(struct drm_i915_private *dev_priv, enum pipe
+ void skl_pfit_enable(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	const struct intel_crtc_scaler_state *scaler_state =
+ 		&crtc_state->scaler_state;
+ 	const struct drm_rect *dst = &crtc_state->pch_pfit.dst;
+@@ -823,7 +823,7 @@ skl_program_plane_scaler(struct intel_plane *plane,
+ 
+ static void skl_detach_scaler(struct intel_crtc *crtc, int id)
+ {
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 
+ 	intel_de_write_fw(dev_priv, SKL_PS_CTRL(crtc->pipe, id), 0);
+@@ -860,7 +860,7 @@ void skl_scaler_disable(const struct intel_crtc_state *old_crtc_state)
+ void skl_scaler_get_config(struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	struct intel_crtc_scaler_state *scaler_state = &crtc_state->scaler_state;
+ 	int id = -1;
+ 	int i;
+diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+index 6b01a0b68b97..f60e17d3e019 100644
+--- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
++++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+@@ -879,7 +879,7 @@ static u32 adlp_plane_ctl_arb_slots(const struct intel_plane_state *plane_state)
+ 
+ static u32 skl_plane_ctl_crtc(const struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 	u32 plane_ctl = 0;
+ 
+ 	if (DISPLAY_VER(dev_priv) >= 10)
+@@ -939,7 +939,7 @@ static u32 skl_plane_ctl(const struct intel_crtc_state *crtc_state,
+ 
+ static u32 glk_plane_color_ctl_crtc(const struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc_state->uapi.crtc->drm);
+ 	u32 plane_color_ctl = 0;
+ 
+ 	if (DISPLAY_VER(dev_priv) >= 11)
+@@ -2389,7 +2389,7 @@ skl_get_initial_plane_config(struct intel_crtc *crtc,
+ 			     struct intel_initial_plane_config *plane_config)
+ {
+ 	struct intel_crtc_state *crtc_state = to_intel_crtc_state(crtc->base.state);
+-	struct drm_device *dev = crtc->base.dev;
++	struct drm_device *dev = crtc->base.drm;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	struct intel_plane *plane = to_intel_plane(crtc->base.primary);
+ 	enum plane_id plane_id = plane->id;
+diff --git a/drivers/gpu/drm/i915/display/skl_watermark.c b/drivers/gpu/drm/i915/display/skl_watermark.c
+index 2e56ddd408ea..ecbf118ed0b0 100644
+--- a/drivers/gpu/drm/i915/display/skl_watermark.c
++++ b/drivers/gpu/drm/i915/display/skl_watermark.c
+@@ -338,7 +338,7 @@ void intel_sagv_post_plane_update(struct intel_atomic_state *state)
+ static bool skl_crtc_can_enable_sagv(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	enum plane_id plane_id;
+ 	int max_level = INT_MAX;
+ 
+@@ -410,7 +410,7 @@ static bool tgl_crtc_can_enable_sagv(const struct intel_crtc_state *crtc_state)
+ static bool intel_crtc_can_enable_sagv(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 
+ 	if (!i915->params.enable_sagv)
+ 		return false;
+@@ -627,7 +627,7 @@ static void intel_crtc_dbuf_weights(const struct intel_dbuf_state *dbuf_state,
+ static int
+ skl_crtc_allocate_ddb(struct intel_atomic_state *state, struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	unsigned int weight_total, weight_start, weight_end;
+ 	const struct intel_dbuf_state *old_dbuf_state =
+ 		intel_atomic_get_old_dbuf_state(state);
+@@ -736,7 +736,7 @@ skl_cursor_allocation(const struct intel_crtc_state *crtc_state,
+ 		      int num_active)
+ {
+ 	struct intel_plane *plane = to_intel_plane(crtc_state->uapi.crtc->cursor);
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	struct skl_wm_level wm = {};
+ 	int ret, min_ddb_alloc = 0;
+ 	struct skl_wm_params wp;
+@@ -801,7 +801,7 @@ static void skl_pipe_ddb_get_hw_state(struct intel_crtc *crtc,
+ 				      struct skl_ddb_entry *ddb,
+ 				      struct skl_ddb_entry *ddb_y)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	enum intel_display_power_domain power_domain;
+ 	enum pipe pipe = crtc->pipe;
+ 	intel_wakeref_t wakeref;
+@@ -1329,7 +1329,7 @@ static u8 dg2_compute_dbuf_slices(enum pipe pipe, u8 active_pipes, bool join_mbu
+ 
+ static u8 skl_compute_dbuf_slices(struct intel_crtc *crtc, u8 active_pipes, bool join_mbus)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 
+ 	if (IS_DG2(i915))
+@@ -1362,7 +1362,7 @@ static u64
+ skl_total_relative_data_rate(const struct intel_crtc_state *crtc_state)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	enum plane_id plane_id;
+ 	u64 data_rate = 0;
+ 
+@@ -1488,7 +1488,7 @@ static int
+ skl_crtc_allocate_plane_ddb(struct intel_atomic_state *state,
+ 			    struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	struct intel_crtc_state *crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+ 	const struct intel_dbuf_state *dbuf_state =
+@@ -1699,7 +1699,7 @@ skl_wm_method2(u32 pixel_rate, u32 pipe_htotal, u32 latency,
+ static uint_fixed_16_16_t
+ intel_get_linetime_us(const struct intel_crtc_state *crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	u32 pixel_rate;
+ 	u32 crtc_htotal;
+ 	uint_fixed_16_16_t linetime_us;
+@@ -1726,7 +1726,7 @@ skl_compute_wm_params(const struct intel_crtc_state *crtc_state,
+ 		      int color_plane)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	u32 interm_pbpl;
+ 
+ 	/* only planar format has two planes */
+@@ -1854,7 +1854,7 @@ static void skl_compute_plane_wm(const struct intel_crtc_state *crtc_state,
+ 				 const struct skl_wm_level *result_prev,
+ 				 struct skl_wm_level *result /* out */)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	uint_fixed_16_16_t method1, method2;
+ 	uint_fixed_16_16_t selected_result;
+ 	u32 blocks, lines, min_ddb_alloc = 0;
+@@ -1986,7 +1986,7 @@ skl_compute_wm_levels(const struct intel_crtc_state *crtc_state,
+ 		      const struct skl_wm_params *wm_params,
+ 		      struct skl_wm_level *levels)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	struct skl_wm_level *result_prev = &levels[0];
+ 	int level;
+ 
+@@ -2006,7 +2006,7 @@ static void tgl_compute_sagv_wm(const struct intel_crtc_state *crtc_state,
+ 				const struct skl_wm_params *wm_params,
+ 				struct skl_plane_wm *plane_wm)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
++	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->drm);
+ 	struct skl_wm_level *sagv_wm = &plane_wm->sagv.wm0;
+ 	struct skl_wm_level *levels = plane_wm->wm;
+ 	unsigned int latency = 0;
+@@ -2088,7 +2088,7 @@ static int skl_build_plane_wm_single(struct intel_crtc_state *crtc_state,
+ 				     struct intel_plane *plane, int color_plane)
+ {
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	struct skl_plane_wm *wm = &crtc_state->wm.skl.raw.planes[plane->id];
+ 	struct skl_wm_params wm_params;
  	int ret;
- 	int idx;
-@@ -1161,7 +1161,7 @@ static void vc4_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi,
+@@ -2239,7 +2239,7 @@ static int skl_max_wm_level_for_vblank(struct intel_crtc_state *crtc_state,
+ 				       int wm0_lines)
  {
- 	struct vc4_hdmi_connector_state *vc4_state =
- 		conn_state_to_vc4_hdmi_conn_state(state);
--	struct drm_device *drm = vc4_hdmi->connector.dev;
-+	struct drm_device *drm = vc4_hdmi->connector.drm;
- 	unsigned long flags;
- 	u32 csc_ctl;
- 	int idx;
-@@ -1396,7 +1396,7 @@ static void vc5_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi,
- 			       struct drm_connector_state *state,
- 			       const struct drm_display_mode *mode)
- {
--	struct drm_device *drm = vc4_hdmi->connector.dev;
-+	struct drm_device *drm = vc4_hdmi->connector.drm;
- 	struct vc4_hdmi_connector_state *vc4_state =
- 		conn_state_to_vc4_hdmi_conn_state(state);
- 	unsigned int lim_range = vc4_hdmi_is_full_range(vc4_hdmi, vc4_state) ? 0 : 1;
-@@ -1462,7 +1462,7 @@ static void vc4_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
- 				 struct drm_connector_state *state,
- 				 const struct drm_display_mode *mode)
- {
--	struct drm_device *drm = vc4_hdmi->connector.dev;
-+	struct drm_device *drm = vc4_hdmi->connector.drm;
- 	bool hsync_pos = mode->flags & DRM_MODE_FLAG_PHSYNC;
- 	bool vsync_pos = mode->flags & DRM_MODE_FLAG_PVSYNC;
- 	bool interlaced = mode->flags & DRM_MODE_FLAG_INTERLACE;
-@@ -1526,7 +1526,7 @@ static void vc5_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
- 				 struct drm_connector_state *state,
- 				 const struct drm_display_mode *mode)
- {
--	struct drm_device *drm = vc4_hdmi->connector.dev;
-+	struct drm_device *drm = vc4_hdmi->connector.drm;
- 	const struct vc4_hdmi_connector_state *vc4_state =
- 		conn_state_to_vc4_hdmi_conn_state(state);
- 	bool hsync_pos = mode->flags & DRM_MODE_FLAG_PHSYNC;
-@@ -1633,7 +1633,7 @@ static void vc5_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	int level;
  
- static void vc4_hdmi_recenter_fifo(struct vc4_hdmi *vc4_hdmi)
+ 	for (level = i915->display.wm.num_levels - 1; level >= 0; level--) {
+@@ -2264,7 +2264,7 @@ static int skl_max_wm_level_for_vblank(struct intel_crtc_state *crtc_state,
+ static int skl_wm_check_vblank(struct intel_crtc_state *crtc_state)
  {
--	struct drm_device *drm = vc4_hdmi->connector.dev;
-+	struct drm_device *drm = vc4_hdmi->connector.drm;
- 	unsigned long flags;
- 	u32 drift;
+ 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	int wm0_lines, level;
+ 
+ 	if (!crtc_state->hw.active)
+@@ -2319,7 +2319,7 @@ static int skl_wm_check_vblank(struct intel_crtc_state *crtc_state)
+ static int skl_build_pipe_wm(struct intel_atomic_state *state,
+ 			     struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	struct intel_crtc_state *crtc_state =
+ 		intel_atomic_get_new_crtc_state(state, crtc);
+ 	const struct intel_plane_state *plane_state;
+@@ -2512,7 +2512,7 @@ skl_ddb_add_affected_planes(const struct intel_crtc_state *old_crtc_state,
+ {
+ 	struct intel_atomic_state *state = to_intel_atomic_state(new_crtc_state->uapi.state);
+ 	struct intel_crtc *crtc = to_intel_crtc(new_crtc_state->uapi.crtc);
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	struct intel_plane *plane;
+ 
+ 	for_each_intel_plane_on_crtc(&i915->drm, crtc, plane) {
+@@ -2859,7 +2859,7 @@ static bool skl_plane_selected_wm_equals(struct intel_plane *plane,
+ static int skl_wm_add_affected_planes(struct intel_atomic_state *state,
+ 				      struct intel_crtc *crtc)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	const struct intel_crtc_state *old_crtc_state =
+ 		intel_atomic_get_old_crtc_state(state, crtc);
+ 	struct intel_crtc_state *new_crtc_state =
+@@ -2944,7 +2944,7 @@ static void skl_wm_level_from_reg_val(u32 val, struct skl_wm_level *level)
+ static void skl_pipe_wm_get_hw_state(struct intel_crtc *crtc,
+ 				     struct skl_pipe_wm *out)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 	enum plane_id plane_id;
+ 	int level;
+@@ -3135,7 +3135,7 @@ static void skl_wm_get_hw_state_and_sanitize(struct drm_i915_private *i915)
+ void intel_wm_state_verify(struct intel_crtc *crtc,
+ 			   struct intel_crtc_state *new_crtc_state)
+ {
+-	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
++	struct drm_i915_private *i915 = to_i915(crtc->base.drm);
+ 	struct skl_hw_state {
+ 		struct skl_ddb_entry ddb[I915_MAX_PLANES];
+ 		struct skl_ddb_entry ddb_y[I915_MAX_PLANES];
+diff --git a/drivers/gpu/drm/i915/display/vlv_dsi.c b/drivers/gpu/drm/i915/display/vlv_dsi.c
+index 8067c814aa66..129e00578a28 100644
+--- a/drivers/gpu/drm/i915/display/vlv_dsi.c
++++ b/drivers/gpu/drm/i915/display/vlv_dsi.c
+@@ -737,7 +737,7 @@ static void intel_dsi_pre_enable(struct intel_atomic_state *state,
+ {
+ 	struct intel_dsi *intel_dsi = enc_to_intel_dsi(encoder);
+ 	struct intel_crtc *crtc = to_intel_crtc(pipe_config->uapi.crtc);
+-	struct drm_i915_private *dev_priv = to_i915(crtc->base.dev);
++	struct drm_i915_private *dev_priv = to_i915(crtc->base.drm);
+ 	enum pipe pipe = crtc->pipe;
+ 	enum port port;
+ 	bool glk_cold_boot = false;
+diff --git a/drivers/gpu/drm/imx/dcss/dcss-crtc.c b/drivers/gpu/drm/imx/dcss/dcss-crtc.c
+index 31267c00782f..5cff376df4ac 100644
+--- a/drivers/gpu/drm/imx/dcss/dcss-crtc.c
++++ b/drivers/gpu/drm/imx/dcss/dcss-crtc.c
+@@ -16,7 +16,7 @@ static int dcss_enable_vblank(struct drm_crtc *crtc)
+ {
+ 	struct dcss_crtc *dcss_crtc = container_of(crtc, struct dcss_crtc,
+ 						   base);
+-	struct dcss_dev *dcss = crtc->dev->dev_private;
++	struct dcss_dev *dcss = crtc->drm->dev_private;
+ 
+ 	dcss_dtg_vblank_irq_enable(dcss->dtg, true);
+ 
+@@ -31,7 +31,7 @@ static void dcss_disable_vblank(struct drm_crtc *crtc)
+ {
+ 	struct dcss_crtc *dcss_crtc = container_of(crtc, struct dcss_crtc,
+ 						   base);
+-	struct dcss_dev *dcss = dcss_crtc->base.dev->dev_private;
++	struct dcss_dev *dcss = dcss_crtc->base.drm->dev_private;
+ 
+ 	disable_irq_nosync(dcss_crtc->irq);
+ 
+@@ -63,15 +63,15 @@ static void dcss_crtc_atomic_flush(struct drm_crtc *crtc,
+ {
+ 	struct dcss_crtc *dcss_crtc = container_of(crtc, struct dcss_crtc,
+ 						   base);
+-	struct dcss_dev *dcss = dcss_crtc->base.dev->dev_private;
++	struct dcss_dev *dcss = dcss_crtc->base.drm->dev_private;
+ 
+-	spin_lock_irq(&crtc->dev->event_lock);
++	spin_lock_irq(&crtc->drm->event_lock);
+ 	if (crtc->state->event) {
+ 		WARN_ON(drm_crtc_vblank_get(crtc));
+ 		drm_crtc_arm_vblank_event(crtc, crtc->state->event);
+ 		crtc->state->event = NULL;
+ 	}
+-	spin_unlock_irq(&crtc->dev->event_lock);
++	spin_unlock_irq(&crtc->drm->event_lock);
+ 
+ 	if (dcss_dtg_is_enabled(dcss->dtg))
+ 		dcss_ctxld_enable(dcss->ctxld);
+@@ -84,7 +84,7 @@ static void dcss_crtc_atomic_enable(struct drm_crtc *crtc,
+ 									      crtc);
+ 	struct dcss_crtc *dcss_crtc = container_of(crtc, struct dcss_crtc,
+ 						   base);
+-	struct dcss_dev *dcss = dcss_crtc->base.dev->dev_private;
++	struct dcss_dev *dcss = dcss_crtc->base.drm->dev_private;
+ 	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
+ 	struct drm_display_mode *old_mode = &old_crtc_state->adjusted_mode;
+ 	struct videomode vm;
+@@ -120,18 +120,18 @@ static void dcss_crtc_atomic_disable(struct drm_crtc *crtc,
+ 									      crtc);
+ 	struct dcss_crtc *dcss_crtc = container_of(crtc, struct dcss_crtc,
+ 						   base);
+-	struct dcss_dev *dcss = dcss_crtc->base.dev->dev_private;
++	struct dcss_dev *dcss = dcss_crtc->base.drm->dev_private;
+ 	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
+ 	struct drm_display_mode *old_mode = &old_crtc_state->adjusted_mode;
+ 
+ 	drm_atomic_helper_disable_planes_on_crtc(old_crtc_state, false);
+ 
+-	spin_lock_irq(&crtc->dev->event_lock);
++	spin_lock_irq(&crtc->drm->event_lock);
+ 	if (crtc->state->event) {
+ 		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+ 		crtc->state->event = NULL;
+ 	}
+-	spin_unlock_irq(&crtc->dev->event_lock);
++	spin_unlock_irq(&crtc->drm->event_lock);
+ 
+ 	dcss_dtg_ctxld_kick_irq_enable(dcss->dtg, true);
+ 
+@@ -168,7 +168,7 @@ static const struct drm_crtc_helper_funcs dcss_helper_funcs = {
+ static irqreturn_t dcss_crtc_irq_handler(int irq, void *dev_id)
+ {
+ 	struct dcss_crtc *dcss_crtc = dev_id;
+-	struct dcss_dev *dcss = dcss_crtc->base.dev->dev_private;
++	struct dcss_dev *dcss = dcss_crtc->base.drm->dev_private;
+ 
+ 	if (!dcss_dtg_vblank_irq_valid(dcss->dtg))
+ 		return IRQ_NONE;
+diff --git a/drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c b/drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c
+index 5f26090b0c98..d196abb42659 100644
+--- a/drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c
++++ b/drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c
+@@ -99,12 +99,12 @@ static void ipu_crtc_atomic_disable(struct drm_crtc *crtc,
+ 
+ 	drm_crtc_vblank_off(crtc);
+ 
+-	spin_lock_irq(&crtc->dev->event_lock);
++	spin_lock_irq(&crtc->drm->event_lock);
+ 	if (crtc->state->event && !crtc->state->active) {
+ 		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+ 		crtc->state->event = NULL;
+ 	}
+-	spin_unlock_irq(&crtc->dev->event_lock);
++	spin_unlock_irq(&crtc->drm->event_lock);
+ }
+ 
+ static void imx_drm_crtc_reset(struct drm_crtc *crtc)
+@@ -192,11 +192,11 @@ static irqreturn_t ipu_irq_handler(int irq, void *dev_id)
+ 		}
+ 
+ 		if (i == ARRAY_SIZE(ipu_crtc->plane)) {
+-			spin_lock_irqsave(&crtc->dev->event_lock, flags);
++			spin_lock_irqsave(&crtc->drm->event_lock, flags);
+ 			drm_crtc_send_vblank_event(crtc, ipu_crtc->event);
+ 			ipu_crtc->event = NULL;
+ 			drm_crtc_vblank_put(crtc);
+-			spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++			spin_unlock_irqrestore(&crtc->drm->event_lock, flags);
+ 		}
+ 	}
+ 
+@@ -247,7 +247,7 @@ static void ipu_crtc_atomic_begin(struct drm_crtc *crtc,
+ static void ipu_crtc_atomic_flush(struct drm_crtc *crtc,
+ 				  struct drm_atomic_state *state)
+ {
+-	spin_lock_irq(&crtc->dev->event_lock);
++	spin_lock_irq(&crtc->drm->event_lock);
+ 	if (crtc->state->event) {
+ 		struct ipu_crtc *ipu_crtc = to_ipu_crtc(crtc);
+ 
+@@ -255,12 +255,12 @@ static void ipu_crtc_atomic_flush(struct drm_crtc *crtc,
+ 		ipu_crtc->event = crtc->state->event;
+ 		crtc->state->event = NULL;
+ 	}
+-	spin_unlock_irq(&crtc->dev->event_lock);
++	spin_unlock_irq(&crtc->drm->event_lock);
+ }
+ 
+ static void ipu_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_encoder *encoder;
+ 	struct ipu_crtc *ipu_crtc = to_ipu_crtc(crtc);
+ 	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
+diff --git a/drivers/gpu/drm/imx/lcdc/imx-lcdc.c b/drivers/gpu/drm/imx/lcdc/imx-lcdc.c
+index 277ead6a459a..2a5d324269af 100644
+--- a/drivers/gpu/drm/imx/lcdc/imx-lcdc.c
++++ b/drivers/gpu/drm/imx/lcdc/imx-lcdc.c
+@@ -140,7 +140,7 @@ static void imx_lcdc_update_hw_registers(struct drm_simple_display_pipe *pipe,
+ 	struct drm_crtc *crtc = &pipe->crtc;
+ 	struct drm_plane_state *new_state = pipe->plane.state;
+ 	struct drm_framebuffer *fb = new_state->fb;
+-	struct imx_lcdc *lcdc = imx_lcdc_from_drmdev(pipe->crtc.dev);
++	struct imx_lcdc *lcdc = imx_lcdc_from_drmdev(pipe->crtc.drm);
+ 	u32 lpcr, lvcr, lhcr;
+ 	u32 framesize;
+ 	dma_addr_t addr;
+@@ -193,7 +193,7 @@ static void imx_lcdc_pipe_enable(struct drm_simple_display_pipe *pipe,
  	int ret;
-@@ -1677,7 +1677,7 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
- 						struct drm_atomic_state *state)
- {
- 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
--	struct drm_device *drm = vc4_hdmi->connector.dev;
-+	struct drm_device *drm = vc4_hdmi->connector.drm;
- 	struct drm_connector *connector = &vc4_hdmi->connector;
- 	struct drm_connector_state *conn_state =
- 		drm_atomic_get_new_connector_state(state, connector);
-@@ -1796,7 +1796,7 @@ static void vc4_hdmi_encoder_pre_crtc_enable(struct drm_encoder *encoder,
- 					     struct drm_atomic_state *state)
- {
- 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
--	struct drm_device *drm = vc4_hdmi->connector.dev;
-+	struct drm_device *drm = vc4_hdmi->connector.drm;
- 	struct drm_connector *connector = &vc4_hdmi->connector;
- 	const struct drm_display_mode *mode = &vc4_hdmi->saved_adjusted_mode;
- 	struct drm_connector_state *conn_state =
-@@ -1826,7 +1826,7 @@ static void vc4_hdmi_encoder_post_crtc_enable(struct drm_encoder *encoder,
- 					      struct drm_atomic_state *state)
- {
- 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
--	struct drm_device *drm = vc4_hdmi->connector.dev;
-+	struct drm_device *drm = vc4_hdmi->connector.drm;
- 	const struct drm_display_mode *mode = &vc4_hdmi->saved_adjusted_mode;
- 	struct drm_display_info *display = &vc4_hdmi->connector.display_info;
- 	bool hsync_pos = mode->flags & DRM_MODE_FLAG_PHSYNC;
-@@ -1926,7 +1926,7 @@ vc4_hdmi_sink_supports_format_bpc(const struct vc4_hdmi *vc4_hdmi,
- 				  const struct drm_display_mode *mode,
- 				  unsigned int format, unsigned int bpc)
- {
--	struct drm_device *dev = vc4_hdmi->connector.dev;
-+	struct drm_device *dev = vc4_hdmi->connector.drm;
- 	u8 vic = drm_match_cea_mode(mode);
+ 	int clk_div;
+ 	int bpp;
+-	struct imx_lcdc *lcdc = imx_lcdc_from_drmdev(pipe->crtc.dev);
++	struct imx_lcdc *lcdc = imx_lcdc_from_drmdev(pipe->crtc.drm);
+ 	struct drm_display_mode *mode = &pipe->crtc.mode;
+ 	struct drm_display_info *disp_info = &lcdc->connector->display_info;
+ 	const int hsync_pol = (mode->flags & DRM_MODE_FLAG_PHSYNC) ? 0 : 1;
+@@ -229,12 +229,14 @@ static void imx_lcdc_pipe_enable(struct drm_simple_display_pipe *pipe,
  
- 	if (vic == 1 && bpc != 8) {
-@@ -2011,7 +2011,7 @@ vc4_hdmi_encoder_clock_valid(const struct vc4_hdmi *vc4_hdmi,
- {
- 	const struct drm_connector *connector = &vc4_hdmi->connector;
- 	const struct drm_display_info *info = &connector->display_info;
--	struct vc4_dev *vc4 = to_vc4_dev(connector->dev);
-+	struct vc4_dev *vc4 = to_vc4_dev(connector->drm);
+ 	ret = clk_prepare_enable(lcdc->clk_ipg);
+ 	if (ret) {
+-		dev_err(pipe->crtc.dev->dev, "Cannot enable ipg clock: %pe\n", ERR_PTR(ret));
++		dev_err(pipe->crtc.drm->dev, "Cannot enable ipg clock: %pe\n",
++			ERR_PTR(ret));
+ 		return;
+ 	}
+ 	ret = clk_prepare_enable(lcdc->clk_ahb);
+ 	if (ret) {
+-		dev_err(pipe->crtc.dev->dev, "Cannot enable ahb clock: %pe\n", ERR_PTR(ret));
++		dev_err(pipe->crtc.drm->dev, "Cannot enable ahb clock: %pe\n",
++			ERR_PTR(ret));
  
- 	if (clock > vc4_hdmi->variant->max_pixel_clock)
- 		return MODE_CLOCK_HIGH;
-@@ -2073,7 +2073,7 @@ vc4_hdmi_encoder_compute_format(const struct vc4_hdmi *vc4_hdmi,
- 				const struct drm_display_mode *mode,
- 				unsigned int bpc)
- {
--	struct drm_device *dev = vc4_hdmi->connector.dev;
-+	struct drm_device *dev = vc4_hdmi->connector.drm;
- 	const struct drm_connector *connector = &vc4_hdmi->connector;
- 	const struct drm_display_info *info = &connector->display_info;
- 	unsigned int format;
-@@ -2116,7 +2116,7 @@ vc4_hdmi_encoder_compute_config(const struct vc4_hdmi *vc4_hdmi,
- 				struct vc4_hdmi_connector_state *vc4_state,
- 				const struct drm_display_mode *mode)
- {
--	struct drm_device *dev = vc4_hdmi->connector.dev;
-+	struct drm_device *dev = vc4_hdmi->connector.drm;
- 	struct drm_connector_state *conn_state = &vc4_state->base;
- 	unsigned int max_bpc = clamp_t(unsigned int, conn_state->max_bpc, 8, 12);
- 	unsigned int bpc;
-@@ -2273,7 +2273,7 @@ static u32 vc5_hdmi_channel_map(struct vc4_hdmi *vc4_hdmi, u32 channel_mask)
+ 		clk_disable_unprepare(lcdc->clk_ipg);
  
- static bool vc5_hdmi_hp_detect(struct vc4_hdmi *vc4_hdmi)
+@@ -249,7 +251,7 @@ static void imx_lcdc_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 
+ static void imx_lcdc_pipe_disable(struct drm_simple_display_pipe *pipe)
  {
--	struct drm_device *drm = vc4_hdmi->connector.dev;
-+	struct drm_device *drm = vc4_hdmi->connector.drm;
+-	struct imx_lcdc *lcdc = imx_lcdc_from_drmdev(pipe->crtc.dev);
++	struct imx_lcdc *lcdc = imx_lcdc_from_drmdev(pipe->crtc.drm);
+ 	struct drm_crtc *crtc = &lcdc->pipe.crtc;
+ 	struct drm_pending_vblank_event *event;
+ 
+@@ -281,7 +283,8 @@ static int imx_lcdc_pipe_check(struct drm_simple_display_pipe *pipe,
+ 	if (mode->hdisplay < LCDC_MIN_XRES || mode->hdisplay > LCDC_MAX_XRES ||
+ 	    mode->vdisplay < LCDC_MIN_YRES || mode->vdisplay > LCDC_MAX_YRES ||
+ 	    mode->hdisplay % 0x10) { /* must be multiple of 16 */
+-		drm_err(pipe->crtc.dev, "unsupported display mode (%u x %u)\n",
++		drm_err(pipe->crtc.drm,
++			"unsupported display mode (%u x %u)\n",
+ 			mode->hdisplay, mode->vdisplay);
+ 		return -EINVAL;
+ 	}
+@@ -314,14 +317,14 @@ static void imx_lcdc_pipe_update(struct drm_simple_display_pipe *pipe,
+ 	if (event) {
+ 		crtc->state->event = NULL;
+ 
+-		spin_lock_irq(&crtc->dev->event_lock);
++		spin_lock_irq(&crtc->drm->event_lock);
+ 
+ 		if (crtc->state->active && drm_crtc_vblank_get(crtc) == 0)
+ 			drm_crtc_arm_vblank_event(crtc, event);
+ 		else
+ 			drm_crtc_send_vblank_event(crtc, event);
+ 
+-		spin_unlock_irq(&crtc->dev->event_lock);
++		spin_unlock_irq(&crtc->drm->event_lock);
+ 	}
+ }
+ 
+diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+index e74f946c7e4e..868d4979e464 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
++++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+@@ -442,12 +442,12 @@ static void ingenic_drm_crtc_atomic_flush(struct drm_crtc *crtc,
+ 	if (event) {
+ 		crtc_state->event = NULL;
+ 
+-		spin_lock_irq(&crtc->dev->event_lock);
++		spin_lock_irq(&crtc->drm->event_lock);
+ 		if (drm_crtc_vblank_get(crtc) == 0)
+ 			drm_crtc_arm_vblank_event(crtc, event);
+ 		else
+ 			drm_crtc_send_vblank_event(crtc, event);
+-		spin_unlock_irq(&crtc->dev->event_lock);
++		spin_unlock_irq(&crtc->drm->event_lock);
+ 	}
+ }
+ 
+diff --git a/drivers/gpu/drm/kmb/kmb_crtc.c b/drivers/gpu/drm/kmb/kmb_crtc.c
+index 647872f65bff..75a41b005f0c 100644
+--- a/drivers/gpu/drm/kmb/kmb_crtc.c
++++ b/drivers/gpu/drm/kmb/kmb_crtc.c
+@@ -28,7 +28,7 @@ struct kmb_crtc_timing {
+ 
+ static int kmb_crtc_enable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct kmb_drm_private *kmb = to_kmb(dev);
+ 
+ 	/* Clear interrupt */
+@@ -44,7 +44,7 @@ static int kmb_crtc_enable_vblank(struct drm_crtc *crtc)
+ 
+ static void kmb_crtc_disable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct kmb_drm_private *kmb = to_kmb(dev);
+ 
+ 	/* Clear interrupt */
+@@ -68,7 +68,7 @@ static const struct drm_crtc_funcs kmb_crtc_funcs = {
+ static void kmb_crtc_set_mode(struct drm_crtc *crtc,
+ 			      struct drm_atomic_state *old_state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_display_mode *m = &crtc->state->adjusted_mode;
+ 	struct kmb_crtc_timing vm;
+ 	struct kmb_drm_private *kmb = to_kmb(dev);
+@@ -158,7 +158,7 @@ static void kmb_crtc_atomic_disable(struct drm_crtc *crtc,
+ static void kmb_crtc_atomic_begin(struct drm_crtc *crtc,
+ 				  struct drm_atomic_state *state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct kmb_drm_private *kmb = to_kmb(dev);
+ 
+ 	kmb_clr_bitmask_lcd(kmb, LCD_INT_ENABLE,
+@@ -168,13 +168,13 @@ static void kmb_crtc_atomic_begin(struct drm_crtc *crtc,
+ static void kmb_crtc_atomic_flush(struct drm_crtc *crtc,
+ 				  struct drm_atomic_state *state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct kmb_drm_private *kmb = to_kmb(dev);
+ 
+ 	kmb_set_bitmask_lcd(kmb, LCD_INT_ENABLE,
+ 			    LCD_INT_VERT_COMP);
+ 
+-	spin_lock_irq(&crtc->dev->event_lock);
++	spin_lock_irq(&crtc->drm->event_lock);
+ 	if (crtc->state->event) {
+ 		if (drm_crtc_vblank_get(crtc) == 0)
+ 			drm_crtc_arm_vblank_event(crtc, crtc->state->event);
+@@ -182,7 +182,7 @@ static void kmb_crtc_atomic_flush(struct drm_crtc *crtc,
+ 			drm_crtc_send_vblank_event(crtc, crtc->state->event);
+ 	}
+ 	crtc->state->event = NULL;
+-	spin_unlock_irq(&crtc->dev->event_lock);
++	spin_unlock_irq(&crtc->drm->event_lock);
+ }
+ 
+ static enum drm_mode_status
+@@ -190,7 +190,7 @@ static enum drm_mode_status
+ 				    const struct drm_display_mode *mode)
+ {
+ 	int refresh;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	int vfp = mode->vsync_start - mode->vdisplay;
+ 
+ 	if (mode->vdisplay < KMB_CRTC_MAX_HEIGHT) {
+diff --git a/drivers/gpu/drm/logicvc/logicvc_crtc.c b/drivers/gpu/drm/logicvc/logicvc_crtc.c
+index 43a675d03808..1175ff904560 100644
+--- a/drivers/gpu/drm/logicvc/logicvc_crtc.c
++++ b/drivers/gpu/drm/logicvc/logicvc_crtc.c
+@@ -41,7 +41,7 @@ static void logicvc_crtc_atomic_begin(struct drm_crtc *drm_crtc,
+ 	struct logicvc_crtc *crtc = logicvc_crtc(drm_crtc);
+ 	struct drm_crtc_state *old_state =
+ 		drm_atomic_get_old_crtc_state(state, drm_crtc);
+-	struct drm_device *drm_dev = drm_crtc->dev;
++	struct drm_device *drm_dev = drm_crtc->drm;
  	unsigned long flags;
- 	u32 hotplug;
- 	int idx;
-@@ -2294,7 +2294,7 @@ static bool vc5_hdmi_hp_detect(struct vc4_hdmi *vc4_hdmi)
- static void vc4_hdmi_audio_set_mai_clock(struct vc4_hdmi *vc4_hdmi,
- 					 unsigned int samplerate)
+ 
+ 	/*
+@@ -63,14 +63,14 @@ static void logicvc_crtc_atomic_enable(struct drm_crtc *drm_crtc,
+ 				       struct drm_atomic_state *state)
  {
--	struct drm_device *drm = vc4_hdmi->connector.dev;
-+	struct drm_device *drm = vc4_hdmi->connector.drm;
- 	u32 hsm_clock;
+ 	struct logicvc_crtc *crtc = logicvc_crtc(drm_crtc);
+-	struct logicvc_drm *logicvc = logicvc_drm(drm_crtc->dev);
++	struct logicvc_drm *logicvc = logicvc_drm(drm_crtc->drm);
+ 	struct drm_crtc_state *old_state =
+ 		drm_atomic_get_old_crtc_state(state, drm_crtc);
+ 	struct drm_crtc_state *new_state =
+ 		drm_atomic_get_new_crtc_state(state, drm_crtc);
+ 	struct drm_display_mode *mode = &new_state->adjusted_mode;
+ 
+-	struct drm_device *drm_dev = drm_crtc->dev;
++	struct drm_device *drm_dev = drm_crtc->drm;
+ 	unsigned int hact, hfp, hsl, hbp;
+ 	unsigned int vact, vfp, vsl, vbp;
  	unsigned long flags;
- 	unsigned long n, m;
-@@ -2373,7 +2373,7 @@ static bool vc4_hdmi_audio_can_stream(struct vc4_hdmi *vc4_hdmi)
- static int vc4_hdmi_audio_startup(struct device *dev, void *data)
- {
- 	struct vc4_hdmi *vc4_hdmi = dev_get_drvdata(dev);
--	struct drm_device *drm = vc4_hdmi->connector.dev;
-+	struct drm_device *drm = vc4_hdmi->connector.drm;
- 	unsigned long flags;
- 	int ret = 0;
- 	int idx;
-@@ -2438,7 +2438,7 @@ static void vc4_hdmi_audio_reset(struct vc4_hdmi *vc4_hdmi)
- static void vc4_hdmi_audio_shutdown(struct device *dev, void *data)
- {
- 	struct vc4_hdmi *vc4_hdmi = dev_get_drvdata(dev);
--	struct drm_device *drm = vc4_hdmi->connector.dev;
-+	struct drm_device *drm = vc4_hdmi->connector.drm;
- 	unsigned long flags;
- 	int idx;
- 
-@@ -2512,7 +2512,7 @@ static int vc4_hdmi_audio_prepare(struct device *dev, void *data,
- 				  struct hdmi_codec_params *params)
- {
- 	struct vc4_hdmi *vc4_hdmi = dev_get_drvdata(dev);
--	struct drm_device *drm = vc4_hdmi->connector.dev;
-+	struct drm_device *drm = vc4_hdmi->connector.drm;
- 	struct drm_encoder *encoder = &vc4_hdmi->encoder.base;
- 	unsigned int sample_rate = params->sample_rate;
- 	unsigned int channels = params->channels;
-@@ -2823,7 +2823,7 @@ static irqreturn_t vc4_hdmi_hpd_irq_thread(int irq, void *priv)
- {
- 	struct vc4_hdmi *vc4_hdmi = priv;
- 	struct drm_connector *connector = &vc4_hdmi->connector;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 
- 	if (dev && dev->registered)
- 		drm_connector_helper_hpd_irq_event(connector);
-@@ -2906,7 +2906,7 @@ static irqreturn_t vc4_cec_irq_handler_thread(int irq, void *priv)
- 
- static void vc4_cec_read_msg(struct vc4_hdmi *vc4_hdmi, u32 cntrl1)
- {
--	struct drm_device *dev = vc4_hdmi->connector.dev;
-+	struct drm_device *dev = vc4_hdmi->connector.drm;
- 	struct cec_msg *msg = &vc4_hdmi->cec_rx_msg;
- 	unsigned int i;
- 
-@@ -3046,7 +3046,7 @@ static irqreturn_t vc4_cec_irq_handler(int irq, void *priv)
- static int vc4_hdmi_cec_enable(struct cec_adapter *adap)
- {
- 	struct vc4_hdmi *vc4_hdmi = cec_get_drvdata(adap);
--	struct drm_device *drm = vc4_hdmi->connector.dev;
-+	struct drm_device *drm = vc4_hdmi->connector.drm;
- 	/* clock period in microseconds */
- 	const u32 usecs = 1000000 / CEC_CLOCK_FREQ;
- 	unsigned long flags;
-@@ -3113,7 +3113,7 @@ static int vc4_hdmi_cec_enable(struct cec_adapter *adap)
- static int vc4_hdmi_cec_disable(struct cec_adapter *adap)
- {
- 	struct vc4_hdmi *vc4_hdmi = cec_get_drvdata(adap);
--	struct drm_device *drm = vc4_hdmi->connector.dev;
-+	struct drm_device *drm = vc4_hdmi->connector.drm;
- 	unsigned long flags;
- 	int idx;
- 
-@@ -3157,7 +3157,7 @@ static int vc4_hdmi_cec_adap_enable(struct cec_adapter *adap, bool enable)
- static int vc4_hdmi_cec_adap_log_addr(struct cec_adapter *adap, u8 log_addr)
- {
- 	struct vc4_hdmi *vc4_hdmi = cec_get_drvdata(adap);
--	struct drm_device *drm = vc4_hdmi->connector.dev;
-+	struct drm_device *drm = vc4_hdmi->connector.drm;
- 	unsigned long flags;
- 	int idx;
- 
-@@ -3186,7 +3186,7 @@ static int vc4_hdmi_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
- 				      u32 signal_free_time, struct cec_msg *msg)
- {
- 	struct vc4_hdmi *vc4_hdmi = cec_get_drvdata(adap);
--	struct drm_device *dev = vc4_hdmi->connector.dev;
-+	struct drm_device *dev = vc4_hdmi->connector.drm;
- 	unsigned long flags;
- 	u32 val;
- 	unsigned int i;
-diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-index 6cdd97f364a8..4091fd872d65 100644
---- a/drivers/gpu/drm/vc4/vc4_txp.c
-+++ b/drivers/gpu/drm/vc4/vc4_txp.c
-@@ -184,7 +184,7 @@ static const struct debugfs_reg32 txp_regs[] = {
- 
- static int vc4_txp_connector_get_modes(struct drm_connector *connector)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 
- 	return drm_add_modes_noedid(connector, dev->mode_config.max_width,
- 				    dev->mode_config.max_height);
-@@ -194,7 +194,7 @@ static enum drm_mode_status
- vc4_txp_connector_mode_valid(struct drm_connector *connector,
- 			     struct drm_display_mode *mode)
- {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct drm_mode_config *mode_config = &dev->mode_config;
- 	int w = mode->hdisplay, h = mode->vdisplay;
- 
-@@ -282,7 +282,7 @@ static int vc4_txp_connector_atomic_check(struct drm_connector *conn,
- static void vc4_txp_connector_atomic_commit(struct drm_connector *conn,
+@@ -152,8 +152,8 @@ static void logicvc_crtc_atomic_enable(struct drm_crtc *drm_crtc,
+ static void logicvc_crtc_atomic_disable(struct drm_crtc *drm_crtc,
  					struct drm_atomic_state *state)
  {
--	struct drm_device *drm = conn->dev;
-+	struct drm_device *drm = conn->drm;
- 	struct drm_connector_state *conn_state = drm_atomic_get_new_connector_state(state,
- 										    conn);
- 	struct vc4_txp *txp = connector_to_vc4_txp(conn);
+-	struct logicvc_drm *logicvc = logicvc_drm(drm_crtc->dev);
+-	struct drm_device *drm_dev = drm_crtc->dev;
++	struct logicvc_drm *logicvc = logicvc_drm(drm_crtc->drm);
++	struct drm_device *drm_dev = drm_crtc->drm;
+ 
+ 	drm_crtc_vblank_off(drm_crtc);
+ 
+@@ -190,7 +190,7 @@ static const struct drm_crtc_helper_funcs logicvc_crtc_helper_funcs = {
+ 
+ static int logicvc_crtc_enable_vblank(struct drm_crtc *drm_crtc)
+ {
+-	struct logicvc_drm *logicvc = logicvc_drm(drm_crtc->dev);
++	struct logicvc_drm *logicvc = logicvc_drm(drm_crtc->drm);
+ 
+ 	/* Clear any pending V_SYNC interrupt. */
+ 	regmap_write_bits(logicvc->regmap, LOGICVC_INT_STAT_REG,
+@@ -205,7 +205,7 @@ static int logicvc_crtc_enable_vblank(struct drm_crtc *drm_crtc)
+ 
+ static void logicvc_crtc_disable_vblank(struct drm_crtc *drm_crtc)
+ {
+-	struct logicvc_drm *logicvc = logicvc_drm(drm_crtc->dev);
++	struct logicvc_drm *logicvc = logicvc_drm(drm_crtc->drm);
+ 
+ 	/* Mask V_SYNC interrupt. */
+ 	regmap_write_bits(logicvc->regmap, LOGICVC_INT_MASK_REG,
+diff --git a/drivers/gpu/drm/loongson/lsdc_crtc.c b/drivers/gpu/drm/loongson/lsdc_crtc.c
+index 827acab580fa..c7c683685c0c 100644
+--- a/drivers/gpu/drm/loongson/lsdc_crtc.c
++++ b/drivers/gpu/drm/loongson/lsdc_crtc.c
+@@ -673,7 +673,7 @@ static int lsdc_crtc_late_register(struct drm_crtc *crtc)
+ {
+ 	struct lsdc_display_pipe *dispipe = crtc_to_display_pipe(crtc);
+ 	struct lsdc_crtc *lcrtc = to_lsdc_crtc(crtc);
+-	struct drm_minor *minor = crtc->dev->primary;
++	struct drm_minor *minor = crtc->drm->primary;
+ 	unsigned int index = dispipe->index;
+ 	unsigned int i;
+ 
+@@ -741,7 +741,7 @@ static const struct drm_crtc_funcs ls7a2000_crtc_funcs = {
+ static enum drm_mode_status
+ lsdc_crtc_mode_valid(struct drm_crtc *crtc, const struct drm_display_mode *mode)
+ {
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm;
+ 	struct lsdc_device *ldev = to_lsdc(ddev);
+ 	const struct lsdc_desc *descp = ldev->descp;
+ 	unsigned int pitch;
+@@ -782,7 +782,7 @@ static int lsdc_pixpll_atomic_check(struct drm_crtc *crtc,
+ 
+ 	ret = pfuncs->compute(pixpll, clock, &priv_state->pparms);
+ 	if (ret) {
+-		drm_warn(crtc->dev, "Failed to find PLL params for %ukHz\n",
++		drm_warn(crtc->drm, "Failed to find PLL params for %ukHz\n",
+ 			 clock);
+ 		return -EINVAL;
+ 	}
+@@ -838,7 +838,7 @@ static void lsdc_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ 
+ static void lsdc_crtc_send_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm;
+ 	unsigned long flags;
+ 
+ 	if (!crtc->state || !crtc->state->event)
+@@ -883,7 +883,7 @@ static void lsdc_crtc_atomic_disable(struct drm_crtc *crtc,
+ static void lsdc_crtc_atomic_flush(struct drm_crtc *crtc,
+ 				   struct drm_atomic_state *state)
+ {
+-	spin_lock_irq(&crtc->dev->event_lock);
++	spin_lock_irq(&crtc->drm->event_lock);
+ 	if (crtc->state->event) {
+ 		if (drm_crtc_vblank_get(crtc) == 0)
+ 			drm_crtc_arm_vblank_event(crtc, crtc->state->event);
+@@ -891,7 +891,7 @@ static void lsdc_crtc_atomic_flush(struct drm_crtc *crtc,
+ 			drm_crtc_send_vblank_event(crtc, crtc->state->event);
+ 		crtc->state->event = NULL;
+ 	}
+-	spin_unlock_irq(&crtc->dev->event_lock);
++	spin_unlock_irq(&crtc->drm->event_lock);
+ }
+ 
+ static bool lsdc_crtc_get_scanout_position(struct drm_crtc *crtc,
+diff --git a/drivers/gpu/drm/mcde/mcde_display.c b/drivers/gpu/drm/mcde/mcde_display.c
+index 52043a12a2e8..ec56aeaa65cc 100644
+--- a/drivers/gpu/drm/mcde/mcde_display.c
++++ b/drivers/gpu/drm/mcde/mcde_display.c
+@@ -1154,7 +1154,7 @@ static void mcde_display_enable(struct drm_simple_display_pipe *pipe,
+ {
+ 	struct drm_crtc *crtc = &pipe->crtc;
+ 	struct drm_plane *plane = &pipe->plane;
+-	struct drm_device *drm = crtc->dev;
++	struct drm_device *drm = crtc->drm;
+ 	struct mcde *mcde = to_mcde(drm);
+ 	const struct drm_display_mode *mode = &cstate->mode;
+ 	struct drm_framebuffer *fb = plane->state->fb;
+@@ -1300,7 +1300,7 @@ static void mcde_display_enable(struct drm_simple_display_pipe *pipe,
+ static void mcde_display_disable(struct drm_simple_display_pipe *pipe)
+ {
+ 	struct drm_crtc *crtc = &pipe->crtc;
+-	struct drm_device *drm = crtc->dev;
++	struct drm_device *drm = crtc->drm;
+ 	struct mcde *mcde = to_mcde(drm);
+ 	struct drm_pending_vblank_event *event;
+ 	int ret;
+@@ -1321,9 +1321,9 @@ static void mcde_display_disable(struct drm_simple_display_pipe *pipe)
+ 	if (event) {
+ 		crtc->state->event = NULL;
+ 
+-		spin_lock_irq(&crtc->dev->event_lock);
++		spin_lock_irq(&crtc->drm->event_lock);
+ 		drm_crtc_send_vblank_event(crtc, event);
+-		spin_unlock_irq(&crtc->dev->event_lock);
++		spin_unlock_irq(&crtc->drm->event_lock);
+ 	}
+ 
+ 	ret = regulator_disable(mcde->epod);
+@@ -1384,7 +1384,7 @@ static void mcde_display_update(struct drm_simple_display_pipe *pipe,
+ 				struct drm_plane_state *old_pstate)
+ {
+ 	struct drm_crtc *crtc = &pipe->crtc;
+-	struct drm_device *drm = crtc->dev;
++	struct drm_device *drm = crtc->drm;
+ 	struct mcde *mcde = to_mcde(drm);
+ 	struct drm_pending_vblank_event *event = crtc->state->event;
+ 	struct drm_plane *plane = &pipe->plane;
+@@ -1399,7 +1399,7 @@ static void mcde_display_update(struct drm_simple_display_pipe *pipe,
+ 	if (event) {
+ 		crtc->state->event = NULL;
+ 
+-		spin_lock_irq(&crtc->dev->event_lock);
++		spin_lock_irq(&crtc->drm->event_lock);
+ 		/*
+ 		 * Hardware must be on before we can arm any vblank event,
+ 		 * this is not a scanout controller where there is always
+@@ -1415,7 +1415,7 @@ static void mcde_display_update(struct drm_simple_display_pipe *pipe,
+ 			drm_crtc_send_vblank_event(crtc, event);
+ 		}
+ 
+-		spin_unlock_irq(&crtc->dev->event_lock);
++		spin_unlock_irq(&crtc->drm->event_lock);
+ 	}
+ 
+ 	/*
+@@ -1445,7 +1445,7 @@ static void mcde_display_update(struct drm_simple_display_pipe *pipe,
+ static int mcde_display_enable_vblank(struct drm_simple_display_pipe *pipe)
+ {
+ 	struct drm_crtc *crtc = &pipe->crtc;
+-	struct drm_device *drm = crtc->dev;
++	struct drm_device *drm = crtc->drm;
+ 	struct mcde *mcde = to_mcde(drm);
+ 	u32 val;
+ 
+@@ -1464,7 +1464,7 @@ static int mcde_display_enable_vblank(struct drm_simple_display_pipe *pipe)
+ static void mcde_display_disable_vblank(struct drm_simple_display_pipe *pipe)
+ {
+ 	struct drm_crtc *crtc = &pipe->crtc;
+-	struct drm_device *drm = crtc->dev;
++	struct drm_device *drm = crtc->drm;
+ 	struct mcde *mcde = to_mcde(drm);
+ 
+ 	/* Disable all VBLANK IRQs */
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+index d40142842f85..f831e7a0c142 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+@@ -92,11 +92,11 @@ static void mtk_drm_crtc_finish_page_flip(struct mtk_drm_crtc *mtk_crtc)
+ 	struct drm_crtc *crtc = &mtk_crtc->base;
+ 	unsigned long flags;
+ 
+-	spin_lock_irqsave(&crtc->dev->event_lock, flags);
++	spin_lock_irqsave(&crtc->drm->event_lock, flags);
+ 	drm_crtc_send_vblank_event(crtc, mtk_crtc->event);
+ 	drm_crtc_vblank_put(crtc);
+ 	mtk_crtc->event = NULL;
+-	spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++	spin_unlock_irqrestore(&crtc->drm->event_lock, flags);
+ }
+ 
+ static void mtk_drm_finish_page_flip(struct mtk_drm_crtc *mtk_crtc)
+@@ -345,11 +345,11 @@ static int mtk_crtc_ddp_hw_init(struct mtk_drm_crtc *mtk_crtc)
+ 	height = crtc->state->adjusted_mode.vdisplay;
+ 	vrefresh = drm_mode_vrefresh(&crtc->state->adjusted_mode);
+ 
+-	drm_for_each_encoder(encoder, crtc->dev) {
++	drm_for_each_encoder(encoder, crtc->drm) {
+ 		if (encoder->crtc != crtc)
+ 			continue;
+ 
+-		drm_connector_list_iter_begin(crtc->dev, &conn_iter);
++		drm_connector_list_iter_begin(crtc->drm, &conn_iter);
+ 		drm_for_each_connector_iter(connector, &conn_iter) {
+ 			if (connector->encoder != encoder)
+ 				continue;
+@@ -360,7 +360,7 @@ static int mtk_crtc_ddp_hw_init(struct mtk_drm_crtc *mtk_crtc)
+ 		drm_connector_list_iter_end(&conn_iter);
+ 	}
+ 
+-	ret = pm_runtime_resume_and_get(crtc->dev->dev);
++	ret = pm_runtime_resume_and_get(crtc->drm->dev);
+ 	if (ret < 0) {
+ 		DRM_ERROR("Failed to enable power domain: %d\n", ret);
+ 		return ret;
+@@ -421,13 +421,13 @@ static int mtk_crtc_ddp_hw_init(struct mtk_drm_crtc *mtk_crtc)
+ err_mutex_unprepare:
+ 	mtk_mutex_unprepare(mtk_crtc->mutex);
+ err_pm_runtime_put:
+-	pm_runtime_put(crtc->dev->dev);
++	pm_runtime_put(crtc->drm->dev);
+ 	return ret;
+ }
+ 
+ static void mtk_crtc_ddp_hw_fini(struct mtk_drm_crtc *mtk_crtc)
+ {
+-	struct drm_device *drm = mtk_crtc->base.dev;
++	struct drm_device *drm = mtk_crtc->base.drm;
+ 	struct drm_crtc *crtc = &mtk_crtc->base;
+ 	int i;
+ 
+@@ -460,10 +460,10 @@ static void mtk_crtc_ddp_hw_fini(struct mtk_drm_crtc *mtk_crtc)
+ 	pm_runtime_put(drm->dev);
+ 
+ 	if (crtc->state->event && !crtc->state->active) {
+-		spin_lock_irq(&crtc->dev->event_lock);
++		spin_lock_irq(&crtc->drm->event_lock);
+ 		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+ 		crtc->state->event = NULL;
+-		spin_unlock_irq(&crtc->dev->event_lock);
++		spin_unlock_irq(&crtc->drm->event_lock);
+ 	}
+ }
+ 
+@@ -549,7 +549,7 @@ static void mtk_drm_crtc_update_config(struct mtk_drm_crtc *mtk_crtc,
+ 	struct cmdq_pkt *cmdq_handle = &mtk_crtc->cmdq_handle;
+ #endif
+ 	struct drm_crtc *crtc = &mtk_crtc->base;
+-	struct mtk_drm_private *priv = crtc->dev->dev_private;
++	struct mtk_drm_private *priv = crtc->drm->dev_private;
+ 	unsigned int pending_planes = 0, pending_async_planes = 0;
+ 	int i;
+ 
+@@ -616,7 +616,7 @@ static void mtk_crtc_ddp_irq(void *data)
+ {
+ 	struct drm_crtc *crtc = data;
+ 	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
+-	struct mtk_drm_private *priv = crtc->dev->dev_private;
++	struct mtk_drm_private *priv = crtc->drm->dev_private;
+ 
+ #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+ 	if (!priv->data->shadow_register && !mtk_crtc->cmdq_client.chan)
+diff --git a/drivers/gpu/drm/meson/meson_crtc.c b/drivers/gpu/drm/meson/meson_crtc.c
+index d70616da8ce2..765f47ee4d73 100644
+--- a/drivers/gpu/drm/meson/meson_crtc.c
++++ b/drivers/gpu/drm/meson/meson_crtc.c
+@@ -162,9 +162,9 @@ static void meson_g12a_crtc_atomic_disable(struct drm_crtc *crtc,
+ 	priv->viu.vd1_commit = false;
+ 
+ 	if (crtc->state->event && !crtc->state->active) {
+-		spin_lock_irq(&crtc->dev->event_lock);
++		spin_lock_irq(&crtc->drm->event_lock);
+ 		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+-		spin_unlock_irq(&crtc->dev->event_lock);
++		spin_unlock_irq(&crtc->drm->event_lock);
+ 
+ 		crtc->state->event = NULL;
+ 	}
+@@ -192,9 +192,9 @@ static void meson_crtc_atomic_disable(struct drm_crtc *crtc,
+ 			    priv->io_base + _REG(VPP_MISC));
+ 
+ 	if (crtc->state->event && !crtc->state->active) {
+-		spin_lock_irq(&crtc->dev->event_lock);
++		spin_lock_irq(&crtc->drm->event_lock);
+ 		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+-		spin_unlock_irq(&crtc->dev->event_lock);
++		spin_unlock_irq(&crtc->drm->event_lock);
+ 
+ 		crtc->state->event = NULL;
+ 	}
+@@ -209,9 +209,9 @@ static void meson_crtc_atomic_begin(struct drm_crtc *crtc,
+ 	if (crtc->state->event) {
+ 		WARN_ON(drm_crtc_vblank_get(crtc) != 0);
+ 
+-		spin_lock_irqsave(&crtc->dev->event_lock, flags);
++		spin_lock_irqsave(&crtc->drm->event_lock, flags);
+ 		meson_crtc->event = crtc->state->event;
+-		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++		spin_unlock_irqrestore(&crtc->drm->event_lock, flags);
+ 		crtc->state->event = NULL;
+ 	}
+ }
+diff --git a/drivers/gpu/drm/mgag200/mgag200_g200.c b/drivers/gpu/drm/mgag200/mgag200_g200.c
+index bf5d7fe525a3..f04f6ff94f04 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_g200.c
++++ b/drivers/gpu/drm/mgag200/mgag200_g200.c
+@@ -69,7 +69,7 @@ static int mgag200_g200_pixpllc_atomic_check(struct drm_crtc *crtc, struct drm_a
+ 	static const int feed_div_min = 7;
+ 	static const int feed_div_max = 127;
+ 
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct mgag200_g200_device *g200 = to_mgag200_g200_device(dev);
+ 	struct drm_crtc_state *new_crtc_state = drm_atomic_get_new_crtc_state(new_state, crtc);
+ 	struct mgag200_crtc_state *new_mgag200_crtc_state = to_mgag200_crtc_state(new_crtc_state);
+@@ -139,7 +139,7 @@ static int mgag200_g200_pixpllc_atomic_check(struct drm_crtc *crtc, struct drm_a
+ static void mgag200_g200_pixpllc_atomic_update(struct drm_crtc *crtc,
+ 					       struct drm_atomic_state *old_state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct mga_device *mdev = to_mga_device(dev);
+ 	struct drm_crtc_state *crtc_state = crtc->state;
+ 	struct mgag200_crtc_state *mgag200_crtc_state = to_mgag200_crtc_state(crtc_state);
+diff --git a/drivers/gpu/drm/mgag200/mgag200_g200eh.c b/drivers/gpu/drm/mgag200/mgag200_g200eh.c
+index fad62453a91d..92894defcf60 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_g200eh.c
++++ b/drivers/gpu/drm/mgag200/mgag200_g200eh.c
+@@ -92,7 +92,7 @@ static int mgag200_g200eh_pixpllc_atomic_check(struct drm_crtc *crtc,
+ void mgag200_g200eh_pixpllc_atomic_update(struct drm_crtc *crtc,
+ 					  struct drm_atomic_state *old_state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct mga_device *mdev = to_mga_device(dev);
+ 	struct drm_crtc_state *crtc_state = crtc->state;
+ 	struct mgag200_crtc_state *mgag200_crtc_state = to_mgag200_crtc_state(crtc_state);
+diff --git a/drivers/gpu/drm/mgag200/mgag200_g200er.c b/drivers/gpu/drm/mgag200/mgag200_g200er.c
+index bce267e0f7de..68437e4c03cc 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_g200er.c
++++ b/drivers/gpu/drm/mgag200/mgag200_g200er.c
+@@ -120,7 +120,7 @@ static int mgag200_g200er_pixpllc_atomic_check(struct drm_crtc *crtc,
+ static void mgag200_g200er_pixpllc_atomic_update(struct drm_crtc *crtc,
+ 						 struct drm_atomic_state *old_state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct mga_device *mdev = to_mga_device(dev);
+ 	struct drm_crtc_state *crtc_state = crtc->state;
+ 	struct mgag200_crtc_state *mgag200_crtc_state = to_mgag200_crtc_state(crtc_state);
+@@ -183,7 +183,7 @@ static const struct drm_plane_funcs mgag200_g200er_primary_plane_funcs = {
+ static void mgag200_g200er_crtc_helper_atomic_enable(struct drm_crtc *crtc,
+ 						     struct drm_atomic_state *old_state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct mga_device *mdev = to_mga_device(dev);
+ 	const struct mgag200_device_funcs *funcs = mdev->funcs;
+ 	struct drm_crtc_state *crtc_state = crtc->state;
+diff --git a/drivers/gpu/drm/mgag200/mgag200_g200ev.c b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
+index ac957f42abe1..911f2d936d39 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_g200ev.c
++++ b/drivers/gpu/drm/mgag200/mgag200_g200ev.c
+@@ -99,7 +99,7 @@ static int mgag200_g200ev_pixpllc_atomic_check(struct drm_crtc *crtc,
+ static void mgag200_g200ev_pixpllc_atomic_update(struct drm_crtc *crtc,
+ 						 struct drm_atomic_state *old_state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct mga_device *mdev = to_mga_device(dev);
+ 	struct drm_crtc_state *crtc_state = crtc->state;
+ 	struct mgag200_crtc_state *mgag200_crtc_state = to_mgag200_crtc_state(crtc_state);
+@@ -184,7 +184,7 @@ static const struct drm_plane_funcs mgag200_g200ev_primary_plane_funcs = {
+ static void mgag200_g200ev_crtc_helper_atomic_enable(struct drm_crtc *crtc,
+ 						     struct drm_atomic_state *old_state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct mga_device *mdev = to_mga_device(dev);
+ 	const struct mgag200_device_funcs *funcs = mdev->funcs;
+ 	struct drm_crtc_state *crtc_state = crtc->state;
+diff --git a/drivers/gpu/drm/mgag200/mgag200_g200se.c b/drivers/gpu/drm/mgag200/mgag200_g200se.c
+index bd6e573c9a1a..c465c7f4da29 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_g200se.c
++++ b/drivers/gpu/drm/mgag200/mgag200_g200se.c
+@@ -170,7 +170,7 @@ static int mgag200_g200se_00_pixpllc_atomic_check(struct drm_crtc *crtc,
+ static void mgag200_g200se_00_pixpllc_atomic_update(struct drm_crtc *crtc,
+ 						    struct drm_atomic_state *old_state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct mga_device *mdev = to_mga_device(dev);
+ 	struct drm_crtc_state *crtc_state = crtc->state;
+ 	struct mgag200_crtc_state *mgag200_crtc_state = to_mgag200_crtc_state(crtc_state);
+@@ -271,7 +271,7 @@ static int mgag200_g200se_04_pixpllc_atomic_check(struct drm_crtc *crtc,
+ static void mgag200_g200se_04_pixpllc_atomic_update(struct drm_crtc *crtc,
+ 						    struct drm_atomic_state *old_state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct mga_device *mdev = to_mga_device(dev);
+ 	struct drm_crtc_state *crtc_state = crtc->state;
+ 	struct mgag200_crtc_state *mgag200_crtc_state = to_mgag200_crtc_state(crtc_state);
+@@ -315,7 +315,7 @@ static const struct drm_plane_funcs mgag200_g200se_primary_plane_funcs = {
+ static void mgag200_g200se_crtc_helper_atomic_enable(struct drm_crtc *crtc,
+ 						     struct drm_atomic_state *old_state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct mga_device *mdev = to_mga_device(dev);
+ 	const struct mgag200_device_funcs *funcs = mdev->funcs;
+ 	struct drm_crtc_state *crtc_state = crtc->state;
+diff --git a/drivers/gpu/drm/mgag200/mgag200_g200wb.c b/drivers/gpu/drm/mgag200/mgag200_g200wb.c
+index 9baa727ac6f9..0fcc88c3f8b9 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_g200wb.c
++++ b/drivers/gpu/drm/mgag200/mgag200_g200wb.c
+@@ -91,7 +91,7 @@ static int mgag200_g200wb_pixpllc_atomic_check(struct drm_crtc *crtc,
+ void mgag200_g200wb_pixpllc_atomic_update(struct drm_crtc *crtc,
+ 					  struct drm_atomic_state *old_state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct mga_device *mdev = to_mga_device(dev);
+ 	struct drm_crtc_state *crtc_state = crtc->state;
+ 	struct mgag200_crtc_state *mgag200_crtc_state = to_mgag200_crtc_state(crtc_state);
+diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
+index b166e6fc1399..f3c089b183eb 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_mode.c
++++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+@@ -545,7 +545,7 @@ void mgag200_primary_plane_helper_atomic_disable(struct drm_plane *plane,
+ enum drm_mode_status mgag200_crtc_helper_mode_valid(struct drm_crtc *crtc,
+ 						    const struct drm_display_mode *mode)
+ {
+-	struct mga_device *mdev = to_mga_device(crtc->dev);
++	struct mga_device *mdev = to_mga_device(crtc->drm);
+ 	const struct mgag200_device_info *info = mdev->info;
+ 
+ 	/*
+@@ -574,7 +574,7 @@ enum drm_mode_status mgag200_crtc_helper_mode_valid(struct drm_crtc *crtc,
+ 
+ int mgag200_crtc_helper_atomic_check(struct drm_crtc *crtc, struct drm_atomic_state *new_state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct mga_device *mdev = to_mga_device(dev);
+ 	const struct mgag200_device_funcs *funcs = mdev->funcs;
+ 	struct drm_crtc_state *new_crtc_state = drm_atomic_get_new_crtc_state(new_state, crtc);
+@@ -610,7 +610,7 @@ void mgag200_crtc_helper_atomic_flush(struct drm_crtc *crtc, struct drm_atomic_s
+ {
+ 	struct drm_crtc_state *crtc_state = crtc->state;
+ 	struct mgag200_crtc_state *mgag200_crtc_state = to_mgag200_crtc_state(crtc_state);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct mga_device *mdev = to_mga_device(dev);
+ 
+ 	if (crtc_state->enable && crtc_state->color_mgmt_changed) {
+@@ -625,7 +625,7 @@ void mgag200_crtc_helper_atomic_flush(struct drm_crtc *crtc, struct drm_atomic_s
+ 
+ void mgag200_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *old_state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct mga_device *mdev = to_mga_device(dev);
+ 	const struct mgag200_device_funcs *funcs = mdev->funcs;
+ 	struct drm_crtc_state *crtc_state = crtc->state;
+@@ -655,7 +655,7 @@ void mgag200_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_
+ 
+ void mgag200_crtc_helper_atomic_disable(struct drm_crtc *crtc, struct drm_atomic_state *old_state)
+ {
+-	struct mga_device *mdev = to_mga_device(crtc->dev);
++	struct mga_device *mdev = to_mga_device(crtc->drm);
+ 	const struct mgag200_device_funcs *funcs = mdev->funcs;
+ 
+ 	if (funcs->disable_vidrst)
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+index 1d9d83d7b99e..3133135f5b3d 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+@@ -102,7 +102,7 @@ static u64 _dpu_core_perf_calc_clk(struct dpu_kms *kms,
+ static struct dpu_kms *_dpu_crtc_get_kms(struct drm_crtc *crtc)
+ {
+ 	struct msm_drm_private *priv;
+-	priv = crtc->dev->dev_private;
++	priv = crtc->drm->dev_private;
+ 	return to_dpu_kms(priv->kms);
+ }
+ 
+@@ -171,7 +171,7 @@ int dpu_core_perf_crtc_check(struct drm_crtc *crtc,
+ 	bw_sum_of_intfs = dpu_cstate->new_perf.bw_ctl;
+ 	curr_client_type = dpu_crtc_get_client_type(crtc);
+ 
+-	drm_for_each_crtc(tmp_crtc, crtc->dev) {
++	drm_for_each_crtc(tmp_crtc, crtc->drm) {
+ 		if (tmp_crtc->enabled &&
+ 		    (dpu_crtc_get_client_type(tmp_crtc) ==
+ 				curr_client_type) && (tmp_crtc != crtc)) {
+@@ -217,7 +217,7 @@ static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
+ 	int i, ret = 0;
+ 	u64 avg_bw;
+ 
+-	drm_for_each_crtc(tmp_crtc, crtc->dev) {
++	drm_for_each_crtc(tmp_crtc, crtc->drm) {
+ 		if (tmp_crtc->enabled &&
+ 			curr_client_type ==
+ 				dpu_crtc_get_client_type(tmp_crtc)) {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index 1edf2b6b0a26..6bb56b89ff5d 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -46,7 +46,7 @@
+ 
+ static struct dpu_kms *_dpu_crtc_get_kms(struct drm_crtc *crtc)
+ {
+-	struct msm_drm_private *priv = crtc->dev->dev_private;
++	struct msm_drm_private *priv = crtc->drm->dev_private;
+ 
+ 	return to_dpu_kms(priv->kms);
+ }
+@@ -64,7 +64,7 @@ static void dpu_crtc_destroy(struct drm_crtc *crtc)
+ 
+ static struct drm_encoder *get_encoder_from_crtc(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_encoder *encoder;
+ 
+ 	drm_for_each_encoder(encoder, dev)
+@@ -106,7 +106,7 @@ static int dpu_crtc_verify_crc_source(struct drm_crtc *crtc,
+ 
+ 		*values_cnt = 0;
+ 
+-		drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc->state->encoder_mask)
++		drm_for_each_encoder_mask(drm_enc, crtc->drm, crtc->state->encoder_mask)
+ 			*values_cnt += dpu_encoder_get_crc_values_cnt(drm_enc);
+ 	}
+ 
+@@ -133,7 +133,8 @@ static void dpu_crtc_setup_encoder_misr(struct drm_crtc *crtc)
+ {
+ 	struct drm_encoder *drm_enc;
+ 
+-	drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc->state->encoder_mask)
++	drm_for_each_encoder_mask(drm_enc, crtc->drm,
++				  crtc->state->encoder_mask)
+ 		dpu_encoder_setup_misr(drm_enc);
+ }
+ 
+@@ -142,7 +143,7 @@ static int dpu_crtc_set_crc_source(struct drm_crtc *crtc, const char *src_name)
+ 	enum dpu_crtc_crc_source source = dpu_crtc_parse_crc_source(src_name);
+ 	enum dpu_crtc_crc_source current_source;
+ 	struct dpu_crtc_state *crtc_state;
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm;
+ 
+ 	bool was_enabled;
+ 	bool enable = false;
+@@ -244,7 +245,8 @@ static int dpu_crtc_get_encoder_crc(struct drm_crtc *crtc)
+ 	int rc, pos = 0;
+ 	u32 crcs[INTF_MAX];
+ 
+-	drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc->state->encoder_mask) {
++	drm_for_each_encoder_mask(drm_enc, crtc->drm,
++				  crtc->state->encoder_mask) {
+ 		rc = dpu_encoder_get_crc(drm_enc, crcs, pos);
+ 		if (rc < 0) {
+ 			if (rc != -ENODATA)
+@@ -569,7 +571,7 @@ static void _dpu_crtc_blend_setup(struct drm_crtc *crtc)
+ static void _dpu_crtc_complete_flip(struct drm_crtc *crtc)
+ {
+ 	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned long flags;
+ 
+ 	spin_lock_irqsave(&dev->event_lock, flags);
+@@ -599,7 +601,8 @@ enum dpu_intf_mode dpu_crtc_get_intf_mode(struct drm_crtc *crtc)
+ 	WARN_ON(!drm_modeset_is_locked(&crtc->mutex));
+ 
+ 	/* TODO: Returns the first INTF_MODE, could there be multiple values? */
+-	drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask)
++	drm_for_each_encoder_mask(encoder, crtc->drm,
++				  crtc->state->encoder_mask)
+ 		return dpu_encoder_get_intf_mode(encoder);
+ 
+ 	return INTF_MODE_NONE;
+@@ -692,7 +695,7 @@ static void dpu_crtc_frame_event_cb(void *data, u32 event)
+ 		return;
+ 
+ 	dpu_crtc = to_dpu_crtc(crtc);
+-	priv = crtc->dev->dev_private;
++	priv = crtc->drm->dev_private;
+ 	crtc_id = drm_crtc_index(crtc);
+ 
+ 	trace_dpu_crtc_frame_event_cb(DRMID(crtc), event);
+@@ -817,7 +820,8 @@ static void dpu_crtc_atomic_begin(struct drm_crtc *crtc,
+ 	_dpu_crtc_setup_lm_bounds(crtc, crtc->state);
+ 
+ 	/* encoder will trigger pending mask now */
+-	drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask)
++	drm_for_each_encoder_mask(encoder, crtc->drm,
++				  crtc->state->encoder_mask)
+ 		dpu_encoder_trigger_kickoff_pending(encoder);
+ 
+ 	/*
+@@ -861,7 +865,7 @@ static void dpu_crtc_atomic_flush(struct drm_crtc *crtc,
+ 
+ 	dpu_crtc = to_dpu_crtc(crtc);
+ 	cstate = to_dpu_crtc_state(crtc->state);
+-	dev = crtc->dev;
++	dev = crtc->drm;
+ 	priv = dev->dev_private;
+ 
+ 	if (crtc->index >= ARRAY_SIZE(priv->event_thread)) {
+@@ -956,8 +960,8 @@ void dpu_crtc_commit_kickoff(struct drm_crtc *crtc)
+ 
+ 	DPU_ATRACE_BEGIN("crtc_commit");
+ 
+-	drm_for_each_encoder_mask(encoder, crtc->dev,
+-			crtc->state->encoder_mask) {
++	drm_for_each_encoder_mask(encoder, crtc->drm,
++				  crtc->state->encoder_mask) {
+ 		if (!dpu_encoder_is_valid_for_commit(encoder)) {
+ 			DRM_DEBUG_ATOMIC("invalid FB not kicking off crtc\n");
+ 			goto end;
+@@ -967,7 +971,7 @@ void dpu_crtc_commit_kickoff(struct drm_crtc *crtc)
+ 	 * Encoder will flush/start now, unless it has a tx pending. If so, it
+ 	 * may delay and flush at an irq event (e.g. ppdone)
+ 	 */
+-	drm_for_each_encoder_mask(encoder, crtc->dev,
++	drm_for_each_encoder_mask(encoder, crtc->drm,
+ 				  crtc->state->encoder_mask)
+ 		dpu_encoder_prepare_for_kickoff(encoder);
+ 
+@@ -981,7 +985,8 @@ void dpu_crtc_commit_kickoff(struct drm_crtc *crtc)
+ 
+ 	dpu_vbif_clear_errors(dpu_kms);
+ 
+-	drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask)
++	drm_for_each_encoder_mask(encoder, crtc->drm,
++				  crtc->state->encoder_mask)
+ 		dpu_encoder_kickoff(encoder);
+ 
+ 	reinit_completion(&dpu_crtc->frame_done_comp);
+@@ -1055,8 +1060,8 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
+ 	 * it won't trigger a warn while assigning crtc.
+ 	 */
+ 	if (old_crtc_state->self_refresh_active) {
+-		drm_for_each_encoder_mask(encoder, crtc->dev,
+-					old_crtc_state->encoder_mask) {
++		drm_for_each_encoder_mask(encoder, crtc->drm,
++					  old_crtc_state->encoder_mask) {
+ 			dpu_encoder_assign_crtc(encoder, NULL);
+ 		}
+ 		return;
+@@ -1065,7 +1070,7 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
+ 	/* Disable/save vblank irq handling */
+ 	drm_crtc_vblank_off(crtc);
+ 
+-	drm_for_each_encoder_mask(encoder, crtc->dev,
++	drm_for_each_encoder_mask(encoder, crtc->drm,
+ 				  old_crtc_state->encoder_mask) {
+ 		/* in video mode, we hold an extra bandwidth reference
+ 		 * as we cannot drop bandwidth at frame-done if any
+@@ -1102,7 +1107,8 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
+ 
+ 	dpu_core_perf_crtc_update(crtc, 0, true);
+ 
+-	drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask)
++	drm_for_each_encoder_mask(encoder, crtc->drm,
++				  crtc->state->encoder_mask)
+ 		dpu_encoder_register_frame_event_callback(encoder, NULL, NULL);
+ 
+ 	memset(cstate->mixers, 0, sizeof(cstate->mixers));
+@@ -1113,13 +1119,13 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
+ 	cstate->bw_split_vote = false;
+ 
+ 	if (crtc->state->event && !crtc->state->active) {
+-		spin_lock_irqsave(&crtc->dev->event_lock, flags);
++		spin_lock_irqsave(&crtc->drm->event_lock, flags);
+ 		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+ 		crtc->state->event = NULL;
+-		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++		spin_unlock_irqrestore(&crtc->drm->event_lock, flags);
+ 	}
+ 
+-	pm_runtime_put_sync(crtc->dev->dev);
++	pm_runtime_put_sync(crtc->drm->dev);
+ }
+ 
+ static void dpu_crtc_enable(struct drm_crtc *crtc,
+@@ -1132,11 +1138,12 @@ static void dpu_crtc_enable(struct drm_crtc *crtc,
+ 
+ 	old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
+ 
+-	pm_runtime_get_sync(crtc->dev->dev);
++	pm_runtime_get_sync(crtc->drm->dev);
+ 
+ 	DRM_DEBUG_KMS("crtc%d\n", crtc->base.id);
+ 
+-	drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask) {
++	drm_for_each_encoder_mask(encoder, crtc->drm,
++				  crtc->state->encoder_mask) {
+ 		/* in video mode, we hold an extra bandwidth reference
+ 		 * as we cannot drop bandwidth at frame-done if any
+ 		 * crtc is being used in video mode.
+@@ -1154,7 +1161,8 @@ static void dpu_crtc_enable(struct drm_crtc *crtc,
+ 	dpu_crtc->enabled = true;
+ 
+ 	if (!old_crtc_state->self_refresh_active) {
+-		drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask)
++		drm_for_each_encoder_mask(encoder, crtc->drm,
++					  crtc->state->encoder_mask)
+ 			dpu_encoder_assign_crtc(encoder, crtc);
+ 	}
+ 
+@@ -1170,7 +1178,7 @@ static bool dpu_crtc_needs_dirtyfb(struct drm_crtc_state *cstate)
+ 	if (cstate->self_refresh_active)
+ 		return true;
+ 
+-	drm_for_each_encoder_mask (encoder, crtc->dev, cstate->encoder_mask) {
++	drm_for_each_encoder_mask (encoder, crtc->drm, cstate->encoder_mask) {
+ 		if (dpu_encoder_get_intf_mode(encoder) == INTF_MODE_CMD) {
+ 			return true;
+ 		}
+@@ -1262,7 +1270,7 @@ int dpu_crtc_vblank(struct drm_crtc *crtc, bool en)
+ 	 * about the assigned crtcs being inconsistent with the current state
+ 	 * (which means no need to worry about modeset locks).
+ 	 */
+-	list_for_each_entry(enc, &crtc->dev->mode_config.encoder_list, head) {
++	list_for_each_entry(enc, &crtc->drm->mode_config.encoder_list, head) {
+ 		trace_dpu_crtc_vblank_enable(DRMID(crtc), DRMID(enc), en,
+ 					     dpu_crtc);
+ 
+@@ -1291,7 +1299,7 @@ static int _dpu_debugfs_status_show(struct seq_file *s, void *data)
+ 	dpu_crtc = s->private;
+ 	crtc = &dpu_crtc->base;
+ 
+-	drm_modeset_lock_all(crtc->dev);
++	drm_modeset_lock_all(crtc->drm);
+ 	cstate = to_dpu_crtc_state(crtc->state);
+ 
+ 	mode = &crtc->state->adjusted_mode;
+@@ -1383,7 +1391,7 @@ static int _dpu_debugfs_status_show(struct seq_file *s, void *data)
+ 		dpu_crtc->vblank_cb_time = ktime_set(0, 0);
+ 	}
+ 
+-	drm_modeset_unlock_all(crtc->dev);
++	drm_modeset_unlock_all(crtc->drm);
+ 
+ 	return 0;
+ }
+@@ -1474,7 +1482,7 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
+ 		return ERR_PTR(-ENOMEM);
+ 
+ 	crtc = &dpu_crtc->base;
+-	crtc->dev = dev;
++	crtc->drm = dev;
+ 
+ 	spin_lock_init(&dpu_crtc->spin_lock);
+ 	atomic_set(&dpu_crtc->frame_pending, 0);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index 6c44e1e65fcc..dd1fb12dabd6 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -468,7 +468,7 @@ static void dpu_kms_wait_for_commit_done(struct msm_kms *kms,
+ 		return;
+ 	}
+ 
+-	dev = crtc->dev;
++	dev = crtc->drm;
+ 
+ 	if (!crtc->state->enable) {
+ 		DPU_DEBUG("[crtc:%d] not enable\n", crtc->base.id);
+diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c
+index 169f9de4a12a..4c4fc5b8c5ba 100644
+--- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c
++++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c
+@@ -61,7 +61,7 @@ struct mdp4_crtc {
+ 
+ static struct mdp4_kms *get_kms(struct drm_crtc *crtc)
+ {
+-	struct msm_drm_private *priv = crtc->dev->dev_private;
++	struct msm_drm_private *priv = crtc->drm->dev_private;
+ 	return to_mdp4_kms(to_mdp_kms(priv->kms));
+ }
+ 
+@@ -98,7 +98,7 @@ static void crtc_flush(struct drm_crtc *crtc)
+ static void complete_flip(struct drm_crtc *crtc, struct drm_file *file)
+ {
+ 	struct mdp4_crtc *mdp4_crtc = to_mdp4_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_pending_vblank_event *event;
+ 	unsigned long flags;
+ 
+@@ -327,7 +327,7 @@ static void mdp4_crtc_atomic_flush(struct drm_crtc *crtc,
+ 				   struct drm_atomic_state *state)
+ {
+ 	struct mdp4_crtc *mdp4_crtc = to_mdp4_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned long flags;
+ 
+ 	DBG("%s: event: %p", mdp4_crtc->name, crtc->state->event);
+@@ -407,7 +407,7 @@ static int mdp4_crtc_cursor_set(struct drm_crtc *crtc,
+ 	struct mdp4_crtc *mdp4_crtc = to_mdp4_crtc(crtc);
+ 	struct mdp4_kms *mdp4_kms = get_kms(crtc);
+ 	struct msm_kms *kms = &mdp4_kms->base.base;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_gem_object *cursor_bo, *old_bo;
+ 	unsigned long flags;
+ 	uint64_t iova;
+@@ -499,7 +499,7 @@ static void mdp4_crtc_vblank_irq(struct mdp_irq *irq, uint32_t irqstatus)
+ {
+ 	struct mdp4_crtc *mdp4_crtc = container_of(irq, struct mdp4_crtc, vblank);
+ 	struct drm_crtc *crtc = &mdp4_crtc->base;
+-	struct msm_drm_private *priv = crtc->dev->dev_private;
++	struct msm_drm_private *priv = crtc->drm->dev_private;
+ 	unsigned pending;
+ 
+ 	mdp_irq_unregister(&get_kms(crtc)->base, &mdp4_crtc->vblank);
+@@ -526,7 +526,7 @@ static void mdp4_crtc_err_irq(struct mdp_irq *irq, uint32_t irqstatus)
+ 
+ static void mdp4_crtc_wait_for_flush_done(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct mdp4_crtc *mdp4_crtc = to_mdp4_crtc(crtc);
+ 	struct mdp4_kms *mdp4_kms = get_kms(crtc);
+ 	int ret;
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+index 86036dd4e1e8..0cd5c075423c 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+@@ -69,7 +69,7 @@ static void mdp5_crtc_restore_cursor(struct drm_crtc *crtc);
+ 
+ static struct mdp5_kms *get_kms(struct drm_crtc *crtc)
+ {
+-	struct msm_drm_private *priv = crtc->dev->dev_private;
++	struct msm_drm_private *priv = crtc->drm->dev_private;
+ 	return to_mdp5_kms(to_mdp_kms(priv->kms));
+ }
+ 
+@@ -140,7 +140,7 @@ static void complete_flip(struct drm_crtc *crtc, struct drm_file *file)
+ 	struct mdp5_pipeline *pipeline = &mdp5_cstate->pipeline;
+ 	struct mdp5_crtc *mdp5_crtc = to_mdp5_crtc(crtc);
+ 	struct mdp5_ctl *ctl = mdp5_cstate->ctl;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_pending_vblank_event *event;
+ 	unsigned long flags;
+ 
+@@ -412,7 +412,7 @@ static void mdp5_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ 
+ static struct drm_encoder *get_encoder_from_crtc(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_encoder *encoder;
+ 
+ 	drm_for_each_encoder(encoder, dev)
+@@ -701,7 +701,7 @@ static int mdp5_crtc_atomic_check(struct drm_crtc *crtc,
+ 	struct mdp5_interface *intf = mdp5_cstate->pipeline.intf;
+ 	struct mdp5_kms *mdp5_kms = get_kms(crtc);
+ 	struct drm_plane *plane;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct plane_state pstates[STAGE_MAX + 1];
+ 	const struct mdp5_cfg_hw *hw_cfg;
+ 	const struct drm_plane_state *pstate;
+@@ -800,7 +800,7 @@ static void mdp5_crtc_atomic_flush(struct drm_crtc *crtc,
+ {
+ 	struct mdp5_crtc *mdp5_crtc = to_mdp5_crtc(crtc);
+ 	struct mdp5_crtc_state *mdp5_cstate = to_mdp5_crtc_state(crtc->state);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned long flags;
+ 
+ 	DBG("%s: event: %p", crtc->name, crtc->state->event);
+@@ -954,7 +954,7 @@ static int mdp5_crtc_cursor_set(struct drm_crtc *crtc,
+ 	struct mdp5_crtc *mdp5_crtc = to_mdp5_crtc(crtc);
+ 	struct mdp5_crtc_state *mdp5_cstate = to_mdp5_crtc_state(crtc->state);
+ 	struct mdp5_pipeline *pipeline = &mdp5_cstate->pipeline;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct mdp5_kms *mdp5_kms = get_kms(crtc);
+ 	struct platform_device *pdev = mdp5_kms->pdev;
+ 	struct msm_kms *kms = &mdp5_kms->base.base;
+@@ -1042,7 +1042,7 @@ static int mdp5_crtc_cursor_move(struct drm_crtc *crtc, int x, int y)
+ 	struct mdp5_crtc *mdp5_crtc = to_mdp5_crtc(crtc);
+ 	struct mdp5_crtc_state *mdp5_cstate = to_mdp5_crtc_state(crtc->state);
+ 	uint32_t flush_mask = mdp_ctl_flush_mask_cursor(0);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	uint32_t roi_w;
+ 	uint32_t roi_h;
+ 	unsigned long flags;
+@@ -1189,7 +1189,7 @@ static void mdp5_crtc_vblank_irq(struct mdp_irq *irq, uint32_t irqstatus)
+ {
+ 	struct mdp5_crtc *mdp5_crtc = container_of(irq, struct mdp5_crtc, vblank);
+ 	struct drm_crtc *crtc = &mdp5_crtc->base;
+-	struct msm_drm_private *priv = crtc->dev->dev_private;
++	struct msm_drm_private *priv = crtc->drm->dev_private;
+ 	unsigned pending;
+ 
+ 	mdp_irq_unregister(&get_kms(crtc)->base, &mdp5_crtc->vblank);
+@@ -1221,7 +1221,7 @@ static void mdp5_crtc_pp_done_irq(struct mdp_irq *irq, uint32_t irqstatus)
+ 
+ static void mdp5_crtc_wait_for_pp_done(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct mdp5_crtc *mdp5_crtc = to_mdp5_crtc(crtc);
+ 	struct mdp5_crtc_state *mdp5_cstate = to_mdp5_crtc_state(crtc->state);
+ 	int ret;
+@@ -1235,7 +1235,7 @@ static void mdp5_crtc_wait_for_pp_done(struct drm_crtc *crtc)
+ 
+ static void mdp5_crtc_wait_for_flush_done(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct mdp5_crtc *mdp5_crtc = to_mdp5_crtc(crtc);
+ 	struct mdp5_crtc_state *mdp5_cstate = to_mdp5_crtc_state(crtc->state);
+ 	struct mdp5_ctl *ctl = mdp5_cstate->ctl;
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 2a0e3529598b..11ff297db886 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -638,7 +638,7 @@ static void msm_postclose(struct drm_device *dev, struct drm_file *file)
+ 
+ int msm_crtc_enable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = crtc->index;
+ 	struct msm_drm_private *priv = dev->dev_private;
+ 	struct msm_kms *kms = priv->kms;
+@@ -650,7 +650,7 @@ int msm_crtc_enable_vblank(struct drm_crtc *crtc)
+ 
+ void msm_crtc_disable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = crtc->index;
+ 	struct msm_drm_private *priv = dev->dev_private;
+ 	struct msm_kms *kms = priv->kms;
+diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+index 2541d2de4e45..fb5e211c838f 100644
+--- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
++++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+@@ -402,7 +402,7 @@ static void lcdif_crtc_mode_set_nofb(struct drm_crtc_state *crtc_state,
+ 				     struct drm_plane_state *plane_state)
+ {
+ 	struct lcdif_crtc_state *lcdif_crtc_state = to_lcdif_crtc_state(crtc_state);
+-	struct drm_device *drm = crtc_state->crtc->dev;
++	struct drm_device *drm = crtc_state->crtc->drm;
+ 	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(drm);
+ 	struct drm_display_mode *m = &crtc_state->adjusted_mode;
+ 
+@@ -424,7 +424,7 @@ static void lcdif_crtc_mode_set_nofb(struct drm_crtc_state *crtc_state,
+ static int lcdif_crtc_atomic_check(struct drm_crtc *crtc,
+ 				   struct drm_atomic_state *state)
+ {
+-	struct drm_device *drm = crtc->dev;
++	struct drm_device *drm = crtc->drm;
+ 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
+ 									  crtc);
+ 	struct lcdif_crtc_state *lcdif_crtc_state = to_lcdif_crtc_state(crtc_state);
+@@ -505,7 +505,7 @@ static int lcdif_crtc_atomic_check(struct drm_crtc *crtc,
+ static void lcdif_crtc_atomic_flush(struct drm_crtc *crtc,
+ 				    struct drm_atomic_state *state)
+ {
+-	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->dev);
++	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->drm);
+ 	struct drm_pending_vblank_event *event;
+ 	u32 reg;
+ 
+@@ -519,18 +519,18 @@ static void lcdif_crtc_atomic_flush(struct drm_crtc *crtc,
+ 	if (!event)
+ 		return;
+ 
+-	spin_lock_irq(&crtc->dev->event_lock);
++	spin_lock_irq(&crtc->drm->event_lock);
+ 	if (drm_crtc_vblank_get(crtc) == 0)
+ 		drm_crtc_arm_vblank_event(crtc, event);
+ 	else
+ 		drm_crtc_send_vblank_event(crtc, event);
+-	spin_unlock_irq(&crtc->dev->event_lock);
++	spin_unlock_irq(&crtc->drm->event_lock);
+ }
+ 
+ static void lcdif_crtc_atomic_enable(struct drm_crtc *crtc,
+ 				     struct drm_atomic_state *state)
+ {
+-	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->dev);
++	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->drm);
+ 	struct drm_crtc_state *new_cstate = drm_atomic_get_new_crtc_state(state, crtc);
+ 	struct drm_plane_state *new_pstate = drm_atomic_get_new_plane_state(state,
+ 									    crtc->primary);
+@@ -560,7 +560,7 @@ static void lcdif_crtc_atomic_enable(struct drm_crtc *crtc,
+ static void lcdif_crtc_atomic_disable(struct drm_crtc *crtc,
+ 				      struct drm_atomic_state *state)
+ {
+-	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->dev);
++	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->drm);
+ 	struct drm_device *drm = lcdif->drm;
+ 	struct drm_pending_vblank_event *event;
+ 
+@@ -623,7 +623,7 @@ lcdif_crtc_atomic_duplicate_state(struct drm_crtc *crtc)
+ 
+ static int lcdif_crtc_enable_vblank(struct drm_crtc *crtc)
+ {
+-	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->dev);
++	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->drm);
+ 
+ 	/* Clear and enable VBLANK IRQ */
+ 	writel(INT_STATUS_D0_VS_BLANK, lcdif->base + LCDC_V8_INT_STATUS_D0);
+@@ -634,7 +634,7 @@ static int lcdif_crtc_enable_vblank(struct drm_crtc *crtc)
+ 
+ static void lcdif_crtc_disable_vblank(struct drm_crtc *crtc)
+ {
+-	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->dev);
++	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->drm);
+ 
+ 	/* Disable and clear VBLANK IRQ */
+ 	writel(0, lcdif->base + LCDC_V8_INT_ENABLE_D0);
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+index 7ed2516b6de0..d84e03a0c9eb 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+@@ -279,7 +279,7 @@ static void mxsfb_crtc_mode_set_nofb(struct mxsfb_drm_private *mxsfb,
+ 				     struct drm_bridge_state *bridge_state,
+ 				     const u32 bus_format)
+ {
+-	struct drm_device *drm = mxsfb->crtc.dev;
++	struct drm_device *drm = mxsfb->crtc.drm;
+ 	struct drm_display_mode *m = &mxsfb->crtc.state->adjusted_mode;
+ 	u32 bus_flags = mxsfb->connector->display_info.bus_flags;
+ 	int err;
+@@ -335,18 +335,18 @@ static void mxsfb_crtc_atomic_flush(struct drm_crtc *crtc,
+ 	if (!event)
+ 		return;
+ 
+-	spin_lock_irq(&crtc->dev->event_lock);
++	spin_lock_irq(&crtc->drm->event_lock);
+ 	if (drm_crtc_vblank_get(crtc) == 0)
+ 		drm_crtc_arm_vblank_event(crtc, event);
+ 	else
+ 		drm_crtc_send_vblank_event(crtc, event);
+-	spin_unlock_irq(&crtc->dev->event_lock);
++	spin_unlock_irq(&crtc->drm->event_lock);
+ }
+ 
+ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
+ 				     struct drm_atomic_state *state)
+ {
+-	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(crtc->dev);
++	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(crtc->drm);
+ 	struct drm_plane_state *new_pstate = drm_atomic_get_new_plane_state(state,
+ 									    crtc->primary);
+ 	struct drm_bridge_state *bridge_state = NULL;
+@@ -400,7 +400,7 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
+ static void mxsfb_crtc_atomic_disable(struct drm_crtc *crtc,
+ 				      struct drm_atomic_state *state)
+ {
+-	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(crtc->dev);
++	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(crtc->drm);
+ 	struct drm_device *drm = mxsfb->drm;
+ 	struct drm_pending_vblank_event *event;
+ 
+@@ -422,7 +422,7 @@ static void mxsfb_crtc_atomic_disable(struct drm_crtc *crtc,
+ 
+ static int mxsfb_crtc_enable_vblank(struct drm_crtc *crtc)
+ {
+-	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(crtc->dev);
++	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(crtc->drm);
+ 
+ 	/* Clear and enable VBLANK IRQ */
+ 	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
+@@ -433,7 +433,7 @@ static int mxsfb_crtc_enable_vblank(struct drm_crtc *crtc)
+ 
+ static void mxsfb_crtc_disable_vblank(struct drm_crtc *crtc)
+ {
+-	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(crtc->dev);
++	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(crtc->drm);
+ 
+ 	/* Disable and clear VBLANK IRQ */
+ 	writel(CTRL1_CUR_FRAME_DONE_IRQ_EN, mxsfb->base + LCDC_CTRL1 + REG_CLR);
+@@ -447,7 +447,7 @@ static int mxsfb_crtc_set_crc_source(struct drm_crtc *crtc, const char *source)
+ 	if (!crtc)
+ 		return -ENODEV;
+ 
+-	mxsfb = to_mxsfb_drm_private(crtc->dev);
++	mxsfb = to_mxsfb_drm_private(crtc->drm);
+ 
+ 	if (source && strcmp(source, "auto") == 0)
+ 		mxsfb->crc_active = true;
+diff --git a/drivers/gpu/drm/nouveau/dispnv04/crtc.c b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
+index a6f2e681bde9..d43234bd31e4 100644
+--- a/drivers/gpu/drm/nouveau/dispnv04/crtc.c
++++ b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
+@@ -56,18 +56,18 @@ nv04_crtc_mode_set_base(struct drm_crtc *crtc, int x, int y,
+ static void
+ crtc_wr_cio_state(struct drm_crtc *crtc, struct nv04_crtc_reg *crtcstate, int index)
+ {
+-	NVWriteVgaCrtc(crtc->dev, nouveau_crtc(crtc)->index, index,
++	NVWriteVgaCrtc(crtc->drm, nouveau_crtc(crtc)->index, index,
+ 		       crtcstate->CRTC[index]);
+ }
+ 
+ static void nv_crtc_set_digital_vibrance(struct drm_crtc *crtc, int level)
+ {
+ 	struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct nv04_crtc_reg *regp = &nv04_display(dev)->mode_reg.crtc_reg[nv_crtc->index];
+ 
+ 	regp->CRTC[NV_CIO_CRE_CSB] = nv_crtc->saturation = level;
+-	if (nv_crtc->saturation && nv_gf4_disp_arch(crtc->dev)) {
++	if (nv_crtc->saturation && nv_gf4_disp_arch(crtc->drm)) {
+ 		regp->CRTC[NV_CIO_CRE_CSB] = 0x80;
+ 		regp->CRTC[NV_CIO_CRE_5B] = nv_crtc->saturation << 2;
+ 		crtc_wr_cio_state(crtc, regp, NV_CIO_CRE_5B);
+@@ -78,14 +78,15 @@ static void nv_crtc_set_digital_vibrance(struct drm_crtc *crtc, int level)
+ static void nv_crtc_set_image_sharpening(struct drm_crtc *crtc, int level)
+ {
+ 	struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct nv04_crtc_reg *regp = &nv04_display(dev)->mode_reg.crtc_reg[nv_crtc->index];
+ 
+ 	nv_crtc->sharpness = level;
+ 	if (level < 0)	/* blur is in hw range 0x3f -> 0x20 */
+ 		level += 0x40;
+ 	regp->ramdac_634 = level;
+-	NVWriteRAMDAC(crtc->dev, nv_crtc->index, NV_PRAMDAC_634, regp->ramdac_634);
++	NVWriteRAMDAC(crtc->drm, nv_crtc->index, NV_PRAMDAC_634,
++		      regp->ramdac_634);
+ }
+ 
+ #define PLLSEL_VPLL1_MASK				\
+@@ -116,7 +117,7 @@ static void nv_crtc_set_image_sharpening(struct drm_crtc *crtc, int level)
+ 
+ static void nv_crtc_calc_state_ext(struct drm_crtc *crtc, struct drm_display_mode * mode, int dot_clock)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct nouveau_drm *drm = nouveau_drm(dev);
+ 	struct nvkm_bios *bios = nvxx_bios(&drm->client.device);
+ 	struct nvkm_clk *clk = nvxx_clk(&drm->client.device);
+@@ -175,7 +176,7 @@ static void
+ nv_crtc_dpms(struct drm_crtc *crtc, int mode)
+ {
+ 	struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct nouveau_drm *drm = nouveau_drm(dev);
+ 	unsigned char seq1 = 0, crtc17 = 0;
+ 	unsigned char crtc1A;
+@@ -236,7 +237,7 @@ nv_crtc_dpms(struct drm_crtc *crtc, int mode)
+ static void
+ nv_crtc_mode_set_vga(struct drm_crtc *crtc, struct drm_display_mode *mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
+ 	struct nv04_crtc_reg *regp = &nv04_display(dev)->mode_reg.crtc_reg[nv_crtc->index];
+ 	struct drm_framebuffer *fb = crtc->primary->fb;
+@@ -460,7 +461,7 @@ nv_crtc_mode_set_vga(struct drm_crtc *crtc, struct drm_display_mode *mode)
+ static void
+ nv_crtc_mode_set_regs(struct drm_crtc *crtc, struct drm_display_mode * mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct nouveau_drm *drm = nouveau_drm(dev);
+ 	struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
+ 	struct nv04_crtc_reg *regp = &nv04_display(dev)->mode_reg.crtc_reg[nv_crtc->index];
+@@ -609,7 +610,7 @@ nv_crtc_mode_set_regs(struct drm_crtc *crtc, struct drm_display_mode * mode)
+ static int
+ nv_crtc_swap_fbs(struct drm_crtc *crtc, struct drm_framebuffer *old_fb)
+ {
+-	struct nv04_display *disp = nv04_display(crtc->dev);
++	struct nv04_display *disp = nv04_display(crtc->drm);
+ 	struct drm_framebuffer *fb = crtc->primary->fb;
+ 	struct nouveau_bo *nvbo = nouveau_gem_object(fb->obj[0]);
+ 	struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
+@@ -638,7 +639,7 @@ nv_crtc_mode_set(struct drm_crtc *crtc, struct drm_display_mode *mode,
+ 		 struct drm_display_mode *adjusted_mode,
+ 		 int x, int y, struct drm_framebuffer *old_fb)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
+ 	struct nouveau_drm *drm = nouveau_drm(dev);
+ 	int ret;
+@@ -665,16 +666,16 @@ nv_crtc_mode_set(struct drm_crtc *crtc, struct drm_display_mode *mode,
+ static void nv_crtc_save(struct drm_crtc *crtc)
+ {
+ 	struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct nv04_mode_state *state = &nv04_display(dev)->mode_reg;
+ 	struct nv04_crtc_reg *crtc_state = &state->crtc_reg[nv_crtc->index];
+ 	struct nv04_mode_state *saved = &nv04_display(dev)->saved_reg;
+ 	struct nv04_crtc_reg *crtc_saved = &saved->crtc_reg[nv_crtc->index];
+ 
+-	if (nv_two_heads(crtc->dev))
+-		NVSetOwner(crtc->dev, nv_crtc->index);
++	if (nv_two_heads(crtc->drm))
++		NVSetOwner(crtc->drm, nv_crtc->index);
+ 
+-	nouveau_hw_save_state(crtc->dev, nv_crtc->index, saved);
++	nouveau_hw_save_state(crtc->drm, nv_crtc->index, saved);
+ 
+ 	/* init some state to saved value */
+ 	state->sel_clk = saved->sel_clk & ~(0x5 << 16);
+@@ -686,22 +687,22 @@ static void nv_crtc_save(struct drm_crtc *crtc)
+ static void nv_crtc_restore(struct drm_crtc *crtc)
+ {
+ 	struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	int head = nv_crtc->index;
+ 	uint8_t saved_cr21 = nv04_display(dev)->saved_reg.crtc_reg[head].CRTC[NV_CIO_CRE_21];
+ 
+-	if (nv_two_heads(crtc->dev))
+-		NVSetOwner(crtc->dev, head);
++	if (nv_two_heads(crtc->drm))
++		NVSetOwner(crtc->drm, head);
+ 
+-	nouveau_hw_load_state(crtc->dev, head, &nv04_display(dev)->saved_reg);
+-	nv_lock_vga_crtc_shadow(crtc->dev, head, saved_cr21);
++	nouveau_hw_load_state(crtc->drm, head, &nv04_display(dev)->saved_reg);
++	nv_lock_vga_crtc_shadow(crtc->drm, head, saved_cr21);
+ 
+ 	nv_crtc->last_dpms = NV_DPMS_CLEARED;
+ }
+ 
+ static void nv_crtc_prepare(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct nouveau_drm *drm = nouveau_drm(dev);
+ 	struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
+ 	const struct drm_crtc_helper_funcs *funcs = crtc->helper_private;
+@@ -724,7 +725,7 @@ static void nv_crtc_prepare(struct drm_crtc *crtc)
+ 
+ static void nv_crtc_commit(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	const struct drm_crtc_helper_funcs *funcs = crtc->helper_private;
+ 	struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
+ 
+@@ -746,7 +747,7 @@ static void nv_crtc_commit(struct drm_crtc *crtc)
+ 
+ static void nv_crtc_destroy(struct drm_crtc *crtc)
+ {
+-	struct nv04_display *disp = nv04_display(crtc->dev);
++	struct nv04_display *disp = nv04_display(crtc->drm);
+ 	struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
+ 
+ 	if (!nv_crtc)
+@@ -770,7 +771,7 @@ static void
+ nv_crtc_gamma_load(struct drm_crtc *crtc)
+ {
+ 	struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
+-	struct drm_device *dev = nv_crtc->base.dev;
++	struct drm_device *dev = nv_crtc->base.drm;
+ 	struct rgb { uint8_t r, g, b; } __attribute__((packed)) *rgbs;
+ 	u16 *r, *g, *b;
+ 	int i;
+@@ -792,7 +793,7 @@ nv_crtc_gamma_load(struct drm_crtc *crtc)
+ static void
+ nv_crtc_disable(struct drm_crtc *crtc)
+ {
+-	struct nv04_display *disp = nv04_display(crtc->dev);
++	struct nv04_display *disp = nv04_display(crtc->drm);
+ 	struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
+ 	if (disp->image[nv_crtc->index])
+ 		nouveau_bo_unpin(disp->image[nv_crtc->index]);
+@@ -827,7 +828,7 @@ nv04_crtc_do_mode_set_base(struct drm_crtc *crtc,
+ 			   int x, int y, bool atomic)
+ {
+ 	struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct nouveau_drm *drm = nouveau_drm(dev);
+ 	struct nv04_crtc_reg *regp = &nv04_display(dev)->mode_reg.crtc_reg[nv_crtc->index];
+ 	struct nouveau_bo *nvbo;
+@@ -982,7 +983,7 @@ static int
+ nv04_crtc_cursor_set(struct drm_crtc *crtc, struct drm_file *file_priv,
+ 		     uint32_t buffer_handle, uint32_t width, uint32_t height)
+ {
+-	struct nouveau_drm *drm = nouveau_drm(crtc->dev);
++	struct nouveau_drm *drm = nouveau_drm(crtc->drm);
+ 	struct drm_device *dev = drm->dev;
+ 	struct nouveau_crtc *nv_crtc = nouveau_crtc(crtc);
+ 	struct nouveau_bo *cursor = NULL;
+@@ -1140,7 +1141,7 @@ nv04_crtc_page_flip(struct drm_crtc *crtc, struct drm_framebuffer *fb,
+ 		    struct drm_modeset_acquire_ctx *ctx)
+ {
+ 	const int swap_interval = (flags & DRM_MODE_PAGE_FLIP_ASYNC) ? 0 : 1;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct nouveau_drm *drm = nouveau_drm(dev);
+ 	struct drm_framebuffer *old_fb = crtc->primary->fb;
+ 	struct nouveau_bo *old_bo = nouveau_gem_object(old_fb->obj[0]);
+diff --git a/drivers/gpu/drm/nouveau/dispnv04/cursor.c b/drivers/gpu/drm/nouveau/dispnv04/cursor.c
+index 4c6440d29c3f..d8b71731be6d 100644
+--- a/drivers/gpu/drm/nouveau/dispnv04/cursor.c
++++ b/drivers/gpu/drm/nouveau/dispnv04/cursor.c
+@@ -8,20 +8,20 @@
+ static void
+ nv04_cursor_show(struct nouveau_crtc *nv_crtc, bool update)
+ {
+-	nv_show_cursor(nv_crtc->base.dev, nv_crtc->index, true);
++	nv_show_cursor(nv_crtc->base.drm, nv_crtc->index, true);
+ }
+ 
+ static void
+ nv04_cursor_hide(struct nouveau_crtc *nv_crtc, bool update)
+ {
+-	nv_show_cursor(nv_crtc->base.dev, nv_crtc->index, false);
++	nv_show_cursor(nv_crtc->base.drm, nv_crtc->index, false);
+ }
+ 
+ static void
+ nv04_cursor_set_pos(struct nouveau_crtc *nv_crtc, int x, int y)
+ {
+ 	nv_crtc->cursor_saved_x = x; nv_crtc->cursor_saved_y = y;
+-	NVWriteRAMDAC(nv_crtc->base.dev, nv_crtc->index,
++	NVWriteRAMDAC(nv_crtc->base.drm, nv_crtc->index,
+ 		      NV_PRAMDAC_CU_START_POS,
+ 		      XLATE(y, 0, NV_PRAMDAC_CU_START_POS_Y) |
+ 		      XLATE(x, 0, NV_PRAMDAC_CU_START_POS_X));
+@@ -30,14 +30,14 @@ nv04_cursor_set_pos(struct nouveau_crtc *nv_crtc, int x, int y)
+ static void
+ crtc_wr_cio_state(struct drm_crtc *crtc, struct nv04_crtc_reg *crtcstate, int index)
+ {
+-	NVWriteVgaCrtc(crtc->dev, nouveau_crtc(crtc)->index, index,
++	NVWriteVgaCrtc(crtc->drm, nouveau_crtc(crtc)->index, index,
+ 		       crtcstate->CRTC[index]);
+ }
+ 
+ static void
+ nv04_cursor_set_offset(struct nouveau_crtc *nv_crtc, uint32_t offset)
+ {
+-	struct drm_device *dev = nv_crtc->base.dev;
++	struct drm_device *dev = nv_crtc->base.drm;
+ 	struct nouveau_drm *drm = nouveau_drm(dev);
+ 	struct nv04_crtc_reg *regp = &nv04_display(dev)->mode_reg.crtc_reg[nv_crtc->index];
+ 	struct drm_crtc *crtc = &nv_crtc->base;
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/atom.h b/drivers/gpu/drm/nouveau/dispnv50/atom.h
+index 93f8f4f64578..6348fd4437b4 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/atom.h
++++ b/drivers/gpu/drm/nouveau/dispnv50/atom.h
+@@ -163,7 +163,7 @@ nv50_head_atom_get_encoder(struct nv50_head_atom *atom)
+ 	struct drm_encoder *encoder;
+ 
+ 	/* We only ever have a single encoder */
+-	drm_for_each_encoder_mask(encoder, atom->state.crtc->dev,
++	drm_for_each_encoder_mask(encoder, atom->state.crtc->drm,
+ 				  atom->state.encoder_mask)
+ 		return encoder;
+ 
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/crc.c b/drivers/gpu/drm/nouveau/dispnv50/crc.c
+index beeb73e033ea..fbfcbe206d8c 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/crc.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/crc.c
+@@ -48,7 +48,7 @@ int
+ nv50_crc_verify_source(struct drm_crtc *crtc, const char *source_name,
+ 		       size_t *values_cnt)
+ {
+-	struct nouveau_drm *drm = nouveau_drm(crtc->dev);
++	struct nouveau_drm *drm = nouveau_drm(crtc->drm);
+ 	enum nv50_crc_source source;
+ 
+ 	if (nv50_crc_parse_source(source_name, &source) < 0) {
+@@ -70,7 +70,7 @@ static void
+ nv50_crc_program_ctx(struct nv50_head *head,
+ 		     struct nv50_crc_notifier_ctx *ctx)
+ {
+-	struct nv50_disp *disp = nv50_disp(head->base.base.dev);
++	struct nv50_disp *disp = nv50_disp(head->base.base.drm);
+ 	struct nv50_core *core = disp->core;
+ 	u32 interlock[NV50_DISP_INTERLOCK__SIZE] = { 0 };
+ 
+@@ -84,7 +84,7 @@ static void nv50_crc_ctx_flip_work(struct kthread_work *base)
+ 	struct nv50_crc *crc = container_of(work, struct nv50_crc, flip_work);
+ 	struct nv50_head *head = container_of(crc, struct nv50_head, crc);
+ 	struct drm_crtc *crtc = &head->base.base;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct nv50_disp *disp = nv50_disp(dev);
+ 	const uint64_t start_vbl = drm_crtc_vblank_count(crtc);
+ 	uint64_t end_vbl;
+@@ -154,7 +154,7 @@ void nv50_crc_handle_vblank(struct nv50_head *head)
+ 	struct drm_crtc *crtc = &head->base.base;
+ 	struct nv50_crc *crc = &head->crc;
+ 	const struct nv50_crc_func *func =
+-		nv50_disp(head->base.base.dev)->core->func->crc;
++		nv50_disp(head->base.base.drm)->core->func->crc;
+ 	struct nv50_crc_notifier_ctx *ctx;
+ 	bool need_reschedule = false;
+ 
+@@ -193,7 +193,7 @@ void nv50_crc_handle_vblank(struct nv50_head *head)
+ 		 * updates back-to-back without waiting, we'll just be
+ 		 * optimistic and assume we always miss exactly one frame.
+ 		 */
+-		drm_dbg_kms(head->base.base.dev,
++		drm_dbg_kms(head->base.base.drm,
+ 			    "Notifier ctx flip for head-%d finished, lost CRC for frame %llu\n",
+ 			    head->base.index, crc->frame);
+ 		crc->frame++;
+@@ -219,7 +219,7 @@ static void nv50_crc_wait_ctx_finished(struct nv50_head *head,
+ 				       const struct nv50_crc_func *func,
+ 				       struct nv50_crc_notifier_ctx *ctx)
+ {
+-	struct drm_device *dev = head->base.base.dev;
++	struct drm_device *dev = head->base.base.drm;
+ 	struct nouveau_drm *drm = nouveau_drm(dev);
+ 	s64 ret;
+ 
+@@ -256,7 +256,7 @@ void nv50_crc_atomic_stop_reporting(struct drm_atomic_state *state)
+ 		drm_crtc_vblank_put(crtc);
+ 		drm_vblank_work_cancel_sync(&crc->flip_work);
+ 
+-		NV_ATOMIC(nouveau_drm(crtc->dev),
++		NV_ATOMIC(nouveau_drm(crtc->drm),
+ 			  "CRC reporting on vblank for head-%d disabled\n",
+ 			  head->base.index);
+ 
+@@ -340,7 +340,7 @@ void nv50_crc_atomic_start_reporting(struct drm_atomic_state *state)
+ 					 true);
+ 		spin_unlock_irq(&crc->lock);
+ 
+-		NV_ATOMIC(nouveau_drm(crtc->dev),
++		NV_ATOMIC(nouveau_drm(crtc->drm),
+ 			  "CRC reporting on vblank for head-%d enabled\n",
+ 			  head->base.index);
+ 	}
+@@ -449,7 +449,7 @@ void nv50_crc_atomic_set(struct nv50_head *head,
+ 			 struct nv50_head_atom *asyh)
+ {
+ 	struct drm_crtc *crtc = &head->base.base;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct nv50_crc *crc = &head->crc;
+ 	const struct nv50_crc_func *func = nv50_disp(dev)->core->func->crc;
+ 	struct nouveau_encoder *outp;
+@@ -470,7 +470,7 @@ void nv50_crc_atomic_set(struct nv50_head *head,
+ void nv50_crc_atomic_clr(struct nv50_head *head)
+ {
+ 	const struct nv50_crc_func *func =
+-		nv50_disp(head->base.base.dev)->core->func->crc;
++		nv50_disp(head->base.base.drm)->core->func->crc;
+ 
+ 	func->set_src(head, 0, NV50_CRC_SOURCE_TYPE_NONE, NULL);
+ }
+@@ -500,7 +500,7 @@ static inline int
+ nv50_crc_ctx_init(struct nv50_head *head, struct nvif_mmu *mmu,
+ 		  struct nv50_crc_notifier_ctx *ctx, size_t len, int idx)
+ {
+-	struct nv50_core *core = nv50_disp(head->base.base.dev)->core;
++	struct nv50_core *core = nv50_disp(head->base.base.drm)->core;
+ 	int ret;
+ 
+ 	ret = nvif_mem_ctor_map(mmu, "kmsCrcNtfy", NVIF_MEM_VRAM, len, &ctx->mem);
+@@ -537,7 +537,7 @@ nv50_crc_ctx_fini(struct nv50_crc_notifier_ctx *ctx)
+ 
+ int nv50_crc_set_source(struct drm_crtc *crtc, const char *source_str)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_atomic_state *state;
+ 	struct drm_modeset_acquire_ctx ctx;
+ 	struct nv50_head *head = nv50_head(crtc);
+@@ -656,10 +656,10 @@ nv50_crc_debugfs_flip_threshold_set(struct file *file,
+ 	struct nv50_head *head = m->private;
+ 	struct nv50_head_atom *armh;
+ 	struct drm_crtc *crtc = &head->base.base;
+-	struct nouveau_drm *drm = nouveau_drm(crtc->dev);
++	struct nouveau_drm *drm = nouveau_drm(crtc->drm);
+ 	struct nv50_crc *crc = &head->crc;
+ 	const struct nv50_crc_func *func =
+-		nv50_disp(crtc->dev)->core->func->crc;
++		nv50_disp(crtc->drm)->core->func->crc;
+ 	int value, ret;
+ 
+ 	ret = kstrtoint_from_user(ubuf, len, 10, &value);
+@@ -706,7 +706,7 @@ int nv50_head_crc_late_register(struct nv50_head *head)
+ {
+ 	struct drm_crtc *crtc = &head->base.base;
+ 	const struct nv50_crc_func *func =
+-		nv50_disp(crtc->dev)->core->func->crc;
++		nv50_disp(crtc->drm)->core->func->crc;
+ 	struct dentry *root;
+ 
+ 	if (!func || !crtc->debugfs_entry)
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/crc907d.c b/drivers/gpu/drm/nouveau/dispnv50/crc907d.c
+index f9ad641555b7..89e1f2832368 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/crc907d.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/crc907d.c
+@@ -26,7 +26,7 @@ static int
+ crc907d_set_src(struct nv50_head *head, int or, enum nv50_crc_source_type source,
+ 		struct nv50_crc_notifier_ctx *ctx)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	u32 crc_args = NVDEF(NV907D, HEAD_SET_CRC_CONTROL, CONTROLLING_CHANNEL, CORE) |
+ 		       NVDEF(NV907D, HEAD_SET_CRC_CONTROL, EXPECT_BUFFER_COLLAPSE, FALSE) |
+@@ -74,7 +74,7 @@ crc907d_set_src(struct nv50_head *head, int or, enum nv50_crc_source_type source
+ static int
+ crc907d_set_ctx(struct nv50_head *head, struct nv50_crc_notifier_ctx *ctx)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -97,7 +97,7 @@ static u32 crc907d_get_entry(struct nv50_head *head,
+ static bool crc907d_ctx_finished(struct nv50_head *head,
+ 				 struct nv50_crc_notifier_ctx *ctx)
+ {
+-	struct nouveau_drm *drm = nouveau_drm(head->base.base.dev);
++	struct nouveau_drm *drm = nouveau_drm(head->base.base.drm);
+ 	struct crc907d_notifier __iomem *notifier = ctx->mem.object.map.ptr;
+ 	const u32 status = ioread32_native(&notifier->status);
+ 	const u32 overflow = status & 0x0000003e;
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/crcc37d.c b/drivers/gpu/drm/nouveau/dispnv50/crcc37d.c
+index f10f6c484408..0a2a8a91da23 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/crcc37d.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/crcc37d.c
+@@ -15,7 +15,7 @@ static int
+ crcc37d_set_src(struct nv50_head *head, int or, enum nv50_crc_source_type source,
+ 		struct nv50_crc_notifier_ctx *ctx)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	u32 crc_args = NVVAL(NVC37D, HEAD_SET_CRC_CONTROL, CONTROLLING_CHANNEL, i * 4) |
+ 		       NVDEF(NVC37D, HEAD_SET_CRC_CONTROL, EXPECT_BUFFER_COLLAPSE, FALSE) |
+@@ -53,7 +53,7 @@ crcc37d_set_src(struct nv50_head *head, int or, enum nv50_crc_source_type source
+ 
+ int crcc37d_set_ctx(struct nv50_head *head, struct nv50_crc_notifier_ctx *ctx)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -81,7 +81,7 @@ u32 crcc37d_get_entry(struct nv50_head *head, struct nv50_crc_notifier_ctx *ctx,
+ 
+ bool crcc37d_ctx_finished(struct nv50_head *head, struct nv50_crc_notifier_ctx *ctx)
+ {
+-	struct nouveau_drm *drm = nouveau_drm(head->base.base.dev);
++	struct nouveau_drm *drm = nouveau_drm(head->base.base.drm);
+ 	struct crcc37d_notifier __iomem *notifier = ctx->mem.object.map.ptr;
+ 	const u32 status = ioread32_native(&notifier->status);
+ 	const u32 overflow = status & 0x0000007e;
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/crcc57d.c b/drivers/gpu/drm/nouveau/dispnv50/crcc57d.c
+index cc0130e3d496..f0da0840a2da 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/crcc57d.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/crcc57d.c
+@@ -13,7 +13,7 @@
+ static int crcc57d_set_src(struct nv50_head *head, int or, enum nv50_crc_source_type source,
+ 			   struct nv50_crc_notifier_ctx *ctx)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	u32 crc_args = NVDEF(NVC57D, HEAD_SET_CRC_CONTROL, CONTROLLING_CHANNEL, CORE) |
+ 		       NVDEF(NVC57D, HEAD_SET_CRC_CONTROL, EXPECT_BUFFER_COLLAPSE, FALSE) |
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+index 521bf7eeb558..8c04b5f554ea 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+@@ -2213,9 +2213,9 @@ nv50_disp_atomic_commit_tail(struct drm_atomic_state *state)
+ 			/* Get correct count/ts if racing with vblank irq */
+ 			if (new_crtc_state->active)
+ 				drm_crtc_accurate_vblank_count(crtc);
+-			spin_lock_irqsave(&crtc->dev->event_lock, flags);
++			spin_lock_irqsave(&crtc->drm->event_lock, flags);
+ 			drm_crtc_send_vblank_event(crtc, new_crtc_state->event);
+-			spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++			spin_unlock_irqrestore(&crtc->drm->event_lock, flags);
+ 
+ 			new_crtc_state->event = NULL;
+ 			if (new_crtc_state->active)
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/head.c b/drivers/gpu/drm/nouveau/dispnv50/head.c
+index 5f490fbf1877..17a23d0751bd 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/head.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/head.c
+@@ -225,7 +225,7 @@ static int
+ nv50_head_atomic_check_lut(struct nv50_head *head,
+ 			   struct nv50_head_atom *asyh)
+ {
+-	struct drm_device *dev = head->base.base.dev;
++	struct drm_device *dev = head->base.base.drm;
+ 	struct drm_crtc *crtc = &head->base.base;
+ 	struct nv50_disp *disp = nv50_disp(dev);
+ 	struct nouveau_drm *drm = nouveau_drm(dev);
+@@ -336,7 +336,7 @@ nv50_head_atomic_check(struct drm_crtc *crtc, struct drm_atomic_state *state)
+ 									      crtc);
+ 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
+ 									  crtc);
+-	struct nouveau_drm *drm = nouveau_drm(crtc->dev);
++	struct nouveau_drm *drm = nouveau_drm(crtc->drm);
+ 	struct nv50_head *head = nv50_head(crtc);
+ 	struct nv50_head_atom *armh = nv50_head_atom(old_crtc_state);
+ 	struct nv50_head_atom *asyh = nv50_head_atom(crtc_state);
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/head507d.c b/drivers/gpu/drm/nouveau/dispnv50/head507d.c
+index 0edd4e520c8e..7fecdb0db07a 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/head507d.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/head507d.c
+@@ -29,7 +29,7 @@
+ int
+ head507d_procamp(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -48,7 +48,7 @@ head507d_procamp(struct nv50_head *head, struct nv50_head_atom *asyh)
+ int
+ head507d_dither(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -66,7 +66,7 @@ head507d_dither(struct nv50_head *head, struct nv50_head_atom *asyh)
+ int
+ head507d_ovly(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	u32 bounds = 0;
+ 	int ret;
+@@ -94,7 +94,7 @@ head507d_ovly(struct nv50_head *head, struct nv50_head_atom *asyh)
+ int
+ head507d_base(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	u32 bounds = 0;
+ 	int ret;
+@@ -122,7 +122,7 @@ head507d_base(struct nv50_head *head, struct nv50_head_atom *asyh)
+ static int
+ head507d_curs_clr(struct nv50_head *head)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -139,7 +139,7 @@ head507d_curs_clr(struct nv50_head *head)
+ static int
+ head507d_curs_set(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -188,7 +188,7 @@ head507d_curs_layout(struct nv50_head *head, struct nv50_wndw_atom *asyw,
+ int
+ head507d_core_clr(struct nv50_head *head)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -202,7 +202,7 @@ head507d_core_clr(struct nv50_head *head)
+ static int
+ head507d_core_set(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -246,7 +246,7 @@ head507d_core_set(struct nv50_head *head, struct nv50_head_atom *asyh)
+ void
+ head507d_core_calc(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nv50_disp *disp = nv50_disp(head->base.base.dev);
++	struct nv50_disp *disp = nv50_disp(head->base.base.drm);
+ 	if ((asyh->core.visible = (asyh->base.cpp != 0))) {
+ 		asyh->core.x = asyh->base.x;
+ 		asyh->core.y = asyh->base.y;
+@@ -278,7 +278,7 @@ head507d_core_calc(struct nv50_head *head, struct nv50_head_atom *asyh)
+ static int
+ head507d_olut_clr(struct nv50_head *head)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -293,7 +293,7 @@ head507d_olut_clr(struct nv50_head *head)
+ static int
+ head507d_olut_set(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -345,7 +345,7 @@ head507d_olut(struct nv50_head *head, struct nv50_head_atom *asyh, int size)
+ int
+ head507d_mode(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	struct nv50_head_mode *m = &asyh->mode;
+ 	const int i = head->base.index;
+ 	int ret;
+@@ -400,7 +400,7 @@ head507d_mode(struct nv50_head *head, struct nv50_head_atom *asyh)
+ int
+ head507d_view(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/head827d.c b/drivers/gpu/drm/nouveau/dispnv50/head827d.c
+index 194d1771c481..a31ff645c60e 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/head827d.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/head827d.c
+@@ -29,7 +29,7 @@
+ static int
+ head827d_curs_clr(struct nv50_head *head)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -48,7 +48,7 @@ head827d_curs_clr(struct nv50_head *head)
+ static int
+ head827d_curs_set(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -73,7 +73,7 @@ head827d_curs_set(struct nv50_head *head, struct nv50_head_atom *asyh)
+ static int
+ head827d_core_set(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -110,7 +110,7 @@ head827d_core_set(struct nv50_head *head, struct nv50_head_atom *asyh)
+ static int
+ head827d_olut_clr(struct nv50_head *head)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -127,7 +127,7 @@ head827d_olut_clr(struct nv50_head *head)
+ static int
+ head827d_olut_set(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/head907d.c b/drivers/gpu/drm/nouveau/dispnv50/head907d.c
+index 18fe4c1e2d6a..7fd070d8c8ed 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/head907d.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/head907d.c
+@@ -36,7 +36,7 @@
+ int
+ head907d_or(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -57,7 +57,7 @@ head907d_or(struct nv50_head *head, struct nv50_head_atom *asyh)
+ int
+ head907d_procamp(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -77,7 +77,7 @@ head907d_procamp(struct nv50_head *head, struct nv50_head_atom *asyh)
+ static int
+ head907d_dither(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -95,7 +95,7 @@ head907d_dither(struct nv50_head *head, struct nv50_head_atom *asyh)
+ int
+ head907d_ovly(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	u32 bounds = 0;
+ 	int ret;
+@@ -124,7 +124,7 @@ head907d_ovly(struct nv50_head *head, struct nv50_head_atom *asyh)
+ static int
+ head907d_base(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	u32 bounds = 0;
+ 	int ret;
+@@ -152,7 +152,7 @@ head907d_base(struct nv50_head *head, struct nv50_head_atom *asyh)
+ int
+ head907d_curs_clr(struct nv50_head *head)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -171,7 +171,7 @@ head907d_curs_clr(struct nv50_head *head)
+ int
+ head907d_curs_set(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -195,7 +195,7 @@ head907d_curs_set(struct nv50_head *head, struct nv50_head_atom *asyh)
+ int
+ head907d_core_clr(struct nv50_head *head)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -209,7 +209,7 @@ head907d_core_clr(struct nv50_head *head)
+ int
+ head907d_core_set(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -246,7 +246,7 @@ head907d_core_set(struct nv50_head *head, struct nv50_head_atom *asyh)
+ int
+ head907d_olut_clr(struct nv50_head *head)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -263,7 +263,7 @@ head907d_olut_clr(struct nv50_head *head)
+ int
+ head907d_olut_set(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -322,7 +322,7 @@ bool head907d_ilut_check(int size)
+ int
+ head907d_mode(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	struct nv50_head_mode *m = &asyh->mode;
+ 	const int i = head->base.index;
+ 	int ret;
+@@ -378,7 +378,7 @@ head907d_mode(struct nv50_head *head, struct nv50_head_atom *asyh)
+ int
+ head907d_view(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/head917d.c b/drivers/gpu/drm/nouveau/dispnv50/head917d.c
+index 4ce47b55f72c..678b08dc53e3 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/head917d.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/head917d.c
+@@ -30,7 +30,7 @@
+ static int
+ head917d_dither(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -48,7 +48,7 @@ head917d_dither(struct nv50_head *head, struct nv50_head_atom *asyh)
+ static int
+ head917d_base(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	u32 bounds = 0;
+ 	int ret;
+@@ -77,7 +77,7 @@ head917d_base(struct nv50_head *head, struct nv50_head_atom *asyh)
+ static int
+ head917d_curs_set(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/headc37d.c b/drivers/gpu/drm/nouveau/dispnv50/headc37d.c
+index a4a3b78ea42c..20dc6ac6201b 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/headc37d.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/headc37d.c
+@@ -30,7 +30,7 @@
+ static int
+ headc37d_or(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	u8 depth;
+ 	int ret;
+@@ -64,7 +64,7 @@ headc37d_or(struct nv50_head *head, struct nv50_head_atom *asyh)
+ static int
+ headc37d_procamp(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -85,7 +85,7 @@ headc37d_procamp(struct nv50_head *head, struct nv50_head_atom *asyh)
+ int
+ headc37d_dither(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -104,7 +104,7 @@ headc37d_dither(struct nv50_head *head, struct nv50_head_atom *asyh)
+ int
+ headc37d_curs_clr(struct nv50_head *head)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -122,7 +122,7 @@ headc37d_curs_clr(struct nv50_head *head)
+ int
+ headc37d_curs_set(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -161,7 +161,7 @@ headc37d_curs_format(struct nv50_head *head, struct nv50_wndw_atom *asyw,
+ static int
+ headc37d_olut_clr(struct nv50_head *head)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -175,7 +175,7 @@ headc37d_olut_clr(struct nv50_head *head)
+ static int
+ headc37d_olut_set(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -209,7 +209,7 @@ headc37d_olut(struct nv50_head *head, struct nv50_head_atom *asyh, int size)
+ static int
+ headc37d_mode(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	struct nv50_head_mode *m = &asyh->mode;
+ 	const int i = head->base.index;
+ 	int ret;
+@@ -254,7 +254,7 @@ headc37d_mode(struct nv50_head *head, struct nv50_head_atom *asyh)
+ int
+ headc37d_view(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/headc57d.c b/drivers/gpu/drm/nouveau/dispnv50/headc57d.c
+index 543f08ceaad6..45b124f3217d 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/headc57d.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/headc57d.c
+@@ -30,7 +30,7 @@
+ static int
+ headc57d_or(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	u8 depth;
+ 	int ret;
+@@ -65,7 +65,7 @@ headc57d_or(struct nv50_head *head, struct nv50_head_atom *asyh)
+ static int
+ headc57d_procamp(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -83,7 +83,7 @@ headc57d_procamp(struct nv50_head *head, struct nv50_head_atom *asyh)
+ static int
+ headc57d_olut_clr(struct nv50_head *head)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -97,7 +97,7 @@ headc57d_olut_clr(struct nv50_head *head)
+ static int
+ headc57d_olut_set(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	const int i = head->base.index;
+ 	int ret;
+ 
+@@ -188,7 +188,7 @@ headc57d_olut(struct nv50_head *head, struct nv50_head_atom *asyh, int size)
+ static int
+ headc57d_mode(struct nv50_head *head, struct nv50_head_atom *asyh)
+ {
+-	struct nvif_push *push = nv50_disp(head->base.base.dev)->core->chan.push;
++	struct nvif_push *push = nv50_disp(head->base.base.drm)->core->chan.push;
+ 	struct nv50_head_mode *m = &asyh->mode;
+ 	const int i = head->base.index;
+ 	int ret;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.h b/drivers/gpu/drm/nouveau/nouveau_connector.h
+index 35bcb541722b..f34aeb6b31f8 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_connector.h
++++ b/drivers/gpu/drm/nouveau/nouveau_connector.h
+@@ -181,7 +181,7 @@ nouveau_connector_is_mst(struct drm_connector *connector)
+ static inline struct nouveau_connector *
+ nouveau_crtc_connector_get(struct nouveau_crtc *nv_crtc)
+ {
+-	struct drm_device *dev = nv_crtc->base.dev;
++	struct drm_device *dev = nv_crtc->base.drm;
+ 	struct drm_connector *connector;
+ 	struct drm_connector_list_iter conn_iter;
+ 	struct nouveau_connector *nv_connector = NULL;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
+index 99977e5fe716..1d005473a488 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_display.c
++++ b/drivers/gpu/drm/nouveau/nouveau_display.c
+@@ -83,7 +83,7 @@ static bool
+ nouveau_display_scanoutpos_head(struct drm_crtc *crtc, int *vpos, int *hpos,
+ 				ktime_t *stime, ktime_t *etime)
+ {
+-	struct drm_vblank_crtc *vblank = &crtc->dev->vblank[drm_crtc_index(crtc)];
++	struct drm_vblank_crtc *vblank = &crtc->drm->vblank[drm_crtc_index(crtc)];
+ 	struct nvif_head *head = &nouveau_crtc(crtc)->head;
+ 	struct nvif_head_scanoutpos_v0 args;
+ 	int retry = 20;
+diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
+index 63ddc5127f7b..125172669e67 100644
+--- a/drivers/gpu/drm/omapdrm/omap_crtc.c
++++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
+@@ -70,9 +70,9 @@ static bool omap_crtc_is_pending(struct drm_crtc *crtc)
+ 	unsigned long flags;
+ 	bool pending;
+ 
+-	spin_lock_irqsave(&crtc->dev->event_lock, flags);
++	spin_lock_irqsave(&crtc->drm->event_lock, flags);
+ 	pending = omap_crtc->pending;
+-	spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++	spin_unlock_irqrestore(&crtc->drm->event_lock, flags);
+ 
+ 	return pending;
+ }
+@@ -109,7 +109,7 @@ void omap_crtc_dss_start_update(struct omap_drm_private *priv,
+ void omap_crtc_set_enabled(struct drm_crtc *crtc, bool enable)
+ {
+ 	struct omap_crtc_state *omap_state = to_omap_crtc_state(crtc->state);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct omap_drm_private *priv = dev->dev_private;
+ 	struct omap_crtc *omap_crtc = to_omap_crtc(crtc);
+ 	enum omap_channel channel = omap_crtc->channel;
+@@ -228,7 +228,7 @@ int omap_crtc_dss_register_framedone(
+ {
+ 	struct drm_crtc *crtc = priv->channels[channel]->crtc;
+ 	struct omap_crtc *omap_crtc = to_omap_crtc(crtc);
+-	struct drm_device *dev = omap_crtc->base.dev;
++	struct drm_device *dev = omap_crtc->base.drm;
+ 
+ 	if (omap_crtc->framedone_handler)
+ 		return -EBUSY;
+@@ -247,7 +247,7 @@ void omap_crtc_dss_unregister_framedone(
+ {
+ 	struct drm_crtc *crtc = priv->channels[channel]->crtc;
+ 	struct omap_crtc *omap_crtc = to_omap_crtc(crtc);
+-	struct drm_device *dev = omap_crtc->base.dev;
++	struct drm_device *dev = omap_crtc->base.drm;
+ 
+ 	dev_dbg(dev->dev, "unregister framedone %s", omap_crtc->name);
+ 
+@@ -278,17 +278,17 @@ void omap_crtc_error_irq(struct drm_crtc *crtc, u32 irqstatus)
+ void omap_crtc_vblank_irq(struct drm_crtc *crtc)
+ {
+ 	struct omap_crtc *omap_crtc = to_omap_crtc(crtc);
+-	struct drm_device *dev = omap_crtc->base.dev;
++	struct drm_device *dev = omap_crtc->base.drm;
+ 	struct omap_drm_private *priv = dev->dev_private;
+ 	bool pending;
+ 
+-	spin_lock(&crtc->dev->event_lock);
++	spin_lock(&crtc->drm->event_lock);
+ 	/*
+ 	 * If the dispc is busy we're racing the flush operation. Try again on
+ 	 * the next vblank interrupt.
+ 	 */
+ 	if (dispc_mgr_go_busy(priv->dispc, omap_crtc->channel)) {
+-		spin_unlock(&crtc->dev->event_lock);
++		spin_unlock(&crtc->drm->event_lock);
+ 		return;
+ 	}
+ 
+@@ -300,7 +300,7 @@ void omap_crtc_vblank_irq(struct drm_crtc *crtc)
+ 
+ 	pending = omap_crtc->pending;
+ 	omap_crtc->pending = false;
+-	spin_unlock(&crtc->dev->event_lock);
++	spin_unlock(&crtc->drm->event_lock);
+ 
+ 	if (pending)
+ 		drm_crtc_vblank_put(crtc);
+@@ -320,14 +320,14 @@ void omap_crtc_framedone_irq(struct drm_crtc *crtc, uint32_t irqstatus)
+ 
+ 	omap_crtc->framedone_handler(omap_crtc->framedone_handler_data);
+ 
+-	spin_lock(&crtc->dev->event_lock);
++	spin_lock(&crtc->drm->event_lock);
+ 	/* Send the vblank event if one has been requested. */
+ 	if (omap_crtc->event) {
+ 		drm_crtc_send_vblank_event(crtc, omap_crtc->event);
+ 		omap_crtc->event = NULL;
+ 	}
+ 	omap_crtc->pending = false;
+-	spin_unlock(&crtc->dev->event_lock);
++	spin_unlock(&crtc->drm->event_lock);
+ 
+ 	/* Wake up omap_atomic_complete. */
+ 	wake_up(&omap_crtc->pending_wait);
+@@ -350,7 +350,7 @@ static void omap_crtc_manual_display_update(struct work_struct *data)
+ 	struct omap_crtc *omap_crtc =
+ 			container_of(data, struct omap_crtc, update_work.work);
+ 	struct omap_dss_device *dssdev = omap_crtc->pipe->output;
+-	struct drm_device *dev = omap_crtc->base.dev;
++	struct drm_device *dev = omap_crtc->base.drm;
+ 	int ret;
+ 
+ 	if (!dssdev || !dssdev->dsi_ops || !dssdev->dsi_ops->update)
+@@ -394,7 +394,7 @@ static void omap_crtc_cpr_coefs_from_ctm(const struct drm_color_ctm *ctm,
+ 
+ static void omap_crtc_write_crtc_properties(struct drm_crtc *crtc)
+ {
+-	struct omap_drm_private *priv = crtc->dev->dev_private;
++	struct omap_drm_private *priv = crtc->drm->dev_private;
+ 	struct omap_crtc *omap_crtc = to_omap_crtc(crtc);
+ 	struct omap_overlay_manager_info info;
+ 
+@@ -447,7 +447,7 @@ static void omap_crtc_arm_event(struct drm_crtc *crtc)
+ static void omap_crtc_atomic_enable(struct drm_crtc *crtc,
+ 				    struct drm_atomic_state *state)
+ {
+-	struct omap_drm_private *priv = crtc->dev->dev_private;
++	struct omap_drm_private *priv = crtc->drm->dev_private;
+ 	struct omap_crtc *omap_crtc = to_omap_crtc(crtc);
+ 	struct omap_crtc_state *omap_state = to_omap_crtc_state(crtc->state);
+ 	int ret;
+@@ -465,26 +465,26 @@ static void omap_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	ret = drm_crtc_vblank_get(crtc);
+ 	WARN_ON(ret != 0);
+ 
+-	spin_lock_irq(&crtc->dev->event_lock);
++	spin_lock_irq(&crtc->drm->event_lock);
+ 	omap_crtc_arm_event(crtc);
+-	spin_unlock_irq(&crtc->dev->event_lock);
++	spin_unlock_irq(&crtc->drm->event_lock);
+ }
+ 
+ static void omap_crtc_atomic_disable(struct drm_crtc *crtc,
+ 				     struct drm_atomic_state *state)
+ {
+-	struct omap_drm_private *priv = crtc->dev->dev_private;
++	struct omap_drm_private *priv = crtc->drm->dev_private;
+ 	struct omap_crtc *omap_crtc = to_omap_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 
+ 	DBG("%s", omap_crtc->name);
+ 
+-	spin_lock_irq(&crtc->dev->event_lock);
++	spin_lock_irq(&crtc->drm->event_lock);
+ 	if (crtc->state->event) {
+ 		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+ 		crtc->state->event = NULL;
+ 	}
+-	spin_unlock_irq(&crtc->dev->event_lock);
++	spin_unlock_irq(&crtc->drm->event_lock);
+ 
+ 	cancel_delayed_work(&omap_crtc->update_work);
+ 
+@@ -499,7 +499,7 @@ static void omap_crtc_atomic_disable(struct drm_crtc *crtc,
+ static enum drm_mode_status omap_crtc_mode_valid(struct drm_crtc *crtc,
+ 					const struct drm_display_mode *mode)
+ {
+-	struct omap_drm_private *priv = crtc->dev->dev_private;
++	struct omap_drm_private *priv = crtc->drm->dev_private;
+ 	struct omap_crtc *omap_crtc = to_omap_crtc(crtc);
+ 	struct videomode vm = {0};
+ 	int r;
+@@ -615,7 +615,7 @@ static void omap_crtc_atomic_begin(struct drm_crtc *crtc,
+ static void omap_crtc_atomic_flush(struct drm_crtc *crtc,
+ 				   struct drm_atomic_state *state)
+ {
+-	struct omap_drm_private *priv = crtc->dev->dev_private;
++	struct omap_drm_private *priv = crtc->drm->dev_private;
+ 	struct omap_crtc *omap_crtc = to_omap_crtc(crtc);
+ 	struct omap_crtc_state *omap_crtc_state = to_omap_crtc_state(crtc->state);
+ 	int ret;
+@@ -644,20 +644,20 @@ static void omap_crtc_atomic_flush(struct drm_crtc *crtc,
+ 
+ 	if (omap_crtc_state->manually_updated) {
+ 		/* send new image for page flips and modeset changes */
+-		spin_lock_irq(&crtc->dev->event_lock);
++		spin_lock_irq(&crtc->drm->event_lock);
+ 		omap_crtc_flush(crtc);
+ 		omap_crtc_arm_event(crtc);
+-		spin_unlock_irq(&crtc->dev->event_lock);
++		spin_unlock_irq(&crtc->drm->event_lock);
+ 		return;
+ 	}
+ 
+ 	ret = drm_crtc_vblank_get(crtc);
+ 	WARN_ON(ret != 0);
+ 
+-	spin_lock_irq(&crtc->dev->event_lock);
++	spin_lock_irq(&crtc->drm->event_lock);
+ 	dispc_mgr_go(priv->dispc, omap_crtc->channel);
+ 	omap_crtc_arm_event(crtc);
+-	spin_unlock_irq(&crtc->dev->event_lock);
++	spin_unlock_irq(&crtc->drm->event_lock);
+ }
+ 
+ static int omap_crtc_atomic_set_property(struct drm_crtc *crtc,
+@@ -665,7 +665,7 @@ static int omap_crtc_atomic_set_property(struct drm_crtc *crtc,
+ 					 struct drm_property *property,
+ 					 u64 val)
+ {
+-	struct omap_drm_private *priv = crtc->dev->dev_private;
++	struct omap_drm_private *priv = crtc->drm->dev_private;
+ 	struct drm_plane_state *plane_state;
+ 
+ 	/*
+@@ -693,7 +693,7 @@ static int omap_crtc_atomic_get_property(struct drm_crtc *crtc,
+ 					 struct drm_property *property,
+ 					 u64 *val)
+ {
+-	struct omap_drm_private *priv = crtc->dev->dev_private;
++	struct omap_drm_private *priv = crtc->drm->dev_private;
+ 	struct omap_crtc_state *omap_state = to_omap_crtc_state(state);
+ 
+ 	if (property == crtc->primary->rotation_property)
+diff --git a/drivers/gpu/drm/omapdrm/omap_irq.c b/drivers/gpu/drm/omapdrm/omap_irq.c
+index a6f0bbc879d2..6308ca479056 100644
+--- a/drivers/gpu/drm/omapdrm/omap_irq.c
++++ b/drivers/gpu/drm/omapdrm/omap_irq.c
+@@ -78,7 +78,7 @@ int omap_irq_wait(struct drm_device *dev, struct omap_irq_wait *wait,
+ 
+ int omap_irq_enable_framedone(struct drm_crtc *crtc, bool enable)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct omap_drm_private *priv = dev->dev_private;
+ 	unsigned long flags;
+ 	enum omap_channel channel = omap_crtc_channel(crtc);
+@@ -112,7 +112,7 @@ int omap_irq_enable_framedone(struct drm_crtc *crtc, bool enable)
+  */
+ int omap_irq_enable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct omap_drm_private *priv = dev->dev_private;
+ 	unsigned long flags;
+ 	enum omap_channel channel = omap_crtc_channel(crtc);
+@@ -138,7 +138,7 @@ int omap_irq_enable_vblank(struct drm_crtc *crtc)
+  */
+ void omap_irq_disable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct omap_drm_private *priv = dev->dev_private;
+ 	unsigned long flags;
+ 	enum omap_channel channel = omap_crtc_channel(crtc);
+diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+index 9156a98a7218..72d457ff3575 100644
+--- a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
++++ b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+@@ -489,12 +489,12 @@ static void ili9341_dbi_enable(struct drm_simple_display_pipe *pipe,
+ 			       struct drm_crtc_state *crtc_state,
+ 			       struct drm_plane_state *plane_state)
+ {
+-	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
++	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.drm);
+ 	struct mipi_dbi *dbi = &dbidev->dbi;
+ 	u8 addr_mode;
+ 	int ret, idx;
+ 
+-	if (!drm_dev_enter(pipe->crtc.dev, &idx))
++	if (!drm_dev_enter(pipe->crtc.drm, &idx))
+ 		return;
+ 
+ 	ret = mipi_dbi_poweron_conditional_reset(dbidev);
+diff --git a/drivers/gpu/drm/pl111/pl111_display.c b/drivers/gpu/drm/pl111/pl111_display.c
+index b9fe926a49e8..7290c9ab81e5 100644
+--- a/drivers/gpu/drm/pl111/pl111_display.c
++++ b/drivers/gpu/drm/pl111/pl111_display.c
+@@ -51,7 +51,7 @@ static enum drm_mode_status
+ pl111_mode_valid(struct drm_simple_display_pipe *pipe,
+ 		 const struct drm_display_mode *mode)
+ {
+-	struct drm_device *drm = pipe->crtc.dev;
++	struct drm_device *drm = pipe->crtc.drm;
+ 	struct pl111_drm_dev_private *priv = drm->dev_private;
+ 	u32 cpp = DIV_ROUND_UP(priv->variant->fb_depth, 8);
+ 	u64 bw;
+@@ -122,7 +122,7 @@ static void pl111_display_enable(struct drm_simple_display_pipe *pipe,
+ {
+ 	struct drm_crtc *crtc = &pipe->crtc;
+ 	struct drm_plane *plane = &pipe->plane;
+-	struct drm_device *drm = crtc->dev;
++	struct drm_device *drm = crtc->drm;
+ 	struct pl111_drm_dev_private *priv = drm->dev_private;
+ 	const struct drm_display_mode *mode = &cstate->mode;
+ 	struct drm_framebuffer *fb = plane->state->fb;
+@@ -357,7 +357,7 @@ static void pl111_display_enable(struct drm_simple_display_pipe *pipe,
+ static void pl111_display_disable(struct drm_simple_display_pipe *pipe)
+ {
+ 	struct drm_crtc *crtc = &pipe->crtc;
+-	struct drm_device *drm = crtc->dev;
++	struct drm_device *drm = crtc->drm;
+ 	struct pl111_drm_dev_private *priv = drm->dev_private;
+ 	u32 cntl;
+ 
+@@ -390,7 +390,7 @@ static void pl111_display_update(struct drm_simple_display_pipe *pipe,
+ 				 struct drm_plane_state *old_pstate)
+ {
+ 	struct drm_crtc *crtc = &pipe->crtc;
+-	struct drm_device *drm = crtc->dev;
++	struct drm_device *drm = crtc->drm;
+ 	struct pl111_drm_dev_private *priv = drm->dev_private;
+ 	struct drm_pending_vblank_event *event = crtc->state->event;
+ 	struct drm_plane *plane = &pipe->plane;
+@@ -406,19 +406,19 @@ static void pl111_display_update(struct drm_simple_display_pipe *pipe,
+ 	if (event) {
+ 		crtc->state->event = NULL;
+ 
+-		spin_lock_irq(&crtc->dev->event_lock);
++		spin_lock_irq(&crtc->drm->event_lock);
+ 		if (crtc->state->active && drm_crtc_vblank_get(crtc) == 0)
+ 			drm_crtc_arm_vblank_event(crtc, event);
+ 		else
+ 			drm_crtc_send_vblank_event(crtc, event);
+-		spin_unlock_irq(&crtc->dev->event_lock);
++		spin_unlock_irq(&crtc->drm->event_lock);
+ 	}
+ }
+ 
+ static int pl111_display_enable_vblank(struct drm_simple_display_pipe *pipe)
+ {
+ 	struct drm_crtc *crtc = &pipe->crtc;
+-	struct drm_device *drm = crtc->dev;
++	struct drm_device *drm = crtc->drm;
+ 	struct pl111_drm_dev_private *priv = drm->dev_private;
+ 
+ 	writel(CLCD_IRQ_NEXTBASE_UPDATE, priv->regs + priv->ienb);
+@@ -429,7 +429,7 @@ static int pl111_display_enable_vblank(struct drm_simple_display_pipe *pipe)
+ static void pl111_display_disable_vblank(struct drm_simple_display_pipe *pipe)
+ {
+ 	struct drm_crtc *crtc = &pipe->crtc;
+-	struct drm_device *drm = crtc->dev;
++	struct drm_device *drm = crtc->drm;
+ 	struct pl111_drm_dev_private *priv = drm->dev_private;
+ 
+ 	writel(0, priv->regs + priv->ienb);
+diff --git a/drivers/gpu/drm/qxl/qxl_display.c b/drivers/gpu/drm/qxl/qxl_display.c
+index a5e0bbb014ce..3f86e1072f6a 100644
+--- a/drivers/gpu/drm/qxl/qxl_display.c
++++ b/drivers/gpu/drm/qxl/qxl_display.c
+@@ -315,7 +315,7 @@ static void qxl_send_monitors_config(struct qxl_device *qdev)
+ static void qxl_crtc_update_monitors_config(struct drm_crtc *crtc,
+ 					    const char *reason)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct qxl_device *qdev = to_qxl(dev);
+ 	struct qxl_crtc *qcrtc = to_qxl_crtc(crtc);
+ 	struct qxl_head head;
+diff --git a/drivers/gpu/drm/radeon/atombios_crtc.c b/drivers/gpu/drm/radeon/atombios_crtc.c
+index ade13173921b..a151cc0499d5 100644
+--- a/drivers/gpu/drm/radeon/atombios_crtc.c
++++ b/drivers/gpu/drm/radeon/atombios_crtc.c
+@@ -39,7 +39,7 @@ static void atombios_overscan_setup(struct drm_crtc *crtc,
+ 				    struct drm_display_mode *mode,
+ 				    struct drm_display_mode *adjusted_mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+ 	SET_CRTC_OVERSCAN_PS_ALLOCATION args;
+@@ -82,7 +82,7 @@ static void atombios_overscan_setup(struct drm_crtc *crtc,
+ 
+ static void atombios_scaler_setup(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+ 	ENABLE_SCALER_PS_ALLOCATION args;
+@@ -167,7 +167,7 @@ static void atombios_scaler_setup(struct drm_crtc *crtc)
+ static void atombios_lock_crtc(struct drm_crtc *crtc, int lock)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	int index =
+ 	    GetIndexIntoMasterTable(COMMAND, UpdateCRTC_DoubleBufferRegisters);
+@@ -184,7 +184,7 @@ static void atombios_lock_crtc(struct drm_crtc *crtc, int lock)
+ static void atombios_enable_crtc(struct drm_crtc *crtc, int state)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	int index = GetIndexIntoMasterTable(COMMAND, EnableCRTC);
+ 	ENABLE_CRTC_PS_ALLOCATION args;
+@@ -200,7 +200,7 @@ static void atombios_enable_crtc(struct drm_crtc *crtc, int state)
+ static void atombios_enable_crtc_memreq(struct drm_crtc *crtc, int state)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	int index = GetIndexIntoMasterTable(COMMAND, EnableCRTCMemReq);
+ 	ENABLE_CRTC_PS_ALLOCATION args;
+@@ -226,7 +226,7 @@ static const u32 vga_control_regs[6] =
+ static void atombios_blank_crtc(struct drm_crtc *crtc, int state)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	int index = GetIndexIntoMasterTable(COMMAND, BlankCRTC);
+ 	BLANK_CRTC_PS_ALLOCATION args;
+@@ -251,7 +251,7 @@ static void atombios_blank_crtc(struct drm_crtc *crtc, int state)
+ static void atombios_powergate_crtc(struct drm_crtc *crtc, int state)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	int index = GetIndexIntoMasterTable(COMMAND, EnableDispPowerGating);
+ 	ENABLE_DISP_POWER_GATING_PARAMETERS_V2_1 args;
+@@ -266,7 +266,7 @@ static void atombios_powergate_crtc(struct drm_crtc *crtc, int state)
+ 
+ void atombios_crtc_dpms(struct drm_crtc *crtc, int mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+ 
+@@ -303,7 +303,7 @@ atombios_set_crtc_dtd_timing(struct drm_crtc *crtc,
+ 			     struct drm_display_mode *mode)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	SET_CRTC_USING_DTD_TIMING_PARAMETERS args;
+ 	int index = GetIndexIntoMasterTable(COMMAND, SetCRTC_UsingDTDTiming);
+@@ -350,7 +350,7 @@ static void atombios_crtc_set_timing(struct drm_crtc *crtc,
+ 				     struct drm_display_mode *mode)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	SET_CRTC_TIMING_PARAMETERS_PS_ALLOCATION args;
+ 	int index = GetIndexIntoMasterTable(COMMAND, SetCRTC_Timing);
+@@ -558,7 +558,7 @@ static u32 atombios_adjust_pll(struct drm_crtc *crtc,
+ 			       struct drm_display_mode *mode)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	struct drm_encoder *encoder = radeon_crtc->encoder;
+ 	struct radeon_encoder *radeon_encoder = to_radeon_encoder(encoder);
+@@ -826,7 +826,7 @@ static void atombios_crtc_program_pll(struct drm_crtc *crtc,
+ 				      bool ss_enabled,
+ 				      struct radeon_atom_ss *ss)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	u8 frev, crev;
+ 	int index = GetIndexIntoMasterTable(COMMAND, SetPixelClock);
+@@ -955,7 +955,7 @@ static void atombios_crtc_program_pll(struct drm_crtc *crtc,
+ static bool atombios_crtc_prepare_pll(struct drm_crtc *crtc, struct drm_display_mode *mode)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	struct radeon_encoder *radeon_encoder =
+ 		to_radeon_encoder(radeon_crtc->encoder);
+@@ -1053,7 +1053,7 @@ static bool atombios_crtc_prepare_pll(struct drm_crtc *crtc, struct drm_display_
+ static void atombios_crtc_set_pll(struct drm_crtc *crtc, struct drm_display_mode *mode)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	struct radeon_encoder *radeon_encoder =
+ 		to_radeon_encoder(radeon_crtc->encoder);
+@@ -1136,7 +1136,7 @@ static int dce4_crtc_do_set_base(struct drm_crtc *crtc,
+ 				 int x, int y, int atomic)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	struct drm_framebuffer *target_fb;
+ 	struct drm_gem_object *obj;
+@@ -1457,7 +1457,7 @@ static int avivo_crtc_do_set_base(struct drm_crtc *crtc,
+ 				  int x, int y, int atomic)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	struct drm_gem_object *obj;
+ 	struct radeon_bo *rbo;
+@@ -1663,7 +1663,7 @@ static int avivo_crtc_do_set_base(struct drm_crtc *crtc,
+ int atombios_crtc_set_base(struct drm_crtc *crtc, int x, int y,
+ 			   struct drm_framebuffer *old_fb)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 
+ 	if (ASIC_IS_DCE4(rdev))
+@@ -1678,7 +1678,7 @@ int atombios_crtc_set_base_atomic(struct drm_crtc *crtc,
+ 				  struct drm_framebuffer *fb,
+ 				  int x, int y, enum mode_set_atomic state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 
+ 	if (ASIC_IS_DCE4(rdev))
+@@ -1692,7 +1692,7 @@ int atombios_crtc_set_base_atomic(struct drm_crtc *crtc,
+ /* properly set additional regs when using atombios */
+ static void radeon_legacy_atom_fixup(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+ 	u32 disp_merge_cntl;
+@@ -1722,7 +1722,7 @@ static void radeon_legacy_atom_fixup(struct drm_crtc *crtc)
+  */
+ static u32 radeon_get_pll_use_mask(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_crtc *test_crtc;
+ 	struct radeon_crtc *test_radeon_crtc;
+ 	u32 pll_in_use = 0;
+@@ -1749,7 +1749,7 @@ static u32 radeon_get_pll_use_mask(struct drm_crtc *crtc)
+  */
+ static int radeon_get_shared_dp_ppll(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	struct drm_crtc *test_crtc;
+ 	struct radeon_crtc *test_radeon_crtc;
+@@ -1783,7 +1783,7 @@ static int radeon_get_shared_dp_ppll(struct drm_crtc *crtc)
+ static int radeon_get_shared_nondp_ppll(struct drm_crtc *crtc)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	struct drm_crtc *test_crtc;
+ 	struct radeon_crtc *test_radeon_crtc;
+@@ -1862,7 +1862,7 @@ static int radeon_get_shared_nondp_ppll(struct drm_crtc *crtc)
+ static int radeon_atom_pick_pll(struct drm_crtc *crtc)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	struct radeon_encoder *radeon_encoder =
+ 		to_radeon_encoder(radeon_crtc->encoder);
+@@ -2043,7 +2043,7 @@ int atombios_crtc_mode_set(struct drm_crtc *crtc,
+ 			   int x, int y, struct drm_framebuffer *old_fb)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	struct radeon_encoder *radeon_encoder =
+ 		to_radeon_encoder(radeon_crtc->encoder);
+@@ -2086,7 +2086,7 @@ static bool atombios_crtc_mode_fixup(struct drm_crtc *crtc,
+ 				     struct drm_display_mode *adjusted_mode)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_encoder *encoder;
+ 
+ 	/* assign the encoder to the radeon crtc to avoid repeated lookups later */
+@@ -2124,7 +2124,7 @@ static bool atombios_crtc_mode_fixup(struct drm_crtc *crtc,
+ 
+ static void atombios_crtc_prepare(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 
+ 	/* disable crtc pair power gating before programming */
+@@ -2144,7 +2144,7 @@ static void atombios_crtc_commit(struct drm_crtc *crtc)
+ static void atombios_crtc_disable(struct drm_crtc *crtc)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	struct radeon_atom_ss ss;
+ 	int i;
+diff --git a/drivers/gpu/drm/radeon/radeon_cursor.c b/drivers/gpu/drm/radeon/radeon_cursor.c
+index 3507805b34bc..aeac0f08ec9f 100644
+--- a/drivers/gpu/drm/radeon/radeon_cursor.c
++++ b/drivers/gpu/drm/radeon/radeon_cursor.c
+@@ -31,7 +31,7 @@
+ 
+ static void radeon_lock_cursor(struct drm_crtc *crtc, bool lock)
+ {
+-	struct radeon_device *rdev = crtc->dev->dev_private;
++	struct radeon_device *rdev = crtc->drm->dev_private;
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+ 	uint32_t cur_lock;
+ 
+@@ -62,7 +62,7 @@ static void radeon_lock_cursor(struct drm_crtc *crtc, bool lock)
+ static void radeon_hide_cursor(struct drm_crtc *crtc)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct radeon_device *rdev = crtc->dev->dev_private;
++	struct radeon_device *rdev = crtc->drm->dev_private;
+ 
+ 	if (ASIC_IS_DCE4(rdev)) {
+ 		WREG32_IDX(EVERGREEN_CUR_CONTROL + radeon_crtc->crtc_offset,
+@@ -90,7 +90,7 @@ static void radeon_hide_cursor(struct drm_crtc *crtc)
+ static void radeon_show_cursor(struct drm_crtc *crtc)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct radeon_device *rdev = crtc->dev->dev_private;
++	struct radeon_device *rdev = crtc->drm->dev_private;
+ 
+ 	if (radeon_crtc->cursor_out_of_bounds)
+ 		return;
+@@ -144,7 +144,7 @@ static void radeon_show_cursor(struct drm_crtc *crtc)
+ static int radeon_cursor_move_locked(struct drm_crtc *crtc, int x, int y)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct radeon_device *rdev = crtc->dev->dev_private;
++	struct radeon_device *rdev = crtc->drm->dev_private;
+ 	int xorigin = 0, yorigin = 0;
+ 	int w = radeon_crtc->cursor_width;
+ 
+@@ -182,7 +182,8 @@ static int radeon_cursor_move_locked(struct drm_crtc *crtc, int x, int y)
+ 		 * crtc's lock as long as write access to this flag _always_
+ 		 * grabs all locks.
+ 		 */
+-		list_for_each_entry(crtc_p, &crtc->dev->mode_config.crtc_list, head) {
++		list_for_each_entry(crtc_p, &crtc->drm->mode_config.crtc_list,
++				    head) {
+ 			if (crtc_p->enabled)
+ 				i++;
+ 		}
+@@ -282,7 +283,7 @@ int radeon_crtc_cursor_set2(struct drm_crtc *crtc,
+ 			    int32_t hot_y)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct radeon_device *rdev = crtc->dev->dev_private;
++	struct radeon_device *rdev = crtc->drm->dev_private;
+ 	struct drm_gem_object *obj;
+ 	struct radeon_bo *robj;
+ 	int ret;
+diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/radeon/radeon_display.c
+index 901e75ec70ff..6cf657c803b7 100644
+--- a/drivers/gpu/drm/radeon/radeon_display.c
++++ b/drivers/gpu/drm/radeon/radeon_display.c
+@@ -49,7 +49,7 @@
+ static void avivo_crtc_load_lut(struct drm_crtc *crtc)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	u16 *r, *g, *b;
+ 	int i;
+@@ -87,7 +87,7 @@ static void avivo_crtc_load_lut(struct drm_crtc *crtc)
+ static void dce4_crtc_load_lut(struct drm_crtc *crtc)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	u16 *r, *g, *b;
+ 	int i;
+@@ -121,7 +121,7 @@ static void dce4_crtc_load_lut(struct drm_crtc *crtc)
+ static void dce5_crtc_load_lut(struct drm_crtc *crtc)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	u16 *r, *g, *b;
+ 	int i;
+@@ -193,7 +193,7 @@ static void dce5_crtc_load_lut(struct drm_crtc *crtc)
+ static void legacy_crtc_load_lut(struct drm_crtc *crtc)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	u16 *r, *g, *b;
+ 	int i;
+@@ -220,7 +220,7 @@ static void legacy_crtc_load_lut(struct drm_crtc *crtc)
+ 
+ void radeon_crtc_load_lut(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 
+ 	if (!crtc->enabled)
+@@ -462,7 +462,7 @@ static void radeon_flip_work_func(struct work_struct *__work)
+ 		usleep_range(1000, 2000);
+ 
+ 	/* We borrow the event spin lock for protecting flip_status */
+-	spin_lock_irqsave(&crtc->dev->event_lock, flags);
++	spin_lock_irqsave(&crtc->drm->event_lock, flags);
+ 
+ 	/* set the proper interrupt */
+ 	radeon_irq_kms_pflip_irq_get(rdev, radeon_crtc->crtc_id);
+@@ -471,7 +471,7 @@ static void radeon_flip_work_func(struct work_struct *__work)
+ 	radeon_page_flip(rdev, radeon_crtc->crtc_id, work->base, work->async);
+ 
+ 	radeon_crtc->flip_status = RADEON_FLIP_SUBMITTED;
+-	spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++	spin_unlock_irqrestore(&crtc->drm->event_lock, flags);
+ 	up_read(&rdev->exclusive_lock);
+ }
+ 
+@@ -482,7 +482,7 @@ static int radeon_crtc_page_flip_target(struct drm_crtc *crtc,
+ 					uint32_t target,
+ 					struct drm_modeset_acquire_ctx *ctx)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+ 	struct drm_gem_object *obj;
+@@ -583,11 +583,11 @@ static int radeon_crtc_page_flip_target(struct drm_crtc *crtc,
+ 		crtc->funcs->get_vblank_counter(crtc);
+ 
+ 	/* We borrow the event spin lock for protecting flip_work */
+-	spin_lock_irqsave(&crtc->dev->event_lock, flags);
++	spin_lock_irqsave(&crtc->drm->event_lock, flags);
+ 
+ 	if (radeon_crtc->flip_status != RADEON_FLIP_NONE) {
+ 		DRM_DEBUG_DRIVER("flip queue: crtc already busy\n");
+-		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++		spin_unlock_irqrestore(&crtc->drm->event_lock, flags);
+ 		r = -EBUSY;
+ 		goto pflip_cleanup;
+ 	}
+@@ -597,7 +597,7 @@ static int radeon_crtc_page_flip_target(struct drm_crtc *crtc,
+ 	/* update crtc fb */
+ 	crtc->primary->fb = fb;
+ 
+-	spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++	spin_unlock_irqrestore(&crtc->drm->event_lock, flags);
+ 
+ 	queue_work(radeon_crtc->flip_queue, &work->flip_work);
+ 	return 0;
+@@ -630,7 +630,7 @@ radeon_crtc_set_config(struct drm_mode_set *set,
+ 	if (!set || !set->crtc)
+ 		return -EINVAL;
+ 
+-	dev = set->crtc->dev;
++	dev = set->crtc->drm;
+ 
+ 	ret = pm_runtime_get_sync(dev->dev);
+ 	if (ret < 0) {
+@@ -1681,7 +1681,7 @@ bool radeon_crtc_scaling_mode_fixup(struct drm_crtc *crtc,
+ 				const struct drm_display_mode *mode,
+ 				struct drm_display_mode *adjusted_mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	struct drm_encoder *encoder;
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+@@ -1985,7 +1985,7 @@ radeon_get_crtc_scanout_position(struct drm_crtc *crtc,
+ 				 ktime_t *stime, ktime_t *etime,
+ 				 const struct drm_display_mode *mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = crtc->index;
+ 
+ 	return radeon_get_crtc_scanoutpos(dev, pipe, 0, vpos, hpos,
+diff --git a/drivers/gpu/drm/radeon/radeon_kms.c b/drivers/gpu/drm/radeon/radeon_kms.c
+index e0214cf1b43b..c7220a6fce2c 100644
+--- a/drivers/gpu/drm/radeon/radeon_kms.c
++++ b/drivers/gpu/drm/radeon/radeon_kms.c
+@@ -760,7 +760,7 @@ void radeon_driver_postclose_kms(struct drm_device *dev,
+  */
+ u32 radeon_get_vblank_counter_kms(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = crtc->index;
+ 	int vpos, hpos, stat;
+ 	u32 count;
+@@ -830,7 +830,7 @@ u32 radeon_get_vblank_counter_kms(struct drm_crtc *crtc)
+  */
+ int radeon_enable_vblank_kms(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = crtc->index;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	unsigned long irqflags;
+@@ -857,7 +857,7 @@ int radeon_enable_vblank_kms(struct drm_crtc *crtc)
+  */
+ void radeon_disable_vblank_kms(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = crtc->index;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	unsigned long irqflags;
+diff --git a/drivers/gpu/drm/radeon/radeon_legacy_crtc.c b/drivers/gpu/drm/radeon/radeon_legacy_crtc.c
+index 825b351ff53c..bd699ef8156d 100644
+--- a/drivers/gpu/drm/radeon/radeon_legacy_crtc.c
++++ b/drivers/gpu/drm/radeon/radeon_legacy_crtc.c
+@@ -37,7 +37,7 @@
+ static void radeon_overscan_setup(struct drm_crtc *crtc,
+ 				  struct drm_display_mode *mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+ 
+@@ -49,7 +49,7 @@ static void radeon_overscan_setup(struct drm_crtc *crtc,
+ static void radeon_legacy_rmx_mode_set(struct drm_crtc *crtc,
+ 				       struct drm_display_mode *mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+ 	int xres = mode->hdisplay;
+@@ -297,7 +297,7 @@ static uint8_t radeon_compute_pll_gain(uint16_t ref_freq, uint16_t ref_div,
+ static void radeon_crtc_dpms(struct drm_crtc *crtc, int mode)
+ {
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	uint32_t crtc_ext_cntl = 0;
+ 	uint32_t mask;
+@@ -374,7 +374,7 @@ int radeon_crtc_do_set_base(struct drm_crtc *crtc,
+ 			 struct drm_framebuffer *fb,
+ 			 int x, int y, int atomic)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+ 	struct drm_framebuffer *target_fb;
+@@ -572,7 +572,7 @@ int radeon_crtc_do_set_base(struct drm_crtc *crtc,
+ 
+ static bool radeon_set_crtc_timing(struct drm_crtc *crtc, struct drm_display_mode *mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+ 	const struct drm_framebuffer *fb = crtc->primary->fb;
+@@ -732,7 +732,7 @@ static bool radeon_set_crtc_timing(struct drm_crtc *crtc, struct drm_display_mod
+ 
+ static void radeon_set_pll(struct drm_crtc *crtc, struct drm_display_mode *mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
+ 	struct drm_encoder *encoder;
+@@ -1060,7 +1060,7 @@ static int radeon_crtc_mode_set(struct drm_crtc *crtc,
+ 
+ static void radeon_crtc_prepare(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_crtc *crtci;
+ 
+ 	/*
+@@ -1073,7 +1073,7 @@ static void radeon_crtc_prepare(struct drm_crtc *crtc)
+ 
+ static void radeon_crtc_commit(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_crtc *crtci;
+ 
+ 	/*
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
+index 7e175dbfd892..99b279446c3c 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c
+@@ -436,7 +436,7 @@ static void rcar_du_crtc_update_planes(struct rcar_du_crtc *rcrtc)
+ void rcar_du_crtc_finish_page_flip(struct rcar_du_crtc *rcrtc)
+ {
+ 	struct drm_pending_vblank_event *event;
+-	struct drm_device *dev = rcrtc->crtc.dev;
++	struct drm_device *dev = rcrtc->crtc.drm;
+ 	unsigned long flags;
+ 
+ 	spin_lock_irqsave(&dev->event_lock, flags);
+@@ -457,7 +457,7 @@ void rcar_du_crtc_finish_page_flip(struct rcar_du_crtc *rcrtc)
+ 
+ static bool rcar_du_crtc_page_flip_pending(struct rcar_du_crtc *rcrtc)
+ {
+-	struct drm_device *dev = rcrtc->crtc.dev;
++	struct drm_device *dev = rcrtc->crtc.drm;
+ 	unsigned long flags;
+ 	bool pending;
+ 
+@@ -703,7 +703,7 @@ static int rcar_du_crtc_atomic_check(struct drm_crtc *crtc,
+ 	/* Store the routes from the CRTC output to the DU outputs. */
+ 	rstate->outputs = 0;
+ 
+-	drm_for_each_encoder_mask(encoder, crtc->dev,
++	drm_for_each_encoder_mask(encoder, crtc->drm,
+ 				  crtc_state->encoder_mask) {
+ 		struct rcar_du_encoder *renc;
+ 
+@@ -802,12 +802,12 @@ static void rcar_du_crtc_atomic_disable(struct drm_crtc *crtc,
+ 		rcar_mipi_dsi_pclk_disable(bridge);
+ 	}
+ 
+-	spin_lock_irq(&crtc->dev->event_lock);
++	spin_lock_irq(&crtc->drm->event_lock);
+ 	if (crtc->state->event) {
+ 		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+ 		crtc->state->event = NULL;
+ 	}
+-	spin_unlock_irq(&crtc->dev->event_lock);
++	spin_unlock_irq(&crtc->drm->event_lock);
+ }
+ 
+ static void rcar_du_crtc_atomic_begin(struct drm_crtc *crtc,
+@@ -843,7 +843,7 @@ static void rcar_du_crtc_atomic_flush(struct drm_crtc *crtc,
+ 				      struct drm_atomic_state *state)
+ {
+ 	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
+-	struct drm_device *dev = rcrtc->crtc.dev;
++	struct drm_device *dev = rcrtc->crtc.drm;
+ 	unsigned long flags;
+ 
+ 	rcar_du_crtc_update_planes(rcrtc);
+@@ -1116,7 +1116,7 @@ static int rcar_du_crtc_set_crc_source(struct drm_crtc *crtc,
+ 	/* Perform an atomic commit to set the CRC source. */
+ 	drm_modeset_acquire_init(&ctx, 0);
+ 
+-	state = drm_atomic_state_alloc(crtc->dev);
++	state = drm_atomic_state_alloc(crtc->drm);
+ 	if (!state) {
+ 		ret = -ENOMEM;
+ 		goto unlock;
+diff --git a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+index ff1bdb1a3e54..c8d8f86cd67c 100644
+--- a/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
++++ b/drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c
+@@ -64,7 +64,7 @@ static void shmob_drm_clk_off(struct shmob_drm_device *sdev)
+ static void shmob_drm_crtc_setup_geometry(struct shmob_drm_crtc *scrtc)
+ {
+ 	struct drm_crtc *crtc = &scrtc->crtc;
+-	struct shmob_drm_device *sdev = crtc->dev->dev_private;
++	struct shmob_drm_device *sdev = crtc->drm->dev_private;
+ 	const struct shmob_drm_interface_data *idata = &sdev->pdata->iface;
+ 	const struct drm_display_mode *mode = &crtc->mode;
+ 	u32 value;
+@@ -121,7 +121,7 @@ static void shmob_drm_crtc_setup_geometry(struct shmob_drm_crtc *scrtc)
+ 
+ static void shmob_drm_crtc_start_stop(struct shmob_drm_crtc *scrtc, bool start)
+ {
+-	struct shmob_drm_device *sdev = scrtc->crtc.dev->dev_private;
++	struct shmob_drm_device *sdev = scrtc->crtc.drm->dev_private;
+ 	u32 value;
+ 
+ 	value = lcdc_read(sdev, LDCNT2R);
+@@ -155,7 +155,7 @@ static void shmob_drm_crtc_start_stop(struct shmob_drm_crtc *scrtc, bool start)
+ static void shmob_drm_crtc_start(struct shmob_drm_crtc *scrtc)
+ {
+ 	struct drm_crtc *crtc = &scrtc->crtc;
+-	struct shmob_drm_device *sdev = crtc->dev->dev_private;
++	struct shmob_drm_device *sdev = crtc->drm->dev_private;
+ 	const struct shmob_drm_interface_data *idata = &sdev->pdata->iface;
+ 	const struct shmob_drm_format_info *format;
+ 	struct drm_device *dev = sdev->ddev;
+@@ -257,7 +257,7 @@ static void shmob_drm_crtc_start(struct shmob_drm_crtc *scrtc)
+ static void shmob_drm_crtc_stop(struct shmob_drm_crtc *scrtc)
+ {
+ 	struct drm_crtc *crtc = &scrtc->crtc;
+-	struct shmob_drm_device *sdev = crtc->dev->dev_private;
++	struct shmob_drm_device *sdev = crtc->drm->dev_private;
+ 
+ 	if (!scrtc->started)
+ 		return;
+@@ -312,7 +312,7 @@ static void shmob_drm_crtc_compute_base(struct shmob_drm_crtc *scrtc,
+ static void shmob_drm_crtc_update_base(struct shmob_drm_crtc *scrtc)
+ {
+ 	struct drm_crtc *crtc = &scrtc->crtc;
+-	struct shmob_drm_device *sdev = crtc->dev->dev_private;
++	struct shmob_drm_device *sdev = crtc->drm->dev_private;
+ 
+ 	shmob_drm_crtc_compute_base(scrtc, crtc->x, crtc->y);
+ 
+@@ -352,7 +352,7 @@ static int shmob_drm_crtc_mode_set(struct drm_crtc *crtc,
+ 				   struct drm_framebuffer *old_fb)
+ {
+ 	struct shmob_drm_crtc *scrtc = to_shmob_crtc(crtc);
+-	struct shmob_drm_device *sdev = crtc->dev->dev_private;
++	struct shmob_drm_device *sdev = crtc->drm->dev_private;
+ 	const struct shmob_drm_format_info *format;
+ 
+ 	format = shmob_drm_format_info(crtc->primary->fb->format->format);
+@@ -394,7 +394,7 @@ static const struct drm_crtc_helper_funcs crtc_helper_funcs = {
+ void shmob_drm_crtc_finish_page_flip(struct shmob_drm_crtc *scrtc)
+ {
+ 	struct drm_pending_vblank_event *event;
+-	struct drm_device *dev = scrtc->crtc.dev;
++	struct drm_device *dev = scrtc->crtc.drm;
+ 	unsigned long flags;
+ 
+ 	spin_lock_irqsave(&dev->event_lock, flags);
+@@ -414,7 +414,7 @@ static int shmob_drm_crtc_page_flip(struct drm_crtc *crtc,
+ 				    struct drm_modeset_acquire_ctx *ctx)
+ {
+ 	struct shmob_drm_crtc *scrtc = to_shmob_crtc(crtc);
+-	struct drm_device *dev = scrtc->crtc.dev;
++	struct drm_device *dev = scrtc->crtc.drm;
+ 	unsigned long flags;
+ 
+ 	spin_lock_irqsave(&dev->event_lock, flags);
+@@ -457,7 +457,7 @@ static void shmob_drm_crtc_enable_vblank(struct shmob_drm_device *sdev,
+ 
+ static int shmob_drm_enable_vblank(struct drm_crtc *crtc)
+ {
+-	struct shmob_drm_device *sdev = crtc->dev->dev_private;
++	struct shmob_drm_device *sdev = crtc->drm->dev_private;
+ 
+ 	shmob_drm_crtc_enable_vblank(sdev, true);
+ 
+@@ -466,7 +466,7 @@ static int shmob_drm_enable_vblank(struct drm_crtc *crtc)
+ 
+ static void shmob_drm_disable_vblank(struct drm_crtc *crtc)
+ {
+-	struct shmob_drm_device *sdev = crtc->dev->dev_private;
++	struct shmob_drm_device *sdev = crtc->drm->dev_private;
+ 
+ 	shmob_drm_crtc_enable_vblank(sdev, false);
+ }
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+index a530ecc4d207..d43418b8ec1d 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+@@ -758,9 +758,9 @@ static void vop_crtc_atomic_disable(struct drm_crtc *crtc,
+ 
+ out:
+ 	if (crtc->state->event && !crtc->state->active) {
+-		spin_lock_irq(&crtc->dev->event_lock);
++		spin_lock_irq(&crtc->drm->event_lock);
+ 		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+-		spin_unlock_irq(&crtc->dev->event_lock);
++		spin_unlock_irq(&crtc->drm->event_lock);
+ 
+ 		crtc->state->event = NULL;
+ 	}
+@@ -1567,7 +1567,7 @@ static void vop_crtc_atomic_flush(struct drm_crtc *crtc,
+ 	 */
+ 	vop_wait_for_irq_handler(vop);
+ 
+-	spin_lock_irq(&crtc->dev->event_lock);
++	spin_lock_irq(&crtc->drm->event_lock);
+ 	if (crtc->state->event) {
+ 		WARN_ON(drm_crtc_vblank_get(crtc) != 0);
+ 		WARN_ON(vop->event);
+@@ -1575,7 +1575,7 @@ static void vop_crtc_atomic_flush(struct drm_crtc *crtc,
+ 		vop->event = crtc->state->event;
+ 		crtc->state->event = NULL;
+ 	}
+-	spin_unlock_irq(&crtc->dev->event_lock);
++	spin_unlock_irq(&crtc->drm->event_lock);
+ 
+ 	for_each_oldnew_plane_in_state(old_state, plane, old_plane_state,
+ 				       new_plane_state, i) {
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+index ca73b8ccc29f..ab9d53cd34b2 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -924,9 +924,9 @@ static void vop2_crtc_atomic_disable(struct drm_crtc *crtc,
+ 	vop2_unlock(vop2);
+ 
+ 	if (crtc->state->event && !crtc->state->active) {
+-		spin_lock_irq(&crtc->dev->event_lock);
++		spin_lock_irq(&crtc->drm->event_lock);
+ 		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+-		spin_unlock_irq(&crtc->dev->event_lock);
++		spin_unlock_irq(&crtc->drm->event_lock);
+ 
+ 		crtc->state->event = NULL;
+ 	}
+@@ -1564,7 +1564,8 @@ static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	if (mode->flags & DRM_MODE_FLAG_PVSYNC)
+ 		polflags |= BIT(VSYNC_POSITIVE);
+ 
+-	drm_for_each_encoder_mask(encoder, crtc->dev, crtc_state->encoder_mask) {
++	drm_for_each_encoder_mask(encoder, crtc->drm,
++				  crtc_state->encoder_mask) {
+ 		struct rockchip_encoder *rkencoder = to_rockchip_encoder(encoder);
+ 
+ 		rk3568_set_intf_mux(vp, rkencoder->crtc_endpoint_id, polflags);
+@@ -2060,7 +2061,7 @@ static void vop2_crtc_atomic_flush(struct drm_crtc *crtc,
+ 
+ 	vop2_cfg_done(vp);
+ 
+-	spin_lock_irq(&crtc->dev->event_lock);
++	spin_lock_irq(&crtc->drm->event_lock);
+ 
+ 	if (crtc->state->event) {
+ 		WARN_ON(drm_crtc_vblank_get(crtc));
+@@ -2068,7 +2069,7 @@ static void vop2_crtc_atomic_flush(struct drm_crtc *crtc,
+ 		crtc->state->event = NULL;
+ 	}
+ 
+-	spin_unlock_irq(&crtc->dev->event_lock);
++	spin_unlock_irq(&crtc->drm->event_lock);
+ }
+ 
+ static const struct drm_crtc_helper_funcs vop2_crtc_helper_funcs = {
+@@ -2162,7 +2163,7 @@ static irqreturn_t vop2_isr(int irq, void *data)
+ 
+ 		if (irqs & VP_INT_FS_FIELD) {
+ 			drm_crtc_handle_vblank(crtc);
+-			spin_lock(&crtc->dev->event_lock);
++			spin_lock(&crtc->drm->event_lock);
+ 			if (vp->event) {
+ 				u32 val = vop2_readl(vop2, RK3568_REG_CFG_DONE);
+ 
+@@ -2172,7 +2173,7 @@ static irqreturn_t vop2_isr(int irq, void *data)
+ 					drm_crtc_vblank_put(crtc);
+ 				}
+ 			}
+-			spin_unlock(&crtc->dev->event_lock);
++			spin_unlock(&crtc->drm->event_lock);
+ 
+ 			ret = IRQ_HANDLED;
+ 		}
+diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
+index e34750187b58..e435d5ef5736 100644
+--- a/drivers/gpu/drm/solomon/ssd130x.c
++++ b/drivers/gpu/drm/solomon/ssd130x.c
+@@ -672,7 +672,7 @@ static const struct drm_plane_funcs ssd130x_primary_plane_funcs = {
+ static enum drm_mode_status ssd130x_crtc_helper_mode_valid(struct drm_crtc *crtc,
+ 							   const struct drm_display_mode *mode)
+ {
+-	struct ssd130x_device *ssd130x = drm_to_ssd130x(crtc->dev);
++	struct ssd130x_device *ssd130x = drm_to_ssd130x(crtc->drm);
+ 
+ 	if (mode->hdisplay != ssd130x->mode.hdisplay &&
+ 	    mode->vdisplay != ssd130x->mode.vdisplay)
+diff --git a/drivers/gpu/drm/sprd/sprd_dpu.c b/drivers/gpu/drm/sprd/sprd_dpu.c
+index b96fc6837b0d..7610d3b2138d 100644
+--- a/drivers/gpu/drm/sprd/sprd_dpu.c
++++ b/drivers/gpu/drm/sprd/sprd_dpu.c
+@@ -624,7 +624,7 @@ static void sprd_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ 
+ 	drm_display_mode_to_videomode(mode, &dpu->ctx.vm);
+ 
+-	drm_for_each_encoder_mask(encoder, crtc->dev,
++	drm_for_each_encoder_mask(encoder, crtc->drm,
+ 				  crtc->state->encoder_mask) {
+ 		dsi = encoder_to_dsi(encoder);
+ 
+@@ -651,7 +651,7 @@ static void sprd_crtc_atomic_disable(struct drm_crtc *crtc,
+ 				     struct drm_atomic_state *state)
+ {
+ 	struct sprd_dpu *dpu = to_sprd_crtc(crtc);
+-	struct drm_device *drm = dpu->base.dev;
++	struct drm_device *drm = dpu->base.drm;
+ 
+ 	drm_crtc_vblank_off(&dpu->base);
+ 
+@@ -670,7 +670,7 @@ static void sprd_crtc_atomic_flush(struct drm_crtc *crtc,
+ 
+ {
+ 	struct sprd_dpu *dpu = to_sprd_crtc(crtc);
+-	struct drm_device *drm = dpu->base.dev;
++	struct drm_device *drm = dpu->base.drm;
+ 
+ 	sprd_dpu_flip(dpu);
+ 
+diff --git a/drivers/gpu/drm/sti/sti_crtc.c b/drivers/gpu/drm/sti/sti_crtc.c
+index 3c7154f2d5f3..fc26584fe29e 100644
+--- a/drivers/gpu/drm/sti/sti_crtc.c
++++ b/drivers/gpu/drm/sti/sti_crtc.c
+@@ -134,7 +134,7 @@ sti_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ static void sti_crtc_atomic_flush(struct drm_crtc *crtc,
+ 				  struct drm_atomic_state *state)
+ {
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm;
+ 	struct sti_mixer *mixer = to_sti_mixer(crtc);
+ 	struct sti_compositor *compo = dev_get_drvdata(mixer->dev);
+ 	struct drm_plane *p;
+@@ -209,12 +209,12 @@ static void sti_crtc_atomic_flush(struct drm_crtc *crtc,
+ 	if (event) {
+ 		crtc->state->event = NULL;
+ 
+-		spin_lock_irqsave(&crtc->dev->event_lock, flags);
++		spin_lock_irqsave(&crtc->drm->event_lock, flags);
+ 		if (drm_crtc_vblank_get(crtc) == 0)
+ 			drm_crtc_arm_vblank_event(crtc, event);
+ 		else
+ 			drm_crtc_send_vblank_event(crtc, event);
+-		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++		spin_unlock_irqrestore(&crtc->drm->event_lock, flags);
+ 	}
+ }
+ 
+@@ -264,7 +264,7 @@ int sti_crtc_vblank_cb(struct notifier_block *nb,
+ 
+ 		/* Disable mixer only if all overlay planes (GDP and VDP)
+ 		 * are disabled */
+-		list_for_each_entry(p, &crtc->dev->mode_config.plane_list,
++		list_for_each_entry(p, &crtc->drm->mode_config.plane_list,
+ 				    head) {
+ 			struct sti_plane *plane = to_sti_plane(p);
+ 
+@@ -280,7 +280,7 @@ int sti_crtc_vblank_cb(struct notifier_block *nb,
+ 
+ static int sti_crtc_enable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = crtc->index;
+ 	struct sti_private *dev_priv = dev->dev_private;
+ 	struct sti_compositor *compo = dev_priv->compo;
+@@ -299,7 +299,7 @@ static int sti_crtc_enable_vblank(struct drm_crtc *crtc)
+ 
+ static void sti_crtc_disable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_device *drm_dev = crtc->dev;
++	struct drm_device *drm_dev = crtc->drm;
+ 	unsigned int pipe = crtc->index;
+ 	struct sti_private *priv = drm_dev->dev_private;
+ 	struct sti_compositor *compo = priv->compo;
+@@ -318,7 +318,7 @@ static int sti_crtc_late_register(struct drm_crtc *crtc)
+ 	struct sti_compositor *compo = dev_get_drvdata(mixer->dev);
+ 
+ 	if (drm_crtc_index(crtc) == 0)
+-		sti_compositor_debugfs_init(compo, crtc->dev->primary);
++		sti_compositor_debugfs_init(compo, crtc->drm->primary);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+index b8be4c1db423..b27b73975bc1 100644
+--- a/drivers/gpu/drm/stm/ltdc.c
++++ b/drivers/gpu/drm/stm/ltdc.c
+@@ -484,7 +484,7 @@ static const u32 ltdc_ycbcr2rgb_coeffs[DRM_COLOR_ENCODING_MAX][DRM_COLOR_RANGE_M
+ 
+ static inline struct ltdc_device *crtc_to_ltdc(struct drm_crtc *crtc)
+ {
+-	return (struct ltdc_device *)crtc->dev->dev_private;
++	return (struct ltdc_device *) crtc->drm->dev_private;
+ }
+ 
+ static inline struct ltdc_device *plane_to_ltdc(struct drm_plane *plane)
+@@ -775,7 +775,7 @@ static void ltdc_crtc_atomic_enable(struct drm_crtc *crtc,
+ 				    struct drm_atomic_state *state)
+ {
+ 	struct ltdc_device *ldev = crtc_to_ltdc(crtc);
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm;
+ 
+ 	DRM_DEBUG_DRIVER("\n");
+ 
+@@ -798,7 +798,7 @@ static void ltdc_crtc_atomic_disable(struct drm_crtc *crtc,
+ 				     struct drm_atomic_state *state)
+ {
+ 	struct ltdc_device *ldev = crtc_to_ltdc(crtc);
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm;
+ 	int layer_index = 0;
+ 
+ 	DRM_DEBUG_DRIVER("\n");
+@@ -891,7 +891,7 @@ static bool ltdc_crtc_mode_fixup(struct drm_crtc *crtc,
+ static void ltdc_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ {
+ 	struct ltdc_device *ldev = crtc_to_ltdc(crtc);
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm;
+ 	struct drm_connector_list_iter iter;
+ 	struct drm_connector *connector = NULL;
+ 	struct drm_encoder *encoder = NULL, *en_iter;
+@@ -1034,7 +1034,7 @@ static void ltdc_crtc_atomic_flush(struct drm_crtc *crtc,
+ 				   struct drm_atomic_state *state)
+ {
+ 	struct ltdc_device *ldev = crtc_to_ltdc(crtc);
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm;
+ 	struct drm_pending_vblank_event *event = crtc->state->event;
+ 
+ 	DRM_DEBUG_ATOMIC("\n");
+@@ -1063,7 +1063,7 @@ static bool ltdc_crtc_get_scanout_position(struct drm_crtc *crtc,
+ 					   ktime_t *stime, ktime_t *etime,
+ 					   const struct drm_display_mode *mode)
+ {
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm;
+ 	struct ltdc_device *ldev = ddev->dev_private;
+ 	int line, vactive_start, vactive_end, vtotal;
+ 
+diff --git a/drivers/gpu/drm/sun4i/sun4i_crtc.c b/drivers/gpu/drm/sun4i/sun4i_crtc.c
+index c06d7cd45388..ec86a3221035 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_crtc.c
++++ b/drivers/gpu/drm/sun4i/sun4i_crtc.c
+@@ -38,7 +38,7 @@ static struct drm_encoder *sun4i_crtc_get_encoder(struct drm_crtc *crtc)
+ {
+ 	struct drm_encoder *encoder;
+ 
+-	drm_for_each_encoder(encoder, crtc->dev)
++	drm_for_each_encoder(encoder, crtc->drm)
+ 		if (encoder->crtc == crtc)
+ 			return encoder;
+ 
+@@ -66,7 +66,7 @@ static void sun4i_crtc_atomic_begin(struct drm_crtc *crtc,
+ 	struct drm_crtc_state *old_state = drm_atomic_get_old_crtc_state(state,
+ 									 crtc);
+ 	struct sun4i_crtc *scrtc = drm_crtc_to_sun4i_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct sunxi_engine *engine = scrtc->engine;
+ 	unsigned long flags;
+ 
+@@ -96,12 +96,12 @@ static void sun4i_crtc_atomic_flush(struct drm_crtc *crtc,
+ 	if (event) {
+ 		crtc->state->event = NULL;
+ 
+-		spin_lock_irq(&crtc->dev->event_lock);
++		spin_lock_irq(&crtc->drm->event_lock);
+ 		if (drm_crtc_vblank_get(crtc) == 0)
+ 			drm_crtc_arm_vblank_event(crtc, event);
+ 		else
+ 			drm_crtc_send_vblank_event(crtc, event);
+-		spin_unlock_irq(&crtc->dev->event_lock);
++		spin_unlock_irq(&crtc->drm->event_lock);
+ 	}
+ }
+ 
+@@ -118,9 +118,9 @@ static void sun4i_crtc_atomic_disable(struct drm_crtc *crtc,
+ 	sun4i_tcon_set_status(scrtc->tcon, encoder, false);
+ 
+ 	if (crtc->state->event && !crtc->state->active) {
+-		spin_lock_irq(&crtc->dev->event_lock);
++		spin_lock_irq(&crtc->drm->event_lock);
+ 		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+-		spin_unlock_irq(&crtc->dev->event_lock);
++		spin_unlock_irq(&crtc->drm->event_lock);
+ 
+ 		crtc->state->event = NULL;
+ 	}
+diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+index 6e78416e64b0..133175353fba 100644
+--- a/drivers/gpu/drm/tegra/dc.c
++++ b/drivers/gpu/drm/tegra/dc.c
+@@ -1717,7 +1717,7 @@ static struct drm_info_list debugfs_files[] = {
+ static int tegra_dc_late_register(struct drm_crtc *crtc)
+ {
+ 	unsigned int i, count = ARRAY_SIZE(debugfs_files);
+-	struct drm_minor *minor = crtc->dev->primary;
++	struct drm_minor *minor = crtc->drm->primary;
+ 	struct dentry *root;
+ 	struct tegra_dc *dc = to_tegra_dc(crtc);
+ 
+@@ -1743,7 +1743,7 @@ static int tegra_dc_late_register(struct drm_crtc *crtc)
+ static void tegra_dc_early_unregister(struct drm_crtc *crtc)
+ {
+ 	unsigned int count = ARRAY_SIZE(debugfs_files);
+-	struct drm_minor *minor = crtc->dev->primary;
++	struct drm_minor *minor = crtc->drm->primary;
+ 	struct tegra_dc *dc = to_tegra_dc(crtc);
+ 
+ 	drm_debugfs_remove_files(dc->debugfs_files, count, minor);
+@@ -2119,14 +2119,14 @@ static void tegra_crtc_atomic_disable(struct drm_crtc *crtc,
+ 	tegra_dc_stats_reset(&dc->stats);
+ 	drm_crtc_vblank_off(crtc);
+ 
+-	spin_lock_irq(&crtc->dev->event_lock);
++	spin_lock_irq(&crtc->drm->event_lock);
+ 
+ 	if (crtc->state->event) {
+ 		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+ 		crtc->state->event = NULL;
+ 	}
+ 
+-	spin_unlock_irq(&crtc->dev->event_lock);
++	spin_unlock_irq(&crtc->drm->event_lock);
+ 
+ 	err = host1x_client_suspend(&dc->client);
+ 	if (err < 0)
+@@ -2279,14 +2279,14 @@ static void tegra_crtc_atomic_begin(struct drm_crtc *crtc,
+ 	tegra_crtc_update_memory_bandwidth(crtc, state, true);
+ 
+ 	if (crtc->state->event) {
+-		spin_lock_irqsave(&crtc->dev->event_lock, flags);
++		spin_lock_irqsave(&crtc->drm->event_lock, flags);
+ 
+ 		if (drm_crtc_vblank_get(crtc) != 0)
+ 			drm_crtc_send_vblank_event(crtc, crtc->state->event);
+ 		else
+ 			drm_crtc_arm_vblank_event(crtc, crtc->state->event);
+ 
+-		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
++		spin_unlock_irqrestore(&crtc->drm->event_lock, flags);
+ 
+ 		crtc->state->event = NULL;
+ 	}
+diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
+index 5e5e466f35d1..bd44d78783c4 100644
+--- a/drivers/gpu/drm/tidss/tidss_crtc.c
++++ b/drivers/gpu/drm/tidss/tidss_crtc.c
+@@ -20,7 +20,7 @@
+ 
+ static void tidss_crtc_finish_page_flip(struct tidss_crtc *tcrtc)
+ {
+-	struct drm_device *ddev = tcrtc->crtc.dev;
++	struct drm_device *ddev = tcrtc->crtc.drm;
+ 	struct tidss_device *tidss = to_tidss(ddev);
+ 	struct drm_pending_vblank_event *event;
+ 	unsigned long flags;
+@@ -75,7 +75,7 @@ void tidss_crtc_error_irq(struct drm_crtc *crtc, u64 irqstatus)
+ {
+ 	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
+ 
+-	dev_err_ratelimited(crtc->dev->dev, "CRTC%u SYNC LOST: (irq %llx)\n",
++	dev_err_ratelimited(crtc->drm->dev, "CRTC%u SYNC LOST: (irq %llx)\n",
+ 			    tcrtc->hw_videoport, irqstatus);
+ }
+ 
+@@ -86,7 +86,7 @@ static int tidss_crtc_atomic_check(struct drm_crtc *crtc,
+ {
+ 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
+ 									  crtc);
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm;
+ 	struct tidss_device *tidss = to_tidss(ddev);
+ 	struct dispc_device *dispc = tidss->dispc;
+ 	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
+@@ -165,7 +165,7 @@ static void tidss_crtc_atomic_flush(struct drm_crtc *crtc,
+ 	struct drm_crtc_state *old_crtc_state = drm_atomic_get_old_crtc_state(state,
+ 									      crtc);
+ 	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm;
+ 	struct tidss_device *tidss = to_tidss(ddev);
+ 	unsigned long flags;
+ 
+@@ -218,7 +218,7 @@ static void tidss_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	struct drm_crtc_state *old_state = drm_atomic_get_old_crtc_state(state,
+ 									 crtc);
+ 	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm;
+ 	struct tidss_device *tidss = to_tidss(ddev);
+ 	const struct drm_display_mode *mode = &crtc->state->adjusted_mode;
+ 	unsigned long flags;
+@@ -261,7 +261,7 @@ static void tidss_crtc_atomic_disable(struct drm_crtc *crtc,
+ 				      struct drm_atomic_state *state)
+ {
+ 	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm;
+ 	struct tidss_device *tidss = to_tidss(ddev);
+ 	unsigned long flags;
+ 
+@@ -297,7 +297,7 @@ enum drm_mode_status tidss_crtc_mode_valid(struct drm_crtc *crtc,
+ 					   const struct drm_display_mode *mode)
+ {
+ 	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm;
+ 	struct tidss_device *tidss = to_tidss(ddev);
+ 
+ 	return dispc_vp_mode_valid(tidss->dispc, tcrtc->hw_videoport, mode);
+@@ -316,7 +316,7 @@ static const struct drm_crtc_helper_funcs tidss_crtc_helper_funcs = {
+ 
+ static int tidss_crtc_enable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm;
+ 	struct tidss_device *tidss = to_tidss(ddev);
+ 
+ 	dev_dbg(ddev->dev, "%s\n", __func__);
+@@ -330,7 +330,7 @@ static int tidss_crtc_enable_vblank(struct drm_crtc *crtc)
+ 
+ static void tidss_crtc_disable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm;
+ 	struct tidss_device *tidss = to_tidss(ddev);
+ 
+ 	dev_dbg(ddev->dev, "%s\n", __func__);
+diff --git a/drivers/gpu/drm/tidss/tidss_irq.c b/drivers/gpu/drm/tidss/tidss_irq.c
+index 0c681c7600bc..372f597f2b46 100644
+--- a/drivers/gpu/drm/tidss/tidss_irq.c
++++ b/drivers/gpu/drm/tidss/tidss_irq.c
+@@ -25,7 +25,7 @@ static void tidss_irq_update(struct tidss_device *tidss)
+ 
+ void tidss_irq_enable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm;
+ 	struct tidss_device *tidss = to_tidss(ddev);
+ 	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
+ 	u32 hw_videoport = tcrtc->hw_videoport;
+@@ -40,7 +40,7 @@ void tidss_irq_enable_vblank(struct drm_crtc *crtc)
+ 
+ void tidss_irq_disable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_device *ddev = crtc->dev;
++	struct drm_device *ddev = crtc->drm;
+ 	struct tidss_device *tidss = to_tidss(ddev);
+ 	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
+ 	u32 hw_videoport = tcrtc->hw_videoport;
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+index b5f60b2b2d0e..429fb75836b2 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
++++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+@@ -62,7 +62,7 @@ struct tilcdc_crtc {
+ 
+ static void set_scanout(struct drm_crtc *crtc, struct drm_framebuffer *fb)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct tilcdc_drm_private *priv = dev->dev_private;
+ 	struct drm_gem_dma_object *gem;
+ 	dma_addr_t start, end;
+@@ -97,7 +97,7 @@ static void set_scanout(struct drm_crtc *crtc, struct drm_framebuffer *fb)
+ static void tilcdc_crtc_load_palette(struct drm_crtc *crtc)
+ {
+ 	struct tilcdc_crtc *tilcdc_crtc = to_tilcdc_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct tilcdc_drm_private *priv = dev->dev_private;
+ 	int ret;
+ 
+@@ -176,7 +176,7 @@ static void tilcdc_crtc_disable_irqs(struct drm_device *dev)
+ 
+ static void reset(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct tilcdc_drm_private *priv = dev->dev_private;
+ 
+ 	if (priv->rev != 2)
+@@ -201,7 +201,7 @@ static unsigned int tilcdc_pclk_diff(unsigned long rate,
+ 
+ static void tilcdc_crtc_set_clk(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct tilcdc_drm_private *priv = dev->dev_private;
+ 	struct tilcdc_crtc *tilcdc_crtc = to_tilcdc_crtc(crtc);
+ 	unsigned long clk_rate, real_pclk_rate, pclk_rate;
+@@ -273,7 +273,7 @@ static uint tilcdc_mode_hvtotal(const struct drm_display_mode *mode)
+ static void tilcdc_crtc_set_mode(struct drm_crtc *crtc)
+ {
+ 	struct tilcdc_crtc *tilcdc_crtc = to_tilcdc_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct tilcdc_drm_private *priv = dev->dev_private;
+ 	const struct tilcdc_panel_info *info = tilcdc_crtc->info;
+ 	uint32_t reg, hbp, hfp, hsw, vbp, vfp, vsw;
+@@ -442,7 +442,7 @@ static void tilcdc_crtc_set_mode(struct drm_crtc *crtc)
+ 
+ static void tilcdc_crtc_enable(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct tilcdc_crtc *tilcdc_crtc = to_tilcdc_crtc(crtc);
+ 	unsigned long flags;
+ 
+@@ -491,7 +491,7 @@ static void tilcdc_crtc_atomic_enable(struct drm_crtc *crtc,
+ static void tilcdc_crtc_off(struct drm_crtc *crtc, bool shutdown)
+ {
+ 	struct tilcdc_crtc *tilcdc_crtc = to_tilcdc_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	int ret;
+ 
+ 	mutex_lock(&tilcdc_crtc->enable_lock);
+@@ -517,14 +517,14 @@ static void tilcdc_crtc_off(struct drm_crtc *crtc, bool shutdown)
+ 
+ 	drm_crtc_vblank_off(crtc);
+ 
+-	spin_lock_irq(&crtc->dev->event_lock);
++	spin_lock_irq(&crtc->drm->event_lock);
+ 
+ 	if (crtc->state->event) {
+ 		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+ 		crtc->state->event = NULL;
+ 	}
+ 
+-	spin_unlock_irq(&crtc->dev->event_lock);
++	spin_unlock_irq(&crtc->drm->event_lock);
+ 
+ 	tilcdc_crtc_disable_irqs(dev);
+ 
+@@ -551,10 +551,10 @@ static void tilcdc_crtc_atomic_flush(struct drm_crtc *crtc,
+ 	if (!crtc->state->event)
+ 		return;
+ 
+-	spin_lock_irq(&crtc->dev->event_lock);
++	spin_lock_irq(&crtc->drm->event_lock);
+ 	drm_crtc_send_vblank_event(crtc, crtc->state->event);
+ 	crtc->state->event = NULL;
+-	spin_unlock_irq(&crtc->dev->event_lock);
++	spin_unlock_irq(&crtc->drm->event_lock);
+ }
+ 
+ void tilcdc_crtc_shutdown(struct drm_crtc *crtc)
+@@ -573,7 +573,7 @@ static void tilcdc_crtc_recover_work(struct work_struct *work)
+ 		container_of(work, struct tilcdc_crtc, recover_work);
+ 	struct drm_crtc *crtc = &tilcdc_crtc->base;
+ 
+-	dev_info(crtc->dev->dev, "%s: Reset CRTC", __func__);
++	dev_info(crtc->drm->dev, "%s: Reset CRTC", __func__);
+ 
+ 	drm_modeset_lock(&crtc->mutex, NULL);
+ 
+@@ -588,7 +588,7 @@ static void tilcdc_crtc_recover_work(struct work_struct *work)
+ 
+ static void tilcdc_crtc_destroy(struct drm_crtc *crtc)
+ {
+-	struct tilcdc_drm_private *priv = crtc->dev->dev_private;
++	struct tilcdc_drm_private *priv = crtc->drm->dev_private;
+ 
+ 	tilcdc_crtc_shutdown(crtc);
+ 
+@@ -603,7 +603,7 @@ int tilcdc_crtc_update_fb(struct drm_crtc *crtc,
+ 		struct drm_pending_vblank_event *event)
+ {
+ 	struct tilcdc_crtc *tilcdc_crtc = to_tilcdc_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 
+ 	if (tilcdc_crtc->event) {
+ 		dev_err(dev->dev, "already pending page flip!\n");
+@@ -679,7 +679,7 @@ static int tilcdc_crtc_atomic_check(struct drm_crtc *crtc,
+ 	if (state->planes[0].ptr != crtc->primary ||
+ 	    state->planes[0].state == NULL ||
+ 	    state->planes[0].state->crtc != crtc) {
+-		dev_dbg(crtc->dev->dev, "CRTC primary plane must be present");
++		dev_dbg(crtc->drm->dev, "CRTC primary plane must be present");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -689,7 +689,7 @@ static int tilcdc_crtc_atomic_check(struct drm_crtc *crtc,
+ static int tilcdc_crtc_enable_vblank(struct drm_crtc *crtc)
+ {
+ 	struct tilcdc_crtc *tilcdc_crtc = to_tilcdc_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct tilcdc_drm_private *priv = dev->dev_private;
+ 	unsigned long flags;
+ 
+@@ -712,7 +712,7 @@ static int tilcdc_crtc_enable_vblank(struct drm_crtc *crtc)
+ static void tilcdc_crtc_disable_vblank(struct drm_crtc *crtc)
+ {
+ 	struct tilcdc_crtc *tilcdc_crtc = to_tilcdc_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct tilcdc_drm_private *priv = dev->dev_private;
+ 	unsigned long flags;
+ 
+@@ -731,7 +731,7 @@ static void tilcdc_crtc_disable_vblank(struct drm_crtc *crtc)
+ static void tilcdc_crtc_reset(struct drm_crtc *crtc)
+ {
+ 	struct tilcdc_crtc *tilcdc_crtc = to_tilcdc_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	int ret;
+ 
+ 	drm_atomic_helper_crtc_reset(crtc);
+@@ -771,7 +771,7 @@ static enum drm_mode_status
+ tilcdc_crtc_mode_valid(struct drm_crtc *crtc,
+ 		       const struct drm_display_mode *mode)
+ {
+-	struct tilcdc_drm_private *priv = crtc->dev->dev_private;
++	struct tilcdc_drm_private *priv = crtc->drm->dev_private;
+ 	unsigned int bandwidth;
+ 	uint32_t hbp, hfp, hsw, vbp, vfp, vsw;
+ 
+@@ -883,7 +883,7 @@ void tilcdc_crtc_set_simulate_vesa_sync(struct drm_crtc *crtc,
+ 
+ void tilcdc_crtc_update_clk(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct tilcdc_drm_private *priv = dev->dev_private;
+ 	struct tilcdc_crtc *tilcdc_crtc = to_tilcdc_crtc(crtc);
+ 
+@@ -907,7 +907,7 @@ void tilcdc_crtc_update_clk(struct drm_crtc *crtc)
+ irqreturn_t tilcdc_crtc_irq(struct drm_crtc *crtc)
+ {
+ 	struct tilcdc_crtc *tilcdc_crtc = to_tilcdc_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct tilcdc_drm_private *priv = dev->dev_private;
+ 	uint32_t stat, reg;
+ 
+diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
+index d254679a136e..56bcd307c0c9 100644
+--- a/drivers/gpu/drm/tiny/bochs.c
++++ b/drivers/gpu/drm/tiny/bochs.c
+@@ -440,7 +440,7 @@ static void bochs_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 			      struct drm_crtc_state *crtc_state,
+ 			      struct drm_plane_state *plane_state)
+ {
+-	struct bochs_device *bochs = pipe->crtc.dev->dev_private;
++	struct bochs_device *bochs = pipe->crtc.drm->dev_private;
+ 
+ 	bochs_hw_setmode(bochs, &crtc_state->mode);
+ 	bochs_plane_update(bochs, plane_state);
+@@ -448,7 +448,7 @@ static void bochs_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 
+ static void bochs_pipe_disable(struct drm_simple_display_pipe *pipe)
+ {
+-	struct bochs_device *bochs = pipe->crtc.dev->dev_private;
++	struct bochs_device *bochs = pipe->crtc.drm->dev_private;
+ 
+ 	bochs_hw_blank(bochs, true);
+ }
+@@ -456,7 +456,7 @@ static void bochs_pipe_disable(struct drm_simple_display_pipe *pipe)
+ static void bochs_pipe_update(struct drm_simple_display_pipe *pipe,
+ 			      struct drm_plane_state *old_state)
+ {
+-	struct bochs_device *bochs = pipe->crtc.dev->dev_private;
++	struct bochs_device *bochs = pipe->crtc.drm->dev_private;
+ 
+ 	bochs_plane_update(bochs, pipe->plane.state);
+ }
+diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/cirrus.c
+index 3d3d6c8fd92e..2f6763999360 100644
+--- a/drivers/gpu/drm/tiny/cirrus.c
++++ b/drivers/gpu/drm/tiny/cirrus.c
+@@ -499,7 +499,7 @@ static int cirrus_crtc_helper_atomic_check(struct drm_crtc *crtc, struct drm_ato
+ static void cirrus_crtc_helper_atomic_enable(struct drm_crtc *crtc,
+ 					     struct drm_atomic_state *state)
+ {
+-	struct cirrus_device *cirrus = to_cirrus(crtc->dev);
++	struct cirrus_device *cirrus = to_cirrus(crtc->drm);
+ 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+ 	int idx;
+ 
+diff --git a/drivers/gpu/drm/tiny/gm12u320.c b/drivers/gpu/drm/tiny/gm12u320.c
+index c5bb683e440c..e6279a9916ef 100644
+--- a/drivers/gpu/drm/tiny/gm12u320.c
++++ b/drivers/gpu/drm/tiny/gm12u320.c
+@@ -554,7 +554,7 @@ static void gm12u320_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 				 struct drm_plane_state *plane_state)
+ {
+ 	struct drm_rect rect = { 0, 0, GM12U320_USER_WIDTH, GM12U320_HEIGHT };
+-	struct gm12u320_device *gm12u320 = to_gm12u320(pipe->crtc.dev);
++	struct gm12u320_device *gm12u320 = to_gm12u320(pipe->crtc.drm);
+ 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
+ 
+ 	gm12u320->fb_update.draw_status_timeout = FIRST_FRAME_TIMEOUT;
+@@ -563,7 +563,7 @@ static void gm12u320_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 
+ static void gm12u320_pipe_disable(struct drm_simple_display_pipe *pipe)
+ {
+-	struct gm12u320_device *gm12u320 = to_gm12u320(pipe->crtc.dev);
++	struct gm12u320_device *gm12u320 = to_gm12u320(pipe->crtc.drm);
+ 
+ 	gm12u320_stop_fb_update(gm12u320);
+ }
+diff --git a/drivers/gpu/drm/tiny/hx8357d.c b/drivers/gpu/drm/tiny/hx8357d.c
+index cdc4486e059b..0c2875df66c5 100644
+--- a/drivers/gpu/drm/tiny/hx8357d.c
++++ b/drivers/gpu/drm/tiny/hx8357d.c
+@@ -48,12 +48,12 @@ static void yx240qv29_enable(struct drm_simple_display_pipe *pipe,
+ 			     struct drm_crtc_state *crtc_state,
+ 			     struct drm_plane_state *plane_state)
+ {
+-	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
++	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.drm);
+ 	struct mipi_dbi *dbi = &dbidev->dbi;
+ 	u8 addr_mode;
+ 	int ret, idx;
+ 
+-	if (!drm_dev_enter(pipe->crtc.dev, &idx))
++	if (!drm_dev_enter(pipe->crtc.drm, &idx))
+ 		return;
+ 
+ 	DRM_DEBUG_KMS("\n");
+diff --git a/drivers/gpu/drm/tiny/ili9163.c b/drivers/gpu/drm/tiny/ili9163.c
+index bc4384d410fc..e5e4d5f62839 100644
+--- a/drivers/gpu/drm/tiny/ili9163.c
++++ b/drivers/gpu/drm/tiny/ili9163.c
+@@ -37,12 +37,12 @@ static void yx240qv29_enable(struct drm_simple_display_pipe *pipe,
+ 			     struct drm_crtc_state *crtc_state,
+ 			     struct drm_plane_state *plane_state)
+ {
+-	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
++	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.drm);
+ 	struct mipi_dbi *dbi = &dbidev->dbi;
+ 	u8 addr_mode;
+ 	int ret, idx;
+ 
+-	if (!drm_dev_enter(pipe->crtc.dev, &idx))
++	if (!drm_dev_enter(pipe->crtc.drm, &idx))
+ 		return;
+ 
+ 	DRM_DEBUG_KMS("\n");
+diff --git a/drivers/gpu/drm/tiny/ili9225.c b/drivers/gpu/drm/tiny/ili9225.c
+index 077c6ff5a2e1..ec33dc530a17 100644
+--- a/drivers/gpu/drm/tiny/ili9225.c
++++ b/drivers/gpu/drm/tiny/ili9225.c
+@@ -180,10 +180,10 @@ static void ili9225_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 				struct drm_crtc_state *crtc_state,
+ 				struct drm_plane_state *plane_state)
+ {
+-	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
++	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.drm);
+ 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
+ 	struct drm_framebuffer *fb = plane_state->fb;
+-	struct device *dev = pipe->crtc.dev->dev;
++	struct device *dev = pipe->crtc.drm->dev;
+ 	struct mipi_dbi *dbi = &dbidev->dbi;
+ 	struct drm_rect rect = {
+ 		.x1 = 0,
+@@ -194,7 +194,7 @@ static void ili9225_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 	int ret, idx;
+ 	u8 am_id;
+ 
+-	if (!drm_dev_enter(pipe->crtc.dev, &idx))
++	if (!drm_dev_enter(pipe->crtc.drm, &idx))
+ 		return;
+ 
+ 	DRM_DEBUG_KMS("\n");
+@@ -289,7 +289,7 @@ static void ili9225_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 
+ static void ili9225_pipe_disable(struct drm_simple_display_pipe *pipe)
+ {
+-	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
++	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.drm);
+ 	struct mipi_dbi *dbi = &dbidev->dbi;
+ 
+ 	DRM_DEBUG_KMS("\n");
+diff --git a/drivers/gpu/drm/tiny/ili9341.c b/drivers/gpu/drm/tiny/ili9341.c
+index 47b61c3bf145..94092848f554 100644
+--- a/drivers/gpu/drm/tiny/ili9341.c
++++ b/drivers/gpu/drm/tiny/ili9341.c
+@@ -54,12 +54,12 @@ static void yx240qv29_enable(struct drm_simple_display_pipe *pipe,
+ 			     struct drm_crtc_state *crtc_state,
+ 			     struct drm_plane_state *plane_state)
+ {
+-	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
++	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.drm);
+ 	struct mipi_dbi *dbi = &dbidev->dbi;
+ 	u8 addr_mode;
+ 	int ret, idx;
+ 
+-	if (!drm_dev_enter(pipe->crtc.dev, &idx))
++	if (!drm_dev_enter(pipe->crtc.drm, &idx))
+ 		return;
+ 
+ 	DRM_DEBUG_KMS("\n");
+diff --git a/drivers/gpu/drm/tiny/ili9486.c b/drivers/gpu/drm/tiny/ili9486.c
+index 02265c898816..3a1a7a35a46f 100644
+--- a/drivers/gpu/drm/tiny/ili9486.c
++++ b/drivers/gpu/drm/tiny/ili9486.c
+@@ -92,12 +92,12 @@ static void waveshare_enable(struct drm_simple_display_pipe *pipe,
+ 			     struct drm_crtc_state *crtc_state,
+ 			     struct drm_plane_state *plane_state)
+ {
+-	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
++	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.drm);
+ 	struct mipi_dbi *dbi = &dbidev->dbi;
+ 	u8 addr_mode;
+ 	int ret, idx;
+ 
+-	if (!drm_dev_enter(pipe->crtc.dev, &idx))
++	if (!drm_dev_enter(pipe->crtc.drm, &idx))
+ 		return;
+ 
+ 	DRM_DEBUG_KMS("\n");
+diff --git a/drivers/gpu/drm/tiny/mi0283qt.c b/drivers/gpu/drm/tiny/mi0283qt.c
+index 01ff43c8ac3f..4ccc752290df 100644
+--- a/drivers/gpu/drm/tiny/mi0283qt.c
++++ b/drivers/gpu/drm/tiny/mi0283qt.c
+@@ -52,12 +52,12 @@ static void mi0283qt_enable(struct drm_simple_display_pipe *pipe,
+ 			    struct drm_crtc_state *crtc_state,
+ 			    struct drm_plane_state *plane_state)
+ {
+-	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
++	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.drm);
+ 	struct mipi_dbi *dbi = &dbidev->dbi;
+ 	u8 addr_mode;
+ 	int ret, idx;
+ 
+-	if (!drm_dev_enter(pipe->crtc.dev, &idx))
++	if (!drm_dev_enter(pipe->crtc.drm, &idx))
+ 		return;
+ 
+ 	DRM_DEBUG_KMS("\n");
+diff --git a/drivers/gpu/drm/tiny/ofdrm.c b/drivers/gpu/drm/tiny/ofdrm.c
+index dbf053d603af..ddc0ddb29434 100644
+--- a/drivers/gpu/drm/tiny/ofdrm.c
++++ b/drivers/gpu/drm/tiny/ofdrm.c
+@@ -876,7 +876,7 @@ static const struct drm_plane_funcs ofdrm_primary_plane_funcs = {
+ static enum drm_mode_status ofdrm_crtc_helper_mode_valid(struct drm_crtc *crtc,
+ 							 const struct drm_display_mode *mode)
+ {
+-	struct ofdrm_device *odev = ofdrm_device_of_dev(crtc->dev);
++	struct ofdrm_device *odev = ofdrm_device_of_dev(crtc->drm);
+ 
+ 	return drm_crtc_helper_mode_valid_fixed(crtc, mode, &odev->mode);
+ }
+@@ -886,7 +886,7 @@ static int ofdrm_crtc_helper_atomic_check(struct drm_crtc *crtc,
+ {
+ 	static const size_t gamma_lut_length = OFDRM_GAMMA_LUT_SIZE * sizeof(struct drm_color_lut);
+ 
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_crtc_state *new_crtc_state = drm_atomic_get_new_crtc_state(new_state, crtc);
+ 	int ret;
+ 
+@@ -911,7 +911,7 @@ static int ofdrm_crtc_helper_atomic_check(struct drm_crtc *crtc,
+ 
+ static void ofdrm_crtc_helper_atomic_flush(struct drm_crtc *crtc, struct drm_atomic_state *state)
+ {
+-	struct ofdrm_device *odev = ofdrm_device_of_dev(crtc->dev);
++	struct ofdrm_device *odev = ofdrm_device_of_dev(crtc->drm);
+ 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+ 	struct ofdrm_crtc_state *ofdrm_crtc_state = to_ofdrm_crtc_state(crtc_state);
+ 
+@@ -952,7 +952,7 @@ static void ofdrm_crtc_reset(struct drm_crtc *crtc)
+ 
+ static struct drm_crtc_state *ofdrm_crtc_atomic_duplicate_state(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_crtc_state *crtc_state = crtc->state;
+ 	struct ofdrm_crtc_state *new_ofdrm_crtc_state;
+ 	struct ofdrm_crtc_state *ofdrm_crtc_state;
+diff --git a/drivers/gpu/drm/tiny/panel-mipi-dbi.c b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
+index eb9f13f18a02..586c54dd579d 100644
+--- a/drivers/gpu/drm/tiny/panel-mipi-dbi.c
++++ b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
+@@ -191,14 +191,14 @@ static void panel_mipi_dbi_enable(struct drm_simple_display_pipe *pipe,
+ 				  struct drm_crtc_state *crtc_state,
+ 				  struct drm_plane_state *plane_state)
+ {
+-	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
++	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.drm);
+ 	struct mipi_dbi *dbi = &dbidev->dbi;
+ 	int ret, idx;
+ 
+-	if (!drm_dev_enter(pipe->crtc.dev, &idx))
++	if (!drm_dev_enter(pipe->crtc.drm, &idx))
+ 		return;
+ 
+-	drm_dbg(pipe->crtc.dev, "\n");
++	drm_dbg(pipe->crtc.drm, "\n");
+ 
+ 	ret = mipi_dbi_poweron_conditional_reset(dbidev);
+ 	if (ret < 0)
+diff --git a/drivers/gpu/drm/tiny/repaper.c b/drivers/gpu/drm/tiny/repaper.c
+index f884b2712bde..2a459960d10c 100644
+--- a/drivers/gpu/drm/tiny/repaper.c
++++ b/drivers/gpu/drm/tiny/repaper.c
+@@ -625,7 +625,7 @@ static enum drm_mode_status repaper_pipe_mode_valid(struct drm_simple_display_pi
+ 						    const struct drm_display_mode *mode)
+ {
+ 	struct drm_crtc *crtc = &pipe->crtc;
+-	struct repaper_epd *epd = drm_to_epd(crtc->dev);
++	struct repaper_epd *epd = drm_to_epd(crtc->drm);
+ 
+ 	return drm_crtc_helper_mode_valid_fixed(crtc, mode, epd->mode);
+ }
+@@ -634,13 +634,13 @@ static void repaper_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 				struct drm_crtc_state *crtc_state,
+ 				struct drm_plane_state *plane_state)
+ {
+-	struct repaper_epd *epd = drm_to_epd(pipe->crtc.dev);
++	struct repaper_epd *epd = drm_to_epd(pipe->crtc.drm);
+ 	struct spi_device *spi = epd->spi;
+ 	struct device *dev = &spi->dev;
+ 	bool dc_ok = false;
+ 	int i, ret, idx;
+ 
+-	if (!drm_dev_enter(pipe->crtc.dev, &idx))
++	if (!drm_dev_enter(pipe->crtc.drm, &idx))
+ 		return;
+ 
+ 	DRM_DEBUG_DRIVER("\n");
+@@ -772,7 +772,7 @@ static void repaper_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 
+ static void repaper_pipe_disable(struct drm_simple_display_pipe *pipe)
+ {
+-	struct repaper_epd *epd = drm_to_epd(pipe->crtc.dev);
++	struct repaper_epd *epd = drm_to_epd(pipe->crtc.drm);
+ 	struct spi_device *spi = epd->spi;
+ 	unsigned int line;
+ 
+diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
+index fa511aff2545..be02d12f80eb 100644
+--- a/drivers/gpu/drm/tiny/simpledrm.c
++++ b/drivers/gpu/drm/tiny/simpledrm.c
+@@ -548,7 +548,7 @@ static const struct drm_plane_funcs simpledrm_primary_plane_funcs = {
+ static enum drm_mode_status simpledrm_crtc_helper_mode_valid(struct drm_crtc *crtc,
+ 							     const struct drm_display_mode *mode)
+ {
+-	struct simpledrm_device *sdev = simpledrm_device_of_dev(crtc->dev);
++	struct simpledrm_device *sdev = simpledrm_device_of_dev(crtc->drm);
+ 
+ 	return drm_crtc_helper_mode_valid_fixed(crtc, mode, &sdev->mode);
+ }
+diff --git a/drivers/gpu/drm/tiny/st7586.c b/drivers/gpu/drm/tiny/st7586.c
+index 3cf4eec16a81..493dee2446d8 100644
+--- a/drivers/gpu/drm/tiny/st7586.c
++++ b/drivers/gpu/drm/tiny/st7586.c
+@@ -169,7 +169,7 @@ static void st7586_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 			       struct drm_crtc_state *crtc_state,
+ 			       struct drm_plane_state *plane_state)
+ {
+-	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
++	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.drm);
+ 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
+ 	struct drm_framebuffer *fb = plane_state->fb;
+ 	struct mipi_dbi *dbi = &dbidev->dbi;
+@@ -182,7 +182,7 @@ static void st7586_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 	int idx, ret;
+ 	u8 addr_mode;
+ 
+-	if (!drm_dev_enter(pipe->crtc.dev, &idx))
++	if (!drm_dev_enter(pipe->crtc.drm, &idx))
+ 		return;
+ 
+ 	DRM_DEBUG_KMS("\n");
+@@ -247,7 +247,7 @@ static void st7586_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 
+ static void st7586_pipe_disable(struct drm_simple_display_pipe *pipe)
+ {
+-	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
++	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.drm);
+ 
+ 	/*
+ 	 * This callback is not protected by drm_dev_enter/exit since we want to
+diff --git a/drivers/gpu/drm/tiny/st7735r.c b/drivers/gpu/drm/tiny/st7735r.c
+index 477eb36fbb70..26eb2b5446de 100644
+--- a/drivers/gpu/drm/tiny/st7735r.c
++++ b/drivers/gpu/drm/tiny/st7735r.c
+@@ -59,14 +59,14 @@ static void st7735r_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 				struct drm_crtc_state *crtc_state,
+ 				struct drm_plane_state *plane_state)
+ {
+-	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
++	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.drm);
+ 	struct st7735r_priv *priv = container_of(dbidev, struct st7735r_priv,
+ 						 dbidev);
+ 	struct mipi_dbi *dbi = &dbidev->dbi;
+ 	int ret, idx;
+ 	u8 addr_mode;
+ 
+-	if (!drm_dev_enter(pipe->crtc.dev, &idx))
++	if (!drm_dev_enter(pipe->crtc.drm, &idx))
+ 		return;
+ 
+ 	DRM_DEBUG_KMS("\n");
+diff --git a/drivers/gpu/drm/tve200/tve200_display.c b/drivers/gpu/drm/tve200/tve200_display.c
+index 37bdd976ae59..606462761ee2 100644
+--- a/drivers/gpu/drm/tve200/tve200_display.c
++++ b/drivers/gpu/drm/tve200/tve200_display.c
+@@ -124,7 +124,7 @@ static void tve200_display_enable(struct drm_simple_display_pipe *pipe,
+ {
+ 	struct drm_crtc *crtc = &pipe->crtc;
+ 	struct drm_plane *plane = &pipe->plane;
+-	struct drm_device *drm = crtc->dev;
++	struct drm_device *drm = crtc->drm;
+ 	struct tve200_drm_dev_private *priv = drm->dev_private;
+ 	const struct drm_display_mode *mode = &cstate->mode;
+ 	struct drm_framebuffer *fb = plane->state->fb;
+@@ -242,7 +242,7 @@ static void tve200_display_enable(struct drm_simple_display_pipe *pipe,
+ static void tve200_display_disable(struct drm_simple_display_pipe *pipe)
+ {
+ 	struct drm_crtc *crtc = &pipe->crtc;
+-	struct drm_device *drm = crtc->dev;
++	struct drm_device *drm = crtc->drm;
+ 	struct tve200_drm_dev_private *priv = drm->dev_private;
+ 
+ 	drm_crtc_vblank_off(crtc);
+@@ -258,7 +258,7 @@ static void tve200_display_update(struct drm_simple_display_pipe *pipe,
+ 				 struct drm_plane_state *old_pstate)
+ {
+ 	struct drm_crtc *crtc = &pipe->crtc;
+-	struct drm_device *drm = crtc->dev;
++	struct drm_device *drm = crtc->drm;
+ 	struct tve200_drm_dev_private *priv = drm->dev_private;
+ 	struct drm_pending_vblank_event *event = crtc->state->event;
+ 	struct drm_plane *plane = &pipe->plane;
+@@ -282,19 +282,19 @@ static void tve200_display_update(struct drm_simple_display_pipe *pipe,
+ 	if (event) {
+ 		crtc->state->event = NULL;
+ 
+-		spin_lock_irq(&crtc->dev->event_lock);
++		spin_lock_irq(&crtc->drm->event_lock);
+ 		if (crtc->state->active && drm_crtc_vblank_get(crtc) == 0)
+ 			drm_crtc_arm_vblank_event(crtc, event);
+ 		else
+ 			drm_crtc_send_vblank_event(crtc, event);
+-		spin_unlock_irq(&crtc->dev->event_lock);
++		spin_unlock_irq(&crtc->drm->event_lock);
+ 	}
+ }
+ 
+ static int tve200_display_enable_vblank(struct drm_simple_display_pipe *pipe)
+ {
+ 	struct drm_crtc *crtc = &pipe->crtc;
+-	struct drm_device *drm = crtc->dev;
++	struct drm_device *drm = crtc->drm;
+ 	struct tve200_drm_dev_private *priv = drm->dev_private;
+ 
+ 	/* Clear any IRQs and enable */
+@@ -306,7 +306,7 @@ static int tve200_display_enable_vblank(struct drm_simple_display_pipe *pipe)
+ static void tve200_display_disable_vblank(struct drm_simple_display_pipe *pipe)
+ {
+ 	struct drm_crtc *crtc = &pipe->crtc;
+-	struct drm_device *drm = crtc->dev;
++	struct drm_device *drm = crtc->drm;
+ 	struct tve200_drm_dev_private *priv = drm->dev_private;
+ 
+ 	writel(0, priv->regs + TVE200_INT_EN);
+diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
+index 1c85223b4bdc..5a36bb90dbd3 100644
+--- a/drivers/gpu/drm/udl/udl_modeset.c
++++ b/drivers/gpu/drm/udl/udl_modeset.c
+@@ -322,7 +322,7 @@ static int udl_crtc_helper_atomic_check(struct drm_crtc *crtc, struct drm_atomic
+ 
+ static void udl_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+ 	struct drm_display_mode *mode = &crtc_state->mode;
+ 	struct urb *urb;
+@@ -356,7 +356,7 @@ static void udl_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atom
+ 
+ static void udl_crtc_helper_atomic_disable(struct drm_crtc *crtc, struct drm_atomic_state *state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct urb *urb;
+ 	char *buf;
+ 	int idx;
+diff --git a/drivers/gpu/drm/vboxvideo/vbox_mode.c b/drivers/gpu/drm/vboxvideo/vbox_mode.c
+index d7326d6b9062..ea5ceb51bd70 100644
+--- a/drivers/gpu/drm/vboxvideo/vbox_mode.c
++++ b/drivers/gpu/drm/vboxvideo/vbox_mode.c
+@@ -41,7 +41,7 @@ static void vbox_do_modeset(struct drm_crtc *crtc)
+ 	u16 flags;
+ 	s32 x_offset, y_offset;
+ 
+-	vbox = to_vbox_dev(crtc->dev);
++	vbox = to_vbox_dev(crtc->drm);
+ 	width = vbox_crtc->width ? vbox_crtc->width : 640;
+ 	height = vbox_crtc->height ? vbox_crtc->height : 480;
+ 	bpp = fb ? fb->format->cpp[0] * 8 : 32;
+@@ -82,7 +82,7 @@ static void vbox_do_modeset(struct drm_crtc *crtc)
+ static int vbox_set_view(struct drm_crtc *crtc)
+ {
+ 	struct vbox_crtc *vbox_crtc = to_vbox_crtc(crtc);
+-	struct vbox_private *vbox = to_vbox_dev(crtc->dev);
++	struct vbox_private *vbox = to_vbox_dev(crtc->drm);
+ 	struct vbva_infoview *p;
+ 
+ 	/*
+@@ -179,7 +179,7 @@ static void vbox_crtc_set_base_and_mode(struct drm_crtc *crtc,
+ 					int x, int y)
+ {
+ 	struct drm_gem_vram_object *gbo = drm_gem_vram_of_gem(fb->obj[0]);
+-	struct vbox_private *vbox = to_vbox_dev(crtc->dev);
++	struct vbox_private *vbox = to_vbox_dev(crtc->drm);
+ 	struct vbox_crtc *vbox_crtc = to_vbox_crtc(crtc);
+ 	bool needs_modeset = drm_atomic_crtc_needs_modeset(crtc->state);
+ 
+diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
+index 7610e841ef3c..d5dc0d3bdce3 100644
+--- a/drivers/gpu/drm/vc4/vc4_crtc.c
++++ b/drivers/gpu/drm/vc4/vc4_crtc.c
+@@ -99,7 +99,7 @@ static bool vc4_crtc_get_scanout_position(struct drm_crtc *crtc,
+ 					  ktime_t *stime, ktime_t *etime,
+ 					  const struct drm_display_mode *mode)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+ 	struct vc4_hvs *hvs = vc4->hvs;
+ 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
+@@ -220,7 +220,7 @@ static u32 vc4_get_fifo_full_level(struct vc4_crtc *vc4_crtc, u32 format)
+ {
+ 	const struct vc4_crtc_data *crtc_data = vc4_crtc_to_vc4_crtc_data(vc4_crtc);
+ 	const struct vc4_pv_data *pv_data = vc4_crtc_to_vc4_pv_data(vc4_crtc);
+-	struct vc4_dev *vc4 = to_vc4_dev(vc4_crtc->base.dev);
++	struct vc4_dev *vc4 = to_vc4_dev(vc4_crtc->base.drm);
+ 	u32 fifo_len_bytes = pv_data->fifo_depth;
+ 
+ 	/*
+@@ -296,7 +296,7 @@ struct drm_encoder *vc4_get_crtc_encoder(struct drm_crtc *crtc,
+ 
+ 	WARN_ON(hweight32(state->encoder_mask) > 1);
+ 
+-	drm_for_each_encoder_mask(encoder, crtc->dev, state->encoder_mask)
++	drm_for_each_encoder_mask(encoder, crtc->drm, state->encoder_mask)
+ 		return encoder;
+ 
+ 	return NULL;
+@@ -305,7 +305,7 @@ struct drm_encoder *vc4_get_crtc_encoder(struct drm_crtc *crtc,
+ static void vc4_crtc_pixelvalve_reset(struct drm_crtc *crtc)
+ {
+ 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	int idx;
+ 
+ 	if (!drm_dev_enter(dev, &idx))
+@@ -321,7 +321,7 @@ static void vc4_crtc_pixelvalve_reset(struct drm_crtc *crtc)
+ static void vc4_crtc_config_pv(struct drm_crtc *crtc, struct drm_encoder *encoder,
+ 			       struct drm_atomic_state *state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+ 	struct vc4_encoder *vc4_encoder = to_vc4_encoder(encoder);
+ 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
+@@ -468,7 +468,7 @@ static int vc4_crtc_disable(struct drm_crtc *crtc,
+ {
+ 	struct vc4_encoder *vc4_encoder = to_vc4_encoder(encoder);
+ 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+ 	int idx, ret;
+ 
+@@ -514,7 +514,7 @@ static int vc4_crtc_disable(struct drm_crtc *crtc,
+ 
+ int vc4_crtc_disable_at_boot(struct drm_crtc *crtc)
+ {
+-	struct drm_device *drm = crtc->dev;
++	struct drm_device *drm = crtc->drm;
+ 	struct vc4_dev *vc4 = to_vc4_dev(drm);
+ 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
+ 	enum vc4_encoder_type encoder_type;
+@@ -571,7 +571,7 @@ int vc4_crtc_disable_at_boot(struct drm_crtc *crtc)
+ 
+ void vc4_crtc_send_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned long flags;
+ 
+ 	if (!crtc->state || !crtc->state->event)
+@@ -590,7 +590,7 @@ static void vc4_crtc_atomic_disable(struct drm_crtc *crtc,
+ 									 crtc);
+ 	struct vc4_crtc_state *old_vc4_state = to_vc4_crtc_state(old_state);
+ 	struct drm_encoder *encoder = vc4_get_crtc_encoder(crtc, old_state);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 
+ 	drm_dbg(dev, "Disabling CRTC %s (%u) connected to Encoder %s (%u)",
+ 		crtc->name, crtc->base.id, encoder->name, encoder->base.id);
+@@ -614,7 +614,7 @@ static void vc4_crtc_atomic_enable(struct drm_crtc *crtc,
+ {
+ 	struct drm_crtc_state *new_state = drm_atomic_get_new_crtc_state(state,
+ 									 crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
+ 	struct drm_encoder *encoder = vc4_get_crtc_encoder(crtc, new_state);
+ 	struct vc4_encoder *vc4_encoder = to_vc4_encoder(encoder);
+@@ -747,7 +747,7 @@ int vc4_crtc_atomic_check(struct drm_crtc *crtc,
+ static int vc4_enable_vblank(struct drm_crtc *crtc)
+ {
+ 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	int idx;
+ 
+ 	if (!drm_dev_enter(dev, &idx))
+@@ -763,7 +763,7 @@ static int vc4_enable_vblank(struct drm_crtc *crtc)
+ static void vc4_disable_vblank(struct drm_crtc *crtc)
+ {
+ 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	int idx;
+ 
+ 	if (!drm_dev_enter(dev, &idx))
+@@ -777,7 +777,7 @@ static void vc4_disable_vblank(struct drm_crtc *crtc)
+ static void vc4_crtc_handle_page_flip(struct vc4_crtc *vc4_crtc)
+ {
+ 	struct drm_crtc *crtc = &vc4_crtc->base;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+ 	struct vc4_hvs *hvs = vc4->hvs;
+ 	u32 chan = vc4_crtc->current_hvs_channel;
+@@ -845,7 +845,7 @@ static void
+ vc4_async_page_flip_complete(struct vc4_async_flip_state *flip_state)
+ {
+ 	struct drm_crtc *crtc = flip_state->crtc;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_plane *plane = crtc->primary;
+ 
+ 	vc4_plane_async_set_fb(plane, flip_state->fb);
+@@ -943,7 +943,7 @@ vc4_async_page_flip_common(struct drm_crtc *crtc,
+ 			   struct drm_pending_vblank_event *event,
+ 			   uint32_t flags)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct drm_plane *plane = crtc->primary;
+ 	struct vc4_async_flip_state *flip_state;
+ 
+@@ -993,7 +993,7 @@ static int vc4_async_page_flip(struct drm_crtc *crtc,
+ 			       struct drm_pending_vblank_event *event,
+ 			       uint32_t flags)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+ 	struct drm_gem_dma_object *dma_bo = drm_fb_dma_get_gem_obj(fb, 0);
+ 	struct vc4_bo *bo = to_vc4_bo(&dma_bo->base);
+@@ -1039,7 +1039,7 @@ int vc4_page_flip(struct drm_crtc *crtc,
+ 		  struct drm_modeset_acquire_ctx *ctx)
+ {
+ 	if (flags & DRM_MODE_PAGE_FLIP_ASYNC) {
+-		struct drm_device *dev = crtc->dev;
++		struct drm_device *dev = crtc->drm;
+ 		struct vc4_dev *vc4 = to_vc4_dev(dev);
+ 
+ 		if (vc4->is_vc5)
+@@ -1070,7 +1070,7 @@ struct drm_crtc_state *vc4_crtc_duplicate_state(struct drm_crtc *crtc)
+ void vc4_crtc_destroy_state(struct drm_crtc *crtc,
+ 			    struct drm_crtc_state *state)
+ {
+-	struct vc4_dev *vc4 = to_vc4_dev(crtc->dev);
++	struct vc4_dev *vc4 = to_vc4_dev(crtc->drm);
+ 	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(state);
+ 
+ 	if (drm_mm_node_allocated(&vc4_state->mm)) {
+@@ -1104,7 +1104,7 @@ void vc4_crtc_reset(struct drm_crtc *crtc)
+ 
+ int vc4_crtc_late_register(struct drm_crtc *crtc)
+ {
+-	struct drm_device *drm = crtc->dev;
++	struct drm_device *drm = crtc->drm;
+ 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
+ 	const struct vc4_crtc_data *crtc_data = vc4_crtc_to_vc4_crtc_data(vc4_crtc);
+ 
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 5e53d4f8232d..58388eb9237f 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -304,7 +304,7 @@ static int reset_pipe(struct drm_crtc *crtc,
+ 	struct drm_crtc_state *crtc_state;
+ 	int ret;
+ 
+-	state = drm_atomic_state_alloc(crtc->dev);
++	state = drm_atomic_state_alloc(crtc->drm);
+ 	if (!state)
+ 		return -ENOMEM;
+ 
+diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
+index 04af672caacb..488a207024c7 100644
+--- a/drivers/gpu/drm/vc4/vc4_hvs.c
++++ b/drivers/gpu/drm/vc4/vc4_hvs.c
+@@ -442,7 +442,7 @@ int vc4_hvs_atomic_check(struct drm_crtc *crtc, struct drm_atomic_state *state)
+ {
+ 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+ 	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc_state);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+ 	struct drm_plane *plane;
+ 	unsigned long flags;
+@@ -473,7 +473,7 @@ int vc4_hvs_atomic_check(struct drm_crtc *crtc, struct drm_atomic_state *state)
+ 
+ static void vc4_hvs_install_dlist(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+ 	struct vc4_hvs *hvs = vc4->hvs;
+ 	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc->state);
+@@ -490,7 +490,7 @@ static void vc4_hvs_install_dlist(struct drm_crtc *crtc)
+ 
+ static void vc4_hvs_update_dlist(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
+ 	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc->state);
+ 	unsigned long flags;
+@@ -530,7 +530,7 @@ void vc4_hvs_atomic_begin(struct drm_crtc *crtc,
+ void vc4_hvs_atomic_enable(struct drm_crtc *crtc,
+ 			   struct drm_atomic_state *state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+ 	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
+ 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
+@@ -544,7 +544,7 @@ void vc4_hvs_atomic_enable(struct drm_crtc *crtc,
+ void vc4_hvs_atomic_disable(struct drm_crtc *crtc,
+ 			    struct drm_atomic_state *state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+ 	struct drm_crtc_state *old_state = drm_atomic_get_old_crtc_state(state, crtc);
+ 	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(old_state);
+@@ -558,7 +558,7 @@ void vc4_hvs_atomic_flush(struct drm_crtc *crtc,
+ {
+ 	struct drm_crtc_state *old_state = drm_atomic_get_old_crtc_state(state,
+ 									 crtc);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+ 	struct vc4_hvs *hvs = vc4->hvs;
+ 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
+diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
+index 4091fd872d65..ec46ea639dd2 100644
+--- a/drivers/gpu/drm/vc4/vc4_txp.c
++++ b/drivers/gpu/drm/vc4/vc4_txp.c
+@@ -433,7 +433,7 @@ static void vc4_txp_atomic_enable(struct drm_crtc *crtc,
+ static void vc4_txp_atomic_disable(struct drm_crtc *crtc,
+ 				   struct drm_atomic_state *state)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 
+ 	/* Disable vblank irq handling before crtc is disabled. */
+ 	drm_crtc_vblank_off(crtc);
 diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
-index ad924a8502e9..6f9cc844412b 100644
+index 6f9cc844412b..ad8941a0b6b7 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_display.c
 +++ b/drivers/gpu/drm/virtio/virtgpu_display.c
-@@ -178,7 +178,7 @@ static int virtio_gpu_conn_get_modes(struct drm_connector *connector)
- 		drm_set_preferred_mode(connector, XRES_DEF, YRES_DEF);
- 	} else {
- 		DRM_DEBUG("add mode: %dx%d\n", width, height);
--		mode = drm_cvt_mode(connector->dev, width, height, 60,
-+		mode = drm_cvt_mode(connector->drm, width, height, 60,
- 				    false, false, false);
- 		if (!mode)
- 			return count;
-diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-index d7e63aa14663..9850ed02ac76 100644
---- a/drivers/gpu/drm/vkms/vkms_writeback.c
-+++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-@@ -61,7 +61,7 @@ static const struct drm_encoder_helper_funcs vkms_wb_encoder_helper_funcs = {
+@@ -85,7 +85,7 @@ virtio_gpu_framebuffer_init(struct drm_device *dev,
  
- static int vkms_wb_connector_get_modes(struct drm_connector *connector)
+ static void virtio_gpu_crtc_mode_set_nofb(struct drm_crtc *crtc)
  {
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct virtio_gpu_device *vgdev = dev->dev_private;
+ 	struct virtio_gpu_output *output = drm_crtc_to_virtio_gpu_output(crtc);
  
- 	return drm_add_modes_noedid(connector, dev->mode_config.max_width,
- 				    dev->mode_config.max_height);
-@@ -121,7 +121,7 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
+@@ -103,7 +103,7 @@ static void virtio_gpu_crtc_atomic_enable(struct drm_crtc *crtc,
+ static void virtio_gpu_crtc_atomic_disable(struct drm_crtc *crtc,
+ 					   struct drm_atomic_state *state)
  {
- 	struct drm_connector_state *connector_state = drm_atomic_get_new_connector_state(state,
- 											 conn);
--	struct vkms_device *vkmsdev = drm_device_to_vkms_device(conn->dev);
-+	struct vkms_device *vkmsdev = drm_device_to_vkms_device(conn->drm);
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	struct virtio_gpu_device *vgdev = dev->dev_private;
+ 	struct virtio_gpu_output *output = drm_crtc_to_virtio_gpu_output(crtc);
+ 
+diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+index 515f6772b866..a953f06303fa 100644
+--- a/drivers/gpu/drm/vkms/vkms_crtc.c
++++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+@@ -61,7 +61,7 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
+ 
+ static int vkms_enable_vblank(struct drm_crtc *crtc)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = drm_crtc_index(crtc);
+ 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+ 	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
+@@ -87,7 +87,7 @@ static bool vkms_get_vblank_timestamp(struct drm_crtc *crtc,
+ 				      int *max_error, ktime_t *vblank_time,
+ 				      bool in_vblank_irq)
+ {
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned int pipe = crtc->index;
+ 	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
  	struct vkms_output *output = &vkmsdev->output;
- 	struct drm_writeback_connector *wb_conn = &output->wb_connector;
- 	struct drm_connector_state *conn_state = wb_conn->base.state;
+@@ -190,7 +190,7 @@ static int vkms_crtc_atomic_check(struct drm_crtc *crtc,
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	drm_for_each_plane_mask(plane, crtc->dev, crtc_state->plane_mask) {
++	drm_for_each_plane_mask(plane, crtc->drm, crtc_state->plane_mask) {
+ 		plane_state = drm_atomic_get_existing_plane_state(crtc_state->state,
+ 								  plane);
+ 		WARN_ON(!plane_state);
+@@ -207,7 +207,7 @@ static int vkms_crtc_atomic_check(struct drm_crtc *crtc,
+ 	vkms_state->num_active_planes = i;
+ 
+ 	i = 0;
+-	drm_for_each_plane_mask(plane, crtc->dev, crtc_state->plane_mask) {
++	drm_for_each_plane_mask(plane, crtc->drm, crtc_state->plane_mask) {
+ 		plane_state = drm_atomic_get_existing_plane_state(crtc_state->state,
+ 								  plane);
+ 
+@@ -250,14 +250,14 @@ static void vkms_crtc_atomic_flush(struct drm_crtc *crtc,
+ 	struct vkms_output *vkms_output = drm_crtc_to_vkms_output(crtc);
+ 
+ 	if (crtc->state->event) {
+-		spin_lock(&crtc->dev->event_lock);
++		spin_lock(&crtc->drm->event_lock);
+ 
+ 		if (drm_crtc_vblank_get(crtc) != 0)
+ 			drm_crtc_send_vblank_event(crtc, crtc->state->event);
+ 		else
+ 			drm_crtc_arm_vblank_event(crtc, crtc->state->event);
+ 
+-		spin_unlock(&crtc->dev->event_lock);
++		spin_unlock(&crtc->drm->event_lock);
+ 
+ 		crtc->state->event = NULL;
+ 	}
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index b62207be3363..e7cad0200f9b 100644
+index e7cad0200f9b..c332ad7e4e8f 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -2263,7 +2263,7 @@ enum drm_connector_status
- vmw_du_connector_detect(struct drm_connector *connector, bool force)
+@@ -762,7 +762,7 @@ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
+ 	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
+ 									   plane);
+ 	struct drm_crtc *crtc = new_state->crtc ?: old_state->crtc;
+-	struct vmw_private *dev_priv = vmw_priv(crtc->dev);
++	struct vmw_private *dev_priv = vmw_priv(crtc->drm);
+ 	struct vmw_display_unit *du = vmw_crtc_to_du(crtc);
+ 	struct vmw_plane_state *vps = vmw_plane_state_to_vps(new_state);
+ 	struct vmw_plane_state *old_vps = vmw_plane_state_to_vps(old_state);
+@@ -2240,7 +2240,7 @@ int vmw_du_crtc_gamma_set(struct drm_crtc *crtc,
+ 			  uint32_t size,
+ 			  struct drm_modeset_acquire_ctx *ctx)
  {
- 	uint32_t num_displays;
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct vmw_private *dev_priv = vmw_priv(dev);
- 	struct vmw_display_unit *du = vmw_connector_to_du(connector);
+-	struct vmw_private *dev_priv = vmw_priv(crtc->dev);
++	struct vmw_private *dev_priv = vmw_priv(crtc->drm);
+ 	int i;
  
-@@ -2400,7 +2400,7 @@ int vmw_du_connector_fill_modes(struct drm_connector *connector,
- 				uint32_t max_width, uint32_t max_height)
+ 	for (i = 0; i < size; i++) {
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
+index 556a403b7eb5..00416a640d17 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
+@@ -219,7 +219,7 @@ static void vmw_sou_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ 	int ret;
+ 
+ 	sou = vmw_crtc_to_sou(crtc);
+-	dev_priv = vmw_priv(crtc->dev);
++	dev_priv = vmw_priv(crtc->drm);
+ 	ps = crtc->primary->state;
+ 	fb = ps->fb;
+ 	vps = vmw_plane_state_to_vps(ps);
+@@ -303,7 +303,7 @@ static void vmw_sou_crtc_atomic_disable(struct drm_crtc *crtc,
+ 	}
+ 
+ 	sou = vmw_crtc_to_sou(crtc);
+-	dev_priv = vmw_priv(crtc->dev);
++	dev_priv = vmw_priv(crtc->drm);
+ 
+ 	if (sou->defined) {
+ 		ret = vmw_sou_fifo_destroy(dev_priv, sou);
+@@ -384,7 +384,7 @@ vmw_sou_primary_plane_cleanup_fb(struct drm_plane *plane,
+ 		plane->state->crtc : old_state->crtc;
+ 
+ 	if (vps->bo)
+-		vmw_bo_unpin(vmw_priv(crtc->dev), vps->bo, false);
++		vmw_bo_unpin(vmw_priv(crtc->drm), vps->bo, false);
+ 	vmw_bo_unreference(&vps->bo);
+ 	vps->bo_size = 0;
+ 
+@@ -426,7 +426,7 @@ vmw_sou_primary_plane_prepare_fb(struct drm_plane *plane,
+ 	}
+ 
+ 	bo_params.size = new_state->crtc_w * new_state->crtc_h * 4;
+-	dev_priv = vmw_priv(crtc->dev);
++	dev_priv = vmw_priv(crtc->drm);
+ 
+ 	if (vps->bo) {
+ 		if (vps->bo_size == bo_params.size) {
+@@ -730,7 +730,7 @@ vmw_sou_primary_plane_atomic_update(struct drm_plane *plane,
+ 
+ 	/* In case of device error, maintain consistent atomic state */
+ 	if (crtc && new_state->fb) {
+-		struct vmw_private *dev_priv = vmw_priv(crtc->dev);
++		struct vmw_private *dev_priv = vmw_priv(crtc->drm);
+ 		struct vmw_framebuffer *vfb =
+ 			vmw_framebuffer_to_vfb(new_state->fb);
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+index ba0c0e12cfe9..b3c3cdba00a8 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+@@ -371,7 +371,7 @@ static void vmw_stdu_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ 	int x, y, ret;
+ 
+ 	stdu = vmw_crtc_to_stdu(crtc);
+-	dev_priv = vmw_priv(crtc->dev);
++	dev_priv = vmw_priv(crtc->drm);
+ 	conn_state = stdu->base.connector.state;
+ 	vmw_conn_state = vmw_connector_state_to_vcs(conn_state);
+ 
+@@ -427,7 +427,7 @@ static void vmw_stdu_crtc_atomic_disable(struct drm_crtc *crtc,
+ 	}
+ 
+ 	stdu     = vmw_crtc_to_stdu(crtc);
+-	dev_priv = vmw_priv(crtc->dev);
++	dev_priv = vmw_priv(crtc->drm);
+ 
+ 	if (stdu->defined) {
+ 		ret = vmw_stdu_bind_st(dev_priv, stdu, NULL);
+@@ -1363,7 +1363,7 @@ vmw_stdu_primary_plane_atomic_update(struct drm_plane *plane,
+ 		struct vmw_framebuffer *vfb =
+ 			vmw_framebuffer_to_vfb(new_state->fb);
+ 		stdu = vmw_crtc_to_stdu(crtc);
+-		dev_priv = vmw_priv(crtc->dev);
++		dev_priv = vmw_priv(crtc->drm);
+ 
+ 		stdu->display_srf = vps->surf;
+ 		stdu->content_fb_type = vps->content_fb_type;
+@@ -1385,7 +1385,7 @@ vmw_stdu_primary_plane_atomic_update(struct drm_plane *plane,
+ 	} else {
+ 		crtc = old_state->crtc;
+ 		stdu = vmw_crtc_to_stdu(crtc);
+-		dev_priv = vmw_priv(crtc->dev);
++		dev_priv = vmw_priv(crtc->drm);
+ 
+ 		/* Blank STDU when fb and crtc are NULL */
+ 		if (!stdu->defined)
+diff --git a/drivers/gpu/drm/xen/xen_drm_front_kms.c b/drivers/gpu/drm/xen/xen_drm_front_kms.c
+index dfa78a49a6d9..da01d713b87f 100644
+--- a/drivers/gpu/drm/xen/xen_drm_front_kms.c
++++ b/drivers/gpu/drm/xen/xen_drm_front_kms.c
+@@ -93,7 +93,7 @@ static const struct drm_mode_config_funcs mode_config_funcs = {
+ static void send_pending_event(struct xen_drm_front_drm_pipeline *pipeline)
  {
- 	struct vmw_display_unit *du = vmw_connector_to_du(connector);
--	struct drm_device *dev = connector->dev;
-+	struct drm_device *dev = connector->drm;
- 	struct vmw_private *dev_priv = vmw_priv(dev);
- 	struct drm_display_mode *mode = NULL;
- 	struct drm_display_mode *bmode;
-diff --git a/drivers/gpu/drm/xen/xen_drm_front_conn.c b/drivers/gpu/drm/xen/xen_drm_front_conn.c
-index a1ba6d3d0568..e167d4496f9c 100644
---- a/drivers/gpu/drm/xen/xen_drm_front_conn.c
-+++ b/drivers/gpu/drm/xen/xen_drm_front_conn.c
-@@ -50,7 +50,7 @@ static int connector_detect(struct drm_connector *connector,
- 	struct xen_drm_front_drm_pipeline *pipeline =
- 			to_xen_drm_pipeline(connector);
+ 	struct drm_crtc *crtc = &pipeline->pipe.crtc;
+-	struct drm_device *dev = crtc->dev;
++	struct drm_device *dev = crtc->drm;
+ 	unsigned long flags;
  
--	if (drm_dev_is_unplugged(connector->dev))
-+	if (drm_dev_is_unplugged(connector->drm))
- 		pipeline->conn_connected = false;
+ 	spin_lock_irqsave(&dev->event_lock, flags);
+@@ -113,7 +113,7 @@ static void display_enable(struct drm_simple_display_pipe *pipe,
+ 	struct drm_framebuffer *fb = plane_state->fb;
+ 	int ret, idx;
  
- 	return pipeline->conn_connected ? connector_status_connected :
-@@ -67,7 +67,7 @@ static int connector_get_modes(struct drm_connector *connector)
- 	struct videomode videomode;
- 	int width, height;
+-	if (!drm_dev_enter(pipe->crtc.dev, &idx))
++	if (!drm_dev_enter(pipe->crtc.drm, &idx))
+ 		return;
  
--	mode = drm_mode_create(connector->dev);
-+	mode = drm_mode_create(connector->drm);
- 	if (!mode)
- 		return 0;
+ 	ret = xen_drm_front_mode_set(pipeline, crtc->x, crtc->y,
+@@ -135,7 +135,7 @@ static void display_disable(struct drm_simple_display_pipe *pipe)
+ 			to_xen_drm_pipeline(pipe);
+ 	int ret = 0, idx;
  
-diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
-index 241b1621b197..31806ccc154a 100644
---- a/drivers/media/cec/core/cec-adap.c
-+++ b/drivers/media/cec/core/cec-adap.c
-@@ -62,7 +62,7 @@ void cec_fill_conn_info_from_drm(struct cec_connector_info *conn_info,
- {
- 	memset(conn_info, 0, sizeof(*conn_info));
- 	conn_info->type = CEC_CONNECTOR_TYPE_DRM;
--	conn_info->drm.card_no = connector->dev->primary->index;
-+	conn_info->drm.card_no = connector->drm->primary->index;
- 	conn_info->drm.connector_id = connector->base.id;
+-	if (drm_dev_enter(pipe->crtc.dev, &idx)) {
++	if (drm_dev_enter(pipe->crtc.drm, &idx)) {
+ 		ret = xen_drm_front_mode_set(pipeline, 0, 0, 0, 0, 0,
+ 					     xen_drm_front_fb_to_cookie(NULL));
+ 		drm_dev_exit(idx);
+@@ -251,7 +251,7 @@ static void display_update(struct drm_simple_display_pipe *pipe,
+ 
+ 	event = crtc->state->event;
+ 	if (event) {
+-		struct drm_device *dev = crtc->dev;
++		struct drm_device *dev = crtc->drm;
+ 		unsigned long flags;
+ 
+ 		WARN_ON(pipeline->pending_event);
+@@ -263,7 +263,7 @@ static void display_update(struct drm_simple_display_pipe *pipe,
+ 		spin_unlock_irqrestore(&dev->event_lock, flags);
+ 	}
+ 
+-	if (!drm_dev_enter(pipe->crtc.dev, &idx)) {
++	if (!drm_dev_enter(pipe->crtc.drm, &idx)) {
+ 		send_pending_event(pipeline);
+ 		return;
+ 	}
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+index a7f8611be6f4..37bbfd838499 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+@@ -232,12 +232,12 @@ static void zynqmp_dpsub_crtc_atomic_disable(struct drm_crtc *crtc,
+ 
+ 	drm_crtc_vblank_off(crtc);
+ 
+-	spin_lock_irq(&crtc->dev->event_lock);
++	spin_lock_irq(&crtc->drm->event_lock);
+ 	if (crtc->state->event) {
+ 		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+ 		crtc->state->event = NULL;
+ 	}
+-	spin_unlock_irq(&crtc->dev->event_lock);
++	spin_unlock_irq(&crtc->drm->event_lock);
+ 
+ 	clk_disable_unprepare(dpsub->vid_clk);
+ 	pm_runtime_put_sync(dpsub->dev);
+@@ -269,9 +269,9 @@ static void zynqmp_dpsub_crtc_atomic_flush(struct drm_crtc *crtc,
+ 
+ 		WARN_ON(drm_crtc_vblank_get(crtc) != 0);
+ 
+-		spin_lock_irq(&crtc->dev->event_lock);
++		spin_lock_irq(&crtc->drm->event_lock);
+ 		drm_crtc_arm_vblank_event(crtc, event);
+-		spin_unlock_irq(&crtc->dev->event_lock);
++		spin_unlock_irq(&crtc->drm->event_lock);
+ 	}
  }
- EXPORT_SYMBOL_GPL(cec_fill_conn_info_from_drm);
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index d300fde6c1a4..e622de54461a 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -1492,8 +1492,8 @@ struct drm_cmdline_mode {
-  * span multiple monitors).
+ 
+diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
+index cdddabfc5d57..306badaccd00 100644
+--- a/include/drm/drm_atomic_helper.h
++++ b/include/drm/drm_atomic_helper.h
+@@ -173,7 +173,7 @@ int drm_atomic_helper_page_flip_target(
+  * drm_atomic_crtc_state_for_each_plane().
   */
- struct drm_connector {
+ #define drm_atomic_crtc_for_each_plane(plane, crtc) \
+-	drm_for_each_plane_mask(plane, (crtc)->dev, (crtc)->state->plane_mask)
++	drm_for_each_plane_mask(plane, (crtc)->drm, (crtc)->state->plane_mask)
+ 
+ /**
+  * drm_atomic_crtc_state_for_each_plane - iterate over attached planes in new state
+diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
+index 8e1cbc75143e..4762786518d3 100644
+--- a/include/drm/drm_crtc.h
++++ b/include/drm/drm_crtc.h
+@@ -935,8 +935,8 @@ struct drm_crtc_funcs {
+  * allows the CRTC to be controlled.
+  */
+ struct drm_crtc {
 -	/** @dev: parent DRM device */
 -	struct drm_device *dev;
 +	/** @drm: parent DRM device */
 +	struct drm_device *drm;
- 	/** @kdev: kernel device for sysfs attributes */
- 	struct device *kdev;
- 	/** @attr: sysfs attributes */
-@@ -2114,7 +2114,7 @@ const char *drm_get_colorspace_name(enum drm_colorspace colorspace);
-  * @encoder: &struct drm_encoder pointer used as cursor
-  */
- #define drm_connector_for_each_possible_encoder(connector, encoder) \
--	drm_for_each_encoder_mask(encoder, (connector)->dev, \
-+	drm_for_each_encoder_mask(encoder, (connector)->drm, \
- 				  (connector)->possible_encoders)
- 
- #endif
+ 	/** @port: OF node used by drm_of_find_possible_crtcs(). */
+ 	struct device_node *port;
+ 	/**
 -- 
 2.39.2
 
