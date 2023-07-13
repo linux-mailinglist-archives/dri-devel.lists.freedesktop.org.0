@@ -2,44 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B65F9752461
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 15:56:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8892D75248C
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 16:02:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4176210E0E4;
-	Thu, 13 Jul 2023 13:56:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E318F10E6F5;
+	Thu, 13 Jul 2023 14:02:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de
- [130.133.4.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8F5010E0E0;
- Thu, 13 Jul 2023 13:56:32 +0000 (UTC)
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
- by outpost.zedat.fu-berlin.de (Exim 4.95) with esmtps (TLS1.3)
- tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1qJwo0-003uyK-7j; Thu, 13 Jul 2023 15:56:28 +0200
-Received: from p57bd9f0d.dip0.t-ipconnect.de ([87.189.159.13]
- helo=suse-laptop.fritz.box) by inpost2.zedat.fu-berlin.de (Exim 4.95)
- with esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@physik.fu-berlin.de>)
- id 1qJwnz-002qWA-Vd; Thu, 13 Jul 2023 15:56:28 +0200
-Message-ID: <6d04a1b87a9820d8ae23191092665f2dcb17ce19.camel@physik.fu-berlin.de>
-Subject: Re: [PATCH v2 08/18] sh: Assign FB_MODE_IS_UNKNOWN to struct
- fb_videomode.flag
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, javierm@redhat.com
-Date: Thu, 13 Jul 2023 15:56:26 +0200
-In-Reply-To: <4622810f8bceb66f212fa09d34b10f0d2d71a35d.camel@physik.fu-berlin.de>
-References: <20230713130338.31086-1-tzimmermann@suse.de>
- <20230713130338.31086-9-tzimmermann@suse.de>
- <4622810f8bceb66f212fa09d34b10f0d2d71a35d.camel@physik.fu-berlin.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB60710E6E6
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 14:02:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1689256948;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fA/eS6o3EDH8bydBgsWTgV/BrJiaaTq/p18XJHUPDVk=;
+ b=hBG1/JH92ip4Q9EIZ6+kekfRm8S6tGD6+FOCUWV0K1q3EAuS1NiXau5FRdYEuSDF3VeQkz
+ 2UE2qsjb3zdjwK6SelixyzDwxwegqIMUw/oYSKaTy2CJUcj+bEyTrnpe+fTRtib4a4NrsX
+ uIL9v0D0JLDMD4vKekUsTX6GFIl52qI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-511-Pn9n3MT4MF6B8KlLfbIaWQ-1; Thu, 13 Jul 2023 10:02:08 -0400
+X-MC-Unique: Pn9n3MT4MF6B8KlLfbIaWQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-3fc0094c1bdso4179925e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 07:01:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689256914; x=1691848914;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fA/eS6o3EDH8bydBgsWTgV/BrJiaaTq/p18XJHUPDVk=;
+ b=fYx29q/1xTYT3FDN3GgL+wegcmtRlAl0EyK3d0j+bzV7abU+BPOTNESD5Q9xDpg9/K
+ K9sFycSIdxoAfbMTb5+NayPN7vjyycl5O4m+TkZNaA4Fnxdk3pPgmyJT/AaSN0E3B6+p
+ IEzXKHG1YJUP+u4vuaj4VXb5zEYMa6jh0To6KQ+YTYpZ4Y7h6EFyfY4hr2IqUx2l030F
+ TSry/WdV7Wyswhj3iH1WmfdVwMqcgPb3mgRJw3TklrUbW1LFkabdCxyektdxfu+rRH+r
+ 5qJR8a3ZnKQy2DPWW255+hIrfgA2RRH1AKQGyQzJ6VzUFnDf1GmKepxOhxQ2eoUiQUT/
+ OTbw==
+X-Gm-Message-State: ABy/qLZ1oltIOXk7Rdm6iBqcRo/xjztYPuip0CJN8BK00Yic4Sohbwez
+ ot7cmESLXdd3nGgG63o5waTox+RrAoiAoirGsY396N/ol8VVQCevvUB1nX6uRGGG9ArzJa0bzY/
+ aWP6ERgtweRbwTofI7OIvwbf/UJTn
+X-Received: by 2002:a7b:c011:0:b0:3fc:5fa:e2a9 with SMTP id
+ c17-20020a7bc011000000b003fc05fae2a9mr1484767wmb.41.1689256914232; 
+ Thu, 13 Jul 2023 07:01:54 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlFb9RDVsom0KqL6AKT6b6Y78RMIb1xxTz9aSpO2Jhiw+N3e07Kh6aAVD6+RMY2hUTqU82hGrA==
+X-Received: by 2002:a7b:c011:0:b0:3fc:5fa:e2a9 with SMTP id
+ c17-20020a7bc011000000b003fc05fae2a9mr1484752wmb.41.1689256913923; 
+ Thu, 13 Jul 2023 07:01:53 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ f15-20020a7bc8cf000000b003fbaa2903f4sm7832911wml.19.2023.07.13.07.01.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 Jul 2023 07:01:53 -0700 (PDT)
+Message-ID: <03e06f56-7661-fe71-d29e-2818279fb3e3@redhat.com>
+Date: Thu, 13 Jul 2023 16:01:52 +0200
 MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 87.189.159.13
-X-ZEDAT-Hint: PO
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 0/2] Two memory leak fixes in drm_client_modeset.c
+To: tzimmermann@suse.de, airlied@redhat.com, javierm@redhat.com,
+ yizhan@redhat.com
+References: <20230711092203.68157-1-jfalempe@redhat.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20230711092203.68157-1-jfalempe@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,71 +87,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, linux-sh@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- linux-geode@lists.infradead.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
- dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
- linux-nvidia@lists.surfsouth.com, linux-omap@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas!
+On 11/07/2023 11:20, Jocelyn Falempe wrote:
+> Jocelyn Falempe (2):
+>    drm/client: Fix memory leak in drm_client_target_cloned
+>    drm/client: Fix memory leak in drm_client_modeset_probe
+> 
 
-On Thu, 2023-07-13 at 15:53 +0200, John Paul Adrian Glaubitz wrote:
-> On Thu, 2023-07-13 at 14:58 +0200, Thomas Zimmermann wrote:
-> > Assign FB_MODE_IS_UNKNOWN to sh7763fb_videomode.flag instead of
-> > FBINFO_FLAG_DEFAULT. Both are 0, so the stored value does not change.
-> >=20
-> > FBINFO_FLAG_DEFAULT is a flag for a framebuffer in struct fb_info.
-> > Flags for videomodes are prefixed with FB_MODE_.
-> >=20
-> > v2:
-> > 	* assign FB_MODE_IS_UNKNOWN (Adrian)
-> >=20
-> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-> > Cc: Rich Felker <dalias@libc.org>
-> > Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-> > ---
-> >  arch/sh/boards/mach-sh7763rdp/setup.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/arch/sh/boards/mach-sh7763rdp/setup.c b/arch/sh/boards/mac=
-h-sh7763rdp/setup.c
-> > index 97e715e4e9b3..e25193001ea0 100644
-> > --- a/arch/sh/boards/mach-sh7763rdp/setup.c
-> > +++ b/arch/sh/boards/mach-sh7763rdp/setup.c
-> > @@ -119,7 +119,7 @@ static struct fb_videomode sh7763fb_videomode =3D {
-> >  	.vsync_len =3D 1,
-> >  	.sync =3D 0,
-> >  	.vmode =3D FB_VMODE_NONINTERLACED,
-> > -	.flag =3D FBINFO_FLAG_DEFAULT,
-> > +	.flag =3D FB_MODE_IS_UNKNOWN,
-> >  };
-> > =20
-> >  static struct sh7760fb_platdata sh7763fb_def_pdata =3D {
->=20
-> Acked-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+I just pushed the two patches to drm-misc-fixes, after removing the 
+useless NULL check of the second patch.
 
-Ah, just one tiny request: Could you change the subject to include the
-board name, i.e.:
+Thank for your quick reviews.
 
-	sh: mach-sh7763rdp: Assign FB_MODE_IS_UNKNOWN to struct fb_videomode.flag
+Best regards,
 
-?
+-- 
 
-I wasn't paying close attention to the path of the file being changed when
-I first looked at your patch. Sorry for that.
+Jocelyn
 
-Adrian
 
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+>   drivers/gpu/drm/drm_client_modeset.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+> 
+> 
+> base-commit: 2f98e686ef59b5d19af5847d755798e2031bee3a
+
+
