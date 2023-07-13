@@ -2,77 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63DA2752925
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 18:53:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D2D375293C
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 18:57:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 634F310E71B;
-	Thu, 13 Jul 2023 16:52:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76A3710E70E;
+	Thu, 13 Jul 2023 16:57:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com
- [IPv6:2607:f8b0:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F237A10E717
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 16:52:54 +0000 (UTC)
-Received: by mail-il1-x133.google.com with SMTP id
- e9e14a558f8ab-34642952736so3906915ab.3
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 09:52:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689267174; x=1691859174;
- h=content-transfer-encoding:author:mime-version:references
- :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
- :date:message-id:reply-to;
- bh=dcIGYFaQfGqSRzz1TR43A9wAS36o64Mm47YNW9KhJGo=;
- b=rNKbM43IVbuLmaY5vpRk95N0ouqDf122oy6vp3z+XqzqJdSqzEJE49uA/+LAlaTvzC
- va80pws1oE2LFizrEocPk3POxluC+DsEHwwhMXkn9kZxztlmon0JerXhq+Rv985t9dfJ
- izZengGZk7DseJjSpHjHc9HrswDXf08dRy2VywcwJF8q6Qj2EP66+D0f8kQxk+lCznmY
- Kon7SzME/qoenAAUA7B2HPEHQj2HTWWhYlvOOD1kqMp2ld4hf+6qAnnpwzEdHgCNCd1Z
- Vr0lmId459CUK8susiATSTB9UXoPJ9XogCq9WhynQ50c7Z23C+gEFoBJiGw+x6n8hdHk
- yXHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689267174; x=1691859174;
- h=content-transfer-encoding:author:mime-version:references
- :in-reply-to:message-id:date:subject:cc:to:from:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=dcIGYFaQfGqSRzz1TR43A9wAS36o64Mm47YNW9KhJGo=;
- b=VUrnhkVMnpIS/Oo/2hPnVor7+cmIbXlo0xGNnTmFks4NCxscYdrGVDcBkoTmCTYQ/5
- 7LV7HtVubSjNoaz0/3km2lfxwtbJlFXMt6uIVlc7DC5MENFVBKqKoqz31prfHxY9+hRd
- kCVbww4ScsvWXRW8oNehb3Z6H2NaC8czFTxQasg9VN6ieW0pvx4bLEAx2yQynsD1GVFQ
- PC0NtuS/kMFgHwxEhvpad5SQAZAf/PlZZNORlo4MbMemrrs6iHq3uuoW7tJ0baI86CFf
- nDmGI+hukQofC+UpnC9bxfPqm8IqB2DSi2a4K5xBB1hG1w+oVnSDqGPe32J+qMtD7KfM
- QCpw==
-X-Gm-Message-State: ABy/qLaMcnMkxqsx7e9t+abykhRXDnpdfZ8p7ymM8hFO20LfLkIPj8Qn
- mE3QqROaYsyx1vpingujIV/CAw==
-X-Google-Smtp-Source: APBJJlEXsdTd6Pdgx3SCjb2Ew/A5vqSryB0OA8QHjsU17e1cE61ltYcsbHB9o5es5L+hVdITQ4UnZA==
-X-Received: by 2002:a92:c6c7:0:b0:346:5813:f7f5 with SMTP id
- v7-20020a92c6c7000000b003465813f7f5mr2120484ilm.12.1689267174022; 
- Thu, 13 Jul 2023 09:52:54 -0700 (PDT)
-Received: from x-wing.lan ([49.207.50.231]) by smtp.gmail.com with ESMTPSA id
- d3-20020a17090abf8300b002633fa95ac2sm12009150pjs.13.2023.07.13.09.52.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Jul 2023 09:52:53 -0700 (PDT)
-From: Amit Pundir <amit.pundir@linaro.org>
-To: Bjorn Andersson <andersson@kernel.org>, Andy Gross <agross@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Caleb Connolly <caleb.connolly@linaro.org>,
- Bryan Donoghue <bryan.odonoghue@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>
-Subject: [PATCH v5 2/2] arm64: dts: qcom: sdm845-db845c: Mark cont splash
- memory region as reserved
-Date: Thu, 13 Jul 2023 22:22:38 +0530
-Message-Id: <20230713165238.2814849-2-amit.pundir@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230713165238.2814849-1-amit.pundir@linaro.org>
-References: <20230713165238.2814849-1-amit.pundir@linaro.org>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1DE110E70E;
+ Thu, 13 Jul 2023 16:57:03 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 36DGSEla017820; Thu, 13 Jul 2023 16:56:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=E+iCmzi+T84WCDzIffC9UkofVQ5H6j3XpH/JCpKBIi4=;
+ b=ew3LbUTGRB3p7OnXlYJsc8sBhwwbi8/m9uwEe6M3A+1oNMmtsFRFlvA4IkFCL9gIpaTh
+ ui4kDRZQowvnvFL5FGsZ3ESXTtGmUVgWMvo2tTwV65c+f5WayGuXLaEOphR/RE8FXH5x
+ wfC84FRRwnhiXeeeifCvxqmer8ne5cvkqYvG60YS2U32UAkYZTyABSaa1giMtoIWE9Dd
+ wQIR7hUimwMoAgLVboUtXSowmALWAzN27Fyz91eIAo+lwwW/yaM6SvYajozVaYEHQZfo
+ UcWZt5tOwskT6aPF6vzixa8o+h8OXikohTosyUGYYBMAl9p8mllFCpgU4Cx4CKtz6kx8 kQ== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rtbmusaaj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Jul 2023 16:56:50 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36DGunSW005740
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Jul 2023 16:56:49 GMT
+Received: from [10.134.70.142] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Thu, 13 Jul
+ 2023 09:56:48 -0700
+Message-ID: <28acc9a1-8289-2a84-8781-c082179e8c87@quicinc.com>
+Date: Thu, 13 Jul 2023 09:56:48 -0700
 MIME-Version: 1.0
-Author: Amit Pundir <amit.pundir@linaro.org>
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 2/3] drm/msm: Fix IS_ERR() vs NULL check in
+ a5xx_submit_in_rb()
+Content-Language: en-US
+To: Gaosheng Cui <cuigaosheng1@huawei.com>, <liviu.dudau@arm.com>,
+ <airlied@gmail.com>, <daniel@ffwll.ch>, <robdclark@gmail.com>,
+ <dmitry.baryshkov@linaro.org>, <sean@poorly.run>,
+ <marijn.suijten@somainline.org>, <neil.armstrong@linaro.org>,
+ <sam@ravnborg.org>, <quic_eberman@quicinc.com>, <a39.skl@gmail.com>,
+ <quic_gurus@quicinc.com>, <angelogioacchino.delregno@somainline.org>,
+ <james.qian.wang@arm.com>
+References: <20230713020556.1956639-1-cuigaosheng1@huawei.com>
+ <20230713020556.1956639-3-cuigaosheng1@huawei.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230713020556.1956639-3-cuigaosheng1@huawei.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: ujmFfedV5opBeM1onJK0KAbec_oE1LnG
+X-Proofpoint-ORIG-GUID: ujmFfedV5opBeM1onJK0KAbec_oE1LnG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-13_06,2023-07-13_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 mlxscore=0
+ lowpriorityscore=0 priorityscore=1501 suspectscore=0 phishscore=0
+ spamscore=0 bulkscore=0 mlxlogscore=999 impostorscore=0 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2307130150
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,66 +90,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, dt <devicetree@vger.kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adding a reserved memory region for the framebuffer memory
-(the splash memory region set up by the bootloader).
 
-Signed-off-by: Amit Pundir <amit.pundir@linaro.org>
----
-v5: Re-sending with updated dt-bindings patch in mdss-common
-    schema.
 
-v4: Re-sending this along with a new dt-bindings patch to
-    document memory-region property in qcom,sdm845-mdss
-    schema and keep dtbs_check happy.
+On 7/12/2023 7:05 PM, Gaosheng Cui wrote:
+> The msm_gem_get_vaddr() returns an ERR_PTR() on failure, we should
+> use IS_ERR() to check the return value.
+> 
+> Fixes: 6a8bd08d0465 ("drm/msm: add sudo flag to submit ioctl")
+> Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
+> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
 
-v3: Point this reserved region to MDSS.
+You dropped Dmitry's R-b in this revision.
 
-v2: Updated commit message.
+https://patchwork.freedesktop.org/patch/511035/?series=110745&rev=1
 
-There was some dicussion on v1 but it didn't go anywhere,
-https://lore.kernel.org/linux-kernel/20230124182857.1524912-1-amit.pundir@linaro.org/T/#u.
-The general consensus is that this memory should be freed and be
-made resuable but that (releasing this piece of memory) has been
-tried before and it is not trivial to return the reserved memory
-node to the system RAM pool in this case.
+If you are going to spin a v3, pls add it back. Otherwise I will while 
+applying.
 
- arch/arm64/boot/dts/qcom/sdm845-db845c.dts | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-db845c.dts b/arch/arm64/boot/dts/qcom/sdm845-db845c.dts
-index d6b464cb61d6..f546f6f57c1e 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-db845c.dts
-+++ b/arch/arm64/boot/dts/qcom/sdm845-db845c.dts
-@@ -101,6 +101,14 @@ hdmi_con: endpoint {
- 		};
- 	};
- 
-+	reserved-memory {
-+		/* Cont splash region set up by the bootloader */
-+		cont_splash_mem: framebuffer@9d400000 {
-+			reg = <0x0 0x9d400000 0x0 0x2400000>;
-+			no-map;
-+		};
-+	};
-+
- 	lt9611_1v8: lt9611-vdd18-regulator {
- 		compatible = "regulator-fixed";
- 		regulator-name = "LT9611_1V8";
-@@ -506,6 +514,7 @@ &i2c14 {
- };
- 
- &mdss {
-+	memory-region = <&cont_splash_mem>;
- 	status = "okay";
- };
- 
--- 
-2.25.1
-
+>   drivers/gpu/drm/msm/adreno/a5xx_gpu.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> index a99310b68793..a499e3b350fc 100644
+> --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> @@ -89,7 +89,7 @@ static void a5xx_submit_in_rb(struct msm_gpu *gpu, struct msm_gem_submit *submit
+>   			 * since we've already mapped it once in
+>   			 * submit_reloc()
+>   			 */
+> -			if (WARN_ON(!ptr))
+> +			if (WARN_ON(IS_ERR(ptr)))
+>   				return;
+>   
+>   			for (i = 0; i < dwords; i++) {
