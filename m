@@ -1,69 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BDE8752B50
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 22:03:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17BB2752B57
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 22:06:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EA5710E0A9;
-	Thu, 13 Jul 2023 20:03:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E003110E782;
+	Thu, 13 Jul 2023 20:06:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AC7010E0A9
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 20:03:20 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id
- 2adb3069b0e04-4fbcbf4375dso1400646e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 13:03:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1689278598; x=1689883398;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Yvt8Ku6KDe29tpizQm23o+O9+z8bar+cVRkERkmQ91w=;
- b=FIEiEaFZqrXW8g8YQ8JN5/m9jV8Rn+IH6+81QIfMP6OXn6Yx3ig8G05Rc2TzTjM92V
- QFyWvhupVc7i04q4dWNiplHx7Q54ZZ/p4Z4dTusHG2IpEOi6l1NkpfxgsTi6rwyQzD8n
- ZOC4c3xWeMOxZIeWojRjqw8OBPKWgl2fwPLd3RbgzlKjxxn5AGLn6dPVbCsBCTmJ3Rlm
- KPkU95S9zJR0wNt0nB+MgZSVuuEnUR/P3bGoZeVBJ9aeve2Juk38x177QueyngiiE4ST
- WdJInwrH3RsE3yoZvv0N4Pdg88osODnbFo9cvLG61hQfRW8CZlCBL3T4Aj9TXIDQV4Uq
- A3Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689278598; x=1689883398;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Yvt8Ku6KDe29tpizQm23o+O9+z8bar+cVRkERkmQ91w=;
- b=T4rDD46E+LmRYRYqOSg0hgUJ+LzBOvS3cKiC4gh8T/TFdcW1sm5+eqabLm9gPnkMRJ
- jbqOMAQqBoB+Nx/bAZPgJov0F2QBiIQzzqzEq95ojE1BK9bEJMtLxprChBhMwWwKKEXT
- RZmj/YhGWxFxTZ9k98Ri28KN2OFNbdrNxbqg6An9SxHPLOdo+6hk+Ymchk/CBdPfnx0q
- AvnwLCrlYvf5I+7WIjlZY20Wbw4oOND/498msigI4V67P+BLGiX4glwCmuuGZrwe6hYF
- TSMMPdzeLEsXfWKy3fQ1bor03sg7umOrRauqq1np2nCUsrSIZIKSyiDVGQQ5Cxa9pRl4
- w/2g==
-X-Gm-Message-State: ABy/qLZdf1DrT+V+NSQxbYLF8CP1A99hzcvZ/fsqCEB/+yZQnoYYbqkf
- t5CwN1FCE9O+TERCbVVTLUcP1g==
-X-Google-Smtp-Source: APBJJlHvFT4NkzYf8AiTu0gZdv5cunOm8vlcbun9kkFFQ7/GyRaJ58yCVi/nDi7GsigvUUQbiZlZ0g==
-X-Received: by 2002:a05:6512:398a:b0:4f9:5582:a7d3 with SMTP id
- j10-20020a056512398a00b004f95582a7d3mr218898lfu.22.1689278598227; 
- Thu, 13 Jul 2023 13:03:18 -0700 (PDT)
-Received: from [10.10.15.130] ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- x7-20020ac259c7000000b004f84b36a24fsm1227265lfn.51.2023.07.13.13.03.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Jul 2023 13:03:17 -0700 (PDT)
-Message-ID: <a7aa6e21-6f79-0029-5034-db368239980a@linaro.org>
-Date: Thu, 13 Jul 2023 23:03:17 +0300
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C5C810E025;
+ Thu, 13 Jul 2023 20:06:09 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 36DJxqYt032016; Thu, 13 Jul 2023 20:06:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=date : from : to :
+ cc : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=qcppdkim1; bh=GQQFlseTHJXewMnf4AH7VinCynpLCICqRB3T1dO5yFA=;
+ b=XTqJfk1c8Z5Q7SgjaJdrVp+y6pJNXZloQ236O34rLJ4g0XlzBOlxqVSPSKj+UmCVsvYd
+ He9Byw8eMw+fGn8uApG9oD2tkArtiLWbRXetQ6bFJHN3GFb34zWpC3/m9SZAXJXl+h8k
+ 6AU7LrEq5cKuBgX0pK5+sTq9mSuirUy3qz1BKtyqd4mFiCTz1loDnMF3/dCP47b3b6zI
+ bp2THZOL7j4iqfROhBgbAZKVnq3iz6SQ/uzkZ2RH519mMjdrMriC9mRExqApEWFbshvd
+ AURlNx5VWJ0WuvIMxu6L8IAEgzrpTjOQtnPCRr8RPEeJloUg0O7GU3Yw6J7+Fqdy01it cw== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rtpu904wy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Jul 2023 20:06:06 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36DK65PJ024069
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Jul 2023 20:06:05 GMT
+Received: from akhilpo-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.30; Thu, 13 Jul 2023 13:06:03 -0700
+Date: Fri, 14 Jul 2023 01:35:59 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [Freedreno] [PATCH 05/12] drm/msm/adreno: Use quirk to identify
+ cached-coherent support
+Message-ID: <m2r2klrcvgs2qiywx5eetcwwjph6suzjey4hhbon3bhqdsbg7t@lvwdvbhoaqaw>
+References: <20230706211045.204925-1-robdclark@gmail.com>
+ <20230706211045.204925-6-robdclark@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] drm/msm: Fix hw_fence error path cleanup
-Content-Language: en-GB
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20230712222523.7404-1-robdclark@gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230712222523.7404-1-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230706211045.204925-6-robdclark@gmail.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: Ejw8zUvfqETWCo_Wr3Lt5oLEArpleIJp
+X-Proofpoint-ORIG-GUID: Ejw8zUvfqETWCo_Wr3Lt5oLEArpleIJp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-13_08,2023-07-13_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ priorityscore=1501 mlxlogscore=999 clxscore=1015 adultscore=0 spamscore=0
+ impostorscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0 phishscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307130176
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,80 +80,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- open list <linux-kernel@vger.kernel.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
+Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/07/2023 01:25, Rob Clark wrote:
+On Thu, Jul 06, 2023 at 02:10:38PM -0700, Rob Clark wrote:
+> 
 > From: Rob Clark <robdclark@chromium.org>
 > 
-> In an error path where the submit is free'd without the job being run,
-> the hw_fence pointer is simply a kzalloc'd block of memory.  In this
-> case we should just kfree() it, rather than trying to decrement it's
-> reference count.  Fortunately we can tell that this is the case by
-> checking for a zero refcount, since if the job was run, the submit would
-> be holding a reference to the hw_fence.
+> It is better to explicitly list it.  With the move to opaque chip-id's
+> for future devices, we should avoid trying to infer things like
+> generation from the numerical value.
 > 
-> Fixes: f94e6a51e17c ("drm/msm: Pre-allocate hw_fence")
 > Signed-off-by: Rob Clark <robdclark@chromium.org>
 > ---
->   drivers/gpu/drm/msm/msm_fence.c      |  6 ++++++
->   drivers/gpu/drm/msm/msm_gem_submit.c | 14 +++++++++++++-
->   2 files changed, 19 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/msm/adreno/adreno_device.c | 23 +++++++++++++++-------
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  1 +
+>  2 files changed, 17 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/msm_fence.c
-> index 96599ec3eb78..1a5d4f1c8b42 100644
-> --- a/drivers/gpu/drm/msm/msm_fence.c
-> +++ b/drivers/gpu/drm/msm/msm_fence.c
-> @@ -191,6 +191,12 @@ msm_fence_init(struct dma_fence *fence, struct msm_fence_context *fctx)
->   
->   	f->fctx = fctx;
->   
-> +	/*
-> +	 * Until this point, the fence was just some pre-allocated memory,
-> +	 * no-one should have taken a reference to it yet.
-> +	 */
-> +	WARN_ON(kref_read(&fence->refcount));
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> index f469f951a907..3c531da417b9 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> @@ -256,6 +256,7 @@ static const struct adreno_info gpulist[] = {
+>  		},
+>  		.gmem = SZ_512K,
+>  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+> +		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
+>  		.init = a6xx_gpu_init,
+>  	}, {
+>  		.rev = ADRENO_REV(6, 1, 9, ANY_ID),
+> @@ -266,6 +267,7 @@ static const struct adreno_info gpulist[] = {
+>  		},
+>  		.gmem = SZ_512K,
+>  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+> +		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
+>  		.init = a6xx_gpu_init,
+>  		.zapfw = "a615_zap.mdt",
+>  		.hwcg = a615_hwcg,
+> @@ -278,6 +280,7 @@ static const struct adreno_info gpulist[] = {
+>  		},
+>  		.gmem = SZ_1M,
+>  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+> +		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
+>  		.init = a6xx_gpu_init,
+>  		.zapfw = "a630_zap.mdt",
+>  		.hwcg = a630_hwcg,
+> @@ -290,6 +293,7 @@ static const struct adreno_info gpulist[] = {
+>  		},
+>  		.gmem = SZ_1M,
+>  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+> +		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
+>  		.init = a6xx_gpu_init,
+>  		.zapfw = "a640_zap.mdt",
+>  		.hwcg = a640_hwcg,
+> @@ -302,7 +306,8 @@ static const struct adreno_info gpulist[] = {
+>  		},
+>  		.gmem = SZ_1M + SZ_128K,
+>  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+> -		.quirks = ADRENO_QUIRK_HAS_HW_APRIV,
+> +		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
+> +			ADRENO_QUIRK_HAS_HW_APRIV,
+>  		.init = a6xx_gpu_init,
+>  		.zapfw = "a650_zap.mdt",
+>  		.hwcg = a650_hwcg,
+> @@ -316,7 +321,8 @@ static const struct adreno_info gpulist[] = {
+>  		},
+>  		.gmem = SZ_1M + SZ_512K,
+>  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+> -		.quirks = ADRENO_QUIRK_HAS_HW_APRIV,
+> +		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
+> +			ADRENO_QUIRK_HAS_HW_APRIV,
+>  		.init = a6xx_gpu_init,
+>  		.zapfw = "a660_zap.mdt",
+>  		.hwcg = a660_hwcg,
+> @@ -329,7 +335,8 @@ static const struct adreno_info gpulist[] = {
+>  		},
+>  		.gmem = SZ_512K,
+>  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+> -		.quirks = ADRENO_QUIRK_HAS_HW_APRIV,
+> +		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
+> +			ADRENO_QUIRK_HAS_HW_APRIV,
+>  		.init = a6xx_gpu_init,
+>  		.hwcg = a660_hwcg,
+>  		.address_space_size = SZ_16G,
+> @@ -342,6 +349,7 @@ static const struct adreno_info gpulist[] = {
+>  		},
+>  		.gmem = SZ_2M,
+>  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+> +		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT,
+>  		.init = a6xx_gpu_init,
+>  		.zapfw = "a640_zap.mdt",
+>  		.hwcg = a640_hwcg,
+> @@ -353,7 +361,8 @@ static const struct adreno_info gpulist[] = {
+>  		},
+>  		.gmem = SZ_4M,
+>  		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+> -		.quirks = ADRENO_QUIRK_HAS_HW_APRIV,
+> +		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
+> +			ADRENO_QUIRK_HAS_HW_APRIV,
+>  		.init = a6xx_gpu_init,
+>  		.zapfw = "a690_zap.mdt",
+>  		.hwcg = a690_hwcg,
+> @@ -565,9 +574,9 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
+>  	if (ret)
+>  		return ret;
+>  
+> -	if (config.rev.core >= 6)
+> -		if (!adreno_has_gmu_wrapper(to_adreno_gpu(gpu)))
+> -			priv->has_cached_coherent = true;
+> +	priv->has_cached_coherent =
+> +		!!(info->quirks & ADRENO_QUIRK_HAS_CACHED_COHERENT) &&
+> +		!adreno_has_gmu_wrapper(to_adreno_gpu(gpu));
+>  
+>  	return 0;
+>  }
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> index a7c4a2c536e3..e08d41337169 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> @@ -33,6 +33,7 @@ enum {
+>  #define ADRENO_QUIRK_FAULT_DETECT_MASK		BIT(1)
+>  #define ADRENO_QUIRK_LMLOADKILL_DISABLE		BIT(2)
+>  #define ADRENO_QUIRK_HAS_HW_APRIV		BIT(3)
+> +#define ADRENO_QUIRK_HAS_CACHED_COHERENT	BIT(4)
+a shorter ADRENO_IS_IOCOHERENT?
 
-It this really correct to return a refcounted object with 0 refcount 
-(I'm looking at submit_create() / msm_fence_alloc() )? Maybe it would be 
-better to move dma_fence_get() to msm_fence_alloc() ? But don't 
-immediately see, which one should be moved.
+-Akhil
 
-> +
->   	dma_fence_init(&f->base, &msm_fence_ops, &fctx->spinlock,
->   		       fctx->context, ++fctx->last_fence);
->   }
-> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-> index 3f1aa4de3b87..9d66498cdc04 100644
-> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
-> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-> @@ -86,7 +86,19 @@ void __msm_gem_submit_destroy(struct kref *kref)
->   	}
->   
->   	dma_fence_put(submit->user_fence);
-> -	dma_fence_put(submit->hw_fence);
-> +
-> +	/*
-> +	 * If the submit is freed before msm_job_run(), then hw_fence is
-> +	 * just some pre-allocated memory, not a reference counted fence.
-> +	 * Once the job runs and the hw_fence is initialized, it will
-> +	 * have a refcount of at least one, since the submit holds a ref
-> +	 * to the hw_fence.
-> +	 */
-> +	if (kref_read(&submit->hw_fence->refcount) == 0) {
-> +		kfree(submit->hw_fence);
-> +	} else {
-> +		dma_fence_put(submit->hw_fence);
-> +	}
->   
->   	put_pid(submit->pid);
->   	msm_submitqueue_put(submit->queue);
-
--- 
-With best wishes
-Dmitry
-
+>  
+>  struct adreno_rev {
+>  	uint8_t  core;
+> -- 
+> 2.41.0
+> 
