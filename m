@@ -2,41 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 466BC752AEA
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 21:28:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C10752B19
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 21:40:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E8E210E779;
-	Thu, 13 Jul 2023 19:28:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2450710E77A;
+	Thu, 13 Jul 2023 19:40:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4A7110E779
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 19:28:51 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5C69C6128D;
- Thu, 13 Jul 2023 19:28:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C7CFC433C7;
- Thu, 13 Jul 2023 19:28:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1689276530;
- bh=zDVMhROmojmbgyEs2EDFF1j/BJYI67as1OcXUNfcQPg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=xnARUZ0P4IJfcgcPMHZ9Y6DjTZcWfPEqfbjzO+3k0J7MGqLzYYWrIhzbHGrSDjTjP
- fkROjl9lPL8k4HfEQESuE7ohoRjDo/EzyxGcqEbIhCTW0a3enlxmyy8AFC4kRNnTHf
- gb37E6ir3PbH3oNe2jOpCLtGi0BIQ7W3ZZZXqmCM=
-Date: Thu, 13 Jul 2023 21:28:47 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Andrew Davis <afd@ti.com>
-Subject: Re: [PATCH v3] misc: sram: Add DMA-BUF Heap exporting of SRAM areas
-Message-ID: <2023071308-squeeze-hamster-d02f@gregkh>
-References: <20230713191316.116019-1-afd@ti.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C53B10E0A8;
+ Thu, 13 Jul 2023 19:40:15 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 36DIjVOu004450; Thu, 13 Jul 2023 19:40:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=date : from : to :
+ cc : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=qcppdkim1; bh=jt3RhznHwuPHljelU3LuQE6YZCsogGmreeQYaKkdCpw=;
+ b=cdfLuyiKEvcj32OQZIwqdqCWcmFjLVhwGiyqScuhg6tfAn8mw7gufTyiZS06/rkrqKmg
+ cgmUVeHDlmyMtI7+CkV8w3R8GvogBq1VZqYOsCcNOh0Zj4L9MO1YH62scWdhY8+z/86D
+ Ax4+bROsN8lJ0+Pjs/59OR3irVj+P3ywS0GwHEHs9TRgT3m4V//k37VhMCUdBrjfqpT6
+ Gf+y/kpGB1vZhYYQZkvbYCZgmnk9jn6Twy50jQV7QUrXKj33xqKEXGznt40fQE68OMs6
+ WguRh8ax7rN8NloBSxtXQPahtpQSWw9au0AfnyLlEm7Y/onn1RcjGow2+G3OpLZXiCvf EA== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rtpts03h5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Jul 2023 19:40:12 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36DJeCZl023395
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Jul 2023 19:40:12 GMT
+Received: from akhilpo-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.30; Thu, 13 Jul 2023 12:40:10 -0700
+Date: Fri, 14 Jul 2023 01:10:07 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [Freedreno] [PATCH] drm/msm/a6xx: Fix misleading comment
+Message-ID: <zl2agkz6rcdvocmgiyszege7evbdcboz65u3w2gypizzdqdixi@ellnjfax5qrg>
+References: <20230630162043.79198-1-robdclark@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20230713191316.116019-1-afd@ti.com>
+In-Reply-To: <20230630162043.79198-1-robdclark@gmail.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 4jsYCokDZTRxuSgom5UlsU-rVkdzNtp1
+X-Proofpoint-ORIG-GUID: 4jsYCokDZTRxuSgom5UlsU-rVkdzNtp1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-13_08,2023-07-13_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ impostorscore=0 phishscore=0 spamscore=0 bulkscore=0 malwarescore=0
+ lowpriorityscore=0 mlxscore=0 priorityscore=1501 mlxlogscore=861
+ clxscore=1015 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2306200000 definitions=main-2307130173
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,88 +78,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- John Stultz <jstultz@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 13, 2023 at 02:13:16PM -0500, Andrew Davis wrote:
-> This new export type exposes to userspace the SRAM area as a DMA-BUF Heap,
-> this allows for allocations of DMA-BUFs that can be consumed by various
-> DMA-BUF supporting devices.
-
-What devices exactly?
-
-And what userspace tools/programs are going to use this api?
-
+On Fri, Jun 30, 2023 at 09:20:43AM -0700, Rob Clark wrote:
 > 
-> Signed-off-by: Andrew Davis <afd@ti.com>
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> The range is actually len+1.
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+
+Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+
+-Akhil
 > ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> Changes from v2:
->  - Make sram_dma_heap_allocate static (kernel test robot)
->  - Rebase on v6.5-rc1
-> 
->  drivers/misc/Kconfig         |   7 +
->  drivers/misc/Makefile        |   1 +
->  drivers/misc/sram-dma-heap.c | 245 +++++++++++++++++++++++++++++++++++
->  drivers/misc/sram.c          |   6 +
->  drivers/misc/sram.h          |  16 +++
->  5 files changed, 275 insertions(+)
->  create mode 100644 drivers/misc/sram-dma-heap.c
-> 
-> diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
-> index 75e427f124b28..ee34dfb61605f 100644
-> --- a/drivers/misc/Kconfig
-> +++ b/drivers/misc/Kconfig
-> @@ -448,6 +448,13 @@ config SRAM
->  config SRAM_EXEC
->  	bool
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> index eea2e60ce3b7..edf76a4b16bd 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> @@ -39,8 +39,8 @@ struct a6xx_gpu {
 >  
-> +config SRAM_DMA_HEAP
-> +	bool "Export on-chip SRAM pools using DMA-Heaps"
-> +	depends on DMABUF_HEAPS && SRAM
-> +	help
-> +	  This driver allows the export of on-chip SRAM marked as both pool
-> +	  and exportable to userspace using the DMA-Heaps interface.
-
-Module name?
-
->  config DW_XDATA_PCIE
->  	depends on PCI
->  	tristate "Synopsys DesignWare xData PCIe driver"
-> diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
-> index f2a4d1ff65d46..5e7516bfaa8de 100644
-> --- a/drivers/misc/Makefile
-> +++ b/drivers/misc/Makefile
-> @@ -47,6 +47,7 @@ obj-$(CONFIG_VMWARE_VMCI)	+= vmw_vmci/
->  obj-$(CONFIG_LATTICE_ECP3_CONFIG)	+= lattice-ecp3-config.o
->  obj-$(CONFIG_SRAM)		+= sram.o
->  obj-$(CONFIG_SRAM_EXEC)		+= sram-exec.o
-> +obj-$(CONFIG_SRAM_DMA_HEAP)	+= sram-dma-heap.o
->  obj-$(CONFIG_GENWQE)		+= genwqe/
->  obj-$(CONFIG_ECHO)		+= echo/
->  obj-$(CONFIG_CXL_BASE)		+= cxl/
-> diff --git a/drivers/misc/sram-dma-heap.c b/drivers/misc/sram-dma-heap.c
-> new file mode 100644
-> index 0000000000000..c054c04dff33e
-> --- /dev/null
-> +++ b/drivers/misc/sram-dma-heap.c
-> @@ -0,0 +1,245 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * SRAM DMA-Heap userspace exporter
-> + *
-> + * Copyright (C) 2019-2022 Texas Instruments Incorporated - https://www.ti.com/
-> + *	Andrew Davis <afd@ti.com>
-
-It's 2023 :(
-
-And this needs review from the dma-buf maintainers before I could do
-anything with it.
-
-thanks,
-
-greg k-h
+>  /*
+>   * Given a register and a count, return a value to program into
+> - * REG_CP_PROTECT_REG(n) - this will block both reads and writes for _len
+> - * registers starting at _reg.
+> + * REG_CP_PROTECT_REG(n) - this will block both reads and writes for
+> + * _len + 1 registers starting at _reg.
+>   */
+>  #define A6XX_PROTECT_NORDWR(_reg, _len) \
+>  	((1 << 31) | \
+> -- 
+> 2.41.0
+> 
