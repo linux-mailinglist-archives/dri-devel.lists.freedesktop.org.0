@@ -1,48 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70EC77527F1
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 18:02:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDF2975282C
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 18:18:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F18410E709;
-	Thu, 13 Jul 2023 16:02:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F0B710E70C;
+	Thu, 13 Jul 2023 16:18:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5578F10E709;
- Thu, 13 Jul 2023 16:02:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=FGfECluQ+8FqgloN5y7njhMRYgbNQmkghpgv24LmuxM=; b=0XY4/FQJa9khQp7bFpbGplPtrB
- 5SpA/Xwz1+y5xMC8TkQ/RIwD1YWvtpubNsS1DOufMRk8U8ZOw4QBT/2OcdaSsugIN7fvQtpI7FoTv
- cytb12hmpQ++kNkMjOGEjV3X0J/VuBhB9uSnfg9JjtfUZNml3TMudThtLyoBgiurIyPLTXfpsW1zN
- ZtXFfJPqxyrJBHJb3985aNxuQmUFSYt3wjhQoX2i+JeMJunamtLIY8iXJ5jgN3F/OMabSTImubkKK
- MN74NscjU6mryhy24nJ4dBieOuA4YvnVsMsArDKWNb60xY8A4s7oL4npScU177xtucZj0Dk4Lyl65
- o8/EadpQ==;
-Received: from [2601:1c2:980:9ec0::2764]
- by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1qJym9-003r1C-08; Thu, 13 Jul 2023 16:02:41 +0000
-Message-ID: <801dbd65-ee7f-526d-6cd8-27cb0291c4ba@infradead.org>
-Date: Thu, 13 Jul 2023 09:02:39 -0700
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 238D910E70C
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 16:18:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1689265106; x=1720801106;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=zaSUoDTd/fYUaIe8J8gT2PySMxfMSjkx0kqXtGWUhg8=;
+ b=b4awUwguPsqSC4wVhzvDml5ajCV/stonpa+4O6CJ6YHpMDQ4JsGT30t5
+ Q200B9a29jytGRnt//wUQbLKa38qEYqxwcIVU7TvSngsZD4HzuMN0IjF3
+ Ni7qsS4YknQ29FIJlKkyxJymmUEIuY2yV7NBmbDB+gSN5dEqrahJkLSBg
+ QnkaZve6J9yvkm9no2D9fqDQ32ewToPV1rApoDAslHd8nR00i9B6/sMeo
+ NqMheXbZ+rjtZH4bW3Og1wtcLVAWWCtFS1RNndo096NntnIClH1XByp+k
+ HQHLnQZpLLRdUtcx2Jzha17Hhu3DPnNKSmiRjNNXkOO98VjQBdIY96LUC w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="429004800"
+X-IronPort-AV: E=Sophos;i="6.01,203,1684825200"; d="scan'208";a="429004800"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jul 2023 09:18:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="787513593"
+X-IronPort-AV: E=Sophos;i="6.01,203,1684825200"; d="scan'208";a="787513593"
+Received: from atadj-mobl1.amr.corp.intel.com (HELO localhost) ([10.252.50.30])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jul 2023 09:18:19 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH 00/17] drm: rename various struct members "dev" -> "drm"
+In-Reply-To: <20230713141023.52dkz5ezicwev74w@pengutronix.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230713082408.2266984-1-u.kleine-koenig@pengutronix.de>
+ <874jm8go61.fsf@intel.com>
+ <20230713103940.aeqgcbmcoqepvbax@pengutronix.de>
+ <2ypl3btshoovedyyq7jaohjgmwr7egnhazuxuffbxudlljktml@syv5u27skpqr>
+ <20230713141023.52dkz5ezicwev74w@pengutronix.de>
+Date: Thu, 13 Jul 2023 19:18:16 +0300
+Message-ID: <87r0pbeqev.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2 18/18] fbdev: Document that framebuffer_alloc() returns
- zero'ed data
-Content-Language: en-US
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-References: <20230713130338.31086-1-tzimmermann@suse.de>
- <20230713130338.31086-19-tzimmermann@suse.de>
- <CANiq72mbLmMKph8aiz4apNF9n3MtVO-nhM9rEWYApZbSVAO9Qw@mail.gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CANiq72mbLmMKph8aiz4apNF9n3MtVO-nhM9rEWYApZbSVAO9Qw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,45 +63,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-sh@vger.kernel.org, deller@gmx.de,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
- Miguel Ojeda <ojeda@kernel.org>, linux-nvidia@lists.surfsouth.com,
- linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-geode@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Sui Jingfeng <suijingfeng@loongson.cn>, kernel@pengutronix.de,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ "Russell King \(Oracle\)" <linux@armlinux.org.uk>,
+ Julia Lawall <julia.lawall@inria.fr>, Luben Tuikov <luben.tuikov@amd.com>,
+ Sean Paul <seanpaul@chromium.org>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 13 Jul 2023, Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>=
+ wrote:
+>  - Jani Nikula
+>    unnecessary change.(is this a "no" or a "don't care"?)
+>    naming: drm > *
+
+Based on my replies, it's most certainly not "don't care"! ;D
+
+I would prefer not making the change. I avoided the blunt "no" to better
+leave room for discussion and arguments. So far I'm not convinced by the
+arguments in favour of renaming.
 
 
-On 7/13/23 06:21, Miguel Ojeda wrote:
-> On Thu, Jul 13, 2023 at 3:03 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
->>
->> Most fbdev drivers depend on framebuffer_alloc() to initialize the
->> allocated memory to 0. Document this guarantee.
->>
->> Suggested-by: Miguel Ojeda <ojeda@kernel.org>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: Helge Deller <deller@gmx.de>
-> 
-> Thanks for sending this! Maybe this would be best earlier in the
-> series, so that later patches make more sense (since they use the
-> guarantee), but it is not a big deal.
-> 
->> + * aligned to sizeof(long). Both, the instance of struct fb_info and
->> + * the driver private data, are cleared to zero.
-> 
-> I think both commas may be best omitted (but I am not a native speaker).
+BR,
+Jani.
 
-Yes, it would be better to omit them.
 
-> Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
-> 
-> Cheers,
-> Miguel
-
--- 
-~Randy
+--=20
+Jani Nikula, Intel Open Source Graphics Center
