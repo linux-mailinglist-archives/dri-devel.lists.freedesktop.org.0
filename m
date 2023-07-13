@@ -2,49 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE078752B2A
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 21:47:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E844F752B39
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jul 2023 21:53:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E021210E778;
-	Thu, 13 Jul 2023 19:47:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 958B310E77D;
+	Thu, 13 Jul 2023 19:53:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA1A410E778;
- Thu, 13 Jul 2023 19:47:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1689277670; x=1720813670;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=PSNuFJ2YvjV3jxMAZ+7/NMsIeHyXgIo7PD8ECkHz9l8=;
- b=llFuNBaPlM+IjVL0XStCafpsYiLqfCqbfWzNlCZ1s3mECk+B+dwrd13p
- JFccBS0jdQElXhEOEqqp9an+/mgpqsGE4Qy21TaXLw46iTo2Cy2UqZ7de
- JuBURc0KkRCrWHS460vgjD4MJU8kj/XgfivuoKb1N3ttlloovTURA5NDM
- 3aZCty9siWIcqyPy4gAyBqkWdL2ypecnRCkP/CWundr+dZWiVqv9mmgwc
- 2gogw5NyehwU49FtjaUyKSMTr/bVRDXyAqe8MykQArcLFuAxStzJTw/Qo
- yaVZ/s+wYR8VX3wr49CBGVRq6CIi+kvQoAESqwKJ67+PnvukWUcqN8Rjm Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="362765420"
-X-IronPort-AV: E=Sophos;i="6.01,203,1684825200"; d="scan'208";a="362765420"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jul 2023 12:47:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="787588936"
-X-IronPort-AV: E=Sophos;i="6.01,203,1684825200"; d="scan'208";a="787588936"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by fmsmga008.fm.intel.com with SMTP; 13 Jul 2023 12:47:46 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 13 Jul 2023 22:47:45 +0300
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] dma-buf/dma-resv: Stop leaking on krealloc() failure
-Date: Thu, 13 Jul 2023 22:47:45 +0300
-Message-Id: <20230713194745.1751-1-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.39.3
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2DDF10E77B
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 19:53:08 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id
+ 2adb3069b0e04-4fba8f2197bso2002332e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jul 2023 12:53:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1689277986; x=1689882786;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=tkSK4Hprfqvy1sXh7+UPS2V9p+xt/zZPx5zVI9IIj2A=;
+ b=L7U6PT4gRJmUhzc3i7IRnueruqmsdNXGog/dPpUVMruUPYVb0oqU7SxON1iD4YQxAP
+ vDkd9HkZi2gB0XGHa1rK2dqh8gze/DIz3KMcqb/RcvJlas9besq0hEp4/Ci/QE7Pwnv/
+ qYsfXY57LEmSJ+MVyXub7Y/Lz12muLA8HN91GfTFUuji1Cg53XwqKHFm82kUbiKWztsw
+ u0JayV0DURL81rR74Aa0PVq189o/XSYxpIIJC2if/0f1ri4SpEcpz3V01fdvourmNrkC
+ /Z8cQ/2Zpsqg6j80zn7gnHjxkNazhOSsRaugR2PAfuU3dDWI6yI6pvmsehjHG+im3oDS
+ zljg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1689277986; x=1689882786;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tkSK4Hprfqvy1sXh7+UPS2V9p+xt/zZPx5zVI9IIj2A=;
+ b=EPtdUD0JuSNL9Oe939XxAXSgM16pZcss5X1NWhEmF0ePb8xeCEAYhGq4IgI3RisdvQ
+ 8omLBxoNsJTja/jh38p8wdfxZmC7VrzcwGSfWXewpl/h+LPliFSu9V8yRvsVLxZRCG3D
+ yLuxfr3kDHMUAsojIdGcRf4U9Pu2ScrnbFZ0pZdpXKiVr9ZNcdedj4S922arz/evB0/K
+ lZKL4X9MK9iGabUsmFAR+PVi7pMOGLLnQpUwTIJNLita0lnW7pyNfN2JHBDMktrpqAuX
+ ORVYxj8zHz3V8Iblo7eCUfQMAMr3KXNB8Wu3E7NFQhrcjAp3bv0FZslCYlGGMXREflSz
+ WAPw==
+X-Gm-Message-State: ABy/qLbc0qhOpnvuSwx9XTIxwrVP9HPPYuyvgzqLOwv1sIBhirVs4IFm
+ Sx9AjI7sw6AunMBHiTtgemojIA==
+X-Google-Smtp-Source: APBJJlGVw6V+RP1LIbdt+ch7pPvJN+Jx/IZaclPER7QiiajPjn4MUP8U4h/rRIIgI0eVg2+9OrIxIw==
+X-Received: by 2002:a05:6512:3f10:b0:4f7:6976:2070 with SMTP id
+ y16-20020a0565123f1000b004f769762070mr2159598lfa.40.1689277986183; 
+ Thu, 13 Jul 2023 12:53:06 -0700 (PDT)
+Received: from [10.10.15.130] ([192.130.178.91])
+ by smtp.gmail.com with ESMTPSA id
+ i12-20020ac2522c000000b004fa52552c82sm1224452lfl.155.2023.07.13.12.53.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 Jul 2023 12:53:05 -0700 (PDT)
+Message-ID: <bf9439f1-4ae6-78db-95cb-b8cad84ff0ab@linaro.org>
+Date: Thu, 13 Jul 2023 22:53:04 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] drm/msm/adreno: Fix snapshot BINDLESS_DATA size
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20230711175409.157800-1-robdclark@gmail.com>
+Content-Language: en-GB
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230711175409.157800-1-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,70 +76,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org,
- linux-media@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+On 11/07/2023 20:54, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> The incorrect size was causing "CP | AHB bus error" when snapshotting
+> the GPU state on a6xx gen4 (a660 family).
+> 
+> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/26
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 
-Currently dma_resv_get_fences() will leak the previously
-allocated array if the fence iteration got restarted and
-the krealloc_array() fails.
+What about:
 
-Free the old array by hand, and make sure we still clear
-the returned *fences so the caller won't end up accessing
-freed memory. Some (but not all) of the callers of
-dma_resv_get_fences() seem to still trawl through the
-array even when dma_resv_get_fences() failed. And let's
-zero out *num_fences as well for good measure.
+Fixes: 1707add81551 ("drm/msm/a6xx: Add a6xx gpu state")
 
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
-Fixes: d3c80698c9f5 ("dma-buf: use new iterator in dma_resv_get_fences v3")
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
----
- drivers/dma-buf/dma-resv.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+?
 
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index b6f71eb00866..38b4110378de 100644
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -571,6 +571,7 @@ int dma_resv_get_fences(struct dma_resv *obj, enum dma_resv_usage usage,
- 	dma_resv_for_each_fence_unlocked(&cursor, fence) {
- 
- 		if (dma_resv_iter_is_restarted(&cursor)) {
-+			struct dma_fence **new_fences;
- 			unsigned int count;
- 
- 			while (*num_fences)
-@@ -579,13 +580,17 @@ int dma_resv_get_fences(struct dma_resv *obj, enum dma_resv_usage usage,
- 			count = cursor.num_fences + 1;
- 
- 			/* Eventually re-allocate the array */
--			*fences = krealloc_array(*fences, count,
--						 sizeof(void *),
--						 GFP_KERNEL);
--			if (count && !*fences) {
-+			new_fences = krealloc_array(*fences, count,
-+						    sizeof(void *),
-+						    GFP_KERNEL);
-+			if (count && !new_fences) {
-+				kfree(*fences);
-+				*fences = NULL;
-+				*num_fences = 0;
- 				dma_resv_iter_end(&cursor);
- 				return -ENOMEM;
- 			}
-+			*fences = new_fences;
- 		}
- 
- 		(*fences)[(*num_fences)++] = dma_fence_get(fence);
+> ---
+>   drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
+> index 790f55e24533..e788ed72eb0d 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
+> @@ -206,7 +206,7 @@ static const struct a6xx_shader_block {
+>   	SHADER(A6XX_SP_LB_3_DATA, 0x800),
+>   	SHADER(A6XX_SP_LB_4_DATA, 0x800),
+>   	SHADER(A6XX_SP_LB_5_DATA, 0x200),
+> -	SHADER(A6XX_SP_CB_BINDLESS_DATA, 0x2000),
+> +	SHADER(A6XX_SP_CB_BINDLESS_DATA, 0x800),
+>   	SHADER(A6XX_SP_CB_LEGACY_DATA, 0x280),
+>   	SHADER(A6XX_SP_UAV_DATA, 0x80),
+>   	SHADER(A6XX_SP_INST_TAG, 0x80),
+
 -- 
-2.39.3
+With best wishes
+Dmitry
 
