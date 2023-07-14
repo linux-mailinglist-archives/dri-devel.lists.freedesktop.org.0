@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFFF575397F
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 13:29:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F12F753987
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 13:32:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF7D610E872;
-	Fri, 14 Jul 2023 11:29:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F58610E871;
+	Fri, 14 Jul 2023 11:32:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
- [209.85.210.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0575810E872
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 11:29:35 +0000 (UTC)
-Received: by mail-ot1-f52.google.com with SMTP id
- 46e09a7af769-6b75637076eso1472125a34.2
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 04:29:35 -0700 (PDT)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com
+ [209.85.219.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E00210E871
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 11:32:24 +0000 (UTC)
+Received: by mail-yb1-f175.google.com with SMTP id
+ 3f1490d57ef6-cada5e4e3f6so1677229276.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 04:32:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689334174; x=1691926174;
+ d=1e100.net; s=20221208; t=1689334343; x=1691926343;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IZ5pKNtQcVsctQLLt1fcBesVTk5WANpsrcd33LQmiMs=;
- b=h+GQk7PIrBRVo69/pOmF2A0E649AEoVQhxFM/k7D5eBtrLfJJLCKNviG7fNF94crMG
- n1DfO/Khq9aUK8Fnbxt0T6U0cBuli/7ysKMXNJWNoQ+lPnmPBswDSPegB3sItGSfwtIh
- 16+umfKS268rdeug1R5gAA1r/+A40A5q7wEUh0oiJtFRBf3hgkRRiM5UTByWgWRReu4E
- gQ5VfEiuQ2FVo1oWeyqzCPrre6mLIdnLOxql/MAlxD9vpWrPBBCJDL6uzSjBKtAgE0U0
- HQev+JbZVHGmwPg5i7K6oj60XnMrqsjJjTdCRHRV9qeibI8g3rjxjCMYvfDbcjPn9CpU
- Cz3w==
-X-Gm-Message-State: ABy/qLaBGKkiJjcdeyvh1Doiv0489TWZzguHgdZPtEFrdwAGLvwvgRdv
- jd/9ieiFd56AQxMgyUIQaaYjrFGDMOojng==
-X-Google-Smtp-Source: APBJJlFpQl088iZc8cVKpRAPiA4qetIvq44xHkBc1dJA4lUKanOgFodaftV9l1WntFhV+5Exm0CWYg==
-X-Received: by 2002:a05:6358:7e0e:b0:135:a10e:1ed0 with SMTP id
- o14-20020a0563587e0e00b00135a10e1ed0mr567154rwm.23.1689334174290; 
- Fri, 14 Jul 2023 04:29:34 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com.
- [209.85.219.171]) by smtp.gmail.com with ESMTPSA id
- j15-20020a258b8f000000b00c65cfcace05sm1725491ybl.42.2023.07.14.04.29.33
+ bh=0GHsf3+kOYGZ8Tt4qW6cXRgWp6sPt9tasFL1Jg1Sjy8=;
+ b=NH7LAqi9mu/xrLhgUhGE8QeJuoRtx3F4L4HC81ReiYLvegPj0gtVgfccqaeq51n/eG
+ BkduI/Ht3+92CpZgjqzEqqblPwAo0CrLmv3VUqvAzBmfW9Gjb5rKQglN39Y77iL/4rk1
+ X7ktHqdzHAMR1e34ipUp6fzTDLblqIrl/Qro5HhUfJtU2QbqrnJqmTP2CulUBJXGyGfp
+ dLfO82xAKetBZozxkxTeikbI1/vbx2WLapsUAocbG8USA/vHLg7MObSu5C8TWiRULCPM
+ PJNI6PPJGU0s82D9Km8T2CSIp9/w4IWUvV2KikkjybrIpLeNczOhuw5Vps7Al+rapkYQ
+ oH8w==
+X-Gm-Message-State: ABy/qLavueDVUvc1+wNfWz5RaZ19stzprrpWIcHlxsWA+Uxf2Hz+tXBI
+ lYXgGYRWHk7kr5V52vF7vxX06YvwzJKkOQ==
+X-Google-Smtp-Source: APBJJlFfuFUVBWSCm9odIqvT7uhDYjUsLjHx/SEc9yT+453K4zR24hDwk0DWw+9qCdLX+EFyu0HxzA==
+X-Received: by 2002:a81:8044:0:b0:57a:9384:4c13 with SMTP id
+ q65-20020a818044000000b0057a93844c13mr4555701ywf.49.1689334342923; 
+ Fri, 14 Jul 2023 04:32:22 -0700 (PDT)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com.
+ [209.85.219.172]) by smtp.gmail.com with ESMTPSA id
+ u10-20020a0deb0a000000b005772154dddbsm2240807ywe.24.2023.07.14.04.32.22
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Jul 2023 04:29:34 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id
- 3f1490d57ef6-cae693192d1so1717516276.1
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 04:29:33 -0700 (PDT)
-X-Received: by 2002:a25:d045:0:b0:ca9:395f:75f4 with SMTP id
- h66-20020a25d045000000b00ca9395f75f4mr3827226ybg.21.1689334173394; Fri, 14
- Jul 2023 04:29:33 -0700 (PDT)
+ Fri, 14 Jul 2023 04:32:22 -0700 (PDT)
+Received: by mail-yb1-f172.google.com with SMTP id
+ 3f1490d57ef6-cada5e4e3f6so1677192276.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 04:32:22 -0700 (PDT)
+X-Received: by 2002:a25:4090:0:b0:bff:242b:78d0 with SMTP id
+ n138-20020a254090000000b00bff242b78d0mr3970572yba.34.1689334342130; Fri, 14
+ Jul 2023 04:32:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1689252746.git.geert@linux-m68k.org>
- <9090c1b423e0b56c8e906155fe53ff0841830a03.1689252746.git.geert@linux-m68k.org>
- <0KNCLmzXJwmF0RTaQXUBd456dzaM5QsAot8g_yT36aNlEhJbSssTxBOS95x99DJHYkEzUJeMO7zJCX4JGjX6DEmY40BWtLKVZf6nB4HQMSc=@emersion.fr>
-In-Reply-To: <0KNCLmzXJwmF0RTaQXUBd456dzaM5QsAot8g_yT36aNlEhJbSssTxBOS95x99DJHYkEzUJeMO7zJCX4JGjX6DEmY40BWtLKVZf6nB4HQMSc=@emersion.fr>
+ <00790d022752b672a28256db7b9393eca0801b99.1689252746.git.geert@linux-m68k.org>
+ <87cz0uu6wq.fsf@minerva.mail-host-address-is-not-set>
+In-Reply-To: <87cz0uu6wq.fsf@minerva.mail-host-address-is-not-set>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 14 Jul 2023 13:29:18 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUWTse=bOPo7=_4SZK2+ifkpuwbzR797QNNGdy_babygA@mail.gmail.com>
-Message-ID: <CAMuHMdUWTse=bOPo7=_4SZK2+ifkpuwbzR797QNNGdy_babygA@mail.gmail.com>
-Subject: Re: [PATCH 5/8] drm/client: Convert drm_mode_create_dumb() to
- drm_mode_addfb2()
-To: Simon Ser <contact@emersion.fr>
+Date: Fri, 14 Jul 2023 13:32:08 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUSUFd0WaaEU7UsbODxPuJzetg-rP-1E7ZWz9d58rLBqQ@mail.gmail.com>
+Message-ID: <CAMuHMdUSUFd0WaaEU7UsbODxPuJzetg-rP-1E7ZWz9d58rLBqQ@mail.gmail.com>
+Subject: Re: [PATCH 6/8] drm/fb-helper: Pass buffer format via
+ drm_fb_helper_surface_size
+To: Javier Martinez Canillas <javierm@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,35 +72,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Simon,
+Hi Javier,
 
-On Fri, Jul 14, 2023 at 1:01=E2=80=AFPM Simon Ser <contact@emersion.fr> wro=
-te:
-> On Thursday, July 13th, 2023 at 15:17, Geert Uytterhoeven <geert@linux-m6=
-8k.org> wrote:
-> > Currently drm_client_buffer_addfb() uses the legacy drm_mode_addfb(),
-> > which uses bpp and depth to guess the wanted buffer format.
-> > However, drm_client_buffer_addfb() already knows the exact buffer
-> > format, so there is no need to convert back and forth between buffer
-> > format and bpp/depth, and the function can just call drm_mode_addfb2()
-> > directly instead.
+On Fri, Jul 14, 2023 at 12:25=E2=80=AFPM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+> Geert Uytterhoeven <geert@linux-m68k.org> writes:
+> > drm_fb_helper_single_fb_probe() first calls drm_fb_helper_find_sizes(),
+> > followed by drm_fbdev_generic_helper_fb_probe():
+> >   - The former tries to find a suitable buffer format, taking into
+> >     account limitations of the whole display pipeline,
+> >   - The latter just calls drm_mode_legacy_fb_format() again.
+> >
+> > Simplify this by passing the buffer format between these functions
+> > via a new buffer format member in the drm_fb_helper_surface_size
+> > structure.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> > ---
 >
-> By any chance, is the commit message wrong? The title refers to
-> drm_mode_create_dumb(), but the description and code refer to
-> drm_client_buffer_addfb().
+> [...]
+>
+> > -     drm_dbg_kms(dev, "surface width(%d), height(%d) and bpp(%d)\n",
+> > +     drm_info(dev, "surface width(%d), height(%d), bpp(%d) and format(=
+%p4cc)\n",
+>
+> You are promoting a debug printout here to info but that change is not
+> mentioned in the commit message. If you think this will be useful, maybe
+> do it as a separate patch ?
 
-Yes it is, thanks.  Originally, I had copied-and-pasted the wrong
-function name. I thought I had fixed all references, but apparently
-I missed the one-line summary :-(
+Oops, that was unintentional.  Will fix in v2.
 
-Will fix in v2.
+> The rest of the patch looks good to me though.
+>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+Thanks!
 
 Gr{oetje,eeting}s,
 
