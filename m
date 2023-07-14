@@ -2,62 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 260687532F5
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 09:18:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BB6075330E
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 09:21:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FCB910E7D6;
-	Fri, 14 Jul 2023 07:18:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A40810E807;
+	Fri, 14 Jul 2023 07:21:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
- [209.85.128.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBEDF10E7D6
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 07:18:30 +0000 (UTC)
-Received: by mail-yw1-f182.google.com with SMTP id
- 00721157ae682-5701eaf0d04so13917067b3.2
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 00:18:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689319109; x=1691911109;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dAao7P7chUwnMdkU8LunFgLkqh5TGQLJMNbk3gX+1fs=;
- b=T6iy9du13TPutIhljjOm1d2urQ1l1cjBdqHAPVL41YpMz7iSgpQ70K+c1CU/pV8TO/
- DapxuBCirx7yNnVtYd/VJj0FKcy94ktmclVC7dSGsScOY9kBChRxmPr+5nsYxyiIvo9K
- TBL3UwNhvWv2jtdXmcWzIXTBNnA2KWfT2RcEgVANbY2dYhQ32QIidv7r5wiMUomi2JKI
- LiBVJezGp4311i3Lo3nplaPDu/PwkTfkf6AcHbqY+1/8ipQHPGkFKPM3eG7PUTlzHdFi
- hZyPticRWnCdoGG47YRig3gsB7u14yjnfBZ56dUAf7WoXIJ6TNwNY9fWojscTwos1y+a
- bZjA==
-X-Gm-Message-State: ABy/qLYpPOkTqmD4YdBgxzNfV44TvEpO+v7XHPHCCaZP327OkUZkmc4L
- vFebhtasFROOdvvg+gaNBgG1kRzNqB+wrXPZ
-X-Google-Smtp-Source: APBJJlE5iTsF4y5RkelFjTPwu5Cv2RcFjtLu3okmgJau+u6V5QwUeTqfK/qxuAJD0R7w6/4dlBZYCA==
-X-Received: by 2002:a81:7741:0:b0:577:60d3:e5fd with SMTP id
- s62-20020a817741000000b0057760d3e5fdmr3948583ywc.28.1689319109314; 
- Fri, 14 Jul 2023 00:18:29 -0700 (PDT)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com.
- [209.85.219.170]) by smtp.gmail.com with ESMTPSA id
- z123-20020a0dd781000000b00576c534115bsm2191888ywd.34.2023.07.14.00.18.28
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Jul 2023 00:18:28 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id
- 3f1490d57ef6-cb7b6ecb3cdso944933276.1
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 00:18:28 -0700 (PDT)
-X-Received: by 2002:a25:1854:0:b0:c6b:ffe2:1431 with SMTP id
- 81-20020a251854000000b00c6bffe21431mr3074682yby.24.1689319107977; Fri, 14 Jul
- 2023 00:18:27 -0700 (PDT)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2080.outbound.protection.outlook.com [40.107.92.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C24A010E7F8;
+ Fri, 14 Jul 2023 07:21:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iTSJ1xqefU13CJuOEQ1Qgc+H9jvw+CWPlPb0HFzVJt2QNDyZCf6U+ybEog6zigjNtjqwsdQ5XW0ESPouZH9aDqFGb6dSlTkqIA68W8UUX0l3yZWLGqacjrNDUDnCy8Ga62wLWnXbbyaBqnIyUWTQvsVHOUcfGpvXlTcCqjVNZf13SWw9hPPHu5klhRQq8rfsMQ7qwiaSxo618AUFD7hL64O6b3sHdzQTLEoKeC/AFzzRf5kK2wsrUq5WJRF3g+Ff8n//3Q2bVV2l4QvNrCdXIktq03SkOK7zZHjO7u0uNafbBSNKr+QxY7rhg+SUw5ytdOWBTbcVJSVfvah0KN10UA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pWKYFT0H8s3jaQ5oCLcDSEZvUEhAGiDCRFphioCjcY4=;
+ b=AvbkC1OFdS79vUrJAfEMPozAJGB6+n+8t2vOYSg1ZYeC3qHVa/NwHT9Maq/UvIesP/RqNuAOkbO0Vu/yT0lvm7q35WoytPlidLyu6mE5lLnNoFalw9wCRxRHKLnV9IKdFVObXPcUptdLFfav1BzKUO2wpgD9Kb7bilh1TJA2IUH+uRO2IWpaw0dy3Ga0cujDK0znwUJ06iuRWgmQ8g40UJ2FNSF6Unm1lPaAKtkDCFQZMsAPf1eYNgW5UXF0cphj0B0Yh5LCnRW9aiiK+rAbrxaREMbkcOb+vzfb5E4ukxwUgeWmt9YoJpMuo+aLm2inDsyilb1R6NbE4HwHTZod4Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pWKYFT0H8s3jaQ5oCLcDSEZvUEhAGiDCRFphioCjcY4=;
+ b=ZQcn5mYLX1ZAQOpygD1Q0YCXvYqj+Fwv9C9FDRld+dTa41bSjlc2TOw/kqOMe9z1NSZyYvcCu5qXIC8s3t47QeKT13rHnz1RjgFcK2b9O//hUz/7zbHf3muGVWFrVF8JzoKHxJ3fPAWpPIn0Hajz+PXMohJKXqqg9rb4H6MFqLk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by DS0PR12MB9038.namprd12.prod.outlook.com (2603:10b6:8:f2::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.30; Fri, 14 Jul
+ 2023 07:21:23 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::669f:5dca:d38a:9921]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::669f:5dca:d38a:9921%4]) with mapi id 15.20.6588.027; Fri, 14 Jul 2023
+ 07:21:23 +0000
+Message-ID: <a96b79fb-3ad8-918f-d109-3da2121e4607@amd.com>
+Date: Fri, 14 Jul 2023 09:21:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] drm/radeon: ERROR: "(foo*)" should be "(foo *)"
+Content-Language: en-US
+To: shijie001@208suo.com, alexander.deucher@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch
+References: <tencent_16FACBDCDA61595C4219E185613C85C8BF0A@qq.com>
+ <26d3424f83f1f394614e2a774d1bf1e9@208suo.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <26d3424f83f1f394614e2a774d1bf1e9@208suo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0190.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a4::8) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-References: <20230713163213.1028952-1-javierm@redhat.com>
-In-Reply-To: <20230713163213.1028952-1-javierm@redhat.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 14 Jul 2023 09:18:13 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXbboXGYVezzw3_TEu8U6WR=q2x2NjD-aqeF91-DXOD3Q@mail.gmail.com>
-Message-ID: <CAMuHMdXbboXGYVezzw3_TEu8U6WR=q2x2NjD-aqeF91-DXOD3Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/ssd130x: Fix an oops when attempting to update a
- disabled plane
-To: Javier Martinez Canillas <javierm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DS0PR12MB9038:EE_
+X-MS-Office365-Filtering-Correlation-Id: b4f3ea81-86bc-445a-2015-08db843aed64
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BXNzeQwTjnmKUS8Rdi2QBONJck0tmQSmNxQH+gge01e6pI8Vqi5FE62lZSexs/VLmBnXCckTKZzpNUBEuAOoYifsb2sdvoCg7armSpZhM4isYP1U7czFm+bKHCIof7P1S1/9H5AhPjCqhQDABq/SSRSBWSQ1JN0RkQndEfw5VyBaSs+FiZQpS2wbfm39B4y38Rt7wXcTpRhJSMfOCBVkoGSgjUQCdOoDjc4jXfyCyk1cP7/4vpD618fM0EH4BlBv9MuwUxWKMfBuifblA29d/MQs2+6mpek2/gKQI0FLY1Umn2dNnidgQ4z6nGzBBf/qnE3+ve/FDOObfG+hE+MY+Ac/C4oGttk4BJE32ocNLdmzC6nH1ZmapyqEo0s5rHKkpwJ9PcUZ7x5CP5XddGDSDMmHMcOTevgNye+oagZZgDRoEUat8iwCR7ZFnI5mSTTsdFQl3LFtfKhtUWmnkXDR+n6hLAa0J8El/fi1Y+ZFbPHox5cO/FD7R6acZ/LrbT5HgOjA0UGo+lFyWJW/utDXSPGGcsLIJd34oXquuQKE6yvIXdKv6G0JjK0XKH3I7d4dexrBZxGg3Mpsb3FS4jENSRJcMfE3RDe82cLBl+b1ND9FRhitYeOO8AVFXDA5ox1B42Y+robrArMsrJYmAYwMaw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(376002)(136003)(39860400002)(346002)(366004)(451199021)(31686004)(6506007)(4326008)(6666004)(478600001)(31696002)(83380400001)(2616005)(86362001)(36756003)(6512007)(38100700002)(6486002)(186003)(2906002)(8676002)(66946007)(316002)(8936002)(66556008)(41300700001)(66476007)(5660300002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MTFOUmpaNFlpNUVhemJZcHlKSlVxK09mSmpOcEZIYStYL3dJTmhCL3V4V1Ny?=
+ =?utf-8?B?OGRrQ0xFdzA3NUU0ckpobVo2TkhGQzdoOU11dHFab3hzNW5OSWYyRnlSVURX?=
+ =?utf-8?B?RUZibXdNOEkvNStiOURQSlcrN2RVM1d6K3pCVCs5QjBGcEVYWXBZSjQxRXRY?=
+ =?utf-8?B?ZUtQVktRSktJOFQ2aFYvTlQrVkhxTEpUUVlKSitIam4xMUpRbXhkVTBEZUt1?=
+ =?utf-8?B?ZEVJRTF1UHZ3cEtBamFjQkUwcjhrMHYxVmtnd3JtdHRFZy9zRjZ3eTRrUURV?=
+ =?utf-8?B?NjUwRXNqaHJJcDM5RjlWRGR1bXAvS2R3KzZlS2lzdmNzY1oxSU5YNkZrYmRm?=
+ =?utf-8?B?TzFQbFNYa3NPa0pIK210emFZWkZQa0NPb1NVNlYwYSt4VzhWRi94RTlXUzF2?=
+ =?utf-8?B?SkNzeGdBMFFndE4xLzBuS1RiSFQzbVdyR0FYUm1zdFJXemNlMUtiQ1AyMHQr?=
+ =?utf-8?B?NWNvWVVYMDBxY21Qa3locWVnWXkvOVBieDVEbXg0dC83UjBiSWI1SDhOa25R?=
+ =?utf-8?B?Z0kycmx4TlR1MEJzY291a2tmWFYwUFIxMWdaNDhyRDEvcmlWRWxGQ0N3NUNp?=
+ =?utf-8?B?T3ZhUkl6ZjhhanpuM29saXhGUEFhSTExMVhLYlBFbE44NDFmS3JqVFBPeTdH?=
+ =?utf-8?B?T2NQS0x5emRDaDFNZXZRNDl1T0RwM2dWR2dXb2VqUmZjTnI4SnlmbEl5emkv?=
+ =?utf-8?B?RnpHU1liM3VjMWtYSDIyYnR0RnhQZUcyT0puemZ3YlFOakdjQUNiblNpMnJS?=
+ =?utf-8?B?STdFTWk4YTNRRWx5dTNZcFBxajU3R2wzS3lReXhFTUdMS2dacXdHbkdPSWpx?=
+ =?utf-8?B?Y3FSbmhRWjYxZWtuNkN2b2lob2ZSWTFkbGRqOXk4Ykp3M1N3OXRiK1J3b0NP?=
+ =?utf-8?B?WVBWUkdzWGxOaDNrS1UyWXVNekZjNyt0eHVNdWNnUDMwQXdwRDF6bDgyREox?=
+ =?utf-8?B?blJhc3NQTElkUkpPL2tLLzBvTUFZSndTZ1hIT0JiVTRheWlZQy8wemQzemRX?=
+ =?utf-8?B?NGVwalEwYzJYYmFxOGJPUEZNc0t6bDUyMVJ1MUVyYjZTQW9DMFhHN2tuZ2JJ?=
+ =?utf-8?B?bnAwWEdIUFNwZHcvdHlSMXNYZTF0QkhvaVI2RTVURFpZVWJUMGRkNjlHWEt1?=
+ =?utf-8?B?MGJudUx6MCsyVHlzenRwWVg1VVV4VW56ZVViOTV4cm1tejlwNHJRNkhvVEdE?=
+ =?utf-8?B?djZYRHZ1RTR4aEdieU42V3d2OGh6YVNiMmxXUzNrTXp3TWJTUjVTOGtPSXgx?=
+ =?utf-8?B?TEtXZnNQZW5CTWI0VXNQVWV2K2RFRUhlK2x5dVF4Q2lqN2Jza0dtQmNCVDc4?=
+ =?utf-8?B?TXdtZ2FYbEV4RUttczVjbGxhdGFSU0dUQTN0c29XYXFmMEUwRXI1SjJIS0pJ?=
+ =?utf-8?B?WFJkL2syc09MSisvYk1uUm8wMkdCSTlmSnpJWVVQSW1IblQ1TU00UTUzOE9R?=
+ =?utf-8?B?a0NjVG5GVFdBVmJzSWRsM0d1Mmk1QlpwM0VScHEwclgxanI3eTVjalUvVHo0?=
+ =?utf-8?B?cWhIK2h0enNqb0dobS9hYkdqTEQ5dkd3TUFqYXdVSllidmpRUmsvNTRHWHZ3?=
+ =?utf-8?B?UmpRQ1lvK3h1ckRobVVDRktDdXR2NVk0RmVEcTBGVFl3eStBdkNYRjVPL2di?=
+ =?utf-8?B?cVh5d2JZdEFQWDEyT1c3RVpEdy8xMjRsL1NZUXljcCtpK2RLZGYwd0V3dFJ5?=
+ =?utf-8?B?Ni9pci8zS1JINStQMWNxSG9yeWFWTW5UZmZDWkFobWljQW12VnlMaFFnampO?=
+ =?utf-8?B?MDZGUkptbS80ZkVyWk9GVkF2NFBndTdaYXdXSnZJY1NkMjk2aEV2SzRYM3pS?=
+ =?utf-8?B?RlBkSUJ2ekZtVzYzNDNoT3lkT0xlVm1NMTk1TUMrQUlMR0ttMG5pazc1SzAz?=
+ =?utf-8?B?ejdEZDA5MDIzRzk1a1NZQ25RcStCRzBUOW43b0VIMEdZcVVEYjZwZzFhVGUw?=
+ =?utf-8?B?VzcrNFlpU0JoblN5L2VWcmFsU0RmS2Rrb2RseHNlWmJZeFY3a04zOFZFT2xB?=
+ =?utf-8?B?eE1OK01LbXJTZlFzU3VDMXVzM3dvWTBtNllRMnRkc0t4WklaL1dlUE1IMnAv?=
+ =?utf-8?B?eWpqTTBCMlFzbjFUeDF1ZjlNTHJoWGY1cGp2aGN1R204cEpDMlhvQjdPVEpK?=
+ =?utf-8?B?VmZmNGFuRDZ4UnBrSWxITEc0V0dwKytSbG1rZFVtZXI5YjhVY1c1bkxuRW9k?=
+ =?utf-8?Q?kh+hLXYI8g7BFQccugYQD9X2JOGgNMkdBAb+T5YUem50?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4f3ea81-86bc-445a-2015-08db843aed64
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2023 07:21:23.0344 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wve3EsJxPY9QhxDRQu8AqIgpLhJ0BJIzQCIvhae3LKpzwnLXsS66u8HfRiIrgOpz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9038
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,94 +127,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier,
+Am 14.07.23 um 07:35 schrieb shijie001@208suo.com:
+> Fix one occurrence of the checkpatch.pl error:
+> ERROR: "(foo*)" should be "(foo *)"
 
-On Thu, Jul 13, 2023 at 6:32=E2=80=AFPM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
-> Geert reports that the following NULL pointer dereference happens for him
-> after commit 49d7d581ceaf ("drm/ssd130x: Don't allocate buffers on each
-> plane update"):
+It's nice to see all those little typos fixed, but I'm not sure how 
+feasible it is to send patches for each type individually.
+
+Maybe just merge them together into one patch for the whole radeon code 
+base.
+
+Additional to that I'm pretty sure that most of that stuff is already 
+fixed, so what base do you use for this?
+
+Regards,
+Christian.
+
 >
->     [drm] Initialized ssd130x 1.0.0 20220131 for 0-003c on minor 0
->     ssd130x-i2c 0-003c: [drm] surface width(128), height(32), bpp(1)
->     and format(R1   little-endian (0x20203152))
->     Unable to handle kernel NULL pointer dereference at virtual address 0=
-0000000
->     Oops [#1]
->     CPU: 0 PID: 1 Comm: swapper Not tainted
->     6.5.0-rc1-orangecrab-02219-g0a529a1e4bf4 #565
->     epc : ssd130x_update_rect.isra.0+0x13c/0x340
->      ra : ssd130x_update_rect.isra.0+0x2bc/0x340
->     ...
->     status: 00000120 badaddr: 00000000 cause: 0000000f
->     [<c0303d90>] ssd130x_update_rect.isra.0+0x13c/0x340
->     [<c0304200>] ssd130x_primary_plane_helper_atomic_update+0x26c/0x284
->     [<c02f8d54>] drm_atomic_helper_commit_planes+0xfc/0x27c
->     [<c02f9314>] drm_atomic_helper_commit_tail+0x5c/0xb4
->     [<c02f94fc>] commit_tail+0x190/0x1b8
->     [<c02f99fc>] drm_atomic_helper_commit+0x194/0x1c0
->     [<c02c5d00>] drm_atomic_commit+0xa4/0xe4
->     [<c02cce40>] drm_client_modeset_commit_atomic+0x244/0x278
->     [<c02ccef0>] drm_client_modeset_commit_locked+0x7c/0x1bc
->     [<c02cd064>] drm_client_modeset_commit+0x34/0x64
->     [<c0301a78>] __drm_fb_helper_restore_fbdev_mode_unlocked+0xc4/0xe8
->     [<c0303424>] drm_fb_helper_set_par+0x38/0x58
->     [<c027c410>] fbcon_init+0x294/0x534
->     ...
+> Signed-off-by: Jie Shi <shijie001@208suo.com>
+> ---
+>  drivers/gpu/drm/radeon/uvd_v1_0.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> The problem is that fbcon calls fbcon_init() which triggers a DRM modeset
-> and this leads to drm_atomic_helper_commit_planes() attempting to commit
-> the atomic state for all planes, even the ones whose CRTC is not enabled.
+> diff --git a/drivers/gpu/drm/radeon/uvd_v1_0.c 
+> b/drivers/gpu/drm/radeon/uvd_v1_0.c
+> index 58557c2263a7..5684639d20a6 100644
+> --- a/drivers/gpu/drm/radeon/uvd_v1_0.c
+> +++ b/drivers/gpu/drm/radeon/uvd_v1_0.c
+> @@ -142,7 +142,7 @@ int uvd_v1_0_resume(struct radeon_device *rdev)
+>      addr = (rdev->uvd.gpu_addr >> 32) & 0xFF;
+>      WREG32(UVD_LMI_EXT40_ADDR, addr | (0x9 << 16) | (0x1 << 31));
 >
-> Since the primary plane buffer is allocated in the encoder .atomic_enable
-> callback, this happens after that initial modeset commit and leads to the
-> mentioned NULL pointer dereference.
+> -    WREG32(UVD_FW_START, *((uint32_t*)rdev->uvd.cpu_addr));
+> +    WREG32(UVD_FW_START, *((uint32_t *)rdev->uvd.cpu_addr));
 >
-> Fix this by not using the default drm_atomic_helper_commit_tail() helper,
-> but instead the drm_atomic_helper_commit_tail_rpm() function that doesn't
-> attempt to commit the atomic state for planes related to inactive CRTCs.
->
-> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+>      return 0;
+>  }
 
-Tested-by: Geert Uytterhoeven <geert@linux-m68k.org>
-
-> --- a/drivers/gpu/drm/solomon/ssd130x.c
-> +++ b/drivers/gpu/drm/solomon/ssd130x.c
-> @@ -795,6 +795,10 @@ static const struct drm_mode_config_funcs ssd130x_mo=
-de_config_funcs =3D {
->         .atomic_commit =3D drm_atomic_helper_commit,
->  };
->
-> +static const struct drm_mode_config_helper_funcs ssd130x_mode_config_hel=
-pers =3D {
-> +       .atomic_commit_tail =3D drm_atomic_helper_commit_tail_rpm,
-
-The docs say this is intended for drivers that support runtime_pm or
-need the CRTC to be enabled to perform a commit.  Might be worthwhile
-to add basic Runtime PM, so the I2C controller can go to sleep when
-the display is not used.
-
-> +};
-> +
->  static const uint32_t ssd130x_formats[] =3D {
->         DRM_FORMAT_XRGB8888,
->  };
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
