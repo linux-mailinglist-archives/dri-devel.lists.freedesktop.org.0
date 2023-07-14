@@ -1,66 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FAF3753B3F
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 14:43:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6BFE753B88
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 15:08:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FD4010E888;
-	Fri, 14 Jul 2023 12:43:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E32910E15B;
+	Fri, 14 Jul 2023 13:08:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com
- [209.85.167.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92E4810E888
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 12:43:45 +0000 (UTC)
-Received: by mail-oi1-f169.google.com with SMTP id
- 5614622812f47-3a43cbb432aso677889b6e.3
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 05:43:45 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71FD510E15B
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 13:08:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1689340117;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5jlF+0VvtD6KedYYZA+25RR268o+QB6ezDCMPRnzrAU=;
+ b=NF2GNH8Ol+p4vhfOVvb2+9B2OlmY4XmjnDyrKkPFaasy0iTQj0ZHmJev5A9+OJLJJD3dNo
+ EEUPNGEJHBtKZ/Mp4YnRgfLE4w+JG2sqwTvtpBrVY9n7+xGvWn4bA7EzLFUmpgBP8cNE6R
+ UUhbFHP9RX+OkkoL8oUAUXlU3XYVtTs=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-552-bxXTufrrPoaThlUaFU9B7w-1; Fri, 14 Jul 2023 09:08:35 -0400
+X-MC-Unique: bxXTufrrPoaThlUaFU9B7w-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-3fa979d0c32so10508075e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 06:08:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689338624; x=1691930624;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Px1vO0AvllUBalN0eYcohDkgadNEXWhdZtlNo8lqudc=;
- b=lfBOHFtdh0u2/wJUaJJhb7TQWb+FRSP/ceg6RGT4Mbm/hMnN8fQzuM72y7Oe4Namow
- 8YeYrOZY5taT2i8iO68wbjsxPPV17qDNOtlCboQl8uW3Ho0NOwmM3+tPuFByp+qGGeDb
- zZ9TxFwsRODkrqNcFVPSvUkn9nc/iCEGHo0CHUL3YIDl5H8pUnOa6k+5cHRK73ipYrn1
- VmZVD1tjCWg7fR5NQ5uYX995sHzSQ8OPvC7yOK/MbKHX59w6RQbMmrLNOThtPSo/Xuqd
- W9Ro3uHsbUGb+3si1rcGpMAVCXP7X+MJwqSs1IgwhdXxKIodyXGg8FjcFdk9KESBqfdo
- sYCA==
-X-Gm-Message-State: ABy/qLZMB8rAVRtkHCR9or3OCxPfen0VNvZJAzOVsxllxaPonSBqg2sv
- FMIYtwvRtSq/Cbke17rMdXVabrWhkwOPHQ==
-X-Google-Smtp-Source: APBJJlHX21jhOla/zqSZ/9NVdt7ssnVBaxM9+Tx2Ljv49D3E7NotErDUOYAvK9fS1BgimJnvu25G+A==
-X-Received: by 2002:a05:6808:ec2:b0:3a3:47c5:1de3 with SMTP id
- q2-20020a0568080ec200b003a347c51de3mr5542238oiv.49.1689338624093; 
- Fri, 14 Jul 2023 05:43:44 -0700 (PDT)
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com.
- [209.85.167.171]) by smtp.gmail.com with ESMTPSA id
- w13-20020a056808140d00b003a38eba0bcdsm3854591oiv.0.2023.07.14.05.43.42
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Jul 2023 05:43:43 -0700 (PDT)
-Received: by mail-oi1-f171.google.com with SMTP id
- 5614622812f47-3a43cbb432aso677863b6e.3
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 05:43:42 -0700 (PDT)
-X-Received: by 2002:a05:6358:913:b0:131:b4c:b868 with SMTP id
- r19-20020a056358091300b001310b4cb868mr5242387rwi.3.1689338622730; Fri, 14 Jul
- 2023 05:43:42 -0700 (PDT)
-MIME-Version: 1.0
+ d=1e100.net; s=20221208; t=1689340114; x=1691932114;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5jlF+0VvtD6KedYYZA+25RR268o+QB6ezDCMPRnzrAU=;
+ b=GHcO3vOtQ0fZC9KyuphgRifJ/lTs1o6p8/BcDQUKal4+1AE2FryJYWQbV6BJH/rUMu
+ Bmi2DRoEqfmzE3jWiwM/5Gi7hsc/0wNq/zf+ivNCdYyKG4EZtMzERmamEroOANF6YdJs
+ dzA67ahnvXQpiGqXGKb632uvRYvpmh6WIpLNteQ1XiBMbG7yNjGn6tFDbiJfAHuLEzYK
+ UCy+tkwyuxRy5CLyWpSkQIv6kHmZIpbIwib5X07FtzmuzpslNveLSa2nZ7lv/nXDji6P
+ NZzVDxXkKiZkuSzRgfwTA/Ce4a774UmFGctIwp8IuQXh+sEs1P2fHP5A68tJ0H0KVE98
+ +Weg==
+X-Gm-Message-State: ABy/qLYb9KraBANYpH5D/Ck2wtGTwinccuNAVEdpohR7hG/8CEWdH8vn
+ uB1WM0KThiK/8M14grMQNWBYnusUqCsJXf9oQm9zr9dLsHPcilkBMsKk4e9eevHqaD40yHKjvLR
+ RQWZqbIHKLkRhAa1OiWs57RJZXI3C
+X-Received: by 2002:a7b:cd97:0:b0:3f7:a552:2ec7 with SMTP id
+ y23-20020a7bcd97000000b003f7a5522ec7mr3917338wmj.33.1689340114562; 
+ Fri, 14 Jul 2023 06:08:34 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlHhsMqIQp/IzuO0MIXq2cAlM4A//WRLZpuNqFOjCnyF5tfR2O7yTuBRFdgW1Y3m8IXRT5F1Gg==
+X-Received: by 2002:a7b:cd97:0:b0:3f7:a552:2ec7 with SMTP id
+ y23-20020a7bcd97000000b003f7a5522ec7mr3917326wmj.33.1689340114257; 
+ Fri, 14 Jul 2023 06:08:34 -0700 (PDT)
+Received: from localhost (208.red-88-2-40.staticip.rima-tde.net. [88.2.40.208])
+ by smtp.gmail.com with ESMTPSA id
+ v11-20020a05600c12cb00b003fc3b03e41esm1197974wmd.1.2023.07.14.06.08.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Jul 2023 06:08:33 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH 4/8] drm/ssd130x: Add support for DRM_FORMAT_R1
+In-Reply-To: <CAMuHMdUrqwQAaNFONO0KOktrRY_twpktAP6=AeKv_8jjdb5_fA@mail.gmail.com>
 References: <cover.1689252746.git.geert@linux-m68k.org>
  <72746f6d9c47f09fc057ad7a4bbb3b7f423af803.1689252746.git.geert@linux-m68k.org>
  <87ilamu7e3.fsf@minerva.mail-host-address-is-not-set>
  <CAMuHMdV1MXexXuRuvW2ap5KA51q_3h9X8jXdYXtFb2RF-BBLnw@mail.gmail.com>
  <875y6macxu.fsf@minerva.mail-host-address-is-not-set>
-In-Reply-To: <875y6macxu.fsf@minerva.mail-host-address-is-not-set>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 14 Jul 2023 14:43:27 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUrqwQAaNFONO0KOktrRY_twpktAP6=AeKv_8jjdb5_fA@mail.gmail.com>
-Message-ID: <CAMuHMdUrqwQAaNFONO0KOktrRY_twpktAP6=AeKv_8jjdb5_fA@mail.gmail.com>
-Subject: Re: [PATCH 4/8] drm/ssd130x: Add support for DRM_FORMAT_R1
-To: Javier Martinez Canillas <javierm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <CAMuHMdUrqwQAaNFONO0KOktrRY_twpktAP6=AeKv_8jjdb5_fA@mail.gmail.com>
+Date: Fri, 14 Jul 2023 15:08:33 +0200
+Message-ID: <87351qabe6.fsf@minerva.mail-host-address-is-not-set>
+MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,66 +89,46 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier,
+Geert Uytterhoeven <geert@linux-m68k.org> writes:
 
-On Fri, Jul 14, 2023 at 2:35=E2=80=AFPM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
-> Geert Uytterhoeven <geert@linux-m68k.org> writes:
-> > On Fri, Jul 14, 2023 at 12:14=E2=80=AFPM Javier Martinez Canillas
-> > <javierm@redhat.com> wrote:
-> >> Geert Uytterhoeven <geert@linux-m68k.org> writes:
-> >> Thanks a lot for your patch, this has been on my TODO for some time!
-> >>
-> >> > The native display format is monochrome light-on-dark (R1).
-> >> > Hence add support for R1, so monochrome applications can avoid the
-> >> > overhead of back-and-forth conversions between R1 and XR24.
-> >> >
-> >> > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Hello Geert,
 
-> >> > Probably ssd130x->buffer should be allocated on first use.
-> >>
-> >> Yes, that makes sense.
-> >>
-> >> > And why not allocate the buffers using devm_kcalloc()?
-> >>
-> >> I think there are some lifetimes discrepancies between struct device a=
-nd
-> >> struct drm_device objects. But we could use drm_device managed resourc=
-es
-> >> helpers, i.e: drmm_kzalloc().
-> >
-> > The display should not be updated after .remove(), so I think plain
-> > devm_kcalloc() should be fine.
+> Hi Javier,
+
+[...]
+
+>> >
+>> > The display should not be updated after .remove(), so I think plain
+>> > devm_kcalloc() should be fine.
+>>
+>> That was precisely my point, that there could be atomic commits even after
+>> the driver has been removed (e.g: if using DRM fbdev emulation, user-space
+>> can keep the /dev/fb0 opened and continue updating the framebuffer. That's
+>> not released until the fd is closed and struct fb_ops .fb_destroy called.
+>>
+>> But that's a general rule in DRM, any user-visible resource must not be
+>> allocated using device managed resources and instead use the drm_device
+>> managed resources helpers. To make sure that are not released until the
+>> last call to drm_dev_put():
 >
-> That was precisely my point, that there could be atomic commits even afte=
-r
-> the driver has been removed (e.g: if using DRM fbdev emulation, user-spac=
-e
-> can keep the /dev/fb0 opened and continue updating the framebuffer. That'=
-s
-> not released until the fd is closed and struct fb_ops .fb_destroy called.
+> These buffers are not user-visible, so they should not be accessed
+> after .remove().  When these are accessed, the next step would be
+> to write the buffer data to the device, which would also fail miserably,
+> as the regmap, GPIO, and regulator are hardware resources managed
+> through devm_*().
 >
-> But that's a general rule in DRM, any user-visible resource must not be
-> allocated using device managed resources and instead use the drm_device
-> managed resources helpers. To make sure that are not released until the
-> last call to drm_dev_put():
 
-These buffers are not user-visible, so they should not be accessed
-after .remove().  When these are accessed, the next step would be
-to write the buffer data to the device, which would also fail miserably,
-as the regmap, GPIO, and regulator are hardware resources managed
-through devm_*().
+Right, given that we do the shadow buffer -> native buffer copy, I thought
+of it as if as a user-visible (well, user-accessible I guess) but you are
+correct that's not and trying to write to the device will fail anyways.
 
-Gr{oetje,eeting}s,
+So devm_* should be enough indeed and if there are problems with that, it
+would be a different bug in the driver to fix.
 
-                        Geert
+-- 
+Best regards,
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
