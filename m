@@ -1,75 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4EF3753837
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 12:32:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B61375389F
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 12:46:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA5D410E868;
-	Fri, 14 Jul 2023 10:32:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1115C10E86C;
+	Fri, 14 Jul 2023 10:46:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A091310E868
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 10:32:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689330724;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bswM7v1JuTkyCrRrLUO+88+ZhMY73z5COH1v+XdpEac=;
- b=duZDu6NK+Bc/SjTDsOO0X2jprgiPsz8a2pOL51dnUiHBp6WL7yJITxQ8eXvj26Z9UQ/PW7
- h3mMVPSsM5vksjB26V+baL0wIeufoxCwd3hAlmZnhoba++vO6GyihiqYZ9hYu1P7e6ZJ+k
- yr4BvOsgB+o2EWd7j/nTNQL+w7NxroA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-63-twExtAatNlu6Bnj2ZEr9sw-1; Fri, 14 Jul 2023 06:32:03 -0400
-X-MC-Unique: twExtAatNlu6Bnj2ZEr9sw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-3fc08035926so12272295e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 03:32:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689330722; x=1691922722;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bswM7v1JuTkyCrRrLUO+88+ZhMY73z5COH1v+XdpEac=;
- b=iSsjPVo5USOMe9R3Im22QYA/6cgBVvGyEx8WtMTrbKE7fna5mSq0vcVTsxpaJNbSXb
- o9kiWgOdHeYoi53ub6zLy9ibbINuP3JpMjs2oJB2vZAzMDYlsZbKyplJO9eDhSZz47eb
- s6ktrWqAHmo2Tl3lMhfOqRM01pMIp0Qcp9aHC9JzHXsOzlj6eUQKP4eQgS6Bp3m3gvPH
- P38JbaQ79OGKzeiqRGSe1Mi94YGoi5kpEV6zeY1CZWDpdD69D9hULM44ZA/QynVMw0N4
- NA0srUmVj9NW+OFrzGGthcKO+SeKgDS902EnoVP1qvqNl0BDhFWpjYgxRlOjP05fLgB8
- 37wg==
-X-Gm-Message-State: ABy/qLaohjvHXFe06OR4fxUXH3aoFT8f3UdbLpUYzXI7o6gtUp05qnBs
- hVps3PMRCyV210zGpiRhL4UXHPmQjpSWpe/B8jX7w7rsAQozL0zizI7h/v2Gg7uJdj25cyISpmK
- Ss4tVxbRaYRB4RO8ZYNFmFvqE5wRbbD4sRfX3
-X-Received: by 2002:adf:f5ca:0:b0:315:acbc:cab6 with SMTP id
- k10-20020adff5ca000000b00315acbccab6mr1973688wrp.16.1689330722372; 
- Fri, 14 Jul 2023 03:32:02 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGLjBHCh4GeTwl+UYr12Fntv21WCEoSsC6SdOQUnI/JIxRF/C7Cx2SlNpcAwswe6YuPwABAbA==
-X-Received: by 2002:adf:f5ca:0:b0:315:acbc:cab6 with SMTP id
- k10-20020adff5ca000000b00315acbccab6mr1973674wrp.16.1689330722072; 
- Fri, 14 Jul 2023 03:32:02 -0700 (PDT)
-Received: from localhost ([91.126.32.244]) by smtp.gmail.com with ESMTPSA id
- s15-20020adff80f000000b00313f9a0c521sm10529733wrp.107.2023.07.14.03.32.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Jul 2023 03:32:01 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 8/8] drm/ssd130x: Switch preferred_bpp/depth to 1
-In-Reply-To: <6b97ca629131a8c1c047947a21b2c558ece9ce87.1689252746.git.geert@linux-m68k.org>
-References: <cover.1689252746.git.geert@linux-m68k.org>
- <6b97ca629131a8c1c047947a21b2c558ece9ce87.1689252746.git.geert@linux-m68k.org>
-Date: Fri, 14 Jul 2023 12:32:00 +0200
-Message-ID: <877cr2u6lb.fsf@minerva.mail-host-address-is-not-set>
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 872E710E86E
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 10:46:16 +0000 (UTC)
+Date: Fri, 14 Jul 2023 10:46:02 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1689331573; x=1689590773;
+ bh=U0CfyV7Bh7oJ5xaa/saFWtrA0Pz5NAcT4Y6W8/mn8hQ=;
+ h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+ Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+ b=odbn76IJyiVQ5By+eUEjMDaO/zBoO09PEUpb/8FOAaIttsK3HWXhf+jiEEK1t9Lho
+ MAcYUPT84Cv7BWDKV39nkJFgPAEsLRmw/ug1GzJCycIEIpA8L2lw80tq8FlKmKCGWy
+ zPW+CJO1g43IN9mQnBV9wBraYvtkR+viQr3i+arU5Dpm3mDQG4as+NiF8H95VJ5t2e
+ I6av2FCuWn/AzniLRc3r82jyKS5KrdiOImOCRZqxn90a9WYJOXaOeiFNmc7KDvYcx5
+ yE2Bt6n2IKmt2p0wSFNXanM8yYlWAUvhhhd+nYIu0ChsUtwDXB72sM06gQXP+JNnrN
+ /H3Z7NXYpCqbA==
+To: dri-devel@lists.freedesktop.org
+From: Simon Ser <contact@emersion.fr>
+Subject: [PATCH 1/3] drm/drv: use enum drm_minor_type when appropriate
+Message-ID: <20230714104557.518457-1-contact@emersion.fr>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,28 +44,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ =?utf-8?Q?Marek_Ol=C5=A1=C3=A1k?= <marek.olsak@amd.com>,
+ James Zhu <James.Zhu@amd.com>,
+ =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Geert Uytterhoeven <geert@linux-m68k.org> writes:
+This makes it easier to figure out what the "type" variable can be
+set to when reading the implementation of these functions.
 
-> The native display format is R1.  Hence change the preferred_depth and
-> preferred_bpp to 1, to avoid the overhead of using XR24 and the
-> associated conversions when using fbdev emulation and its text console.
->
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> ---
+Signed-off-by: Simon Ser <contact@emersion.fr>
+Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+Cc: James Zhu <James.Zhu@amd.com>
+Cc: Marek Ol=C5=A1=C3=A1k <marek.olsak@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+---
+ drivers/gpu/drm/drm_drv.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+index 12687dd9e1ac..3eda026ffac6 100644
+--- a/drivers/gpu/drm/drm_drv.c
++++ b/drivers/gpu/drm/drm_drv.c
+@@ -84,7 +84,7 @@ DEFINE_STATIC_SRCU(drm_unplug_srcu);
+  */
+=20
+ static struct drm_minor **drm_minor_get_slot(struct drm_device *dev,
+-=09=09=09=09=09     unsigned int type)
++=09=09=09=09=09     enum drm_minor_type type)
+ {
+ =09switch (type) {
+ =09case DRM_MINOR_PRIMARY:
+@@ -116,7 +116,7 @@ static void drm_minor_alloc_release(struct drm_device *=
+dev, void *data)
+ =09}
+ }
+=20
+-static int drm_minor_alloc(struct drm_device *dev, unsigned int type)
++static int drm_minor_alloc(struct drm_device *dev, enum drm_minor_type typ=
+e)
+ {
+ =09struct drm_minor *minor;
+ =09unsigned long flags;
+@@ -160,7 +160,7 @@ static int drm_minor_alloc(struct drm_device *dev, unsi=
+gned int type)
+ =09return 0;
+ }
+=20
+-static int drm_minor_register(struct drm_device *dev, unsigned int type)
++static int drm_minor_register(struct drm_device *dev, enum drm_minor_type =
+type)
+ {
+ =09struct drm_minor *minor;
+ =09unsigned long flags;
+@@ -203,7 +203,7 @@ static int drm_minor_register(struct drm_device *dev, u=
+nsigned int type)
+ =09return ret;
+ }
+=20
+-static void drm_minor_unregister(struct drm_device *dev, unsigned int type=
+)
++static void drm_minor_unregister(struct drm_device *dev, enum drm_minor_ty=
+pe type)
+ {
+ =09struct drm_minor *minor;
+ =09unsigned long flags;
+--=20
+2.41.0
 
-Thanks again for the series!
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
 
