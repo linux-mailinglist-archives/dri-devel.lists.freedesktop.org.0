@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD8787532D0
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 09:15:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9E617532C4
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 09:15:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45E6C10E7E1;
-	Fri, 14 Jul 2023 07:14:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB75110E7D2;
+	Fri, 14 Jul 2023 07:14:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.208.org (unknown [183.242.55.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B362B10E106
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 03:54:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B80BF10E118
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 04:59:46 +0000 (UTC)
 Received: from mail.208.org (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTP id 4R2Hfy3jMyzBRSVm
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 11:54:50 +0800 (CST)
+ by mail.208.org (Postfix) with ESMTP id 4R2K5n6tqNzBR9sd
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 12:59:41 +0800 (CST)
 Authentication-Results: mail.208.org (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)" header.d=208.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
  content-transfer-encoding:content-type:message-id:user-agent
  :references:in-reply-to:subject:to:from:date:mime-version; s=
- dkim; t=1689306890; x=1691898891; bh=iTXZlIcRdyK6o3+wDm/UapfqCgm
- g6WekFBy6SQamdR0=; b=Nok34jzjPVafwrRrSRNa78LuU/gf5f63GOJ39mTJ7LC
- cobjTiBXs/8nOmpsUZTvDxOmIOo+7cx3cgGhuNz+U6Zc9NAB9rxq8S3dirFxlHCm
- 7q87gKe04TpTQyfgHXfr/j7fP5RI4lbtjUqdfSNyru0rVZu7eN2riO0thnxCXBWy
- QHOI5tpTRy7twmcJUwFVCoCw/8CGybNDafhtqyzTVZ4BGt5xDsVH2zWKL7G25Ftn
- VLZCqOmCi1vEKOJtWyB3aosMjId51PyLTtyhTC/DzP7YuQvG1I+rsWxEA7rVm6bE
- +HcDd8XtTtwu5YbLWQ0iJAjsc1uQ072hQzlwOJHdzLg==
+ dkim; t=1689310781; x=1691902782; bh=kKU3uyB6okQSTGQqzBMPumiXiBT
+ wf7W7pXC7rR7eRcU=; b=jTKq5bHrxgGenSCsBcUePEu8ahT3UeW4zbqUl/8BFrR
+ ABqV3UYTd3Ya+6mPCaHL2s4BtxKzAMRtH1mO+76gS+BiQwueJ0qOmtH6vwmNeI7P
+ H+tGgLIU2OBqBscEqgKmV2NaYFgsYIdIvBq9fSthQqgcxGK/LXZZStOeT6fPdLrY
+ AoebTuu3vgMy/4G78apxMSJcWx381frcOO4fr2/2kkanIy4J8PKmEZqf5nHNdIJh
+ /EJUQrMYU6uu/LkNUDuK+CCogfCPEAzFaUAKiYXdHRqUcHDXmcAz5XYs60+qngGJ
+ C/VsMxALuxklw59BRABj6Z7FhrAmiaoEAWl0Eeprwmw==
 X-Virus-Scanned: amavisd-new at mail.208.org
 Received: from mail.208.org ([127.0.0.1])
  by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id TQLkX_26Wfd9 for <dri-devel@lists.freedesktop.org>;
- Fri, 14 Jul 2023 11:54:50 +0800 (CST)
+ with ESMTP id 2McWVolSoOCK for <dri-devel@lists.freedesktop.org>;
+ Fri, 14 Jul 2023 12:59:41 +0800 (CST)
 Received: from localhost (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTPSA id 4R2Hfy0G1bzBR7b2;
- Fri, 14 Jul 2023 11:54:50 +0800 (CST)
+ by mail.208.org (Postfix) with ESMTPSA id 4R2K5n3m0JzBHXhS;
+ Fri, 14 Jul 2023 12:59:41 +0800 (CST)
 MIME-Version: 1.0
-Date: Fri, 14 Jul 2023 11:54:49 +0800
+Date: Fri, 14 Jul 2023 12:59:41 +0800
 From: shijie001@208suo.com
 To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
  airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH] drm/radeon: ERROR: that open brace { should be on the
- previous line
-In-Reply-To: <tencent_996261255FBE1BF185353D65C90BFB5FDF0A@qq.com>
-References: <tencent_996261255FBE1BF185353D65C90BFB5FDF0A@qq.com>
+Subject: [PATCH] drm/radeon/dpm: ERROR: open brace '{' following enum go on
+ the same line
+In-Reply-To: <tencent_FDFE1B9D84BD3C51CAE7FADFDCF6613D5D0A@qq.com>
+References: <tencent_FDFE1B9D84BD3C51CAE7FADFDCF6613D5D0A@qq.com>
 User-Agent: Roundcube Webmail
-Message-ID: <8d7c6d7599c0f56403c920985f646e34@208suo.com>
+Message-ID: <21b12c2d37bff73a0c625b6af9d95021@208suo.com>
 X-Sender: shijie001@208suo.com
 Content-Type: text/plain; charset=US-ASCII;
  format=flowed
@@ -68,80 +68,56 @@ Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix eight occurrences of the checkpatch.pl error:
-ERROR: that open brace { should be on the previous line
-ERROR: space prohibited before that close parenthesis ')'
-ERROR: spaces required around that '?' (ctx:VxW)
+Fix four occurrences of the checkpatch.pl error:
+ERROR: open brace '{' following enum go on the same line
 
 Signed-off-by: Jie Shi <shijie001@208suo.com>
 ---
-  drivers/gpu/drm/radeon/sumo_dpm.c | 18 ++++++++----------
-  1 file changed, 8 insertions(+), 10 deletions(-)
+  drivers/gpu/drm/radeon/ni_dpm.h | 12 ++++--------
+  1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/sumo_dpm.c 
-b/drivers/gpu/drm/radeon/sumo_dpm.c
-index f74f381af05f..8af793c89fd1 100644
---- a/drivers/gpu/drm/radeon/sumo_dpm.c
-+++ b/drivers/gpu/drm/radeon/sumo_dpm.c
-@@ -33,8 +33,7 @@
-  #define SUMO_MINIMUM_ENGINE_CLOCK 800
-  #define BOOST_DPM_LEVEL 7
+diff --git a/drivers/gpu/drm/radeon/ni_dpm.h 
+b/drivers/gpu/drm/radeon/ni_dpm.h
+index 74e301936906..4e3e7303e035 100644
+--- a/drivers/gpu/drm/radeon/ni_dpm.h
++++ b/drivers/gpu/drm/radeon/ni_dpm.h
+@@ -59,8 +59,7 @@ struct ni_mc_reg_table {
 
--static const u32 sumo_utc[SUMO_PM_NUMBER_OF_TC] =
+  #define NISLANDS_MCREGISTERTABLE_FIRST_DRIVERSTATE_SLOT 2
+
+-enum ni_dc_cac_level
 -{
-+static const u32 sumo_utc[SUMO_PM_NUMBER_OF_TC] = {
-      SUMO_UTC_DFLT_00,
-      SUMO_UTC_DFLT_01,
-      SUMO_UTC_DFLT_02,
-@@ -52,8 +51,7 @@ static const u32 sumo_utc[SUMO_PM_NUMBER_OF_TC] =
-      SUMO_UTC_DFLT_14,
++enum ni_dc_cac_level {
+      NISLANDS_DCCAC_LEVEL_0 = 0,
+      NISLANDS_DCCAC_LEVEL_1,
+      NISLANDS_DCCAC_LEVEL_2,
+@@ -72,8 +71,7 @@ enum ni_dc_cac_level
+      NISLANDS_DCCAC_MAX_LEVELS
   };
 
--static const u32 sumo_dtc[SUMO_PM_NUMBER_OF_TC] =
+-struct ni_leakage_coeffients
 -{
-+static const u32 sumo_dtc[SUMO_PM_NUMBER_OF_TC] = {
-      SUMO_DTC_DFLT_00,
-      SUMO_DTC_DFLT_01,
-      SUMO_DTC_DFLT_02,
-@@ -109,11 +107,11 @@ static void sumo_mg_clockgating_enable(struct 
-radeon_device *rdev, bool enable)
-      local1 = RREG32(CG_CGTT_LOCAL_1);
++struct ni_leakage_coeffients {
+      u32 at;
+      u32 bt;
+      u32 av;
+@@ -83,8 +81,7 @@ struct ni_leakage_coeffients
+      u32 t_ref;
+  };
 
-      if (enable) {
--        WREG32(CG_CGTT_LOCAL_0, (0 & CGCG_CGTT_LOCAL0_MASK) | (local0 & 
-~CGCG_CGTT_LOCAL0_MASK) );
--        WREG32(CG_CGTT_LOCAL_1, (0 & CGCG_CGTT_LOCAL1_MASK) | (local1 & 
-~CGCG_CGTT_LOCAL1_MASK) );
-+        WREG32(CG_CGTT_LOCAL_0, (0 & CGCG_CGTT_LOCAL0_MASK) | (local0 & 
-~CGCG_CGTT_LOCAL0_MASK));
-+        WREG32(CG_CGTT_LOCAL_1, (0 & CGCG_CGTT_LOCAL1_MASK) | (local1 & 
-~CGCG_CGTT_LOCAL1_MASK));
-      } else {
--        WREG32(CG_CGTT_LOCAL_0, (0xFFFFFFFF & CGCG_CGTT_LOCAL0_MASK) | 
-(local0 & ~CGCG_CGTT_LOCAL0_MASK) );
--        WREG32(CG_CGTT_LOCAL_1, (0xFFFFCFFF & CGCG_CGTT_LOCAL1_MASK) | 
-(local1 & ~CGCG_CGTT_LOCAL1_MASK) );
-+        WREG32(CG_CGTT_LOCAL_0, (0xFFFFFFFF & CGCG_CGTT_LOCAL0_MASK) | 
-(local0 & ~CGCG_CGTT_LOCAL0_MASK));
-+        WREG32(CG_CGTT_LOCAL_1, (0xFFFFCFFF & CGCG_CGTT_LOCAL1_MASK) | 
-(local1 & ~CGCG_CGTT_LOCAL1_MASK));
-      }
-  }
+-struct ni_cac_data
+-{
++struct ni_cac_data {
+      struct ni_leakage_coeffients leakage_coefficients;
+      u32 i_leakage;
+      s32 leakage_minimum_temperature;
+@@ -100,8 +97,7 @@ struct ni_cac_data
+      u8 lts_truncate_n;
+  };
 
-@@ -702,9 +700,9 @@ static void sumo_post_notify_alt_vddnb_change(struct 
-radeon_device *rdev,
-      u32 nbps1_new = 0;
-
-      if (old_ps != NULL)
--        nbps1_old = (old_ps->flags & 
-SUMO_POWERSTATE_FLAGS_FORCE_NBPS1_STATE)? 1 : 0;
-+        nbps1_old = (old_ps->flags & 
-SUMO_POWERSTATE_FLAGS_FORCE_NBPS1_STATE) ? 1 : 0;
-
--    nbps1_new = (new_ps->flags & 
-SUMO_POWERSTATE_FLAGS_FORCE_NBPS1_STATE)? 1 : 0;
-+    nbps1_new = (new_ps->flags & 
-SUMO_POWERSTATE_FLAGS_FORCE_NBPS1_STATE) ? 1 : 0;
-
-      if (nbps1_old == 0 && nbps1_new == 1)
-          sumo_smu_notify_alt_vddnb_change(rdev, 1, 1);
+-struct ni_cac_weights
+-{
++struct ni_cac_weights {
+      u32 weight_tcp_sig0;
+      u32 weight_tcp_sig1;
+      u32 weight_ta_sig;
