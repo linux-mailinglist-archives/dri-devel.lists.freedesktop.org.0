@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF2967532D2
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 09:15:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F3DA7532D1
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 09:15:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68B9910E7E7;
-	Fri, 14 Jul 2023 07:14:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F07B410E7DE;
+	Fri, 14 Jul 2023 07:14:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.208.org (unknown [183.242.55.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 878A710E128
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 05:21:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE4D510E118
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 05:24:36 +0000 (UTC)
 Received: from mail.208.org (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTP id 4R2KZp4vgxzBR9sc
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 13:21:22 +0800 (CST)
+ by mail.208.org (Postfix) with ESMTP id 4R2KfT3DljzBR9sQ
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 13:24:33 +0800 (CST)
 Authentication-Results: mail.208.org (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)" header.d=208.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
  content-transfer-encoding:content-type:message-id:user-agent
  :references:in-reply-to:subject:to:from:date:mime-version; s=
- dkim; t=1689312082; x=1691904083; bh=7scmTbQs/wsjbW5FBE+Ka8Is++h
- 9WlnkMEr/CtGidh8=; b=cFZG1dXUYbwthyU8KAwnnjyKMoFPv8SYl8iJ9XuQRRZ
- FdcoYJpsx0yyDaiZhNIQ25XPr9iH0kvY4VOA+yXQkt7nfktYTQJ0Y9NzYJ5/d9Vr
- DaVmgsBxGj/kw+XgwJlNdBLEjaFpLFS1Sm3WFuYiXRav3Iu7X9EtlaDtVX5lhDIe
- tHxDrfKBXGb/JBq88QJYi0sCGQMCQ0TYXEFf3TowxOfHEWvOdoPZQymojfE8af/s
- iciuDn0LAwc2rMe9xXBFKr6FS7+Zo6XPR17yKAfjxCEMkVUxGUh9L6H+KageMXp1
- WtQoDIqwMqSY5qEub/qRE8L0BfX2Kr8CKafo11SYj2A==
+ dkim; t=1689312273; x=1691904274; bh=MB2X2voEI1RI/eW6w5uT1Nbdk9m
+ LRbF+U3iPFy4BcKM=; b=GY7MRzAKFT+97mwY35NHFtzSn9WVphyGH+hrUtrbLSq
+ c2Jb751u1Z7UtLK3+WQFpjZmrxuTefy0/+39B4WuBn5ac+ZWt88fdtNqgtG2Sa55
+ UB0jTGXraTNRWulIPKJcJKodgRX5QlLha/DfgpQxZjVZsWNS7XDMQgeP6GTSElPu
+ QnCQhHDKwfkCY6166HsAGOfBAWU/Gv6CHt21RK27I5YXqQvj2O11rKlPd5P1CR+o
+ etJZnApt82GuZG4dGQmqb50mo03lWsqz+7Pcy5KGbXLuIImxLnadALnrY+6XEJxS
+ CEahcHGgmpCanhWb6GLBDlJ2XnoWNdSruRwvNdskYIA==
 X-Virus-Scanned: amavisd-new at mail.208.org
 Received: from mail.208.org ([127.0.0.1])
  by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id yjSEqWHeskod for <dri-devel@lists.freedesktop.org>;
- Fri, 14 Jul 2023 13:21:22 +0800 (CST)
+ with ESMTP id Xto3UiXTl1CF for <dri-devel@lists.freedesktop.org>;
+ Fri, 14 Jul 2023 13:24:33 +0800 (CST)
 Received: from localhost (email.208.org [127.0.0.1])
- by mail.208.org (Postfix) with ESMTPSA id 4R2KZp226wzBHXhS;
- Fri, 14 Jul 2023 13:21:22 +0800 (CST)
+ by mail.208.org (Postfix) with ESMTPSA id 4R2KfS6qSWzBR5C9;
+ Fri, 14 Jul 2023 13:24:32 +0800 (CST)
 MIME-Version: 1.0
-Date: Fri, 14 Jul 2023 13:21:22 +0800
-From: huzhi001@208suo.com
-To: bskeggs@redhat.com, kherbst@redhat.com, lyude@redhat.com,
+Date: Fri, 14 Jul 2023 13:24:32 +0800
+From: shijie001@208suo.com
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
  airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH] drm/nouveau/fifo:Fix Nineteen occurrences of the gk104.c
- error: ERROR: : trailing statements should be on next line
-In-Reply-To: <tencent_0FA6AE16A21AAA2E9481C6FE598BA70CC405@qq.com>
-References: <tencent_0FA6AE16A21AAA2E9481C6FE598BA70CC405@qq.com>
+Subject: [PATCH] drm/radeon: ERROR: open brace '{' following struct go on the
+ same line
+In-Reply-To: <tencent_1C2FF78DB4C3129E02E585FC536F6FB07809@qq.com>
+References: <tencent_1C2FF78DB4C3129E02E585FC536F6FB07809@qq.com>
 User-Agent: Roundcube Webmail
-Message-ID: <d0d767fb0dd3a9b7642559f379dbb0d6@208suo.com>
-X-Sender: huzhi001@208suo.com
+Message-ID: <f4a5c6ecc5679fb82df04eb0a06d04b8@208suo.com>
+X-Sender: shijie001@208suo.com
 Content-Type: text/plain; charset=US-ASCII;
  format=flowed
 Content-Transfer-Encoding: 7bit
@@ -63,74 +63,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Signed-off-by: ZhiHu <huzhi001@208suo.com>
+Fix seventeen occurrences of the checkpatch.pl error:
+ERROR: open brace '{' following struct go on the same line
+
+Signed-off-by: Jie Shi <shijie001@208suo.com>
 ---
-  .../gpu/drm/nouveau/nvkm/engine/fifo/gk104.c  | 40 ++++++++++++++-----
-  1 file changed, 29 insertions(+), 11 deletions(-)
+  drivers/gpu/drm/radeon/smu7_discrete.h | 51 +++++++++-----------------
+  1 file changed, 17 insertions(+), 34 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c 
-b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c
-index d8a4d773a58c..b99e0a7c96bb 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gk104.c
-@@ -137,15 +137,29 @@ gk104_ectx_bind(struct nvkm_engn *engn, struct 
-nvkm_cctx *cctx, struct nvkm_chan
-      u64 addr = 0ULL;
+diff --git a/drivers/gpu/drm/radeon/smu7_discrete.h 
+b/drivers/gpu/drm/radeon/smu7_discrete.h
+index 0b0b404ff091..1f63cbbd6515 100644
+--- a/drivers/gpu/drm/radeon/smu7_discrete.h
++++ b/drivers/gpu/drm/radeon/smu7_discrete.h
+@@ -35,8 +35,7 @@
+  #define SMU7_NUM_GPU_TES 1
+  #define SMU7_NUM_NON_TES 2
 
-      switch (engn->engine->subdev.type) {
--    case NVKM_ENGINE_SW    : return;
--    case NVKM_ENGINE_GR    : ptr0 = 0x0210; break;
--    case NVKM_ENGINE_SEC   : ptr0 = 0x0220; break;
--    case NVKM_ENGINE_MSPDEC: ptr0 = 0x0250; break;
--    case NVKM_ENGINE_MSPPP : ptr0 = 0x0260; break;
--    case NVKM_ENGINE_MSVLD : ptr0 = 0x0270; break;
--    case NVKM_ENGINE_VIC   : ptr0 = 0x0280; break;
--    case NVKM_ENGINE_MSENC : ptr0 = 0x0290; break;
--    case NVKM_ENGINE_NVDEC :
-+    case NVKM_ENGINE_SW:
-+        return;
-+    case NVKM_ENGINE_GR:
-+        ptr0 = 0x0210;
-+        break;
-+    case NVKM_ENGINE_SEC:
-+        ptr0 = 0x0220;
-+        break;
-+    case NVKM_ENGINE_MSPDEC:
-+        ptr0 = 0x0250;
-+        break;
-+    case NVKM_ENGINE_MSPPP:
-+        ptr0 = 0x0260;
-+        break;
-+    case NVKM_ENGINE_MSVLD:
-+        ptr0 = 0x0270;
-+        break;
-+    case NVKM_ENGINE_VIC:
-+        ptr0 = 0x0280; break;
-+    case NVKM_ENGINE_MSENC:
-+        ptr0 = 0x0290;
-+        break;
-+    case NVKM_ENGINE_NVDEC:
-          ptr1 = 0x0270;
-          ptr0 = 0x0210;
-          break;
-@@ -435,8 +449,12 @@ gk104_runl_commit(struct nvkm_runl *runl, struct 
-nvkm_memory *memory, u32 start,
-      int target;
+-struct SMU7_SoftRegisters
+-{
++struct SMU7_SoftRegisters {
+      uint32_t        RefClockFrequency;
+      uint32_t        PmTimerP;
+      uint32_t        FeatureEnables;
+@@ -89,8 +88,7 @@ struct SMU7_SoftRegisters
 
-      switch (nvkm_memory_target(memory)) {
--    case NVKM_MEM_TARGET_VRAM: target = 0; break;
--    case NVKM_MEM_TARGET_NCOH: target = 3; break;
-+    case NVKM_MEM_TARGET_VRAM:
-+        target = 0;
-+        break;
-+    case NVKM_MEM_TARGET_NCOH:
-+        target = 3;
-+        break;
-      default:
-          WARN_ON(1);
-          return;
+  typedef struct SMU7_SoftRegisters SMU7_SoftRegisters;
+
+-struct SMU7_Discrete_VoltageLevel
+-{
++struct SMU7_Discrete_VoltageLevel {
+      uint16_t    Voltage;
+      uint16_t    StdVoltageHiSidd;
+      uint16_t    StdVoltageLoSidd;
+@@ -100,8 +98,7 @@ struct SMU7_Discrete_VoltageLevel
+
+  typedef struct SMU7_Discrete_VoltageLevel SMU7_Discrete_VoltageLevel;
+
+-struct SMU7_Discrete_GraphicsLevel
+-{
++struct SMU7_Discrete_GraphicsLevel {
+      uint32_t    Flags;
+      uint32_t    MinVddc;
+      uint32_t    MinVddcPhases;
+@@ -131,8 +128,7 @@ struct SMU7_Discrete_GraphicsLevel
+
+  typedef struct SMU7_Discrete_GraphicsLevel SMU7_Discrete_GraphicsLevel;
+
+-struct SMU7_Discrete_ACPILevel
+-{
++struct SMU7_Discrete_ACPILevel {
+      uint32_t    Flags;
+      uint32_t    MinVddc;
+      uint32_t    MinVddcPhases;
+@@ -153,8 +149,7 @@ struct SMU7_Discrete_ACPILevel
+
+  typedef struct SMU7_Discrete_ACPILevel SMU7_Discrete_ACPILevel;
+
+-struct SMU7_Discrete_Ulv
+-{
++struct SMU7_Discrete_Ulv {
+      uint32_t    CcPwrDynRm;
+      uint32_t    CcPwrDynRm1;
+      uint16_t    VddcOffset;
+@@ -165,8 +160,7 @@ struct SMU7_Discrete_Ulv
+
+  typedef struct SMU7_Discrete_Ulv SMU7_Discrete_Ulv;
+
+-struct SMU7_Discrete_MemoryLevel
+-{
++struct SMU7_Discrete_MemoryLevel {
+      uint32_t    MinVddc;
+      uint32_t    MinVddcPhases;
+      uint32_t    MinVddci;
+@@ -206,8 +200,7 @@ struct SMU7_Discrete_MemoryLevel
+
+  typedef struct SMU7_Discrete_MemoryLevel SMU7_Discrete_MemoryLevel;
+
+-struct SMU7_Discrete_LinkLevel
+-{
++struct SMU7_Discrete_LinkLevel {
+      uint8_t     PcieGenSpeed;
+      uint8_t     PcieLaneCount;
+      uint8_t     EnabledForActivity;
+@@ -220,8 +213,7 @@ struct SMU7_Discrete_LinkLevel
+  typedef struct SMU7_Discrete_LinkLevel SMU7_Discrete_LinkLevel;
+
+-struct SMU7_Discrete_MCArbDramTimingTableEntry
+-{
++struct SMU7_Discrete_MCArbDramTimingTableEntry {
+      uint32_t McArbDramTiming;
+      uint32_t McArbDramTiming2;
+      uint8_t  McArbBurstTime;
+@@ -230,15 +222,13 @@ struct SMU7_Discrete_MCArbDramTimingTableEntry
+
+  typedef struct SMU7_Discrete_MCArbDramTimingTableEntry 
+SMU7_Discrete_MCArbDramTimingTableEntry;
+
+-struct SMU7_Discrete_MCArbDramTimingTable
+-{
++struct SMU7_Discrete_MCArbDramTimingTable {
+      SMU7_Discrete_MCArbDramTimingTableEntry 
+entries[SMU__NUM_SCLK_DPM_STATE][SMU__NUM_MCLK_DPM_LEVELS];
+  };
+
+  typedef struct SMU7_Discrete_MCArbDramTimingTable 
+SMU7_Discrete_MCArbDramTimingTable;
+
+-struct SMU7_Discrete_UvdLevel
+-{
++struct SMU7_Discrete_UvdLevel {
+      uint32_t VclkFrequency;
+      uint32_t DclkFrequency;
+      uint16_t MinVddc;
+@@ -250,8 +240,7 @@ struct SMU7_Discrete_UvdLevel
+
+  typedef struct SMU7_Discrete_UvdLevel SMU7_Discrete_UvdLevel;
+
+-struct SMU7_Discrete_ExtClkLevel
+-{
++struct SMU7_Discrete_ExtClkLevel {
+      uint32_t Frequency;
+      uint16_t MinVoltage;
+      uint8_t  MinPhases;
+@@ -260,8 +249,7 @@ struct SMU7_Discrete_ExtClkLevel
+
+  typedef struct SMU7_Discrete_ExtClkLevel SMU7_Discrete_ExtClkLevel;
+
+-struct SMU7_Discrete_StateInfo
+-{
++struct SMU7_Discrete_StateInfo {
+      uint32_t SclkFrequency;
+      uint32_t MclkFrequency;
+      uint32_t VclkFrequency;
+@@ -285,8 +273,7 @@ struct SMU7_Discrete_StateInfo
+  typedef struct SMU7_Discrete_StateInfo SMU7_Discrete_StateInfo;
+
+-struct SMU7_Discrete_DpmTable
+-{
++struct SMU7_Discrete_DpmTable {
+      SMU7_PIDController                  GraphicsPIDController;
+      SMU7_PIDController                  MemoryPIDController;
+      SMU7_PIDController                  LinkPIDController;
+@@ -406,23 +393,20 @@ typedef struct SMU7_Discrete_DpmTable 
+SMU7_Discrete_DpmTable;
+  #define SMU7_DISCRETE_MC_REGISTER_ARRAY_SIZE 16
+  #define SMU7_DISCRETE_MC_REGISTER_ARRAY_SET_COUNT 
+SMU7_MAX_LEVELS_MEMORY
+
+-struct SMU7_Discrete_MCRegisterAddress
+-{
++struct SMU7_Discrete_MCRegisterAddress {
+      uint16_t s0;
+      uint16_t s1;
+  };
+
+  typedef struct SMU7_Discrete_MCRegisterAddress 
+SMU7_Discrete_MCRegisterAddress;
+
+-struct SMU7_Discrete_MCRegisterSet
+-{
++struct SMU7_Discrete_MCRegisterSet {
+      uint32_t value[SMU7_DISCRETE_MC_REGISTER_ARRAY_SIZE];
+  };
+
+  typedef struct SMU7_Discrete_MCRegisterSet SMU7_Discrete_MCRegisterSet;
+
+-struct SMU7_Discrete_MCRegisters
+-{
++struct SMU7_Discrete_MCRegisters {
+      uint8_t                             last;
+      uint8_t                             reserved[3];
+      SMU7_Discrete_MCRegisterAddress     
+address[SMU7_DISCRETE_MC_REGISTER_ARRAY_SIZE];
+@@ -431,8 +415,7 @@ struct SMU7_Discrete_MCRegisters
+
+  typedef struct SMU7_Discrete_MCRegisters SMU7_Discrete_MCRegisters;
+
+-struct SMU7_Discrete_FanTable
+-{
++struct SMU7_Discrete_FanTable {
+      uint16_t FdoMode;
+      int16_t  TempMin;
+      int16_t  TempMed;
