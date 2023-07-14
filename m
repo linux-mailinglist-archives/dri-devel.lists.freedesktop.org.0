@@ -2,75 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E25827536AB
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 11:34:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A26FC7536C8
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 11:39:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8E8B10E0EA;
-	Fri, 14 Jul 2023 09:34:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D9C910E02E;
+	Fri, 14 Jul 2023 09:39:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EF2B10E0EA
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 09:34:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1689327256;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tomnXjxAClsXXjmt2CtXXzFMGlnovEg82VMD7EM7NSg=;
- b=hF0WDDcUmwmTZVSAfeTDswSUreLSl7NOenbhc/1WM+04hZklrszZbE07ploZ6PIEhfcJ1+
- CLHpexTaBecpj4PVTNsGvaT6JMiaQSJSpaep+J5z3hpicuabYfkZI+B7jdTcRJT5n4yGKS
- LhLNXWwGdlqko+rOXZBELBU0GYgDBYY=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-360-vHE8ByZ6MhOkw-SlqPQ8xQ-1; Fri, 14 Jul 2023 05:34:15 -0400
-X-MC-Unique: vHE8ByZ6MhOkw-SlqPQ8xQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-314394a798dso716480f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 02:34:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689327254; x=1691919254;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tomnXjxAClsXXjmt2CtXXzFMGlnovEg82VMD7EM7NSg=;
- b=Zf/FiSpYb4GKBzjW0jVYuiGnkUYKY9RrQnltNMSVtM3TddzcL7wNagxF5dgRxv4L6w
- HIHPvsZrz+iD4QTqoacNCcS4l17uSf9YZaCiIdS89DoCuYzEaaBw7fzhT3ZQsZ+ecVNi
- af1HwFvLyWb6qSk4fasq2CfI1TY8v5asaJbvhabLQw9WYxuY1ubVBFxK09Rr4JRq06ct
- mmqpKFxSNbH2gR5YnTUD07S7GM5BTnwAR1iuiHCe1QwB0ZgnlM6Nb7q1t1mZfbKjqNJq
- a4GcEpMDzUWiJAEVrrhUsk7f7El2riz94cqZYZ9CjAdg7AnhNdi+k5nGg3Dj0SCAkBNb
- /WYw==
-X-Gm-Message-State: ABy/qLZ9PATF+6ac07NA920zkgRo9s/dtxCoCo8R3Ff507axvbzNG8au
- Z/4ki254m+kecDOMTurH6xv7wYnL7iGhY8+Z6F61Xh670p+ug082Im2vU4Nw8Vpb0IQ+fLP3H5Z
- 9ZMoxFSyqIP3rVH/lAe6yhzKAPZXl
-X-Received: by 2002:adf:ef04:0:b0:314:385d:3f32 with SMTP id
- e4-20020adfef04000000b00314385d3f32mr1869000wro.29.1689327253982; 
- Fri, 14 Jul 2023 02:34:13 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGlN1baoTS0XRh4Lep0MfIU2RSnGLx0MemZn1GdGq2pOjqBhMm1RbYRqPn3kOwZi4UbTW1kfQ==
-X-Received: by 2002:adf:ef04:0:b0:314:385d:3f32 with SMTP id
- e4-20020adfef04000000b00314385d3f32mr1868979wro.29.1689327253654; 
- Fri, 14 Jul 2023 02:34:13 -0700 (PDT)
-Received: from localhost ([91.126.32.244]) by smtp.gmail.com with ESMTPSA id
- 12-20020a05600c230c00b003f90b9b2c31sm990232wmo.28.2023.07.14.02.34.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Jul 2023 02:34:12 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 1/8] drm/ssd130x: Fix pitch calculation in
- ssd130x_fb_blit_rect()
-In-Reply-To: <54deec2ec533e90544faa8c60a0c2518c58f3e9c.1689252746.git.geert@linux-m68k.org>
-References: <cover.1689252746.git.geert@linux-m68k.org>
- <54deec2ec533e90544faa8c60a0c2518c58f3e9c.1689252746.git.geert@linux-m68k.org>
-Date: Fri, 14 Jul 2023 11:34:11 +0200
-Message-ID: <87r0pau99o.fsf@minerva.mail-host-address-is-not-set>
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C54E710E02E
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 09:39:32 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: lina@asahilina.net)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id 606425BC37;
+ Fri, 14 Jul 2023 09:39:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+ s=default; t=1689327569;
+ bh=Eo0bdJOxddjkJgrxpD2ISre7ur+ps1dvERsgKuIIp2w=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=UmO/JBwFBdyJU6DmJJlrlj69WA3ro+j7eoBPv/TBGWG+v+e73+63Z2B7h14oc1mwY
+ XQcW9dKU6Dz6nqkzYqT3/KWCmsyUmvj9XzU18gp/84OEqyWSyFlYpkhq7wS0kj7+vT
+ MbJCB9HiVnxolhmSf+HJRKZSRImv62z4IePNubKwjlyXgdj5iuLpqnC5MBeoWBkZ9r
+ BFRpYtz2Hyvk4UhUB+twADUyX3+P+wTK916lt5OVHXhLYr6QJIWu0R48QcS849joi9
+ xaXh9ZVjRhxn00j4NyZglN+hljHpu7p9iFLlA01D37ANXmQqYjlgwUMjzDobCgfzUs
+ rsSwsG34r9sXA==
+Message-ID: <6ba6827b-ab2b-1c03-2c72-eb3f6da7e719@asahilina.net>
+Date: Fri, 14 Jul 2023 18:39:23 +0900
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 1/3] drm/scheduler: Add more documentation
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Luben Tuikov <luben.tuikov@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
+References: <20230714-drm-sched-fixes-v1-0-c567249709f7@asahilina.net>
+ <20230714-drm-sched-fixes-v1-1-c567249709f7@asahilina.net>
+ <332e031c-c04e-998c-e401-685c817ea2a1@amd.com>
+Content-Language: en-US
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <332e031c-c04e-998c-e401-685c817ea2a1@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,54 +58,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Faith Ekstrand <faith.ekstrand@collabora.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Geert Uytterhoeven <geert@linux-m68k.org> writes:
+On 14/07/2023 17.40, Christian König wrote:
+> Am 14.07.23 um 10:21 schrieb Asahi Lina:
+>> Document the implied lifetime rules of the scheduler (or at least the
+>> intended ones), as well as the expectations of how resource acquisition
+>> should be handled.
+>>
+>> Signed-off-by: Asahi Lina <lina@asahilina.net>
+>> ---
+>>    drivers/gpu/drm/scheduler/sched_main.c | 58 ++++++++++++++++++++++++++++++++--
+>>    1 file changed, 55 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+>> index 7b2bfc10c1a5..1f3bc3606239 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>> @@ -43,9 +43,61 @@
+>>     *
+>>     * The jobs in a entity are always scheduled in the order that they were pushed.
+>>     *
+>> - * Note that once a job was taken from the entities queue and pushed to the
+>> - * hardware, i.e. the pending queue, the entity must not be referenced anymore
+>> - * through the jobs entity pointer.
+>> + * Lifetime rules
+>> + * --------------
+>> + *
+>> + * Getting object lifetimes right across the stack is critical to avoid UAF
+>> + * issues. The DRM scheduler has the following lifetime rules:
+>> + *
+>> + * - The scheduler must outlive all of its entities.
+>> + * - Jobs pushed to the scheduler are owned by it, and must only be freed
+>> + *   after the free_job() callback is called.
+>> + * - Scheduler fences are reference-counted and may outlive the scheduler.
+> 
+>> + * - The scheduler *may* be destroyed while jobs are still in flight.
+> 
+> That's not correct. The scheduler can only be destroyed after all the
+> entities serving it have been destroyed as well as all the jobs already
+> pushed to the hw finished.
 
-Hello Geert,
+The point of this series is to change this behavior so I can actually 
+use the scheduler in my use case, and that begins with formally 
+documenting it as Daniel suggested. That is, I need it to be safe for 
+jobs to not be yet complete before the scheduler is destroyed (the 
+entities do get destroyed first, that's the first bullet point).
 
-Thanks for your patch!
+We already had this discussion. Without this guarantee, I cannot build a 
+reasonable safe Rust abstraction. Unless you have another suggestion, as 
+far as I can tell it's either this or I give up on using the DRM 
+scheduler entirely and reimplement something else on my own.
 
-> The page height must be taken into account only for vertical coordinates
-> and heights, not for horizontal coordinates and widths.
->
-> Fixes: 179a790aaf2a0127 ("drm/ssd130x: Set the page height value in the device info data")
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> ---
->  drivers/gpu/drm/solomon/ssd130x.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-> index afb08a8aa9fcdaf2..b4c376962629580b 100644
-> --- a/drivers/gpu/drm/solomon/ssd130x.c
-> +++ b/drivers/gpu/drm/solomon/ssd130x.c
-> @@ -596,7 +596,7 @@ static int ssd130x_fb_blit_rect(struct drm_framebuffer *fb, const struct iosys_m
->  	rect->y1 = round_down(rect->y1, page_height);
->  	rect->y2 = min_t(unsigned int, round_up(rect->y2, page_height), ssd130x->height);
->  
-> -	dst_pitch = DIV_ROUND_UP(drm_rect_width(rect), page_height);
-> +	dst_pitch = DIV_ROUND_UP(drm_rect_width(rect), 8);
->
+> What might be possible to add is that the hw is still working on the
+> already pushed jobs, but so far that was rejected as undesirable.
 
-That's true for ssd130x controllers that use R1, but when doing that
-change one of my goals was to prepare the driver for supporting the
-ssd132x family that use a 16-grayscale pixel format (R4).
+Where was this rejected?
 
-For those controllers, the pixels are encoded in 4-bit and each page
-has two pixels. So for those controllers the dst_pitch will need to
-be DIV_ROUND_UP(drm_rect_width(rect), 2) instead since the width is
-not 8 in that case.
+>> + * - There is no guarantee that all jobs have been freed when all entities
+>> + *   and the scheduled have been destroyed. Jobs may be freed asynchronously
+>> + *   after this point.
+>> + * - Once a job is taken from the entity's queue and pushed to the hardware,
+>> + *   i.e. the pending queue, the entity must not be referenced any more
+>> + *   through the job's entity pointer. In other words, entities are not
+>> + *   required to outlive job execution.
+>> + *
+>> + * If the scheduler is destroyed with jobs in flight, the following
+>> + * happens:
+>> + *
+>> + * - Jobs that were pushed but have not yet run will be destroyed as part
+>> + *   of the entity cleanup (which must happen before the scheduler itself
+>> + *   is destroyed, per the first rule above). This signals the job
+>> + *   finished fence with an error flag. This process runs asynchronously
+>> + *   after drm_sched_entity_destroy() returns.
+>> + * - Jobs that are in-flight on the hardware are "detached" from their
+>> + *   driver fence (the fence returned from the run_job() callback). In
+>> + *   this case, it is up to the driver to ensure that any bookkeeping or
+>> + *   internal data structures have separately managed lifetimes and that
+>> + *   the hardware either cancels the jobs or runs them to completion.
+>> + *   The DRM scheduler itself will immediately signal the job complete
+>> + *   fence (with an error flag) and then call free_job() as part of the
+>> + *   cleanup process.
+>> + *
+>> + * After the scheduler is destroyed, drivers *may* (but are not required to)
+>> + * skip signaling their remaining driver fences, as long as they have only ever
+>> + * been returned to the scheduler being destroyed as the return value from
+>> + * run_job() and not passed anywhere else.
+> 
+> This is an outright NAK to this. Fences must always be cleanly signaled.
 
-So I would prefer to skip this patch from your set, because otherwise
-we will need to revert it when adding support for SSD132x controllers.
+This is just documenting the fact that the DRM scheduler no longer cares 
+about the fences after it is destroyed. I can remove it from the docs if 
+you want, I don't rely on this behavior.
 
--- 
-Best regards,
+> IIRC Daniel documented this as mandatory on the dma_fence behavior.
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+Right, in the general case all dma_fences must be signaled, that's why I 
+explicitly said this only applies if the scheduler is the *only* user of 
+those fences.
+
+If you don't think this should be a guarantee the scheduler officially 
+makes, I'll remove it from the text.
+
+~~ Lina
 
