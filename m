@@ -2,64 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46CEE7536CD
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 11:41:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB7557536D5
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jul 2023 11:44:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D9C710E0FF;
-	Fri, 14 Jul 2023 09:41:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E493C10E103;
+	Fri, 14 Jul 2023 09:44:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com
- [209.85.219.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 880D110E0FF
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 09:41:45 +0000 (UTC)
-Received: by mail-yb1-f169.google.com with SMTP id
- 3f1490d57ef6-cae693192d1so1632659276.1
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 02:41:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689327704; x=1691919704;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=PvsgLCUoUYBwVIo5eyZX62ki0sLhfFVAuP7bUgSk5YE=;
- b=FXvfzDZNyqYfAU2CJne5ZZkdJ66OHI/inb1pn5KM0i+yOybQ0u7oq+NhqU7fz64LAm
- ofdS5oR1OYHmmLqd+8+gN00z67s3lAHnYwt75gecQx3a0w+5sXfptSprI81A5vTzVsSs
- lBJlwLohLyxvZALCYJ217JRLL5/91oKNVsZlLzyQpN76coIfuybXOkr/h5jIJc/f+LNb
- dq4ncdiEXk1P4czft/cz8ss0qFMKVd06Sqqy/UW+slh096H5pXg7GwcMvef9kW56Pdob
- jjBEPIzkaoHB4eRq97nSYj3lHzRtIeo99JgS9F/YhlepME6XelH9RqAhmjJLDGXS6s8q
- lZag==
-X-Gm-Message-State: ABy/qLbnuhpovzMDxc5wMbLjMy1sHwCPOC5wN54TlNhjR3KByEkWWydj
- jL5b78tOZsgakVf8FS8WuyD79XA8P2LXH3m9
-X-Google-Smtp-Source: APBJJlGb5KTFeYztoTpkDdvGc8Q43Aqi9cotsgLgjv30CeMNsUkaf3oBYvBbrjqEjIVCGIr2VlVKWw==
-X-Received: by 2002:a25:d847:0:b0:c6b:b85f:ea33 with SMTP id
- p68-20020a25d847000000b00c6bb85fea33mr3601961ybg.9.1689327704020; 
- Fri, 14 Jul 2023 02:41:44 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com.
- [209.85.219.174]) by smtp.gmail.com with ESMTPSA id
- z7-20020a25ba47000000b00babcd913630sm1694619ybj.3.2023.07.14.02.41.43
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Jul 2023 02:41:43 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id
- 3f1490d57ef6-c5e76dfcc36so1627490276.2
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 02:41:43 -0700 (PDT)
-X-Received: by 2002:a25:b44:0:b0:bd7:545e:ab41 with SMTP id
- 65-20020a250b44000000b00bd7545eab41mr3609366ybl.27.1689327702982; Fri, 14 Jul
- 2023 02:41:42 -0700 (PDT)
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CCEE10E103
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jul 2023 09:44:26 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested)
+ (Authenticated sender: lina@asahilina.net)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id 9FF985BC37;
+ Fri, 14 Jul 2023 09:44:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+ s=default; t=1689327864;
+ bh=2gCMoY94/ESU27ff3B7Nnjye7UV/M5FZXhxeO4nGMuc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=mAJmPi2op48Hb4dON0tfHReK27/tgzVEWLOaJggy1nSyhAtKmrBJYJ+WgA8dn0/pb
+ QUPW6CZCfJf+OxysqpTk8dRJ1sg7r8KuCnrcI95UuBIWSzCZmd1a3fyHQw8Gf1rWdS
+ EJ8zpMxNZmWr/MhMPgo5BrsxyzLheRq8dK85Qrwf8PiBA0rDGPA6VvEFxdNvRuPkku
+ hL5CdeJvRFW2C1opfSYtEg5ZgGoyowK2licKSBrrhEG2atsDzvmnmYvPaZ26eylRxH
+ VfnL2B9licbkQO4SGdtMrB34oSks+S4N8G97+rLvFu1vZrhzGKB3FMBxz7NeS0/FYz
+ q7NHxkvXS+Y+w==
+Message-ID: <5c7278b9-e63e-4ddf-1988-1e02087fb988@asahilina.net>
+Date: Fri, 14 Jul 2023 18:44:20 +0900
 MIME-Version: 1.0
-References: <cover.1689252746.git.geert@linux-m68k.org>
- <54deec2ec533e90544faa8c60a0c2518c58f3e9c.1689252746.git.geert@linux-m68k.org>
- <87r0pau99o.fsf@minerva.mail-host-address-is-not-set>
-In-Reply-To: <87r0pau99o.fsf@minerva.mail-host-address-is-not-set>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 14 Jul 2023 11:41:27 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVAXPqjSNGMrZQ2g8FNNL4f7PbdoUCi17g9YOdoqmjFpQ@mail.gmail.com>
-Message-ID: <CAMuHMdVAXPqjSNGMrZQ2g8FNNL4f7PbdoUCi17g9YOdoqmjFpQ@mail.gmail.com>
-Subject: Re: [PATCH 1/8] drm/ssd130x: Fix pitch calculation in
- ssd130x_fb_blit_rect()
-To: Javier Martinez Canillas <javierm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 2/3] drm/scheduler: Fix UAF in
+ drm_sched_fence_get_timeline_name
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Luben Tuikov <luben.tuikov@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
+References: <20230714-drm-sched-fixes-v1-0-c567249709f7@asahilina.net>
+ <20230714-drm-sched-fixes-v1-2-c567249709f7@asahilina.net>
+ <bef7ef62-3cd9-6ceb-5eb4-5ae0c0236778@amd.com>
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <bef7ef62-3cd9-6ceb-5eb4-5ae0c0236778@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,63 +59,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org
+Cc: Faith Ekstrand <faith.ekstrand@collabora.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier,
+On 14/07/2023 17.43, Christian König wrote:
+> Am 14.07.23 um 10:21 schrieb Asahi Lina:
+>> A signaled scheduler fence can outlive its scheduler, since fences are
+>> independencly reference counted. Therefore, we can't reference the
+>> scheduler in the get_timeline_name() implementation.
+>>
+>> Fixes oopses on `cat /sys/kernel/debug/dma_buf/bufinfo` when shared
+>> dma-bufs reference fences from GPU schedulers that no longer exist.
+>>
+>> Signed-off-by: Asahi Lina <lina@asahilina.net>
+>> ---
+>>    drivers/gpu/drm/scheduler/sched_entity.c | 7 ++++++-
+>>    drivers/gpu/drm/scheduler/sched_fence.c  | 4 +++-
+>>    include/drm/gpu_scheduler.h              | 5 +++++
+>>    3 files changed, 14 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+>> index b2bbc8a68b30..17f35b0b005a 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>> @@ -389,7 +389,12 @@ static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
+>>    
+>>    		/*
+>>    		 * Fence is from the same scheduler, only need to wait for
+>> -		 * it to be scheduled
+>> +		 * it to be scheduled.
+>> +		 *
+>> +		 * Note: s_fence->sched could have been freed and reallocated
+>> +		 * as another scheduler. This false positive case is okay, as if
+>> +		 * the old scheduler was freed all of its jobs must have
+>> +		 * signaled their completion fences.
+> 
+> This is outright nonsense. As long as an entity for a scheduler exists
+> it is not allowed to free up this scheduler.
+> 
+> So this function can't be called like this.
+> 
+>>    		 */
+>>    		fence = dma_fence_get(&s_fence->scheduled);
+>>    		dma_fence_put(entity->dependency);
+>> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
+>> index ef120475e7c6..06a0eebcca10 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_fence.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
+>> @@ -68,7 +68,7 @@ static const char *drm_sched_fence_get_driver_name(struct dma_fence *fence)
+>>    static const char *drm_sched_fence_get_timeline_name(struct dma_fence *f)
+>>    {
+>>    	struct drm_sched_fence *fence = to_drm_sched_fence(f);
+>> -	return (const char *)fence->sched->name;
+>> +	return (const char *)fence->sched_name;
+>>    }
+>>    
+>>    static void drm_sched_fence_free_rcu(struct rcu_head *rcu)
+>> @@ -216,6 +216,8 @@ void drm_sched_fence_init(struct drm_sched_fence *fence,
+>>    	unsigned seq;
+>>    
+>>    	fence->sched = entity->rq->sched;
+>> +	strlcpy(fence->sched_name, entity->rq->sched->name,
+>> +		sizeof(fence->sched_name));
+>>    	seq = atomic_inc_return(&entity->fence_seq);
+>>    	dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
+>>    		       &fence->lock, entity->fence_context, seq);
+>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+>> index e95b4837e5a3..4fa9523bd47d 100644
+>> --- a/include/drm/gpu_scheduler.h
+>> +++ b/include/drm/gpu_scheduler.h
+>> @@ -305,6 +305,11 @@ struct drm_sched_fence {
+>>             * @lock: the lock used by the scheduled and the finished fences.
+>>             */
+>>    	spinlock_t			lock;
+>> +        /**
+>> +         * @sched_name: the name of the scheduler that owns this fence. We
+>> +	 * keep a copy here since fences can outlive their scheduler.
+>> +         */
+>> +	char sched_name[16];
+> 
+> This just mitigates the problem, but doesn't fix it.
 
-On Fri, Jul 14, 2023 at 11:34=E2=80=AFAM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
-> Geert Uytterhoeven <geert@linux-m68k.org> writes:
-> > The page height must be taken into account only for vertical coordinate=
-s
-> > and heights, not for horizontal coordinates and widths.
-> >
-> > Fixes: 179a790aaf2a0127 ("drm/ssd130x: Set the page height value in the=
- device info data")
-> > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Could you point out any remaining issues so we can fix them? Right now 
+this absolutely *is* broken and this fixes the breakage I observed. If 
+there are other bugs remaining, I'd like to know what they are so I can 
+fix them.
 
-> > --- a/drivers/gpu/drm/solomon/ssd130x.c
-> > +++ b/drivers/gpu/drm/solomon/ssd130x.c
-> > @@ -596,7 +596,7 @@ static int ssd130x_fb_blit_rect(struct drm_framebuf=
-fer *fb, const struct iosys_m
-> >       rect->y1 =3D round_down(rect->y1, page_height);
-> >       rect->y2 =3D min_t(unsigned int, round_up(rect->y2, page_height),=
- ssd130x->height);
-> >
-> > -     dst_pitch =3D DIV_ROUND_UP(drm_rect_width(rect), page_height);
-> > +     dst_pitch =3D DIV_ROUND_UP(drm_rect_width(rect), 8);
-> >
->
-> That's true for ssd130x controllers that use R1, but when doing that
-> change one of my goals was to prepare the driver for supporting the
-> ssd132x family that use a 16-grayscale pixel format (R4).
->
-> For those controllers, the pixels are encoded in 4-bit and each page
-> has two pixels. So for those controllers the dst_pitch will need to
-> be DIV_ROUND_UP(drm_rect_width(rect), 2) instead since the width is
-> not 8 in that case.
->
-> So I would prefer to skip this patch from your set, because otherwise
-> we will need to revert it when adding support for SSD132x controllers.
+> The real issue is that the hw fence is kept around much longer than that.
 
-My point is that the 8 as used here is related to the number of bits per pi=
-xel,
-not to the page height.  The page height might also be impacted by the
-number of bits per pixel, but that is orthogonal.
+As far as I know, the whole point of scheduler fences is to decouple the 
+hw fences from the consumers. I already talked with Daniel about this. 
+The current behavior is broken. These fences can live forever. It is 
+broken to require that they outlive the driver that produced them.
 
-Gr{oetje,eeting}s,
+> Additional to that I'm not willing to increase the scheduler fence size
+> like that just to decouple them from the scheduler.
 
-                        Geert
+Did you read my explanation on the cover letter as to how this is just 
+broken right now? We need to fix this. If you have a better suggestion 
+I'll take it. Doing nothing is not an option.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+~~ Lina
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
